@@ -25,11 +25,13 @@ public:
     virtual bool assignPlayerToTournament(const TUuid& tournament, const TUuid& player) = 0;
     virtual bool unAssignPlayerFromTournament(const TUuid& tournament, const TUuid& player) = 0;
 
-    virtual TString tournamentTitleFromID(const TUuid& tournament) = 0;
-    virtual int numberOfPlayersAssignedToTournament(const TUuid& tournament) = 0;
-    virtual int maxPlayersAllowedToTournament(const TUuid& tournament) = 0;
+    virtual TString tournamentTitleFromID(const TUuid& tournament) const = 0;
+    virtual int numberOfPlayersAssignedToTournament(const TUuid& tournament) const = 0;
+    virtual int maxPlayersAllowedToTournament(const TUuid& tournament) const = 0;
 
     virtual int currentScore(const TUuid &tournament, const TUuid &player) const = 0;
+
+    virtual TList tournaments() const = 0;
 
     // Gamecontroller interface
     virtual ProjectDartInterface* startGame() = 0;
@@ -48,7 +50,10 @@ public:
     virtual int currentSetIndex() const = 0;
     virtual int currentLegIndex() const = 0;
 
+    virtual int gameStatus() const = 0;
+
     // Player interface
+    virtual TList players() const = 0;
 
     virtual TUuid createPlayer(const TString& firstName, const TString& lastName, const TString &email) = 0;
     virtual void deletePlayer(const TUuid& player) = 0;

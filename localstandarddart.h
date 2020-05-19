@@ -11,6 +11,8 @@
 
 #define GAME_IS_NOT_IN_PROGRESS "Game is not in progress"
 #define GAME_WINNER_ANNOUNCEMENT(x) QString("Winner with ID: %! is declared winner").arg(x);
+#define INVALID_DOMAIN "Input is not within domain";
+#define UNABLE_TURN "Unable to alter turn index";
 
 typedef IDataContext<QUuid,QList<QUuid>,QString> DefaultDataInterface;
 typedef IGameController<QUuid,QString,DefaultDataInterface,IPointLogisticManager<QString>> DefaultControllerInterface;
@@ -51,17 +53,22 @@ public:
     void setDataContext(DefaultDataInterface *dataContext) override;
     DefaultDataInterface *dataContext() override;
 private:
-    // Pointdomain refers to the interval between 180 and 'targetpoint'
-    // CriticalDomain refers to points below or equal 180 but greater than zero
-    // TargetDomain only consists of the number zero and is regarded as the target that defines the winner
-    // Points not belonging to the above domains is not in the domain at all
-    enum InputState {PointDomain = 0x04,CriticalDomain = 0x06, OutsideDomain = 0x08, TargetDomain = 0xa};
+    /* Pointdomain refers to the interval between 180 and 'targetpoint'
+     * CriticalDomain refers to points below or equal 180 but greater than zero
+     * TargetDomain only consists of the number zero and is regarded as the target that defines the winner
+     * Points not belonging to the above domains is not in the domain at all
+     */
+    enum InputPointDomain {InvalidDomain = 0x02};
+    enum AggregatedSumDomain {PointDomain = 0x04,CriticalDomain = 0x06, OutsideDomain = 0x08, TargetDomain = 0xa};
     // Post validation : Validate player score after updating datacontext
-    InputState validateCurrentState();
-    // Pre validation : Validate projected player score before updating datacontext
-    InputState validateInput(const int &pointValue);
+    int validateCurrentState();
+    /* Pre validation :
+     *  - Validate input domain
+     *  - Validate projected player score before updating datacontext
+     */
+    int validateInput(const int &pointValue);
 
-    enum GameStatus {Idle = 0x20,Running = 0x22, WinnerDeclared = 0x24, notRunning = Idle | WinnerDeclared};
+    enum GameStatus {Idle = 0xc,Running = 0xe, WinnerDeclared = 0x10, notRunning = Idle | WinnerDeclared};
 
     QUuid addPoint(const int &point);
 
@@ -90,7 +97,8 @@ private:
 
     int _numberOfLegs = 3;
 
-    int criticalLimit = 180;
+    const int defaultKeyPoint = 501;
+    const int criticalLimit = 180;
 
     bool _isOff;
 

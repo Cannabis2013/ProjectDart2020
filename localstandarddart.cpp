@@ -25,13 +25,19 @@ int LocalStandardDart::processInput(const int &point)
     if(status() == (Idle | WinnerDeclared))
         return status();
 
+    // Evaluate input according to point domain and aggregated sum domain
     auto inputResponse = validateInput(point);
 
-    if(inputResponse == InputState::PointDomain)
+    if(inputResponse == InputPointDomain::InvalidDomain)
     {
+        throw INVALID_DOMAIN;
+    }
+    if(inputResponse == AggregatedSumDomain::PointDomain)
+    {
+        // Update datacontext
         addPoint(point);
     }
-    else if(inputResponse == InputState::TargetDomain)
+    else if(inputResponse == AggregatedSumDomain::TargetDomain)
     {
         // Winner declared
         declareWinner();
@@ -120,7 +126,7 @@ QUuid LocalStandardDart::determinedWinner() const
 QUuid LocalStandardDart::undoTurn()
 {
     if(_turnIndex <= 0)
-        throw "Unable to unddo turn";
+        throw UNABLE_TURN;
 
     if(_legIndex > 0)
     {
@@ -148,7 +154,7 @@ QUuid LocalStandardDart::undoTurn()
 QUuid LocalStandardDart::redoTurn()
 {
     if(_turnIndex >= _totalTurns)
-        throw "Unable to unddo turn";
+        throw UNABLE_TURN;
 
     if(_legIndex < _numberOfLegs)
         _legIndex++;
@@ -166,6 +172,8 @@ QUuid LocalStandardDart::redoTurn()
     }
 
     _turnIndex++;
+
+    return _assignedPlayers.value(_playerIndex);
 }
 
 void LocalStandardDart::setDataContext(DefaultDataInterface *dataContext)
@@ -178,7 +186,7 @@ DefaultDataInterface *LocalStandardDart::dataContext()
     return _dataContext;
 }
 
-LocalStandardDart::InputState LocalStandardDart::validateCurrentState()
+int LocalStandardDart::validateCurrentState()
 {
     auto playerSum = sum();
 
@@ -192,8 +200,11 @@ LocalStandardDart::InputState LocalStandardDart::validateCurrentState()
         return OutsideDomain;
 }
 
-LocalStandardDart::InputState LocalStandardDart::validateInput(const int &pointValue)
+int LocalStandardDart::validateInput(const int &pointValue)
 {
+    if((pointValue < 0 || pointValue > 20) && (pointValue != 25 || pointValue != 50))
+        return InvalidDomain;
+
     auto playerSum = sum(pointValue);
 
     if(playerSum > criticalLimit)

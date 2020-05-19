@@ -8,10 +8,10 @@
 #include <qstring.h>
 #include <qlist.h>
 
-class ProjectDart : public ProjectDartInterface<QUuid,QString,QList<QUuid>>
+typedef ProjectDartInterface<QUuid,QString,QList<QUuid>> DefaultProjectDartInterface;
+
+class ProjectDart : public DefaultProjectDartInterface
 {
-public:
-    ProjectDart();
 };
 
 #endif // PROJECTDART_H
