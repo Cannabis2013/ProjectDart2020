@@ -3,20 +3,13 @@ import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
 
 ApplicationWindow {
+    id: applicationWindow
     visible: true
     color: "lightgray"
     width: 640
     height: 480
-    title: qsTr("Hello World")
+    title: qsTr("Dart2020")
 
-    menuBar: MenuBar
-    {
-
-        Menu
-        {
-            title : qsTr("File")
-        }
-    }
 
 
 }
