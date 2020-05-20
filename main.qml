@@ -10,6 +10,9 @@ ApplicationWindow {
     height: 480
     title: qsTr("Dart2020")
 
-
-
+    TextEdit
+    {
+        id: userNameBox
+        text: qsTr("Enter your username")
+    }
 }
