@@ -15,7 +15,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         consoleuserinterface.cpp \
-        customtable.cpp \
+        customtableview.cpp\
         idatamodelbuilder.cpp \
         ilogisticmanager.cpp \
         localdatacontext.cpp \
@@ -43,7 +43,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     ProjectDartInterface.h \
     consoleuserinterface.h \
-    customtable.h \
+    customtableview.h \
     gamemodelscontext.h \
     idatacontext.h \
     igamecontroller.h \

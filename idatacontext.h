@@ -59,7 +59,7 @@ public:
     virtual TList points(const TUuid &tournament, const TUuid &round, const TUuid &set) const = 0;
 
 
-    virtual TUuid point(const TUuid &tournament, int roundIndex, int setIndex, int legIndex);
+    virtual TUuid point(const TUuid &tournament, int roundIndex, int setIndex, int legIndex) = 0;
     virtual TUuid addPoint(const TUuid &tournament,
                            const int &roundIndex,
                            const int &setIndex,

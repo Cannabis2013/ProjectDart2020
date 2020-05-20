@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
+import CustomItems 1.0
 
 ApplicationWindow {
     id: applicationWindow
@@ -10,9 +11,13 @@ ApplicationWindow {
     height: 480
     title: qsTr("Dart2020")
 
-    TextEdit
-    {
-        id: userNameBox
-        text: qsTr("Enter your username")
+    Item {
+        id: customItem
+        anchors.fill: parent
+        CustomTableView
+        {
+
+        }
     }
+
 }
