@@ -1,5 +1,6 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QtQuick/QQuickView>
 
 #include "customtableview.h"
 

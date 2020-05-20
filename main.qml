@@ -13,10 +13,14 @@ ApplicationWindow {
 
     Item {
         id: customItem
-        anchors.fill: parent
+        anchors.centerIn: parent
+
+        width: 320
+        height: 240
         CustomTableView
         {
-
+            color: 2
+            anchors.centerIn: parent
         }
     }
 
