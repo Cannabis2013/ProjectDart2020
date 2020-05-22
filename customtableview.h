@@ -3,36 +3,35 @@
 
 #include <QQuickPaintedItem>
 #include <qpainter.h>
+#include <qcolor.h>
+#include <QSGGeometryNode>
+#include <qsggeometry.h>
+#include <QSGFlatColorMaterial>
 
-class CustomTableView : public QQuickPaintedItem
+class CustomTableView : public QQuickItem
 {
+    Q_OBJECT
 public:
     CustomTableView(QQuickItem *parent = 0);
 
-    Q_PROPERTY(int color READ getColor() WRITE setColor());
+    Q_PROPERTY(QColor color READ getColor WRITE setColor NOTIFY colorChanged);
 
-    // QQuickPaintedItem interface
-    void paint(QPainter *painter) override;
 
-    int getHeight() const;
-    void setHeight(int getHeight);
+    QColor getColor() const;
+    void setColor(const QColor &color);
 
-    int getWidth() const;
-    void setWidth(int getWidth);
+signals:
+    void colorChanged();
 
-    int getX() const;
-    void setX(int getX);
-
-    int getY() const;
-    void setY(int getY);
-
-    int getColor() const;
-    void setColor(int color);
+    // QQuickItem interface
+protected:
+    QSGNode *updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *updatedNote) override;
 
 private:
-    int _height, _width;
-    int _x, _y;
-    int _color;
+    QColor _color = QColor(Qt::red);
+    bool _needUpdate = true;
+
+
 };
 
 #endif // CUSTOMTABLEVIEW_H

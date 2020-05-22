@@ -11,17 +11,28 @@ ApplicationWindow {
     height: 480
     title: qsTr("Dart2020")
 
-    Item {
-        id: customItem
-        anchors.centerIn: parent
+    MouseArea
+    {
+        anchors.fill: parent
+        onClicked: Qt.quit()
+    }
 
-        width: 320
-        height: 240
-        CustomTableView
-        {
-            color: 2
-            anchors.centerIn: parent
-        }
+    CustomTableView
+    {
+        id: spinningRect
+        x: 20
+        y: 20
+        width: 200
+        height: 200
+        color: "red"
+        onColorChanged: console.log("color was changed");
+        transformOrigin: "Center"
+        PropertyAnimation on rotation {
+                        from: 0
+                        to: 360
+                        duration: 5000
+                        loops: Animation.Infinite
+                    }
     }
 
 }

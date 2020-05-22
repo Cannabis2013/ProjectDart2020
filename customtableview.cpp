@@ -1,71 +1,58 @@
 #include "customtableview.h"
 
 
+
 CustomTableView::CustomTableView(QQuickItem *parent):
-    QQuickPaintedItem(parent)
+    QQuickItem(parent)
 {
-
+    setFlag(QQuickItem::ItemHasContents,true);
 }
 
-void CustomTableView::paint(QPainter *painter)
-{
-    auto pen = QPen();
 
-    pen.setWidth(4);
-    pen.setColor(QColor(Qt::blue));
 
-    painter->setPen(pen);
-    painter->setRenderHint(QPainter::Antialiasing,true);
-
-    painter->drawRect(boundingRect());
-}
-
-int CustomTableView::getHeight() const
-{
-    return _height;
-}
-
-void CustomTableView::setHeight(int height)
-{
-    _height = height;
-}
-
-int CustomTableView::getWidth() const
-{
-    return _width;
-}
-
-void CustomTableView::setWidth(int width)
-{
-    _width = width;
-}
-
-int CustomTableView::getX() const
-{
-    return _x;
-}
-
-void CustomTableView::setX(int x)
-{
-    _x = x;
-}
-
-int CustomTableView::getY() const
-{
-    return _y;
-}
-
-void CustomTableView::setY(int y)
-{
-    _y = y;
-}
-
-int CustomTableView::getColor() const
+QColor CustomTableView::getColor() const
 {
     return _color;
 }
 
-void CustomTableView::setColor(int color)
+void CustomTableView::setColor(const QColor &color)
 {
-    _color = color;
+    if(_color != color) {
+            _color = color;
+            _needUpdate = true;
+            update();
+            emit colorChanged();
+        }
+}
+
+QSGNode *CustomTableView::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintNodeData *updatedNote)
+{
+    Q_UNUSED(updatedNote)
+    auto node = static_cast<QSGGeometryNode *>(oldNode);
+
+    if(!node) {
+        node = new QSGGeometryNode;
+
+        auto geometry = new QSGGeometry(QSGGeometry::defaultAttributes_Point2D(), 4);
+
+        geometry->setDrawingMode(GL_POLYGON);
+
+        geometry->vertexDataAsPoint2D()[0].set(0,0);
+        geometry->vertexDataAsPoint2D()[1].set(width(),0);
+        geometry->vertexDataAsPoint2D()[2].set(width(),height());
+        geometry->vertexDataAsPoint2D()[3].set(0,height());
+
+        node->setGeometry(geometry);
+        node->setFlag(QSGNode::OwnsGeometry);
+        node->setFlag(QSGNode::OwnsMaterial);
+    }
+
+    if(_needUpdate) {
+        auto material = new QSGFlatColorMaterial;
+        material->setColor(_color);
+        node->setMaterial(material);
+        _needUpdate = false;
+    }
+
+    return node;
 }
