@@ -7,8 +7,12 @@ ApplicationWindow {
     id: applicationWindow
     visible: true
     color: "lightgray"
-    width: 640
-    height: 480
+
+    minimumWidth: 480
+    maximumWidth: 480
+
+    minimumHeight: 800
+    maximumHeight: 800
     title: qsTr("Dart2020")
 
     MouseArea
@@ -17,22 +21,28 @@ ApplicationWindow {
         onClicked: Qt.quit()
     }
 
-    CustomTableView
+
+
+    ScrollView
     {
-        id: spinningRect
-        x: 20
-        y: 20
-        width: 200
-        height: 200
-        color: "red"
-        onColorChanged: console.log("color was changed");
-        transformOrigin: "Center"
-        PropertyAnimation on rotation {
-                        from: 0
-                        to: 360
-                        duration: 5000
-                        loops: Animation.Infinite
-                    }
-    }
+        width: 480
+        height: 320
+        clip: true
+
+        x: 0
+        y: applicationWindow.height/2 - width/2
+
+        padding: 5
+
+        CustomTableView
+        {
+            id: tableView
+
+            implicitWidth: bodyWidth
+            implicitHeight: bodyHeight
+
+
+        }
+    }    
 
 }
