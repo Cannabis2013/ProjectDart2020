@@ -2,7 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QtQuick/QQuickView>
 
-#include "customtableview.h"
+#include "customtablemodel.h"
 
 int main(int argc, char *argv[])
 {
@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
-    qmlRegisterType<CustomTableView>("CustomItems",1,0,"CustomTableView");
+    qmlRegisterType<CustomTableModel>("CustomItems",1,0,"CustomTableModel");
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));

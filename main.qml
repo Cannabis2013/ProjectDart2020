@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
+
 import CustomItems 1.0
 
 ApplicationWindow {
@@ -8,41 +9,44 @@ ApplicationWindow {
     visible: true
     color: "lightgray"
 
-    minimumWidth: 480
-    maximumWidth: 480
-
-    minimumHeight: 800
-    maximumHeight: 800
-    title: qsTr("Dart2020")
-
-    MouseArea
+    function addData(row,column, data)
     {
-        anchors.fill: parent
-        onClicked: Qt.quit()
+        myModel.appendData(row,column,data);
     }
 
+    title: qsTr("Dart2020")
 
-
-    ScrollView
+    TableView
     {
-        width: 480
-        height: 320
+        x: 0
+        y: 0
+        anchors.fill: parent
         clip: true
 
-        x: 0
-        y: applicationWindow.height/2 - width/2
-
-        padding: 5
-
-        CustomTableView
+        model: CustomTableModel
         {
-            id: tableView
-
-            implicitWidth: bodyWidth
-            implicitHeight: bodyHeight
-
-
+            id: myModel
         }
-    }    
 
+        delegate: Rectangle{
+            border.color: "black"
+            border.width: 1
+            implicitWidth: 25
+            implicitHeight: 25
+
+
+            Text {
+                id: txt
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                anchors.fill: parent
+                text: display
+            }
+        }
+    }
+    Component.onCompleted: {
+        addData(0,0,4)
+        addData(0,1,2)
+        addData(3,4,5)
+    }
 }

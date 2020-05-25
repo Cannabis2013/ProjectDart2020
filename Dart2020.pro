@@ -16,6 +16,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         consoleuserinterface.cpp \
         customtableview.cpp\
+        customtablemodel.cpp \
         idatamodelbuilder.cpp \
         ilogisticmanager.cpp \
         localdatacontext.cpp \
@@ -44,6 +45,7 @@ HEADERS += \
     ProjectDartInterface.h \
     consoleuserinterface.h \
     customtableview.h \
+    customtablemodel.h \
     gamemodelscontext.h \
     idatacontext.h \
     igamecontroller.h \
