@@ -14,6 +14,16 @@ void CustomTableModel::appendData(int row, int column, int data)
     setData(dataIndex,QVariant(data),Qt::DisplayRole);
 }
 
+int CustomTableModel::rowCount() const
+{
+    return rowCount(QModelIndex());
+}
+
+int CustomTableModel::columnCount() const
+{
+    return columnCount(QModelIndex());
+}
+
 int CustomTableModel::rowCount(const QModelIndex &parent) const
 {
     return _rows;

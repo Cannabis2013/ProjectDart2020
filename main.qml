@@ -9,12 +9,23 @@ ApplicationWindow {
     visible: true
     color: "lightgray"
 
+    x:240
+    y:240
     width: 400
     height: 300
 
     function addData(row,column, data)
     {
         myModel.appendData(row,column,data);
+
+        verticalHeaderRepeater.model = myModel.rowCount();
+        horizontalHeaderRepeater.model = myModel.columnCount();
+
+        for(var i = 0;i < verticalHeaderRepeater.count;i++)
+        {
+            var value = myModel.headerData(i,2,0);
+            var item = verticalHeaderRepeater.itemAt(i).children[0].text = value;
+        }
     }
 
     title: qsTr("Dart2020")
@@ -43,37 +54,46 @@ ApplicationWindow {
 
         Row
         {
+            id: horizontalHeader
             Layout.row: 0
             Layout.column: 1
             Repeater
             {
-                model: 2
+                id: horizontalHeaderRepeater
+                model: myModel.columnCount();
                 Rectangle {
+                    id: horizontalHeaderCell
                     border.color: "black"
                     border.width: 1
                     color: "gray"
                     width: 25
                     height: 25
+                    Text {
+                        id: headerCellText
+                    }
                 }
 
             }
         }
         Column
         {
+            id: verticalHeader
             Layout.row: 1
             Layout.column: 0
             Repeater
             {
-                model: 2
+                id: verticalHeaderRepeater
+                model: myModel.rowCount()
                 Rectangle {
                     border.color: "black"
                     border.width: 1
                     color: "gray"
                     width: 100
                     height: 25
+
                     Text {
-                        id: name
-                        text: qsTr("Column text")
+                        id: verticalHeaderCellText
+                        text: "Column text"
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
                         anchors.fill: parent
@@ -123,5 +143,6 @@ ApplicationWindow {
         addData(0,1,2)
         addData(1,0,1)
         addData(1,1,20)
+        addData(2,0,15)
     }
 }

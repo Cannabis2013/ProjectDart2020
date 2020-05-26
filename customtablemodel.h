@@ -13,6 +13,9 @@ public:
 
     Q_INVOKABLE void appendData(int row, int column, int data);
 
+    Q_INVOKABLE int rowCount() const;
+    Q_INVOKABLE int columnCount() const;
+
     // Pure virtual implementations
     int rowCount(const QModelIndex &parent) const override;
     int columnCount(const QModelIndex &parent) const override;
