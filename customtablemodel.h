@@ -24,9 +24,6 @@ public:
     bool insertRows(int row, int count, const QModelIndex &) override;
     bool insertColumns(int column, int count, const QModelIndex &parent) override;
 
-signals:
-    void modelStateChanged();
-
 private:
 
     int lastDecoratedCellIndex(int row);

@@ -6,12 +6,10 @@ CustomTableModel::CustomTableModel()
 
 void CustomTableModel::appendData(int row, int column, int data)
 {
-    if(row < 0)
-        return;
-    else if(column < 0)
-        return;
-
     auto dataIndex = this->createIndex(row,column);
+
+    if(!dataIndex.isValid())
+        return;
 
     setData(dataIndex,QVariant(data),Qt::DisplayRole);
 }
@@ -86,7 +84,7 @@ bool CustomTableModel::insertRows(int row, int count, const QModelIndex &)
 {
     auto firstRow = row <= rowCount(QModelIndex()) ? row : rowCount(QModelIndex()) - 1;
     auto lastRow  =  row <= rowCount(QModelIndex()) ? firstRow + count : 2*row + count - firstRow;
-    auto c = row <= rowCount(QModelIndex()) ? count : count + (row - firstRow);
+    auto c = row <= rowCount(QModelIndex()) ? count : count + (row - firstRow) - 1;
 
     beginInsertRows(QModelIndex(),firstRow,lastRow);
 
@@ -106,21 +104,25 @@ bool CustomTableModel::insertRows(int row, int count, const QModelIndex &)
 
     endInsertRows();
 
-    _rows += count;
+    _rows += c;
 
     return true;
 }
 
 bool CustomTableModel::insertColumns(int column, int count, const QModelIndex &parent)
 {
-    beginInsertColumns(QModelIndex(),column,column + count);
+    auto firstColumn = column <= columnCount(QModelIndex()) ? column : columnCount(QModelIndex()) - 1;
+    auto lastColumn  =  column <= columnCount(QModelIndex()) ? firstColumn + count : 2*column + count - firstColumn;
+    auto c = column <= columnCount(QModelIndex()) ? count : count + (column - firstColumn) - 1;
+
+    beginInsertColumns(QModelIndex(),firstColumn,lastColumn);
 
     for (QList<int> &row : _cellData) {
-        QList<int> initialDataValues = [count]
+        QList<int> initialDataValues = [c]
         {
             QList<int> resultingList;
 
-            for (int i = 0; i < count; ++i)
+            for (int i = 0; i < c; ++i)
                 resultingList << -1;
 
             return resultingList;
@@ -133,7 +135,7 @@ bool CustomTableModel::insertColumns(int column, int count, const QModelIndex &p
 
     endInsertColumns();
 
-    _columns += count;
+    _columns += c;
 
     return true;
 }
