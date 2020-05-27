@@ -42,11 +42,14 @@ ApplicationWindow {
 
         Rectangle
         {
+            id: upperTopLeftCell
             Layout.row: 0
             Layout.column: 0
 
             width: 100
             height: 25
+
+            visible: false
 
 
             color: "gray"
@@ -116,6 +119,9 @@ ApplicationWindow {
             model: CustomTableModel
             {
                 id: myModel
+                onDataChanged: {(myModel.rowCount() > 0 || myModel.columnCount() > 0) ?
+                                    upperTopLeftCell.visible = true : upperTopLeftCell.visible = false}
+
             }
 
             delegate: Rectangle{
@@ -136,13 +142,9 @@ ApplicationWindow {
         }
     }
 
-
-
     Component.onCompleted: {
-        addData(0,0,4)
-        addData(0,1,2)
-        addData(1,0,1)
-        addData(1,1,20)
-        addData(2,0,15)
+        addData(0,0,3)
+        addData(0,1,20)
+        addData(1,1,3)
     }
 }

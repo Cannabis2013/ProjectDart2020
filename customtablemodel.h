@@ -11,6 +11,8 @@ public:
 
     // public methods
 
+    Q_PROPERTY(NOTIFY dataChanged);
+
     Q_INVOKABLE void appendData(int row, int column, int data);
 
     Q_INVOKABLE int rowCount() const;
