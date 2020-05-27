@@ -4,14 +4,39 @@ CustomTableModel::CustomTableModel()
 {
 }
 
-void CustomTableModel::appendData(int row, int column, int data)
+bool CustomTableModel::appendData(int row, int column, int data)
 {
     auto dataIndex = this->createIndex(row,column);
 
     if(!dataIndex.isValid())
-        return;
+        return false;
 
-    setData(dataIndex,QVariant(data),Qt::DisplayRole);
+    try {
+        return setData(dataIndex,QVariant(data),Qt::DisplayRole);
+    } catch (std::out_of_range *e) {
+        printf("%s\n",e->what());
+        return false;
+    }
+}
+
+void CustomTableModel::appendHeaderItem(const QVariant &data, const int &orientation)
+{
+    if(orientation == Qt::Horizontal)
+    {
+        _horizontalHeader.append(data.toString());
+    }
+
+    else
+    {
+        _verticalHeader.append(data.toString());
+    }
+}
+
+QString CustomTableModel::headerData(int index, int orientation) const
+{
+    auto value =  headerData(index,static_cast<Qt::Orientation>(orientation),Qt::DisplayRole).toString();
+
+    return value;
 }
 
 int CustomTableModel::rowCount() const
@@ -74,9 +99,12 @@ bool CustomTableModel::setData(const QModelIndex &index, const QVariant &value, 
     if(row < 0 || column < 0)
         return false;
 
-    if(row > rowCount(QModelIndex()) - 1)
+    if(row >= _verticalHeader.count())
+        throw new std::out_of_range("You need to allocate corresponding header rows before adding new data rows");
+
+    if(row >= rowCount())
         insertRows(row,1,QModelIndex());
-    if(column > columnCount(QModelIndex()) - 1)
+    if(column >= columnCount())
         insertColumns(column,1,QModelIndex());
 
     auto r = _cellData.at(row);
@@ -106,8 +134,6 @@ bool CustomTableModel::insertRows(int row, int count, const QModelIndex &)
                 resultingList << -1;
             return resultingList;
         }();
-
-        _verticalHeader.insert(row,"");
 
         _cellData.insert(row,rowData);
     }
@@ -146,6 +172,64 @@ bool CustomTableModel::insertColumns(int column, int count, const QModelIndex &p
     endInsertColumns();
 
     _columns += c;
+
+    return true;
+}
+
+bool CustomTableModel::removeRows(int row, int count, const QModelIndex &)
+{
+    // Check if input satisfies model constraints
+    if(row < 0 || row >= rowCount())
+        return false;
+
+    // Create bounding indexes
+    auto topLeftIndex = createIndex(row,0);
+    auto bottomRightIndex = createIndex(row + count,columnCount() - 1);
+
+    // Begin remove rows
+    beginRemoveRows(QModelIndex(),row,row + count);
+
+    for (int i = row; i < row + count; ++i)
+    {
+        _cellData.removeAt(i);
+        // Remove corresponding header rows
+        _verticalHeader.removeAt(i);
+    }
+
+    endRemoveRows();
+
+    // Notify model and surrounding state that data has changed
+    emit dataChanged(topLeftIndex,bottomRightIndex,{Qt::DisplayRole});
+
+    return true;
+}
+
+bool CustomTableModel::removeColumns(int column, int count, const QModelIndex &)
+{
+    // Check if input satisfies model constraints
+    if(column < 0 || column >= columnCount())
+        return false;
+
+    // Create bounding indexes
+    auto topLeftIndex = createIndex(0,column);
+    auto bottomRightIndex = createIndex(rowCount() - 1,column + count);
+
+    // Begin remove columns
+    beginRemoveColumns(QModelIndex(),column,column + count);
+
+    for (auto &row : _cellData) {
+        for (int i = column; i < column + column; ++i)
+            row.removeAt(i);
+    }
+
+    endRemoveColumns();
+
+    // Remove corresponding header columns
+    for (int i = column; i < column + column; ++i)
+        _horizontalHeader.removeAt(i);
+
+    // Notify model and surrounding state that data has changed
+    emit dataChanged(topLeftIndex,bottomRightIndex,{Qt::DisplayRole});
 
     return true;
 }

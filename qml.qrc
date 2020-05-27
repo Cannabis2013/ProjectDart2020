@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
+        <file>ScoreTable.qml</file>
     </qresource>
+    <qresource prefix="/scoretable"/>
 </RCC>

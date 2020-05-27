@@ -9,11 +9,14 @@ class CustomTableModel : public QAbstractTableModel
 public:
     CustomTableModel();
 
+
     // public methods
 
-    Q_PROPERTY(NOTIFY dataChanged);
 
-    Q_INVOKABLE void appendData(int row, int column, int data);
+    Q_INVOKABLE bool appendData(int row, int column, int data);
+    Q_INVOKABLE void appendHeaderItem(const QVariant &data, const int &orientation = Qt::Vertical);
+
+    Q_INVOKABLE QString headerData(int index, int orientation) const;
 
     Q_INVOKABLE int rowCount() const;
     Q_INVOKABLE int columnCount() const;
@@ -28,6 +31,8 @@ public:
     bool setData(const QModelIndex &index, const QVariant &value, int role) override;
     bool insertRows(int row, int count, const QModelIndex &) override;
     bool insertColumns(int column, int count, const QModelIndex &parent) override;
+    bool removeRows(int row, int count, const QModelIndex &) override;
+    bool removeColumns(int column, int count, const QModelIndex &) override;
 
 private:
 
@@ -39,6 +44,8 @@ private:
 
     int _rows = 0;
     int _columns = 0;
+
+public:
 };
 
 #endif // CUSTOMTABLEMODEL_H
