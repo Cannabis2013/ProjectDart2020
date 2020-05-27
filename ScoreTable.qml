@@ -23,8 +23,14 @@ Item
 
         for(var i = 0;i < verticalHeaderRepeater.count;i++)
         {
-            var value = myModel.headerData(i,2);
-            var item = verticalHeaderRepeater.itemAt(i).children[0].text = value;
+            var vHeaderValue = myModel.headerData(i,2);
+            verticalHeaderRepeater.itemAt(i).children[0].text = vHeaderValue;
+        }
+
+        for(var j = 0;j < horizontalHeaderRepeater.count;j++)
+        {
+            var hHeaderValue = myModel.headerData(j,1);
+            horizontalHeaderRepeater.itemAt(j).children[0].text = hHeaderValue;
         }
     }
 
@@ -49,8 +55,8 @@ Item
 
             visible: false
 
+            color: "transparent"
 
-            color: "gray"
         }
 
         Row
@@ -64,13 +70,19 @@ Item
                 model: myModel.columnCount();
                 Rectangle {
                     id: horizontalHeaderCell
-                    border.color: "black"
-                    border.width: 1
-                    color: "gray"
+
                     width: 25
                     height: 25
+
+                    color: "transparent"
+
                     Text {
                         id: headerCellText
+
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+
+                        anchors.fill: parent
                     }
                 }
 
@@ -86,17 +98,19 @@ Item
                 id: verticalHeaderRepeater
                 model: myModel.rowCount()
                 Rectangle {
-                    border.color: "black"
-                    border.width: 1
-                    color: "gray"
                     width: 100
                     height: 25
 
+                    color: "transparent"
+
                     Text {
                         id: verticalHeaderCellText
+
                         text: "Column text"
+
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
+
                         anchors.fill: parent
                     }
                 }
@@ -153,6 +167,7 @@ Item
         addData(0,1,12);
         addData(1,1,15);
         addData(2,1,11);
+        addData(0,2,5);
     }
 }
 

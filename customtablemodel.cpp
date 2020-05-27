@@ -22,14 +22,10 @@ bool CustomTableModel::appendData(int row, int column, int data)
 void CustomTableModel::appendHeaderItem(const QVariant &data, const int &orientation)
 {
     if(orientation == Qt::Horizontal)
-    {
-        _horizontalHeader.append(data.toString());
-    }
+        return;
 
     else
-    {
         _verticalHeader.append(data.toString());
-    }
 }
 
 QString CustomTableModel::headerData(int index, int orientation) const
@@ -85,7 +81,7 @@ QVariant CustomTableModel::headerData(int section, Qt::Orientation orientation, 
         return QVariant();
 
     switch (orientation) {
-        case Qt::Horizontal : return section < _horizontalHeader.count() ? _horizontalHeader.at(section) : QVariant();
+        case Qt::Horizontal : return section < columnCount() ? QVariant(section + 1) : QVariant();
         case Qt::Vertical : return section < _verticalHeader.count() ?  _verticalHeader.at(section) : QVariant();
         default: return QVariant();
     }
@@ -223,10 +219,6 @@ bool CustomTableModel::removeColumns(int column, int count, const QModelIndex &)
     }
 
     endRemoveColumns();
-
-    // Remove corresponding header columns
-    for (int i = column; i < column + column; ++i)
-        _horizontalHeader.removeAt(i);
 
     // Notify model and surrounding state that data has changed
     emit dataChanged(topLeftIndex,bottomRightIndex,{Qt::DisplayRole});

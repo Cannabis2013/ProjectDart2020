@@ -39,7 +39,6 @@ private:
     int lastDecoratedCellIndex(int row);
 
     QList<QList<int>> _cellData;
-    QList<QString> _horizontalHeader;
     QList<QString> _verticalHeader;
 
     int _rows = 0;

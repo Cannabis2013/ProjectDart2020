@@ -14,7 +14,6 @@ ApplicationWindow {
 
     title: qsTr("Dart2020")
 
-
     ScoreTable
     {
         anchors.centerIn: parent
