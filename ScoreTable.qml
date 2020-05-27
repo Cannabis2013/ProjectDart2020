@@ -4,6 +4,7 @@ import CustomItems 1.0
 
 Item
 {
+    id: scoreTable
     function appendHeader(string)
     {
         myModel.appendHeaderItem(string,2);
@@ -36,13 +37,15 @@ Item
 
     GridLayout
     {
-        anchors.centerIn: parent
-
+        id: mainLayout
         rows: 2
         columns: 2
 
         rowSpacing: 0
         columnSpacing: 0
+
+        onWidthChanged: scoreTable.width = width
+        onHeightChanged: scoreTable.height = height
 
         Rectangle
         {
@@ -50,13 +53,10 @@ Item
             Layout.row: 0
             Layout.column: 0
 
-            width: 100
-            height: 25
 
             visible: false
 
             color: "transparent"
-
         }
 
         Row
@@ -155,6 +155,7 @@ Item
         }
     }
 
+
     Component.onCompleted:
     {
         appendHeader("Kent KillerHertz");
@@ -169,5 +170,7 @@ Item
         addData(2,1,11);
         addData(0,2,5);
     }
+
+
 }
 

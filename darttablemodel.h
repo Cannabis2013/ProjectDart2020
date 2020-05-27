@@ -3,11 +3,11 @@
 
 #include <QAbstractTableModel>
 
-class CustomTableModel : public QAbstractTableModel
+class DartTableModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
-    CustomTableModel();
+    DartTableModel();
 
 
     // public methods

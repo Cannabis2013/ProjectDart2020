@@ -7,16 +7,13 @@ ApplicationWindow {
     visible: true
     color: "lightgray"
 
-    x:240
-    y:240
+    x:0
+    y:0
     width: 400
     height: 300
 
     title: qsTr("Dart2020")
 
-    ScoreTable
-    {
-        anchors.centerIn: parent
-    }
+
 }
 

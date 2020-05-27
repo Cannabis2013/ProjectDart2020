@@ -1,10 +1,10 @@
-#include "customtablemodel.h"
+#include "darttablemodel.h"
 
-CustomTableModel::CustomTableModel()
+DartTableModel::DartTableModel()
 {
 }
 
-bool CustomTableModel::appendData(int row, int column, int data)
+bool DartTableModel::appendData(int row, int column, int data)
 {
     auto dataIndex = this->createIndex(row,column);
 
@@ -19,7 +19,7 @@ bool CustomTableModel::appendData(int row, int column, int data)
     }
 }
 
-void CustomTableModel::appendHeaderItem(const QVariant &data, const int &orientation)
+void DartTableModel::appendHeaderItem(const QVariant &data, const int &orientation)
 {
     if(orientation == Qt::Horizontal)
         return;
@@ -28,34 +28,34 @@ void CustomTableModel::appendHeaderItem(const QVariant &data, const int &orienta
         _verticalHeader.append(data.toString());
 }
 
-QString CustomTableModel::headerData(int index, int orientation) const
+QString DartTableModel::headerData(int index, int orientation) const
 {
     auto value =  headerData(index,static_cast<Qt::Orientation>(orientation),Qt::DisplayRole).toString();
 
     return value;
 }
 
-int CustomTableModel::rowCount() const
+int DartTableModel::rowCount() const
 {
     return rowCount(QModelIndex());
 }
 
-int CustomTableModel::columnCount() const
+int DartTableModel::columnCount() const
 {
     return columnCount(QModelIndex());
 }
 
-int CustomTableModel::rowCount(const QModelIndex &parent) const
+int DartTableModel::rowCount(const QModelIndex &parent) const
 {
     return _rows;
 }
 
-int CustomTableModel::columnCount(const QModelIndex &parent) const
+int DartTableModel::columnCount(const QModelIndex &parent) const
 {
     return _columns;
 }
 
-QVariant CustomTableModel::data(const QModelIndex &index, int role) const
+QVariant DartTableModel::data(const QModelIndex &index, int role) const
 {
     if(!index.isValid() || index.row() >= _cellData.count())
         return QVariant();
@@ -75,7 +75,7 @@ QVariant CustomTableModel::data(const QModelIndex &index, int role) const
                 QVariant();
 }
 
-QVariant CustomTableModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant DartTableModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if(role != Qt::DisplayRole)
         return QVariant();
@@ -87,7 +87,7 @@ QVariant CustomTableModel::headerData(int section, Qt::Orientation orientation, 
     }
 }
 
-bool CustomTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool DartTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     auto row = index.row();
     auto column = index.column();
@@ -114,7 +114,7 @@ bool CustomTableModel::setData(const QModelIndex &index, const QVariant &value, 
     return true;
 }
 
-bool CustomTableModel::insertRows(int row, int count, const QModelIndex &)
+bool DartTableModel::insertRows(int row, int count, const QModelIndex &)
 {
     auto firstRow = row <= rowCount(QModelIndex()) ? row : rowCount(QModelIndex()) - 1;
     auto lastRow  =  row <= rowCount(QModelIndex()) ? firstRow + count : 2*row + count - firstRow;
@@ -141,7 +141,7 @@ bool CustomTableModel::insertRows(int row, int count, const QModelIndex &)
     return true;
 }
 
-bool CustomTableModel::insertColumns(int column, int count, const QModelIndex &parent)
+bool DartTableModel::insertColumns(int column, int count, const QModelIndex &parent)
 {
     auto firstColumn = column <= columnCount(QModelIndex()) ? column : columnCount(QModelIndex()) - 1;
     auto lastColumn  =  column <= columnCount(QModelIndex()) ? firstColumn + count : 2*column + count - firstColumn;
@@ -172,7 +172,7 @@ bool CustomTableModel::insertColumns(int column, int count, const QModelIndex &p
     return true;
 }
 
-bool CustomTableModel::removeRows(int row, int count, const QModelIndex &)
+bool DartTableModel::removeRows(int row, int count, const QModelIndex &)
 {
     // Check if input satisfies model constraints
     if(row < 0 || row >= rowCount())
@@ -200,7 +200,7 @@ bool CustomTableModel::removeRows(int row, int count, const QModelIndex &)
     return true;
 }
 
-bool CustomTableModel::removeColumns(int column, int count, const QModelIndex &)
+bool DartTableModel::removeColumns(int column, int count, const QModelIndex &)
 {
     // Check if input satisfies model constraints
     if(column < 0 || column >= columnCount())
@@ -226,7 +226,7 @@ bool CustomTableModel::removeColumns(int column, int count, const QModelIndex &)
     return true;
 }
 
-int CustomTableModel::lastDecoratedCellIndex(int row)
+int DartTableModel::lastDecoratedCellIndex(int row)
 {
     auto r = _cellData.at(row);
 
