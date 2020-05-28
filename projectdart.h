@@ -3,15 +3,21 @@
 
 #include "idatacontext.h"
 #include "igamecontroller.h"
-#include "ProjectDartInterface.h"
+#include "abstractdartinterface.h"
+#include "ipointlogisticmanager.h"
 #include <quuid.h>
 #include <qstring.h>
 #include <qlist.h>
 
-typedef ProjectDartInterface<QUuid,QString,QList<QUuid>> DefaultProjectDartInterface;
+typedef IDataContext<QUuid, QList<QUuid>,QString> DefaultDataContext;
+typedef IGameController<QUuid,QString, DefaultDataContext> DefaultGameController;
 
-class ProjectDart : public DefaultProjectDartInterface
+class ProjectDart : public AbstractDartInterface
 {
+private:
+
+    DefaultDataContext *_dataContext;
+    DefaultGameController *_gameController;
 };
 
 #endif // PROJECTDART_H

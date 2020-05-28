@@ -6,6 +6,8 @@ Rectangle
 {   
     id: body
 
+    signal buttonClicked
+
     color: "transparent"
 
     GridLayout
@@ -23,6 +25,10 @@ Rectangle
             width: 128
             height: 50
             text: "Log in"
+
+            enabled: false
+
+            onClicked: buttonClicked()
         }
 
         Rectangle

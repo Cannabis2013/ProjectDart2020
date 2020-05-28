@@ -4,7 +4,7 @@
 #include "idatacontext.h"
 #include "igamecontroller.h"
 #include "gamemodelscontext.h"
-#include "ipointlogisticmanager.h"
+#include "pointlogisticmanager.h"
 
 #include <quuid.h>
 #include <qlist.h>
@@ -15,7 +15,7 @@
 #define UNABLE_TURN "Unable to alter turn index";
 
 typedef IDataContext<QUuid,QList<QUuid>,QString> DefaultDataInterface;
-typedef IGameController<QUuid,QString,DefaultDataInterface,IPointLogisticManager<QString>> DefaultControllerInterface;
+typedef IGameController<QUuid,QString,DefaultDataInterface> DefaultControllerInterface;
 
 class LocalStandardDart : public DefaultControllerInterface
 {
@@ -26,32 +26,33 @@ public:
 
     QUuid start() override;
     void stop() override;
-    int processInput(const int &point) override;
+    int processInput( int &point) override;
 
-    QString playerMessage() const override;
+    QString playerMessage()  override;
 
-    QString calculateThrowSuggestion() const override;
+    QString calculateThrowSuggestion()  override;
 
-    QUuid currentActivePlayer() const override;
+    QUuid currentActivePlayer()  override;
 
-    int currentRoundIndex() const override;
-    int currentPlayerIndex() const override;
-    int currentLegIndex() const override;
+    int currentRoundIndex()  override;
+    int currentPlayerIndex()  override;
+    int currentLegIndex()  override;
 
-    QUuid currentTournament() const override;
+    QUuid currentTournament()  override;
 
-    int status() const override;
+    int status()  override;
 
-    int lastPlayerIndex() const override;
-    int playerIndex() const override;
+    int lastPlayerIndex()  override;
+    int playerIndex()  override;
 
-    QUuid determinedWinner() const override;
+    QUuid determinedWinner()  override;
 
     QUuid undoTurn() override;
     QUuid redoTurn() override;
 
     void setDataContext(DefaultDataInterface *dataContext) override;
-    DefaultDataInterface *dataContext() override;
+    DefaultDataInterface *dataContext()  override;
+
 private:
     /* Pointdomain refers to the interval between 180 and 'targetpoint'
      * CriticalDomain refers to points below or equal 180 but greater than zero
@@ -72,7 +73,7 @@ private:
 
     QUuid addPoint(const int &point);
 
-    int currentTurnIndex() const;
+    int currentTurnIndex() ;
 
     bool isIndexOffset();
 
@@ -86,7 +87,7 @@ private:
 
     void incrementTurnIndexes();
 
-    QList<const QUuid> _assignedPlayers;
+    QList< QUuid> _assignedPlayers;
 
     // Gamestate variables
     int _playerIndex = 0; // Equal to set index
@@ -97,12 +98,12 @@ private:
 
     int _numberOfLegs = 3;
 
-    const int defaultKeyPoint = 501;
-    const int criticalLimit = 180;
+    int defaultKeyPoint = 501;
+    int criticalLimit = 180;
 
     bool _isOff;
 
-    const int _keyPoint = 0;
+    int _keyPoint = 0;
     QUuid _tournament;
     QUuid _winner;
     GameStatus _currentStatus = GameStatus::Idle;

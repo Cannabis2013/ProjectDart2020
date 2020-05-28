@@ -15,6 +15,8 @@ Item {
     property color textColor: "white"
     onTextColorChanged: buttonText.color = textColor
 
+    onEnabledChanged: !enabled ? opacity = 0.25 : opacity = 1
+
     signal clicked
 
     MouseArea

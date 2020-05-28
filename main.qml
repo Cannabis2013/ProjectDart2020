@@ -15,36 +15,45 @@ ApplicationWindow {
 
     title: qsTr("Dart2020")
 
-    Component
-    {
-        id: mouseComponent
-        MouseArea
+    function handleQuitRequest(){
+        // Save state and clean up
+
+        print("Quit requestet and handled");
+        Qt.quit();
+    }
+
+    Component{
+        id: gamePage
+
+        GamePage
         {
-            onClicked: startLoader.sourceComponent = myStartPage
+
         }
     }
+
 
     Component
     {
         id: myStartPage
         StartPage{
 
-            onStartGameRequest: {}
-            onLoginPageRequest: {}
+            onRequestGamePage: pageLoader.sourceComponent = gamePage
+            onRequestLoginPage: {}
+            onRequestLogOut: {}
+            onRequestQuit: handleQuitRequest()
 
             labelColor: "#A54141"
             backgroundContentColor: "#A54141"
 
+            padding: 12
         }
     }
 
     Loader{
-        id: startLoader
+        id: pageLoader
 
         anchors.fill: parent
         sourceComponent: myStartPage
-        }
-
-
+    }
 }
 

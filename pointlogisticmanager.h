@@ -2,6 +2,7 @@
 #define SCORECONTROLLER_H
 
 #include <qstring.h>
+#include <qlist.h>
 
 #include "ipointlogisticmanager.h"
 
@@ -12,20 +13,22 @@ const int BullsEye =  50;
 const int trippleMultiplier = 60;
 const int doubleMultiplier = 40;
 
-template<int TArraySize>
 struct ScoreModel
 {
-    QChar multiplier[TArraySize];
-    int pointValue[TArraySize];
+    QList<QChar> multiplier;
+    QList<int> pointValue;
 };
 
-template<int TTotalTurns>
 class PointLogisticManager : public IPointLogisticManager<QString>
 {
 public:
-    QString constructThrowSuggestions(int remainingScore, int turnIndex) override
+    PointLogisticManager(const int &legCount = 3)
     {
-        ScoreModel<TTotalTurns> *score = new ScoreModel<TTotalTurns>();
+        _legCount = legCount;
+    }
+    QString constructThrowSuggestions(const int &remainingScore, const int &turnIndex) override
+    {
+        ScoreModel *score = new ScoreModel();
 
         bool isDeterministic;
 
@@ -43,7 +46,7 @@ public:
         return QString();
     }
 private:
-    bool pointSuggestion(int remainingScore,int turnIndex, ScoreModel<TTotalTurns> *scoreObject) override
+    bool pointSuggestion(int remainingScore,int turnIndex, ScoreModel *scoreObject)
     {
         /*
          * Parameter constraints:
@@ -52,7 +55,7 @@ private:
          *  - totalTurns : [1,oo]
          */
 
-        auto totalTurns = TTotalTurns;
+        auto totalTurns = _legCount;
 
         if(remainingScore == 0)
             return true;
@@ -201,35 +204,37 @@ private:
         return base % div == 0;
     }
 
-    void updateScoreObject(QChar stringIdentifier, int value, int index, ScoreModel<TTotalTurns> *s)
+    void updateScoreObject(QChar stringIdentifier, int value, int index, ScoreModel *s)
     {
-        if(index >= TTotalTurns)
+        if(index >= _legCount)
             throw new std::out_of_range("Index out of bounds");
 
-        s->multiplier[index - 1] = stringIdentifier;
-        s->pointValue[index - 1] = value;
+        s->multiplier << stringIdentifier;
+        s->pointValue << value;
     }
 
-    ScoreModel<TTotalTurns> *initializeModel(ScoreModel<TTotalTurns> *s)
+    ScoreModel *initializeModel(ScoreModel *s)
     {
-        for (int i = 0; i < TTotalTurns; ++i) {
-            s->multiplier[i] = '_';
-            s->pointValue[i] = 0;
+        for (int i = 0; i < _legCount; ++i) {
+            s->multiplier << '_';
+            s->pointValue << 0;
         }
     }
 
-    QString toString(ScoreModel<TTotalTurns> *s)
+    QString toString(ScoreModel *s)
     {
         QString result;
-        for (int i = 0; i < TTotalTurns; ++i) {
-            auto identifier = s->multiplier[i];
-            auto pVal = s->pointValue[i];
+        for (int i = 0; i < _legCount; ++i) {
+            auto identifier = s->multiplier.at(i);
+            auto pVal = s->pointValue.at(i);
 
             result += identifier == '_' ? "" : identifier + QString::number(pVal) + "-";
         }
 
         return result;
     }
+
+    int _legCount;
 };
 
 #endif // SCORECONTROLLER_H

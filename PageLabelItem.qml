@@ -1,7 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 
-
 Item
 {
     id: body
@@ -18,7 +17,7 @@ Item
     
     Text {
         id: pageLabel
-        
+
         text: qsTr("Dart 2020")
         
         font.pointSize: 40

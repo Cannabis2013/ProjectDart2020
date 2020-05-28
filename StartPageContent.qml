@@ -5,11 +5,15 @@ import QtQuick.Layouts 1.3
 Rectangle
 {
     id: body
+
+    signal gameButtonClicked
+    signal settingsButtonClicked
+    signal loginButtonClicked // Experimental
+    signal logoutButtonClicked // Experimental
+    signal quitButtonClicked
     
     GridLayout {
         id: gridLayout
-
-
 
         anchors.fill: parent
         rowSpacing: 2
@@ -35,11 +39,14 @@ Rectangle
         
         PushButton
         {
+            id: startGameButton
             Layout.row: 3
             Layout.column: 1
             
             Layout.alignment: Qt.AlignHCenter
             text: "Start game"
+
+            onClicked: gameButtonClicked()
         }
         
         PushButton
@@ -49,6 +56,8 @@ Rectangle
             
             Layout.alignment: Qt.AlignHCenter
             text: "Settings"
+
+            onClicked: settingsButtonClicked()
         }
 
         PushButton
@@ -59,7 +68,7 @@ Rectangle
             Layout.alignment: Qt.AlignHCenter
             text: "Quit"
 
-            onClicked: Qt.quit()
+            onClicked: quitButtonClicked()
         }
         
         Rectangle
@@ -70,7 +79,6 @@ Rectangle
             Layout.fillHeight: true
 
             border.width: 1
-
         }
 
     }

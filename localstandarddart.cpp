@@ -20,7 +20,7 @@ void LocalStandardDart::stop()
     _isActive = false;
 }
 
-int LocalStandardDart::processInput(const int &point)
+int LocalStandardDart::processInput( int &point)
 {
     if(status() == (Idle | WinnerDeclared))
         return status();
@@ -60,7 +60,7 @@ int LocalStandardDart::processInput(const int &point)
     return status();
 }
 
-QString LocalStandardDart::playerMessage() const
+QString LocalStandardDart::playerMessage()
 {
     /* This is the hard part
          * TODO: Declare a QString variabel holding a message
@@ -69,56 +69,64 @@ QString LocalStandardDart::playerMessage() const
     return QString();
 }
 
-QString LocalStandardDart::calculateThrowSuggestion() const
+QString LocalStandardDart::calculateThrowSuggestion()
 {
     /* TODO: Here you first have to develop an algorithm to help assess the various combinations that exists after the player reach the 180 points threshold
-     * TODO: When done, construct a string containing the various suggestions. Ex.: 'T20,D10,5' or 'D5,1' for a remaining score at 95 or 11 respectively.
+     * TODO: When done, ruct a string containing the various suggestions. Ex.: 'T20,D10,5' or 'D5,1' for a remaining score at 95 or 11 respectively.
      */
 
-    return QString();
+    auto legCount = dataContext()->tournamentNumberOfLegs(currentTournament());
+
+    auto remainingScore = _keyPoint - sum();
+
+    IPointLogisticManager<QString> *_pointLogisticInterface = new PointLogisticManager(legCount);
+
+    auto msg = _pointLogisticInterface->constructThrowSuggestions(remainingScore,legCount);
+
+    return msg;
 }
 
-QUuid LocalStandardDart::currentActivePlayer() const
+QUuid LocalStandardDart::currentActivePlayer()
 {
     return _assignedPlayers.value(_playerIndex);
 }
 
-int LocalStandardDart::currentRoundIndex() const
+int LocalStandardDart::currentRoundIndex()
 {
     return _roundIndex;
 }
 
-int LocalStandardDart::currentPlayerIndex() const
+int LocalStandardDart::currentPlayerIndex()
 {
     return _playerIndex;
 }
 
-int LocalStandardDart::currentLegIndex() const
+int LocalStandardDart::currentLegIndex()
 {
     return _legIndex;
 }
 
-QUuid LocalStandardDart::currentTournament() const
+QUuid LocalStandardDart::currentTournament()
 {
     return _tournament;
 }
 
-int LocalStandardDart::status() const
+int LocalStandardDart::status()
 {
     return _currentStatus;
 }
 
-int LocalStandardDart::lastPlayerIndex() const
+int LocalStandardDart::lastPlayerIndex()
 {
     return _assignedPlayers.count() - 1;
 }
 
-int LocalStandardDart::playerIndex() const
+int LocalStandardDart::playerIndex()
 {
     return _playerIndex;
 }
 
-QUuid LocalStandardDart::determinedWinner() const
+QUuid LocalStandardDart::determinedWinner()
 {
     return _winner;
 }
@@ -236,7 +244,7 @@ QUuid LocalStandardDart::addPoint(const int &point)
     return pointID;
 }
 
-int LocalStandardDart::currentTurnIndex() const
+int LocalStandardDart::currentTurnIndex()
 {
     return _turnIndex;
 }
@@ -290,7 +298,7 @@ int LocalStandardDart::sum(const QUuid &player)
 
 int LocalStandardDart::sum()
 {
-    auto pointIds = _dataContext->playerPoints(_tournament,currentActivePlayer());
+    auto pointIds = dataContext()->playerPoints(currentTournament(),currentActivePlayer());
 
     int sum = 0;
     for (auto pointId : pointIds)

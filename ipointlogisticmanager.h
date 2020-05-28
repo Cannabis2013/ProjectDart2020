@@ -4,7 +4,7 @@ template<class TString>
 class IPointLogisticManager
 {
 public:
-    virtual TString constructThrowSuggestions(int remainingScore,int turnIndex) = 0;
+    virtual TString constructThrowSuggestions(const int &remainingScore,const int &turnIndex) = 0;
 
 private:
 };
