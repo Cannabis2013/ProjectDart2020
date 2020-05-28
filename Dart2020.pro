@@ -65,4 +65,3 @@ HEADERS += \
     tournament.h
 
 DISTFILES += \
-    Philippa 35.jpg

@@ -2,7 +2,11 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>ScoreTable.qml</file>
-        <file>gamepage.qml</file>
+        <file>GamePage.qml</file>
+        <file>StartPage.qml</file>
+        <file>PushButton.qml</file>
     </qresource>
-    <qresource prefix="/scoretable"/>
+    <qresource prefix="/pictures">
+        <file>Sandra.jpg</file>
+    </qresource>
 </RCC>

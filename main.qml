@@ -7,13 +7,19 @@ ApplicationWindow {
     visible: true
     color: "lightgray"
 
-    x:0
-    y:0
+
+    x: 960 - width/2
+    y: 1080/2 - height/2
+
     width: 400
-    height: 300
+    height: 500
 
     title: qsTr("Dart2020")
 
+    StartPage
+    {
+        anchors.fill: parent
+    }
 
 }
 
