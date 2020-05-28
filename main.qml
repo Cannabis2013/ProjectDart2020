@@ -7,19 +7,44 @@ ApplicationWindow {
     visible: true
     color: "lightgray"
 
-
-    x: 960 - width/2
-    y: 1080/2 - height/2
+    x: 120
+    y: 120
 
     width: 400
     height: 500
 
     title: qsTr("Dart2020")
 
-    StartPage
+    Component
     {
-        anchors.fill: parent
+        id: mouseComponent
+        MouseArea
+        {
+            onClicked: startLoader.sourceComponent = myStartPage
+        }
     }
+
+    Component
+    {
+        id: myStartPage
+        StartPage{
+
+            onStartGameRequest: {}
+            onLoginPageRequest: {}
+
+            labelColor: "#A54141"
+            backgroundContentColor: "#A54141"
+
+        }
+    }
+
+    Loader{
+        id: startLoader
+
+        anchors.fill: parent
+        sourceComponent: myStartPage
+        }
+
 
 }
 

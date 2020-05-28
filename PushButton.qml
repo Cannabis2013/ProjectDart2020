@@ -1,29 +1,33 @@
 import QtQuick 2.0
 
 Item {
-    id: buttonContainer
+    id: body
+
+    width: 128
+    height: 50
 
     property string text: ""
     onTextChanged: buttonText.text = text
 
-    property string backgroundColor: "green"
+    property color backgroundColor: "green"
     onBackgroundColorChanged: buttonRect.color = backgroundColor
 
-    property string textColor: "white"
+    property color textColor: "white"
     onTextColorChanged: buttonText.color = textColor
 
     signal clicked
 
     MouseArea
     {
-        anchors.fill: parent
+        anchors.fill: body
         hoverEnabled: true
         onHoveredChanged: {
-            var c = buttonRect.color.toString();
-            if(c !== "#d3d3d3")
-                buttonRect.color = "#d3d3d3";
+            var c = buttonRect.color;
+
+            if(!Qt.colorEqual(c,"#04F72D"))
+                buttonRect.color = "#04F72D";
             else
-                buttonRect.color = buttonContainer.backgroundColor;
+                buttonRect.color = body.backgroundColor;
         }
 
         onPressedChanged: {
@@ -39,11 +43,8 @@ Item {
             }
         }
 
-        onClicked: buttonContainer.clicked()
+        onClicked: body.clicked()
     }
-
-    width: 50
-    height: 40
 
     clip: true
 
@@ -51,7 +52,7 @@ Item {
     {
         id: buttonRect
 
-        anchors.fill: parent
+        anchors.fill: body
 
         radius: 20
 
@@ -64,6 +65,9 @@ Item {
 
             color: "white"
             text: qsTr("Button title")
+
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
 
             anchors.centerIn: parent
         }

@@ -5,6 +5,9 @@
         <file>GamePage.qml</file>
         <file>StartPage.qml</file>
         <file>PushButton.qml</file>
+        <file>PageLabelItem.qml</file>
+        <file>StartPageContent.qml</file>
+        <file>LoginComponent.qml</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Sandra.jpg</file>

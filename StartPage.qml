@@ -1,64 +1,50 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 
-
 Item {
-    BorderImage {
-        id: background
-        anchors.rightMargin: 0
-        anchors.bottomMargin: 0
-        anchors.leftMargin: 0
-        anchors.topMargin: 0
-        source: "qrc:/pictures/Sandra.jpg"
 
+    id: body
+
+    signal startGameRequest
+    signal loginPageRequest
+    signal logOutRequest
+
+    property color labelColor: "transparent"
+    property color backgroundContentColor: "transparent"
+
+    onLabelColorChanged: label.color = labelColor
+    onBackgroundContentColorChanged: content.color = backgroundContentColor
+
+    GridLayout
+    {
+        columnSpacing: 0
+        rowSpacing: 0
         anchors.fill: parent
-
-        opacity: 0.25
-    }
-
-    GridLayout {
-        id: gridLayout
-
-        anchors.fill: parent
-
+        rows: 2
         columns: 1
 
-        Text {
-            id: pageLabel
+        PageLabelItem {
 
-            text: qsTr("Dart 2020")
+            id: label
 
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+            height: 64
+            width: 384
 
-            font.pointSize: 48
+            Layout.fillWidth: true
+
+            Layout.row: 0
+
+            Layout.maximumHeight: 64
         }
 
-        PushButton
-        {
-            Layout.alignment: Qt.AlignHCenter
-            text: "Test button"
+        StartPageContent{
 
-            width: 128
-            height: 50
+            id: content
 
+            Layout.row: 1
 
-        }
-
-        PushButton
-        {
-            Layout.alignment: Qt.AlignHCenter
-            text: "Test button"
-
-            width: 128
-            height: 50
-        }
-
-        Rectangle
-        {
+            Layout.fillWidth: true
             Layout.fillHeight: true
         }
-
     }
-
-
 }
