@@ -5,6 +5,7 @@
 #include "iplayercontext.h"
 #include <QtCore>
 
+
 /*
  * This is the interface you will pass to the visual QML layer
  * Make sure that methods are marked with the Q_INVOKABLE macro and return types which are accepted by the QML engine
@@ -14,6 +15,21 @@
 class AbstractDartInterface : public QObject
 {
 public:
+
+    /*
+     * Tournament:
+     *  - Create/read/delete/edit tournament
+     *  -
+     */
+
+    Q_INVOKABLE QString tournamentTitleFromIndex(int index);
+
+    /*
+     * Player related stuff
+     */
+
+
+
 
 
 };
