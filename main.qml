@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
+import ApplicationInterface 1.0
 
 ApplicationWindow {
     id: applicationWindow
@@ -13,6 +14,18 @@ ApplicationWindow {
     width: 400
     height: 500
 
+    function init(){
+        var playersCount = projectInterface.playersCount();
+
+        for(var i = 0;i < playersCount;i++)
+        {
+            var playerID = projectInterface.playerIDFromIndex(i);
+
+            var playerFirstName = projectInterface.playerFirstName(playerID);
+            var playerLastName = projectInterface.playerLastName(playerID);
+        }
+    }
+
     title: qsTr("Dart2020")
 
     function handleQuitRequest(){
@@ -20,6 +33,13 @@ ApplicationWindow {
 
         print("Quit requestet and handled");
         Qt.quit();
+    }
+
+    ProjectDart
+    {
+        id: projectInterface
+
+
     }
 
     Component{
