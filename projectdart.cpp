@@ -74,7 +74,7 @@ int ProjectDart::score(const QString &tournament, const QString &player)
 }
 
 
-QString ProjectDart::createTournament(const QString &title, const int &legCount, const int &maxPlayers)
+QString ProjectDart::createTournament(const QString &title, const int &legCount, const int &maxPlayers, const int &gameMode)
 {
 }
 

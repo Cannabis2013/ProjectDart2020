@@ -101,7 +101,14 @@ public:
 
 private:
     QString _title;
-    int _legs, _gameMode, _keyPoint, _status, _maxPlayers, _modelType;
+
+    int _legs;
+    int _gameMode;
+    int _keyPoint;
+    int _status;
+    int _maxPlayers;
+    int _modelType;
+
     QUuid _id,_winner;
     QList<QUuid> _assignedPlayerIdentities;
 };

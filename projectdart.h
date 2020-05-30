@@ -17,14 +17,28 @@ class ProjectDart : public AbstractDartInterface
 
     // AbstractDartInterface interface
 public:
-    QString createTournament(const QString &title, const int &legCount, const int &maxPlayers) override;
+
+    // public types
+
+    enum gameModes {
+        decrementingDart,
+        targetDart
+    };
+
+    // Tournament related stuff
+    QString createTournament(const QString &title,
+                             const int &legCount,
+                             const int &maxPlayers,
+                             const int &gameMode) override;
+
     int tournamentsCount() override;
     QString tournamentIDFromIndex(const int &index) override;
     int tournamentMaxPlayers(const QString &id) override;
     int tournamentLegsCount(const QString &id) override;
-    QString createPlayer(const QString &firstName, const QString &lastName, const QString &email) override;
     int tournamentPlayersCount(const QString &id) override;
 
+    // Player related stuff
+    QString createPlayer(const QString &firstName, const QString &lastName, const QString &email) override;
     void assignPlayer(const QString &player, const QString &tournament) override;
     int assignedPlayersCount(const QString &tournament) override;
     int playersCount() override;

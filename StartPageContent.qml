@@ -24,8 +24,9 @@ Rectangle
         {
             Layout.row: 0
             Layout.column: 0
-            Layout.rowSpan: 3
+            Layout.columnSpan: 3
             Layout.fillHeight: true
+            Layout.maximumHeight: 32
         }
         
         PushButton
@@ -39,14 +40,14 @@ Rectangle
 
             onClicked: gameButtonClicked()
         }
-        
+
         PushButton
         {
             Layout.row: 2
             Layout.column: 1
-            
+
             Layout.alignment: Qt.AlignHCenter
-            text: "Settings"
+            text: "Setup tournament"
 
             onClicked: settingsButtonClicked()
         }
@@ -57,6 +58,17 @@ Rectangle
             Layout.column: 1
 
             Layout.alignment: Qt.AlignHCenter
+            text: "Settings"
+
+            onClicked: settingsButtonClicked()
+        }
+
+        PushButton
+        {
+            Layout.row: 4
+            Layout.column: 1
+
+            Layout.alignment: Qt.AlignHCenter
             text: "Quit"
 
             onClicked: quitButtonClicked()
@@ -64,7 +76,7 @@ Rectangle
         
         Rectangle
         {
-            Layout.row: 4
+            Layout.row: 5
             Layout.column: 1
             
             Layout.fillHeight: true

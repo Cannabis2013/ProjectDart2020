@@ -3,7 +3,7 @@ import QtQuick 2.0
 Item {
     id: body
 
-    width: 128
+    width: 192
     height: 50
 
     property string text: ""

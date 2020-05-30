@@ -24,7 +24,8 @@ public:
 
     Q_INVOKABLE virtual QString createTournament(const QString &title,
                                                  const int &legCount,
-                                                 const int &maxPlayers) = 0;
+                                                 const int &maxPlayers,
+                                                 const int &gameMode) = 0;
 
     Q_INVOKABLE virtual void assignPlayer(const QString &player, const QString &tournament) = 0;
 
