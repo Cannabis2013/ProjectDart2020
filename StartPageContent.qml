@@ -24,23 +24,14 @@ Rectangle
         {
             Layout.row: 0
             Layout.column: 0
-            Layout.columnSpan: 3
+            Layout.rowSpan: 3
             Layout.fillHeight: true
-            Layout.maximumHeight: 9
-        }
-        
-        Rectangle
-        {
-            Layout.row: 2
-            Layout.column: 1
-            Layout.fillHeight: true
-            Layout.maximumHeight: 64
         }
         
         PushButton
         {
             id: startGameButton
-            Layout.row: 3
+            Layout.row: 1
             Layout.column: 1
             
             Layout.alignment: Qt.AlignHCenter
@@ -51,7 +42,7 @@ Rectangle
         
         PushButton
         {
-            Layout.row: 4
+            Layout.row: 2
             Layout.column: 1
             
             Layout.alignment: Qt.AlignHCenter
@@ -62,7 +53,7 @@ Rectangle
 
         PushButton
         {
-            Layout.row: 5
+            Layout.row: 3
             Layout.column: 1
 
             Layout.alignment: Qt.AlignHCenter
@@ -73,7 +64,7 @@ Rectangle
         
         Rectangle
         {
-            Layout.row: 6
+            Layout.row: 4
             Layout.column: 1
             
             Layout.fillHeight: true

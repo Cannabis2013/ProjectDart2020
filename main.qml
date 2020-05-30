@@ -38,8 +38,6 @@ ApplicationWindow {
     ProjectDart
     {
         id: projectInterface
-
-
     }
 
     Component{
