@@ -22,10 +22,10 @@ bool DartTableModel::appendData(int row, int column, int data)
 void DartTableModel::appendHeaderItem(const QVariant &data, const int &orientation)
 {
     if(orientation == Qt::Horizontal)
-        return;
+        _horizontalHeaderData.append(data.toString());
 
     else
-        _verticalHeader.append(data.toString());
+        _verticalHeaderData.append(data.toString());
 }
 
 QString DartTableModel::headerData(int index, int orientation) const
@@ -81,8 +81,12 @@ QVariant DartTableModel::headerData(int section, Qt::Orientation orientation, in
         return QVariant();
 
     switch (orientation) {
-        case Qt::Horizontal : return section < columnCount() ? QVariant(section + 1) : QVariant();
-        case Qt::Vertical : return section < _verticalHeader.count() ?  _verticalHeader.at(section) : QVariant();
+        case Qt::Horizontal : return section < columnCount() ?
+                    _horizontalHeaderData.count() > 0 ?
+                        _horizontalHeaderData.at(section) : QVariant(section + 1) : QVariant();
+        case Qt::Vertical : return section < _verticalHeaderData.count() ?
+                    _verticalHeaderData.count() > 0  ?
+                        _verticalHeaderData.at(section) : QVariant(section + 1): QVariant();
         default: return QVariant();
     }
 }
@@ -94,10 +98,10 @@ bool DartTableModel::setData(const QModelIndex &index, const QVariant &value, in
 
     if(row < 0 || column < 0)
         return false;
-
-    if(row >= _verticalHeader.count())
+    /*
+    if(row >= _verticalHeaderData.count())
         throw new std::out_of_range("You need to allocate corresponding header rows before adding new data rows");
-
+    */
     if(row >= rowCount())
         insertRows(row,1,QModelIndex());
     if(column >= columnCount())
@@ -189,7 +193,7 @@ bool DartTableModel::removeRows(int row, int count, const QModelIndex &)
     {
         _cellData.removeAt(i);
         // Remove corresponding header rows
-        _verticalHeader.removeAt(i);
+        _verticalHeaderData.removeAt(i);
     }
 
     endRemoveRows();

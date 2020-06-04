@@ -6,12 +6,12 @@ Rectangle
 {
     id: body
 
-    signal gameButtonClicked
+    signal setupGameClicked
     signal settingsButtonClicked
     signal loginButtonClicked // Experimental
     signal logoutButtonClicked // Experimental
     signal quitButtonClicked
-    
+
     GridLayout {
         id: gridLayout
 
@@ -28,33 +28,21 @@ Rectangle
             Layout.fillHeight: true
             Layout.maximumHeight: 32
         }
-        
+
         PushButton
         {
-            id: startGameButton
             Layout.row: 1
             Layout.column: 1
-            
-            Layout.alignment: Qt.AlignHCenter
-            text: "Start game"
 
-            onClicked: gameButtonClicked()
+            Layout.alignment: Qt.AlignHCenter
+            text: "Start tournament"
+
+            onClicked: setupGameClicked()
         }
 
         PushButton
         {
             Layout.row: 2
-            Layout.column: 1
-
-            Layout.alignment: Qt.AlignHCenter
-            text: "Setup tournament"
-
-            onClicked: settingsButtonClicked()
-        }
-
-        PushButton
-        {
-            Layout.row: 3
             Layout.column: 1
 
             Layout.alignment: Qt.AlignHCenter
@@ -65,7 +53,7 @@ Rectangle
 
         PushButton
         {
-            Layout.row: 4
+            Layout.row: 3
             Layout.column: 1
 
             Layout.alignment: Qt.AlignHCenter
@@ -76,7 +64,7 @@ Rectangle
         
         Rectangle
         {
-            Layout.row: 5
+            Layout.row: 4
             Layout.column: 1
             
             Layout.fillHeight: true

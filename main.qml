@@ -1,4 +1,4 @@
-import QtQuick 2.12
+import QtQuick 2.15
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
 import ApplicationInterface 1.0
@@ -23,6 +23,8 @@ ApplicationWindow {
 
             var playerFirstName = projectInterface.playerFirstName(playerID);
             var playerLastName = projectInterface.playerLastName(playerID);
+
+
         }
     }
 
@@ -35,6 +37,19 @@ ApplicationWindow {
         Qt.quit();
     }
 
+    Item {
+        id: keyListener
+        anchors.fill: parent
+        focus: true
+
+        Keys.onPressed: {
+            if(event.key === Qt.Key_F){
+                print("Techno Tonny");
+                event.accepted = true
+            }
+        }
+    }
+
     ProjectDart
     {
         id: projectInterface
@@ -43,19 +58,19 @@ ApplicationWindow {
     Component{
         id: gamePage
 
-        GamePage
+        ScoreTable
         {
-
+            anchors.fill: parent
         }
     }
 
 
     Component
     {
-        id: myStartPage
+        id: startPageComponent
         StartPage{
-
-            onRequestGamePage: pageLoader.sourceComponent = gamePage
+            id: startPage
+            onRequestSetupGamePage: pageLoader.sourceComponent = gamePage
             onRequestLoginPage: {}
             onRequestLogOut: {}
             onRequestQuit: handleQuitRequest()
@@ -69,9 +84,13 @@ ApplicationWindow {
 
     Loader{
         id: pageLoader
-
         anchors.fill: parent
-        sourceComponent: myStartPage
+        sourceComponent: startPageComponent
     }
+
+    Component.onCompleted: {
+        init()
+    }
+
 }
 

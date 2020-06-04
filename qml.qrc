@@ -8,8 +8,9 @@
         <file>PageLabelItem.qml</file>
         <file>StartPageContent.qml</file>
         <file>LoginComponent.qml</file>
+        <file>TournamentPage.qml</file>
+        <file>HorizontalHeader.qml</file>
+        <file>VerticalHeader.qml</file>
     </qresource>
-    <qresource prefix="/pictures">
-        <file>Sandra.jpg</file>
-    </qresource>
+    <qresource prefix="/pictures"/>
 </RCC>

@@ -4,10 +4,10 @@ import CustomItems 1.0
 
 Item
 {
-    id: scoreTable
+    id: tableView
     function appendHeader(string)
     {
-        myModel.appendHeaderItem(string,2);
+        myModel.appendHeaderItem(string,1);
     }
 
     function addData(row,column, data)
@@ -19,19 +19,22 @@ Item
             Qt.quit();
         }
 
-        verticalHeaderRepeater.model = myModel.rowCount();
-        horizontalHeaderRepeater.model = myModel.columnCount();
+        var modelRowCount = myModel.rowCount();
+        var modelColumnCount = myModel.columnCount();
 
-        for(var i = 0;i < verticalHeaderRepeater.count;i++)
+        verticalHeader.model = modelRowCount;
+        horizontalHeader.model = modelColumnCount;
+
+        for(var i = 0;i < verticalHeader.dataCount();i++)
         {
             var vHeaderValue = myModel.headerData(i,2);
-            verticalHeaderRepeater.itemAt(i).children[0].text = vHeaderValue;
+            verticalHeader.setData(i,vHeaderValue);
         }
 
-        for(var j = 0;j < horizontalHeaderRepeater.count;j++)
+        for(var j = 0;j < horizontalHeader.dataCount();j++)
         {
             var hHeaderValue = myModel.headerData(j,1);
-            horizontalHeaderRepeater.itemAt(j).children[0].text = hHeaderValue;
+            horizontalHeader.setData(j,hHeaderValue);
         }
     }
 
@@ -44,8 +47,8 @@ Item
         rowSpacing: 0
         columnSpacing: 0
 
-        onWidthChanged: scoreTable.width = width
-        onHeightChanged: scoreTable.height = height
+        onWidthChanged: tableView.width = width
+        onHeightChanged: tableView.height = height
 
         Rectangle
         {
@@ -59,63 +62,11 @@ Item
             color: "transparent"
         }
 
-        Row
-        {
+        HorizontalHeader {
             id: horizontalHeader
-            Layout.row: 0
-            Layout.column: 1
-            Repeater
-            {
-                id: horizontalHeaderRepeater
-                model: myModel.columnCount();
-                Rectangle {
-                    id: horizontalHeaderCell
-
-                    width: 25
-                    height: 25
-
-                    color: "transparent"
-
-                    Text {
-                        id: headerCellText
-
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-
-                        anchors.fill: parent
-                    }
-                }
-
-            }
         }
-        Column
-        {
+        VerticalHeader {
             id: verticalHeader
-            Layout.row: 1
-            Layout.column: 0
-            Repeater
-            {
-                id: verticalHeaderRepeater
-                model: myModel.rowCount()
-                Rectangle {
-                    width: 100
-                    height: 25
-
-                    color: "transparent"
-
-                    Text {
-                        id: verticalHeaderCellText
-
-                        text: "Column text"
-
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-
-                        anchors.fill: parent
-                    }
-                }
-
-            }
         }
 
         TableView

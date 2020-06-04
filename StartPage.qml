@@ -6,7 +6,7 @@ Item {
 
     clip: true
 
-    signal requestGamePage
+    signal requestSetupGamePage
     signal requestSettingsPage
     signal requestLoginPage // Experimental
     signal requestLogOut // Experimental
@@ -44,9 +44,10 @@ Item {
 
     GridLayout
     {
+        anchors.fill: parent
+
         columnSpacing: 0
         rowSpacing: 0
-        anchors.fill: parent
         rows: 4
         columns: 3
 
@@ -130,7 +131,7 @@ Item {
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            onGameButtonClicked: requestGamePage()
+            onSetupGameClicked: requestSetupGamePage()
             onSettingsButtonClicked: requestSettingsPage()
             onLoginButtonClicked: requestLoginPage()
             onLogoutButtonClicked: requestLogOut()

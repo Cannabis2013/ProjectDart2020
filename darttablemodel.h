@@ -2,6 +2,7 @@
 #define CUSTOMTABLEMODEL_H
 
 #include <QAbstractTableModel>
+#include <qfontmetrics.h>
 
 class DartTableModel : public QAbstractTableModel
 {
@@ -39,7 +40,8 @@ private:
     int lastDecoratedCellIndex(int row);
 
     QList<QList<int>> _cellData;
-    QList<QString> _verticalHeader;
+    QList<QString> _verticalHeaderData;
+    QList<QString> _horizontalHeaderData;
 
     int _rows = 0;
     int _columns = 0;
