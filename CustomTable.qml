@@ -6,13 +6,17 @@ Item
 {
     id: body
 
-    function appendHeader(string)
+    function appendHeader(string, orientation)
     {
-        myModel.appendHeaderItem(string,1);
+        var myModel = tableView.getModel();
+
+        myModel.appendHeaderItem(string,orientation);
     }
 
-    function addData(row,column, data)
+    function addData(row, column, data)
     {
+        var myModel = tableView.getModel();
+
         var result = myModel.appendData(row,column,data);
 
         if(!result)
@@ -30,13 +34,21 @@ Item
         {
             var vHeaderValue = myModel.headerData(i,2);
             verticalHeader.setData(i,vHeaderValue);
+
+            var rowHeight = myModel.rowHeightAt(i);
+
+            verticalHeader.setRowHeight(i,rowHeight);
         }
 
         for(var j = 0;j < horizontalHeader.dataCount();j++)
         {
             var hHeaderValue = myModel.headerData(j,1);
+
             horizontalHeader.setData(j,hHeaderValue);
-            horizontalHeader.setCellWidth(j,myModel.columnWithAt(j));
+
+            var columnWidth = myModel.columnWithAt(j);
+
+            horizontalHeader.setCellWidth(j,columnWidth);
         }
     }
 
@@ -70,46 +82,23 @@ Item
             id: verticalHeader
         }
 
-        TableView
-        {
+        CustomTableView {
             id: tableView
 
-            Layout.row: 1
             Layout.column: 1
+            Layout.row: 1
 
             Layout.fillHeight: true
             Layout.fillWidth: true
 
-            clip: true
+            cellColor: "transparent"
+            cellBorderWidth: 1
 
-            columnWidthProvider: function(column) {
-                return myModel.columnWithAt(column);
-            }
-
-            model: CustomTableModel
-            {
-                id: myModel
-
-                // Signal handling
-                onDataChanged: {(myModel.rowCount() > 0 || myModel.columnCount() > 0) ?
-                                    upperTopLeftCell.visible = true : upperTopLeftCell.visible = false}
-            }
-
-            delegate: Rectangle{
-                id: cellDelegate
-                border.color: "green"
-                border.width: 1
-                implicitWidth: 25
-                implicitHeight: 25
-                color: "black"
-
-                Text {
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                    anchors.fill: parent
-                    text: display
-                    color: "white"
-                }
+            onDataHasChanged: {
+                if(getModel().rowCount() > 0 || getModel().columnCount() > 0)
+                    upperTopLeftCell.visible = true
+                else
+                    upperTopLeftCell.visible = false
             }
         }
     }
@@ -117,9 +106,9 @@ Item
 
     Component.onCompleted:
     {
-        appendHeader("Kent KillerHertz");
-        appendHeader("Martin Hansen");
-        appendHeader("Per");
+        appendHeader("Kent KillerHertz",1);
+        appendHeader("Martin Hansen",1);
+        appendHeader("Per",1);
 
         addData(0,0,20);
         addData(1,0,17);
@@ -129,13 +118,4 @@ Item
         addData(2,1,11);
         addData(0,2,5);
     }
-
-
 }
-
-
-/*##^##
-Designer {
-    D{i:0;autoSize:true;height:480;width:640}
-}
-##^##*/

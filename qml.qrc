@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>ScoreTable.qml</file>
+        <file>CustomTable.qml</file>
         <file>GamePage.qml</file>
         <file>StartPage.qml</file>
         <file>PushButton.qml</file>
@@ -11,6 +11,7 @@
         <file>TournamentPage.qml</file>
         <file>HorizontalHeader.qml</file>
         <file>VerticalHeader.qml</file>
+        <file>CustomTableView.qml</file>
     </qresource>
     <qresource prefix="/pictures"/>
 </RCC>

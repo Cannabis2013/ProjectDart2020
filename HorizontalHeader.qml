@@ -12,7 +12,6 @@ Row
     property int cellWidth: 25
     onCellWidthChanged: cellBody.width = cellWidth
 
-
     property int model: 0
     onModelChanged: horizontalHeaderRepeater.model = model
 
@@ -35,6 +34,7 @@ Row
     {
         id: horizontalHeaderRepeater
         model: body.model
+
         Rectangle {
             id: cellBody
             

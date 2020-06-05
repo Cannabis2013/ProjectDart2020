@@ -45,38 +45,108 @@ int DartTableModel::columnCount() const
     return columnCount(QModelIndex());
 }
 
-int DartTableModel::columnWithAt(const int &column, const QString &fontFamily, const int &pointSize) const
+double DartTableModel::columnWithAt(const int &column, const QString &fontFamily, const int &pointSize) const
 {
     auto font = QFont(fontFamily,pointSize);
 
     QFontMetrics fontMetric(font);
 
-    auto string = _horizontalHeaderData.at(column);
+    QString string;
+
+    if(_horizontalHeaderData.count() <= column){
+
+        if(fillMode() == HeaderFillMode::IncrementingIntegerFill)
+            string = QString::number(column + 1);
+        else
+            return defaultCellWidth;
+    }
+    else
+        string = _horizontalHeaderData.at(column);
+
 
     auto glyphLenght = fontMetric.boundingRect(string).width();
 
-    return glyphLenght;
+    return glyphLenght *scale();
 }
 
-int DartTableModel::rowHeightAt(const int &row, const QString &fontFamily ,const int &pointSize) const
+double DartTableModel::columnHeightAt(const int &column, const QString &fontFamily, const int &pointSize) const
 {
     auto font = QFont(fontFamily,pointSize);
 
     QFontMetrics fontMetric(font);
 
-    auto string = _verticalHeaderData.at(row);
+    QString string;
+
+    if(_horizontalHeaderData.count() <= column){
+
+        if(fillMode() == HeaderFillMode::IncrementingIntegerFill)
+            string = QString::number(column + 1);
+        else
+            return defaultCellHeight;
+    }
+    else
+        string = _horizontalHeaderData.at(column);
+
+
+    auto glyphLenght = fontMetric.boundingRect(string).height();
+
+    return glyphLenght *scale();
+}
+
+double DartTableModel::rowHeightAt(const int &row, const QString &fontFamily ,const int &pointSize) const
+{
+    auto font = QFont(fontFamily,pointSize);
+
+    QFontMetrics fontMetric(font);
+
+    QString string;
+
+    if(_verticalHeaderData.count() <= row)
+    {
+        if(fillMode() == HeaderFillMode::IncrementingIntegerFill)
+            string = QString::number(row + 1);
+        else
+            return defaultCellHeight;
+    }
+    else
+        string = _verticalHeaderData.at(row);
+
+
+    auto glyphLenght = fontMetric.boundingRect(string).height();
+
+    return glyphLenght * scale();
+}
+
+double DartTableModel::rowWidthAt(const int &row, const QString &fontFamily, const int &pointSize) const
+{
+    auto font = QFont(fontFamily,pointSize);
+
+    QFontMetrics fontMetric(font);
+
+    QString string;
+
+    if(_verticalHeaderData.count() <= row)
+    {
+        if(fillMode() == HeaderFillMode::IncrementingIntegerFill)
+            string = QString::number(row + 1);
+        else
+            return defaultCellWidth;
+    }
+    else
+        string = _verticalHeaderData.at(row);
+
 
     auto glyphLenght = fontMetric.boundingRect(string).width();
 
-    return glyphLenght;
+    return glyphLenght * scale();
 }
 
-int DartTableModel::rowCount(const QModelIndex &parent) const
+int DartTableModel::rowCount(const QModelIndex &) const
 {
     return _rows;
 }
 
-int DartTableModel::columnCount(const QModelIndex &parent) const
+int DartTableModel::columnCount(const QModelIndex &) const
 {
     return _columns;
 }
@@ -106,13 +176,18 @@ QVariant DartTableModel::headerData(int section, Qt::Orientation orientation, in
     if(role != Qt::DisplayRole)
         return QVariant();
 
+    auto numberOfColumns = columnCount();
+    auto horizontalHeaderCount = _horizontalHeaderData.count();
+
     switch (orientation) {
-        case Qt::Horizontal : return section < columnCount() ?
-                    _horizontalHeaderData.count() > 0 ?
-                        _horizontalHeaderData.at(section) : QVariant(section + 1) : QVariant();
+        case Qt::Horizontal : return section < numberOfColumns ?
+                    horizontalHeaderCount > section ?
+                        _horizontalHeaderData.at(section) : fillMode() == HeaderFillMode::IncrementingIntegerFill ?
+                            QVariant(section + 1) : QVariant() : QVariant();
         case Qt::Vertical : return section < _verticalHeaderData.count() ?
-                    _verticalHeaderData.count() > 0  ?
-                        _verticalHeaderData.at(section) : QVariant(section + 1): QVariant();
+                    _verticalHeaderData.count() >= section  ?
+                        _verticalHeaderData.at(section) : fillMode() == HeaderFillMode::IncrementingIntegerFill ?
+                            QVariant(section + 1) : QVariant(): QVariant();
         default: return QVariant();
     }
 }
@@ -268,4 +343,24 @@ int DartTableModel::lastDecoratedCellIndex(int row)
     }
 
     return columnCount(QModelIndex());
+}
+
+int DartTableModel::fillMode() const
+{
+    return _fillMode;
+}
+
+void DartTableModel::setFillMode(int fillMode)
+{
+    _fillMode = fillMode;
+}
+
+double DartTableModel::scale() const
+{
+    return _scale;
+}
+
+void DartTableModel::setScale(double scale)
+{
+    _scale = scale;
 }

@@ -59,12 +59,11 @@ ApplicationWindow {
         id: gamePage
 
 
-        ScoreTable
+        CustomTable
         {
             anchors.fill: parent
         }
     }
-
 
     Component
     {
