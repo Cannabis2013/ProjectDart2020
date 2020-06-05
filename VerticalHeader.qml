@@ -26,6 +26,11 @@ Column
         verticalHeaderRepeater.itemAt(i).children[0].text = value;
     }
 
+    function setRowHeight(r,h)
+    {
+        verticalHeaderRepeater.itemAt(r).height = h;
+    }
+
     Repeater
     {
         id: verticalHeaderRepeater

@@ -45,6 +45,32 @@ int DartTableModel::columnCount() const
     return columnCount(QModelIndex());
 }
 
+int DartTableModel::columnWithAt(const int &column, const QString &fontFamily, const int &pointSize) const
+{
+    auto font = QFont(fontFamily,pointSize);
+
+    QFontMetrics fontMetric(font);
+
+    auto string = _horizontalHeaderData.at(column);
+
+    auto glyphLenght = fontMetric.boundingRect(string).width();
+
+    return glyphLenght;
+}
+
+int DartTableModel::rowHeightAt(const int &row, const QString &fontFamily ,const int &pointSize) const
+{
+    auto font = QFont(fontFamily,pointSize);
+
+    QFontMetrics fontMetric(font);
+
+    auto string = _verticalHeaderData.at(row);
+
+    auto glyphLenght = fontMetric.boundingRect(string).width();
+
+    return glyphLenght;
+}
+
 int DartTableModel::rowCount(const QModelIndex &parent) const
 {
     return _rows;

@@ -10,7 +10,7 @@ Row
     Layout.column: 1
 
     property int cellWidth: 25
-    onCellWidthChanged: cell.width = cellWidth
+    onCellWidthChanged: cellBody.width = cellWidth
 
 
     property int model: 0
@@ -26,12 +26,17 @@ Row
         horizontalHeaderRepeater.itemAt(i).children[0].text = value;
     }
 
+    function setCellWidth(i, width)
+    {
+        horizontalHeaderRepeater.itemAt(i).width = width;
+    }
+
     Repeater
     {
         id: horizontalHeaderRepeater
         model: body.model
         Rectangle {
-            id: cell
+            id: cellBody
             
             width: body.cellWidth
             height: 25

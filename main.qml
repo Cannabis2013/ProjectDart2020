@@ -58,6 +58,7 @@ ApplicationWindow {
     Component{
         id: gamePage
 
+
         ScoreTable
         {
             anchors.fill: parent

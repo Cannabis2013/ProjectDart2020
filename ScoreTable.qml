@@ -4,7 +4,8 @@ import CustomItems 1.0
 
 Item
 {
-    id: tableView
+    id: body
+
     function appendHeader(string)
     {
         myModel.appendHeaderItem(string,1);
@@ -35,6 +36,7 @@ Item
         {
             var hHeaderValue = myModel.headerData(j,1);
             horizontalHeader.setData(j,hHeaderValue);
+            horizontalHeader.setCellWidth(j,myModel.columnWithAt(j));
         }
     }
 
@@ -47,8 +49,7 @@ Item
         rowSpacing: 0
         columnSpacing: 0
 
-        onWidthChanged: tableView.width = width
-        onHeightChanged: tableView.height = height
+        anchors.centerIn: body
 
         Rectangle
         {
@@ -71,6 +72,8 @@ Item
 
         TableView
         {
+            id: tableView
+
             Layout.row: 1
             Layout.column: 1
 
@@ -78,6 +81,10 @@ Item
             Layout.fillWidth: true
 
             clip: true
+
+            columnWidthProvider: function(column) {
+                return myModel.columnWithAt(column);
+            }
 
             model: CustomTableModel
             {
@@ -89,6 +96,7 @@ Item
             }
 
             delegate: Rectangle{
+                id: cellDelegate
                 border.color: "green"
                 border.width: 1
                 implicitWidth: 25
@@ -125,3 +133,9 @@ Item
 
 }
 
+
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/

@@ -22,6 +22,9 @@ public:
     Q_INVOKABLE int rowCount() const;
     Q_INVOKABLE int columnCount() const;
 
+    Q_INVOKABLE int columnWithAt(const int &column, const QString &fontFamily = "MS Sans Serif", const int &pointSize = 12) const;
+
+    Q_INVOKABLE int rowHeightAt(const int &row, const QString &fontFamily = "MS Sans Serif", const int &pointSize = 12) const;
     // Pure virtual implementations
     int rowCount(const QModelIndex &parent) const override;
     int columnCount(const QModelIndex &parent) const override;
