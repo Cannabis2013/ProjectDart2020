@@ -355,6 +355,20 @@ void DartTableModel::setFillMode(int fillMode)
     _fillMode = fillMode;
 }
 
+int DartTableModel::preferedCellWidth(const QString &fontFamily, const int &pointSize) const
+{
+    auto preferedWidth = 0;
+    for (auto txt : _verticalHeaderData) {
+        QFontMetrics metrics(QFont(fontFamily,pointSize));
+
+        auto glypLenght = metrics.boundingRect(txt).width();
+
+        preferedWidth = glypLenght > preferedWidth ? glypLenght : preferedWidth;
+    }
+
+    return preferedWidth;
+}
+
 double DartTableModel::scale() const
 {
     return _scale;

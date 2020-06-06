@@ -9,8 +9,22 @@ Column
     Layout.row: 1
     Layout.column: 0
 
-    property int cellWidth: 25
-    onCellWidthChanged: cell.width = cellWidth
+    property color backgroundColor: "transparent"
+    onBackgroundColorChanged: cellBody.color = backgroundColor
+
+    property color color: "black"
+    onColorChanged: cellBodyText.color = color
+    property int cellWidth: 125
+    onCellWidthChanged: cellBody.width = cellWidth
+
+    property int cellHeight: 25
+    onCellHeightChanged: cellBody.height = cellHeight
+
+    property int borderWidth: 0
+    onBorderWidthChanged: cellBody.border.width = borderWidth
+
+    property color borderColor : "black"
+    onBorderColorChanged: cellBody.border.color = borderColor
 
     property int model: 0
     onModelChanged: verticalHeaderRepeater.model = model
@@ -23,7 +37,7 @@ Column
     function setData(i, value)
     {
 
-        verticalHeaderRepeater.itemAt(i).children[0].text = value;
+        verticalHeaderRepeater.itemAt(i).children[4].text = value;
     }
 
     function setRowHeight(r,h)
@@ -35,15 +49,24 @@ Column
     {
         id: verticalHeaderRepeater
         model: body.model
-        Rectangle {
-            id: cell
-            width: body.cellWidth
-            height: 25
-            
-            color: "transparent"
+
+        MyRectangle {
+            id: cellBody
+
+            width: body.width
+            height: body.cellHeight
+
+            rightBorderWidth: body.borderWidth
+            bottomBorderWidth: body.borderWidth
+
+            borderColor: body.borderColor
+
+            color: backgroundColor
             
             Text {
-                id: verticalHeaderCellText
+                id: cellBodyText
+
+                color: body.color
                 
                 text: "Column text"
                 

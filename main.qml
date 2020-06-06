@@ -56,13 +56,10 @@ ApplicationWindow {
     }
 
     Component{
-        id: gamePage
-
-
-        CustomTable
-        {
-            anchors.fill: parent
+        id: setupPage
+        SetupPage {
         }
+
     }
 
     Component
@@ -70,7 +67,8 @@ ApplicationWindow {
         id: startPageComponent
         StartPage{
             id: startPage
-            onRequestSetupGamePage: pageLoader.sourceComponent = gamePage
+
+            onRequestSetupGamePage: pageLoader.sourceComponent = setupPage
             onRequestLoginPage: {}
             onRequestLogOut: {}
             onRequestQuit: handleQuitRequest()
@@ -79,6 +77,7 @@ ApplicationWindow {
             backgroundContentColor: "#A54141"
 
             padding: 12
+
         }
     }
 

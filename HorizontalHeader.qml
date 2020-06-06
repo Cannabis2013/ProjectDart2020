@@ -9,8 +9,26 @@ Row
     Layout.row: 0
     Layout.column: 1
 
+    property color backgroundColor: "transparent"
+    onBackgroundColorChanged: cellBody.color = backgroundColor
+
+    property color color: "black"
+    onColorChanged: cellBodyText.color = color
+
     property int cellWidth: 25
     onCellWidthChanged: cellBody.width = cellWidth
+
+    property int cellHeight: 25
+    onCellHeightChanged: cellBody.height = cellHeight
+
+    property int borderWidth: 0
+    onBorderWidthChanged: {
+        cellBody.bottomBorderWidth = borderWidth
+        cellBody.rightBorderWidth = borderWidth
+    }
+
+    property color borderColor : "black"
+    onBorderColorChanged: cellBody.border.color = borderColor
 
     property int model: 0
     onModelChanged: horizontalHeaderRepeater.model = model
@@ -22,7 +40,7 @@ Row
 
     function setData(i, value)
     {
-        horizontalHeaderRepeater.itemAt(i).children[0].text = value;
+        horizontalHeaderRepeater.itemAt(i).children[4].text = value;
     }
 
     function setCellWidth(i, width)
@@ -35,16 +53,24 @@ Row
         id: horizontalHeaderRepeater
         model: body.model
 
-        Rectangle {
+        MyRectangle {
             id: cellBody
             
             width: body.cellWidth
-            height: 25
-            
-            color: "transparent"
-            
+            height: body.height
+
+            rightBorderWidth: body.borderWidth
+            bottomBorderWidth: body.borderWidth
+
+            borderColor: body.borderColor
+
+            color: body.backgroundColor
+
             Text {
-                id: headerCellText
+                id: cellBodyText
+
+                color: body.color
+
                 
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter

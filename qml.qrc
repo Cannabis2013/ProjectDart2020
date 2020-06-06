@@ -12,6 +12,12 @@
         <file>HorizontalHeader.qml</file>
         <file>VerticalHeader.qml</file>
         <file>CustomTableView.qml</file>
+        <file>MyRectangle.qml</file>
+        <file>MyTableView.qml</file>
+        <file>SetupPage.qml</file>
+        <file>MyTextEdit.qml</file>
+        <file>MyLabel.qml</file>
+        <file>MyLineEdit.qml</file>
     </qresource>
     <qresource prefix="/pictures"/>
 </RCC>

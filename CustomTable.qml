@@ -6,11 +6,16 @@ Item
 {
     id: body
 
+    // Functions
+
     function appendHeader(string, orientation)
     {
         var myModel = tableView.getModel();
 
         myModel.appendHeaderItem(string,orientation);
+
+        //verticalHeader.cellWidth = myModel.preferedCellWidth();
+        //upperTopLeftCell.width = myModel.preferedCellWidth();
     }
 
     function addData(row, column, data)
@@ -21,6 +26,7 @@ Item
 
         if(!result)
         {
+            print("Couldn't add data to model");
             Qt.quit();
         }
 
@@ -52,6 +58,8 @@ Item
         }
     }
 
+
+
     GridLayout
     {
         id: mainLayout
@@ -61,25 +69,48 @@ Item
         rowSpacing: 0
         columnSpacing: 0
 
-        anchors.centerIn: body
-
-        Rectangle
+        anchors.fill: parent
+        MyRectangle
         {
             id: upperTopLeftCell
+
+            height: 25
+
             Layout.row: 0
             Layout.column: 0
 
+            rightBorderWidth: 1
+            bottomBorderWidth: 1
 
-            visible: false
+            Layout.fillWidth: true
+            Layout.fillHeight: true
 
-            color: "transparent"
+            visible: true
+
+            color: "darkgray"
         }
 
         HorizontalHeader {
             id: horizontalHeader
+
+            backgroundColor: "darkgray"
+            color: "black"
+
+            borderWidth: 1
+
+            Layout.fillHeight: true
         }
         VerticalHeader {
             id: verticalHeader
+
+            backgroundColor: "darkgray"
+            color: "black"
+
+            Layout.fillWidth: true
+
+            borderWidth: 1
+
+            Layout.alignment: Qt.AlignTop
         }
 
         CustomTableView {
@@ -88,11 +119,12 @@ Item
             Layout.column: 1
             Layout.row: 1
 
+            cellBorderWidth: 1
+
             Layout.fillHeight: true
             Layout.fillWidth: true
 
             cellColor: "transparent"
-            cellBorderWidth: 1
 
             onDataHasChanged: {
                 if(getModel().rowCount() > 0 || getModel().columnCount() > 0)
@@ -106,16 +138,5 @@ Item
 
     Component.onCompleted:
     {
-        appendHeader("Kent KillerHertz",1);
-        appendHeader("Martin Hansen",1);
-        appendHeader("Per",1);
-
-        addData(0,0,20);
-        addData(1,0,17);
-        addData(2,0,20);
-        addData(0,1,12);
-        addData(1,1,15);
-        addData(2,1,11);
-        addData(0,2,5);
     }
 }

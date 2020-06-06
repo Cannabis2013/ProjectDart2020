@@ -16,7 +16,7 @@ TableView
     property color textColor: "black"
     onTextColorChanged: cellText = textColor
 
-    property int cellBorderWidth: 0
+    property double cellBorderWidth: 0
     onCellBorderWidthChanged: cellDelegate.border.width = cellBorderWidth
 
     property color cellBorderColor: "black"
@@ -41,22 +41,33 @@ TableView
     model: CustomTableModel
     {
         id: myModel
-        
+
+
         // Signal handling
         onDataChanged: dataHasChanged()
     }
     
-    delegate: Rectangle{
+    delegate: MyRectangle{
         id: cellDelegate
 
-        border.color: cellBorderColor
-        border.width: cellBorderWidth
+        bottomBorderWidth: 1
+        rightBorderWidth: 1
 
         implicitWidth: 25
         implicitHeight: 25
 
         color: cellColor
-        
+
+        PropertyAnimation on rotation
+        {
+            from: 90
+            to: 0
+
+            duration: 500
+
+            loops: 1
+        }
+
         Text {
             id: cellText
             horizontalAlignment: horizontalTextAlignment

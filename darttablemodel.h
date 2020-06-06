@@ -6,7 +6,8 @@
 
 const int defaultCellWidth = 25;
 const int defaultCellHeight = 25;
-
+const QString defaultFontFamily = "MS Sans Serif";
+const int defaultPointSize = 12;
 
 class DartTableModel : public QAbstractTableModel
 {
@@ -28,8 +29,8 @@ public:
     Q_INVOKABLE int rowCount() const;
     Q_INVOKABLE int columnCount() const;
 
-    Q_INVOKABLE double columnWithAt(const int &column, const QString &fontFamily = "MS Sans Serif", const int &pointSize = 12) const;
-    Q_INVOKABLE double columnHeightAt(const int &column, const QString &fontFamily = "MS Sans Serif", const int &pointSize = 12) const;
+    Q_INVOKABLE double columnWithAt(const int &column, const QString &fontFamily = defaultFontFamily, const int &pointSize = defaultPointSize) const;
+    Q_INVOKABLE double columnHeightAt(const int &column, const QString &fontFamily = defaultFontFamily, const int &pointSize = defaultPointSize) const;
 
     Q_INVOKABLE double rowHeightAt(const int &row, const QString &fontFamily = "MS Sans Serif", const int &pointSize = 12) const;
     Q_INVOKABLE double rowWidthAt(const int &row, const QString &fontFamily = "MS Sans Serif", const int &pointSize = 12) const;
@@ -39,6 +40,8 @@ public:
 
     Q_INVOKABLE int fillMode() const;
     Q_INVOKABLE void setFillMode(int fillMode);
+
+    Q_INVOKABLE int preferedCellWidth(const QString &fontFamily = defaultFontFamily, const int &pointSize = defaultPointSize) const;
 
     // Public pure virtual method implementations
     int rowCount(const QModelIndex &) const override;
@@ -54,10 +57,7 @@ public:
     bool removeRows(int row, int count, const QModelIndex &) override;
     bool removeColumns(int column, int count, const QModelIndex &) override;
 
-
-
 private:
-
     int lastDecoratedCellIndex(int row);
 
     QList<QList<int>> _cellData;
