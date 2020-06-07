@@ -3,11 +3,15 @@ import QtQuick 2.0
 Item {
     id: body
 
-    width: 192
-    height: 50
-
     property string text: ""
     onTextChanged: buttonText.text = text
+
+    property int fontSize: 12
+    onFontSizeChanged: buttonText = fontSize
+
+    property color hoveredColor: "#04F72D"
+
+    property color hoveredTextColor: textColor
 
     property color backgroundColor: "green"
     onBackgroundColorChanged: buttonRect.color = backgroundColor
@@ -17,6 +21,11 @@ Item {
 
     onEnabledChanged: !enabled ? opacity = 0.25 : opacity = 1
 
+    property bool checked: false
+    onCheckedChanged: isCheckable ||checked == false ? checked = checked : checked = false
+
+    property bool isCheckable: false
+
     signal clicked
 
     MouseArea
@@ -25,11 +34,18 @@ Item {
         hoverEnabled: true
         onHoveredChanged: {
             var c = buttonRect.color;
+            var tColor = buttonText.color;
 
-            if(!Qt.colorEqual(c,"#04F72D"))
-                buttonRect.color = "#04F72D";
+            if(!Qt.colorEqual(c,hoveredColor) || !Qt.colorEqual(tColor,hoveredTextColor)){
+                buttonText.color = hoveredTextColor
+                buttonRect.color = hoveredColor;
+            }
             else
+            {
+                buttonText.color = textColor
                 buttonRect.color = body.backgroundColor;
+            }
+
         }
 
         onPressedChanged: {
@@ -63,7 +79,7 @@ Item {
         Text {
             id: buttonText
 
-            font.pointSize: 12
+            font.pointSize: fontSize
 
             color: "white"
             text: qsTr("Button title")

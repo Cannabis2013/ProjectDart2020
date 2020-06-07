@@ -11,8 +11,17 @@ Rectangle{
 
     color: "transparent"
 
+    property int labelFontSize: 16
+    onLabelFontSizeChanged: label.fontSize = labelFontSize
+
+    property int labelFontAlignment: Qt.AlignLeft
+    onLabelFontAlignmentChanged: label.horizontalTextAlignment = labelFontAlignment
+
     property int fontSize: 20
     onFontSizeChanged: lineEdit.fontSize = fontSize
+
+    property int labelLeftMargin: 0
+    onLabelLeftMarginChanged: label.textLeftMargin = labelLeftMargin
 
     FontMetrics{
         id: fontMetrics
@@ -26,16 +35,19 @@ Rectangle{
     MyLabel {
         id: label
 
+        // Font properties
         color: "black"
         fontColor: "white"
-        fontSize: 24
+        fontSize: labelFontSize
+        textLeftMargin: labelLeftMargin
 
-        horizontalTextAlignment: Qt.AlignHCenter
+        horizontalTextAlignment: labelFontAlignment
 
         anchors.left: parent.left
 
         height: parent.height
         width: 140
+
         text: labelText
     }
 

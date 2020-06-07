@@ -18,6 +18,7 @@
         <file>MyTextEdit.qml</file>
         <file>MyLabel.qml</file>
         <file>MyLineEdit.qml</file>
+        <file>MyListView.qml</file>
     </qresource>
     <qresource prefix="/pictures"/>
 </RCC>

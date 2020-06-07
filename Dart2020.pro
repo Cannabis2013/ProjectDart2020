@@ -14,7 +14,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        darttablemodel.cpp \
+        customtablemodel.cpp \
         idatamodelbuilder.cpp \
         ilogisticmanager.cpp \
         localdatacontext.cpp \
@@ -41,7 +41,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     abstractdartinterface.h \
-    darttablemodel.h \
+    customtablemodel.h \
     gamemodelscontext.h \
     idatacontext.h \
     igamecontroller.h \

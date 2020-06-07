@@ -42,7 +42,6 @@ TableView
     {
         id: myModel
 
-
         // Signal handling
         onDataChanged: dataHasChanged()
     }

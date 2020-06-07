@@ -22,10 +22,14 @@ Rectangle
     property string text: "Text label"
     onTextChanged: label.text = text
 
+    property int textLeftMargin: 0
+    onTextLeftMarginChanged: label.anchors.leftMargin = textLeftMargin
+
     Label{
         id: label
         anchors.fill: parent
 
+        anchors.leftMargin: textLeftMargin
         horizontalAlignment: horizontalTextAlignment
         verticalAlignment: Qt.AlignVCenter
 

@@ -4,7 +4,7 @@
 
 #include "projectdart.h"
 
-#include "darttablemodel.h"
+#include "customtablemodel.h"
 
 int main(int argc, char *argv[])
 {
@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
-    qmlRegisterType<DartTableModel>("CustomItems",1,0,"CustomTableModel");
+    qmlRegisterType<CustomTableModel>("CustomItems",1,0,"CustomTableModel");
     qmlRegisterType<ProjectDart>("ApplicationInterface",1,0,"ProjectDart");
 
     QQmlApplicationEngine engine;

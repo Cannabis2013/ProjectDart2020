@@ -33,8 +33,11 @@ Rectangle
         {
             Layout.row: 1
             Layout.column: 1
-
             Layout.alignment: Qt.AlignHCenter
+
+            width: 192
+            height: 50
+
             text: "Start tournament"
 
             onClicked: setupGameClicked()
@@ -44,8 +47,11 @@ Rectangle
         {
             Layout.row: 2
             Layout.column: 1
-
             Layout.alignment: Qt.AlignHCenter
+
+            width: 192
+            height: 50
+
             text: "Settings"
 
             onClicked: settingsButtonClicked()
@@ -55,8 +61,11 @@ Rectangle
         {
             Layout.row: 3
             Layout.column: 1
-
             Layout.alignment: Qt.AlignHCenter
+
+            width: 192
+            height: 50
+
             text: "Quit"
 
             onClicked: quitButtonClicked()

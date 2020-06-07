@@ -7,15 +7,14 @@ Item
     id: body
 
     // Functions
-
     function appendHeader(string, orientation)
     {
         var myModel = tableView.getModel();
 
         myModel.appendHeaderItem(string,orientation);
 
-        //verticalHeader.cellWidth = myModel.preferedCellWidth();
-        //upperTopLeftCell.width = myModel.preferedCellWidth();
+        verticalHeader.cellWidth = myModel.preferedCellWidth();
+        upperTopLeftCell.width = myModel.preferedCellWidth();
     }
 
     function addData(row, column, data)
@@ -58,8 +57,6 @@ Item
         }
     }
 
-
-
     GridLayout
     {
         id: mainLayout
@@ -85,7 +82,7 @@ Item
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            visible: true
+            visible: false
 
             color: "darkgray"
         }
@@ -98,7 +95,7 @@ Item
 
             borderWidth: 1
 
-            Layout.fillHeight: true
+            height: 20
         }
         VerticalHeader {
             id: verticalHeader
@@ -127,16 +124,11 @@ Item
             cellColor: "transparent"
 
             onDataHasChanged: {
-                if(getModel().rowCount() > 0 || getModel().columnCount() > 0)
+                if(getModel().verticalHeaderCount() > 0)
                     upperTopLeftCell.visible = true
                 else
                     upperTopLeftCell.visible = false
             }
         }
-    }
-
-
-    Component.onCompleted:
-    {
     }
 }

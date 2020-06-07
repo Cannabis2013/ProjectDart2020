@@ -71,7 +71,8 @@ Row
 
                 color: body.color
 
-                
+                font.pointSize: 12
+
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 

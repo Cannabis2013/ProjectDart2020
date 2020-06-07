@@ -5,7 +5,9 @@ import ApplicationInterface 1.0
 
 ApplicationWindow {
     id: applicationWindow
+
     visible: true
+
     color: "lightgray"
 
     x: 120

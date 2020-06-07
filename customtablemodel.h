@@ -9,7 +9,7 @@ const int defaultCellHeight = 25;
 const QString defaultFontFamily = "MS Sans Serif";
 const int defaultPointSize = 12;
 
-class DartTableModel : public QAbstractTableModel
+class CustomTableModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
@@ -17,8 +17,7 @@ public:
     // Public types
     enum HeaderFillMode{IncrementingIntegerFill = 0x1, SymbolFill = 0x2, NonFill = 0x4};
 
-    DartTableModel();
-
+    CustomTableModel();
 
     // public methods
     Q_INVOKABLE bool appendData(int row, int column, int data);
@@ -35,6 +34,8 @@ public:
     Q_INVOKABLE double rowHeightAt(const int &row, const QString &fontFamily = "MS Sans Serif", const int &pointSize = 12) const;
     Q_INVOKABLE double rowWidthAt(const int &row, const QString &fontFamily = "MS Sans Serif", const int &pointSize = 12) const;
 
+    Q_INVOKABLE int horizontalHeaderCount() const;
+    Q_INVOKABLE int verticalHeaderCount() const;
     Q_INVOKABLE double scale() const;
     Q_INVOKABLE void setScale(double scale);
 
@@ -67,7 +68,7 @@ private:
 
     int _rows = 0;
     int _columns = 0;
-    double _scale = 1.25;
+    double _scale = 1.05;
 
     int _fillMode = HeaderFillMode::NonFill;
 };
