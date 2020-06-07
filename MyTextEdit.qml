@@ -18,6 +18,7 @@ Rectangle
     TextEdit{
         id: titleEdit
         anchors.fill: parent
+        anchors.leftMargin: 20
         
         font.pointSize: fontSize
         

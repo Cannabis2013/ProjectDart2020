@@ -23,6 +23,8 @@ Item{
 
             Layout.fillWidth: true
 
+            fontSize: 16
+
             height: 32
 
             Layout.leftMargin: 10

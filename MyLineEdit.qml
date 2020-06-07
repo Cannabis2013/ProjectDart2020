@@ -11,6 +11,9 @@ Rectangle{
 
     color: "transparent"
 
+    property int fontSize: 20
+    onFontSizeChanged: lineEdit.fontSize = fontSize
+
     FontMetrics{
         id: fontMetrics
 
@@ -40,6 +43,8 @@ Rectangle{
         id: lineEdit
 
         radius: 20
+
+        fontSize: body.fontSize
 
         x: 120
 
