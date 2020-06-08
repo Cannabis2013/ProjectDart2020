@@ -43,7 +43,7 @@ Row
         horizontalHeaderRepeater.itemAt(i).children[4].text = value;
     }
 
-    function setCellWidth(i, width)
+    function setColumnWidth(i, width)
     {
         horizontalHeaderRepeater.itemAt(i).width = width;
     }

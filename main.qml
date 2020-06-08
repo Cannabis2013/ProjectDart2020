@@ -13,8 +13,8 @@ ApplicationWindow {
     x: 120
     y: 120
 
-    width: 400
-    height: 500
+    minimumWidth: 400
+    minimumHeight: 500
 
     function init(){
         var playersCount = projectInterface.playersCount();
@@ -60,6 +60,8 @@ ApplicationWindow {
     Component{
         id: setupPage
         SetupPage {
+
+            onBackButtonPressed: pageLoader.sourceComponent = startPageComponent
         }
 
     }

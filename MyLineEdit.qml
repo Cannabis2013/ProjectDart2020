@@ -11,6 +11,15 @@ Rectangle{
 
     color: "transparent"
 
+    property int borderRadius: 20
+    onBorderRadiusChanged: lineEdit.radius = borderRadius
+
+    property color fontColor: "black"
+    onFontColorChanged: lineEdit.fontColor = body.fontColor
+
+    property color backgroundColor: "white"
+    onBackgroundColorChanged: lineEdit.color = backgroundColor
+
     property int labelFontSize: 16
     onLabelFontSizeChanged: label.fontSize = labelFontSize
 
@@ -46,24 +55,36 @@ Rectangle{
         anchors.left: parent.left
 
         height: parent.height
-        width: 140
+        width: parent.width / 2 + body.borderRadius
 
         text: labelText
+
+
     }
 
     MyTextEdit {
         id: lineEdit
 
-        radius: 20
+        radius: body.borderRadius
 
         fontSize: body.fontSize
 
-        x: 120
+        x: parent.width / 2
 
-        width: parent.width - label.width + 20
+        width: parent.width / 2
         height: parent.height
-        color: "darkgray"
-        fontColor: "black"
+
+        color: body.backgroundColor
+        fontColor: body.fontColor
+
+        PropertyAnimation on width {
+            from: 0
+            to: parent.width / 2
+
+            duration: 300
+
+            easing.type: Easing.OutBounce
+        }
     }
     
 }

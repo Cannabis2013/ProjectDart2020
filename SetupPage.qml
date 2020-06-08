@@ -10,6 +10,8 @@ Rectangle{
 
     color: "#A54141"
 
+    signal backButtonPressed
+
     GridLayout{
         anchors.fill: parent
 
@@ -20,75 +22,85 @@ Rectangle{
 
         anchors.margins: 20
 
-        MyLineEdit {
+        PushButton
+        {
+            width: 65
+            height: 30
+
             Layout.row: 0
             Layout.column: 0
-            Layout.alignment: Qt.AlignTop | Qt.AlignHCenter
+            Layout.alignment: Qt.AlignTop | Qt.AlignLeft
 
-            width: 250
+            text: "Back"
+
+            fontSize: 10
+
+            onClicked: backButtonPressed()
+        }
+
+        MyRectangle
+        {
+            Layout.row: 1
+
+            topBorderWidth: 1
+
+            Layout.fillWidth: true
+
+            height: 12
+        }
+
+        MyLineEdit {
+            Layout.row: 2
+            Layout.column: 0
+            Layout.alignment: Qt.AlignTop | Qt.AlignHCenter
+            Layout.fillWidth: true
+
             height: 32
 
             fontSize: 12
 
             labelText: "Title"
-            labelFontSize: 10
+            labelFontSize: 8
             labelLeftMargin: 10
         }
 
         MyLineEdit {
-            Layout.row: 1
+            Layout.row: 3
             Layout.column: 0
             Layout.alignment: Qt.AlignTop | Qt.AlignHCenter
+            Layout.fillWidth: true
 
-            width: 250
             height: 32
 
             fontSize: 12
 
             labelText: "Number of legs"
-            labelFontSize: 10
+            labelFontSize: 8
             labelLeftMargin: 10
         }
 
-        GridLayout
-        {
-            id: bodyLayout
-
-            Layout.row: 2
+        MyLineEdit {
+            Layout.row: 4
             Layout.column: 0
-
+            Layout.alignment: Qt.AlignTop | Qt.AlignHCenter
             Layout.fillWidth: true
-            Layout.fillHeight: true
 
-            rows:2
-            columns: 2
-            Label{
+            height: 32
 
-                Layout.row: 0
-                Layout.column: 0
-                text: "Pick players"
-                font.pointSize: 24
+            fontSize: 12
 
-                anchors.fill: parent
-                horizontalAlignment: Qt.AlignHCenter
-            }
-
-            MyListView {
-                id: pickPlayerView
-
-                Layout.row: 1
-                Layout.column: 0
-
-                Component.onCompleted: {
-                    addItem("Martin","Hansen","havnetrold2002@yahoo.dk", "232-322-111");
-                    addItem("Kent","Killerhertz","Killerhertz@gmail.com", "644-233-442");
-                }
-            }
+            labelText: "Max allowered players"
+            labelFontSize: 8
+            labelLeftMargin: 10
         }
 
-        Rectangle
-        {
+        ListComponent {
+            id: listComponent
+
+            Layout.column: 0
+            Layout.row: 5
             Layout.fillHeight: true
+            Layout.fillWidth: true
         }
     }
 }

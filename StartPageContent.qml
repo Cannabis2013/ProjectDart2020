@@ -16,7 +16,7 @@ Rectangle
         id: gridLayout
 
         anchors.fill: parent
-        rowSpacing: 2
+        rowSpacing: 5
         
         columns: 3
         
@@ -35,10 +35,14 @@ Rectangle
             Layout.column: 1
             Layout.alignment: Qt.AlignHCenter
 
-            width: 192
-            height: 50
+            fontSize: 10
 
-            text: "Start tournament"
+            width: 256
+            height: 64
+
+            text: "Create or setup tournament \n and play"
+
+            backgroundColor: "green"
 
             onClicked: setupGameClicked()
         }
@@ -49,10 +53,14 @@ Rectangle
             Layout.column: 1
             Layout.alignment: Qt.AlignHCenter
 
-            width: 192
-            height: 50
+            fontSize: 10
+
+            width: 256
+            height: 64
 
             text: "Settings"
+
+            backgroundColor: "green"
 
             onClicked: settingsButtonClicked()
         }
@@ -63,10 +71,14 @@ Rectangle
             Layout.column: 1
             Layout.alignment: Qt.AlignHCenter
 
-            width: 192
-            height: 50
+            fontSize: 10
+
+            width: 256
+            height: 64
 
             text: "Quit"
+
+            backgroundColor: "green"
 
             onClicked: quitButtonClicked()
         }

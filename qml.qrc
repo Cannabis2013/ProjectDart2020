@@ -19,6 +19,7 @@
         <file>MyLabel.qml</file>
         <file>MyLineEdit.qml</file>
         <file>MyListView.qml</file>
+        <file>ListComponent.qml</file>
     </qresource>
     <qresource prefix="/pictures"/>
 </RCC>

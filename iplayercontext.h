@@ -1,8 +1,6 @@
 #ifndef IPLAYERDATACONTEXT_H
 #define IPLAYERDATACONTEXT_H
 
-
-
 template<class TUuid,class TList,class TString>
 class IPlayerContext
 {

@@ -6,6 +6,15 @@ Item
 {
     id: body
 
+    property int horizontalHeaderHeight: 20
+    onHorizontalCenterChanged: horizontalHeader.height = horizontalHeaderHeight
+
+    property bool staticVerticalHeaderWidth: false
+
+    property int verticalHeaderWidth: 25
+    onVerticalHeaderWidthChanged: staticVerticalHeaderWidth ?
+                                      verticalHeader.width = verticalHeaderWidth :
+                                      verticalHeader.width = verticalHeader.width
     // Functions
     function appendHeader(string, orientation)
     {
@@ -53,7 +62,7 @@ Item
 
             var columnWidth = myModel.columnWithAt(j);
 
-            horizontalHeader.setCellWidth(j,columnWidth);
+            horizontalHeader.setColumnWidth(j,columnWidth);
         }
     }
 

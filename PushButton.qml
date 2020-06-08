@@ -22,9 +22,11 @@ Item {
     onEnabledChanged: !enabled ? opacity = 0.25 : opacity = 1
 
     property bool checked: false
-    onCheckedChanged: isCheckable ||checked == false ? checked = checked : checked = false
+    onCheckedChanged: isCheckable || checked == false ? checked = checked : checked = false
 
     property bool isCheckable: false
+
+    property color checkedColor: "lightgreen"
 
     signal clicked
 
@@ -35,14 +37,15 @@ Item {
         onHoveredChanged: {
             var c = buttonRect.color;
             var tColor = buttonText.color;
-
-            if(!Qt.colorEqual(c,hoveredColor) || !Qt.colorEqual(tColor,hoveredTextColor)){
+            if(checked)
+                return;
+            else if((!Qt.colorEqual(c,hoveredColor) || !Qt.colorEqual(tColor,hoveredTextColor)) && !isCheckable){
                 buttonText.color = hoveredTextColor
                 buttonRect.color = hoveredColor;
             }
             else
             {
-                buttonText.color = textColor
+                buttonText.color = body.textColor
                 buttonRect.color = body.backgroundColor;
             }
 
@@ -61,7 +64,16 @@ Item {
             }
         }
 
-        onClicked: body.clicked()
+        onClicked: {
+            checked = isCheckable && !checked ? true : false
+
+            if(checked)
+                buttonRect.color = body.checkedColor;
+            else if(isCheckable)
+                buttonRect.color = body.backgroundColor;
+
+            body.clicked();
+        }
     }
 
     clip: true
@@ -74,7 +86,7 @@ Item {
 
         radius: 20
 
-        color: "green"
+        color: backgroundColor
 
         Text {
             id: buttonText
