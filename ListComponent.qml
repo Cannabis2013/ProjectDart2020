@@ -5,36 +5,72 @@ import QtQuick.Layouts 1.3
 
 import ApplicationInterface 1.0
 
-GridLayout
-{
-    id: bodyLayout
-    
-    rows:2
-    columns: 2
-    Label{
-        
-        Layout.row: 0
-        Layout.column: 0
-        text: "Pick players"
-        font.pointSize: 24
-        
-        Layout.fillWidth: true
-        
-        horizontalAlignment: Qt.AlignHCenter
+Rectangle{
+    id: body
+
+    color: "transparent"
+
+    property int itemFontSize: 10
+    onItemFontSizeChanged: listView.itemFontSize = itemFontSize
+
+    property color itemSelectedColor: "white"
+    onItemSelectedColorChanged: listView.itemSelectedColor = itemSelectedColor
+
+    property int itemHeight: 50
+    onItemHeightChanged: listView.itemHeight = itemHeight
+
+    property int itemWidth : body.width
+    onItemWidthChanged: listView.itemWidth = itemWidth
+
+    property color itemHoveredColor: "transparent"
+    onItemHoveredColorChanged: listView.itemHoveredColor = itemHoveredColor
+
+    property color hoveredItemTextColor: "blue"
+    onHoveredItemTextColorChanged: listView.hoveredItemTextColor = hoveredItemTextColor
+
+    property color itemBackgroundColor: "transparent"
+    onItemBackgroundColorChanged: listView.itemBackgroundColor = itemBackgroundColor
+
+    function addItem(firstName, lastName, eMail, id){
+        listView.addItem(firstName,lastName,eMail,id);
     }
-    
-    MyListView {
-        id: pickPlayerView
-        
-        itemFontSize: 10
-        itemSelectedColor: "blue"
-        
-        Layout.row: 1
-        Layout.column: 0
-        
-        Component.onCompleted: {
-            addItem("Martin","Hansen","havnetrold2002@yahoo.dk", "232-322-111");
-            addItem("Kent","Killerhertz","Killerhertz@gmail.com", "644-233-442");
+
+    clip: true
+    GridLayout
+    {
+        id: bodyLayout
+
+        anchors.fill: parent
+
+        rows:2
+        columns: 2
+
+        Label{
+
+            Layout.row: 0
+            Layout.column: 0
+            text: "Pick players"
+            font.pointSize: 24
+
+            Layout.fillWidth: true
+
+            horizontalAlignment: Qt.AlignHCenter
+        }
+
+        MyListView {
+            id: listView
+
+            itemFontSize: body.itemFontSize
+            itemSelectedColor: body.itemSelectedColor
+
+            itemHeight: body.itemHeight
+            itemWidth: body.itemWidth
+
+            Layout.row: 1
+            Layout.column: 0
+
+            Layout.fillWidth: true
+            Layout.fillHeight: true
         }
     }
 }

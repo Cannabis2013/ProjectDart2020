@@ -5,7 +5,11 @@ import ApplicationInterface 1.0
 
 Rectangle{
 
+    id: body
+
     property int borderWidth: 0
+
+    // Only affects outer boundaries leaves middle border unaffected
     onBorderWidthChanged: {
         topBorder.height = borderWidth
         rightBorder.width = borderWidth
@@ -13,7 +17,25 @@ Rectangle{
         leftBorder.width = borderWidth
     }
 
+    property int topBorderWidth: 0
+    property int rightBorderWidth: 0
+    property int bottomBorderWidth: 0
+    property int leftBorderWidth: 0
+    property int middleBorderWidth: 0
+
+    onTopBorderWidthChanged: topBorder.height = topBorderWidth
+    onRightBorderWidthChanged: rightBorder.width = rightBorderWidth
+    onBottomBorderWidthChanged: bottomBorder.height= bottomBorderWidth
+    onLeftBorderWidthChanged: leftBorder.width = leftBorderWidth
+    onMiddleBorderWidthChanged: middleBorder.width = middleBorderWidth
+
     property color borderColor: "black"
+    property color topBorderColor: "black"
+    property color rightBorderColor: "black"
+    property color bottomBorderColor: "black"
+    property color leftBorderColor: "black"
+    property color middleBorderColor: "white"
+
     onBorderColorChanged: {
         topBorder.color = borderColor
         rightBorder.color = borderColor
@@ -21,34 +43,20 @@ Rectangle{
         leftBorder.color = borderColor
     }
 
-    property int topBorderWidth: 0
-    property int rightBorderWidth: 0
-    property int bottomBorderWidth: 0
-    property int leftBorderWidth: 0
-
-    onTopBorderWidthChanged: topBorder.height = topBorderWidth
-    onRightBorderWidthChanged: rightBorder.width = rightBorderWidth
-    onBottomBorderWidthChanged: bottomBorder.height= bottomBorderWidth
-    onLeftBorderWidthChanged: leftBorder.width = leftBorderWidth
-
-    property color topBorderColor: "black"
-    property color rightBorderColor: "black"
-    property color bottomBorderColor: "black"
-    property color leftBorderColor: "black"
-
     onTopBorderColorChanged: topBorder.color = topBorderColor
     onRightBorderColorChanged: rightBorder.color = rightBorderColor
     onBottomBorderColorChanged: bottomBorder.color = bottomBorderColor
     onLeftBorderColorChanged: leftBorder.color = leftBorderColor
+    onMiddleBorderColorChanged: middleBorder.color = middleBorderColor
 
     color: "transparent"
-    
+
     Rectangle{
         id: topBorder
 
         anchors.top: parent.top
 
-        height: borderWidth
+        height: body.borderWidth
         width: parent.width
         
         color: "black"
@@ -59,7 +67,7 @@ Rectangle{
         anchors.right: parent.right
 
         height: parent.height
-        width: borderWidth
+        width: body.borderWidth
 
         color: "black"
     }
@@ -68,7 +76,7 @@ Rectangle{
 
         anchors.bottom: parent.bottom
 
-        height: borderWidth
+        height: body.borderWidth
         width: parent.width
 
         color: "black"
@@ -79,7 +87,18 @@ Rectangle{
         anchors.left: parent.left
 
         height: parent.height
-        width: borderWidth
+        width: body.borderWidth
+
+        color: "black"
+    }
+
+    Rectangle{
+        id: middleBorder
+
+        anchors.verticalCenter: body.verticalCenter
+
+        height: body.middleBorderWidth
+        width: body.width
 
         color: "black"
     }

@@ -37,18 +37,17 @@ Item {
         onHoveredChanged: {
             var c = buttonRect.color;
             var tColor = buttonText.color;
-            if(checked)
-                return;
-            else if((!Qt.colorEqual(c,hoveredColor) || !Qt.colorEqual(tColor,hoveredTextColor)) && !isCheckable){
-                buttonText.color = hoveredTextColor
-                buttonRect.color = hoveredColor;
-            }
-            else
-            {
-                buttonText.color = body.textColor
-                buttonRect.color = body.backgroundColor;
+            if(checked || isCheckable){
+                if(!Qt.colorEqual(tColor,hoveredTextColor))
+                    buttonText.color = hoveredTextColor
+                else
+                    buttonText.color = body.textColor
             }
 
+            else if(!Qt.colorEqual(c,hoveredColor))
+                buttonRect.color = hoveredColor;
+            else
+                buttonRect.color = body.backgroundColor;
         }
 
         onPressedChanged: {

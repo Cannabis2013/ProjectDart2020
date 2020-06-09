@@ -7,57 +7,69 @@ import ApplicationInterface 1.0
 
 ListView
 {
+    id: body
+
+    clip: true
+
+    spacing: 1
+
     property int itemFontSize: 12
     onItemFontSizeChanged: listItem.fontSize = itemFontSize
 
     property color itemSelectedColor: "white"
     onItemSelectedColorChanged: listItem.checkedColor = itemSelectedColor
 
-    Layout.fillWidth: true
-    Layout.fillHeight: true
+    property int itemHeight: 70
+    onItemHeightChanged: listItem.height = itemHeight
 
-    clip: true
+    property int itemWidth : body.width
+    onItemWidthChanged: listItem.width = itemWidth
 
-    spacing: 1
+    property color itemHoveredColor: "transparent"
+    onItemHoveredColorChanged: listItem.hoveredColor = itemHoveredColor
+
+    property color hoveredItemTextColor: "blue"
+    onHoveredItemTextColorChanged: listItem.hoveredTextColor = hoveredItemTextColor
+
+    property color itemBackgroundColor: "transparent"
+    onItemBackgroundColorChanged: listItem.backgroundColor = itemBackgroundColor
+
 
     function addItem(firstName, lastName, eMail, id = 0)
     {
         listModel.append({"firstName" : firstName,"lastName" : lastName, "email" : eMail, "uuid" : id});
     }
     
-    
     model: ListModel {
         id: listModel
     }
-
     
     delegate: PushButton{
         id: listItem
 
-        fontSize: itemFontSize
-
-        anchors.bottomMargin: 15
-
         clip: true
+
+        fontSize: itemFontSize
 
         isCheckable: true
 
-        hoveredColor: "transparent"
-        hoveredTextColor: "blue"
-
+        hoveredColor: body.itemHoveredColor
+        hoveredTextColor: body.hoveredItemTextColor
         checkedColor: itemSelectedColor
 
-        height: 70
-        width: parent.width
+        height: body.itemHeight
+        width: body.itemWidth
 
-        backgroundColor: "transparent"
+        x: parent.width / 2 - width / 2
+
+        backgroundColor: body.itemBackgroundColor
 
         text: "Full name: " + firstName + " " + lastName + "\n" +
               "E-mail: " + email
 
         PropertyAnimation on width {
             from: 0
-            to: parent.width
+            to: body.itemWidth
 
             duration: 300
 
