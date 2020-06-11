@@ -40,12 +40,12 @@ public:
 
     QUuid createPlayer(const QString &firstName,
                        const QString &lastName,
-                       const QString& email,
+                       const QString& playerEMail,
                        const int& role) override;
 
     void deletePlayerByFirstName(const QString &firstName) override;
     void deletePlayerByID(const QUuid &player) override;
-    void deletePlayerByEmail(const QString &email) override;
+    void deletePlayerByEmail(const QString &playerEMail) override;
     QUuid playerIDFromForname(const QString &firstName) const override;
     QUuid playerIDFromSurname(const QString &lastName) const override;
 

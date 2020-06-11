@@ -25,7 +25,8 @@ public:
     virtual QString createTournament(const QString &title,
                                      const int &legCount,
                                      const int &maxPlayers,
-                                     const int &gameMode) = 0;
+                                     const int &gameMode,
+                                     const int &keyPoint) = 0;
 
     virtual void assignPlayer(const QString &player, const QString &tournament) = 0;
 
@@ -37,19 +38,18 @@ public:
 
     virtual QStringList gameModes() const = 0;
 
-    virtual int assignedPlayersCount(const QString &tournament) = 0;
     virtual int playersCount() = 0;
-    virtual  QString assignedPlayerIDfromIndex(const int &tournamentID, const int &index) = 0;
+    virtual  QString assignedPlayerIDfromIndex(const QString &tournamentID, const int &index) = 0;
     virtual  QString playerIDFromIndex(const int &index) = 0;
 
-    virtual  int playerFirstName(const QString &player) = 0;
-    virtual  int playerLastName(const QString &player) = 0;
-    virtual  int playerEmail(const QString &player) = 0;
+    virtual  QString playerFirstName(const QString &player) = 0;
+    virtual  QString playerLastName(const QString &player) = 0;
+    virtual  QString playerEmail(const QString &player) = 0;
 
     virtual QString createPlayer(const QString &firstName, const QString &lastName, const QString &email) = 0;
 
-    virtual  int currentGameRoundIndex(const QString &tournament) = 0;
-    virtual  int currentGameSetIndex(const QString &tournament) = 0;
+    virtual  int currentGameRoundIndex() = 0;
+    virtual  int currentGameSetIndex() = 0;
 
     virtual  void addPoint(const int& value) = 0;
 

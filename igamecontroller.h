@@ -15,14 +15,15 @@ public:
     virtual TUuid start() = 0;
     virtual void stop() = 0 ;
 
-    virtual int processInput( int &point) = 0;
+    virtual int processInput(const int &point) = 0;
 
     virtual TString playerMessage()  = 0;
 
-    virtual TUuid currentActivePlayer()  = 0;
-    virtual int currentRoundIndex()  = 0;
-    virtual int currentPlayerIndex()  = 0;
-    virtual int currentLegIndex()  = 0;
+    virtual TUuid currentActivePlayer() = 0;
+    virtual int currentRoundIndex() = 0;
+    virtual int currentPlayerIndex() = 0;
+    virtual int currentSetIndex() = 0;
+    virtual int currentLegIndex() = 0;
 
     virtual int status()  = 0;
 

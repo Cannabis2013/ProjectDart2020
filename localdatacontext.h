@@ -28,7 +28,9 @@ public:
                            const int &legs,
                            const int &gameMode) override;
     void deleteTournament(const QUuid &tournament) override;
+    QUuid tournamentID(const int &index) const override;
     QList<QUuid> tournaments() const override;
+    int tournamentsCount() const override;
     QString tournamentTitle(const QUuid &tournament) const override;
     int tournamentNumberOfLegs(const QUuid &tournament) const override;
     int tournamentMaximumAllowedPlayers(const QUuid &tournament) const override;
@@ -45,6 +47,7 @@ public:
     void alterTournamentGameMode(const QUuid &tournament, const int &mode) override;
     void alterTournamentKeyPoint(const QUuid &tournament, const int &value) override;
     void alterTournamentDeterminedWinner(const QUuid &tournament, const QUuid &player) override;
+
     QList<QUuid> rounds(const QUuid &tournament) const override;
     QUuid round(const QUuid &tournament, const int &roundIndex) const override;
     QUuid addRound(const QUuid &tournament, const int &index) override;
@@ -76,9 +79,11 @@ public:
     QList<QUuid> playerPoints(const QUuid &player) const override;
     QList<QUuid> playerPoints(const QUuid &tournament, const QUuid &player) const override;
     QUuid point(const QUuid &tournament, int roundIndex, int setIndex, int legIndex) override;
+
     DefaultDataInterface *setTournamentBuilder(ITournamentBuilder *builder)
     {
-
+        _tournamentBuilder = builder;
+        return this;
     }
 
 private:

@@ -38,6 +38,14 @@ void LocalDataContext::deleteTournament(const QUuid &tournament)
     removeTournamentModel(tournament);
 }
 
+QUuid LocalDataContext::tournamentID(const int &index) const
+{
+    auto tournament = _tournaments.at(index);
+    auto id = tournament->id();
+
+    return id;
+}
+
 QList<QUuid> LocalDataContext::tournaments() const
 {
     QList<QUuid> resultingList;
@@ -50,6 +58,11 @@ QList<QUuid> LocalDataContext::tournaments() const
     }
 
     return resultingList;
+}
+
+int LocalDataContext::tournamentsCount() const
+{
+    return _tournaments.count();
 }
 
 QString LocalDataContext::tournamentTitle(const QUuid &tournament) const

@@ -20,7 +20,7 @@ void LocalStandardDart::stop()
     _isActive = false;
 }
 
-int LocalStandardDart::processInput( int &point)
+int LocalStandardDart::processInput(const int &point)
 {
     if(status() == (Idle | WinnerDeclared))
         return status();
@@ -97,6 +97,11 @@ int LocalStandardDart::currentRoundIndex()
 }
 
 int LocalStandardDart::currentPlayerIndex()
+{
+    return _playerIndex;
+}
+
+int LocalStandardDart::currentSetIndex()
 {
     return _playerIndex;
 }

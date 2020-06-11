@@ -26,7 +26,7 @@ public:
 
     QUuid start() override;
     void stop() override;
-    int processInput( int &point) override;
+    int processInput(const int &point) override;
 
     QString playerMessage()  override;
 
@@ -36,6 +36,7 @@ public:
 
     int currentRoundIndex()  override;
     int currentPlayerIndex()  override;
+    int currentSetIndex() override;
     int currentLegIndex()  override;
 
     QUuid currentTournament()  override;

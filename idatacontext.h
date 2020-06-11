@@ -13,7 +13,9 @@ public:
     virtual void deleteTournament(const TUuid &tournament) = 0;
 
     virtual TList tournaments() const = 0;
+    virtual int tournamentsCount() const = 0;
 
+    virtual TUuid tournamentID(const int &index) const = 0;
     virtual TString tournamentTitle(const TUuid &tournament) const = 0;
     virtual int tournamentNumberOfLegs(const TUuid &tournament) const = 0;
     virtual int tournamentMaximumAllowedPlayers(const TUuid &tournament) const = 0;

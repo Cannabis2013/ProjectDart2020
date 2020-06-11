@@ -52,11 +52,6 @@ ApplicationWindow {
         }
     }
 
-    ProjectDart
-    {
-        id: projectInterface
-    }
-
     Component{
         id: setupPage
         SetupPage {
