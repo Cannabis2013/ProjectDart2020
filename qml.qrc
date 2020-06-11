@@ -20,6 +20,8 @@
         <file>MyLineEdit.qml</file>
         <file>MyListView.qml</file>
         <file>ListComponent.qml</file>
+        <file>ComboBoxView.qml</file>
+        <file>MyCombBoxComponent.qml</file>
     </qresource>
     <qresource prefix="/pictures"/>
 </RCC>

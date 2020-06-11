@@ -12,6 +12,13 @@ Rectangle{
 
     signal backButtonPressed
 
+    property color labelBackgroundColor: "black"
+    onLabelBackgroundColorChanged: {
+        titleEdit.labelBackgroundColor = labelBackgroundColor;
+        legsEdit.labelBackgroundColor = labelBackgroundColor;
+        maxPlayerEdit.labelBackgroundColor = labelBackgroundColor;
+    }
+
     GridLayout{
         anchors.fill: parent
 
@@ -30,6 +37,8 @@ Rectangle{
             Layout.column: 0
             Layout.alignment: Qt.AlignTop | Qt.AlignLeft
 
+            textColor: "white"
+
             text: "Back"
 
             fontSize: 10
@@ -40,6 +49,7 @@ Rectangle{
         MyRectangle
         {
             id: upperLayoutSpacer
+
             Layout.row: 1
 
             topBorderWidth: 1
@@ -51,49 +61,68 @@ Rectangle{
 
         MyLineEdit {
             id: titleEdit
+
             Layout.row: 2
             Layout.column: 0
             Layout.alignment: Qt.AlignTop | Qt.AlignHCenter
 
-            width: 380
+            width: 360
             height: 32
 
             fontSize: 12
 
             labelText: "Title"
             labelFontSize: 8
+            labelFontColor: "white"
             labelLeftMargin: 10
         }
 
         MyLineEdit {
             id: legsEdit
+
             Layout.row: 3
             Layout.column: 0
             Layout.alignment: Qt.AlignTop | Qt.AlignHCenter
 
-            width: 380
+            width: 360
             height: 32
 
             fontSize: 12
 
             labelText: "Number of legs"
             labelFontSize: 8
+            labelFontColor: "white"
             labelLeftMargin: 10
         }
 
         MyLineEdit {
-
             id: maxPlayerEdit
+
             Layout.row: 4
             Layout.column: 0
             Layout.alignment: Qt.AlignTop | Qt.AlignHCenter
 
-            width: 380
+            width: 360
             height: 32
 
             fontSize: 12
 
             labelText: "Max allowered players"
+            labelFontSize: 8
+            labelFontColor: "white"
+            labelLeftMargin: 10
+        }
+
+        ComboBoxView{
+
+            Layout.row: 5
+            Layout.column: 0
+            Layout.alignment: Qt.AlignTop | Qt.AlignHCenter
+
+            width: 360
+            height: 32
+
+            labelText: "Game modes"
             labelFontSize: 8
             labelLeftMargin: 10
         }
@@ -107,22 +136,77 @@ Rectangle{
 
             height: 192
 
-            itemSelectedColor: "black"
+            itemTextColor: "white"
+            itemSelectedtextColor: "yellow"
+            itemSelectedBackgroundColor: "black"
+
+            itemHoveredColor: Qt.rgba(23,43,22,0.1)
+
 
             itemFontSize: 10
 
             itemWidth: 224
         }
 
+        Rectangle{
+
+            Layout.column: 0
+            Layout.row: 7
+
+            clip: true
+
+            width: 200
+            height: 30
+
+            color: "transparent"
+            Layout.alignment: Qt.AlignTop | Qt.AlignHCenter
+
+            GridLayout{
+                rows: 1
+                columns: 3
+
+                anchors.fill: parent
+
+                rowSpacing: 5
+
+                PushButton{
+                    text: "Start later"
+
+                    Layout.row: 0
+                    Layout.column: 0
+
+                    fontSize: 8
+                    textColor: "white"
+
+                    height: 30
+                    width: 80
+                }
+
+                PushButton{
+                    text: "Start tournament"
+
+                    Layout.row: 0
+                    Layout.column: 1
+
+                    fontSize: 8
+                    textColor: "white"
+
+                    height: 30
+                    width: 100
+                }
+            }
+        }
+
         MyRectangle
         {
             id: lowerLayoutSpacer
 
+            Layout.column: 0
+            Layout.row: 8
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            Layout.column: 0
-            Layout.row: 7
+            Layout.minimumHeight: 20
         }
     }
 

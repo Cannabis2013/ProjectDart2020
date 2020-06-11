@@ -85,3 +85,8 @@ void ProjectDart::assignPlayer(const QString &player, const QString &tournament)
 QString ProjectDart::createPlayer(const QString &firstName, const QString &lastName, const QString &email)
 {
 }
+
+
+QStringList ProjectDart::gameModes() const
+{
+}

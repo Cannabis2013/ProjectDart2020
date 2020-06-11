@@ -37,7 +37,5 @@ Rectangle
 
         text: body.text
         color: fontColor
-
-
     }
 }

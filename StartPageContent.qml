@@ -42,6 +42,7 @@ Rectangle
 
             text: "Create or setup tournament \n and play"
 
+            textColor: "white"
             backgroundColor: "green"
 
             onClicked: setupGameClicked()
@@ -60,6 +61,7 @@ Rectangle
 
             text: "Settings"
 
+            textColor: "white"
             backgroundColor: "green"
 
             onClicked: settingsButtonClicked()
@@ -78,6 +80,7 @@ Rectangle
 
             text: "Quit"
 
+            textColor: "white"
             backgroundColor: "green"
 
             onClicked: quitButtonClicked()

@@ -35,6 +35,8 @@ public:
     virtual  int tournamentLegsCount(const QString &id) = 0;
     virtual  int tournamentPlayersCount(const QString &id) = 0;
 
+    virtual QStringList gameModes() const = 0;
+
     virtual int assignedPlayersCount(const QString &tournament) = 0;
     virtual int playersCount() = 0;
     virtual  QString assignedPlayerIDfromIndex(const int &tournamentID, const int &index) = 0;
@@ -55,6 +57,7 @@ public:
     virtual  void stopGame() = 0;
 
     virtual  int score(const QString &tournament, const QString &player) = 0;
+
 };
 
 #endif // PROJECTDARTINTERFACE_H

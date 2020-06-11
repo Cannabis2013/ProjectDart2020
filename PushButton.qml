@@ -16,7 +16,7 @@ Item {
     property color backgroundColor: "green"
     onBackgroundColorChanged: buttonRect.color = backgroundColor
 
-    property color textColor: "white"
+    property color textColor: "black"
     onTextColorChanged: buttonText.color = textColor
 
     onEnabledChanged: !enabled ? opacity = 0.25 : opacity = 1
@@ -26,7 +26,12 @@ Item {
 
     property bool isCheckable: false
 
-    property color checkedColor: "lightgreen"
+    property color checkedBackgroundColor: "lightgreen"
+
+    property color checkedTextColor: "black"
+
+    property int buttonRadius: 20
+    onButtonRadiusChanged: buttonRect.radius = buttonRadius
 
     signal clicked
 
@@ -37,17 +42,23 @@ Item {
         onHoveredChanged: {
             var c = buttonRect.color;
             var tColor = buttonText.color;
-            if(checked || isCheckable){
-                if(!Qt.colorEqual(tColor,hoveredTextColor))
+            if(isCheckable && checked){
+                if(containsMouse)
                     buttonText.color = hoveredTextColor
                 else
-                    buttonText.color = body.textColor
+                    buttonText.color = body.checkedTextColor
+                return;
             }
-
-            else if(!Qt.colorEqual(c,hoveredColor))
+            else if(containsMouse){
                 buttonRect.color = hoveredColor;
-            else
+                buttonText.color = hoveredTextColor
+
+            }
+            else{
+
                 buttonRect.color = body.backgroundColor;
+                buttonText.color = body.textColor
+            }
         }
 
         onPressedChanged: {
@@ -66,10 +77,14 @@ Item {
         onClicked: {
             checked = isCheckable && !checked ? true : false
 
-            if(checked)
-                buttonRect.color = body.checkedColor;
-            else if(isCheckable)
+            if(checked){
+                buttonText.color = body.checkedTextColor
+                buttonRect.color = body.checkedBackgroundColor;
+            }
+            else if(isCheckable){
+                buttonText.color = body.textColor
                 buttonRect.color = body.backgroundColor;
+            }
 
             body.clicked();
         }
@@ -83,7 +98,7 @@ Item {
 
         anchors.fill: body
 
-        radius: 20
+        radius: body.buttonRadius
 
         color: backgroundColor
 
@@ -92,7 +107,7 @@ Item {
 
             font.pointSize: fontSize
 
-            color: "white"
+            color: body.textColor
             text: qsTr("Button title")
 
             horizontalAlignment: Text.AlignHCenter

@@ -37,6 +37,8 @@ public:
     Q_INVOKABLE int tournamentLegsCount(const QString &id) override;
     Q_INVOKABLE int tournamentPlayersCount(const QString &id) override;
 
+    Q_INVOKABLE QStringList gameModes() const override;
+
     // Player related stuff
     Q_INVOKABLE QString createPlayer(const QString &firstName, const QString &lastName, const QString &email) override;
     Q_INVOKABLE void assignPlayer(const QString &player, const QString &tournament) override;
@@ -57,6 +59,7 @@ public:
     Q_INVOKABLE void addPoint(const int &value) override;
 
     Q_INVOKABLE int score(const QString &tournament, const QString &player) override;
+
 };
 
 #endif // PROJECTDART_H

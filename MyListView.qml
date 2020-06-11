@@ -13,11 +13,17 @@ ListView
 
     spacing: 1
 
+    property color itemTextColor: "black"
+    onItemTextColorChanged: listItem.textColor = itemTextColor
+
     property int itemFontSize: 12
     onItemFontSizeChanged: listItem.fontSize = itemFontSize
 
-    property color itemSelectedColor: "white"
-    onItemSelectedColorChanged: listItem.checkedColor = itemSelectedColor
+    property color itemSelectedBackgroundColor: "white"
+    onItemSelectedBackgroundColorChanged: listItem.checkedBackgroundColor = itemSelectedBackgroundColor
+
+    property color itemSelectedtextColor: "black"
+    onItemSelectedtextColorChanged: listItem.checkedTextColor = itemSelectedtextColor
 
     property int itemHeight: 70
     onItemHeightChanged: listItem.height = itemHeight
@@ -55,17 +61,20 @@ ListView
 
         hoveredColor: body.itemHoveredColor
         hoveredTextColor: body.hoveredItemTextColor
-        checkedColor: itemSelectedColor
+
+        checkedBackgroundColor: body.itemSelectedBackgroundColor
+        checkedTextColor: body.itemSelectedtextColor
 
         height: body.itemHeight
         width: body.itemWidth
 
-        x: parent.width / 2 - width / 2
-
         backgroundColor: body.itemBackgroundColor
+        textColor: body.itemTextColor
 
         text: "Full name: " + firstName + " " + lastName + "\n" +
               "E-mail: " + email
+
+        x: parent.width / 2 - width / 2
 
         PropertyAnimation on width {
             from: 0
@@ -75,5 +84,6 @@ ListView
 
             easing.type: Easing.OutBounce
         }
+
     }
 }

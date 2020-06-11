@@ -1,32 +1,21 @@
-import QtQuick 2.15
-import QtQuick.Window 2.12
-import QtQuick.Controls 2.12
+import QtQuick 2.0
+
+import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
-import ApplicationInterface 1.0
 
 Rectangle{
     id: body
 
     color: "transparent"
 
-    property int lineEditBorderRadius: 20
-    onLineEditBorderRadiusChanged: lineEdit.radius = lineEditBorderRadius
-
-
-    property color fontColor: "black"
-    onFontColorChanged: lineEdit.fontColor = body.fontColor
-
-    property color backgroundColor: "white"
-    onBackgroundColorChanged: lineEdit.color = backgroundColor
+    property int borderRadius: 20
+    onBorderRadiusChanged: lineEdit.radius = borderRadius
 
     property int labelBorderRadius: 20
     onLabelBorderRadiusChanged: label.radius = labelBorderRadius
 
     property color labelBackgroundColor: "black"
     onLabelBackgroundColorChanged: label.color = labelBackgroundColor
-
-    property color labelFontColor: "black"
-    onLabelFontColorChanged: label.fontColor = labelFontColor
 
     property int labelFontSize: 16
     onLabelFontSizeChanged: label.fontSize = labelFontSize
@@ -40,46 +29,45 @@ Rectangle{
     property string labelText: "Label text"
     onLabelTextChanged: label.text = labelText
 
-    property int fontSize: 20
-    onFontSizeChanged: lineEdit.fontSize = fontSize
 
-    MyLabel {
+    function setModel(strings)
+    {
+        comboBox.setModel(strings)
+    }
+
+    MyLabel
+    {
         id: label
 
         // Font properties
         color: body.labelBackgroundColor
 
-        fontColor: body.labelFontColor
-        fontSize: labelFontSize
+        fontColor: "white"
+        fontSize: body.labelFontSize
 
-        textLeftMargin: labelLeftMargin
+        textLeftMargin: body.labelLeftMargin
 
         horizontalTextAlignment: labelFontAlignment
 
         anchors.left: parent.left
 
         height: parent.height
-        width: parent.width / 2 + body.lineEditBorderRadius
+        width: parent.width / 2 + body.borderRadius
 
         text: labelText
 
-        radius: labelBorderRadius
+        radius: body.labelBorderRadius
     }
 
-    MyTextEdit {
-        id: lineEdit
-
-        radius: body.lineEditBorderRadius
-
-        fontSize: body.fontSize
+    MyCombBoxComponent {
+        id: comboBox
 
         x: parent.width / 2
 
-        width: parent.width / 2
         height: parent.height
+        width: parent.width / 2
 
-        color: body.backgroundColor
-        fontColor: body.fontColor
+        radius: body.borderRadius
 
         PropertyAnimation on width {
             from: 0
@@ -89,5 +77,6 @@ Rectangle{
 
             easing.type: Easing.OutBounce
         }
-    }   
+    }
+
 }

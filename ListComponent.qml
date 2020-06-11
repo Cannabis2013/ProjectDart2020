@@ -10,11 +10,17 @@ Rectangle{
 
     color: "transparent"
 
+    property color itemTextColor: "black"
+    onItemTextColorChanged: listView.itemTextColor = itemTextColor
+
     property int itemFontSize: 10
     onItemFontSizeChanged: listView.itemFontSize = itemFontSize
 
-    property color itemSelectedColor: "white"
-    onItemSelectedColorChanged: listView.itemSelectedColor = itemSelectedColor
+    property color itemSelectedBackgroundColor: "white"
+    onItemSelectedBackgroundColorChanged: listView.itemSelectedBackgroundColor = itemSelectedBackgroundColor
+
+    property color itemSelectedtextColor: "black"
+    onItemSelectedtextColorChanged: listView.itemSelectedtextColor = itemSelectedtextColor
 
     property int itemHeight: 50
     onItemHeightChanged: listView.itemHeight = itemHeight
@@ -61,7 +67,10 @@ Rectangle{
             id: listView
 
             itemFontSize: body.itemFontSize
-            itemSelectedColor: body.itemSelectedColor
+            itemTextColor: body.itemTextColor
+
+            itemSelectedtextColor: body.itemSelectedtextColor
+            itemSelectedBackgroundColor: body.itemSelectedBackgroundColor
 
             itemHeight: body.itemHeight
             itemWidth: body.itemWidth

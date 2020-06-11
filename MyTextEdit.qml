@@ -8,15 +8,19 @@ import ApplicationInterface 1.0
 
 Rectangle
 {
+    id: body
+
+    clip: true
+
     property int fontSize: 24
     onFontSizeChanged: titleEdit.font.pointSize = fontSize
 
     property color fontColor: "black"
     onFontColorChanged: titleEdit.color = fontColor
 
-
     TextEdit{
         id: titleEdit
+
         anchors.fill: parent
         anchors.leftMargin: 20
         
