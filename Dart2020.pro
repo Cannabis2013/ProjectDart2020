@@ -44,8 +44,8 @@ HEADERS += \
     customtablemodel.h \
     gamemodelscontext.h \
     idatacontext.h \
+    idatamodelbuilder.h \
     igamecontroller.h \
-    igenericdatamodelbuilder.h \
     iplayercontext.h \
     iplayermodel.h \
     ipointlogisticmanager.h \

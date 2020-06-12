@@ -3,7 +3,9 @@
 
 QString ProjectDart::createTournament(const QString &title, const int &legCount, const int &maxPlayers, const int &gameMode, const int &keyPoint)
 {
-    _dataContext->createTournament(title,maxPlayers,keyPoint,legCount,gameMode);
+    auto tournamentID = _dataContext->createTournament(title,maxPlayers,keyPoint,legCount,gameMode);
+
+    return tournamentID.toString();
 }
 
 int ProjectDart::tournamentsCount()
@@ -120,37 +122,59 @@ int ProjectDart::currentGameSetIndex()
     return currentSetIndex;
 }
 
-void ProjectDart::addPoint(const int &value)
+int ProjectDart::addPoint(const int &value)
 {
     auto gameStatus = _gameController->processInput(value);
-    Q_UNUSED(gameStatus);
-    /*
-     * Evaluate status to determine further progress
-     */
+
+    return gameStatus;
 }
 
 void ProjectDart::startGame()
 {
+    _gameController->start();
 }
 
 void ProjectDart::stopGame()
 {
+    _gameController->stop();
 }
 
 int ProjectDart::score(const QString &tournament, const QString &player)
 {
+    auto playerScore = _dataContext->playerPoints(tournament,player);
+
+    int totalScore = 0;
+
+    for (auto scoreID : playerScore) {
+        auto point = _dataContext->pointValue(scoreID);
+        totalScore += point;
+    }
+
+    return totalScore;
 }
 
 void ProjectDart::assignPlayer(const QString &player, const QString &tournament)
 {
+    _dataContext->tournamentAddPlayer(tournament,player);
 }
 
 QString ProjectDart::createPlayer(const QString &firstName, const QString &lastName, const QString &email)
 {
+    auto playerID = _playerContext->createPlayer(firstName,lastName,email);
+
+    return playerID.toString();
 }
 
 
 QStringList ProjectDart::gameModes() const
 {
+    QStringList resultingList;
 
+    QString first = printVariable(FirstToPost);
+    QString second = printVariable(RoundBased);
+    QString third = printVariable(CircularDart);
+
+    resultingList << first << second << third;
+
+    return resultingList;
 }

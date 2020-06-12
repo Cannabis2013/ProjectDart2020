@@ -8,7 +8,7 @@ public:
     virtual TUuid createPlayer(const TString& firstName,
                                const TString& lastName,
                                const TString& playerEMail,
-                               const int& role) = 0;
+                               const int& role = 0x00) = 0;
 
     virtual void deletePlayerByFirstName(const TString &firstName) = 0;
     virtual void deletePlayerByID(const TUuid &player) = 0;

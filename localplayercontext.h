@@ -2,14 +2,28 @@
 #define LOCALPLAYERCONTEXT_H
 
 #include "iplayercontext.h"
-#include "igenericdatamodelbuilder.h"
+#include "idatamodelbuilder.h"
 #include <quuid.h>
 #include <QString>
 #include <qlist.h>
 #include <iplayermodel.h>
 
-struct PlayerBuilderParameters
+namespace PlayerContext {
+    struct PlayerModelOptions;
+    struct PlayerBuilderParameters;
+    class LocalPlayerContext;
+}
+
+class PlayerModelOptions
 {
+public:
+    bool generateUniqueId;
+    bool customUuid = false;
+};
+
+class PlayerBuilderParameters
+{
+public:
     QString firstName;
     QString lastName;
     QString mailAdress;
@@ -17,17 +31,11 @@ struct PlayerBuilderParameters
     int role;
 };
 
-struct ModelOptions
-{
-    bool generateUniqueId;
-    bool customUuid = false;
-};
-
 typedef IPlayerModel<QUuid,QString> DefaultPlayerInterface;
-typedef IGenericDataModelBuilder<DefaultPlayerInterface,PlayerBuilderParameters, ModelOptions> DefaultPlayerBuilderInterface;
-typedef IPlayerContext<QUuid,QList<QUuid>,QString> DefaultDataInterface;
+typedef IDataModelBuilder<DefaultPlayerInterface,PlayerBuilderParameters, PlayerModelOptions> PlayerBuilderInterface;
+typedef IPlayerContext<QUuid,QList<QUuid>,QString> PlayerContextInterface;
 
-class LocalPlayerContext : public DefaultDataInterface
+class LocalPlayerContext : public PlayerContextInterface
 {
     // IPlayerDataContext interface
 public:
@@ -58,12 +66,12 @@ public:
 
     int playerCount() const override;
 
-    void setPlayerBuilder(DefaultPlayerBuilderInterface *interface);
-    DefaultPlayerBuilderInterface *playerBuilder() const;
+    PlayerBuilderInterface *playerBuilder() const;
+    //void setPlayerBuilder(PlayerBuilderInterface *interface);
 
 private:
     QList<DefaultPlayerInterface*> _models;
-    DefaultPlayerBuilderInterface *_builder;
+    PlayerBuilderInterface *_builder;
 };
 
 #endif // LOCALPLAYERCONTEXT_H

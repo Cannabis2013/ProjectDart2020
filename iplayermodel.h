@@ -1,12 +1,6 @@
 #ifndef IMODEL_H
 #define IMODEL_H
 
-namespace PlayerContext {
-    class IPlayerModel;
-}
-
-#define T_UNUSUED(X){X == X;}
-
 template<class TUuid, class TString>
 class IPlayerModel
 {
@@ -14,8 +8,8 @@ public:
     virtual TUuid id() const = 0;
     virtual void setId(const TUuid &id) = 0;
 
-    virtual int type() const {return -1;}
-    virtual void setType(const int &type){T_UNUSUED(type);}
+    virtual int type() const = 0;
+    virtual void setType(const int &type) = 0;
 
     virtual TString firstName() const = 0;
     virtual TString lastName() const = 0;

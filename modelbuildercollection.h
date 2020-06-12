@@ -2,7 +2,7 @@
 #define MODELBUILDERCOLLECTION_H
 
 #include "modelbuildercontext.h"
-#include "igenericdatamodelbuilder.h"
+#include "idatamodelbuilder.h"
 
 
 #include "tournament.h"
@@ -15,10 +15,10 @@ typedef IRound<QUuid, QList<QUuid>> DefaultRoundInterface;
 typedef ISet<QUuid,QList<QUuid>> DefaultSetInterface;
 typedef IPoint<QUuid> DefaultPointInterface;
 
-typedef IGenericDataModelBuilder<DefaultTournamentInterface, TournamentParameters,ModelOptions> ITournamentBuilder;
-typedef IGenericDataModelBuilder<DefaultRoundInterface, RoundParameters,ModelOptions> IRoundBuilder;
-typedef IGenericDataModelBuilder<DefaultSetInterface, SetParameters,ModelOptions> ISetBuilder;
-typedef IGenericDataModelBuilder<DefaultPointInterface, PointParameters,ModelOptions> IPointBuilder;
+typedef IDataModelBuilder<DefaultTournamentInterface, TournamentParameters,ModelOptions> ITournamentBuilder;
+typedef IDataModelBuilder<DefaultRoundInterface, RoundParameters,ModelOptions> IRoundBuilder;
+typedef IDataModelBuilder<DefaultSetInterface, SetParameters,ModelOptions> ISetBuilder;
+typedef IDataModelBuilder<DefaultPointInterface, PointParameters,ModelOptions> IPointBuilder;
 
 namespace ModelBuilderContext
 {

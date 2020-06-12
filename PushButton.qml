@@ -10,7 +10,6 @@ Item {
     onFontSizeChanged: buttonText = fontSize
 
     property color hoveredColor: "#04F72D"
-
     property color hoveredTextColor: textColor
 
     property color backgroundColor: "green"

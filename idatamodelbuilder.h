@@ -2,7 +2,7 @@
 #define IDATAMODELBUILDER_H
 
 template<class TModel, class TModelArguments, class TModelBuilderOptions>
-class IGenericDataModelBuilder
+class IDataModelBuilder
 {
 public:
     virtual TModel *buildModel(const TModelArguments &args, const TModelBuilderOptions &options) = 0;

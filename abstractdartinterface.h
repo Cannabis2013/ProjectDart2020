@@ -1,10 +1,7 @@
 #ifndef PROJECTDARTINTERFACE_H
 #define PROJECTDARTINTERFACE_H
 
-#include "idatacontext.h"
-#include "iplayercontext.h"
 #include <QtCore>
-
 
 /*
  * This is the interface you will pass to the visual QML layer
@@ -51,7 +48,7 @@ public:
     virtual  int currentGameRoundIndex() = 0;
     virtual  int currentGameSetIndex() = 0;
 
-    virtual  void addPoint(const int& value) = 0;
+    virtual  int addPoint(const int& value) = 0;
 
     virtual  void startGame() = 0;
     virtual  void stopGame() = 0;

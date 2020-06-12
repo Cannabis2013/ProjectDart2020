@@ -5,13 +5,12 @@
 #include "igamecontroller.h"
 #include "abstractdartinterface.h"
 #include "ipointlogisticmanager.h"
-#include "localdatacontext.h"
 #include "localplayercontext.h"
 #include <quuid.h>
 #include <qstring.h>
 #include <qlist.h>
 
-typedef IPlayerContext<QUuid,QList<QUuid>,QString> PlayerControllerInterface;
+typedef IPlayerContext<QUuid,QList<QUuid>,QString> PlayerContextInterface;
 typedef IDataContext<QUuid, QList<QUuid>,QString> DataContextInterface;
 typedef IGameController<QUuid,QString, DataContextInterface> GameControllerInterface;
 
@@ -24,10 +23,10 @@ class ProjectDart : public AbstractDartInterface
 public:
 
     // public types
-
     enum gameModes {
-        decrementingDart,
-        targetDart
+        FirstToPost,
+        RoundBased,
+        CircularDart
     };
 
 
@@ -37,7 +36,7 @@ public:
                                          const int &maxPlayers,
                                          const int &gameMode,const int &keyPoint) override;
 
-    Q_INVOKABLE int tourname5ntsCount() override;
+    Q_INVOKABLE int tournamentsCount() override;
     Q_INVOKABLE QString tournamentIDFromIndex(const int &index) override;
     Q_INVOKABLE int tournamentMaxPlayers(const QString &id) override;
     Q_INVOKABLE int tournamentLegsCount(const QString &id) override;
@@ -61,13 +60,13 @@ public:
     Q_INVOKABLE void startGame() override;
     Q_INVOKABLE void stopGame() override;
 
-    Q_INVOKABLE void addPoint(const int &value) override;
+    Q_INVOKABLE int addPoint(const int &value) override;
 
     Q_INVOKABLE int score(const QString &tournament, const QString &player) override;
 
 private:
     DataContextInterface *_dataContext;
-    PlayerControllerInterface *_playerContext;
+    PlayerContextInterface *_playerContext;
     GameControllerInterface *_gameController;
 
 };

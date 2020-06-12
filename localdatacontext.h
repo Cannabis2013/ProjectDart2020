@@ -8,7 +8,7 @@
 
 #include "modelbuildercollection.h"
 
-#include "igenericdatamodelbuilder.h"
+#include "idatamodelbuilder.h"
 #include "modelbuildercontext.h"
 
 #define THROW_OBJECT_WITH_ID_NOT_FOUND(x) QString("Model with ID: '%1' does not exists in the current context").arg(x).toStdString();

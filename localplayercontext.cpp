@@ -1,5 +1,4 @@
 #include "localplayercontext.h"
-
 LocalPlayerContext::LocalPlayerContext()
 {
 
@@ -19,7 +18,7 @@ QUuid LocalPlayerContext::createPlayer(const QString &firstName, const QString &
         return params;
     }(),[]
     {
-        ModelOptions options;
+        PlayerModelOptions options;
 
         options.generateUniqueId = true;
 
@@ -147,12 +146,13 @@ int LocalPlayerContext::playerCount() const
     return _models.count();
 }
 
-DefaultPlayerBuilderInterface *LocalPlayerContext::playerBuilder() const
+PlayerBuilderInterface *LocalPlayerContext::playerBuilder() const
 {
     return _builder;
 }
-
-void LocalPlayerContext::setPlayerBuilder(DefaultPlayerBuilderInterface *interface)
+/*
+void LocalPlayerContext::setPlayerBuilder(PlayerBuilderInterface *interface)
 {
     _builder = interface;
 }
+*/

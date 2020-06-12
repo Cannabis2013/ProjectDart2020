@@ -5,6 +5,14 @@
 #include <quuid.h>
 #include <qlist.h>
 
+namespace DataContext {
+    struct TournamentParameters;
+    struct RoundParameters;
+    struct SetParameters;
+    struct PointParameters;
+    struct ModelOptions;
+}
+
 struct TournamentParameters
 {
     QString title;
