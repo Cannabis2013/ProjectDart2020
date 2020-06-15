@@ -1,5 +1,14 @@
 #include "projectdart.h"
 
+void ProjectDart::read()
+{
+
+}
+
+void ProjectDart::write()
+{
+
+}
 
 QString ProjectDart::createTournament(const QString &title, const int &legCount, const int &maxPlayers, const int &gameMode, const int &keyPoint)
 {

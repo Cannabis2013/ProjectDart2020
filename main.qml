@@ -16,19 +16,6 @@ ApplicationWindow {
     minimumWidth: 400
     minimumHeight: 500
 
-    function init(){
-        var playersCount = projectInterface.playersCount();
-
-        for(var i = 0;i < playersCount;i++)
-        {
-            var playerID = projectInterface.playerIDFromIndex(i);
-
-            var playerFirstName = projectInterface.playerFirstName(playerID);
-            var playerLastName = projectInterface.playerLastName(playerID);
-
-
-        }
-    }
 
     title: qsTr("Dart2020")
 
@@ -84,10 +71,6 @@ ApplicationWindow {
         id: pageLoader
         anchors.fill: parent
         sourceComponent: startPageComponent
-    }
-
-    Component.onCompleted: {
-        init()
     }
 
 }

@@ -67,7 +67,7 @@ public:
     int playerCount() const override;
 
     PlayerBuilderInterface *playerBuilder() const;
-    //void setPlayerBuilder(PlayerBuilderInterface *interface);
+    void setPlayerBuilder(PlayerBuilderInterface *builder);
 
 private:
     QList<DefaultPlayerInterface*> _models;

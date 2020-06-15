@@ -150,9 +150,8 @@ PlayerBuilderInterface *LocalPlayerContext::playerBuilder() const
 {
     return _builder;
 }
-/*
-void LocalPlayerContext::setPlayerBuilder(PlayerBuilderInterface *interface)
+
+void LocalPlayerContext::setPlayerBuilder(PlayerBuilderInterface *builder)
 {
-    _builder = interface;
+    _builder = builder;
 }
-*/

@@ -29,6 +29,8 @@ public:
         CircularDart
     };
 
+    void read();
+    void write();
 
     // Tournament related stuff
     Q_INVOKABLE QString createTournament(const QString &title,
