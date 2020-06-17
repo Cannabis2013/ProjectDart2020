@@ -22,7 +22,10 @@
         <file>ListComponent.qml</file>
         <file>ComboBoxView.qml</file>
         <file>MyCombBoxComponent.qml</file>
-        <file>projectdartinterface.qml</file>
+        <file>MainPage.qml</file>
+        <file>ButtonsComponent.qml</file>
     </qresource>
-    <qresource prefix="/pictures"/>
+    <qresource prefix="/pictures">
+        <file>Ressources/pngfuel.com.png</file>
+    </qresource>
 </RCC>

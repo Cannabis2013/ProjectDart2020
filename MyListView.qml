@@ -43,7 +43,8 @@ ListView
 
     function addItem(firstName, lastName, eMail, id = 0)
     {
-        listModel.append({"firstName" : firstName,"lastName" : lastName, "email" : eMail, "uuid" : id});
+        var model = {"firstName" : firstName,"lastName" : lastName, "email" : eMail, "uuid" : id};
+        listModel.append(model);
     }
     
     model: ListModel {
@@ -75,15 +76,6 @@ ListView
               "E-mail: " + email
 
         x: parent.width / 2 - width / 2
-
-        PropertyAnimation on width {
-            from: 0
-            to: body.itemWidth
-
-            duration: 300
-
-            easing.type: Easing.OutBounce
-        }
 
     }
 }

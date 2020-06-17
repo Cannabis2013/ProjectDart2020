@@ -3,6 +3,7 @@ import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
 import ApplicationInterface 1.0
 
+
 ApplicationWindow {
     id: applicationWindow
 
@@ -10,8 +11,8 @@ ApplicationWindow {
 
     color: "lightgray"
 
-    x: 120
-    y: 120
+    x: 1024 - width/2
+    y: 1152 /2 - height/2
 
     minimumWidth: 400
     minimumHeight: 500
@@ -19,11 +20,16 @@ ApplicationWindow {
 
     title: qsTr("Dart2020")
 
-    function handleQuitRequest(){
+    function destructor(){
         // Save state and clean up
 
         print("Quit requestet and handled");
         Qt.quit();
+    }
+
+    ProjectDart
+    {
+        id: projectDart
     }
 
     Item {
@@ -32,46 +38,18 @@ ApplicationWindow {
         focus: true
 
         Keys.onPressed: {
-            if(event.key === Qt.Key_F){
-                print("Techno Tonny");
-                event.accepted = true
+            // Only relevant for desktop users
+            if(event.key === Qt.Key_Q && event.modifiers & Qt.ControlModifier){
+                destructor();
+                event.accepted = true;
             }
         }
     }
 
-    Component{
-        id: setupPage
-        SetupPage {
+    MainPage{
+        id: mainPage
 
-            onBackButtonPressed: pageLoader.sourceComponent = startPageComponent
-        }
-
-    }
-
-    Component
-    {
-        id: startPageComponent
-        StartPage{
-            id: startPage
-
-            onRequestSetupGamePage: pageLoader.sourceComponent = setupPage
-            onRequestLoginPage: {}
-            onRequestLogOut: {}
-            onRequestQuit: handleQuitRequest()
-
-            labelColor: "#A54141"
-            backgroundContentColor: "#A54141"
-
-            padding: 12
-
-        }
-    }
-
-    Loader{
-        id: pageLoader
         anchors.fill: parent
-        sourceComponent: startPageComponent
     }
-
 }
 

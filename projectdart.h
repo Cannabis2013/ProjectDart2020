@@ -1,8 +1,8 @@
 #ifndef PROJECTDART_H
 #define PROJECTDART_H
 
-#include "idatacontext.h"
-#include "igamecontroller.h"
+#include "localdatacontext.h"
+#include "localstandarddart.h"
 #include "abstractdartinterface.h"
 #include "ipointlogisticmanager.h"
 #include "localplayercontext.h"
@@ -18,9 +18,10 @@ typedef IGameController<QUuid,QString, DataContextInterface> GameControllerInter
 
 class ProjectDart : public AbstractDartInterface
 {
-
+    Q_OBJECT
     // AbstractDartInterface interface
 public:
+    ProjectDart();
 
     // public types
     enum gameModes {

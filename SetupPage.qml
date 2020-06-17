@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.3
 
 import ApplicationInterface 1.0
 
+
 Rectangle{
     id: body
 
@@ -26,8 +27,10 @@ Rectangle{
 
         rowSpacing: 10
 
-        anchors.margins: 20
-
+        anchors.leftMargin: 20
+        anchors.topMargin: 20
+        anchors.rightMargin: 20
+        anchors.bottomMargin: 5
         PushButton
         {
             width: 65
@@ -142,75 +145,43 @@ Rectangle{
 
             itemHoveredColor: Qt.rgba(23,43,22,0.1)
 
-
             itemFontSize: 10
 
             itemWidth: 224
         }
 
-        Rectangle{
-
-            Layout.column: 0
+        MyRectangle{
             Layout.row: 7
-
-            clip: true
-
-            width: 200
-            height: 30
-
-            color: "transparent"
-            Layout.alignment: Qt.AlignTop | Qt.AlignHCenter
-
-            GridLayout{
-                rows: 1
-                columns: 3
-
-                anchors.fill: parent
-
-                rowSpacing: 5
-
-                PushButton{
-                    text: "Start later"
-
-                    Layout.row: 0
-                    Layout.column: 0
-
-                    fontSize: 8
-                    textColor: "white"
-
-                    height: 30
-                    width: 80
-                }
-
-                PushButton{
-                    text: "Start tournament"
-
-                    Layout.row: 0
-                    Layout.column: 1
-
-                    fontSize: 8
-                    textColor: "white"
-
-                    height: 30
-                    width: 100
-                }
-            }
-        }
-
-        MyRectangle
-        {
-            id: lowerLayoutSpacer
-
             Layout.column: 0
-            Layout.row: 8
+
+            topBorderWidth: 1
+
             Layout.fillWidth: true
             Layout.fillHeight: true
+        }
 
-            Layout.minimumHeight: 20
+        ButtonsComponent {
+            Layout.column: 0
+            Layout.row: 8
+            clip: true
+            color: "transparent"
+            height: 30
+            width: 200
+            Layout.alignment: Qt.AlignBottom |Qt.AlignHCenter
         }
     }
 
     Component.onCompleted: {
+        var playerCount = projectDart.playersCount();
+
+        for(var i = 0;i < playerCount;i++)
+        {
+            var playerID = projectDart.playerIDFromIndex(i);
+
+            var playerFirstName = projectDart.playerFirstName(playerID);
+            var playerLastName = projectDart.playerLastName(playerID);
+            var playerEMail = projectDart.playerEmail(playerID);
+        }
         listComponent.addItem("Martin","Hansen","havnetrold2002@yahoo.dk", "232-322-111");
         listComponent.addItem("Kent","Killerhertz","Killerhertz@gmail.com", "644-233-442");
         listComponent.addItem("Nicolai","Hansen","nicolaimaler2890@live.dk", "112-666-324");

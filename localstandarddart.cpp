@@ -116,6 +116,11 @@ QUuid LocalStandardDart::currentTournament()
     return _tournament;
 }
 
+void LocalStandardDart::setCurrentTournament(QUuid &tournament)
+{
+
+}
+
 int LocalStandardDart::status()
 {
     return _currentStatus;

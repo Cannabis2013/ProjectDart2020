@@ -12,6 +12,17 @@ Rectangle
     signal logoutButtonClicked // Experimental
     signal quitButtonClicked
 
+    Image {
+        id: dartLogo
+        source: "qrc:/pictures/Ressources/pngfuel.com.png"
+
+        x: parent.width/2 - 190
+        y: 5
+
+        width: 129
+        height: 40
+    }
+
     GridLayout {
         id: gridLayout
 
@@ -19,10 +30,26 @@ Rectangle
         rowSpacing: 5
         
         columns: 3
+
+        PageLabelItem {
+
+            id: label
+
+            height: 64
+            width: 384
+
+            Layout.fillWidth: true
+            Layout.columnSpan: 3
+
+            Layout.row: 0
+            Layout.column: 0
+
+            Layout.maximumHeight: 64
+        }
         
         Rectangle
         {
-            Layout.row: 0
+            Layout.row: 1
             Layout.column: 0
             Layout.columnSpan: 3
             Layout.fillHeight: true
@@ -31,7 +58,7 @@ Rectangle
 
         PushButton
         {
-            Layout.row: 1
+            Layout.row: 2
             Layout.column: 1
             Layout.alignment: Qt.AlignHCenter
 
@@ -50,7 +77,7 @@ Rectangle
 
         PushButton
         {
-            Layout.row: 2
+            Layout.row: 3
             Layout.column: 1
             Layout.alignment: Qt.AlignHCenter
 
@@ -69,7 +96,7 @@ Rectangle
 
         PushButton
         {
-            Layout.row: 3
+            Layout.row: 4
             Layout.column: 1
             Layout.alignment: Qt.AlignHCenter
 
@@ -88,7 +115,7 @@ Rectangle
         
         Rectangle
         {
-            Layout.row: 4
+            Layout.row: 5
             Layout.column: 1
             
             Layout.fillHeight: true

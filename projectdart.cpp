@@ -1,5 +1,12 @@
 #include "projectdart.h"
 
+ProjectDart::ProjectDart()
+{
+    _playerContext = new LocalPlayerContext();
+    _dataContext = new LocalDataContext();
+    _gameController = new LocalStandardDart();
+}
+
 void ProjectDart::read()
 {
 

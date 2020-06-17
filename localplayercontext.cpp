@@ -73,7 +73,7 @@ void LocalPlayerContext::deletePlayerByEmail(const QString &email)
 }
 
 
-QUuid LocalPlayerContext::playerIDFromForname(const QString &firstName) const
+QUuid LocalPlayerContext::playerIDFromFirstName(const QString &firstName) const
 {
     for (auto model : _models) {
         auto modelID = model->id();
@@ -85,7 +85,7 @@ QUuid LocalPlayerContext::playerIDFromForname(const QString &firstName) const
     return QUuid();
 }
 
-QUuid LocalPlayerContext::playerIDFromSurname(const QString &lastName) const
+QUuid LocalPlayerContext::playerIDFromLastName(const QString &lastName) const
 {
     for (auto model : _models) {
         auto modelID = model->id();
@@ -117,6 +117,11 @@ QString LocalPlayerContext::playerLastName(const QUuid &id) const
     }
 
     return QString();
+}
+
+QString LocalPlayerContext::playerEMail(const QUuid &id) const
+{
+
 }
 
 QString LocalPlayerContext::playerFullName(const QUuid &id) const
@@ -155,3 +160,4 @@ void LocalPlayerContext::setPlayerBuilder(PlayerBuilderInterface *builder)
 {
     _builder = builder;
 }
+

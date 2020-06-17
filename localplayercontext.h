@@ -7,6 +7,7 @@
 #include <QString>
 #include <qlist.h>
 #include <iplayermodel.h>
+#include <qobject.h>
 
 namespace PlayerContext {
     struct PlayerModelOptions;
@@ -35,8 +36,11 @@ typedef IPlayerModel<QUuid,QString> DefaultPlayerInterface;
 typedef IDataModelBuilder<DefaultPlayerInterface,PlayerBuilderParameters, PlayerModelOptions> PlayerBuilderInterface;
 typedef IPlayerContext<QUuid,QList<QUuid>,QString> PlayerContextInterface;
 
-class LocalPlayerContext : public PlayerContextInterface
+class LocalPlayerContext :
+        public QObject,
+        public PlayerContextInterface
 {
+    Q_OBJECT
     // IPlayerDataContext interface
 public:
 
@@ -54,12 +58,12 @@ public:
     void deletePlayerByFirstName(const QString &firstName) override;
     void deletePlayerByID(const QUuid &player) override;
     void deletePlayerByEmail(const QString &playerEMail) override;
-    QUuid playerIDFromForname(const QString &firstName) const override;
-    QUuid playerIDFromSurname(const QString &lastName) const override;
+    QUuid playerIDFromFirstName(const QString &firstName) const override;
+    QUuid playerIDFromLastName(const QString &lastName) const override;
 
     QString playerFirstName(const QUuid &id) const override;
     QString playerLastName(const QUuid &id) const override;
-
+    QString playerEMail(const QUuid &id) const override;
     QString playerFullName(const QUuid &id) const override;
 
     QList<QUuid> players() const override;

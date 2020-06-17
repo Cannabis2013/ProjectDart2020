@@ -13,7 +13,6 @@ Item {
     signal requestLogOut // Experimental
     signal requestQuit
 
-    property color labelColor: "transparent"
     property color backgroundContentColor: "transparent"
 
     property int topPadding: 9
@@ -34,7 +33,6 @@ Item {
         rightRectArea.width = body.padding
     }
 
-    onLabelColorChanged: label.color = labelColor
     onBackgroundContentColorChanged: {
         content.color = backgroundContentColor
         topRectArea.color = backgroundContentColor
@@ -49,7 +47,7 @@ Item {
 
         columnSpacing: 0
         rowSpacing: 0
-        rows: 4
+        rows: 3
         columns: 3
 
         Rectangle
@@ -70,7 +68,7 @@ Item {
             id: leftRectArea
 
             Layout.row: 0
-            Layout.rowSpan: 4
+            Layout.rowSpan: 3
             Layout.column: 0
 
             width: 9
@@ -83,7 +81,7 @@ Item {
         Rectangle
         {
             id: bottomRectArea
-            Layout.row: 3
+            Layout.row: 2
             Layout.column: 1
 
             Layout.fillWidth: true
@@ -98,7 +96,7 @@ Item {
             id: rightRectArea
 
             Layout.row: 0
-            Layout.rowSpan: 4
+            Layout.rowSpan: 3
             Layout.column: 2
 
             width: 9
@@ -108,25 +106,10 @@ Item {
             color: "transparent"
         }
 
-        PageLabelItem {
-
-            id: label
-
-            height: 64
-            width: 384
-
-            Layout.fillWidth: true
-
-            Layout.row: 1
-            Layout.column: 1
-
-            Layout.maximumHeight: 64
-        }
-
         StartPageContent{
             id: content
 
-            Layout.row: 2
+            Layout.row: 1
             Layout.column: 1
 
             Layout.fillWidth: true

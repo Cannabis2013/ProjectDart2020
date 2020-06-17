@@ -80,6 +80,15 @@ Rectangle{
 
             Layout.fillWidth: true
             Layout.fillHeight: true
+
+            PropertyAnimation on width {
+                from: body.width / 2
+                to: body.width
+
+                duration: 300
+
+                easing.type: Easing.OutBounce
+            }
         }
     }
 }
