@@ -29,6 +29,7 @@ Rectangle{
     property string labelText: "Label text"
     onLabelTextChanged: label.text = labelText
 
+    property string currentText: comboBox.currentSelectedText()
 
     function setModel(strings)
     {

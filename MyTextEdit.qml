@@ -18,6 +18,19 @@ Rectangle
     property color fontColor: "black"
     onFontColorChanged: titleEdit.color = fontColor
 
+    property bool numericOnly: false
+
+    property string currentText: {
+
+        var text = titleEdit.text;
+
+        if(!isNan(text))
+            return titleEdit.text
+        else
+            return ""
+
+    }
+
     TextEdit{
         id: titleEdit
 
@@ -40,6 +53,16 @@ Rectangle
             
             titleEdit.text = nTxt;
             cursorPosition = nTxt.length
+        }
+
+        onTextChanged: {
+            if(numericOnly)
+            {
+                var txt = text;
+
+                if(isNaN(txt))
+                    clear();
+            }
         }
     }
 }

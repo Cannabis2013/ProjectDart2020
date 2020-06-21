@@ -40,7 +40,6 @@ ListView
     property color itemBackgroundColor: "transparent"
     onItemBackgroundColorChanged: listItem.backgroundColor = itemBackgroundColor
 
-
     function addItem(firstName, lastName, eMail, id = 0)
     {
         var model = {"firstName" : firstName,"lastName" : lastName, "email" : eMail, "uuid" : id};

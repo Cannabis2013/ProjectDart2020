@@ -24,8 +24,6 @@ Item {
             onRequestQuit: destructor()
 
 
-            backgroundContentColor: "#A54141"
-
             padding: 12
 
         }

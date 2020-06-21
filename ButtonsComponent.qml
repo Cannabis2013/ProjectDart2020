@@ -5,11 +5,10 @@ import QtQuick.Layouts 1.3
 
 import ApplicationInterface 1.0
 
-
 Rectangle{
     
-    signal startTournamentClicked
-    signal startLaterClicked
+    signal startClicked
+    signal saveClicked
 
     Layout.alignment: Qt.AlignTop | Qt.AlignHCenter
     
@@ -22,7 +21,7 @@ Rectangle{
         rowSpacing: 5
         
         PushButton{
-            text: "Start later"
+            text: "Save"
             
             Layout.row: 0
             Layout.column: 0
@@ -33,11 +32,11 @@ Rectangle{
             height: 30
             width: 80
 
-            onClicked: startLaterClicked()
+            onClicked: saveClicked()
         }
         
         PushButton{
-            text: "Start tournament"
+            text: "Save and start"
             
             Layout.row: 0
             Layout.column: 1
@@ -48,7 +47,7 @@ Rectangle{
             height: 30
             width: 100
 
-            onClicked: startTournamentClicked()
+            onClicked: startClicked()
         }
     }
 }

@@ -43,6 +43,11 @@ Rectangle{
     property int fontSize: 20
     onFontSizeChanged: lineEdit.fontSize = fontSize
 
+    property string currentText: lineEdit.currentText
+
+    property bool isNumeric: false
+    onIsNumericChanged: lineEdit.numericOnly = isNumeric
+
     MyLabel {
         id: label
 

@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 
-Item {
+Page {
 
     id: body
 
@@ -12,8 +12,6 @@ Item {
     signal requestLoginPage // Experimental
     signal requestLogOut // Experimental
     signal requestQuit
-
-    property color backgroundContentColor: "transparent"
 
     property int topPadding: 9
     property int leftPadding: 9
@@ -31,14 +29,6 @@ Item {
         leftRectArea.width = body.padding
         bottomRectArea.height = body.padding
         rightRectArea.width = body.padding
-    }
-
-    onBackgroundContentColorChanged: {
-        content.color = backgroundContentColor
-        topRectArea.color = backgroundContentColor
-        leftRectArea.color = backgroundContentColor
-        bottomRectArea.color = backgroundContentColor
-        rightRectArea.color = backgroundContentColor
     }
 
     GridLayout

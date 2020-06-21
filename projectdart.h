@@ -37,7 +37,8 @@ public:
     Q_INVOKABLE QString createTournament(const QString &title,
                                          const int &legCount,
                                          const int &maxPlayers,
-                                         const int &gameMode,const int &keyPoint) override;
+                                         const int &gameMode,
+                                         const int &keyPoint) override;
 
     Q_INVOKABLE int tournamentsCount() override;
     Q_INVOKABLE QString tournamentIDFromIndex(const int &index) override;

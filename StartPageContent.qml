@@ -6,6 +6,8 @@ Rectangle
 {
     id: body
 
+    color: "transparent"
+
     signal setupGameClicked
     signal settingsButtonClicked
     signal loginButtonClicked // Experimental
