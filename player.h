@@ -49,11 +49,19 @@ public:
     {
         _role = role;
     }
+    int type() const override
+    {
+        return _type;
+    }
+    void setType(const int &type) override
+    {
+        _type = type;
+    }
 
 private:
     QUuid _id;
     QString _firstName, _lastName, _email;
-    int _role;
+    int _role, _type;
 };
 
 #endif // PLAYER_H

@@ -2,35 +2,16 @@
 #define LOCALPLAYERCONTEXT_H
 
 #include "iplayercontext.h"
-#include "idatamodelbuilder.h"
+#include "localplayerbuilder.h"
 #include <quuid.h>
 #include <QString>
 #include <qlist.h>
-#include <iplayermodel.h>
 #include <qobject.h>
 
 namespace PlayerContext {
-    struct PlayerModelOptions;
-    struct PlayerBuilderParameters;
     class LocalPlayerContext;
 }
 
-class PlayerModelOptions
-{
-public:
-    bool generateUniqueId;
-    bool customUuid = false;
-};
-
-class PlayerBuilderParameters
-{
-public:
-    QString firstName;
-    QString lastName;
-    QString mailAdress;
-
-    int role;
-};
 
 typedef IPlayerModel<QUuid,QString> DefaultPlayerInterface;
 typedef IDataModelBuilder<DefaultPlayerInterface,PlayerBuilderParameters, PlayerModelOptions> PlayerBuilderInterface;
@@ -45,7 +26,6 @@ class LocalPlayerContext :
 public:
 
     // Public types
-
     enum UserRoles{Admin = 0x0, Player = 0x02};
 
     LocalPlayerContext();

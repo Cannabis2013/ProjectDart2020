@@ -23,7 +23,7 @@ Rectangle{
     ComboBox
     {
         id: gameModeSelector
-        
+
         anchors.fill: parent
 
         model: ["First to post", "Round race", "Circular mode"]

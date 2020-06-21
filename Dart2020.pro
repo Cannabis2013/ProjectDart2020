@@ -50,6 +50,7 @@ HEADERS += \
     iplayermodel.h \
     ipointlogisticmanager.h \
     localdatacontext.h \
+    localplayerbuilder.h \
     localplayercontext.h \
     localstandarddart.h \
     modelbuildercollection.h \

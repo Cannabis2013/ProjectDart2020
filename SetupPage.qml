@@ -147,7 +147,7 @@ Rectangle{
 
             itemFontSize: 10
 
-            itemWidth: 224
+            itemWidth: 256
         }
 
         MyRectangle{
@@ -182,9 +182,12 @@ Rectangle{
             var playerLastName = projectDart.playerLastName(playerID);
             var playerEMail = projectDart.playerEmail(playerID);
         }
+
+        /*
         listComponent.addItem("Martin","Hansen","havnetrold2002@yahoo.dk", "232-322-111");
         listComponent.addItem("Kent","Killerhertz","Killerhertz@gmail.com", "644-233-442");
         listComponent.addItem("Nicolai","Hansen","nicolaimaler2890@live.dk", "112-666-324");
         listComponent.addItem("Mark", "Fuglelort", "Fuglelortergodt@lortemail.dk", "001-213-433");
+        */
     }
 }

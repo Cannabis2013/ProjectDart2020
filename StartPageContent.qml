@@ -16,11 +16,11 @@ Rectangle
         id: dartLogo
         source: "qrc:/pictures/Ressources/pngfuel.com.png"
 
-        x: parent.width/2 - 190
+        x: parent.width/2 - 200
         y: 5
 
         width: 129
-        height: 40
+        height: 60
     }
 
     GridLayout {
