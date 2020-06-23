@@ -22,9 +22,10 @@
         <file>ListComponent.qml</file>
         <file>ComboBoxView.qml</file>
         <file>ComboBoxComponent.qml</file>
-        <file>MainPage.qml</file>
+        <file>MainComponent.qml</file>
         <file>ButtonsComponent.qml</file>
         <file>Page.qml</file>
+        <file>SetupPageContent.qml</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>

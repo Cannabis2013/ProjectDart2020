@@ -5,26 +5,31 @@ Item {
 
     Component{
         id: setupPage
-        SetupPage {
-            onBackButtonPressed: pageLoader.sourceComponent = tournamentPage
+        Page {
+            onBackButtonPressed: pageLoader.sourceComponent = startPageComponent
+
+            pageTitle: "Setup tournament"
+
+            content: SetupPageContent{}
         }
     }
 
     Component{
-        id: tournamentPage
+        id: tournamentPageComponent
+        Page{
+            pageTitle: "Tournaments"
 
-        TournamentPage{
             onBackButtonPressed: pageLoader.sourceComponent = startPageComponent
+            content: TournamentPage{}
         }
+
     }
 
     Component
     {
         id: startPageComponent
         StartPage{
-            id: startPage
-
-            onRequestSetupGamePage: pageLoader.sourceComponent = tournamentPage
+            onRequestSetupGamePage: pageLoader.sourceComponent = tournamentPageComponent
             onRequestLoginPage: {}
             onRequestLogOut: {}
             onRequestQuit: destructor()

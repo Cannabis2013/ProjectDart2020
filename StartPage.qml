@@ -1,7 +1,9 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 
-Page {
+Rectangle {
+
+    color: "#A54141"
 
     id: startPageBody
 

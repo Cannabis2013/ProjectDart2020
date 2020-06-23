@@ -6,9 +6,12 @@ import QtQuick.Layouts 1.3
 import ApplicationInterface 1.0
 
 Rectangle{
-    id: body
+    id: listComponentBody
 
     color: "transparent"
+
+    property string componentTitle: "Title"
+    onComponentTitleChanged: labelTitle.text = componentTitle
 
     property color itemTextColor: "black"
     onItemTextColorChanged: listView.itemTextColor = itemTextColor
@@ -25,7 +28,7 @@ Rectangle{
     property int itemHeight: 50
     onItemHeightChanged: listView.itemHeight = itemHeight
 
-    property int itemWidth : body.width
+    property int itemWidth : listComponentBody.width
     onItemWidthChanged: listView.itemWidth = itemWidth
 
     property color itemHoveredColor: "transparent"
@@ -65,10 +68,10 @@ Rectangle{
         columns: 2
 
         Label{
-
+            id: labelTitle
             Layout.row: 0
             Layout.column: 0
-            text: "Pick players"
+            text: componentTitle
             font.pointSize: 24
 
             Layout.fillWidth: true
@@ -79,14 +82,14 @@ Rectangle{
         MyListView {
             id: listView
 
-            itemFontSize: body.itemFontSize
-            itemTextColor: body.itemTextColor
+            itemFontSize: listComponentBody.itemFontSize
+            itemTextColor: listComponentBody.itemTextColor
 
-            itemSelectedtextColor: body.itemSelectedtextColor
-            itemSelectedBackgroundColor: body.itemSelectedBackgroundColor
+            itemSelectedtextColor: listComponentBody.itemSelectedtextColor
+            itemSelectedBackgroundColor: listComponentBody.itemSelectedBackgroundColor
 
-            itemHeight: body.itemHeight
-            itemWidth: body.itemWidth
+            itemHeight: listComponentBody.itemHeight
+            itemWidth: listComponentBody.itemWidth
 
             Layout.row: 1
             Layout.column: 0
@@ -95,8 +98,8 @@ Rectangle{
             Layout.fillHeight: true
 
             PropertyAnimation on width {
-                from: body.width / 2
-                to: body.width
+                from: listComponentBody.width / 2
+                to: listComponentBody.width
 
                 duration: 300
 

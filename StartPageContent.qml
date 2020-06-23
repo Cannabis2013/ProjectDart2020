@@ -1,7 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 
-
 Rectangle
 {
     id: startPageContentBody
@@ -13,6 +12,13 @@ Rectangle
     signal loginButtonClicked // Experimental
     signal logoutButtonClicked // Experimental
     signal quitButtonClicked
+
+    property color labelBackgroundColor: "black"
+    onLabelBackgroundColorChanged: {
+        titleEdit.labelBackgroundColor = labelBackgroundColor;
+        legsEdit.labelBackgroundColor = labelBackgroundColor;
+        maxPlayerEdit.labelBackgroundColor = labelBackgroundColor;
+    }
 
     Image {
         id: dartLogo

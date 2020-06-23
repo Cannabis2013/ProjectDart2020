@@ -45,7 +45,7 @@ ApplicationWindow {
         }
     }
 
-    MainPage{
+    MainComponent{
         id: mainPage
 
         anchors.fill: parent
