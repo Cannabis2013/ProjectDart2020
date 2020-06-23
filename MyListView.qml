@@ -7,7 +7,7 @@ import ApplicationInterface 1.0
 
 ListView
 {
-    id: body
+    id: listViewBody
 
     clip: true
 
@@ -28,7 +28,7 @@ ListView
     property int itemHeight: 70
     onItemHeightChanged: listItem.height = itemHeight
 
-    property int itemWidth : body.width
+    property int itemWidth : listViewBody.width
     onItemWidthChanged: listItem.width = itemWidth
 
     property color itemHoveredColor: "transparent"
@@ -40,9 +40,24 @@ ListView
     property color itemBackgroundColor: "transparent"
     onItemBackgroundColorChanged: listItem.backgroundColor = itemBackgroundColor
 
-    function addItem(firstName, lastName, eMail, id = 0)
+    function addPlayerItem(firstName, lastName, eMail, id = 0)
     {
-        var model = {"firstName" : firstName,"lastName" : lastName, "email" : eMail, "uuid" : id};
+        var model = {"type" : "player","firstName" : firstName,"lastName" : lastName, "email" : eMail, "uuid" : id};
+        listModel.append(model);
+    }
+
+    function addTournamentItem(tournamentTitle,
+                               tournamentMaxPlayers,
+                               tournamentLegsCount,
+                               tournamentKeyPoint,
+                               tournamentPlayersCount)
+    {
+        var model = {"type" : "tournament","tournamentTitle" : tournamentTitle,
+            "maxPlayers" : tournamentMaxPlayers,
+            "legsCount" : tournamentLegsCount,
+            "keyPoint" : tournamentKeyPoint,
+            "playersCount" : tournamentPlayersCount};
+
         listModel.append(model);
     }
     
@@ -59,20 +74,29 @@ ListView
 
         isCheckable: true
 
-        hoveredColor: body.itemHoveredColor
-        hoveredTextColor: body.hoveredItemTextColor
+        hoveredColor: listViewBody.itemHoveredColor
+        hoveredTextColor: listViewBody.hoveredItemTextColor
 
-        checkedBackgroundColor: body.itemSelectedBackgroundColor
-        checkedTextColor: body.itemSelectedtextColor
+        checkedBackgroundColor: listViewBody.itemSelectedBackgroundColor
+        checkedTextColor: listViewBody.itemSelectedtextColor
 
-        height: body.itemHeight
-        width: body.itemWidth
+        height: listViewBody.itemHeight
+        width: listViewBody.itemWidth
 
-        backgroundColor: body.itemBackgroundColor
-        textColor: body.itemTextColor
+        backgroundColor: listViewBody.itemBackgroundColor
+        textColor: listViewBody.itemTextColor
 
-        text: "Full name: " + firstName + " " + lastName + "\n" +
-              "E-mail: " + email
+        text: {
+            if(type == "player")
+                return "Full name: " + firstName + " " + lastName + "\n" +
+                          "E-mail: " + email;
+            else if(type == "tournament")
+            {
+                return tournamentTitle + "\n" +
+                        "Max players: " + maxPlayers + " Legs: " + legsCount + "\n" +
+                        "Keypoint: " + keyPoint + " Playercount: " + playersCount;
+            }
+        }
 
         x: parent.width / 2 - width / 2
 

@@ -8,7 +8,7 @@ import ApplicationInterface 1.0
 
 Rectangle
 {
-    id: body
+    id: myTextEditBody
 
     clip: true
 

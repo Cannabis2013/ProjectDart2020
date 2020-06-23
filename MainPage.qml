@@ -6,10 +6,16 @@ Item {
     Component{
         id: setupPage
         SetupPage {
+            onBackButtonPressed: pageLoader.sourceComponent = tournamentPage
+        }
+    }
 
+    Component{
+        id: tournamentPage
+
+        TournamentPage{
             onBackButtonPressed: pageLoader.sourceComponent = startPageComponent
         }
-
     }
 
     Component
@@ -18,11 +24,10 @@ Item {
         StartPage{
             id: startPage
 
-            onRequestSetupGamePage: pageLoader.sourceComponent = setupPage
+            onRequestSetupGamePage: pageLoader.sourceComponent = tournamentPage
             onRequestLoginPage: {}
             onRequestLogOut: {}
             onRequestQuit: destructor()
-
 
             padding: 12
 

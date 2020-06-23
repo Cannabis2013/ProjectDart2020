@@ -5,9 +5,8 @@ import ApplicationInterface 1.0
 
 Item
 {
-    id: body
+    id: myTableViewBody
     clip: true
-
 
     function appendHeader(data, orientation){
         myCustomTable.appendHeader(data,orientation);

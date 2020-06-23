@@ -5,7 +5,7 @@ import QtQuick.Layouts 1.3
 
 
 Rectangle{
-    id: body
+    id: comboBoxComponentBody
 
     clip: true
 

@@ -37,8 +37,21 @@ Rectangle{
     property color itemBackgroundColor: "transparent"
     onItemBackgroundColorChanged: listView.itemBackgroundColor = itemBackgroundColor
 
-    function addItem(firstName, lastName, eMail, id){
-        listView.addItem(firstName,lastName,eMail,id);
+    function addPlayerItem(firstName, lastName, eMail, id){
+        listView.addPlayerItem(firstName,lastName,eMail,id);
+    }
+
+    function addTournamentItem(tournamentTitle,
+                               tournamentMaxPlayers,
+                               tournamentLegsCount,
+                               tournamentKeyPoint,
+                               tournamentPlayersCount)
+    {
+        listView.addTournamentItem(tournamentTitle,
+                                   tournamentMaxPlayers,
+                                   tournamentLegsCount,
+                                   tournamentKeyPoint,
+                                   tournamentPlayersCount);
     }
 
     clip: true

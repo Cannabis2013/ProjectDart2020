@@ -3,7 +3,7 @@ import QtQuick.Layouts 1.3
 
 Page {
 
-    id: body
+    id: startPageBody
 
     clip: true
 
@@ -19,16 +19,16 @@ Page {
     property int rightPadding: 9
     property int padding: 9
 
-    onTopPaddingChanged: topRectArea.height = body.topPadding
-    onLeftPaddingChanged: leftRectArea.width = body.leftPadding
-    onBottomPaddingChanged: bottomRectArea.height = body.bottomPadding
-    onRightPaddingChanged: bottomRectArea.width = body.rightPadding
+    onTopPaddingChanged: topRectArea.height = startPageBody.topPadding
+    onLeftPaddingChanged: leftRectArea.width = startPageBody.leftPadding
+    onBottomPaddingChanged: bottomRectArea.height = startPageBody.bottomPadding
+    onRightPaddingChanged: bottomRectArea.width = startPageBody.rightPadding
 
     onPaddingChanged: {
-        topRectArea.height = body.padding
-        leftRectArea.width = body.padding
-        bottomRectArea.height = body.padding
-        rightRectArea.width = body.padding
+        topRectArea.height = startPageBody.padding
+        leftRectArea.width = startPageBody.padding
+        bottomRectArea.height = startPageBody.padding
+        rightRectArea.width = startPageBody.padding
     }
 
     GridLayout

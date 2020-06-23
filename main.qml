@@ -15,8 +15,7 @@ ApplicationWindow {
     y: 1152 /2 - height/2
 
     minimumWidth: 400
-    minimumHeight: 500
-
+    minimumHeight: 600
 
     title: qsTr("Dart2020")
 

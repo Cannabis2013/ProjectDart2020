@@ -4,7 +4,7 @@ import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
 
 Rectangle{
-    id: body
+    id: comboBoxViewBody
 
     color: "transparent"
 
@@ -41,26 +41,26 @@ Rectangle{
         id: label
 
         // Font properties
-        color: body.labelBackgroundColor
+        color: comboBoxViewBody.labelBackgroundColor
 
         fontColor: "white"
-        fontSize: body.labelFontSize
+        fontSize: comboBoxViewBody.labelFontSize
 
-        textLeftMargin: body.labelLeftMargin
+        textLeftMargin: comboBoxViewBody.labelLeftMargin
 
         horizontalTextAlignment: labelFontAlignment
 
         anchors.left: parent.left
 
         height: parent.height
-        width: parent.width / 2 + body.borderRadius
+        width: parent.width / 2 + comboBoxViewBody.borderRadius
 
         text: labelText
 
-        radius: body.labelBorderRadius
+        radius: comboBoxViewBody.labelBorderRadius
     }
 
-    MyCombBoxComponent {
+    ComboBoxComponent {
         id: comboBox
 
         x: parent.width / 2
@@ -68,7 +68,7 @@ Rectangle{
         height: parent.height
         width: parent.width / 2
 
-        radius: body.borderRadius
+        radius: comboBoxViewBody.borderRadius
 
         PropertyAnimation on width {
             from: 0

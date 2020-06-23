@@ -5,9 +5,8 @@ import QtQuick.Layouts 1.3
 
 import ApplicationInterface 1.0
 
-
-Page{
-    id: body
+Page {
+    id: setupPageBody
 
     property color labelBackgroundColor: "black"
     onLabelBackgroundColorChanged: {
@@ -27,6 +26,7 @@ Page{
         anchors.topMargin: 20
         anchors.rightMargin: 20
         anchors.bottomMargin: 5
+
         PushButton
         {
             width: 65
@@ -198,7 +198,6 @@ Page{
                 var keyPoint = keyPointEdit.currentText;
 
                 backButtonPressed();
-
             }
         }
     }
@@ -213,13 +212,8 @@ Page{
             var playerFirstName = projectDart.playerFirstName(playerID);
             var playerLastName = projectDart.playerLastName(playerID);
             var playerEMail = projectDart.playerEmail(playerID);
-        }
 
-        /*
-        listComponent.addItem("Martin","Hansen","havnetrold2002@yahoo.dk", "232-322-111");
-        listComponent.addItem("Kent","Killerhertz","Killerhertz@gmail.com", "644-233-442");
-        listComponent.addItem("Nicolai","Hansen","nicolaimaler2890@live.dk", "112-666-324");
-        listComponent.addItem("Mark", "Fuglelort", "Fuglelortergodt@lortemail.dk", "001-213-433");
-        */
+            listComponent.addPlayerItem(playerFirstName,playerLastName,playerEMail, playerID);
+        }
     }
 }

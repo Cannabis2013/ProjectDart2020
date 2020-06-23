@@ -4,7 +4,7 @@ import CustomItems 1.0
 
 Item
 {
-    id: body
+    id: customTableBody
 
     property int horizontalHeaderHeight: 20
     onHorizontalCenterChanged: horizontalHeader.height = horizontalHeaderHeight

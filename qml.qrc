@@ -21,7 +21,7 @@
         <file>MyListView.qml</file>
         <file>ListComponent.qml</file>
         <file>ComboBoxView.qml</file>
-        <file>MyCombBoxComponent.qml</file>
+        <file>ComboBoxComponent.qml</file>
         <file>MainPage.qml</file>
         <file>ButtonsComponent.qml</file>
         <file>Page.qml</file>

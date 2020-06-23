@@ -1,7 +1,7 @@
 import QtQuick 2.4
 import QtQuick.Layouts 1.3
 
-Item {
+Page {
     id: body
 
     clip: true
@@ -12,10 +12,6 @@ Item {
 
        columnSpacing: 0
        rowSpacing: 0
-
-
-
-
 
    }
 

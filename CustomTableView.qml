@@ -4,7 +4,7 @@ import CustomItems 1.0
 
 TableView
 {
-    id: body
+    id: customTableViewBody
     
     clip: true
 

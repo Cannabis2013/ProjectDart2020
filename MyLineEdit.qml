@@ -5,7 +5,7 @@ import QtQuick.Layouts 1.3
 import ApplicationInterface 1.0
 
 Rectangle{
-    id: body
+    id: myLineEditBody
 
     color: "transparent"
 
@@ -14,7 +14,7 @@ Rectangle{
 
 
     property color fontColor: "black"
-    onFontColorChanged: lineEdit.fontColor = body.fontColor
+    onFontColorChanged: lineEdit.fontColor = myLineEditBody.fontColor
 
     property color backgroundColor: "white"
     onBackgroundColorChanged: lineEdit.color = backgroundColor
@@ -52,9 +52,9 @@ Rectangle{
         id: label
 
         // Font properties
-        color: body.labelBackgroundColor
+        color: myLineEditBody.labelBackgroundColor
 
-        fontColor: body.labelFontColor
+        fontColor: myLineEditBody.labelFontColor
         fontSize: labelFontSize
 
         textLeftMargin: labelLeftMargin
@@ -64,7 +64,7 @@ Rectangle{
         anchors.left: parent.left
 
         height: parent.height
-        width: parent.width / 2 + body.lineEditBorderRadius
+        width: parent.width / 2 + myLineEditBody.lineEditBorderRadius
 
         text: labelText
 
@@ -74,17 +74,17 @@ Rectangle{
     MyTextEdit {
         id: lineEdit
 
-        radius: body.lineEditBorderRadius
+        radius: myLineEditBody.lineEditBorderRadius
 
-        fontSize: body.fontSize
+        fontSize: myLineEditBody.fontSize
 
         x: parent.width / 2
 
         width: parent.width / 2
         height: parent.height
 
-        color: body.backgroundColor
-        fontColor: body.fontColor
+        color: myLineEditBody.backgroundColor
+        fontColor: myLineEditBody.fontColor
 
         PropertyAnimation on width {
             from: 0

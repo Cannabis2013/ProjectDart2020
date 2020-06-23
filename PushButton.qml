@@ -1,7 +1,7 @@
 import QtQuick 2.0
 
 Item {
-    id: body
+    id: pushButtonbody
 
     property string text: ""
     onTextChanged: buttonText.text = text
@@ -36,7 +36,7 @@ Item {
 
     MouseArea
     {
-        anchors.fill: body
+        anchors.fill: pushButtonbody
         hoverEnabled: true
         onHoveredChanged: {
             var c = buttonRect.color;
@@ -45,7 +45,7 @@ Item {
                 if(containsMouse)
                     buttonText.color = hoveredTextColor
                 else
-                    buttonText.color = body.checkedTextColor
+                    buttonText.color = pushButtonbody.checkedTextColor
                 return;
             }
             else if(containsMouse){
@@ -55,8 +55,8 @@ Item {
             }
             else{
 
-                buttonRect.color = body.backgroundColor;
-                buttonText.color = body.textColor
+                buttonRect.color = pushButtonbody.backgroundColor;
+                buttonText.color = pushButtonbody.textColor
             }
         }
 
@@ -77,15 +77,15 @@ Item {
             checked = isCheckable && !checked ? true : false
 
             if(checked){
-                buttonText.color = body.checkedTextColor
-                buttonRect.color = body.checkedBackgroundColor;
+                buttonText.color = pushButtonbody.checkedTextColor
+                buttonRect.color = pushButtonbody.checkedBackgroundColor;
             }
             else if(isCheckable){
-                buttonText.color = body.textColor
-                buttonRect.color = body.backgroundColor;
+                buttonText.color = pushButtonbody.textColor
+                buttonRect.color = pushButtonbody.backgroundColor;
             }
 
-            body.clicked();
+            pushButtonbody.clicked();
         }
     }
 
@@ -95,9 +95,9 @@ Item {
     {
         id: buttonRect
 
-        anchors.fill: body
+        anchors.fill: pushButtonbody
 
-        radius: body.buttonRadius
+        radius: pushButtonbody.buttonRadius
 
         color: backgroundColor
 
@@ -106,7 +106,7 @@ Item {
 
             font.pointSize: fontSize
 
-            color: body.textColor
+            color: pushButtonbody.textColor
             text: qsTr("Button title")
 
             horizontalAlignment: Text.AlignHCenter

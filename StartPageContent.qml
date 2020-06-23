@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.3
 
 Rectangle
 {
-    id: body
+    id: startPageContentBody
 
     color: "transparent"
 

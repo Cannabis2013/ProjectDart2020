@@ -5,7 +5,7 @@ import ApplicationInterface 1.0
 
 Rectangle{
 
-    id: body
+    id: myRectangleBody
 
     property int borderWidth: 0
 
@@ -56,7 +56,7 @@ Rectangle{
 
         anchors.top: parent.top
 
-        height: body.borderWidth
+        height: myRectangleBody.borderWidth
         width: parent.width
         
         color: "black"
@@ -67,7 +67,7 @@ Rectangle{
         anchors.right: parent.right
 
         height: parent.height
-        width: body.borderWidth
+        width: myRectangleBody.borderWidth
 
         color: "black"
     }
@@ -76,7 +76,7 @@ Rectangle{
 
         anchors.bottom: parent.bottom
 
-        height: body.borderWidth
+        height: myRectangleBody.borderWidth
         width: parent.width
 
         color: "black"
@@ -87,7 +87,7 @@ Rectangle{
         anchors.left: parent.left
 
         height: parent.height
-        width: body.borderWidth
+        width: myRectangleBody.borderWidth
 
         color: "black"
     }
@@ -95,10 +95,10 @@ Rectangle{
     Rectangle{
         id: middleBorder
 
-        anchors.verticalCenter: body.verticalCenter
+        anchors.verticalCenter: myRectangleBody.verticalCenter
 
-        height: body.middleBorderWidth
-        width: body.width
+        height: myRectangleBody.middleBorderWidth
+        width: myRectangleBody.width
 
         color: "black"
     }

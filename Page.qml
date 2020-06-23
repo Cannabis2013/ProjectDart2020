@@ -4,5 +4,4 @@ Rectangle {
     color: "#A54141"
 
     signal backButtonPressed
-
 }
