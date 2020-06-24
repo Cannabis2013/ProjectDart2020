@@ -9,7 +9,6 @@ Rectangle{
 
     property int borderWidth: 0
 
-    // Only affects outer boundaries leaves middle border unaffected
     onBorderWidthChanged: {
         topBorder.height = borderWidth
         rightBorder.width = borderWidth
@@ -21,20 +20,17 @@ Rectangle{
     property int rightBorderWidth: 0
     property int bottomBorderWidth: 0
     property int leftBorderWidth: 0
-    property int middleBorderWidth: 0
 
     onTopBorderWidthChanged: topBorder.height = topBorderWidth
     onRightBorderWidthChanged: rightBorder.width = rightBorderWidth
     onBottomBorderWidthChanged: bottomBorder.height= bottomBorderWidth
     onLeftBorderWidthChanged: leftBorder.width = leftBorderWidth
-    onMiddleBorderWidthChanged: middleBorder.width = middleBorderWidth
 
     property color borderColor: "black"
     property color topBorderColor: "black"
     property color rightBorderColor: "black"
     property color bottomBorderColor: "black"
     property color leftBorderColor: "black"
-    property color middleBorderColor: "white"
 
     onBorderColorChanged: {
         topBorder.color = borderColor
@@ -47,7 +43,6 @@ Rectangle{
     onRightBorderColorChanged: rightBorder.color = rightBorderColor
     onBottomBorderColorChanged: bottomBorder.color = bottomBorderColor
     onLeftBorderColorChanged: leftBorder.color = leftBorderColor
-    onMiddleBorderColorChanged: middleBorder.color = middleBorderColor
 
     color: "transparent"
 
@@ -88,17 +83,6 @@ Rectangle{
 
         height: parent.height
         width: myRectangleBody.borderWidth
-
-        color: "black"
-    }
-
-    Rectangle{
-        id: middleBorder
-
-        anchors.verticalCenter: myRectangleBody.verticalCenter
-
-        height: myRectangleBody.middleBorderWidth
-        width: myRectangleBody.width
 
         color: "black"
     }

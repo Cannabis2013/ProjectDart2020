@@ -1,8 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>CustomTable.qml</file>
-        <file>GamePage.qml</file>
+        <file>CustomTableComponent.qml</file>
         <file>StartPage.qml</file>
         <file>PushButton.qml</file>
         <file>PageLabelItem.qml</file>
@@ -14,7 +13,6 @@
         <file>CustomTableView.qml</file>
         <file>MyRectangle.qml</file>
         <file>MyTableView.qml</file>
-        <file>SetupPage.qml</file>
         <file>MyTextEdit.qml</file>
         <file>MyLabel.qml</file>
         <file>MyLineEdit.qml</file>
@@ -26,6 +24,7 @@
         <file>ButtonsComponent.qml</file>
         <file>Page.qml</file>
         <file>SetupPageContent.qml</file>
+        <file>GamePageContent.qml</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>

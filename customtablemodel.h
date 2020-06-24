@@ -17,6 +17,8 @@ public:
     // Public types
     enum HeaderFillMode{IncrementingIntegerFill = 0x1, SymbolFill = 0x2, NonFill = 0x4};
 
+    Q_PROPERTY(int headerFillMode READ fillMode WRITE setFillMode NOTIFY fillModeChanged);
+
     CustomTableModel();
 
     // public methods
@@ -52,6 +54,10 @@ public:
     // Public virtual method implementations
     Q_INVOKABLE QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
 
+signals:
+    void fillModeChanged();
+
+protected:
     bool setData(const QModelIndex &index, const QVariant &value, int role) override;
     bool insertRows(int row, int count, const QModelIndex &) override;
     bool insertColumns(int column, int count, const QModelIndex &parent) override;

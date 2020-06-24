@@ -67,6 +67,9 @@ double CustomTableModel::columnWithAt(const int &column, const QString &fontFami
 
     auto glyphLenght = fontMetric.boundingRect(string).width();
 
+    if(glyphLenght < 25)
+        return defaultCellWidth *scale();
+
     return glyphLenght * scale();
 }
 
@@ -364,6 +367,7 @@ int CustomTableModel::fillMode() const
 void CustomTableModel::setFillMode(int fillMode)
 {
     _fillMode = fillMode;
+    emit fillModeChanged();
 }
 
 int CustomTableModel::preferedCellWidth(const QString &fontFamily, const int &pointSize) const

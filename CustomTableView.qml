@@ -28,6 +28,9 @@ TableView
     property int verticalTextAlignment: Text.AlignVCenter
     onVerticalTextAlignmentChanged: cellText.verticalAlignment = verticalTextAlignment
 
+    property int verticalHeaderFillMode: 0x02
+    onVerticalHeaderFillModeChanged: myModel.headerFillMode = verticalHeaderFillMode
+
     function getModel()
     {
         return myModel;
@@ -42,8 +45,11 @@ TableView
     {
         id: myModel
 
+        headerFillMode : verticalHeaderFillMode
+
         // Signal handling
         onDataChanged: dataHasChanged()
+
     }
     
     delegate: MyRectangle{

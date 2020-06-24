@@ -7,7 +7,7 @@ Item
     id: customTableBody
 
     property int horizontalHeaderHeight: 20
-    onHorizontalCenterChanged: horizontalHeader.height = horizontalHeaderHeight
+    onHorizontalHeaderHeightChanged: horizontalHeader.height = horizontalHeaderHeight
 
     property bool staticVerticalHeaderWidth: false
 
@@ -15,6 +15,10 @@ Item
     onVerticalHeaderWidthChanged: staticVerticalHeaderWidth ?
                                       verticalHeader.width = verticalHeaderWidth :
                                       verticalHeader.width = verticalHeader.width
+
+    property int verticalHeaderFillMode: 0x02
+    onVerticalHeaderFillModeChanged: tableView.verticalHeaderFillMode = verticalHeaderFillMode
+
     // Functions
     function appendHeader(string, orientation)
     {
@@ -22,8 +26,10 @@ Item
 
         myModel.appendHeaderItem(string,orientation);
 
-        verticalHeader.cellWidth = myModel.preferedCellWidth();
-        upperTopLeftCell.width = myModel.preferedCellWidth();
+        var preferedWidth = myModel.preferedCellWidth();
+
+        verticalHeader.cellWidth = preferedWidth;
+        upperTopLeftCell.width = preferedWidth;
     }
 
     function addData(row, column, data)
@@ -49,9 +55,9 @@ Item
             var vHeaderValue = myModel.headerData(i,2);
             verticalHeader.setData(i,vHeaderValue);
 
-            var rowHeight = myModel.rowHeightAt(i);
+            //var rowHeight = myModel.rowHeightAt(i);
 
-            verticalHeader.setRowHeight(i,rowHeight);
+            //verticalHeader.setRowHeight(i,rowHeight);
         }
 
         for(var j = 0;j < horizontalHeader.dataCount();j++)
@@ -75,7 +81,7 @@ Item
         rowSpacing: 0
         columnSpacing: 0
 
-        anchors.fill: parent
+        anchors.centerIn: parent
         MyRectangle
         {
             id: upperTopLeftCell
@@ -88,23 +94,21 @@ Item
             rightBorderWidth: 1
             bottomBorderWidth: 1
 
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-
-            visible: false
-
-            color: "darkgray"
+            color: "transparent"
         }
 
         HorizontalHeader {
             id: horizontalHeader
+
+            Layout.column: 1
+            Layout.row: 0
 
             backgroundColor: "darkgray"
             color: "black"
 
             borderWidth: 1
 
-            height: 20
+            height: 25
         }
         VerticalHeader {
             id: verticalHeader
@@ -112,7 +116,10 @@ Item
             backgroundColor: "darkgray"
             color: "black"
 
-            Layout.fillWidth: true
+            Layout.column: 0
+            Layout.row: 1
+
+            width: 60
 
             borderWidth: 1
 

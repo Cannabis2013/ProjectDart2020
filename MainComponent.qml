@@ -4,13 +4,23 @@ Item {
     id: body
 
     Component{
-        id: setupPage
+        id: gamePageComponent
+
+        Page{
+            onBackButtonPressed: pageLoader.sourceComponent = tournamentPageComponent
+
+            pageContent: GamePageContent{}
+        }
+    }
+
+    Component{
+        id: setupPageComponent
         Page {
-            onBackButtonPressed: pageLoader.sourceComponent = startPageComponent
+            onBackButtonPressed: pageLoader.sourceComponent = tournamentPageComponent
 
             pageTitle: "Setup tournament"
 
-            content: SetupPageContent{}
+            pageContent: SetupPageContent{}
         }
     }
 
@@ -20,7 +30,10 @@ Item {
             pageTitle: "Tournaments"
 
             onBackButtonPressed: pageLoader.sourceComponent = startPageComponent
-            content: TournamentPage{}
+            pageContent: TournamentPage{
+                onCreateTournamentClicked: pageLoader.sourceComponent = setupPageComponent
+                onStartGameClicked: pageLoader.sourceComponent = gamePageComponent
+            }
         }
 
     }

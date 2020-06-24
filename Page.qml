@@ -5,14 +5,17 @@ import QtQuick.Layouts 1.3
 Rectangle {
 
     id: pageBody
-    color: "#A54141"
+    color: defaultBackgroundColor
+
+    property string defaultBackgroundColor: "#A54141"
 
     signal backButtonPressed
 
-    property Item content: Item{}
-    onContentChanged: {
-        pageLayout.children[2] = content;
+    property Item pageContent: Item{}
+    onPageContentChanged: {
+        pageLayout.children[2] = pageContent;
     }
+
     property string pageTitle: "Page title"
     onPageTitleChanged: pageTitleComponent.text = pageTitle
 
@@ -25,7 +28,7 @@ Rectangle {
         anchors.leftMargin: 20
         anchors.topMargin: 20
         anchors.rightMargin: 20
-        anchors.bottomMargin: 5
+        anchors.bottomMargin: 20
 
         flow: GridLayout.TopToBottom
 

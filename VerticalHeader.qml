@@ -15,7 +15,11 @@ Column
     property color color: "black"
     onColorChanged: cellBodyText.color = color
     property int cellWidth: 125
-    onCellWidthChanged: cellBody.width = cellWidth
+    onCellWidthChanged: {
+        cellBody.width = cellWidth
+        if(cellWidth > width)
+            width = cellWidth
+    }
 
     property int cellHeight: 25
     onCellHeightChanged: cellBody.height = cellHeight
