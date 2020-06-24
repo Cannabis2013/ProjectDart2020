@@ -29,11 +29,19 @@ void CustomTableModel::appendHeaderItem(const QVariant &data, const int &orienta
     emit dataChanged(QModelIndex(),QModelIndex());
 }
 
-QString CustomTableModel::headerData(int index, int orientation) const
+QString CustomTableModel::headerData(const int &index, const int &orientation) const
 {
     auto value =  headerData(index,static_cast<Qt::Orientation>(orientation),Qt::DisplayRole).toString();
 
     return value;
+}
+
+int CustomTableModel::headerItemCount(const int &orientation) const
+{
+    if(orientation == Qt::Horizontal)
+        return _horizontalHeaderData.count();
+    else
+        return _verticalHeaderData.count();
 }
 
 int CustomTableModel::rowCount() const

@@ -3,7 +3,7 @@ import QtQuick.Layouts 1.3
 import CustomItems 1.0
 
 Rectangle{
-    color: "#330000ff"
+    color: Qt.rgba(0, 0, 1, 0.75)
 
     radius: 15
 
@@ -29,8 +29,7 @@ Rectangle{
 
         var preferedWidth = myModel.preferedCellWidth();
 
-        verticalHeader.cellWidth = preferedWidth;
-        verticalHeader.width = preferedWidth
+        verticalHeader.width = preferedWidth*1.25;
         upperTopLeftCell.width = preferedWidth;
     }
 
@@ -77,7 +76,6 @@ Rectangle{
     function calcContentWidth(){
         return verticalHeader.width + tableView.width
     }
-
 
     Flickable
     {

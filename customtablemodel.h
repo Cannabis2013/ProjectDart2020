@@ -25,7 +25,9 @@ public:
     Q_INVOKABLE bool appendData(int row, int column, int data);
     Q_INVOKABLE void appendHeaderItem(const QVariant &data, const int &orientation = Qt::Vertical);
 
-    Q_INVOKABLE QString headerData(int index, int orientation) const;
+    Q_INVOKABLE QString headerData(const int &index, const int &orientation) const;
+
+    Q_INVOKABLE int headerItemCount(const int &orientation) const;
 
     Q_INVOKABLE int rowCount() const;
     Q_INVOKABLE int columnCount() const;
@@ -33,8 +35,8 @@ public:
     Q_INVOKABLE double columnWithAt(const int &column, const QString &fontFamily = defaultFontFamily, const int &pointSize = defaultPointSize) const;
     Q_INVOKABLE double columnHeightAt(const int &column, const QString &fontFamily = defaultFontFamily, const int &pointSize = defaultPointSize) const;
 
-    Q_INVOKABLE double rowHeightAt(const int &row, const QString &fontFamily = "MS Sans Serif", const int &pointSize = 12) const;
-    Q_INVOKABLE double rowWidthAt(const int &row, const QString &fontFamily = "MS Sans Serif", const int &pointSize = 12) const;
+    Q_INVOKABLE double rowHeightAt(const int &row, const QString &fontFamily = "MS Sans Serif", const int &pointSize = defaultPointSize) const;
+    Q_INVOKABLE double rowWidthAt(const int &row, const QString &fontFamily = "MS Sans Serif", const int &pointSize = defaultPointSize) const;
 
     Q_INVOKABLE int horizontalHeaderCount() const;
     Q_INVOKABLE int verticalHeaderCount() const;

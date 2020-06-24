@@ -10,11 +10,16 @@ TableView
 
     signal dataHasChanged
 
+    readonly property int cellHeight: cellDelegate.height
+
     property color cellColor: "white"
     onCellColorChanged: cellDelegate.color = cellColor
 
     property color textColor: "black"
     onTextColorChanged: cellText = textColor
+
+    property int fontSize: 12
+    onFontSizeChanged: cellText.font.pointSize = fontSize
 
     property double cellBorderWidth: 0
     onCellBorderWidthChanged: cellDelegate.border.width = cellBorderWidth
@@ -38,9 +43,9 @@ TableView
     
     columnWidthProvider: function(column)
     {
-        return myModel.columnWithAt(column);
+        return myModel.columnWithAt(column,"MS Sans Serif",fontSize);
     }
-    
+
     model: CustomTableModel
     {
         id: myModel
@@ -80,6 +85,7 @@ TableView
             anchors.fill: parent
             text: display
             color: textColor
+            font.pointSize: fontSize
         }
     }
 }

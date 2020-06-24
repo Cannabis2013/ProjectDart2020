@@ -27,8 +27,33 @@ Rectangle
         x: parent.width/2 - 200
         y: 5
 
-        width: 129
-        height: 60
+        width: 130
+        height: 130
+    }
+
+    Image {
+        id: tuborgImage
+
+        source: "qrc:/pictures/Ressources/tuborgclassic.png"
+
+        x: parent.width/2 + 70
+        y: 5
+
+        width: 130
+        height: 130
+
+        rotation: 25
+    }
+
+    Image{
+        id: fckImage
+        source: "qrc:/pictures/Ressources/fck.png"
+
+        x: parent.width / 2 - width/2
+        y: 350
+
+        width: 150
+        height: 150
     }
 
     GridLayout {
@@ -123,6 +148,8 @@ Rectangle
         
         Rectangle
         {
+
+            id: emptyRect
             Layout.row: 5
             Layout.column: 1
             

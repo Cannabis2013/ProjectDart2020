@@ -69,6 +69,8 @@ Column
                 color: body.color
                 
                 text: "Column text"
+
+                font.pointSize: 12
                 
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter

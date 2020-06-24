@@ -28,5 +28,8 @@
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>
+        <file>Ressources/fck.png</file>
+        <file>Ressources/arrow.png</file>
+        <file>Ressources/tuborgclassic.png</file>
     </qresource>
 </RCC>
