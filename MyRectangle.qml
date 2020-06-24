@@ -4,7 +4,6 @@ import QtQuick.Controls 2.12
 import ApplicationInterface 1.0
 
 Rectangle{
-
     id: myRectangleBody
 
     property int borderWidth: 0

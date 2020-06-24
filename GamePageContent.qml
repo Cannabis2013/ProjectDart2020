@@ -7,23 +7,25 @@ Rectangle {
 
     color: "transparent"
 
+    clip: true
+
     GridLayout{
         id: componentLayout
 
         anchors.fill: parent
 
-
         flow: GridLayout.TopToBottom
 
+        Layout.fillWidth: true
+        Layout.fillHeight: true
+
+        Layout.alignment: Qt.AlignHCenter
         CustomTableComponent{
             id: scoreTable
 
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-
-            Layout.alignment: Qt.AlignHCenter
-
             verticalHeaderFillMode: 0x1
+            Layout.fillWidth: true
+            Layout.minimumHeight: scoreTable.calcContentHeight() + 30
 
             Component.onCompleted: {
                 scoreTable.appendHeader("Martin",0x2);
@@ -34,6 +36,10 @@ Rectangle {
                 scoreTable.addData(1,0,24);
                 scoreTable.addData(2,0,33);
             }
+        }
+
+        Rectangle{
+            Layout.fillHeight: true
         }
     }
 }

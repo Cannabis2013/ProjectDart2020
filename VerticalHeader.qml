@@ -6,9 +6,6 @@ Column
 {
     id: body
 
-    Layout.row: 1
-    Layout.column: 0
-
     property color backgroundColor: "transparent"
     onBackgroundColorChanged: cellBody.color = backgroundColor
 
@@ -40,7 +37,6 @@ Column
 
     function setData(i, value)
     {
-
         verticalHeaderRepeater.itemAt(i).children[4].text = value;
     }
 

@@ -6,9 +6,6 @@ Row
 {
     id: body
 
-    Layout.row: 0
-    Layout.column: 1
-
     property color backgroundColor: "transparent"
     onBackgroundColorChanged: cellBody.color = backgroundColor
 

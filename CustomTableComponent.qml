@@ -2,9 +2,11 @@ import QtQuick 2.12
 import QtQuick.Layouts 1.3
 import CustomItems 1.0
 
-Item
-{
-    id: customTableBody
+Rectangle{
+    color: "#330000ff"
+
+    radius: 15
+
 
     property int horizontalHeaderHeight: 20
     onHorizontalHeaderHeightChanged: horizontalHeader.height = horizontalHeaderHeight
@@ -19,7 +21,6 @@ Item
     property int verticalHeaderFillMode: 0x02
     onVerticalHeaderFillModeChanged: tableView.verticalHeaderFillMode = verticalHeaderFillMode
 
-    // Functions
     function appendHeader(string, orientation)
     {
         var myModel = tableView.getModel();
@@ -29,6 +30,7 @@ Item
         var preferedWidth = myModel.preferedCellWidth();
 
         verticalHeader.cellWidth = preferedWidth;
+        verticalHeader.width = preferedWidth
         upperTopLeftCell.width = preferedWidth;
     }
 
@@ -54,10 +56,6 @@ Item
         {
             var vHeaderValue = myModel.headerData(i,2);
             verticalHeader.setData(i,vHeaderValue);
-
-            //var rowHeight = myModel.rowHeightAt(i);
-
-            //verticalHeader.setRowHeight(i,rowHeight);
         }
 
         for(var j = 0;j < horizontalHeader.dataCount();j++)
@@ -72,78 +70,106 @@ Item
         }
     }
 
-    GridLayout
+    function calcContentHeight(){
+        return horizontalHeader.height + tableView.height
+    }
+
+    function calcContentWidth(){
+        return verticalHeader.width + tableView.width
+    }
+
+
+    Flickable
     {
-        id: mainLayout
-        rows: 2
-        columns: 2
+        id: customTableBody
 
-        rowSpacing: 0
-        columnSpacing: 0
+        clip: true
 
-        anchors.centerIn: parent
-        MyRectangle
+        contentHeight: calcContentHeight()
+        contentWidth: calcContentWidth()
+
+        anchors.fill: parent
+        anchors.margins: 15
+
+        // Functions
+
+        GridLayout
         {
-            id: upperTopLeftCell
+            id: mainLayout
+            rows: 2
+            columns: 2
 
-            height: 25
+            rowSpacing: 0
+            columnSpacing: 0
 
-            Layout.row: 0
-            Layout.column: 0
+            anchors.fill: parent
 
-            rightBorderWidth: 1
-            bottomBorderWidth: 1
+            MyRectangle
+            {
+                id: upperTopLeftCell
 
-            color: "transparent"
-        }
+                height: 25
 
-        HorizontalHeader {
-            id: horizontalHeader
+                Layout.row: 0
+                Layout.column: 0
 
-            Layout.column: 1
-            Layout.row: 0
+                rightBorderWidth: 1
+                bottomBorderWidth: 1
 
-            backgroundColor: "darkgray"
-            color: "black"
+                color: "transparent"
 
-            borderWidth: 1
+                onWidthChanged: {
+                    if(width == 0)
+                        width = verticalHeader.width;
+                }
+            }
 
-            height: 25
-        }
-        VerticalHeader {
-            id: verticalHeader
+            HorizontalHeader {
+                id: horizontalHeader
 
-            backgroundColor: "darkgray"
-            color: "black"
+                Layout.column: 1
+                Layout.row: 0
 
-            Layout.column: 0
-            Layout.row: 1
+                backgroundColor: "darkgray"
+                color: "black"
 
-            width: 60
+                borderWidth: 1
 
-            borderWidth: 1
+                height: 25
+            }
+            VerticalHeader {
+                id: verticalHeader
 
-            Layout.alignment: Qt.AlignTop
-        }
+                backgroundColor: "darkgray"
+                color: "black"
 
-        CustomTableView {
-            id: tableView
+                Layout.column: 0
+                Layout.row: 1
 
-            Layout.column: 1
-            Layout.row: 1
+                borderWidth: 1
 
-            cellBorderWidth: 1
+                Layout.alignment: Qt.AlignTop
+            }
 
-            Layout.fillHeight: true
-            Layout.fillWidth: true
+            CustomTableView {
+                id: tableView
 
-            cellColor: "transparent"
+                Layout.column: 1
+                Layout.row: 1
 
-            onDataHasChanged: {
-                if(getModel().verticalHeaderCount() > 0)
-                    upperTopLeftCell.visible = true
-                else
-                    upperTopLeftCell.visible = false
+                cellBorderWidth: 1
+
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+
+                cellColor: "white"
+
+                onDataHasChanged: {
+                    if(getModel().verticalHeaderCount() > 0)
+                        upperTopLeftCell.visible = true
+                    else
+                        upperTopLeftCell.visible = false
+                }
             }
         }
     }
