@@ -114,6 +114,5 @@ Item {
 
             anchors.centerIn: parent
         }
-
     }
 }

@@ -5,6 +5,8 @@ import CustomItems 1.0
 Rectangle{
     color: Qt.rgba(0, 0, 1, 0.75)
 
+    opacity: 0.25
+
     radius: 15
 
 
@@ -89,6 +91,8 @@ Rectangle{
         anchors.fill: parent
         anchors.margins: 15
 
+        boundsMovement: Flickable.StopAtBounds
+
         // Functions
 
         GridLayout
@@ -96,6 +100,7 @@ Rectangle{
             id: mainLayout
             rows: 2
             columns: 2
+
 
             rowSpacing: 0
             columnSpacing: 0
@@ -138,7 +143,7 @@ Rectangle{
             VerticalHeader {
                 id: verticalHeader
 
-                backgroundColor: "darkgray"
+                backgroundColor: "lightgray"
                 color: "black"
 
                 Layout.column: 0

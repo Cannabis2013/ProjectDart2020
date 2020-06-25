@@ -16,6 +16,11 @@ Rectangle {
 
         flow: GridLayout.TopToBottom
 
+        DecoratedButtonComponent{
+            width: 50
+            height: 50
+        }
+
         CustomTableComponent{
             id: scoreTable
 

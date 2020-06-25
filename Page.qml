@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.3
 Rectangle {
 
     id: pageBody
+
     color: defaultBackgroundColor
 
     property string defaultBackgroundColor: "#A54141"
@@ -88,5 +89,11 @@ Rectangle {
             Layout.fillHeight: true
             Layout.fillWidth: true
         }
+    }
+    PropertyAnimation on width {
+        from: 0
+        to: width
+
+        duration: 100
     }
 }

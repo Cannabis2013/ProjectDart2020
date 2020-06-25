@@ -9,6 +9,8 @@ Item {
         Page{
             onBackButtonPressed: pageLoader.sourceComponent = tournamentPageComponent
 
+            pageTitle: "Game"
+
             pageContent: GamePageContent{}
         }
     }
@@ -55,6 +57,7 @@ Item {
     Loader{
         id: pageLoader
         anchors.fill: parent
-        sourceComponent: startPageComponent
     }
+
+    Component.onCompleted: pageLoader.sourceComponent = gamePageComponent
 }
