@@ -12,6 +12,10 @@ Rectangle{
     Layout.fillHeight: true
     Layout.fillWidth: true
 
+    Layout.maximumWidth: defaultPageContentWidth
+
+    Layout.alignment: Qt.AlignHCenter
+
     signal createTournamentClicked;
     signal startGameClicked;
 

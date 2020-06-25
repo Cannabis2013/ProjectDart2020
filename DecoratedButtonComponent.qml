@@ -1,11 +1,20 @@
 import QtQuick 2.0
 
+/*
+  Orientation = {LeftOriented = 0x01, rightOriented = 0x02}
+  */
+
 Item {
     id: buttonBody
 
+    signal clicked
+
     property color defaultBackDropHoverColor: "white"
 
-    property int orientation: 0x2
+    property url source: ""
+    onSourceChanged: imageDecorator.source = source
+
+    property int orientation: 0x02
 
     MouseArea{
         anchors.fill: parent
@@ -30,6 +39,8 @@ Item {
                 backDropRect.scale = 1
             }
         }
+
+        onPressed: clicked()
     }
 
     Rectangle{
@@ -43,13 +54,13 @@ Item {
 
         Image {
             id: imageDecorator
-            source: "qrc:/pictures/Ressources/arrow.png"
+            source: buttonBody.source
 
             anchors.fill: parent
 
             anchors.margins: 10
 
-            rotation: orientation == 0x1 ? 0 : 180
+            rotation: orientation == 0x02 ? 0 : 180
         }
     }
 }

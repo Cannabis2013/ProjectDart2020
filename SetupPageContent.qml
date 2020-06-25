@@ -9,6 +9,10 @@ Rectangle {
     Layout.fillHeight: true
     Layout.fillWidth: true
 
+    Layout.maximumWidth: defaultPageContentWidth
+
+    Layout.alignment: Qt.AlignHCenter
+
     GridLayout{
         flow: GridLayout.TopToBottom
         anchors.fill: parent
@@ -16,10 +20,12 @@ Rectangle {
         MyLineEdit {
             id: titleEdit
 
-            Layout.alignment: Qt.AlignTop | Qt.AlignHCenter
+            Layout.alignment: Qt.AlignTop
+            Layout.fillWidth: true
 
-            width: 360
             height: 32
+
+            onWidthChanged: print(width)
 
             fontSize: 12
 
@@ -34,9 +40,10 @@ Rectangle {
 
             isNumeric: true
 
-            Layout.alignment: Qt.AlignTop | Qt.AlignHCenter
+            Layout.fillWidth: true
 
-            width: 360
+            Layout.alignment: Qt.AlignTop
+
             height: 32
 
             fontSize: 12
@@ -53,9 +60,10 @@ Rectangle {
 
             isNumeric: true
 
+            Layout.fillWidth: true
+
             Layout.alignment: Qt.AlignTop | Qt.AlignHCenter
 
-            width: 360
             height: 32
 
             fontSize: 12
@@ -71,9 +79,8 @@ Rectangle {
 
             isNumeric: true
 
-            Layout.alignment: Qt.AlignTop | Qt.AlignHCenter
+            Layout.fillWidth: true
 
-            width: 360
             height: 32
 
             fontSize: 12
@@ -85,10 +92,9 @@ Rectangle {
         }
 
         ComboBoxView{
-            Layout.alignment: Qt.AlignTop | Qt.AlignHCenter
-
-            width: 360
             height: 32
+
+            Layout.fillWidth: true
 
             labelText: "Game modes"
             labelFontSize: 8

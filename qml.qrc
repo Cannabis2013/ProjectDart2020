@@ -26,6 +26,7 @@
         <file>SetupPageContent.qml</file>
         <file>GamePageContent.qml</file>
         <file>DecoratedButtonComponent.qml</file>
+        <file>TurnNavigationComponent.qml</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>

@@ -3,9 +3,10 @@ import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
 import ApplicationInterface 1.0
 
-
 ApplicationWindow {
     id: applicationWindow
+
+    readonly property int defaultPageContentWidth: 640
 
     visible: true
 

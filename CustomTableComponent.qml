@@ -5,10 +5,7 @@ import CustomItems 1.0
 Rectangle{
     color: Qt.rgba(0, 0, 1, 0.75)
 
-    opacity: 0.25
-
     radius: 15
-
 
     property int horizontalHeaderHeight: 20
     onHorizontalHeaderHeightChanged: horizontalHeader.height = horizontalHeaderHeight
@@ -100,7 +97,6 @@ Rectangle{
             id: mainLayout
             rows: 2
             columns: 2
-
 
             rowSpacing: 0
             columnSpacing: 0

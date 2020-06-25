@@ -5,6 +5,10 @@ Rectangle {
     Layout.fillHeight: true
     Layout.fillWidth: true
 
+    Layout.maximumWidth: defaultPageContentWidth
+
+    Layout.alignment: Qt.AlignHCenter
+
     color: "transparent"
 
     clip: true
@@ -14,11 +18,16 @@ Rectangle {
 
         anchors.fill: parent
 
+        columns: 1
+
         flow: GridLayout.TopToBottom
 
-        DecoratedButtonComponent{
-            width: 50
-            height: 50
+        TurnNavigationComponent{
+            Layout.fillWidth: true
+            Layout.minimumHeight: 128
+            Layout.maximumWidth: 480
+
+            Layout.alignment: Qt.AlignHCenter
         }
 
         CustomTableComponent{
