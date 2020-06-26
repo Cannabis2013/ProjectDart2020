@@ -101,28 +101,37 @@ Rectangle {
             labelLeftMargin: 10
         }
 
+        Rectangle{
+            height: 10
+        }
+
         ListComponent {
             id: listComponent
 
-            Layout.fillWidth: true
-            Layout.fillHeight: true
+            Layout.alignment: Qt.AlignHCenter
+
+            width: 320
+            height: 256
 
             componentTitle: "Assign players"
-            itemTextColor: "white"
-            itemSelectedtextColor: "yellow"
-            itemSelectedBackgroundColor: "black"
+            itemTextColor: "black"
+            itemSelectedBackgroundColor: "white"
 
             itemHoveredColor: Qt.rgba(23,43,22,0.1)
 
-            itemFontSize: 10
+            color: "silver"
+
+            radius: 15
+
+            itemFontSize: 8
 
             itemWidth: 256
         }
 
         MyRectangle{
-            topBorderWidth: 1
-
+            bottomBorderWidth: 1
             Layout.fillWidth: true
+            Layout.fillHeight: true
         }
 
         ButtonsComponent {
@@ -159,6 +168,8 @@ Rectangle {
 
                 listComponent.addPlayerItem(playerFirstName,playerLastName,playerEMail, playerID);
             }
+
+            listComponent.addPlayerItem("Martin","Hansen","havnetrold2002@yahoo.dk","333-333-333");
         }
     }
 }

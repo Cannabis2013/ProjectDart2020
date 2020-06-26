@@ -2,8 +2,10 @@
 function createSelectorKey(parentID,keyText, rowIndex, columnIndex) {
     var component = Qt.createComponent("PushButton.qml");
 
+    var buttonID = "button" + rowIndex;
     var button = component.createObject(parentID,
-                                        {"text" : keyText,
+                                        {"id" : buttonID,
+                                            "text" : keyText,
                                             "Layout.row" : rowIndex,
                                             "Layout.column" : columnIndex,
                                             "Layout.fillWidth" : true,
@@ -11,7 +13,10 @@ function createSelectorKey(parentID,keyText, rowIndex, columnIndex) {
                                             "backgroundColor" : "black",
                                             "textColor" : "white",
                                             "buttonRadius" : 5,
-                                            "isCheckable" : true});
+                                            "isCheckable" : true,
+                                            "checkedBackgroundColor" : "black",
+                                            "checkedTextColor" : "white",
+                                            "checkedScale" : 0.8});
 
 
     if(button === null)

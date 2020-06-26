@@ -45,6 +45,8 @@ Item {
             onClicked: leftButtonClicked()
 
             Layout.alignment: Qt.AlignVCenter
+
+            enabled: false
         }
 
         GridLayout{
@@ -97,6 +99,8 @@ Item {
             onClicked: rightButtonClicked()
 
             Layout.alignment: Qt.AlignVCenter
+
+            enabled: false
         }
     }
 }

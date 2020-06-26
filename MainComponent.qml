@@ -59,5 +59,5 @@ Item {
         anchors.fill: parent
     }
 
-    Component.onCompleted: pageLoader.sourceComponent = gamePageComponent
+    Component.onCompleted: pageLoader.sourceComponent = startPageComponent
 }

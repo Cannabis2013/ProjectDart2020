@@ -52,6 +52,8 @@ Rectangle {
 
                 textColor: "white"
 
+                backgroundColor: "green"
+
                 text: "Back"
 
                 fontSize: 10

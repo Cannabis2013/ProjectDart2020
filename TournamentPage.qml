@@ -65,6 +65,8 @@ Rectangle{
                fontSize: 8
 
                textColor: "white"
+               backgroundColor: "green"
+
                buttonRadius: 5
 
                onClicked: createTournamentClicked()
@@ -79,6 +81,7 @@ Rectangle{
                fontSize: 8
 
                textColor: "white"
+               backgroundColor: "green"
 
                buttonRadius: 5
            }
@@ -96,6 +99,7 @@ Rectangle{
            height: 40
 
            textColor: "white"
+           backgroundColor: "green"
 
            text: "Start game"
 

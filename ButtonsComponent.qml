@@ -28,6 +28,7 @@ Rectangle{
             
             fontSize: 8
             textColor: "white"
+            backgroundColor: "green"
             
             height: 30
             width: 80
@@ -43,6 +44,7 @@ Rectangle{
             
             fontSize: 8
             textColor: "white"
+            backgroundColor: "green"
             
             height: 30
             width: 100

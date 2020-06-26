@@ -14,6 +14,7 @@ Item {
 
     property color backgroundColor: "transparent"
     onBackgroundColorChanged: buttonRect.color = backgroundColor
+
     property color textColor: "black"
     onTextColorChanged: buttonText.color = textColor
 
@@ -28,6 +29,8 @@ Item {
 
     property color checkedTextColor: "black"
 
+    property double checkedScale: 1
+
     property int buttonRadius: 20
     onButtonRadiusChanged: buttonRect.radius = buttonRadius
 
@@ -40,9 +43,32 @@ Item {
     property int imageRotation: 0
     onImageRotationChanged: imageDecorator.rotation = imageRotation
 
+
     signal clicked
-    signal clickedText(string txt)
-    signal checkStateChanged(bool check)
+    onClicked: handleClick()
+
+    signal emitBodyText(string txt)
+    signal emitCheckState(bool check)
+
+    function handleClick()
+    {
+        if(isCheckable)
+        {
+            checked = !checked ? true : false;
+            buttonRect.scale = checked ? checkedScale : 1
+            pushButtonbody.emitCheckState(checked);
+
+            if(checked){
+                buttonText.color = pushButtonbody.checkedTextColor
+                buttonRect.color = pushButtonbody.checkedBackgroundColor;
+            }
+            else if(isCheckable){
+                buttonText.color = pushButtonbody.textColor
+                buttonRect.color = pushButtonbody.backgroundColor;
+            }
+        }
+    }
+
 
     MouseArea
     {
@@ -85,25 +111,9 @@ Item {
         }
 
         onClicked: {
-            if(isCheckable)
-            {
-                checked = !checked ? true : false;
-                pushButtonbody.checkStateChanged(checked);
-
-            }
-
-
-            if(checked){
-                buttonText.color = pushButtonbody.checkedTextColor
-                buttonRect.color = pushButtonbody.checkedBackgroundColor;
-            }
-            else if(isCheckable){
-                buttonText.color = pushButtonbody.textColor
-                buttonRect.color = pushButtonbody.backgroundColor;
-            }
 
             pushButtonbody.clicked();
-            pushButtonbody.clickedText(text);
+            pushButtonbody.emitBodyText(text);
         }
     }
 

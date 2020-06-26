@@ -36,6 +36,8 @@ Rectangle {
         CustomTable{
             id: scoreTable
 
+            color: "transparent"
+
             verticalHeaderFillMode: 0x1
             Layout.fillWidth: true
             Layout.minimumHeight: scoreTable.calcContentHeight() + 30
@@ -46,8 +48,9 @@ Rectangle {
         }
 
         KeyPadComponent{
-            Layout.fillHeight: true
             Layout.fillWidth: true
+            Layout.minimumHeight: 192
+            Layout.preferredHeight: 192
         }
 
         Rectangle{

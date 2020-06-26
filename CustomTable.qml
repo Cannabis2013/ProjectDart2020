@@ -3,9 +3,6 @@ import QtQuick.Layouts 1.3
 import CustomItems 1.0
 
 Rectangle{
-    color: Qt.rgba(0, 0, 1, 0.75)
-
-    radius: 15
 
     property int horizontalHeaderHeight: 20
     onHorizontalHeaderHeightChanged: horizontalHeader.height = horizontalHeaderHeight
@@ -129,7 +126,7 @@ Rectangle{
                 Layout.column: 1
                 Layout.row: 0
 
-                backgroundColor: "darkgray"
+                backgroundColor: "lightgray"
                 color: "black"
 
                 borderWidth: 1
