@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>CustomTableComponent.qml</file>
+        <file>CustomTable.qml</file>
         <file>StartPage.qml</file>
         <file>PushButton.qml</file>
         <file>PageLabelItem.qml</file>
@@ -25,8 +25,8 @@
         <file>Page.qml</file>
         <file>SetupPageContent.qml</file>
         <file>GamePageContent.qml</file>
-        <file>DecoratedButtonComponent.qml</file>
         <file>TurnNavigationComponent.qml</file>
+        <file>KeyPadComponent.qml</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>

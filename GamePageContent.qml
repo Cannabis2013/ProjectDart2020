@@ -24,13 +24,16 @@ Rectangle {
 
         TurnNavigationComponent{
             Layout.fillWidth: true
-            Layout.minimumHeight: 128
+            height: 64
             Layout.maximumWidth: 480
 
             Layout.alignment: Qt.AlignHCenter
+
+            currentTurnIndex: 3
+            currentPlayer: "Martin"
         }
 
-        CustomTableComponent{
+        CustomTable{
             id: scoreTable
 
             verticalHeaderFillMode: 0x1
@@ -50,7 +53,6 @@ Rectangle {
                 scoreTable.addData(2,1,50);
             }
         }
-
         Rectangle{
             Layout.fillHeight: true
         }

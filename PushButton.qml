@@ -12,9 +12,8 @@ Item {
     property color hoveredColor: "#04F72D"
     property color hoveredTextColor: textColor
 
-    property color backgroundColor: "green"
+    property color backgroundColor: "transparent"
     onBackgroundColorChanged: buttonRect.color = backgroundColor
-
     property color textColor: "black"
     onTextColorChanged: buttonText.color = textColor
 
@@ -31,6 +30,15 @@ Item {
 
     property int buttonRadius: 20
     onButtonRadiusChanged: buttonRect.radius = buttonRadius
+
+    property url image: ""
+    onImageChanged: imageDecorator.source = image
+
+    property int imageMargins: 0
+    onImageMarginsChanged: imageDecorator.anchors.margins = imageMargins
+
+    property int imageRotation: 0
+    onImageRotationChanged: imageDecorator.rotation = imageRotation
 
     signal clicked
 
@@ -100,6 +108,14 @@ Item {
         radius: pushButtonbody.buttonRadius
 
         color: backgroundColor
+        Image{
+            id: imageDecorator
+
+            anchors.fill: parent
+            anchors.margins: pushButtonbody.imageMargins
+
+            rotation: pushButtonbody.imageRotation
+        }
 
         Text {
             id: buttonText
@@ -107,12 +123,13 @@ Item {
             font.pointSize: fontSize
 
             color: pushButtonbody.textColor
-            text: qsTr("Button title")
+            text: qsTr(pushButtonbody.text)
 
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
 
             anchors.centerIn: parent
         }
+
     }
 }

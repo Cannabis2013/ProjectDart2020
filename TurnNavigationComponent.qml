@@ -7,45 +7,96 @@ Item {
     signal leftButtonClicked
     signal rightButtonClicked
 
+    property int currentTurnIndex: 0
+    property string currentPlayer: ""
+
+    onCurrentTurnIndexChanged: textBeholder.currentTurnIndexText + currentTurnIndex
+    onCurrentPlayerChanged: textBeholder.currentPlayerText + currentPlayer
+
+    QtObject{
+        id: textBeholder
+
+        property string currentTurnIndexText: qsTr("Current turn: ")
+        property string currentPlayerText: qsTr("Current player: ")
+    }
+
     GridLayout{
 
         anchors.fill: parent
 
         flow: GridLayout.LeftToRight
 
-        DecoratedButtonComponent{
+        PushButton{
             id: leftButton
 
             width: 64
             height: 64
 
-            source: "qrc:/pictures/Ressources/arrow.png"
+            image: "qrc:/pictures/Ressources/arrow.png"
 
-            orientation: 0x1
+            imageRotation: 180
+
+            imageMargins: 20
+
+            buttonRadius: 45
+
+            hoveredColor: "white"
 
             onClicked: leftButtonClicked()
+
+            Layout.alignment: Qt.AlignVCenter
         }
 
         GridLayout{
             Layout.fillWidth: true
-            Layout.fillHeight: true
+            height: 64
 
             flow: GridLayout.TopToBottom
 
             Label{
+                id: currentTurnLabel
 
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+
+                text: textBeholder.currentTurnIndexText + currentTurnIndex
+                font.pointSize: 12
+
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+            }
+
+            Label{
+                id: currentPlayerLabel
+
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+
+                text: textBeholder.currentPlayerText + currentPlayer
+                font.pointSize: 12
+
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
             }
         }
 
-        DecoratedButtonComponent{
+        PushButton{
             id: rightButton
 
             width: 64
             height: 64
 
-            source: "qrc:/pictures/Ressources/arrow.png"
+            image: "qrc:/pictures/Ressources/arrow.png"
+
+            imageMargins: 20
+
+            buttonRadius: 45
+
+            hoveredColor: "white"
 
             onClicked: rightButtonClicked()
+
+            Layout.alignment: Qt.AlignVCenter
         }
     }
 }
