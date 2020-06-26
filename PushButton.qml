@@ -41,9 +41,12 @@ Item {
     onImageRotationChanged: imageDecorator.rotation = imageRotation
 
     signal clicked
+    signal clickedText(string txt)
+    signal checkStateChanged(bool check)
 
     MouseArea
     {
+        id: buttonMouseArea
         anchors.fill: pushButtonbody
         hoverEnabled: true
         onHoveredChanged: {
@@ -82,7 +85,13 @@ Item {
         }
 
         onClicked: {
-            checked = isCheckable && !checked ? true : false
+            if(isCheckable)
+            {
+                checked = !checked ? true : false;
+                pushButtonbody.checkStateChanged(checked);
+
+            }
+
 
             if(checked){
                 buttonText.color = pushButtonbody.checkedTextColor
@@ -94,6 +103,7 @@ Item {
             }
 
             pushButtonbody.clicked();
+            pushButtonbody.clickedText(text);
         }
     }
 

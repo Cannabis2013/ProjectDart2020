@@ -27,6 +27,7 @@
         <file>GamePageContent.qml</file>
         <file>TurnNavigationComponent.qml</file>
         <file>KeyPadComponent.qml</file>
+        <file>componentFactory.js</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>
