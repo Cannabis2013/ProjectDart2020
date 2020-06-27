@@ -19,44 +19,43 @@ Rectangle {
     radius: 15
 
     QtObject{
-        id: checkChecker
+        id: modifiers
 
-        property bool isDoubleChecked : false
-        property bool isTrippleChecked: false
+        property bool isDoubleModifierEnabled : false
+        property bool isTrippleModifierEnabled: false
     }
 
     function handleNumberKeyPressed(value)
     {
         var score = value;
-        if(checkChecker.isDoubleChecked)
+        if(modifiers.isDoubleModifierEnabled)
         {
             doubleModifier.clicked();
             score *= 2;
         }
-        else if(checkChecker.isTrippleChecked){
+        else if(modifiers.isTrippleModifierEnabled){
             trippleModifier.clicked();
             score *= 3;
         }
 
-        print(score);
         emitScore(score);
     }
 
     function handleDoubleKeyPressed(check){
-        if(checkChecker.isTrippleChecked)
+        if(modifiers.isTrippleModifierEnabled)
             trippleModifier.clicked();
-        checkChecker.isDoubleChecked = check;
+        modifiers.isDoubleModifierEnabled = check;
     }
     function handleTrippleKeyPressed(check){
-        if(checkChecker.isDoubleChecked)
+        if(modifiers.isDoubleModifierEnabled)
             doubleModifier.clicked();
-        checkChecker.isTrippleChecked = check;
+        modifiers.isTrippleModifierEnabled = check;
     }
 
     function isModifiersPressed()
     {
-        var doubleChecked = checkChecker.isDoubleChecked;
-        var trippleChecked = checkChecker.isTrippleChecked;
+        var doubleChecked = modifiers.isDoubleModifierEnabled;
+        var trippleChecked = modifiers.isTrippleModifierEnabled;
         return doubleChecked || trippleChecked;
     }
 
