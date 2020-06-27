@@ -9,24 +9,32 @@ Rectangle{
 
     clip: true
 
+    property var stringModel: ["Item one", "Item two", "Item three"]
+    onStringModelChanged: comboBox.model = stringModel
+
+    property color popupBackgroundColor: "white"
+    onPopupBackgroundColorChanged: popupItem.color = popupBackgroundColor
+
+    property color popupItemHoveredColor: "white"
+    onPopupItemHoveredColorChanged: popupItem.hoveredColor = popupItemHoveredColor
     function currentSelectedText(){
-        var currentText = gameModeSelector.currentText;
+        var currentText = comboBox.currentText;
 
         return currentText;
     }
 
     function setModel(strings)
     {
-        gameModeSelector.model = strings
+        comboBox.model = strings
     }
 
     ComboBox
     {
-        id: gameModeSelector
+        id: comboBox
 
         anchors.fill: parent
 
-        model: ["First to post", "Round race", "Circular mode"]
+        model: stringModel
         
         delegate: Rectangle
         {
@@ -36,7 +44,7 @@ Rectangle{
 
             border.width: 0
 
-            color: "gray"
+            color: popupBackgroundColor
 
             x: 0
             y: 0
@@ -47,18 +55,18 @@ Rectangle{
                 anchors.fill: parent
                 text: modelData
 
-                backgroundColor: "gray"
+                backgroundColor: popupBackgroundColor
 
                 textColor: "black"
 
                 hoveredTextColor: "blue"
-                hoveredColor: "gray"
+                hoveredColor: popupItemHoveredColor
 
                 buttonRadius: 0
 
                 onClicked: {
-                    gameModeSelector.currentIndex = gameModeSelector.indexOfValue(text);
-                    gameModeSelector.popup.close();
+                    comboBox.currentIndex = comboBox.indexOfValue(text);
+                    comboBox.popup.close();
 
                 }
             }

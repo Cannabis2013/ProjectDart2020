@@ -16,33 +16,30 @@ Rectangle {
     GridLayout{
         flow: GridLayout.TopToBottom
         anchors.fill: parent
+        rowSpacing: 3
 
-        MyLineEdit {
+        LineEditComponent {
             id: titleEdit
 
-            Layout.alignment: Qt.AlignTop
             Layout.fillWidth: true
 
             height: 32
-
-            onWidthChanged: print(width)
 
             fontSize: 12
 
             labelText: "Title"
             labelFontSize: 8
-            labelFontColor: "white"
+            labelFontColor: "darkblue"
+            labelBackgroundColor: "lightblue"
             labelLeftMargin: 10
         }
 
-        MyLineEdit {
+        LineEditComponent {
             id: legsEdit
 
             isNumeric: true
 
             Layout.fillWidth: true
-
-            Layout.alignment: Qt.AlignTop
 
             height: 32
 
@@ -50,19 +47,17 @@ Rectangle {
 
             labelText: "Number of legs"
             labelFontSize: 8
-            labelFontColor: "white"
+            labelFontColor: "darkblue"
+            labelBackgroundColor: "lightblue"
             labelLeftMargin: 10
-
         }
 
-        MyLineEdit {
+        LineEditComponent {
             id: maxPlayerEdit
 
             isNumeric: true
 
             Layout.fillWidth: true
-
-            Layout.alignment: Qt.AlignTop | Qt.AlignHCenter
 
             height: 32
 
@@ -70,11 +65,12 @@ Rectangle {
 
             labelText: "Max allowered players"
             labelFontSize: 8
-            labelFontColor: "white"
+            labelFontColor: "darkblue"
+            labelBackgroundColor: "lightblue"
             labelLeftMargin: 10
         }
 
-        MyLineEdit {
+        LineEditComponent {
             id: keyPointEdit
 
             isNumeric: true
@@ -87,7 +83,8 @@ Rectangle {
 
             labelText: "Keypoint"
             labelFontSize: 8
-            labelFontColor: "white"
+            labelFontColor: "darkblue"
+            labelBackgroundColor: "lightblue"
             labelLeftMargin: 10
         }
 
@@ -97,8 +94,12 @@ Rectangle {
             Layout.fillWidth: true
 
             labelText: "Game modes"
+            labelFontColor: "darkblue"
+            labelBackgroundColor: "lightblue"
             labelFontSize: 8
             labelLeftMargin: 10
+
+            stringModel: ["First to post", "Round race", "Circular mode"]
         }
 
         Rectangle{
@@ -117,7 +118,7 @@ Rectangle {
             itemTextColor: "black"
             itemSelectedBackgroundColor: "white"
 
-            itemHoveredColor: Qt.rgba(23,43,22,0.1)
+            itemHoveredColor: "darkgray"
 
             color: "silver"
 

@@ -15,7 +15,7 @@
         <file>MyTableView.qml</file>
         <file>MyTextEdit.qml</file>
         <file>MyLabel.qml</file>
-        <file>MyLineEdit.qml</file>
+        <file>LineEditComponent.qml</file>
         <file>MyListView.qml</file>
         <file>ListComponent.qml</file>
         <file>ComboBoxView.qml</file>
@@ -28,6 +28,7 @@
         <file>TurnNavigationComponent.qml</file>
         <file>KeyPadComponent.qml</file>
         <file>componentFactory.js</file>
+        <file>CreatePlayerContent.qml</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>

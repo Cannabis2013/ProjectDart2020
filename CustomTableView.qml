@@ -40,7 +40,7 @@ TableView
     {
         return myModel;
     }
-    
+
     columnWidthProvider: function(column)
     {
         return myModel.columnWithAt(column,"MS Sans Serif",fontSize);
@@ -51,6 +51,8 @@ TableView
         id: myModel
 
         headerFillMode : verticalHeaderFillMode
+
+        columnWidthScale: 2
 
         // Signal handling
         onDataChanged: dataHasChanged()

@@ -18,6 +18,7 @@ public:
     enum HeaderFillMode{IncrementingIntegerFill = 0x1, SymbolFill = 0x2, NonFill = 0x4};
 
     Q_PROPERTY(int headerFillMode READ fillMode WRITE setFillMode NOTIFY fillModeChanged);
+    Q_PROPERTY(double columnWidthScale READ scale WRITE setScale NOTIFY columnWidthScaleChanged);
 
     CustomTableModel();
 
@@ -58,6 +59,7 @@ public:
 
 signals:
     void fillModeChanged();
+    void columnWidthScaleChanged();
 
 protected:
     bool setData(const QModelIndex &index, const QVariant &value, int role) override;

@@ -17,6 +17,9 @@ Rectangle{
     property color labelBackgroundColor: "black"
     onLabelBackgroundColorChanged: label.color = labelBackgroundColor
 
+    property color labelFontColor: "black"
+    onLabelFontColorChanged: label.fontColor = labelFontColor
+
     property int labelFontSize: 16
     onLabelFontSizeChanged: label.fontSize = labelFontSize
 
@@ -30,6 +33,9 @@ Rectangle{
     onLabelTextChanged: label.text = labelText
 
     property string currentText: comboBox.currentSelectedText()
+
+    property var stringModel: [""]
+    onStringModelChanged: comboBox.stringModel = stringModel
 
     function setModel(strings)
     {

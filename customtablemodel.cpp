@@ -56,6 +56,9 @@ int CustomTableModel::columnCount() const
 
 double CustomTableModel::columnWithAt(const int &column, const QString &fontFamily, const int &pointSize) const
 {
+    if(column >= columnCount())
+        throw std::out_of_range("Index out of range");
+
     auto font = QFont(fontFamily,pointSize);
 
     QFontMetrics fontMetric(font);
@@ -66,19 +69,28 @@ double CustomTableModel::columnWithAt(const int &column, const QString &fontFami
 
         if(fillMode() == HeaderFillMode::IncrementingIntegerFill)
             string = QString::number(column + 1);
-        else
-            return defaultCellWidth;
     }
     else
         string = _horizontalHeaderData.at(column);
 
+    auto resultingGlyphLenght = fontMetric.boundingRect(string).width();
 
-    auto glyphLenght = fontMetric.boundingRect(string).width();
+    for (int r = 0; r < rowCount(); ++r) {
+        auto row = _cellData.at(r);
+        auto data = row.at(column);
 
-    if(glyphLenght < 25)
+        string = QString::number(data);
+
+        auto glyphLenght = fontMetric.boundingRect(string).width();
+
+        resultingGlyphLenght = glyphLenght > resultingGlyphLenght ? glyphLenght :
+                                                                    resultingGlyphLenght;
+    }
+
+    if(resultingGlyphLenght < 25)
         return defaultCellWidth *scale();
 
-    return glyphLenght * scale();
+    return resultingGlyphLenght * scale();
 }
 
 double CustomTableModel::columnHeightAt(const int &column, const QString &fontFamily, const int &pointSize) const

@@ -40,6 +40,17 @@ Item {
 
     }
 
+    Component{
+        id: createPlayerComponent
+        Page{
+            pageTitle: "Create player"
+
+            pageContent: CreatePlayerContent{
+
+            }
+        }
+    }
+
     Component
     {
         id: startPageComponent
@@ -59,5 +70,5 @@ Item {
         anchors.fill: parent
     }
 
-    Component.onCompleted: pageLoader.sourceComponent = startPageComponent
+    Component.onCompleted: pageLoader.sourceComponent = createPlayerComponent
 }
