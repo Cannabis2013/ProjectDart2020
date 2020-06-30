@@ -10,6 +10,24 @@ Rectangle{
     signal startClicked
     signal saveClicked
 
+    property string buttonOneTitle: "Button one"
+    property string buttonTwoTitle: "Button two"
+
+    onButtonOneTitleChanged: buttonOne.text = buttonOneTitle
+    onButtonTwoTitleChanged: buttontwo.text = buttonTwoTitle
+
+    property color buttonBackgroundColor: "green"
+    onButtonBackgroundColorChanged: {
+        buttonOne.backgroundColor = buttonBackgroundColor
+        buttonTwo.backgroundColor = buttonBackgroundColor
+    }
+
+    property int buttonWidth: 80
+    onButtonWidthChanged: {
+        buttonOne.width = buttonWidth
+        buttontwo.width = buttonWidth
+    }
+
     Layout.alignment: Qt.AlignTop | Qt.AlignHCenter
     
     GridLayout{
@@ -21,33 +39,36 @@ Rectangle{
         rowSpacing: 5
         
         PushButton{
-            text: "Save"
+            id: buttonOne
+            text: buttonOneTitle
             
             Layout.row: 0
             Layout.column: 0
             
             fontSize: 8
             textColor: "white"
-            backgroundColor: "green"
+            backgroundColor: buttonBackgroundColor
             
             height: 30
-            width: 80
+            width: buttonWidth
 
             onClicked: saveClicked()
         }
         
         PushButton{
-            text: "Save and start"
+            id: buttontwo
+
+            text: buttonTwoTitle
             
             Layout.row: 0
             Layout.column: 1
             
             fontSize: 8
             textColor: "white"
-            backgroundColor: "green"
+            backgroundColor: buttonBackgroundColor
             
             height: 30
-            width: 100
+            width: buttonWidth
 
             onClicked: startClicked()
         }

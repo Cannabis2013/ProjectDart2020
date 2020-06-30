@@ -10,6 +10,8 @@ Item {
 
     Layout.maximumWidth: defaultPageContentWidth
 
+    Layout.alignment: Qt.AlignHCenter
+
     GridLayout{
         anchors.fill: parent
 
@@ -80,8 +82,23 @@ Item {
             labelLeftMargin: 10
         }
 
-        Rectangle{
+        MyRectangle{
             Layout.fillHeight: true
+            bottomBorderWidth: 1
+        }
+
+        ButtonsComponent{
+            id: endStateButtons
+            clip: true
+            color: "transparent"
+            height: 30
+            width: 200
+            Layout.alignment: Qt.AlignBottom |Qt.AlignHCenter
+
+            buttonOneTitle: "Cancel"
+            buttonTwoTitle: "Save"
+
+            buttonWidth: 100
         }
     }
 }

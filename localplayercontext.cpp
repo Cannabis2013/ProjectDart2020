@@ -1,7 +1,6 @@
 #include "localplayercontext.h"
 LocalPlayerContext::LocalPlayerContext()
 {
-
 }
 
 QUuid LocalPlayerContext::createPlayer(const QString &firstName, const QString &lastName, const QString &email, const int &role)
@@ -10,17 +9,18 @@ QUuid LocalPlayerContext::createPlayer(const QString &firstName, const QString &
     {
         PlayerBuilderParameters params;
 
-        params.firstName = firstName;
-        params.lastName = lastName;
-        params.mailAdress = email;
-        params.role = role;
+        params.setFirstName(firstName);
+        params.setLastName(lastName);
+        params.setMailAdress(email);
+        params.setRole(role);
 
         return params;
     }(),[]
     {
         PlayerModelOptions options;
 
-        options.generateUniqueId = true;
+        options.setGenerateUniqueId(true);
+        options.setGenerateUniqueId(false);
 
         return options;
     }());
@@ -121,7 +121,13 @@ QString LocalPlayerContext::playerLastName(const QUuid &id) const
 
 QString LocalPlayerContext::playerEMail(const QUuid &id) const
 {
+    for (auto model : _models) {
+        auto modelID = model->id();
+        if(modelID == id)
+            return model->email();
+    }
 
+    return QString();
 }
 
 QString LocalPlayerContext::playerFullName(const QUuid &id) const
@@ -151,13 +157,22 @@ int LocalPlayerContext::playerCount() const
     return _models.count();
 }
 
-PlayerBuilderInterface *LocalPlayerContext::playerBuilder() const
+DefaultPlayerBuilder *LocalPlayerContext::playerBuilder() const
 {
-    return _builder;
+    return _playerBuilder;
 }
 
-void LocalPlayerContext::setPlayerBuilder(PlayerBuilderInterface *builder)
+PlayerContextInterface *LocalPlayerContext::setPlayerBuilder(DefaultPlayerBuilder *builder)
 {
-    _builder = builder;
+    _playerBuilder = builder;
+
+    return this;
 }
+
+
+
+
+
+
+
 

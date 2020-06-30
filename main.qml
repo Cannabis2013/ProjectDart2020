@@ -6,7 +6,7 @@ import ApplicationInterface 1.0
 ApplicationWindow {
     id: applicationWindow
 
-    readonly property int defaultPageContentWidth: 640
+    readonly property int defaultPageContentWidth: 512
 
     visible: true
 

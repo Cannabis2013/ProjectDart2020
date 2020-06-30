@@ -46,6 +46,7 @@ HEADERS += \
     idatacontext.h \
     idatamodelbuilder.h \
     igamecontroller.h \
+    iplayerbuildercontext.h \
     iplayercontext.h \
     iplayermodel.h \
     ipointlogisticmanager.h \

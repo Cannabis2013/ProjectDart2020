@@ -5,6 +5,8 @@ ProjectDart::ProjectDart()
     _playerContext = new LocalPlayerContext();
     _dataContext = new LocalDataContext();
     _gameController = new LocalStandardDart();
+
+
 }
 
 void ProjectDart::read()
@@ -193,4 +195,16 @@ QStringList ProjectDart::gameModes() const
     resultingList << first << second << third;
 
     return resultingList;
+}
+
+int ProjectDart::gameModeFromString(const QString &gameMode) const
+{
+    if(gameMode == printVariable(FirstToPost))
+        return FirstToPost;
+    else if(gameMode == printVariable(RoundBased))
+        return RoundBased;
+    else if(gameMode == printVariable(CircularDart))
+        return CircularDart;
+    else
+        throw std::domain_error("Gamemode not supportet");
 }

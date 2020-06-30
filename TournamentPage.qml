@@ -34,13 +34,13 @@ Rectangle{
            Layout.fillWidth: true
            Layout.fillHeight: true
 
-           color: "lightgray"
+           color: "white"
            radius: 15
 
            componentTitle: "Select tournament"
            itemTextColor: "white"
            itemSelectedtextColor: "white"
-           itemSelectedBackgroundColor: "blue"
+           itemSelectedBackgroundColor: "silver"
 
            itemHoveredColor: Qt.rgba(23,43,22,0.1)
 

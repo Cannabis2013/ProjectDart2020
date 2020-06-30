@@ -1,7 +1,7 @@
 #ifndef ILOCALDATACONTEXT_H
 #define ILOCALDATACONTEXT_H
 
-template<class TUuid, class TList,class TString>
+template<class TUuid, class TList,class TString, class TTournamentBuilder>
 class IDataContext
 {
 public:
@@ -81,6 +81,12 @@ public:
      */
     virtual TList playerPoints(const TUuid &player) const = 0;
     virtual TList playerPoints(const TUuid &tournament, const TUuid &player) const = 0;
+
+    /*
+     * Builders
+     */
+
+    virtual IDataContext<TUuid, TList,TString, TTournamentBuilder> *setTournamentBuilder(TTournamentBuilder *builder) = 0;
 };
 
 #endif // ILOCALDATACONTEXT_H

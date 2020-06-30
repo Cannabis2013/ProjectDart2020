@@ -14,8 +14,8 @@ function createSelectorKey(parentID,keyText, rowIndex, columnIndex) {
                                             "textColor" : "white",
                                             "buttonRadius" : 5,
                                             "isCheckable" : true,
-                                            "checkedBackgroundColor" : "black",
-                                            "checkedTextColor" : "white",
+                                            "checkedBackgroundColor" : "white",
+                                            "checkedTextColor" : "black",
                                             "checkedScale" : 0.8});
 
 
@@ -36,7 +36,9 @@ function createNumberButton(parentID,keyText, rowIndex, columnIndex) {
                                             "Layout.fillHeight" : true,
                                             "backgroundColor" : "black",
                                             "textColor" : "white",
-                                            "buttonRadius" : 5});
+                                            "buttonRadius" : 5,
+                                            "pressedScale" : 0.75,
+                                            "hoveredColor" : "black"});
 
     if(button === null)
         print("Something went wrong");

@@ -8,13 +8,10 @@
 
 #include "modelbuildercollection.h"
 
-#include "idatamodelbuilder.h"
-#include "modelbuildercontext.h"
-
 #define THROW_OBJECT_WITH_ID_NOT_FOUND(x) QString("Model with ID: '%1' does not exists in the current context").arg(x).toStdString();
 #define THROW_OBJECT_WITH_INDEX_NOT_FOUND(x) QString("Model with index: '%1' does not exists in the current context").arg(x).toStdString();
 
-typedef IDataContext<QUuid,QList<QUuid>,QString> DefaultDataInterface;
+typedef IDataContext<QUuid,QList<QUuid>,QString,ITournamentBuilder> DefaultDataInterface;
 
 class LocalDataContext : public DefaultDataInterface
 {
@@ -80,7 +77,7 @@ public:
     QList<QUuid> playerPoints(const QUuid &tournament, const QUuid &player) const override;
     QUuid point(const QUuid &tournament, int roundIndex, int setIndex, int legIndex) override;
 
-    DefaultDataInterface *setTournamentBuilder(ITournamentBuilder *builder)
+    DefaultDataInterface *setTournamentBuilder(ITournamentBuilder *builder) override
     {
         _tournamentBuilder = builder;
         return this;
@@ -100,16 +97,20 @@ private:
 
     IRoundBuilder *roundBuilder() const;
     void setRoundBuilder(IRoundBuilder *roundBuilder);
-
     ISetBuilder *setBuilder() const;
+    void setSetBuilder(ISetBuilder *builder);
     IPointBuilder *pointBuilder() const;
+
 
     QList<DefaultTournamentInterface*> _tournaments;
     QList<DefaultRoundInterface *> _rounds;
     QList<DefaultSetInterface *> _sets;
     QList<DefaultPointInterface*> _points;
 
-    ITournamentBuilder *_tournamentBuilder;
+    ITournamentBuilder *_tournamentBuilder = new TournamentBuilder();
+    IRoundBuilder *_roundBuilder = new RoundBuilder();
+    ISetBuilder *_setBuilder = new SetBuilder();
+    IPointBuilder *_pointBuilder = new PointBuilder();
 };
 
 #endif // LOCALDATACONTEXT_H

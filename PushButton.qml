@@ -12,6 +12,7 @@ Item {
     property color hoveredColor: "#04F72D"
     property color hoveredTextColor: textColor
 
+
     property color backgroundColor: "transparent"
     onBackgroundColorChanged: buttonRect.color = backgroundColor
 
@@ -22,6 +23,8 @@ Item {
 
     property bool checked: false
     onCheckedChanged: isCheckable || checked == false ? checked = checked : checked = false
+
+    property double pressedScale: 0.90
 
     property bool isCheckable: false
 
@@ -42,7 +45,6 @@ Item {
 
     property int imageRotation: 0
     onImageRotationChanged: imageDecorator.rotation = imageRotation
-
 
     signal clicked
     onClicked: handleClick()
@@ -99,7 +101,7 @@ Item {
 
         onPressedChanged: {
             var s = buttonRect.scale;
-            var alteredS = 0.90
+            var alteredS = pressedScale
             if(s !== alteredS)
             {
                 buttonRect.scale = alteredS

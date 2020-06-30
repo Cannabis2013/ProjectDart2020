@@ -6,6 +6,8 @@
 #include "gamemodelscontext.h"
 #include "pointlogisticmanager.h"
 
+#include "localdatacontext.h"
+
 #include <quuid.h>
 #include <qlist.h>
 
@@ -14,7 +16,6 @@
 #define INVALID_DOMAIN "Input is not within domain";
 #define UNABLE_TURN "Unable to alter turn index";
 
-typedef IDataContext<QUuid,QList<QUuid>,QString> DefaultDataInterface;
 typedef IGameController<QUuid,QString,DefaultDataInterface> DefaultControllerInterface;
 
 class LocalStandardDart : public DefaultControllerInterface

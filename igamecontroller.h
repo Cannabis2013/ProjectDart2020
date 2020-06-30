@@ -1,10 +1,6 @@
 #ifndef IGAMECONTROLLER_H
 #define IGAMECONTROLLER_H
 
-/*
- *
- */
-
 template<typename TUuid,class TString, class TDefaultLocalDataContext>
 class IGameController
 {

@@ -89,6 +89,7 @@ Rectangle {
         }
 
         ComboBoxView{
+            id: gameModeSelector
             height: 32
 
             Layout.fillWidth: true
@@ -99,7 +100,7 @@ Rectangle {
             labelFontSize: 8
             labelLeftMargin: 10
 
-            stringModel: ["First to post", "Round race", "Circular mode"]
+            stringModel: projectDart.gameModes()
         }
 
         Rectangle{
@@ -116,11 +117,11 @@ Rectangle {
 
             componentTitle: "Assign players"
             itemTextColor: "black"
-            itemSelectedBackgroundColor: "white"
+            itemSelectedBackgroundColor: "silver"
 
             itemHoveredColor: "darkgray"
 
-            color: "silver"
+            color: "white"
 
             radius: 15
 
@@ -136,13 +137,14 @@ Rectangle {
         }
 
         ButtonsComponent {
-            Layout.column: 0
-            Layout.row: 9
             clip: true
             color: "transparent"
             height: 30
             width: 200
             Layout.alignment: Qt.AlignBottom |Qt.AlignHCenter
+
+            buttonOneTitle: "Save"
+            buttonTwoTitle: "Save and play"
 
             onSaveClicked: {
                 // Save tournament and go back to previous page
@@ -151,6 +153,10 @@ Rectangle {
                 var legs = legsEdit.currentText;
                 var maxPlayers = maxPlayerEdit.currentText;
                 var keyPoint = keyPointEdit.currentText;
+                var gameModeString = gameModeSelector.currentText;
+                var gameMode = projectDart.gameModeFromString(gameModeString);
+
+                projectDart.createTournament(tournamentTitle,legs,maxPlayers,gameMode,keyPoint);
 
                 backButtonPressed();
             }

@@ -1,7 +1,7 @@
 #ifndef IPLAYERDATACONTEXT_H
 #define IPLAYERDATACONTEXT_H
 
-template<class TUuid,class TList,class TString>
+template<class TUuid,class TList,class TString, class TBuilderInterface>
 class IPlayerContext
 {
 public:
@@ -27,6 +27,10 @@ public:
     virtual TList players() const = 0;
 
     virtual int playerCount() const = 0;
+
+    virtual IPlayerContext<TUuid,TList,TString, TBuilderInterface> *setPlayerBuilder(TBuilderInterface *builder) = 0;
+    virtual TBuilderInterface *playerBuilder() const = 0;
+
 };
 
 #endif // IPLAYERDATACONTEXT_H

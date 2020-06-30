@@ -4,7 +4,6 @@
 #include "modelbuildercontext.h"
 #include "idatamodelbuilder.h"
 
-
 #include "tournament.h"
 #include "round.h"
 #include "set.h"

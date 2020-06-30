@@ -6,12 +6,24 @@
 #include <qlist.h>
 
 namespace DataContext {
-    struct TournamentParameters;
+    class TournamentParameters;
     struct RoundParameters;
     struct SetParameters;
     struct PointParameters;
     struct ModelOptions;
 }
+
+template<class TString, class TUuid>
+class ITournamentParameters
+{
+public:
+    virtual TString title() const = 0;
+    virtual int maximumPlayers() const = 0;
+    virtual int numberOfLegs() const = 0;
+    virtual int gameMode() const = 0;
+    virtual int keyPoint() const = 0;
+    virtual int status() const = 0;
+};
 
 struct TournamentParameters
 {
@@ -54,7 +66,5 @@ struct ModelOptions
     bool generateUniqueId = true;
     bool customUuid = false;
 };
-
-
 
 #endif // MODELBUILDERCONTEXT_H

@@ -6,43 +6,31 @@
 #include <qstring.h>
 #include "quuid.h"
 
-class PlayerModelOptions
-{
-public:
-    bool generateUniqueId;
-    bool customUuid = false;
-};
-
-class PlayerBuilderParameters
-{
-public:
-    QString firstName;
-    QString lastName;
-    QString mailAdress;
-
-    int role;
-};
+#include "iplayerbuildercontext.h"
 
 typedef IPlayerModel<QUuid,QString> DefaultModelInterface;
+typedef IPlayerBuilderParameters<QString> DefaultParameters;
+typedef IDataModelBuilder<DefaultModelInterface,DefaultParameters,IPlayerBuilderConfiguration> DefaultPlayerBuilder;
 
-class LocalPlayerBuilder : public IDataModelBuilder<DefaultModelInterface,PlayerBuilderParameters,PlayerModelOptions>
+class LocalPlayerBuilder : public DefaultPlayerBuilder
 {
 public:
     LocalPlayerBuilder() {}
 
     // IDataModelBuilder interface
 public:
-    DefaultModelInterface *buildModel(const PlayerBuilderParameters &args, const PlayerModelOptions &options) override
+    DefaultModelInterface *buildModel(const DefaultParameters &params, const IPlayerBuilderConfiguration &options) override
     {
         DefaultModelInterface* model = new Player();
 
         model->setId(QUuid::createUuid());
 
-        model->setFirstName(args.firstName);
-        model->setLastName(args.lastName);
-        model->setEmail(args.mailAdress);
+        model->setFirstName(params.firstName());
+        model->setLastName(params.lastName());
+        model->setEmail(params.eMail());
 
-        // TODO: Missing model type type
+        if(options.generateUniqueID() && !options.generateCustomID())
+            model->setId(QUuid::createUuid());
 
         return model;
     }

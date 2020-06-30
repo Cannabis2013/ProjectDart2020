@@ -787,6 +787,11 @@ ISetBuilder *LocalDataContext::setBuilder() const
 
 }
 
+void LocalDataContext::setSetBuilder(ISetBuilder *builder)
+{
+
+}
+
 IPointBuilder *LocalDataContext::pointBuilder() const
 {
 

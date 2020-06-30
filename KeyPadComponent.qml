@@ -120,8 +120,12 @@ Rectangle {
                Layout.fillWidth: true
 
                backgroundColor : "black"
+               hoveredColor: "black"
                textColor : "white"
+
                buttonRadius : 5
+
+               pressedScale: 0.75
 
                text: "25"
 
@@ -133,8 +137,12 @@ Rectangle {
                Layout.fillWidth: true
 
                backgroundColor : "black"
+               hoveredColor: "black"
                textColor : "white"
+
                buttonRadius : 5
+
+               pressedScale: 0.75
 
                text: "50"
 

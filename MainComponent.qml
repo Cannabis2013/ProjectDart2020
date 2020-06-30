@@ -70,5 +70,5 @@ Item {
         anchors.fill: parent
     }
 
-    Component.onCompleted: pageLoader.sourceComponent = createPlayerComponent
+    Component.onCompleted: pageLoader.sourceComponent = startPageComponent
 }

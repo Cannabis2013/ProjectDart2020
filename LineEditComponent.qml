@@ -12,7 +12,6 @@ Rectangle{
     property int lineEditBorderRadius: 20
     onLineEditBorderRadiusChanged: lineEdit.radius = lineEditBorderRadius
 
-
     property color fontColor: "black"
     onFontColorChanged: lineEdit.fontColor = myLineEditBody.fontColor
 

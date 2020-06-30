@@ -1,7 +1,6 @@
 #ifndef PROJECTDART_H
 #define PROJECTDART_H
 
-#include "localdatacontext.h"
 #include "localstandarddart.h"
 #include "abstractdartinterface.h"
 #include "ipointlogisticmanager.h"
@@ -10,8 +9,8 @@
 #include <qstring.h>
 #include <qlist.h>
 
-typedef IPlayerContext<QUuid,QList<QUuid>,QString> PlayerContextInterface;
-typedef IDataContext<QUuid, QList<QUuid>,QString> DataContextInterface;
+typedef IPlayerContext<QUuid,QList<QUuid>,QString, DefaultPlayerBuilder> PlayerContextInterface;
+typedef IDataContext<QUuid, QList<QUuid>,QString,ITournamentBuilder> DataContextInterface;
 typedef IGameController<QUuid,QString, DataContextInterface> GameControllerInterface;
 
 #define printVariable(var) #var
@@ -47,6 +46,7 @@ public:
     Q_INVOKABLE int tournamentPlayersCount(const QString &id) override;
 
     Q_INVOKABLE QStringList gameModes() const override;
+    Q_INVOKABLE int gameModeFromString(const QString &gameMode) const;
 
     // Player related stuff
     Q_INVOKABLE QString createPlayer(const QString &firstName, const QString &lastName, const QString &email) override;
