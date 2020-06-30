@@ -118,7 +118,7 @@ QUuid LocalStandardDart::currentTournament()
 
 void LocalStandardDart::setCurrentTournament(QUuid &tournament)
 {
-
+    _tournament = tournament;
 }
 
 int LocalStandardDart::status()

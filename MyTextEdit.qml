@@ -24,11 +24,10 @@ Rectangle
 
         var text = titleEdit.text;
 
-        if(!isNan(text))
-            return titleEdit.text
-        else
-            return ""
+        if(isNumeric && text === "")
+            return -1;
 
+        return text;
     }
 
     TextEdit{

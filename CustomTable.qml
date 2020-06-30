@@ -3,7 +3,7 @@ import QtQuick.Layouts 1.3
 import CustomItems 1.0
 
 Rectangle{
-
+    clip: true
     property int horizontalHeaderHeight: 20
     onHorizontalHeaderHeightChanged: horizontalHeader.height = horizontalHeaderHeight
 
@@ -25,8 +25,10 @@ Rectangle{
 
         var preferedWidth = myModel.preferedCellWidth();
 
-        verticalHeader.width = preferedWidth*1.25;
-        upperTopLeftCell.width = preferedWidth;
+        verticalHeader.Layout.minimumWidth = preferedWidth*myModel.scale();
+        upperTopLeftCell.Layout.minimumWidth = verticalHeader.width;
+        upperTopLeftCell.Layout.minimumHeight = 25;
+        upperTopLeftCell.Layout.maximumHeight = 25;
     }
 
     function addData(row, column, data)
@@ -70,103 +72,126 @@ Rectangle{
     }
 
     function calcContentWidth(){
-        return verticalHeader.width + tableView.width
+        return tableView.width
     }
 
-    Flickable
+    GridLayout
     {
-        id: customTableBody
-
-        clip: true
-
-        contentHeight: calcContentHeight()
-        contentWidth: calcContentWidth()
+        id: mainLayout
 
         anchors.fill: parent
-        anchors.margins: 15
 
-        boundsMovement: Flickable.StopAtBounds
+        rows: 2
+        columns: 2
 
-        // Functions
+        rowSpacing: 0
+        columnSpacing: 0
 
-        GridLayout
+
+        MyRectangle
         {
-            id: mainLayout
-            rows: 2
-            columns: 2
+            id: upperTopLeftCell
 
-            rowSpacing: 0
-            columnSpacing: 0
+            height: 25
 
-            anchors.fill: parent
+            Layout.row: 0
+            Layout.column: 0
 
-            MyRectangle
-            {
-                id: upperTopLeftCell
+            Layout.minimumWidth: 128
 
-                height: 25
+            rightBorderWidth: 1
+            bottomBorderWidth: 1
 
-                Layout.row: 0
-                Layout.column: 0
+            color: "transparent"
 
-                rightBorderWidth: 1
-                bottomBorderWidth: 1
+            onWidthChanged: {
+                if(width == 0)
+                    width = verticalHeader.width;
+            }
+        }
 
-                color: "transparent"
+        VerticalHeader {
+            id: verticalHeader
 
-                onWidthChanged: {
-                    if(width == 0)
-                        width = verticalHeader.width;
+            Layout.row: 1
+            Layout.column: 0
+
+            Layout.fillHeight: true
+
+            backgroundColor: "lightgray"
+            color: "black"
+
+            borderWidth: 1
+
+            Layout.alignment: Qt.AlignTop
+        }
+
+        Flickable{
+            id: flickableTable
+
+            clip: true
+
+            Layout.row: 0
+            Layout.column: 1
+
+            Layout.rowSpan: 2
+
+            contentHeight: contentItem.childrenRect.height
+            contentWidth: contentItem.childrenRect.width
+
+            boundsMovement: Flickable.StopAtBounds
+
+            Layout.alignment: Qt.AlignTop
+
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+
+            GridLayout{
+                id: flickableLayout
+                anchors.fill: flickableLayout.contentItem
+
+                rowSpacing: 0
+                columnSpacing: 0
+
+                flow: GridLayout.TopToBottom
+
+                HorizontalHeader {
+                    id: horizontalHeader
+
+                    Layout.fillWidth: true
+                    Layout.minimumHeight: 25
+
+                    backgroundColor: "lightgray"
+                    color: "black"
+
+                    borderWidth: 1
+
                 }
-            }
 
-            HorizontalHeader {
-                id: horizontalHeader
+                CustomTableView {
+                    id: tableView
 
-                Layout.column: 1
-                Layout.row: 0
+                    cellBorderWidth: 1
 
-                backgroundColor: "lightgray"
-                color: "black"
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
 
-                borderWidth: 1
+                    Layout.minimumHeight: verticalHeader.height
+                    Layout.maximumHeight: verticalHeader.height
 
-                height: 25
-            }
-            VerticalHeader {
-                id: verticalHeader
+                    cellColor: "white"
 
-                backgroundColor: "lightgray"
-                color: "black"
-
-                Layout.column: 0
-                Layout.row: 1
-
-                borderWidth: 1
-
-                Layout.alignment: Qt.AlignTop
-            }
-
-            CustomTableView {
-                id: tableView
-
-                Layout.column: 1
-                Layout.row: 1
-
-                cellBorderWidth: 1
-
-                Layout.fillHeight: true
-                Layout.fillWidth: true
-
-                cellColor: "white"
-
-                onDataHasChanged: {
-                    if(getModel().verticalHeaderCount() > 0)
-                        upperTopLeftCell.visible = true
-                    else
-                        upperTopLeftCell.visible = false
+                    onDataHasChanged: {
+                        if(getModel().verticalHeaderCount() > 0)
+                            upperTopLeftCell.visible = true
+                        else
+                            upperTopLeftCell.visible = false
+                    }
                 }
             }
         }
+    }
+    Component.onCompleted: {
+
     }
 }

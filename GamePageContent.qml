@@ -40,15 +40,16 @@ Rectangle {
 
             verticalHeaderFillMode: 0x1
             Layout.fillWidth: true
-            Layout.minimumHeight: scoreTable.calcContentHeight() + 30
+            Layout.fillHeight: true
         }
 
         Rectangle{
-            height: 15
+            height: 25
         }
 
         KeyPadComponent{
             Layout.fillWidth: true
+
             Layout.minimumHeight: 192
             Layout.preferredHeight: 192
         }
@@ -62,11 +63,13 @@ Rectangle {
         scoreTable.appendHeader("Kent KillerHertz",0x2);
         scoreTable.appendHeader("Nikolaj Pedersen",0x2);
 
-        scoreTable.addData(0,0,501);
-        scoreTable.addData(1,0,501);
-        scoreTable.addData(2,0,501);
-        scoreTable.addData(0,1,490);
-        scoreTable.addData(1,1,450);
-        scoreTable.addData(2,1,490);
+        for(var r = 0;r < 3; r++)
+        {
+            for(var c = 0;c < 30; c++)
+            {
+                scoreTable.addData(r,c,501);
+            }
+        }
+
     }
 }

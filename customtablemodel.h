@@ -64,7 +64,7 @@ signals:
 protected:
     bool setData(const QModelIndex &index, const QVariant &value, int role) override;
     bool insertRows(int row, int count, const QModelIndex &) override;
-    bool insertColumns(int column, int count, const QModelIndex &parent) override;
+    bool insertColumns(int column, int count, const QModelIndex &) override;
     bool removeRows(int row, int count, const QModelIndex &) override;
     bool removeColumns(int column, int count, const QModelIndex &) override;
 

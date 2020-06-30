@@ -13,21 +13,8 @@ namespace DataContext {
     struct ModelOptions;
 }
 
-template<class TString, class TUuid>
-class ITournamentParameters
-{
-public:
-    virtual TString title() const = 0;
-    virtual int maximumPlayers() const = 0;
-    virtual int numberOfLegs() const = 0;
-    virtual int gameMode() const = 0;
-    virtual int keyPoint() const = 0;
-    virtual int status() const = 0;
-};
-
 struct TournamentParameters
 {
-    QString title;
     int maxPlayers;
     int numberOfLegs;
     int gameMode;
@@ -35,6 +22,7 @@ struct TournamentParameters
     int status;
     QUuid winner;
     QUuid id;
+    QString title;
     QList<QUuid> playerIdentities;
 };
 
@@ -65,6 +53,16 @@ struct ModelOptions
 {
     bool generateUniqueId = true;
     bool customUuid = false;
+
+    QString defaultTitle = "Tournament";
+    int defaultLegCount = 3;
+    int defaultMaxPlayerCount = 24;
+    int defaultKeyPoint = 501;
+    int defaultGameMode = 0x0;
+    int initialStatus = 0xc;
+
+    int tournamentsCount = 0;
+
 };
 
 #endif // MODELBUILDERCONTEXT_H

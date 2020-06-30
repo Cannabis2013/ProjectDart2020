@@ -22,7 +22,6 @@ typedef IDataModelBuilder<DefaultPointInterface, PointParameters,ModelOptions> I
 namespace ModelBuilderContext
 {
     class TournamentBuilder;
-
     enum ModelType {TournamentModel = 0x00,RoundModel = 0x02, SetModel = 0x04, PointModel = 0x06};
 };
 
@@ -38,13 +37,22 @@ public:
         else if(!options.generateUniqueId)
             model->setId(args.id);
 
+        auto title = args.title != "" ? args.title : options.defaultTitle + QString("[%1]").arg(options.tournamentsCount);
+        auto gameMode = args.gameMode != -1 ? args.gameMode : options.defaultGameMode;
+        auto status = options.initialStatus;
+        auto legCount = args.numberOfLegs > 0 ? args.numberOfLegs : options.defaultLegCount;
+        auto maxPlayers = args.maxPlayers > 0 ? args.maxPlayers : options.defaultMaxPlayerCount;
+        auto keyPoint = args.keyPoint >= 0 ? args.keyPoint : options.defaultKeyPoint;
+
         model->setType(ModelBuilderContext::TournamentModel);
-        model->setTitle(args.title);
-        model->setGameMode(args.gameMode);
-        model->setStatus(args.status);
-        model->setKeyPoint(args.keyPoint);
-        model->setNumberOfLegs(args.numberOfLegs);
-        model->setMaximumAllowedPlayers(args.maxPlayers);
+        model->setTitle(title);
+        model->setGameMode(gameMode);
+        model->setStatus(status);
+        model->setKeyPoint(keyPoint);
+        model->setNumberOfLegs(legCount);
+        model->setMaximumAllowedPlayers(maxPlayers);
+
+        model->setType(ModelBuilderContext::TournamentModel);
 
         return model;
     }
@@ -65,6 +73,8 @@ public:
         model->setType(ModelBuilderContext::RoundModel);
         model->setIndex(args.roundIndex);
         model->setTournament(args.tournamentId);
+
+        model->setType(ModelBuilderContext::RoundModel);
 
         return model;
     }

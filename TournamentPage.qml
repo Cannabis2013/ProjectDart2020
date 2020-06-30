@@ -29,7 +29,7 @@ Rectangle{
        flow: GridLayout.TopToBottom
 
        ListComponent {
-           id: listComponent
+           id: tournamentListView
 
            Layout.fillWidth: true
            Layout.fillHeight: true
@@ -38,8 +38,9 @@ Rectangle{
            radius: 15
 
            componentTitle: "Select tournament"
-           itemTextColor: "white"
-           itemSelectedtextColor: "white"
+
+           itemTextColor: "black"
+           itemSelectedtextColor: "black"
            itemSelectedBackgroundColor: "silver"
 
            itemHoveredColor: Qt.rgba(23,43,22,0.1)
@@ -105,6 +106,21 @@ Rectangle{
 
            onClicked: startGameClicked()
        }
+    }
+    Component.onCompleted: {
+        var tournamentsCount = projectDart.tournamentsCount();
 
+        for(var i = 0; i < tournamentsCount;i++)
+        {
+            var id = projectDart.tournamentIDFromIndex(i);
+            var title = projectDart.tournamentTitle(id);
+            var legsCount = projectDart.tournamentLegsCount(id);
+            var maxPlayersCount = projectDart.tournamentMaxPlayers(id);
+            var keyPoint = projectDart.tournamentKeyPoint(id);
+            var playersCount = projectDart.tournamentPlayersCount(id);
+
+            tournamentListView.addTournamentItem(title,maxPlayersCount,legsCount,keyPoint,playersCount);
+
+        }
     }
 }

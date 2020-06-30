@@ -57,7 +57,9 @@ public:
     DefaultDataInterface *dataContext()  override;
 
 private:
-    /* Pointdomain refers to the interval between 180 and 'targetpoint'
+    /* Private types
+     *
+     * Pointdomain refers to the interval between 180 and 'targetpoint'
      * CriticalDomain refers to points below or equal 180 but greater than zero
      * TargetDomain only consists of the number zero and is regarded as the target that defines the winner
      * Points not belonging to the above domains is not in the domain at all

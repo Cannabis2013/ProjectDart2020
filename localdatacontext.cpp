@@ -6,9 +6,7 @@ LocalDataContext::LocalDataContext()
 
 QUuid LocalDataContext::createTournament(const QString &title, const int &maxPlayers, const int &keyPoint, const int &legs, const int &gameMode)
 {
-    auto tournament = tournamentBuilder()->buildModel(
-                [title,maxPlayers,keyPoint,legs,gameMode]
-    {
+    auto tournament = tournamentBuilder()->buildModel([title,maxPlayers,keyPoint,legs,gameMode]{
         TournamentParameters params;
 
         params.title = title;
@@ -18,19 +16,21 @@ QUuid LocalDataContext::createTournament(const QString &title, const int &maxPla
         params.gameMode = gameMode;
 
         return params;
-    }(),[]
-    {
+    }(),[this]{
         ModelOptions options;
 
         options.generateUniqueId = true;
 
-        return options;
+        options.tournamentsCount = this->tournamentsCount();
 
+        return options;
     }());
 
     _tournaments.append(tournament);
 
+
     return tournament->id();
+
 }
 
 void LocalDataContext::deleteTournament(const QUuid &tournament)
@@ -433,9 +433,9 @@ QUuid LocalDataContext::addRound(const QUuid &tournament, const int &index)
     return roundId;
 }
 
-void LocalDataContext::alterRoundIndex(const QUuid &tournament, const int &oldIndex, const int &newIndex)
+void LocalDataContext::alterRoundIndex(const QUuid &, const int &, const int &)
 {
-    // This method is subject for a critical review as I fail to come up with a reason to alter round indexes
+    // This method is subject for a critical review as I fail to come up with any reason to alter round indexes
 }
 
 int LocalDataContext::roundIndex(const QUuid &round) const
@@ -535,6 +535,8 @@ QUuid LocalDataContext::addSet(const QUuid &tournament, const int &roundIndex, c
     }());
 
     _sets << model;
+
+    return model->id();
 }
 
 QList<QUuid> LocalDataContext::points(const QUuid &tournament) const
@@ -658,11 +660,18 @@ QUuid LocalDataContext::alterPointPlayer(const QUuid &pointId, const QUuid &play
     removePointModel(model->id());
 
     _points.append(newModel);
+
+    return newModel->id();
 }
 
 QUuid LocalDataContext::pointSet(const QUuid &point) const
 {
     return getPointFromID(point)->set();
+}
+
+int LocalDataContext::pointLeg(const QUuid &point) const
+{
+    return getPointFromID(point)->pointLegIndex();
 }
 
 int LocalDataContext::pointValue(const QUuid &point) const
@@ -701,7 +710,28 @@ QList<QUuid> LocalDataContext::playerPoints(const QUuid &tournament, const QUuid
 
 QUuid LocalDataContext::point(const QUuid &tournament, int roundIndex, int setIndex, int legIndex)
 {
+    auto tPoints = points(tournament);
+    for (auto pointID : tPoints) {
+        auto leg = pointLeg(pointID);
+        if(leg != legIndex)
+            continue;
 
+        auto setID = pointSet(pointID);
+        auto sIndex = this->setIndex(setID);
+
+        if(sIndex != setIndex)
+            continue;
+
+        auto round = setRound(setID);
+        auto rIndex = this->roundIndex(round);
+
+        if(rIndex != roundIndex)
+            continue;
+
+        return pointID;
+    }
+
+    throw "Object not found";
 }
 
 const DefaultTournamentInterface *LocalDataContext::getTournamentFromID(const QUuid &id) const
@@ -774,25 +804,25 @@ void LocalDataContext::removePointModel(const QUuid &point)
 
 ITournamentBuilder *LocalDataContext::tournamentBuilder() const
 {
-
+    return _tournamentBuilder;
 }
 
 IRoundBuilder *LocalDataContext::roundBuilder() const
 {
-
+    return _roundBuilder;
 }
 
 ISetBuilder *LocalDataContext::setBuilder() const
 {
-
+    return _setBuilder;
 }
 
 void LocalDataContext::setSetBuilder(ISetBuilder *builder)
 {
-
+    _setBuilder = builder;
 }
 
 IPointBuilder *LocalDataContext::pointBuilder() const
 {
-
+    return _pointBuilder;
 }

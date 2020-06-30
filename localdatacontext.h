@@ -48,7 +48,7 @@ public:
     QList<QUuid> rounds(const QUuid &tournament) const override;
     QUuid round(const QUuid &tournament, const int &roundIndex) const override;
     QUuid addRound(const QUuid &tournament, const int &index) override;
-    void alterRoundIndex(const QUuid &tournament, const int &oldIndex,const int &newIndex) override;
+    void alterRoundIndex(const QUuid &, const int &, const int &) override;
     int roundIndex(const QUuid &round) const override;
     QUuid roundTournament(const QUuid &round) const override;
 
@@ -71,6 +71,7 @@ public:
     QUuid alterPointValue(const QUuid &pointId, const int &value) override;
     QUuid alterPointPlayer(const QUuid &pointId, const QUuid &playerId) override;
     QUuid pointSet(const QUuid &point) const override;
+    int pointLeg(const QUuid &point) const override;
     int pointValue(const QUuid &point) const override;
     QUuid pointPlayer(const QUuid &point) const override;
     QList<QUuid> playerPoints(const QUuid &player) const override;

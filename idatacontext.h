@@ -75,6 +75,7 @@ public:
     virtual TUuid pointSet(const TUuid &point) const = 0;
     virtual int pointValue(const TUuid &point) const = 0;
     virtual TUuid pointPlayer(const TUuid &point) const = 0;
+    virtual int pointLeg(const TUuid &point) const = 0;
 
     /*
      * Retrieve player scores

@@ -6,17 +6,17 @@ ProjectDart::ProjectDart()
     _dataContext = new LocalDataContext();
     _gameController = new LocalStandardDart();
 
+    _playerContext->setPlayerBuilder(new LocalPlayerBuilder);
+
 
 }
 
 void ProjectDart::read()
 {
-
 }
 
 void ProjectDart::write()
 {
-
 }
 
 QString ProjectDart::createTournament(const QString &title, const int &legCount, const int &maxPlayers, const int &gameMode, const int &keyPoint)
@@ -68,6 +68,20 @@ int ProjectDart::tournamentPlayersCount(const QString &id)
     auto playersCount = allPlayers.count();
 
     return playersCount;
+}
+
+QString ProjectDart::tournamentTitle(const QString &id)
+{
+    auto title = _dataContext->tournamentTitle(QUuid::fromString(id));
+
+    return title;
+}
+
+int ProjectDart::tournamentKeyPoint(const QString &id)
+{
+    auto keyPoint = _dataContext->tournamentKeyPoint(QUuid::fromString(id));
+
+    return keyPoint;
 }
 
 int ProjectDart::playersCount()

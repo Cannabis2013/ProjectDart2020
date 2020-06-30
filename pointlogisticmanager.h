@@ -219,6 +219,8 @@ private:
             s->multiplier << '_';
             s->pointValue << 0;
         }
+
+        return s;
     }
 
     QString toString(ScoreModel *s)

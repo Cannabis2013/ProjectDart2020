@@ -5,6 +5,7 @@
 #include "abstractdartinterface.h"
 #include "ipointlogisticmanager.h"
 #include "localplayercontext.h"
+#include "localplayerbuilder.h"
 #include <quuid.h>
 #include <qstring.h>
 #include <qlist.h>
@@ -44,6 +45,8 @@ public:
     Q_INVOKABLE int tournamentMaxPlayers(const QString &id) override;
     Q_INVOKABLE int tournamentLegsCount(const QString &id) override;
     Q_INVOKABLE int tournamentPlayersCount(const QString &id) override;
+    Q_INVOKABLE QString tournamentTitle(const QString &id) override;
+    Q_INVOKABLE int tournamentKeyPoint(const QString &id) override;
 
     Q_INVOKABLE QStringList gameModes() const override;
     Q_INVOKABLE int gameModeFromString(const QString &gameMode) const;

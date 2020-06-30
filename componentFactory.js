@@ -32,7 +32,7 @@ function createNumberButton(parentID,keyText, rowIndex, columnIndex) {
                                         {"text" : keyText,
                                             "Layout.row" : rowIndex,
                                             "Layout.column" : columnIndex,
-                                            "Layout.fillWidth" : true,
+                                            "Layout.minimumWidth" : 25,
                                             "Layout.fillHeight" : true,
                                             "backgroundColor" : "black",
                                             "textColor" : "white",

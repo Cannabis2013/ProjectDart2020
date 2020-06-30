@@ -280,7 +280,7 @@ bool CustomTableModel::insertRows(int row, int count, const QModelIndex &)
     return true;
 }
 
-bool CustomTableModel::insertColumns(int column, int count, const QModelIndex &parent)
+bool CustomTableModel::insertColumns(int column, int count, const QModelIndex &)
 {
     auto firstColumn = column <= columnCount(QModelIndex()) ? column : columnCount(QModelIndex()) - 1;
     auto lastColumn  =  column <= columnCount(QModelIndex()) ? firstColumn + count : 2*column + count - firstColumn;

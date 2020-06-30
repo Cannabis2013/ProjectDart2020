@@ -64,7 +64,7 @@ Rectangle {
 
        anchors.fill: parent
 
-       anchors.margins: 20
+       anchors.margins: 10
 
        columns: 11
        rows: 4
@@ -91,7 +91,7 @@ Rectangle {
 
        Rectangle{
            color: "transparent";
-           width: 6
+           Layout.fillWidth: true
            Layout.fillHeight: true
            Layout.column: 1
            Layout.row: 1
@@ -100,7 +100,7 @@ Rectangle {
 
        Rectangle{
            color: "transparent";
-           width: 6
+           Layout.fillWidth: true
            Layout.fillHeight: true
            Layout.column: 9
            Layout.row: 1
@@ -157,7 +157,7 @@ Rectangle {
         var keyText = 0;
 
         var strings = ["D","T"];
-
+        // Modifiers
         for(var r = 2;r < rowCount;r++){
             var selectorKey = ComponentFactory.createSelectorKey(keyPadLayout,strings[r - 2],r,0);
             if(selectorKey.text === "D")
