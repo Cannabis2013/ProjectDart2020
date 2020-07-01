@@ -25,7 +25,7 @@ Rectangle{
 
         var preferedWidth = myModel.preferedCellWidth();
 
-        verticalHeader.Layout.minimumWidth = preferedWidth*myModel.scale();
+        verticalHeader.Layout.minimumWidth = preferedWidth*1.05;
         upperTopLeftCell.Layout.minimumWidth = verticalHeader.width;
         upperTopLeftCell.Layout.minimumHeight = 25;
         upperTopLeftCell.Layout.maximumHeight = 25;

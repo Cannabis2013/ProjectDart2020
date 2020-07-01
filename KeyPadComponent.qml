@@ -64,9 +64,9 @@ Rectangle {
 
        anchors.fill: parent
 
-       anchors.margins: 10
+       anchors.margins: 2
 
-       columns: 11
+       columns: 9
        rows: 4
 
         Label{
@@ -76,7 +76,7 @@ Rectangle {
             Layout.fillWidth: true
 
             horizontalAlignment: Qt.AlignHCenter
-            verticalAlignment: Qt.AlignTop
+            verticalAlignment: Qt.AlignVCenter
 
             Layout.columnSpan: keyPadLayout.columns
 
@@ -89,26 +89,8 @@ Rectangle {
 
         }
 
-       Rectangle{
-           color: "transparent";
-           Layout.fillWidth: true
-           Layout.fillHeight: true
-           Layout.column: 1
-           Layout.row: 1
-           Layout.rowSpan: 3
-       }
-
-       Rectangle{
-           color: "transparent";
-           Layout.fillWidth: true
-           Layout.fillHeight: true
-           Layout.column: 9
-           Layout.row: 1
-           Layout.rowSpan: 3
-       }
-
        ColumnLayout{
-           Layout.column: 10
+           Layout.column: 8
            Layout.row: 1
            Layout.fillHeight: true
            Layout.fillWidth: true
@@ -116,12 +98,14 @@ Rectangle {
            Layout.rowSpan: 2
 
            PushButton{
-               Layout.fillHeight: true
-               Layout.fillWidth: true
 
                backgroundColor : "black"
                hoveredColor: "black"
                textColor : "white"
+
+               Layout.minimumWidth : 35
+
+               Layout.fillHeight: true
 
                buttonRadius : 5
 
@@ -133,8 +117,9 @@ Rectangle {
            }
 
            PushButton{
+               Layout.minimumWidth : 35
+
                Layout.fillHeight: true
-               Layout.fillWidth: true
 
                backgroundColor : "black"
                hoveredColor: "black"
@@ -158,8 +143,8 @@ Rectangle {
 
         var strings = ["D","T"];
         // Modifiers
-        for(var r = 2;r < rowCount;r++){
-            var selectorKey = ComponentFactory.createSelectorKey(keyPadLayout,strings[r - 2],r,0);
+        for(var r = 1;r < rowCount - 1 ;r++){
+            var selectorKey = ComponentFactory.createSelectorKey(keyPadLayout,strings[r - 1],r,0);
             if(selectorKey.text === "D")
             {
                 selectorKey.emitCheckState.connect(keyPad.handleDoubleKeyPressed);
@@ -173,7 +158,7 @@ Rectangle {
         }
         // Numberpads
         for(var i = 1;i < rowCount;i++){
-            for(var j = 2;j < columnCount - 2;j++){
+            for(var j = 1;j < columnCount - 1;j++){
                 var numberKey = ComponentFactory.createNumberButton(keyPadLayout,keyText++,i,j);
                 numberKey.emitBodyText.connect(keyPad.handleNumberKeyPressed);
             }

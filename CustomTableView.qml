@@ -5,6 +5,8 @@ import CustomItems 1.0
 TableView
 {
     id: customTableViewBody
+
+    interactive: false
     
     clip: true
 
