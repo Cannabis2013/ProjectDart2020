@@ -38,6 +38,11 @@ ApplicationWindow {
                 destructor();
                 event.accepted = true;
             }
+            else if(event.key === Qt.Key_Back)
+            {
+                mainPage.backPushed();
+                event.accepted = true;
+            }
         }
     }
 

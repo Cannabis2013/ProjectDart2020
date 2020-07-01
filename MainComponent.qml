@@ -3,6 +3,8 @@ import QtQuick 2.0
 Item {
     id: body
 
+    signal backPushed
+
     Component{
         id: gamePageComponent
 
@@ -12,6 +14,7 @@ Item {
             pageTitle: "Game"
 
             pageContent: GamePageContent{}
+            Component.onCompleted: body.backPushed.connect(backButtonPressed)
         }
     }
 
@@ -23,12 +26,14 @@ Item {
             pageTitle: "Setup tournament"
 
             pageContent: SetupPageContent{}
+            Component.onCompleted: body.backPushed.connect(backButtonPressed)
         }
     }
 
     Component{
         id: tournamentPageComponent
         Page{
+            id: tournamentPage
             pageTitle: "Tournaments"
 
             onBackButtonPressed: pageLoader.sourceComponent = startPageComponent
@@ -36,7 +41,9 @@ Item {
                 onCreateTournamentClicked: pageLoader.sourceComponent = setupPageComponent
                 onStartGameClicked: pageLoader.sourceComponent = gamePageComponent
             }
+            Component.onCompleted: body.backPushed.connect(backButtonPressed)
         }
+
 
     }
 
@@ -45,9 +52,9 @@ Item {
         Page{
             pageTitle: "Create player"
 
-            pageContent: CreatePlayerContent{
+            pageContent: CreatePlayerContent{}
 
-            }
+            Component.onCompleted: body.backPushed.connect(backButtonPressed)
         }
     }
 
@@ -61,7 +68,6 @@ Item {
             onRequestQuit: destructor()
 
             padding: 12
-
         }
     }
 

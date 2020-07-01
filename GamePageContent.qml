@@ -25,12 +25,8 @@ Rectangle {
         TurnNavigationComponent{
             Layout.fillWidth: true
             height: 64
-            Layout.maximumWidth: 480
 
             Layout.alignment: Qt.AlignHCenter
-
-            currentTurnIndex: 3
-            currentPlayer: "Martin"
         }
 
         CustomTable{
@@ -40,7 +36,8 @@ Rectangle {
 
             verticalHeaderFillMode: 0x1
             Layout.fillWidth: true
-            Layout.fillHeight: true
+
+            height: 100
         }
 
         Rectangle{
@@ -49,12 +46,6 @@ Rectangle {
 
         KeyPadComponent{
             Layout.fillWidth: true
-
-            Layout.minimumHeight: 192
-            Layout.preferredHeight: 192
-        }
-
-        Rectangle{
             Layout.fillHeight: true
         }
     }

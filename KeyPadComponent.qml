@@ -16,7 +16,6 @@ Rectangle {
     property PushButton doubleModifier: PushButton{}
     property PushButton trippleModifier: PushButton{}
 
-    radius: 15
 
     QtObject{
         id: modifiers
@@ -64,10 +63,12 @@ Rectangle {
 
        anchors.fill: parent
 
-       anchors.margins: 2
 
-       columns: 9
-       rows: 4
+       rowSpacing: 1
+       columnSpacing: 1
+
+       columns: 5
+       rows: 6
 
         Label{
             Layout.row: 0
@@ -80,7 +81,7 @@ Rectangle {
 
             Layout.columnSpan: keyPadLayout.columns
 
-            Layout.preferredHeight: 40
+            Layout.preferredHeight: 25
 
             text: "Virtual keyboard"
 
@@ -88,63 +89,59 @@ Rectangle {
             font.bold: true
 
         }
+        PushButton{
 
-       ColumnLayout{
-           Layout.column: 8
-           Layout.row: 1
-           Layout.fillHeight: true
-           Layout.fillWidth: true
+            backgroundColor : "black"
+            hoveredColor: "black"
+            textColor : "white"
 
-           Layout.rowSpan: 2
+            Layout.fillHeight: true
+            Layout.fillWidth: true
 
-           PushButton{
+            Layout.row : 5
+            Layout.column: 3
 
-               backgroundColor : "black"
-               hoveredColor: "black"
-               textColor : "white"
+            buttonRadius : 5
 
-               Layout.minimumWidth : 35
+            pressedScale: 0.75
 
-               Layout.fillHeight: true
+            text: "25"
 
-               buttonRadius : 5
+            onClicked: if(!isModifiersPressed()) handleNumberKeyPressed(text)
+        }
 
-               pressedScale: 0.75
+        PushButton{
 
-               text: "25"
+            Layout.fillHeight: true
+            Layout.fillWidth: true
 
-               onClicked: if(!isModifiersPressed()) handleNumberKeyPressed(text)
-           }
+            backgroundColor : "black"
+            hoveredColor: "black"
+            textColor : "white"
 
-           PushButton{
-               Layout.minimumWidth : 35
+            Layout.row : 5
+            Layout.column: 4
 
-               Layout.fillHeight: true
+            buttonRadius : 5
 
-               backgroundColor : "black"
-               hoveredColor: "black"
-               textColor : "white"
+            pressedScale: 0.75
 
-               buttonRadius : 5
+            text: "50"
 
-               pressedScale: 0.75
-
-               text: "50"
-
-               onClicked: if(!isModifiersPressed()) handleNumberKeyPressed(text)
-           }
-       }
+            onClicked: if(!isModifiersPressed()) handleNumberKeyPressed(text)
+        }
     }
     Component.onCompleted: {
         var columnCount = keyPadLayout.columns;
         var rowCount = keyPadLayout.rows;
         var count = 0;
         var keyText = 0;
+        var initialColumn = 2;
 
         var strings = ["D","T"];
         // Modifiers
-        for(var r = 1;r < rowCount - 1 ;r++){
-            var selectorKey = ComponentFactory.createSelectorKey(keyPadLayout,strings[r - 1],r,0);
+        for(var r = 0;r < 2 ;r++){
+            var selectorKey = ComponentFactory.createSelectorKey(keyPadLayout,strings[r],1,r);
             if(selectorKey.text === "D")
             {
                 selectorKey.emitCheckState.connect(keyPad.handleDoubleKeyPressed);
@@ -157,11 +154,12 @@ Rectangle {
             }
         }
         // Numberpads
-        for(var i = 1;i < rowCount;i++){
-            for(var j = 1;j < columnCount - 1;j++){
+        for(var i = 1;i < rowCount && keyText < 21;i++){
+            for(var j = initialColumn;j < columnCount && keyText < 21;j++){
                 var numberKey = ComponentFactory.createNumberButton(keyPadLayout,keyText++,i,j);
                 numberKey.emitBodyText.connect(keyPad.handleNumberKeyPressed);
             }
+            initialColumn = 0;
         }
     }
 }
