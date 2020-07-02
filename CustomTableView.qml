@@ -45,7 +45,7 @@ TableView
 
     columnWidthProvider: function(column)
     {
-        return myModel.columnWithAt(column,"MS Sans Serif",fontSize);
+        return myModel.columnWidthAt(column,"MS Sans Serif",fontSize);
     }
 
     model: CustomTableModel

@@ -54,7 +54,7 @@ int CustomTableModel::columnCount() const
     return columnCount(QModelIndex());
 }
 
-double CustomTableModel::columnWithAt(const int &column, const QString &fontFamily, const int &pointSize) const
+double CustomTableModel::columnWidthAt(const int &column, const QString &fontFamily, const int &pointSize) const
 {
     if(column >= columnCount())
         throw std::out_of_range("Index out of range");
@@ -135,10 +135,20 @@ double CustomTableModel::rowHeightAt(const int &row, const QString &fontFamily ,
     else
         string = _verticalHeaderData.at(row);
 
+    auto resultingGlyphLenght = fontMetric.boundingRect(string).height();
 
-    auto glyphLenght = fontMetric.boundingRect(string).height();
+    for (int c = 0; c < columnCount(); ++c) {
+        auto cellRow = _cellData.at(row);
+        auto data = cellRow.at(c);
+        auto dataString = QString::number(data);
+        auto glyphLenght = fontMetric.boundingRect(dataString).height();
+        resultingGlyphLenght = glyphLenght > resultingGlyphLenght ? glyphLenght : resultingGlyphLenght;
+    }
 
-    return glyphLenght * scale();
+    if(resultingGlyphLenght < 25)
+        resultingGlyphLenght = 25;
+
+    return resultingGlyphLenght;
 }
 
 double CustomTableModel::rowWidthAt(const int &row, const QString &fontFamily, const int &pointSize) const

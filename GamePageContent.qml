@@ -37,15 +37,24 @@ Rectangle {
             verticalHeaderFillMode: 0x1
             Layout.fillWidth: true
 
-            height: 100
+            height: 125
         }
 
         Rectangle{
-            height: 25
+            Layout.minimumHeight: 25
+            Layout.maximumHeight: 25
         }
 
         KeyPadComponent{
             Layout.fillWidth: true
+            Layout.fillHeight: true
+
+            Layout.minimumHeight: 128
+            Layout.maximumHeight: 384
+
+            Layout.alignment: Qt.AlignTop
+        }
+        Rectangle{
             Layout.fillHeight: true
         }
     }

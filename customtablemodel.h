@@ -33,7 +33,7 @@ public:
     Q_INVOKABLE int rowCount() const;
     Q_INVOKABLE int columnCount() const;
 
-    Q_INVOKABLE double columnWithAt(const int &column, const QString &fontFamily = defaultFontFamily, const int &pointSize = defaultPointSize) const;
+    Q_INVOKABLE double columnWidthAt(const int &column, const QString &fontFamily = defaultFontFamily, const int &pointSize = defaultPointSize) const;
     Q_INVOKABLE double columnHeightAt(const int &column, const QString &fontFamily = defaultFontFamily, const int &pointSize = defaultPointSize) const;
 
     Q_INVOKABLE double rowHeightAt(const int &row, const QString &fontFamily = "MS Sans Serif", const int &pointSize = defaultPointSize) const;

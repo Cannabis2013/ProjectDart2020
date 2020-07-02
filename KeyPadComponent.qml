@@ -16,7 +16,6 @@ Rectangle {
     property PushButton doubleModifier: PushButton{}
     property PushButton trippleModifier: PushButton{}
 
-
     QtObject{
         id: modifiers
 

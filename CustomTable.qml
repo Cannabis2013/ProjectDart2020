@@ -3,6 +3,8 @@ import QtQuick.Layouts 1.3
 import CustomItems 1.0
 
 Rectangle{
+    id: body
+
     clip: true
     property int horizontalHeaderHeight: 20
     onHorizontalHeaderHeightChanged: horizontalHeader.height = horizontalHeaderHeight
@@ -25,8 +27,10 @@ Rectangle{
 
         var preferedWidth = myModel.preferedCellWidth();
 
-        verticalHeader.Layout.minimumWidth = preferedWidth*1.05;
+        verticalHeader.width = preferedWidth*1.05;
+        flickableVHeader.Layout.minimumWidth = preferedWidth*1.05;
         upperTopLeftCell.Layout.minimumWidth = verticalHeader.width;
+
         upperTopLeftCell.Layout.minimumHeight = 25;
         upperTopLeftCell.Layout.maximumHeight = 25;
     }
@@ -43,11 +47,8 @@ Rectangle{
             Qt.quit();
         }
 
-        var modelRowCount = myModel.rowCount();
-        var modelColumnCount = myModel.columnCount();
-
-        verticalHeader.model = modelRowCount;
-        horizontalHeader.model = modelColumnCount;
+        verticalHeader.model = myModel.rowCount();
+        horizontalHeader.model = myModel.columnCount();
 
         for(var i = 0;i < verticalHeader.dataCount();i++)
         {
@@ -61,18 +62,43 @@ Rectangle{
 
             horizontalHeader.setData(j,hHeaderValue);
 
-            var columnWidth = myModel.columnWithAt(j);
+            var columnWidth = myModel.columnWidthAt(j);
 
             horizontalHeader.setColumnWidth(j,columnWidth);
         }
+
+        flickableTable.contentWidth = totalColumnsWidth();
+        flickableHHeader.contentWidth = totalColumnsWidth();
     }
 
-    function calcContentHeight(){
-        return horizontalHeader.height + tableView.height
+    function totalColumnsWidth()
+    {
+        var myModel = tableView.getModel();
+        var columnCount = myModel.columnCount();
+        var result = 0;
+
+        for(var c = 0;c < columnCount;c++){
+            var w = myModel.columnWidthAt(c);
+            result += w;
+        }
+
+        return result;
     }
 
-    function calcContentWidth(){
-        return tableView.width
+    function totalHeaderHeight()
+    {
+        var myModel = tableView.getModel();
+        var rowCount = myModel.rowCount();
+
+        var totalHeight = 0;
+
+        for(var r = 0;r < rowCount;r++)
+        {
+            var h = myModel.rowHeightAt(r);
+            totalHeight += h;
+        }
+
+        return totalHeight;
     }
 
     GridLayout
@@ -92,12 +118,10 @@ Rectangle{
         {
             id: upperTopLeftCell
 
-            height: 25
+            Layout.maximumHeight: 25
 
             Layout.row: 0
             Layout.column: 0
-
-            Layout.minimumWidth: 128
 
             rightBorderWidth: 1
             bottomBorderWidth: 1
@@ -109,21 +133,56 @@ Rectangle{
                     width = verticalHeader.width;
             }
         }
+        Flickable{
+            id: flickableVHeader
 
-        VerticalHeader {
-            id: verticalHeader
+            clip: true
+
+            Layout.fillHeight: true
 
             Layout.row: 1
             Layout.column: 0
 
-            Layout.fillHeight: true
+            interactive: false
 
-            backgroundColor: "lightgray"
-            color: "black"
+            VerticalHeader {
+                id: verticalHeader
+                anchors.fill: parent
 
-            borderWidth: 1
+                backgroundColor: "lightgray"
+                color: "black"
 
-            Layout.alignment: Qt.AlignTop
+                borderWidth: 1
+
+                Layout.alignment: Qt.AlignTop
+            }
+        }
+
+        Flickable{
+            id: flickableHHeader
+
+            clip: true
+
+            Layout.fillWidth: true
+            Layout.minimumHeight: 25
+
+            contentHeight: 25
+
+            Layout.row: 0
+            Layout.column: 1
+
+            interactive: false
+
+            HorizontalHeader {
+                id: horizontalHeader
+
+                anchors.fill: flickableHHeader.contentItem
+
+                backgroundColor: "lightgray"
+                color: "black"
+
+                borderWidth: 1
+            }
         }
 
         Flickable{
@@ -131,67 +190,44 @@ Rectangle{
 
             clip: true
 
-            Layout.row: 0
+            Layout.row: 1
             Layout.column: 1
-
-            Layout.rowSpan: 2
-
-            contentHeight: contentItem.childrenRect.height
-            contentWidth: contentItem.childrenRect.width
-
-            boundsMovement: Flickable.StopAtBounds
-
-            Layout.alignment: Qt.AlignTop
 
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            GridLayout{
-                id: flickableLayout
-                anchors.fill: flickableLayout.contentItem
+            boundsMovement: Flickable.StopAtBounds
 
-                rowSpacing: 0
-                columnSpacing: 0
 
-                flow: GridLayout.TopToBottom
+            onContentXChanged: {
+                flickableHHeader.contentX = contentX
+            }
+            onContentYChanged : {
+                flickableVHeader.contentY = contentY;
+            }
 
-                HorizontalHeader {
-                    id: horizontalHeader
+            CustomTableView {
+                id: tableView
 
-                    Layout.fillWidth: true
-                    Layout.minimumHeight: 25
+                anchors.fill: parent
 
-                    backgroundColor: "lightgray"
-                    color: "black"
+                cellBorderWidth: 1
 
-                    borderWidth: 1
+                cellColor: "white"
 
-                }
-
-                CustomTableView {
-                    id: tableView
-
-                    cellBorderWidth: 1
-
-                    Layout.fillHeight: true
-                    Layout.fillWidth: true
-
-                    Layout.minimumHeight: verticalHeader.height
-                    Layout.maximumHeight: verticalHeader.height
-
-                    cellColor: "white"
-
-                    onDataHasChanged: {
-                        if(getModel().verticalHeaderCount() > 0)
-                            upperTopLeftCell.visible = true
-                        else
-                            upperTopLeftCell.visible = false
-                    }
+                onDataHasChanged: {
+                    if(getModel().verticalHeaderCount() > 0)
+                        upperTopLeftCell.visible = true
+                    else
+                        upperTopLeftCell.visible = false
                 }
             }
         }
     }
     Component.onCompleted: {
-
+        var tHeight = totalHeaderHeight();
+        print(tHeight);
+        flickableVHeader.contentHeight = tHeight;
+        flickableTable.contentHeight = tHeight;
     }
 }
