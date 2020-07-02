@@ -580,6 +580,8 @@ QList<QUuid> LocalDataContext::points(const QUuid &tournament, const QUuid &roun
     return resultingList;
 }
 
+
+
 QUuid LocalDataContext::addPoint(const QUuid &tournament, const int &roundIndex, const int &setIndex, const int &legIndex, const int &point, const QUuid &player)
 {
     auto model = pointBuilder()->buildModel(
@@ -708,19 +710,19 @@ QList<QUuid> LocalDataContext::playerPoints(const QUuid &tournament, const QUuid
     return resultingList;
 }
 
-QUuid LocalDataContext::point(const QUuid &tournament, int roundIndex, int setIndex, int legIndex)
+QUuid LocalDataContext::playerPoint(const QUuid &tournament, const QUuid &player, int roundIndex, int legIndex)
 {
-    auto tPoints = points(tournament);
-    for (auto pointID : tPoints) {
+    auto tournamentPoints = points(tournament);
+    for (auto pointID : tournamentPoints) {
+        auto playerID = pointPlayer(pointID);
+        if(playerID != player)
+            continue;
+
         auto leg = pointLeg(pointID);
         if(leg != legIndex)
             continue;
 
         auto setID = pointSet(pointID);
-        auto sIndex = this->setIndex(setID);
-
-        if(sIndex != setIndex)
-            continue;
 
         auto round = setRound(setID);
         auto rIndex = this->roundIndex(round);

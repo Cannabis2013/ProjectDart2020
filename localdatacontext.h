@@ -59,24 +59,29 @@ public:
     QUuid setRound(const QUuid &set) const override;
     int setIndex(const QUuid &set) const override;
     QUuid addSet(const QUuid &tournament, const int &roundIndex, const int &setIndex) override;
+
     QList<QUuid> points(const QUuid &tournament) const override;
     QList<QUuid> points(const QUuid &tournament, const QUuid &round) const override;
     QList<QUuid> points(const QUuid &tournament, const QUuid &round, const QUuid &set) const override;
+
     QUuid addPoint(const QUuid &tournament,
                    const int &roundIndex,
                    const int &setIndex,
                    const int &legIndex,
-                   const int &point,
+                   const int &playerPoint,
                    const QUuid &player) override;
+
     QUuid alterPointValue(const QUuid &pointId, const int &value) override;
     QUuid alterPointPlayer(const QUuid &pointId, const QUuid &playerId) override;
-    QUuid pointSet(const QUuid &point) const override;
-    int pointLeg(const QUuid &point) const override;
-    int pointValue(const QUuid &point) const override;
-    QUuid pointPlayer(const QUuid &point) const override;
+
+    QUuid pointSet(const QUuid &playerPoint) const override;
+    int pointLeg(const QUuid &playerPoint) const override;
+    int pointValue(const QUuid &playerPoint) const override;
+    QUuid pointPlayer(const QUuid &playerPoint) const override;
+
+    QUuid playerPoint(const QUuid &tournament, const QUuid &player , int roundIndex, int legIndex) override;
     QList<QUuid> playerPoints(const QUuid &player) const override;
     QList<QUuid> playerPoints(const QUuid &tournament, const QUuid &player) const override;
-    QUuid point(const QUuid &tournament, int roundIndex, int setIndex, int legIndex) override;
 
     DefaultDataInterface *setTournamentBuilder(ITournamentBuilder *builder) override
     {
@@ -92,7 +97,7 @@ private:
 
     // Removes model with given id. If no model with that id is found, this method does nothing.
     void removeTournamentModel(const QUuid &tournament);
-    void removePointModel(const QUuid &point);
+    void removePointModel(const QUuid &playerPoint);
 
     ITournamentBuilder *tournamentBuilder() const;
 

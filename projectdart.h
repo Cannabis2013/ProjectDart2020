@@ -48,6 +48,8 @@ public:
     Q_INVOKABLE QString tournamentTitle(const QString &id) override;
     Q_INVOKABLE int tournamentKeyPoint(const QString &id) override;
 
+    Q_INVOKABLE int pointValue(const QString &tournament, const QString &player, const int &roundIndex, const int &legIndex) override;
+
     Q_INVOKABLE QStringList gameModes() const override;
     Q_INVOKABLE int gameModeFromString(const QString &gameMode) const;
 

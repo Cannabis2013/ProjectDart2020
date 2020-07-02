@@ -35,6 +35,8 @@ public:
     virtual QString tournamentTitle(const QString &id) = 0;
     virtual int tournamentKeyPoint(const QString &id) = 0;
 
+    virtual int pointValue(const QString &tournament, const QString &player, const int &roundIndex, const int &legIndex) = 0;
+
     virtual QStringList gameModes() const = 0;
 
     virtual int playersCount() = 0;

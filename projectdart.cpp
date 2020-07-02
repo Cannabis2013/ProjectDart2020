@@ -84,6 +84,18 @@ int ProjectDart::tournamentKeyPoint(const QString &id)
     return keyPoint;
 }
 
+int ProjectDart::pointValue(const QString &tournament, const QString &player, const int &roundIndex, const int &legIndex)
+{
+    QUuid pointID;
+    try {
+        pointID = _dataContext->playerPoint(QUuid::fromString(tournament), QUuid::fromString(player),roundIndex,legIndex);
+    } catch (...) {
+        return -1;
+    }
+    auto pVal = _dataContext->pointValue(pointID);
+    return pVal;
+}
+
 int ProjectDart::playersCount()
 {
     auto players = _playerContext->players();
