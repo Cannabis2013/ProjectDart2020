@@ -16,12 +16,12 @@ typedef IGameController<QUuid,QString, DataContextInterface> GameControllerInter
 
 #define printVariable(var) #var
 
-class ProjectDart : public AbstractDartInterface
+class LocalDart : public AbstractDartInterface
 {
     Q_OBJECT
     // AbstractDartInterface interface
 public:
-    ProjectDart();
+    LocalDart();
 
     // public types
     enum gameModes {

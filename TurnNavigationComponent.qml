@@ -42,17 +42,17 @@ Item {
 
             onClicked: {
 
-                var status = projectDart.gameStatus();
+                var status = localDart.gameStatus();
                 if(status === 0xc) // 0xc = idle
                 {
-                    projectDart.startGame();
+                    localDart.startGame();
                     text = "Pause";
 
 
                 }
                 else if(status === 0xe) // 0xe = running
                 {
-                    projectDart.stopGame();
+                    localDart.stopGame();
                     text = "Resume";
                 }
                 else if(status === 0x10) // 0x10 = WinnerDeclared

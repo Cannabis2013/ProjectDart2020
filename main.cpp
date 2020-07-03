@@ -2,7 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QtQuick/QQuickView>
 
-#include "projectdart.h"
+#include "localdart.h"
 
 #include "customtablemodel.h"
 
@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     qmlRegisterType<CustomTableModel>("CustomItems",1,0,"CustomTableModel");
-    qmlRegisterType<ProjectDart>("ApplicationInterface",1,0,"ProjectDart");
+    qmlRegisterType<LocalDart>("ApplicationInterface",1,0,"LocalDart");
     qmlRegisterType<LocalPlayerContext>("ApplicationInterface",1,0,"PlayerContext");
 
     QQmlApplicationEngine engine;

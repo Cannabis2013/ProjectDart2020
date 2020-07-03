@@ -13,7 +13,7 @@ ApplicationWindow {
     color: "lightgray"
 
     width: 320
-    height: 640
+    height: 512
 
     title: qsTr("Dart2020")
 
@@ -24,9 +24,9 @@ ApplicationWindow {
         Qt.quit();
     }
 
-    ProjectDart
+    LocalDart
     {
-        id: projectDart
+        id: localDart
     }
 
     Item {

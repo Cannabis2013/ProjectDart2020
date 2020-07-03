@@ -14,8 +14,7 @@ public:
     virtual void deletePlayerByID(const TUuid &player) = 0;
     virtual void deletePlayerByEmail(const TString &playerEMail) = 0;
 
-    virtual TUuid playerIDFromFirstName(const TString& firstName) const = 0;
-    virtual TUuid playerIDFromLastName(const TString& lastName) const = 0;
+    virtual TUuid playerIDFromFullName(const TString &fullName) const = 0;
 
     virtual TString playerFirstName(const TUuid& id) const = 0;
     virtual TString playerLastName(const TUuid& id) const = 0;

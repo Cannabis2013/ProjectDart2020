@@ -17,11 +17,11 @@ SOURCES += \
         customtablemodel.cpp \
         idatamodelbuilder.cpp \
         ilogisticmanager.cpp \
+        localdart.cpp \
         localdatacontext.cpp \
         localplayercontext.cpp \
         localstandarddart.cpp \
-        main.cpp \
-        projectdart.cpp
+        main.cpp
 
 RESOURCES += qml.qrc
 
@@ -50,6 +50,7 @@ HEADERS += \
     iplayercontext.h \
     iplayermodel.h \
     ipointlogisticmanager.h \
+    localdart.h \
     localdatacontext.h \
     localplayerbuilder.h \
     localplayercontext.h \
@@ -59,7 +60,6 @@ HEADERS += \
     player.h \
     point.h \
     pointlogisticmanager.h \
-    projectdart.h \
     round.h \
     set.h \
     tournament.h

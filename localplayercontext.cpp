@@ -72,29 +72,20 @@ void LocalPlayerContext::deletePlayerByEmail(const QString &email)
     throw "No model found with given mail adress";
 }
 
-
-QUuid LocalPlayerContext::playerIDFromFirstName(const QString &firstName) const
+QUuid LocalPlayerContext::playerIDFromFullName(const QString &fullName) const
 {
-    for (auto model : _models) {
-        auto modelID = model->id();
-        auto modelForename = model->firstName();
-        if(firstName == modelForename)
-            return modelID;
+    auto indexOfSpaceLeft = fullName.lastIndexOf(32);
+    auto indexOfSpaceRight = fullName.count() - indexOfSpaceLeft;
+
+    auto firstName = fullName.left(indexOfSpaceLeft);
+    auto lastName = fullName.right(indexOfSpaceRight);
+
+    try {
+        auto model = getModel(firstName,lastName);
+        return model->id();
+    } catch (const char *msg) {
+        throw msg;
     }
-
-    return QUuid();
-}
-
-QUuid LocalPlayerContext::playerIDFromLastName(const QString &lastName) const
-{
-    for (auto model : _models) {
-        auto modelID = model->id();
-        auto modelSurName = model->lastName();
-        if(lastName == modelSurName)
-            return modelID;
-    }
-
-    return QUuid();
 }
 
 QString LocalPlayerContext::playerFirstName(const QUuid &id) const
@@ -169,10 +160,15 @@ PlayerContextInterface *LocalPlayerContext::setPlayerBuilder(DefaultPlayerBuilde
     return this;
 }
 
+DefaultPlayerInterface *LocalPlayerContext::getModel(const QString &firstName, const QString &lastName) const
+{
+    for (auto model : _models) {
+        if(model->firstName() == firstName && model->lastName() == lastName)
+            return model;
+    }
 
-
-
-
+    throw "Model not found";
+}
 
 
 

@@ -1,6 +1,6 @@
-#include "projectdart.h"
+#include "localdart.h"
 
-ProjectDart::ProjectDart()
+LocalDart::LocalDart()
 {
     _playerContext = new LocalPlayerContext();
     _dataContext = new LocalDataContext();
@@ -8,32 +8,32 @@ ProjectDart::ProjectDart()
 
     _playerContext->setPlayerBuilder(new LocalPlayerBuilder);
 
-
+    _gameController->setDataContext(_dataContext);
 }
 
-void ProjectDart::read()
+void LocalDart::read()
 {
 }
 
-void ProjectDart::write()
+void LocalDart::write()
 {
 }
 
-QString ProjectDart::createTournament(const QString &title, const int &legCount, const int &maxPlayers, const int &gameMode, const int &keyPoint)
+QString LocalDart::createTournament(const QString &title, const int &legCount, const int &maxPlayers, const int &gameMode, const int &keyPoint)
 {
     auto tournamentID = _dataContext->createTournament(title,maxPlayers,keyPoint,legCount,gameMode);
 
     return tournamentID.toString();
 }
 
-int ProjectDart::tournamentsCount()
+int LocalDart::tournamentsCount()
 {
     auto count = _dataContext->tournamentsCount();
 
     return count;
 }
 
-QString ProjectDart::tournamentIDFromIndex(const int &index)
+QString LocalDart::tournamentIDFromIndex(const int &index)
 {
     auto tournaments = _dataContext->tournaments();
 
@@ -42,7 +42,7 @@ QString ProjectDart::tournamentIDFromIndex(const int &index)
     return id.toString();
 }
 
-int ProjectDart::tournamentMaxPlayers(const QString &id)
+int LocalDart::tournamentMaxPlayers(const QString &id)
 {
     auto stringID = QUuid::fromString(id);
     auto maxPlayers = _dataContext->tournamentMaximumAllowedPlayers(stringID);
@@ -50,7 +50,7 @@ int ProjectDart::tournamentMaxPlayers(const QString &id)
     return maxPlayers;
 }
 
-int ProjectDart::tournamentLegsCount(const QString &id)
+int LocalDart::tournamentLegsCount(const QString &id)
 {
     auto stringID = QUuid::fromString(id);
 
@@ -59,7 +59,7 @@ int ProjectDart::tournamentLegsCount(const QString &id)
     return legsCount;
 }
 
-int ProjectDart::tournamentPlayersCount(const QString &id)
+int LocalDart::tournamentPlayersCount(const QString &id)
 {
     auto stringID = QUuid::fromString(id);
 
@@ -70,21 +70,21 @@ int ProjectDart::tournamentPlayersCount(const QString &id)
     return playersCount;
 }
 
-QString ProjectDart::tournamentTitle(const QString &id)
+QString LocalDart::tournamentTitle(const QString &id)
 {
     auto title = _dataContext->tournamentTitle(QUuid::fromString(id));
 
     return title;
 }
 
-int ProjectDart::tournamentKeyPoint(const QString &id)
+int LocalDart::tournamentKeyPoint(const QString &id)
 {
     auto keyPoint = _dataContext->tournamentKeyPoint(QUuid::fromString(id));
 
     return keyPoint;
 }
 
-int ProjectDart::pointValue(const QString &tournament, const QString &player, const int &roundIndex, const int &legIndex)
+int LocalDart::pointValue(const QString &tournament, const QString &player, const int &roundIndex, const int &legIndex)
 {
     QUuid pointID;
     try {
@@ -96,7 +96,7 @@ int ProjectDart::pointValue(const QString &tournament, const QString &player, co
     return pVal;
 }
 
-int ProjectDart::playersCount()
+int LocalDart::playersCount()
 {
     auto players = _playerContext->players();
 
@@ -105,7 +105,7 @@ int ProjectDart::playersCount()
     return count;
 }
 
-QString ProjectDart::assignedPlayerIDfromIndex(const QString &tournamentID, const int &index)
+QString LocalDart::assignedPlayerIDfromIndex(const QString &tournamentID, const int &index)
 {
     auto tournament = QUuid::fromString(tournamentID);
 
@@ -116,7 +116,7 @@ QString ProjectDart::assignedPlayerIDfromIndex(const QString &tournamentID, cons
     return assignedPlayerID.toString();
 }
 
-QString ProjectDart::playerIDFromIndex(const int &index)
+QString LocalDart::playerIDFromIndex(const int &index)
 {
     auto players = _playerContext->players();
 
@@ -125,7 +125,7 @@ QString ProjectDart::playerIDFromIndex(const int &index)
     return playerID.toString();
 }
 
-QString ProjectDart::playerFirstName(const QString &player)
+QString LocalDart::playerFirstName(const QString &player)
 {
     auto playerID = QUuid::fromString(player);
 
@@ -134,7 +134,7 @@ QString ProjectDart::playerFirstName(const QString &player)
     return firstName;
 }
 
-QString ProjectDart::playerLastName(const QString &player)
+QString LocalDart::playerLastName(const QString &player)
 {
     auto playerID = QUuid::fromString(player);
 
@@ -143,7 +143,7 @@ QString ProjectDart::playerLastName(const QString &player)
     return lastName;
 }
 
-QString ProjectDart::playerEmail(const QString &player)
+QString LocalDart::playerEmail(const QString &player)
 {
     auto playerID = QUuid::fromString(player);
 
@@ -152,38 +152,38 @@ QString ProjectDart::playerEmail(const QString &player)
     return eMail;
 }
 
-int ProjectDart::currentGameRoundIndex()
+int LocalDart::currentGameRoundIndex()
 {
     auto currentRoundIndex = _gameController->currentRoundIndex();
 
     return currentRoundIndex;
 }
 
-int ProjectDart::currentGameSetIndex()
+int LocalDart::currentGameSetIndex()
 {
     auto currentSetIndex = _gameController->currentSetIndex();
 
     return currentSetIndex;
 }
 
-int ProjectDart::addPoint(const int &value)
+int LocalDart::addPoint(const int &value)
 {
     auto gameStatus = _gameController->processInput(value);
 
     return gameStatus;
 }
 
-void ProjectDart::startGame()
+void LocalDart::startGame()
 {
     _gameController->start();
 }
 
-void ProjectDart::stopGame()
+void LocalDart::stopGame()
 {
     _gameController->stop();
 }
 
-int ProjectDart::gameStatus()
+int LocalDart::gameStatus()
 {
     if(_gameController == nullptr)
         return -1;
@@ -191,7 +191,7 @@ int ProjectDart::gameStatus()
     return _gameController->status();
 }
 
-int ProjectDart::score(const QString &tournament, const QString &player)
+int LocalDart::score(const QString &tournament, const QString &player)
 {
     auto playerScore = _dataContext->playerPoints(tournament,player);
 
@@ -205,12 +205,12 @@ int ProjectDart::score(const QString &tournament, const QString &player)
     return totalScore;
 }
 
-void ProjectDart::assignPlayer(const QString &player, const QString &tournament)
+void LocalDart::assignPlayer(const QString &player, const QString &tournament)
 {
     _dataContext->tournamentAddPlayer(tournament,player);
 }
 
-QString ProjectDart::createPlayer(const QString &firstName, const QString &lastName, const QString &email)
+QString LocalDart::createPlayer(const QString &firstName, const QString &lastName, const QString &email)
 {
     auto playerID = _playerContext->createPlayer(firstName,lastName,email);
 
@@ -218,7 +218,7 @@ QString ProjectDart::createPlayer(const QString &firstName, const QString &lastN
 }
 
 
-QStringList ProjectDart::gameModes() const
+QStringList LocalDart::gameModes() const
 {
     QStringList resultingList;
 
@@ -231,7 +231,7 @@ QStringList ProjectDart::gameModes() const
     return resultingList;
 }
 
-int ProjectDart::gameModeFromString(const QString &gameMode) const
+int LocalDart::gameModeFromString(const QString &gameMode) const
 {
     if(gameMode == printVariable(FirstToPost))
         return FirstToPost;

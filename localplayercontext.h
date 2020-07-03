@@ -118,8 +118,8 @@ public:
     void deletePlayerByFirstName(const QString &firstName) override;
     void deletePlayerByID(const QUuid &player) override;
     void deletePlayerByEmail(const QString &playerEMail) override;
-    QUuid playerIDFromFirstName(const QString &firstName) const override;
-    QUuid playerIDFromLastName(const QString &lastName) const override;
+
+    QUuid playerIDFromFullName(const QString &fullName) const override;
 
     QString playerFirstName(const QUuid &id) const override;
     QString playerLastName(const QUuid &id) const override;
@@ -134,6 +134,9 @@ public:
     PlayerContextInterface *setPlayerBuilder(DefaultPlayerBuilder *builder) override;
 
 private:
+
+    DefaultPlayerInterface *getModel(const QString &firstName, const QString & lastName) const;
+
     QList<DefaultPlayerInterface*> _models;
     DefaultPlayerBuilder *_playerBuilder;
 };

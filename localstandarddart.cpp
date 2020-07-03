@@ -9,8 +9,11 @@ QUuid LocalStandardDart::start()
 {
     _isActive = true;
 
+
     dataContext()->addRound(currentTournament(),++_roundIndex);
     auto setID = dataContext()->addSet(currentTournament(),_roundIndex,_playerIndex);
+
+    _currentStatus = GameStatus::Running;
 
     return setID;
 }
@@ -18,6 +21,7 @@ QUuid LocalStandardDart::start()
 void LocalStandardDart::stop()
 {
     _isActive = false;
+    _currentStatus = GameStatus::Idle;
 }
 
 int LocalStandardDart::processInput(const int &point)

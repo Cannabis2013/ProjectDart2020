@@ -63,7 +63,7 @@ Rectangle{
                width: 64
                height: 30
                text: "Create"
-               fontSize: 8
+               fontSize: 12
 
                textColor: "white"
                backgroundColor: "green"
@@ -79,7 +79,7 @@ Rectangle{
                width: 64
                height: 30
                text: "Delete"
-               fontSize: 8
+               fontSize: 12
 
                textColor: "white"
                backgroundColor: "green"
@@ -99,6 +99,8 @@ Rectangle{
            width: 128
            height: 40
 
+           fontSize: 16
+
            textColor: "white"
            backgroundColor: "green"
 
@@ -108,16 +110,16 @@ Rectangle{
        }
     }
     Component.onCompleted: {
-        var tournamentsCount = projectDart.tournamentsCount();
+        var tournamentsCount = localDart.tournamentsCount();
 
         for(var i = 0; i < tournamentsCount;i++)
         {
-            var id = projectDart.tournamentIDFromIndex(i);
-            var title = projectDart.tournamentTitle(id);
-            var legsCount = projectDart.tournamentLegsCount(id);
-            var maxPlayersCount = projectDart.tournamentMaxPlayers(id);
-            var keyPoint = projectDart.tournamentKeyPoint(id);
-            var playersCount = projectDart.tournamentPlayersCount(id);
+            var id = localDart.tournamentIDFromIndex(i);
+            var title = localDart.tournamentTitle(id);
+            var legsCount = localDart.tournamentLegsCount(id);
+            var maxPlayersCount = localDart.tournamentMaxPlayers(id);
+            var keyPoint = localDart.tournamentKeyPoint(id);
+            var playersCount = localDart.tournamentPlayersCount(id);
 
             tournamentListView.addTournamentItem(title,maxPlayersCount,legsCount,keyPoint,playersCount);
 

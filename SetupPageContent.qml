@@ -100,7 +100,7 @@ Rectangle {
             labelFontSize: 8
             labelLeftMargin: 10
 
-            stringModel: projectDart.gameModes()
+            stringModel: localDart.gameModes()
         }
 
         Rectangle{
@@ -154,24 +154,24 @@ Rectangle {
                 var maxPlayers = maxPlayerEdit.currentText;
                 var keyPoint = keyPointEdit.currentText;
                 var gameModeString = gameModeSelector.currentText;
-                var gameMode = projectDart.gameModeFromString(gameModeString);
+                var gameMode = localDart.gameModeFromString(gameModeString);
 
-                projectDart.createTournament(tournamentTitle,legs,maxPlayers,gameMode,keyPoint);
+                localDart.createTournament(tournamentTitle,legs,maxPlayers,gameMode,keyPoint);
 
                 backButtonPressed();
             }
         }
 
         Component.onCompleted: {
-            var playerCount = projectDart.playersCount();
+            var playerCount = localDart.playersCount();
 
             for(var i = 0;i < playerCount;i++)
             {
-                var playerID = projectDart.playerIDFromIndex(i);
+                var playerID = localDart.playerIDFromIndex(i);
 
-                var playerFirstName = projectDart.playerFirstName(playerID);
-                var playerLastName = projectDart.playerLastName(playerID);
-                var playerEMail = projectDart.playerEmail(playerID);
+                var playerFirstName = localDart.playerFirstName(playerID);
+                var playerLastName = localDart.playerLastName(playerID);
+                var playerEMail = localDart.playerEmail(playerID);
 
                 listComponent.addPlayerItem(playerFirstName,playerLastName,playerEMail, playerID);
             }
