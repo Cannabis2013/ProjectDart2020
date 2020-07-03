@@ -23,6 +23,7 @@ Rectangle {
         flow: GridLayout.TopToBottom
 
         TurnNavigationComponent{
+            id: turnNavigator
             Layout.fillWidth: true
             height: 64
 

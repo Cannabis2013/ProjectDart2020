@@ -69,6 +69,8 @@ public:
     Q_INVOKABLE void startGame() override;
     Q_INVOKABLE void stopGame() override;
 
+    Q_INVOKABLE int gameStatus() override;
+
     Q_INVOKABLE int addPoint(const int &value) override;
 
     Q_INVOKABLE int score(const QString &tournament, const QString &player) override;

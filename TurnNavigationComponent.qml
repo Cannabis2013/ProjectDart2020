@@ -27,6 +27,46 @@ Item {
         flow: GridLayout.LeftToRight
 
         PushButton{
+            id: backButton
+
+            text: "Start"
+
+            backgroundColor: "green"
+
+            fontSize: 16
+
+            Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
+
+            width: 96
+            height: 48
+
+            onClicked: {
+
+                var status = projectDart.gameStatus();
+                if(status === 0xc) // 0xc = idle
+                {
+                    projectDart.startGame();
+                    text = "Pause";
+
+
+                }
+                else if(status === 0xe) // 0xe = running
+                {
+                    projectDart.stopGame();
+                    text = "Resume";
+                }
+                else if(status === 0x10) // 0x10 = WinnerDeclared
+                {
+                    text = "Restart";
+                }
+
+                /*
+                    TODO: Check current game status and implement according to status
+                 */
+            }
+        }
+
+        PushButton{
             id: leftButton
 
             width: 64
@@ -51,7 +91,7 @@ Item {
 
         GridLayout{
             Layout.fillWidth: true
-            height: 64
+            Layout.preferredHeight: 64
 
             flow: GridLayout.TopToBottom
 

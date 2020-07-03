@@ -57,6 +57,7 @@ public:
     virtual void startGame() = 0;
     virtual void stopGame() = 0;
 
+    virtual int gameStatus() = 0;
     virtual int score(const QString &tournament, const QString &player) = 0;
 
 };

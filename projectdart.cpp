@@ -183,6 +183,14 @@ void ProjectDart::stopGame()
     _gameController->stop();
 }
 
+int ProjectDart::gameStatus()
+{
+    if(_gameController == nullptr)
+        return -1;
+
+    return _gameController->status();
+}
+
 int ProjectDart::score(const QString &tournament, const QString &player)
 {
     auto playerScore = _dataContext->playerPoints(tournament,player);

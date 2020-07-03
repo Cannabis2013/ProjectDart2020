@@ -21,6 +21,11 @@ typedef IGameController<QUuid,QString,DefaultDataInterface> DefaultControllerInt
 class LocalStandardDart : public DefaultControllerInterface
 {
 public:
+    // Public types
+    enum GameStatus {Idle = 0xc,
+                     Running = 0xe,
+                     WinnerDeclared = 0x10,
+                     notRunning = Idle | WinnerDeclared};
     LocalStandardDart();
 
     // IGameController interface
@@ -43,7 +48,7 @@ public:
     QUuid currentTournament()  override;
     void setCurrentTournament(QUuid &tournament) override;
 
-    int status()  override;
+    int status() override;
 
     int lastPlayerIndex()  override;
     int playerIndex()  override;
@@ -73,8 +78,6 @@ private:
      *  - Validate projected player score before updating datacontext
      */
     int validateInput(const int &pointValue);
-
-    enum GameStatus {Idle = 0xc,Running = 0xe, WinnerDeclared = 0x10, notRunning = Idle | WinnerDeclared};
 
     QUuid addPoint(const int &point);
 

@@ -95,7 +95,7 @@ Rectangle
             Layout.column: 1
             Layout.alignment: Qt.AlignHCenter
 
-            fontSize: 10
+            fontSize: 16
 
             width: 256
             height: 64
@@ -114,7 +114,7 @@ Rectangle
             Layout.column: 1
             Layout.alignment: Qt.AlignHCenter
 
-            fontSize: 10
+            fontSize: 16
 
             width: 256
             height: 64
@@ -133,7 +133,7 @@ Rectangle
             Layout.column: 1
             Layout.alignment: Qt.AlignHCenter
 
-            fontSize: 10
+            fontSize: 16
 
             width: 256
             height: 64
