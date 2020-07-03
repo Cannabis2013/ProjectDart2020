@@ -30,8 +30,10 @@ Item {
             id: backButton
 
             text: "Start"
+            textColor: "white"
 
             backgroundColor: "green"
+
 
             fontSize: 16
 
@@ -86,7 +88,7 @@ Item {
 
             Layout.alignment: Qt.AlignVCenter
 
-            enabled: false
+            enabled: localDart.undoPossible();
         }
 
         GridLayout{
@@ -140,7 +142,7 @@ Item {
 
             Layout.alignment: Qt.AlignVCenter
 
-            enabled: false
+            enabled: localDart.redoPossible()
         }
     }
 }

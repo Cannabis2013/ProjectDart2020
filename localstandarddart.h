@@ -14,7 +14,7 @@
 #define GAME_IS_NOT_IN_PROGRESS "Game is not in progress"
 #define GAME_WINNER_ANNOUNCEMENT(x) QString("Winner with ID: %! is declared winner").arg(x);
 #define INVALID_DOMAIN "Input is not within domain";
-#define UNABLE_TURN "Unable to alter turn index";
+#define UNABLE_TO_ALTER_TURN "Unable to alter turn index";
 
 typedef IGameController<QUuid,QString,DefaultDataInterface> DefaultControllerInterface;
 
@@ -58,6 +58,10 @@ public:
     QUuid undoTurn() override;
     QUuid redoTurn() override;
 
+    bool canUndoTurn() override;
+    bool canRedoTurn() override;
+
+
     void setDataContext(DefaultDataInterface *dataContext) override;
     DefaultDataInterface *dataContext()  override;
 
@@ -70,7 +74,7 @@ private:
      * Points not belonging to the above domains is not in the domain at all
      */
     enum InputPointDomain {InvalidDomain = 0x02};
-    enum AggregatedSumDomain {PointDomain = 0x04,CriticalDomain = 0x06, OutsideDomain = 0x08, TargetDomain = 0xa};
+    enum AggregatedSumDomains {PointDomain = 0x04,CriticalDomain = 0x06, OutsideDomain = 0x08, TargetDomain = 0xa};
     // Post validation : Validate player score after updating datacontext
     int validateCurrentState();
     /* Pre validation :
@@ -98,8 +102,8 @@ private:
     QList< QUuid> _assignedPlayers;
 
     // Gamestate variables
-    int _playerIndex = 0; // Equal to set index
     int _roundIndex = 0;
+    int _setIndex = 0; // Defines player index
     int _legIndex = 0;
     int _totalTurns = 0;
     int _turnIndex = 0;

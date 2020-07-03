@@ -69,6 +69,12 @@ public:
     Q_INVOKABLE void startGame() override;
     Q_INVOKABLE void stopGame() override;
 
+    Q_INVOKABLE QString undoTurn() override;
+    Q_INVOKABLE QString redoTurn() override;
+
+    Q_INVOKABLE bool undoPossible() override;
+    Q_INVOKABLE bool redoPossible() override;
+
     Q_INVOKABLE int gameStatus() override;
 
     Q_INVOKABLE int addPoint(const int &value) override;

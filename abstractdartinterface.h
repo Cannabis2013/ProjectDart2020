@@ -57,6 +57,12 @@ public:
     virtual void startGame() = 0;
     virtual void stopGame() = 0;
 
+    virtual QString undoTurn() = 0;
+    virtual QString redoTurn() = 0;
+
+    virtual bool undoPossible() = 0;
+    virtual bool redoPossible() = 0;
+
     virtual int gameStatus() = 0;
     virtual int score(const QString &tournament, const QString &player) = 0;
 

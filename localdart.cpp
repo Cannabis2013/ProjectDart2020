@@ -183,6 +183,34 @@ void LocalDart::stopGame()
     _gameController->stop();
 }
 
+QString LocalDart::undoTurn()
+{
+    try {
+        _gameController->undoTurn();
+    } catch (const char *msg) {
+        throw msg;
+    }
+}
+
+QString LocalDart::redoTurn()
+{
+    try {
+        _gameController->redoTurn();
+    } catch (const char *msg) {
+        throw msg;
+    }
+}
+
+bool LocalDart::undoPossible()
+{
+    return _gameController->canUndoTurn();
+}
+
+bool LocalDart::redoPossible()
+{
+    return _gameController->canRedoTurn();
+}
+
 int LocalDart::gameStatus()
 {
     if(_gameController == nullptr)

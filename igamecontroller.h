@@ -30,6 +30,9 @@ public:
     virtual TUuid undoTurn() = 0;
     virtual TUuid redoTurn() = 0;
 
+    virtual bool canUndoTurn() = 0;
+    virtual bool canRedoTurn() = 0;
+
     virtual int lastPlayerIndex()  = 0;
     virtual int playerIndex()  = 0;
 

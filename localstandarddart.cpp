@@ -11,7 +11,7 @@ QUuid LocalStandardDart::start()
 
 
     dataContext()->addRound(currentTournament(),++_roundIndex);
-    auto setID = dataContext()->addSet(currentTournament(),_roundIndex,_playerIndex);
+    auto setID = dataContext()->addSet(currentTournament(),_roundIndex,_setIndex);
 
     _currentStatus = GameStatus::Running;
 
@@ -36,12 +36,12 @@ int LocalStandardDart::processInput(const int &point)
     {
         throw INVALID_DOMAIN;
     }
-    if(inputResponse == AggregatedSumDomain::PointDomain)
+    if(inputResponse == AggregatedSumDomains::PointDomain)
     {
         // Update datacontext
         addPoint(point);
     }
-    else if(inputResponse == AggregatedSumDomain::TargetDomain)
+    else if(inputResponse == AggregatedSumDomains::TargetDomain)
     {
         // Winner declared
         declareWinner();
@@ -92,7 +92,7 @@ QString LocalStandardDart::calculateThrowSuggestion()
 
 QUuid LocalStandardDart::currentActivePlayer()
 {
-    return _assignedPlayers.value(_playerIndex);
+    return _assignedPlayers.value(_setIndex);
 }
 
 int LocalStandardDart::currentRoundIndex()
@@ -102,12 +102,12 @@ int LocalStandardDart::currentRoundIndex()
 
 int LocalStandardDart::currentPlayerIndex()
 {
-    return _playerIndex;
+    return _setIndex;
 }
 
 int LocalStandardDart::currentSetIndex()
 {
-    return _playerIndex;
+    return _setIndex;
 }
 
 int LocalStandardDart::currentLegIndex()
@@ -137,7 +137,7 @@ int LocalStandardDart::lastPlayerIndex()
 
 int LocalStandardDart::playerIndex()
 {
-    return _playerIndex;
+    return _setIndex;
 }
 
 QUuid LocalStandardDart::determinedWinner()
@@ -148,54 +148,64 @@ QUuid LocalStandardDart::determinedWinner()
 QUuid LocalStandardDart::undoTurn()
 {
     if(_turnIndex <= 0)
-        throw UNABLE_TURN;
+        throw UNABLE_TO_ALTER_TURN;
 
     if(_legIndex > 0)
     {
         _legIndex--;
         _turnIndex--;
 
-        return _assignedPlayers.value(_playerIndex);
+        return _assignedPlayers.value(_setIndex);
     }
 
     _legIndex = 2;
 
-    if(_playerIndex == 0)
+    if(_setIndex == 0)
     {
-        _playerIndex = lastPlayerIndex();
+        _setIndex = lastPlayerIndex();
         _roundIndex--;
     }
     else
     {
-        _playerIndex--;
+        _setIndex--;
     }
 
-    return _assignedPlayers.value(_playerIndex);
+    return _assignedPlayers.value(_setIndex);
 }
 
 QUuid LocalStandardDart::redoTurn()
 {
     if(_turnIndex >= _totalTurns)
-        throw UNABLE_TURN;
+        throw UNABLE_TO_ALTER_TURN;
 
     if(_legIndex < _numberOfLegs)
         _legIndex++;
     else
         _legIndex = 0;
 
-    if(_playerIndex == lastPlayerIndex())
+    if(_setIndex == lastPlayerIndex())
     {
-        _playerIndex = 0;
+        _setIndex = 0;
         _roundIndex++;
     }
     else
     {
-        _playerIndex++;
+        _setIndex++;
     }
 
     _turnIndex++;
 
-    return _assignedPlayers.value(_playerIndex);
+    return _assignedPlayers.value(_setIndex);
+}
+
+bool LocalStandardDart::canUndoTurn()
+{
+    return _turnIndex > 0;
+}
+
+bool LocalStandardDart::canRedoTurn()
+{
+    return _turnIndex < _totalTurns;
 }
 
 void LocalStandardDart::setDataContext(DefaultDataInterface *dataContext)
@@ -274,12 +284,12 @@ void LocalStandardDart::nextTurn()
 
     if(_turnIndex % _numberOfLegs == 0)
     {
-        _playerIndex++;
+        _setIndex++;
         _legIndex = 0;
-        if(_playerIndex >= _assignedPlayers.count())
+        if(_setIndex >= _assignedPlayers.count())
             dataContext()->addRound(currentTournament(),++_roundIndex);
 
-        dataContext()->addSet(currentTournament(),currentRoundIndex(),_playerIndex);
+        dataContext()->addSet(currentTournament(),currentRoundIndex(),_setIndex);
     }
     else
     {
