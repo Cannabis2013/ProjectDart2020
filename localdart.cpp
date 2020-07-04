@@ -89,8 +89,8 @@ int LocalDart::pointValue(const QString &tournament, const QString &player, cons
     QUuid pointID;
     try {
         pointID = _dataContext->playerPoint(QUuid::fromString(tournament), QUuid::fromString(player),roundIndex,legIndex);
-    } catch (...) {
-        return -1;
+    } catch (const char *msg) {
+        throw  msg;
     }
     auto pVal = _dataContext->pointValue(pointID);
     return pVal;

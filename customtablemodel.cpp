@@ -22,10 +22,9 @@ bool CustomTableModel::addData(int row, int column, int data)
 bool CustomTableModel::appendData(const QString &playerName, const int &data, const int &headerOrientation)
 {
     auto index = indexOfHeaderItem(playerName,headerOrientation);
-
     if(headerOrientation == Qt::Horizontal)
     {
-        auto row = columnCount();
+        auto row = index < columnCount() ? rowCount(index) : 0;
         auto modelIndex = this->createIndex(row,index);
         if(!modelIndex.isValid())
             return false;
@@ -35,15 +34,11 @@ bool CustomTableModel::appendData(const QString &playerName, const int &data, co
             printf("%s\n",e->what());
             return false;
         }
-
     }
     else if(headerOrientation == Qt::Vertical)
     {
         auto rowCount = _cellData.count();
-        int column = 0;
-        if(index < rowCount)
-            column = lastDecoratedCellIndex(index);
-
+        auto column = index < rowCount ? indexOfLastDecoratedRow(index) : 0;
         auto modelIndex = this->createIndex(index,column);
         if(!modelIndex.isValid())
             return false;
@@ -420,7 +415,7 @@ bool CustomTableModel::removeColumns(int column, int count, const QModelIndex &)
     return true;
 }
 
-int CustomTableModel::lastDecoratedCellIndex(int row)
+int CustomTableModel::indexOfLastDecoratedRow(const int &row)
 {
     auto r = _cellData.at(row);
 
@@ -431,7 +426,29 @@ int CustomTableModel::lastDecoratedCellIndex(int row)
             return i;
     }
 
-    return columnCount(QModelIndex());
+    return columnCount();
+}
+
+int CustomTableModel::indexOfLastDecoratedColumn(const int &column)
+{
+    for (int row = 0; row < rowCount(); ++row) {
+        auto rowData = _cellData.at(row);
+        auto data = rowData.at(column);
+        if(data == -1)
+            return row;
+    }
+
+    return rowCount();
+}
+
+int CustomTableModel::rowCount(const int &column)
+{
+    for (int row = 0; row < _cellData.count(); ++row) {
+        auto rowData = _cellData.at(row);
+        if(rowData.count() <= column)
+            return row;
+    }
+    return rowCount();
 }
 
 int CustomTableModel::indexOfHeaderItem(const QString &data, const int &orientation)

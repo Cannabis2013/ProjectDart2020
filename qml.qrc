@@ -29,6 +29,7 @@
         <file>KeyPadComponent.qml</file>
         <file>componentFactory.js</file>
         <file>CreatePlayerContent.qml</file>
+        <file>customTableFunctions.js</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>

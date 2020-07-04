@@ -6,15 +6,19 @@ Rectangle{
     id: body
 
     clip: true
+
+    property int fontSize: 12
+    onFontSizeChanged: {
+
+    }
+
     property int horizontalHeaderHeight: 20
     onHorizontalHeaderHeightChanged: horizontalHeader.height = horizontalHeaderHeight
 
     property bool staticVerticalHeaderWidth: false
 
     property int verticalHeaderWidth: 25
-    onVerticalHeaderWidthChanged: staticVerticalHeaderWidth ?
-                                      verticalHeader.width = verticalHeaderWidth :
-                                      verticalHeader.width = verticalHeader.width
+    onVerticalHeaderWidthChanged: verticalHeader.width = verticalHeaderWidth
 
     property int verticalHeaderFillMode: 0x02
     onVerticalHeaderFillModeChanged: tableView.verticalHeaderFillMode = verticalHeaderFillMode

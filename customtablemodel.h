@@ -70,7 +70,9 @@ protected:
     bool removeColumns(int column, int count, const QModelIndex &) override;
 
 private:
-    int lastDecoratedCellIndex(int row);
+    int indexOfLastDecoratedRow(const int &row);
+    int indexOfLastDecoratedColumn(const int &column);
+    int rowCount(const int &column);
 
     int indexOfHeaderItem(const QString &data, const int &orientation);
 

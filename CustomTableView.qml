@@ -20,7 +20,7 @@ TableView
     property color textColor: "black"
     onTextColorChanged: cellText = textColor
 
-    property int fontSize: 12
+    property int fontSize: 16
     onFontSizeChanged: cellText.font.pointSize = fontSize
 
     property double cellBorderWidth: 0

@@ -11,6 +11,8 @@ Rectangle {
 
     color: "silver"
 
+    radius: 10
+
     signal emitScore(int val);
 
     property PushButton doubleModifier: PushButton{}
@@ -61,7 +63,7 @@ Rectangle {
        id: keyPadLayout
 
        anchors.fill: parent
-       anchors.margins: 20
+       anchors.margins: 5
 
 
        rowSpacing: 1
@@ -73,21 +75,21 @@ Rectangle {
         Label{
             Layout.row: 0
             Layout.column: 0
+            clip: true
 
             Layout.fillWidth: true
+            Layout.fillHeight: true
 
-            Layout.preferredHeight: 32
+            Layout.maximumHeight: 30
 
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-
-            horizontalAlignment: Qt.AlignHCenter
-            verticalAlignment: Qt.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignTop
 
             Layout.columnSpan: keyPadLayout.columns
 
             text: "Virtual keyboard"
 
-            font.pointSize: 24
+            font.pointSize: 20
             font.bold: true
 
         }
