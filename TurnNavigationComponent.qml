@@ -34,13 +34,12 @@ Item {
 
             backgroundColor: "green"
 
-
             fontSize: 16
 
             Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
 
-            width: 96
-            height: 48
+            width: 80
+            height: 32
 
             onClicked: {
 
@@ -49,8 +48,6 @@ Item {
                 {
                     localDart.startGame();
                     text = "Pause";
-
-
                 }
                 else if(status === 0xe) // 0xe = running
                 {
@@ -61,11 +58,11 @@ Item {
                 {
                     text = "Restart";
                 }
-
-                /*
-                    TODO: Check current game status and implement according to status
-                 */
             }
+        }
+
+        Rectangle{
+            Layout.fillWidth: true
         }
 
         PushButton{
@@ -92,7 +89,8 @@ Item {
         }
 
         GridLayout{
-            Layout.fillWidth: true
+            Layout.maximumWidth: 128
+
             Layout.preferredHeight: 64
 
             flow: GridLayout.TopToBottom
@@ -143,6 +141,10 @@ Item {
             Layout.alignment: Qt.AlignVCenter
 
             enabled: localDart.redoPossible()
+        }
+
+        Rectangle{
+            Layout.fillWidth: true
         }
     }
 }

@@ -4,7 +4,10 @@ Item {
     id: pushButtonbody
 
     property string text: ""
-    onTextChanged: buttonText.text = text
+    onTextChanged: {
+        var translateableText = qsTr(text);
+        buttonText.text = translateableText;
+    }
 
     property int fontSize: 12
     onFontSizeChanged: buttonText = fontSize

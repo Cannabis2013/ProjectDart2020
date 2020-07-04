@@ -61,6 +61,7 @@ Rectangle {
        id: keyPadLayout
 
        anchors.fill: parent
+       anchors.margins: 20
 
 
        rowSpacing: 1
@@ -75,16 +76,18 @@ Rectangle {
 
             Layout.fillWidth: true
 
+            Layout.preferredHeight: 32
+
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+
             horizontalAlignment: Qt.AlignHCenter
             verticalAlignment: Qt.AlignVCenter
 
             Layout.columnSpan: keyPadLayout.columns
 
-            Layout.preferredHeight: 25
-
             text: "Virtual keyboard"
 
-            font.pointSize: 12
+            font.pointSize: 24
             font.bold: true
 
         }
@@ -93,6 +96,8 @@ Rectangle {
             backgroundColor : "black"
             hoveredColor: "black"
             textColor : "white"
+
+            fontSize: 16
 
             Layout.fillHeight: true
             Layout.fillWidth: true
@@ -117,6 +122,8 @@ Rectangle {
             backgroundColor : "black"
             hoveredColor: "black"
             textColor : "white"
+
+            fontSize: 16
 
             Layout.row : 5
             Layout.column: 4

@@ -23,7 +23,8 @@ public:
     CustomTableModel();
 
     // public methods
-    Q_INVOKABLE bool appendData(int row, int column, int data);
+    Q_INVOKABLE bool addData(int row, int column, int data);
+    Q_INVOKABLE bool appendData(const QString &playerName, const int &data, const int &headerOrientation);
     Q_INVOKABLE void appendHeaderItem(const QVariant &data, const int &orientation = Qt::Vertical);
 
     Q_INVOKABLE QString headerData(const int &index, const int &orientation) const;
@@ -70,6 +71,8 @@ protected:
 
 private:
     int lastDecoratedCellIndex(int row);
+
+    int indexOfHeaderItem(const QString &data, const int &orientation);
 
     QList<QList<int>> _cellData;
 

@@ -19,6 +19,19 @@ Rectangle{
     property int verticalHeaderFillMode: 0x02
     onVerticalHeaderFillModeChanged: tableView.verticalHeaderFillMode = verticalHeaderFillMode
 
+    function getHeaderItemCount(orientation){
+        var myModel = tableView.getModel();
+        var count = myModel.headerItemCount(orientation);
+        return count;
+    }
+
+    function getHeaderItem(index, orientation)
+    {
+        var myModel = tableView.getModel();
+        var item = myModel.headerData(index,orientation);
+        return item;
+    }
+
     function appendHeader(string, orientation)
     {
         var myModel = tableView.getModel();
@@ -29,17 +42,48 @@ Rectangle{
 
         verticalHeader.width = preferedWidth*1.05;
         flickableVHeader.Layout.minimumWidth = preferedWidth*1.05;
-        upperTopLeftCell.Layout.minimumWidth = verticalHeader.width;
+    }
 
-        upperTopLeftCell.Layout.minimumHeight = 25;
-        upperTopLeftCell.Layout.maximumHeight = 25;
+    function appendData(playerName, data, orientation){
+        var myModel = tableView.getModel();
+
+        var result = myModel.appendData(playerName,data, orientation);
+
+        if(!result)
+        {
+            print("Couldn't add data to model");
+            Qt.quit();
+        }
+
+        verticalHeader.model = myModel.rowCount();
+        horizontalHeader.model = myModel.columnCount();
+
+        for(var i = 0;i < verticalHeader.dataCount();i++)
+        {
+            var vHeaderValue = myModel.headerData(i,2);
+            verticalHeader.setData(i,vHeaderValue);
+        }
+
+        for(var j = 0;j < horizontalHeader.dataCount();j++)
+        {
+            var hHeaderValue = myModel.headerData(j,1);
+
+            horizontalHeader.setData(j,hHeaderValue);
+
+            var columnWidth = myModel.columnWidthAt(j);
+
+            horizontalHeader.setColumnWidth(j,columnWidth);
+        }
+
+        flickableTable.contentWidth = totalColumnsWidth();
+        flickableHHeader.contentWidth = totalColumnsWidth();
     }
 
     function addData(row, column, data)
     {
         var myModel = tableView.getModel();
 
-        var result = myModel.appendData(row,column,data);
+        var result = myModel.addData(row,column,data);
 
         if(!result)
         {
@@ -113,26 +157,6 @@ Rectangle{
         rowSpacing: 0
         columnSpacing: 0
 
-
-        MyRectangle
-        {
-            id: upperTopLeftCell
-
-            Layout.maximumHeight: 25
-
-            Layout.row: 0
-            Layout.column: 0
-
-            rightBorderWidth: 1
-            bottomBorderWidth: 1
-
-            color: "transparent"
-
-            onWidthChanged: {
-                if(width == 0)
-                    width = verticalHeader.width;
-            }
-        }
         Flickable{
             id: flickableVHeader
 
@@ -214,13 +238,6 @@ Rectangle{
                 cellBorderWidth: 1
 
                 cellColor: "white"
-
-                onDataHasChanged: {
-                    if(getModel().verticalHeaderCount() > 0)
-                        upperTopLeftCell.visible = true
-                    else
-                        upperTopLeftCell.visible = false
-                }
             }
         }
     }

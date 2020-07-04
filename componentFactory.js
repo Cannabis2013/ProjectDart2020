@@ -13,6 +13,7 @@ function createSelectorKey(parentID,keyText, rowIndex, columnIndex) {
                                             "backgroundColor" : "black",
                                             "textColor" : "white",
                                             "buttonRadius" : 5,
+                                            "fontSize" : 16,
                                             "isCheckable" : true,
                                             "checkedBackgroundColor" : "white",
                                             "checkedTextColor" : "black",
@@ -37,6 +38,7 @@ function createNumberButton(parentID,keyText, rowIndex, columnIndex) {
                                             "Layout.fillHeight" : true,
                                             "backgroundColor" : "black",
                                             "textColor" : "white",
+                                            "fontSize" : 16,
                                             "buttonRadius" : 5,
                                             "pressedScale" : 0.75,
                                             "hoveredColor" : "black"});

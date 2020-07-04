@@ -4,7 +4,7 @@ CustomTableModel::CustomTableModel()
 {
 }
 
-bool CustomTableModel::appendData(int row, int column, int data)
+bool CustomTableModel::addData(int row, int column, int data)
 {
     auto dataIndex = this->createIndex(row,column);
 
@@ -17,6 +17,44 @@ bool CustomTableModel::appendData(int row, int column, int data)
         printf("%s\n",e->what());
         return false;
     }
+}
+
+bool CustomTableModel::appendData(const QString &playerName, const int &data, const int &headerOrientation)
+{
+    auto index = indexOfHeaderItem(playerName,headerOrientation);
+
+    if(headerOrientation == Qt::Horizontal)
+    {
+        auto row = columnCount();
+        auto modelIndex = this->createIndex(row,index);
+        if(!modelIndex.isValid())
+            return false;
+        try {
+            setData(modelIndex,QVariant(data),Qt::DisplayRole);
+        } catch (std::out_of_range *e) {
+            printf("%s\n",e->what());
+            return false;
+        }
+
+    }
+    else if(headerOrientation == Qt::Vertical)
+    {
+        auto rowCount = _cellData.count();
+        int column = 0;
+        if(index < rowCount)
+            column = lastDecoratedCellIndex(index);
+
+        auto modelIndex = this->createIndex(index,column);
+        if(!modelIndex.isValid())
+            return false;
+        try {
+            setData(modelIndex,QVariant(data),Qt::DisplayRole);
+        } catch (std::out_of_range *e) {
+            printf("%s\n",e->what());
+            return false;
+        }
+    }
+    return true;
 }
 
 void CustomTableModel::appendHeaderItem(const QVariant &data, const int &orientation)
@@ -248,9 +286,16 @@ bool CustomTableModel::setData(const QModelIndex &index, const QVariant &value, 
         throw new std::out_of_range("You need to allocate corresponding header rows before adding new data rows");
     */
     if(row >= rowCount())
-        insertRows(row,1,QModelIndex());
+    {
+        auto deltaR = row -(rowCount() - 1);
+        insertRows(row,deltaR,QModelIndex());
+    }
+
     if(column >= columnCount())
-        insertColumns(column,1,QModelIndex());
+    {
+        auto deltaC = column - (columnCount() - 1);
+        insertColumns(column,deltaC,QModelIndex());
+    }
 
     auto r = _cellData.at(row);
 
@@ -387,6 +432,22 @@ int CustomTableModel::lastDecoratedCellIndex(int row)
     }
 
     return columnCount(QModelIndex());
+}
+
+int CustomTableModel::indexOfHeaderItem(const QString &data, const int &orientation)
+{
+    if(orientation == Qt::Vertical)
+    {
+        auto index = _verticalHeaderData.indexOf(data);
+
+        return index;
+    }
+    else
+    {
+        auto index = _horizontalHeaderData.indexOf(data);
+
+        return index;
+    }
 }
 
 int CustomTableModel::fillMode() const

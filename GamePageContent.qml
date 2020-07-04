@@ -60,17 +60,19 @@ Rectangle {
         }
     }
     Component.onCompleted: {
+
         scoreTable.appendHeader("Martin",0x2);
         scoreTable.appendHeader("Kent KillerHertz",0x2);
         scoreTable.appendHeader("Nikolaj Pedersen",0x2);
         scoreTable.appendHeader("Ole",0x2);
         scoreTable.appendHeader("Per",0x2);
 
-        for(var r = 0;r < 5; r++)
+        for(var r = 0;r < scoreTable.getHeaderItemCount(); r++)
         {
+            var name = scoreTable.getHeaderItem(r,0x2);
             for(var c = 0;c < 30; c++)
             {
-                scoreTable.addData(r,c,501);
+                scoreTable.appendData(name,501,0x2);
             }
         }
 
