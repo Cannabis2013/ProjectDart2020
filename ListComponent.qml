@@ -45,7 +45,12 @@ Rectangle{
     }
 
     function currentIndex(){
-        var index = listView.getCurrentIndex();
+        try{
+            var index = listView.getCurrentIndex();
+        } catch(err){
+            throw err;;
+        }
+
         return index;
     }
 

@@ -107,9 +107,12 @@ Rectangle{
            text: "Start game"
 
            onClicked: {
-               var selectedIndex = tournamentListView.currentIndex();
+               try{
+                   var selectedIndex = tournamentListView.currentIndex();
+               }catch(err){
+               }
+               print("Peter er en fisk 0");
                var tournamentID = localDart.tournamentIDFromIndex(selectedIndex);
-
                startGameClicked();
            }
        }

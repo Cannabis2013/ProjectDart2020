@@ -54,7 +54,10 @@ ListView
     }
 
     function getCurrentIndex(){
-        return currentIndex;
+        var index = currentIndex;
+        if(index === -1)
+            throw "No object appears to be selected"
+        return index;
     }
 
     function addPlayerItem(firstName, lastName, eMail, id = 0)

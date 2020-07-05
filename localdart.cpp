@@ -36,9 +36,9 @@ int LocalDart::tournamentsCount()
 QString LocalDart::tournamentIDFromIndex(const int &index)
 {
     auto tournaments = _dataContext->tournaments();
-
+    if(index < 0 || index >= tournaments.count())
+        return "";
     auto id = tournaments.at(index);
-
     return id.toString();
 }
 

@@ -60,12 +60,14 @@ Rectangle {
         }
     }
     Component.onCompleted: {
+        print("Fisk");
         try{
             var currentTournamentID = localDart.currentTournamentID();
         }catch(err){
-            print("A nigger is dead");
+            print("No tournament available");
             return;
         }
+        print("Peter er en fisk 2");
 
         var tournamentLegsCount = localDart.tournamentLegsCount(currentTournamentID);
         var playersCount = localDart.tournamentPlayersCount(currentTournamentID);
