@@ -43,7 +43,7 @@ Rectangle{
            itemSelectedtextColor: "black"
            itemSelectedBackgroundColor: "silver"
 
-           itemHoveredColor: Qt.rgba(23,43,22,0.1)
+           itemHoveredColor: "darkgray"
 
            itemFontSize: 10
 
@@ -107,16 +107,19 @@ Rectangle{
            text: "Start game"
 
            onClicked: {
-               try{
-                   var selectedIndex = tournamentListView.currentIndex();
-               }catch(err){
+               var currentlySelectedIndex = tournamentListView.currentIndex();
+               print(currentlySelectedIndex);
+               var tournamentID = localDart.tournamentIDFromIndex(currentlySelectedIndex);
+               if(tournamentID === "")
+               {
+                   print("String is empty");
+                   return;
                }
-               print("Peter er en fisk 0");
-               var tournamentID = localDart.tournamentIDFromIndex(selectedIndex);
                startGameClicked();
            }
        }
     }
+
     Component.onCompleted: {
         var tournamentsCount = localDart.tournamentsCount();
 
@@ -130,7 +133,6 @@ Rectangle{
             var playersCount = localDart.tournamentPlayersCount(id);
 
             tournamentListView.addTournamentItem(title,maxPlayersCount,legsCount,keyPoint,playersCount);
-
         }
     }
 }

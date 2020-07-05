@@ -1,5 +1,5 @@
 
-function createSelectorKey(parentID,keyText, rowIndex, columnIndex) {
+function createModifier(parentID,keyText, rowIndex, columnIndex) {
     var component = Qt.createComponent("PushButton.qml");
 
     var buttonID = "button" + rowIndex;
@@ -17,7 +17,8 @@ function createSelectorKey(parentID,keyText, rowIndex, columnIndex) {
                                             "isCheckable" : true,
                                             "checkedBackgroundColor" : "white",
                                             "checkedTextColor" : "black",
-                                            "checkedScale" : 0.8});
+                                            "checkedScale" : 0.8,
+                                            "hoverEnabled" : false});
 
 
     if(button === null)

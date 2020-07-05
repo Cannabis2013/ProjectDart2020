@@ -102,7 +102,7 @@ int LocalDart::pointValue(const QString &tournament, const QString &player, cons
     try {
         pointID = _dataContext->playerPoint(QUuid::fromString(tournament), QUuid::fromString(player),roundIndex,legIndex);
     } catch (const char *msg) {
-        throw  msg;
+        return -1;
     }
     auto pVal = _dataContext->pointValue(pointID);
     return pVal;
@@ -172,7 +172,7 @@ QString LocalDart::currentActiveTournamentID()
 {
     auto tournamentID = _gameController->currentTournament();
     if(tournamentID == QUuid())
-        throw "No currently active tournament";
+        return "";
     return tournamentID.toString();
 }
 
@@ -209,20 +209,24 @@ void LocalDart::stopGame()
 
 QString LocalDart::undoTurn()
 {
+    QUuid id;
     try {
-        _gameController->undoTurn();
+        id = _gameController->undoTurn();
     } catch (const char *msg) {
-        throw msg;
+        return "";
     }
+    return id.toString();
 }
 
 QString LocalDart::redoTurn()
 {
+    QUuid id;
     try {
-        _gameController->redoTurn();
+        id = _gameController->redoTurn();
     } catch (const char *msg) {
-        throw msg;
+        return "";
     }
+    return id.toString();
 }
 
 bool LocalDart::undoPossible()
@@ -292,5 +296,5 @@ int LocalDart::gameModeFromString(const QString &gameMode) const
     else if(gameMode == printVariable(CircularDart))
         return CircularDart;
     else
-        throw std::domain_error("Gamemode not supportet");
+        return -1;
 }

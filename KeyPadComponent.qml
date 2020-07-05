@@ -149,7 +149,7 @@ Rectangle {
         var strings = ["D","T"];
         // Modifiers
         for(var r = 0;r < 2 ;r++){
-            var selectorKey = ComponentFactory.createSelectorKey(keyPadLayout,strings[r],1,r);
+            var selectorKey = ComponentFactory.createModifier(keyPadLayout,strings[r],1,r);
             if(selectorKey.text === "D")
             {
                 selectorKey.emitCheckState.connect(keyPad.handleDoubleKeyPressed);

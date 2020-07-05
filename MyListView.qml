@@ -11,7 +11,15 @@ ListView
 
     clip: true
 
+    QtObject{
+        id: indexContainer
+        property int currentlySelectedIndex : -1
+        property var currentlySelectedIndexes: []
+    }
+
     spacing: 1
+
+    property bool allowMultipleSelections: false
 
     property color itemTextColor: "black"
     onItemTextColorChanged: listItem.textColor = itemTextColor
@@ -40,6 +48,33 @@ ListView
     property color itemBackgroundColor: "transparent"
     onItemBackgroundColorChanged: listItem.backgroundColor = itemBackgroundColor
 
+    readonly property int getCurrentlySelectedIndex: indexContainer.currentlySelectedIndex;
+
+    function buttonSelected(text){
+        var cIndex = indexContainer.currentlySelectedIndex;
+        var cIndexes;
+        var j = 0;
+        for(var i = 0;i < count;i++)
+        {
+            var item = itemAtIndex(i);
+            var txt = item.text;
+            if(allowMultipleSelections){
+                if(item.buttonBody.state === "checked")
+                    cIndexes[j++] = i;
+            }
+            else{
+                if(item.buttonBody.state === "checked" && txt !== text)
+                    item.buttonBody.state = "";
+                if(txt === text && item.buttonBody.state === "checked")
+                    cIndex = i;
+            }
+
+
+        }
+        indexContainer.currentlySelectedIndex = cIndex;
+        indexContainer.currentlySelectedIndexes = cIndexes;
+    }
+
     function getSelectedIndexes()
     {
         var indexes;
@@ -47,17 +82,10 @@ ListView
         for(var i = 0;i < count;i++)
         {
             var item = itemAtIndex(i);
-            if(item.checked === true)
+            if(item.buttonBody.state === "checked")
                 indexes[j++] = i;
         }
         return indexes;
-    }
-
-    function getCurrentIndex(){
-        var index = currentIndex;
-        if(index === -1)
-            throw "No object appears to be selected"
-        return index;
     }
 
     function addPlayerItem(firstName, lastName, eMail, id = 0)
@@ -94,6 +122,7 @@ ListView
         fontSize: itemFontSize
 
         isCheckable: true
+        onEmitCheckState: buttonSelected(text);
 
         hoveredColor: listViewBody.itemHoveredColor
         hoveredTextColor: listViewBody.hoveredItemTextColor

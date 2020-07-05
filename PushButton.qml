@@ -15,7 +15,6 @@ Item {
     property color hoveredColor: "#04F72D"
     property color hoveredTextColor: textColor
 
-
     property color backgroundColor: "transparent"
     onBackgroundColorChanged: buttonRect.color = backgroundColor
 
@@ -25,7 +24,8 @@ Item {
     onEnabledChanged: !enabled ? opacity = 0.25 : opacity = 1
 
     property bool checked: false
-    onCheckedChanged: isCheckable || checked == false ? checked = checked : checked = false
+
+    property bool hoverEnabled: true
 
     property double pressedScale: 0.90
 
@@ -55,25 +55,23 @@ Item {
     signal emitBodyText(string txt)
     signal emitCheckState(bool check)
 
+    property Rectangle buttonBody: buttonRect
+
     function handleClick()
     {
         if(isCheckable)
         {
-            checked = !checked ? true : false;
+            if(!checked){
+                buttonRect.state = "checked";
+            }
+            else
+            {
+                buttonRect.state = "";
+            }
             buttonRect.scale = checked ? checkedScale : 1
             pushButtonbody.emitCheckState(checked);
-
-            if(checked){
-                buttonText.color = pushButtonbody.checkedTextColor
-                buttonRect.color = pushButtonbody.checkedBackgroundColor;
-            }
-            else if(isCheckable){
-                buttonText.color = pushButtonbody.textColor
-                buttonRect.color = pushButtonbody.backgroundColor;
-            }
         }
     }
-
 
     MouseArea
     {
@@ -81,42 +79,39 @@ Item {
         anchors.fill: pushButtonbody
         hoverEnabled: true
         onHoveredChanged: {
+            if(!pushButtonbody.hoverEnabled)
+                return;
             var c = buttonRect.color;
             var tColor = buttonText.color;
             if(isCheckable && checked){
                 if(containsMouse)
-                    buttonText.color = hoveredTextColor
+                    buttonRect.state = "hoveredPressed"
                 else
-                    buttonText.color = pushButtonbody.checkedTextColor
+                    buttonRect.state = "checked";
                 return;
             }
             else if(containsMouse){
-                buttonRect.color = hoveredColor;
-                buttonText.color = hoveredTextColor
+                buttonRect.state = "hovered";
 
             }
             else{
-
-                buttonRect.color = pushButtonbody.backgroundColor;
-                buttonText.color = pushButtonbody.textColor
+                buttonRect.state = "";
             }
         }
 
         onPressedChanged: {
             var s = buttonRect.scale;
             var alteredS = pressedScale
-            if(s !== alteredS)
-            {
-                buttonRect.scale = alteredS
+            if(s !== alteredS){
+                print("onPressedChange block differ pre: " + checked);
+                buttonRect.state = "pressed";
+                print("onPressedChange block differ post: " + checked);
             }
             else
-            {
-                buttonRect.scale = 1
-            }
+                buttonRect.state = checked ? "checked" : "";
         }
 
         onClicked: {
-
             pushButtonbody.clicked();
             pushButtonbody.emitBodyText(text);
         }
@@ -155,6 +150,63 @@ Item {
 
             anchors.centerIn: parent
         }
-
+        states: [
+            State {
+                name: "hovered"
+                PropertyChanges {
+                    target: buttonRect
+                    color : hoveredColor
+                }
+                PropertyChanges {
+                    target: buttonText
+                    color: hoveredTextColor
+                }
+                PropertyChanges {
+                    target: pushButtonbody
+                    checked: pushButtonbody.checked
+                }
+            },
+            State {
+                name: "hoveredPressed"
+                PropertyChanges {
+                    target: buttonText
+                    color: hoveredTextColor
+                }
+                PropertyChanges{
+                    target: buttonRect
+                    color: hoveredColor
+                }
+                PropertyChanges {
+                    target: pushButtonbody
+                    checked: pushButtonbody.checked
+                }
+            },
+            State {
+                name: "checked"
+                PropertyChanges {
+                    target: buttonRect
+                    color : checkedBackgroundColor
+                }
+                PropertyChanges{
+                    target: buttonText
+                    color: checkedTextColor
+                }
+                PropertyChanges {
+                    target: pushButtonbody
+                    checked : true
+                }
+            },
+            State {
+                name: "pressed"
+                PropertyChanges {
+                    target: buttonRect
+                    scale : pushButtonbody.pressedScale
+                }
+                PropertyChanges {
+                    target: pushButtonbody
+                    checked: pushButtonbody.checked
+                }
+            }
+        ]
     }
 }
