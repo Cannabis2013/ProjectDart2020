@@ -40,6 +40,15 @@ Rectangle{
     property color itemBackgroundColor: "transparent"
     onItemBackgroundColorChanged: listView.itemBackgroundColor = itemBackgroundColor
 
+    function currentSelectedIndexes(){
+        return listView.getSelectedIndexes();
+    }
+
+    function currentIndex(){
+        var index = listView.getCurrentIndex();
+        return index;
+    }
+
     function addPlayerItem(firstName, lastName, eMail, id){
         listView.addPlayerItem(firstName,lastName,eMail,id);
     }

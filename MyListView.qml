@@ -40,6 +40,23 @@ ListView
     property color itemBackgroundColor: "transparent"
     onItemBackgroundColorChanged: listItem.backgroundColor = itemBackgroundColor
 
+    function getSelectedIndexes()
+    {
+        var indexes;
+        var j = 0;
+        for(var i = 0;i < count;i++)
+        {
+            var item = itemAtIndex(i);
+            if(item.checked === true)
+                indexes[j++] = i;
+        }
+        return indexes;
+    }
+
+    function getCurrentIndex(){
+        return currentIndex;
+    }
+
     function addPlayerItem(firstName, lastName, eMail, id = 0)
     {
         var model = {"type" : "player","firstName" : firstName,"lastName" : lastName, "email" : eMail, "uuid" : id};
@@ -52,7 +69,8 @@ ListView
                                tournamentKeyPoint,
                                tournamentPlayersCount)
     {
-        var model = {"type" : "tournament","tournamentTitle" : tournamentTitle,
+        var model = {"type" : "tournament",
+            "tournamentTitle" : tournamentTitle,
             "maxPlayers" : tournamentMaxPlayers,
             "legsCount" : tournamentLegsCount,
             "keyPoint" : tournamentKeyPoint,

@@ -48,6 +48,8 @@ public:
     Q_INVOKABLE QString tournamentTitle(const QString &id) override;
     Q_INVOKABLE int tournamentKeyPoint(const QString &id) override;
 
+    Q_INVOKABLE int tournamentRoundsCount(const QString &tournament) override;
+
     Q_INVOKABLE int pointValue(const QString &tournament, const QString &player, const int &roundIndex, const int &legIndex) override;
 
     Q_INVOKABLE QStringList gameModes() const override;
@@ -55,13 +57,20 @@ public:
 
     // Player related stuff
     Q_INVOKABLE QString createPlayer(const QString &firstName, const QString &lastName, const QString &email) override;
+
     Q_INVOKABLE void assignPlayer(const QString &player, const QString &tournament) override;
+
     Q_INVOKABLE int playersCount() override;
+
     Q_INVOKABLE QString assignedPlayerIDfromIndex(const QString &tournamentID, const int &index) override;
     Q_INVOKABLE QString playerIDFromIndex(const int &index) override;
+    Q_INVOKABLE QString playerIDFromFullName(const QString &name) override;
     Q_INVOKABLE QString playerFirstName(const QString &player) override;
     Q_INVOKABLE QString playerLastName(const QString &player) override;
     Q_INVOKABLE QString playerEmail(const QString &player) override;
+
+    // Game related
+    Q_INVOKABLE QString currentActiveTournamentID() override;
 
     Q_INVOKABLE int currentGameRoundIndex() override;
     Q_INVOKABLE int currentGameSetIndex() override;

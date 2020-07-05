@@ -60,21 +60,42 @@ Rectangle {
         }
     }
     Component.onCompleted: {
-
-        scoreTable.appendHeader("Martin",0x2);
-        scoreTable.appendHeader("Kent KillerHertz",0x2);
-        scoreTable.appendHeader("Nikolaj Pedersen",0x2);
-        scoreTable.appendHeader("Ole",0x2);
-        scoreTable.appendHeader("Per",0x2);
-
-        for(var r = 0;r < scoreTable.getHeaderItemCount(); r++)
-        {
-            var name = scoreTable.getHeaderItem(r,0x2);
-            for(var c = 0;c < 30; c++)
-            {
-                scoreTable.appendData(name,501,0x2);
-            }
+        try{
+            var currentTournamentID = localDart.currentTournamentID();
+        }catch(err){
+            print("A nigger is dead");
+            return;
         }
 
+        var tournamentLegsCount = localDart.tournamentLegsCount(currentTournamentID);
+        var playersCount = localDart.tournamentPlayersCount(currentTournamentID);
+        // Append headers
+        for(var i = 0;i < playersCount;i++){
+            var playerID = localDart.assignedPlayerIDfromIndex(currentTournamentID,i);
+            var fullName = localDart.playerFirstName(playerID) + " " + localDart.playerLastName(playerID);
+            scoreTable.appendHeader(fullName,0x2);
+        }
+        var headerItemsCount = scoreTable.getHeaderItemCount(0x2);
+        for(var j = 0;j < headerItemsCount;j++){
+            var headerItem = scoreTable.getHeaderItem(j,0x2);
+            var player = localDart.playerIDFromFullName(headerItem);
+            var roundIndex = 1;
+            var legIndex = 0;
+            while(1)
+            {
+                var point;
+                try{
+                    point = localDart.pointValue(currentTournamentID,player,roundIndex,++legIndex);
+                    scoreTable.appendData(headerItem,point,0x2);
+                }catch(msg){
+                    break;
+                }
+                if(legIndex % tournamentLegsCount == 0)
+                {
+                    roundIndex++;
+                    legIndex = 0;
+                }
+            }
+        }
     }
 }

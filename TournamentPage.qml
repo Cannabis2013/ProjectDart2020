@@ -106,7 +106,12 @@ Rectangle{
 
            text: "Start game"
 
-           onClicked: startGameClicked()
+           onClicked: {
+               var selectedIndex = tournamentListView.currentIndex();
+               var tournamentID = localDart.tournamentIDFromIndex(selectedIndex);
+
+               startGameClicked();
+           }
        }
     }
     Component.onCompleted: {

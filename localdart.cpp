@@ -84,6 +84,18 @@ int LocalDart::tournamentKeyPoint(const QString &id)
     return keyPoint;
 }
 
+int LocalDart::tournamentRoundsCount(const QString &tournament)
+{
+    auto tournamentID = QUuid::fromString(tournament);
+    auto roundIDs = _dataContext->rounds(tournament);
+    auto count = 0;
+    for (auto roundID : roundIDs) {
+        auto tournament = _dataContext->roundTournament(roundID);
+        count = tournament == tournamentID ? count + 1 : count;
+    }
+    return count;
+}
+
 int LocalDart::pointValue(const QString &tournament, const QString &player, const int &roundIndex, const int &legIndex)
 {
     QUuid pointID;
@@ -119,9 +131,13 @@ QString LocalDart::assignedPlayerIDfromIndex(const QString &tournamentID, const 
 QString LocalDart::playerIDFromIndex(const int &index)
 {
     auto players = _playerContext->players();
-
     auto playerID = players.at(index);
+    return playerID.toString();
+}
 
+QString LocalDart::playerIDFromFullName(const QString &name)
+{
+    auto playerID = _playerContext->playerIDFromFullName(name);
     return playerID.toString();
 }
 
@@ -150,6 +166,14 @@ QString LocalDart::playerEmail(const QString &player)
     auto eMail = _playerContext->playerEMail(playerID);
 
     return eMail;
+}
+
+QString LocalDart::currentActiveTournamentID()
+{
+    auto tournamentID = _gameController->currentTournament();
+    if(tournamentID == QUuid())
+        throw "No currently active tournament";
+    return tournamentID.toString();
 }
 
 int LocalDart::currentGameRoundIndex()
