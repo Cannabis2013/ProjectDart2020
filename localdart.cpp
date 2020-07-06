@@ -131,6 +131,8 @@ QString LocalDart::assignedPlayerIDfromIndex(const QString &tournamentID, const 
 QString LocalDart::playerIDFromIndex(const int &index)
 {
     auto players = _playerContext->players();
+    if(index < 0 || index >= players.count())
+        return "";
     auto playerID = players.at(index);
     return playerID.toString();
 }

@@ -13,6 +13,21 @@ Rectangle {
 
     Layout.alignment: Qt.AlignHCenter
 
+    function updateInterface(){
+        var playerCount = localDart.playersCount();
+
+        for(var i = 0;i < playerCount;i++)
+        {
+            var playerID = localDart.playerIDFromIndex(i);
+
+            var playerFirstName = localDart.playerFirstName(playerID);
+            var playerLastName = localDart.playerLastName(playerID);
+            var playerEMail = localDart.playerEmail(playerID);
+
+            playersListView.addPlayerItem(playerFirstName,playerLastName,playerEMail, playerID);
+        }
+    }
+
     GridLayout{
         flow: GridLayout.TopToBottom
         anchors.fill: parent
@@ -108,7 +123,7 @@ Rectangle {
         }
 
         ListComponent {
-            id: listComponent
+            id: playersListView
 
             Layout.alignment: Qt.AlignHCenter
 
@@ -128,6 +143,8 @@ Rectangle {
             itemFontSize: 8
 
             itemWidth: 256
+
+            allowMultipleSelections: true
         }
 
         MyRectangle{
@@ -156,27 +173,24 @@ Rectangle {
                 var gameModeString = gameModeSelector.currentText;
                 var gameMode = localDart.gameModeFromString(gameModeString);
 
-                localDart.createTournament(tournamentTitle,legs,maxPlayers,gameMode,keyPoint);
+                var createdTournament = localDart.createTournament(tournamentTitle,legs,maxPlayers,gameMode,keyPoint);
 
+                var selectedIndexes = playersListView.currentlySelectedIndexes;
+
+                for(var i = 0;i < selectedIndexes.length;i++)
+                {
+                    var selectedIndex = selectedIndexes[i];
+                    var playerID = localDart.playerIDFromIndex(selectedIndex);
+                    if(playerID === "")
+                        throw "Something went very wrong. This is probably due to inconsistence.";
+                    localDart.assignPlayer(playerID,createdTournament);
+                }
                 backButtonPressed();
             }
         }
 
         Component.onCompleted: {
-            var playerCount = localDart.playersCount();
-
-            for(var i = 0;i < playerCount;i++)
-            {
-                var playerID = localDart.playerIDFromIndex(i);
-
-                var playerFirstName = localDart.playerFirstName(playerID);
-                var playerLastName = localDart.playerLastName(playerID);
-                var playerEMail = localDart.playerEmail(playerID);
-
-                listComponent.addPlayerItem(playerFirstName,playerLastName,playerEMail, playerID);
-            }
-
-            listComponent.addPlayerItem("Martin","Hansen","havnetrold2002@yahoo.dk","333-333-333");
+            updateInterface();
         }
     }
 }

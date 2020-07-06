@@ -19,6 +19,22 @@ Rectangle{
     signal createTournamentClicked;
     signal startGameClicked;
 
+    function updateInterface(){
+        var tournamentsCount = localDart.tournamentsCount();
+
+        for(var i = 0; i < tournamentsCount;i++)
+        {
+            var id = localDart.tournamentIDFromIndex(i);
+            var title = localDart.tournamentTitle(id);
+            var legsCount = localDart.tournamentLegsCount(id);
+            var maxPlayersCount = localDart.tournamentMaxPlayers(id);
+            var keyPoint = localDart.tournamentKeyPoint(id);
+            var playersCount = localDart.tournamentPlayersCount(id);
+
+            tournamentListView.addTournamentItem(title,maxPlayersCount,legsCount,keyPoint,playersCount);
+        }
+    }
+
     GridLayout
     {
        anchors.fill: parent
@@ -107,8 +123,8 @@ Rectangle{
            text: "Start game"
 
            onClicked: {
-               var currentlySelectedIndex = tournamentListView.currentIndex();
-               print(currentlySelectedIndex);
+               var currentlySelectedIndex = tournamentListView.currentlySelectedIndex;
+               print("Index: " + currentlySelectedIndex);
                var tournamentID = localDart.tournamentIDFromIndex(currentlySelectedIndex);
                if(tournamentID === "")
                {
@@ -121,18 +137,6 @@ Rectangle{
     }
 
     Component.onCompleted: {
-        var tournamentsCount = localDart.tournamentsCount();
-
-        for(var i = 0; i < tournamentsCount;i++)
-        {
-            var id = localDart.tournamentIDFromIndex(i);
-            var title = localDart.tournamentTitle(id);
-            var legsCount = localDart.tournamentLegsCount(id);
-            var maxPlayersCount = localDart.tournamentMaxPlayers(id);
-            var keyPoint = localDart.tournamentKeyPoint(id);
-            var playersCount = localDart.tournamentPlayersCount(id);
-
-            tournamentListView.addTournamentItem(title,maxPlayersCount,legsCount,keyPoint,playersCount);
-        }
+        updateInterface();
     }
 }

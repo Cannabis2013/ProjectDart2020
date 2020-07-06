@@ -10,6 +10,9 @@ Rectangle{
 
     color: "transparent"
 
+    property bool allowMultipleSelections: false
+    onAllowMultipleSelectionsChanged: listView.allowMultipleSelections = allowMultipleSelections
+
     property string componentTitle: "Title"
     onComponentTitleChanged: labelTitle.text = componentTitle
 
@@ -40,15 +43,8 @@ Rectangle{
     property color itemBackgroundColor: "transparent"
     onItemBackgroundColorChanged: listView.itemBackgroundColor = itemBackgroundColor
 
-    function currentSelectedIndexes(){
-        return listView.getSelectedIndexes();
-    }
-
-    function currentIndex(){
-        var index = listView.getCurrentSelectedIndex();
-
-        return index;
-    }
+    readonly property int currentlySelectedIndex: listView.getCurrentlySelectedIndex
+    readonly property var currentlySelectedIndexes: listView.getCurrentlySelectedIndexes
 
     function addPlayerItem(firstName, lastName, eMail, id){
         listView.addPlayerItem(firstName,lastName,eMail,id);

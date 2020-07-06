@@ -247,7 +247,6 @@ Rectangle{
     }
     Component.onCompleted: {
         var tHeight = totalHeaderHeight();
-        print(tHeight);
         flickableVHeader.contentHeight = tHeight;
         flickableTable.contentHeight = tHeight;
     }

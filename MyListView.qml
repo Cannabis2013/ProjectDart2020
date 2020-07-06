@@ -49,10 +49,11 @@ ListView
     onItemBackgroundColorChanged: listItem.backgroundColor = itemBackgroundColor
 
     readonly property int getCurrentlySelectedIndex: indexContainer.currentlySelectedIndex;
+    readonly property var getCurrentlySelectedIndexes: indexContainer.currentlySelectedIndexes
 
     function buttonSelected(text){
-        var cIndex = indexContainer.currentlySelectedIndex;
-        var cIndexes;
+        var cIndex = -1;
+        var cIndexes = [];
         var j = 0;
         for(var i = 0;i < count;i++)
         {
@@ -68,24 +69,9 @@ ListView
                 if(txt === text && item.buttonBody.state === "checked")
                     cIndex = i;
             }
-
-
         }
         indexContainer.currentlySelectedIndex = cIndex;
         indexContainer.currentlySelectedIndexes = cIndexes;
-    }
-
-    function getSelectedIndexes()
-    {
-        var indexes;
-        var j = 0;
-        for(var i = 0;i < count;i++)
-        {
-            var item = itemAtIndex(i);
-            if(item.buttonBody.state === "checked")
-                indexes[j++] = i;
-        }
-        return indexes;
     }
 
     function addPlayerItem(firstName, lastName, eMail, id = 0)

@@ -83,13 +83,10 @@ Rectangle {
             var legIndex = 0;
             while(1)
             {
-                var point;
-                try{
-                    point = localDart.pointValue(currentTournamentID,player,roundIndex,++legIndex);
-                    scoreTable.appendData(headerItem,point,0x2);
-                }catch(msg){
+                var point = localDart.pointValue(currentTournamentID,player,roundIndex,++legIndex);
+                if(point < 0)
                     break;
-                }
+                scoreTable.appendData(headerItem,point,0x2);
                 if(legIndex % tournamentLegsCount == 0)
                 {
                     roundIndex++;

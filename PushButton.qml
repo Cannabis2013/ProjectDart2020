@@ -102,11 +102,8 @@ Item {
         onPressedChanged: {
             var s = buttonRect.scale;
             var alteredS = pressedScale
-            if(s !== alteredS){
-                print("onPressedChange block differ pre: " + checked);
+            if(s !== alteredS)
                 buttonRect.state = "pressed";
-                print("onPressedChange block differ post: " + checked);
-            }
             else
                 buttonRect.state = checked ? "checked" : "";
         }
