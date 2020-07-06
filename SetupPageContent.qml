@@ -109,7 +109,6 @@ Content {
         }
 
         MyRectangle{
-            bottomBorderWidth: 1
             Layout.fillWidth: true
             Layout.fillHeight: true
 
@@ -118,7 +117,7 @@ Content {
 
         ButtonsComponent {
             height: 30
-            width: 200
+            Layout.fillWidth: true
             Layout.alignment: Qt.AlignBottom |Qt.AlignHCenter
             buttonOneTitle: "Save"
             buttonTwoTitle: "Save and play"
@@ -150,8 +149,8 @@ Content {
             anchors.top: playersListView.bottom
             anchors.right: playersListView.right
             onClicked: {
-                var popup = ComponentFactory.createPopUp(applicationWindow,"createPlayerPopUp",0,0,applicationWindow.width,applicationWindow.height);
-
+                var component = ComponentFactory.createPopUp(applicationWindow,"createPlayerPopUp",0,0,applicationWindow.width,applicationWindow.height);
+                component.backButtonPressed.connect(updateInterface);
             }
         }
         Component.onCompleted: {

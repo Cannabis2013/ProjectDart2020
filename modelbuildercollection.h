@@ -31,19 +31,17 @@ public:
     DefaultTournamentInterface *buildModel(const TournamentParameters &args, const ModelOptions &options) override
     {
         auto model = new Tournament();
-
         if(!options.customUuid && options.generateUniqueId)
             model->setId(QUuid::createUuid());
         else if(!options.generateUniqueId)
             model->setId(args.id);
-
         auto title = args.title != "" ? args.title : options.defaultTitle + QString("[%1]").arg(options.tournamentsCount);
         auto gameMode = args.gameMode != -1 ? args.gameMode : options.defaultGameMode;
         auto status = options.initialStatus;
         auto legCount = args.numberOfLegs > 0 ? args.numberOfLegs : options.defaultLegCount;
         auto maxPlayers = args.maxPlayers > 0 ? args.maxPlayers : options.defaultMaxPlayerCount;
         auto keyPoint = args.keyPoint >= 0 ? args.keyPoint : options.defaultKeyPoint;
-
+        auto playerIdentitties = args.playerIdentities;
         model->setType(ModelBuilderContext::TournamentModel);
         model->setTitle(title);
         model->setGameMode(gameMode);
@@ -51,6 +49,7 @@ public:
         model->setKeyPoint(keyPoint);
         model->setNumberOfLegs(legCount);
         model->setMaximumAllowedPlayers(maxPlayers);
+        model->setAssignedPlayerIdentities(playerIdentitties);
 
         model->setType(ModelBuilderContext::TournamentModel);
 

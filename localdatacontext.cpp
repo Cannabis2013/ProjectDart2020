@@ -211,31 +211,28 @@ void LocalDataContext::alterTournamentMaxPlayers(const QUuid &tournament, const 
 void LocalDataContext::tournamentAddPlayer(const QUuid &tournament, const QUuid &player)
 {
     auto model = getTournamentFromID(tournament);
+
     auto pList = model->assignedPlayerIdentities();
+
     pList.append(player);
     auto newModel = tournamentBuilder()->buildModel(
                 [model, pList]
     {
         TournamentParameters params;
-
         params.id = model->id();
         params.title = model->title();
         params.status = model->status();
         params.gameMode = model->gameMode();
         params.keyPoint = model->keyPoint();
         params.maxPlayers = model->numberOfMaxAllowedPlayers();
-        params.playerIdentities = model->assignedPlayerIdentities();
         params.numberOfLegs = model->numberOfLegs();
         params.winner = model->winner();
         params.playerIdentities = pList;
-
         return params;
     }(),[]
     {
         ModelOptions options;
-
         options.generateUniqueId = false;
-
         return options;
     }());
 

@@ -9,6 +9,8 @@ Rectangle{
 
     color: "transparent"
 
+    signal textChanged
+
     property int lineEditBorderRadius: 20
     onLineEditBorderRadiusChanged: lineEdit.radius = lineEditBorderRadius
 
@@ -72,6 +74,8 @@ Rectangle{
 
     MyTextEdit {
         id: lineEdit
+
+        onTextChanged: myLineEditBody.textChanged()
 
         radius: myLineEditBody.lineEditBorderRadius
 

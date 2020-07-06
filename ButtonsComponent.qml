@@ -12,6 +12,12 @@ Rectangle{
     signal buttonOneClicked
     signal buttonTwoClicked
 
+    property bool buttonOneEnabled: true
+    onButtonOneEnabledChanged: buttonOne.enabled = buttonOneEnabled
+
+    property bool buttonTwoEnabled: true
+    onButtonTwoEnabledChanged: buttontwo.enabled = buttonTwoEnabled
+
     property string buttonOneTitle: "Button one"
     property string buttonTwoTitle: "Button two"
 
@@ -43,36 +49,31 @@ Rectangle{
         PushButton{
             id: buttonOne
             text: buttonOneTitle
-            
             Layout.row: 0
             Layout.column: 0
-            
             fontSize: 8
             textColor: "white"
             backgroundColor: buttonBackgroundColor
-            
             height: 30
             width: buttonWidth
-
             onClicked: buttonOneClicked()
+            Layout.alignment: Qt.AlignRight
+            enabled: buttonOneEnabled
         }
         
         PushButton{
             id: buttontwo
-
             text: buttonTwoTitle
-            
             Layout.row: 0
             Layout.column: 1
-            
             fontSize: 8
             textColor: "white"
             backgroundColor: buttonBackgroundColor
-            
             height: 30
             width: buttonWidth
-
             onClicked: buttonTwoClicked()
+            Layout.alignment: Qt.AlignLeft
+            enabled: buttonTwoEnabled
         }
     }
 }
