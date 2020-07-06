@@ -12,7 +12,6 @@
         <file>VerticalHeader.qml</file>
         <file>CustomTableView.qml</file>
         <file>MyRectangle.qml</file>
-        <file>MyTableView.qml</file>
         <file>MyTextEdit.qml</file>
         <file>MyLabel.qml</file>
         <file>LineEditComponent.qml</file>
