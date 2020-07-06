@@ -12,8 +12,8 @@ ApplicationWindow {
 
     color: "lightgray"
 
-    width: 320
-    height: 512
+    width: 480
+    height: 640
 
     title: qsTr("Dart2020")
 

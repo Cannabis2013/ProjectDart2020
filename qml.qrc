@@ -7,7 +7,7 @@
         <file>PageLabelItem.qml</file>
         <file>StartPageContent.qml</file>
         <file>LoginComponent.qml</file>
-        <file>TournamentPage.qml</file>
+        <file>TournamentPageContent.qml</file>
         <file>HorizontalHeader.qml</file>
         <file>VerticalHeader.qml</file>
         <file>CustomTableView.qml</file>
@@ -28,8 +28,9 @@
         <file>TurnNavigationComponent.qml</file>
         <file>KeyPadComponent.qml</file>
         <file>componentFactory.js</file>
-        <file>CreatePlayerContent.qml</file>
-        <file>customTableFunctions.js</file>
+        <file>CreatePlayerPopUp.qml</file>
+        <file>Content.qml</file>
+        <file>CRUDButton.qml</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>

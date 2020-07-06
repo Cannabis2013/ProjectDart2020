@@ -6,9 +6,11 @@ import QtQuick.Layouts 1.3
 import ApplicationInterface 1.0
 
 Rectangle{
+    clip: true
+    color: "transparent"
     
-    signal startClicked
-    signal saveClicked
+    signal buttonOneClicked
+    signal buttonTwoClicked
 
     property string buttonOneTitle: "Button one"
     property string buttonTwoTitle: "Button two"
@@ -52,7 +54,7 @@ Rectangle{
             height: 30
             width: buttonWidth
 
-            onClicked: saveClicked()
+            onClicked: buttonOneClicked()
         }
         
         PushButton{
@@ -70,7 +72,7 @@ Rectangle{
             height: 30
             width: buttonWidth
 
-            onClicked: startClicked()
+            onClicked: buttonTwoClicked()
         }
     }
 }

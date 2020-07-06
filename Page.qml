@@ -11,8 +11,9 @@ Rectangle {
     property string defaultBackgroundColor: "#A54141"
 
     signal backButtonPressed
+    onBackButtonPressed: pageBody.destroy()
 
-    property Item pageContent: Item{}
+    property Content pageContent: Content{}
     onPageContentChanged: {
         pageLayout.children[2] = pageContent;
     }

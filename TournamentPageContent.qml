@@ -1,7 +1,7 @@
 import QtQuick 2.4
 import QtQuick.Layouts 1.3
 
-Rectangle{
+Content{
 
     id: body
 
@@ -64,6 +64,8 @@ Rectangle{
            itemFontSize: 10
 
            itemWidth: 256
+
+           allowCheckState: true
        }
        GridLayout{
            flow: GridLayout.LeftToRight
@@ -74,33 +76,14 @@ Rectangle{
                Layout.fillWidth: true
            }
 
-           PushButton{
-
-               width: 64
-               height: 30
+           CRUDButton{
                text: "Create"
-               fontSize: 12
-
-               textColor: "white"
-               backgroundColor: "green"
-
-               buttonRadius: 5
 
                onClicked: createTournamentClicked()
            }
 
-           PushButton{
-               Layout.alignment: Qt.AlignLeft
-
-               width: 64
-               height: 30
+           CRUDButton{
                text: "Delete"
-               fontSize: 12
-
-               textColor: "white"
-               backgroundColor: "green"
-
-               buttonRadius: 5
            }
        }
 

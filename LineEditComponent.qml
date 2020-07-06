@@ -37,7 +37,7 @@ Rectangle{
     onLabelLeftMarginChanged: label.textLeftMargin = labelLeftMargin
 
     property string labelText: "Label text"
-    onLabelTextChanged: label.text = labelText
+    onLabelTextChanged: label.text = qsTr(labelText)
 
     property int fontSize: 20
     onFontSizeChanged: lineEdit.fontSize = fontSize

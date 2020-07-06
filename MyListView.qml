@@ -19,6 +19,9 @@ ListView
 
     spacing: 1
 
+    property bool allowCheckState: false
+    onAllowCheckStateChanged: listItem.isCheckable = allowCheckState
+
     property bool allowMultipleSelections: false
 
     property color itemTextColor: "black"
@@ -107,7 +110,7 @@ ListView
 
         fontSize: itemFontSize
 
-        isCheckable: true
+        isCheckable: allowCheckState
         onEmitCheckState: buttonSelected(text);
 
         hoveredColor: listViewBody.itemHoveredColor

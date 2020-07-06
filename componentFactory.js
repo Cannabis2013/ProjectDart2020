@@ -4,7 +4,8 @@ function createModifier(parentID,keyText, rowIndex, columnIndex) {
 
     var buttonID = "button" + rowIndex;
     var button = component.createObject(parentID,
-                                        {"id" : buttonID,
+                                        {
+                                            "id" : buttonID,
                                             "text" : keyText,
                                             "Layout.row" : rowIndex,
                                             "Layout.column" : columnIndex,
@@ -18,8 +19,8 @@ function createModifier(parentID,keyText, rowIndex, columnIndex) {
                                             "checkedBackgroundColor" : "white",
                                             "checkedTextColor" : "black",
                                             "checkedScale" : 0.8,
-                                            "hoverEnabled" : false});
-
+                                            "hoverEnabled" : false
+                                        });
 
     if(button === null)
         print("Something went wrong");
@@ -31,7 +32,8 @@ function createNumberButton(parentID,keyText, rowIndex, columnIndex) {
     var component = Qt.createComponent("PushButton.qml");
 
     var button = component.createObject(parentID,
-                                        {"text" : keyText,
+                                        {
+                                            "text" : keyText,
                                             "Layout.row" : rowIndex,
                                             "Layout.column" : columnIndex,
                                             "Layout.fillWidth" : true,
@@ -42,10 +44,28 @@ function createNumberButton(parentID,keyText, rowIndex, columnIndex) {
                                             "fontSize" : 16,
                                             "buttonRadius" : 5,
                                             "pressedScale" : 0.75,
-                                            "hoveredColor" : "black"});
+                                            "hoveredColor" : "black"
+                                        });
 
     if(button === null)
         print("Something went wrong");
 
     return button;
+}
+
+function createPopUp(parentID, id,x, y, width, height)
+{
+    var component = Qt.createComponent("CreatePlayerPopUp.qml");
+
+    var createPlayerPopUp = component.createObject(parentID,
+                                                   {
+                                                       "id" : id,
+                                                       "x" : x,
+                                                       "y" : y,
+                                                       "width" : width,
+                                                       "height" : height
+                                                    });
+    if(createPlayerPopUp === null)
+        print("Something went very wrong. Call the police if necessary.");
+    return createPlayerPopUp;
 }

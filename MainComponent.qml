@@ -10,9 +10,7 @@ Item {
 
         Page{
             onBackButtonPressed: pageLoader.sourceComponent = tournamentPageComponent
-
             pageTitle: "Game"
-
             pageContent: GamePageContent{}
             Component.onCompleted: body.backPushed.connect(backButtonPressed)
         }
@@ -22,9 +20,7 @@ Item {
         id: setupPageComponent
         Page {
             onBackButtonPressed: pageLoader.sourceComponent = tournamentPageComponent
-
             pageTitle: "Setup tournament"
-
             pageContent: SetupPageContent{}
             Component.onCompleted: body.backPushed.connect(backButtonPressed)
         }
@@ -35,25 +31,11 @@ Item {
         Page{
             id: tournamentPage
             pageTitle: "Tournaments"
-
             onBackButtonPressed: pageLoader.sourceComponent = startPageComponent
-            pageContent: TournamentPage{
+            pageContent: TournamentPageContent{
                 onCreateTournamentClicked: pageLoader.sourceComponent = setupPageComponent
                 onStartGameClicked: pageLoader.sourceComponent = gamePageComponent
             }
-            Component.onCompleted: body.backPushed.connect(backButtonPressed)
-        }
-
-
-    }
-
-    Component{
-        id: createPlayerComponent
-        Page{
-            pageTitle: "Create player"
-
-            pageContent: CreatePlayerContent{}
-
             Component.onCompleted: body.backPushed.connect(backButtonPressed)
         }
     }
@@ -75,6 +57,5 @@ Item {
         id: pageLoader
         anchors.fill: parent
     }
-
     Component.onCompleted: pageLoader.sourceComponent = startPageComponent
 }

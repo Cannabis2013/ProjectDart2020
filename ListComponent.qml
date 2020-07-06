@@ -10,6 +10,9 @@ Rectangle{
 
     color: "transparent"
 
+    property bool allowCheckState: false
+    onAllowCheckStateChanged: listView.allowCheckState = allowCheckState
+
     property bool allowMultipleSelections: false
     onAllowMultipleSelectionsChanged: listView.allowMultipleSelections = allowMultipleSelections
 
@@ -87,6 +90,8 @@ Rectangle{
 
         MyListView {
             id: listView
+
+            allowCheckState: listComponentBody.allowCheckState
 
             itemFontSize: listComponentBody.itemFontSize
             itemTextColor: listComponentBody.itemTextColor
