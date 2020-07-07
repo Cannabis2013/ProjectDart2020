@@ -48,7 +48,7 @@ TableView
         return myModel.columnWidthAt(column,"MS Sans Serif",fontSize);
     }
 
-    model: CustomTableModel
+    model: ScoreDataModel
     {
         id: myModel
 

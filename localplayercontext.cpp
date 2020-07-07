@@ -1,6 +1,7 @@
 #include "localplayercontext.h"
 LocalPlayerContext::LocalPlayerContext()
 {
+
 }
 
 QUuid LocalPlayerContext::createPlayer(const QString &firstName, const QString &lastName, const QString &email, const int &role)
@@ -78,7 +79,7 @@ QUuid LocalPlayerContext::playerIDFromFullName(const QString &fullName) const
     auto indexOfSpaceRight = fullName.count() - indexOfSpaceLeft;
 
     auto firstName = fullName.left(indexOfSpaceLeft);
-    auto lastName = fullName.right(indexOfSpaceRight);
+    auto lastName = fullName.right(indexOfSpaceRight - 1);
 
     try {
         auto model = getModel(firstName,lastName);

@@ -54,7 +54,7 @@ public:
     virtual QString createPlayer(const QString &firstName, const QString &lastName, const QString &email) = 0;
 
     virtual QString currentActiveTournamentID() = 0;
-
+    virtual QString setCurrentActiveTournament(const QString &id) = 0;
     virtual int currentGameRoundIndex() = 0;
     virtual int currentGameSetIndex() = 0;
 

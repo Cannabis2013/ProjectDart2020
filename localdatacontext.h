@@ -85,40 +85,35 @@ public:
     QList<QUuid> playerPoints(const QUuid &player) const override;
     QList<QUuid> playerPoints(const QUuid &tournament, const QUuid &player) const override;
 
-    DefaultDataInterface *setTournamentBuilder(ITournamentBuilder *builder) override
-    {
-        _tournamentBuilder = builder;
-        return this;
-    }
+    DefaultDataInterface *setTournamentBuilder(ITournamentBuilder *builder) override;
+    ITournamentBuilder *tournamentBuilder() const;
+
+    bool tournamentExists(const QUuid &tournament) const override;
 
 private:
     const DefaultTournamentInterface *getTournamentFromID(const QUuid &id) const;
     const DefaultRoundInterface *getRoundFromID(const QUuid &id) const;
     const DefaultSetInterface *getSetFromID(const QUuid &id) const;
     const DefaultPointInterface *getPointFromID(const QUuid &id) const;
-
     // Removes model with given id. If no model with that id is found, this method does nothing.
     void removeTournamentModel(const QUuid &tournament);
     void removePointModel(const QUuid &playerPoint);
-
-    ITournamentBuilder *tournamentBuilder() const;
-
+    // Builder methods
     IRoundBuilder *roundBuilder() const;
     void setRoundBuilder(IRoundBuilder *roundBuilder);
     ISetBuilder *setBuilder() const;
     void setSetBuilder(ISetBuilder *builder);
     IPointBuilder *pointBuilder() const;
-
-
-    QList<DefaultTournamentInterface*> _tournaments;
-    QList<DefaultRoundInterface *> _rounds;
-    QList<DefaultSetInterface *> _sets;
-    QList<DefaultPointInterface*> _points;
-
+    // Builders
     ITournamentBuilder *_tournamentBuilder = new TournamentBuilder();
     IRoundBuilder *_roundBuilder = new RoundBuilder();
     ISetBuilder *_setBuilder = new SetBuilder();
     IPointBuilder *_pointBuilder = new PointBuilder();
+    //Models
+    QList<DefaultTournamentInterface*> _tournaments;
+    QList<DefaultRoundInterface *> _rounds;
+    QList<DefaultSetInterface *> _sets;
+    QList<DefaultPointInterface*> _points;
 };
 
 #endif // LOCALDATACONTEXT_H

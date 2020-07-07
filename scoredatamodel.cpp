@@ -1,10 +1,10 @@
-#include "customtablemodel.h"
+#include "scoredatamodel.h"
 
-CustomTableModel::CustomTableModel()
+ScoreDataModel::ScoreDataModel()
 {
 }
 
-bool CustomTableModel::addData(int row, int column, int data)
+bool ScoreDataModel::addData(int row, int column, int data)
 {
     auto dataIndex = this->createIndex(row,column);
 
@@ -19,7 +19,7 @@ bool CustomTableModel::addData(int row, int column, int data)
     }
 }
 
-bool CustomTableModel::appendData(const QString &playerName, const int &data, const int &headerOrientation)
+bool ScoreDataModel::appendData(const QString &playerName, const int &data, const int &headerOrientation)
 {
     auto index = indexOfHeaderItem(playerName,headerOrientation);
     if(headerOrientation == Qt::Horizontal)
@@ -52,7 +52,7 @@ bool CustomTableModel::appendData(const QString &playerName, const int &data, co
     return true;
 }
 
-void CustomTableModel::appendHeaderItem(const QVariant &data, const int &orientation)
+void ScoreDataModel::appendHeaderItem(const QVariant &data, const int &orientation)
 {
     if(orientation == Qt::Horizontal)
         _horizontalHeaderData.append(data.toString());
@@ -62,14 +62,14 @@ void CustomTableModel::appendHeaderItem(const QVariant &data, const int &orienta
     emit dataChanged(QModelIndex(),QModelIndex());
 }
 
-QString CustomTableModel::headerData(const int &index, const int &orientation) const
+QString ScoreDataModel::getHeaderData(const int &index, const int &orientation) const
 {
     auto value =  headerData(index,static_cast<Qt::Orientation>(orientation),Qt::DisplayRole).toString();
 
     return value;
 }
 
-int CustomTableModel::headerItemCount(const int &orientation) const
+int ScoreDataModel::headerItemCount(const int &orientation) const
 {
     if(orientation == Qt::Horizontal)
         return _horizontalHeaderData.count();
@@ -77,17 +77,17 @@ int CustomTableModel::headerItemCount(const int &orientation) const
         return _verticalHeaderData.count();
 }
 
-int CustomTableModel::rowCount() const
+int ScoreDataModel::rowCount() const
 {
     return rowCount(QModelIndex());
 }
 
-int CustomTableModel::columnCount() const
+int ScoreDataModel::columnCount() const
 {
     return columnCount(QModelIndex());
 }
 
-double CustomTableModel::columnWidthAt(const int &column, const QString &fontFamily, const int &pointSize) const
+double ScoreDataModel::columnWidthAt(const int &column, const QString &fontFamily, const int &pointSize) const
 {
     if(column >= columnCount())
         throw std::out_of_range("Index out of range");
@@ -126,7 +126,7 @@ double CustomTableModel::columnWidthAt(const int &column, const QString &fontFam
     return resultingGlyphLenght * scale();
 }
 
-double CustomTableModel::columnHeightAt(const int &column, const QString &fontFamily, const int &pointSize) const
+double ScoreDataModel::columnHeightAt(const int &column, const QString &fontFamily, const int &pointSize) const
 {
     auto font = QFont(fontFamily,pointSize);
 
@@ -150,7 +150,7 @@ double CustomTableModel::columnHeightAt(const int &column, const QString &fontFa
     return glyphLenght *scale();
 }
 
-double CustomTableModel::rowHeightAt(const int &row, const QString &fontFamily ,const int &pointSize) const
+double ScoreDataModel::rowHeightAt(const int &row, const QString &fontFamily ,const int &pointSize) const
 {
     auto font = QFont(fontFamily,pointSize);
 
@@ -184,7 +184,7 @@ double CustomTableModel::rowHeightAt(const int &row, const QString &fontFamily ,
     return resultingGlyphLenght;
 }
 
-double CustomTableModel::rowWidthAt(const int &row, const QString &fontFamily, const int &pointSize) const
+double ScoreDataModel::rowWidthAt(const int &row, const QString &fontFamily, const int &pointSize) const
 {
     auto font = QFont(fontFamily,pointSize);
 
@@ -208,27 +208,27 @@ double CustomTableModel::rowWidthAt(const int &row, const QString &fontFamily, c
     return glyphLenght * scale();
 }
 
-int CustomTableModel::horizontalHeaderCount() const
+int ScoreDataModel::horizontalHeaderCount() const
 {
     return _horizontalHeaderData.count();
 }
 
-int CustomTableModel::verticalHeaderCount() const
+int ScoreDataModel::verticalHeaderCount() const
 {
     return _verticalHeaderData.count();
 }
 
-int CustomTableModel::rowCount(const QModelIndex &) const
+int ScoreDataModel::rowCount(const QModelIndex &) const
 {
     return _rows;
 }
 
-int CustomTableModel::columnCount(const QModelIndex &) const
+int ScoreDataModel::columnCount(const QModelIndex &) const
 {
     return _columns;
 }
 
-QVariant CustomTableModel::data(const QModelIndex &index, int role) const
+QVariant ScoreDataModel::data(const QModelIndex &index, int role) const
 {
     if(!index.isValid() || index.row() >= _cellData.count())
         return QVariant();
@@ -248,28 +248,29 @@ QVariant CustomTableModel::data(const QModelIndex &index, int role) const
                 QVariant();
 }
 
-QVariant CustomTableModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant ScoreDataModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if(role != Qt::DisplayRole)
         return QVariant();
 
     auto numberOfColumns = columnCount();
     auto horizontalHeaderCount = _horizontalHeaderData.count();
+    int roundIndex = section/_numberOfThrows;
 
     switch (orientation) {
         case Qt::Horizontal : return section < numberOfColumns ?
                     horizontalHeaderCount > section ?
                         _horizontalHeaderData.at(section) : fillMode() == HeaderFillMode::IncrementingIntegerFill ?
-                            QVariant(section + 1) : QVariant() : QVariant();
+                            QVariant(roundIndex + 1) : QVariant() : QVariant();
         case Qt::Vertical : return section < _verticalHeaderData.count() ?
                     _verticalHeaderData.count() >= section  ?
                         _verticalHeaderData.at(section) : fillMode() == HeaderFillMode::IncrementingIntegerFill ?
-                            QVariant(section + 1) : QVariant(): QVariant();
+                            QVariant(roundIndex + 1) : QVariant(): QVariant();
         default: return QVariant();
     }
 }
 
-bool CustomTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool ScoreDataModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     auto row = index.row();
     auto column = index.column();
@@ -303,7 +304,7 @@ bool CustomTableModel::setData(const QModelIndex &index, const QVariant &value, 
     return true;
 }
 
-bool CustomTableModel::insertRows(int row, int count, const QModelIndex &)
+bool ScoreDataModel::insertRows(int row, int count, const QModelIndex &)
 {
     auto firstRow = row <= rowCount(QModelIndex()) ? row : rowCount(QModelIndex()) - 1;
     auto lastRow  =  row <= rowCount(QModelIndex()) ? firstRow + count : 2*row + count - firstRow;
@@ -330,7 +331,7 @@ bool CustomTableModel::insertRows(int row, int count, const QModelIndex &)
     return true;
 }
 
-bool CustomTableModel::insertColumns(int column, int count, const QModelIndex &)
+bool ScoreDataModel::insertColumns(int column, int count, const QModelIndex &)
 {
     auto firstColumn = column <= columnCount(QModelIndex()) ? column : columnCount(QModelIndex()) - 1;
     auto lastColumn  =  column <= columnCount(QModelIndex()) ? firstColumn + count : 2*column + count - firstColumn;
@@ -361,7 +362,7 @@ bool CustomTableModel::insertColumns(int column, int count, const QModelIndex &)
     return true;
 }
 
-bool CustomTableModel::removeRows(int row, int count, const QModelIndex &)
+bool ScoreDataModel::removeRows(int row, int count, const QModelIndex &)
 {
     // Check if input satisfies model constraints
     if(row < 0 || row >= rowCount())
@@ -389,7 +390,7 @@ bool CustomTableModel::removeRows(int row, int count, const QModelIndex &)
     return true;
 }
 
-bool CustomTableModel::removeColumns(int column, int count, const QModelIndex &)
+bool ScoreDataModel::removeColumns(int column, int count, const QModelIndex &)
 {
     // Check if input satisfies model constraints
     if(column < 0 || column >= columnCount())
@@ -415,7 +416,7 @@ bool CustomTableModel::removeColumns(int column, int count, const QModelIndex &)
     return true;
 }
 
-int CustomTableModel::indexOfLastDecoratedRow(const int &row)
+int ScoreDataModel::indexOfLastDecoratedRow(const int &row)
 {
     auto r = _cellData.at(row);
 
@@ -429,7 +430,7 @@ int CustomTableModel::indexOfLastDecoratedRow(const int &row)
     return columnCount();
 }
 
-int CustomTableModel::indexOfLastDecoratedColumn(const int &column)
+int ScoreDataModel::indexOfLastDecoratedColumn(const int &column)
 {
     for (int row = 0; row < rowCount(); ++row) {
         auto rowData = _cellData.at(row);
@@ -441,7 +442,7 @@ int CustomTableModel::indexOfLastDecoratedColumn(const int &column)
     return rowCount();
 }
 
-int CustomTableModel::rowCount(const int &column)
+int ScoreDataModel::rowCount(const int &column)
 {
     for (int row = 0; row < _cellData.count(); ++row) {
         auto rowData = _cellData.at(row);
@@ -451,7 +452,7 @@ int CustomTableModel::rowCount(const int &column)
     return rowCount();
 }
 
-int CustomTableModel::indexOfHeaderItem(const QString &data, const int &orientation)
+int ScoreDataModel::indexOfHeaderItem(const QString &data, const int &orientation)
 {
     if(orientation == Qt::Vertical)
     {
@@ -467,18 +468,18 @@ int CustomTableModel::indexOfHeaderItem(const QString &data, const int &orientat
     }
 }
 
-int CustomTableModel::fillMode() const
+int ScoreDataModel::fillMode() const
 {
     return _fillMode;
 }
 
-void CustomTableModel::setFillMode(int fillMode)
+void ScoreDataModel::setFillMode(int fillMode)
 {
     _fillMode = fillMode;
     emit fillModeChanged();
 }
 
-int CustomTableModel::preferedCellWidth(const QString &fontFamily, const int &pointSize) const
+int ScoreDataModel::preferedCellWidth(const QString &fontFamily, const int &pointSize) const
 {
     auto preferedWidth = 0;
     for (auto txt : _verticalHeaderData) {
@@ -492,12 +493,23 @@ int CustomTableModel::preferedCellWidth(const QString &fontFamily, const int &po
     return preferedWidth;
 }
 
-double CustomTableModel::scale() const
+void ScoreDataModel::setNumberOfThrows(const int &count)
+{
+    _numberOfThrows = count;
+}
+
+void ScoreDataModel::setColumnCount(const int &count)
+{
+    insertColumns(0,count,QModelIndex());
+    emit dataChanged(createIndex(0,0),createIndex(headerItemCount(0x2),count));
+}
+
+double ScoreDataModel::scale() const
 {
     return _scale;
 }
 
-void CustomTableModel::setScale(double scale)
+void ScoreDataModel::setScale(double scale)
 {
     _scale = scale;
 }

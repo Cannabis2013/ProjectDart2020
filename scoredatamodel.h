@@ -9,7 +9,7 @@ const int defaultCellHeight = 25;
 const QString defaultFontFamily = "MS Sans Serif";
 const int defaultPointSize = 12;
 
-class CustomTableModel : public QAbstractTableModel
+class ScoreDataModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
@@ -20,14 +20,14 @@ public:
     Q_PROPERTY(int headerFillMode READ fillMode WRITE setFillMode NOTIFY fillModeChanged);
     Q_PROPERTY(double columnWidthScale READ scale WRITE setScale NOTIFY columnWidthScaleChanged);
 
-    CustomTableModel();
+    ScoreDataModel();
 
     // public methods
     Q_INVOKABLE bool addData(int row, int column, int data);
     Q_INVOKABLE bool appendData(const QString &playerName, const int &data, const int &headerOrientation);
     Q_INVOKABLE void appendHeaderItem(const QVariant &data, const int &orientation = Qt::Vertical);
 
-    Q_INVOKABLE QString headerData(const int &index, const int &orientation) const;
+    Q_INVOKABLE QString getHeaderData(const int &index, const int &orientation) const;
 
     Q_INVOKABLE int headerItemCount(const int &orientation) const;
 
@@ -49,6 +49,10 @@ public:
     Q_INVOKABLE void setFillMode(int fillMode);
 
     Q_INVOKABLE int preferedCellWidth(const QString &fontFamily = defaultFontFamily, const int &pointSize = defaultPointSize) const;
+
+    Q_INVOKABLE void setNumberOfThrows(const int &count);
+
+    Q_INVOKABLE void setColumnCount(const int &count);
 
     // Public pure virtual method implementations
     int rowCount(const QModelIndex &) const override;
@@ -86,6 +90,7 @@ private:
     double _scale = 1.05;
 
     int _fillMode = HeaderFillMode::NonFill;
+    int _numberOfThrows = 3;
 };
 
 #endif // CUSTOMTABLEMODEL_H

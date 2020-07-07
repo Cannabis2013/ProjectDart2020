@@ -82,12 +82,15 @@ public:
     virtual TUuid playerPoint(const TUuid &tournament,const TUuid &player, int roundIndex, int legIndex) = 0;
     virtual TList playerPoints(const TUuid &player) const = 0;
     virtual TList playerPoints(const TUuid &tournament, const TUuid &player) const = 0;
-
     /*
      * Builders
      */
-
     virtual IDataContext<TUuid, TList,TString, TTournamentBuilder> *setTournamentBuilder(TTournamentBuilder *builder) = 0;
+
+    /*
+     * Consistency checks
+     */
+    virtual bool tournamentExists(const TUuid &tournament) const = 0;
 };
 
 #endif // ILOCALDATACONTEXT_H

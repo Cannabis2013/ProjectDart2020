@@ -107,13 +107,15 @@ Content{
 
            onClicked: {
                var currentlySelectedIndex = tournamentListView.currentlySelectedIndex;
-               print("Index: " + currentlySelectedIndex);
                var tournamentID = localDart.tournamentIDFromIndex(currentlySelectedIndex);
                if(tournamentID === "")
-               {
-                   print("String is empty");
                    return;
-               }
+               var tournamentPlayersCount = localDart.tournamentPlayersCount(tournamentID);
+               if(tournamentPlayersCount === 0)
+                   return;
+               var result = localDart.setCurrentActiveTournament(tournamentID);
+               if(result === "")
+                   return;
                startGameClicked();
            }
        }

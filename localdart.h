@@ -71,6 +71,7 @@ public:
 
     // Game related
     Q_INVOKABLE QString currentActiveTournamentID() override;
+    Q_INVOKABLE QString setCurrentActiveTournament(const QString &id) override;
 
     Q_INVOKABLE int currentGameRoundIndex() override;
     Q_INVOKABLE int currentGameSetIndex() override;
@@ -91,6 +92,9 @@ public:
     Q_INVOKABLE int score(const QString &tournament, const QString &player) override;
 
 private:
+    void createInitialModels(); // For testing purposes
+
+
     DataContextInterface *_dataContext;
     PlayerContextInterface *_playerContext;
     GameControllerInterface *_gameController;

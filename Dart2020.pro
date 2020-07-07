@@ -14,14 +14,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        customtablemodel.cpp \
         idatamodelbuilder.cpp \
         ilogisticmanager.cpp \
         localdart.cpp \
         localdatacontext.cpp \
         localplayercontext.cpp \
         localstandarddart.cpp \
-        main.cpp
+        main.cpp \
+        scoredatamodel.cpp
 
 RESOURCES += qml.qrc
 
@@ -41,7 +41,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     abstractdartinterface.h \
-    customtablemodel.h \
     gamemodelscontext.h \
     idatacontext.h \
     idatamodelbuilder.h \
@@ -61,6 +60,7 @@ HEADERS += \
     point.h \
     pointlogisticmanager.h \
     round.h \
+    scoredatamodel.h \
     set.h \
     tournament.h
 

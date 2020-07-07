@@ -82,7 +82,13 @@ int LocalDataContext::tournamentMaximumAllowedPlayers(const QUuid &tournament) c
 
 QList<QUuid> LocalDataContext::tournamentAssignedPlayers(const QUuid &tournament) const
 {
-    return getTournamentFromID(tournament)->assignedPlayerIdentities();
+    QList<QUuid> assignedPlayers;
+    try {
+        assignedPlayers = getTournamentFromID(tournament)->assignedPlayerIdentities();
+    } catch (const char *msg) {
+        throw  msg;
+    }
+    return assignedPlayers;
 }
 
 int LocalDataContext::tournamentGameMode(const QUuid &tournament) const
@@ -707,6 +713,12 @@ QList<QUuid> LocalDataContext::playerPoints(const QUuid &tournament, const QUuid
     return resultingList;
 }
 
+DefaultDataInterface *LocalDataContext::setTournamentBuilder(ITournamentBuilder *builder)
+{
+    _tournamentBuilder = builder;
+    return this;
+}
+
 QUuid LocalDataContext::playerPoint(const QUuid &tournament, const QUuid &player, int roundIndex, int legIndex)
 {
     auto tournamentPoints = points(tournament);
@@ -804,6 +816,16 @@ void LocalDataContext::removePointModel(const QUuid &point)
 ITournamentBuilder *LocalDataContext::tournamentBuilder() const
 {
     return _tournamentBuilder;
+}
+
+bool LocalDataContext::tournamentExists(const QUuid &tournament) const
+{
+    for (auto model : _tournaments) {
+        auto id = model->id();
+        if(id == tournament)
+            return true;
+    }
+    return false;
 }
 
 IRoundBuilder *LocalDataContext::roundBuilder() const

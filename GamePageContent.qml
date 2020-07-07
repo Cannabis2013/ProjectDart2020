@@ -53,7 +53,7 @@ Content {
         }
     }
     Component.onCompleted: {
-        var currentTournamentID = localDart.currentTournamentID();
+        var currentTournamentID = localDart.currentActiveTournamentID();
         if(currentTournamentID === "")
         {
             print("No currently active tournament");

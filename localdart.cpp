@@ -8,7 +8,10 @@ LocalDart::LocalDart()
 
     _playerContext->setPlayerBuilder(new LocalPlayerBuilder);
 
+
     _gameController->setDataContext(_dataContext);
+
+    createInitialModels();
 }
 
 void LocalDart::read()
@@ -62,8 +65,12 @@ int LocalDart::tournamentLegsCount(const QString &id)
 int LocalDart::tournamentPlayersCount(const QString &id)
 {
     auto stringID = QUuid::fromString(id);
-
-    auto allPlayers = _dataContext->tournamentAssignedPlayers(stringID);
+    QList<QUuid> allPlayers;
+    try {
+        allPlayers = _dataContext->tournamentAssignedPlayers(stringID);
+    } catch (const char *msg) {
+        return -1;
+    }
 
     auto playersCount = allPlayers.count();
 
@@ -178,6 +185,15 @@ QString LocalDart::currentActiveTournamentID()
     return tournamentID.toString();
 }
 
+QString LocalDart::setCurrentActiveTournament(const QString &id)
+{
+    auto tournament = QUuid::fromString(id);
+    if(!_dataContext->tournamentExists(tournament))
+        return "";
+    _gameController->setCurrentTournament(tournament);
+    return id;
+}
+
 int LocalDart::currentGameRoundIndex()
 {
     auto currentRoundIndex = _gameController->currentRoundIndex();
@@ -261,6 +277,13 @@ int LocalDart::score(const QString &tournament, const QString &player)
     }
 
     return totalScore;
+}
+
+void LocalDart::createInitialModels()
+{
+    auto player = _playerContext->createPlayer("Adolf","Schnitzler","",0x2);
+    auto tournament = _dataContext->createTournament("Kents turnering",5,501,3,0x0);
+    _dataContext->tournamentAddPlayer(tournament,player);
 }
 
 void LocalDart::assignPlayer(const QString &player, const QString &tournament)
