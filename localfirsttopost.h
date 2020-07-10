@@ -4,8 +4,7 @@
 #include "idatacontext.h"
 #include "igamecontroller.h"
 #include "gamemodelscontext.h"
-#include "pointlogisticmanager.h"
-
+#include "ipointlogisticmanager.h"
 #include "localdatacontext.h"
 
 #include <quuid.h>
@@ -18,7 +17,7 @@
 
 typedef IGameController<QUuid,QString,DefaultDataInterface> DefaultControllerInterface;
 
-class LocalStandardDart : public DefaultControllerInterface
+class LocalFirstToPost : public DefaultControllerInterface
 {
 public:
     // Public types
@@ -26,12 +25,10 @@ public:
                      Running = 0xe,
                      WinnerDeclared = 0x10,
                      notRunning = Idle | WinnerDeclared};
-    LocalStandardDart();
-
     // IGameController interface
 
-    QUuid start() override;
-    void stop() override;
+    int start() override;
+    int stop() override;
     int processInput(const int &point) override;
 
     QString playerMessage()  override;
@@ -61,9 +58,13 @@ public:
     bool canUndoTurn() override;
     bool canRedoTurn() override;
 
+    int score(const QUuid &player) override;
 
     void setDataContext(DefaultDataInterface *dataContext) override;
     DefaultDataInterface *dataContext()  override;
+
+    IPointLogisticManager<QString> *pointLogisticInterface() const;
+    void setPointLogisticInterface(IPointLogisticManager<QString> *pointLogisticInterface);
 
 private:
     /* Private types
@@ -75,6 +76,12 @@ private:
      */
     enum InputPointDomain {InvalidDomain = 0x02};
     enum AggregatedSumDomains {PointDomain = 0x04,CriticalDomain = 0x06, OutsideDomain = 0x08, TargetDomain = 0xa};
+    /*
+     * Consistency check
+     *
+     * Check if assigned tournament players is consistent with playercontext
+     */
+    void consistencyCheck();
     // Post validation : Validate player score after updating datacontext
     int validateCurrentState();
     /* Pre validation :
@@ -116,13 +123,14 @@ private:
     bool _isOff;
 
     int _keyPoint = 0;
-    QUuid _tournament;
+    QUuid _tournament = QUuid();
     QUuid _winner;
     GameStatus _currentStatus = GameStatus::Idle;
     bool _isActive = false;
 
     // Localdata context related
     DefaultDataInterface *_dataContext;
+    IPointLogisticManager<QString> *_pointLogisticInterface;
 };
 
 #endif // FIVEHUNDREDANDONEGAME_H

@@ -3,72 +3,87 @@ import QtQuick.Layouts 1.3
 import CustomItems 1.0
 
 Rectangle{
-    id: body
+    id: scoreBoardBody
     clip: true
-    property int fontSize: 12
-    onFontSizeChanged: {}
+    property int fontSize: 16
+    onFontSizeChanged: {
+        cellDelegate.fontSize = fontSize
+    }
+    property int initialValue: 0
+    onInitialValueChanged: myModel.initialValue = initialValue
     property int horizontalHeaderHeight: 20
     onHorizontalHeaderHeightChanged: horizontalHeader.height = horizontalHeaderHeight
     property bool staticVerticalHeaderWidth: false
     property int verticalHeaderWidth: 25
     onVerticalHeaderWidthChanged: verticalHeader.width = verticalHeaderWidth
     property int verticalHeaderFillMode: 0x02
-    onVerticalHeaderFillModeChanged: tableView.verticalHeaderFillMode = verticalHeaderFillMode
+    onVerticalHeaderFillModeChanged: myModel.headerFillMode = verticalHeaderFillMode
+    property int cellBorderWidth: 0
+    onCellBorderWidthChanged: cellDelegate.borderWidth = cellBorderWidth
+    property int throwsPerRound: 3
+    onThrowsPerRoundChanged: myModel.throwCount = throwsPerRound;
     function getHeaderItemCount(orientation){
-        var myModel = tableView.getModel();
         var count = myModel.headerItemCount(orientation);
         return count;
     }
 
     function getHeaderItem(index, orientation)
     {
-        var myModel = tableView.getModel();
-        var item = myModel.headerData(index,orientation);
+        var item = myModel.getHeaderData(index,orientation);
         return item;
     }
 
-    function appendHeader(string, orientation)
+    function appendHeader(string)
     {
-        var myModel = tableView.getModel();
-        myModel.appendHeaderItem(string,orientation);
+        myModel.appendHeaderItem(string);
         var preferedWidth = myModel.preferedCellWidth();
         verticalHeader.width = preferedWidth*1.05;
         flickableVHeader.Layout.minimumWidth = preferedWidth*1.05;
     }
 
-    function appendData(playerName, data, orientation){
-        var myModel = tableView.getModel();
-        var result = myModel.appendData(playerName,data, orientation);
+    function appendData(playerName, data){
+        var result = myModel.appendData(playerName,data);
         if(!result)
-        {
             print("Couldn't add data to model");
-            Qt.quit();
-        }
+    }
+    function takeData(playerName)
+    {
+        var result = myModel.takeDate(playerName);
+        if(!result)
+            print("Couldn't take data");
+    }
+    function editData(row,column,data)
+    {
+        var result = myModel.editData(row,column,data);
+        if(!result)
+            print("Couldn't edit data");
     }
 
     function updateScoreBoard()
     {
-        setContentWidths();
+        updateContentDimensions();
         refreshHeaders();
     }
 
-    function setContentWidths()
+    function updateContentDimensions()
     {
-        flickableTable.contentWidth = totalColumnsWidth();
-        flickableHHeader.contentWidth = totalColumnsWidth();
+        var tHeight = totalHeaderHeight();
+        var tWidth = totalColumnsWidth();
+        flickableVHeader.contentHeight = tHeight;
+        flickableTable.contentHeight = tHeight;
+        flickableTable.contentWidth = tWidth;
+        flickableHHeader.contentWidth = tWidth;
     }
 
     function refreshHeaders()
     {
-        var myModel = tableView.getModel();
-        horizontalHeader.model = myModel.columnCount();
+        horizontalHeader.model = myModel.columnCount;
 
         for(var j = 0;j < horizontalHeader.dataCount();j++)
         {
             var hHeaderValue = myModel.getHeaderData(j,1);
             horizontalHeader.setData(j,hHeaderValue);
-            var columnWidth = myModel.columnWidthAt(j);
-            horizontalHeader.setColumnWidth(j,columnWidth);
+            var columnWidth = myModel.columnWidthAt(j,"MS Sans Serif",fontSize);
         }
 
         var headerCount = myModel.headerItemCount(0x2);
@@ -82,11 +97,10 @@ Rectangle{
 
     function totalColumnsWidth()
     {
-        var myModel = tableView.getModel();
-        var columnCount = myModel.columnCount();
+        var columnCount = myModel.columnCount;
         var result = 0;
         for(var c = 0;c < columnCount;c++){
-            var w = myModel.columnWidthAt(c);
+            var w = myModel.columnWidthAt(c,"MS Sans Serif",fontSize);
             result += w;
         }
         return result;
@@ -94,12 +108,11 @@ Rectangle{
 
     function totalHeaderHeight()
     {
-        var myModel = tableView.getModel();
         var rowCount = myModel.rowCount();
         var totalHeight = 0;
         for(var r = 0;r < rowCount;r++)
         {
-            var h = myModel.rowHeightAt(r);
+            var h = myModel.rowHeightAt(r,"MS Sans Serif",fontSize);
             totalHeight += h;
         }
         return totalHeight;
@@ -162,20 +175,34 @@ Rectangle{
             onContentYChanged : {
                 flickableVHeader.contentY = contentY;
             }
-            CustomTableView {
+            TableView {
                 id: tableView
+                interactive: false
+                clip: true
                 anchors.fill: parent
-                cellBorderWidth: 1
-                cellColor: "white"
-                onDataHasChanged: updateScoreBoard();
+                columnWidthProvider: function(column)
+                {
+                    var w = myModel.columnWidthAt(column,"MS Sans Serif",fontSize);
+                    horizontalHeader.setColumnWidth(column,w);
+                    return w;
+                }
+
+                model: ScoreModel {
+                    id: myModel
+                    onDataChanged: updateScoreBoard()
+                    throwCount : scoreBoardBody.throwsPerRound
+                    minimumColumnCount: 3
+                    initialValue: scoreBoardBody.initialValue
+                    headerOrientation: Qt.Vertical
+                }
+
+                delegate: CellDelegate {
+                    id: cellDelegate
+                    cellBorderWidth: scoreBoardBody.cellBorderWidth
+                    cellColor: "white"
+                    fontSize: scoreBoardBody.fontSize
+                }
             }
         }
-    }
-    Component.onCompleted: {
-        var tHeight = totalHeaderHeight();
-        flickableVHeader.contentHeight = tHeight;
-        flickableTable.contentHeight = tHeight;
-        var myModel = tableView.getModel();
-        myModel.setColumnCount(9);
     }
 }

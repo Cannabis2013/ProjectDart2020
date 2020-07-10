@@ -443,7 +443,11 @@ void LocalDataContext::alterRoundIndex(const QUuid &, const int &, const int &)
 
 int LocalDataContext::roundIndex(const QUuid &round) const
 {
-    return getRoundFromID(round)->index();
+    try {
+        return getRoundFromID(round)->index();
+    } catch (const char *msg) {
+        throw msg;
+    }
 }
 
 QUuid LocalDataContext::roundTournament(const QUuid &round) const
@@ -485,12 +489,12 @@ QList<QUuid> LocalDataContext::sets(const QUuid &tournament, const int &roundInd
 {
     QList<QUuid> resultingList;
     for (auto model : _sets) {
-        auto r = getRoundFromID(model->round());
-        auto rIndex = r->index();;
-        auto t = getTournamentFromID(r->tournament());
-        auto tId = t->id();
-        if(tId == tournament && rIndex == roundIndex)
-            resultingList << tId;
+        auto round = getRoundFromID(model->round());
+        auto modelRoundIndex = round->index();;
+        auto t = getTournamentFromID(round->tournament());
+        auto tournamentID = t->id();
+        if(tournamentID == tournament && modelRoundIndex == roundIndex)
+            resultingList << model->id();
     }
 
     return resultingList;
@@ -500,21 +504,32 @@ QUuid LocalDataContext::set(const QUuid &tournament, const int &roundIndex, cons
 {
     auto sets = this->sets(tournament,roundIndex);
     for (auto s : sets) {
-        if(this->setIndex(s) == setIndex)
+        auto index = this->setIndex(s);
+        if(index == setIndex)
             return s;
     }
-
-    return QUuid();
+    throw THROW_OBJECT_WITH_INDEX_NOT_FOUND(setIndex);
 }
 
 QUuid LocalDataContext::setRound(const QUuid &set) const
 {
-    return getSetFromID(set)->round();
+    try {
+        auto modelID = getSetFromID(set)->round();
+        return modelID;
+
+    } catch (const char *msg) {
+        throw msg;
+    }
 }
 
 int LocalDataContext::setIndex(const QUuid &set) const
 {
-    return getSetFromID(set)->index();
+    try {
+        auto model = getSetFromID(set);
+        return model->index();
+    } catch (const char *msg) {
+        throw msg;
+    }
 }
 
 QUuid LocalDataContext::addSet(const QUuid &tournament, const int &roundIndex, const int &setIndex)
@@ -549,7 +564,8 @@ QList<QUuid> LocalDataContext::points(const QUuid &tournament) const
         auto setModel = getSetFromID(pointModel->set());
         auto roundModel = getRoundFromID(setModel->round());
         auto tournamentModel = getTournamentFromID(roundModel->tournament());
-        if(tournamentModel->id() == tournament)
+        auto compareTournamentID = tournamentModel->id();
+        if(compareTournamentID == tournament)
             resultingList << pointModel->id();
     }
 
@@ -583,18 +599,14 @@ QList<QUuid> LocalDataContext::points(const QUuid &tournament, const QUuid &roun
     return resultingList;
 }
 
-
-
 QUuid LocalDataContext::addPoint(const QUuid &tournament, const int &roundIndex, const int &setIndex, const int &legIndex, const int &point, const QUuid &player)
 {
     auto model = pointBuilder()->buildModel(
                 [this,tournament,roundIndex,setIndex,legIndex,point,player]
     {
         PointParameters params;
-
-        auto sId = this->set(tournament,roundIndex,setIndex);
-
-        params.setId = sId;
+        auto setId = this->set(tournament,roundIndex,setIndex);
+        params.setId = setId;
         params.playerId = player;
         params.pointValue = point;
         params.legIndex = legIndex;
@@ -676,7 +688,11 @@ QUuid LocalDataContext::pointSet(const QUuid &point) const
 
 int LocalDataContext::pointLeg(const QUuid &point) const
 {
-    return getPointFromID(point)->pointLegIndex();
+    try {
+        return getPointFromID(point)->legIndex();
+    } catch (const char *msg) {
+        throw msg;
+    }
 }
 
 int LocalDataContext::pointValue(const QUuid &point) const
@@ -704,9 +720,11 @@ QList<QUuid> LocalDataContext::playerPoints(const QUuid &player) const
 QList<QUuid> LocalDataContext::playerPoints(const QUuid &tournament, const QUuid &player) const
 {
     QList<QUuid> resultingList;
-    auto tPoints = points(tournament);
-    for (auto pointID : tPoints) {
-        if(getPointFromID(pointID)->player() == player)
+    auto totalPoints = points(tournament);
+    for (auto pointID : totalPoints) {
+        auto model = getPointFromID(pointID);
+        auto pointPlayer = model->player();
+        if(pointPlayer == player)
             resultingList << pointID;
     }
 
@@ -769,7 +787,8 @@ const DefaultSetInterface *LocalDataContext::getSetFromID(const QUuid &id) const
 {
     for (auto set : _sets)
     {
-        if(set->id() == id)
+        auto modelID = set->id();
+        if(modelID == id)
             return set;
     }
 

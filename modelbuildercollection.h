@@ -118,7 +118,7 @@ public:
         model->setSet(args.setId);
         model->setPoint(args.pointValue);
         model->setPlayer(args.playerId);
-
+        model->setLegIndex(args.legIndex);
         return model;
     }
 };

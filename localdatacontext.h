@@ -61,7 +61,9 @@ public:
     QUuid setRound(const QUuid &set) const override;
     int setIndex(const QUuid &set) const override;
     QUuid addSet(const QUuid &tournament, const int &roundIndex, const int &setIndex) override;
-
+    /*
+     * Point related section
+     */
     QList<QUuid> points(const QUuid &tournament) const override;
     QList<QUuid> points(const QUuid &tournament, const QUuid &round) const override;
     QList<QUuid> points(const QUuid &tournament, const QUuid &round, const QUuid &set) const override;

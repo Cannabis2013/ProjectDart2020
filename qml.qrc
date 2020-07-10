@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>CustomTable.qml</file>
+        <file>ScoreBoard.qml</file>
         <file>StartPage.qml</file>
         <file>PushButton.qml</file>
         <file>PageLabelItem.qml</file>
@@ -10,7 +10,6 @@
         <file>TournamentPageContent.qml</file>
         <file>HorizontalHeader.qml</file>
         <file>VerticalHeader.qml</file>
-        <file>CustomTableView.qml</file>
         <file>MyRectangle.qml</file>
         <file>MyTextEdit.qml</file>
         <file>MyLabel.qml</file>
@@ -30,6 +29,9 @@
         <file>CreatePlayerPopUp.qml</file>
         <file>Content.qml</file>
         <file>CRUDButton.qml</file>
+        <file>CellDelegate.qml</file>
+        <file>ScoreModel.qml</file>
+        <file>gamePageContentScripts.js</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>

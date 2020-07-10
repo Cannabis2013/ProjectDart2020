@@ -82,8 +82,8 @@ public:
     virtual QUuid set() const = 0;
     virtual void setSet(const QUuid &id) = 0;
 
-    virtual int pointLegIndex() const = 0;
-    virtual void setPointLegIndex(const int &index) = 0;
+    virtual int legIndex() const = 0;
+    virtual void setLegIndex(const int &index) = 0;
 
     virtual QUuid player() const = 0;
     virtual void setPlayer(const QUuid &id) = 0;

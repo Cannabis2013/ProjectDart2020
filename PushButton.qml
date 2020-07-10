@@ -57,6 +57,11 @@ Item {
 
     property Rectangle buttonBody: buttonRect
 
+    function setEnabled(enable)
+    {
+        enabled = enable;
+    }
+
     function handleClick()
     {
         if(isCheckable)

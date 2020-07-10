@@ -4,12 +4,8 @@ LocalDart::LocalDart()
 {
     _playerContext = new LocalPlayerContext();
     _dataContext = new LocalDataContext();
-    _gameController = new LocalStandardDart();
 
     _playerContext->setPlayerBuilder(new LocalPlayerBuilder);
-
-
-    _gameController->setDataContext(_dataContext);
 
     createInitialModels();
 }
@@ -20,6 +16,7 @@ void LocalDart::read()
 
 void LocalDart::write()
 {
+
 }
 
 QString LocalDart::createTournament(const QString &title, const int &legCount, const int &maxPlayers, const int &gameMode, const int &keyPoint)
@@ -177,6 +174,7 @@ QString LocalDart::playerEmail(const QString &player)
     return eMail;
 }
 
+
 QString LocalDart::currentActiveTournamentID()
 {
     auto tournamentID = _gameController->currentTournament();
@@ -185,66 +183,100 @@ QString LocalDart::currentActiveTournamentID()
     return tournamentID.toString();
 }
 
-QString LocalDart::setCurrentActiveTournament(const QString &id)
+int LocalDart::setCurrentActiveTournament(const QString &id)
 {
     auto tournament = QUuid::fromString(id);
+    auto gameMode = _dataContext->tournamentGameMode(tournament);
+    if(gameMode != GameModes::FirstToPost)
+        return Status::OperationUnSuccesfull;
+    else if(gameMode == GameModes::FirstToPost && _gameController == nullptr)
+        _gameController = new LocalFirstToPost();
+    if(_dataContext == nullptr)
+        return Status::PlayerContextNotInitialized;
     if(!_dataContext->tournamentExists(tournament))
-        return "";
+        return Status::ModelNotFound;
+    if(_gameController == nullptr)
+        return Status::ControllerNotInitialized;
+    if(_dataContext == nullptr)
+        return Status::DataContextNotInitialized;
+    if(_gameController->dataContext() == nullptr)
+        _gameController->setDataContext(_dataContext);
     _gameController->setCurrentTournament(tournament);
-    return id;
+    return Status::OperationSuccesfull;
+}
+
+QString LocalDart::currentActivePlayer()
+{
+    if(_gameController == nullptr)
+        throw "Controller is null";
+    auto playerID =_gameController->currentActivePlayer();
+    if(_playerContext == nullptr)
+        throw "Playercontext is null";
+    auto fullName =_playerContext->playerFullName(playerID);
+    return fullName;
 }
 
 int LocalDart::currentGameRoundIndex()
 {
+    if(_gameController == nullptr)
+        return Status::ControllerNotInitialized;
     auto currentRoundIndex = _gameController->currentRoundIndex();
-
     return currentRoundIndex;
 }
 
 int LocalDart::currentGameSetIndex()
 {
+    if(_gameController == nullptr)
+        return Status::ControllerNotInitialized;
     auto currentSetIndex = _gameController->currentSetIndex();
-
     return currentSetIndex;
 }
 
 int LocalDart::addPoint(const int &value)
 {
+    if(_gameController == nullptr)
+        return Status::ControllerNotInitialized;
     auto gameStatus = _gameController->processInput(value);
-
     return gameStatus;
 }
 
-void LocalDart::startGame()
+int LocalDart::startGame()
 {
+    if(_gameController == nullptr)
+        return Status::ControllerNotInitialized;
     _gameController->start();
+    return Status::GameStartet;
 }
 
-void LocalDart::stopGame()
+int LocalDart::stopGame()
 {
+    if(_gameController == nullptr)
+        return Status::ControllerNotInitialized;
     _gameController->stop();
+    auto status = _gameController->status();
+    return status;
 }
 
-QString LocalDart::undoTurn()
+int LocalDart::undoTurn()
 {
     QUuid id;
     try {
         id = _gameController->undoTurn();
     } catch (const char *msg) {
-        return "";
+        return Status::OperationUnSuccesfull;
     }
-    return id.toString();
+    return Status::OperationSuccesfull;
 }
 
-QString LocalDart::redoTurn()
+int LocalDart::redoTurn()
 {
     QUuid id;
     try {
         id = _gameController->redoTurn();
     } catch (const char *msg) {
-        return "";
+        return Status::OperationUnSuccesfull;
     }
-    return id.toString();
+    return Status::OperationSuccesfull;
 }
 
 bool LocalDart::undoPossible()
@@ -265,25 +297,24 @@ int LocalDart::gameStatus()
     return _gameController->status();
 }
 
-int LocalDart::score(const QString &tournament, const QString &player)
+int LocalDart::score(const QString &player)
 {
-    auto playerScore = _dataContext->playerPoints(tournament,player);
-
-    int totalScore = 0;
-
-    for (auto scoreID : playerScore) {
-        auto point = _dataContext->pointValue(scoreID);
-        totalScore += point;
-    }
-
-    return totalScore;
+    if(_playerContext == nullptr)
+        return -1;
+    if(_gameController == nullptr)
+        return -1;
+    auto playerID = _playerContext->playerIDFromFullName(player);
+    auto score = _gameController->score(playerID);
+    return score;
 }
 
 void LocalDart::createInitialModels()
 {
-    auto player = _playerContext->createPlayer("Adolf","Schnitzler","",0x2);
-    auto tournament = _dataContext->createTournament("Kents turnering",5,501,3,0x0);
-    _dataContext->tournamentAddPlayer(tournament,player);
+    auto adolf = _playerContext->createPlayer("Adolf","Schnitzler","",0x2);
+    auto ilmer = _playerContext->createPlayer("Ilmer","Galarrytter","",0x2);
+    auto tournament = _dataContext->createTournament("Kents turnering",5,501,3,0x1);
+    _dataContext->tournamentAddPlayer(tournament,adolf);
+    _dataContext->tournamentAddPlayer(tournament,ilmer);
 }
 
 void LocalDart::assignPlayer(const QString &player, const QString &tournament)
@@ -299,7 +330,7 @@ QString LocalDart::createPlayer(const QString &firstName, const QString &lastNam
 }
 
 
-QStringList LocalDart::gameModes() const
+QStringList LocalDart::GameModes() const
 {
     QStringList resultingList;
 

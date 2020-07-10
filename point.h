@@ -51,11 +51,11 @@ public:
     {
         _player = id;
     }
-    int pointLegIndex() const override
+    int legIndex() const override
     {
         return _legIndex;
     }
-    void setPointLegIndex(const int &index) override
+    void setLegIndex(const int &index) override
     {
         _legIndex = index;
     }

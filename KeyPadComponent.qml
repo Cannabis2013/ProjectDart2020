@@ -5,7 +5,7 @@ import QtQuick.Controls 2.5
 import "componentFactory.js" as ComponentFactory
 
 Rectangle {
-    id: keyPad
+    id: keyPadBody
 
     clip: true
 
@@ -13,7 +13,14 @@ Rectangle {
 
     radius: 10
 
-    signal emitScore(int val);
+    signal emitScore(int val)
+    signal enableKeyPad(bool enable)
+    property bool enableKeys: false
+    onEnableKeysChanged: {
+        enableKeyPad(enableKeys);
+        bullButton.enabled = enableKeys
+        bullsEyeButton.enabled = enableKeys;
+    }
 
     property PushButton doubleModifier: PushButton{}
     property PushButton trippleModifier: PushButton{}
@@ -94,7 +101,7 @@ Rectangle {
 
         }
         PushButton{
-
+            id: bullButton
             backgroundColor : "black"
             hoveredColor: "black"
             textColor : "white"
@@ -114,10 +121,11 @@ Rectangle {
             text: "25"
 
             onClicked: if(!isModifiersPressed()) handleNumberKeyPressed(text)
+            enabled: false
         }
 
         PushButton{
-
+            id:bullsEyeButton
             Layout.fillHeight: true
             Layout.fillWidth: true
 
@@ -137,6 +145,8 @@ Rectangle {
             text: "50"
 
             onClicked: if(!isModifiersPressed()) handleNumberKeyPressed(text)
+
+            enabled: false
         }
     }
     Component.onCompleted: {
@@ -150,14 +160,15 @@ Rectangle {
         // Modifiers
         for(var r = 0;r < 2 ;r++){
             var selectorKey = ComponentFactory.createModifier(keyPadLayout,strings[r],1,r);
+            keyPadBody.enableKeyPad.connect(selectorKey.setEnabled);
             if(selectorKey.text === "D")
             {
-                selectorKey.emitCheckState.connect(keyPad.handleDoubleKeyPressed);
+                selectorKey.emitCheckState.connect(keyPadBody.handleDoubleKeyPressed);
                 doubleModifier = selectorKey;
             }
             else if(selectorKey.text === "T")
             {
-                selectorKey.emitCheckState.connect(keyPad.handleTrippleKeyPressed);
+                selectorKey.emitCheckState.connect(keyPadBody.handleTrippleKeyPressed);
                 trippleModifier = selectorKey;
             }
         }
@@ -165,7 +176,8 @@ Rectangle {
         for(var i = 1;i < rowCount && keyText < 21;i++){
             for(var j = initialColumn;j < columnCount && keyText < 21;j++){
                 var numberKey = ComponentFactory.createNumberButton(keyPadLayout,keyText++,i,j);
-                numberKey.emitBodyText.connect(keyPad.handleNumberKeyPressed);
+                numberKey.emitBodyText.connect(keyPadBody.handleNumberKeyPressed);
+                keyPadBody.enableKeyPad.connect(numberKey.setEnabled);
             }
             initialColumn = 0;
         }

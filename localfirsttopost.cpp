@@ -1,30 +1,24 @@
-#include "localstandarddart.h"
+#include "localfirsttopost.h"
 
-
-LocalStandardDart::LocalStandardDart()
-{
-}
-
-QUuid LocalStandardDart::start()
+int LocalFirstToPost::start()
 {
     _isActive = true;
-
-
-    dataContext()->addRound(currentTournament(),++_roundIndex);
-    auto setID = dataContext()->addSet(currentTournament(),_roundIndex,_setIndex);
-
+    if(_roundIndex == 0){
+        dataContext()->addRound(currentTournament(),++_roundIndex);
+        dataContext()->addSet(currentTournament(),_roundIndex,_setIndex);
+    }
     _currentStatus = GameStatus::Running;
-
-    return setID;
+    return _currentStatus;
 }
 
-void LocalStandardDart::stop()
+int LocalFirstToPost::stop()
 {
     _isActive = false;
     _currentStatus = GameStatus::Idle;
+    return _currentStatus;
 }
 
-int LocalStandardDart::processInput(const int &point)
+int LocalFirstToPost::processInput(const int &point)
 {
     if(status() == (Idle | WinnerDeclared))
         return status();
@@ -33,9 +27,7 @@ int LocalStandardDart::processInput(const int &point)
     auto inputResponse = validateInput(point);
 
     if(inputResponse == InputPointDomain::InvalidDomain)
-    {
         throw INVALID_DOMAIN;
-    }
     if(inputResponse == AggregatedSumDomains::PointDomain)
     {
         // Update datacontext
@@ -64,7 +56,7 @@ int LocalStandardDart::processInput(const int &point)
     return status();
 }
 
-QString LocalStandardDart::playerMessage()
+QString LocalFirstToPost::playerMessage()
 {
     /* This is the hard part
          * TODO: Declare a QString variabel holding a message
@@ -73,7 +65,7 @@ QString LocalStandardDart::playerMessage()
     return QString();
 }
 
-QString LocalStandardDart::calculateThrowSuggestion()
+QString LocalFirstToPost::calculateThrowSuggestion()
 {
     /* TODO: Here you first have to develop an algorithm to help assess the various combinations that exists after the player reach the 180 points threshold
      * TODO: When done, ruct a string containing the various suggestions. Ex.: 'T20,D10,5' or 'D5,1' for a remaining score at 95 or 11 respectively.
@@ -83,69 +75,74 @@ QString LocalStandardDart::calculateThrowSuggestion()
 
     auto remainingScore = _keyPoint - sum();
 
-    IPointLogisticManager<QString> *_pointLogisticInterface = new PointLogisticManager(legCount);
-
     auto msg = _pointLogisticInterface->constructThrowSuggestions(remainingScore,legCount);
 
     return msg;
 }
 
-QUuid LocalStandardDart::currentActivePlayer()
+QUuid LocalFirstToPost::currentActivePlayer()
 {
-    return _assignedPlayers.value(_setIndex);
+    auto playerID = _assignedPlayers.value(_setIndex);
+    return playerID;
 }
 
-int LocalStandardDart::currentRoundIndex()
+int LocalFirstToPost::currentRoundIndex()
 {
     return _roundIndex;
 }
 
-int LocalStandardDart::currentPlayerIndex()
+int LocalFirstToPost::currentPlayerIndex()
 {
     return _setIndex;
 }
 
-int LocalStandardDart::currentSetIndex()
+int LocalFirstToPost::currentSetIndex()
 {
     return _setIndex;
 }
 
-int LocalStandardDart::currentLegIndex()
+int LocalFirstToPost::currentLegIndex()
 {
     return _legIndex;
 }
 
-QUuid LocalStandardDart::currentTournament()
+QUuid LocalFirstToPost::currentTournament()
 {
     return _tournament;
 }
 
-void LocalStandardDart::setCurrentTournament(QUuid &tournament)
+void LocalFirstToPost::setCurrentTournament(QUuid &tournament)
 {
     _tournament = tournament;
+    auto players = _dataContext->tournamentAssignedPlayers(tournament);
+    auto keyPoint = _dataContext->tournamentKeyPoint(tournament);
+    _keyPoint = keyPoint;
+    auto legs = _dataContext->tournamentNumberOfLegs(tournament);
+    _numberOfLegs = legs;
+    _assignedPlayers = players;
 }
 
-int LocalStandardDart::status()
+int LocalFirstToPost::status()
 {
     return _currentStatus;
 }
 
-int LocalStandardDart::lastPlayerIndex()
+int LocalFirstToPost::lastPlayerIndex()
 {
     return _assignedPlayers.count() - 1;
 }
 
-int LocalStandardDart::playerIndex()
+int LocalFirstToPost::playerIndex()
 {
     return _setIndex;
 }
 
-QUuid LocalStandardDart::determinedWinner()
+QUuid LocalFirstToPost::determinedWinner()
 {
     return _winner;
 }
 
-QUuid LocalStandardDart::undoTurn()
+QUuid LocalFirstToPost::undoTurn()
 {
     if(_turnIndex <= 0)
         throw UNABLE_TO_ALTER_TURN;
@@ -173,7 +170,7 @@ QUuid LocalStandardDart::undoTurn()
     return _assignedPlayers.value(_setIndex);
 }
 
-QUuid LocalStandardDart::redoTurn()
+QUuid LocalFirstToPost::redoTurn()
 {
     if(_turnIndex >= _totalTurns)
         throw UNABLE_TO_ALTER_TURN;
@@ -198,29 +195,40 @@ QUuid LocalStandardDart::redoTurn()
     return _assignedPlayers.value(_setIndex);
 }
 
-bool LocalStandardDart::canUndoTurn()
+bool LocalFirstToPost::canUndoTurn()
 {
     return _turnIndex > 0;
 }
 
-bool LocalStandardDart::canRedoTurn()
+bool LocalFirstToPost::canRedoTurn()
 {
     return _turnIndex < _totalTurns;
 }
 
-void LocalStandardDart::setDataContext(DefaultDataInterface *dataContext)
+int LocalFirstToPost::score(const QUuid &player)
+{
+    auto playerScore = _dataContext->playerPoints(currentTournament(),player);
+    int totalScore = _keyPoint;
+    for (auto scoreID : playerScore) {
+        auto point = _dataContext->pointValue(scoreID);
+        totalScore -= point;
+    }
+    return totalScore;
+}
+
+void LocalFirstToPost::setDataContext(DefaultDataInterface *dataContext)
 {
     _dataContext = dataContext;
 }
 
-DefaultDataInterface *LocalStandardDart::dataContext()
+DefaultDataInterface *LocalFirstToPost::dataContext()
 {
     return _dataContext;
 }
 
-int LocalStandardDart::validateCurrentState()
+int LocalFirstToPost::validateCurrentState()
 {
-    auto playerSum = sum();
+    auto playerSum = _keyPoint - sum();
 
     if(playerSum > criticalLimit)
         return PointDomain;
@@ -232,24 +240,21 @@ int LocalStandardDart::validateCurrentState()
         return OutsideDomain;
 }
 
-int LocalStandardDart::validateInput(const int &pointValue)
+int LocalFirstToPost::validateInput(const int &pointValue)
 {
-    if((pointValue < 0 || pointValue > 20) && (pointValue != 25 || pointValue != 50))
-        return InvalidDomain;
+    auto playerScore = _keyPoint - sum(pointValue);
 
-    auto playerSum = sum(pointValue);
-
-    if(playerSum > criticalLimit)
+    if(playerScore > criticalLimit)
         return PointDomain;
-    else if(playerSum <= criticalLimit && playerSum > 0)
+    else if(playerScore <= criticalLimit && playerScore > 0)
         return CriticalDomain;
-    else if(playerSum == 0)
+    else if(playerScore == 0)
         return TargetDomain;
     else
         return OutsideDomain;
 }
 
-QUuid LocalStandardDart::addPoint(const int &point)
+QUuid LocalFirstToPost::addPoint(const int &point)
 {
     auto playerID = currentActivePlayer();
     auto tournamentID = currentTournament();
@@ -268,17 +273,17 @@ QUuid LocalStandardDart::addPoint(const int &point)
     return pointID;
 }
 
-int LocalStandardDart::currentTurnIndex()
+int LocalFirstToPost::currentTurnIndex()
 {
     return _turnIndex;
 }
 
-bool LocalStandardDart::isIndexOffset()
+bool LocalFirstToPost::isIndexOffset()
 {
     return _isOff;
 }
 
-void LocalStandardDart::nextTurn()
+void LocalFirstToPost::nextTurn()
 {
     incrementTurnIndexes();
 
@@ -286,8 +291,10 @@ void LocalStandardDart::nextTurn()
     {
         _setIndex++;
         _legIndex = 0;
-        if(_setIndex >= _assignedPlayers.count())
+        if(_setIndex >= _assignedPlayers.count()){
             dataContext()->addRound(currentTournament(),++_roundIndex);
+            _setIndex = 0;
+        }
 
         dataContext()->addSet(currentTournament(),currentRoundIndex(),_setIndex);
     }
@@ -297,7 +304,7 @@ void LocalStandardDart::nextTurn()
     }
 }
 
-int LocalStandardDart::sum(const int &pointValue)
+int LocalFirstToPost::sum(const int &pointValue)
 {
     auto pointIds = _dataContext->playerPoints(_tournament,currentActivePlayer());
 
@@ -309,7 +316,7 @@ int LocalStandardDart::sum(const int &pointValue)
     return sum;
 }
 
-int LocalStandardDart::sum(const QUuid &player)
+int LocalFirstToPost::sum(const QUuid &player)
 {
     auto pointIds = _dataContext->playerPoints(_tournament,player);
 
@@ -320,7 +327,7 @@ int LocalStandardDart::sum(const QUuid &player)
     return sum;
 }
 
-int LocalStandardDart::sum()
+int LocalFirstToPost::sum()
 {
     auto pointIds = dataContext()->playerPoints(currentTournament(),currentActivePlayer());
 
@@ -331,16 +338,31 @@ int LocalStandardDart::sum()
     return sum;
 }
 
-void LocalStandardDart::declareWinner()
+void LocalFirstToPost::declareWinner()
 {
     _winner = currentActivePlayer();
     _isActive = false;
     _currentStatus = WinnerDeclared;
 }
 
-void LocalStandardDart::incrementTurnIndexes()
+void LocalFirstToPost::incrementTurnIndexes()
 {
     if(_turnIndex == _totalTurns)
         _totalTurns++;
     _turnIndex++;
+}
+
+IPointLogisticManager<QString> *LocalFirstToPost::pointLogisticInterface() const
+{
+    return _pointLogisticInterface;
+}
+
+void LocalFirstToPost::setPointLogisticInterface(IPointLogisticManager<QString> *pointLogisticInterface)
+{
+    _pointLogisticInterface = pointLogisticInterface;
+}
+
+void LocalFirstToPost::consistencyCheck()
+{
+    Q_UNIMPLEMENTED();
 }

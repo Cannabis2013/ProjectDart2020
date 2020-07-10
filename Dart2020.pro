@@ -18,8 +18,8 @@ SOURCES += \
         ilogisticmanager.cpp \
         localdart.cpp \
         localdatacontext.cpp \
+        localfirsttopost.cpp \
         localplayercontext.cpp \
-        localstandarddart.cpp \
         main.cpp \
         scoredatamodel.cpp
 
@@ -51,9 +51,9 @@ HEADERS += \
     ipointlogisticmanager.h \
     localdart.h \
     localdatacontext.h \
+    localfirsttopost.h \
     localplayerbuilder.h \
     localplayercontext.h \
-    localstandarddart.h \
     modelbuildercollection.h \
     modelbuildercontext.h \
     player.h \

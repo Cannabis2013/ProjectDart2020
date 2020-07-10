@@ -8,8 +8,8 @@ public:
     virtual TUuid currentTournament()  = 0;
     virtual void setCurrentTournament( TUuid &tournament) = 0;
 
-    virtual TUuid start() = 0;
-    virtual void stop() = 0 ;
+    virtual int start() = 0;
+    virtual int stop() = 0 ;
 
     virtual int processInput(const int &point) = 0;
 
@@ -35,6 +35,8 @@ public:
 
     virtual int lastPlayerIndex()  = 0;
     virtual int playerIndex()  = 0;
+
+    virtual int score(const TUuid &player) = 0;
 
     virtual void setDataContext(TDefaultLocalDataContext *dataContext) = 0;
     virtual TDefaultLocalDataContext *dataContext() = 0;

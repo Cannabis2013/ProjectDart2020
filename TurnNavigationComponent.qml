@@ -3,15 +3,25 @@ import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.5
 
 Item {
-
+    id: body
+    signal startButtonClicked
     signal leftButtonClicked
     signal rightButtonClicked
+
+    property string startButtonText: "start"
+    onStartButtonTextChanged: startButton.text = startButtonText
 
     property int currentTurnIndex: 0
     property string currentPlayer: ""
 
     onCurrentTurnIndexChanged: textBeholder.currentTurnIndexText + currentTurnIndex
     onCurrentPlayerChanged: textBeholder.currentPlayerText + currentPlayer
+
+    function refreshTurnKeys()
+    {
+        leftButton.enabled = localDart.undoPossible();
+        rightButton.enabled = localDart.redoPossible();
+    }
 
     QtObject{
         id: textBeholder
@@ -27,9 +37,9 @@ Item {
         flow: GridLayout.LeftToRight
 
         PushButton{
-            id: backButton
+            id: startButton
 
-            text: "Start"
+            text: body.startButtonText
             textColor: "white"
 
             backgroundColor: "green"
@@ -41,24 +51,7 @@ Item {
             width: 80
             height: 32
 
-            onClicked: {
-
-                var status = localDart.gameStatus();
-                if(status === 0xc) // 0xc = idle
-                {
-                    localDart.startGame();
-                    text = "Pause";
-                }
-                else if(status === 0xe) // 0xe = running
-                {
-                    localDart.stopGame();
-                    text = "Resume";
-                }
-                else if(status === 0x10) // 0x10 = WinnerDeclared
-                {
-                    text = "Restart";
-                }
-            }
+            onClicked: startButtonClicked()
         }
 
         Rectangle{
@@ -85,7 +78,7 @@ Item {
 
             Layout.alignment: Qt.AlignVCenter
 
-            enabled: localDart.undoPossible();
+            enabled: false;
         }
 
         GridLayout{
@@ -140,7 +133,7 @@ Item {
 
             Layout.alignment: Qt.AlignVCenter
 
-            enabled: localDart.redoPossible()
+            enabled: false
         }
 
         Rectangle{
