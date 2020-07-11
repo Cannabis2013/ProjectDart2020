@@ -93,7 +93,6 @@ private:
     QUuid addPoint(const int &point);
 
     int currentTurnIndex() ;
-
     bool isIndexOffset();
 
     void nextTurn();

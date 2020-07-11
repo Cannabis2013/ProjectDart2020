@@ -31,6 +31,7 @@ public:
     Q_INVOKABLE bool appendData(const QString &playerName, const int &data, const int &headerOrientation = -1);
     Q_INVOKABLE int takeDate(const QString &playerName, const int &headerOrientation = -1);
     Q_INVOKABLE void appendHeaderItem(const QVariant &data, const int &headerOrientation = -1);
+    Q_INVOKABLE void clearData();
     Q_INVOKABLE QString getHeaderData(const int &index, const int &headerOrientation = -1) const;
     Q_INVOKABLE int headerItemCount(const int &headerOrientation = -1) const;
     Q_INVOKABLE int rowCount() const;
@@ -58,14 +59,14 @@ public:
     Q_INVOKABLE void setHeaderOrientation(int headerOrientation);
 
     // Public exposed properties
-    int numberOfThrows() const;
-    void setNumberOfThrows(const int &count);
-    int minimumColumnCount() const;
-    void setMinimumColumnCount(int minimumColumnCount);
-    int minimumRowCount() const;
-    void setMinimumRowCount(int minimumRowCount);
-    int initialValue() const;
-    void setInitialValue(int initialValue);
+    Q_INVOKABLE int numberOfThrows() const;
+    Q_INVOKABLE void setNumberOfThrows(const int &count);
+    Q_INVOKABLE int minimumColumnCount() const;
+    Q_INVOKABLE void setMinimumColumnCount(int minimumColumnCount);
+    Q_INVOKABLE int minimumRowCount() const;
+    Q_INVOKABLE void setMinimumRowCount(int minimumRowCount);
+    Q_INVOKABLE int initialValue() const;
+    Q_INVOKABLE void setInitialValue(int initialValue);
 
 signals:
     void fillModeChanged();

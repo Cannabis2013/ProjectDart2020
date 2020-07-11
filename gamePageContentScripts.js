@@ -1,11 +1,16 @@
 function initializeScoreBoard(){
     var currentTournament = localDart.currentActiveTournamentID();
     if(currentTournament === "")
-    {
-        print("No currently active tournament");
         return;
-    }
-    var tournamentLegsCount = localDart.tournamentLegsCount(currentTournament);
+    appendHeaders(currentTournament);
+    appendPoints(currentTournament);
+    scoreTable.setMinimumColumnsCount(4);
+    var initialValue = localDart.tournamentKeyPoint(currentTournament);
+    scoreTable.setInitialValue(initialValue);
+    updateNavigator();
+}
+function appendHeaders(currentTournament)
+{
     var playersCount = localDart.tournamentPlayersCount(currentTournament);
     // Append headers
     for(var i = 0;i < playersCount;i++){
@@ -13,8 +18,11 @@ function initializeScoreBoard(){
         var fullName = localDart.playerFirstName(playerID) + " " + localDart.playerLastName(playerID);
         scoreTable.appendHeader(fullName);
     }
+}
+function appendPoints(currentTournament)
+{
+    var tournamentLegsCount = localDart.tournamentLegsCount(currentTournament);
     var headerItemsCount = scoreTable.getHeaderItemCount(0x2);
-    scoreTable.initialValue = localDart.tournamentKeyPoint(currentTournament);
     for(var j = 0;j < headerItemsCount;j++){
         var headerItem = scoreTable.getHeaderItem(j,0x2);
         var player = localDart.playerIDFromFullName(headerItem);
@@ -36,21 +44,26 @@ function initializeScoreBoard(){
             }
         }
     }
-    updateNavigator();
 }
 function initializeFromGameStatus()
 {
     var status = localDart.gameStatus();
     if(turnNavigator.startButtonText == "Restart")
     {
+        var btntxt = turnNavigator.startButtonText;
         var tournament = localDart.currentActiveTournamentID();
         localDart.resetTournament(tournament);
+        scoreTable.clearTable();
+        localDart.setCurrentActiveTournament(tournament);
+        scoreTable.setMinimumColumnsCount(4);
+        var initialValue = localDart.tournamentKeyPoint(tournament);
+        scoreTable.setInitialValue(initialValue);
         localDart.startGame();
         turnNavigator.startButtonText = "Pause";
         keyPad.enableKeys = true;
     }
 
-    if(status === 0xc) // 0xc = idle
+    else if(status === 0xc) // 0xc = idle
     {
         localDart.startGame();
         turnNavigator.startButtonText = "Pause";

@@ -182,10 +182,12 @@ QString LocalDart::playerEmail(const QString &player)
 
 QString LocalDart::resetTournament(const QString &tournament)
 {
-    auto gameMode = _dataContext->tournamentGameMode(tournament);
+    auto gameMode = _dataContext->tournamentGameMode(QUuid::fromString(tournament));
     _dataContext->removeTournamentModels(tournament);
     if(gameMode == GameModes::FirstToPost)
-        _gameController = new LocalFirstToPost;
+        _gameController = (new LocalFirstToPost)->setPointLogisticInterface(new PointLogisticManager());
+    _gameController->setDataContext(_dataContext);
+    return currentActiveTournamentID();
 
 }
 

@@ -3,7 +3,6 @@
 ScoreDataModel::ScoreDataModel()
 {
     connect(this,&ScoreDataModel::initialValueChanged,this,&ScoreDataModel::updateInitialCellValues);
-    setMinimumColumnCount(1);
 }
 
 int ScoreDataModel::editData(const int &row, const int &column, const int &data)
@@ -91,7 +90,16 @@ void ScoreDataModel::appendHeaderItem(const QVariant &data, const int &headerOri
         _verticalHeaderData.append(data.toString());
     }
 
-    emit dataChanged(QModelIndex(),QModelIndex());
+    //emit dataChanged(QModelIndex(),QModelIndex());
+}
+
+void ScoreDataModel::clearData()
+{
+    _cellData.clear();
+    _columns = 0;
+    _rows = 0;
+
+    insertRows(0,_verticalHeaderData.count(),QModelIndex());
 }
 
 QString ScoreDataModel::getHeaderData(const int &index, const int &headerOrientation) const
@@ -122,8 +130,8 @@ int ScoreDataModel::columnCount() const
 
 double ScoreDataModel::columnWidthAt(const int &column, const QString &fontFamily, const int &pointSize) const
 {
-    if(column >= columnCount())
-        throw std::out_of_range("Index out of range");
+    if(column >= columnCount() || _cellData.count() <= 0)
+        return -1;
 
     auto font = QFont(fontFamily,pointSize);
 
@@ -185,10 +193,11 @@ double ScoreDataModel::columnHeightAt(const int &column, const QString &fontFami
 
 double ScoreDataModel::rowHeightAt(const int &row, const QString &fontFamily ,const int &pointSize) const
 {
+    if(_cellData.count() <= 0)
+        return 0;
+
     auto font = QFont(fontFamily,pointSize);
-
     QFontMetrics fontMetric(font);
-
     QString string;
 
     if(_verticalHeaderData.count() <= row)
@@ -263,7 +272,7 @@ int ScoreDataModel::columnCount(const QModelIndex &) const
 
 QVariant ScoreDataModel::data(const QModelIndex &index, int role) const
 {
-    if(!index.isValid())
+    if(!index.isValid() || _cellData.count() <= 0)
         return QVariant();
     auto dataRow = _cellData.at(index.row());
     if(index.column() >= dataRow.count())
@@ -343,7 +352,8 @@ bool ScoreDataModel::insertRows(int row, int count, const QModelIndex &)
         QList<int> dataRow = [this]
         {
             QList<int> resultingList;
-            for (int i = 0; i < columnCount(QModelIndex()); ++i)
+            auto count = columnCount(QModelIndex(QModelIndex()));
+            for (int i = 0; i < count; ++i)
                 resultingList << -1;
             return resultingList;
         }();
@@ -354,6 +364,8 @@ bool ScoreDataModel::insertRows(int row, int count, const QModelIndex &)
     endInsertRows();
 
     _rows += c;
+
+    emit dataChanged(createIndex(row,0),createIndex(lastRow,columnCount()));
 
     return true;
 }
@@ -606,7 +618,8 @@ int ScoreDataModel::minimumColumnCount() const
 void ScoreDataModel::setMinimumColumnCount(int minimumColumnCount)
 {
     _minimumColumnCount = minimumColumnCount;
-    if(minimumColumnCount > columnCount())
+    auto colCount = columnCount();
+    if(minimumColumnCount > colCount)
         setColumnCount(minimumColumnCount);
     emit minimumColumnCountChanged();
 }

@@ -9,10 +9,9 @@ Rectangle{
     function viewContentWidth(){return flickableTable.contentWidth;}
     function viewContentHeight(){return flickableTable.contentHeight;}
 
+
     property int fontSize: 16
     onFontSizeChanged: cellDelegate.fontSize = fontSize
-    property int initialValue: 0
-    onInitialValueChanged: myModel.initialValue = initialValue
     property int horizontalHeaderHeight: 20
     onHorizontalHeaderHeightChanged: horizontalHeader.height = horizontalHeaderHeight
     property bool staticVerticalHeaderWidth: false
@@ -24,9 +23,23 @@ Rectangle{
     onCellBorderWidthChanged: cellDelegate.borderWidth = cellBorderWidth
     property int throwsPerRound: 3
     onThrowsPerRoundChanged: myModel.throwCount = throwsPerRound;
+    function setInitialValue(value)
+    {
+        myModel.setInitialValue(value);
+    }
+
+    function setMinimumColumnsCount(count)
+    {
+        myModel.setMinimumColumnCount(count);
+    }
+
     function getHeaderItemCount(orientation){
         var count = myModel.headerItemCount(orientation);
         return count;
+    }
+
+    function clearTable(){
+        myModel.clearData();
     }
 
     function getHeaderItem(index, orientation)
@@ -185,12 +198,8 @@ Rectangle{
             Layout.fillWidth: true
             Layout.fillHeight: true
             boundsMovement: Flickable.StopAtBounds
-            onContentXChanged: {
-                flickableHHeader.contentX = contentX
-            }
-            onContentYChanged : {
-                flickableVHeader.contentY = contentY;
-            }
+            onContentXChanged: flickableHHeader.contentX = contentX
+            onContentYChanged: flickableVHeader.contentY = contentY
             TableView {
 
                 id: tableView
@@ -206,8 +215,6 @@ Rectangle{
                     id: myModel
                     onDataChanged: updateScoreBoard()
                     throwCount : scoreBoardBody.throwsPerRound
-                    minimumColumnCount: 3
-                    initialValue: scoreBoardBody.initialValue
                     headerOrientation: Qt.Vertical
                 }
 

@@ -472,11 +472,12 @@ QList<QUuid> LocalDataContext::sets(const QUuid &tournament) const
 {
     QList<QUuid> resultingList;
     for (auto model : _sets) {
+        auto setID = model->id();
         auto r = getRoundFromID(model->round());
-        auto t = getTournamentFromID(r->tournament());
-        auto tId = t->id();
-        if(tId == tournament)
-            resultingList << tId;
+        auto tournamentModel = getTournamentFromID(r->tournament());
+        auto tournamentID = tournamentModel->id();
+        if(tournamentID == tournament)
+            resultingList << setID;
     }
 
     return resultingList;
@@ -876,22 +877,22 @@ void LocalDataContext::removeTournamentModels(const QUuid &tournament)
     }
     auto tournamentSets = sets(tournament);
     for (int i = 0; i < tournamentSets.count(); ++i) {
-        auto tournamentSet = tournamentSets.at(i);
-        for (int i = 0; i < _sets.count(); ++i){
-            auto setModel = _sets.at(i);
+        auto tournamentSetID = tournamentSets.at(i);
+        for (int j = 0; j < _sets.count(); ++j){
+            auto setModel = _sets.at(j);
             auto setID = setModel->id();
-            if(tournamentSet == setID)
-                _sets.removeAt(i);
+            if(tournamentSetID == setID)
+                _sets.removeAt(j);
         }
     }
     auto tournamentRounds = rounds(tournament);
     for (int i = 0; i < tournamentRounds.count(); ++i) {
         auto tournamentRound = tournamentRounds.at(i);
-        for (int i = 0; i < _rounds.count(); ++i){
-            auto roundModel = _rounds.at(i);
+        for (int j = 0; j < _rounds.count(); ++j){
+            auto roundModel = _rounds.at(j);
             auto roundID = roundModel->id();
             if(tournamentRound == roundID)
-                _rounds.removeAt(i);
+                _rounds.removeAt(j);
         }
     }
 }
