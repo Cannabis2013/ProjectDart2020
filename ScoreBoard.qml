@@ -5,10 +5,12 @@ import CustomItems 1.0
 Rectangle{
     id: scoreBoardBody
     clip: true
+
+    function viewContentWidth(){return flickableTable.contentWidth;}
+    function viewContentHeight(){return flickableTable.contentHeight;}
+
     property int fontSize: 16
-    onFontSizeChanged: {
-        cellDelegate.fontSize = fontSize
-    }
+    onFontSizeChanged: cellDelegate.fontSize = fontSize
     property int initialValue: 0
     onInitialValueChanged: myModel.initialValue = initialValue
     property int horizontalHeaderHeight: 20
@@ -63,6 +65,8 @@ Rectangle{
     {
         updateContentDimensions();
         refreshHeaders();
+
+        flickableTable.contentX = flickableTable.contentWidth - flickableTable.width;
     }
 
     function updateContentDimensions()
@@ -77,13 +81,15 @@ Rectangle{
 
     function refreshHeaders()
     {
+        var nIndex = horizontalHeader.dataCount();
         horizontalHeader.model = myModel.columnCount;
-
-        for(var j = 0;j < horizontalHeader.dataCount();j++)
+        var hDataCount = horizontalHeader.dataCount();
+        for(var j = 0;j < hDataCount;j++)
         {
             var hHeaderValue = myModel.getHeaderData(j,1);
             horizontalHeader.setData(j,hHeaderValue);
             var columnWidth = myModel.columnWidthAt(j,"MS Sans Serif",fontSize);
+            horizontalHeader.setColumnWidth(j,columnWidth);
         }
 
         var headerCount = myModel.headerItemCount(0x2);
@@ -93,6 +99,7 @@ Rectangle{
             var vHeaderValue = myModel.getHeaderData(i,2);
             verticalHeader.setData(i,vHeaderValue);
         }
+        tableView.forceLayout();
     }
 
     function totalColumnsWidth()
@@ -116,6 +123,15 @@ Rectangle{
             totalHeight += h;
         }
         return totalHeight;
+    }
+
+    function setViewPosition(x,y)
+    {
+        var xCord = viewContentWidth() - x;
+        var yCord = viewContentHeight() - y;
+
+        flickableTable.contentX = xCord;
+        flickableTable.contentY = yCord;
     }
 
     GridLayout
@@ -176,15 +192,14 @@ Rectangle{
                 flickableVHeader.contentY = contentY;
             }
             TableView {
+
                 id: tableView
                 interactive: false
                 clip: true
                 anchors.fill: parent
                 columnWidthProvider: function(column)
                 {
-                    var w = myModel.columnWidthAt(column,"MS Sans Serif",fontSize);
-                    horizontalHeader.setColumnWidth(column,w);
-                    return w;
+                    return myModel.columnWidthAt(column,"MS Sans Serif",fontSize);
                 }
 
                 model: ScoreModel {

@@ -11,7 +11,10 @@ Rectangle {
     property string defaultBackgroundColor: "#A54141"
 
     signal backButtonPressed
-    onBackButtonPressed: pageBody.destroy()
+    onBackButtonPressed: {
+        pageContent.backButtonPressed();
+        pageBody.destroy()
+    }
 
     property Content pageContent: Content{}
     onPageContentChanged: {

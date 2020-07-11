@@ -3,7 +3,7 @@
 
 #include "localfirsttopost.h"
 #include "abstractdartinterface.h"
-#include "ipointlogisticmanager.h"
+#include "pointlogisticmanager.h"
 #include "localplayercontext.h"
 #include "localplayerbuilder.h"
 #include <quuid.h>
@@ -74,6 +74,7 @@ public:
     Q_INVOKABLE int playersCount() override;
     Q_INVOKABLE QString assignedPlayerIDfromIndex(const QString &tournamentID, const int &index) override;
     Q_INVOKABLE QString playerIDFromIndex(const int &index) override;
+    Q_INVOKABLE QString playerFullName(const QString &player) override;
     Q_INVOKABLE QString playerIDFromFullName(const QString &name) override;
     Q_INVOKABLE QString playerFirstName(const QString &player) override;
     Q_INVOKABLE QString playerLastName(const QString &player) override;
@@ -85,6 +86,7 @@ public:
     /*
      * Controller context
      */
+    Q_INVOKABLE QString resetTournament(const QString &tournament);
     Q_INVOKABLE QString currentActiveTournamentID() override;
     Q_INVOKABLE int setCurrentActiveTournament(const QString &id) override;
     Q_INVOKABLE QString currentActivePlayer() override;

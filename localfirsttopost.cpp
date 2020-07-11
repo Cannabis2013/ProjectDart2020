@@ -33,9 +33,14 @@ int LocalFirstToPost::processInput(const int &point)
         // Update datacontext
         addPoint(point);
     }
+    else if(inputResponse == AggregatedSumDomains::CriticalDomain)
+    {
+        addPoint(point);
+    }
     else if(inputResponse == AggregatedSumDomains::TargetDomain)
     {
         // Winner declared
+        addPoint(0);
         declareWinner();
 
         return status();
@@ -48,11 +53,14 @@ int LocalFirstToPost::processInput(const int &point)
 
     nextTurn(); // Initialize next turn. Increment playerindex if necessary. A new set or round is added respectively if necessary.
 
-    // Determine current state after post increment of gamestate variables
+    /*
+     * Determine current state after post increment of gamestate variables
+     */
+    /*
     auto currentState = validateCurrentState();
     if(currentState == CriticalDomain)
         calculateThrowSuggestion();
-
+    */
     return status();
 }
 
@@ -147,10 +155,10 @@ QUuid LocalFirstToPost::undoTurn()
     if(_turnIndex <= 0)
         throw UNABLE_TO_ALTER_TURN;
 
+    _turnIndex--;
     if(_legIndex > 0)
     {
         _legIndex--;
-        _turnIndex--;
 
         return _assignedPlayers.value(_setIndex);
     }
@@ -357,9 +365,10 @@ IPointLogisticManager<QString> *LocalFirstToPost::pointLogisticInterface() const
     return _pointLogisticInterface;
 }
 
-void LocalFirstToPost::setPointLogisticInterface(IPointLogisticManager<QString> *pointLogisticInterface)
+DefaultControllerInterface *LocalFirstToPost::setPointLogisticInterface(IPointLogisticManager<QString> *pointLogisticInterface)
 {
     _pointLogisticInterface = pointLogisticInterface;
+    return this;
 }
 
 void LocalFirstToPost::consistencyCheck()

@@ -64,7 +64,7 @@ public:
     DefaultDataInterface *dataContext()  override;
 
     IPointLogisticManager<QString> *pointLogisticInterface() const;
-    void setPointLogisticInterface(IPointLogisticManager<QString> *pointLogisticInterface);
+    DefaultControllerInterface *setPointLogisticInterface(IPointLogisticManager<QString> *pointLogisticInterface);
 
 private:
     /* Private types

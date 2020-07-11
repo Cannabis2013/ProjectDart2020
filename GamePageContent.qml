@@ -5,6 +5,9 @@ import "gamePageContentScripts.js" as GamePageScripts
 Content {
     color: "transparent"
     clip: true
+
+    onBackButtonPressed: localDart.stopGame()
+
     GridLayout{
         id: componentLayout
         anchors.fill: parent
@@ -15,27 +18,8 @@ Content {
             Layout.fillWidth: true
             height: 64
             Layout.alignment: Qt.AlignHCenter
-            onStartButtonClicked: {
-                var status = localDart.gameStatus();
-                if(status === 0xc) // 0xc = idle
-                {
-                    localDart.startGame();
-                    startButtonText = "Pause";
-                    keyPad.enableKeys = true;
-                }
-                else if(status === 0xe) // 0xe = running
-                {
-
-                    localDart.stopGame();
-                    startButtonText = "Resume";
-                    keyPad.enableKeys = false;
-                }
-                else if(status === 0x10) // 0x10 = WinnerDeclared
-                {
-                    startButtonText = "Restart";
-                    keyPad.enableKeys = false;
-                }
-            }
+            onStartButtonClicked: GamePageScripts.initializeFromGameStatus()
+            onLeftButtonClicked: GamePageScripts.handleUndo()
         }
         ScoreBoard{
             id: scoreTable
@@ -61,7 +45,5 @@ Content {
             Layout.fillHeight: true
         }
     }
-    Component.onCompleted: {
-        GamePageScripts.initializeScoreBoard();
-    }
+    Component.onCompleted: GamePageScripts.initializeScoreBoard()
 }

@@ -141,6 +141,12 @@ QString LocalDart::playerIDFromIndex(const int &index)
     return playerID.toString();
 }
 
+QString LocalDart::playerFullName(const QString &player)
+{
+    auto fullName = _playerContext->playerFullName(QUuid::fromString(player));
+    return fullName;
+}
+
 QString LocalDart::playerIDFromFullName(const QString &name)
 {
     auto playerID = _playerContext->playerIDFromFullName(name);
@@ -174,6 +180,15 @@ QString LocalDart::playerEmail(const QString &player)
     return eMail;
 }
 
+QString LocalDart::resetTournament(const QString &tournament)
+{
+    auto gameMode = _dataContext->tournamentGameMode(tournament);
+    _dataContext->removeTournamentModels(tournament);
+    if(gameMode == GameModes::FirstToPost)
+        _gameController = new LocalFirstToPost;
+
+}
+
 
 QString LocalDart::currentActiveTournamentID()
 {
@@ -190,7 +205,7 @@ int LocalDart::setCurrentActiveTournament(const QString &id)
     if(gameMode != GameModes::FirstToPost)
         return Status::OperationUnSuccesfull;
     else if(gameMode == GameModes::FirstToPost && _gameController == nullptr)
-        _gameController = new LocalFirstToPost();
+        _gameController = (new LocalFirstToPost())->setPointLogisticInterface(new PointLogisticManager());
     if(_dataContext == nullptr)
         return Status::PlayerContextNotInitialized;
     if(!_dataContext->tournamentExists(tournament))

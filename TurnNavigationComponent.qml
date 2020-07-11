@@ -11,11 +11,11 @@ Item {
     property string startButtonText: "start"
     onStartButtonTextChanged: startButton.text = startButtonText
 
-    property int currentTurnIndex: 0
+    property int currentRoundIndex: 0
     property string currentPlayer: ""
 
-    onCurrentTurnIndexChanged: textBeholder.currentTurnIndexText + currentTurnIndex
-    onCurrentPlayerChanged: textBeholder.currentPlayerText + currentPlayer
+    onCurrentRoundIndexChanged: currentRoundLabel.text = textBeholder.currentRoundText + currentRoundIndex
+    onCurrentPlayerChanged: currentPlayerLabel.text = currentPlayer
 
     function refreshTurnKeys()
     {
@@ -26,7 +26,7 @@ Item {
     QtObject{
         id: textBeholder
 
-        property string currentTurnIndexText: qsTr("Current turn: ")
+        property string currentRoundText: qsTr("Current round: ")
         property string currentPlayerText: qsTr("Current player: ")
     }
 
@@ -38,19 +38,13 @@ Item {
 
         PushButton{
             id: startButton
-
             text: body.startButtonText
             textColor: "white"
-
             backgroundColor: "green"
-
             fontSize: 16
-
             Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
-
             width: 80
             height: 32
-
             onClicked: startButtonClicked()
         }
 
@@ -71,11 +65,8 @@ Item {
             imageMargins: 20
 
             buttonRadius: 45
-
-            hoveredColor: "white"
-
+            hoverEnabled: false
             onClicked: leftButtonClicked()
-
             Layout.alignment: Qt.AlignVCenter
 
             enabled: false;
@@ -89,12 +80,12 @@ Item {
             flow: GridLayout.TopToBottom
 
             Label{
-                id: currentTurnLabel
+                id: currentRoundLabel
 
                 Layout.fillWidth: true
                 Layout.fillHeight: true
 
-                text: textBeholder.currentTurnIndexText + currentTurnIndex
+                text: textBeholder.currentRoundText + currentRoundIndex
                 font.pointSize: 12
 
                 verticalAlignment: Text.AlignVCenter
@@ -120,15 +111,10 @@ Item {
 
             width: 64
             height: 64
-
             image: "qrc:/pictures/Ressources/arrow.png"
-
             imageMargins: 20
-
             buttonRadius: 45
-
-            hoveredColor: "white"
-
+            hoverEnabled: false
             onClicked: rightButtonClicked()
 
             Layout.alignment: Qt.AlignVCenter
