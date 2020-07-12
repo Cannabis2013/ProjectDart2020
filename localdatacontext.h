@@ -90,7 +90,7 @@ public:
     QUuid playerPoint(const QUuid &tournament, const QUuid &player , int roundIndex, int legIndex) override;
     QList<QUuid> playerPoints(const QUuid &player) const override;
     QList<QUuid> playerPoints(const QUuid &tournament, const QUuid &player) const override;
-
+    bool removePlayerPoint(const QUuid &point) override;
     DefaultDataInterface *setTournamentBuilder(ITournamentBuilder *builder) override;
     ITournamentBuilder *tournamentBuilder() const;
 
@@ -114,10 +114,10 @@ private:
     ISetBuilder *_setBuilder = new SetBuilder();
     IPointBuilder *_pointBuilder = new PointBuilder();
     //Models
-    QList<DefaultTournamentInterface*> _tournaments;
-    QList<DefaultRoundInterface *> _rounds;
-    QList<DefaultSetInterface *> _sets;
-    QList<DefaultPointInterface*> _points;
+    QList<const DefaultTournamentInterface*> _tournaments;
+    QList<const DefaultRoundInterface *> _rounds;
+    QList<const DefaultSetInterface *> _sets;
+    QList<const DefaultPointInterface*> _points;
 };
 
 #endif // LOCALDATACONTEXT_H

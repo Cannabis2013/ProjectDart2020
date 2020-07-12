@@ -49,6 +49,11 @@ Rectangle{
     readonly property int currentlySelectedIndex: listView.getCurrentlySelectedIndex
     readonly property var currentlySelectedIndexes: listView.getCurrentlySelectedIndexes
 
+    function clear()
+    {
+        listView.clear();
+    }
+
     function addPlayerItem(firstName, lastName, eMail, id){
         listView.addPlayerItem(firstName,lastName,eMail,id);
     }

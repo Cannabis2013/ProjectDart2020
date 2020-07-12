@@ -744,6 +744,17 @@ QList<QUuid> LocalDataContext::playerPoints(const QUuid &tournament, const QUuid
     return resultingList;
 }
 
+bool LocalDataContext::removePlayerPoint(const QUuid &point)
+{
+    try {
+        auto pointModel = getPointFromID(point);
+        auto result = _points.removeOne(pointModel);
+        return result;
+    } catch (const char *msg) {
+        return false;
+    }
+}
+
 DefaultDataInterface *LocalDataContext::setTournamentBuilder(ITournamentBuilder *builder)
 {
     _tournamentBuilder = builder;

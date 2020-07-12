@@ -4,12 +4,16 @@ import QtQuick.Layouts 1.3
 import ApplicationInterface 1.0
 
 import "componentFactory.js" as ComponentFactory
+import "setupPageScripts.js" as SetupPageScripts
 
 Content {
+    id: body
     color: "transparent"
 
     function updateInterface(){
+        playersListView.clear();
         var playerCount = localDart.playersCount();
+        print(playerCount);
         for(var i = 0;i < playerCount;i++)
         {
             var playerID = localDart.playerIDFromIndex(i);
@@ -122,7 +126,6 @@ Content {
             buttonOneTitle: "Save"
             buttonTwoTitle: "Save and play"
             onButtonOneClicked: {
-                // Save tournament
                 var tournamentTitle = titleEdit.currentText;
                 var legs = legsEdit.currentText;
                 var maxPlayers = maxPlayerEdit.currentText;
@@ -140,12 +143,13 @@ Content {
                         throw "Something went very wrong. This is probably due to inconsistence.";
                     localDart.assignPlayer(playerID,createdTournament);
                 }
-                backButtonPressed();
+                body.backButtonPressed();
             }
         }
         CRUDButton{
             id: createPlayerButton
-            text: "Create";
+            text: "Create"
+
             anchors.top: playersListView.bottom
             anchors.right: playersListView.right
             onClicked: {

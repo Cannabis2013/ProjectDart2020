@@ -1,6 +1,8 @@
 import QtQuick 2.4
 import QtQuick.Layouts 1.3
 
+import "tournamentPageScripts.js" as TournamentPageScripts
+
 Content{
 
     id: body
@@ -18,22 +20,6 @@ Content{
 
     signal createTournamentClicked;
     signal startGameClicked;
-
-    function updateInterface(){
-        var tournamentsCount = localDart.tournamentsCount();
-
-        for(var i = 0; i < tournamentsCount;i++)
-        {
-            var id = localDart.tournamentIDFromIndex(i);
-            var title = localDart.tournamentTitle(id);
-            var legsCount = localDart.tournamentLegsCount(id);
-            var maxPlayersCount = localDart.tournamentMaxPlayers(id);
-            var keyPoint = localDart.tournamentKeyPoint(id);
-            var playersCount = localDart.tournamentPlayersCount(id);
-
-            tournamentListView.addTournamentItem(title,maxPlayersCount,legsCount,keyPoint,playersCount);
-        }
-    }
 
     GridLayout
     {
@@ -105,23 +91,10 @@ Content{
 
            text: "Start game"
 
-           onClicked: {
-               var currentlySelectedIndex = tournamentListView.currentlySelectedIndex;
-               var tournamentID = localDart.tournamentIDFromIndex(currentlySelectedIndex);
-               if(tournamentID === "")
-                   return;
-               var tournamentPlayersCount = localDart.tournamentPlayersCount(tournamentID);
-               if(tournamentPlayersCount === 0)
-                   return;
-               var result = localDart.setCurrentActiveTournament(tournamentID);
-               if(result === "")
-                   return;
-               startGameClicked();
-           }
+           onClicked: TournamentPageScripts.startGame()
        }
     }
-
     Component.onCompleted: {
-        updateInterface();
+        TournamentPageScripts.updateInterface();
     }
 }

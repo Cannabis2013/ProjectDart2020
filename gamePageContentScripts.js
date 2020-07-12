@@ -1,18 +1,20 @@
+
+/*
+  Initial state
+    - Initialize and populate scoreboard
+  */
 function initializeScoreBoard(){
     var currentTournament = localDart.currentActiveTournamentID();
     if(currentTournament === "")
         return;
     appendHeaders(currentTournament);
+    setInitialScoreBoardValues(4,currentTournament);
     appendPoints(currentTournament);
-    scoreTable.setMinimumColumnsCount(4);
-    var initialValue = localDart.tournamentKeyPoint(currentTournament);
-    scoreTable.setInitialValue(initialValue);
     updateNavigator();
 }
 function appendHeaders(currentTournament)
 {
     var playersCount = localDart.tournamentPlayersCount(currentTournament);
-    // Append headers
     for(var i = 0;i < playersCount;i++){
         var playerID = localDart.assignedPlayerIDfromIndex(currentTournament,i);
         var fullName = localDart.playerFirstName(playerID) + " " + localDart.playerLastName(playerID);
@@ -45,6 +47,14 @@ function appendPoints(currentTournament)
         }
     }
 }
+function setInitialScoreBoardValues(minimumColumnsCount, currentTournament)
+{
+
+    scoreTable.setMinimumColumnsCount(minimumColumnsCount);
+    var initialValue = localDart.tournamentKeyPoint(currentTournament);
+    scoreTable.setInitialValue(initialValue);
+}
+
 function initializeFromGameStatus()
 {
     var status = localDart.gameStatus();
@@ -55,12 +65,9 @@ function initializeFromGameStatus()
         localDart.resetTournament(tournament);
         scoreTable.clearTable();
         localDart.setCurrentActiveTournament(tournament);
-        scoreTable.setMinimumColumnsCount(4);
-        var initialValue = localDart.tournamentKeyPoint(tournament);
-        scoreTable.setInitialValue(initialValue);
-        localDart.startGame();
+        initializeScoreBoard();
         turnNavigator.startButtonText = "Pause";
-        keyPad.enableKeys = true;
+        keyPad.enableKeys = localDart.startGame() === 0xa;
     }
 
     else if(status === 0xc) // 0xc = idle
@@ -97,7 +104,7 @@ function checkGameStatus()
 function updateNavigator()
 {
     var currentRoundIndex = localDart.currentGameRoundIndex();
-    var currentPlayer = localDart.currentActivePlayer();
+    var currentPlayer = localDart.currentActivePlayerFullName();
 
     turnNavigator.currentRoundIndex = currentRoundIndex;
     turnNavigator.currentPlayer = currentPlayer;
@@ -105,7 +112,7 @@ function updateNavigator()
 
 function handleInput(val)
 {
-    var playerName = localDart.currentActivePlayer();
+    var playerName = localDart.currentActivePlayerFullName();
     var status = localDart.addPoint(val);
     var score = localDart.score(playerName);
     scoreTable.appendData(playerName,score);
@@ -120,7 +127,7 @@ function handleUndo()
     {
         updateNavigator();
         turnNavigator.refreshTurnKeys();
-        var fullName = localDart.currentActivePlayer();
+        var fullName = localDart.currentActivePlayerFullName();
         scoreTable.takeData(fullName);
     }
 }

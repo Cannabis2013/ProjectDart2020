@@ -96,10 +96,12 @@ void ScoreDataModel::appendHeaderItem(const QVariant &data, const int &headerOri
 void ScoreDataModel::clearData()
 {
     _cellData.clear();
+    auto bottomRight = createIndex(rowCount() - 1,columnCount() - 1);
     _columns = 0;
     _rows = 0;
-
-    insertRows(0,_verticalHeaderData.count(),QModelIndex());
+    _horizontalHeaderData.clear();
+    _verticalHeaderData.clear();
+    emit dataChanged(createIndex(0,0),bottomRight);
 }
 
 QString ScoreDataModel::getHeaderData(const int &index, const int &headerOrientation) const

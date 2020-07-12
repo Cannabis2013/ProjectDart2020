@@ -62,8 +62,8 @@ public:
     Q_INVOKABLE int tournamentRoundsCount(const QString &tournament) override;
 
     Q_INVOKABLE int pointValue(const QString &tournament, const QString &player, const int &roundIndex, const int &legIndex) override;
-
-    Q_INVOKABLE QStringList GameModes() const override;
+    Q_INVOKABLE QString playerPoint(const QString &tournament, const QString &player, const int &roundIndex, const int &legIndex) override;
+    Q_INVOKABLE QStringList gameModes() const override;
     Q_INVOKABLE int gameModeFromString(const QString &gameMode) const;
 
     /*
@@ -79,7 +79,6 @@ public:
     Q_INVOKABLE QString playerFirstName(const QString &player) override;
     Q_INVOKABLE QString playerLastName(const QString &player) override;
     Q_INVOKABLE QString playerEmail(const QString &player) override;
-
     /*
      * Player score
      */
@@ -89,24 +88,19 @@ public:
     Q_INVOKABLE QString resetTournament(const QString &tournament);
     Q_INVOKABLE QString currentActiveTournamentID() override;
     Q_INVOKABLE int setCurrentActiveTournament(const QString &id) override;
-    Q_INVOKABLE QString currentActivePlayer() override;
-
+    Q_INVOKABLE QString currentActivePlayerFullName() override;
+    Q_INVOKABLE QString currentPlayerPoint() override;
     Q_INVOKABLE int currentGameRoundIndex() override;
     Q_INVOKABLE int currentGameSetIndex() override;
-
+    Q_INVOKABLE int currentGameLegIndex() override;
     Q_INVOKABLE int startGame() override;
     Q_INVOKABLE int stopGame() override;
-
     Q_INVOKABLE int undoTurn() override;
     Q_INVOKABLE int redoTurn() override;
-
     Q_INVOKABLE bool undoPossible() override;
     Q_INVOKABLE bool redoPossible() override;
-
     Q_INVOKABLE int gameStatus() override;
-
     Q_INVOKABLE int addPoint(const int &value) override;
-
     Q_INVOKABLE int score(const QString &player) override;
 
 private:

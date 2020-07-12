@@ -54,6 +54,10 @@ ListView
     readonly property int getCurrentlySelectedIndex: indexContainer.currentlySelectedIndex;
     readonly property var getCurrentlySelectedIndexes: indexContainer.currentlySelectedIndexes
 
+    function clear(){
+        listModel.clear();
+    }
+
     function buttonSelected(text){
         var cIndex = -1;
         var cIndexes = [];

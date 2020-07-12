@@ -53,33 +53,28 @@ public:
     virtual int setIndex(const TUuid &set) const = 0;
 
     virtual TUuid addSet(const TUuid &tournament, const int &roundIndex, const int &setIndex) = 0;
-
+    /*
+     * Point related section
+     */
     virtual TList points(const TUuid &tournament) const = 0;
     virtual TList points(const TUuid &tournament, const TUuid &round) const = 0;
     virtual TList points(const TUuid &tournament, const TUuid &round, const TUuid &set) const = 0;
-
-
     virtual TUuid addPoint(const TUuid &tournament,
                            const int &roundIndex,
                            const int &setIndex,
                            const int &legIndex,
                            const int &playerPoint,
                            const TUuid &player) = 0;
-
     virtual TUuid alterPointValue(const TUuid &pointId, const int &value) = 0;
     virtual TUuid alterPointPlayer(const TUuid &pointId, const TUuid &playerId) = 0;
-
     virtual TUuid pointSet(const TUuid &playerPoint) const = 0;
     virtual int pointValue(const TUuid &playerPoint) const = 0;
     virtual TUuid pointPlayer(const TUuid &playerPoint) const = 0;
     virtual int pointLeg(const TUuid &playerPoint) const = 0;
-
-    /*
-     * Retrieve player scores
-     */
     virtual TUuid playerPoint(const TUuid &tournament,const TUuid &player, int roundIndex, int legIndex) = 0;
     virtual TList playerPoints(const TUuid &player) const = 0;
     virtual TList playerPoints(const TUuid &tournament, const TUuid &player) const = 0;
+    virtual bool removePlayerPoint(const TUuid &point) = 0;
     /*
      * Builders
      */

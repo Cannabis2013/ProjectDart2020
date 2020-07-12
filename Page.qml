@@ -12,13 +12,13 @@ Rectangle {
 
     signal backButtonPressed
     onBackButtonPressed: {
-        pageContent.backButtonPressed();
         pageBody.destroy()
     }
 
     property Content pageContent: Content{}
     onPageContentChanged: {
         pageLayout.children[2] = pageContent;
+        pageContent.backButtonPressed.connect(backButtonPressed);
     }
 
     property string pageTitle: "Page title"

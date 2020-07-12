@@ -159,7 +159,6 @@ QUuid LocalFirstToPost::undoTurn()
     if(_legIndex > 0)
     {
         _legIndex--;
-
         return _assignedPlayers.value(_setIndex);
     }
 
