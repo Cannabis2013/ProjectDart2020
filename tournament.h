@@ -99,6 +99,14 @@ public:
         _assignedPlayerIdentities.append(identity);
     }
 
+    void setParent(const QUuid &) override{
+
+    }
+
+    QUuid parent() const override{
+        return QUuid();
+    }
+
 private:
     QString _title;
 

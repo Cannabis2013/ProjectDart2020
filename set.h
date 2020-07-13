@@ -27,11 +27,11 @@ public:
         _modelType = val;
     }
     // ISet interface
-    QUuid round() const override
+    QUuid parent() const override
     {
         return _round;
     }
-    void setRound(const QUuid &id) override
+    void setParent(const QUuid &id) override
     {
         _round = id;
     }

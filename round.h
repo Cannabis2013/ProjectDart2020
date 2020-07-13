@@ -36,11 +36,11 @@ public:
     {
         _index = val;
     }
-    QUuid tournament() const override
+    QUuid parent() const override
     {
         return _tournament;
     }
-    void setTournament(const QUuid &id) override
+    void setParent(const QUuid &id) override
     {
         _tournament = id;
     }

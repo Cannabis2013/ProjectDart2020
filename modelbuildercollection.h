@@ -71,7 +71,7 @@ public:
 
         model->setType(ModelBuilderContext::RoundModel);
         model->setIndex(args.roundIndex);
-        model->setTournament(args.tournamentId);
+        model->setParent(args.tournamentId);
 
         model->setType(ModelBuilderContext::RoundModel);
 
@@ -94,7 +94,7 @@ public:
 
         model->setType(ModelBuilderContext::SetModel);
         model->setIndex(args.index);
-        model->setRound(args.roundId);
+        model->setParent(args.roundId);
 
         return model;
     }
@@ -115,7 +115,7 @@ public:
             model->setId(args.id);
 
         model->setType(ModelBuilderContext::PointModel);
-        model->setSet(args.setId);
+        model->setParent(args.setId);
         model->setPoint(args.pointValue);
         model->setPlayer(args.playerId);
         model->setLegIndex(args.legIndex);

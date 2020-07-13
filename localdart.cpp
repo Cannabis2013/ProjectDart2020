@@ -88,18 +88,6 @@ int LocalDart::tournamentKeyPoint(const QString &id)
     return keyPoint;
 }
 
-int LocalDart::tournamentRoundsCount(const QString &tournament)
-{
-    auto tournamentID = QUuid::fromString(tournament);
-    auto roundIDs = _dataContext->rounds(tournament);
-    auto count = 0;
-    for (auto roundID : roundIDs) {
-        auto tournament = _dataContext->roundTournament(roundID);
-        count = tournament == tournamentID ? count + 1 : count;
-    }
-    return count;
-}
-
 int LocalDart::pointValue(const QString &tournament, const QString &player, const int &roundIndex, const int &legIndex)
 {
     QUuid pointID;
@@ -118,7 +106,7 @@ QString LocalDart::playerPoint(const QString &tournament, const QString &player,
         auto playerPointID = _dataContext->playerPoint(QUuid::fromString(tournament),QUuid::fromString(player),roundIndex,legIndex);
         return playerPointID.toString();
     } catch (const char *msg) {
-        return "";
+        throw msg;
     }
 }
 
@@ -229,6 +217,7 @@ int LocalDart::setCurrentActiveTournament(const QString &id)
     if(_gameController->dataContext() == nullptr)
         _gameController->setDataContext(_dataContext);
     _gameController->setCurrentTournament(tournament);
+
     return Status::OperationSuccesfull;
 }
 
@@ -305,7 +294,7 @@ int LocalDart::undoTurn()
     try {
         _gameController->undoTurn();
         auto currentPointID = currentPlayerPoint();
-        _dataContext->removePlayerPoint(QUuid::fromString(currentPointID));
+        _dataContext->removePlayerPointAndRelatives(QUuid::fromString(currentPointID));
     } catch (const char *msg) {
         return Status::OperationUnSuccesfull;
     }
@@ -354,11 +343,18 @@ int LocalDart::score(const QString &player)
 
 void LocalDart::createInitialModels()
 {
-    auto adolf = _playerContext->createPlayer("Adolf","Schnitzler","",0x2);
-    auto ilmer = _playerContext->createPlayer("Ilmer","Galarrytter","",0x2);
+    auto kent = _playerContext->createPlayer("Kent","KillerHertz","",0x2);
+    auto martin = _playerContext->createPlayer("Martin","Hansen","",0x2);
+    auto william = _playerContext->createPlayer("William","Worsøe","",0x2);
+
     auto tournament = _dataContext->createTournament("Kents turnering",5,501,3,0x1);
-    _dataContext->tournamentAddPlayer(tournament,adolf);
-    _dataContext->tournamentAddPlayer(tournament,ilmer);
+    _dataContext->tournamentAddPlayer(tournament,kent);
+    _dataContext->tournamentAddPlayer(tournament,martin);
+
+    tournament = _dataContext->createTournament("Techno Tonnys turnering",5,501,3,0x1);
+    _dataContext->tournamentAddPlayer(tournament,kent);
+    _dataContext->tournamentAddPlayer(tournament,martin);
+    _dataContext->tournamentAddPlayer(tournament,william);
 }
 
 void LocalDart::assignPlayer(const QString &player, const QString &tournament)

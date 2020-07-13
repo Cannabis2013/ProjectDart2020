@@ -1,6 +1,7 @@
 #ifndef GAMEMODELSCONTEXT_H
 #define GAMEMODELSCONTEXT_H
 
+
 namespace GameModelsContext
 {
     class IModel;
@@ -10,15 +11,18 @@ namespace GameModelsContext
     class IPoint;
 }
 
-template<class QUuid>
+template<class TUuid>
 class IModel
 {
 public:
-    virtual QUuid id() const = 0;
-    virtual void setId(const QUuid &val) = 0;
+    virtual TUuid id() const = 0;
+    virtual void setId(const TUuid &val) = 0;
 
     virtual int type() const = 0;
     virtual void setType(const int &val) = 0;
+
+    virtual void setParent(const TUuid &parent) = 0;
+    virtual TUuid parent() const = 0;
 };
 
 template<class QUuid,class TList, class TString>
@@ -57,17 +61,12 @@ class IRound : public IModel<QUuid>
 public:
     virtual int index() const = 0;
     virtual void setIndex(const int &val) = 0;
-
-    virtual QUuid tournament() const = 0;
-    virtual void setTournament(const QUuid &id) = 0;
 };
 
 template<class QUuid, class TList>
 class ISet : public IModel<QUuid>
 {
 public:
-    virtual QUuid round() const = 0;
-    virtual void setRound(const QUuid &id) = 0;
     virtual int index() const = 0;
     virtual void setIndex(const int &index) = 0;
 };
@@ -78,9 +77,6 @@ class IPoint : public IModel<QUuid>
 public:
     virtual int point() const = 0;
     virtual void setPoint(const int &point) = 0;
-
-    virtual QUuid set() const = 0;
-    virtual void setSet(const QUuid &id) = 0;
 
     virtual int legIndex() const = 0;
     virtual void setLegIndex(const int &index) = 0;

@@ -89,9 +89,25 @@ private:
      *  - Validate projected player score before updating datacontext
      */
     int validateInput(const int &pointValue);
-
+    /*
+     * Update datacontext
+     */
     QUuid addPoint(const int &point);
-
+    /*
+     * Update controller state and indexes according to current tournament
+     */
+    void initializeController(const QUuid &tournament);
+    void initializeIndexes(const QUuid &tournament);
+    /*
+     * Set controller state according to datacontext
+     */
+    QUuid tournamentLastRoundID(const QUuid &tournament);
+    QUuid roundLastSetID(const QUuid &round);
+    int lastRoundSetIndex(const QUuid &round);
+    int lastPointLegIndex(const QUuid &set);
+    /*
+     * Index methods
+     */
     int currentTurnIndex() ;
     bool isIndexOffset();
 

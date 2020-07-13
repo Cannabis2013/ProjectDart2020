@@ -33,32 +33,29 @@ public:
     virtual void alterTournamentKeyPoint(const TUuid &tournament, const int &value) = 0;
     virtual void alterTournamentDeterminedWinner(const TUuid &tournament, const TUuid &player) = 0;
 
-    virtual TList rounds(const TUuid &tournament) const = 0;
-
-    virtual TUuid round(const TUuid &tournament, const int &roundIndex) const  = 0;
+    virtual TList roundsID(const TUuid &tournament) const = 0;
+    virtual TUuid roundID(const TUuid &tournament, const int &roundIndex) const  = 0;
+    virtual TList roundSetsID(const TUuid &roundID) const = 0;
 
     virtual TUuid addRound(const TUuid &tournament, const int &index) = 0;
     virtual void alterRoundIndex(const TUuid &tournament,const int &oldIndex, const int &newIndex) = 0;
+    virtual int roundIndex(const TUuid &roundID) const = 0;
+    virtual TUuid roundTournament(const TUuid &roundID) const = 0;
 
-    virtual int roundIndex(const TUuid &round) const = 0;
-    virtual TUuid roundTournament(const TUuid &round) const = 0;
-
-    virtual TList sets(const TUuid &tournament) const = 0;
-    virtual TList sets(const TUuid &tournament, const TUuid &round) const = 0;
-    virtual TList sets(const TUuid &tournament, const int &roundIndex) const = 0;
+    virtual TList tournamentSetsID(const TUuid &tournament) const = 0;
+    virtual TList tournamentSetsID(const TUuid &tournament, const int &roundIndex) const = 0;
 
     virtual TUuid set(const TUuid &tournament, const int &roundIndex, const int &setIndex) const = 0;
-
     virtual TUuid setRound(const TUuid &set) const = 0;
     virtual int setIndex(const TUuid &set) const = 0;
-
     virtual TUuid addSet(const TUuid &tournament, const int &roundIndex, const int &setIndex) = 0;
+    virtual TList setPointsID(const TUuid &set) const = 0;
     /*
      * Point related section
      */
     virtual TList points(const TUuid &tournament) const = 0;
-    virtual TList points(const TUuid &tournament, const TUuid &round) const = 0;
-    virtual TList points(const TUuid &tournament, const TUuid &round, const TUuid &set) const = 0;
+    virtual TList points(const TUuid &tournament, const TUuid &roundID) const = 0;
+    virtual TList points(const TUuid &tournament, const TUuid &roundID, const TUuid &set) const = 0;
     virtual TUuid addPoint(const TUuid &tournament,
                            const int &roundIndex,
                            const int &setIndex,
@@ -75,10 +72,12 @@ public:
     virtual TList playerPoints(const TUuid &player) const = 0;
     virtual TList playerPoints(const TUuid &tournament, const TUuid &player) const = 0;
     virtual bool removePlayerPoint(const TUuid &point) = 0;
+    virtual void removePlayerPointAndRelatives(const TUuid &point) = 0;
     /*
      * Builders
      */
     virtual IDataContext<TUuid, TList,TString, TTournamentBuilder> *setTournamentBuilder(TTournamentBuilder *builder) = 0;
+    virtual TTournamentBuilder *tournamentBuilder() const = 0;
 
     /*
      * Consistency checks

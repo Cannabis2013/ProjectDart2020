@@ -35,11 +35,11 @@ public:
     {
         _pointValue = point;
     }
-    QUuid set() const override
+    QUuid parent() const override
     {
         return _set;
     }
-    void setSet(const QUuid &id) override
+    void setParent(const QUuid &id) override
     {
         _set = id;
     }

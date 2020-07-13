@@ -5,6 +5,7 @@ int LocalFirstToPost::start()
     _isActive = true;
     if(_roundIndex == 0){
         dataContext()->addRound(currentTournament(),++_roundIndex);
+        // TODO: Consider increment _setIndex when you pass it to the builder
         dataContext()->addSet(currentTournament(),_roundIndex,_setIndex);
     }
     _currentStatus = GameStatus::Running;
@@ -122,12 +123,8 @@ QUuid LocalFirstToPost::currentTournament()
 void LocalFirstToPost::setCurrentTournament(QUuid &tournament)
 {
     _tournament = tournament;
-    auto players = _dataContext->tournamentAssignedPlayers(tournament);
-    auto keyPoint = _dataContext->tournamentKeyPoint(tournament);
-    _keyPoint = keyPoint;
-    auto legs = _dataContext->tournamentNumberOfLegs(tournament);
-    _numberOfLegs = legs;
-    _assignedPlayers = players;
+    initializeController(tournament);
+    initializeIndexes(tournament);
 }
 
 int LocalFirstToPost::status()
@@ -275,9 +272,93 @@ QUuid LocalFirstToPost::addPoint(const int &point)
                                            legIndex,
                                            point,
                                            playerID);
-
-
     return pointID;
+}
+
+void LocalFirstToPost::initializeController(const QUuid &tournament)
+{
+    _keyPoint = _dataContext->tournamentKeyPoint(tournament);
+    _numberOfLegs = _dataContext->tournamentNumberOfLegs(tournament);
+    _assignedPlayers = _dataContext->tournamentAssignedPlayers(tournament);
+}
+
+void LocalFirstToPost::initializeIndexes(const QUuid &tournament)
+{
+    auto totalTurns = 0;
+    auto roundIndex = 1;
+    auto setIndex = 0;
+    auto legIndex = 0;
+    auto playersCount = _assignedPlayers.count();
+    auto numberOfLegs = _numberOfLegs;
+    while(1)
+    {
+        auto playerID = _assignedPlayers.at(setIndex);
+        try {
+            _dataContext->playerPoint(tournament,playerID,roundIndex,legIndex);
+        } catch (const char *msg) {
+            break;
+        }
+        if(++legIndex % numberOfLegs == 0)
+        {
+            legIndex = 0;
+            setIndex++;
+            if(setIndex >= playersCount)
+            {
+                roundIndex++;
+                setIndex = 0;
+            }
+        }
+        totalTurns++;
+    }
+    if(totalTurns == 0)
+        return;
+    _roundIndex = roundIndex;
+    _setIndex = setIndex;
+    _legIndex = legIndex;
+    _turnIndex = totalTurns;
+    _totalTurns = _turnIndex;
+}
+
+QUuid LocalFirstToPost::tournamentLastRoundID(const QUuid &tournament)
+{
+    try {
+        auto roundsID = _dataContext->roundsID(tournament);
+        auto lastIndex = roundsID.count(); // The size of roundsID acts as the last index as the first round object has round index 1
+        auto lastRoundID = _dataContext->roundID(tournament,lastIndex);
+        return lastRoundID;
+    } catch (const char *msg) {
+        throw msg;
+    }
+}
+
+QUuid LocalFirstToPost::roundLastSetID(const QUuid &round)
+{
+    auto index = 0;
+    QUuid lastSetID;
+    auto roundSetsID = _dataContext->roundSetsID(round);
+    for (auto roundSetID : roundSetsID) {
+        auto setIndex = _dataContext->setIndex(roundSetID);
+        if(setIndex > index)
+        {
+            index = setIndex;
+            lastSetID = roundSetID;
+        }
+    }
+    return lastSetID;
+}
+
+int LocalFirstToPost::lastRoundSetIndex(const QUuid &round)
+{
+    auto setsID = _dataContext->roundSetsID(round);
+    auto index = setsID.count() - 1;
+    return index;
+}
+
+int LocalFirstToPost::lastPointLegIndex(const QUuid &set)
+{
+    auto pointsID = _dataContext->setPointsID(set);
+    auto index = pointsID.count();
+    return index;
 }
 
 int LocalFirstToPost::currentTurnIndex()

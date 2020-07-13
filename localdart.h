@@ -59,7 +59,6 @@ public:
     Q_INVOKABLE QString tournamentTitle(const QString &id) override;
     Q_INVOKABLE int tournamentKeyPoint(const QString &id) override;
 
-    Q_INVOKABLE int tournamentRoundsCount(const QString &tournament) override;
 
     Q_INVOKABLE int pointValue(const QString &tournament, const QString &player, const int &roundIndex, const int &legIndex) override;
     Q_INVOKABLE QString playerPoint(const QString &tournament, const QString &player, const int &roundIndex, const int &legIndex) override;
@@ -105,7 +104,6 @@ public:
 
 private:
     void createInitialModels(); // For testing purposes
-
 
     DataContextInterface *_dataContext = nullptr;
     PlayerContextInterface *_playerContext= nullptr;
