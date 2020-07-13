@@ -310,55 +310,11 @@ void LocalFirstToPost::initializeIndexes(const QUuid &tournament)
         }
         totalTurns++;
     }
-    if(totalTurns == 0)
-        return;
-    _roundIndex = roundIndex;
-    _setIndex = setIndex;
-    _legIndex = legIndex;
-    _turnIndex = totalTurns;
-    _totalTurns = _turnIndex;
-}
-
-QUuid LocalFirstToPost::tournamentLastRoundID(const QUuid &tournament)
-{
-    try {
-        auto roundsID = _dataContext->roundsID(tournament);
-        auto lastIndex = roundsID.count(); // The size of roundsID acts as the last index as the first round object has round index 1
-        auto lastRoundID = _dataContext->roundID(tournament,lastIndex);
-        return lastRoundID;
-    } catch (const char *msg) {
-        throw msg;
-    }
-}
-
-QUuid LocalFirstToPost::roundLastSetID(const QUuid &round)
-{
-    auto index = 0;
-    QUuid lastSetID;
-    auto roundSetsID = _dataContext->roundSetsID(round);
-    for (auto roundSetID : roundSetsID) {
-        auto setIndex = _dataContext->setIndex(roundSetID);
-        if(setIndex > index)
-        {
-            index = setIndex;
-            lastSetID = roundSetID;
-        }
-    }
-    return lastSetID;
-}
-
-int LocalFirstToPost::lastRoundSetIndex(const QUuid &round)
-{
-    auto setsID = _dataContext->roundSetsID(round);
-    auto index = setsID.count() - 1;
-    return index;
-}
-
-int LocalFirstToPost::lastPointLegIndex(const QUuid &set)
-{
-    auto pointsID = _dataContext->setPointsID(set);
-    auto index = pointsID.count();
-    return index;
+    _roundIndex = totalTurns == 0 ? 0 : roundIndex;
+    _setIndex = totalTurns == 0 ? 0 : setIndex;
+    _legIndex = totalTurns == 0 ? 0 : legIndex;
+    _turnIndex = totalTurns == 0 ? 0 : totalTurns;
+    _totalTurns = totalTurns == 0 ? 0 : _turnIndex;
 }
 
 int LocalFirstToPost::currentTurnIndex()

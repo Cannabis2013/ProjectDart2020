@@ -101,10 +101,6 @@ private:
     /*
      * Set controller state according to datacontext
      */
-    QUuid tournamentLastRoundID(const QUuid &tournament);
-    QUuid roundLastSetID(const QUuid &round);
-    int lastRoundSetIndex(const QUuid &round);
-    int lastPointLegIndex(const QUuid &set);
     /*
      * Index methods
      */
