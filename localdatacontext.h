@@ -16,8 +16,10 @@ typedef IDataContext<QUuid,QList<QUuid>,QString,ITournamentBuilder> DefaultDataI
 class LocalDataContext : public DefaultDataInterface
 {
 public:
-    LocalDataContext();
-    
+    /*
+     * Public types
+     */
+    enum ModelDisplayHint{HiddenHint = 0x1,DisplayHint = 0x2, allHints = 0x4};
     /*
      * Tournament related section
      */
@@ -64,41 +66,41 @@ public:
     QList<QUuid> tournamentSetsID(const QUuid &tournament) const override;
     QList<QUuid> roundSetsID(const QUuid &roundID) const override;
     QList<QUuid> tournamentSetsID(const QUuid &tournament, const int &roundIndex) const override;
-    QUuid set(const QUuid &tournament, const int &roundIndex, const int &setIndex) const override;
-    QUuid setRound(const QUuid &set) const override;
-    int setIndex(const QUuid &set) const override;
+    QUuid setID(const QUuid &tournament, const int &roundIndex, const int &setIndex) const override;
+    QUuid setRound(const QUuid &setID) const override;
+    int setIndex(const QUuid &setID) const override;
     QUuid addSet(const QUuid &tournament, const int &roundIndex, const int &setIndex) override;
-    QList<QUuid> setPointsID(const QUuid &set) const override;
+    QList<QUuid> setPointsID(const QUuid &setID) const override;
     /*
      * Point related section
      */
     QList<QUuid> points(const QUuid &tournament) const override;
     QList<QUuid> points(const QUuid &tournament, const QUuid &roundID) const override;
-    QList<QUuid> points(const QUuid &tournament, const QUuid &roundID, const QUuid &set) const override;
-    QUuid addPoint(const QUuid &tournament,
+    QList<QUuid> points(const QUuid &tournament, const QUuid &roundID, const QUuid &setID) const override;
+    QUuid addPoint(const QUuid &tournament, const QUuid &player,
                    const int &roundIndex,
                    const int &setIndex,
                    const int &legIndex,
-                   const int &playerPoint,
-                   const QUuid &player) override;
-
-    QUuid alterPointValue(const QUuid &pointId, const int &value) override;
+                   const int &playerPoint) override;
+    QUuid setPointHint(const QUuid &point, const int &hint) override;
+    QUuid editPointValue(const QUuid &pointId, const int &value, const int &hint) override;
     QUuid alterPointPlayer(const QUuid &pointId, const QUuid &playerId) override;
     QUuid pointSet(const QUuid &playerPoint) const override;
     int pointLeg(const QUuid &playerPoint) const override;
     int pointValue(const QUuid &playerPoint) const override;
     QUuid pointPlayer(const QUuid &playerPoint) const override;
-    QUuid playerPoint(const QUuid &tournament, const QUuid &player , int roundIndex, int legIndex) override;
-    QList<QUuid> playerPoints(const QUuid &player) const override;
-    QList<QUuid> playerPoints(const QUuid &tournament, const QUuid &player) const override;
+    int pointHint(const QUuid &playerPoint) const override;
+    QUuid playerPoint(const QUuid &tournament, const QUuid &player , const int &roundIndex, const int &legIndex, const int &hint) override;
+    QList<QUuid> playerPoints(const QUuid &tournament, const QUuid &player, const int &hint) const override;
     bool removePlayerPoint(const QUuid &point) override;
     void removePlayerPointAndRelatives(const QUuid &point) override;
     DefaultDataInterface *setTournamentBuilder(ITournamentBuilder *builder) override;
     ITournamentBuilder *tournamentBuilder() const override;
 
 private:
+    QList<QUuid> pointModels(const QUuid &player) const;
     void removeEmptyRound(const QUuid &round);
-    void removeEmptySet(const QUuid &set);
+    void removeEmptySet(const QUuid &setID);
     const DefaultTournamentInterface *getTournamentFromID(const QUuid &id) const;
     const DefaultRoundInterface *getRoundFromID(const QUuid &id) const;
     const DefaultSetInterface *getSetFromID(const QUuid &id) const;

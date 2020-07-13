@@ -20,6 +20,7 @@ Content {
             Layout.alignment: Qt.AlignHCenter
             onStartButtonClicked: GamePageScripts.initializeFromGameStatus()
             onLeftButtonClicked: GamePageScripts.handleUndo()
+            onRightButtonClicked: GamePageScripts.handleRedo()
         }
         ScoreBoard{
             id: scoreTable

@@ -83,6 +83,9 @@ public:
 
     virtual QUuid player() const = 0;
     virtual void setPlayer(const QUuid &id) = 0;
+
+    virtual int hint() const = 0;
+    virtual void setHint(const int &hint) = 0;
 };
 
 #endif // GAMEMODELSCONTEXT_H

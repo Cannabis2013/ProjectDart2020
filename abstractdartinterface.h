@@ -33,8 +33,8 @@ public:
     virtual int tournamentPlayersCount(const QString &id) = 0;
     virtual QString tournamentTitle(const QString &id) = 0;
     virtual int tournamentKeyPoint(const QString &id) = 0;
-    virtual int pointValue(const QString &tournament, const QString &player, const int &roundIndex, const int &legIndex) = 0;
-    virtual QString playerPoint(const QString &tournament, const QString &player, const int &roundIndex, const int &legIndex) = 0;
+    virtual int pointValue(const QString &point) const = 0;
+    virtual int pointValue(const QString &tournament, const QString &player, const int &roundIndex, const int &legIndex) const = 0;
     virtual QStringList gameModes() const = 0;
     virtual int playersCount() = 0;
     virtual QString assignedPlayerIDfromIndex(const QString &tournamentID, const int &index) = 0;
@@ -48,7 +48,7 @@ public:
     virtual QString currentActiveTournamentID() = 0;
     virtual int setCurrentActiveTournament(const QString &id) = 0;
     virtual QString currentActivePlayerFullName() = 0;
-    virtual QString currentPlayerPoint() = 0;
+    virtual QString currentPlayerPoint(const int &hint) = 0;
     virtual int currentGameRoundIndex() = 0;
     virtual int currentGameSetIndex() = 0;
     virtual int currentGameLegIndex() = 0;

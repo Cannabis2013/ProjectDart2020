@@ -59,9 +59,8 @@ public:
     Q_INVOKABLE QString tournamentTitle(const QString &id) override;
     Q_INVOKABLE int tournamentKeyPoint(const QString &id) override;
 
-
-    Q_INVOKABLE int pointValue(const QString &tournament, const QString &player, const int &roundIndex, const int &legIndex) override;
-    Q_INVOKABLE QString playerPoint(const QString &tournament, const QString &player, const int &roundIndex, const int &legIndex) override;
+    Q_INVOKABLE int pointValue(const QString &point) const override;
+    Q_INVOKABLE int pointValue(const QString &tournament, const QString &player, const int &roundIndex, const int &legIndex) const override;
     Q_INVOKABLE QStringList gameModes() const override;
     Q_INVOKABLE int gameModeFromString(const QString &gameMode) const;
 
@@ -88,7 +87,7 @@ public:
     Q_INVOKABLE QString currentActiveTournamentID() override;
     Q_INVOKABLE int setCurrentActiveTournament(const QString &id) override;
     Q_INVOKABLE QString currentActivePlayerFullName() override;
-    Q_INVOKABLE QString currentPlayerPoint() override;
+    Q_INVOKABLE QString currentPlayerPoint(const int &hint = LocalDataContext::DisplayHint) override;
     Q_INVOKABLE int currentGameRoundIndex() override;
     Q_INVOKABLE int currentGameSetIndex() override;
     Q_INVOKABLE int currentGameLegIndex() override;

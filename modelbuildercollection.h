@@ -1,4 +1,4 @@
-#ifndef MODELBUILDERC5OLLECTION_H
+#ifndef MODELBUILDERCOLLECTION_H
 #define MODELBUILDERCOLLECTION_H
 
 #include "modelbuildercontext.h"
@@ -35,12 +35,12 @@ public:
             model->setId(QUuid::createUuid());
         else if(!options.generateUniqueId)
             model->setId(args.id);
-        auto title = args.title != "" ? args.title : options.defaultTitle + QString("[%1]").arg(options.tournamentsCount);
-        auto gameMode = args.gameMode != -1 ? args.gameMode : options.defaultGameMode;
-        auto status = options.initialStatus;
-        auto legCount = args.numberOfLegs > 0 ? args.numberOfLegs : options.defaultLegCount;
-        auto maxPlayers = args.maxPlayers > 0 ? args.maxPlayers : options.defaultMaxPlayerCount;
-        auto keyPoint = args.keyPoint >= 0 ? args.keyPoint : options.defaultKeyPoint;
+        auto title = args.title != "" ? args.title : args.defaultTitle + QString("[%1]").arg(args.tournamentsCount);
+        auto gameMode = args.gameMode != -1 ? args.gameMode : args.defaultGameMode;
+        auto status = args.initialStatus;
+        auto legCount = args.numberOfLegs > 0 ? args.numberOfLegs : args.defaultLegCount;
+        auto maxPlayers = args.maxPlayers > 0 ? args.maxPlayers : args.defaultMaxPlayerCount;
+        auto keyPoint = args.keyPoint >= 0 ? args.keyPoint : args.defaultKeyPoint;
         auto playerIdentitties = args.playerIdentities;
         model->setType(ModelBuilderContext::TournamentModel);
         model->setTitle(title);
@@ -119,6 +119,7 @@ public:
         model->setPoint(args.pointValue);
         model->setPlayer(args.playerId);
         model->setLegIndex(args.legIndex);
+        model->setHint(options.modelHint);
         return model;
     }
 };

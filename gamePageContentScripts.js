@@ -75,6 +75,7 @@ function initializeFromGameStatus()
         localDart.startGame();
         turnNavigator.startButtonText = "Pause";
         keyPad.enableKeys = true;
+        turnNavigator.refreshTurnKeys();
     }
     else if(status === 0xe) // 0xe = running
     {
@@ -129,5 +130,16 @@ function handleUndo()
         turnNavigator.refreshTurnKeys();
         var fullName = localDart.currentActivePlayerFullName();
         scoreTable.takeData(fullName);
+    }
+}
+function handleRedo()
+{
+    var fullName = localDart.currentActivePlayerFullName();
+    if(localDart.redoTurn() === 0x11) // 0x11 = operation successfull
+    {
+        var score = localDart.score(fullName);
+        turnNavigator.refreshTurnKeys();
+        updateNavigator();
+        scoreTable.appendData(fullName,score);
     }
 }

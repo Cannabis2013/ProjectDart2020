@@ -7,7 +7,6 @@
 
 class Point : public IPoint<QUuid>
 {
-    // IModel interface
 public:
     QUuid id() const override
     {
@@ -25,8 +24,6 @@ public:
     {
         _modelType = val;
     }
-
-    // IPoint interface
     int point() const override
     {
         return _pointValue;
@@ -59,10 +56,21 @@ public:
     {
         _legIndex = index;
     }
+    int hint() const override
+    {
+        return _hint;
+    }
+    void setHint(const int &hint) override
+    {
+        _hint = hint;
+    }
 private:
-    int _modelType, _pointValue, _legIndex;
+    int _modelType, _pointValue, _legIndex, _hint;
     QUuid _id, _player, _set;
-
 };
+
+
+
+
 
 #endif // POINT_H

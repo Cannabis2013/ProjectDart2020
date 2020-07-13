@@ -128,7 +128,7 @@ private:
 
     int _numberOfLegs = 3;
 
-    int defaultKeyPoint = 501;
+    const int defaultKeyPoint = 501;
     int criticalLimit = 180;
 
     bool _isOff;

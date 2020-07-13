@@ -88,26 +88,27 @@ int LocalDart::tournamentKeyPoint(const QString &id)
     return keyPoint;
 }
 
-int LocalDart::pointValue(const QString &tournament, const QString &player, const int &roundIndex, const int &legIndex)
+int LocalDart::pointValue(const QString &point) const
+{
+    auto pointID = QUuid::fromString(point);
+    auto value = _dataContext->pointValue(pointID);
+    return value;
+}
+
+int LocalDart::pointValue(const QString &tournament, const QString &player, const int &roundIndex, const int &legIndex) const
 {
     QUuid pointID;
     try {
-        pointID = _dataContext->playerPoint(QUuid::fromString(tournament), QUuid::fromString(player),roundIndex,legIndex);
+        pointID = _dataContext->playerPoint(QUuid::fromString(tournament),
+                                            QUuid::fromString(player),
+                                            roundIndex,
+                                            legIndex,
+                                            LocalDataContext::DisplayHint);
     } catch (const char *msg) {
         return -1;
     }
     auto pVal = _dataContext->pointValue(pointID);
     return pVal;
-}
-
-QString LocalDart::playerPoint(const QString &tournament, const QString &player, const int &roundIndex, const int &legIndex)
-{
-    try {
-        auto playerPointID = _dataContext->playerPoint(QUuid::fromString(tournament),QUuid::fromString(player),roundIndex,legIndex);
-        return playerPointID.toString();
-    } catch (const char *msg) {
-        throw msg;
-    }
 }
 
 int LocalDart::playersCount()
@@ -232,14 +233,18 @@ QString LocalDart::currentActivePlayerFullName()
     return fullName;
 }
 
-QString LocalDart::currentPlayerPoint()
+QString LocalDart::currentPlayerPoint(const int &hint)
 {
-    auto currentTournamentID =  currentActiveTournamentID();
-    auto currentPlayerID = _gameController->currentActivePlayer().toString();
-    auto currentRoundIndex = currentGameRoundIndex();
-    auto currentLegIndex = currentGameLegIndex();
-    auto currentPointID = playerPoint(currentTournamentID,currentPlayerID,currentRoundIndex,currentLegIndex);
-    return currentPointID;
+    try {
+        auto currentTournamentID =  currentActiveTournamentID();
+        auto currentPlayerID = _gameController->currentActivePlayer().toString();
+        auto currentRoundIndex = currentGameRoundIndex();
+        auto currentLegIndex = currentGameLegIndex();
+        auto currentPointID = _dataContext->playerPoint(currentTournamentID,currentPlayerID,currentRoundIndex,currentLegIndex, hint);
+        return currentPointID.toString();
+    } catch (const char *msg) {
+        return "";
+    }
 }
 
 int LocalDart::currentGameRoundIndex()
@@ -294,7 +299,8 @@ int LocalDart::undoTurn()
     try {
         _gameController->undoTurn();
         auto currentPointID = currentPlayerPoint();
-        _dataContext->removePlayerPointAndRelatives(QUuid::fromString(currentPointID));
+        _dataContext->setPointHint(currentPointID,LocalDataContext::HiddenHint);
+        //_dataContext->removePlayerPointAndRelatives(QUuid::fromString(currentPointID));
     } catch (const char *msg) {
         return Status::OperationUnSuccesfull;
     }
@@ -305,7 +311,9 @@ int LocalDart::redoTurn()
 {
     QUuid id;
     try {
+        auto currentPointID = currentPlayerPoint(LocalDataContext::allHints);
         id = _gameController->redoTurn();
+        _dataContext->setPointHint(currentPointID,LocalDataContext::DisplayHint);
     } catch (const char *msg) {
         return Status::OperationUnSuccesfull;
     }

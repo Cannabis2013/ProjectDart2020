@@ -1,12 +1,8 @@
 #include "localdatacontext.h"
 
-LocalDataContext::LocalDataContext()
-{
-}
-
 QUuid LocalDataContext::createTournament(const QString &title, const int &maxPlayers, const int &keyPoint, const int &legs, const int &gameMode)
 {
-    auto tournament = tournamentBuilder()->buildModel([title,maxPlayers,keyPoint,legs,gameMode]{
+    auto tournament = tournamentBuilder()->buildModel([this,title,maxPlayers,keyPoint,legs,gameMode]{
         TournamentParameters params;
 
         params.title = title;
@@ -14,15 +10,11 @@ QUuid LocalDataContext::createTournament(const QString &title, const int &maxPla
         params.maxPlayers = maxPlayers;
         params.keyPoint = keyPoint;
         params.gameMode = gameMode;
-
+        params.tournamentsCount = this->tournamentsCount();
         return params;
-    }(),[this]{
+    }(),[]{
         ModelOptions options;
-
         options.generateUniqueId = true;
-
-        options.tournamentsCount = this->tournamentsCount();
-
         return options;
     }());
 
@@ -534,7 +526,7 @@ QList<QUuid> LocalDataContext::tournamentSetsID(const QUuid &tournament, const i
     return resultingList;
 }
 
-QUuid LocalDataContext::set(const QUuid &tournament, const int &roundIndex, const int &setIndex) const
+QUuid LocalDataContext::setID(const QUuid &tournament, const int &roundIndex, const int &setIndex) const
 {
     auto sets = this->tournamentSetsID(tournament,roundIndex);
     for (auto s : sets) {
@@ -648,55 +640,81 @@ QList<QUuid> LocalDataContext::points(const QUuid &tournament, const QUuid &roun
     return resultingList;
 }
 
-QUuid LocalDataContext::addPoint(const QUuid &tournament, const int &roundIndex, const int &setIndex, const int &legIndex, const int &point, const QUuid &player)
+QUuid LocalDataContext::addPoint(const QUuid &tournament,const QUuid &player, const int &roundIndex, const int &setIndex, const int &legIndex, const int &point)
 {
-    auto model = pointBuilder()->buildModel(
-                [this,tournament,roundIndex,setIndex,legIndex,point,player]
-    {
+    try {
+        auto pointID = playerPoint(tournament,player,roundIndex,legIndex,HiddenHint);
+        editPointValue(pointID,point,DisplayHint);
+        return pointID;
+
+    } catch (...) {
+        auto model = pointBuilder()->buildModel(
+                    [this,tournament,roundIndex,setIndex,legIndex,point,player]
+        {
+            PointParameters params;
+            auto setId = this->setID(tournament,roundIndex,setIndex);
+            params.setId = setId;
+            params.playerId = player;
+            params.pointValue = point;
+            params.legIndex = legIndex;
+
+            return params;
+        }(),ModelOptions());
+
+        _points.append(model);
+
+        return model->id();
+    }
+}
+
+QUuid LocalDataContext::setPointHint(const QUuid &point, const int &hint)
+{
+    auto pointModel = getPointFromID(point);
+    auto model = pointBuilder()->buildModel([pointModel]{
         PointParameters params;
-        auto setId = this->set(tournament,roundIndex,setIndex);
-        params.setId = setId;
-        params.playerId = player;
-        params.pointValue = point;
-        params.legIndex = legIndex;
-
+        params.id = pointModel->id();
+        params.pointValue = pointModel->point();
+        params.legIndex = pointModel->legIndex();
+        params.setId = pointModel->parent();
+        params.playerId = pointModel->player();
         return params;
-    }(),ModelOptions());
-
-    _points.append(model);
-
+    }(),[hint]{
+        ModelOptions options;
+        options.generateUniqueId = false;
+        options.modelHint = hint;
+        return options;
+    }());
+    int index = _points.indexOf(pointModel);
+    _points.replace(index,model);
     return model->id();
 }
 
-QUuid LocalDataContext::alterPointValue(const QUuid &pointId, const int &value)
+QUuid LocalDataContext::editPointValue(const QUuid &pointId, const int &value, const int &hint)
 {
-    auto model = getPointFromID(pointId);
+    auto oldPointModel = getPointFromID(pointId);
 
-    auto newModel = pointBuilder()->buildModel(
-                [model, value]
+    auto newPointModel = pointBuilder()->buildModel(
+                [oldPointModel, value]
     {
         PointParameters params;
-
-        params.id = model->id();
-        params.setId = model->parent();
+        params.id = oldPointModel->id();
+        params.setId = oldPointModel->parent();
         params.pointValue = value;
-        params.playerId = model->player();
-
+        params.playerId = oldPointModel->player();
+        params.legIndex = oldPointModel->legIndex();
         return params;
-    }(),[]
+    }(),[hint]
     {
         ModelOptions options;
-
         options.generateUniqueId = false;
-
+        options.modelHint = hint;
         return options;
     }());
 
-    removePointModel(model->id());
+    int index = _points.indexOf(oldPointModel);
+    _points.replace(index,newPointModel);
 
-    _points.append(newModel);
-
-    return newModel->id();
+    return newPointModel->id();
 }
 
 QUuid LocalDataContext::alterPointPlayer(const QUuid &pointId, const QUuid &playerId)
@@ -748,7 +766,9 @@ int LocalDataContext::pointLeg(const QUuid &point) const
 
 int LocalDataContext::pointValue(const QUuid &point) const
 {
-    return getPointFromID(point)->point();
+    auto pointModel = getPointFromID(point);
+    auto pointValue = pointModel->point();
+    return pointValue;
 }
 
 QUuid LocalDataContext::pointPlayer(const QUuid &point) const
@@ -756,29 +776,43 @@ QUuid LocalDataContext::pointPlayer(const QUuid &point) const
     return getPointFromID(point)->player();
 }
 
-QList<QUuid> LocalDataContext::playerPoints(const QUuid &player) const
+int LocalDataContext::pointHint(const QUuid &playerPoint) const
 {
-    QList<QUuid> resultingList;
-
-    for (auto point : _points) {
-        if(point->player() == player)
-            resultingList << player;
+    try {
+        auto pointModel = getPointFromID(playerPoint);
+        auto hint = pointModel->hint();
+        return hint;
+    } catch (const char *msg) {
+        throw msg;
     }
 
+}
+
+QList<QUuid> LocalDataContext::pointModels(const QUuid &player) const
+{
+    QList<QUuid> resultingList;
+    for (auto point : _points) {
+        auto pointID = point->id();
+        if(point->player() == player)
+            resultingList << pointID;
+    }
     return resultingList;
 }
 
-QList<QUuid> LocalDataContext::playerPoints(const QUuid &tournament, const QUuid &player) const
+QList<QUuid> LocalDataContext::playerPoints(const QUuid &tournament, const QUuid &player, const int &hint) const
 {
     QList<QUuid> resultingList;
     auto totalPoints = points(tournament);
     for (auto pointID : totalPoints) {
         auto model = getPointFromID(pointID);
+        auto modelHint = pointHint(pointID);
+        if(modelHint != hint && hint != allHints)
+            continue;
         auto pointPlayer = model->player();
-        if(pointPlayer == player)
-            resultingList << pointID;
+        if(pointPlayer != player)
+            continue;
+        resultingList << pointID;
     }
-
     return resultingList;
 }
 
@@ -814,26 +848,25 @@ DefaultDataInterface *LocalDataContext::setTournamentBuilder(ITournamentBuilder 
     return this;
 }
 
-QUuid LocalDataContext::playerPoint(const QUuid &tournament, const QUuid &player, int roundIndex, int legIndex)
+QUuid LocalDataContext::playerPoint(const QUuid &tournament, const QUuid &player, const int &roundIndex, const int &legIndex, const int &hint)
 {
     auto tournamentPoints = points(tournament);
     for (auto pointID : tournamentPoints) {
-        auto playerID = pointPlayer(pointID);
+        auto pointModel = getPointFromID(pointID);
+        auto modelHint = pointModel->hint();
+        auto playerID = pointModel->player();
         if(playerID != player)
             continue;
-
         auto leg = pointLeg(pointID);
         if(leg != legIndex)
             continue;
-
         auto setID = pointSet(pointID);
-
         auto round = setRound(setID);
         auto rIndex = this->roundIndex(round);
-
         if(rIndex != roundIndex)
             continue;
-
+        if(modelHint != hint && hint != allHints)
+            continue;
         return pointID;
     }
 

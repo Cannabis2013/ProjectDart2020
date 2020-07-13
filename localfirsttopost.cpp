@@ -179,21 +179,17 @@ QUuid LocalFirstToPost::redoTurn()
     if(_turnIndex >= _totalTurns)
         throw UNABLE_TO_ALTER_TURN;
 
-    if(_legIndex < _numberOfLegs)
-        _legIndex++;
-    else
+    if(++_legIndex >= _numberOfLegs)
+    {
         _legIndex = 0;
-
-    if(_setIndex == lastPlayerIndex())
-    {
-        _setIndex = 0;
-        _roundIndex++;
+        if(_setIndex == lastPlayerIndex())
+        {
+            _setIndex = 0;
+            _roundIndex++;
+        }
+        else
+            _setIndex++;
     }
-    else
-    {
-        _setIndex++;
-    }
-
     _turnIndex++;
 
     return _assignedPlayers.value(_setIndex);
@@ -211,7 +207,7 @@ bool LocalFirstToPost::canRedoTurn()
 
 int LocalFirstToPost::score(const QUuid &player)
 {
-    auto playerScore = _dataContext->playerPoints(currentTournament(),player);
+    auto playerScore = _dataContext->playerPoints(currentTournament(),player, LocalDataContext::DisplayHint);
     int totalScore = _keyPoint;
     for (auto scoreID : playerScore) {
         auto point = _dataContext->pointValue(scoreID);
@@ -267,11 +263,11 @@ QUuid LocalFirstToPost::addPoint(const int &point)
     auto legIndex = currentLegIndex();
 
     auto pointID = dataContext()->addPoint(tournamentID,
+                                           playerID,
                                            roundIndex,
                                            setIndex,
                                            legIndex,
-                                           point,
-                                           playerID);
+                                           point);
     return pointID;
 }
 
@@ -294,7 +290,7 @@ void LocalFirstToPost::initializeIndexes(const QUuid &tournament)
     {
         auto playerID = _assignedPlayers.at(setIndex);
         try {
-            _dataContext->playerPoint(tournament,playerID,roundIndex,legIndex);
+            _dataContext->playerPoint(tournament,playerID,roundIndex,legIndex,LocalDataContext::DisplayHint);
         } catch (const char *msg) {
             break;
         }
@@ -350,7 +346,7 @@ void LocalFirstToPost::nextTurn()
 
 int LocalFirstToPost::sum(const int &pointValue)
 {
-    auto pointIds = _dataContext->playerPoints(_tournament,currentActivePlayer());
+    auto pointIds = _dataContext->playerPoints(_tournament,currentActivePlayer(),LocalDataContext::DisplayHint);
 
     int sum = pointValue;
 
@@ -362,7 +358,7 @@ int LocalFirstToPost::sum(const int &pointValue)
 
 int LocalFirstToPost::sum(const QUuid &player)
 {
-    auto pointIds = _dataContext->playerPoints(_tournament,player);
+    auto pointIds = _dataContext->playerPoints(_tournament,player,LocalDataContext::DisplayHint);
 
     int sum = 0;
     for (auto pointId : pointIds)
@@ -373,7 +369,7 @@ int LocalFirstToPost::sum(const QUuid &player)
 
 int LocalFirstToPost::sum()
 {
-    auto pointIds = dataContext()->playerPoints(currentTournament(),currentActivePlayer());
+    auto pointIds = dataContext()->playerPoints(currentTournament(),currentActivePlayer(),LocalDataContext::DisplayHint);
 
     int sum = 0;
     for (auto pointId : pointIds)

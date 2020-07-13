@@ -24,6 +24,14 @@ struct TournamentParameters
     QUuid id;
     QString title;
     QList<QUuid> playerIdentities;
+
+    QString defaultTitle = "Tournament";
+    int defaultLegCount = 3;
+    int defaultMaxPlayerCount = 24;
+    int defaultKeyPoint = 501;
+    int defaultGameMode = 0x0;
+    int initialStatus = 0xc;
+    int tournamentsCount = 0;
 };
 
 struct RoundParameters
@@ -42,6 +50,7 @@ struct SetParameters
 
 struct PointParameters
 {
+    char* t;
     int pointValue;
     int legIndex;
     QUuid playerId;
@@ -54,15 +63,7 @@ struct ModelOptions
     bool generateUniqueId = true;
     bool customUuid = false;
 
-    QString defaultTitle = "Tournament";
-    int defaultLegCount = 3;
-    int defaultMaxPlayerCount = 24;
-    int defaultKeyPoint = 501;
-    int defaultGameMode = 0x0;
-    int initialStatus = 0xc;
-
-    int tournamentsCount = 0;
-
+    int modelHint = 0x2;
 };
 
 #endif // MODELBUILDERCONTEXT_H
