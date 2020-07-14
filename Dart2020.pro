@@ -41,6 +41,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     abstractdartinterface.h \
+    abstractpersistence.h \
     gamemodelscontext.h \
     idatacontext.h \
     idatamodelbuilder.h \

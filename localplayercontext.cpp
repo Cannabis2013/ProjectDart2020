@@ -1,7 +1,11 @@
 #include "localplayercontext.h"
 LocalPlayerContext::LocalPlayerContext()
 {
+    _playerBuilder = new LocalPlayerBuilder();
 
+    createPlayer("Kent","KillerHertz","",0x2);
+    createPlayer("Martin","Hansen","",0x2);
+    createPlayer("William","Worsøe","",0x2);
 }
 
 QUuid LocalPlayerContext::createPlayer(const QString &firstName, const QString &lastName, const QString &email, const int &role)
@@ -86,6 +90,17 @@ QUuid LocalPlayerContext::playerIDFromFullName(const QString &fullName) const
         return model->id();
     } catch (const char *msg) {
         throw msg;
+    }
+}
+
+QUuid LocalPlayerContext::playerIDFromIndex(const int &index) const
+{
+    try {
+        auto model = _models.at(index);
+        auto modelID = model->id();
+        return modelID;
+    } catch (...) {
+        throw "Model not found";
     }
 }
 

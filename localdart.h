@@ -5,7 +5,6 @@
 #include "abstractdartinterface.h"
 #include "pointlogisticmanager.h"
 #include "localplayercontext.h"
-#include "localplayerbuilder.h"
 #include <quuid.h>
 #include <qstring.h>
 #include <qlist.h>

@@ -1,5 +1,20 @@
 #include "localdatacontext.h"
 
+LocalDataContext::LocalDataContext(const QString &org, const QString &app):
+    AbstractPersistence(org,app)
+{
+    createTournament("Kents turnering",5,501,3,0x1);
+    createTournament("Techno Tonnys turnering",5,501,3,0x1);
+}
+
+void LocalDataContext::read()
+{
+}
+
+void LocalDataContext::write()
+{
+}
+
 QUuid LocalDataContext::createTournament(const QString &title, const int &maxPlayers, const int &keyPoint, const int &throws, const int &gameMode)
 {
     auto tournament = tournamentBuilder()->buildModel([this,title,maxPlayers,keyPoint,throws,gameMode]{
@@ -20,9 +35,7 @@ QUuid LocalDataContext::createTournament(const QString &title, const int &maxPla
 
     _tournaments.append(tournament);
 
-
     return tournament->id();
-
 }
 
 void LocalDataContext::deleteTournament(const QUuid &tournament)
@@ -30,11 +43,10 @@ void LocalDataContext::deleteTournament(const QUuid &tournament)
     removeTournamentModel(tournament);
 }
 
-QUuid LocalDataContext::tournamentID(const int &index) const
+QUuid LocalDataContext::tournamentIDFromIndex(const int &index) const
 {
     auto tournament = _tournaments.at(index);
     auto id = tournament->id();
-
     return id;
 }
 
@@ -139,22 +151,21 @@ void LocalDataContext::alterTournamentTitle(const QUuid &tournament, const QStri
 
 void LocalDataContext::alterTournamentNumberOfLegs(const QUuid &tournament, const int &value)
 {
-    auto model = getTournamentFromID(tournament);
-
+    auto oldModel = getTournamentFromID(tournament);
     auto newModel = tournamentBuilder()->buildModel(
-                [model, value]
+                [oldModel, value]
     {
         TournamentParameters params;
 
-        params.id = model->id();
-        params.title = model->title();
-        params.status = model->status();
-        params.gameMode = model->gameMode();
-        params.keyPoint = model->keyPoint();
-        params.maxPlayers = model->numberOfMaxAllowedPlayers();
-        params.playerIdentities = model->assignedPlayerIdentities();
+        params.id = oldModel->id();
+        params.title = oldModel->title();
+        params.status = oldModel->status();
+        params.gameMode = oldModel->gameMode();
+        params.keyPoint = oldModel->keyPoint();
+        params.maxPlayers = oldModel->numberOfMaxAllowedPlayers();
+        params.playerIdentities = oldModel->assignedPlayerIdentities();
         params.numberOfLegs = value;
-        params.winner = model->winner();
+        params.winner = oldModel->winner();
 
         return params;
     }(),[]
@@ -165,31 +176,26 @@ void LocalDataContext::alterTournamentNumberOfLegs(const QUuid &tournament, cons
 
         return options;
     }());
-
-    removeTournamentModel(model->id());
-
-    _tournaments.append(newModel);
+    auto index = _tournaments.indexOf(oldModel);
+    _tournaments.replace(index,newModel);
 }
 
 void LocalDataContext::alterTournamentMaxPlayers(const QUuid &tournament, const int &value)
 {
-    auto model = getTournamentFromID(tournament);
-
+    auto oldModel = getTournamentFromID(tournament);
     auto newModel = tournamentBuilder()->buildModel(
-                [model, value]
+                [oldModel, value]
     {
         TournamentParameters params;
-
-        params.id = model->id();
-        params.title = model->title();
-        params.status = model->status();
-        params.gameMode = model->gameMode();
-        params.keyPoint = model->keyPoint();
+        params.id = oldModel->id();
+        params.title = oldModel->title();
+        params.status = oldModel->status();
+        params.gameMode = oldModel->gameMode();
+        params.keyPoint = oldModel->keyPoint();
         params.maxPlayers = value;
-        params.playerIdentities = model->assignedPlayerIdentities();
-        params.numberOfLegs = model->numberOfThrows();
-        params.winner = model->winner();
-
+        params.playerIdentities = oldModel->assignedPlayerIdentities();
+        params.numberOfLegs = oldModel->numberOfThrows();
+        params.winner = oldModel->winner();
         return params;
     }(),[]
     {
@@ -199,32 +205,27 @@ void LocalDataContext::alterTournamentMaxPlayers(const QUuid &tournament, const 
 
         return options;
     }());
-
-    removeTournamentModel(model->id());
-
-
-    _tournaments.append(newModel);
+    auto index = _tournaments.indexOf(oldModel);
+    _tournaments.replace(index,newModel);
 }
 
 void LocalDataContext::tournamentAddPlayer(const QUuid &tournament, const QUuid &player)
 {
-    auto model = getTournamentFromID(tournament);
-
-    auto pList = model->assignedPlayerIdentities();
-
+    auto oldModel = getTournamentFromID(tournament);
+    auto pList = oldModel->assignedPlayerIdentities();
     pList.append(player);
     auto newModel = tournamentBuilder()->buildModel(
-                [model, pList]
+                [oldModel, pList]
     {
         TournamentParameters params;
-        params.id = model->id();
-        params.title = model->title();
-        params.status = model->status();
-        params.gameMode = model->gameMode();
-        params.keyPoint = model->keyPoint();
-        params.maxPlayers = model->numberOfMaxAllowedPlayers();
-        params.numberOfLegs = model->numberOfThrows();
-        params.winner = model->winner();
+        params.id = oldModel->id();
+        params.title = oldModel->title();
+        params.status = oldModel->status();
+        params.gameMode = oldModel->gameMode();
+        params.keyPoint = oldModel->keyPoint();
+        params.maxPlayers = oldModel->numberOfMaxAllowedPlayers();
+        params.numberOfLegs = oldModel->numberOfThrows();
+        params.winner = oldModel->winner();
         params.playerIdentities = pList;
         return params;
     }(),[]
@@ -233,48 +234,38 @@ void LocalDataContext::tournamentAddPlayer(const QUuid &tournament, const QUuid 
         options.generateUniqueId = false;
         return options;
     }());
-
-    removeTournamentModel(model->id());
-
-    _tournaments.append(newModel);
+    auto index = _tournaments.indexOf(oldModel);
+    _tournaments.replace(index,newModel);
 }
 
 void LocalDataContext::tournamentRemovePlayer(const QUuid &tournament, const QUuid &player)
 {
-    auto model = getTournamentFromID(tournament);
-
-    auto pList = model->assignedPlayerIdentities();
+    auto oldModel = getTournamentFromID(tournament);
+    auto pList = oldModel->assignedPlayerIdentities();
     pList.removeOne(player);
-
     auto newModel = tournamentBuilder()->buildModel(
-                [model, pList]
+                [oldModel, pList]
     {
         TournamentParameters params;
-
-        params.id = model->id();
-        params.title = model->title();
-        params.status = model->status();
-        params.gameMode = model->gameMode();
-        params.keyPoint = model->keyPoint();
-        params.maxPlayers = model->numberOfMaxAllowedPlayers();
-        params.playerIdentities = model->assignedPlayerIdentities();
-        params.numberOfLegs = model->numberOfThrows();
-        params.winner = model->winner();
+        params.id = oldModel->id();
+        params.title = oldModel->title();
+        params.status = oldModel->status();
+        params.gameMode = oldModel->gameMode();
+        params.keyPoint = oldModel->keyPoint();
+        params.maxPlayers = oldModel->numberOfMaxAllowedPlayers();
+        params.playerIdentities = oldModel->assignedPlayerIdentities();
+        params.numberOfLegs = oldModel->numberOfThrows();
+        params.winner = oldModel->winner();
         params.playerIdentities = pList;
-
         return params;
     }(),[]
     {
         ModelOptions options;
-
         options.generateUniqueId = false;
-
         return options;
     }());
-
-    removeTournamentModel(model->id());
-
-    _tournaments.append(newModel);
+    auto index = _tournaments.indexOf(oldModel);
+    _tournaments.replace(index,newModel);
 }
 
 void LocalDataContext::removeTournament(const QUuid &tournament)
@@ -291,36 +282,29 @@ void LocalDataContext::removeTournament(const QUuid &tournament)
 
 void LocalDataContext::alterTournamentGameMode(const QUuid &tournament, const int &mode)
 {
-    auto model = getTournamentFromID(tournament);
-
+    auto oldModel = getTournamentFromID(tournament);
     auto newModel = tournamentBuilder()->buildModel(
-                [model, mode]
+                [oldModel, mode]
     {
         TournamentParameters params;
-
-        params.id = model->id();
-        params.title = model->title();
-        params.status = model->status();
+        params.id = oldModel->id();
+        params.title = oldModel->title();
+        params.status = oldModel->status();
         params.gameMode = mode;
-        params.keyPoint = model->keyPoint();
-        params.maxPlayers = model->numberOfMaxAllowedPlayers();
-        params.playerIdentities = model->assignedPlayerIdentities();
-        params.numberOfLegs = model->numberOfThrows();
-        params.winner = model->winner();
-
+        params.keyPoint = oldModel->keyPoint();
+        params.maxPlayers = oldModel->numberOfMaxAllowedPlayers();
+        params.playerIdentities = oldModel->assignedPlayerIdentities();
+        params.numberOfLegs = oldModel->numberOfThrows();
+        params.winner = oldModel->winner();
         return params;
     }(),[]
     {
         ModelOptions options;
-
         options.generateUniqueId = false;
-
         return options;
     }());
-
-    removeTournamentModel(model->id());
-
-    _tournaments.append(newModel);
+    auto index = _tournaments.indexOf(oldModel);
+    _tournaments.replace(index,newModel);
 }
 
 void LocalDataContext::alterTournamentKeyPoint(const QUuid &tournament, const int &value)
@@ -419,24 +403,17 @@ QUuid LocalDataContext::addRound(const QUuid &tournament, const int &index)
                 [tournament,index]
     {
         RoundParameters params;
-
         params.tournamentId = tournament;
         params.roundIndex = index;
-
         return params;
     }(),[]
     {
         ModelOptions options;
-
         options.generateUniqueId = true;
-
         return options;
     }());
-
     auto roundId = round->id();
-
     _rounds.append(round);
-
     return roundId;
 }
 

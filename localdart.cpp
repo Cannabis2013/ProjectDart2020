@@ -3,9 +3,7 @@
 LocalDart::LocalDart()
 {
     _playerContext = new LocalPlayerContext();
-    _dataContext = new LocalDataContext();
-
-    _playerContext->setPlayerBuilder(new LocalPlayerBuilder);
+    _dataContext = new LocalDataContext("MHApps","Dart2020_WIP");
 
     createInitialModels();
 }
@@ -351,18 +349,28 @@ int LocalDart::score(const QString &player)
 
 void LocalDart::createInitialModels()
 {
-    auto kent = _playerContext->createPlayer("Kent","KillerHertz","",0x2);
-    auto martin = _playerContext->createPlayer("Martin","Hansen","",0x2);
-    auto william = _playerContext->createPlayer("William","Worsøe","",0x2);
+    auto kent = _playerContext->playerIDFromFullName("Kent KillerHertz");
+    auto martin = _playerContext->playerIDFromFullName("Martin Hansen");
+    auto william = _playerContext->playerIDFromFullName("William Worsøe");
 
-    auto tournament = _dataContext->createTournament("Kents turnering",5,501,3,0x1);
-    _dataContext->tournamentAddPlayer(tournament,kent);
-    _dataContext->tournamentAddPlayer(tournament,martin);
+    auto count = _dataContext->tournamentsCount();
 
-    tournament = _dataContext->createTournament("Techno Tonnys turnering",5,501,3,0x1);
-    _dataContext->tournamentAddPlayer(tournament,kent);
-    _dataContext->tournamentAddPlayer(tournament,martin);
-    _dataContext->tournamentAddPlayer(tournament,william);
+    for (int i = 0; i < count; ++i) {
+        auto tournamentID = _dataContext->tournamentIDFromIndex(i);
+        if(i == 0)
+        {
+            _dataContext->tournamentAddPlayer(tournamentID,kent);
+            _dataContext->tournamentAddPlayer(tournamentID,martin);
+        }
+        else if(i == 1)
+        {
+            _dataContext->tournamentAddPlayer(tournamentID,kent);
+            _dataContext->tournamentAddPlayer(tournamentID,martin);
+            _dataContext->tournamentAddPlayer(tournamentID,william);
+        }
+    }
+
+
 }
 
 void LocalDart::assignPlayer(const QString &player, const QString &tournament)

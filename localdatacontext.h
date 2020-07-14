@@ -6,6 +6,8 @@
 #include <qstring.h>
 #include <qlist.h>
 
+#include "abstractpersistence.h"
+
 #include "modelbuildercollection.h"
 
 #define THROW_OBJECT_WITH_ID_NOT_FOUND(x) QString("Model with ID: '%1' does not exists in the current context").arg(x).toStdString();
@@ -13,9 +15,18 @@
 
 typedef IDataContext<QUuid,QList<QUuid>,QString,ITournamentBuilder> DefaultDataInterface;
 
-class LocalDataContext : public DefaultDataInterface
+class LocalDataContext : public DefaultDataInterface, private AbstractPersistence
 {
 public:
+    LocalDataContext(const QString &org, const QString &app);
+    /*
+     * AbstractPersistence interface
+     */
+    void read() override;
+    void write() override;
+    /*
+     * Public constructor
+     */
     /*
      * Public types
      */
@@ -29,7 +40,7 @@ public:
                            const int &throws,
                            const int &gameMode) override;
     void deleteTournament(const QUuid &tournament) override;
-    QUuid tournamentID(const int &index) const override;
+    QUuid tournamentIDFromIndex(const int &index) const override;
     QList<QUuid> tournaments() const override;
     int tournamentsCount() const override;
     QString tournamentTitle(const QUuid &tournament) const override;
@@ -126,5 +137,13 @@ private:
     QList<const DefaultSetInterface *> _sets;
     QList<const DefaultPointInterface*> _points;
 };
+
+
+
+
+
+
+
+
 
 #endif // LOCALDATACONTEXT_H
