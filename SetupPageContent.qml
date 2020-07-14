@@ -46,7 +46,7 @@ Content {
             Layout.fillWidth: true
             height: 32
             fontSize: 12
-            labelText: "Number of legs"
+            labelText: "Number of throws"
             labelFontSize: 8
             labelFontColor: "darkblue"
             labelBackgroundColor: "lightblue"
@@ -127,12 +127,12 @@ Content {
             buttonTwoTitle: "Save and play"
             onButtonOneClicked: {
                 var tournamentTitle = titleEdit.currentText;
-                var legs = legsEdit.currentText;
+                var numberOfThrows = legsEdit.currentText;
                 var maxPlayers = maxPlayerEdit.currentText;
                 var keyPoint = keyPointEdit.currentText;
                 var gameModeString = gameModeSelector.currentText;
                 var gameMode = localDart.gameModeFromString(gameModeString);
-                var createdTournament = localDart.createTournament(tournamentTitle,legs,maxPlayers,gameMode,keyPoint);
+                var createdTournament = localDart.createTournament(tournamentTitle,numberOfThrows,maxPlayers,gameMode,keyPoint);
                 var selectedIndexes = playersListView.currentlySelectedIndexes;
                 // Add selected players to tournament
                 for(var i = 0;i < selectedIndexes.length;i++)

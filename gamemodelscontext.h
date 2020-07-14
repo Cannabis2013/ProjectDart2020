@@ -39,8 +39,8 @@ public:
     virtual void setAssignedPlayerIdentities(const TList &playerIdentities) = 0;
     virtual void assignPlayerIdentity(const QUuid &identity) = 0;
 
-    virtual int numberOfLegs() const = 0;
-    virtual void setNumberOfLegs(const int &val) = 0;
+    virtual int numberOfThrows() const = 0;
+    virtual void setNumberOfThrows(const int &val) = 0;
 
     virtual int gameMode() const = 0;
     virtual void setGameMode(const int &val) = 0;

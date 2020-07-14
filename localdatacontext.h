@@ -26,14 +26,14 @@ public:
     QUuid createTournament(const QString &title,
                            const int &maxPlayers,
                            const int &keyPoint,
-                           const int &legs,
+                           const int &throws,
                            const int &gameMode) override;
     void deleteTournament(const QUuid &tournament) override;
     QUuid tournamentID(const int &index) const override;
     QList<QUuid> tournaments() const override;
     int tournamentsCount() const override;
     QString tournamentTitle(const QUuid &tournament) const override;
-    int tournamentNumberOfLegs(const QUuid &tournament) const override;
+    int tournamentNumberOfThrows(const QUuid &tournament) const override;
     int tournamentMaximumAllowedPlayers(const QUuid &tournament) const override;
     QList<QUuid> tournamentAssignedPlayers(const QUuid &tournament) const override;
     int tournamentGameMode(const QUuid &tournament) const override;
@@ -96,6 +96,7 @@ public:
     void removePlayerPointAndRelatives(const QUuid &point) override;
     DefaultDataInterface *setTournamentBuilder(ITournamentBuilder *builder) override;
     ITournamentBuilder *tournamentBuilder() const override;
+    int playerPointsCount(const int &hint) const override;
 
 private:
     QList<QUuid> pointModels(const QUuid &player) const;

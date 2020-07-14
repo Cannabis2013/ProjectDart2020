@@ -7,7 +7,7 @@ class IDataContext
 public:
     virtual TUuid createTournament(const TString &title, const int &maxPlayers,
                                    const int &keyPoint, 
-                                   const int &legs, 
+                                   const int &throws,
                                    const int &gameMode) = 0;
 
     virtual void deleteTournament(const TUuid &tournament) = 0;
@@ -15,7 +15,7 @@ public:
     virtual int tournamentsCount() const = 0;
     virtual TUuid tournamentID(const int &index) const = 0;
     virtual TString tournamentTitle(const TUuid &tournament) const = 0;
-    virtual int tournamentNumberOfLegs(const TUuid &tournament) const = 0;
+    virtual int tournamentNumberOfThrows(const TUuid &tournament) const = 0;
     virtual int tournamentMaximumAllowedPlayers(const TUuid &tournament) const = 0;
     virtual TList tournamentAssignedPlayers(const TUuid &tournament) const = 0;
     virtual int tournamentGameMode(const TUuid &tournament) const = 0;
@@ -74,6 +74,7 @@ public:
     virtual TList playerPoints(const TUuid &tournament, const TUuid &player, const int &hint) const = 0;
     virtual bool removePlayerPoint(const TUuid &point) = 0;
     virtual void removePlayerPointAndRelatives(const TUuid &point) = 0;
+    virtual int playerPointsCount(const int &hint) const = 0;
     /*
      * Builders
      */

@@ -54,7 +54,7 @@ int LocalDart::tournamentLegsCount(const QString &id)
 {
     auto stringID = QUuid::fromString(id);
 
-    auto legsCount = _dataContext->tournamentNumberOfLegs(stringID);
+    auto legsCount = _dataContext->tournamentNumberOfThrows(stringID);
 
     return legsCount;
 }

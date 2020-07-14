@@ -47,7 +47,7 @@ public:
         model->setGameMode(gameMode);
         model->setStatus(status);
         model->setKeyPoint(keyPoint);
-        model->setNumberOfLegs(legCount);
+        model->setNumberOfThrows(legCount);
         model->setMaximumAllowedPlayers(maxPlayers);
         model->setAssignedPlayerIdentities(playerIdentitties);
 

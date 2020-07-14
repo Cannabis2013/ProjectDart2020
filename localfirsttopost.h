@@ -122,11 +122,11 @@ private:
     // Gamestate variables
     int _roundIndex = 0;
     int _setIndex = 0; // Defines player index
-    int _legIndex = 0;
+    int _throwIndex = 0; // Index of throw
     int _totalTurns = 0;
     int _turnIndex = 0;
 
-    int _numberOfLegs = 3;
+    int _numberOfThrows = 3;
 
     const int defaultKeyPoint = 501;
     int criticalLimit = 180;

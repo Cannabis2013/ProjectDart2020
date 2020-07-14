@@ -1,12 +1,12 @@
 #include "localdatacontext.h"
 
-QUuid LocalDataContext::createTournament(const QString &title, const int &maxPlayers, const int &keyPoint, const int &legs, const int &gameMode)
+QUuid LocalDataContext::createTournament(const QString &title, const int &maxPlayers, const int &keyPoint, const int &throws, const int &gameMode)
 {
-    auto tournament = tournamentBuilder()->buildModel([this,title,maxPlayers,keyPoint,legs,gameMode]{
+    auto tournament = tournamentBuilder()->buildModel([this,title,maxPlayers,keyPoint,throws,gameMode]{
         TournamentParameters params;
 
         params.title = title;
-        params.numberOfLegs = legs;
+        params.numberOfLegs = throws;
         params.maxPlayers = maxPlayers;
         params.keyPoint = keyPoint;
         params.gameMode = gameMode;
@@ -62,9 +62,9 @@ QString LocalDataContext::tournamentTitle(const QUuid &tournament) const
     return getTournamentFromID(tournament)->title();
 }
 
-int LocalDataContext::tournamentNumberOfLegs(const QUuid &tournament) const
+int LocalDataContext::tournamentNumberOfThrows(const QUuid &tournament) const
 {
-    return getTournamentFromID(tournament)->numberOfLegs();
+    return getTournamentFromID(tournament)->numberOfThrows();
 }
 
 int LocalDataContext::tournamentMaximumAllowedPlayers(const QUuid &tournament) const
@@ -119,7 +119,7 @@ void LocalDataContext::alterTournamentTitle(const QUuid &tournament, const QStri
         params.keyPoint = model->keyPoint();
         params.maxPlayers = model->numberOfMaxAllowedPlayers();
         params.playerIdentities = model->assignedPlayerIdentities();
-        params.numberOfLegs = model->numberOfLegs();
+        params.numberOfLegs = model->numberOfThrows();
         params.winner = model->winner();
 
         return params;
@@ -187,7 +187,7 @@ void LocalDataContext::alterTournamentMaxPlayers(const QUuid &tournament, const 
         params.keyPoint = model->keyPoint();
         params.maxPlayers = value;
         params.playerIdentities = model->assignedPlayerIdentities();
-        params.numberOfLegs = model->numberOfLegs();
+        params.numberOfLegs = model->numberOfThrows();
         params.winner = model->winner();
 
         return params;
@@ -223,7 +223,7 @@ void LocalDataContext::tournamentAddPlayer(const QUuid &tournament, const QUuid 
         params.gameMode = model->gameMode();
         params.keyPoint = model->keyPoint();
         params.maxPlayers = model->numberOfMaxAllowedPlayers();
-        params.numberOfLegs = model->numberOfLegs();
+        params.numberOfLegs = model->numberOfThrows();
         params.winner = model->winner();
         params.playerIdentities = pList;
         return params;
@@ -258,7 +258,7 @@ void LocalDataContext::tournamentRemovePlayer(const QUuid &tournament, const QUu
         params.keyPoint = model->keyPoint();
         params.maxPlayers = model->numberOfMaxAllowedPlayers();
         params.playerIdentities = model->assignedPlayerIdentities();
-        params.numberOfLegs = model->numberOfLegs();
+        params.numberOfLegs = model->numberOfThrows();
         params.winner = model->winner();
         params.playerIdentities = pList;
 
@@ -305,7 +305,7 @@ void LocalDataContext::alterTournamentGameMode(const QUuid &tournament, const in
         params.keyPoint = model->keyPoint();
         params.maxPlayers = model->numberOfMaxAllowedPlayers();
         params.playerIdentities = model->assignedPlayerIdentities();
-        params.numberOfLegs = model->numberOfLegs();
+        params.numberOfLegs = model->numberOfThrows();
         params.winner = model->winner();
 
         return params;
@@ -338,7 +338,7 @@ void LocalDataContext::alterTournamentKeyPoint(const QUuid &tournament, const in
         params.gameMode = model->gameMode();
         params.keyPoint = value;
         params.maxPlayers = model->numberOfMaxAllowedPlayers();
-        params.numberOfLegs = model->numberOfLegs();
+        params.numberOfLegs = model->numberOfThrows();
         params.playerIdentities = model->assignedPlayerIdentities();
         params.winner = model->winner();
 
@@ -372,7 +372,7 @@ void LocalDataContext::alterTournamentDeterminedWinner(const QUuid &tournament, 
         params.gameMode = model->gameMode();
         params.keyPoint = model->keyPoint();
         params.maxPlayers = model->numberOfMaxAllowedPlayers();
-        params.numberOfLegs = model->numberOfLegs();
+        params.numberOfLegs = model->numberOfThrows();
         params.playerIdentities = model->assignedPlayerIdentities();
         params.winner = player;
 
@@ -945,6 +945,16 @@ void LocalDataContext::removePointModel(const QUuid &point)
 ITournamentBuilder *LocalDataContext::tournamentBuilder() const
 {
     return _tournamentBuilder;
+}
+
+int LocalDataContext::playerPointsCount(const int &hint) const
+{
+    auto count = 0;
+    for (auto pointModel : _points) {
+        if(pointModel->hint() == hint || hint == allHints)
+            count++;
+    }
+    return count;
 }
 
 bool LocalDataContext::tournamentExists(const QUuid &tournament) const

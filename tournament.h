@@ -45,13 +45,13 @@ public:
     {
         _maxPlayers = val;
     }
-    int numberOfLegs() const override
+    int numberOfThrows() const override
     {
-        return _legs;
+        return _numberOfThrows;
     }
-    void setNumberOfLegs(const int &val) override
+    void setNumberOfThrows(const int &val) override
     {
-        _legs = val;
+        _numberOfThrows = val;
     }
     int gameMode() const override
     {
@@ -110,7 +110,7 @@ public:
 private:
     QString _title;
 
-    int _legs;
+    int _numberOfThrows;
     int _gameMode;
     int _keyPoint;
     int _status;
