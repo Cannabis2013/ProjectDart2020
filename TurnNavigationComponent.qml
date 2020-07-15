@@ -17,12 +17,6 @@ Item {
     onCurrentRoundIndexChanged: currentRoundLabel.text = textBeholder.currentRoundText + currentRoundIndex
     onCurrentPlayerChanged: currentPlayerLabel.text = currentPlayer
 
-    function refreshTurnKeys()
-    {
-        leftButton.enabled = localDart.undoPossible();
-        rightButton.enabled = localDart.redoPossible();
-    }
-
     function updateState(roundIndex, playerName, undoPossible, redoPossible)
     {
         currentRoundIndex  = roundIndex;

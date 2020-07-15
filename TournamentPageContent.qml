@@ -96,6 +96,8 @@ Content{
     Component.onCompleted: {
         localDart.sendRequestetTournament.connect(updateInterface)
         localDart.requestTournaments();
-        //TournamentPageScripts.updateInterface();
+    }
+    Component.onDestruction: {
+        localDart.sendRequestetTournament.disconnect(updateInterface)
     }
 }

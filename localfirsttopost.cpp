@@ -5,7 +5,6 @@ int LocalFirstToPost::start()
     _isActive = true;
     if(_roundIndex == 0){
         dataContext()->addRound(currentTournamentID(),++_roundIndex);
-        // TODO: Consider increment _setIndex when you pass it to the builder
         dataContext()->addSet(currentTournamentID(),_roundIndex,_setIndex);
     }
     _currentStatus = GameStatus::GameControllerRunning;
@@ -64,6 +63,7 @@ int LocalFirstToPost::processInput(const int &point)
         calculateThrowSuggestion();
     */
     emit sendControllerStatus(GameStatus::GameControllerAwaitsInput);
+    emit stateChanged();
 
     return status();
 }

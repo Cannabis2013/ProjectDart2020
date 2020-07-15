@@ -96,7 +96,7 @@ public:
     Q_INVOKABLE int gameStatus() override;
     Q_INVOKABLE int addPoint(const int &value) override;
     Q_INVOKABLE int score(const QString &player) override;
-    Q_INVOKABLE void requestPlayerScores() override;
+    Q_INVOKABLE void requestScoreBoardUpdate() override;
     Q_INVOKABLE void requestTournaments() override;
 
 private slots:

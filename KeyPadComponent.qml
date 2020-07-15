@@ -13,7 +13,7 @@ Rectangle {
 
     radius: 10
 
-    signal emitScore(int val)
+    signal sendInputValue(int val)
     signal enableKeyPad(bool enable)
     property bool enableKeys: false
     onEnableKeysChanged: {
@@ -45,7 +45,7 @@ Rectangle {
             score *= 3;
         }
 
-        emitScore(score);
+        sendInputValue(score);
     }
 
     function handleDoubleKeyPressed(check){

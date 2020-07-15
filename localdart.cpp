@@ -210,8 +210,8 @@ int LocalDart::setCurrentActiveTournament(const int &index)
         return Status::UnSuccess;
     else if(gameMode == GameModes::FirstToPost && _gameController == nullptr){
         _gameController = (new LocalFirstToPost())->setPointLogisticInterface(new LogisticContext::PointLogisticManager());
-        connect(_gameController,&AbstractControllerInterface::sendStatus,this,&AbstractDartInterface::sendControllerStatus);
         connect(_gameController,&AbstractControllerInterface::stateChanged,this,&LocalDart::handleStateChange);
+        connect(_gameController,&AbstractControllerInterface::sendControllerStatus,this,&AbstractDartInterface::sendStatus);
     }
     if(_dataContext == nullptr)
         return Status::ContextNotInitialized;
@@ -355,19 +355,27 @@ int LocalDart::score(const QString &player)
     return score;
 }
 
-void LocalDart::requestPlayerScores()
+void LocalDart::requestScoreBoardUpdate()
 {
     if(_gameController == nullptr)
     {
-        emit sendControllerStatus(Status::ModelNotFound);
+        emit sendStatus(Status::ModelNotFound);
         return;
     }
+
     auto currentTournamentID = _gameController->currentTournamentID();
+    auto currentGameMode = _dataContext->tournamentGameMode(currentTournamentID);
+    auto keyPoint = _dataContext->tournamentKeyPoint(currentTournamentID);
+    emit sendCurrentTournamentKeyPoint(keyPoint);
     auto numberOfThrows = _dataContext->tournamentNumberOfThrows(currentTournamentID);
     auto assignedPlayersID = _dataContext->tournamentAssignedPlayers(currentTournamentID);
     for (auto assignedPlayerID : assignedPlayersID) {
         auto roundIndex = 1;
         auto throwIndex = 0;
+        auto playerName = _playerContext->playerFullName(assignedPlayerID);
+        emit sendAssignedPlayerName(playerName);
+        if(currentGameMode == GameModes::FirstToPost)
+            emit sendPlayerScore(playerName,keyPoint);
         while (1)
         {
             QUuid pointID;
@@ -383,7 +391,6 @@ void LocalDart::requestPlayerScores()
             }
 
             auto score = _dataContext->playerScore(pointID);
-            auto playerName = _playerContext->playerFullName(assignedPlayerID);
             emit sendPlayerScore(playerName,score);
             if(throwIndex % numberOfThrows == 0)
             {

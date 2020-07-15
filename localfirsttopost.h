@@ -59,8 +59,6 @@ public:
 
     IPointLogisticManager<QString> *pointLogisticInterface() const;
     AbstractControllerInterface *setPointLogisticInterface(IPointLogisticManager<QString> *pointLogisticInterface);
-signals:
-    void sendControllerStatus(const int &status);
 private:
     /* Private types
      *

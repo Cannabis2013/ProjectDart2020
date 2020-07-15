@@ -1,6 +1,5 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
-import "gamePageContentScripts.js" as GamePageScripts
 
 Content {
     color: "transparent"
@@ -8,10 +7,15 @@ Content {
 
     onBackButtonPressed: localDart.stopGame()
 
-    signal updatePlayerScore(string playerName, int score)
-    onUpdatePlayerScore: scoreTable.appendData(playerName,score)
-
     signal updateInformationDisplay(string currentRound, string currentPlayer, bool canUndo, bool canRedo)
+    signal requestStart
+
+    signal sendInput(int value)
+
+    function handleStatus(status)
+    {
+
+    }
 
     GridLayout{
         id: componentLayout
@@ -23,9 +27,7 @@ Content {
             Layout.fillWidth: true
             height: 64
             Layout.alignment: Qt.AlignHCenter
-            onStartButtonClicked: GamePageScripts.initializeFromGameStatus()
-            onLeftButtonClicked: GamePageScripts.handleUndo()
-            onRightButtonClicked: GamePageScripts.handleRedo()
+            onStartButtonClicked: requestStart()
         }
         ScoreBoard{
             id: scoreTable
@@ -45,13 +47,18 @@ Content {
             Layout.minimumHeight: 128
             Layout.maximumHeight: 384
             Layout.alignment: Qt.AlignTop
-            onEmitScore: GamePageScripts.handleInput(val)
+            onSendInputValue: sendInput(val)
         }
         Rectangle{
             Layout.fillHeight: true
         }
     }
     Component.onCompleted: {
-        localDart.sendPlayerScore.connect(updatePlayerScore);
+        localDart.sendAssignedPlayerName.connect(scoreTable.appendHeader);
+        localDart.sendPlayerScore.connect(scoreTable.appendData);
+        localDart.sendInformalControllerValues.connect(turnNavigator.updateState);
+        localDart.sendCurrentTournamentKeyPoint.connect(scoreTable.setInitialValue);
+        localDart.requestScoreBoardUpdate();
+        scoreTable.setMinimumColumnsCount(4);
     }
 }

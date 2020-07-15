@@ -62,18 +62,20 @@ public:
     Q_INVOKABLE virtual bool redoPossible() = 0;
     Q_INVOKABLE virtual int gameStatus() = 0;
     Q_INVOKABLE virtual int score(const QString &player) = 0;
-    Q_INVOKABLE virtual void requestPlayerScores() = 0;
+    Q_INVOKABLE virtual void requestScoreBoardUpdate() = 0;
     Q_INVOKABLE virtual void requestTournaments() = 0;
 
 signals:
-    void sendControllerStatus(const int &status);
+    void sendStatus(const int &status);
     void sendPlayerScore(const QString &playerName, const int &score);
+    void sendAssignedPlayerName(const QString &playerName);
     void sendRequestetTournament(const QString &title,
                                  const int &numberOfThrows,
                                  const int &maxPlayers,
                                  const int &gameMode,
                                  const int &keyPoint,
                                  const int &playersCount);
+    void sendCurrentTournamentKeyPoint(const int &point);
     void sendInformalControllerValues(const int &roundIndex, const QString &playerName, const bool &undoAvailable, const bool &redoAvailable);
 
 };

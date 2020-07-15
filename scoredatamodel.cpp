@@ -82,15 +82,17 @@ void ScoreDataModel::appendHeaderItem(const QVariant &data, const int &headerOri
     if(orientation == Qt::Horizontal){
         if(_horizontalHeaderData.count() >= columnCount())
             insertColumns(_horizontalHeaderData.count(),1,QModelIndex());
+        else
+            emit dataChanged(QModelIndex(),QModelIndex());
         _horizontalHeaderData.append(data.toString());
     }
     else{
         if(_verticalHeaderData.count() >= rowCount())
             insertRows(_verticalHeaderData.count(),1,QModelIndex());
+        else
+            emit dataChanged(QModelIndex(),QModelIndex());
         _verticalHeaderData.append(data.toString());
     }
-
-    //emit dataChanged(QModelIndex(),QModelIndex());
 }
 
 void ScoreDataModel::clearData()
@@ -276,12 +278,14 @@ QVariant ScoreDataModel::data(const QModelIndex &index, int role) const
 {
     if(!index.isValid() || _cellData.count() <= 0)
         return QVariant();
-    auto dataRow = _cellData.at(index.row());
+    auto row = index.row();
+    auto column = index.column();
+    auto dataRow = _cellData.at(row);
     if(index.column() >= dataRow.count())
         return QVariant();
     if(role != Qt::DisplayRole)
         return QVariant();
-    auto data = dataRow.at(index.column());
+    auto data = dataRow.at(column);
     return data >= 0 ?
                 data :
                 QVariant("-");

@@ -32,7 +32,7 @@ public:
     }
 
 signals:
-    void sendStatus(const int &status);
+    void sendControllerStatus(const int &status);
     void stateChanged();
 
 private:
