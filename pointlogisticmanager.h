@@ -12,7 +12,7 @@ const int Bull = 25;
 const int BullsEye =  50;
 const int trippleMultiplier = 60;
 const int doubleMultiplier = 40;
-
+namespace LogisticContext {
 struct ScoreModel
 {
     QList<QChar> multiplier;
@@ -28,7 +28,7 @@ public:
     }
     QString constructThrowSuggestions(const int &remainingScore, const int &turnIndex) override
     {
-        ScoreModel *score = new ScoreModel();
+        auto score = new ScoreModel();
 
         bool isDeterministic;
 
@@ -238,5 +238,5 @@ private:
 
     int _legCount;
 };
-
+}
 #endif // SCORECONTROLLER_H

@@ -85,23 +85,24 @@ public:
     /*
      * Point related section
      */
-    QList<QUuid> points(const QUuid &tournament) const override;
-    QList<QUuid> points(const QUuid &tournament, const QUuid &roundID) const override;
-    QList<QUuid> points(const QUuid &tournament, const QUuid &roundID, const QUuid &setID) const override;
-    QUuid addPoint(const QUuid &tournament, const QUuid &player,
+    QList<QUuid> scores(const QUuid &tournament) const override;
+    QList<QUuid> scores(const QUuid &tournament, const QUuid &roundID) const override;
+    QList<QUuid> scores(const QUuid &tournament, const QUuid &roundID, const QUuid &setID) const override;
+    QUuid addScore(const QUuid &tournament, const QUuid &player,
                    const int &roundIndex,
                    const int &setIndex,
                    const int &legIndex,
-                   const int &playerPoint) override;
-    QUuid setPointHint(const QUuid &point, const int &hint) override;
-    QUuid editPointValue(const QUuid &pointId, const int &value, const int &hint) override;
+                   const int &point, const int &score) override;
+    QUuid setScoreHint(const QUuid &point, const int &hint) override;
+    QUuid editScore(const QUuid &pointId, const int &value, const int &score,const int &hint) override;
     QUuid alterPointPlayer(const QUuid &pointId, const QUuid &playerId) override;
     QUuid pointSet(const QUuid &playerPoint) const override;
     int pointLeg(const QUuid &playerPoint) const override;
     int pointValue(const QUuid &playerPoint) const override;
+    int playerScore(const QUuid &point) override;
     QUuid pointPlayer(const QUuid &playerPoint) const override;
     int pointHint(const QUuid &playerPoint) const override;
-    QUuid playerPoint(const QUuid &tournament, const QUuid &player , const int &roundIndex, const int &legIndex, const int &hint) override;
+    QUuid playerPoint(const QUuid &tournament, const QUuid &player , const int &roundIndex, const int &throwIndex, const int &hint) override;
     QList<QUuid> playerPoints(const QUuid &tournament, const QUuid &player, const int &hint) const override;
     bool removePlayerPoint(const QUuid &point) override;
     void removePlayerPointAndRelatives(const QUuid &point) override;

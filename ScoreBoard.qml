@@ -9,7 +9,8 @@ Rectangle{
     function viewContentWidth(){return flickableTable.contentWidth;}
     function viewContentHeight(){return flickableTable.contentHeight;}
 
-
+    property int headerOrientation: Qt.Vertical
+    onHeaderOrientationChanged: myModel.setHeaderOrientation(headerOrientation)
     property int fontSize: 16
     onFontSizeChanged: cellDelegate.fontSize = fontSize
     property int horizontalHeaderHeight: 20
@@ -215,7 +216,7 @@ Rectangle{
                     id: myModel
                     onDataChanged: updateScoreBoard()
                     throwCount : scoreBoardBody.throwsPerRound
-                    headerOrientation: Qt.Vertical
+                    headerOrientation: scoreBoardBody.headerOrientation
                 }
 
                 delegate: CellDelegate {

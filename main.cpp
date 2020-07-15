@@ -2,6 +2,8 @@
 #include <QQmlApplicationEngine>
 #include <QtQuick/QQuickView>
 
+#include <qqmlcontext.h>
+
 #include "localdart.h"
 
 #include "scoredatamodel.h"
@@ -13,10 +15,13 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     qmlRegisterType<ScoreDataModel>("CustomItems",1,0,"ScoreDataModel");
-    qmlRegisterType<LocalDart>("ApplicationInterface",1,0,"LocalDart");
-    qmlRegisterType<LocalPlayerContext>("ApplicationInterface",1,0,"PlayerContext");
+
+    AbstractDartInterface *_dart = new LocalDart();
 
     QQmlApplicationEngine engine;
+
+    engine.rootContext()->setContextProperty("localDart",_dart);
+
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

@@ -27,17 +27,17 @@ public:
     enum GameModes {
         FirstToPost = 0x1,
         RoundBased =0x2,
-        CircularDart = 0x4
+        CircularDart = 0x3
     };
     enum Status{
-        ControllerNotInitialized = 0x8,
-        PlayerContextNotInitialized = 0x6,
-        DataContextNotInitialized = 0x8,
-        GameStartet = 0xa,
-        GameStopped = 0xc,
-        ModelNotFound = 0xe,
-        OperationSuccesfull = 0x11,
-        OperationUnSuccesfull = 0x13
+        ContextNotInitialized = 0x4,
+        GameStartet = 0x5,
+        GameStopped = 0x6,
+        GameReady = 0x7,
+        ModelNotFound = 0x8,
+        NoPlayersAssigned = 0x9,
+        Success = 0xa,
+        UnSuccess = 0xb
     };
 
     void read();
@@ -57,7 +57,6 @@ public:
     Q_INVOKABLE int tournamentPlayersCount(const QString &id) override;
     Q_INVOKABLE QString tournamentTitle(const QString &id) override;
     Q_INVOKABLE int tournamentKeyPoint(const QString &id) override;
-
     Q_INVOKABLE int pointValue(const QString &point) const override;
     Q_INVOKABLE int pointValue(const QString &tournament, const QString &player, const int &roundIndex, const int &legIndex) const override;
     Q_INVOKABLE QStringList gameModes() const override;
@@ -84,7 +83,7 @@ public:
      */
     Q_INVOKABLE QString resetTournament(const QString &tournament);
     Q_INVOKABLE QString currentActiveTournamentID() override;
-    Q_INVOKABLE int setCurrentActiveTournament(const QString &id) override;
+    Q_INVOKABLE int setCurrentActiveTournament(const int &index) override;
     Q_INVOKABLE QString currentActivePlayerFullName() override;
     Q_INVOKABLE QString currentPlayerPoint(const int &hint = LocalDataContext::DisplayHint) override;
     Q_INVOKABLE int currentGameRoundIndex() override;
@@ -99,6 +98,8 @@ public:
     Q_INVOKABLE int gameStatus() override;
     Q_INVOKABLE int addPoint(const int &value) override;
     Q_INVOKABLE int score(const QString &player) override;
+    Q_INVOKABLE void requestCurrentTournamentPlayerScores() override;
+    Q_INVOKABLE void requestTournaments() override;
 
 private:
     void createInitialModels(); // For testing purposes

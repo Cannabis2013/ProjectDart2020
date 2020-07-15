@@ -53,24 +53,26 @@ public:
     /*
      * Point related section
      */
-    virtual TList points(const TUuid &tournament) const = 0;
-    virtual TList points(const TUuid &tournament, const TUuid &roundID) const = 0;
-    virtual TList points(const TUuid &tournament, const TUuid &roundID, const TUuid &setID) const = 0;
-    virtual TUuid addPoint(const TUuid &tournament,
+    virtual TList scores(const TUuid &tournament) const = 0;
+    virtual TList scores(const TUuid &tournament, const TUuid &roundID) const = 0;
+    virtual TList scores(const TUuid &tournament, const TUuid &roundID, const TUuid &setID) const = 0;
+    virtual TUuid addScore(const TUuid &tournament,
                            const TUuid &player,
                            const int &roundIndex,
                            const int &setIndex,
                            const int &legIndex,
-                           const int &playerPoint) = 0;
-    virtual TUuid setPointHint(const TUuid &point, const int &hint) = 0;
-    virtual TUuid editPointValue(const TUuid &pointId, const int &value,const int &hint) = 0;
+                           const int &point,
+                           const int &score) = 0;
+    virtual TUuid setScoreHint(const TUuid &point, const int &hint) = 0;
+    virtual TUuid editScore(const TUuid &pointId, const int &value,const int &score,const int &hint) = 0;
     virtual TUuid alterPointPlayer(const TUuid &pointId, const TUuid &playerId) = 0;
     virtual TUuid pointSet(const TUuid &playerPoint) const = 0;
     virtual int pointValue(const TUuid &playerPoint) const = 0;
+    virtual int playerScore(const TUuid &playerPoint) = 0;
     virtual TUuid pointPlayer(const TUuid &playerPoint) const = 0;
     virtual int pointHint(const TUuid &playerPoint) const = 0;
     virtual int pointLeg(const TUuid &playerPoint) const = 0;
-    virtual TUuid playerPoint(const TUuid &tournament,const TUuid &player, const int &roundIndex, const int & legIndex, const int &hint) = 0;
+    virtual TUuid playerPoint(const TUuid &tournament,const TUuid &player, const int &roundIndex, const int & throwIndex, const int &hint) = 0;
     virtual TList playerPoints(const TUuid &tournament, const TUuid &player, const int &hint) const = 0;
     virtual bool removePlayerPoint(const TUuid &point) = 0;
     virtual void removePlayerPointAndRelatives(const TUuid &point) = 0;

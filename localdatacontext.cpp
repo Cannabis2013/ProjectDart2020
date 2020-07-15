@@ -45,9 +45,14 @@ void LocalDataContext::deleteTournament(const QUuid &tournament)
 
 QUuid LocalDataContext::tournamentIDFromIndex(const int &index) const
 {
-    auto tournament = _tournaments.at(index);
-    auto id = tournament->id();
-    return id;
+    try {
+        auto tournament = _tournaments.at(index);
+        auto id = tournament->id();
+        return id;
+
+    }  catch (...) {
+        throw "MODEL_NOT_FOUND";
+    }
 }
 
 QList<QUuid> LocalDataContext::tournaments() const
@@ -572,7 +577,7 @@ QList<QUuid> LocalDataContext::setPointsID(const QUuid &set) const
     return resultingList;
 }
 
-QList<QUuid> LocalDataContext::points(const QUuid &tournament) const
+QList<QUuid> LocalDataContext::scores(const QUuid &tournament) const
 {
     QList<QUuid> resultingList;
     for (auto pointModel : _points) {
@@ -590,10 +595,10 @@ QList<QUuid> LocalDataContext::points(const QUuid &tournament) const
     return resultingList;
 }
 
-QList<QUuid> LocalDataContext::points(const QUuid &tournament, const QUuid &round) const
+QList<QUuid> LocalDataContext::scores(const QUuid &tournament, const QUuid &round) const
 {
     QList<QUuid> resultingList;
-    auto tPoints = this->points(tournament);
+    auto tPoints = this->scores(tournament);
     for (auto pointID : tPoints) {
         auto s = this->pointSet(pointID);
         auto r = this->setRound(s);
@@ -604,10 +609,10 @@ QList<QUuid> LocalDataContext::points(const QUuid &tournament, const QUuid &roun
     return resultingList;
 }
 
-QList<QUuid> LocalDataContext::points(const QUuid &tournament, const QUuid &round, const QUuid &set) const
+QList<QUuid> LocalDataContext::scores(const QUuid &tournament, const QUuid &round, const QUuid &set) const
 {
     QList<QUuid> resultingList;
-    auto p = this->points(tournament,round);
+    auto p = this->scores(tournament,round);
     for (auto pointID : p) {
         auto setID = pointSet(pointID);
         if(setID == set)
@@ -617,11 +622,17 @@ QList<QUuid> LocalDataContext::points(const QUuid &tournament, const QUuid &roun
     return resultingList;
 }
 
-QUuid LocalDataContext::addPoint(const QUuid &tournament,const QUuid &player, const int &roundIndex, const int &setIndex, const int &legIndex, const int &point)
+QUuid LocalDataContext::addScore(const QUuid &tournament,
+                                 const QUuid &player,
+                                 const int &roundIndex,
+                                 const int &setIndex,
+                                 const int &legIndex,
+                                 const int &point,
+                                 const int &score)
 {
     try {
         auto pointID = playerPoint(tournament,player,roundIndex,legIndex,HiddenHint);
-        editPointValue(pointID,point,DisplayHint);
+        editScore(pointID,point,score,DisplayHint);
         return pointID;
 
     } catch (...) {
@@ -644,7 +655,7 @@ QUuid LocalDataContext::addPoint(const QUuid &tournament,const QUuid &player, co
     }
 }
 
-QUuid LocalDataContext::setPointHint(const QUuid &point, const int &hint)
+QUuid LocalDataContext::setScoreHint(const QUuid &point, const int &hint)
 {
     auto pointModel = getPointFromID(point);
     auto model = pointBuilder()->buildModel([pointModel]{
@@ -666,7 +677,7 @@ QUuid LocalDataContext::setPointHint(const QUuid &point, const int &hint)
     return model->id();
 }
 
-QUuid LocalDataContext::editPointValue(const QUuid &pointId, const int &value, const int &hint)
+QUuid LocalDataContext::editScore(const QUuid &pointId, const int &value, const int &score, const int &hint)
 {
     auto oldPointModel = getPointFromID(pointId);
 
@@ -743,9 +754,26 @@ int LocalDataContext::pointLeg(const QUuid &point) const
 
 int LocalDataContext::pointValue(const QUuid &point) const
 {
-    auto pointModel = getPointFromID(point);
-    auto pointValue = pointModel->point();
-    return pointValue;
+    try {
+        auto pointModel = getPointFromID(point);
+        auto pointValue = pointModel->point();
+        return pointValue;
+
+    }  catch (const char *msg) {
+        throw msg;
+    }
+}
+
+int LocalDataContext::playerScore(const QUuid &point)
+{
+    try {
+        auto pointModel = getPointFromID(point);
+        auto score = pointModel->score();
+        return score;
+
+    }  catch (const char *msg) {
+        throw msg;
+    }
 }
 
 QUuid LocalDataContext::pointPlayer(const QUuid &point) const
@@ -779,7 +807,7 @@ QList<QUuid> LocalDataContext::pointModels(const QUuid &player) const
 QList<QUuid> LocalDataContext::playerPoints(const QUuid &tournament, const QUuid &player, const int &hint) const
 {
     QList<QUuid> resultingList;
-    auto totalPoints = points(tournament);
+    auto totalPoints = scores(tournament);
     for (auto pointID : totalPoints) {
         auto model = getPointFromID(pointID);
         auto modelHint = pointHint(pointID);
@@ -825,9 +853,9 @@ DefaultDataInterface *LocalDataContext::setTournamentBuilder(ITournamentBuilder 
     return this;
 }
 
-QUuid LocalDataContext::playerPoint(const QUuid &tournament, const QUuid &player, const int &roundIndex, const int &legIndex, const int &hint)
+QUuid LocalDataContext::playerPoint(const QUuid &tournament, const QUuid &player, const int &roundIndex, const int &throwIndex, const int &hint)
 {
-    auto tournamentPoints = points(tournament);
+    auto tournamentPoints = scores(tournament);
     for (auto pointID : tournamentPoints) {
         auto pointModel = getPointFromID(pointID);
         auto modelHint = pointModel->hint();
@@ -835,7 +863,7 @@ QUuid LocalDataContext::playerPoint(const QUuid &tournament, const QUuid &player
         if(playerID != player)
             continue;
         auto leg = pointLeg(pointID);
-        if(leg != legIndex)
+        if(leg != throwIndex)
             continue;
         auto setID = pointSet(pointID);
         auto round = setRound(setID);
@@ -949,7 +977,7 @@ void LocalDataContext::removeTournamentModels(const QUuid &tournament)
     /*
      * Remove points related to tournament
      */
-    auto tournamentPoints = points(tournament);
+    auto tournamentPoints = scores(tournament);
     for (int i = 0; i < tournamentPoints.count(); ++i) {
         auto tournamentPointID = tournamentPoints.at(i);
         for (int j = 0; j < _points.count(); ++j) {

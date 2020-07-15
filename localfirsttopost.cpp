@@ -4,9 +4,9 @@ int LocalFirstToPost::start()
 {
     _isActive = true;
     if(_roundIndex == 0){
-        dataContext()->addRound(currentTournament(),++_roundIndex);
+        dataContext()->addRound(currentTournamentID(),++_roundIndex);
         // TODO: Consider increment _setIndex when you pass it to the builder
-        dataContext()->addSet(currentTournament(),_roundIndex,_setIndex);
+        dataContext()->addSet(currentTournamentID(),_roundIndex,_setIndex);
     }
     _currentStatus = GameStatus::Running;
     return _currentStatus;
@@ -80,7 +80,7 @@ QString LocalFirstToPost::calculateThrowSuggestion()
      * TODO: When done, ruct a string containing the various suggestions. Ex.: 'T20,D10,5' or 'D5,1' for a remaining score at 95 or 11 respectively.
      */
 
-    auto legCount = dataContext()->tournamentNumberOfThrows(currentTournament());
+    auto legCount = dataContext()->tournamentNumberOfThrows(currentTournamentID());
 
     auto remainingScore = _keyPoint - sum();
 
@@ -115,7 +115,7 @@ int LocalFirstToPost::currentLegIndex()
     return _throwIndex;
 }
 
-QUuid LocalFirstToPost::currentTournament()
+QUuid LocalFirstToPost::currentTournamentID()
 {
     return _tournament;
 }
@@ -207,7 +207,7 @@ bool LocalFirstToPost::canRedoTurn()
 
 int LocalFirstToPost::score(const QUuid &player)
 {
-    auto playerScore = _dataContext->playerPoints(currentTournament(),player, LocalDataContext::DisplayHint);
+    auto playerScore = _dataContext->playerPoints(currentTournamentID(),player, LocalDataContext::DisplayHint);
     int totalScore = _keyPoint;
     for (auto scoreID : playerScore) {
         auto point = _dataContext->pointValue(scoreID);
@@ -256,18 +256,20 @@ int LocalFirstToPost::validateInput(const int &pointValue)
 
 QUuid LocalFirstToPost::addPoint(const int &point)
 {
+    auto score = _keyPoint - sum(point);
     auto playerID = currentActivePlayer();
-    auto tournamentID = currentTournament();
+    auto tournamentID = currentTournamentID();
     auto roundIndex = currentRoundIndex();
     auto setIndex = currentPlayerIndex();
     auto legIndex = currentLegIndex();
 
-    auto pointID = dataContext()->addPoint(tournamentID,
+    auto pointID = dataContext()->addScore(tournamentID,
                                            playerID,
                                            roundIndex,
                                            setIndex,
                                            legIndex,
-                                           point);
+                                           point,
+                                           score);
     return pointID;
 }
 
@@ -332,11 +334,11 @@ void LocalFirstToPost::nextTurn()
         _setIndex++;
         _throwIndex = 0;
         if(_setIndex >= _assignedPlayers.count()){
-            dataContext()->addRound(currentTournament(),++_roundIndex);
+            dataContext()->addRound(currentTournamentID(),++_roundIndex);
             _setIndex = 0;
         }
 
-        dataContext()->addSet(currentTournament(),currentRoundIndex(),_setIndex);
+        dataContext()->addSet(currentTournamentID(),currentRoundIndex(),_setIndex);
     }
     else
     {
@@ -369,7 +371,7 @@ int LocalFirstToPost::sum(const QUuid &player)
 
 int LocalFirstToPost::sum()
 {
-    auto pointIds = dataContext()->playerPoints(currentTournament(),currentActivePlayer(),LocalDataContext::DisplayHint);
+    auto pointIds = dataContext()->playerPoints(currentTournamentID(),currentActivePlayer(),LocalDataContext::DisplayHint);
 
     int sum = 0;
     for (auto pointId : pointIds)

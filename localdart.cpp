@@ -182,7 +182,7 @@ QString LocalDart::resetTournament(const QString &tournament)
     auto gameMode = _dataContext->tournamentGameMode(QUuid::fromString(tournament));
     _dataContext->removeTournamentModels(tournament);
     if(gameMode == GameModes::FirstToPost)
-        _gameController = (new LocalFirstToPost)->setPointLogisticInterface(new PointLogisticManager());
+        _gameController = (new LocalFirstToPost)->setPointLogisticInterface(new LogisticContext::PointLogisticManager());
     _gameController->setDataContext(_dataContext);
     return currentActiveTournamentID();
 
@@ -191,33 +191,38 @@ QString LocalDart::resetTournament(const QString &tournament)
 
 QString LocalDart::currentActiveTournamentID()
 {
-    auto tournamentID = _gameController->currentTournament();
+    auto tournamentID = _gameController->currentTournamentID();
     if(tournamentID == QUuid())
         return "";
     return tournamentID.toString();
 }
 
-int LocalDart::setCurrentActiveTournament(const QString &id)
+int LocalDart::setCurrentActiveTournament(const int &index)
 {
-    auto tournament = QUuid::fromString(id);
+    QUuid tournament;
+    try {
+        tournament = _dataContext->tournamentIDFromIndex(index);
+    }  catch (const char *msg) {
+        return Status::ModelNotFound;
+    }
     auto gameMode = _dataContext->tournamentGameMode(tournament);
     if(gameMode != GameModes::FirstToPost)
-        return Status::OperationUnSuccesfull;
+        return Status::UnSuccess;
     else if(gameMode == GameModes::FirstToPost && _gameController == nullptr)
-        _gameController = (new LocalFirstToPost())->setPointLogisticInterface(new PointLogisticManager());
+        _gameController = (new LocalFirstToPost())->setPointLogisticInterface(new LogisticContext::PointLogisticManager());
     if(_dataContext == nullptr)
-        return Status::PlayerContextNotInitialized;
-    if(!_dataContext->tournamentExists(tournament))
-        return Status::ModelNotFound;
+        return Status::ContextNotInitialized;
     if(_gameController == nullptr)
-        return Status::ControllerNotInitialized;
+        return Status::ContextNotInitialized;
     if(_dataContext == nullptr)
-        return Status::DataContextNotInitialized;
+        return Status::ContextNotInitialized;
     if(_gameController->dataContext() == nullptr)
         _gameController->setDataContext(_dataContext);
+    auto playersCount = _dataContext->tournamentAssignedPlayers(tournament).count();
+    if(playersCount == 0)
+        return Status::NoPlayersAssigned;
     _gameController->setCurrentTournament(tournament);
-
-    return Status::OperationSuccesfull;
+    return Status::Success;
 }
 
 QString LocalDart::currentActivePlayerFullName()
@@ -248,7 +253,7 @@ QString LocalDart::currentPlayerPoint(const int &hint)
 int LocalDart::currentGameRoundIndex()
 {
     if(_gameController == nullptr)
-        return Status::ControllerNotInitialized;
+        return Status::ContextNotInitialized;
     auto currentRoundIndex = _gameController->currentRoundIndex();
     return currentRoundIndex;
 }
@@ -256,7 +261,7 @@ int LocalDart::currentGameRoundIndex()
 int LocalDart::currentGameSetIndex()
 {
     if(_gameController == nullptr)
-        return Status::ControllerNotInitialized;
+        return Status::ContextNotInitialized;
     auto currentSetIndex = _gameController->currentSetIndex();
     return currentSetIndex;
 }
@@ -270,7 +275,7 @@ int LocalDart::currentGameLegIndex()
 int LocalDart::addPoint(const int &value)
 {
     if(_gameController == nullptr)
-        return Status::ControllerNotInitialized;
+        return Status::ContextNotInitialized;
     auto gameStatus = _gameController->processInput(value);
     return gameStatus;
 }
@@ -278,7 +283,7 @@ int LocalDart::addPoint(const int &value)
 int LocalDart::startGame()
 {
     if(_gameController == nullptr)
-        return Status::ControllerNotInitialized;
+        return Status::ContextNotInitialized;
     _gameController->start();
     return Status::GameStartet;
 }
@@ -286,7 +291,7 @@ int LocalDart::startGame()
 int LocalDart::stopGame()
 {
     if(_gameController == nullptr)
-        return Status::ControllerNotInitialized;
+        return Status::ContextNotInitialized;
     _gameController->stop();
     auto status = _gameController->status();
     return status;
@@ -297,12 +302,12 @@ int LocalDart::undoTurn()
     try {
         _gameController->undoTurn();
         auto currentPointID = currentPlayerPoint();
-        _dataContext->setPointHint(currentPointID,LocalDataContext::HiddenHint);
+        _dataContext->setScoreHint(currentPointID,LocalDataContext::HiddenHint);
         //_dataContext->removePlayerPointAndRelatives(QUuid::fromString(currentPointID));
     } catch (const char *msg) {
-        return Status::OperationUnSuccesfull;
+        return Status::UnSuccess;
     }
-    return Status::OperationSuccesfull;
+    return Status::Success;
 }
 
 int LocalDart::redoTurn()
@@ -311,11 +316,11 @@ int LocalDart::redoTurn()
     try {
         auto currentPointID = currentPlayerPoint(LocalDataContext::allHints);
         id = _gameController->redoTurn();
-        _dataContext->setPointHint(currentPointID,LocalDataContext::DisplayHint);
+        _dataContext->setScoreHint(currentPointID,LocalDataContext::DisplayHint);
     } catch (const char *msg) {
-        return Status::OperationUnSuccesfull;
+        return Status::UnSuccess;
     }
-    return Status::OperationSuccesfull;
+    return Status::Success;
 }
 
 bool LocalDart::undoPossible()
@@ -345,6 +350,60 @@ int LocalDart::score(const QString &player)
     auto playerID = _playerContext->playerIDFromFullName(player);
     auto score = _gameController->score(playerID);
     return score;
+}
+
+void LocalDart::requestCurrentTournamentPlayerScores()
+{
+    if(_gameController == nullptr)
+    {
+        emit notifyStatus(Status::ModelNotFound);
+        return;
+    }
+    auto currentTournamentID = _gameController->currentTournamentID();
+    auto numberOfThrows = _dataContext->tournamentNumberOfThrows(currentTournamentID);
+    auto assignedPlayersID = _dataContext->tournamentAssignedPlayers(currentTournamentID);
+    for (auto assignedPlayerID : assignedPlayersID) {
+        auto roundIndex = 1;
+        auto throwIndex = 0;
+        while (1)
+        {
+            QUuid pointID;
+            try {
+                pointID = _dataContext->playerPoint(currentTournamentID,
+                                                         assignedPlayerID,
+                                                         roundIndex,
+                                                         throwIndex,
+                                                         LocalDataContext::DisplayHint);
+
+            }  catch (...) {
+                break;
+            }
+
+            auto score = _dataContext->playerScore(pointID);
+            auto playerName = _playerContext->playerFullName(assignedPlayerID);
+            emit sendPlayerScore(playerName,score);
+            if(throwIndex % numberOfThrows == 0)
+            {
+                throwIndex = 0;
+                roundIndex++;
+            }
+        }
+    }
+}
+
+void LocalDart::requestTournaments()
+{
+    auto tournamentsID = _dataContext->tournaments();
+    for (auto tournamentID : tournamentsID) {
+        auto title = _dataContext->tournamentTitle(tournamentID);
+        auto maxPlayers = _dataContext->tournamentMaximumAllowedPlayers(tournamentID);
+        auto keyPoint = _dataContext->tournamentKeyPoint(tournamentID);
+        auto numberOfThrows = _dataContext->tournamentNumberOfThrows(tournamentID);
+        auto assignedPlayersCount = _dataContext->tournamentAssignedPlayers(tournamentID).count();
+        auto gameMode = _dataContext->tournamentGameMode(tournamentID);
+
+        emit sendRequestetTournament(title,numberOfThrows,maxPlayers,gameMode,keyPoint,assignedPlayersCount);
+    }
 }
 
 void LocalDart::createInitialModels()

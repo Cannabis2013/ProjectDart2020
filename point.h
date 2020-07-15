@@ -5,7 +5,7 @@
 
 #include "gamemodelscontext.h"
 
-class Point : public IPoint<QUuid>
+class Score : public IScore<QUuid>
 {
 public:
     QUuid id() const override
@@ -64,13 +64,18 @@ public:
     {
         _hint = hint;
     }
+    int score() const override
+    {
+        return _scoreValue;
+    }
+    void setScore(const int &score) override
+    {
+        _scoreValue = score;
+    }
+
 private:
-    int _modelType, _pointValue, _legIndex, _hint;
+    int _modelType, _pointValue, _scoreValue,_legIndex, _hint;
     QUuid _id, _player, _set;
 };
-
-
-
-
 
 #endif // POINT_H

@@ -1,7 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
-import ApplicationInterface 1.0
 
 ApplicationWindow {
     id: applicationWindow
@@ -22,11 +21,6 @@ ApplicationWindow {
 
         print("Quit requestet and handled");
         Qt.quit();
-    }
-
-    LocalDart
-    {
-        id: localDart
     }
 
     Item {

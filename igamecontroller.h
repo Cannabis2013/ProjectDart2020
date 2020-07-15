@@ -5,7 +5,7 @@ template<typename TUuid,class TString, class TDefaultLocalDataContext>
 class IGameController
 {
 public:
-    virtual TUuid currentTournament()  = 0;
+    virtual TUuid currentTournamentID()  = 0;
     virtual void setCurrentTournament( TUuid &tournament) = 0;
 
     virtual int start() = 0;

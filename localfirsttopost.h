@@ -42,7 +42,7 @@ public:
     int currentSetIndex() override;
     int currentLegIndex()  override;
 
-    QUuid currentTournament()  override;
+    QUuid currentTournamentID()  override;
     void setCurrentTournament(QUuid &tournament) override;
 
     int status() override;

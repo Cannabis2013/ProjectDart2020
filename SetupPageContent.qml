@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 
-import ApplicationInterface 1.0
+
 
 import "componentFactory.js" as ComponentFactory
 import "setupPageScripts.js" as SetupPageScripts

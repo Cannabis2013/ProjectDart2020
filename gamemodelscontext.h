@@ -72,11 +72,14 @@ public:
 };
 
 template <class QUuid>
-class IPoint : public IModel<QUuid>
+class IScore : public IModel<QUuid>
 {
 public:
     virtual int point() const = 0;
     virtual void setPoint(const int &point) = 0;
+
+    virtual int score() const = 0;
+    virtual void setScore(const int &score) = 0;
 
     virtual int legIndex() const = 0;
     virtual void setLegIndex(const int &index) = 0;

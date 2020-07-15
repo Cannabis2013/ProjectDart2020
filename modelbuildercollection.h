@@ -12,7 +12,7 @@
 typedef ITournament<QUuid,QList<QUuid>,QString> DefaultTournamentInterface;
 typedef IRound<QUuid, QList<QUuid>> DefaultRoundInterface;
 typedef ISet<QUuid,QList<QUuid>> DefaultSetInterface;
-typedef IPoint<QUuid> DefaultPointInterface;
+typedef IScore<QUuid> DefaultPointInterface;
 
 typedef IDataModelBuilder<DefaultTournamentInterface, TournamentParameters,ModelOptions> ITournamentBuilder;
 typedef IDataModelBuilder<DefaultRoundInterface, RoundParameters,ModelOptions> IRoundBuilder;
@@ -107,7 +107,7 @@ class PointBuilder : public IPointBuilder
 public:
     DefaultPointInterface *buildModel(const PointParameters &args, const ModelOptions &options) override
     {
-        auto model = new Point();
+        auto model = new Score();
 
         if(!options.customUuid && options.generateUniqueId)
             model->setId(QUuid::createUuid());
@@ -120,6 +120,7 @@ public:
         model->setPlayer(args.playerId);
         model->setLegIndex(args.legIndex);
         model->setHint(options.modelHint);
+        model->setScore(args.scoreValue);
         return model;
     }
 };

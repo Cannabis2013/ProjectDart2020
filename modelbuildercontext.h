@@ -52,6 +52,7 @@ struct PointParameters
 {
     char* t;
     int pointValue;
+    int scoreValue;
     int legIndex;
     QUuid playerId;
     QUuid setId;

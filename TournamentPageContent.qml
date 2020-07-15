@@ -9,17 +9,12 @@ Content{
 
     clip: true
 
-    color: "transparent"
-
-    Layout.fillHeight: true
-    Layout.fillWidth: true
-
-    Layout.maximumWidth: defaultPageContentWidth
-
-    Layout.alignment: Qt.AlignHCenter
-
     signal createTournamentClicked;
     signal startGameClicked;
+
+    function updateInterface(title,maxPlayersCount,numberOfThrows,gameMode,keyPoint,playersCount){
+        tournamentListView.addTournamentItem(title,numberOfThrows,maxPlayersCount,keyPoint,playersCount);
+    }
 
     GridLayout
     {
@@ -91,10 +86,16 @@ Content{
 
            text: "Start game"
 
-           onClicked: TournamentPageScripts.startGame()
+           onClicked: {
+               var currentlySelectedIndex = tournamentListView.currentlySelectedIndex;
+               localDart.setCurrentActiveTournament(currentlySelectedIndex);
+               startGameClicked();
+           }
        }
     }
     Component.onCompleted: {
-        TournamentPageScripts.updateInterface();
+        localDart.sendRequestetTournament.connect(updateInterface)
+        localDart.requestTournaments();
+        //TournamentPageScripts.updateInterface();
     }
 }
