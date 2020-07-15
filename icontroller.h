@@ -2,7 +2,7 @@
 #define IGAMECONTROLLER_H
 
 template<typename TUuid,class TString, class TDefaultLocalDataContext>
-class IGameController
+class IController
 {
 public:
     virtual TUuid currentTournamentID()  = 0;
@@ -37,9 +37,6 @@ public:
     virtual int playerIndex()  = 0;
 
     virtual int score(const TUuid &player) = 0;
-
-    virtual void setDataContext(TDefaultLocalDataContext *dataContext) = 0;
-    virtual TDefaultLocalDataContext *dataContext() = 0;
 };
 
 #endif // IGAMECONTROLLER_H

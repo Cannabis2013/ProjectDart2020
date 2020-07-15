@@ -8,20 +8,21 @@ int LocalFirstToPost::start()
         // TODO: Consider increment _setIndex when you pass it to the builder
         dataContext()->addSet(currentTournamentID(),_roundIndex,_setIndex);
     }
-    _currentStatus = GameStatus::Running;
+    _currentStatus = GameStatus::GameControllerRunning;
+    emit sendControllerStatus(GameStatus::GameControllerAwaitsInput);
     return _currentStatus;
 }
 
 int LocalFirstToPost::stop()
 {
     _isActive = false;
-    _currentStatus = GameStatus::Idle;
+    _currentStatus = GameStatus::GameControllerIdle;
     return _currentStatus;
 }
 
 int LocalFirstToPost::processInput(const int &point)
 {
-    if(status() == (Idle | WinnerDeclared))
+    if(status() == (GameControllerIdle | GameControllerWinnerDeclared))
         return status();
 
     // Evaluate input according to point domain and aggregated sum domain
@@ -62,6 +63,8 @@ int LocalFirstToPost::processInput(const int &point)
     if(currentState == CriticalDomain)
         calculateThrowSuggestion();
     */
+    emit sendControllerStatus(GameStatus::GameControllerAwaitsInput);
+
     return status();
 }
 
@@ -207,23 +210,13 @@ bool LocalFirstToPost::canRedoTurn()
 
 int LocalFirstToPost::score(const QUuid &player)
 {
-    auto playerScore = _dataContext->playerPoints(currentTournamentID(),player, LocalDataContext::DisplayHint);
+    auto playerScore = dataContext()->playerPoints(currentTournamentID(),player, 0x2);
     int totalScore = _keyPoint;
     for (auto scoreID : playerScore) {
-        auto point = _dataContext->pointValue(scoreID);
+        auto point = dataContext()->pointValue(scoreID);
         totalScore -= point;
     }
     return totalScore;
-}
-
-void LocalFirstToPost::setDataContext(DefaultDataInterface *dataContext)
-{
-    _dataContext = dataContext;
-}
-
-DefaultDataInterface *LocalFirstToPost::dataContext()
-{
-    return _dataContext;
 }
 
 int LocalFirstToPost::validateCurrentState()
@@ -275,9 +268,9 @@ QUuid LocalFirstToPost::addPoint(const int &point)
 
 void LocalFirstToPost::initializeController(const QUuid &tournament)
 {
-    _keyPoint = _dataContext->tournamentKeyPoint(tournament);
-    _numberOfThrows = _dataContext->tournamentNumberOfThrows(tournament);
-    _assignedPlayers = _dataContext->tournamentAssignedPlayers(tournament);
+    _keyPoint = dataContext()->tournamentKeyPoint(tournament);
+    _numberOfThrows = dataContext()->tournamentNumberOfThrows(tournament);
+    _assignedPlayers = dataContext()->tournamentAssignedPlayers(tournament);
 }
 
 void LocalFirstToPost::initializeIndexes(const QUuid &tournament)
@@ -292,7 +285,7 @@ void LocalFirstToPost::initializeIndexes(const QUuid &tournament)
     {
         auto playerID = _assignedPlayers.at(setIndex);
         try {
-            _dataContext->playerPoint(tournament,playerID,roundIndex,legIndex,LocalDataContext::DisplayHint);
+            dataContext()->playerPoint(tournament,playerID,roundIndex,legIndex,DisplayHint);
         } catch (const char *msg) {
             break;
         }
@@ -312,7 +305,7 @@ void LocalFirstToPost::initializeIndexes(const QUuid &tournament)
     _setIndex = turnIndex == 0 ? 0 : setIndex;
     _throwIndex = turnIndex == 0 ? 0 : legIndex;
     _turnIndex = turnIndex == 0 ? 0 : turnIndex;
-    _totalTurns = turnIndex == 0 ? 0 : _dataContext->playerPointsCount(LocalDataContext::allHints);
+    _totalTurns = turnIndex == 0 ? 0 : dataContext()->playerPointsCount(allHints);
 }
 
 int LocalFirstToPost::currentTurnIndex()
@@ -348,34 +341,34 @@ void LocalFirstToPost::nextTurn()
 
 int LocalFirstToPost::sum(const int &pointValue)
 {
-    auto pointIds = _dataContext->playerPoints(_tournament,currentActivePlayer(),LocalDataContext::DisplayHint);
+    auto pointIds = dataContext()->playerPoints(_tournament,currentActivePlayer(),DisplayHint);
 
     int sum = pointValue;
 
     for (auto pointId : pointIds)
-        sum += _dataContext->pointValue(pointId);
+        sum += dataContext()->pointValue(pointId);
 
     return sum;
 }
 
 int LocalFirstToPost::sum(const QUuid &player)
 {
-    auto pointIds = _dataContext->playerPoints(_tournament,player,LocalDataContext::DisplayHint);
+    auto pointIds = dataContext()->playerPoints(_tournament,player,DisplayHint);
 
     int sum = 0;
     for (auto pointId : pointIds)
-        sum += _dataContext->pointValue(pointId);
+        sum += dataContext()->pointValue(pointId);
 
     return sum;
 }
 
 int LocalFirstToPost::sum()
 {
-    auto pointIds = dataContext()->playerPoints(currentTournamentID(),currentActivePlayer(),LocalDataContext::DisplayHint);
+    auto pointIds = dataContext()->playerPoints(currentTournamentID(),currentActivePlayer(),DisplayHint);
 
     int sum = 0;
     for (auto pointId : pointIds)
-        sum += _dataContext->pointValue(pointId);
+        sum += dataContext()->pointValue(pointId);
 
     return sum;
 }
@@ -384,7 +377,7 @@ void LocalFirstToPost::declareWinner()
 {
     _winner = currentActivePlayer();
     _isActive = false;
-    _currentStatus = WinnerDeclared;
+    _currentStatus = GameControllerWinnerDeclared;
 }
 
 void LocalFirstToPost::incrementTurnIndexes()
@@ -399,7 +392,7 @@ IPointLogisticManager<QString> *LocalFirstToPost::pointLogisticInterface() const
     return _pointLogisticInterface;
 }
 
-DefaultControllerInterface *LocalFirstToPost::setPointLogisticInterface(IPointLogisticManager<QString> *pointLogisticInterface)
+AbstractControllerInterface *LocalFirstToPost::setPointLogisticInterface(IPointLogisticManager<QString> *pointLogisticInterface)
 {
     _pointLogisticInterface = pointLogisticInterface;
     return this;

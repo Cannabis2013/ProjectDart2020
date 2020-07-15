@@ -1,11 +1,10 @@
 #ifndef FIVEHUNDREDANDONEGAME_H
 #define FIVEHUNDREDANDONEGAME_H
 
-#include "idatacontext.h"
-#include "igamecontroller.h"
 #include "gamemodelscontext.h"
 #include "ipointlogisticmanager.h"
-#include "localdatacontext.h"
+
+#include "abstractcontrollerinterface.h"
 
 #include <quuid.h>
 #include <qlist.h>
@@ -15,16 +14,14 @@
 #define INVALID_DOMAIN "Input is not within domain";
 #define UNABLE_TO_ALTER_TURN "Unable to alter turn index";
 
-typedef IGameController<QUuid,QString,DefaultDataInterface> DefaultControllerInterface;
 
-class LocalFirstToPost : public DefaultControllerInterface
+
+class LocalFirstToPost :public AbstractControllerInterface
 {
+    Q_OBJECT
 public:
     // Public types
-    enum GameStatus {Idle = 0xc,
-                     Running = 0xe,
-                     WinnerDeclared = 0x10,
-                     notRunning = Idle | WinnerDeclared};
+    enum ModelDisplayHint{HiddenHint = 0x1,DisplayHint = 0x2, allHints = 0x4};
     // IGameController interface
 
     int start() override;
@@ -60,12 +57,10 @@ public:
 
     int score(const QUuid &player) override;
 
-    void setDataContext(DefaultDataInterface *dataContext) override;
-    DefaultDataInterface *dataContext()  override;
-
     IPointLogisticManager<QString> *pointLogisticInterface() const;
-    DefaultControllerInterface *setPointLogisticInterface(IPointLogisticManager<QString> *pointLogisticInterface);
-
+    AbstractControllerInterface *setPointLogisticInterface(IPointLogisticManager<QString> *pointLogisticInterface);
+signals:
+    void sendControllerStatus(const int &status);
 private:
     /* Private types
      *
@@ -136,11 +131,10 @@ private:
     int _keyPoint = 0;
     QUuid _tournament = QUuid();
     QUuid _winner;
-    GameStatus _currentStatus = GameStatus::Idle;
+    GameStatus _currentStatus = GameStatus::GameControllerIdle;
     bool _isActive = false;
 
     // Localdata context related
-    DefaultDataInterface *_dataContext;
     IPointLogisticManager<QString> *_pointLogisticInterface;
 };
 

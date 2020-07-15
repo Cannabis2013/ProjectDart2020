@@ -208,8 +208,11 @@ int LocalDart::setCurrentActiveTournament(const int &index)
     auto gameMode = _dataContext->tournamentGameMode(tournament);
     if(gameMode != GameModes::FirstToPost)
         return Status::UnSuccess;
-    else if(gameMode == GameModes::FirstToPost && _gameController == nullptr)
+    else if(gameMode == GameModes::FirstToPost && _gameController == nullptr){
         _gameController = (new LocalFirstToPost())->setPointLogisticInterface(new LogisticContext::PointLogisticManager());
+        connect(_gameController,&AbstractControllerInterface::sendStatus,this,&AbstractDartInterface::sendControllerStatus);
+        connect(_gameController,&AbstractControllerInterface::stateChanged,this,&LocalDart::handleStateChange);
+    }
     if(_dataContext == nullptr)
         return Status::ContextNotInitialized;
     if(_gameController == nullptr)
@@ -284,8 +287,8 @@ int LocalDart::startGame()
 {
     if(_gameController == nullptr)
         return Status::ContextNotInitialized;
-    _gameController->start();
-    return Status::GameStartet;
+    auto controllerStatus = _gameController->start();
+    return controllerStatus;
 }
 
 int LocalDart::stopGame()
@@ -352,11 +355,11 @@ int LocalDart::score(const QString &player)
     return score;
 }
 
-void LocalDart::requestCurrentTournamentPlayerScores()
+void LocalDart::requestPlayerScores()
 {
     if(_gameController == nullptr)
     {
-        emit notifyStatus(Status::ModelNotFound);
+        emit sendControllerStatus(Status::ModelNotFound);
         return;
     }
     auto currentTournamentID = _gameController->currentTournamentID();
@@ -406,6 +409,17 @@ void LocalDart::requestTournaments()
     }
 }
 
+void LocalDart::handleStateChange()
+{
+    auto currentPlayerID = _gameController->currentActivePlayer();
+    auto playerName = _playerContext->playerFullName(currentPlayerID);
+    auto currentRoundIndex = _gameController->currentRoundIndex();
+    auto canUndo = _gameController->canUndoTurn();
+    auto canRedo = _gameController->canRedoTurn();
+    emit sendInformalControllerValues(currentRoundIndex,playerName,canUndo,canRedo);
+
+}
+
 void LocalDart::createInitialModels()
 {
     auto kent = _playerContext->playerIDFromFullName("Kent KillerHertz");
@@ -428,8 +442,6 @@ void LocalDart::createInitialModels()
             _dataContext->tournamentAddPlayer(tournamentID,william);
         }
     }
-
-
 }
 
 void LocalDart::assignPlayer(const QString &player, const QString &tournament)

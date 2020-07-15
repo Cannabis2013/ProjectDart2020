@@ -8,6 +8,11 @@ Content {
 
     onBackButtonPressed: localDart.stopGame()
 
+    signal updatePlayerScore(string playerName, int score)
+    onUpdatePlayerScore: scoreTable.appendData(playerName,score)
+
+    signal updateInformationDisplay(string currentRound, string currentPlayer, bool canUndo, bool canRedo)
+
     GridLayout{
         id: componentLayout
         anchors.fill: parent
@@ -46,5 +51,7 @@ Content {
             Layout.fillHeight: true
         }
     }
-    Component.onCompleted: GamePageScripts.initializeScoreBoard()
+    Component.onCompleted: {
+        localDart.sendPlayerScore.connect(updatePlayerScore);
+    }
 }

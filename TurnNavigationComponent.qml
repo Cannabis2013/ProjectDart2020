@@ -23,6 +23,14 @@ Item {
         rightButton.enabled = localDart.redoPossible();
     }
 
+    function updateState(roundIndex, playerName, undoPossible, redoPossible)
+    {
+        currentRoundIndex  = roundIndex;
+        body.currentPlayer = playerName;
+        leftButton.enabled = undoPossible;
+        rightButton.enabled = redoPossible;
+    }
+
     QtObject{
         id: textBeholder
 

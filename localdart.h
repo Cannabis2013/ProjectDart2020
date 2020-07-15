@@ -2,6 +2,7 @@
 #define PROJECTDART_H
 
 #include "localfirsttopost.h"
+#include "localdatacontext.h"
 #include "abstractdartinterface.h"
 #include "pointlogisticmanager.h"
 #include "localplayercontext.h"
@@ -11,7 +12,7 @@
 
 typedef IPlayerContext<QUuid,QList<QUuid>,QString, DefaultPlayerBuilder> PlayerContextInterface;
 typedef IDataContext<QUuid, QList<QUuid>,QString,ITournamentBuilder> DataContextInterface;
-typedef IGameController<QUuid,QString, DataContextInterface> GameControllerInterface;
+typedef IController<QUuid,QString, DataContextInterface> GameControllerInterface;
 
 #define printVariable(var) #var
 #define STATUS_ERROR -1;
@@ -31,13 +32,10 @@ public:
     };
     enum Status{
         ContextNotInitialized = 0x4,
-        GameStartet = 0x5,
-        GameStopped = 0x6,
-        GameReady = 0x7,
-        ModelNotFound = 0x8,
-        NoPlayersAssigned = 0x9,
-        Success = 0xa,
-        UnSuccess = 0xb
+        ModelNotFound = 0x5,
+        NoPlayersAssigned = 0x6,
+        Success = 0x7,
+        UnSuccess = 0x8
     };
 
     void read();
@@ -98,15 +96,18 @@ public:
     Q_INVOKABLE int gameStatus() override;
     Q_INVOKABLE int addPoint(const int &value) override;
     Q_INVOKABLE int score(const QString &player) override;
-    Q_INVOKABLE void requestCurrentTournamentPlayerScores() override;
+    Q_INVOKABLE void requestPlayerScores() override;
     Q_INVOKABLE void requestTournaments() override;
+
+private slots:
+    void handleStateChange();
 
 private:
     void createInitialModels(); // For testing purposes
 
     DataContextInterface *_dataContext = nullptr;
     PlayerContextInterface *_playerContext= nullptr;
-    GameControllerInterface *_gameController= nullptr;
+    AbstractControllerInterface *_gameController= nullptr;
 
 };
 

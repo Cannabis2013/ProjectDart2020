@@ -9,7 +9,8 @@ function initializeScoreBoard(){
         return;
     appendHeaders(currentTournament);
     setInitialScoreBoardValues(4,currentTournament);
-    appendPoints(currentTournament);
+    localDart.requestCurrentTournamentPlayerScores();
+    //appendPoints(currentTournament);
     updateNavigator();
 }
 function appendHeaders(currentTournament)
