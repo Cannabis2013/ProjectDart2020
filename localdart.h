@@ -44,6 +44,8 @@ public slots:
                                          const int &maxPlayers,
                                          const int &gameMode,
                                          const int &keyPoint) override;
+    void gameModes() const override;
+
 
 private :
     /*
@@ -63,7 +65,6 @@ private :
     int tournamentKeyPoint(const QString &id) override;
     int pointValue(const QString &point) const override;
     int pointValue(const QString &tournament, const QString &player, const int &roundIndex, const int &legIndex) const override;
-    QStringList gameModes() const override;
     int gameModeFromString(const QString &gameMode) const;
 
     /*

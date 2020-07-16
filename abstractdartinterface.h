@@ -48,7 +48,6 @@ public:
     virtual int tournamentKeyPoint(const QString &id) = 0;
     virtual int pointValue(const QString &point) const = 0;
     virtual int pointValue(const QString &tournament, const QString &player, const int &roundIndex, const int &legIndex) const = 0;
-    virtual QStringList gameModes() const = 0;
     virtual int playersCount() = 0;
     virtual QString assignedPlayerIDfromIndex(const QString &tournamentID, const int &index) = 0;
     virtual QString playerIDFromIndex(const int &index) = 0;
@@ -124,6 +123,7 @@ public slots:
     virtual void requestTournaments() = 0;
     virtual void handleScoreBoardRequest() = 0;
     virtual void setCurrentActiveTournament(const int &index) = 0;
+    virtual void gameModes() const = 0;
 
 protected slots:
     virtual void handleStateChange() = 0;
@@ -144,6 +144,7 @@ signals:
                                       const QString &playerName,
                                       const bool &undoAvailable,
                                       const bool &redoAvailable);
+    void sendGameModes(const QStringList &modes) const;
 
 private:
     IControllerBuilder<AbstractControllerInterface, int> *_controllerBuilder;

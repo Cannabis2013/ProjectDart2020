@@ -106,9 +106,9 @@ Content{
        }
     }
     Component.onCompleted: {
+        body.requestTournaments.connect(localDart.requestTournaments); // Request initial tournaments
         localDart.sendRequestetTournament.connect(updateInterface)
         body.sendClickedTournamentIndex.connect(localDart.setCurrentActiveTournament)
-        body.requestTournaments.connect(localDart.requestTournaments);
         localDart.sendStatus.connect(body.handleRecievedStatusNotification);
         requestTournaments();
     }

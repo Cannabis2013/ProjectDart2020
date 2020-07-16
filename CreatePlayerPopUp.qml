@@ -4,12 +4,13 @@ import QtQuick.Layouts 1.3
 
 Page{
     pageTitle : "Create player"
-    pageContent: Content {
+    pageContent: Content
+    {
         id: createPlayerBody
 
         signal sendPlayerDetails(string firstName, string lastName, string mail)
 
-        function handleReplyFromBackend(status)
+        function handleReplyFromBackend(status,msg)
         {
             if(status === 0x7)
             {
@@ -112,6 +113,8 @@ Page{
 
                 Layout.fillWidth: true
                 Layout.fillHeight: true
+
+                visible: false
             }
 
             ButtonsComponent{
@@ -134,9 +137,9 @@ Page{
                     var race = raceSelector.currentText;
                     var sex = sexSelector.currentText;
                     */
-                    var id = localDart.createPlayer(firstName,lastName,mail);
                     buttonOneEnabled = false;
                     buttonTwoEnabled = false;
+                    createPlayerBody.sendPlayerDetails(firstName,lastName,mail);
                 }
             }
         }

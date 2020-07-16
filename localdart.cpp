@@ -498,7 +498,7 @@ void LocalDart::createPlayer(const QString &firstName, const QString &lastName, 
 }
 
 
-QStringList LocalDart::gameModes() const
+void LocalDart::gameModes() const
 {
     QStringList resultingList;
 
@@ -508,7 +508,7 @@ QStringList LocalDart::gameModes() const
 
     resultingList << first << second << third;
 
-    return resultingList;
+    emit sendGameModes(resultingList);
 }
 
 int LocalDart::gameModeFromString(const QString &gameMode) const

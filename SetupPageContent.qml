@@ -1,10 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 
-
-
 import "componentFactory.js" as ComponentFactory
-import "setupPageScripts.js" as SetupPageScripts
 
 Content {
     id: body
@@ -13,6 +10,8 @@ Content {
     signal requestPlayers
     signal sendTournament(string title, int numberOfThrows, int maxPlayers, int gameMode,int keyPoint)
     signal sendPlayerIndexes(var indexes, string tournament)
+    signal requestGameModes
+
     QtObject{
         id: sendPlayerState
         property bool playerSent: false
@@ -39,6 +38,15 @@ Content {
                 sendPlayerIndexes(secondIndexes);
             }
         }
+    }
+
+    function reConnectInterface()
+    {
+
+        localDart.sendStatus.connect(handleReply); // Handle reply
+        playersListView.clear();
+        requestPlayers();
+
     }
 
     GridLayout{
@@ -105,7 +113,6 @@ Content {
             labelBackgroundColor: "lightblue"
             labelFontSize: 8
             labelLeftMargin: 10
-            stringModel: localDart.gameModes()
         }
 
         Rectangle{
@@ -162,16 +169,21 @@ Content {
             anchors.right: playersListView.right
             onClicked: {
                 var component = ComponentFactory.createPopUp(applicationWindow,"createPlayerPopUp",0,0,applicationWindow.width,applicationWindow.height);
-                component.backButtonPressed.connect(updateInterface);
+                component.destroyed.connect(reConnectInterface);
+                localDart.sendStatus.disconnect(handleReply);
             }
+
         }
         Component.onCompleted: {
-            body.sendTournament.connect(localDart.createTournament);
-            localDart.sendStatus.connect(handleReply);
-            body.sendPlayerIndexes.connect(localDart.assignPlayers);
-            body.requestPlayers.connect(localDart.requestPlayerDetails);
-            localDart.sendPlayerDetails.connect(playersListView.addPlayerItem);
-            requestPlayers();
+            localDart.sendStatus.connect(handleReply); // Handle reply
+            body.requestGameModes.connect(localDart.gameModes); // Request gamemodes
+            body.sendTournament.connect(localDart.createTournament); // Tournament request
+            localDart.sendGameModes.connect(gameModeSelector.setModel) // Recieve gamemodes
+            requestGameModes();
+            body.sendPlayerIndexes.connect(localDart.assignPlayers); // Send player indexes
+            body.requestPlayers.connect(localDart.requestPlayerDetails); // Request initial/continous players
+            localDart.sendPlayerDetails.connect(playersListView.addPlayerItem); // Recieve initial players
+            requestPlayers(); // Make the initial request
         }
         Component.onDestruction: {
             body.sendTournament.disconnect(localDart.createTournament);
