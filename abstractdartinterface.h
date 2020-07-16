@@ -38,7 +38,7 @@ public:
      */
 
     virtual void createInitialModels() const = 0;
-    virtual void assignPlayer(const QString &player, const QString &tournament) = 0;
+    virtual void assignPlayer(const QUuid &player, const QUuid &tournament) = 0;
     virtual int tournamentsCount() = 0;
     virtual QString tournamentIDFromIndex(const int &index) = 0;
     virtual int tournamentMaxPlayers(const QString &id) = 0;
@@ -110,7 +110,7 @@ public:
         _gameController = gameController;
 
         connect(_gameController,&AbstractControllerInterface::stateChanged,this,&AbstractDartInterface::handleStateChange);
-        connect(_gameController,&AbstractControllerInterface::sendControllerStatus,this,&AbstractDartInterface::sendStatus);
+        connect(_gameController,&AbstractControllerInterface::sendStatus,this,&AbstractDartInterface::sendStatus);
     }
 public slots:
     virtual void createTournament(const QString &title,
@@ -119,6 +119,7 @@ public slots:
                                      const int &gameMode,
                                      const int &keyPoint) = 0;
     virtual void createPlayer(const QString &firstName, const QString &lastName, const QString &email) = 0;
+    virtual void assignPlayers(const QVariantList &list, const QString &tournament) = 0;
     virtual void requestPlayerDetails() = 0;
     virtual void requestTournaments() = 0;
     virtual void handleScoreBoardRequest() = 0;
@@ -129,7 +130,7 @@ protected slots:
 
 signals:
     void sendPlayerDetails(const QString &firstName, const QString &lastName, const QString &mail);
-    void sendStatus(const int &status);
+    void sendStatus(const int &status, QString msg);
     void sendPlayerScore(const QString &playerName, const int &score);
     void sendAssignedPlayerName(const QString &playerName);
     void sendRequestetTournament(const QString &title,

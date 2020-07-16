@@ -13,11 +13,11 @@ void LocalDart::createTournament(const QString &title, const int &numberOfThrows
 {
     if(dataContext() == nullptr)
     {
-        emit sendStatus(Status::ContextNotInitialized);
+        emit sendStatus(Status::ContextNotInitialized,"");
         return;
     }
-    dataContext()->createTournament(title,maxPlayers,keyPoint,numberOfThrows,gameMode);
-    emit sendStatus(Status::Success);
+    auto tournamentID = dataContext()->createTournament(title,maxPlayers,keyPoint,numberOfThrows,gameMode);
+    emit sendStatus(Status::Success,tournamentID.toString());
 }
 
 int LocalDart::tournamentsCount()
@@ -198,7 +198,7 @@ void LocalDart::setCurrentActiveTournament(const int &index)
     try {
         tournament = dataContext()->tournamentIDFromIndex(index);
     }  catch (const char *msg) {
-        emit sendStatus(Status::ModelNotFound);
+        emit sendStatus(Status::ModelNotFound,"");
         return;
     }
     auto gameMode = dataContext()->tournamentGameMode(tournament);
@@ -208,17 +208,17 @@ void LocalDart::setCurrentActiveTournament(const int &index)
     }
     if(dataContext() == nullptr)
     {
-        emit sendStatus(Status::ContextNotInitialized);
+        emit sendStatus(Status::ContextNotInitialized,"");
         return;
     }
     if(gameController() == nullptr)
     {
-        emit sendStatus(Status::ContextNotInitialized);
+        emit sendStatus(Status::ContextNotInitialized,"");
         return;
     }
     if(dataContext() == nullptr)
     {
-        emit sendStatus(Status::ContextNotInitialized);
+        emit sendStatus(Status::ContextNotInitialized,"");
         return;
     }
     if(gameController()->dataContext() == nullptr)
@@ -226,11 +226,11 @@ void LocalDart::setCurrentActiveTournament(const int &index)
     auto playersCount = dataContext()->tournamentAssignedPlayers(tournament).count();
     if(playersCount == 0)
     {
-        emit sendStatus(Status::NoPlayersAssigned);
+        emit sendStatus(Status::NoPlayersAssigned,"");
         return;
     }
     gameController()->setCurrentTournament(tournament);
-    emit sendStatus(Status::Success);
+    emit sendStatus(Status::Success,"");
 }
 
 void LocalDart::requestPlayerDetails()
@@ -376,7 +376,7 @@ void LocalDart::handleScoreBoardRequest()
 {
     if(gameController() == nullptr)
     {
-        emit sendStatus(Status::ModelNotFound);
+        emit sendStatus(Status::ModelNotFound,"");
         return;
     }
 
@@ -433,6 +433,24 @@ void LocalDart::requestTournaments()
     }
 }
 
+void LocalDart::assignPlayers(const QVariantList &list, const QString &tournament)
+{
+    auto tournamentID = QUuid::fromString(tournament);
+    for (auto variantItem : list) {
+        auto index = variantItem.toInt();
+        try {
+            auto playerID = playerContext()->playerIDFromIndex(index);
+            assignPlayer(playerID,tournamentID);
+        }  catch (const char *msg) {
+            emit sendStatus(Status::ModelNotFound,"");
+            return;
+        }
+
+    }
+
+    emit sendStatus(Status::Success,"");
+}
+
 void LocalDart::handleStateChange()
 {
     auto currentPlayerID = gameController()->currentActivePlayer();
@@ -468,7 +486,7 @@ void LocalDart::createInitialModels() const
     }
 }
 
-void LocalDart::assignPlayer(const QString &player, const QString &tournament)
+void LocalDart::assignPlayer(const QUuid &player, const QUuid &tournament)
 {
     dataContext()->tournamentAddPlayer(tournament,player);
 }
@@ -476,7 +494,7 @@ void LocalDart::assignPlayer(const QString &player, const QString &tournament)
 void LocalDart::createPlayer(const QString &firstName, const QString &lastName, const QString &email)
 {
     playerContext()->createPlayer(firstName,lastName,email);
-    emit sendStatus(Status::Success);
+    emit sendStatus(Status::Success,"");
 }
 
 

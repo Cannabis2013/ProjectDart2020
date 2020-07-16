@@ -33,7 +33,7 @@ public:
     }
 
 signals:
-    void sendControllerStatus(const int &status);
+    void sendStatus(const int &status, QString msg);
     void stateChanged();
 
 private:

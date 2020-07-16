@@ -145,4 +145,8 @@ Page{
         createPlayerBody.sendPlayerDetails.connect(localDart.createPlayer);
         localDart.sendStatus.connect(createPlayerBody.handleReplyFromBackend);
     }
+    Component.onDestruction: {
+        createPlayerBody.sendPlayerDetails.disconnect(localDart.createPlayer);
+        localDart.sendStatus.disconnect(createPlayerBody.handleReplyFromBackend);
+    }
 }

@@ -95,20 +95,14 @@ Rectangle{
 
         MyListView {
             id: listView
-
             onItemSelected: listComponentBody.itemSelected(index)
-
             allowCheckState: listComponentBody.allowCheckState
-
             itemFontSize: listComponentBody.itemFontSize
             itemTextColor: listComponentBody.itemTextColor
-
             itemSelectedtextColor: listComponentBody.itemSelectedtextColor
             itemSelectedBackgroundColor: listComponentBody.itemSelectedBackgroundColor
-
             itemHeight: listComponentBody.itemHeight
             itemWidth: listComponentBody.itemWidth
-
             Layout.row: 1
             Layout.column: 0
 

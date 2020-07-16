@@ -8,7 +8,7 @@ int LocalFirstToPost::start()
         dataContext()->addSet(currentTournamentID(),_roundIndex,_setIndex);
     }
     _currentStatus = GameStatus::GameControllerRunning;
-    emit sendControllerStatus(GameStatus::GameControllerAwaitsInput);
+    emit sendStatus(GameStatus::GameControllerAwaitsInput,"");
     return _currentStatus;
 }
 
@@ -62,7 +62,7 @@ int LocalFirstToPost::processInput(const int &point)
     if(currentState == CriticalDomain)
         calculateThrowSuggestion();
     */
-    emit sendControllerStatus(GameStatus::GameControllerAwaitsInput);
+    emit sendStatus(GameStatus::GameControllerAwaitsInput,"");
     emit stateChanged();
 
     return status();

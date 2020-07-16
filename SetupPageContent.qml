@@ -12,12 +12,32 @@ Content {
 
     signal requestPlayers
     signal sendTournament(string title, int numberOfThrows, int maxPlayers, int gameMode,int keyPoint)
+    signal sendPlayerIndexes(var indexes, string tournament)
+    QtObject{
+        id: sendPlayerState
+        property bool playerSent: false
+    }
 
-
-    function handleReply(status){
+    function handleReply(status,message){
         if(status === 0x7)
         {
-
+            if(!sendPlayerState.playerSent)
+            {
+                var indexes = playersListView.currentlySelectedIndexes;
+                sendPlayerState.playerSent = true;
+                sendPlayerIndexes(indexes,message);
+            }
+            else{
+                backButtonPressed();
+            }
+        }
+        else if(status === 0x8)
+        {
+            if(sendPlayerState.playerSent)
+            {
+                var secondIndexes = playersListView.currentlySelectedIndexes;
+                sendPlayerIndexes(secondIndexes);
+            }
         }
     }
 
@@ -148,9 +168,17 @@ Content {
         Component.onCompleted: {
             body.sendTournament.connect(localDart.createTournament);
             localDart.sendStatus.connect(handleReply);
+            body.sendPlayerIndexes.connect(localDart.assignPlayers);
+            body.requestPlayers.connect(localDart.requestPlayerDetails);
+            localDart.sendPlayerDetails.connect(playersListView.addPlayerItem);
+            requestPlayers();
         }
         Component.onDestruction: {
-
+            body.sendTournament.disconnect(localDart.createTournament);
+            localDart.sendStatus.disconnect(handleReply);
+            body.sendPlayerIndexes.disconnect(localDart.assignPlayers);
+            body.requestPlayers.disconnect(localDart.requestPlayerDetails);
+            localDart.sendPlayerDetails.disconnect(playersListView.addPlayerItem);
         }
     }
 }

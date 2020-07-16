@@ -34,6 +34,7 @@ public:
 
 public slots:
     void requestTournaments() override;
+    void assignPlayers(const QVariantList &list, const QString &tournament) override;
     void handleScoreBoardRequest() override;
     void setCurrentActiveTournament(const int &index) override;
     void requestPlayerDetails() override;
@@ -69,7 +70,7 @@ private :
      * Playercontext
      */
 
-    void assignPlayer(const QString &player, const QString &tournament) override;
+    void assignPlayer(const QUuid &player, const QUuid &tournament) override;
     int playersCount() override;
     QString assignedPlayerIDfromIndex(const QString &tournamentID, const int &index) override;
     QString playerIDFromIndex(const int &index) override;
@@ -103,8 +104,6 @@ private :
 
 
     void handleStateChange() override;
-
-private:
 };
 
 #endif // PROJECTDART_H
