@@ -3,12 +3,12 @@ import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.3
 
-
-
 Rectangle{
     id: listComponentBody
 
     color: "transparent"
+
+    signal itemSelected(int index)
 
     property bool allowCheckState: false
     onAllowCheckStateChanged: listView.allowCheckState = allowCheckState
@@ -95,6 +95,8 @@ Rectangle{
 
         MyListView {
             id: listView
+
+            onItemSelected: listComponentBody.itemSelected(index)
 
             allowCheckState: listComponentBody.allowCheckState
 

@@ -2,17 +2,24 @@ import QtQuick 2.0
 import QtQuick.Layouts 1.3
 
 Content {
+    id: body
     color: "transparent"
     clip: true
 
     onBackButtonPressed: localDart.stopGame()
 
     signal updateInformationDisplay(string currentRound, string currentPlayer, bool canUndo, bool canRedo)
-    signal requestStart
+
+    signal requestScoreBoardData
+
+    function handleStartButtonClicked()
+    {
+
+    }
 
     signal sendInput(int value)
 
-    function handleStatus(status)
+    function handleStatusNotification(status)
     {
 
     }
@@ -54,11 +61,13 @@ Content {
         }
     }
     Component.onCompleted: {
+        localDart.sendStatus.connect(handleStatusNotification);
         localDart.sendAssignedPlayerName.connect(scoreTable.appendHeader);
         localDart.sendPlayerScore.connect(scoreTable.appendData);
         localDart.sendInformalControllerValues.connect(turnNavigator.updateState);
         localDart.sendCurrentTournamentKeyPoint.connect(scoreTable.setInitialValue);
-        localDart.requestScoreBoardUpdate();
+        body.requestScoreBoardData.connect(localDart.handleScoreBoardRequest);
         scoreTable.setMinimumColumnsCount(4);
+        requestScoreBoardData();
     }
 }

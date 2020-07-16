@@ -41,11 +41,13 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    IControllerBuilder.h \
     abstractcontrollerinterface.h \
     abstractdartinterface.h \
     abstractdatacontext.h \
     abstractpersistence.h \
     defaultdatacontextinterface.h \
+    gamebuilder.h \
     gamemodelscontext.h \
     icontroller.h \
     idatacontext.h \

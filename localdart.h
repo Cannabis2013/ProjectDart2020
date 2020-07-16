@@ -1,18 +1,11 @@
 #ifndef PROJECTDART_H
 #define PROJECTDART_H
 
-#include "localfirsttopost.h"
-#include "localdatacontext.h"
 #include "abstractdartinterface.h"
 #include "pointlogisticmanager.h"
-#include "localplayercontext.h"
 #include <quuid.h>
 #include <qstring.h>
 #include <qlist.h>
-
-typedef IPlayerContext<QUuid,QList<QUuid>,QString, DefaultPlayerBuilder> PlayerContextInterface;
-typedef IDataContext<QUuid, QList<QUuid>,QString,ITournamentBuilder> DataContextInterface;
-typedef IController<QUuid,QString, DataContextInterface> GameControllerInterface;
 
 #define printVariable(var) #var
 #define STATUS_ERROR -1;
@@ -22,8 +15,6 @@ class LocalDart : public AbstractDartInterface
     Q_OBJECT
     // AbstractDartInterface interface
 public:
-    LocalDart();
-
     // public types
     enum GameModes {
         FirstToPost = 0x1,
@@ -37,78 +28,83 @@ public:
         Success = 0x7,
         UnSuccess = 0x8
     };
+    enum ModelDisplayHint{HiddenHint = 0x1,DisplayHint = 0x2, allHints = 0x4};
 
-    void read();
-    void write();
+    void createInitialModels() const override; // For testing purposes
 
-    // Tournament related stuff
-    Q_INVOKABLE QString createTournament(const QString &title,
-                                         const int &legCount,
+public slots:
+    void requestTournaments() override;
+    void handleScoreBoardRequest() override;
+    void setCurrentActiveTournament(const int &index) override;
+    void requestPlayerDetails() override;
+    void createPlayer(const QString &firstName, const QString &lastName, const QString &email) override;
+    void createTournament(const QString &title,
+                                         const int &numberOfThrows,
                                          const int &maxPlayers,
                                          const int &gameMode,
                                          const int &keyPoint) override;
 
-    Q_INVOKABLE int tournamentsCount() override;
-    Q_INVOKABLE QString tournamentIDFromIndex(const int &index) override;
-    Q_INVOKABLE int tournamentMaxPlayers(const QString &id) override;
-    Q_INVOKABLE int tournamentLegsCount(const QString &id) override;
-    Q_INVOKABLE int tournamentPlayersCount(const QString &id) override;
-    Q_INVOKABLE QString tournamentTitle(const QString &id) override;
-    Q_INVOKABLE int tournamentKeyPoint(const QString &id) override;
-    Q_INVOKABLE int pointValue(const QString &point) const override;
-    Q_INVOKABLE int pointValue(const QString &tournament, const QString &player, const int &roundIndex, const int &legIndex) const override;
-    Q_INVOKABLE QStringList gameModes() const override;
-    Q_INVOKABLE int gameModeFromString(const QString &gameMode) const;
+private :
+    /*
+     * Persistence related stuff
+     */
+    void read();
+    void write();
+    // Tournament related stuff
+
+
+    int tournamentsCount() override;
+    QString tournamentIDFromIndex(const int &index) override;
+    int tournamentMaxPlayers(const QString &id) override;
+    int tournamentLegsCount(const QString &id) override;
+    int tournamentPlayersCount(const QString &id) override;
+    QString tournamentTitle(const QString &id) override;
+    int tournamentKeyPoint(const QString &id) override;
+    int pointValue(const QString &point) const override;
+    int pointValue(const QString &tournament, const QString &player, const int &roundIndex, const int &legIndex) const override;
+    QStringList gameModes() const override;
+    int gameModeFromString(const QString &gameMode) const;
 
     /*
      * Playercontext
      */
-    Q_INVOKABLE QString createPlayer(const QString &firstName, const QString &lastName, const QString &email) override;
-    Q_INVOKABLE void assignPlayer(const QString &player, const QString &tournament) override;
-    Q_INVOKABLE int playersCount() override;
-    Q_INVOKABLE QString assignedPlayerIDfromIndex(const QString &tournamentID, const int &index) override;
-    Q_INVOKABLE QString playerIDFromIndex(const int &index) override;
-    Q_INVOKABLE QString playerFullName(const QString &player) override;
-    Q_INVOKABLE QString playerIDFromFullName(const QString &name) override;
-    Q_INVOKABLE QString playerFirstName(const QString &player) override;
-    Q_INVOKABLE QString playerLastName(const QString &player) override;
-    Q_INVOKABLE QString playerEmail(const QString &player) override;
+
+    void assignPlayer(const QString &player, const QString &tournament) override;
+    int playersCount() override;
+    QString assignedPlayerIDfromIndex(const QString &tournamentID, const int &index) override;
+    QString playerIDFromIndex(const int &index) override;
+    QString playerFullName(const QString &player) override;
+    QString playerIDFromFullName(const QString &name) override;
+    QString playerFirstName(const QString &player) override;
+    QString playerLastName(const QString &player) override;
+    QString playerEmail(const QString &player) override;
     /*
      * Player score
      */
     /*
      * Controller context
      */
-    Q_INVOKABLE QString resetTournament(const QString &tournament);
-    Q_INVOKABLE QString currentActiveTournamentID() override;
-    Q_INVOKABLE int setCurrentActiveTournament(const int &index) override;
-    Q_INVOKABLE QString currentActivePlayerFullName() override;
-    Q_INVOKABLE QString currentPlayerPoint(const int &hint = LocalDataContext::DisplayHint) override;
-    Q_INVOKABLE int currentGameRoundIndex() override;
-    Q_INVOKABLE int currentGameSetIndex() override;
-    Q_INVOKABLE int currentGameLegIndex() override;
-    Q_INVOKABLE int startGame() override;
-    Q_INVOKABLE int stopGame() override;
-    Q_INVOKABLE int undoTurn() override;
-    Q_INVOKABLE int redoTurn() override;
-    Q_INVOKABLE bool undoPossible() override;
-    Q_INVOKABLE bool redoPossible() override;
-    Q_INVOKABLE int gameStatus() override;
-    Q_INVOKABLE int addPoint(const int &value) override;
-    Q_INVOKABLE int score(const QString &player) override;
-    Q_INVOKABLE void requestScoreBoardUpdate() override;
-    Q_INVOKABLE void requestTournaments() override;
+    QString resetTournament(const QString &tournament);
+    QString currentActiveTournamentID() override;
+    QString currentActivePlayerFullName() override;
+    QString currentPlayerPoint(const int &hint = DisplayHint) override;
+    int currentGameRoundIndex() override;
+    int currentGameSetIndex() override;
+    int currentGameLegIndex() override;
+    int startGame() override;
+    int stopGame() override;
+    int undoTurn() override;
+    int redoTurn() override;
+    bool undoPossible() override;
+    bool redoPossible() override;
+    int gameStatus() override;
+    int addPoint(const int &value) override;
+    int score(const QString &player) override;
 
-private slots:
-    void handleStateChange();
+
+    void handleStateChange() override;
 
 private:
-    void createInitialModels(); // For testing purposes
-
-    DataContextInterface *_dataContext = nullptr;
-    PlayerContextInterface *_playerContext= nullptr;
-    AbstractControllerInterface *_gameController= nullptr;
-
 };
 
 #endif // PROJECTDART_H

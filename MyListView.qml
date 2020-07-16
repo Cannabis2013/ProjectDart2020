@@ -17,6 +17,8 @@ ListView
         property var currentlySelectedIndexes: []
     }
 
+    signal itemSelected(int index)
+
     spacing: 1
 
     property bool allowCheckState: false
@@ -74,7 +76,10 @@ ListView
                 if(item.buttonBody.state === "checked" && txt !== text)
                     item.buttonBody.state = "";
                 if(txt === text && item.buttonBody.state === "checked")
+                {
                     cIndex = i;
+                    itemSelected(cIndex);
+                }
             }
         }
         indexContainer.currentlySelectedIndex = cIndex;
@@ -140,8 +145,6 @@ ListView
                         "Keypoint: " + keyPoint + " Playercount: " + playersCount;
             }
         }
-
         x: parent.width / 2 - width / 2
-
     }
 }

@@ -5,8 +5,12 @@
 #include <qqmlcontext.h>
 
 #include "localdart.h"
-
 #include "scoredatamodel.h"
+
+#include "gamebuilder.h"
+#include "localdatacontext.h"
+#include "localplayercontext.h"
+
 
 int main(int argc, char *argv[])
 {
@@ -17,6 +21,11 @@ int main(int argc, char *argv[])
     qmlRegisterType<ScoreDataModel>("CustomItems",1,0,"ScoreDataModel");
 
     AbstractDartInterface *_dart = new LocalDart();
+
+    _dart->setDataContext(new LocalDataContext("MHapps","Dart2020"));
+    _dart->setPlayerContext(new LocalPlayerContext);
+    _dart->setControllerBuilder(new GameBuilder());
+    _dart->createInitialModels();
 
     QQmlApplicationEngine engine;
 

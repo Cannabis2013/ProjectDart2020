@@ -15,7 +15,7 @@
 #define THROW_OBJECT_WITH_ID_NOT_FOUND(x) QString("Model with ID: '%1' does not exists in the current context").arg(x).toStdString();
 #define THROW_OBJECT_WITH_INDEX_NOT_FOUND(x) QString("Model with index: '%1' does not exists in the current context").arg(x).toStdString();
 
-
+typedef IDataContext<QUuid,QList<QUuid>,QString,ITournamentBuilder> DefaultDataInterface;
 
 class LocalDataContext : public DefaultDataInterface, private AbstractPersistence
 {
@@ -130,7 +130,7 @@ private:
     void setSetBuilder(ISetBuilder *builder);
     IPointBuilder *pointBuilder() const;
     // Builders
-    ITournamentBuilder *_tournamentBuilder = new TournamentBuilder();
+    ITournamentBuilder *_tournamentBuilder = new TournamentModelBuilder();
     IRoundBuilder *_roundBuilder = new RoundBuilder();
     ISetBuilder *_setBuilder = new SetBuilder();
     IPointBuilder *_pointBuilder = new PointBuilder();

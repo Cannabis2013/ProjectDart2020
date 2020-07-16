@@ -159,7 +159,7 @@ QList<QUuid> LocalPlayerContext::players() const
     return resultingList;
 }
 
-int LocalPlayerContext::playerCount() const
+int LocalPlayerContext::playersCount() const
 {
     return _models.count();
 }

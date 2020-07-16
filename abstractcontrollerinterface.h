@@ -6,6 +6,7 @@
 
 #include "defaultdatacontextinterface.h"
 
+typedef IDataContext<QUuid,QList<QUuid>,QString,ITournamentBuilder> DefaultDataInterface;
 typedef IController<QUuid,QString,DefaultDataInterface> DefaultControllerInterface;
 
 class AbstractControllerInterface : public QObject, public DefaultControllerInterface
@@ -22,7 +23,7 @@ public:
                      GameControllerAwaitsInput = 0xc, // This should indicate that the gamecontroller is in a state where it awaits new player input
                      GameControllerRunning = 0xd,
                      GameControllerWinnerDeclared = 0xe,
-                     GameControllerNotRunning = GameControllerIdle | GameControllerWinnerDeclared};
+                     RequestRejected = 0xf};
     void setDataContext(DefaultDataInterface *context)
     {
         _dataContext = context;

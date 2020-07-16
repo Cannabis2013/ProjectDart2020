@@ -7,6 +7,19 @@ Page{
     pageContent: Content {
         id: createPlayerBody
 
+        signal sendPlayerDetails(string firstName, string lastName, string mail)
+
+        function handleReplyFromBackend(status)
+        {
+            if(status === 0x7)
+            {
+                backButtonPressed();
+                return;
+            }
+            endStateButtons.buttonOneEnabled = true;
+            endStateButtons.buttonTwoEnabled = true;
+        }
+
         function evaluateInputs(){
             var firstName = firstNameEdit.currentText;
             var lastName = lastNameEdit.currentText;
@@ -122,10 +135,14 @@ Page{
                     var sex = sexSelector.currentText;
                     */
                     var id = localDart.createPlayer(firstName,lastName,mail);
-                    print(id);
-                    backButtonPressed();
+                    buttonOneEnabled = false;
+                    buttonTwoEnabled = false;
                 }
             }
         }
+    }
+    Component.onCompleted: {
+        createPlayerBody.sendPlayerDetails.connect(localDart.createPlayer);
+        localDart.sendStatus.connect(createPlayerBody.handleReplyFromBackend);
     }
 }

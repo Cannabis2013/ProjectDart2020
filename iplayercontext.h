@@ -23,7 +23,7 @@ public:
 
     virtual TList players() const = 0;
 
-    virtual int playerCount() const = 0;
+    virtual int playersCount() const = 0;
 
     virtual IPlayerContext<TUuid,TList,TString, TBuilderInterface> *setPlayerBuilder(TBuilderInterface *builder) = 0;
     virtual TBuilderInterface *playerBuilder() const = 0;

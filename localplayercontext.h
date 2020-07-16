@@ -48,7 +48,7 @@ public:
     QString playerEMail(const QUuid &id) const override;
     QString playerFullName(const QUuid &id) const override;
     QList<QUuid> players() const override;
-    int playerCount() const override;
+    int playersCount() const override;
     DefaultPlayerBuilder *playerBuilder() const override;
     PlayerContextInterface *setPlayerBuilder(DefaultPlayerBuilder *builder) override;
 private:

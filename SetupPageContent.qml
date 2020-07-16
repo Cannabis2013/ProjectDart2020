@@ -10,17 +10,14 @@ Content {
     id: body
     color: "transparent"
 
-    function updateInterface(){
-        playersListView.clear();
-        var playerCount = localDart.playersCount();
-        print(playerCount);
-        for(var i = 0;i < playerCount;i++)
+    signal requestPlayers
+    signal sendTournament(string title, int numberOfThrows, int maxPlayers, int gameMode,int keyPoint)
+
+
+    function handleReply(status){
+        if(status === 0x7)
         {
-            var playerID = localDart.playerIDFromIndex(i);
-            var playerFirstName = localDart.playerFirstName(playerID);
-            var playerLastName = localDart.playerLastName(playerID);
-            var playerEMail = localDart.playerEmail(playerID);
-            playersListView.addPlayerItem(playerFirstName,playerLastName,playerEMail, playerID);
+
         }
     }
 
@@ -123,27 +120,18 @@ Content {
             height: 30
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignBottom |Qt.AlignHCenter
-            buttonOneTitle: "Save"
-            buttonTwoTitle: "Save and play"
+            buttonOneTitle: "Back"
+            buttonTwoTitle: "Save tournament"
             onButtonOneClicked: {
-                var tournamentTitle = titleEdit.currentText;
-                var numberOfThrows = legsEdit.currentText;
-                var maxPlayers = maxPlayerEdit.currentText;
-                var keyPoint = keyPointEdit.currentText;
-                var gameModeString = gameModeSelector.currentText;
-                var gameMode = localDart.gameModeFromString(gameModeString);
-                var createdTournament = localDart.createTournament(tournamentTitle,numberOfThrows,maxPlayers,gameMode,keyPoint);
-                var selectedIndexes = playersListView.currentlySelectedIndexes;
-                // Add selected players to tournament
-                for(var i = 0;i < selectedIndexes.length;i++)
-                {
-                    var selectedIndex = selectedIndexes[i];
-                    var playerID = localDart.playerIDFromIndex(selectedIndex);
-                    if(playerID === "")
-                        throw "Something went very wrong. This is probably due to inconsistence.";
-                    localDart.assignPlayer(playerID,createdTournament);
-                }
-                body.backButtonPressed();
+                backButtonPressed();
+            }
+            onButtonTwoClicked: {
+                buttonTwoEnabled = false;
+                sendTournament(titleEdit.currentText,
+                               legsEdit.currentText,
+                               maxPlayerEdit.currentText,
+                               gameModeSelector.currentText,
+                               keyPointEdit.currentText);
             }
         }
         CRUDButton{
@@ -158,7 +146,11 @@ Content {
             }
         }
         Component.onCompleted: {
-            updateInterface();
+            body.sendTournament.connect(localDart.createTournament);
+            localDart.sendStatus.connect(handleReply);
+        }
+        Component.onDestruction: {
+
         }
     }
 }

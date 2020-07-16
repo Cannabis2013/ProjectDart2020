@@ -25,7 +25,7 @@ namespace ModelBuilderContext
     enum ModelType {TournamentModel = 0x00,RoundModel = 0x02, SetModel = 0x04, PointModel = 0x06};
 };
 
-class TournamentBuilder : public ITournamentBuilder
+class TournamentModelBuilder : public ITournamentBuilder
 {
 public:
     DefaultTournamentInterface *buildModel(const TournamentParameters &args, const ModelOptions &options) override
