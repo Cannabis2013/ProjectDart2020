@@ -2,11 +2,11 @@
 #define GAMEBUILDER_H
 
 #include "IControllerBuilder.h"
-#include "abstractcontrollerinterface.h"
+#include "abstractgamecontroller.h"
 
 #include "localfirsttopost.h"
 
-class GameBuilder : public IControllerBuilder<AbstractControllerInterface,int>
+class GameBuilder : public IControllerBuilder<AbstractGameController,int>
 {
     // IControllerBuilder interface
 public:
@@ -18,7 +18,7 @@ public:
 
     enum ContextMode {LocalContext = 0x4, RemoteContext = 0x5};
 
-    AbstractControllerInterface * buildController(const int &mode, const int&contextMode) override
+    AbstractGameController * buildController(const int &mode, const int&contextMode) override
     {
         if(mode == FirstToPost && contextMode == LocalContext)
             return new LocalFirstToPost();

@@ -63,7 +63,7 @@ function createPopUp(parentID, id,x, y, width, height)
         "height" : height,
         "anchors.fill" : applicationWindow
      };
-    var createPlayerPopUp = component.createObject(parentID,properties);
+    var createPlayerPopUp = component.createObject(parentID, properties);
     if(createPlayerPopUp === null)
         print("Something went very wrong. Call the police if necessary.");
     return createPlayerPopUp;

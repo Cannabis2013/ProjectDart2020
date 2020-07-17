@@ -14,7 +14,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        abstractcontrollerinterface.cpp \
+        abstractgamecontroller.cpp \
         idatamodelbuilder.cpp \
         ilogisticmanager.cpp \
         localdart.cpp \
@@ -42,9 +42,9 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     IControllerBuilder.h \
-    abstractcontrollerinterface.h \
     abstractdartinterface.h \
     abstractdatacontext.h \
+    abstractgamecontroller.h \
     abstractpersistence.h \
     defaultdatacontextinterface.h \
     gamebuilder.h \

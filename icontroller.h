@@ -8,9 +8,6 @@ public:
     virtual TUuid currentTournamentID()  = 0;
     virtual void setCurrentTournament( TUuid &tournament) = 0;
 
-    virtual int start() = 0;
-    virtual int stop() = 0 ;
-
     virtual int processInput(const int &point) = 0;
 
     virtual TString playerMessage()  = 0;

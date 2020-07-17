@@ -8,7 +8,7 @@ Item {
     signal leftButtonClicked
     signal rightButtonClicked
 
-    property string startButtonText: "start"
+    property string startButtonText: "Start"
     onStartButtonTextChanged: startButton.text = startButtonText
 
     property int currentRoundIndex: 0

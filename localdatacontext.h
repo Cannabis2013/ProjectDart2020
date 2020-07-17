@@ -1,24 +1,23 @@
 #ifndef LOCALDATACONTEXT_H
 #define LOCALDATACONTEXT_H
 
-#include "idatacontext.h"
+
 #include <quuid.h>
 #include <qstring.h>
 #include <qlist.h>
 
 #include "abstractpersistence.h"
 
-#include "modelbuildercollection.h"
-
-#include "defaultdatacontextinterface.h"
+#include "abstractdatacontext.h"
 
 #define THROW_OBJECT_WITH_ID_NOT_FOUND(x) QString("Model with ID: '%1' does not exists in the current context").arg(x).toStdString();
 #define THROW_OBJECT_WITH_INDEX_NOT_FOUND(x) QString("Model with index: '%1' does not exists in the current context").arg(x).toStdString();
 
-typedef IDataContext<QUuid,QList<QUuid>,QString,ITournamentBuilder> DefaultDataInterface;
 
-class LocalDataContext : public DefaultDataInterface, private AbstractPersistence
+class LocalDataContext : public AbstractDataContext,
+        private AbstractPersistence
 {
+    Q_OBJECT
 public:
     LocalDataContext(const QString &org, const QString &app);
     /*

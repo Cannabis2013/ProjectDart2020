@@ -633,11 +633,12 @@ QUuid LocalDataContext::addScore(const QUuid &tournament,
     try {
         auto pointID = playerPoint(tournament,player,roundIndex,legIndex,HiddenHint);
         editScore(pointID,point,score,DisplayHint);
+        emit sendPlayerScore(player,score);
         return pointID;
 
     } catch (...) {
         auto model = pointBuilder()->buildModel(
-                    [this,tournament,roundIndex,setIndex,legIndex,point,player]
+                    [this,tournament,roundIndex,setIndex,legIndex,point,player,score]
         {
             PointParameters params;
             auto setId = this->setID(tournament,roundIndex,setIndex);
@@ -645,11 +646,14 @@ QUuid LocalDataContext::addScore(const QUuid &tournament,
             params.playerId = player;
             params.pointValue = point;
             params.legIndex = legIndex;
+            params.scoreValue = score;
 
             return params;
         }(),ModelOptions());
 
         _points.append(model);
+
+        emit sendPlayerScore(player,score);
 
         return model->id();
     }

@@ -3,22 +3,28 @@ import QtQuick.Layouts 1.3
 
 
 Page{
+    id: pageBody
     pageTitle : "Create player"
+
     pageContent: Content
     {
         id: createPlayerBody
 
         signal sendPlayerDetails(string firstName, string lastName, string mail)
 
-        function handleReplyFromBackend(status,msg)
-        {
+        signal aboutToClose
+        onAboutToClose: pageBody.aboutToClose()
+
+        onReplyFromBackendRecieved : {
             if(status === 0x7)
             {
                 backButtonPressed();
-                return;
             }
-            endStateButtons.buttonOneEnabled = true;
-            endStateButtons.buttonTwoEnabled = true;
+            else
+            {
+                endStateButtons.buttonOneEnabled = true;
+                endStateButtons.buttonTwoEnabled = true;
+            }
         }
 
         function evaluateInputs(){
@@ -146,10 +152,8 @@ Page{
     }
     Component.onCompleted: {
         createPlayerBody.sendPlayerDetails.connect(localDart.createPlayer);
-        localDart.sendStatus.connect(createPlayerBody.handleReplyFromBackend);
     }
     Component.onDestruction: {
         createPlayerBody.sendPlayerDetails.disconnect(localDart.createPlayer);
-        localDart.sendStatus.disconnect(createPlayerBody.handleReplyFromBackend);
     }
 }

@@ -7,36 +7,45 @@ int LocalFirstToPost::start()
         dataContext()->addRound(currentTournamentID(),++_roundIndex);
         dataContext()->addSet(currentTournamentID(),_roundIndex,_setIndex);
     }
-    _currentStatus = GameStatus::GameControllerRunning;
-    emit sendStatus(GameStatus::GameControllerAwaitsInput,"");
+    _currentStatus = GameStatus::GameControllerAwaitsInput;
+    emit sendStatus(_currentStatus);
     return _currentStatus;
 }
 
 int LocalFirstToPost::stop()
 {
     _isActive = false;
-    _currentStatus = GameStatus::GameControllerIdle;
+    _currentStatus = GameStatus::GameControllerStopped;
+    emit sendStatus(_currentStatus);
     return _currentStatus;
 }
 
 int LocalFirstToPost::processInput(const int &point)
 {
-    if(status() == (GameControllerIdle | GameControllerWinnerDeclared))
+    if(status() == GameControllerIdle ||
+            status() == GameControllerStopped ||
+            status() == GameControllerWinnerDeclared)
+    {
+        emit sendStatus(status());
         return status();
+    }
 
     // Evaluate input according to point domain and aggregated sum domain
     auto inputResponse = validateInput(point);
 
     if(inputResponse == InputPointDomain::InvalidDomain)
         throw INVALID_DOMAIN;
+
     if(inputResponse == AggregatedSumDomains::PointDomain)
     {
         // Update datacontext
         addPoint(point);
+        _currentStatus = GameStatus::GameControllerAwaitsInput;
     }
     else if(inputResponse == AggregatedSumDomains::CriticalDomain)
     {
         addPoint(point);
+        _currentStatus = GameStatus::GameControllerAwaitsInput;
     }
     else if(inputResponse == AggregatedSumDomains::TargetDomain)
     {
@@ -50,6 +59,7 @@ int LocalFirstToPost::processInput(const int &point)
     {
         // Player made an 'overthrow' and points is nullified and added to datacontext
         addPoint(0);
+        _currentStatus = GameStatus::GameControllerAwaitsInput;
     }
 
     nextTurn(); // Initialize next turn. Increment playerindex if necessary. A new set or round is added respectively if necessary.
@@ -62,7 +72,8 @@ int LocalFirstToPost::processInput(const int &point)
     if(currentState == CriticalDomain)
         calculateThrowSuggestion();
     */
-    emit sendStatus(GameStatus::GameControllerAwaitsInput,"");
+
+    emit sendStatus(_currentStatus);
     emit stateChanged();
 
     return status();
@@ -392,7 +403,7 @@ IPointLogisticManager<QString> *LocalFirstToPost::pointLogisticInterface() const
     return _pointLogisticInterface;
 }
 
-AbstractControllerInterface *LocalFirstToPost::setPointLogisticInterface(IPointLogisticManager<QString> *pointLogisticInterface)
+AbstractGameController *LocalFirstToPost::setPointLogisticInterface(IPointLogisticManager<QString> *pointLogisticInterface)
 {
     _pointLogisticInterface = pointLogisticInterface;
     return this;

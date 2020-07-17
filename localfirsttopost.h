@@ -4,7 +4,9 @@
 #include "gamemodelscontext.h"
 #include "ipointlogisticmanager.h"
 
-#include "abstractcontrollerinterface.h"
+#include "abstractgamecontroller.h"
+
+#include <QVariantList>
 
 #include <quuid.h>
 #include <qlist.h>
@@ -16,16 +18,16 @@
 
 
 
-class LocalFirstToPost :public AbstractControllerInterface
+class LocalFirstToPost :public AbstractGameController
 {
     Q_OBJECT
 public:
     // Public types
     enum ModelDisplayHint{HiddenHint = 0x1,DisplayHint = 0x2, allHints = 0x4};
-    // IGameController interface
 
     int start() override;
     int stop() override;
+
     int processInput(const int &point) override;
 
     QString playerMessage()  override;
@@ -58,7 +60,7 @@ public:
     int score(const QUuid &player) override;
 
     IPointLogisticManager<QString> *pointLogisticInterface() const;
-    AbstractControllerInterface *setPointLogisticInterface(IPointLogisticManager<QString> *pointLogisticInterface);
+    AbstractGameController *setPointLogisticInterface(IPointLogisticManager<QString> *pointLogisticInterface);
 private:
     /* Private types
      *
@@ -129,7 +131,7 @@ private:
     int _keyPoint = 0;
     QUuid _tournament = QUuid();
     QUuid _winner;
-    GameStatus _currentStatus = GameStatus::GameControllerIdle;
+    GameStatus _currentStatus = GameStatus::GameControllerStopped;
     bool _isActive = false;
 
     // Localdata context related

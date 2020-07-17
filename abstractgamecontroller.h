@@ -9,11 +9,10 @@
 typedef IDataContext<QUuid,QList<QUuid>,QString,ITournamentBuilder> DefaultDataInterface;
 typedef IController<QUuid,QString,DefaultDataInterface> DefaultControllerInterface;
 
-class AbstractControllerInterface : public QObject, public DefaultControllerInterface
+class AbstractGameController : public QObject, public DefaultControllerInterface
 {
     Q_OBJECT
 public:
-    explicit AbstractControllerInterface(QObject *parent = nullptr);
     /*
      * Public types
      */
@@ -23,7 +22,7 @@ public:
                      GameControllerAwaitsInput = 0xc, // This should indicate that the gamecontroller is in a state where it awaits new player input
                      GameControllerRunning = 0xd,
                      GameControllerWinnerDeclared = 0xe,
-                     RequestRejected = 0xf};
+                     GameControllerNotInitialized = 0xf};
     void setDataContext(DefaultDataInterface *context)
     {
         _dataContext = context;
@@ -32,8 +31,12 @@ public:
         return _dataContext;
     }
 
+public slots:
+    virtual int start() = 0;
+    virtual int stop() = 0 ;
+
 signals:
-    void sendStatus(const int &status, QString msg);
+    void sendStatus(const int &status);
     void stateChanged();
 
 private:

@@ -46,6 +46,8 @@ public slots:
                                          const int &keyPoint) override;
     void gameModes() const override;
 
+private slots:
+    void forwardScoreFromDataContext(const QUuid &player, const int &score) override;
 
 private :
     /*
@@ -99,12 +101,12 @@ private :
     int redoTurn() override;
     bool undoPossible() override;
     bool redoPossible() override;
-    int gameStatus() override;
+    void handleStatusRequest() override;
     int addPoint(const int &value) override;
     int score(const QString &player) override;
 
 
-    void handleStateChange() override;
+    void handleGameStatusRecieved(const int &status) override;
 };
 
 #endif // PROJECTDART_H

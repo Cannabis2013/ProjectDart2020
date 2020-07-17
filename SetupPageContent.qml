@@ -17,14 +17,16 @@ Content {
         property bool playerSent: false
     }
 
-    function handleReply(status,message){
+    onReplyFromBackendRecieved: {
+
         if(status === 0x7)
         {
             if(!sendPlayerState.playerSent)
             {
+                var tournamentID = args[0];
                 var indexes = playersListView.currentlySelectedIndexes;
                 sendPlayerState.playerSent = true;
-                sendPlayerIndexes(indexes,message);
+                sendPlayerIndexes(indexes,tournamentID);
             }
             else{
                 backButtonPressed();
@@ -40,13 +42,16 @@ Content {
         }
     }
 
+    onRequestUpdate: {
+        requestGameModes();
+        requestPlayers();
+    }
+
     function reConnectInterface()
     {
-
-        localDart.sendStatus.connect(handleReply); // Handle reply
+        localDart.sendStatus.connect(replyFromBackendRecieved); // Handle reply
         playersListView.clear();
         requestPlayers();
-
     }
 
     GridLayout{
@@ -168,26 +173,24 @@ Content {
             anchors.top: playersListView.bottom
             anchors.right: playersListView.right
             onClicked: {
-                var component = ComponentFactory.createPopUp(applicationWindow,"createPlayerPopUp",0,0,applicationWindow.width,applicationWindow.height);
-                component.destroyed.connect(reConnectInterface);
-                localDart.sendStatus.disconnect(handleReply);
+                var createdComponent = ComponentFactory.createPopUp(applicationWindow,"createPlayerPopUp",0,0,applicationWindow.width,applicationWindow.height);
+                createdComponent.backButtonPressed.connect(body.reConnectInterface);
+                localDart.sendStatus.disconnect(replyFromBackendRecieved);
             }
-
         }
+
         Component.onCompleted: {
-            localDart.sendStatus.connect(handleReply); // Handle reply
             body.requestGameModes.connect(localDart.gameModes); // Request gamemodes
             body.sendTournament.connect(localDart.createTournament); // Tournament request
             localDart.sendGameModes.connect(gameModeSelector.setModel) // Recieve gamemodes
-            requestGameModes();
             body.sendPlayerIndexes.connect(localDart.assignPlayers); // Send player indexes
             body.requestPlayers.connect(localDart.requestPlayerDetails); // Request initial/continous players
             localDart.sendPlayerDetails.connect(playersListView.addPlayerItem); // Recieve initial players
-            requestPlayers(); // Make the initial request
+
+            requestUpdate();
         }
         Component.onDestruction: {
             body.sendTournament.disconnect(localDart.createTournament);
-            localDart.sendStatus.disconnect(handleReply);
             body.sendPlayerIndexes.disconnect(localDart.assignPlayers);
             body.requestPlayers.disconnect(localDart.requestPlayerDetails);
             localDart.sendPlayerDetails.disconnect(playersListView.addPlayerItem);
