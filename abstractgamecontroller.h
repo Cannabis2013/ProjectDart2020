@@ -3,11 +3,10 @@
 
 #include <QObject>
 #include <icontroller.h>
+#include <quuid.h>
 
-#include "defaultdatacontextinterface.h"
 
-typedef IDataContext<QUuid,QList<QUuid>,QString,ITournamentBuilder> DefaultDataInterface;
-typedef IController<QUuid,QString,DefaultDataInterface> DefaultControllerInterface;
+typedef IController<QUuid,QString> DefaultControllerInterface;
 
 class AbstractGameController : public QObject, public DefaultControllerInterface
 {
@@ -23,24 +22,27 @@ public:
                      GameControllerRunning = 0xd,
                      GameControllerWinnerDeclared = 0xe,
                      GameControllerNotInitialized = 0xf};
-    void setDataContext(DefaultDataInterface *context)
-    {
-        _dataContext = context;
-    }
-    DefaultDataInterface *dataContext(){
-        return _dataContext;
-    }
 
 public slots:
+    virtual int processInput(const int &point, const int &currentScore) = 0;
+
     virtual int start() = 0;
     virtual int stop() = 0 ;
-
+    virtual void initializeController(const QUuid &tournament,const int &keyPoint, const int &numberOfThrows, QList<QUuid> assignedPlayers) = 0;
+    virtual void initializeIndexes(const int &roundIndex, const int &setIndex, const int &throwIndex, const int &turnIndex, const int &totalTurns) = 0;
+    virtual void handleCurrentTournamentRequest() = 0;
 signals:
+    void sendPoint(const QUuid &tournamentID,
+                   const QUuid &playerID,
+                   const int &round,
+                   const int &setIndex,
+                   const int &throwIndex,
+                   const int &point);
+    void addRoundRequest(const QUuid &tournament, const int &index);
+    void addSetRequest(const QUuid &tournament, const int &roundIndex,const int &index);
     void sendStatus(const int &status);
     void stateChanged();
-
-private:
-    DefaultDataInterface *_dataContext;
+    void sendCurrentTournament(const QUuid &tournament);
 
 };
 

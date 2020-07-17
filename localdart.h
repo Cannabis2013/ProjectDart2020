@@ -35,7 +35,6 @@ public:
 public slots:
     void requestTournaments() override;
     void assignPlayers(const QVariantList &list, const QString &tournament) override;
-    void handleScoreBoardRequest() override;
     void setCurrentActiveTournament(const int &index) override;
     void requestPlayerDetails() override;
     void createPlayer(const QString &firstName, const QString &lastName, const QString &email) override;
@@ -55,6 +54,8 @@ private :
      */
     void read();
     void write();
+
+    void initializeControllerIndexes();
     // Tournament related stuff
 
 

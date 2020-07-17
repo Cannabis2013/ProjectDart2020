@@ -9,6 +9,39 @@ void LocalDart::write()
 
 }
 
+void LocalDart::initializeControllerIndexes()
+{
+    auto tournamentID = gameController()->currentTournamentID();
+    auto turnIndex = 0;
+    auto roundIndex = 1;
+    auto setIndex = 0;
+    auto legIndex = 0;
+    auto playersCount = dataContext()->tournamentAssignedPlayers(tournamentID).count();
+    auto numberOfThrows = dataContext()->tournamentNumberOfThrows(tournamentID);
+    auto assignedPlayers = dataContext()->tournamentAssignedPlayers(tournamentID);
+    while(1)
+    {
+        auto playerID = assignedPlayers.at(setIndex);
+        try {
+            dataContext()->playerPoint(tournamentID,playerID,roundIndex,legIndex,DisplayHint);
+        } catch (const char *msg) {
+            break;
+        }
+        if(++legIndex % numberOfThrows == 0)
+        {
+            legIndex = 0;
+            setIndex++;
+            if(setIndex >= playersCount)
+            {
+                roundIndex++;
+                setIndex = 0;
+            }
+        }
+        turnIndex++;
+    }
+
+}
+
 void LocalDart::createTournament(const QString &title, const int &numberOfThrows, const int &maxPlayers, const int &gameMode, const int &keyPoint)
 {
     if(dataContext() == nullptr)
@@ -107,7 +140,7 @@ int LocalDart::pointValue(const QString &tournament, const QString &player, cons
 
 int LocalDart::playersCount()
 {
-    auto players = playerContext()->players();
+    auto players = dataContext()->players();
 
     auto count = players.count();
 
@@ -127,7 +160,7 @@ QString LocalDart::assignedPlayerIDfromIndex(const QString &tournamentID, const 
 
 QString LocalDart::playerIDFromIndex(const int &index)
 {
-    auto players = playerContext()->players();
+    auto players = dataContext()->players();
     if(index < 0 || index >= players.count())
         return "";
     auto playerID = players.at(index);
@@ -136,13 +169,13 @@ QString LocalDart::playerIDFromIndex(const int &index)
 
 QString LocalDart::playerFullName(const QString &player)
 {
-    auto fullName = playerContext()->playerFullName(QUuid::fromString(player));
+    auto fullName = dataContext()->playerFullName(QUuid::fromString(player));
     return fullName;
 }
 
 QString LocalDart::playerIDFromFullName(const QString &name)
 {
-    auto playerID = playerContext()->playerIDFromFullName(name);
+    auto playerID = dataContext()->playerIDFromFullName(name);
     return playerID.toString();
 }
 
@@ -150,7 +183,7 @@ QString LocalDart::playerFirstName(const QString &player)
 {
     auto playerID = QUuid::fromString(player);
 
-    auto firstName = playerContext()->playerFirstName(playerID);
+    auto firstName = dataContext()->playerFirstName(playerID);
 
     return firstName;
 }
@@ -159,7 +192,7 @@ QString LocalDart::playerLastName(const QString &player)
 {
     auto playerID = QUuid::fromString(player);
 
-    auto lastName = playerContext()->playerLastName(playerID);
+    auto lastName = dataContext()->playerLastName(playerID);
 
     return lastName;
 }
@@ -168,7 +201,7 @@ QString LocalDart::playerEmail(const QString &player)
 {
     auto playerID = QUuid::fromString(player);
 
-    auto eMail = playerContext()->playerEMail(playerID);
+    auto eMail = dataContext()->playerEMail(playerID);
 
     return eMail;
 }
@@ -178,7 +211,6 @@ QString LocalDart::resetTournament(const QString &tournament)
     auto gameMode = dataContext()->tournamentGameMode(QUuid::fromString(tournament));
     dataContext()->removeTournamentModels(tournament);
     setGameController(controllerBuilder()->buildController(gameMode,0x4));
-    gameController()->setDataContext(dataContext());
     return currentActiveTournamentID();
 
 }
@@ -221,26 +253,24 @@ void LocalDart::setCurrentActiveTournament(const int &index)
         emit sendStatus(Status::ContextNotInitialized,{});
         return;
     }
-    if(gameController()->dataContext() == nullptr)
-        gameController()->setDataContext(dataContext());
     auto playersCount = dataContext()->tournamentAssignedPlayers(tournament).count();
     if(playersCount == 0)
     {
         emit sendStatus(Status::NoPlayersAssigned,{});
         return;
     }
-    gameController()->setCurrentTournament(tournament);
+
     emit sendStatus(Status::Success,{});
 }
 
 void LocalDart::requestPlayerDetails()
 {
-    auto count = playerContext()->playersCount();
+    auto count = dataContext()->playersCount();
     for (int i = 0; i < count; ++i) {
-        auto playerID = playerContext()->playerIDFromIndex(i);
-        auto firstName = playerContext()->playerFirstName(playerID);
-        auto lastName = playerContext()->playerLastName(playerID);
-        auto mail = playerContext()->playerEMail(playerID);
+        auto playerID = dataContext()->playerIDFromIndex(i);
+        auto firstName = dataContext()->playerFirstName(playerID);
+        auto lastName = dataContext()->playerLastName(playerID);
+        auto mail = dataContext()->playerEMail(playerID);
 
         emit sendPlayerDetails(firstName,lastName,mail);
     }
@@ -251,9 +281,9 @@ QString LocalDart::currentActivePlayerFullName()
     if(gameController() == nullptr)
         return "";
     auto playerID =gameController()->currentActivePlayer();
-    if(playerContext() == nullptr)
+    if(dataContext() == nullptr)
         return "";
-    auto fullName =playerContext()->playerFullName(playerID);
+    auto fullName =dataContext()->playerFullName(playerID);
     return fullName;
 }
 
@@ -300,7 +330,10 @@ int LocalDart::addPoint(const int &value)
         emit sendStatus(Status::ContextNotInitialized,{});
         return Status::ContextNotInitialized;
     }
-    auto gameStatus = gameController()->processInput(value);
+    auto currentTournamentID = gameController()->currentTournamentID();
+    auto currentPlayerID = gameController()->currentActivePlayer();
+    auto score = dataContext()->score(currentTournamentID,currentPlayerID);
+    auto gameStatus = gameController()->processInput(value,score);
     return gameStatus;
 }
 
@@ -368,65 +401,19 @@ void LocalDart::handleStatusRequest()
     }
     auto gameStatus = gameController()->status();
     auto currentPlayerId = gameController()->currentActivePlayer();
-    auto playerName = playerContext()->playerFullName(currentPlayerId);
+    auto playerName = dataContext()->playerFullName(currentPlayerId);
     emit sendStatus(gameStatus,{playerName});
 }
 
 int LocalDart::score(const QString &player)
 {
-    if(playerContext() == nullptr)
+    if(dataContext() == nullptr)
         return -1;
     if(gameController() == nullptr)
         return -1;
-    auto playerID = playerContext()->playerIDFromFullName(player);
-    auto score = gameController()->score(playerID);
+    auto playerID = dataContext()->playerIDFromFullName(player);
+    auto score = dataContext()->score(playerID);
     return score;
-}
-
-void LocalDart::handleScoreBoardRequest()
-{
-    if(gameController() == nullptr)
-    {
-        emit sendStatus(Status::ModelNotFound,{});
-        return;
-    }
-
-    auto currentTournamentID = gameController()->currentTournamentID();
-    auto currentGameMode = dataContext()->tournamentGameMode(currentTournamentID);
-    auto keyPoint = dataContext()->tournamentKeyPoint(currentTournamentID);
-    emit sendCurrentTournamentKeyPoint(keyPoint);
-    auto numberOfThrows = dataContext()->tournamentNumberOfThrows(currentTournamentID);
-    auto assignedPlayersID = dataContext()->tournamentAssignedPlayers(currentTournamentID);
-    for (auto assignedPlayerID : assignedPlayersID) {
-        auto roundIndex = 1;
-        auto throwIndex = 0;
-        auto playerName = playerContext()->playerFullName(assignedPlayerID);
-        emit sendAssignedPlayerName(playerName);
-        if(currentGameMode == GameModes::FirstToPost)
-            emit sendPlayerScore(playerName,keyPoint);
-        while (1)
-        {
-            QUuid pointID;
-            try {
-                pointID = dataContext()->playerPoint(currentTournamentID,
-                                                         assignedPlayerID,
-                                                         roundIndex,
-                                                         throwIndex++,
-                                                         DisplayHint);
-
-            }  catch (...) {
-                break;
-            }
-
-            auto score = dataContext()->playerScore(pointID);
-            emit sendPlayerScore(playerName,score);
-            if(throwIndex % numberOfThrows == 0)
-            {
-                throwIndex = 0;
-                roundIndex++;
-            }
-        }
-    }
 }
 
 void LocalDart::requestTournaments()
@@ -440,7 +427,7 @@ void LocalDart::requestTournaments()
         auto assignedPlayersCount = dataContext()->tournamentAssignedPlayers(tournamentID).count();
         auto gameMode = dataContext()->tournamentGameMode(tournamentID);
 
-        emit sendRequestetTournament(title,numberOfThrows,maxPlayers,gameMode,keyPoint,assignedPlayersCount);
+        emit sendRequestedTournament(title,numberOfThrows,maxPlayers,gameMode,keyPoint,assignedPlayersCount);
     }
 }
 
@@ -450,7 +437,7 @@ void LocalDart::assignPlayers(const QVariantList &list, const QString &tournamen
     for (auto variantItem : list) {
         auto index = variantItem.toInt();
         try {
-            auto playerID = playerContext()->playerIDFromIndex(index);
+            auto playerID = dataContext()->playerIDFromIndex(index);
             assignPlayer(playerID,tournamentID);
         }  catch (const char *msg) {
             emit sendStatus(Status::ModelNotFound,{});
@@ -465,12 +452,12 @@ void LocalDart::assignPlayers(const QVariantList &list, const QString &tournamen
 void LocalDart::handleGameStatusRecieved(const int &status)
 {
     auto currentPlayerID = gameController()->currentActivePlayer();
-    auto playerName = playerContext()->playerFullName(currentPlayerID);
+    auto playerName = dataContext()->playerFullName(currentPlayerID);
     auto roundIndex = gameController()->currentRoundIndex();
     auto canUndo = gameController()->canUndoTurn();
     auto canRedo = gameController()->canRedoTurn();
     auto winnerID = gameController()->determinedWinner();
-    auto winnerFullName = playerContext()->playerFullName(winnerID);
+    auto winnerFullName = dataContext()->playerFullName(winnerID);
     QVariantList arguments = {playerName,roundIndex,canUndo,canRedo, winnerFullName};
     emit sendStatus(status,arguments);
 
@@ -478,9 +465,9 @@ void LocalDart::handleGameStatusRecieved(const int &status)
 
 void LocalDart::createInitialModels() const
 {
-    auto kent = playerContext()->playerIDFromFullName("Kent KillerHertz");
-    auto martin = playerContext()->playerIDFromFullName("Martin Hansen");
-    auto william = playerContext()->playerIDFromFullName("William Worsøe");
+    auto kent = dataContext()->playerIDFromFullName("Kent KillerHertz");
+    auto martin = dataContext()->playerIDFromFullName("Martin Hansen");
+    auto william = dataContext()->playerIDFromFullName("William Worsøe");
 
     auto count = dataContext()->tournamentsCount();
 
@@ -507,7 +494,7 @@ void LocalDart::assignPlayer(const QUuid &player, const QUuid &tournament)
 
 void LocalDart::createPlayer(const QString &firstName, const QString &lastName, const QString &email)
 {
-    playerContext()->createPlayer(firstName,lastName,email);
+    dataContext()->createPlayer(firstName,lastName,email);
     emit sendStatus(Status::Success,{});
 }
 
@@ -527,7 +514,7 @@ void LocalDart::gameModes() const
 
 void LocalDart::forwardScoreFromDataContext(const QUuid &player, const int &score)
 {
-    auto playerName = playerContext()->playerFullName(player);
+    auto playerName = dataContext()->playerFullName(player);
     emit sendPlayerScore(playerName,score);
 }
 

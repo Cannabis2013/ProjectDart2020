@@ -23,7 +23,6 @@ int main(int argc, char *argv[])
     AbstractDartInterface *_dart = new LocalDart();
 
     _dart->setDataContext(new LocalDataContext("MHapps","Dart2020"));
-    _dart->setPlayerContext(new LocalPlayerContext);
     _dart->setControllerBuilder(new GameBuilder());
     _dart->createInitialModels();
 

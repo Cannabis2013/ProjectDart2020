@@ -24,25 +24,29 @@ Content {
     signal requestStart
     signal requestStop
 
+    onSendStatusRequest: {
+        var buttonText = turnNavigator.startButtonText;
+        if(buttonText === "Start" || buttonText === "Resume")
+            requestStart();
+        else
+            requestStop();
+    }
+
     onReplyFromBackendRecieved: {
         var buttonText = turnNavigator.startButtonText;
-        if(status === 0xb && buttonText !== "Resume") // Gamecontroller is stopped
+        if(status === 0xb) // Gamecontroller is stopped
         {
-            requestStart();
+            buttonText = "Resume"
         }
-        else if(status === 0xc && buttonText === "Resume")
-        {
-            keyPad.enableKeys = false;
-            requestStop();
-        }
-        else if(status === 0xc && buttonText !== "Pause")
+        else if(status === 0xc) // Gamecontroller awaits input
         {
             turnNavigator.startButtonText = "Pause";
             keyPad.enableKeys = true;
         }
-        else if(status === 0xc)
+        else if(status === 0xe)
         {
-            keyPad.enableKeys = true;
+            keyPad.enableKeys = false;
+
         }
     }
 
@@ -58,10 +62,7 @@ Content {
             Layout.fillWidth: true
             height: 64
             Layout.alignment: Qt.AlignHCenter
-            onStartButtonClicked: {
-                startButtonText = startButtonText !== "Start" ? "Resume" : startButtonText;
-                sendStatusRequest()
-            }
+            onStartButtonClicked: sendStatusRequest()
         }
         ScoreBoard{
             id: scoreTable
@@ -99,6 +100,7 @@ Content {
         body.requestStart.connect(localDart.requestStart);
         body.requestStop.connect(localDart.requestStop);
         body.sendInput.connect(localDart.addPoint);
+        body.sendStatusRequest.disconnect(localDart.handleStatusRequest);
 
         scoreTable.setMinimumColumnsCount(4);
 

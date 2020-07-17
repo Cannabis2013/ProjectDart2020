@@ -1,15 +1,11 @@
 #ifndef IGAMECONTROLLER_H
 #define IGAMECONTROLLER_H
 
-template<typename TUuid,class TString, class TDefaultLocalDataContext>
+template<typename TUuid,class TString>
 class IController
 {
 public:
     virtual TUuid currentTournamentID()  = 0;
-    virtual void setCurrentTournament( TUuid &tournament) = 0;
-
-    virtual int processInput(const int &point) = 0;
-
     virtual TString playerMessage()  = 0;
 
     virtual TUuid currentActivePlayer() = 0;
@@ -20,7 +16,7 @@ public:
 
     virtual int status()  = 0;
 
-    virtual TString calculateThrowSuggestion()  = 0;
+    virtual TString calculateThrowSuggestion(const int &score)  = 0;
 
     virtual TUuid determinedWinner()  = 0;
 
@@ -32,8 +28,6 @@ public:
 
     virtual int lastPlayerIndex()  = 0;
     virtual int playerIndex()  = 0;
-
-    virtual int score(const TUuid &player) = 0;
 };
 
 #endif // IGAMECONTROLLER_H

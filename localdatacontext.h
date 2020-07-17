@@ -93,7 +93,7 @@ public:
                    const int &roundIndex,
                    const int &setIndex,
                    const int &legIndex,
-                   const int &point, const int &score) override;
+                   const int &point) override;
     QUuid setScoreHint(const QUuid &point, const int &hint) override;
     QUuid editScore(const QUuid &pointId, const int &value, const int &score,const int &hint) override;
     QUuid alterPointPlayer(const QUuid &pointId, const QUuid &playerId) override;
@@ -110,6 +110,13 @@ public:
     DefaultDataInterface *setTournamentBuilder(ITournamentBuilder *builder) override;
     ITournamentBuilder *tournamentBuilder() const override;
     int playerPointsCount(const int &hint) const override;
+
+public slots:
+
+    void sendPlayerScores(const QUuid &tournament) override;
+
+    void appendRound(const QUuid &tournament, const int &index) override;
+    void appendSet(const QUuid &tournament, const int &roundIndex, const int &setIndex) override;
 
 private:
     QList<QUuid> pointModels(const QUuid &player) const;
@@ -138,6 +145,26 @@ private:
     QList<const DefaultRoundInterface *> _rounds;
     QList<const DefaultSetInterface *> _sets;
     QList<const DefaultPointInterface*> _points;
+
+    int score(const QUuid &tournament, const QUuid &player) const override;
+    int score(const QUuid &player) const override;
+
+    // IDataContext interface
+public:
+    QUuid createPlayer(const QString &firstName, const QString &lastName, const QString &playerEMail, const int &role) override;
+    void deletePlayerByFirstName(const QString &firstName) override;
+    void deletePlayerByID(const QUuid &player) override;
+    void deletePlayerByEmail(const QString &playerEMail) override;
+    QUuid playerIDFromFullName(const QString &fullName) const override;
+    QUuid playerIDFromIndex(const int &index) const override;
+    QString playerFirstName(const QUuid &id) const override;
+    QString playerLastName(const QUuid &id) const override;
+    QString playerFullName(const QUuid &id) const override;
+    QString playerEMail(const QUuid &id) const override;
+    QList<QUuid> players() const override;
+    int playersCount() const override;
+    IDataContext<QUuid, QList<QUuid>, QString, ITournamentBuilder,DefaultPlayerBuilder> *setPlayerBuilder(DefaultPlayerBuilder *builder) override;
+    DefaultPlayerBuilder *playerBuilder() const override;
 };
 
 

@@ -98,12 +98,12 @@ Content{
     }
     Component.onCompleted: {
         body.requestTournaments.connect(localDart.requestTournaments); // Request initial tournaments
-        localDart.sendRequestetTournament.connect(recieveTournament)
+        localDart.sendRequestedTournament.connect(recieveTournament)
         body.sendClickedTournamentIndex.connect(localDart.setCurrentActiveTournament)
         requestUpdate();
     }
     Component.onDestruction: {
-        localDart.sendRequestetTournament.disconnect(recieveTournament);
+        localDart.sendRequestedTournament.disconnect(recieveTournament);
         body.sendClickedTournamentIndex.disconnect(localDart.setCurrentActiveTournament)
         body.requestTournaments.disconnect(localDart.requestTournaments);
     }

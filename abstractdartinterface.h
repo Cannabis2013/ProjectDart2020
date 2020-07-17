@@ -5,25 +5,17 @@
 
 #include <idatacontext.h>
 #include <abstractgamecontroller.h>
-#include <iplayercontext.h>
 #include <idatamodelbuilder.h>
 #include "iplayermodel.h"
 #include "iplayerbuildercontext.h"
 #include "IControllerBuilder.h"
 #include "abstractdatacontext.h"
 
-/*
- * This is the interface you will pass to the visual QML layer
- * Make sure that methods are marked with the Q_INVOKABLE macro and return types which are accepted by the QML engine
- *
- */
-
 typedef IPlayerModel<QUuid,QString> DefaultModelInterface;
 typedef IPlayerBuilderParameters<QString> DefaultParameters;
 typedef IDataModelBuilder<DefaultModelInterface,DefaultParameters,IPlayerBuilderConfiguration> DefaultPlayerBuilder;
-typedef IDataContext<QUuid,QList<QUuid>,QString,ITournamentBuilder> DefaultDataInterface;
-typedef IPlayerContext<QUuid,QList<QUuid>,QString, DefaultPlayerBuilder> PlayerContextInterface;
-typedef IController<QUuid,QString, DefaultDataInterface> GameControllerInterface;
+typedef IDataContext<QUuid,QList<QUuid>,QString,ITournamentBuilder,DefaultPlayerBuilder> DefaultDataInterface;
+typedef IController<QUuid,QString> GameControllerInterface;
 
 
 class AbstractDartInterface : public QObject
@@ -86,16 +78,10 @@ public:
     {
         _dataContext = dataContext;
 
-        connect(_dataContext,&AbstractDataContext::sendPlayerScore,this,&AbstractDartInterface::forwardScoreFromDataContext);
-    }
-
-    PlayerContextInterface *playerContext() const
-    {
-        return _playerContext;
-    }
-    void setPlayerContext(PlayerContextInterface *playerContext)
-    {
-        _playerContext = playerContext;
+        connect(_dataContext,&AbstractDataContext::sendPlayerScore,this,&AbstractDartInterface::sendPlayerScore);
+        connect(_gameController,&AbstractGameController::sendCurrentTournament,_dataContext,&AbstractDataContext::sendPlayerScores);
+        connect(_dataContext,&AbstractDataContext::sendCurrentTournamentKeyPoint,this,&AbstractDartInterface::sendCurrentTournamentKeyPoint);
+        connect(_dataContext,&AbstractDataContext::sendAssignedPlayerName,this,&AbstractDartInterface::sendAssignedPlayerName);
     }
 
     AbstractGameController *gameController() const
@@ -109,6 +95,7 @@ public:
         connect(_gameController,&AbstractGameController::sendStatus,this,&AbstractDartInterface::handleGameStatusRecieved);
         connect(this,&AbstractDartInterface::requestStart,_gameController,&AbstractGameController::start);
         connect(this,&AbstractDartInterface::requestStop,_gameController,&AbstractGameController::stop);
+        connect(this,&AbstractDartInterface::requestPlayerDetails,_gameController,&AbstractGameController::handleCurrentTournamentRequest);
     }
 public slots:
     virtual void createTournament(const QString &title,
@@ -120,7 +107,7 @@ public slots:
     virtual void assignPlayers(const QVariantList &list, const QString &tournament) = 0;
     virtual void requestPlayerDetails() = 0;
     virtual void requestTournaments() = 0;
-    virtual void handleScoreBoardRequest() = 0;
+
     virtual void setCurrentActiveTournament(const int &index) = 0;
     virtual void gameModes() const = 0;
     virtual void handleStatusRequest() = 0;
@@ -138,27 +125,34 @@ signals:
     void sendStatus(const int &status, const QVariantList &arguments);
     void sendPlayerScore(const QString &playerName, const int &score);
     void sendAssignedPlayerName(const QString &playerName);
-    void sendRequestetTournament(const QString &title,
+    void sendCurrentTournamentKeyPoint(const int &point);
+    void sendRequestedTournament(const QString &title,
                                  const int &numberOfThrows,
                                  const int &maxPlayers,
                                  const int &gameMode,
                                  const int &keyPoint,
                                  const int &playersCount);
-    void sendCurrentTournamentKeyPoint(const int &point);
     void sendInformalControllerValues(const int &roundIndex,
                                       const QString &playerName,
                                       const bool &undoAvailable,
                                       const bool &redoAvailable);
     void sendGameModes(const QStringList &modes) const;
     void stateChanged();
+    void sendInitialControllerValues(const QUuid &tournament,const int &keyPoint, const int &numberOfThrows, QList<QUuid> assignedPlayers);
+    void sendInitialControllerIndexes(const int &roundIndex,
+                                    const int &setIndex,
+                                    const int &throwIndex,
+                                    const int &turnIndex,
+                                    const int &totalTurns);
 
     void requestStart();
     void requestStop();
 
+    virtual void requestPlayerScores();
+
 private:
     IControllerBuilder<AbstractGameController, int> *_controllerBuilder;
     AbstractDataContext *_dataContext = nullptr;
-    PlayerContextInterface *_playerContext= nullptr;
     AbstractGameController *_gameController= nullptr;
 
 };

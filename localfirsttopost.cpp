@@ -4,8 +4,8 @@ int LocalFirstToPost::start()
 {
     _isActive = true;
     if(_roundIndex == 0){
-        dataContext()->addRound(currentTournamentID(),++_roundIndex);
-        dataContext()->addSet(currentTournamentID(),_roundIndex,_setIndex);
+        emit addRoundRequest(currentTournamentID(),++_roundIndex);
+        emit addSetRequest(currentTournamentID(),currentRoundIndex(),currentLegIndex());
     }
     _currentStatus = GameStatus::GameControllerAwaitsInput;
     emit sendStatus(_currentStatus);
@@ -20,7 +20,7 @@ int LocalFirstToPost::stop()
     return _currentStatus;
 }
 
-int LocalFirstToPost::processInput(const int &point)
+int LocalFirstToPost::processInput(const int &point, const int &currentScore)
 {
     if(status() == GameControllerIdle ||
             status() == GameControllerStopped ||
@@ -30,8 +30,10 @@ int LocalFirstToPost::processInput(const int &point)
         return status();
     }
 
+    auto score = currentScore + point;
+
     // Evaluate input according to point domain and aggregated sum domain
-    auto inputResponse = validateInput(point);
+    auto inputResponse = validateInput(point,score);
 
     if(inputResponse == InputPointDomain::InvalidDomain)
         throw INVALID_DOMAIN;
@@ -88,15 +90,15 @@ QString LocalFirstToPost::playerMessage()
     return QString();
 }
 
-QString LocalFirstToPost::calculateThrowSuggestion()
+QString LocalFirstToPost::calculateThrowSuggestion(const int &score)
 {
     /* TODO: Here you first have to develop an algorithm to help assess the various combinations that exists after the player reach the 180 points threshold
      * TODO: When done, ruct a string containing the various suggestions. Ex.: 'T20,D10,5' or 'D5,1' for a remaining score at 95 or 11 respectively.
      */
 
-    auto legCount = dataContext()->tournamentNumberOfThrows(currentTournamentID());
+    auto legCount = _numberOfThrows;
 
-    auto remainingScore = _keyPoint - sum();
+    auto remainingScore = _keyPoint - score;
 
     auto msg = _pointLogisticInterface->constructThrowSuggestions(remainingScore,legCount);
 
@@ -131,14 +133,7 @@ int LocalFirstToPost::currentLegIndex()
 
 QUuid LocalFirstToPost::currentTournamentID()
 {
-    return _tournament;
-}
-
-void LocalFirstToPost::setCurrentTournament(QUuid &tournament)
-{
-    _tournament = tournament;
-    initializeController(tournament);
-    initializeIndexes(tournament);
+    return _currentTournament;
 }
 
 int LocalFirstToPost::status()
@@ -219,20 +214,18 @@ bool LocalFirstToPost::canRedoTurn()
     return _turnIndex < _totalTurns;
 }
 
-int LocalFirstToPost::score(const QUuid &player)
+void LocalFirstToPost::initializeController(const QUuid &tournament, const int &keyPoint, const int &numberOfThrows, QList<QUuid> assignedPlayers)
 {
-    auto playerScore = dataContext()->playerPoints(currentTournamentID(),player, 0x2);
-    int totalScore = _keyPoint;
-    for (auto scoreID : playerScore) {
-        auto point = dataContext()->pointValue(scoreID);
-        totalScore -= point;
-    }
-    return totalScore;
+    _currentTournament = tournament;
+    _keyPoint = keyPoint;
+    _numberOfThrows = numberOfThrows;
+    _assignedPlayers = assignedPlayers;
 }
 
-int LocalFirstToPost::validateCurrentState()
+
+int LocalFirstToPost::validateCurrentState(const int &score)
 {
-    auto playerSum = _keyPoint - sum();
+    auto playerSum = _keyPoint - score;
 
     if(playerSum > criticalLimit)
         return PointDomain;
@@ -244,9 +237,9 @@ int LocalFirstToPost::validateCurrentState()
         return OutsideDomain;
 }
 
-int LocalFirstToPost::validateInput(const int &pointValue)
+int LocalFirstToPost::validateInput(const int &pointValue, const int &currentScore)
 {
-    auto playerScore = _keyPoint - sum(pointValue);
+    auto playerScore = _keyPoint - currentScore;
 
     if(playerScore > criticalLimit)
         return PointDomain;
@@ -260,63 +253,32 @@ int LocalFirstToPost::validateInput(const int &pointValue)
 
 QUuid LocalFirstToPost::addPoint(const int &point)
 {
-    auto score = _keyPoint - sum(point);
     auto playerID = currentActivePlayer();
     auto tournamentID = currentTournamentID();
     auto roundIndex = currentRoundIndex();
     auto setIndex = currentPlayerIndex();
     auto legIndex = currentLegIndex();
 
-    auto pointID = dataContext()->addScore(tournamentID,
-                                           playerID,
-                                           roundIndex,
-                                           setIndex,
-                                           legIndex,
-                                           point,
-                                           score);
-    return pointID;
+    emit sendPoint(tournamentID,playerID,roundIndex,setIndex,legIndex,point);
 }
 
-void LocalFirstToPost::initializeController(const QUuid &tournament)
+
+void LocalFirstToPost::initializeIndexes(const int &roundIndex,
+                                         const int &setIndex,
+                                         const int &throwIndex,
+                                         const int &turnIndex,
+                                         const int &totalTurns)
 {
-    _keyPoint = dataContext()->tournamentKeyPoint(tournament);
-    _numberOfThrows = dataContext()->tournamentNumberOfThrows(tournament);
-    _assignedPlayers = dataContext()->tournamentAssignedPlayers(tournament);
+    _roundIndex = roundIndex;
+    _setIndex = setIndex;
+    _throwIndex = throwIndex;
+    _turnIndex = turnIndex;
+    _totalTurns = totalTurns;
 }
 
-void LocalFirstToPost::initializeIndexes(const QUuid &tournament)
+void LocalFirstToPost::handleCurrentTournamentRequest()
 {
-    auto turnIndex = 0;
-    auto roundIndex = 1;
-    auto setIndex = 0;
-    auto legIndex = 0;
-    auto playersCount = _assignedPlayers.count();
-    auto numberOfLegs = _numberOfThrows;
-    while(1)
-    {
-        auto playerID = _assignedPlayers.at(setIndex);
-        try {
-            dataContext()->playerPoint(tournament,playerID,roundIndex,legIndex,DisplayHint);
-        } catch (const char *msg) {
-            break;
-        }
-        if(++legIndex % numberOfLegs == 0)
-        {
-            legIndex = 0;
-            setIndex++;
-            if(setIndex >= playersCount)
-            {
-                roundIndex++;
-                setIndex = 0;
-            }
-        }
-        turnIndex++;
-    }
-    _roundIndex = turnIndex == 0 ? 0 : roundIndex;
-    _setIndex = turnIndex == 0 ? 0 : setIndex;
-    _throwIndex = turnIndex == 0 ? 0 : legIndex;
-    _turnIndex = turnIndex == 0 ? 0 : turnIndex;
-    _totalTurns = turnIndex == 0 ? 0 : dataContext()->playerPointsCount(allHints);
+    emit sendCurrentTournament(_currentTournament);
 }
 
 int LocalFirstToPost::currentTurnIndex()
@@ -338,50 +300,15 @@ void LocalFirstToPost::nextTurn()
         _setIndex++;
         _throwIndex = 0;
         if(_setIndex >= _assignedPlayers.count()){
-            dataContext()->addRound(currentTournamentID(),++_roundIndex);
+            emit addRoundRequest(currentTournamentID(),++_roundIndex);
             _setIndex = 0;
         }
-
-        dataContext()->addSet(currentTournamentID(),currentRoundIndex(),_setIndex);
+        emit addSetRequest(currentTournamentID(),currentRoundIndex(),_setIndex);
     }
     else
     {
         _throwIndex++;
     }
-}
-
-int LocalFirstToPost::sum(const int &pointValue)
-{
-    auto pointIds = dataContext()->playerPoints(_tournament,currentActivePlayer(),DisplayHint);
-
-    int sum = pointValue;
-
-    for (auto pointId : pointIds)
-        sum += dataContext()->pointValue(pointId);
-
-    return sum;
-}
-
-int LocalFirstToPost::sum(const QUuid &player)
-{
-    auto pointIds = dataContext()->playerPoints(_tournament,player,DisplayHint);
-
-    int sum = 0;
-    for (auto pointId : pointIds)
-        sum += dataContext()->pointValue(pointId);
-
-    return sum;
-}
-
-int LocalFirstToPost::sum()
-{
-    auto pointIds = dataContext()->playerPoints(currentTournamentID(),currentActivePlayer(),DisplayHint);
-
-    int sum = 0;
-    for (auto pointId : pointIds)
-        sum += dataContext()->pointValue(pointId);
-
-    return sum;
 }
 
 void LocalFirstToPost::declareWinner()

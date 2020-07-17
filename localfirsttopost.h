@@ -28,11 +28,11 @@ public:
     int start() override;
     int stop() override;
 
-    int processInput(const int &point) override;
+    int processInput(const int &point, const int &currentScore) override;
 
     QString playerMessage()  override;
 
-    QString calculateThrowSuggestion()  override;
+    QString calculateThrowSuggestion(const int &score)  override;
 
     QUuid currentActivePlayer()  override;
 
@@ -42,7 +42,6 @@ public:
     int currentLegIndex()  override;
 
     QUuid currentTournamentID()  override;
-    void setCurrentTournament(QUuid &tournament) override;
 
     int status() override;
 
@@ -57,10 +56,12 @@ public:
     bool canUndoTurn() override;
     bool canRedoTurn() override;
 
-    int score(const QUuid &player) override;
-
     IPointLogisticManager<QString> *pointLogisticInterface() const;
     AbstractGameController *setPointLogisticInterface(IPointLogisticManager<QString> *pointLogisticInterface);
+public slots:
+    void initializeController(const QUuid &tournament, const int &keyPoint, const int &numberOfThrows, QList<QUuid> assignedPlayers) override;
+    void initializeIndexes(const int &roundIndex, const int &setIndex, const int &throwIndex, const int &turnIndex, const int &totalTurns) override;
+    void handleCurrentTournamentRequest() override;
 private:
     /* Private types
      *
@@ -78,21 +79,16 @@ private:
      */
     void consistencyCheck();
     // Post validation : Validate player score after updating datacontext
-    int validateCurrentState();
+    int validateCurrentState(const int &score);
     /* Pre validation :
      *  - Validate input domain
      *  - Validate projected player score before updating datacontext
      */
-    int validateInput(const int &pointValue);
+    int validateInput(const int &pointValue, const int &currentScore);
     /*
      * Update datacontext
      */
     QUuid addPoint(const int &point);
-    /*
-     * Update controller state and indexes according to current tournament
-     */
-    void initializeController(const QUuid &tournament);
-    void initializeIndexes(const QUuid &tournament);
     /*
      * Set controller state according to datacontext
      */
@@ -103,10 +99,6 @@ private:
     bool isIndexOffset();
 
     void nextTurn();
-
-    int sum(const int &pointValue);
-    int sum(const QUuid &player);
-    int sum();
 
     void declareWinner();
 
@@ -129,7 +121,7 @@ private:
     bool _isOff;
 
     int _keyPoint = 0;
-    QUuid _tournament = QUuid();
+    QUuid _currentTournament = QUuid();
     QUuid _winner;
     GameStatus _currentStatus = GameStatus::GameControllerStopped;
     bool _isActive = false;

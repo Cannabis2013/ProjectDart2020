@@ -1,7 +1,7 @@
 #ifndef ILOCALDATACONTEXT_H
 #define ILOCALDATACONTEXT_H
 
-template<class TUuid, class TList,class TString, class TTournamentBuilder>
+template<class TUuid, class TList,class TString, class TTournamentBuilder, class TPlayerBuilder>
 class IDataContext
 {
 public:
@@ -56,13 +56,6 @@ public:
     virtual TList scores(const TUuid &tournament) const = 0;
     virtual TList scores(const TUuid &tournament, const TUuid &roundID) const = 0;
     virtual TList scores(const TUuid &tournament, const TUuid &roundID, const TUuid &setID) const = 0;
-    virtual TUuid addScore(const TUuid &tournament,
-                           const TUuid &player,
-                           const int &roundIndex,
-                           const int &setIndex,
-                           const int &legIndex,
-                           const int &point,
-                           const int &score) = 0;
     virtual TUuid setScoreHint(const TUuid &point, const int &hint) = 0;
     virtual TUuid editScore(const TUuid &pointId, const int &value,const int &score,const int &hint) = 0;
     virtual TUuid alterPointPlayer(const TUuid &pointId, const TUuid &playerId) = 0;
@@ -77,10 +70,39 @@ public:
     virtual bool removePlayerPoint(const TUuid &point) = 0;
     virtual void removePlayerPointAndRelatives(const TUuid &point) = 0;
     virtual int playerPointsCount(const int &hint) const = 0;
+
+    virtual int score(const TUuid &tournament, const TUuid &player) const = 0;
+    virtual int score(const TUuid &player) const = 0;
+    /*
+     * Player related stuff
+     */
+    virtual TUuid createPlayer(const TString& firstName,
+                               const TString& lastName,
+                               const TString& playerEMail,
+                               const int& role = 0x00) = 0;
+    virtual void deletePlayerByFirstName(const TString &firstName) = 0;
+    virtual void deletePlayerByID(const TUuid &player) = 0;
+    virtual void deletePlayerByEmail(const TString &playerEMail) = 0;
+    virtual TUuid playerIDFromFullName(const TString &fullName) const = 0;
+    virtual TUuid playerIDFromIndex(const int &index) const = 0;
+    virtual TString playerFirstName(const TUuid& id) const = 0;
+    virtual TString playerLastName(const TUuid& id) const = 0;
+
+    virtual TString playerFullName(const TUuid& id) const = 0;
+
+    virtual TString playerEMail(const TUuid& id) const = 0;
+
+    virtual TList players() const = 0;
+
+    virtual int playersCount() const = 0;
+
+    virtual IDataContext<TUuid, TList,TString, TTournamentBuilder, TPlayerBuilder> *setPlayerBuilder(TPlayerBuilder *builder) = 0;
+    virtual TPlayerBuilder *playerBuilder() const = 0;
+
     /*
      * Builders
      */
-    virtual IDataContext<TUuid, TList,TString, TTournamentBuilder> *setTournamentBuilder(TTournamentBuilder *builder) = 0;
+    virtual IDataContext<TUuid, TList,TString, TTournamentBuilder, TPlayerBuilder> *setTournamentBuilder(TTournamentBuilder *builder) = 0;
     virtual TTournamentBuilder *tournamentBuilder() const = 0;
 
     /*
