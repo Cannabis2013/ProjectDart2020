@@ -1,5 +1,5 @@
-#include "localplayercontext.h"
-LocalPlayerContext::LocalPlayerContext()
+#include "localplayermodelcontext.h"
+LocalPlayerModelContext::LocalPlayerModelContext()
 {
     _playerBuilder = new LocalPlayerBuilder();
 
@@ -8,7 +8,7 @@ LocalPlayerContext::LocalPlayerContext()
     createPlayer("William","Worsøe","",0x2);
 }
 
-QUuid LocalPlayerContext::createPlayer(const QString &firstName, const QString &lastName, const QString &email, const int &role)
+QUuid LocalPlayerModelContext::createPlayer(const QString &firstName, const QString &lastName, const QString &email, const int &role)
 {
     auto model = playerBuilder()->buildModel([firstName,lastName,email,role]
     {
@@ -35,7 +35,7 @@ QUuid LocalPlayerContext::createPlayer(const QString &firstName, const QString &
     return model->id();
 }
 
-void LocalPlayerContext::deletePlayerByFirstName(const QString &firstName)
+void LocalPlayerModelContext::deletePlayerByFirstName(const QString &firstName)
 {
     for (auto model : _models) {
         auto fName = model->firstName();
@@ -49,7 +49,7 @@ void LocalPlayerContext::deletePlayerByFirstName(const QString &firstName)
     throw "No model found with given id";
 }
 
-void LocalPlayerContext::deletePlayerByID(const QUuid &player)
+void LocalPlayerModelContext::deletePlayerByID(const QUuid &player)
 {
     for (auto model : _models) {
         auto modelID = model->id();
@@ -63,7 +63,7 @@ void LocalPlayerContext::deletePlayerByID(const QUuid &player)
     throw "No model found with given id";
 }
 
-void LocalPlayerContext::deletePlayerByEmail(const QString &email)
+void LocalPlayerModelContext::deletePlayerByEmail(const QString &email)
 {
     for (auto model : _models) {
         auto mailAdress = model->email();
@@ -77,7 +77,7 @@ void LocalPlayerContext::deletePlayerByEmail(const QString &email)
     throw "No model found with given mail adress";
 }
 
-QUuid LocalPlayerContext::playerIDFromFullName(const QString &fullName) const
+QUuid LocalPlayerModelContext::playerIDFromFullName(const QString &fullName) const
 {
     auto indexOfSpaceLeft = fullName.lastIndexOf(32);
     auto indexOfSpaceRight = fullName.count() - indexOfSpaceLeft;
@@ -93,7 +93,7 @@ QUuid LocalPlayerContext::playerIDFromFullName(const QString &fullName) const
     }
 }
 
-QUuid LocalPlayerContext::playerIDFromIndex(const int &index) const
+QUuid LocalPlayerModelContext::playerIDFromIndex(const int &index) const
 {
     try {
         auto model = _models.at(index);
@@ -104,7 +104,7 @@ QUuid LocalPlayerContext::playerIDFromIndex(const int &index) const
     }
 }
 
-QString LocalPlayerContext::playerFirstName(const QUuid &id) const
+QString LocalPlayerModelContext::playerFirstName(const QUuid &id) const
 {
     for (auto model : _models) {
         auto modelID = model->id();
@@ -115,7 +115,7 @@ QString LocalPlayerContext::playerFirstName(const QUuid &id) const
     return QString();
 }
 
-QString LocalPlayerContext::playerLastName(const QUuid &id) const
+QString LocalPlayerModelContext::playerLastName(const QUuid &id) const
 {
     for (auto model : _models) {
         auto modelID = model->id();
@@ -126,7 +126,7 @@ QString LocalPlayerContext::playerLastName(const QUuid &id) const
     return QString();
 }
 
-QString LocalPlayerContext::playerEMail(const QUuid &id) const
+QString LocalPlayerModelContext::playerEMail(const QUuid &id) const
 {
     for (auto model : _models) {
         auto modelID = model->id();
@@ -137,7 +137,7 @@ QString LocalPlayerContext::playerEMail(const QUuid &id) const
     return QString();
 }
 
-QString LocalPlayerContext::playerFullName(const QUuid &id) const
+QString LocalPlayerModelContext::playerFullName(const QUuid &id) const
 {
     for (auto model : _models) {
         auto modelID = model->id();
@@ -148,7 +148,7 @@ QString LocalPlayerContext::playerFullName(const QUuid &id) const
     return QString();
 }
 
-QList<QUuid> LocalPlayerContext::players() const
+QList<QUuid> LocalPlayerModelContext::players() const
 {
     QList<QUuid> resultingList;
     for (auto model : _models) {
@@ -159,24 +159,24 @@ QList<QUuid> LocalPlayerContext::players() const
     return resultingList;
 }
 
-int LocalPlayerContext::playersCount() const
+int LocalPlayerModelContext::playersCount() const
 {
     return _models.count();
 }
 
-DefaultPlayerBuilder *LocalPlayerContext::playerBuilder() const
+DefaultPlayerBuilder *LocalPlayerModelContext::playerBuilder() const
 {
     return _playerBuilder;
 }
 
-PlayerContextInterface *LocalPlayerContext::setPlayerBuilder(DefaultPlayerBuilder *builder)
+PlayerContextInterface *LocalPlayerModelContext::setPlayerBuilder(DefaultPlayerBuilder *builder)
 {
     _playerBuilder = builder;
 
     return this;
 }
 
-DefaultPlayerInterface *LocalPlayerContext::getModel(const QString &firstName, const QString &lastName) const
+DefaultPlayerInterface *LocalPlayerModelContext::getModel(const QString &firstName, const QString &lastName) const
 {
     for (auto model : _models) {
         if(model->firstName() == firstName && model->lastName() == lastName)

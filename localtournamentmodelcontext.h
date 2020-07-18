@@ -14,12 +14,10 @@
 
 typedef IPlayerModel<QUuid,QString> DefaultModelInterface;
 typedef IPlayerBuilderParameters<QString> DefaultParameters;
-typedef IDataModelBuilder<DefaultModelInterface,DefaultParameters,IPlayerBuilderConfiguration> DefaultPlayerBuilder;
-
-typedef IDataContext<QUuid,QList<QUuid>,QString,ITournamentBuilder,DefaultPlayerBuilder> DefaultDataInterface;
+typedef IDataContext<QUuid,QList<QUuid>,QString,ITournamentBuilder> DefaultDataInterface;
 
 
-class TournamentModelContext : public DefaultDataInterface, public AbstractPersistence
+class LocalTournamentModelContext : public DefaultDataInterface, public AbstractPersistence
 {
 public:
     enum ModelDisplayHint{HiddenHint = 0x1,DisplayHint = 0x2, allHints = 0x4};
@@ -27,7 +25,7 @@ public:
      * Tournament related section
      */
 
-    TournamentModelContext(const QString &org, const QString &app);
+    LocalTournamentModelContext(const QString &org, const QString &app);
 
     void read() override;
     void write() override;
@@ -99,9 +97,10 @@ public:
     QList<QUuid> playerPoints(const QUuid &tournament, const QUuid &player, const int &hint) const override;
     bool removePlayerPoint(const QUuid &point) override;
     void removePlayerPointAndRelatives(const QUuid &point) override;
-    DefaultDataInterface *setTournamentBuilder(ITournamentBuilder *builder) override;
-    ITournamentBuilder *tournamentBuilder() const override;
     int playerPointsCount(const int &hint) const override;
+
+    int addScore(const QUuid &tournament, const QUuid &player, const int &point, const int &roundIndex, const int &setIndex, const int &legIndex, const int &score) override;
+
 private:
     int score(const QUuid &tournament, const QUuid &player) const override;
     int score(const QUuid &player) const override;
@@ -120,6 +119,16 @@ private:
     const DefaultPointInterface *getPointFromID(const QUuid &id) const;
 
     // Builder methods
+    ITournamentBuilder * tournamentBuilder() const override
+    {
+        return _tournamentBuilder;
+    }
+    DefaultDataInterface *setTournamentBuilder(ITournamentBuilder *builder) override
+    {
+        _tournamentBuilder = builder;
+        return this;
+    }
+
     IRoundBuilder *roundBuilder() const;
     void setRoundBuilder(IRoundBuilder *roundBuilder);
     ISetBuilder *setBuilder() const;

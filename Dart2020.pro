@@ -21,10 +21,10 @@ SOURCES += \
         localdatacontext.cpp \
         localdbcontext.cpp \
         localfirsttopost.cpp \
-        localplayercontext.cpp \
+        localplayermodelcontext.cpp \
+        localtournamentmodelcontext.cpp \
         main.cpp \
-        scoredatamodel.cpp \
-        tournamentmodelcontext.cpp
+        scoredatamodel.cpp
 
 RESOURCES += qml.qrc
 
@@ -65,7 +65,8 @@ HEADERS += \
     localdbcontext.h \
     localfirsttopost.h \
     localplayerbuilder.h \
-    localplayercontext.h \
+    localplayermodelcontext.h \
+    localtournamentmodelcontext.h \
     modelbuildercollection.h \
     modelbuildercontext.h \
     player.h \
@@ -74,7 +75,6 @@ HEADERS += \
     round.h \
     scoredatamodel.h \
     set.h \
-    tournament.h \
-    tournamentmodelcontext.h
+    tournament.h
 
 DISTFILES += \

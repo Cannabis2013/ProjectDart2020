@@ -10,12 +10,13 @@
 #include "iplayermodel.h"
 
 #include "istatusinterface.h"
+#include "iplayercontext.h"
 
-typedef IPlayerModel<QUuid,QString> DefaultModelInterface;
+typedef IPlayerModel<QUuid,QString> DefaultPlayerInterface;
 typedef IPlayerBuilderParameters<QString> DefaultParameters;
-typedef IDataModelBuilder<DefaultModelInterface,DefaultParameters,IPlayerBuilderConfiguration> DefaultPlayerBuilder;
-
-typedef IDataContext<QUuid,QList<QUuid>,QString,ITournamentBuilder,DefaultPlayerBuilder> DefaultDataInterface;
+typedef IDataModelBuilder<DefaultPlayerInterface,DefaultParameters,IPlayerBuilderConfiguration> DefaultPlayerBuilder;
+typedef IPlayerContext<QUuid,QList<QUuid>,QString,DefaultPlayerBuilder> PlayerContextInterface;
+typedef IDataContext<QUuid,QList<QUuid>,QString,ITournamentBuilder> DefaultDataInterface;
 
 class AbstractDataContext : public QObject,
         public IStatusInterface<QVariantList>
@@ -29,9 +30,27 @@ public slots:
                            const QUuid &player,
                            const int &roundIndex,
                            const int &setIndex,
-                           const int &legIndex,
-                           const int &point) = 0;
+                          const int &legIndex,
+                          const int &point) = 0;
+
+    PlayerContextInterface *playerModelContext() const
+    {
+        return _playerModelContext;
+    }
+    void setPlayerModelContext(PlayerContextInterface *playerModelContext)
+    {
+        _playerModelContext = playerModelContext;
+    }
+
     virtual void sendPlayerScores(const QUuid &tournament) = 0;
+
+    DefaultDataInterface *tournamentModelContext(){
+        return _tournamentModelContext;
+    }
+    void setTournamentModelContext(DefaultDataInterface *context)
+    {
+        _tournamentModelContext = context;
+    }
 signals:
     void stateChanged(const int &status);
 
@@ -44,8 +63,14 @@ signals:
     void sendCurrentTournamentKeyPoint(const int &point);
 
     void sendStatus(const int &status, const QVariantList &args);
-
+private:
+    DefaultDataInterface *_tournamentModelContext;
+    PlayerContextInterface *_playerModelContext;
 
 };
 
 #endif // ABSTRACTDATACONTEXT_H
+
+
+
+

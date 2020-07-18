@@ -9,8 +9,8 @@
 #include "abstractpersistence.h"
 #include "abstractdatacontext.h"
 
-#include "localplayercontext.h"
-#include "tournamentmodelcontext.h"
+#include "localtournamentmodelcontext.h"
+#include "localplayermodelcontext.h"
 
 #define THROW_OBJECT_WITH_ID_NOT_FOUND(x) QString("Model with ID: '%1' does not exists in the current context").arg(x).toStdString();
 #define THROW_OBJECT_WITH_INDEX_NOT_FOUND(x) QString("Model with index: '%1' does not exists in the current context").arg(x).toStdString();
@@ -22,13 +22,14 @@ class LocalDataContext : public AbstractDataContext,
     Q_OBJECT
 public:
     LocalDataContext(const QString &org, const QString &app);
-    /*
-     * AbstractPersistence interface
-     */
+
+    enum ModelDisplayHint{HiddenHint = 0x1,DisplayHint = 0x2, allHints = 0x4};
+
     void read() ;
     void write() ;
 
-    TournamentModelContext *tournamentContext() const;
+    DefaultDataInterface *tournamentContext() const;
+
 
 public slots:
     void sendPlayerScores(const QUuid &tournament) ;
@@ -43,7 +44,7 @@ public slots:
                   const int &point);
 
 private:
-    TournamentModelContext *_tournamentContext;
+
 };
 
 #endif // LOCALDATACONTEXT_H

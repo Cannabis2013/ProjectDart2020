@@ -14,7 +14,7 @@
 typedef IPlayerModel<QUuid,QString> DefaultModelInterface;
 typedef IPlayerBuilderParameters<QString> DefaultParameters;
 typedef IDataModelBuilder<DefaultModelInterface,DefaultParameters,IPlayerBuilderConfiguration> DefaultPlayerBuilder;
-typedef IDataContext<QUuid,QList<QUuid>,QString,ITournamentBuilder,DefaultPlayerBuilder> DefaultDataInterface;
+typedef IDataContext<QUuid,QList<QUuid>,QString,ITournamentBuilder> DefaultDataInterface;
 typedef IController<QUuid,QString> GameControllerInterface;
 
 
@@ -28,37 +28,6 @@ public:
      *  - Create/read/delete/edit tournament
      *  -
      */
-
-    virtual void createInitialModels() const = 0;
-    virtual void assignPlayer(const QUuid &player, const QUuid &tournament) = 0;
-    virtual int tournamentsCount() = 0;
-    virtual QString tournamentIDFromIndex(const int &index) = 0;
-    virtual int tournamentMaxPlayers(const QString &id) = 0;
-    virtual int tournamentLegsCount(const QString &id) = 0;
-    virtual int tournamentPlayersCount(const QString &id) = 0;
-    virtual QString tournamentTitle(const QString &id) = 0;
-    virtual int tournamentKeyPoint(const QString &id) = 0;
-    virtual int pointValue(const QString &point) const = 0;
-    virtual int pointValue(const QString &tournament, const QString &player, const int &roundIndex, const int &legIndex) const = 0;
-    virtual int playersCount() = 0;
-    virtual QString assignedPlayerIDfromIndex(const QString &tournamentID, const int &index) = 0;
-    virtual QString playerIDFromIndex(const int &index) = 0;
-    virtual QString playerIDFromFullName(const QString &name) = 0;
-    virtual QString playerFullName(const QString &player) = 0;
-    virtual QString playerFirstName(const QString &player) = 0;
-    virtual QString playerLastName(const QString &player) = 0;
-    virtual QString playerEmail(const QString &player) = 0;
-    virtual QString currentActiveTournamentID() = 0;
-    virtual QString currentActivePlayerFullName() = 0;
-    virtual QString currentPlayerPoint(const int &hint) = 0;
-    virtual int currentGameRoundIndex() = 0;
-    virtual int currentGameSetIndex() = 0;
-    virtual int currentGameLegIndex() = 0;
-    virtual int undoTurn() = 0;
-    virtual int redoTurn() = 0;
-    virtual bool undoPossible() = 0;
-    virtual bool redoPossible() = 0;
-    virtual int score(const QString &player) = 0;
 
 
     IControllerBuilder<AbstractGameController, int> *controllerBuilder() const
@@ -139,16 +108,11 @@ signals:
     void sendGameModes(const QStringList &modes) const;
     void stateChanged();
     void sendInitialControllerValues(const QUuid &tournament,const int &keyPoint, const int &numberOfThrows, QList<QUuid> assignedPlayers);
-    void sendInitialControllerIndexes(const int &roundIndex,
-                                    const int &setIndex,
-                                    const int &throwIndex,
-                                    const int &turnIndex,
-                                    const int &totalTurns);
 
     void requestStart();
     void requestStop();
 
-    virtual void requestPlayerScores();
+    void requestPlayerScores();
 
 private:
     IControllerBuilder<AbstractGameController, int> *_controllerBuilder;

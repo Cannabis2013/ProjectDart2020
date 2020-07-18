@@ -5,7 +5,7 @@
 #include "modelbuildercollection.h"
 
 #include <qhash.h>
-
+/*
 class LocalDBContext : public AbstractDBContext<IModel<QUuid>,QUuid>
 {
 public:
@@ -14,5 +14,5 @@ public:
 private:
     QHash<QUuid,IModel<QUuid>> _models;
 };
-
+*/
 #endif // LOCALDBCONTEXT_H

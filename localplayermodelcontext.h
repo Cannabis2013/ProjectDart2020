@@ -19,7 +19,7 @@ typedef IPlayerModel<QUuid,QString> DefaultPlayerInterface;
 typedef IDataModelBuilder<DefaultPlayerInterface,IPlayerBuilderParameters<QString>,IPlayerBuilderConfiguration> DefaultPlayerBuilder;
 typedef IPlayerContext<QUuid,QList<QUuid>,QString,DefaultPlayerBuilder> PlayerContextInterface;
 
-class LocalPlayerContext :
+class LocalPlayerModelContext :
         public QObject,
         public PlayerContextInterface
 {
@@ -31,7 +31,7 @@ public:
      *  - Initalize player builder
      *  - Read settings from persistence
      */
-    LocalPlayerContext();
+    LocalPlayerModelContext();
     // Public types
     enum UserRoles{Admin = 0x0, Player = 0x02};
     QUuid createPlayer(const QString &firstName,
