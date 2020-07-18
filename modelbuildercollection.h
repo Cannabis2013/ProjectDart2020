@@ -22,7 +22,7 @@ typedef IDataModelBuilder<DefaultPointInterface, PointParameters,ModelOptions> I
 namespace ModelBuilderContext
 {
     class TournamentBuilder;
-    enum ModelType {TournamentModel = 0x00,RoundModel = 0x02, SetModel = 0x04, PointModel = 0x06};
+    enum ModelType {TournamentModel = 0x00,RoundModel = 0x02, SetModel = 0x04, ScoreModel = 0x06};
 };
 
 class TournamentModelBuilder : public ITournamentBuilder
@@ -50,9 +50,7 @@ public:
         model->setNumberOfThrows(legCount);
         model->setMaximumAllowedPlayers(maxPlayers);
         model->setAssignedPlayerIdentities(playerIdentitties);
-
         model->setType(ModelBuilderContext::TournamentModel);
-
         return model;
     }
 };
@@ -63,16 +61,13 @@ public:
     DefaultRoundInterface *buildModel(const RoundParameters &args, const ModelOptions &options) override
     {
         auto model = new Round();
-
         if(!options.customUuid && options.generateUniqueId)
             model->setId(QUuid::createUuid());
         else if(!options.generateUniqueId)
             model->setId(args.id);
-
         model->setType(ModelBuilderContext::RoundModel);
         model->setIndex(args.roundIndex);
         model->setParent(args.tournamentId);
-
         model->setType(ModelBuilderContext::RoundModel);
 
         return model;
@@ -92,9 +87,9 @@ public:
         else if(!options.generateUniqueId)
             model->setId(args.id);
 
-        model->setType(ModelBuilderContext::SetModel);
         model->setIndex(args.index);
         model->setParent(args.roundId);
+        model->setType(ModelBuilderContext::SetModel);
 
         return model;
     }
@@ -108,13 +103,11 @@ public:
     DefaultPointInterface *buildModel(const PointParameters &args, const ModelOptions &options) override
     {
         auto model = new Score();
-
         if(!options.customUuid && options.generateUniqueId)
             model->setId(QUuid::createUuid());
         else if(!options.generateUniqueId)
             model->setId(args.id);
-
-        model->setType(ModelBuilderContext::PointModel);
+        model->setType(ModelBuilderContext::ScoreModel);
         model->setParent(args.setId);
         model->setPoint(args.pointValue);
         model->setPlayer(args.playerId);

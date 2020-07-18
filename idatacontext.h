@@ -71,6 +71,12 @@ public:
     virtual void removePlayerPointAndRelatives(const TUuid &point) = 0;
     virtual int playerPointsCount(const int &hint) const = 0;
 
+    virtual TUuid addScore(const TUuid &tournament, const TUuid &player,
+                   const int &roundIndex,
+                   const int &setIndex,
+                   const int &legIndex,
+                   const int &point) = 0;
+
     virtual int score(const TUuid &tournament, const TUuid &player) const = 0;
     virtual int score(const TUuid &player) const = 0;
     /*

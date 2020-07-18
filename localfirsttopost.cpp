@@ -8,7 +8,7 @@ int LocalFirstToPost::start()
         emit addSetRequest(currentTournamentID(),currentRoundIndex(),currentLegIndex());
     }
     _currentStatus = GameStatus::GameControllerAwaitsInput;
-    emit sendStatus(_currentStatus);
+    emit sendStatus(_currentStatus,{});
     return _currentStatus;
 }
 
@@ -16,7 +16,7 @@ int LocalFirstToPost::stop()
 {
     _isActive = false;
     _currentStatus = GameStatus::GameControllerStopped;
-    emit sendStatus(_currentStatus);
+    emit sendStatus(_currentStatus,{});
     return _currentStatus;
 }
 
@@ -26,7 +26,7 @@ int LocalFirstToPost::processInput(const int &point, const int &currentScore)
             status() == GameControllerStopped ||
             status() == GameControllerWinnerDeclared)
     {
-        emit sendStatus(status());
+        emit sendStatus(status(),{});
         return status();
     }
 
@@ -75,7 +75,7 @@ int LocalFirstToPost::processInput(const int &point, const int &currentScore)
         calculateThrowSuggestion();
     */
 
-    emit sendStatus(_currentStatus);
+    emit sendStatus(_currentStatus,{});
     emit stateChanged();
 
     return status();
@@ -279,6 +279,11 @@ void LocalFirstToPost::initializeIndexes(const int &roundIndex,
 void LocalFirstToPost::handleCurrentTournamentRequest()
 {
     emit sendCurrentTournament(_currentTournament);
+}
+
+void LocalFirstToPost::recieveStatus(const int &status, const QVariantList &args)
+{
+
 }
 
 int LocalFirstToPost::currentTurnIndex()

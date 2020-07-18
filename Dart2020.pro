@@ -14,14 +14,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        abstractdatabasecontext.cpp \
         idatamodelbuilder.cpp \
         ilogisticmanager.cpp \
         localdart.cpp \
         localdatacontext.cpp \
+        localdbcontext.cpp \
         localfirsttopost.cpp \
         localplayercontext.cpp \
         main.cpp \
-        scoredatamodel.cpp
+        scoredatamodel.cpp \
+        tournamentmodelcontext.cpp
 
 RESOURCES += qml.qrc
 
@@ -43,6 +46,7 @@ HEADERS += \
     IControllerBuilder.h \
     abstractdartinterface.h \
     abstractdatacontext.h \
+    abstractdbcontext.h \
     abstractgamecontroller.h \
     abstractpersistence.h \
     defaultdatacontextinterface.h \
@@ -55,8 +59,10 @@ HEADERS += \
     iplayercontext.h \
     iplayermodel.h \
     ipointlogisticmanager.h \
+    istatusinterface.h \
     localdart.h \
     localdatacontext.h \
+    localdbcontext.h \
     localfirsttopost.h \
     localplayerbuilder.h \
     localplayercontext.h \
@@ -68,6 +74,7 @@ HEADERS += \
     round.h \
     scoredatamodel.h \
     set.h \
-    tournament.h
+    tournament.h \
+    tournamentmodelcontext.h
 
 DISTFILES += \

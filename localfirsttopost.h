@@ -62,6 +62,8 @@ public slots:
     void initializeController(const QUuid &tournament, const int &keyPoint, const int &numberOfThrows, QList<QUuid> assignedPlayers) override;
     void initializeIndexes(const int &roundIndex, const int &setIndex, const int &throwIndex, const int &turnIndex, const int &totalTurns) override;
     void handleCurrentTournamentRequest() override;
+
+    void recieveStatus(const int &status, const QVariantList &args);
 private:
     /* Private types
      *

@@ -4,11 +4,12 @@
 #include <QObject>
 #include <icontroller.h>
 #include <quuid.h>
-
+#include "istatusinterface.h"
+#include <QVariantList>
 
 typedef IController<QUuid,QString> DefaultControllerInterface;
 
-class AbstractGameController : public QObject, public DefaultControllerInterface
+class AbstractGameController : public QObject, public DefaultControllerInterface, public IStatusInterface<QVariantList>
 {
     Q_OBJECT
 public:
@@ -31,6 +32,7 @@ public slots:
     virtual void initializeController(const QUuid &tournament,const int &keyPoint, const int &numberOfThrows, QList<QUuid> assignedPlayers) = 0;
     virtual void initializeIndexes(const int &roundIndex, const int &setIndex, const int &throwIndex, const int &turnIndex, const int &totalTurns) = 0;
     virtual void handleCurrentTournamentRequest() = 0;
+    virtual void recieveStatus(const int &status, const QVariantList &args) override = 0;
 signals:
     void sendPoint(const QUuid &tournamentID,
                    const QUuid &playerID,
@@ -40,7 +42,7 @@ signals:
                    const int &point);
     void addRoundRequest(const QUuid &tournament, const int &index);
     void addSetRequest(const QUuid &tournament, const int &roundIndex,const int &index);
-    void sendStatus(const int &status);
+    void sendStatus(const int &status, const QVariantList &args) override;
     void stateChanged();
     void sendCurrentTournament(const QUuid &tournament);
 
