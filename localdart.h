@@ -43,12 +43,12 @@ public slots:
                                          const int &gameMode,
                                          const int &keyPoint) override;
     void gameModes() const override;
-
     void handleStatusRequest() override;
     void addPoint(const int &value) override;
-    void handleGameStatusRecieved(const int &status) override;
     void startGame() override;
     void stopGame() override;
+
+    void setCurrentTournament(const int &index) override;
 
 private slots:
     void forwardScoreFromDataContext(const QUuid &player, const int &score) override;

@@ -32,7 +32,7 @@ void LocalDart::assignPlayers(const QVariantList &list, const QString &tournamen
      */
 }
 
-void LocalDart::createIni5tialModels() const
+void LocalDart::createInitialModels() const
 {
     /*
      * TODO: Reimplement this method
@@ -95,10 +95,7 @@ void LocalDart::addPoint(const int &value)
 
 }
 
-void LocalDart::handleGameStatusRecieved(const int &status)
-{
 
-}
 
 void LocalDart::startGame()
 {
@@ -106,6 +103,11 @@ void LocalDart::startGame()
 }
 
 void LocalDart::stopGame()
+{
+
+}
+
+void LocalDart::setCurrentTournament(const int &index)
 {
 
 }

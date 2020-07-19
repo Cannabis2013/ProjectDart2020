@@ -53,6 +53,7 @@ public slots:
     virtual void sendRequestedTournaments() = 0;
     virtual void handleSetCurrentTournament(const int &index) = 0;
     virtual void handleInitialIndexesRequest(const QUuid &tournament, const QList<QUuid> *assignedPlayers) = 0;
+
 signals:
     void stateChanged(const int &status);
     void sendPlayerScore(const QString &playerName, const int &score);
