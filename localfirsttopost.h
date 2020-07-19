@@ -60,10 +60,14 @@ public:
     AbstractGameController *setPointLogisticInterface(IPointLogisticManager<QString> *pointLogisticInterface);
 public slots:
     void initializeController(const QUuid &tournament, const int &keyPoint, const int &numberOfThrows, QList<QUuid> assignedPlayers) override;
-    void initializeIndexes(const int &roundIndex, const int &setIndex, const int &throwIndex, const int &turnIndex, const int &totalTurns) override;
+    void initializeIndexes(const int &roundIndex,
+                           const int &setIndex,
+                           const int &throwIndex,
+                           const int &turnIndex,
+                           const int &totalTurns) override;
     void handleCurrentTournamentRequest() override;
 
-    void recieveStatus(const int &status, const QVariantList &args);
+    void recieveStatus(const int &status, const QVariantList &args) override;
 private:
     /* Private types
      *
@@ -90,7 +94,7 @@ private:
     /*
      * Update datacontext
      */
-    QUuid addPoint(const int &point);
+    void addPoint(const int &point);
     /*
      * Set controller state according to datacontext
      */
@@ -99,11 +103,8 @@ private:
      */
     int currentTurnIndex() ;
     bool isIndexOffset();
-
     void nextTurn();
-
     void declareWinner();
-
     void incrementTurnIndexes();
 
     QList< QUuid> _assignedPlayers;
@@ -125,7 +126,7 @@ private:
     int _keyPoint = 0;
     QUuid _currentTournament = QUuid();
     QUuid _winner;
-    GameStatus _currentStatus = GameStatus::GameControllerStopped;
+    GameStatus _currentStatus = GameStatus::GameControllerNotInitialized;
     bool _isActive = false;
 
     // Localdata context related
@@ -133,5 +134,3 @@ private:
 };
 
 #endif // FIVEHUNDREDANDONEGAME_H
-
-

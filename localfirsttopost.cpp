@@ -220,6 +220,8 @@ void LocalFirstToPost::initializeController(const QUuid &tournament, const int &
     _keyPoint = keyPoint;
     _numberOfThrows = numberOfThrows;
     _assignedPlayers = assignedPlayers;
+
+    emit requestInitialIndexes(_currentTournament,&_assignedPlayers);
 }
 
 
@@ -251,7 +253,7 @@ int LocalFirstToPost::validateInput(const int &pointValue, const int &currentSco
         return OutsideDomain;
 }
 
-QUuid LocalFirstToPost::addPoint(const int &point)
+void LocalFirstToPost::addPoint(const int &point)
 {
     auto playerID = currentActivePlayer();
     auto tournamentID = currentTournamentID();
@@ -274,6 +276,8 @@ void LocalFirstToPost::initializeIndexes(const int &roundIndex,
     _throwIndex = throwIndex;
     _turnIndex = turnIndex;
     _totalTurns = totalTurns;
+
+    _currentStatus = GameStatus::GameControllerStopped;
 }
 
 void LocalFirstToPost::handleCurrentTournamentRequest()

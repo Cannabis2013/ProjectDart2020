@@ -23,6 +23,22 @@ class AbstractDataContext : public QObject,
 {
     Q_OBJECT
     enum Status{DataContextReady, DataContextBusy, DataContextFailedToUpdate};
+public:
+    DefaultDataInterface *tournamentModelContext(){
+        return _tournamentModelContext;
+    }
+    void setTournamentModelContext(DefaultDataInterface *context)
+    {
+        _tournamentModelContext = context;
+    }
+    PlayerContextInterface *playerModelContext() const
+    {
+        return _playerModelContext;
+    }
+    void setPlayerModelContext(PlayerContextInterface *playerModelContext)
+    {
+        _playerModelContext = playerModelContext;
+    }
 public slots:
     virtual void appendRound(const QUuid &tournament, const int &index) = 0;
     virtual void appendSet(const QUuid &tournament, const int &roundIndex, const int &setIndex) = 0;
@@ -33,27 +49,12 @@ public slots:
                           const int &legIndex,
                           const int &point) = 0;
 
-    PlayerContextInterface *playerModelContext() const
-    {
-        return _playerModelContext;
-    }
-    void setPlayerModelContext(PlayerContextInterface *playerModelContext)
-    {
-        _playerModelContext = playerModelContext;
-    }
-
     virtual void sendPlayerScores(const QUuid &tournament) = 0;
-
-    DefaultDataInterface *tournamentModelContext(){
-        return _tournamentModelContext;
-    }
-    void setTournamentModelContext(DefaultDataInterface *context)
-    {
-        _tournamentModelContext = context;
-    }
+    virtual void sendRequestedTournaments() = 0;
+    virtual void handleSetCurrentTournament(const int &index) = 0;
+    virtual void handleInitialIndexesRequest(const QUuid &tournament, const QList<QUuid> *assignedPlayers) = 0;
 signals:
     void stateChanged(const int &status);
-
     void sendPlayerScore(const QString &playerName, const int &score);
     void sendInitialControllerValues(const QUuid &tournamentID,
                                      const int &keyPoint,
@@ -61,8 +62,17 @@ signals:
                                      QList<QUuid> players);
     void sendAssignedPlayerName(const QString &playerName);
     void sendCurrentTournamentKeyPoint(const int &point);
-
     void sendStatus(const int &status, const QVariantList &args);
+    void sendTournament(const QString &title,
+                        const int &numberOfThrows,
+                        const int &gameMode,
+                        const int &keyPoint,
+                        const int &playersCount);
+    void sendInitialControllerIndexes(const int &roundIndex,
+                                      const int &setIndex,
+                                      const int &throwIndex,
+                                      const int &turnIndex,
+                                      const int &totalTurns);
 private:
     DefaultDataInterface *_tournamentModelContext;
     PlayerContextInterface *_playerModelContext;

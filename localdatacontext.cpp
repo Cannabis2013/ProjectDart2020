@@ -24,12 +24,11 @@ void LocalDataContext::addScore(const QUuid &tournament,
                                  const int &legIndex,
                                  const int &point)
 {
-
-    auto totalScore = tournamentContext()->score(tournament, player);
+    auto totalScore = tournamentModelContext()->score(tournament, player);
 
     try {
-        auto pointID = tournamentContext()->playerPoint(tournament,player,roundIndex,legIndex,HiddenHint);
-        tournamentContext()->editScore(pointID,point,totalScore,DisplayHint);
+        auto pointID = tournamentModelContext()->playerPoint(tournament,player,roundIndex,legIndex,HiddenHint);
+        tournamentModelContext()->editScore(pointID,point,totalScore,DisplayHint);
         auto playerName = playerModelContext()->playerFullName(player);
         emit sendPlayerScore(playerName,totalScore);
 
@@ -37,6 +36,65 @@ void LocalDataContext::addScore(const QUuid &tournament,
         auto score = tournamentModelContext()->addScore(tournament,player,roundIndex,setIndex,legIndex,point,totalScore);
         auto playerName = playerModelContext()->playerFullName(player);
         emit sendPlayerScore(playerName,score);
+    }
+}
+
+void LocalDataContext::sendRequestedTournaments()
+{
+    auto count = tournamentModelContext()->tournamentsCount();
+    for (int i = 0; i < count; ++i) {
+        auto id = tournamentModelContext()->tournamentIDFromIndex(i);
+        auto title = tournamentModelContext()->tournamentTitle(id);
+        auto numberOfThrows = tournamentModelContext()->tournamentNumberOfThrows(id);
+        auto gameMode = tournamentModelContext()->tournamentGameMode(id);
+        auto keyPoint = tournamentModelContext()->tournamentKeyPoint(id);
+        auto playersCount = tournamentModelContext()->tournamentAssignedPlayers(id).count();
+
+        emit sendTournament(title,numberOfThrows,gameMode,keyPoint,playersCount);
+    }
+}
+
+void LocalDataContext::handleSetCurrentTournament(const int &index)
+{
+    auto tournamentID = tournamentModelContext()->tournamentIDFromIndex(index);
+    auto keyPoint = tournamentModelContext()->tournamentKeyPoint(tournamentID);
+    auto numberOfThrows = tournamentModelContext()->tournamentNumberOfThrows(tournamentID);
+    auto assignedPlayers = tournamentModelContext()->tournamentAssignedPlayers(tournamentID);
+    emit sendInitialControllerValues(tournamentID,keyPoint,numberOfThrows,assignedPlayers);
+}
+
+void LocalDataContext::handleInitialIndexesRequest(const QUuid &tournament, const QList<QUuid> *assignedPlayers)
+{
+    auto turnIndex = 0;
+    auto roundIndex = 1;
+    auto setIndex = 0;
+    auto throwIndex = 0;
+    auto playersCount = assignedPlayers->count();
+    auto numberOfThrows= tournamentModelContext()->tournamentNumberOfThrows(tournament);
+    while(1)
+    {
+        auto playerID = assignedPlayers->at(setIndex);
+        try {
+            tournamentModelContext()->playerPoint(tournament,playerID,roundIndex,throwIndex,LocalDataContext::DisplayHint);
+        } catch (const char *msg) {
+            break;
+        }
+        if(++throwIndex % numberOfThrows == 0)
+        {
+            throwIndex = 0;
+            setIndex++;
+            if(setIndex >= playersCount)
+            {
+                roundIndex++;
+                setIndex = 0;
+            }
+        }
+        turnIndex++;
+    }
+    if(turnIndex != 0)
+    {
+        auto totalTurns = tournamentModelContext()->playerPointsCount(LocalDataContext::allHints);
+        emit sendInitialControllerIndexes(roundIndex,setIndex,throwIndex,turnIndex,totalTurns);
     }
 }
 
@@ -81,13 +139,13 @@ void LocalDataContext::sendPlayerScores(const QUuid &tournament)
 
 void LocalDataContext::appendRound(const QUuid &tournament, const int &index)
 {
-    tournamentContext()->addRound(tournament,index);
+    tournamentModelContext()->addRound(tournament,index);
 
 }
 
 void LocalDataContext::appendSet(const QUuid &tournament, const int &roundIndex, const int &setIndex)
 {
-    tournamentContext()->addSet(tournament,roundIndex,setIndex);
+    tournamentModelContext()->addSet(tournament,roundIndex,setIndex);
 }
 
 void LocalDataContext::recieveStatus(const int &status, const QVariantList &args)

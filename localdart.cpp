@@ -32,7 +32,7 @@ void LocalDart::assignPlayers(const QVariantList &list, const QString &tournamen
      */
 }
 
-void LocalDart::createInitialModels() const
+void LocalDart::createIni5tialModels() const
 {
     /*
      * TODO: Reimplement this method
@@ -66,6 +66,11 @@ void LocalDart::createPlayer(const QString &firstName, const QString &lastName, 
      */
 }
 
+void LocalDart::createTournament(const QString &title, const int &numberOfThrows, const int &maxPlayers, const int &gameMode, const int &keyPoint)
+{
+
+}
+
 
 void LocalDart::gameModes() const
 {
@@ -78,6 +83,31 @@ void LocalDart::gameModes() const
     resultingList << first << second << third;
 
     emit sendGameModes(resultingList);
+}
+
+void LocalDart::handleStatusRequest()
+{
+
+}
+
+void LocalDart::addPoint(const int &value)
+{
+
+}
+
+void LocalDart::handleGameStatusRecieved(const int &status)
+{
+
+}
+
+void LocalDart::startGame()
+{
+
+}
+
+void LocalDart::stopGame()
+{
+
 }
 
 void LocalDart::forwardScoreFromDataContext(const QUuid &player, const int &score)

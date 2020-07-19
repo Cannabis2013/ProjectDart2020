@@ -25,26 +25,23 @@ public:
 
     enum ModelDisplayHint{HiddenHint = 0x1,DisplayHint = 0x2, allHints = 0x4};
 
-    void read() ;
-    void write() ;
-
-    DefaultDataInterface *tournamentContext() const;
-
+    void read()  override;
+    void write()  override;
 
 public slots:
-    void sendPlayerScores(const QUuid &tournament) ;
-    void appendRound(const QUuid &tournament, const int &index) ;
-    void appendSet(const QUuid &tournament, const int &roundIndex, const int &setIndex) ;
-    void recieveStatus(const int &status, const QVariantList &args) ;
+    void sendPlayerScores(const QUuid &tournament)  override;
+    void appendRound(const QUuid &tournament, const int &index)  override;
+    void appendSet(const QUuid &tournament, const int &roundIndex, const int &setIndex)  override;
+    void recieveStatus(const int &status, const QVariantList &args)  override;
     void addScore(const QUuid &tournament,
                   const QUuid &player,
                   const int &roundIndex,
                   const int &setIndex,
                   const int &legIndex,
-                  const int &point);
-
-private:
-
+                  const int &point) override;
+    void sendRequestedTournaments() override;
+    void handleSetCurrentTournament(const int &index) override;
+    void handleInitialIndexesRequest(const QUuid &tournament,const QList<QUuid> *assignedPlayers) override;
 };
 
 #endif // LOCALDATACONTEXT_H

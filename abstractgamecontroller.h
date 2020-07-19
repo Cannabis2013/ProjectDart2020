@@ -45,6 +45,7 @@ signals:
     void sendStatus(const int &status, const QVariantList &args) override;
     void stateChanged();
     void sendCurrentTournament(const QUuid &tournament);
+    void requestInitialIndexes(const QUuid &tournament,const QList<QUuid> *assignedPlayers);
 
 };
 
