@@ -15,9 +15,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         abstractdatabasecontext.cpp \
+        applicationinterface.cpp \
         idatamodelbuilder.cpp \
         ilogisticmanager.cpp \
-        localdart.cpp \
         localdatacontext.cpp \
         localdbcontext.cpp \
         localfirsttopost.cpp \
@@ -44,11 +44,11 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     IControllerBuilder.h \
-    abstractdartinterface.h \
     abstractdatacontext.h \
     abstractdbcontext.h \
     abstractgamecontroller.h \
     abstractpersistence.h \
+    applicationinterface.h \
     defaultdatacontextinterface.h \
     gamebuilder.h \
     gamemodelscontext.h \
@@ -60,7 +60,6 @@ HEADERS += \
     iplayermodel.h \
     ipointlogisticmanager.h \
     istatusinterface.h \
-    localdart.h \
     localdatacontext.h \
     localdbcontext.h \
     localfirsttopost.h \

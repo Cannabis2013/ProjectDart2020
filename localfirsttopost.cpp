@@ -2,13 +2,10 @@
 
 int LocalFirstToPost::start()
 {
-    _isActive = true;
     if(_roundIndex == 0){
-        emit addRound(currentTournamentID(),++_roundIndex);
-        emit addSet(currentTournamentID(),currentRoundIndex(),currentLegIndex());
+        _roundIndex++;
+        emit sendCurrentIndexes(currentTournamentID(),currentRoundIndex(),currentLegIndex());
     }
-    _currentStatus = GameStatus::GameControllerAwaitsInput;
-    emit sendStatus(_currentStatus,{});
     return _currentStatus;
 }
 
@@ -20,19 +17,19 @@ int LocalFirstToPost::stop()
     return _currentStatus;
 }
 
-int LocalFirstToPost::processInput(const int &point, const int &currentScore)
+void LocalFirstToPost::processInput(const int &point, const int &currentScore)
 {
     if(status() == GameControllerIdle ||
             status() == GameControllerStopped ||
             status() == GameControllerWinnerDeclared)
     {
         emit sendStatus(status(),{});
-        return status();
+        return;
     }
 
     _currentStatus = GameControllerBusy;
 
-    auto score = currentScore + point;
+    auto score = currentScore - point;
 
     // Evaluate input according to point domain and aggregated sum domain
     auto inputResponse = validateInput(point,score);
@@ -43,26 +40,27 @@ int LocalFirstToPost::processInput(const int &point, const int &currentScore)
     if(inputResponse == AggregatedSumDomains::PointDomain)
     {
         // Update datacontext
-        addPoint(point);
-        _currentStatus = GameStatus::GameControllerAwaitsInput;
+        addPoint(point,score);
+        _currentStatus = GameStatus::GameControllerBusy;
     }
     else if(inputResponse == AggregatedSumDomains::CriticalDomain)
     {
-        addPoint(point);
-        _currentStatus = GameStatus::GameControllerAwaitsInput;
+        addPoint(point,score);
+        _currentStatus = GameStatus::GameControllerBusy;
     }
     else if(inputResponse == AggregatedSumDomains::TargetDomain)
     {
         // Winner declared
-        addPoint(0);
+        addPoint(point,score);
         declareWinner();
 
-        return status();
+        emit sendStatus(_currentStatus,{});
+        return;
     }
     else if(inputResponse == OutsideDomain)
     {
         // Player made an 'overthrow' and points is nullified and added to datacontext
-        addPoint(0);
+        addPoint(0,currentScore);
     }
 
     nextTurn(); // Initialize next turn. Increment playerindex if necessary. A new set or round is added respectively if necessary.
@@ -76,10 +74,8 @@ int LocalFirstToPost::processInput(const int &point, const int &currentScore)
         calculateThrowSuggestion();
     */
 
-    emit sendStatus(_currentStatus,{});
+    emit requestContextStatusUpdate(currentActivePlayer());
     emit stateChanged();
-
-    return status();
 }
 
 QString LocalFirstToPost::playerMessage()
@@ -242,19 +238,17 @@ int LocalFirstToPost::validateCurrentState(const int &score)
 
 int LocalFirstToPost::validateInput(const int &pointValue, const int &currentScore)
 {
-    auto playerScore = _keyPoint - currentScore;
-
-    if(playerScore > criticalLimit)
+    if(currentScore > criticalLimit)
         return PointDomain;
-    else if(playerScore <= criticalLimit && playerScore > 0)
+    else if(currentScore <= criticalLimit && currentScore > 0)
         return CriticalDomain;
-    else if(playerScore == 0)
+    else if(currentScore == 0)
         return TargetDomain;
     else
         return OutsideDomain;
 }
 
-void LocalFirstToPost::addPoint(const int &point)
+void LocalFirstToPost::addPoint(const int &point, const int &score)
 {
     auto playerID = currentActivePlayer();
     auto tournamentID = currentTournamentID();
@@ -262,7 +256,7 @@ void LocalFirstToPost::addPoint(const int &point)
     auto setIndex = currentPlayerIndex();
     auto legIndex = currentLegIndex();
 
-    emit sendPoint(tournamentID,playerID,roundIndex,setIndex,legIndex,point);
+    emit sendPoint(tournamentID,playerID,roundIndex,setIndex,legIndex,point,score);
 }
 
 
@@ -288,17 +282,35 @@ void LocalFirstToPost::handleCurrentTournamentRequest()
     emit sendCurrentTournament(_currentTournament);
 }
 
-void LocalFirstToPost::recieveStatus(const int &status, const QVariantList &args)
+void LocalFirstToPost::handleReplyFromContext(const int &status, const QVariantList &args)
 {
-
+    QVariantList arguments;
+    if(status == Status::ContextSuccessfullyUpdated && !isActive())
+    {
+        _isActive = true;
+        _currentStatus = GameStatus::GameControllerBusy;
+        emit requestContextStatusUpdate(currentActivePlayer());
+    }
+    else if(status == Status::ContextReady)
+    {
+        auto canUndo = canUndoTurn();
+        auto canRedo = canRedoTurn();
+        auto currentRound = currentRoundIndex();
+        auto currentUsername = args.first();
+        arguments << canUndo << canRedo << currentRound << currentUsername;
+        _currentStatus = GameStatus::GameControllerAwaitsInput;
+        sendStatus(_currentStatus,arguments);
+    }
 }
 
-void LocalFirstToPost::handleReplyFromContext(const int &status)
+void LocalFirstToPost::handleInput(const int &point)
 {
-    if(status == Status::ContextSuccessfullyUpdated && !isActive())
-        _currentStatus = GameStatus::GameControllerInitialized;
-    else if(status == Status::ContextSuccessfullyUpdated && isActive())
-        _currentStatus = GameStatus::GameControllerAwaitsInput;
+    emit requestScoreCalculation(currentTournamentID(),currentActivePlayer(),point);
+}
+
+void LocalFirstToPost::handleStatusRequest()
+{
+    emit sendStatus(_currentStatus,{});
 }
 
 bool LocalFirstToPost::isActive()
@@ -325,10 +337,10 @@ void LocalFirstToPost::nextTurn()
         _setIndex++;
         _throwIndex = 0;
         if(_setIndex >= _assignedPlayers.count()){
-            emit addRound(currentTournamentID(),++_roundIndex);
+            _roundIndex++;
             _setIndex = 0;
         }
-        emit addSet(currentTournamentID(),currentRoundIndex(),_setIndex);
+        emit sendCurrentIndexes(currentTournamentID(),currentRoundIndex(),currentSetIndex());
     }
     else
     {

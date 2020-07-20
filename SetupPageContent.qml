@@ -32,7 +32,7 @@ Content {
 
     function reConnectInterface()
     {
-        localDart.sendStatus.connect(replyFromBackendRecieved); // Handle reply
+        applicationInterface.sendStatus.connect(replyFromBackendRecieved); // Handle reply
         playersListView.clear();
         requestPlayers();
     }
@@ -160,24 +160,24 @@ Content {
             onClicked: {
                 var createdComponent = ComponentFactory.createPopUp(applicationWindow,"createPlayerPopUp",0,0,applicationWindow.width,applicationWindow.height);
                 createdComponent.backButtonPressed.connect(body.reConnectInterface);
-                localDart.sendStatus.disconnect(replyFromBackendRecieved);
+                applicationInterface.sendStatus.disconnect(replyFromBackendRecieved);
             }
         }
 
         Component.onCompleted: {
-            body.requestGameModes.connect(localDart.handleSendGameModesRequest); // Request gamemodes
-            localDart.sendGameModes.connect(gameModeSelector.setModel) // Recieve gamemodes
-            body.sendTournament.connect(localDart.createTournament); // Tournament request
-            body.requestPlayers.connect(localDart.requestPlayers); // Request initial/continous players
-            localDart.sendPlayerDetail.connect(playersListView.addPlayerItem); // Recieve initial players
+            body.requestGameModes.connect(applicationInterface.handleSendGameModesRequest); // Request gamemodes
+            applicationInterface.sendGameModes.connect(gameModeSelector.setModel) // Recieve gamemodes
+            body.sendTournament.connect(applicationInterface.createTournament); // Tournament request
+            body.requestPlayers.connect(applicationInterface.requestPlayers); // Request initial/continous players
+            applicationInterface.sendPlayerDetail.connect(playersListView.addPlayerItem); // Recieve initial players
 
             requestUpdate();
         }
         Component.onDestruction: {
-            body.sendTournament.disconnect(localDart.createTournament);
-            body.sendPlayerIndexes.disconnect(localDart.assignPlayers);
-            body.requestPlayers.disconnect(localDart.requestPlayerDetails);
-            localDart.sendPlayerDetails.disconnect(playersListView.addPlayerItem);
+            body.sendTournament.disconnect(applicationInterface.createTournament);
+            body.sendPlayerIndexes.disconnect(applicationInterface.assignPlayers);
+            body.requestPlayers.disconnect(applicationInterface.requestPlayerDetails);
+            applicationInterface.sendPlayerDetails.disconnect(playersListView.addPlayerItem);
         }
     }
 }

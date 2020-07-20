@@ -30,38 +30,32 @@ public:
                      GameControllerAwaitsInput = 0x13, // This should indicate that the gamecontroller is in a state where it awaits new player input
                      GameControllerRunning = 0x14,
                      GameControllerWinnerDeclared = 0x15,
-                     GameControllerNotInitialized = 0x16,
-                     GameControllerInitialized = 0x17}; // Controller is not initialized with tournament and, if necessary, appropriate indexes
-    enum Status{ContextBusy = 0xC, ContextReady = 0xD,ContextSuccessfullyUpdated = 0xE,ContextUnSuccessfullyUpdated = 0xF};
-
+                     GameControllerNotInitialized = 0x16, // Controller is not initialized with tournament and, if necessary, appropriate indexes
+                     GameControllerInitialized = 0x17,
+                     GameControllerNeedsData = 0x18}; // Controller needs data from context
+    enum Status{ContextBusy = 0xC,
+                ContextReady = 0xD,
+                ContextSuccessfullyUpdated = 0xE,
+                ContextUnSuccessfullyUpdated = 0xF,
+                ContextDataProvided = 0x19};
     int start() override;
     int stop() override;
-
-    int processInput(const int &point, const int &currentScore) override;
+    void processInput(const int &point, const int &currentScore) override;
 
     QString playerMessage()  override;
-
     QString calculateThrowSuggestion(const int &score)  override;
-
     QUuid currentActivePlayer()  override;
-
     int currentRoundIndex()  override;
     int currentPlayerIndex()  override;
     int currentSetIndex() override;
     int currentLegIndex()  override;
-
     QUuid currentTournamentID()  override;
-
     int status() override;
-
     int lastPlayerIndex()  override;
     int playerIndex()  override;
-
     QUuid determinedWinner()  override;
-
     QUuid undoTurn() override;
     QUuid redoTurn() override;
-
     bool canUndoTurn() override;
     bool canRedoTurn() override;
 
@@ -75,9 +69,9 @@ public slots:
                            const int &turnIndex,
                            const int &totalTurns) override;
     void handleCurrentTournamentRequest() override;
-
-    void recieveStatus(const int &status, const QVariantList &args) override;
-    void handleReplyFromContext(const int &status) override;
+    void handleReplyFromContext(const int &status, const QVariantList &args) override;
+    void handleInput(const int &point) override;
+    void handleStatusRequest() override;
 private:
     /* Private types
      *
@@ -88,6 +82,9 @@ private:
      */
     enum InputPointDomain {InvalidDomain = 0x02};
     enum AggregatedSumDomains {PointDomain = 0x04,CriticalDomain = 0x06, OutsideDomain = 0x08, TargetDomain = 0xa};
+    /*
+     * Activity check
+     */
     bool isActive();
     /*
      * Consistency check
@@ -104,7 +101,7 @@ private:
     /*
      * Update datacontext
      */
-    void addPoint(const int &point);
+    void addPoint(const int &point, const int &score);
     /*
      * Set controller state according to datacontext
      */
@@ -117,7 +114,6 @@ private:
     void declareWinner();
     void incrementTurnIndexes();
 
-    QList< QUuid> _assignedPlayers;
 
     // Gamestate variables
     int _roundIndex = 0;
@@ -139,6 +135,7 @@ private:
     GameStatus _currentStatus = GameStatus::GameControllerNotInitialized;
     bool _isActive = false;
 
+    QList< QUuid> _assignedPlayers;
     // Localdata context related
     IPointLogisticManager<QString> *_pointLogisticInterface;
 };

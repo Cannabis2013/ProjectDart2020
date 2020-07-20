@@ -20,7 +20,7 @@ Content {
     onBackButtonPressed: requestStop()
 
     signal requestScoreBoardData
-
+    signal sendStatusRequest
     signal requestStart
     signal requestStop
 
@@ -34,16 +34,24 @@ Content {
 
     onReplyFromBackendRecieved: {
         var buttonText = turnNavigator.startButtonText;
-        if(status === 0xb) // Gamecontroller is stopped
+        if(status === 0x12) // Gamecontroller is stopped
         {
             buttonText = "Resume"
         }
-        else if(status === 0xc) // Gamecontroller awaits input
+        else if(status === 0x13) // Gamecontroller awaits input
         {
             turnNavigator.startButtonText = "Pause";
+
+            var canUndo = args[0];
+            var canRedo = args[1];
+            var currentRoundIndex = args[2];
+            var currentPlayerUserName = args[3];
+
+            turnNavigator.updateState(currentRoundIndex,currentPlayerUserName,canUndo,canRedo);
+
             keyPad.enableKeys = true;
         }
-        else if(status === 0xe)
+        else if(status === 0x15) // Winner declared
         {
             keyPad.enableKeys = false;
 
@@ -62,7 +70,7 @@ Content {
             Layout.fillWidth: true
             height: 64
             Layout.alignment: Qt.AlignHCenter
-            onStartButtonClicked: sendStatusRequest()
+            onStartButtonClicked: body.sendStatusRequest()
         }
         ScoreBoard{
             id: scoreTable
@@ -94,24 +102,25 @@ Content {
         }
     }
     Component.onCompleted: {
-        localDart.sendAssignedPlayerName.connect(scoreTable.appendHeader);
-        localDart.sendPlayerScore.connect(scoreTable.appendData);
-        body.requestScoreBoardData.connect(localDart.handleScoreBoardRequest);
-        body.requestStart.connect(localDart.requestStart);
-        body.requestStop.connect(localDart.requestStop);
-        body.sendInput.connect(localDart.addPoint);
-        body.sendStatusRequest.disconnect(localDart.handleStatusRequest);
+        applicationInterface.sendAssignedPlayerName.connect(scoreTable.appendHeader);
+        applicationInterface.sendPlayerScore.connect(scoreTable.appendData);
+        body.requestScoreBoardData.connect(applicationInterface.handleScoreBoardRequest);
+        body.requestStart.connect(applicationInterface.requestStart);
+        body.requestStop.connect(applicationInterface.requestStop);
+        body.sendInput.connect(applicationInterface.addPoint);
+        body.sendStatusRequest.connect(applicationInterface.requestGameStatus);
 
         scoreTable.setMinimumColumnsCount(4);
 
         requestScoreBoardData();
     }
     Component.onDestruction: {
-        localDart.sendAssignedPlayerName.disconnect(scoreTable.appendHeader);
-        localDart.sendPlayerScore.disconnect(scoreTable.appendData);
-        body.requestScoreBoardData.disconnect(localDart.handleScoreBoardRequest);
-        body.requestStart.disconnect(localDart.requestStart);
-        body.requestStop.disconnect(localDart.requestStop);
-        body.sendInput.disconnect(localDart.addPoint);
+        applicationInterface.sendAssignedPlayerName.disconnect(scoreTable.appendHeader);
+        applicationInterface.sendPlayerScore.disconnect(scoreTable.appendData);
+        body.requestScoreBoardData.disconnect(applicationInterface.handleScoreBoardRequest);
+        body.requestStart.disconnect(applicationInterface.requestStart);
+        body.requestStop.disconnect(applicationInterface.requestStop);
+        body.sendInput.disconnect(applicationInterface.addPoint);
+        body.sendStatusRequest.disconnect(applicationInterface.requestGameStatus);
     }
 }

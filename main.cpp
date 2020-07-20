@@ -3,8 +3,8 @@
 #include <QtQuick/QQuickView>
 
 #include <qqmlcontext.h>
+#include "applicationinterface.h"
 
-#include "localdart.h"
 #include "scoredatamodel.h"
 
 #include "gamebuilder.h"
@@ -21,12 +21,12 @@ int main(int argc, char *argv[])
     qmlRegisterType<ScoreDataModel>("CustomItems",1,0,"ScoreDataModel");
     auto dataContext = new LocalDataContext("MHApps","Dart2020");
     auto gameBuilder = new GameBuilder();
-    AbstractDartInterface *_dart = new LocalDart(dataContext,gameBuilder);
+
+    auto _dart = new ApplicationInterface(dataContext,gameBuilder);
 
     QQmlApplicationEngine engine;
 
-    engine.rootContext()->setContextProperty("localDart",_dart);
-
+    engine.rootContext()->setContextProperty("applicationInterface",_dart);
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

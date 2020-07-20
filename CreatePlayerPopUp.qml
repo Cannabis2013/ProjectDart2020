@@ -134,9 +134,9 @@ Page{
         }
     }
     Component.onCompleted: {
-        createPlayerBody.sendPlayerDetails.connect(localDart.createPlayer);
+        createPlayerBody.sendPlayerDetails.connect(applicationInterface.createPlayer);
     }
     Component.onDestruction: {
-        createPlayerBody.sendPlayerDetails.disconnect(localDart.createPlayer);
+        createPlayerBody.sendPlayerDetails.disconnect(applicationInterface.createPlayer);
     }
 }

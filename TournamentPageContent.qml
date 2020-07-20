@@ -106,14 +106,14 @@ Content{
        }
     }
     Component.onCompleted: {
-        body.requestTournaments.connect(localDart.handleTournamentsRequest); // Request initial tournaments
-        localDart.sendRequestedTournament.connect(recieveTournament)
-        body.sendClickedTournamentIndex.connect(localDart.handleSetCurrentTournamentRequest)
+        body.requestTournaments.connect(applicationInterface.handleTournamentsRequest); // Request initial tournaments
+        applicationInterface.sendRequestedTournament.connect(recieveTournament)
+        body.sendClickedTournamentIndex.connect(applicationInterface.handleSetCurrentTournamentRequest)
         body.requestTournaments();
     }
     Component.onDestruction: {
-        body.requestTournaments.disconnect(localDart.handleTournamentsRequest);
-        localDart.sendRequestedTournament.disconnect(recieveTournament)
-        body.sendClickedTournamentIndex.disconnect(localDart.handleSetCurrentTournamentRequest)
+        body.requestTournaments.disconnect(applicationInterface.handleTournamentsRequest);
+        applicationInterface.sendRequestedTournament.disconnect(recieveTournament)
+        body.sendClickedTournamentIndex.disconnect(applicationInterface.handleSetCurrentTournamentRequest)
     }
 }

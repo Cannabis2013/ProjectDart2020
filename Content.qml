@@ -3,7 +3,7 @@ import QtQuick.Layouts 1.3
 
 Rectangle {
     signal backButtonPressed
-    signal sendStatusRequest()
+
     signal replyFromBackendRecieved(int status,var args)
     signal requestUpdate
 
@@ -15,15 +15,14 @@ Rectangle {
     color: "transparent"
 
     Component.onCompleted: {
-        localDart.stateChanged.connect(requestUpdate);
-        localDart.sendStatus.connect(replyFromBackendRecieved);
-        sendStatusRequest.connect(localDart.handleStatusRequest);
+        applicationInterface.stateChanged.connect(requestUpdate);
+        applicationInterface.sendStatus.connect(replyFromBackendRecieved);
+
     }
 
     Component.onDestruction: {
-        sendStatusRequest.disconnect(localDart.handleStatusRequest);
-        localDart.stateChanged.disconnect(requestUpdate);
-        localDart.sendStatus.disconnect(replyFromBackendRecieved);
+        sendStatusRequest.disconnect(applicationInterface.handleStatusRequest);
+        applicationInterface.stateChanged.disconnect(requestUpdate);
     }
 
 }

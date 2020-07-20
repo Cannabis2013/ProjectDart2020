@@ -924,11 +924,12 @@ int LocalTournamentModelContext::addScore(const QUuid &tournament,
                                           const int &legIndex,
                                           const int &score)
 {
+    auto setID = this->setID(tournament,roundIndex,setIndex);
     auto model = pointBuilder()->buildModel(
-                [this,tournament,roundIndex,setIndex,legIndex,point,player,score]
+                [setID,legIndex,point,player,score]
     {
         PointParameters params;
-        auto setId = this->setID(tournament,roundIndex,setIndex);
+        auto setId = setID;
         params.setId = setId;
         params.playerId = player;
         params.pointValue = point;
