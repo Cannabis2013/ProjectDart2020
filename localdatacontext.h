@@ -21,7 +21,7 @@ class LocalDataContext : public AbstractDataContext,
 {
     Q_OBJECT
 public:
-    enum Status{ContextBusy, ContextReady,ContextSuccessfullyUpdated,ContextUnSuccessfullyUpdated};
+    enum Status{ContextBusy = 0xC, ContextReady = 0xD,ContextSuccessfullyUpdated = 0xE,ContextUnSuccessfullyUpdated = 0xF};
     /*
      * Public types
      */;
@@ -34,11 +34,17 @@ public:
     void write()  override;
 
 public slots:
+    void createTournament(const QString &title,
+                          const int &numberOfThrows,
+                          const int &maxPlayers,
+                          const int &gameMode,
+                          const int &keyPoint,
+                          const QVariantList &playerIndexes) override;
+    void createPlayer(const QString &firstName, const QString &lastName, const QString &mail) override;
     void handleSendPlayerScoresRequest(const QUuid &tournament)  override;
     void updateDataContext(const QUuid &tournament, const int &roundIndex, const int &setIndex) override;
     void appendRound(const QUuid &tournament, const int &index)  override;
     void appendSet(const QUuid &tournament, const int &roundIndex, const int &setIndex)  override;
-    void recieveStatus(const int &status, const QVariantList &args)  override;
     void addScore(const QUuid &tournament,
                   const QUuid &player,
                   const int &roundIndex,
@@ -48,6 +54,7 @@ public slots:
     void sendRequestedTournaments() override;
     void handleSetCurrentTournament(const int &index) override;
     void handleInitialIndexesRequest(const QUuid &tournament,const QList<QUuid> *assignedPlayers) override;
+    void handleSendPlayerDetailsRequest() override;
 
 private:
     void createInitialModels();

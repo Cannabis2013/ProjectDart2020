@@ -18,6 +18,27 @@ void LocalDataContext::write()
 {
 }
 
+void LocalDataContext::createTournament(const QString &title, const int &numberOfThrows, const int &maxPlayers, const int &gameMode, const int &keyPoint, const QVariantList &playerIndexes)
+{
+    auto tournamentID = tournamentModelContext()->createTournament(title,maxPlayers,keyPoint,numberOfThrows,gameMode);
+    QVariantList playerNames;
+    for (auto variant : playerIndexes) {
+        auto index = variant.toInt();
+        auto playerID = playerModelContext()->playerIDFromIndex(index);
+        tournamentModelContext()->tournamentAddPlayer(tournamentID,playerID);
+
+        auto playerFullName = playerModelContext()->playerFullName(playerID);
+        playerNames << QVariant(playerFullName);
+    }
+    sendStatus(Status::ContextSuccessfullyUpdated,playerNames);
+}
+
+void LocalDataContext::createPlayer(const QString &firstName, const QString &lastName, const QString &mail)
+{
+    playerModelContext()->createPlayer(firstName,lastName,mail);
+    emit sendStatus(Status::ContextSuccessfullyUpdated,{});
+}
+
 void LocalDataContext::addScore(const QUuid &tournament,
                                  const QUuid &player,
                                  const int &roundIndex,
@@ -104,6 +125,17 @@ void LocalDataContext::handleInitialIndexesRequest(const QUuid &tournament, cons
     }
 }
 
+void LocalDataContext::handleSendPlayerDetailsRequest()
+{
+    auto playersID = playerModelContext()->players();
+    for (auto playerID : playersID) {
+        auto firstName = playerModelContext()->playerFirstName(playerID);
+        auto lastName = playerModelContext()->playerLastName(playerID);
+        auto mailAdress = playerModelContext()->playerEMail(playerID);
+        emit sendPlayerDetail(firstName,lastName,mailAdress);
+    }
+}
+
 void LocalDataContext::createInitialModels()
 {
     auto kent = playerModelContext()->createPlayer("Kent","KillerHertz","");
@@ -174,8 +206,7 @@ void LocalDataContext::updateDataContext(const QUuid &tournament, const int &rou
     } catch (const char *msg) {
         appendSet(tournament,roundIndex,setIndex);
     }
-
-
+    emit sendContextStatus(Status::ContextSuccessfullyUpdated);
 }
 
 void LocalDataContext::appendRound(const QUuid &tournament, const int &index)
@@ -187,9 +218,4 @@ void LocalDataContext::appendRound(const QUuid &tournament, const int &index)
 void LocalDataContext::appendSet(const QUuid &tournament, const int &roundIndex, const int &setIndex)
 {
     tournamentModelContext()->addSet(tournament,roundIndex,setIndex);
-}
-
-void LocalDataContext::recieveStatus(const int &status, const QVariantList &args)
-{
-
 }

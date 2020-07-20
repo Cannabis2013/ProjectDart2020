@@ -29,27 +29,24 @@ public:
         Success = 0x7,
         UnSuccess = 0x8
     };
-    enum ModelDisplayHint{HiddenHint = 0x1,DisplayHint = 0x2, allHints = 0x4};
+    enum ModelDisplayHint{HiddenHint = 0x9,DisplayHint = 0xA, allHints = 0xB};
 
 
 public slots:
     void requestTournaments();
-    void assignPlayers(const QVariantList &list, const QString &tournament) override;
     void requestPlayerDetails() override;
-    void createPlayer(const QString &firstName, const QString &lastName, const QString &email) override;
     void createTournament(const QString &title,
                                          const int &numberOfThrows,
                                          const int &maxPlayers,
                                          const int &gameMode,
-                                         const int &keyPoint) override;
-    void gameModes() const override;
+                                         const int &keyPoint, const QVariantList &playerIndexes) override;
+    void handleSendGameModesRequest() const override;
     void handleStatusRequest() override;
     void addPoint(const int &value) override;
     void startGame() override;
     void stopGame() override;
 
 private :
-
     int gameModeFromString(const QString &gameMode) const;
     /*
      * Persistence related stuff

@@ -30,7 +30,7 @@ int LocalFirstToPost::processInput(const int &point, const int &currentScore)
         return status();
     }
 
-    _currentStatus = GamecontrollerBusy;
+    _currentStatus = GameControllerBusy;
 
     auto score = currentScore + point;
 

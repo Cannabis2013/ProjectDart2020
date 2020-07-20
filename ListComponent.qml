@@ -54,8 +54,8 @@ Rectangle{
         listView.clear();
     }
 
-    function addPlayerItem(firstName, lastName, eMail, id){
-        listView.addPlayerItem(firstName,lastName,eMail,id);
+    function addPlayerItem(firstName, lastName, eMail){
+        listView.addPlayerItem(firstName,lastName,eMail);
     }
 
     function addTournamentItem(tournamentTitle,

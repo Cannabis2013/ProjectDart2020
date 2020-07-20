@@ -86,9 +86,9 @@ ListView
         indexContainer.currentlySelectedIndexes = cIndexes;
     }
 
-    function addPlayerItem(firstName, lastName, eMail, id = 0)
+    function addPlayerItem(firstName, lastName, eMail)
     {
-        var model = {"type" : "player","firstName" : firstName,"lastName" : lastName, "email" : eMail, "uuid" : id};
+        var model = {"type" : "player","firstName" : firstName,"lastName" : lastName, "email" : eMail};
         listModel.append(model);
     }
 

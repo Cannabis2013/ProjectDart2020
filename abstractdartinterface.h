@@ -43,28 +43,28 @@ public:
         connect(_dataContext,&AbstractDataContext::sendInitialControllerValues,_gameController,&AbstractGameController::initializeController);
         connect(_gameController,&AbstractGameController::requestInitialIndexes,_dataContext,&AbstractDataContext::handleInitialIndexesRequest);
         connect(_dataContext,&AbstractDataContext::sendInitialControllerIndexes,_gameController,&AbstractGameController::initializeIndexes);
-
+        // Notify UI regarding context states
         connect(_gameController,&AbstractGameController::sendStatus,this,&AbstractDartInterface::sendStatus);
         connect(_dataContext,&AbstractDataContext::sendStatus,this,&AbstractDartInterface::sendStatus);
-
+        // Game UI needs to be updated. The following connection until next comment ensures exactly that
         connect(this,&AbstractDartInterface::requestPlayerScores,_gameController,&AbstractGameController::handleCurrentTournamentRequest);
         connect(_gameController,&AbstractGameController::sendCurrentTournament,_dataContext,&AbstractDataContext::handleSendPlayerScoresRequest);
         connect(_dataContext,&AbstractDataContext::sendCurrentTournamentKeyPoint,this,&AbstractDartInterface::sendCurrentTournamentKeyPoint);
         connect(_dataContext,&AbstractDataContext::sendAssignedPlayerName,this,&AbstractDartInterface::sendAssignedPlayerName);
         connect(_dataContext,&AbstractDataContext::sendPlayerScore,this,&AbstractDartInterface::sendPlayerScore);
-
+        // Datacontext has to notify controller about its state
         connect(_dataContext,&AbstractDataContext::sendContextStatus,_gameController,&AbstractGameController::handleReplyFromContext);
-
+        // UI request creation of a new tournament
+        connect(this,&AbstractDartInterface::sendTournamentCandidate,_dataContext,&AbstractDataContext::createTournament);
+        // UI request creation of a new player
+        connect(this,&AbstractDartInterface::requestCreatePlayer,_dataContext,&AbstractDataContext::createPlayer);
+        // Request player details
+        connect(this,&AbstractDartInterface::requestPlayers,_dataContext,&AbstractDataContext::handleSendPlayerDetailsRequest);
+        // Send player details to UI
+        connect(_dataContext,&AbstractDataContext::sendPlayerDetail,this,&AbstractDartInterface::sendPlayerDetail);
         // Request start -> Start game
         connect(this,&AbstractDartInterface::requestStart,_gameController,&AbstractGameController::start);
         connect(this,&AbstractDartInterface::requestStop,_gameController,&AbstractGameController::stop);
-        /* This connection is subject for contestion
-         *  - I fail to see the context here
-         *
-         * TODO: This needs to be fixed
-         * TIP: The application context needs to request datacontext for player details related to a given tournament
-         */
-        //connect(this,&AbstractDartInterface::requestPlayerDetails,_gameController,&AbstractGameController::handleCurrentTournamentRequest);
     }
 
 
@@ -84,12 +84,21 @@ public slots:
                                      const int &numberOfThrows,
                                      const int &maxPlayers,
                                      const int &gameMode,
-                                     const int &keyPoint) = 0;
-    virtual void createPlayer(const QString &firstName, const QString &lastName, const QString &email) = 0;
-    virtual void assignPlayers(const QVariantList &list, const QString &tournament) = 0;
-    virtual void requestPlayerDetails() = 0;
+                                     const int &keyPoint,
+                                     const QVariantList &playerIndexes)
+    {
+        emit sendTournamentCandidate(title,numberOfThrows,maxPlayers,gameMode,keyPoint,playerIndexes);
+    }
+    virtual void createPlayer(const QString &firstName, const QString &lastName, const QString &email)
+    {
+        emit requestCreatePlayer(firstName,lastName,email);
+    }
+    virtual void requestPlayerDetails()
+    {
+        emit requestPlayers();
+    }
 
-    virtual void gameModes() const = 0;
+    virtual void handleSendGameModesRequest() const = 0;
     virtual void handleStatusRequest() = 0;
     virtual void addPoint(const int& value) = 0;
 
@@ -97,8 +106,12 @@ public slots:
     virtual void stopGame() = 0;
 
 signals:
+    void requestCreatePlayer(const QString &firstName, const QString &lastName, const QString &mail);
     void requestTournaments();
-    void sendPlayerDetails(const QString &firstName, const QString &lastName, const QString &mail);
+    void requestPlayers();
+    void sendAssignedPlayerIndexes(const QVariantList &indexes, const QUuid &tournament);
+    void sendRequestedGameModes(const QStringList &gameModes);
+    void sendPlayerDetail(const QString &firstName, const QString &lastName, const QString &mail);
     void sendStatus(const int &status, const QVariantList &arguments) override;
     void sendPlayerScore(const QString &playerName, const int &score);
     void sendAssignedPlayerName(const QString &playerName);
@@ -109,6 +122,12 @@ signals:
                                  const int &gameMode,
                                  const int &keyPoint,
                                  const int &playersCount);
+    void sendTournamentCandidate(const QString &title,
+                                 const int &numberOfThrows,
+                                 const int &maxPlayers,
+                                 const int &gameMode,
+                                 const int &keyPoint,
+                                 const QVariantList &playerIndexes);
     void sendInformalControllerValues(const int &roundIndex,
                                       const QString &playerName,
                                       const bool &undoAvailable,
@@ -138,12 +157,6 @@ protected:
     DefaultControllerBuilderInterface *controllerBuilder() const
     {
         return _controllerBuilder;
-    }
-
-private slots:
-    // IStatusInterface interface
-    void recieveStatus(const int &status, const QVariantList &args) override
-    {
     }
 
 private:

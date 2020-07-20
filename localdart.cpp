@@ -25,34 +25,23 @@ void LocalDart::requestTournaments()
      */
 }
 
-void LocalDart::assignPlayers(const QVariantList &list, const QString &tournament)
-{
-    /*
-     * TODO: Reimplement this method
-     */
-}
-
-
 LocalDart::LocalDart(AbstractDataContext *dataContext, DefaultControllerBuilderInterface *builder):
     AbstractDartInterface(dataContext,builder)
 {
 }
 
-
-void LocalDart::createPlayer(const QString &firstName, const QString &lastName, const QString &email)
+void LocalDart::createTournament(const QString &title,
+                                 const int &numberOfThrows,
+                                 const int &maxPlayers,
+                                 const int &gameMode,
+                                 const int &keyPoint,
+                                 const QVariantList &playerIndexes)
 {
-    /*
-     * TODO: Reimplement this method
-     */
-}
-
-void LocalDart::createTournament(const QString &title, const int &numberOfThrows, const int &maxPlayers, const int &gameMode, const int &keyPoint)
-{
-
+    emit sendTournamentCandidate(title,numberOfThrows,maxPlayers,gameMode,keyPoint, playerIndexes);
 }
 
 
-void LocalDart::gameModes() const
+void LocalDart::handleSendGameModesRequest() const
 {
     QStringList resultingList;
 
@@ -74,8 +63,6 @@ void LocalDart::addPoint(const int &value)
 {
 
 }
-
-
 
 void LocalDart::startGame()
 {

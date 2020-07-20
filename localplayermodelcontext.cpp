@@ -2,10 +2,6 @@
 LocalPlayerModelContext::LocalPlayerModelContext()
 {
     _playerBuilder = new LocalPlayerBuilder();
-
-    createPlayer("Kent","KillerHertz","",0x2);
-    createPlayer("Martin","Hansen","",0x2);
-    createPlayer("William","Worsøe","",0x2);
 }
 
 QUuid LocalPlayerModelContext::createPlayer(const QString &firstName, const QString &lastName, const QString &email, const int &role)

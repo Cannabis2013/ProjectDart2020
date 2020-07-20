@@ -8,37 +8,20 @@ Content {
     color: "transparent"
 
     signal requestPlayers
-    signal sendTournament(string title, int numberOfThrows, int maxPlayers, int gameMode,int keyPoint)
-    signal sendPlayerIndexes(var indexes, string tournament)
+    signal sendTournament(string title, int numberOfThrows, int maxPlayers, int gameMode,int keyPoint,var playerIndexes)
     signal requestGameModes
 
     QtObject{
         id: sendPlayerState
         property bool playerSent: false
+        readonly property int updateCount: 2
     }
 
     onReplyFromBackendRecieved: {
 
-        if(status === 0x7)
+        if(status === 0xE)
         {
-            if(!sendPlayerState.playerSent)
-            {
-                var tournamentID = args[0];
-                var indexes = playersListView.currentlySelectedIndexes;
-                sendPlayerState.playerSent = true;
-                sendPlayerIndexes(indexes,tournamentID);
-            }
-            else{
-                backButtonPressed();
-            }
-        }
-        else if(status === 0x8)
-        {
-            if(sendPlayerState.playerSent)
-            {
-                var secondIndexes = playersListView.currentlySelectedIndexes;
-                sendPlayerIndexes(secondIndexes);
-            }
+            backButtonPressed();
         }
     }
 
@@ -159,11 +142,13 @@ Content {
             }
             onButtonTwoClicked: {
                 buttonTwoEnabled = false;
+                var indexes = playersListView.currentlySelectedIndexes;
                 sendTournament(titleEdit.currentText,
                                legsEdit.currentText,
                                maxPlayerEdit.currentText,
                                gameModeSelector.currentText,
-                               keyPointEdit.currentText);
+                               keyPointEdit.currentText,
+                               indexes);
             }
         }
         CRUDButton{
@@ -180,12 +165,11 @@ Content {
         }
 
         Component.onCompleted: {
-            body.requestGameModes.connect(localDart.gameModes); // Request gamemodes
-            body.sendTournament.connect(localDart.createTournament); // Tournament request
+            body.requestGameModes.connect(localDart.handleSendGameModesRequest); // Request gamemodes
             localDart.sendGameModes.connect(gameModeSelector.setModel) // Recieve gamemodes
-            body.sendPlayerIndexes.connect(localDart.assignPlayers); // Send player indexes
-            body.requestPlayers.connect(localDart.requestPlayerDetails); // Request initial/continous players
-            localDart.sendPlayerDetails.connect(playersListView.addPlayerItem); // Recieve initial players
+            body.sendTournament.connect(localDart.createTournament); // Tournament request
+            body.requestPlayers.connect(localDart.requestPlayers); // Request initial/continous players
+            localDart.sendPlayerDetail.connect(playersListView.addPlayerItem); // Recieve initial players
 
             requestUpdate();
         }

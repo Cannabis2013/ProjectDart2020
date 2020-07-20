@@ -16,7 +16,7 @@ Page{
         onAboutToClose: pageBody.aboutToClose()
 
         onReplyFromBackendRecieved : {
-            if(status === 0x7)
+            if(status === 0xE)
             {
                 backButtonPressed();
             }

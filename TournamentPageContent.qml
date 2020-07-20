@@ -23,7 +23,7 @@ Content{
         tournamentListView.addTournamentItem(title,numberOfThrows,maxPlayersCount,keyPoint,playersCount);
     }
     onReplyFromBackendRecieved: {
-        if(status === 0x10)
+        if(status === 0x17)
         {
             startGameClicked();
         }

@@ -23,16 +23,16 @@ class LocalFirstToPost :public AbstractGameController
     Q_OBJECT
 public:
     // Public types
-    enum ModelDisplayHint{HiddenHint = 0x1,DisplayHint = 0x2, allHints = 0x4};
-    enum GameStatus {GameControllerIdle = 0x9,
-                     GamecontrollerBusy = 0xa, // Game is idle but in progress
-                     GameControllerStopped = 0xb, // Game is stopped and no longer accepts input
-                     GameControllerAwaitsInput = 0xc, // This should indicate that the gamecontroller is in a state where it awaits new player input
-                     GameControllerRunning = 0xd,
-                     GameControllerWinnerDeclared = 0xe,
-                     GameControllerNotInitialized = 0xf,
-                     GameControllerInitialized = 0x10}; // Controller is not initialized with tournament and, if necessary, appropriate indexes
-    enum Status{ContextBusy, ContextReady,ContextSuccessfullyUpdated,ContextUnSuccessfullyUpdated};
+    enum ModelDisplayHint{HiddenHint = 0x9,DisplayHint = 0xA, allHints = 0xB};
+    enum GameStatus {GameControllerIdle = 0x10,
+                     GameControllerBusy = 0x11, // Game is idle but in progress
+                     GameControllerStopped = 0x12, // Game is stopped and no longer accepts input
+                     GameControllerAwaitsInput = 0x13, // This should indicate that the gamecontroller is in a state where it awaits new player input
+                     GameControllerRunning = 0x14,
+                     GameControllerWinnerDeclared = 0x15,
+                     GameControllerNotInitialized = 0x16,
+                     GameControllerInitialized = 0x17}; // Controller is not initialized with tournament and, if necessary, appropriate indexes
+    enum Status{ContextBusy = 0xC, ContextReady = 0xD,ContextSuccessfullyUpdated = 0xE,ContextUnSuccessfullyUpdated = 0xF};
 
     int start() override;
     int stop() override;
