@@ -40,7 +40,7 @@ public slots:
                           const int &gameMode,
                           const int &keyPoint,
                           const QVariantList &playerIndexes) override;
-    void createPlayer(const QString &firstName, const QString &lastName, const QString &mail) override;
+    void createPlayer(const QString &userName, const QString &mail) override;
     void handleSendPlayerScoresRequest(const QUuid &tournament)  override;
     void updateDataContext(const QUuid &tournament, const int &roundIndex, const int &setIndex) override;
     void appendRound(const QUuid &tournament, const int &index)  override;

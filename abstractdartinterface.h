@@ -89,9 +89,9 @@ public slots:
     {
         emit sendTournamentCandidate(title,numberOfThrows,maxPlayers,gameMode,keyPoint,playerIndexes);
     }
-    virtual void createPlayer(const QString &firstName, const QString &lastName, const QString &email)
+    virtual void createPlayer(const QString &userName, const QString &email)
     {
-        emit requestCreatePlayer(firstName,lastName,email);
+        emit requestCreatePlayer(userName,email);
     }
     virtual void requestPlayerDetails()
     {
@@ -106,12 +106,12 @@ public slots:
     virtual void stopGame() = 0;
 
 signals:
-    void requestCreatePlayer(const QString &firstName, const QString &lastName, const QString &mail);
+    void requestCreatePlayer(const QString &userName, const QString &mail);
     void requestTournaments();
     void requestPlayers();
     void sendAssignedPlayerIndexes(const QVariantList &indexes, const QUuid &tournament);
     void sendRequestedGameModes(const QStringList &gameModes);
-    void sendPlayerDetail(const QString &firstName, const QString &lastName, const QString &mail);
+    void sendPlayerDetail(const QString &userName, const QString &mail);
     void sendStatus(const int &status, const QVariantList &arguments) override;
     void sendPlayerScore(const QString &playerName, const int &score);
     void sendAssignedPlayerName(const QString &playerName);

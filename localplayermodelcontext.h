@@ -34,26 +34,23 @@ public:
     LocalPlayerModelContext();
     // Public types
     enum UserRoles{Admin = 0x0, Player = 0x02};
-    QUuid createPlayer(const QString &firstName,
-                       const QString &lastName,
+    QUuid createPlayer(const QString &userName,
                        const QString& playerEMail,
                        const int& role) override;
-    void deletePlayerByFirstName(const QString &firstName) override;
+    void deletePlayerByUserName(const QString &firstName) override;
     void deletePlayerByID(const QUuid &player) override;
     void deletePlayerByEmail(const QString &playerEMail) override;
-    QUuid playerIDFromFullName(const QString &fullName) const override;
+    QUuid playerIDFromUserName(const QString &fullName) const override;
     QUuid playerIDFromIndex(const int &index) const override;
-    QString playerFirstName(const QUuid &id) const override;
-    QString playerLastName(const QUuid &id) const override;
+    QString playerUserName(const QUuid &id) const override;
     QString playerEMail(const QUuid &id) const override;
-    QString playerFullName(const QUuid &id) const override;
     QList<QUuid> players() const override;
     int playersCount() const override;
     DefaultPlayerBuilder *playerBuilder() const override;
     PlayerContextInterface *setPlayerBuilder(DefaultPlayerBuilder *builder) override;
 private:
 
-    DefaultPlayerInterface *getModel(const QString &firstName, const QString & lastName) const;
+    DefaultPlayerInterface *getModel(const QString &userName) const;
 
     QList<DefaultPlayerInterface*> _models;
     DefaultPlayerBuilder *_playerBuilder;

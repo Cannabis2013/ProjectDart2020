@@ -11,11 +11,9 @@ public:
     virtual int type() const = 0;
     virtual void setType(const int &type) = 0;
 
-    virtual TString firstName() const = 0;
-    virtual TString lastName() const = 0;
+    virtual TString userName() const = 0;
 
-    virtual void setFirstName(const TString &string) = 0;
-    virtual void setLastName(const TString &string) = 0;
+    virtual void setUserName(const TString &name) = 0;
 
     virtual TString email() const = 0;
     virtual void setEmail(const TString& email) = 0;

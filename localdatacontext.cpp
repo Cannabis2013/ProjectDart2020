@@ -27,15 +27,15 @@ void LocalDataContext::createTournament(const QString &title, const int &numberO
         auto playerID = playerModelContext()->playerIDFromIndex(index);
         tournamentModelContext()->tournamentAddPlayer(tournamentID,playerID);
 
-        auto playerFullName = playerModelContext()->playerFullName(playerID);
-        playerNames << QVariant(playerFullName);
+        auto playerUserName = playerModelContext()->playerUserName(playerID);
+        playerNames << QVariant(playerUserName);
     }
     sendStatus(Status::ContextSuccessfullyUpdated,playerNames);
 }
 
-void LocalDataContext::createPlayer(const QString &firstName, const QString &lastName, const QString &mail)
+void LocalDataContext::createPlayer(const QString &userName, const QString &mail)
 {
-    playerModelContext()->createPlayer(firstName,lastName,mail);
+    playerModelContext()->createPlayer(userName,mail);
     emit sendStatus(Status::ContextSuccessfullyUpdated,{});
 }
 
@@ -51,13 +51,13 @@ void LocalDataContext::addScore(const QUuid &tournament,
     try {
         auto pointID = tournamentModelContext()->playerPoint(tournament,player,roundIndex,legIndex,HiddenHint);
         tournamentModelContext()->editScore(pointID,point,totalScore,DisplayHint);
-        auto playerName = playerModelContext()->playerFullName(player);
-        emit sendPlayerScore(playerName,totalScore);
+        auto userName = playerModelContext()->playerUserName(player);
+        emit sendPlayerScore(userName,totalScore);
 
     } catch (...) {
         auto score = tournamentModelContext()->addScore(tournament,player,roundIndex,setIndex,legIndex,point,totalScore);
-        auto playerName = playerModelContext()->playerFullName(player);
-        emit sendPlayerScore(playerName,score);
+        auto userName = playerModelContext()->playerUserName(player);
+        emit sendPlayerScore(userName,score);
     }
 }
 
@@ -129,18 +129,17 @@ void LocalDataContext::handleSendPlayerDetailsRequest()
 {
     auto playersID = playerModelContext()->players();
     for (auto playerID : playersID) {
-        auto firstName = playerModelContext()->playerFirstName(playerID);
-        auto lastName = playerModelContext()->playerLastName(playerID);
+        auto userName = playerModelContext()->playerUserName(playerID);
         auto mailAdress = playerModelContext()->playerEMail(playerID);
-        emit sendPlayerDetail(firstName,lastName,mailAdress);
+        emit sendPlayerDetail(userName,mailAdress);
     }
 }
 
 void LocalDataContext::createInitialModels()
 {
-    auto kent = playerModelContext()->createPlayer("Kent","KillerHertz","");
-    auto martin = playerModelContext()->createPlayer("Martin","Hansen","");
-    auto william = playerModelContext()->createPlayer("William","Worsøe","");
+    auto kent = playerModelContext()->createPlayer("Kent KillerHertz","");
+    auto martin = playerModelContext()->createPlayer("Martin Hansen","");
+    auto william = playerModelContext()->createPlayer("William Worsøe","");
 
     auto firstTournament = tournamentModelContext()->createTournament("Kents turnering",5,501,3,0x1);
     auto secondTournament = tournamentModelContext()->createTournament("Techno Tonnys turnering",5,501,3,0x1);
@@ -163,10 +162,10 @@ void LocalDataContext::handleSendPlayerScoresRequest(const QUuid &tournament)
     for (auto assignedPlayerID : assignedPlayersID) {
         auto roundIndex = 1;
         auto throwIndex = 0;
-        auto playerName = playerModelContext()->playerFullName(assignedPlayerID);
-        emit sendAssignedPlayerName(playerName);
+        auto userName = playerModelContext()->playerUserName(assignedPlayerID);
+        emit sendAssignedPlayerName(userName);
         if(currentGameMode == 0x1)
-            emit sendPlayerScore(playerName,keyPoint);
+            emit sendPlayerScore(userName,keyPoint);
         while (1)
         {
             QUuid pointID;
@@ -182,7 +181,7 @@ void LocalDataContext::handleSendPlayerScoresRequest(const QUuid &tournament)
             }
 
             auto score = tournamentModelContext()->playerScore(pointID);
-            emit sendPlayerScore(playerName,score);
+            emit sendPlayerScore(userName,score);
             if(throwIndex % numberOfThrows == 0)
             {
                 throwIndex = 0;

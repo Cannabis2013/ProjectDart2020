@@ -10,7 +10,7 @@ Page{
     {
         id: createPlayerBody
 
-        signal sendPlayerDetails(string firstName, string lastName, string mail)
+        signal sendPlayerDetails(string userName,string mail)
 
         signal aboutToClose
         onAboutToClose: pageBody.aboutToClose()
@@ -28,10 +28,9 @@ Page{
         }
 
         function evaluateInputs(){
-            var firstName = firstNameEdit.currentText;
-            var lastName = lastNameEdit.currentText;
+            var userName = userNameEdit.currentText;
 
-            if(firstName !== "" && lastName !== "")
+            if(userName !== "")
                 endStateButtons.buttonTwoEnabled = true;
             else
                 endStateButtons.buttonTwoEnabled = false;
@@ -43,32 +42,17 @@ Page{
             flow: GridLayout.TopToBottom
 
             LineEditComponent{
-                id: firstNameEdit
+                id: userNameEdit
                 Layout.fillWidth: true
                 height: 32
                 fontSize: 12
-                labelText: "Firstname*"
+                labelText: "Username*"
                 labelFontSize: 8
                 labelFontColor: "darkblue"
                 labelBackgroundColor: "lightblue"
                 labelLeftMargin: 10
                 onTextChanged: createPlayerBody.evaluateInputs()
 
-            }
-
-            LineEditComponent{
-                id: lastNameEdit
-                Layout.fillWidth: true
-
-                height: 32
-                fontSize: 12
-
-                labelText: "Lastname*"
-                labelFontSize: 8
-                labelFontColor: "darkblue"
-                labelBackgroundColor: "lightblue"
-                labelLeftMargin: 10
-                onTextChanged: createPlayerBody.evaluateInputs()
             }
 
             LineEditComponent{
@@ -136,8 +120,7 @@ Page{
                 buttonTwoEnabled: false
                 onButtonOneClicked: backButtonPressed();
                 onButtonTwoClicked: {
-                    var firstName = firstNameEdit.currentText;
-                    var lastName = lastNameEdit.currentText;
+                    var userName = userNameEdit.currentText;
                     var mail = mailEdit.currentText;
                     /*
                     var race = raceSelector.currentText;
@@ -145,7 +128,7 @@ Page{
                     */
                     buttonOneEnabled = false;
                     buttonTwoEnabled = false;
-                    createPlayerBody.sendPlayerDetails(firstName,lastName,mail);
+                    createPlayerBody.sendPlayerDetails(userName,mail);
                 }
             }
         }

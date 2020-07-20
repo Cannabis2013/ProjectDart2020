@@ -45,7 +45,7 @@ public slots:
                                   const int &gameMode,
                                   const int &keyPoint,
                                   const QVariantList &playerIndexes) = 0;
-    virtual void createPlayer(const QString &firstName, const QString &lastName, const QString &mail) = 0;
+    virtual void createPlayer(const QString &userName, const QString &mail) = 0;
     virtual void updateDataContext(const QUuid &tournament, const int &roundIndex, const int &setIndex) = 0;
     virtual void appendRound(const QUuid &tournament, const int &index) = 0;
     virtual void appendSet(const QUuid &tournament, const int &roundIndex, const int &setIndex) = 0;
@@ -65,7 +65,7 @@ signals:
     void sendContextStatus(const int &status);
     void sendGameModes(const QStringList &gameModes);
     void stateChanged(const int &status);
-    void sendPlayerDetail(const QString &firstName, const QString &lastName, const QString &mailAdress);
+    void sendPlayerDetail(const QString &userName, const QString &mailAdress);
     void sendPlayerScore(const QString &playerName, const int &score);
     void sendInitialControllerValues(const QUuid &tournamentID,
                                      const int &keyPoint,

@@ -38,22 +38,13 @@ private:
 class PlayerBuilderParameters : public IPlayerBuilderParameters<QString>
 {
 public:
-    QString firstName() const
+    QString userName() const
     {
         return _firstName;
     }
-    void setFirstName(const QString &value)
+    void setUserName(const QString &value)
     {
         _firstName = value;
-    }
-
-    QString lastName() const
-    {
-        return _lastName;
-    }
-    void setLastName(const QString &value)
-    {
-        _lastName = value;
     }
 
     QString eMail() const
@@ -99,9 +90,7 @@ public:
         DefaultModelInterface* model = new Player();
 
         model->setId(QUuid::createUuid());
-
-        model->setFirstName(params.firstName());
-        model->setLastName(params.lastName());
+        model->setUserName(params.userName());
         model->setEmail(params.eMail());
 
         if(options.generateUniqueID() && !options.generateCustomID())

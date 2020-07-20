@@ -5,19 +5,15 @@ template<class TUuid,class TList,class TString, class TBuilderInterface>
 class IPlayerContext
 {
 public:
-    virtual TUuid createPlayer(const TString& firstName,
-                               const TString& lastName,
+    virtual TUuid createPlayer(const TString& userName,
                                const TString& playerEMail,
                                const int& role = 0x00) = 0;
-    virtual void deletePlayerByFirstName(const TString &firstName) = 0;
+    virtual void deletePlayerByUserName(const TString &firstName) = 0;
     virtual void deletePlayerByID(const TUuid &player) = 0;
     virtual void deletePlayerByEmail(const TString &playerEMail) = 0;
-    virtual TUuid playerIDFromFullName(const TString &fullName) const = 0;
+    virtual TUuid playerIDFromUserName(const TString &fullName) const = 0;
     virtual TUuid playerIDFromIndex(const int &index) const = 0;
-    virtual TString playerFirstName(const TUuid& id) const = 0;
-    virtual TString playerLastName(const TUuid& id) const = 0;
-
-    virtual TString playerFullName(const TUuid& id) const = 0;
+    virtual TString playerUserName(const TUuid &id) const = 0;
 
     virtual TString playerEMail(const TUuid& id) const = 0;
 

@@ -86,9 +86,9 @@ ListView
         indexContainer.currentlySelectedIndexes = cIndexes;
     }
 
-    function addPlayerItem(firstName, lastName, eMail)
+    function addPlayerItem(userName, eMail)
     {
-        var model = {"type" : "player","firstName" : firstName,"lastName" : lastName, "email" : eMail};
+        var model = {"type" : "player","Username" : userName, "email" : eMail};
         listModel.append(model);
     }
 
@@ -136,7 +136,7 @@ ListView
 
         text: {
             if(type == "player")
-                return "Full name: " + firstName + " " + lastName + "\n" +
+                return "Username: " + Username + "\n" +
                           "E-mail: " + email;
             else if(type == "tournament")
             {

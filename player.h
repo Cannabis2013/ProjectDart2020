@@ -17,22 +17,6 @@ public:
     {
         _id = id;
     }
-    QString firstName() const override
-    {
-        return _firstName;
-    }
-    QString lastName() const override
-    {
-        return _lastName;
-    }
-    void setFirstName(const QString &string) override
-    {
-        _firstName = string;
-    }
-    void setLastName(const QString &string) override
-    {
-        _lastName = string;
-    }
     QString email() const override
     {
         return _email;
@@ -57,11 +41,23 @@ public:
     {
         _type = type;
     }
+    QString userName() const override
+    {
+        return _userName;
+    }
+    void setUserName(const QString &name) override
+    {
+        _userName = name;
+    }
 
 private:
     QUuid _id;
-    QString _firstName, _lastName, _email;
+    QString _userName, _email;
     int _role, _type;
 };
+
+
+
+
 
 #endif // PLAYER_H
