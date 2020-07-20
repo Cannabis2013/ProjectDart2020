@@ -22,7 +22,6 @@ class AbstractDataContext : public QObject,
         public IStatusInterface<QVariantList>
 {
     Q_OBJECT
-    enum Status{DataContextReady, DataContextBusy, DataContextFailedToUpdate};
 public:
     DefaultDataInterface *tournamentModelContext(){
         return _tournamentModelContext;
@@ -40,6 +39,7 @@ public:
         _playerModelContext = playerModelContext;
     }
 public slots:
+    virtual void updateDataContext(const QUuid &tournament, const int &roundIndex, const int &setIndex) = 0;
     virtual void appendRound(const QUuid &tournament, const int &index) = 0;
     virtual void appendSet(const QUuid &tournament, const int &roundIndex, const int &setIndex) = 0;
     virtual void addScore(const QUuid &tournament,
@@ -49,12 +49,13 @@ public slots:
                           const int &legIndex,
                           const int &point) = 0;
 
-    virtual void sendPlayerScores(const QUuid &tournament) = 0;
+    virtual void handleSendPlayerScoresRequest(const QUuid &tournament) = 0;
     virtual void sendRequestedTournaments() = 0;
     virtual void handleSetCurrentTournament(const int &index) = 0;
     virtual void handleInitialIndexesRequest(const QUuid &tournament, const QList<QUuid> *assignedPlayers) = 0;
 
 signals:
+    void sendContextStatus(const int &status);
     void stateChanged(const int &status);
     void sendPlayerScore(const QString &playerName, const int &score);
     void sendInitialControllerValues(const QUuid &tournamentID,
@@ -66,6 +67,7 @@ signals:
     void sendStatus(const int &status, const QVariantList &args);
     void sendTournament(const QString &title,
                         const int &numberOfThrows,
+                        const int &maxPlayers,
                         const int &gameMode,
                         const int &keyPoint,
                         const int &playersCount);

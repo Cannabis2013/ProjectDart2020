@@ -3,8 +3,6 @@
 LocalTournamentModelContext::LocalTournamentModelContext(const QString &org, const QString &app):
     AbstractPersistence(org,app)
 {
-    createTournament("Kents turnering",5,501,3,0x1);
-    createTournament("Techno Tonnys turnering",5,501,3,0x1);
 }
 
 void LocalTournamentModelContext::read()

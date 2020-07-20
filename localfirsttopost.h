@@ -24,6 +24,15 @@ class LocalFirstToPost :public AbstractGameController
 public:
     // Public types
     enum ModelDisplayHint{HiddenHint = 0x1,DisplayHint = 0x2, allHints = 0x4};
+    enum GameStatus {GameControllerIdle = 0x9,
+                     GamecontrollerBusy = 0xa, // Game is idle but in progress
+                     GameControllerStopped = 0xb, // Game is stopped and no longer accepts input
+                     GameControllerAwaitsInput = 0xc, // This should indicate that the gamecontroller is in a state where it awaits new player input
+                     GameControllerRunning = 0xd,
+                     GameControllerWinnerDeclared = 0xe,
+                     GameControllerNotInitialized = 0xf,
+                     GameControllerInitialized = 0x10}; // Controller is not initialized with tournament and, if necessary, appropriate indexes
+    enum Status{ContextBusy, ContextReady,ContextSuccessfullyUpdated,ContextUnSuccessfullyUpdated};
 
     int start() override;
     int stop() override;
@@ -68,6 +77,7 @@ public slots:
     void handleCurrentTournamentRequest() override;
 
     void recieveStatus(const int &status, const QVariantList &args) override;
+    void handleReplyFromContext(const int &status) override;
 private:
     /* Private types
      *
@@ -78,10 +88,10 @@ private:
      */
     enum InputPointDomain {InvalidDomain = 0x02};
     enum AggregatedSumDomains {PointDomain = 0x04,CriticalDomain = 0x06, OutsideDomain = 0x08, TargetDomain = 0xa};
+    bool isActive();
     /*
      * Consistency check
-     *
-     * Check if assigned tournament players is consistent with playercontext
+     *  - Check if assigned tournament players is consistent with playercontext
      */
     void consistencyCheck();
     // Post validation : Validate player score after updating datacontext

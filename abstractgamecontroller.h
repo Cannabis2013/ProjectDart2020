@@ -9,20 +9,16 @@
 
 typedef IController<QUuid,QString> DefaultControllerInterface;
 
-class AbstractGameController : public QObject, public DefaultControllerInterface, public IStatusInterface<QVariantList>
+class AbstractGameController : public QObject,
+        public DefaultControllerInterface,
+        public IStatusInterface<QVariantList>
 {
     Q_OBJECT
 public:
     /*
      * Public types
      */
-    enum GameStatus {GameControllerIdle = 0x9,
-                     GamecontrollerBusy = 0xa, // Game is idle but in progress
-                     GameControllerStopped = 0xb, // Game is stopped and no longer accepts input
-                     GameControllerAwaitsInput = 0xc, // This should indicate that the gamecontroller is in a state where it awaits new player input
-                     GameControllerRunning = 0xd,
-                     GameControllerWinnerDeclared = 0xe,
-                     GameControllerNotInitialized = 0xf};
+
 
 public slots:
     virtual int processInput(const int &point, const int &currentScore) = 0;
@@ -33,6 +29,7 @@ public slots:
     virtual void initializeIndexes(const int &roundIndex, const int &setIndex, const int &throwIndex, const int &turnIndex, const int &totalTurns) = 0;
     virtual void handleCurrentTournamentRequest() = 0;
     virtual void recieveStatus(const int &status, const QVariantList &args) override = 0;
+    virtual void handleReplyFromContext(const int &status) = 0;
 signals:
     void sendPoint(const QUuid &tournamentID,
                    const QUuid &playerID,
@@ -40,8 +37,8 @@ signals:
                    const int &setIndex,
                    const int &throwIndex,
                    const int &point);
-    void addRoundRequest(const QUuid &tournament, const int &index);
-    void addSetRequest(const QUuid &tournament, const int &roundIndex,const int &index);
+    void addRound(const QUuid &tournament, const int &index);
+    void addSet(const QUuid &tournament, const int &roundIndex,const int &index);
     void sendStatus(const int &status, const QVariantList &args) override;
     void stateChanged();
     void sendCurrentTournament(const QUuid &tournament);

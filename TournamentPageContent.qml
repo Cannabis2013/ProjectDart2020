@@ -13,13 +13,19 @@ Content{
     signal requestTournaments;
     signal sendClickedTournamentIndex(int index)
 
+    QtObject{
+        id: currentValues
+
+        property int currentIndex: -1
+    }
+
     function recieveTournament(title,maxPlayersCount,numberOfThrows,gameMode,keyPoint,playersCount){
         tournamentListView.addTournamentItem(title,numberOfThrows,maxPlayersCount,keyPoint,playersCount);
     }
     onReplyFromBackendRecieved: {
-        if(status === 0x7)
+        if(status === 0x10)
         {
-            startButton.enabled = true;
+            startGameClicked();
         }
     }
     onRequestUpdate: {
@@ -52,7 +58,10 @@ Content{
 
            itemHoveredColor: "darkgray"
 
-           onItemSelected: sendClickedTournamentIndex(index)
+           onItemSelected: {
+               startButton.enabled = true
+               currentValues.currentIndex = index;
+           }
 
            itemFontSize: 10
 
@@ -93,18 +102,18 @@ Content{
            backgroundColor: "green"
            text: "Start game"
            enabled: false
-           onClicked: startGameClicked();
+           onClicked: sendClickedTournamentIndex(currentValues.currentIndex);
        }
     }
     Component.onCompleted: {
-        body.requestTournaments.connect(localDart.requestTournaments); // Request initial tournaments
+        body.requestTournaments.connect(localDart.handleTournamentsRequest); // Request initial tournaments
         localDart.sendRequestedTournament.connect(recieveTournament)
-        body.sendClickedTournamentIndex.connect(localDart.setCurrentActiveTournament)
-        requestUpdate();
+        body.sendClickedTournamentIndex.connect(localDart.handleSetCurrentTournamentRequest)
+        body.requestTournaments();
     }
     Component.onDestruction: {
-        localDart.sendRequestedTournament.disconnect(recieveTournament);
-        body.sendClickedTournamentIndex.disconnect(localDart.setCurrentActiveTournament)
-        body.requestTournaments.disconnect(localDart.requestTournaments);
+        body.requestTournaments.disconnect(localDart.handleTournamentsRequest);
+        localDart.sendRequestedTournament.disconnect(recieveTournament)
+        body.sendClickedTournamentIndex.disconnect(localDart.handleSetCurrentTournamentRequest)
     }
 }

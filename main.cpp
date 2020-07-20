@@ -19,10 +19,9 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     qmlRegisterType<ScoreDataModel>("CustomItems",1,0,"ScoreDataModel");
-
-    AbstractDartInterface *_dart = new LocalDart();
-
-    _dart->setDataContext(new LocalDataContext("MHapps","Dart2020"));
+    auto dataContext = new LocalDataContext("MHApps","Dart2020");
+    auto gameBuilder = new GameBuilder();
+    AbstractDartInterface *_dart = new LocalDart(dataContext,gameBuilder);
 
     QQmlApplicationEngine engine;
 

@@ -5,8 +5,9 @@ LocalDataContext::LocalDataContext(const QString &org, const QString &app):
 {
     setTournamentModelContext(new LocalTournamentModelContext("MHApp","Dart2020"));
     setPlayerModelContext(new LocalPlayerModelContext);
-    //createTournament("Kents turnering",5,501,3,0x1);
-    //createTournament("Techno Tonnys turnering",5,501,3,0x1);
+
+
+    createInitialModels();
 }
 
 void LocalDataContext::read()
@@ -46,11 +47,12 @@ void LocalDataContext::sendRequestedTournaments()
         auto id = tournamentModelContext()->tournamentIDFromIndex(i);
         auto title = tournamentModelContext()->tournamentTitle(id);
         auto numberOfThrows = tournamentModelContext()->tournamentNumberOfThrows(id);
+        auto maxPlayers = tournamentModelContext()->tournamentMaximumAllowedPlayers(id);
         auto gameMode = tournamentModelContext()->tournamentGameMode(id);
         auto keyPoint = tournamentModelContext()->tournamentKeyPoint(id);
         auto playersCount = tournamentModelContext()->tournamentAssignedPlayers(id).count();
 
-        emit sendTournament(title,numberOfThrows,gameMode,keyPoint,playersCount);
+        emit sendTournament(title,numberOfThrows,maxPlayers,gameMode,keyPoint,playersCount);
     }
 }
 
@@ -96,9 +98,30 @@ void LocalDataContext::handleInitialIndexesRequest(const QUuid &tournament, cons
         auto totalTurns = tournamentModelContext()->playerPointsCount(LocalDataContext::allHints);
         emit sendInitialControllerIndexes(roundIndex,setIndex,throwIndex,turnIndex,totalTurns);
     }
+    else
+    {
+        emit sendInitialControllerIndexes(0,0,0,0,0);
+    }
 }
 
-void LocalDataContext::sendPlayerScores(const QUuid &tournament)
+void LocalDataContext::createInitialModels()
+{
+    auto kent = playerModelContext()->createPlayer("Kent","KillerHertz","");
+    auto martin = playerModelContext()->createPlayer("Martin","Hansen","");
+    auto william = playerModelContext()->createPlayer("William","Worsøe","");
+
+    auto firstTournament = tournamentModelContext()->createTournament("Kents turnering",5,501,3,0x1);
+    auto secondTournament = tournamentModelContext()->createTournament("Techno Tonnys turnering",5,501,3,0x1);
+
+    tournamentModelContext()->tournamentAddPlayer(firstTournament,kent);
+    tournamentModelContext()->tournamentAddPlayer(firstTournament,martin);
+
+    tournamentModelContext()->tournamentAddPlayer(secondTournament,kent);
+    tournamentModelContext()->tournamentAddPlayer(secondTournament,martin);
+    tournamentModelContext()->tournamentAddPlayer(secondTournament,william);
+}
+
+void LocalDataContext::handleSendPlayerScoresRequest(const QUuid &tournament)
 {
     auto currentGameMode = tournamentModelContext()->tournamentGameMode(tournament);
     auto keyPoint = tournamentModelContext()->tournamentKeyPoint(tournament);
@@ -135,6 +158,24 @@ void LocalDataContext::sendPlayerScores(const QUuid &tournament)
             }
         }
     }
+}
+
+void LocalDataContext::updateDataContext(const QUuid &tournament, const int &roundIndex, const int &setIndex)
+{
+    QUuid roundID;
+    try {
+        roundID = tournamentModelContext()->roundID(tournament,roundIndex);
+    } catch (const char *msg) {
+        appendRound(tournament,roundIndex);
+    }
+    QUuid setID;
+    try {
+        setID = tournamentModelContext()->setID(tournament,roundIndex,setIndex);
+    } catch (const char *msg) {
+        appendSet(tournament,roundIndex,setIndex);
+    }
+
+
 }
 
 void LocalDataContext::appendRound(const QUuid &tournament, const int &index)

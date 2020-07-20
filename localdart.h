@@ -15,6 +15,7 @@ class LocalDart : public AbstractDartInterface
     Q_OBJECT
     // AbstractDartInterface interface
 public:
+    LocalDart(AbstractDataContext *dataContext,DefaultControllerBuilderInterface *builder);
     // public types
     enum GameModes {
         FirstToPost = 0x1,
@@ -30,10 +31,9 @@ public:
     };
     enum ModelDisplayHint{HiddenHint = 0x1,DisplayHint = 0x2, allHints = 0x4};
 
-    void createInitialModels() const; // For testing purposes
 
 public slots:
-    void requestTournaments() override;
+    void requestTournaments();
     void assignPlayers(const QVariantList &list, const QString &tournament) override;
     void requestPlayerDetails() override;
     void createPlayer(const QString &firstName, const QString &lastName, const QString &email) override;
@@ -47,11 +47,6 @@ public slots:
     void addPoint(const int &value) override;
     void startGame() override;
     void stopGame() override;
-
-    void setCurrentTournament(const int &index) override;
-
-private slots:
-    void forwardScoreFromDataContext(const QUuid &player, const int &score) override;
 
 private :
 

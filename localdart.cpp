@@ -32,32 +32,12 @@ void LocalDart::assignPlayers(const QVariantList &list, const QString &tournamen
      */
 }
 
-void LocalDart::createInitialModels() const
+
+LocalDart::LocalDart(AbstractDataContext *dataContext, DefaultControllerBuilderInterface *builder):
+    AbstractDartInterface(dataContext,builder)
 {
-    /*
-     * TODO: Reimplement this method
-    auto kent = dataContext()->playerIDFromFullName("Kent KillerHertz");
-    auto martin = dataContext()->playerIDFromFullName("Martin Hansen");
-    auto william = dataContext()->playerIDFromFullName("William Worsøe");
-
-    auto count = dataContext()->tournamentsCount();
-
-    for (int i = 0; i < count; ++i) {
-        auto tournamentID = dataContext()->tournamentIDFromIndex(i);
-        if(i == 0)
-        {
-            dataContext()->tournamentAddPlayer(tournamentID,kent);
-            dataContext()->tournamentAddPlayer(tournamentID,martin);
-        }
-        else if(i == 1)
-        {
-            dataContext()->tournamentAddPlayer(tournamentID,kent);
-            dataContext()->tournamentAddPlayer(tournamentID,martin);
-            dataContext()->tournamentAddPlayer(tournamentID,william);
-        }
-    }
-    */
 }
+
 
 void LocalDart::createPlayer(const QString &firstName, const QString &lastName, const QString &email)
 {
@@ -105,18 +85,6 @@ void LocalDart::startGame()
 void LocalDart::stopGame()
 {
 
-}
-
-void LocalDart::setCurrentTournament(const int &index)
-{
-
-}
-
-void LocalDart::forwardScoreFromDataContext(const QUuid &player, const int &score)
-{
-    /*
-     * TODO: Reimplement this method
-     */
 }
 
 int LocalDart::gameModeFromString(const QString &gameMode) const

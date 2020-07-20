@@ -4,8 +4,8 @@ int LocalFirstToPost::start()
 {
     _isActive = true;
     if(_roundIndex == 0){
-        emit addRoundRequest(currentTournamentID(),++_roundIndex);
-        emit addSetRequest(currentTournamentID(),currentRoundIndex(),currentLegIndex());
+        emit addRound(currentTournamentID(),++_roundIndex);
+        emit addSet(currentTournamentID(),currentRoundIndex(),currentLegIndex());
     }
     _currentStatus = GameStatus::GameControllerAwaitsInput;
     emit sendStatus(_currentStatus,{});
@@ -29,6 +29,8 @@ int LocalFirstToPost::processInput(const int &point, const int &currentScore)
         emit sendStatus(status(),{});
         return status();
     }
+
+    _currentStatus = GamecontrollerBusy;
 
     auto score = currentScore + point;
 
@@ -61,7 +63,6 @@ int LocalFirstToPost::processInput(const int &point, const int &currentScore)
     {
         // Player made an 'overthrow' and points is nullified and added to datacontext
         addPoint(0);
-        _currentStatus = GameStatus::GameControllerAwaitsInput;
     }
 
     nextTurn(); // Initialize next turn. Increment playerindex if necessary. A new set or round is added respectively if necessary.
@@ -277,7 +278,9 @@ void LocalFirstToPost::initializeIndexes(const int &roundIndex,
     _turnIndex = turnIndex;
     _totalTurns = totalTurns;
 
-    _currentStatus = GameStatus::GameControllerStopped;
+    _currentStatus = GameStatus::GameControllerInitialized;
+
+    emit sendStatus(_currentStatus,{});
 }
 
 void LocalFirstToPost::handleCurrentTournamentRequest()
@@ -288,6 +291,19 @@ void LocalFirstToPost::handleCurrentTournamentRequest()
 void LocalFirstToPost::recieveStatus(const int &status, const QVariantList &args)
 {
 
+}
+
+void LocalFirstToPost::handleReplyFromContext(const int &status)
+{
+    if(status == Status::ContextSuccessfullyUpdated && !isActive())
+        _currentStatus = GameStatus::GameControllerInitialized;
+    else if(status == Status::ContextSuccessfullyUpdated && isActive())
+        _currentStatus = GameStatus::GameControllerAwaitsInput;
+}
+
+bool LocalFirstToPost::isActive()
+{
+    return _isActive;
 }
 
 int LocalFirstToPost::currentTurnIndex()
@@ -309,10 +325,10 @@ void LocalFirstToPost::nextTurn()
         _setIndex++;
         _throwIndex = 0;
         if(_setIndex >= _assignedPlayers.count()){
-            emit addRoundRequest(currentTournamentID(),++_roundIndex);
+            emit addRound(currentTournamentID(),++_roundIndex);
             _setIndex = 0;
         }
-        emit addSetRequest(currentTournamentID(),currentRoundIndex(),_setIndex);
+        emit addSet(currentTournamentID(),currentRoundIndex(),_setIndex);
     }
     else
     {

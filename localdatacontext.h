@@ -21,6 +21,11 @@ class LocalDataContext : public AbstractDataContext,
 {
     Q_OBJECT
 public:
+    enum Status{ContextBusy, ContextReady,ContextSuccessfullyUpdated,ContextUnSuccessfullyUpdated};
+    /*
+     * Public types
+     */;
+
     LocalDataContext(const QString &org, const QString &app);
 
     enum ModelDisplayHint{HiddenHint = 0x1,DisplayHint = 0x2, allHints = 0x4};
@@ -29,7 +34,8 @@ public:
     void write()  override;
 
 public slots:
-    void sendPlayerScores(const QUuid &tournament)  override;
+    void handleSendPlayerScoresRequest(const QUuid &tournament)  override;
+    void updateDataContext(const QUuid &tournament, const int &roundIndex, const int &setIndex) override;
     void appendRound(const QUuid &tournament, const int &index)  override;
     void appendSet(const QUuid &tournament, const int &roundIndex, const int &setIndex)  override;
     void recieveStatus(const int &status, const QVariantList &args)  override;
@@ -42,6 +48,9 @@ public slots:
     void sendRequestedTournaments() override;
     void handleSetCurrentTournament(const int &index) override;
     void handleInitialIndexesRequest(const QUuid &tournament,const QList<QUuid> *assignedPlayers) override;
+
+private:
+    void createInitialModels();
 };
 
 #endif // LOCALDATACONTEXT_H
