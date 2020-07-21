@@ -22,8 +22,8 @@ public:
 public slots:
     virtual void handleInput(const int &point) = 0;
     virtual void processInput(const int &point, const int &score) = 0;
-    virtual int start() = 0;
-    virtual int stop() = 0 ;
+    virtual void start() = 0;
+    virtual void stop() = 0 ;
     virtual void initializeController(const QUuid &tournament,const int &keyPoint, const int &numberOfThrows, QList<QUuid> assignedPlayers) = 0;
     virtual void initializeIndexes(const int &roundIndex, const int &setIndex, const int &throwIndex, const int &turnIndex, const int &totalTurns) = 0;
     virtual void handleCurrentTournamentRequest() = 0;
@@ -46,7 +46,6 @@ signals:
     void requestInitialIndexes(const QUuid &tournament,const QList<QUuid> *assignedPlayers);
     void requestContextStatusUpdate(const QUuid &player);
     void requestScoreCalculation(const QUuid &tournament,const QUuid &player, const int &point);
-
 };
 
 #endif // ABSTRACTGAMECONTROLLER_H

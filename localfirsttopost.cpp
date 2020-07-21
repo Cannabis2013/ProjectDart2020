@@ -1,20 +1,16 @@
 #include "localfirsttopost.h"
 
-int LocalFirstToPost::start()
+void LocalFirstToPost::start()
 {
-    if(_roundIndex == 0){
-        _roundIndex++;
-        emit sendCurrentIndexes(currentTournamentID(),currentRoundIndex(),currentLegIndex());
-    }
-    return _currentStatus;
+    _isActive = true;
+    emit requestContextStatusUpdate(currentActivePlayer());
 }
 
-int LocalFirstToPost::stop()
+void LocalFirstToPost::stop()
 {
     _isActive = false;
     _currentStatus = GameStatus::GameControllerStopped;
     emit sendStatus(_currentStatus,{});
-    return _currentStatus;
 }
 
 void LocalFirstToPost::processInput(const int &point, const int &currentScore)
@@ -29,10 +25,10 @@ void LocalFirstToPost::processInput(const int &point, const int &currentScore)
 
     _currentStatus = GameControllerBusy;
 
-    auto score = currentScore - point;
+    auto newScore = currentScore - point;
 
     // Evaluate input according to point domain and aggregated sum domain
-    auto inputResponse = validateInput(point,score);
+    auto inputResponse = validateInput(point,newScore);
 
     if(inputResponse == InputPointDomain::InvalidDomain)
         throw INVALID_DOMAIN;
@@ -40,18 +36,18 @@ void LocalFirstToPost::processInput(const int &point, const int &currentScore)
     if(inputResponse == AggregatedSumDomains::PointDomain)
     {
         // Update datacontext
-        addPoint(point,score);
+        addPoint(point,newScore);
         _currentStatus = GameStatus::GameControllerBusy;
     }
     else if(inputResponse == AggregatedSumDomains::CriticalDomain)
     {
-        addPoint(point,score);
+        addPoint(point,newScore);
         _currentStatus = GameStatus::GameControllerBusy;
     }
     else if(inputResponse == AggregatedSumDomains::TargetDomain)
     {
         // Winner declared
-        addPoint(point,score);
+        addPoint(point,newScore);
         declareWinner();
 
         emit sendStatus(_currentStatus,{});
@@ -287,11 +283,10 @@ void LocalFirstToPost::handleReplyFromContext(const int &status, const QVariantL
     QVariantList arguments;
     if(status == Status::ContextSuccessfullyUpdated && !isActive())
     {
-        _isActive = true;
-        _currentStatus = GameStatus::GameControllerBusy;
-        emit requestContextStatusUpdate(currentActivePlayer());
+        _currentStatus = GameStatus::GameControllerInitialized;
+        sendStatus(_currentStatus,{});
     }
-    else if(status == Status::ContextReady)
+    else if(status == Status::ContextReady && isActive())
     {
         auto canUndo = canUndoTurn();
         auto canRedo = canRedoTurn();

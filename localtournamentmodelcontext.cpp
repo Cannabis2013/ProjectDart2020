@@ -746,7 +746,7 @@ QUuid LocalTournamentModelContext::pointPlayer(const QUuid &point) const
     return getPointFromID(point)->player();
 }
 
-int LocalTournamentModelContext::pointHint(const QUuid &playerPoint) const
+int LocalTournamentModelContext::scoreHint(const QUuid &playerPoint) const
 {
     try {
         auto pointModel = getPointFromID(playerPoint);
@@ -775,7 +775,7 @@ QList<QUuid> LocalTournamentModelContext::playerPoints(const QUuid &tournament, 
     auto totalPoints = scores(tournament);
     for (auto pointID : totalPoints) {
         auto model = getPointFromID(pointID);
-        auto modelHint = pointHint(pointID);
+        auto modelHint = scoreHint(pointID);
         if(modelHint != hint && hint != allHints)
             continue;
         auto pointPlayer = model->player();

@@ -92,7 +92,7 @@ public:
     int pointValue(const QUuid &playerPoint) const override;
     int playerScore(const QUuid &point) override;
     QUuid pointPlayer(const QUuid &playerPoint) const override;
-    int pointHint(const QUuid &playerPoint) const override;
+    int scoreHint(const QUuid &playerPoint) const override;
     QUuid playerPoint(const QUuid &tournament, const QUuid &player , const int &roundIndex, const int &throwIndex, const int &hint) override;
     QList<QUuid> playerPoints(const QUuid &tournament, const QUuid &player, const int &hint) const override;
     bool removePlayerPoint(const QUuid &point) override;

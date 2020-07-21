@@ -120,7 +120,7 @@ void LocalDataContext::handleInitialIndexesRequest(const QUuid &tournament, cons
     }
     else
     {
-        emit sendInitialControllerIndexes(0,0,0,0,0);
+        emit sendInitialControllerIndexes(1,0,0,0,0);
     }
 }
 
@@ -146,7 +146,6 @@ void LocalDataContext::handleControllerStatusRequest(const QUuid &playerID)
 void LocalDataContext::handleScoreCalculationRequest(const QUuid &tournament,const QUuid &player, const int &point)
 {
     auto score = tournamentModelContext()->score(tournament,player);
-    score += point;
     emit sendCalculatedScore(point,score);
 }
 
@@ -176,6 +175,7 @@ void LocalDataContext::handleSendPlayerScoresRequest(const QUuid &tournament)
     emit sendCurrentTournamentKeyPoint(keyPoint);
     auto numberOfThrows = tournamentModelContext()->tournamentNumberOfThrows(tournament);
     auto assignedPlayersID =tournamentModelContext()->tournamentAssignedPlayers(tournament);
+    bool isInitial = true;
     for (auto assignedPlayerID : assignedPlayersID) {
         auto roundIndex = 1;
         auto throwIndex = 0;
@@ -196,7 +196,7 @@ void LocalDataContext::handleSendPlayerScoresRequest(const QUuid &tournament)
             }  catch (...) {
                 break;
             }
-
+            isInitial = false;
             auto score = tournamentModelContext()->playerScore(pointID);
             emit sendPlayerScore(userName,score);
             if(throwIndex % numberOfThrows == 0)
@@ -206,7 +206,13 @@ void LocalDataContext::handleSendPlayerScoresRequest(const QUuid &tournament)
             }
         }
     }
-    _currentStatus = Status::ContextReady;
+    if(isInitial)
+        updateDataContext(tournament,1,0);
+    else
+    {
+        _currentStatus = Status::ContextReady;
+        emit sendContextStatus(Status::ContextSuccessfullyUpdated,{});
+    }
 }
 
 void LocalDataContext::updateDataContext(const QUuid &tournament, const int &roundIndex, const int &setIndex)

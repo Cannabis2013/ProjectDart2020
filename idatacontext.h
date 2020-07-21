@@ -63,7 +63,7 @@ public:
     virtual int pointValue(const TUuid &playerPoint) const = 0;
     virtual int playerScore(const TUuid &playerPoint) = 0;
     virtual TUuid pointPlayer(const TUuid &playerPoint) const = 0;
-    virtual int pointHint(const TUuid &playerPoint) const = 0;
+    virtual int scoreHint(const TUuid &playerPoint) const = 0;
     virtual int pointLeg(const TUuid &playerPoint) const = 0;
     virtual TUuid playerPoint(const TUuid &tournament,const TUuid &player, const int &roundIndex, const int & throwIndex, const int &hint) = 0;
     virtual TList playerPoints(const TUuid &tournament, const TUuid &player, const int &hint) const = 0;

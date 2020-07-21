@@ -36,7 +36,8 @@ Content {
         var buttonText = turnNavigator.startButtonText;
         if(status === 0x12) // Gamecontroller is stopped
         {
-            buttonText = "Resume"
+            keyPad.enableKeys = false;
+            turnNavigator.startButtonText = "Resume"
         }
         else if(status === 0x13) // Gamecontroller awaits input
         {
@@ -55,6 +56,10 @@ Content {
         {
             keyPad.enableKeys = false;
 
+        }
+        else if(status === 0x17)
+        {
+            turnNavigator.startButtonEnabled = true;
         }
     }
 
@@ -92,7 +97,7 @@ Content {
             Layout.alignment: Qt.AlignTop
             onSendInputValue: {
                 enableKeys = false;
-                sendInput(val);
+                body.sendInput(val);
             }
 
             enableKeys: false

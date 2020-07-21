@@ -11,6 +11,9 @@ Item {
     property string startButtonText: "Start"
     onStartButtonTextChanged: startButton.text = startButtonText
 
+    property bool startButtonEnabled: false
+    onStartButtonEnabledChanged: startButton.enabled = startButtonEnabled
+
     property int currentRoundIndex: 0
     property string currentPlayer: ""
 
@@ -48,6 +51,7 @@ Item {
             width: 80
             height: 32
             onClicked: startButtonClicked()
+            enabled: body.startButtonEnabled
         }
 
         Rectangle{

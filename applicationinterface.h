@@ -111,7 +111,7 @@ private:
 
     IControllerBuilder<AbstractGameController, int> *_controllerBuilder;
     AbstractDataContext *_dataContext = nullptr;
-    AbstractGameController *_gameController= nullptr;
+    AbstractGameController *_gameController = nullptr;
 
 };
 

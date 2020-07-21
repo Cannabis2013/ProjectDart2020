@@ -38,29 +38,6 @@ public:
                 ContextSuccessfullyUpdated = 0xE,
                 ContextUnSuccessfullyUpdated = 0xF,
                 ContextDataProvided = 0x19};
-    int start() override;
-    int stop() override;
-    void processInput(const int &point, const int &currentScore) override;
-
-    QString playerMessage()  override;
-    QString calculateThrowSuggestion(const int &score)  override;
-    QUuid currentActivePlayer()  override;
-    int currentRoundIndex()  override;
-    int currentPlayerIndex()  override;
-    int currentSetIndex() override;
-    int currentLegIndex()  override;
-    QUuid currentTournamentID()  override;
-    int status() override;
-    int lastPlayerIndex()  override;
-    int playerIndex()  override;
-    QUuid determinedWinner()  override;
-    QUuid undoTurn() override;
-    QUuid redoTurn() override;
-    bool canUndoTurn() override;
-    bool canRedoTurn() override;
-
-    IPointLogisticManager<QString> *pointLogisticInterface() const;
-    AbstractGameController *setPointLogisticInterface(IPointLogisticManager<QString> *pointLogisticInterface);
 public slots:
     void initializeController(const QUuid &tournament, const int &keyPoint, const int &numberOfThrows, QList<QUuid> assignedPlayers) override;
     void initializeIndexes(const int &roundIndex,
@@ -82,6 +59,29 @@ private:
      */
     enum InputPointDomain {InvalidDomain = 0x02};
     enum AggregatedSumDomains {PointDomain = 0x04,CriticalDomain = 0x06, OutsideDomain = 0x08, TargetDomain = 0xa};
+    void start() override;
+    void stop() override;
+    void processInput(const int &point, const int &currentScore) override;
+
+    QString playerMessage()  override;
+    QString calculateThrowSuggestion(const int &score)  override;
+    QUuid currentActivePlayer()  override;
+    int currentRoundIndex()  override;
+    int currentPlayerIndex()  override;
+    int currentSetIndex() override;
+    int currentLegIndex()  override;
+    QUuid currentTournamentID()  override;
+    int status() override;
+    int lastPlayerIndex()  override;
+    int playerIndex()  override;
+    QUuid determinedWinner()  override;
+    QUuid undoTurn() override;
+    QUuid redoTurn() override;
+    bool canUndoTurn() override;
+    bool canRedoTurn() override;
+
+    IPointLogisticManager<QString> *pointLogisticInterface() const;
+    AbstractGameController *setPointLogisticInterface(IPointLogisticManager<QString> *pointLogisticInterface);
     /*
      * Activity check
      */
