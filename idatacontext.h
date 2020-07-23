@@ -5,7 +5,7 @@ template<class TUuid, class TList, class TString, class TTournamentBuilder>
 class IDataContext
 {
 public:
-    virtual TUuid createTournament(const TString &title, const int &maxPlayers,
+    virtual TUuid createTournament(const TString &title,
                                    const int &keyPoint, 
                                    const int &throws,
                                    const int &gameMode) = 0;
@@ -16,7 +16,6 @@ public:
     virtual TUuid tournamentIDFromIndex(const int &index) const = 0;
     virtual TString tournamentTitle(const TUuid &tournament) const = 0;
     virtual int tournamentNumberOfThrows(const TUuid &tournament) const = 0;
-    virtual int tournamentMaximumAllowedPlayers(const TUuid &tournament) const = 0;
     virtual TList tournamentAssignedPlayers(const TUuid &tournament) const = 0;
     virtual int tournamentGameMode(const TUuid &tournament) const = 0;
     virtual int tournamentKeyPoint(const TUuid &tournament) const = 0;
@@ -26,7 +25,6 @@ public:
     virtual void removeTournamentModels(const TUuid &tournament) = 0;
     virtual void alterTournamentTitle(const TUuid &tournament, const TString &title) = 0;
     virtual void alterTournamentNumberOfLegs(const TUuid &tournament, const int &value) = 0;
-    virtual void alterTournamentMaxPlayers(const TUuid &tournament, const int &value) = 0;
     virtual void tournamentAddPlayer(const TUuid &tournament, const TUuid &player) = 0;
     virtual void tournamentRemovePlayer(const TUuid &tournament, const TUuid &player) = 0;
     virtual void alterTournamentGameMode(const TUuid &tournament, const int &mode) = 0;

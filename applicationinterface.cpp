@@ -18,7 +18,7 @@ ApplicationInterface::ApplicationInterface(AbstractDataContext *dataContext, Def
     // Notify UI regarding context states
     connect(_gameController,&AbstractGameController::sendStatus,this,&ApplicationInterface::sendStatus);
     connect(_dataContext,&AbstractDataContext::sendStatus,this,&ApplicationInterface::sendStatus);
-    // Game UI needs to be updated. The following connection until next comment ensures exactly that
+    // Game UI needs to be updated. The following connection until next comment ensures that
     connect(this,&ApplicationInterface::requestPlayerScores,_gameController,&AbstractGameController::handleCurrentTournamentRequest);
     connect(_gameController,&AbstractGameController::sendCurrentTournament,_dataContext,&AbstractDataContext::handleSendPlayerScoresRequest);
     connect(_dataContext,&AbstractDataContext::sendCurrentTournamentKeyPoint,this,&ApplicationInterface::sendCurrentTournamentKeyPoint);
@@ -68,9 +68,13 @@ void ApplicationInterface::handleScoreBoardRequest()
     emit requestPlayerScores();
 }
 
-void ApplicationInterface::createTournament(const QString &title, const int &numberOfThrows, const int &maxPlayers, const int &gameMode, const int &keyPoint, const QVariantList &playerIndexes)
+void ApplicationInterface::createTournament(const QString &title,
+                                            const int &numberOfThrows,
+                                            const int &gameMode,
+                                            const int &keyPoint,
+                                            const QVariantList &playerIndexes)
 {
-    emit sendTournamentCandidate(title,numberOfThrows,maxPlayers,gameMode,keyPoint,playerIndexes);
+    emit sendTournamentCandidate(title,numberOfThrows,gameMode,keyPoint,playerIndexes);
 }
 
 void ApplicationInterface::createPlayer(const QString &userName, const QString &email)

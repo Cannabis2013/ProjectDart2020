@@ -2,120 +2,184 @@ import QtQuick 2.15
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.3
+import QtGraphicalEffects 1.13
 
 Rectangle{
     id: listComponentBody
 
     color: "transparent"
 
-    signal itemSelected(int index)
+    clip: true
 
     property bool allowCheckState: false
-    onAllowCheckStateChanged: listView.allowCheckState = allowCheckState
+    onAllowCheckStateChanged: listItem.allowCheckState = allowCheckState
 
     property bool allowMultipleSelections: false
-    onAllowMultipleSelectionsChanged: listView.allowMultipleSelections = allowMultipleSelections
 
     property string componentTitle: "Title"
     onComponentTitleChanged: labelTitle.text = componentTitle
 
     property color itemTextColor: "black"
-    onItemTextColorChanged: listView.itemTextColor = itemTextColor
+    onItemTextColorChanged: listItem.itemTextColor = itemTextColor
 
     property int itemFontSize: 10
-    onItemFontSizeChanged: listView.itemFontSize = itemFontSize
+    onItemFontSizeChanged: listItem.itemFontSize = itemFontSize
 
     property color itemSelectedBackgroundColor: "white"
-    onItemSelectedBackgroundColorChanged: listView.itemSelectedBackgroundColor = itemSelectedBackgroundColor
+    onItemSelectedBackgroundColorChanged: listItem.itemSelectedBackgroundColor = itemSelectedBackgroundColor
 
     property color itemSelectedtextColor: "black"
-    onItemSelectedtextColorChanged: listView.itemSelectedtextColor = itemSelectedtextColor
+    onItemSelectedtextColorChanged: listItem.itemSelectedtextColor = itemSelectedtextColor
 
     property int itemHeight: 50
-    onItemHeightChanged: listView.itemHeight = itemHeight
+    onItemHeightChanged: listItem.itemHeight = itemHeight
 
     property int itemWidth : listComponentBody.width
-    onItemWidthChanged: listView.itemWidth = itemWidth
+    onItemWidthChanged: listItem.itemWidth = itemWidth
 
     property color itemHoveredColor: "transparent"
-    onItemHoveredColorChanged: listView.itemHoveredColor = itemHoveredColor
+    onItemHoveredColorChanged: listItem.itemHoveredColor = itemHoveredColor
 
     property color hoveredItemTextColor: "blue"
-    onHoveredItemTextColorChanged: listView.hoveredItemTextColor = hoveredItemTextColor
+    onHoveredItemTextColorChanged: listItem.hoveredItemTextColor = hoveredItemTextColor
 
     property color itemBackgroundColor: "transparent"
-    onItemBackgroundColorChanged: listView.itemBackgroundColor = itemBackgroundColor
+    onItemBackgroundColorChanged: listItem.itemBackgroundColor = itemBackgroundColor
 
-    readonly property int currentlySelectedIndex: listView.getCurrentlySelectedIndex
-    readonly property var currentlySelectedIndexes: listView.getCurrentlySelectedIndexes
+    readonly property var currentlySelectedIndex: function(){return indexContainer.getCurrentlySelectedIndex;}
+    readonly property var currentlySelectedIndexes: function(){return indexContainer.getCurrentlySelectedIndexes;}
 
-    function clear()
-    {
-        listView.clear();
+    QtObject{
+        id: indexContainer
+        property int currentlySelectedIndex : -1
+        property var currentlySelectedIndexes: []
     }
 
-    function addPlayerItem(userName, eMail){
-        listView.addPlayerItem(userName,eMail);
+    signal itemSelected(int index)
+
+    function clear(){
+        listModel.clear();
+    }
+
+    function buttonSelected(text){
+        var cIndex = -1;
+        var cIndexes = [];
+        var j = 0;
+        for(var i = 0;i < listView.count;i++)
+        {
+            var item = listView.itemAtIndex(i);
+            var txt = item.text;
+            if(allowMultipleSelections){
+                if(item.buttonBody.state === "checked")
+                    cIndexes[j++] = i;
+            }
+            else{
+                if(item.buttonBody.state === "checked" && txt !== text)
+                    item.buttonBody.state = "";
+                if(txt === text && item.buttonBody.state === "checked")
+                {
+                    cIndex = i;
+                    itemSelected(cIndex);
+                }
+            }
+        }
+        indexContainer.currentlySelectedIndex = cIndex;
+        indexContainer.currentlySelectedIndexes = cIndexes;
+    }
+
+    function addPlayerItem(userName)
+    {
+        var model = {"type" : "player","Username" : userName};
+        listModel.append(model);
     }
 
     function addTournamentItem(tournamentTitle,
-                               tournamentMaxPlayers,
-                               tournamentLegsCount,
+                               tournamentThrowsCount,
                                tournamentKeyPoint,
                                tournamentPlayersCount)
     {
-        listView.addTournamentItem(tournamentTitle,
-                                   tournamentMaxPlayers,
-                                   tournamentLegsCount,
-                                   tournamentKeyPoint,
-                                   tournamentPlayersCount);
+        var model = {"type" : "tournament",
+            "tournamentTitle" : tournamentTitle,
+            "Throws" : tournamentThrowsCount,
+            "KeyPoint" : tournamentKeyPoint,
+            "playersCount" : tournamentPlayersCount};
+
+        listModel.append(model);
     }
 
-    clip: true
+    layer.enabled: true
+    layer.effect: OpacityMask{
+        maskSource: Item {
+            width: listComponentBody.width
+            height: listComponentBody.height
+
+            Rectangle{
+                anchors.fill: parent
+                radius: listComponentBody.radius
+            }
+        }
+    }
+
     GridLayout
     {
         id: bodyLayout
 
         anchors.fill: parent
 
-        rows:2
-        columns: 2
+        flow: GridLayout.TopToBottom
 
-        Label{
+        LabelComponent {
             id: labelTitle
-            Layout.row: 0
-            Layout.column: 0
-            text: componentTitle
-            font.pointSize: 24
-
             Layout.fillWidth: true
-
-            horizontalAlignment: Qt.AlignHCenter
+            Layout.minimumHeight: 48
+            fontSize: 24
+            backgroundColor: "darkgray"
+            text: componentTitle
         }
 
-        MyListView {
+        ListView
+        {
             id: listView
-            onItemSelected: listComponentBody.itemSelected(index)
-            allowCheckState: listComponentBody.allowCheckState
-            itemFontSize: listComponentBody.itemFontSize
-            itemTextColor: listComponentBody.itemTextColor
-            itemSelectedtextColor: listComponentBody.itemSelectedtextColor
-            itemSelectedBackgroundColor: listComponentBody.itemSelectedBackgroundColor
-            itemHeight: listComponentBody.itemHeight
-            itemWidth: listComponentBody.itemWidth
-            Layout.row: 1
-            Layout.column: 0
-
-            Layout.fillWidth: true
+            clip: true
+            spacing: 1
             Layout.fillHeight: true
+            Layout.fillWidth: true
+            model: ListModel {
+                id: listModel
+            }
 
-            PropertyAnimation on width {
-                from: listComponentBody.width / 2
-                to: listComponentBody.width
+            delegate: PushButton{
+                id: listItem
 
-                duration: 300
+                clip: true
 
-                easing.type: Easing.OutBounce
+                fontSize: itemFontSize
+
+                isCheckable: allowCheckState
+                onEmitCheckState: buttonSelected(text);
+
+                hoveredColor: listComponentBody.itemHoveredColor
+                hoveredTextColor: listComponentBody.hoveredItemTextColor
+
+                checkedBackgroundColor: listComponentBody.itemSelectedBackgroundColor
+                checkedTextColor: listComponentBody.itemSelectedtextColor
+
+                height: listComponentBody.itemHeight
+                width: listComponentBody.itemWidth
+
+                backgroundColor: listComponentBody.itemBackgroundColor
+                textColor: listComponentBody.itemTextColor
+
+                text: {
+                    if(type == "player")
+                        return Username;
+                    else if(type == "tournament")
+                    {
+                        return tournamentTitle + "\n" + " Throws: " + Throws + "\n" +
+                                "Keypoint: " + KeyPoint + " Playercount: " + playersCount;
+                    }
+                }
+                x: parent.width / 2 - width / 2
             }
         }
     }

@@ -8,7 +8,7 @@ Content {
     color: "transparent"
 
     signal requestPlayers
-    signal sendTournament(string title, int numberOfThrows, int maxPlayers, int gameMode,int keyPoint,var playerIndexes)
+    signal sendTournament(string title, int numberOfThrows, int gameMode,int keyPoint,var playerIndexes)
     signal requestGameModes
 
     QtObject{
@@ -32,6 +32,7 @@ Content {
 
     function reConnectInterface()
     {
+        body.visible = true;
         applicationInterface.sendStatus.connect(replyFromBackendRecieved); // Handle reply
         playersListView.clear();
         requestPlayers();
@@ -60,19 +61,6 @@ Content {
             height: 32
             fontSize: 12
             labelText: "Number of throws"
-            labelFontSize: 8
-            labelFontColor: "darkblue"
-            labelBackgroundColor: "lightblue"
-            labelLeftMargin: 10
-        }
-
-        LineEditComponent {
-            id: maxPlayerEdit
-            isNumeric: true
-            Layout.fillWidth: true
-            height: 32
-            fontSize: 12
-            labelText: "Max allowered players"
             labelFontSize: 8
             labelFontColor: "darkblue"
             labelBackgroundColor: "lightblue"
@@ -118,7 +106,7 @@ Content {
             itemHoveredColor: "darkgray"
             color: "white"
             radius: 15
-            itemFontSize: 8
+            itemFontSize: 16
             itemWidth: 256
             allowCheckState: true
             allowMultipleSelections: true
@@ -158,6 +146,7 @@ Content {
             anchors.top: playersListView.bottom
             anchors.right: playersListView.right
             onClicked: {
+                body.visible = false;
                 var createdComponent = ComponentFactory.createPopUp(applicationWindow,"createPlayerPopUp",0,0,applicationWindow.width,applicationWindow.height);
                 createdComponent.backButtonPressed.connect(body.reConnectInterface);
                 applicationInterface.sendStatus.disconnect(replyFromBackendRecieved);

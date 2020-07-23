@@ -44,7 +44,6 @@ public:
 public slots:
     void createTournament(const QString &title,
                           const int &numberOfThrows,
-                          const int &maxPlayers,
                           const int &gameMode,
                           const int &keyPoint,
                           const QVariantList &playerIndexes) override;

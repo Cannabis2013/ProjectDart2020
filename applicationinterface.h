@@ -50,7 +50,6 @@ public slots:
     void handleScoreBoardRequest();
     void createTournament(const QString &title,
                                      const int &numberOfThrows,
-                                     const int &maxPlayers,
                                      const int &gameMode,
                                      const int &keyPoint,
                                      const QVariantList &playerIndexes);
@@ -77,13 +76,11 @@ signals:
     void sendCurrentTournamentKeyPoint(const int &point);
     void sendRequestedTournament(const QString &title,
                                  const int &numberOfThrows,
-                                 const int &maxPlayers,
                                  const int &gameMode,
                                  const int &keyPoint,
                                  const int &playersCount);
     void sendTournamentCandidate(const QString &title,
                                  const int &numberOfThrows,
-                                 const int &maxPlayers,
                                  const int &gameMode,
                                  const int &keyPoint,
                                  const QVariantList &playerIndexes);

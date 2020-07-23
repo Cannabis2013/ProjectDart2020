@@ -17,9 +17,9 @@ void LocalDataContext::write()
 {
 }
 
-void LocalDataContext::createTournament(const QString &title, const int &numberOfThrows, const int &maxPlayers, const int &gameMode, const int &keyPoint, const QVariantList &playerIndexes)
+void LocalDataContext::createTournament(const QString &title, const int &numberOfThrows, const int &gameMode, const int &keyPoint, const QVariantList &playerIndexes)
 {
-    auto tournamentID = tournamentModelContext()->createTournament(title,maxPlayers,keyPoint,numberOfThrows,gameMode);
+    auto tournamentID = tournamentModelContext()->createTournament(title,keyPoint,numberOfThrows,gameMode);
     QVariantList playerNames;
     for (auto variant : playerIndexes) {
         auto index = variant.toInt();
@@ -66,12 +66,11 @@ void LocalDataContext::sendRequestedTournaments()
         auto id = tournamentModelContext()->tournamentIDFromIndex(i);
         auto title = tournamentModelContext()->tournamentTitle(id);
         auto numberOfThrows = tournamentModelContext()->tournamentNumberOfThrows(id);
-        auto maxPlayers = tournamentModelContext()->tournamentMaximumAllowedPlayers(id);
         auto gameMode = tournamentModelContext()->tournamentGameMode(id);
         auto keyPoint = tournamentModelContext()->tournamentKeyPoint(id);
         auto playersCount = tournamentModelContext()->tournamentAssignedPlayers(id).count();
 
-        emit sendTournament(title,numberOfThrows,maxPlayers,gameMode,keyPoint,playersCount);
+        emit sendTournament(title,numberOfThrows,gameMode,keyPoint,playersCount);
     }
 }
 
@@ -188,8 +187,8 @@ void LocalDataContext::createInitialModels()
     auto martin = playerModelContext()->createPlayer("Martin Hansen","");
     auto william = playerModelContext()->createPlayer("William Worsøe","");
 
-    auto firstTournament = tournamentModelContext()->createTournament("Kents turnering",5,501,3,0x1);
-    auto secondTournament = tournamentModelContext()->createTournament("Techno Tonnys turnering",5,501,3,0x1);
+    auto firstTournament = tournamentModelContext()->createTournament("Kents turnering",501,3,0x1);
+    auto secondTournament = tournamentModelContext()->createTournament("Techno Tonnys turnering",501,3,0x1);
 
     tournamentModelContext()->tournamentAddPlayer(firstTournament,kent);
     tournamentModelContext()->tournamentAddPlayer(firstTournament,martin);

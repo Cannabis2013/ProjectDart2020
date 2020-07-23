@@ -37,14 +37,6 @@ public:
     {
         _title = string;
     }
-    int numberOfMaxAllowedPlayers() const override
-    {
-        return _maxPlayers;
-    }
-    void setMaximumAllowedPlayers(const int &val) override
-    {
-        _maxPlayers = val;
-    }
     int numberOfThrows() const override
     {
         return _numberOfThrows;
@@ -114,7 +106,6 @@ private:
     int _gameMode;
     int _keyPoint;
     int _status;
-    int _maxPlayers;
     int _modelType;
 
     QUuid _id,_winner;

@@ -41,7 +41,6 @@ public:
 public slots:
     virtual void createTournament(const QString &title,
                                   const int &numberOfThrows,
-                                  const int &maxPlayers,
                                   const int &gameMode,
                                   const int &keyPoint,
                                   const QVariantList &playerIndexes) = 0;
@@ -79,7 +78,6 @@ signals:
     void sendStatus(const int &status, const QVariantList &args);
     void sendTournament(const QString &title,
                         const int &numberOfThrows,
-                        const int &maxPlayers,
                         const int &gameMode,
                         const int &keyPoint,
                         const int &playersCount);

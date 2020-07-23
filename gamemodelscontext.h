@@ -32,9 +32,6 @@ public:
     virtual TString title() const = 0;
     virtual void setTitle(const TString &string) = 0;
 
-    virtual int numberOfMaxAllowedPlayers() const = 0;
-    virtual void setMaximumAllowedPlayers(const int &val) = 0;
-
     virtual TList assignedPlayerIdentities() const = 0;
     virtual void setAssignedPlayerIdentities(const TList &playerIdentities) = 0;
     virtual void assignPlayerIdentity(const QUuid &identity) = 0;

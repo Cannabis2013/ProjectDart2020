@@ -13,14 +13,13 @@ void LocalTournamentModelsContext::write()
 {
 }
 
-QUuid LocalTournamentModelsContext::createTournament(const QString &title, const int &maxPlayers, const int &keyPoint, const int &throws, const int &gameMode)
+QUuid LocalTournamentModelsContext::createTournament(const QString &title, const int &keyPoint, const int &throws, const int &gameMode)
 {
-    auto tournament = tournamentBuilder()->buildModel([this,title,maxPlayers,keyPoint,throws,gameMode]{
+    auto tournament = tournamentBuilder()->buildModel([this,title,keyPoint,throws,gameMode]{
         TournamentParameters params;
 
         params.title = title;
         params.numberOfLegs = throws;
-        params.maxPlayers = maxPlayers;
         params.keyPoint = keyPoint;
         params.gameMode = gameMode;
         params.tournamentsCount = this->tournamentsCount();
@@ -82,11 +81,6 @@ int LocalTournamentModelsContext::tournamentNumberOfThrows(const QUuid &tourname
     return getTournamentFromID(tournament)->numberOfThrows();
 }
 
-int LocalTournamentModelsContext::tournamentMaximumAllowedPlayers(const QUuid &tournament) const
-{
-    return getTournamentFromID(tournament)->numberOfMaxAllowedPlayers();
-}
-
 QList<QUuid> LocalTournamentModelsContext::tournamentAssignedPlayers(const QUuid &tournament) const
 {
     QList<QUuid> assignedPlayers;
@@ -133,7 +127,6 @@ void LocalTournamentModelsContext::alterTournamentTitle(const QUuid &tournament,
         params.status = model->status();
         params.gameMode = model->gameMode();
         params.keyPoint = model->keyPoint();
-        params.maxPlayers = model->numberOfMaxAllowedPlayers();
         params.playerIdentities = model->assignedPlayerIdentities();
         params.numberOfLegs = model->numberOfThrows();
         params.winner = model->winner();
@@ -166,40 +159,10 @@ void LocalTournamentModelsContext::alterTournamentNumberOfLegs(const QUuid &tour
         params.status = oldModel->status();
         params.gameMode = oldModel->gameMode();
         params.keyPoint = oldModel->keyPoint();
-        params.maxPlayers = oldModel->numberOfMaxAllowedPlayers();
         params.playerIdentities = oldModel->assignedPlayerIdentities();
         params.numberOfLegs = value;
         params.winner = oldModel->winner();
 
-        return params;
-    }(),[]
-    {
-        ModelOptions options;
-
-        options.generateUniqueId = false;
-
-        return options;
-    }());
-    auto index = _tournaments.indexOf(oldModel);
-    _tournaments.replace(index,newModel);
-}
-
-void LocalTournamentModelsContext::alterTournamentMaxPlayers(const QUuid &tournament, const int &value)
-{
-    auto oldModel = getTournamentFromID(tournament);
-    auto newModel = tournamentBuilder()->buildModel(
-                [oldModel, value]
-    {
-        TournamentParameters params;
-        params.id = oldModel->id();
-        params.title = oldModel->title();
-        params.status = oldModel->status();
-        params.gameMode = oldModel->gameMode();
-        params.keyPoint = oldModel->keyPoint();
-        params.maxPlayers = value;
-        params.playerIdentities = oldModel->assignedPlayerIdentities();
-        params.numberOfLegs = oldModel->numberOfThrows();
-        params.winner = oldModel->winner();
         return params;
     }(),[]
     {
@@ -227,7 +190,6 @@ void LocalTournamentModelsContext::tournamentAddPlayer(const QUuid &tournament, 
         params.status = oldModel->status();
         params.gameMode = oldModel->gameMode();
         params.keyPoint = oldModel->keyPoint();
-        params.maxPlayers = oldModel->numberOfMaxAllowedPlayers();
         params.numberOfLegs = oldModel->numberOfThrows();
         params.winner = oldModel->winner();
         params.playerIdentities = pList;
@@ -256,7 +218,6 @@ void LocalTournamentModelsContext::tournamentRemovePlayer(const QUuid &tournamen
         params.status = oldModel->status();
         params.gameMode = oldModel->gameMode();
         params.keyPoint = oldModel->keyPoint();
-        params.maxPlayers = oldModel->numberOfMaxAllowedPlayers();
         params.playerIdentities = oldModel->assignedPlayerIdentities();
         params.numberOfLegs = oldModel->numberOfThrows();
         params.winner = oldModel->winner();
@@ -296,7 +257,6 @@ void LocalTournamentModelsContext::alterTournamentGameMode(const QUuid &tourname
         params.status = oldModel->status();
         params.gameMode = mode;
         params.keyPoint = oldModel->keyPoint();
-        params.maxPlayers = oldModel->numberOfMaxAllowedPlayers();
         params.playerIdentities = oldModel->assignedPlayerIdentities();
         params.numberOfLegs = oldModel->numberOfThrows();
         params.winner = oldModel->winner();
@@ -325,7 +285,6 @@ void LocalTournamentModelsContext::alterTournamentKeyPoint(const QUuid &tourname
         params.status = model->status();
         params.gameMode = model->gameMode();
         params.keyPoint = value;
-        params.maxPlayers = model->numberOfMaxAllowedPlayers();
         params.numberOfLegs = model->numberOfThrows();
         params.playerIdentities = model->assignedPlayerIdentities();
         params.winner = model->winner();
@@ -359,7 +318,6 @@ void LocalTournamentModelsContext::alterTournamentDeterminedWinner(const QUuid &
         params.status = model->status();
         params.gameMode = model->gameMode();
         params.keyPoint = model->keyPoint();
-        params.maxPlayers = model->numberOfMaxAllowedPlayers();
         params.numberOfLegs = model->numberOfThrows();
         params.playerIdentities = model->assignedPlayerIdentities();
         params.winner = player;

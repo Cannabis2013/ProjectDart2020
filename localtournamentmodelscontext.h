@@ -32,7 +32,6 @@ public:
     void read() override;
     void write() override;
     QUuid createTournament(const QString &title,
-                           const int &maxPlayers,
                            const int &keyPoint,
                            const int &throws,
                            const int &gameMode) override;
@@ -42,7 +41,6 @@ public:
     int tournamentsCount() const override;
     QString tournamentTitle(const QUuid &tournament) const override;
     int tournamentNumberOfThrows(const QUuid &tournament) const override;
-    int tournamentMaximumAllowedPlayers(const QUuid &tournament) const override;
     QList<QUuid> tournamentAssignedPlayers(const QUuid &tournament) const override;
     int tournamentGameMode(const QUuid &tournament) const override;
     int tournamentKeyPoint(const QUuid &tournament) const override;
@@ -55,7 +53,6 @@ public:
     void removeTournamentModels(const QUuid &tournament) override;
     void alterTournamentTitle(const QUuid &tournament, const QString &title) override;
     void alterTournamentNumberOfLegs(const QUuid &tournament, const int &value) override;
-    void alterTournamentMaxPlayers(const QUuid &tournament, const int &value) override;
     void alterTournamentGameMode(const QUuid &tournament, const int &mode) override;
     void alterTournamentKeyPoint(const QUuid &tournament, const int &value) override;
     void alterTournamentDeterminedWinner(const QUuid &tournament, const QUuid &player) override;

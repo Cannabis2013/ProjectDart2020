@@ -39,7 +39,6 @@ public:
         auto gameMode = args.gameMode != -1 ? args.gameMode : args.defaultGameMode;
         auto status = args.initialStatus;
         auto legCount = args.numberOfLegs > 0 ? args.numberOfLegs : args.defaultLegCount;
-        auto maxPlayers = args.maxPlayers > 0 ? args.maxPlayers : args.defaultMaxPlayerCount;
         auto keyPoint = args.keyPoint >= 0 ? args.keyPoint : args.defaultKeyPoint;
         auto playerIdentitties = args.playerIdentities;
         model->setType(ModelBuilderContext::TournamentModel);
@@ -48,7 +47,6 @@ public:
         model->setStatus(status);
         model->setKeyPoint(keyPoint);
         model->setNumberOfThrows(legCount);
-        model->setMaximumAllowedPlayers(maxPlayers);
         model->setAssignedPlayerIdentities(playerIdentitties);
         model->setType(ModelBuilderContext::TournamentModel);
         return model;

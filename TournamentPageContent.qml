@@ -19,8 +19,8 @@ Content{
         property int currentIndex: -1
     }
 
-    function recieveTournament(title,maxPlayersCount,numberOfThrows,gameMode,keyPoint,playersCount){
-        tournamentListView.addTournamentItem(title,numberOfThrows,maxPlayersCount,keyPoint,playersCount);
+    function recieveTournament(title,numberOfThrows,gameMode,keyPoint,playersCount){
+        tournamentListView.addTournamentItem(title,numberOfThrows,keyPoint,playersCount);
     }
     onReplyFromBackendRecieved: {
         if(status === 0x17)
@@ -46,6 +46,7 @@ Content{
 
            Layout.fillWidth: true
            Layout.fillHeight: true
+
 
            color: "white"
            radius: 15

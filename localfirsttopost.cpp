@@ -292,7 +292,13 @@ void LocalFirstToPost::handleControllerStateRequest()
 {
     if(status() == ControllerState::AddScoreState)
     {
-        nextTurn(); // Initialize next turn. Increment playerindex if necessary. A new set or round is added respectively if necessary.
+        /*
+         * - Increment indexes
+         * - Notify datacontext to create models if necessary
+         * - Datacontext responds with a signal which is handled in 'handleReplyFromDataContext' slot
+         * - Otherwise, it just emits a signal with current round values
+         */
+        nextTurn();
     }
     else if(this->status() == ControllerState::UndoState)
     {

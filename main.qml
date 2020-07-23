@@ -11,6 +11,8 @@ ApplicationWindow {
 
     color: "lightgray"
 
+    minimumHeight: 640
+    minimumWidth: 400
     width: 480
     height: 640
 

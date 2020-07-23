@@ -91,7 +91,7 @@ Content {
         else if(status === 0x15) // Winner declared
         {
             keyPad.enableKeys = false;
-
+            turnNavigator.startButtonText = "Restart"
         }
         else if(status === 0x17)
         {
