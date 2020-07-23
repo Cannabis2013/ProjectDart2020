@@ -111,7 +111,7 @@ public:
         model->setParent(args.setId);
         model->setPoint(args.pointValue);
         model->setPlayer(args.playerId);
-        model->setLegIndex(args.legIndex);
+        model->setLegIndex(args.throwIndex);
         model->setHint(options.modelHint);
         model->setScore(args.scoreValue);
         return model;

@@ -64,7 +64,7 @@ Rectangle{
     }
     function takeData(playerName)
     {
-        var result = myModel.takeDate(playerName);
+        var result = myModel.takeLastItem(playerName);
         if(!result)
             print("Couldn't take data");
     }

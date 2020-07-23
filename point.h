@@ -48,7 +48,7 @@ public:
     {
         _player = id;
     }
-    int legIndex() const override
+    int throwIndex() const override
     {
         return _legIndex;
     }

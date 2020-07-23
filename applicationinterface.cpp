@@ -5,14 +5,16 @@ ApplicationInterface::ApplicationInterface(AbstractDataContext *dataContext, Def
     _dataContext = dataContext;
     _gameController = _builder->buildController(GameModes::FirstToPost,ContextMode::LocalContext);
 
-    // Request tournaments -> Send tournaments back to UI
+    // UI request current state of gamecontroller
+    connect(this,&ApplicationInterface::requestControllerState,_gameController,&AbstractGameController::handleControllerStateRequest);
+    // UI request a list of tournaments -> Send a list of tournaments back to UI
     connect(this,&ApplicationInterface::requestTournaments,_dataContext,&AbstractDataContext::sendRequestedTournaments);
     connect(_dataContext,&AbstractDataContext::sendTournament,this,&ApplicationInterface::sendRequestedTournament);
     // Set current tournament -> Initialize controller indexes
     connect(this,&ApplicationInterface::setCurrentActiveTournament,_dataContext,&AbstractDataContext::handleSetCurrentTournament);
-    connect(_dataContext,&AbstractDataContext::sendInitialControllerValues,_gameController,&AbstractGameController::initializeController);
+    connect(_dataContext,&AbstractDataContext::sendInitialControllerValues,_gameController,&AbstractGameController::handleInitialValuesFromDataContext);
     connect(_gameController,&AbstractGameController::requestInitialIndexes,_dataContext,&AbstractDataContext::handleInitialIndexesRequest);
-    connect(_dataContext,&AbstractDataContext::sendInitialControllerIndexes,_gameController,&AbstractGameController::initializeIndexes);
+    connect(_dataContext,&AbstractDataContext::sendInitialControllerIndexes,_gameController,&AbstractGameController::handleIndexesFromDatacontext);
     // Notify UI regarding context states
     connect(_gameController,&AbstractGameController::sendStatus,this,&ApplicationInterface::sendStatus);
     connect(_dataContext,&AbstractDataContext::sendStatus,this,&ApplicationInterface::sendStatus);
@@ -24,7 +26,7 @@ ApplicationInterface::ApplicationInterface(AbstractDataContext *dataContext, Def
     connect(_dataContext,&AbstractDataContext::sendPlayerScore,this,&ApplicationInterface::sendPlayerScore);
     // Datacontext has to notify controller about its state
     connect(_gameController,&AbstractGameController::requestContextStatusUpdate,_dataContext,&AbstractDataContext::handleControllerStatusRequest);
-    connect(_dataContext,&AbstractDataContext::sendContextStatus,_gameController,&AbstractGameController::handleReplyFromContext);
+    connect(_dataContext,&AbstractDataContext::sendContextStatus,_gameController,&AbstractGameController::handleReplyFromDataContext);
     // UI request creation of a new tournament
     connect(this,&ApplicationInterface::sendTournamentCandidate,_dataContext,&AbstractDataContext::createTournament);
     // UI request creation of a new player
@@ -45,6 +47,11 @@ ApplicationInterface::ApplicationInterface(AbstractDataContext *dataContext, Def
     connect(_dataContext,&AbstractDataContext::sendCalculatedScore,_gameController,&AbstractGameController::processInput);
     // Send point to datacontext
     connect(_gameController,&AbstractGameController::sendPoint,_dataContext,&AbstractDataContext::addScore);
+    // Undo/Redo functionality
+    connect(this,&ApplicationInterface::requestUndo,_gameController,&AbstractGameController::undoTurn);
+    connect(this,&ApplicationInterface::requestRedo,_gameController,&AbstractGameController::redoTurn);
+    connect(_gameController,&AbstractGameController::requestSetScoreHint,_dataContext,&AbstractDataContext::setScoreHint);
+    connect(_gameController,&AbstractGameController::removeScore,this,&ApplicationInterface::removeScore);
 }
 
 void ApplicationInterface::handleTournamentsRequest(){
@@ -99,14 +106,24 @@ void ApplicationInterface::requestStop()
     emit stopGame();
 }
 
-void ApplicationInterface::addPoint(const int &point)
+void ApplicationInterface::handleUserInput(const int &point)
 {
     emit sendPoint(point);
 }
 
-void ApplicationInterface::handleGameControllerRequest()
+void ApplicationInterface::handleUndoRequest()
 {
+    emit requestUndo();
+}
 
+void ApplicationInterface::handleRedoRequest()
+{
+    emit requestRedo();
+}
+
+void ApplicationInterface::handleControllerStateRequest()
+{
+    emit requestControllerState();
 }
 
 AbstractDataContext *ApplicationInterface::dataContext() const

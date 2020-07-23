@@ -54,7 +54,7 @@ bool ScoreDataModel::appendData(const QString &playerName, const int &data, cons
     return true;
 }
 
-int ScoreDataModel::takeDate(const QString &playerName, const int &headerOrientation)
+int ScoreDataModel::takeLastItem(const QString &playerName, const int &headerOrientation)
 {
     auto orientation = headerOrientation != -1 ? headerOrientation : this->headerOrientation();
     if(orientation == Qt::Horizontal)

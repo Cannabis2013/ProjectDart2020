@@ -16,39 +16,44 @@
 #define INVALID_DOMAIN "Input is not within domain";
 #define UNABLE_TO_ALTER_TURN "Unable to alter turn index";
 
-
-
 class LocalFirstToPost :public AbstractGameController
 {
     Q_OBJECT
 public:
     // Public types
     enum ModelDisplayHint{HiddenHint = 0x9,DisplayHint = 0xA, allHints = 0xB};
-    enum GameStatus {GameControllerIdle = 0x10,
-                     GameControllerBusy = 0x11, // Game is idle but in progress
-                     GameControllerStopped = 0x12, // Game is stopped and no longer accepts input
-                     GameControllerAwaitsInput = 0x13, // This should indicate that the gamecontroller is in a state where it awaits new player input
-                     GameControllerRunning = 0x14,
-                     GameControllerWinnerDeclared = 0x15,
-                     GameControllerNotInitialized = 0x16, // Controller is not initialized with tournament and, if necessary, appropriate indexes
-                     GameControllerInitialized = 0x17,
-                     GameControllerNeedsData = 0x18}; // Controller needs data from context
+    enum ControllerState {Idle = 0x10,
+                     GameBusy = 0x11, // Game is idle but in progress
+                     Stopped = 0x12, // Game is stopped and no longer accepts input
+                     AwaitsInput = 0x13, // This should indicate that the gamecontroller is in a state where it awaits new player input
+                     Running = 0x14,
+                     WinnerDeclared = 0x15,
+                     NotInitialized = 0x16, // Controller is not initialized with tournament and, if necessary, appropriate indexes
+                     Initialized = 0x17,
+                     Inconsistency = 0x18,
+                     UndoState = 0x1F,
+                     RedoState = 0x20,
+                     AddScoreState = 0x21,
+                     UpdateContextState = 0x22};
     enum Status{ContextBusy = 0xC,
                 ContextReady = 0xD,
                 ContextSuccessfullyUpdated = 0xE,
                 ContextUnSuccessfullyUpdated = 0xF,
                 ContextDataProvided = 0x19};
 public slots:
-    void initializeController(const QUuid &tournament, const int &keyPoint, const int &numberOfThrows, QList<QUuid> assignedPlayers) override;
-    void initializeIndexes(const int &roundIndex,
+    void handleInitialValuesFromDataContext(const QUuid &tournament, const int &keyPoint, const int &numberOfThrows, const QStringList &assignedUserNames) override;
+    void handleIndexesFromDatacontext(const int &roundIndex,
                            const int &setIndex,
                            const int &throwIndex,
                            const int &turnIndex,
                            const int &totalTurns) override;
     void handleCurrentTournamentRequest() override;
-    void handleReplyFromContext(const int &status, const QVariantList &args) override;
+    /*
+     * Handle replies from datacontext
+     */
+    void handleReplyFromDataContext(const int &status, const QVariantList &args) override;
     void handleInput(const int &point) override;
-    void handleStatusRequest() override;
+    void handleControllerStateRequest() override;
 private:
     /* Private types
      *
@@ -59,22 +64,31 @@ private:
      */
     enum InputPointDomain {InvalidDomain = 0x02};
     enum AggregatedSumDomains {PointDomain = 0x04,CriticalDomain = 0x06, OutsideDomain = 0x08, TargetDomain = 0xa};
+    /*
+     * Start/stop game progress
+     */
     void start() override;
     void stop() override;
+    /*
+     * Evaluate input from user
+     */
     void processInput(const int &point, const int &currentScore) override;
-
+    /*
+     * Notify UI about controller state, current round index, undo/redo possibility and current user
+     */
+    void sendCurrentTurnValues();
     QString playerMessage()  override;
     QString calculateThrowSuggestion(const int &score)  override;
-    QUuid currentActivePlayer()  override;
-    int currentRoundIndex()  override;
-    int currentPlayerIndex()  override;
-    int currentSetIndex() override;
-    int currentLegIndex()  override;
-    QUuid currentTournamentID()  override;
-    int status() override;
-    int lastPlayerIndex()  override;
-    int playerIndex()  override;
-    QUuid determinedWinner()  override;
+    QString currentActiveUser()  override;
+    int currentRoundIndex()  override{return _roundIndex;}
+    int currentPlayerIndex()  override{return _setIndex;}
+    int currentSetIndex() override{return _setIndex;}
+    int currentThrowIndex()  override {return _throwIndex;}
+    QUuid currentTournamentID()  override {return _currentTournament;}
+    int status() override{return _currentStatus;}
+    int lastPlayerIndex()  override{return _assignedUserNames.count() - 1;}
+    int playerIndex()  override {return _setIndex;}
+    QUuid determinedWinner()  override {return _winner;}
     QUuid undoTurn() override;
     QUuid redoTurn() override;
     bool canUndoTurn() override;
@@ -85,19 +99,22 @@ private:
     /*
      * Activity check
      */
-    bool isActive();
+    bool isActive()
+    {
+        return _isActive;
+    }
     /*
      * Consistency check
      *  - Check if assigned tournament players is consistent with playercontext
      */
     void consistencyCheck();
     // Post validation : Validate player score after updating datacontext
-    int validateCurrentState(const int &score);
+    int validateCurrentState(const int &currentScore);
     /* Pre validation :
      *  - Validate input domain
      *  - Validate projected player score before updating datacontext
      */
-    int validateInput(const int &pointValue, const int &currentScore);
+    int validateInput(const int &currentScore);
     /*
      * Update datacontext
      */
@@ -108,8 +125,14 @@ private:
     /*
      * Index methods
      */
-    int currentTurnIndex() ;
-    bool isIndexOffset();
+    int currentTurnIndex()
+    {
+        return _turnIndex;
+    }
+    bool isIndexOffset()
+    {
+        return _isOff;
+    }
     void nextTurn();
     void declareWinner();
     void incrementTurnIndexes();
@@ -132,10 +155,10 @@ private:
     int _keyPoint = 0;
     QUuid _currentTournament = QUuid();
     QUuid _winner;
-    GameStatus _currentStatus = GameStatus::GameControllerNotInitialized;
+    ControllerState _currentStatus = ControllerState::NotInitialized;
     bool _isActive = false;
 
-    QList< QUuid> _assignedPlayers;
+    QStringList _assignedUserNames;
     // Localdata context related
     IPointLogisticManager<QString> *_pointLogisticInterface;
 };

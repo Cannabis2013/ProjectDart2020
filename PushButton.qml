@@ -10,7 +10,7 @@ Item {
     }
 
     property int fontSize: 12
-    onFontSizeChanged: buttonText = fontSize
+    onFontSizeChanged: buttonText.font.pointSize = fontSize
 
     property color hoveredColor: "#04F72D"
     property color hoveredTextColor: textColor

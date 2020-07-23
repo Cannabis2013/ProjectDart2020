@@ -81,7 +81,7 @@ public:
     virtual int score() const = 0;
     virtual void setScore(const int &score) = 0;
 
-    virtual int legIndex() const = 0;
+    virtual int throwIndex() const = 0;
     virtual void setLegIndex(const int &index) = 0;
 
     virtual QUuid player() const = 0;

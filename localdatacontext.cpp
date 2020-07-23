@@ -3,9 +3,8 @@
 LocalDataContext::LocalDataContext(const QString &org, const QString &app):
     AbstractPersistence(org,app)
 {
-    setTournamentModelContext(new LocalTournamentModelContext("MHApp","Dart2020"));
+    setTournamentModelContext(new LocalTournamentModelsContext("MHApp","Dart2020"));
     setPlayerModelContext(new LocalPlayerModelContext);
-
 
     createInitialModels();
 }
@@ -40,24 +39,24 @@ void LocalDataContext::createPlayer(const QString &userName, const QString &mail
 }
 
 void LocalDataContext::addScore(const QUuid &tournament,
-                                 const QUuid &player,
+                                 const QString &userName,
                                  const int &roundIndex,
                                  const int &setIndex,
-                                 const int &legIndex,
-                                 const int &point, const int &totalScore)
+                                 const int &throwIndex,
+                                 const int &point,
+                                 const int &score)
 {
-
+    _currentStatus = Status::ContextBusy;
+    auto playerID = playerModelContext()->playerIDFromUserName(userName);
     try {
-        auto pointID = tournamentModelContext()->playerPoint(tournament,player,roundIndex,legIndex,HiddenHint);
-        tournamentModelContext()->editScore(pointID,point,totalScore,DisplayHint);
-        auto userName = playerModelContext()->playerUserName(player);
-        emit sendPlayerScore(userName,totalScore);
+        auto pointID = tournamentModelContext()->playerPoint(tournament,playerID,roundIndex,throwIndex,HiddenHint);
+        tournamentModelContext()->editScore(pointID,point,score,DisplayHint);
 
     } catch (...) {
-        auto score = tournamentModelContext()->addScore(tournament,player,point,roundIndex,setIndex,legIndex,totalScore);
-        auto userName = playerModelContext()->playerUserName(player);
-        emit sendPlayerScore(userName,score);
+        tournamentModelContext()->addScore(tournament,playerID,point,roundIndex,setIndex,throwIndex,score);
     }
+    _currentStatus = Status::ContextReady;
+    emit sendContextStatus(Status::ContextSuccessfullyUpdated,{userName,score});
 }
 
 void LocalDataContext::sendRequestedTournaments()
@@ -81,23 +80,25 @@ void LocalDataContext::handleSetCurrentTournament(const int &index)
     auto tournamentID = tournamentModelContext()->tournamentIDFromIndex(index);
     auto keyPoint = tournamentModelContext()->tournamentKeyPoint(tournamentID);
     auto numberOfThrows = tournamentModelContext()->tournamentNumberOfThrows(tournamentID);
-    auto assignedPlayers = tournamentModelContext()->tournamentAssignedPlayers(tournamentID);
-    emit sendInitialControllerValues(tournamentID,keyPoint,numberOfThrows,assignedPlayers);
+    auto assignedPlayersID = tournamentModelContext()->tournamentAssignedPlayers(tournamentID);
+    auto assignedUserNames = playerUserNamesFromPlayersID(assignedPlayersID);
+    emit sendInitialControllerValues(tournamentID,keyPoint,numberOfThrows,assignedUserNames);
 }
 
-void LocalDataContext::handleInitialIndexesRequest(const QUuid &tournament, const QList<QUuid> *assignedPlayers)
+void LocalDataContext::handleInitialIndexesRequest(const QUuid &tournament, const QStringList &assignedPlayers)
 {
     auto turnIndex = 0;
     auto roundIndex = 1;
     auto setIndex = 0;
     auto throwIndex = 0;
-    auto playersCount = assignedPlayers->count();
+    auto playersCount = assignedPlayers.count();
     auto numberOfThrows= tournamentModelContext()->tournamentNumberOfThrows(tournament);
     while(1)
     {
-        auto playerID = assignedPlayers->at(setIndex);
+        auto userName = assignedPlayers.at(setIndex);
+        auto playerId = playerModelContext()->playerIDFromUserName(userName);
         try {
-            tournamentModelContext()->playerPoint(tournament,playerID,roundIndex,throwIndex,LocalDataContext::DisplayHint);
+            tournamentModelContext()->playerPoint(tournament,playerId,roundIndex,throwIndex,LocalDataContext::DisplayHint);
         } catch (const char *msg) {
             break;
         }
@@ -143,10 +144,41 @@ void LocalDataContext::handleControllerStatusRequest(const QUuid &playerID)
     emit sendContextStatus(_currentStatus,arguments);
 }
 
-void LocalDataContext::handleScoreCalculationRequest(const QUuid &tournament,const QUuid &player, const int &point)
+void LocalDataContext::handleScoreCalculationRequest(const QUuid &tournament, const QString &userName, const int &point)
 {
-    auto score = tournamentModelContext()->score(tournament,player);
+    auto playerID = playerModelContext()->playerIDFromUserName(userName);
+    auto score = tournamentModelContext()->score(tournament,playerID);
     emit sendCalculatedScore(point,score);
+}
+
+void LocalDataContext::setScoreHint(const QUuid &tournament, const QString &player, const int &roundIndex, const int &throwIndex, const int &hint)
+{
+    auto playerID = playerModelContext()->playerIDFromUserName(player);
+    QUuid scoreID;
+    try {
+        scoreID = tournamentModelContext()->playerPoint(tournament,
+                                                         playerID,
+                                                         roundIndex,
+                                                         throwIndex,
+                                                         ModelDisplayHint::allHints);
+    } catch (...) {
+        emit sendContextStatus(Status::ContextUnSuccessfullyUpdated,{});
+        return;
+    }
+    tournamentModelContext()->setScoreHint(scoreID,hint);
+    auto scoreValue = tournamentModelContext()->scoreValue(scoreID);
+    auto userName = playerModelContext()->playerUserName(playerID);
+    emit sendContextStatus(Status::ContextSuccessfullyUpdated,{userName,scoreValue});
+}
+
+QStringList LocalDataContext::playerUserNamesFromPlayersID(const QList<QUuid> playersID)
+{
+    QStringList userNames;
+    for (auto playerID : playersID) {
+        auto userName = playerModelContext()->playerUserName(playerID);
+        userNames << userName;
+    }
+    return userNames;
 }
 
 
@@ -197,7 +229,7 @@ void LocalDataContext::handleSendPlayerScoresRequest(const QUuid &tournament)
                 break;
             }
             isInitial = false;
-            auto score = tournamentModelContext()->playerScore(pointID);
+            auto score = tournamentModelContext()->scoreValue(pointID);
             emit sendPlayerScore(userName,score);
             if(throwIndex % numberOfThrows == 0)
             {
@@ -207,7 +239,7 @@ void LocalDataContext::handleSendPlayerScoresRequest(const QUuid &tournament)
         }
     }
     if(isInitial)
-        updateDataContext(tournament,1,0);
+        updateDataContext(tournament,QUuid(),1,0);
     else
     {
         _currentStatus = Status::ContextReady;
@@ -215,7 +247,7 @@ void LocalDataContext::handleSendPlayerScoresRequest(const QUuid &tournament)
     }
 }
 
-void LocalDataContext::updateDataContext(const QUuid &tournament, const int &roundIndex, const int &setIndex)
+void LocalDataContext::updateDataContext(const QUuid &tournament, const QUuid &player, const int &roundIndex, const int &setIndex)
 {
     _currentStatus = Status::ContextBusy;
     QUuid roundID;
@@ -230,6 +262,7 @@ void LocalDataContext::updateDataContext(const QUuid &tournament, const int &rou
     } catch (...) {
         tournamentModelContext()->addSet(tournament,roundIndex,setIndex);
     }
+    auto playerUserName = playerModelContext()->playerUserName(player);
     _currentStatus = Status::ContextReady;
-    emit sendContextStatus(Status::ContextSuccessfullyUpdated,{});
+    emit sendContextStatus(Status::ContextSuccessfullyUpdated,{playerUserName});
 }

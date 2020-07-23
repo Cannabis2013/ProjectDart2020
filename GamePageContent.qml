@@ -20,20 +20,28 @@ Content {
     onBackButtonPressed: requestStop()
 
     signal requestScoreBoardData
-    signal sendStatusRequest
+    signal requestStatusFromBackend
     signal requestStart
     signal requestStop
+    signal requestUndo
+    signal requestRedo
 
-    onSendStatusRequest: {
-        var buttonText = turnNavigator.startButtonText;
-        if(buttonText === "Start" || buttonText === "Resume")
-            requestStart();
-        else
-            requestStop();
+    onRequestScoreBoardData: responseTimer.start()
+
+    function appendHeaderItem(item)
+    {
+        scoreTable.appendHeader(item);
+        responseTimer.restart();
+    }
+    function appendScore(player,score)
+    {
+        scoreTable.appendData(player,score);
+        responseTimer.restart();
     }
 
     onReplyFromBackendRecieved: {
         var buttonText = turnNavigator.startButtonText;
+        var userName, scoreValue;
         if(status === 0x12) // Gamecontroller is stopped
         {
             keyPad.enableKeys = false;
@@ -51,6 +59,34 @@ Content {
             turnNavigator.updateState(currentRoundIndex,currentPlayerUserName,canUndo,canRedo);
 
             keyPad.enableKeys = true;
+        }
+        else if(status == 0x17)
+        {
+            turnNavigator.startButtonEnabled = true;
+        }
+
+        else if(status == 0x21) // Controller is in AddScoreState
+        {
+            userName = args[0];
+            scoreValue = args[1];
+
+            scoreTable.appendData(userName,scoreValue);
+
+            requestStatusFromBackend();
+        }
+
+        else if(status == 0x1F) // Controller is in UndoState
+        {
+            userName = args[0];
+            scoreTable.takeData(userName);
+            requestStatusFromBackend();
+        }
+        else if(status === 0x20) // Controller is in RedoState
+        {
+            userName = args[0];
+            scoreValue = args[1];
+            scoreTable.appendData(userName,scoreValue);
+            requestStatusFromBackend();
         }
         else if(status === 0x15) // Winner declared
         {
@@ -75,7 +111,16 @@ Content {
             Layout.fillWidth: true
             height: 64
             Layout.alignment: Qt.AlignHCenter
-            onStartButtonClicked: body.sendStatusRequest()
+            startButtonEnabled: false
+            onStartButtonClicked: {
+                var buttonText = turnNavigator.startButtonText;
+                if(buttonText === "Start" || buttonText === "Resume")
+                    requestStart();
+                else
+                    requestStop();
+            }
+            onLeftButtonClicked: requestUndo()
+            onRightButtonClicked: requestRedo()
         }
         ScoreBoard{
             id: scoreTable
@@ -105,15 +150,24 @@ Content {
         Rectangle{
             Layout.fillHeight: true
         }
+
+        Timer{
+            id: responseTimer
+            interval: 500 // 3.5s
+            repeat: false
+            onTriggered: body.requestStatusFromBackend()
+        }
     }
     Component.onCompleted: {
-        applicationInterface.sendAssignedPlayerName.connect(scoreTable.appendHeader);
-        applicationInterface.sendPlayerScore.connect(scoreTable.appendData);
         body.requestScoreBoardData.connect(applicationInterface.handleScoreBoardRequest);
+        applicationInterface.sendAssignedPlayerName.connect(body.appendHeaderItem);
+        applicationInterface.sendPlayerScore.connect(body.appendScore);
         body.requestStart.connect(applicationInterface.requestStart);
         body.requestStop.connect(applicationInterface.requestStop);
-        body.sendInput.connect(applicationInterface.addPoint);
-        body.sendStatusRequest.connect(applicationInterface.requestGameStatus);
+        body.sendInput.connect(applicationInterface.handleUserInput);
+        body.requestUndo.connect(applicationInterface.requestUndo);
+        body.requestRedo.connect(applicationInterface.requestRedo);
+        body.requestStatusFromBackend.connect(applicationInterface.handleControllerStateRequest);
 
         scoreTable.setMinimumColumnsCount(4);
 
@@ -125,7 +179,9 @@ Content {
         body.requestScoreBoardData.disconnect(applicationInterface.handleScoreBoardRequest);
         body.requestStart.disconnect(applicationInterface.requestStart);
         body.requestStop.disconnect(applicationInterface.requestStop);
-        body.sendInput.disconnect(applicationInterface.addPoint);
-        body.sendStatusRequest.disconnect(applicationInterface.requestGameStatus);
+        body.sendInput.disconnect(applicationInterface.handleUserInput);
+        body.requestUndo.disconnect(applicationInterface.requestUndo);
+        body.requestRedo.disconnect(applicationInterface.requestRedo);
+        body.requestStatusFromBackend.disconnect(applicationInterface.handleControllerStateRequest);
     }
 }

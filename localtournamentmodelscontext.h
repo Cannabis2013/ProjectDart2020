@@ -17,15 +17,17 @@ typedef IPlayerBuilderParameters<QString> DefaultParameters;
 typedef IDataContext<QUuid,QList<QUuid>,QString,ITournamentBuilder> DefaultDataInterface;
 
 
-class LocalTournamentModelContext : public DefaultDataInterface, public AbstractPersistence
+class LocalTournamentModelsContext :
+        public DefaultDataInterface,
+        public AbstractPersistence
 {
 public:
-    enum ModelDisplayHint{HiddenHint = 0x1,DisplayHint = 0x2, allHints = 0x4};
+    enum ModelDisplayHint{HiddenHint = 0x9,DisplayHint = 0xA, allHints = 0xB};
     /*
      * Tournament related section
      */
 
-    LocalTournamentModelContext(const QString &org, const QString &app);
+    LocalTournamentModelsContext(const QString &org, const QString &app);
 
     void read() override;
     void write() override;
@@ -89,8 +91,8 @@ public:
     QUuid alterPointPlayer(const QUuid &pointId, const QUuid &playerId) override;
     QUuid pointSet(const QUuid &playerPoint) const override;
     int pointLeg(const QUuid &playerPoint) const override;
-    int pointValue(const QUuid &playerPoint) const override;
-    int playerScore(const QUuid &point) override;
+    int scorePointValue(const QUuid &playerPoint) const override;
+    int scoreValue(const QUuid &point) override;
     QUuid pointPlayer(const QUuid &playerPoint) const override;
     int scoreHint(const QUuid &playerPoint) const override;
     QUuid playerPoint(const QUuid &tournament, const QUuid &player , const int &roundIndex, const int &throwIndex, const int &hint) override;
@@ -99,7 +101,7 @@ public:
     void removePlayerPointAndRelatives(const QUuid &point) override;
     int playerPointsCount(const int &hint) const override;
 
-    int addScore(const QUuid &tournament, const QUuid &player, const int &point, const int &roundIndex, const int &setIndex, const int &legIndex, const int &score) override;
+    int addScore(const QUuid &tournament, const QUuid &player, const int &point, const int &roundIndex, const int &setIndex, const int &throwIndex, const int &score) override;
 
 private:
     int score(const QUuid &tournament, const QUuid &player) const override;

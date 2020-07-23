@@ -1,7 +1,7 @@
 #ifndef ILOCALDATACONTEXT_H
 #define ILOCALDATACONTEXT_H
 
-template<class TUuid, class TList,class TString, class TTournamentBuilder>
+template<class TUuid, class TList, class TString, class TTournamentBuilder>
 class IDataContext
 {
 public:
@@ -60,8 +60,8 @@ public:
     virtual TUuid editScore(const TUuid &pointId, const int &value,const int &score,const int &hint) = 0;
     virtual TUuid alterPointPlayer(const TUuid &pointId, const TUuid &playerId) = 0;
     virtual TUuid pointSet(const TUuid &playerPoint) const = 0;
-    virtual int pointValue(const TUuid &playerPoint) const = 0;
-    virtual int playerScore(const TUuid &playerPoint) = 0;
+    virtual int scorePointValue(const TUuid &playerPoint) const = 0;
+    virtual int scoreValue(const TUuid &playerPoint) = 0;
     virtual TUuid pointPlayer(const TUuid &playerPoint) const = 0;
     virtual int scoreHint(const TUuid &playerPoint) const = 0;
     virtual int pointLeg(const TUuid &playerPoint) const = 0;
@@ -79,7 +79,7 @@ public:
                          const int &point,
                          const int &roundIndex,
                          const int &setIndex,
-                         const int &legIndex,
+                         const int &throwIndex,
                          const int &score) = 0;
 
     /*

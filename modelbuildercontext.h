@@ -53,7 +53,7 @@ struct PointParameters
     char* t;
     int pointValue;
     int scoreValue;
-    int legIndex;
+    int throwIndex;
     QUuid playerId;
     QUuid setId;
     QUuid id;
@@ -64,7 +64,7 @@ struct ModelOptions
     bool generateUniqueId = true;
     bool customUuid = false;
 
-    int modelHint = 0x2;
+    int modelHint = 0x9;
 };
 
 #endif // MODELBUILDERCONTEXT_H

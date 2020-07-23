@@ -29,7 +29,7 @@ public:
     // public methods
     Q_INVOKABLE int editData(const int &row, const int &column, const int &data);
     Q_INVOKABLE bool appendData(const QString &playerName, const int &data, const int &headerOrientation = -1);
-    Q_INVOKABLE int takeDate(const QString &playerName, const int &headerOrientation = -1);
+    Q_INVOKABLE int takeLastItem(const QString &playerName, const int &headerOrientation = -1);
     Q_INVOKABLE void appendHeaderItem(const QVariant &data, const int &headerOrientation = -1);
     Q_INVOKABLE void clearData();
     Q_INVOKABLE QString getHeaderData(const int &index, const int &headerOrientation = -1) const;

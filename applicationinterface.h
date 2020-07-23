@@ -59,8 +59,10 @@ public slots:
     void handleSendGameModesRequest() const;
     void requestStart();
     void requestStop();
-    void addPoint(const int &point);
-    void handleGameControllerRequest();
+    void handleUserInput(const int &point);
+    void handleUndoRequest();
+    void handleRedoRequest();
+    void handleControllerStateRequest();
 
 signals:
     void requestCreatePlayer(const QString &userName, const QString &mail);
@@ -100,7 +102,11 @@ signals:
     void sendPoint(const int &point);
     void startGame();
     void stopGame();
-    void requestGameStatus();
+    void requestControllerState();
+    void requestUndo();
+    void requestRedo();
+
+    void removeScore(const QString &player);
 
 private:
     AbstractDataContext *dataContext() const;

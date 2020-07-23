@@ -17,12 +17,11 @@ Rectangle {
     Component.onCompleted: {
         applicationInterface.stateChanged.connect(requestUpdate);
         applicationInterface.sendStatus.connect(replyFromBackendRecieved);
-
     }
 
     Component.onDestruction: {
-        sendStatusRequest.disconnect(applicationInterface.handleStatusRequest);
         applicationInterface.stateChanged.disconnect(requestUpdate);
+        applicationInterface.sendStatus.disconnect(replyFromBackendRecieved);
     }
 
 }
