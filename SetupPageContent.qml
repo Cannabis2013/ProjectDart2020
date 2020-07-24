@@ -106,10 +106,14 @@ Content {
             itemHoveredColor: "darkgray"
             color: "white"
             radius: 15
-            itemFontSize: 16
-            itemWidth: 256
+            itemTitleFontSize: 16
+            itemWidth: playersListView.width*0.95
+            itemHeight: 50
             allowCheckState: true
+            allowPressAndHold: true
             allowMultipleSelections: true
+            itemDecorator: "qrc:/pictures/Ressources/darttournamentmod.png"
+
         }
 
         MyRectangle{

@@ -55,10 +55,14 @@ Content{
            itemBackgroundColor: "lightblue"
            onItemClicked: sendClickedTournamentIndex(index)
 
-           itemFontSize: 10
-           itemWidth: 320
+           itemTitleFontSize: 20
+           itemDescriptionFontSize: 12
+           itemWidth: tournamentListView.width *0.95
            itemHeight: 64
-           allowCheckState: true
+           allowCheckState: false
+           allowPressAndHold: true
+
+           itemDecorator: "qrc:/pictures/Ressources/darttournamentmod.png"
        }
        GridLayout{
            flow: GridLayout.LeftToRight

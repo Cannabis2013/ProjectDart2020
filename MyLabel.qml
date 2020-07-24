@@ -6,6 +6,7 @@ import QtQuick.Layouts 1.3
 Rectangle
 {
     id: body
+    clip: true
     color: "transparent"
     property color fontColor: "black"
     onFontColorChanged: label.color = fontColor

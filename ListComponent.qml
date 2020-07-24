@@ -14,6 +14,8 @@ Rectangle{
     property bool allowCheckState: false
     onAllowCheckStateChanged: listItem.allowCheckState = allowCheckState
 
+    property bool allowPressAndHold: false
+    onAllowPressAndHoldChanged: listItem.pressAndHoldEnabled = allowPressAndHold
     property bool allowMultipleSelections: false
 
     property string componentTitle: "Title"
@@ -22,14 +24,20 @@ Rectangle{
     property color itemTextColor: "black"
     onItemTextColorChanged: listItem.itemTextColor = itemTextColor
 
-    property int itemFontSize: 10
-    onItemFontSizeChanged: listItem.itemFontSize = itemFontSize
+    property int itemTitleFontSize: 12
+    onItemTitleFontSizeChanged: listItem.titleFontSize = itemTitleFontSize
+
+    property int itemDescriptionFontSize: 10
+    onItemDescriptionFontSizeChanged: listItem.descriptionFontSize = itemDescriptionFontSize
 
     property color itemSelectedBackgroundColor: "white"
-    onItemSelectedBackgroundColorChanged: listItem.itemSelectedBackgroundColor = itemSelectedBackgroundColor
+    onItemSelectedBackgroundColorChanged: listItem.selectedColor = itemSelectedBackgroundColor
 
     property color itemSelectedtextColor: "black"
     onItemSelectedtextColorChanged: listItem.selectedTextColor = itemSelectedtextColor
+
+    property int itemRoundedCorners: 0
+    onItemRoundedCornersChanged: listItem.radius = itemRoundedCorners
 
     property int itemHeight: 50
     onItemHeightChanged: listItem.height = itemHeight
@@ -45,6 +53,9 @@ Rectangle{
 
     property color itemBackgroundColor: "transparent"
     onItemBackgroundColorChanged: listItem.itemBackgroundColor = itemBackgroundColor
+
+    property url itemDecorator: ""
+    onItemDecoratorChanged: listItem.imageUrl = itemDecorator
 
     readonly property var currentlySelectedIndex: function(){return indexContainer.getCurrentlySelectedIndex;}
     readonly property var currentlySelectedIndexes: function(){return indexContainer.getCurrentlySelectedIndexes;}
@@ -152,36 +163,38 @@ Rectangle{
             delegate: ListViewDelegate{
                 id: listItem
 
-                fontSize: itemFontSize
-
+                titleFontSize: listComponentBody.itemTitleFontSize
+                descriptionFontSize: listComponentBody.itemDescriptionFontSize
                 onClicked: itemClicked(index)
-
                 isCheckable: allowCheckState
+                pressAndHoldEnabled: listComponentBody.allowPressAndHold;
                 //onEmitCheckState: buttonSelected(text);
-
                 hoveredColor: listComponentBody.itemHoveredColor
                 hoveredTextColor: listComponentBody.hoveredItemTextColor
-
                 selectedColor: listComponentBody.itemSelectedBackgroundColor
                 selectedTextColor: listComponentBody.itemSelectedtextColor
-
                 height: listComponentBody.itemHeight
                 width: listComponentBody.itemWidth
-
                 backgroundColor: listComponentBody.itemBackgroundColor
                 textColor: listComponentBody.itemTextColor
+                radius: listComponentBody.itemRoundedCorners
+                imageUrl: listComponentBody.itemDecorator
 
-                imageUrl: "qrc:/pictures/Ressources/darttournamentmod.png"
-
-                text: {
+                title: {
                     if(type == "player")
                         return Username;
                     else if(type == "tournament")
                     {
-                        return tournamentTitle + "\n" + " Throws: " + Throws + "\n" +
-                                "Keypoint: " + KeyPoint + " Playercount: " + playersCount;
+                        return tournamentTitle;
                     }
                 }
+                description: {
+                    if(type == "player")
+                        return "";
+                    else
+                        "Throws: " + Throws + " | Keypoint: " + KeyPoint + " | Playercount: " + playersCount;
+                }
+
                 x: parent.width / 2 - width / 2
             }
         }
