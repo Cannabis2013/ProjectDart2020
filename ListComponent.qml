@@ -29,13 +29,13 @@ Rectangle{
     onItemSelectedBackgroundColorChanged: listItem.itemSelectedBackgroundColor = itemSelectedBackgroundColor
 
     property color itemSelectedtextColor: "black"
-    onItemSelectedtextColorChanged: listItem.itemSelectedtextColor = itemSelectedtextColor
+    onItemSelectedtextColorChanged: listItem.selectedTextColor = itemSelectedtextColor
 
     property int itemHeight: 50
-    onItemHeightChanged: listItem.itemHeight = itemHeight
+    onItemHeightChanged: listItem.height = itemHeight
 
     property int itemWidth : listComponentBody.width
-    onItemWidthChanged: listItem.itemWidth = itemWidth
+    onItemWidthChanged: listItem.width = itemWidth
 
     property color itemHoveredColor: "transparent"
     onItemHoveredColorChanged: listItem.itemHoveredColor = itemHoveredColor
@@ -54,7 +54,7 @@ Rectangle{
         property int currentlySelectedIndex : -1
         property var currentlySelectedIndexes: []
     }
-
+    signal itemClicked(int index)
     signal itemSelected(int index)
 
     function clear(){
@@ -108,6 +108,7 @@ Rectangle{
     }
 
     layer.enabled: true
+
     layer.effect: OpacityMask{
         maskSource: Item {
             width: listComponentBody.width
@@ -141,34 +142,36 @@ Rectangle{
         {
             id: listView
             clip: true
-            spacing: 1
+            spacing: 5
+
             Layout.fillHeight: true
             Layout.fillWidth: true
             model: ListModel {
                 id: listModel
             }
-
-            delegate: PushButton{
+            delegate: ListViewDelegate{
                 id: listItem
-
-                clip: true
 
                 fontSize: itemFontSize
 
+                onClicked: itemClicked(index)
+
                 isCheckable: allowCheckState
-                onEmitCheckState: buttonSelected(text);
+                //onEmitCheckState: buttonSelected(text);
 
                 hoveredColor: listComponentBody.itemHoveredColor
                 hoveredTextColor: listComponentBody.hoveredItemTextColor
 
-                checkedBackgroundColor: listComponentBody.itemSelectedBackgroundColor
-                checkedTextColor: listComponentBody.itemSelectedtextColor
+                selectedColor: listComponentBody.itemSelectedBackgroundColor
+                selectedTextColor: listComponentBody.itemSelectedtextColor
 
                 height: listComponentBody.itemHeight
                 width: listComponentBody.itemWidth
 
                 backgroundColor: listComponentBody.itemBackgroundColor
                 textColor: listComponentBody.itemTextColor
+
+                imageUrl: "qrc:/pictures/Ressources/darttournamentmod.png"
 
                 text: {
                     if(type == "player")

@@ -3,35 +3,29 @@ import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.3
 
-
-
-
 Rectangle
 {
     id: body
-
+    color: "transparent"
     property color fontColor: "black"
     onFontColorChanged: label.color = fontColor
-
     property int horizontalTextAlignment: Qt.AlignLeft
     onHorizontalTextAlignmentChanged: label.horizontalAlignment = horizontalTextAlignment
-
+    property int verticalTextAlignment : Qt.AlignVCenter
+    onVerticalTextAlignmentChanged: label.verticalAlignment = verticalTextAlignment
     property int fontSize: 24
     onFontSizeChanged: label.font.pointSize = fontSize
-
     property string text: "Text label"
     onTextChanged: label.text = text
-
     property int textLeftMargin: 0
     onTextLeftMarginChanged: label.anchors.leftMargin = textLeftMargin
-
     Label{
         id: label
         anchors.fill: parent
 
         anchors.leftMargin: textLeftMargin
         horizontalAlignment: horizontalTextAlignment
-        verticalAlignment: Qt.AlignVCenter
+        verticalAlignment: body.verticalTextAlignment
 
         font.pointSize: fontSize
 

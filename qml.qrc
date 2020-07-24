@@ -32,6 +32,7 @@
         <file>ScoreModel.qml</file>
         <file>tournamentPageScripts.js</file>
         <file>LabelComponent.qml</file>
+        <file>ListViewDelegate.qml</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>
@@ -39,5 +40,6 @@
         <file>Ressources/arrow.png</file>
         <file>Ressources/tuborgclassic.png</file>
         <file>Ressources/hitler.png</file>
+        <file>Ressources/darttournamentmod.png</file>
     </qresource>
 </RCC>

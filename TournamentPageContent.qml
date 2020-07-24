@@ -43,67 +43,37 @@ Content{
 
        ListComponent {
            id: tournamentListView
-
            Layout.fillWidth: true
            Layout.fillHeight: true
-
-
            color: "white"
            radius: 15
-
            componentTitle: "Select tournament"
-
            itemTextColor: "black"
            itemSelectedtextColor: "black"
            itemSelectedBackgroundColor: "silver"
-
            itemHoveredColor: "darkgray"
-
-           onItemSelected: {
-               startButton.enabled = true
-               currentValues.currentIndex = index;
-           }
+           itemBackgroundColor: "lightblue"
+           onItemClicked: sendClickedTournamentIndex(index)
 
            itemFontSize: 10
-
-           itemWidth: 256
-
+           itemWidth: 320
+           itemHeight: 64
            allowCheckState: true
        }
        GridLayout{
            flow: GridLayout.LeftToRight
-
            columnSpacing: 2
-
            Rectangle{
                Layout.fillWidth: true
            }
 
            CRUDButton{
                text: "Create"
-
                onClicked: createTournamentClicked()
            }
-
            CRUDButton{
                text: "Delete"
            }
-       }
-       Rectangle{
-           height: 64
-       }
-
-       PushButton{
-           id: startButton
-           Layout.alignment: Qt.AlignHCenter
-           width: 128
-           height: 40
-           fontSize: 16
-           textColor: "white"
-           backgroundColor: "green"
-           text: "Start game"
-           enabled: false
-           onClicked: sendClickedTournamentIndex(currentValues.currentIndex);
        }
     }
     Component.onCompleted: {

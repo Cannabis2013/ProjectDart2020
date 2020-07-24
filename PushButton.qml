@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.15
 
 Item {
     id: pushButtonbody
@@ -105,9 +105,7 @@ Item {
         }
 
         onPressedChanged: {
-            var s = buttonRect.scale;
-            var alteredS = pressedScale
-            if(s !== alteredS)
+            if(containsPress)
                 buttonRect.state = "pressed";
             else
                 buttonRect.state = checked ? "checked" : "";
