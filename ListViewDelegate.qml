@@ -28,24 +28,30 @@ Rectangle {
             else
                 body.state = isCheckable && checked ? "checked" : "";
         }
-        onPressedChanged:
-        {
-            if(containsPress && !body.pressAndHoldEnabled)
-                body.state = "pressed";
-            else if(body.state !== "checked" && !body.pressAndHoldEnabled)
-                body.state = "";
-        }
-
         onPressAndHold: {
-            var a = body.pressAndHoldEnabled;
-            var b = body.isCheckable;
-            if(containsPress && (body.pressAndHoldEnabled || body.isCheckable) && !checked)
-                body.state = "checked"
+            if(noDelayPressSelect || !isCheckable)
+                return;
+            if(containsPress && body.isCheckable && !checked)
+            {
+                body.state = "checked";
+                checkMarkScaleAni.start();
+            }
             else
                 body.state = "";
         }
 
-        onClicked: body.clicked()
+        onClicked: {
+            body.clicked();
+            if(!noDelayPressSelect)
+                return;
+            if(body.isCheckable && !checked)
+            {
+                body.state = "checked";
+                checkMarkScaleAni.start();
+            }
+            else
+                body.state = "";
+        }
     }
 
     signal clicked
@@ -53,10 +59,10 @@ Rectangle {
     property int roundedCorners: 0
     onRoundedCornersChanged: body.radius = roundedCorners
 
+    property bool noDelayPressSelect: false
+
     property bool isCheckable: false
     property bool checked: false
-
-    property bool pressAndHoldEnabled: false
 
     property color selectedColor: body.color
     property color selectedTextColor: label.color
@@ -82,8 +88,8 @@ Rectangle {
     property color hoveredColor: "transparent"
     property color hoveredTextColor: label.color
 
-    property url imageUrl: ""
-    onImageUrlChanged: imageDecorator.source = imageUrl
+    property url logoUrl: ""
+    onLogoUrlChanged: imageRect.source = logoUrl
 
     GridLayout
     {
@@ -99,7 +105,7 @@ Rectangle {
             Layout.preferredWidth: body.height
             Layout.rowSpan: 2
             color: "gray"
-            source: body.imageUrl
+            source: body.logoUrl
         }
 
         MyLabel{
@@ -133,8 +139,26 @@ Rectangle {
         source: "qrc:/pictures/Ressources/checkmark.png"
         anchors.right: parent.right
         visible: false
-        height: parent.height
-        width: height
+        height: 25
+        width: 25
+
+        PropertyAnimation on scale{
+            id: checkMarkScaleAni
+            from: 0
+            to: 1
+            running: false
+            duration: 125
+            onFinished: checkMarkRotationAni.start()
+        }
+
+        PropertyAnimation on rotation {
+            id: checkMarkRotationAni
+            from: 360
+            to:0
+            running: false
+            duration: 125
+        }
+
     }
 
     Rectangle
@@ -151,7 +175,7 @@ Rectangle {
             name: "checked"
             PropertyChanges {
                 target: body
-                scale: 0.95
+                scale: 0.98
                 color: selectedColor
                 checked: true
             }
@@ -165,6 +189,7 @@ Rectangle {
             PropertyChanges {
                 target: body
                 color: hoveredColor
+                scale:0.98
             }
             PropertyChanges {
                 target: labelTitle

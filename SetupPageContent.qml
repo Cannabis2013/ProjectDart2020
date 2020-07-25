@@ -8,7 +8,7 @@ Content {
     color: "transparent"
 
     signal requestPlayers
-    signal sendTournament(string title, int numberOfThrows, int gameMode,int keyPoint,var playerIndexes)
+    signal sendTournament(string title, int numberOfThrows, string gameMode,int keyPoint,var playerIndexes)
     signal requestGameModes
 
     QtObject{
@@ -110,8 +110,8 @@ Content {
             itemWidth: playersListView.width*0.95
             itemHeight: 50
             allowCheckState: true
-            allowPressAndHold: true
             allowMultipleSelections: true
+            instantSelectEnabled: true
             itemDecorator: "qrc:/pictures/Ressources/darttournamentmod.png"
 
         }
@@ -122,7 +122,9 @@ Content {
 
             Layout.minimumHeight: createPlayerButton.height*2
         }
-
+        /*
+          Save button clicked
+          */
         ButtonsComponent {
             height: 30
             Layout.fillWidth: true
@@ -134,11 +136,11 @@ Content {
             }
             onButtonTwoClicked: {
                 buttonTwoEnabled = false;
-                var indexes = playersListView.currentlySelectedIndexes;
+                var gameMode = gameModeSelector.currentText;
+                var indexes = playersListView.currentIndexes();
                 sendTournament(titleEdit.currentText,
                                legsEdit.currentText,
-                               maxPlayerEdit.currentText,
-                               gameModeSelector.currentText,
+                               gameMode,
                                keyPointEdit.currentText,
                                indexes);
             }

@@ -12,10 +12,11 @@ Rectangle{
     clip: true
 
     property bool allowCheckState: false
-    onAllowCheckStateChanged: listItem.allowCheckState = allowCheckState
+    onAllowCheckStateChanged: listItem.isCheckable = allowCheckState
 
-    property bool allowPressAndHold: false
-    onAllowPressAndHoldChanged: listItem.pressAndHoldEnabled = allowPressAndHold
+    property bool instantSelectEnabled: false
+    onInstantSelectEnabledChanged: listItem.noDelayPressSelect = instantSelectEnabled
+
     property bool allowMultipleSelections: false
 
     property string componentTitle: "Title"
@@ -55,7 +56,7 @@ Rectangle{
     onItemBackgroundColorChanged: listItem.itemBackgroundColor = itemBackgroundColor
 
     property url itemDecorator: ""
-    onItemDecoratorChanged: listItem.imageUrl = itemDecorator
+    onItemDecoratorChanged: listItem.logoUrl = itemDecorator
 
     readonly property var currentlySelectedIndex: function(){return indexContainer.getCurrentlySelectedIndex;}
     readonly property var currentlySelectedIndexes: function(){return indexContainer.getCurrentlySelectedIndexes;}
@@ -70,6 +71,20 @@ Rectangle{
 
     function clear(){
         listModel.clear();
+    }
+
+    function currentIndexes()
+    {
+        var cIndexes = [];
+        var j = 0;
+        for(var i = 0;i < listView.count;i++)
+        {
+            var item = listView.itemAtIndex(i);
+            var itemState = item.state;
+            if(itemState === "checked")
+                cIndexes[j++] = i;
+        }
+        return cIndexes;
     }
 
     function buttonSelected(text){
@@ -167,7 +182,6 @@ Rectangle{
                 descriptionFontSize: listComponentBody.itemDescriptionFontSize
                 onClicked: itemClicked(index)
                 isCheckable: allowCheckState
-                pressAndHoldEnabled: listComponentBody.allowPressAndHold;
                 //onEmitCheckState: buttonSelected(text);
                 hoveredColor: listComponentBody.itemHoveredColor
                 hoveredTextColor: listComponentBody.hoveredItemTextColor
@@ -178,7 +192,8 @@ Rectangle{
                 backgroundColor: listComponentBody.itemBackgroundColor
                 textColor: listComponentBody.itemTextColor
                 radius: listComponentBody.itemRoundedCorners
-                imageUrl: listComponentBody.itemDecorator
+                logoUrl: listComponentBody.itemDecorator
+                noDelayPressSelect: listComponentBody.instantSelectEnabled
 
                 title: {
                     if(type == "player")

@@ -70,11 +70,12 @@ void ApplicationInterface::handleScoreBoardRequest()
 
 void ApplicationInterface::createTournament(const QString &title,
                                             const int &numberOfThrows,
-                                            const int &gameMode,
+                                            const QString &gameMode,
                                             const int &keyPoint,
                                             const QVariantList &playerIndexes)
 {
-    emit sendTournamentCandidate(title,numberOfThrows,gameMode,keyPoint,playerIndexes);
+    auto mode = gameModeFromString(gameMode);
+    emit sendTournamentCandidate(title,numberOfThrows,mode,keyPoint,playerIndexes);
 }
 
 void ApplicationInterface::createPlayer(const QString &userName, const QString &email)

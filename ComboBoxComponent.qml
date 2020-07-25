@@ -19,7 +19,6 @@ Rectangle{
     onPopupItemHoveredColorChanged: popupItem.hoveredColor = popupItemHoveredColor
     function currentSelectedText(){
         var currentText = comboBox.currentText;
-
         return currentText;
     }
 

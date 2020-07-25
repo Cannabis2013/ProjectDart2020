@@ -60,7 +60,6 @@ Content{
            itemWidth: tournamentListView.width *0.95
            itemHeight: 64
            allowCheckState: false
-           allowPressAndHold: true
 
            itemDecorator: "qrc:/pictures/Ressources/darttournamentmod.png"
        }

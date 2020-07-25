@@ -50,7 +50,7 @@ public slots:
     void handleScoreBoardRequest();
     void createTournament(const QString &title,
                                      const int &numberOfThrows,
-                                     const int &gameMode,
+                                     const QString &gameMode,
                                      const int &keyPoint,
                                      const QVariantList &playerIndexes);
     void createPlayer(const QString &userName, const QString &email);
