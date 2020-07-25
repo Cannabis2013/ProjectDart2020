@@ -102,8 +102,6 @@ Content {
             height: 256
             componentTitle: "Assign players"
             itemTextColor: "black"
-            itemSelectedBackgroundColor: "silver"
-            itemHoveredColor: "darkgray"
             color: "white"
             radius: 15
             itemTitleFontSize: 16

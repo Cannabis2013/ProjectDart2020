@@ -43,5 +43,6 @@
         <file>Ressources/hitler.png</file>
         <file>Ressources/darttournamentmod.png</file>
         <file>Ressources/checkmark.png</file>
+        <file>Ressources/users.png</file>
     </qresource>
 </RCC>

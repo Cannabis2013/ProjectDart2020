@@ -67,44 +67,22 @@ Page{
                 labelLeftMargin: 10
             }
 
-            ComboBoxView{
-                id: raceSelector
+            MyRectangle{
+                Layout.preferredHeight: 32
                 Layout.fillWidth: true
-                height: 32
-                labelFontSize: 8
-                labelFontColor: "darkblue"
-                labelBackgroundColor: "lightblue"
-                labelText: "Race"
-                stringModel: ["Caucasian", "Non-white", "Nigger","Asian"]
-                labelLeftMargin: 10
             }
 
-            ComboBoxView{
-                id: sexSelector
-                Layout.fillWidth: true
-                height: 32
-                labelFontSize: 8
-                labelFontColor: "darkblue"
-                labelBackgroundColor: "lightblue"
-                labelText: "Sex"
-
-                stringModel: ["Male", "Female", "Queer", "Trans", "Sex? Hell yeah!!", "Bisexual", "Multisexual"]
-                labelLeftMargin: 10
+            DecoratedItem{
+                Layout.preferredWidth: 192
+                Layout.preferredHeight: 256
+                Layout.alignment: Qt.AlignVCenter |Qt.AlignHCenter
+                source: "qrc:/pictures/Ressources/users.png"
             }
 
             MyRectangle{
                 Layout.fillHeight: true
-                bottomBorderWidth: 1
-            }
-
-            Image {
-                id: hitlerImage
-                source: "qrc:/pictures/Ressources/hitler.png"
-
                 Layout.fillWidth: true
-                Layout.fillHeight: true
-
-                visible: false
+                bottomBorderWidth: 1
             }
 
             ButtonsComponent{
