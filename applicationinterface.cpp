@@ -54,6 +54,12 @@ ApplicationInterface::ApplicationInterface(AbstractDataContext *dataContext, Def
     connect(_gameController,&AbstractGameController::removeScore,this,&ApplicationInterface::removeScore);
 }
 
+ApplicationInterface::~ApplicationInterface()
+{
+    delete _dataContext;
+    delete _gameController;
+}
+
 void ApplicationInterface::handleTournamentsRequest(){
     emit requestTournaments();
 }

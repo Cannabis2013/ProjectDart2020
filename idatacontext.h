@@ -5,6 +5,7 @@ template<class TUuid, class TList, class TString, class TTournamentBuilder>
 class IDataContext
 {
 public:
+    virtual ~IDataContext() = default;
     virtual TUuid createTournament(const TString &title,
                                    const int &keyPoint, 
                                    const int &throws,

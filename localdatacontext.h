@@ -16,8 +16,7 @@
 #define THROW_OBJECT_WITH_INDEX_NOT_FOUND(x) QString("Model with index: '%1' does not exists in the current context").arg(x).toStdString();
 
 
-class LocalDataContext : public AbstractDataContext,
-        private AbstractPersistence
+class LocalDataContext : public AbstractDataContext
 {
     Q_OBJECT
 public:
@@ -32,14 +31,9 @@ public:
     enum ModelDisplayHint{HiddenHint = 0x9,DisplayHint = 0xA, allHints = 0xB};
     /*
      * Constructor
+     * Destructor
      */
     LocalDataContext(const QString &org, const QString &app);
-    /*
-     * AbstractPersistence interface
-     *  - Perstistence related
-     */
-    void read()  override;
-    void write()  override;
 
 public slots:
     void createTournament(const QString &title,

@@ -1,21 +1,13 @@
 #include "localdatacontext.h"
 
-LocalDataContext::LocalDataContext(const QString &org, const QString &app):
-    AbstractPersistence(org,app)
+LocalDataContext::LocalDataContext(const QString &org, const QString &app)
 {
-    setTournamentModelContext(new LocalTournamentModelsContext("MHApp","Dart2020"));
+    setTournamentModelContext(new LocalTournamentModelsContext(org,app));
     setPlayerModelContext(new LocalPlayerModelContext);
 
     createInitialModels();
 }
 
-void LocalDataContext::read()
-{
-}
-
-void LocalDataContext::write()
-{
-}
 
 void LocalDataContext::createTournament(const QString &title, const int &numberOfThrows, const int &gameMode, const int &keyPoint, const QVariantList &playerIndexes)
 {
@@ -98,7 +90,7 @@ void LocalDataContext::handleInitialIndexesRequest(const QUuid &tournament, cons
         auto playerId = playerModelContext()->playerIDFromUserName(userName);
         try {
             tournamentModelContext()->playerPoint(tournament,playerId,roundIndex,throwIndex,LocalDataContext::DisplayHint);
-        } catch (const char *msg) {
+        } catch (...) {
             break;
         }
         if(++throwIndex % numberOfThrows == 0)
@@ -187,6 +179,7 @@ void LocalDataContext::createInitialModels()
     auto martin = playerModelContext()->createPlayer("Martin Hansen","");
     auto william = playerModelContext()->createPlayer("William Worsøe","");
 
+    /*
     auto firstTournament = tournamentModelContext()->createTournament("Kents turnering",501,3,0x1);
     auto secondTournament = tournamentModelContext()->createTournament("Techno Tonnys turnering",501,3,0x1);
 
@@ -196,6 +189,7 @@ void LocalDataContext::createInitialModels()
     tournamentModelContext()->tournamentAddPlayer(secondTournament,kent);
     tournamentModelContext()->tournamentAddPlayer(secondTournament,martin);
     tournamentModelContext()->tournamentAddPlayer(secondTournament,william);
+    */
 }
 
 void LocalDataContext::handleSendPlayerScoresRequest(const QUuid &tournament)

@@ -20,7 +20,11 @@ Content{
     }
 
     function recieveTournament(title,numberOfThrows,gameMode,keyPoint,playersCount){
-        tournamentListView.addTournamentItem(title,numberOfThrows,keyPoint,playersCount);
+        tournamentListView.addItemModel({"type" : "tournament",
+                                            "tournamentTitle" : title,
+                                            "Throws" : numberOfThrows,
+                                            "KeyPoint" : keyPoint,
+                                            "playersCount" : playersCount})
     }
     onReplyFromBackendRecieved: {
         if(status === 0x17)
@@ -49,8 +53,8 @@ Content{
            radius: 15
            componentTitle: "Select tournament"
            itemTextColor: "black"
-           itemSelectedtextColor: "black"
            itemSelectedBackgroundColor: "silver"
+           itemSelectedtextColor: "black"
            itemHoveredColor: "darkgray"
            itemBackgroundColor: "lightblue"
            onItemClicked: sendClickedTournamentIndex(index)

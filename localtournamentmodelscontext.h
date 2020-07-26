@@ -28,7 +28,7 @@ public:
      */
 
     LocalTournamentModelsContext(const QString &org, const QString &app);
-
+    ~LocalTournamentModelsContext();
     void read() override;
     void write() override;
     QUuid createTournament(const QString &title,

@@ -88,10 +88,10 @@ public:
     DefaultModelInterface *buildModel(const DefaultParameters &params, const IPlayerBuilderConfiguration &options) override
     {
         DefaultModelInterface* model = new Player();
-
+        auto mail = params.eMail() != "" ? params.eMail() : "defaultsucker@mail.com";
         model->setId(QUuid::createUuid());
         model->setUserName(params.userName());
-        model->setEmail(params.eMail());
+        model->setEmail(mail);
 
         if(options.generateUniqueID() && !options.generateCustomID())
             model->setId(QUuid::createUuid());

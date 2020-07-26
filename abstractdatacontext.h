@@ -23,6 +23,11 @@ class AbstractDataContext : public QObject,
 {
     Q_OBJECT
 public:
+    ~AbstractDataContext()
+    {
+        delete _tournamentModelContext;
+        delete _playerModelContext;
+    }
     DefaultDataInterface *tournamentModelContext(){
         return _tournamentModelContext;
     }

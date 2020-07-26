@@ -15,7 +15,11 @@
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-
+    /*
+    QCoreApplication::setOrganizationName("MHApps");
+    QCoreApplication::setApplicationName("Dart2020");
+    QCoreApplication::setOrganizationDomain("MHApps");
+    */
     QGuiApplication app(argc, argv);
 
     qmlRegisterType<ScoreDataModel>("CustomItems",1,0,"ScoreDataModel");
@@ -34,6 +38,10 @@ int main(int argc, char *argv[])
         if (!obj && url == objUrl)
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
+
+    QObject::connect(&engine,&QQmlApplicationEngine::quit,&app,[_dart]{
+        delete _dart;
+    },Qt::QueuedConnection);
 
     engine.load(url);
 

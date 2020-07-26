@@ -42,27 +42,36 @@ public:
 
     enum ContextMode {LocalContext = 0x4, RemoteContext = 0x5};
     ApplicationInterface(AbstractDataContext *dataContext, DefaultControllerBuilderInterface *_builder);
-
-
+    ~ApplicationInterface();
 public slots:
     void handleTournamentsRequest();
     void handleSetCurrentTournamentRequest(const int &index);
+    /*
+     * UI request data to populate scoreboard
+     */
     void handleScoreBoardRequest();
     void createTournament(const QString &title,
                                      const int &numberOfThrows,
                                      const QString &gameMode,
                                      const int &keyPoint,
                                      const QVariantList &playerIndexes);
+    /*
+     * UI player data -> update context with player model
+     */
     void createPlayer(const QString &userName, const QString &email);
     void requestPlayerDetails();
     void handleSendGameModesRequest() const;
     void requestStart();
     void requestStop();
+    /*
+     * Handle UI user input
+     *  - Users enters points to be stored in datacontext
+     *  - In return, datacontext, in collaboration with gamecontroller, send current score to UI
+     */
     void handleUserInput(const int &point);
     void handleUndoRequest();
     void handleRedoRequest();
     void handleControllerStateRequest();
-
 signals:
     void requestCreatePlayer(const QString &userName, const QString &mail);
     void requestTournaments();
@@ -118,9 +127,4 @@ private:
 
 };
 
-
 #endif // PROJECTDARTINTERFACE_H
-
-
-
-

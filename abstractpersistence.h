@@ -2,6 +2,7 @@
 #define ABSTRACTPERSISTENCE_H
 
 #include <qsettings.h>
+#include <qjsonobject.h>
 
 class AbstractPersistence
 {

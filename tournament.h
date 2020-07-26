@@ -101,7 +101,6 @@ public:
 
 private:
     QString _title;
-
     int _numberOfThrows;
     int _gameMode;
     int _keyPoint;

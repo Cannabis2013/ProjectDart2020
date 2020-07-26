@@ -30,6 +30,11 @@ Content {
         requestPlayers();
     }
 
+    function addPlayer(userName,email)
+    {
+        playersListView.addItemModel({"type" : "player","username" : userName, "mail" : email})
+    }
+
     function reConnectInterface()
     {
         body.visible = true;
@@ -101,6 +106,7 @@ Content {
             width: 320
             height: 256
             componentTitle: "Assign players"
+            itemBackgroundColor: "lightblue"
             itemTextColor: "black"
             color: "white"
             radius: 15
@@ -162,7 +168,7 @@ Content {
             applicationInterface.sendGameModes.connect(gameModeSelector.setModel) // Recieve gamemodes
             body.sendTournament.connect(applicationInterface.createTournament); // Tournament request
             body.requestPlayers.connect(applicationInterface.requestPlayers); // Request initial/continous players
-            applicationInterface.sendPlayerDetail.connect(playersListView.addPlayerItem); // Recieve initial players
+            applicationInterface.sendPlayerDetail.connect(body.addPlayer); // Recieve initial players
 
             requestUpdate();
         }
@@ -170,7 +176,7 @@ Content {
             body.sendTournament.disconnect(applicationInterface.createTournament);
             body.sendPlayerIndexes.disconnect(applicationInterface.assignPlayers);
             body.requestPlayers.disconnect(applicationInterface.requestPlayerDetails);
-            applicationInterface.sendPlayerDetails.disconnect(playersListView.addPlayerItem);
+            applicationInterface.sendPlayerDetails.disconnect(body.addPlayer);
         }
     }
 }

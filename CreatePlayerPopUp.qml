@@ -68,7 +68,7 @@ Page{
             }
 
             MyRectangle{
-                Layout.preferredHeight: 32
+                Layout.fillHeight: true
                 Layout.fillWidth: true
             }
 
@@ -100,10 +100,6 @@ Page{
                 onButtonTwoClicked: {
                     var userName = userNameEdit.currentText;
                     var mail = mailEdit.currentText;
-                    /*
-                    var race = raceSelector.currentText;
-                    var sex = sexSelector.currentText;
-                    */
                     buttonOneEnabled = false;
                     buttonTwoEnabled = false;
                     createPlayerBody.sendPlayerDetails(userName,mail);

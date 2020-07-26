@@ -5,6 +5,7 @@ template<class TUuid,class TList,class TString, class TBuilderInterface>
 class IPlayerContext
 {
 public:
+    virtual ~IPlayerContext() = default;
     virtual TUuid createPlayer(const TString& userName,
                                const TString& playerEMail,
                                const int& role = 0x00) = 0;

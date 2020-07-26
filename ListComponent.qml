@@ -113,24 +113,9 @@ Rectangle{
         indexContainer.currentlySelectedIndexes = cIndexes;
     }
 
-    function addPlayerItem(userName)
+    function addItemModel(itemModel)
     {
-        var model = {"type" : "player","Username" : userName};
-        listModel.append(model);
-    }
-
-    function addTournamentItem(tournamentTitle,
-                               tournamentThrowsCount,
-                               tournamentKeyPoint,
-                               tournamentPlayersCount)
-    {
-        var model = {"type" : "tournament",
-            "tournamentTitle" : tournamentTitle,
-            "Throws" : tournamentThrowsCount,
-            "KeyPoint" : tournamentKeyPoint,
-            "playersCount" : tournamentPlayersCount};
-
-        listModel.append(model);
+        listModel.append(itemModel);
     }
 
     layer.enabled: true
@@ -182,7 +167,7 @@ Rectangle{
                 descriptionFontSize: listComponentBody.itemDescriptionFontSize
                 onClicked: itemClicked(index)
                 isCheckable: allowCheckState
-                //onEmitCheckState: buttonSelected(text);
+
                 hoveredColor: listComponentBody.itemHoveredColor
                 hoveredTextColor: listComponentBody.hoveredItemTextColor
                 selectedColor: listComponentBody.itemSelectedBackgroundColor
@@ -197,7 +182,7 @@ Rectangle{
 
                 title: {
                     if(type == "player")
-                        return Username;
+                        return username;
                     else if(type == "tournament")
                     {
                         return tournamentTitle;
@@ -205,7 +190,7 @@ Rectangle{
                 }
                 description: {
                     if(type == "player")
-                        return "";
+                        return "Mail: " + mail;
                     else
                         "Throws: " + Throws + " | Keypoint: " + KeyPoint + " | Playercount: " + playersCount;
                 }

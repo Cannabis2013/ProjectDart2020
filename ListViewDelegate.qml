@@ -79,8 +79,11 @@ Rectangle {
     property int descriptionFontSize: 10
     onDescriptionFontSizeChanged: labelDescription.fontSize = descriptionFontSize
 
-    property color textColor: label.fontColor
-    onTextColorChanged: label.fontColor = textColor
+    property color textColor: labelTitle.fontColor
+    onTextColorChanged: {
+        labelTitle.fontColor = textColor;
+        labelDescription.fontColor = textColor;
+    }
 
     property color backgroundColor: "transparent"
     onBackgroundColorChanged: body.color = backgroundColor
