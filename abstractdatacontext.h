@@ -26,7 +26,7 @@ public:
     ~AbstractDataContext()
     {
         delete _tournamentModelContext;
-        delete _playerModelContext;
+        delete _playerModelsContext;
     }
     DefaultDataInterface *tournamentModelContext(){
         return _tournamentModelContext;
@@ -35,13 +35,13 @@ public:
     {
         _tournamentModelContext = context;
     }
-    PlayerContextInterface *playerModelContext() const
+    PlayerContextInterface *playerModelsContext() const
     {
-        return _playerModelContext;
+        return _playerModelsContext;
     }
-    void setPlayerModelContext(PlayerContextInterface *playerModelContext)
+    void setPlayerModelsContext(PlayerContextInterface *playerModelContext)
     {
-        _playerModelContext = playerModelContext;
+        _playerModelsContext = playerModelContext;
     }
 public slots:
     virtual void createTournament(const QString &title,
@@ -94,7 +94,7 @@ signals:
 
 private:
     DefaultDataInterface *_tournamentModelContext;
-    PlayerContextInterface *_playerModelContext;
+    PlayerContextInterface *_playerModelsContext;
 
 };
 

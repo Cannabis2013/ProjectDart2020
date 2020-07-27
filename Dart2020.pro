@@ -72,9 +72,9 @@ HEADERS += \
     modelbuildercontext.h \
     persistenceinterface.h \
     player.h \
-    point.h \
     pointlogisticmanager.h \
     round.h \
+    score.h \
     scoredatamodel.h \
     set.h \
     tournament.h

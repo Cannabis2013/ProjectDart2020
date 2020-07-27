@@ -7,7 +7,7 @@
 #include "tournament.h"
 #include "round.h"
 #include "set.h"
-#include "point.h"
+#include "score.h"
 
 typedef ITournament<QUuid,QList<QUuid>,QString> DefaultTournamentInterface;
 typedef IRound<QUuid, QList<QUuid>> DefaultRoundInterface;

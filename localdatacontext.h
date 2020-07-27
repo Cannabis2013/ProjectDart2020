@@ -16,7 +16,9 @@
 #define THROW_OBJECT_WITH_INDEX_NOT_FOUND(x) QString("Model with index: '%1' does not exists in the current context").arg(x).toStdString();
 
 
-class LocalDataContext : public AbstractDataContext
+class LocalDataContext :
+        public AbstractDataContext,
+        public AbstractJSONPersistence
 {
     Q_OBJECT
 public:
@@ -34,6 +36,12 @@ public:
      * Destructor
      */
     LocalDataContext(const QString &org, const QString &app);
+
+    /*
+     * PersistenceInterface interface
+     */
+    void read() override;
+    void write() override;
 
 public slots:
     void createTournament(const QString &title,
@@ -65,6 +73,22 @@ public slots:
     void setScoreHint(const QUuid &tournament, const QString &player, const int &roundIndex, const int &throwIndex, const int &hint) override;
 
 private:
+
+    /*
+     * Persistence related methods
+     */
+    QJsonArray assembleTournamentsJSONArray();
+    QJsonArray assembleRoundsJSONArray();
+    QJsonArray assembeSetsJSONArray();
+    QJsonArray assembleScoresJSONArray();
+    QJsonArray assemblePlayersJSONArray();
+
+    void extractTournamentModelsFromJSON(const QJsonArray &arr);
+    void extractRoundModelsFromJSON(const QJsonArray &arr);
+    void extractSetModelsFromJSON(const QJsonArray &arr);
+    void extractScoreModelsFromJSON(const QJsonArray &arr);
+    void extractPlayerModelsFromJSON(const QJsonArray &arr);
+
     QStringList playerUserNamesFromPlayersID(const QList<QUuid> playersID);
 
     void createInitialModels();

@@ -6,7 +6,7 @@ class IDataContext
 {
 public:
     virtual ~IDataContext() = default;
-    virtual TUuid createTournament(const TString &title,
+    virtual TUuid createtournament(const TString &title,
                                    const int &keyPoint, 
                                    const int &throws,
                                    const int &gameMode) = 0;
@@ -26,12 +26,13 @@ public:
     virtual void removeTournamentModels(const TUuid &tournament) = 0;
     virtual void alterTournamentTitle(const TUuid &tournament, const TString &title) = 0;
     virtual void alterTournamentNumberOfLegs(const TUuid &tournament, const int &value) = 0;
-    virtual void tournamentAddPlayer(const TUuid &tournament, const TUuid &player) = 0;
+    virtual void assignPlayerToTournament(const TUuid &tournament, const TUuid &player) = 0;
     virtual void tournamentRemovePlayer(const TUuid &tournament, const TUuid &player) = 0;
     virtual void alterTournamentGameMode(const TUuid &tournament, const int &mode) = 0;
     virtual void alterTournamentKeyPoint(const TUuid &tournament, const int &value) = 0;
     virtual void alterTournamentDeterminedWinner(const TUuid &tournament, const TUuid &player) = 0;
 
+    virtual TList roundsID() const = 0;
     virtual TList roundsID(const TUuid &tournament) const = 0;
     virtual TUuid roundID(const TUuid &tournament, const int &roundIndex) const  = 0;
     virtual TList roundSetsID(const TUuid &roundID) const = 0;
@@ -45,25 +46,27 @@ public:
     virtual TList tournamentSetsID(const TUuid &tournament, const int &roundIndex) const = 0;
 
     virtual TUuid setID(const TUuid &tournament, const int &roundIndex, const int &setIndex) const = 0;
+    virtual TList setsID() const = 0;
     virtual TUuid setRound(const TUuid &setID) const = 0;
     virtual int setIndex(const TUuid &setID) const = 0;
     virtual TUuid addSet(const TUuid &tournament, const int &roundIndex, const int &setIndex) = 0;
     virtual TList setPointsID(const TUuid &setID) const = 0;
     /*
-     * Point related section
+     * Scores related
      */
+    virtual TList scores() const = 0;
     virtual TList scores(const TUuid &tournament) const = 0;
     virtual TList scores(const TUuid &tournament, const TUuid &roundID) const = 0;
     virtual TList scores(const TUuid &tournament, const TUuid &roundID, const TUuid &setID) const = 0;
     virtual TUuid setScoreHint(const TUuid &point, const int &hint) = 0;
     virtual TUuid editScore(const TUuid &pointId, const int &value,const int &score,const int &hint) = 0;
     virtual TUuid alterPointPlayer(const TUuid &pointId, const TUuid &playerId) = 0;
-    virtual TUuid pointSet(const TUuid &playerPoint) const = 0;
+    virtual TUuid scoreSet(const TUuid &playerPoint) const = 0;
     virtual int scorePointValue(const TUuid &playerPoint) const = 0;
     virtual int scoreValue(const TUuid &playerPoint) = 0;
     virtual TUuid pointPlayer(const TUuid &playerPoint) const = 0;
     virtual int scoreHint(const TUuid &playerPoint) const = 0;
-    virtual int pointLeg(const TUuid &playerPoint) const = 0;
+    virtual int pointThrowIndex(const TUuid &playerPoint) const = 0;
     virtual TUuid playerPoint(const TUuid &tournament,const TUuid &player, const int &roundIndex, const int & throwIndex, const int &hint) = 0;
     virtual TList playerPoints(const TUuid &tournament, const TUuid &player, const int &hint) const = 0;
     virtual bool removePlayerPoint(const TUuid &point) = 0;
