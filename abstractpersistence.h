@@ -2,13 +2,13 @@
 #define ABSTRACTPERSISTENCE_H
 
 #include <qsettings.h>
-#include <qjsonobject.h>
+#include "persistenceinterface.h"
 
-class AbstractPersistence
+
+class AbstractPersistence : public PersistenceInterface
 {
 public:
-    virtual void read() = 0;
-    virtual void write() = 0;
+
 protected:
     AbstractPersistence(const QString &orgName, const QString &appName)
     {

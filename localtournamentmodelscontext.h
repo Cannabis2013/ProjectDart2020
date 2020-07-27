@@ -6,7 +6,11 @@
 #include "idatacontext.h"
 #include "iplayermodel.h"
 #include "iplayerbuildercontext.h"
-#include "abstractpersistence.h"
+#include "abstractjsonpersistence.h"
+#include <qjsonobject.h>
+#include <qjsonarray.h>
+#include <qfile.h>
+
 
 #define THROW_OBJECT_WITH_ID_NOT_FOUND(x) QString("Model with ID: '%1' does not exists in the current context").arg(x).toStdString();
 #define THROW_OBJECT_WITH_INDEX_NOT_FOUND(x) QString("Model with index: '%1' does not exists in the current context").arg(x).toStdString();
@@ -19,7 +23,7 @@ typedef IDataContext<QUuid,QList<QUuid>,QString,ITournamentBuilder> DefaultDataI
 
 class LocalTournamentModelsContext :
         public DefaultDataInterface,
-        public AbstractPersistence
+        public AbstractJSONPersistence
 {
 public:
     enum ModelDisplayHint{HiddenHint = 0x9,DisplayHint = 0xA, allHints = 0xB};
@@ -116,6 +120,15 @@ private:
     const DefaultRoundInterface *getRoundFromID(const QUuid &id) const;
     const DefaultSetInterface *getSetFromID(const QUuid &id) const;
     const DefaultPointInterface *getPointFromID(const QUuid &id) const;
+
+    /*
+     * Add existing models from persistence
+     */
+
+    void addTournament(const QUuid &id,
+                        const QString &title,
+                        const int &keyPoint,
+                        const int &throws, const int &gameMode, const QUuid &winner);
 
     // Builder methods
     ITournamentBuilder * tournamentBuilder() const override

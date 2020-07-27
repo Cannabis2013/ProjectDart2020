@@ -15,7 +15,7 @@ namespace DataContext {
 
 struct TournamentParameters
 {
-    int numberOfLegs;
+    int throws;
     int gameMode;
     int keyPoint;
     int status;

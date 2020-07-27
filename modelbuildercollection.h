@@ -38,7 +38,7 @@ public:
         auto title = args.title != "" ? args.title : args.defaultTitle + QString("[%1]").arg(args.tournamentsCount);
         auto gameMode = args.gameMode != -1 ? args.gameMode : args.defaultGameMode;
         auto status = args.initialStatus;
-        auto legCount = args.numberOfLegs > 0 ? args.numberOfLegs : args.defaultLegCount;
+        auto legCount = args.throws > 0 ? args.throws : args.defaultLegCount;
         auto keyPoint = args.keyPoint >= 0 ? args.keyPoint : args.defaultKeyPoint;
         auto playerIdentitties = args.playerIdentities;
         model->setType(ModelBuilderContext::TournamentModel);

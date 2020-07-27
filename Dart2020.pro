@@ -15,6 +15,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         abstractdatabasecontext.cpp \
+        abstractjsonpersistence.cpp \
         applicationinterface.cpp \
         idatamodelbuilder.cpp \
         ilogisticmanager.cpp \
@@ -47,6 +48,7 @@ HEADERS += \
     abstractdatacontext.h \
     abstractdbcontext.h \
     abstractgamecontroller.h \
+    abstractjsonpersistence.h \
     abstractpersistence.h \
     applicationinterface.h \
     defaultdatacontextinterface.h \
@@ -68,6 +70,7 @@ HEADERS += \
     localtournamentmodelscontext.h \
     modelbuildercollection.h \
     modelbuildercontext.h \
+    persistenceinterface.h \
     player.h \
     point.h \
     pointlogisticmanager.h \
