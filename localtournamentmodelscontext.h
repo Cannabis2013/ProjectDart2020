@@ -47,7 +47,6 @@ public:
     int tournamentKeyPoint(const QUuid &tournament) const override;
     int tournamentStatus(const QUuid &tournament) const override;
     QUuid tournamentDeterminedWinner(const QUuid &tournament) const override;
-    bool tournamentExists(const QUuid &tournament) const override;
     void assignPlayerToTournament(const QUuid &tournament, const QUuid &player) override;
     void tournamentRemovePlayer(const QUuid &tournament, const QUuid &player) override;
     void removeTournament(const QUuid &tournament) override;
@@ -104,6 +103,8 @@ public:
 
     int addScore(const QUuid &tournament, const QUuid &player, const int &point, const int &roundIndex, const int &setIndex, const int &throwIndex, const int &score) override;
 
+    void clearInconsistentModels() override;
+
 private:
     int score(const QUuid &tournament, const QUuid &player) const override;
     int score(const QUuid &player) const override;
@@ -120,11 +121,17 @@ private:
     void removeTournamentModel(const QUuid &tournament);
     void removePointModel(const QUuid &playerPoint);
 
-    const DefaultTournamentInterface *getTournamentFromID(const QUuid &id) const;
-    const DefaultRoundInterface *getRoundFromID(const QUuid &id) const;
-    const DefaultSetInterface *getSetFromID(const QUuid &id) const;
+    const DefaultTournamentInterface *getTournamentModelFromID(const QUuid &id) const;
+    const DefaultRoundInterface *getRoundModelFromID(const QUuid &id) const;
+    const DefaultSetInterface *getSetModelFromID(const QUuid &id) const;
     const DefaultPointInterface *getScoreModelFromID(const QUuid &id) const;
 
+    /*
+     * Consistency checks
+     */
+    void removeInconsistentScores();
+    void removeInconsistentSets();
+    void removeInconsistentRounds();
     /*
      * Add existing models from persistence
      */

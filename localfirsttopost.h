@@ -41,19 +41,40 @@ public:
                 ContextUnSuccessfullyUpdated = 0xF,
                 ContextDataProvided = 0x19};
 public slots:
-    void handleInitialValuesFromDataContext(const QUuid &tournament, const int &keyPoint, const int &numberOfThrows, const QStringList &assignedUserNames) override;
+    /*
+     * The following methods handle the initial state of the gamecontroller where it needs to set the following values:
+     *  - Key values like keypoint, current tournament id, etc.
+     *  - Initial indexes like turnindex, throwindex, etc.
+     *  - Current usernames scores
+     */
+    void handleInitialValuesFromDataContext(const QUuid &tournament,
+                                            const int &keyPoint,
+                                            const int &numberOfThrows,
+                                            const QVector<QString> &assignedUserNames) override;
     void handleIndexesFromDatacontext(const int &roundIndex,
                            const int &setIndex,
                            const int &throwIndex,
                            const int &turnIndex,
                            const int &totalTurns) override;
+    void handleRequestedScoresFromDataContext(const QVector<int> &scores) override;
+    /*
+     * The following slot is invoked when datacontext needs to know the current tournament id
+     */
     void handleCurrentTournamentRequest() override;
     /*
-     * Handle replies from datacontext
+     * Handle reply from datacontext
+     *  - This is requested everytime a transaction has taken place between this class and the datacontext
      */
     void handleReplyFromDataContext(const int &status, const QVariantList &args) override;
-    void handleInput(const int &point) override;
+
     void handleControllerStateRequest() override;
+
+    /*
+     * Handle and Evaluate input from user
+     */
+    void handleAndProcessUserInput(const int &point) override;
+
+
 private:
     /* Private types
      *
@@ -69,10 +90,6 @@ private:
      */
     void start() override;
     void stop() override;
-    /*
-     * Evaluate input from user
-     */
-    void processInput(const int &point, const int &currentScore) override;
     /*
      * Notify UI about controller state, current round index, undo/redo possibility and current user
      */
@@ -137,6 +154,13 @@ private:
     void declareWinner();
     void incrementTurnIndexes();
 
+    /*
+     * Get current player score
+     */
+
+    int playerScore(const int &index);
+    void setPlayerScore(const int &index, const int &newScore);
+
 
     // Gamestate variables
     int _roundIndex = 0;
@@ -158,8 +182,10 @@ private:
     ControllerState _currentStatus = ControllerState::NotInitialized;
     bool _isActive = false;
 
-    QStringList _assignedUserNames;
-    // Localdata context related
+    QVector<QString> _assignedUserNames;
+    QVector<int> _assignedUsernamesScore;
+
+    // Generate throw suggest message
     IPointLogisticManager<QString> *_pointLogisticInterface;
 };
 

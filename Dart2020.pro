@@ -14,13 +14,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        abstractdatabasecontext.cpp \
         abstractjsonpersistence.cpp \
         applicationinterface.cpp \
         idatamodelbuilder.cpp \
         ilogisticmanager.cpp \
         localdatacontext.cpp \
-        localdbcontext.cpp \
         localfirsttopost.cpp \
         localplayermodelscontext.cpp \
         localtournamentmodelscontext.cpp \
@@ -46,7 +44,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     IControllerBuilder.h \
     abstractdatacontext.h \
-    abstractdbcontext.h \
     abstractgamecontroller.h \
     abstractjsonpersistence.h \
     abstractpersistence.h \
@@ -63,7 +60,6 @@ HEADERS += \
     ipointlogisticmanager.h \
     istatusinterface.h \
     localdatacontext.h \
-    localdbcontext.h \
     localfirsttopost.h \
     localplayerbuilder.h \
     localplayermodelscontext.h \
@@ -81,5 +77,5 @@ HEADERS += \
 
 DISTFILES += \
 
-LIBS += $$PWD/SSL/libcrypto-1_1-x64.dll
-LIBS += $$PWD/SSL/libssl-1_1-x64.dll
+#LIBS += $$PWD/SSL/libcrypto-1_1-x64.dll
+#LIBS += $$PWD/SSL/libssl-1_1-x64.dll

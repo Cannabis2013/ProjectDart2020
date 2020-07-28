@@ -19,7 +19,7 @@ void LocalFirstToPost::stop()
     emit sendStatus(_currentStatus,{});
 }
 
-void LocalFirstToPost::processInput(const int &point, const int &currentScore)
+void LocalFirstToPost::handleAndProcessUserInput(const int &point)
 {
     if(status() == Idle ||
             status() == Stopped ||
@@ -28,7 +28,8 @@ void LocalFirstToPost::processInput(const int &point, const int &currentScore)
         emit sendStatus(status(),{});
         return;
     }
-
+    _currentStatus = ControllerState::AddScoreState;
+    auto currentScore = playerScore(_setIndex);
     auto newScore = currentScore - point;
 
     // Evaluate input according to point domain and aggregated sum domain
@@ -41,21 +42,16 @@ void LocalFirstToPost::processInput(const int &point, const int &currentScore)
     {
         // Update datacontext
         addPoint(point,newScore);
-        _currentStatus = ControllerState::GameBusy;
     }
     else if(inputResponse == AggregatedSumDomains::CriticalDomain)
     {
         addPoint(point,newScore);
-        _currentStatus = ControllerState::GameBusy;
     }
     else if(inputResponse == AggregatedSumDomains::TargetDomain)
     {
         // Winner declared
-        addPoint(point,newScore);
         declareWinner();
-
-        emit sendStatus(_currentStatus,{});
-        return;
+        addPoint(point,newScore);
     }
     else if(inputResponse == OutsideDomain)
     {
@@ -174,12 +170,15 @@ bool LocalFirstToPost::canRedoTurn()
 void LocalFirstToPost::handleInitialValuesFromDataContext(const QUuid &tournament,
                                                           const int &keyPoint,
                                                           const int &numberOfThrows,
-                                                          const QStringList &assignedUserNames)
+                                                          const QVector<QString> &assignedUserNames)
 {
     _currentTournament = tournament;
     _keyPoint = keyPoint;
     _numberOfThrows = numberOfThrows;
     _assignedUserNames = assignedUserNames;
+
+    for (int i = 0; i < _assignedUserNames.count(); ++i)
+        _assignedUsernamesScore.append(_keyPoint);
 
     emit requestInitialIndexes(_currentTournament,_assignedUserNames);
 }
@@ -212,6 +211,7 @@ int LocalFirstToPost::validateInput(const int &currentScore)
 
 void LocalFirstToPost::addPoint(const int &point, const int &score)
 {
+    setPlayerScore(currentPlayerIndex(),score);
     auto playerID = currentActiveUser();
     auto tournamentID = currentTournamentID();
     auto roundIndex = currentRoundIndex();
@@ -235,7 +235,12 @@ void LocalFirstToPost::handleIndexesFromDatacontext(const int &roundIndex,
     _totalTurns = totalTurns;
 
     _currentStatus = ControllerState::Initialized;
+    emit requestScoresFromDataContext(_currentTournament,_assignedUserNames);
+}
 
+void LocalFirstToPost::handleRequestedScoresFromDataContext(const QVector<int> &scores)
+{
+    _assignedUsernamesScore = scores;
     emit sendStatus(_currentStatus,{});
 }
 
@@ -247,45 +252,66 @@ void LocalFirstToPost::handleCurrentTournamentRequest()
 void LocalFirstToPost::handleReplyFromDataContext(const int &status, const QVariantList &args)
 {
     QVariantList arguments;
+
     if(status == Status::ContextSuccessfullyUpdated && this->status() == ControllerState::UpdateContextState)
+    /*
+     * The controller has updated datacontext with either, or both, a new round or set
+     */
     {
         _currentStatus = ControllerState::AwaitsInput;
         sendCurrentTurnValues();
     }
     else if(status == Status::ContextSuccessfullyUpdated && this->status() == ControllerState::NotInitialized)
+    /*
+     * The controller has been initialized and is ready to launch
+     */
     {
         _currentStatus = ControllerState::Initialized;
         sendStatus(this->status(),{});
     }
     else if(status == Status::ContextSuccessfullyUpdated && this->status() == ControllerState::AddScoreState)
+    /*
+     * The controller is in a state where it has updated the datacontext with score/point values and needs to send the score back to the UI
+     */
     {
-        auto userName = args.at(0);
-        auto scoreValue = args.at(1);
+        auto userName = currentActiveUser();
+        auto scoreValue = playerScore(currentPlayerIndex());
         sendStatus(this->status(),{userName,scoreValue});
     }
     else if(status == Status::ContextSuccessfullyUpdated && this->status() == ControllerState::UndoState)
+    /*
+     * The controller is in a undo state where it has altered its indexes
+     *  and needs to notify the UI which user is affected by this alteration
+     */
     {
         auto userName = args.first();
         emit sendStatus(this->status(),{userName});
     }
     else if(status == Status::ContextSuccessfullyUpdated && this->status() == ControllerState::RedoState)
+        /*
+         * The controller is in a redo state where it has altered its indexes
+         *  and needs to notify the UI which user is affected by this alteration
+         */
     {
         auto userName = args.at(0);
         auto scoreValue = args.at(1);
         emit sendStatus(this->status(),{userName,scoreValue});
     }
+    else if(status == ContextUnSuccessfullyUpdated && this->status() == ControllerState::WinnerDeclared)
+    {
+        sendStatus(_currentStatus,{determinedWinner()});
+        _isActive = false;
+    }
     else if(status == Status::ContextUnSuccessfullyUpdated && isActive())
+    /*
+     * Something is wrong. Probably there is some inconsistencies involving models
+     *  which is related to another models that does not exists anymore.
+     */
     {
         _isActive = false;
         _currentStatus = ControllerState::Inconsistency;
         emit sendStatus(this->status(),{});
     }
-}
-
-void LocalFirstToPost::handleInput(const int &point)
-{
-    _currentStatus = ControllerState::AddScoreState;
-    emit requestScoreCalculation(currentTournamentID(),currentActiveUser(),point);
 }
 
 void LocalFirstToPost::handleControllerStateRequest()
@@ -349,6 +375,17 @@ void LocalFirstToPost::incrementTurnIndexes()
     if(_turnIndex == _totalTurns)
         _totalTurns++;
     _turnIndex++;
+}
+
+int LocalFirstToPost::playerScore(const int &index)
+{
+    auto score = _assignedUsernamesScore.at(index);
+    return score;
+}
+
+void LocalFirstToPost::setPlayerScore(const int &index, const int &newScore)
+{
+    _assignedUsernamesScore.replace(index,newScore);
 }
 
 IPointLogisticManager<QString> *LocalFirstToPost::pointLogisticInterface() const

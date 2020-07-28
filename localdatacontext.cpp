@@ -32,6 +32,10 @@ void LocalDataContext::read()
     extractSetModelsFromJSON(setsJSONArray);
     extractScoreModelsFromJSON(scoresJSONArray);
     extractPlayerModelsFromJSON(playersJSONArray);
+
+    // Do inconsistency check
+
+    tournamentModelsContext()->clearInconsistentModels();
 }
 
 void LocalDataContext::write()
@@ -127,7 +131,7 @@ void LocalDataContext::handleSetCurrentTournament(const int &index)
         emit sendStatus(Status::ContextUnSuccessfullyUpdated,{});
 }
 
-void LocalDataContext::handleInitialIndexesRequest(const QUuid &tournament, const QStringList &assignedPlayers)
+void LocalDataContext::handleInitialIndexesRequest(const QUuid &tournament, const QVector<QString> &assignedPlayers)
 {
     auto turnIndex = 0;
     auto roundIndex = 1;
@@ -186,13 +190,6 @@ void LocalDataContext::handleControllerStatusRequest(const QUuid &playerID)
     emit sendContextStatus(_currentStatus,arguments);
 }
 
-void LocalDataContext::handleScoreCalculationRequest(const QUuid &tournament, const QString &userName, const int &point)
-{
-    auto playerID = playerModelsContext()->playerIDFromUserName(userName);
-    auto score = tournamentModelsContext()->score(tournament,playerID);
-    emit sendCalculatedScore(point,score);
-}
-
 void LocalDataContext::setScoreHint(const QUuid &tournament, const QString &player, const int &roundIndex, const int &throwIndex, const int &hint)
 {
     auto playerID = playerModelsContext()->playerIDFromUserName(player);
@@ -231,6 +228,23 @@ void LocalDataContext::deleteTournamentsFromIndexes(const QVariantList &indexes)
     emit sendStatus(Status::ContextSuccessfullyUpdated,{indexesOfDeletedTournaments});
 }
 
+void LocalDataContext::handlePlayerScoresRequestFromController(const QUuid &tournament,const QVector<QString> &userNames)
+{
+    QVector<int> userNamesScores;
+    for (auto userName : userNames) {
+        QUuid playerID;
+        try {
+            playerID = playerModelsContext()->playerIDFromUserName(userName);
+        }  catch (...) {
+            throw  "Model inconsistency detected";
+        }
+        auto score = tournamentModelsContext()->score(tournament,playerID);
+        userNamesScores << score;
+    }
+
+    emit sendRequestedUserNamesScore(userNamesScores);
+}
+
 QJsonArray LocalDataContext::assembleTournamentsJSONArray()
 {
     QJsonArray tournamentsJSON;
@@ -240,7 +254,7 @@ QJsonArray LocalDataContext::assembleTournamentsJSONArray()
         auto id = tournamentID;
         obj["ID"] = id.toString();
         obj["Title"] = tournamentModelsContext()->tournamentTitle(id);
-        obj["keyPoint"] = tournamentModelsContext()->tournamentKeyPoint(id);
+        obj["KeyPoint"] = tournamentModelsContext()->tournamentKeyPoint(id);
         obj["GameMode"] = tournamentModelsContext()->tournamentGameMode(id);
         obj["winner"] = tournamentModelsContext()->tournamentDeterminedWinner(id).toString();
         obj["throws"] = tournamentModelsContext()->tournamentNumberOfThrows(id);
@@ -402,9 +416,9 @@ void LocalDataContext::extractPlayerModelsFromJSON(const QJsonArray &arr)
     }
 }
 
-QStringList LocalDataContext::playerUserNamesFromPlayersID(const QList<QUuid> playersID)
+QVector<QString> LocalDataContext::playerUserNamesFromPlayersID(const QList<QUuid> playersID)
 {
-    QStringList userNames;
+    QVector<QString> userNames;
     for (auto playerID : playersID) {
         auto userName = playerModelsContext()->playerUserName(playerID);
         userNames << userName;

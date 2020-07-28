@@ -60,18 +60,15 @@ public slots:
                   const int &point, const int &score) override;
     void sendRequestedTournaments() override;
     void handleSetCurrentTournament(const int &index) override;
-    void handleInitialIndexesRequest(const QUuid &tournament,const QStringList &assignedPlayers) override;
+    void handleInitialIndexesRequest(const QUuid &tournament,const QVector<QString> &assignedPlayers) override;
     void handleSendPlayerDetailsRequest() override;
     void handleControllerStatusRequest(const QUuid &playerID) override;
-    /*
-     * Calculate score before it will be processed in the controller
-     */
-    void handleScoreCalculationRequest(const QUuid &tournament, const QString &userName, const int &point) override;
     /*
      * This method is used in conjunction with the gamecontroller to fullfill the undo/redo functionality
      */
     void setScoreHint(const QUuid &tournament, const QString &player, const int &roundIndex, const int &throwIndex, const int &hint) override;
     void deleteTournamentsFromIndexes(const QVariantList &indexes) override;
+    void handlePlayerScoresRequestFromController(const QUuid &tournament, const QVector<QString> &userNames) override;
 private:
 
     /*
@@ -89,7 +86,7 @@ private:
     void extractScoreModelsFromJSON(const QJsonArray &arr);
     void extractPlayerModelsFromJSON(const QJsonArray &arr);
 
-    QStringList playerUserNamesFromPlayersID(const QList<QUuid> playersID);
+    QVector<QString> playerUserNamesFromPlayersID(const QList<QUuid> playersID);
 
     void createInitialModels();
     int _currentStatus;

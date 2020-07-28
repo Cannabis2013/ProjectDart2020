@@ -93,7 +93,7 @@ public:
     /*
      * Consistency checks
      */
-    virtual bool tournamentExists(const TUuid &tournament) const = 0;
+    virtual void clearInconsistentModels() = 0;
 };
 
 #endif // ILOCALDATACONTEXT_H

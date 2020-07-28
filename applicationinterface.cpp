@@ -11,11 +11,19 @@ ApplicationInterface::ApplicationInterface(AbstractDataContext *dataContext, Def
     // UI request a list of tournaments -> Send a list of tournaments back to UI
     connect(this,&ApplicationInterface::requestTournaments,_dataContext,&AbstractDataContext::sendRequestedTournaments);
     connect(_dataContext,&AbstractDataContext::sendTournament,this,&ApplicationInterface::sendRequestedTournament);
-    // Set current tournament -> Initialize controller indexes
+    /*
+     * Set current tournament -> Initialize controller indexes
+     * This can also be regarded as the controller initialization state
+     */
+    /*
+     * UI request by an index, which corresponds to the location of the requested tournament in the datacontext, the current tournament
+     */
     connect(this,&ApplicationInterface::setCurrentActiveTournament,_dataContext,&AbstractDataContext::handleSetCurrentTournament);
     connect(_dataContext,&AbstractDataContext::sendInitialControllerValues,_gameController,&AbstractGameController::handleInitialValuesFromDataContext);
     connect(_gameController,&AbstractGameController::requestInitialIndexes,_dataContext,&AbstractDataContext::handleInitialIndexesRequest);
     connect(_dataContext,&AbstractDataContext::sendInitialControllerIndexes,_gameController,&AbstractGameController::handleIndexesFromDatacontext);
+    connect(_gameController,&AbstractGameController::requestScoresFromDataContext,_dataContext,&AbstractDataContext::handlePlayerScoresRequestFromController);
+    connect(_dataContext,&AbstractDataContext::sendRequestedUserNamesScore,_gameController,&AbstractGameController::handleRequestedScoresFromDataContext);
     // Notify UI regarding context states
     connect(_gameController,&AbstractGameController::sendStatus,this,&ApplicationInterface::sendStatus);
     connect(_dataContext,&AbstractDataContext::sendStatus,this,&ApplicationInterface::sendStatus);
@@ -42,10 +50,8 @@ ApplicationInterface::ApplicationInterface(AbstractDataContext *dataContext, Def
     connect(this,&ApplicationInterface::startGame,_gameController,&AbstractGameController::start);
     // Request stop game -> Stop game
     connect(this,&ApplicationInterface::stopGame,_gameController,&AbstractGameController::stop);
-    // User point input
-    connect(this,&ApplicationInterface::sendPoint,_gameController,&AbstractGameController::handleInput);
-    connect(_gameController,&AbstractGameController::requestScoreCalculation,_dataContext,&AbstractDataContext::handleScoreCalculationRequest);
-    connect(_dataContext,&AbstractDataContext::sendCalculatedScore,_gameController,&AbstractGameController::processInput);
+    // UI recieves a user input and propagates user entered point to backend
+    connect(this,&ApplicationInterface::sendPoint,_gameController,&AbstractGameController::handleAndProcessUserInput);
     // Send point to datacontext
     connect(_gameController,&AbstractGameController::sendPoint,_dataContext,&AbstractDataContext::addScore);
     // Undo/Redo functionality
