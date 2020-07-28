@@ -10,7 +10,7 @@
 #include "abstractdatacontext.h"
 
 #include "localtournamentmodelscontext.h"
-#include "localplayermodelcontext.h"
+#include "localplayermodelscontext.h"
 
 #define THROW_OBJECT_WITH_ID_NOT_FOUND(x) QString("Model with ID: '%1' does not exists in the current context").arg(x).toStdString();
 #define THROW_OBJECT_WITH_INDEX_NOT_FOUND(x) QString("Model with index: '%1' does not exists in the current context").arg(x).toStdString();
@@ -36,7 +36,7 @@ public:
      * Destructor
      */
     LocalDataContext(const QString &org, const QString &app);
-
+    ~LocalDataContext();
     /*
      * PersistenceInterface interface
      */
@@ -71,7 +71,7 @@ public slots:
      * This method is used in conjunction with the gamecontroller to fullfill the undo/redo functionality
      */
     void setScoreHint(const QUuid &tournament, const QString &player, const int &roundIndex, const int &throwIndex, const int &hint) override;
-
+    void deleteTournamentsFromIndexes(const QVariantList &indexes) override;
 private:
 
     /*

@@ -1,36 +1,31 @@
-#include "localplayermodelcontext.h"
-LocalPlayerModelContext::LocalPlayerModelContext()
+#include "localplayermodelscontext.h"
+LocalPlayerModelsContext::LocalPlayerModelsContext()
 {
     _playerBuilder = new LocalPlayerBuilder();
 }
 
-QUuid LocalPlayerModelContext::createPlayer(const QString &userName, const QString &email, const int &role)
+QUuid LocalPlayerModelsContext::createPlayer(const QString &userName, const QString &email, const int &role)
 {
     auto model = playerBuilder()->buildModel([userName,email,role]
     {
         PlayerBuilderParameters params;
-
         params.setUserName(userName);
         params.setMailAdress(email);
         params.setRole(role);
-
         return params;
     }(),[]
     {
         PlayerModelOptions options;
-
         options.setGenerateUniqueId(true);
-        options.setGenerateUniqueId(false);
-
         return options;
     }());
 
     _models << model;
-
-    return model->id();
+    auto playerID = model->id();
+    return playerID;
 }
 
-void LocalPlayerModelContext::deletePlayerByUserName(const QString &userName)
+void LocalPlayerModelsContext::deletePlayerByUserName(const QString &userName)
 {
     for (auto model : _models) {
         auto uName = model->userName();
@@ -44,7 +39,7 @@ void LocalPlayerModelContext::deletePlayerByUserName(const QString &userName)
     throw "No model found with given id";
 }
 
-void LocalPlayerModelContext::deletePlayerByID(const QUuid &player)
+void LocalPlayerModelsContext::deletePlayerByID(const QUuid &player)
 {
     for (auto model : _models) {
         auto modelID = model->id();
@@ -58,7 +53,7 @@ void LocalPlayerModelContext::deletePlayerByID(const QUuid &player)
     throw "No model found with given id";
 }
 
-void LocalPlayerModelContext::deletePlayerByEmail(const QString &email)
+void LocalPlayerModelsContext::deletePlayerByEmail(const QString &email)
 {
     for (auto model : _models) {
         auto mailAdress = model->email();
@@ -72,7 +67,7 @@ void LocalPlayerModelContext::deletePlayerByEmail(const QString &email)
     throw "No model found with given mail adress";
 }
 
-QUuid LocalPlayerModelContext::playerIDFromUserName(const QString &userName) const
+QUuid LocalPlayerModelsContext::playerIDFromUserName(const QString &userName) const
 {
     try {
         auto model = getModel(userName);
@@ -82,7 +77,7 @@ QUuid LocalPlayerModelContext::playerIDFromUserName(const QString &userName) con
     }
 }
 
-QUuid LocalPlayerModelContext::playerIDFromIndex(const int &index) const
+QUuid LocalPlayerModelsContext::playerIDFromIndex(const int &index) const
 {
     try {
         auto model = _models.at(index);
@@ -93,7 +88,7 @@ QUuid LocalPlayerModelContext::playerIDFromIndex(const int &index) const
     }
 }
 
-QString LocalPlayerModelContext::playerUserName(const QUuid &id) const
+QString LocalPlayerModelsContext::playerUserName(const QUuid &id) const
 {
     for (auto model : _models) {
         auto modelID = model->id();
@@ -104,7 +99,7 @@ QString LocalPlayerModelContext::playerUserName(const QUuid &id) const
     return QString();
 }
 
-QString LocalPlayerModelContext::playerEMail(const QUuid &id) const
+QString LocalPlayerModelsContext::playerEMail(const QUuid &id) const
 {
     for (auto model : _models) {
         auto modelID = model->id();
@@ -115,7 +110,7 @@ QString LocalPlayerModelContext::playerEMail(const QUuid &id) const
     return QString();
 }
 
-QList<QUuid> LocalPlayerModelContext::players() const
+QList<QUuid> LocalPlayerModelsContext::players() const
 {
     QList<QUuid> resultingList;
     for (auto model : _models) {
@@ -126,24 +121,43 @@ QList<QUuid> LocalPlayerModelContext::players() const
     return resultingList;
 }
 
-int LocalPlayerModelContext::playersCount() const
+int LocalPlayerModelsContext::playersCount() const
 {
     return _models.count();
 }
 
-DefaultPlayerBuilder *LocalPlayerModelContext::playerBuilder() const
+DefaultPlayerBuilder *LocalPlayerModelsContext::playerBuilder() const
 {
     return _playerBuilder;
 }
 
-PlayerContextInterface *LocalPlayerModelContext::setPlayerBuilder(DefaultPlayerBuilder *builder)
+PlayerContextInterface *LocalPlayerModelsContext::setPlayerBuilder(DefaultPlayerBuilder *builder)
 {
     _playerBuilder = builder;
 
     return this;
 }
 
-DefaultPlayerInterface *LocalPlayerModelContext::getModel(const QString &userName) const
+void LocalPlayerModelsContext::buildPlayerModel(const QUuid &id, const QString &userName, const QString &email)
+{
+    auto model = playerBuilder()->buildModel([id,userName,email]
+    {
+        PlayerBuilderParameters params;
+        params.setId(id);
+        params.setUserName(userName);
+        params.setMailAdress(email);
+        return params;
+    }(),[]
+    {
+        PlayerModelOptions options;
+        options.setGenerateUniqueId(false);
+        return options;
+    }());
+
+    _models << model;
+}
+
+DefaultPlayerInterface *LocalPlayerModelsContext::getModel(const QString &userName) const
 {
     for (auto model : _models) {
         if(model->userName() == userName)

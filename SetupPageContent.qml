@@ -139,9 +139,11 @@ Content {
                 backButtonPressed();
             }
             onButtonTwoClicked: {
+                var indexes = playersListView.currentIndexes();
+                if(indexes.length <= 0)
+                    return;
                 buttonTwoEnabled = false;
                 var gameMode = gameModeSelector.currentText;
-                var indexes = playersListView.currentIndexes();
                 sendTournament(titleEdit.currentText,
                                legsEdit.currentText,
                                gameMode,

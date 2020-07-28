@@ -20,25 +20,15 @@ public:
         _generateUniqueId = generateUniqueId;
     }
 
-    bool generateCustomID() const override
-    {
-        return _customUuid;
-    }
-    void setCustomUuid(bool customUuid)
-    {
-        _customUuid = customUuid;
-    }
-
 private:
     bool _generateUniqueId;
-    bool _customUuid = false;
 };
 
 
-class PlayerBuilderParameters : public IPlayerBuilderParameters<QString>
+class PlayerBuilderParameters : public IPlayerBuilderParameters<QString,QUuid>
 {
 public:
-    QString userName() const
+    QString userName() const override
     {
         return _firstName;
     }
@@ -47,7 +37,7 @@ public:
         _firstName = value;
     }
 
-    QString eMail() const
+    QString eMail() const override
     {
         return _mailAdress;
     }
@@ -56,7 +46,7 @@ public:
         _mailAdress = value;
     }
 
-    int role() const
+    int role() const override
     {
         return _role;
     }
@@ -65,17 +55,26 @@ public:
         _role = value;
     }
 
+    QUuid id() const override
+    {
+        return _id;
+    }
+    void setId(const QUuid &id)
+    {
+        _id = id;
+    }
+
 private:
 
     QString _firstName;
     QString _lastName;
     QString _mailAdress;
-
+    QUuid _id;
     int _role;
 };
 
 typedef IPlayerModel<QUuid,QString> DefaultModelInterface;
-typedef IPlayerBuilderParameters<QString> DefaultParameters;
+typedef IPlayerBuilderParameters<QString,QUuid> DefaultParameters;
 typedef IDataModelBuilder<DefaultModelInterface,DefaultParameters,IPlayerBuilderConfiguration> DefaultPlayerBuilder;
 
 class LocalPlayerBuilder : public DefaultPlayerBuilder
@@ -93,8 +92,10 @@ public:
         model->setUserName(params.userName());
         model->setEmail(mail);
 
-        if(options.generateUniqueID() && !options.generateCustomID())
+        if(options.generateUniqueID())
             model->setId(QUuid::createUuid());
+        else
+            model->setId(params.id());
 
         return model;
     }

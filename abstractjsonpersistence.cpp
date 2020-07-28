@@ -20,7 +20,7 @@ QJsonObject AbstractJSONPersistence::readJSONFromFile(const QString &fileName)
 {
     QFile file(fileName);
     if(!file.exists())
-        return QJsonObject();
+        throw "File not found";
     file.open(QIODevice::ReadOnly);
     QDataStream in(&file);
     QVariantHash dataHash;

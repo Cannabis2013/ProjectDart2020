@@ -8,9 +8,10 @@ Content{
     id: body
     clip: true
 
-    signal createTournamentClicked;
-    signal startGameClicked;
-    signal requestTournaments;
+    signal createTournamentClicked
+    signal startGameClicked
+    signal requestTournaments
+    signal requestDeleteTournaments(var indexes)
     signal sendClickedTournamentIndex(int index)
 
     QtObject{
@@ -27,9 +28,14 @@ Content{
                                             "playersCount" : playersCount})
     }
     onReplyFromBackendRecieved: {
-        if(status === 0x17)
+        if(status === 0x17) // Backend has responded with a status code that signals it is initialized and ready to start
         {
             startGameClicked();
+        }
+        else if(status == 0xE) // Backend has responded with a status code that signals it has succesfully updated its state
+        {
+            tournamentListView.unSelectAllItems();
+            tournamentListView.removeItemModels(args);
         }
     }
     onRequestUpdate: {
@@ -63,7 +69,7 @@ Content{
            itemDescriptionFontSize: 12
            itemWidth: tournamentListView.width *0.95
            itemHeight: 64
-           allowCheckState: false
+           allowCheckState: true
 
            itemDecorator: "qrc:/pictures/Ressources/darttournamentmod.png"
        }
@@ -80,6 +86,10 @@ Content{
            }
            CRUDButton{
                text: "Delete"
+               onClicked: {
+                   var indexes = tournamentListView.currentIndexes();
+                   requestDeleteTournaments(indexes);
+               }
            }
        }
     }
@@ -87,11 +97,13 @@ Content{
         body.requestTournaments.connect(applicationInterface.handleTournamentsRequest); // Request initial tournaments
         applicationInterface.sendRequestedTournament.connect(recieveTournament)
         body.sendClickedTournamentIndex.connect(applicationInterface.handleSetCurrentTournamentRequest)
+        body.requestDeleteTournaments.connect(applicationInterface.handleDeleTournamentRequest);
         body.requestTournaments();
     }
     Component.onDestruction: {
         body.requestTournaments.disconnect(applicationInterface.handleTournamentsRequest);
         applicationInterface.sendRequestedTournament.disconnect(recieveTournament)
         body.sendClickedTournamentIndex.disconnect(applicationInterface.handleSetCurrentTournamentRequest)
+        body.requestDeleteTournaments.disconnect(applicationInterface.handleDeleTournamentRequest);
     }
 }

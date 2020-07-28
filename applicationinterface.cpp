@@ -4,7 +4,8 @@ ApplicationInterface::ApplicationInterface(AbstractDataContext *dataContext, Def
 {
     _dataContext = dataContext;
     _gameController = _builder->buildController(GameModes::FirstToPost,ContextMode::LocalContext);
-
+    // UI request removal of tournaments from datacontext
+    connect(this,&ApplicationInterface::requestDeleteTournaments,_dataContext,&AbstractDataContext::deleteTournamentsFromIndexes);
     // UI request current state of gamecontroller
     connect(this,&ApplicationInterface::requestControllerState,_gameController,&AbstractGameController::handleControllerStateRequest);
     // UI request a list of tournaments -> Send a list of tournaments back to UI
@@ -135,6 +136,11 @@ void ApplicationInterface::handleRedoRequest()
 void ApplicationInterface::handleControllerStateRequest()
 {
     emit requestControllerState();
+}
+
+void ApplicationInterface::handleDeleTournamentRequest(const QVariantList &indexes)
+{
+    emit requestDeleteTournaments(indexes);
 }
 
 AbstractDataContext *ApplicationInterface::dataContext() const

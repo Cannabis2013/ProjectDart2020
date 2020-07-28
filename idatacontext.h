@@ -64,9 +64,9 @@ public:
     virtual TUuid scoreSet(const TUuid &playerPoint) const = 0;
     virtual int scorePointValue(const TUuid &playerPoint) const = 0;
     virtual int scoreValue(const TUuid &playerPoint) = 0;
-    virtual TUuid pointPlayer(const TUuid &playerPoint) const = 0;
+    virtual TUuid scorePlayer(const TUuid &playerPoint) const = 0;
     virtual int scoreHint(const TUuid &playerPoint) const = 0;
-    virtual int pointThrowIndex(const TUuid &playerPoint) const = 0;
+    virtual int scoreThrowIndex(const TUuid &playerPoint) const = 0;
     virtual TUuid playerPoint(const TUuid &tournament,const TUuid &player, const int &roundIndex, const int & throwIndex, const int &hint) = 0;
     virtual TList playerPoints(const TUuid &tournament, const TUuid &player, const int &hint) const = 0;
     virtual bool removePlayerPoint(const TUuid &point) = 0;

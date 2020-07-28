@@ -16,10 +16,10 @@ namespace PlayerContext {
 }
 
 typedef IPlayerModel<QUuid,QString> DefaultPlayerInterface;
-typedef IDataModelBuilder<DefaultPlayerInterface,IPlayerBuilderParameters<QString>,IPlayerBuilderConfiguration> DefaultPlayerBuilder;
+typedef IDataModelBuilder<DefaultPlayerInterface,IPlayerBuilderParameters<QString,QUuid>,IPlayerBuilderConfiguration> DefaultPlayerBuilder;
 typedef IPlayerContext<QUuid,QList<QUuid>,QString,DefaultPlayerBuilder> PlayerContextInterface;
 
-class LocalPlayerModelContext :
+class LocalPlayerModelsContext :
         public QObject,
         public PlayerContextInterface
 {
@@ -31,11 +31,11 @@ public:
      *  - Initalize player builder
      *  - Read settings from persistence
      */
-    LocalPlayerModelContext();
+    LocalPlayerModelsContext();
     // Public types
     enum UserRoles{Admin = 0x0, Player = 0x02};
     QUuid createPlayer(const QString &userName,
-                       const QString& playerEMail,
+                       const QString& email,
                        const int& role) override;
     void deletePlayerByUserName(const QString &firstName) override;
     void deletePlayerByID(const QUuid &player) override;
@@ -49,11 +49,15 @@ public:
     DefaultPlayerBuilder *playerBuilder() const override;
     PlayerContextInterface *setPlayerBuilder(DefaultPlayerBuilder *builder) override;
 private:
-
+    void buildPlayerModel(const QUuid &id,
+                          const QString &userName,
+                          const QString& email);
     DefaultPlayerInterface *getModel(const QString &userName) const;
 
     QList<DefaultPlayerInterface*> _models;
     DefaultPlayerBuilder *_playerBuilder;
+
+    friend class LocalDataContext;
 };
 
 #endif // LOCALPLAYERCONTEXT_H

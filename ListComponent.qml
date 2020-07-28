@@ -58,14 +58,6 @@ Rectangle{
     property url itemDecorator: ""
     onItemDecoratorChanged: listItem.logoUrl = itemDecorator
 
-    readonly property var currentlySelectedIndex: function(){return indexContainer.getCurrentlySelectedIndex;}
-    readonly property var currentlySelectedIndexes: function(){return indexContainer.getCurrentlySelectedIndexes;}
-
-    QtObject{
-        id: indexContainer
-        property int currentlySelectedIndex : -1
-        property var currentlySelectedIndexes: []
-    }
     signal itemClicked(int index)
     signal itemSelected(int index)
 
@@ -87,35 +79,29 @@ Rectangle{
         return cIndexes;
     }
 
-    function buttonSelected(text){
-        var cIndex = -1;
-        var cIndexes = [];
-        var j = 0;
+    function unSelectAllItems()
+    {
         for(var i = 0;i < listView.count;i++)
         {
             var item = listView.itemAtIndex(i);
-            var txt = item.text;
-            if(allowMultipleSelections){
-                if(item.buttonBody.state === "checked")
-                    cIndexes[j++] = i;
-            }
-            else{
-                if(item.buttonBody.state === "checked" && txt !== text)
-                    item.buttonBody.state = "";
-                if(txt === text && item.buttonBody.state === "checked")
-                {
-                    cIndex = i;
-                    itemSelected(cIndex);
-                }
-            }
+            var itemState = item.state;
+            if(itemState === "checked")
+                item.state = "";
         }
-        indexContainer.currentlySelectedIndex = cIndex;
-        indexContainer.currentlySelectedIndexes = cIndexes;
     }
 
     function addItemModel(itemModel)
     {
         listModel.append(itemModel);
+    }
+
+    function removeItemModels(indexes)
+    {
+        var length = indexes.length;
+        for(var i = 0;i < length;i++){
+            var index = indexes[i];
+            listModel.remove(index);
+        }
     }
 
     layer.enabled: true

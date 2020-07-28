@@ -39,9 +39,9 @@ Rectangle {
             else
                 body.state = "";
         }
-
         onClicked: {
-            body.clicked();
+            if(!checked)
+                body.clicked();
             if(!noDelayPressSelect)
                 return;
             if(body.isCheckable && !checked)

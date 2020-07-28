@@ -13,7 +13,7 @@
 #include "iplayercontext.h"
 
 typedef IPlayerModel<QUuid,QString> DefaultPlayerInterface;
-typedef IPlayerBuilderParameters<QString> DefaultParameters;
+typedef IPlayerBuilderParameters<QString,QUuid> DefaultParameters;
 typedef IDataModelBuilder<DefaultPlayerInterface,DefaultParameters,IPlayerBuilderConfiguration> DefaultPlayerBuilder;
 typedef IPlayerContext<QUuid,QList<QUuid>,QString,DefaultPlayerBuilder> PlayerContextInterface;
 typedef IDataContext<QUuid,QList<QUuid>,QString,ITournamentBuilder> DefaultDataInterface;
@@ -23,12 +23,8 @@ class AbstractDataContext : public QObject,
 {
     Q_OBJECT
 public:
-    ~AbstractDataContext()
-    {
-        delete _tournamentModelContext;
-        delete _playerModelsContext;
-    }
-    DefaultDataInterface *tournamentModelContext(){
+    ~AbstractDataContext() = default;
+    DefaultDataInterface *tournamentModelsContext(){
         return _tournamentModelContext;
     }
     void setTournamentModelContext(DefaultDataInterface *context)
@@ -66,7 +62,7 @@ public slots:
     virtual void handleControllerStatusRequest(const QUuid &playerID) = 0;
     virtual void handleScoreCalculationRequest(const QUuid &tournament, const QString &userName, const int &point) = 0;
     virtual void setScoreHint(const QUuid &tournament, const QString &userName, const int &roundIndex, const int &throwIndex, const int &hint) = 0;
-
+    virtual void deleteTournamentsFromIndexes(const QVariantList &indexes) = 0;
 signals:
     void sendContextStatus(const int &status, const QVariantList &args);
     void sendGameModes(const QStringList &gameModes);

@@ -5,16 +5,15 @@ class IPlayerBuilderConfiguration
 {
 public:
     virtual bool generateUniqueID() const = 0;
-    virtual bool generateCustomID() const = 0;
 };
 
-template<class TString>
+template<class TString, class TUuid>
 class IPlayerBuilderParameters
 {
 public:
     virtual TString userName() const = 0;
     virtual TString eMail() const = 0;
-
+    virtual TUuid id() const = 0;
     virtual int role() const = 0;
 };
 

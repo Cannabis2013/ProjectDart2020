@@ -3,13 +3,35 @@
 LocalDataContext::LocalDataContext(const QString &org, const QString &app)
 {
     setTournamentModelContext(new LocalTournamentModelsContext(org,app));
-    setPlayerModelsContext(new LocalPlayerModelContext);
-    createInitialModels();
+    setPlayerModelsContext(new LocalPlayerModelsContext);
+    //createInitialModels();
+    read();
+}
+
+LocalDataContext::~LocalDataContext()
+{
+    write();
 }
 
 void LocalDataContext::read()
 {
+    QJsonObject JSONObject;
+    try {
+        JSONObject = readJSONFromFile("Models");
+    } catch (...) {
+        return;
+    }
+    auto tournamentsJSONArray = JSONObject["TournamentsData"].toArray();
+    auto roundsJSONArray = JSONObject["RoundsData"].toArray();
+    auto setsJSONArray = JSONObject["SetsData"].toArray();
+    auto scoresJSONArray = JSONObject["ScoresData"].toArray();
+    auto playersJSONArray = JSONObject["PlayersData"].toArray();
 
+    extractTournamentModelsFromJSON(tournamentsJSONArray);
+    extractRoundModelsFromJSON(roundsJSONArray);
+    extractSetModelsFromJSON(setsJSONArray);
+    extractScoreModelsFromJSON(scoresJSONArray);
+    extractPlayerModelsFromJSON(playersJSONArray);
 }
 
 void LocalDataContext::write()
@@ -33,17 +55,15 @@ void LocalDataContext::createTournament(const QString &title,
                                         const int &keyPoint,
                                         const QVariantList &playerIndexes)
 {
-    auto tournamentID = tournamentModelContext()->createtournament(title,
+    auto tournamentID = tournamentModelsContext()->createtournament(title,
                                                                    keyPoint,
                                                                    numberOfThrows,
-                                                                   gameMode,
-                                                                   QUuid(),
-                                                                   QUuid());
+                                                                   gameMode);
     QVariantList playerNames;
     for (auto variant : playerIndexes) {
         auto index = variant.toInt();
         auto playerID = playerModelsContext()->playerIDFromIndex(index);
-        tournamentModelContext()->assignPlayerToTournament(tournamentID,playerID);
+        tournamentModelsContext()->assignPlayerToTournament(tournamentID,playerID);
 
         auto playerUserName = playerModelsContext()->playerUserName(playerID);
         playerNames << QVariant(playerUserName);
@@ -68,11 +88,11 @@ void LocalDataContext::addScore(const QUuid &tournament,
     _currentStatus = Status::ContextBusy;
     auto playerID = playerModelsContext()->playerIDFromUserName(userName);
     try {
-        auto pointID = tournamentModelContext()->playerPoint(tournament,playerID,roundIndex,throwIndex,HiddenHint);
-        tournamentModelContext()->editScore(pointID,point,score,DisplayHint);
+        auto pointID = tournamentModelsContext()->playerPoint(tournament,playerID,roundIndex,throwIndex,HiddenHint);
+        tournamentModelsContext()->editScore(pointID,point,score,DisplayHint);
 
     } catch (...) {
-        tournamentModelContext()->addScore(tournament,playerID,point,roundIndex,setIndex,throwIndex,score);
+        tournamentModelsContext()->addScore(tournament,playerID,point,roundIndex,setIndex,throwIndex,score);
     }
     _currentStatus = Status::ContextReady;
     emit sendContextStatus(Status::ContextSuccessfullyUpdated,{userName,score});
@@ -80,14 +100,14 @@ void LocalDataContext::addScore(const QUuid &tournament,
 
 void LocalDataContext::sendRequestedTournaments()
 {
-    auto count = tournamentModelContext()->tournamentsCount();
+    auto count = tournamentModelsContext()->tournamentsCount();
     for (int i = 0; i < count; ++i) {
-        auto id = tournamentModelContext()->tournamentIDFromIndex(i);
-        auto title = tournamentModelContext()->tournamentTitle(id);
-        auto numberOfThrows = tournamentModelContext()->tournamentNumberOfThrows(id);
-        auto gameMode = tournamentModelContext()->tournamentGameMode(id);
-        auto keyPoint = tournamentModelContext()->tournamentKeyPoint(id);
-        auto playersCount = tournamentModelContext()->tournamentAssignedPlayers(id).count();
+        auto id = tournamentModelsContext()->tournamentIDFromIndex(i);
+        auto title = tournamentModelsContext()->tournamentTitle(id);
+        auto numberOfThrows = tournamentModelsContext()->tournamentNumberOfThrows(id);
+        auto gameMode = tournamentModelsContext()->tournamentGameMode(id);
+        auto keyPoint = tournamentModelsContext()->tournamentKeyPoint(id);
+        auto playersCount = tournamentModelsContext()->tournamentAssignedPlayers(id).count();
 
         emit sendTournament(title,numberOfThrows,gameMode,keyPoint,playersCount);
     }
@@ -95,12 +115,16 @@ void LocalDataContext::sendRequestedTournaments()
 
 void LocalDataContext::handleSetCurrentTournament(const int &index)
 {
-    auto tournamentID = tournamentModelContext()->tournamentIDFromIndex(index);
-    auto keyPoint = tournamentModelContext()->tournamentKeyPoint(tournamentID);
-    auto numberOfThrows = tournamentModelContext()->tournamentNumberOfThrows(tournamentID);
-    auto assignedPlayersID = tournamentModelContext()->tournamentAssignedPlayers(tournamentID);
+    auto tournamentID = tournamentModelsContext()->tournamentIDFromIndex(index);
+    auto keyPoint = tournamentModelsContext()->tournamentKeyPoint(tournamentID);
+    auto numberOfThrows = tournamentModelsContext()->tournamentNumberOfThrows(tournamentID);
+    auto assignedPlayersID = tournamentModelsContext()->tournamentAssignedPlayers(tournamentID);
     auto assignedUserNames = playerUserNamesFromPlayersID(assignedPlayersID);
-    emit sendInitialControllerValues(tournamentID,keyPoint,numberOfThrows,assignedUserNames);
+    auto assignedPlayersCount = assignedUserNames.count();
+    if(assignedPlayersCount > 0)
+        emit sendInitialControllerValues(tournamentID,keyPoint,numberOfThrows,assignedUserNames);
+    else
+        emit sendStatus(Status::ContextUnSuccessfullyUpdated,{});
 }
 
 void LocalDataContext::handleInitialIndexesRequest(const QUuid &tournament, const QStringList &assignedPlayers)
@@ -110,13 +134,13 @@ void LocalDataContext::handleInitialIndexesRequest(const QUuid &tournament, cons
     auto setIndex = 0;
     auto throwIndex = 0;
     auto playersCount = assignedPlayers.count();
-    auto numberOfThrows= tournamentModelContext()->tournamentNumberOfThrows(tournament);
+    auto numberOfThrows= tournamentModelsContext()->tournamentNumberOfThrows(tournament);
     while(1)
     {
         auto userName = assignedPlayers.at(setIndex);
         auto playerId = playerModelsContext()->playerIDFromUserName(userName);
         try {
-            tournamentModelContext()->playerPoint(tournament,playerId,roundIndex,throwIndex,LocalDataContext::DisplayHint);
+            tournamentModelsContext()->playerPoint(tournament,playerId,roundIndex,throwIndex,LocalDataContext::DisplayHint);
         } catch (...) {
             break;
         }
@@ -134,7 +158,7 @@ void LocalDataContext::handleInitialIndexesRequest(const QUuid &tournament, cons
     }
     if(turnIndex != 0)
     {
-        auto totalTurns = tournamentModelContext()->playerPointsCount(LocalDataContext::allHints);
+        auto totalTurns = tournamentModelsContext()->playerPointsCount(LocalDataContext::allHints);
         emit sendInitialControllerIndexes(roundIndex,setIndex,throwIndex,turnIndex,totalTurns);
     }
     else
@@ -165,7 +189,7 @@ void LocalDataContext::handleControllerStatusRequest(const QUuid &playerID)
 void LocalDataContext::handleScoreCalculationRequest(const QUuid &tournament, const QString &userName, const int &point)
 {
     auto playerID = playerModelsContext()->playerIDFromUserName(userName);
-    auto score = tournamentModelContext()->score(tournament,playerID);
+    auto score = tournamentModelsContext()->score(tournament,playerID);
     emit sendCalculatedScore(point,score);
 }
 
@@ -174,7 +198,7 @@ void LocalDataContext::setScoreHint(const QUuid &tournament, const QString &play
     auto playerID = playerModelsContext()->playerIDFromUserName(player);
     QUuid scoreID;
     try {
-        scoreID = tournamentModelContext()->playerPoint(tournament,
+        scoreID = tournamentModelsContext()->playerPoint(tournament,
                                                          playerID,
                                                          roundIndex,
                                                          throwIndex,
@@ -183,26 +207,44 @@ void LocalDataContext::setScoreHint(const QUuid &tournament, const QString &play
         emit sendContextStatus(Status::ContextUnSuccessfullyUpdated,{});
         return;
     }
-    tournamentModelContext()->setScoreHint(scoreID,hint);
-    auto scoreValue = tournamentModelContext()->scoreValue(scoreID);
+    tournamentModelsContext()->setScoreHint(scoreID,hint);
+    auto scoreValue = tournamentModelsContext()->scoreValue(scoreID);
     auto userName = playerModelsContext()->playerUserName(playerID);
     emit sendContextStatus(Status::ContextSuccessfullyUpdated,{userName,scoreValue});
+}
+
+void LocalDataContext::deleteTournamentsFromIndexes(const QVariantList &indexes)
+{
+    QVariantList indexesOfDeletedTournaments;
+    for (auto variantIndex : indexes) {
+        auto index = variantIndex.toInt();
+        QUuid tournamentID;
+        try {
+            tournamentID = tournamentModelsContext()->tournamentIDFromIndex(index);
+            indexesOfDeletedTournaments.append(variantIndex);
+        } catch (...) {
+            emit sendStatus(Status::ContextUnSuccessfullyUpdated,{indexesOfDeletedTournaments});
+            return;
+        }
+        tournamentModelsContext()->deleteTournament(tournamentID);
+    }
+    emit sendStatus(Status::ContextSuccessfullyUpdated,{indexesOfDeletedTournaments});
 }
 
 QJsonArray LocalDataContext::assembleTournamentsJSONArray()
 {
     QJsonArray tournamentsJSON;
-    auto tournamentsID = tournamentModelContext()->tournaments();
+    auto tournamentsID = tournamentModelsContext()->tournaments();
     for (auto tournamentID : tournamentsID) {
         QJsonObject obj;
         auto id = tournamentID;
         obj["ID"] = id.toString();
-        obj["Title"] = tournamentModelContext()->tournamentTitle(id);
-        obj["keyPoint"] = tournamentModelContext()->tournamentKeyPoint(id);
-        obj["GameMode"] = tournamentModelContext()->tournamentGameMode(id);
-        obj["winner"] = tournamentModelContext()->tournamentDeterminedWinner(id).toString();
-        obj["throws"] = tournamentModelContext()->tournamentNumberOfThrows(id);
-        auto players = tournamentModelContext()->tournamentAssignedPlayers(id);
+        obj["Title"] = tournamentModelsContext()->tournamentTitle(id);
+        obj["keyPoint"] = tournamentModelsContext()->tournamentKeyPoint(id);
+        obj["GameMode"] = tournamentModelsContext()->tournamentGameMode(id);
+        obj["winner"] = tournamentModelsContext()->tournamentDeterminedWinner(id).toString();
+        obj["throws"] = tournamentModelsContext()->tournamentNumberOfThrows(id);
+        auto players = tournamentModelsContext()->tournamentAssignedPlayers(id);
 
         QJsonArray playersJSON;
         auto count = players.count();
@@ -221,12 +263,12 @@ QJsonArray LocalDataContext::assembleTournamentsJSONArray()
 QJsonArray LocalDataContext::assembleRoundsJSONArray()
 {
     QJsonArray roundsJSON;
-    auto roundsID = tournamentModelContext()->roundsID();
+    auto roundsID = tournamentModelsContext()->roundsID();
     for (auto roundID : roundsID) {
         QJsonObject roundJSON;
         roundJSON["ID"] = roundID.toString();
-        roundJSON["Index"] = tournamentModelContext()->roundIndex(roundID);
-        roundJSON["TournamentID"] = tournamentModelContext()->roundTournament(roundID).toString();
+        roundJSON["Index"] = tournamentModelsContext()->roundIndex(roundID);
+        roundJSON["TournamentID"] = tournamentModelsContext()->roundTournament(roundID).toString();
         roundsJSON.append(roundJSON);
     }
     return roundsJSON;
@@ -235,12 +277,12 @@ QJsonArray LocalDataContext::assembleRoundsJSONArray()
 QJsonArray LocalDataContext::assembeSetsJSONArray()
 {
     QJsonArray setsJSON;
-    auto setsID = tournamentModelContext()->setsID();
+    auto setsID = tournamentModelsContext()->setsID();
     for (auto setID : setsID) {
         QJsonObject setJSON;
         setJSON["ID"] = setID.toString();
-        setJSON["Index"] = tournamentModelContext()->setIndex(setID);
-        setJSON["RoundID"] = tournamentModelContext()->setRound(setID).toString();
+        setJSON["Index"] = tournamentModelsContext()->setIndex(setID);
+        setJSON["RoundID"] = tournamentModelsContext()->setRound(setID).toString();
         setsJSON.append(setJSON);
     }
     return setsJSON;
@@ -249,13 +291,15 @@ QJsonArray LocalDataContext::assembeSetsJSONArray()
 QJsonArray LocalDataContext::assembleScoresJSONArray()
 {
     QJsonArray scoresJSON;
-    auto scoresID = tournamentModelContext()->scores();
+    auto scoresID = tournamentModelsContext()->scores();
     for (auto scoreID : scoresID) {
         QJsonObject scoreJSON;
         scoreJSON["ID"] = scoreID.toString();
-        scoreJSON["PointValue"] = tournamentModelContext()->scorePointValue(scoreID);
-        scoreJSON["Accumulated score"] = tournamentModelContext()->scoreValue(scoreID);
-        scoreJSON["SetID"] = tournamentModelContext()->scoreSet(scoreID).toString();
+        scoreJSON["PointValue"] = tournamentModelsContext()->scorePointValue(scoreID);
+        scoreJSON["ScoreValue"] = tournamentModelsContext()->scoreValue(scoreID);
+        scoreJSON["SetID"] = tournamentModelsContext()->scoreSet(scoreID).toString();
+        scoreJSON["Index"] = tournamentModelsContext()->scoreThrowIndex(scoreID);
+        scoreJSON["PlayerID"] = tournamentModelsContext()->scorePlayer(scoreID).toString();
         scoresJSON.append(scoreJSON);
     }
     return scoresJSON;
@@ -270,6 +314,7 @@ QJsonArray LocalDataContext::assemblePlayersJSONArray()
         playerJSON["ID"] = playerID.toString();
         playerJSON["UserName"] = playerModelsContext()->playerUserName(playerID);
         playerJSON["Mail"] = playerModelsContext()->playerEMail(playerID);
+
         playersJSON.append(playerJSON);
     }
     return playersJSON;
@@ -277,7 +322,7 @@ QJsonArray LocalDataContext::assemblePlayersJSONArray()
 
 void LocalDataContext::extractTournamentModelsFromJSON(const QJsonArray &arr)
 {
-    auto context = dynamic_cast<LocalTournamentModelsContext*>(tournamentModelContext());
+    auto context = dynamic_cast<LocalTournamentModelsContext*>(tournamentModelsContext());
     auto tournamentsCount = arr.count();
     for (int i = 0; i < tournamentsCount; ++i) {
         auto tournamentJSON = arr[i].toObject();
@@ -296,29 +341,65 @@ void LocalDataContext::extractTournamentModelsFromJSON(const QJsonArray &arr)
             auto assignedPlayerJSON = playersJSONArray[j].toObject();
             auto stringID = assignedPlayerJSON["ID"].toString();
             auto playerID = QUuid::fromString(stringID);
-            tournamentModelContext()->assignPlayerToTournament(tournamentID,playerID);
+            tournamentModelsContext()->assignPlayerToTournament(tournamentID,playerID);
         }
     }
 }
 
 void LocalDataContext::extractRoundModelsFromJSON(const QJsonArray &arr)
 {
-    auto context = dynamic_cast<LocalTournamentModelsContext*>(tournamentModelContext());
+    auto context = dynamic_cast<LocalTournamentModelsContext*>(tournamentModelsContext());
+
+    for (auto JSONValue : arr) {
+        auto stringID = JSONValue["ID"].toString();
+        auto id = QUuid::fromString(stringID);
+        auto index = JSONValue["Index"].toInt();
+        auto tournamentStringID = JSONValue["TournamentID"].toString();
+        auto tournamentID = QUuid::fromString(tournamentStringID);
+        context->buildRound(tournamentID,index,id);
+    }
 }
 
 void LocalDataContext::extractSetModelsFromJSON(const QJsonArray &arr)
 {
-
+    auto context = dynamic_cast<LocalTournamentModelsContext*>(tournamentModelsContext());
+    for (auto JSONValue : arr) {
+        auto stringID = JSONValue["ID"].toString();
+        auto id = QUuid::fromString(stringID);
+        auto index = JSONValue["Index"].toInt();
+        auto roundStringID = JSONValue["RoundID"].toString();
+        auto roundID = QUuid::fromString(roundStringID);
+        context->buildSet(id,roundID,index);
+    }
 }
 
 void LocalDataContext::extractScoreModelsFromJSON(const QJsonArray &arr)
 {
-
+    auto context = dynamic_cast<LocalTournamentModelsContext*>(tournamentModelsContext());
+    for (auto JSONValue : arr) {
+        auto stringID = JSONValue["ID"].toString();
+        auto id = QUuid::fromString(stringID);
+        auto pointValue = JSONValue["PointValue"].toInt();
+        auto scoreValue = JSONValue["ScoreValue"].toInt();
+        auto setStringID = JSONValue["SetID"].toString();
+        auto setID = QUuid::fromString(setStringID);
+        auto playerStringID = JSONValue["PlayerID"].toString();
+        auto playerID = QUuid::fromString(playerStringID);
+        auto throwIndex = JSONValue["Index"].toInt();
+        context->buildScoreModel(id,playerID,setID,pointValue,throwIndex,scoreValue);
+    }
 }
 
 void LocalDataContext::extractPlayerModelsFromJSON(const QJsonArray &arr)
 {
-
+    auto context = dynamic_cast<LocalPlayerModelsContext*>(playerModelsContext());
+    for (auto JSONValue : arr) {
+        auto stringID = JSONValue["ID"].toString();
+        auto id = QUuid::fromString(stringID);
+        auto userName = JSONValue["UserName"].toString();
+        auto mail = JSONValue["Mail"].toString();
+        context->buildPlayerModel(id,userName,mail);
+    }
 }
 
 QStringList LocalDataContext::playerUserNamesFromPlayersID(const QList<QUuid> playersID)
@@ -354,11 +435,11 @@ void LocalDataContext::createInitialModels()
 void LocalDataContext::handleSendPlayerScoresRequest(const QUuid &tournament)
 {
     _currentStatus = Status::ContextBusy;
-    auto currentGameMode = tournamentModelContext()->tournamentGameMode(tournament);
-    auto keyPoint = tournamentModelContext()->tournamentKeyPoint(tournament);
+    auto currentGameMode = tournamentModelsContext()->tournamentGameMode(tournament);
+    auto keyPoint = tournamentModelsContext()->tournamentKeyPoint(tournament);
     emit sendCurrentTournamentKeyPoint(keyPoint);
-    auto numberOfThrows = tournamentModelContext()->tournamentNumberOfThrows(tournament);
-    auto assignedPlayersID =tournamentModelContext()->tournamentAssignedPlayers(tournament);
+    auto numberOfThrows = tournamentModelsContext()->tournamentNumberOfThrows(tournament);
+    auto assignedPlayersID =tournamentModelsContext()->tournamentAssignedPlayers(tournament);
     bool isInitial = true;
     for (auto assignedPlayerID : assignedPlayersID) {
         auto roundIndex = 1;
@@ -371,7 +452,7 @@ void LocalDataContext::handleSendPlayerScoresRequest(const QUuid &tournament)
         {
             QUuid pointID;
             try {
-                pointID = tournamentModelContext()->playerPoint(tournament,
+                pointID = tournamentModelsContext()->playerPoint(tournament,
                                       assignedPlayerID,
                                       roundIndex,
                                       throwIndex++,
@@ -381,7 +462,7 @@ void LocalDataContext::handleSendPlayerScoresRequest(const QUuid &tournament)
                 break;
             }
             isInitial = false;
-            auto score = tournamentModelContext()->scoreValue(pointID);
+            auto score = tournamentModelsContext()->scoreValue(pointID);
             emit sendPlayerScore(userName,score);
             if(throwIndex % numberOfThrows == 0)
             {
@@ -404,15 +485,15 @@ void LocalDataContext::updateDataContext(const QUuid &tournament, const QUuid &p
     _currentStatus = Status::ContextBusy;
     QUuid roundID;
     try {
-        roundID = tournamentModelContext()->roundID(tournament,roundIndex);
+        roundID = tournamentModelsContext()->roundID(tournament,roundIndex);
     } catch (...) {
-        tournamentModelContext()->addRound(tournament,roundIndex);
+        tournamentModelsContext()->addRound(tournament,roundIndex);
     }
     QUuid setID;
     try {
-        setID = tournamentModelContext()->setID(tournament,roundIndex,setIndex);
+        setID = tournamentModelsContext()->setID(tournament,roundIndex,setIndex);
     } catch (...) {
-        tournamentModelContext()->addSet(tournament,roundIndex,setIndex);
+        tournamentModelsContext()->addSet(tournament,roundIndex,setIndex);
     }
     auto playerUserName = playerModelsContext()->playerUserName(player);
     _currentStatus = Status::ContextReady;

@@ -15,7 +15,7 @@
 #define STATUS_ERROR -1;
 
 typedef IPlayerModel<QUuid,QString> DefaultModelInterface;
-typedef IPlayerBuilderParameters<QString> DefaultParameters;
+typedef IPlayerBuilderParameters<QString,QUuid> DefaultParameters;
 typedef IDataModelBuilder<DefaultModelInterface,DefaultParameters,IPlayerBuilderConfiguration> DefaultPlayerBuilder;
 typedef IDataContext<QUuid,QList<QUuid>,QString,ITournamentBuilder> DefaultDataInterface;
 typedef IController<QUuid,QString> GameControllerInterface;
@@ -56,7 +56,7 @@ public slots:
                                      const int &keyPoint,
                                      const QVariantList &playerIndexes);
     /*
-     * UI player data -> update context with player model
+     * UI player data -> update datacontext with player model
      */
     void createPlayer(const QString &userName, const QString &email);
     void requestPlayerDetails();
@@ -72,8 +72,10 @@ public slots:
     void handleUndoRequest();
     void handleRedoRequest();
     void handleControllerStateRequest();
+    void handleDeleTournamentRequest(const QVariantList &indexes);
 signals:
     void requestCreatePlayer(const QString &userName, const QString &mail);
+    void requestDeleteTournaments(const QVariantList &indexes);
     void requestTournaments();
     void requestPlayers();
     void sendAssignedPlayerIndexes(const QVariantList &indexes, const QUuid &tournament);

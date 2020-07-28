@@ -9,7 +9,7 @@
 
 #include "gamebuilder.h"
 #include "localdatacontext.h"
-#include "localplayermodelcontext.h"
+#include "localplayermodelscontext.h"
 
 
 int main(int argc, char *argv[])

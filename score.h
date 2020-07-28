@@ -50,11 +50,11 @@ public:
     }
     int throwIndex() const override
     {
-        return _legIndex;
+        return _throwIndex;
     }
     void setLegIndex(const int &index) override
     {
-        _legIndex = index;
+        _throwIndex = index;
     }
     int hint() const override
     {
@@ -74,7 +74,7 @@ public:
     }
 
 private:
-    int _modelType, _pointValue, _scoreValue,_legIndex, _hint;
+    int _modelType, _pointValue, _scoreValue,_throwIndex, _hint;
     QUuid _id, _player, _set;
 };
 

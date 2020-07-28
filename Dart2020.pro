@@ -22,7 +22,7 @@ SOURCES += \
         localdatacontext.cpp \
         localdbcontext.cpp \
         localfirsttopost.cpp \
-        localplayermodelcontext.cpp \
+        localplayermodelscontext.cpp \
         localtournamentmodelscontext.cpp \
         main.cpp \
         scoredatamodel.cpp
@@ -66,7 +66,7 @@ HEADERS += \
     localdbcontext.h \
     localfirsttopost.h \
     localplayerbuilder.h \
-    localplayermodelcontext.h \
+    localplayermodelscontext.h \
     localtournamentmodelscontext.h \
     modelbuildercollection.h \
     modelbuildercontext.h \
