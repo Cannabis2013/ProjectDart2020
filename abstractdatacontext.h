@@ -23,6 +23,9 @@ class AbstractDataContext : public QObject,
 {
     Q_OBJECT
 public:
+    AbstractDataContext(DefaultDataInterface *tournamentModelsContext, PlayerContextInterface *playerModelsContext):
+        _tournamentModelContext(tournamentModelsContext),
+        _playerModelsContext(playerModelsContext){}
     ~AbstractDataContext() = default;
     DefaultDataInterface *tournamentModelsContext(){
         return _tournamentModelContext;
@@ -62,7 +65,6 @@ public slots:
     virtual void handleControllerStatusRequest(const QUuid &playerID) = 0;
     virtual void setScoreHint(const QUuid &tournament, const QString &userName, const int &roundIndex, const int &throwIndex, const int &hint) = 0;
     virtual void deleteTournamentsFromIndexes(const QVariantList &indexes) = 0;
-
     virtual void handlePlayerScoresRequestFromController(const QUuid &tournament, const QVector<QString> &userNames) = 0;
 signals:
     void sendContextStatus(const int &status, const QVariantList &args);
@@ -95,6 +97,5 @@ private:
     PlayerContextInterface *_playerModelsContext;
 
 };
-
 #endif // ABSTRACTDATACONTEXT_H
 

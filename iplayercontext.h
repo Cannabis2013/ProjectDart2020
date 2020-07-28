@@ -25,6 +25,10 @@ public:
     virtual IPlayerContext<TUuid,TList,TString, TBuilderInterface> *setPlayerBuilder(TBuilderInterface *builder) = 0;
     virtual TBuilderInterface *playerBuilder() const = 0;
 
+    virtual void buildPlayerModel(const TUuid &id,
+                                  const TString &userName,
+                                  const TString& email) = 0;
+
 };
 
 #endif // IPLAYERDATACONTEXT_H

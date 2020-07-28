@@ -6,7 +6,6 @@
 #include "idatacontext.h"
 #include "iplayermodel.h"
 #include "iplayerbuildercontext.h"
-#include "abstractjsonpersistence.h"
 #include <qjsonobject.h>
 #include <qjsonarray.h>
 #include <qfile.h>
@@ -29,9 +28,6 @@ public:
     /*
      * Tournament related section
      */
-
-    LocalTournamentModelsContext(const QString &org, const QString &app);
-    ~LocalTournamentModelsContext();
     QUuid createtournament(const QString &title,
                            const int &keyPoint,
                            const int &throws,
@@ -103,7 +99,7 @@ public:
 
     int addScore(const QUuid &tournament, const QUuid &player, const int &point, const int &roundIndex, const int &setIndex, const int &throwIndex, const int &score) override;
 
-    void clearInconsistentModels() override;
+    void removeInconsistentModels() override;
 
 private:
     int score(const QUuid &tournament, const QUuid &player) const override;
@@ -141,16 +137,16 @@ private:
                         const int &keyPoint,
                         const int &throws,
                        const int &gameMode,
-                       const QUuid &winner);
+                       const QUuid &winner) override;
 
-    void buildRound(const QUuid &tournament, const int &index, const QUuid &id);
-    void buildSet(const QUuid &id, const QUuid &round, const int &setIndex);
+    void buildRound(const QUuid &tournament, const int &index, const QUuid &id) override;
+    void buildSet(const QUuid &id, const QUuid &round, const int &setIndex) override;
     void buildScoreModel(const QUuid &id,
                          const QUuid &player,
                          const QUuid &set,
                          const int &point,
                          const int &throwIndex,
-                         const int &score);
+                         const int &score) override;
     // Builder methods
     ITournamentBuilder * tournamentBuilder() const override
     {

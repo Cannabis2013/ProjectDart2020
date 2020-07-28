@@ -108,6 +108,7 @@ Content {
             componentTitle: "Assign players"
             itemBackgroundColor: "lightblue"
             itemTextColor: "black"
+            itemHoveredColor: "lightblue"
             color: "white"
             radius: 15
             itemTitleFontSize: 16

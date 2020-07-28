@@ -16,7 +16,7 @@ ApplicationInterface::ApplicationInterface(AbstractDataContext *dataContext, Def
      * This can also be regarded as the controller initialization state
      */
     /*
-     * UI request by an index, which corresponds to the location of the requested tournament in the datacontext, the current tournament
+     * UI request current tournament
      */
     connect(this,&ApplicationInterface::setCurrentActiveTournament,_dataContext,&AbstractDataContext::handleSetCurrentTournament);
     connect(_dataContext,&AbstractDataContext::sendInitialControllerValues,_gameController,&AbstractGameController::handleInitialValuesFromDataContext);

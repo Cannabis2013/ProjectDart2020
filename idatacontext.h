@@ -93,7 +93,22 @@ public:
     /*
      * Consistency checks
      */
-    virtual void clearInconsistentModels() = 0;
+    virtual void removeInconsistentModels() = 0;
+
+    virtual void buildTournament(const TUuid &id,
+                        const TString &title,
+                        const int &keyPoint,
+                        const int &throws,
+                       const int &gameMode,
+                       const TUuid &winner) = 0;
+    virtual void buildRound(const TUuid &tournament, const int &index, const TUuid &id) = 0;
+    virtual void buildSet(const TUuid &id, const TUuid &round, const int &setIndex) = 0;
+    virtual void buildScoreModel(const TUuid &id,
+                         const TUuid &player,
+                         const TUuid &set,
+                         const int &point,
+                         const int &throwIndex,
+                         const int &score) = 0;
 };
 
 #endif // ILOCALDATACONTEXT_H

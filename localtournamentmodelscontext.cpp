@@ -1,13 +1,5 @@
 #include "localtournamentmodelscontext.h"
 
-LocalTournamentModelsContext::LocalTournamentModelsContext(const QString &org, const QString &app)
-{
-}
-
-LocalTournamentModelsContext::~LocalTournamentModelsContext()
-{
-}
-
 QUuid LocalTournamentModelsContext::createtournament(const QString &title,
                                                      const int &keyPoint,
                                                      const int &throws,
@@ -916,7 +908,7 @@ const DefaultPointInterface *LocalTournamentModelsContext::getScoreModelFromID(c
     throw THROW_OBJECT_WITH_ID_NOT_FOUND(id.toString());
 }
 
-void LocalTournamentModelsContext::clearInconsistentModels()
+void LocalTournamentModelsContext::removeInconsistentModels()
 {
     removeInconsistentScores();
     removeInconsistentSets();

@@ -271,7 +271,8 @@ void LocalFirstToPost::handleReplyFromDataContext(const int &status, const QVari
     }
     else if(status == Status::ContextSuccessfullyUpdated && this->status() == ControllerState::AddScoreState)
     /*
-     * The controller is in a state where it has updated the datacontext with score/point values and needs to send the score back to the UI
+     * The controller is in a state where it has updated the datacontext with score/point values
+     *  and needs to send the score back to the UI
      */
     {
         auto userName = currentActiveUser();
@@ -285,6 +286,10 @@ void LocalFirstToPost::handleReplyFromDataContext(const int &status, const QVari
      */
     {
         auto userName = args.first();
+        auto dimmedPointValue = args.at(1).toInt();
+        auto dimmedScoreValue = args.at(2).toInt();
+        auto previousScore = dimmedScoreValue + dimmedPointValue;
+        setPlayerScore(currentPlayerIndex(),previousScore);
         emit sendStatus(this->status(),{userName});
     }
     else if(status == Status::ContextSuccessfullyUpdated && this->status() == ControllerState::RedoState)
@@ -294,7 +299,8 @@ void LocalFirstToPost::handleReplyFromDataContext(const int &status, const QVari
          */
     {
         auto userName = args.at(0);
-        auto scoreValue = args.at(1);
+        auto scoreValue = args.at(2).toInt();
+        setPlayerScore(currentPlayerIndex(),scoreValue);
         emit sendStatus(this->status(),{userName,scoreValue});
     }
     else if(status == ContextUnSuccessfullyUpdated && this->status() == ControllerState::WinnerDeclared)

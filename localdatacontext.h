@@ -9,8 +9,7 @@
 #include "abstractpersistence.h"
 #include "abstractdatacontext.h"
 
-#include "localtournamentmodelscontext.h"
-#include "localplayermodelscontext.h"
+#include "abstractjsonpersistence.h"
 
 #define THROW_OBJECT_WITH_ID_NOT_FOUND(x) QString("Model with ID: '%1' does not exists in the current context").arg(x).toStdString();
 #define THROW_OBJECT_WITH_INDEX_NOT_FOUND(x) QString("Model with index: '%1' does not exists in the current context").arg(x).toStdString();
@@ -28,14 +27,13 @@ public:
     enum Status{ContextBusy = 0xC,
                 ContextReady = 0xD,
                 ContextSuccessfullyUpdated = 0xE,
-                ContextUnSuccessfullyUpdated = 0xF,
-                ContextDataProvided = 0x19};
+                ContextUnSuccessfullyUpdated = 0xF};
     enum ModelDisplayHint{HiddenHint = 0x9,DisplayHint = 0xA, allHints = 0xB};
     /*
      * Constructor
      * Destructor
      */
-    LocalDataContext(const QString &org, const QString &app);
+    LocalDataContext(DefaultDataInterface *tournamentModelsContext, PlayerContextInterface *playerModelsContext);
     ~LocalDataContext();
     /*
      * PersistenceInterface interface
@@ -71,6 +69,7 @@ public slots:
     void handlePlayerScoresRequestFromController(const QUuid &tournament, const QVector<QString> &userNames) override;
 private:
 
+    void createInitialModels();
     /*
      * Persistence related methods
      */
@@ -88,7 +87,6 @@ private:
 
     QVector<QString> playerUserNamesFromPlayersID(const QList<QUuid> playersID);
 
-    void createInitialModels();
     int _currentStatus;
 };
 

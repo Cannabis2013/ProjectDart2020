@@ -5,7 +5,7 @@ class IStatusInterface
 {
 public:
     virtual void sendStatus(const int &status, const TArguments &args) = 0;
-    virtual void recieveStatus(const int &status, const TArguments &args){};
+    virtual void recieveStatus(const int &, const TArguments &){};
 };
 
 #endif // ISTATUSINTERFACE_H

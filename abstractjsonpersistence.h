@@ -4,6 +4,7 @@
 #include "persistenceinterface.h"
 #include <qdatastream.h>
 #include <qjsonobject.h>
+#include <qjsonarray.h>
 #include <qfile.h>
 
 class AbstractJSONPersistence : public PersistenceInterface

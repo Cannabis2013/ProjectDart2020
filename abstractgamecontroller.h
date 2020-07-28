@@ -49,6 +49,9 @@ public slots:
      */
     virtual void handleReplyFromDataContext(const int &status, const QVariantList &args) = 0;
     virtual void handleControllerStateRequest() = 0;
+    /*
+     * Undo/redo turn
+     */
     virtual QUuid undoTurn() = 0;
     virtual QUuid redoTurn() = 0;
 

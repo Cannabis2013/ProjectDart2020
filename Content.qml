@@ -6,6 +6,8 @@ Rectangle {
 
     signal replyFromBackendRecieved(int status,var args)
     signal requestUpdate
+    signal notifyWidthChange
+    signal notifyHeightChange
 
     Layout.fillHeight: true
     Layout.fillWidth: true
@@ -23,5 +25,4 @@ Rectangle {
         applicationInterface.stateChanged.disconnect(requestUpdate);
         applicationInterface.sendStatus.disconnect(replyFromBackendRecieved);
     }
-
 }

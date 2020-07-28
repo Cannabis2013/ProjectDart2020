@@ -10,22 +10,18 @@
 #include "gamebuilder.h"
 #include "localdatacontext.h"
 #include "localplayermodelscontext.h"
+#include "localtournamentmodelscontext.h"
 
 
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    /*
-    QCoreApplication::setOrganizationName("MHApps");
-    QCoreApplication::setApplicationName("Dart2020");
-    QCoreApplication::setOrganizationDomain("MHApps");
-    */
     QGuiApplication app(argc, argv);
 
     qmlRegisterType<ScoreDataModel>("CustomItems",1,0,"ScoreDataModel");
-    auto dataContext = new LocalDataContext("MHApps","Dart2020");
-    auto gameBuilder = new GameBuilder();
 
+    auto dataContext = new LocalDataContext(new LocalTournamentModelsContext(),new LocalPlayerModelsContext());
+    auto gameBuilder = new GameBuilder();
     auto _dart = new ApplicationInterface(dataContext,gameBuilder);
 
     QQmlApplicationEngine engine;
@@ -44,7 +40,6 @@ int main(int argc, char *argv[])
     },Qt::QueuedConnection);
 
     engine.load(url);
-
 
     return app.exec();
 }

@@ -42,6 +42,15 @@ public:
                 ContextDataProvided = 0x19};
 public slots:
     /*
+     * Start/stop game progress
+     */
+    void start() override;
+    void stop() override;
+
+    QUuid undoTurn() override;
+    QUuid redoTurn() override;
+
+    /*
      * The following methods handle the initial state of the gamecontroller where it needs to set the following values:
      *  - Key values like keypoint, current tournament id, etc.
      *  - Initial indexes like turnindex, throwindex, etc.
@@ -73,8 +82,6 @@ public slots:
      * Handle and Evaluate input from user
      */
     void handleAndProcessUserInput(const int &point) override;
-
-
 private:
     /* Private types
      *
@@ -85,11 +92,6 @@ private:
      */
     enum InputPointDomain {InvalidDomain = 0x02};
     enum AggregatedSumDomains {PointDomain = 0x04,CriticalDomain = 0x06, OutsideDomain = 0x08, TargetDomain = 0xa};
-    /*
-     * Start/stop game progress
-     */
-    void start() override;
-    void stop() override;
     /*
      * Notify UI about controller state, current round index, undo/redo possibility and current user
      */
@@ -106,8 +108,7 @@ private:
     int lastPlayerIndex()  override{return _assignedUserNames.count() - 1;}
     int playerIndex()  override {return _setIndex;}
     QUuid determinedWinner()  override {return _winner;}
-    QUuid undoTurn() override;
-    QUuid redoTurn() override;
+
     bool canUndoTurn() override;
     bool canRedoTurn() override;
 
