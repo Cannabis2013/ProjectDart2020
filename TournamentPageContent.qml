@@ -81,15 +81,21 @@ Content{
            }
 
            CRUDButton{
+               id: createButton
                text: "Create"
                onClicked: createTournamentClicked()
            }
            CRUDButton{
+               id: deleteButton
                text: "Delete"
                onClicked: {
                    var indexes = tournamentListView.currentIndexes();
                    requestDeleteTournaments(indexes);
                }
+           }
+           CRUDButton{
+               id: manageButton
+               text: "Manage"
            }
        }
     }

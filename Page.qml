@@ -40,9 +40,6 @@ Rectangle {
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            columns: 2
-            rows: 1
-
             flow: GridLayout.LeftToRight
 
             PushButton
@@ -51,15 +48,10 @@ Rectangle {
                 height: 30
 
                 Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
-
                 textColor: "white"
-
                 backgroundColor: "green"
-
                 text: "Back"
-
                 fontSize: 10
-
                 onClicked: backButtonPressed()
             }
 
@@ -67,10 +59,10 @@ Rectangle {
 
                 id: pageTitleComponent
                 Layout.fillWidth: true
+                Layout.minimumHeight: 30
+                Layout.maximumHeight: 30
                 fontSize: 20
                 textLeftMargin: 10
-
-                Layout.maximumHeight: 30
 
                 text: pageBody.pageTitle
             }

@@ -80,3 +80,6 @@ HEADERS += \
     tournament.h
 
 DISTFILES += \
+
+LIBS += $$PWD/SSL/libcrypto-1_1-x64.dll
+LIBS += $$PWD/SSL/libssl-1_1-x64.dll
