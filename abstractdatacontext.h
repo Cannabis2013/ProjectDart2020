@@ -57,12 +57,13 @@ public slots:
     virtual void handleSendPlayerScoresRequest(const QUuid &tournament) = 0;
     virtual void sendRequestedTournaments() = 0;
     virtual void handleSetCurrentTournament(const int &index) = 0;
-    virtual void handleInitialIndexesRequest(const QUuid &tournament, const QStringList &assignedPlayers) = 0;
+    virtual void handleInitialIndexesRequest(const QUuid &tournament, const QVector<QString> &assignedPlayers) = 0;
     virtual void handleSendPlayerDetailsRequest() = 0;
     virtual void handleControllerStatusRequest(const QUuid &playerID) = 0;
-    virtual void handleScoreCalculationRequest(const QUuid &tournament, const QString &userName, const int &point) = 0;
     virtual void setScoreHint(const QUuid &tournament, const QString &userName, const int &roundIndex, const int &throwIndex, const int &hint) = 0;
     virtual void deleteTournamentsFromIndexes(const QVariantList &indexes) = 0;
+
+    virtual void handlePlayerScoresRequestFromController(const QUuid &tournament, const QVector<QString> &userNames) = 0;
 signals:
     void sendContextStatus(const int &status, const QVariantList &args);
     void sendGameModes(const QStringList &gameModes);
@@ -73,7 +74,7 @@ signals:
     void sendInitialControllerValues(const QUuid &tournamentID,
                                      const int &keyPoint,
                                      const int &numberOfThrows,
-                                     const QStringList &players);
+                                     const QVector<QString> &players);
     void sendAssignedPlayerName(const QString &playerName);
     void sendCurrentTournamentKeyPoint(const int &point);
     void sendStatus(const int &status, const QVariantList &args);
@@ -87,6 +88,7 @@ signals:
                                       const int &throwIndex,
                                       const int &turnIndex,
                                       const int &totalTurns);
+    void sendRequestedUserNamesScore(const QVector<int> &scores);
 
 private:
     DefaultDataInterface *_tournamentModelContext;

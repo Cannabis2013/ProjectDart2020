@@ -75,19 +75,19 @@ int LocalTournamentModelsContext::tournamentsCount() const
 
 QString LocalTournamentModelsContext::tournamentTitle(const QUuid &tournament) const
 {
-    return getTournamentFromID(tournament)->title();
+    return getTournamentModelFromID(tournament)->title();
 }
 
 int LocalTournamentModelsContext::tournamentNumberOfThrows(const QUuid &tournament) const
 {
-    return getTournamentFromID(tournament)->numberOfThrows();
+    return getTournamentModelFromID(tournament)->numberOfThrows();
 }
 
 QList<QUuid> LocalTournamentModelsContext::tournamentAssignedPlayers(const QUuid &tournament) const
 {
     QList<QUuid> assignedPlayers;
     try {
-        assignedPlayers = getTournamentFromID(tournament)->assignedPlayerIdentities();
+        assignedPlayers = getTournamentModelFromID(tournament)->assignedPlayerIdentities();
     } catch (const char *msg) {
         throw  msg;
     }
@@ -97,27 +97,29 @@ QList<QUuid> LocalTournamentModelsContext::tournamentAssignedPlayers(const QUuid
 
 int LocalTournamentModelsContext::tournamentGameMode(const QUuid &tournament) const
 {
-    return getTournamentFromID(tournament)->gameMode();
+    return getTournamentModelFromID(tournament)->gameMode();
 }
 
 int LocalTournamentModelsContext::tournamentKeyPoint(const QUuid &tournament) const
 {
-    return getTournamentFromID(tournament)->keyPoint();
+    auto tournamentModel = getTournamentModelFromID(tournament);
+    auto keyPoint = tournamentModel->keyPoint();
+    return keyPoint;
 }
 
 int LocalTournamentModelsContext::tournamentStatus(const QUuid &tournament) const
 {
-    return getTournamentFromID(tournament)->status();
+    return getTournamentModelFromID(tournament)->status();
 }
 
 QUuid LocalTournamentModelsContext::tournamentDeterminedWinner(const QUuid &tournament) const
 {
-    return getTournamentFromID(tournament)->winner();
+    return getTournamentModelFromID(tournament)->winner();
 }
 
 void LocalTournamentModelsContext::alterTournamentTitle(const QUuid &tournament, const QString &title)
 {
-    auto model = getTournamentFromID(tournament);
+    auto model = getTournamentModelFromID(tournament);
 
     auto newModel = tournamentBuilder()->buildModel(
                 [model, title]
@@ -150,7 +152,7 @@ void LocalTournamentModelsContext::alterTournamentTitle(const QUuid &tournament,
 
 void LocalTournamentModelsContext::alterTournamentNumberOfLegs(const QUuid &tournament, const int &value)
 {
-    auto oldModel = getTournamentFromID(tournament);
+    auto oldModel = getTournamentModelFromID(tournament);
     auto newModel = tournamentBuilder()->buildModel(
                 [oldModel, value]
     {
@@ -180,7 +182,7 @@ void LocalTournamentModelsContext::alterTournamentNumberOfLegs(const QUuid &tour
 
 void LocalTournamentModelsContext::assignPlayerToTournament(const QUuid &tournament, const QUuid &player)
 {
-    auto oldModel = getTournamentFromID(tournament);
+    auto oldModel = getTournamentModelFromID(tournament);
     auto pList = oldModel->assignedPlayerIdentities();
     pList.append(player);
     auto newModel = tournamentBuilder()->buildModel(
@@ -208,7 +210,7 @@ void LocalTournamentModelsContext::assignPlayerToTournament(const QUuid &tournam
 
 void LocalTournamentModelsContext::tournamentRemovePlayer(const QUuid &tournament, const QUuid &player)
 {
-    auto oldModel = getTournamentFromID(tournament);
+    auto oldModel = getTournamentModelFromID(tournament);
     auto pList = oldModel->assignedPlayerIdentities();
     pList.removeOne(player);
     auto newModel = tournamentBuilder()->buildModel(
@@ -249,7 +251,7 @@ void LocalTournamentModelsContext::removeTournament(const QUuid &tournament)
 
 void LocalTournamentModelsContext::alterTournamentGameMode(const QUuid &tournament, const int &mode)
 {
-    auto oldModel = getTournamentFromID(tournament);
+    auto oldModel = getTournamentModelFromID(tournament);
     auto newModel = tournamentBuilder()->buildModel(
                 [oldModel, mode]
     {
@@ -275,7 +277,7 @@ void LocalTournamentModelsContext::alterTournamentGameMode(const QUuid &tourname
 
 void LocalTournamentModelsContext::alterTournamentKeyPoint(const QUuid &tournament, const int &value)
 {
-    auto model = getTournamentFromID(tournament);
+    auto model = getTournamentModelFromID(tournament);
 
     auto newModel = tournamentBuilder()->buildModel(
                 [model, value]
@@ -308,7 +310,7 @@ void LocalTournamentModelsContext::alterTournamentKeyPoint(const QUuid &tourname
 
 void LocalTournamentModelsContext::alterTournamentDeterminedWinner(const QUuid &tournament, const QUuid &player)
 {
-    auto model = getTournamentFromID(tournament);
+    auto model = getTournamentModelFromID(tournament);
 
     auto newModel = tournamentBuilder()->buildModel(
                 [model, player]
@@ -392,7 +394,7 @@ QUuid LocalTournamentModelsContext::addRound(const QUuid &tournament, const int 
 
 void LocalTournamentModelsContext::removeEmptyRound(const QUuid &round)
 {
-    auto roundModel = getRoundFromID(round);
+    auto roundModel = getRoundModelFromID(round);
     auto children = roundSetsID(round);
     auto childrenCount = children.count();
     if(childrenCount >0)
@@ -402,7 +404,7 @@ void LocalTournamentModelsContext::removeEmptyRound(const QUuid &round)
 
 void LocalTournamentModelsContext::removeEmptySet(const QUuid &set)
 {
-    auto setModel = getSetFromID(set);
+    auto setModel = getSetModelFromID(set);
     auto children = setPointsID(set);
     auto childrenCount = children.count();
     if(childrenCount > 0)
@@ -421,7 +423,7 @@ void LocalTournamentModelsContext::alterRoundIndex(const QUuid &, const int &, c
 int LocalTournamentModelsContext::roundIndex(const QUuid &round) const
 {
     try {
-        return getRoundFromID(round)->index();
+        return getRoundModelFromID(round)->index();
     } catch (const char *msg) {
         throw msg;
     }
@@ -429,7 +431,7 @@ int LocalTournamentModelsContext::roundIndex(const QUuid &round) const
 
 QUuid LocalTournamentModelsContext::roundTournament(const QUuid &round) const
 {
-    auto model = getRoundFromID(round);
+    auto model = getRoundModelFromID(round);
     auto parentID = model->parent();
     return parentID;
 }
@@ -439,8 +441,8 @@ QList<QUuid> LocalTournamentModelsContext::tournamentSetsID(const QUuid &tournam
     QList<QUuid> resultingList;
     for (auto model : _sets) {
         auto setID = model->id();
-        auto roundModel = getRoundFromID(model->parent());
-        auto tournamentModel = getTournamentFromID(roundModel->parent());
+        auto roundModel = getRoundModelFromID(model->parent());
+        auto tournamentModel = getTournamentModelFromID(roundModel->parent());
         auto tournamentID = tournamentModel->id();
         if(tournamentID == tournament)
             resultingList << setID;
@@ -453,7 +455,7 @@ QList<QUuid> LocalTournamentModelsContext::roundSetsID(const QUuid &round) const
     QList<QUuid> resultingList;
     for (auto model : _sets) {
         auto roundSetID = model->id();
-        auto roundModel = getRoundFromID(model->parent());
+        auto roundModel = getRoundModelFromID(model->parent());
         auto roundID = roundModel->id();
         if(roundID == round)
             resultingList << roundSetID;
@@ -465,9 +467,9 @@ QList<QUuid> LocalTournamentModelsContext::tournamentSetsID(const QUuid &tournam
 {
     QList<QUuid> resultingList;
     for (auto model : _sets) {
-        auto round = getRoundFromID(model->parent());
+        auto round = getRoundModelFromID(model->parent());
         auto modelRoundIndex = round->index();;
-        auto t = getTournamentFromID(round->parent());
+        auto t = getTournamentModelFromID(round->parent());
         auto tournamentID = t->id();
         if(tournamentID == tournament && modelRoundIndex == roundIndex)
             resultingList << model->id();
@@ -500,7 +502,7 @@ QList<QUuid> LocalTournamentModelsContext::setsID() const
 QUuid LocalTournamentModelsContext::setRound(const QUuid &set) const
 {
     try {
-        auto setModel = getSetFromID(set);
+        auto setModel = getSetModelFromID(set);
         auto parentID = setModel->parent();
         return parentID;
 
@@ -512,7 +514,7 @@ QUuid LocalTournamentModelsContext::setRound(const QUuid &set) const
 int LocalTournamentModelsContext::setIndex(const QUuid &set) const
 {
     try {
-        auto model = getSetFromID(set);
+        auto model = getSetModelFromID(set);
         return model->index();
     } catch (const char *msg) {
         throw msg;
@@ -570,11 +572,11 @@ QList<QUuid> LocalTournamentModelsContext::scores(const QUuid &tournament) const
     QList<QUuid> resultingList;
     for (auto pointModel : _scores) {
         auto parentSetID = pointModel->parent();
-        auto setModel = getSetFromID(parentSetID);
+        auto setModel = getSetModelFromID(parentSetID);
         auto parentRoundID = setModel->parent();
-        auto roundModel = getRoundFromID(parentRoundID);
+        auto roundModel = getRoundModelFromID(parentRoundID);
         auto parentTournamentID = roundModel->parent();
-        auto tournamentModel = getTournamentFromID(parentTournamentID);
+        auto tournamentModel = getTournamentModelFromID(parentTournamentID);
         auto compareTournamentID = tournamentModel->id();
         if(compareTournamentID == tournament)
             resultingList << pointModel->id();
@@ -773,7 +775,7 @@ void LocalTournamentModelsContext::removeTournamentRounds(const QUuid &tournamen
     for (int i = 0; i < _rounds.count(); ++i) {
         auto model = _rounds.at(i);
         if(model->parent() == tournament)
-            _rounds.removeAt(i);
+            _rounds.removeAt(i--);
     }
 }
 
@@ -782,10 +784,10 @@ void LocalTournamentModelsContext::removeTournamentSets(const QUuid &tournament)
     for (int i = 0; i < _sets.count(); ++i) {
         auto setModel = _sets.at(i);
         auto roundID = setModel->parent();
-        auto roundModel = getRoundFromID(roundID);
+        auto roundModel = getRoundModelFromID(roundID);
         auto tournamentID = roundModel->parent();
         if(tournamentID == tournament)
-            _sets.removeAt(i);
+            _sets.removeAt(i--);
     }
 }
 
@@ -794,12 +796,12 @@ void LocalTournamentModelsContext::removeTournamentScores(const QUuid &tournamen
     for (int i = 0; i < _scores.count(); ++i) {
         auto scoreModel = _scores.at(i);
         auto setID = scoreModel->parent();
-        auto setModel = getSetFromID(setID);
+        auto setModel = getSetModelFromID(setID);
         auto roundID = setModel->parent();
-        auto roundModel = getRoundFromID(roundID);
+        auto roundModel = getRoundModelFromID(roundID);
         auto tournamentID = roundModel->parent();
         if(tournamentID == tournament)
-            _scores.removeAt(i);
+            _scores.removeAt(i--);
     }
 }
 
@@ -871,7 +873,7 @@ QUuid LocalTournamentModelsContext::playerPoint(const QUuid &tournament, const Q
     throw "Object not found";
 }
 
-const DefaultTournamentInterface *LocalTournamentModelsContext::getTournamentFromID(const QUuid &id) const
+const DefaultTournamentInterface *LocalTournamentModelsContext::getTournamentModelFromID(const QUuid &id) const
 {
     for (auto tournament : _tournaments) {
         if(tournament->id() == id)
@@ -881,7 +883,7 @@ const DefaultTournamentInterface *LocalTournamentModelsContext::getTournamentFro
     throw THROW_OBJECT_WITH_ID_NOT_FOUND(id.toString());
 }
 
-const DefaultRoundInterface *LocalTournamentModelsContext::getRoundFromID(const QUuid &id) const
+const DefaultRoundInterface *LocalTournamentModelsContext::getRoundModelFromID(const QUuid &id) const
 {
     for (auto round : _rounds) {
         if(round->id() == id)
@@ -891,7 +893,7 @@ const DefaultRoundInterface *LocalTournamentModelsContext::getRoundFromID(const 
     throw THROW_OBJECT_WITH_ID_NOT_FOUND(id.toString());
 }
 
-const DefaultSetInterface *LocalTournamentModelsContext::getSetFromID(const QUuid &id) const
+const DefaultSetInterface *LocalTournamentModelsContext::getSetModelFromID(const QUuid &id) const
 {
     for (auto set : _sets)
     {
@@ -912,6 +914,61 @@ const DefaultPointInterface *LocalTournamentModelsContext::getScoreModelFromID(c
     }
 
     throw THROW_OBJECT_WITH_ID_NOT_FOUND(id.toString());
+}
+
+void LocalTournamentModelsContext::clearInconsistentModels()
+{
+    removeInconsistentScores();
+    removeInconsistentSets();
+    removeInconsistentRounds();
+}
+
+void LocalTournamentModelsContext::removeInconsistentScores()
+{
+    QVector<const IScore<QUuid>*> inconsistentModels;
+    for (int i = 0; i < _scores.count(); ++i) {
+        auto scoreModel = _scores.at(i);
+        try {
+            auto setID = scoreModel->parent();
+            auto setModel = getSetModelFromID(setID);
+            auto roundID = setModel->parent();
+            auto roundModel = getRoundModelFromID(roundID);
+            auto tournamentID = roundModel->parent();
+            getTournamentModelFromID(tournamentID);
+        }  catch (...) {
+            _scores.removeAt(i--);
+        }
+    }
+}
+
+void LocalTournamentModelsContext::removeInconsistentSets()
+{
+    QVector<const ISet<QUuid,QList<QUuid>>*> inconsistentModels;
+    for (int i = 0; i < _sets.count(); ++i) {
+        auto setModel = _sets.at(i);
+        try {
+            auto roundID = setModel->parent();
+            auto roundModel = getRoundModelFromID(roundID);
+            auto tournamentID = roundModel->parent();
+            getTournamentModelFromID(tournamentID);
+        }  catch (...) {
+            _sets.removeAt(i--);
+        }
+    }
+}
+
+void LocalTournamentModelsContext::removeInconsistentRounds()
+{
+    QVector<int> inconsistentModelIndexes;
+    for (int i = 0; i < _rounds.count(); ++i) {
+        auto roundModel = _rounds.at(i);
+        try {
+            auto tournamentID = roundModel->parent();
+            getTournamentModelFromID(tournamentID);
+        }  catch (...) {
+            _rounds.removeAt(i--);
+        }
+    }
 }
 
 void LocalTournamentModelsContext::buildTournament(const QUuid &id,
@@ -1073,16 +1130,6 @@ int LocalTournamentModelsContext::addScore(const QUuid &tournament,
     return score;
 }
 
-
-bool LocalTournamentModelsContext::tournamentExists(const QUuid &tournament) const
-{
-    for (auto model : _tournaments) {
-        auto id = model->id();
-        if(id == tournament)
-            return true;
-    }
-    return false;
-}
 
 void LocalTournamentModelsContext::removeTournamentModels(const QUuid &tournament)
 {

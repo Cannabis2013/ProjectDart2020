@@ -20,16 +20,33 @@ public:
      */
 
 public slots:
-    virtual void handleInput(const int &point) = 0;
-    virtual void processInput(const int &point, const int &score) = 0;
+    virtual void handleAndProcessUserInput(const int &point) = 0;
     virtual void start() = 0;
     virtual void stop() = 0 ;
+    /*
+     * The following methods handle the initial state of the gamecontroller where it needs to set the following values:
+     *  - Key values like keypoint, current tournament id, etc.
+     *  - Initial indexes like turnindex, throwindex, etc.
+     *  - Current usernames scores
+     */
     virtual void handleInitialValuesFromDataContext(const QUuid &tournament,
                                                     const int &keyPoint,
                                                     const int &numberOfThrows,
-                                                    const QStringList &assignedPlayers) = 0;
-    virtual void handleIndexesFromDatacontext(const int &roundIndex, const int &setIndex, const int &throwIndex, const int &turnIndex, const int &totalTurns) = 0;
+                                                    const QVector<QString> &assignedPlayers) = 0;
+    virtual void handleIndexesFromDatacontext(const int &roundIndex,
+                                              const int &setIndex,
+                                              const int &throwIndex,
+                                              const int &turnIndex,
+                                              const int &totalTurns) = 0;
+    virtual void handleRequestedScoresFromDataContext(const QVector<int> &scores) = 0;
+    /*
+     * The following slot is invoked when datacontext needs to know the current tournament id
+     */
     virtual void handleCurrentTournamentRequest() = 0;
+    /*
+     * Handle reply from datacontext
+     *  - This is requested everytime a transaction has taken place between this class and the datacontext
+     */
     virtual void handleReplyFromDataContext(const int &status, const QVariantList &args) = 0;
     virtual void handleControllerStateRequest() = 0;
     virtual QUuid undoTurn() = 0;
@@ -49,9 +66,9 @@ signals:
     void sendStatus(const int &status, const QVariantList &args) override;
     void stateChanged();
     void sendCurrentTournament(const QUuid &tournament);
-    void requestInitialIndexes(const QUuid &tournament,const QStringList &assignedPlayers);
+    void requestInitialIndexes(const QUuid &tournament,const QVector<QString> &assignedPlayers);
     void requestContextStatusUpdate(const QUuid &player);
-    void requestScoreCalculation(const QUuid &tournament,const QString &userName, const int &point);
+    void requestScoresFromDataContext(const QUuid &tournament,const QVector<QString> &userNames);
     void requestSetScoreHint(const QUuid &tournament,
                              const QString &userName,
                              const int &roundIndex,
