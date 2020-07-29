@@ -56,6 +56,7 @@ Item {
     Loader{
         id: pageLoader
         anchors.fill: parent
+
     }
     Component.onCompleted: pageLoader.sourceComponent = startPageComponent
 }

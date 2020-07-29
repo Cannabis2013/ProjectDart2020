@@ -11,6 +11,8 @@ Content {
     signal sendTournament(string title, int numberOfThrows, string gameMode,int keyPoint,var playerIndexes)
     signal requestGameModes
 
+    minimumHeight: 538
+
     QtObject{
         id: sendPlayerState
         property bool playerSent: false

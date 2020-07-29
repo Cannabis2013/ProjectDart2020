@@ -65,7 +65,7 @@ Rectangle{
         anchors.left: parent.left
 
         height: parent.height
-        width: parent.width -myLineEditBody.lineEditBorderRadius
+        width: parent.width - myLineEditBody.lineEditBorderRadius
 
         text: labelText
 

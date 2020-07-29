@@ -1,5 +1,5 @@
 import QtQuick 2.15
-import QtQuick.Window 2.12
+import QtQuick.Window 2.15
 import QtQuick.Controls 2.12
 
 ApplicationWindow {
@@ -15,6 +15,9 @@ ApplicationWindow {
     minimumWidth: 400
     width: 480
     height: 640
+
+    Screen.orientationUpdateMask:  Qt.LandscapeOrientation | Qt.PortraitOrientation
+
 
     title: qsTr("Dart2020")
 

@@ -1,6 +1,7 @@
 import QtQuick 2.0
 
 import QtQuick.Layouts 1.3
+import QtQuick.Window 2.3
 
 Rectangle {
 
@@ -15,8 +16,20 @@ Rectangle {
 
     property Content pageContent: Content{}
     onPageContentChanged: {
-        pageLayout.children[2] = pageContent;
+        contentFlickable.children[0].children[0] = pageContent;
+        pageContent.notifyWidthChange.connect(contentFlickable.setContentWidth);
+        pageContent.notifyHeightChange.connect(contentFlickable.setContentHeight);
         pageContent.backButtonPressed.connect(backButtonPressed);
+
+    }
+
+    onWidthChanged: {
+        contentFlickable.contentWidth = contentFlickable.width;
+        print("Content width: " + contentFlickable.width);
+    }
+    onHeightChanged: {
+        contentFlickable.contentHeight = contentFlickable.height;
+        print("Content height:" + contentFlickable.height);
     }
 
     property string pageTitle: "Page title"
@@ -44,6 +57,7 @@ Rectangle {
 
             PushButton
             {
+                id: backButton
                 width: 65
                 height: 30
 
@@ -81,9 +95,30 @@ Rectangle {
             height: 12
         }
 
-        Item{
+
+        Flickable{
+            id: contentFlickable
+
+            clip: true
+
+            function setContentWidth(w)
+            {
+                contentFlickable.contentWidth = w;
+            }
+
+            function setContentHeight(h)
+            {
+                contentFlickable.contentHeight = h;
+            }
+
             Layout.fillHeight: true
             Layout.fillWidth: true
+            Layout.maximumWidth: defaultPageContentWidth
+            Layout.alignment: Qt.AlignHCenter
+
+            Content{
+                id: itemPlaceHolder
+            }
         }
     }
     PropertyAnimation on width {
@@ -91,5 +126,8 @@ Rectangle {
         to: width
 
         duration: 100
+    }
+    Component.onCompleted: {
+        contentFlickable.contentHeight = contentFlickable.height;
     }
 }

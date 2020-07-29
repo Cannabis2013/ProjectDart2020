@@ -6,15 +6,27 @@ Rectangle {
 
     signal replyFromBackendRecieved(int status,var args)
     signal requestUpdate
-    signal notifyWidthChange
-    signal notifyHeightChange
+    signal notifyWidthChange(double w)
+    signal notifyHeightChange(double h)
 
-    Layout.fillHeight: true
-    Layout.fillWidth: true
-    Layout.maximumWidth: defaultPageContentWidth
-    Layout.alignment: Qt.AlignHCenter
+    property double minimumHeight: 0
+    property double minimumWidth: 0
 
     color: "transparent"
+
+    anchors.fill: parent
+
+    onWidthChanged: {
+        if(width < minimumWidth)
+            width = minimumWidth;
+        notifyWidthChange(width);
+    }
+
+    onHeightChanged: {
+        if(height < minimumHeight)
+            height = minimumHeight
+        notifyHeightChange(height);
+    }
 
     Component.onCompleted: {
         applicationInterface.stateChanged.connect(requestUpdate);
