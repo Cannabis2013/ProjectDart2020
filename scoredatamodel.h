@@ -16,7 +16,7 @@ public:
     // Constructor
     ScoreDataModel();
     // Public types
-    enum HeaderFillMode{IncrementingIntegerFill = 0x1, SymbolFill = 0x2, NonFill = 0x4};
+    enum HeaderFillMode{IncrementingNumericFillMode = 0x1, NonNumericFillMode = 0x2, NonFill = 0x4};
     // Public properties
     Q_PROPERTY(int headerFillMode READ fillMode WRITE setFillMode NOTIFY fillModeChanged);
     Q_PROPERTY(double columnWidthScale READ scale WRITE setScale NOTIFY columnWidthScaleChanged);

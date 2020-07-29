@@ -144,8 +144,7 @@ double ScoreDataModel::columnWidthAt(const int &column, const QString &fontFamil
     QString string;
 
     if(_horizontalHeaderData.count() <= column){
-
-        if(fillMode() == HeaderFillMode::IncrementingIntegerFill)
+        if(fillMode() == HeaderFillMode::IncrementingNumericFillMode)
             string = QString::number(column + 1);
     }
     else
@@ -181,7 +180,7 @@ double ScoreDataModel::columnHeightAt(const int &column, const QString &fontFami
 
     if(_horizontalHeaderData.count() <= column){
 
-        if(fillMode() == HeaderFillMode::IncrementingIntegerFill)
+        if(fillMode() == HeaderFillMode::IncrementingNumericFillMode)
             string = QString::number(column + 1);
         else
             return defaultCellHeight;
@@ -206,7 +205,7 @@ double ScoreDataModel::rowHeightAt(const int &row, const QString &fontFamily ,co
 
     if(_verticalHeaderData.count() <= row)
     {
-        if(fillMode() == HeaderFillMode::IncrementingIntegerFill)
+        if(fillMode() == HeaderFillMode::IncrementingNumericFillMode)
             string = QString::number(row + 1);
         else
             return defaultCellHeight;
@@ -240,7 +239,7 @@ double ScoreDataModel::rowWidthAt(const int &row, const QString &fontFamily, con
 
     if(_verticalHeaderData.count() <= row)
     {
-        if(fillMode() == HeaderFillMode::IncrementingIntegerFill)
+        if(fillMode() == HeaderFillMode::IncrementingNumericFillMode)
             string = QString::number(row + 1);
         else
             return defaultCellWidth;
@@ -301,10 +300,10 @@ QVariant ScoreDataModel::headerData(int section, Qt::Orientation orientation, in
 
     switch (orientation) {
         case Qt::Horizontal : return section == 0 ? 0 : section < horizontalHeaderCount ?
-                        _horizontalHeaderData.at(section) : fillMode() == HeaderFillMode::IncrementingIntegerFill ?
+                        _horizontalHeaderData.at(section) : fillMode() == HeaderFillMode::IncrementingNumericFillMode ?
                             QVariant(roundIndex + 1) : QVariant();
         case Qt::Vertical : return section < _verticalHeaderData.count() ?
-                        _verticalHeaderData.at(section) :  fillMode() == HeaderFillMode::IncrementingIntegerFill ?
+                        _verticalHeaderData.at(section) :  fillMode() == HeaderFillMode::IncrementingNumericFillMode ?
                             QVariant(roundIndex + 1) : QVariant();
         default: return QVariant();
     }
