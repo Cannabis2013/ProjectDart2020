@@ -3,13 +3,13 @@
 LocalDataContext::LocalDataContext(DefaultDataInterface *tournamentModelsContext, PlayerContextInterface *playerModelsContext):
     AbstractDataContext(tournamentModelsContext,playerModelsContext)
 {
-    //createInitialModels();
-    read();
+    createInitialModels();
+    //read();
 }
 
 LocalDataContext::~LocalDataContext()
 {
-    write();
+    //write();
 }
 
 void LocalDataContext::read()
@@ -52,13 +52,13 @@ void LocalDataContext::write()
 }
 
 
-void LocalDataContext::createTournament(const QString &title,
+void LocalDataContext::handleCreateTournamentRequest(const QString &title,
                                         const int &numberOfThrows,
                                         const int &gameMode,
                                         const int &keyPoint,
                                         const QVariantList &playerIndexes)
 {
-    auto tournamentID = tournamentModelsContext()->createtournament(title,
+    auto tournamentID = tournamentModelsContext()->createTournament(title,
                                                                    keyPoint,
                                                                    numberOfThrows,
                                                                    gameMode);
@@ -74,13 +74,29 @@ void LocalDataContext::createTournament(const QString &title,
     sendStatus(Status::ContextSuccessfullyUpdated,playerNames);
 }
 
-void LocalDataContext::createPlayer(const QString &userName, const QString &mail)
+void LocalDataContext::handleCreatePlayerRequest(const QString &userName, const QString &mail)
 {
+    try {
+        playerModelsContext()->playerIDFromUserName(userName);
+        emit sendStatus(Status::ContextUnSuccessfullyUpdated,{});
+        return;
+    }  catch (...) {}
     playerModelsContext()->createPlayer(userName,mail);
     emit sendStatus(Status::ContextSuccessfullyUpdated,{});
 }
 
-void LocalDataContext::addScore(const QUuid &tournament,
+void LocalDataContext::handleDeletePlayerRequest(const int &index)
+{
+    try {
+        auto playerID = playerModelsContext()->playerIDFromIndex(index);
+        playerModelsContext()->deletePlayerByID(playerID);
+        sendStatus(Status::ContextSuccessfullyUpdated,{});
+    }  catch (...) {
+        sendStatus(Status::ContextUnSuccessfullyUpdated,{});
+    }
+}
+
+void LocalDataContext::handleAddScoreRequest(const QUuid &tournament,
                                  const QString &userName,
                                  const int &roundIndex,
                                  const int &setIndex,
@@ -111,7 +127,6 @@ void LocalDataContext::sendRequestedTournaments()
         auto gameMode = tournamentModelsContext()->tournamentGameMode(id);
         auto keyPoint = tournamentModelsContext()->tournamentKeyPoint(id);
         auto playersCount = tournamentModelsContext()->tournamentAssignedPlayers(id).count();
-
         emit sendTournament(title,numberOfThrows,gameMode,keyPoint,playersCount);
     }
 }
@@ -431,17 +446,15 @@ void LocalDataContext::createInitialModels()
     auto martin = playerModelsContext()->createPlayer("Martin Hansen","");
     auto william = playerModelsContext()->createPlayer("William Worsøe","");
 
-    /*
-    auto firstTournament = tournamentModelContext()->createTournament("Kents turnering",501,3,0x1);
-    auto secondTournament = tournamentModelContext()->createTournament("Techno Tonnys turnering",501,3,0x1);
+    auto firstTournament = tournamentModelsContext()->createTournament("Kents turnering",501,3,0x1);
+    auto secondTournament = tournamentModelsContext()->createTournament("Techno Tonnys turnering",501,3,0x1);
 
-    tournamentModelContext()->tournamentAddPlayer(firstTournament,kent);
-    tournamentModelContext()->tournamentAddPlayer(firstTournament,martin);
+    tournamentModelsContext()->assignPlayerToTournament(firstTournament,kent);
+    tournamentModelsContext()->assignPlayerToTournament(firstTournament,martin);
+    tournamentModelsContext()->assignPlayerToTournament(secondTournament,kent);
+    tournamentModelsContext()->assignPlayerToTournament(secondTournament,martin);
+    tournamentModelsContext()->assignPlayerToTournament(secondTournament,william);
 
-    tournamentModelContext()->tournamentAddPlayer(secondTournament,kent);
-    tournamentModelContext()->tournamentAddPlayer(secondTournament,martin);
-    tournamentModelContext()->tournamentAddPlayer(secondTournament,william);
-    */
 }
 
 void LocalDataContext::handleSendPlayerScoresRequest(const QUuid &tournament)

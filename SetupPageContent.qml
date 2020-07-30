@@ -120,7 +120,6 @@ Content {
             allowMultipleSelections: true
             instantSelectEnabled: true
             itemDecorator: "qrc:/pictures/Ressources/darttournamentmod.png"
-
         }
 
         MyRectangle{

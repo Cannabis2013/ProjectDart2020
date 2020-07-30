@@ -15,7 +15,6 @@ import QtQuick.Layouts 1.3
 Content {
     id: body
     color: "transparent"
-    clip: true
 
     onBackButtonPressed: requestStop()
 

@@ -17,6 +17,17 @@ Item {
     }
 
     Component{
+        id: managePageComponent
+
+        Page{
+            onBackButtonPressed: pageLoader.sourceComponent = tournamentPageComponent
+            pageTitle: "Manage tournaments and players"
+            pageContent: ManagePageContent{}
+            Component.onCompleted: body.backPushed.connect(backButtonPressed)
+        }
+    }
+
+    Component{
         id: setupPageComponent
         Page {
             onBackButtonPressed: pageLoader.sourceComponent = tournamentPageComponent
@@ -30,10 +41,11 @@ Item {
         id: tournamentPageComponent
         Page{
             id: tournamentPage
-            pageTitle: "Tournaments"
+            pageTitle: "Get started.."
             onBackButtonPressed: pageLoader.sourceComponent = startPageComponent
             pageContent: TournamentPageContent{
                 onCreateTournamentClicked: pageLoader.sourceComponent = setupPageComponent
+                onManageButtonClicked: pageLoader.sourceComponent = managePageComponent
                 onStartGameClicked: pageLoader.sourceComponent = gamePageComponent
             }
             Component.onCompleted: body.backPushed.connect(backButtonPressed)

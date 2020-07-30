@@ -1,6 +1,6 @@
 #include "localtournamentmodelscontext.h"
 
-QUuid LocalTournamentModelsContext::createtournament(const QString &title,
+QUuid LocalTournamentModelsContext::createTournament(const QString &title,
                                                      const int &keyPoint,
                                                      const int &throws,
                                                      const int &gameMode)
@@ -1193,6 +1193,7 @@ int LocalTournamentModelsContext::score(const QUuid &tournament, const QUuid &pl
 
 int LocalTournamentModelsContext::score(const QUuid &player) const
 {
-    Q_UNIMPLEMENTED();
+    Q_UNUSED(player);
+    return -1;
 }
 

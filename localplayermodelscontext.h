@@ -48,10 +48,11 @@ public:
     int playersCount() const override;
     DefaultPlayerBuilder *playerBuilder() const override;
     PlayerContextInterface *setPlayerBuilder(DefaultPlayerBuilder *builder) override;
-private:
+
     void buildPlayerModel(const QUuid &id,
                           const QString &userName,
-                          const QString& email);
+                          const QString& email) override;
+private:
     DefaultPlayerInterface *getModel(const QString &userName) const;
 
     QList<DefaultPlayerInterface*> _models;

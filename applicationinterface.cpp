@@ -37,9 +37,11 @@ ApplicationInterface::ApplicationInterface(AbstractDataContext *dataContext, Def
     connect(_gameController,&AbstractGameController::requestContextStatusUpdate,_dataContext,&AbstractDataContext::handleControllerStatusRequest);
     connect(_dataContext,&AbstractDataContext::sendContextStatus,_gameController,&AbstractGameController::handleReplyFromDataContext);
     // UI request creation of a new tournament
-    connect(this,&ApplicationInterface::sendTournamentCandidate,_dataContext,&AbstractDataContext::createTournament);
+    connect(this,&ApplicationInterface::sendTournamentCandidate,_dataContext,&AbstractDataContext::handleCreateTournamentRequest);
     // UI request creation of a new player
-    connect(this,&ApplicationInterface::requestCreatePlayer,_dataContext,&AbstractDataContext::createPlayer);
+    connect(this,&ApplicationInterface::requestCreatePlayer,_dataContext,&AbstractDataContext::handleCreatePlayerRequest);
+    // UI request deletion of player
+    connect(this,&ApplicationInterface::requestDeletePlayer,_dataContext,&AbstractDataContext::handleDeletePlayerRequest);
     // Request player details
     connect(this,&ApplicationInterface::requestPlayers,_dataContext,&AbstractDataContext::handleSendPlayerDetailsRequest);
     // Send player details to UI
@@ -53,7 +55,7 @@ ApplicationInterface::ApplicationInterface(AbstractDataContext *dataContext, Def
     // UI recieves a user input and propagates user entered point to backend
     connect(this,&ApplicationInterface::sendPoint,_gameController,&AbstractGameController::handleAndProcessUserInput);
     // Send point to datacontext
-    connect(_gameController,&AbstractGameController::sendPoint,_dataContext,&AbstractDataContext::addScore);
+    connect(_gameController,&AbstractGameController::sendPoint,_dataContext,&AbstractDataContext::handleAddScoreRequest);
     // Undo/Redo functionality
     connect(this,&ApplicationInterface::requestUndo,_gameController,&AbstractGameController::undoTurn);
     connect(this,&ApplicationInterface::requestRedo,_gameController,&AbstractGameController::redoTurn);
@@ -94,6 +96,11 @@ void ApplicationInterface::createTournament(const QString &title,
 void ApplicationInterface::createPlayer(const QString &userName, const QString &email)
 {
     emit requestCreatePlayer(userName,email);
+}
+
+void ApplicationInterface::handleDeletePlayer(const int &index)
+{
+    emit requestDeletePlayer(index);
 }
 
 void ApplicationInterface::requestPlayerDetails()

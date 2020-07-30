@@ -56,9 +56,13 @@ public slots:
                                      const int &keyPoint,
                                      const QVariantList &playerIndexes);
     /*
-     * UI player data -> update datacontext with player model
+     * UI wants to alter datacontext
      */
     void createPlayer(const QString &userName, const QString &email);
+    void handleDeletePlayer(const int &index);
+    /*
+     * UI wants to read player details from datacontext
+     */
     void requestPlayerDetails();
     void handleSendGameModesRequest() const;
     void requestStart();
@@ -75,6 +79,7 @@ public slots:
     void handleDeleTournamentRequest(const QVariantList &indexes);
 signals:
     void requestCreatePlayer(const QString &userName, const QString &mail);
+    void requestDeletePlayer(const int &index);
     void requestDeleteTournaments(const QVariantList &indexes);
     void requestTournaments();
     void requestPlayers();

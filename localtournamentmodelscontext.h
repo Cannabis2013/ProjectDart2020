@@ -28,7 +28,7 @@ public:
     /*
      * Tournament related section
      */
-    QUuid createtournament(const QString &title,
+    QUuid createTournament(const QString &title,
                            const int &keyPoint,
                            const int &throws,
                            const int &gameMode) override;

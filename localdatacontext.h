@@ -42,15 +42,16 @@ public:
     void write() override;
 
 public slots:
-    void createTournament(const QString &title,
+    void handleCreateTournamentRequest(const QString &title,
                           const int &numberOfThrows,
                           const int &gameMode,
                           const int &keyPoint,
                           const QVariantList &playerIndexes) override;
-    void createPlayer(const QString &userName, const QString &mail) override;
+    void handleCreatePlayerRequest(const QString &userName, const QString &mail) override;
+    void handleDeletePlayerRequest(const int &index) override;
     void handleSendPlayerScoresRequest(const QUuid &tournament)  override;
     void updateDataContext(const QUuid &tournament, const QUuid &player, const int &roundIndex, const int &setIndex) override;
-    void addScore(const QUuid &tournament,
+    void handleAddScoreRequest(const QUuid &tournament,
                   const QString &userName,
                   const int &roundIndex,
                   const int &setIndex,

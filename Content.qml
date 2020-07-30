@@ -3,11 +3,12 @@ import QtQuick.Layouts 1.3
 
 Rectangle {
     signal backButtonPressed
-
     signal replyFromBackendRecieved(int status,var args)
     signal requestUpdate
     signal notifyWidthChange(double w)
     signal notifyHeightChange(double h)
+
+    clip: true
 
     property double minimumHeight: 0
     property double minimumWidth: 0

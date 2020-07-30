@@ -43,14 +43,15 @@ public:
         _playerModelsContext = playerModelContext;
     }
 public slots:
-    virtual void createTournament(const QString &title,
+    virtual void handleCreateTournamentRequest(const QString &title,
                                   const int &numberOfThrows,
                                   const int &gameMode,
                                   const int &keyPoint,
                                   const QVariantList &playerIndexes) = 0;
-    virtual void createPlayer(const QString &userName, const QString &mail) = 0;
+    virtual void handleCreatePlayerRequest(const QString &userName, const QString &mail) = 0;
+    virtual void handleDeletePlayerRequest(const int &index) = 0;
     virtual void updateDataContext(const QUuid &tournament, const QUuid &player,const int &roundIndex, const int &setIndex) = 0;
-    virtual void addScore(const QUuid &tournament,
+    virtual void handleAddScoreRequest(const QUuid &tournament,
                           const QString &userName,
                           const int &roundIndex,
                           const int &setIndex,
