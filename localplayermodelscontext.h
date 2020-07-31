@@ -40,7 +40,7 @@ public:
     void deletePlayerByUserName(const QString &firstName) override;
     void deletePlayerByID(const QUuid &player) override;
     void deletePlayerByEmail(const QString &playerEMail) override;
-    QUuid playerIDFromUserName(const QString &fullName) const override;
+    QUuid playerIDFromName(const QString &fullName) const override;
     QUuid playerIDFromIndex(const int &index) const override;
     QString playerUserName(const QUuid &id) const override;
     QString playerEMail(const QUuid &id) const override;

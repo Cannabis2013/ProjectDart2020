@@ -69,7 +69,13 @@ void LocalFirstToPost::handleAndProcessUserInput(const int &point, const int &mo
 
 void LocalFirstToPost::handleRequestFromContext(const int &context, const int &request, const QVariantList &args)
 {
+    if(context != ContextCodes::DataContext)
+        return;
 
+    if(request == DataContextRequests::RequestCurrentTournament)
+    {
+        emit sendResponseToContext(ContextCodes::ControllerContext,ControllerResponse::DataProvidedSuccess,{currentTournamentID()});
+    }
 }
 
 void LocalFirstToPost::handleResponseFromContext(const int &context, const int &response, const QVariantList &args)
@@ -86,7 +92,7 @@ void LocalFirstToPost::handleResponseFromContext(const int &context, const int &
 
         _currentStatus = ControllerState::InitializingIndexValues;
 
-        emit sendRequestToDataContext(ContextCodes::ControllerContext,
+        emit sendRequestToContext(ContextCodes::ControllerContext,
                                       ControllerRequest::RequestIndexValues,{_currentTournament,_assignedUserNames});
     }
     else if(status() == ControllerState::InitializingIndexValues && response == DataContextResponse::DataRequestSuccess)
@@ -98,10 +104,13 @@ void LocalFirstToPost::handleResponseFromContext(const int &context, const int &
         _totalTurns = args[4].toInt();
 
         _currentStatus = ControllerState::InitializingPlayerScores;
-        emit sendRequestToDataContext(ContextCodes::ControllerContext,
+        emit sendRequestToContext(ContextCodes::ControllerContext,
                                       ControllerRequest::RequestPlayerScores,{_currentTournament,_assignedUserNames});
     }
     else if(status() == ControllerState::InitializingPlayerScores && response == DataContextResponse::DataRequestSuccess)
+    /*
+     * The controller has been initialized and is ready to launch
+     */
     {
         auto scores = args[0].value<QList<int>>();
         _assignedUsernamesScore = scores;
@@ -122,6 +131,22 @@ void LocalFirstToPost::handleResponseFromContext(const int &context, const int &
     {
         _currentStatus = ControllerState::AwaitsInput;
         sendCurrentTurnValues();
+    }
+    else if(status() == ControllerState::UndoState)
+    {
+        auto playerName = args.first();
+        auto dimmedPointValue = args.at(1).toInt();
+        auto dimmedScoreValue = args.at(2).toInt();
+        auto previousScore = dimmedScoreValue + dimmedPointValue;
+        setPlayerScore(currentPlayerIndex(),previousScore);
+        emit transmitResponse(ControllerResponse::ScoreRemove,{playerName});
+    }
+    else if(status() == ControllerState::RedoState)
+    {
+        auto playerName = args.at(0);
+        auto scoreValue = args.at(2).toInt();
+        setPlayerScore(currentPlayerIndex(),scoreValue);
+        emit transmitResponse(ControllerResponse::ScoreTransmit,{playerName,scoreValue});
     }
 
 }
@@ -176,7 +201,8 @@ QUuid LocalFirstToPost::undoTurn()
     if(_throwIndex > 0)
     {
         _throwIndex--;
-        emit requestSetScoreHint(currentTournamentID(),currentActiveUser(),currentRoundIndex(),currentThrowIndex(),ModelDisplayHint::HiddenHint);
+        QVariantList arguments = {currentTournamentID(),currentActiveUser(),currentRoundIndex(),currentThrowIndex(),ModelDisplayHint::HiddenHint};
+        emit sendRequestToContext(ContextCodes::ControllerContext,ControllerRequest::RequestSetModelHint,arguments);
         return _assignedUserNames.value(_setIndex);
     }
 
@@ -191,7 +217,8 @@ QUuid LocalFirstToPost::undoTurn()
     {
         _setIndex--;
     }
-    emit requestSetScoreHint(currentTournamentID(),currentActiveUser(),currentRoundIndex(),currentThrowIndex(),ModelDisplayHint::HiddenHint);
+    QVariantList arguments = {currentTournamentID(),currentActiveUser(),currentRoundIndex(),currentThrowIndex(),ModelDisplayHint::HiddenHint};
+    emit sendRequestToContext(ContextCodes::ControllerContext,ControllerRequest::RequestSetModelHint,arguments);
     return _assignedUserNames.at(_setIndex);
 }
 
@@ -218,21 +245,18 @@ QUuid LocalFirstToPost::redoTurn()
             _setIndex++;
     }
     _turnIndex++;
+    QVariantList arguments = {currentTournamentID(),currentActiveUser,currentRoundIndex,currentThrowIndex,ModelDisplayHint::HiddenHint};
+    emit sendRequestToContext(ContextCodes::ControllerContext,ControllerRequest::RequestSetModelHint,arguments);
 
-    emit requestSetScoreHint(currentTournamentID(),currentActiveUser,currentRoundIndex,currentThrowIndex,ModelDisplayHint::DisplayHint);
     return _assignedUserNames.value(_setIndex);
 }
 
 void LocalFirstToPost::setCurrentTournament(const int &index)
 {
     _currentStatus = ControllerState::InitializingBasicValues;
-    emit sendRequestToDataContext(ContextCodes::ControllerContext,ControllerRequest::RequestBasicValues,{index});
+    emit sendRequestToContext(ContextCodes::ControllerContext,ControllerRequest::RequestBasicValues,{index});
 }
 
-void LocalFirstToPost::handleCurrentTournamentRequest()
-{
-    emit sendRequestToDataContext(ContextCodes::ControllerContext,ControllerRequest::RequestTransmitPlayerScores,{currentTournamentID()});
-}
 
 bool LocalFirstToPost::canUndoTurn()
 {
@@ -278,7 +302,7 @@ void LocalFirstToPost::addPoint(const int &point, const int &score)
     auto roundIndex = currentRoundIndex();
     auto setIndex = currentPlayerIndex();
     auto throwIndex = currentThrowIndex();
-    emit sendRequestToDataContext(ContextCodes::ControllerContext,
+    emit sendRequestToContext(ContextCodes::ControllerContext,
                                   ControllerRequest::RequestStorePoint,
                                     {tournamentID,playerName,roundIndex,setIndex,throwIndex, point, score});
 
@@ -404,7 +428,7 @@ void LocalFirstToPost::nextTurn()
         }
         _currentStatus = ControllerState::UpdateContextState;
         QVariantList arguments = {currentTournamentID(),currentActiveUser(),currentRoundIndex(),currentSetIndex()};
-        emit sendRequestToDataContext(ContextCodes::ControllerContext,ControllerRequest::RequestUpdateModelState,arguments);
+        emit sendRequestToContext(ContextCodes::ControllerContext,ControllerRequest::RequestUpdateModelState,arguments);
     }
     else
     {

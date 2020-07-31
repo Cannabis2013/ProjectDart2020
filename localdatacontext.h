@@ -38,10 +38,21 @@ public:
         PlayerAdded = 0x25,
         PlayerDeleted = 0x26
     };
+    enum DataContextRequests{
+        RequestCurrentTournament = 0x3B
+    };
+
     enum ModelDisplayHint{
         HiddenHint = 0x9,
         DisplayHint = 0xA,
         allHints = 0xB
+    };
+    enum ControllerResponse{
+        ScoreTransmit = 0x27,
+        ScoreRemove = 0x28,
+        InconsistencyDetected = 0x29,
+        isInitializedAndWaitsRequest = 0x2D,
+        DataProvidedSuccess =0x3D
     };
     enum ControllerRequest{
         RequestBasicValues = 0x30,
@@ -51,7 +62,7 @@ public:
         RequestUpdateModelState,
         RequestAddRound = 0x33,
         RequestAddSet = 0x34,
-        RequestTransmitPlayerScores
+        RequestSetModelHint = 0x3C
     };
     enum ContextCodes{
         DataContext = 0x35,
@@ -71,6 +82,9 @@ public:
     void write() override;
 
 public slots:
+    /*
+     * The following slots are called directly from the presentation layer
+     */
     void handleCreateTournamentRequest(const QString &title,
                           const int &numberOfThrows,
                           const int &gameMode,
@@ -78,24 +92,24 @@ public slots:
                           const QVariantList &playerIndexes) override;
     void handleCreatePlayerRequest(const QString &playerName, const QString &mail) override;
     void handleDeletePlayerRequest(const int &index) override;
-    void handleAddScoreRequest(const QUuid &tournament,
-                  const QString &playerName,
-                  const int &roundIndex,
-                  const int &setIndex,
-                  const int &throwIndex,
-                  const int &point, const int &score) override;
-    void sendRequestedTournaments() override;
+
+    void handlePlayerScoresRequest() override;
+    void handleTournamentsRequest() override;
     void handleSendPlayerDetailsRequest() override;
-    void handleControllerStatusRequest(const QUuid &playerID) override;
+    void deleteTournamentsFromIndexes(const QVariantList &indexes) override;
+
+    /*
+     * The following two slots is called from controller context
+     */
+    void handleRequestFromContext(const int &context, const int &request, const QList<QVariant> &args) override;
+    void handleResponseFromContext(const int &context, const int &response, const QList<QVariant> &args) override;
+
+private:
     /*
      * This method is used in conjunction with the gamecontroller to fullfill the undo/redo functionality
      */
-    void setScoreHint(const QUuid &tournament, const QString &player, const int &roundIndex, const int &throwIndex, const int &hint) override;
-    void deleteTournamentsFromIndexes(const QVariantList &indexes) override;
+    void setScoreHint(const QUuid &tournament, const QUuid &player, const int &roundIndex, const int &throwIndex, const int &hint);
 
-    void handleRequestFromContext(const int &context, const int &request, const QList<QVariant> &args) override;
-    void handleResponseFromContext(const int &context, const int &response, const QList<QVariant> &args) override;
-private:
     void handleTournamentDetailsRequest(const int &index);
     void handleInitialIndexValuesRequest(const QUuid &tournament,const QStringList &assignedPlayers);
 

@@ -48,7 +48,8 @@ public:
         ScoreTransmit = 0x27,
         ScoreRemove = 0x28,
         InconsistencyDetected = 0x29,
-        isInitializedAndWaitsRequest = 0x2D
+        isInitializedAndWaitsRequest = 0x2D,
+        DataProvidedSuccess =0x3D
     };
     enum ControllerRequest{
         RequestBasicValues = 0x30,
@@ -58,9 +59,11 @@ public:
         RequestUpdateModelState,
         RequestAddRound = 0x33,
         RequestAddSet = 0x34,
-        RequestTransmitPlayerScores
+        RequestSetModelHint = 0x3C
     };
-
+    enum DataContextRequests{
+        RequestCurrentTournament = 0x3B
+    };
     enum DataContextResponse{
         UpdateSuccessfull = 0xE,
         UpdateUnSuccessfull = 0xF,
@@ -71,6 +74,7 @@ public:
         PlayerAdded = 0x25,
         PlayerDeleted = 0x26
     };
+
     enum KeyMappings{
         SingleModifer = 0x2A,
         DoubleModifier = 0x2B,
@@ -95,10 +99,7 @@ public slots:
      *
      */
     void setCurrentTournament(const int &index) override;
-    /*
-     * Datacontext needs to know the current tournament id
-     */
-    void handleCurrentTournamentRequest() override;
+
     void handleControllerStateRequest() override;
 
     /*

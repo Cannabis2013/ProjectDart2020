@@ -12,7 +12,7 @@ public:
     virtual void deletePlayerByUserName(const TString &firstName) = 0;
     virtual void deletePlayerByID(const TUuid &player) = 0;
     virtual void deletePlayerByEmail(const TString &playerEMail) = 0;
-    virtual TUuid playerIDFromUserName(const TString &fullName) const = 0;
+    virtual TUuid playerIDFromName(const TString &fullName) const = 0;
     virtual TUuid playerIDFromIndex(const int &index) const = 0;
     virtual TString playerUserName(const TUuid &id) const = 0;
     virtual TString playerEMail(const TUuid& id) const = 0;

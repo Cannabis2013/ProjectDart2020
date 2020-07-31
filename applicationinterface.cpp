@@ -4,23 +4,20 @@ ApplicationInterface::ApplicationInterface(AbstractDataContext *dataContext, Def
 {
     _dataContext = dataContext;
     _gameController = _builder->buildController(GameModes::FirstToPost,ContextMode::LocalContext);
+    /*
+     * Setup communication between datacontext and controllercontext
+     */
+    connect(_gameController,&AbstractGameController::sendRequestToContext,_dataContext,&AbstractDataContext::handleRequestFromContext);
+    connect(_dataContext,&AbstractDataContext::sendResponseToContext,_gameController,&AbstractGameController::handleResponseFromContext);
+    connect(_dataContext,&AbstractDataContext::sendRequestToContext,_gameController,&AbstractGameController::handleRequestFromContext);
+    connect(_gameController,&AbstractGameController::sendResponseToContext,_dataContext,&AbstractDataContext::handleResponseFromContext);
     // UI request removal of tournaments from datacontext
     connect(this,&ApplicationInterface::requestDeleteTournaments,_dataContext,&AbstractDataContext::deleteTournamentsFromIndexes);
     // UI request current state of gamecontroller
     connect(this,&ApplicationInterface::requestControllerState,_gameController,&AbstractGameController::handleControllerStateRequest);
     // UI request a list of tournaments -> Send a list of tournaments back to UI
-    connect(this,&ApplicationInterface::requestTournaments,_dataContext,&AbstractDataContext::sendRequestedTournaments);
+    connect(this,&ApplicationInterface::requestTournaments,_dataContext,&AbstractDataContext::handleTournamentsRequest);
     connect(_dataContext,&AbstractDataContext::sendTournament,this,&ApplicationInterface::sendRequestedTournament);
-    /*
-     * Set current tournament -> Initialize controller indexes
-     * This can also be regarded as the controller initialization state
-     */
-
-    /*
-     *
-     */
-    connect(_gameController,&AbstractGameController::sendRequestToDataContext,_dataContext,&AbstractDataContext::handleRequestFromContext);
-    connect(_dataContext,&AbstractDataContext::sendResponseToContext,_gameController,&AbstractGameController::handleResponseFromContext);
     /*
      * UI request set current tournament
      */
@@ -29,13 +26,10 @@ ApplicationInterface::ApplicationInterface(AbstractDataContext *dataContext, Def
     connect(_gameController,&AbstractGameController::transmitResponse,this,&ApplicationInterface::transmitResponse);
     connect(_dataContext,&AbstractDataContext::transmitResponse,this,&ApplicationInterface::transmitResponse);
     // UI needs to populate its scoreboard with keypoint, playernames and player scores
-    connect(this,&ApplicationInterface::requestPlayerScores,_gameController,&AbstractGameController::handleCurrentTournamentRequest);
+    connect(this,&ApplicationInterface::requestPlayerScores,_dataContext,&AbstractDataContext::handlePlayerScoresRequest);
     connect(_dataContext,&AbstractDataContext::sendCurrentTournamentKeyPoint,this,&ApplicationInterface::sendCurrentTournamentKeyPoint);
     connect(_dataContext,&AbstractDataContext::sendAssignedPlayerName,this,&ApplicationInterface::sendAssignedPlayerName);
     connect(_dataContext,&AbstractDataContext::sendPlayerScore,this,&ApplicationInterface::sendPlayerScore);
-    // Datacontext has to notify controller about its state
-    connect(_gameController,&AbstractGameController::requestContextStatusUpdate,_dataContext,&AbstractDataContext::handleControllerStatusRequest);
-    connect(_dataContext,&AbstractDataContext::sendResponseToContext,_gameController,&AbstractGameController::handleResponseFromContext);
     // UI request creation of a new tournament
     connect(this,&ApplicationInterface::sendTournamentCandidate,_dataContext,&AbstractDataContext::handleCreateTournamentRequest);
     // UI request creation of a new player
@@ -46,21 +40,15 @@ ApplicationInterface::ApplicationInterface(AbstractDataContext *dataContext, Def
     connect(this,&ApplicationInterface::requestPlayers,_dataContext,&AbstractDataContext::handleSendPlayerDetailsRequest);
     // Send player details to UI
     connect(_dataContext,&AbstractDataContext::sendPlayerDetail,this,&ApplicationInterface::sendPlayerDetail);
-    // Send controller indexes to data to add new rounds or sets
-    connect(_gameController,&AbstractGameController::sendCurrentIndexes,_dataContext,&AbstractDataContext::updateDataContext);
     // Request start game -> Start game
     connect(this,&ApplicationInterface::startGame,_gameController,&AbstractGameController::start);
     // Request stop game -> Stop game
     connect(this,&ApplicationInterface::stopGame,_gameController,&AbstractGameController::stop);
     // Propagate UI input to controllercontext
     connect(this,&ApplicationInterface::sendPoint,_gameController,&AbstractGameController::handleAndProcessUserInput);
-    // Send point to datacontext
-    connect(_gameController,&AbstractGameController::sendPoint,_dataContext,&AbstractDataContext::handleAddScoreRequest);
     // Undo/Redo functionality
     connect(this,&ApplicationInterface::requestUndo,_gameController,&AbstractGameController::undoTurn);
     connect(this,&ApplicationInterface::requestRedo,_gameController,&AbstractGameController::redoTurn);
-    connect(_gameController,&AbstractGameController::requestSetScoreHint,_dataContext,&AbstractDataContext::setScoreHint);
-    connect(_gameController,&AbstractGameController::removeScore,this,&ApplicationInterface::removeScore);
 }
 
 ApplicationInterface::~ApplicationInterface()

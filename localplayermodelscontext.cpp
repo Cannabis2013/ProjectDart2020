@@ -67,7 +67,7 @@ void LocalPlayerModelsContext::deletePlayerByEmail(const QString &email)
     throw "No model found with given mail adress";
 }
 
-QUuid LocalPlayerModelsContext::playerIDFromUserName(const QString &playerName) const
+QUuid LocalPlayerModelsContext::playerIDFromName(const QString &playerName) const
 {
     try {
         auto model = getModel(playerName);
