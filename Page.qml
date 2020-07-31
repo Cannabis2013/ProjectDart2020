@@ -20,7 +20,6 @@ Rectangle {
         pageContent.notifyWidthChange.connect(contentFlickable.setContentWidth);
         pageContent.notifyHeightChange.connect(contentFlickable.setContentHeight);
         pageContent.backButtonPressed.connect(backButtonPressed);
-
     }
 
     onWidthChanged: {

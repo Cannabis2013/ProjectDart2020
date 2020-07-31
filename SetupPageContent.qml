@@ -21,7 +21,7 @@ Content {
 
     onReplyFromBackendRecieved: {
 
-        if(status === 0xE)
+        if(response === 0xE) // Backend responds update successfull
         {
             backButtonPressed();
         }

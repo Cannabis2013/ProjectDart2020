@@ -29,11 +29,11 @@ Content{
                                             "playersCount" : playersCount})
     }
     onReplyFromBackendRecieved: {
-        if(status === 0x17) // Backend has responded with a status code that signals it is initialized and ready to start
+        if(response === 0x2D) // Backend has responded with a status code that signals it is initialized and ready to start
         {
             startGameClicked();
         }
-        else if(status == 0xE) // Backend has responded with a status code that signals it has succesfully updated its state
+        else if(response == 0x29) // Backend has responded with a status code that signals it has succesfully updated its state
         {
             tournamentListView.unSelectAllItems();
             tournamentListView.removeItemModels(args);
@@ -65,7 +65,6 @@ Content{
            itemHoveredColor: "darkgray"
            itemBackgroundColor: "lightblue"
            onItemClicked: sendClickedTournamentIndex(index)
-
            itemTitleFontSize: 20
            itemDescriptionFontSize: 12
            itemWidth: tournamentListView.width *0.95

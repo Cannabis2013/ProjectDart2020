@@ -15,18 +15,19 @@ ApplicationInterface::ApplicationInterface(AbstractDataContext *dataContext, Def
      * Set current tournament -> Initialize controller indexes
      * This can also be regarded as the controller initialization state
      */
+
     /*
-     * UI request current tournament
+     *
      */
-    connect(this,&ApplicationInterface::setCurrentActiveTournament,_dataContext,&AbstractDataContext::handleSetCurrentTournament);
-    connect(_dataContext,&AbstractDataContext::sendInitialControllerValues,_gameController,&AbstractGameController::handleInitialValuesFromDataContext);
-    connect(_gameController,&AbstractGameController::requestInitialIndexes,_dataContext,&AbstractDataContext::handleInitialIndexesRequest);
-    connect(_dataContext,&AbstractDataContext::sendInitialControllerIndexes,_gameController,&AbstractGameController::handleIndexesFromDatacontext);
-    connect(_gameController,&AbstractGameController::requestScoresFromDataContext,_dataContext,&AbstractDataContext::handlePlayerScoresRequestFromController);
-    connect(_dataContext,&AbstractDataContext::sendRequestedUserNamesScore,_gameController,&AbstractGameController::handleRequestedScoresFromDataContext);
+    connect(_gameController,&AbstractGameController::sendRequestToDataContext,_dataContext,&AbstractDataContext::handleRequestFromContext);
+    connect(_dataContext,&AbstractDataContext::sendResponseToContext,_gameController,&AbstractGameController::handleResponseFromContext);
+    /*
+     * UI request set current tournament
+     */
+    connect(this,&ApplicationInterface::setCurrentActiveTournament,_gameController,&AbstractGameController::setCurrentTournament);
     // Notify UI regarding context states
-    connect(_gameController,&AbstractGameController::sendStatus,this,&ApplicationInterface::sendStatus);
-    connect(_dataContext,&AbstractDataContext::sendStatus,this,&ApplicationInterface::sendStatus);
+    connect(_gameController,&AbstractGameController::transmitResponse,this,&ApplicationInterface::transmitResponse);
+    connect(_dataContext,&AbstractDataContext::transmitResponse,this,&ApplicationInterface::transmitResponse);
     // Game UI needs to be updated. The following connection until next comment ensures that
     connect(this,&ApplicationInterface::requestPlayerScores,_gameController,&AbstractGameController::handleCurrentTournamentRequest);
     connect(_gameController,&AbstractGameController::sendCurrentTournament,_dataContext,&AbstractDataContext::handleSendPlayerScoresRequest);
@@ -35,7 +36,7 @@ ApplicationInterface::ApplicationInterface(AbstractDataContext *dataContext, Def
     connect(_dataContext,&AbstractDataContext::sendPlayerScore,this,&ApplicationInterface::sendPlayerScore);
     // Datacontext has to notify controller about its state
     connect(_gameController,&AbstractGameController::requestContextStatusUpdate,_dataContext,&AbstractDataContext::handleControllerStatusRequest);
-    connect(_dataContext,&AbstractDataContext::sendContextStatus,_gameController,&AbstractGameController::handleReplyFromDataContext);
+    connect(_dataContext,&AbstractDataContext::sendResponseToContext,_gameController,&AbstractGameController::handleResponseFromContext);
     // UI request creation of a new tournament
     connect(this,&ApplicationInterface::sendTournamentCandidate,_dataContext,&AbstractDataContext::handleCreateTournamentRequest);
     // UI request creation of a new player
@@ -52,7 +53,7 @@ ApplicationInterface::ApplicationInterface(AbstractDataContext *dataContext, Def
     connect(this,&ApplicationInterface::startGame,_gameController,&AbstractGameController::start);
     // Request stop game -> Stop game
     connect(this,&ApplicationInterface::stopGame,_gameController,&AbstractGameController::stop);
-    // UI recieves a user input and propagates user entered point to backend
+    // Propagate UI input to controllercontext
     connect(this,&ApplicationInterface::sendPoint,_gameController,&AbstractGameController::handleAndProcessUserInput);
     // Send point to datacontext
     connect(_gameController,&AbstractGameController::sendPoint,_dataContext,&AbstractDataContext::handleAddScoreRequest);
@@ -131,9 +132,9 @@ void ApplicationInterface::requestStop()
     emit stopGame();
 }
 
-void ApplicationInterface::handleUserInput(const int &point)
+void ApplicationInterface::handleUserInput(const int &point, const int &pressedModfier)
 {
-    emit sendPoint(point);
+    emit sendPoint(point,pressedModfier);
 }
 
 void ApplicationInterface::handleUndoRequest()

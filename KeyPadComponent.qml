@@ -13,7 +13,7 @@ Rectangle {
 
     radius: 10
 
-    signal sendInputValue(int val)
+    signal keyClicked(int val, int modifierCode)
     signal enableKeyPad(bool enable)
     property bool enableKeys: false
     onEnableKeysChanged: {
@@ -28,41 +28,33 @@ Rectangle {
     QtObject{
         id: modifiers
 
-        property bool isDoubleModifierEnabled : false
-        property bool isTrippleModifierEnabled: false
+        property bool isDoubleModifierPressed : false
+        property bool isTrippleModifierPressed: false
     }
 
     function handleNumberKeyPressed(value)
     {
-        var score = value;
-        if(modifiers.isDoubleModifierEnabled)
-        {
-            doubleModifier.clicked();
-            score *= 2;
-        }
-        else if(modifiers.isTrippleModifierEnabled){
-            trippleModifier.clicked();
-            score *= 3;
-        }
-
-        sendInputValue(score);
+        var modifierClickCode = modifiers.isTrippleModifierPressed ? 0x2C :
+                                                                   modifiers.isDoubleModifierPressed ? 0x2B :
+                                                                                                       0x2A;
+        keyClicked(value,modifierClickCode);
     }
 
     function handleDoubleKeyPressed(check){
-        if(modifiers.isTrippleModifierEnabled)
+        if(modifiers.isTrippleModifierPressed)
             trippleModifier.clicked();
-        modifiers.isDoubleModifierEnabled = check;
+        modifiers.isDoubleModifierPressed = check;
     }
     function handleTrippleKeyPressed(check){
-        if(modifiers.isDoubleModifierEnabled)
+        if(modifiers.isDoubleModifierPressed)
             doubleModifier.clicked();
-        modifiers.isTrippleModifierEnabled = check;
+        modifiers.isTrippleModifierPressed = check;
     }
 
     function isModifiersPressed()
     {
-        var doubleChecked = modifiers.isDoubleModifierEnabled;
-        var trippleChecked = modifiers.isTrippleModifierEnabled;
+        var doubleChecked = modifiers.isDoubleModifierPressed;
+        var trippleChecked = modifiers.isTrippleModifierPressed;
         return doubleChecked || trippleChecked;
     }
 

@@ -9,7 +9,7 @@
 #include "iplayerbuildercontext.h"
 #include "iplayermodel.h"
 
-#include "istatusinterface.h"
+#include "iresponseinterface.h"
 #include "iplayercontext.h"
 
 typedef IPlayerModel<QUuid,QString> DefaultPlayerInterface;
@@ -19,7 +19,7 @@ typedef IPlayerContext<QUuid,QList<QUuid>,QString,DefaultPlayerBuilder> PlayerCo
 typedef IDataContext<QUuid,QList<QUuid>,QString,ITournamentBuilder> DefaultDataInterface;
 
 class AbstractDataContext : public QObject,
-        public IStatusInterface<QVariantList>
+        public IResponseInterface<QVariantList>
 {
     Q_OBJECT
 public:
@@ -60,13 +60,16 @@ public slots:
                           const int &score) = 0;
     virtual void handleSendPlayerScoresRequest(const QUuid &tournament) = 0;
     virtual void sendRequestedTournaments() = 0;
-    virtual void handleSetCurrentTournament(const int &index) = 0;
-    virtual void handleInitialIndexesRequest(const QUuid &tournament, const QVector<QString> &assignedPlayers) = 0;
+    virtual void handleTournamentDetailsRequest(const int &index) = 0;
+    virtual void handleInitialIndexValuesRequest(const QUuid &tournament, const QStringList &assignedPlayers) = 0;
     virtual void handleSendPlayerDetailsRequest() = 0;
     virtual void handleControllerStatusRequest(const QUuid &playerID) = 0;
     virtual void setScoreHint(const QUuid &tournament, const QString &userName, const int &roundIndex, const int &throwIndex, const int &hint) = 0;
     virtual void deleteTournamentsFromIndexes(const QVariantList &indexes) = 0;
     virtual void handlePlayerScoresRequestFromController(const QUuid &tournament, const QVector<QString> &userNames) = 0;
+
+    virtual void handleRequestFromContext(const int &context, const int &request, const QList<QVariant> &args) override = 0;
+    virtual void handleResponseFromContext(const int &context, const int &response, const QList<QVariant> &args) override = 0;
 signals:
     void sendContextStatus(const int &status, const QVariantList &args);
     void sendGameModes(const QStringList &gameModes);
@@ -80,7 +83,7 @@ signals:
                                      const QVector<QString> &players);
     void sendAssignedPlayerName(const QString &playerName);
     void sendCurrentTournamentKeyPoint(const int &point);
-    void sendStatus(const int &status, const QVariantList &args);
+    void transmitResponse(const int &status, const QVariantList &args);
     void sendTournament(const QString &title,
                         const int &numberOfThrows,
                         const int &gameMode,
@@ -92,6 +95,9 @@ signals:
                                       const int &turnIndex,
                                       const int &totalTurns);
     void sendRequestedUserNamesScore(const QVector<int> &scores);
+
+    void sendRequestToContext(const int &context, const int &request, const QVariantList &args);
+    void sendResponseToContext(const int &context, const int &response, const QVariantList &args);
 
 private:
     DefaultDataInterface *_tournamentModelContext;

@@ -3,7 +3,7 @@ import QtQuick.Layouts 1.3
 
 Rectangle {
     signal backButtonPressed
-    signal replyFromBackendRecieved(int status,var args)
+    signal replyFromBackendRecieved(int response,var args)
     signal requestUpdate
     signal notifyWidthChange(double w)
     signal notifyHeightChange(double h)
@@ -31,11 +31,11 @@ Rectangle {
 
     Component.onCompleted: {
         applicationInterface.stateChanged.connect(requestUpdate);
-        applicationInterface.sendStatus.connect(replyFromBackendRecieved);
+        applicationInterface.transmitResponse.connect(replyFromBackendRecieved);
     }
 
     Component.onDestruction: {
         applicationInterface.stateChanged.disconnect(requestUpdate);
-        applicationInterface.sendStatus.disconnect(replyFromBackendRecieved);
+        applicationInterface.transmitResponse.disconnect(replyFromBackendRecieved);
     }
 }

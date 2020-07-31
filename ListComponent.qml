@@ -103,7 +103,6 @@ Rectangle{
             listModel.remove(index);
         }
     }
-
     layer.enabled: true
 
     layer.effect: OpacityMask{

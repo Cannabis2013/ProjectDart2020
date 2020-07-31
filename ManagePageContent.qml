@@ -22,6 +22,18 @@ Content {
                                             "playersCount" : playersCount})
     }
 
+    onReplyFromBackendRecieved: {
+        if(response === 0x17) // Backend has responded with a status code that signals it is initialized and ready to start
+        {
+            startGameClicked();
+        }
+        else if(response == 0xE) // Backend has responded with a status code that signals it has succesfully updated its state
+        {
+            tournamentListView.unSelectAllItems();
+            tournamentListView.removeItemModels(args);
+        }
+    }
+
     GridLayout{
         id: mainLayout
         anchors.fill: parent
@@ -78,12 +90,13 @@ Content {
             itemSelectedtextColor: "black"
             itemHoveredColor: "darkgray"
             itemBackgroundColor: "lightblue"
-            onItemClicked: sendClickedTournamentIndex(index)
             itemTitleFontSize: 20
             itemDescriptionFontSize: 12
             itemWidth: tournamentListView.width *0.95
             itemHeight: 64
             allowCheckState: true
+            allowMultipleSelections: true
+            instantSelectEnabled: true
             itemDecorator: "qrc:/pictures/Ressources/darttournamentmod.png"
         }
         GridLayout{
@@ -98,6 +111,7 @@ Content {
             }
             CRUDButton{
                 text: "Delete"
+                onClicked: requestDeleteTournaments(tournamentListView.currentIndexes())
             }
         }
     }

@@ -41,12 +41,12 @@ Content {
     onReplyFromBackendRecieved: {
         var buttonText = turnNavigator.startButtonText;
         var userName, scoreValue;
-        if(status === 0x12) // Gamecontroller is stopped
+        if(response === 0x12) // Gamecontroller is stopped
         {
             keyPad.enableKeys = false;
             turnNavigator.startButtonText = "Resume"
         }
-        else if(status === 0x13) // Gamecontroller awaits input
+        else if(response === 0x13) // Gamecontroller awaits input
         {
             turnNavigator.startButtonText = "Pause";
 
@@ -59,46 +59,37 @@ Content {
 
             keyPad.enableKeys = true;
         }
-        else if(status == 0x17)
+        else if(response == 0x17)
         {
             turnNavigator.startButtonEnabled = true;
         }
 
-        else if(status == 0x21) // Controller is in AddScoreState
+        else if(response == 0x27) // Controller is in AddScoreState
         {
             userName = args[0];
             scoreValue = args[1];
-
             scoreTable.appendData(userName,scoreValue);
-
             requestStatusFromBackend();
         }
 
-        else if(status == 0x1F) // Controller is in UndoState
+        else if(response == 0x28) // Controller is in UndoState
         {
             userName = args[0];
             scoreTable.takeData(userName);
             requestStatusFromBackend();
         }
-        else if(status === 0x20) // Controller is in RedoState
-        {
-            userName = args[0];
-            scoreValue = args[1];
-            scoreTable.appendData(userName,scoreValue);
-            requestStatusFromBackend();
-        }
-        else if(status === 0x15) // Winner declared
+        else if(response === 0x15) // Winner declared
         {
             keyPad.enableKeys = false;
             turnNavigator.startButtonText = "Restart"
         }
-        else if(status === 0x17)
+        else if(response === 0x17)
         {
             turnNavigator.startButtonEnabled = true;
         }
     }
 
-    signal sendInput(int value)
+    signal sendInput(int value, int modifier)
 
     GridLayout{
         id: componentLayout
@@ -139,9 +130,9 @@ Content {
             Layout.minimumHeight: 128
             Layout.maximumHeight: 384
             Layout.alignment: Qt.AlignTop
-            onSendInputValue: {
+            onKeyClicked: {
                 enableKeys = false;
-                body.sendInput(val);
+                body.sendInput(val,modifierCode);
             }
 
             enableKeys: false

@@ -22,7 +22,7 @@ typedef IController<QUuid,QString> GameControllerInterface;
 
 typedef IControllerBuilder<AbstractGameController, int> DefaultControllerBuilderInterface;
 
-class ApplicationInterface : public QObject, public IStatusInterface<QVariantList>
+class ApplicationInterface : public QObject
 {
     Q_OBJECT
 public:
@@ -56,12 +56,12 @@ public slots:
                                      const int &keyPoint,
                                      const QVariantList &playerIndexes);
     /*
-     * UI wants to alter datacontext
+     * UI requests to create/delete player from datacontext
      */
     void createPlayer(const QString &userName, const QString &email);
     void handleDeletePlayer(const int &index);
     /*
-     * UI wants to read player details from datacontext
+     * UI requests playerdetails from datacontext
      */
     void requestPlayerDetails();
     void handleSendGameModesRequest() const;
@@ -72,7 +72,7 @@ public slots:
      *  - Users enters points to be stored in datacontext
      *  - In return, datacontext, in collaboration with gamecontroller, send current score to UI
      */
-    void handleUserInput(const int &point);
+    void handleUserInput(const int &point, const int &pressedModfier);
     void handleUndoRequest();
     void handleRedoRequest();
     void handleControllerStateRequest();
@@ -86,7 +86,7 @@ signals:
     void sendAssignedPlayerIndexes(const QVariantList &indexes, const QUuid &tournament);
     void sendRequestedGameModes(const QStringList &gameModes);
     void sendPlayerDetail(const QString &userName, const QString &mail);
-    void sendStatus(const int &status, const QVariantList &arguments) override;
+    void transmitResponse(const int &status, const QVariantList &arguments);
     void sendPlayerScore(const QString &playerName, const int &score);
     void sendAssignedPlayerName(const QString &playerName);
     void sendCurrentTournamentKeyPoint(const int &point);
@@ -112,7 +112,7 @@ signals:
                                      QList<QUuid> assignedPlayers);
     void requestPlayerScores();
     void setCurrentActiveTournament(const int &index);
-    void sendPoint(const int &point);
+    void sendPoint(const int &point, const int &pressedModifier);
     void startGame();
     void stopGame();
     void requestControllerState();

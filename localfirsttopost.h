@@ -21,25 +21,65 @@ class LocalFirstToPost :public AbstractGameController
     Q_OBJECT
 public:
     // Public types
-    enum ModelDisplayHint{HiddenHint = 0x9,DisplayHint = 0xA, allHints = 0xB};
-    enum ControllerState {Idle = 0x10,
-                     GameBusy = 0x11, // Game is idle but in progress
-                     Stopped = 0x12, // Game is stopped and no longer accepts input
-                     AwaitsInput = 0x13, // This should indicate that the gamecontroller is in a state where it awaits new player input
-                     Running = 0x14,
-                     WinnerDeclared = 0x15,
-                     NotInitialized = 0x16, // Controller is not initialized with tournament and, if necessary, appropriate indexes
-                     Initialized = 0x17,
-                     Inconsistency = 0x18,
-                     UndoState = 0x1F,
-                     RedoState = 0x20,
-                     AddScoreState = 0x21,
-                     UpdateContextState = 0x22};
-    enum Status{ContextBusy = 0xC,
-                ContextReady = 0xD,
-                ContextSuccessfullyUpdated = 0xE,
-                ContextUnSuccessfullyUpdated = 0xF,
-                ContextDataProvided = 0x19};
+    enum ModelDisplayHint{
+        HiddenHint = 0x9,
+        DisplayHint = 0xA,
+        allHints = 0xB
+    };
+    enum ControllerState {
+        Idle = 0x10,
+        GameBusy = 0x11, // Game is idle but in progress
+        Stopped = 0x12, // Game is stopped and no longer accepts input
+        AwaitsInput = 0x13, // This should indicate that the gamecontroller is in a state where it awaits new player input
+        Running = 0x14,
+        WinnerDeclared = 0x15,
+        NotInitialized = 0x16, // Controller is not initialized with tournament and, if necessary, appropriate indexes
+        InitializingBasicValues = 0x2E,
+        InitializingIndexValues = 0x2F,
+        InitializingPlayerScores = 0x39,
+        Initialized = 0x17,
+        Inconsistency = 0x18,
+        UndoState = 0x1F,
+        RedoState = 0x20,
+        AddScoreState = 0x21,
+        UpdateContextState = 0x22
+    };
+    enum ControllerResponse{
+        ScoreTransmit = 0x27,
+        ScoreRemove = 0x28,
+        InconsistencyDetected = 0x29,
+        isInitializedAndWaitsRequest = 0x2D
+    };
+    enum ControllerRequest{
+        RequestBasicValues = 0x30,
+        RequestIndexValues = 0x31,
+        RequestPlayerScores = 0x3A,
+        RequestSubmitPoint = 0x32,
+        RequestAddRound = 0x33,
+        RequestAddSet = 0x34
+    };
+
+    enum DataContextResponse{
+        UpdateSuccessfull = 0xE,
+        UpdateUnSuccessfull = 0xF,
+        DataRequestSuccess = 0x38,
+        DataRequestFailed = 0x39,
+        TournamentAdded = 0x23,
+        TournamentDeleted = 0x24,
+        PlayerAdded = 0x25,
+        PlayerDeleted = 0x26
+    };
+    enum KeyMappings{
+        SingleModifer = 0x2A,
+        DoubleModifier = 0x2B,
+        TrippleModifier = 0x2C
+                    };
+    enum ContextCodes{
+        DataContext = 0x35,
+        ControllerContext = 0x36,
+        ApplicationContext = 0x37
+    };
+
 public slots:
     /*
      * Start/stop game progress
@@ -49,39 +89,23 @@ public slots:
 
     QUuid undoTurn() override;
     QUuid redoTurn() override;
-
     /*
-     * The following methods handle the initial state of the gamecontroller where it needs to set the following values:
-     *  - Key values like keypoint, current tournament id, etc.
-     *  - Initial indexes like turnindex, throwindex, etc.
-     *  - Current usernames scores
+     *
      */
-    void handleInitialValuesFromDataContext(const QUuid &tournament,
-                                            const int &keyPoint,
-                                            const int &numberOfThrows,
-                                            const QVector<QString> &assignedUserNames) override;
-    void handleIndexesFromDatacontext(const int &roundIndex,
-                           const int &setIndex,
-                           const int &throwIndex,
-                           const int &turnIndex,
-                           const int &totalTurns) override;
-    void handleRequestedScoresFromDataContext(const QVector<int> &scores) override;
+    void setCurrentTournament(const int &index) override;
     /*
-     * The following slot is invoked when datacontext needs to know the current tournament id
+     * Datacontext needs to know the current tournament id
      */
     void handleCurrentTournamentRequest() override;
-    /*
-     * Handle reply from datacontext
-     *  - This is requested everytime a transaction has taken place between this class and the datacontext
-     */
-    void handleReplyFromDataContext(const int &status, const QVariantList &args) override;
-
     void handleControllerStateRequest() override;
 
     /*
      * Handle and Evaluate input from user
      */
-    void handleAndProcessUserInput(const int &point) override;
+    void handleAndProcessUserInput(const int &point, const int &modifierKeyCode) override;
+
+    void handleRequestFromContext(const int &context, const int &request, const QVariantList &args) override;
+    void handleResponseFromContext(const int &context, const int &response, const QVariantList &args) override;
 private:
     /* Private types
      *
@@ -92,6 +116,11 @@ private:
      */
     enum InputPointDomain {InvalidDomain = 0x02};
     enum AggregatedSumDomains {PointDomain = 0x04,CriticalDomain = 0x06, OutsideDomain = 0x08, TargetDomain = 0xa};
+    /*
+     * Handle response from datacontext
+     *  - Handle the transaction response from datacontext
+     */
+    void handleResponseFromDataContext(const int &response, const QVariantList &args);
     /*
      * Notify UI about controller state, current round index, undo/redo possibility and current user
      */
@@ -183,8 +212,8 @@ private:
     ControllerState _currentStatus = ControllerState::NotInitialized;
     bool _isActive = false;
 
-    QVector<QString> _assignedUserNames;
-    QVector<int> _assignedUsernamesScore;
+    QStringList _assignedUserNames;
+    QList<int> _assignedUsernamesScore;
 
     // Generate throw suggest message
     IPointLogisticManager<QString> *_pointLogisticInterface;

@@ -24,11 +24,38 @@ public:
     /*
      * Public types
      */
-    enum Status{ContextBusy = 0xC,
-                ContextReady = 0xD,
-                ContextSuccessfullyUpdated = 0xE,
-                ContextUnSuccessfullyUpdated = 0xF};
-    enum ModelDisplayHint{HiddenHint = 0x9,DisplayHint = 0xA, allHints = 0xB};
+    enum ContextStatus{
+        ContextBusy = 0xC,
+        ContextReady = 0xD
+    };
+    enum DataContextResponse{
+        UpdateSuccessfull = 0xE,
+        UpdateUnSuccessfull = 0xF,
+        DataRequestSuccess = 0x38,
+        DataRequestFailed = 0x39,
+        TournamentAdded = 0x23,
+        TournamentDeleted = 0x24,
+        PlayerAdded = 0x25,
+        PlayerDeleted = 0x26
+    };
+    enum ModelDisplayHint{
+        HiddenHint = 0x9,
+        DisplayHint = 0xA,
+        allHints = 0xB
+    };
+    enum ControllerRequest{
+        RequestBasicValues = 0x30,
+        RequestIndexValues = 0x31,
+        RequestPlayerScores = 0x3A,
+        RequestSubmitPoint = 0x32,
+        RequestAddRound = 0x33,
+        RequestAddSet = 0x34
+    };
+    enum ContextCodes{
+        DataContext = 0x35,
+        ControllerContext = 0x36,
+        ApplicationContext = 0x37
+    };
     /*
      * Constructor
      * Destructor
@@ -58,8 +85,8 @@ public slots:
                   const int &throwIndex,
                   const int &point, const int &score) override;
     void sendRequestedTournaments() override;
-    void handleSetCurrentTournament(const int &index) override;
-    void handleInitialIndexesRequest(const QUuid &tournament,const QVector<QString> &assignedPlayers) override;
+    void handleTournamentDetailsRequest(const int &index) override;
+    void handleInitialIndexValuesRequest(const QUuid &tournament,const QStringList &assignedPlayers) override;
     void handleSendPlayerDetailsRequest() override;
     void handleControllerStatusRequest(const QUuid &playerID) override;
     /*
@@ -68,6 +95,9 @@ public slots:
     void setScoreHint(const QUuid &tournament, const QString &player, const int &roundIndex, const int &throwIndex, const int &hint) override;
     void deleteTournamentsFromIndexes(const QVariantList &indexes) override;
     void handlePlayerScoresRequestFromController(const QUuid &tournament, const QVector<QString> &userNames) override;
+
+    void handleRequestFromContext(const int &context, const int &request, const QList<QVariant> &args) override;
+    void handleResponseFromContext(const int &context, const int &response, const QList<QVariant> &args) override;
 private:
 
     void createInitialModels();
@@ -86,9 +116,11 @@ private:
     void extractScoreModelsFromJSON(const QJsonArray &arr);
     void extractPlayerModelsFromJSON(const QJsonArray &arr);
 
-    QVector<QString> playerUserNamesFromPlayersID(const QList<QUuid> playersID);
+    QStringList playerUserNamesFromPlayersID(const QList<QUuid> playersID);
 
     int _currentStatus;
+    const int _contextCode = 0x1;
+
 };
 
 #endif // LOCALDATACONTEXT_H
