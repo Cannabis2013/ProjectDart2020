@@ -11,7 +11,7 @@ template<class TString, class TUuid>
 class IPlayerBuilderParameters
 {
 public:
-    virtual TString userName() const = 0;
+    virtual TString playerName() const = 0;
     virtual TString eMail() const = 0;
     virtual TUuid id() const = 0;
     virtual int role() const = 0;

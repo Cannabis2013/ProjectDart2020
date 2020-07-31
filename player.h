@@ -41,7 +41,7 @@ public:
     {
         _type = type;
     }
-    QString userName() const override
+    QString playerName() const override
     {
         return _userName;
     }

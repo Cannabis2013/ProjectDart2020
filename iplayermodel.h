@@ -11,7 +11,7 @@ public:
     virtual int type() const = 0;
     virtual void setType(const int &type) = 0;
 
-    virtual TString userName() const = 0;
+    virtual TString playerName() const = 0;
 
     virtual void setUserName(const TString &name) = 0;
 

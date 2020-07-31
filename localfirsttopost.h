@@ -54,9 +54,11 @@ public:
         RequestBasicValues = 0x30,
         RequestIndexValues = 0x31,
         RequestPlayerScores = 0x3A,
-        RequestSubmitPoint = 0x32,
+        RequestStorePoint = 0x32,
+        RequestUpdateModelState,
         RequestAddRound = 0x33,
-        RequestAddSet = 0x34
+        RequestAddSet = 0x34,
+        RequestTransmitPlayerScores
     };
 
     enum DataContextResponse{
@@ -170,16 +172,10 @@ private:
      * Set controller state according to datacontext
      */
     /*
-     * Index methods
+     * Index manipulating methods
      */
-    int currentTurnIndex()
-    {
-        return _turnIndex;
-    }
-    bool isIndexOffset()
-    {
-        return _isOff;
-    }
+    int currentTurnIndex();
+    bool isIndexOffset();
     void nextTurn();
     void declareWinner();
     void incrementTurnIndexes();
@@ -191,8 +187,7 @@ private:
     int playerScore(const int &index);
     void setPlayerScore(const int &index, const int &newScore);
 
-
-    // Gamestate variables
+    // Gamestate index values
     int _roundIndex = 0;
     int _setIndex = 0; // Defines player index
     int _throwIndex = 0; // Index of throw

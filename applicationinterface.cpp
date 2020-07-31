@@ -28,9 +28,8 @@ ApplicationInterface::ApplicationInterface(AbstractDataContext *dataContext, Def
     // Notify UI regarding context states
     connect(_gameController,&AbstractGameController::transmitResponse,this,&ApplicationInterface::transmitResponse);
     connect(_dataContext,&AbstractDataContext::transmitResponse,this,&ApplicationInterface::transmitResponse);
-    // Game UI needs to be updated. The following connection until next comment ensures that
+    // UI needs to populate its scoreboard with keypoint, playernames and player scores
     connect(this,&ApplicationInterface::requestPlayerScores,_gameController,&AbstractGameController::handleCurrentTournamentRequest);
-    connect(_gameController,&AbstractGameController::sendCurrentTournament,_dataContext,&AbstractDataContext::handleSendPlayerScoresRequest);
     connect(_dataContext,&AbstractDataContext::sendCurrentTournamentKeyPoint,this,&ApplicationInterface::sendCurrentTournamentKeyPoint);
     connect(_dataContext,&AbstractDataContext::sendAssignedPlayerName,this,&ApplicationInterface::sendAssignedPlayerName);
     connect(_dataContext,&AbstractDataContext::sendPlayerScore,this,&ApplicationInterface::sendPlayerScore);
@@ -94,9 +93,9 @@ void ApplicationInterface::createTournament(const QString &title,
     emit sendTournamentCandidate(title,numberOfThrows,mode,keyPoint,playerIndexes);
 }
 
-void ApplicationInterface::createPlayer(const QString &userName, const QString &email)
+void ApplicationInterface::createPlayer(const QString &playerName, const QString &email)
 {
-    emit requestCreatePlayer(userName,email);
+    emit requestCreatePlayer(playerName,email);
 }
 
 void ApplicationInterface::handleDeletePlayer(const int &index)

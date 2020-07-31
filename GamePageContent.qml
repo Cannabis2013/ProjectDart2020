@@ -40,7 +40,7 @@ Content {
 
     onReplyFromBackendRecieved: {
         var buttonText = turnNavigator.startButtonText;
-        var userName, scoreValue;
+        var playerName, scoreValue;
         if(response === 0x12) // Gamecontroller is stopped
         {
             keyPad.enableKeys = false;
@@ -66,16 +66,16 @@ Content {
 
         else if(response == 0x27) // Controller is in AddScoreState
         {
-            userName = args[0];
+            playerName = args[0];
             scoreValue = args[1];
-            scoreTable.appendData(userName,scoreValue);
+            scoreTable.appendData(playerName,scoreValue);
             requestStatusFromBackend();
         }
 
         else if(response == 0x28) // Controller is in UndoState
         {
-            userName = args[0];
-            scoreTable.takeData(userName);
+            playerName = args[0];
+            scoreTable.takeData(playerName);
             requestStatusFromBackend();
         }
         else if(response === 0x15) // Winner declared

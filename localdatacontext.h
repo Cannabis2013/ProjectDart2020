@@ -47,9 +47,11 @@ public:
         RequestBasicValues = 0x30,
         RequestIndexValues = 0x31,
         RequestPlayerScores = 0x3A,
-        RequestSubmitPoint = 0x32,
+        RequestStorePoint = 0x32,
+        RequestUpdateModelState,
         RequestAddRound = 0x33,
-        RequestAddSet = 0x34
+        RequestAddSet = 0x34,
+        RequestTransmitPlayerScores
     };
     enum ContextCodes{
         DataContext = 0x35,
@@ -74,19 +76,15 @@ public slots:
                           const int &gameMode,
                           const int &keyPoint,
                           const QVariantList &playerIndexes) override;
-    void handleCreatePlayerRequest(const QString &userName, const QString &mail) override;
+    void handleCreatePlayerRequest(const QString &playerName, const QString &mail) override;
     void handleDeletePlayerRequest(const int &index) override;
-    void handleSendPlayerScoresRequest(const QUuid &tournament)  override;
-    void updateDataContext(const QUuid &tournament, const QUuid &player, const int &roundIndex, const int &setIndex) override;
     void handleAddScoreRequest(const QUuid &tournament,
-                  const QString &userName,
+                  const QString &playerName,
                   const int &roundIndex,
                   const int &setIndex,
                   const int &throwIndex,
                   const int &point, const int &score) override;
     void sendRequestedTournaments() override;
-    void handleTournamentDetailsRequest(const int &index) override;
-    void handleInitialIndexValuesRequest(const QUuid &tournament,const QStringList &assignedPlayers) override;
     void handleSendPlayerDetailsRequest() override;
     void handleControllerStatusRequest(const QUuid &playerID) override;
     /*
@@ -94,12 +92,26 @@ public slots:
      */
     void setScoreHint(const QUuid &tournament, const QString &player, const int &roundIndex, const int &throwIndex, const int &hint) override;
     void deleteTournamentsFromIndexes(const QVariantList &indexes) override;
-    void handlePlayerScoresRequestFromController(const QUuid &tournament, const QVector<QString> &userNames) override;
 
     void handleRequestFromContext(const int &context, const int &request, const QList<QVariant> &args) override;
     void handleResponseFromContext(const int &context, const int &response, const QList<QVariant> &args) override;
 private:
+    void handleTournamentDetailsRequest(const int &index);
+    void handleInitialIndexValuesRequest(const QUuid &tournament,const QStringList &assignedPlayers);
 
+    /*
+     * Transmit the following values related to given tournament to UI:
+     *  - Tournament keypoint
+     *  - Tournament usernames
+     *  - Tournament player scores
+     */
+    void transmitPlayerScores(const QUuid &tournament);
+    /*
+     * Calculate score for each username provided by the calling context and returns an array of ints
+     */
+    void sendUserNameScores(const QUuid &tournament, const QStringList &userNames);
+
+    void updateDataContext(const QUuid &tournament, const QUuid &player, const int &roundIndex, const int &setIndex) override;
     void createInitialModels();
     /*
      * Persistence related methods

@@ -25,22 +25,7 @@ public slots:
     virtual void stop() = 0 ;
 
     virtual void setCurrentTournament(const int &index) = 0;
-    /*
-     * The following methods handle the initial state of the gamecontroller where it needs to set the following values:
-     *  - Key values like keypoint, current tournament id, etc.
-     *  - Initial indexes like turnindex, throwindex, etc.
-     *  - Current usernames scores
-     */
-    virtual void handleInitialValuesFromDataContext(const QUuid &tournament,
-                                                    const int &keyPoint,
-                                                    const int &numberOfThrows,
-                                                    const QStringList &assignedPlayers) = 0;
-    virtual void handleIndexesFromDatacontext(const int &roundIndex,
-                                              const int &setIndex,
-                                              const int &throwIndex,
-                                              const int &turnIndex,
-                                              const int &totalTurns) = 0;
-    virtual void handleRequestedScoresFromDataContext(const QList<int> &scores) = 0;
+
     /*
      * The following slot is invoked when datacontext needs to know the current tournament id
      */
@@ -63,7 +48,7 @@ public slots:
 
 signals:
     void sendPoint(const QUuid &tournamentID,
-                   const QString &userName,
+                   const QString &playerName,
                    const int &round,
                    const int &setIndex,
                    const int &throwIndex,
@@ -74,16 +59,15 @@ signals:
     void sendCurrentIndexes(const QUuid &tournament, const QUuid &player, const int &roundIndex, const int &setIndex);
     void transmitResponse(const int &status, const QVariantList &args);
     void stateChanged();
-    void sendCurrentTournament(const QUuid &tournament);
     void requestInitialIndexes(const QUuid &tournament,const QStringList &assignedPlayers);
     void requestContextStatusUpdate(const QUuid &player);
     void requestScoresFromDataContext(const QUuid &tournament,const QStringList &userNames);
     void requestSetScoreHint(const QUuid &tournament,
-                             const QString &userName,
+                             const QString &playerName,
                              const int &roundIndex,
                              const int &throwIndex,
                              const int &hint);
-    void removeScore(const QString &userName);
+    void removeScore(const QString &playerName);
 
     void sendRequestToDataContext(const int &context, const int &request, const QVariantList &args);
     void sendResponseToDataContext(const int &context, const int &response, const QVariantList &args);

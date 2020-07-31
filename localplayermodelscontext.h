@@ -34,7 +34,7 @@ public:
     LocalPlayerModelsContext();
     // Public types
     enum UserRoles{Admin = 0x0, Player = 0x02};
-    QUuid createPlayer(const QString &userName,
+    QUuid createPlayer(const QString &playerName,
                        const QString& email,
                        const int& role) override;
     void deletePlayerByUserName(const QString &firstName) override;
@@ -50,10 +50,10 @@ public:
     PlayerContextInterface *setPlayerBuilder(DefaultPlayerBuilder *builder) override;
 
     void buildPlayerModel(const QUuid &id,
-                          const QString &userName,
+                          const QString &playerName,
                           const QString& email) override;
 private:
-    DefaultPlayerInterface *getModel(const QString &userName) const;
+    DefaultPlayerInterface *getModel(const QString &playerName) const;
 
     QList<DefaultPlayerInterface*> _models;
     DefaultPlayerBuilder *_playerBuilder;

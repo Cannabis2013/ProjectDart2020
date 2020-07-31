@@ -28,7 +28,7 @@ private:
 class PlayerBuilderParameters : public IPlayerBuilderParameters<QString,QUuid>
 {
 public:
-    QString userName() const override
+    QString playerName() const override
     {
         return _firstName;
     }
@@ -89,7 +89,7 @@ public:
         DefaultModelInterface* model = new Player();
         auto mail = params.eMail() != "" ? params.eMail() : "defaultsucker@mail.com";
         model->setId(QUuid::createUuid());
-        model->setUserName(params.userName());
+        model->setUserName(params.playerName());
         model->setEmail(mail);
 
         if(options.generateUniqueID())

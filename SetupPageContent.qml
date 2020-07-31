@@ -32,9 +32,9 @@ Content {
         requestPlayers();
     }
 
-    function addPlayer(userName,email)
+    function addPlayer(playerName,email)
     {
-        playersListView.addItemModel({"type" : "player","username" : userName, "mail" : email})
+        playersListView.addItemModel({"type" : "player","username" : playerName, "mail" : email})
     }
 
     function reConnectInterface()

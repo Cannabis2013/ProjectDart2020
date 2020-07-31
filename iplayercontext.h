@@ -6,7 +6,7 @@ class IPlayerContext
 {
 public:
     virtual ~IPlayerContext() = default;
-    virtual TUuid createPlayer(const TString& userName,
+    virtual TUuid createPlayer(const TString& playerName,
                                const TString& playerEMail,
                                const int& role = 0x00) = 0;
     virtual void deletePlayerByUserName(const TString &firstName) = 0;
@@ -21,7 +21,7 @@ public:
     virtual IPlayerContext<TUuid,TList,TString, TBuilderInterface> *setPlayerBuilder(TBuilderInterface *builder) = 0;
     virtual TBuilderInterface *playerBuilder() const = 0;
     virtual void buildPlayerModel(const TUuid &id,
-                                  const TString &userName,
+                                  const TString &playerName,
                                   const TString& email) = 0;
 };
 

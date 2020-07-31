@@ -108,6 +108,22 @@ void LocalFirstToPost::handleResponseFromContext(const int &context, const int &
         _currentStatus = ControllerState::Initialized;
         transmitResponse(ControllerResponse::isInitializedAndWaitsRequest,{});
     }
+    else if(status() == ControllerState::AddScoreState && response == DataContextResponse::UpdateSuccessfull)
+    /*
+     *  - Datacontext responds it has successfully created a scoremodel and added it to its database
+     *  - Controller transmits current username and score to UI context
+     */
+    {
+        auto playerName = currentActiveUser();
+        auto scoreValue = playerScore(currentPlayerIndex());
+        transmitResponse(ControllerResponse::ScoreTransmit,{playerName,scoreValue});
+    }
+    else if(status() == ControllerState::UpdateContextState && response == DataContextResponse::UpdateSuccessfull)
+    {
+        _currentStatus = ControllerState::AwaitsInput;
+        sendCurrentTurnValues();
+    }
+
 }
 
 void LocalFirstToPost::sendCurrentTurnValues()
@@ -213,6 +229,11 @@ void LocalFirstToPost::setCurrentTournament(const int &index)
     emit sendRequestToDataContext(ContextCodes::ControllerContext,ControllerRequest::RequestBasicValues,{index});
 }
 
+void LocalFirstToPost::handleCurrentTournamentRequest()
+{
+    emit sendRequestToDataContext(ContextCodes::ControllerContext,ControllerRequest::RequestTransmitPlayerScores,{currentTournamentID()});
+}
+
 bool LocalFirstToPost::canUndoTurn()
 {
     return _turnIndex > 0;
@@ -252,23 +273,31 @@ int LocalFirstToPost::validateInput(const int &currentScore)
 void LocalFirstToPost::addPoint(const int &point, const int &score)
 {
     setPlayerScore(currentPlayerIndex(),score);
-    auto playerID = currentActiveUser();
     auto tournamentID = currentTournamentID();
+    auto playerName = currentActiveUser();
     auto roundIndex = currentRoundIndex();
     auto setIndex = currentPlayerIndex();
     auto throwIndex = currentThrowIndex();
+    emit sendRequestToDataContext(ContextCodes::ControllerContext,
+                                  ControllerRequest::RequestStorePoint,
+                                    {tournamentID,playerName,roundIndex,setIndex,throwIndex, point, score});
 
-    emit sendPoint(tournamentID,playerID,roundIndex,setIndex,throwIndex,point,score);
+    //emit sendPoint(tournamentID,playerID,roundIndex,setIndex,throwIndex,point,score);
 }
 
-void LocalFirstToPost::handleCurrentTournamentRequest()
+int LocalFirstToPost::currentTurnIndex()
 {
-    emit sendCurrentTournament(_currentTournament);
+    return _turnIndex;
+}
+
+bool LocalFirstToPost::isIndexOffset()
+{
+    return _isOff;
 }
 
 void LocalFirstToPost::handleResponseFromDataContext(const int &response, const QVariantList &args)
 {
-    if(response == DataContextResponse::UpdateSuccessfull && this->status() == ControllerState::UpdateContextState)
+    if(response == DataContextResponse::UpdateSuccessfull && status() == ControllerState::UpdateContextState)
     /*
      * The controller has updated datacontext with either, or both, a new round or set
      */
@@ -276,49 +305,49 @@ void LocalFirstToPost::handleResponseFromDataContext(const int &response, const 
         _currentStatus = ControllerState::AwaitsInput;
         sendCurrentTurnValues();
     }
-    else if(response == DataContextResponse::UpdateSuccessfull && this->status() == ControllerState::NotInitialized)
+    else if(response == DataContextResponse::UpdateSuccessfull && status() == ControllerState::NotInitialized)
     /*
      * The controller has been initialized and is ready to launch
      */
     {
         _currentStatus = ControllerState::Initialized;
-        transmitResponse(this->status(),{});
+        transmitResponse(status(),{});
     }
-    else if(response == DataContextResponse::UpdateSuccessfull && this->status() == ControllerState::AddScoreState)
+    else if(response == DataContextResponse::UpdateSuccessfull && status() == ControllerState::AddScoreState)
     /*
      * The controller is in a state where it has updated the datacontext with score/point values
      *  and needs to send the score back to the UI
      */
     {
-        auto userName = currentActiveUser();
+        auto playerName = currentActiveUser();
         auto scoreValue = playerScore(currentPlayerIndex());
-        transmitResponse(ControllerResponse::ScoreTransmit,{userName,scoreValue});
+        transmitResponse(ControllerResponse::ScoreTransmit,{playerName,scoreValue});
     }
-    else if(response == DataContextResponse::UpdateSuccessfull && this->status() == ControllerState::UndoState)
+    else if(response == DataContextResponse::UpdateSuccessfull && status() == ControllerState::UndoState)
     /*
      * The controller is in a undo state where it has altered its indexes
      *  and needs to notify the UI which user is affected by this alteration
      */
     {
-        auto userName = args.first();
+        auto playerName = args.first();
         auto dimmedPointValue = args.at(1).toInt();
         auto dimmedScoreValue = args.at(2).toInt();
         auto previousScore = dimmedScoreValue + dimmedPointValue;
         setPlayerScore(currentPlayerIndex(),previousScore);
-        emit transmitResponse(ControllerResponse::ScoreRemove,{userName});
+        emit transmitResponse(ControllerResponse::ScoreRemove,{playerName});
     }
-    else if(response == DataContextResponse::UpdateSuccessfull && this->status() == ControllerState::RedoState)
+    else if(response == DataContextResponse::UpdateSuccessfull && status() == ControllerState::RedoState)
         /*
          * The controller is in a redo state where it has altered its indexes
          *  and needs to notify the UI which user is affected by this alteration
          */
     {
-        auto userName = args.at(0);
+        auto playerName = args.at(0);
         auto scoreValue = args.at(2).toInt();
         setPlayerScore(currentPlayerIndex(),scoreValue);
-        emit transmitResponse(ControllerResponse::ScoreTransmit,{userName,scoreValue});
+        emit transmitResponse(ControllerResponse::ScoreTransmit,{playerName,scoreValue});
     }
-    else if(response == DataContextResponse::UpdateUnSuccessfull && this->status() == ControllerState::WinnerDeclared)
+    else if(response == DataContextResponse::UpdateUnSuccessfull && status() == ControllerState::WinnerDeclared)
     {
         transmitResponse(_currentStatus,{determinedWinner()});
         _isActive = false;
@@ -374,7 +403,8 @@ void LocalFirstToPost::nextTurn()
             _setIndex = 0;
         }
         _currentStatus = ControllerState::UpdateContextState;
-        emit sendCurrentIndexes(currentTournamentID(),currentActiveUser(),currentRoundIndex(),currentSetIndex());
+        QVariantList arguments = {currentTournamentID(),currentActiveUser(),currentRoundIndex(),currentSetIndex()};
+        emit sendRequestToDataContext(ContextCodes::ControllerContext,ControllerRequest::RequestUpdateModelState,arguments);
     }
     else
     {

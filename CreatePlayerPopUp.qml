@@ -10,7 +10,7 @@ Page{
     {
         id: createPlayerBody
 
-        signal sendPlayerDetails(string userName,string mail)
+        signal sendPlayerDetails(string playerName,string mail)
 
         signal aboutToClose
         onAboutToClose: pageBody.aboutToClose()
@@ -28,9 +28,9 @@ Page{
         }
 
         function evaluateInputs(){
-            var userName = userNameEdit.currentText;
+            var playerName = userNameEdit.currentText;
 
-            if(userName !== "")
+            if(playerName !== "")
                 endStateButtons.buttonTwoEnabled = true;
             else
                 endStateButtons.buttonTwoEnabled = false;
@@ -98,11 +98,11 @@ Page{
                 buttonTwoEnabled: false
                 onButtonOneClicked: backButtonPressed();
                 onButtonTwoClicked: {
-                    var userName = userNameEdit.currentText;
+                    var playerName = userNameEdit.currentText;
                     var mail = mailEdit.currentText;
                     buttonOneEnabled = false;
                     buttonTwoEnabled = false;
-                    createPlayerBody.sendPlayerDetails(userName,mail);
+                    createPlayerBody.sendPlayerDetails(playerName,mail);
                 }
             }
         }

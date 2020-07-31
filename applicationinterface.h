@@ -58,7 +58,7 @@ public slots:
     /*
      * UI requests to create/delete player from datacontext
      */
-    void createPlayer(const QString &userName, const QString &email);
+    void createPlayer(const QString &playerName, const QString &email);
     void handleDeletePlayer(const int &index);
     /*
      * UI requests playerdetails from datacontext
@@ -78,14 +78,14 @@ public slots:
     void handleControllerStateRequest();
     void handleDeleTournamentRequest(const QVariantList &indexes);
 signals:
-    void requestCreatePlayer(const QString &userName, const QString &mail);
+    void requestCreatePlayer(const QString &playerName, const QString &mail);
     void requestDeletePlayer(const int &index);
     void requestDeleteTournaments(const QVariantList &indexes);
     void requestTournaments();
     void requestPlayers();
     void sendAssignedPlayerIndexes(const QVariantList &indexes, const QUuid &tournament);
     void sendRequestedGameModes(const QStringList &gameModes);
-    void sendPlayerDetail(const QString &userName, const QString &mail);
+    void sendPlayerDetail(const QString &playerName, const QString &mail);
     void transmitResponse(const int &status, const QVariantList &arguments);
     void sendPlayerScore(const QString &playerName, const int &score);
     void sendAssignedPlayerName(const QString &playerName);

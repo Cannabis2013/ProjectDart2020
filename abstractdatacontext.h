@@ -48,25 +48,21 @@ public slots:
                                   const int &gameMode,
                                   const int &keyPoint,
                                   const QVariantList &playerIndexes) = 0;
-    virtual void handleCreatePlayerRequest(const QString &userName, const QString &mail) = 0;
+    virtual void handleCreatePlayerRequest(const QString &playerName, const QString &mail) = 0;
     virtual void handleDeletePlayerRequest(const int &index) = 0;
     virtual void updateDataContext(const QUuid &tournament, const QUuid &player,const int &roundIndex, const int &setIndex) = 0;
     virtual void handleAddScoreRequest(const QUuid &tournament,
-                          const QString &userName,
+                          const QString &playerName,
                           const int &roundIndex,
                           const int &setIndex,
                           const int &throwIndex,
                           const int &point,
                           const int &score) = 0;
-    virtual void handleSendPlayerScoresRequest(const QUuid &tournament) = 0;
     virtual void sendRequestedTournaments() = 0;
-    virtual void handleTournamentDetailsRequest(const int &index) = 0;
-    virtual void handleInitialIndexValuesRequest(const QUuid &tournament, const QStringList &assignedPlayers) = 0;
     virtual void handleSendPlayerDetailsRequest() = 0;
     virtual void handleControllerStatusRequest(const QUuid &playerID) = 0;
-    virtual void setScoreHint(const QUuid &tournament, const QString &userName, const int &roundIndex, const int &throwIndex, const int &hint) = 0;
+    virtual void setScoreHint(const QUuid &tournament, const QString &playerName, const int &roundIndex, const int &throwIndex, const int &hint) = 0;
     virtual void deleteTournamentsFromIndexes(const QVariantList &indexes) = 0;
-    virtual void handlePlayerScoresRequestFromController(const QUuid &tournament, const QVector<QString> &userNames) = 0;
 
     virtual void handleRequestFromContext(const int &context, const int &request, const QList<QVariant> &args) override = 0;
     virtual void handleResponseFromContext(const int &context, const int &response, const QList<QVariant> &args) override = 0;
@@ -74,8 +70,8 @@ signals:
     void sendContextStatus(const int &status, const QVariantList &args);
     void sendGameModes(const QStringList &gameModes);
     void stateChanged(const int &status);
-    void sendPlayerDetail(const QString &userName, const QString &mailAdress);
-    void sendPlayerScore(const QString &userName, const int &score);
+    void sendPlayerDetail(const QString &playerName, const QString &mailAdress);
+    void sendPlayerScore(const QString &playerName, const int &score);
     void sendCalculatedScore(const int &point, const int &score);
     void sendInitialControllerValues(const QUuid &tournamentID,
                                      const int &keyPoint,
