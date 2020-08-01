@@ -109,7 +109,7 @@ void LocalFirstToPost::handleResponseFromContext(const int &response, const QVar
         auto scores = args[0].value<QList<int>>();
         _assignedUsernamesScore = scores;
         _currentStatus = ControllerState::Initialized;
-        transmitResponse(ControllerResponse::isInitializedAndWaitsRequest,{});
+        emit transmitResponse(ControllerResponse::isReadyAndAwaits,{});
     }
     else if(status() == ControllerState::AddScoreState && response == DataContextResponse::UpdateSuccessfull)
     /*
@@ -119,7 +119,7 @@ void LocalFirstToPost::handleResponseFromContext(const int &response, const QVar
     {
         auto playerName = currentActiveUser();
         auto scoreValue = playerScore(currentPlayerIndex());
-        transmitResponse(ControllerResponse::ScoreTransmit,{playerName,scoreValue});
+        emit transmitResponse(ControllerResponse::ScoreTransmit,{playerName,scoreValue});
     }
     else if(status() == ControllerState::UpdateContextState && response == DataContextResponse::UpdateSuccessfull)
     {
@@ -147,6 +147,11 @@ void LocalFirstToPost::handleResponseFromContext(const int &response, const QVar
         auto winnerName = determinedWinnerName();
         emit transmitResponse(ControllerResponse::WinnerFound,{winnerName});
     }
+    else if(status() == ControllerState::resetState && response == DataContextResponse::UpdateUnSuccessfull)
+    {
+        _currentStatus = ControllerState::InitializingIndexValues;
+        emit sendRequestToContext(ControllerRequest::RequestIndexValues,{_currentTournament,_assignedUserNames});
+    }
 }
 
 void LocalFirstToPost::sendCurrentTurnValues()
@@ -155,7 +160,7 @@ void LocalFirstToPost::sendCurrentTurnValues()
     auto canRedo = canRedoTurn();
     auto currentRound = currentRoundIndex();
     auto currentUserName = currentActiveUser();
-    transmitResponse(_currentStatus,{canUndo,canRedo,currentRound,currentUserName});
+    emit transmitResponse(_currentStatus,{canUndo,canRedo,currentRound,currentUserName});
 }
 
 QString LocalFirstToPost::playerMessage()
@@ -247,6 +252,11 @@ QUuid LocalFirstToPost::redoTurn()
     emit sendRequestToContext(ControllerRequest::RequestSetModelHint,arguments);
 
     return _assignedUserNames.value(_setIndex);
+}
+
+void LocalFirstToPost::resetGame()
+{
+
 }
 
 void LocalFirstToPost::setCurrentTournament(const int &index)

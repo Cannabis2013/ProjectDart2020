@@ -44,13 +44,14 @@ public:
         UndoState = 0x1F,
         RedoState = 0x20,
         AddScoreState = 0x21,
-        UpdateContextState = 0x22
+        UpdateContextState = 0x22,
+        resetState = 0x40
     };
     enum ControllerResponse{
         ScoreTransmit = 0x27,
         ScoreRemove = 0x28,
         InconsistencyDetected = 0x29,
-        isInitializedAndWaitsRequest = 0x2D,
+        isReadyAndAwaits = 0x2D,
         DataProvidedSuccess =0x3D,
         WinnerFound = 0x3E
     };
@@ -62,7 +63,8 @@ public:
         RequestUpdateModelState,
         RequestAddRound = 0x33,
         RequestAddSet = 0x34,
-        RequestSetModelHint = 0x3C
+        RequestSetModelHint = 0x3C,
+        RequestResetTournament = 0x3B
     };
     enum DataContextRequests{
         RequestCurrentTournament = 0x3B
@@ -98,6 +100,8 @@ public slots:
 
     QUuid undoTurn() override;
     QUuid redoTurn() override;
+
+    void resetGame() override;
     /*
      *
      */

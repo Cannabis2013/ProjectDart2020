@@ -218,7 +218,7 @@ void LocalDataContext::deleteTournamentsFromIndexes(const QVariantList &indexes)
             emit transmitResponse(DataContextResponse::UpdateUnSuccessfull,{indexesOfDeletedTournaments});
             return;
         }
-        tournamentModelsContext()->deleteTournament(tournamentID);
+        tournamentModelsContext()->removeTournament(tournamentID);
     }
     emit transmitResponse(DataContextResponse::UpdateSuccessfull,{indexesOfDeletedTournaments});
 }
@@ -284,6 +284,7 @@ void LocalDataContext::handleRequestFromContext(const int &request, const QList<
         auto roundIndex = args[2].toInt();
         auto setIndex = args[3].toInt();
         updateDataContext(tournamentID,playerID,roundIndex,setIndex);
+        emit sendResponseToContext(DataContextResponse::UpdateSuccessfull,{playerName});
     }
     else if(request == ControllerRequest::RequestSetModelHint)
     {
@@ -295,6 +296,12 @@ void LocalDataContext::handleRequestFromContext(const int &request, const QList<
         auto hint = args[4].toInt();
 
         setScoreHint(tournamentID,playerID,roundIndex,throwIndex,hint);
+    }
+    else if(request == ControllerRequest::RequestResetTournament)
+    {
+        auto tournamentID = args[0].toUuid();
+        tournamentModelsContext()->removeModelsRelatedToTournament(tournamentID);
+        emit sendResponseToContext(DataContextResponse::UpdateSuccessfull,{});
     }
 }
 
@@ -553,10 +560,8 @@ void LocalDataContext::transmitPlayerScores(const QUuid &tournament)
     if(isInitial)
         updateDataContext(tournament,QUuid(),1,0);
     else
-    {
         _currentStatus = ContextStatus::ContextReady;
-        emit sendResponseToContext(DataContextResponse::UpdateSuccessfull,{});
-    }
+    emit transmitResponse(DataContextResponse::EndOfTransmission,{});
 }
 
 void LocalDataContext::updateDataContext(const QUuid &tournament, const QUuid &player, const int &roundIndex, const int &setIndex)
@@ -577,5 +582,4 @@ void LocalDataContext::updateDataContext(const QUuid &tournament, const QUuid &p
     auto playerUserName = playerModelsContext()->playerUserName(player);
 
     _currentStatus = ContextStatus::ContextReady;
-    emit sendResponseToContext(DataContextResponse::UpdateSuccessfull,{playerUserName});
 }

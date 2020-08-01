@@ -36,7 +36,8 @@ public:
         TournamentAdded = 0x23,
         TournamentDeleted = 0x24,
         PlayerAdded = 0x25,
-        PlayerDeleted = 0x26
+        PlayerDeleted = 0x26,
+        EndOfTransmission = 0x41
     };
     enum DataContextRequests{
         RequestCurrentTournament = 0x3B
@@ -62,7 +63,8 @@ public:
         RequestUpdateModelState,
         RequestAddRound = 0x33,
         RequestAddSet = 0x34,
-        RequestSetModelHint = 0x3C
+        RequestSetModelHint = 0x3C,
+        RequestResetTournament = 0x3B
     };
     enum ContextCodes{
         DataContext = 0x35,

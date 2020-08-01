@@ -23,8 +23,8 @@ ApplicationInterface::ApplicationInterface(AbstractDataContext *dataContext, Def
      */
     connect(this,&ApplicationInterface::setCurrentActiveTournament,_gameController,&AbstractGameController::setCurrentTournament);
     // Notify UI regarding context states
-    connect(_gameController,&AbstractGameController::transmitResponse,this,&ApplicationInterface::transmitResponse);
     connect(_dataContext,&AbstractDataContext::transmitResponse,this,&ApplicationInterface::transmitResponse);
+    connect(_gameController,&AbstractGameController::transmitResponse,this,&ApplicationInterface::transmitResponse);
     // UI needs to populate its scoreboard with keypoint, playernames and player scores
     connect(this,&ApplicationInterface::requestPlayerScores,_dataContext,&AbstractDataContext::handlePlayerScoresRequest);
     connect(_dataContext,&AbstractDataContext::sendCurrentTournamentKeyPoint,this,&ApplicationInterface::sendCurrentTournamentKeyPoint);

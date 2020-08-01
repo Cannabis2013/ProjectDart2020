@@ -30,23 +30,24 @@ Content {
     function appendHeaderItem(item)
     {
         scoreTable.appendHeader(item);
-        responseTimer.restart();
     }
     function appendScore(player,score)
     {
-        print("Player: " + player + " score: " + score);
         scoreTable.appendData(player,score);
-        responseTimer.restart();
     }
 
     onReplyFromBackendRecieved: {
         var buttonText = turnNavigator.startButtonText;
-        var playerName, scoreValue;
         if(response === 0x12) // Gamecontroller is stopped
         {
             keyPad.enableKeys = false;
             turnNavigator.startButtonText = "Resume"
         }
+        else if(response === 0x2D)
+        {
+            requestScoreBoardData();
+        }
+
         else if(response === 0x13) // Gamecontroller awaits input
         {
             turnNavigator.startButtonText = "Pause";
@@ -146,13 +147,6 @@ Content {
         Rectangle{
             Layout.fillHeight: true
         }
-
-        Timer{
-            id: responseTimer
-            interval: 500 // 0.5s
-            repeat: false
-            onTriggered: body.requestStatusFromBackend()
-        }
     }
     Component.onCompleted: {
         body.requestScoreBoardData.connect(applicationInterface.handleScoreBoardRequest);
@@ -166,8 +160,6 @@ Content {
         body.requestStatusFromBackend.connect(applicationInterface.handleControllerStateRequest);
 
         scoreTable.setMinimumColumnsCount(4);
-
-        requestScoreBoardData();
     }
     Component.onDestruction: {
         applicationInterface.sendAssignedPlayerName.disconnect(scoreTable.appendHeader);

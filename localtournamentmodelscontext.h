@@ -33,7 +33,8 @@ public:
                            const int &throws,
                            const int &gameMode,
                            const int &winCondition) override;
-    void deleteTournament(const QUuid &tournament) override;
+    void removeTournament(const QUuid &tournament) override;
+    void removeModelsRelatedToTournament(const QUuid &tournament) override;
     QUuid tournamentIDFromIndex(const int &index) const override;
     QList<QUuid> tournaments() const override;
     int tournamentsCount() const override;
@@ -47,8 +48,6 @@ public:
     QUuid tournamentDeterminedWinner(const QUuid &tournament) const override;
     void assignPlayerToTournament(const QUuid &tournament, const QUuid &player) override;
     void tournamentRemovePlayer(const QUuid &tournament, const QUuid &player) override;
-    void removeTournament(const QUuid &tournament) override;
-    void removeTournamentModels(const QUuid &tournament) override;
     void alterTournamentTitle(const QUuid &tournament, const QString &title) override;
     void alterTournamentNumberOfLegs(const QUuid &tournament, const int &value) override;
     void alterTournamentGameMode(const QUuid &tournament, const int &mode) override;

@@ -25,15 +25,20 @@ QUuid LocalTournamentModelsContext::createTournament(const QString &title,
 }
 
 
-void LocalTournamentModelsContext::deleteTournament(const QUuid &tournament)
+void LocalTournamentModelsContext::removeTournament(const QUuid &tournament)
 {
     /*
      * TODO: Remove all models related to the tournament
      */
+    removeModelsRelatedToTournament(tournament);
+    removeTournamentModel(tournament);
+}
+
+void LocalTournamentModelsContext::removeModelsRelatedToTournament(const QUuid &tournament)
+{
     removeTournamentScores(tournament);
     removeTournamentSets(tournament);
     removeTournamentRounds(tournament);
-    removeTournamentModel(tournament);
 }
 
 QUuid LocalTournamentModelsContext::tournamentIDFromIndex(const int &index) const
@@ -238,17 +243,6 @@ void LocalTournamentModelsContext::tournamentRemovePlayer(const QUuid &tournamen
     _tournaments.replace(index,newModel);
 }
 
-void LocalTournamentModelsContext::removeTournament(const QUuid &tournament)
-{
-    removeTournamentModels(tournament);
-
-    for (int i = 0; i < _tournaments.count(); ++i) {
-        auto tournamentModel = _tournaments.at(i);
-        auto tournamentID = tournamentModel->id();
-        if(tournamentID == tournament)
-            _tournaments.removeAt(i);
-    }
-}
 
 void LocalTournamentModelsContext::alterTournamentGameMode(const QUuid &tournament, const int &mode)
 {
@@ -1129,44 +1123,6 @@ int LocalTournamentModelsContext::addScore(const QUuid &tournament,
     _scores.append(model);
 
     return score;
-}
-
-
-void LocalTournamentModelsContext::removeTournamentModels(const QUuid &tournament)
-{
-    /*
-     * Remove points related to tournament
-     */
-    auto tournamentPoints = scores(tournament);
-    for (int i = 0; i < tournamentPoints.count(); ++i) {
-        auto tournamentPointID = tournamentPoints.at(i);
-        for (int j = 0; j < _scores.count(); ++j) {
-            auto pointModel = _scores.at(j);
-            auto pointID = pointModel->id();
-            if(tournamentPointID == pointID)
-                _scores.removeAt(j);
-        }
-    }
-    auto tournamentSets = tournamentSetsID(tournament);
-    for (int i = 0; i < tournamentSets.count(); ++i) {
-        auto tournamentSetID = tournamentSets.at(i);
-        for (int j = 0; j < _sets.count(); ++j){
-            auto setModel = _sets.at(j);
-            auto setID = setModel->id();
-            if(tournamentSetID == setID)
-                _sets.removeAt(j);
-        }
-    }
-    auto tournamentRounds = roundsID(tournament);
-    for (int i = 0; i < tournamentRounds.count(); ++i) {
-        auto tournamentRound = tournamentRounds.at(i);
-        for (int j = 0; j < _rounds.count(); ++j){
-            auto roundModel = _rounds.at(j);
-            auto roundID = roundModel->id();
-            if(tournamentRound == roundID)
-                _rounds.removeAt(j);
-        }
-    }
 }
 
 IRoundBuilder *LocalTournamentModelsContext::roundBuilder() const

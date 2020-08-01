@@ -12,7 +12,8 @@ public:
                                    const int &gameMode,
                                    const int &winCondition) = 0;
 
-    virtual void deleteTournament(const TUuid &tournament) = 0;
+    virtual void removeTournament(const TUuid &tournament) = 0;
+    virtual void removeModelsRelatedToTournament(const TUuid &tournament) = 0;
     virtual TList tournaments() const = 0;
     virtual int tournamentsCount() const = 0;
     virtual TUuid tournamentIDFromIndex(const int &index) const = 0;
@@ -24,8 +25,6 @@ public:
     virtual int tournamentKeyPoint(const TUuid &tournament) const = 0;
     virtual int tournamentStatus(const TUuid &tournament) const = 0;
     virtual TUuid tournamentDeterminedWinner(const TUuid &tournament) const = 0;
-    virtual void removeTournament(const TUuid &tournament) = 0;
-    virtual void removeTournamentModels(const TUuid &tournament) = 0;
     virtual void alterTournamentTitle(const TUuid &tournament, const TString &title) = 0;
     virtual void alterTournamentNumberOfLegs(const TUuid &tournament, const int &value) = 0;
     virtual void assignPlayerToTournament(const TUuid &tournament, const TUuid &player) = 0;

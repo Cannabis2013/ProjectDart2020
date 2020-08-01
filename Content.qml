@@ -25,17 +25,15 @@ Rectangle {
 
     onHeightChanged: {
         if(height < minimumHeight)
-            height = minimumHeight
+            height = minimumHeight;
         notifyHeightChange(height);
     }
 
     Component.onCompleted: {
-        applicationInterface.stateChanged.connect(requestUpdate);
         applicationInterface.transmitResponse.connect(replyFromBackendRecieved);
     }
 
     Component.onDestruction: {
-        applicationInterface.stateChanged.disconnect(requestUpdate);
         applicationInterface.transmitResponse.disconnect(replyFromBackendRecieved);
     }
 }

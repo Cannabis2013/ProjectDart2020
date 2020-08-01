@@ -46,12 +46,12 @@ public slots:
     virtual QUuid undoTurn() = 0;
     virtual QUuid redoTurn() = 0;
 
+    virtual void resetGame() = 0;
+
 signals:
     void transmitResponse(const int &status, const QVariantList &args);
-
     void sendRequestToContext(const int &request, const QVariantList &args);
     void sendResponseToContext(const int &response, const QVariantList &args);
-
 };
 
 #endif // ABSTRACTGAMECONTROLLER_H
