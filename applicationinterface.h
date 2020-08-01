@@ -28,8 +28,9 @@ class ApplicationInterface : public QObject
 public:
     enum GameModes {
         FirstToPost = 0x1,
-        RoundBased =0x2,
-        CircularDart = 0x3
+        RoundLimit =0x2,
+        Circular = 0x3,
+        Cricket
     };
     enum Status{
         ContextNotInitialized = 0x4,
@@ -50,21 +51,26 @@ public slots:
      * UI request data to populate scoreboard
      */
     void handleScoreBoardRequest();
-    void createTournament(const QString &title,
-                                     const int &numberOfThrows,
-                                     const QString &gameMode,
-                                     const int &keyPoint,
-                                     const QVariantList &playerIndexes);
+    void handleCreateTournament(const QString &title,
+                                const int &numberOfThrows,
+                                const int &gameMode,
+                                const int &winCondition,
+                                const int &keyPoint,
+                                const QVariantList &playerIndexes);
     /*
      * UI requests to create/delete player from datacontext
      */
-    void createPlayer(const QString &playerName, const QString &email);
+    void handleCreatePlayer(const QString &playerName, const QString &email);
     void handleDeletePlayer(const int &index);
     /*
      * UI requests playerdetails from datacontext
      */
     void requestPlayerDetails();
     void handleSendGameModesRequest() const;
+    /*
+     * Reset and restart tournament
+     */
+    void handleResetTournament();
     void requestStart();
     void requestStop();
     /*
@@ -98,6 +104,7 @@ signals:
     void sendTournamentCandidate(const QString &title,
                                  const int &numberOfThrows,
                                  const int &gameMode,
+                                 const int &winCondition,
                                  const int &keyPoint,
                                  const QVariantList &playerIndexes);
     void sendInformalControllerValues(const int &roundIndex,

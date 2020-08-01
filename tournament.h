@@ -99,6 +99,15 @@ public:
         return QUuid();
     }
 
+    int terminateKeyCondition() const override
+    {
+        return _terminateConditionKeyCode;
+    }
+    void setTerminateKeyCondition(const int &keyCode) override
+    {
+        _terminateConditionKeyCode = keyCode;
+    }
+
 private:
     QString _title;
     int _numberOfThrows;
@@ -106,7 +115,7 @@ private:
     int _keyPoint;
     int _status;
     int _modelType;
-
+    int _terminateConditionKeyCode;
     QUuid _id,_winner;
     QList<QUuid> _assignedPlayerIdentities;
 };

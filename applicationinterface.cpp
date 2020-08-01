@@ -71,17 +71,17 @@ void ApplicationInterface::handleScoreBoardRequest()
     emit requestPlayerScores();
 }
 
-void ApplicationInterface::createTournament(const QString &title,
-                                            const int &numberOfThrows,
-                                            const QString &gameMode,
-                                            const int &keyPoint,
-                                            const QVariantList &playerIndexes)
+void ApplicationInterface::handleCreateTournament(const QString &title,
+                                                  const int &numberOfThrows,
+                                                  const int &gameMode,
+                                                  const int &winCondition,
+                                                  const int &keyPoint,
+                                                  const QVariantList &playerIndexes)
 {
-    auto mode = gameModeFromString(gameMode);
-    emit sendTournamentCandidate(title,numberOfThrows,mode,keyPoint,playerIndexes);
+    emit sendTournamentCandidate(title,numberOfThrows,gameMode,winCondition,keyPoint,playerIndexes);
 }
 
-void ApplicationInterface::createPlayer(const QString &playerName, const QString &email)
+void ApplicationInterface::handleCreatePlayer(const QString &playerName, const QString &email)
 {
     emit requestCreatePlayer(playerName,email);
 }
@@ -101,12 +101,19 @@ void ApplicationInterface::handleSendGameModesRequest() const
     QStringList resultingList;
 
     QString first = printVariable(FirstToPost);
-    QString second = printVariable(RoundBased);
-    QString third = printVariable(CircularDart);
+    QString second = printVariable(RoundLimit);
+    QString third = printVariable(Circular);
 
     resultingList << first << second << third;
 
     emit sendGameModes(resultingList);
+}
+
+void ApplicationInterface::handleResetTournament()
+{
+    /*
+     * TODO: Implement reset tournament functionality
+     */
 }
 
 void ApplicationInterface::requestStart()
@@ -163,10 +170,10 @@ int ApplicationInterface::gameModeFromString(const QString &gameMode) const
 {
     if(gameMode == printVariable(FirstToPost))
         return FirstToPost;
-    else if(gameMode == printVariable(RoundBased))
-        return RoundBased;
-    else if(gameMode == printVariable(CircularDart))
-        return CircularDart;
+    else if(gameMode == printVariable(RoundLimit))
+        return RoundLimit;
+    else if(gameMode == printVariable(Circular))
+        return Circular;
     else
         return -1;
 }

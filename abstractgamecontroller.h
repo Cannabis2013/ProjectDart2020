@@ -34,8 +34,8 @@ public slots:
      * Handle request and response from different contexts
      */
 
-    virtual void handleRequestFromContext(const int &context, const int &request, const QVariantList &args) override = 0;
-    virtual void handleResponseFromContext(const int &context, const int &response, const QVariantList &args) override = 0;
+    virtual void handleRequestFromContext(const int &request, const QVariantList &args) override = 0;
+    virtual void handleResponseFromContext(const int &response, const QVariantList &args) override = 0;
     /*
      * Handle requests from datacontext
      */
@@ -49,8 +49,8 @@ public slots:
 signals:
     void transmitResponse(const int &status, const QVariantList &args);
 
-    void sendRequestToContext(const int &context, const int &request, const QVariantList &args);
-    void sendResponseToContext(const int &context, const int &response, const QVariantList &args);
+    void sendRequestToContext(const int &request, const QVariantList &args);
+    void sendResponseToContext(const int &response, const QVariantList &args);
 
 };
 

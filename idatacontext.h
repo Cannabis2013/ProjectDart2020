@@ -9,7 +9,8 @@ public:
     virtual TUuid createTournament(const TString &title,
                                    const int &keyPoint, 
                                    const int &throws,
-                                   const int &gameMode) = 0;
+                                   const int &gameMode,
+                                   const int &winCondition) = 0;
 
     virtual void deleteTournament(const TUuid &tournament) = 0;
     virtual TList tournaments() const = 0;
@@ -19,6 +20,7 @@ public:
     virtual int tournamentNumberOfThrows(const TUuid &tournament) const = 0;
     virtual TList tournamentAssignedPlayers(const TUuid &tournament) const = 0;
     virtual int tournamentGameMode(const TUuid &tournament) const = 0;
+    virtual int tournamentWinningKeyCondition(const TUuid &tournament) const = 0;
     virtual int tournamentKeyPoint(const TUuid &tournament) const = 0;
     virtual int tournamentStatus(const TUuid &tournament) const = 0;
     virtual TUuid tournamentDeterminedWinner(const TUuid &tournament) const = 0;

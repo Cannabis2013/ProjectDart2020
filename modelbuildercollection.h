@@ -47,6 +47,7 @@ public:
         model->setStatus(status);
         model->setKeyPoint(keyPoint);
         model->setNumberOfThrows(legCount);
+        model->setTerminateKeyCondition(args.winConditionKey);
         model->setAssignedPlayerIdentities(playerIdentitties);
         model->setType(ModelBuilderContext::TournamentModel);
         return model;

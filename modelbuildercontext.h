@@ -31,6 +31,7 @@ struct TournamentParameters
     int defaultGameMode = 0x0;
     int initialStatus = 0xc;
     int tournamentsCount = 0;
+    int winConditionKey = 0x2B;
 };
 
 struct RoundParameters

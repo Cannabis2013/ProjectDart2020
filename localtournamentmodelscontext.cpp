@@ -3,14 +3,16 @@
 QUuid LocalTournamentModelsContext::createTournament(const QString &title,
                                                      const int &keyPoint,
                                                      const int &throws,
-                                                     const int &gameMode)
+                                                     const int &gameMode,
+                                                     const int &winCondition)
 {
-    auto tournament = tournamentBuilder()->buildModel([this,title,keyPoint,throws,gameMode]{
+    auto tournament = tournamentBuilder()->buildModel([this,title,keyPoint,throws,gameMode,winCondition]{
         TournamentParameters params;
         params.title = title;
         params.throws = throws;
         params.keyPoint = keyPoint;
         params.gameMode = gameMode;
+        params.winConditionKey = winCondition;
         params.tournamentsCount = this->tournamentsCount();
         return params;
     }(),[]{
@@ -90,6 +92,13 @@ QList<QUuid> LocalTournamentModelsContext::tournamentAssignedPlayers(const QUuid
 int LocalTournamentModelsContext::tournamentGameMode(const QUuid &tournament) const
 {
     return getTournamentModelFromID(tournament)->gameMode();
+}
+
+int LocalTournamentModelsContext::tournamentWinningKeyCondition(const QUuid &tournament) const
+{
+    auto tournamentModel = getTournamentModelFromID(tournament);
+    auto conditionKeyCode = tournamentModel->terminateKeyCondition();
+    return conditionKeyCode;
 }
 
 int LocalTournamentModelsContext::tournamentKeyPoint(const QUuid &tournament) const

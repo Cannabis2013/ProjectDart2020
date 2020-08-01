@@ -11,6 +11,8 @@
 #include <quuid.h>
 #include <qlist.h>
 
+#include <qthread.h>
+
 #define GAME_IS_NOT_IN_PROGRESS "Game is not in progress"
 #define GAME_WINNER_ANNOUNCEMENT(x) QString("Winner with ID: %! is declared winner").arg(x);
 #define INVALID_DOMAIN "Input is not within domain";
@@ -49,7 +51,8 @@ public:
         ScoreRemove = 0x28,
         InconsistencyDetected = 0x29,
         isInitializedAndWaitsRequest = 0x2D,
-        DataProvidedSuccess =0x3D
+        DataProvidedSuccess =0x3D,
+        WinnerFound = 0x3E
     };
     enum ControllerRequest{
         RequestBasicValues = 0x30,
@@ -107,8 +110,8 @@ public slots:
      */
     void handleAndProcessUserInput(const int &point, const int &modifierKeyCode) override;
 
-    void handleRequestFromContext(const int &context, const int &request, const QVariantList &args) override;
-    void handleResponseFromContext(const int &context, const int &response, const QVariantList &args) override;
+    void handleRequestFromContext(const int &request, const QVariantList &args) override;
+    void handleResponseFromContext(const int &response, const QVariantList &args) override;
 private:
     /* Private types
      *
@@ -139,13 +142,13 @@ private:
     int status() override{return _currentStatus;}
     int lastPlayerIndex()  override{return _assignedUserNames.count() - 1;}
     int playerIndex()  override {return _setIndex;}
-    QUuid determinedWinner()  override {return _winner;}
+    QString determinedWinnerName()  override {return _winner;}
 
     bool canUndoTurn() override;
     bool canRedoTurn() override;
 
-    IPointLogisticManager<QString> *pointLogisticInterface() const;
-    AbstractGameController *setPointLogisticInterface(IPointLogisticManager<QString> *pointLogisticInterface);
+    int terminateConditionModifier() const;
+
     /*
      * Activity check
      */
@@ -187,8 +190,14 @@ private:
 
     int playerScore(const int &index);
     void setPlayerScore(const int &index, const int &newScore);
-
-    // Gamestate index values
+    /*
+     * Point suggestion section
+     */
+    IPointLogisticManager<QString> *pointLogisticInterface() const;
+    AbstractGameController *setPointLogisticInterface(IPointLogisticManager<QString> *pointLogisticInterface);
+    /*
+     * Controller index values
+     */
     int _roundIndex = 0;
     int _setIndex = 0; // Defines player index
     int _throwIndex = 0; // Index of throw
@@ -204,12 +213,14 @@ private:
 
     int _keyPoint = 0;
     QUuid _currentTournament = QUuid();
-    QUuid _winner;
+    QString _winner;
     ControllerState _currentStatus = ControllerState::NotInitialized;
     bool _isActive = false;
 
     QStringList _assignedUserNames;
     QList<int> _assignedUsernamesScore;
+
+    int _terminateConditionModifier = KeyMappings::DoubleModifier;
 
     // Generate throw suggest message
     IPointLogisticManager<QString> *_pointLogisticInterface;

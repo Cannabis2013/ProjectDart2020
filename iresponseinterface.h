@@ -4,8 +4,8 @@ template<typename TArguments>
 class IResponseInterface
 {
 public:
-    virtual void handleRequestFromContext(const int &context, const int &request, const TArguments &args) = 0;
-    virtual void handleResponseFromContext(const int &context, const int &response, const TArguments &args) = 0;
+    virtual void handleRequestFromContext(const int &request, const TArguments &args) = 0;
+    virtual void handleResponseFromContext(const int &response, const TArguments &args) = 0;
 };
 
 #endif // ISTATUSINTERFACE_H

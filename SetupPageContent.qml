@@ -19,6 +19,12 @@ Content {
         readonly property int updateCount: 2
     }
 
+    QtObject{
+        id: stringModels
+        property var gameModes: ["FirstToPost","Rounds","Circular", "Cricket"]
+        property var keyIdentifiers: ["SingleModifier","DoubleModifier", "TrippleModifier"]
+    }
+
     onReplyFromBackendRecieved: {
 
         if(response === 0xE) // Backend responds update successfull
@@ -43,6 +49,28 @@ Content {
         applicationInterface.sendStatus.connect(replyFromBackendRecieved); // Handle reply
         playersListView.clear();
         requestPlayers();
+    }
+
+    function convertGameModeToHex(text)
+    {
+        var gameModes = stringModels.gameModes;
+        if(text === gameModes[0])
+            return 0x1;
+        else if(text === gameModes[1])
+            return 0x2;
+        else if(text === gameModes[2])
+            return 0x3;
+    }
+    function convertKeyModifierToHex(key){
+        var keyIdentifiers = stringModels.keyIdentifiers;
+        if(key === keyIdentifiers[0])
+            return 0x2A;
+        else if(key === keyIdentifiers[1])
+            return 0x2B;
+        else if(key === keyIdentifiers[2])
+            return 0x2C;
+        else
+            return -1;
     }
 
     GridLayout{
@@ -96,6 +124,19 @@ Content {
             labelBackgroundColor: "lightblue"
             labelFontSize: 8
             labelLeftMargin: 10
+            stringModel: stringModels.gameModes
+        }
+
+        ComboBoxView{
+            id: winConditionSelector
+            height: 32
+            Layout.fillWidth: true
+            labelText: "Finish with:"
+            labelFontColor: "darkblue"
+            labelBackgroundColor: "lightblue"
+            labelFontSize: 8
+            labelLeftMargin: 10
+            stringModel: stringModels.keyIdentifiers
         }
 
         Rectangle{
@@ -146,9 +187,14 @@ Content {
                     return;
                 buttonTwoEnabled = false;
                 var gameMode = gameModeSelector.currentText;
+                var gameCode = convertGameModeToHex(gameMode);
+                var winConditionKeyIdentifier = winConditionSelector.currentText;
+                var winConditionKeyCode = convertKeyModifierToHex(winConditionKeyIdentifier);
+
                 sendTournament(titleEdit.currentText,
                                legsEdit.currentText,
-                               gameMode,
+                               gameCode,
+                               winConditionKeyCode,
                                keyPointEdit.currentText,
                                indexes);
             }
@@ -168,12 +214,9 @@ Content {
         }
 
         Component.onCompleted: {
-            body.requestGameModes.connect(applicationInterface.handleSendGameModesRequest); // Request gamemodes
-            applicationInterface.sendGameModes.connect(gameModeSelector.setModel) // Recieve gamemodes
             body.sendTournament.connect(applicationInterface.createTournament); // Tournament request
             body.requestPlayers.connect(applicationInterface.requestPlayers); // Request initial/continous players
             applicationInterface.sendPlayerDetail.connect(body.addPlayer); // Recieve initial players
-
             requestUpdate();
         }
         Component.onDestruction: {

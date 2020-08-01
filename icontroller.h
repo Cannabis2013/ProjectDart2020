@@ -18,7 +18,7 @@ public:
 
     virtual TString calculateThrowSuggestion(const int &score)  = 0;
 
-    virtual TUuid determinedWinner()  = 0;
+    virtual TString determinedWinnerName()  = 0;
 
     virtual bool canUndoTurn() = 0;
     virtual bool canRedoTurn() = 0;

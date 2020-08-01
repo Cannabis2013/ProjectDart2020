@@ -24,11 +24,9 @@ Rectangle {
 
     onWidthChanged: {
         contentFlickable.contentWidth = contentFlickable.width;
-        print("Content width: " + contentFlickable.width);
     }
     onHeightChanged: {
         contentFlickable.contentHeight = contentFlickable.height;
-        print("Content height:" + contentFlickable.height);
     }
 
     property string pageTitle: "Page title"

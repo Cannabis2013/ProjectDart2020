@@ -50,6 +50,9 @@ public:
 
     virtual QUuid winner() const = 0;
     virtual void setWinner(const QUuid &val) = 0;
+
+    virtual int terminateKeyCondition() const = 0;
+    virtual void setTerminateKeyCondition(const int &keyCode) = 0;
 };
 
 template<class QUuid, class TList>

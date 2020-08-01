@@ -39,7 +39,7 @@ Rectangle{
 
     function setModel(strings)
     {
-        comboBox.setModel(strings)
+        comboBox.setModel(strings);
     }
 
     MyLabel

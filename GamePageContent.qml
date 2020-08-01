@@ -34,6 +34,7 @@ Content {
     }
     function appendScore(player,score)
     {
+        print("Player: " + player + " score: " + score);
         scoreTable.appendData(player,score);
         responseTimer.restart();
     }
@@ -78,7 +79,7 @@ Content {
             scoreTable.takeData(playerName);
             requestStatusFromBackend();
         }
-        else if(response === 0x15) // Winner declared
+        else if(response === 0x3E) // Winner declared
         {
             keyPad.enableKeys = false;
             turnNavigator.startButtonText = "Restart"
@@ -106,6 +107,11 @@ Content {
                 var buttonText = turnNavigator.startButtonText;
                 if(buttonText === "Start" || buttonText === "Resume")
                     requestStart();
+                else if(buttonText === "Restart")
+                {
+                    scoreTable.clearTable();
+                }
+
                 else
                     requestStop();
             }
@@ -143,7 +149,7 @@ Content {
 
         Timer{
             id: responseTimer
-            interval: 500 // 3.5s
+            interval: 500 // 0.5s
             repeat: false
             onTriggered: body.requestStatusFromBackend()
         }

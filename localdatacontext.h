@@ -86,10 +86,11 @@ public slots:
      * The following slots are called directly from the presentation layer
      */
     void handleCreateTournamentRequest(const QString &title,
-                          const int &numberOfThrows,
-                          const int &gameMode,
-                          const int &keyPoint,
-                          const QVariantList &playerIndexes) override;
+                                       const int &numberOfThrows,
+                                       const int &gameMode,
+                                       const int &winCondition,
+                                       const int &keyPoint,
+                                       const QVariantList &playerIndexes) override;
     void handleCreatePlayerRequest(const QString &playerName, const QString &mail) override;
     void handleDeletePlayerRequest(const int &index) override;
 
@@ -101,8 +102,8 @@ public slots:
     /*
      * The following two slots is called from controller context
      */
-    void handleRequestFromContext(const int &context, const int &request, const QList<QVariant> &args) override;
-    void handleResponseFromContext(const int &context, const int &response, const QList<QVariant> &args) override;
+    void handleRequestFromContext(const int &request, const QList<QVariant> &args) override;
+    void handleResponseFromContext(const int &response, const QList<QVariant> &args) override;
 
 private:
     /*
