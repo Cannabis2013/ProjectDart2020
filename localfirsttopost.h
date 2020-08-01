@@ -101,7 +101,7 @@ public slots:
     QUuid undoTurn() override;
     QUuid redoTurn() override;
 
-    void resetGame() override;
+    void restartGame() override;
     /*
      *
      */
@@ -126,11 +126,6 @@ private:
      */
     enum InputPointDomain {InvalidDomain = 0x02};
     enum AggregatedSumDomains {PointDomain = 0x04,CriticalDomain = 0x06, OutsideDomain = 0x08, TargetDomain = 0xa};
-    /*
-     * Handle response from datacontext
-     *  - Handle the transaction response from datacontext
-     */
-    void handleResponseFromDataContext(const int &response, const QVariantList &args);
     /*
      * Notify UI about controller state, current round index, undo/redo possibility and current user
      */

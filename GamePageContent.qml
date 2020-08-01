@@ -22,6 +22,7 @@ Content {
     signal requestStatusFromBackend
     signal requestStart
     signal requestStop
+    signal requestRestart
     signal requestUndo
     signal requestRedo
 
@@ -37,15 +38,11 @@ Content {
     }
 
     onReplyFromBackendRecieved: {
-        var buttonText = turnNavigator.startButtonText;
+        var buttonText = turnNavigator.startButtonText, playerName, scoreValue;
         if(response === 0x12) // Gamecontroller is stopped
         {
             keyPad.enableKeys = false;
             turnNavigator.startButtonText = "Resume"
-        }
-        else if(response === 0x2D)
-        {
-            requestScoreBoardData();
         }
 
         else if(response === 0x13) // Gamecontroller awaits input
@@ -61,7 +58,12 @@ Content {
 
             keyPad.enableKeys = true;
         }
-        else if(response == 0x17)
+        else if(response === 0x41)
+        {
+            turnNavigator.startButtonEnabled = true;
+        }
+
+        else if(response === 0x17)
         {
             turnNavigator.startButtonEnabled = true;
         }
@@ -104,15 +106,18 @@ Content {
             height: 64
             Layout.alignment: Qt.AlignHCenter
             startButtonEnabled: false
+            onStartButtonEnablePressAndHoldChanged: {
+                turnNavigator.startButtonText = "Restart"
+            }
+
             onStartButtonClicked: {
                 var buttonText = turnNavigator.startButtonText;
                 if(buttonText === "Start" || buttonText === "Resume")
                     requestStart();
                 else if(buttonText === "Restart")
                 {
-                    scoreTable.clearTable();
+                    requestRestart();
                 }
-
                 else
                     requestStop();
             }
@@ -154,12 +159,15 @@ Content {
         applicationInterface.sendPlayerScore.connect(body.appendScore);
         body.requestStart.connect(applicationInterface.requestStart);
         body.requestStop.connect(applicationInterface.requestStop);
+        body.requestRestart.connect(applicationInterface.handleRestartTournament);
         body.sendInput.connect(applicationInterface.handleUserInput);
         body.requestUndo.connect(applicationInterface.requestUndo);
         body.requestRedo.connect(applicationInterface.requestRedo);
         body.requestStatusFromBackend.connect(applicationInterface.handleControllerStateRequest);
 
         scoreTable.setMinimumColumnsCount(4);
+
+        requestScoreBoardData();
     }
     Component.onDestruction: {
         applicationInterface.sendAssignedPlayerName.disconnect(scoreTable.appendHeader);

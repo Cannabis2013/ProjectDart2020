@@ -8,6 +8,13 @@ Item {
     signal leftButtonClicked
     signal rightButtonClicked
 
+    signal startButtonPressAndHoldClicked
+    signal leftButtonPressAndHoldClicked
+    signal rightButtonPressAndHoldClicked
+
+    property bool startButtonEnablePressAndHold : false
+    onStartButtonEnablePressAndHoldChanged: startButton.enablePressAndHold = startButtonEnablePressAndHold
+
     property string startButtonText: "Start"
     onStartButtonTextChanged: startButton.text = startButtonText
 
@@ -50,7 +57,11 @@ Item {
             Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
             width: 80
             height: 32
+
+            enablePressAndHold: body.startButtonEnablePressAndHold
+
             onClicked: startButtonClicked()
+            onPressAndHoldClicked: startButtonPressAndHoldClicked()
             enabled: body.startButtonEnabled
         }
 
@@ -66,13 +77,14 @@ Item {
 
             image: "qrc:/pictures/Ressources/arrow.png"
 
-            imageRotation: 180
+            onClicked: leftButtonClicked()
+            onPressAndHoldClicked: leftButtonPressAndHoldClicked()
 
+            imageRotation: 180
             imageMargins: 20
 
             buttonRadius: 45
             hoverEnabled: false
-            onClicked: leftButtonClicked()
             Layout.alignment: Qt.AlignVCenter
 
             enabled: false;
@@ -121,6 +133,7 @@ Item {
             imageMargins: 20
             buttonRadius: 45
             hoverEnabled: false
+            onPressAndHoldClicked: rightButtonPressAndHoldClicked()
             onClicked: rightButtonClicked()
 
             Layout.alignment: Qt.AlignVCenter

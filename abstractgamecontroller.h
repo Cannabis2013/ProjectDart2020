@@ -46,7 +46,7 @@ public slots:
     virtual QUuid undoTurn() = 0;
     virtual QUuid redoTurn() = 0;
 
-    virtual void resetGame() = 0;
+    virtual void restartGame() = 0;
 
 signals:
     void transmitResponse(const int &status, const QVariantList &args);

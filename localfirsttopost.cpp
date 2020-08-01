@@ -254,9 +254,10 @@ QUuid LocalFirstToPost::redoTurn()
     return _assignedUserNames.value(_setIndex);
 }
 
-void LocalFirstToPost::resetGame()
+void LocalFirstToPost::restartGame()
 {
-
+    _currentStatus = ControllerState::resetState;
+    emit sendRequestToContext(ControllerRequest::RequestResetTournament,{currentTournamentID()});
 }
 
 void LocalFirstToPost::setCurrentTournament(const int &index)
@@ -322,75 +323,6 @@ int LocalFirstToPost::currentTurnIndex()
 bool LocalFirstToPost::isIndexOffset()
 {
     return _isOff;
-}
-
-void LocalFirstToPost::handleResponseFromDataContext(const int &response, const QVariantList &args)
-{
-    if(response == DataContextResponse::UpdateSuccessfull && status() == ControllerState::UpdateContextState)
-    /*
-     * The controller has updated datacontext with either, or both, a new round or set
-     */
-    {
-        _currentStatus = ControllerState::AwaitsInput;
-        sendCurrentTurnValues();
-    }
-    else if(response == DataContextResponse::UpdateSuccessfull && status() == ControllerState::NotInitialized)
-    /*
-     * The controller has been initialized and is ready to launch
-     */
-    {
-        _currentStatus = ControllerState::Initialized;
-        transmitResponse(status(),{});
-    }
-    else if(response == DataContextResponse::UpdateSuccessfull && status() == ControllerState::AddScoreState)
-    /*
-     * The controller is in a state where it has updated the datacontext with score/point values
-     *  and needs to send the score back to the UI
-     */
-    {
-        auto playerName = currentActiveUser();
-        auto scoreValue = playerScore(currentPlayerIndex());
-        transmitResponse(ControllerResponse::ScoreTransmit,{playerName,scoreValue});
-    }
-    else if(response == DataContextResponse::UpdateSuccessfull && status() == ControllerState::UndoState)
-    /*
-     * The controller is in a undo state where it has altered its indexes
-     *  and needs to notify the UI which user is affected by this alteration
-     */
-    {
-        auto playerName = args.first();
-        auto dimmedPointValue = args.at(1).toInt();
-        auto dimmedScoreValue = args.at(2).toInt();
-        auto previousScore = dimmedScoreValue + dimmedPointValue;
-        setPlayerScore(currentPlayerIndex(),previousScore);
-        emit transmitResponse(ControllerResponse::ScoreRemove,{playerName});
-    }
-    else if(response == DataContextResponse::UpdateSuccessfull && status() == ControllerState::RedoState)
-        /*
-         * The controller is in a redo state where it has altered its indexes
-         *  and needs to notify the UI which user is affected by this alteration
-         */
-    {
-        auto playerName = args.at(0);
-        auto scoreValue = args.at(2).toInt();
-        setPlayerScore(currentPlayerIndex(),scoreValue);
-        emit transmitResponse(ControllerResponse::ScoreTransmit,{playerName,scoreValue});
-    }
-    else if(response == DataContextResponse::UpdateUnSuccessfull && status() == ControllerState::WinnerDeclared)
-    {
-        transmitResponse(_currentStatus,{determinedWinnerName()});
-        _isActive = false;
-    }
-    else if(response == DataContextResponse::UpdateUnSuccessfull && isActive())
-    /*
-     * Something is wrong. Probably there is some inconsistencies involving models
-     *  which is related to another models that does not exists anymore.
-     */
-    {
-        _isActive = false;
-        _currentStatus = ControllerState::Inconsistency;
-        emit transmitResponse(ControllerResponse::InconsistencyDetected,{});
-    }
 }
 
 void LocalFirstToPost::handleControllerStateRequest()

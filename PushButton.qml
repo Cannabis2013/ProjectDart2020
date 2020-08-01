@@ -37,6 +37,8 @@ Item {
 
     property double checkedScale: 1
 
+    property bool enablePressAndHold: false
+
     property int buttonRadius: 20
     onButtonRadiusChanged: buttonRect.radius = buttonRadius
 
@@ -50,6 +52,8 @@ Item {
     onImageRotationChanged: imageDecorator.rotation = imageRotation
 
     signal clicked
+    signal pressAndHoldClicked
+
     onClicked: handleClick()
 
     signal emitBodyText(string txt)
@@ -101,6 +105,13 @@ Item {
             }
             else{
                 buttonRect.state = "";
+            }
+        }
+
+        onPressAndHold: {
+            if(pushButtonbody.enablePressAndHold)
+            {
+                pressAndHoldClicked();
             }
         }
 

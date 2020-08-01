@@ -68,11 +68,12 @@ public slots:
     void requestPlayerDetails();
     void handleSendGameModesRequest() const;
     /*
-     * Reset and restart tournament
+     *  - Start/stop tournament
+     *  - Reset and restart tournament
      */
-    void handleResetTournament();
     void requestStart();
     void requestStop();
+    void handleRestartTournament();
     /*
      * Handle UI user input
      *  - Users enters points to be stored in datacontext
@@ -122,6 +123,7 @@ signals:
     void sendPoint(const int &point, const int &pressedModifier);
     void startGame();
     void stopGame();
+    void requestRestart();
     void requestControllerState();
     void requestUndo();
     void requestRedo();
