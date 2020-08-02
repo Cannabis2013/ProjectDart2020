@@ -30,7 +30,7 @@ public:
     {
         auto score = new ScoreModel();
 
-        score->multiplier = QVector(_throwCount,'-');
+        score->multiplier = QVector(_throwCount,'\0');
         score->pointValue = QVector(_throwCount,0);
 
         bool hasDeterministicWay;
@@ -226,7 +226,7 @@ private:
         for (int i = 0; i < _throwCount; ++i) {
             auto identifier = s->multiplier.at(i);
             auto pVal = s->pointValue.at(i);
-            result += identifier == '_' ? "" : identifier + QString::number(pVal) + "  ";
+            result += identifier == '\0' ? "" : identifier + QString::number(pVal) + "  ";
         }
 
         return result;

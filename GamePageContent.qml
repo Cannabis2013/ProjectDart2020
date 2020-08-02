@@ -16,6 +16,11 @@ Content {
     id: body
     color: "transparent"
 
+    QtObject{
+        id: textSourceContainer
+        property string throwSuggestTitle: "Throw suggestion:"
+    }
+
     onBackButtonPressed: requestStop()
 
     signal requestScoreBoardData
@@ -53,6 +58,8 @@ Content {
             var currentRoundIndex = args[2];
             var currentPlayerUserName = args[3];
             var throwSuggestion = args[4];
+
+            notificationText.text = textSourceContainer.throwSuggestTitle + " " + throwSuggestion;
 
             print("Throw suggestion: " + throwSuggestion);
 
@@ -137,10 +144,13 @@ Content {
             Layout.fillWidth: true
             height: 125
         }
-        Rectangle{
-            Layout.minimumHeight: 25
-            Layout.maximumHeight: 25
+        Text {
+            id: notificationText
+            text: qsTr(textSourceContainer.throwSuggestTitle)
+            Layout.fillHeight: true
+            Layout.fillWidth: true
         }
+
         KeyPadComponent{
             id: keyPad
             Layout.fillWidth: true
@@ -154,9 +164,6 @@ Content {
             }
 
             enableKeys: false
-        }
-        Rectangle{
-            Layout.fillHeight: true
         }
     }
     Component.onCompleted: {
