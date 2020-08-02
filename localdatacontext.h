@@ -111,7 +111,7 @@ private:
     /*
      * This method is used in conjunction with the gamecontroller to fullfill the undo/redo functionality
      */
-    void setScoreHint(const QUuid &tournament, const QUuid &player, const int &roundIndex, const int &throwIndex, const int &hint);
+    void setScoreHint(const QUuid &tournament, const QUuid &player, const int &roundIndex, const int &setIndex, const int &throwIndex, const int &hint);
 
     void handleTournamentDetailsRequest(const int &index);
     void handleInitialIndexValuesRequest(const QUuid &tournament,const QStringList &assignedPlayers);
@@ -132,8 +132,7 @@ private:
     void createInitialModels();
     /*
      * Persistence related methods
-     */
-    QJsonArray assembleTournamentsJSONArray();
+     */ QJsonArray assembleTournamentsJSONArray();
     QJsonArray assembleRoundsJSONArray();
     QJsonArray assembeSetsJSONArray();
     QJsonArray assembleScoresJSONArray();

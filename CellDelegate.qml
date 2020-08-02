@@ -34,16 +34,6 @@ MyRectangle{
     
     color: cellColor
     
-    PropertyAnimation on rotation
-    {
-        from: 90
-        to: 0
-        
-        duration: 500
-        
-        loops: 1
-    }
-    
     Text {
         id: cellText
         horizontalAlignment: horizontalTextAlignment

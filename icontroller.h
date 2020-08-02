@@ -6,18 +6,13 @@ class IController
 {
 public:
     virtual TUuid currentTournamentID()  = 0;
-    virtual TString playerMessage()  = 0;
 
     virtual TString currentActiveUser() = 0;
     virtual int currentRoundIndex() = 0;
     virtual int currentPlayerIndex() = 0;
     virtual int currentSetIndex() = 0;
     virtual int currentThrowIndex() = 0;
-
     virtual int status()  = 0;
-
-    virtual TString calculateThrowSuggestion(const int &score)  = 0;
-
     virtual TString determinedWinnerName()  = 0;
 
     virtual bool canUndoTurn() = 0;

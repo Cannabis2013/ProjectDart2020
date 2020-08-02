@@ -2,14 +2,15 @@
 
 void LocalFirstToPost::start()
 {
-    if(_currentStatus != ControllerState::Initialized)
+    if(_currentStatus != ControllerState::Initialized &&
+            _currentStatus != ControllerState::Stopped)
     {
         transmitResponse(ControllerState::NotInitialized,{});
         return;
     }
     _isActive = true;
     _currentStatus = ControllerState::AwaitsInput;
-    transmitResponse(_currentStatus,{canUndoTurn(),canRedoTurn(),currentRoundIndex(),currentActiveUser()});
+    sendCurrentTurnValues();
 }
 
 void LocalFirstToPost::stop()
@@ -79,6 +80,11 @@ void LocalFirstToPost::handleRequestFromContext(const int &request, const QVaria
 void LocalFirstToPost::handleResponseFromContext(const int &response, const QVariantList &args)
 {
     if(status() == ControllerState::InitializingBasicValues && response == DataContextResponse::DataRequestSuccess)
+    /*
+     * Phase I - Basic values request
+     *  - Controller is in its initializing phase where it needs basic values
+     *  - Datacontext has responded ok and has passed the requested values
+     */
     {
         _currentTournament = args[0].toUuid();
         _keyPoint = args[1].toInt();
@@ -91,6 +97,11 @@ void LocalFirstToPost::handleResponseFromContext(const int &response, const QVar
         emit sendRequestToContext(ControllerRequest::RequestIndexValues,{_currentTournament,_assignedUserNames});
     }
     else if(status() == ControllerState::InitializingIndexValues && response == DataContextResponse::DataRequestSuccess)
+    /*
+     * Phase II - Controller indexes request
+     *  - Controller is in its initializing phase where it needs its indexes updated
+     *  - Datacontext has responded ok and has passed the requested indexes
+     */
     {
         _roundIndex = args[0].toInt();
         _setIndex = args[1].toInt();
@@ -103,7 +114,10 @@ void LocalFirstToPost::handleResponseFromContext(const int &response, const QVar
     }
     else if(status() == ControllerState::InitializingPlayerScores && response == DataContextResponse::DataRequestSuccess)
     /*
-     * The controller has been initialized and is ready to launch
+     * Phase III - Playerscores requested
+     *  - The controller has requested playerscores
+     *  - Datacontext has responded ok and has passed the requested scores
+     *  - The controller is now considered initialized and is ready to start
      */
     {
         auto scores = args[0].value<QList<int>>();
@@ -113,10 +127,14 @@ void LocalFirstToPost::handleResponseFromContext(const int &response, const QVar
     }
     else if(status() == ControllerState::AddScoreState && response == DataContextResponse::UpdateSuccessfull)
     /*
-     *  - Datacontext responds it has successfully created a scoremodel and added it to its database
-     *  - Controller transmits current username and score to UI context
+     *  - Controller has prior to this event transmitted a score to datacontext
+     *  - Datacontext responds with ok
+     *      > Which indicates it has succesfully stored the score
+     *      > And removed scoremodels associated with current tournament with hidden display hint
+     *  - Controller sets its indexes according to the above
      */
     {
+        _totalTurns = _turnIndex;
         auto playerName = currentActiveUser();
         auto scoreValue = playerScore(currentPlayerIndex());
         emit transmitResponse(ControllerResponse::ScoreTransmit,{playerName,scoreValue});
@@ -129,17 +147,18 @@ void LocalFirstToPost::handleResponseFromContext(const int &response, const QVar
     else if(status() == ControllerState::UndoState && response == DataContextResponse::UpdateSuccessfull)
     {
         auto playerName = args.first();
-        auto dimmedPointValue = args.at(1).toInt();
-        auto dimmedScoreValue = args.at(2).toInt();
+        auto dimmedPointValue = args.at(2).toInt();
+        auto dimmedScoreValue = args.at(3).toInt();
         auto previousScore = dimmedScoreValue + dimmedPointValue;
         setPlayerScore(currentPlayerIndex(),previousScore);
         emit transmitResponse(ControllerResponse::ScoreRemove,{playerName});
     }
     else if(status() == ControllerState::RedoState && response == DataContextResponse::UpdateSuccessfull)
     {
-        auto playerName = args.at(0);
-        auto scoreValue = args.at(2).toInt();
-        setPlayerScore(currentPlayerIndex(),scoreValue);
+        auto playerName = args[0].toString();
+        auto setIndex = args[1].toInt();
+        auto scoreValue = args[3].toInt();
+        setPlayerScore(setIndex,scoreValue);
         emit transmitResponse(ControllerResponse::ScoreTransmit,{playerName,scoreValue});
     }
     else if(status() == ControllerState::WinnerDeclared && response == DataContextResponse::UpdateSuccessfull)
@@ -148,9 +167,14 @@ void LocalFirstToPost::handleResponseFromContext(const int &response, const QVar
         emit transmitResponse(ControllerResponse::WinnerFound,{winnerName});
     }
     else if(status() == ControllerState::resetState && response == DataContextResponse::UpdateUnSuccessfull)
+        /*
+         *  Phase IV - Reset requested
+         *  - Controller has requested models associated with its current tournament removed
+         *  - Now controller needs to reinitialize with request for basic values, indexes and playerscores
+         */
     {
-        _currentStatus = ControllerState::InitializingIndexValues;
-        emit sendRequestToContext(ControllerRequest::RequestIndexValues,{_currentTournament,_assignedUserNames});
+        _currentStatus = ControllerState::InitializingBasicValues;
+        emit sendRequestToContext(ControllerRequest::RequestBasicValues,{_currentTournament,_assignedUserNames});
     }
 }
 
@@ -160,37 +184,15 @@ void LocalFirstToPost::sendCurrentTurnValues()
     auto canRedo = canRedoTurn();
     auto currentRound = currentRoundIndex();
     auto currentUserName = currentActiveUser();
-    emit transmitResponse(_currentStatus,{canUndo,canRedo,currentRound,currentUserName});
-}
-
-QString LocalFirstToPost::playerMessage()
-{
-    /* This is the hard part
-         * TODO: Declare a QString variabel holding a message
-         * TODO: Find some algorithm to determine possible ways to win within 3 or less attemps
-         */
-    return QString();
-}
-
-QString LocalFirstToPost::calculateThrowSuggestion(const int &score)
-{
-    /* TODO: Here you first have to develop an algorithm to help assess the various combinations that exists after the player reach the 180 points threshold
-     * TODO: When done, ruct a string containing the various suggestions. Ex.: 'T20,D10,5' or 'D5,1' for a remaining score at 95 or 11 respectively.
-     */
-
-    auto legCount = _numberOfThrows;
-
-    auto remainingScore = _keyPoint - score;
-
-    auto msg = _pointLogisticInterface->constructThrowSuggestions(remainingScore,legCount);
-
-    return msg;
+    auto score = playerScore(currentSetIndex());
+    auto throwSuggestion = pointLogisticInterface()->constructThrowSuggestions(score,currentThrowIndex() + 1);
+    emit transmitResponse(ControllerResponse::isReadyAndAwaits,{canUndo,canRedo,currentRound,currentUserName,throwSuggestion});
 }
 
 QString LocalFirstToPost::currentActiveUser()
 {
-    auto playerID = _assignedUserNames.value(_setIndex);
-    return playerID;
+    auto playerName = _assignedUserNames.value(currentSetIndex());
+    return playerName;
 }
 
 QUuid LocalFirstToPost::undoTurn()
@@ -204,7 +206,7 @@ QUuid LocalFirstToPost::undoTurn()
     if(_throwIndex > 0)
     {
         _throwIndex--;
-        QVariantList arguments = {currentTournamentID(),currentActiveUser(),currentRoundIndex(),currentThrowIndex(),ModelDisplayHint::HiddenHint};
+        QVariantList arguments = {currentTournamentID(),currentActiveUser(),currentRoundIndex(),0,currentThrowIndex(),ModelDisplayHint::HiddenHint};
         emit sendRequestToContext(ControllerRequest::RequestSetModelHint,arguments);
         return _assignedUserNames.value(_setIndex);
     }
@@ -220,7 +222,7 @@ QUuid LocalFirstToPost::undoTurn()
     {
         _setIndex--;
     }
-    QVariantList arguments = {currentTournamentID(),currentActiveUser(),currentRoundIndex(),currentThrowIndex(),ModelDisplayHint::HiddenHint};
+    QVariantList arguments = {currentTournamentID(),currentActiveUser(),currentRoundIndex(),0,currentThrowIndex(),ModelDisplayHint::HiddenHint};
     emit sendRequestToContext(ControllerRequest::RequestSetModelHint,arguments);
     return _assignedUserNames.at(_setIndex);
 }
@@ -233,6 +235,7 @@ QUuid LocalFirstToPost::redoTurn()
     auto currentActiveUser = this->currentActiveUser();
     auto currentRoundIndex = this->currentRoundIndex();
     auto currentThrowIndex = this->currentThrowIndex();
+    auto currentSetIndex = this->currentSetIndex();
 
     _currentStatus = ControllerState::RedoState;
 
@@ -248,7 +251,7 @@ QUuid LocalFirstToPost::redoTurn()
             _setIndex++;
     }
     _turnIndex++;
-    QVariantList arguments = {currentTournamentID(),currentActiveUser,currentRoundIndex,currentThrowIndex,ModelDisplayHint::DisplayHint};
+    QVariantList arguments = {currentTournamentID(),currentActiveUser,currentRoundIndex,currentSetIndex,currentThrowIndex,ModelDisplayHint::DisplayHint};
     emit sendRequestToContext(ControllerRequest::RequestSetModelHint,arguments);
 
     return _assignedUserNames.value(_setIndex);
@@ -325,7 +328,7 @@ bool LocalFirstToPost::isIndexOffset()
     return _isOff;
 }
 
-void LocalFirstToPost::handleControllerStateRequest()
+void LocalFirstToPost::handleRequestFromUI()
 {
     if(status() == ControllerState::AddScoreState)
     {
@@ -405,12 +408,12 @@ int LocalFirstToPost::terminateConditionModifier() const
     return _terminateConditionModifier;
 }
 
-IPointLogisticManager<QString> *LocalFirstToPost::pointLogisticInterface() const
+IPointLogisticInterface<QString> *LocalFirstToPost::pointLogisticInterface() const
 {
     return _pointLogisticInterface;
 }
 
-AbstractGameController *LocalFirstToPost::setPointLogisticInterface(IPointLogisticManager<QString> *pointLogisticInterface)
+AbstractGameController *LocalFirstToPost::setPointLogisticInterface(IPointLogisticInterface<QString> *pointLogisticInterface)
 {
     _pointLogisticInterface = pointLogisticInterface;
     return this;

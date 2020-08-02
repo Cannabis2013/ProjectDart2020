@@ -14,7 +14,7 @@ ApplicationInterface::ApplicationInterface(AbstractDataContext *dataContext, Def
     // UI request removal of tournaments from datacontext
     connect(this,&ApplicationInterface::requestDeleteTournaments,_dataContext,&AbstractDataContext::deleteTournamentsFromIndexes);
     // UI request current state of gamecontroller
-    connect(this,&ApplicationInterface::requestControllerState,_gameController,&AbstractGameController::handleControllerStateRequest);
+    connect(this,&ApplicationInterface::requestControllerState,_gameController,&AbstractGameController::handleRequestFromUI);
     // UI request a list of tournaments -> Send a list of tournaments back to UI
     connect(this,&ApplicationInterface::requestTournaments,_dataContext,&AbstractDataContext::handleTournamentsRequest);
     connect(_dataContext,&AbstractDataContext::sendTournament,this,&ApplicationInterface::sendRequestedTournament);

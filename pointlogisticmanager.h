@@ -4,7 +4,7 @@
 #include <qstring.h>
 #include <qlist.h>
 
-#include "ipointlogisticmanager.h"
+#include "ipointlogisticinterface.h"
 
 #define TRIPPLE "T";
 
@@ -12,38 +12,45 @@ const int Bull = 25;
 const int BullsEye =  50;
 const int trippleMultiplier = 60;
 const int doubleMultiplier = 40;
-namespace LogisticContext {
+
 struct ScoreModel
 {
-    QList<QChar> multiplier;
-    QList<int> pointValue;
+    QVector<char> multiplier;
+    QVector<int> pointValue;
 };
 
-class PointLogisticManager : public IPointLogisticManager<QString>
+class PointLogisticManager : public IPointLogisticInterface<QString>
 {
 public:
-    PointLogisticManager(const int &legCount = 3)
+    PointLogisticManager(const int &throwCount = 3)
     {
-        _legCount = legCount;
+        _throwCount = throwCount;
     }
     QString constructThrowSuggestions(const int &remainingScore, const int &turnIndex) override
     {
         auto score = new ScoreModel();
 
-        bool isDeterministic;
+        score->multiplier = QVector(_throwCount,'-');
+        score->pointValue = QVector(_throwCount,0);
+
+        bool hasDeterministicWay;
 
         try {
-            isDeterministic = pointSuggestion(remainingScore,turnIndex,score);
+            hasDeterministicWay = pointSuggestion(remainingScore,turnIndex,score);
         } catch (std::exception *e) {
             return QString();
         }
 
-        if (isDeterministic) {
+        if (hasDeterministicWay) {
             auto result = toString(score);
             return result;
         }
 
         return QString();
+    }
+    void setNumberOfThrows(const int &throwCount) override
+    {
+        _throwCount = throwCount;
     }
 private:
     bool pointSuggestion(int remainingScore,int turnIndex, ScoreModel *scoreObject)
@@ -55,7 +62,7 @@ private:
          *  - totalTurns : [1,oo]
          */
 
-        auto totalTurns = _legCount;
+        auto totalTurns = _throwCount;
 
         if(remainingScore == 0)
             return true;
@@ -204,39 +211,27 @@ private:
         return base % div == 0;
     }
 
-    void updateScoreObject(QChar stringIdentifier, int value, int index, ScoreModel *s)
+    void updateScoreObject(char stringIdentifier, int value, int index, ScoreModel *s)
     {
-        if(index >= _legCount)
-            throw new std::out_of_range("Index out of bounds");
+        if(value < 0)
+            throw new std::out_of_range("Value out of bounds");
 
-        s->multiplier << stringIdentifier;
-        s->pointValue << value;
-    }
-
-    ScoreModel *initializeModel(ScoreModel *s)
-    {
-        for (int i = 0; i < _legCount; ++i) {
-            s->multiplier << '_';
-            s->pointValue << 0;
-        }
-
-        return s;
+        s->multiplier[index - 1] = stringIdentifier;
+        s->pointValue[index - 1] = value;
     }
 
     QString toString(ScoreModel *s)
     {
         QString result;
-        for (int i = 0; i < _legCount; ++i) {
+        for (int i = 0; i < _throwCount; ++i) {
             auto identifier = s->multiplier.at(i);
             auto pVal = s->pointValue.at(i);
-
-            result += identifier == '_' ? "" : identifier + QString::number(pVal) + "-";
+            result += identifier == '_' ? "" : identifier + QString::number(pVal) + "  ";
         }
 
         return result;
     }
 
-    int _legCount;
+    int _throwCount;
 };
-}
 #endif // SCORECONTROLLER_H

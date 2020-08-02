@@ -2,7 +2,7 @@
 #define FIVEHUNDREDANDONEGAME_H
 
 #include "gamemodelscontext.h"
-#include "ipointlogisticmanager.h"
+#include "ipointlogisticinterface.h"
 
 #include "abstractgamecontroller.h"
 
@@ -91,6 +91,12 @@ public:
         ApplicationContext = 0x37
     };
 
+    /*
+     * Point suggestion section
+     */
+    IPointLogisticInterface<QString> *pointLogisticInterface() const;
+    AbstractGameController *setPointLogisticInterface(IPointLogisticInterface<QString> *pointLogisticInterface);
+
 public slots:
     /*
      * Start/stop game progress
@@ -103,12 +109,17 @@ public slots:
 
     void restartGame() override;
     /*
-     *
+     * Controller starts initializing
+     *  - Request tournament id from index provided by calling context
+     *  - Request basic values
+     *  - Request controller indexes
+     *  - Request current playerscores
      */
     void setCurrentTournament(const int &index) override;
-
-    void handleControllerStateRequest() override;
-
+    /*
+     * Handle status request from UI
+     */
+    void handleRequestFromUI() override;
     /*
      * Handle and Evaluate input from user
      */
@@ -130,8 +141,6 @@ private:
      * Notify UI about controller state, current round index, undo/redo possibility and current user
      */
     void sendCurrentTurnValues();
-    QString playerMessage()  override;
-    QString calculateThrowSuggestion(const int &score)  override;
     QString currentActiveUser()  override;
     int currentRoundIndex()  override{return _roundIndex;}
     int currentPlayerIndex()  override{return _setIndex;}
@@ -142,10 +151,16 @@ private:
     int lastPlayerIndex()  override{return _assignedUserNames.count() - 1;}
     int playerIndex()  override {return _setIndex;}
     QString determinedWinnerName()  override {return _winner;}
-
+    /*
+     * Undo/return turn
+     *  - Set indexes according to the action invoked
+     */
     bool canUndoTurn() override;
     bool canRedoTurn() override;
-
+    /*
+     * terminate condition
+     *  - Get keycode that that terminates
+     */
     int terminateConditionModifier() const;
 
     /*
@@ -182,18 +197,14 @@ private:
     void nextTurn();
     void declareWinner();
     void incrementTurnIndexes();
-
     /*
-     * Get current player score
+     * Get/set current player score
      */
-
     int playerScore(const int &index);
     void setPlayerScore(const int &index, const int &newScore);
-    /*
-     * Point suggestion section
-     */
-    IPointLogisticManager<QString> *pointLogisticInterface() const;
-    AbstractGameController *setPointLogisticInterface(IPointLogisticManager<QString> *pointLogisticInterface);
+
+    // Generate throwsuggestions
+    IPointLogisticInterface<QString> *_pointLogisticInterface;
     /*
      * Controller index values
      */
@@ -220,9 +231,6 @@ private:
     QList<int> _assignedUsernamesScore;
 
     int _terminateConditionModifier = KeyMappings::DoubleModifier;
-
-    // Generate throw suggest message
-    IPointLogisticManager<QString> *_pointLogisticInterface;
 };
 
 #endif // FIVEHUNDREDANDONEGAME_H

@@ -142,7 +142,7 @@ void LocalDataContext::handleInitialIndexValuesRequest(const QUuid &tournament, 
         auto playerName = assignedPlayers.at(setIndex);
         auto playerId = playerModelsContext()->playerIDFromName(playerName);
         try {
-            tournamentModelsContext()->playerPoint(tournament,playerId,roundIndex,throwIndex,LocalDataContext::DisplayHint);
+            tournamentModelsContext()->playerScore(tournament,playerId,roundIndex,throwIndex,LocalDataContext::DisplayHint);
         } catch (...) {
             break;
         }
@@ -160,7 +160,7 @@ void LocalDataContext::handleInitialIndexValuesRequest(const QUuid &tournament, 
     }
     if(turnIndex != 0)
     {
-        auto totalTurns = tournamentModelsContext()->playerPointsCount(LocalDataContext::allHints);
+        auto totalTurns = tournamentModelsContext()->playerScoreCount(LocalDataContext::allHints);
         emit sendResponseToContext(
                                    DataContextResponse::DataRequestSuccess,{roundIndex,setIndex,throwIndex,turnIndex,totalTurns});
     }
@@ -184,12 +184,13 @@ void LocalDataContext::handleSendPlayerDetailsRequest()
 void LocalDataContext::setScoreHint(const QUuid &tournament,
                                     const QUuid &player,
                                     const int &roundIndex,
+                                    const int &setIndex,
                                     const int &throwIndex,
                                     const int &hint)
 {
     QUuid scoreID;
     try {
-        scoreID = tournamentModelsContext()->playerPoint(tournament,
+        scoreID = tournamentModelsContext()->playerScore(tournament,
                                                          player,
                                                          roundIndex,
                                                          throwIndex,
@@ -202,7 +203,7 @@ void LocalDataContext::setScoreHint(const QUuid &tournament,
     auto scoreValue = tournamentModelsContext()->scoreValue(scoreID);
     auto pointValue = tournamentModelsContext()->scorePointValue(scoreID);
     auto playerName = playerModelsContext()->playerUserName(player);
-    emit sendResponseToContext(DataContextResponse::UpdateSuccessfull,{playerName,pointValue,scoreValue});
+    emit sendResponseToContext(DataContextResponse::UpdateSuccessfull,{playerName,setIndex,pointValue,scoreValue});
 }
 
 void LocalDataContext::deleteTournamentsFromIndexes(const QVariantList &indexes)
@@ -273,6 +274,7 @@ void LocalDataContext::handleRequestFromContext(const int &request, const QList<
         auto scoreValue = args[6].toInt();
 
         tournamentModelsContext()->addScore(tournamentID,playerID,pointValue,roundIndex,setIndex,throwIndex,scoreValue);
+        tournamentModelsContext()->removeHiddenScores(tournamentID);
 
         emit sendResponseToContext(DataContextResponse::UpdateSuccessfull,{});
     }
@@ -292,10 +294,11 @@ void LocalDataContext::handleRequestFromContext(const int &request, const QList<
         auto playerName = args[1].toString();
         auto playerID = playerModelsContext()->playerIDFromName(playerName);
         auto roundIndex = args[2].toInt();
-        auto throwIndex = args[3].toInt();
-        auto hint = args[4].toInt();
+        auto setIndex = args[3].toInt();
+        auto throwIndex = args[4].toInt();
+        auto hint = args[5].toInt();
 
-        setScoreHint(tournamentID,playerID,roundIndex,throwIndex,hint);
+        setScoreHint(tournamentID,playerID,roundIndex,setIndex,throwIndex,hint);
     }
     else if(request == ControllerRequest::RequestResetTournament)
     {
@@ -533,7 +536,7 @@ void LocalDataContext::transmitPlayerScores(const QUuid &tournament)
         {
             QUuid pointID;
             try {
-                pointID = tournamentModelsContext()->playerPoint(tournament,
+                pointID = tournamentModelsContext()->playerScore(tournament,
                                       assignedPlayerID,
                                       roundIndex,
                                       throwIndex++,

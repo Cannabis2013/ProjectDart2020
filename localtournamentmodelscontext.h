@@ -35,17 +35,17 @@ public:
                            const int &winCondition) override;
     void removeTournament(const QUuid &tournament) override;
     void removeModelsRelatedToTournament(const QUuid &tournament) override;
-    QUuid tournamentIDFromIndex(const int &index) const override;
-    QList<QUuid> tournaments() const override;
-    int tournamentsCount() const override;
-    QString tournamentTitle(const QUuid &tournament) const override;
-    int tournamentNumberOfThrows(const QUuid &tournament) const override;
-    QList<QUuid> tournamentAssignedPlayers(const QUuid &tournament) const override;
-    int tournamentGameMode(const QUuid &tournament) const override;
-    int tournamentWinningKeyCondition(const QUuid &tournament) const override;
-    int tournamentKeyPoint(const QUuid &tournament) const override;
-    int tournamentStatus(const QUuid &tournament) const override;
-    QUuid tournamentDeterminedWinner(const QUuid &tournament) const override;
+    QUuid tournamentIDFromIndex(const int &index) override;
+    QList<QUuid> tournaments() override;
+    int tournamentsCount() override;
+    QString tournamentTitle(const QUuid &tournament) override;
+    int tournamentNumberOfThrows(const QUuid &tournament) override;
+    QList<QUuid> tournamentAssignedPlayers(const QUuid &tournament) override;
+    int tournamentGameMode(const QUuid &tournament) override;
+    int tournamentWinningKeyCondition(const QUuid &tournament) override;
+    int tournamentKeyPoint(const QUuid &tournament) override;
+    int tournamentStatus(const QUuid &tournament) override;
+    QUuid tournamentDeterminedWinner(const QUuid &tournament) override;
     void assignPlayerToTournament(const QUuid &tournament, const QUuid &player) override;
     void tournamentRemovePlayer(const QUuid &tournament, const QUuid &player) override;
     void alterTournamentTitle(const QUuid &tournament, const QString &title) override;
@@ -56,57 +56,59 @@ public:
     /*
      * Round related section
      */
-    QList<QUuid> roundsID() const override;
-    QList<QUuid> roundsID(const QUuid &tournament) const override;
-    QUuid roundID(const QUuid &tournament, const int &roundIndex) const override;
+    QList<QUuid> roundsID() override;
+    QList<QUuid> roundsID(const QUuid &tournament) override;
+    QUuid roundID(const QUuid &tournament, const int &roundIndex) override;
     QUuid addRound(const QUuid &tournament, const int &index) override;
     void alterRoundIndex(const QUuid &, const int &, const int &) override;
-    int roundIndex(const QUuid &roundID) const override;
-    QUuid roundTournament(const QUuid &roundID) const override;
+    int roundIndex(const QUuid &roundID) override;
+    QUuid roundTournament(const QUuid &roundID) override;
     /*
      * Set related section
      */
-    QUuid setID(const QUuid &tournament, const int &roundIndex, const int &setIndex) const override;
-    QList<QUuid> tournamentSetsID(const QUuid &tournament) const override;
-    QList<QUuid> roundSetsID(const QUuid &roundID) const override;
-    QList<QUuid> tournamentSetsID(const QUuid &tournament, const int &roundIndex) const override;
-    QList<QUuid> setsID() const override;
-    QUuid setRound(const QUuid &setID) const override;
-    int setIndex(const QUuid &setID) const override;
+    QUuid setID(const QUuid &tournament, const int &roundIndex, const int &setIndex) override;
+    QList<QUuid> tournamentSetsID(const QUuid &tournament) override;
+    QList<QUuid> roundSetsID(const QUuid &roundID) override;
+    QList<QUuid> tournamentSetsID(const QUuid &tournament, const int &roundIndex) override;
+    QList<QUuid> setsID() override;
+    QUuid setRound(const QUuid &setID) override;
+    int setIndex(const QUuid &setID) override;
     QUuid addSet(const QUuid &tournament, const int &roundIndex, const int &setIndex) override;
-    QList<QUuid> setPointsID(const QUuid &setID) const override;
+    QList<QUuid> setPointsID(const QUuid &setID) override;
     /*
      * Scores related section
      */
-    QList<QUuid> scores() const override;
-    QList<QUuid> scores(const QUuid &tournament) const override;
-    QList<QUuid> scores(const QUuid &tournament, const QUuid &roundID) const override;
-    QList<QUuid> scores(const QUuid &tournament, const QUuid &roundID, const QUuid &setID) const override;
-
+    QUuid playerScore(const QUuid &tournament, const QUuid &player , const int &roundIndex, const int &throwIndex, const int &hint) override;
+    QList<QUuid> scores() override;
+    QList<QUuid> scores(const QUuid &tournament) override;
+    QList<QUuid> scores(const QUuid &tournament, const QUuid &roundID) override;
+    QList<QUuid> scores(const QUuid &tournament, const QUuid &roundID, const QUuid &setID) override;
+    QList<QUuid> scores(const QUuid &tournament, const int &hint) override;
+    QList<QUuid> playerScores(const QUuid &tournament, const QUuid &player, const int &hint) override;
+    int playerScoreCount(const int &hint) override;
     QUuid setScoreHint(const QUuid &point, const int &hint) override;
     QUuid editScore(const QUuid &pointId, const int &value, const int &score,const int &hint) override;
     QUuid alterPointPlayer(const QUuid &pointId, const QUuid &playerId) override;
-    QUuid scoreSet(const QUuid &playerPoint) const override;
-    int scoreThrowIndex(const QUuid &playerPoint) const override;
-    int scorePointValue(const QUuid &playerPoint) const override;
+    QUuid scoreSet(const QUuid &playerScore) override;
+    int scoreThrowIndex(const QUuid &playerScore) override;
+    int scorePointValue(const QUuid &playerScore) override;
     int scoreValue(const QUuid &point) override;
-    QUuid scorePlayer(const QUuid &playerPoint) const override;
-    QUuid playerPoint(const QUuid &tournament, const QUuid &player , const int &roundIndex, const int &throwIndex, const int &hint) override;
-    int scoreHint(const QUuid &playerPoint) const override;
-    QList<QUuid> playerPoints(const QUuid &tournament, const QUuid &player, const int &hint) const override;
-    bool removePlayerPoint(const QUuid &point) override;
-    void removePlayerPointAndRelatives(const QUuid &point) override;
-    int playerPointsCount(const int &hint) const override;
+    QUuid scorePlayer(const QUuid &playerScore) override;
+    int scoreHint(const QUuid &playerScore) override;
+    bool removeScore(const QUuid &point) override;
+    void removePlayerScoreAndRelatives(const QUuid &point) override;
 
     int addScore(const QUuid &tournament, const QUuid &player, const int &point, const int &roundIndex, const int &setIndex, const int &throwIndex, const int &score) override;
+
+    void removeHiddenScores(const QUuid &tournament) override;
 
     void removeInconsistentModels() override;
 
 private:
-    int score(const QUuid &tournament, const QUuid &player) const override;
-    int score(const QUuid &player) const override;
+    int score(const QUuid &tournament, const QUuid &player) override;
+    int score(const QUuid &player) override;
 
-    QList<QUuid> pointModels(const QUuid &player) const;
+    QList<QUuid> pointModels(const QUuid &player);
 
     void removeTournamentRounds(const QUuid &tournament);
     void removeTournamentSets(const QUuid &tournament);
@@ -116,12 +118,12 @@ private:
     void removeEmptySet(const QUuid &setID);
 
     void removeTournamentModel(const QUuid &tournament);
-    void removePointModel(const QUuid &playerPoint);
+    void removePointModel(const QUuid &playerScore);
 
-    const DefaultTournamentInterface *getTournamentModelFromID(const QUuid &id) const;
-    const DefaultRoundInterface *getRoundModelFromID(const QUuid &id) const;
-    const DefaultSetInterface *getSetModelFromID(const QUuid &id) const;
-    const DefaultPointInterface *getScoreModelFromID(const QUuid &id) const;
+    const DefaultTournamentInterface *getTournamentModelFromID(const QUuid &id);
+    const DefaultRoundInterface *getRoundModelFromID(const QUuid &id);
+    const DefaultSetInterface *getSetModelFromID(const QUuid &id);
+    const DefaultPointInterface *getScoreModelFromID(const QUuid &id);
 
     /*
      * Consistency checks
@@ -149,7 +151,7 @@ private:
                          const int &throwIndex,
                          const int &score) override;
     // Builder methods
-    ITournamentBuilder * tournamentBuilder() const override
+    ITournamentBuilder * tournamentBuilder() override
     {
         return _tournamentBuilder;
     }
@@ -159,11 +161,11 @@ private:
         return this;
     }
 
-    IRoundBuilder *roundBuilder() const;
+    IRoundBuilder *roundBuilder();
     void setRoundBuilder(IRoundBuilder *roundBuilder);
-    ISetBuilder *setBuilder() const;
+    ISetBuilder *setBuilder();
     void setSetBuilder(ISetBuilder *builder);
-    IPointBuilder *pointBuilder() const;
+    IPointBuilder *pointBuilder();
 
     ITournamentBuilder *_tournamentBuilder = new TournamentModelBuilder();
     IRoundBuilder *_roundBuilder = new RoundBuilder();

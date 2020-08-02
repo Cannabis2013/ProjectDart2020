@@ -39,7 +39,7 @@ public slots:
     /*
      * Handle requests from datacontext
      */
-    virtual void handleControllerStateRequest() = 0;
+    virtual void handleRequestFromUI() = 0;
     /*
      * Undo/redo turn
      */

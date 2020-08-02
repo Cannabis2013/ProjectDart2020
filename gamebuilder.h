@@ -3,8 +3,8 @@
 
 #include "IControllerBuilder.h"
 #include "abstractgamecontroller.h"
-
 #include "localfirsttopost.h"
+#include "pointlogisticmanager.h"
 
 class GameBuilder : public IControllerBuilder<AbstractGameController,int>
 {
@@ -18,11 +18,14 @@ public:
 
     enum ContextMode {LocalContext = 0x4, RemoteContext = 0x5};
 
-    AbstractGameController * buildController(const int &mode, const int&contextMode) override
+    AbstractGameController * buildController(const int &mode, const int&contextMode)
     {
         if(mode == FirstToPost && contextMode == LocalContext)
-            return new LocalFirstToPost();
-
+        {
+            auto controller = new LocalFirstToPost();
+            controller->setPointLogisticInterface(new PointLogisticManager());
+            return controller;
+        }
         return nullptr;
     }
 };

@@ -44,8 +44,7 @@ Content {
             keyPad.enableKeys = false;
             turnNavigator.startButtonText = "Resume"
         }
-
-        else if(response === 0x13) // Gamecontroller awaits input
+        else if(response === 0x2D) // Gamecontroller is ready and awaits input
         {
             turnNavigator.startButtonText = "Pause";
 
@@ -53,6 +52,9 @@ Content {
             var canRedo = args[1];
             var currentRoundIndex = args[2];
             var currentPlayerUserName = args[3];
+            var throwSuggestion = args[4];
+
+            print("Throw suggestion: " + throwSuggestion);
 
             turnNavigator.updateState(currentRoundIndex,currentPlayerUserName,canUndo,canRedo);
 
@@ -106,7 +108,8 @@ Content {
             height: 64
             Layout.alignment: Qt.AlignHCenter
             startButtonEnabled: false
-            onStartButtonEnablePressAndHoldChanged: {
+            startButtonEnablePressAndHold: true
+            onStartButtonPressAndHoldClicked: {
                 turnNavigator.startButtonText = "Restart"
             }
 
@@ -117,6 +120,9 @@ Content {
                 else if(buttonText === "Restart")
                 {
                     requestRestart();
+                    scoreTable.clearTable();
+                    body.requestScoreBoardData();
+                    scoreTable.setMinimumColumnsCount(4);
                 }
                 else
                     requestStop();

@@ -10,6 +10,7 @@
 #include "iplayerbuildercontext.h"
 #include "IControllerBuilder.h"
 #include "abstractdatacontext.h"
+#include "ipointlogisticinterface.h"
 
 #define printVariable(var) #var
 #define STATUS_ERROR -1;

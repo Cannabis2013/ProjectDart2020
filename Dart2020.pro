@@ -57,7 +57,7 @@ HEADERS += \
     iplayerbuildercontext.h \
     iplayercontext.h \
     iplayermodel.h \
-    ipointlogisticmanager.h \
+    ipointlogisticinterface.h \
     iresponseinterface.h \
     localdatacontext.h \
     localfirsttopost.h \
