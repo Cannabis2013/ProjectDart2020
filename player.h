@@ -56,8 +56,4 @@ private:
     int _role, _type;
 };
 
-
-
-
-
 #endif // PLAYER_H

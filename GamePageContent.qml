@@ -18,7 +18,8 @@ Content {
 
     QtObject{
         id: textSourceContainer
-        property string throwSuggestTitle: "Throw suggestion:"
+        property string throwSuggestLabel: "Suggested target row:"
+        property string winnerLabel: "Winner:"
     }
 
     onBackButtonPressed: requestStop()
@@ -59,7 +60,7 @@ Content {
             var currentPlayerUserName = args[3];
             var throwSuggestion = args[4];
 
-            notificationText.text = textSourceContainer.throwSuggestTitle + " " + throwSuggestion;
+            suggestText.text = textSourceContainer.throwSuggestLabel + " " + throwSuggestion;
 
             print("Throw suggestion: " + throwSuggestion);
 
@@ -112,7 +113,8 @@ Content {
         TurnNavigationComponent{
             id: turnNavigator
             Layout.fillWidth: true
-            height: 64
+            Layout.minimumHeight: 64
+            Layout.maximumHeight: 64
             Layout.alignment: Qt.AlignHCenter
             startButtonEnabled: false
             startButtonEnablePressAndHold: true
@@ -142,13 +144,29 @@ Content {
             color: "transparent"
             verticalHeaderFillMode: 0x1
             Layout.fillWidth: true
-            height: 125
+            Layout.minimumHeight: 100
         }
-        Text {
-            id: notificationText
-            text: qsTr(textSourceContainer.throwSuggestTitle)
+        GridLayout{
+            flow: GridLayout.TopToBottom
             Layout.fillHeight: true
             Layout.fillWidth: true
+            Text {
+                id: winnerText
+                text: qsTr(textSourceContainer.winnerLabel)
+                Layout.fillWidth: true
+                Layout.preferredHeight: 25
+                font.pointSize: 16
+            }
+            Text {
+                id: suggestText
+                text: qsTr(textSourceContainer.throwSuggestLabel)
+                Layout.fillWidth: true
+                Layout.preferredHeight: 25
+                font.pointSize: 16
+            }
+            Rectangle{
+                Layout.fillHeight: true
+            }
         }
 
         KeyPadComponent{
@@ -162,7 +180,6 @@ Content {
                 enableKeys = false;
                 body.sendInput(val,modifierCode);
             }
-
             enableKeys: false
         }
     }
