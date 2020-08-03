@@ -155,12 +155,12 @@ Rectangle {
             keyPadBody.enableKeyPad.connect(selectorKey.setEnabled);
             if(selectorKey.text === "D")
             {
-                selectorKey.emitCheckState.connect(keyPadBody.handleDoubleKeyPressed);
+                selectorKey.checkStateChanged.connect(keyPadBody.handleDoubleKeyPressed);
                 doubleModifier = selectorKey;
             }
             else if(selectorKey.text === "T")
             {
-                selectorKey.emitCheckState.connect(keyPadBody.handleTrippleKeyPressed);
+                selectorKey.checkStateChanged.connect(keyPadBody.handleTrippleKeyPressed);
                 trippleModifier = selectorKey;
             }
         }
@@ -168,7 +168,7 @@ Rectangle {
         for(var i = 1;i < rowCount && keyText < 21;i++){
             for(var j = initialColumn;j < columnCount && keyText < 21;j++){
                 var numberKey = ComponentFactory.createNumberButton(keyPadLayout,keyText++,i,j);
-                numberKey.emitBodyText.connect(keyPadBody.handleNumberKeyPressed);
+                numberKey.clickedAndSendText.connect(keyPadBody.handleNumberKeyPressed);
                 keyPadBody.enableKeyPad.connect(numberKey.setEnabled);
             }
             initialColumn = 0;

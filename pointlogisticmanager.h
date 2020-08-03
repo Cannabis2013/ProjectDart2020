@@ -22,6 +22,18 @@ struct ScoreModel
 class PointLogisticManager : public IPointLogisticInterface<QString>
 {
 public:
+
+    /*
+     * Public types
+     */
+    enum KeyMappings{
+        SingleModifer = 0x2A,
+        DoubleModifier = 0x2B,
+        TrippleModifier = 0x2C
+    };
+    /*
+     * Constructor
+     */
     PointLogisticManager(const int &throwCount = 3)
     {
         _throwCount = throwCount;
@@ -33,15 +45,15 @@ public:
         score->multiplier = QVector(_throwCount,'\0');
         score->pointValue = QVector(_throwCount,0);
 
-        bool hasDeterministicWay;
+        bool hasADeterminedPath;
 
         try {
-            hasDeterministicWay = pointSuggestion(remainingScore,turnIndex,score);
+            hasADeterminedPath = pointSuggestion(remainingScore,turnIndex,score);
         } catch (std::exception *e) {
             return QString();
         }
 
-        if (hasDeterministicWay) {
+        if (hasADeterminedPath) {
             auto result = toString(score);
             return result;
         }
@@ -52,12 +64,24 @@ public:
     {
         _throwCount = throwCount;
     }
+
+    void setAcceptedEndGameModifier(const int &keyCode) override
+    {
+        _endGameModifier = keyCode;
+    }
+    int acceptedEndGameModifier() override
+    {
+        return _endGameModifier;
+    }
 private:
-    bool pointSuggestion(int remainingScore,int turnIndex, ScoreModel *scoreObject)
+    bool pointSuggestion(const int &remainingScore,const int &turnIndex, ScoreModel *scoreObject)
     {
         /*
          * Parameter constraints:
-         *  - remainingscore : [0,180}
+         *  - If endgame condition modifier is equal to "double"
+         *      > remainingscore : [0,160}
+         *  - else
+         *      > remainingscore : [0,180}
          *  - turnIndex : [1,3]
          *  - totalTurns : [1,oo]
          */
@@ -81,7 +105,7 @@ private:
         int lowerBound = initializeLowerBound(remainingScore,doubleMultiplier);
         /*
          * The following condition filters out remaining points exceeding either 180
-         * or any value which exceeds a certain threshold where a deterministic path can't be archieved
+         * or any value which exceeds a certain threshold where a path can't be determined
          */
         if(remainingScore > currentTripplePointLimit)
         {
@@ -100,7 +124,8 @@ private:
             return true;
         }
         /*
-         *  The following condition is mostly applicable for the first round or rounds where the remaining points is a multiplum of 3
+         *  The following condition is mostly applicable for the first round,
+         *  or rounds where the remaining points is a multiplum of 3
          *
          *  The condition is met by the following relation between remaining points
          *  and thresold values calculated by the number of remaining turns and a round threshold which is a multiplum of 60 (60*(remaining rounds + 1))
@@ -122,8 +147,10 @@ private:
                 throw e;
             }
         }
-        /* The following condition is mostly applicable from the second round or rounds where the remaining points is a multiplum of 2
-         * It follows the same principle as another condition where remaining points is divisble by 3
+        /* The following condition is mostly applicable from the second round,
+         *  or rounds where the remaining points is a multiplum of 2
+         *
+         * It follows the same principle as the other condition where remaining points is divisible by 3
          *
          *  - First turn: Remaining points must not exceed 120 points
          *  - Second turn: Remaining points must not exceed 80 points
@@ -140,12 +167,12 @@ private:
             } catch (std::out_of_range *e) {
                 throw e;
             }
-
         }
         /*
-         * The following condition checks if "Bullseye" is possible with the remaining points, after subtraction, is a multiplum of 3
+         * The following condition checks if "Bullseye" is a possibility, which requires the remaining points, after subtraction,
+         *  to be a multiplum of 3
          *
-         * This requires remaining points in the interval [50,170]
+         * The points must be in the interval [50,170]
          */
         else if(remainingScore >= 50 && remainingScore <= 170 && isDivisor(remainingScore - BullsEye,3))
          {
@@ -158,7 +185,7 @@ private:
             }
          }
         /*
-         * The following condition checks if "Bullseye" is a possibility with the remaining points after subtraction is a multiplum of 3
+         * The following condition checks if "Bullseye" is a possibility with the remaining points after subtraction is a multiplum of 2
          *
          * This requires remaining points to be in the interval [50,130]
          */
@@ -231,5 +258,8 @@ private:
     }
 
     int _throwCount;
+    int _endGameModifier;
 };
 #endif // SCORECONTROLLER_H
+
+

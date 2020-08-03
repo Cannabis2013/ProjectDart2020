@@ -50,17 +50,17 @@ void LocalFirstToPost::handleAndProcessUserInput(const int &point, const int &mo
     if(inputResponse == AggregatedSumDomains::PointDomain)
     {
         // Update datacontext
-        addPoint(point,newScore);
+        addPoint(calculatedPoint,newScore);
     }
     else if(inputResponse == AggregatedSumDomains::CriticalDomain)
     {
-        addPoint(point,newScore);
+        addPoint(calculatedPoint,newScore);
     }
     else if(inputResponse == AggregatedSumDomains::TargetDomain && modifierKeyCode == terminateConditionModifier())
     {
-        // Winner declared
+        //Winner declared
         declareWinner();
-        addPoint(point,newScore);
+        addPoint(calculatedPoint,newScore);
     }
     else if(inputResponse == OutsideDomain || modifierKeyCode != terminateConditionModifier())
     {

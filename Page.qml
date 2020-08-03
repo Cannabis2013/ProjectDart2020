@@ -92,7 +92,6 @@ Rectangle {
             height: 12
         }
 
-
         Flickable{
             id: contentFlickable
 

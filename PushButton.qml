@@ -56,8 +56,8 @@ Item {
 
     onClicked: handleClick()
 
-    signal emitBodyText(string txt)
-    signal emitCheckState(bool check)
+    signal clickedAndSendText(string txt)
+    signal checkStateChanged(bool check)
 
     property Rectangle buttonBody: buttonRect
 
@@ -78,7 +78,7 @@ Item {
                 buttonRect.state = "";
             }
             buttonRect.scale = checked ? checkedScale : 1
-            pushButtonbody.emitCheckState(checked);
+            pushButtonbody.checkStateChanged(checked);
         }
     }
 
@@ -124,7 +124,7 @@ Item {
 
         onClicked: {
             pushButtonbody.clicked();
-            pushButtonbody.emitBodyText(text);
+            pushButtonbody.clickedAndSendText(text);
         }
     }
 

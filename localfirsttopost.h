@@ -79,12 +79,11 @@ public:
         PlayerAdded = 0x25,
         PlayerDeleted = 0x26
     };
-
     enum KeyMappings{
         SingleModifer = 0x2A,
         DoubleModifier = 0x2B,
         TrippleModifier = 0x2C
-                    };
+    };
     enum ContextCodes{
         DataContext = 0x35,
         ControllerContext = 0x36,

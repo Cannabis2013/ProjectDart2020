@@ -62,8 +62,6 @@ Content {
 
             suggestText.text = textSourceContainer.throwSuggestLabel + " " + throwSuggestion;
 
-            print("Throw suggestion: " + throwSuggestion);
-
             turnNavigator.updateState(currentRoundIndex,currentPlayerUserName,canUndo,canRedo);
 
             keyPad.enableKeys = true;
