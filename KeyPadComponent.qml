@@ -18,7 +18,7 @@ Rectangle {
     property bool enableKeys: false
     onEnableKeysChanged: {
         enableKeyPad(enableKeys);
-        bullButton.enabled = enableKeys
+        bullsButton.enabled = enableKeys
         bullsEyeButton.enabled = enableKeys;
     }
 
@@ -93,8 +93,8 @@ Rectangle {
 
         }
         PushButton{
-            id: bullButton
-            backgroundColor : "black"
+            id: bullsButton
+            backgroundColor : "green"
             hoveredColor: "black"
             textColor : "white"
 
@@ -121,7 +121,7 @@ Rectangle {
             Layout.fillHeight: true
             Layout.fillWidth: true
 
-            backgroundColor : "black"
+            backgroundColor : "red"
             hoveredColor: "black"
             textColor : "white"
 

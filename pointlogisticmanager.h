@@ -97,7 +97,6 @@ private:
             } catch (std::out_of_range *e) {
                 throw e;
             }
-
             return true;
         }
         /*
@@ -144,7 +143,7 @@ private:
 
         }
         /*
-         * The following condition checks if "Bullseye" is possible with the remaining points after subtraction is a multiplum of 3
+         * The following condition checks if "Bullseye" is possible with the remaining points, after subtraction, is a multiplum of 3
          *
          * This requires remaining points in the interval [50,170]
          */
@@ -157,7 +156,6 @@ private:
             } catch (std::out_of_range *e) {
                 throw e;
             }
-
          }
         /*
          * The following condition checks if "Bullseye" is a possibility with the remaining points after subtraction is a multiplum of 3

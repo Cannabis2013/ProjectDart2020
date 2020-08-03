@@ -95,6 +95,8 @@ Content {
         else if(response === 0x3E) // Winner declared
         {
             keyPad.enableKeys = false;
+            var winnerPlayerName = args[0];
+            winnerText.text = textSourceContainer.winnerLabel + winnerPlayerName;
             turnNavigator.startButtonText = "Restart"
         }
         else if(response === 0x17)

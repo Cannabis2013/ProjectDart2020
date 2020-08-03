@@ -73,7 +73,6 @@ int ScoreDataModel::takeLastItem(const QString &playerName, const int &headerOri
         auto result = removeData(index);
         return result;
     }
-
 }
 
 void ScoreDataModel::appendHeaderItem(const QVariant &data, const int &headerOrientation)
