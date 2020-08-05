@@ -22,7 +22,7 @@ Content {
     QtObject{
         id: stringModels
         property var gameModes: ["FirstToPost","Rounds","Circular", "Cricket"]
-        property var keyIdentifiers: ["SingleModifier","DoubleModifier", "TrippleModifier"]
+        property var keyIdentifiers: ["Single","Double", "Tripple"]
     }
 
     onReplyFromBackendRecieved: {

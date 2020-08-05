@@ -10,8 +10,9 @@
 
 const int Bull = 25;
 const int BullsEye =  50;
-const int trippleMultiplier = 60;
-const int doubleMultiplier = 40;
+const int singleMaxValue = 20;
+const int doubleMaxValue = 40;
+const int trippleMaxValue = 60;
 
 struct ScoreModel
 {
@@ -65,13 +66,13 @@ public:
         _throwCount = throwCount;
     }
 
-    void setAcceptedEndGameModifier(const int &keyCode) override
+    void setLastThrowKeyCode(const int &keyCode) override
     {
-        _endGameModifier = keyCode;
+        _lastThrowKeyCode = keyCode;
     }
-    int acceptedEndGameModifier() override
+    int lastThrowKeyCode() override
     {
-        return _endGameModifier;
+        return _lastThrowKeyCode;
     }
 private:
     bool pointSuggestion(const int &remainingScore,const int &turnIndex, ScoreModel *scoreObject)
@@ -97,42 +98,105 @@ private:
         if(totalTurns < turnIndex)
             return false;
 
+        int lastThrowMaxValue = _lastThrowKeyCode == KeyMappings::DoubleModifier ? doubleMaxValue : trippleMaxValue;
+
+
         int remainingTurns = totalTurns - turnIndex;
         int p = remainingScore;
 
-        int currentTripplePointLimit = trippleMultiplier*(remainingTurns + 1);
-        int currentDoublePointLimit = doubleMultiplier*(remainingTurns + 1);
-        int lowerBound = initializeLowerBound(remainingScore,doubleMultiplier);
+        int currentTripplePointLimit = trippleMaxValue*(remainingTurns) + lastThrowMaxValue;
+        int currentDoublePointLimit = doubleMaxValue*(remainingTurns) + lastThrowMaxValue;
+        int lowerBound = initializeLowerBound(remainingScore,doubleMaxValue);
         /*
-         * The following condition filters out remaining points exceeding either 180
-         * or any value which exceeds a certain threshold where a path can't be determined
+         * The following condition filters out remaining points exceeding either 180/160/140
+         *  or any value that exceeds the range, in which a determined path can't be made
+         *  within compliance of the terminating keycode condition.
          */
         if(remainingScore > currentTripplePointLimit)
         {
             return false;
         }
-        else if(remainingScore <= 20 || remainingScore == Bull || remainingScore == BullsEye)
+        else if(remainingTurns == 0 &&
+                _lastThrowKeyCode == KeyMappings::SingleModifer &&
+                remainingScore >= singleMaxValue &&
+                remainingScore != Bull &&
+                remainingScore != BullsEye)
+        {
+            return false;
+        }
+        else if(remainingTurns == 0 &&
+                _lastThrowKeyCode == KeyMappings::DoubleModifier &&
+                remainingScore >= doubleMaxValue)
+        {
+            return false;
+        }
+        else if(remainingTurns == 0 &&
+                _lastThrowKeyCode == KeyMappings::TrippleModifier &&
+                remainingScore >= trippleMaxValue)
+        {
+            return false;
+        }
+
+        /*
+         * The following blocks checks if the players remaining points is within striking range,
+         *  which means that a winning shot, that complies with the last keycode condition, can be made.
+         */
+
+        if((remainingScore <= 20 ||
+            remainingScore == Bull ||
+            remainingScore == BullsEye) && _lastThrowKeyCode == KeyMappings::SingleModifer)
         {
             p -= remainingScore;
 
             try {
                 updateScoreObject('S',remainingScore,turnIndex,scoreObject);
+                return true;
 
             } catch (std::out_of_range *e) {
                 throw e;
             }
-            return true;
         }
+        else if(remainingScore <= doubleMaxValue &&
+                isDivisor(remainingScore,2) &&
+                _lastThrowKeyCode == KeyMappings::DoubleModifier)
+        {
+            p -= remainingScore;
+            auto scoreValue = remainingScore/2;
+
+            try {
+                updateScoreObject('D',scoreValue,turnIndex,scoreObject);
+                return true;
+
+            } catch (std::out_of_range *e) {
+                throw e;
+            }
+        }
+        else if(remainingScore <= trippleMaxValue &&
+                isDivisor(remainingScore,3) &&
+                _lastThrowKeyCode == KeyMappings::TrippleModifier)
+        {
+            p -= remainingScore;
+            auto scoreValue = remainingScore/3;
+
+            try {
+                updateScoreObject('T',scoreValue,turnIndex,scoreObject);
+                return true;
+
+            } catch (std::out_of_range *e) {
+                throw e;
+            }
+        }
+
         /*
          *  The following condition is mostly applicable for the first round,
          *  or rounds where the remaining points is a multiplum of 3
          *
-         *  The condition is met by the following relation between remaining points
-         *  and thresold values calculated by the number of remaining turns and a round threshold which is a multiplum of 60 (60*(remaining rounds + 1))
+         *  The condition is met by the following relation between the remaining points
+         *  and the thresold values calculated by the number of remaining turns and a round threshold, which is a multiplum of 60 (60*(remaining rounds + 1))
          *
-         *  - First turn: Remaining points must not exceed 180 points
+         *  - First turn: Remaining points must not exceed 180/160 points
          *  - Second turn: Remaining points must not exceed 120 points
-         *  - Last turn: Remaining points must not exceed 60 points
+         *  - Last turn: Remaining points must not exceed 40/60 points
          *
          */
         else if(remainingScore >= 20 && remainingScore <= currentTripplePointLimit && isDivisor(remainingScore,3))
@@ -152,9 +216,9 @@ private:
          *
          * It follows the same principle as the other condition where remaining points is divisible by 3
          *
-         *  - First turn: Remaining points must not exceed 120 points
+         *  - First turn: Remaining points must not exceed 140/120 points
          *  - Second turn: Remaining points must not exceed 80 points
-         *  - Last turn: Remaining points must not exceed 40 points
+         *  - Last turn: Remaining points must not exceed 40/60 points
          */
         else if(remainingScore >= 20 && remainingScore <= currentDoublePointLimit && isDivisor(remainingScore,2))
         {
@@ -185,7 +249,7 @@ private:
             }
          }
         /*
-         * The following condition checks if "Bullseye" is a possibility with the remaining points after subtraction is a multiplum of 2
+         * The following condition checks if "Bullseye" is a possibility with the remaining points, after subtraction, is a multiplum of 2
          *
          * This requires remaining points to be in the interval [50,130]
          */
@@ -258,7 +322,7 @@ private:
     }
 
     int _throwCount;
-    int _endGameModifier;
+    int _lastThrowKeyCode;
 };
 #endif // SCORECONTROLLER_H
 
