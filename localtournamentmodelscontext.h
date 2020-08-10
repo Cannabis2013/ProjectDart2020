@@ -42,7 +42,7 @@ public:
     int tournamentNumberOfThrows(const QUuid &tournament) override;
     QList<QUuid> tournamentAssignedPlayers(const QUuid &tournament) override;
     int tournamentGameMode(const QUuid &tournament) override;
-    int tournamentWinningKeyCondition(const QUuid &tournament) override;
+    int tournamentLastThrowKeyCode(const QUuid &tournament) override;
     int tournamentKeyPoint(const QUuid &tournament) override;
     int tournamentStatus(const QUuid &tournament) override;
     QUuid tournamentDeterminedWinner(const QUuid &tournament) override;

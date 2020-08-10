@@ -32,9 +32,9 @@ void LocalFirstToPost::handleAndProcessUserInput(const int &point, const int &mo
 
     _currentStatus = ControllerState::AddScoreState;
 
-    auto pointMultiplier = modifierKeyCode == 0x2C ? 3 :
-                            modifierKeyCode == 0x2B ? 2 :
-                            modifierKeyCode == 0x2A ? 1 : 0;
+    auto pointMultiplier = modifierKeyCode == KeyMappings::TrippleModifier ? 3 :
+                            modifierKeyCode == KeyMappings::DoubleModifier ? 2 :
+                            modifierKeyCode == KeyMappings::SingleModifer ? 1 : 0;
 
     auto calculatedPoint = point *pointMultiplier;
 
@@ -88,12 +88,12 @@ void LocalFirstToPost::handleResponseFromContext(const int &response, const QVar
     {
         _currentTournament = args[0].toUuid();
         _keyPoint = args[1].toInt();
-        _terminateConditionModifier = args[2].toInt();
+        auto lastThrowKeyCode = args[2].toInt();
         _numberOfThrows = args[3].toInt();
         _assignedUserNames = args[4].toStringList();
-
         _currentStatus = ControllerState::InitializingIndexValues;
 
+        pointLogisticInterface()->setLastThrowKeyCode(lastThrowKeyCode);
         emit sendRequestToContext(ControllerRequest::RequestIndexValues,{_currentTournament,_assignedUserNames});
     }
     else if(status() == ControllerState::InitializingIndexValues && response == DataContextResponse::DataRequestSuccess)
@@ -405,7 +405,7 @@ void LocalFirstToPost::setPlayerScore(const int &index, const int &newScore)
 
 int LocalFirstToPost::terminateConditionModifier() const
 {
-    return _terminateConditionModifier;
+    return pointLogisticInterface()->lastThrowKeyCode();
 }
 
 IPointLogisticInterface<QString> *LocalFirstToPost::pointLogisticInterface() const

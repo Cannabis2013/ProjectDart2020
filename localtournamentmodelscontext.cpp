@@ -99,7 +99,7 @@ int LocalTournamentModelsContext::tournamentGameMode(const QUuid &tournament)
     return getTournamentModelFromID(tournament)->gameMode();
 }
 
-int LocalTournamentModelsContext::tournamentWinningKeyCondition(const QUuid &tournament)
+int LocalTournamentModelsContext::tournamentLastThrowKeyCode(const QUuid &tournament)
 {
     auto tournamentModel = getTournamentModelFromID(tournament);
     auto conditionKeyCode = tournamentModel->terminateKeyCondition();

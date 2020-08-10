@@ -40,13 +40,14 @@ Content {
 
     function addPlayer(playerName,email)
     {
+        print("Playername: " + playerName + " email: " + email);
         playersListView.addItemModel({"type" : "player","username" : playerName, "mail" : email})
     }
 
     function reConnectInterface()
     {
         body.visible = true;
-        applicationInterface.sendStatus.connect(replyFromBackendRecieved); // Handle reply
+        applicationInterface.transmitResponse.connect(replyFromBackendRecieved); // Handle reply
         playersListView.clear();
         requestPlayers();
     }
@@ -209,19 +210,18 @@ Content {
                 body.visible = false;
                 var createdComponent = ComponentFactory.createPopUp(applicationWindow,"createPlayerPopUp",0,0,applicationWindow.width,applicationWindow.height);
                 createdComponent.backButtonPressed.connect(body.reConnectInterface);
-                applicationInterface.sendStatus.disconnect(replyFromBackendRecieved);
+                applicationInterface.transmitResponse.disconnect(replyFromBackendRecieved);
             }
         }
 
         Component.onCompleted: {
-            body.sendTournament.connect(applicationInterface.createTournament); // Tournament request
+            body.sendTournament.connect(applicationInterface.handleCreateTournament); // Tournament request
             body.requestPlayers.connect(applicationInterface.requestPlayers); // Request initial/continous players
             applicationInterface.sendPlayerDetail.connect(body.addPlayer); // Recieve initial players
             requestUpdate();
         }
         Component.onDestruction: {
-            body.sendTournament.disconnect(applicationInterface.createTournament);
-            body.sendPlayerIndexes.disconnect(applicationInterface.assignPlayers);
+            body.sendTournament.disconnect(applicationInterface.handleCreateTournament);
             body.requestPlayers.disconnect(applicationInterface.requestPlayerDetails);
             applicationInterface.sendPlayerDetails.disconnect(body.addPlayer);
         }

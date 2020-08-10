@@ -117,12 +117,17 @@ void LocalDataContext::handleTournamentDetailsRequest(const int &index)
     try {
         auto tournamentID = tournamentModelsContext()->tournamentIDFromIndex(index);
         auto keyPoint = tournamentModelsContext()->tournamentKeyPoint(tournamentID);
-        auto conditionKeyCode = tournamentModelsContext()->tournamentWinningKeyCondition(tournamentID);
+        auto lastThrowKeyCode = tournamentModelsContext()->tournamentLastThrowKeyCode(tournamentID);
         auto numberOfThrows = tournamentModelsContext()->tournamentNumberOfThrows(tournamentID);
         auto assignedPlayersID = tournamentModelsContext()->tournamentAssignedPlayers(tournamentID);
         auto assignedUserNames = playerUserNamesFromPlayersID(assignedPlayersID);
         auto assignedPlayersCount = assignedUserNames.count();
-        QVariantList arguments = {tournamentID,keyPoint,conditionKeyCode,numberOfThrows,assignedUserNames, assignedPlayersCount};
+        QVariantList arguments = {tournamentID,
+                                  keyPoint,
+                                  lastThrowKeyCode,
+                                  numberOfThrows,
+                                  assignedUserNames,
+                                  assignedPlayersCount};
         emit sendResponseToContext(DataContextResponse::DataRequestSuccess,arguments);
     } catch (...) {
         emit sendResponseToContext(DataContextResponse::DataRequestFailed,{});

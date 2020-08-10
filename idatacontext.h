@@ -21,7 +21,7 @@ public:
     virtual int tournamentNumberOfThrows(const TUuid &tournament) = 0;
     virtual TList tournamentAssignedPlayers(const TUuid &tournament) = 0;
     virtual int tournamentGameMode(const TUuid &tournament) = 0;
-    virtual int tournamentWinningKeyCondition(const TUuid &tournament) = 0;
+    virtual int tournamentLastThrowKeyCode(const TUuid &tournament) = 0;
     virtual int tournamentKeyPoint(const TUuid &tournament) = 0;
     virtual int tournamentStatus(const TUuid &tournament) = 0;
     virtual TUuid tournamentDeterminedWinner(const TUuid &tournament) = 0;

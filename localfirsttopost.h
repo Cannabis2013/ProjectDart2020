@@ -228,8 +228,6 @@ private:
 
     QStringList _assignedUserNames;
     QList<int> _assignedUsernamesScore;
-
-    int _terminateConditionModifier = KeyMappings::DoubleModifier;
 };
 
 #endif // FIVEHUNDREDANDONEGAME_H

@@ -16,6 +16,7 @@ Page{
         onAboutToClose: pageBody.aboutToClose()
 
         onReplyFromBackendRecieved : {
+            print("sdfds");
             if(response === 0xE) // Update context success
             {
                 backButtonPressed();
@@ -108,9 +109,9 @@ Page{
         }
     }
     Component.onCompleted: {
-        createPlayerBody.sendPlayerDetails.connect(applicationInterface.createPlayer);
+        createPlayerBody.sendPlayerDetails.connect(applicationInterface.handleCreatePlayer);
     }
     Component.onDestruction: {
-        createPlayerBody.sendPlayerDetails.disconnect(applicationInterface.createPlayer);
+        createPlayerBody.sendPlayerDetails.disconnect(applicationInterface.handleCreatePlayer);
     }
 }
