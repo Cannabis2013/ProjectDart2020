@@ -92,15 +92,22 @@ private:
         s->multiplier[index - 1] = stringIdentifier;
         s->pointValue[index - 1] = value;
     }
-
+    /*
+     * Helper methods
+     */
+    bool evaluteConstraints(const int &remainingScore, const int &turnIndex, const int &totalTurns);
     bool isWithinTerminalThreshold(const int &remainingScore, const int &turnIndex, ScoreModel *scoreObject);
-    bool isWithinUpperThreshold(const int &remainingScore, const int &turnIndex, ScoreModel *s);
-    bool isDiffWithinReach(const int &remainingScore, const int &turnIndex, ScoreModel *scoreObject);
+    bool determineRouteByThresholdDiff(const int &remainingScore, const int &turnIndex, ScoreModel *s);
+    bool determineRouteByDiff(const int &remainingScore, const int &turnIndex, ScoreModel *scoreObject);
+
+    bool findLongestDivisibleWithinThreshold(const int &remainingScore, const int &turnIndex, const int &limit, const int &divisor, ScoreModel *scoreObject);
+    bool writeToScoreObject(const int &score, const int &points, const int &divisor, const int &turnIndex, ScoreModel *s);
     QString toString(ScoreModel *s);
 
     int _throwCount;
     int _lastThrowKeyCode;
 
+    const int singleDivisor = 1;
     const int doubleDivisor = 2;
     const int trippleDivisor = 3;
     const int upperThresholdValue = 110;
