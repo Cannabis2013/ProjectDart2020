@@ -23,6 +23,7 @@ SOURCES += \
         localplayermodelscontext.cpp \
         localtournamentmodelscontext.cpp \
         main.cpp \
+        pointLogisticManager.cpp \
         scoredatamodel.cpp
 
 RESOURCES += qml.qrc

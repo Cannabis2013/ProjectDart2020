@@ -8,7 +8,12 @@ Content {
     color: "transparent"
 
     signal requestPlayers
-    signal sendTournament(string title, int numberOfThrows, string gameMode,int keyPoint,var playerIndexes)
+    signal sendTournament(string title,
+                          int numberOfThrows,
+                          string gameMode,
+                          int keyCode,
+                          int keyPoint,
+                          var playerIndexes)
     signal requestGameModes
 
     minimumHeight: 538
@@ -52,7 +57,7 @@ Content {
         requestPlayers();
     }
 
-    function convertGameModeToHex(text)
+    function gameModeToHex(text)
     {
         var gameModes = stringModels.gameModes;
         if(text === gameModes[0])
@@ -188,7 +193,7 @@ Content {
                     return;
                 buttonTwoEnabled = false;
                 var gameMode = gameModeSelector.currentText;
-                var gameCode = convertGameModeToHex(gameMode);
+                var gameCode = gameModeToHex(gameMode);
                 var winConditionKeyIdentifier = winConditionSelector.currentText;
                 var winConditionKeyCode = convertKeyModifierToHex(winConditionKeyIdentifier);
 
@@ -198,6 +203,7 @@ Content {
                                winConditionKeyCode,
                                keyPointEdit.currentText,
                                indexes);
+                print("TEST");
             }
         }
         CRUDButton{
@@ -222,8 +228,8 @@ Content {
         }
         Component.onDestruction: {
             body.sendTournament.disconnect(applicationInterface.handleCreateTournament);
-            body.requestPlayers.disconnect(applicationInterface.requestPlayerDetails);
-            applicationInterface.sendPlayerDetails.disconnect(body.addPlayer);
+
+            applicationInterface.sendPlayerDetail.disconnect(body.addPlayer);
         }
     }
 }
