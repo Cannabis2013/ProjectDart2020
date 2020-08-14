@@ -218,6 +218,8 @@ private:
     const int defaultKeyPoint = 501;
     int criticalLimit = 180;
 
+    int bullsEye = 50;
+
     bool _isOff;
 
     int _keyPoint = 0;

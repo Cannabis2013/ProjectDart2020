@@ -3,16 +3,12 @@
 
 #include <qstring.h>
 #include <qlist.h>
+#include <QMultiHash>
+#include <QRandomGenerator>
 
 #include "ipointlogisticinterface.h"
 
 #define TRIPPLE "T";
-
-const int Bull = 25;
-const int BullsEye =  50;
-const int singleMaxValue = 20;
-const int doubleMaxValue = 40;
-const int trippleMaxValue = 60;
 
 struct ScoreModel
 {
@@ -23,7 +19,6 @@ struct ScoreModel
 class PointLogisticManager : public IPointLogisticInterface<QString>
 {
 public:
-
     /*
      * Public types
      */
@@ -35,63 +30,21 @@ public:
     /*
      * Constructor
      */
-    PointLogisticManager(const int &throwCount = 3, const int &finishingKeyCode = KeyMappings::DoubleModifier)
-    {
-        _throwCount = throwCount;
-
-        _lastThrowKeyCode = finishingKeyCode;
-        _terminalThreshold = _lastThrowKeyCode == KeyMappings::SingleModifer
-                ? singleMaxValue : _lastThrowKeyCode == KeyMappings::DoubleModifier ?
-                      doubleMaxValue :
-                                                                                                                                      trippleMaxValue;
-        _terminalDivisor = _lastThrowKeyCode == KeyMappings::SingleModifer ?
-                    1 :_lastThrowKeyCode == KeyMappings::DoubleModifier ?
-                        2 : 3;
-
-    }
-    QString constructThrowSuggestions(const int &remainingScore, const int &turnIndex) override;
-    void setNumberOfThrows(const int &throwCount) override
-    {
-        _throwCount = throwCount;
-    }
-
-    void setLastThrowKeyCode(const int &keyCode) override
-    {
-        _lastThrowKeyCode = keyCode;
-    }
-    int lastThrowKeyCode() override
-    {
-        return _lastThrowKeyCode;
-    }
+    PointLogisticManager(const int &throwCount = 3, const int &finishingKeyCode = KeyMappings::DoubleModifier);
+    QString throwSuggestion(const int &remainingScore, const int &turnIndex) override;
+    void setNumberOfThrows(const int &throwCount) override;
+    void setLastThrowKeyCode(const int &keyCode) override;
+    int lastThrowKeyCode() override;
 private:
-    bool pointSuggestion(const int &remainingScore,const int &turnIndex, ScoreModel *scoreObject);
+    void constructAndAddSuggestions();
+    QString constructThrowSuggestion(const int &remainingScore, const int &turnIndex, const int &route);
+    bool pointSuggestion(const int &remainingScore, const int &turnIndex, ScoreModel *scoreObject);
 
-    int initializeLowerBound(int remainingScore, int multiplier)
-    {
-        if(remainingScore < multiplier)
-            return 0;
+    int initializeLowerBound(int remainingScore, int multiplier);
 
-        auto rest = remainingScore % multiplier;
+    bool isDivisor(int base, int div);
 
-        return remainingScore - rest;
-    }
-
-    bool isDivisor(int base, int div)
-    {
-        if(base == 0 || div == 0)
-            throw new std::domain_error("One of operands zero");
-
-        return base % div == 0;
-    }
-
-    void updateScoreObject(char stringIdentifier, int value, int index, ScoreModel *s)
-    {
-        if(value < 0)
-            throw new std::out_of_range("Value out of bounds");
-
-        s->multiplier[index - 1] = stringIdentifier;
-        s->pointValue[index - 1] = value;
-    }
+    void updateScoreObject(char stringIdentifier, int value, int index, ScoreModel *s);
     /*
      * Helper methods
      */
@@ -107,15 +60,26 @@ private:
     int _throwCount;
     int _lastThrowKeyCode;
 
-    const int singleDivisor = 1;
-    const int doubleDivisor = 2;
-    const int trippleDivisor = 3;
-    const int upperThresholdValue = 110;
+    const int _singleDivisor = 1;
+    const int _doubleDivisor = 2;
+    const int _trippleDivisor = 3;
+    const int _upperThresholdValue = 110;
+    const int _bull = 25;
+    const int _bullsEye =  50;
+    const int _singleMaxValue = 20;
+    const int _doubleMaxValue = 40;
+    const int _trippleMaxValue = 60;
 
     int _terminalDivisor;
     int _terminalThreshold;
 
     const char identifiers[3] = {'S','D','T'};
+
+    int _route;
+
+    QList<QMultiHash<int,QString>> _throwSuggestions;
 };
+
+
 #endif // SCORECONTROLLER_H
 

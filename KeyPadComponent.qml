@@ -37,6 +37,11 @@ Rectangle {
         var modifierClickCode = modifiers.isTrippleModifierPressed ? 0x2C :
                                                                    modifiers.isDoubleModifierPressed ? 0x2B :
                                                                                                        0x2A;
+        if(modifierClickCode === 0x2B)
+            doubleModifier.clicked();
+        else if(modifierClickCode === 0x2C)
+            trippleModifier.clicked();
+
         keyClicked(value,modifierClickCode);
     }
 
@@ -164,7 +169,10 @@ Rectangle {
                 trippleModifier = selectorKey;
             }
         }
-        // Numberpads
+        /*
+          Numberpads
+            - Digits from 0  to 20
+          */
         for(var i = 1;i < rowCount && keyText < 21;i++){
             for(var j = initialColumn;j < columnCount && keyText < 21;j++){
                 var numberKey = ComponentFactory.createNumberButton(keyPadLayout,keyText++,i,j);

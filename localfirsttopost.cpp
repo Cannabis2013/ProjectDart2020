@@ -56,7 +56,8 @@ void LocalFirstToPost::handleAndProcessUserInput(const int &point, const int &mo
     {
         addPoint(calculatedPoint,newScore);
     }
-    else if(inputResponse == AggregatedSumDomains::TargetDomain && modifierKeyCode == terminateConditionModifier())
+    else if(inputResponse == AggregatedSumDomains::TargetDomain &&
+            (modifierKeyCode == terminateConditionModifier() || point == bullsEye))
     {
         //Winner declared
         declareWinner();
@@ -185,7 +186,7 @@ void LocalFirstToPost::sendCurrentTurnValues()
     auto currentRound = currentRoundIndex();
     auto currentUserName = currentActiveUser();
     auto score = playerScore(currentSetIndex());
-    auto throwSuggestion = pointLogisticInterface()->constructThrowSuggestions(score,currentThrowIndex() + 1);
+    auto throwSuggestion = pointLogisticInterface()->throwSuggestion(score,currentThrowIndex() + 1);
     emit transmitResponse(ControllerResponse::isReadyAndAwaits,{canUndo,canRedo,currentRound,currentUserName,throwSuggestion});
 }
 
