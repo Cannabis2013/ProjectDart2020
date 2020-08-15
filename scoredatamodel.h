@@ -28,7 +28,7 @@ public:
     Q_PROPERTY(int initialValue READ initialValue WRITE setInitialValue NOTIFY initialValueChanged);
     // public methods
     Q_INVOKABLE int editData(const int &row, const int &column, const int &data);
-    Q_INVOKABLE bool appendData(const QString &playerName, const int &data, const int &headerOrientation = -1);
+    Q_INVOKABLE bool appendData(const QString &playerName, const int &score, const int &headerOrientation = -1);
     Q_INVOKABLE int takeLastItem(const QString &playerName, const int &headerOrientation = -1);
     Q_INVOKABLE void appendHeaderItem(const QVariant &data, const int &headerOrientation = -1);
     Q_INVOKABLE void clearData();
@@ -94,7 +94,7 @@ private:
     bool isRowEmpty(const int &row);
     int removeData(const QModelIndex &index);
     int indexOfHeaderItem(const QString &data, const int &orientation);
-    QList<QList<int>> _cellData;
+    QList<QList<int>> _scores;
     QList<QString> _verticalHeaderData;
     QList<QString> _horizontalHeaderData;
     int _rows = 0;

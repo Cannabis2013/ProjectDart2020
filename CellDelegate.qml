@@ -31,6 +31,9 @@ MyRectangle{
     
     implicitWidth: 25
     implicitHeight: 25
+
+    property string text: ""
+    onTextChanged: cellText.text = text
     
     color: cellColor
     
@@ -39,7 +42,7 @@ MyRectangle{
         horizontalAlignment: horizontalTextAlignment
         verticalAlignment: verticalTextAlignment
         anchors.fill: parent
-        text: display
+        text: cellDelegate.text
         color: textColor
         font.pointSize: fontSize
     }

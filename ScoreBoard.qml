@@ -11,8 +11,8 @@ Rectangle{
 
     property int headerOrientation: Qt.Vertical
     onHeaderOrientationChanged: myModel.setHeaderOrientation(headerOrientation)
-    property int fontSize: 16
-    onFontSizeChanged: cellDelegate.fontSize = fontSize
+    property int itemFontSize: 16
+    onItemFontSizeChanged: cellDelegate.fontSize = itemFontSize
     property int horizontalHeaderHeight: 20
     onHorizontalHeaderHeightChanged: horizontalHeader.height = horizontalHeaderHeight
     property bool staticVerticalHeaderWidth: false
@@ -102,7 +102,7 @@ Rectangle{
         {
             var hHeaderValue = myModel.getHeaderData(j,1);
             horizontalHeader.setData(j,hHeaderValue);
-            var columnWidth = myModel.columnWidthAt(j,"MS Sans Serif",fontSize);
+            var columnWidth = myModel.columnWidthAt(j,"MS Sans Serif",itemFontSize);
             horizontalHeader.setColumnWidth(j,columnWidth);
         }
 
@@ -121,7 +121,7 @@ Rectangle{
         var columnCount = myModel.columnCount;
         var result = 0;
         for(var c = 0;c < columnCount;c++){
-            var w = myModel.columnWidthAt(c,"MS Sans Serif",fontSize);
+            var w = myModel.columnWidthAt(c,"MS Sans Serif",itemFontSize);
             result += w;
         }
         return result;
@@ -133,7 +133,7 @@ Rectangle{
         var totalHeight = 0;
         for(var r = 0;r < rowCount;r++)
         {
-            var h = myModel.rowHeightAt(r,"MS Sans Serif",fontSize);
+            var h = myModel.rowHeightAt(r,"MS Sans Serif",itemFontSize);
             totalHeight += h;
         }
         return totalHeight;
@@ -209,7 +209,7 @@ Rectangle{
                 anchors.fill: parent
                 columnWidthProvider: function(column)
                 {
-                    return myModel.columnWidthAt(column,"MS Sans Serif",fontSize);
+                    return myModel.columnWidthAt(column,"MS Sans Serif",itemFontSize);
                 }
 
                 model: ScoreModel {
@@ -223,7 +223,9 @@ Rectangle{
                     id: cellDelegate
                     cellBorderWidth: scoreBoardBody.cellBorderWidth
                     cellColor: "white"
-                    fontSize: scoreBoardBody.fontSize
+                    fontSize: scoreBoardBody.itemFontSize
+                    text: display
+
                 }
             }
         }

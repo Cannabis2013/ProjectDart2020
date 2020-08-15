@@ -36,7 +36,7 @@ void LocalFirstToPost::handleAndProcessUserInput(const int &point, const int &mo
                             modifierKeyCode == KeyMappings::DoubleModifier ? 2 :
                             modifierKeyCode == KeyMappings::SingleModifer ? 1 : 0;
 
-    auto calculatedPoint = point *pointMultiplier;
+    auto calculatedPoint = point*pointMultiplier;
 
     auto currentScore = playerScore(_setIndex);
     auto newScore = currentScore - calculatedPoint;
@@ -137,8 +137,11 @@ void LocalFirstToPost::handleResponseFromContext(const int &response, const QVar
     {
         _totalTurns = _turnIndex;
         auto playerName = currentActiveUser();
-        auto scoreValue = playerScore(currentPlayerIndex());
-        emit transmitResponse(ControllerResponse::ScoreTransmit,{playerName,scoreValue});
+        auto pointValue = args[0].toInt();
+        auto scoreValue = args[1].toInt();
+
+        setPlayerScore(currentPlayerIndex(),scoreValue);
+        emit transmitResponse(ControllerResponse::ScoreTransmit,{playerName,pointValue,scoreValue});
     }
     else if(status() == ControllerState::UpdateContextState && response == DataContextResponse::UpdateSuccessfull)
     {
@@ -167,7 +170,7 @@ void LocalFirstToPost::handleResponseFromContext(const int &response, const QVar
         auto winnerName = determinedWinnerName();
         emit transmitResponse(ControllerResponse::WinnerFound,{winnerName});
     }
-    else if(status() == ControllerState::resetState && response == DataContextResponse::UpdateUnSuccessfull)
+    else if(status() == ControllerState::resetState && response == DataContextResponse::UpdateSuccessfull)
         /*
          *  Phase IV - Reset requested
          *  - Controller has requested models associated with its current tournament removed
@@ -309,7 +312,6 @@ int LocalFirstToPost::validateInput(const int &currentScore)
 
 void LocalFirstToPost::addPoint(const int &point, const int &score)
 {
-    setPlayerScore(currentPlayerIndex(),score);
     auto tournamentID = currentTournamentID();
     auto playerName = currentActiveUser();
     auto roundIndex = currentRoundIndex();

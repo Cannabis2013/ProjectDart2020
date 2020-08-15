@@ -32,7 +32,13 @@ Content {
     signal requestUndo
     signal requestRedo
 
-    onRequestScoreBoardData: responseTimer.start()
+    QtObject{
+        id: buttonTextContainer
+        property string startText: qsTr("Start")
+        property string pauseText: qsTr("Pause")
+        property string restartText: qsTr("Restart")
+        property string resumeText: qsTr("Resume")
+    }
 
     function appendHeaderItem(item)
     {
@@ -45,14 +51,15 @@ Content {
 
     onReplyFromBackendRecieved: {
         var buttonText = turnNavigator.startButtonText, playerName, scoreValue;
+        print(response);
         if(response === 0x12) // Gamecontroller is stopped
         {
             keyPad.enableKeys = false;
-            turnNavigator.startButtonText = "Resume"
+            turnNavigator.startButtonText = buttonTextContainer.resumeText;
         }
         else if(response === 0x2D) // Gamecontroller is ready and awaits input
         {
-            turnNavigator.startButtonText = "Pause";
+            turnNavigator.startButtonText = buttonTextContainer.pauseText;
 
             var canUndo = args[0];
             var canRedo = args[1];
@@ -75,11 +82,14 @@ Content {
         {
             turnNavigator.startButtonEnabled = true;
         }
-
+        /*
+          Backend responds that it has updated its datacontext
+          */
         else if(response == 0x27) // Controller is in AddScoreState
         {
             playerName = args[0];
-            scoreValue = args[1];
+            var pointValue = args[1];
+            scoreValue = args[2];
             scoreTable.appendData(playerName,scoreValue);
             requestStatusFromBackend();
         }
@@ -95,7 +105,7 @@ Content {
             keyPad.enableKeys = false;
             var winnerPlayerName = args[0];
             winnerText.text = textSourceContainer.winnerLabel + winnerPlayerName;
-            turnNavigator.startButtonText = "Restart"
+            turnNavigator.startButtonText = buttonTextContainer.restartText;
         }
         else if(response === 0x17)
         {
@@ -113,25 +123,27 @@ Content {
         TurnNavigationComponent{
             id: turnNavigator
             Layout.fillWidth: true
-            Layout.minimumHeight: 64
-            Layout.maximumHeight: 64
+            Layout.minimumHeight: 100
+            Layout.maximumHeight: 100
             Layout.alignment: Qt.AlignHCenter
             startButtonEnabled: false
             startButtonEnablePressAndHold: true
             onStartButtonPressAndHoldClicked: {
-                turnNavigator.startButtonText = "Restart"
+                turnNavigator.startButtonText = buttonTextContainer.restartText;
             }
 
             onStartButtonClicked: {
                 var buttonText = turnNavigator.startButtonText;
-                if(buttonText === "Start" || buttonText === "Resume")
+                if(buttonText === buttonTextContainer.startText || buttonText === buttonTextContainer.resumeText)
                     requestStart();
-                else if(buttonText === "Restart")
+                else if(buttonText === buttonTextContainer.restartText)
                 {
                     requestRestart();
                     scoreTable.clearTable();
                     body.requestScoreBoardData();
                     scoreTable.setMinimumColumnsCount(4);
+                    keyPad.enableKeys = false;
+                    turnNavigator.startButtonText = buttonTextContainer.startText;
                 }
                 else
                     requestStop();
@@ -145,23 +157,24 @@ Content {
             verticalHeaderFillMode: 0x1
             Layout.fillWidth: true
             Layout.minimumHeight: 100
+            itemFontSize: 20
         }
         GridLayout{
             flow: GridLayout.TopToBottom
-            Layout.fillHeight: true
+            Layout.preferredHeight: 32
             Layout.fillWidth: true
             Text {
                 id: winnerText
                 text: qsTr(textSourceContainer.winnerLabel)
+                Layout.fillHeight: true
                 Layout.fillWidth: true
-                Layout.preferredHeight: 25
                 font.pointSize: 16
             }
             Text {
                 id: suggestText
                 text: qsTr(textSourceContainer.throwSuggestLabel)
+                Layout.fillHeight: true
                 Layout.fillWidth: true
-                Layout.preferredHeight: 25
                 font.pointSize: 16
             }
             Rectangle{
@@ -178,6 +191,8 @@ Content {
             Layout.alignment: Qt.AlignTop
             onKeyClicked: {
                 enableKeys = false;
+                if(turnNavigator.startButtonText === buttonTextContainer.restartText)
+                    turnNavigator.startButtonText = buttonTextContainer.pauseText;
                 body.sendInput(val,modifierCode);
             }
             enableKeys: false

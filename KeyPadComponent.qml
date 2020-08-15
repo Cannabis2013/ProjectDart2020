@@ -9,9 +9,7 @@ Rectangle {
 
     clip: true
 
-    color: "silver"
-
-    radius: 10
+    color: "transparent"
 
     signal keyClicked(int val, int modifierCode)
     signal enableKeyPad(bool enable)
@@ -67,8 +65,6 @@ Rectangle {
        id: keyPadLayout
 
        anchors.fill: parent
-       anchors.margins: 5
-
 
        rowSpacing: 1
        columnSpacing: 1
@@ -76,27 +72,6 @@ Rectangle {
        columns: 5
        rows: 6
 
-        Label{
-            Layout.row: 0
-            Layout.column: 0
-            clip: true
-
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-
-            Layout.maximumHeight: 30
-
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignTop
-
-            Layout.columnSpan: keyPadLayout.columns
-
-            text: "Virtual keyboard"
-
-            font.pointSize: 20
-            font.bold: true
-
-        }
         PushButton{
             id: bullsButton
             backgroundColor : "green"

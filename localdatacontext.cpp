@@ -281,7 +281,7 @@ void LocalDataContext::handleRequestFromContext(const int &request, const QList<
         tournamentModelsContext()->addScore(tournamentID,playerID,pointValue,roundIndex,setIndex,throwIndex,scoreValue);
         tournamentModelsContext()->removeHiddenScores(tournamentID);
 
-        emit sendResponseToContext(DataContextResponse::UpdateSuccessfull,{});
+        emit sendResponseToContext(DataContextResponse::UpdateSuccessfull,{pointValue,scoreValue});
     }
     else if(request == ControllerRequest::RequestUpdateModelState)
     {

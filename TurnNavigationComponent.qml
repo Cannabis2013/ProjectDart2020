@@ -4,6 +4,8 @@ import QtQuick.Controls 2.5
 
 Item {
     id: body
+
+    clip: true
     signal startButtonClicked
     signal leftButtonClicked
     signal rightButtonClicked
@@ -24,7 +26,7 @@ Item {
     property int currentRoundIndex: 0
     property string currentPlayer: ""
 
-    onCurrentRoundIndexChanged: currentRoundLabel.text = textBeholder.currentRoundText + currentRoundIndex
+    onCurrentRoundIndexChanged: currentRoundLabel.text = currentRoundIndex
     onCurrentPlayerChanged: currentPlayerLabel.text = currentPlayer
 
     function updateState(roundIndex, playerName, undoPossible, redoPossible)
@@ -43,21 +45,21 @@ Item {
     }
 
     GridLayout{
-
         anchors.fill: parent
-
         flow: GridLayout.LeftToRight
+        Layout.fillWidth: true
+        Layout.fillHeight: true
 
+        // Startbutton
         PushButton{
             id: startButton
             text: body.startButtonText
             textColor: "white"
             backgroundColor: "green"
             fontSize: 16
-            Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             width: 80
             height: 32
-
             enablePressAndHold: body.startButtonEnablePressAndHold
 
             onClicked: startButtonClicked()
@@ -65,15 +67,11 @@ Item {
             enabled: body.startButtonEnabled
         }
 
-        Rectangle{
-            Layout.fillWidth: true
-        }
-
         PushButton{
             id: leftButton
 
             width: 64
-            height: 64
+            height: 96
 
             image: "qrc:/pictures/Ressources/arrow.png"
 
@@ -91,9 +89,8 @@ Item {
         }
 
         GridLayout{
-            Layout.maximumWidth: 128
-
-            Layout.preferredHeight: 64
+            Layout.fillWidth: true
+            Layout.fillHeight: true
 
             flow: GridLayout.TopToBottom
 
@@ -103,10 +100,10 @@ Item {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
 
-                text: textBeholder.currentRoundText + currentRoundIndex
-                font.pointSize: 12
+                text: "" + currentRoundIndex
+                font.pointSize: 24
 
-                verticalAlignment: Text.AlignVCenter
+                verticalAlignment: Text.AlignBottom
                 horizontalAlignment: Text.AlignHCenter
             }
 
@@ -116,10 +113,9 @@ Item {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
 
-                text: textBeholder.currentPlayerText + currentPlayer
-                font.pointSize: 12
-
-                verticalAlignment: Text.AlignVCenter
+                text: currentPlayer
+                font.pointSize: 24
+                verticalAlignment: Text.AlignTop
                 horizontalAlignment: Text.AlignHCenter
             }
         }
@@ -128,7 +124,8 @@ Item {
             id: rightButton
 
             width: 64
-            height: 64
+            height: 96
+
             image: "qrc:/pictures/Ressources/arrow.png"
             imageMargins: 20
             buttonRadius: 45
@@ -141,8 +138,7 @@ Item {
             enabled: false
         }
 
-        Rectangle{
-            Layout.fillWidth: true
-        }
     }
+
+
 }

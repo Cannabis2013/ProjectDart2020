@@ -20,7 +20,7 @@ int ScoreDataModel::editData(const int &row, const int &column, const int &data)
     return oldData.toInt();
 }
 
-bool ScoreDataModel::appendData(const QString &playerName, const int &data, const int &headerOrientation)
+bool ScoreDataModel::appendData(const QString &playerName, const int &score, const int &headerOrientation)
 {
     auto orientation = headerOrientation != -1 ? headerOrientation : this->headerOrientation();
     auto index = indexOfHeaderItem(playerName,orientation);
@@ -31,7 +31,7 @@ bool ScoreDataModel::appendData(const QString &playerName, const int &data, cons
         if(!modelIndex.isValid())
             return false;
         try {
-            setData(modelIndex,QVariant(data),Qt::DisplayRole);
+            setData(modelIndex,QVariant(score),Qt::DisplayRole);
         } catch (std::out_of_range *e) {
             printf("%s\n",e->what());
             return false;
@@ -39,13 +39,13 @@ bool ScoreDataModel::appendData(const QString &playerName, const int &data, cons
     }
     else if(orientation == Qt::Vertical)
     {
-        auto rowCount = _cellData.count();
+        auto rowCount = _scores.count();
         auto column = index < rowCount ? indexOfLastDecoratedCell(index,orientation) + 1 : 0;
         auto modelIndex = this->createIndex(index,column);
         if(!modelIndex.isValid())
             return false;
         try {
-            setData(modelIndex,QVariant(data),Qt::DisplayRole);
+            setData(modelIndex,QVariant(score),Qt::DisplayRole);
         } catch (std::out_of_range *e) {
             printf("%s\n",e->what());
             return false;
@@ -96,7 +96,7 @@ void ScoreDataModel::appendHeaderItem(const QVariant &data, const int &headerOri
 
 void ScoreDataModel::clearData()
 {
-    _cellData.clear();
+    _scores.clear();
     auto bottomRight = createIndex(rowCount() - 1,columnCount() - 1);
     _columns = 0;
     _rows = 0;
@@ -133,7 +133,7 @@ int ScoreDataModel::columnCount() const
 
 double ScoreDataModel::columnWidthAt(const int &column, const QString &fontFamily, const int &pointSize) const
 {
-    if(column >= columnCount() || _cellData.count() <= 0)
+    if(column >= columnCount() || _scores.count() <= 0)
         return -1;
 
     auto font = QFont(fontFamily,pointSize);
@@ -152,7 +152,7 @@ double ScoreDataModel::columnWidthAt(const int &column, const QString &fontFamil
     auto resultingGlyphLenght = fontMetric.boundingRect(string).width();
 
     for (int r = 0; r < rowCount(); ++r) {
-        auto row = _cellData.at(r);
+        auto row = _scores.at(r);
         auto data = row.at(column);
 
         string = QString::number(data);
@@ -195,7 +195,7 @@ double ScoreDataModel::columnHeightAt(const int &column, const QString &fontFami
 
 double ScoreDataModel::rowHeightAt(const int &row, const QString &fontFamily ,const int &pointSize) const
 {
-    if(_cellData.count() <= 0)
+    if(_scores.count() <= 0)
         return 0;
 
     auto font = QFont(fontFamily,pointSize);
@@ -215,7 +215,7 @@ double ScoreDataModel::rowHeightAt(const int &row, const QString &fontFamily ,co
     auto resultingGlyphLenght = fontMetric.boundingRect(string).height();
 
     for (int c = 0; c < columnCount(); ++c) {
-        auto cellRow = _cellData.at(row);
+        auto cellRow = _scores.at(row);
         auto data = cellRow.at(c);
         auto dataString = QString::number(data);
         auto glyphLenght = fontMetric.boundingRect(dataString).height();
@@ -274,11 +274,11 @@ int ScoreDataModel::columnCount(const QModelIndex &) const
 
 QVariant ScoreDataModel::data(const QModelIndex &index, int role) const
 {
-    if(!index.isValid() || _cellData.count() <= 0)
+    if(!index.isValid() || _scores.count() <= 0)
         return QVariant();
     auto row = index.row();
     auto column = index.column();
-    auto dataRow = _cellData.at(row);
+    auto dataRow = _scores.at(row);
     if(index.column() >= dataRow.count())
         return QVariant();
     if(role != Qt::DisplayRole)
@@ -333,11 +333,11 @@ bool ScoreDataModel::setData(const QModelIndex &index, const QVariant &value, in
         insertColumns(column,deltaC,QModelIndex());
     }
 
-    auto r = _cellData.at(row);
+    auto r = _scores.at(row);
 
     r.replace(column,value.toInt());
 
-    _cellData.replace(row,r);
+    _scores.replace(row,r);
 
     emit dataChanged(index,index,{role});
 
@@ -362,7 +362,7 @@ bool ScoreDataModel::insertRows(int row, int count, const QModelIndex &)
             return resultingList;
         }();
 
-        _cellData.insert(row,dataRow);
+        _scores.insert(row,dataRow);
     }
 
     endInsertRows();
@@ -382,7 +382,7 @@ bool ScoreDataModel::insertColumns(int column, int count, const QModelIndex &)
 
     beginInsertColumns(QModelIndex(),firstColumn,lastColumn);
 
-    for (QList<int> &row : _cellData) {
+    for (QList<int> &row : _scores) {
         QList<int> initialDataValues = [c]
         {
             QList<int> resultingList;
@@ -422,7 +422,7 @@ bool ScoreDataModel::removeRows(int row, int count, const QModelIndex &)
 
     for (int i = row; i < row + count; ++i)
     {
-        _cellData.removeAt(i);
+        _scores.removeAt(i);
         // Remove corresponding header rows
         _verticalHeaderData.removeAt(i);
     }
@@ -446,7 +446,7 @@ bool ScoreDataModel::removeColumns(int column, int count, const QModelIndex &)
     // Begin remove columns
     beginRemoveColumns(QModelIndex(),column,column + count);
 
-    for (auto &row : _cellData) {
+    for (auto &row : _scores) {
         for (int i = column; i < column + count; ++i)
             row.removeAt(i);
     }
@@ -463,13 +463,13 @@ bool ScoreDataModel::removeColumns(int column, int count, const QModelIndex &)
 void ScoreDataModel::updateInitialCellValues()
 {
 
-    if(_cellData.count() < 1)
+    if(_scores.count() < 1)
         return;
     auto orientation = _headerOrientation;
     auto initialValue = this->initialValue();
     if(orientation == Qt::Horizontal)
     {
-        auto firstColumn = _cellData.at(0);
+        auto firstColumn = _scores.at(0);
         if(firstColumn.count() < 1)
             return;
         for (int i = 0; i < firstColumn.count(); ++i)
@@ -493,7 +493,7 @@ int ScoreDataModel::indexOfLastDecoratedCell(const int &index,const int &orienta
 {
     if(orientation == Qt::Vertical)
     {
-        auto dataRow = _cellData.at(index);
+        auto dataRow = _scores.at(index);
 
         for (int col = 0; col < columnCount(QModelIndex()); ++col) {
             auto cellValue = dataRow.at(col);
@@ -507,7 +507,7 @@ int ScoreDataModel::indexOfLastDecoratedCell(const int &index,const int &orienta
     else if(orientation == Qt::Horizontal)
     {
         for (int row = 0; row < rowCount(); ++row) {
-            auto dataRow = _cellData.at(row);
+            auto dataRow = _scores.at(row);
             auto data = dataRow.at(index);
             if(data == -1)
                 return row -1;
@@ -520,8 +520,8 @@ int ScoreDataModel::indexOfLastDecoratedCell(const int &index,const int &orienta
 
 int ScoreDataModel::rowCount(const int &column)
 {
-    for (int row = 0; row < _cellData.count(); ++row) {
-        auto dataRow = _cellData.at(row);
+    for (int row = 0; row < _scores.count(); ++row) {
+        auto dataRow = _scores.at(row);
         if(dataRow.count() < column && dataRow.at(column) == -1)
             return row;
     }
@@ -533,7 +533,7 @@ bool ScoreDataModel::isColumnEmpty(const int &col)
     if(col < 0 || col >= columnCount())
         throw std::out_of_range("Index out of range");
 
-    for (auto dataRow : _cellData) {
+    for (auto dataRow : _scores) {
         auto cellData = dataRow.at(col);
         if(cellData != -1)
             return false;
@@ -545,7 +545,7 @@ bool ScoreDataModel::isRowEmpty(const int &row)
 {
     if(row < 0 || row >= rowCount())
         throw std::out_of_range("Index out of range");
-    auto dataRow = _cellData.at(row);
+    auto dataRow = _scores.at(row);
     for (auto data : dataRow) {
         if(data != -1)
             return false;
@@ -559,10 +559,10 @@ int ScoreDataModel::removeData(const QModelIndex &index)
         return -1;
     auto row = index.row();
     auto column = index.column();
-    auto dataRow = _cellData.at(row);
+    auto dataRow = _scores.at(row);
     auto data = dataRow.at(column);
     dataRow.replace(column,-1);
-    _cellData.replace(row,dataRow);
+    _scores.replace(row,dataRow);
     if(headerOrientation() == Qt::Vertical)
     {
         if(isColumnEmpty(column) && column > minimumColumnCount())
