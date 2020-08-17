@@ -18,7 +18,8 @@ public:
     // Public types
     enum HeaderFillMode{IncrementingNumericFillMode = 0x1, NonNumericFillMode = 0x2, NonFill = 0x4};
     // Public properties
-    Q_PROPERTY(int headerFillMode READ fillMode WRITE setFillMode NOTIFY fillModeChanged);
+    Q_PROPERTY(int verticalFillMode READ verticalHeaderFillMode WRITE setVerticalHeaderFillMode NOTIFY fillModeChanged);
+    Q_PROPERTY(int horizontalFillMode READ horizontalHeaderFillMode WRITE setHorizontalHeaderFillMode NOTIFY fillModeChanged);
     Q_PROPERTY(double columnWidthScale READ scale WRITE setScale NOTIFY columnWidthScaleChanged);
     Q_PROPERTY(int throwCount READ numberOfThrows WRITE setNumberOfThrows NOTIFY numberOfThrowsChanged);
     Q_PROPERTY(int columnCount READ columnCount WRITE setColumnCount NOTIFY columnCountChanged);
@@ -33,6 +34,7 @@ public:
     Q_INVOKABLE void appendHeaderItem(const QVariant &data, const int &headerOrientation = -1);
     Q_INVOKABLE void clearData();
     Q_INVOKABLE QString getHeaderData(const int &index, const int &headerOrientation = -1) const;
+    Q_INVOKABLE int getPointAtIndex(const QModelIndex &index);
     Q_INVOKABLE int headerItemCount(const int &headerOrientation = -1) const;
     Q_INVOKABLE int rowCount() const;
     Q_INVOKABLE int columnCount() const;
@@ -44,8 +46,10 @@ public:
     Q_INVOKABLE int verticalHeaderCount() const;
     Q_INVOKABLE double scale() const;
     Q_INVOKABLE void setScale(double scale);
-    Q_INVOKABLE int fillMode() const;
-    Q_INVOKABLE void setFillMode(int fillMode);
+    int horizontalHeaderFillMode() const;
+    int verticalHeaderFillMode() const;
+    void setHorizontalHeaderFillMode(const int &fillMode);
+    void setVerticalHeaderFillMode(const int &fillMode);
     Q_INVOKABLE int preferedCellWidth(const QString &fontFamily = defaultFontFamily, const int &pointSize = defaultPointSize) const;
     Q_INVOKABLE void setColumnCount(const int &count);
     // Public pure virtual method implementations
@@ -87,6 +91,7 @@ protected:
 private slots:
     void updateInitialCellValues();
 private:
+    bool setAuxiallaryData(const QModelIndex &index, QVariant &value,int role);
     bool isCellDecorated(const QModelIndex &index);
     int indexOfLastDecoratedCell(const int &index, const int &orientation);
     int rowCount(const int &column);
@@ -94,18 +99,26 @@ private:
     bool isRowEmpty(const int &row);
     int removeData(const QModelIndex &index);
     int indexOfHeaderItem(const QString &data, const int &orientation);
-    QList<QList<int>> _scores;
-    QList<QString> _verticalHeaderData;
-    QList<QString> _horizontalHeaderData;
     int _rows = 0;
     int _columns = 0;
     double _scale = 1.05;
-    int _fillMode = HeaderFillMode::NonFill;
+    int _horizontalFillMode = HeaderFillMode::IncrementingNumericFillMode;
+    int _verticalFillMode = HeaderFillMode::NonNumericFillMode;
     int _numberOfThrows = 3;
     int _headerOrientation = 0x2;
     int _minimumColumnCount = 0;
     int _minimumRowCount = 0;
     int _initialValue = 0;
+    /*
+     * Headerdata
+     */
+    QList<QString> _verticalHeaderData;
+    QList<QString> _horizontalHeaderData;
+    /*
+     * Scores and points
+     */
+    QList<QList<int>> _scores;
+    QList<QList<int>> _points;
 };
 
 #endif // CUSTOMTABLEMODEL_H

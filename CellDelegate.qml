@@ -39,9 +39,9 @@ MyRectangle{
     
     Text {
         id: cellText
-        horizontalAlignment: horizontalTextAlignment
-        verticalAlignment: verticalTextAlignment
         anchors.fill: parent
+        horizontalAlignment: cellDelegate.horizontalTextAlignment
+        verticalAlignment: cellDelegate.verticalTextAlignment
         text: cellDelegate.text
         color: textColor
         font.pointSize: fontSize

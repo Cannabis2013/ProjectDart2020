@@ -112,6 +112,15 @@ QString ScoreDataModel::getHeaderData(const int &index, const int &headerOrienta
     return value;
 }
 
+int ScoreDataModel::getPointAtIndex(const QModelIndex &index)
+{
+    auto row = index.row();
+    auto column = index.column();
+    auto pointsRow = _points.at(row);
+    auto point = pointsRow.at(column);
+    return point;
+}
+
 int ScoreDataModel::headerItemCount(const int &headerOrientation) const
 {
     auto orientation = headerOrientation != -1 ? headerOrientation : this->headerOrientation();
@@ -143,22 +152,21 @@ double ScoreDataModel::columnWidthAt(const int &column, const QString &fontFamil
     QString string;
 
     if(_horizontalHeaderData.count() <= column){
-        if(fillMode() == HeaderFillMode::IncrementingNumericFillMode)
+        if(horizontalHeaderFillMode() == HeaderFillMode::IncrementingNumericFillMode)
             string = QString::number(column + 1);
     }
     else
+    {
         string = _horizontalHeaderData.at(column);
+    }
 
     auto resultingGlyphLenght = fontMetric.boundingRect(string).width();
 
     for (int r = 0; r < rowCount(); ++r) {
         auto row = _scores.at(r);
         auto data = row.at(column);
-
         string = QString::number(data);
-
         auto glyphLenght = fontMetric.boundingRect(string).width();
-
         resultingGlyphLenght = glyphLenght > resultingGlyphLenght ? glyphLenght :
                                                                     resultingGlyphLenght;
     }
@@ -179,7 +187,7 @@ double ScoreDataModel::columnHeightAt(const int &column, const QString &fontFami
 
     if(_horizontalHeaderData.count() <= column){
 
-        if(fillMode() == HeaderFillMode::IncrementingNumericFillMode)
+        if(horizontalHeaderFillMode() == HeaderFillMode::IncrementingNumericFillMode)
             string = QString::number(column + 1);
         else
             return defaultCellHeight;
@@ -204,7 +212,7 @@ double ScoreDataModel::rowHeightAt(const int &row, const QString &fontFamily ,co
 
     if(_verticalHeaderData.count() <= row)
     {
-        if(fillMode() == HeaderFillMode::IncrementingNumericFillMode)
+        if(verticalHeaderFillMode() == HeaderFillMode::IncrementingNumericFillMode)
             string = QString::number(row + 1);
         else
             return defaultCellHeight;
@@ -238,7 +246,7 @@ double ScoreDataModel::rowWidthAt(const int &row, const QString &fontFamily, con
 
     if(_verticalHeaderData.count() <= row)
     {
-        if(fillMode() == HeaderFillMode::IncrementingNumericFillMode)
+        if(verticalHeaderFillMode() == HeaderFillMode::IncrementingNumericFillMode)
             string = QString::number(row + 1);
         else
             return defaultCellWidth;
@@ -298,11 +306,11 @@ QVariant ScoreDataModel::headerData(int section, Qt::Orientation orientation, in
     int roundIndex = (section - 1)/_numberOfThrows;
 
     switch (orientation) {
-        case Qt::Horizontal : return section == 0 ? 0 : section < horizontalHeaderCount ?
-                        _horizontalHeaderData.at(section) : fillMode() == HeaderFillMode::IncrementingNumericFillMode ?
-                            QVariant(roundIndex + 1) : QVariant();
+        case Qt::Horizontal : return section == 0 ? 0 : horizontalHeaderFillMode() == HeaderFillMode::IncrementingNumericFillMode ?
+                        QVariant(roundIndex + 1) : section < horizontalHeaderCount ?
+                            _horizontalHeaderData.at(section) : QVariant();
         case Qt::Vertical : return section < _verticalHeaderData.count() ?
-                        _verticalHeaderData.at(section) :  fillMode() == HeaderFillMode::IncrementingNumericFillMode ?
+                        _verticalHeaderData.at(section) :  verticalHeaderFillMode() == HeaderFillMode::IncrementingNumericFillMode ?
                             QVariant(roundIndex + 1) : QVariant();
         default: return QVariant();
     }
@@ -353,7 +361,7 @@ bool ScoreDataModel::insertRows(int row, int count, const QModelIndex &)
     beginInsertRows(QModelIndex(),firstRow,lastRow);
 
     for (int i = 0; i < c; ++i) {
-        QList<int> dataRow = [this]
+        auto initializedDataRow = [this]
         {
             QList<int> resultingList;
             auto count = columnCount(QModelIndex(QModelIndex()));
@@ -362,7 +370,8 @@ bool ScoreDataModel::insertRows(int row, int count, const QModelIndex &)
             return resultingList;
         }();
 
-        _scores.insert(row,dataRow);
+        _scores.insert(row,initializedDataRow);
+        _points.insert(row,initializedDataRow);
     }
 
     endInsertRows();
@@ -382,7 +391,9 @@ bool ScoreDataModel::insertColumns(int column, int count, const QModelIndex &)
 
     beginInsertColumns(QModelIndex(),firstColumn,lastColumn);
 
-    for (QList<int> &row : _scores) {
+    for (int i = 0;i<_scores.count();i++) {
+        auto scoresRow = _scores.at(i);
+        auto pointsRow = _points.at(i);
         QList<int> initialDataValues = [c]
         {
             QList<int> resultingList;
@@ -394,7 +405,8 @@ bool ScoreDataModel::insertColumns(int column, int count, const QModelIndex &)
         }();
         for (int j = 0; j < initialDataValues.count(); ++j) {
             auto dataValue = initialDataValues.at(j);
-            row.insert(column,dataValue);
+            scoresRow.insert(column,dataValue);
+            pointsRow.insert(column,dataValue);
         }
     }
 
@@ -481,6 +493,22 @@ void ScoreDataModel::updateInitialCellValues()
             setData(createIndex(rowIndex,0),initialValue,Qt::DisplayRole);
         }
     }
+}
+
+bool ScoreDataModel::setAuxiallaryData(const QModelIndex &index, QVariant &value, int role)
+{
+    Q_UNUSED(role);
+    // This method assumes that memmory has already been allocated
+
+    auto row = index.row();
+    auto column = index.column();
+
+    auto alteredColumn = _points.at(row);
+    alteredColumn.replace(column,value.toInt());
+
+    _points.replace(row,alteredColumn);
+
+    return true;
 }
 
 bool ScoreDataModel::isCellDecorated(const QModelIndex &index)
@@ -638,17 +666,6 @@ void ScoreDataModel::setHeaderOrientation(int headerOrientation)
     _headerOrientation = headerOrientation;
 }
 
-int ScoreDataModel::fillMode() const
-{
-    return _fillMode;
-}
-
-void ScoreDataModel::setFillMode(int fillMode)
-{
-    _fillMode = fillMode;
-    emit fillModeChanged();
-}
-
 int ScoreDataModel::preferedCellWidth(const QString &fontFamily, const int &pointSize) const
 {
     auto preferedWidth = -1;
@@ -693,4 +710,26 @@ double ScoreDataModel::scale() const
 void ScoreDataModel::setScale(double scale)
 {
     _scale = scale;
+}
+
+int ScoreDataModel::horizontalHeaderFillMode() const
+{
+    return _horizontalFillMode;
+}
+
+int ScoreDataModel::verticalHeaderFillMode() const
+{
+    return _verticalFillMode;
+}
+
+void ScoreDataModel::setHorizontalHeaderFillMode(const int &fillMode)
+{
+    _horizontalFillMode = fillMode;
+    emit fillModeChanged();
+}
+
+void ScoreDataModel::setVerticalHeaderFillMode(const int &fillMode)
+{
+    _verticalFillMode = fillMode;
+    emit fillModeChanged();
 }

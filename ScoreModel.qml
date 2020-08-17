@@ -5,6 +5,5 @@ import CustomItems 1.0
 ScoreDataModel
 {
     id: myModel
-    headerFillMode : verticalHeaderFillMode    
     columnWidthScale: 2
 }

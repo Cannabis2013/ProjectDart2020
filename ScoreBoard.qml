@@ -225,7 +225,6 @@ Rectangle{
                     cellColor: "white"
                     fontSize: scoreBoardBody.itemFontSize
                     text: display
-
                 }
             }
         }
