@@ -29,6 +29,11 @@ Item {
     onCurrentRoundIndexChanged: currentRoundLabel.text = currentRoundIndex
     onCurrentPlayerChanged: currentPlayerLabel.text = currentPlayer
 
+    property bool undoButtonEnabled: false
+    onUndoButtonEnabledChanged: leftButton.enabled = undoButtonEnabled
+    property bool redoButtonEnabled: false
+    onRedoButtonEnabledChanged: rightButton.enabled = redoButtonEnabled
+
     function updateState(roundIndex, playerName, undoPossible, redoPossible)
     {
         currentRoundIndex  = roundIndex;

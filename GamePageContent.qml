@@ -103,8 +103,10 @@ Content {
         {
             keyPad.enableKeys = false;
             var winnerPlayerName = args[0];
+            turnNavigator.updateState(turnNavigator.currentRoundIndex,turnNavigator.currentPlayer,false,false);
             winnerText.text = textSourceContainer.winnerLabel + winnerPlayerName;
             turnNavigator.startButtonText = buttonTextContainer.restartText;
+
         }
         else if(response === 0x17)
         {

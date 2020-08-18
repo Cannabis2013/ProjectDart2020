@@ -204,6 +204,8 @@ QUuid LocalFirstToPost::undoTurn()
 {
     if(_turnIndex <= 0)
         return QUuid();
+    else if(status() == ControllerState::WinnerDeclared)
+        return QUuid();
 
     _currentStatus = ControllerState::UndoState;
 
@@ -235,6 +237,8 @@ QUuid LocalFirstToPost::undoTurn()
 QUuid LocalFirstToPost::redoTurn()
 {
     if(_turnIndex >= _totalTurns)
+        return QUuid();
+    else if(status() == ControllerState::WinnerDeclared)
         return QUuid();
 
     auto currentActiveUser = this->currentActiveUser();
@@ -277,11 +281,15 @@ void LocalFirstToPost::setCurrentTournament(const int &index)
 
 bool LocalFirstToPost::canUndoTurn()
 {
+    if(status() == ControllerState::WinnerDeclared)
+        return false;
     return _turnIndex > 0;
 }
 
 bool LocalFirstToPost::canRedoTurn()
 {
+    if(status() == ControllerState::WinnerDeclared)
+        return false;
     return _turnIndex < _totalTurns;
 }
 
@@ -301,11 +309,14 @@ int LocalFirstToPost::validateCurrentState(const int &currentScore)
 
 int LocalFirstToPost::validateInput(const int &currentScore)
 {
+    auto minimumAllowedScore = terminateConditionModifier() == KeyMappings::SingleModifer ?
+                1 : KeyMappings::DoubleModifier ?
+                    2 : 3;
     if(currentScore > criticalLimit)
         return PointDomain;
-    else if(currentScore <= criticalLimit && currentScore > 0)
+    else if(currentScore <= criticalLimit && currentScore > minimumAllowedScore)
         return CriticalDomain;
-    else if(currentScore <= 0)
+    else if(currentScore == 0)
         return TargetDomain;
     else
         return OutsideDomain;
