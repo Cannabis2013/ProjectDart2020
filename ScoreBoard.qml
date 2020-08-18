@@ -23,6 +23,12 @@ Rectangle{
         cellDelegate.scoreFontSize = scoreFontSize;
     }
 
+    property bool pointDisplayVisible: true
+    onPointDisplayVisibleChanged: cellDelegate.pointDisplayVisible = pointDisplayVisible
+
+    property int pointDisplayWidth: 20
+    onPointDisplayWidthChanged: cellDelegate.pointDisplayWidth = pointDisplayWidth
+
     property int horizontalHeaderHeight: 20
     onHorizontalHeaderHeightChanged: horizontalHeader.height = horizontalHeaderHeight
     property bool staticVerticalHeaderWidth: false
@@ -242,7 +248,7 @@ Rectangle{
                 delegate: CellDelegate {
                     id: cellDelegate
                     cellBorderWidth: scoreBoardBody.cellBorderWidth
-                    cellColor: "white"
+                    cellColor: "purple"
                     scoreFontSize: scoreBoardBody.scoreFontSize
                     pointFontSize: scoreBoardBody.pointFontSize
                     text: display

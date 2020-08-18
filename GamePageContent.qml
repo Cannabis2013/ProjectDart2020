@@ -145,6 +145,8 @@ Content {
                     scoreTable.setMinimumColumnsCount(4);
                     keyPad.enableKeys = false;
                     turnNavigator.startButtonText = buttonTextContainer.startText;
+                    turnNavigator.currentRoundIndex = 0;
+                    turnNavigator.currentPlayer = "";
                 }
                 else
                     requestStop();
@@ -158,6 +160,7 @@ Content {
             verticalHeaderFillMode: 0x1
             Layout.fillWidth: true
             Layout.minimumHeight: 128
+
             scoreFontSize: 20
             pointFontSize: 10
         }

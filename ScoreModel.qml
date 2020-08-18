@@ -5,5 +5,4 @@ import CustomItems 1.0
 ScoreDataModel
 {
     id: myModel
-    columnWidthScale: 2
 }

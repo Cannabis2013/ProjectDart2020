@@ -3,13 +3,19 @@ import QtQuick.Layouts 1.3
 import CustomItems 1.0
 
 MyRectangle{
-    id: cellDelegate
+    id: cellBody
     clip: true
 
-    readonly property int cellHeight: cellDelegate.height
+    readonly property int cellHeight: cellBody.height
 
-    property color cellColor: "white"
-    onCellColorChanged: cellDelegate.color = cellColor
+    property bool pointDisplayVisible: true
+    onPointDisplayVisibleChanged: pointTextRect.visible = pointDisplayVisible
+
+    property int pointDisplayWidth: 20
+    onPointDisplayWidthChanged: pointTextRect.width = pointDisplayWidth
+
+    property color cellColor: "purple"
+    onCellColorChanged: cellBody.color = cellColor
 
     property color textColor: "white"
     onTextColorChanged: scoreText = textColor
@@ -21,36 +27,31 @@ MyRectangle{
     onScoreFontSizeChanged: scoreText.font.pointSize = scoreFontSize
 
     property double cellBorderWidth: 0
-    onCellBorderWidthChanged: cellDelegate.border.width = cellBorderWidth
+    onCellBorderWidthChanged: cellBody.border.width = cellBorderWidth
 
     property color cellBorderColor: "black"
-    onCellBorderColorChanged: cellDelegate.border.color = cellBorderColor
+    onCellBorderColorChanged: cellBody.border.color = cellBorderColor
 
     property int horizontalTextAlignment: Text.AlignHCenter
     onHorizontalTextAlignmentChanged: scoreText.horizontalAlignment = horizontalTextAlignment
 
     property int verticalTextAlignment: Text.AlignVCenter
     onVerticalTextAlignmentChanged: scoreText.verticalAlignment = verticalTextAlignment
+
     bottomBorderWidth: 1
     rightBorderWidth: 1
     
     implicitWidth: 25
     implicitHeight: 25
-
-    property string point: ""
-    onPointChanged: pointText.text = point;
-
-    property string score: ""
-    onScoreChanged: scoreText.text = score
     
     property string text: ""
     onTextChanged: {
-        setText(text);
+        seperateText(text);
     }
 
     color: cellColor
 
-    function setText(txt)
+    function seperateText(txt)
     {
         var i = txt.indexOf(' ');
         var n = txt.length;
@@ -67,19 +68,18 @@ MyRectangle{
         anchors.top: parent.top
         anchors.left: parent.left
         width: 20
-        height: parent.height
-        bottomBorderWidth: 1
+        height: parent.height/2
         clip: true
+        visible: cellBody.pointDisplayVisible
 
         color: "blue"
         Text {
             id: pointText
             anchors.fill: parent
-            horizontalAlignment: cellDelegate.horizontalTextAlignment
-            verticalAlignment: cellDelegate.verticalTextAlignment
+            horizontalAlignment: cellBody.horizontalTextAlignment
+            verticalAlignment: cellBody.verticalTextAlignment
             color: textColor
-            font.pointSize: cellDelegate.pointFontSize
-            text: cellDelegate.point
+            font.pointSize: cellBody.pointFontSize
         }
     }
     MyRectangle{
@@ -92,13 +92,12 @@ MyRectangle{
         bottomBorderWidth: 1
         rightBorderWidth: 1
 
-        color: "purple"
+        color: "transparent"
         Text {
             id: scoreText
             anchors.fill: parent
-            horizontalAlignment: cellDelegate.horizontalTextAlignment
-            verticalAlignment: cellDelegate.verticalTextAlignment
-            text: cellDelegate.score
+            horizontalAlignment: cellBody.horizontalTextAlignment
+            verticalAlignment: cellBody.verticalTextAlignment
             color: textColor
             font.pointSize: scoreFontSize
         }
