@@ -26,7 +26,7 @@ Content {
 
     QtObject{
         id: stringModels
-        property var gameModes: ["FirstToPost","Rounds","Circular", "Cricket"]
+        property var gameModes: ["FirstToPost"]
         property var keyIdentifiers: ["Single","Double", "Tripple"]
     }
 
