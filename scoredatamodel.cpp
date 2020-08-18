@@ -5,7 +5,20 @@ ScoreDataModel::ScoreDataModel()
     connect(this,&ScoreDataModel::initialValueChanged,this,&ScoreDataModel::updateInitialCellValues);
 }
 
-int ScoreDataModel::editData(const int &row, const int &column, const int &data)
+QVariant ScoreDataModel::getData(const int &row, const int &column, const int &mode)
+{
+    if(row >= rowCount() || column >= columnCount())
+        return -1;
+    auto pairsRow = _pairs.at(row);
+    auto pair = pairsRow.at(column);
+    auto result = mode == 0x1 ? pair.first : pair.second;
+    if(result == -1)
+        return "-";
+    else
+        return result;
+}
+
+int ScoreDataModel::editData(const int &row, const int &column, const int &point, const int &score)
 {
     if(row < 0 || row >= rowCount())
         return -1;
@@ -15,23 +28,29 @@ int ScoreDataModel::editData(const int &row, const int &column, const int &data)
     if(!isCellDecorated(index))
         return -1;
     auto oldData = this->data(index,Qt::DisplayRole);
-    if(!setData(index,data,Qt::DisplayRole))
+    auto newData = scoreModel(point,score);
+    if(!setData(index,QVariant::fromValue<scoreModel>((newData)),Qt::DisplayRole))
         return -1;
     return oldData.toInt();
 }
 
-bool ScoreDataModel::appendData(const QString &playerName, const int &score, const int &headerOrientation)
+bool ScoreDataModel::appendData(const QString &playerName,
+                                const int &point,
+                                const int &score,
+                                const int &headerOrientation)
 {
     auto orientation = headerOrientation != -1 ? headerOrientation : this->headerOrientation();
     auto index = indexOfHeaderItem(playerName,orientation);
+    auto pair = scoreModel(point,score);
     if(orientation == Qt::Horizontal)
     {
         auto row = index < columnCount() ? rowCount(index) : 0;
         auto modelIndex = this->createIndex(row,index);
+
         if(!modelIndex.isValid())
             return false;
         try {
-            setData(modelIndex,QVariant(score),Qt::DisplayRole);
+            setData(modelIndex,QVariant::fromValue<scoreModel>(pair),Qt::DisplayRole);
         } catch (std::out_of_range *e) {
             printf("%s\n",e->what());
             return false;
@@ -39,13 +58,13 @@ bool ScoreDataModel::appendData(const QString &playerName, const int &score, con
     }
     else if(orientation == Qt::Vertical)
     {
-        auto rowCount = _scores.count();
+        auto rowCount = _pairs.count();
         auto column = index < rowCount ? indexOfLastDecoratedCell(index,orientation) + 1 : 0;
         auto modelIndex = this->createIndex(index,column);
         if(!modelIndex.isValid())
             return false;
         try {
-            setData(modelIndex,QVariant(score),Qt::DisplayRole);
+            setData(modelIndex,QVariant::fromValue<scoreModel>(pair),Qt::DisplayRole);
         } catch (std::out_of_range *e) {
             printf("%s\n",e->what());
             return false;
@@ -54,7 +73,7 @@ bool ScoreDataModel::appendData(const QString &playerName, const int &score, con
     return true;
 }
 
-int ScoreDataModel::takeLastItem(const QString &playerName, const int &headerOrientation)
+bool ScoreDataModel::removeLastItem(const QString &playerName, const int &headerOrientation)
 {
     auto orientation = headerOrientation != -1 ? headerOrientation : this->headerOrientation();
     if(orientation == Qt::Horizontal)
@@ -62,7 +81,7 @@ int ScoreDataModel::takeLastItem(const QString &playerName, const int &headerOri
         auto column = indexOfHeaderItem(playerName,orientation);
         auto row = indexOfLastDecoratedCell(column,orientation);
         auto index = createIndex(row,column);
-        auto result = removeData(index);
+        auto result = removeData(index) == scoreModel(-1,-1);
         return result;
     }
     else
@@ -70,7 +89,7 @@ int ScoreDataModel::takeLastItem(const QString &playerName, const int &headerOri
         auto row = indexOfHeaderItem(playerName,orientation);
         auto column = indexOfLastDecoratedCell(row,orientation);
         auto index = createIndex(row,column);
-        auto result = removeData(index);
+        auto result = removeData(index) == scoreModel(-1,-1);
         return result;
     }
 }
@@ -96,7 +115,7 @@ void ScoreDataModel::appendHeaderItem(const QVariant &data, const int &headerOri
 
 void ScoreDataModel::clearData()
 {
-    _scores.clear();
+    _pairs.clear();
     auto bottomRight = createIndex(rowCount() - 1,columnCount() - 1);
     _columns = 0;
     _rows = 0;
@@ -110,15 +129,6 @@ QString ScoreDataModel::getHeaderData(const int &index, const int &headerOrienta
     auto orientation = headerOrientation != -1 ? headerOrientation : this->headerOrientation();
     auto value =  headerData(index,static_cast<Qt::Orientation>(orientation),Qt::DisplayRole).toString();
     return value;
-}
-
-int ScoreDataModel::getPointAtIndex(const QModelIndex &index)
-{
-    auto row = index.row();
-    auto column = index.column();
-    auto pointsRow = _points.at(row);
-    auto point = pointsRow.at(column);
-    return point;
 }
 
 int ScoreDataModel::headerItemCount(const int &headerOrientation) const
@@ -140,34 +150,40 @@ int ScoreDataModel::columnCount() const
     return columnCount(QModelIndex());
 }
 
-double ScoreDataModel::columnWidthAt(const int &column, const QString &fontFamily, const int &pointSize) const
+double ScoreDataModel::columnWidthAt(const int &column) const
 {
-    if(column >= columnCount() || _scores.count() <= 0)
+    if(column >= columnCount() || _pairs.count() <= 0)
         return -1;
 
-    auto font = QFont(fontFamily,pointSize);
+    auto scoreFontMetric = QFontMetrics(QFont(scoreFontFamily(),scoreFontSize()));
+    auto pointFontmetric = QFontMetrics(QFont(pointFontFamily(),pointFontSize()));
 
-    QFontMetrics fontMetric(font);
-
-    QString string;
+    QString headerString;
 
     if(_horizontalHeaderData.count() <= column){
         if(horizontalHeaderFillMode() == HeaderFillMode::IncrementingNumericFillMode)
-            string = QString::number(column + 1);
+            headerString = QString::number(column + 1);
     }
     else
     {
-        string = _horizontalHeaderData.at(column);
+        headerString = _horizontalHeaderData.at(column);
     }
 
-    auto resultingGlyphLenght = fontMetric.boundingRect(string).width();
+    auto resultingGlyphLenght = scoreFontMetric.boundingRect(headerString).width();
 
     for (int r = 0; r < rowCount(); ++r) {
-        auto row = _scores.at(r);
-        auto data = row.at(column);
-        string = QString::number(data);
-        auto glyphLenght = fontMetric.boundingRect(string).width();
-        resultingGlyphLenght = glyphLenght > resultingGlyphLenght ? glyphLenght :
+        auto row = _pairs.at(r);
+        if(row.count() != columnCount())
+            return 0;
+        auto pair = row.at(column);
+        auto point = pair.first;
+        auto score = pair.second;
+        auto pointString = QString::number(point);
+        auto scoreString = QString::number(score);
+        auto scoreGlyphWidth = scoreFontMetric.boundingRect(scoreString).width();
+        auto pointGlyphWidth = pointFontmetric.boundingRect(pointString).width();
+        auto totalGlypWidth = scoreGlyphWidth + pointGlyphWidth;
+        resultingGlyphLenght = totalGlypWidth > resultingGlyphLenght ? totalGlypWidth :
                                                                     resultingGlyphLenght;
     }
 
@@ -177,87 +193,47 @@ double ScoreDataModel::columnWidthAt(const int &column, const QString &fontFamil
     return resultingGlyphLenght * scale();
 }
 
-double ScoreDataModel::columnHeightAt(const int &column, const QString &fontFamily, const int &pointSize) const
+double ScoreDataModel::rowHeightAt(const int &row) const
 {
-    auto font = QFont(fontFamily,pointSize);
-
-    QFontMetrics fontMetric(font);
-
-    QString string;
-
-    if(_horizontalHeaderData.count() <= column){
-
-        if(horizontalHeaderFillMode() == HeaderFillMode::IncrementingNumericFillMode)
-            string = QString::number(column + 1);
-        else
-            return defaultCellHeight;
-    }
-    else
-        string = _horizontalHeaderData.at(column);
-
-
-    auto glyphLenght = fontMetric.boundingRect(string).height();
-
-    return glyphLenght *scale();
-}
-
-double ScoreDataModel::rowHeightAt(const int &row, const QString &fontFamily ,const int &pointSize) const
-{
-    if(_scores.count() <= 0)
+    if(_pairs.count() <= 0)
         return 0;
 
-    auto font = QFont(fontFamily,pointSize);
-    QFontMetrics fontMetric(font);
-    QString string;
+    auto scoreFontMetric = QFontMetrics(QFont(scoreFontFamily(),scoreFontSize()));
+    auto pointFontmetric = QFontMetrics(QFont(pointFontFamily(),pointFontSize()));
+
+    QString headerString;
 
     if(_verticalHeaderData.count() <= row)
     {
         if(verticalHeaderFillMode() == HeaderFillMode::IncrementingNumericFillMode)
-            string = QString::number(row + 1);
+            headerString = QString::number(row + 1);
         else
             return defaultCellHeight;
     }
     else
-        string = _verticalHeaderData.at(row);
+        headerString = _verticalHeaderData.at(row);
 
-    auto resultingGlyphLenght = fontMetric.boundingRect(string).height();
-
-    for (int c = 0; c < columnCount(); ++c) {
-        auto cellRow = _scores.at(row);
-        auto data = cellRow.at(c);
-        auto dataString = QString::number(data);
-        auto glyphLenght = fontMetric.boundingRect(dataString).height();
-        resultingGlyphLenght = glyphLenght > resultingGlyphLenght ? glyphLenght : resultingGlyphLenght;
+    auto resultingGlyphLenght = scoreFontMetric.boundingRect(headerString).height();
+    auto count = columnCount();
+    for (int c = 0; c < count; ++c) {
+        auto pairs = _pairs.at(row);
+        if(pairs.count() != columnCount())
+            return 0;
+        auto pair = pairs.at(c);
+        auto point = pair.first;
+        auto score = pair.second;
+        auto pointString = QString::number(point);
+        auto scoreString = QString::number(score);
+        auto scoreGlyphHeight = scoreFontMetric.boundingRect(scoreString).height();
+        auto pointGlyphHeight = pointFontmetric.boundingRect(pointString).height();
+        auto totalGlypHeight = scoreGlyphHeight + pointGlyphHeight;
+        resultingGlyphLenght = totalGlypHeight > resultingGlyphLenght ? totalGlypHeight : resultingGlyphLenght;
     }
 
-    if(resultingGlyphLenght < 25)
-        resultingGlyphLenght = 25;
+    if(resultingGlyphLenght < defaultCellHeight)
+        resultingGlyphLenght = defaultCellHeight;
 
     return resultingGlyphLenght;
-}
-
-double ScoreDataModel::rowWidthAt(const int &row, const QString &fontFamily, const int &pointSize) const
-{
-    auto font = QFont(fontFamily,pointSize);
-
-    QFontMetrics fontMetric(font);
-
-    QString string;
-
-    if(_verticalHeaderData.count() <= row)
-    {
-        if(verticalHeaderFillMode() == HeaderFillMode::IncrementingNumericFillMode)
-            string = QString::number(row + 1);
-        else
-            return defaultCellWidth;
-    }
-    else
-        string = _verticalHeaderData.at(row);
-
-
-    auto glyphLenght = fontMetric.boundingRect(string).width();
-
-    return glyphLenght * scale();
 }
 
 int ScoreDataModel::horizontalHeaderCount() const
@@ -282,18 +258,22 @@ int ScoreDataModel::columnCount(const QModelIndex &) const
 
 QVariant ScoreDataModel::data(const QModelIndex &index, int role) const
 {
-    if(!index.isValid() || _scores.count() <= 0)
+    if(!index.isValid() || _pairs.count() <= 0)
         return QVariant();
     auto row = index.row();
     auto column = index.column();
-    auto dataRow = _scores.at(row);
-    if(index.column() >= dataRow.count())
+    auto pairs = _pairs.at(row);
+    if(index.column() >= pairs.count())
         return QVariant();
     if(role != Qt::DisplayRole)
         return QVariant();
-    auto data = dataRow.at(column);
-    return data >= 0 ?
-                data :
+
+    auto pair = pairs.at(column);
+    auto point = pair.first;
+    auto score = pair.second;
+    auto data = QString::number(point) + " " + QString::number(score);
+    return score >= 0 ?
+                QVariant(data) :
                 QVariant("-");
 }
 
@@ -341,11 +321,14 @@ bool ScoreDataModel::setData(const QModelIndex &index, const QVariant &value, in
         insertColumns(column,deltaC,QModelIndex());
     }
 
-    auto r = _scores.at(row);
+    auto pairs = _pairs.at(row);
 
-    r.replace(column,value.toInt());
 
-    _scores.replace(row,r);
+    auto newPair = value.value<scoreModel>();
+
+    pairs.replace(column,newPair);
+
+    _pairs.replace(row,pairs);
 
     emit dataChanged(index,index,{role});
 
@@ -363,15 +346,13 @@ bool ScoreDataModel::insertRows(int row, int count, const QModelIndex &)
     for (int i = 0; i < c; ++i) {
         auto initializedDataRow = [this]
         {
-            QList<int> resultingList;
+            QList<scoreModel> resultingList;
             auto count = columnCount(QModelIndex(QModelIndex()));
             for (int i = 0; i < count; ++i)
-                resultingList << -1;
+                resultingList << scoreModel(-1,-1);
             return resultingList;
         }();
-
-        _scores.insert(row,initializedDataRow);
-        _points.insert(row,initializedDataRow);
+        _pairs.insert(row,initializedDataRow);
     }
 
     endInsertRows();
@@ -391,23 +372,22 @@ bool ScoreDataModel::insertColumns(int column, int count, const QModelIndex &)
 
     beginInsertColumns(QModelIndex(),firstColumn,lastColumn);
 
-    for (int i = 0;i<_scores.count();i++) {
-        auto scoresRow = _scores.at(i);
-        auto pointsRow = _points.at(i);
-        QList<int> initialDataValues = [c]
+    for (int i = 0;i<_pairs.count();i++) {
+        auto pairsRow = _pairs.at(i);
+        QList<scoreModel> initialDataValues = [c]
         {
-            QList<int> resultingList;
+            QList<scoreModel> resultingList;
 
             for (int i = 0; i < c; ++i)
-                resultingList << -1;
+                resultingList << scoreModel(-1,-1);
 
             return resultingList;
         }();
         for (int j = 0; j < initialDataValues.count(); ++j) {
             auto dataValue = initialDataValues.at(j);
-            scoresRow.insert(column,dataValue);
-            pointsRow.insert(column,dataValue);
+            pairsRow.insert(column,dataValue);
         }
+        _pairs.replace(i,pairsRow);
     }
 
     endInsertColumns();
@@ -434,7 +414,7 @@ bool ScoreDataModel::removeRows(int row, int count, const QModelIndex &)
 
     for (int i = row; i < row + count; ++i)
     {
-        _scores.removeAt(i);
+        _pairs.removeAt(i);
         // Remove corresponding header rows
         _verticalHeaderData.removeAt(i);
     }
@@ -458,7 +438,7 @@ bool ScoreDataModel::removeColumns(int column, int count, const QModelIndex &)
     // Begin remove columns
     beginRemoveColumns(QModelIndex(),column,column + count);
 
-    for (auto &row : _scores) {
+    for (auto &row : _pairs) {
         for (int i = column; i < column + count; ++i)
             row.removeAt(i);
     }
@@ -475,13 +455,13 @@ bool ScoreDataModel::removeColumns(int column, int count, const QModelIndex &)
 void ScoreDataModel::updateInitialCellValues()
 {
 
-    if(_scores.count() < 1)
+    if(_pairs.count() < 1)
         return;
     auto orientation = _headerOrientation;
     auto initialValue = this->initialValue();
     if(orientation == Qt::Horizontal)
     {
-        auto firstColumn = _scores.at(0);
+        auto firstColumn = _pairs.at(0);
         if(firstColumn.count() < 1)
             return;
         for (int i = 0; i < firstColumn.count(); ++i)
@@ -495,22 +475,6 @@ void ScoreDataModel::updateInitialCellValues()
     }
 }
 
-bool ScoreDataModel::setAuxiallaryData(const QModelIndex &index, QVariant &value, int role)
-{
-    Q_UNUSED(role);
-    // This method assumes that memmory has already been allocated
-
-    auto row = index.row();
-    auto column = index.column();
-
-    auto alteredColumn = _points.at(row);
-    alteredColumn.replace(column,value.toInt());
-
-    _points.replace(row,alteredColumn);
-
-    return true;
-}
-
 bool ScoreDataModel::isCellDecorated(const QModelIndex &index)
 {
     return data(index,Qt::DisplayRole) != "-";
@@ -521,12 +485,13 @@ int ScoreDataModel::indexOfLastDecoratedCell(const int &index,const int &orienta
 {
     if(orientation == Qt::Vertical)
     {
-        auto dataRow = _scores.at(index);
+        auto pairs = _pairs.at(index);
 
         for (int col = 0; col < columnCount(QModelIndex()); ++col) {
-            auto cellValue = dataRow.at(col);
+            auto pair = pairs.at(col);
+            auto score = pair.first;
 
-            if(cellValue == -1)
+            if(score == -1)
                 return col - 1;
         }
 
@@ -535,9 +500,10 @@ int ScoreDataModel::indexOfLastDecoratedCell(const int &index,const int &orienta
     else if(orientation == Qt::Horizontal)
     {
         for (int row = 0; row < rowCount(); ++row) {
-            auto dataRow = _scores.at(row);
-            auto data = dataRow.at(index);
-            if(data == -1)
+            auto pairs = _pairs.at(row);
+            auto pair = pairs.at(index);
+            auto score = pair.first;
+            if(score == -1)
                 return row -1;
         }
         return rowCount() - 1;
@@ -548,9 +514,11 @@ int ScoreDataModel::indexOfLastDecoratedCell(const int &index,const int &orienta
 
 int ScoreDataModel::rowCount(const int &column)
 {
-    for (int row = 0; row < _scores.count(); ++row) {
-        auto dataRow = _scores.at(row);
-        if(dataRow.count() < column && dataRow.at(column) == -1)
+    for (int row = 0; row < _pairs.count(); ++row) {
+        auto pairsRow = _pairs.at(row);
+        auto pair = pairsRow.at(column);
+        auto point = pair.first;
+        if(pairsRow.count() < column && point == -1)
             return row;
     }
     return rowCount();
@@ -561,9 +529,10 @@ bool ScoreDataModel::isColumnEmpty(const int &col)
     if(col < 0 || col >= columnCount())
         throw std::out_of_range("Index out of range");
 
-    for (auto dataRow : _scores) {
-        auto cellData = dataRow.at(col);
-        if(cellData != -1)
+    for (auto pairsRow : _pairs) {
+        auto pair = pairsRow.at(col);
+        auto point = pair.first;
+        if(point != -1)
             return false;
     }
     return true;
@@ -573,24 +542,27 @@ bool ScoreDataModel::isRowEmpty(const int &row)
 {
     if(row < 0 || row >= rowCount())
         throw std::out_of_range("Index out of range");
-    auto dataRow = _scores.at(row);
-    for (auto data : dataRow) {
-        if(data != -1)
+    auto pairsRow = _pairs.at(row);
+    for (auto pair : pairsRow) {
+        auto point = pair.first;
+        if(point != -1)
             return false;
     }
     return true;
 }
 
-int ScoreDataModel::removeData(const QModelIndex &index)
+QPair<int, int> ScoreDataModel::removeData(const QModelIndex &index)
 {
     if(!index.isValid())
-        return -1;
+        return scoreModel(-1,-1);
     auto row = index.row();
     auto column = index.column();
-    auto dataRow = _scores.at(row);
-    auto data = dataRow.at(column);
-    dataRow.replace(column,-1);
-    _scores.replace(row,dataRow);
+    auto pairsRow = _pairs.at(row);
+    auto pair = pairsRow.at(column);
+    auto initialPair = scoreModel(-1,-1);
+
+    pairsRow.replace(column,initialPair);
+    _pairs.replace(row,pairsRow);
     if(headerOrientation() == Qt::Vertical)
     {
         if(isColumnEmpty(column) && column > minimumColumnCount())
@@ -603,7 +575,7 @@ int ScoreDataModel::removeData(const QModelIndex &index)
     }
 
     emit dataChanged(createIndex(row,column),createIndex(row,column));
-    return data;
+    return pair;
 }
 
 int ScoreDataModel::indexOfHeaderItem(const QString &data, const int &orientation)
@@ -618,6 +590,46 @@ int ScoreDataModel::indexOfHeaderItem(const QString &data, const int &orientatio
         auto index = _horizontalHeaderData.indexOf(data);
         return index;
     }
+}
+
+QString ScoreDataModel::pointFontFamily() const
+{
+    return _pointFontFamily;
+}
+
+void ScoreDataModel::setPointFontFamily(const QString &pointFontFamily)
+{
+    _pointFontFamily = pointFontFamily;
+}
+
+QString ScoreDataModel::scoreFontFamily() const
+{
+    return _scoreFontFamily;
+}
+
+void ScoreDataModel::setScoreFontFamily(const QString &scoreFontFamily)
+{
+    _scoreFontFamily = scoreFontFamily;
+}
+
+int ScoreDataModel::pointFontSize() const
+{
+    return _pointFontSize;
+}
+
+void ScoreDataModel::setPointFontSize(int pointFontSize)
+{
+    _pointFontSize = pointFontSize;
+}
+
+int ScoreDataModel::scoreFontSize() const
+{
+    return _scoreFontSize;
+}
+
+void ScoreDataModel::setScoreFontSize(int scoreFontSize)
+{
+    _scoreFontSize = scoreFontSize;
 }
 
 int ScoreDataModel::initialValue() const

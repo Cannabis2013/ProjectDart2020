@@ -44,14 +44,13 @@ Content {
     {
         scoreTable.appendHeader(item);
     }
-    function appendScore(player,score)
+    function appendScore(player,point,score)
     {
-        scoreTable.appendData(player,score);
+        scoreTable.appendData(player,point,score);
     }
 
     onReplyFromBackendRecieved: {
         var buttonText = turnNavigator.startButtonText, playerName, scoreValue;
-        print(response);
         if(response === 0x12) // Gamecontroller is stopped
         {
             keyPad.enableKeys = false;
@@ -90,7 +89,7 @@ Content {
             playerName = args[0];
             var pointValue = args[1];
             scoreValue = args[2];
-            scoreTable.appendData(playerName,scoreValue);
+            scoreTable.appendData(playerName,pointValue,scoreValue);
             requestStatusFromBackend();
         }
 
@@ -156,12 +155,13 @@ Content {
             color: "transparent"
             verticalHeaderFillMode: 0x1
             Layout.fillWidth: true
-            Layout.minimumHeight: 100
-            itemFontSize: 20
+            Layout.minimumHeight: 128
+            scoreFontSize: 20
+            pointFontSize: 10
         }
         GridLayout{
             flow: GridLayout.TopToBottom
-            Layout.preferredHeight: 32
+            Layout.maximumHeight: 40
             Layout.fillWidth: true
             Text {
                 id: winnerText
@@ -169,6 +169,7 @@ Content {
                 Layout.fillHeight: true
                 Layout.fillWidth: true
                 font.pointSize: 16
+                Layout.alignment: Qt.AlignBottom
             }
             Text {
                 id: suggestText
@@ -176,6 +177,7 @@ Content {
                 Layout.fillHeight: true
                 Layout.fillWidth: true
                 font.pointSize: 16
+                Layout.alignment: Qt.AlignTop
             }
             Rectangle{
                 Layout.fillHeight: true

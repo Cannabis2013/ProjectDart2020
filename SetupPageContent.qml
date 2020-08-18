@@ -45,7 +45,6 @@ Content {
 
     function addPlayer(playerName,email)
     {
-        print("Playername: " + playerName + " email: " + email);
         playersListView.addItemModel({"type" : "player","username" : playerName, "mail" : email})
     }
 
@@ -203,7 +202,6 @@ Content {
                                winConditionKeyCode,
                                keyPointEdit.currentText,
                                indexes);
-                print("TEST");
             }
         }
         CRUDButton{

@@ -11,15 +11,25 @@ Rectangle{
 
     property int headerOrientation: Qt.Vertical
     onHeaderOrientationChanged: myModel.setHeaderOrientation(headerOrientation)
-    property int itemFontSize: 16
-    onItemFontSizeChanged: cellDelegate.fontSize = itemFontSize
+    property int pointFontSize: 16
+    onPointFontSizeChanged: {
+        myModel.pointFontPointSize = pointFontSize;
+        cellDelegate.pointFontSize = pointFontSize;
+    }
+
+    property int scoreFontSize: 16
+    onScoreFontSizeChanged: {
+        myModel.scoreFontPointSize = scoreFontSize;
+        cellDelegate.scoreFontSize = scoreFontSize;
+    }
+
     property int horizontalHeaderHeight: 20
     onHorizontalHeaderHeightChanged: horizontalHeader.height = horizontalHeaderHeight
     property bool staticVerticalHeaderWidth: false
     property int verticalHeaderWidth: 25
     onVerticalHeaderWidthChanged: verticalHeader.width = verticalHeaderWidth
     property int verticalHeaderFillMode: 0x02
-    onVerticalHeaderFillModeChanged: myModel.headerFillMode = verticalHeaderFillMode
+    onVerticalHeaderFillModeChanged: myModel.verticalFillMode = verticalHeaderFillMode
     property int cellBorderWidth: 0
     onCellBorderWidthChanged: cellDelegate.borderWidth = cellBorderWidth
     property int throwsPerRound: 3
@@ -57,20 +67,20 @@ Rectangle{
         flickableVHeader.Layout.minimumWidth = preferedWidth*1.05;
     }
 
-    function appendData(playerName, data){
-        var result = myModel.appendData(playerName,data);
+    function appendData(playerName, point,score){
+        var result = myModel.appendData(playerName,point,score);
         if(!result)
             print("Couldn't add data to model");
     }
     function takeData(playerName)
     {
-        var result = myModel.takeLastItem(playerName);
+        var result = myModel.removeLastItem(playerName);
         if(!result)
             print("Couldn't take data");
     }
-    function editData(row,column,data)
+    function editData(row,column,point,score)
     {
-        var result = myModel.editData(row,column,data);
+        var result = myModel.editData(row,column,point,score);
         if(!result)
             print("Couldn't edit data");
     }
@@ -102,7 +112,7 @@ Rectangle{
         {
             var hHeaderValue = myModel.getHeaderData(j,1);
             horizontalHeader.setData(j,hHeaderValue);
-            var columnWidth = myModel.columnWidthAt(j,"MS Sans Serif",itemFontSize);
+            var columnWidth = myModel.columnWidthAt(j);
             horizontalHeader.setColumnWidth(j,columnWidth);
         }
 
@@ -111,6 +121,8 @@ Rectangle{
         for(var i = 0;i < headerCount;i++)
         {
             var vHeaderValue = myModel.getHeaderData(i,2);
+            var rowHeight = myModel.rowHeightAt(i);
+            verticalHeader.setRowHeight(i,rowHeight);
             verticalHeader.setData(i,vHeaderValue);
         }
         tableView.forceLayout();
@@ -121,7 +133,7 @@ Rectangle{
         var columnCount = myModel.columnCount;
         var result = 0;
         for(var c = 0;c < columnCount;c++){
-            var w = myModel.columnWidthAt(c,"MS Sans Serif",itemFontSize);
+            var w = myModel.columnWidthAt(c);
             result += w;
         }
         return result;
@@ -133,7 +145,7 @@ Rectangle{
         var totalHeight = 0;
         for(var r = 0;r < rowCount;r++)
         {
-            var h = myModel.rowHeightAt(r,"MS Sans Serif",itemFontSize);
+            var h = myModel.rowHeightAt(r);
             totalHeight += h;
         }
         return totalHeight;
@@ -201,29 +213,38 @@ Rectangle{
             boundsMovement: Flickable.StopAtBounds
             onContentXChanged: flickableHHeader.contentX = contentX
             onContentYChanged: flickableVHeader.contentY = contentY
-            TableView {
 
+            TableView {
                 id: tableView
                 interactive: false
                 clip: true
                 anchors.fill: parent
                 columnWidthProvider: function(column)
                 {
-                    return myModel.columnWidthAt(column,"MS Sans Serif",itemFontSize);
+                    return myModel.columnWidthAt(column);
+                }
+
+                rowHeightProvider: function(row)
+                {
+                    return myModel.rowHeightAt(row);
                 }
 
                 model: ScoreModel {
                     id: myModel
-                    onDataChanged: updateScoreBoard()
+                    onDataChanged: updateScoreBoard();
                     throwCount : scoreBoardBody.throwsPerRound
                     headerOrientation: scoreBoardBody.headerOrientation
+                    pointFontPointSize: scoreBoardBody.pointFontSize
+                    scoreFontPointSize: scoreBoardBody.scoreFontSize
+                    scale: 2
                 }
 
                 delegate: CellDelegate {
                     id: cellDelegate
                     cellBorderWidth: scoreBoardBody.cellBorderWidth
                     cellColor: "white"
-                    fontSize: scoreBoardBody.itemFontSize
+                    scoreFontSize: scoreBoardBody.scoreFontSize
+                    pointFontSize: scoreBoardBody.pointFontSize
                     text: display
                 }
             }

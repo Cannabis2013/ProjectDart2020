@@ -26,7 +26,8 @@ public:
      */
     enum ContextStatus{
         ContextBusy = 0xC,
-        ContextReady = 0xD
+        ContextReady = 0xD,
+        ContextWaitingForTournament
     };
     enum DataContextResponse{
         UpdateSuccessfull = 0xE,
@@ -71,6 +72,7 @@ public:
         ControllerContext = 0x36,
         ApplicationContext = 0x37
     };
+
     /*
      * Constructor
      * Destructor

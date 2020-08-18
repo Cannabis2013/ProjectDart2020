@@ -9,6 +9,8 @@ const int defaultCellHeight = 25;
 const QString defaultFontFamily = "MS Sans Serif";
 const int defaultPointSize = 12;
 
+typedef QPair<int,int> scoreModel;
+
 class ScoreDataModel : public QAbstractTableModel
 {
     Q_OBJECT
@@ -18,6 +20,11 @@ public:
     // Public types
     enum HeaderFillMode{IncrementingNumericFillMode = 0x1, NonNumericFillMode = 0x2, NonFill = 0x4};
     // Public properties
+    Q_PROPERTY(double scale READ scale WRITE setScale NOTIFY scaleChanged);
+    Q_PROPERTY(int scoreFontPointSize READ scoreFontSize WRITE setScoreFontSize NOTIFY fontChanged);
+    Q_PROPERTY(int pointFontPointSize READ pointFontSize WRITE setPointFontSize NOTIFY fontChanged);
+    Q_PROPERTY(QString scoreFontFamily READ scoreFontFamily WRITE setScoreFontFamily NOTIFY fontChanged);
+    Q_PROPERTY(QString pointFontFamily READ pointFontFamily WRITE setPointFontFamily NOTIFY fontChanged);
     Q_PROPERTY(int verticalFillMode READ verticalHeaderFillMode WRITE setVerticalHeaderFillMode NOTIFY fillModeChanged);
     Q_PROPERTY(int horizontalFillMode READ horizontalHeaderFillMode WRITE setHorizontalHeaderFillMode NOTIFY fillModeChanged);
     Q_PROPERTY(double columnWidthScale READ scale WRITE setScale NOTIFY columnWidthScaleChanged);
@@ -27,25 +34,24 @@ public:
     Q_PROPERTY(int minimumColumnCount READ minimumColumnCount WRITE setMinimumColumnCount NOTIFY minimumColumnCountChanged);
     Q_PROPERTY(int minimumRowCount READ minimumRowCount WRITE setMinimumRowCount NOTIFY minimumRowCountChanged);
     Q_PROPERTY(int initialValue READ initialValue WRITE setInitialValue NOTIFY initialValueChanged);
+
     // public methods
-    Q_INVOKABLE int editData(const int &row, const int &column, const int &data);
-    Q_INVOKABLE bool appendData(const QString &playerName, const int &score, const int &headerOrientation = -1);
-    Q_INVOKABLE int takeLastItem(const QString &playerName, const int &headerOrientation = -1);
+    Q_INVOKABLE QVariant getData(const int &row, const int &column, const int &mode);
+    Q_INVOKABLE int editData(const int &row, const int &column, const int &point, const int &score);
+    Q_INVOKABLE bool appendData(const QString &playerName,const int &point, const int &score, const int &headerOrientation = -1);
+    Q_INVOKABLE bool removeLastItem(const QString &playerName, const int &headerOrientation = -1);
     Q_INVOKABLE void appendHeaderItem(const QVariant &data, const int &headerOrientation = -1);
     Q_INVOKABLE void clearData();
     Q_INVOKABLE QString getHeaderData(const int &index, const int &headerOrientation = -1) const;
-    Q_INVOKABLE int getPointAtIndex(const QModelIndex &index);
     Q_INVOKABLE int headerItemCount(const int &headerOrientation = -1) const;
     Q_INVOKABLE int rowCount() const;
     Q_INVOKABLE int columnCount() const;
-    Q_INVOKABLE double columnWidthAt(const int &column, const QString &fontFamily = defaultFontFamily, const int &pointSize = defaultPointSize) const;
-    Q_INVOKABLE double columnHeightAt(const int &column, const QString &fontFamily = defaultFontFamily, const int &pointSize = defaultPointSize) const;
-    Q_INVOKABLE double rowHeightAt(const int &row, const QString &fontFamily = "MS Sans Serif", const int &pointSize = defaultPointSize) const;
-    Q_INVOKABLE double rowWidthAt(const int &row, const QString &fontFamily = "MS Sans Serif", const int &pointSize = defaultPointSize) const;
+    Q_INVOKABLE double columnWidthAt(const int &column) const;
+    Q_INVOKABLE double rowHeightAt(const int &row) const;
     Q_INVOKABLE int horizontalHeaderCount() const;
     Q_INVOKABLE int verticalHeaderCount() const;
-    Q_INVOKABLE double scale() const;
-    Q_INVOKABLE void setScale(double scale);
+    double scale() const;
+    void setScale(double scale);
     int horizontalHeaderFillMode() const;
     int verticalHeaderFillMode() const;
     void setHorizontalHeaderFillMode(const int &fillMode);
@@ -72,6 +78,18 @@ public:
     Q_INVOKABLE int initialValue() const;
     Q_INVOKABLE void setInitialValue(int initialValue);
 
+    int scoreFontSize() const;
+    void setScoreFontSize(int scoreFontSize);
+
+    int pointFontSize() const;
+    void setPointFontSize(int pointFontSize);
+
+    QString scoreFontFamily() const;
+    void setScoreFontFamily(const QString &scoreFontFamily);
+
+    QString pointFontFamily() const;
+    void setPointFontFamily(const QString &pointFontFamily);
+
 signals:
     void fillModeChanged();
     void columnWidthScaleChanged();
@@ -81,6 +99,8 @@ signals:
     void minimumColumnCountChanged();
     void minimumRowCountChanged();
     void initialValueChanged();
+    void fontChanged();
+    void scaleChanged();
 protected:
     QVariant data(const QModelIndex &index, int role) const override;
     bool setData(const QModelIndex &index, const QVariant &value, int role) override;
@@ -91,13 +111,12 @@ protected:
 private slots:
     void updateInitialCellValues();
 private:
-    bool setAuxiallaryData(const QModelIndex &index, QVariant &value,int role);
     bool isCellDecorated(const QModelIndex &index);
     int indexOfLastDecoratedCell(const int &index, const int &orientation);
     int rowCount(const int &column);
     bool isColumnEmpty(const int &col);
     bool isRowEmpty(const int &row);
-    int removeData(const QModelIndex &index);
+    QPair<int,int> removeData(const QModelIndex &index);
     int indexOfHeaderItem(const QString &data, const int &orientation);
     int _rows = 0;
     int _columns = 0;
@@ -109,6 +128,17 @@ private:
     int _minimumColumnCount = 0;
     int _minimumRowCount = 0;
     int _initialValue = 0;
+
+    /*
+     * Font related
+     *  - Score/point font size
+     *  - Score/point font family
+     */
+    int _scoreFontSize = 12;
+    int _pointFontSize = 8;
+
+    QString _scoreFontFamily = "MS Sans Serif";
+    QString _pointFontFamily = "MS Sans Serif";
     /*
      * Headerdata
      */
@@ -117,8 +147,7 @@ private:
     /*
      * Scores and points
      */
-    QList<QList<int>> _scores;
-    QList<QList<int>> _points;
+    QList<QList<scoreModel>> _pairs;
 };
 
 #endif // CUSTOMTABLEMODEL_H

@@ -117,7 +117,7 @@ void LocalFirstToPost::handleResponseFromContext(const int &response, const QVar
     /*
      * Phase III - Playerscores requested
      *  - The controller has requested playerscores
-     *  - Datacontext has responded ok and has passed the requested scores
+     *  - Datacontext has responded ok and passed the requested scores
      *  - The controller is now considered initialized and is ready to start
      */
     {
@@ -129,7 +129,7 @@ void LocalFirstToPost::handleResponseFromContext(const int &response, const QVar
     else if(status() == ControllerState::AddScoreState && response == DataContextResponse::UpdateSuccessfull)
     /*
      *  - Controller has prior to this event transmitted a score to datacontext
-     *  - Datacontext responds with ok
+     *  - Datacontext responds ok
      *      > Which indicates it has succesfully stored the score
      *      > And removed scoremodels associated with current tournament with hidden display hint
      *  - Controller sets its indexes according to the above
@@ -161,9 +161,10 @@ void LocalFirstToPost::handleResponseFromContext(const int &response, const QVar
     {
         auto playerName = args[0].toString();
         auto setIndex = args[1].toInt();
+        auto pointValue = args[2].toInt();
         auto scoreValue = args[3].toInt();
         setPlayerScore(setIndex,scoreValue);
-        emit transmitResponse(ControllerResponse::ScoreTransmit,{playerName,scoreValue});
+        emit transmitResponse(ControllerResponse::ScoreTransmit,{playerName,pointValue,scoreValue});
     }
     else if(status() == ControllerState::WinnerDeclared && response == DataContextResponse::UpdateSuccessfull)
     {

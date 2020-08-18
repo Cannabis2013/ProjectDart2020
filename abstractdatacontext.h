@@ -63,7 +63,7 @@ public slots:
 signals:
     void sendGameModes(const QStringList &gameModes);
     void sendPlayerDetail(const QString &playerName, const QString &mailAdress);
-    void sendPlayerScore(const QString &playerName, const int &score);
+    void sendPlayerScore(const QString &playerName, const int &point,const int &score);
     void sendCalculatedScore(const int &point, const int &score);
     void sendInitialControllerValues(const QUuid &tournamentID,
                                      const int &keyPoint,

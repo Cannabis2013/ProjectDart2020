@@ -315,7 +315,8 @@ void LocalDataContext::handleRequestFromContext(const int &request, const QList<
 
 void LocalDataContext::handleResponseFromContext(const int &response, const QList<QVariant> &args)
 {
-    if(response == ControllerResponse::DataProvidedSuccess)
+    if(_currentStatus == ContextStatus::ContextWaitingForTournament &&
+            response == ControllerResponse::DataProvidedSuccess)
     {
         auto tournamentID = args[0].toUuid();
         transmitPlayerScores(tournamentID);
@@ -325,7 +326,7 @@ void LocalDataContext::handleResponseFromContext(const int &response, const QLis
 
 void LocalDataContext::handlePlayerScoresRequest()
 {
-    _currentStatus = ContextStatus::ContextBusy;
+    _currentStatus = ContextStatus::ContextWaitingForTournament;
     emit sendRequestToContext(DataContextRequests::RequestCurrentTournament,{});
 }
 
@@ -526,7 +527,6 @@ void LocalDataContext::transmitPlayerScores(const QUuid &tournament)
     _currentStatus = ContextStatus::ContextBusy;
     auto currentGameMode = tournamentModelsContext()->tournamentGameMode(tournament);
     auto keyPoint = tournamentModelsContext()->tournamentKeyPoint(tournament);
-    emit sendCurrentTournamentKeyPoint(keyPoint);
     auto numberOfThrows = tournamentModelsContext()->tournamentNumberOfThrows(tournament);
     auto assignedPlayersID =tournamentModelsContext()->tournamentAssignedPlayers(tournament);
     bool isInitial = true;
@@ -536,7 +536,7 @@ void LocalDataContext::transmitPlayerScores(const QUuid &tournament)
         auto playerName = playerModelsContext()->playerUserName(assignedPlayerID);
         emit sendAssignedPlayerName(playerName);
         if(currentGameMode == 0x1)
-            emit sendPlayerScore(playerName,keyPoint);
+            emit sendPlayerScore(playerName,0,keyPoint);
         while (1)
         {
             QUuid pointID;
@@ -552,12 +552,14 @@ void LocalDataContext::transmitPlayerScores(const QUuid &tournament)
             }
             isInitial = false;
             int score;
+            int point;
             try {
+                point = tournamentModelsContext()->scorePointValue(pointID);
                 score = tournamentModelsContext()->scoreValue(pointID);
             } catch (const char *msg) {
                 throw msg;
             }
-            emit sendPlayerScore(playerName,score);
+            emit sendPlayerScore(playerName,point,score);
             if(throwIndex % numberOfThrows == 0)
             {
                 throwIndex = 0;
