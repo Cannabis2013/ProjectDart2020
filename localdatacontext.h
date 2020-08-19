@@ -27,7 +27,8 @@ public:
     enum ContextStatus{
         ContextBusy = 0xC,
         ContextReady = 0xD,
-        ContextWaitingForTournament
+        ContextServesRequestForPlayerScores,
+        ContextServesRequestForTournamentMeta
     };
     enum DataContextResponse{
         UpdateSuccessfull = 0xE,
@@ -87,7 +88,7 @@ public:
 
 public slots:
     /*
-     * The following slots are called directly from the presentation layer
+     * The following slots are invoked from upstream
      */
     void handleCreateTournamentRequest(const QString &title,
                                        const int &numberOfThrows,
@@ -102,12 +103,13 @@ public slots:
     void handleTournamentsRequest() override;
     void handleSendPlayerDetailsRequest() override;
     void deleteTournamentsFromIndexes(const QVariantList &indexes) override;
+    void handleTournamentMetaRequest() override;
 
     /*
      * The following two slots is called from controller context
      */
     void handleRequestFromContext(const int &request, const QList<QVariant> &args) override;
-    void handleResponseFromContext(const int &response, const QList<QVariant> &args) override;
+    void handleResponseFromContext(const int &response, const QVariantList &args) override;
 
 private:
     /*

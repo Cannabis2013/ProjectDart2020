@@ -24,6 +24,7 @@ Content {
 
     onBackButtonPressed: requestStop()
 
+    signal requestTournamentMetaInformation
     signal requestScoreBoardData
     signal requestStatusFromBackend
     signal requestStart
@@ -47,6 +48,21 @@ Content {
     function appendScore(player,point,score)
     {
         scoreTable.appendData(player,point,score);
+    }
+    function processTournamentMetaInformation(meta){
+        var title = meta[0];
+        var gameMode = meta[1];
+        var keyPoint = meta[2];
+        var assignedPlayerNames = meta[3];
+
+        for(var i = 0; i < assignedPlayerNames.length;i++)
+        {
+            var assignedPlayerName = assignedPlayerNames[i];
+            scoreTable.appendHeader(assignedPlayerName);
+            scoreTable.appendData(assignedPlayerName,keyPoint);
+        }
+        scoreTable.setMinimumColumnsCount(4);
+        requestScoreBoardData();
     }
 
     onReplyFromBackendRecieved: {
@@ -160,7 +176,7 @@ Content {
             verticalHeaderFillMode: 0x1
             Layout.fillWidth: true
             Layout.minimumHeight: 128
-
+            displayPoints: true
             scoreFontSize: 20
             pointFontSize: 10
         }
@@ -206,8 +222,9 @@ Content {
         }
     }
     Component.onCompleted: {
+        body.requestTournamentMetaInformation.connect(applicationInterface.handleTournamentMetaRequest);
+        applicationInterface.sendTournamentmetaInformation.connect(body.processTournamentMetaInformation);
         body.requestScoreBoardData.connect(applicationInterface.handleScoreBoardRequest);
-        applicationInterface.sendAssignedPlayerName.connect(body.appendHeaderItem);
         applicationInterface.sendPlayerScore.connect(body.appendScore);
         body.requestStart.connect(applicationInterface.requestStart);
         body.requestStop.connect(applicationInterface.requestStop);
@@ -217,12 +234,11 @@ Content {
         body.requestRedo.connect(applicationInterface.requestRedo);
         body.requestStatusFromBackend.connect(applicationInterface.handleControllerStateRequest);
 
-        scoreTable.setMinimumColumnsCount(4);
-
-        requestScoreBoardData();
+        requestTournamentMetaInformation();
     }
     Component.onDestruction: {
-        applicationInterface.sendAssignedPlayerName.disconnect(scoreTable.appendHeader);
+        body.requestTournamentMetaInformation.disconnect(applicationInterface.handleTournamentMetaRequest);
+        applicationInterface.sendTournamentmetaInformation.disconnect(body.processTournamentMetaInformation);
         applicationInterface.sendPlayerScore.disconnect(scoreTable.appendData);
         body.requestScoreBoardData.disconnect(applicationInterface.handleScoreBoardRequest);
         body.requestStart.disconnect(applicationInterface.requestStart);

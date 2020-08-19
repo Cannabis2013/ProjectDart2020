@@ -23,11 +23,14 @@ Rectangle{
         cellDelegate.scoreFontSize = scoreFontSize;
     }
 
-    property bool pointDisplayVisible: true
-    onPointDisplayVisibleChanged: cellDelegate.pointDisplayVisible = pointDisplayVisible
+    property bool displayPoints: true
+    onDisplayPointsChanged:  cellDelegate.pointDisplayVisible = displayPoints
 
     property int pointDisplayWidth: 20
     onPointDisplayWidthChanged: cellDelegate.pointDisplayWidth = pointDisplayWidth
+
+    property int pointDisplayHeight: 20
+
 
     property int horizontalHeaderHeight: 20
     onHorizontalHeaderHeightChanged: horizontalHeader.height = horizontalHeaderHeight
@@ -251,6 +254,8 @@ Rectangle{
                     cellColor: "purple"
                     scoreFontSize: scoreBoardBody.scoreFontSize
                     pointFontSize: scoreBoardBody.pointFontSize
+                    pointDisplayVisible: scoreBoardBody.displayPoints
+                    pointDisplayWidth: scoreBoardBody.pointDisplayWidth
                     text: display
                 }
             }

@@ -55,11 +55,10 @@ public slots:
     virtual void handleTournamentsRequest() = 0;
     virtual void handleSendPlayerDetailsRequest() = 0;
     virtual void deleteTournamentsFromIndexes(const QVariantList &indexes) = 0;
-
     virtual void handleRequestFromContext(const int &request, const QList<QVariant> &args) override = 0;
     virtual void handleResponseFromContext(const int &response, const QList<QVariant> &args) override = 0;
-
     virtual void handlePlayerScoresRequest() = 0;
+    virtual void handleTournamentMetaRequest() = 0;
 signals:
     void sendGameModes(const QStringList &gameModes);
     void sendPlayerDetail(const QString &playerName, const QString &mailAdress);
@@ -77,6 +76,7 @@ signals:
                         const int &gameMode,
                         const int &keyPoint,
                         const int &playersCount);
+    void sendRequestedMeta(const QVariantList &meta);
 
     void sendRequestToContext(const int &request, const QVariantList &args);
     void sendResponseToContext(const int &response, const QVariantList &args);

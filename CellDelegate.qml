@@ -8,11 +8,14 @@ MyRectangle{
 
     readonly property int cellHeight: cellBody.height
 
-    property bool pointDisplayVisible: true
+    property bool pointDisplayVisible: false
     onPointDisplayVisibleChanged: pointTextRect.visible = pointDisplayVisible
 
     property int pointDisplayWidth: 20
     onPointDisplayWidthChanged: pointTextRect.width = pointDisplayWidth
+
+    property int pointDisplayHeight: 20
+    onPointDisplayHeightChanged: pointTextRect.Height = pointDisplayHeight
 
     property color cellColor: "purple"
     onCellColorChanged: cellBody.color = cellColor
@@ -63,43 +66,50 @@ MyRectangle{
         scoreText.text = score;
     }
 
-    MyRectangle{
-        id: pointTextRect
-        anchors.top: parent.top
-        anchors.left: parent.left
-        width: 20
-        height: parent.height/2
-        clip: true
-        visible: cellBody.pointDisplayVisible
+    GridLayout{
+        anchors.fill: parent
+        rows: 2
+        columns: 2
 
-        color: "blue"
-        Text {
-            id: pointText
-            anchors.fill: parent
-            horizontalAlignment: cellBody.horizontalTextAlignment
-            verticalAlignment: cellBody.verticalTextAlignment
-            color: textColor
-            font.pointSize: cellBody.pointFontSize
+        MyRectangle{
+            id: pointTextRect
+            Layout.row: 0
+            Layout.column: 0
+            Layout.preferredWidth: cellBody.pointDisplayWidth
+            Layout.preferredHeight: cellBody.pointDisplayHeight
+            Layout.alignment: Qt.AlignTop
+            clip: true
+            visible: cellBody.pointDisplayVisible
+            color: "blue"
+            Text {
+                id: pointText
+                anchors.fill: parent
+                horizontalAlignment: cellBody.horizontalTextAlignment
+                verticalAlignment: cellBody.verticalTextAlignment
+                color: textColor
+                font.pointSize: cellBody.pointFontSize
+            }
         }
-    }
-    MyRectangle{
-        id: scoreTextRect
-        anchors.top: parent.top
-        anchors.right: parent.right
-        width: parent.width - 20
-        height: parent.height
-        clip: true
-        bottomBorderWidth: 1
-        rightBorderWidth: 1
+        MyRectangle{
+            id: scoreTextRect
+            clip: true
+            Layout.row: 0
+            Layout.column: 1
+            Layout.columnSpan: 2
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            bottomBorderWidth: 1
+            rightBorderWidth: 1
 
-        color: "transparent"
-        Text {
-            id: scoreText
-            anchors.fill: parent
-            horizontalAlignment: cellBody.horizontalTextAlignment
-            verticalAlignment: cellBody.verticalTextAlignment
-            color: textColor
-            font.pointSize: scoreFontSize
+            color: "transparent"
+            Text {
+                id: scoreText
+                anchors.fill: parent
+                horizontalAlignment: cellBody.horizontalTextAlignment
+                verticalAlignment: cellBody.verticalTextAlignment
+                color: textColor
+                font.pointSize: scoreFontSize
+            }
         }
     }
 }

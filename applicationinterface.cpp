@@ -11,6 +11,11 @@ ApplicationInterface::ApplicationInterface(AbstractDataContext *dataContext, Def
     connect(_dataContext,&AbstractDataContext::sendResponseToContext,_gameController,&AbstractGameController::handleResponseFromContext);
     connect(_dataContext,&AbstractDataContext::sendRequestToContext,_gameController,&AbstractGameController::handleRequestFromContext);
     connect(_gameController,&AbstractGameController::sendResponseToContext,_dataContext,&AbstractDataContext::handleResponseFromContext);
+    /*
+     * UI requests tournament meta information
+     */
+    connect(this,&ApplicationInterface::sendTournamentMetaRequest,_dataContext,&AbstractDataContext::handleTournamentMetaRequest);
+    connect(_dataContext,&AbstractDataContext::sendRequestedMeta,this,&ApplicationInterface::sendTournamentmetaInformation);
     // UI request removal of tournaments from datacontext
     connect(this,&ApplicationInterface::requestDeleteTournaments,_dataContext,&AbstractDataContext::deleteTournamentsFromIndexes);
     // UI request current state of gamecontroller
@@ -149,6 +154,11 @@ void ApplicationInterface::handleControllerStateRequest()
 void ApplicationInterface::handleDeleTournamentRequest(const QVariantList &indexes)
 {
     emit requestDeleteTournaments(indexes);
+}
+
+void ApplicationInterface::handleTournamentMetaRequest()
+{
+    emit sendTournamentMetaRequest();
 }
 
 AbstractDataContext *ApplicationInterface::dataContext() const

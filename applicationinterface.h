@@ -85,6 +85,7 @@ public slots:
     void handleRedoRequest();
     void handleControllerStateRequest();
     void handleDeleTournamentRequest(const QVariantList &indexes);
+    void handleTournamentMetaRequest();
 signals:
     void requestCreatePlayer(const QString &playerName, const QString &mail);
     void requestDeletePlayer(const int &index);
@@ -128,6 +129,8 @@ signals:
     void requestControllerState();
     void requestUndo();
     void requestRedo();
+    void sendTournamentMetaRequest();
+    void sendTournamentmetaInformation(const QVariantList &meta);
 
     void removeScore(const QString &player);
 

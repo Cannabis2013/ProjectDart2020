@@ -229,6 +229,12 @@ void LocalDataContext::deleteTournamentsFromIndexes(const QVariantList &indexes)
     emit transmitResponse(DataContextResponse::UpdateSuccessfull,{indexesOfDeletedTournaments});
 }
 
+void LocalDataContext::handleTournamentMetaRequest()
+{
+    _currentStatus = ContextStatus::ContextServesRequestForTournamentMeta;
+    emit sendRequestToContext(DataContextRequests::RequestCurrentTournament,{});
+}
+
 void LocalDataContext::sendUserNameScores(const QUuid &tournament,const QStringList &userNames)
 {
     QList<int> userNamesScores;
@@ -313,20 +319,37 @@ void LocalDataContext::handleRequestFromContext(const int &request, const QList<
     }
 }
 
-void LocalDataContext::handleResponseFromContext(const int &response, const QList<QVariant> &args)
+void LocalDataContext::handleResponseFromContext(const int &response, const QVariantList &args)
 {
-    if(_currentStatus == ContextStatus::ContextWaitingForTournament &&
+    if(_currentStatus == ContextStatus::ContextServesRequestForPlayerScores &&
             response == ControllerResponse::DataProvidedSuccess)
     {
         auto tournamentID = args[0].toUuid();
         transmitPlayerScores(tournamentID);
         _currentStatus = ContextStatus::ContextReady;
     }
+    else if(_currentStatus == ContextStatus::ContextServesRequestForTournamentMeta &&
+            response == ControllerResponse::DataProvidedSuccess)
+    {
+        auto tournamentID = args[0].toUuid();
+        auto title = tournamentModelsContext()->tournamentTitle(tournamentID);
+        auto gameMode = tournamentModelsContext()->tournamentGameMode(tournamentID);
+        auto keyPoint = tournamentModelsContext()->tournamentKeyPoint(tournamentID);
+        auto assignedPlayersID = tournamentModelsContext()->tournamentAssignedPlayers(tournamentID);
+        QStringList assignedPlayerNames;
+        for (auto id : assignedPlayersID) {
+            auto name = playerModelsContext()->playerUserName(id);
+            assignedPlayerNames << name;
+        }
+        QVariantList meta = {title,gameMode,keyPoint,assignedPlayerNames};
+        emit sendRequestedMeta(meta);
+        _currentStatus = ContextStatus::ContextReady;
+    }
 }
 
 void LocalDataContext::handlePlayerScoresRequest()
 {
-    _currentStatus = ContextStatus::ContextWaitingForTournament;
+    _currentStatus = ContextStatus::ContextServesRequestForPlayerScores;
     emit sendRequestToContext(DataContextRequests::RequestCurrentTournament,{});
 }
 
@@ -525,7 +548,6 @@ void LocalDataContext::createInitialModels()
 void LocalDataContext::transmitPlayerScores(const QUuid &tournament)
 {
     _currentStatus = ContextStatus::ContextBusy;
-    auto currentGameMode = tournamentModelsContext()->tournamentGameMode(tournament);
     auto keyPoint = tournamentModelsContext()->tournamentKeyPoint(tournament);
     auto numberOfThrows = tournamentModelsContext()->tournamentNumberOfThrows(tournament);
     auto assignedPlayersID =tournamentModelsContext()->tournamentAssignedPlayers(tournament);
@@ -534,9 +556,7 @@ void LocalDataContext::transmitPlayerScores(const QUuid &tournament)
         auto roundIndex = 1;
         auto throwIndex = 0;
         auto playerName = playerModelsContext()->playerUserName(assignedPlayerID);
-        emit sendAssignedPlayerName(playerName);
-        if(currentGameMode == 0x1)
-            emit sendPlayerScore(playerName,0,keyPoint);
+        emit sendPlayerScore(playerName,0,keyPoint);
         while (1)
         {
             QUuid pointID;

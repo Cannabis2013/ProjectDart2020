@@ -323,7 +323,6 @@ bool ScoreDataModel::setData(const QModelIndex &index, const QVariant &value, in
 
     auto pairs = _pairs.at(row);
 
-
     auto newPair = value.value<scoreModel>();
 
     pairs.replace(column,newPair);
