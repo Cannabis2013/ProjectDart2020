@@ -23,7 +23,7 @@ Rectangle{
         cellDelegate.scoreFontSize = scoreFontSize;
     }
 
-    property bool displayPoints: true
+    property bool displayPoints: false
     onDisplayPointsChanged:  cellDelegate.pointDisplayVisible = displayPoints
 
     property int pointDisplayWidth: 20

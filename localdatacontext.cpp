@@ -548,7 +548,6 @@ void LocalDataContext::createInitialModels()
 void LocalDataContext::transmitPlayerScores(const QUuid &tournament)
 {
     _currentStatus = ContextStatus::ContextBusy;
-    auto keyPoint = tournamentModelsContext()->tournamentKeyPoint(tournament);
     auto numberOfThrows = tournamentModelsContext()->tournamentNumberOfThrows(tournament);
     auto assignedPlayersID =tournamentModelsContext()->tournamentAssignedPlayers(tournament);
     bool isInitial = true;
@@ -556,7 +555,6 @@ void LocalDataContext::transmitPlayerScores(const QUuid &tournament)
         auto roundIndex = 1;
         auto throwIndex = 0;
         auto playerName = playerModelsContext()->playerUserName(assignedPlayerID);
-        emit sendPlayerScore(playerName,0,keyPoint);
         while (1)
         {
             QUuid pointID;

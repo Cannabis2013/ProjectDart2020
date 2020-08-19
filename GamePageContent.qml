@@ -24,7 +24,7 @@ Content {
 
     onBackButtonPressed: requestStop()
 
-    signal requestTournamentMetaInformation
+    signal requestMetaInformation
     signal requestScoreBoardData
     signal requestStatusFromBackend
     signal requestStart
@@ -40,28 +40,32 @@ Content {
         property string restartText: qsTr("Restart")
         property string resumeText: qsTr("Resume")
     }
-
-    function appendHeaderItem(item)
-    {
-        scoreTable.appendHeader(item);
-    }
     function appendScore(player,point,score)
     {
-        scoreTable.appendData(player,point,score);
+        firstToPostScoreTable.appendData(player,point,score);
     }
-    function processTournamentMetaInformation(meta){
+    function handlemetaInformation(meta){
         var title = meta[0];
         var gameMode = meta[1];
         var keyPoint = meta[2];
         var assignedPlayerNames = meta[3];
 
+        if(gameMode === 0x1)
+            initializeFirstToPost(title,keyPoint,assignedPlayerNames);
+    }
+
+    function initializeFirstToPost(title,keyPoint,assignedPlayerNames)
+    {
         for(var i = 0; i < assignedPlayerNames.length;i++)
         {
             var assignedPlayerName = assignedPlayerNames[i];
-            scoreTable.appendHeader(assignedPlayerName);
-            scoreTable.appendData(assignedPlayerName,keyPoint);
+            firstToPostScoreTable.appendHeader(assignedPlayerName);
+            firstToPostScoreTable.appendData(assignedPlayerName,0,keyPoint);
         }
-        scoreTable.setMinimumColumnsCount(4);
+
+        firstToPostScoreTable.visible = true;
+        firstToPostScoreTable.displayPoints = true;
+        firstToPostScoreTable.setMinimumColumnsCount(4);
         requestScoreBoardData();
     }
 
@@ -105,14 +109,14 @@ Content {
             playerName = args[0];
             var pointValue = args[1];
             scoreValue = args[2];
-            scoreTable.appendData(playerName,pointValue,scoreValue);
+            firstToPostScoreTable.appendData(playerName,pointValue,scoreValue);
             requestStatusFromBackend();
         }
 
         else if(response == 0x28) // Controller is in UndoState
         {
             playerName = args[0];
-            scoreTable.takeData(playerName);
+            firstToPostScoreTable.takeData(playerName);
             requestStatusFromBackend();
         }
         else if(response === 0x3E) // Winner declared
@@ -156,9 +160,9 @@ Content {
                 else if(buttonText === buttonTextContainer.restartText)
                 {
                     requestRestart();
-                    scoreTable.clearTable();
+                    firstToPostScoreTable.clearTable();
                     body.requestScoreBoardData();
-                    scoreTable.setMinimumColumnsCount(4);
+                    firstToPostScoreTable.setMinimumColumnsCount(4);
                     keyPad.enableKeys = false;
                     turnNavigator.startButtonText = buttonTextContainer.startText;
                     turnNavigator.currentRoundIndex = 0;
@@ -171,14 +175,14 @@ Content {
             onRightButtonClicked: requestRedo()
         }
         ScoreBoard{
-            id: scoreTable
+            id: firstToPostScoreTable
             color: "transparent"
             verticalHeaderFillMode: 0x1
             Layout.fillWidth: true
             Layout.minimumHeight: 128
-            displayPoints: true
             scoreFontSize: 20
             pointFontSize: 10
+            visible: false
         }
         GridLayout{
             flow: GridLayout.TopToBottom
@@ -222,8 +226,8 @@ Content {
         }
     }
     Component.onCompleted: {
-        body.requestTournamentMetaInformation.connect(applicationInterface.handleTournamentMetaRequest);
-        applicationInterface.sendTournamentmetaInformation.connect(body.processTournamentMetaInformation);
+        body.requestMetaInformation.connect(applicationInterface.handleTournamentMetaRequest);
+        applicationInterface.sendTournamentmetaInformation.connect(body.handlemetaInformation);
         body.requestScoreBoardData.connect(applicationInterface.handleScoreBoardRequest);
         applicationInterface.sendPlayerScore.connect(body.appendScore);
         body.requestStart.connect(applicationInterface.requestStart);
@@ -234,12 +238,12 @@ Content {
         body.requestRedo.connect(applicationInterface.requestRedo);
         body.requestStatusFromBackend.connect(applicationInterface.handleControllerStateRequest);
 
-        requestTournamentMetaInformation();
+        requestMetaInformation();
     }
     Component.onDestruction: {
-        body.requestTournamentMetaInformation.disconnect(applicationInterface.handleTournamentMetaRequest);
-        applicationInterface.sendTournamentmetaInformation.disconnect(body.processTournamentMetaInformation);
-        applicationInterface.sendPlayerScore.disconnect(scoreTable.appendData);
+        body.requestMetaInformation.disconnect(applicationInterface.handleTournamentMetaRequest);
+        applicationInterface.sendTournamentmetaInformation.disconnect(body.handlemetaInformation);
+        applicationInterface.sendPlayerScore.disconnect(firstToPostScoreTable.appendData);
         body.requestScoreBoardData.disconnect(applicationInterface.handleScoreBoardRequest);
         body.requestStart.disconnect(applicationInterface.requestStart);
         body.requestStop.disconnect(applicationInterface.requestStop);

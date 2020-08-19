@@ -60,8 +60,6 @@ MyRectangle{
         var n = txt.length;
         var point = txt.substring(0,i);
         var score = txt.substring(i + 1,n);
-        print(point);
-        print(score);
         pointText.text = point;
         scoreText.text = score;
     }
