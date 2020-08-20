@@ -70,6 +70,9 @@ Rectangle {
     property string title: ""
     onTitleChanged: labelTitle.text = title
 
+    property color labelBackgroundColor: "lightgray"
+    onLabelBackgroundColorChanged: labelTitle.color = labelBackgroundColor
+
     property string description: ""
     onDescriptionChanged: labelDescription.text = description
 
@@ -79,12 +82,14 @@ Rectangle {
     property int descriptionFontSize: 10
     onDescriptionFontSizeChanged: labelDescription.fontSize = descriptionFontSize
 
+
     property color textColor: labelTitle.fontColor
     onTextColorChanged: {
         labelTitle.fontColor = textColor;
         labelDescription.fontColor = textColor;
     }
-
+    property color imageBackgroundColor: "transparent"
+    onImageBackgroundColorChanged: imageRect.color = imageBackgroundColor
     property color backgroundColor: "transparent"
     onBackgroundColorChanged: body.color = backgroundColor
 
@@ -107,7 +112,7 @@ Rectangle {
             Layout.fillHeight: true
             Layout.preferredWidth: body.height
             Layout.rowSpan: 2
-            color: "gray"
+            color: body.imageBackgroundColor;
             source: body.logoUrl
         }
 
@@ -121,7 +126,7 @@ Rectangle {
             verticalTextAlignment: Qt.AlignVCenter
             horizontalTextAlignment: Qt.AlignLeft
             fontColor: body.textColor
-            color: "lightgray"
+            color: body.labelBackgroundColor
         }
         MyLabel{
             id: labelDescription

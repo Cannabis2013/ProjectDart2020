@@ -45,5 +45,8 @@
         <file>Ressources/darttournamentmod.png</file>
         <file>Ressources/checkmark.png</file>
         <file>Ressources/users.png</file>
+        <file>Ressources/dartpic.jpg</file>
+        <file>Ressources/dartpic.png</file>
+        <file>Ressources/skull.png</file>
     </qresource>
 </RCC>

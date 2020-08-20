@@ -32,7 +32,7 @@ Content {
 
     onReplyFromBackendRecieved: {
 
-        if(response === 0xE) // Backend responds update successfull
+        if(response === 0x23) // Backend responds update successfull
         {
             backButtonPressed();
         }
@@ -154,6 +154,7 @@ Content {
             width: 320
             height: 256
             componentTitle: "Assign players"
+            labelBackgroundColor: "lightgray"
             itemBackgroundColor: "lightblue"
             itemTextColor: "black"
             itemHoveredColor: "lightblue"
@@ -165,7 +166,8 @@ Content {
             allowCheckState: true
             allowMultipleSelections: true
             instantSelectEnabled: true
-            itemDecorator: "qrc:/pictures/Ressources/darttournamentmod.png"
+            itemDecorator: "qrc:/pictures/Ressources/skull.png"
+            imageBackgroundColor: "lightblue"
         }
 
         MyRectangle{

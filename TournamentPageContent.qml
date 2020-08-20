@@ -104,7 +104,7 @@ Content{
         body.requestTournaments.connect(applicationInterface.handleTournamentsRequest); // Request initial tournaments
         applicationInterface.sendRequestedTournament.connect(recieveTournament);
         body.sendClickedTournamentIndex.connect(applicationInterface.handleSetCurrentTournamentRequest);
-        body.requestDeleteTournaments.connect(applicationInterface.handleDeleTournamentRequest);
+        body.requestDeleteTournaments.connect(applicationInterface.handleDeleteTournamentRequest);
         body.requestTournaments();
     }
     Component.onDestruction: {

@@ -1,11 +1,13 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 
+import "componentFactory.js" as ComponentFactory
+
 Content {
     id: body
 
     signal requestPlayers
-    signal requestDelePlayers(var indexes)
+    signal requestDeletePlayers(var indexes)
     signal requestTournaments
     signal requestDeleteTournaments(var indexes)
 
@@ -22,18 +24,31 @@ Content {
                                             "playersCount" : playersCount})
     }
 
+    function reConnectPlayerInterface()
+    {
+        body.visible = true;
+        applicationInterface.transmitResponse.connect(replyFromBackendRecieved); // Handle reply
+        playersListView.clear();
+        requestPlayers();
+    }
+    function reConnectTournamentInterface()
+    {
+        body.visible = true;
+        applicationInterface.transmitResponse.connect(replyFromBackendRecieved); // Handle reply
+        requestTournaments();
+    }
     onReplyFromBackendRecieved: {
-        if(response === 0x17) // Backend has responded with a status code that signals it is initialized and ready to start
+        if(response == 0x26 || response == 0x45)
         {
-            startGameClicked();
+            playersListView.clear();
+            requestPlayers();
         }
-        else if(response == 0xE) // Backend has responded with a status code that signals it has succesfully updated its state
+        else if(response == ox24 || response == 0x44)
         {
-            tournamentListView.unSelectAllItems();
-            tournamentListView.removeItemModels(args);
+            tournamentListView.clear();
+            requestTournaments();
         }
     }
-
     GridLayout{
         id: mainLayout
         anchors.fill: parent
@@ -47,8 +62,9 @@ Content {
             id: playersListView
             Layout.alignment: Qt.AlignHCenter
             Layout.fillWidth: true
-            Layout.fillHeight: true
+            height: 256
             componentTitle: "Assign players"
+            labelBackgroundColor: "lightgray"
             itemBackgroundColor: "lightblue"
             itemTextColor: "black"
             itemHoveredColor: "lightblue"
@@ -60,7 +76,8 @@ Content {
             allowCheckState: true
             allowMultipleSelections: true
             instantSelectEnabled: true
-            itemDecorator: "qrc:/pictures/Ressources/darttournamentmod.png"
+            itemDecorator: "qrc:/pictures/Ressources/skull.png"
+            imageBackgroundColor: "lightblue"
         }
 
         GridLayout{
@@ -72,9 +89,21 @@ Content {
             }
             CRUDButton{
                 text: "Create"
+                onClicked: {
+                    body.visible = false;
+                    var createdComponent = ComponentFactory.createPopUp(applicationWindow,"createPlayerPopUp",0,0,applicationWindow.width,applicationWindow.height);
+                    createdComponent.backButtonPressed.connect(body.reConnectPlayerInterface);
+                    applicationInterface.transmitResponse.disconnect(replyFromBackendRecieved);
+                }
+
             }
             CRUDButton{
                 text: "Delete"
+
+                onClicked: {
+                    var indexes = playersListView.currentIndexes();
+                    requestDeletePlayers(indexes);
+                }
             }
         }
 
@@ -116,6 +145,7 @@ Content {
         }
     }
     Component.onCompleted: {
+        body.requestDeletePlayers.connect(applicationInterface.handleDeletePlayersRequest);
         body.requestPlayers.connect(applicationInterface.requestPlayers); // Request initial/continous players
         applicationInterface.sendPlayerDetail.connect(body.addPlayer); // Recieve initial players
         body.requestTournaments.connect(applicationInterface.handleTournamentsRequest); // Request initial tournaments

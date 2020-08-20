@@ -23,13 +23,10 @@ Rectangle
     Label{
         id: label
         anchors.fill: parent
-
         anchors.leftMargin: textLeftMargin
         horizontalAlignment: horizontalTextAlignment
         verticalAlignment: body.verticalTextAlignment
-
-        font.pointSize: fontSize
-
+        font.pointSize: body.fontSize
         text: body.text
         color: fontColor
     }

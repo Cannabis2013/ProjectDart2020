@@ -51,10 +51,11 @@ public slots:
                                                const QVariantList &playerIndexes) = 0;
     virtual void handleCreatePlayerRequest(const QString &playerName, const QString &mail) = 0;
     virtual void handleDeletePlayerRequest(const int &index) = 0;
+    virtual void handleDeletePlayersRequest(const QVariantList &indexes) = 0;
+    virtual void handleSendPlayerDetailsRequest() = 0;
     virtual void updateDataContext(const QUuid &tournament, const QUuid &player,const int &roundIndex, const int &setIndex) = 0;
     virtual void handleTournamentsRequest() = 0;
-    virtual void handleSendPlayerDetailsRequest() = 0;
-    virtual void deleteTournamentsFromIndexes(const QVariantList &indexes) = 0;
+    virtual void handleDeleteTournamentsRequest(const QVariantList &indexes) = 0;
     virtual void handleRequestFromContext(const int &request, const QList<QVariant> &args) override = 0;
     virtual void handleResponseFromContext(const int &response, const QList<QVariant> &args) override = 0;
     virtual void handlePlayerScoresRequest() = 0;

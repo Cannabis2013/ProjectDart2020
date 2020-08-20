@@ -62,7 +62,7 @@ Content {
             firstToPostScoreTable.appendHeader(assignedPlayerName);
             firstToPostScoreTable.appendData(assignedPlayerName,0,keyPoint);
         }
-
+        requestSetPageTitle(title);
         firstToPostScoreTable.visible = true;
         firstToPostScoreTable.displayPoints = true;
         firstToPostScoreTable.setMinimumColumnsCount(4);
@@ -215,7 +215,7 @@ Content {
             Layout.fillHeight: true
             Layout.minimumHeight: 128
             Layout.maximumHeight: 384
-            Layout.alignment: Qt.AlignTop
+            Layout.alignment: Qt.AlignBottom
             onKeyClicked: {
                 enableKeys = false;
                 if(turnNavigator.startButtonText === buttonTextContainer.restartText)

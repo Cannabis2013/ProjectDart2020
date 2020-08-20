@@ -17,6 +17,8 @@ Rectangle {
     property Content pageContent: Content{}
     onPageContentChanged: {
         contentFlickable.children[0].children[0] = pageContent;
+        pageContent.requestSetPageTitle.connect(pageBody.handleSetPageTitleRequest);
+        pageContent.requestSetPageIcon.connect(pageBody.handleSetPageIcon);
         pageContent.notifyWidthChange.connect(contentFlickable.setContentWidth);
         pageContent.notifyHeightChange.connect(contentFlickable.setContentHeight);
         pageContent.backButtonPressed.connect(backButtonPressed);
@@ -29,8 +31,21 @@ Rectangle {
         contentFlickable.contentHeight = contentFlickable.height;
     }
 
+    function handleSetPageTitleRequest(title)
+    {
+        pageTitle = title;
+    }
+
+    function handleSetPageIcon(url)
+    {
+        pageIconUrl = url;
+    }
+
     property string pageTitle: "Page title"
     onPageTitleChanged: pageTitleComponent.text = pageTitle
+
+    property url pageIconUrl: "qrc:/pictures/Ressources/dartpic.png"
+    onPageIconUrlChanged: pageIcon.source = pageIconUrl
 
     GridLayout{
         id: pageLayout
@@ -46,18 +61,15 @@ Rectangle {
         flow: GridLayout.TopToBottom
 
         GridLayout{
-
             Layout.fillWidth: true
             Layout.fillHeight: true
-
             flow: GridLayout.LeftToRight
-
             PushButton
             {
                 id: backButton
-                width: 65
-                height: 30
-
+                Layout.preferredWidth: 65
+                Layout.maximumHeight: 30
+                Layout.minimumHeight: 30
                 Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
                 textColor: "white"
                 backgroundColor: "green"
@@ -65,16 +77,21 @@ Rectangle {
                 fontSize: 10
                 onClicked: backButtonPressed()
             }
-
-            MyLabel{
-
-                id: pageTitleComponent
-                Layout.fillWidth: true
+            Image {
+                id: pageIcon
                 Layout.minimumHeight: 30
                 Layout.maximumHeight: 30
+                Layout.minimumWidth: 30
+                Layout.maximumWidth: 30
+                source: "qrc:/pictures/Ressources/dartpic.png"
+            }
+            MyLabel{
+                id: pageTitleComponent
+                Layout.fillWidth: true
+                Layout.maximumHeight: 30
+                Layout.minimumHeight: 30
                 fontSize: 20
-                textLeftMargin: 10
-
+                textLeftMargin: 5
                 text: pageBody.pageTitle
             }
         }
@@ -82,14 +99,9 @@ Rectangle {
         MyRectangle
         {
             id: upperLayoutSpacer
-
             topBorderWidth: 1
-
             Layout.fillWidth: true
-
             Layout.alignment: Qt.AlignTop
-
-            height: 12
         }
 
         Flickable{
@@ -99,12 +111,12 @@ Rectangle {
 
             function setContentWidth(w)
             {
-                contentFlickable.contentWidth = w;
+                contentWidth = w;
             }
 
             function setContentHeight(h)
             {
-                contentFlickable.contentHeight = h;
+                contentHeight = h;
             }
 
             Layout.fillHeight: true

@@ -73,7 +73,7 @@ void LocalDataContext::handleCreateTournamentRequest(const QString &title,
         auto playerUserName = playerModelsContext()->playerUserName(playerID);
         playerNames << QVariant(playerUserName);
     }
-    transmitResponse(DataContextResponse::UpdateSuccessfull,playerNames);
+    transmitResponse(DataContextResponse::TournamentCreated,playerNames);
 }
 
 void LocalDataContext::handleCreatePlayerRequest(const QString &playerName, const QString &mail)
@@ -92,10 +92,35 @@ void LocalDataContext::handleDeletePlayerRequest(const int &index)
     try {
         auto playerID = playerModelsContext()->playerIDFromIndex(index);
         playerModelsContext()->deletePlayerByID(playerID);
-        transmitResponse(DataContextResponse::UpdateSuccessfull,{});
+        transmitResponse(DataContextResponse::PlayerDeleted,{});
     }  catch (...) {
         transmitResponse(DataContextResponse::UpdateUnSuccessfull,{});
     }
+}
+
+void LocalDataContext::handleDeletePlayersRequest(const QVariantList &indexes)
+{
+    QVariantList failedUserNames;
+    bool success = true;
+    for (auto variant : indexes) {
+        auto index = variant.toInt();
+        QUuid playerID;
+        try {
+            playerID = playerModelsContext()->playerIDFromIndex(index);
+        }  catch (...) {
+            continue;
+        }
+        try {
+            playerModelsContext()->deletePlayerByID(playerID);
+        }  catch (...) {
+            auto playerName = playerModelsContext()->playerUserName(playerID);
+            failedUserNames << playerName;
+        }
+    }
+    if(success)
+        emit transmitResponse(DataContextResponse::PlayersDeleted,{});
+    else
+        emit transmitResponse(DataContextResponse::UpdateUnSuccessfull,failedUserNames);
 }
 
 void LocalDataContext::handleTournamentsRequest()
@@ -211,7 +236,7 @@ void LocalDataContext::setScoreHint(const QUuid &tournament,
     emit sendResponseToContext(DataContextResponse::UpdateSuccessfull,{playerName,setIndex,pointValue,scoreValue});
 }
 
-void LocalDataContext::deleteTournamentsFromIndexes(const QVariantList &indexes)
+void LocalDataContext::handleDeleteTournamentsRequest(const QVariantList &indexes)
 {
     QVariantList indexesOfDeletedTournaments;
     for (auto variantIndex : indexes) {

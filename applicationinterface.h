@@ -52,6 +52,9 @@ public slots:
      * UI request data to populate scoreboard
      */
     void handleScoreBoardRequest();
+    /*
+     * Create tournament
+     */
     void handleCreateTournament(const QString &title,
                                 const int &numberOfThrows,
                                 const int &gameMode,
@@ -59,10 +62,15 @@ public slots:
                                 const int &keyPoint,
                                 const QVariantList &playerIndexes);
     /*
+     * Delete tournament
+     */
+    void handleDeleteTournamentsRequest(const QVariantList &indexes);
+    /*
      * UI requests to create/delete player from datacontext
      */
     void handleCreatePlayer(const QString &playerName, const QString &email);
     void handleDeletePlayer(const int &index);
+    void handleDeletePlayersRequest(const QVariantList &indexes);
     /*
      * UI requests playerdetails from datacontext
      */
@@ -84,7 +92,9 @@ public slots:
     void handleUndoRequest();
     void handleRedoRequest();
     void handleControllerStateRequest();
-    void handleDeleTournamentRequest(const QVariantList &indexes);
+    /*
+     * Handle request for tournament meta information
+     */
     void handleTournamentMetaRequest();
 signals:
     void requestCreatePlayer(const QString &playerName, const QString &mail);

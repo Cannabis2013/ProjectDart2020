@@ -5,7 +5,7 @@ import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.13
 
 Rectangle{
-    id: listComponentBody
+    id: body
 
     color: "transparent"
 
@@ -31,6 +31,9 @@ Rectangle{
     property int itemDescriptionFontSize: 10
     onItemDescriptionFontSizeChanged: listItem.descriptionFontSize = itemDescriptionFontSize
 
+    property color labelBackgroundColor: "lightgray"
+    onLabelBackgroundColorChanged: listItem.labelBackgroundColor = labelBackgroundColor
+
     property color itemSelectedBackgroundColor: "white"
     onItemSelectedBackgroundColorChanged: listItem.selectedColor = itemSelectedBackgroundColor
 
@@ -43,7 +46,7 @@ Rectangle{
     property int itemHeight: 50
     onItemHeightChanged: listItem.height = itemHeight
 
-    property int itemWidth : listComponentBody.width
+    property int itemWidth : body.width
     onItemWidthChanged: listItem.width = itemWidth
 
     property color itemHoveredColor: "transparent"
@@ -54,6 +57,9 @@ Rectangle{
 
     property color itemBackgroundColor: "transparent"
     onItemBackgroundColorChanged: listItem.itemBackgroundColor = itemBackgroundColor
+
+    property color imageBackgroundColor: "transparent"
+    onImageBackgroundColorChanged: listItem.imageBackgroundColor = imageBackgroundColor
 
     property url itemDecorator: ""
     onItemDecoratorChanged: listItem.logoUrl = itemDecorator
@@ -107,12 +113,12 @@ Rectangle{
 
     layer.effect: OpacityMask{
         maskSource: Item {
-            width: listComponentBody.width
-            height: listComponentBody.height
+            width: body.width
+            height: body.height
 
             Rectangle{
                 anchors.fill: parent
-                radius: listComponentBody.radius
+                radius: body.radius
             }
         }
     }
@@ -148,22 +154,24 @@ Rectangle{
             delegate: ListViewDelegate{
                 id: listItem
 
-                titleFontSize: listComponentBody.itemTitleFontSize
-                descriptionFontSize: listComponentBody.itemDescriptionFontSize
+                titleFontSize: body.itemTitleFontSize
+                descriptionFontSize: body.itemDescriptionFontSize
                 onClicked: itemClicked(index)
                 isCheckable: allowCheckState
 
-                hoveredColor: listComponentBody.itemHoveredColor
-                hoveredTextColor: listComponentBody.hoveredItemTextColor
-                selectedColor: listComponentBody.itemSelectedBackgroundColor
-                selectedTextColor: listComponentBody.itemSelectedtextColor
-                height: listComponentBody.itemHeight
-                width: listComponentBody.itemWidth
-                backgroundColor: listComponentBody.itemBackgroundColor
-                textColor: listComponentBody.itemTextColor
-                radius: listComponentBody.itemRoundedCorners
-                logoUrl: listComponentBody.itemDecorator
-                noDelayPressSelect: listComponentBody.instantSelectEnabled
+                hoveredColor: body.itemHoveredColor
+                hoveredTextColor: body.hoveredItemTextColor
+                selectedColor: body.itemSelectedBackgroundColor
+                selectedTextColor: body.itemSelectedtextColor
+                height: body.itemHeight
+                width: body.itemWidth
+                backgroundColor: body.itemBackgroundColor
+                textColor: body.itemTextColor
+                radius: body.itemRoundedCorners
+                logoUrl: body.itemDecorator
+                noDelayPressSelect: body.instantSelectEnabled
+                labelBackgroundColor: body.labelBackgroundColor
+                imageBackgroundColor: body.imageBackgroundColor
 
                 title: {
                     if(type == "player")

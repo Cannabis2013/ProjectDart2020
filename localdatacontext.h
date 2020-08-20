@@ -27,18 +27,20 @@ public:
     enum ContextStatus{
         ContextBusy = 0xC,
         ContextReady = 0xD,
-        ContextServesRequestForPlayerScores,
-        ContextServesRequestForTournamentMeta
+        ContextServesRequestForPlayerScores = 0x42,
+        ContextServesRequestForTournamentMeta = 0x43
     };
     enum DataContextResponse{
         UpdateSuccessfull = 0xE,
         UpdateUnSuccessfull = 0xF,
         DataRequestSuccess = 0x38,
         DataRequestFailed = 0x39,
-        TournamentAdded = 0x23,
+        TournamentCreated = 0x23,
         TournamentDeleted = 0x24,
-        PlayerAdded = 0x25,
+        TournamentsDeleted = 0x44,
+        PlayerCreated = 0x25,
         PlayerDeleted = 0x26,
+        PlayersDeleted = 0x45,
         EndOfTransmission = 0x41
     };
     enum DataContextRequests{
@@ -96,13 +98,14 @@ public slots:
                                        const int &winCondition,
                                        const int &keyPoint,
                                        const QVariantList &playerIndexes) override;
+    void handleDeleteTournamentsRequest(const QVariantList &indexes) override;
     void handleCreatePlayerRequest(const QString &playerName, const QString &mail) override;
     void handleDeletePlayerRequest(const int &index) override;
+    void handleDeletePlayersRequest(const QVariantList &indexes) override;
 
     void handlePlayerScoresRequest() override;
     void handleTournamentsRequest() override;
     void handleSendPlayerDetailsRequest() override;
-    void deleteTournamentsFromIndexes(const QVariantList &indexes) override;
     void handleTournamentMetaRequest() override;
 
     /*
@@ -121,7 +124,7 @@ private:
     void handleInitialIndexValuesRequest(const QUuid &tournament,const QStringList &assignedPlayers);
 
     /*
-     * Transmit the following values related to given tournament to UI:
+     * Transmit the following values:
      *  - Tournament keypoint
      *  - Tournament usernames
      *  - Tournament player scores

@@ -7,6 +7,8 @@ Rectangle {
     signal requestUpdate
     signal notifyWidthChange(double w)
     signal notifyHeightChange(double h)
+    signal requestSetPageTitle(string title)
+    signal requestSetPageIcon(url url)
 
     clip: true
 
