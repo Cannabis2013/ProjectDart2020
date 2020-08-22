@@ -1,7 +1,99 @@
 #include "localplayermodelscontext.h"
-LocalPlayerModelsContext::LocalPlayerModelsContext()
+void LocalPlayerModelsContext::handlePlayersFromIndexRequest(const QVector<int> &playerIndexes)
 {
-    _playerBuilder = new LocalPlayerBuilder();
+    QList<QUuid> playersID;
+
+    for (auto index : playerIndexes) {
+        try {
+            auto playerID = playerIDFromIndex(index);
+            playersID << playerID;
+
+        }  catch (...)
+        {
+            return;
+        }
+    }
+    emit sendPlayersID(playersID);
+}
+
+void LocalPlayerModelsContext::assembleAssignedPlayerPairs(const QUuid &tournament,
+                                                                const QList<QUuid> &players)
+{
+    QList<QPair<QUuid,QString>> resultingList;
+    for (auto playerID : players) {
+        auto playerName = playerUserName(playerID);
+        auto pair = QPair<QUuid,QString>(playerID,playerName);
+        resultingList << pair;
+    }
+    emit sendPlayerPairs(tournament,resultingList);
+}
+
+void LocalPlayerModelsContext::handleProcessTournamentMeta(const QString &title,
+                                                            const int &gameMode,
+                                                            const int &keyPoint,
+                                                            const QList<QUuid> &assignedPlayersID)
+{
+    QStringList playerNames;
+    for (auto playerID : assignedPlayersID) {
+        auto playerName = playerUserName(playerID);
+        playerNames << playerName;
+    }
+    sendProcessedTournamentMeta(title,gameMode,keyPoint,playerNames);
+}
+
+void LocalPlayerModelsContext::handleRequestPlayersDetails()
+{
+    for (int i = 0; i < playersCount(); ++i) {
+        auto playerID = playerIDFromIndex(i);
+        auto playerName = playerUserName(playerID);
+        auto mail = playerEMail(playerID);
+    }
+}
+
+QList<QUuid> LocalPlayerModelsContext::createDummyModels()
+{
+    // Test purposes
+    auto mh = createPlayer("Martin Hansen","havnetrold2002@yahoo.dk",UserRoles::Player);
+    auto w = createPlayer("Willerex","WildWill@gmail.com",UserRoles::Player);
+    auto kk = createPlayer("Kent KillerHertz","KillerHertz@gmail.com",UserRoles::Player);
+    auto sp = createPlayer("Sniffer Per","SnowWhite1977@hotmail.com",UserRoles::Player);
+    auto ko = createPlayer("Kokain Ole","",UserRoles::Player);
+    return {mh,w,kk,sp,ko};
+}
+
+DefaultPlayerBuilder *LocalPlayerModelsContext::playerBuilder()
+{
+    return _playerBuilder;
+}
+
+void LocalPlayerModelsContext::setPlayerBuilder(DefaultPlayerBuilder *builder)
+{
+    _playerBuilder = builder;
+}
+
+void LocalPlayerModelsContext::handleCreatePlayerRequest(const QString &name, const QString &mail)
+{
+    createPlayer(name,mail,UserRoles::Player);
+    emit confirmPlayerCreated(true);
+}
+
+void LocalPlayerModelsContext::handleDeletePlayerRequest(const int &index)
+{
+    QUuid playerID;
+    try {
+        playerID = playerIDFromIndex(index);
+    }  catch (...) {
+        return;
+    }
+
+    deletePlayerByID(playerID);
+
+    emit confirmPlayersDeleted(true);
+}
+
+void LocalPlayerModelsContext::handleDeletePlayersRequest(const QVector<int> &playerIndexes)
+{
+
 }
 
 QUuid LocalPlayerModelsContext::createPlayer(const QString &playerName, const QString &email, const int &role)
@@ -129,13 +221,6 @@ int LocalPlayerModelsContext::playersCount() const
 DefaultPlayerBuilder *LocalPlayerModelsContext::playerBuilder() const
 {
     return _playerBuilder;
-}
-
-PlayerContextInterface *LocalPlayerModelsContext::setPlayerBuilder(DefaultPlayerBuilder *builder)
-{
-    _playerBuilder = builder;
-
-    return this;
 }
 
 void LocalPlayerModelsContext::buildPlayerModel(const QUuid &id, const QString &playerName, const QString &email)

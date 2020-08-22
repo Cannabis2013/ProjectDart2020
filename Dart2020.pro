@@ -15,10 +15,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         abstractjsonpersistence.cpp \
+        abstractplayermodelscontext.cpp \
         applicationinterface.cpp \
         idatamodelbuilder.cpp \
         ilogisticmanager.cpp \
-        localdatacontext.cpp \
         localfirsttopost.cpp \
         localplayermodelscontext.cpp \
         localtournamentmodelscontext.cpp \
@@ -44,12 +44,14 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     IControllerBuilder.h \
-    abstractdatacontext.h \
     abstractgamecontroller.h \
     abstractjsonpersistence.h \
     abstractpersistence.h \
+    abstractplayermodelscontext.h \
+    abstracttournamentmodelscontext.h \
     applicationinterface.h \
     defaultdatacontextinterface.h \
+    defaultplayerbuilderconfigurations.h \
     gamebuilder.h \
     gamemodelscontext.h \
     icontroller.h \
@@ -60,7 +62,6 @@ HEADERS += \
     iplayermodel.h \
     ipointlogisticinterface.h \
     iresponseinterface.h \
-    localdatacontext.h \
     localfirsttopost.h \
     localplayerbuilder.h \
     localplayermodelscontext.h \

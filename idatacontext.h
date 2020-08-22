@@ -7,7 +7,7 @@ class IDataContext
 public:
     virtual ~IDataContext() = default;
     virtual TUuid createTournament(const TString &title,
-                                   const int &keyPoint, 
+                                   const int &keyPoint,
                                    const int &throws,
                                    const int &gameMode,
                                    const int &winCondition) = 0;

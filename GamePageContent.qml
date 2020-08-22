@@ -92,12 +92,12 @@ Content {
 
             keyPad.enableKeys = true;
         }
-        else if(response === 0x41)
+        else if(response === 0x41) // Backend replies end of transmission
         {
             turnNavigator.startButtonEnabled = true;
         }
 
-        else if(response === 0x17)
+        else if(response === 0x45) // Backend is initialized and ready
         {
             turnNavigator.startButtonEnabled = true;
         }

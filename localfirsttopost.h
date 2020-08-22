@@ -51,7 +51,7 @@ public:
         ScoreTransmit = 0x27,
         ScoreRemove = 0x28,
         InconsistencyDetected = 0x29,
-        isReadyAndAwaits = 0x2D,
+        isInitializedAndReady = 0x2D,
         DataProvidedSuccess =0x3D,
         WinnerFound = 0x3E
     };
@@ -114,7 +114,6 @@ public slots:
      *  - Request controller indexes
      *  - Request current playerscores
      */
-    void setCurrentTournament(const int &index) override;
     /*
      * Handle status request from UI
      */
@@ -124,8 +123,21 @@ public slots:
      */
     void handleAndProcessUserInput(const int &point, const int &modifierKeyCode) override;
 
-    void handleRequestFromContext(const int &request, const QVariantList &args) override;
-    void handleResponseFromContext(const int &response, const QVariantList &args) override;
+    void handleCurrentTournamentRequest() override;
+
+    void recieveTournamentDetails(const QUuid &tournament,
+                                  const int &keyPoint,
+                                  const int &terminalKeyCode,
+                                  const int &numberOfThrows,
+                                  const PlayerPairs &assignedPlayerNames) override;
+    void recieveTournamentIndexes(const int &roundIndex,
+                                  const int &setIndex,
+                                  const int &throwIndex,
+                                  const int &turnIndex,
+                                  const int &totalTurns,
+                                  const QList<int> &playerScores) override;
+
+    void confirmScoreRecieved(const QUuid &playerID, const QUuid &score) override;
 private:
     /* Private types
      *
@@ -140,22 +152,23 @@ private:
      * Notify UI about controller state, current round index, undo/redo possibility and current user
      */
     void sendCurrentTurnValues();
-    QString currentActiveUser()  override;
-    int currentRoundIndex()  override{return _roundIndex;}
-    int currentPlayerIndex()  override{return _setIndex;}
-    int currentSetIndex() override{return _setIndex;}
-    int currentThrowIndex()  override {return _throwIndex;}
-    QUuid currentTournamentID()  override {return _currentTournament;}
-    int status() override{return _currentStatus;}
-    int lastPlayerIndex()  override{return _assignedUserNames.count() - 1;}
-    int playerIndex()  override {return _setIndex;}
-    QString determinedWinnerName()  override {return _winner;}
+    QString currentActiveUser()  ;
+    QUuid currentActivePlayerID();
+    int currentRoundIndex()  {return _roundIndex;}
+    int currentPlayerIndex()  {return _setIndex;}
+    int currentSetIndex() {return _setIndex;}
+    int currentThrowIndex()   {return _throwIndex;}
+    QUuid currentTournamentID()   {return _currentTournament;}
+    int status() {return _currentStatus;}
+    int lastPlayerIndex()  {return _assignedPlayerPairs.count() - 1;}
+    int playerIndex()   {return _setIndex;}
+    QString determinedWinnerName()   {return _winner;}
     /*
      * Undo/return turn
      *  - Set indexes according to the action invoked
      */
-    bool canUndoTurn() override;
-    bool canRedoTurn() override;
+    bool canUndoTurn() ;
+    bool canRedoTurn() ;
     /*
      * terminate condition
      *  - Get keycode that that terminates
@@ -228,7 +241,7 @@ private:
     ControllerState _currentStatus = ControllerState::NotInitialized;
     bool _isActive = false;
 
-    QStringList _assignedUserNames;
+    QList<QPair<QUuid,QString>> _assignedPlayerPairs;
     QList<int> _assignedUsernamesScore;
 };
 

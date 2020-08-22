@@ -19,7 +19,7 @@ typedef IDataModelBuilder<DefaultRoundInterface, RoundParameters,ModelOptions> I
 typedef IDataModelBuilder<DefaultSetInterface, SetParameters,ModelOptions> ISetBuilder;
 typedef IDataModelBuilder<DefaultPointInterface, PointParameters,ModelOptions> IPointBuilder;
 
-namespace ModelBuilderContext
+namespace DefaultModelBuilderContext
 {
     class TournamentBuilder;
     enum ModelType {TournamentModel = 0x00,RoundModel = 0x02, SetModel = 0x04, ScoreModel = 0x06};
@@ -41,7 +41,7 @@ public:
         auto legCount = args.throws > 0 ? args.throws : args.defaultLegCount;
         auto keyPoint = args.keyPoint >= 0 ? args.keyPoint : args.defaultKeyPoint;
         auto playerIdentitties = args.playerIdentities;
-        model->setType(ModelBuilderContext::TournamentModel);
+        model->setType(DefaultModelBuilderContext::TournamentModel);
         model->setTitle(title);
         model->setGameMode(gameMode);
         model->setStatus(status);
@@ -49,7 +49,7 @@ public:
         model->setNumberOfThrows(legCount);
         model->setTerminateKeyCondition(args.winConditionKey);
         model->setAssignedPlayerIdentities(playerIdentitties);
-        model->setType(ModelBuilderContext::TournamentModel);
+        model->setType(DefaultModelBuilderContext::TournamentModel);
         return model;
     }
 };
@@ -64,10 +64,10 @@ public:
             model->setId(QUuid::createUuid());
         else if(!options.generateUniqueId)
             model->setId(args.id);
-        model->setType(ModelBuilderContext::RoundModel);
+        model->setType(DefaultModelBuilderContext::RoundModel);
         model->setIndex(args.roundIndex);
         model->setParent(args.tournamentId);
-        model->setType(ModelBuilderContext::RoundModel);
+        model->setType(DefaultModelBuilderContext::RoundModel);
 
         return model;
     }
@@ -88,7 +88,7 @@ public:
 
         model->setIndex(args.index);
         model->setParent(args.roundId);
-        model->setType(ModelBuilderContext::SetModel);
+        model->setType(DefaultModelBuilderContext::SetModel);
 
         return model;
     }
@@ -106,7 +106,7 @@ public:
             model->setId(QUuid::createUuid());
         else if(!options.generateUniqueId)
             model->setId(args.id);
-        model->setType(ModelBuilderContext::ScoreModel);
+        model->setType(DefaultModelBuilderContext::ScoreModel);
         model->setParent(args.setId);
         model->setPoint(args.pointValue);
         model->setPlayer(args.playerId);

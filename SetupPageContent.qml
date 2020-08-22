@@ -223,12 +223,12 @@ Content {
         Component.onCompleted: {
             body.sendTournament.connect(applicationInterface.handleCreateTournament); // Tournament request
             body.requestPlayers.connect(applicationInterface.requestPlayers); // Request initial/continous players
-            applicationInterface.sendPlayerDetail.connect(body.addPlayer); // Recieve initial players
+            applicationInterface.sendPlayerDetails.connect(body.addPlayer); // Recieve initial players
             requestUpdate();
         }
         Component.onDestruction: {
             body.sendTournament.disconnect(applicationInterface.handleCreateTournament);
-
+            applicationInterface.sendPlayerDetails.disconnect(body.addPlayer);
             applicationInterface.sendPlayerDetail.disconnect(body.addPlayer);
         }
     }

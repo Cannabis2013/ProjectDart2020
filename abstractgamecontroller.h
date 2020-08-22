@@ -2,16 +2,14 @@
 #define ABSTRACTGAMECONTROLLER_H
 
 #include <QObject>
-#include <icontroller.h>
 #include <quuid.h>
 #include "iresponseinterface.h"
 #include <QVariantList>
 
-typedef IController<QUuid,QString> DefaultControllerInterface;
 
-class AbstractGameController : public QObject,
-        public DefaultControllerInterface,
-        public IResponseInterface<QVariantList>
+typedef QList<QPair<QUuid,QString>> PlayerPairs;
+
+class AbstractGameController : public QObject
 {
     Q_OBJECT
 public:
@@ -24,19 +22,6 @@ public slots:
     virtual void start() = 0;
     virtual void stop() = 0 ;
     /*
-     * Set current tournament
-     *  - Request basic tournament data from datacontext
-     *  - Request index values from datacontext
-     */
-    virtual void setCurrentTournament(const int &index) = 0;
-
-    /*
-     * Handle request and response from different contexts
-     */
-
-    virtual void handleRequestFromContext(const int &request, const QVariantList &args) override = 0;
-    virtual void handleResponseFromContext(const int &response, const QVariantList &args) override = 0;
-    /*
      * Handle requests from datacontext
      */
     virtual void handleRequestFromUI() = 0;
@@ -48,10 +33,35 @@ public slots:
 
     virtual void restartGame() = 0;
 
+    virtual void handleCurrentTournamentRequest() = 0;
+    virtual void recieveTournamentDetails(const QUuid &tournament,
+                                          const int &keyPoint,
+                                          const int &terminalKeyCode,
+                                          const int &numberOfThrows,
+                                          const PlayerPairs &assignedPlayerNames) = 0;
+    virtual void recieveTournamentIndexes(const int &roundIndex,
+                                          const int &setIndex,
+                                          const int &throwIndex,
+                                          const int &turnIndex,
+                                          const int &totalTurns,
+                                          const QList<int> &playerScores) = 0;
+    virtual void confirmScoreRecieved(const QUuid &playerID, const QUuid &score) = 0;
+
 signals:
     void transmitResponse(const int &status, const QVariantList &args);
-    void sendRequestToContext(const int &request, const QVariantList &args);
-    void sendResponseToContext(const int &response, const QVariantList &args);
+    void sendCurrentTournament(const QUuid &tournament);
+    void requestTournamentIndexes(const QUuid &tournament);
+    void sendScore(const QUuid &tournamentID,
+                   const QUuid &playerID,
+                   const int &roundIndex,
+                   const int &setIndex,
+                   const int &throwIndex,
+                   const int &point,
+                   const int &score);
+    void requestUpdateContext(const QUuid &tournamentID,
+                              const QUuid &playerID,
+                              const int &roundIndex,
+                              const int &setIndex);
 };
 
 #endif // ABSTRACTGAMECONTROLLER_H

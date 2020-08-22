@@ -5,12 +5,18 @@
 #include <qqmlcontext.h>
 #include "applicationinterface.h"
 
+#include "localplayerbuilder.h"
+
+#include "localtournamentmodelscontext.h"
+#include "localplayermodelscontext.h"
+
 #include "scoredatamodel.h"
 
 #include "gamebuilder.h"
-#include "localdatacontext.h"
 #include "localplayermodelscontext.h"
 #include "localtournamentmodelscontext.h"
+
+#include "modelbuildercollection.h"
 
 
 int main(int argc, char *argv[])
@@ -20,9 +26,23 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<ScoreDataModel>("CustomItems",1,0,"ScoreDataModel");
 
-    auto dataContext = new LocalDataContext(new LocalTournamentModelsContext(),new LocalPlayerModelsContext());
+    auto tournamentModelsContext = new LocalTournamentModelsContext();
+    tournamentModelsContext->setTournamentBuilder(new TournamentModelBuilder())
+            ->setRoundBuilder(new RoundBuilder())->setSetBuilder(new SetBuilder())
+            ->setPointBuilder(new PointBuilder());
+    tournamentModelsContext->createDummyModels();
+
+    auto playerModelsContext = new LocalPlayerModelsContext();
+    playerModelsContext->setPlayerBuilder(new LocalPlayerBuilder());
+    auto list = playerModelsContext->createDummyModels();
+
+    tournamentModelsContext->assignToTournament(0,list);
+
     auto gameBuilder = new GameBuilder();
-    auto _dart = new ApplicationInterface(dataContext,gameBuilder);
+
+    auto _dart = new ApplicationInterface(tournamentModelsContext,
+                                          playerModelsContext,
+                                          gameBuilder);
 
     QQmlApplicationEngine engine;
 

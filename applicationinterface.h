@@ -3,13 +3,13 @@
 
 #include <QtCore>
 
-#include <idatacontext.h>
+#include "abstracttournamentmodelscontext.h"
+#include "abstractplayermodelscontext.h"
 #include <abstractgamecontroller.h>
 #include <idatamodelbuilder.h>
 #include "iplayermodel.h"
 #include "iplayerbuildercontext.h"
 #include "IControllerBuilder.h"
-#include "abstractdatacontext.h"
 #include "ipointlogisticinterface.h"
 
 #define printVariable(var) #var
@@ -18,8 +18,6 @@
 typedef IPlayerModel<QUuid,QString> DefaultModelInterface;
 typedef IPlayerBuilderParameters<QString,QUuid> DefaultParameters;
 typedef IDataModelBuilder<DefaultModelInterface,DefaultParameters,IPlayerBuilderConfiguration> DefaultPlayerBuilder;
-typedef IDataContext<QUuid,QList<QUuid>,QString,ITournamentBuilder> DefaultDataInterface;
-typedef IController<QUuid,QString> GameControllerInterface;
 
 typedef IControllerBuilder<AbstractGameController, int> DefaultControllerBuilderInterface;
 
@@ -43,8 +41,20 @@ public:
     enum ModelDisplayHint{HiddenHint = 0x9,DisplayHint = 0xA, allHints = 0xB};
 
     enum ContextMode {LocalContext = 0x4, RemoteContext = 0x5};
-    ApplicationInterface(AbstractDataContext *dataContext, DefaultControllerBuilderInterface *_builder);
+    /*
+     * Constructor
+     */
+    ApplicationInterface(AbstractTournamentModelsContext *tournamentModelsContext,
+                         AbstractPlayerModelsContext *playerModelsContext,
+                         DefaultControllerBuilderInterface *builder);
     ~ApplicationInterface();
+    AbstractTournamentModelsContext *tournamentsModelContext() const;
+    void setTournamentsModelContext(AbstractTournamentModelsContext *tournamentsModelContext);
+
+    AbstractPlayerModelsContext *playerModelsContext() const;
+    void setPlayerModelsContext(AbstractPlayerModelsContext *playerModelsContext);
+
+
 public slots:
     void handleTournamentsRequest();
     void handleSetCurrentTournamentRequest(const int &index);
@@ -145,15 +155,15 @@ signals:
     void removeScore(const QString &player);
 
 private:
-    AbstractDataContext *dataContext() const;
     AbstractGameController *gameController() const;
     DefaultControllerBuilderInterface *controllerBuilder() const;
 
     int gameModeFromString(const QString &gameMode) const;
 
     IControllerBuilder<AbstractGameController, int> *_controllerBuilder;
-    AbstractDataContext *_dataContext = nullptr;
     AbstractGameController *_gameController = nullptr;
+    AbstractTournamentModelsContext *_tournamentsModelContext;
+    AbstractPlayerModelsContext *_playerModelsContext;
 
 };
 
