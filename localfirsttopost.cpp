@@ -70,21 +70,35 @@ void LocalFirstToPost::handleAndProcessUserInput(const int &point, const int &mo
     }
 }
 
-void LocalFirstToPost::handleCurrentTournamentRequest()
+void LocalFirstToPost::handleRequestForCurrentTournamentMetaData()
 {
-    emit sendCurrentTournament(_currentTournament);
+    emit sendCurrentTournamentForTournamentMetaData(currentTournamentID());
+}
+
+void LocalFirstToPost::handleRequestForPlayerScores()
+{
+    PlayerPairs assignedPlayerPairs;
+    for (int i = 0; i < _assignedPlayerTupples.count(); ++i) {
+        auto assignedPlayerTupple = _assignedPlayerTupples.at(i);
+        auto assignedPlayerID = assignedPlayerTupple.first;
+        auto assignedPlayerName = assignedPlayerTupple.second;
+        auto assignedPlayerPair = PlayerPair(assignedPlayerID,assignedPlayerName);
+        assignedPlayerPairs << assignedPlayerPair;
+
+    }
+    emit sendCurrentTournamentForTransmittingScorePoints(currentTournamentID(),assignedPlayerPairs);
 }
 
 void LocalFirstToPost::recieveTournamentDetails(const QUuid &tournament,
                                                 const int &keyPoint,
                                                 const int &terminalKeyCode,
                                                 const int &numberOfThrows,
-                                                const PlayerPairs &assignedPlayerNames)
+                                                const PlayerPairs &assignedPlayerPairs)
 {
     _currentTournament = tournament;
     _keyPoint = keyPoint;
     _numberOfThrows = numberOfThrows;
-    _assignedPlayerPairs = assignedPlayerNames;
+    _assignedPlayerTupples = setPlayerTubblesFromPairs(assignedPlayerPairs,keyPoint);
     _currentStatus = ControllerState::InitializingIndexValues;
     pointLogisticInterface()->setLastThrowKeyCode(terminalKeyCode);
     emit requestTournamentIndexes(_currentTournament);
@@ -102,15 +116,25 @@ void LocalFirstToPost::recieveTournamentIndexes(const int &roundIndex,
     _throwIndex = throwIndex;
     _turnIndex = turnIndex;
     _totalTurns = totalTurns;
-    _assignedUsernamesScore = playerScores;
+    updatePlayerTubbles(playerScores);
     _currentStatus = ControllerState::Initialized;
 
     emit transmitResponse(ControllerResponse::isInitializedAndReady,{});
 }
 
-void LocalFirstToPost::confirmScoreRecieved(const QUuid &playerID, const QUuid &score)
+void LocalFirstToPost::handleConfirmScoreAddedToDataContext(const QUuid &playerID,
+                                                            const int &point,
+                                                            const int &score)
 {
+    setPlayerScore(playerID,score);
+    auto playerName = getPlayerNameFromID(playerID);
+    emit transmitResponse(ControllerResponse::ScoreTransmit,{playerName,point,score});
+}
 
+void LocalFirstToPost::handleConfirmDataContextUpdated()
+{
+    _currentStatus = ControllerState::AwaitsInput;
+    sendCurrentTurnValues();
 }
 
 void LocalFirstToPost::sendCurrentTurnValues()
@@ -121,14 +145,21 @@ void LocalFirstToPost::sendCurrentTurnValues()
     auto currentUserName = currentActiveUser();
     auto score = playerScore(currentSetIndex());
     auto throwSuggestion = pointLogisticInterface()->throwSuggestion(score,currentThrowIndex() + 1);
-    emit transmitResponse(ControllerResponse::isInitializedAndReady,{canUndo,canRedo,currentRound,currentUserName,throwSuggestion});
+    emit transmitResponse(ControllerResponse::isInitializedAndAwaitsInput,{canUndo,canRedo,currentRound,currentUserName,throwSuggestion});
 }
 
 QString LocalFirstToPost::currentActiveUser()
 {
-    auto pair = _assignedPlayerPairs.value(currentSetIndex());
-    auto playerName = pair.second;
+    auto tupple = _assignedPlayerTupples.at(currentSetIndex());
+    auto playerName = tupple.second;
     return playerName;
+}
+
+QUuid LocalFirstToPost::currentActivePlayerID()
+{
+    auto tupple = _assignedPlayerTupples.at(currentSetIndex());
+    auto playerID = tupple.first;
+    return playerID;
 }
 
 QUuid LocalFirstToPost::undoTurn()
@@ -146,7 +177,7 @@ QUuid LocalFirstToPost::undoTurn()
         _throwIndex--;
         QVariantList arguments = {currentTournamentID(),currentActiveUser(),currentRoundIndex(),0,currentThrowIndex(),ModelDisplayHint::HiddenHint};
         // TODO: Implement signal to notify datacontext
-        return _assignedPlayerPairs.value(_setIndex).first;
+        return _assignedPlayerTupples.at(_setIndex).first;
     }
 
     _throwIndex = 2;
@@ -165,7 +196,7 @@ QUuid LocalFirstToPost::undoTurn()
      * Implement alternative to:
      *  - emit sendRequestToContext(ControllerRequest::RequestSetModelHint,arguments);
      */
-    return _assignedPlayerPairs.at(_setIndex).first;
+    return _assignedPlayerTupples.at(_setIndex).first;
 }
 
 QUuid LocalFirstToPost::redoTurn()
@@ -201,7 +232,7 @@ QUuid LocalFirstToPost::redoTurn()
      *  emit sendRequestToContext(ControllerRequest::RequestSetModelHint,arguments);
      */
 
-    return _assignedPlayerPairs.at(_setIndex).first;
+    return _assignedPlayerTupples.at(_setIndex).first;
 }
 
 void LocalFirstToPost::restartGame()
@@ -264,12 +295,7 @@ void LocalFirstToPost::addPoint(const int &point, const int &score)
     auto roundIndex = currentRoundIndex();
     auto setIndex = currentPlayerIndex();
     auto throwIndex = currentThrowIndex();
-    QVariantList arguments = {tournamentID,playerName,roundIndex,setIndex,throwIndex, point, score};
-    /*
-     * TODO:
-     * Implement alternative to:
-     *  - emit sendRequestToContext(ControllerRequest::RequestStorePoint,arguments);
-     */
+    emit sendScore(tournamentID,currentActivePlayerID(),roundIndex,setIndex,throwIndex,point,score);
 }
 
 int LocalFirstToPost::currentTurnIndex()
@@ -316,17 +342,14 @@ void LocalFirstToPost::nextTurn()
     {
         _setIndex++;
         _throwIndex = 0;
-        if(_setIndex >= _assignedPlayerPairs.count()){
+        if(_setIndex >= _assignedPlayerTupples.count()){
             _roundIndex++;
             _setIndex = 0;
         }
         _currentStatus = ControllerState::UpdateContextState;
-        QVariantList arguments = {currentTournamentID(),currentActiveUser(),currentRoundIndex(),currentSetIndex()};
-        /*
-         * TODO:
-         * Implement alternative to:
-         *  - emit sendRequestToContext(ControllerRequest::RequestUpdateModelState,arguments);
-         */
+        emit requestUpdateContext(currentTournamentID(),
+                                  currentRoundIndex(),
+                                  currentSetIndex());
     }
     else
     {
@@ -352,13 +375,68 @@ void LocalFirstToPost::incrementTurnIndexes()
 
 int LocalFirstToPost::playerScore(const int &index)
 {
-    auto score = _assignedUsernamesScore.at(index);
+    auto tubble = _assignedPlayerTupples.at(index);
+    auto score = tubble.third;;
     return score;
 }
 
 void LocalFirstToPost::setPlayerScore(const int &index, const int &newScore)
 {
-    _assignedUsernamesScore.replace(index,newScore);
+    auto tubble = _assignedPlayerTupples.at(index);
+    tubble.third = newScore;
+    _assignedPlayerTupples.replace(index,tubble);
+}
+
+void LocalFirstToPost::setPlayerScore(const QUuid &playerID, const int &newScore)
+{
+    for (int i = 0; i < _assignedPlayerTupples.count(); ++i) {
+        auto pair = _assignedPlayerTupples.at(i);
+        auto id = pair.first;
+        if(id == playerID)
+        {
+            setPlayerScore(i, newScore);
+            return;
+        }
+    }
+}
+
+QString LocalFirstToPost::getPlayerNameFromID(const QUuid &playerID)
+{
+    for (auto tupple : _assignedPlayerTupples) {
+        auto id = tupple.first;
+        if(id == playerID)
+        {
+            auto playerName = tupple.second;
+            return playerName;
+        }
+    }
+    return QString();
+}
+
+PlayerTubbles LocalFirstToPost::setPlayerTubblesFromPairs(PlayerPairs pairs, const int &initialThirdValue)
+{
+    PlayerTubbles tubbles;
+    for (int i = 0; i < pairs.count(); ++i) {
+        auto playerPair = pairs.at(i);
+        auto playerID = playerPair.first;
+        auto playerName = playerPair.second;
+        auto tubble = PlayerTupple(playerID,playerName,initialThirdValue);
+        tubbles << tubble;
+    }
+    return tubbles;
+}
+
+void LocalFirstToPost::updatePlayerTubbles(const QList<int> &scores)
+{
+    if(scores.count() != _assignedPlayerTupples.count())
+        throw "Inconsistency detected";
+
+    for (int i = 0; i < scores.count(); ++i) {
+        auto score = scores.at(i);
+        auto tubble = _assignedPlayerTupples.at(i);
+        tubble.third = score;
+        _assignedPlayerTupples.replace(i,tubble);
+    }
 }
 
 int LocalFirstToPost::terminateConditionModifier() const

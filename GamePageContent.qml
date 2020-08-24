@@ -78,6 +78,7 @@ Content {
         }
         else if(response === 0x2D) // Gamecontroller is ready and awaits input
         {
+            print("Gamecontroller is ready and awaits input.");
             turnNavigator.startButtonText = buttonTextContainer.pauseText;
 
             var canUndo = args[0];
@@ -92,7 +93,7 @@ Content {
 
             keyPad.enableKeys = true;
         }
-        else if(response === 0x41) // Backend replies end of transmission
+        else if(response === 0x10) // Backend replies end of transmission
         {
             turnNavigator.startButtonEnabled = true;
         }
@@ -227,26 +228,25 @@ Content {
     }
     Component.onCompleted: {
         body.requestMetaInformation.connect(applicationInterface.handleTournamentMetaRequest);
-        applicationInterface.sendTournamentmetaInformation.connect(body.handlemetaInformation);
+        applicationInterface.sendTournamentMetaData.connect(body.handlemetaInformation);
         body.requestScoreBoardData.connect(applicationInterface.handleScoreBoardRequest);
         applicationInterface.sendPlayerScore.connect(body.appendScore);
-        body.requestStart.connect(applicationInterface.requestStart);
-        body.requestStop.connect(applicationInterface.requestStop);
+        body.requestStart.connect(applicationInterface.handleRequestStart);
+        body.requestStop.connect(applicationInterface.handleRequestStop);
         body.requestRestart.connect(applicationInterface.handleRestartTournament);
         body.sendInput.connect(applicationInterface.handleUserInput);
         body.requestUndo.connect(applicationInterface.requestUndo);
         body.requestRedo.connect(applicationInterface.requestRedo);
         body.requestStatusFromBackend.connect(applicationInterface.handleControllerStateRequest);
-
         requestMetaInformation();
     }
     Component.onDestruction: {
         body.requestMetaInformation.disconnect(applicationInterface.handleTournamentMetaRequest);
-        applicationInterface.sendTournamentmetaInformation.disconnect(body.handlemetaInformation);
+        applicationInterface.sendTournamentMetaData.disconnect(body.handlemetaInformation);
         applicationInterface.sendPlayerScore.disconnect(firstToPostScoreTable.appendData);
         body.requestScoreBoardData.disconnect(applicationInterface.handleScoreBoardRequest);
-        body.requestStart.disconnect(applicationInterface.requestStart);
-        body.requestStop.disconnect(applicationInterface.requestStop);
+        body.requestStart.disconnect(applicationInterface.handleRequestStart);
+        body.requestStop.disconnect(applicationInterface.handleRequestStop);
         body.sendInput.disconnect(applicationInterface.handleUserInput);
         body.requestUndo.disconnect(applicationInterface.requestUndo);
         body.requestRedo.disconnect(applicationInterface.requestRedo);

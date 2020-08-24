@@ -28,7 +28,7 @@ void LocalPlayerModelsContext::assembleAssignedPlayerPairs(const QUuid &tourname
     emit sendPlayerPairs(tournament,resultingList);
 }
 
-void LocalPlayerModelsContext::handleProcessTournamentMeta(const QString &title,
+void LocalPlayerModelsContext::handleAndProcessTournamentMetaData(const QString &title,
                                                             const int &gameMode,
                                                             const int &keyPoint,
                                                             const QList<QUuid> &assignedPlayersID)
@@ -38,7 +38,36 @@ void LocalPlayerModelsContext::handleProcessTournamentMeta(const QString &title,
         auto playerName = playerUserName(playerID);
         playerNames << playerName;
     }
-    sendProcessedTournamentMeta(title,gameMode,keyPoint,playerNames);
+    sendProcessedTournamentMetaData(title,gameMode,keyPoint,playerNames);
+}
+
+void LocalPlayerModelsContext::handleProcessCreatedTournament(const QString &title,
+                                                              const int &numberOfThrows,
+                                                              const int &gameMode,
+                                                              const int &winCondition,
+                                                              const int &keyPoint,
+                                                              const QList<int> &playerIndexes)
+{
+    QList<QUuid> playersID;
+    for (int i = 0; i < playerIndexes.count(); ++i) {
+        auto playerID = playerIDFromIndex(i);
+        playersID << playerID;
+    }
+    emit sendProcessedTournamentDetails(title,numberOfThrows,gameMode,winCondition,keyPoint,playersID);
+}
+
+void LocalPlayerModelsContext::handleTournamentMetaData(const QString &title,
+                                                        const int &gameMode,
+                                                        const int &keyPoint,
+                                                        const QList<QUuid> &assignedPlayersID)
+{
+    QList<QString> playerNames;
+    for (int i = 0; i < assignedPlayersID.count(); ++i) {
+        auto playerID = assignedPlayersID.at(i);
+        auto playerName = playerUserName(playerID);
+        playerNames << playerName;
+    }
+    emit sendProcessedTournamentMetaData(title,gameMode,keyPoint,playerNames);
 }
 
 void LocalPlayerModelsContext::handleRequestPlayersDetails()
@@ -47,6 +76,7 @@ void LocalPlayerModelsContext::handleRequestPlayersDetails()
         auto playerID = playerIDFromIndex(i);
         auto playerName = playerUserName(playerID);
         auto mail = playerEMail(playerID);
+        emit sendPlayerDetails(playerName,mail);
     }
 }
 
@@ -74,7 +104,7 @@ void LocalPlayerModelsContext::setPlayerBuilder(DefaultPlayerBuilder *builder)
 void LocalPlayerModelsContext::handleCreatePlayerRequest(const QString &name, const QString &mail)
 {
     createPlayer(name,mail,UserRoles::Player);
-    emit confirmPlayerCreated(true);
+    emit transmitResponse(ModelsContextResponse::PlayerCreatedOK,{});
 }
 
 void LocalPlayerModelsContext::handleDeletePlayerRequest(const int &index)
@@ -87,12 +117,23 @@ void LocalPlayerModelsContext::handleDeletePlayerRequest(const int &index)
     }
 
     deletePlayerByID(playerID);
-
-    emit confirmPlayersDeleted(true);
+    emit transmitResponse(ModelsContextResponse::PlayerDeletedOK,{});
 }
 
-void LocalPlayerModelsContext::handleDeletePlayersRequest(const QVector<int> &playerIndexes)
+void LocalPlayerModelsContext::deletePlayers(const QVector<int> &playerIndexes)
 {
+    QList<QUuid> playersID;
+    for (auto playerIndex : playerIndexes) {
+        auto playerID = playerIDFromIndex(playerIndex);
+        playersID << playerID;
+    }
+    for (auto playerID : playersID) {
+        try {
+            deletePlayerByID(playerID);
+        }  catch (...) {
+            throw "Inconsistency detected";
+        }
+    }
 
 }
 

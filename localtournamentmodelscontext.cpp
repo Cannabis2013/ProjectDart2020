@@ -56,20 +56,32 @@ void LocalTournamentModelsContext::assignToTournament(const int &index,
         assignPlayerToTournament(tournamentID,playerID);
 }
 
-void LocalTournamentModelsContext::handleCreateTournament(const QString &title, const int &keyPoint, const int &throws, const int &gameMode, const int &winCondition)
+void LocalTournamentModelsContext::handleRequestUpdateContext(const QUuid &tournamentID, const int &roundIndex, const int &setIndex)
+{
+    updateDataContext(tournamentID,roundIndex,setIndex);
+}
+
+void LocalTournamentModelsContext::assembleAndAddTournament(const QString &title,
+                                                          const int &keyPoint,
+                                                          const int &throws,
+                                                          const int &gameMode,
+                                                          const int &winCondition,
+                                                          const QList<QUuid> &assignedPlayersID)
 {
     auto tournamentID = createTournament(title,keyPoint,throws,gameMode,winCondition);
-    emit confirmTournamentCreated(true,tournamentID);
+    for (auto assignedPlayerID : assignedPlayersID)
+        assignPlayerToTournament(tournamentID,assignedPlayerID);
+    emit transmitResponse(ModelsContextResponse::TournamentCreatedOK,{});
 }
 
 void LocalTournamentModelsContext::handleAssignPlayers(const QUuid &tournament, const QList<QUuid> &playersID)
 {
     for (auto playerID : playersID)
         assignPlayerToTournament(tournament,playerID);
-    emit confirmPlayersAssignment(true);
+
 }
 
-void LocalTournamentModelsContext::handleDeleteTournaments(const QVector<int> &indexes)
+void LocalTournamentModelsContext::deleteTournament(const QVector<int> &indexes)
 {
     QList<QUuid> tournamentsID;
     for (auto index : indexes) {
@@ -79,8 +91,7 @@ void LocalTournamentModelsContext::handleDeleteTournaments(const QVector<int> &i
     for (auto tournamentID : tournamentsID) {
         removeTournament(tournamentID);
     }
-
-    emit confirmTournamentsDeleted(true);
+    emit transmitResponse(ModelsContextResponse::TournamentDeletedOK,{});
 }
 
 void LocalTournamentModelsContext::handleTransmitPlayerScores(const QUuid &tournament,
@@ -122,9 +133,7 @@ void LocalTournamentModelsContext::handleTransmitPlayerScores(const QUuid &tourn
             }
         }
     }
-    if(isInitial)
-        updateDataContext(tournament,QUuid(),1,0);
-    emit confirmScoresTransmittedAndContextUpdated();
+    emit transmitResponse(ModelsContextResponse::EndOfTransmission,{});
 }
 
 void LocalTournamentModelsContext::handleTransmitTournaments()
@@ -141,7 +150,7 @@ void LocalTournamentModelsContext::handleTransmitTournaments()
     }
 }
 
-void LocalTournamentModelsContext::handleAssembleTournamentMeta(const QUuid &tournament)
+void LocalTournamentModelsContext::handleRequestForTournamentMetaData(const QUuid &tournament)
 {
     auto title = tournamentTitle(tournament);
     auto gameMode = tournamentGameMode(tournament);
@@ -169,7 +178,13 @@ void LocalTournamentModelsContext::handleRequestForTournamentDetails(const QUuid
         auto keyPoint = tournamentKeyPoint(tournamentID);
         auto lastThrowKeyCode = tournamentLastThrowKeyCode(tournamentID);
         auto numberOfThrows = tournamentNumberOfThrows(tournamentID);
-        emit sendTournamentDetails(tournamentID,keyPoint,lastThrowKeyCode,numberOfThrows,assignedPlayerPairs);
+        auto gameMode = tournamentGameMode(tournamentID);
+        emit sendTournamentDetails(tournamentID,
+                                   keyPoint,
+                                   lastThrowKeyCode,
+                                   numberOfThrows,
+                                   gameMode,
+                                   assignedPlayerPairs);
     } catch (...) {
     }
 }
@@ -206,6 +221,8 @@ void LocalTournamentModelsContext::handleRequestTournamentIndexes(const QUuid &t
     }
     if(turnIndex != 0)
         totalTurns = playerScoreCount(ModelDisplayHint::allHints);
+    else
+        updateDataContext(tournament,1,0);
 
     QList<int> userScores;
     for (auto playerID : assignedPlayersID) {
@@ -221,7 +238,9 @@ void LocalTournamentModelsContext::handleGetAssignedPlayersToTournament(const QU
     emit sendAssignedPlayers(assignedPlayersID);
 }
 
-void LocalTournamentModelsContext::updateDataContext(const QUuid &tournament, const QUuid &player, const int &roundIndex, const int &setIndex)
+void LocalTournamentModelsContext::updateDataContext(const QUuid &tournament,
+                                                     const int &roundIndex,
+                                                     const int &setIndex)
 {
     QUuid round;
     try {
@@ -235,6 +254,7 @@ void LocalTournamentModelsContext::updateDataContext(const QUuid &tournament, co
     } catch (...) {
         addSet(tournament,roundIndex,setIndex);
     }
+    emit confirmContextUpdated();
 }
 
 QUuid LocalTournamentModelsContext::createTournament(const QString &title,
@@ -1380,7 +1400,7 @@ void LocalTournamentModelsContext::addScore(const QUuid &tournament,
     }());
 
     _scores.append(model);
-
+    emit confirmScoresAddedToContext(playerID,point,score);
 }
 
 void LocalTournamentModelsContext::removeHiddenScores(const QUuid &tournament)

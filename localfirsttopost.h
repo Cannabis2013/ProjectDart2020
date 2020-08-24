@@ -48,10 +48,12 @@ public:
         resetState = 0x40
     };
     enum ControllerResponse{
+        isStopped = 0x12,
         ScoreTransmit = 0x27,
         ScoreRemove = 0x28,
         InconsistencyDetected = 0x29,
-        isInitializedAndReady = 0x2D,
+        isInitializedAndAwaitsInput = 0x2D,
+        isInitializedAndReady = 0x45,
         DataProvidedSuccess =0x3D,
         WinnerFound = 0x3E
     };
@@ -122,14 +124,13 @@ public slots:
      * Handle and Evaluate input from user
      */
     void handleAndProcessUserInput(const int &point, const int &modifierKeyCode) override;
-
-    void handleCurrentTournamentRequest() override;
-
+    void handleRequestForCurrentTournamentMetaData() override;
+    void handleRequestForPlayerScores() override;
     void recieveTournamentDetails(const QUuid &tournament,
                                   const int &keyPoint,
                                   const int &terminalKeyCode,
                                   const int &numberOfThrows,
-                                  const PlayerPairs &assignedPlayerNames) override;
+                                  const PlayerPairs &assignedPlayerPairs) override;
     void recieveTournamentIndexes(const int &roundIndex,
                                   const int &setIndex,
                                   const int &throwIndex,
@@ -137,7 +138,10 @@ public slots:
                                   const int &totalTurns,
                                   const QList<int> &playerScores) override;
 
-    void confirmScoreRecieved(const QUuid &playerID, const QUuid &score) override;
+    void handleConfirmScoreAddedToDataContext(const QUuid &playerID,
+                                              const int &point,
+                                              const int &score) override;
+    void handleConfirmDataContextUpdated() override;
 private:
     /* Private types
      *
@@ -160,7 +164,7 @@ private:
     int currentThrowIndex()   {return _throwIndex;}
     QUuid currentTournamentID()   {return _currentTournament;}
     int status() {return _currentStatus;}
-    int lastPlayerIndex()  {return _assignedPlayerPairs.count() - 1;}
+    int lastPlayerIndex()  {return _assignedPlayerTupples.count() - 1;}
     int playerIndex()   {return _setIndex;}
     QString determinedWinnerName()   {return _winner;}
     /*
@@ -214,7 +218,16 @@ private:
      */
     int playerScore(const int &index);
     void setPlayerScore(const int &index, const int &newScore);
-
+    void setPlayerScore(const QUuid &playerID, const int &newScore);
+    /*
+     * Get playername from ID
+     */
+    QString getPlayerNameFromID(const QUuid &playerID);
+    /*
+     * Update playertubbles
+     */
+    PlayerTubbles setPlayerTubblesFromPairs(PlayerPairs pairs, const int &initialThirdValue);
+    void updatePlayerTubbles(const QList<int> &scores);
     // Generate throwsuggestions
     IPointLogisticInterface<QString> *_pointLogisticInterface;
     /*
@@ -238,11 +251,11 @@ private:
     int _keyPoint = 0;
     QUuid _currentTournament = QUuid();
     QString _winner;
-    ControllerState _currentStatus = ControllerState::NotInitialized;
     bool _isActive = false;
 
-    QList<QPair<QUuid,QString>> _assignedPlayerPairs;
-    QList<int> _assignedUsernamesScore;
+    int _currentStatus;
+
+    PlayerTubbles _assignedPlayerTupples;
 };
 
 #endif // FIVEHUNDREDANDONEGAME_H

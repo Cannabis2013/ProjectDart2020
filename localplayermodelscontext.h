@@ -28,10 +28,9 @@ public:
      * Public types
      */
     enum ModelsContextResponse{
-        UpdateSuccessFull,
-        UpdateUnSuccessFull,
-        DataProvidedOk,
-        DataProvidedFail
+        PlayerCreatedOK = 0x33,
+        PlayerDeletedOK = 0x34,
+        PlayersDeletedOK = 0x36
     };
     enum UserRoles{Admin = 0x0, Player = 0x02};
 
@@ -41,13 +40,24 @@ public:
 public slots:
     void handleCreatePlayerRequest(const QString &name, const QString &mail) override;
     void handleDeletePlayerRequest(const int &index) override;
-    void handleDeletePlayersRequest(const QVector<int> &playerIndexes) override;
+    void deletePlayers(const QVector<int> &playerIndexes) override;
     void handlePlayersFromIndexRequest(const QVector<int> &playerIndexes) override;
     void assembleAssignedPlayerPairs(const QUuid &tournament, const QList<QUuid> &players) override;
-    void handleProcessTournamentMeta(const QString &title,
+    void handleAndProcessTournamentMetaData(const QString &title,
                                                   const int &gameMode,
                                                   const int &keyPoint,
                                                   const QList<QUuid> &assignedPlayersID) override;
+    void handleRequestPlayersDetails() override;
+    void handleProcessCreatedTournament(const QString &title,
+                                             const int &numberOfThrows,
+                                             const int &gameMode,
+                                             const int &winCondition,
+                                             const int &keyPoint,
+                                             const QList<int> &playerIndexes) override;
+    void handleTournamentMetaData(const QString &title,
+                                              const int &gameMode,
+                                              const int &keyPoint,
+                                              const QList<QUuid> &assignedPlayersID) override;
 private:
     QUuid createPlayer(const QString &playerName,
                        const QString& email,

@@ -15,7 +15,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         abstractjsonpersistence.cpp \
-        abstractplayermodelscontext.cpp \
         applicationinterface.cpp \
         idatamodelbuilder.cpp \
         ilogisticmanager.cpp \

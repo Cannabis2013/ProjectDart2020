@@ -90,8 +90,8 @@ public slots:
      *  - Start/stop tournament
      *  - Reset and restart tournament
      */
-    void requestStart();
-    void requestStop();
+    void handleRequestStart();
+    void handleRequestStop();
     void handleRestartTournament();
     /*
      * Handle UI user input
@@ -109,7 +109,8 @@ public slots:
 signals:
     void requestCreatePlayer(const QString &playerName, const QString &mail);
     void requestDeletePlayer(const int &index);
-    void requestDeleteTournaments(const QVariantList &indexes);
+    void requestDeletePlayers(const QVector<int> &indexes);
+    void requestDeleteTournaments(const QVector<int> &indexes);
     void requestTournaments();
     void requestPlayers();
     void sendAssignedPlayerIndexes(const QVariantList &indexes, const QUuid &tournament);
@@ -129,7 +130,7 @@ signals:
                                  const int &gameMode,
                                  const int &winCondition,
                                  const int &keyPoint,
-                                 const QVariantList &playerIndexes);
+                                 const QList<int> &playerIndexes);
     void sendInformalControllerValues(const int &roundIndex,
                                       const QString &playerName,
                                       const bool &undoAvailable,
@@ -143,17 +144,31 @@ signals:
     void requestPlayerScores();
     void setCurrentActiveTournament(const int &index);
     void sendPoint(const int &point, const int &pressedModifier);
-    void startGame();
-    void stopGame();
+    void requestStartGame();
+    void requestStopGame();
     void requestRestart();
     void requestControllerState();
     void requestUndo();
     void requestRedo();
-    void sendTournamentMetaRequest();
-    void sendTournamentmetaInformation(const QVariantList &meta);
+    void requestTournamentMetaData();
+    void sendTournamentMetaData(const QVariantList &meta);
 
     void removeScore(const QString &player);
 
+    void sendTournamentDetails(const QUuid &tournament,
+                               const int &keyPoint,
+                               const int &terminalKeyCode,
+                               const int &numberOfThrows,
+                               const PlayerPairs &assignedPlayerPairs);
+
+private slots:
+    void processRecievedTournamentMetaData(const QString &title, const int &gameMode, const int &keyPoint, const QStringList &assignedPlayerNames);
+    void handleTournamentDetailsAndSetController(const QUuid &tournament,
+                                                 const int &keyPoint,
+                                                 const int &terminalKeyCode,
+                                                 const int &numberOfThrows,
+                                                 const int &gameMode,
+                                                 const PlayerPairs &assignedPlayerPairs);
 private:
     AbstractGameController *gameController() const;
     DefaultControllerBuilderInterface *controllerBuilder() const;

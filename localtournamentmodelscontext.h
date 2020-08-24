@@ -33,10 +33,9 @@ public:
      * Public types
      */
     enum ModelsContextResponse{
-        UpdateSuccessFull,
-        UpdateUnSuccessFull,
-        DataProvidedOk,
-        DataProvidedFail
+        TournamentCreatedOK = 0x32,
+        TournamentDeletedOK = 0x35,
+        EndOfTransmission = 0x10
     };
     enum ModelDisplayHint{
         HiddenHint = 0x9,
@@ -58,20 +57,24 @@ public:
      */
     void createDummyModels();
     void assignToTournament(const int &index, const QList<QUuid> &list);
+    virtual void handleRequestUpdateContext(const QUuid &tournamentID,
+                                            const int &roundIndex,
+                                            const int &setIndex) override;
 
 public slots:
-    void handleCreateTournament(const QString &title,
-                                       const int &keyPoint,
-                                       const int &throws,
-                                       const int &gameMode,
-                                       const int &winCondition) override;
+    void assembleAndAddTournament(const QString &title,
+                                  const int &keyPoint,
+                                  const int &throws,
+                                  const int &gameMode,
+                                  const int &winCondition,
+                                  const QList<QUuid> &assignedPlayersID) override;
     void handleAssignPlayers(const QUuid &tournament, const QList<QUuid> &playersID) override;
-    void handleDeleteTournaments(const QVector<int>&indexes) override;
+    void deleteTournament(const QVector<int>&indexes) override;
     void handleGetAssignedPlayersToTournament(const QUuid &tournament) override;
     void handleTransmitPlayerScores(const QUuid &tournament,
                                     const QList<QPair<QUuid, QString> > &playerPairs) override;
     void handleTransmitTournaments() override;
-    void handleAssembleTournamentMeta(const QUuid &tournament) override;
+    void handleRequestForTournamentMetaData(const QUuid &tournament) override;
     void handleTournamentIDFromIndex(const int &index) override;
     void handleRequestForTournamentDetails(const QUuid &tournamentID,
                                            const PlayerPairs &assignedPlayerPairs) override;
@@ -84,7 +87,7 @@ public slots:
                  const int &point,
                  const int &score) override;
 private:
-    void updateDataContext(const QUuid &tournament, const QUuid &player, const int &roundIndex, const int &setIndex);
+    void updateDataContext(const QUuid &tournament, const int &roundIndex, const int &setIndex);
     /*
      * Tournament related section
      */

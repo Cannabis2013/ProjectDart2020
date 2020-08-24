@@ -32,7 +32,7 @@ Content {
 
     onReplyFromBackendRecieved: {
 
-        if(response === 0x23) // Backend responds update successfull
+        if(response === 0x32) // Backend has processed transmitted details and created the tournament
         {
             backButtonPressed();
         }

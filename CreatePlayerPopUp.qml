@@ -16,8 +16,7 @@ Page{
         onAboutToClose: pageBody.aboutToClose()
 
         onReplyFromBackendRecieved : {
-            print("sdfds");
-            if(response === 0xE) // Update context success
+            if(response === 0x33) // Update context success
             {
                 backButtonPressed();
             }

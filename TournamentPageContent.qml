@@ -29,7 +29,7 @@ Content{
                                             "playersCount" : playersCount})
     }
     onReplyFromBackendRecieved: {
-        if(response === 0x2D) // Backend has responded with a status code that signals it is initialized and ready to start
+        if(response === 0x45) // Backend has responded with a status code that signals it is initialized and ready to start
         {
             startGameClicked();
         }

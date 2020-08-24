@@ -7,7 +7,25 @@
 #include <QVariantList>
 
 
-typedef QList<QPair<QUuid,QString>> PlayerPairs;
+template<class T1, class T2, class T3>
+struct Tupple
+{
+public:
+    Tupple(T1 firstArg, T2 secondArg, T3 thirdArg)
+    {
+        first = firstArg;
+        second = secondArg;
+        third = thirdArg;
+    }
+    T1 first;
+    T2 second;
+    T3 third;
+};
+
+typedef Tupple<QUuid,QString,int> PlayerTupple;
+typedef QList<PlayerTupple> PlayerTubbles;
+typedef QPair<QUuid,QString> PlayerPair;
+typedef QList<PlayerPair> PlayerPairs;
 
 class AbstractGameController : public QObject
 {
@@ -30,10 +48,13 @@ public slots:
      */
     virtual QUuid undoTurn() = 0;
     virtual QUuid redoTurn() = 0;
-
+    /*
+     * Restart game
+     */
     virtual void restartGame() = 0;
 
-    virtual void handleCurrentTournamentRequest() = 0;
+    virtual void handleRequestForCurrentTournamentMetaData() = 0;
+    virtual void handleRequestForPlayerScores() = 0;
     virtual void recieveTournamentDetails(const QUuid &tournament,
                                           const int &keyPoint,
                                           const int &terminalKeyCode,
@@ -45,11 +66,15 @@ public slots:
                                           const int &turnIndex,
                                           const int &totalTurns,
                                           const QList<int> &playerScores) = 0;
-    virtual void confirmScoreRecieved(const QUuid &playerID, const QUuid &score) = 0;
+    virtual void handleConfirmScoreAddedToDataContext(const QUuid &playerID,
+                                                      const int &point,
+                                                      const int &score) = 0;
+    virtual void handleConfirmDataContextUpdated() = 0;
 
 signals:
     void transmitResponse(const int &status, const QVariantList &args);
-    void sendCurrentTournament(const QUuid &tournament);
+    void sendCurrentTournamentForTournamentMetaData(const QUuid &tournament);
+    void sendCurrentTournamentForTransmittingScorePoints(const QUuid &tournament, const PlayerPairs &assignedPlayerPairs);
     void requestTournamentIndexes(const QUuid &tournament);
     void sendScore(const QUuid &tournamentID,
                    const QUuid &playerID,
@@ -59,7 +84,6 @@ signals:
                    const int &point,
                    const int &score);
     void requestUpdateContext(const QUuid &tournamentID,
-                              const QUuid &playerID,
                               const int &roundIndex,
                               const int &setIndex);
 };
