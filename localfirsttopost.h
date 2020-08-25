@@ -36,9 +36,6 @@ public:
         Running = 0x14,
         WinnerDeclared = 0x15,
         NotInitialized = 0x16, // Controller is not initialized with tournament and, if necessary, appropriate indexes
-        InitializingBasicValues = 0x2E,
-        InitializingIndexValues = 0x2F,
-        InitializingPlayerScores = 0x39,
         Initialized = 0x17,
         Inconsistency = 0x18,
         UndoState = 0x1F,
@@ -68,19 +65,6 @@ public:
         RequestSetModelHint = 0x3C,
         RequestResetTournament = 0x3B
     };
-    enum DataContextRequests{
-        RequestCurrentTournament = 0x3B
-    };
-    enum DataContextResponse{
-        UpdateSuccessfull = 0xE,
-        UpdateUnSuccessfull = 0xF,
-        DataRequestSuccess = 0x38,
-        DataRequestFailed = 0x39,
-        TournamentAdded = 0x23,
-        TournamentDeleted = 0x24,
-        PlayerAdded = 0x25,
-        PlayerDeleted = 0x26
-    };
     enum KeyMappings{
         SingleModifer = 0x2A,
         DoubleModifier = 0x2B,
@@ -98,7 +82,6 @@ public:
     IPointLogisticInterface<QString> *pointLogisticInterface() const;
     AbstractGameController *setPointLogisticInterface(IPointLogisticInterface<QString> *pointLogisticInterface);
 
-public slots:
     /*
      * Start/stop game progress
      */
@@ -142,6 +125,9 @@ public slots:
                                               const int &point,
                                               const int &score) override;
     void handleConfirmDataContextUpdated() override;
+    void handleConfirmScoreHintUpdated(const QUuid &playerID,
+                                       const int &point,
+                                       const int &score) override;
 private:
     /* Private types
      *
@@ -162,7 +148,7 @@ private:
     int currentPlayerIndex()  {return _setIndex;}
     int currentSetIndex() {return _setIndex;}
     int currentThrowIndex()   {return _throwIndex;}
-    QUuid currentTournamentID()   {return _currentTournament;}
+    QUuid currentTournamentID() {return _currentTournament;}
     int status() {return _currentStatus;}
     int lastPlayerIndex()  {return _assignedPlayerTupples.count() - 1;}
     int playerIndex()   {return _setIndex;}

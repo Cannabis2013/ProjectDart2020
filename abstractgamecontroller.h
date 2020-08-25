@@ -70,6 +70,7 @@ public slots:
                                                       const int &point,
                                                       const int &score) = 0;
     virtual void handleConfirmDataContextUpdated() = 0;
+    virtual void handleConfirmScoreHintUpdated(const QUuid &playerID, const int &point,const int &score) = 0;
 
 signals:
     void transmitResponse(const int &status, const QVariantList &args);
@@ -86,6 +87,11 @@ signals:
     void requestUpdateContext(const QUuid &tournamentID,
                               const int &roundIndex,
                               const int &setIndex);
+    void requestSetModelHint(const QUuid &tournament,
+                             const QUuid &player,
+                             const int &roundIndex,
+                             const int &throwIndex,
+                             const int &hint);
 };
 
 #endif // ABSTRACTGAMECONTROLLER_H

@@ -40,15 +40,34 @@ Content {
         property string restartText: qsTr("Restart")
         property string resumeText: qsTr("Resume")
     }
+
+    QtObject{
+        id: currentTournamentMetaData
+        property string tournamentTitle: ""
+        property int tournamentGameMode: 0
+        property int tournamentKeyPoint: 0
+    }
+
     function appendScore(player,point,score)
     {
-        firstToPostScoreTable.appendData(player,point,score);
+        if(currentTournamentMetaData.tournamentGameMode === 0x1)
+            firstToPostScoreTable.appendData(player,point,score);
     }
+    function takeScore(player)
+    {
+        if(currentTournamentMetaData.tournamentGameMode === 0x1)
+            firstToPostScoreTable.takeData(player);
+    }
+
     function handlemetaInformation(meta){
         var title = meta[0];
         var gameMode = meta[1];
         var keyPoint = meta[2];
         var assignedPlayerNames = meta[3];
+
+        currentTournamentMetaData.tournamentTitle = title;
+        currentTournamentMetaData.tournamentGameMode = gameMode;
+        currentTournamentMetaData.tournamentKeyPoint = keyPoint;
 
         if(gameMode === 0x1)
             initializeFirstToPost(title,keyPoint,assignedPlayerNames);
@@ -110,14 +129,14 @@ Content {
             playerName = args[0];
             var pointValue = args[1];
             scoreValue = args[2];
-            firstToPostScoreTable.appendData(playerName,pointValue,scoreValue);
+            appendScore(playerName,pointValue,scoreValue);
             requestStatusFromBackend();
         }
 
         else if(response == 0x28) // Controller is in UndoState
         {
             playerName = args[0];
-            firstToPostScoreTable.takeData(playerName);
+            takeScore(playerName);
             requestStatusFromBackend();
         }
         else if(response === 0x3E) // Winner declared

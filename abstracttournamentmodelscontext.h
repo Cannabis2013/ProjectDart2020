@@ -14,10 +14,11 @@ class AbstractTournamentModelsContext : public QObject
 
 public slots:
     virtual void assembleAndAddTournament(const QString &title,
-                                   const int &keyPoint,
-                                   const int &throws,
-                                   const int &gameMode,
-                                   const int &winCondition, const QList<QUuid> &assignedPlayersID) = 0;
+                                          const int &gameMode,
+                                          const int &numberOfThrows,
+                                          const int &winCondition,
+                                          const int &keyPoint,
+                                          const QList<QUuid> &assignedPlayersID) = 0;
     virtual void handleAssignPlayers(const QUuid &tournament, const QList<QUuid> &playersID) = 0;
     virtual void deleteTournament(const QVector<int>&indexes) = 0;
     virtual void handleTransmitPlayerScores(const QUuid &tournament,
@@ -38,6 +39,11 @@ public slots:
     virtual void handleRequestUpdateContext(const QUuid &tournamentID,
                                             const int &roundIndex,
                                             const int &setIndex) = 0;
+    virtual void handleRequestSetScoreHint(const QUuid &tournament,
+                                           const QUuid &player,
+                                           const int &roundIndex,
+                                           const int &throwIndex,
+                                           const int &hint) = 0;
 signals:
     void transmitResponse(const int &status, const QVariantList &arguments);
     void sendPlayerScore(const QString &player, const int &point, const int &score);
@@ -69,6 +75,8 @@ signals:
                                      const int &point,
                                      const int &score);
     void confirmContextUpdated();
+    void confirmScoreHintUpdated(const QUuid &player, const int &point, const int &score);
+    void confirmScoreHintNotUpdated(const QUuid &player, const char *err);
 };
 
 #endif // ABSTRACTTOURNAMENTMODELSCONTEXT_H

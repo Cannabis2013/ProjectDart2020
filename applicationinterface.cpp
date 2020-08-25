@@ -212,74 +212,90 @@ void ApplicationInterface::handleTournamentDetailsAndSetController(const QUuid &
                                                                    const int &keyPoint,
                                                                    const int &terminalKeyCode,
                                                                    const int &numberOfThrows,
-                                                                   const int &gameMode, const PlayerPairs &assignedPlayerPairs)
+                                                                   const int &gameMode,
+                                                                   const PlayerPairs &assignedPlayerPairs)
 {
     if(_gameController != nullptr)
         _gameController->disconnect();
     if(gameMode == GameModes::FirstToPost)
     {
         /*
-         * Inject controller according to the gamemode
+         * Inject controller
          */
         _gameController = _controllerBuilder->buildController(gameMode,0x4);
-        /*
-         * Establish communication between controller and UI
-         */
-        connect(_gameController,&AbstractGameController::transmitResponse,
-                this,&ApplicationInterface::transmitResponse);
-        /*
-         * Setup set current tournament
-         */
-        connect(this,&ApplicationInterface::sendTournamentDetails,
-                _gameController,&AbstractGameController::recieveTournamentDetails);
-        connect(_gameController,&AbstractGameController::requestTournamentIndexes,
-                _tournamentsModelContext,&AbstractTournamentModelsContext::handleRequestTournamentIndexes);
-        connect(_tournamentsModelContext,&AbstractTournamentModelsContext::sendTournamentIndexes,
-                _gameController,&AbstractGameController::recieveTournamentIndexes);
-
-        /*
-         * Setup tournament metadata
-         */
-        connect(this,&ApplicationInterface::requestTournamentMetaData,
-                _gameController,&AbstractGameController::handleRequestForCurrentTournamentMetaData);
-        connect(_gameController,&AbstractGameController::sendCurrentTournamentForTournamentMetaData,
-                _tournamentsModelContext,&AbstractTournamentModelsContext::handleRequestForTournamentMetaData);
-        /*
-         * Setup request transmitting playerscores
-         */
-        connect(this,&ApplicationInterface::requestPlayerScores,
-                _gameController,&AbstractGameController::handleRequestForPlayerScores);
-        connect(_gameController,&AbstractGameController::sendCurrentTournamentForTransmittingScorePoints,
-                _tournamentsModelContext,&AbstractTournamentModelsContext::handleTransmitPlayerScores);
-        /*
-         * Start/stop game
-         */
-        connect(this,&ApplicationInterface::requestStartGame,
-                _gameController,&AbstractGameController::start);
-        connect(this,&ApplicationInterface::requestStopGame,
-                _gameController,&AbstractGameController::stop);
-        /*
-         * Add point
-         */
-        connect(this,&ApplicationInterface::requestControllerState,
-                _gameController,&AbstractGameController::handleRequestFromUI);
-        connect(this,&ApplicationInterface::sendPoint,
-                _gameController,&AbstractGameController::handleAndProcessUserInput);
-        connect(_gameController,&AbstractGameController::sendScore,
-                _tournamentsModelContext,&AbstractTournamentModelsContext::addScore);
-        connect(_tournamentsModelContext,&AbstractTournamentModelsContext::confirmScoresAddedToContext,
-                _gameController,&AbstractGameController::handleConfirmScoreAddedToDataContext);
-        connect(_gameController,&AbstractGameController::requestUpdateContext,
-                _tournamentsModelContext,&AbstractTournamentModelsContext::handleRequestUpdateContext);
-        connect(_tournamentsModelContext,&AbstractTournamentModelsContext::confirmContextUpdated,
-                _gameController,&AbstractGameController::handleConfirmDataContextUpdated);
-
+        setupConnections();
         emit sendTournamentDetails(tournament,
                                    keyPoint,
                                    terminalKeyCode,
                                    numberOfThrows,
                                    assignedPlayerPairs);
     }
+}
+
+void ApplicationInterface::setupConnections()
+{
+    /*
+     * Establish communication between controller and UI
+     */
+    connect(_gameController,&AbstractGameController::transmitResponse,
+            this,&ApplicationInterface::transmitResponse);
+    /*
+     * Setup set current tournament
+     */
+    connect(this,&ApplicationInterface::sendTournamentDetails,
+            _gameController,&AbstractGameController::recieveTournamentDetails);
+    connect(_gameController,&AbstractGameController::requestTournamentIndexes,
+            _tournamentsModelContext,&AbstractTournamentModelsContext::handleRequestTournamentIndexes);
+    connect(_tournamentsModelContext,&AbstractTournamentModelsContext::sendTournamentIndexes,
+            _gameController,&AbstractGameController::recieveTournamentIndexes);
+
+    /*
+     * Setup tournament metadata
+     */
+    connect(this,&ApplicationInterface::requestTournamentMetaData,
+            _gameController,&AbstractGameController::handleRequestForCurrentTournamentMetaData);
+    connect(_gameController,&AbstractGameController::sendCurrentTournamentForTournamentMetaData,
+            _tournamentsModelContext,&AbstractTournamentModelsContext::handleRequestForTournamentMetaData);
+    /*
+     * Setup request transmitting playerscores
+     */
+    connect(this,&ApplicationInterface::requestPlayerScores,
+            _gameController,&AbstractGameController::handleRequestForPlayerScores);
+    connect(_gameController,&AbstractGameController::sendCurrentTournamentForTransmittingScorePoints,
+            _tournamentsModelContext,&AbstractTournamentModelsContext::handleTransmitPlayerScores);
+    /*
+     * Start/stop game
+     */
+    connect(this,&ApplicationInterface::requestStartGame,
+            _gameController,&AbstractGameController::start);
+    connect(this,&ApplicationInterface::requestStopGame,
+            _gameController,&AbstractGameController::stop);
+    /*
+     * Add point
+     */
+    connect(this,&ApplicationInterface::requestControllerState,
+            _gameController,&AbstractGameController::handleRequestFromUI);
+    connect(this,&ApplicationInterface::sendPoint,
+            _gameController,&AbstractGameController::handleAndProcessUserInput);
+    connect(_gameController,&AbstractGameController::sendScore,
+            _tournamentsModelContext,&AbstractTournamentModelsContext::addScore);
+    connect(_tournamentsModelContext,&AbstractTournamentModelsContext::confirmScoresAddedToContext,
+            _gameController,&AbstractGameController::handleConfirmScoreAddedToDataContext);
+    connect(_gameController,&AbstractGameController::requestUpdateContext,
+            _tournamentsModelContext,&AbstractTournamentModelsContext::handleRequestUpdateContext);
+    connect(_tournamentsModelContext,&AbstractTournamentModelsContext::confirmContextUpdated,
+            _gameController,&AbstractGameController::handleConfirmDataContextUpdated);
+    /*
+     * Undo/redo
+     */
+    connect(this,&ApplicationInterface::requestUndo,
+            _gameController,&AbstractGameController::undoTurn);
+    connect(this,&ApplicationInterface::requestRedo,
+            _gameController,&AbstractGameController::redoTurn);
+    connect(_gameController,&AbstractGameController::requestSetModelHint,
+            _tournamentsModelContext,&AbstractTournamentModelsContext::handleRequestSetScoreHint);
+    connect(_tournamentsModelContext,&AbstractTournamentModelsContext::confirmScoreHintUpdated,
+            _gameController,&AbstractGameController::handleConfirmScoreHintUpdated);
 }
 
 AbstractGameController *ApplicationInterface::gameController() const

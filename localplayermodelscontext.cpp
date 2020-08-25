@@ -53,7 +53,7 @@ void LocalPlayerModelsContext::handleProcessCreatedTournament(const QString &tit
         auto playerID = playerIDFromIndex(i);
         playersID << playerID;
     }
-    emit sendProcessedTournamentDetails(title,numberOfThrows,gameMode,winCondition,keyPoint,playersID);
+    emit sendProcessedTournamentDetails(title,gameMode,numberOfThrows,winCondition,keyPoint,playersID);
 }
 
 void LocalPlayerModelsContext::handleTournamentMetaData(const QString &title,

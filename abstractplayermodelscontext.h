@@ -57,8 +57,8 @@ signals:
     void sendCurrentAssignedPlayerPairs(const QUuid &tournament,
                                         const PlayerPairs &playerPairs);
     void sendProcessedTournamentDetails(const QString &title,
-                                        const int &numberOfThrows,
                                         const int &gameMode,
+                                        const int &numberOfThrows,
                                         const int &winCondition,
                                         const int &keyPoint,
                                         const QList<QUuid> &playersID);

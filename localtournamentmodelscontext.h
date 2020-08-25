@@ -57,16 +57,12 @@ public:
      */
     void createDummyModels();
     void assignToTournament(const int &index, const QList<QUuid> &list);
-    virtual void handleRequestUpdateContext(const QUuid &tournamentID,
-                                            const int &roundIndex,
-                                            const int &setIndex) override;
 
-public slots:
     void assembleAndAddTournament(const QString &title,
-                                  const int &keyPoint,
-                                  const int &throws,
                                   const int &gameMode,
+                                  const int &numberOfThrows,
                                   const int &winCondition,
+                                  const int &keyPoint,
                                   const QList<QUuid> &assignedPlayersID) override;
     void handleAssignPlayers(const QUuid &tournament, const QList<QUuid> &playersID) override;
     void deleteTournament(const QVector<int>&indexes) override;
@@ -86,6 +82,14 @@ public slots:
                  const int &throwIndex,
                  const int &point,
                  const int &score) override;
+    virtual void handleRequestUpdateContext(const QUuid &tournamentID,
+                                            const int &roundIndex,
+                                            const int &setIndex) override;
+    void handleRequestSetScoreHint(const QUuid &tournament,
+                                               const QUuid &player,
+                                               const int &roundIndex,
+                                               const int &throwIndex,
+                                               const int &hint) override;
 private:
     void updateDataContext(const QUuid &tournament, const int &roundIndex, const int &setIndex);
     /*

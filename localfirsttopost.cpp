@@ -99,7 +99,6 @@ void LocalFirstToPost::recieveTournamentDetails(const QUuid &tournament,
     _keyPoint = keyPoint;
     _numberOfThrows = numberOfThrows;
     _assignedPlayerTupples = setPlayerTubblesFromPairs(assignedPlayerPairs,keyPoint);
-    _currentStatus = ControllerState::InitializingIndexValues;
     pointLogisticInterface()->setLastThrowKeyCode(terminalKeyCode);
     emit requestTournamentIndexes(_currentTournament);
 }
@@ -128,6 +127,7 @@ void LocalFirstToPost::handleConfirmScoreAddedToDataContext(const QUuid &playerI
 {
     setPlayerScore(playerID,score);
     auto playerName = getPlayerNameFromID(playerID);
+    _totalTurns = _turnIndex;
     emit transmitResponse(ControllerResponse::ScoreTransmit,{playerName,point,score});
 }
 
@@ -135,6 +135,25 @@ void LocalFirstToPost::handleConfirmDataContextUpdated()
 {
     _currentStatus = ControllerState::AwaitsInput;
     sendCurrentTurnValues();
+}
+
+void LocalFirstToPost::handleConfirmScoreHintUpdated(const QUuid &playerID,
+                                                     const int &point,
+                                                     const int &score)
+{
+    if(status() == ControllerState::UndoState)
+    {
+        auto newScore = score + point;
+        setPlayerScore(playerID,newScore);
+        auto playerName = getPlayerNameFromID(playerID);
+        emit transmitResponse(ControllerResponse::ScoreRemove,{playerName});
+    }
+    else if(status() == ControllerState::RedoState)
+    {
+        setPlayerScore(playerID,score);
+        auto playerName = getPlayerNameFromID(playerID);
+        emit transmitResponse(ControllerResponse::ScoreTransmit,{playerName,point,score});
+    }
 }
 
 void LocalFirstToPost::sendCurrentTurnValues()
@@ -175,8 +194,11 @@ QUuid LocalFirstToPost::undoTurn()
     if(_throwIndex > 0)
     {
         _throwIndex--;
-        QVariantList arguments = {currentTournamentID(),currentActiveUser(),currentRoundIndex(),0,currentThrowIndex(),ModelDisplayHint::HiddenHint};
-        // TODO: Implement signal to notify datacontext
+        emit requestSetModelHint(currentTournamentID(),
+                                 currentActivePlayerID(),
+                                 currentRoundIndex(),
+                                 currentThrowIndex(),
+                                 ModelDisplayHint::HiddenHint);
         return _assignedPlayerTupples.at(_setIndex).first;
     }
 
@@ -191,11 +213,11 @@ QUuid LocalFirstToPost::undoTurn()
     {
         _setIndex--;
     }
-    QVariantList arguments = {currentTournamentID(),currentActiveUser(),currentRoundIndex(),0,currentThrowIndex(),ModelDisplayHint::HiddenHint};
-    /*
-     * Implement alternative to:
-     *  - emit sendRequestToContext(ControllerRequest::RequestSetModelHint,arguments);
-     */
+    emit requestSetModelHint(currentTournamentID(),
+                             currentActivePlayerID(),
+                             currentRoundIndex(),
+                             currentThrowIndex(),
+                             ModelDisplayHint::HiddenHint);
     return _assignedPlayerTupples.at(_setIndex).first;
 }
 
@@ -206,10 +228,9 @@ QUuid LocalFirstToPost::redoTurn()
     else if(status() == ControllerState::WinnerDeclared)
         return QUuid();
 
-    auto currentActiveUser = this->currentActiveUser();
+    auto currentActiveUser = this->currentActivePlayerID();
     auto currentRoundIndex = this->currentRoundIndex();
     auto currentThrowIndex = this->currentThrowIndex();
-    auto currentSetIndex = this->currentSetIndex();
 
     _currentStatus = ControllerState::RedoState;
 
@@ -225,13 +246,11 @@ QUuid LocalFirstToPost::redoTurn()
             _setIndex++;
     }
     _turnIndex++;
-    QVariantList arguments = {currentTournamentID(),currentActiveUser,currentRoundIndex,currentSetIndex,currentThrowIndex,ModelDisplayHint::DisplayHint};
-    /*
-     * TODO:
-     * Implement alternative:
-     *  emit sendRequestToContext(ControllerRequest::RequestSetModelHint,arguments);
-     */
-
+    emit requestSetModelHint(currentTournamentID(),
+                             currentActiveUser,
+                             currentRoundIndex,
+                             currentThrowIndex,
+                             ModelDisplayHint::DisplayHint);
     return _assignedPlayerTupples.at(_setIndex).first;
 }
 

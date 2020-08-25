@@ -81,7 +81,7 @@ bool ScoreDataModel::removeLastItem(const QString &playerName, const int &header
         auto column = indexOfHeaderItem(playerName,orientation);
         auto row = indexOfLastDecoratedCell(column,orientation);
         auto index = createIndex(row,column);
-        auto result = removeData(index) == scoreModel(-1,-1);
+        auto result = removeData(index) != scoreModel(-1,-1);
         return result;
     }
     else
@@ -89,7 +89,7 @@ bool ScoreDataModel::removeLastItem(const QString &playerName, const int &header
         auto row = indexOfHeaderItem(playerName,orientation);
         auto column = indexOfLastDecoratedCell(row,orientation);
         auto index = createIndex(row,column);
-        auto result = removeData(index) == scoreModel(-1,-1);
+        auto result = removeData(index) != scoreModel(-1,-1);
         return result;
     }
 }

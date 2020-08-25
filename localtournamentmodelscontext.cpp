@@ -61,14 +61,37 @@ void LocalTournamentModelsContext::handleRequestUpdateContext(const QUuid &tourn
     updateDataContext(tournamentID,roundIndex,setIndex);
 }
 
+void LocalTournamentModelsContext::handleRequestSetScoreHint(const QUuid &tournament,
+                                                             const QUuid &player,
+                                                             const int &roundIndex,
+                                                             const int &throwIndex,
+                                                             const int &hint)
+{
+    QUuid scoreID;
+    try {
+        scoreID = playerScore(tournament,
+                                   player,roundIndex,
+                                   throwIndex,
+                                   ModelDisplayHint::allHints);
+
+    }  catch (const char *msg) {
+        emit confirmScoreHintNotUpdated(tournament,msg);
+        return;
+    }
+    auto point = scorePointValue(scoreID);
+    auto score = scoreValue(scoreID);
+    setScoreHint(scoreID,hint);
+    emit confirmScoreHintUpdated(player,point,score);
+}
+
 void LocalTournamentModelsContext::assembleAndAddTournament(const QString &title,
-                                                          const int &keyPoint,
-                                                          const int &throws,
-                                                          const int &gameMode,
-                                                          const int &winCondition,
+                                                            const int &gameMode,
+                                                            const int &numberOfThrows,
+                                                            const int &winCondition,
+                                                            const int &keyPoint,
                                                           const QList<QUuid> &assignedPlayersID)
 {
-    auto tournamentID = createTournament(title,keyPoint,throws,gameMode,winCondition);
+    auto tournamentID = createTournament(title,keyPoint,numberOfThrows,gameMode,winCondition);
     for (auto assignedPlayerID : assignedPlayersID)
         assignPlayerToTournament(tournamentID,assignedPlayerID);
     emit transmitResponse(ModelsContextResponse::TournamentCreatedOK,{});
@@ -1400,6 +1423,7 @@ void LocalTournamentModelsContext::addScore(const QUuid &tournament,
     }());
 
     _scores.append(model);
+    removeHiddenScores(tournament);
     emit confirmScoresAddedToContext(playerID,point,score);
 }
 
