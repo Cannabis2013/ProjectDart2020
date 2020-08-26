@@ -42,7 +42,13 @@ public slots:
     void handleDeletePlayerRequest(const int &index) override;
     void deletePlayers(const QVector<int> &playerIndexes) override;
     void handlePlayersFromIndexRequest(const QVector<int> &playerIndexes) override;
-    void assembleAssignedPlayerPairs(const QUuid &tournament, const QList<QUuid> &players) override;
+    void processTournamentDetails(const QUuid &tournament,
+                                     const QUuid &winner,
+                                     const int &keyPoint,
+                                     const int &terminalKeyCode,
+                                     const int &numberOfThrows,
+                                     const int &gameMode,
+                                     const QList<QUuid> &players) override;
     void handleAndProcessTournamentMetaData(const QString &title,
                                                   const int &gameMode,
                                                   const int &keyPoint,

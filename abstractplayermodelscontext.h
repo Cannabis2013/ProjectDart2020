@@ -7,6 +7,7 @@
 #include "iplayerbuildercontext.h"
 #include "idatamodelbuilder.h"
 #include <qobject.h>
+#include "iresponseinterface.h"
 
 typedef IPlayerModel<QUuid,QString> DefaultPlayerInterface;
 typedef IDataModelBuilder<DefaultPlayerInterface,IPlayerBuilderParameters<QString,QUuid>,IPlayerBuilderConfiguration> DefaultPlayerBuilder;
@@ -14,7 +15,8 @@ typedef IPlayerContext<QUuid,QList<QUuid>,QString,DefaultPlayerBuilder> PlayerCo
 
 typedef QList<QPair<QUuid,QString>> PlayerPairs;
 
-class AbstractPlayerModelsContext : public QObject
+class AbstractPlayerModelsContext : public QObject,
+        public IResponseInterface<QVariantList>
 {
     Q_OBJECT
 public slots:
@@ -22,8 +24,13 @@ public slots:
     virtual void handleDeletePlayerRequest(const int &index) = 0;
     virtual void deletePlayers(const QVector<int> &playerIndexes) = 0;
     virtual void handlePlayersFromIndexRequest(const QVector<int> &playerIndexes) = 0;
-    virtual void assembleAssignedPlayerPairs(const QUuid &tournament,
-                                                  const QList<QUuid> &players) = 0;
+    virtual void processTournamentDetails(const QUuid &tournament,
+                                             const QUuid &winner,
+                                             const int &keyPoint,
+                                             const int &terminalKeyCode,
+                                             const int &numberOfThrows,
+                                             const int &gameMode,
+                                             const QList<QUuid> &players) = 0;
 
     virtual void handleAndProcessTournamentMetaData(const QString &title,
                                               const int &gameMode,
@@ -43,12 +50,18 @@ public slots:
 
 
 signals:
-    void transmitResponse(const int &status, const QVariantList &arguments);
+    void transmitResponse(const int &status, const QVariantList &arguments) override;
     void sendPlayerDetails(const QString &playerName, const QString &mail);
     void sendPlayersID(const QList<QUuid> &playersID);
 
 
-    void sendPlayerPairs(const QUuid &tournament,const PlayerPairs &pairs);
+    void sendTournamentDetails(const QUuid &tournament,
+                               const QString &winner,
+                               const int &keyPoint,
+                               const int &terminalKeyCode,
+                               const int &numberOfThrows,
+                               const int &gameMode,
+                               const PlayerPairs &assignedPlayerPairs);
 
     void sendProcessedTournamentMetaData(const QString &title,
                                      const int &gameMode,
@@ -62,10 +75,6 @@ signals:
                                         const int &winCondition,
                                         const int &keyPoint,
                                         const QList<QUuid> &playersID);
-
-
-    // Test purposes
-    friend class ApplicationInterface;
 };
 
 #endif // ABSTRACTPLAYERMODELSCONTEXT_H

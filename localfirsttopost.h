@@ -109,7 +109,7 @@ public:
     void handleAndProcessUserInput(const int &point, const int &modifierKeyCode) override;
     void handleRequestForCurrentTournamentMetaData() override;
     void handleRequestForPlayerScores() override;
-    void recieveTournamentDetails(const QUuid &tournament,
+    void recieveTournamentDetails(const QUuid &tournament, const QString &winner,
                                   const int &keyPoint,
                                   const int &terminalKeyCode,
                                   const int &numberOfThrows,
@@ -121,11 +121,11 @@ public:
                                   const int &totalTurns,
                                   const QList<int> &playerScores) override;
 
-    void handleConfirmScoreAddedToDataContext(const QUuid &playerID,
+    void handleScoreAddedToDataContext(const QUuid &playerID,
                                               const int &point,
                                               const int &score) override;
-    void handleConfirmDataContextUpdated() override;
-    void handleConfirmScoreHintUpdated(const QUuid &playerID,
+    void handleDataContextUpdated() override;
+    void handleScoreHintUpdated(const QUuid &playerID,
                                        const int &point,
                                        const int &score) override;
 private:
@@ -152,7 +152,7 @@ private:
     int status() {return _currentStatus;}
     int lastPlayerIndex()  {return _assignedPlayerTupples.count() - 1;}
     int playerIndex()   {return _setIndex;}
-    QString determinedWinnerName()   {return _winner;}
+    QString determinedWinnerName(){return _winner;}
     /*
      * Undo/return turn
      *  - Set indexes according to the action invoked

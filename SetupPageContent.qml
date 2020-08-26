@@ -38,6 +38,15 @@ Content {
         }
     }
 
+    function evaluateItemSelectedChanged()
+    {
+        var list = playersListView.currentIndexes();
+        var count = list.length;
+        print("Nigger Dick Licker has a " + count + " inch cock waiting for William");
+        buttonsComponent.buttonTwoEnabled = count > 0;
+
+    }
+
     onRequestUpdate: {
         requestPlayers();
     }
@@ -167,6 +176,7 @@ Content {
             instantSelectEnabled: true
             itemDecorator: "qrc:/pictures/Ressources/skull.png"
             imageBackgroundColor: "lightblue"
+            onItemSelected: evaluateItemSelectedChanged()
         }
 
         MyRectangle{
@@ -179,11 +189,13 @@ Content {
           Save button clicked
           */
         ButtonsComponent {
+            id: buttonsComponent
             height: 30
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignBottom |Qt.AlignHCenter
             buttonOneTitle: "Back"
             buttonTwoTitle: "Save tournament"
+            buttonTwoEnabled: false
             onButtonOneClicked: {
                 backButtonPressed();
             }

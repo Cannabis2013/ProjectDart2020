@@ -16,8 +16,13 @@ void LocalPlayerModelsContext::handlePlayersFromIndexRequest(const QVector<int> 
     emit sendPlayersID(playersID);
 }
 
-void LocalPlayerModelsContext::assembleAssignedPlayerPairs(const QUuid &tournament,
-                                                                const QList<QUuid> &players)
+void LocalPlayerModelsContext::processTournamentDetails(const QUuid &tournament,
+                                                           const QUuid &winner,
+                                                           const int &keyPoint,
+                                                           const int &terminalKeyCode,
+                                                           const int &numberOfThrows,
+                                                           const int &gameMode,
+                                                           const QList<QUuid> &players)
 {
     QList<QPair<QUuid,QString>> resultingList;
     for (auto playerID : players) {
@@ -25,7 +30,14 @@ void LocalPlayerModelsContext::assembleAssignedPlayerPairs(const QUuid &tourname
         auto pair = QPair<QUuid,QString>(playerID,playerName);
         resultingList << pair;
     }
-    emit sendPlayerPairs(tournament,resultingList);
+    auto winnerName = playerUserName(winner);
+    emit sendTournamentDetails(tournament,
+                               winnerName,
+                               keyPoint,
+                               terminalKeyCode,
+                               numberOfThrows,
+                               gameMode,
+                               resultingList);
 }
 
 void LocalPlayerModelsContext::handleAndProcessTournamentMetaData(const QString &title,

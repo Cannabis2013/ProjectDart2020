@@ -90,6 +90,7 @@ void LocalFirstToPost::handleRequestForPlayerScores()
 }
 
 void LocalFirstToPost::recieveTournamentDetails(const QUuid &tournament,
+                                                const QString &winner,
                                                 const int &keyPoint,
                                                 const int &terminalKeyCode,
                                                 const int &numberOfThrows,
@@ -100,6 +101,12 @@ void LocalFirstToPost::recieveTournamentDetails(const QUuid &tournament,
     _numberOfThrows = numberOfThrows;
     _assignedPlayerTupples = setPlayerTubblesFromPairs(assignedPlayerPairs,keyPoint);
     pointLogisticInterface()->setLastThrowKeyCode(terminalKeyCode);
+    if(winner != QString())
+    {
+        _winner = winner;
+        _currentStatus = ControllerState::WinnerDeclared;
+    }
+
     emit requestTournamentIndexes(_currentTournament);
 }
 
@@ -121,7 +128,7 @@ void LocalFirstToPost::recieveTournamentIndexes(const int &roundIndex,
     emit transmitResponse(ControllerResponse::isInitializedAndReady,{});
 }
 
-void LocalFirstToPost::handleConfirmScoreAddedToDataContext(const QUuid &playerID,
+void LocalFirstToPost::handleScoreAddedToDataContext(const QUuid &playerID,
                                                             const int &point,
                                                             const int &score)
 {
@@ -131,13 +138,13 @@ void LocalFirstToPost::handleConfirmScoreAddedToDataContext(const QUuid &playerI
     emit transmitResponse(ControllerResponse::ScoreTransmit,{playerName,point,score});
 }
 
-void LocalFirstToPost::handleConfirmDataContextUpdated()
+void LocalFirstToPost::handleDataContextUpdated()
 {
     _currentStatus = ControllerState::AwaitsInput;
     sendCurrentTurnValues();
 }
 
-void LocalFirstToPost::handleConfirmScoreHintUpdated(const QUuid &playerID,
+void LocalFirstToPost::handleScoreHintUpdated(const QUuid &playerID,
                                                      const int &point,
                                                      const int &score)
 {
@@ -314,7 +321,8 @@ void LocalFirstToPost::addPoint(const int &point, const int &score)
     auto roundIndex = currentRoundIndex();
     auto setIndex = currentPlayerIndex();
     auto throwIndex = currentThrowIndex();
-    emit sendScore(tournamentID,currentActivePlayerID(),roundIndex,setIndex,throwIndex,point,score);
+    auto isWinnerDetermined = status() == ControllerState::WinnerDeclared;
+    emit sendScore(tournamentID,currentActivePlayerID(),roundIndex,setIndex,throwIndex,point,score,isWinnerDetermined);
 }
 
 int LocalFirstToPost::currentTurnIndex()
@@ -349,8 +357,11 @@ void LocalFirstToPost::handleRequestFromUI()
         _currentStatus = ControllerState::AwaitsInput;
         sendCurrentTurnValues();
     }
-    else
-        emit transmitResponse(_currentStatus,{});
+    else if(status() == ControllerState::WinnerDeclared)
+    {
+        auto winnerName = determinedWinnerName();
+        emit transmitResponse(ControllerState::WinnerDeclared,{winnerName});
+    }
 }
 
 void LocalFirstToPost::nextTurn()

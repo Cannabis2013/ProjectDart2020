@@ -97,7 +97,7 @@ void LocalTournamentModelsContext::assembleAndAddTournament(const QString &title
     emit transmitResponse(ModelsContextResponse::TournamentCreatedOK,{});
 }
 
-void LocalTournamentModelsContext::handleAssignPlayers(const QUuid &tournament, const QList<QUuid> &playersID)
+void LocalTournamentModelsContext::handleAssignPlayersToTournament(const QUuid &tournament, const QList<QUuid> &playersID)
 {
     for (auto playerID : playersID)
         assignPlayerToTournament(tournament,playerID);
@@ -183,32 +183,26 @@ void LocalTournamentModelsContext::handleRequestForTournamentMetaData(const QUui
     emit sendTournamentMeta(title,gameMode,keyPoint,playersID);
 }
 
-void LocalTournamentModelsContext::handleTournamentIDFromIndex(const int &index)
+void LocalTournamentModelsContext::handleRequestTournamentDetails(const int &index)
 {
     try {
         auto tournamentID = tournamentIDFromIndex(index);
-        auto assignedPlayersID = tournamentAssignedPlayers(tournamentID);
-        emit sendTournamentIDFromIndex(tournamentID,assignedPlayersID);
-    }  catch (...) {
-        return;
-    }
-}
-
-void LocalTournamentModelsContext::handleRequestForTournamentDetails(const QUuid &tournamentID,
-                                                                     const PlayerPairs &assignedPlayerPairs)
-{
-    try {
         auto keyPoint = tournamentKeyPoint(tournamentID);
         auto lastThrowKeyCode = tournamentLastThrowKeyCode(tournamentID);
         auto numberOfThrows = tournamentNumberOfThrows(tournamentID);
         auto gameMode = tournamentGameMode(tournamentID);
+        auto assignedPlayersID = tournamentAssignedPlayers(tournamentID);
+        auto winnerID = tournamentDeterminedWinner(tournamentID);
         emit sendTournamentDetails(tournamentID,
+                                   winnerID,
                                    keyPoint,
                                    lastThrowKeyCode,
                                    numberOfThrows,
                                    gameMode,
-                                   assignedPlayerPairs);
-    } catch (...) {
+                                   assignedPlayersID);
+    }  catch (const char *msg) {
+        emit transmitResponse(ModelsContextResponse::TournamentDetailsFailed,{msg});
+        return;
     }
 }
 
@@ -255,7 +249,7 @@ void LocalTournamentModelsContext::handleRequestTournamentIndexes(const QUuid &t
     emit sendTournamentIndexes(roundIndex,setIndex,throwIndex,turnIndex,totalTurns,userScores);
 }
 
-void LocalTournamentModelsContext::handleGetAssignedPlayersToTournament(const QUuid &tournament)
+void LocalTournamentModelsContext::handleRequestAssignedPlayers(const QUuid &tournament)
 {
     auto assignedPlayersID = tournamentAssignedPlayers(tournament);
     emit sendAssignedPlayers(assignedPlayersID);
@@ -329,7 +323,7 @@ QUuid LocalTournamentModelsContext::tournamentIDFromIndex(const int &index)
         return id;
 
     }  catch (...) {
-        throw "MODEL_NOT_FOUND";
+        throw "TOURNAMENT_NOT_FOUND";
     }
 }
 
@@ -400,68 +394,32 @@ int LocalTournamentModelsContext::tournamentStatus(const QUuid &tournament)
 
 QUuid LocalTournamentModelsContext::tournamentDeterminedWinner(const QUuid &tournament)
 {
-    return getTournamentModelFromID(tournament)->winner();
+    auto tournamentModel = getTournamentModelFromID(tournament);
+    return tournamentModel->winner();
 }
 
-void LocalTournamentModelsContext::alterTournamentTitle(const QUuid &tournament, const QString &title)
-{
-    auto model = getTournamentModelFromID(tournament);
-
-    auto newModel = tournamentBuilder()->buildModel(
-                [model, title]
-    {
-        TournamentParameters params;
-
-        params.id = model->id();
-        params.title = title;
-        params.status = model->status();
-        params.gameMode = model->gameMode();
-        params.keyPoint = model->keyPoint();
-        params.playerIdentities = model->assignedPlayerIdentities();
-        params.throws = model->numberOfThrows();
-        params.winner = model->winner();
-
-        return params;
-    }(),[]
-    {
-        ModelOptions options;
-
-        options.generateUniqueId = false;
-
-        return options;
-    }());
-
-    removeTournamentModel(model->id());
-
-    _tournaments.append(newModel);
-}
-
-void LocalTournamentModelsContext::alterTournamentNumberOfLegs(const QUuid &tournament, const int &value)
+void LocalTournamentModelsContext::setTournamentDeterminedWinner(const QUuid &tournament, const QUuid &winner)
 {
     auto oldModel = getTournamentModelFromID(tournament);
     auto newModel = tournamentBuilder()->buildModel(
-                [oldModel, value]
-    {
-        TournamentParameters params;
-
-        params.id = oldModel->id();
-        params.title = oldModel->title();
-        params.status = oldModel->status();
-        params.gameMode = oldModel->gameMode();
-        params.keyPoint = oldModel->keyPoint();
-        params.playerIdentities = oldModel->assignedPlayerIdentities();
-        params.throws = value;
-        params.winner = oldModel->winner();
-
-        return params;
-    }(),[]
-    {
-        ModelOptions options;
-
-        options.generateUniqueId = false;
-
-        return options;
-    }());
+                    [oldModel, winner]
+                    {
+                        TournamentParameters params;
+                        params.id = oldModel->id();
+                        params.title = oldModel->title();
+                        params.status = oldModel->status();
+                        params.gameMode = oldModel->gameMode();
+                        params.keyPoint = oldModel->keyPoint();
+                        params.throws = oldModel->numberOfThrows();
+                        params.winner = winner;
+                        params.playerIdentities = oldModel->assignedPlayerIdentities();
+                        return params;
+                    }(),[]
+                    {
+                        ModelOptions options;
+                        options.generateUniqueId = false;
+                        return options;
+                    }());
     auto index = _tournaments.indexOf(oldModel);
     _tournaments.replace(index,newModel);
 }
@@ -521,99 +479,6 @@ void LocalTournamentModelsContext::tournamentRemovePlayer(const QUuid &tournamen
     }());
     auto index = _tournaments.indexOf(oldModel);
     _tournaments.replace(index,newModel);
-}
-
-
-void LocalTournamentModelsContext::alterTournamentGameMode(const QUuid &tournament, const int &mode)
-{
-    auto oldModel = getTournamentModelFromID(tournament);
-    auto newModel = tournamentBuilder()->buildModel(
-                [oldModel, mode]
-    {
-        TournamentParameters params;
-        params.id = oldModel->id();
-        params.title = oldModel->title();
-        params.status = oldModel->status();
-        params.gameMode = mode;
-        params.keyPoint = oldModel->keyPoint();
-        params.playerIdentities = oldModel->assignedPlayerIdentities();
-        params.throws = oldModel->numberOfThrows();
-        params.winner = oldModel->winner();
-        return params;
-    }(),[]
-    {
-        ModelOptions options;
-        options.generateUniqueId = false;
-        return options;
-    }());
-    auto index = _tournaments.indexOf(oldModel);
-    _tournaments.replace(index,newModel);
-}
-
-void LocalTournamentModelsContext::alterTournamentKeyPoint(const QUuid &tournament, const int &value)
-{
-    auto model = getTournamentModelFromID(tournament);
-
-    auto newModel = tournamentBuilder()->buildModel(
-                [model, value]
-    {
-        TournamentParameters params;
-
-        params.id = model->id();
-        params.title = model->title();
-        params.status = model->status();
-        params.gameMode = model->gameMode();
-        params.keyPoint = value;
-        params.throws = model->numberOfThrows();
-        params.playerIdentities = model->assignedPlayerIdentities();
-        params.winner = model->winner();
-
-        return params;
-    }(),[]
-    {
-        ModelOptions options;
-
-        options.generateUniqueId = false;
-
-        return options;
-    }());
-
-    removeTournamentModel(model->id());
-
-    _tournaments.append(newModel);
-}
-
-void LocalTournamentModelsContext::alterTournamentDeterminedWinner(const QUuid &tournament, const QUuid &player)
-{
-    auto model = getTournamentModelFromID(tournament);
-
-    auto newModel = tournamentBuilder()->buildModel(
-                [model, player]
-    {
-        TournamentParameters params;
-
-        params.id = model->id();
-        params.title = model->title();
-        params.status = model->status();
-        params.gameMode = model->gameMode();
-        params.keyPoint = model->keyPoint();
-        params.throws = model->numberOfThrows();
-        params.playerIdentities = model->assignedPlayerIdentities();
-        params.winner = player;
-
-        return params;
-    }(),[]
-    {
-        ModelOptions options;
-
-        options.generateUniqueId = false;
-
-        return options;
-    }());
-
-    removeTournamentModel(model->id());
-
-    _tournaments.append(newModel);
 }
 
 QList<QUuid> LocalTournamentModelsContext::roundsID()
@@ -1395,22 +1260,23 @@ int LocalTournamentModelsContext::playerScoreCount(const int &hint)
     return count;
 }
 
-void LocalTournamentModelsContext::addScore(const QUuid &tournament,
-                                          const QUuid &playerID,
-                                          const int &roundIndex,
-                                          const int &setIndex,
-                                          const int &throwIndex,
-                                          const int &point,
-                                          const int &score)
+void LocalTournamentModelsContext::handleRequestForAddScore(const QUuid &tournament,
+                                                            const QUuid &player,
+                                                            const int &roundIndex,
+                                                            const int &setIndex,
+                                                            const int &throwIndex,
+                                                            const int &point,
+                                                            const int &score,
+                                                            const bool &isWinnerDetermined)
 {
     auto setID = this->setID(tournament,roundIndex,setIndex);
     auto model = pointBuilder()->buildModel(
-                [setID,throwIndex,point,playerID,score]
+                [setID,throwIndex,point,player,score]
     {
         PointParameters params;
         auto setId = setID;
         params.setId = setId;
-        params.playerId = playerID;
+        params.playerId = player;
         params.pointValue = point;
         params.throwIndex = throwIndex;
         params.scoreValue = score;
@@ -1423,8 +1289,10 @@ void LocalTournamentModelsContext::addScore(const QUuid &tournament,
     }());
 
     _scores.append(model);
+    if(isWinnerDetermined)
+        setTournamentDeterminedWinner(tournament,player);
     removeHiddenScores(tournament);
-    emit confirmScoresAddedToContext(playerID,point,score);
+    emit confirmScoresAddedToContext(player,point,score);
 }
 
 void LocalTournamentModelsContext::removeHiddenScores(const QUuid &tournament)

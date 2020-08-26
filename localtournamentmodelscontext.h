@@ -35,7 +35,8 @@ public:
     enum ModelsContextResponse{
         TournamentCreatedOK = 0x32,
         TournamentDeletedOK = 0x35,
-        EndOfTransmission = 0x10
+        EndOfTransmission = 0x10,
+        TournamentDetailsFailed
     };
     enum ModelDisplayHint{
         HiddenHint = 0x9,
@@ -64,24 +65,23 @@ public:
                                   const int &winCondition,
                                   const int &keyPoint,
                                   const QList<QUuid> &assignedPlayersID) override;
-    void handleAssignPlayers(const QUuid &tournament, const QList<QUuid> &playersID) override;
+    void handleAssignPlayersToTournament(const QUuid &tournament, const QList<QUuid> &playersID) override;
     void deleteTournament(const QVector<int>&indexes) override;
-    void handleGetAssignedPlayersToTournament(const QUuid &tournament) override;
+    void handleRequestAssignedPlayers(const QUuid &tournament) override;
     void handleTransmitPlayerScores(const QUuid &tournament,
                                     const QList<QPair<QUuid, QString> > &playerPairs) override;
     void handleTransmitTournaments() override;
     void handleRequestForTournamentMetaData(const QUuid &tournament) override;
-    void handleTournamentIDFromIndex(const int &index) override;
-    void handleRequestForTournamentDetails(const QUuid &tournamentID,
-                                           const PlayerPairs &assignedPlayerPairs) override;
+    void handleRequestTournamentDetails(const int &index) override;
     void handleRequestTournamentIndexes(const QUuid &tournament) override;
-    void addScore(const QUuid &tournament,
-                 const QUuid &playerID,
-                 const int &roundIndex,
-                 const int &setIndex,
-                 const int &throwIndex,
-                 const int &point,
-                 const int &score) override;
+    void handleRequestForAddScore(const QUuid &tournament,
+                  const QUuid &player,
+                  const int &roundIndex,
+                  const int &setIndex,
+                  const int &throwIndex,
+                  const int &point,
+                  const int &score,
+                  const bool &isWinnerDetermined) override;
     virtual void handleRequestUpdateContext(const QUuid &tournamentID,
                                             const int &roundIndex,
                                             const int &setIndex) override;
@@ -112,14 +112,10 @@ private:
     int tournamentLastThrowKeyCode(const QUuid &tournament) ;
     int tournamentKeyPoint(const QUuid &tournament) ;
     int tournamentStatus(const QUuid &tournament) ;
-    QUuid tournamentDeterminedWinner(const QUuid &tournament) ;
+    QUuid tournamentDeterminedWinner(const QUuid &tournament);
+    void setTournamentDeterminedWinner(const QUuid &tournament, const QUuid &winner);
     void assignPlayerToTournament(const QUuid &tournament, const QUuid &player) ;
     void tournamentRemovePlayer(const QUuid &tournament, const QUuid &player) ;
-    void alterTournamentTitle(const QUuid &tournament, const QString &title) ;
-    void alterTournamentNumberOfLegs(const QUuid &tournament, const int &value) ;
-    void alterTournamentGameMode(const QUuid &tournament, const int &mode) ;
-    void alterTournamentKeyPoint(const QUuid &tournament, const int &value) ;
-    void alterTournamentDeterminedWinner(const QUuid &tournament, const QUuid &player) ;
     /*
      * Round related section
      */

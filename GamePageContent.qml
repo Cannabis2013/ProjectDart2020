@@ -97,7 +97,6 @@ Content {
         }
         else if(response === 0x2D) // Gamecontroller is ready and awaits input
         {
-            print("Gamecontroller is ready and awaits input.");
             turnNavigator.startButtonText = buttonTextContainer.pauseText;
 
             var canUndo = args[0];
@@ -139,7 +138,7 @@ Content {
             takeScore(playerName);
             requestStatusFromBackend();
         }
-        else if(response === 0x3E) // Winner declared
+        else if(response === 0x15) // Winner declared
         {
             keyPad.enableKeys = false;
             var winnerPlayerName = args[0];

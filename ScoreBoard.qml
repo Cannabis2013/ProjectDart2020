@@ -99,7 +99,7 @@ Rectangle{
         updateContentDimensions();
         refreshHeaders();
 
-        flickableTable.contentX = flickableTable.contentWidth - flickableTable.width;
+        //flickableTable.contentX = flickableTable.contentWidth - flickableTable.width;
     }
 
     function updateContentDimensions()
@@ -162,11 +162,8 @@ Rectangle{
 
     function setViewPosition(x,y)
     {
-        var xCord = viewContentWidth() - x;
-        var yCord = viewContentHeight() - y;
-
-        flickableTable.contentX = xCord;
-        flickableTable.contentY = yCord;
+        flickableTable.contentX = x;
+        flickableTable.contentY = y;
     }
 
     GridLayout
@@ -256,6 +253,7 @@ Rectangle{
                     pointFontSize: scoreBoardBody.pointFontSize
                     pointDisplayVisible: scoreBoardBody.displayPoints
                     pointDisplayWidth: scoreBoardBody.pointDisplayWidth
+                    onNotifyLocation: setViewPosition(x,y)
                     text: display
                 }
             }

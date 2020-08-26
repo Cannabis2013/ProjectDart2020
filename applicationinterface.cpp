@@ -57,14 +57,11 @@ ApplicationInterface::ApplicationInterface(AbstractTournamentModelsContext *tour
      * Set current tournament
      */
     connect(this,&ApplicationInterface::setCurrentActiveTournament,
-            tournamentModelsContext,&AbstractTournamentModelsContext::handleTournamentIDFromIndex);
-    connect(tournamentModelsContext,&AbstractTournamentModelsContext::sendTournamentIDFromIndex,
-            playerModelsContext,&AbstractPlayerModelsContext::assembleAssignedPlayerPairs);
-    connect(playerModelsContext,&AbstractPlayerModelsContext::sendPlayerPairs,
-            tournamentModelsContext,&AbstractTournamentModelsContext::handleRequestForTournamentDetails);
+            tournamentModelsContext,&AbstractTournamentModelsContext::handleRequestTournamentDetails);
     connect(tournamentModelsContext,&AbstractTournamentModelsContext::sendTournamentDetails,
+            playerModelsContext,&AbstractPlayerModelsContext::processTournamentDetails);
+    connect(playerModelsContext,&AbstractPlayerModelsContext::sendTournamentDetails,
             this,&ApplicationInterface::handleTournamentDetailsAndSetController);
-
     /*
      * Send tournament meta data
      */
@@ -77,7 +74,6 @@ ApplicationInterface::ApplicationInterface(AbstractTournamentModelsContext *tour
      */
     connect(tournamentModelsContext,&AbstractTournamentModelsContext::sendPlayerScore,
             this,&ApplicationInterface::sendPlayerScore);
-
 }
 
 ApplicationInterface::~ApplicationInterface()
@@ -209,6 +205,7 @@ void ApplicationInterface::processRecievedTournamentMetaData(const QString &titl
 }
 
 void ApplicationInterface::handleTournamentDetailsAndSetController(const QUuid &tournament,
+                                                                   const QString &winner,
                                                                    const int &keyPoint,
                                                                    const int &terminalKeyCode,
                                                                    const int &numberOfThrows,
@@ -225,6 +222,7 @@ void ApplicationInterface::handleTournamentDetailsAndSetController(const QUuid &
         _gameController = _controllerBuilder->buildController(gameMode,0x4);
         setupConnections();
         emit sendTournamentDetails(tournament,
+                                   winner,
                                    keyPoint,
                                    terminalKeyCode,
                                    numberOfThrows,
@@ -240,7 +238,7 @@ void ApplicationInterface::setupConnections()
     connect(_gameController,&AbstractGameController::transmitResponse,
             this,&ApplicationInterface::transmitResponse);
     /*
-     * Setup set current tournament
+     * Set current tournament
      */
     connect(this,&ApplicationInterface::sendTournamentDetails,
             _gameController,&AbstractGameController::recieveTournamentDetails);
@@ -248,7 +246,6 @@ void ApplicationInterface::setupConnections()
             _tournamentsModelContext,&AbstractTournamentModelsContext::handleRequestTournamentIndexes);
     connect(_tournamentsModelContext,&AbstractTournamentModelsContext::sendTournamentIndexes,
             _gameController,&AbstractGameController::recieveTournamentIndexes);
-
     /*
      * Setup tournament metadata
      */
@@ -278,13 +275,13 @@ void ApplicationInterface::setupConnections()
     connect(this,&ApplicationInterface::sendPoint,
             _gameController,&AbstractGameController::handleAndProcessUserInput);
     connect(_gameController,&AbstractGameController::sendScore,
-            _tournamentsModelContext,&AbstractTournamentModelsContext::addScore);
+            _tournamentsModelContext,&AbstractTournamentModelsContext::handleRequestForAddScore);
     connect(_tournamentsModelContext,&AbstractTournamentModelsContext::confirmScoresAddedToContext,
-            _gameController,&AbstractGameController::handleConfirmScoreAddedToDataContext);
+            _gameController,&AbstractGameController::handleScoreAddedToDataContext);
     connect(_gameController,&AbstractGameController::requestUpdateContext,
             _tournamentsModelContext,&AbstractTournamentModelsContext::handleRequestUpdateContext);
     connect(_tournamentsModelContext,&AbstractTournamentModelsContext::confirmContextUpdated,
-            _gameController,&AbstractGameController::handleConfirmDataContextUpdated);
+            _gameController,&AbstractGameController::handleDataContextUpdated);
     /*
      * Undo/redo
      */
@@ -295,7 +292,7 @@ void ApplicationInterface::setupConnections()
     connect(_gameController,&AbstractGameController::requestSetModelHint,
             _tournamentsModelContext,&AbstractTournamentModelsContext::handleRequestSetScoreHint);
     connect(_tournamentsModelContext,&AbstractTournamentModelsContext::confirmScoreHintUpdated,
-            _gameController,&AbstractGameController::handleConfirmScoreHintUpdated);
+            _gameController,&AbstractGameController::handleScoreHintUpdated);
 }
 
 AbstractGameController *ApplicationInterface::gameController() const

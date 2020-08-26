@@ -11,6 +11,7 @@
 #include "iplayerbuildercontext.h"
 #include "IControllerBuilder.h"
 #include "ipointlogisticinterface.h"
+#include "iresponseinterface.h"
 
 #define printVariable(var) #var
 #define STATUS_ERROR -1;
@@ -21,7 +22,8 @@ typedef IDataModelBuilder<DefaultModelInterface,DefaultParameters,IPlayerBuilder
 
 typedef IControllerBuilder<AbstractGameController, int> DefaultControllerBuilderInterface;
 
-class ApplicationInterface : public QObject
+class ApplicationInterface : public QObject,
+        public IResponseInterface<QVariantList>
 {
     Q_OBJECT
 public:
@@ -107,6 +109,10 @@ public slots:
      */
     void handleTournamentMetaRequest();
 signals:
+    /*
+     * Iresponse interface
+     */
+    void transmitResponse(const int &status, const QVariantList &arguments) override;
     void requestCreatePlayer(const QString &playerName, const QString &mail);
     void requestDeletePlayer(const int &index);
     void requestDeletePlayers(const QVector<int> &indexes);
@@ -116,7 +122,6 @@ signals:
     void sendAssignedPlayerIndexes(const QVariantList &indexes, const QUuid &tournament);
     void sendRequestedGameModes(const QStringList &gameModes);
     void sendPlayerDetail(const QString &playerName, const QString &mail);
-    void transmitResponse(const int &status, const QVariantList &arguments);
     void sendPlayerScore(const QString &playerName,const int &point, const int &score);
     void sendAssignedPlayerName(const QString &playerName);
     void sendCurrentTournamentKeyPoint(const int &point);
@@ -156,6 +161,7 @@ signals:
     void removeScore(const QString &player);
 
     void sendTournamentDetails(const QUuid &tournament,
+                               const QString &winner,
                                const int &keyPoint,
                                const int &terminalKeyCode,
                                const int &numberOfThrows,
@@ -164,6 +170,7 @@ signals:
 private slots:
     void processRecievedTournamentMetaData(const QString &title, const int &gameMode, const int &keyPoint, const QStringList &assignedPlayerNames);
     void handleTournamentDetailsAndSetController(const QUuid &tournament,
+                                                 const QString &winner,
                                                  const int &keyPoint,
                                                  const int &terminalKeyCode,
                                                  const int &numberOfThrows,

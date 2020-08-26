@@ -154,9 +154,11 @@ Rectangle{
             delegate: ListViewDelegate{
                 id: listItem
 
+                onClicked: itemClicked(index)
+                onCheckedChanged: itemSelected(index)
+
                 titleFontSize: body.itemTitleFontSize
                 descriptionFontSize: body.itemDescriptionFontSize
-                onClicked: itemClicked(index)
                 isCheckable: allowCheckState
 
                 hoveredColor: body.itemHoveredColor

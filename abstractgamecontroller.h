@@ -3,8 +3,8 @@
 
 #include <QObject>
 #include <quuid.h>
-#include "iresponseinterface.h"
 #include <QVariantList>
+#include "iresponseinterface.h"
 
 
 template<class T1, class T2, class T3>
@@ -27,20 +27,26 @@ typedef QList<PlayerTupple> PlayerTubbles;
 typedef QPair<QUuid,QString> PlayerPair;
 typedef QList<PlayerPair> PlayerPairs;
 
-class AbstractGameController : public QObject
+class AbstractGameController : public QObject,
+        public IResponseInterface<QVariantList>
 {
     Q_OBJECT
-public:
-    /*
-     * Public types
-     */
-
 public slots:
-    virtual void handleAndProcessUserInput(const int &point, const int &modifierKeyCode) = 0;
+    /*
+     * Start/stop game
+     */
     virtual void start() = 0;
     virtual void stop() = 0 ;
     /*
-     * Handle requests from datacontext
+     * Restart game
+     */
+    virtual void restartGame() = 0;
+    /*
+     * Recieve and evaluate UI input
+     */
+    virtual void handleAndProcessUserInput(const int &point, const int &modifierKeyCode) = 0;
+    /*
+     * Handle requests from UI
      */
     virtual void handleRequestFromUI() = 0;
     /*
@@ -48,14 +54,11 @@ public slots:
      */
     virtual QUuid undoTurn() = 0;
     virtual QUuid redoTurn() = 0;
-    /*
-     * Restart game
-     */
-    virtual void restartGame() = 0;
 
     virtual void handleRequestForCurrentTournamentMetaData() = 0;
     virtual void handleRequestForPlayerScores() = 0;
     virtual void recieveTournamentDetails(const QUuid &tournament,
+                                          const QString &winner,
                                           const int &keyPoint,
                                           const int &terminalKeyCode,
                                           const int &numberOfThrows,
@@ -66,14 +69,14 @@ public slots:
                                           const int &turnIndex,
                                           const int &totalTurns,
                                           const QList<int> &playerScores) = 0;
-    virtual void handleConfirmScoreAddedToDataContext(const QUuid &playerID,
+    virtual void handleScoreAddedToDataContext(const QUuid &playerID,
                                                       const int &point,
                                                       const int &score) = 0;
-    virtual void handleConfirmDataContextUpdated() = 0;
-    virtual void handleConfirmScoreHintUpdated(const QUuid &playerID, const int &point,const int &score) = 0;
+    virtual void handleDataContextUpdated() = 0;
+    virtual void handleScoreHintUpdated(const QUuid &playerID, const int &point,const int &score) = 0;
 
 signals:
-    void transmitResponse(const int &status, const QVariantList &args);
+    void transmitResponse(const int &status, const QVariantList &args) override;
     void sendCurrentTournamentForTournamentMetaData(const QUuid &tournament);
     void sendCurrentTournamentForTransmittingScorePoints(const QUuid &tournament, const PlayerPairs &assignedPlayerPairs);
     void requestTournamentIndexes(const QUuid &tournament);
@@ -83,7 +86,9 @@ signals:
                    const int &setIndex,
                    const int &throwIndex,
                    const int &point,
-                   const int &score);
+                   const int &score,
+                   const bool &isWinnerDetermined);
+    void winnerDetermined(const QUuid &tournament, const QUuid &player);
     void requestUpdateContext(const QUuid &tournamentID,
                               const int &roundIndex,
                               const int &setIndex);
