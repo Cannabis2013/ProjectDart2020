@@ -118,6 +118,9 @@ private:
     bool isRowEmpty(const int &row);
     QPair<int,int> removeData(const QModelIndex &index);
     int indexOfHeaderItem(const QString &data, const int &orientation);
+    /*
+     * Row and column fields
+     */
     int _rows = 0;
     int _columns = 0;
     double _scale = 1.05;

@@ -163,7 +163,7 @@ Rectangle{
     function setViewPosition(x,y)
     {
         flickableTable.contentX = x;
-        flickableTable.contentY = y;
+        flickableTable.contentY = y
     }
 
     GridLayout

@@ -90,6 +90,7 @@ public:
                                                const int &roundIndex,
                                                const int &throwIndex,
                                                const int &hint) override;
+    void handleResetTournament(const QUuid &tournament) override;
 private:
     void updateDataContext(const QUuid &tournament, const int &roundIndex, const int &setIndex);
     /*

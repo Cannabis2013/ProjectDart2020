@@ -90,8 +90,6 @@ public:
 
     QUuid undoTurn() override;
     QUuid redoTurn() override;
-
-    void restartGame() override;
     /*
      * Controller starts initializing
      *  - Request tournament id from index provided by calling context
@@ -128,6 +126,12 @@ public:
     void handleScoreHintUpdated(const QUuid &playerID,
                                        const int &point,
                                        const int &score) override;
+    /*
+     * Reinitialize controller
+     *  - Set controller back to its original state
+     */
+    void handleResetTournament() override;
+    void handleTournamentResetSuccess() override;
 private:
     /* Private types
      *
@@ -164,7 +168,6 @@ private:
      *  - Get keycode that that terminates
      */
     int terminateConditionModifier() const;
-
     /*
      * Activity check
      */
@@ -205,6 +208,7 @@ private:
     int playerScore(const int &index);
     void setPlayerScore(const int &index, const int &newScore);
     void setPlayerScore(const QUuid &playerID, const int &newScore);
+    int playerCount(){return _assignedPlayerTupples.count();}
     /*
      * Get playername from ID
      */
@@ -217,6 +221,10 @@ private:
     // Generate throwsuggestions
     IPointLogisticInterface<QString> *_pointLogisticInterface;
     /*
+     * Private getter methods
+     */
+    int keyPoint() const;
+    /*
      * Controller index values
      */
     int _roundIndex = 0;
@@ -228,18 +236,20 @@ private:
     int _numberOfThrows = 3;
 
     const int defaultKeyPoint = 501;
-    int criticalLimit = 180;
+    const int criticalLimit = 180;
 
-    int bullsEye = 50;
+    const int bullsEye = 50;
 
     bool _isOff;
 
-    int _keyPoint = 0;
+    int _keyPoint = defaultKeyPoint;
     QUuid _currentTournament = QUuid();
     QString _winner;
     bool _isActive = false;
-
-    int _currentStatus;
+    /*
+     * Status member variable
+     */
+    int _currentStatus = ControllerState::NotInitialized;
 
     PlayerTubbles _assignedPlayerTupples;
 };

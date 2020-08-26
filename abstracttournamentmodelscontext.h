@@ -46,6 +46,7 @@ public slots:
                                            const int &roundIndex,
                                            const int &throwIndex,
                                            const int &hint) = 0;
+    virtual void handleResetTournament(const QUuid &tournament) = 0;
 signals:
     void transmitResponse(const int &status, const QVariantList &arguments) override;
     void sendPlayerScore(const QString &player, const int &point, const int &score);
@@ -73,12 +74,13 @@ signals:
                                const int &turnIndex,
                                const int &totalTurns ,
                                const QList<int> &playerScores);
-    void confirmScoresAddedToContext(const QUuid &playerID,
+    void scoreAddedToDataContext(const QUuid &playerID,
                                      const int &point,
                                      const int &score);
-    void confirmContextUpdated();
-    void confirmScoreHintUpdated(const QUuid &player, const int &point, const int &score);
-    void confirmScoreHintNotUpdated(const QUuid &player, const char *err);
+    void datacontextUpdated();
+    void scoreHintUpdated(const QUuid &player, const int &point, const int &score);
+    void scoreHintNotUpdated(const QUuid &player, const char *err);
+    void tournamentResetSuccess();
 };
 
 #endif // ABSTRACTTOURNAMENTMODELSCONTEXT_H

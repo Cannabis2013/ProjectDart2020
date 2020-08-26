@@ -178,7 +178,6 @@ Content {
                     requestStart();
                 else if(buttonText === buttonTextContainer.restartText)
                 {
-                    requestRestart();
                     firstToPostScoreTable.clearTable();
                     body.requestScoreBoardData();
                     firstToPostScoreTable.setMinimumColumnsCount(4);
@@ -186,6 +185,7 @@ Content {
                     turnNavigator.startButtonText = buttonTextContainer.startText;
                     turnNavigator.currentRoundIndex = 0;
                     turnNavigator.currentPlayer = "";
+                    requestRestart();
                 }
                 else
                     requestStop();

@@ -38,10 +38,6 @@ public slots:
     virtual void start() = 0;
     virtual void stop() = 0 ;
     /*
-     * Restart game
-     */
-    virtual void restartGame() = 0;
-    /*
      * Recieve and evaluate UI input
      */
     virtual void handleAndProcessUserInput(const int &point, const int &modifierKeyCode) = 0;
@@ -74,10 +70,12 @@ public slots:
                                                       const int &score) = 0;
     virtual void handleDataContextUpdated() = 0;
     virtual void handleScoreHintUpdated(const QUuid &playerID, const int &point,const int &score) = 0;
+    virtual void handleTournamentResetSuccess() = 0;
+    virtual void handleResetTournament() = 0;
 
 signals:
     void transmitResponse(const int &status, const QVariantList &args) override;
-    void sendCurrentTournamentForTournamentMetaData(const QUuid &tournament);
+    void requestTournamentMetaData(const QUuid &tournament);
     void sendCurrentTournamentForTransmittingScorePoints(const QUuid &tournament, const PlayerPairs &assignedPlayerPairs);
     void requestTournamentIndexes(const QUuid &tournament);
     void sendScore(const QUuid &tournamentID,
@@ -97,6 +95,7 @@ signals:
                              const int &roundIndex,
                              const int &throwIndex,
                              const int &hint);
+    void requestResetTournament(const QUuid &tournament);
 };
 
 #endif // ABSTRACTGAMECONTROLLER_H

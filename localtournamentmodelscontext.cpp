@@ -56,9 +56,12 @@ void LocalTournamentModelsContext::assignToTournament(const int &index,
         assignPlayerToTournament(tournamentID,playerID);
 }
 
-void LocalTournamentModelsContext::handleRequestUpdateContext(const QUuid &tournamentID, const int &roundIndex, const int &setIndex)
+void LocalTournamentModelsContext::handleRequestUpdateContext(const QUuid &tournamentID,
+                                                              const int &roundIndex,
+                                                              const int &setIndex)
 {
     updateDataContext(tournamentID,roundIndex,setIndex);
+    emit datacontextUpdated();
 }
 
 void LocalTournamentModelsContext::handleRequestSetScoreHint(const QUuid &tournament,
@@ -75,13 +78,19 @@ void LocalTournamentModelsContext::handleRequestSetScoreHint(const QUuid &tourna
                                    ModelDisplayHint::allHints);
 
     }  catch (const char *msg) {
-        emit confirmScoreHintNotUpdated(tournament,msg);
+        emit scoreHintNotUpdated(tournament,msg);
         return;
     }
     auto point = scorePointValue(scoreID);
     auto score = scoreValue(scoreID);
     setScoreHint(scoreID,hint);
-    emit confirmScoreHintUpdated(player,point,score);
+    emit scoreHintUpdated(player,point,score);
+}
+
+void LocalTournamentModelsContext::handleResetTournament(const QUuid &tournament)
+{
+    removeModelsRelatedToTournament(tournament);
+    emit tournamentResetSuccess();
 }
 
 void LocalTournamentModelsContext::assembleAndAddTournament(const QString &title,
@@ -271,7 +280,6 @@ void LocalTournamentModelsContext::updateDataContext(const QUuid &tournament,
     } catch (...) {
         addSet(tournament,roundIndex,setIndex);
     }
-    emit confirmContextUpdated();
 }
 
 QUuid LocalTournamentModelsContext::createTournament(const QString &title,
@@ -310,6 +318,12 @@ void LocalTournamentModelsContext::removeTournament(const QUuid &tournament)
 
 void LocalTournamentModelsContext::removeModelsRelatedToTournament(const QUuid &tournament)
 {
+    /*
+     * Remove models in the following order:
+     *  1. Remove ScoreModel's
+     *  2. Remove SetModel's
+     *  3. Remove RoundModel's
+     */
     removeTournamentScores(tournament);
     removeTournamentSets(tournament);
     removeTournamentRounds(tournament);
@@ -1292,7 +1306,7 @@ void LocalTournamentModelsContext::handleRequestForAddScore(const QUuid &tournam
     if(isWinnerDetermined)
         setTournamentDeterminedWinner(tournament,player);
     removeHiddenScores(tournament);
-    emit confirmScoresAddedToContext(player,point,score);
+    emit scoreAddedToDataContext(player,point,score);
 }
 
 void LocalTournamentModelsContext::removeHiddenScores(const QUuid &tournament)

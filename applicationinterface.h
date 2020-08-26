@@ -151,7 +151,7 @@ signals:
     void sendPoint(const int &point, const int &pressedModifier);
     void requestStartGame();
     void requestStopGame();
-    void requestRestart();
+    void requestTournamentReset();
     void requestControllerState();
     void requestUndo();
     void requestRedo();

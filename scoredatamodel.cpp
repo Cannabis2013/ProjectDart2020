@@ -119,6 +119,7 @@ void ScoreDataModel::clearData()
     auto bottomRight = createIndex(rowCount() - 1,columnCount() - 1);
     _columns = 0;
     _rows = 0;
+
     _horizontalHeaderData.clear();
     _verticalHeaderData.clear();
     emit dataChanged(createIndex(0,0),bottomRight);
@@ -484,6 +485,8 @@ int ScoreDataModel::indexOfLastDecoratedCell(const int &index,const int &orienta
 {
     if(orientation == Qt::Vertical)
     {
+        if(index >= _pairs.count() || index < 0)
+            return -1;
         auto pairs = _pairs.at(index);
 
         for (int col = 0; col < columnCount(QModelIndex()); ++col) {

@@ -72,7 +72,7 @@ void LocalFirstToPost::handleAndProcessUserInput(const int &point, const int &mo
 
 void LocalFirstToPost::handleRequestForCurrentTournamentMetaData()
 {
-    emit sendCurrentTournamentForTournamentMetaData(currentTournamentID());
+    emit requestTournamentMetaData(currentTournamentID());
 }
 
 void LocalFirstToPost::handleRequestForPlayerScores()
@@ -123,9 +123,16 @@ void LocalFirstToPost::recieveTournamentIndexes(const int &roundIndex,
     _turnIndex = turnIndex;
     _totalTurns = totalTurns;
     updatePlayerTubbles(playerScores);
-    _currentStatus = ControllerState::Initialized;
-
-    emit transmitResponse(ControllerResponse::isInitializedAndReady,{});
+    if(status() == ControllerState::resetState)
+    {
+        _currentStatus = ControllerState::Initialized;
+        emit requestTournamentMetaData(currentTournamentID());
+    }
+    else
+    {
+        _currentStatus = ControllerState::Initialized;
+        emit transmitResponse(ControllerResponse::isInitializedAndReady,{});
+    }
 }
 
 void LocalFirstToPost::handleScoreAddedToDataContext(const QUuid &playerID,
@@ -161,6 +168,28 @@ void LocalFirstToPost::handleScoreHintUpdated(const QUuid &playerID,
         auto playerName = getPlayerNameFromID(playerID);
         emit transmitResponse(ControllerResponse::ScoreTransmit,{playerName,point,score});
     }
+}
+
+void LocalFirstToPost::handleTournamentResetSuccess()
+{
+    // Reset controller index values
+    _turnIndex = 0;
+    _totalTurns = 0;
+    _roundIndex = 0;
+    _setIndex = 0;
+    _throwIndex = 0;
+    _winner = QString();
+    // Reset playerscores to target point
+    for (int i = 0; i < playerCount(); ++i)
+        setPlayerScore(i,keyPoint());
+
+    emit requestTournamentIndexes(currentTournamentID());
+}
+
+void LocalFirstToPost::handleResetTournament()
+{
+    _currentStatus = ControllerState::resetState;
+    emit requestResetTournament(currentTournamentID());
 }
 
 void LocalFirstToPost::sendCurrentTurnValues()
@@ -261,15 +290,6 @@ QUuid LocalFirstToPost::redoTurn()
     return _assignedPlayerTupples.at(_setIndex).first;
 }
 
-void LocalFirstToPost::restartGame()
-{
-    _currentStatus = ControllerState::resetState;
-    /*
-     * TODO:
-     * Implement alternative to:
-     *  - emit sendRequestToContext(ControllerRequest::RequestResetTournament,{currentTournamentID()});
-     */
-}
 
 bool LocalFirstToPost::canUndoTurn()
 {
@@ -467,6 +487,11 @@ void LocalFirstToPost::updatePlayerTubbles(const QList<int> &scores)
         tubble.third = score;
         _assignedPlayerTupples.replace(i,tubble);
     }
+}
+
+int LocalFirstToPost::keyPoint() const
+{
+    return _keyPoint;
 }
 
 int LocalFirstToPost::terminateConditionModifier() const

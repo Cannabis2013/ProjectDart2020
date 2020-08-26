@@ -65,10 +65,7 @@ ApplicationInterface::ApplicationInterface(AbstractTournamentModelsContext *tour
     /*
      * Send tournament meta data
      */
-    connect(tournamentModelsContext,&AbstractTournamentModelsContext::sendTournamentMeta,
-            playerModelsContext,&AbstractPlayerModelsContext::handleAndProcessTournamentMetaData);
-    connect(playerModelsContext,&AbstractPlayerModelsContext::sendProcessedTournamentMetaData,
-            this,&ApplicationInterface::processRecievedTournamentMetaData);
+
     /*
      * Send scorepoints
      */
@@ -124,8 +121,6 @@ void ApplicationInterface::handleDeletePlayersRequest(const QVariantList &indexe
     /*
      * TODO: Implement?
      */
-
-
 }
 
 void ApplicationInterface::requestPlayerDetails()
@@ -148,7 +143,7 @@ void ApplicationInterface::handleSendGameModesRequest() const
 
 void ApplicationInterface::handleRestartTournament()
 {
-    emit requestRestart();
+    emit requestTournamentReset();
 }
 
 void ApplicationInterface::handleRequestStart()
@@ -247,12 +242,16 @@ void ApplicationInterface::setupConnections()
     connect(_tournamentsModelContext,&AbstractTournamentModelsContext::sendTournamentIndexes,
             _gameController,&AbstractGameController::recieveTournamentIndexes);
     /*
-     * Setup tournament metadata
+     * Send tournament metadata
      */
     connect(this,&ApplicationInterface::requestTournamentMetaData,
             _gameController,&AbstractGameController::handleRequestForCurrentTournamentMetaData);
-    connect(_gameController,&AbstractGameController::sendCurrentTournamentForTournamentMetaData,
+    connect(_gameController,&AbstractGameController::requestTournamentMetaData,
             _tournamentsModelContext,&AbstractTournamentModelsContext::handleRequestForTournamentMetaData);
+    connect(_tournamentsModelContext,&AbstractTournamentModelsContext::sendTournamentMeta,
+            _playerModelsContext,&AbstractPlayerModelsContext::handleAndProcessTournamentMetaData);
+    connect(_playerModelsContext,&AbstractPlayerModelsContext::sendProcessedTournamentMetaData,
+            this,&ApplicationInterface::processRecievedTournamentMetaData);
     /*
      * Setup request transmitting playerscores
      */
@@ -268,6 +267,15 @@ void ApplicationInterface::setupConnections()
     connect(this,&ApplicationInterface::requestStopGame,
             _gameController,&AbstractGameController::stop);
     /*
+     * Reset tournament
+     */
+    connect(this,&ApplicationInterface::requestTournamentReset,
+            _gameController,&AbstractGameController::handleResetTournament);
+    connect(_gameController,&AbstractGameController::requestResetTournament,
+            _tournamentsModelContext,&AbstractTournamentModelsContext::handleResetTournament);
+    connect(_tournamentsModelContext,&AbstractTournamentModelsContext::tournamentResetSuccess,
+            _gameController,&AbstractGameController::handleTournamentResetSuccess);
+    /*
      * Add point
      */
     connect(this,&ApplicationInterface::requestControllerState,
@@ -276,11 +284,11 @@ void ApplicationInterface::setupConnections()
             _gameController,&AbstractGameController::handleAndProcessUserInput);
     connect(_gameController,&AbstractGameController::sendScore,
             _tournamentsModelContext,&AbstractTournamentModelsContext::handleRequestForAddScore);
-    connect(_tournamentsModelContext,&AbstractTournamentModelsContext::confirmScoresAddedToContext,
+    connect(_tournamentsModelContext,&AbstractTournamentModelsContext::scoreAddedToDataContext,
             _gameController,&AbstractGameController::handleScoreAddedToDataContext);
     connect(_gameController,&AbstractGameController::requestUpdateContext,
             _tournamentsModelContext,&AbstractTournamentModelsContext::handleRequestUpdateContext);
-    connect(_tournamentsModelContext,&AbstractTournamentModelsContext::confirmContextUpdated,
+    connect(_tournamentsModelContext,&AbstractTournamentModelsContext::datacontextUpdated,
             _gameController,&AbstractGameController::handleDataContextUpdated);
     /*
      * Undo/redo
@@ -291,7 +299,7 @@ void ApplicationInterface::setupConnections()
             _gameController,&AbstractGameController::redoTurn);
     connect(_gameController,&AbstractGameController::requestSetModelHint,
             _tournamentsModelContext,&AbstractTournamentModelsContext::handleRequestSetScoreHint);
-    connect(_tournamentsModelContext,&AbstractTournamentModelsContext::confirmScoreHintUpdated,
+    connect(_tournamentsModelContext,&AbstractTournamentModelsContext::scoreHintUpdated,
             _gameController,&AbstractGameController::handleScoreHintUpdated);
 }
 
