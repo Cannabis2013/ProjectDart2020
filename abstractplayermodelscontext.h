@@ -43,10 +43,6 @@ public slots:
                                          const int &winCondition,
                                          const int &keyPoint,
                                          const QList<int> &playerIndexes) = 0;
-    virtual void handleTournamentMetaData(const QString &title,
-                                          const int &gameMode,
-                                          const int &keyPoint,
-                                          const QList<QUuid> &assignedPlayersID) = 0;
 
 
 signals:

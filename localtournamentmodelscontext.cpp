@@ -188,7 +188,6 @@ void LocalTournamentModelsContext::handleRequestForTournamentMetaData(const QUui
     auto gameMode = tournamentGameMode(tournament);
     auto keyPoint = tournamentKeyPoint(tournament);
     auto playersID = tournamentAssignedPlayers(tournament);
-
     emit sendTournamentMeta(title,gameMode,keyPoint,playersID);
 }
 
@@ -210,7 +209,6 @@ void LocalTournamentModelsContext::handleRequestTournamentDetails(const int &ind
                                    gameMode,
                                    assignedPlayersID);
     }  catch (const char *msg) {
-        emit transmitResponse(ModelsContextResponse::TournamentDetailsFailed,{msg});
         return;
     }
 }

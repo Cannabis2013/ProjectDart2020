@@ -9,6 +9,9 @@
 #include "abstractplayermodelscontext.h"
 #include "defaultplayerbuilderconfigurations.h"
 #include <QVariantList>
+#include <iostream>
+
+using namespace std;
 
 namespace PlayerContext {
     class LocalPlayerContext;
@@ -60,10 +63,6 @@ public slots:
                                              const int &winCondition,
                                              const int &keyPoint,
                                              const QList<int> &playerIndexes) override;
-    void handleTournamentMetaData(const QString &title,
-                                              const int &gameMode,
-                                              const int &keyPoint,
-                                              const QList<QUuid> &assignedPlayersID) override;
 private:
     QUuid createPlayer(const QString &playerName,
                        const QString& email,
@@ -73,7 +72,7 @@ private:
     void deletePlayerByEmail(const QString &playerEMail) ;
     QUuid playerIDFromName(const QString &fullName) const ;
     QUuid playerIDFromIndex(const int &index) const ;
-    QString playerUserName(const QUuid &id) const ;
+    QString playerName(const QUuid &id) const ;
     QString playerEMail(const QUuid &id) const ;
     QList<QUuid> players() const ;
     int playersCount() const ;

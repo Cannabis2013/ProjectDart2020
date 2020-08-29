@@ -13,6 +13,10 @@
 #include "ipointlogisticinterface.h"
 #include "iresponseinterface.h"
 
+#include <iostream>
+
+using namespace std;
+
 #define printVariable(var) #var
 #define STATUS_ERROR -1;
 
@@ -157,9 +161,7 @@ signals:
     void requestRedo();
     void requestTournamentMetaData();
     void sendTournamentMetaData(const QVariantList &meta);
-
     void removeScore(const QString &player);
-
     void sendTournamentDetails(const QUuid &tournament,
                                const QString &winner,
                                const int &keyPoint,
@@ -177,7 +179,7 @@ private slots:
                                                  const int &gameMode,
                                                  const PlayerPairs &assignedPlayerPairs);
 private:
-    void setupConnections();
+    void connectInterfaces();
 
     AbstractGameController *gameController() const;
     DefaultControllerBuilderInterface *controllerBuilder() const;

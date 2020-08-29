@@ -75,7 +75,7 @@ Rectangle {
         PushButton{
             id: bullsButton
             backgroundColor : "green"
-            hoveredColor: "black"
+            hoveredColor: "green"
             textColor : "white"
 
             fontSize: 16
@@ -102,7 +102,7 @@ Rectangle {
             Layout.fillWidth: true
 
             backgroundColor : "red"
-            hoveredColor: "black"
+            hoveredColor: "red"
             textColor : "white"
 
             fontSize: 16

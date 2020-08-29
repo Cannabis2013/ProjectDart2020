@@ -8,6 +8,10 @@
 #include "abstracttournamentmodelscontext.h"
 #include "gamemodelscontext.h"
 
+#include <iostream>
+
+using namespace std;
+
 
 #define THROW_OBJECT_WITH_ID_NOT_FOUND(x) QString("Model with ID: '%1' does not exists in the current context").arg(x).toStdString();
 #define THROW_OBJECT_WITH_INDEX_NOT_FOUND(x) QString("Model with index: '%1' does not exists in the current context").arg(x).toStdString();

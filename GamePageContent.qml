@@ -59,7 +59,7 @@ Content {
             firstToPostScoreTable.takeData(player);
     }
 
-    function handlemetaInformation(meta){
+    function handleMetaInformation(meta){
         var title = meta[0];
         var gameMode = meta[1];
         var keyPoint = meta[2];
@@ -245,8 +245,9 @@ Content {
         }
     }
     Component.onCompleted: {
+        print("GPC start init");
         body.requestMetaInformation.connect(applicationInterface.handleTournamentMetaRequest);
-        applicationInterface.sendTournamentMetaData.connect(body.handlemetaInformation);
+        applicationInterface.sendTournamentMetaData.connect(body.handleMetaInformation);
         body.requestScoreBoardData.connect(applicationInterface.handleScoreBoardRequest);
         applicationInterface.sendPlayerScore.connect(body.appendScore);
         body.requestStart.connect(applicationInterface.handleRequestStart);
@@ -257,14 +258,16 @@ Content {
         body.requestRedo.connect(applicationInterface.requestRedo);
         body.requestStatusFromBackend.connect(applicationInterface.handleControllerStateRequest);
         requestMetaInformation();
+        print("GPC finished init");
     }
     Component.onDestruction: {
         body.requestMetaInformation.disconnect(applicationInterface.handleTournamentMetaRequest);
-        applicationInterface.sendTournamentMetaData.disconnect(body.handlemetaInformation);
-        applicationInterface.sendPlayerScore.disconnect(firstToPostScoreTable.appendData);
+        applicationInterface.sendTournamentMetaData.disconnect(body.handleMetaInformation);
         body.requestScoreBoardData.disconnect(applicationInterface.handleScoreBoardRequest);
+        applicationInterface.sendPlayerScore.disconnect(body.appendScore);
         body.requestStart.disconnect(applicationInterface.handleRequestStart);
         body.requestStop.disconnect(applicationInterface.handleRequestStop);
+        body.requestRestart.disconnect(applicationInterface.handleRestartTournament);
         body.sendInput.disconnect(applicationInterface.handleUserInput);
         body.requestUndo.disconnect(applicationInterface.requestUndo);
         body.requestRedo.disconnect(applicationInterface.requestRedo);

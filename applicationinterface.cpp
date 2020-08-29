@@ -2,11 +2,14 @@
 
 ApplicationInterface::ApplicationInterface(AbstractTournamentModelsContext *tournamentModelsContext, AbstractPlayerModelsContext *playerModelsContext, DefaultControllerBuilderInterface *builder)
 {
+
+    setObjectName("ApplicationInterface");
     _tournamentsModelContext = tournamentModelsContext;
     _playerModelsContext = playerModelsContext;
     _controllerBuilder = builder;
-    _gameController = _controllerBuilder->buildController(0x1,0x4);
-    _playerModelsContext->disconnect();
+
+    _tournamentsModelContext->setObjectName("TournamentModelsContext");
+    _playerModelsContext->setObjectName("PlayerModelsContext");
 
     /*
      * Setup upstream communication between UI and modelcontexts
@@ -63,9 +66,12 @@ ApplicationInterface::ApplicationInterface(AbstractTournamentModelsContext *tour
     connect(playerModelsContext,&AbstractPlayerModelsContext::sendTournamentDetails,
             this,&ApplicationInterface::handleTournamentDetailsAndSetController);
     /*
-     * Send tournament meta data
+     * Send tournament meta information
      */
-
+    connect(tournamentModelsContext,&AbstractTournamentModelsContext::sendTournamentMeta,
+            playerModelsContext,&AbstractPlayerModelsContext::handleAndProcessTournamentMetaData);
+    connect(playerModelsContext,&AbstractPlayerModelsContext::sendProcessedTournamentMetaData,
+            this,&ApplicationInterface::processRecievedTournamentMetaData);
     /*
      * Send scorepoints
      */
@@ -208,14 +214,18 @@ void ApplicationInterface::handleTournamentDetailsAndSetController(const QUuid &
                                                                    const PlayerPairs &assignedPlayerPairs)
 {
     if(_gameController != nullptr)
+    {
         _gameController->disconnect();
+        delete _gameController;
+        _gameController = nullptr;
+    }
     if(gameMode == GameModes::FirstToPost)
     {
         /*
          * Inject controller
          */
         _gameController = _controllerBuilder->buildController(gameMode,0x4);
-        setupConnections();
+        connectInterfaces();
         emit sendTournamentDetails(tournament,
                                    winner,
                                    keyPoint,
@@ -225,7 +235,7 @@ void ApplicationInterface::handleTournamentDetailsAndSetController(const QUuid &
     }
 }
 
-void ApplicationInterface::setupConnections()
+void ApplicationInterface::connectInterfaces()
 {
     /*
      * Establish communication between controller and UI
@@ -248,10 +258,6 @@ void ApplicationInterface::setupConnections()
             _gameController,&AbstractGameController::handleRequestForCurrentTournamentMetaData);
     connect(_gameController,&AbstractGameController::requestTournamentMetaData,
             _tournamentsModelContext,&AbstractTournamentModelsContext::handleRequestForTournamentMetaData);
-    connect(_tournamentsModelContext,&AbstractTournamentModelsContext::sendTournamentMeta,
-            _playerModelsContext,&AbstractPlayerModelsContext::handleAndProcessTournamentMetaData);
-    connect(_playerModelsContext,&AbstractPlayerModelsContext::sendProcessedTournamentMetaData,
-            this,&ApplicationInterface::processRecievedTournamentMetaData);
     /*
      * Setup request transmitting playerscores
      */

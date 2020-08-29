@@ -18,6 +18,10 @@
 #define INVALID_DOMAIN "Input is not within domain";
 #define UNABLE_TO_ALTER_TURN "Unable to alter turn index";
 
+#include <iostream>
+
+using namespace std;
+
 class LocalFirstToPost :public AbstractGameController
 {
     Q_OBJECT
