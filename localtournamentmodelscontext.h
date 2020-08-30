@@ -10,6 +10,8 @@
 
 #include <iostream>
 
+#include <qthread.h>
+
 using namespace std;
 
 
@@ -70,7 +72,7 @@ public:
                                   const int &keyPoint,
                                   const QList<QUuid> &assignedPlayersID) override;
     void handleAssignPlayersToTournament(const QUuid &tournament, const QList<QUuid> &playersID) override;
-    void deleteTournament(const QVector<int>&indexes) override;
+    void deleteTournaments(const QVector<int>&indexes) override;
     void handleRequestAssignedPlayers(const QUuid &tournament) override;
     void handleTransmitPlayerScores(const QUuid &tournament,
                                     const QList<QPair<QUuid, QString> > &playerPairs) override;

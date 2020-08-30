@@ -20,10 +20,10 @@ class AbstractPlayerModelsContext : public QObject,
 {
     Q_OBJECT
 public slots:
-    virtual void handleCreatePlayerRequest(const QString &name, const QString &mail) = 0;
-    virtual void handleDeletePlayerRequest(const int &index) = 0;
+    virtual void createPlayer(const QString &name, const QString &mail) = 0;
+    virtual void deletePlayer(const int &index) = 0;
     virtual void deletePlayers(const QVector<int> &playerIndexes) = 0;
-    virtual void handlePlayersFromIndexRequest(const QVector<int> &playerIndexes) = 0;
+    virtual void assembleListOfPlayersFromIndexes(const QVector<int> &playerIndexes) = 0;
     virtual void processTournamentDetails(const QUuid &tournament,
                                              const QUuid &winner,
                                              const int &keyPoint,
@@ -33,9 +33,10 @@ public slots:
                                              const QList<QUuid> &players) = 0;
 
     virtual void handleAndProcessTournamentMetaData(const QString &title,
-                                              const int &gameMode,
-                                              const int &keyPoint,
-                                              const QList<QUuid> &assignedPlayersID) = 0;
+                                                    const int &gameMode,
+                                                    const int &keyPoint,
+                                                    const QUuid &winnerID,
+                                                    const QList<QUuid> &assignedPlayersID) = 0;
     virtual void handleRequestPlayersDetails() = 0;
     virtual void handleProcessCreatedTournament(const QString &title,
                                          const int &numberOfThrows,
@@ -49,8 +50,6 @@ signals:
     void transmitResponse(const int &status, const QVariantList &arguments) override;
     void sendPlayerDetails(const QString &playerName, const QString &mail);
     void sendPlayersID(const QList<QUuid> &playersID);
-
-
     void sendTournamentDetails(const QUuid &tournament,
                                const QString &winner,
                                const int &keyPoint,
@@ -58,11 +57,11 @@ signals:
                                const int &numberOfThrows,
                                const int &gameMode,
                                const PlayerPairs &assignedPlayerPairs);
-
     void sendProcessedTournamentMetaData(const QString &title,
-                                     const int &gameMode,
-                                     const int &keyPoint,
-                                     const QStringList &assignedPlayerNames);
+                                         const int &gameMode,
+                                         const int &keyPoint,
+                                         const QString &winner,
+                                         const QStringList &assignedPlayerNames);
     void sendCurrentAssignedPlayerPairs(const QUuid &tournament,
                                         const PlayerPairs &playerPairs);
     void sendProcessedTournamentDetails(const QString &title,
@@ -71,6 +70,8 @@ signals:
                                         const int &winCondition,
                                         const int &keyPoint,
                                         const QList<QUuid> &playersID);
+    void playersDeletedStatus(const bool &status);
+    void lastPlayerDetailTransmitted();
 };
 
 #endif // ABSTRACTPLAYERMODELSCONTEXT_H

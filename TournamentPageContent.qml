@@ -59,14 +59,16 @@ Content{
            color: "white"
            radius: 15
            componentTitle: "Select tournament"
-           itemTextColor: "black"
-           itemSelectedBackgroundColor: "silver"
+           itemTitleTextColor: "black"
+           itemDescriptionFontColor: "white"
+           itemSelectedBackgroundColor: "blue"
            itemSelectedtextColor: "black"
-           itemHoveredColor: "darkgray"
-           itemBackgroundColor: "lightblue"
+           itemBackgroundColor: "darkblue"
+           imageBackgroundColor: "green"
            onItemClicked: sendClickedTournamentIndex(index)
            itemTitleFontSize: 20
            itemDescriptionFontSize: 12
+           titleBackground: "steelblue"
            itemWidth: tournamentListView.width *0.95
            itemHeight: 64
            allowCheckState: true

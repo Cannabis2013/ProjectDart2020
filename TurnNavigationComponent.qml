@@ -20,7 +20,7 @@ Item {
     property string startButtonText: "Start"
     onStartButtonTextChanged: startButton.text = startButtonText
 
-    property bool startButtonEnabled: true
+    property bool startButtonEnabled: false
     onStartButtonEnabledChanged: startButton.enabled = startButtonEnabled
 
     property int currentRoundIndex: 0

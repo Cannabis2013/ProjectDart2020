@@ -32,6 +32,7 @@ Content {
     signal requestRestart
     signal requestUndo
     signal requestRedo
+    signal sendInput(int value, int modifier)
 
     QtObject{
         id: buttonTextContainer
@@ -39,6 +40,7 @@ Content {
         property string pauseText: qsTr("Pause")
         property string restartText: qsTr("Restart")
         property string resumeText: qsTr("Resume")
+        property string waitText: qsTr("Wait")
     }
 
     QtObject{
@@ -46,6 +48,7 @@ Content {
         property string tournamentTitle: ""
         property int tournamentGameMode: 0
         property int tournamentKeyPoint: 0
+        property string determinedWinner: ""
     }
 
     function appendScore(player,point,score)
@@ -64,10 +67,12 @@ Content {
         var gameMode = meta[1];
         var keyPoint = meta[2];
         var assignedPlayerNames = meta[3];
+        var determinedWinner = meta[4];
 
         currentTournamentMetaData.tournamentTitle = title;
         currentTournamentMetaData.tournamentGameMode = gameMode;
         currentTournamentMetaData.tournamentKeyPoint = keyPoint;
+        currentTournamentMetaData.determinedWinner = determinedWinner;
 
         if(gameMode === 0x1)
             initializeFirstToPost(title,keyPoint,assignedPlayerNames);
@@ -92,13 +97,10 @@ Content {
         var buttonText = turnNavigator.startButtonText, playerName, scoreValue;
         if(response === 0x12) // Gamecontroller is stopped
         {
-            keyPad.enableKeys = false;
-            turnNavigator.startButtonText = buttonTextContainer.resumeText;
+            body.state = "stopped";
         }
         else if(response === 0x2D) // Gamecontroller is ready and awaits input
         {
-            turnNavigator.startButtonText = buttonTextContainer.pauseText;
-
             var canUndo = args[0];
             var canRedo = args[1];
             var currentRoundIndex = args[2];
@@ -106,14 +108,15 @@ Content {
             var throwSuggestion = args[4];
 
             suggestText.text = textSourceContainer.throwSuggestLabel + " " + throwSuggestion;
-
             turnNavigator.updateState(currentRoundIndex,currentPlayerUserName,canUndo,canRedo);
-
-            keyPad.enableKeys = true;
+            body.state = "waitingForInput";
         }
         else if(response === 0x10) // Backend replies end of transmission
         {
-            turnNavigator.startButtonEnabled = true;
+            if(currentTournamentMetaData.determinedWinner !== "")
+                body.state = "winner";
+            else
+                body.state = "ready";
         }
 
         else if(response === 0x45) // Backend is initialized and ready
@@ -140,11 +143,8 @@ Content {
         }
         else if(response === 0x15) // Winner declared
         {
-            keyPad.enableKeys = false;
-            var winnerPlayerName = args[0];
-            turnNavigator.updateState(turnNavigator.currentRoundIndex,turnNavigator.currentPlayer,false,false);
-            winnerText.text = textSourceContainer.winnerLabel + winnerPlayerName;
-            turnNavigator.startButtonText = buttonTextContainer.restartText;
+            currentTournamentMetaData.determinedWinner = args[0];
+            body.state = "winner";
 
         }
         else if(response === 0x17)
@@ -152,8 +152,6 @@ Content {
             turnNavigator.startButtonEnabled = true;
         }
     }
-
-    signal sendInput(int value, int modifier)
 
     GridLayout{
         id: componentLayout
@@ -174,21 +172,16 @@ Content {
 
             onStartButtonClicked: {
                 var buttonText = turnNavigator.startButtonText;
-                if(buttonText === buttonTextContainer.startText || buttonText === buttonTextContainer.resumeText)
+                if(buttonText === buttonTextContainer.startText ||
+                        buttonText === buttonTextContainer.resumeText)
                     requestStart();
                 else if(buttonText === buttonTextContainer.restartText)
-                {
-                    firstToPostScoreTable.clearTable();
-                    body.requestScoreBoardData();
-                    firstToPostScoreTable.setMinimumColumnsCount(4);
-                    keyPad.enableKeys = false;
-                    turnNavigator.startButtonText = buttonTextContainer.startText;
-                    turnNavigator.currentRoundIndex = 0;
-                    turnNavigator.currentPlayer = "";
-                    requestRestart();
-                }
+                    body.state = "restart";
                 else
+                {
+                    body.state = "pauseState";
                     requestStop();
+                }
             }
             onLeftButtonClicked: requestUndo()
             onRightButtonClicked: requestRedo()
@@ -236,16 +229,105 @@ Content {
             Layout.maximumHeight: 384
             Layout.alignment: Qt.AlignBottom
             onKeyClicked: {
-                enableKeys = false;
-                if(turnNavigator.startButtonText === buttonTextContainer.restartText)
-                    turnNavigator.startButtonText = buttonTextContainer.pauseText;
+                body.state = "waitingForInputConfirmation";
                 body.sendInput(val,modifierCode);
             }
             enableKeys: false
         }
     }
+    states: [
+        State {
+            name: "winner"
+            PropertyChanges {
+                target: keyPad
+                enableKeys : false
+            }
+            PropertyChanges {
+                target: turnNavigator
+                startButtonText : buttonTextContainer.restartText
+            }
+            StateChangeScript{
+                script: {
+                    turnNavigator.updateState(turnNavigator.currentRoundIndex,
+                                              turnNavigator.currentPlayer,
+                                              false,
+                                              false);
+                    winnerText.text = textSourceContainer.winnerLabel +
+                            " " +
+                            currentTournamentMetaData.determinedWinner;
+                }
+            }
+        },
+        State {
+            name: "stopped"
+            PropertyChanges {
+                target: keyPad
+                enableKeys : false
+            }
+            PropertyChanges {
+                target: turnNavigator
+                startButtonText : buttonTextContainer.resumeText
+                startButtonEnabled : true
+            }
+        },
+        State {
+            name: "ready"
+            PropertyChanges {
+                target: turnNavigator
+                startButtonEnabled : true
+            }
+        },
+        State {
+            name: "restart"
+            PropertyChanges {
+                target: turnNavigator
+                startButtonText : buttonTextContainer.startText;
+                currentRoundIndex : 0;
+                currentPlayer : "";
+            }
+            PropertyChanges {
+                target: keyPad
+                enableKeys : false
+            }
+            PropertyChanges {
+                target: firstToPostScoreTable
+                minimumColumnsCount : 4
+
+            }
+            StateChangeScript{
+                script: {
+                    firstToPostScoreTable.clearTable();
+                    body.requestScoreBoardData();
+                    requestRestart();
+                }
+            }
+        },
+        State {
+            name: "waitingForInputConfirmation"
+            PropertyChanges {
+                target: keyPad
+                enableKeys: false
+            }
+            PropertyChanges {
+                target: turnNavigator
+                startButtonText : buttonTextContainer.waitText
+
+            }
+        },
+        State {
+            name: "waitingForInput"
+            PropertyChanges {
+                target: turnNavigator
+                startButtonEnabled : true
+                startButtonText : buttonTextContainer.pauseText
+            }
+            PropertyChanges {
+                target: keyPad
+                enableKeys : true
+            }
+        }
+    ]
     Component.onCompleted: {
-        print("GPC start init");
         body.requestMetaInformation.connect(applicationInterface.handleTournamentMetaRequest);
         applicationInterface.sendTournamentMetaData.connect(body.handleMetaInformation);
         body.requestScoreBoardData.connect(applicationInterface.handleScoreBoardRequest);
@@ -258,7 +340,6 @@ Content {
         body.requestRedo.connect(applicationInterface.requestRedo);
         body.requestStatusFromBackend.connect(applicationInterface.handleControllerStateRequest);
         requestMetaInformation();
-        print("GPC finished init");
     }
     Component.onDestruction: {
         body.requestMetaInformation.disconnect(applicationInterface.handleTournamentMetaRequest);

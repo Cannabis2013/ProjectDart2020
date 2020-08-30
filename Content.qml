@@ -10,6 +10,8 @@ Rectangle {
     signal requestSetPageTitle(string title)
     signal requestSetPageIcon(url url)
 
+    property bool isPopUp: false
+    onIsPopUpChanged: applicationInterface.transmitResponse.disconnect(replyFromBackendRecieved);
     clip: true
 
     property double minimumHeight: 0

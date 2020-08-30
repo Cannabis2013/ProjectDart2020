@@ -41,10 +41,10 @@ public:
     DefaultPlayerBuilder *playerBuilder();
     void setPlayerBuilder(DefaultPlayerBuilder *builder);
 public slots:
-    void handleCreatePlayerRequest(const QString &name, const QString &mail) override;
-    void handleDeletePlayerRequest(const int &index) override;
+    void createPlayer(const QString &name, const QString &mail) override;
+    void deletePlayer(const int &index) override;
     void deletePlayers(const QVector<int> &playerIndexes) override;
-    void handlePlayersFromIndexRequest(const QVector<int> &playerIndexes) override;
+    void assembleListOfPlayersFromIndexes(const QVector<int> &playerIndexes) override;
     void processTournamentDetails(const QUuid &tournament,
                                      const QUuid &winner,
                                      const int &keyPoint,
@@ -53,16 +53,17 @@ public slots:
                                      const int &gameMode,
                                      const QList<QUuid> &players) override;
     void handleAndProcessTournamentMetaData(const QString &title,
-                                                  const int &gameMode,
-                                                  const int &keyPoint,
-                                                  const QList<QUuid> &assignedPlayersID) override;
+                                            const int &gameMode,
+                                            const int &keyPoint,
+                                            const QUuid &winnerID,
+                                            const QList<QUuid> &assignedPlayersID) override;
     void handleRequestPlayersDetails() override;
     void handleProcessCreatedTournament(const QString &title,
-                                             const int &numberOfThrows,
-                                             const int &gameMode,
-                                             const int &winCondition,
-                                             const int &keyPoint,
-                                             const QList<int> &playerIndexes) override;
+                                        const int &numberOfThrows,
+                                        const int &gameMode,
+                                        const int &winCondition,
+                                        const int &keyPoint,
+                                        const QList<int> &playerIndexes) override;
 private:
     QUuid createPlayer(const QString &playerName,
                        const QString& email,

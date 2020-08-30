@@ -77,21 +77,14 @@ Rectangle {
             backgroundColor : "green"
             hoveredColor: "green"
             textColor : "white"
-
             fontSize: 16
-
             Layout.fillHeight: true
             Layout.fillWidth: true
-
             Layout.row : 5
             Layout.column: 3
-
             buttonRadius : 5
-
             pressedScale: 0.75
-
             text: "25"
-
             onClicked: if(!isModifiersPressed()) handleNumberKeyPressed(text)
             enabled: false
         }
@@ -100,24 +93,16 @@ Rectangle {
             id:bullsEyeButton
             Layout.fillHeight: true
             Layout.fillWidth: true
-
             backgroundColor : "red"
             hoveredColor: "red"
             textColor : "white"
-
             fontSize: 16
-
             Layout.row : 5
             Layout.column: 4
-
             buttonRadius : 5
-
             pressedScale: 0.75
-
             text: "50"
-
             onClicked: if(!isModifiersPressed()) handleNumberKeyPressed(text)
-
             enabled: false
         }
     }

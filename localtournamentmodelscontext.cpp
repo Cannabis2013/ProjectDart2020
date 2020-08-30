@@ -113,17 +113,22 @@ void LocalTournamentModelsContext::handleAssignPlayersToTournament(const QUuid &
 
 }
 
-void LocalTournamentModelsContext::deleteTournament(const QVector<int> &indexes)
+void LocalTournamentModelsContext::deleteTournaments(const QVector<int> &indexes)
 {
+    auto status = true;
     QList<QUuid> tournamentsID;
     for (auto index : indexes) {
-        auto tournamentID = tournamentIDFromIndex(index);
-        tournamentsID << tournamentID;
+        try {
+            auto tournamentID = tournamentIDFromIndex(index);
+            tournamentsID << tournamentID;
+        }  catch (...) {
+            status = false;
+        }
     }
     for (auto tournamentID : tournamentsID) {
         removeTournament(tournamentID);
     }
-    emit transmitResponse(ModelsContextResponse::TournamentDeletedOK,{});
+    emit tournamentsDeletedSuccess(status);
 }
 
 void LocalTournamentModelsContext::handleTransmitPlayerScores(const QUuid &tournament,
@@ -180,6 +185,7 @@ void LocalTournamentModelsContext::handleTransmitTournaments()
         auto playersCount = tournamentAssignedPlayers(id).count();
         emit sendTournament(title,numberOfThrows,gameMode,keyPoint,playersCount);
     }
+    emit lastTournamentTransmitted();
 }
 
 void LocalTournamentModelsContext::handleRequestForTournamentMetaData(const QUuid &tournament)
@@ -188,7 +194,8 @@ void LocalTournamentModelsContext::handleRequestForTournamentMetaData(const QUui
     auto gameMode = tournamentGameMode(tournament);
     auto keyPoint = tournamentKeyPoint(tournament);
     auto playersID = tournamentAssignedPlayers(tournament);
-    emit sendTournamentMeta(title,gameMode,keyPoint,playersID);
+    auto winnerID = tournamentDeterminedWinner(tournament);
+    emit sendTournamentMeta(title,gameMode,keyPoint,winnerID,playersID);
 }
 
 void LocalTournamentModelsContext::handleRequestTournamentDetails(const int &index)

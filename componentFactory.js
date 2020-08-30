@@ -52,16 +52,16 @@ function createNumberButton(parentID,keyText, rowIndex, columnIndex) {
     return button;
 }
 
-function createPopUp(parentID, id,x, y, width, height)
+function createPopUp(parentID, id,fileName,x, y, width, height)
 {
-    var component = Qt.createComponent("CreatePlayerPopUp.qml");
+    var component = Qt.createComponent(fileName);
     var properties = {
         "id" : id,
         "x" : x,
         "y" : y,
         "width" : width,
         "height" : height,
-        "anchors.fill" : applicationWindow
+        "anchors.fill" : parentID
      };
     var createPlayerPopUp = component.createObject(parentID, properties);
     if(createPlayerPopUp === null)
@@ -69,3 +69,19 @@ function createPopUp(parentID, id,x, y, width, height)
     return createPlayerPopUp;
 }
 
+function createConfirmPopUp(fileName, parentID)
+{
+    var component = Qt.createComponent(fileName);
+    var properties = {
+        "x" : 0,
+        "y" : 0,
+        "width" : parentID.width,
+        "height" : parentID.height,
+        "anchors.fill" : parentID,
+        "isPopUp" : true
+     };
+    var instantiatedObject = component.createObject(parentID, properties);
+    if(instantiatedObject === null)
+        print("Something went very wrong. Call the police if necessary.");
+    return instantiatedObject;
+}

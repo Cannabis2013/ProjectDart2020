@@ -43,6 +43,8 @@ Rectangle{
     onCellBorderWidthChanged: cellDelegate.borderWidth = cellBorderWidth
     property int throwsPerRound: 3
     onThrowsPerRoundChanged: myModel.throwCount = throwsPerRound;
+    property int minimumColumnsCount: 0
+    onMinimumColumnsCountChanged: setMinimumColumnsCount(minimumColumnsCount)
     function setInitialValue(value)
     {
         myModel.setInitialValue(value);

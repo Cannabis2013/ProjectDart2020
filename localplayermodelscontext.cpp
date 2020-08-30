@@ -1,5 +1,5 @@
 #include "localplayermodelscontext.h"
-void LocalPlayerModelsContext::handlePlayersFromIndexRequest(const QVector<int> &playerIndexes)
+void LocalPlayerModelsContext::assembleListOfPlayersFromIndexes(const QVector<int> &playerIndexes)
 {
     QList<QUuid> playersID;
 
@@ -46,16 +46,18 @@ void LocalPlayerModelsContext::processTournamentDetails(const QUuid &tournament,
 }
 
 void LocalPlayerModelsContext::handleAndProcessTournamentMetaData(const QString &title,
-                                                            const int &gameMode,
-                                                            const int &keyPoint,
-                                                            const QList<QUuid> &assignedPlayersID)
+                                                                  const int &gameMode,
+                                                                  const int &keyPoint,
+                                                                  const QUuid &winnerID,
+                                                                  const QList<QUuid> &assignedPlayersID)
 {
     QStringList playerNames;
     for (auto playerID : assignedPlayersID) {
         auto playerName = this->playerName(playerID);
         playerNames << playerName;
     }
-    emit sendProcessedTournamentMetaData(title,gameMode,keyPoint,playerNames);
+    auto winnerName = playerName(winnerID);
+    emit sendProcessedTournamentMetaData(title,gameMode,keyPoint,winnerName,playerNames);
 }
 
 void LocalPlayerModelsContext::handleProcessCreatedTournament(const QString &title,
@@ -83,6 +85,7 @@ void LocalPlayerModelsContext::handleRequestPlayersDetails()
         auto mail = playerEMail(playerID);
         emit sendPlayerDetails(playerName,mail);
     }
+    emit lastPlayerDetailTransmitted();
 }
 
 QList<QUuid> LocalPlayerModelsContext::createDummyModels()
@@ -106,27 +109,29 @@ void LocalPlayerModelsContext::setPlayerBuilder(DefaultPlayerBuilder *builder)
     _playerBuilder = builder;
 }
 
-void LocalPlayerModelsContext::handleCreatePlayerRequest(const QString &name, const QString &mail)
+void LocalPlayerModelsContext::createPlayer(const QString &name, const QString &mail)
 {
     createPlayer(name,mail,UserRoles::Player);
     emit transmitResponse(ModelsContextResponse::PlayerCreatedOK,{});
 }
 
-void LocalPlayerModelsContext::handleDeletePlayerRequest(const int &index)
+void LocalPlayerModelsContext::deletePlayer(const int &index)
 {
+    bool status = true;
     QUuid playerID;
     try {
         playerID = playerIDFromIndex(index);
     }  catch (...) {
-        return;
+        status = false;
     }
 
     deletePlayerByID(playerID);
-    emit transmitResponse(ModelsContextResponse::PlayerDeletedOK,{});
+    emit playersDeletedStatus(status);
 }
 
 void LocalPlayerModelsContext::deletePlayers(const QVector<int> &playerIndexes)
 {
+    bool status = true;
     QList<QUuid> playersID;
     for (auto playerIndex : playerIndexes) {
         auto playerID = playerIDFromIndex(playerIndex);
@@ -136,10 +141,10 @@ void LocalPlayerModelsContext::deletePlayers(const QVector<int> &playerIndexes)
         try {
             deletePlayerByID(playerID);
         }  catch (...) {
-            throw "Inconsistency detected";
+            status = false;
         }
     }
-
+    emit playersDeletedStatus(status);
 }
 
 QUuid LocalPlayerModelsContext::createPlayer(const QString &playerName, const QString &email, const int &role)

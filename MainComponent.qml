@@ -2,9 +2,7 @@ import QtQuick 2.0
 
 Item {
     id: body
-
     signal backPushed
-
     Component{
         id: gamePageComponent
 
@@ -64,7 +62,6 @@ Item {
             padding: 12
         }
     }
-
     Loader{
         id: pageLoader
         anchors.fill: parent

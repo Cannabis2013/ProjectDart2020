@@ -23,8 +23,6 @@ ApplicationWindow {
 
     function destructor(){
         // Save state and clean up
-
-        print("Quit requestet and handled");
         Qt.quit();
     }
 

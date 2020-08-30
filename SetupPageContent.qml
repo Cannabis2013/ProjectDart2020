@@ -31,7 +31,6 @@ Content {
     }
 
     onReplyFromBackendRecieved: {
-        print(response);
         if(response === 0x32) // Backend has processed transmitted details and created the tournament
         {
             backButtonPressed();
@@ -42,7 +41,6 @@ Content {
     {
         var list = playersListView.currentIndexes();
         var count = list.length;
-        print("Nigger Dick Licker has a " + count + " inch cock waiting for William");
         buttonsComponent.buttonTwoEnabled = count > 0;
 
     }
@@ -164,7 +162,8 @@ Content {
             componentTitle: "Assign players"
             labelBackgroundColor: "lightgray"
             itemBackgroundColor: "lightblue"
-            itemTextColor: "black"
+            itemTitleTextColor: "black"
+            itemDescriptionFontColor: "black"
             itemHoveredColor: "lightblue"
             color: "white"
             radius: 15
@@ -225,7 +224,12 @@ Content {
             anchors.right: playersListView.right
             onClicked: {
                 body.visible = false;
-                var createdComponent = ComponentFactory.createPopUp(applicationWindow,"createPlayerPopUp",0,0,applicationWindow.width,applicationWindow.height);
+                var createdComponent = ComponentFactory.createPopUp(applicationWindow,
+                                                                    "createPlayerPopUp",
+                                                                    "CreatePlayerPopUp.qml",
+                                                                    0,0,
+                                                                    applicationWindow.width,
+                                                                    applicationWindow.height,);
                 createdComponent.backButtonPressed.connect(body.reConnectInterface);
                 applicationInterface.transmitResponse.disconnect(replyFromBackendRecieved);
             }

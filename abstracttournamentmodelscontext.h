@@ -22,7 +22,7 @@ public slots:
                                           const int &keyPoint,
                                           const QList<QUuid> &assignedPlayersID) = 0;
     virtual void handleAssignPlayersToTournament(const QUuid &tournament, const QList<QUuid> &playersID) = 0;
-    virtual void deleteTournament(const QVector<int>&indexes) = 0;
+    virtual void deleteTournaments(const QVector<int>&indexes) = 0;
     virtual void handleTransmitPlayerScores(const QUuid &tournament,
                                             const QList<QPair<QUuid, QString> > &players) = 0;
     virtual void handleRequestAssignedPlayers(const QUuid &tournament) = 0;
@@ -60,6 +60,7 @@ signals:
     void sendTournamentMeta(const QString &title,
                             const int &gameMode,
                             const int &keyPoint,
+                            const QUuid &winner,
                             const QList<QUuid> &assignedPlayers);
     void sendTournamentDetails(const QUuid &tournament,
                                const QUuid &winner,
@@ -81,6 +82,9 @@ signals:
     void scoreHintUpdated(const QUuid &player, const int &point, const int &score);
     void scoreHintNotUpdated(const QUuid &player, const char *err);
     void tournamentResetSuccess();
+    void tournamentsDeletedSuccess(const bool &status);
+
+    void lastTournamentTransmitted();
 };
 
 #endif // ABSTRACTTOURNAMENTMODELSCONTEXT_H

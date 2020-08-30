@@ -13,6 +13,7 @@
 #include "ipointlogisticinterface.h"
 #include "iresponseinterface.h"
 
+#include <qthreadpool.h>
 #include <iostream>
 
 using namespace std;
@@ -86,7 +87,7 @@ public slots:
      */
     void handleCreatePlayer(const QString &playerName, const QString &email);
     void handleDeletePlayer(const int &index);
-    void handleDeletePlayersRequest(const QVariantList &indexes);
+    void handleDeletePlayersRequest(const QVariantList &args);
     /*
      * UI requests playerdetails from datacontext
      */
@@ -168,9 +169,14 @@ signals:
                                const int &terminalKeyCode,
                                const int &numberOfThrows,
                                const PlayerPairs &assignedPlayerPairs);
+    void playersDeletedStatus(const bool &status);
+    void tournamentsDeletedSuccess(const bool &status);
+
+    void lastTournamentDetailsTransmitted();
+    void lastPlayerDetailsTransmitted();
 
 private slots:
-    void processRecievedTournamentMetaData(const QString &title, const int &gameMode, const int &keyPoint, const QStringList &assignedPlayerNames);
+    void processRecievedTournamentMetaData(const QString &title, const int &gameMode, const int &keyPoint, const QString &winnerName, const QStringList &assignedPlayerNames);
     void handleTournamentDetailsAndSetController(const QUuid &tournament,
                                                  const QString &winner,
                                                  const int &keyPoint,
@@ -179,12 +185,15 @@ private slots:
                                                  const int &gameMode,
                                                  const PlayerPairs &assignedPlayerPairs);
 private:
-    void connectInterfaces();
+    void connectControllerInterface();
 
     AbstractGameController *gameController() const;
     DefaultControllerBuilderInterface *controllerBuilder() const;
 
     int gameModeFromString(const QString &gameMode) const;
+
+    QThread *_tournamentModelsThread;
+    QThread *_playerModelsThread;
 
     IControllerBuilder<AbstractGameController, int> *_controllerBuilder;
     AbstractGameController *_gameController = nullptr;

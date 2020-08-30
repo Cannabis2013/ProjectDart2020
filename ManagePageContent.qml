@@ -11,6 +11,56 @@ Content {
     signal requestTournaments
     signal requestDeleteTournaments(var indexes)
 
+
+    /*
+      Begin request tournaments after last player transmitted
+      */
+    function lastPlayerDetailsTransmitted(){
+        requestTournaments();
+    }
+
+    /*
+      Request removal of tournaments
+      */
+    function deleteTournamentsAccepted()
+    {
+        var indexes = tournamentListView.currentIndexes();
+        applicationInterface.handleDeleteTournamentsRequest(indexes);
+    }
+    /*
+      Handle confirmation of successfull deletion of tournaments
+      */
+    function handleDeleteTournamentsSuccess(status)
+    {
+        if(status)
+        {
+            tournamentListView.clear();
+            requestTournaments();
+        }
+    }
+
+    /*
+      Delete players accepted
+      */
+
+    function deletePlayersAccepted(){
+        var indexes = playersListView.currentIndexes();
+        applicationInterface.handleDeletePlayersRequest(indexes);
+    }
+
+    /*
+      Handle confirm deletion of players
+      */
+
+    function recievePlayersDeletedStatusFromBackend(status)
+    {
+        if(status)
+        {
+            playersListView.clear();
+            requestPlayers();
+        }
+    }
+
     function addPlayer(playerName,email)
     {
         playersListView.addItemModel({"type" : "player","username" : playerName, "mail" : email})
@@ -38,36 +88,30 @@ Content {
         requestTournaments();
     }
     onReplyFromBackendRecieved: {
-        if(response == 0x26 || response == 0x45)
-        {
-            playersListView.clear();
-            requestPlayers();
-        }
-        else if(response == ox24 || response == 0x44)
-        {
-            tournamentListView.clear();
-            requestTournaments();
-        }
+
     }
     GridLayout{
         id: mainLayout
         anchors.fill: parent
         flow: GridLayout.TopToBottom
-        /*
-          TODO: Fix a player listview with appropriate CRUD buttons
-          TODO: Fix a tournament listview with appropriate CRUD buttons
-          */
 
         ListComponent {
             id: playersListView
+            onRequestUpdate: {
+                playersListView.clear();
+                requestPlayers();
+                body.visible = true;
+            }
             Layout.alignment: Qt.AlignHCenter
             Layout.fillWidth: true
             height: 256
-            componentTitle: "Assign players"
+            componentTitle: "Players"
             labelBackgroundColor: "lightgray"
             itemBackgroundColor: "lightblue"
-            itemTextColor: "black"
-            itemHoveredColor: "lightblue"
+            itemTitleTextColor: "black"
+            itemDescriptionFontColor: "black"
+            itemSelectedBackgroundColor: "lightblue"
+            titleBackground: "steelblue"
             color: "white"
             radius: 15
             itemTitleFontSize: 16
@@ -91,8 +135,13 @@ Content {
                 text: "Create"
                 onClicked: {
                     body.visible = false;
-                    var createdComponent = ComponentFactory.createPopUp(applicationWindow,"createPlayerPopUp",0,0,applicationWindow.width,applicationWindow.height);
-                    createdComponent.backButtonPressed.connect(body.reConnectPlayerInterface);
+                    var createdComponent = ComponentFactory.createPopUp(applicationWindow,
+                                                                        "createPlayerPopUp",
+                                                                        "CreatePlayerPopUp.qml",
+                                                                        0,0,
+                                                                        applicationWindow.width,
+                                                                        applicationWindow.height);
+                    createdComponent.backButtonPressed.connect(playersListView.requestUpdate);
                     applicationInterface.transmitResponse.disconnect(replyFromBackendRecieved);
                 }
 
@@ -101,8 +150,9 @@ Content {
                 text: "Delete"
 
                 onClicked: {
-                    var indexes = playersListView.currentIndexes();
-                    requestDeletePlayers(indexes);
+                    var obj = ComponentFactory.createConfirmPopUp('ConfirmPageContent.qml',
+                                                                  applicationWindow);
+                    obj.acceptClicked.connect(body.deletePlayersAccepted);
                 }
             }
         }
@@ -111,16 +161,22 @@ Content {
             id: tournamentListView
             Layout.fillWidth: true
             Layout.fillHeight: true
+            onRequestUpdate: {
+                tournamentListView.clear();
+                requestTournaments();
+            }
             color: "white"
             radius: 15
-            componentTitle: "Select tournament"
-            itemTextColor: "black"
-            itemSelectedBackgroundColor: "silver"
+            componentTitle: "Tournaments"
+            itemTitleTextColor: "black"
+            itemDescriptionFontColor: "black"
+            itemSelectedBackgroundColor: "lightblue"
             itemSelectedtextColor: "black"
-            itemHoveredColor: "darkgray"
+            itemHoveredColor: "lightblue"
             itemBackgroundColor: "lightblue"
             itemTitleFontSize: 20
             itemDescriptionFontSize: 12
+            titleBackground: "steelblue"
             itemWidth: tournamentListView.width *0.95
             itemHeight: 64
             allowCheckState: true
@@ -140,7 +196,11 @@ Content {
             }
             CRUDButton{
                 text: "Delete"
-                onClicked: requestDeleteTournaments(tournamentListView.currentIndexes())
+                onClicked: {
+                    var obj = ComponentFactory.createConfirmPopUp('ConfirmPageContent.qml',
+                                                                  applicationWindow);
+                    obj.acceptClicked.connect(body.deleteTournamentsAccepted);
+                }
             }
         }
     }
@@ -150,14 +210,18 @@ Content {
         applicationInterface.sendPlayerDetail.connect(body.addPlayer); // Recieve initial players
         body.requestTournaments.connect(applicationInterface.handleTournamentsRequest); // Request initial tournaments
         applicationInterface.sendRequestedTournament.connect(recieveTournament);
-
+        applicationInterface.playersDeletedStatus.connect(body.recievePlayersDeletedStatusFromBackend);
+        applicationInterface.tournamentsDeletedSuccess.connect(body.handleDeleteTournamentsSuccess);
+        applicationInterface.lastPlayerDetailsTransmitted.connect(body.lastPlayerDetailsTransmitted);
         requestPlayers();
-        requestTournaments();
     }
     Component.onDestruction: {
         body.requestPlayers.disconnect(applicationInterface.requestPlayers); // Request initial/continous players
         applicationInterface.sendPlayerDetail.disconnect(body.addPlayer); // Recieve initial players
         body.requestTournaments.disconnect(applicationInterface.handleTournamentsRequest); // Request initial tournaments
-        applicationInterface.sendRequestedTournament.connect(recieveTournament);
+        applicationInterface.sendRequestedTournament.disconnect(recieveTournament);
+        applicationInterface.playersDeletedStatus.disconnect(body.recievePlayersDeletedStatusFromBackend);
+        applicationInterface.tournamentsDeletedSuccess.disconnect(body.handleDeleteTournamentsSuccess);
+        applicationInterface.lastPlayerDetailsTransmitted.disconnect(body.lastPlayerDetailsTransmitted);
     }
 }

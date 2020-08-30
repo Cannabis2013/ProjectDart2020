@@ -67,6 +67,8 @@ Rectangle {
     property color selectedColor: body.color
     property color selectedTextColor: label.color
 
+    property double selectedSizeScale: 0.98
+
     property string title: ""
     onTitleChanged: labelTitle.text = title
 
@@ -82,19 +84,23 @@ Rectangle {
     property int descriptionFontSize: 10
     onDescriptionFontSizeChanged: labelDescription.fontSize = descriptionFontSize
 
+    property color titleFontColor: "black"
+    onTitleFontColorChanged: labelTitle.fontColor = titleFontColor
+    property color descriptionFontColor: "white"
+    onDescriptionFontColorChanged: labelDescription.fontColor = descriptionFontColor
 
-    property color textColor: labelTitle.fontColor
-    onTextColorChanged: {
-        labelTitle.fontColor = textColor;
-        labelDescription.fontColor = textColor;
-    }
     property color imageBackgroundColor: "transparent"
     onImageBackgroundColorChanged: imageRect.color = imageBackgroundColor
     property color backgroundColor: "transparent"
     onBackgroundColorChanged: body.color = backgroundColor
 
-    property color hoveredColor: "transparent"
-    property color hoveredTextColor: label.color
+    property bool enableHover: true
+
+    property double hoveredSizeScale: 0.90
+
+    property color hoveredColor: "transparent"    
+    property color hoveredTitleColor: titleFontColor
+    property color hoveredDescriptionColor: descriptionFontColor
 
     property url logoUrl: ""
     onLogoUrlChanged: imageRect.source = logoUrl
@@ -125,7 +131,7 @@ Rectangle {
             fontSize: titleFontSize
             verticalTextAlignment: Qt.AlignVCenter
             horizontalTextAlignment: Qt.AlignLeft
-            fontColor: body.textColor
+            fontColor: body.titleFontColor
             color: body.labelBackgroundColor
         }
         MyLabel{
@@ -135,9 +141,9 @@ Rectangle {
             textLeftMargin: 9
             text: body.description
             fontSize: body.descriptionFontSize
+            fontColor: body.descriptionFontColor
             verticalTextAlignment: Qt.AlignVCenter
             horizontalTextAlignment: Qt.AlignLeft
-            fontColor: body.textColor
         }
 
     }
@@ -183,7 +189,7 @@ Rectangle {
             name: "checked"
             PropertyChanges {
                 target: body
-                scale: 0.98
+                scale: body.selectedSizeScale
                 color: selectedColor
                 checked: true
             }
@@ -197,15 +203,15 @@ Rectangle {
             PropertyChanges {
                 target: body
                 color: hoveredColor
-                scale:0.98
+                scale: body.hoveredSizeScale
             }
             PropertyChanges {
                 target: labelTitle
-                fontColor: body.hoveredTextColor
+                fontColor: body.hoveredTitleColor
             }
             PropertyChanges {
                 target: labelDescription
-                fontColor: body.hoveredTextColor
+                fontColor: body.hoveredDescriptionColor
             }
         },
         State {

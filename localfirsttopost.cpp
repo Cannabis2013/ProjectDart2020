@@ -342,7 +342,14 @@ void LocalFirstToPost::addPoint(const int &point, const int &score)
     auto setIndex = currentPlayerIndex();
     auto throwIndex = currentThrowIndex();
     auto isWinnerDetermined = status() == ControllerState::WinnerDeclared;
-    emit sendScore(tournamentID,currentActivePlayerID(),roundIndex,setIndex,throwIndex,point,score,isWinnerDetermined);
+    emit sendScore(tournamentID,
+                   currentActivePlayerID(),
+                   roundIndex,
+                   setIndex,
+                   throwIndex,
+                   point,
+                   score,
+                   isWinnerDetermined);
 }
 
 int LocalFirstToPost::currentTurnIndex()

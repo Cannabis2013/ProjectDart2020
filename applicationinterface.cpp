@@ -8,8 +8,19 @@ ApplicationInterface::ApplicationInterface(AbstractTournamentModelsContext *tour
     _playerModelsContext = playerModelsContext;
     _controllerBuilder = builder;
 
-    _tournamentsModelContext->setObjectName("TournamentModelsContext");
-    _playerModelsContext->setObjectName("PlayerModelsContext");
+    _tournamentModelsThread = new QThread();
+    _playerModelsThread = new QThread();
+
+    _tournamentsModelContext->moveToThread(_tournamentModelsThread);
+    _playerModelsThread->moveToThread(_playerModelsThread);
+
+
+    /*
+     * Register meta types
+     */
+    qRegisterMetaType<PlayerPair>("PlayerPair");
+    qRegisterMetaType<PlayerPairs>("PlayerPairs");
+    qRegisterMetaType<QList<QUuid>>("QList<QUuid>");
 
     /*
      * Setup upstream communication between UI and modelcontexts
@@ -18,8 +29,6 @@ ApplicationInterface::ApplicationInterface(AbstractTournamentModelsContext *tour
             this,&ApplicationInterface::transmitResponse);
     connect(playerModelsContext,&AbstractPlayerModelsContext::transmitResponse,
             this,&ApplicationInterface::transmitResponse);
-    connect(_gameController,&AbstractGameController::transmitResponse,
-            this,&ApplicationInterface::transmitResponse);
     /*
      * Get all tournaments
      */
@@ -27,6 +36,8 @@ ApplicationInterface::ApplicationInterface(AbstractTournamentModelsContext *tour
             _tournamentsModelContext,&AbstractTournamentModelsContext::handleTransmitTournaments);
     connect(_tournamentsModelContext,&AbstractTournamentModelsContext::sendTournament,
             this,&ApplicationInterface::sendRequestedTournament);
+    connect(tournamentModelsContext,&AbstractTournamentModelsContext::lastTournamentTransmitted,
+            this,&ApplicationInterface::lastTournamentDetailsTransmitted);
     /*
      * Get all players
      */
@@ -34,6 +45,8 @@ ApplicationInterface::ApplicationInterface(AbstractTournamentModelsContext *tour
             playerModelsContext,&AbstractPlayerModelsContext::handleRequestPlayersDetails);
     connect(playerModelsContext,&AbstractPlayerModelsContext::sendPlayerDetails,
             this,&ApplicationInterface::sendPlayerDetail);
+    connect(playerModelsContext,&AbstractPlayerModelsContext::lastPlayerDetailTransmitted,
+            this,&ApplicationInterface::lastPlayerDetailsTransmitted);
     /*
      * Create tournament
      */
@@ -45,17 +58,23 @@ ApplicationInterface::ApplicationInterface(AbstractTournamentModelsContext *tour
      * Create player
      */
     connect(this,&ApplicationInterface::requestCreatePlayer,
-            playerModelsContext,&AbstractPlayerModelsContext::handleCreatePlayerRequest);
+            playerModelsContext,&AbstractPlayerModelsContext::createPlayer);
     /*
      * Delete tournament
      */
     connect(this,&ApplicationInterface::requestDeleteTournaments,
-            tournamentModelsContext,&AbstractTournamentModelsContext::deleteTournament);
+            tournamentModelsContext,&AbstractTournamentModelsContext::deleteTournaments);
+    connect(tournamentModelsContext,&AbstractTournamentModelsContext::tournamentsDeletedSuccess,
+            this,&ApplicationInterface::tournamentsDeletedSuccess);
     /*
-     * Delete players
+     * Delete player{s}
      */
+    connect(this,&ApplicationInterface::requestDeletePlayer,
+            playerModelsContext,&AbstractPlayerModelsContext::deletePlayer);
     connect(this,&ApplicationInterface::requestDeletePlayers,
             playerModelsContext,&AbstractPlayerModelsContext::deletePlayers);
+    connect(playerModelsContext,&AbstractPlayerModelsContext::playersDeletedStatus,
+            this,&ApplicationInterface::playersDeletedStatus);
     /*
      * Set current tournament
      */
@@ -77,6 +96,9 @@ ApplicationInterface::ApplicationInterface(AbstractTournamentModelsContext *tour
      */
     connect(tournamentModelsContext,&AbstractTournamentModelsContext::sendPlayerScore,
             this,&ApplicationInterface::sendPlayerScore);
+
+    _tournamentModelsThread->start();
+    _playerModelsThread->start();
 }
 
 ApplicationInterface::~ApplicationInterface()
@@ -122,11 +144,14 @@ void ApplicationInterface::handleDeletePlayer(const int &index)
     emit requestDeletePlayer(index);
 }
 
-void ApplicationInterface::handleDeletePlayersRequest(const QVariantList &indexes)
+void ApplicationInterface::handleDeletePlayersRequest(const QVariantList &args)
 {
-    /*
-     * TODO: Implement?
-     */
+    QVector<int> indexes;
+    for (auto variant : args) {
+        auto index = variant.toInt();
+        indexes << index;
+    }
+    emit requestDeletePlayers(indexes);
 }
 
 void ApplicationInterface::requestPlayerDetails()
@@ -199,9 +224,10 @@ void ApplicationInterface::handleTournamentMetaRequest()
 void ApplicationInterface::processRecievedTournamentMetaData(const QString &title,
                                                              const int &gameMode,
                                                              const int &keyPoint,
+                                                             const QString &winnerName,
                                                              const QStringList &assignedPlayerNames)
 {
-    QVariantList args = {title,gameMode,keyPoint,assignedPlayerNames};
+    QVariantList args = {title,gameMode,keyPoint,assignedPlayerNames, winnerName};
     emit sendTournamentMetaData(args);
 }
 
@@ -225,7 +251,7 @@ void ApplicationInterface::handleTournamentDetailsAndSetController(const QUuid &
          * Inject controller
          */
         _gameController = _controllerBuilder->buildController(gameMode,0x4);
-        connectInterfaces();
+        connectControllerInterface();
         emit sendTournamentDetails(tournament,
                                    winner,
                                    keyPoint,
@@ -235,7 +261,7 @@ void ApplicationInterface::handleTournamentDetailsAndSetController(const QUuid &
     }
 }
 
-void ApplicationInterface::connectInterfaces()
+void ApplicationInterface::connectControllerInterface()
 {
     /*
      * Establish communication between controller and UI

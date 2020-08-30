@@ -4,6 +4,7 @@ import QtQuick.Layouts 1.3
 
 Page{
     id: pageBody
+
     pageTitle : "Create player"
 
     pageContent: Content
