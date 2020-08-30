@@ -30,7 +30,7 @@ public slots:
     virtual void handleRequestForTournamentMetaData(const QUuid &tournament) = 0;
     virtual void handleRequestTournamentDetails(const int &index) = 0;
     virtual void handleRequestTournamentIndexes(const QUuid &tournament) = 0;
-    virtual void handleRequestForAddScore(const QUuid &tournament,
+    virtual void addScore(const QUuid &tournament,
                           const QUuid &playerID,
                           const int &roundIndex,
                           const int &setIndex,

@@ -80,7 +80,7 @@ public:
     void handleRequestForTournamentMetaData(const QUuid &tournament) override;
     void handleRequestTournamentDetails(const int &index) override;
     void handleRequestTournamentIndexes(const QUuid &tournament) override;
-    void handleRequestForAddScore(const QUuid &tournament,
+    void addScore(const QUuid &tournament,
                   const QUuid &player,
                   const int &roundIndex,
                   const int &setIndex,

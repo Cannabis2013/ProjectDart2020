@@ -1279,7 +1279,7 @@ int LocalTournamentModelsContext::playerScoreCount(const int &hint)
     return count;
 }
 
-void LocalTournamentModelsContext::handleRequestForAddScore(const QUuid &tournament,
+void LocalTournamentModelsContext::addScore(const QUuid &tournament,
                                                             const QUuid &player,
                                                             const int &roundIndex,
                                                             const int &setIndex,
@@ -1289,25 +1289,7 @@ void LocalTournamentModelsContext::handleRequestForAddScore(const QUuid &tournam
                                                             const bool &isWinnerDetermined)
 {
     auto setID = this->setID(tournament,roundIndex,setIndex);
-    auto model = pointBuilder()->buildModel(
-                [setID,throwIndex,point,player,score]
-    {
-        PointParameters params;
-        auto setId = setID;
-        params.setId = setId;
-        params.playerId = player;
-        params.pointValue = point;
-        params.throwIndex = throwIndex;
-        params.scoreValue = score;
-        return params;
-    }(),[]{
-        ModelOptions options;
-        options.generateUniqueId = true;
-        options.modelHint = ModelDisplayHint::DisplayHint;
-        return options;
-    }());
-
-    _scores.append(model);
+    buildScoreModel(tournament,player,setID,point,throwIndex,score);
     if(isWinnerDetermined)
         setTournamentDeterminedWinner(tournament,player);
     removeHiddenScores(tournament);
