@@ -7,6 +7,7 @@
 #include <qfile.h>
 #include "abstracttournamentmodelscontext.h"
 #include "gamemodelscontext.h"
+#include "abstractjsonpersistence.h"
 
 #include <iostream>
 
@@ -30,7 +31,8 @@ typedef IDataModelBuilder<DefaultPointInterface, PointParameters,ModelOptions> I
 
 
 class LocalTournamentModelsContext :
-        public AbstractTournamentModelsContext
+        public AbstractTournamentModelsContext,
+        public AbstractJSONPersistence
 {
 Q_OBJECT
 
@@ -49,6 +51,11 @@ public:
         DisplayHint = 0xA,
         allHints = 0xB
     };
+    /*
+     * AbstractJSONPersistence interface
+     */
+    void read() override;
+    void write() override;
 
     // Builder methods
     ITournamentBuilder *tournamentBuilder();
@@ -212,11 +219,10 @@ private:
 
     void buildRound(const QUuid &tournament, const int &index, const QUuid &id) ;
     void buildSet(const QUuid &id, const QUuid &round, const int &setIndex) ;
-    void buildScoreModel(const QUuid &id,
-                         const QUuid &player,
+    void buildScoreModel(const QUuid &player,
                          const QUuid &set,
-                         const int &point,
                          const int &throwIndex,
+                         const int &point,
                          const int &score);
 
     ITournamentBuilder *_tournamentBuilder;

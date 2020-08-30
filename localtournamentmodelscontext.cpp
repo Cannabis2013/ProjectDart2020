@@ -73,9 +73,10 @@ void LocalTournamentModelsContext::handleRequestSetScoreHint(const QUuid &tourna
     QUuid scoreID;
     try {
         scoreID = playerScore(tournament,
-                                   player,roundIndex,
-                                   throwIndex,
-                                   ModelDisplayHint::allHints);
+                              player,
+                              roundIndex,
+                              throwIndex,
+                              ModelDisplayHint::allHints);
 
     }  catch (const char *msg) {
         emit scoreHintNotUpdated(tournament,msg);
@@ -1214,18 +1215,16 @@ void LocalTournamentModelsContext::buildSet(const QUuid &id, const QUuid &round,
     _sets << model;
 }
 
-void LocalTournamentModelsContext::buildScoreModel(const QUuid &id,
-                                                   const QUuid &player,
+void LocalTournamentModelsContext::buildScoreModel(const QUuid &player,
                                                    const QUuid &set,
-                                                   const int &point,
                                                    const int &throwIndex,
+                                                   const int &point,
                                                    const int &score)
 {
     auto model = pointBuilder()->buildModel(
-                [id,set,throwIndex,point,player,score]
+                [set,throwIndex,point,player,score]
     {
         PointParameters params;
-        params.id = id;
         params.setId = set;
         params.playerId = player;
         params.pointValue = point;
@@ -1236,7 +1235,7 @@ void LocalTournamentModelsContext::buildScoreModel(const QUuid &id,
     }(),[]{
         ModelOptions options;
         options.modelHint = ModelDisplayHint::DisplayHint;
-        options.generateUniqueId = false;
+        options.generateUniqueId = true;
         return options;
     }());
 
@@ -1280,16 +1279,16 @@ int LocalTournamentModelsContext::playerScoreCount(const int &hint)
 }
 
 void LocalTournamentModelsContext::addScore(const QUuid &tournament,
-                                                            const QUuid &player,
-                                                            const int &roundIndex,
-                                                            const int &setIndex,
-                                                            const int &throwIndex,
-                                                            const int &point,
-                                                            const int &score,
-                                                            const bool &isWinnerDetermined)
+                                            const QUuid &player,
+                                            const int &roundIndex,
+                                            const int &setIndex,
+                                            const int &throwIndex,
+                                            const int &point,
+                                            const int &score,
+                                            const bool &isWinnerDetermined)
 {
     auto setID = this->setID(tournament,roundIndex,setIndex);
-    buildScoreModel(tournament,player,setID,point,throwIndex,score);
+    buildScoreModel(player,setID,throwIndex,point,score);
     if(isWinnerDetermined)
         setTournamentDeterminedWinner(tournament,player);
     removeHiddenScores(tournament);

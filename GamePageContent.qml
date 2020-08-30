@@ -183,8 +183,15 @@ Content {
                     requestStop();
                 }
             }
-            onLeftButtonClicked: requestUndo()
-            onRightButtonClicked: requestRedo()
+            onLeftButtonClicked: {
+                body.state = "waitingForInputConfirmation";
+                requestUndo();
+            }
+
+            onRightButtonClicked: {
+                body.state = "waitingForInputConfirmation";
+                requestRedo();
+            }
         }
         ScoreBoard{
             id: firstToPostScoreTable
@@ -268,6 +275,8 @@ Content {
                 target: turnNavigator
                 startButtonText : buttonTextContainer.resumeText
                 startButtonEnabled : true
+                undoButtonEnabled : false
+                redoButtonEnabled : false
             }
         },
         State {
@@ -284,6 +293,8 @@ Content {
                 startButtonText : buttonTextContainer.startText;
                 currentRoundIndex : 0;
                 currentPlayer : "";
+                undoButtonEnabled : false
+                redoButtonEnabled : false
             }
             PropertyChanges {
                 target: keyPad
@@ -311,7 +322,8 @@ Content {
             PropertyChanges {
                 target: turnNavigator
                 startButtonText : buttonTextContainer.waitText
-
+                undoButtonEnabled : false
+                redoButtonEnabled : false
             }
         },
         State {
@@ -336,8 +348,8 @@ Content {
         body.requestStop.connect(applicationInterface.handleRequestStop);
         body.requestRestart.connect(applicationInterface.handleRestartTournament);
         body.sendInput.connect(applicationInterface.handleUserInput);
-        body.requestUndo.connect(applicationInterface.requestUndo);
-        body.requestRedo.connect(applicationInterface.requestRedo);
+        body.requestUndo.connect(applicationInterface.handleUndoRequest);
+        body.requestRedo.connect(applicationInterface.handleRedoRequest);
         body.requestStatusFromBackend.connect(applicationInterface.handleControllerStateRequest);
         requestMetaInformation();
     }
