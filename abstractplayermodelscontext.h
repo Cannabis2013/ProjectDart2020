@@ -19,6 +19,8 @@ class AbstractPlayerModelsContext : public QObject,
         public IResponseInterface<QVariantList>
 {
     Q_OBJECT
+public:
+    virtual ~AbstractPlayerModelsContext()=default;
 public slots:
     virtual void createPlayer(const QString &name, const QString &mail) = 0;
     virtual void deletePlayer(const int &index) = 0;

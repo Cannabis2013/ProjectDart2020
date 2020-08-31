@@ -185,6 +185,8 @@ private slots:
                                                  const int &gameMode,
                                                  const PlayerPairs &assignedPlayerPairs);
 private:
+    void registerTypes();
+    void connectModelsContextInterface();
     void connectControllerInterface();
 
     AbstractGameController *gameController() const;
@@ -197,7 +199,7 @@ private:
 
     IControllerBuilder<AbstractGameController, int> *_controllerBuilder;
     AbstractGameController *_gameController = nullptr;
-    AbstractTournamentModelsContext *_tournamentsModelContext = nullptr;
+    AbstractTournamentModelsContext *_tournamentModelsContext = nullptr;
     AbstractPlayerModelsContext *_playerModelsContext;
 
 };

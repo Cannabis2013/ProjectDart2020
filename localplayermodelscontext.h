@@ -10,6 +10,7 @@
 #include "defaultplayerbuilderconfigurations.h"
 #include <QVariantList>
 #include <iostream>
+#include "abstractjsonpersistence.h"
 
 using namespace std;
 
@@ -23,7 +24,9 @@ typedef IPlayerModel<QUuid,QString> DefaultModelInterface;
 typedef IPlayerBuilderParameters<QString,QUuid> DefaultParameters;
 typedef IDataModelBuilder<DefaultModelInterface,DefaultParameters,IPlayerBuilderConfiguration> DefaultPlayerBuilder;
 
-class LocalPlayerModelsContext : public AbstractPlayerModelsContext
+class LocalPlayerModelsContext :
+        public AbstractPlayerModelsContext,
+        public AbstractJSONPersistence
 {
     Q_OBJECT
 public:
@@ -36,8 +39,15 @@ public:
         PlayersDeletedOK = 0x36
     };
     enum UserRoles{Admin = 0x0, Player = 0x02};
+    /*
+     * Constructor
+     */
+    LocalPlayerModelsContext(DefaultPlayerBuilder *playerModelbuilder);
+    ~LocalPlayerModelsContext();
+    // PersistenceInterface interface
+    void read() override;
+    void write() override;
 
-    QList<QUuid> createDummyModels();
     DefaultPlayerBuilder *playerBuilder();
     void setPlayerBuilder(DefaultPlayerBuilder *builder);
 public slots:
@@ -65,9 +75,6 @@ public slots:
                                         const int &keyPoint,
                                         const QList<int> &playerIndexes) override;
 private:
-    QUuid createPlayer(const QString &playerName,
-                       const QString& email,
-                       const int& role) ;
     void deletePlayerByUserName(const QString &firstName) ;
     void deletePlayerByID(const QUuid &player) ;
     void deletePlayerByEmail(const QString &playerEMail) ;
@@ -79,9 +86,13 @@ private:
     int playersCount() const ;
     DefaultPlayerBuilder *playerBuilder() const;
 
-    void buildPlayerModel(const QUuid &id,
-                          const QString &playerName,
-                          const QString& email) ;
+    QJsonArray assemblePlayersJSONArray();
+    void extractPlayerModelsFromJSON(const QJsonArray &arr);
+
+    QUuid buildPlayerModel(const QString &playerName,
+                          const QString& email, const int &role,
+                          const bool &generateID = true,
+                          const QUuid &id = QUuid()) ;
 
     DefaultPlayerInterface *getModel(const QString &playerName) const;
 

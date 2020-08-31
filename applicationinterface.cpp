@@ -4,105 +4,28 @@ ApplicationInterface::ApplicationInterface(AbstractTournamentModelsContext *tour
 {
 
     setObjectName("ApplicationInterface");
-    _tournamentsModelContext = tournamentModelsContext;
+    _tournamentModelsContext = tournamentModelsContext;
     _playerModelsContext = playerModelsContext;
     _controllerBuilder = builder;
-
     _tournamentModelsThread = new QThread();
     _playerModelsThread = new QThread();
+    /*
+     * Register types to
+     * MOC
+     */
+    registerTypes();
+    connectModelsContextInterface();
 
-    _tournamentsModelContext->moveToThread(_tournamentModelsThread);
+    _tournamentModelsContext->moveToThread(_tournamentModelsThread);
     _playerModelsThread->moveToThread(_playerModelsThread);
-
-
-    /*
-     * Register meta types
-     */
-    qRegisterMetaType<PlayerPair>("PlayerPair");
-    qRegisterMetaType<PlayerPairs>("PlayerPairs");
-    qRegisterMetaType<QList<QUuid>>("QList<QUuid>");
-
-    /*
-     * Setup upstream communication between UI and modelcontexts
-     */
-    connect(tournamentModelsContext,&AbstractTournamentModelsContext::transmitResponse,
-            this,&ApplicationInterface::transmitResponse);
-    connect(playerModelsContext,&AbstractPlayerModelsContext::transmitResponse,
-            this,&ApplicationInterface::transmitResponse);
-    /*
-     * Get all tournaments
-     */
-    connect(this,&ApplicationInterface::requestTournaments,
-            _tournamentsModelContext,&AbstractTournamentModelsContext::handleTransmitTournaments);
-    connect(_tournamentsModelContext,&AbstractTournamentModelsContext::sendTournament,
-            this,&ApplicationInterface::sendRequestedTournament);
-    connect(tournamentModelsContext,&AbstractTournamentModelsContext::lastTournamentTransmitted,
-            this,&ApplicationInterface::lastTournamentDetailsTransmitted);
-    /*
-     * Get all players
-     */
-    connect(this,&ApplicationInterface::requestPlayers,
-            playerModelsContext,&AbstractPlayerModelsContext::handleRequestPlayersDetails);
-    connect(playerModelsContext,&AbstractPlayerModelsContext::sendPlayerDetails,
-            this,&ApplicationInterface::sendPlayerDetail);
-    connect(playerModelsContext,&AbstractPlayerModelsContext::lastPlayerDetailTransmitted,
-            this,&ApplicationInterface::lastPlayerDetailsTransmitted);
-    /*
-     * Create tournament
-     */
-    connect(this,&ApplicationInterface::sendTournamentCandidate,
-            playerModelsContext,&AbstractPlayerModelsContext::handleProcessCreatedTournament);
-    connect(playerModelsContext,&AbstractPlayerModelsContext::sendProcessedTournamentDetails,
-            tournamentModelsContext,&AbstractTournamentModelsContext::assembleAndAddTournament);
-    /*
-     * Create player
-     */
-    connect(this,&ApplicationInterface::requestCreatePlayer,
-            playerModelsContext,&AbstractPlayerModelsContext::createPlayer);
-    /*
-     * Delete tournament
-     */
-    connect(this,&ApplicationInterface::requestDeleteTournaments,
-            tournamentModelsContext,&AbstractTournamentModelsContext::deleteTournaments);
-    connect(tournamentModelsContext,&AbstractTournamentModelsContext::tournamentsDeletedSuccess,
-            this,&ApplicationInterface::tournamentsDeletedSuccess);
-    /*
-     * Delete player{s}
-     */
-    connect(this,&ApplicationInterface::requestDeletePlayer,
-            playerModelsContext,&AbstractPlayerModelsContext::deletePlayer);
-    connect(this,&ApplicationInterface::requestDeletePlayers,
-            playerModelsContext,&AbstractPlayerModelsContext::deletePlayers);
-    connect(playerModelsContext,&AbstractPlayerModelsContext::playersDeletedStatus,
-            this,&ApplicationInterface::playersDeletedStatus);
-    /*
-     * Set current tournament
-     */
-    connect(this,&ApplicationInterface::setCurrentActiveTournament,
-            tournamentModelsContext,&AbstractTournamentModelsContext::handleRequestTournamentDetails);
-    connect(tournamentModelsContext,&AbstractTournamentModelsContext::sendTournamentDetails,
-            playerModelsContext,&AbstractPlayerModelsContext::processTournamentDetails);
-    connect(playerModelsContext,&AbstractPlayerModelsContext::sendTournamentDetails,
-            this,&ApplicationInterface::handleTournamentDetailsAndSetController);
-    /*
-     * Send tournament meta information
-     */
-    connect(tournamentModelsContext,&AbstractTournamentModelsContext::sendTournamentMeta,
-            playerModelsContext,&AbstractPlayerModelsContext::handleAndProcessTournamentMetaData);
-    connect(playerModelsContext,&AbstractPlayerModelsContext::sendProcessedTournamentMetaData,
-            this,&ApplicationInterface::processRecievedTournamentMetaData);
-    /*
-     * Send scorepoints
-     */
-    connect(tournamentModelsContext,&AbstractTournamentModelsContext::sendPlayerScore,
-            this,&ApplicationInterface::sendPlayerScore);
-
     _tournamentModelsThread->start();
     _playerModelsThread->start();
 }
 
 ApplicationInterface::~ApplicationInterface()
 {
+    delete _tournamentModelsContext;
+    delete _playerModelsContext;
     delete _gameController;
 }
 
@@ -261,6 +184,94 @@ void ApplicationInterface::handleTournamentDetailsAndSetController(const QUuid &
     }
 }
 
+void ApplicationInterface::registerTypes()
+{
+    /*
+     * Register meta types
+     */
+    qRegisterMetaType<PlayerPair>("PlayerPair");
+    qRegisterMetaType<PlayerPairs>("PlayerPairs");
+    qRegisterMetaType<QList<QUuid>>("QList<QUuid>");
+}
+
+void ApplicationInterface::connectModelsContextInterface()
+{
+    /*
+     * Setup upstream communication between UI and modelcontexts
+     */
+    connect(_tournamentModelsContext,&AbstractTournamentModelsContext::transmitResponse,
+            this,&ApplicationInterface::transmitResponse);
+    connect(_playerModelsContext,&AbstractPlayerModelsContext::transmitResponse,
+            this,&ApplicationInterface::transmitResponse);
+    /*
+     * Get all tournaments
+     */
+    connect(this,&ApplicationInterface::requestTournaments,
+            _tournamentModelsContext,&AbstractTournamentModelsContext::handleTransmitTournaments);
+    connect(_tournamentModelsContext,&AbstractTournamentModelsContext::sendTournament,
+            this,&ApplicationInterface::sendRequestedTournament);
+    connect(_tournamentModelsContext,&AbstractTournamentModelsContext::lastTournamentTransmitted,
+            this,&ApplicationInterface::lastTournamentDetailsTransmitted);
+    /*
+     * Get all players
+     */
+    connect(this,&ApplicationInterface::requestPlayers,
+            _playerModelsContext,&AbstractPlayerModelsContext::handleRequestPlayersDetails);
+    connect(_playerModelsContext,&AbstractPlayerModelsContext::sendPlayerDetails,
+            this,&ApplicationInterface::sendPlayerDetail);
+    connect(_playerModelsContext,&AbstractPlayerModelsContext::lastPlayerDetailTransmitted,
+            this,&ApplicationInterface::lastPlayerDetailsTransmitted);
+    /*
+     * Create tournament
+     */
+    connect(this,&ApplicationInterface::sendTournamentCandidate,
+            _playerModelsContext,&AbstractPlayerModelsContext::handleProcessCreatedTournament);
+    connect(_playerModelsContext,&AbstractPlayerModelsContext::sendProcessedTournamentDetails,
+            _tournamentModelsContext,&AbstractTournamentModelsContext::assembleAndAddTournament);
+    /*
+     * Create player
+     */
+    connect(this,&ApplicationInterface::requestCreatePlayer,
+            _playerModelsContext,&AbstractPlayerModelsContext::createPlayer);
+    /*
+     * Delete tournament
+     */
+    connect(this,&ApplicationInterface::requestDeleteTournaments,
+            _tournamentModelsContext,&AbstractTournamentModelsContext::deleteTournaments);
+    connect(_tournamentModelsContext,&AbstractTournamentModelsContext::tournamentsDeletedSuccess,
+            this,&ApplicationInterface::tournamentsDeletedSuccess);
+    /*
+     * Delete player{s}
+     */
+    connect(this,&ApplicationInterface::requestDeletePlayer,
+            _playerModelsContext,&AbstractPlayerModelsContext::deletePlayer);
+    connect(this,&ApplicationInterface::requestDeletePlayers,
+            _playerModelsContext,&AbstractPlayerModelsContext::deletePlayers);
+    connect(_playerModelsContext,&AbstractPlayerModelsContext::playersDeletedStatus,
+            this,&ApplicationInterface::playersDeletedStatus);
+    /*
+     * Set current tournament
+     */
+    connect(this,&ApplicationInterface::setCurrentActiveTournament,
+            _tournamentModelsContext,&AbstractTournamentModelsContext::handleRequestTournamentDetails);
+    connect(_tournamentModelsContext,&AbstractTournamentModelsContext::sendTournamentDetails,
+            _playerModelsContext,&AbstractPlayerModelsContext::processTournamentDetails);
+    connect(_playerModelsContext,&AbstractPlayerModelsContext::sendTournamentDetails,
+            this,&ApplicationInterface::handleTournamentDetailsAndSetController);
+    /*
+     * Send tournament meta information
+     */
+    connect(_tournamentModelsContext,&AbstractTournamentModelsContext::sendTournamentMeta,
+            _playerModelsContext,&AbstractPlayerModelsContext::handleAndProcessTournamentMetaData);
+    connect(_playerModelsContext,&AbstractPlayerModelsContext::sendProcessedTournamentMetaData,
+            this,&ApplicationInterface::processRecievedTournamentMetaData);
+    /*
+     * Send scorepoints
+     */
+    connect(_tournamentModelsContext,&AbstractTournamentModelsContext::sendPlayerScore,
+            this,&ApplicationInterface::sendPlayerScore);
+}
+
 void ApplicationInterface::connectControllerInterface()
 {
     /*
@@ -274,8 +285,8 @@ void ApplicationInterface::connectControllerInterface()
     connect(this,&ApplicationInterface::sendTournamentDetails,
             _gameController,&AbstractGameController::recieveTournamentDetails);
     connect(_gameController,&AbstractGameController::requestTournamentIndexes,
-            _tournamentsModelContext,&AbstractTournamentModelsContext::handleRequestTournamentIndexes);
-    connect(_tournamentsModelContext,&AbstractTournamentModelsContext::sendTournamentIndexes,
+            _tournamentModelsContext,&AbstractTournamentModelsContext::handleRequestTournamentIndexes);
+    connect(_tournamentModelsContext,&AbstractTournamentModelsContext::sendTournamentIndexes,
             _gameController,&AbstractGameController::recieveTournamentIndexes);
     /*
      * Send tournament metadata
@@ -283,14 +294,14 @@ void ApplicationInterface::connectControllerInterface()
     connect(this,&ApplicationInterface::requestTournamentMetaData,
             _gameController,&AbstractGameController::handleRequestForCurrentTournamentMetaData);
     connect(_gameController,&AbstractGameController::requestTournamentMetaData,
-            _tournamentsModelContext,&AbstractTournamentModelsContext::handleRequestForTournamentMetaData);
+            _tournamentModelsContext,&AbstractTournamentModelsContext::handleRequestForTournamentMetaData);
     /*
      * Setup request transmitting playerscores
      */
     connect(this,&ApplicationInterface::requestPlayerScores,
             _gameController,&AbstractGameController::handleRequestForPlayerScores);
     connect(_gameController,&AbstractGameController::sendCurrentTournamentForTransmittingScorePoints,
-            _tournamentsModelContext,&AbstractTournamentModelsContext::handleTransmitPlayerScores);
+            _tournamentModelsContext,&AbstractTournamentModelsContext::handleTransmitPlayerScores);
     /*
      * Start/stop game
      */
@@ -304,8 +315,8 @@ void ApplicationInterface::connectControllerInterface()
     connect(this,&ApplicationInterface::requestTournamentReset,
             _gameController,&AbstractGameController::handleResetTournament);
     connect(_gameController,&AbstractGameController::requestResetTournament,
-            _tournamentsModelContext,&AbstractTournamentModelsContext::handleResetTournament);
-    connect(_tournamentsModelContext,&AbstractTournamentModelsContext::tournamentResetSuccess,
+            _tournamentModelsContext,&AbstractTournamentModelsContext::handleResetTournament);
+    connect(_tournamentModelsContext,&AbstractTournamentModelsContext::tournamentResetSuccess,
             _gameController,&AbstractGameController::handleTournamentResetSuccess);
     /*
      * Add point
@@ -315,12 +326,12 @@ void ApplicationInterface::connectControllerInterface()
     connect(this,&ApplicationInterface::sendPoint,
             _gameController,&AbstractGameController::handleAndProcessUserInput);
     connect(_gameController,&AbstractGameController::sendScore,
-            _tournamentsModelContext,&AbstractTournamentModelsContext::addScore);
-    connect(_tournamentsModelContext,&AbstractTournamentModelsContext::scoreAddedToDataContext,
+            _tournamentModelsContext,&AbstractTournamentModelsContext::addScore);
+    connect(_tournamentModelsContext,&AbstractTournamentModelsContext::scoreAddedToDataContext,
             _gameController,&AbstractGameController::handleScoreAddedToDataContext);
     connect(_gameController,&AbstractGameController::requestUpdateContext,
-            _tournamentsModelContext,&AbstractTournamentModelsContext::handleRequestUpdateContext);
-    connect(_tournamentsModelContext,&AbstractTournamentModelsContext::datacontextUpdated,
+            _tournamentModelsContext,&AbstractTournamentModelsContext::handleRequestUpdateContext);
+    connect(_tournamentModelsContext,&AbstractTournamentModelsContext::datacontextUpdated,
             _gameController,&AbstractGameController::handleDataContextUpdated);
     /*
      * Undo/redo
@@ -330,8 +341,8 @@ void ApplicationInterface::connectControllerInterface()
     connect(this,&ApplicationInterface::requestRedo,
             _gameController,&AbstractGameController::redoTurn);
     connect(_gameController,&AbstractGameController::requestSetModelHint,
-            _tournamentsModelContext,&AbstractTournamentModelsContext::handleRequestSetScoreHint);
-    connect(_tournamentsModelContext,&AbstractTournamentModelsContext::scoreHintUpdated,
+            _tournamentModelsContext,&AbstractTournamentModelsContext::handleRequestSetScoreHint);
+    connect(_tournamentModelsContext,&AbstractTournamentModelsContext::scoreHintUpdated,
             _gameController,&AbstractGameController::handleScoreHintUpdated);
 }
 
@@ -370,10 +381,10 @@ void ApplicationInterface::setPlayerModelsContext(AbstractPlayerModelsContext *p
 
 AbstractTournamentModelsContext *ApplicationInterface::tournamentsModelContext() const
 {
-    return _tournamentsModelContext;
+    return _tournamentModelsContext;
 }
 
 void ApplicationInterface::setTournamentsModelContext(AbstractTournamentModelsContext *tournamentsModelContext)
 {
-    _tournamentsModelContext = tournamentsModelContext;
+    _tournamentModelsContext = tournamentsModelContext;
 }

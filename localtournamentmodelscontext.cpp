@@ -1,5 +1,55 @@
 #include "localtournamentmodelscontext.h"
 
+void LocalTournamentModelsContext::read()
+{
+    QJsonObject JSONObject;
+    try {
+        JSONObject = readJSONFromFile("TournamentModels");
+    } catch (...) {
+        return;
+    }
+    auto tournamentsJSONArray = JSONObject["TournamentsData"].toArray();
+    auto roundsJSONArray = JSONObject["RoundsData"].toArray();
+    auto setsJSONArray = JSONObject["SetsData"].toArray();
+    auto scoresJSONArray = JSONObject["ScoresData"].toArray();
+
+    extractTournamentModelsFromJSON(tournamentsJSONArray);
+    extractRoundModelsFromJSON(roundsJSONArray);
+    extractSetModelsFromJSON(setsJSONArray);
+    extractScoreModelsFromJSON(scoresJSONArray);
+
+    // Do inconsistency check
+
+    removeInconsistentModels();
+}
+
+void LocalTournamentModelsContext::write()
+{
+    /*
+     * Persist tournament models
+     */
+    QJsonObject modelJSON;
+    modelJSON["TournamentsData"] = assembleTournamentsJSONArray();
+    modelJSON["RoundsData"] = assembleRoundsJSONArray();
+    modelJSON["SetsData"] = assembeSetsJSONArray();
+    modelJSON["ScoresData"] = assembleScoresJSONArray();
+    writeJSONToFile(modelJSON,"TournamentModels");
+}
+
+LocalTournamentModelsContext::LocalTournamentModelsContext(ITournamentBuilder *tournamentModelBuilder, IRoundBuilder *roundModelbuilder, ISetBuilder *setModelbuilder, IPointBuilder *pointModelBuilder)
+{
+    setTournamentBuilder(tournamentModelBuilder);
+    setRoundBuilder(roundModelbuilder);
+    setSetBuilder(setModelbuilder);
+    setPointBuilder(pointModelBuilder);
+    read();
+}
+
+LocalTournamentModelsContext::~LocalTournamentModelsContext()
+{
+    write();
+}
+
 ITournamentBuilder *LocalTournamentModelsContext::tournamentBuilder()
 {
     return _tournamentBuilder;
@@ -41,19 +91,6 @@ LocalTournamentModelsContext *LocalTournamentModelsContext::setPointBuilder(IPoi
 {
     _pointBuilder = builder;
     return this;
-}
-
-void LocalTournamentModelsContext::createDummyModels()
-{
-    createTournament("Martins tournament",501,3,0x1,0x2B);
-}
-
-void LocalTournamentModelsContext::assignToTournament(const int &index,
-                                                      const QList<QUuid> &list)
-{
-    auto tournamentID = tournamentIDFromIndex(index);
-    for (auto playerID : list)
-        assignPlayerToTournament(tournamentID,playerID);
 }
 
 void LocalTournamentModelsContext::handleRequestUpdateContext(const QUuid &tournamentID,
@@ -1153,6 +1190,105 @@ void LocalTournamentModelsContext::removeInconsistentRounds()
     }
 }
 
+QJsonArray LocalTournamentModelsContext::assembleTournamentsJSONArray()
+{
+    QJsonArray tournamentsJSON;
+    auto tournamentsID = tournaments();
+    for (auto tournamentID : tournamentsID) {
+        QJsonObject obj;
+        auto id = tournamentID;
+        obj["ID"] = id.toString();
+        obj["Title"] = tournamentTitle(id);
+        obj["KeyPoint"] = tournamentKeyPoint(id);
+        obj["GameMode"] = tournamentGameMode(id);
+        obj["winner"] = tournamentDeterminedWinner(id).toString();
+        obj["throws"] = tournamentNumberOfThrows(id);
+        auto players = tournamentAssignedPlayers(id);
+
+        QJsonArray playersJSON;
+        auto count = players.count();
+        for (int j = 0; j < count; ++j) {
+            auto playerID = players.at(j).toString();
+            QJsonObject playerObj;
+            playerObj["ID"] = playerID;
+            playersJSON.append(playerObj);
+        }
+        obj["Players"] = playersJSON;
+        tournamentsJSON.append(obj);
+    }
+    return tournamentsJSON;
+}
+
+QJsonArray LocalTournamentModelsContext::assembleRoundsJSONArray()
+{
+    QJsonArray roundsJSON;
+    auto roundsID = this->roundsID();
+    for (auto roundID : roundsID) {
+        QJsonObject roundJSON;
+        roundJSON["ID"] = roundID.toString();
+        roundJSON["Index"] = roundIndex(roundID);
+        roundJSON["TournamentID"] = roundTournament(roundID).toString();
+        roundsJSON.append(roundJSON);
+    }
+    return roundsJSON;
+}
+
+QJsonArray LocalTournamentModelsContext::assembeSetsJSONArray()
+{
+    QJsonArray setsJSON;
+    auto setsID = this->setsID();
+    for (auto setID : setsID) {
+        QJsonObject setJSON;
+        setJSON["ID"] = setID.toString();
+        setJSON["Index"] = setIndex(setID);
+        setJSON["RoundID"] = setRound(setID).toString();
+        setsJSON.append(setJSON);
+    }
+    return setsJSON;
+}
+
+QJsonArray LocalTournamentModelsContext::assembleScoresJSONArray()
+{
+    QJsonArray scoresJSON;
+    auto scoresID = scores();
+    for (auto scoreID : scoresID) {
+        QJsonObject scoreJSON;
+        scoreJSON["ID"] = scoreID.toString();
+        scoreJSON["PointValue"] = scorePointValue(scoreID);
+        scoreJSON["ScoreValue"] = scoreValue(scoreID);
+        scoreJSON["SetID"] = scoreSet(scoreID).toString();
+        scoreJSON["Index"] = scoreThrowIndex(scoreID);
+        scoreJSON["PlayerID"] = scorePlayer(scoreID).toString();
+        scoresJSON.append(scoreJSON);
+    }
+    return scoresJSON;
+}
+
+void LocalTournamentModelsContext::extractTournamentModelsFromJSON(const QJsonArray &arr)
+{
+    auto tournamentsCount = arr.count();
+    for (int i = 0; i < tournamentsCount; ++i) {
+        auto tournamentJSON = arr[i].toObject();
+        auto stringID = tournamentJSON["ID"].toString();
+        auto tournamentID = QUuid::fromString(stringID);
+        auto title = tournamentJSON["Title"].toString();
+        auto keyPoint = tournamentJSON["KeyPoint"].toInt();
+        auto gameMode = tournamentJSON["GameMode"].toInt();
+        auto throws = tournamentJSON["Throws"].toInt();
+        auto winnerStringID = tournamentJSON["WinnerID"].toString();
+        auto winnerID = QUuid::fromString(winnerStringID);
+        buildTournament(tournamentID,title,keyPoint,throws,gameMode,winnerID);
+        auto playersJSONArray = tournamentJSON["Players"].toArray();
+        auto playersJSONCount = playersJSONArray.count();
+        for (int j = 0; j < playersJSONCount; ++j) {
+            auto assignedPlayerJSON = playersJSONArray[j].toObject();
+            auto stringID = assignedPlayerJSON["ID"].toString();
+            auto playerID = QUuid::fromString(stringID);
+            assignPlayerToTournament(tournamentID,playerID);
+        }
+    }
+}
+
 void LocalTournamentModelsContext::buildTournament(const QUuid &id,
                                                  const QString &title,
                                                  const int &keyPoint,
@@ -1219,12 +1355,15 @@ void LocalTournamentModelsContext::buildScoreModel(const QUuid &player,
                                                    const QUuid &set,
                                                    const int &throwIndex,
                                                    const int &point,
-                                                   const int &score)
+                                                   const int &score,
+                                                   const bool &generateID,
+                                                   const QUuid &id)
 {
     auto model = pointBuilder()->buildModel(
-                [set,throwIndex,point,player,score]
+                [id,set,throwIndex,point,player,score]
     {
         PointParameters params;
+        params.id = id;
         params.setId = set;
         params.playerId = player;
         params.pointValue = point;
@@ -1232,10 +1371,10 @@ void LocalTournamentModelsContext::buildScoreModel(const QUuid &player,
         params.scoreValue = score;
 
         return params;
-    }(),[]{
+    }(),[generateID]{
         ModelOptions options;
         options.modelHint = ModelDisplayHint::DisplayHint;
-        options.generateUniqueId = true;
+        options.generateUniqueId = generateID;
         return options;
     }());
 
@@ -1317,5 +1456,45 @@ int LocalTournamentModelsContext::score(const QUuid &player)
 {
     Q_UNUSED(player);
     return -1;
+}
+
+void LocalTournamentModelsContext::extractRoundModelsFromJSON(const QJsonArray &arr)
+{
+    for (auto JSONValue : arr) {
+        auto stringID = JSONValue["ID"].toString();
+        auto id = QUuid::fromString(stringID);
+        auto index = JSONValue["Index"].toInt();
+        auto tournamentStringID = JSONValue["TournamentID"].toString();
+        auto tournamentID = QUuid::fromString(tournamentStringID);
+        buildRound(tournamentID,index,id);
+    }
+}
+
+void LocalTournamentModelsContext::extractSetModelsFromJSON(const QJsonArray &arr)
+{
+    for (auto JSONValue : arr) {
+        auto stringID = JSONValue["ID"].toString();
+        auto id = QUuid::fromString(stringID);
+        auto index = JSONValue["Index"].toInt();
+        auto roundStringID = JSONValue["RoundID"].toString();
+        auto roundID = QUuid::fromString(roundStringID);
+        buildSet(id,roundID,index);
+    }
+}
+
+void LocalTournamentModelsContext::extractScoreModelsFromJSON(const QJsonArray &arr)
+{
+    for (auto JSONValue : arr) {
+        auto stringID = JSONValue["ID"].toString();
+        auto id = QUuid::fromString(stringID);
+        auto pointValue = JSONValue["PointValue"].toInt();
+        auto scoreValue = JSONValue["ScoreValue"].toInt();
+        auto setStringID = JSONValue["SetID"].toString();
+        auto setID = QUuid::fromString(setStringID);
+        auto playerStringID = JSONValue["PlayerID"].toString();
+        auto playerID = QUuid::fromString(playerStringID);
+        auto throwIndex = JSONValue["Index"].toInt();
+        buildScoreModel(playerID,setID,pointValue,throwIndex,scoreValue,false,id);
+    }
 }
 

@@ -57,6 +57,16 @@ public:
     void read() override;
     void write() override;
 
+    /*
+     * Constructor
+     */
+
+    LocalTournamentModelsContext(ITournamentBuilder *tournamentModelBuilder,
+                                 IRoundBuilder *roundModelbuilder,
+                                 ISetBuilder *setModelbuilder,
+                                 IPointBuilder *pointModelBuilder);
+    ~LocalTournamentModelsContext();
+
     // Builder methods
     ITournamentBuilder *tournamentBuilder();
     LocalTournamentModelsContext *setTournamentBuilder(ITournamentBuilder *builder);
@@ -66,11 +76,6 @@ public:
     LocalTournamentModelsContext *setSetBuilder(ISetBuilder *builder);
     IPointBuilder *pointBuilder();
     LocalTournamentModelsContext *setPointBuilder(IPointBuilder *builder);
-    /*
-     * Testing purposes
-     */
-    void createDummyModels();
-    void assignToTournament(const int &index, const QList<QUuid> &list);
 
     void assembleAndAddTournament(const QString &title,
                                   const int &gameMode,
@@ -207,15 +212,26 @@ private:
     void removeInconsistentSets();
     void removeInconsistentRounds();
     /*
-     * Add existing models from persistence
+     * Extract models from JSO
      */
+    QJsonArray assembleTournamentsJSONArray();
+    QJsonArray assembleRoundsJSONArray();
+    QJsonArray assembeSetsJSONArray();
+    QJsonArray assembleScoresJSONArray();
 
+    void extractTournamentModelsFromJSON(const QJsonArray &arr);
+    void extractRoundModelsFromJSON(const QJsonArray &arr);
+    void extractSetModelsFromJSON(const QJsonArray &arr);
+    void extractScoreModelsFromJSON(const QJsonArray &arr);
+    /*
+     * Build and update contextmodel state
+     */
     void buildTournament(const QUuid &id,
-                        const QString &title,
-                        const int &keyPoint,
-                        const int &throws,
-                       const int &gameMode,
-                       const QUuid &winner) ;
+                         const QString &title,
+                         const int &keyPoint,
+                         const int &throws,
+                         const int &gameMode,
+                         const QUuid &winner) ;
 
     void buildRound(const QUuid &tournament, const int &index, const QUuid &id) ;
     void buildSet(const QUuid &id, const QUuid &round, const int &setIndex) ;
@@ -223,7 +239,9 @@ private:
                          const QUuid &set,
                          const int &throwIndex,
                          const int &point,
-                         const int &score);
+                         const int &score,
+                         const bool &generateID = true,
+                         const QUuid &id = QUuid());
 
     ITournamentBuilder *_tournamentBuilder;
     IRoundBuilder *_roundBuilder;

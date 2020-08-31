@@ -1,17 +1,12 @@
 #include "abstractjsonpersistence.h"
 
-AbstractJSONPersistence::AbstractJSONPersistence()
-{
-
-}
-
 void AbstractJSONPersistence::writeJSONToFile(const QJsonObject &json, const QString &fileName)
 {
     QFile file(fileName);
     file.open(QIODevice::WriteOnly);
 
     QDataStream out(&file);
-    out << json.toVariantHash();
+    out << json;
 
     file.close();
 }
@@ -23,8 +18,7 @@ QJsonObject AbstractJSONPersistence::readJSONFromFile(const QString &fileName)
         throw "File not found";
     file.open(QIODevice::ReadOnly);
     QDataStream in(&file);
-    QVariantHash dataHash;
-    in >> dataHash;
-    QJsonObject obj = QJsonObject::fromVariantHash(dataHash);
+    QJsonObject obj;
+    in >> obj;
     return obj;
 }

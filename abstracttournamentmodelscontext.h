@@ -13,7 +13,8 @@ class AbstractTournamentModelsContext : public QObject,
         public IResponseInterface<QVariantList>
 {
     Q_OBJECT
-
+public:
+    virtual ~AbstractTournamentModelsContext() =default;
 public slots:
     virtual void assembleAndAddTournament(const QString &title,
                                           const int &gameMode,

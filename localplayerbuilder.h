@@ -26,6 +26,7 @@ public:
         model->setId(QUuid::createUuid());
         model->setUserName(params.playerName());
         model->setEmail(mail);
+        model->setUserRole(params.role());
 
         if(options.generateUniqueID())
             model->setId(QUuid::createUuid());

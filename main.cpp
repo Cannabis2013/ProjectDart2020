@@ -26,17 +26,13 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<ScoreDataModel>("CustomItems",1,0,"ScoreDataModel");
 
-    auto tournamentModelsContext = new LocalTournamentModelsContext();
-    tournamentModelsContext->setTournamentBuilder(new TournamentModelBuilder())
-            ->setRoundBuilder(new RoundBuilder())->setSetBuilder(new SetBuilder())
-            ->setPointBuilder(new PointBuilder());
-    tournamentModelsContext->createDummyModels();
+    auto tournamentModelsContext = new LocalTournamentModelsContext(new TournamentModelBuilder(),
+                                                                    new RoundBuilder(),
+                                                                    new SetBuilder(),
+                                                                    new PointBuilder());
 
-    auto playerModelsContext = new LocalPlayerModelsContext();
-    playerModelsContext->setPlayerBuilder(new LocalPlayerBuilder());
-    auto list = playerModelsContext->createDummyModels();
+    auto playerModelsContext = new LocalPlayerModelsContext(new LocalPlayerBuilder());
 
-    tournamentModelsContext->assignToTournament(0,list);
 
     auto gameBuilder = new GameBuilder();
 
