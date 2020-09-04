@@ -2,7 +2,6 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>ScoreBoard.qml</file>
-        <file>StartPage.qml</file>
         <file>PushButton.qml</file>
         <file>PageLabelItem.qml</file>
         <file>StartPageContent.qml</file>
@@ -20,7 +19,7 @@
         <file>MainComponent.qml</file>
         <file>ButtonsComponent.qml</file>
         <file>Page.qml</file>
-        <file>SetupPageContent.qml</file>
+        <file>CreateTournamentContent.qml</file>
         <file>GamePageContent.qml</file>
         <file>TurnNavigationComponent.qml</file>
         <file>KeyPadComponent.qml</file>
@@ -36,6 +35,7 @@
         <file>DecoratedItem.qml</file>
         <file>ManagePageContent.qml</file>
         <file>ConfirmPageContent.qml</file>
+        <file>CreatePlayerContent.qml</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>

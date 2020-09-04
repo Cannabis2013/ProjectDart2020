@@ -6,6 +6,9 @@ import "componentFactory.js" as ComponentFactory
 Content {
     id: body
 
+    signal requestCreatePlayerPage
+    signal requestCreateTournamentPage
+
     signal requestPlayers
     signal requestDeletePlayers(var indexes)
     signal requestTournaments
@@ -87,9 +90,6 @@ Content {
         applicationInterface.transmitResponse.connect(replyFromBackendRecieved); // Handle reply
         requestTournaments();
     }
-    onReplyFromBackendRecieved: {
-
-    }
     GridLayout{
         id: mainLayout
         anchors.fill: parent
@@ -133,22 +133,10 @@ Content {
             }
             CRUDButton{
                 text: "Create"
-                onClicked: {
-                    body.visible = false;
-                    var createdComponent = ComponentFactory.createPopUp(applicationWindow,
-                                                                        "createPlayerPopUp",
-                                                                        "CreatePlayerPopUp.qml",
-                                                                        0,0,
-                                                                        applicationWindow.width,
-                                                                        applicationWindow.height);
-                    createdComponent.backButtonPressed.connect(playersListView.requestUpdate);
-                    applicationInterface.transmitResponse.disconnect(replyFromBackendRecieved);
-                }
-
+                onClicked: requestCreatePlayerPage()
             }
             CRUDButton{
                 text: "Delete"
-
                 onClicked: {
                     var obj = ComponentFactory.createConfirmPopUp('ConfirmPageContent.qml',
                                                                   applicationWindow);
@@ -193,6 +181,7 @@ Content {
             }
             CRUDButton{
                 text: "Create"
+                onClicked: requestCreateTournamentPage()
             }
             CRUDButton{
                 text: "Delete"

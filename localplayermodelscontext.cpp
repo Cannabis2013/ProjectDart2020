@@ -134,8 +134,9 @@ void LocalPlayerModelsContext::setPlayerBuilder(DefaultPlayerBuilder *builder)
 
 void LocalPlayerModelsContext::createPlayer(const QString &name, const QString &mail)
 {
-    buildPlayerModel(name,mail,UserRoles::Player);
-    emit transmitResponse(ModelsContextResponse::PlayerCreatedOK,{});
+    auto id = buildPlayerModel(name,mail,UserRoles::Player);
+    auto status = id != QUuid() ? true : false;
+    emit confirmPlayerCreated(status);
 }
 
 void LocalPlayerModelsContext::deletePlayer(const int &index)
@@ -321,7 +322,11 @@ QUuid LocalPlayerModelsContext::buildPlayerModel(const QString &playerName,
         options.setGenerateUniqueId(generateID);
         return options;
     }());
-    _models << model;
+    try {
+        _models << model;
+    }  catch (...) {
+        return QUuid();
+    }
     auto modelID = model->id();
     return modelID;
 }

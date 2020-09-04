@@ -174,9 +174,14 @@ signals:
 
     void lastTournamentDetailsTransmitted();
     void lastPlayerDetailsTransmitted();
+    void playerCreatedSuccess(const bool &status);
 
 private slots:
-    void processRecievedTournamentMetaData(const QString &title, const int &gameMode, const int &keyPoint, const QString &winnerName, const QStringList &assignedPlayerNames);
+    void processRecievedTournamentMetaData(const QString &title,
+                                           const int &gameMode,
+                                           const int &keyPoint,
+                                           const QString &winnerName,
+                                           const QStringList &assignedPlayerNames);
     void handleTournamentDetailsAndSetController(const QUuid &tournament,
                                                  const QString &winner,
                                                  const int &keyPoint,
@@ -189,6 +194,10 @@ private:
     void connectModelsContextInterface();
     void connectControllerInterface();
 
+    void startTournamentModelsWorkerThread();
+    void startPlayerModelsWorkerThread();
+    void stopTournamentModelsWorkerThread();
+    void stopPlayerModelsWorkerThread();
     AbstractGameController *gameController() const;
     DefaultControllerBuilderInterface *controllerBuilder() const;
 

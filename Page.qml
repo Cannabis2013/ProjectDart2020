@@ -4,16 +4,13 @@ import QtQuick.Layouts 1.3
 import QtQuick.Window 2.3
 
 Rectangle {
-
     id: pageBody
-
-    color: defaultBackgroundColor
-
-    property string defaultBackgroundColor: "#A54141"
-
     signal backButtonPressed
+    color: defaultBackgroundColor
+    property string defaultBackgroundColor: "#A54141"
     onBackButtonPressed: pageBody.destroy()
-
+    property bool backButtonDisabled: false
+    onBackButtonDisabledChanged: backButton.enabled = !backButtonDisabled
     property Content pageContent: Content{}
     onPageContentChanged: {
         contentFlickable.children[0].children[0] = pageContent;
@@ -22,8 +19,8 @@ Rectangle {
         pageContent.notifyWidthChange.connect(contentFlickable.setContentWidth);
         pageContent.notifyHeightChange.connect(contentFlickable.setContentHeight);
         pageContent.backButtonPressed.connect(backButtonPressed);
+        pageContent.anchors.fill = contentFlickable.contentItem;
     }
-
     onWidthChanged: {
         contentFlickable.contentWidth = contentFlickable.width;
     }
@@ -106,7 +103,6 @@ Rectangle {
 
         Flickable{
             id: contentFlickable
-
             clip: true
 
             function setContentWidth(w)
@@ -129,13 +125,13 @@ Rectangle {
             }
         }
     }
-    PropertyAnimation on width {
-        from: 0
-        to: width
-
-        duration: 100
+    PropertyAnimation on x {
+        from: - width
+        to: 0
+        duration: 150
     }
     Component.onCompleted: {
         contentFlickable.contentHeight = contentFlickable.height;
+        contentFlickable.contentWidth = contentFlickable.width;
     }
 }

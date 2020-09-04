@@ -284,6 +284,7 @@ Content {
             PropertyChanges {
                 target: turnNavigator
                 startButtonEnabled : true
+                startButtonText : buttonTextContainer.startText
             }
         },
         State {

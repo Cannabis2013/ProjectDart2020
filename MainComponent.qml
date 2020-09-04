@@ -1,8 +1,19 @@
-import QtQuick 2.0
+import QtQuick 2.12
 
 Item {
     id: body
     signal backPushed
+
+    Component{
+        id: createPlayerComponent
+
+        Page{
+            onBackButtonPressed: pageLoader.sourceComponent = managePageComponent
+            pageContent: CreatePlayerContent{
+            }
+        }
+    }
+
     Component{
         id: gamePageComponent
 
@@ -16,21 +27,23 @@ Item {
 
     Component{
         id: managePageComponent
-
         Page{
-            onBackButtonPressed: pageLoader.sourceComponent = tournamentPageComponent
+            onBackButtonPressed: pageLoader.sourceComponent = startPageComponent
             pageTitle: "Manage tournaments and players"
-            pageContent: ManagePageContent{}
+            pageContent: ManagePageContent{
+                onRequestCreatePlayerPage: pageLoader.sourceComponent = createPlayerComponent
+                onRequestCreateTournamentPage: pageLoader.sourceComponent = createTournamentComponent
+            }
             Component.onCompleted: body.backPushed.connect(backButtonPressed)
         }
     }
 
     Component{
-        id: setupPageComponent
+        id: createTournamentComponent
         Page {
-            onBackButtonPressed: pageLoader.sourceComponent = tournamentPageComponent
+            onBackButtonPressed: pageLoader.sourceComponent = managePageComponent
             pageTitle: "Setup tournament"
-            pageContent: SetupPageContent{}
+            pageContent: CreateTournamentContent{}
             Component.onCompleted: body.backPushed.connect(backButtonPressed)
         }
     }
@@ -42,7 +55,7 @@ Item {
             pageTitle: "Get started.."
             onBackButtonPressed: pageLoader.sourceComponent = startPageComponent
             pageContent: TournamentPageContent{
-                onCreateTournamentClicked: pageLoader.sourceComponent = setupPageComponent
+                onCreateTournamentClicked: pageLoader.sourceComponent = createTournamentComponent
                 onManageButtonClicked: pageLoader.sourceComponent = managePageComponent
                 onStartGameClicked: pageLoader.sourceComponent = gamePageComponent
             }
@@ -53,13 +66,16 @@ Item {
     Component
     {
         id: startPageComponent
-        StartPage{
-            onRequestSetupGamePage: pageLoader.sourceComponent = tournamentPageComponent
-            onRequestLoginPage: {}
-            onRequestLogOut: {}
-            onRequestQuit: destructor()
-
-            padding: 12
+        Page{
+            anchors.fill: parent
+            backButtonDisabled : true
+            pageContent: StartPageContent{
+                onSetupGameClicked: pageLoader.sourceComponent = tournamentPageComponent
+                onManageContentClicked: pageLoader.sourceComponent = managePageComponent
+                onLoginButtonClicked: {}
+                onLogoutButtonClicked: {}
+                onQuitButtonClicked: destructor()
+            }
         }
     }
     Loader{

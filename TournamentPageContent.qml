@@ -81,20 +81,6 @@ Content{
            Rectangle{
                Layout.fillWidth: true
            }
-
-           CRUDButton{
-               id: createButton
-               text: "Create"
-               onClicked: createTournamentClicked()
-           }
-           CRUDButton{
-               id: deleteButton
-               text: "Delete"
-               onClicked: {
-                   var indexes = tournamentListView.currentIndexes();
-                   requestDeleteTournaments(indexes);
-               }
-           }
            CRUDButton{
                id: manageButton
                text: "Manage"
@@ -106,13 +92,11 @@ Content{
         body.requestTournaments.connect(applicationInterface.handleTournamentsRequest); // Request initial tournaments
         applicationInterface.sendRequestedTournament.connect(recieveTournament);
         body.sendClickedTournamentIndex.connect(applicationInterface.handleSetCurrentTournamentRequest);
-        body.requestDeleteTournaments.connect(applicationInterface.handleDeleteTournamentsRequest);
         body.requestTournaments();
     }
     Component.onDestruction: {
         body.requestTournaments.disconnect(applicationInterface.handleTournamentsRequest);
         applicationInterface.sendRequestedTournament.disconnect(recieveTournament);
         body.sendClickedTournamentIndex.disconnect(applicationInterface.handleSetCurrentTournamentRequest);
-        body.requestDeleteTournaments.disconnect(applicationInterface.handleDeleteTournamentsRequest);
-    }
+        }
 }

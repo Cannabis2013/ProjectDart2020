@@ -9,10 +9,7 @@ ApplicationInterface::ApplicationInterface(AbstractTournamentModelsContext *tour
     _controllerBuilder = builder;
     _tournamentModelsThread = new QThread();
     _playerModelsThread = new QThread();
-    /*
-     * Register types to
-     * MOC
-     */
+
     registerTypes();
     connectModelsContextInterface();
 
@@ -233,6 +230,8 @@ void ApplicationInterface::connectModelsContextInterface()
      */
     connect(this,&ApplicationInterface::requestCreatePlayer,
             _playerModelsContext,&AbstractPlayerModelsContext::createPlayer);
+    connect(_playerModelsContext,&AbstractPlayerModelsContext::confirmPlayerCreated,
+            this,&ApplicationInterface::playerCreatedSuccess);
     /*
      * Delete tournament
      */
@@ -274,6 +273,10 @@ void ApplicationInterface::connectModelsContextInterface()
 
 void ApplicationInterface::connectControllerInterface()
 {
+    /*
+    stopTournamentModelsWorkerThread();
+    stopPlayerModelsWorkerThread();
+    */
     /*
      * Establish communication between controller and UI
      */
@@ -344,6 +347,31 @@ void ApplicationInterface::connectControllerInterface()
             _tournamentModelsContext,&AbstractTournamentModelsContext::handleRequestSetScoreHint);
     connect(_tournamentModelsContext,&AbstractTournamentModelsContext::scoreHintUpdated,
             _gameController,&AbstractGameController::handleScoreHintUpdated);
+
+    startTournamentModelsWorkerThread();
+    startPlayerModelsWorkerThread();
+}
+
+void ApplicationInterface::startTournamentModelsWorkerThread()
+{
+    _tournamentModelsThread->start();
+}
+
+void ApplicationInterface::startPlayerModelsWorkerThread()
+{
+    _playerModelsThread->start();
+}
+
+void ApplicationInterface::stopTournamentModelsWorkerThread()
+{
+    _tournamentModelsThread->terminate();
+    _tournamentModelsThread->wait();
+}
+
+void ApplicationInterface::stopPlayerModelsWorkerThread()
+{
+    _playerModelsThread->terminate();
+    _playerModelsThread->wait();
 }
 
 AbstractGameController *ApplicationInterface::gameController() const

@@ -1479,6 +1479,7 @@ void LocalTournamentModelsContext::extractSetModelsFromJSON(const QJsonArray &ar
         auto roundStringID = JSONValue["RoundID"].toString();
         auto roundID = QUuid::fromString(roundStringID);
         buildSet(id,roundID,index);
+        cout << stringID.toStdString() << endl;
     }
 }
 
@@ -1494,7 +1495,7 @@ void LocalTournamentModelsContext::extractScoreModelsFromJSON(const QJsonArray &
         auto playerStringID = JSONValue["PlayerID"].toString();
         auto playerID = QUuid::fromString(playerStringID);
         auto throwIndex = JSONValue["Index"].toInt();
-        buildScoreModel(playerID,setID,pointValue,throwIndex,scoreValue,false,id);
+        buildScoreModel(playerID,setID,throwIndex,pointValue,scoreValue,false,id);
     }
 }
 

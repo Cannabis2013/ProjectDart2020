@@ -5,6 +5,9 @@ Item
 {
     id: body
 
+    property string text: ""
+    onTextChanged: pageLabel.text = text
+
     property color color: "transparent"
     onColorChanged: labelRect.color = color
 
@@ -18,7 +21,7 @@ Item
     Text {
         id: pageLabel
 
-        text: qsTr("Dart 2020")
+        text: qsTr(body.text)
         
         font.pointSize: 40
         

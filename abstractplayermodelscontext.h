@@ -74,6 +74,8 @@ signals:
                                         const QList<QUuid> &playersID);
     void playersDeletedStatus(const bool &status);
     void lastPlayerDetailTransmitted();
+
+    void confirmPlayerCreated(const bool &status);
 };
 
 #endif // ABSTRACTPLAYERMODELSCONTEXT_H
