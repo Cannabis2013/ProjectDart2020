@@ -59,9 +59,7 @@ Rectangle{
         fontSize: labelFontSize
 
         textLeftMargin: labelLeftMargin
-
         horizontalTextAlignment: labelFontAlignment
-
         anchors.left: parent.left
 
         height: parent.height
@@ -88,14 +86,7 @@ Rectangle{
 
         color: myLineEditBody.backgroundColor
         fontColor: myLineEditBody.fontColor
+    }
 
-        PropertyAnimation on width {
-            from: 0
-            to: parent.width / 2
-
-            duration: 300
-
-            easing.type: Easing.OutBounce
-        }
-    }   
+    Component.onCompleted: print(width)
 }

@@ -75,15 +75,6 @@ Rectangle{
         width: parent.width / 2
 
         radius: comboBoxViewBody.borderRadius
-
-        PropertyAnimation on width {
-            from: 0
-            to: parent.width / 2
-
-            duration: 300
-
-            easing.type: Easing.OutBounce
-        }
     }
 
 }

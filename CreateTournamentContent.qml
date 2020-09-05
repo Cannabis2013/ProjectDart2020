@@ -157,10 +157,11 @@ Content {
         ListComponent {
             id: playersListView
             Layout.alignment: Qt.AlignHCenter
-            width: 320
+            width: defaultPageContentWidth * 0.75
             height: 256
             componentTitle: "Assign players"
-            labelBackgroundColor: "lightgray"
+            titleBackground: "lightblue"
+            labelBackgroundColor: "lightblue"
             itemBackgroundColor: "lightblue"
             itemTitleTextColor: "black"
             itemDescriptionFontColor: "black"
@@ -174,7 +175,7 @@ Content {
             allowMultipleSelections: true
             instantSelectEnabled: true
             itemDecorator: "qrc:/pictures/Ressources/skull.png"
-            imageBackgroundColor: "lightblue"
+            imageBackgroundColor: "transparent"
             onItemSelected: evaluateItemSelectedChanged()
         }
 
