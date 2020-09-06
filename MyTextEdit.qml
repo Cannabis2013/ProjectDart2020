@@ -5,11 +5,12 @@ import QtQuick.Layouts 1.3
 
 Rectangle
 {
-    id: myTextEditBody
+    id: body
 
     clip: true
 
     signal textChanged
+    signal enterPressed
 
     onWidthChanged: print(width)
 
@@ -27,6 +28,14 @@ Rectangle
 
     TextEdit{
         id: titleEdit
+        focus: true
+        Keys.onPressed: {
+            if(event.key === Qt.Key_Enter ||event.key === Qt.Key_Return)
+            {
+                print("Enter pressed inside TextEdit");
+                enterPressed();
+            }
+        }
         anchors.fill: parent
         anchors.leftMargin: 20
         font.pointSize: fontSize
@@ -47,8 +56,8 @@ Rectangle
                 if(isNaN(txt))
                     clear();
             }
-            myTextEditBody.currentText = text;
-            myTextEditBody.textChanged()
+            body.currentText = text;
+            body.textChanged()
         }
     }
 }

@@ -43,7 +43,7 @@ Content
             labelBackgroundColor: "lightblue"
             labelLeftMargin: 10
             onTextChanged: body.evaluateInputs()
-            
+            onEnterPressed: endStateButtons.buttonTwoClicked()
         }
         
         LineEditComponent{
@@ -56,6 +56,7 @@ Content
             labelFontColor: "darkblue"
             labelBackgroundColor: "lightblue"
             labelLeftMargin: 10
+            onEnterPressed: endStateButtons.buttonTwoClicked()
         }
         
         MyRectangle{
@@ -82,7 +83,7 @@ Content
             color: "transparent"
             height: 30
             Layout.fillWidth: true
-            Layout.alignment: Qt.AlignBottom |Qt.AlignHCenter
+            Layout.alignment: Qt.AlignBottom | Qt.AlignHCenter
             buttonOneTitle: "Cancel"
             buttonTwoTitle: "Save"
             buttonWidth: 100
@@ -90,6 +91,8 @@ Content
             onButtonOneClicked: backButtonPressed();
             onButtonTwoClicked: {
                 var playerName = userNameEdit.currentText;
+                if(playerName === "")
+                    return;
                 var mail = mailEdit.currentText;
                 buttonOneEnabled = false;
                 buttonTwoEnabled = false;

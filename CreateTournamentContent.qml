@@ -54,14 +54,6 @@ Content {
         playersListView.addItemModel({"type" : "player","username" : playerName, "mail" : email})
     }
 
-    function reConnectInterface()
-    {
-        body.visible = true;
-        applicationInterface.transmitResponse.connect(replyFromBackendRecieved); // Handle reply
-        playersListView.clear();
-        requestPlayers();
-    }
-
     function gameModeToHex(text)
     {
         var gameModes = stringModels.gameModes;
@@ -182,8 +174,6 @@ Content {
         MyRectangle{
             Layout.fillWidth: true
             Layout.fillHeight: true
-
-            Layout.minimumHeight: createPlayerButton.height*2
         }
         /*
           Save button clicked
@@ -215,24 +205,6 @@ Content {
                                winConditionKeyCode,
                                keyPointEdit.currentText,
                                indexes);
-            }
-        }
-        CRUDButton{
-            id: createPlayerButton
-            text: "Create"
-
-            anchors.top: playersListView.bottom
-            anchors.right: playersListView.right
-            onClicked: {
-                body.visible = false;
-                var createdComponent = ComponentFactory.createPopUp(applicationWindow,
-                                                                    "createPlayerPopUp",
-                                                                    "CreatePlayerPopUp.qml",
-                                                                    0,0,
-                                                                    applicationWindow.width,
-                                                                    applicationWindow.height,);
-                createdComponent.backButtonPressed.connect(body.reConnectInterface);
-                applicationInterface.transmitResponse.disconnect(replyFromBackendRecieved);
             }
         }
 

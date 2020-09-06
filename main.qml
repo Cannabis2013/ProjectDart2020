@@ -18,7 +18,6 @@ ApplicationWindow {
 
     Screen.orientationUpdateMask:  Qt.LandscapeOrientation | Qt.PortraitOrientation
 
-
     title: qsTr("Dart2020")
 
     function destructor(){

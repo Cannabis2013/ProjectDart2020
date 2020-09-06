@@ -1,13 +1,16 @@
 import QtQuick 2.15
 
 Item {
-    id: pushButtonbody
+    id: body
 
     property string text: ""
     onTextChanged: {
         var translateableText = qsTr(text);
         buttonText.text = translateableText;
     }
+
+    property double backgroundTransparency: 1
+    onBackgroundTransparencyChanged: buttonRect.opacity = backgroundTransparency
 
     property int fontSize: 12
     onFontSizeChanged: buttonText.font.pointSize = fontSize
@@ -54,6 +57,8 @@ Item {
     signal clicked
     signal pressAndHoldClicked
 
+    signal hoveredChanged(bool status)
+
     onClicked: handleClick()
 
     signal clickedAndSendText(string txt)
@@ -71,45 +76,44 @@ Item {
         if(isCheckable)
         {
             if(!checked){
-                buttonRect.state = "checked";
+                state = "checked";
             }
             else
             {
-                buttonRect.state = "";
+                state = "";
             }
             buttonRect.scale = checked ? checkedScale : 1
-            pushButtonbody.checkStateChanged(checked);
+            body.checkStateChanged(checked);
         }
     }
+
+    clip: true
 
     MouseArea
     {
         id: buttonMouseArea
-        anchors.fill: pushButtonbody
+        focus: true
+        anchors.fill: body
         hoverEnabled: true
         onHoveredChanged: {
-            if(!pushButtonbody.hoverEnabled)
+            if(!body.hoverEnabled)
                 return;
-            var c = buttonRect.color;
-            var tColor = buttonText.color;
-            if(isCheckable && checked){
-                if(containsMouse)
-                    buttonRect.state = "hoveredPressed"
-                else
-                    buttonRect.state = "checked";
+            else if(checked)
                 return;
+            if(containsMouse)
+            {
+                body.state = "hovered";
+                body.hoveredChanged(true);
             }
-            else if(containsMouse){
-                buttonRect.state = "hovered";
-
-            }
-            else{
-                buttonRect.state = "";
+            else
+            {
+                body.state = "";
+                body.hoveredChanged(false);
             }
         }
 
         onPressAndHold: {
-            if(pushButtonbody.enablePressAndHold)
+            if(body.enablePressAndHold)
             {
                 pressAndHoldClicked();
             }
@@ -117,107 +121,103 @@ Item {
 
         onPressedChanged: {
             if(containsPress)
-                buttonRect.state = "pressed";
+                body.state = "pressed";
             else
-                buttonRect.state = checked ? "checked" : "";
+                body.state = checked ? "checked" : "";
         }
 
         onClicked: {
-            pushButtonbody.clicked();
-            pushButtonbody.clickedAndSendText(text);
+            body.clicked();
+            body.clickedAndSendText(text);
         }
     }
-
-    clip: true
 
     Rectangle
     {
         id: buttonRect
-
-        anchors.fill: pushButtonbody
-
-        radius: pushButtonbody.buttonRadius
-
+        anchors.fill: body
+        radius: body.buttonRadius
         color: backgroundColor
-        Image{
-            id: imageDecorator
-
-            anchors.fill: parent
-            anchors.margins: pushButtonbody.imageMargins
-
-            rotation: pushButtonbody.imageRotation
-        }
-
-        Text {
-            id: buttonText
-
-            font.pointSize: fontSize
-
-            color: pushButtonbody.textColor
-            text: qsTr(pushButtonbody.text)
-
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-
-            anchors.centerIn: parent
-        }
-        states: [
-            State {
-                name: "hovered"
-                PropertyChanges {
-                    target: buttonRect
-                    color : hoveredColor
-                }
-                PropertyChanges {
-                    target: buttonText
-                    color: hoveredTextColor
-                }
-                PropertyChanges {
-                    target: pushButtonbody
-                    checked: pushButtonbody.checked
-                }
-            },
-            State {
-                name: "hoveredPressed"
-                PropertyChanges {
-                    target: buttonText
-                    color: hoveredTextColor
-                }
-                PropertyChanges{
-                    target: buttonRect
-                    color: hoveredColor
-                }
-                PropertyChanges {
-                    target: pushButtonbody
-                    checked: pushButtonbody.checked
-                }
-            },
-            State {
-                name: "checked"
-                PropertyChanges {
-                    target: buttonRect
-                    color : checkedBackgroundColor
-                }
-                PropertyChanges{
-                    target: buttonText
-                    color: checkedTextColor
-                }
-                PropertyChanges {
-                    target: pushButtonbody
-                    checked : true
-                }
-            },
-            State {
-                name: "pressed"
-                PropertyChanges {
-                    target: buttonRect
-                    scale : pushButtonbody.pressedScale
-                }
-                PropertyChanges {
-                    target: pushButtonbody
-                    checked: pushButtonbody.checked
-                }
-            }
-        ]
     }
+    Image{
+        id: imageDecorator
+
+        anchors.fill: parent
+        anchors.margins: body.imageMargins
+
+        rotation: body.imageRotation
+    }
+
+    Text {
+        id: buttonText
+
+        font.pointSize: fontSize
+
+        color: body.textColor
+        text: qsTr(body.text)
+
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+
+        anchors.centerIn: parent
+    }
+    states: [
+        State {
+            name: "hovered"
+            PropertyChanges {
+                target: buttonRect
+                color : hoveredColor
+                opacity: 1
+            }
+            PropertyChanges {
+                target: buttonText
+                color: hoveredTextColor
+            }
+            PropertyChanges {
+                target: body
+                checked: body.checked
+            }
+        },
+        State {
+            name: "hoveredPressed"
+            PropertyChanges {
+                target: buttonText
+                color: hoveredTextColor
+            }
+            PropertyChanges{
+                target: buttonRect
+                color: hoveredColor
+            }
+            PropertyChanges {
+                target: body
+                checked: body.checked
+            }
+        },
+        State {
+            name: "checked"
+            PropertyChanges {
+                target: buttonRect
+                color : checkedBackgroundColor
+            }
+            PropertyChanges{
+                target: buttonText
+                color: checkedTextColor
+            }
+            PropertyChanges {
+                target: body
+                checked : true
+            }
+        },
+        State {
+            name: "pressed"
+            PropertyChanges {
+                target: buttonRect
+                scale : body.pressedScale
+            }
+            PropertyChanges {
+                target: body
+                checked: body.checked
+            }
+        }
+    ]
 }

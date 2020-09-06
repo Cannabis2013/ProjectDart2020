@@ -5,17 +5,18 @@ import QtQuick.Layouts 1.3
 
 
 Rectangle{
-    id: myLineEditBody
+    id: body
 
     color: "transparent"
 
     signal textChanged
+    signal enterPressed
 
     property int lineEditBorderRadius: 20
     onLineEditBorderRadiusChanged: lineEdit.radius = lineEditBorderRadius
 
     property color fontColor: "black"
-    onFontColorChanged: lineEdit.fontColor = myLineEditBody.fontColor
+    onFontColorChanged: lineEdit.fontColor = body.fontColor
 
     property color backgroundColor: "white"
     onBackgroundColorChanged: lineEdit.color = backgroundColor
@@ -53,9 +54,9 @@ Rectangle{
         id: label
 
         // Font properties
-        color: myLineEditBody.labelBackgroundColor
+        color: body.labelBackgroundColor
 
-        fontColor: myLineEditBody.labelFontColor
+        fontColor: body.labelFontColor
         fontSize: labelFontSize
 
         textLeftMargin: labelLeftMargin
@@ -63,7 +64,7 @@ Rectangle{
         anchors.left: parent.left
 
         height: parent.height
-        width: parent.width - myLineEditBody.lineEditBorderRadius
+        width: parent.width - body.lineEditBorderRadius
 
         text: labelText
 
@@ -72,20 +73,15 @@ Rectangle{
 
     MyTextEdit {
         id: lineEdit
-
-        onTextChanged: myLineEditBody.textChanged()
-
-        radius: myLineEditBody.lineEditBorderRadius
-
-        fontSize: myLineEditBody.fontSize
-
+        onTextChanged: body.textChanged()
+        radius: body.lineEditBorderRadius
         x: parent.width / 2
-
         width: parent.width / 2
         height: parent.height
-
-        color: myLineEditBody.backgroundColor
-        fontColor: myLineEditBody.fontColor
+        color: body.backgroundColor
+        fontSize: body.fontSize
+        fontColor: body.fontColor
+        onEnterPressed: body.enterPressed()
     }
 
     Component.onCompleted: print(width)

@@ -4,18 +4,20 @@ import QtQuick.Layouts 1.3
 import QtQuick.Window 2.3
 
 Rectangle {
-    id: pageBody
+    id: body
     signal backButtonPressed
-    color: defaultBackgroundColor
+    onBackButtonPressed: body.destroy()
     property string defaultBackgroundColor: "#A54141"
-    onBackButtonPressed: pageBody.destroy()
+    color: defaultBackgroundColor
+    property bool backButtonVisible: true
+    onBackButtonVisibleChanged: backButton.visible = backButtonVisible
     property bool backButtonDisabled: false
     onBackButtonDisabledChanged: backButton.enabled = !backButtonDisabled
     property Content pageContent: Content{}
     onPageContentChanged: {
         contentFlickable.children[0].children[0] = pageContent;
-        pageContent.requestSetPageTitle.connect(pageBody.handleSetPageTitleRequest);
-        pageContent.requestSetPageIcon.connect(pageBody.handleSetPageIcon);
+        pageContent.requestSetPageTitle.connect(body.handleSetPageTitleRequest);
+        pageContent.requestSetPageIcon.connect(body.handleSetPageIcon);
         pageContent.notifyWidthChange.connect(contentFlickable.setContentWidth);
         pageContent.notifyHeightChange.connect(contentFlickable.setContentHeight);
         pageContent.backButtonPressed.connect(backButtonPressed);
@@ -45,7 +47,7 @@ Rectangle {
     onPageIconUrlChanged: pageIcon.source = pageIconUrl
 
     GridLayout{
-        id: pageLayout
+        id: bodyLayout
         anchors.fill: parent
 
         rowSpacing: 10
@@ -64,6 +66,7 @@ Rectangle {
             PushButton
             {
                 id: backButton
+                visible: body.backButtonVisible
                 Layout.preferredWidth: 65
                 Layout.maximumHeight: 30
                 Layout.minimumHeight: 30
@@ -89,7 +92,7 @@ Rectangle {
                 Layout.minimumHeight: 30
                 fontSize: 20
                 textLeftMargin: 5
-                text: pageBody.pageTitle
+                text: body.pageTitle
             }
         }
 

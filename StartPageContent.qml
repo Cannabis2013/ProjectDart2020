@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.12
 import QtQuick.Layouts 1.3
 
 Content
@@ -80,52 +80,29 @@ Content
             Layout.fillHeight: true
             Layout.maximumHeight: 32
         }
-
-        PushButton
+        StartMenuButton
         {
             Layout.alignment: Qt.AlignHCenter
-            fontSize: 16
-            width: 256
-            height: 64
             text: "Select tournament \n and play"
-            textColor: "white"
-            backgroundColor: "green"
             onClicked: setupGameClicked()
         }
 
-        PushButton{
+        StartMenuButton {
             Layout.alignment: Qt.AlignHCenter
-            fontSize: 16
-            width: 256
-            height: 64
             text: "Manage tournaments \n and players"
-            textColor: "white"
-            backgroundColor: "green"
             onClicked: manageContentClicked()
         }
-
-
-        PushButton
+        StartMenuButton
         {
             Layout.alignment: Qt.AlignHCenter
-            fontSize: 16
-            width: 256
-            height: 64
             text: "Settings"
-            textColor: "white"
-            backgroundColor: "green"
             onClicked: settingsButtonClicked()
         }
 
-        PushButton
+        StartMenuButton
         {
             Layout.alignment: Qt.AlignHCenter
-            fontSize: 16
-            width: 256
-            height: 64
             text: "Quit"
-            textColor: "white"
-            backgroundColor: "green"
             onClicked: quitButtonClicked()
         }
         

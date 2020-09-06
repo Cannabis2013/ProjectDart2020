@@ -68,7 +68,9 @@ Item {
         id: startPageComponent
         Page{
             anchors.fill: parent
+            backButtonVisible: false
             backButtonDisabled : true
+            pageTitle: "Welcome"
             pageContent: StartPageContent{
                 onSetupGameClicked: pageLoader.sourceComponent = tournamentPageComponent
                 onManageContentClicked: pageLoader.sourceComponent = managePageComponent
