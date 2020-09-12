@@ -149,14 +149,15 @@ Content {
         ListComponent {
             id: playersListView
             Layout.alignment: Qt.AlignHCenter
-            width: defaultPageContentWidth * 0.75
-            height: 256
+            Layout.fillWidth: true
+            Layout.fillHeight: true
             componentTitle: "Assign players"
             titleBackground: "lightblue"
-            labelBackgroundColor: "lightblue"
-            itemBackgroundColor: "lightblue"
-            itemTitleTextColor: "black"
+            itemTitleBackgroundColor: "blue"
+            itemBackgroundColor: "transparent"
+            itemTitleTextColor: "white"
             itemDescriptionFontColor: "black"
+            itemDescriptionBackgroundColor: "lightblue"
             itemHoveredColor: "lightblue"
             color: "white"
             radius: 15
@@ -167,13 +168,13 @@ Content {
             allowMultipleSelections: true
             instantSelectEnabled: true
             itemDecorator: "qrc:/pictures/Ressources/skull.png"
-            imageBackgroundColor: "transparent"
+            imageBackgroundColor: "lightblue"
             onItemSelected: evaluateItemSelectedChanged()
         }
 
         MyRectangle{
             Layout.fillWidth: true
-            Layout.fillHeight: true
+            height: 32
         }
         /*
           Save button clicked

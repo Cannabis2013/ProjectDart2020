@@ -6,8 +6,19 @@
 #include "idatamodelbuilder.h"
 #include <qobject.h>
 #include "iresponseinterface.h"
+#include "gamemodelscontext.h"
 
 typedef QList<QPair<QUuid,QString>> PlayerPairs;
+
+typedef ITournament<QUuid,QList<QUuid>,QString> DefaultTournamentInterface;
+typedef IRound<QUuid, QList<QUuid>> DefaultRoundInterface;
+typedef ISet<QUuid,QList<QUuid>> DefaultSetInterface;
+typedef IScore<QUuid> DefaultPointInterface;
+
+typedef IDataModelBuilder<DefaultTournamentInterface, TournamentParameters,ModelOptions> ITournamentBuilder;
+typedef IDataModelBuilder<DefaultRoundInterface, RoundParameters,ModelOptions> IRoundBuilder;
+typedef IDataModelBuilder<DefaultSetInterface, SetParameters,ModelOptions> ISetBuilder;
+typedef IDataModelBuilder<DefaultPointInterface, PointParameters,ModelOptions> IPointBuilder;
 
 class AbstractTournamentModelsContext : public QObject,
         public IResponseInterface<QVariantList>
@@ -48,6 +59,8 @@ public slots:
                                            const int &throwIndex,
                                            const int &hint) = 0;
     virtual void handleResetTournament(const QUuid &tournament) = 0;
+    virtual AbstractTournamentModelsContext *setTournamentBuilder(ITournamentBuilder *builder) = 0;
+    virtual AbstractTournamentModelsContext *setRoundBuilder(IRoundBuilder *builder) = 0;
 signals:
     void transmitResponse(const int &status, const QVariantList &arguments) override;
     void sendPlayerScore(const QString &player, const int &point, const int &score);

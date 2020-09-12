@@ -8,12 +8,10 @@ Content {
 
     signal requestCreatePlayerPage
     signal requestCreateTournamentPage
-
     signal requestPlayers
     signal requestDeletePlayers(var indexes)
     signal requestTournaments
     signal requestDeleteTournaments(var indexes)
-
 
     /*
       Begin request tournaments after last player transmitted
@@ -104,9 +102,9 @@ Content {
             }
             Layout.alignment: Qt.AlignHCenter
             Layout.fillWidth: true
-            height: 256
+            Layout.fillHeight: true
             componentTitle: "Players"
-            labelBackgroundColor: "lightgray"
+            itemTitleBackgroundColor: "lightgray"
             itemBackgroundColor: "lightblue"
             itemTitleTextColor: "black"
             itemDescriptionFontColor: "black"

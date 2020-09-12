@@ -6,7 +6,6 @@
 #include <qjsonarray.h>
 #include <qfile.h>
 #include "abstracttournamentmodelscontext.h"
-#include "gamemodelscontext.h"
 #include "abstractjsonpersistence.h"
 
 #include <iostream>
@@ -18,16 +17,6 @@ using namespace std;
 
 #define THROW_OBJECT_WITH_ID_NOT_FOUND(x) QString("Model with ID: '%1' does not exists in the current context").arg(x).toStdString();
 #define THROW_OBJECT_WITH_INDEX_NOT_FOUND(x) QString("Model with index: '%1' does not exists in the current context").arg(x).toStdString();
-
-typedef ITournament<QUuid,QList<QUuid>,QString> DefaultTournamentInterface;
-typedef IRound<QUuid, QList<QUuid>> DefaultRoundInterface;
-typedef ISet<QUuid,QList<QUuid>> DefaultSetInterface;
-typedef IScore<QUuid> DefaultPointInterface;
-
-typedef IDataModelBuilder<DefaultTournamentInterface, TournamentParameters,ModelOptions> ITournamentBuilder;
-typedef IDataModelBuilder<DefaultRoundInterface, RoundParameters,ModelOptions> IRoundBuilder;
-typedef IDataModelBuilder<DefaultSetInterface, SetParameters,ModelOptions> ISetBuilder;
-typedef IDataModelBuilder<DefaultPointInterface, PointParameters,ModelOptions> IPointBuilder;
 
 
 class LocalTournamentModelsContext :
@@ -69,13 +58,13 @@ public:
 
     // Builder methods
     ITournamentBuilder *tournamentBuilder();
-    LocalTournamentModelsContext *setTournamentBuilder(ITournamentBuilder *builder);
+    AbstractTournamentModelsContext *setTournamentBuilder(ITournamentBuilder *builder) override;
     IRoundBuilder *roundBuilder();
-    LocalTournamentModelsContext *setRoundBuilder(IRoundBuilder *builder);
+    AbstractTournamentModelsContext *setRoundBuilder(IRoundBuilder *builder) override;
     ISetBuilder *setBuilder() const;
-    LocalTournamentModelsContext *setSetBuilder(ISetBuilder *builder);
+    AbstractTournamentModelsContext *setSetBuilder(ISetBuilder *builder);
     IPointBuilder *pointBuilder();
-    LocalTournamentModelsContext *setPointBuilder(IPointBuilder *builder);
+    AbstractTournamentModelsContext *setPointBuilder(IPointBuilder *builder);
 
     void assembleAndAddTournament(const QString &title,
                                   const int &gameMode,

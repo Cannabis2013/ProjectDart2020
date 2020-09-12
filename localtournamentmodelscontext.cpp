@@ -55,7 +55,7 @@ ITournamentBuilder *LocalTournamentModelsContext::tournamentBuilder()
     return _tournamentBuilder;
 }
 
-LocalTournamentModelsContext *LocalTournamentModelsContext::setTournamentBuilder(ITournamentBuilder *builder)
+AbstractTournamentModelsContext *LocalTournamentModelsContext::setTournamentBuilder(ITournamentBuilder *builder)
 {
     _tournamentBuilder = builder;
     return this;
@@ -65,7 +65,7 @@ IRoundBuilder *LocalTournamentModelsContext::roundBuilder(){
     return _roundBuilder;
 }
 
-LocalTournamentModelsContext *LocalTournamentModelsContext::setRoundBuilder(IRoundBuilder *builder)
+AbstractTournamentModelsContext *LocalTournamentModelsContext::setRoundBuilder(IRoundBuilder *builder)
 {
     _roundBuilder = builder;
     return this;
@@ -76,7 +76,7 @@ ISetBuilder *LocalTournamentModelsContext::setBuilder() const
     return _setBuilder;
 }
 
-LocalTournamentModelsContext *LocalTournamentModelsContext::setSetBuilder(ISetBuilder *builder)
+AbstractTournamentModelsContext *LocalTournamentModelsContext::setSetBuilder(ISetBuilder *builder)
 {
     _setBuilder = builder;
     return this;
@@ -87,7 +87,7 @@ IPointBuilder *LocalTournamentModelsContext::pointBuilder()
     return _pointBuilder;
 }
 
-LocalTournamentModelsContext *LocalTournamentModelsContext::setPointBuilder(IPointBuilder *builder)
+AbstractTournamentModelsContext *LocalTournamentModelsContext::setPointBuilder(IPointBuilder *builder)
 {
     _pointBuilder = builder;
     return this;
@@ -173,7 +173,6 @@ void LocalTournamentModelsContext::handleTransmitPlayerScores(const QUuid &tourn
                                                               const QList<QPair<QUuid,QString>>&playerPairs)
 {
     auto numberOfThrows = tournamentNumberOfThrows(tournament);
-    bool isInitial = true;
     for (auto player : playerPairs) {
         auto roundIndex = 1;
         auto throwIndex = 0;
@@ -191,7 +190,6 @@ void LocalTournamentModelsContext::handleTransmitPlayerScores(const QUuid &tourn
             }  catch (...) {
                 break;
             }
-            isInitial = false;
             int score;
             int point;
             try {

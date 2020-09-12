@@ -37,8 +37,10 @@ Rectangle{
     onItemTitleFontSizeChanged: listItem.titleFontSize = itemTitleFontSize
     property int itemDescriptionFontSize: 10
     onItemDescriptionFontSizeChanged: listItem.descriptionFontSize = itemDescriptionFontSize
-    property color labelBackgroundColor: "lightgray"
-    onLabelBackgroundColorChanged: listItem.labelBackgroundColor = labelBackgroundColor
+    property color itemDescriptionBackgroundColor : "transparent"
+    onItemDescriptionBackgroundColorChanged: listItem.descriptionBackgroundColor = itemDescriptionBackgroundColor
+    property color itemTitleBackgroundColor: "lightgray"
+    onItemTitleBackgroundColorChanged: listItem.labelBackgroundColor = itemTitleBackgroundColor
     property color itemSelectedBackgroundColor: "white"
     onItemSelectedBackgroundColorChanged: listItem.selectedColor = itemSelectedBackgroundColor
     property color itemSelectedtextColor: "black"
@@ -166,8 +168,9 @@ Rectangle{
                 radius: body.itemRoundedCorners
                 logoUrl: body.itemDecorator
                 noDelayPressSelect: body.instantSelectEnabled
-                labelBackgroundColor: body.labelBackgroundColor
+                labelBackgroundColor: body.itemTitleBackgroundColor
                 imageBackgroundColor: body.imageBackgroundColor
+                descriptionBackgroundColor: body.itemDescriptionBackgroundColor
 
                 title: {
                     if(type == "player")

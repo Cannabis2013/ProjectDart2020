@@ -75,6 +75,9 @@ Rectangle {
     property color labelBackgroundColor: "lightgray"
     onLabelBackgroundColorChanged: labelTitle.color = labelBackgroundColor
 
+    property color descriptionBackgroundColor : "transparent"
+    onDescriptionBackgroundColorChanged : labelDescription.color = descriptionBackgroundColor
+
     property string description: ""
     onDescriptionChanged: labelDescription.text = description
 
@@ -113,6 +116,7 @@ Rectangle {
         columns: 2
         flow: GridLayout.LeftToRight
         columnSpacing: 0
+        rowSpacing: 0
         DecoratedItem {
             id: imageRect
             Layout.fillHeight: true
@@ -144,6 +148,7 @@ Rectangle {
             fontColor: body.descriptionFontColor
             verticalTextAlignment: Qt.AlignVCenter
             horizontalTextAlignment: Qt.AlignLeft
+            color: body.descriptionBackgroundColor
         }
 
     }

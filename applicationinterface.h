@@ -118,6 +118,9 @@ signals:
      * Iresponse interface
      */
     void transmitResponse(const int &status, const QVariantList &arguments) override;
+    /*
+     * ApplicationInterface interface
+     */
     void requestCreatePlayer(const QString &playerName, const QString &mail);
     void requestDeletePlayer(const int &index);
     void requestDeletePlayers(const QVector<int> &indexes);
