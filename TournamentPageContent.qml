@@ -52,28 +52,14 @@ Content{
 
        flow: GridLayout.TopToBottom
 
-       ListComponent {
+       DefaultTournamentListView {
            id: tournamentListView
            Layout.fillWidth: true
            Layout.fillHeight: true
-           color: "white"
-           radius: 15
-           componentTitle: "Select tournament"
-           itemTitleTextColor: "black"
-           itemDescriptionFontColor: "white"
-           itemSelectedBackgroundColor: "blue"
-           itemSelectedtextColor: "black"
-           itemBackgroundColor: "darkblue"
-           imageBackgroundColor: "green"
+           allowMultipleSelections: false
+           allowCheckState: false
+           instantSelectEnabled: true
            onItemClicked: sendClickedTournamentIndex(index)
-           itemTitleFontSize: 20
-           itemDescriptionFontSize: 12
-           titleBackground: "steelblue"
-           itemWidth: tournamentListView.width *0.95
-           itemHeight: 64
-           allowCheckState: true
-
-           itemDecorator: "qrc:/pictures/Ressources/darttournamentmod.png"
        }
        GridLayout{
            flow: GridLayout.LeftToRight

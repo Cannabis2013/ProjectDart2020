@@ -86,7 +86,6 @@ Content {
             height: 32
             fontSize: 12
             labelText: "Title"
-            labelFontSize: 8
             labelFontColor: "darkblue"
             labelBackgroundColor: "lightblue"
             labelLeftMargin: 10
@@ -99,7 +98,6 @@ Content {
             height: 32
             fontSize: 12
             labelText: "Number of throws"
-            labelFontSize: 8
             labelFontColor: "darkblue"
             labelBackgroundColor: "lightblue"
             labelLeftMargin: 10
@@ -112,7 +110,7 @@ Content {
             height: 32
             fontSize: 12
             labelText: "Keypoint"
-            labelFontSize: 8
+
             labelFontColor: "darkblue"
             labelBackgroundColor: "lightblue"
             labelLeftMargin: 10
@@ -125,7 +123,6 @@ Content {
             labelText: "Game modes"
             labelFontColor: "darkblue"
             labelBackgroundColor: "lightblue"
-            labelFontSize: 8
             labelLeftMargin: 10
             stringModel: stringModels.gameModes
         }
@@ -137,7 +134,6 @@ Content {
             labelText: "Finish with:"
             labelFontColor: "darkblue"
             labelBackgroundColor: "lightblue"
-            labelFontSize: 8
             labelLeftMargin: 10
             stringModel: stringModels.keyIdentifiers
         }
@@ -146,30 +142,11 @@ Content {
             height: 10
         }
 
-        ListComponent {
+        DefaultPlayerListView {
             id: playersListView
             Layout.alignment: Qt.AlignHCenter
-            Layout.fillWidth: true
             Layout.fillHeight: true
-            componentTitle: "Assign players"
-            titleBackground: "lightblue"
-            itemTitleBackgroundColor: "blue"
-            itemBackgroundColor: "transparent"
-            itemTitleTextColor: "white"
-            itemDescriptionFontColor: "black"
-            itemDescriptionBackgroundColor: "lightblue"
-            itemHoveredColor: "lightblue"
-            color: "white"
-            radius: 15
-            itemTitleFontSize: 16
-            itemWidth: playersListView.width*0.95
-            itemHeight: 50
-            allowCheckState: true
-            allowMultipleSelections: true
-            instantSelectEnabled: true
-            itemDecorator: "qrc:/pictures/Ressources/skull.png"
-            imageBackgroundColor: "lightblue"
-            onItemSelected: evaluateItemSelectedChanged()
+            Layout.fillWidth: true
         }
 
         MyRectangle{

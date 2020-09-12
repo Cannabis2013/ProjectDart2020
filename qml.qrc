@@ -37,6 +37,9 @@
         <file>ConfirmPageContent.qml</file>
         <file>CreatePlayerContent.qml</file>
         <file>StartMenuButton.qml</file>
+        <file>FirstToPostTable.qml</file>
+        <file>DefaultPlayerListView.qml</file>
+        <file>DefaultTournamentListView.qml</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>

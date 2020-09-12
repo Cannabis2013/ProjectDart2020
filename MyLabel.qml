@@ -14,7 +14,7 @@ Rectangle
     onHorizontalTextAlignmentChanged: label.horizontalAlignment = horizontalTextAlignment
     property int verticalTextAlignment : Qt.AlignVCenter
     onVerticalTextAlignmentChanged: label.verticalAlignment = verticalTextAlignment
-    property int fontSize: 24
+    property int fontSize: 12
     onFontSizeChanged: label.font.pointSize = fontSize
     property string text: "Text label"
     onTextChanged: label.text = text

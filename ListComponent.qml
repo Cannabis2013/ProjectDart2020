@@ -58,11 +58,11 @@ Rectangle{
     property color itemBackgroundColor: "transparent"
     onItemBackgroundColorChanged: listItem.itemBackgroundColor = itemBackgroundColor
 
-    property color imageBackgroundColor: "transparent"
-    onImageBackgroundColorChanged: listItem.imageBackgroundColor = imageBackgroundColor
+    property color itemImageBackgroundColor: "transparent"
+    onItemImageBackgroundColorChanged: listItem.imageBackgroundColor = itemImageBackgroundColor
 
-    property url itemDecorator: ""
-    onItemDecoratorChanged: listItem.logoUrl = itemDecorator
+    property url itemImageUrl: ""
+    onItemImageUrlChanged: listItem.logoUrl = itemImageUrl
 
     function clear(){
         listModel.clear();
@@ -123,11 +123,8 @@ Rectangle{
     GridLayout
     {
         id: bodyLayout
-
         anchors.fill: parent
-
         flow: GridLayout.TopToBottom
-
         LabelComponent {
             id: labelTitle
             Layout.fillWidth: true
@@ -166,10 +163,10 @@ Rectangle{
                 titleFontColor: body.itemTitleTextColor
                 descriptionFontColor: body.itemDescriptionFontColor
                 radius: body.itemRoundedCorners
-                logoUrl: body.itemDecorator
+                logoUrl: body.itemImageUrl
                 noDelayPressSelect: body.instantSelectEnabled
                 labelBackgroundColor: body.itemTitleBackgroundColor
-                imageBackgroundColor: body.imageBackgroundColor
+                imageBackgroundColor: body.itemImageBackgroundColor
                 descriptionBackgroundColor: body.itemDescriptionBackgroundColor
 
                 title: {

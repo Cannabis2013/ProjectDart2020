@@ -93,33 +93,16 @@ Content {
         anchors.fill: parent
         flow: GridLayout.TopToBottom
 
-        ListComponent {
+        DefaultPlayerListView {
             id: playersListView
+            Layout.alignment: Qt.AlignHCenter
+            Layout.fillWidth: true
+            Layout.fillHeight: true
             onRequestUpdate: {
                 playersListView.clear();
                 requestPlayers();
                 body.visible = true;
             }
-            Layout.alignment: Qt.AlignHCenter
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            componentTitle: "Players"
-            itemTitleBackgroundColor: "lightgray"
-            itemBackgroundColor: "lightblue"
-            itemTitleTextColor: "black"
-            itemDescriptionFontColor: "black"
-            itemSelectedBackgroundColor: "lightblue"
-            titleBackground: "steelblue"
-            color: "white"
-            radius: 15
-            itemTitleFontSize: 16
-            itemWidth: playersListView.width*0.95
-            itemHeight: 50
-            allowCheckState: true
-            allowMultipleSelections: true
-            instantSelectEnabled: true
-            itemDecorator: "qrc:/pictures/Ressources/skull.png"
-            imageBackgroundColor: "lightblue"
         }
 
         GridLayout{
@@ -143,32 +126,15 @@ Content {
             }
         }
 
-        ListComponent {
+        DefaultTournamentListView {
             id: tournamentListView
-            Layout.fillWidth: true
             Layout.fillHeight: true
+            Layout.fillWidth: true
+
             onRequestUpdate: {
                 tournamentListView.clear();
                 requestTournaments();
             }
-            color: "white"
-            radius: 15
-            componentTitle: "Tournaments"
-            itemTitleTextColor: "black"
-            itemDescriptionFontColor: "black"
-            itemSelectedBackgroundColor: "lightblue"
-            itemSelectedtextColor: "black"
-            itemHoveredColor: "lightblue"
-            itemBackgroundColor: "lightblue"
-            itemTitleFontSize: 20
-            itemDescriptionFontSize: 12
-            titleBackground: "steelblue"
-            itemWidth: tournamentListView.width *0.95
-            itemHeight: 64
-            allowCheckState: true
-            allowMultipleSelections: true
-            instantSelectEnabled: true
-            itemDecorator: "qrc:/pictures/Ressources/darttournamentmod.png"
         }
         GridLayout{
             id: tournamentCRUDButtons

@@ -49,48 +49,58 @@ Content {
         property int tournamentGameMode: 0
         property int tournamentKeyPoint: 0
         property string determinedWinner: ""
+        property var assignedPlayers: []
     }
 
     function appendScore(player,point,score)
     {
         if(currentTournamentMetaData.tournamentGameMode === 0x1)
-            firstToPostScoreTable.appendData(player,point,score);
+            tableLoader.item.appendData(player,point,score);
     }
     function takeScore(player)
     {
         if(currentTournamentMetaData.tournamentGameMode === 0x1)
-            firstToPostScoreTable.takeData(player);
+            tableLoader.item.takeData(player);
     }
 
     function handleMetaInformation(meta){
-        var title = meta[0];
-        var gameMode = meta[1];
-        var keyPoint = meta[2];
-        var assignedPlayerNames = meta[3];
-        var determinedWinner = meta[4];
-
-        currentTournamentMetaData.tournamentTitle = title;
-        currentTournamentMetaData.tournamentGameMode = gameMode;
-        currentTournamentMetaData.tournamentKeyPoint = keyPoint;
-        currentTournamentMetaData.determinedWinner = determinedWinner;
-
-        if(gameMode === 0x1)
-            initializeFirstToPost(title,keyPoint,assignedPlayerNames);
+        print("Meta recieved");
+        currentTournamentMetaData.tournamentTitle = meta[0];
+        currentTournamentMetaData.tournamentGameMode = meta[1];
+        currentTournamentMetaData.tournamentKeyPoint = meta[2];
+        currentTournamentMetaData.assignedPlayers = meta[3];;
+        currentTournamentMetaData.determinedWinner = meta[4];
+        print("Meta stored");
+        if(currentTournamentMetaData.tournamentGameMode === 0x1)
+            tableLoader.sourceComponent = firstToPostTableComponent;
     }
 
-    function initializeFirstToPost(title,keyPoint,assignedPlayerNames)
+    function tableLoaded()
     {
-        for(var i = 0; i < assignedPlayerNames.length;i++)
+        var gameMode = currentTournamentMetaData.tournamentGameMode;
+        if(gameMode === 0x1)
+            initializeFirstToPost();
+    }
+
+    function initializeFirstToPost()
+    {
+        var title = currentTournamentMetaData.tournamentTitle;
+        var assignedPlayers = currentTournamentMetaData.assignedPlayers;
+        var keyPoint = currentTournamentMetaData.tournamentKeyPoint;
+        print("Initiate insert players. Players count: " + assignedPlayers.length);
+        for(var i = 0; i < assignedPlayers.length;i++)
         {
-            var assignedPlayerName = assignedPlayerNames[i];
-            firstToPostScoreTable.appendHeader(assignedPlayerName);
-            firstToPostScoreTable.appendData(assignedPlayerName,0,keyPoint);
+            var assignedPlayerName = assignedPlayers[i];
+            tableLoader.item.appendHeader(assignedPlayerName);
+            tableLoader.item.appendData(assignedPlayerName,0,keyPoint);
+            print(assignedPlayerName);
         }
+        print("Initiate set table variables");
         requestSetPageTitle(title);
-        firstToPostScoreTable.visible = true;
-        firstToPostScoreTable.displayPoints = true;
-        firstToPostScoreTable.setMinimumColumnsCount(4);
+        tableLoader.item.displayPoints = true;
+        tableLoader.item.setMinimumColumnsCount(4);
         requestScoreBoardData();
+        print("Request sent");
     }
 
     onReplyFromBackendRecieved: {
@@ -152,6 +162,13 @@ Content {
             turnNavigator.startButtonEnabled = true;
         }
     }
+    /*
+      Here I define all the tables for each corresponding gamemode
+      */
+    Component{
+        id: firstToPostTableComponent
+        FirstToPostTable{}
+    }
 
     GridLayout{
         id: componentLayout
@@ -193,16 +210,13 @@ Content {
                 requestRedo();
             }
         }
-        ScoreBoard{
-            id: firstToPostScoreTable
-            color: "transparent"
-            verticalHeaderFillMode: 0x1
+
+        Loader{
+            id: tableLoader
             Layout.fillWidth: true
             Layout.minimumHeight: 128
-            scoreFontSize: 20
-            pointFontSize: 10
-            visible: false
         }
+
         GridLayout{
             flow: GridLayout.TopToBottom
             Layout.maximumHeight: 40
@@ -301,16 +315,10 @@ Content {
                 target: keyPad
                 enableKeys : false
             }
-            PropertyChanges {
-                target: firstToPostScoreTable
-                minimumColumnsCount : 4
-
-            }
             StateChangeScript{
                 script: {
-                    firstToPostScoreTable.clearTable();
-                    body.requestScoreBoardData();
-                    requestRestart();
+                    tableLoader.sourceComponent = undefined;
+                    body.requestRestart();
                 }
             }
         },
@@ -352,6 +360,7 @@ Content {
         body.requestUndo.connect(applicationInterface.handleUndoRequest);
         body.requestRedo.connect(applicationInterface.handleRedoRequest);
         body.requestStatusFromBackend.connect(applicationInterface.handleControllerStateRequest);
+        tableLoader.loaded.connect(body.tableLoaded);
         requestMetaInformation();
     }
     Component.onDestruction: {
@@ -366,5 +375,6 @@ Content {
         body.requestUndo.disconnect(applicationInterface.requestUndo);
         body.requestRedo.disconnect(applicationInterface.requestRedo);
         body.requestStatusFromBackend.disconnect(applicationInterface.handleControllerStateRequest);
+        tableLoader.loaded.disconnect(body.tableLoaded);
     }
 }

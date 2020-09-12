@@ -38,7 +38,6 @@ Content
             height: 32
             fontSize: 12
             labelText: "Username*"
-            labelFontSize: 8
             labelFontColor: "darkblue"
             labelBackgroundColor: "lightblue"
             labelLeftMargin: 10
@@ -52,7 +51,6 @@ Content
             height: 32
             fontSize: 12
             labelText: "Mail adress"
-            labelFontSize: 8
             labelFontColor: "darkblue"
             labelBackgroundColor: "lightblue"
             labelLeftMargin: 10

@@ -20,7 +20,7 @@ Rectangle{
     property color labelFontColor: "black"
     onLabelFontColorChanged: label.fontColor = labelFontColor
 
-    property int labelFontSize: 16
+    property int labelFontSize: 18
     onLabelFontSizeChanged: label.fontSize = labelFontSize
 
     property int labelFontAlignment: Qt.AlignLeft
