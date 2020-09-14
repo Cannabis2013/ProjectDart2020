@@ -64,13 +64,12 @@ Content {
     }
 
     function handleMetaInformation(meta){
-        print("Meta recieved");
         currentTournamentMetaData.tournamentTitle = meta[0];
         currentTournamentMetaData.tournamentGameMode = meta[1];
         currentTournamentMetaData.tournamentKeyPoint = meta[2];
         currentTournamentMetaData.assignedPlayers = meta[3];;
         currentTournamentMetaData.determinedWinner = meta[4];
-        print("Meta stored");
+        print("Meta recieved -> Current winner: " + currentTournamentMetaData.determinedWinner);
         if(currentTournamentMetaData.tournamentGameMode === 0x1)
             tableLoader.sourceComponent = firstToPostTableComponent;
     }
@@ -87,7 +86,6 @@ Content {
         var title = currentTournamentMetaData.tournamentTitle;
         var assignedPlayers = currentTournamentMetaData.assignedPlayers;
         var keyPoint = currentTournamentMetaData.tournamentKeyPoint;
-        print("Initiate insert players. Players count: " + assignedPlayers.length);
         for(var i = 0; i < assignedPlayers.length;i++)
         {
             var assignedPlayerName = assignedPlayers[i];
@@ -95,12 +93,23 @@ Content {
             tableLoader.item.appendData(assignedPlayerName,0,keyPoint);
             print(assignedPlayerName);
         }
-        print("Initiate set table variables");
         requestSetPageTitle(title);
         tableLoader.item.displayPoints = true;
         tableLoader.item.setMinimumColumnsCount(4);
         requestScoreBoardData();
-        print("Request sent");
+    }
+
+    function handleBackendIsReadyAndAwaitsInput(args)
+    {
+        var canUndo = args[0];
+        var canRedo = args[1];
+        var currentRoundIndex = args[2];
+        var currentPlayerUserName = args[3];
+        var throwSuggestion = args[4];
+
+        suggestText.text = textSourceContainer.throwSuggestLabel + " " + throwSuggestion;
+        turnNavigator.updateState(currentRoundIndex,currentPlayerUserName,canUndo,canRedo);
+        body.state = "waitingForInput";
     }
 
     onReplyFromBackendRecieved: {
@@ -266,6 +275,7 @@ Content {
             PropertyChanges {
                 target: turnNavigator
                 startButtonText : buttonTextContainer.restartText
+                startButtonEnabled : enabled
             }
             StateChangeScript{
                 script: {

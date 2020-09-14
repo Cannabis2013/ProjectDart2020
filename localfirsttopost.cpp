@@ -337,7 +337,6 @@ int LocalFirstToPost::validateInput(const int &currentScore)
 void LocalFirstToPost::addPoint(const int &point, const int &score)
 {
     auto tournamentID = currentTournamentID();
-    auto playerName = currentActiveUser();
     auto roundIndex = currentRoundIndex();
     auto setIndex = currentPlayerIndex();
     auto throwIndex = currentThrowIndex();

@@ -8,12 +8,18 @@ Rectangle
     id: body
 
     clip: true
-
+    /*
+      Signals
+      */
     signal textChanged
     signal enterPressed
-
+    /*
+      Event handling
+      */
     onWidthChanged: print(width)
-
+    /*
+      Properties
+      */
     property int fontSize: 24
     onFontSizeChanged: titleEdit.font.pointSize = fontSize
     property color fontColor: "black"

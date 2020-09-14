@@ -29,14 +29,26 @@ Content{
                                             "playersCount" : playersCount})
     }
     onReplyFromBackendRecieved: {
-        if(response === 0x45) // Backend has responded with a status code that signals it is initialized and ready to start
+        /*
+          Backend has responded with a status code that signals it is initialized and ready to start
+          */
+        if(response === 0x45)
         {
             startGameClicked();
         }
-        else if(response == 0x29) // Backend has responded with a status code that signals it has succesfully updated its state
+        /*
+          Backend responds that there is detected an inconsistency
+          between the currently selected tournament
+          and its assigned player models.
+          */
+        else if(response === 0x39)
         {
-            tournamentListView.unSelectAllItems();
-            tournamentListView.removeItemModels(args);
+            /*
+              TODO:
+                - Notify the player about the issue
+                - Maybe provide some options to the player to correct the issue
+              */
+            print("Inconsistencies detected");
         }
     }
     onRequestUpdate: {

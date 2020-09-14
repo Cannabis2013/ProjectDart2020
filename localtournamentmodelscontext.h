@@ -65,7 +65,9 @@ public:
     AbstractTournamentModelsContext *setSetBuilder(ISetBuilder *builder);
     IPointBuilder *pointBuilder();
     AbstractTournamentModelsContext *setPointBuilder(IPointBuilder *builder);
-
+    /*
+     * Handle requests from external context
+     */
     void assembleAndAddTournament(const QString &title,
                                   const int &gameMode,
                                   const int &numberOfThrows,

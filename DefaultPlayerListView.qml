@@ -17,7 +17,8 @@ ListComponent {
     itemImageBackgroundColor: "darkblue"
     color: "white"
     radius: 15
-    itemTitleFontSize: 16
+    itemTitleFontSize: 24
+    itemDescriptionFontSize: 16
     itemWidth: playersListView.width*0.95
     itemHeight: 50
     allowCheckState: true

@@ -19,8 +19,8 @@ ListComponent {
     itemSelectedBackgroundColor: "lightblue"
     itemSelectedtextColor: "black"
     itemHoveredColor: "lightblue"
-    itemTitleFontSize: 20
-    itemDescriptionFontSize: 12
+    itemTitleFontSize: 24
+    itemDescriptionFontSize: 16
     itemWidth: tournamentListView.width *0.95
     itemHeight: 64
     allowCheckState: true

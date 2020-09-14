@@ -41,12 +41,14 @@ public:
         auto legCount = args.throws > 0 ? args.throws : args.defaultLegCount;
         auto keyPoint = args.keyPoint >= 0 ? args.keyPoint : args.defaultKeyPoint;
         auto playerIdentitties = args.playerIdentities;
+        auto winner = args.winner;
         model->setType(DefaultModelBuilderContext::TournamentModel);
         model->setTitle(title);
         model->setGameMode(gameMode);
         model->setStatus(status);
         model->setKeyPoint(keyPoint);
         model->setNumberOfThrows(legCount);
+        model->setWinner(winner);
         model->setTerminateKeyCondition(args.winConditionKey);
         model->setAssignedPlayerIdentities(playerIdentitties);
         model->setType(DefaultModelBuilderContext::TournamentModel);

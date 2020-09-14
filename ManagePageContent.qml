@@ -58,6 +58,7 @@ Content {
         if(status)
         {
             playersListView.clear();
+            tournamentListView.clear();
             requestPlayers();
         }
     }
@@ -101,7 +102,6 @@ Content {
             onRequestUpdate: {
                 playersListView.clear();
                 requestPlayers();
-                body.visible = true;
             }
         }
 

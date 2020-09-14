@@ -128,6 +128,7 @@ void LocalTournamentModelsContext::handleRequestSetScoreHint(const QUuid &tourna
 void LocalTournamentModelsContext::handleResetTournament(const QUuid &tournament)
 {
     removeModelsRelatedToTournament(tournament);
+    setTournamentDeterminedWinner(tournament,QUuid());
     emit tournamentResetSuccess();
 }
 
@@ -453,7 +454,8 @@ QUuid LocalTournamentModelsContext::tournamentDeterminedWinner(const QUuid &tour
     return tournamentModel->winner();
 }
 
-void LocalTournamentModelsContext::setTournamentDeterminedWinner(const QUuid &tournament, const QUuid &winner)
+void LocalTournamentModelsContext::setTournamentDeterminedWinner(const QUuid &tournament,
+                                                                 const QUuid &winner)
 {
     auto oldModel = getTournamentModelFromID(tournament);
     auto newModel = tournamentBuilder()->buildModel(

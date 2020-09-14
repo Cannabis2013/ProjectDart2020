@@ -33,10 +33,11 @@ public:
     /*
      * Public types
      */
-    enum ModelsContextResponse{
+    enum ContextResponse{
         PlayerCreatedOK = 0x33,
         PlayerDeletedOK = 0x34,
-        PlayersDeletedOK = 0x36
+        PlayersDeletedOK = 0x36,
+        InconsistencyDetected = 0x39
     };
     enum UserRoles{Admin = 0x0, Player = 0x02};
     /*

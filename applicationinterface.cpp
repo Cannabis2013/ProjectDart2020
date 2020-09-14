@@ -147,7 +147,11 @@ void ApplicationInterface::processRecievedTournamentMetaData(const QString &titl
                                                              const QString &winnerName,
                                                              const QStringList &assignedPlayerNames)
 {
-    QVariantList args = {title,gameMode,keyPoint,assignedPlayerNames, winnerName};
+    QVariantList args = {title,
+                         gameMode,
+                         keyPoint,
+                         assignedPlayerNames,
+                         winnerName};
     emit sendTournamentMetaData(args);
 }
 

@@ -29,7 +29,11 @@ void LocalPlayerModelsContext::processTournamentDetails(const QUuid &tournament,
         auto playerID = players.at(i);
         auto playerName = this->playerName(playerID);
         if(playerName == QString())
-            throw "Inconsistency deteced";
+        {
+            QVariantList args = {tournament};
+            emit transmitResponse(ContextResponse::InconsistencyDetected,{tournament});
+            return;
+        }
 
         auto pair = QPair<QUuid,QString>(playerID,playerName);
 
@@ -57,7 +61,11 @@ void LocalPlayerModelsContext::handleAndProcessTournamentMetaData(const QString 
         playerNames << playerName;
     }
     auto winnerName = playerName(winnerID);
-    emit sendProcessedTournamentMetaData(title,gameMode,keyPoint,winnerName,playerNames);
+    emit sendProcessedTournamentMetaData(title,
+                                         gameMode,
+                                         keyPoint,
+                                         winnerName,
+                                         playerNames);
 }
 
 void LocalPlayerModelsContext::handleProcessCreatedTournament(const QString &title,
