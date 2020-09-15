@@ -1,11 +1,10 @@
 #ifndef TOURNAMENT_H
 #define TOURNAMENT_H
 
-#include "gamemodelscontext.h"
-
 #include <quuid.h>
 #include <qstring.h>
 #include <qlist.h>
+#include "itournamentmodel.h"
 
 class Tournament : public ITournament<QUuid,QList<QUuid>,QString>
 {

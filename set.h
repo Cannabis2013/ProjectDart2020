@@ -2,9 +2,9 @@
 #define SET_H
 
 #include <quuid.h>
-
-#include "gamemodelscontext.h"
 #include <qlist.h>
+
+#include "isetmodel.h"
 
 class Set : public ISet<QUuid,QList<QUuid>>
 {

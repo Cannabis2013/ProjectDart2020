@@ -884,37 +884,6 @@ QUuid LocalTournamentModelsContext::editScore(const QUuid &pointId, const int &v
     return newPointModel->id();
 }
 
-QUuid LocalTournamentModelsContext::alterPointPlayer(const QUuid &pointId, const QUuid &playerId)
-{
-    auto model = getScoreModelFromID(pointId);
-
-    auto newModel = pointBuilder()->buildModel(
-                [model, playerId]
-    {
-        PointParameters params;
-
-        params.id = model->id();
-        params.setId = model->parent();
-        params.pointValue = model->point();
-        params.playerId = playerId;
-
-        return params;
-    }(),[]
-    {
-        ModelOptions options;
-
-        options.generateUniqueId = false;
-
-        return options;
-    }());
-
-    removePointModel(model->id());
-
-    _scores.append(newModel);
-
-    return newModel->id();
-}
-
 QUuid LocalTournamentModelsContext::scoreSet(const QUuid &point)
 {
     auto pointModel = getScoreModelFromID(point);

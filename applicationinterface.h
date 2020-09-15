@@ -3,11 +3,10 @@
 
 #include <QtCore>
 
-#include "abstracttournamentmodelscontext.h"
 #include "abstractplayermodelscontext.h"
+#include "abstracttournamentmodelscontext.h"
 #include <abstractgamecontroller.h>
 #include <idatamodelbuilder.h>
-#include "iplayermodel.h"
 #include "iplayerbuildercontext.h"
 #include "IControllerBuilder.h"
 #include "ipointlogisticinterface.h"
@@ -194,7 +193,7 @@ private slots:
                                                  const PlayerPairs &assignedPlayerPairs);
 private:
     void registerTypes();
-    void connectModelsContextInterface();
+    void connectModelInterfaces();
     void connectControllerInterface();
 
     void startTournamentModelsWorkerThread();

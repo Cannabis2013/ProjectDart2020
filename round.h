@@ -3,7 +3,7 @@
 
 #include <quuid.h>
 
-#include "gamemodelscontext.h"
+#include "iroundmodel.h"
 
 
 class Round : public IRound<QUuid,QList<QUuid>>

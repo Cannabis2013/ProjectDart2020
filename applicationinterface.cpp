@@ -11,7 +11,7 @@ ApplicationInterface::ApplicationInterface(AbstractTournamentModelsContext *tour
     _playerModelsThread = new QThread();
 
     registerTypes();
-    connectModelsContextInterface();
+    connectModelInterfaces();
 
     _tournamentModelsContext->moveToThread(_tournamentModelsThread);
     _playerModelsThread->moveToThread(_playerModelsThread);
@@ -195,7 +195,7 @@ void ApplicationInterface::registerTypes()
     qRegisterMetaType<QList<QUuid>>("QList<QUuid>");
 }
 
-void ApplicationInterface::connectModelsContextInterface()
+void ApplicationInterface::connectModelInterfaces()
 {
     /*
      * Setup upstream communication between UI and modelcontexts

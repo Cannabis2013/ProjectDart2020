@@ -17,8 +17,10 @@ SOURCES += \
         abstractjsonpersistence.cpp \
         applicationinterface.cpp \
         idatamodelbuilder.cpp \
+        imodeldbcontext.cpp \
         localfirsttopost.cpp \
         localplayermodelscontext.cpp \
+        localtournamentmodeldb.cpp \
         localtournamentmodelscontext.cpp \
         main.cpp \
         pointlogisticmanager.cpp \
@@ -48,21 +50,25 @@ HEADERS += \
     abstractplayermodelscontext.h \
     abstracttournamentmodelscontext.h \
     applicationinterface.h \
-    defaultdatacontextinterface.h \
     defaultplayerbuilderconfigurations.h \
     gamebuilder.h \
-    gamemodelscontext.h \
-    icontroller.h \
     idatacontext.h \
     idatamodelbuilder.h \
+    imodel.h \
+    imodeldbcontext.h \
     iplayerbuildercontext.h \
     iplayercontext.h \
     iplayermodel.h \
     ipointlogisticinterface.h \
     iresponseinterface.h \
+    iroundmodel.h \
+    iscoremodel.h \
+    isetmodel.h \
+    itournamentmodel.h \
     localfirsttopost.h \
     localplayerbuilder.h \
     localplayermodelscontext.h \
+    localtournamentmodeldb.h \
     localtournamentmodelscontext.h \
     modelbuildercollection.h \
     modelbuildercontext.h \

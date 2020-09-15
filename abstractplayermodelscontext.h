@@ -1,12 +1,12 @@
 #ifndef ABSTRACTPLAYERMODELSCONTEXT_H
 #define ABSTRACTPLAYERMODELSCONTEXT_H
 
+#include <qobject.h>
+#include <quuid.h>
 #include "iplayermodel.h"
 #include "iplayercontext.h"
-#include <quuid.h>
 #include "iplayerbuildercontext.h"
 #include "idatamodelbuilder.h"
-#include <qobject.h>
 #include "iresponseinterface.h"
 
 typedef IPlayerModel<QUuid,QString> DefaultPlayerInterface;

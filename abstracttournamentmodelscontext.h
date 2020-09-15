@@ -1,12 +1,11 @@
 #ifndef ABSTRACTTOURNAMENTMODELSCONTEXT_H
 #define ABSTRACTTOURNAMENTMODELSCONTEXT_H
 
-#include "idatacontext.h"
-#include "modelbuildercontext.h"
-#include "idatamodelbuilder.h"
 #include <qobject.h>
+#include "idatamodelbuilder.h"
 #include "iresponseinterface.h"
-#include "gamemodelscontext.h"
+#include "modelbuildercontext.h"
+#include "iscoremodel.h"
 
 typedef QList<QPair<QUuid,QString>> PlayerPairs;
 

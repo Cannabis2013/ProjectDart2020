@@ -161,7 +161,6 @@ private:
     int playerScoreCount(const int &hint) ;
     QUuid setScoreHint(const QUuid &point, const int &hint) ;
     QUuid editScore(const QUuid &pointId, const int &value, const int &score,const int &hint) ;
-    QUuid alterPointPlayer(const QUuid &pointId, const QUuid &playerId) ;
     QUuid scoreSet(const QUuid &playerScore) ;
     int scoreThrowIndex(const QUuid &playerScore) ;
     int scorePointValue(const QUuid &playerScore) ;
@@ -170,7 +169,6 @@ private:
     int scoreHint(const QUuid &playerScore) ;
     bool removeScore(const QUuid &point) ;
     void removePlayerScoreAndRelatives(const QUuid &point) ;
-
 
     void removeHiddenScores(const QUuid &tournament) ;
 

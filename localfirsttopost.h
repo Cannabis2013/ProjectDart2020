@@ -1,7 +1,6 @@
 #ifndef FIVEHUNDREDANDONEGAME_H
 #define FIVEHUNDREDANDONEGAME_H
 
-#include "gamemodelscontext.h"
 #include "ipointlogisticinterface.h"
 
 #include "abstractgamecontroller.h"

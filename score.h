@@ -3,7 +3,7 @@
 
 #include <quuid.h>
 
-#include "gamemodelscontext.h"
+#include "iscoremodel.h"
 
 class Score : public IScore<QUuid>
 {

@@ -1,17 +1,8 @@
 #ifndef MODELBUILDERCONTEXT_H
 #define MODELBUILDERCONTEXT_H
 
-#include <qstring.h>
 #include <quuid.h>
 #include <qlist.h>
-
-namespace DataContext {
-    class TournamentParameters;
-    struct RoundParameters;
-    struct SetParameters;
-    struct PointParameters;
-    struct ModelOptions;
-}
 
 struct TournamentParameters
 {
