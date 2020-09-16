@@ -34,6 +34,7 @@ Content{
           */
         if(response === 0x45)
         {
+            print("Backend is ready");
             startGameClicked();
         }
         /*

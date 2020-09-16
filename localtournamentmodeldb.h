@@ -2,40 +2,28 @@
 #define LOCALTOURNAMENTMODELDB_H
 
 #include <quuid.h>
-#include "imodeldbcontext.h"
-
 #include <QMultiHash>
+#include "imodeldbcontext.h"
+#include "modelbuildercollection.h"
 
-template<class TUuid>
-class IModel
-{
-public:;
-    virtual TUuid id() const = 0;
-    virtual void setId(const TUuid &val) = 0;
-
-    virtual int type() const = 0;
-    virtual void setType(const int &val) = 0;
-
-    virtual void setParent(const TUuid &parent) = 0;
-    virtual TUuid parent() const = 0;
-};
 
 class LocalTournamentModelDB : public IModelDBContext<IModel<QUuid>,QString>
 {
 public:
     LocalTournamentModelDB();
 
-    const QStringList acceptedModelTypes = {"TournamentModel", "RoundModel", "SetModel", "ScoreModel"};
+    const QStringList acceptedModelTypes = {"Tournament", "Round", "Set", "Score"};
 
     // IModelDBContext interface
     bool addModel(const QString &type, const IModel<QUuid> *model);
     bool removeModel(const QString &type, const int &indexOfModel);
     bool replaceModel(const QString &type, const int &indexOfModel, const IModel<QUuid> *newModel);
     const IModel<QUuid> *model(const QString &type, const int &index);
-    int indexOfModel(const QString &type, const IModel<QUuid> *model) const;
+    int indexOfModel(const QString &type, const IModel<QUuid> *model);
+    int countOfModels(const QString &type);
     QList<const IModel<QUuid> *> models(const QString &type);
 
 private:
-    QMultiHash<QString,const IModel<QUuid>*> *_models;
+    QMultiHash<QString,const IModel<QUuid>*> _models;
 };
 #endif // LOCALTOURNAMENTMODELDB_H

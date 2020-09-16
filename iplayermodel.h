@@ -20,6 +20,8 @@ public:
 
     virtual int userRole() const = 0;
     virtual void setUserRole(const int& role) = 0;
+
+    virtual bool operator==(IPlayerModel* &other) = 0;
 };
 
 #endif // IMODEL_H

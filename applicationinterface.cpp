@@ -1,29 +1,27 @@
 #include "applicationinterface.h"
 
-ApplicationInterface::ApplicationInterface(AbstractTournamentModelsContext *tournamentModelsContext, AbstractPlayerModelsContext *playerModelsContext, DefaultControllerBuilderInterface *builder)
-{
-
-    setObjectName("ApplicationInterface");
-    _tournamentModelsContext = tournamentModelsContext;
-    _playerModelsContext = playerModelsContext;
-    _controllerBuilder = builder;
-    _tournamentModelsThread = new QThread();
-    _playerModelsThread = new QThread();
-
-    registerTypes();
-    connectModelInterfaces();
-
-    _tournamentModelsContext->moveToThread(_tournamentModelsThread);
-    _playerModelsThread->moveToThread(_playerModelsThread);
-    _tournamentModelsThread->start();
-    _playerModelsThread->start();
-}
 
 ApplicationInterface::~ApplicationInterface()
 {
     delete _tournamentModelsContext;
     delete _playerModelsContext;
     delete _gameController;
+}
+
+ApplicationInterface *ApplicationInterface::setup()
+{
+    registerTypes();
+    connectModelInterfaces();
+
+    return this;
+}
+
+ApplicationInterface *ApplicationInterface::useThreads()
+{
+    _tournamentModelsContext->moveToThread(_tournamentModelsThread);
+    _playerModelsContext->moveToThread(_playerModelsThread);
+    _tournamentModelsThread->start();
+    _playerModelsThread->start();
 }
 
 void ApplicationInterface::handleTournamentsRequest(){
@@ -383,21 +381,9 @@ AbstractGameController *ApplicationInterface::gameController() const
     return _gameController;
 }
 
-DefaultControllerBuilderInterface *ApplicationInterface::controllerBuilder() const
+IDefaultGameBuilder *ApplicationInterface::controllerBuilder() const
 {
     return _controllerBuilder;
-}
-
-int ApplicationInterface::gameModeFromString(const QString &gameMode) const
-{
-    if(gameMode == printVariable(FirstToPost))
-        return FirstToPost;
-    else if(gameMode == printVariable(RoundLimit))
-        return RoundLimit;
-    else if(gameMode == printVariable(Circular))
-        return Circular;
-    else
-        return -1;
 }
 
 AbstractPlayerModelsContext *ApplicationInterface::playerModelsContext() const
@@ -405,18 +391,30 @@ AbstractPlayerModelsContext *ApplicationInterface::playerModelsContext() const
     return _playerModelsContext;
 }
 
-void ApplicationInterface::setPlayerModelsContext(AbstractPlayerModelsContext *playerModelsContext)
+ApplicationInterface *ApplicationInterface::setPlayerModelsContext(AbstractPlayerModelsContext *playerModelsContext)
 {
     _playerModelsContext = playerModelsContext;
+    return this;
 }
 
+IDefaultGameBuilder *ApplicationInterface::controllerBuilder()
+{
+    return _controllerBuilder;
+}
+
+ApplicationInterface *ApplicationInterface::setControllerBuilder(IDefaultGameBuilder *builder)
+{
+    _controllerBuilder = builder;
+    return this;
+}
 
 AbstractTournamentModelsContext *ApplicationInterface::tournamentsModelContext() const
 {
     return _tournamentModelsContext;
 }
 
-void ApplicationInterface::setTournamentsModelContext(AbstractTournamentModelsContext *tournamentsModelContext)
+ApplicationInterface *ApplicationInterface::setTournamentsModelContext(AbstractTournamentModelsContext *tournamentsModelContext)
 {
     _tournamentModelsContext = tournamentsModelContext;
+    return this;
 }

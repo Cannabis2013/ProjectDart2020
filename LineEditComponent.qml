@@ -69,5 +69,4 @@ Rectangle{
         fontColor: body.fontColor
         onEnterPressed: body.enterPressed()
     }
-    Component.onCompleted: print(width)
 }

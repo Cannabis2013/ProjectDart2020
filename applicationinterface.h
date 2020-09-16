@@ -24,7 +24,7 @@ typedef IPlayerModel<QUuid,QString> DefaultModelInterface;
 typedef IPlayerBuilderParameters<QString,QUuid> DefaultParameters;
 typedef IDataModelBuilder<DefaultModelInterface,DefaultParameters,IPlayerBuilderConfiguration> DefaultPlayerBuilder;
 
-typedef IControllerBuilder<AbstractGameController, int> DefaultControllerBuilderInterface;
+typedef IControllerBuilder<AbstractGameController, int> IDefaultGameBuilder;
 
 class ApplicationInterface : public QObject,
         public IResponseInterface<QVariantList>
@@ -48,18 +48,27 @@ public:
 
     enum ContextMode {LocalContext = 0x4, RemoteContext = 0x5};
     /*
-     * Constructor
+     * Destructor
      */
-    ApplicationInterface(AbstractTournamentModelsContext *tournamentModelsContext,
-                         AbstractPlayerModelsContext *playerModelsContext,
-                         DefaultControllerBuilderInterface *builder);
     ~ApplicationInterface();
+    /*
+     * Create and setup instance
+     */
+    static ApplicationInterface* createInstance()
+    {
+        return new ApplicationInterface();
+    }
+    ApplicationInterface *setup();
+    ApplicationInterface *useThreads();
+
     AbstractTournamentModelsContext *tournamentsModelContext() const;
-    void setTournamentsModelContext(AbstractTournamentModelsContext *tournamentsModelContext);
+    ApplicationInterface* setTournamentsModelContext(AbstractTournamentModelsContext *tournamentsModelContext);
 
     AbstractPlayerModelsContext *playerModelsContext() const;
-    void setPlayerModelsContext(AbstractPlayerModelsContext *playerModelsContext);
+    ApplicationInterface* setPlayerModelsContext(AbstractPlayerModelsContext *playerModelsContext);
 
+    IDefaultGameBuilder *controllerBuilder();
+    ApplicationInterface *setControllerBuilder(IDefaultGameBuilder *builder);
 
 public slots:
     void handleTournamentsRequest();
@@ -201,12 +210,10 @@ private:
     void stopTournamentModelsWorkerThread();
     void stopPlayerModelsWorkerThread();
     AbstractGameController *gameController() const;
-    DefaultControllerBuilderInterface *controllerBuilder() const;
+    IDefaultGameBuilder *controllerBuilder() const;
 
-    int gameModeFromString(const QString &gameMode) const;
-
-    QThread *_tournamentModelsThread;
-    QThread *_playerModelsThread;
+    QThread *_tournamentModelsThread = new QThread();
+    QThread *_playerModelsThread = new QThread();
 
     IControllerBuilder<AbstractGameController, int> *_controllerBuilder;
     AbstractGameController *_gameController = nullptr;

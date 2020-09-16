@@ -6,16 +6,16 @@ import "componentFactory.js" as ComponentFactory
 ListComponent {
     id: playersListView
     componentTitle: "Assign players"
-    titleBackground: "steelblue"
-    itemTitleBackgroundColor: "blue"
+    titleBackground: "transparent"
     itemBackgroundColor: "transparent"
-    itemTitleTextColor: "white"
-    itemDescriptionFontColor: "white"
-    itemDescriptionBackgroundColor: "steelblue"
+    itemTitleBackgroundColor: Qt.rgba(0.6,0.33,0.24,0.8)
+    itemTitleTextColor: "black"
+    itemDescriptionFontColor: "black"
+    itemDescriptionBackgroundColor: Qt.rgba(0.6,0.33,0.24,0.8)
     itemHoveredColor: "lightblue"
     itemImageUrl: "qrc:/pictures/Ressources/skull.png"
-    itemImageBackgroundColor: "darkblue"
-    color: "white"
+    itemImageBackgroundColor: Qt.rgba(0.6,0.33,0.24,0.8)
+    color: Qt.rgba(0,0,0,0.1)
     radius: 15
     itemTitleFontSize: 24
     itemDescriptionFontSize: 16

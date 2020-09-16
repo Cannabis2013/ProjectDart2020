@@ -4,19 +4,13 @@
 
 #include <qqmlcontext.h>
 #include "applicationinterface.h"
-
 #include "localplayerbuilder.h"
-
-#include "localtournamentmodelscontext.h"
-#include "localplayermodelscontext.h"
-
-#include "scoredatamodel.h"
-
 #include "gamebuilder.h"
-#include "localplayermodelscontext.h"
 #include "localtournamentmodelscontext.h"
-
-#include "modelbuildercollection.h"
+#include "localplayermodelscontext.h"
+#include "scoredatamodel.h"
+#include "localtournamentmodeldb.h"
+#include "localplayerdbcontext.h"
 
 
 int main(int argc, char *argv[])
@@ -26,19 +20,31 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<ScoreDataModel>("CustomItems",1,0,"ScoreDataModel");
 
-    auto tournamentModelsContext = new LocalTournamentModelsContext(new TournamentModelBuilder(),
-                                                                    new RoundBuilder(),
-                                                                    new SetBuilder(),
-                                                                    new PointBuilder());
+    auto tournamentModelsContext =
+            LocalTournamentModelsContext::createInstance()->
+            setTournamentModelBuilder(new TournamentModelBuilder)->
+            setRoundModelBuilder(new RoundBuilder)->
+            setSetModelBuilder(new SetBuilder())->
+            setScoreModelBuilder(new ScoreModelBuilder())->
+            setModelDBContext(new LocalTournamentModelDB())->
+            setup();
 
-    auto playerModelsContext = new LocalPlayerModelsContext(new LocalPlayerBuilder());
+    auto playerModelsContext =
+            LocalPlayerModelsContext::createInstance()->
+            setPlayerBuilder(new LocalPlayerBuilder)->
+            setModelDBContext(new LocalPlayerDBContext)->
+            setup();
 
 
     auto gameBuilder = new GameBuilder();
 
-    auto _dart = new ApplicationInterface(tournamentModelsContext,
-                                          playerModelsContext,
-                                          gameBuilder);
+    auto _dart =
+            ApplicationInterface::createInstance()->
+            setTournamentsModelContext(tournamentModelsContext)->
+            setPlayerModelsContext(playerModelsContext)->
+            setControllerBuilder(gameBuilder)->
+            useThreads()->
+            setup();
 
     QQmlApplicationEngine engine;
 

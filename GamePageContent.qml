@@ -69,7 +69,6 @@ Content {
         currentTournamentMetaData.tournamentKeyPoint = meta[2];
         currentTournamentMetaData.assignedPlayers = meta[3];;
         currentTournamentMetaData.determinedWinner = meta[4];
-        print("Meta recieved -> Current winner: " + currentTournamentMetaData.determinedWinner);
         if(currentTournamentMetaData.tournamentGameMode === 0x1)
             tableLoader.sourceComponent = firstToPostTableComponent;
     }
@@ -91,7 +90,6 @@ Content {
             var assignedPlayerName = assignedPlayers[i];
             tableLoader.item.appendHeader(assignedPlayerName);
             tableLoader.item.appendData(assignedPlayerName,0,keyPoint);
-            print(assignedPlayerName);
         }
         requestSetPageTitle(title);
         tableLoader.item.displayPoints = true;

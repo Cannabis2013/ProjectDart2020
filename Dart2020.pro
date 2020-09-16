@@ -19,6 +19,7 @@ SOURCES += \
         idatamodelbuilder.cpp \
         imodeldbcontext.cpp \
         localfirsttopost.cpp \
+        localplayerdbcontext.cpp \
         localplayermodelscontext.cpp \
         localtournamentmodeldb.cpp \
         localtournamentmodelscontext.cpp \
@@ -67,6 +68,7 @@ HEADERS += \
     itournamentmodel.h \
     localfirsttopost.h \
     localplayerbuilder.h \
+    localplayerdbcontext.h \
     localplayermodelscontext.h \
     localtournamentmodeldb.h \
     localtournamentmodelscontext.h \

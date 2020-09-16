@@ -45,26 +45,28 @@ public:
      */
     void read() override;
     void write() override;
-
     /*
-     * Constructor
+     * Destructor
      */
-
-    LocalTournamentModelsContext(ITournamentBuilder *tournamentModelBuilder,
-                                 IRoundBuilder *roundModelbuilder,
-                                 ISetBuilder *setModelbuilder,
-                                 IPointBuilder *pointModelBuilder);
     ~LocalTournamentModelsContext();
+    /*
+     * Create and setup instance
+     */
+    static AbstractTournamentModelsContext* createInstance()
+    {
+        return new LocalTournamentModelsContext();
+    }
+    AbstractTournamentModelsContext *setup() override;
 
     // Builder methods
-    ITournamentBuilder *tournamentBuilder();
-    AbstractTournamentModelsContext *setTournamentBuilder(ITournamentBuilder *builder) override;
-    IRoundBuilder *roundBuilder();
-    AbstractTournamentModelsContext *setRoundBuilder(IRoundBuilder *builder) override;
-    ISetBuilder *setBuilder() const;
-    AbstractTournamentModelsContext *setSetBuilder(ISetBuilder *builder);
-    IPointBuilder *pointBuilder();
-    AbstractTournamentModelsContext *setPointBuilder(IPointBuilder *builder);
+    ITournamentBuilder *tournamentModelBuilder();
+    AbstractTournamentModelsContext *setTournamentModelBuilder(ITournamentBuilder *builder) override;
+    IRoundBuilder *roundModelBuilder();
+    AbstractTournamentModelsContext *setRoundModelBuilder(IRoundBuilder *builder) override;
+    ISetBuilder *setSetModelBuilder() const;
+    AbstractTournamentModelsContext *setSetModelBuilder(ISetBuilder *builder) override;
+    IScoreModelBuilder *scoreModelBuilder();
+    AbstractTournamentModelsContext *setScoreModelBuilder(IScoreModelBuilder *builder) override;
     /*
      * Handle requests from external context
      */
@@ -100,6 +102,9 @@ public:
                                                const int &throwIndex,
                                                const int &hint) override;
     void handleResetTournament(const QUuid &tournament) override;
+    IModelDBContext<IModel<QUuid>, QString> *modelDBContext() const;
+    AbstractTournamentModelsContext *setModelDBContext(IModelDBContext<IModel<QUuid>, QString> *context) override;
+
 private:
     void updateDataContext(const QUuid &tournament, const int &roundIndex, const int &setIndex);
     /*
@@ -129,13 +134,12 @@ private:
     /*
      * Round related section
      */
-    QList<QUuid> roundsID() ;
-    QList<QUuid> roundsID(const QUuid &tournament) ;
-    QUuid roundID(const QUuid &tournament, const int &roundIndex) ;
-    QUuid addRound(const QUuid &tournament, const int &index) ;
-    void alterRoundIndex(const QUuid &, const int &, const int &) ;
-    int roundIndex(const QUuid &roundID) ;
-    QUuid roundTournament(const QUuid &roundID) ;
+    QList<QUuid> roundsID();
+    QList<QUuid> roundsID(const QUuid &tournament);
+    QUuid roundID(const QUuid &tournament, const int &roundIndex);
+    QUuid addRound(const QUuid &tournament, const int &index);
+    int roundIndex(const QUuid &roundID);
+    QUuid roundTournament(const QUuid &roundID);
     /*
      * Set related section
      */
@@ -235,12 +239,9 @@ private:
     ITournamentBuilder *_tournamentBuilder;
     IRoundBuilder *_roundBuilder;
     ISetBuilder *_setBuilder;
-    IPointBuilder *_pointBuilder;
+    IScoreModelBuilder *_pointBuilder;
 
-    QList<const DefaultTournamentInterface*> _tournaments;
-    QList<const DefaultRoundInterface *> _rounds;
-    QList<const DefaultSetInterface *> _sets;
-    QList<const DefaultPointInterface*> _scores;
+    IModelDBContext<IModel<QUuid>,QString> *_dbContext;
 };
 
 #endif // TOURNAMENTMODELCONTEXT_H

@@ -50,6 +50,14 @@ public:
         _userName = name;
     }
 
+    bool operator==(IPlayerModel<QUuid,QString>* &other) override
+    {
+        if(other->id() == this->id())
+            return true;
+        else
+            return false;
+    }
+
 private:
     QUuid _id;
     QString _userName, _email;

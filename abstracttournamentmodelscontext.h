@@ -6,6 +6,7 @@
 #include "iresponseinterface.h"
 #include "modelbuildercontext.h"
 #include "iscoremodel.h"
+#include "imodeldbcontext.h"
 
 typedef QList<QPair<QUuid,QString>> PlayerPairs;
 
@@ -17,7 +18,7 @@ typedef IScore<QUuid> DefaultPointInterface;
 typedef IDataModelBuilder<DefaultTournamentInterface, TournamentParameters,ModelOptions> ITournamentBuilder;
 typedef IDataModelBuilder<DefaultRoundInterface, RoundParameters,ModelOptions> IRoundBuilder;
 typedef IDataModelBuilder<DefaultSetInterface, SetParameters,ModelOptions> ISetBuilder;
-typedef IDataModelBuilder<DefaultPointInterface, PointParameters,ModelOptions> IPointBuilder;
+typedef IDataModelBuilder<DefaultPointInterface, PointParameters,ModelOptions> IScoreModelBuilder;
 
 class AbstractTournamentModelsContext : public QObject,
         public IResponseInterface<QVariantList>
@@ -25,6 +26,18 @@ class AbstractTournamentModelsContext : public QObject,
     Q_OBJECT
 public:
     virtual ~AbstractTournamentModelsContext() =default;
+    /*
+     * Setup/read initial values
+     */
+    virtual AbstractTournamentModelsContext *setup() = 0;
+    /*
+     * Builders
+     */
+    virtual AbstractTournamentModelsContext* setTournamentModelBuilder(ITournamentBuilder *builder) = 0;
+    virtual AbstractTournamentModelsContext* setRoundModelBuilder(IRoundBuilder *builder) = 0;
+    virtual AbstractTournamentModelsContext* setSetModelBuilder(ISetBuilder *builder) = 0;
+    virtual AbstractTournamentModelsContext* setScoreModelBuilder(IScoreModelBuilder *builder) = 0;
+    virtual AbstractTournamentModelsContext *setModelDBContext(IModelDBContext<IModel<QUuid>,QString> *context) = 0;
 public slots:
     virtual void assembleAndAddTournament(const QString &title,
                                           const int &gameMode,
@@ -58,8 +71,6 @@ public slots:
                                            const int &throwIndex,
                                            const int &hint) = 0;
     virtual void handleResetTournament(const QUuid &tournament) = 0;
-    virtual AbstractTournamentModelsContext *setTournamentBuilder(ITournamentBuilder *builder) = 0;
-    virtual AbstractTournamentModelsContext *setRoundBuilder(IRoundBuilder *builder) = 0;
 signals:
     void transmitResponse(const int &status, const QVariantList &arguments) override;
     void sendPlayerScore(const QString &player, const int &point, const int &score);

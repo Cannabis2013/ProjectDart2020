@@ -5,17 +5,17 @@ import "componentFactory.js" as ComponentFactory
 
 ListComponent {
     id: tournamentListView
-    color: "white"
+    color: Qt.rgba(0,0,0,0.1)
     radius: 15
     componentTitle: "Tournaments"
-    titleBackground: "steelblue"
-    itemTitleBackgroundColor: "blue"
+    titleBackground: "transparent"
+    itemTitleBackgroundColor: Qt.rgba(0.6,0.33,0.24,0.8)
     itemBackgroundColor: "transparent"
-    itemTitleTextColor: "white"
-    itemDescriptionFontColor: "white"
-    itemDescriptionBackgroundColor: "steelblue"
+    itemTitleTextColor: "black"
+    itemDescriptionFontColor: "black"
+    itemDescriptionBackgroundColor: Qt.rgba(0.6,0.33,0.24,0.8)
     itemImageUrl: "qrc:/pictures/Ressources/darttournamentmod.png"
-    itemImageBackgroundColor: "darkblue"
+    itemImageBackgroundColor: Qt.rgba(0.6,0.33,0.24,0.8)
     itemSelectedBackgroundColor: "lightblue"
     itemSelectedtextColor: "black"
     itemHoveredColor: "lightblue"

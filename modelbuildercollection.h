@@ -17,7 +17,7 @@ typedef IScore<QUuid> DefaultPointInterface;
 typedef IDataModelBuilder<DefaultTournamentInterface, TournamentParameters,ModelOptions> ITournamentBuilder;
 typedef IDataModelBuilder<DefaultRoundInterface, RoundParameters,ModelOptions> IRoundBuilder;
 typedef IDataModelBuilder<DefaultSetInterface, SetParameters,ModelOptions> ISetBuilder;
-typedef IDataModelBuilder<DefaultPointInterface, PointParameters,ModelOptions> IPointBuilder;
+typedef IDataModelBuilder<DefaultPointInterface, PointParameters,ModelOptions> IScoreModelBuilder;
 
 namespace DefaultModelBuilderContext
 {
@@ -96,7 +96,7 @@ public:
     }
 };
 
-class PointBuilder : public IPointBuilder
+class ScoreModelBuilder : public IScoreModelBuilder
 {
 
     // IGenericDataModelBuilder interface

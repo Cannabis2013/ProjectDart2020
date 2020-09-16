@@ -40,17 +40,24 @@ public:
         InconsistencyDetected = 0x39
     };
     enum UserRoles{Admin = 0x0, Player = 0x02};
-    /*
-     * Constructor
-     */
-    LocalPlayerModelsContext(DefaultPlayerBuilder *playerModelbuilder);
+
+    AbstractPlayerModelsContext *setup() override;
+
+    static AbstractPlayerModelsContext* createInstance()
+    {
+        return new LocalPlayerModelsContext();
+    }
+
+
+
     ~LocalPlayerModelsContext();
     // PersistenceInterface interface
     void read() override;
     void write() override;
 
     DefaultPlayerBuilder *playerBuilder();
-    void setPlayerBuilder(DefaultPlayerBuilder *builder);
+    AbstractPlayerModelsContext* setPlayerBuilder(DefaultPlayerBuilder *builder) override;
+    AbstractPlayerModelsContext* setModelDBContext(IModelDBContext<IDefaultPlayerModel, QUuid> *context) override;
 public slots:
     void createPlayer(const QString &name, const QString &mail) override;
     void deletePlayer(const int &index) override;
@@ -76,15 +83,17 @@ public slots:
                                         const int &keyPoint,
                                         const QList<int> &playerIndexes) override;
 private:
+    IModelDBContext<IDefaultPlayerModel, QUuid> *modelDBContext();
+
     void deletePlayerByUserName(const QString &firstName) ;
     void deletePlayerByID(const QUuid &player) ;
     void deletePlayerByEmail(const QString &playerEMail) ;
-    QUuid playerIDFromName(const QString &fullName) const ;
-    QUuid playerIDFromIndex(const int &index) const ;
-    QString playerName(const QUuid &id) const ;
-    QString playerEMail(const QUuid &id) const ;
-    QList<QUuid> players() const ;
-    int playersCount() const ;
+    QUuid playerIDFromName(const QString &fullName) ;
+    QUuid playerIDFromIndex(const int &index) ;
+    QString playerName(const QUuid &id) ;
+    QString playerEMail(const QUuid &id) ;
+    QList<QUuid> players() ;
+    int playersCount() ;
     DefaultPlayerBuilder *playerBuilder() const;
 
     QJsonArray assemblePlayersJSONArray();
@@ -95,9 +104,9 @@ private:
                           const bool &generateID = true,
                           const QUuid &id = QUuid()) ;
 
-    DefaultPlayerInterface *getModel(const QString &playerName) const;
+    const IDefaultPlayerModel *getModel(const QString &playerName);
 
-    QList<DefaultPlayerInterface*> _models;
+    IModelDBContext<IDefaultPlayerModel,QUuid> *_dbContext;
     DefaultPlayerBuilder *_playerBuilder;
 };
 

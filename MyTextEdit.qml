@@ -14,10 +14,6 @@ Rectangle
     signal textChanged
     signal enterPressed
     /*
-      Event handling
-      */
-    onWidthChanged: print(width)
-    /*
       Properties
       */
     property int fontSize: 24
@@ -38,7 +34,6 @@ Rectangle
         Keys.onPressed: {
             if(event.key === Qt.Key_Enter ||event.key === Qt.Key_Return)
             {
-                print("Enter pressed inside TextEdit");
                 enterPressed();
             }
         }
