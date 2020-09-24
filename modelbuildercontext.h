@@ -45,6 +45,7 @@ struct PointParameters
     int pointValue;
     int scoreValue;
     int throwIndex;
+    int hint;
     QUuid playerId;
     QUuid setId;
     QUuid id;
