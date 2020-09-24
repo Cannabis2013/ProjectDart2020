@@ -52,10 +52,7 @@ public:
     /*
      * Create and setup instance
      */
-    static AbstractTournamentModelsContext* createInstance()
-    {
-        return new LocalTournamentModelsContext();
-    }
+    static AbstractTournamentModelsContext* createInstance();
     AbstractTournamentModelsContext *setup() override;
 
     // Builder methods

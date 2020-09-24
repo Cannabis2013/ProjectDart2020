@@ -191,7 +191,14 @@ Content {
             startButtonEnabled: false
             startButtonEnablePressAndHold: true
             onStartButtonPressAndHoldClicked: {
-                turnNavigator.startButtonText = buttonTextContainer.restartText;
+                if(body.state === "waitingForInput")
+                    body.state = "preRestart";
+                else if(body.state === "ready")
+                    body.state = "preRestart";
+                else if(body.state === "winner")
+                    body.state = "preRestart";
+                else if(body.state === "preRestart")
+                    body.state = "ready";
             }
 
             onStartButtonClicked: {
@@ -328,6 +335,23 @@ Content {
                     tableLoader.sourceComponent = undefined;
                     body.requestRestart();
                 }
+            }
+        },
+        State {
+            name: "preRestart"
+            PropertyChanges {
+                target: keyPad
+                enableKeys: false
+            }
+            PropertyChanges {
+                target: turnNavigator
+                startButtonText : buttonTextContainer.restartText
+                startButtonEnabled: true
+                undoButtonEnabled : false
+                redoButtonEnabled : false
+            }
+            StateChangeScript{
+                script: body.requestStop()
             }
         },
         State {

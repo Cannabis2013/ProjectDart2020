@@ -41,6 +41,11 @@ LocalTournamentModelsContext::~LocalTournamentModelsContext()
     write();
 }
 
+AbstractTournamentModelsContext *LocalTournamentModelsContext::createInstance()
+{
+    return new LocalTournamentModelsContext();
+}
+
 AbstractTournamentModelsContext *LocalTournamentModelsContext::setup()
 {
     read();
@@ -853,7 +858,7 @@ QUuid LocalTournamentModelsContext::setScoreHint(const QUuid &point, const int &
             options.modelHint = hint;
             return options;
         }());
-        auto index = modelDBContext()->indexOfModel("Set",oldModel);
+        auto index = modelDBContext()->indexOfModel("Score",oldModel);
         modelDBContext()->replaceModel("Score",index,newModel);
         return newModel->id();
 

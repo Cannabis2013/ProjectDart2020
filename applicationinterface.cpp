@@ -22,6 +22,7 @@ ApplicationInterface *ApplicationInterface::useThreads()
     _playerModelsContext->moveToThread(_playerModelsThread);
     _tournamentModelsThread->start();
     _playerModelsThread->start();
+    return this;
 }
 
 void ApplicationInterface::handleTournamentsRequest(){

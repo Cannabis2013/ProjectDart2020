@@ -17,7 +17,7 @@ void LocalFirstToPost::stop()
 {
     _isActive = false;
     _currentStatus = ControllerState::Stopped;
-    emit transmitResponse(_currentStatus,{});
+    emit transmitResponse(ControllerResponse::isStopped,{});
 }
 
 void LocalFirstToPost::handleAndProcessUserInput(const int &point, const int &modifierKeyCode)
