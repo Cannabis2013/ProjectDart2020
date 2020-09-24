@@ -1385,12 +1385,12 @@ void LocalTournamentModelsContext::buildScoreModel(const QUuid &player,
     modelDBContext()->addModel("Score",model);
 }
 
-IModelDBContext<IModel<QUuid>, QString> *LocalTournamentModelsContext::modelDBContext() const
+ImodelsDBContext<IModel<QUuid>, QString> *LocalTournamentModelsContext::modelDBContext() const
 {
     return _dbContext;
 }
 
-AbstractTournamentModelsContext *LocalTournamentModelsContext::setModelDBContext(IModelDBContext<IModel<QUuid>,
+AbstractTournamentModelsContext *LocalTournamentModelsContext::setModelDBContext(ImodelsDBContext<IModel<QUuid>,
                                                                                  QString> *context)
 {
     _dbContext = context;

@@ -4,7 +4,7 @@
 #include <qlist.h>
 
 template<class TModel, class TKey>
-class IModelDBContext
+class ImodelsDBContext
 {
 public:
     virtual bool addModel(const TKey &type,const TModel *model) = 0;

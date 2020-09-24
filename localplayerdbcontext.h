@@ -2,13 +2,13 @@
 #define LOCALPLAYERDBCONTEXT_H
 
 #include "iplayermodel.h"
-#include "abstractmodeldbcontext.h"
+#include "imodelsdbcontext.h"
 #include "qlist.h"
 #include <quuid.h>
 #include <QMultiHash>
 #include <qlist.h>
 
-class LocalPlayerDBContext : public IModelDBContext<IPlayerModel<QUuid,QString>,QUuid>
+class LocalPlayerDBContext : public ImodelsDBContext<IPlayerModel<QUuid,QString>,QUuid>
 {
 public:
     // IModelDBContext interface

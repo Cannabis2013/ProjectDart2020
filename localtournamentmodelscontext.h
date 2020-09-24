@@ -99,8 +99,8 @@ public:
                                                const int &throwIndex,
                                                const int &hint) override;
     void handleResetTournament(const QUuid &tournament) override;
-    IModelDBContext<IModel<QUuid>, QString> *modelDBContext() const;
-    AbstractTournamentModelsContext *setModelDBContext(IModelDBContext<IModel<QUuid>, QString> *context) override;
+    ImodelsDBContext<IModel<QUuid>, QString> *modelDBContext() const;
+    AbstractTournamentModelsContext *setModelDBContext(ImodelsDBContext<IModel<QUuid>, QString> *context) override;
 
 private:
     void updateDataContext(const QUuid &tournament, const int &roundIndex, const int &setIndex);
@@ -239,7 +239,7 @@ private:
     ISetBuilder *_setBuilder;
     IScoreModelBuilder *_pointBuilder;
 
-    IModelDBContext<IModel<QUuid>,QString> *_dbContext;
+    ImodelsDBContext<IModel<QUuid>,QString> *_dbContext;
 };
 
 #endif // TOURNAMENTMODELCONTEXT_H
