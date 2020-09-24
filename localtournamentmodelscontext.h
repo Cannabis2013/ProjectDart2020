@@ -230,6 +230,7 @@ private:
                          const int &throwIndex,
                          const int &point,
                          const int &score,
+                         const int &hint,
                          const bool &generateID = true,
                          const QUuid &id = QUuid());
 

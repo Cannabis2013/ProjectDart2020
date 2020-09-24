@@ -1262,6 +1262,7 @@ QJsonArray LocalTournamentModelsContext::assembleScoresJSONArray()
         scoreJSON["SetID"] = scoreSet(scoreID).toString();
         scoreJSON["Index"] = scoreThrowIndex(scoreID);
         scoreJSON["PlayerID"] = scorePlayer(scoreID).toString();
+        scoreJSON["Hint"] = scoreHint(scoreID);
         scoresJSON.append(scoreJSON);
     }
     return scoresJSON;
@@ -1358,6 +1359,7 @@ void LocalTournamentModelsContext::buildScoreModel(const QUuid &player,
                                                    const int &throwIndex,
                                                    const int &point,
                                                    const int &score,
+                                                   const int &hint,
                                                    const bool &generateID,
                                                    const QUuid &id)
 {
@@ -1372,10 +1374,11 @@ void LocalTournamentModelsContext::buildScoreModel(const QUuid &player,
         params.throwIndex = throwIndex;
         params.scoreValue = score;
 
+
         return params;
-    }(),[generateID]{
+    }(),[generateID,hint]{
         ModelOptions options;
-        options.modelHint = ModelDisplayHint::DisplayHint;
+        options.modelHint = hint;
         options.generateUniqueId = generateID;
         return options;
     }());
@@ -1444,7 +1447,7 @@ void LocalTournamentModelsContext::addScore(const QUuid &tournament,
                                             const bool &isWinnerDetermined)
 {
     auto setID = this->setID(tournament,roundIndex,setIndex);
-    buildScoreModel(player,setID,throwIndex,point,score);
+    buildScoreModel(player,setID,throwIndex,point,score,ModelDisplayHint::DisplayHint);
     if(isWinnerDetermined)
         setTournamentDeterminedWinner(tournament,player);
     removeHiddenScores(tournament);
@@ -1512,7 +1515,8 @@ void LocalTournamentModelsContext::extractScoreModelsFromJSON(const QJsonArray &
         auto playerStringID = JSONValue["PlayerID"].toString();
         auto playerID = QUuid::fromString(playerStringID);
         auto throwIndex = JSONValue["Index"].toInt();
-        buildScoreModel(playerID,setID,throwIndex,pointValue,scoreValue,false,id);
+        auto scoreHint = JSONValue["Hint"].toInt();
+        buildScoreModel(playerID,setID,throwIndex,pointValue,scoreValue,scoreHint,false,id);
     }
 }
 
