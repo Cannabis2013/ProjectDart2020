@@ -17,7 +17,6 @@ SOURCES += \
         abstractjsonpersistence.cpp \
         applicationinterface.cpp \
         idatamodelbuilder.cpp \
-        imodeldbcontext.cpp \
         localfirsttopost.cpp \
         localplayerdbcontext.cpp \
         localplayermodelscontext.cpp \
@@ -56,7 +55,7 @@ HEADERS += \
     idatacontext.h \
     idatamodelbuilder.h \
     imodel.h \
-    imodeldbcontext.h \
+    imodelsdbcontext.h \
     iplayerbuildercontext.h \
     iplayercontext.h \
     iplayermodel.h \

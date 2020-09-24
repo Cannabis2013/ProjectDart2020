@@ -3,11 +3,11 @@
 
 #include <quuid.h>
 #include <QMultiHash>
-#include "abstractmodeldbcontext.h"
+#include "imodelsdbcontext.h"
 #include "modelbuildercollection.h"
 
 
-class LocalTournamentModelDB : public IModelDBContext<IModel<QUuid>,QString>
+class LocalTournamentModelDB : public ImodelsDBContext<IModel<QUuid>,QString>
 {
 public:
     LocalTournamentModelDB();

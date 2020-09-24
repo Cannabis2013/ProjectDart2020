@@ -85,7 +85,7 @@ void LocalPlayerModelsContext::handleProcessCreatedTournament(const QString &tit
     emit sendProcessedTournamentDetails(title,gameMode,numberOfThrows,winCondition,keyPoint,playersID);
 }
 
-IModelDBContext<IDefaultPlayerModel, QUuid> *LocalPlayerModelsContext::modelDBContext()
+ImodelsDBContext<IDefaultPlayerModel, QUuid> *LocalPlayerModelsContext::modelDBContext()
 {
     return _dbContext;
 }
@@ -146,7 +146,7 @@ AbstractPlayerModelsContext *LocalPlayerModelsContext::setPlayerBuilder(DefaultP
     return this;
 }
 
-AbstractPlayerModelsContext *LocalPlayerModelsContext::setModelDBContext(IModelDBContext<IDefaultPlayerModel, QUuid> *context)
+AbstractPlayerModelsContext *LocalPlayerModelsContext::setModelDBContext(ImodelsDBContext<IDefaultPlayerModel, QUuid> *context)
 {
     _dbContext = context;
     return this;

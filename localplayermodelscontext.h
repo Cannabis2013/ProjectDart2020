@@ -57,7 +57,7 @@ public:
 
     DefaultPlayerBuilder *playerBuilder();
     AbstractPlayerModelsContext* setPlayerBuilder(DefaultPlayerBuilder *builder) override;
-    AbstractPlayerModelsContext* setModelDBContext(IModelDBContext<IDefaultPlayerModel, QUuid> *context) override;
+    AbstractPlayerModelsContext* setModelDBContext(ImodelsDBContext<IDefaultPlayerModel, QUuid> *context) override;
 public slots:
     void createPlayer(const QString &name, const QString &mail) override;
     void deletePlayer(const int &index) override;
@@ -83,7 +83,7 @@ public slots:
                                         const int &keyPoint,
                                         const QList<int> &playerIndexes) override;
 private:
-    IModelDBContext<IDefaultPlayerModel, QUuid> *modelDBContext();
+    ImodelsDBContext<IDefaultPlayerModel, QUuid> *modelDBContext();
 
     void deletePlayerByUserName(const QString &firstName) ;
     void deletePlayerByID(const QUuid &player) ;
@@ -106,7 +106,7 @@ private:
 
     const IDefaultPlayerModel *getModel(const QString &playerName);
 
-    IModelDBContext<IDefaultPlayerModel,QUuid> *_dbContext;
+    ImodelsDBContext<IDefaultPlayerModel,QUuid> *_dbContext;
     DefaultPlayerBuilder *_playerBuilder;
 };
 

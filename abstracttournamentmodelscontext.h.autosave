@@ -6,7 +6,7 @@
 #include "iresponseinterface.h"
 #include "modelbuildercontext.h"
 #include "iscoremodel.h"
-#include "abstractmodeldbcontext.h"
+#include "imodelsdbcontext.h"
 
 typedef QList<QPair<QUuid,QString>> PlayerPairs;
 
@@ -37,7 +37,7 @@ public:
     virtual AbstractTournamentModelsContext* setRoundModelBuilder(IRoundBuilder *builder) = 0;
     virtual AbstractTournamentModelsContext* setSetModelBuilder(ISetBuilder *builder) = 0;
     virtual AbstractTournamentModelsContext* setScoreModelBuilder(IScoreModelBuilder *builder) = 0;
-    virtual AbstractTournamentModelsContext *setModelDBContext(IModelDBContext<IModel<QUuid>,QString> *context) = 0;
+    virtual AbstractTournamentModelsContext *setModelDBContext(ImodelsDBContext<IModel<QUuid>,QString> *context) = 0;
 public slots:
     virtual void assembleAndAddTournament(const QString &title,
                                           const int &gameMode,

@@ -7,7 +7,7 @@
 #include "iplayerbuildercontext.h"
 #include "idatamodelbuilder.h"
 #include "iresponseinterface.h"
-#include "abstractmodeldbcontext.h"
+#include "imodelsdbcontext.h"
 
 typedef IPlayerModel<QUuid,QString> IDefaultPlayerModel;
 typedef IDataModelBuilder<IDefaultPlayerModel,IPlayerBuilderParameters<QString,QUuid>,IPlayerBuilderConfiguration> DefaultPlayerBuilder;
@@ -23,7 +23,7 @@ public:
 
     virtual AbstractPlayerModelsContext* setup() = 0;
     virtual AbstractPlayerModelsContext* setPlayerBuilder(DefaultPlayerBuilder *builder) = 0;
-    virtual AbstractPlayerModelsContext *setModelDBContext(IModelDBContext<IDefaultPlayerModel,QUuid> *context) = 0;
+    virtual AbstractPlayerModelsContext *setModelDBContext(ImodelsDBContext<IDefaultPlayerModel,QUuid> *context) = 0;
 public slots:
     virtual void createPlayer(const QString &name, const QString &mail) = 0;
     virtual void deletePlayer(const int &index) = 0;
