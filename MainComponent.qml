@@ -5,6 +5,11 @@ Item {
     signal backPushed
 
     Component{
+        id: firstToPostTableComponent
+        FirstToPostTable{}
+    }
+
+    Component{
         id: createPlayerComponent
 
         Page{
@@ -16,7 +21,6 @@ Item {
 
     Component{
         id: gamePageComponent
-
         Page{
             onBackButtonPressed: pageLoader.sourceComponent = tournamentPageComponent
             pageTitle: "Game"

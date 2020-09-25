@@ -4,22 +4,16 @@ import QtQuick.Controls 2.5
 
 import "componentFactory.js" as ComponentFactory
 
-Rectangle {
+KeyPadInterface {
     id: keyPadBody
-
-    clip: true
-
     color: "transparent"
-
-    signal keyClicked(int val, int modifierCode)
     signal enableKeyPad(bool enable)
-    property bool enableKeys: false
+
     onEnableKeysChanged: {
         enableKeyPad(enableKeys);
         bullsButton.enabled = enableKeys
         bullsEyeButton.enabled = enableKeys;
     }
-
     property PushButton doubleModifier: PushButton{}
     property PushButton trippleModifier: PushButton{}
 

@@ -138,7 +138,7 @@ signals:
     void sendAssignedPlayerIndexes(const QVariantList &indexes, const QUuid &tournament);
     void sendRequestedGameModes(const QStringList &gameModes);
     void sendPlayerDetail(const QString &playerName, const QString &mail);
-    void sendPlayerScore(const QString &playerName,const int &point, const int &score);
+    void sendPlayerScore(const QString &playerName,const int &point, const int &score, const int &keyCode);
     void sendAssignedPlayerName(const QString &playerName);
     void sendCurrentTournamentKeyPoint(const int &point);
     void sendRequestedTournament(const QString &title,

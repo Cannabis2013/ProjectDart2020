@@ -11,11 +11,15 @@ import QtQuick.Layouts 1.3
     -> GameControllerWinnerDeclared = 0xe
     -> GameControllerNotInitialized = 0xf
   */
-ScoreBoard{
-    color: "transparent"
-    verticalHeaderFillMode: 0x1
-    scoreFontSize: 20
-    pointFontSize: 10
+
+KeyPadComponent{
+    id: keyPad
+
+    signal sendInput(int value, int keyCode)
+    anchors.fill: parent
+    onKeyClicked: {
+        parent.state = "waitingForInputConfirmation";
+        sendInput(val,modifierCode);
+    }
+    enableKeys: false
 }
-
-

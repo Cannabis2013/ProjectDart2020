@@ -114,6 +114,7 @@ public:
         model->setPlayer(args.playerId);
         model->setLegIndex(args.throwIndex);
         model->setHint(options.modelHint);
+        model->setKeyCode(args.keyCode);
         model->setScore(args.scoreValue);
         return model;
     }

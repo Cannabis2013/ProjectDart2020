@@ -175,6 +175,7 @@ void LocalTournamentModelsContext::deleteTournaments(const QVector<int> &indexes
 void LocalTournamentModelsContext::handleTransmitPlayerScores(const QUuid &tournament,
                                                               const QList<QPair<QUuid,QString>>&playerPairs)
 {
+    QVariantList list;
     auto numberOfThrows = tournamentNumberOfThrows(tournament);
     for (auto player : playerPairs) {
         auto roundIndex = 1;
@@ -183,9 +184,9 @@ void LocalTournamentModelsContext::handleTransmitPlayerScores(const QUuid &tourn
         auto playerName = player.second;
         while (1)
         {
-            QUuid pointID;
+            QUuid scoreID;
             try {
-                pointID = playerScore(tournament,
+                scoreID = playerScore(tournament,
                                       assignedPlayerID,
                                       roundIndex,
                                       throwIndex++,
@@ -195,13 +196,16 @@ void LocalTournamentModelsContext::handleTransmitPlayerScores(const QUuid &tourn
             }
             int score;
             int point;
+            int keyCode;
             try {
-                point = scorePointValue(pointID);
-                score = scoreValue(pointID);
+                point = scorePointValue(scoreID);
+                score = scoreValue(scoreID);
+                keyCode = scoreKeyCode(scoreID);
             } catch (const char *msg) {
                 throw msg;
             }
-            emit sendPlayerScore(playerName,point,score);
+            QVariantList subList = {playerName,point,score,keyCode};
+            list.append(subList);
             if(throwIndex % numberOfThrows == 0)
             {
                 throwIndex = 0;
@@ -209,7 +213,7 @@ void LocalTournamentModelsContext::handleTransmitPlayerScores(const QUuid &tourn
             }
         }
     }
-    emit transmitResponse(ModelsContextResponse::EndOfTransmission,{});
+    emit transmitResponse(ModelsContextResponse::EndOfTransmission,{list});
 }
 
 void LocalTournamentModelsContext::handleTransmitTournaments()
@@ -754,8 +758,8 @@ QList<QUuid> LocalTournamentModelsContext::setPointsID(const QUuid &set)
 {
     QList<QUuid> resultingList;
     auto scores = modelDBContext()->models("Score");
-    for (auto pointModel : scores) {
-        auto pointSetID = pointModel->parent();
+    for (auto scoreModel : scores) {
+        auto pointSetID = scoreModel->parent();
         if(pointSetID == set)
             resultingList << pointSetID;
     }
@@ -777,8 +781,8 @@ QList<QUuid> LocalTournamentModelsContext::scores(const QUuid &tournament)
 {
     QList<QUuid> resultingList;
     auto scores = modelDBContext()->models("Score");
-    for (auto pointModel : scores) {
-        auto parentSetID = pointModel->parent();
+    for (auto scoreModel : scores) {
+        auto parentSetID = scoreModel->parent();
         auto setModel = getSetModelFromID(parentSetID);
         auto parentRoundID = setModel->parent();
         auto roundModel = getRoundModelFromID(parentRoundID);
@@ -786,7 +790,7 @@ QList<QUuid> LocalTournamentModelsContext::scores(const QUuid &tournament)
         auto tournamentModel = getTournamentModelFromID(parentTournamentID);
         auto compareTournamentID = tournamentModel->id();
         if(compareTournamentID == tournament)
-            resultingList << pointModel->id();
+            resultingList << scoreModel->id();
     }
 
     return resultingList;
@@ -896,8 +900,8 @@ QUuid LocalTournamentModelsContext::editScore(const QUuid &pointId, const int &v
 
 QUuid LocalTournamentModelsContext::scoreSet(const QUuid &point)
 {
-    auto pointModel = getScoreModelFromID(point);
-    auto parentSetID = pointModel->parent();
+    auto scoreModel = getScoreModelFromID(point);
+    auto parentSetID = scoreModel->parent();
     return parentSetID;
 }
 
@@ -915,8 +919,8 @@ int LocalTournamentModelsContext::scoreThrowIndex(const QUuid &point)
 int LocalTournamentModelsContext::scorePointValue(const QUuid &point)
 {
     try {
-        auto pointModel = getScoreModelFromID(point);
-        auto pointValue = pointModel->point();
+        auto scoreModel = getScoreModelFromID(point);
+        auto pointValue = scoreModel->point();
         return pointValue;
 
     }  catch (const char *msg) {
@@ -927,8 +931,8 @@ int LocalTournamentModelsContext::scorePointValue(const QUuid &point)
 int LocalTournamentModelsContext::scoreValue(const QUuid &point)
 {
     try {
-        auto pointModel = getScoreModelFromID(point);
-        auto score = pointModel->score();
+        auto scoreModel = getScoreModelFromID(point);
+        auto score = scoreModel->score();
         return score;
 
     }  catch (const char *msg) {
@@ -941,16 +945,26 @@ QUuid LocalTournamentModelsContext::scorePlayer(const QUuid &point)
     return getScoreModelFromID(point)->player();
 }
 
-int LocalTournamentModelsContext::scoreHint(const QUuid &playerPoint)
+int LocalTournamentModelsContext::scoreHint(const QUuid &scoreID)
 {
     try {
-        auto pointModel = getScoreModelFromID(playerPoint);
-        auto hint = pointModel->hint();
+        auto scoreModel = getScoreModelFromID(scoreID);
+        auto hint = scoreModel->hint();
         return hint;
     } catch (const char *msg) {
         throw msg;
     }
+}
 
+int LocalTournamentModelsContext::scoreKeyCode(const QUuid &scoreID)
+{
+    try {
+        auto scoreModel = getScoreModelFromID(scoreID);
+        auto keyCode = scoreModel->keyCode();
+        return keyCode;
+    } catch (const char *msg) {
+        throw msg;
+    }
 }
 
 QList<QUuid> LocalTournamentModelsContext::pointModels(const QUuid &player)
@@ -1033,8 +1047,8 @@ QList<QUuid> LocalTournamentModelsContext::playerScores(const QUuid &tournament,
 bool LocalTournamentModelsContext::removeScore(const QUuid &point)
 {
     try {
-        auto pointModel = getScoreModelFromID(point);
-        auto index = modelDBContext()->indexOfModel("Score",pointModel);
+        auto scoreModel = getScoreModelFromID(point);
+        auto index = modelDBContext()->indexOfModel("Score",scoreModel);
         auto result = modelDBContext()->removeModel("Score",index);
         return result;
     } catch (const char *msg) {
@@ -1045,9 +1059,9 @@ bool LocalTournamentModelsContext::removeScore(const QUuid &point)
 void LocalTournamentModelsContext::removePlayerScoreAndRelatives(const QUuid &point)
 {
     try {
-        auto pointModel = getScoreModelFromID(point);
-        auto parentSetID = pointModel->parent();
-        auto index = modelDBContext()->indexOfModel("Score",pointModel);
+        auto scoreModel = getScoreModelFromID(point);
+        auto parentSetID = scoreModel->parent();
+        auto index = modelDBContext()->indexOfModel("Score",scoreModel);
         auto result = modelDBContext()->removeModel("Score",index);
         if(result)
         {
@@ -1064,24 +1078,24 @@ QUuid LocalTournamentModelsContext::playerScore(const QUuid &tournament,
                                                 const int &throwIndex,
                                                 const int &hint)
 {
-    auto tournamentPoints = scores(tournament);
-    for (auto pointID : tournamentPoints) {
-        auto pointModel = getScoreModelFromID(pointID);
-        auto modelHint = pointModel->hint();
-        auto playerID = pointModel->player();
+    auto tournamentScoreModels = scores(tournament);
+    for (auto scoreModelID : tournamentScoreModels) {
+        auto scoreModel = getScoreModelFromID(scoreModelID);
+        auto modelHint = scoreModel->hint();
+        auto playerID = scoreModel->player();
         if(playerID != player)
             continue;
-        auto leg = scoreThrowIndex(pointID);
+        auto leg = scoreThrowIndex(scoreModelID);
         if(leg != throwIndex)
             continue;
-        auto setID = scoreSet(pointID);
+        auto setID = scoreSet(scoreModelID);
         auto round = setRound(setID);
         auto rIndex = this->roundIndex(round);
         if(rIndex != roundIndex)
             continue;
         if(modelHint != hint && hint != allHints)
             continue;
-        return pointID;
+        return scoreModelID;
     }
 
     throw "Object not found";
@@ -1263,6 +1277,7 @@ QJsonArray LocalTournamentModelsContext::assembleScoresJSONArray()
         scoreJSON["Index"] = scoreThrowIndex(scoreID);
         scoreJSON["PlayerID"] = scorePlayer(scoreID).toString();
         scoreJSON["Hint"] = scoreHint(scoreID);
+        scoreJSON["KeyCode"] = scoreKeyCode(scoreID);
         scoresJSON.append(scoreJSON);
     }
     return scoresJSON;
@@ -1360,11 +1375,12 @@ void LocalTournamentModelsContext::buildScoreModel(const QUuid &player,
                                                    const int &point,
                                                    const int &score,
                                                    const int &hint,
+                                                   const int &keyCode,
                                                    const bool &generateID,
                                                    const QUuid &id)
 {
     auto model = scoreModelBuilder()->buildModel(
-                [id,set,throwIndex,point,player,score]
+                [id,set,throwIndex,point,keyCode,player,score]
     {
         PointParameters params;
         params.id = id;
@@ -1373,7 +1389,7 @@ void LocalTournamentModelsContext::buildScoreModel(const QUuid &player,
         params.pointValue = point;
         params.throwIndex = throwIndex;
         params.scoreValue = score;
-
+        params.keyCode = keyCode;
 
         return params;
     }(),[generateID,hint]{
@@ -1430,8 +1446,8 @@ int LocalTournamentModelsContext::playerScoreCount(const int &hint)
     auto count = 0;
     auto models = modelDBContext()->models("Score");
     for (auto model : models) {
-        auto pointModel = dynamic_cast<const DefaultPointInterface*>(model);
-        if(pointModel->hint() == hint || hint == allHints)
+        auto scoreModel = dynamic_cast<const DefaultPointInterface*>(model);
+        if(scoreModel->hint() == hint || hint == allHints)
             count++;
     }
     return count;
@@ -1444,10 +1460,11 @@ void LocalTournamentModelsContext::addScore(const QUuid &tournament,
                                             const int &throwIndex,
                                             const int &point,
                                             const int &score,
+                                            const int &keyCode,
                                             const bool &isWinnerDetermined)
 {
     auto setID = this->setID(tournament,roundIndex,setIndex);
-    buildScoreModel(player,setID,throwIndex,point,score,ModelDisplayHint::DisplayHint);
+    buildScoreModel(player,setID,throwIndex,point,score,ModelDisplayHint::DisplayHint,keyCode);
     if(isWinnerDetermined)
         setTournamentDeterminedWinner(tournament,player);
     removeHiddenScores(tournament);
@@ -1515,8 +1532,9 @@ void LocalTournamentModelsContext::extractScoreModelsFromJSON(const QJsonArray &
         auto playerStringID = JSONValue["PlayerID"].toString();
         auto playerID = QUuid::fromString(playerStringID);
         auto throwIndex = JSONValue["Index"].toInt();
+        auto keyCode = JSONValue["KeyCode"].toInt();
         auto scoreHint = JSONValue["Hint"].toInt();
-        buildScoreModel(playerID,setID,throwIndex,pointValue,scoreValue,scoreHint,false,id);
+        buildScoreModel(playerID,setID,throwIndex,pointValue,scoreValue,scoreHint,keyCode,false,id);
     }
 }
 

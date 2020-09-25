@@ -73,9 +73,18 @@ public:
         _scoreValue = score;
     }
 
+    int keyCode() const override
+    {
+        return _keyCode;
+    }
+    void setKeyCode(const int &key) override
+    {
+        _keyCode = key;
+    }
+
 private:
-    int _modelType, _pointValue, _scoreValue,_throwIndex, _hint;
-    QUuid _id, _player, _set;
+    int _modelType, _pointValue, _scoreValue,_throwIndex, _hint, _keyCode;
+    QUuid _id, _player, _set;    
 };
 
 #endif // POINT_H

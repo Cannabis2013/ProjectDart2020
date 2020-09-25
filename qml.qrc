@@ -21,7 +21,7 @@
         <file>Page.qml</file>
         <file>CreateTournamentContent.qml</file>
         <file>GamePageContent.qml</file>
-        <file>TurnNavigationComponent.qml</file>
+        <file>TurnControllerItem.qml</file>
         <file>KeyPadComponent.qml</file>
         <file>componentFactory.js</file>
         <file>CreatePlayerPopUp.qml</file>
@@ -40,6 +40,14 @@
         <file>FirstToPostTable.qml</file>
         <file>DefaultPlayerListView.qml</file>
         <file>DefaultTournamentListView.qml</file>
+        <file>DefaultKeyPadComponent.qml</file>
+        <file>DisplayKeyDataItem.qml</file>
+        <file>FirstToPostTurnController.qml</file>
+        <file>gamePageScripts.js</file>
+        <file>KeyPadInterface.qml</file>
+        <file>scoreBoardScripts.js</file>
+        <file>ScoreBoardInterface.qml</file>
+        <file>LoadingItem.qml</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>

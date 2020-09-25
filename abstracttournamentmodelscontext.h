@@ -61,6 +61,7 @@ public slots:
                           const int &throwIndex,
                           const int &point,
                           const int &score,
+                          const int &keyCode,
                           const bool &isWinnerDetermined) = 0;
     virtual void handleRequestUpdateContext(const QUuid &tournamentID,
                                             const int &roundIndex,
@@ -73,7 +74,7 @@ public slots:
     virtual void handleResetTournament(const QUuid &tournament) = 0;
 signals:
     void transmitResponse(const int &status, const QVariantList &arguments) override;
-    void sendPlayerScore(const QString &player, const int &point, const int &score);
+    void sendPlayerScore(const QString &player, const int &point, const int &score, const int &keyCode);
     void sendAssignedPlayers(const QList<QUuid> &players);
     void confirmScoresTransmittedAndContextUpdated();
     void sendTournament(const QString &title,

@@ -348,6 +348,7 @@ void LocalFirstToPost::addPoint(const int &point, const int &score)
                    throwIndex,
                    point,
                    score,
+                   -1,
                    isWinnerDetermined);
 }
 

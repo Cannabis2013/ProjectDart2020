@@ -89,6 +89,7 @@ public:
                   const int &throwIndex,
                   const int &point,
                   const int &score,
+                  const int &keyCode,
                   const bool &isWinnerDetermined) override;
     virtual void handleRequestUpdateContext(const QUuid &tournamentID,
                                             const int &roundIndex,
@@ -111,23 +112,23 @@ private:
                            const int &keyPoint,
                            const int &throws,
                            const int &gameMode,
-                           const int &winCondition) ;
-    void removeTournament(const QUuid &tournament) ;
-    void removeModelsRelatedToTournament(const QUuid &tournament) ;
-    QUuid tournamentIDFromIndex(const int &index) ;
-    QList<QUuid> tournaments() ;
-    int tournamentsCount() ;
-    QString tournamentTitle(const QUuid &tournament) ;
-    int tournamentNumberOfThrows(const QUuid &tournament) ;
-    QList<QUuid> tournamentAssignedPlayers(const QUuid &tournament) ;
-    int tournamentGameMode(const QUuid &tournament) ;
-    int tournamentLastThrowKeyCode(const QUuid &tournament) ;
-    int tournamentKeyPoint(const QUuid &tournament) ;
-    int tournamentStatus(const QUuid &tournament) ;
+                           const int &winCondition);
+    void removeTournament(const QUuid &tournament);
+    void removeModelsRelatedToTournament(const QUuid &tournament);
+    QUuid tournamentIDFromIndex(const int &index);
+    QList<QUuid> tournaments();
+    int tournamentsCount();
+    QString tournamentTitle(const QUuid &tournament);
+    int tournamentNumberOfThrows(const QUuid &tournament);
+    QList<QUuid> tournamentAssignedPlayers(const QUuid &tournament);
+    int tournamentGameMode(const QUuid &tournament);
+    int tournamentLastThrowKeyCode(const QUuid &tournament);
+    int tournamentKeyPoint(const QUuid &tournament);
+    int tournamentStatus(const QUuid &tournament);
     QUuid tournamentDeterminedWinner(const QUuid &tournament);
     void setTournamentDeterminedWinner(const QUuid &tournament, const QUuid &winner);
-    void assignPlayerToTournament(const QUuid &tournament, const QUuid &player) ;
-    void tournamentRemovePlayer(const QUuid &tournament, const QUuid &player) ;
+    void assignPlayerToTournament(const QUuid &tournament, const QUuid &player);
+    void tournamentRemovePlayer(const QUuid &tournament, const QUuid &player);
     /*
      * Round related section
      */
@@ -140,53 +141,49 @@ private:
     /*
      * Set related section
      */
-    QUuid setID(const QUuid &tournament, const int &roundIndex, const int &setIndex) ;
-    QList<QUuid> tournamentSetsID(const QUuid &tournament) ;
-    QList<QUuid> roundSetsID(const QUuid &roundID) ;
-    QList<QUuid> tournamentSetsID(const QUuid &tournament, const int &roundIndex) ;
-    QList<QUuid> setsID() ;
-    QUuid setRound(const QUuid &setID) ;
-    int setIndex(const QUuid &setID) ;
-    QUuid addSet(const QUuid &tournament, const int &roundIndex, const int &setIndex) ;
-    QList<QUuid> setPointsID(const QUuid &setID) ;
+    QUuid setID(const QUuid &tournament, const int &roundIndex, const int &setIndex);
+    QList<QUuid> tournamentSetsID(const QUuid &tournament);
+    QList<QUuid> roundSetsID(const QUuid &roundID);
+    QList<QUuid> tournamentSetsID(const QUuid &tournament, const int &roundIndex);
+    QList<QUuid> setsID();
+    QUuid setRound(const QUuid &setID);
+    int setIndex(const QUuid &setID);
+    QUuid addSet(const QUuid &tournament, const int &roundIndex, const int &setIndex);
+    QList<QUuid> setPointsID(const QUuid &setID);
     /*
      * Scores related section
      */
-    QUuid playerScore(const QUuid &tournament, const QUuid &player , const int &roundIndex, const int &throwIndex, const int &hint) ;
-    QList<QUuid> scores() ;
-    QList<QUuid> scores(const QUuid &tournament) ;
-    QList<QUuid> scores(const QUuid &tournament, const QUuid &roundID) ;
-    QList<QUuid> scores(const QUuid &tournament, const QUuid &roundID, const QUuid &setID) ;
-    QList<QUuid> scores(const QUuid &tournament, const int &hint) ;
-    QList<QUuid> playerScores(const QUuid &tournament, const QUuid &player, const int &hint) ;
-    int playerScoreCount(const int &hint) ;
-    QUuid setScoreHint(const QUuid &point, const int &hint) ;
-    QUuid editScore(const QUuid &pointId, const int &value, const int &score,const int &hint) ;
-    QUuid scoreSet(const QUuid &playerScore) ;
-    int scoreThrowIndex(const QUuid &playerScore) ;
-    int scorePointValue(const QUuid &playerScore) ;
-    int scoreValue(const QUuid &point) ;
-    QUuid scorePlayer(const QUuid &playerScore) ;
-    int scoreHint(const QUuid &playerScore) ;
-    bool removeScore(const QUuid &point) ;
-    void removePlayerScoreAndRelatives(const QUuid &point) ;
+    QUuid playerScore(const QUuid &tournament, const QUuid &player , const int &roundIndex, const int &throwIndex, const int &hint);
+    QList<QUuid> scores();
+    QList<QUuid> scores(const QUuid &tournament);
+    QList<QUuid> scores(const QUuid &tournament, const QUuid &roundID);
+    QList<QUuid> scores(const QUuid &tournament, const QUuid &roundID, const QUuid &setID);
+    QList<QUuid> scores(const QUuid &tournament, const int &hint);
+    QList<QUuid> playerScores(const QUuid &tournament, const QUuid &player, const int &hint);
+    int playerScoreCount(const int &hint);
+    QUuid setScoreHint(const QUuid &point, const int &hint);
+    QUuid editScore(const QUuid &pointId, const int &value, const int &score,const int &hint);
+    QUuid scoreSet(const QUuid &playerScore);
+    int scoreThrowIndex(const QUuid &playerScore);
+    int scorePointValue(const QUuid &playerScore);
+    int scoreValue(const QUuid &point);
+    QUuid scorePlayer(const QUuid &playerScore);
+    int scoreHint(const QUuid &scoreID);
+    int scoreKeyCode(const QUuid &scoreID);
+    bool removeScore(const QUuid &point);
+    void removePlayerScoreAndRelatives(const QUuid &point);
 
-    void removeHiddenScores(const QUuid &tournament) ;
+    void removeHiddenScores(const QUuid &tournament);
 
-    void removeInconsistentModels() ;
-
-    int score(const QUuid &tournament, const QUuid &player) ;
-    int score(const QUuid &player) ;
-
+    void removeInconsistentModels();
+    int score(const QUuid &tournament, const QUuid &player);
+    int score(const QUuid &player);
     QList<QUuid> pointModels(const QUuid &player);
-
     void removeTournamentRounds(const QUuid &tournament);
     void removeTournamentSets(const QUuid &tournament);
     void removeTournamentScores(const QUuid &tournament);
-
     void removeEmptyRound(const QUuid &round);
     void removeEmptySet(const QUuid &setID);
-
     void removeTournamentModel(const QUuid &tournament);
     void removePointModel(const QUuid &playerScore);
 
@@ -194,7 +191,6 @@ private:
     const DefaultRoundInterface *getRoundModelFromID(const QUuid &id);
     const DefaultSetInterface *getSetModelFromID(const QUuid &id);
     const DefaultPointInterface *getScoreModelFromID(const QUuid &id);
-
     /*
      * Consistency checks
      */
@@ -221,16 +217,16 @@ private:
                          const int &keyPoint,
                          const int &throws,
                          const int &gameMode,
-                         const QUuid &winner) ;
+                         const QUuid &winner);
 
-    void buildRound(const QUuid &tournament, const int &index, const QUuid &id) ;
-    void buildSet(const QUuid &id, const QUuid &round, const int &setIndex) ;
+    void buildRound(const QUuid &tournament, const int &index, const QUuid &id);
+    void buildSet(const QUuid &id, const QUuid &round, const int &setIndex);
     void buildScoreModel(const QUuid &player,
                          const QUuid &set,
                          const int &throwIndex,
                          const int &point,
                          const int &score,
-                         const int &hint,
+                         const int &hint, const int &keyCode,
                          const bool &generateID = true,
                          const QUuid &id = QUuid());
 

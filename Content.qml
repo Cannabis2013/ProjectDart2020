@@ -5,6 +5,7 @@ Rectangle {
     signal backButtonPressed
     signal replyFromBackendRecieved(int response,var args)
     signal requestUpdate
+    signal requestSetVisible(bool v)
     signal notifyWidthChange(double w)
     signal notifyHeightChange(double h)
     signal requestSetPageTitle(string title)
