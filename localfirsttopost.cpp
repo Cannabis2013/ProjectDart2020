@@ -26,7 +26,12 @@ void LocalFirstToPost::handleAndProcessUserInput(const int &point, const int &mo
             status() == Stopped ||
             status() == WinnerDeclared)
     {
-        emit transmitResponse(status(),{});
+        emit transmitResponse(ControllerResponse::isStopped,{});
+        return;
+    }
+    else if(status() == ControllerState::AddScoreState)
+    {
+        emit transmitResponse(ControllerResponse::isProcessingUserInput,{});
         return;
     }
 
@@ -348,6 +353,7 @@ void LocalFirstToPost::addPoint(const int &point, const int &score)
                    throwIndex,
                    point,
                    score,
+                   -1,
                    isWinnerDetermined);
 }
 

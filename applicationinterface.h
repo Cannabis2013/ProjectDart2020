@@ -60,16 +60,21 @@ public:
     }
     ApplicationInterface *setup();
     ApplicationInterface *useThreads();
-
+    /*
+     * Get/set TournamentModelsContext
+     */
     AbstractTournamentModelsContext *tournamentsModelContext() const;
     ApplicationInterface* setTournamentsModelContext(AbstractTournamentModelsContext *tournamentsModelContext);
-
+    /*
+     * Get/set PlayerModelsContext
+     */
     AbstractPlayerModelsContext *playerModelsContext() const;
     ApplicationInterface* setPlayerModelsContext(AbstractPlayerModelsContext *playerModelsContext);
-
+    /*
+     * Get/set GameControllerBuilder
+     */
     IDefaultGameBuilder *controllerBuilder();
     ApplicationInterface *setControllerBuilder(IDefaultGameBuilder *builder);
-
 public slots:
     void handleTournamentsRequest();
     void handleSetCurrentTournamentRequest(const int &index);
@@ -138,7 +143,7 @@ signals:
     void sendAssignedPlayerIndexes(const QVariantList &indexes, const QUuid &tournament);
     void sendRequestedGameModes(const QStringList &gameModes);
     void sendPlayerDetail(const QString &playerName, const QString &mail);
-    void sendPlayerScore(const QString &playerName,const int &point, const int &score);
+    void sendPlayerScore(const QString &playerName,const int &point, const int &score, const int &keyCode);
     void sendAssignedPlayerName(const QString &playerName);
     void sendCurrentTournamentKeyPoint(const int &point);
     void sendRequestedTournament(const QString &title,
@@ -214,6 +219,7 @@ private:
 
     QThread *_tournamentModelsThread = new QThread();
     QThread *_playerModelsThread = new QThread();
+    QThread *_gameControllerThread = new QThread();
 
     IControllerBuilder<AbstractGameController, int> *_controllerBuilder;
     AbstractGameController *_gameController = nullptr;

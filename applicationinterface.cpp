@@ -18,10 +18,15 @@ ApplicationInterface *ApplicationInterface::setup()
 
 ApplicationInterface *ApplicationInterface::useThreads()
 {
-    _tournamentModelsContext->moveToThread(_tournamentModelsThread);
-    _playerModelsContext->moveToThread(_playerModelsThread);
-    _tournamentModelsThread->start();
-    _playerModelsThread->start();
+    try {
+        _tournamentModelsContext->moveToThread(_tournamentModelsThread);
+        _playerModelsContext->moveToThread(_playerModelsThread);
+        startTournamentModelsWorkerThread();
+        startPlayerModelsWorkerThread();
+    }  catch (...) {
+        // Implement some error functionality here
+        return this;
+    }
     return this;
 }
 
@@ -175,6 +180,10 @@ void ApplicationInterface::handleTournamentDetailsAndSetController(const QUuid &
          */
         _gameController = _controllerBuilder->buildController(gameMode,0x4);
         connectControllerInterface();
+
+        _gameController->moveToThread(_gameControllerThread);
+        _gameControllerThread->start();
+
         emit sendTournamentDetails(tournament,
                                    winner,
                                    keyPoint,
@@ -350,9 +359,6 @@ void ApplicationInterface::connectControllerInterface()
             _tournamentModelsContext,&AbstractTournamentModelsContext::handleRequestSetScoreHint);
     connect(_tournamentModelsContext,&AbstractTournamentModelsContext::scoreHintUpdated,
             _gameController,&AbstractGameController::handleScoreHintUpdated);
-
-    startTournamentModelsWorkerThread();
-    startPlayerModelsWorkerThread();
 }
 
 void ApplicationInterface::startTournamentModelsWorkerThread()

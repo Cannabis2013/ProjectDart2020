@@ -20,6 +20,7 @@ Rectangle {
         pageContent.requestSetPageIcon.connect(body.handleSetPageIcon);
         pageContent.notifyWidthChange.connect(contentFlickable.setContentWidth);
         pageContent.notifyHeightChange.connect(contentFlickable.setContentHeight);
+        pageContent.requestSetVisible.connect(body.handleSetVisible);
         pageContent.backButtonPressed.connect(backButtonPressed);
         pageContent.anchors.fill = contentFlickable.contentItem;
     }
@@ -38,6 +39,10 @@ Rectangle {
     function handleSetPageIcon(url)
     {
         pageIconUrl = url;
+    }
+    function handleSetVisible(v)
+    {
+        visible = v;
     }
 
     property string pageTitle: "Page title"

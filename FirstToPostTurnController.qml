@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 
+
 /*
   Controller status table:
     -> GameControllerIdle = 0x9
@@ -11,11 +12,19 @@ import QtQuick.Layouts 1.3
     -> GameControllerWinnerDeclared = 0xe
     -> GameControllerNotInitialized = 0xf
   */
-ScoreBoard{
-    color: "transparent"
-    verticalHeaderFillMode: 0x1
-    scoreFontSize: 20
-    pointFontSize: 10
+
+TurnControllerItem{
+    id: turnNavigator
+    startButtonEnabled: false
+    startButtonEnablePressAndHold: true
+
+    onLeftButtonClicked: {
+        body.state = "waitingForInputConfirmation";
+        requestUndo();
+    }
+    
+    onRightButtonClicked: {
+        body.state = "waitingForInputConfirmation";
+        requestRedo();
+    }
 }
-
-

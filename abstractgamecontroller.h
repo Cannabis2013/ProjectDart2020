@@ -85,6 +85,7 @@ signals:
                    const int &throwIndex,
                    const int &point,
                    const int &score,
+                   const int &keyCode,
                    const bool &isWinnerDetermined);
     void winnerDetermined(const QUuid &tournament, const QUuid &player);
     void requestUpdateContext(const QUuid &tournamentID,

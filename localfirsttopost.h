@@ -55,30 +55,14 @@ public:
         isInitializedAndAwaitsInput = 0x2D,
         isInitializedAndReady = 0x45,
         DataProvidedSuccess =0x3D,
-        WinnerFound = 0x3E
-    };
-    enum ControllerRequest{
-        RequestBasicValues = 0x30,
-        RequestIndexValues = 0x31,
-        RequestPlayerScores = 0x3A,
-        RequestStorePoint = 0x32,
-        RequestUpdateModelState,
-        RequestAddRound = 0x33,
-        RequestAddSet = 0x34,
-        RequestSetModelHint = 0x3C,
-        RequestResetTournament = 0x3B
+        WinnerFound = 0x3E,
+        isProcessingUserInput
     };
     enum KeyMappings{
         SingleModifer = 0x2A,
         DoubleModifier = 0x2B,
         TrippleModifier = 0x2C
     };
-    enum ContextCodes{
-        DataContext = 0x35,
-        ControllerContext = 0x36,
-        ApplicationContext = 0x37
-    };
-
     /*
      * Point suggestion section
      */

@@ -21,6 +21,9 @@ public:
 
     virtual int hint() const = 0;
     virtual void setHint(const int &hint) = 0;
+
+    virtual int keyCode() const = 0;
+    virtual void setKeyCode(const int &key) = 0;
 };
 
 #endif // ISCOREMODEL_H
