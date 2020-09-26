@@ -6,7 +6,7 @@
 #include "abstractplayermodelscontext.h"
 #include "abstracttournamentmodelscontext.h"
 #include <abstractgamecontroller.h>
-#include <idatamodelbuilder.h>
+#include <itournamentmodelbuilder.h>
 #include "iplayerbuildercontext.h"
 #include "IControllerBuilder.h"
 #include "ipointlogisticinterface.h"
@@ -20,9 +20,9 @@ using namespace std;
 #define printVariable(var) #var
 #define STATUS_ERROR -1;
 
-typedef IPlayerModel<QUuid,QString> DefaultModelInterface;
-typedef IPlayerBuilderParameters<QString,QUuid> DefaultParameters;
-typedef IDataModelBuilder<DefaultModelInterface,DefaultParameters,IPlayerBuilderConfiguration> DefaultPlayerBuilder;
+typedef IPlayerModel<QUuid,QString> DefaultPlayerModelInterface;
+typedef IPlayerBuilderParameters<QString,QUuid> DefaultParametersInterface;
+//typedef ITournamentModelBuilder<DefaultPlayerModelInterface,DefaultParametersInterface,IPlayerBuilderConfiguration> DefaultPlayerBuilder;
 
 typedef IControllerBuilder<AbstractGameController, int> IDefaultGameBuilder;
 

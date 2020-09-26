@@ -16,7 +16,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         abstractjsonpersistence.cpp \
         applicationinterface.cpp \
-        idatamodelbuilder.cpp \
         localfirsttopost.cpp \
         localplayerdbcontext.cpp \
         localplayermodelscontext.cpp \
@@ -50,37 +49,38 @@ HEADERS += \
     abstractplayermodelscontext.h \
     abstracttournamentmodelscontext.h \
     applicationinterface.h \
-    defaultplayerbuilderconfigurations.h \
     gamebuilder.h \
     idatacontext.h \
-    idatamodelbuilder.h \
     imodel.h \
     imodelsdbcontext.h \
     iplayerbuildercontext.h \
     iplayercontext.h \
     iplayermodel.h \
+    iplayermodelbuilder.h \
     ipointlogisticinterface.h \
     iresponseinterface.h \
     iroundmodel.h \
     iscoremodel.h \
     isetmodel.h \
     itournamentmodel.h \
+    itournamentmodelbuilder.h \
     localfirsttopost.h \
-    localplayerbuilder.h \
     localplayerdbcontext.h \
     localplayermodelscontext.h \
     localtournamentmodeldb.h \
     localtournamentmodelscontext.h \
-    modelbuildercollection.h \
     modelbuildercontext.h \
     persistenceinterface.h \
     player.h \
+    playermodelbuilder.h \
+    playermodelbuildercontext.h \
     pointlogisticmanager.h \
     round.h \
     score.h \
     scoredatamodel.h \
     set.h \
-    tournament.h
+    tournament.h \
+    tournamentmodelbuilder.h
 
 DISTFILES += \
 

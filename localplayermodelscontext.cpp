@@ -85,7 +85,7 @@ void LocalPlayerModelsContext::handleProcessCreatedTournament(const QString &tit
     emit sendProcessedTournamentDetails(title,gameMode,numberOfThrows,winCondition,keyPoint,playersID);
 }
 
-ImodelsDBContext<IDefaultPlayerModel, QUuid> *LocalPlayerModelsContext::modelDBContext()
+ImodelsDBContext<DefaultPlayerModelInterface, QUuid> *LocalPlayerModelsContext::modelDBContext()
 {
     return _dbContext;
 }
@@ -146,7 +146,7 @@ AbstractPlayerModelsContext *LocalPlayerModelsContext::setPlayerBuilder(DefaultP
     return this;
 }
 
-AbstractPlayerModelsContext *LocalPlayerModelsContext::setModelDBContext(ImodelsDBContext<IDefaultPlayerModel, QUuid> *context)
+AbstractPlayerModelsContext *LocalPlayerModelsContext::setModelDBContext(ImodelsDBContext<DefaultPlayerModelInterface, QUuid> *context)
 {
     _dbContext = context;
     return this;
@@ -214,8 +214,7 @@ void LocalPlayerModelsContext::deletePlayerByID(const QUuid &player)
         auto modelID = model->id();
         if(modelID == player)
         {
-            auto index = modelDBContext()->indexOfModel("Player",model);
-            modelDBContext()->removeModel("Player",index);
+            modelDBContext()->removeModel(modelID,-1);
             return;
         }
     }
@@ -338,7 +337,7 @@ QUuid LocalPlayerModelsContext::buildPlayerModel(const QString &playerName,
                                                 const bool &generateID,
                                                 const QUuid &id)
 {
-    auto model = playerBuilder()->buildModel([id,playerName,email,role]
+    auto model = playerBuilder()->buildPlayerModel([id,playerName,email,role]
     {
         PlayerBuilderParameters params;
         params.setId(id);
@@ -349,7 +348,7 @@ QUuid LocalPlayerModelsContext::buildPlayerModel(const QString &playerName,
     }(),[generateID]
     {
         PlayerModelOptions options;
-        options.setGenerateUniqueId(generateID);
+        options.enableGenerateUniqueID(generateID);
         return options;
     }());
     try {
@@ -361,7 +360,7 @@ QUuid LocalPlayerModelsContext::buildPlayerModel(const QString &playerName,
     return modelID;
 }
 
-const IDefaultPlayerModel *LocalPlayerModelsContext::getModel(const QString &playerName)
+const DefaultPlayerModelInterface *LocalPlayerModelsContext::getModel(const QString &playerName)
 {
     auto models = modelDBContext()->models("Player");
     for (auto model : models) {

@@ -39,9 +39,8 @@ struct SetParameters
     QUuid id;
 };
 
-struct PointParameters
+struct ScoreParameters
 {
-    char* t;
     int pointValue;
     int scoreValue;
     int throwIndex;

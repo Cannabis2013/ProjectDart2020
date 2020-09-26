@@ -14,17 +14,19 @@ public:
     {
         return _id;
     }
-    void setId(const QUuid &val) override
+    Tournament* setId(const QUuid &val) override
     {
         _id = val;
+        return this;
     }
     int type() const override
     {
         return _modelType;
     }
-    void setType(const int &val) override
+    Tournament* setType(const int &val) override
     {
         _modelType = val;
+        return this;
     }
 
     // ITournament interface
@@ -32,66 +34,77 @@ public:
     {
         return _title;
     }
-    void setTitle(const QString &string) override
+    ITournament<QUuid,QList<QUuid>,QString>* setTitle(const QString &string) override
     {
         _title = string;
+        return this;
     }
     int numberOfThrows() const override
     {
         return _numberOfThrows;
     }
-    void setNumberOfThrows(const int &val) override
+    ITournament<QUuid,QList<QUuid>,QString>* setNumberOfThrows(const int &val) override
     {
         _numberOfThrows = val;
+        return this;
     }
     int gameMode() const override
     {
         return _gameMode;
     }
-    void setGameMode(const int &val) override
+    ITournament<QUuid,QList<QUuid>,QString>* setGameMode(const int &val) override
     {
         _gameMode = val;
+        return this;
     }
     int keyPoint() const override
     {
         return _keyPoint;
     }
-    void setKeyPoint(const int &val) override
+    ITournament<QUuid,QList<QUuid>,QString>* setKeyPoint(const int &val) override
     {
         _keyPoint = val;
+        return this;
     }
     bool status() const override
     {
         return _status;
     }
-    void setStatus(const bool &status) override
+    ITournament<QUuid,QList<QUuid>,QString>* setStatus(const bool &status) override
     {
         _status = status;
+        return this;
     }
     QUuid winner() const override
     {
         return _winner;
     }
-    void setWinner(const QUuid &val) override
+    ITournament<QUuid,QList<QUuid>,QString>* setWinner(const QUuid &val) override
     {
         _winner = val;
+        return this;
     }
 
     QList<QUuid> assignedPlayerIdentities() const override
     {
         return _assignedPlayerIdentities;
     }
-    void setAssignedPlayerIdentities(const QList<QUuid> &playerIdentities) override
+    ITournament<QUuid,QList<QUuid>,QString>*setAssignedPlayerIdentities(const QList<QUuid> &playerIdentities) override
     {
         _assignedPlayerIdentities = playerIdentities;
+        return this;
     }
-    void assignPlayerIdentity(const QUuid &identity) override
+    ITournament<QUuid,QList<QUuid>,QString>* assignPlayerIdentity(const QUuid &identity) override
     {
         _assignedPlayerIdentities.append(identity);
+        return this;
     }
 
-    void setParent(const QUuid &) override{
-
+    ITournament* setParent(const QUuid &) override{
+        /*
+         * No parent
+         */
+        return this;
     }
 
     QUuid parent() const override{
@@ -102,11 +115,15 @@ public:
     {
         return _terminateConditionKeyCode;
     }
-    void setTerminateKeyCondition(const int &keyCode) override
+    ITournament<QUuid,QList<QUuid>,QString>* setTerminateKeyCondition(const int &keyCode) override
     {
         _terminateConditionKeyCode = keyCode;
+        return this;
     }
-
+    static ITournament<QUuid,QList<QUuid>,QString> * createInstance()
+    {
+        return new Tournament();
+    }
 private:
     QString _title;
     int _numberOfThrows;

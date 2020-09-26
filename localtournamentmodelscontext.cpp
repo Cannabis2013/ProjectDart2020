@@ -52,47 +52,15 @@ AbstractTournamentModelsContext *LocalTournamentModelsContext::setup()
     return this;
 }
 
-ITournamentBuilder *LocalTournamentModelsContext::tournamentModelBuilder()
+AbstractTournamentModelsContext *LocalTournamentModelsContext::setModelBuilder(DefaultTournamentModelBuilder *builder)
 {
-    return _tournamentBuilder;
-}
-
-AbstractTournamentModelsContext *LocalTournamentModelsContext::setTournamentModelBuilder(ITournamentBuilder *builder)
-{
-    _tournamentBuilder = builder;
+    _tournamentModelBuilder = builder;
     return this;
 }
 
-IRoundBuilder *LocalTournamentModelsContext::roundModelBuilder(){
-    return _roundBuilder;
-}
-
-AbstractTournamentModelsContext *LocalTournamentModelsContext::setRoundModelBuilder(IRoundBuilder *builder)
+DefaultTournamentModelBuilder *LocalTournamentModelsContext::modelBuilder()
 {
-    _roundBuilder = builder;
-    return this;
-}
-
-ISetBuilder *LocalTournamentModelsContext::setSetModelBuilder() const
-{
-    return _setBuilder;
-}
-
-AbstractTournamentModelsContext *LocalTournamentModelsContext::setSetModelBuilder(ISetBuilder *builder)
-{
-    _setBuilder = builder;
-    return this;
-}
-
-IScoreModelBuilder *LocalTournamentModelsContext::scoreModelBuilder()
-{
-    return _pointBuilder;
-}
-
-AbstractTournamentModelsContext *LocalTournamentModelsContext::setScoreModelBuilder(IScoreModelBuilder *builder)
-{
-    _pointBuilder = builder;
-    return this;
+    return _tournamentModelBuilder;
 }
 
 void LocalTournamentModelsContext::handleRequestUpdateContext(const QUuid &tournamentID,
@@ -336,7 +304,7 @@ QUuid LocalTournamentModelsContext::createTournament(const QString &title,
                                                      const int &gameMode,
                                                      const int &winCondition)
 {
-    auto tournament = tournamentModelBuilder()->buildModel([this,title,keyPoint,throws,gameMode,winCondition]{
+    auto tournament = modelBuilder()->buildTournamentModel([this,title,keyPoint,throws,gameMode,winCondition]{
         TournamentParameters params;
         params.title = title;
         params.throws = throws;
@@ -464,7 +432,7 @@ void LocalTournamentModelsContext::setTournamentDeterminedWinner(const QUuid &to
                                                                  const QUuid &winner)
 {
     auto oldModel = getTournamentModelFromID(tournament);
-    auto newModel = tournamentModelBuilder()->buildModel(
+    auto newModel = modelBuilder()->buildTournamentModel(
                     [oldModel, winner]
                     {
                         TournamentParameters params;
@@ -492,7 +460,7 @@ void LocalTournamentModelsContext::assignPlayerToTournament(const QUuid &tournam
     auto oldModel = getTournamentModelFromID(tournament);
     auto pList = oldModel->assignedPlayerIdentities();
     pList.append(player);
-    auto newModel = tournamentModelBuilder()->buildModel(
+    auto newModel = modelBuilder()->buildTournamentModel(
                 [oldModel, pList]
     {
         TournamentParameters params;
@@ -520,7 +488,7 @@ void LocalTournamentModelsContext::tournamentRemovePlayer(const QUuid &tournamen
     auto oldModel = getTournamentModelFromID(tournament);
     auto pList = oldModel->assignedPlayerIdentities();
     pList.removeOne(player);
-    auto newModel = tournamentModelBuilder()->buildModel(
+    auto newModel = modelBuilder()->buildTournamentModel(
                 [oldModel, pList]
     {
         TournamentParameters params;
@@ -581,7 +549,7 @@ QUuid LocalTournamentModelsContext::roundID(const QUuid &tournament, const int &
 
 QUuid LocalTournamentModelsContext::addRound(const QUuid &tournament, const int &index)
 {
-    auto round = roundModelBuilder()->buildModel(
+    auto round = modelBuilder()->buildRoundModel(
                 [tournament,index]
     {
         RoundParameters params;
@@ -732,7 +700,7 @@ int LocalTournamentModelsContext::setIndex(const QUuid &set)
 QUuid LocalTournamentModelsContext::addSet(const QUuid &tournament, const int &roundIndex, const int &setIndex)
 {
     auto roundId = roundID(tournament,roundIndex);
-    auto model = setSetModelBuilder()->buildModel(
+    auto model = modelBuilder()->buildSetModel(
                 [roundId,setIndex]{
         SetParameters params;
 
@@ -828,7 +796,7 @@ QList<QUuid> LocalTournamentModelsContext::scores(const QUuid &tournament, const
     QList<QUuid> resultingList;
     auto scores = modelDBContext()->models("Score");
     for (auto model : scores) {
-        auto scoreModel = dynamic_cast<const DefaultPointInterface*>(model);
+        auto scoreModel = dynamic_cast<const DefaultScoreInterface*>(model);
         auto modelHInt = scoreModel->hint();
         auto parentSetID = model->parent();
         auto setModel = getSetModelFromID(parentSetID);
@@ -847,8 +815,8 @@ QUuid LocalTournamentModelsContext::setScoreHint(const QUuid &point, const int &
 {
     try {
         auto oldModel = getScoreModelFromID(point);
-        auto newModel = scoreModelBuilder()->buildModel([oldModel]{
-            PointParameters params;
+        auto newModel = modelBuilder()->buildScoreModel([oldModel]{
+            ScoreParameters params;
             params.id = oldModel->id();
             params.pointValue = oldModel->point();
             params.throwIndex = oldModel->throwIndex();
@@ -875,10 +843,10 @@ QUuid LocalTournamentModelsContext::editScore(const QUuid &pointId, const int &v
 {
     auto oldScoreModel = getScoreModelFromID(pointId);
 
-    auto newScoreModel = scoreModelBuilder()->buildModel(
+    auto newScoreModel = modelBuilder()->buildScoreModel(
                 [oldScoreModel, score, value]
     {
-        PointParameters params;
+        ScoreParameters params;
         params.id = oldScoreModel->id();
         params.setId = oldScoreModel->parent();
         params.pointValue = value;
@@ -972,7 +940,7 @@ QList<QUuid> LocalTournamentModelsContext::pointModels(const QUuid &player)
     QList<QUuid> resultingList;
     auto models = modelDBContext()->models("Score");
     for (auto model : models) {
-        auto scoreModel = dynamic_cast<const DefaultPointInterface*>(model);
+        auto scoreModel = dynamic_cast<const DefaultScoreInterface*>(model);
         auto pointID = model->id();
         if(scoreModel->player() == player)
             resultingList << pointID;
@@ -1137,13 +1105,13 @@ const DefaultSetInterface *LocalTournamentModelsContext::getSetModelFromID(const
     throw THROW_OBJECT_WITH_ID_NOT_FOUND(id.toString());
 }
 
-const DefaultPointInterface *LocalTournamentModelsContext::getScoreModelFromID(const QUuid &id)
+const DefaultScoreInterface *LocalTournamentModelsContext::getScoreModelFromID(const QUuid &id)
 {
     auto models = modelDBContext()->models("Score");
     for (auto model : models)
     {
         if(model->id() == id)
-            return dynamic_cast<const DefaultPointInterface*>(model);
+            return dynamic_cast<const DefaultScoreInterface*>(model);
     }
 
     throw THROW_OBJECT_WITH_ID_NOT_FOUND(id.toString());
@@ -1315,26 +1283,27 @@ void LocalTournamentModelsContext::buildTournament(const QUuid &id,
                                                  const int &gameMode,
                                                  const QUuid &winner)
 {
-    auto tournament = tournamentModelBuilder()->buildModel([id,title,keyPoint,throws,gameMode,winner]{
-        TournamentParameters params;
-        params.id = id;
-        params.title = title;
-        params.keyPoint = keyPoint;
-        params.gameMode = gameMode;
-        params.throws = throws;
-        params.winner = winner;
-        return params;
-    }(),[]{
-        ModelOptions options;
-        options.generateUniqueId = false;
-        return options;
-    }());
+    auto tournament = modelBuilder()->buildTournamentModel(
+                [id,title,keyPoint,throws,gameMode,winner]{
+                TournamentParameters params;
+                params.id = id;
+                params.title = title;
+                params.keyPoint = keyPoint;
+                params.gameMode = gameMode;
+                params.throws = throws;
+                params.winner = winner;
+                return params;
+        }(),[]{
+                ModelOptions options;
+                options.generateUniqueId = false;
+                return options;
+        }());
     modelDBContext()->addModel("Tournament",tournament);
 }
 
 void LocalTournamentModelsContext::buildRound(const QUuid &tournament, const int &index, const QUuid &id)
 {
-    auto round = roundModelBuilder()->buildModel(
+    auto round = modelBuilder()->buildRoundModel(
                 [id,tournament,index]
     {
         RoundParameters params;
@@ -1353,7 +1322,7 @@ void LocalTournamentModelsContext::buildRound(const QUuid &tournament, const int
 
 void LocalTournamentModelsContext::buildSet(const QUuid &id, const QUuid &round, const int &setIndex)
 {
-    auto model = setSetModelBuilder()->buildModel(
+    auto model = modelBuilder()->buildSetModel(
                 [id,round,setIndex]{
         SetParameters params;
         params.id = id;
@@ -1379,10 +1348,10 @@ void LocalTournamentModelsContext::buildScoreModel(const QUuid &player,
                                                    const bool &generateID,
                                                    const QUuid &id)
 {
-    auto model = scoreModelBuilder()->buildModel(
+    auto model = modelBuilder()->buildScoreModel(
                 [id,set,throwIndex,point,keyCode,player,score]
     {
-        PointParameters params;
+        ScoreParameters params;
         params.id = id;
         params.setId = set;
         params.playerId = player;
@@ -1446,7 +1415,7 @@ int LocalTournamentModelsContext::playerScoreCount(const int &hint)
     auto count = 0;
     auto models = modelDBContext()->models("Score");
     for (auto model : models) {
-        auto scoreModel = dynamic_cast<const DefaultPointInterface*>(model);
+        auto scoreModel = dynamic_cast<const DefaultScoreInterface*>(model);
         if(scoreModel->hint() == hint || hint == allHints)
             count++;
     }

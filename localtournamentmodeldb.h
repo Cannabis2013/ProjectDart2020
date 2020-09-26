@@ -4,7 +4,7 @@
 #include <quuid.h>
 #include <QMultiHash>
 #include "imodelsdbcontext.h"
-#include "modelbuildercollection.h"
+#include "tournamentmodelbuilder.h"
 
 
 class LocalTournamentModelDB : public ImodelsDBContext<IModel<QUuid>,QString>

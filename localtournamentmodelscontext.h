@@ -55,15 +55,11 @@ public:
     static AbstractTournamentModelsContext* createInstance();
     AbstractTournamentModelsContext *setup() override;
 
-    // Builder methods
-    ITournamentBuilder *tournamentModelBuilder();
-    AbstractTournamentModelsContext *setTournamentModelBuilder(ITournamentBuilder *builder) override;
-    IRoundBuilder *roundModelBuilder();
-    AbstractTournamentModelsContext *setRoundModelBuilder(IRoundBuilder *builder) override;
-    ISetBuilder *setSetModelBuilder() const;
-    AbstractTournamentModelsContext *setSetModelBuilder(ISetBuilder *builder) override;
-    IScoreModelBuilder *scoreModelBuilder();
-    AbstractTournamentModelsContext *setScoreModelBuilder(IScoreModelBuilder *builder) override;
+    /*
+     * Model builder
+     */
+    AbstractTournamentModelsContext *setModelBuilder(DefaultTournamentModelBuilder *builder) override;
+    DefaultTournamentModelBuilder *modelBuilder() override;
     /*
      * Handle requests from external context
      */
@@ -190,7 +186,7 @@ private:
     const DefaultTournamentInterface *getTournamentModelFromID(const QUuid &id);
     const DefaultRoundInterface *getRoundModelFromID(const QUuid &id);
     const DefaultSetInterface *getSetModelFromID(const QUuid &id);
-    const DefaultPointInterface *getScoreModelFromID(const QUuid &id);
+    const DefaultScoreInterface *getScoreModelFromID(const QUuid &id);
     /*
      * Consistency checks
      */
@@ -230,10 +226,7 @@ private:
                          const bool &generateID = true,
                          const QUuid &id = QUuid());
 
-    ITournamentBuilder *_tournamentBuilder;
-    IRoundBuilder *_roundBuilder;
-    ISetBuilder *_setBuilder;
-    IScoreModelBuilder *_pointBuilder;
+    DefaultTournamentModelBuilder *_tournamentModelBuilder;
 
     ImodelsDBContext<IModel<QUuid>,QString> *_dbContext;
 };

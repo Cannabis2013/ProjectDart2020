@@ -7,7 +7,7 @@
 #include <qlist.h>
 #include <qobject.h>
 #include "abstractplayermodelscontext.h"
-#include "defaultplayerbuilderconfigurations.h"
+#include "playermodelbuildercontext.h"
 #include <QVariantList>
 #include <iostream>
 #include "abstractjsonpersistence.h"
@@ -20,9 +20,8 @@ namespace PlayerContext {
     class PlayerBuilderParameters;
 }
 
-typedef IPlayerModel<QUuid,QString> DefaultModelInterface;
-typedef IPlayerBuilderParameters<QString,QUuid> DefaultParameters;
-typedef IDataModelBuilder<DefaultModelInterface,DefaultParameters,IPlayerBuilderConfiguration> DefaultPlayerBuilder;
+typedef IPlayerModel<QUuid,QString> DefaultPlayerModelInterface;
+typedef IPlayerBuilderParameters<QString,QUuid> DefaultParametersInterface;
 
 class LocalPlayerModelsContext :
         public AbstractPlayerModelsContext,
@@ -57,7 +56,7 @@ public:
 
     DefaultPlayerBuilder *playerBuilder();
     AbstractPlayerModelsContext* setPlayerBuilder(DefaultPlayerBuilder *builder) override;
-    AbstractPlayerModelsContext* setModelDBContext(ImodelsDBContext<IDefaultPlayerModel, QUuid> *context) override;
+    AbstractPlayerModelsContext* setModelDBContext(ImodelsDBContext<DefaultPlayerModelInterface, QUuid> *context) override;
 public slots:
     void createPlayer(const QString &name, const QString &mail) override;
     void deletePlayer(const int &index) override;
@@ -83,7 +82,7 @@ public slots:
                                         const int &keyPoint,
                                         const QList<int> &playerIndexes) override;
 private:
-    ImodelsDBContext<IDefaultPlayerModel, QUuid> *modelDBContext();
+    ImodelsDBContext<DefaultPlayerModelInterface, QUuid> *modelDBContext();
 
     void deletePlayerByUserName(const QString &firstName) ;
     void deletePlayerByID(const QUuid &player) ;
@@ -104,9 +103,9 @@ private:
                           const bool &generateID = true,
                           const QUuid &id = QUuid()) ;
 
-    const IDefaultPlayerModel *getModel(const QString &playerName);
+    const DefaultPlayerModelInterface *getModel(const QString &playerName);
 
-    ImodelsDBContext<IDefaultPlayerModel,QUuid> *_dbContext;
+    ImodelsDBContext<DefaultPlayerModelInterface,QUuid> *_dbContext;
     DefaultPlayerBuilder *_playerBuilder;
 };
 
