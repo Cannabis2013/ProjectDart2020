@@ -55,7 +55,8 @@ public:
         isInitializedAndAwaitsInput = 0x2D,
         isInitializedAndReady = 0x45,
         DataProvidedSuccess =0x3D,
-        WinnerFound = 0x3E
+        WinnerFound = 0x3E,
+        isProcessingUserInput
     };
     enum KeyMappings{
         SingleModifer = 0x2A,
