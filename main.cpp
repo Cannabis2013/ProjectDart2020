@@ -4,14 +4,15 @@
 
 #include <qqmlcontext.h>
 #include "applicationinterface.h"
-#include "localplayerbuilder.h"
+#include "playermodelbuilder.h"
 #include "gamebuilder.h"
 #include "localtournamentmodelscontext.h"
 #include "localplayermodelscontext.h"
 #include "scoredatamodel.h"
 #include "localtournamentmodeldb.h"
 #include "localplayerdbcontext.h"
-
+#include "tournamentmodelbuilder.h"
+#include "playermodelbuilder.h"
 
 int main(int argc, char *argv[])
 {
@@ -22,16 +23,13 @@ int main(int argc, char *argv[])
 
     auto tournamentModelsContext =
             LocalTournamentModelsContext::createInstance()->
-            setTournamentModelBuilder(new TournamentModelBuilder)->
-            setRoundModelBuilder(new RoundBuilder)->
-            setSetModelBuilder(new SetBuilder())->
-            setScoreModelBuilder(new ScoreModelBuilder())->
+            setModelBuilder(new TournamentModelBuilder())->
             setModelDBContext(new LocalTournamentModelDB())->
             setup();
 
     auto playerModelsContext =
             LocalPlayerModelsContext::createInstance()->
-            setPlayerBuilder(new LocalPlayerBuilder)->
+            setPlayerBuilder(new PlayerModelBuilder())->
             setModelDBContext(new LocalPlayerDBContext)->
             setup();
 

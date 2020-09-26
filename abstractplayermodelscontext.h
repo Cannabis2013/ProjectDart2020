@@ -4,14 +4,15 @@
 #include <qobject.h>
 #include <quuid.h>
 #include "iplayermodel.h"
+#include "iplayermodelbuilder.h"
 #include "iplayerbuildercontext.h"
-#include "idatamodelbuilder.h"
 #include "iresponseinterface.h"
 #include "imodelsdbcontext.h"
 
-typedef IPlayerModel<QUuid,QString> IDefaultPlayerModel;
-typedef IDataModelBuilder<IDefaultPlayerModel,IPlayerBuilderParameters<QString,QUuid>,IPlayerBuilderConfiguration> DefaultPlayerBuilder;
-
+typedef IPlayerModel<QUuid,QString> DefaultPlayerModelInterface;
+typedef IPlayerBuilderParameters<QString,QUuid> DefaultParametersInterface;
+typedef IPlayerModelOptions<QUuid> DefaultOptionsInterface;
+typedef IPlayerModelBuilder<DefaultPlayerModelInterface,DefaultParametersInterface,DefaultOptionsInterface> DefaultPlayerBuilder;
 typedef QList<QPair<QUuid,QString>> PlayerPairs;
 
 class AbstractPlayerModelsContext : public QObject,
@@ -23,7 +24,7 @@ public:
 
     virtual AbstractPlayerModelsContext* setup() = 0;
     virtual AbstractPlayerModelsContext* setPlayerBuilder(DefaultPlayerBuilder *builder) = 0;
-    virtual AbstractPlayerModelsContext *setModelDBContext(ImodelsDBContext<IDefaultPlayerModel,QUuid> *context) = 0;
+    virtual AbstractPlayerModelsContext *setModelDBContext(ImodelsDBContext<DefaultPlayerModelInterface,QUuid> *context) = 0;
 public slots:
     virtual void createPlayer(const QString &name, const QString &mail) = 0;
     virtual void deletePlayer(const int &index) = 0;

@@ -5,22 +5,6 @@
 #include <quuid.h>
 #include <qstring.h>
 
-class PlayerModelOptions : public IPlayerBuilderConfiguration
-{
-public:
-    bool generateUniqueID() const override
-    {
-        return _generateUniqueId;
-    }
-    void setGenerateUniqueId(bool generateUniqueId)
-    {
-        _generateUniqueId = generateUniqueId;
-    }
-
-private:
-    bool _generateUniqueId;
-};
-
 
 class PlayerBuilderParameters : public IPlayerBuilderParameters<QString,QUuid>
 {
@@ -29,45 +13,65 @@ public:
     {
         return _firstName;
     }
-    void setUserName(const QString &value)
+    PlayerBuilderParameters* setUserName(const QString &value)
     {
         _firstName = value;
+        return this;
     }
 
     QString eMail() const override
     {
         return _mailAdress;
     }
-    void setMailAdress(const QString &value)
+    PlayerBuilderParameters* setMailAdress(const QString &value)
     {
         _mailAdress = value;
+        return this;
     }
 
     int role() const override
     {
         return _role;
     }
-    void setRole(int value)
+    PlayerBuilderParameters* setRole(int value)
     {
         _role = value;
+        return this;
     }
 
     QUuid id() const override
     {
         return _id;
     }
-    void setId(const QUuid &id)
+    PlayerBuilderParameters* setId(const QUuid &id)
     {
         _id = id;
+        return this;
     }
 
 private:
-
     QString _firstName;
     QString _lastName;
     QString _mailAdress;
     QUuid _id;
     int _role;
+};
+
+class PlayerModelOptions : public IPlayerModelOptions<QUuid>
+{
+public:
+    bool generateID() const override
+    {
+        return _generateID;
+    }
+    void enableGenerateUniqueID(const bool &enable) override
+    {
+        _generateID = enable;
+    }
+
+private:
+    bool _generateID;
+
 };
 
 #endif // DEFAULTPLAYERBUILDERCONFIGURATIONS_H

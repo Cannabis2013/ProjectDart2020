@@ -2,7 +2,7 @@
 #define ABSTRACTTOURNAMENTMODELSCONTEXT_H
 
 #include <qobject.h>
-#include "idatamodelbuilder.h"
+#include "itournamentmodelbuilder.h"
 #include "iresponseinterface.h"
 #include "modelbuildercontext.h"
 #include "iscoremodel.h"
@@ -13,12 +13,25 @@ typedef QList<QPair<QUuid,QString>> PlayerPairs;
 typedef ITournament<QUuid,QList<QUuid>,QString> DefaultTournamentInterface;
 typedef IRound<QUuid, QList<QUuid>> DefaultRoundInterface;
 typedef ISet<QUuid,QList<QUuid>> DefaultSetInterface;
-typedef IScore<QUuid> DefaultPointInterface;
+typedef IScore<QUuid> DefaultScoreInterface;
 
-typedef IDataModelBuilder<DefaultTournamentInterface, TournamentParameters,ModelOptions> ITournamentBuilder;
-typedef IDataModelBuilder<DefaultRoundInterface, RoundParameters,ModelOptions> IRoundBuilder;
-typedef IDataModelBuilder<DefaultSetInterface, SetParameters,ModelOptions> ISetBuilder;
-typedef IDataModelBuilder<DefaultPointInterface, PointParameters,ModelOptions> IScoreModelBuilder;
+typedef ITournamentModelBuilder<DefaultTournamentInterface,
+                                TournamentParameters,
+                                DefaultRoundInterface,
+                                RoundParameters,
+                                DefaultSetInterface,
+                                SetParameters,
+                                DefaultScoreInterface,
+                                ScoreParameters,
+                                ModelOptions> DefaultTournamentModelBuilder;
+
+class IModelParameter
+{
+public:
+    virtual bool generateID() = 0;
+    virtual IModelParameter *setGenerateID(const bool &) = 0;
+};
+
 
 class AbstractTournamentModelsContext : public QObject,
         public IResponseInterface<QVariantList>
@@ -33,11 +46,9 @@ public:
     /*
      * Builders
      */
-    virtual AbstractTournamentModelsContext* setTournamentModelBuilder(ITournamentBuilder *builder) = 0;
-    virtual AbstractTournamentModelsContext* setRoundModelBuilder(IRoundBuilder *builder) = 0;
-    virtual AbstractTournamentModelsContext* setSetModelBuilder(ISetBuilder *builder) = 0;
-    virtual AbstractTournamentModelsContext* setScoreModelBuilder(IScoreModelBuilder *builder) = 0;
-    virtual AbstractTournamentModelsContext *setModelDBContext(ImodelsDBContext<IModel<QUuid>,QString> *context) = 0;
+    virtual AbstractTournamentModelsContext *setModelBuilder(DefaultTournamentModelBuilder *builder) = 0;
+    virtual DefaultTournamentModelBuilder *modelBuilder() = 0;
+    virtual AbstractTournamentModelsContext *setModelDBContext(ImodelsDBContext<IModel<QUuid>, QString> *context) = 0;
 public slots:
     virtual void assembleAndAddTournament(const QString &title,
                                           const int &gameMode,

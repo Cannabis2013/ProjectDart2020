@@ -38,7 +38,7 @@ Rectangle{
     onLabelTextChanged: label.text = qsTr(labelText)
     property int fontSize: 20
     onFontSizeChanged: lineEdit.fontSize = fontSize
-    property string currentText: lineEdit.currentText
+    readonly property string currentText: lineEdit.currentText
     property bool isNumeric: false
     onIsNumericChanged: lineEdit.numericOnly = isNumeric
 

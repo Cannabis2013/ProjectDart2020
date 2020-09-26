@@ -15,34 +15,43 @@ public:
     {
         return _id;
     }
-    void setId(const QUuid &val) override
+    Round* setId(const QUuid &val) override
     {
         _id = val;
+        return this;
     }
     int type() const override
     {
         return _modelType;
     }
-    void setType(const int &val) override
+    Round* setType(const int &val) override
     {
         _modelType = val;
+        return this;
     }
     // IRound interface
     int index() const override
     {
         return _index;
     }
-    void setIndex(const int &val) override
+    IRound* setIndex(const int &val) override
     {
         _index = val;
+        return this;
     }
     QUuid parent() const override
     {
         return _tournament;
     }
-    void setParent(const QUuid &id) override
+    IRound* setParent(const QUuid &id) override
     {
         _tournament = id;
+        return this;
+    }
+
+    static IRound<QUuid,QList<QUuid>> *createInstance()
+    {
+        return new Round();
     }
 private:
     int _modelType, _index;
