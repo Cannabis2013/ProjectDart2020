@@ -90,7 +90,7 @@ Content {
             labelBackgroundColor: "lightblue"
             labelLeftMargin: 10
         }
-
+        /*
         LineEditComponent {
             id: legsEdit
             isNumeric: true
@@ -101,6 +101,16 @@ Content {
             labelFontColor: "darkblue"
             labelBackgroundColor: "lightblue"
             labelLeftMargin: 10
+        }
+        */
+        SpinBoxCompoent{
+            id: throwSpinBox
+            Layout.fillWidth: true
+            height: 32
+            labelBackgroundColor: "lightblue"
+            labelText: "Number of throws"
+            labelLeftMargin: 10
+            labelFontColor: "darkblue"
         }
 
         LineEditComponent {
@@ -176,9 +186,9 @@ Content {
                 var gameCode = gameModeToHex(gameMode);
                 var winConditionKeyIdentifier = winConditionSelector.currentText;
                 var winConditionKeyCode = convertKeyModifierToHex(winConditionKeyIdentifier);
-
+                var numberOfThrows = throwSpinBox.currentValue;
                 sendTournament(titleEdit.currentText,
-                               legsEdit.currentText,
+                               numberOfThrows,
                                gameCode,
                                winConditionKeyCode,
                                keyPointEdit.currentText,

@@ -48,6 +48,7 @@
         <file>scoreBoardScripts.js</file>
         <file>ScoreBoardInterface.qml</file>
         <file>LoadingItem.qml</file>
+        <file>SpinBoxCompoent.qml</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>
