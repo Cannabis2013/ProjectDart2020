@@ -24,5 +24,4 @@ ListComponent {
     allowCheckState: true
     allowMultipleSelections: true
     instantSelectEnabled: true
-    onItemSelected: evaluateItemSelectedChanged()
 }

@@ -1,23 +1,17 @@
 import QtQuick 2.0
-import QtQuick.Controls 2.5
-import QtGraphicalEffects 1.13
 
-Rectangle{
+Item {
     id: body
-    color: "transparent"
-    clip: true
-
     /*
-      Signals
+      Signals propagation
       */
-    signal textChanged
-    signal enterPressed
+    signal valueChanged(var val)
     /*
       Properties
       */
-    property int lineEditBorderRadius: 20
+    property int contentBorderRadius: 20
+    onContentBorderRadiusChanged: label.width = width - contentBorderRadius
     property color fontColor: "black"
-    onFontColorChanged: lineEdit.fontColor = body.fontColor
     property int labelBorderRadius: 20
     onLabelBorderRadiusChanged: label.radius = labelBorderRadius
     property color labelBackgroundColor: "black"
@@ -32,12 +26,20 @@ Rectangle{
     onLabelLeftMarginChanged: label.textLeftMargin = labelLeftMargin
     property string labelText: "Label text"
     onLabelTextChanged: label.text = qsTr(labelText)
-    property int fontSize: 20
-    onFontSizeChanged: spinBox.font.pointSize = fontSize
-    readonly property string currentText: lineEdit.currentText
-    property bool isNumeric: false
-    onIsNumericChanged: lineEdit.numericOnly = isNumeric
-    readonly property int currentValue: spinBox.value
+
+    property int fontSize: 12
+    onFontSizeChanged: body.children[1].children[0].fontSize = fontSize
+
+    readonly property var currentValue : body.children[1].children[0].currentValue;
+
+    property UserInputContent content : UserInputContent{}
+
+    onContentChanged: {
+        body.children[1].children[0] = content;
+        content.anchors.fill = contentContainer
+        content.valueChanged.connect(body.valueChanged);
+    }
+
     MyLabel {
         id: label
         // Font properties
@@ -48,27 +50,18 @@ Rectangle{
         horizontalTextAlignment: labelFontAlignment
         anchors.left: parent.left
         height: parent.height
-        width: parent.width - body.lineEditBorderRadius
+        width: parent.width - body.contentBorderRadius
         text: labelText
         radius: labelBorderRadius
     }
-    SpinBox {
-        id: spinBox
-        layer.enabled: true
-        layer.effect: OpacityMask{
-            maskSource: Item {
-                width: spinBox.width
-                height: spinBox.height
-                Rectangle{
-                    anchors.fill: parent
-                    radius: 20
-                }
-            }
-        }
+    Rectangle{
+        id: contentContainer
         x: parent.width / 2
         width: parent.width / 2
         height: parent.height
-        font.pointSize: body.fontSize
-        value: 3
+        color: "transparent"
+        UserInputContent{
+            id: inputContent
+        }
     }
 }

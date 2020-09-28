@@ -48,7 +48,12 @@
         <file>scoreBoardScripts.js</file>
         <file>ScoreBoardInterface.qml</file>
         <file>LoadingItem.qml</file>
-        <file>SpinBoxCompoent.qml</file>
+        <file>SpinBoxInputContent.qml</file>
+        <file>UserInputComponent.qml</file>
+        <file>UserInputContent.qml</file>
+        <file>DefaultSpinBox.qml</file>
+        <file>DefaultTextInputBox.qml</file>
+        <file>DefaultComboBox.qml</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>

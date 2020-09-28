@@ -2,12 +2,10 @@ import QtQuick 2.0
 
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
+import QtGraphicalEffects 1.13
 
-Rectangle{
+UserInputContent{
     id: comboBoxComponentBody
-
-    clip: true
-
     property var stringModel: ["Item one", "Item two", "Item three"]
     onStringModelChanged: comboBox.model = stringModel
 
@@ -16,35 +14,34 @@ Rectangle{
 
     property color popupItemHoveredColor: "white"
     onPopupItemHoveredColorChanged: popupItem.hoveredColor = popupItemHoveredColor
-    function currentSelectedText(){
-        var currentText = comboBox.currentText;
-        return currentText;
-    }
+    currentValue : comboBox.currentText
 
-    function setModel(strings)
-    {
-        comboBox.model = strings
+    layer.enabled: true
+    layer.effect: OpacityMask{
+        maskSource: Item {
+            width: comboBox.width
+            height: comboBox.height
+            Rectangle{
+                anchors.fill: parent
+                radius: 20
+            }
+        }
     }
-
     ComboBox
     {
         id: comboBox
-
         anchors.fill: parent
         model: stringModel
+        onCurrentValueChanged: valueChanged(currentValue)
         delegate: Rectangle
         {
             id: delegateBody
             width: parent.width
             height:60
-
             border.width: 0
-
             color: popupBackgroundColor
-
             x: 0
             y: 0
-
             PushButton{
                 id: popupItem
 
@@ -63,7 +60,6 @@ Rectangle{
                 onClicked: {
                     comboBox.currentIndex = comboBox.indexOfValue(text);
                     comboBox.popup.close();
-
                 }
             }
         }

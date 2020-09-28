@@ -33,7 +33,7 @@ Rectangle{
     property string labelText: "Label text"
     onLabelTextChanged: label.text = labelText
 
-    property string currentText: comboBox.currentSelectedText()
+    property string currentText: comboBox.currentValue
 
     property var stringModel: [""]
     onStringModelChanged: comboBox.stringModel = stringModel
@@ -69,18 +69,6 @@ Rectangle{
 
     ComboBoxComponent {
         id: comboBox
-
-        layer.enabled: true
-        layer.effect: OpacityMask{
-            maskSource: Item {
-                width: comboBox.width
-                height: comboBox.height
-                Rectangle{
-                    anchors.fill: parent
-                    radius: 20
-                }
-            }
-        }
 
         x: parent.width / 2
 

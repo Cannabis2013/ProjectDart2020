@@ -37,28 +37,12 @@ Rectangle{
     onLabelTextChanged: label.text = qsTr(labelText)
     property int fontSize: 20
     onFontSizeChanged: lineEdit.fontSize = fontSize
-    readonly property string currentText: lineEdit.currentText
     property bool isNumeric: false
     onIsNumericChanged: lineEdit.numericOnly = isNumeric
 
-    MyLabel {
-        id: label
-        // Font properties
-        color: body.labelBackgroundColor
-        fontColor: body.labelFontColor
-        fontSize: labelFontSize
-        textLeftMargin: labelLeftMargin
-        horizontalTextAlignment: labelFontAlignment
-        anchors.left: parent.left
-        height: parent.height
-        width: parent.width - body.lineEditBorderRadius
-        text: labelText
-        radius: labelBorderRadius
-    }
-
     MyTextEdit {
         id: lineEdit
-        onTextChanged: body.textChanged()
+        //onTextChanged: body.textChanged()
         radius: body.lineEditBorderRadius
         x: parent.width / 2
         width: parent.width / 2
@@ -66,6 +50,6 @@ Rectangle{
         color: body.backgroundColor
         fontSize: body.fontSize
         fontColor: body.fontColor
-        onEnterPressed: body.enterPressed()
+        //onEnterPressed: body.enterPressed()
     }
 }

@@ -28,25 +28,17 @@ Content {
         id: stringModels
         property var gameModes: ["FirstToPost"]
         property var keyIdentifiers: ["Single","Double", "Tripple"]
+        property var firstToPostPointValues: ["301","501","701","901"]
     }
 
-    onReplyFromBackendRecieved: {
-        if(response === 0x32) // Backend has processed transmitted details and created the tournament
-        {
-            backButtonPressed();
-        }
-    }
-
-    function evaluateItemSelectedChanged()
+    function stateChanged()
     {
-        var list = playersListView.currentIndexes();
-        var count = list.length;
-        buttonsComponent.buttonTwoEnabled = count > 0;
-
-    }
-
-    onRequestUpdate: {
-        requestPlayers();
+        var selectedIndexes = playersListView.currentIndexes();
+        var selectedIndexesLength = selectedIndexes.length;
+        var tournamentTitle = titleEdit.currentValue;
+        var tournamentTitleLength = tournamentTitle.length;
+        var status = selectedIndexesLength > 0 && tournamentTitleLength > 0;
+        buttonsComponent.buttonTwoEnabled = status;
     }
 
     function addPlayer(playerName,email)
@@ -59,10 +51,6 @@ Content {
         var gameModes = stringModels.gameModes;
         if(text === gameModes[0])
             return 0x1;
-        else if(text === gameModes[1])
-            return 0x2;
-        else if(text === gameModes[2])
-            return 0x3;
     }
     function convertKeyModifierToHex(key){
         var keyIdentifiers = stringModels.keyIdentifiers;
@@ -75,77 +63,64 @@ Content {
         else
             return -1;
     }
+    function createStringModel()
+    {
+        var text = gameModeSelector.currentValue;
+        var gameMode = gameModeToHex(text);
+        if(gameMode === 0x1)
+            return stringModels.firstToPostPointValues;
+
+        return [];
+    }
+
+    /*
+      Event/signal handling
+      */
+    onReplyFromBackendRecieved: {
+        // Backend has processed transmitted details and created the tournament
+        if(response === 0x32)
+        {
+            backButtonPressed();
+        }
+    }
+    onRequestUpdate: {
+        requestPlayers();
+    }
 
     GridLayout{
         flow: GridLayout.TopToBottom
         anchors.fill: parent
         rowSpacing: 3
-        LineEditComponent {
+        DefaultTextInputBox {
             id: titleEdit
             Layout.fillWidth: true
-            height: 32
-            fontSize: 12
-            labelText: "Title"
-            labelFontColor: "darkblue"
-            labelBackgroundColor: "lightblue"
-            labelLeftMargin: 10
+            onValueChanged: body.stateChanged()
         }
-        /*
-        LineEditComponent {
-            id: legsEdit
-            isNumeric: true
-            Layout.fillWidth: true
-            height: 32
-            fontSize: 12
-            labelText: "Number of throws"
-            labelFontColor: "darkblue"
-            labelBackgroundColor: "lightblue"
-            labelLeftMargin: 10
-        }
-        */
-        SpinBoxCompoent{
+        DefaultSpinBox {
             id: throwSpinBox
             Layout.fillWidth: true
-            height: 32
-            labelBackgroundColor: "lightblue"
-            labelText: "Number of throws"
-            labelLeftMargin: 10
-            labelFontColor: "darkblue"
         }
 
-        LineEditComponent {
+        DefaultComboBox {
             id: keyPointEdit
-            isNumeric: true
             Layout.fillWidth: true
-            height: 32
-            fontSize: 12
-            labelText: "Keypoint"
-
-            labelFontColor: "darkblue"
-            labelBackgroundColor: "lightblue"
-            labelLeftMargin: 10
+            labelText: "Keypoint:"
+            model: createStringModel()
         }
 
-        ComboBoxView{
+        DefaultComboBox{
             id: gameModeSelector
-            height: 32
-            Layout.fillWidth: true
             labelText: "Game modes"
-            labelFontColor: "darkblue"
-            labelBackgroundColor: "lightblue"
-            labelLeftMargin: 10
-            stringModel: stringModels.gameModes
+            Layout.fillWidth: true
+            model: stringModels.gameModes
+            onValueChanged: keyPointEdit.model = createStringModel()
+            Component.onCompleted: keyPointEdit.model = createStringModel()
         }
-
-        ComboBoxView{
+        DefaultComboBox {
             id: winConditionSelector
-            height: 32
             Layout.fillWidth: true
             labelText: "Finish with:"
-            labelFontColor: "darkblue"
-            labelBackgroundColor: "lightblue"
-            labelLeftMargin: 10
-            stringModel: stringModels.keyIdentifiers
+            model: stringModels.keyIdentifiers
         }
 
         Rectangle{
@@ -157,6 +132,7 @@ Content {
             Layout.alignment: Qt.AlignHCenter
             Layout.fillHeight: true
             Layout.fillWidth: true
+            onItemSelected: body.stateChanged()
         }
 
         MyRectangle{
@@ -174,24 +150,24 @@ Content {
             buttonOneTitle: "Back"
             buttonTwoTitle: "Save tournament"
             buttonTwoEnabled: false
-            onButtonOneClicked: {
-                backButtonPressed();
-            }
+            onButtonOneClicked: backButtonPressed()
             onButtonTwoClicked: {
                 var indexes = playersListView.currentIndexes();
                 if(indexes.length <= 0)
                     return;
                 buttonTwoEnabled = false;
-                var gameMode = gameModeSelector.currentText;
+                var title = titleEdit.currentValue;
+                var gameMode = gameModeSelector.currentValue;
                 var gameCode = gameModeToHex(gameMode);
-                var winConditionKeyIdentifier = winConditionSelector.currentText;
+                var keyPoint = keyPointEdit.currentValue;
+                var winConditionKeyIdentifier = winConditionSelector.currentValue;
                 var winConditionKeyCode = convertKeyModifierToHex(winConditionKeyIdentifier);
                 var numberOfThrows = throwSpinBox.currentValue;
-                sendTournament(titleEdit.currentText,
+                sendTournament(title,
                                numberOfThrows,
                                gameCode,
                                winConditionKeyCode,
-                               keyPointEdit.currentText,
+                               keyPoint,
                                indexes);
             }
         }
@@ -204,6 +180,7 @@ Content {
         }
         Component.onDestruction: {
             body.sendTournament.disconnect(applicationInterface.handleCreateTournament);
+            body.requestPlayers.disconnect(applicationInterface.requestPlayerDetails);
             applicationInterface.sendPlayerDetail.disconnect(body.addPlayer);
         }
     }

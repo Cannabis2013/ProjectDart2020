@@ -383,7 +383,9 @@ QString LocalTournamentModelsContext::tournamentTitle(const QUuid &tournament)
 
 int LocalTournamentModelsContext::tournamentNumberOfThrows(const QUuid &tournament)
 {
-    return getTournamentModelFromID(tournament)->numberOfThrows();
+    auto model = getTournamentModelFromID(tournament);
+    auto numberOfThrows = model->numberOfThrows();
+    return numberOfThrows;
 }
 
 QList<QUuid> LocalTournamentModelsContext::tournamentAssignedPlayers(const QUuid &tournament)
@@ -1186,8 +1188,8 @@ QJsonArray LocalTournamentModelsContext::assembleTournamentsJSONArray()
         obj["Title"] = tournamentTitle(id);
         obj["KeyPoint"] = tournamentKeyPoint(id);
         obj["GameMode"] = tournamentGameMode(id);
-        obj["winner"] = tournamentDeterminedWinner(id).toString();
-        obj["throws"] = tournamentNumberOfThrows(id);
+        obj["Winner"] = tournamentDeterminedWinner(id).toString();
+        obj["Throws"] = tournamentNumberOfThrows(id);
         auto players = tournamentAssignedPlayers(id);
 
         QJsonArray playersJSON;
