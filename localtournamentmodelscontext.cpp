@@ -817,7 +817,7 @@ QUuid LocalTournamentModelsContext::setScoreHint(const QUuid &point, const int &
 {
     try {
         auto oldModel = getScoreModelFromID(point);
-        auto newModel = modelBuilder()->buildScoreModel([oldModel]{
+        auto newModel = modelBuilder()->buildScoreModel([oldModel,hint]{
             ScoreParameters params;
             params.id = oldModel->id();
             params.pointValue = oldModel->point();
@@ -825,11 +825,11 @@ QUuid LocalTournamentModelsContext::setScoreHint(const QUuid &point, const int &
             params.setId = oldModel->parent();
             params.playerId = oldModel->player();
             params.scoreValue = oldModel->score();
+            params.hint = hint;
             return params;
-        }(),[hint]{
+        }(),[]{
             ModelOptions options;
             options.generateUniqueId = false;
-            options.modelHint = hint;
             return options;
         }());
         auto index = modelDBContext()->indexOfModel("Score",oldModel);
@@ -841,12 +841,15 @@ QUuid LocalTournamentModelsContext::setScoreHint(const QUuid &point, const int &
     }
 }
 
-QUuid LocalTournamentModelsContext::editScore(const QUuid &pointId, const int &value, const int &score, const int &hint)
+QUuid LocalTournamentModelsContext::editScore(const QUuid &pointId,
+                                              const int &value,
+                                              const int &score,
+                                              const int &hint)
 {
     auto oldScoreModel = getScoreModelFromID(pointId);
 
     auto newScoreModel = modelBuilder()->buildScoreModel(
-                [oldScoreModel, score, value]
+                [oldScoreModel, score, value,hint]
     {
         ScoreParameters params;
         params.id = oldScoreModel->id();
@@ -855,12 +858,12 @@ QUuid LocalTournamentModelsContext::editScore(const QUuid &pointId, const int &v
         params.playerId = oldScoreModel->player();
         params.throwIndex = oldScoreModel->throwIndex();
         params.scoreValue = score;
+        params.hint = hint;
         return params;
-    }(),[hint]
+    }(),[]
     {
         ModelOptions options;
         options.generateUniqueId = false;
-        options.modelHint = hint;
         return options;
     }());
     auto index = modelDBContext()->indexOfModel("Score",oldScoreModel);
@@ -1351,7 +1354,7 @@ void LocalTournamentModelsContext::buildScoreModel(const QUuid &player,
                                                    const QUuid &id)
 {
     auto model = modelBuilder()->buildScoreModel(
-                [id,set,throwIndex,point,keyCode,player,score]
+                [id,set,throwIndex,point,keyCode,player,score,hint]
     {
         ScoreParameters params;
         params.id = id;
@@ -1360,12 +1363,12 @@ void LocalTournamentModelsContext::buildScoreModel(const QUuid &player,
         params.pointValue = point;
         params.throwIndex = throwIndex;
         params.scoreValue = score;
+        params.hint = hint;
         params.keyCode = keyCode;
 
         return params;
-    }(),[generateID,hint]{
+    }(),[generateID]{
         ModelOptions options;
-        options.modelHint = hint;
         options.generateUniqueId = generateID;
         return options;
     }());

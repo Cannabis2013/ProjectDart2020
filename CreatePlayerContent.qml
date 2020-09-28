@@ -46,18 +46,6 @@ Content
         MyRectangle{
             Layout.fillHeight: true
             Layout.fillWidth: true
-        }
-        
-        DecoratedItem{
-            Layout.preferredWidth: 192
-            Layout.preferredHeight: 256
-            Layout.alignment: Qt.AlignVCenter |Qt.AlignHCenter
-            source: "qrc:/pictures/Ressources/users.png"
-        }
-        
-        MyRectangle{
-            Layout.fillHeight: true
-            Layout.fillWidth: true
             bottomBorderWidth: 1
         }
         

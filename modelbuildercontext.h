@@ -55,8 +55,6 @@ struct ModelOptions
 {
     bool generateUniqueId = true;
     bool customUuid = false;
-
-    int modelHint = 0x9;
 };
 
 #endif // MODELBUILDERCONTEXT_H

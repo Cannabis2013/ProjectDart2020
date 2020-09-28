@@ -11,11 +11,11 @@ Item {
 
     Component{
         id: createPlayerComponent
-
         Page{
             onBackButtonPressed: pageLoader.sourceComponent = managePageComponent
-            pageContent: CreatePlayerContent{
-            }
+            pageTitle: "Create player"
+            pageIconUrl: "qrc:/pictures/Ressources/users.png"
+            pageContent: CreatePlayerContent{}
         }
     }
 
@@ -33,7 +33,7 @@ Item {
         id: managePageComponent
         Page{
             onBackButtonPressed: pageLoader.sourceComponent = startPageComponent
-            pageTitle: "Manage tournaments and players"
+            pageTitle: "Manage"
             pageContent: ManagePageContent{
                 onRequestCreatePlayerPage: pageLoader.sourceComponent = createPlayerComponent
                 onRequestCreateTournamentPage: pageLoader.sourceComponent = createTournamentComponent
@@ -46,7 +46,7 @@ Item {
         id: createTournamentComponent
         Page {
             onBackButtonPressed: pageLoader.sourceComponent = managePageComponent
-            pageTitle: "Setup tournament"
+            pageTitle: "Create tournament"
             pageContent: CreateTournamentContent{}
             Component.onCompleted: body.backPushed.connect(backButtonPressed)
         }
