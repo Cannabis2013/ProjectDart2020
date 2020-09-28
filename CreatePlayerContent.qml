@@ -19,7 +19,7 @@ Content
     }
     
     function evaluateInputs(){
-        var playerName = userNameEdit.currentText;
+        var playerName = userNameEdit.currentValue;
         
         if(playerName !== "")
             endStateButtons.buttonTwoEnabled = true;
@@ -31,30 +31,16 @@ Content
         anchors.fill: parent
         
         flow: GridLayout.TopToBottom
-        
-        LineEditComponent{
+        DefaultTextInputBox{
             id: userNameEdit
             Layout.fillWidth: true
-            height: 32
-            fontSize: 12
             labelText: "Username*"
-            labelFontColor: "darkblue"
-            labelBackgroundColor: "lightblue"
-            labelLeftMargin: 10
-            onTextChanged: body.evaluateInputs()
-            onEnterPressed: endStateButtons.buttonTwoClicked()
+            onCurrentValueChanged: body.evaluateInputs()
         }
-        
-        LineEditComponent{
+        DefaultTextInputBox{
             id: mailEdit
             Layout.fillWidth: true
-            height: 32
-            fontSize: 12
             labelText: "Mail adress"
-            labelFontColor: "darkblue"
-            labelBackgroundColor: "lightblue"
-            labelLeftMargin: 10
-            onEnterPressed: endStateButtons.buttonTwoClicked()
         }
         
         MyRectangle{
@@ -88,10 +74,10 @@ Content
             buttonTwoEnabled: false
             onButtonOneClicked: backButtonPressed();
             onButtonTwoClicked: {
-                var playerName = userNameEdit.currentText;
+                var playerName = userNameEdit.currentValue;
                 if(playerName === "")
                     return;
-                var mail = mailEdit.currentText;
+                var mail = mailEdit.currentValue;
                 buttonOneEnabled = false;
                 buttonTwoEnabled = false;
                 body.sendPlayerDetails(playerName,mail);
