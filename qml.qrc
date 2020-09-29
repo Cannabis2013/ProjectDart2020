@@ -10,11 +10,9 @@
         <file>HorizontalHeader.qml</file>
         <file>VerticalHeader.qml</file>
         <file>MyRectangle.qml</file>
-        <file>MyTextEdit.qml</file>
+        <file>TextInputBox.qml</file>
         <file>MyLabel.qml</file>
-        <file>LineEditComponent.qml</file>
         <file>ListComponent.qml</file>
-        <file>ComboBoxView.qml</file>
         <file>ComboBoxComponent.qml</file>
         <file>MainComponent.qml</file>
         <file>ButtonsComponent.qml</file>

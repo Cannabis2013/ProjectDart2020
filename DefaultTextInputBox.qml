@@ -11,5 +11,5 @@ UserInputComponent{
     labelFontColor: "darkblue"
     labelBackgroundColor: "lightblue"
     labelLeftMargin: 10
-    content: MyTextEdit{}
+    content: TextInputBox{}
 }

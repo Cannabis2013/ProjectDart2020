@@ -38,10 +38,10 @@ UserInputContent
             }
         }
         anchors.fill: parent
-        anchors.leftMargin: 20
         font.pointSize: fontSize
         wrapMode: TextEdit.NoWrap
-        verticalAlignment: Qt.AlignVCenter
+        verticalAlignment: TextEdit.AlignVCenter
+        horizontalAlignment: TextEdit.AlignHCenter
         color: fontColor
         onLineCountChanged: {
             var txt = text;
