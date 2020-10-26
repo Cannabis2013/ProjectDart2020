@@ -35,8 +35,9 @@ public:
         FirstToPost = 0x1,
         RoundLimit =0x2,
         Circular = 0x3,
-        Cricket
+        Cricket = 0xAA
     };
+
     enum Status{
         ContextNotInitialized = 0x4,
         ModelNotFound = 0x5,
@@ -54,10 +55,7 @@ public:
     /*
      * Create and setup instance
      */
-    static ApplicationInterface* createInstance()
-    {
-        return new ApplicationInterface();
-    }
+    static ApplicationInterface* createInstance();
     ApplicationInterface *setup();
     ApplicationInterface *useThreads();
     /*

@@ -125,7 +125,6 @@ Content {
                 }
             }
         }
-
         DefaultTournamentListView {
             id: tournamentListView
             Layout.fillHeight: true

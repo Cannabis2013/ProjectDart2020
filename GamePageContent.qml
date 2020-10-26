@@ -78,16 +78,20 @@ Content {
             name: "winner"
             StateChangeScript{
                 script: {
+                    print("Winner found");
                     turnControllerItemSlot.item.startButtonText = buttonTextContainer.restartText;
                     turnControllerItemSlot.item.startButtonEnabled = true;
                     var currentPlayer = turnControllerItemSlot.item.currentPlayer;
-                    turnControllerItemSlot.item.updateState(turnNavigator.currentRoundIndex,
+                    var currentRoundIndex = turnControllerItemSlot.item.currentRoundIndex;
+                    turnControllerItemSlot.item.updateState(currentRoundIndex,
                                               currentPlayer,
                                               false,
                                               false);
-                    winnerText.text = textSourceContainer.winnerLabel + " " +
+                    var winnerName = textSourceContainer.winnerLabel + " " +
                             currentTournamentMetaData.determinedWinner;
                     keyPaditemSlot.item.enableKeys = false;
+                    GameScripts.handleSetWinnerText(winnerName);
+                    print("Winner name: " + winnerName);
                 }
             }
         },

@@ -20,6 +20,7 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     qmlRegisterType<ScoreDataModel>("CustomItems",1,0,"ScoreDataModel");
+    qmlRegisterSingletonType(QUrl("qrc:/ThemeContext.qml"),"customDefinitions",1,0,"ThemeContext");
 
     auto tournamentModelsContext =
             LocalTournamentModelsContext::createInstance()->

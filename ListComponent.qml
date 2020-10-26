@@ -27,19 +27,21 @@ Rectangle{
     property bool allowMultipleSelections: false
     property string componentTitle: "Title"
     onComponentTitleChanged: labelTitle.text = componentTitle
-    property color titleBackground: "darkgray"
+    property color titleBackground: "transparent"
     onTitleBackgroundChanged: labelTitle.backgroundColor = titleBackground
+    property color labelTextColor: "black"
+    onLabelTextColorChanged: labelTitle.fontColor = labelTextColor
     property color itemTitleTextColor: "black"
     onItemTitleTextColorChanged: listItem.itemTextColor = itemTextColor
     property color itemDescriptionFontColor: "white"
     onItemDescriptionFontColorChanged: listItem.descriptionFontColor = itemDescriptionFontColor
-    property int itemTitleFontSize: 12
+    property int itemTitleFontSize: 10
     onItemTitleFontSizeChanged: listItem.titleFontSize = itemTitleFontSize
-    property int itemDescriptionFontSize: 10
+    property int itemDescriptionFontSize: 8
     onItemDescriptionFontSizeChanged: listItem.descriptionFontSize = itemDescriptionFontSize
     property color itemDescriptionBackgroundColor : "transparent"
     onItemDescriptionBackgroundColorChanged: listItem.descriptionBackgroundColor = itemDescriptionBackgroundColor
-    property color itemTitleBackgroundColor: "lightgray"
+    property color itemTitleBackgroundColor: "transparent"
     onItemTitleBackgroundColorChanged: listItem.labelBackgroundColor = itemTitleBackgroundColor
     property color itemSelectedBackgroundColor: "white"
     onItemSelectedBackgroundColorChanged: listItem.selectedColor = itemSelectedBackgroundColor
@@ -53,6 +55,8 @@ Rectangle{
     onItemWidthChanged: listItem.width = itemWidth
     property color itemHoveredColor: itemBackgroundColor
     onItemHoveredColorChanged: listItem.itemHoveredColor = itemHoveredColor
+    property double itemBackgroundOpacity: 1
+    onItemBackgroundOpacityChanged: listItem.backgroundOpacitity = itemBackgroundOpacity
     property color hoveredItemTextColor: "blue"
     onHoveredItemTextColorChanged: listItem.hoveredItemTextColor = hoveredItemTextColor
     property color itemBackgroundColor: "transparent"
@@ -131,6 +135,7 @@ Rectangle{
             Layout.minimumHeight: 48
             fontSize: 24
             backgroundColor: body.titleBackground
+            fontColor: body.labelTextColor
             text: componentTitle
         }
 
@@ -152,7 +157,9 @@ Rectangle{
                 onCheckedChanged: itemSelected(index)
 
                 titleFontSize: body.itemTitleFontSize
+                titleFontColor: body.itemTitleTextColor
                 descriptionFontSize: body.itemDescriptionFontSize
+                descriptionFontColor: body.itemDescriptionFontColor
                 isCheckable: allowCheckState
                 hoveredColor: body.itemHoveredColor
                 selectedColor: body.itemSelectedBackgroundColor
@@ -160,8 +167,6 @@ Rectangle{
                 height: body.itemHeight
                 width: body.itemWidth
                 backgroundColor: body.itemBackgroundColor
-                titleFontColor: body.itemTitleTextColor
-                descriptionFontColor: body.itemDescriptionFontColor
                 radius: body.itemRoundedCorners
                 logoUrl: body.itemImageUrl
                 noDelayPressSelect: body.instantSelectEnabled

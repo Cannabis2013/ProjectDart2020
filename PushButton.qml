@@ -42,7 +42,7 @@ Item {
 
     property bool enablePressAndHold: false
 
-    property int buttonRadius: 20
+    property int buttonRadius: 0
     onButtonRadiusChanged: buttonRect.radius = buttonRadius
 
     property url image: ""

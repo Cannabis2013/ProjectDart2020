@@ -17,6 +17,11 @@ GridLayout{
     flow: GridLayout.TopToBottom
     anchors.fill: parent
 
+    function setCurrentWinner(text)
+    {
+        winnerText.text = text;
+    }
+
     function setThrowSuggestion(text)
     {
         suggestText.text = text;

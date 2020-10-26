@@ -11,6 +11,9 @@ Item
     property color color: "transparent"
     onColorChanged: labelRect.color = color
 
+    property color fontColor: "black"
+    onFontColorChanged: pageLabel.color = fontColor
+
     Rectangle
     {
         id: labelRect
@@ -29,5 +32,6 @@ Item
         verticalAlignment: Text.AlignVCenter
 
         anchors.fill: body
+        color: body.color
     }
 }

@@ -7,8 +7,8 @@ Rectangle {
     id: body
     signal backButtonPressed
     onBackButtonPressed: body.destroy()
-    property string defaultBackgroundColor: "#A54141"
-    color: defaultBackgroundColor
+
+    color: ThemeContext.pageColor
     property bool backButtonVisible: true
     onBackButtonVisibleChanged: backButton.visible = backButtonVisible
     property bool backButtonDisabled: false
@@ -77,10 +77,11 @@ Rectangle {
                 Layout.minimumHeight: 30
                 Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
                 textColor: "white"
-                backgroundColor: "green"
+                backgroundColor: ThemeContext.pageBackButtonColor
                 text: "Back"
                 fontSize: 10
                 onClicked: backButtonPressed()
+                buttonRadius: ThemeContext.pageBackButtonRadius
             }
             Image {
                 id: pageIcon

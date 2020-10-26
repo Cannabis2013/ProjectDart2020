@@ -73,6 +73,7 @@ Content
             Layout.maximumHeight: 64
 
             text: "Dart2020"
+            fontColor: "white"
         }
         
         Rectangle
@@ -85,18 +86,24 @@ Content
             Layout.alignment: Qt.AlignHCenter
             text: "Select tournament \n and play"
             onClicked: setupGameClicked()
+            backgroundColor: ThemeContext.startPageButtonColor
+            hoveredColor: ThemeContext.startPageButtonColor
         }
 
         StartMenuButton {
             Layout.alignment: Qt.AlignHCenter
             text: "Manage tournaments \n and players"
             onClicked: manageContentClicked()
+            backgroundColor: ThemeContext.startPageButtonColor
+            hoveredColor: ThemeContext.startPageButtonColor
         }
         StartMenuButton
         {
             Layout.alignment: Qt.AlignHCenter
             text: "Settings"
             onClicked: settingsButtonClicked()
+            backgroundColor: ThemeContext.startPageButtonColor
+            hoveredColor: ThemeContext.startPageButtonColor
         }
 
         StartMenuButton
@@ -104,6 +111,8 @@ Content
             Layout.alignment: Qt.AlignHCenter
             text: "Quit"
             onClicked: quitButtonClicked()
+            backgroundColor: ThemeContext.startPageButtonColor
+            hoveredColor: ThemeContext.startPageButtonColor
         }
         
         Rectangle

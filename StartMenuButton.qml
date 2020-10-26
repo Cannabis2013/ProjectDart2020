@@ -6,6 +6,5 @@ PushButton{
     width: 256
     height: 64
     textColor: "white"
-    backgroundColor: "green"
     backgroundTransparency: 0.85
 }

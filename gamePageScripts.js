@@ -1,5 +1,5 @@
 /*
-  Handle ScoreData manipulation
+  Handle ScoreData related stuff
   */
 function appendScore(player,point,score, keyCode)
 {
@@ -26,7 +26,6 @@ function handleRecievedScores(data)
         body.scoreRecieved(name,point,score,keyCode);
     }
 }
-
 function setupFirstToPostScoreTable()
 {
     var table = Qt.createComponent("FirstToPostTable.qml");
@@ -43,6 +42,13 @@ function setupFirstToPostScoreTable()
 
     scoreBoardItemSlot.item.displayPoints = true;
     scoreBoardItemSlot.item.setMinimumColumnsCount(4);
+}
+/*
+  Handle Notification related stuff
+  */
+function handleSetWinnerText(text)
+{
+    notificationItemSlot.item.setCurrentWinner(text);
 }
 
 /*
@@ -134,15 +140,18 @@ function handleReplyFromBackend(response,args)
         }
         else if(response === 0x2D) // Gamecontroller is ready and awaits input
         {
-            var canUndo = args[0];
-            var canRedo = args[1];
-            var currentRoundIndex = args[2];
-            var currentPlayerUserName = args[3];
-            var throwSuggestion = args[4];
+            let canUndo = args[0];
+            let canRedo = args[1];
+            let currentRoundIndex = args[2];
+            let currentPlayerUserName = args[3];
+            let throwSuggestion = args[4];
 
-            var suggestion = textSourceContainer.throwSuggestLabel + " " + throwSuggestion;
+            let suggestion = textSourceContainer.throwSuggestLabel + " " + throwSuggestion;
             notificationItemSlot.item.setThrowSuggestion(suggestion);
-            turnControllerItemSlot.item.updateState(currentRoundIndex,currentPlayerUserName,canUndo,canRedo);
+            turnControllerItemSlot.item.updateState(currentRoundIndex,
+                                                    currentPlayerUserName,
+                                                    canUndo,
+                                                    canRedo);
             body.state = "waitingForInput";
         }
         else if(response === 0x10) // Backend replies end of transmission
@@ -164,9 +173,9 @@ function handleReplyFromBackend(response,args)
         else if(response === 0x27) // Controller is in AddScoreState
         {
             playerName = args[0];
-            var pointValue = args[1];
+            let pointValue = args[1];
             scoreValue = args[2];
-            var keyCode = args[3];
+            let keyCode = args[3];
             appendScore(playerName,pointValue,scoreValue,keyCode);
             requestStatusFromBackend();
         }

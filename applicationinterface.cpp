@@ -8,6 +8,11 @@ ApplicationInterface::~ApplicationInterface()
     delete _gameController;
 }
 
+ApplicationInterface *ApplicationInterface::createInstance()
+{
+    return new ApplicationInterface();
+}
+
 ApplicationInterface *ApplicationInterface::setup()
 {
     registerTypes();

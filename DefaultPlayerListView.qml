@@ -7,20 +7,17 @@ ListComponent {
     id: playersListView
     componentTitle: "Assign players"
     titleBackground: "transparent"
-    itemBackgroundColor: "transparent"
-    itemTitleBackgroundColor: Qt.rgba(0.6,0.33,0.24,0.8)
-    itemTitleTextColor: "black"
-    itemDescriptionFontColor: "black"
-    itemDescriptionBackgroundColor: Qt.rgba(0.6,0.33,0.24,0.8)
+    itemBackgroundColor: "gray"
+    itemBackgroundOpacity: 0.3
+    itemDescriptionFontColor: "white"
     itemHoveredColor: "lightblue"
     itemImageUrl: "qrc:/pictures/Ressources/skull.png"
-    itemImageBackgroundColor: Qt.rgba(0.6,0.33,0.24,0.8)
-    color: Qt.rgba(0,0,0,0.1)
     radius: 15
-    itemTitleFontSize: 24
-    itemDescriptionFontSize: 16
+    itemTitleFontSize: 12
+    itemTitleTextColor: "white"
+    itemDescriptionFontSize: 8
     itemWidth: playersListView.width*0.95
-    itemHeight: 50
+    itemHeight: 60
     allowCheckState: true
     allowMultipleSelections: true
     instantSelectEnabled: true

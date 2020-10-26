@@ -52,6 +52,7 @@
         <file>DefaultSpinBox.qml</file>
         <file>DefaultTextInputBox.qml</file>
         <file>DefaultComboBox.qml</file>
+        <file>ThemeContext.qml</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>

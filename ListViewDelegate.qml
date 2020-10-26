@@ -4,19 +4,7 @@ import QtGraphicalEffects 1.13
 Rectangle {
     id: body
     clip: true
-    color: backgroundColor
-
-    layer.enabled: true
-    layer.effect: OpacityMask{
-        maskSource: Item {
-            width: body.width
-            height: body.height
-            Rectangle{
-                anchors.fill: parent
-                radius: body.radius
-            }
-        }
-    }
+    color: "transparent"
 
     MouseArea{
         focus: true
@@ -64,7 +52,7 @@ Rectangle {
     property bool isCheckable: false
     property bool checked: false
 
-    property color selectedColor: body.color
+    property color selectedColor: backgroundRect.color
     property color selectedTextColor: label.color
 
     property double selectedSizeScale: 0.98
@@ -81,10 +69,10 @@ Rectangle {
     property string description: ""
     onDescriptionChanged: labelDescription.text = description
 
-    property int titleFontSize: 12
+    property int titleFontSize: 10
     onTitleFontSizeChanged: labelTitle.fontSize = titleFontSize
 
-    property int descriptionFontSize: 10
+    property int descriptionFontSize: 8
     onDescriptionFontSizeChanged: labelDescription.fontSize = descriptionFontSize
 
     property color titleFontColor: "black"
@@ -95,62 +83,123 @@ Rectangle {
     property color imageBackgroundColor: "transparent"
     onImageBackgroundColorChanged: imageRect.color = imageBackgroundColor
     property color backgroundColor: "transparent"
-    onBackgroundColorChanged: body.color = backgroundColor
+    onBackgroundColorChanged: backgroundRect = backgroundColor
+    property double backgroundOpacitity: 0.3
+    onBackgroundOpacitityChanged: backgroundRect.opacity = backgroundOpacitity
 
     property bool enableHover: true
 
     property double hoveredSizeScale: 0.90
 
-    property color hoveredColor: "transparent"    
+    property color hoveredColor: "transparent"
     property color hoveredTitleColor: titleFontColor
     property color hoveredDescriptionColor: descriptionFontColor
 
     property url logoUrl: ""
     onLogoUrlChanged: imageRect.source = logoUrl
+    border.color: "white"
+    border.width: 1
 
-    GridLayout
-    {
-        id: bodyLayout
+    Rectangle{
+        id: backgroundRect
         anchors.fill: parent
-        rows: 2
-        columns: 2
-        flow: GridLayout.LeftToRight
-        columnSpacing: 0
-        rowSpacing: 0
-        DecoratedItem {
-            id: imageRect
-            Layout.fillHeight: true
-            Layout.preferredWidth: body.height
-            Layout.rowSpan: 2
-            color: body.imageBackgroundColor;
-            source: body.logoUrl
+
+        color: body.backgroundColor
+        opacity: body.backgroundOpacitity
+    }
+
+    GridLayout{
+        id: bodyLayout
+        rows: 3
+        columns: 3
+        anchors.fill: parent
+
+        Rectangle{
+            id: upperPadding
+            Layout.row: 0
+            Layout.column: 0
+            GridLayout.columnSpan: 3
+            height: 9
+            Layout.fillWidth: true
+            color: "transparent"
         }
 
-        MyLabel{
-            id: labelTitle
+        Rectangle{
+            id: leftPadding
+
+            Layout.row: 1
+            Layout.column: 0
             Layout.fillHeight: true
-            Layout.fillWidth: true
-            textLeftMargin: 9
-            text: body.title
-            fontSize: titleFontSize
-            verticalTextAlignment: Qt.AlignVCenter
-            horizontalTextAlignment: Qt.AlignLeft
-            fontColor: body.titleFontColor
-            color: body.labelBackgroundColor
-        }
-        MyLabel{
-            id: labelDescription
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            textLeftMargin: 9
-            text: body.description
-            fontSize: body.descriptionFontSize
-            fontColor: body.descriptionFontColor
-            verticalTextAlignment: Qt.AlignVCenter
-            horizontalTextAlignment: Qt.AlignLeft
-            color: body.descriptionBackgroundColor
+            width: 9
+            color: "transparent"
         }
 
+        GridLayout
+        {
+            Layout.row: 1
+            Layout.column: 1
+            flow: GridLayout.LeftToRight
+            columnSpacing: 0
+            rowSpacing: 0
+
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+
+            rows: 2
+            columns: 2
+
+            DecoratedItem {
+                id: imageRect
+                Layout.fillHeight: true
+                Layout.preferredWidth: height
+                Layout.rowSpan: 2
+                color: "transparent";
+                source: body.logoUrl
+            }
+            MyLabel{
+                id: labelTitle
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+                textLeftMargin: 9
+                text: body.title
+                fontSize: titleFontSize
+                verticalTextAlignment: Qt.AlignVCenter
+                horizontalTextAlignment: Qt.AlignLeft
+                fontColor: body.titleFontColor
+                color: body.labelBackgroundColor
+            }
+            MyLabel{
+                id: labelDescription
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+                textLeftMargin: 9
+                text: body.description
+                fontSize: body.descriptionFontSize
+                fontColor: body.descriptionFontColor
+                verticalTextAlignment: Qt.AlignVCenter
+                horizontalTextAlignment: Qt.AlignLeft
+                color: body.descriptionBackgroundColor
+            }
+        }
+        Rectangle{
+            id: bottomPadding
+
+            Layout.row: 2
+            Layout.column: 0
+            Layout.columnSpan: 3
+            height: 9
+            Layout.fillWidth: true
+            color: "transparent"
+        }
+        Rectangle{
+            id: rightPadding
+
+            Layout.row: 1
+            Layout.column: 2
+            Layout.fillHeight: true
+            width: 9
+            color: "transparent"
+        }
     }
 
     DecoratedItem{
@@ -180,23 +229,17 @@ Rectangle {
 
     }
 
-    Rectangle
-    {
-        id: maskRect
-        anchors.fill: parent
-        color: "blue"
-        opacity: 0.2
-        visible: false
-    }
-
     states: [
         State {
             name: "checked"
             PropertyChanges {
                 target: body
                 scale: body.selectedSizeScale
-                color: selectedColor
                 checked: true
+            }
+            PropertyChanges {
+                target: backgroundRect
+                color: selectedColor
             }
             PropertyChanges {
                 target: checkMark
@@ -207,8 +250,11 @@ Rectangle {
             name: "hovered"
             PropertyChanges {
                 target: body
-                color: hoveredColor
                 scale: body.hoveredSizeScale
+            }
+            PropertyChanges {
+                target: backgroundRect
+                color: hoveredColor
             }
             PropertyChanges {
                 target: labelTitle
