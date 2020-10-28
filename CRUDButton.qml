@@ -5,7 +5,8 @@ PushButton{
     height: 30
     fontSize: 14
 
-    backgroundColor: "transparent"
-    textColor: "blue"
-    hoverEnabled: false
+    backgroundColor: ThemeContext.cruButtonBackgroundColor
+    textColor: ThemeContext.cruButtonTextColor
+    hoverEnabled: true
+    hoveredColor: ThemeContext.cruButtonHoveredBackgroundColor
 }

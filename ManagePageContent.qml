@@ -96,6 +96,7 @@ Content {
 
         DefaultPlayerListView {
             id: playersListView
+            labelTextColor: ThemeContext.manPlayerListViewLabelColor
             Layout.alignment: Qt.AlignHCenter
             Layout.fillWidth: true
             Layout.fillHeight: true
@@ -129,6 +130,8 @@ Content {
             id: tournamentListView
             Layout.fillHeight: true
             Layout.fillWidth: true
+
+            labelTextColor: ThemeContext.manTournamentListViewLabelColor
 
             onRequestUpdate: {
                 tournamentListView.clear();

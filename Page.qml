@@ -8,7 +8,7 @@ Rectangle {
     signal backButtonPressed
     onBackButtonPressed: body.destroy()
 
-    color: ThemeContext.pageColor
+    color: "transparent"
     property bool backButtonVisible: true
     onBackButtonVisibleChanged: backButton.visible = backButtonVisible
     property bool backButtonDisabled: false
@@ -50,6 +50,12 @@ Rectangle {
 
     property url pageIconUrl: "qrc:/pictures/Ressources/dartpic.png"
     onPageIconUrlChanged: pageIcon.source = pageIconUrl
+
+    Rectangle{
+        id: backgroundRect
+        anchors.fill: parent
+        color:ThemeContext.pageColor
+    }
 
     GridLayout{
         id: bodyLayout

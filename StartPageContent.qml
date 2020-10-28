@@ -57,6 +57,13 @@ Content
         height: 150
     }
 
+    Rectangle{
+        id: backgroundRect
+        anchors.fill: parent
+        color:ThemeContext.pageColor
+        opacity: 0.5
+    }
+
     GridLayout {
         id: gridLayout
 
@@ -66,14 +73,15 @@ Content
 
         PageLabelItem {
             id: label
-
+            Layout.alignment: Qt.AlignHCenter
             height: 64
             width: 384
-            Layout.fillWidth: true
             Layout.maximumHeight: 64
 
             text: "Dart2020"
             fontColor: "white"
+            backgroundColor: "darkgray"
+            backgroundOpacity: 0.3
         }
         
         Rectangle

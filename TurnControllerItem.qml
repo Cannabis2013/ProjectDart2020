@@ -44,7 +44,6 @@ Item {
 
     QtObject{
         id: textBeholder
-
         property string currentRoundText: qsTr("Current round: ")
         property string currentPlayerText: qsTr("Current player: ")
     }
@@ -59,12 +58,14 @@ Item {
         PushButton{
             id: startButton
             text: body.startButtonText
-            textColor: "white"
-            backgroundColor: "green"
-            fontSize: 16
+            textColor: ThemeContext.navStartButtonTextColor
+            backgroundColor: ThemeContext.navStartButtonBackgroundColor
+            hoveredColor: ThemeContext.navStartButtonHoveredBackgroundColor
+            buttonRadius: 6
+            fontSize: 12
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-            width: 80
-            height: 32
+            width: 64
+            height: 24
             enablePressAndHold: body.startButtonEnablePressAndHold
 
             onClicked: startButtonClicked()
@@ -74,22 +75,17 @@ Item {
 
         PushButton{
             id: leftButton
-
-            width: 64
-            height: 96
-
+            width: 48
+            height: 48
             image: "qrc:/pictures/Ressources/arrow.png"
-
+            backgroundColor: ThemeContext.navButtonsBackgroundColor
             onClicked: leftButtonClicked()
             onPressAndHoldClicked: leftButtonPressAndHoldClicked()
-
             imageRotation: 180
             imageMargins: 20
-
             buttonRadius: 45
             hoverEnabled: false
             Layout.alignment: Qt.AlignVCenter
-
             enabled: false;
         }
 
@@ -101,23 +97,20 @@ Item {
 
             Label{
                 id: currentRoundLabel
-
+                color: ThemeContext.navTextDisplayColor
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-
                 text: "" + currentRoundIndex
                 font.pointSize: 24
-
                 verticalAlignment: Text.AlignBottom
                 horizontalAlignment: Text.AlignHCenter
             }
 
             Label{
                 id: currentPlayerLabel
-
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-
+                color: "white"
                 text: currentPlayer
                 font.pointSize: 24
                 verticalAlignment: Text.AlignTop
@@ -127,23 +120,17 @@ Item {
 
         PushButton{
             id: rightButton
-
-            width: 64
-            height: 96
-
+            width: 48
+            height: 48
             image: "qrc:/pictures/Ressources/arrow.png"
+            backgroundColor: ThemeContext.navButtonsBackgroundColor
             imageMargins: 20
             buttonRadius: 45
             hoverEnabled: false
             onPressAndHoldClicked: rightButtonPressAndHoldClicked()
             onClicked: rightButtonClicked()
-
             Layout.alignment: Qt.AlignVCenter
-
             enabled: false
         }
-
     }
-
-
 }

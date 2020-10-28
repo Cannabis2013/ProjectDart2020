@@ -34,6 +34,7 @@ GridLayout{
         Layout.fillWidth: true
         font.pointSize: 16
         Layout.alignment: Qt.AlignBottom
+        color: ThemeContext.keyTextDisplayColor
     }
     Text {
         id: suggestText
@@ -42,6 +43,7 @@ GridLayout{
         Layout.fillWidth: true
         font.pointSize: 16
         Layout.alignment: Qt.AlignTop
+        color: ThemeContext.keyTextDisplayColor
     }
     Rectangle{
         Layout.fillHeight: true

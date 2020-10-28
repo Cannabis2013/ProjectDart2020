@@ -51,7 +51,6 @@ Item {
             Component.onCompleted: body.backPushed.connect(backButtonPressed)
         }
     }
-
     Component{
         id: tournamentPageComponent
         Page{

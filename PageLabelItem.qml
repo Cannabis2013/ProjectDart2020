@@ -8,17 +8,21 @@ Item
     property string text: ""
     onTextChanged: pageLabel.text = text
 
-    property color color: "transparent"
-    onColorChanged: labelRect.color = color
+    property color backgroundColor: "transparent"
+    onBackgroundColorChanged: backgroundRect.color = backgroundColor
+
+    property double backgroundOpacity: 1
+    onBackgroundOpacityChanged: backgroundRect.opacity = backgroundOpacity
 
     property color fontColor: "black"
     onFontColorChanged: pageLabel.color = fontColor
 
     Rectangle
     {
-        id: labelRect
-        color: "transparent"
+        id: backgroundRect
         anchors.fill: body
+        color: "transparent"
+        opacity: body.backgroundOpacity
     }
     
     Text {
@@ -31,7 +35,7 @@ Item
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
 
-        anchors.fill: body
+        anchors.fill: parent
         color: body.color
     }
 }

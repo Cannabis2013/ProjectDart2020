@@ -86,6 +86,8 @@ public:
                 ->setHint(params.hint);
         if(options.generateUniqueId)
             t->setId(QUuid::createUuid());
+        else
+            t->setId(params.id);
         return t;
     }
 };
