@@ -32,30 +32,27 @@ public:
         allHints = 0xB
     };
     enum ControllerState {
-        Idle = 0x10,
         GameBusy = 0x11, // Game is idle but in progress
         Stopped = 0x12, // Game is stopped and no longer accepts input
         AwaitsInput = 0x13, // This should indicate that the gamecontroller is in a state where it awaits new player input
-        Running = 0x14,
         WinnerDeclared = 0x15,
         NotInitialized = 0x16, // Controller is not initialized with tournament and, if necessary, appropriate indexes
         Initialized = 0x17,
-        Inconsistency = 0x18,
         UndoState = 0x1F,
         RedoState = 0x20,
         AddScoreState = 0x21,
         UpdateContextState = 0x22,
-        resetState = 0x40
+        resetState = 0x29
     };
     enum ControllerResponse{
-        isStopped = 0x12,
+        isStopped = 0x3A,
         ScoreTransmit = 0x27,
         ScoreRemove = 0x28,
-        InconsistencyDetected = 0x29,
-        isInitializedAndAwaitsInput = 0x2D,
-        isInitializedAndReady = 0x45,
+        controllerInitializedAndAwaitsInput = 0x2D,
+        controllerInitializedAndReady = 0x45,
         WinnerFound = 0x3E,
-        isProcessingUserInput
+        isProcessingUserInput,
+        controllerReset = 0x29
     };
     enum KeyMappings{
         SingleModifer = 0x2A,

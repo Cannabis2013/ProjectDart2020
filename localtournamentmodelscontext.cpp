@@ -97,8 +97,13 @@ void LocalTournamentModelsContext::handleRequestSetScoreHint(const QUuid &tourna
 
 void LocalTournamentModelsContext::handleResetTournament(const QUuid &tournament)
 {
+    /*
+     * - Remove models associated to the tournament
+     * - Add a round model and a set model
+     */
     removeModelsRelatedToTournament(tournament);
     setTournamentDeterminedWinner(tournament,QUuid());
+    updateDataContext(tournament,1,0);
     emit tournamentResetSuccess();
 }
 

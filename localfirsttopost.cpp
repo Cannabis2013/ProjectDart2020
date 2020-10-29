@@ -22,8 +22,7 @@ void LocalFirstToPost::stop()
 
 void LocalFirstToPost::handleAndProcessUserInput(const int &point, const int &modifierKeyCode)
 {
-    if(status() == Idle ||
-            status() == Stopped ||
+    if(status() == Stopped ||
             status() == WinnerDeclared)
     {
         emit transmitResponse(ControllerResponse::isStopped,{});
@@ -122,21 +121,13 @@ void LocalFirstToPost::recieveTournamentIndexes(const int &roundIndex,
     _turnIndex = turnIndex;
     _totalTurns = totalTurns;
     updatePlayerTubbles(playerScores);
-    if(status() == ControllerState::resetState)
-    {
-        _currentStatus = ControllerState::Initialized;
-        emit requestTournamentMetaData(currentTournamentID());
-    }
-    else if(determinedWinnerName() != "")
-    {
+
+    if(determinedWinnerName() != "")
         _currentStatus = ControllerState::WinnerDeclared;
-        emit transmitResponse(ControllerResponse::isInitializedAndReady,{});
-    }
     else
-    {
         _currentStatus = ControllerState::Initialized;
-        emit transmitResponse(ControllerResponse::isInitializedAndReady,{});
-    }
+
+    emit transmitResponse(ControllerResponse::controllerInitializedAndReady,{});
 }
 
 void LocalFirstToPost::handleScoreAddedToDataContext(const QUuid &playerID,
@@ -179,15 +170,16 @@ void LocalFirstToPost::handleTournamentResetSuccess()
     // Reset controller index values
     _turnIndex = 0;
     _totalTurns = 0;
-    _roundIndex = 0;
+    _roundIndex = 1;
     _setIndex = 0;
     _throwIndex = 0;
     _winner = QString();
     // Reset playerscores to target point
     for (int i = 0; i < playerCount(); ++i)
         setPlayerScore(i,keyPoint());
-
-    emit requestTournamentIndexes(currentTournamentID());
+    _currentStatus = ControllerState::Initialized;
+    //emit requestTournamentIndexes(currentTournamentID());
+    emit transmitResponse(ControllerResponse::controllerReset,{});
 }
 
 void LocalFirstToPost::handleResetTournament()
@@ -204,7 +196,7 @@ void LocalFirstToPost::sendCurrentTurnValues()
     auto currentUserName = currentActiveUser();
     auto score = playerScore(currentSetIndex());
     auto throwSuggestion = pointLogisticInterface()->throwSuggestion(score,currentThrowIndex() + 1);
-    emit transmitResponse(ControllerResponse::isInitializedAndAwaitsInput,{canUndo,canRedo,currentRound,currentUserName,throwSuggestion});
+    emit transmitResponse(ControllerResponse::controllerInitializedAndAwaitsInput,{canUndo,canRedo,currentRound,currentUserName,throwSuggestion});
 }
 
 QString LocalFirstToPost::currentActiveUser()
@@ -325,9 +317,14 @@ int LocalFirstToPost::validateCurrentState(const int &currentScore)
 
 int LocalFirstToPost::validateInput(const int &currentScore)
 {
-    auto minimumAllowedScore = terminateConditionModifier() == KeyMappings::SingleModifer ?
-                1 : KeyMappings::DoubleModifier ?
-                    2 : 3;
+    int minimumAllowedScore = 2;
+    if(terminateConditionModifier() == KeyMappings::SingleModifer)
+        minimumAllowedScore = 1;
+    else if(terminateConditionModifier() == KeyMappings::DoubleModifier)
+        minimumAllowedScore = 2;
+    else
+        minimumAllowedScore = 3;
+
     if(currentScore > criticalLimit)
         return PointDomain;
     else if(currentScore <= criticalLimit && currentScore >= minimumAllowedScore)
@@ -371,7 +368,7 @@ void LocalFirstToPost::handleRequestFromUI()
 {
     if(status() == ControllerState::Initialized)
     {
-        emit transmitResponse(ControllerResponse::isInitializedAndReady,{});
+        emit transmitResponse(ControllerResponse::controllerInitializedAndReady,{});
     }
     else if(status() == ControllerState::AddScoreState)
     {

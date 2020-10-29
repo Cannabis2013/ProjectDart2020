@@ -133,7 +133,7 @@ function initializeFirstToPost()
 function handleReplyFromBackend(response,args)
 {
         var buttonText = turnControllerItemSlot.item.startButtonText, playerName, scoreValue;
-        if(response === 0x12) // Gamecontroller is stopped
+        if(response === 0x3A) // Gamecontroller is stopped
         {
             if(body.state !== "preRestart")
                 body.state = "stopped";
@@ -163,6 +163,11 @@ function handleReplyFromBackend(response,args)
         else if(response === 0x45) // Backend is initialized and ready
         {
             body.state = "ready";
+        }
+        else if(response === 0x29) // Backend is reset
+        {
+            setupFirstToPostScoreTable();
+            body.state = "ready"
         }
         /*
           Backend responds that it has updated its datacontext
