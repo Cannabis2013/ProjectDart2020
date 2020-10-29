@@ -14,7 +14,6 @@ Content{
 
     QtObject{
         id: currentValues
-
         property int currentIndex: -1
     }
 

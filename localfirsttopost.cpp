@@ -330,7 +330,7 @@ int LocalFirstToPost::validateInput(const int &currentScore)
                     2 : 3;
     if(currentScore > criticalLimit)
         return PointDomain;
-    else if(currentScore <= criticalLimit && currentScore > minimumAllowedScore)
+    else if(currentScore <= criticalLimit && currentScore >= minimumAllowedScore)
         return CriticalDomain;
     else if(currentScore == 0)
         return TargetDomain;
