@@ -76,7 +76,7 @@ public slots:
 signals:
     void transmitResponse(const int &status, const QVariantList &args) override;
     void requestTournamentMetaData(const QUuid &tournament);
-    void sendCurrentTournamentForTransmittingScorePoints(const QUuid &tournament, const PlayerPairs &assignedPlayerPairs);
+    void sendAssignedTournamentPlayers(const QUuid &tournament, const PlayerPairs &assignedPlayerPairs);
     void requestTournamentIndexes(const QUuid &tournament);
     void sendScore(const QUuid &tournamentID,
                    const QUuid &playerID,

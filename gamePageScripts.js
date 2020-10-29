@@ -22,7 +22,7 @@ function handleRecievedScores(data)
         var name = data[i];
         var point = data[i +1];
         var score = data[i + 2];
-        var keyCode = data[i +3];
+        var keyCode = data[i + 3];
         body.scoreRecieved(name,point,score,keyCode);
     }
 }
@@ -157,10 +157,7 @@ function handleReplyFromBackend(response,args)
         else if(response === 0x10) // Backend replies end of transmission
         {
             GameScripts.handleRecievedScores(args);
-            if(currentTournamentMetaData.determinedWinner !== "")
-                body.state = "winner";
-            else
-                body.state = "ready";
+            body.requestStatusFromBackend();
         }
 
         else if(response === 0x45) // Backend is initialized and ready
@@ -192,7 +189,7 @@ function handleReplyFromBackend(response,args)
             body.state = "winner";
 
         }
-        else if(response === 0x17)
+        else if(response === 0x17) // Backend is initialized
         {
             turnControllerItemSlot.item.startButtonEnabled = true;
         }

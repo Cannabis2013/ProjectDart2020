@@ -27,7 +27,6 @@
         <file>CRUDButton.qml</file>
         <file>CellDelegate.qml</file>
         <file>ScoreModel.qml</file>
-        <file>tournamentPageScripts.js</file>
         <file>LabelComponent.qml</file>
         <file>ListViewDelegate.qml</file>
         <file>DecoratedItem.qml</file>

@@ -35,25 +35,26 @@ public:
 
     // ITournamentModelBuilder interface
 public:
-    DefaultTournamentInterface *buildTournamentModel(const TournamentParameters& p,
+    DefaultTournamentInterface *buildTournamentModel(const TournamentParameters& params,
                                                      const ModelOptions& options) override
     {
         auto t = Tournament::createInstance()
-                ->setTitle(p.title)
-                ->setKeyPoint(p.keyPoint)
-                ->setGameMode(p.gameMode)
-                ->setNumberOfThrows(p.throws)
-                ->setStatus(p.status)
-                ->setAssignedPlayerIdentities(p.playerIdentities)
-                ->setTerminateKeyCondition(p.winConditionKey)
-                ->setType(DefaultModelBuilderContext::TournamentModel);
+                ->setTitle(params.title)
+                ->setKeyPoint(params.keyPoint)
+                ->setGameMode(params.gameMode)
+                ->setNumberOfThrows(params.throws)
+                ->setStatus(params.status)
+                ->setAssignedPlayerIdentities(params.playerIdentities)
+                ->setTerminateKeyCondition(params.winConditionKey)
+                ->setType(DefaultModelBuilderContext::TournamentModel)
+                ->setWinner(params.winner);
         if(options.generateUniqueId)
             t->setId(QUuid::createUuid());
         else
-            t->setId(p.id);
+            t->setId(params.id);
         return t;
 
-}
+    }
     DefaultRoundInterface *buildRoundModel(const RoundParameters& params, const ModelOptions &options) override
     {
         auto t = Round::createInstance()
@@ -62,6 +63,8 @@ public:
                 ->setParent(params.tournamentId);
         if(options.generateUniqueId)
             t->setId(QUuid::createUuid());
+        else
+            t->setId(params.id);
         return t;
     }
     DefaultSetInterface *buildSetModel(const SetParameters& params, const ModelOptions& options) override
@@ -72,6 +75,8 @@ public:
                 ->setType(DefaultModelBuilderContext::SetModel);
         if(options.generateUniqueId)
             t->setId(QUuid::createUuid());
+        else
+            t->setId(params.id);
         return t;
     }
     DefaultScoreInterface *buildScoreModel(const ScoreParameters& params, const ModelOptions& options) override

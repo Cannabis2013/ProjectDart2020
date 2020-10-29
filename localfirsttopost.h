@@ -54,7 +54,6 @@ public:
         InconsistencyDetected = 0x29,
         isInitializedAndAwaitsInput = 0x2D,
         isInitializedAndReady = 0x45,
-        DataProvidedSuccess =0x3D,
         WinnerFound = 0x3E,
         isProcessingUserInput
     };

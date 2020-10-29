@@ -89,9 +89,8 @@ void LocalFirstToPost::handleRequestForPlayerScores()
         auto assignedPlayerName = assignedPlayerTupple.second;
         auto assignedPlayerPair = PlayerPair(assignedPlayerID,assignedPlayerName);
         assignedPlayerPairs << assignedPlayerPair;
-
     }
-    emit sendCurrentTournamentForTransmittingScorePoints(currentTournamentID(),assignedPlayerPairs);
+    emit sendAssignedTournamentPlayers(currentTournamentID(),assignedPlayerPairs);
 }
 
 void LocalFirstToPost::recieveTournamentDetails(const QUuid &tournament,
@@ -106,12 +105,7 @@ void LocalFirstToPost::recieveTournamentDetails(const QUuid &tournament,
     _numberOfThrows = numberOfThrows;
     _assignedPlayerTupples = setPlayerTubblesFromPairs(assignedPlayerPairs,keyPoint);
     pointLogisticInterface()->setLastThrowKeyCode(terminalKeyCode);
-    if(winner != QString())
-    {
-        _winner = winner;
-        _currentStatus = ControllerState::WinnerDeclared;
-    }
-
+    _winner = winner;
     emit requestTournamentIndexes(_currentTournament);
 }
 
@@ -132,6 +126,11 @@ void LocalFirstToPost::recieveTournamentIndexes(const int &roundIndex,
     {
         _currentStatus = ControllerState::Initialized;
         emit requestTournamentMetaData(currentTournamentID());
+    }
+    else if(determinedWinnerName() != "")
+    {
+        _currentStatus = ControllerState::WinnerDeclared;
+        emit transmitResponse(ControllerResponse::isInitializedAndReady,{});
     }
     else
     {
@@ -346,8 +345,9 @@ void LocalFirstToPost::addPoint(const int &point, const int &score)
     auto setIndex = currentPlayerIndex();
     auto throwIndex = currentThrowIndex();
     auto isWinnerDetermined = status() == ControllerState::WinnerDeclared;
+    auto currentPlayer = currentActivePlayerID();
     emit sendScore(tournamentID,
-                   currentActivePlayerID(),
+                   currentPlayer,
                    roundIndex,
                    setIndex,
                    throwIndex,
@@ -369,7 +369,11 @@ bool LocalFirstToPost::isIndexOffset()
 
 void LocalFirstToPost::handleRequestFromUI()
 {
-    if(status() == ControllerState::AddScoreState)
+    if(status() == ControllerState::Initialized)
+    {
+        emit transmitResponse(ControllerResponse::isInitializedAndReady,{});
+    }
+    else if(status() == ControllerState::AddScoreState)
     {
         /*
          * - Increment indexes

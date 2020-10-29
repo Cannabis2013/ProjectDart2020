@@ -320,7 +320,7 @@ void ApplicationInterface::connectControllerInterface()
      */
     connect(this,&ApplicationInterface::requestPlayerScores,
             _gameController,&AbstractGameController::handleRequestForPlayerScores);
-    connect(_gameController,&AbstractGameController::sendCurrentTournamentForTransmittingScorePoints,
+    connect(_gameController,&AbstractGameController::sendAssignedTournamentPlayers,
             _tournamentModelsContext,&AbstractTournamentModelsContext::handleTransmitPlayerScores);
     /*
      * Start/stop game
