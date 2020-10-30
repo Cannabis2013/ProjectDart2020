@@ -156,7 +156,7 @@ function handleReplyFromBackend(response,args)
         }
         else if(response === 0x10) // Backend replies end of transmission
         {
-            GameScripts.handleRecievedScores(args);
+            handleRecievedScores(args);
             body.requestStatusFromBackend();
         }
 
@@ -185,7 +185,7 @@ function handleReplyFromBackend(response,args)
         else if(response === 0x28) // Controller is in UndoState
         {
             playerName = args[0];
-            GameScripts.takeScore(playerName);
+            takeScore(playerName);
             requestStatusFromBackend();
         }
         else if(response === 0x15) // Winner declared
@@ -217,9 +217,9 @@ function handleBackendIsReadyAndAwaitsInput(args)
 function connectComponents()
 {
     body.requestMetaInformation.connect(applicationInterface.handleTournamentMetaRequest);
-    applicationInterface.sendTournamentMetaData.connect(GameScripts.handleMetaInformation);
+    applicationInterface.sendTournamentMetaData.connect(handleMetaInformation);
     body.requestScoreBoardData.connect(applicationInterface.handleScoreBoardRequest);
-    applicationInterface.sendPlayerScore.connect(GameScripts.appendScore);
+    applicationInterface.sendPlayerScore.connect(appendScore);
     body.requestStart.connect(applicationInterface.handleRequestStart);
     body.requestStop.connect(applicationInterface.handleRequestStop);
     body.requestRestart.connect(applicationInterface.handleRestartTournament);
@@ -231,9 +231,9 @@ function connectComponents()
 function disconnectComponents()
 {
     body.requestMetaInformation.disconnect(applicationInterface.handleTournamentMetaRequest);
-    applicationInterface.sendTournamentMetaData.disconnect(GameScripts.handleMetaInformation);
+    applicationInterface.sendTournamentMetaData.disconnect(handleMetaInformation);
     body.requestScoreBoardData.disconnect(applicationInterface.handleScoreBoardRequest);
-    applicationInterface.sendPlayerScore.disconnect(GameScripts.appendScore);
+    applicationInterface.sendPlayerScore.disconnect(appendScore);
     body.requestStart.disconnect(applicationInterface.handleRequestStart);
     body.requestStop.disconnect(applicationInterface.handleRequestStop);
     body.requestRestart.disconnect(applicationInterface.handleRestartTournament);
