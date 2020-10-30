@@ -77,11 +77,8 @@ Content
             height: 64
             width: 384
             Layout.maximumHeight: 64
-
             text: "Dart2020"
             fontColor: "white"
-            backgroundColor: "darkgray"
-            backgroundOpacity: 0.3
         }
         
         Rectangle

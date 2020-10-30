@@ -69,7 +69,7 @@ Rectangle {
         anchors.bottomMargin: 20
 
         flow: GridLayout.TopToBottom
-
+        // Top bar
         GridLayout{
             Layout.fillWidth: true
             Layout.fillHeight: true
@@ -89,14 +89,21 @@ Rectangle {
                 onClicked: backButtonPressed()
                 buttonRadius: ThemeContext.pageBackButtonRadius
             }
-            Image {
-                id: pageIcon
-                Layout.minimumHeight: 30
+            Rectangle
+            {
                 Layout.maximumHeight: 30
-                Layout.minimumWidth: 30
-                Layout.maximumWidth: 30
-                source: "qrc:/pictures/Ressources/dartpic.png"
+                Layout.minimumHeight: 30
+                width: 5
+                color: "transparent"
             }
+
+            PageIconItem {
+                Layout.maximumHeight: 30
+                Layout.maximumWidth: 30
+                Layout.minimumHeight: 30
+                Layout.minimumWidth: 30
+            }
+
             MyLabel{
                 id: pageTitleComponent
                 Layout.fillWidth: true

@@ -20,16 +20,18 @@ QtObject{
     property color navStartButtonHoveredBackgroundColor: "lightgray"
             // DisplayKeyDataItem
     property color keyTextDisplayColor: "white"
-
             // ManagePageContent
     property color tournamentListViewTextColor: "white"
     property color manPlayerListViewLabelColor: "white"
     property color manTournamentListViewLabelColor: "white"
-
             // CRUDButton
     property color cruButtonBackgroundColor: "white"
     property color cruButtonTextColor: "black"
     property color cruButtonHoveredBackgroundColor: "lightgray"
+            // CreatePlayerContent/CreatePlayerPopUp
+    property color plaButtonBackgroundColor: "gray"
+    property color plaButtonHoveredBackgroundColor: "lightgray"
+    property color plaButtonTextColor: "white"
     // Geometry related
         // Button border radius
     property int pageBackButtonRadius: 5

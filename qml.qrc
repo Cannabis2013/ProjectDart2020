@@ -53,6 +53,7 @@
         <file>DefaultComboBox.qml</file>
         <file>ThemeContext.qml</file>
         <file>managePageScripts.js</file>
+        <file>PageIconItem.qml</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>

@@ -6,6 +6,7 @@ import QtQuick.Layouts 1.3
 
 
 Rectangle{
+    id: body
     clip: true
     color: "transparent"
     
@@ -28,6 +29,11 @@ Rectangle{
     onButtonBackgroundColorChanged: {
         buttonOne.backgroundColor = buttonBackgroundColor
         buttonTwo.backgroundColor = buttonBackgroundColor
+    }
+    property color buttonsHoveredColor: "white"
+    onButtonsHoveredColorChanged: {
+        buttonOne.hoveredColor = buttonsHoveredColor;
+        buttonTwo.hoveredColor = buttonsHoveredColor;
     }
 
     property int buttonWidth: 80
@@ -53,7 +59,8 @@ Rectangle{
             Layout.column: 0
             fontSize: 8
             textColor: "white"
-            backgroundColor: buttonBackgroundColor
+            backgroundColor: body.buttonBackgroundColor
+            hoveredColor: body.buttonsHoveredColor
             height: 30
             width: buttonWidth
             onClicked: buttonOneClicked()
@@ -68,7 +75,8 @@ Rectangle{
             Layout.column: 1
             fontSize: 8
             textColor: "white"
-            backgroundColor: buttonBackgroundColor
+            backgroundColor: body.buttonBackgroundColor
+            hoveredColor: body.buttonsHoveredColor
             height: 30
             width: buttonWidth
             onClicked: buttonTwoClicked()

@@ -59,6 +59,8 @@ Content
             buttonOneTitle: "Cancel"
             buttonTwoTitle: "Save"
             buttonWidth: 100
+            buttonBackgroundColor: ThemeContext.plaButtonBackgroundColor
+            buttonsHoveredColor: ThemeContext.plaButtonHoveredBackgroundColor
             buttonTwoEnabled: false
             onButtonOneClicked: backButtonPressed();
             onButtonTwoClicked: {
