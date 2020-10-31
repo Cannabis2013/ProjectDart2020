@@ -11,12 +11,12 @@ const int defaultPointSize = 12;
 
 typedef QPair<int,int> scoreModel;
 
-class ScoreDataModel : public QAbstractTableModel
+class FirstToPostDataModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
     // Constructor
-    ScoreDataModel();
+    FirstToPostDataModel();
     // Public types
     enum HeaderFillMode{IncrementingNumericFillMode = 0x1, NonNumericFillMode = 0x2, NonFill = 0x4};
     // Public properties
@@ -50,6 +50,7 @@ public:
     Q_INVOKABLE double rowHeightAt(const int &row) const;
     Q_INVOKABLE int horizontalHeaderCount() const;
     Q_INVOKABLE int verticalHeaderCount() const;
+
     double scale() const;
     void setScale(double scale);
     int horizontalHeaderFillMode() const;

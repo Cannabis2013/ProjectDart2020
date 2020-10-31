@@ -57,7 +57,9 @@ public:
     enum KeyMappings{
         SingleModifer = 0x2A,
         DoubleModifier = 0x2B,
-        TrippleModifier = 0x2C
+        TrippleModifier = 0x2C,
+        BullModifier,
+        BullsEyeModifier
     };
     /*
      * Point suggestion section

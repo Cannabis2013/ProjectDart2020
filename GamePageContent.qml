@@ -43,21 +43,7 @@ Content {
       Handle reply from backend:
       */
     onReplyFromBackendRecieved: GameGeneralScripts.handleReplyFromBackend(response,args)
-    /*
-      Handle initializing
-      */
-    function handleMetaInformation(meta){
-        currentTournamentMetaData.tournamentTitle = meta[0];
-        currentTournamentMetaData.tournamentGameMode = meta[1];
-        currentTournamentMetaData.tournamentKeyPoint = meta[2];
-        currentTournamentMetaData.assignedPlayers = meta[3];;
-        currentTournamentMetaData.determinedWinner = meta[4];
-        if(currentTournamentMetaData.tournamentGameMode === 0x1)
-        {
-            FirstToPostScripts.createAndSetupFirstToPostComponents();
-            FirstToPostScripts.initializeFirstToPost();
-        }
-    }
+
     GridLayout{
         id: bodyLayout
         anchors.fill: parent

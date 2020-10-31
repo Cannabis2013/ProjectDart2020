@@ -1,11 +1,11 @@
-#include "scoredatamodel.h"
+#include "firsttopostdatamodel.h"
 
-ScoreDataModel::ScoreDataModel()
+FirstToPostDataModel::FirstToPostDataModel()
 {
-    connect(this,&ScoreDataModel::initialValueChanged,this,&ScoreDataModel::updateInitialCellValues);
+    connect(this,&FirstToPostDataModel::initialValueChanged,this,&FirstToPostDataModel::updateInitialCellValues);
 }
 
-QVariant ScoreDataModel::getData(const int &row, const int &column, const int &mode)
+QVariant FirstToPostDataModel::getData(const int &row, const int &column, const int &mode)
 {
     if(row >= rowCount() || column >= columnCount())
         return -1;
@@ -18,7 +18,7 @@ QVariant ScoreDataModel::getData(const int &row, const int &column, const int &m
         return result;
 }
 
-int ScoreDataModel::editData(const int &row, const int &column, const int &point, const int &score)
+int FirstToPostDataModel::editData(const int &row, const int &column, const int &point, const int &score)
 {
     if(row < 0 || row >= rowCount())
         return -1;
@@ -34,7 +34,7 @@ int ScoreDataModel::editData(const int &row, const int &column, const int &point
     return oldData.toInt();
 }
 
-bool ScoreDataModel::appendData(const QString &playerName,
+bool FirstToPostDataModel::appendData(const QString &playerName,
                                 const int &point,
                                 const int &score,
                                 const int &headerOrientation)
@@ -73,7 +73,7 @@ bool ScoreDataModel::appendData(const QString &playerName,
     return true;
 }
 
-bool ScoreDataModel::removeLastItem(const QString &playerName, const int &headerOrientation)
+bool FirstToPostDataModel::removeLastItem(const QString &playerName, const int &headerOrientation)
 {
     auto orientation = headerOrientation != -1 ? headerOrientation : this->headerOrientation();
     if(orientation == Qt::Horizontal)
@@ -94,7 +94,7 @@ bool ScoreDataModel::removeLastItem(const QString &playerName, const int &header
     }
 }
 
-void ScoreDataModel::appendHeaderItem(const QVariant &data, const int &headerOrientation)
+void FirstToPostDataModel::appendHeaderItem(const QVariant &data, const int &headerOrientation)
 {
     auto orientation = headerOrientation != -1 ? headerOrientation : this->headerOrientation();
     if(orientation == Qt::Horizontal){
@@ -113,7 +113,7 @@ void ScoreDataModel::appendHeaderItem(const QVariant &data, const int &headerOri
     }
 }
 
-void ScoreDataModel::clearData()
+void FirstToPostDataModel::clearData()
 {
     _pairs.clear();
     auto bottomRight = createIndex(rowCount() - 1,columnCount() - 1);
@@ -125,14 +125,14 @@ void ScoreDataModel::clearData()
     emit dataChanged(createIndex(0,0),bottomRight);
 }
 
-QString ScoreDataModel::getHeaderData(const int &index, const int &headerOrientation) const
+QString FirstToPostDataModel::getHeaderData(const int &index, const int &headerOrientation) const
 {
     auto orientation = headerOrientation != -1 ? headerOrientation : this->headerOrientation();
     auto value =  headerData(index,static_cast<Qt::Orientation>(orientation),Qt::DisplayRole).toString();
     return value;
 }
 
-int ScoreDataModel::headerItemCount(const int &headerOrientation) const
+int FirstToPostDataModel::headerItemCount(const int &headerOrientation) const
 {
     auto orientation = headerOrientation != -1 ? headerOrientation : this->headerOrientation();
     if(orientation == Qt::Horizontal)
@@ -141,17 +141,17 @@ int ScoreDataModel::headerItemCount(const int &headerOrientation) const
         return _verticalHeaderData.count();
 }
 
-int ScoreDataModel::rowCount() const
+int FirstToPostDataModel::rowCount() const
 {
     return rowCount(QModelIndex());
 }
 
-int ScoreDataModel::columnCount() const
+int FirstToPostDataModel::columnCount() const
 {
     return columnCount(QModelIndex());
 }
 
-double ScoreDataModel::columnWidthAt(const int &column) const
+double FirstToPostDataModel::columnWidthAt(const int &column) const
 {
     if(column >= columnCount() || _pairs.count() <= 0)
         return -1;
@@ -194,7 +194,7 @@ double ScoreDataModel::columnWidthAt(const int &column) const
     return resultingGlyphLenght * scale();
 }
 
-double ScoreDataModel::rowHeightAt(const int &row) const
+double FirstToPostDataModel::rowHeightAt(const int &row) const
 {
     if(_pairs.count() <= 0)
         return 0;
@@ -237,27 +237,27 @@ double ScoreDataModel::rowHeightAt(const int &row) const
     return resultingGlyphLenght;
 }
 
-int ScoreDataModel::horizontalHeaderCount() const
+int FirstToPostDataModel::horizontalHeaderCount() const
 {
     return _horizontalHeaderData.count();
 }
 
-int ScoreDataModel::verticalHeaderCount() const
+int FirstToPostDataModel::verticalHeaderCount() const
 {
     return _verticalHeaderData.count();
 }
 
-int ScoreDataModel::rowCount(const QModelIndex &) const
+int FirstToPostDataModel::rowCount(const QModelIndex &) const
 {
     return _rows;
 }
 
-int ScoreDataModel::columnCount(const QModelIndex &) const
+int FirstToPostDataModel::columnCount(const QModelIndex &) const
 {
     return _columns;
 }
 
-QVariant ScoreDataModel::data(const QModelIndex &index, int role) const
+QVariant FirstToPostDataModel::data(const QModelIndex &index, int role) const
 {
     if(!index.isValid() || _pairs.count() <= 0)
         return QVariant();
@@ -278,7 +278,7 @@ QVariant ScoreDataModel::data(const QModelIndex &index, int role) const
                 QVariant("-");
 }
 
-QVariant ScoreDataModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant FirstToPostDataModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if(role != Qt::DisplayRole)
         return QVariant();
@@ -297,12 +297,12 @@ QVariant ScoreDataModel::headerData(int section, Qt::Orientation orientation, in
     }
 }
 
-int ScoreDataModel::numberOfThrows() const
+int FirstToPostDataModel::numberOfThrows() const
 {
     return _numberOfThrows;
 }
 
-bool ScoreDataModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool FirstToPostDataModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     auto row = index.row();
     auto column = index.column();
@@ -335,7 +335,7 @@ bool ScoreDataModel::setData(const QModelIndex &index, const QVariant &value, in
     return true;
 }
 
-bool ScoreDataModel::insertRows(int row, int count, const QModelIndex &)
+bool FirstToPostDataModel::insertRows(int row, int count, const QModelIndex &)
 {
     auto firstRow = row <= rowCount(QModelIndex()) ? row : rowCount(QModelIndex()) - 1;
     auto lastRow  =  row <= rowCount(QModelIndex()) ? firstRow + count : 2*row + count - firstRow;
@@ -364,7 +364,7 @@ bool ScoreDataModel::insertRows(int row, int count, const QModelIndex &)
     return true;
 }
 
-bool ScoreDataModel::insertColumns(int column, int count, const QModelIndex &)
+bool FirstToPostDataModel::insertColumns(int column, int count, const QModelIndex &)
 {
     auto firstColumn = column <= columnCount(QModelIndex()) ? column : columnCount(QModelIndex()) - 1;
     auto lastColumn  =  column <= columnCount(QModelIndex()) ? firstColumn + count : 2*column + count - firstColumn;
@@ -399,7 +399,7 @@ bool ScoreDataModel::insertColumns(int column, int count, const QModelIndex &)
     return true;
 }
 
-bool ScoreDataModel::removeRows(int row, int count, const QModelIndex &)
+bool FirstToPostDataModel::removeRows(int row, int count, const QModelIndex &)
 {
     // Check if input satisfies model constraints
     if(row < 0 || row >= rowCount())
@@ -429,7 +429,7 @@ bool ScoreDataModel::removeRows(int row, int count, const QModelIndex &)
     return true;
 }
 
-bool ScoreDataModel::removeColumns(int column, int count, const QModelIndex &)
+bool FirstToPostDataModel::removeColumns(int column, int count, const QModelIndex &)
 {
     // Check if input satisfies model constraints
     if(column < 0 || column >= columnCount())
@@ -452,7 +452,7 @@ bool ScoreDataModel::removeColumns(int column, int count, const QModelIndex &)
     return true;
 }
 
-void ScoreDataModel::updateInitialCellValues()
+void FirstToPostDataModel::updateInitialCellValues()
 {
 
     if(_pairs.count() < 1)
@@ -475,13 +475,13 @@ void ScoreDataModel::updateInitialCellValues()
     }
 }
 
-bool ScoreDataModel::isCellDecorated(const QModelIndex &index)
+bool FirstToPostDataModel::isCellDecorated(const QModelIndex &index)
 {
     return data(index,Qt::DisplayRole) != "-";
 }
 
 
-int ScoreDataModel::indexOfLastDecoratedCell(const int &index,const int &orientation)
+int FirstToPostDataModel::indexOfLastDecoratedCell(const int &index,const int &orientation)
 {
     if(orientation == Qt::Vertical)
     {
@@ -506,15 +506,19 @@ int ScoreDataModel::indexOfLastDecoratedCell(const int &index,const int &orienta
             auto pair = pairs.at(index);
             auto score = pair.first;
             if(score == -1)
-                return row -1;
+            {
+                return row - 1;
+            }
         }
         return rowCount() - 1;
     }
     else
+    {
         return -1;
+    }
 }
 
-int ScoreDataModel::rowCount(const int &column)
+int FirstToPostDataModel::rowCount(const int &column)
 {
     for (int row = 0; row < _pairs.count(); ++row) {
         auto pairsRow = _pairs.at(row);
@@ -526,7 +530,7 @@ int ScoreDataModel::rowCount(const int &column)
     return rowCount();
 }
 
-bool ScoreDataModel::isColumnEmpty(const int &col)
+bool FirstToPostDataModel::isColumnEmpty(const int &col)
 {
     if(col < 0 || col >= columnCount())
         throw std::out_of_range("Index out of range");
@@ -540,7 +544,7 @@ bool ScoreDataModel::isColumnEmpty(const int &col)
     return true;
 }
 
-bool ScoreDataModel::isRowEmpty(const int &row)
+bool FirstToPostDataModel::isRowEmpty(const int &row)
 {
     if(row < 0 || row >= rowCount())
         throw std::out_of_range("Index out of range");
@@ -553,7 +557,7 @@ bool ScoreDataModel::isRowEmpty(const int &row)
     return true;
 }
 
-QPair<int, int> ScoreDataModel::removeData(const QModelIndex &index)
+QPair<int, int> FirstToPostDataModel::removeData(const QModelIndex &index)
 {
     if(!index.isValid())
         return scoreModel(-1,-1);
@@ -580,7 +584,7 @@ QPair<int, int> ScoreDataModel::removeData(const QModelIndex &index)
     return pair;
 }
 
-int ScoreDataModel::indexOfHeaderItem(const QString &data, const int &orientation)
+int FirstToPostDataModel::indexOfHeaderItem(const QString &data, const int &orientation)
 {
     if(orientation == Qt::Vertical)
     {
@@ -594,74 +598,74 @@ int ScoreDataModel::indexOfHeaderItem(const QString &data, const int &orientatio
     }
 }
 
-QString ScoreDataModel::pointFontFamily() const
+QString FirstToPostDataModel::pointFontFamily() const
 {
     return _pointFontFamily;
 }
 
-void ScoreDataModel::setPointFontFamily(const QString &pointFontFamily)
+void FirstToPostDataModel::setPointFontFamily(const QString &pointFontFamily)
 {
     _pointFontFamily = pointFontFamily;
 }
 
-QString ScoreDataModel::scoreFontFamily() const
+QString FirstToPostDataModel::scoreFontFamily() const
 {
     return _scoreFontFamily;
 }
 
-void ScoreDataModel::setScoreFontFamily(const QString &scoreFontFamily)
+void FirstToPostDataModel::setScoreFontFamily(const QString &scoreFontFamily)
 {
     _scoreFontFamily = scoreFontFamily;
 }
 
-int ScoreDataModel::pointFontSize() const
+int FirstToPostDataModel::pointFontSize() const
 {
     return _pointFontSize;
 }
 
-void ScoreDataModel::setPointFontSize(int pointFontSize)
+void FirstToPostDataModel::setPointFontSize(int pointFontSize)
 {
     _pointFontSize = pointFontSize;
 }
 
-int ScoreDataModel::scoreFontSize() const
+int FirstToPostDataModel::scoreFontSize() const
 {
     return _scoreFontSize;
 }
 
-void ScoreDataModel::setScoreFontSize(int scoreFontSize)
+void FirstToPostDataModel::setScoreFontSize(int scoreFontSize)
 {
     _scoreFontSize = scoreFontSize;
 }
 
-int ScoreDataModel::initialValue() const
+int FirstToPostDataModel::initialValue() const
 {
     return _initialValue;
 }
 
-void ScoreDataModel::setInitialValue(int initialValue)
+void FirstToPostDataModel::setInitialValue(int initialValue)
 {
     _initialValue = initialValue;
     emit initialValueChanged();
 }
 
-int ScoreDataModel::minimumRowCount() const
+int FirstToPostDataModel::minimumRowCount() const
 {
     return _minimumRowCount;
 }
 
-void ScoreDataModel::setMinimumRowCount(int minimumRowCount)
+void FirstToPostDataModel::setMinimumRowCount(int minimumRowCount)
 {
     _minimumRowCount = minimumRowCount;
     emit minimumRowCountChanged();
 }
 
-int ScoreDataModel::minimumColumnCount() const
+int FirstToPostDataModel::minimumColumnCount() const
 {
     return _minimumColumnCount;
 }
 
-void ScoreDataModel::setMinimumColumnCount(int minimumColumnCount)
+void FirstToPostDataModel::setMinimumColumnCount(int minimumColumnCount)
 {
     _minimumColumnCount = minimumColumnCount;
     auto colCount = columnCount();
@@ -670,17 +674,17 @@ void ScoreDataModel::setMinimumColumnCount(int minimumColumnCount)
     emit minimumColumnCountChanged();
 }
 
-int ScoreDataModel::headerOrientation() const
+int FirstToPostDataModel::headerOrientation() const
 {
     return _headerOrientation;
 }
 
-void ScoreDataModel::setHeaderOrientation(int headerOrientation)
+void FirstToPostDataModel::setHeaderOrientation(int headerOrientation)
 {
     _headerOrientation = headerOrientation;
 }
 
-int ScoreDataModel::preferedCellWidth(const QString &fontFamily, const int &pointSize) const
+int FirstToPostDataModel::preferedCellWidth(const QString &fontFamily, const int &pointSize) const
 {
     auto preferedWidth = -1;
     for (auto txt : _verticalHeaderData) {
@@ -694,12 +698,12 @@ int ScoreDataModel::preferedCellWidth(const QString &fontFamily, const int &poin
     return preferedWidth;
 }
 
-void ScoreDataModel::setNumberOfThrows(const int &count)
+void FirstToPostDataModel::setNumberOfThrows(const int &count)
 {
     _numberOfThrows = count;
 }
 
-void ScoreDataModel::setColumnCount(const int &count)
+void FirstToPostDataModel::setColumnCount(const int &count)
 {
     if(count < 0)
         return;
@@ -716,33 +720,33 @@ void ScoreDataModel::setColumnCount(const int &count)
     }
 }
 
-double ScoreDataModel::scale() const
+double FirstToPostDataModel::scale() const
 {
     return _scale;
 }
 
-void ScoreDataModel::setScale(double scale)
+void FirstToPostDataModel::setScale(double scale)
 {
     _scale = scale;
 }
 
-int ScoreDataModel::horizontalHeaderFillMode() const
+int FirstToPostDataModel::horizontalHeaderFillMode() const
 {
     return _horizontalFillMode;
 }
 
-int ScoreDataModel::verticalHeaderFillMode() const
+int FirstToPostDataModel::verticalHeaderFillMode() const
 {
     return _verticalFillMode;
 }
 
-void ScoreDataModel::setHorizontalHeaderFillMode(const int &fillMode)
+void FirstToPostDataModel::setHorizontalHeaderFillMode(const int &fillMode)
 {
     _horizontalFillMode = fillMode;
     emit fillModeChanged();
 }
 
-void ScoreDataModel::setVerticalHeaderFillMode(const int &fillMode)
+void FirstToPostDataModel::setVerticalHeaderFillMode(const int &fillMode)
 {
     _verticalFillMode = fillMode;
     emit fillModeChanged();

@@ -16,14 +16,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         abstractjsonpersistence.cpp \
         applicationinterface.cpp \
+        firsttopostdatamodel.cpp \
         localfirsttopost.cpp \
         localplayerdbcontext.cpp \
         localplayermodelscontext.cpp \
         localtournamentmodeldb.cpp \
         localtournamentmodelscontext.cpp \
         main.cpp \
-        pointlogisticmanager.cpp \
-        scoredatamodel.cpp
+        pointlogisticmanager.cpp
 
 RESOURCES += qml.qrc
 
@@ -49,6 +49,7 @@ HEADERS += \
     abstractplayermodelscontext.h \
     abstracttournamentmodelscontext.h \
     applicationinterface.h \
+    firsttopostdatamodel.h \
     gamebuilder.h \
     idatacontext.h \
     imodel.h \
@@ -77,7 +78,6 @@ HEADERS += \
     pointlogisticmanager.h \
     round.h \
     score.h \
-    scoredatamodel.h \
     set.h \
     tournament.h \
     tournamentmodelbuilder.h

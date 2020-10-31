@@ -12,6 +12,7 @@ function createAndSetupFirstToPostComponents(){
     /*
       Load and setup ScoreTable
       */
+    scoreBoardItemSlot.sourceComponent = Qt.createComponent("FirstToPostTable.qml");
     setupFirstToPostScoreTable()
     /*
       Load and setup DefaultKeyPadComponent
@@ -28,8 +29,6 @@ function initializeFirstToPost()
 }
 function setupFirstToPostScoreTable()
 {
-    var table = Qt.createComponent("FirstToPostTable.qml");
-    scoreBoardItemSlot.sourceComponent = table;
     body.scoreRecieved.connect(scoreBoardItemSlot.item.appendData);
     var assignedPlayers = currentTournamentMetaData.assignedPlayers;
     var keyPoint = currentTournamentMetaData.tournamentKeyPoint;

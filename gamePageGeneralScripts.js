@@ -4,7 +4,7 @@
 function connectComponents()
 {
     body.requestMetaInformation.connect(applicationInterface.handleTournamentMetaRequest);
-    applicationInterface.sendTournamentMetaData.connect(body.handleMetaInformation);
+    applicationInterface.sendTournamentMetaData.connect(handleMetaInformation);
     body.requestScoreBoardData.connect(applicationInterface.handleScoreBoardRequest);
     applicationInterface.sendPlayerScore.connect(appendScore);
     body.requestStart.connect(applicationInterface.handleRequestStart);
@@ -18,7 +18,7 @@ function connectComponents()
 function disconnectComponents()
 {
     body.requestMetaInformation.disconnect(applicationInterface.handleTournamentMetaRequest);
-    applicationInterface.sendTournamentMetaData.disconnect(body.handleMetaInformation);
+    applicationInterface.sendTournamentMetaData.disconnect(handleMetaInformation);
     body.requestScoreBoardData.disconnect(applicationInterface.handleScoreBoardRequest);
     applicationInterface.sendPlayerScore.disconnect(appendScore);
     body.requestStart.disconnect(applicationInterface.handleRequestStart);
@@ -29,7 +29,21 @@ function disconnectComponents()
     body.requestRedo.disconnect(applicationInterface.requestRedo);
     body.requestStatusFromBackend.disconnect(applicationInterface.handleControllerStateRequest);
 }
-
+/*
+  Handle initializing
+  */
+function handleMetaInformation(meta){
+    currentTournamentMetaData.tournamentTitle = meta[0];
+    currentTournamentMetaData.tournamentGameMode = meta[1];
+    currentTournamentMetaData.tournamentKeyPoint = meta[2];
+    currentTournamentMetaData.assignedPlayers = meta[3];;
+    currentTournamentMetaData.determinedWinner = meta[4];
+    if(currentTournamentMetaData.tournamentGameMode === 0x1)
+    {
+        FirstToPostScripts.createAndSetupFirstToPostComponents();
+        FirstToPostScripts.initializeFirstToPost();
+    }
+}
 /*
   Handle ScoreData related stuff
   */
@@ -157,9 +171,13 @@ function handleStartClicked()
     var buttonText = turnControllerItemSlot.item.startButtonText;
     if(buttonText === buttonTextContainer.startText ||
             buttonText === buttonTextContainer.resumeText)
+    {
         requestStart();
+    }
     else if(buttonText === buttonTextContainer.restartText)
+    {
         body.state = "restart";
+    }
     else
     {
         body.state = "pauseState";
