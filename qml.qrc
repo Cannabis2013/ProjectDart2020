@@ -40,7 +40,7 @@
         <file>DefaultKeyPadComponent.qml</file>
         <file>DisplayKeyDataItem.qml</file>
         <file>FirstToPostTurnController.qml</file>
-        <file>gamePageScripts.js</file>
+        <file>firstToPostScripts.js</file>
         <file>KeyPadInterface.qml</file>
         <file>scoreBoardScripts.js</file>
         <file>ScoreBoardInterface.qml</file>
@@ -54,6 +54,7 @@
         <file>ThemeContext.qml</file>
         <file>managePageScripts.js</file>
         <file>PageIconItem.qml</file>
+        <file>gamePageGeneralScripts.js</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>

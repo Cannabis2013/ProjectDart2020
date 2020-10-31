@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
-import "gamePageScripts.js" as GameScripts
+import "firstToPostScripts.js" as FirstToPostScripts
+import "gamePageGeneralScripts.js" as GameGeneralScripts
 
 Content {
     id: body
@@ -41,8 +42,22 @@ Content {
     /*
       Handle reply from backend:
       */
-    onReplyFromBackendRecieved: GameScripts.handleReplyFromBackend(response,args)
-
+    onReplyFromBackendRecieved: GameGeneralScripts.handleReplyFromBackend(response,args)
+    /*
+      Handle initializing
+      */
+    function handleMetaInformation(meta){
+        currentTournamentMetaData.tournamentTitle = meta[0];
+        currentTournamentMetaData.tournamentGameMode = meta[1];
+        currentTournamentMetaData.tournamentKeyPoint = meta[2];
+        currentTournamentMetaData.assignedPlayers = meta[3];;
+        currentTournamentMetaData.determinedWinner = meta[4];
+        if(currentTournamentMetaData.tournamentGameMode === 0x1)
+        {
+            FirstToPostScripts.createAndSetupFirstToPostComponents();
+            FirstToPostScripts.initializeFirstToPost();
+        }
+    }
     GridLayout{
         id: bodyLayout
         anchors.fill: parent
@@ -90,7 +105,7 @@ Content {
                     var winnerName = textSourceContainer.winnerLabel + " " +
                             currentTournamentMetaData.determinedWinner;
                     keyPaditemSlot.item.enableKeys = false;
-                    GameScripts.handleSetWinnerText(winnerName);
+                    GameGeneralScripts.handleSetWinnerText(winnerName);
                     print("Winner name: " + winnerName);
                 }
             }
@@ -167,10 +182,10 @@ Content {
         }
     ]
     Component.onCompleted: {
-        GameScripts.connectComponents();
+        GameGeneralScripts.connectComponents();
         requestMetaInformation();
     }
     Component.onDestruction: {
-        GameScripts.disconnectComponents();
+        GameGeneralScripts.disconnectComponents();
     }
 }
