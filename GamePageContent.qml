@@ -1,7 +1,15 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
-import "firstToPostScripts.js" as FirstToPostScripts
 import "gamePageGeneralScripts.js" as GameGeneralScripts
+import "firstToPostScripts.js" as FirstToPostScripts
+
+/*
+  Gamemodes:
+    FirstToPost = 0x1,
+    RoundLimit =0x2,
+    Circular = 0x3,
+    Cricket = 0xAA
+  */
 
 Content {
     id: body

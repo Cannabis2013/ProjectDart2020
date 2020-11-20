@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
 
-    qmlRegisterType<FirstToPostDataModel>("CustomItems",1,0,"ScoreDataModel");
+    qmlRegisterType<FirstToPostDataModel>("CustomItems",1,0,"FTPDataModel");
     qmlRegisterSingletonType(QUrl("qrc:/ThemeContext.qml"),"customDefinitions",1,0,"ThemeContext");
 
     auto tournamentModelsContext =

@@ -26,7 +26,7 @@
         <file>Content.qml</file>
         <file>CRUDButton.qml</file>
         <file>CellDelegate.qml</file>
-        <file>ScoreModel.qml</file>
+        <file>FTPDataModel.qml</file>
         <file>LabelComponent.qml</file>
         <file>ListViewDelegate.qml</file>
         <file>DecoratedItem.qml</file>

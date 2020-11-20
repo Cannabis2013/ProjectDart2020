@@ -133,7 +133,7 @@ ScoreBoardInterface{
                     return myModel.rowHeightAt(row);
                 }
 
-                model: ScoreModel {
+                model: FTPDataModel {
                     id: myModel
                     onDataChanged: ScoreScripts.updateScoreBoard();
                     throwCount : scoreBoardBody.throwsPerRound
