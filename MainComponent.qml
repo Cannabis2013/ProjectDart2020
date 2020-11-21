@@ -5,11 +5,6 @@ Item {
     signal backPushed
 
     Component{
-        id: firstToPostTableComponent
-        FirstToPostTable{}
-    }
-
-    Component{
         id: createPlayerComponent
         Page{
             onBackButtonPressed: pageLoader.sourceComponent = managePageComponent

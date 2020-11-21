@@ -4,16 +4,28 @@ import CustomItems 1.0
 
 import "scoreBoardScripts.js" as ScoreScripts
 
+/*
+  Controller status table:
+    -> GameControllerIdle = 0x9
+    -> GamecontrollerBusy = 0xa
+    -> GameControllerStopped = 0xb
+    -> GameControllerAwaitsInput = 0xc
+    -> GameControllerRunning = 0xd
+    -> GameControllerWinnerDeclared = 0xe
+    -> GameControllerNotInitialized = 0xf
+  */
+
 ScoreBoardInterface{
     id: scoreBoardBody
+    color: "transparent"
     property int headerOrientation: Qt.Vertical
     onHeaderOrientationChanged: myModel.setHeaderOrientation(headerOrientation)
-    property int pointFontSize: 16
+    property int pointFontSize: 10
     onPointFontSizeChanged: {
         myModel.pointFontPointSize = pointFontSize;
         cellDelegate.pointFontSize = pointFontSize;
     }
-    property int scoreFontSize: 16
+    property int scoreFontSize: 20
     onScoreFontSizeChanged: {
         myModel.scoreFontPointSize = scoreFontSize;
         cellDelegate.scoreFontSize = scoreFontSize;
@@ -28,7 +40,7 @@ ScoreBoardInterface{
     property bool staticVerticalHeaderWidth: false
     property int verticalHeaderWidth: 25
     onVerticalHeaderWidthChanged: verticalHeader.width = verticalHeaderWidth
-    property int verticalHeaderFillMode: 0x02
+    property int verticalHeaderFillMode: 0x01
     onVerticalHeaderFillModeChanged: myModel.verticalFillMode = verticalHeaderFillMode
     property int cellBorderWidth: 0
     onCellBorderWidthChanged: cellDelegate.borderWidth = cellBorderWidth

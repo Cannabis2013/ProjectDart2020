@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>ScoreBoard.qml</file>
+        <file>FirstToPostScoreBoard.qml</file>
         <file>PushButton.qml</file>
         <file>PageLabelItem.qml</file>
         <file>StartPageContent.qml</file>
@@ -26,7 +26,7 @@
         <file>Content.qml</file>
         <file>CRUDButton.qml</file>
         <file>CellDelegate.qml</file>
-        <file>FTPDataModel.qml</file>
+        <file>FirstToPostDataModel.qml</file>
         <file>LabelComponent.qml</file>
         <file>ListViewDelegate.qml</file>
         <file>DecoratedItem.qml</file>
@@ -34,7 +34,6 @@
         <file>ConfirmPageContent.qml</file>
         <file>CreatePlayerContent.qml</file>
         <file>StartMenuButton.qml</file>
-        <file>FirstToPostTable.qml</file>
         <file>DefaultPlayerListView.qml</file>
         <file>DefaultTournamentListView.qml</file>
         <file>DefaultKeyPadComponent.qml</file>

@@ -12,7 +12,7 @@ function createAndSetupFirstToPostComponents(){
     /*
       Load and setup ScoreTable
       */
-    scoreBoardItemSlot.sourceComponent = Qt.createComponent("FirstToPostTable.qml");
+    scoreBoardItemSlot.sourceComponent = Qt.createComponent("FirstToPostScoreBoard.qml");
     setupFirstToPostScoreTable()
     /*
       Load and setup DefaultKeyPadComponent
