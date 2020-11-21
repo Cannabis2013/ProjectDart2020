@@ -11,6 +11,11 @@ const int defaultPointSize = 12;
 
 typedef QPair<int,int> scoreModel;
 
+/*
+ * Orientation:
+ *  - The datamodel orientation is based on the axis for which player names are listed
+ */
+
 class FirstToPostDataModel : public QAbstractTableModel
 {
     Q_OBJECT

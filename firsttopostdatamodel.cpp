@@ -284,15 +284,25 @@ QVariant FirstToPostDataModel::headerData(int section, Qt::Orientation orientati
         return QVariant();
 
     auto horizontalHeaderCount = _horizontalHeaderData.count();
-    int roundIndex = (section - 1)/_numberOfThrows;
+    auto roundIndex = (section - 1)/_numberOfThrows + 1;
 
     switch (orientation) {
-        case Qt::Horizontal : return section == 0 ? 0 : horizontalHeaderFillMode() == HeaderFillMode::IncrementingNumericFillMode ?
-                        QVariant(roundIndex + 1) : section < horizontalHeaderCount ?
-                            _horizontalHeaderData.at(section) : QVariant();
-        case Qt::Vertical : return section < _verticalHeaderData.count() ?
-                        _verticalHeaderData.at(section) :  verticalHeaderFillMode() == HeaderFillMode::IncrementingNumericFillMode ?
-                            QVariant(roundIndex + 1) : QVariant();
+    case Qt::Horizontal : {
+        if(section == 0)
+            return 0;
+        if(horizontalHeaderFillMode() == HeaderFillMode::IncrementingNumericFillMode)
+            return QVariant(roundIndex);
+        if(section < horizontalHeaderCount)
+            return _horizontalHeaderData.at(section);
+        return QVariant();
+    }
+    case Qt::Vertical : {
+        if(section < _verticalHeaderData.count())
+            return _verticalHeaderData.at(section);
+        if(verticalHeaderFillMode() == HeaderFillMode::IncrementingNumericFillMode)
+            return QVariant(roundIndex);
+        return QVariant();
+    }
         default: return QVariant();
     }
 }
@@ -394,7 +404,8 @@ bool FirstToPostDataModel::insertColumns(int column, int count, const QModelInde
 
     _columns += c;
 
-    emit dataChanged(createIndex(0,firstColumn),createIndex(headerItemCount(0x2),lastColumn));
+    emit dataChanged(createIndex(0,firstColumn),
+                     createIndex(headerItemCount(0x2),lastColumn));
 
     return true;
 }
