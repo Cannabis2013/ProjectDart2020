@@ -197,7 +197,7 @@ function setupScoreTable()
     /*
       Setup scoretable according to gamemode
       TODO:
-        - Setup logic to discriminate between the various modes
+        - Setup logic to discriminate between various modes
       */
     if(currentTournamentMetaData.tournamentGameMode === 0x1)
         setupFirstToPostScoreTable();

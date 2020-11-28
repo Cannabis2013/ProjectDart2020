@@ -50,7 +50,7 @@ function refreshHeaders()
     var hDataCount = horizontalHeader.dataCount();
     for(var j = 0;j < hDataCount;j++)
     {
-        var hHeaderValue = myModel.getHeaderData(j,1);
+        var hHeaderValue = myModel.getHeaderData(j,scoreBoardBody.headerOrientation);
         horizontalHeader.setData(j,hHeaderValue);
         var columnWidth = myModel.columnWidthAt(j);
         horizontalHeader.setColumnWidth(j,columnWidth);

@@ -40,27 +40,24 @@ ScoreBoardInterface{
     property bool staticVerticalHeaderWidth: false
     property int verticalHeaderWidth: 25
     onVerticalHeaderWidthChanged: verticalHeader.width = verticalHeaderWidth
-    property int verticalHeaderFillMode: 0x01
+    property int verticalHeaderFillMode: 0x2
     onVerticalHeaderFillModeChanged: myModel.verticalFillMode = verticalHeaderFillMode
+    property int horizontalHeaderFillMode: 0x1
+    onHorizontalHeaderFillModeChanged: myModel.horizontalFillMode = horizontalHeaderFillMode
     property int cellBorderWidth: 0
     onCellBorderWidthChanged: cellDelegate.borderWidth = cellBorderWidth
     property int throwsPerRound: 3
     onThrowsPerRoundChanged: myModel.throwCount = throwsPerRound;
-    property int minimumColumnsCount: 0
-    onMinimumColumnsCountChanged: setMinimumColumnsCount(minimumColumnsCount)
-    function setMinimumColumnsCount(count)
-    {
-        myModel.setMinimumColumnCount(count);
+    onMinimumColumnCount: myModel.setMinimumColumnCount(count);
+    onMinimumRowCount: myModel.setMinimumRowCount(count);
+    onAppendHeader: {
+        myModel.appendHeaderItem(header,headerOrientation);
+        var preferedWidth = myModel.preferedCellWidth()*1.05;
+        verticalHeader.width = preferedWidth;
+        flickableVHeader.Layout.minimumWidth = preferedWidth;
     }
-    function appendHeader(string)
-    {
-        myModel.appendHeaderItem(string);
-        var preferedWidth = myModel.preferedCellWidth();
-        verticalHeader.width = preferedWidth*1.05;
-        flickableVHeader.Layout.minimumWidth = preferedWidth*1.05;
-    }
-    onAppendData: {
-        var result = myModel.appendData(playerName,point,score);
+    onSetData: {
+        var result = myModel.insertData(playerName,point,score);
         if(!result)
             print("Couldn't add data to model");
     }
@@ -152,6 +149,9 @@ ScoreBoardInterface{
                     headerOrientation: scoreBoardBody.headerOrientation
                     pointFontPointSize: scoreBoardBody.pointFontSize
                     scoreFontPointSize: scoreBoardBody.scoreFontSize
+
+                    horizontalFillMode: 0x1
+                    verticalFillMode: 0x2
                     scale: 2
                 }
 

@@ -23,7 +23,10 @@ public:
     // Constructor
     FirstToPostDataModel();
     // Public types
-    enum HeaderFillMode{IncrementingNumericFillMode = 0x1, NonNumericFillMode = 0x2, NonFill = 0x4};
+    enum HeaderFillMode{IncrementingNumericFillMode = 0x1,
+                        NonNumericFillMode = 0x2,
+                        NonFill = 0x4};
+
     // Public properties
     Q_PROPERTY(double scale READ scale WRITE setScale NOTIFY scaleChanged);
     Q_PROPERTY(int scoreFontPointSize READ scoreFontSize WRITE setScoreFontSize NOTIFY fontChanged);
@@ -43,8 +46,10 @@ public:
     // public methods
     Q_INVOKABLE QVariant getData(const int &row, const int &column, const int &mode);
     Q_INVOKABLE int editData(const int &row, const int &column, const int &point, const int &score);
-    Q_INVOKABLE bool appendData(const QString &playerName,const int &point, const int &score, const int &headerOrientation = -1);
-    Q_INVOKABLE bool removeLastItem(const QString &playerName, const int &headerOrientation = -1);
+    Q_INVOKABLE bool insertData(const QString &playerName,
+                                   const int &point,
+                                   const int &score);
+
     Q_INVOKABLE void appendHeaderItem(const QVariant &data, const int &headerOrientation = -1);
     Q_INVOKABLE void clearData();
     Q_INVOKABLE QString getHeaderData(const int &index, const int &headerOrientation = -1) const;
@@ -64,6 +69,7 @@ public:
     void setVerticalHeaderFillMode(const int &fillMode);
     Q_INVOKABLE int preferedCellWidth(const QString &fontFamily = defaultFontFamily, const int &pointSize = defaultPointSize) const;
     Q_INVOKABLE void setColumnCount(const int &count);
+    Q_INVOKABLE void setRowCount(const int &count);
     // Public pure virtual method implementations
     int rowCount(const QModelIndex &) const override;
     int columnCount(const QModelIndex &) const override;
@@ -117,6 +123,15 @@ protected:
 private slots:
     void updateInitialCellValues();
 private:
+    bool setPlayerData(const QString &playerName,
+                       const int &point,
+                       const int &score,
+                       const int &headerOrientation = -1);
+    bool appendPlayerData(const QString &playerName,
+                                      const int &point,
+                                      const int &score,
+                                      const int &headerOrientation = -1);
+    Q_INVOKABLE bool removeLastItem(const QString &playerName, const int &headerOrientation = -1);
     bool isCellDecorated(const QModelIndex &index);
     int indexOfLastDecoratedCell(const int &index, const int &orientation);
     int rowCount(const int &column);
@@ -130,7 +145,7 @@ private:
     int _rows = 0;
     int _columns = 0;
     double _scale = 1.05;
-    int _horizontalFillMode = HeaderFillMode::IncrementingNumericFillMode;
+    int _horizontalFillMode = HeaderFillMode::NonNumericFillMode;
     int _verticalFillMode = HeaderFillMode::NonNumericFillMode;
     int _numberOfThrows = 3;
     int _headerOrientation = 0x2;
@@ -156,7 +171,7 @@ private:
     /*
      * Scores and points
      */
-    QList<QList<scoreModel>> _pairs;
+    QList<QList<scoreModel>> _data;
 };
 
 #endif // CUSTOMTABLEMODEL_H

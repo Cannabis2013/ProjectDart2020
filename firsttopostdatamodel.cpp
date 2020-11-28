@@ -9,7 +9,7 @@ QVariant FirstToPostDataModel::getData(const int &row, const int &column, const 
 {
     if(row >= rowCount() || column >= columnCount())
         return -1;
-    auto pairsRow = _pairs.at(row);
+    auto pairsRow = _data.at(row);
     auto pair = pairsRow.at(column);
     auto result = mode == 0x1 ? pair.first : pair.second;
     if(result == -1)
@@ -34,7 +34,64 @@ int FirstToPostDataModel::editData(const int &row, const int &column, const int 
     return oldData.toInt();
 }
 
-bool FirstToPostDataModel::appendData(const QString &playerName,
+bool FirstToPostDataModel::insertData(const QString &playerName,
+                                         const int &point,
+                                         const int &score)
+{
+    if(headerOrientation() == Qt::Horizontal)
+    {
+        if(_horizontalFillMode == HeaderFillMode::NonFill)
+            return setPlayerData(playerName,point,score,headerOrientation());
+        else
+            return appendPlayerData(playerName,point,score,headerOrientation());
+    }
+    else if(headerOrientation() == Qt::Vertical)
+    {
+        if(_verticalFillMode == HeaderFillMode::NonFill)
+            return setPlayerData(playerName,point,score,headerOrientation());
+        else
+            return appendPlayerData(playerName,point,score,headerOrientation());
+    }
+
+    return false;
+}
+
+bool FirstToPostDataModel::setPlayerData(const QString &playerName, const int &point, const int &score, const int &headerOrientation)
+{
+    auto orientation = headerOrientation != -1 ? headerOrientation : this->headerOrientation();
+    auto index = indexOfHeaderItem(playerName,orientation);
+    auto pair = scoreModel(point,score);
+    if(orientation == Qt::Horizontal)
+    {
+        auto row = 0;
+        auto modelIndex = this->createIndex(row,index);
+
+        if(!modelIndex.isValid())
+            return false;
+        try {
+            setData(modelIndex,QVariant::fromValue<scoreModel>(pair),Qt::DisplayRole);
+        } catch (std::out_of_range *e) {
+            printf("%s\n",e->what());
+            return false;
+        }
+    }
+    else if(orientation == Qt::Vertical)
+    {
+        auto column = 0;
+        auto modelIndex = this->createIndex(index,column);
+        if(!modelIndex.isValid())
+            return false;
+        try {
+            setData(modelIndex,QVariant::fromValue<scoreModel>(pair),Qt::DisplayRole);
+        } catch (std::out_of_range *e) {
+            printf("%s\n",e->what());
+            return false;
+        }
+    }
+    return true;
+}
+
+bool FirstToPostDataModel::appendPlayerData(const QString &playerName,
                                 const int &point,
                                 const int &score,
                                 const int &headerOrientation)
@@ -58,8 +115,9 @@ bool FirstToPostDataModel::appendData(const QString &playerName,
     }
     else if(orientation == Qt::Vertical)
     {
-        auto rowCount = _pairs.count();
-        auto column = index < rowCount ? indexOfLastDecoratedCell(index,orientation) + 1 : 0;
+        auto rowCount = _data.count();
+        auto column = index < rowCount ?
+                    indexOfLastDecoratedCell(index,orientation) + 1 : 0;
         auto modelIndex = this->createIndex(index,column);
         if(!modelIndex.isValid())
             return false;
@@ -115,7 +173,7 @@ void FirstToPostDataModel::appendHeaderItem(const QVariant &data, const int &hea
 
 void FirstToPostDataModel::clearData()
 {
-    _pairs.clear();
+    _data.clear();
     auto bottomRight = createIndex(rowCount() - 1,columnCount() - 1);
     _columns = 0;
     _rows = 0;
@@ -127,7 +185,8 @@ void FirstToPostDataModel::clearData()
 
 QString FirstToPostDataModel::getHeaderData(const int &index, const int &headerOrientation) const
 {
-    auto orientation = headerOrientation != -1 ? headerOrientation : this->headerOrientation();
+    auto orientation = headerOrientation != -1 ? headerOrientation :
+                                                 this->headerOrientation();
     auto value =  headerData(index,static_cast<Qt::Orientation>(orientation),Qt::DisplayRole).toString();
     return value;
 }
@@ -153,7 +212,7 @@ int FirstToPostDataModel::columnCount() const
 
 double FirstToPostDataModel::columnWidthAt(const int &column) const
 {
-    if(column >= columnCount() || _pairs.count() <= 0)
+    if(column >= columnCount() || _data.count() <= 0)
         return -1;
 
     auto scoreFontMetric = QFontMetrics(QFont(scoreFontFamily(),scoreFontSize()));
@@ -173,7 +232,7 @@ double FirstToPostDataModel::columnWidthAt(const int &column) const
     auto resultingGlyphLenght = scoreFontMetric.boundingRect(headerString).width();
 
     for (int r = 0; r < rowCount(); ++r) {
-        auto row = _pairs.at(r);
+        auto row = _data.at(r);
         if(row.count() != columnCount())
             return 0;
         auto pair = row.at(column);
@@ -196,7 +255,7 @@ double FirstToPostDataModel::columnWidthAt(const int &column) const
 
 double FirstToPostDataModel::rowHeightAt(const int &row) const
 {
-    if(_pairs.count() <= 0)
+    if(_data.count() <= 0)
         return 0;
 
     auto scoreFontMetric = QFontMetrics(QFont(scoreFontFamily(),scoreFontSize()));
@@ -217,7 +276,7 @@ double FirstToPostDataModel::rowHeightAt(const int &row) const
     auto resultingGlyphLenght = scoreFontMetric.boundingRect(headerString).height();
     auto count = columnCount();
     for (int c = 0; c < count; ++c) {
-        auto pairs = _pairs.at(row);
+        auto pairs = _data.at(row);
         if(pairs.count() != columnCount())
             return 0;
         auto pair = pairs.at(c);
@@ -259,11 +318,11 @@ int FirstToPostDataModel::columnCount(const QModelIndex &) const
 
 QVariant FirstToPostDataModel::data(const QModelIndex &index, int role) const
 {
-    if(!index.isValid() || _pairs.count() <= 0)
+    if(!index.isValid() || _data.count() <= 0)
         return QVariant();
     auto row = index.row();
     auto column = index.column();
-    auto pairs = _pairs.at(row);
+    auto pairs = _data.at(row);
     if(index.column() >= pairs.count())
         return QVariant();
     if(role != Qt::DisplayRole)
@@ -288,10 +347,8 @@ QVariant FirstToPostDataModel::headerData(int section, Qt::Orientation orientati
 
     switch (orientation) {
     case Qt::Horizontal : {
-        if(section == 0)
-            return 0;
         if(horizontalHeaderFillMode() == HeaderFillMode::IncrementingNumericFillMode)
-            return QVariant(roundIndex);
+            return section != 0 ? QVariant(roundIndex) : 0;
         if(section < horizontalHeaderCount)
             return _horizontalHeaderData.at(section);
         return QVariant();
@@ -332,13 +389,13 @@ bool FirstToPostDataModel::setData(const QModelIndex &index, const QVariant &val
         insertColumns(column,deltaC,QModelIndex());
     }
 
-    auto pairs = _pairs.at(row);
+    auto pairs = _data.at(row);
 
     auto newPair = value.value<scoreModel>();
 
     pairs.replace(column,newPair);
 
-    _pairs.replace(row,pairs);
+    _data.replace(row,pairs);
 
     emit dataChanged(index,index,{role});
 
@@ -362,7 +419,7 @@ bool FirstToPostDataModel::insertRows(int row, int count, const QModelIndex &)
                 resultingList << scoreModel(-1,-1);
             return resultingList;
         }();
-        _pairs.insert(row,initializedDataRow);
+        _data.insert(row,initializedDataRow);
     }
 
     endInsertRows();
@@ -382,8 +439,8 @@ bool FirstToPostDataModel::insertColumns(int column, int count, const QModelInde
 
     beginInsertColumns(QModelIndex(),firstColumn,lastColumn);
 
-    for (int i = 0;i<_pairs.count();i++) {
-        auto pairsRow = _pairs.at(i);
+    for (int i = 0;i<_data.count();i++) {
+        auto pairsRow = _data.at(i);
         QList<scoreModel> initialDataValues = [c]
         {
             QList<scoreModel> resultingList;
@@ -397,7 +454,7 @@ bool FirstToPostDataModel::insertColumns(int column, int count, const QModelInde
             auto dataValue = initialDataValues.at(j);
             pairsRow.insert(column,dataValue);
         }
-        _pairs.replace(i,pairsRow);
+        _data.replace(i,pairsRow);
     }
 
     endInsertColumns();
@@ -425,7 +482,7 @@ bool FirstToPostDataModel::removeRows(int row, int count, const QModelIndex &)
 
     for (int i = row; i < row + count; ++i)
     {
-        _pairs.removeAt(i);
+        _data.removeAt(i);
         // Remove corresponding header rows
         _verticalHeaderData.removeAt(i);
     }
@@ -449,7 +506,7 @@ bool FirstToPostDataModel::removeColumns(int column, int count, const QModelInde
     // Begin remove columns
     beginRemoveColumns(QModelIndex(),column,column + count);
 
-    for (auto &row : _pairs) {
+    for (auto &row : _data) {
         for (int i = column; i < column + count; ++i)
             row.removeAt(i);
     }
@@ -466,13 +523,13 @@ bool FirstToPostDataModel::removeColumns(int column, int count, const QModelInde
 void FirstToPostDataModel::updateInitialCellValues()
 {
 
-    if(_pairs.count() < 1)
+    if(_data.count() < 1)
         return;
     auto orientation = _headerOrientation;
     auto initialValue = this->initialValue();
     if(orientation == Qt::Horizontal)
     {
-        auto firstColumn = _pairs.at(0);
+        auto firstColumn = _data.at(0);
         if(firstColumn.count() < 1)
             return;
         for (int i = 0; i < firstColumn.count(); ++i)
@@ -496,9 +553,9 @@ int FirstToPostDataModel::indexOfLastDecoratedCell(const int &index,const int &o
 {
     if(orientation == Qt::Vertical)
     {
-        if(index >= _pairs.count() || index < 0)
+        if(index >= _data.count() || index < 0)
             return -1;
-        auto pairs = _pairs.at(index);
+        auto pairs = _data.at(index);
 
         for (int col = 0; col < columnCount(QModelIndex()); ++col) {
             auto pair = pairs.at(col);
@@ -513,7 +570,7 @@ int FirstToPostDataModel::indexOfLastDecoratedCell(const int &index,const int &o
     else if(orientation == Qt::Horizontal)
     {
         for (int row = 0; row < rowCount(); ++row) {
-            auto pairs = _pairs.at(row);
+            auto pairs = _data.at(row);
             auto pair = pairs.at(index);
             auto score = pair.first;
             if(score == -1)
@@ -531,11 +588,12 @@ int FirstToPostDataModel::indexOfLastDecoratedCell(const int &index,const int &o
 
 int FirstToPostDataModel::rowCount(const int &column)
 {
-    for (int row = 0; row < _pairs.count(); ++row) {
-        auto pairsRow = _pairs.at(row);
-        auto pair = pairsRow.at(column);
-        auto point = pair.first;
-        if(pairsRow.count() < column && point == -1)
+    for (int row = 0; row < _data.count(); ++row) {
+        auto scoreModels = _data.at(row);
+        auto scoreModel = scoreModels.at(column);
+        auto point = scoreModel.first;
+        auto scoreModelsCount = scoreModels.count();
+        if(scoreModelsCount > column && point == -1)
             return row;
     }
     return rowCount();
@@ -546,7 +604,7 @@ bool FirstToPostDataModel::isColumnEmpty(const int &col)
     if(col < 0 || col >= columnCount())
         throw std::out_of_range("Index out of range");
 
-    for (auto pairsRow : _pairs) {
+    for (auto pairsRow : _data) {
         auto pair = pairsRow.at(col);
         auto point = pair.first;
         if(point != -1)
@@ -559,7 +617,7 @@ bool FirstToPostDataModel::isRowEmpty(const int &row)
 {
     if(row < 0 || row >= rowCount())
         throw std::out_of_range("Index out of range");
-    auto pairsRow = _pairs.at(row);
+    auto pairsRow = _data.at(row);
     for (auto pair : pairsRow) {
         auto point = pair.first;
         if(point != -1)
@@ -574,12 +632,12 @@ QPair<int, int> FirstToPostDataModel::removeData(const QModelIndex &index)
         return scoreModel(-1,-1);
     auto row = index.row();
     auto column = index.column();
-    auto pairsRow = _pairs.at(row);
+    auto pairsRow = _data.at(row);
     auto pair = pairsRow.at(column);
     auto initialPair = scoreModel(-1,-1);
 
     pairsRow.replace(column,initialPair);
-    _pairs.replace(row,pairsRow);
+    _data.replace(row,pairsRow);
     if(headerOrientation() == Qt::Vertical)
     {
         if(isColumnEmpty(column) && column > minimumColumnCount())
@@ -668,6 +726,9 @@ int FirstToPostDataModel::minimumRowCount() const
 void FirstToPostDataModel::setMinimumRowCount(int minimumRowCount)
 {
     _minimumRowCount = minimumRowCount;
+    auto rowCount = this->rowCount();
+    if(minimumRowCount > rowCount)
+        setRowCount(minimumRowCount);
     emit minimumRowCountChanged();
 }
 
@@ -728,6 +789,23 @@ void FirstToPostDataModel::setColumnCount(const int &count)
     {
         auto deltaC = columnCount() - count ;
         removeColumns(count,deltaC,QModelIndex());
+    }
+}
+
+void FirstToPostDataModel::setRowCount(const int &count)
+{
+    if(count < 0)
+        return;
+    else if(count > rowCount())
+    {
+        auto deltaR = count - rowCount();
+        insertRows(rowCount(),deltaR,QModelIndex());
+
+    }
+    else
+    {
+        auto deltaR = rowCount() - count ;
+        removeRows(count,deltaR,QModelIndex());
     }
 }
 

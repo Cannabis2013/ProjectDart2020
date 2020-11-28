@@ -29,15 +29,32 @@ function initializeFirstToPost()
 }
 function setupFirstToPostScoreTable()
 {
-    body.scoreRecieved.connect(scoreBoardItemSlot.item.appendData);
+    body.scoreRecieved.connect(scoreBoardItemSlot.item.setData);
     var assignedPlayers = currentTournamentMetaData.assignedPlayers;
     var keyPoint = currentTournamentMetaData.tournamentKeyPoint;
+    setupHorizontalBoard();
     for(var i = 0; i < assignedPlayers.length;i++)
     {
         var assignedPlayerName = assignedPlayers[i];
         scoreBoardItemSlot.item.appendHeader(assignedPlayerName);
-        scoreBoardItemSlot.item.appendData(assignedPlayerName,0,keyPoint,undefined);
+        scoreBoardItemSlot.item.setData(assignedPlayerName,0,keyPoint,undefined);
     }
     scoreBoardItemSlot.item.displayPoints = true;
-    scoreBoardItemSlot.item.setMinimumColumnsCount(4);
+
+}
+
+function setupVerticalBoard()
+{
+    scoreBoardItemSlot.item.verticalHeaderFillMode = 0x2;
+    scoreBoardItemSlot.item.horizontalHeaderFillMode = 0x1;
+    scoreBoardItemSlot.item.headerOrientation = Qt.Vertical;
+    scoreBoardItemSlot.item.minimumColumnCount(4);
+}
+
+function setupHorizontalBoard()
+{
+    scoreBoardItemSlot.item.verticalHeaderFillMode = 0x1;
+    scoreBoardItemSlot.item.horizontalHeaderFillMode = 0x2;
+    scoreBoardItemSlot.item.headerOrientation = Qt.Horizontal;
+    scoreBoardItemSlot.item.minimumRowCount(4);
 }
