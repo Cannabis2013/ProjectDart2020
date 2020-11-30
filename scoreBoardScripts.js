@@ -37,35 +37,32 @@ function updateContentDimensions()
 {
     var tHeight = totalHeaderHeight();
     var tWidth = totalColumnsWidth();
-    flickableVHeader.contentHeight = tHeight;
-    flickableTable.contentHeight = tHeight;
-    flickableTable.contentWidth = tWidth;
-    flickableHHeader.contentWidth = tWidth;
+    body.updateContentDimensions(tHeight,tWidth);
 }
 
 function refreshHeaders()
 {
-    var nIndex = horizontalHeader.dataCount();
-    horizontalHeader.model = myModel.columnCount;
-    var hDataCount = horizontalHeader.dataCount();
+    // Refresh horizontal headers
+    body.horizontalHeaderModel = myModel.columnCount;
+    let hDataCount = body.horizontalHeaderCount;
     for(var j = 0;j < hDataCount;j++)
     {
-        var hHeaderValue = myModel.getHeaderData(j,scoreBoardBody.headerOrientation);
-        horizontalHeader.setData(j,hHeaderValue);
-        var columnWidth = myModel.columnWidthAt(j);
-        horizontalHeader.setColumnWidth(j,columnWidth);
+        let hHeaderValue = myModel.getHeaderData(j,Qt.Horizontal);
+        let columnWidth = myModel.columnWidthAt(j);
+        body.setColumnWidth(j,columnWidth);
+        body.setHorizontalHeaderDataAt(j,hHeaderValue);
     }
-
-    var headerCount = myModel.headerItemCount(0x2);
-    verticalHeader.model = headerCount;
+    // Refresh vertical headers
+    let headerCount = myModel.headerItemCount(Qt.Vertical);
+    body.verticalHeaderModel = headerCount;
     for(var i = 0;i < headerCount;i++)
     {
-        var vHeaderValue = myModel.getHeaderData(i,2);
-        var rowHeight = myModel.rowHeightAt(i);
-        verticalHeader.setRowHeight(i,rowHeight);
-        verticalHeader.setData(i,vHeaderValue);
+        let vHeaderValue = myModel.getHeaderData(i,Qt.Vertical);
+        let rowHeight = myModel.rowHeightAt(i);
+        body.setRowHeight(i,rowHeight);
+        body.setVerticalHeaderDataAt(i,vHeaderValue);
     }
-    tableView.forceLayout();
+    body.requestUpdateCells();
 }
 
 function totalColumnsWidth()
@@ -93,6 +90,5 @@ function totalHeaderHeight()
 
 function setViewPosition(x,y)
 {
-    flickableTable.contentX = x;
-    flickableTable.contentY = y
+    body.updateViewPosition(x,y);
 }

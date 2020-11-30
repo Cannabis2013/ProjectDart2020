@@ -49,17 +49,19 @@ public:
     Q_INVOKABLE bool insertData(const QString &playerName,
                                    const int &point,
                                    const int &score);
-
+    // Header related
     Q_INVOKABLE void appendHeaderItem(const QVariant &data, const int &headerOrientation = -1);
-    Q_INVOKABLE void clearData();
     Q_INVOKABLE QString getHeaderData(const int &index, const int &headerOrientation = -1) const;
-    Q_INVOKABLE int headerItemCount(const int &headerOrientation = -1) const;
-    Q_INVOKABLE int rowCount() const;
-    Q_INVOKABLE int columnCount() const;
-    Q_INVOKABLE double columnWidthAt(const int &column) const;
-    Q_INVOKABLE double rowHeightAt(const int &row) const;
     Q_INVOKABLE int horizontalHeaderCount() const;
     Q_INVOKABLE int verticalHeaderCount() const;
+    Q_INVOKABLE int headerItemCount(const int &headerOrientation = -1) const;
+    Q_INVOKABLE void clearData();
+    // Rows and columns related
+    Q_INVOKABLE int rowCount() const;
+    Q_INVOKABLE int columnCount() const;
+    // Rows and columns size related
+    Q_INVOKABLE double columnWidthAt(const int &column) const;
+    Q_INVOKABLE double rowHeightAt(const int &row) const;
 
     double scale() const;
     void setScale(double scale);
@@ -67,7 +69,7 @@ public:
     int verticalHeaderFillMode() const;
     void setHorizontalHeaderFillMode(const int &fillMode);
     void setVerticalHeaderFillMode(const int &fillMode);
-    Q_INVOKABLE int preferedCellWidth(const QString &fontFamily = defaultFontFamily, const int &pointSize = defaultPointSize) const;
+    Q_INVOKABLE int preferedHeaderItemWidth(const int &orientation = Qt::Vertical) const;
     Q_INVOKABLE void setColumnCount(const int &count);
     Q_INVOKABLE void setRowCount(const int &count);
     // Public pure virtual method implementations
@@ -101,6 +103,12 @@ public:
 
     QString pointFontFamily() const;
     void setPointFontFamily(const QString &pointFontFamily);
+
+    int currentVerticalHeaderItemWidth() const;
+    int currentHorizontalHeaderItemWidth() const;
+
+    void setCurrentHorizontalHeaderItemWidth(int currentHorizontalHeaderItemWidth);
+    void setCurrentVerticalHeaderItemWidth(int currentVerticalHeaderItemWidth);
 
 signals:
     void fillModeChanged();
@@ -140,6 +148,10 @@ private:
     QPair<int,int> removeData(const QModelIndex &index);
     int indexOfHeaderItem(const QString &data, const int &orientation);
     /*
+     * Font metrics related
+     */
+    QRect stringWidth(const QString &string,const QString &family = "",const int &pointSize = -1);
+    /*
      * Row and column fields
      */
     int _rows = 0;
@@ -168,6 +180,9 @@ private:
      */
     QList<QString> _verticalHeaderData;
     QList<QString> _horizontalHeaderData;
+
+    int _currentVerticalHeaderItemWidth = 0;
+    int _currentHorizontalHeaderItemWidth = 0;
     /*
      * Scores and points
      */

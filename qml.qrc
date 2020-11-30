@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>FirstToPostScoreBoard.qml</file>
+        <file>ScoreBoard.qml</file>
         <file>PushButton.qml</file>
         <file>PageLabelItem.qml</file>
         <file>StartPageContent.qml</file>
@@ -54,6 +54,7 @@
         <file>managePageScripts.js</file>
         <file>PageIconItem.qml</file>
         <file>gamePageGeneralScripts.js</file>
+        <file>FirstToPostScoreBoard.qml</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>

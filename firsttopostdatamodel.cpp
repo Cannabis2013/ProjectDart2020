@@ -155,11 +155,14 @@ bool FirstToPostDataModel::removeLastItem(const QString &playerName, const int &
 void FirstToPostDataModel::appendHeaderItem(const QVariant &data, const int &headerOrientation)
 {
     auto orientation = headerOrientation != -1 ? headerOrientation : this->headerOrientation();
+    auto glyphLength = stringWidth(data.toString(),scoreFontFamily(),scoreFontSize()).width();
     if(orientation == Qt::Horizontal){
         if(_horizontalHeaderData.count() >= columnCount())
             insertColumns(_horizontalHeaderData.count(),1,QModelIndex());
         else
             emit dataChanged(QModelIndex(),QModelIndex());
+        if(glyphLength > currentHorizontalHeaderItemWidth())
+            setCurrentHorizontalHeaderItemWidth(glyphLength);
         _horizontalHeaderData.append(data.toString());
     }
     else{
@@ -168,6 +171,8 @@ void FirstToPostDataModel::appendHeaderItem(const QVariant &data, const int &hea
         else
             emit dataChanged(QModelIndex(),QModelIndex());
         _verticalHeaderData.append(data.toString());
+        if(glyphLength > currentVerticalHeaderItemWidth())
+            setCurrentVerticalHeaderItemWidth(glyphLength);
     }
 }
 
@@ -187,17 +192,28 @@ QString FirstToPostDataModel::getHeaderData(const int &index, const int &headerO
 {
     auto orientation = headerOrientation != -1 ? headerOrientation :
                                                  this->headerOrientation();
-    auto value =  headerData(index,static_cast<Qt::Orientation>(orientation),Qt::DisplayRole).toString();
+    auto value = headerData(index,static_cast<Qt::Orientation>(orientation),Qt::DisplayRole).toString();
     return value;
 }
 
 int FirstToPostDataModel::headerItemCount(const int &headerOrientation) const
 {
-    auto orientation = headerOrientation != -1 ? headerOrientation : this->headerOrientation();
+    auto orientation = headerOrientation != -1 ?
+                headerOrientation : this->headerOrientation();
     if(orientation == Qt::Horizontal)
-        return _horizontalHeaderData.count();
+    {
+        if(horizontalHeaderFillMode() == HeaderFillMode::NonNumericFillMode)
+            return _horizontalHeaderData.count();
+        else
+            return columnCount();
+    }
     else
-        return _verticalHeaderData.count();
+    {
+        if(verticalHeaderFillMode() == HeaderFillMode::NonNumericFillMode)
+            return _verticalHeaderData.count();
+        else
+            return rowCount();
+    }
 }
 
 int FirstToPostDataModel::rowCount() const
@@ -220,16 +236,13 @@ double FirstToPostDataModel::columnWidthAt(const int &column) const
 
     QString headerString;
 
-    if(_horizontalHeaderData.count() <= column){
-        if(horizontalHeaderFillMode() == HeaderFillMode::IncrementingNumericFillMode)
-            headerString = QString::number(column + 1);
-    }
-    else
-    {
+    if(horizontalHeaderFillMode() == HeaderFillMode::IncrementingNumericFillMode)
+        headerString = QString::number(column + 1);
+    else if(horizontalHeaderFillMode() == HeaderFillMode::NonNumericFillMode &&
+            column < _horizontalHeaderData.count())
         headerString = _horizontalHeaderData.at(column);
-    }
 
-    auto resultingGlyphLenght = scoreFontMetric.boundingRect(headerString).width();
+    auto resultingGlyphLength = scoreFontMetric.boundingRect(headerString).width();
 
     for (int r = 0; r < rowCount(); ++r) {
         auto row = _data.at(r);
@@ -243,14 +256,14 @@ double FirstToPostDataModel::columnWidthAt(const int &column) const
         auto scoreGlyphWidth = scoreFontMetric.boundingRect(scoreString).width();
         auto pointGlyphWidth = pointFontmetric.boundingRect(pointString).width();
         auto totalGlypWidth = scoreGlyphWidth + pointGlyphWidth;
-        resultingGlyphLenght = totalGlypWidth > resultingGlyphLenght ? totalGlypWidth :
-                                                                    resultingGlyphLenght;
+        resultingGlyphLength = totalGlypWidth > resultingGlyphLength ? totalGlypWidth :
+                                                                    resultingGlyphLength;
     }
 
-    if(resultingGlyphLenght < 25)
+    if(resultingGlyphLength < 25)
         return defaultCellWidth *scale();
 
-    return resultingGlyphLenght * scale();
+    return resultingGlyphLength * scale();
 }
 
 double FirstToPostDataModel::rowHeightAt(const int &row) const
@@ -348,16 +361,16 @@ QVariant FirstToPostDataModel::headerData(int section, Qt::Orientation orientati
     switch (orientation) {
     case Qt::Horizontal : {
         if(horizontalHeaderFillMode() == HeaderFillMode::IncrementingNumericFillMode)
-            return section != 0 ? QVariant(roundIndex) : 0;
+            return section != 0 ? QVariant(roundIndex) : initialValue();
         if(section < horizontalHeaderCount)
             return _horizontalHeaderData.at(section);
         return QVariant();
     }
     case Qt::Vertical : {
+        if(verticalHeaderFillMode() == HeaderFillMode::IncrementingNumericFillMode)
+            return section != 0 ? QVariant(roundIndex) : initialValue();
         if(section < _verticalHeaderData.count())
             return _verticalHeaderData.at(section);
-        if(verticalHeaderFillMode() == HeaderFillMode::IncrementingNumericFillMode)
-            return QVariant(roundIndex);
         return QVariant();
     }
         default: return QVariant();
@@ -667,6 +680,34 @@ int FirstToPostDataModel::indexOfHeaderItem(const QString &data, const int &orie
     }
 }
 
+QRect FirstToPostDataModel::stringWidth(const QString &string, const QString &family, const int &pointSize)
+{
+    auto fontMetric = QFontMetrics(QFont(family,pointSize));
+    auto r = fontMetric.boundingRect(string);
+    return r;
+}
+
+void FirstToPostDataModel::setCurrentVerticalHeaderItemWidth(int currentVerticalHeaderItemWidth)
+{
+    _currentVerticalHeaderItemWidth = currentVerticalHeaderItemWidth;
+}
+
+void FirstToPostDataModel::setCurrentHorizontalHeaderItemWidth(int currentHorizontalHeaderItemWidth)
+{
+    _currentHorizontalHeaderItemWidth = currentHorizontalHeaderItemWidth;
+}
+
+int FirstToPostDataModel::currentHorizontalHeaderItemWidth() const
+{
+    return _currentHorizontalHeaderItemWidth;
+}
+
+int FirstToPostDataModel::currentVerticalHeaderItemWidth() const
+{
+    return _currentVerticalHeaderItemWidth;
+}
+
+
 QString FirstToPostDataModel::pointFontFamily() const
 {
     return _pointFontFamily;
@@ -729,7 +770,6 @@ void FirstToPostDataModel::setMinimumRowCount(int minimumRowCount)
     auto rowCount = this->rowCount();
     if(minimumRowCount > rowCount)
         setRowCount(minimumRowCount);
-    emit minimumRowCountChanged();
 }
 
 int FirstToPostDataModel::minimumColumnCount() const
@@ -756,18 +796,19 @@ void FirstToPostDataModel::setHeaderOrientation(int headerOrientation)
     _headerOrientation = headerOrientation;
 }
 
-int FirstToPostDataModel::preferedCellWidth(const QString &fontFamily, const int &pointSize) const
+int FirstToPostDataModel::preferedHeaderItemWidth(const int &orientation) const
 {
-    auto preferedWidth = -1;
-    for (auto txt : _verticalHeaderData) {
-        QFontMetrics metrics(QFont(fontFamily,pointSize));
-
-        auto glypLenght = metrics.boundingRect(txt).width();
-
-        preferedWidth = glypLenght > preferedWidth ? glypLenght : preferedWidth;
+    auto result = defaultCellWidth;
+    if(orientation == Qt::Vertical)
+    {
+        if(verticalHeaderFillMode() == HeaderFillMode::IncrementingNumericFillMode)
+            result = rowCount() / _numberOfThrows;
+        else if(verticalHeaderFillMode() == HeaderFillMode::NonNumericFillMode)
+            result = currentVerticalHeaderItemWidth();
     }
-
-    return preferedWidth;
+    if(result < defaultCellWidth)
+        result = defaultCellWidth;
+    return result;
 }
 
 void FirstToPostDataModel::setNumberOfThrows(const int &count)
@@ -807,6 +848,7 @@ void FirstToPostDataModel::setRowCount(const int &count)
         auto deltaR = rowCount() - count ;
         removeRows(count,deltaR,QModelIndex());
     }
+    emit minimumRowCountChanged();
 }
 
 double FirstToPostDataModel::scale() const

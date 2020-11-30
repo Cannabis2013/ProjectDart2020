@@ -30,16 +30,9 @@ function initializeFirstToPost()
 function setupFirstToPostScoreTable()
 {
     body.scoreRecieved.connect(scoreBoardItemSlot.item.setData);
-    var assignedPlayers = currentTournamentMetaData.assignedPlayers;
-    var keyPoint = currentTournamentMetaData.tournamentKeyPoint;
-    setupHorizontalBoard();
-    for(var i = 0; i < assignedPlayers.length;i++)
-    {
-        var assignedPlayerName = assignedPlayers[i];
-        scoreBoardItemSlot.item.appendHeader(assignedPlayerName);
-        scoreBoardItemSlot.item.setData(assignedPlayerName,0,keyPoint,undefined);
-    }
     scoreBoardItemSlot.item.displayPoints = true;
+    //setupHorizontalBoard();
+    setupVerticalBoard();
 
 }
 
@@ -49,6 +42,17 @@ function setupVerticalBoard()
     scoreBoardItemSlot.item.horizontalHeaderFillMode = 0x1;
     scoreBoardItemSlot.item.headerOrientation = Qt.Vertical;
     scoreBoardItemSlot.item.minimumColumnCount(4);
+    scoreBoardItemSlot.item.sizeScale(2);
+
+    var assignedPlayers = currentTournamentMetaData.assignedPlayers;
+    var keyPoint = currentTournamentMetaData.tournamentKeyPoint;
+
+    for(var i = 0; i < assignedPlayers.length;i++)
+    {
+        var assignedPlayerName = assignedPlayers[i];
+        scoreBoardItemSlot.item.appendHeader(assignedPlayerName,Qt.Vertical);
+        scoreBoardItemSlot.item.setData(assignedPlayerName,0,keyPoint,undefined);
+    }
 }
 
 function setupHorizontalBoard()
@@ -57,4 +61,15 @@ function setupHorizontalBoard()
     scoreBoardItemSlot.item.horizontalHeaderFillMode = 0x2;
     scoreBoardItemSlot.item.headerOrientation = Qt.Horizontal;
     scoreBoardItemSlot.item.minimumRowCount(4);
+    scoreBoardItemSlot.item.sizeScale(1);
+
+    var assignedPlayers = currentTournamentMetaData.assignedPlayers;
+    var keyPoint = currentTournamentMetaData.tournamentKeyPoint;
+
+    for(var i = 0; i < assignedPlayers.length;i++)
+    {
+        var assignedPlayerName = assignedPlayers[i];
+        scoreBoardItemSlot.item.appendHeader(assignedPlayerName,Qt.Horizontal);
+        scoreBoardItemSlot.item.setData(assignedPlayerName,0,keyPoint,undefined);
+    }
 }

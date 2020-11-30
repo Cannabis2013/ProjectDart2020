@@ -1,172 +1,103 @@
-import QtQuick 2.12
-import QtQuick.Layouts 1.3
+import QtQuick 2.15
 import CustomItems 1.0
 
 import "scoreBoardScripts.js" as ScoreScripts
 
-/*
-  Controller status table:
-    -> GameControllerIdle = 0x9
-    -> GamecontrollerBusy = 0xa
-    -> GameControllerStopped = 0xb
-    -> GameControllerAwaitsInput = 0xc
-    -> GameControllerRunning = 0xd
-    -> GameControllerWinnerDeclared = 0xe
-    -> GameControllerNotInitialized = 0xf
-  */
+ScoreBoard {
+    id: body
 
-ScoreBoardInterface{
-    id: scoreBoardBody
-    color: "transparent"
-    property int headerOrientation: Qt.Vertical
-    onHeaderOrientationChanged: myModel.setHeaderOrientation(headerOrientation)
+    // Point related
     property int pointFontSize: 10
-    onPointFontSizeChanged: {
-        myModel.pointFontPointSize = pointFontSize;
-        cellDelegate.pointFontSize = pointFontSize;
-    }
+    property bool displayPoints: false
+    property int pointDisplayWidth: 20
+    property int pointDisplayHeight: 20
+
+    // Score related
     property int scoreFontSize: 20
+
+    onSizeScale: myModel.scale = s
+
+    property int throwsPerRound: 3
+    onThrowsPerRoundChanged: myModel.throwCount = throwsPerRound;
+
+    onMinimumColumnCount: myModel.setMinimumColumnCount(count);
+    onMinimumRowCount: myModel.setMinimumRowCount(count);
+    // Header signal handling related
+    onHeaderOrientationChanged: myModel.setHeaderOrientation(headerOrientation)
+    onVerticalHeaderFillModeChanged: myModel.verticalFillMode = verticalHeaderFillMode
+    onHorizontalHeaderFillModeChanged: myModel.horizontalFillMode = horizontalHeaderFillMode
+    onPointFontSizeChanged: {
+        cellDelegate.pointFontSize = pointFontSize;
+        myModel.pointFontPointSize = pointFontSize;
+        }
+
     onScoreFontSizeChanged: {
         myModel.scoreFontPointSize = scoreFontSize;
         cellDelegate.scoreFontSize = scoreFontSize;
     }
-    property bool displayPoints: false
-    onDisplayPointsChanged:  cellDelegate.pointDisplayVisible = displayPoints
-    property int pointDisplayWidth: 20
-    onPointDisplayWidthChanged: cellDelegate.pointDisplayWidth = pointDisplayWidth
-    property int pointDisplayHeight: 20
-    property int horizontalHeaderHeight: 20
-    onHorizontalHeaderHeightChanged: horizontalHeader.height = horizontalHeaderHeight
-    property bool staticVerticalHeaderWidth: false
-    property int verticalHeaderWidth: 25
-    onVerticalHeaderWidthChanged: verticalHeader.width = verticalHeaderWidth
-    property int verticalHeaderFillMode: 0x2
-    onVerticalHeaderFillModeChanged: myModel.verticalFillMode = verticalHeaderFillMode
-    property int horizontalHeaderFillMode: 0x1
-    onHorizontalHeaderFillModeChanged: myModel.horizontalFillMode = horizontalHeaderFillMode
+
     property int cellBorderWidth: 0
     onCellBorderWidthChanged: cellDelegate.borderWidth = cellBorderWidth
-    property int throwsPerRound: 3
-    onThrowsPerRoundChanged: myModel.throwCount = throwsPerRound;
-    onMinimumColumnCount: myModel.setMinimumColumnCount(count);
-    onMinimumRowCount: myModel.setMinimumRowCount(count);
+    onDisplayPointsChanged:  cellDelegate.pointDisplayVisible = displayPoints
+    onPointDisplayWidthChanged: cellDelegate.pointDisplayWidth = pointDisplayWidth
+
+    onNotifyCellPosition: ScoreScripts.setViewPosition(x,y)
+
     onAppendHeader: {
         myModel.appendHeaderItem(header,headerOrientation);
-        var preferedWidth = myModel.preferedCellWidth()*1.05;
-        verticalHeader.width = preferedWidth;
-        flickableVHeader.Layout.minimumWidth = preferedWidth;
+        var preferedWidth = myModel.preferedHeaderItemWidth(orientation);
+        body.updateVerticalHeaderWidth(preferedWidth);
     }
+
     onSetData: {
         var result = myModel.insertData(playerName,point,score);
         if(!result)
             print("Couldn't add data to model");
     }
-    function takeData(playerName)
+    onTakeData:
     {
         var result = myModel.removeLastItem(playerName);
         if(!result)
             print("Couldn't take data");
     }
-    function editData(row,column,point,score)
+    onEditData:
     {
         var result = myModel.editData(row,column,point,score);
         if(!result)
             print("Couldn't edit data");
     }
-    GridLayout
+
+    columnWidthProvider: function(column)
     {
-        id: mainLayout
-        anchors.fill: parent
-        rows: 2
-        columns: 2
-        rowSpacing: 0
-        columnSpacing: 0
-        Flickable{
-            id: flickableVHeader
-            clip: true
-            Layout.fillHeight: true
-            Layout.row: 1
-            Layout.column: 0
-            interactive: false
-            VerticalHeader {
-                id: verticalHeader
-                anchors.fill: parent
-                backgroundColor: "lightgray"
-                color: "black"
-                borderWidth: 1
-                Layout.alignment: Qt.AlignTop
-            }
-        }
+        return myModel.columnWidthAt(column);
+    }
 
-        Flickable{
-            id: flickableHHeader
-            clip: true
-            Layout.fillWidth: true
-            Layout.minimumHeight: 25
-            contentHeight: 25
-            Layout.row: 0
-            Layout.column: 1
-            interactive: false
-            HorizontalHeader {
-                id: horizontalHeader
-                anchors.fill: flickableHHeader.contentItem
-                backgroundColor: "lightgray"
-                color: "black"
-                borderWidth: 1
-            }
-        }
+    rowHeightProvider: function(row)
+    {
+        return myModel.rowHeightAt(row);
+    }
 
-        Flickable{
-            id: flickableTable
-            clip: true
-            Layout.row: 1
-            Layout.column: 1
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            boundsMovement: Flickable.StopAtBounds
-            onContentXChanged: flickableHHeader.contentX = contentX
-            onContentYChanged: flickableVHeader.contentY = contentY
+    model: FTPDataModel {
+        id: myModel
+        onDataChanged: ScoreScripts.updateScoreBoard();
+        throwCount : body.throwsPerRound
+        headerOrientation: body.headerOrientation
+        pointFontPointSize: body.pointFontSize
+        scoreFontPointSize: body.scoreFontSize
 
-            TableView {
-                id: tableView
-                interactive: false
-                clip: true
-                anchors.fill: parent
-                columnWidthProvider: function(column)
-                {
-                    return myModel.columnWidthAt(column);
-                }
+        horizontalFillMode: 0x1
+        verticalFillMode: 0x2
+    }
 
-                rowHeightProvider: function(row)
-                {
-                    return myModel.rowHeightAt(row);
-                }
-
-                model: FTPDataModel {
-                    id: myModel
-                    onDataChanged: ScoreScripts.updateScoreBoard();
-                    throwCount : scoreBoardBody.throwsPerRound
-                    headerOrientation: scoreBoardBody.headerOrientation
-                    pointFontPointSize: scoreBoardBody.pointFontSize
-                    scoreFontPointSize: scoreBoardBody.scoreFontSize
-
-                    horizontalFillMode: 0x1
-                    verticalFillMode: 0x2
-                    scale: 2
-                }
-
-                delegate: CellDelegate {
-                    id: cellDelegate
-                    cellBorderWidth: scoreBoardBody.cellBorderWidth
-                    cellColor: "purple"
-                    scoreFontSize: scoreBoardBody.scoreFontSize
-                    pointFontSize: scoreBoardBody.pointFontSize
-                    pointDisplayVisible: scoreBoardBody.displayPoints
-                    pointDisplayWidth: scoreBoardBody.pointDisplayWidth
-                    onNotifyLocation: ScoreScripts.setViewPosition(x,y)
-                    text: display
-                }
-            }
-        }
+    cellDelegate: CellDelegate {
+        id: cellDelegate
+        cellBorderWidth: body.cellBorderWidth
+        cellColor: "purple"
+        scoreFontSize: body.scoreFontSize
+        pointFontSize: body.pointFontSize
+        pointDisplayVisible: body.displayPoints
+        pointDisplayWidth: body.pointDisplayWidth
+        onNotifyLocation: notifyCellPosition(x,y)
+        text: display
     }
 }
