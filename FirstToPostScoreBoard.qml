@@ -83,14 +83,10 @@ ScoreBoard {
         id: myModel
         onDataChanged: ScoreScripts.updateScoreBoard();
         throwCount : body.throwsPerRound
-        headerOrientation: body.headerOrientation
+        headerOrientation: Qt.Vertical
         pointFontPointSize: body.pointFontSize
         scoreFontPointSize: body.scoreFontSize
-
-        horizontalFillMode: 0x1
-        verticalFillMode: 0x2
-
-        appendMode: 0x4
+        appendMode: 0x8
     }
 
     cellDelegate: CellDelegate {

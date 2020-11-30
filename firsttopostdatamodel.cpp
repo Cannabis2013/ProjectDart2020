@@ -229,42 +229,23 @@ int FirstToPostDataModel::columnCount() const
 
 double FirstToPostDataModel::columnWidthAt(const int &column) const
 {
-    if(column >= columnCount() || _data.count() <= 0)
-        return -1;
+    int headerGlyphLength = defaultCellWidth;
+    QString headerDataAtColumn = "";
 
-    auto scoreFontMetric = QFontMetrics(QFont(scoreFontFamily(),scoreFontSize()));
-    auto pointFontmetric = QFontMetrics(QFont(pointFontFamily(),pointFontSize()));
-
-    QString headerString;
-
-    if(horizontalHeaderFillMode() == HeaderFillMode::DynamicNumerics)
-        headerString = QString::number(column + 1);
-    else if(horizontalHeaderFillMode() == HeaderFillMode::FixedStrings &&
-            column < _horizontalHeaderData.count())
-        headerString = _horizontalHeaderData.at(column);
-
-    auto resultingGlyphLength = scoreFontMetric.boundingRect(headerString).width();
-
-    for (int r = 0; r < rowCount(); ++r) {
-        auto row = _data.at(r);
-        if(row.count() != columnCount())
-            return 0;
-        auto pair = row.at(column);
-        auto point = pair.first;
-        auto score = pair.second;
-        auto pointString = QString::number(point);
-        auto scoreString = QString::number(score);
-        auto scoreGlyphWidth = scoreFontMetric.boundingRect(scoreString).width();
-        auto pointGlyphWidth = pointFontmetric.boundingRect(pointString).width();
-        auto totalGlypWidth = scoreGlyphWidth + pointGlyphWidth;
-        resultingGlyphLength = totalGlypWidth > resultingGlyphLength ? totalGlypWidth :
-                                                                    resultingGlyphLength;
+    if(horizontalHeaderFillMode() == HeaderFillMode::FixedStrings)
+    {
+        if(column < _horizontalHeaderData.count())
+            headerDataAtColumn = _horizontalHeaderData.at(column);
+        headerGlyphLength = stringWidth(headerDataAtColumn,
+                                        scoreFontFamily(),
+                                        scoreFontSize()).width();
     }
 
-    if(resultingGlyphLength < 25)
-        return defaultCellWidth *scale();
 
-    return resultingGlyphLength * scale();
+    auto greatestColumnGlyphLength = _columnWidths.at(column);
+    auto greatestGlyphLength = headerGlyphLength > greatestColumnGlyphLength ? headerGlyphLength :
+                                                                               greatestColumnGlyphLength;
+    return greatestGlyphLength * scale();
 }
 
 double FirstToPostDataModel::rowHeightAt(const int &row) const
@@ -328,6 +309,11 @@ int FirstToPostDataModel::rowCount(const QModelIndex &) const
 int FirstToPostDataModel::columnCount(const QModelIndex &) const
 {
     return _columns;
+}
+
+void FirstToPostDataModel::setColumnWidthAt(const int &column, const double &w)
+{
+    _columnWidths.replace(column,w);
 }
 
 QVariant FirstToPostDataModel::data(const QModelIndex &index, int role) const
@@ -426,6 +412,16 @@ bool FirstToPostDataModel::setData(const QModelIndex &index, const QVariant &val
 
     _data.replace(row,pairs);
 
+    auto pointGlypWidth = stringWidth(QString::number(newPair.first),
+                                      pointFontFamily(),
+                                      pointFontSize()).width();
+    auto scoreGlypWidth = stringWidth(QString::number(newPair.second),
+                                      scoreFontFamily(),
+                                      scoreFontSize()).width();
+    int totalGlyphWidth = pointGlypWidth + scoreGlypWidth;
+    if(totalGlyphWidth > _columnWidths.at(column))
+        setColumnWidthAt(column,totalGlyphWidth);
+
     emit dataChanged(index,index,{role});
 
     return true;
@@ -462,28 +458,31 @@ bool FirstToPostDataModel::insertRows(int row, int count, const QModelIndex &)
 
 bool FirstToPostDataModel::insertColumns(int column, int count, const QModelIndex &)
 {
-    auto firstColumn = column <= columnCount(QModelIndex()) ? column : columnCount(QModelIndex()) - 1;
-    auto lastColumn  =  column <= columnCount(QModelIndex()) ? firstColumn + count : 2*column + count - firstColumn;
-    auto c = column <= columnCount(QModelIndex()) ? count : count + (column - firstColumn) - 1;
+    auto firstColumn = column <= columnCount() ? column : columnCount() - 1;
+    auto lastColumn  =  column <= columnCount() ? firstColumn + count : 2*column + count - firstColumn;
+    auto c = column <= columnCount() ? count : count + (column - firstColumn) - 1;
 
     beginInsertColumns(QModelIndex(),firstColumn,lastColumn);
 
     for (int i = 0;i<_data.count();i++) {
-        auto pairsRow = _data.at(i);
-        QList<scoreModel> initialDataValues = [c]
-        {
-            QList<scoreModel> resultingList;
-
-            for (int i = 0; i < c; ++i)
-                resultingList << scoreModel(-1,-1);
-
-            return resultingList;
-        }();
-        for (int j = 0; j < initialDataValues.count(); ++j) {
-            auto dataValue = initialDataValues.at(j);
-            pairsRow.insert(column,dataValue);
+        auto row = _data.at(i);
+        QList<scoreModel> newPartRow;
+        for (int i = 0; i < c; ++i)
+            newPartRow << scoreModel(-1,-1);
+        for (int j = 0; j < newPartRow.count(); ++j) {
+            auto columnValue = newPartRow.at(j);
+            row.insert(column,columnValue);
         }
-        _data.replace(i,pairsRow);
+        _data.replace(i,row);
+    }
+
+    QList<double> newColumnWidths;
+    for (int i = 0; i < c; ++i)
+        newColumnWidths << defaultCellWidth;
+
+    for (int i = 0; i < newColumnWidths.count(); ++i) {
+        auto columnWidth = newColumnWidths.at(i);
+        _columnWidths.insert(column,columnWidth);
     }
 
     endInsertColumns();
@@ -696,7 +695,7 @@ int FirstToPostDataModel::indexOfHeaderItem(const QString &data, const int &orie
     }
 }
 
-QRect FirstToPostDataModel::stringWidth(const QString &string, const QString &family, const int &pointSize)
+QRect FirstToPostDataModel::stringWidth(const QString &string, const QString &family, const int &pointSize) const
 {
     auto fontMetric = QFontMetrics(QFont(family,pointSize));
     auto r = fontMetric.boundingRect(string);

@@ -69,24 +69,21 @@ public:
     // Rows and columns related
     Q_INVOKABLE int rowCount() const;
     Q_INVOKABLE int columnCount() const;
-    // Rows and columns size related
+    // Columns and rows exposed methods
     Q_INVOKABLE double columnWidthAt(const int &column) const;
     Q_INVOKABLE double rowHeightAt(const int &row) const;
-
-    // Public virtual method implementations
-    Q_INVOKABLE int headerOrientation() const;
-    Q_INVOKABLE void setHeaderOrientation(int headerOrientation);
-
-    // Public exposed methods
-    Q_INVOKABLE int numberOfThrows() const;
-    Q_INVOKABLE void setNumberOfThrows(const int &count);
-    // Columns and rows exposed methods
     Q_INVOKABLE int minimumColumnCount() const;
     Q_INVOKABLE void setMinimumColumnCount(int minimumColumnCount);
     Q_INVOKABLE int minimumRowCount() const;
     Q_INVOKABLE void setMinimumRowCount(int minimumRowCount);
     Q_INVOKABLE int initialValue() const;
     Q_INVOKABLE void setInitialValue(int initialValue);
+
+    // Public virtual method implementations
+    Q_INVOKABLE int headerOrientation() const;
+    Q_INVOKABLE void setHeaderOrientation(int headerOrientation);
+    Q_INVOKABLE int numberOfThrows() const;
+    Q_INVOKABLE void setNumberOfThrows(const int &count);
 
     // Public non-exposed methods
     // Font non-exposed methods
@@ -121,6 +118,7 @@ public:
     // Columns and rows non-exposed virtual method implementations
     int rowCount(const QModelIndex &) const override;
     int columnCount(const QModelIndex &) const override;
+    void setColumnWidthAt(const int &column,const double &w);
 
 signals:
     void fillModeChanged();
@@ -164,7 +162,9 @@ private:
     /*
      * Font metrics related
      */
-    QRect stringWidth(const QString &string,const QString &family = "",const int &pointSize = -1);
+    QRect stringWidth(const QString &string,
+                      const QString &family = "",
+                      const int &pointSize = -1) const;
     // State member variables
     // Data
     int _appendMode = AppendDataMode::MultiAppend;
@@ -174,7 +174,7 @@ private:
     int _rows = 0;
     int _columns = 0;
     double _scale = 1.05;
-    int _horizontalFillMode = HeaderFillMode::FixedStrings;
+    int _horizontalFillMode = HeaderFillMode::DynamicNumerics;
     int _verticalFillMode = HeaderFillMode::FixedStrings;
     int _numberOfThrows = 3;
     int _headerOrientation = 0x2;
@@ -200,6 +200,10 @@ private:
 
     int _currentVerticalHeaderItemWidth = 0;
     int _currentHorizontalHeaderItemWidth = 0;
+    /*
+     * Column widths
+     */
+    QList<double> _columnWidths;
     /*
      * Scores and points
      */

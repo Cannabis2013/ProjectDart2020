@@ -31,8 +31,10 @@ function setupFirstToPostScoreTable()
 {
     body.scoreRecieved.connect(scoreBoardItemSlot.item.setData);
     scoreBoardItemSlot.item.displayPoints = true;
-    setupHorizontalBoard();
-    //setupVerticalBoard();
+    if(body.headerOrientation === Qt.Horizontal)
+        setupHorizontalBoard();
+    else
+        setupVerticalBoard();
 
 }
 
