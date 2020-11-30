@@ -49,6 +49,8 @@ public:
     Q_INVOKABLE bool insertData(const QString &playerName,
                                    const int &point,
                                    const int &score);
+    Q_INVOKABLE bool removeLastItem(const QString &playerName,
+                                    const int &headerOrientation = -1);
     // Header related
     Q_INVOKABLE void appendHeaderItem(const QVariant &data, const int &headerOrientation = -1);
     Q_INVOKABLE QString getHeaderData(const int &index, const int &headerOrientation = -1) const;
@@ -91,6 +93,7 @@ public:
     Q_INVOKABLE void setMinimumRowCount(int minimumRowCount);
     Q_INVOKABLE int initialValue() const;
     Q_INVOKABLE void setInitialValue(int initialValue);
+
 
     int scoreFontSize() const;
     void setScoreFontSize(int scoreFontSize);
@@ -139,7 +142,6 @@ private:
                                       const int &point,
                                       const int &score,
                                       const int &headerOrientation = -1);
-    Q_INVOKABLE bool removeLastItem(const QString &playerName, const int &headerOrientation = -1);
     bool isCellDecorated(const QModelIndex &index);
     int indexOfLastDecoratedCell(const int &index, const int &orientation);
     int rowCount(const int &column);

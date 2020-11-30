@@ -56,7 +56,7 @@ ScoreBoard {
     }
     onTakeData:
     {
-        var result = myModel.removeLastItem(playerName);
+        var result = myModel.removeLastItem(playerName,-1);
         if(!result)
             print("Couldn't take data");
     }

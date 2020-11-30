@@ -32,6 +32,9 @@ QtObject{
     property color plaButtonBackgroundColor: "gray"
     property color plaButtonHoveredBackgroundColor: "lightgray"
     property color plaButtonTextColor: "white"
+        // CreateTournamentContent
+            // Buttons
+    property color touButtonBackgroundColor: "gray"
     // Geometry related
         // Button border radius
     property int pageBackButtonRadius: 5

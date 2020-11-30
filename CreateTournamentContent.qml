@@ -150,6 +150,7 @@ Content {
             buttonOneTitle: "Back"
             buttonTwoTitle: "Save tournament"
             buttonTwoEnabled: false
+            buttonBackgroundColor: ThemeContext.touButtonBackgroundColor
             onButtonOneClicked: backButtonPressed()
             onButtonTwoClicked: {
                 var indexes = playersListView.currentIndexes();

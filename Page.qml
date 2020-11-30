@@ -112,6 +112,7 @@ Rectangle {
                 fontSize: 20
                 textLeftMargin: 5
                 text: body.pageTitle
+                fontColor: "white"
             }
         }
 

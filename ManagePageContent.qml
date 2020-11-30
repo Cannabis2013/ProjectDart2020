@@ -96,6 +96,7 @@ Content {
 
         DefaultPlayerListView {
             id: playersListView
+            componentTitle: "Players"
             labelTextColor: ThemeContext.manPlayerListViewLabelColor
             Layout.alignment: Qt.AlignHCenter
             Layout.fillWidth: true

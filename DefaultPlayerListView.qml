@@ -5,7 +5,6 @@ import "componentFactory.js" as ComponentFactory
 
 ListComponent {
     id: playersListView
-    componentTitle: "Assign players"
     titleBackground: "transparent"
     itemBackgroundColor: "gray"
     itemBackgroundOpacity: 0.3

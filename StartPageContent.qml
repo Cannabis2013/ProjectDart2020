@@ -21,11 +21,22 @@ Content
         maxPlayerEdit.labelBackgroundColor = labelBackgroundColor;
     }
 
+    Image{
+        id: fckImage
+        source: "qrc:/pictures/Ressources/fck.png"
+
+        x: parent.width / 2 - width/2
+        y: 5
+
+        width: 150
+        height: 150
+    }
+
     Image {
         id: dartLogo
         source: "qrc:/pictures/Ressources/pngfuel.com.png"
 
-        x: parent.width/2 - 200
+        x: parent.width/2 - 175
         y: 5
 
         width: 130
@@ -37,24 +48,13 @@ Content
 
         source: "qrc:/pictures/Ressources/tuborgclassic.png"
 
-        x: parent.width/2 + 70
-        y: 5
+        x: parent.width/2 + 25
+        y: 25
 
         width: 130
         height: 130
 
         rotation: 25
-    }
-
-    Image{
-        id: fckImage
-        source: "qrc:/pictures/Ressources/fck.png"
-
-        x: parent.width / 2 - width/2
-        y: 350
-
-        width: 150
-        height: 150
     }
 
     Rectangle{
@@ -71,21 +71,11 @@ Content
         rowSpacing: 5
         flow: GridLayout.TopToBottom
 
-        PageLabelItem {
-            id: label
-            Layout.alignment: Qt.AlignHCenter
-            height: 64
-            width: 384
-            Layout.maximumHeight: 64
-            text: "Dart2020"
-            fontColor: "white"
+        Rectangle{
+            height: 192
+            color: "transparent"
         }
-        
-        Rectangle
-        {
-            Layout.fillHeight: true
-            Layout.maximumHeight: 32
-        }
+
         StartMenuButton
         {
             Layout.alignment: Qt.AlignHCenter
@@ -137,4 +127,6 @@ Content
         anchors.right: parent.right
         anchors.bottom: parent.bottom
     }
+
+    Component.onCompleted: requestSetPageTitle("Welcome to Dart2020")
 }
