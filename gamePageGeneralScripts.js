@@ -96,7 +96,6 @@ function handleReplyFromBackend(response,args)
     }
     else if(response === 0x29) // Backend is reset
     {
-        setupScoreTable();
         body.state = "ready"
     }
     /*
@@ -190,15 +189,4 @@ function handleStartClicked()
 function handleSetWinnerText(text)
 {
     notificationItemSlot.item.setCurrentWinner(text);
-}
-
-function setupScoreTable()
-{
-    /*
-      Setup scoretable according to gamemode
-      TODO:
-        - Setup logic to discriminate between various modes
-      */
-    if(currentTournamentMetaData.tournamentGameMode === 0x1)
-        setupFirstToPostScoreTable();
 }

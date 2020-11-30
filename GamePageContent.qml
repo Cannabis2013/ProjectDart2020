@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
-import "gamePageGeneralScripts.js" as GameGeneralScripts
 import "firstToPostScripts.js" as FirstToPostScripts
+import "gamePageGeneralScripts.js" as GameGeneralScripts
 
 /*
   Gamemodes:
@@ -51,7 +51,12 @@ Content {
       Handle reply from backend:
       */
     onReplyFromBackendRecieved: GameGeneralScripts.handleReplyFromBackend(response,args)
+    signal setupGame()
 
+    onSetupGame: {
+        if(currentTournamentMetaData.tournamentGameMode === 0x1)
+            FirstToPostScripts.setupFirstToPostScoreTable();
+    }
     GridLayout{
         id: bodyLayout
         anchors.fill: parent
@@ -129,13 +134,7 @@ Content {
             name: "restart"
             StateChangeScript{
                 script: {
-                    turnControllerItemSlot.item.startButtonText = buttonTextContainer.startText;
-                    turnControllerItemSlot.item.currentRoundIndex = 0;
-                    turnControllerItemSlot.item.currentPlayer = "";
-                    turnControllerItemSlot.item.undoButtonEnabled = false;
-                    turnControllerItemSlot.item.redoButtonEnabled = false;
-                    keyPaditemSlot.item.enableKeys = false;
-                    scoreBoardItemSlot.sourceComponent = undefined;
+                    FirstToPostScripts.createAndSetupFirstToPostComponents();
                     body.requestRestart();
                 }
             }

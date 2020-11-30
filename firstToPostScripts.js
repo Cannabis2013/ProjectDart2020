@@ -31,8 +31,8 @@ function setupFirstToPostScoreTable()
 {
     body.scoreRecieved.connect(scoreBoardItemSlot.item.setData);
     scoreBoardItemSlot.item.displayPoints = true;
-    //setupHorizontalBoard();
-    setupVerticalBoard();
+    setupHorizontalBoard();
+    //setupVerticalBoard();
 
 }
 

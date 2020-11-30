@@ -6,6 +6,8 @@ import "scoreBoardScripts.js" as ScoreScripts
 ScoreBoard {
     id: body
 
+    // Data related
+    onClearData: myModel.clearData();
     // Point related
     property int pointFontSize: 10
     property bool displayPoints: false
@@ -87,6 +89,8 @@ ScoreBoard {
 
         horizontalFillMode: 0x1
         verticalFillMode: 0x2
+
+        appendMode: 0x4
     }
 
     cellDelegate: CellDelegate {

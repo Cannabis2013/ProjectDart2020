@@ -83,7 +83,7 @@ Rectangle {
     property color imageBackgroundColor: "transparent"
     onImageBackgroundColorChanged: imageRect.color = imageBackgroundColor
     property color backgroundColor: "transparent"
-    onBackgroundColorChanged: backgroundRect = backgroundColor
+    onBackgroundColorChanged: backgroundRect.color = backgroundColor
     property double backgroundOpacitity: 0.3
     onBackgroundOpacitityChanged: backgroundRect.opacity = backgroundOpacitity
 

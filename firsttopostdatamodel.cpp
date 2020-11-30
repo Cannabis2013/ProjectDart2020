@@ -40,14 +40,14 @@ bool FirstToPostDataModel::insertData(const QString &playerName,
 {
     if(headerOrientation() == Qt::Horizontal)
     {
-        if(_horizontalFillMode == HeaderFillMode::NonFill)
+        if(appendMode() == AppendDataMode::SingleAppend)
             return setPlayerData(playerName,point,score,headerOrientation());
         else
             return appendPlayerData(playerName,point,score,headerOrientation());
     }
     else if(headerOrientation() == Qt::Vertical)
     {
-        if(_verticalFillMode == HeaderFillMode::NonFill)
+        if(appendMode() == AppendDataMode::SingleAppend)
             return setPlayerData(playerName,point,score,headerOrientation());
         else
             return appendPlayerData(playerName,point,score,headerOrientation());
@@ -185,6 +185,7 @@ void FirstToPostDataModel::clearData()
 
     _horizontalHeaderData.clear();
     _verticalHeaderData.clear();
+
     emit dataChanged(createIndex(0,0),bottomRight);
 }
 
@@ -202,14 +203,14 @@ int FirstToPostDataModel::headerItemCount(const int &headerOrientation) const
                 headerOrientation : this->headerOrientation();
     if(orientation == Qt::Horizontal)
     {
-        if(horizontalHeaderFillMode() == HeaderFillMode::NonNumericFillMode)
+        if(horizontalHeaderFillMode() == HeaderFillMode::FixedStrings)
             return _horizontalHeaderData.count();
         else
             return columnCount();
     }
     else
     {
-        if(verticalHeaderFillMode() == HeaderFillMode::NonNumericFillMode)
+        if(verticalHeaderFillMode() == HeaderFillMode::FixedStrings)
             return _verticalHeaderData.count();
         else
             return rowCount();
@@ -236,9 +237,9 @@ double FirstToPostDataModel::columnWidthAt(const int &column) const
 
     QString headerString;
 
-    if(horizontalHeaderFillMode() == HeaderFillMode::IncrementingNumericFillMode)
+    if(horizontalHeaderFillMode() == HeaderFillMode::DynamicNumerics)
         headerString = QString::number(column + 1);
-    else if(horizontalHeaderFillMode() == HeaderFillMode::NonNumericFillMode &&
+    else if(horizontalHeaderFillMode() == HeaderFillMode::FixedStrings &&
             column < _horizontalHeaderData.count())
         headerString = _horizontalHeaderData.at(column);
 
@@ -278,7 +279,7 @@ double FirstToPostDataModel::rowHeightAt(const int &row) const
 
     if(_verticalHeaderData.count() <= row)
     {
-        if(verticalHeaderFillMode() == HeaderFillMode::IncrementingNumericFillMode)
+        if(verticalHeaderFillMode() == HeaderFillMode::DynamicNumerics)
             headerString = QString::number(row + 1);
         else
             return defaultCellHeight;
@@ -355,26 +356,41 @@ QVariant FirstToPostDataModel::headerData(int section, Qt::Orientation orientati
     if(role != Qt::DisplayRole)
         return QVariant();
 
-    auto horizontalHeaderCount = _horizontalHeaderData.count();
     auto roundIndex = (section - 1)/_numberOfThrows + 1;
 
-    switch (orientation) {
-    case Qt::Horizontal : {
-        if(horizontalHeaderFillMode() == HeaderFillMode::IncrementingNumericFillMode)
-            return section != 0 ? QVariant(roundIndex) : initialValue();
-        if(section < horizontalHeaderCount)
+    if(orientation == Qt::Horizontal){
+        if(horizontalHeaderFillMode() == HeaderFillMode::DynamicNumerics)
+        {
+            if(appendMode() == AppendDataMode::MultiAppend)
+                return section != 0 ? QVariant(roundIndex) : initialValue();
+            else if(appendMode() == AppendDataMode::SingleAppend)
+                return QVariant(roundIndex);
+        }
+        else if(horizontalHeaderFillMode() == HeaderFillMode::FixedStrings &&
+                section < horizontalHeaderCount())
+        {
             return _horizontalHeaderData.at(section);
-        return QVariant();
+        }
+        else
+            return QVariant();
     }
-    case Qt::Vertical : {
-        if(verticalHeaderFillMode() == HeaderFillMode::IncrementingNumericFillMode)
-            return section != 0 ? QVariant(roundIndex) : initialValue();
-        if(section < _verticalHeaderData.count())
+    else if(orientation == Qt::Vertical)
+    {
+        if(verticalHeaderFillMode() == HeaderFillMode::DynamicNumerics)
+        {
+            if(appendMode() == AppendDataMode::MultiAppend)
+                return section != 0 ? QVariant(roundIndex) : initialValue();
+            else if(appendMode() == AppendDataMode::SingleAppend)
+                return QVariant(roundIndex);
+        }
+        if(verticalHeaderFillMode() == HeaderFillMode::FixedStrings &&
+                section < verticalHeaderCount())
+        {
             return _verticalHeaderData.at(section);
+        }
         return QVariant();
     }
-        default: return QVariant();
-    }
+    return QVariant();
 }
 
 int FirstToPostDataModel::numberOfThrows() const
@@ -687,6 +703,36 @@ QRect FirstToPostDataModel::stringWidth(const QString &string, const QString &fa
     return r;
 }
 
+QStringList FirstToPostDataModel::getHorizontalHeaderData() const
+{
+    return _horizontalHeaderData;
+}
+
+void FirstToPostDataModel::setHorizontalHeaderData(const QList<QString> &horizontalHeaderData)
+{
+    _horizontalHeaderData = horizontalHeaderData;
+}
+
+QStringList FirstToPostDataModel::getVerticalHeaderData() const
+{
+    return _verticalHeaderData;
+}
+
+void FirstToPostDataModel::setVerticalHeaderData(const QList<QString> &verticalHeaderData)
+{
+    _verticalHeaderData = verticalHeaderData;
+}
+
+int FirstToPostDataModel::appendMode() const
+{
+    return _appendMode;
+}
+
+void FirstToPostDataModel::setAppendMode(int appendMode)
+{
+    _appendMode = appendMode;
+}
+
 void FirstToPostDataModel::setCurrentVerticalHeaderItemWidth(int currentVerticalHeaderItemWidth)
 {
     _currentVerticalHeaderItemWidth = currentVerticalHeaderItemWidth;
@@ -766,6 +812,8 @@ int FirstToPostDataModel::minimumRowCount() const
 
 void FirstToPostDataModel::setMinimumRowCount(int minimumRowCount)
 {
+    if(appendMode() == AppendDataMode::SingleAppend)
+        return;
     _minimumRowCount = minimumRowCount;
     auto rowCount = this->rowCount();
     if(minimumRowCount > rowCount)
@@ -779,6 +827,8 @@ int FirstToPostDataModel::minimumColumnCount() const
 
 void FirstToPostDataModel::setMinimumColumnCount(int minimumColumnCount)
 {
+    if(appendMode() == AppendDataMode::SingleAppend)
+        return;
     _minimumColumnCount = minimumColumnCount;
     auto colCount = columnCount();
     if(minimumColumnCount > colCount)
@@ -801,9 +851,9 @@ int FirstToPostDataModel::preferedHeaderItemWidth(const int &orientation) const
     auto result = defaultCellWidth;
     if(orientation == Qt::Vertical)
     {
-        if(verticalHeaderFillMode() == HeaderFillMode::IncrementingNumericFillMode)
+        if(verticalHeaderFillMode() == HeaderFillMode::DynamicNumerics)
             result = rowCount() / _numberOfThrows;
-        else if(verticalHeaderFillMode() == HeaderFillMode::NonNumericFillMode)
+        else if(verticalHeaderFillMode() == HeaderFillMode::FixedStrings)
             result = currentVerticalHeaderItemWidth();
     }
     if(result < defaultCellWidth)

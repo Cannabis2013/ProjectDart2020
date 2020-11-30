@@ -6,6 +6,9 @@ Column
 {
     id: body
 
+    signal clearData()
+    onClearData: verticalHeaderRepeater.model = 0
+
     property color backgroundColor: "transparent"
     onBackgroundColorChanged: cellBody.color = backgroundColor
 

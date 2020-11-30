@@ -16,6 +16,11 @@ ScoreBoardInterface{
     id: body
     color: "transparent"
 
+    onClearData: {
+        verticalHeader.clearData();
+        horizontalHeader.clearData();
+    }
+
     signal updateViewPosition(int x,int y)
     onUpdateViewPosition: {
         flickableTable.contentX = x;
