@@ -254,6 +254,8 @@ public:
             _lastNode->setNext(listFirstNode);        }
         _lastNode = listLastNode;
         _size++;
+
+        return *this;
     }
 
 private:
