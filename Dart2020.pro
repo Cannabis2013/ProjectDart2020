@@ -43,6 +43,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     IControllerBuilder.h \
+    LinkedList.h \
     abstractgamecontroller.h \
     abstractjsonpersistence.h \
     abstractpersistence.h \
@@ -87,4 +88,4 @@ DISTFILES += \
 #LIBS += $$PWD/SSL/libcrypto-1_1-x64.dll
 #LIBS += $$PWD/SSL/libssl-1_1-x64.dll
 
-ANDROID_ABIS = armeabi-v7a
+ANDROID_ABIS = armeabi-v7a x86

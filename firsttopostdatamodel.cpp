@@ -271,12 +271,12 @@ double FirstToPostDataModel::rowHeightAt(const int &row) const
     auto resultingGlyphLenght = scoreFontMetric.boundingRect(headerString).height();
     auto count = columnCount();
     for (int c = 0; c < count; ++c) {
-        auto pairs = _data.at(row);
-        if(pairs.count() != columnCount())
+        auto columnsData = _data.at(row);
+        if(columnsData.count() != columnCount())
             return 0;
-        auto pair = pairs.at(c);
-        auto point = pair.first;
-        auto score = pair.second;
+        auto columnData = columnsData.at(c);
+        auto point = columnData.first;
+        auto score = columnData.second;
         auto pointString = QString::number(point);
         auto scoreString = QString::number(score);
         auto scoreGlyphHeight = scoreFontMetric.boundingRect(scoreString).height();
@@ -438,7 +438,7 @@ bool FirstToPostDataModel::insertRows(int row, int count, const QModelIndex &)
     for (int i = 0; i < c; ++i) {
         auto initializedDataRow = [this]
         {
-            QList<scoreModel> resultingList;
+            LinkedList<scoreModel> resultingList;
             auto count = columnCount(QModelIndex(QModelIndex()));
             for (int i = 0; i < count; ++i)
                 resultingList << scoreModel(-1,-1);
@@ -465,15 +465,12 @@ bool FirstToPostDataModel::insertColumns(int column, int count, const QModelInde
     beginInsertColumns(QModelIndex(),firstColumn,lastColumn);
 
     for (int i = 0;i<_data.count();i++) {
-        auto row = _data.at(i);
-        QList<scoreModel> newPartRow;
+        auto columnsData = _data.at(i);
+        LinkedList<scoreModel> columnsDataIndice;
         for (int i = 0; i < c; ++i)
-            newPartRow << scoreModel(-1,-1);
-        for (int j = 0; j < newPartRow.count(); ++j) {
-            auto columnValue = newPartRow.at(j);
-            row.insert(column,columnValue);
-        }
-        _data.replace(i,row);
+            columnsDataIndice << scoreModel(-1,-1);
+        columnsData.insert(column,columnsDataIndice);
+        _data.replace(i,columnsData);
     }
 
     QList<double> newColumnWidths;
@@ -491,7 +488,7 @@ bool FirstToPostDataModel::insertColumns(int column, int count, const QModelInde
 
     emit dataChanged(createIndex(0,firstColumn),
                      createIndex(headerItemCount(0x2),lastColumn));
-
+    cout << "Insert columns done" << endl;
     return true;
 }
 
@@ -583,13 +580,13 @@ int FirstToPostDataModel::indexOfLastDecoratedCell(const int &index,const int &o
     {
         if(index >= _data.count() || index < 0)
             return -1;
-        auto pairs = _data.at(index);
+        auto columnsData = _data.at(index);
 
         for (int col = 0; col < columnCount(QModelIndex()); ++col) {
-            auto pair = pairs.at(col);
-            auto score = pair.first;
+            auto columnData = columnsData.at(col);
+            auto point = columnData.first;
 
-            if(score == -1)
+            if(point == -1)
                 return col - 1;
         }
 
@@ -645,9 +642,10 @@ bool FirstToPostDataModel::isRowEmpty(const int &row)
 {
     if(row < 0 || row >= rowCount())
         throw std::out_of_range("Index out of range");
-    auto pairsRow = _data.at(row);
-    for (auto pair : pairsRow) {
-        auto point = pair.first;
+    auto columnsData = _data.at(row);
+    for (int i = 0; i < columnsData.count(); ++i) {
+        auto columnData = columnsData.at(i);
+        auto point = columnData.first;
         if(point != -1)
             return false;
     }
@@ -826,6 +824,7 @@ int FirstToPostDataModel::minimumColumnCount() const
 
 void FirstToPostDataModel::setMinimumColumnCount(int minimumColumnCount)
 {
+    cout << "setMinimumColumnCount reached" << endl;
     if(appendMode() == AppendDataMode::SingleAppend)
         return;
     _minimumColumnCount = minimumColumnCount;

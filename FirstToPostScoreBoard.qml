@@ -24,6 +24,7 @@ ScoreBoard {
 
     onMinimumColumnCount: myModel.setMinimumColumnCount(count);
     onMinimumRowCount: myModel.setMinimumRowCount(count);
+    headerOrientation: Qt.Vertical
     // Header signal handling related
     onHeaderOrientationChanged: myModel.setHeaderOrientation(headerOrientation)
     onVerticalHeaderFillModeChanged: myModel.verticalFillMode = verticalHeaderFillMode
@@ -83,7 +84,7 @@ ScoreBoard {
         id: myModel
         onDataChanged: ScoreScripts.updateScoreBoard();
         throwCount : body.throwsPerRound
-        headerOrientation: Qt.Vertical
+        headerOrientation: body.headerOrientation
         pointFontPointSize: body.pointFontSize
         scoreFontPointSize: body.scoreFontSize
         appendMode: 0x8

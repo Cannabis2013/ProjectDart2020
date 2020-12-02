@@ -3,6 +3,7 @@
 
 #include <QAbstractTableModel>
 #include <qfontmetrics.h>
+#include "LinkedList.h"
 
 const int defaultCellWidth = 25;
 const int defaultCellHeight = 25;
@@ -207,7 +208,7 @@ private:
     /*
      * Scores and points
      */
-    QList<QList<scoreModel>> _data;
+    QList<LinkedList<scoreModel>> _data;
 };
 
 #endif // CUSTOMTABLEMODEL_H

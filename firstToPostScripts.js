@@ -43,7 +43,6 @@ function setupVerticalBoard()
     scoreBoardItemSlot.item.verticalHeaderFillMode = 0x2;
     scoreBoardItemSlot.item.horizontalHeaderFillMode = 0x1;
     scoreBoardItemSlot.item.headerOrientation = Qt.Vertical;
-    scoreBoardItemSlot.item.minimumColumnCount(4);
     scoreBoardItemSlot.item.sizeScale(2);
 
     var assignedPlayers = currentTournamentMetaData.assignedPlayers;
@@ -55,6 +54,7 @@ function setupVerticalBoard()
         scoreBoardItemSlot.item.appendHeader(assignedPlayerName,Qt.Vertical);
         scoreBoardItemSlot.item.setData(assignedPlayerName,0,keyPoint,undefined);
     }
+    scoreBoardItemSlot.item.minimumColumnCount(4);
 }
 
 function setupHorizontalBoard()
