@@ -233,6 +233,8 @@ public:
             _lastNode->setNext(node);        }
         _lastNode = node;
         _size++;
+
+        return *this;
     }
 
     LinkedList<T> &operator<<(const LinkedList<T> &other)

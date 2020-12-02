@@ -9,9 +9,9 @@ QVariant FirstToPostDataModel::getData(const int &row, const int &column, const 
 {
     if(row >= rowCount() || column >= columnCount())
         return -1;
-    auto pairsRow = _data.at(row);
-    auto pair = pairsRow.at(column);
-    auto result = mode == 0x1 ? pair.first : pair.second;
+    auto columnsData = _data.at(row);
+    auto columnData = columnsData.at(column);
+    auto result = mode == 0x1 ? columnData.first : columnData.second;
     if(result == -1)
         return "-";
     else
