@@ -92,17 +92,26 @@ public:
             append(o);
             return;
         }
+        auto previousNode = nodeAtIndex->prev();
         auto nextNode = nodeAtIndex->next();
-        newNode->setPrev(nodeAtIndex);
-        nodeAtIndex->setNext(newNode);
-        if(nextNode != nullptr)
-            newNode->setNext(nextNode);
+
+        if(previousNode == nullptr)
+        {
+            _firstNode = newNode;
+        }
         else
-            _lastNode = newNode;
+        {
+            previousNode->setNext(newNode);
+            newNode->setPrev(previousNode);
+        }
+        newNode->setNext(nodeAtIndex);
+        nodeAtIndex->setPrev(newNode);
+        if(nextNode == nullptr)
+            _lastNode = nodeAtIndex;
         _size++;
     }
 
-    void insert(const int &i, LinkedList list)
+    void insert(const int &i, const LinkedList &list)
     {
         InternalListNode<T> *nodeAtIndex = nullptr;
         try {
@@ -113,16 +122,25 @@ public:
         }
         auto firstListNode = list.firstNode();
         auto lastListNode = list.lastNode();
+        auto previousNote = nodeAtIndex->prev();
         auto nextNode = nodeAtIndex->next();
-        nodeAtIndex->setNext(firstListNode);
-        firstListNode->setPrev(nodeAtIndex);
-        if(nextNode != nullptr)
+
+        if(previousNote == nullptr)
         {
-            lastListNode->setNext(nextNode);
-            nextNode->setPrev(lastListNode);
+            _firstNode = firstListNode;
         }
         else
-            _lastNode = lastListNode;
+        {
+            previousNote->setNext(firstListNode);
+            firstListNode->setPrev(previousNote);
+        }
+
+        lastListNode->setNext(nodeAtIndex);
+        nodeAtIndex->setPrev(lastListNode);
+
+        if(nextNode == nullptr)
+            _lastNode = nodeAtIndex;
+
         _size += list.count();
     }
     void removeAt(const int &i)
