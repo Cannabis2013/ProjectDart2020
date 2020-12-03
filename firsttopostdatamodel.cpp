@@ -394,13 +394,13 @@ bool FirstToPostDataModel::setData(const QModelIndex &index, const QVariant &val
 
     if(row >= rowCount())
     {
-        auto deltaR = row -(rowCount() - 1);
+        auto deltaR = numberOfThrows();
         insertRows(row,deltaR,QModelIndex());
     }
 
     if(column >= columnCount())
     {
-        auto deltaC = column - (columnCount() - 1);
+        auto deltaC = numberOfThrows();
         insertColumns(column,deltaC,QModelIndex());
     }
 

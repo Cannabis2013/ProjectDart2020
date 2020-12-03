@@ -23,6 +23,18 @@ Content {
     /*
       Request removal of tournaments
       */
+    function requestDeleteTournamentPopUp()
+    {
+        let selectedIndexes = tournamentListView.currentIndexes();
+        let count = selectedIndexes.length;
+        if(count > 0)
+        {
+            let obj = ComponentFactory.createConfirmPopUp('ConfirmPageContent.qml',
+                                                          applicationWindow);
+            obj.acceptClicked.connect(body.deleteTournamentsAccepted);
+        }
+    }
+
     function deleteTournamentsAccepted()
     {
         var indexes = tournamentListView.currentIndexes();
@@ -43,6 +55,18 @@ Content {
     /*
       Delete players accepted
       */
+
+    function requestDeletePlayerPopUp()
+    {
+        let selectedIndex = playersListView.currentIndexes();
+        let count = selectedIndex.length;
+        if(count > 0)
+        {
+            var obj = ComponentFactory.createConfirmPopUp('ConfirmPageContent.qml',
+                                                          applicationWindow);
+            obj.acceptClicked.connect(body.deletePlayersAccepted);
+        }
+    }
 
     function deletePlayersAccepted(){
         var indexes = playersListView.currentIndexes();
@@ -120,11 +144,7 @@ Content {
             }
             CRUDButton{
                 text: "Delete"
-                onClicked: {
-                    var obj = ComponentFactory.createConfirmPopUp('ConfirmPageContent.qml',
-                                                                  applicationWindow);
-                    obj.acceptClicked.connect(body.deletePlayersAccepted);
-                }
+                onClicked: requestDeletePlayerPopUp()
             }
         }
         DefaultTournamentListView {
@@ -153,9 +173,7 @@ Content {
             CRUDButton{
                 text: "Delete"
                 onClicked: {
-                    var obj = ComponentFactory.createConfirmPopUp('ConfirmPageContent.qml',
-                                                                  applicationWindow);
-                    obj.acceptClicked.connect(body.deleteTournamentsAccepted);
+                    requestDeleteTournamentPopUp();
                 }
             }
         }

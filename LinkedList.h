@@ -259,7 +259,6 @@ public:
     }
 
 private:
-
     InternalListNode<T> *findAt(const int &i)
     {
         auto index = 0;
