@@ -81,6 +81,6 @@ Content
     }
     Component.onDestruction: {
         body.sendPlayerDetails.disconnect(applicationInterface.handleCreatePlayer);
-        applicationInterface.playerCreatedSuccess.disconnect(body.body.playerCreatedSucess);
+        applicationInterface.playerCreatedSuccess.disconnect(body.playerCreatedSucess);
     }
 }

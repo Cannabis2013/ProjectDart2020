@@ -10,7 +10,6 @@ import "gamePageGeneralScripts.js" as GameGeneralScripts
     Circular = 0x3,
     Cricket = 0xAA
   */
-
 Content {
     id: body
     QtObject{
