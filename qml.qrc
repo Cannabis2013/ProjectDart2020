@@ -55,6 +55,7 @@
         <file>PageIconItem.qml</file>
         <file>gamePageGeneralScripts.js</file>
         <file>FirstToPostScoreBoard.qml</file>
+        <file>StartButtonComponent.qml</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>

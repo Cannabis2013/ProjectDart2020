@@ -20,6 +20,8 @@ Rectangle
     onTextChanged: label.text = text
     property int textLeftMargin: 0
     onTextLeftMarginChanged: label.anchors.leftMargin = textLeftMargin
+    property int wrapMode: Text.NoWrap
+    onWrapModeChanged: label.wrapMode = wrapMode
     Label{
         id: label
         anchors.fill: parent
@@ -29,5 +31,6 @@ Rectangle
         font.pointSize: body.fontSize
         text: body.text
         color: fontColor
+        wrapMode: body.wrapMode
     }
 }

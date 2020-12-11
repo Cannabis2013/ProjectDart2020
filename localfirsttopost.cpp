@@ -20,7 +20,8 @@ void LocalFirstToPost::stop()
     emit transmitResponse(ControllerResponse::isStopped,{});
 }
 
-void LocalFirstToPost::handleAndProcessUserInput(const int &point, const int &modifierKeyCode)
+void LocalFirstToPost::handleAndProcessUserInput(const int &userInput,
+                                                 const int &modifierKeyCode)
 {
     if(status() == Stopped ||
             status() == WinnerDeclared)
@@ -40,37 +41,22 @@ void LocalFirstToPost::handleAndProcessUserInput(const int &point, const int &mo
                             modifierKeyCode == KeyMappings::DoubleModifier ? 2 :
                             modifierKeyCode == KeyMappings::SingleModifer ? 1 : 0;
 
-    auto calculatedPoint = point*pointMultiplier;
+    auto calculatedPoint = userInput*pointMultiplier;
 
     auto currentScore = playerScore(_setIndex);
     auto newScore = currentScore - calculatedPoint;
 
     // Evaluate input according to point domain and aggregated sum domain
-    auto inputResponse = validateInput(newScore);
-
-    if(inputResponse == InputPointDomain::InvalidDomain)
-        throw INVALID_DOMAIN;
-
-    if(inputResponse == AggregatedSumDomains::PointDomain)
+    switch (validateInput(newScore,modifierKeyCode,userInput))
     {
-        // Update datacontext
-        addPoint(calculatedPoint,newScore);
-    }
-    else if(inputResponse == AggregatedSumDomains::CriticalDomain)
-    {
-        addPoint(calculatedPoint,newScore);
-    }
-    else if(inputResponse == AggregatedSumDomains::TargetDomain &&
-            (modifierKeyCode == terminateConditionModifier() || point == bullsEye))
-    {
-        //Winner declared
-        declareWinner();
-        addPoint(calculatedPoint,newScore);
-    }
-    else if(inputResponse == OutsideDomain || modifierKeyCode != terminateConditionModifier())
-    {
-        // Player made an 'overthrow' or didn't meet the winning terminate condition, and points is therefore nullified and added to datacontext
-        addPoint(0,currentScore);
+        case PointDomains::InvalidDomain : throw INVALID_DOMAIN;
+        case PointDomains::PointDomain : addPoint(calculatedPoint,newScore);
+        case PointDomains::CriticalDomain : addPoint(calculatedPoint,newScore);
+        case PointDomains::TargetDomain : {
+            declareWinner();
+            addPoint(calculatedPoint,newScore);
+        }
+        case PointDomains::OutsideDomain : addPoint(0,currentScore);
     }
 }
 
@@ -315,7 +301,9 @@ int LocalFirstToPost::validateCurrentState(const int &currentScore)
         return OutsideDomain;
 }
 
-int LocalFirstToPost::validateInput(const int &currentScore)
+int LocalFirstToPost::validateInput(const int &currentScore,
+                                    const int &modifierKeyCode,
+                                    const int &userInput)
 {
     int minimumAllowedScore = 2;
     if(terminateConditionModifier() == KeyMappings::SingleModifer)
@@ -325,11 +313,12 @@ int LocalFirstToPost::validateInput(const int &currentScore)
     else
         minimumAllowedScore = 3;
 
+
     if(currentScore > criticalLimit)
         return PointDomain;
     else if(currentScore <= criticalLimit && currentScore >= minimumAllowedScore)
         return CriticalDomain;
-    else if(currentScore == 0)
+    else if(currentScore == 0 && (modifierKeyCode == terminateConditionModifier() || userInput == bullsEye))
         return TargetDomain;
     else
         return OutsideDomain;

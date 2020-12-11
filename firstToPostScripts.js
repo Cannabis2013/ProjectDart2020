@@ -3,8 +3,8 @@ function createAndSetupFirstToPostComponents(){
       Load and setup turncontroller
       */
     turnControllerItemSlot.sourceComponent = Qt.createComponent("FirstToPostTurnController.qml");
-    turnControllerItemSlot.item.startButtonPressAndHoldClicked.connect(GameGeneralScripts.handleStartPressAndHold);
-    turnControllerItemSlot.item.startButtonClicked.connect(GameGeneralScripts.handleStartClicked);
+    turnControllerItemSlot.item.startButtonPressAndHoldClicked.connect(handleStartPressAndHold);
+    turnControllerItemSlot.item.startButtonClicked.connect(handleStartClicked);
     /*
       Load and setup DisplayKeyDataItem
       */
@@ -73,5 +73,40 @@ function setupHorizontalBoard()
         var assignedPlayerName = assignedPlayers[i];
         scoreBoardItemSlot.item.appendHeader(assignedPlayerName,Qt.Horizontal);
         scoreBoardItemSlot.item.setData(assignedPlayerName,0,keyPoint,undefined);
+    }
+}
+
+/*
+  Handle TurnController events
+  */
+function handleStartPressAndHold()
+{
+    if(body.state === "waitingForInput")
+        body.state = "preRestart";
+    else if(body.state === "stopped")
+        body.state = "preRestart";
+    else if(body.state === "ready")
+        body.state = "preRestart";
+    else if(body.state === "winner")
+        body.state = "preRestart";
+    else if(body.state === "preRestart")
+        body.state = "ready";
+}
+function handleStartClicked()
+{
+    var buttonText = turnControllerItemSlot.item.startButtonText;
+    if(buttonText === buttonTextContainer.startText ||
+            buttonText === buttonTextContainer.resumeText)
+    {
+        requestStart();
+    }
+    else if(buttonText === buttonTextContainer.restartText)
+    {
+        body.state = "restart";
+    }
+    else
+    {
+        body.state = "pauseState";
+        requestStop();
     }
 }

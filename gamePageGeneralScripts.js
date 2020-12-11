@@ -152,38 +152,6 @@ function handleKeyPadInput(value,keyCode){
     body.sendInput(value,keyCode);
 }
 /*
-  Handle TurnController events
-  */
-function handleStartPressAndHold()
-{
-    if(body.state === "waitingForInput")
-        body.state = "preRestart";
-    else if(body.state === "ready")
-        body.state = "preRestart";
-    else if(body.state === "winner")
-        body.state = "preRestart";
-    else if(body.state === "preRestart")
-        body.state = "ready";
-}
-function handleStartClicked()
-{
-    var buttonText = turnControllerItemSlot.item.startButtonText;
-    if(buttonText === buttonTextContainer.startText ||
-            buttonText === buttonTextContainer.resumeText)
-    {
-        requestStart();
-    }
-    else if(buttonText === buttonTextContainer.restartText)
-    {
-        body.state = "restart";
-    }
-    else
-    {
-        body.state = "pauseState";
-        requestStop();
-    }
-}
-/*
   Handle Notification related stuff
   */
 function handleSetWinnerText(text)

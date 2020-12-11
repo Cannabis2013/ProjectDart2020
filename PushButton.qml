@@ -4,10 +4,7 @@ Item {
     id: body
 
     property string text: ""
-    onTextChanged: {
-        var translateableText = qsTr(text);
-        buttonText.text = translateableText;
-    }
+    onTextChanged: buttonText.text = qsTr(text);
 
     property double backgroundTransparency: 1
     onBackgroundTransparencyChanged: buttonRect.opacity = backgroundTransparency

@@ -21,7 +21,7 @@ Item {
     onStartButtonTextChanged: startButton.text = startButtonText
 
     property bool startButtonEnabled: false
-    onStartButtonEnabledChanged: startButton.enabled = startButtonEnabled
+    onStartButtonEnabledChanged: startButtonComponent.startButtonEnabled = startButtonEnabled
 
     property int currentRoundIndex: 0
     property string currentPlayer: ""
@@ -51,26 +51,16 @@ Item {
     GridLayout{
         anchors.fill: parent
         flow: GridLayout.LeftToRight
-        Layout.fillWidth: true
         Layout.fillHeight: true
+        Layout.fillWidth: true
 
-        // Startbutton
-        PushButton{
-            id: startButton
-            text: body.startButtonText
-            textColor: ThemeContext.navStartButtonTextColor
-            backgroundColor: ThemeContext.navStartButtonBackgroundColor
-            hoveredColor: ThemeContext.navStartButtonHoveredBackgroundColor
-            buttonRadius: 6
-            fontSize: 12
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-            width: 64
-            height: 24
-            enablePressAndHold: body.startButtonEnablePressAndHold
-
-            onClicked: startButtonClicked()
+        StartButtonComponent {
+            id: startButtonComponent
+            Layout.fillHeight: true
+            Layout.preferredWidth: 64
             onPressAndHoldClicked: startButtonPressAndHoldClicked()
-            enabled: body.startButtonEnabled
+            onStartButtonClicked: body.startButtonClicked()
+            startButtonText: body.startButtonText
         }
 
         PushButton{

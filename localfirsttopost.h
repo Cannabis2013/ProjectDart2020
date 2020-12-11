@@ -89,7 +89,7 @@ public:
     /*
      * Handle and Evaluate input from user
      */
-    void handleAndProcessUserInput(const int &point, const int &modifierKeyCode) override;
+    void handleAndProcessUserInput(const int &userInput, const int &modifierKeyCode) override;
     void handleRequestForCurrentTournamentMetaData() override;
     void handleRequestForPlayerScores() override;
     void recieveTournamentDetails(const QUuid &tournament, const QString &winner,
@@ -125,8 +125,7 @@ private:
      * TargetDomain only consists of the number zero and is regarded as the target that defines the winner
      * Points not belonging to the above domains is not in the domain at all
      */
-    enum InputPointDomain {InvalidDomain = 0x02};
-    enum AggregatedSumDomains {PointDomain = 0x04,CriticalDomain = 0x06, OutsideDomain = 0x08, TargetDomain = 0xa};
+    enum PointDomains {InvalidDomain = 0x02,PointDomain = 0x04,CriticalDomain = 0x06, OutsideDomain = 0x08, TargetDomain = 0xa};
     /*
      * Notify UI about controller state, current round index, undo/redo possibility and current user
      */
@@ -171,7 +170,7 @@ private:
      *  - Validate input domain
      *  - Validate projected player score before updating datacontext
      */
-    int validateInput(const int &currentScore);
+    int validateInput(const int &currentScore, const int &modifierKeyCode, const int &userInput);
     /*
      * Update datacontext
      */
@@ -213,7 +212,7 @@ private:
      * Controller index values
      */
     int _roundIndex = 0;
-    int _setIndex = 0; // Defines player index
+    int _setIndex = 0; // Equivalent to playerindex
     int _throwIndex = 0; // Index of throw
     int _totalTurns = 0;
     int _turnIndex = 0;
