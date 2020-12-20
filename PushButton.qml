@@ -1,7 +1,9 @@
 import QtQuick 2.15
 
-Item {
+InteractiveObject {
     id: body
+
+    clip: true
 
     property string text: ""
     onTextChanged: buttonText.text = qsTr(text);
@@ -26,7 +28,7 @@ Item {
     property bool checked: false
 
     property bool hoverEnabled: true
-
+    onHoverEnabledChanged: body.enableHoverEvent = hoverEnabled
     property double pressedScale: 0.90
 
     property bool isCheckable: false
@@ -38,6 +40,7 @@ Item {
     property double checkedScale: 1
 
     property bool enablePressAndHold: false
+    onEnablePressAndHoldChanged: body.enablePressAndHoldEvent = enablePressAndHold
 
     property int buttonRadius: 0
     onButtonRadiusChanged: buttonRect.radius = buttonRadius
@@ -50,6 +53,36 @@ Item {
 
     property int imageRotation: 0
     onImageRotationChanged: imageDecorator.rotation = imageRotation
+
+    onClickEvent: {
+        body.clicked();
+        body.clickedAndSendText(text);
+    }
+    onPressedEvent: {
+        if(sustained)
+            body.state = "pressed";
+        else
+            body.state = checked ? "checked" : "";
+    }
+    onPressAndHoldEvent: {
+        body.pressAndHoldClicked()
+    }
+    onHoverEvent: {
+        if(!body.hoverEnabled)
+            return;
+        else if(checked)
+            return;
+        if(sustained)
+        {
+            body.state = "hovered";
+            body.hoveredChanged(true);
+        }
+        else
+        {
+            body.state = "";
+            body.hoveredChanged(false);
+        }
+    }
 
     signal clicked
     signal pressAndHoldClicked
@@ -81,51 +114,6 @@ Item {
             }
             buttonRect.scale = checked ? checkedScale : 1
             body.checkStateChanged(checked);
-        }
-    }
-
-    clip: true
-
-    MouseArea
-    {
-        id: buttonMouseArea
-        focus: true
-        anchors.fill: body
-        hoverEnabled: true
-        onHoveredChanged: {
-            if(!body.hoverEnabled)
-                return;
-            else if(checked)
-                return;
-            if(containsMouse)
-            {
-                body.state = "hovered";
-                body.hoveredChanged(true);
-            }
-            else
-            {
-                body.state = "";
-                body.hoveredChanged(false);
-            }
-        }
-
-        onPressAndHold: {
-            if(body.enablePressAndHold)
-            {
-                pressAndHoldClicked();
-            }
-        }
-
-        onPressedChanged: {
-            if(containsPress)
-                body.state = "pressed";
-            else
-                body.state = checked ? "checked" : "";
-        }
-
-        onClicked: {
-            body.clicked();
-            body.clickedAndSendText(text);
         }
     }
 

@@ -481,14 +481,10 @@ bool FirstToPostDataModel::insertColumns(int column, int count, const QModelInde
         auto columnWidth = newColumnWidths.at(i);
         _columnWidths.insert(column,columnWidth);
     }
-
     endInsertColumns();
-
     _columns += c;
-
     emit dataChanged(createIndex(0,firstColumn),
                      createIndex(headerItemCount(0x2),lastColumn));
-    cout << "Insert columns done" << endl;
     return true;
 }
 
@@ -824,7 +820,6 @@ int FirstToPostDataModel::minimumColumnCount() const
 
 void FirstToPostDataModel::setMinimumColumnCount(int minimumColumnCount)
 {
-    cout << "setMinimumColumnCount reached" << endl;
     if(appendMode() == AppendDataMode::SingleAppend)
         return;
     _minimumColumnCount = minimumColumnCount;

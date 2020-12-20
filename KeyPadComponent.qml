@@ -24,7 +24,7 @@ KeyPadInterface {
         property bool isTrippleModifierPressed: false
     }
 
-    function handleNumberKeyPressed(value)
+    onInternalKeyClicked :
     {
         var modifierClickCode = modifiers.isTrippleModifierPressed ? 0x2C :
                                                                    modifiers.isDoubleModifierPressed ? 0x2B :
@@ -130,7 +130,7 @@ KeyPadInterface {
         for(var i = 1;i < rowCount && keyText < 21;i++){
             for(var j = initialColumn;j < columnCount && keyText < 21;j++){
                 var numberKey = ComponentFactory.createNumberButton(keyPadLayout,keyText++,i,j);
-                numberKey.clickedAndSendText.connect(keyPadBody.handleNumberKeyPressed);
+                numberKey.clickedAndSendText.connect(keyPadBody.internalKeyClicked);
                 keyPadBody.enableKeyPad.connect(numberKey.setEnabled);
             }
             initialColumn = 0;

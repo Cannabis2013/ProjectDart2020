@@ -95,7 +95,12 @@ public:
         return new Score();
     }
 private:
-    int _modelType, _pointValue, _scoreValue,_throwIndex, _hint, _keyCode;
+    int _modelType,
+        _pointValue,
+        _scoreValue,
+        _throwIndex,
+        _hint,
+        _keyCode;
     QUuid _id, _player, _set;    
 };
 

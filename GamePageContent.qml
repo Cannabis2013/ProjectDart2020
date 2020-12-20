@@ -91,7 +91,6 @@ Content {
             name: "winner"
             StateChangeScript{
                 script: {
-                    print("Winner found");
                     turnControllerItemSlot.item.startButtonText = buttonTextContainer.restartText;
                     turnControllerItemSlot.item.startButtonEnabled = true;
                     var currentPlayer = turnControllerItemSlot.item.currentPlayer;
@@ -104,7 +103,6 @@ Content {
                             currentTournamentMetaData.determinedWinner;
                     keyPaditemSlot.item.enableKeys = false;
                     GameGeneralScripts.handleSetWinnerText(winnerName);
-                    print("Winner name: " + winnerName);
                 }
             }
         },
@@ -133,7 +131,7 @@ Content {
             name: "restart"
             StateChangeScript{
                 script: {
-                    FirstToPostScripts.createAndSetupFirstToPostComponents();
+                    FirstToPostScripts.setupFirstToPost();
                     body.requestRestart();
                 }
             }

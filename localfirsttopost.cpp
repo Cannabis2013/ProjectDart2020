@@ -50,13 +50,14 @@ void LocalFirstToPost::handleAndProcessUserInput(const int &userInput,
     switch (validateInput(newScore,modifierKeyCode,userInput))
     {
         case PointDomains::InvalidDomain : throw INVALID_DOMAIN;
-        case PointDomains::PointDomain : addPoint(calculatedPoint,newScore);
-        case PointDomains::CriticalDomain : addPoint(calculatedPoint,newScore);
+        case PointDomains::PointDomain : addPoint(calculatedPoint,newScore);break;
+        case PointDomains::CriticalDomain : addPoint(calculatedPoint,newScore);break;
         case PointDomains::TargetDomain : {
             declareWinner();
             addPoint(calculatedPoint,newScore);
+            break;
         }
-        case PointDomains::OutsideDomain : addPoint(0,currentScore);
+    case PointDomains::OutsideDomain : addPoint(0,currentScore);break;
     }
 }
 
@@ -182,7 +183,8 @@ void LocalFirstToPost::sendCurrentTurnValues()
     auto currentUserName = currentActiveUser();
     auto score = playerScore(currentSetIndex());
     auto throwSuggestion = pointLogisticInterface()->throwSuggestion(score,currentThrowIndex() + 1);
-    emit transmitResponse(ControllerResponse::controllerInitializedAndAwaitsInput,{canUndo,canRedo,currentRound,currentUserName,throwSuggestion});
+    emit transmitResponse(ControllerResponse::controllerInitializedAndAwaitsInput,
+                          {canUndo,canRedo,currentRound,currentUserName,throwSuggestion});
 }
 
 QString LocalFirstToPost::currentActiveUser()
@@ -197,6 +199,21 @@ QUuid LocalFirstToPost::currentActivePlayerID()
     auto tupple = _assignedPlayerTupples.at(currentSetIndex());
     auto playerID = tupple.first;
     return playerID;
+}
+
+int LocalFirstToPost::currentThrowIndex()
+{
+    return _throwIndex;
+}
+
+int LocalFirstToPost::lastPlayerIndex()
+{
+    return _assignedPlayerTupples.count() - 1;
+}
+
+int LocalFirstToPost::playerIndex()
+{
+    return _setIndex;
 }
 
 QUuid LocalFirstToPost::undoTurn()
@@ -515,4 +532,9 @@ AbstractGameController *LocalFirstToPost::setPointLogisticInterface(IPointLogist
 void LocalFirstToPost::consistencyCheck()
 {
     Q_UNIMPLEMENTED();
+}
+
+QString LocalFirstToPost::determinedWinnerName()
+{
+    return _winner;
 }

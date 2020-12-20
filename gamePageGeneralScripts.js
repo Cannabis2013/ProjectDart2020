@@ -39,10 +39,7 @@ function handleMetaInformation(meta){
     currentTournamentMetaData.assignedPlayers = meta[3];;
     currentTournamentMetaData.determinedWinner = meta[4];
     if(currentTournamentMetaData.tournamentGameMode === 0x1)
-    {
-        FirstToPostScripts.createAndSetupFirstToPostComponents();
-        FirstToPostScripts.initializeFirstToPost();
-    }
+        FirstToPostScripts.setupFirstToPost();
 }
 /*
   Handle ScoreData related stuff

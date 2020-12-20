@@ -18,7 +18,7 @@ Item {
     onStartButtonEnablePressAndHoldChanged: startButton.enablePressAndHold = startButtonEnablePressAndHold
 
     property string startButtonText: "Start"
-    onStartButtonTextChanged: startButton.text = startButtonText
+    onStartButtonTextChanged: startButtonComponent.startButtonText = startButtonText
 
     property bool startButtonEnabled: false
     onStartButtonEnabledChanged: startButtonComponent.startButtonEnabled = startButtonEnabled

@@ -4,5 +4,6 @@ import QtQuick 2.0
   */
 Rectangle {
     signal keyClicked(int val, int modifierCode)
+    signal internalKeyClicked(int value)
     property bool enableKeys: false
 }

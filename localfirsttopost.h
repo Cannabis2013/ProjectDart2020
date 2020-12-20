@@ -135,12 +135,12 @@ private:
     int currentRoundIndex()  {return _roundIndex;}
     int currentPlayerIndex()  {return _setIndex;}
     int currentSetIndex() {return _setIndex;}
-    int currentThrowIndex()   {return _throwIndex;}
+    int currentThrowIndex();
     QUuid currentTournamentID() {return _currentTournament;}
     int status() {return _currentStatus;}
-    int lastPlayerIndex()  {return _assignedPlayerTupples.count() - 1;}
-    int playerIndex()   {return _setIndex;}
-    QString determinedWinnerName(){return _winner;}
+    int lastPlayerIndex();
+    int playerIndex();
+    QString determinedWinnerName();
     /*
      * Undo/return turn
      *  - Set indexes according to the action invoked
@@ -237,5 +237,7 @@ private:
 
     PlayerTubbles _assignedPlayerTupples;
 };
+
+
 
 #endif // FIVEHUNDREDANDONEGAME_H

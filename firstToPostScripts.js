@@ -1,4 +1,4 @@
-function createAndSetupFirstToPostComponents(){
+function setupFirstToPost(){
     /*
       Load and setup turncontroller
       */
@@ -19,6 +19,8 @@ function createAndSetupFirstToPostComponents(){
       */
     keyPaditemSlot.sourceComponent = Qt.createComponent("DefaultKeyPadComponent.qml");
     keyPaditemSlot.item.sendInput.connect(GameGeneralScripts.handleKeyPadInput);
+
+    FirstToPostScripts.initializeFirstToPost();
 }
 
 function initializeFirstToPost()

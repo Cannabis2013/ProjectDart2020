@@ -30,7 +30,7 @@ function createModifier(parentID,keyText, rowIndex, columnIndex) {
 }
 
 function createNumberButton(parentID,keyText, rowIndex, columnIndex) {
-    var component = Qt.createComponent("PushButton.qml");
+    var component = Qt.createComponent("KeyPadItem.qml");
     var properties = {
         "text" : keyText,
         "Layout.row" : rowIndex,
@@ -38,13 +38,7 @@ function createNumberButton(parentID,keyText, rowIndex, columnIndex) {
         "Layout.fillWidth" : true,
         "Layout.fillHeight" : true,
         "Layout.fillHeight" : true,
-        "backgroundColor" : "black",
-        "textColor" : "white",
-        "fontSize" : 16,
-        "buttonRadius" : 5,
-        "pressedScale" : 0.75,
-        "hoveredColor" : "black",
-        "enabled" : false
+
     };
     var button = component.createObject(parentID,properties);
     if(button === null)
