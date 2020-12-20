@@ -94,14 +94,42 @@ public:
     {
         return new Score();
     }
+    int setIndex() const
+    {
+        return _setIndex;
+    }
+    void setSetIndex(int setIndex)
+    {
+        _setIndex = setIndex;
+    }
+
+    int roundIndex() const
+    {
+        return _roundIndex;
+    }
+    void setRoundIndex(int roundIndex)
+    {
+        _roundIndex = roundIndex;
+    }
+
 private:
     int _modelType,
         _pointValue,
         _scoreValue,
         _throwIndex,
+        _setIndex,
+        _roundIndex,
         _hint,
         _keyCode;
     QUuid _id, _player, _set;    
 };
 
 #endif // POINT_H
+
+
+
+
+
+
+
+
