@@ -272,7 +272,8 @@ double FirstToPostDataModel::rowHeightAt(const int &row) const
     auto count = columnCount();
     for (int c = 0; c < count; ++c) {
         auto columnsData = _data.at(row);
-        if(columnsData.count() != columnCount())
+        auto columnsDataCount = columnsData.count();
+        if(columnsDataCount != columnCount())
             return 0;
         auto columnData = columnsData.at(c);
         auto point = columnData.first;
@@ -525,18 +526,20 @@ bool FirstToPostDataModel::removeColumns(int column, int count, const QModelInde
         return false;
 
     // Begin remove columns
+    auto limit = column + count;
     beginRemoveColumns(QModelIndex(),column,column + count);
 
-    for (auto &row : _data) {
-        for (int i = column; i < column + count; ++i)
-            row.removeAt(i);
+    for (int i = 0; i < _data.count(); ++i) {
+        auto row = _data.at(i);
+        for (int j = column; j < limit; ++j)
+            row.removeAt(j);
+        _data.replace(i,row);
+
     }
 
-    endRemoveColumns();
-
     _columns -= count;
-
-    emit dataChanged(createIndex(0,column),createIndex(headerItemCount(0x2),column + count));
+    endRemoveColumns();
+    emit dataChanged(QModelIndex(),QModelIndex());
 
     return true;
 }
@@ -654,25 +657,31 @@ QPair<int, int> FirstToPostDataModel::removeData(const QModelIndex &index)
         return scoreModel(-1,-1);
     auto row = index.row();
     auto column = index.column();
-    auto pairsRow = _data.at(row);
-    auto pair = pairsRow.at(column);
+    auto columnData = _data.at(row);
+    auto data = columnData.at(column);
     auto initialPair = scoreModel(-1,-1);
 
-    pairsRow.replace(column,initialPair);
-    _data.replace(row,pairsRow);
+    columnData.replace(column,initialPair);
+    _data.replace(row,columnData);
     if(headerOrientation() == Qt::Vertical)
     {
         if(isColumnEmpty(column) && column > minimumColumnCount())
+        {
             removeColumns(column,1,QModelIndex());
+            return data;
+        }
     }
     else
     {
         if(isRowEmpty(row) && row > minimumRowCount())
+        {
             removeColumns(column,1,QModelIndex());
+            return data;
+        }
     }
 
     emit dataChanged(createIndex(row,column),createIndex(row,column));
-    return pair;
+    return data;
 }
 
 int FirstToPostDataModel::indexOfHeaderItem(const QString &data, const int &orientation)

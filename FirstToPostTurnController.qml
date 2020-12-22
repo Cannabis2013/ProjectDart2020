@@ -17,14 +17,4 @@ TurnControllerItem{
     id: turnNavigator
     startButtonEnabled: false
     startButtonEnablePressAndHold: true
-
-    onLeftButtonClicked: {
-        body.state = "waitingForInputConfirmation";
-        requestUndo();
-    }
-    
-    onRightButtonClicked: {
-        body.state = "waitingForInputConfirmation";
-        requestRedo();
-    }
 }

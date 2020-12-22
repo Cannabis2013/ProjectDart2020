@@ -37,11 +37,11 @@ public:
     }
     QUuid parent() const override
     {
-        return _set;
+        return _tournament;
     }
     Score* setParent(const QUuid &id) override
     {
-        _set = id;
+        _tournament = id;
         return this;
     }
     QUuid player() const override
@@ -94,22 +94,34 @@ public:
     {
         return new Score();
     }
-    int setIndex() const
+    int setIndex() const override
     {
         return _setIndex;
     }
-    void setSetIndex(int setIndex)
+    Score* setSetIndex(const int &index) override
     {
-        _setIndex = setIndex;
+        _setIndex = index;
+        return this;
     }
 
-    int roundIndex() const
+    int roundIndex() const override
     {
         return _roundIndex;
     }
-    void setRoundIndex(int roundIndex)
+    Score* setRoundIndex(const int &index) override
     {
-        _roundIndex = roundIndex;
+        _roundIndex = index;
+        return this;
+    }
+
+    QUuid tournament() const
+    {
+        return _tournament;
+    }
+    IScore* setTournament(const QUuid &tournament)
+    {
+        _tournament = tournament;
+        return this;
     }
 
 private:
@@ -121,10 +133,14 @@ private:
         _roundIndex,
         _hint,
         _keyCode;
-    QUuid _id, _player, _set;    
+    QUuid _id, _player, _tournament;
 };
 
 #endif // POINT_H
+
+
+
+
 
 
 

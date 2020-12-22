@@ -25,29 +25,17 @@ struct TournamentParameters
     int winConditionKey = 0x2B;
 };
 
-struct RoundParameters
-{
-    int roundIndex;
-    QUuid tournamentId;
-    QUuid id;
-};
-
-struct SetParameters
-{
-    int index;
-    QUuid roundId;
-    QUuid id;
-};
-
 struct ScoreParameters
 {
     int pointValue;
     int scoreValue;
+    int roundIndex;
+    int setIndex;
     int throwIndex;
     int hint;
     int keyCode;
     QUuid playerId;
-    QUuid setId;
+    QUuid tournament;
     QUuid id;
 };
 

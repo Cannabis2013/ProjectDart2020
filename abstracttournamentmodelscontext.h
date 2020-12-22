@@ -11,16 +11,10 @@
 typedef QList<QPair<QUuid,QString>> PlayerPairs;
 
 typedef ITournament<QUuid,QList<QUuid>,QString> DefaultTournamentInterface;
-typedef IRound<QUuid, QList<QUuid>> DefaultRoundInterface;
-typedef ISet<QUuid,QList<QUuid>> DefaultSetInterface;
 typedef IScore<QUuid> DefaultScoreInterface;
 
 typedef ITournamentModelBuilder<DefaultTournamentInterface,
                                 TournamentParameters,
-                                DefaultRoundInterface,
-                                RoundParameters,
-                                DefaultSetInterface,
-                                SetParameters,
                                 DefaultScoreInterface,
                                 ScoreParameters,
                                 ModelOptions> DefaultTournamentModelBuilder;
@@ -31,7 +25,6 @@ public:
     virtual bool generateID() = 0;
     virtual IModelParameter *setGenerateID(const bool &) = 0;
 };
-
 
 class AbstractTournamentModelsContext : public QObject,
         public IResponseInterface<QVariantList>
@@ -74,9 +67,6 @@ public slots:
                           const int &score,
                           const int &keyCode,
                           const bool &isWinnerDetermined) = 0;
-    virtual void handleRequestUpdateContext(const QUuid &tournamentID,
-                                            const int &roundIndex,
-                                            const int &setIndex) = 0;
     virtual void handleRequestSetScoreHint(const QUuid &tournament,
                                            const QUuid &player,
                                            const int &roundIndex,

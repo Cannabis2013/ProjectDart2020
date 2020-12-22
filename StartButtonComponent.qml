@@ -9,6 +9,9 @@ GridLayout{
     signal startButtonClicked
     signal pressAndHoldClicked
 
+    signal enablePressAndHold(bool enable)
+    onEnablePressAndHold: startButton.enablePressAndHold = enable
+
     property string startButtonText: "value"
     onStartButtonTextChanged: startButton.text = startButtonText
     property bool startButtonEnabled: false

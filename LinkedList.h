@@ -88,7 +88,7 @@ public:
         InternalListNode<T> *nodeAtIndex;
         try {
             nodeAtIndex = findAt(i);
-        }  catch (const std::out_of_range e) {
+        }  catch (const std::out_of_range *e) {
             append(o);
             return;
         }
@@ -116,7 +116,7 @@ public:
         InternalListNode<T> *nodeAtIndex = nullptr;
         try {
             nodeAtIndex = findAt(i);
-        }  catch (const std::out_of_range e) {
+        }  catch (const std::out_of_range *e) {
             append(list);
             return;
         }
@@ -145,16 +145,24 @@ public:
     }
     void removeAt(const int &i)
     {
-        InternalListNode<T>* nodeAtIndex;
+        InternalListNode<T>* nodeAtIndex = nullptr;
         try {
             nodeAtIndex = findAt(i);
-        }  catch (const std::out_of_range e) {
+        }  catch (const std::out_of_range *e) {
             throw e;
         }
+        // The previous and next nodes
         auto previousNoteAtIndex = nodeAtIndex->prev();
         auto nextNoteAtIndex = nodeAtIndex->next();
-        previousNoteAtIndex->setNext(nextNoteAtIndex);
-        nextNoteAtIndex->setPrev(previousNoteAtIndex);
+        if(previousNoteAtIndex != nullptr)
+            previousNoteAtIndex->setNext(nextNoteAtIndex);
+        else
+            _firstNode = nextNoteAtIndex;
+        if(nextNoteAtIndex != nullptr)
+            nextNoteAtIndex->setPrev(previousNoteAtIndex);
+        else
+            _lastNode = previousNoteAtIndex;
+        _size--;
         delete nodeAtIndex;
     }
 
@@ -163,7 +171,8 @@ public:
         InternalListNode<T> *nodeAtIndex = nullptr;
         try {
             nodeAtIndex = findAt(i);
-        }  catch (const std::out_of_range e) {
+        }  catch (const std::out_of_range *e) {
+            cout << e->what()  << " Index: " << i << " Size: " << _size << endl;
             throw e;
         }
         auto o = nodeAtIndex->getObj();
@@ -171,7 +180,13 @@ public:
     }
     T value(const int i)
     {
-        auto nodeAtIndex = findAt(i);
+        InternalListNode<T> *nodeAtIndex = nullptr;
+        try {
+            nodeAtIndex = findAt(i);
+        }  catch (std::out_of_range *e) {
+            cout << e->what()  << " Index: " << i << " Size: " << _size << endl;
+            throw e;
+        }
         auto o = nodeAtIndex->getObj();
         return o;
     }
@@ -269,7 +284,7 @@ private:
             index++;
         }
         if(nodeAtIndex == nullptr)
-            throw std::out_of_range(STANDARD_RANGE_EXCEPTION);
+            throw new std::out_of_range(STANDARD_RANGE_EXCEPTION);
         return nodeAtIndex;
     }
     InternalListNode<T> *lastNode() const

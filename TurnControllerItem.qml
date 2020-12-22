@@ -15,7 +15,7 @@ Item {
     signal rightButtonPressAndHoldClicked
 
     property bool startButtonEnablePressAndHold : false
-    onStartButtonEnablePressAndHoldChanged: startButton.enablePressAndHold = startButtonEnablePressAndHold
+    onStartButtonEnablePressAndHoldChanged: startButtonComponent.enablePressAndHold(startButtonEnablePressAndHold)
 
     property string startButtonText: "Start"
     onStartButtonTextChanged: startButtonComponent.startButtonText = startButtonText

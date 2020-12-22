@@ -23,10 +23,6 @@ namespace DefaultModelBuilderContext
 class TournamentModelBuilder :
         public ITournamentModelBuilder<DefaultTournamentInterface,
                                        TournamentParameters,
-                                       DefaultRoundInterface,
-                                       RoundParameters,
-                                       DefaultSetInterface,
-                                       SetParameters,
                                        DefaultScoreInterface,
                                        ScoreParameters,
                                        ModelOptions>
@@ -55,38 +51,17 @@ public:
         return t;
 
     }
-    DefaultRoundInterface *buildRoundModel(const RoundParameters& params, const ModelOptions &options) override
-    {
-        auto t = Round::createInstance()
-                ->setIndex(params.roundIndex)
-                ->setType(DefaultModelBuilderContext::RoundModel)
-                ->setParent(params.tournamentId);
-        if(options.generateUniqueId)
-            t->setId(QUuid::createUuid());
-        else
-            t->setId(params.id);
-        return t;
-    }
-    DefaultSetInterface *buildSetModel(const SetParameters& params, const ModelOptions& options) override
-    {
-        auto t = Set::createInstance()
-                ->setIndex(params.index)
-                ->setParent(params.roundId)
-                ->setType(DefaultModelBuilderContext::SetModel);
-        if(options.generateUniqueId)
-            t->setId(QUuid::createUuid());
-        else
-            t->setId(params.id);
-        return t;
-    }
-    DefaultScoreInterface *buildScoreModel(const ScoreParameters& params, const ModelOptions& options) override
+    DefaultScoreInterface *buildScoreModel(const ScoreParameters& params,
+                                           const ModelOptions& options) override
     {
         auto t = Score::createInstance()
+                ->setRoundIndex(params.roundIndex)
+                ->setSetIndex(params.setIndex)
                 ->setThrowIndex(params.throwIndex)
                 ->setPoint(params.pointValue)
                 ->setScore(params.scoreValue)
                 ->setPlayer(params.playerId)
-                ->setParent(params.setId)
+                ->setParent(params.tournament)
                 ->setKeyCode(params.keyCode)
                 ->setHint(params.hint);
         if(options.generateUniqueId)

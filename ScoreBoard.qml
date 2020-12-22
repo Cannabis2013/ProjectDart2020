@@ -43,7 +43,7 @@ ScoreBoardInterface{
     onSetRowHeight: verticalHeader.setRowHeight(i,h)
 
     signal requestUpdateCells()
-    onRequestUpdateCells: tableView.forceLayout();
+    onRequestUpdateCells: tableView.forceLayout()
 
     signal notifyCellPosition(int x, int y)
 

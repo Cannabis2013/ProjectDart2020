@@ -24,6 +24,12 @@ public:
 
     virtual int keyCode() const = 0;
     virtual IScore* setKeyCode(const int &key) = 0;
+
+    virtual int roundIndex() const = 0;
+    virtual IScore* setRoundIndex(const int &index) = 0;
+
+    virtual int setIndex() const = 0;
+    virtual IScore* setSetIndex(const int &index) = 0;
 };
 
 #endif // ISCOREMODEL_H

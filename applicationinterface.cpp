@@ -349,8 +349,6 @@ void ApplicationInterface::connectControllerInterface()
             _tournamentModelsContext,&AbstractTournamentModelsContext::addScore);
     connect(_tournamentModelsContext,&AbstractTournamentModelsContext::scoreAddedToDataContext,
             _gameController,&AbstractGameController::handleScoreAddedToDataContext);
-    connect(_gameController,&AbstractGameController::requestUpdateContext,
-            _tournamentModelsContext,&AbstractTournamentModelsContext::handleRequestUpdateContext);
     connect(_tournamentModelsContext,&AbstractTournamentModelsContext::datacontextUpdated,
             _gameController,&AbstractGameController::handleDataContextUpdated);
     /*

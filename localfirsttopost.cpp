@@ -416,16 +416,13 @@ void LocalFirstToPost::nextTurn()
             _setIndex = 0;
         }
         _currentStatus = ControllerState::UpdateContextState;
-        emit requestUpdateContext(currentTournamentID(),
-                                  currentRoundIndex(),
-                                  currentSetIndex());
     }
     else
     {
         _throwIndex++;
         _currentStatus = ControllerState::AwaitsInput;
-        sendCurrentTurnValues();
     }
+    sendCurrentTurnValues();
 }
 
 void LocalFirstToPost::declareWinner()

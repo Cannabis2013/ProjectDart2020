@@ -5,6 +5,8 @@ function setupFirstToPost(){
     turnControllerItemSlot.sourceComponent = Qt.createComponent("FirstToPostTurnController.qml");
     turnControllerItemSlot.item.startButtonPressAndHoldClicked.connect(handleStartPressAndHold);
     turnControllerItemSlot.item.startButtonClicked.connect(handleStartClicked);
+    turnControllerItemSlot.item.leftButtonClicked.connect(leftButtonClicked);
+    turnControllerItemSlot.item.rightButtonClicked.connect(rightButtonClicked);
     /*
       Load and setup DisplayKeyDataItem
       */
@@ -111,4 +113,16 @@ function handleStartClicked()
         body.state = "pauseState";
         requestStop();
     }
+}
+
+function leftButtonClicked()
+{
+    body.state = "waitingForInputConfirmation";
+    requestUndo();
+}
+
+function rightButtonClicked()
+{
+    body.state = "waitingForInputConfirmation";
+    requestRedo();
 }
