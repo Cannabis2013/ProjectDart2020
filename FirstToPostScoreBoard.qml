@@ -30,44 +30,35 @@ ScoreBoard {
     onVerticalHeaderFillModeChanged: myModel.verticalFillMode = verticalHeaderFillMode
     onHorizontalHeaderFillModeChanged: myModel.horizontalFillMode = horizontalHeaderFillMode
     onPointFontSizeChanged: {
-        cellDelegate.pointFontSize = pointFontSize;
-        myModel.pointFontPointSize = pointFontSize;
-        }
-
+        delegate.pointFontSize = body.pointFontSize;
+        myModel.pointFontPointSize = body.pointFontSize;
+    }
     onScoreFontSizeChanged: {
-        myModel.scoreFontPointSize = scoreFontSize;
-        cellDelegate.scoreFontSize = scoreFontSize;
+        myModel.scoreFontPointSize = body.scoreFontSize;
+        delegate.scoreFontSize = body.scoreFontSize;
     }
 
     property int cellBorderWidth: 0
-    onCellBorderWidthChanged: cellDelegate.borderWidth = cellBorderWidth
-    onDisplayPointsChanged:  cellDelegate.pointDisplayVisible = displayPoints
-    onPointDisplayWidthChanged: cellDelegate.pointDisplayWidth = pointDisplayWidth
+    onCellBorderWidthChanged: delegate.borderWidth = cellBorderWidth
+    onDisplayPointsChanged:  delegate.pointDisplayVisible = displayPoints
+    onPointDisplayWidthChanged: delegate.pointDisplayWidth = pointDisplayWidth
 
     onNotifyCellPosition: ScoreScripts.setViewPosition(x,y)
 
-    onAppendHeader: {
-        myModel.appendHeaderItem(header,headerOrientation);
-        var preferedWidth = myModel.preferedHeaderItemWidth(orientation);
-        body.updateVerticalHeaderWidth(preferedWidth);
-    }
+    onAppendHeader: ScoreScripts.appendHeader(header,orientation)
 
-    onSetData: {
-        var result = myModel.insertData(playerName,point,score);
-        if(!result)
-            print("Couldn't add data to model");
-    }
-    onTakeData:
-    {
-        var result = myModel.removeLastItem(playerName,-1);
-        if(!result)
-            print("Couldn't take data");
-    }
-    onEditData:
-    {
-        var result = myModel.editData(row,column,point,score);
-        if(!result)
-            print("Couldn't edit data");
+    onSetData: ScoreScripts.setData(playerName,point,score)
+    onTakeData: ScoreScripts.takeData(playerName)
+    onEditData: ScoreScripts.editData(row,column,point,score)
+
+    QtObject{
+        id: cellPositionHolder
+
+        property int px: -1
+        property int py: -1
+
+        property int cx: -1
+        property int cy: -1
     }
 
     columnWidthProvider: function(column)
@@ -91,14 +82,14 @@ ScoreBoard {
     }
 
     cellDelegate: CellDelegate {
-        id: cellDelegate
+        id: delegate
         cellBorderWidth: body.cellBorderWidth
         cellColor: "purple"
         scoreFontSize: body.scoreFontSize
         pointFontSize: body.pointFontSize
         pointDisplayVisible: body.displayPoints
         pointDisplayWidth: body.pointDisplayWidth
-        onNotifyLocation: notifyCellPosition(x,y)
+        onTextChanged: notifyCellPosition(delegate.x,delegate.y);
         text: display
     }
 }

@@ -6,8 +6,6 @@ MyRectangle{
     id: cellBody
     clip: true
 
-    signal notifyLocation(int x, int y)
-
     readonly property int cellHeight: cellBody.height
 
     property bool pointDisplayVisible: false
@@ -109,7 +107,6 @@ MyRectangle{
                 verticalAlignment: cellBody.verticalTextAlignment
                 color: textColor
                 font.pointSize: scoreFontSize
-                onTextChanged: notifyLocation(cellBody.x,cellBody.y);
             }
         }
     }

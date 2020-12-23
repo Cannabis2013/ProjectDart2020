@@ -30,7 +30,6 @@ function updateScoreBoard()
 {
     updateContentDimensions();
     refreshHeaders();
-    //flickableTable.contentX = flickableTable.contentWidth - flickableTable.width;
 }
 
 function updateContentDimensions()
@@ -91,4 +90,29 @@ function totalHeaderHeight()
 function setViewPosition(x,y)
 {
     body.updateViewPosition(x,y);
+}
+
+function appendHeader(header,orientation)
+{
+    myModel.appendHeaderItem(header,headerOrientation);
+    var preferedWidth = myModel.preferedHeaderItemWidth(orientation);
+    body.updateVerticalHeaderWidth(preferedWidth);
+}
+
+function setData(playerName,point,score){
+    var result = myModel.insertData(playerName,point,score);
+    if(!result)
+        print("Couldn't add data to model");
+}
+
+function takeData(playerName){
+    var result = myModel.removeLastItem(playerName,-1);
+    if(!result)
+        print("Couldn't take data");
+}
+
+function editData(row,column,point,score){
+    var result = myModel.editData(row,column,point,score);
+    if(!result)
+        print("Couldn't edit data");
 }
