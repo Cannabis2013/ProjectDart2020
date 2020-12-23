@@ -34,12 +34,8 @@ function initializeFirstToPost()
 function setupFirstToPostScoreTable()
 {
     body.scoreRecieved.connect(scoreBoardItemSlot.item.setData);
-    scoreBoardItemSlot.item.displayPoints = true;
-    if(body.headerOrientation === Qt.Horizontal)
-        setupHorizontalBoard();
-    else
-        setupVerticalBoard();
-
+    scoreBoardItemSlot.item.displayPoints = false;
+    setupHorizontalBoard();
 }
 
 function setupVerticalBoard()
@@ -68,6 +64,7 @@ function setupHorizontalBoard()
     scoreBoardItemSlot.item.headerOrientation = Qt.Horizontal;
     scoreBoardItemSlot.item.minimumRowCount(4);
     scoreBoardItemSlot.item.sizeScale(1);
+    scoreBoardItemSlot.item.verticalHeaderVisible = false;
 
     var assignedPlayers = currentTournamentMetaData.assignedPlayers;
     var keyPoint = currentTournamentMetaData.tournamentKeyPoint;

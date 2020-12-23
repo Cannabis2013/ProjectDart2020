@@ -34,34 +34,45 @@ function updateScoreBoard()
 
 function updateContentDimensions()
 {
-    var tHeight = totalHeaderHeight();
-    var tWidth = totalColumnsWidth();
-    body.updateContentDimensions(tHeight,tWidth);
+    var tHeight = calculateHeight();
+    var tWidth = calculateWidth();
+    //fTPBody.updateContentDimensions(tHeight,tWidth);
 }
 
 function refreshHeaders()
 {
     // Refresh horizontal headers
-    body.horizontalHeaderModel = myModel.columnCount;
-    let hDataCount = body.horizontalHeaderCount;
+    fTPBody.horizontalHeaderModel = myModel.columnCount;
+    let w = fTPBody.width / myModel.columnCount;
+    let hDataCount = fTPBody.horizontalHeaderCount;
     for(var j = 0;j < hDataCount;j++)
     {
         let hHeaderValue = myModel.getHeaderData(j,Qt.Horizontal);
-        let columnWidth = myModel.columnWidthAt(j);
-        body.setColumnWidth(j,columnWidth);
-        body.setHorizontalHeaderDataAt(j,hHeaderValue);
+        let columnWidth = w;
+        fTPBody.setColumnWidth(j,columnWidth);
+        fTPBody.setHorizontalHeaderDataAt(j,hHeaderValue);
     }
     // Refresh vertical headers
     let headerCount = myModel.headerItemCount(Qt.Vertical);
-    body.verticalHeaderModel = headerCount;
+    fTPBody.verticalHeaderModel = headerCount;
     for(var i = 0;i < headerCount;i++)
     {
         let vHeaderValue = myModel.getHeaderData(i,Qt.Vertical);
         let rowHeight = myModel.rowHeightAt(i);
-        body.setRowHeight(i,rowHeight);
-        body.setVerticalHeaderDataAt(i,vHeaderValue);
+        fTPBody.setRowHeight(i,rowHeight);
+        fTPBody.setVerticalHeaderDataAt(i,vHeaderValue);
     }
-    body.requestUpdateCells();
+    fTPBody.requestUpdateCells();
+}
+
+function calculateHeight()
+{
+    return totalHeaderHeight();
+}
+
+function calculateWidth()
+{
+    return totalColumnsWidth();
 }
 
 function totalColumnsWidth()
@@ -89,14 +100,14 @@ function totalHeaderHeight()
 
 function setViewPosition(x,y)
 {
-    body.updateViewPosition(x,y);
+    fTPBody.updateViewPosition(x,y);
 }
 
 function appendHeader(header,orientation)
 {
     myModel.appendHeaderItem(header,headerOrientation);
-    var preferedWidth = myModel.preferedHeaderItemWidth(orientation);
-    body.updateVerticalHeaderWidth(preferedWidth);
+    var preferedWidth = myModel.preferedHeaderItemWidth();
+    fTPBody.updateVerticalHeaderWidth(preferedWidth);
 }
 
 function setData(playerName,point,score){

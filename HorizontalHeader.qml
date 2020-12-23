@@ -15,6 +15,9 @@ Row
     property color color: "black"
     onColorChanged: cellBodyText.color = color
 
+    property int fontSize: 12
+    onFontSizeChanged: cellBodyText.font.pointSize = body.fontSize
+
     property int cellWidth: 25
     onCellWidthChanged: cellBody.width = cellWidth
 
@@ -71,7 +74,7 @@ Row
 
                 color: body.color
 
-                font.pointSize: 12
+                font.pointSize: body.fontSize
 
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter

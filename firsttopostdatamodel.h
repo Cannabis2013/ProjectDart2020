@@ -39,6 +39,7 @@ public:
     Q_PROPERTY(int verticalFillMode READ verticalHeaderFillMode WRITE setVerticalHeaderFillMode NOTIFY fillModeChanged);
     Q_PROPERTY(int horizontalFillMode READ horizontalHeaderFillMode WRITE setHorizontalHeaderFillMode NOTIFY fillModeChanged);
     Q_PROPERTY(int headerOrientation READ headerOrientation WRITE setHeaderOrientation NOTIFY headerOrientationChanged);
+    Q_PROPERTY(int headerFontSize READ headerFontSize WRITE setHeaderFontSize NOTIFY headerFontSizeChanged)
     // Columns and rows properties
     Q_PROPERTY(double columnWidthScale READ scale WRITE setScale NOTIFY columnWidthScaleChanged);
     Q_PROPERTY(int columnCount READ columnCount WRITE setColumnCount NOTIFY columnCountChanged);
@@ -50,11 +51,11 @@ public:
     Q_PROPERTY(int throwCount READ numberOfThrows WRITE setNumberOfThrows NOTIFY numberOfThrowsChanged);
     // public exposed methods
     // Data related
-    Q_INVOKABLE QVariant getData(const int &row, const int &column, const int &mode);
-    Q_INVOKABLE int editData(const int &row, const int &column, const int &point, const int &score);
     Q_INVOKABLE bool insertData(const QString &playerName,
                                    const int &point,
                                    const int &score);
+    Q_INVOKABLE int editData(const int &row, const int &column, const int &point, const int &score);
+    Q_INVOKABLE QVariant getData(const int &row, const int &column, const int &mode);
     Q_INVOKABLE bool removeLastItem(const QString &playerName,
                                     const int &headerOrientation = -1);
     Q_INVOKABLE void clearData();
@@ -64,7 +65,7 @@ public:
     Q_INVOKABLE int horizontalHeaderCount() const;
     Q_INVOKABLE int verticalHeaderCount() const;
     Q_INVOKABLE int headerItemCount(const int &headerOrientation = -1) const;
-    Q_INVOKABLE int preferedHeaderItemWidth(const int &orientation = Qt::Vertical) const;
+    Q_INVOKABLE int preferedHeaderItemWidth() const;
     Q_INVOKABLE void setColumnCount(const int &count);
     Q_INVOKABLE void setRowCount(const int &count);
     // Rows and columns related
@@ -80,7 +81,11 @@ public:
     Q_INVOKABLE int initialValue() const;
     Q_INVOKABLE void setInitialValue(int initialValue);
 
-    // Public virtual method implementations
+    /*
+     * Public virtual method implementations
+     *  - Header orientation
+     *  - Number of row/column increment
+     */
     Q_INVOKABLE int headerOrientation() const;
     Q_INVOKABLE void setHeaderOrientation(int headerOrientation);
     Q_INVOKABLE int numberOfThrows() const;
@@ -99,11 +104,6 @@ public:
     QString pointFontFamily() const;
     void setPointFontFamily(const QString &pointFontFamily);
 
-    int currentVerticalHeaderItemWidth() const;
-    int currentHorizontalHeaderItemWidth() const;
-
-    void setCurrentHorizontalHeaderItemWidth(int currentHorizontalHeaderItemWidth);
-    void setCurrentVerticalHeaderItemWidth(int currentVerticalHeaderItemWidth);
     // Header non-exposed methods
     int horizontalHeaderFillMode() const;
     int verticalHeaderFillMode() const;
@@ -120,6 +120,9 @@ public:
     int rowCount(const QModelIndex &) const override;
     int columnCount(const QModelIndex &) const override;
     void setColumnWidthAt(const int &column,const double &w);
+    int columnWidthsAt(const int &index) const;
+    int headerFontSize() const;
+    void setHeaderFontSize(int headerFontSize);
 
 signals:
     void fillModeChanged();
@@ -133,6 +136,7 @@ signals:
     void fontChanged();
     void scaleChanged();
     void appendModeChanged();
+    void headerFontSizeChanged();
 protected:
     QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
     QVariant data(const QModelIndex &index, int role) const override;
@@ -163,7 +167,7 @@ private:
     /*
      * Font metrics related
      */
-    QRect stringWidth(const QString &string,
+    int stringWidth(const QString &string,
                       const QString &family = "",
                       const int &pointSize = -1) const;
     // State member variables
@@ -185,11 +189,12 @@ private:
 
     /*
      * Font related
-     *  - Score/point font size
-     *  - Score/point font family
+     *  - Score/point/header font size
+     *  - Score/point/header font family
      */
     int _scoreFontSize = 12;
     int _pointFontSize = 8;
+    int _headerFontSize = 12;
 
     QString _scoreFontFamily = "MS Sans Serif";
     QString _pointFontFamily = "MS Sans Serif";
@@ -198,9 +203,6 @@ private:
      */
     QStringList _verticalHeaderData;
     QStringList _horizontalHeaderData;
-
-    int _currentVerticalHeaderItemWidth = 0;
-    int _currentHorizontalHeaderItemWidth = 0;
     /*
      * Column widths
      */

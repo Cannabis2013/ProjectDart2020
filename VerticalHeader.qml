@@ -12,6 +12,9 @@ Column
     property color backgroundColor: "transparent"
     onBackgroundColorChanged: cellBody.color = backgroundColor
 
+    property int fontSize: 12
+    onFontSizeChanged: cellBodyText.font.pointSize = body.fontSize
+
     property color color: "black"
     onColorChanged: cellBodyText.color = color
     property int cellWidth: 125

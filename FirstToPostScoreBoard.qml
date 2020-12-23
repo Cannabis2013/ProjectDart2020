@@ -4,18 +4,30 @@ import CustomItems 1.0
 import "scoreBoardScripts.js" as ScoreScripts
 
 ScoreBoard {
-    id: body
+    id: fTPBody
 
     // Data related
     onClearData: myModel.clearData();
     // Point related
     property int pointFontSize: 10
+    onPointFontSizeChanged: {
+        delegate.pointFontSize = fTPBody.pointFontSize;
+        myModel.pointFontPointSize = fTPBody.pointFontSize;
+    }
+
+    horizontalHeaderFontSize: 24
+
     property bool displayPoints: false
+    onDisplayPointsChanged:  delegate.pointDisplayVisible = displayPoints
     property int pointDisplayWidth: 20
     property int pointDisplayHeight: 20
 
     // Score related
-    property int scoreFontSize: 20
+    property int scoreFontSize: 48
+    onScoreFontSizeChanged: {
+        myModel.scoreFontPointSize = fTPBody.scoreFontSize;
+        delegate.scoreFontSize = fTPBody.scoreFontSize;
+    }
 
     onSizeScale: myModel.scale = s
 
@@ -24,23 +36,21 @@ ScoreBoard {
 
     onMinimumColumnCount: myModel.setMinimumColumnCount(count);
     onMinimumRowCount: myModel.setMinimumRowCount(count);
-    headerOrientation: Qt.Vertical
+    headerOrientation: Qt.Horizontal
+    // Header related
+    property int headerFontSize: 24
+    onHeaderFontSizeChanged: {
+        myModel.headerFontSize = fTPBody.headerFontSize;
+
+    }
     // Header signal handling related
     onHeaderOrientationChanged: myModel.setHeaderOrientation(headerOrientation)
     onVerticalHeaderFillModeChanged: myModel.verticalFillMode = verticalHeaderFillMode
     onHorizontalHeaderFillModeChanged: myModel.horizontalFillMode = horizontalHeaderFillMode
-    onPointFontSizeChanged: {
-        delegate.pointFontSize = body.pointFontSize;
-        myModel.pointFontPointSize = body.pointFontSize;
-    }
-    onScoreFontSizeChanged: {
-        myModel.scoreFontPointSize = body.scoreFontSize;
-        delegate.scoreFontSize = body.scoreFontSize;
-    }
 
     property int cellBorderWidth: 0
     onCellBorderWidthChanged: delegate.borderWidth = cellBorderWidth
-    onDisplayPointsChanged:  delegate.pointDisplayVisible = displayPoints
+
     onPointDisplayWidthChanged: delegate.pointDisplayWidth = pointDisplayWidth
 
     onNotifyCellPosition: ScoreScripts.setViewPosition(x,y)
@@ -61,34 +71,34 @@ ScoreBoard {
         property int cy: -1
     }
 
-    columnWidthProvider: function(column)
-    {
-        return myModel.columnWidthAt(column);
+    columnWidthProvider: function(column){
+        return fTPBody.width / myModel.columnCount;
     }
 
     rowHeightProvider: function(row)
     {
-        return myModel.rowHeightAt(row);
+        return fTPBody.height;
+        //return myModel.rowHeightAt(row);
     }
 
     model: FTPDataModel {
         id: myModel
         onDataChanged: ScoreScripts.updateScoreBoard();
-        throwCount : body.throwsPerRound
-        headerOrientation: body.headerOrientation
-        pointFontPointSize: body.pointFontSize
-        scoreFontPointSize: body.scoreFontSize
-        appendMode: 0x8
+        throwCount : fTPBody.throwsPerRound
+        headerOrientation: fTPBody.headerOrientation
+        pointFontPointSize: fTPBody.pointFontSize
+        scoreFontPointSize: fTPBody.scoreFontSize
+        appendMode: 0x4
     }
 
     cellDelegate: CellDelegate {
         id: delegate
-        cellBorderWidth: body.cellBorderWidth
-        cellColor: "purple"
-        scoreFontSize: body.scoreFontSize
-        pointFontSize: body.pointFontSize
-        pointDisplayVisible: body.displayPoints
-        pointDisplayWidth: body.pointDisplayWidth
+        cellBorderWidth: fTPBody.cellBorderWidth
+        cellColor: "transparent"
+        scoreFontSize: fTPBody.scoreFontSize
+        pointFontSize: fTPBody.pointFontSize
+        pointDisplayVisible: fTPBody.displayPoints
+        pointDisplayWidth: fTPBody.pointDisplayWidth
         onTextChanged: notifyCellPosition(delegate.x,delegate.y);
         text: display
     }

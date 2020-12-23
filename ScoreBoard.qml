@@ -60,12 +60,24 @@ ScoreBoardInterface{
     property int headerOrientation: Qt.Vertical
 
     // Header related
+    property color horizontalHeaderBackgroundColor: "lightgray"
+    onHorizontalHeaderBackgroundColorChanged: horizontalHeader.backgroundColor = horizontalHeaderBackgroundColor
+    property color verticalHeaderBackgroundColor: "lightgray"
+    onVerticalHeaderBackgroundColorChanged: verticalHeader.backgroundColor = verticalHeaderBackgroundColor
+    property bool verticalHeaderVisible: true
+    onVerticalHeaderVisibleChanged: flickableVHeader.visible = verticalHeaderVisible
+    property bool horizontalHeaderVisible: true
+    onHorizontalHeaderVisibleChanged: flickableHHeader.visible = horizontalHeaderVisible
     property int horizontalHeaderHeight: 20
     onHorizontalHeaderHeightChanged: horizontalHeader.height = horizontalHeaderHeight
     property bool staticVerticalHeaderWidth: false
     property int verticalHeaderWidth: 25
     onVerticalHeaderWidthChanged: verticalHeader.width = verticalHeaderWidth
     property int verticalHeaderFillMode: 0x2
+    property int verticalHeaderFontSize: 12
+    onVerticalHeaderFontSizeChanged: verticalHeader.fontSize = verticalHeaderFontSize
+    property int horizontalHeaderFontSize: 12
+    onHorizontalHeaderFontSizeChanged: horizontalHeader.fontSize = horizontalHeaderFontSize
 
     property int horizontalHeaderFillMode: 0x1
 
@@ -113,7 +125,7 @@ ScoreBoardInterface{
             VerticalHeader {
                 id: verticalHeader
                 anchors.fill: parent
-                backgroundColor: "lightgray"
+                backgroundColor: body.verticalHeaderBackgroundColor
                 color: "black"
                 borderWidth: 1
                 Layout.alignment: Qt.AlignTop
@@ -124,15 +136,15 @@ ScoreBoardInterface{
             id: flickableHHeader
             clip: true
             Layout.fillWidth: true
-            Layout.minimumHeight: 25
-            contentHeight: 25
+            Layout.minimumHeight: 45
+            contentHeight: 45
             Layout.row: 0
             Layout.column: 1
             interactive: false
             HorizontalHeader {
                 id: horizontalHeader
                 anchors.fill: flickableHHeader.contentItem
-                backgroundColor: "lightgray"
+                backgroundColor: body.horizontalHeaderBackgroundColor
                 color: "black"
                 borderWidth: 1
             }

@@ -49,12 +49,12 @@ MyRectangle{
     
     property string text: ""
     onTextChanged: {
-        seperateText(text);
+        processText(text);
     }
 
     color: cellColor
 
-    function seperateText(txt)
+    function processText(txt)
     {
         var i = txt.indexOf(' ');
         var n = txt.length;

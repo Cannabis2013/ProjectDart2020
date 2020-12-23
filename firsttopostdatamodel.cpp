@@ -56,7 +56,10 @@ bool FirstToPostDataModel::insertData(const QString &playerName,
     return false;
 }
 
-bool FirstToPostDataModel::setPlayerData(const QString &playerName, const int &point, const int &score, const int &headerOrientation)
+bool FirstToPostDataModel::setPlayerData(const QString &playerName,
+                                         const int &point,
+                                         const int &score,
+                                         const int &headerOrientation)
 {
     auto orientation = headerOrientation != -1 ? headerOrientation : this->headerOrientation();
     auto index = indexOfHeaderItem(playerName,orientation);
@@ -152,18 +155,23 @@ bool FirstToPostDataModel::removeLastItem(const QString &playerName, const int &
     }
 }
 
-void FirstToPostDataModel::appendHeaderItem(const QVariant &data, const int &headerOrientation)
+void FirstToPostDataModel::appendHeaderItem(const QVariant &data,
+                                            const int &headerOrientation)
 {
-    auto orientation = headerOrientation != -1 ? headerOrientation : this->headerOrientation();
-    auto glyphLength = stringWidth(data.toString(),scoreFontFamily(),scoreFontSize()).width();
+    auto orientation = headerOrientation != -1 ?
+                headerOrientation : this->headerOrientation();
+    auto glyphLength = stringWidth(data.toString(),
+                                   scoreFontFamily(),
+                                   headerFontSize());
     if(orientation == Qt::Horizontal){
         if(_horizontalHeaderData.count() >= columnCount())
             insertColumns(_horizontalHeaderData.count(),1,QModelIndex());
         else
             emit dataChanged(QModelIndex(),QModelIndex());
-        if(glyphLength > currentHorizontalHeaderItemWidth())
-            setCurrentHorizontalHeaderItemWidth(glyphLength);
         _horizontalHeaderData.append(data.toString());
+        auto column = _horizontalHeaderData.count() - 1;
+        if(glyphLength > columnWidthsAt(column))
+            setColumnWidthAt(column,glyphLength);
     }
     else{
         if(_verticalHeaderData.count() >= rowCount())
@@ -171,8 +179,8 @@ void FirstToPostDataModel::appendHeaderItem(const QVariant &data, const int &hea
         else
             emit dataChanged(QModelIndex(),QModelIndex());
         _verticalHeaderData.append(data.toString());
-        if(glyphLength > currentVerticalHeaderItemWidth())
-            setCurrentVerticalHeaderItemWidth(glyphLength);
+        if(glyphLength > columnWidthsAt(0))
+            setColumnWidthAt(0,glyphLength);
     }
 }
 
@@ -229,23 +237,10 @@ int FirstToPostDataModel::columnCount() const
 
 double FirstToPostDataModel::columnWidthAt(const int &column) const
 {
-    int headerGlyphLength = defaultCellWidth;
-    QString headerDataAtColumn = "";
-
-    if(horizontalHeaderFillMode() == HeaderFillMode::FixedStrings)
-    {
-        if(column < _horizontalHeaderData.count())
-            headerDataAtColumn = _horizontalHeaderData.at(column);
-        headerGlyphLength = stringWidth(headerDataAtColumn,
-                                        scoreFontFamily(),
-                                        scoreFontSize()).width();
-    }
-
-
-    auto greatestColumnGlyphLength = _columnWidths.at(column);
-    auto greatestGlyphLength = headerGlyphLength > greatestColumnGlyphLength ? headerGlyphLength :
-                                                                               greatestColumnGlyphLength;
-    return greatestGlyphLength * scale();
+    auto s = scale();
+    auto w = columnWidthsAt(column);
+    auto columnWidth = s*w;
+    return columnWidth;
 }
 
 double FirstToPostDataModel::rowHeightAt(const int &row) const
@@ -315,6 +310,11 @@ int FirstToPostDataModel::columnCount(const QModelIndex &) const
 void FirstToPostDataModel::setColumnWidthAt(const int &column, const double &w)
 {
     _columnWidths.replace(column,w);
+}
+
+int FirstToPostDataModel::columnWidthsAt(const int &index) const
+{
+    return _columnWidths.at(index);
 }
 
 QVariant FirstToPostDataModel::data(const QModelIndex &index, int role) const
@@ -395,15 +395,18 @@ bool FirstToPostDataModel::setData(const QModelIndex &index, const QVariant &val
 
     if(row >= rowCount())
     {
-        auto deltaR = numberOfThrows();
+        auto deltaR = appendMode() != AppendDataMode::SingleAppend ?
+                    numberOfThrows() : 1;
         insertRows(row,deltaR,QModelIndex());
     }
 
     if(column >= columnCount())
     {
-        auto deltaC = numberOfThrows();
+        auto deltaC = appendMode() != AppendDataMode::SingleAppend ?
+                    numberOfThrows() : 1;
         insertColumns(column,deltaC,QModelIndex());
     }
+
 
     auto pairs = _data.at(row);
 
@@ -415,12 +418,12 @@ bool FirstToPostDataModel::setData(const QModelIndex &index, const QVariant &val
 
     auto pointGlypWidth = stringWidth(QString::number(newPair.first),
                                       pointFontFamily(),
-                                      pointFontSize()).width();
+                                      pointFontSize());
     auto scoreGlypWidth = stringWidth(QString::number(newPair.second),
                                       scoreFontFamily(),
-                                      scoreFontSize()).width();
+                                      scoreFontSize());
     int totalGlyphWidth = pointGlypWidth + scoreGlypWidth;
-    if(totalGlyphWidth > _columnWidths.at(column))
+    if(totalGlyphWidth > columnWidthsAt(column))
         setColumnWidthAt(column,totalGlyphWidth);
 
     emit dataChanged(index,index,{role});
@@ -534,7 +537,6 @@ bool FirstToPostDataModel::removeColumns(int column, int count, const QModelInde
         for (int j = column; j < limit; ++j)
             row.removeAt(j);
         _data.replace(i,row);
-
     }
 
     _columns -= count;
@@ -698,11 +700,21 @@ int FirstToPostDataModel::indexOfHeaderItem(const QString &data, const int &orie
     }
 }
 
-QRect FirstToPostDataModel::stringWidth(const QString &string, const QString &family, const int &pointSize) const
+int FirstToPostDataModel::stringWidth(const QString &string, const QString &family, const int &pointSize) const
 {
     auto fontMetric = QFontMetrics(QFont(family,pointSize));
-    auto r = fontMetric.boundingRect(string);
+    auto r = fontMetric.boundingRect(string).width();
     return r;
+}
+
+int FirstToPostDataModel::headerFontSize() const
+{
+    return _headerFontSize;
+}
+
+void FirstToPostDataModel::setHeaderFontSize(int headerFontSize)
+{
+    _headerFontSize = headerFontSize;
 }
 
 QStringList FirstToPostDataModel::getHorizontalHeaderData() const
@@ -734,27 +746,6 @@ void FirstToPostDataModel::setAppendMode(int appendMode)
 {
     _appendMode = appendMode;
 }
-
-void FirstToPostDataModel::setCurrentVerticalHeaderItemWidth(int currentVerticalHeaderItemWidth)
-{
-    _currentVerticalHeaderItemWidth = currentVerticalHeaderItemWidth;
-}
-
-void FirstToPostDataModel::setCurrentHorizontalHeaderItemWidth(int currentHorizontalHeaderItemWidth)
-{
-    _currentHorizontalHeaderItemWidth = currentHorizontalHeaderItemWidth;
-}
-
-int FirstToPostDataModel::currentHorizontalHeaderItemWidth() const
-{
-    return _currentHorizontalHeaderItemWidth;
-}
-
-int FirstToPostDataModel::currentVerticalHeaderItemWidth() const
-{
-    return _currentVerticalHeaderItemWidth;
-}
-
 
 QString FirstToPostDataModel::pointFontFamily() const
 {
@@ -848,19 +839,10 @@ void FirstToPostDataModel::setHeaderOrientation(int headerOrientation)
     _headerOrientation = headerOrientation;
 }
 
-int FirstToPostDataModel::preferedHeaderItemWidth(const int &orientation) const
+int FirstToPostDataModel::preferedHeaderItemWidth() const
 {
-    auto result = defaultCellWidth;
-    if(orientation == Qt::Vertical)
-    {
-        if(verticalHeaderFillMode() == HeaderFillMode::DynamicNumerics)
-            result = rowCount() / _numberOfThrows;
-        else if(verticalHeaderFillMode() == HeaderFillMode::FixedStrings)
-            result = currentVerticalHeaderItemWidth();
-    }
-    if(result < defaultCellWidth)
-        result = defaultCellWidth;
-    return result;
+    auto preferedWidth = columnWidthsAt(0);
+    return preferedWidth;
 }
 
 void FirstToPostDataModel::setNumberOfThrows(const int &count)
