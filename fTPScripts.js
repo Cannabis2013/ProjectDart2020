@@ -2,27 +2,32 @@ function setupFirstToPost(){
     /*
       Load and setup turncontroller
       */
-    turnControllerItemSlot.sourceComponent = Qt.createComponent("FirstToPostTurnController.qml");
-    turnControllerItemSlot.item.startButtonPressAndHoldClicked.connect(handleStartPressAndHold);
-    turnControllerItemSlot.item.startButtonClicked.connect(handleStartClicked);
-    turnControllerItemSlot.item.leftButtonClicked.connect(leftButtonClicked);
-    turnControllerItemSlot.item.rightButtonClicked.connect(rightButtonClicked);
+    turnControllerItemSlot.sourceComponent =
+            GamePageFactory.buildTurnController(TournamentContext.firstToPost,
+                                                TournamentContext.singleDimensional);
+    setupTurnController();
     /*
       Load and setup DisplayKeyDataItem
       */
-    notificationItemSlot.sourceComponent = Qt.createComponent("DisplayKeyDataItem.qml");
+    notificationItemSlot.sourceComponent =
+            GamePageFactory.buildDisplayItem(TournamentContext.firstToPost,
+                                             TournamentContext.singleDimensional);
     /*
       Load and setup ScoreTable
       */
-    scoreBoardItemSlot.sourceComponent = Qt.createComponent("FirstToPostScoreBoard.qml");
-    setupFirstToPostScoreTable()
+    scoreBoardItemSlot.sourceComponent =
+            GamePageFactory.buildScoreBoard(TournamentContext.firstToPost,
+                                            TournamentContext.singleDimensional);
+    setupFirstToPostScoreTable();
     /*
       Load and setup DefaultKeyPadComponent
       */
-    keyPaditemSlot.sourceComponent = Qt.createComponent("DefaultKeyPadComponent.qml");
-    keyPaditemSlot.item.sendInput.connect(GameGeneralScripts.handleKeyPadInput);
+    keyPaditemSlot.sourceComponent =
+            GamePageFactory.buildKeyPad(TournamentContext.firstToPost,
+                                        TournamentContext.singleDimensional);
+    setupKeyPad();
 
-    FirstToPostScripts.initializeFirstToPost();
+    initializeFirstToPost();
 }
 
 function initializeFirstToPost()
@@ -54,7 +59,6 @@ function setupVerticalBoard()
         scoreBoardItemSlot.item.appendHeader(assignedPlayerName,Qt.Vertical);
         scoreBoardItemSlot.item.setData(assignedPlayerName,0,keyPoint,undefined);
     }
-    scoreBoardItemSlot.item.minimumColumnCount(4);
 }
 
 function setupHorizontalBoard()
@@ -62,13 +66,10 @@ function setupHorizontalBoard()
     scoreBoardItemSlot.item.verticalHeaderFillMode = 0x1;
     scoreBoardItemSlot.item.horizontalHeaderFillMode = 0x2;
     scoreBoardItemSlot.item.headerOrientation = Qt.Horizontal;
-    scoreBoardItemSlot.item.minimumRowCount(4);
     scoreBoardItemSlot.item.sizeScale(1);
     scoreBoardItemSlot.item.verticalHeaderVisible = false;
-
     var assignedPlayers = currentTournamentMetaData.assignedPlayers;
     var keyPoint = currentTournamentMetaData.tournamentKeyPoint;
-
     for(var i = 0; i < assignedPlayers.length;i++)
     {
         var assignedPlayerName = assignedPlayers[i];
@@ -76,10 +77,22 @@ function setupHorizontalBoard()
         scoreBoardItemSlot.item.setData(assignedPlayerName,0,keyPoint,undefined);
     }
 }
-
 /*
-  Handle TurnController events
+  TurnControlle related
+    - Setup TurnController
+    - Handle TurnController events
   */
+function setupTurnController(){
+    turnControllerItemSlot.item.startButtonPressAndHoldClicked.connect(handleStartPressAndHold);
+    turnControllerItemSlot.item.startButtonClicked.connect(handleStartClicked);
+    turnControllerItemSlot.item.leftButtonClicked.connect(leftButtonClicked);
+    turnControllerItemSlot.item.rightButtonClicked.connect(rightButtonClicked);
+}
+function setupKeyPad(){
+    keyPaditemSlot.item.sendInput.connect(GameGeneralScripts.handleKeyPadInput);
+    keyPaditemSlot.item.sendInput.connect(body.notifyUserInputRecieved);
+}
+
 function handleStartPressAndHold()
 {
     if(body.state === "waitingForInput")

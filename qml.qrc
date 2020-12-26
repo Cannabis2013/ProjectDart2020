@@ -39,7 +39,7 @@
         <file>DefaultKeyPadComponent.qml</file>
         <file>DisplayKeyDataItem.qml</file>
         <file>FirstToPostTurnController.qml</file>
-        <file>firstToPostScripts.js</file>
+        <file>fTPScripts.js</file>
         <file>KeyPadInterface.qml</file>
         <file>scoreBoardScripts.js</file>
         <file>ScoreBoardInterface.qml</file>
@@ -54,11 +54,14 @@
         <file>managePageScripts.js</file>
         <file>PageIconItem.qml</file>
         <file>gamePageGeneralScripts.js</file>
-        <file>FirstToPostScoreBoard.qml</file>
+        <file>FTPSingleScoreBoard.qml</file>
         <file>StartButtonComponent.qml</file>
         <file>KeyPadItem.qml</file>
         <file>InteractiveObject.qml</file>
         <file>ItemDelegateInterface.qml</file>
+        <file>gamePageFactory.js</file>
+        <file>TournamentContext.qml</file>
+        <file>NotificationItem.qml</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>

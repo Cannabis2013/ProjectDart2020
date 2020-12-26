@@ -302,9 +302,7 @@ void LocalTournamentModelsContext::removeModelsRelatedToTournament(const QUuid &
 {
     /*
      * Remove models in the following order:
-     *  1. Remove ScoreModel's
-     *  2. Remove SetModel's
-     *  3. Remove RoundModel's
+     *  - Remove ScoreModel's
      */
     removeTournamentScores(tournament);
 }

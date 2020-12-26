@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<FirstToPostDataModel>("CustomItems",1,0,"FTPDataModel");
     qmlRegisterSingletonType(QUrl("qrc:/ThemeContext.qml"),"customDefinitions",1,0,"ThemeContext");
-
+    qmlRegisterSingletonType(QUrl("qrc:/TournamentContext.qml"),"CustomValues",1,0,"TournamentContext");
     auto tournamentModelsContext =
             LocalTournamentModelsContext::createInstance()->
             setModelBuilder(new TournamentModelBuilder())->

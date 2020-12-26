@@ -5,7 +5,6 @@ import "scoreBoardScripts.js" as ScoreScripts
 
 ScoreBoard {
     id: fTPBody
-
     // Data related
     onClearData: myModel.clearData();
     // Point related

@@ -17,9 +17,6 @@ KeyPadComponent{
 
     signal sendInput(int value, int keyCode)
     anchors.fill: parent
-    onKeyClicked: {
-        parent.state = "waitingForInputConfirmation";
-        sendInput(val,modifierCode);
-    }
+    onKeyClicked: sendInput(val,modifierCode);
     enableKeys: false
 }

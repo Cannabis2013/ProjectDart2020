@@ -165,7 +165,7 @@ void LocalFirstToPost::handleTournamentResetSuccess()
     for (int i = 0; i < playerCount(); ++i)
         setPlayerScore(i,keyPoint());
     _currentStatus = ControllerState::Initialized;
-    //emit requestTournamentIndexes(currentTournamentID());
+    emit requestTournamentIndexes(currentTournamentID());
     emit transmitResponse(ControllerResponse::controllerReset,{});
 }
 

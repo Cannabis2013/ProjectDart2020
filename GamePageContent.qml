@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
-import "firstToPostScripts.js" as FirstToPostScripts
+import "gamePageFactory.js" as GamePageFactory
+import "fTPScripts.js" as FirstToPostScripts
 import "gamePageGeneralScripts.js" as GameGeneralScripts
 
 /*
@@ -27,6 +28,8 @@ Content {
     signal requestUndo
     signal requestRedo
     signal sendInput(int value, int modifier)
+    signal notifyUserInputRecieved(int value, int keyCode)
+    onNotifyUserInputRecieved: body.state = "waitingForInputConfirmation"
 
 
     signal scoreRecieved(string playerName, int point, int score, int keyCode)

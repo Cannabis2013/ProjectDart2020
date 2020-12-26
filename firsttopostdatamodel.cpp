@@ -38,20 +38,10 @@ bool FirstToPostDataModel::insertData(const QString &playerName,
                                          const int &point,
                                          const int &score)
 {
-    if(headerOrientation() == Qt::Horizontal)
-    {
-        if(appendMode() == AppendDataMode::SingleAppend)
-            return setPlayerData(playerName,point,score,headerOrientation());
-        else
-            return appendPlayerData(playerName,point,score,headerOrientation());
-    }
-    else if(headerOrientation() == Qt::Vertical)
-    {
-        if(appendMode() == AppendDataMode::SingleAppend)
-            return setPlayerData(playerName,point,score,headerOrientation());
-        else
-            return appendPlayerData(playerName,point,score,headerOrientation());
-    }
+    if(appendMode() == AppendDataMode::SingleAppend)
+        return setPlayerData(playerName,point,score,headerOrientation());
+    else
+        return appendPlayerData(playerName,point,score,headerOrientation());
 
     return false;
 }
@@ -407,13 +397,9 @@ bool FirstToPostDataModel::setData(const QModelIndex &index, const QVariant &val
         insertColumns(column,deltaC,QModelIndex());
     }
 
-
     auto pairs = _data.at(row);
-
     auto newPair = value.value<scoreModel>();
-
     pairs.replace(column,newPair);
-
     _data.replace(row,pairs);
 
     auto pointGlypWidth = stringWidth(QString::number(newPair.first),
