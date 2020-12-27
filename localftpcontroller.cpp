@@ -1,6 +1,6 @@
-#include "localfirsttopost.h"
+#include "localftpcontroller.h"
 
-void LocalFirstToPost::start()
+void LocalFTPController::start()
 {
     if(_currentStatus != ControllerState::Initialized &&
             _currentStatus != ControllerState::Stopped)
@@ -13,14 +13,14 @@ void LocalFirstToPost::start()
     sendCurrentTurnValues();
 }
 
-void LocalFirstToPost::stop()
+void LocalFTPController::stop()
 {
     _isActive = false;
     _currentStatus = ControllerState::Stopped;
     emit transmitResponse(ControllerResponse::isStopped,{});
 }
 
-void LocalFirstToPost::handleAndProcessUserInput(const int &userInput,
+void LocalFTPController::handleAndProcessUserInput(const int &userInput,
                                                  const int &modifierKeyCode)
 {
     if(status() == Stopped ||
@@ -61,12 +61,12 @@ void LocalFirstToPost::handleAndProcessUserInput(const int &userInput,
     }
 }
 
-void LocalFirstToPost::handleRequestForCurrentTournamentMetaData()
+void LocalFTPController::handleRequestForCurrentTournamentMetaData()
 {
     emit requestTournamentMetaData(currentTournamentID());
 }
 
-void LocalFirstToPost::handleRequestForPlayerScores()
+void LocalFTPController::handleRequestForPlayerScores()
 {
     PlayerPairs assignedPlayerPairs;
     for (int i = 0; i < _assignedPlayerTupples.count(); ++i) {
@@ -79,7 +79,7 @@ void LocalFirstToPost::handleRequestForPlayerScores()
     emit sendAssignedTournamentPlayers(currentTournamentID(),assignedPlayerPairs);
 }
 
-void LocalFirstToPost::recieveTournamentDetails(const QUuid &tournament,
+void LocalFTPController::recieveTournamentDetails(const QUuid &tournament,
                                                 const QString &winner,
                                                 const int &keyPoint,
                                                 const int &terminalKeyCode,
@@ -95,7 +95,7 @@ void LocalFirstToPost::recieveTournamentDetails(const QUuid &tournament,
     emit requestTournamentIndexes(_currentTournament);
 }
 
-void LocalFirstToPost::recieveTournamentIndexes(const int &roundIndex,
+void LocalFTPController::recieveTournamentIndexes(const int &roundIndex,
                                                 const int &setIndex,
                                                 const int &throwIndex,
                                                 const int &turnIndex,
@@ -117,7 +117,7 @@ void LocalFirstToPost::recieveTournamentIndexes(const int &roundIndex,
     emit transmitResponse(ControllerResponse::controllerInitializedAndReady,{});
 }
 
-void LocalFirstToPost::handleScoreAddedToDataContext(const QUuid &playerID,
+void LocalFTPController::handleScoreAddedToDataContext(const QUuid &playerID,
                                                             const int &point,
                                                             const int &score)
 {
@@ -127,13 +127,13 @@ void LocalFirstToPost::handleScoreAddedToDataContext(const QUuid &playerID,
     emit transmitResponse(ControllerResponse::ScoreTransmit,{playerName,point,score});
 }
 
-void LocalFirstToPost::handleDataContextUpdated()
+void LocalFTPController::handleDataContextUpdated()
 {
     _currentStatus = ControllerState::AwaitsInput;
     sendCurrentTurnValues();
 }
 
-void LocalFirstToPost::handleScoreHintUpdated(const QUuid &playerID,
+void LocalFTPController::handleScoreHintUpdated(const QUuid &playerID,
                                                      const int &point,
                                                      const int &score)
 {
@@ -152,7 +152,7 @@ void LocalFirstToPost::handleScoreHintUpdated(const QUuid &playerID,
     }
 }
 
-void LocalFirstToPost::handleTournamentResetSuccess()
+void LocalFTPController::handleTournamentResetSuccess()
 {
     // Reset controller index values
     _turnIndex = 0;
@@ -162,19 +162,23 @@ void LocalFirstToPost::handleTournamentResetSuccess()
     _throwIndex = 0;
     _winner = QString();
     // Reset playerscores to target point
-    for (int i = 0; i < playerCount(); ++i)
+    QStringList playerNamesList;
+    for (int i = 0; i < playerCount(); ++i){
         setPlayerScore(i,keyPoint());
-    _currentStatus = ControllerState::Initialized;
-    emit requestTournamentIndexes(currentTournamentID());
+        auto playerName = playerNameFromIndex(i);
+        playerNamesList << playerName;
+    }
+    emit transmitResponse(ControllerResponse::transmitInitialScore,{keyPoint(),playerNamesList});
+
 }
 
-void LocalFirstToPost::handleResetTournament()
+void LocalFTPController::handleResetTournament()
 {
     _currentStatus = ControllerState::resetState;
     emit requestResetTournament(currentTournamentID());
 }
 
-void LocalFirstToPost::sendCurrentTurnValues()
+void LocalFTPController::sendCurrentTurnValues()
 {
     auto canUndo = canUndoTurn();
     auto canRedo = canRedoTurn();
@@ -186,36 +190,36 @@ void LocalFirstToPost::sendCurrentTurnValues()
                           {canUndo,canRedo,currentRound,currentUserName,throwSuggestion});
 }
 
-QString LocalFirstToPost::currentActiveUser()
+QString LocalFTPController::currentActiveUser()
 {
     auto tupple = _assignedPlayerTupples.at(currentSetIndex());
     auto playerName = tupple.second;
     return playerName;
 }
 
-QUuid LocalFirstToPost::currentActivePlayerID()
+QUuid LocalFTPController::currentActivePlayerID()
 {
     auto tupple = _assignedPlayerTupples.at(currentSetIndex());
     auto playerID = tupple.first;
     return playerID;
 }
 
-int LocalFirstToPost::currentThrowIndex()
+int LocalFTPController::currentThrowIndex()
 {
     return _throwIndex;
 }
 
-int LocalFirstToPost::lastPlayerIndex()
+int LocalFTPController::lastPlayerIndex()
 {
     return _assignedPlayerTupples.count() - 1;
 }
 
-int LocalFirstToPost::playerIndex()
+int LocalFTPController::playerIndex()
 {
     return _setIndex;
 }
 
-QUuid LocalFirstToPost::undoTurn()
+QUuid LocalFTPController::undoTurn()
 {
     if(_turnIndex <= 0)
         return QUuid();
@@ -255,7 +259,7 @@ QUuid LocalFirstToPost::undoTurn()
     return _assignedPlayerTupples.at(_setIndex).first;
 }
 
-QUuid LocalFirstToPost::redoTurn()
+QUuid LocalFTPController::redoTurn()
 {
     if(_turnIndex >= _totalTurns)
         return QUuid();
@@ -289,21 +293,21 @@ QUuid LocalFirstToPost::redoTurn()
 }
 
 
-bool LocalFirstToPost::canUndoTurn()
+bool LocalFTPController::canUndoTurn()
 {
     if(status() == ControllerState::WinnerDeclared)
         return false;
     return _turnIndex > 0;
 }
 
-bool LocalFirstToPost::canRedoTurn()
+bool LocalFTPController::canRedoTurn()
 {
     if(status() == ControllerState::WinnerDeclared)
         return false;
     return _turnIndex < _totalTurns;
 }
 
-int LocalFirstToPost::validateCurrentState(const int &currentScore)
+int LocalFTPController::validateCurrentState(const int &currentScore)
 {
     auto playerSum = _keyPoint - currentScore;
 
@@ -317,7 +321,7 @@ int LocalFirstToPost::validateCurrentState(const int &currentScore)
         return OutsideDomain;
 }
 
-int LocalFirstToPost::validateInput(const int &currentScore,
+int LocalFTPController::validateInput(const int &currentScore,
                                     const int &modifierKeyCode,
                                     const int &userInput)
 {
@@ -340,7 +344,7 @@ int LocalFirstToPost::validateInput(const int &currentScore,
         return OutsideDomain;
 }
 
-void LocalFirstToPost::addPoint(const int &point, const int &score)
+void LocalFTPController::addPoint(const int &point, const int &score)
 {
     auto tournamentID = currentTournamentID();
     auto roundIndex = currentRoundIndex();
@@ -348,7 +352,7 @@ void LocalFirstToPost::addPoint(const int &point, const int &score)
     auto throwIndex = currentThrowIndex();
     auto isWinnerDetermined = status() == ControllerState::WinnerDeclared;
     auto currentPlayer = currentActivePlayerID();
-    emit sendScore(tournamentID,
+    emit requestAddScore(tournamentID,
                    currentPlayer,
                    roundIndex,
                    setIndex,
@@ -359,17 +363,17 @@ void LocalFirstToPost::addPoint(const int &point, const int &score)
                    isWinnerDetermined);
 }
 
-int LocalFirstToPost::currentTurnIndex()
+int LocalFTPController::currentTurnIndex()
 {
     return _turnIndex;
 }
 
-bool LocalFirstToPost::isIndexOffset()
+bool LocalFTPController::isIndexOffset()
 {
     return _isOff;
 }
 
-void LocalFirstToPost::handleRequestFromUI()
+void LocalFTPController::handleRequestFromUI()
 {
     if(status() == ControllerState::Initialized)
     {
@@ -387,12 +391,12 @@ void LocalFirstToPost::handleRequestFromUI()
     }
     else if(status() == ControllerState::UndoState)
     {
-        _currentStatus = ControllerState::AwaitsInput;
+        setCurrentStatus(ControllerState::AwaitsInput);
         sendCurrentTurnValues();
     }
     else if(status() == ControllerState::RedoState)
     {
-        _currentStatus = ControllerState::AwaitsInput;
+        setCurrentStatus(ControllerState::AwaitsInput);
         sendCurrentTurnValues();
     }
     else if(status() == ControllerState::WinnerDeclared)
@@ -400,9 +404,14 @@ void LocalFirstToPost::handleRequestFromUI()
         auto winnerName = determinedWinnerName();
         emit transmitResponse(ControllerState::WinnerDeclared,{winnerName});
     }
+    else if(status() == ControllerState::resetState)
+    {
+        setCurrentStatus(ControllerState::Initialized);
+        emit transmitResponse(ControllerResponse::controllerInitializedAndReady,{});
+    }
 }
 
-void LocalFirstToPost::nextTurn()
+void LocalFTPController::nextTurn()
 {
     incrementTurnIndexes();
 
@@ -424,35 +433,35 @@ void LocalFirstToPost::nextTurn()
     sendCurrentTurnValues();
 }
 
-void LocalFirstToPost::declareWinner()
+void LocalFTPController::declareWinner()
 {
     _winner = currentActiveUser();
     _isActive = false;
     _currentStatus = WinnerDeclared;
 }
 
-void LocalFirstToPost::incrementTurnIndexes()
+void LocalFTPController::incrementTurnIndexes()
 {
     if(_turnIndex == _totalTurns)
         _totalTurns++;
     _turnIndex++;
 }
 
-int LocalFirstToPost::playerScore(const int &index)
+int LocalFTPController::playerScore(const int &index)
 {
     auto tubble = _assignedPlayerTupples.at(index);
     auto score = tubble.third;;
     return score;
 }
 
-void LocalFirstToPost::setPlayerScore(const int &index, const int &newScore)
+void LocalFTPController::setPlayerScore(const int &index, const int &newScore)
 {
     auto tubble = _assignedPlayerTupples.at(index);
     tubble.third = newScore;
     _assignedPlayerTupples.replace(index,tubble);
 }
 
-void LocalFirstToPost::setPlayerScore(const QUuid &playerID, const int &newScore)
+void LocalFTPController::setPlayerScore(const QUuid &playerID, const int &newScore)
 {
     for (int i = 0; i < _assignedPlayerTupples.count(); ++i) {
         auto pair = _assignedPlayerTupples.at(i);
@@ -465,7 +474,7 @@ void LocalFirstToPost::setPlayerScore(const QUuid &playerID, const int &newScore
     }
 }
 
-QString LocalFirstToPost::getPlayerNameFromID(const QUuid &playerID)
+QString LocalFTPController::getPlayerNameFromID(const QUuid &playerID)
 {
     for (auto tupple : _assignedPlayerTupples) {
         auto id = tupple.first;
@@ -478,7 +487,14 @@ QString LocalFirstToPost::getPlayerNameFromID(const QUuid &playerID)
     return QString();
 }
 
-PlayerTubbles LocalFirstToPost::setPlayerTubblesFromPairs(PlayerPairs pairs, const int &initialThirdValue)
+QString LocalFTPController::playerNameFromIndex(const int &index)
+{
+    auto tupple = _assignedPlayerTupples.at(index);
+    auto playerName = tupple.second;
+    return playerName;
+}
+
+PlayerTubbles LocalFTPController::setPlayerTubblesFromPairs(PlayerPairs pairs, const int &initialThirdValue)
 {
     PlayerTubbles tubbles;
     for (int i = 0; i < pairs.count(); ++i) {
@@ -491,7 +507,7 @@ PlayerTubbles LocalFirstToPost::setPlayerTubblesFromPairs(PlayerPairs pairs, con
     return tubbles;
 }
 
-void LocalFirstToPost::updatePlayerTubbles(const QList<int> &scores)
+void LocalFTPController::updatePlayerTubbles(const QList<int> &scores)
 {
     if(scores.count() != _assignedPlayerTupples.count())
         throw "Inconsistency detected";
@@ -504,33 +520,38 @@ void LocalFirstToPost::updatePlayerTubbles(const QList<int> &scores)
     }
 }
 
-int LocalFirstToPost::keyPoint() const
+int LocalFTPController::keyPoint() const
 {
     return _keyPoint;
 }
 
-int LocalFirstToPost::terminateConditionModifier() const
+void LocalFTPController::setCurrentStatus(int currentStatus)
+{
+    _currentStatus = currentStatus;
+}
+
+int LocalFTPController::terminateConditionModifier() const
 {
     return pointLogisticInterface()->lastThrowKeyCode();
 }
 
-IPointLogisticInterface<QString> *LocalFirstToPost::pointLogisticInterface() const
+IPointLogisticInterface<QString> *LocalFTPController::pointLogisticInterface() const
 {
     return _pointLogisticInterface;
 }
 
-AbstractGameController *LocalFirstToPost::setPointLogisticInterface(IPointLogisticInterface<QString> *pointLogisticInterface)
+AbstractGameController *LocalFTPController::setPointLogisticInterface(IPointLogisticInterface<QString> *pointLogisticInterface)
 {
     _pointLogisticInterface = pointLogisticInterface;
     return this;
 }
 
-void LocalFirstToPost::consistencyCheck()
+void LocalFTPController::consistencyCheck()
 {
     Q_UNIMPLEMENTED();
 }
 
-QString LocalFirstToPost::determinedWinnerName()
+QString LocalFTPController::determinedWinnerName()
 {
     return _winner;
 }

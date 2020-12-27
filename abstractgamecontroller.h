@@ -78,7 +78,7 @@ signals:
     void requestTournamentMetaData(const QUuid &tournament);
     void sendAssignedTournamentPlayers(const QUuid &tournament, const PlayerPairs &assignedPlayerPairs);
     void requestTournamentIndexes(const QUuid &tournament);
-    void sendScore(const QUuid &tournamentID,
+    void requestAddScore(const QUuid &tournamentID,
                    const QUuid &playerID,
                    const int &roundIndex,
                    const int &setIndex,

@@ -8,7 +8,7 @@
 #include "gamebuilder.h"
 #include "localtournamentmodelscontext.h"
 #include "localplayermodelscontext.h"
-#include "firsttopostdatamodel.h"
+#include "ftpdatamodel.h"
 #include "localtournamentmodeldb.h"
 #include "localplayerdbcontext.h"
 #include "tournamentmodelbuilder.h"
@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
 
-    qmlRegisterType<FirstToPostDataModel>("CustomItems",1,0,"FTPDataModel");
+    qmlRegisterType<FTPDataModel>("CustomItems",1,0,"FTPDataModel");
     qmlRegisterSingletonType(QUrl("qrc:/ThemeContext.qml"),"customDefinitions",1,0,"ThemeContext");
     qmlRegisterSingletonType(QUrl("qrc:/TournamentContext.qml"),"CustomValues",1,0,"TournamentContext");
     auto tournamentModelsContext =

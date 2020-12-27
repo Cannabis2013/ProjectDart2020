@@ -345,7 +345,7 @@ void ApplicationInterface::connectControllerInterface()
             _gameController,&AbstractGameController::handleRequestFromUI);
     connect(this,&ApplicationInterface::sendPoint,
             _gameController,&AbstractGameController::handleAndProcessUserInput);
-    connect(_gameController,&AbstractGameController::sendScore,
+    connect(_gameController,&AbstractGameController::requestAddScore,
             _tournamentModelsContext,&AbstractTournamentModelsContext::addScore);
     connect(_tournamentModelsContext,&AbstractTournamentModelsContext::scoreAddedToDataContext,
             _gameController,&AbstractGameController::handleScoreAddedToDataContext);

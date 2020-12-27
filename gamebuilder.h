@@ -3,7 +3,7 @@
 
 #include "IControllerBuilder.h"
 #include "abstractgamecontroller.h"
-#include "localfirsttopost.h"
+#include "localftpcontroller.h"
 #include "pointlogisticmanager.h"
 
 class GameBuilder : public IControllerBuilder<AbstractGameController,int>
@@ -22,7 +22,7 @@ public:
     {
         if(mode == FirstToPost && contextMode == LocalContext)
         {
-            auto controller = new LocalFirstToPost();
+            auto controller = new LocalFTPController();
             controller->setPointLogisticInterface(new PointLogisticManager());
             return controller;
         }

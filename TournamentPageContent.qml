@@ -33,9 +33,8 @@ Content{
             startGameClicked();
         }
         /*
-          Backend responds that there is detected an inconsistency
-          between the currently selected tournament
-          and its assigned player models.
+          Backend responds with a status code that signals is has detected
+            an inconsistency.
           */
         else if(response === 0x39)
         {

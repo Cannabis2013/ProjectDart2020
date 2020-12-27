@@ -38,10 +38,7 @@ ScoreBoard {
     headerOrientation: Qt.Horizontal
     // Header related
     property int headerFontSize: 24
-    onHeaderFontSizeChanged: {
-        myModel.headerFontSize = fTPBody.headerFontSize;
-
-    }
+    onHeaderFontSizeChanged: myModel.headerFontSize = fTPBody.headerFontSize
     // Header signal handling related
     onHeaderOrientationChanged: myModel.setHeaderOrientation(headerOrientation)
     onVerticalHeaderFillModeChanged: myModel.verticalFillMode = verticalHeaderFillMode

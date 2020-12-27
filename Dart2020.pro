@@ -16,8 +16,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         abstractjsonpersistence.cpp \
         applicationinterface.cpp \
-        firsttopostdatamodel.cpp \
-        localfirsttopost.cpp \
+        ftpdatamodel.cpp \
+        localftpcontroller.cpp \
         localplayerdbcontext.cpp \
         localplayermodelscontext.cpp \
         localtournamentmodeldb.cpp \
@@ -50,7 +50,7 @@ HEADERS += \
     abstractplayermodelscontext.h \
     abstracttournamentmodelscontext.h \
     applicationinterface.h \
-    firsttopostdatamodel.h \
+    ftpdatamodel.h \
     gamebuilder.h \
     idatacontext.h \
     imodel.h \
@@ -66,7 +66,7 @@ HEADERS += \
     isetmodel.h \
     itournamentmodel.h \
     itournamentmodelbuilder.h \
-    localfirsttopost.h \
+    localftpcontroller.h \
     localplayerdbcontext.h \
     localplayermodelscontext.h \
     localtournamentmodeldb.h \

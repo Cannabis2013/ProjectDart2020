@@ -1,11 +1,11 @@
-#include "firsttopostdatamodel.h"
+#include "ftpdatamodel.h"
 
-FirstToPostDataModel::FirstToPostDataModel()
+FTPDataModel::FTPDataModel()
 {
-    connect(this,&FirstToPostDataModel::initialValueChanged,this,&FirstToPostDataModel::updateInitialCellValues);
+    connect(this,&FTPDataModel::initialValueChanged,this,&FTPDataModel::updateInitialCellValues);
 }
 
-QVariant FirstToPostDataModel::getData(const int &row, const int &column, const int &mode)
+QVariant FTPDataModel::getData(const int &row, const int &column, const int &mode)
 {
     if(row >= rowCount() || column >= columnCount())
         return -1;
@@ -18,7 +18,7 @@ QVariant FirstToPostDataModel::getData(const int &row, const int &column, const 
         return result;
 }
 
-int FirstToPostDataModel::editData(const int &row, const int &column, const int &point, const int &score)
+int FTPDataModel::editData(const int &row, const int &column, const int &point, const int &score)
 {
     if(row < 0 || row >= rowCount())
         return -1;
@@ -34,7 +34,7 @@ int FirstToPostDataModel::editData(const int &row, const int &column, const int 
     return oldData.toInt();
 }
 
-bool FirstToPostDataModel::insertData(const QString &playerName,
+bool FTPDataModel::insertData(const QString &playerName,
                                          const int &point,
                                          const int &score)
 {
@@ -46,7 +46,7 @@ bool FirstToPostDataModel::insertData(const QString &playerName,
     return false;
 }
 
-bool FirstToPostDataModel::setPlayerData(const QString &playerName,
+bool FTPDataModel::setPlayerData(const QString &playerName,
                                          const int &point,
                                          const int &score,
                                          const int &headerOrientation)
@@ -84,7 +84,7 @@ bool FirstToPostDataModel::setPlayerData(const QString &playerName,
     return true;
 }
 
-bool FirstToPostDataModel::appendPlayerData(const QString &playerName,
+bool FTPDataModel::appendPlayerData(const QString &playerName,
                                 const int &point,
                                 const int &score,
                                 const int &headerOrientation)
@@ -124,7 +124,7 @@ bool FirstToPostDataModel::appendPlayerData(const QString &playerName,
     return true;
 }
 
-bool FirstToPostDataModel::removeLastItem(const QString &playerName, const int &headerOrientation)
+bool FTPDataModel::removeLastItem(const QString &playerName, const int &headerOrientation)
 {
     auto orientation = headerOrientation != -1 ? headerOrientation : this->headerOrientation();
     if(orientation == Qt::Horizontal)
@@ -145,7 +145,7 @@ bool FirstToPostDataModel::removeLastItem(const QString &playerName, const int &
     }
 }
 
-void FirstToPostDataModel::appendHeaderItem(const QVariant &data,
+void FTPDataModel::appendHeaderItem(const QVariant &data,
                                             const int &headerOrientation)
 {
     auto orientation = headerOrientation != -1 ?
@@ -174,7 +174,7 @@ void FirstToPostDataModel::appendHeaderItem(const QVariant &data,
     }
 }
 
-void FirstToPostDataModel::clearData()
+void FTPDataModel::clearData()
 {
     _data.clear();
     auto bottomRight = createIndex(rowCount() - 1,columnCount() - 1);
@@ -187,7 +187,7 @@ void FirstToPostDataModel::clearData()
     emit dataChanged(createIndex(0,0),bottomRight);
 }
 
-QString FirstToPostDataModel::getHeaderData(const int &index, const int &headerOrientation) const
+QString FTPDataModel::getHeaderData(const int &index, const int &headerOrientation) const
 {
     auto orientation = headerOrientation != -1 ? headerOrientation :
                                                  this->headerOrientation();
@@ -195,7 +195,7 @@ QString FirstToPostDataModel::getHeaderData(const int &index, const int &headerO
     return value;
 }
 
-int FirstToPostDataModel::headerItemCount(const int &headerOrientation) const
+int FTPDataModel::headerItemCount(const int &headerOrientation) const
 {
     auto orientation = headerOrientation != -1 ?
                 headerOrientation : this->headerOrientation();
@@ -215,17 +215,17 @@ int FirstToPostDataModel::headerItemCount(const int &headerOrientation) const
     }
 }
 
-int FirstToPostDataModel::rowCount() const
+int FTPDataModel::rowCount() const
 {
     return rowCount(QModelIndex());
 }
 
-int FirstToPostDataModel::columnCount() const
+int FTPDataModel::columnCount() const
 {
     return columnCount(QModelIndex());
 }
 
-double FirstToPostDataModel::columnWidthAt(const int &column) const
+double FTPDataModel::columnWidthAt(const int &column) const
 {
     auto s = scale();
     auto w = columnWidthsAt(column);
@@ -233,7 +233,7 @@ double FirstToPostDataModel::columnWidthAt(const int &column) const
     return columnWidth;
 }
 
-double FirstToPostDataModel::rowHeightAt(const int &row) const
+double FTPDataModel::rowHeightAt(const int &row) const
 {
     if(_data.count() <= 0)
         return 0;
@@ -277,37 +277,37 @@ double FirstToPostDataModel::rowHeightAt(const int &row) const
     return resultingGlyphLenght;
 }
 
-int FirstToPostDataModel::horizontalHeaderCount() const
+int FTPDataModel::horizontalHeaderCount() const
 {
     return _horizontalHeaderData.count();
 }
 
-int FirstToPostDataModel::verticalHeaderCount() const
+int FTPDataModel::verticalHeaderCount() const
 {
     return _verticalHeaderData.count();
 }
 
-int FirstToPostDataModel::rowCount(const QModelIndex &) const
+int FTPDataModel::rowCount(const QModelIndex &) const
 {
     return _rows;
 }
 
-int FirstToPostDataModel::columnCount(const QModelIndex &) const
+int FTPDataModel::columnCount(const QModelIndex &) const
 {
     return _columns;
 }
 
-void FirstToPostDataModel::setColumnWidthAt(const int &column, const double &w)
+void FTPDataModel::setColumnWidthAt(const int &column, const double &w)
 {
     _columnWidths.replace(column,w);
 }
 
-int FirstToPostDataModel::columnWidthsAt(const int &index) const
+int FTPDataModel::columnWidthsAt(const int &index) const
 {
     return _columnWidths.at(index);
 }
 
-QVariant FirstToPostDataModel::data(const QModelIndex &index, int role) const
+QVariant FTPDataModel::data(const QModelIndex &index, int role) const
 {
     if(!index.isValid() || _data.count() <= 0)
         return QVariant();
@@ -328,7 +328,7 @@ QVariant FirstToPostDataModel::data(const QModelIndex &index, int role) const
                 QVariant("-");
 }
 
-QVariant FirstToPostDataModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant FTPDataModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if(role != Qt::DisplayRole)
         return QVariant();
@@ -370,12 +370,12 @@ QVariant FirstToPostDataModel::headerData(int section, Qt::Orientation orientati
     return QVariant();
 }
 
-int FirstToPostDataModel::numberOfThrows() const
+int FTPDataModel::numberOfThrows() const
 {
     return _numberOfThrows;
 }
 
-bool FirstToPostDataModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool FTPDataModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     auto row = index.row();
     auto column = index.column();
@@ -417,7 +417,7 @@ bool FirstToPostDataModel::setData(const QModelIndex &index, const QVariant &val
     return true;
 }
 
-bool FirstToPostDataModel::insertRows(int row, int count, const QModelIndex &)
+bool FTPDataModel::insertRows(int row, int count, const QModelIndex &)
 {
     auto firstRow = row <= rowCount(QModelIndex()) ? row : rowCount(QModelIndex()) - 1;
     auto lastRow  =  row <= rowCount(QModelIndex()) ? firstRow + count : 2*row + count - firstRow;
@@ -446,7 +446,7 @@ bool FirstToPostDataModel::insertRows(int row, int count, const QModelIndex &)
     return true;
 }
 
-bool FirstToPostDataModel::insertColumns(int column, int count, const QModelIndex &)
+bool FTPDataModel::insertColumns(int column, int count, const QModelIndex &)
 {
     auto firstColumn = column <= columnCount() ? column : columnCount() - 1;
     auto lastColumn  =  column <= columnCount() ? firstColumn + count : 2*column + count - firstColumn;
@@ -478,7 +478,7 @@ bool FirstToPostDataModel::insertColumns(int column, int count, const QModelInde
     return true;
 }
 
-bool FirstToPostDataModel::removeRows(int row, int count, const QModelIndex &)
+bool FTPDataModel::removeRows(int row, int count, const QModelIndex &)
 {
     // Check if input satisfies model constraints
     if(row < 0 || row >= rowCount())
@@ -508,7 +508,7 @@ bool FirstToPostDataModel::removeRows(int row, int count, const QModelIndex &)
     return true;
 }
 
-bool FirstToPostDataModel::removeColumns(int column, int count, const QModelIndex &)
+bool FTPDataModel::removeColumns(int column, int count, const QModelIndex &)
 {
     // Check if input satisfies model constraints
     if(column < 0 || column >= columnCount())
@@ -532,7 +532,7 @@ bool FirstToPostDataModel::removeColumns(int column, int count, const QModelInde
     return true;
 }
 
-void FirstToPostDataModel::updateInitialCellValues()
+void FTPDataModel::updateInitialCellValues()
 {
 
     if(_data.count() < 1)
@@ -555,13 +555,13 @@ void FirstToPostDataModel::updateInitialCellValues()
     }
 }
 
-bool FirstToPostDataModel::isCellDecorated(const QModelIndex &index)
+bool FTPDataModel::isCellDecorated(const QModelIndex &index)
 {
     return data(index,Qt::DisplayRole) != "-";
 }
 
 
-int FirstToPostDataModel::indexOfLastDecoratedCell(const int &index,const int &orientation)
+int FTPDataModel::indexOfLastDecoratedCell(const int &index,const int &orientation)
 {
     if(orientation == Qt::Vertical)
     {
@@ -598,7 +598,7 @@ int FirstToPostDataModel::indexOfLastDecoratedCell(const int &index,const int &o
     }
 }
 
-int FirstToPostDataModel::rowCount(const int &column)
+int FTPDataModel::rowCount(const int &column)
 {
     for (int row = 0; row < _data.count(); ++row) {
         auto scoreModels = _data.at(row);
@@ -611,7 +611,7 @@ int FirstToPostDataModel::rowCount(const int &column)
     return rowCount();
 }
 
-bool FirstToPostDataModel::isColumnEmpty(const int &col)
+bool FTPDataModel::isColumnEmpty(const int &col)
 {
     if(col < 0 || col >= columnCount())
         throw std::out_of_range("Index out of range");
@@ -625,7 +625,7 @@ bool FirstToPostDataModel::isColumnEmpty(const int &col)
     return true;
 }
 
-bool FirstToPostDataModel::isRowEmpty(const int &row)
+bool FTPDataModel::isRowEmpty(const int &row)
 {
     if(row < 0 || row >= rowCount())
         throw std::out_of_range("Index out of range");
@@ -639,7 +639,7 @@ bool FirstToPostDataModel::isRowEmpty(const int &row)
     return true;
 }
 
-QPair<int, int> FirstToPostDataModel::removeData(const QModelIndex &index)
+QPair<int, int> FTPDataModel::removeData(const QModelIndex &index)
 {
     if(!index.isValid())
         return scoreModel(-1,-1);
@@ -672,7 +672,7 @@ QPair<int, int> FirstToPostDataModel::removeData(const QModelIndex &index)
     return data;
 }
 
-int FirstToPostDataModel::indexOfHeaderItem(const QString &data, const int &orientation)
+int FTPDataModel::indexOfHeaderItem(const QString &data, const int &orientation)
 {
     if(orientation == Qt::Vertical)
     {
@@ -686,110 +686,110 @@ int FirstToPostDataModel::indexOfHeaderItem(const QString &data, const int &orie
     }
 }
 
-int FirstToPostDataModel::stringWidth(const QString &string, const QString &family, const int &pointSize) const
+int FTPDataModel::stringWidth(const QString &string, const QString &family, const int &pointSize) const
 {
     auto fontMetric = QFontMetrics(QFont(family,pointSize));
     auto r = fontMetric.boundingRect(string).width();
     return r;
 }
 
-int FirstToPostDataModel::headerFontSize() const
+int FTPDataModel::headerFontSize() const
 {
     return _headerFontSize;
 }
 
-void FirstToPostDataModel::setHeaderFontSize(int headerFontSize)
+void FTPDataModel::setHeaderFontSize(int headerFontSize)
 {
     _headerFontSize = headerFontSize;
 }
 
-QStringList FirstToPostDataModel::getHorizontalHeaderData() const
+QStringList FTPDataModel::getHorizontalHeaderData() const
 {
     return _horizontalHeaderData;
 }
 
-void FirstToPostDataModel::setHorizontalHeaderData(const QList<QString> &horizontalHeaderData)
+void FTPDataModel::setHorizontalHeaderData(const QList<QString> &horizontalHeaderData)
 {
     _horizontalHeaderData = horizontalHeaderData;
 }
 
-QStringList FirstToPostDataModel::getVerticalHeaderData() const
+QStringList FTPDataModel::getVerticalHeaderData() const
 {
     return _verticalHeaderData;
 }
 
-void FirstToPostDataModel::setVerticalHeaderData(const QList<QString> &verticalHeaderData)
+void FTPDataModel::setVerticalHeaderData(const QList<QString> &verticalHeaderData)
 {
     _verticalHeaderData = verticalHeaderData;
 }
 
-int FirstToPostDataModel::appendMode() const
+int FTPDataModel::appendMode() const
 {
     return _appendMode;
 }
 
-void FirstToPostDataModel::setAppendMode(int appendMode)
+void FTPDataModel::setAppendMode(int appendMode)
 {
     _appendMode = appendMode;
 }
 
-QString FirstToPostDataModel::pointFontFamily() const
+QString FTPDataModel::pointFontFamily() const
 {
     return _pointFontFamily;
 }
 
-void FirstToPostDataModel::setPointFontFamily(const QString &pointFontFamily)
+void FTPDataModel::setPointFontFamily(const QString &pointFontFamily)
 {
     _pointFontFamily = pointFontFamily;
 }
 
-QString FirstToPostDataModel::scoreFontFamily() const
+QString FTPDataModel::scoreFontFamily() const
 {
     return _scoreFontFamily;
 }
 
-void FirstToPostDataModel::setScoreFontFamily(const QString &scoreFontFamily)
+void FTPDataModel::setScoreFontFamily(const QString &scoreFontFamily)
 {
     _scoreFontFamily = scoreFontFamily;
 }
 
-int FirstToPostDataModel::pointFontSize() const
+int FTPDataModel::pointFontSize() const
 {
     return _pointFontSize;
 }
 
-void FirstToPostDataModel::setPointFontSize(int pointFontSize)
+void FTPDataModel::setPointFontSize(int pointFontSize)
 {
     _pointFontSize = pointFontSize;
 }
 
-int FirstToPostDataModel::scoreFontSize() const
+int FTPDataModel::scoreFontSize() const
 {
     return _scoreFontSize;
 }
 
-void FirstToPostDataModel::setScoreFontSize(int scoreFontSize)
+void FTPDataModel::setScoreFontSize(int scoreFontSize)
 {
     _scoreFontSize = scoreFontSize;
 }
 
-int FirstToPostDataModel::initialValue() const
+int FTPDataModel::initialValue() const
 {
     return _initialValue;
 }
 
-void FirstToPostDataModel::setInitialValue(int initialValue)
+void FTPDataModel::setInitialValue(int initialValue)
 {
     _initialValue = initialValue;
     emit initialValueChanged();
 }
 
-int FirstToPostDataModel::minimumRowCount() const
+int FTPDataModel::minimumRowCount() const
 {
     return _minimumRowCount;
 }
 
-void FirstToPostDataModel::setMinimumRowCount(int minimumRowCount)
+void FTPDataModel::setMinimumRowCount(int minimumRowCount)
 {
     if(appendMode() == AppendDataMode::SingleAppend)
         return;
@@ -799,12 +799,12 @@ void FirstToPostDataModel::setMinimumRowCount(int minimumRowCount)
         setRowCount(minimumRowCount);
 }
 
-int FirstToPostDataModel::minimumColumnCount() const
+int FTPDataModel::minimumColumnCount() const
 {
     return _minimumColumnCount;
 }
 
-void FirstToPostDataModel::setMinimumColumnCount(int minimumColumnCount)
+void FTPDataModel::setMinimumColumnCount(int minimumColumnCount)
 {
     if(appendMode() == AppendDataMode::SingleAppend)
         return;
@@ -815,28 +815,28 @@ void FirstToPostDataModel::setMinimumColumnCount(int minimumColumnCount)
     emit minimumColumnCountChanged();
 }
 
-int FirstToPostDataModel::headerOrientation() const
+int FTPDataModel::headerOrientation() const
 {
     return _headerOrientation;
 }
 
-void FirstToPostDataModel::setHeaderOrientation(int headerOrientation)
+void FTPDataModel::setHeaderOrientation(int headerOrientation)
 {
     _headerOrientation = headerOrientation;
 }
 
-int FirstToPostDataModel::preferedHeaderItemWidth() const
+int FTPDataModel::preferedHeaderItemWidth() const
 {
     auto preferedWidth = columnWidthsAt(0);
     return preferedWidth;
 }
 
-void FirstToPostDataModel::setNumberOfThrows(const int &count)
+void FTPDataModel::setNumberOfThrows(const int &count)
 {
     _numberOfThrows = count;
 }
 
-void FirstToPostDataModel::setColumnCount(const int &count)
+void FTPDataModel::setColumnCount(const int &count)
 {
     if(count < 0)
         return;
@@ -853,7 +853,7 @@ void FirstToPostDataModel::setColumnCount(const int &count)
     }
 }
 
-void FirstToPostDataModel::setRowCount(const int &count)
+void FTPDataModel::setRowCount(const int &count)
 {
     if(count < 0)
         return;
@@ -871,33 +871,33 @@ void FirstToPostDataModel::setRowCount(const int &count)
     emit minimumRowCountChanged();
 }
 
-double FirstToPostDataModel::scale() const
+double FTPDataModel::scale() const
 {
     return _scale;
 }
 
-void FirstToPostDataModel::setScale(double scale)
+void FTPDataModel::setScale(double scale)
 {
     _scale = scale;
 }
 
-int FirstToPostDataModel::horizontalHeaderFillMode() const
+int FTPDataModel::horizontalHeaderFillMode() const
 {
     return _horizontalFillMode;
 }
 
-int FirstToPostDataModel::verticalHeaderFillMode() const
+int FTPDataModel::verticalHeaderFillMode() const
 {
     return _verticalFillMode;
 }
 
-void FirstToPostDataModel::setHorizontalHeaderFillMode(const int &fillMode)
+void FTPDataModel::setHorizontalHeaderFillMode(const int &fillMode)
 {
     _horizontalFillMode = fillMode;
     emit fillModeChanged();
 }
 
-void FirstToPostDataModel::setVerticalHeaderFillMode(const int &fillMode)
+void FTPDataModel::setVerticalHeaderFillMode(const int &fillMode)
 {
     _verticalFillMode = fillMode;
     emit fillModeChanged();

@@ -21,7 +21,7 @@
 
 using namespace std;
 
-class LocalFirstToPost :public AbstractGameController
+class LocalFTPController :public AbstractGameController
 {
     Q_OBJECT
 public:
@@ -52,7 +52,7 @@ public:
         controllerInitializedAndReady = 0x45,
         WinnerFound = 0x3E,
         isProcessingUserInput,
-        controllerReset = 0x29
+        transmitInitialScore = 0x29,
     };
     enum KeyMappings{
         SingleModifer = 0x2A,
@@ -117,6 +117,7 @@ public:
      */
     void handleResetTournament() override;
     void handleTournamentResetSuccess() override;
+
 private:
     /* Private types
      *
@@ -138,6 +139,7 @@ private:
     int currentThrowIndex();
     QUuid currentTournamentID() {return _currentTournament;}
     int status() {return _currentStatus;}
+    void setCurrentStatus(int currentStatus);
     int lastPlayerIndex();
     int playerIndex();
     QString determinedWinnerName();
@@ -197,6 +199,7 @@ private:
      * Get playername from ID
      */
     QString getPlayerNameFromID(const QUuid &playerID);
+    QString playerNameFromIndex(const int &index);
     /*
      * Update playertubbles
      */

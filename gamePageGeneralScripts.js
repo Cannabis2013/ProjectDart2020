@@ -93,12 +93,20 @@ function handleReplyFromBackend(response,args)
     }
     else if(response === 0x29) // Backend is reset
     {
-        body.state = "ready"
+        let keyPoint = args[0];
+        let names = args[1];
+
+        for(var i = 0;i < names.length;i++)
+        {
+            let name = names[i];
+            appendScore(name,0,keyPoint,-1);
+        }
+        requestStatusFromBackend();
     }
     /*
       Backend responds that it has updated its datacontext
       */
-    else if(response === 0x27) // Controller is in AddScoreState
+    else if(response === 0x27) // Controller transmit scores/points
     {
         playerName = args[0];
         let pointValue = args[1];
