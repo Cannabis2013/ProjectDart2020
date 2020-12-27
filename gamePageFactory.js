@@ -1,28 +1,34 @@
 function buildTurnController(mode,scoreBoardMode) {
-    if(mode === 0x1)
+    if(mode === TournamentContext.firstToPost)
     {
         var c = Qt.createComponent("FirstToPostTurnController.qml");
     }
+    if(c === undefined)
+        console.log("Something went wrong!");
     return c;
 }
 
 function buildDisplayItem(mode,scoreBoardMode)
 {
-    if(mode === TournamentContext.singleDimensional)
+    var c;
+    if(mode === TournamentContext.firstToPost)
     {
-        var c = Qt.createComponent("DisplayKeyDataItem.qml");
+        c = Qt.createComponent("DisplayKeyDataItem.qml");
     }
+    if(c === undefined)
+        console.log("Something went wrong!");
     return c;
 }
 
 function buildScoreBoard(mode,scoreBoardMode)
 {
-    if(mode === 0x1)
+    if(mode === TournamentContext.firstToPost)
     {
         if(scoreBoardMode === TournamentContext.singleDimensional)
             var c = Qt.createComponent("FTPSingleScoreBoard.qml");
     }
-
+    if(c === undefined)
+        console.log("Something went wrong!");
     return c;
 }
 
@@ -32,6 +38,8 @@ function buildKeyPad(mode,scoreBoardMode)
     {
         var c = Qt.createComponent("DefaultKeyPadComponent.qml");
     }
+    if(c === undefined)
+        console.log("Something went wrong!");
     return c;
 }
 

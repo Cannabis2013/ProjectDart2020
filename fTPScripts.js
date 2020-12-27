@@ -7,12 +7,6 @@ function setupFirstToPost(){
                                                 TournamentContext.singleDimensional);
     setupTurnController();
     /*
-      Load and setup DisplayKeyDataItem
-      */
-    notificationItemSlot.sourceComponent =
-            GamePageFactory.buildDisplayItem(TournamentContext.firstToPost,
-                                             TournamentContext.singleDimensional);
-    /*
       Load and setup ScoreTable
       */
     scoreBoardItemSlot.sourceComponent =
@@ -20,13 +14,18 @@ function setupFirstToPost(){
                                             TournamentContext.singleDimensional);
     setupFirstToPostScoreTable();
     /*
+      Load and setup DisplayKeyDataItem
+      */
+    notificationItemSlot.sourceComponent =
+            GamePageFactory.buildDisplayItem(TournamentContext.firstToPost,
+                                             TournamentContext.singleDimensional);
+    /*
       Load and setup DefaultKeyPadComponent
       */
     keyPaditemSlot.sourceComponent =
             GamePageFactory.buildKeyPad(TournamentContext.firstToPost,
                                         TournamentContext.singleDimensional);
     setupKeyPad();
-
     initializeFirstToPost();
 }
 

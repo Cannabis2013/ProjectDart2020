@@ -255,7 +255,12 @@ void LocalTournamentModelsContext::handleRequestTournamentIndexes(const QUuid &t
         auto s = score(tournament,playerID);
         userScores << s;
     }
-    emit sendTournamentIndexes(roundIndex,setIndex,throwIndex,turnIndex,totalTurns,userScores);
+    emit sendTournamentIndexes(roundIndex,
+                               setIndex,
+                               throwIndex,
+                               turnIndex,
+                               totalTurns,
+                               userScores);
 }
 
 void LocalTournamentModelsContext::handleRequestAssignedPlayers(const QUuid &tournament)

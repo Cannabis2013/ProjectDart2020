@@ -79,6 +79,7 @@ Content {
             id: notificationItemSlot
             Layout.fillWidth: true
             Layout.maximumHeight: 40
+            visible: status === Loader.Ready
         }
         Loader{
             id: keyPaditemSlot
