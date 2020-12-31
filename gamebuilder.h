@@ -18,7 +18,8 @@ public:
 
     enum ContextMode {LocalContext = 0x4, RemoteContext = 0x5};
 
-    AbstractGameController * buildController(const int &mode, const int&contextMode)
+    AbstractGameController * buildController(const int &mode,
+                                             const int&contextMode)
     {
         if(mode == FirstToPost && contextMode == LocalContext)
         {

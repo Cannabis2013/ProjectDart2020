@@ -183,7 +183,7 @@ void ApplicationInterface::handleTournamentDetailsAndSetController(const QUuid &
         /*
          * Inject controller
          */
-        _gameController = _controllerBuilder->buildController(gameMode,0x4);
+        _gameController = controllerBuilder()->buildController(gameMode,0x4);
         connectControllerInterface();
 
         _gameController->moveToThread(_gameControllerThread);
