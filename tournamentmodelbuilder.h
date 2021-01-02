@@ -43,7 +43,7 @@ public:
                 ->setAssignedPlayerIdentities(params.playerIdentities)
                 ->setTerminateKeyCondition(params.winConditionKey)
                 ->setType(DefaultModelBuilderContext::TournamentModel)
-                ->setModelDisplayHint(params.modelDisplayHint)
+                ->setModelTableViewHint(params.modelTableViewHint)
                 ->setWinner(params.winner);
         if(options.generateUniqueId)
             t->setId(QUuid::createUuid());

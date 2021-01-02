@@ -1,4 +1,4 @@
-function buildTurnController(mode,scoreBoardMode) {
+function buildTurnController(mode) {
     if(mode === TournamentContext.firstToPost)
     {
         var c = Qt.createComponent("FirstToPostTurnController.qml");
@@ -8,7 +8,7 @@ function buildTurnController(mode,scoreBoardMode) {
     return c;
 }
 
-function buildDisplayItem(mode,scoreBoardMode)
+function buildDisplayItem(mode)
 {
     var c;
     if(mode === TournamentContext.firstToPost)
@@ -35,7 +35,7 @@ function buildScoreBoard(mode,scoreBoardMode)
     return c;
 }
 
-function buildKeyPad(mode,scoreBoardMode)
+function buildKeyPad(mode)
 {
     if(mode === 0x1)
     {

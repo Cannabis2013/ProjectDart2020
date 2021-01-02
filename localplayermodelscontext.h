@@ -71,14 +71,15 @@ public slots:
                                      const QList<QUuid> &players) override;
     void handleAndProcessTournamentMetaData(const QString &title,
                                             const int &gameMode,
-                                            const int &keyPoint,
+                                            const int &keyPoint, const int &tableViewHint,
                                             const QUuid &winnerID,
                                             const QList<QUuid> &assignedPlayersID) override;
     void handleRequestPlayersDetails() override;
-    void handleProcessCreatedTournament(const QString &title,
+    void handleAndProcessCreatedTournament(const QString &title,
                                         const int &numberOfThrows,
                                         const int &gameMode,
                                         const int &winCondition,
+                                        const int &displayHint,
                                         const int &keyPoint,
                                         const QList<int> &playerIndexes) override;
 private:

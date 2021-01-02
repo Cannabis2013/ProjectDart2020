@@ -14,6 +14,7 @@ Content {
                           string gameMode,
                           int keyCode,
                           int keyPoint,
+                          int displayHint,
                           var playerIndexes)
     signal requestGameModes
 
@@ -30,6 +31,7 @@ Content {
         property var gameModes: ["FirstToPost"]
         property var keyIdentifiers: ["Single","Double", "Tripple"]
         property var firstToPostPointValues: ["301","501","701","901"]
+        property var displayHints: ["SingleView","MultiView"]
     }
     QtObject{
         id: defaultStateValues
@@ -86,6 +88,12 @@ Content {
             labelText: "Finish with:"
             model: stringModels.keyIdentifiers
             Component.onCompleted: winConditionSelector.currentIndex = defaultStateValues.defaultWinConditionIndex
+        }
+        DefaultComboBox {
+            id: displayHintSelector
+            Layout.fillWidth: true
+            labelText: "Select display hint:"
+            model: stringModels.displayHints
         }
 
         Rectangle{

@@ -54,13 +54,20 @@ void ApplicationInterface::handleCreateTournament(const QString &title,
                                                   const int &gameMode,
                                                   const int &winCondition,
                                                   const int &keyPoint,
+                                                  const int &displayHint,
                                                   const QVariantList &playerIndexes)
 {
     QList<int> indexes;
     for (auto variant : playerIndexes)
         indexes << variant.toInt();
 
-    emit sendTournamentCandidate(title,numberOfThrows,gameMode,winCondition,keyPoint,indexes);
+    emit sendTournamentCandidate(title,
+                                 numberOfThrows,
+                                 gameMode,
+                                 winCondition,
+                                 displayHint,
+                                 keyPoint,
+                                 indexes);
 }
 
 void ApplicationInterface::handleCreatePlayer(const QString &playerName, const QString &email)
@@ -153,12 +160,14 @@ void ApplicationInterface::handleTournamentMetaRequest()
 void ApplicationInterface::processRecievedTournamentMetaData(const QString &title,
                                                              const int &gameMode,
                                                              const int &keyPoint,
+                                                             const int &tableViewHint,
                                                              const QString &winnerName,
                                                              const QStringList &assignedPlayerNames)
 {
     QVariantList args = {title,
                          gameMode,
                          keyPoint,
+                         tableViewHint,
                          assignedPlayerNames,
                          winnerName};
     emit sendTournamentMetaData(args);
@@ -239,7 +248,7 @@ void ApplicationInterface::connectModelInterfaces()
      * Create tournament
      */
     connect(this,&ApplicationInterface::sendTournamentCandidate,
-            _playerModelsContext,&AbstractPlayerModelsContext::handleProcessCreatedTournament);
+            _playerModelsContext,&AbstractPlayerModelsContext::handleAndProcessCreatedTournament);
     connect(_playerModelsContext,&AbstractPlayerModelsContext::sendProcessedTournamentDetails,
             _tournamentModelsContext,&AbstractTournamentModelsContext::assembleAndAddTournament);
     /*

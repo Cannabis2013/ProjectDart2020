@@ -124,12 +124,12 @@ public:
     {
         return new Tournament();
     }
-    int modelDisplayHint() const override
+    int modelTableViewHint() const override
     {
         return _modelDisplayHint;
     }
 
-    ITournament* setModelDisplayHint(int modelDisplayHint) override
+    ITournament* setModelTableViewHint(int modelDisplayHint) override
     {
         _modelDisplayHint = modelDisplayHint;
         return this;

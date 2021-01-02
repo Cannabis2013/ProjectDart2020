@@ -41,15 +41,17 @@ public slots:
     virtual void handleAndProcessTournamentMetaData(const QString &title,
                                                     const int &gameMode,
                                                     const int &keyPoint,
+                                                    const int &tableViewHint,
                                                     const QUuid &winnerID,
                                                     const QList<QUuid> &assignedPlayersID) = 0;
     virtual void handleRequestPlayersDetails() = 0;
-    virtual void handleProcessCreatedTournament(const QString &title,
-                                         const int &numberOfThrows,
-                                         const int &gameMode,
-                                         const int &winCondition,
-                                         const int &keyPoint,
-                                         const QList<int> &playerIndexes) = 0;
+    virtual void handleAndProcessCreatedTournament(const QString &title,
+                                                   const int &numberOfThrows,
+                                                   const int &gameMode,
+                                                   const int &winCondition,
+                                                   const int &displayHint,
+                                                   const int &keyPoint,
+                                                   const QList<int> &playerIndexes) = 0;
 
 
 signals:
@@ -66,6 +68,7 @@ signals:
     void sendProcessedTournamentMetaData(const QString &title,
                                          const int &gameMode,
                                          const int &keyPoint,
+                                         const int &tableViewHint,
                                          const QString &winner,
                                          const QStringList &assignedPlayerNames);
     void sendCurrentAssignedPlayerPairs(const QUuid &tournament,
@@ -74,6 +77,7 @@ signals:
                                         const int &gameMode,
                                         const int &numberOfThrows,
                                         const int &winCondition,
+                                        const int &displayHint,
                                         const int &keyPoint,
                                         const QList<QUuid> &playersID);
     void playersDeletedStatus(const bool &status);

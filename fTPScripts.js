@@ -3,28 +3,25 @@ function setupFirstToPost(){
       Load and setup turncontroller
       */
     turnControllerItemSlot.sourceComponent =
-            GamePageFactory.buildTurnController(TournamentContext.firstToPost,
-                                                DataModelContext.singleDimensional);
+            GamePageFactory.buildTurnController(TournamentContext.firstToPost);
     setupTurnController();
     /*
       Load and setup ScoreTable
       */
     scoreBoardItemSlot.sourceComponent =
             GamePageFactory.buildScoreBoard(TournamentContext.firstToPost,
-                                            DataModelContext.singleDimensional);
+                                            currentTournamentMetaData.tournamentTableViewHint);
     setupFirstToPostScoreTable();
     /*
       Load and setup DisplayKeyDataItem
       */
     notificationItemSlot.sourceComponent =
-            GamePageFactory.buildDisplayItem(TournamentContext.firstToPost,
-                                             DataModelContext.singleDimensional);
+            GamePageFactory.buildDisplayItem(TournamentContext.firstToPost);
     /*
       Load and setup DefaultKeyPadComponent
       */
     keyPaditemSlot.sourceComponent =
-            GamePageFactory.buildKeyPad(TournamentContext.firstToPost,
-                                        DataModelContext.singleDimensional);
+            GamePageFactory.buildKeyPad(TournamentContext.firstToPost);
     setupKeyPad();
     initializeFirstToPost();
 }

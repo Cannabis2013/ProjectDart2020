@@ -36,8 +36,9 @@ function handleMetaInformation(meta){
     currentTournamentMetaData.tournamentTitle = meta[0];
     currentTournamentMetaData.tournamentGameMode = meta[1];
     currentTournamentMetaData.tournamentKeyPoint = meta[2];
-    currentTournamentMetaData.assignedPlayers = meta[3];;
-    currentTournamentMetaData.determinedWinner = meta[4];
+    currentTournamentMetaData.tournamentTableViewHint = meta[3];
+    currentTournamentMetaData.assignedPlayers = meta[4];;
+    currentTournamentMetaData.determinedWinner = meta[5];
     if(currentTournamentMetaData.tournamentGameMode === 0x1)
         FirstToPostScripts.setupFirstToPost();
 }

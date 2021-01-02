@@ -47,6 +47,7 @@ Content {
         property int tournamentGameMode: 0
         property int tournamentKeyPoint: 0
         property string determinedWinner: ""
+        property int tournamentTableViewHint: 0
         property var assignedPlayers: []
     }
     /*

@@ -29,6 +29,16 @@ function convertKeyModifierToHex(key){
     else
         return -1;
 }
+function convertHintToHex(hint){
+    var hints = stringModels.displayHints;
+    if(hint === hints[0])
+        return DataModelContext.singleDimensional;
+    else if(hint === hints[1])
+        return DataModelContext.multiDimensional;
+    else
+        return -1;
+}
+
 function createStringModel()
 {
     var text = gameModeSelector.currentValue;
@@ -55,11 +65,14 @@ function acceptAndAdd(){
     var keyPoint = keyPointEdit.currentValue;
     var winConditionKeyIdentifier = winConditionSelector.currentValue;
     var winConditionKeyCode = convertKeyModifierToHex(winConditionKeyIdentifier);
+    var modelDisplayHint = displayHintSelector.currentValue;
+    var hint = convertHintToHex(modelDisplayHint);
     var numberOfThrows = throwSpinBox.currentValue;
     createBody.sendTournament(title,
-                   numberOfThrows,
-                   gameCode,
-                   winConditionKeyCode,
-                   keyPoint,
-                   indexes);
+                              numberOfThrows,
+                              gameCode,
+                              winConditionKeyCode,
+                              keyPoint,
+                              hint,
+                              indexes);
 }

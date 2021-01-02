@@ -87,7 +87,7 @@ public slots:
                                 const int &numberOfThrows,
                                 const int &gameMode,
                                 const int &winCondition,
-                                const int &keyPoint,
+                                const int &keyPoint, const int &displayHint,
                                 const QVariantList &playerIndexes);
     /*
      * Delete tournament
@@ -153,6 +153,7 @@ signals:
                                  const int &numberOfThrows,
                                  const int &gameMode,
                                  const int &winCondition,
+                                 const int &displayHint,
                                  const int &keyPoint,
                                  const QList<int> &playerIndexes);
     void sendInformalControllerValues(const int &roundIndex,
@@ -194,6 +195,7 @@ private slots:
     void processRecievedTournamentMetaData(const QString &title,
                                            const int &gameMode,
                                            const int &keyPoint,
+                                           const int &tableViewHint,
                                            const QString &winnerName,
                                            const QStringList &assignedPlayerNames);
     void handleTournamentDetailsAndSetController(const QUuid &tournament,

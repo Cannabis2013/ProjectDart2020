@@ -48,8 +48,8 @@ public:
     virtual ITournament* setType(const int &val) override = 0;
     virtual ITournament* setParent(const TUuid &parent) override = 0;
 
-    virtual int modelDisplayHint() const = 0;
-    virtual ITournament* setModelDisplayHint(int modelDisplayHint) = 0;
+    virtual int modelTableViewHint() const = 0;
+    virtual ITournament* setModelTableViewHint(int modelDisplayHint) = 0;
 };
 
 #endif // ITOURNAMENTMODEL_H

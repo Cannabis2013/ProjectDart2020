@@ -52,6 +52,7 @@ void LocalPlayerModelsContext::processTournamentDetails(const QUuid &tournament,
 void LocalPlayerModelsContext::handleAndProcessTournamentMetaData(const QString &title,
                                                                   const int &gameMode,
                                                                   const int &keyPoint,
+                                                                  const int &tableViewHint,
                                                                   const QUuid &winnerID,
                                                                   const QList<QUuid> &assignedPlayersID)
 {
@@ -64,16 +65,18 @@ void LocalPlayerModelsContext::handleAndProcessTournamentMetaData(const QString 
     emit sendProcessedTournamentMetaData(title,
                                          gameMode,
                                          keyPoint,
+                                         tableViewHint,
                                          winnerName,
                                          playerNames);
 }
 
-void LocalPlayerModelsContext::handleProcessCreatedTournament(const QString &title,
-                                                              const int &numberOfThrows,
-                                                              const int &gameMode,
-                                                              const int &winCondition,
-                                                              const int &keyPoint,
-                                                              const QList<int> &playerIndexes)
+void LocalPlayerModelsContext::handleAndProcessCreatedTournament(const QString &title,
+                                                                 const int &numberOfThrows,
+                                                                 const int &gameMode,
+                                                                 const int &winCondition,
+                                                                 const int &displayHint,
+                                                                 const int &keyPoint,
+                                                                 const QList<int> &playerIndexes)
 {
     QList<QUuid> playersID;
     for (int i = 0; i < playerIndexes.count(); ++i) {
@@ -82,7 +85,7 @@ void LocalPlayerModelsContext::handleProcessCreatedTournament(const QString &tit
         auto playerName = this->playerName(playerID);
         playersID << playerID;
     }
-    emit sendProcessedTournamentDetails(title,gameMode,numberOfThrows,winCondition,keyPoint,playersID);
+    emit sendProcessedTournamentDetails(title,gameMode,numberOfThrows,winCondition,displayHint,keyPoint,playersID);
 }
 
 ImodelsDBContext<DefaultPlayerModelInterface, QUuid> *LocalPlayerModelsContext::modelDBContext()

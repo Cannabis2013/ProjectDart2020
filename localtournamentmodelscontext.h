@@ -67,6 +67,7 @@ public:
                                   const int &gameMode,
                                   const int &numberOfThrows,
                                   const int &winCondition,
+                                  const int &displayHint,
                                   const int &keyPoint,
                                   const QList<QUuid> &assignedPlayersID) override;
     void handleAssignPlayersToTournament(const QUuid &tournament, const QList<QUuid> &playersID) override;
@@ -104,7 +105,7 @@ private:
                            const int &keyPoint,
                            const int &throws,
                            const int &gameMode,
-                           const int &winCondition);
+                           const int &winCondition, const int &displayHint);
     void removeTournament(const QUuid &tournament);
     void removeModelsRelatedToTournament(const QUuid &tournament);
     QUuid tournamentIDFromIndex(const int &index);
@@ -116,6 +117,7 @@ private:
     int tournamentGameMode(const QUuid &tournament);
     int tournamentLastThrowKeyCode(const QUuid &tournament);
     int tournamentKeyPoint(const QUuid &tournament);
+    int tournamentTableViewHint(const QUuid &tournament);
     int tournamentStatus(const QUuid &tournament);
     QUuid tournamentDeterminedWinner(const QUuid &tournament);
     void setTournamentDeterminedWinner(const QUuid &tournament, const QUuid &winner);

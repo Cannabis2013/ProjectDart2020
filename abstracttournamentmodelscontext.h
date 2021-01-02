@@ -47,6 +47,7 @@ public slots:
                                           const int &gameMode,
                                           const int &numberOfThrows,
                                           const int &winCondition,
+                                          const int &displayHint,
                                           const int &keyPoint,
                                           const QList<QUuid> &assignedPlayersID) = 0;
     virtual void handleAssignPlayersToTournament(const QUuid &tournament, const QList<QUuid> &playersID) = 0;
@@ -86,6 +87,7 @@ signals:
     void sendTournamentMeta(const QString &title,
                             const int &gameMode,
                             const int &keyPoint,
+                            const int &tableViewHint,
                             const QUuid &winner,
                             const QList<QUuid> &assignedPlayers);
     void sendTournamentDetails(const QUuid &tournament,
