@@ -433,6 +433,7 @@ void LocalTournamentModelsContext::setTournamentDeterminedWinner(const QUuid &to
                         params.status = oldModel->status();
                         params.gameMode = oldModel->gameMode();
                         params.keyPoint = oldModel->keyPoint();
+                        params.modelTableViewHint = oldModel->modelTableViewHint();
                         params.throws = oldModel->numberOfThrows();
                         params.winner = winner;
                         params.playerIdentities = oldModel->assignedPlayerIdentities();
@@ -490,6 +491,7 @@ void LocalTournamentModelsContext::tournamentRemovePlayer(const QUuid &tournamen
         params.status = oldModel->status();
         params.gameMode = oldModel->gameMode();
         params.keyPoint = oldModel->keyPoint();
+        params.modelTableViewHint = oldModel->modelTableViewHint();
         params.playerIdentities = oldModel->assignedPlayerIdentities();
         params.throws = oldModel->numberOfThrows();
         params.winner = oldModel->winner();
