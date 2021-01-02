@@ -13,9 +13,59 @@ import QtQuick.Layouts 1.3
   */
 
 ScoreBoardInterface{
-    id: body
+    id: scoreBoardBody
     color: "transparent"
 
+    signal refreshHeaders()
+    signal setColumnWidth(int j, int w)
+    onSetColumnWidth: horizontalHeader.setColumnWidth(j,w)
+    signal setRowHeight(int i,int h)
+    onSetRowHeight: verticalHeader.setRowHeight(i,h)
+
+    signal requestUpdateCells()
+    onRequestUpdateCells: tableView.forceLayout()
+
+    signal notifyCellPosition(int x, int y)
+
+    // Row/column related
+
+    property int minimumColumnCount: 4
+
+    // Header related
+    signal setVerticalHeaderDataAt(int i, var val)
+    onSetVerticalHeaderDataAt: verticalHeader.setData(i,val)
+    signal setHorizontalHeaderDataAt(int j, var val)
+    onSetHorizontalHeaderDataAt: horizontalHeader.setData(j,val)
+    signal setHorizontalHeaderModel(int m)
+    onSetHorizontalHeaderModel: horizontalHeader.model = m
+    signal setVerticalHeaderModel(int m)
+    onSetVerticalHeaderModel: verticalHeader.model = m
+    property int headerOrientation: Qt.Vertical
+    property color horizontalHeaderBackgroundColor: "lightgray"
+    onHorizontalHeaderBackgroundColorChanged: horizontalHeader.backgroundColor = horizontalHeaderBackgroundColor
+    property color verticalHeaderBackgroundColor: "lightgray"
+    onVerticalHeaderBackgroundColorChanged: verticalHeader.backgroundColor = verticalHeaderBackgroundColor
+    property bool verticalHeaderVisible: true
+    onVerticalHeaderVisibleChanged: flickableVHeader.visible = verticalHeaderVisible
+    property bool horizontalHeaderVisible: true
+    onHorizontalHeaderVisibleChanged: flickableHHeader.visible = horizontalHeaderVisible
+    property int horizontalHeaderHeight: 20
+    onHorizontalHeaderHeightChanged: horizontalHeader.height = horizontalHeaderHeight
+    property bool staticVerticalHeaderWidth: false
+    property int verticalHeaderWidth: 25
+    onVerticalHeaderWidthChanged: verticalHeader.width = verticalHeaderWidth
+    property int verticalHeaderFillMode: 0x2
+    property int verticalHeaderFontSize: 12
+    onVerticalHeaderFontSizeChanged: verticalHeader.fontSize = verticalHeaderFontSize
+    property int horizontalHeaderFontSize: 12
+    onHorizontalHeaderFontSizeChanged: horizontalHeader.fontSize = horizontalHeaderFontSize
+    property int horizontalHeaderFillMode: 0x1
+    readonly property int horizontalHeaderCount: horizontalHeader.dataCount()
+    property int horizontalHeaderModel: horizontalHeader.model
+    onHorizontalHeaderModelChanged: horizontalHeader.model = horizontalHeaderModel
+    property int verticalHeaderModel: verticalHeader.model
+    onVerticalHeaderModelChanged: verticalHeader.model = verticalHeaderModel
+    // Table view related
     onClearData: {
         verticalHeader.clearData();
         horizontalHeader.clearData();
@@ -35,60 +85,6 @@ ScoreBoardInterface{
         flickableHHeader.contentWidth = w;
     }
 
-    signal refreshHeaders()
-    signal setColumnWidth(int j, int w)
-
-    onSetColumnWidth: horizontalHeader.setColumnWidth(j,w)
-    signal setRowHeight(int i,int h)
-    onSetRowHeight: verticalHeader.setRowHeight(i,h)
-
-    signal requestUpdateCells()
-    onRequestUpdateCells: tableView.forceLayout()
-
-    signal notifyCellPosition(int x, int y)
-
-    signal setVerticalHeaderDataAt(int i, var val)
-    onSetVerticalHeaderDataAt: verticalHeader.setData(i,val)
-    signal setHorizontalHeaderDataAt(int j, var val)
-    onSetHorizontalHeaderDataAt: horizontalHeader.setData(j,val)
-
-    signal setHorizontalHeaderModel(int m)
-    onSetHorizontalHeaderModel: horizontalHeader.model = m
-    signal setVerticalHeaderModel(int m)
-    onSetVerticalHeaderModel: verticalHeader.model = m
-
-    property int headerOrientation: Qt.Vertical
-
-    // Header related
-    property color horizontalHeaderBackgroundColor: "lightgray"
-    onHorizontalHeaderBackgroundColorChanged: horizontalHeader.backgroundColor = horizontalHeaderBackgroundColor
-    property color verticalHeaderBackgroundColor: "lightgray"
-    onVerticalHeaderBackgroundColorChanged: verticalHeader.backgroundColor = verticalHeaderBackgroundColor
-    property bool verticalHeaderVisible: true
-    onVerticalHeaderVisibleChanged: flickableVHeader.visible = verticalHeaderVisible
-    property bool horizontalHeaderVisible: true
-    onHorizontalHeaderVisibleChanged: flickableHHeader.visible = horizontalHeaderVisible
-    property int horizontalHeaderHeight: 20
-    onHorizontalHeaderHeightChanged: horizontalHeader.height = horizontalHeaderHeight
-    property bool staticVerticalHeaderWidth: false
-    property int verticalHeaderWidth: 25
-    onVerticalHeaderWidthChanged: verticalHeader.width = verticalHeaderWidth
-    property int verticalHeaderFillMode: 0x2
-    property int verticalHeaderFontSize: 12
-    onVerticalHeaderFontSizeChanged: verticalHeader.fontSize = verticalHeaderFontSize
-    property int horizontalHeaderFontSize: 12
-    onHorizontalHeaderFontSizeChanged: horizontalHeader.fontSize = horizontalHeaderFontSize
-
-    property int horizontalHeaderFillMode: 0x1
-
-    readonly property int horizontalHeaderCount: horizontalHeader.dataCount()
-
-    property int horizontalHeaderModel: horizontalHeader.model
-    onHorizontalHeaderModelChanged: horizontalHeader.model = horizontalHeaderModel
-
-    property int verticalHeaderModel: verticalHeader.model
-    onVerticalHeaderModelChanged: verticalHeader.model = verticalHeaderModel
-
     property QtObject model: tableView.model
     onModelChanged: tableView.model = model
 
@@ -107,6 +103,8 @@ ScoreBoardInterface{
     property var rowHeightProvider: function(){}
     onRowHeightProviderChanged: tableView.rowHeightProvider = rowHeightProvider
 
+    // Data model visualization related
+    property double modelScale: 1
     GridLayout
     {
         id: mainLayout
@@ -125,10 +123,11 @@ ScoreBoardInterface{
             VerticalHeader {
                 id: verticalHeader
                 anchors.fill: parent
-                backgroundColor: body.verticalHeaderBackgroundColor
+                backgroundColor: scoreBoardBody.verticalHeaderBackgroundColor
                 color: "black"
                 borderWidth: 1
                 Layout.alignment: Qt.AlignTop
+                visible: scoreBoardBody.verticalHeaderVisible
             }
         }
 
@@ -144,7 +143,7 @@ ScoreBoardInterface{
             HorizontalHeader {
                 id: horizontalHeader
                 anchors.fill: flickableHHeader.contentItem
-                backgroundColor: body.horizontalHeaderBackgroundColor
+                backgroundColor: scoreBoardBody.horizontalHeaderBackgroundColor
                 color: "black"
                 borderWidth: 1
             }

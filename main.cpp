@@ -19,9 +19,10 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
 
-    qmlRegisterType<FTPDataModel>("CustomItems",1,0,"FTPDataModel");
+    qmlRegisterType<FTPDataModel>("CustomItems",1,0,"FTPSingleDataModel");
     qmlRegisterSingletonType(QUrl("qrc:/ThemeContext.qml"),"customDefinitions",1,0,"ThemeContext");
     qmlRegisterSingletonType(QUrl("qrc:/TournamentContext.qml"),"CustomValues",1,0,"TournamentContext");
+    qmlRegisterSingletonType(QUrl("qrc:/DataModelContext.qml"),"CustomValues",1,0,"DataModelContext");
     auto tournamentModelsContext =
             LocalTournamentModelsContext::createInstance()->
             setModelBuilder(new TournamentModelBuilder())->

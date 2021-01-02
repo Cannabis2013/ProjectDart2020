@@ -22,10 +22,13 @@ function buildDisplayItem(mode,scoreBoardMode)
 
 function buildScoreBoard(mode,scoreBoardMode)
 {
+    var c;
     if(mode === TournamentContext.firstToPost)
     {
-        if(scoreBoardMode === TournamentContext.singleDimensional)
-            var c = Qt.createComponent("FTPSingleScoreBoard.qml");
+        if(scoreBoardMode === DataModelContext.singleDimensional)
+            c = Qt.createComponent("FTPSingleScoreBoard.qml");
+        else
+            c = Qt.createComponent("FTPMultiScoreBoard.qml");
     }
     if(c === undefined)
         console.log("Something went wrong!");

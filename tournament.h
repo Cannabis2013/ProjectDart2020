@@ -124,6 +124,16 @@ public:
     {
         return new Tournament();
     }
+    int modelDisplayHint() const override
+    {
+        return _modelDisplayHint;
+    }
+
+    ITournament* setModelDisplayHint(int modelDisplayHint) override
+    {
+        _modelDisplayHint = modelDisplayHint;
+        return this;
+    }
 private:
     QString _title;
     int _numberOfThrows;
@@ -132,6 +142,7 @@ private:
     int _status;
     int _modelType;
     int _terminateConditionKeyCode;
+    int _modelDisplayHint;
     QUuid _id,_winner;
     QList<QUuid> _assignedPlayerIdentities;
 };

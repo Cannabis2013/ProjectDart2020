@@ -15,13 +15,13 @@ Rectangle{
     onButtonOneEnabledChanged: buttonOne.enabled = buttonOneEnabled
 
     property bool buttonTwoEnabled: true
-    onButtonTwoEnabledChanged: buttontwo.enabled = buttonTwoEnabled
+    onButtonTwoEnabledChanged: buttonTwo.enabled = buttonTwoEnabled
 
     property string buttonOneTitle: "Button one"
     property string buttonTwoTitle: "Button two"
 
     onButtonOneTitleChanged: buttonOne.text = buttonOneTitle
-    onButtonTwoTitleChanged: buttontwo.text = buttonTwoTitle
+    onButtonTwoTitleChanged: buttonTwo.text = buttonTwoTitle
 
     property color buttonBackgroundColor: "green"
     onButtonBackgroundColorChanged: {
@@ -67,7 +67,7 @@ Rectangle{
         }
         
         PushButton{
-            id: buttontwo
+            id: buttonTwo
             text: buttonTwoTitle
             Layout.row: 0
             Layout.column: 1

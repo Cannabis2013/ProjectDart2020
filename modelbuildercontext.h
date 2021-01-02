@@ -10,6 +10,7 @@ struct TournamentParameters
     int gameMode;
     int keyPoint;
     int status;
+    int modelDisplayHint;
     QUuid winner;
     QUuid id;
     QString title;

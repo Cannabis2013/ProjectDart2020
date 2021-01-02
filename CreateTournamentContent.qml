@@ -2,9 +2,10 @@ import QtQuick 2.0
 import QtQuick.Layouts 1.3
 
 import "componentFactory.js" as ComponentFactory
+import "createTournamentScripts.js" as CreateScripts
 
 Content {
-    id: body
+    id: createBody
     color: "transparent"
 
     signal requestPlayers
@@ -30,47 +31,11 @@ Content {
         property var keyIdentifiers: ["Single","Double", "Tripple"]
         property var firstToPostPointValues: ["301","501","701","901"]
     }
-
-    function stateChanged()
-    {
-        var selectedIndexes = playersListView.currentIndexes();
-        var selectedIndexesLength = selectedIndexes.length;
-        var tournamentTitle = titleEdit.currentValue;
-        var tournamentTitleLength = tournamentTitle.length;
-        var status = selectedIndexesLength > 0 && tournamentTitleLength > 0;
-        buttonsComponent.buttonTwoEnabled = status;
-    }
-
-    function addPlayer(playerName,email)
-    {
-        playersListView.addItemModel({"type" : "player","username" : playerName, "mail" : email})
-    }
-
-    function gameModeToHex(text)
-    {
-        var gameModes = stringModels.gameModes;
-        if(text === gameModes[0])
-            return 0x1;
-    }
-    function convertKeyModifierToHex(key){
-        var keyIdentifiers = stringModels.keyIdentifiers;
-        if(key === keyIdentifiers[0])
-            return 0x2A;
-        else if(key === keyIdentifiers[1])
-            return 0x2B;
-        else if(key === keyIdentifiers[2])
-            return 0x2C;
-        else
-            return -1;
-    }
-    function createStringModel()
-    {
-        var text = gameModeSelector.currentValue;
-        var gameMode = gameModeToHex(text);
-        if(gameMode === 0x1)
-            return stringModels.firstToPostPointValues;
-
-        return [];
+    QtObject{
+        id: defaultStateValues
+        readonly property int defaultGameModeIndex: 0
+        readonly property int defaultWinConditionIndex: 1
+        readonly property int defaultKeyPointIndex: 1
     }
 
     /*
@@ -94,18 +59,11 @@ Content {
         DefaultTextInputBox {
             id: titleEdit
             Layout.fillWidth: true
-            onValueChanged: body.stateChanged()
+            onValueChanged: CreateScripts.stateChanged()
         }
         DefaultSpinBox {
             id: throwSpinBox
             Layout.fillWidth: true
-        }
-
-        DefaultComboBox {
-            id: keyPointEdit
-            Layout.fillWidth: true
-            labelText: "Keypoint:"
-            model: createStringModel()
         }
 
         DefaultComboBox{
@@ -113,14 +71,21 @@ Content {
             labelText: "Game modes"
             Layout.fillWidth: true
             model: stringModels.gameModes
-            onValueChanged: keyPointEdit.model = createStringModel()
-            Component.onCompleted: keyPointEdit.model = createStringModel()
+            onValueChanged: CreateScripts.initializeKeyPointComponent()
         }
+
+        DefaultComboBox {
+            id: keyPointEdit
+            Layout.fillWidth: true
+            labelText: "Keypoint:"
+        }
+
         DefaultComboBox {
             id: winConditionSelector
             Layout.fillWidth: true
             labelText: "Finish with:"
             model: stringModels.keyIdentifiers
+            Component.onCompleted: winConditionSelector.currentIndex = defaultStateValues.defaultWinConditionIndex
         }
 
         Rectangle{
@@ -132,7 +97,7 @@ Content {
             Layout.alignment: Qt.AlignHCenter
             Layout.fillHeight: true
             Layout.fillWidth: true
-            onItemSelected: body.stateChanged()
+            onItemSelected: CreateScripts.stateChanged()
         }
 
         MyRectangle{
@@ -152,37 +117,19 @@ Content {
             buttonTwoEnabled: false
             buttonBackgroundColor: ThemeContext.touButtonBackgroundColor
             onButtonOneClicked: backButtonPressed()
-            onButtonTwoClicked: {
-                var indexes = playersListView.currentIndexes();
-                if(indexes.length <= 0)
-                    return;
-                buttonTwoEnabled = false;
-                var title = titleEdit.currentValue;
-                var gameMode = gameModeSelector.currentValue;
-                var gameCode = gameModeToHex(gameMode);
-                var keyPoint = keyPointEdit.currentValue;
-                var winConditionKeyIdentifier = winConditionSelector.currentValue;
-                var winConditionKeyCode = convertKeyModifierToHex(winConditionKeyIdentifier);
-                var numberOfThrows = throwSpinBox.currentValue;
-                sendTournament(title,
-                               numberOfThrows,
-                               gameCode,
-                               winConditionKeyCode,
-                               keyPoint,
-                               indexes);
-            }
+            onButtonTwoClicked: CreateScripts.acceptAndAdd()
         }
 
         Component.onCompleted: {
-            body.sendTournament.connect(applicationInterface.handleCreateTournament); // Tournament request
-            body.requestPlayers.connect(applicationInterface.requestPlayerDetails); // Request initial/continous players
-            applicationInterface.sendPlayerDetail.connect(body.addPlayer); // Recieve initial players
+            createBody.sendTournament.connect(applicationInterface.handleCreateTournament); // Tournament request
+            createBody.requestPlayers.connect(applicationInterface.requestPlayerDetails); // Request initial/continous players
+            applicationInterface.sendPlayerDetail.connect(CreateScripts.addPlayer); // Recieve initial players
             requestUpdate();
         }
         Component.onDestruction: {
-            body.sendTournament.disconnect(applicationInterface.handleCreateTournament);
-            body.requestPlayers.disconnect(applicationInterface.requestPlayerDetails);
-            applicationInterface.sendPlayerDetail.disconnect(body.addPlayer);
+            createBody.sendTournament.disconnect(applicationInterface.handleCreateTournament);
+            createBody.requestPlayers.disconnect(applicationInterface.requestPlayerDetails);
+            applicationInterface.sendPlayerDetail.disconnect(CreateScripts.addPlayer);
         }
     }
 }

@@ -41,7 +41,7 @@
         <file>FirstToPostTurnController.qml</file>
         <file>fTPScripts.js</file>
         <file>KeyPadInterface.qml</file>
-        <file>scoreBoardScripts.js</file>
+        <file>fTPSingleScripts.js</file>
         <file>ScoreBoardInterface.qml</file>
         <file>LoadingItem.qml</file>
         <file>SpinBoxInputContent.qml</file>
@@ -62,6 +62,10 @@
         <file>gamePageFactory.js</file>
         <file>TournamentContext.qml</file>
         <file>NotificationItem.qml</file>
+        <file>FTPMultiScoreBoard.qml</file>
+        <file>DataModelContext.qml</file>
+        <file>fTPMultiScripts.js</file>
+        <file>createTournamentScripts.js</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>

@@ -28,11 +28,13 @@ Item {
     onLabelTextChanged: label.text = qsTr(labelText)
 
     property int fontSize: 12
-    onFontSizeChanged: body.children[1].children[0].fontSize = fontSize
+    onFontSizeChanged: inputContent.fontSize = fontSize
 
-    readonly property var currentValue : body.children[1].children[0].currentValue;
-
+    readonly property var currentValue : contentContainer.children[0].currentValue
+    property int currentIndex: contentContainer.children[0].currentIndex
+    onCurrentIndexChanged: contentContainer.children[0].currentIndex = body.currentIndex
     property UserInputContent content : UserInputContent{}
+
 
     onContentChanged: {
         body.children[1].children[0] = content;
@@ -60,8 +62,6 @@ Item {
         width: parent.width / 2
         height: parent.height
         color: "transparent"
-        UserInputContent{
-            id: inputContent
-        }
+        UserInputContent{}
     }
 }

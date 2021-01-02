@@ -197,7 +197,7 @@ public:
         InternalListNode<T> *nodeAtIndex;
         try {
             nodeAtIndex = findAt(i);
-        }  catch (const std::out_of_range e) {
+        }  catch (const std::out_of_range *e) {
             throw e;
         }
         auto previousNoteAtIndex = nodeAtIndex->prev();

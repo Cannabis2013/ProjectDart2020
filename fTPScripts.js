@@ -4,27 +4,27 @@ function setupFirstToPost(){
       */
     turnControllerItemSlot.sourceComponent =
             GamePageFactory.buildTurnController(TournamentContext.firstToPost,
-                                                TournamentContext.singleDimensional);
+                                                DataModelContext.singleDimensional);
     setupTurnController();
     /*
       Load and setup ScoreTable
       */
     scoreBoardItemSlot.sourceComponent =
             GamePageFactory.buildScoreBoard(TournamentContext.firstToPost,
-                                            TournamentContext.singleDimensional);
+                                            DataModelContext.singleDimensional);
     setupFirstToPostScoreTable();
     /*
       Load and setup DisplayKeyDataItem
       */
     notificationItemSlot.sourceComponent =
             GamePageFactory.buildDisplayItem(TournamentContext.firstToPost,
-                                             TournamentContext.singleDimensional);
+                                             DataModelContext.singleDimensional);
     /*
       Load and setup DefaultKeyPadComponent
       */
     keyPaditemSlot.sourceComponent =
             GamePageFactory.buildKeyPad(TournamentContext.firstToPost,
-                                        TournamentContext.singleDimensional);
+                                        DataModelContext.singleDimensional);
     setupKeyPad();
     initializeFirstToPost();
 }
@@ -38,43 +38,9 @@ function initializeFirstToPost()
 function setupFirstToPostScoreTable()
 {
     body.scoreRecieved.connect(scoreBoardItemSlot.item.setData);
-    scoreBoardItemSlot.item.displayPoints = false;
-    setupHorizontalBoard();
-}
-
-function setupVerticalBoard()
-{
-    scoreBoardItemSlot.item.verticalHeaderFillMode = 0x2;
-    scoreBoardItemSlot.item.horizontalHeaderFillMode = 0x1;
-    scoreBoardItemSlot.item.headerOrientation = Qt.Vertical;
-    scoreBoardItemSlot.item.sizeScale(2);
-
     var assignedPlayers = currentTournamentMetaData.assignedPlayers;
     var keyPoint = currentTournamentMetaData.tournamentKeyPoint;
-
-    for(var i = 0; i < assignedPlayers.length;i++)
-    {
-        var assignedPlayerName = assignedPlayers[i];
-        scoreBoardItemSlot.item.appendHeader(assignedPlayerName,Qt.Vertical);
-        scoreBoardItemSlot.item.setData(assignedPlayerName,0,keyPoint,undefined);
-    }
-}
-
-function setupHorizontalBoard()
-{
-    scoreBoardItemSlot.item.verticalHeaderFillMode = 0x1;
-    scoreBoardItemSlot.item.horizontalHeaderFillMode = 0x2;
-    scoreBoardItemSlot.item.headerOrientation = Qt.Horizontal;
-    scoreBoardItemSlot.item.sizeScale(1);
-    scoreBoardItemSlot.item.verticalHeaderVisible = false;
-    var assignedPlayers = currentTournamentMetaData.assignedPlayers;
-    var keyPoint = currentTournamentMetaData.tournamentKeyPoint;
-    for(var i = 0; i < assignedPlayers.length;i++)
-    {
-        var assignedPlayerName = assignedPlayers[i];
-        scoreBoardItemSlot.item.appendHeader(assignedPlayerName,Qt.Horizontal);
-        scoreBoardItemSlot.item.setData(assignedPlayerName,0,keyPoint,undefined);
-    }
+    scoreBoardItemSlot.item.appendHeaderData(assignedPlayers,keyPoint);
 }
 /*
   TurnControlle related

@@ -325,7 +325,7 @@ QVariant FTPDataModel::data(const QModelIndex &index, int role) const
     auto data = QString::number(point) + " " + QString::number(score);
     return score >= 0 ?
                 QVariant(data) :
-                QVariant("-");
+                QVariant("");
 }
 
 QVariant FTPDataModel::headerData(int section, Qt::Orientation orientation, int role) const

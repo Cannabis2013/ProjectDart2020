@@ -16,6 +16,8 @@ UserInputContent{
     onPopupItemHoveredColorChanged: popupItem.hoveredColor = popupItemHoveredColor
     currentValue : comboBox.currentText
 
+    onCurrentIndexChanged: comboBox.currentIndex = comboBoxComponentBody.currentIndex
+
     layer.enabled: true
     layer.effect: OpacityMask{
         maskSource: Item {

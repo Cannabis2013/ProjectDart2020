@@ -42,7 +42,7 @@ function requestDeleteTournamentPopUp()
     {
         let obj = ComponentFactory.createConfirmPopUp('ConfirmPageContent.qml',
                                                       applicationWindow);
-        obj.acceptClicked.connect(body.deleteTournamentsAccepted);
+        obj.acceptClicked.connect(deleteTournamentsAccepted);
     }
 }
 function deleteTournamentsAccepted()
