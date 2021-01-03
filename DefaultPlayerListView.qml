@@ -15,7 +15,7 @@ ListComponent {
     itemTitleFontSize: 12
     itemTitleTextColor: "white"
     itemDescriptionFontSize: 8
-    itemWidth: playersListView.width*0.95
+    itemWidthScale: 0.8
     itemHeight: 60
     allowCheckState: true
     allowMultipleSelections: true

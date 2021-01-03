@@ -23,6 +23,7 @@ void LocalFTPController::stop()
 void LocalFTPController::handleAndProcessUserInput(const int &userInput,
                                                  const int &modifierKeyCode)
 {
+    // Check for status
     if(status() == Stopped ||
             status() == WinnerDeclared)
     {
@@ -34,13 +35,13 @@ void LocalFTPController::handleAndProcessUserInput(const int &userInput,
         emit transmitResponse(ControllerResponse::isProcessingUserInput,{});
         return;
     }
-
+    // Set controller state
     _currentStatus = ControllerState::AddScoreState;
-
+    // Initialize pointmultiplier
     auto pointMultiplier = modifierKeyCode == KeyMappings::TrippleModifier ? 3 :
                             modifierKeyCode == KeyMappings::DoubleModifier ? 2 :
                             modifierKeyCode == KeyMappings::SingleModifer ? 1 : 0;
-
+    // Calculate point
     auto calculatedPoint = userInput*pointMultiplier;
 
     auto currentScore = playerScore(_setIndex);

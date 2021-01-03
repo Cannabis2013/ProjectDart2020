@@ -7,8 +7,6 @@ import QtGraphicalEffects 1.13
 Rectangle{
     id: body
 
-    color: "transparent"
-
     clip: true
 
     signal itemClicked(int index)
@@ -27,10 +25,14 @@ Rectangle{
     property bool allowMultipleSelections: false
     property string componentTitle: "Title"
     onComponentTitleChanged: labelTitle.text = componentTitle
+    property color backgroundColor: "white"
+    onBackgroundColorChanged: backgroundRect.color = body.backgroundColor
     property color titleBackground: "transparent"
     onTitleBackgroundChanged: labelTitle.backgroundColor = titleBackground
     property color labelTextColor: "black"
     onLabelTextColorChanged: labelTitle.fontColor = labelTextColor
+    // General item properties
+    // Item font/color/background properties
     property color itemTitleTextColor: "black"
     onItemTitleTextColorChanged: listItem.itemTextColor = itemTextColor
     property color itemDescriptionFontColor: "white"
@@ -43,20 +45,25 @@ Rectangle{
     onItemDescriptionBackgroundColorChanged: listItem.descriptionBackgroundColor = itemDescriptionBackgroundColor
     property color itemTitleBackgroundColor: "transparent"
     onItemTitleBackgroundColorChanged: listItem.labelBackgroundColor = itemTitleBackgroundColor
+    // Item background properties
     property color itemSelectedBackgroundColor: "white"
     onItemSelectedBackgroundColorChanged: listItem.selectedColor = itemSelectedBackgroundColor
-    property color itemSelectedtextColor: "black"
-    onItemSelectedtextColorChanged: listItem.selectedTextColor = itemSelectedtextColor
-    property int itemRoundedCorners: 0
-    onItemRoundedCornersChanged: listItem.radius = itemRoundedCorner
-    property int itemHeight: 50
-    onItemHeightChanged: listItem.height = itemHeight
-    property int itemWidth : body.width
-    onItemWidthChanged: listItem.width = itemWidth
     property color itemHoveredColor: itemBackgroundColor
     onItemHoveredColorChanged: listItem.itemHoveredColor = itemHoveredColor
+    property color itemSelectedtextColor: "black"
+    onItemSelectedtextColorChanged: listItem.selectedTextColor = itemSelectedtextColor
     property double itemBackgroundOpacity: 1
     onItemBackgroundOpacityChanged: listItem.backgroundOpacitity = itemBackgroundOpacity
+    // Item geometry properties
+    property int itemRoundedCorners: 0
+    onItemRoundedCornersChanged: listItem.radius = itemRoundedCorner
+    // Item size properties
+    property double itemWidthScale: 0.95
+    onItemWidthScaleChanged: body.itemWidth = body.width *body.itemWidthScale
+    property int itemHeight: 50
+    onItemHeightChanged: listItem.height = itemHeight
+    property int itemWidth : body.width * itemWidthScale
+    onItemWidthChanged: listItem.width = itemWidth
     property color hoveredItemTextColor: "blue"
     onHoveredItemTextColorChanged: listItem.hoveredItemTextColor = hoveredItemTextColor
     property color itemBackgroundColor: "transparent"
@@ -122,6 +129,13 @@ Rectangle{
                 radius: body.radius
             }
         }
+    }
+
+    Rectangle{
+        id: backgroundRect
+        anchors.fill: parent
+        color: body.backgroundColor
+        opacity: 0.1
     }
 
     GridLayout

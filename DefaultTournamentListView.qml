@@ -18,9 +18,8 @@ ListComponent {
     itemTitleFontSize: 12
     itemTitleTextColor: "white"
     itemDescriptionFontSize: 8
-    itemWidth: tournamentListView.width *0.95
     itemHeight: 64
     allowCheckState: true
     allowMultipleSelections: true
-    instantSelectEnabled: false
+    instantSelectEnabled: true
 }
