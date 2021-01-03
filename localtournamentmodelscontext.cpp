@@ -3,14 +3,16 @@
 void LocalTournamentModelsContext::read()
 {
     QJsonObject JSONObject;
+    // Extact content from file
     try {
         JSONObject = readJSONFromFile("TournamentModels");
     } catch (...) {
         return;
     }
+    // Assemble json objects from content
     auto tournamentsJSONArray = JSONObject["TournamentsData"].toArray();
     auto scoresJSONArray = JSONObject["ScoresData"].toArray();
-
+    // Exctract models from json objects
     extractTournamentModelsFromJSON(tournamentsJSONArray);
     extractScoreModelsFromJSON(scoresJSONArray);
 }
@@ -852,6 +854,7 @@ QJsonArray LocalTournamentModelsContext::assembleTournamentsJSONArray()
         obj["Title"] = tournamentTitle(id);
         obj["KeyPoint"] = tournamentKeyPoint(id);
         obj["GameMode"] = tournamentGameMode(id);
+        obj["TableViewHint"] = tournamentTableViewHint(id);
         obj["Winner"] = tournamentDeterminedWinner(id).toString();
         obj["Throws"] = tournamentNumberOfThrows(id);
         auto players = tournamentAssignedPlayers(id);
@@ -900,11 +903,17 @@ void LocalTournamentModelsContext::extractTournamentModelsFromJSON(const QJsonAr
         auto tournamentID = QUuid::fromString(stringID);
         auto title = tournamentJSON["Title"].toString();
         auto keyPoint = tournamentJSON["KeyPoint"].toInt();
+        auto tableViewHint = tournamentJSON["TableViewHint"].toInt();
         auto gameMode = tournamentJSON["GameMode"].toInt();
         auto throws = tournamentJSON["Throws"].toInt();
         auto winnerStringID = tournamentJSON["WinnerID"].toString();
         auto winnerID = QUuid::fromString(winnerStringID);
-        buildTournament(tournamentID,title,keyPoint,throws,gameMode,winnerID);
+        buildTournament(tournamentID,title,
+                        keyPoint,
+                        tableViewHint,
+                        throws,
+                        gameMode,
+                        winnerID);
         auto playersJSONArray = tournamentJSON["Players"].toArray();
         auto playersJSONCount = playersJSONArray.count();
         for (int j = 0; j < playersJSONCount; ++j) {
@@ -917,18 +926,20 @@ void LocalTournamentModelsContext::extractTournamentModelsFromJSON(const QJsonAr
 }
 
 void LocalTournamentModelsContext::buildTournament(const QUuid &id,
-                                                 const QString &title,
-                                                 const int &keyPoint,
-                                                 const int &throws,
-                                                 const int &gameMode,
-                                                 const QUuid &winner)
+                                                   const QString &title,
+                                                   const int &keyPoint,
+                                                   const int &tableViewHint,
+                                                   const int &throws,
+                                                   const int &gameMode,
+                                                   const QUuid &winner)
 {
     auto tournament = modelBuilder()->buildTournamentModel(
-                [id,title,keyPoint,throws,gameMode,winner]{
+                [id,title,keyPoint,tableViewHint,throws,gameMode,winner]{
                 TournamentParameters params;
                 params.id = id;
                 params.title = title;
                 params.keyPoint = keyPoint;
+                params.modelTableViewHint = tableViewHint;
                 params.gameMode = gameMode;
                 params.throws = throws;
                 params.winner = winner;

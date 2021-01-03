@@ -172,7 +172,7 @@ private:
      */
     void buildTournament(const QUuid &id,
                          const QString &title,
-                         const int &keyPoint,
+                         const int &keyPoint, const int &tableViewHint,
                          const int &throws,
                          const int &gameMode,
                          const QUuid &winner);
