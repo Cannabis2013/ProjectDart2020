@@ -28,7 +28,6 @@ void LocalTournamentModelsContext::write()
 
 LocalTournamentModelsContext::~LocalTournamentModelsContext()
 {
-    write();
 }
 
 AbstractTournamentModelsContext *LocalTournamentModelsContext::createInstance()
@@ -104,6 +103,7 @@ void LocalTournamentModelsContext::assembleAndAddTournament(const QString &title
                                          displayHint);
     for (auto assignedPlayerID : assignedPlayersID)
         assignPlayerToTournament(tournamentID,assignedPlayerID);
+    write();
     emit transmitResponse(ModelsContextResponse::TournamentCreatedOK,{});
 }
 
@@ -129,6 +129,7 @@ void LocalTournamentModelsContext::deleteTournaments(const QVector<int> &indexes
     for (auto tournamentID : tournamentsID) {
         removeTournament(tournamentID);
     }
+    write();
     emit tournamentsDeletedSuccess(status);
 }
 
@@ -451,10 +452,10 @@ void LocalTournamentModelsContext::setTournamentDeterminedWinner(const QUuid &to
 void LocalTournamentModelsContext::assignPlayerToTournament(const QUuid &tournament, const QUuid &player)
 {
     auto oldModel = getTournamentModelFromID(tournament);
-    auto pList = oldModel->assignedPlayerIdentities();
-    pList.append(player);
+    auto assignedPlayers = oldModel->assignedPlayerIdentities();
+    assignedPlayers.append(player);
     auto newModel = modelBuilder()->buildTournamentModel(
-                [oldModel, pList]
+                [oldModel, assignedPlayers]
     {
         TournamentParameters params;
         params.id = oldModel->id();
@@ -465,7 +466,7 @@ void LocalTournamentModelsContext::assignPlayerToTournament(const QUuid &tournam
         params.throws = oldModel->numberOfThrows();
         params.winner = oldModel->winner();
         params.modelTableViewHint = oldModel->modelTableViewHint();
-        params.playerIdentities = pList;
+        params.playerIdentities = assignedPlayers;
         return params;
     }(),[]
     {

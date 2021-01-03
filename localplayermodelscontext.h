@@ -47,8 +47,6 @@ public:
         return new LocalPlayerModelsContext();
     }
 
-
-
     ~LocalPlayerModelsContext();
     // PersistenceInterface interface
     void read() override;

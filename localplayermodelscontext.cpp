@@ -112,7 +112,6 @@ AbstractPlayerModelsContext *LocalPlayerModelsContext::setup()
 
 LocalPlayerModelsContext::~LocalPlayerModelsContext()
 {
-    write();
 }
 
 void LocalPlayerModelsContext::read()
@@ -158,7 +157,11 @@ AbstractPlayerModelsContext *LocalPlayerModelsContext::setModelDBContext(Imodels
 void LocalPlayerModelsContext::createPlayer(const QString &name, const QString &mail)
 {
     auto id = buildPlayerModel(name,mail,UserRoles::Player);
-    auto status = id != QUuid() ? true : false;
+    auto status = id != QUuid() ? true :
+                                  false;
+    // Persist state change
+    write();
+    // Notify front-end
     emit confirmPlayerCreated(status);
 }
 
@@ -171,8 +174,10 @@ void LocalPlayerModelsContext::deletePlayer(const int &index)
     }  catch (...) {
         status = false;
     }
-
+    // Delete model from state
     deletePlayerByID(playerID);
+    // Persist state change
+    write();
     emit playersDeletedStatus(status);
 }
 
@@ -191,6 +196,8 @@ void LocalPlayerModelsContext::deletePlayers(const QVector<int> &playerIndexes)
             status = false;
         }
     }
+    // Persist state change
+    write();
     emit playersDeletedStatus(status);
 }
 
