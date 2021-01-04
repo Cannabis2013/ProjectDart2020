@@ -80,12 +80,7 @@ signals:
     void requestTournamentIndexes(const QUuid &tournament);
     void requestAddScore(const QUuid &tournamentID,
                    const QUuid &playerID,
-                   const int &roundIndex,
-                   const int &setIndex,
-                   const int &throwIndex,
-                   const int &point,
-                   const int &score,
-                   const int &keyCode,
+                   const QList<int> &dataValues,
                    const bool &isWinnerDetermined);
     void winnerDetermined(const QUuid &tournament, const QUuid &player);
     void requestUpdateContext(const QUuid &tournamentID,

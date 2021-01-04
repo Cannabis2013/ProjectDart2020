@@ -77,12 +77,7 @@ public:
     void handleRequestTournamentIndexes(const QUuid &tournament) override;
     void addScore(const QUuid &tournament,
                   const QUuid &player,
-                  const int &roundIndex,
-                  const int &setIndex,
-                  const int &throwIndex,
-                  const int &point,
-                  const int &score,
-                  const int &keyCode,
+                  const QList<int> &dataValues,
                   const bool &isWinnerDetermined) override;
     void handleRequestSetScoreHint(const QUuid &tournament,
                                                const QUuid &player,
@@ -170,12 +165,10 @@ private:
                          const int &throws,
                          const int &gameMode,
                          const QUuid &winner);
-    void buildScoreModel(const QUuid &tournament, const QUuid &player, const int &round,
-                         const int &set,
-                         const int &throwIndex,
-                         const int &point,
-                         const int &score,
-                         const int &hint, const int &keyCode,
+    void buildScoreModel(const QUuid &tournament,
+                         const QUuid &player,
+                         const QList<int> &dataValues,
+                         const int &hint,
                          const bool &generateID = true,
                          const QUuid &id = QUuid());
 

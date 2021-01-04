@@ -59,12 +59,7 @@ public slots:
     virtual void handleRequestTournamentIndexes(const QUuid &tournament) = 0;
     virtual void addScore(const QUuid &tournament,
                           const QUuid &playerID,
-                          const int &roundIndex,
-                          const int &setIndex,
-                          const int &throwIndex,
-                          const int &point,
-                          const int &score,
-                          const int &keyCode,
+                          const QList<int> &dataValues,
                           const bool &isWinnerDetermined) = 0;
     virtual void handleRequestSetScoreHint(const QUuid &tournament,
                                            const QUuid &player,

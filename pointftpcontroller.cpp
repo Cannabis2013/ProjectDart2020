@@ -347,21 +347,20 @@ int PointFTPController::validateInput(const int &currentScore,
 
 void PointFTPController::addPoint(const int &point, const int &score)
 {
+    QList<int> values;
     auto tournamentID = currentTournamentID();
-    auto roundIndex = currentRoundIndex();
-    auto setIndex = currentPlayerIndex();
-    auto throwIndex = currentThrowIndex();
+    values.append(currentRoundIndex());
+    values.append(currentPlayerIndex());
+    values.append(currentThrowIndex());
+    values.append(point);
+    values.append(score);
+    values.append(-1);
     auto isWinnerDetermined = status() == ControllerState::WinnerDeclared;
     auto currentPlayer = currentActivePlayerID();
     emit requestAddScore(tournamentID,
-                   currentPlayer,
-                   roundIndex,
-                   setIndex,
-                   throwIndex,
-                   point,
-                   score,
-                   -1,
-                   isWinnerDetermined);
+                         currentPlayer,
+                         values,
+                         isWinnerDetermined);
 }
 
 int PointFTPController::currentTurnIndex()

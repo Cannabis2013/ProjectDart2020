@@ -967,30 +967,25 @@ void LocalTournamentModelsContext::buildTournament(const QUuid &id,
 
 void LocalTournamentModelsContext::buildScoreModel(const QUuid &tournament,
                                                    const QUuid &player,
-                                                   const int &round,
-                                                   const int &set,
-                                                   const int &throwIndex,
-                                                   const int &point,
-                                                   const int &score,
+                                                   const QList<int> &dataValues,
                                                    const int &hint,
-                                                   const int &keyCode,
                                                    const bool &generateID,
                                                    const QUuid &id)
 {
     auto model = modelBuilder()->buildScoreModel(
-                [id,tournament,round,set,throwIndex,point,keyCode,player,score,hint]
+                [id,tournament,dataValues,player,hint]
     {
         ScoreParameters params;
         params.id = id;
-        params.tournament = tournament;
-        params.roundIndex = round;
-        params.setIndex = set;
         params.playerId = player;
-        params.pointValue = point;
-        params.throwIndex = throwIndex;
-        params.scoreValue = score;
         params.hint = hint;
-        params.keyCode = keyCode;
+        params.tournament = tournament;
+        params.roundIndex = dataValues.at(0);
+        params.setIndex = dataValues.at(1);
+        params.throwIndex = dataValues.at(2);
+        params.pointValue = dataValues.at(3);
+        params.scoreValue = dataValues.at(4);
+        params.keyCode = dataValues.at(5);
 
         return params;
     }(),[generateID]{
@@ -1055,27 +1050,17 @@ int LocalTournamentModelsContext::playerScoreCount(const int &hint)
 
 void LocalTournamentModelsContext::addScore(const QUuid &tournament,
                                             const QUuid &player,
-                                            const int &roundIndex,
-                                            const int &setIndex,
-                                            const int &throwIndex,
-                                            const int &point,
-                                            const int &score,
-                                            const int &keyCode,
+                                            const QList<int> &dataValues,
                                             const bool &isWinnerDetermined)
 {
     buildScoreModel(tournament,
                     player,
-                    roundIndex,
-                    setIndex,
-                    throwIndex,
-                    point,
-                    score,
-                    ModelDisplayHint::DisplayHint,
-                    keyCode);
+                    dataValues,
+                    ModelDisplayHint::DisplayHint);
     if(isWinnerDetermined)
         setTournamentDeterminedWinner(tournament,player);
     removeHiddenScores(tournament);
-    emit scoreAddedToDataContext(player,point,score);
+    emit scoreAddedToDataContext(player,dataValues.at(3),dataValues.at(4));
 }
 
 void LocalTournamentModelsContext::removeHiddenScores(const QUuid &tournament)
@@ -1105,28 +1090,24 @@ int LocalTournamentModelsContext::score(const QUuid &player)
 void LocalTournamentModelsContext::extractScoreModelsFromJSON(const QJsonArray &arr)
 {
     for (auto JSONValue : arr) {
+        QList<int> dataValues;
         auto stringID = JSONValue["ID"].toString();
         auto id = QUuid::fromString(stringID);
         auto tournament = JSONValue["Tournament"].toString();
         auto tournamentID = QUuid::fromString(tournament);
-        auto pointValue = JSONValue["PointValue"].toInt();
-        auto scoreValue = JSONValue["ScoreValue"].toInt();
-        auto roundIndex = JSONValue["RoundIndex"].toInt();
-        auto setIndex = JSONValue["SetIndex"].toInt();
         auto playerStringID = JSONValue["PlayerID"].toString();
         auto playerID = QUuid::fromString(playerStringID);
-        auto throwIndex = JSONValue["Index"].toInt();
-        auto keyCode = JSONValue["KeyCode"].toInt();
+        dataValues.append(JSONValue["RoundIndex"].toInt());
+        dataValues.append(JSONValue["SetIndex"].toInt());
+        dataValues.append(JSONValue["Index"].toInt());
+        dataValues.append(JSONValue["PointValue"].toInt());
+        dataValues.append(JSONValue["ScoreValue"].toInt());
+        dataValues.append(JSONValue["KeyCode"].toInt());
         auto scoreHint = JSONValue["Hint"].toInt();
         buildScoreModel(tournamentID,
                         playerID,
-                        roundIndex,
-                        setIndex,
-                        throwIndex,
-                        pointValue,
-                        scoreValue,
+                        dataValues,
                         scoreHint,
-                        keyCode,
                         false,
                         id);
     }
