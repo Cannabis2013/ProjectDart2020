@@ -39,6 +39,15 @@ function convertHintToHex(hint){
         return -1;
 }
 
+function convertInputStringToHex(inputMode)
+{
+    var inputModes = stringModels.inputModes;
+    if(inputMode === inputModes[0])
+        return TournamentContext.pointMode;
+    else if(inputMode === inputModes[1])
+        return TournamentContext.scoreMode;
+}
+
 function createStringModel()
 {
     var text = gameModeSelector.currentValue;
@@ -65,8 +74,10 @@ function acceptAndAdd(){
     var keyPoint = keyPointEdit.currentValue;
     var winConditionKeyIdentifier = winConditionSelector.currentValue;
     var winConditionKeyCode = convertKeyModifierToHex(winConditionKeyIdentifier);
-    var modelDisplayHint = displayHintSelector.currentValue;
-    var hint = convertHintToHex(modelDisplayHint);
+    var displayHintSelectorValue = displayHintSelector.currentValue;
+    var hint = convertHintToHex(displayHintSelectorValue);
+    var inputModeSelectorValue = inputModeSelector.currentValue;
+    var inputMode = convertInputStringToHex(inputModeSelectorValue);
     var numberOfThrows = throwSpinBox.currentValue;
     createBody.sendTournament(title,
                               numberOfThrows,
@@ -74,5 +85,6 @@ function acceptAndAdd(){
                               winConditionKeyCode,
                               keyPoint,
                               hint,
+                              inputMode,
                               indexes);
 }

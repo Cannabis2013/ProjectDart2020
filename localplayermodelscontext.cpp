@@ -17,12 +17,13 @@ void LocalPlayerModelsContext::assembleListOfPlayersFromIndexes(const QVector<in
 }
 
 void LocalPlayerModelsContext::processTournamentDetails(const QUuid &tournament,
-                                                           const QUuid &winner,
-                                                           const int &keyPoint,
-                                                           const int &terminalKeyCode,
-                                                           const int &numberOfThrows,
-                                                           const int &gameMode,
-                                                           const QList<QUuid> &players)
+                                                        const QUuid &winner,
+                                                        const int &keyPoint,
+                                                        const int &inputMode,
+                                                        const int &terminalKeyCode,
+                                                        const int &numberOfThrows,
+                                                        const int &gameMode,
+                                                        const QList<QUuid> &players)
 {
     QList<QPair<QUuid,QString>> resultingList;
     for (int i = 0; i <players.count();i++) {
@@ -30,7 +31,6 @@ void LocalPlayerModelsContext::processTournamentDetails(const QUuid &tournament,
         auto playerName = this->playerName(playerID);
         if(playerName == QString())
         {
-            QVariantList args = {tournament};
             emit transmitResponse(ContextResponse::InconsistencyDetected,{tournament});
             return;
         }
@@ -43,6 +43,7 @@ void LocalPlayerModelsContext::processTournamentDetails(const QUuid &tournament,
     emit sendTournamentDetails(tournament,
                                winnerName,
                                keyPoint,
+                               inputMode,
                                terminalKeyCode,
                                numberOfThrows,
                                gameMode,
@@ -75,6 +76,7 @@ void LocalPlayerModelsContext::handleAndProcessCreatedTournament(const QString &
                                                                  const int &gameMode,
                                                                  const int &winCondition,
                                                                  const int &displayHint,
+                                                                 const int &inputMode,
                                                                  const int &keyPoint,
                                                                  const QList<int> &playerIndexes)
 {
@@ -85,7 +87,14 @@ void LocalPlayerModelsContext::handleAndProcessCreatedTournament(const QString &
         auto playerName = this->playerName(playerID);
         playersID << playerID;
     }
-    emit sendProcessedTournamentDetails(title,gameMode,numberOfThrows,winCondition,displayHint,keyPoint,playersID);
+    emit sendProcessedTournamentDetails(title,
+                                        gameMode,
+                                        numberOfThrows,
+                                        winCondition,
+                                        displayHint,
+                                        inputMode,
+                                        keyPoint,
+                                        playersID);
 }
 
 ImodelsDBContext<DefaultPlayerModelInterface, QUuid> *LocalPlayerModelsContext::modelDBContext()

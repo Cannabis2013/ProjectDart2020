@@ -50,6 +50,9 @@ public:
 
     virtual int modelTableViewHint() const = 0;
     virtual ITournament* setModelTableViewHint(int modelDisplayHint) = 0;
+
+    virtual int inputMode() const = 0;
+    virtual ITournament* setInputMode(const int &inputMode) = 0;
 };
 
 #endif // ITOURNAMENTMODEL_H

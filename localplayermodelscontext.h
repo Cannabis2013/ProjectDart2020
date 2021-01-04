@@ -62,7 +62,7 @@ public slots:
     void assembleListOfPlayersFromIndexes(const QVector<int> &playerIndexes) override;
     void processTournamentDetails(const QUuid &tournament,
                                      const QUuid &winner,
-                                     const int &keyPoint,
+                                     const int &keyPoint, const int &inputMode,
                                      const int &terminalKeyCode,
                                      const int &numberOfThrows,
                                      const int &gameMode,
@@ -77,7 +77,7 @@ public slots:
                                         const int &numberOfThrows,
                                         const int &gameMode,
                                         const int &winCondition,
-                                        const int &displayHint,
+                                        const int &displayHint, const int &inputMode,
                                         const int &keyPoint,
                                         const QList<int> &playerIndexes) override;
 private:

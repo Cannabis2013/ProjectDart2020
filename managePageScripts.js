@@ -12,7 +12,7 @@ function requestDeletePlayerPopUp()
     {
         var obj = ComponentFactory.createConfirmPopUp('ConfirmPageContent.qml',
                                                       applicationWindow);
-        obj.acceptClicked.connect(body.deletePlayersAccepted);
+        obj.acceptClicked.connect(deletePlayersAccepted);
     }
 }
 function deletePlayersAccepted(){

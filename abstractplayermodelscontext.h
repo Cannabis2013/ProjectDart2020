@@ -31,12 +31,13 @@ public slots:
     virtual void deletePlayers(const QVector<int> &playerIndexes) = 0;
     virtual void assembleListOfPlayersFromIndexes(const QVector<int> &playerIndexes) = 0;
     virtual void processTournamentDetails(const QUuid &tournament,
-                                             const QUuid &winner,
-                                             const int &keyPoint,
-                                             const int &terminalKeyCode,
-                                             const int &numberOfThrows,
-                                             const int &gameMode,
-                                             const QList<QUuid> &players) = 0;
+                                          const QUuid &winner,
+                                          const int &keyPoint,
+                                          const int &inputMode,
+                                          const int &terminalKeyCode,
+                                          const int &numberOfThrows,
+                                          const int &gameMode,
+                                          const QList<QUuid> &players) = 0;
 
     virtual void handleAndProcessTournamentMetaData(const QString &title,
                                                     const int &gameMode,
@@ -50,6 +51,7 @@ public slots:
                                                    const int &gameMode,
                                                    const int &winCondition,
                                                    const int &displayHint,
+                                                   const int &inputMode,
                                                    const int &keyPoint,
                                                    const QList<int> &playerIndexes) = 0;
 
@@ -61,6 +63,7 @@ signals:
     void sendTournamentDetails(const QUuid &tournament,
                                const QString &winner,
                                const int &keyPoint,
+                               const int &inputMode,
                                const int &terminalKeyCode,
                                const int &numberOfThrows,
                                const int &gameMode,
@@ -78,6 +81,7 @@ signals:
                                         const int &numberOfThrows,
                                         const int &winCondition,
                                         const int &displayHint,
+                                        const int &inputMode,
                                         const int &keyPoint,
                                         const QList<QUuid> &playersID);
     void playersDeletedStatus(const bool &status);

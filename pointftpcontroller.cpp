@@ -1,6 +1,6 @@
-#include "localftpcontroller.h"
+#include "pointftpcontroller.h"
 
-void LocalFTPController::start()
+void PointFTPController::start()
 {
     if(_currentStatus != ControllerState::Initialized &&
             _currentStatus != ControllerState::Stopped)
@@ -13,15 +13,15 @@ void LocalFTPController::start()
     sendCurrentTurnValues();
 }
 
-void LocalFTPController::stop()
+void PointFTPController::stop()
 {
     _isActive = false;
     _currentStatus = ControllerState::Stopped;
     emit transmitResponse(ControllerResponse::isStopped,{});
 }
 
-void LocalFTPController::handleAndProcessUserInput(const int &userInput,
-                                                 const int &modifierKeyCode)
+void PointFTPController::handleAndProcessUserInput(const int &point,
+                                              const int &modifierKeyCode)
 {
     // Check for status
     if(status() == Stopped ||
@@ -42,32 +42,32 @@ void LocalFTPController::handleAndProcessUserInput(const int &userInput,
                             modifierKeyCode == KeyMappings::DoubleModifier ? 2 :
                             modifierKeyCode == KeyMappings::SingleModifer ? 1 : 0;
     // Calculate point
-    auto calculatedPoint = userInput*pointMultiplier;
+    auto score = point*pointMultiplier;
 
     auto currentScore = playerScore(_setIndex);
-    auto newScore = currentScore - calculatedPoint;
+    auto newScore = currentScore - score;
 
     // Evaluate input according to point domain and aggregated sum domain
-    switch (validateInput(newScore,modifierKeyCode,userInput))
+    switch (validateInput(newScore,modifierKeyCode,point))
     {
         case PointDomains::InvalidDomain : throw INVALID_DOMAIN;
-        case PointDomains::PointDomain : addPoint(calculatedPoint,newScore);break;
-        case PointDomains::CriticalDomain : addPoint(calculatedPoint,newScore);break;
+        case PointDomains::PointDomain : addPoint(score,newScore);break;
+        case PointDomains::CriticalDomain : addPoint(score,newScore);break;
         case PointDomains::TargetDomain : {
             declareWinner();
-            addPoint(calculatedPoint,newScore);
+            addPoint(score,newScore);
             break;
         }
     case PointDomains::OutsideDomain : addPoint(0,currentScore);break;
     }
 }
 
-void LocalFTPController::handleRequestForCurrentTournamentMetaData()
+void PointFTPController::handleRequestForCurrentTournamentMetaData()
 {
     emit requestTournamentMetaData(currentTournamentID());
 }
 
-void LocalFTPController::handleRequestForPlayerScores()
+void PointFTPController::handleRequestForPlayerScores()
 {
     PlayerPairs assignedPlayerPairs;
     for (int i = 0; i < _assignedPlayerTupples.count(); ++i) {
@@ -80,7 +80,7 @@ void LocalFTPController::handleRequestForPlayerScores()
     emit sendAssignedTournamentPlayers(currentTournamentID(),assignedPlayerPairs);
 }
 
-void LocalFTPController::recieveTournamentDetails(const QUuid &tournament,
+void PointFTPController::recieveTournamentDetails(const QUuid &tournament,
                                                 const QString &winner,
                                                 const int &keyPoint,
                                                 const int &terminalKeyCode,
@@ -96,7 +96,7 @@ void LocalFTPController::recieveTournamentDetails(const QUuid &tournament,
     emit requestTournamentIndexes(_currentTournament);
 }
 
-void LocalFTPController::recieveTournamentIndexes(const int &roundIndex,
+void PointFTPController::recieveTournamentIndexes(const int &roundIndex,
                                                 const int &setIndex,
                                                 const int &throwIndex,
                                                 const int &turnIndex,
@@ -118,7 +118,7 @@ void LocalFTPController::recieveTournamentIndexes(const int &roundIndex,
     emit transmitResponse(ControllerResponse::controllerInitializedAndReady,{});
 }
 
-void LocalFTPController::handleScoreAddedToDataContext(const QUuid &playerID,
+void PointFTPController::handleScoreAddedToDataContext(const QUuid &playerID,
                                                             const int &point,
                                                             const int &score)
 {
@@ -128,13 +128,13 @@ void LocalFTPController::handleScoreAddedToDataContext(const QUuid &playerID,
     emit transmitResponse(ControllerResponse::ScoreTransmit,{playerName,point,score});
 }
 
-void LocalFTPController::handleDataContextUpdated()
+void PointFTPController::handleDataContextUpdated()
 {
     _currentStatus = ControllerState::AwaitsInput;
     sendCurrentTurnValues();
 }
 
-void LocalFTPController::handleScoreHintUpdated(const QUuid &playerID,
+void PointFTPController::handleScoreHintUpdated(const QUuid &playerID,
                                                      const int &point,
                                                      const int &score)
 {
@@ -153,7 +153,7 @@ void LocalFTPController::handleScoreHintUpdated(const QUuid &playerID,
     }
 }
 
-void LocalFTPController::handleTournamentResetSuccess()
+void PointFTPController::handleTournamentResetSuccess()
 {
     // Reset controller index values
     _turnIndex = 0;
@@ -173,13 +173,13 @@ void LocalFTPController::handleTournamentResetSuccess()
 
 }
 
-void LocalFTPController::handleResetTournament()
+void PointFTPController::handleResetTournament()
 {
     _currentStatus = ControllerState::resetState;
     emit requestResetTournament(currentTournamentID());
 }
 
-void LocalFTPController::sendCurrentTurnValues()
+void PointFTPController::sendCurrentTurnValues()
 {
     auto canUndo = canUndoTurn();
     auto canRedo = canRedoTurn();
@@ -191,36 +191,36 @@ void LocalFTPController::sendCurrentTurnValues()
                           {canUndo,canRedo,currentRound,currentUserName,throwSuggestion});
 }
 
-QString LocalFTPController::currentActiveUser()
+QString PointFTPController::currentActiveUser()
 {
     auto tupple = _assignedPlayerTupples.at(currentSetIndex());
     auto playerName = tupple.second;
     return playerName;
 }
 
-QUuid LocalFTPController::currentActivePlayerID()
+QUuid PointFTPController::currentActivePlayerID()
 {
     auto tupple = _assignedPlayerTupples.at(currentSetIndex());
     auto playerID = tupple.first;
     return playerID;
 }
 
-int LocalFTPController::currentThrowIndex()
+int PointFTPController::currentThrowIndex()
 {
     return _throwIndex;
 }
 
-int LocalFTPController::lastPlayerIndex()
+int PointFTPController::lastPlayerIndex()
 {
     return _assignedPlayerTupples.count() - 1;
 }
 
-int LocalFTPController::playerIndex()
+int PointFTPController::playerIndex()
 {
     return _setIndex;
 }
 
-QUuid LocalFTPController::undoTurn()
+QUuid PointFTPController::undoTurn()
 {
     if(_turnIndex <= 0)
         return QUuid();
@@ -260,7 +260,7 @@ QUuid LocalFTPController::undoTurn()
     return _assignedPlayerTupples.at(_setIndex).first;
 }
 
-QUuid LocalFTPController::redoTurn()
+QUuid PointFTPController::redoTurn()
 {
     if(_turnIndex >= _totalTurns)
         return QUuid();
@@ -294,21 +294,21 @@ QUuid LocalFTPController::redoTurn()
 }
 
 
-bool LocalFTPController::canUndoTurn()
+bool PointFTPController::canUndoTurn()
 {
     if(status() == ControllerState::WinnerDeclared)
         return false;
     return _turnIndex > 0;
 }
 
-bool LocalFTPController::canRedoTurn()
+bool PointFTPController::canRedoTurn()
 {
     if(status() == ControllerState::WinnerDeclared)
         return false;
     return _turnIndex < _totalTurns;
 }
 
-int LocalFTPController::validateCurrentState(const int &currentScore)
+int PointFTPController::validateCurrentState(const int &currentScore)
 {
     auto playerSum = _keyPoint - currentScore;
 
@@ -322,7 +322,7 @@ int LocalFTPController::validateCurrentState(const int &currentScore)
         return OutsideDomain;
 }
 
-int LocalFTPController::validateInput(const int &currentScore,
+int PointFTPController::validateInput(const int &currentScore,
                                     const int &modifierKeyCode,
                                     const int &userInput)
 {
@@ -345,7 +345,7 @@ int LocalFTPController::validateInput(const int &currentScore,
         return OutsideDomain;
 }
 
-void LocalFTPController::addPoint(const int &point, const int &score)
+void PointFTPController::addPoint(const int &point, const int &score)
 {
     auto tournamentID = currentTournamentID();
     auto roundIndex = currentRoundIndex();
@@ -364,17 +364,17 @@ void LocalFTPController::addPoint(const int &point, const int &score)
                    isWinnerDetermined);
 }
 
-int LocalFTPController::currentTurnIndex()
+int PointFTPController::currentTurnIndex()
 {
     return _turnIndex;
 }
 
-bool LocalFTPController::isIndexOffset()
+bool PointFTPController::isIndexOffset()
 {
     return _isOff;
 }
 
-void LocalFTPController::handleRequestFromUI()
+void PointFTPController::handleRequestFromUI()
 {
     if(status() == ControllerState::Initialized)
     {
@@ -412,7 +412,7 @@ void LocalFTPController::handleRequestFromUI()
     }
 }
 
-void LocalFTPController::nextTurn()
+void PointFTPController::nextTurn()
 {
     incrementTurnIndexes();
 
@@ -434,35 +434,35 @@ void LocalFTPController::nextTurn()
     sendCurrentTurnValues();
 }
 
-void LocalFTPController::declareWinner()
+void PointFTPController::declareWinner()
 {
     _winner = currentActiveUser();
     _isActive = false;
     _currentStatus = WinnerDeclared;
 }
 
-void LocalFTPController::incrementTurnIndexes()
+void PointFTPController::incrementTurnIndexes()
 {
     if(_turnIndex == _totalTurns)
         _totalTurns++;
     _turnIndex++;
 }
 
-int LocalFTPController::playerScore(const int &index)
+int PointFTPController::playerScore(const int &index)
 {
     auto tubble = _assignedPlayerTupples.at(index);
     auto score = tubble.third;;
     return score;
 }
 
-void LocalFTPController::setPlayerScore(const int &index, const int &newScore)
+void PointFTPController::setPlayerScore(const int &index, const int &newScore)
 {
     auto tubble = _assignedPlayerTupples.at(index);
     tubble.third = newScore;
     _assignedPlayerTupples.replace(index,tubble);
 }
 
-void LocalFTPController::setPlayerScore(const QUuid &playerID, const int &newScore)
+void PointFTPController::setPlayerScore(const QUuid &playerID, const int &newScore)
 {
     for (int i = 0; i < _assignedPlayerTupples.count(); ++i) {
         auto pair = _assignedPlayerTupples.at(i);
@@ -475,7 +475,7 @@ void LocalFTPController::setPlayerScore(const QUuid &playerID, const int &newSco
     }
 }
 
-QString LocalFTPController::getPlayerNameFromID(const QUuid &playerID)
+QString PointFTPController::getPlayerNameFromID(const QUuid &playerID)
 {
     for (auto tupple : _assignedPlayerTupples) {
         auto id = tupple.first;
@@ -488,14 +488,14 @@ QString LocalFTPController::getPlayerNameFromID(const QUuid &playerID)
     return QString();
 }
 
-QString LocalFTPController::playerNameFromIndex(const int &index)
+QString PointFTPController::playerNameFromIndex(const int &index)
 {
     auto tupple = _assignedPlayerTupples.at(index);
     auto playerName = tupple.second;
     return playerName;
 }
 
-PlayerTubbles LocalFTPController::setPlayerTubblesFromPairs(PlayerPairs pairs, const int &initialThirdValue)
+PlayerTubbles PointFTPController::setPlayerTubblesFromPairs(PlayerPairs pairs, const int &initialThirdValue)
 {
     PlayerTubbles tubbles;
     for (int i = 0; i < pairs.count(); ++i) {
@@ -508,7 +508,7 @@ PlayerTubbles LocalFTPController::setPlayerTubblesFromPairs(PlayerPairs pairs, c
     return tubbles;
 }
 
-void LocalFTPController::updatePlayerTubbles(const QList<int> &scores)
+void PointFTPController::updatePlayerTubbles(const QList<int> &scores)
 {
     if(scores.count() != _assignedPlayerTupples.count())
         throw "Inconsistency detected";
@@ -521,38 +521,38 @@ void LocalFTPController::updatePlayerTubbles(const QList<int> &scores)
     }
 }
 
-int LocalFTPController::keyPoint() const
+int PointFTPController::keyPoint() const
 {
     return _keyPoint;
 }
 
-void LocalFTPController::setCurrentStatus(int currentStatus)
+void PointFTPController::setCurrentStatus(int currentStatus)
 {
     _currentStatus = currentStatus;
 }
 
-int LocalFTPController::terminateConditionModifier() const
+int PointFTPController::terminateConditionModifier() const
 {
     return pointLogisticInterface()->lastThrowKeyCode();
 }
 
-IPointLogisticInterface<QString> *LocalFTPController::pointLogisticInterface() const
+IPointLogisticInterface<QString> *PointFTPController::pointLogisticInterface() const
 {
     return _pointLogisticInterface;
 }
 
-AbstractGameController *LocalFTPController::setPointLogisticInterface(IPointLogisticInterface<QString> *pointLogisticInterface)
+AbstractGameController *PointFTPController::setPointLogisticInterface(IPointLogisticInterface<QString> *pointLogisticInterface)
 {
     _pointLogisticInterface = pointLogisticInterface;
     return this;
 }
 
-void LocalFTPController::consistencyCheck()
+void PointFTPController::consistencyCheck()
 {
     Q_UNIMPLEMENTED();
 }
 
-QString LocalFTPController::determinedWinnerName()
+QString PointFTPController::determinedWinnerName()
 {
     return _winner;
 }

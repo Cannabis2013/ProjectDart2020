@@ -94,6 +94,7 @@ void LocalTournamentModelsContext::assembleAndAddTournament(const QString &title
                                                             const int &numberOfThrows,
                                                             const int &winCondition,
                                                             const int &displayHint,
+                                                            const int &inputMode,
                                                             const int &keyPoint,
                                                             const QList<QUuid> &assignedPlayersID)
 {
@@ -102,7 +103,8 @@ void LocalTournamentModelsContext::assembleAndAddTournament(const QString &title
                                          numberOfThrows,
                                          gameMode,
                                          winCondition,
-                                         displayHint);
+                                         displayHint,
+                                         inputMode);
     for (auto assignedPlayerID : assignedPlayersID)
         assignPlayerToTournament(tournamentID,assignedPlayerID);
     write();
@@ -213,11 +215,13 @@ void LocalTournamentModelsContext::handleRequestTournamentDetails(const int &ind
         auto lastThrowKeyCode = tournamentLastThrowKeyCode(tournamentID);
         auto numberOfThrows = tournamentNumberOfThrows(tournamentID);
         auto gameMode = tournamentGameMode(tournamentID);
+        auto inputMode = tournamentInputMode(tournamentID);
         auto assignedPlayersID = tournamentAssignedPlayers(tournamentID);
         auto winnerID = tournamentDeterminedWinner(tournamentID);
         emit sendTournamentDetails(tournamentID,
                                    winnerID,
                                    keyPoint,
+                                   inputMode,
                                    lastThrowKeyCode,
                                    numberOfThrows,
                                    gameMode,
@@ -284,15 +288,18 @@ QUuid LocalTournamentModelsContext::createTournament(const QString &title,
                                                      const int &throws,
                                                      const int &gameMode,
                                                      const int &winCondition,
-                                                     const int &displayHint)
+                                                     const int &displayHint,
+                                                     const int &inputMode)
 {
+    // Build model
     auto tournament = modelBuilder()->buildTournamentModel([this,
                                                            title,
                                                            keyPoint,
                                                            throws,
                                                            gameMode,
                                                            winCondition,
-                                                           displayHint]
+                                                           displayHint,
+                                                           inputMode]
     {
         TournamentParameters params;
         params.title = title;
@@ -301,6 +308,7 @@ QUuid LocalTournamentModelsContext::createTournament(const QString &title,
         params.gameMode = gameMode;
         params.winConditionKey = winCondition;
         params.modelTableViewHint = displayHint;
+        params.inputMode = inputMode;
         params.tournamentsCount = this->tournamentsCount();
         return params;
     }(),[]{
@@ -308,7 +316,9 @@ QUuid LocalTournamentModelsContext::createTournament(const QString &title,
         options.generateUniqueId = true;
         return options;
     }());
+    // Add model to dbcontext
     _dbContext->addModel("Tournament",tournament);
+    // Return model id
     return tournament->id();
 }
 
@@ -412,6 +422,13 @@ int LocalTournamentModelsContext::tournamentTableViewHint(const QUuid &tournamen
     return hint;
 }
 
+int LocalTournamentModelsContext::tournamentInputMode(const QUuid &tournament)
+{
+    auto tournamentModel = getTournamentModelFromID(tournament);
+    auto inputMode = tournamentModel->inputMode();
+    return inputMode;
+}
+
 int LocalTournamentModelsContext::tournamentStatus(const QUuid &tournament)
 {
     return getTournamentModelFromID(tournament)->status();
@@ -437,6 +454,7 @@ void LocalTournamentModelsContext::setTournamentDeterminedWinner(const QUuid &to
                         params.gameMode = oldModel->gameMode();
                         params.keyPoint = oldModel->keyPoint();
                         params.modelTableViewHint = oldModel->modelTableViewHint();
+                        params.inputMode = oldModel->inputMode();
                         params.throws = oldModel->numberOfThrows();
                         params.winner = winner;
                         params.playerIdentities = oldModel->assignedPlayerIdentities();
@@ -465,9 +483,10 @@ void LocalTournamentModelsContext::assignPlayerToTournament(const QUuid &tournam
         params.status = oldModel->status();
         params.gameMode = oldModel->gameMode();
         params.keyPoint = oldModel->keyPoint();
+        params.modelTableViewHint = oldModel->modelTableViewHint();
+        params.inputMode = oldModel->inputMode();
         params.throws = oldModel->numberOfThrows();
         params.winner = oldModel->winner();
-        params.modelTableViewHint = oldModel->modelTableViewHint();
         params.playerIdentities = assignedPlayers;
         return params;
     }(),[]
@@ -495,6 +514,7 @@ void LocalTournamentModelsContext::tournamentRemovePlayer(const QUuid &tournamen
         params.gameMode = oldModel->gameMode();
         params.keyPoint = oldModel->keyPoint();
         params.modelTableViewHint = oldModel->modelTableViewHint();
+        params.inputMode = oldModel->inputMode();
         params.playerIdentities = oldModel->assignedPlayerIdentities();
         params.throws = oldModel->numberOfThrows();
         params.winner = oldModel->winner();
@@ -855,6 +875,7 @@ QJsonArray LocalTournamentModelsContext::assembleTournamentsJSONArray()
         obj["KeyPoint"] = tournamentKeyPoint(id);
         obj["GameMode"] = tournamentGameMode(id);
         obj["TableViewHint"] = tournamentTableViewHint(id);
+        obj["InputMode"] = tournamentInputMode(id);
         obj["Winner"] = tournamentDeterminedWinner(id).toString();
         obj["Throws"] = tournamentNumberOfThrows(id);
         auto players = tournamentAssignedPlayers(id);
@@ -904,6 +925,7 @@ void LocalTournamentModelsContext::extractTournamentModelsFromJSON(const QJsonAr
         auto title = tournamentJSON["Title"].toString();
         auto keyPoint = tournamentJSON["KeyPoint"].toInt();
         auto tableViewHint = tournamentJSON["TableViewHint"].toInt();
+        auto inputMode = tournamentJSON["InputMode"].toInt();
         auto gameMode = tournamentJSON["GameMode"].toInt();
         auto throws = tournamentJSON["Throws"].toInt();
         auto winnerStringID = tournamentJSON["WinnerID"].toString();
@@ -911,6 +933,7 @@ void LocalTournamentModelsContext::extractTournamentModelsFromJSON(const QJsonAr
         buildTournament(tournamentID,title,
                         keyPoint,
                         tableViewHint,
+                        inputMode,
                         throws,
                         gameMode,
                         winnerID);
@@ -929,17 +952,19 @@ void LocalTournamentModelsContext::buildTournament(const QUuid &id,
                                                    const QString &title,
                                                    const int &keyPoint,
                                                    const int &tableViewHint,
+                                                   const int &inputMode,
                                                    const int &throws,
                                                    const int &gameMode,
                                                    const QUuid &winner)
 {
     auto tournament = modelBuilder()->buildTournamentModel(
-                [id,title,keyPoint,tableViewHint,throws,gameMode,winner]{
+                [id,title,keyPoint,tableViewHint,inputMode,throws,gameMode,winner]{
                 TournamentParameters params;
                 params.id = id;
                 params.title = title;
                 params.keyPoint = keyPoint;
                 params.modelTableViewHint = tableViewHint;
+                params.inputMode = inputMode;
                 params.gameMode = gameMode;
                 params.throws = throws;
                 params.winner = winner;

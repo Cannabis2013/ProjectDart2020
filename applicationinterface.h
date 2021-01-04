@@ -35,19 +35,24 @@ public:
         FirstToPost = 0x1,
         RoundLimit =0x2,
         Circular = 0x3,
-        Cricket = 0xAA
+        Cricket = 0x4
     };
 
-    enum Status{
-        ContextNotInitialized = 0x4,
-        ModelNotFound = 0x5,
-        NoPlayersAssigned = 0x6,
-        Success = 0x7,
-        UnSuccess = 0x8
+    enum InputModes {
+        PointInput = 0x5,
+        ScoreInput = 0x6
     };
-    enum ModelDisplayHint{HiddenHint = 0x9,DisplayHint = 0xA, allHints = 0xB};
 
-    enum ContextMode {LocalContext = 0x4, RemoteContext = 0x5};
+    enum ContextMode {
+        LocalContext = 0x7,
+        RemoteContext = 0x8
+    };
+    enum ModelDisplayHint{
+        HiddenHint = 0x9,
+        DisplayHint = 0xA,
+        allHints = 0xB
+    };
+
     /*
      * Destructor
      */
@@ -87,7 +92,9 @@ public slots:
                                 const int &numberOfThrows,
                                 const int &gameMode,
                                 const int &winCondition,
-                                const int &keyPoint, const int &displayHint,
+                                const int &keyPoint,
+                                const int &displayHint,
+                                const int &inputMode,
                                 const QVariantList &playerIndexes);
     /*
      * Delete tournament
@@ -154,6 +161,7 @@ signals:
                                  const int &gameMode,
                                  const int &winCondition,
                                  const int &displayHint,
+                                 const int &inputMode,
                                  const int &keyPoint,
                                  const QList<int> &playerIndexes);
     void sendInformalControllerValues(const int &roundIndex,
@@ -201,6 +209,7 @@ private slots:
     void handleTournamentDetailsAndSetController(const QUuid &tournament,
                                                  const QString &winner,
                                                  const int &keyPoint,
+                                                 const int &inputMode,
                                                  const int &terminalKeyCode,
                                                  const int &numberOfThrows,
                                                  const int &gameMode,

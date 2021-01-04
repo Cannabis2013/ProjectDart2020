@@ -15,6 +15,7 @@ Content {
                           int keyCode,
                           int keyPoint,
                           int displayHint,
+                          int inputMode,
                           var playerIndexes)
     signal requestGameModes
 
@@ -32,6 +33,7 @@ Content {
         property var keyIdentifiers: ["Single","Double", "Tripple"]
         property var firstToPostPointValues: ["301","501","701","901"]
         property var displayHints: ["SingleView","MultiView"]
+        property var inputModes: ["PointInput","ScoreInput"]
     }
     QtObject{
         id: defaultStateValues
@@ -94,6 +96,12 @@ Content {
             Layout.fillWidth: true
             labelText: "Select display hint:"
             model: stringModels.displayHints
+        }
+        DefaultComboBox {
+            id: inputModeSelector
+            Layout.fillWidth: true
+            labelText: "Select input mode:"
+            model: stringModels.inputModes
         }
 
         Rectangle{

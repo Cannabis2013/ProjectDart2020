@@ -55,6 +55,7 @@ void ApplicationInterface::handleCreateTournament(const QString &title,
                                                   const int &winCondition,
                                                   const int &keyPoint,
                                                   const int &displayHint,
+                                                  const int &inputMode,
                                                   const QVariantList &playerIndexes)
 {
     QList<int> indexes;
@@ -66,11 +67,13 @@ void ApplicationInterface::handleCreateTournament(const QString &title,
                                  gameMode,
                                  winCondition,
                                  displayHint,
+                                 inputMode,
                                  keyPoint,
                                  indexes);
 }
 
-void ApplicationInterface::handleCreatePlayer(const QString &playerName, const QString &email)
+void ApplicationInterface::handleCreatePlayer(const QString &playerName,
+                                              const QString &email)
 {
     emit requestCreatePlayer(playerName,email);
 }
@@ -175,7 +178,7 @@ void ApplicationInterface::processRecievedTournamentMetaData(const QString &titl
 
 void ApplicationInterface::handleTournamentDetailsAndSetController(const QUuid &tournament,
                                                                    const QString &winner,
-                                                                   const int &keyPoint,
+                                                                   const int &keyPoint, const int &inputMode,
                                                                    const int &terminalKeyCode,
                                                                    const int &numberOfThrows,
                                                                    const int &gameMode,
@@ -192,7 +195,9 @@ void ApplicationInterface::handleTournamentDetailsAndSetController(const QUuid &
         /*
          * Inject controller
          */
-        _gameController = controllerBuilder()->buildController(gameMode,0x4);
+        _gameController = controllerBuilder()->buildGameController(gameMode,
+                                                                   inputMode,
+                                                                   ContextMode::LocalContext);
         connectControllerInterface();
 
         _gameController->moveToThread(_gameControllerThread);

@@ -67,7 +67,7 @@ public:
                                   const int &gameMode,
                                   const int &numberOfThrows,
                                   const int &winCondition,
-                                  const int &displayHint,
+                                  const int &displayHint, const int &inputMode,
                                   const int &keyPoint,
                                   const QList<QUuid> &assignedPlayersID) override;
     void handleAssignPlayersToTournament(const QUuid &tournament, const QList<QUuid> &playersID) override;
@@ -105,7 +105,9 @@ private:
                            const int &keyPoint,
                            const int &throws,
                            const int &gameMode,
-                           const int &winCondition, const int &displayHint);
+                           const int &winCondition,
+                           const int &displayHint,
+                           const int &inputMode);
     void removeTournament(const QUuid &tournament);
     void removeModelsRelatedToTournament(const QUuid &tournament);
     QUuid tournamentIDFromIndex(const int &index);
@@ -118,6 +120,7 @@ private:
     int tournamentLastThrowKeyCode(const QUuid &tournament);
     int tournamentKeyPoint(const QUuid &tournament);
     int tournamentTableViewHint(const QUuid &tournament);
+    int tournamentInputMode(const QUuid &tournament);
     int tournamentStatus(const QUuid &tournament);
     QUuid tournamentDeterminedWinner(const QUuid &tournament);
     void setTournamentDeterminedWinner(const QUuid &tournament, const QUuid &winner);
@@ -172,7 +175,7 @@ private:
      */
     void buildTournament(const QUuid &id,
                          const QString &title,
-                         const int &keyPoint, const int &tableViewHint,
+                         const int &keyPoint, const int &tableViewHint, const int &inputMode,
                          const int &throws,
                          const int &gameMode,
                          const QUuid &winner);

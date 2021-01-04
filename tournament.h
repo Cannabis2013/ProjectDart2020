@@ -134,6 +134,16 @@ public:
         _modelDisplayHint = modelDisplayHint;
         return this;
     }
+    int inputMode() const override
+    {
+        return _inputMode;
+    }
+    ITournament* setInputMode(const int &inputMode) override
+    {
+        _inputMode = inputMode;
+        return this;
+    }
+
 private:
     QString _title;
     int _numberOfThrows;
@@ -143,9 +153,9 @@ private:
     int _modelType;
     int _terminateConditionKeyCode;
     int _modelDisplayHint;
+    int _inputMode;
     QUuid _id,_winner;
     QList<QUuid> _assignedPlayerIdentities;
 };
-
 
 #endif // TOURNAMENT_H

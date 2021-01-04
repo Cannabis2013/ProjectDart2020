@@ -1,12 +1,13 @@
 #ifndef ICONTROLLERBUILDER_H
 #define ICONTROLLERBUILDER_H
 
-template<class TControllerInterface,class TParameters>
+template<class TControllerInterface,class TParameter>
 class IControllerBuilder
 {
 public:
-    virtual TControllerInterface *buildController(const TParameters &mode, 
-                                                  const TParameters &contextMode) = 0;
+    virtual TControllerInterface *buildGameController(const TParameter &mode,
+                                                      const TParameter &type,
+                                                      const TParameter &contextMode) = 0;
 };
 
 #endif // ICONTROLLERBUILDER_H

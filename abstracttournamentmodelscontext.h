@@ -48,6 +48,7 @@ public slots:
                                           const int &numberOfThrows,
                                           const int &winCondition,
                                           const int &displayHint,
+                                          const int &inputMode,
                                           const int &keyPoint,
                                           const QList<QUuid> &assignedPlayersID) = 0;
     virtual void handleAssignPlayersToTournament(const QUuid &tournament, const QList<QUuid> &playersID) = 0;
@@ -93,6 +94,7 @@ signals:
     void sendTournamentDetails(const QUuid &tournament,
                                const QUuid &winner,
                                const int &keyPoint,
+                               const int &inputMode,
                                const int &terminalKeyCode,
                                const int &numberOfThrows,
                                const int &gameMode,

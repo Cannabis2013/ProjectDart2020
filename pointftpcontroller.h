@@ -21,7 +21,7 @@
 
 using namespace std;
 
-class LocalFTPController :public AbstractGameController
+class PointFTPController :public AbstractGameController
 {
     Q_OBJECT
 public:
@@ -89,7 +89,7 @@ public:
     /*
      * Handle and Evaluate input from user
      */
-    void handleAndProcessUserInput(const int &userInput, const int &modifierKeyCode) override;
+    void handleAndProcessUserInput(const int &point, const int &modifierKeyCode) override;
     void handleRequestForCurrentTournamentMetaData() override;
     void handleRequestForPlayerScores() override;
     void recieveTournamentDetails(const QUuid &tournament, const QString &winner,

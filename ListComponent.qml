@@ -7,6 +7,8 @@ import QtGraphicalEffects 1.13
 Rectangle{
     id: body
 
+    color: "transparent"
+
     clip: true
 
     signal itemClicked(int index)
@@ -58,8 +60,8 @@ Rectangle{
     property int itemRoundedCorners: 0
     onItemRoundedCornersChanged: listItem.radius = itemRoundedCorner
     // Item size properties
+    // Set item width relative to width
     property double itemWidthScale: 0.95
-    onItemWidthScaleChanged: body.itemWidth = body.width *body.itemWidthScale
     property int itemHeight: 50
     onItemHeightChanged: listItem.height = itemHeight
     property int itemWidth : body.width * itemWidthScale

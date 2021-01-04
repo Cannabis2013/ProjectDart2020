@@ -5,7 +5,7 @@
 #include <qqmlcontext.h>
 #include "applicationinterface.h"
 #include "playermodelbuilder.h"
-#include "gamebuilder.h"
+#include "gamecontrollerbuilder.h"
 #include "localtournamentmodelscontext.h"
 #include "localplayermodelscontext.h"
 #include "ftpdatamodel.h"
@@ -35,15 +35,12 @@ int main(int argc, char *argv[])
             setModelDBContext(new LocalPlayerDBContext)->
             setup();
 
-
-    auto gameBuilder = new GameBuilder();
-
     auto _dart =
             ApplicationInterface::createInstance()->
             setTournamentsModelContext(tournamentModelsContext)->
             setPlayerModelsContext(playerModelsContext)->
-            setControllerBuilder(gameBuilder)->
-            useThreads()->
+            setControllerBuilder(new GameControllerBuilder())->
+            /*useThreads()->*/
             setup();
 
     QQmlApplicationEngine engine;

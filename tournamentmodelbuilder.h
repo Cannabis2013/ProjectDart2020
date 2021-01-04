@@ -44,6 +44,7 @@ public:
                 ->setTerminateKeyCondition(params.winConditionKey)
                 ->setType(DefaultModelBuilderContext::TournamentModel)
                 ->setModelTableViewHint(params.modelTableViewHint)
+                ->setInputMode(params.inputMode)
                 ->setWinner(params.winner);
         if(options.generateUniqueId)
             t->setId(QUuid::createUuid());
