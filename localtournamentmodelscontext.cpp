@@ -972,6 +972,17 @@ void LocalTournamentModelsContext::buildScoreModel(const QUuid &tournament,
                                                    const bool &generateID,
                                                    const QUuid &id)
 {
+    /*
+     * dataValues location/value table:
+     *  - [0] = Round index
+     *  - [1] = Set/player index
+     *  - [2] = throwindex
+     *  - [3] = point value
+     *  - [4} = score value
+     *  - [5] = keycode
+     */
+
+    // Build model
     auto model = modelBuilder()->buildScoreModel(
                 [id,tournament,dataValues,player,hint]
     {
@@ -993,6 +1004,7 @@ void LocalTournamentModelsContext::buildScoreModel(const QUuid &tournament,
         options.generateUniqueId = generateID;
         return options;
     }());
+    // Add model to db context
     modelDBContext()->addModel("Score",model);
 }
 
