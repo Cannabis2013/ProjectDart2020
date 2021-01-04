@@ -64,11 +64,7 @@ public:
      * Handle requests from external context
      */
     void assembleAndAddTournament(const QString &title,
-                                  const int &gameMode,
-                                  const int &numberOfThrows,
-                                  const int &winCondition,
-                                  const int &displayHint, const int &inputMode,
-                                  const int &keyPoint,
+                                  const QList<int> &data,
                                   const QList<QUuid> &assignedPlayersID) override;
     void handleAssignPlayersToTournament(const QUuid &tournament, const QList<QUuid> &playersID) override;
     void deleteTournaments(const QVector<int>&indexes) override;
@@ -102,12 +98,7 @@ private:
      * Tournament related section
      */
     QUuid createTournament(const QString &title,
-                           const int &keyPoint,
-                           const int &throws,
-                           const int &gameMode,
-                           const int &winCondition,
-                           const int &displayHint,
-                           const int &inputMode);
+                           const QList<int> &data);
     void removeTournament(const QUuid &tournament);
     void removeModelsRelatedToTournament(const QUuid &tournament);
     QUuid tournamentIDFromIndex(const int &index);

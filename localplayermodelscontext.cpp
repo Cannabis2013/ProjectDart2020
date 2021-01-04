@@ -72,12 +72,7 @@ void LocalPlayerModelsContext::handleAndProcessTournamentMetaData(const QString 
 }
 
 void LocalPlayerModelsContext::handleAndProcessCreatedTournament(const QString &title,
-                                                                 const int &numberOfThrows,
-                                                                 const int &gameMode,
-                                                                 const int &winCondition,
-                                                                 const int &displayHint,
-                                                                 const int &inputMode,
-                                                                 const int &keyPoint,
+                                                                 const QList<int> &data,
                                                                  const QList<int> &playerIndexes)
 {
     QList<QUuid> playersID;
@@ -88,12 +83,7 @@ void LocalPlayerModelsContext::handleAndProcessCreatedTournament(const QString &
         playersID << playerID;
     }
     emit sendProcessedTournamentDetails(title,
-                                        gameMode,
-                                        numberOfThrows,
-                                        winCondition,
-                                        displayHint,
-                                        inputMode,
-                                        keyPoint,
+                                        data,
                                         playersID);
 }
 

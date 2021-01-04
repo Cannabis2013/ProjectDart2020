@@ -10,12 +10,7 @@ Content {
 
     signal requestPlayers
     signal sendTournament(string title,
-                          int numberOfThrows,
-                          string gameMode,
-                          int keyCode,
-                          int keyPoint,
-                          int displayHint,
-                          int inputMode,
+                          var data,
                           var playerIndexes)
     signal requestGameModes
 

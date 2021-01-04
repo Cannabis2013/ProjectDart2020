@@ -69,22 +69,22 @@ function acceptAndAdd(){
         return;
     buttonsComponent.buttonTwoEnabled = false;
     var title = titleEdit.currentValue;
+    // Declare array
+    var arguments = [];
+    // Convert values
     var gameMode = gameModeSelector.currentValue;
-    var gameCode = gameModeToHex(gameMode);
-    var keyPoint = keyPointEdit.currentValue;
     var winConditionKeyIdentifier = winConditionSelector.currentValue;
-    var winConditionKeyCode = convertKeyModifierToHex(winConditionKeyIdentifier);
     var displayHintSelectorValue = displayHintSelector.currentValue;
-    var hint = convertHintToHex(displayHintSelectorValue);
     var inputModeSelectorValue = inputModeSelector.currentValue;
-    var inputMode = convertInputStringToHex(inputModeSelectorValue);
-    var numberOfThrows = throwSpinBox.currentValue;
+    // Add values to array
+    arguments[0] = gameModeToHex(gameMode);
+    arguments[1] = keyPointEdit.currentValue;
+    arguments[2] = convertKeyModifierToHex(winConditionKeyIdentifier);
+    arguments[3] = convertHintToHex(displayHintSelectorValue);
+    arguments[4] = convertInputStringToHex(inputModeSelectorValue);
+    arguments[5] = throwSpinBox.currentValue;
+    // Send values
     createBody.sendTournament(title,
-                              numberOfThrows,
-                              gameCode,
-                              winConditionKeyCode,
-                              keyPoint,
-                              hint,
-                              inputMode,
+                              arguments,
                               indexes);
 }

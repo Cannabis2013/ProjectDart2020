@@ -8,6 +8,8 @@
 #include "iscoremodel.h"
 #include "imodelsdbcontext.h"
 
+#define CREATE_TOURNAMENT_PARAMS_SIZE 5
+
 typedef QList<QPair<QUuid,QString>> PlayerPairs;
 
 typedef ITournament<QUuid,QList<QUuid>,QString> DefaultTournamentInterface;
@@ -44,12 +46,7 @@ public:
     virtual AbstractTournamentModelsContext *setModelDBContext(ImodelsDBContext<IModel<QUuid>, QString> *context) = 0;
 public slots:
     virtual void assembleAndAddTournament(const QString &title,
-                                          const int &gameMode,
-                                          const int &numberOfThrows,
-                                          const int &winCondition,
-                                          const int &displayHint,
-                                          const int &inputMode,
-                                          const int &keyPoint,
+                                          const QList<int> &data,
                                           const QList<QUuid> &assignedPlayersID) = 0;
     virtual void handleAssignPlayersToTournament(const QUuid &tournament, const QList<QUuid> &playersID) = 0;
     virtual void deleteTournaments(const QVector<int>&indexes) = 0;

@@ -3,8 +3,8 @@
 
 #include <QtCore>
 
-#include "abstractplayermodelscontext.h"
 #include "abstracttournamentmodelscontext.h"
+#include "abstractplayermodelscontext.h"
 #include <abstractgamecontroller.h>
 #include <itournamentmodelbuilder.h>
 #include "iplayerbuildercontext.h"
@@ -18,12 +18,10 @@
 using namespace std;
 
 #define printVariable(var) #var
-#define STATUS_ERROR -1;
+#define STATUS_ERROR -1
 
 typedef IPlayerModel<QUuid,QString> DefaultPlayerModelInterface;
 typedef IPlayerBuilderParameters<QString,QUuid> DefaultParametersInterface;
-//typedef ITournamentModelBuilder<DefaultPlayerModelInterface,DefaultParametersInterface,IPlayerBuilderConfiguration> DefaultPlayerBuilder;
-
 typedef IControllerBuilder<AbstractGameController, int> IDefaultGameBuilder;
 
 class ApplicationInterface : public QObject,
@@ -87,14 +85,17 @@ public slots:
     void handleScoreBoardRequest();
     /*
      * Create tournament
+     *
+     * Data array allocates memmory locations in the following order:
+     *  - [0] = Gamemode
+     *  - [1] = Keypoint
+     *  - [2] = KeyCode (win condition)
+     *  - [3] = TableViewHint
+     *  - [4] = InputMode
+     *  - [5] = Number of throws
      */
     void handleCreateTournament(const QString &title,
-                                const int &numberOfThrows,
-                                const int &gameMode,
-                                const int &winCondition,
-                                const int &keyPoint,
-                                const int &displayHint,
-                                const int &inputMode,
+                                const QList<int> &data,
                                 const QVariantList &playerIndexes);
     /*
      * Delete tournament
@@ -157,12 +158,7 @@ signals:
                                  const int &keyPoint,
                                  const int &playersCount);
     void sendTournamentCandidate(const QString &title,
-                                 const int &numberOfThrows,
-                                 const int &gameMode,
-                                 const int &winCondition,
-                                 const int &displayHint,
-                                 const int &inputMode,
-                                 const int &keyPoint,
+                                 const QList<int> &data,
                                  const QList<int> &playerIndexes);
     void sendInformalControllerValues(const int &roundIndex,
                                       const QString &playerName,

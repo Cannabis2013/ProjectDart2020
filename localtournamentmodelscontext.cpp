@@ -90,21 +90,11 @@ void LocalTournamentModelsContext::handleResetTournament(const QUuid &tournament
 }
 
 void LocalTournamentModelsContext::assembleAndAddTournament(const QString &title,
-                                                            const int &gameMode,
-                                                            const int &numberOfThrows,
-                                                            const int &winCondition,
-                                                            const int &displayHint,
-                                                            const int &inputMode,
-                                                            const int &keyPoint,
+                                                            const QList<int> &data,
                                                             const QList<QUuid> &assignedPlayersID)
 {
     auto tournamentID = createTournament(title,
-                                         keyPoint,
-                                         numberOfThrows,
-                                         gameMode,
-                                         winCondition,
-                                         displayHint,
-                                         inputMode);
+                                         data);
     for (auto assignedPlayerID : assignedPlayersID)
         assignPlayerToTournament(tournamentID,assignedPlayerID);
     write();
@@ -284,31 +274,28 @@ void LocalTournamentModelsContext::handleRequestAssignedPlayers(const QUuid &tou
 }
 
 QUuid LocalTournamentModelsContext::createTournament(const QString &title,
-                                                     const int &keyPoint,
-                                                     const int &throws,
-                                                     const int &gameMode,
-                                                     const int &winCondition,
-                                                     const int &displayHint,
-                                                     const int &inputMode)
+                                                     const QList<int> &data)
 {
+    /*
+     * Data array allocate each memmory location to the following values:
+     *  - [0] = Gamemode
+     *  - [1] = Keypoint
+     *  - [2] = KeyCode (win condition)
+     *  - [3] = TableViewHint
+     *  - [4] = InputMode
+     *  - [5] = Number of throws
+     */
     // Build model
-    auto tournament = modelBuilder()->buildTournamentModel([this,
-                                                           title,
-                                                           keyPoint,
-                                                           throws,
-                                                           gameMode,
-                                                           winCondition,
-                                                           displayHint,
-                                                           inputMode]
+    auto tournament = modelBuilder()->buildTournamentModel([this,title,data]
     {
         TournamentParameters params;
         params.title = title;
-        params.throws = throws;
-        params.keyPoint = keyPoint;
-        params.gameMode = gameMode;
-        params.winConditionKey = winCondition;
-        params.modelTableViewHint = displayHint;
-        params.inputMode = inputMode;
+        params.gameMode = data[0];
+        params.keyPoint = data[1];
+        params.winConditionKey = data[2];
+        params.modelTableViewHint = data[3];
+        params.inputMode = data[4];
+        params.throws = data[5];
         params.tournamentsCount = this->tournamentsCount();
         return params;
     }(),[]{

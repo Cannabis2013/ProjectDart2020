@@ -50,12 +50,7 @@ void ApplicationInterface::handleScoreBoardRequest()
 }
 
 void ApplicationInterface::handleCreateTournament(const QString &title,
-                                                  const int &numberOfThrows,
-                                                  const int &gameMode,
-                                                  const int &winCondition,
-                                                  const int &keyPoint,
-                                                  const int &displayHint,
-                                                  const int &inputMode,
+                                                  const QList<int> &data,
                                                   const QVariantList &playerIndexes)
 {
     QList<int> indexes;
@@ -63,12 +58,7 @@ void ApplicationInterface::handleCreateTournament(const QString &title,
         indexes << variant.toInt();
 
     emit sendTournamentCandidate(title,
-                                 numberOfThrows,
-                                 gameMode,
-                                 winCondition,
-                                 displayHint,
-                                 inputMode,
-                                 keyPoint,
+                                 data,
                                  indexes);
 }
 

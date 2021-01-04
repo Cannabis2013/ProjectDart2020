@@ -9,6 +9,8 @@
 #include "iresponseinterface.h"
 #include "imodelsdbcontext.h"
 
+#define CREATE_TOURNAMENT_PARAMS_SIZE 5
+
 typedef IPlayerModel<QUuid,QString> DefaultPlayerModelInterface;
 typedef IPlayerBuilderParameters<QString,QUuid> DefaultParametersInterface;
 typedef IPlayerModelOptions<QUuid> DefaultOptionsInterface;
@@ -47,12 +49,7 @@ public slots:
                                                     const QList<QUuid> &assignedPlayersID) = 0;
     virtual void handleRequestPlayersDetails() = 0;
     virtual void handleAndProcessCreatedTournament(const QString &title,
-                                                   const int &numberOfThrows,
-                                                   const int &gameMode,
-                                                   const int &winCondition,
-                                                   const int &displayHint,
-                                                   const int &inputMode,
-                                                   const int &keyPoint,
+                                                   const QList<int> &data,
                                                    const QList<int> &playerIndexes) = 0;
 
 
@@ -77,12 +74,7 @@ signals:
     void sendCurrentAssignedPlayerPairs(const QUuid &tournament,
                                         const PlayerPairs &playerPairs);
     void sendProcessedTournamentDetails(const QString &title,
-                                        const int &gameMode,
-                                        const int &numberOfThrows,
-                                        const int &winCondition,
-                                        const int &displayHint,
-                                        const int &inputMode,
-                                        const int &keyPoint,
+                                        const QList<int> &data,
                                         const QList<QUuid> &playersID);
     void playersDeletedStatus(const bool &status);
     void lastPlayerDetailTransmitted();

@@ -74,11 +74,7 @@ public slots:
                                             const QList<QUuid> &assignedPlayersID) override;
     void handleRequestPlayersDetails() override;
     void handleAndProcessCreatedTournament(const QString &title,
-                                        const int &numberOfThrows,
-                                        const int &gameMode,
-                                        const int &winCondition,
-                                        const int &displayHint, const int &inputMode,
-                                        const int &keyPoint,
+                                        const QList<int> &data,
                                         const QList<int> &playerIndexes) override;
 private:
     ImodelsDBContext<DefaultPlayerModelInterface, QUuid> *modelDBContext();
