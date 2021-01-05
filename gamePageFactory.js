@@ -37,9 +37,9 @@ function buildScoreBoard(mode,scoreBoardMode)
 
 function buildKeyPad(mode)
 {
-    if(mode === 0x1)
+    if(mode === TournamentContext.pointMode)
     {
-        var c = Qt.createComponent("DefaultKeyPadComponent.qml");
+        var c = Qt.createComponent("DefaultPointKeyPad.qml");
     }
     if(c === undefined)
         console.log("Something went wrong!");

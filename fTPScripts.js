@@ -21,7 +21,7 @@ function setupFirstToPost(){
       Load and setup DefaultKeyPadComponent
       */
     keyPaditemSlot.sourceComponent =
-            GamePageFactory.buildKeyPad(TournamentContext.firstToPost);
+            GamePageFactory.buildKeyPad(TournamentContext.pointMode);
     setupKeyPad();
     initializeFirstToPost();
 }

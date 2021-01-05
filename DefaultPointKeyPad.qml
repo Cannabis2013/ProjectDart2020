@@ -7,7 +7,11 @@ import "componentFactory.js" as ComponentFactory
 KeyPadInterface {
     id: keyPadBody
     color: "transparent"
+    anchors.fill: parent
     signal enableKeyPad(bool enable)
+
+    onKeyClicked: sendInput(val,modifierCode);
+    enableKeys: false
 
     onEnableKeysChanged: {
         enableKeyPad(enableKeys);
