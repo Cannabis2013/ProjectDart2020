@@ -115,7 +115,7 @@ function setData(playerName,point,score){
         print("Couldn't add data to model");
 }
 
-function takeData(playerName){
+function takeData(playerName,){
     var result = fTPModel.removeLastItem(playerName,-1);
     if(!result)
         print("Couldn't take data");

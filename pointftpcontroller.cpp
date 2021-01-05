@@ -143,7 +143,8 @@ void PointFTPController::handleScoreHintUpdated(const QUuid &playerID,
         auto newScore = score + point;
         setPlayerScore(playerID,newScore);
         auto playerName = getPlayerNameFromID(playerID);
-        emit transmitResponse(ControllerResponse::ScoreRemove,{playerName});
+        emit transmitResponse(ControllerResponse::ScoreRemove,
+                              {playerName,newScore,point});
     }
     else if(status() == ControllerState::RedoState)
     {
@@ -267,9 +268,9 @@ QUuid PointFTPController::redoTurn()
     else if(status() == ControllerState::WinnerDeclared)
         return QUuid();
 
-    auto currentActiveUser = this->currentActivePlayerID();
-    auto currentRoundIndex = this->currentRoundIndex();
-    auto currentThrowIndex = this->currentThrowIndex();
+    auto activeUser = currentActivePlayerID();
+    auto roundIndex = currentRoundIndex();
+    auto throwIndex = currentThrowIndex();
 
     _currentStatus = ControllerState::RedoState;
 
@@ -286,9 +287,9 @@ QUuid PointFTPController::redoTurn()
     }
     _turnIndex++;
     emit requestSetModelHint(currentTournamentID(),
-                             currentActiveUser,
-                             currentRoundIndex,
-                             currentThrowIndex,
+                             activeUser,
+                             roundIndex,
+                             throwIndex,
                              ModelDisplayHint::DisplayHint);
     return _assignedPlayerTupples.at(_setIndex).first;
 }

@@ -34,10 +34,10 @@ function initializeFirstToPost()
 }
 function setupFirstToPostScoreTable()
 {
-    body.scoreRecieved.connect(scoreBoardItemSlot.item.setData);
+    gamePageBody.scoreRecieved.connect(scoreBoardItemSlot.item.setData);
     var assignedPlayers = currentTournamentMetaData.assignedPlayers;
     var keyPoint = currentTournamentMetaData.tournamentKeyPoint;
-    scoreBoardItemSlot.item.appendHeaderData(assignedPlayers,keyPoint);
+    scoreBoardInterface().appendHeaderData(assignedPlayers,keyPoint);
 }
 /*
   TurnControlle related
@@ -45,28 +45,28 @@ function setupFirstToPostScoreTable()
     - Handle TurnController events
   */
 function setupTurnController(){
-    turnControllerItemSlot.item.startButtonPressAndHoldClicked.connect(handleStartPressAndHold);
-    turnControllerItemSlot.item.startButtonClicked.connect(handleStartClicked);
-    turnControllerItemSlot.item.leftButtonClicked.connect(leftButtonClicked);
-    turnControllerItemSlot.item.rightButtonClicked.connect(rightButtonClicked);
+    turnControllerInterface().startButtonPressAndHoldClicked.connect(handleStartPressAndHold);
+    turnControllerInterface().startButtonClicked.connect(handleStartClicked);
+    turnControllerInterface().leftButtonClicked.connect(leftButtonClicked);
+    turnControllerInterface().rightButtonClicked.connect(rightButtonClicked);
 }
 function setupKeyPad(){
-    keyPaditemSlot.item.sendInput.connect(GameGeneralScripts.handleKeyPadInput);
-    keyPaditemSlot.item.sendInput.connect(body.notifyUserInputRecieved);
+    keyPadInterface().sendInput.connect(GameGeneralScripts.handleKeyPadInput);
+    keyPadInterface().sendInput.connect(gamePageBody.notifyUserInputRecieved);
 }
 
 function handleStartPressAndHold()
 {
-    if(body.state === "waitingForInput")
-        body.state = "preRestart";
-    else if(body.state === "stopped")
-        body.state = "preRestart";
-    else if(body.state === "ready")
-        body.state = "preRestart";
-    else if(body.state === "winner")
-        body.state = "preRestart";
-    else if(body.state === "preRestart")
-        body.state = "ready";
+    if(gamePageBody.state === "waitingForInput")
+        gamePageBody.state = "preRestart";
+    else if(gamePageBody.state === "stopped")
+        gamePageBody.state = "preRestart";
+    else if(gamePageBody.state === "ready")
+        gamePageBody.state = "preRestart";
+    else if(gamePageBody.state === "winner")
+        gamePageBody.state = "preRestart";
+    else if(gamePageBody.state === "preRestart")
+        gamePageBody.state = "ready";
 }
 function handleStartClicked()
 {
@@ -78,23 +78,23 @@ function handleStartClicked()
     }
     else if(buttonText === buttonTextContainer.restartText)
     {
-        body.state = "restart";
+        gamePageBody.state = "restart";
     }
     else
     {
-        body.state = "pauseState";
+        gamePageBody.state = "pauseState";
         requestStop();
     }
 }
 
 function leftButtonClicked()
 {
-    body.state = "waitingForInputConfirmation";
+    gamePageBody.state = "waitingForInputConfirmation";
     requestUndo();
 }
 
 function rightButtonClicked()
 {
-    body.state = "waitingForInputConfirmation";
+    gamePageBody.state = "waitingForInputConfirmation";
     requestRedo();
 }

@@ -3,31 +3,31 @@
   */
 function connectComponents()
 {
-    body.requestMetaInformation.connect(applicationInterface.handleTournamentMetaRequest);
+    gamePageBody.requestMetaInformation.connect(applicationInterface.handleTournamentMetaRequest);
     applicationInterface.sendTournamentMetaData.connect(handleMetaInformation);
-    body.requestScoreBoardData.connect(applicationInterface.handleScoreBoardRequest);
+    gamePageBody.requestScoreBoardData.connect(applicationInterface.handleScoreBoardRequest);
     applicationInterface.sendPlayerScore.connect(appendScore);
-    body.requestStart.connect(applicationInterface.handleRequestStart);
-    body.requestStop.connect(applicationInterface.handleRequestStop);
-    body.requestRestart.connect(applicationInterface.handleRestartTournament);
-    body.sendInput.connect(applicationInterface.handleUserInput);
-    body.requestUndo.connect(applicationInterface.handleUndoRequest);
-    body.requestRedo.connect(applicationInterface.handleRedoRequest);
-    body.requestStatusFromBackend.connect(applicationInterface.handleControllerStateRequest);
+    gamePageBody.requestStart.connect(applicationInterface.handleRequestStart);
+    gamePageBody.requestStop.connect(applicationInterface.handleRequestStop);
+    gamePageBody.requestRestart.connect(applicationInterface.handleRestartTournament);
+    gamePageBody.sendInput.connect(applicationInterface.handleUserInput);
+    gamePageBody.requestUndo.connect(applicationInterface.handleUndoRequest);
+    gamePageBody.requestRedo.connect(applicationInterface.handleRedoRequest);
+    gamePageBody.requestStatusFromBackend.connect(applicationInterface.handleControllerStateRequest);
 }
 function disconnectComponents()
 {
-    body.requestMetaInformation.disconnect(applicationInterface.handleTournamentMetaRequest);
+    gamePageBody.requestMetaInformation.disconnect(applicationInterface.handleTournamentMetaRequest);
     applicationInterface.sendTournamentMetaData.disconnect(handleMetaInformation);
-    body.requestScoreBoardData.disconnect(applicationInterface.handleScoreBoardRequest);
+    gamePageBody.requestScoreBoardData.disconnect(applicationInterface.handleScoreBoardRequest);
     applicationInterface.sendPlayerScore.disconnect(appendScore);
-    body.requestStart.disconnect(applicationInterface.handleRequestStart);
-    body.requestStop.disconnect(applicationInterface.handleRequestStop);
-    body.requestRestart.disconnect(applicationInterface.handleRestartTournament);
-    body.sendInput.disconnect(applicationInterface.handleUserInput);
-    body.requestUndo.disconnect(applicationInterface.requestUndo);
-    body.requestRedo.disconnect(applicationInterface.requestRedo);
-    body.requestStatusFromBackend.disconnect(applicationInterface.handleControllerStateRequest);
+    gamePageBody.requestStart.disconnect(applicationInterface.handleRequestStart);
+    gamePageBody.requestStop.disconnect(applicationInterface.handleRequestStop);
+    gamePageBody.requestRestart.disconnect(applicationInterface.handleRestartTournament);
+    gamePageBody.sendInput.disconnect(applicationInterface.handleUserInput);
+    gamePageBody.requestUndo.disconnect(applicationInterface.requestUndo);
+    gamePageBody.requestRedo.disconnect(applicationInterface.requestRedo);
+    gamePageBody.requestStatusFromBackend.disconnect(applicationInterface.handleControllerStateRequest);
 }
 /*
   Handle initializing
@@ -47,12 +47,12 @@ function handleMetaInformation(meta){
   */
 function appendScore(player,point,score, keyCode)
 {
-    body.scoreRecieved(player,point,score,keyCode);
+    gamePageBody.scoreRecieved(player,point,score,keyCode);
 }
-function takeScore(player)
+function takeScore(player,score,point)
 {
     if(currentTournamentMetaData.tournamentGameMode === 0x1)
-        scoreBoardItemSlot.item.takeData(player);
+        scoreBoardInterface().takeData(player,point,score);
 }
 
 /*
@@ -60,11 +60,10 @@ function takeScore(player)
   */
 function handleReplyFromBackend(response,args)
 {
-    var buttonText = turnControllerItemSlot.item.startButtonText, playerName, scoreValue;
     if(response === 0x3A) // Gamecontroller is stopped
     {
-        if(body.state !== "preRestart")
-            body.state = "stopped";
+        if(gamePageBody.state !== "preRestart")
+            gamePageBody.state = "stopped";
     }
     else if(response === 0x2D) // Gamecontroller is ready and awaits input
     {
@@ -80,17 +79,17 @@ function handleReplyFromBackend(response,args)
                                                 currentPlayerUserName,
                                                 canUndo,
                                                 canRedo);
-        body.state = "waitingForInput";
+        gamePageBody.state = "waitingForInput";
     }
     else if(response === 0x10) // Backend replies end of transmission
     {
         handleRecievedScores(args);
-        body.requestStatusFromBackend();
+        gamePageBody.requestStatusFromBackend();
     }
 
     else if(response === 0x45) // Backend is initialized and ready
     {
-        body.state = "ready";
+        gamePageBody.state = "ready";
     }
     else if(response === 0x29) // Backend is reset
     {
@@ -109,9 +108,9 @@ function handleReplyFromBackend(response,args)
       */
     else if(response === 0x27) // Controller transmit scores/points
     {
-        playerName = args[0];
+        let playerName = args[0];
         let pointValue = args[1];
-        scoreValue = args[2];
+        let scoreValue = args[2];
         let keyCode = args[3];
         appendScore(playerName,pointValue,scoreValue,keyCode);
         requestStatusFromBackend();
@@ -119,14 +118,16 @@ function handleReplyFromBackend(response,args)
 
     else if(response === 0x28) // Controller is in UndoState
     {
-        playerName = args[0];
-        takeScore(playerName);
+        let playerName = args[0];
+        let scoreValue = args[1];
+        let pointValue = args[2];
+        takeScore(playerName,scoreValue,pointValue);
         requestStatusFromBackend();
     }
     else if(response === 0x15) // Winner declared
     {
         currentTournamentMetaData.determinedWinner = args[0];
-        body.state = "winner";
+        gamePageBody.state = "winner";
 
     }
     else if(response === 0x17) // Backend is initialized
@@ -147,15 +148,15 @@ function handleRecievedScores(data)
         var point = data[i +1];
         var score = data[i + 2];
         var keyCode = data[i + 3];
-        body.scoreRecieved(name,point,score,keyCode);
+        gamePageBody.scoreRecieved(name,point,score,keyCode);
     }
 }
 /*
   Handle user input
   */
 function handleKeyPadInput(value,keyCode){
-    body.state = "waitingForInputConfirmation";
-    body.sendInput(value,keyCode);
+    gamePageBody.state = "waitingForInputConfirmation";
+    gamePageBody.sendInput(value,keyCode);
 }
 /*
   Handle Notification related stuff

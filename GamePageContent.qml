@@ -12,7 +12,7 @@ import "gamePageGeneralScripts.js" as GameGeneralScripts
     Cricket = 0xAA
   */
 Content {
-    id: body
+    id: gamePageBody
     QtObject{
         id: textSourceContainer
         property string throwSuggestLabel: "Suggested target row:"
@@ -29,7 +29,7 @@ Content {
     signal requestRedo
     signal sendInput(int value, int modifier)
     signal notifyUserInputRecieved(int value, int keyCode)
-    onNotifyUserInputRecieved: body.state = "waitingForInputConfirmation"
+    onNotifyUserInputRecieved: gamePageBody.state = "waitingForInputConfirmation"
 
 
     signal scoreRecieved(string playerName, int point, int score, int keyCode)
@@ -55,6 +55,18 @@ Content {
       */
     onReplyFromBackendRecieved: GameGeneralScripts.handleReplyFromBackend(response,args)
     signal setupGame()
+    function turnControllerInterface(){
+        return turnControllerItemSlot.item;
+    }
+
+    function scoreBoardInterface(){
+        return scoreBoardItemSlot.item;
+    }
+
+    function keyPadInterface()
+    {
+        return keyPaditemSlot.item;
+    }
 
     onSetupGame: {
         if(currentTournamentMetaData.tournamentGameMode === 0x1)
@@ -137,7 +149,7 @@ Content {
             StateChangeScript{
                 script: {
                     FirstToPostScripts.setupFirstToPost();
-                    body.requestRestart();
+                    gamePageBody.requestRestart();
                 }
             }
         },
@@ -150,7 +162,7 @@ Content {
                     turnControllerItemSlot.item.undoButtonEnabled = false;
                     turnControllerItemSlot.item.redoButtonEnabled = false;
                     keyPaditemSlot.item.enableKeys = false;
-                    body.requestStop();
+                    gamePageBody.requestStop();
                 }
             }
         },

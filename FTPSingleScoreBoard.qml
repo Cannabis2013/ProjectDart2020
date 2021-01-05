@@ -67,7 +67,7 @@ ScoreBoard {
     onAppendHeader: ScoreScripts.appendHeader(header,orientation)
 
     onSetData: ScoreScripts.setData(playerName,point,score)
-    onTakeData: ScoreScripts.takeData(playerName)
+    onTakeData: ScoreScripts.takeData(playerName,point,score)
     onEditData: ScoreScripts.editData(row,column,point,score)
 
     QtObject{
