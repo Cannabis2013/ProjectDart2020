@@ -45,17 +45,17 @@ void PointFTPController::handleAndProcessUserInput(const int &point,
     auto score = point*pointMultiplier;
 
     auto currentScore = playerScore(_setIndex);
-    auto newScore = currentScore - score;
+    auto totalScore = currentScore - score;
 
     // Evaluate input according to point domain and aggregated sum domain
-    switch (validateInput(newScore,modifierKeyCode,point))
+    switch (validateInput(totalScore,modifierKeyCode,point))
     {
         case PointDomains::InvalidDomain : throw INVALID_DOMAIN;
-        case PointDomains::PointDomain : addPoint(score,newScore);break;
-        case PointDomains::CriticalDomain : addPoint(score,newScore);break;
+        case PointDomains::PointDomain : addPoint(score,totalScore);break;
+        case PointDomains::CriticalDomain : addPoint(score,totalScore);break;
         case PointDomains::TargetDomain : {
             declareWinner();
-            addPoint(score,newScore);
+            addPoint(score,totalScore);
             break;
         }
     case PointDomains::OutsideDomain : addPoint(0,currentScore);break;
@@ -413,23 +413,21 @@ void PointFTPController::handleRequestFromUI()
 
 void PointFTPController::nextTurn()
 {
-    incrementTurnIndexes();
-
-    if(_turnIndex % _numberOfThrows == 0)
+    incrementTurnIndex();
+    if(checkForEndOfSet())
     {
-        _setIndex++;
-        _throwIndex = 0;
-        if(_setIndex >= _assignedPlayerTupples.count()){
-            _roundIndex++;
-            _setIndex = 0;
+        incrementSetIndex();
+        resetThrowIndex();
+        if(currentSetIndex() >= playerCount()){
+            incrementRoundIndex();
+            resetSetIndex();
         }
-        _currentStatus = ControllerState::UpdateContextState;
     }
     else
     {
-        _throwIndex++;
-        _currentStatus = ControllerState::AwaitsInput;
+        incrementThrowIndex();
     }
+    _currentStatus = ControllerState::AwaitsInput;
     sendCurrentTurnValues();
 }
 
@@ -440,11 +438,42 @@ void PointFTPController::declareWinner()
     _currentStatus = WinnerDeclared;
 }
 
-void PointFTPController::incrementTurnIndexes()
+void PointFTPController::incrementTurnIndex()
 {
     if(_turnIndex == _totalTurns)
         _totalTurns++;
     _turnIndex++;
+}
+
+void PointFTPController::incrementRoundIndex()
+{
+    _roundIndex++;
+}
+
+void PointFTPController::incrementSetIndex()
+{
+    _setIndex++;
+}
+
+void PointFTPController::resetSetIndex()
+{
+    _setIndex = 0;
+}
+
+void PointFTPController::incrementThrowIndex()
+{
+    _throwIndex++;
+}
+
+void PointFTPController::resetThrowIndex()
+{
+    _throwIndex = 0;
+}
+
+bool PointFTPController::checkForEndOfSet()
+{
+    auto result = currentTurnIndex() % numberOfThrows() == 0;
+    return result;
 }
 
 int PointFTPController::playerScore(const int &index)
@@ -523,6 +552,16 @@ void PointFTPController::updatePlayerTubbles(const QList<int> &scores)
 int PointFTPController::keyPoint() const
 {
     return _keyPoint;
+}
+
+int PointFTPController::numberOfThrows() const
+{
+    return _numberOfThrows;
+}
+
+void PointFTPController::setNumberOfThrows(int numberOfThrows)
+{
+    _numberOfThrows = numberOfThrows;
 }
 
 void PointFTPController::setCurrentStatus(int currentStatus)

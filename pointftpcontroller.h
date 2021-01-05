@@ -137,6 +137,8 @@ private:
     int currentPlayerIndex()  {return _setIndex;}
     int currentSetIndex() {return _setIndex;}
     int currentThrowIndex();
+    int numberOfThrows() const;
+    void setNumberOfThrows(int numberOfThrows);
     QUuid currentTournamentID() {return _currentTournament;}
     int status() {return _currentStatus;}
     void setCurrentStatus(int currentStatus);
@@ -187,7 +189,13 @@ private:
     bool isIndexOffset();
     void nextTurn();
     void declareWinner();
-    void incrementTurnIndexes();
+    void incrementTurnIndex();
+    void incrementRoundIndex();
+    void incrementSetIndex();
+    void resetSetIndex();
+    void incrementThrowIndex();
+    void resetThrowIndex();
+    bool checkForEndOfSet();
     /*
      * Get/set current player score
      */
