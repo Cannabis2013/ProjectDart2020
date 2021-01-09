@@ -1,3 +1,38 @@
+function createPopUp(parentID, id,fileName,x, y, width, height)
+{
+    var component = Qt.createComponent(fileName);
+    var properties = {
+        "id" : id,
+        "x" : x,
+        "y" : y,
+        "width" : width,
+        "height" : height,
+        "anchors.fill" : parentID
+     };
+    var createPlayerPopUp = component.createObject(parentID, properties);
+    if(createPlayerPopUp === null)
+        print("Something went very wrong. Call the police if necessary.");
+    return createPlayerPopUp;
+}
+
+function createConfirmPopUp(fileName, parentID)
+{
+    var component = Qt.createComponent(fileName);
+    var properties = {
+        "x" : 0,
+        "y" : 0,
+        "width" : parentID.width,
+        "height" : parentID.height,
+        "anchors.fill" : parentID,
+        "isPopUp" : true
+     };
+    var instantiatedObject = component.createObject(parentID, properties);
+    if(instantiatedObject === null)
+        print("Something went very wrong. Call the police if necessary.");
+    return instantiatedObject;
+}
+
+
 /*
   Delete player
     - Request delete player popup
@@ -10,7 +45,7 @@ function requestDeletePlayerPopUp()
     let count = selectedIndex.length;
     if(count > 0)
     {
-        var obj = ComponentFactory.createConfirmPopUp('ConfirmPageContent.qml',
+        var obj = createConfirmPopUp('ConfirmPageContent.qml',
                                                       applicationWindow);
         obj.acceptClicked.connect(deletePlayersAccepted);
     }
@@ -40,7 +75,7 @@ function requestDeleteTournamentPopUp()
     let count = selectedIndexes.length;
     if(count > 0)
     {
-        let obj = ComponentFactory.createConfirmPopUp('ConfirmPageContent.qml',
+        let obj = createConfirmPopUp('ConfirmPageContent.qml',
                                                       applicationWindow);
         obj.acceptClicked.connect(deleteTournamentsAccepted);
     }

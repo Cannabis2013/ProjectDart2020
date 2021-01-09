@@ -11,6 +11,7 @@ UserInputContent{
     fontSize: 12
     onFontSizeChanged: spinBox.font.pointSize = fontSize
     currentValue: spinBox.value
+    onSetValue: spinBox.value = value
     SpinBox {
         id: spinBox
         layer.enabled: true
@@ -24,7 +25,7 @@ UserInputContent{
                 }
             }
         }
-        value: 3
+        value: 1
         anchors.fill: parent
         font.pointSize: body.fontSize
         onValueChanged: body.valueChanged(value)

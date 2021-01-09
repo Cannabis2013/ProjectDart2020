@@ -32,6 +32,7 @@ ApplicationInterface *ApplicationInterface::useThreads()
         // Implement some error functionality here
         return this;
     }
+    setUsingThreads(true);
     return this;
 }
 
@@ -154,6 +155,7 @@ void ApplicationInterface::processRecievedTournamentMetaData(const QString &titl
                                                              const int &gameMode,
                                                              const int &keyPoint,
                                                              const int &tableViewHint,
+                                                             const int &inputMode,
                                                              const QString &winnerName,
                                                              const QStringList &assignedPlayerNames)
 {
@@ -161,6 +163,7 @@ void ApplicationInterface::processRecievedTournamentMetaData(const QString &titl
                          gameMode,
                          keyPoint,
                          tableViewHint,
+                         inputMode,
                          assignedPlayerNames,
                          winnerName};
     emit sendTournamentMetaData(args);
@@ -168,36 +171,39 @@ void ApplicationInterface::processRecievedTournamentMetaData(const QString &titl
 
 void ApplicationInterface::handleTournamentDetailsAndSetController(const QUuid &tournament,
                                                                    const QString &winner,
-                                                                   const int &keyPoint, const int &inputMode,
+                                                                   const int &keyPoint,
+                                                                   const int &inputMode,
                                                                    const int &terminalKeyCode,
                                                                    const int &numberOfThrows,
                                                                    const int &gameMode,
                                                                    const PlayerPairs &assignedPlayerPairs)
 {
     if(_gameController != nullptr)
-    {
-        _gameController->disconnect();
-        delete _gameController;
-        _gameController = nullptr;
-    }
+        clearGameController();
     if(gameMode == GameModes::FirstToPost)
     {
         /*
-         * Inject controller
+         * Build and inject game controller
          */
         _gameController = controllerBuilder()->buildGameController(gameMode,
-                                                                   inputMode,
+                                                                   {
+                                                                       inputMode,
+                                                                       keyPoint,
+                                                                       terminalKeyCode,
+                                                                       numberOfThrows
+                                                                   },
                                                                    ContextMode::LocalContext);
+        // Connect interfaces
         connectControllerInterface();
-
-        _gameController->moveToThread(_gameControllerThread);
-        _gameControllerThread->start();
+        // If using threads, move controller to its designated thread
+        if(usingThreads())
+        {
+            _gameController->moveToThread(_gameControllerThread);
+            _gameControllerThread->start();
+        }
 
         emit sendTournamentDetails(tournament,
                                    winner,
-                                   keyPoint,
-                                   terminalKeyCode,
-                                   numberOfThrows,
                                    assignedPlayerPairs);
     }
 }
@@ -368,6 +374,13 @@ void ApplicationInterface::connectControllerInterface()
             _gameController,&AbstractGameController::handleScoreHintUpdated);
 }
 
+void ApplicationInterface::clearGameController()
+{
+    _gameController->disconnect();
+    delete _gameController;
+    _gameController = nullptr;
+}
+
 void ApplicationInterface::startTournamentModelsWorkerThread()
 {
     _tournamentModelsThread->start();
@@ -398,6 +411,16 @@ AbstractGameController *ApplicationInterface::gameController() const
 IDefaultGameBuilder *ApplicationInterface::controllerBuilder() const
 {
     return _controllerBuilder;
+}
+
+bool ApplicationInterface::usingThreads() const
+{
+    return _usingThreads;
+}
+
+void ApplicationInterface::setUsingThreads(bool usingThreads)
+{
+    _usingThreads = usingThreads;
 }
 
 AbstractPlayerModelsContext *ApplicationInterface::playerModelsContext() const

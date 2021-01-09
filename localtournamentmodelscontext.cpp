@@ -194,7 +194,14 @@ void LocalTournamentModelsContext::handleRequestForTournamentMetaData(const QUui
     auto modelTableViewHint = tournamentTableViewHint(tournament);
     auto playersID = tournamentAssignedPlayers(tournament);
     auto winnerID = tournamentDeterminedWinner(tournament);
-    emit sendTournamentMeta(title,gameMode,keyPoint,modelTableViewHint,winnerID,playersID);
+    auto inputMode = tournamentInputMode(tournament);
+    emit sendTournamentMeta(title,
+                            gameMode,
+                            keyPoint,
+                            modelTableViewHint,
+                            inputMode,
+                            winnerID,
+                            playersID);
 }
 
 void LocalTournamentModelsContext::handleRequestTournamentDetails(const int &index)

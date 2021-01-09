@@ -14,10 +14,13 @@ UserInputContent
     property color fontColor: "black"
     onFontColorChanged: titleEdit.color = fontColor
     property bool isNumeric: false
+    property bool interactive: true
+    onInteractiveChanged: titleEdit.readOnly = interactive
     /*
       Event handling
       */
     onFontSizeChanged: titleEdit.font.pointSize = fontSize
+    onSetValue: titleEdit.text = value
     /*
       UserInputContent interface
       */
@@ -31,6 +34,7 @@ UserInputContent
     TextEdit{
         id: titleEdit
         focus: true
+        readOnly: !body.interactive
         Keys.onPressed: {
             if(event.key === Qt.Key_Enter ||event.key === Qt.Key_Return)
             {
@@ -52,11 +56,8 @@ UserInputContent
         }
         onTextChanged: {
             var txt = text;
-            if(isNumeric)
-            {
-                if(isNaN(txt))
-                    clear();
-            }
+            if(isNumeric && isNaN(txt))
+                clear();
             body.currentValue = text;
             body.valueChanged(text)
         }

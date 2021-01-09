@@ -45,6 +45,7 @@ public slots:
                                                     const int &gameMode,
                                                     const int &keyPoint,
                                                     const int &tableViewHint,
+                                                    const int &inputMode,
                                                     const QUuid &winnerID,
                                                     const QList<QUuid> &assignedPlayersID) = 0;
     virtual void handleRequestPlayersDetails() = 0;
@@ -69,6 +70,7 @@ signals:
                                          const int &gameMode,
                                          const int &keyPoint,
                                          const int &tableViewHint,
+                                         const int &inputMode,
                                          const QString &winner,
                                          const QStringList &assignedPlayerNames);
     void sendCurrentAssignedPlayerPairs(const QUuid &tournament,

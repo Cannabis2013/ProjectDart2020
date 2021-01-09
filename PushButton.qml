@@ -17,6 +17,7 @@ InteractiveObject {
     property color hoveredColor: "#04F72D"
     property color hoveredTextColor: textColor
 
+
     property color backgroundColor: "transparent"
     onBackgroundColorChanged: buttonRect.color = backgroundColor
 
@@ -25,18 +26,16 @@ InteractiveObject {
 
     onEnabledChanged: !enabled ? opacity = 0.25 : opacity = 1
 
-    property bool checked: false
-
     property bool hoverEnabled: true
     onHoverEnabledChanged: body.enableHoverEvent = hoverEnabled
+    // Button pressed properties
+    property color pressedColor: backgroundColor
     property double pressedScale: 0.90
-
+    // Checkable properties
     property bool isCheckable: false
-
-    property color checkedBackgroundColor: "lightgreen"
-
+    property bool checked: false
+    property color checkedBackgroundColor: backgroundColor
     property color checkedTextColor: "black"
-
     property double checkedScale: 1
 
     property bool enablePressAndHold: false
@@ -198,6 +197,7 @@ InteractiveObject {
             PropertyChanges {
                 target: buttonRect
                 scale : body.pressedScale
+                color: body.pressedColor
             }
             PropertyChanges {
                 target: body

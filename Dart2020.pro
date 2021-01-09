@@ -17,12 +17,12 @@ SOURCES += \
         abstractjsonpersistence.cpp \
         applicationinterface.cpp \
         ftpdatamodel.cpp \
+        localftpcontroller.cpp \
         localplayerdbcontext.cpp \
         localplayermodelscontext.cpp \
         localtournamentmodeldb.cpp \
         localtournamentmodelscontext.cpp \
         main.cpp \
-        pointftpcontroller.cpp \
         pointlogisticmanager.cpp
 
 RESOURCES += qml.qrc
@@ -66,6 +66,7 @@ HEADERS += \
     isetmodel.h \
     itournamentmodel.h \
     itournamentmodelbuilder.h \
+    localftpcontroller.h \
     localplayerdbcontext.h \
     localplayermodelscontext.h \
     localtournamentmodeldb.h \
@@ -75,10 +76,14 @@ HEADERS += \
     player.h \
     playermodelbuilder.h \
     playermodelbuildercontext.h \
-    pointftpcontroller.h \
+    pointScoreCalculator.h \
     pointlogisticmanager.h \
+    pointvalidator.h \
     round.h \
     score.h \
+    scoreCalculatorInterface.h \
+    scorecalculator.h \
+    scorevalidatorinterface.h \
     set.h \
     tournament.h \
     tournamentmodelbuilder.h

@@ -42,8 +42,8 @@ ScoreBoard {
         for(var i = 0; i < data.length;i++)
         {
             var assignedPlayerName = data[i];
-            scoreBoardItemSlot.item.appendHeader(assignedPlayerName,Qt.Horizontal);
-            scoreBoardItemSlot.item.setData(assignedPlayerName,0,defaultVal,undefined);
+            appendHeader(assignedPlayerName,Qt.Horizontal);
+            setData(assignedPlayerName,0,defaultVal,undefined);
         }
     }
 

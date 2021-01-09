@@ -6,7 +6,6 @@
 #include <QVariantList>
 #include "iresponseinterface.h"
 
-
 template<class T1, class T2, class T3>
 struct Tupple
 {
@@ -55,10 +54,7 @@ public slots:
     virtual void handleRequestForPlayerScores() = 0;
     virtual void recieveTournamentDetails(const QUuid &tournament,
                                           const QString &winner,
-                                          const int &keyPoint,
-                                          const int &terminalKeyCode,
-                                          const int &numberOfThrows,
-                                          const PlayerPairs &assignedPlayerNames) = 0;
+                                          const PlayerPairs &assignedPlayerPairs) = 0;
     virtual void recieveTournamentIndexes(const int &roundIndex,
                                           const int &setIndex,
                                           const int &throwIndex,
@@ -72,7 +68,6 @@ public slots:
     virtual void handleScoreHintUpdated(const QUuid &playerID, const int &point,const int &score) = 0;
     virtual void handleTournamentResetSuccess() = 0;
     virtual void handleResetTournament() = 0;
-
 signals:
     void transmitResponse(const int &status, const QVariantList &args) override;
     void requestTournamentMetaData(const QUuid &tournament);

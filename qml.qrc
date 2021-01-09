@@ -20,8 +20,8 @@
         <file>CreateTournamentContent.qml</file>
         <file>GamePageContent.qml</file>
         <file>TurnControllerItem.qml</file>
-        <file>DefaultPointKeyPad.qml</file>
-        <file>componentFactory.js</file>
+        <file>PointKeyPad.qml</file>
+        <file>PointKeyPadFactory.js</file>
         <file>CreatePlayerPopUp.qml</file>
         <file>Content.qml</file>
         <file>CRUDButton.qml</file>
@@ -65,6 +65,14 @@
         <file>DataModelContext.qml</file>
         <file>fTPMultiScripts.js</file>
         <file>createTournamentScripts.js</file>
+        <file>pointKeyPadScripts.js</file>
+        <file>ScoreKeyPad.qml</file>
+        <file>scoreKeyPadFactory.js</file>
+        <file>managePageFactory.js</file>
+        <file>KeyPadTextView.qml</file>
+        <file>KeyPadScoreView.qml</file>
+        <file>scoreKeyPadScripts.js</file>
+        <file>scoreViewScripts.js</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>

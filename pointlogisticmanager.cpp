@@ -81,6 +81,11 @@ PointLogisticManager::PointLogisticManager(const int &throwCount, const int &fin
     constructAndAddSuggestions();
 }
 
+PointLogisticManager *PointLogisticManager::createInstance(const int &numberOfThrows, const int &lastThrowKeyCode)
+{
+    return new PointLogisticManager(numberOfThrows,lastThrowKeyCode);
+}
+
 QString PointLogisticManager::throwSuggestion(const int &remainingScore, const int &turnIndex)
 {
     if(turnIndex < 1 || turnIndex > 3)

@@ -26,16 +26,18 @@ Item {
     onLabelLeftMarginChanged: label.textLeftMargin = labelLeftMargin
     property string labelText: "Label text"
     onLabelTextChanged: label.text = qsTr(labelText)
-
+    property bool showLabel: true
+    onShowLabelChanged: label.visible = showLabel
+    // Set content value
+    property var contentValue: content.currentValue
+    onContentValueChanged: content.setValue(contentValue)
     property int fontSize: 12
     onFontSizeChanged: inputContent.fontSize = fontSize
 
-    readonly property var currentValue : contentContainer.children[0].currentValue
-    property int currentIndex: contentContainer.children[0].currentIndex
-    onCurrentIndexChanged: contentContainer.children[0].currentIndex = body.currentIndex
+    readonly property var currentValue : content.currentValue
+    property int currentIndex: content.currentIndex
+    onCurrentIndexChanged: content.currentIndex = body.currentIndex
     property UserInputContent content : UserInputContent{}
-
-
     onContentChanged: {
         body.children[1].children[0] = content;
         content.anchors.fill = contentContainer
@@ -44,6 +46,7 @@ Item {
 
     MyLabel {
         id: label
+        visible: body.showLabel
         // Font properties
         color: body.labelBackgroundColor
         fontColor: body.labelFontColor

@@ -3,10 +3,15 @@
 
 #include "IControllerBuilder.h"
 #include "abstractgamecontroller.h"
-#include "pointftpcontroller.h"
+#include "localftpcontroller.h"
 #include "pointlogisticmanager.h"
+#include "pointScoreCalculator.h"
+#include "scorecalculator.h"
+#include "pointvalidator.h"
 
-class GameControllerBuilder : public IControllerBuilder<AbstractGameController,int>
+typedef IControllerBuilder<AbstractGameController,int, int[]> ControllerBuilder;
+
+class GameControllerBuilder : public ControllerBuilder
 {
     // IControllerBuilder interface
 public:
@@ -27,12 +32,12 @@ public:
     };
 
     AbstractGameController * buildGameController(const int &gameMode,
-                                                 const int &type,
+                                                 const int (&params)[],
                                                  const int &contextMode)
     {
         if(contextMode == LocalContext)
         {
-            auto controller = createLocalController(gameMode,type);
+            auto controller = createLocalController(gameMode,params);
             return controller;
         }
         return nullptr;
@@ -41,23 +46,36 @@ public:
 private:
 
     AbstractGameController* createLocalController(const int &gameMode,
-                                                  const int &type)
+                                                  const int (&params)[])
     {
         if(gameMode == GameModes::FirstToPost)
         {
-            auto controller = createFTPController(type);
+            auto controller = createFTPController(params);
             return controller;
         }
         else
             return nullptr;
     }
 
-    AbstractGameController* createFTPController(const int &type)
+    AbstractGameController* createFTPController(const int (&params)[])
     {
+        auto type = params[0];
+        auto keyPoint = params[1];
+        auto terminalKeyCode = params[2];
+        auto numberOfThrows = params[3];
         if(type == InputModes::PointMode)
         {
-            auto controller = new PointFTPController();
-            controller->setPointLogisticInterface(new PointLogisticManager());
+            auto controller = LocalFTPController::createInstance(keyPoint,numberOfThrows)
+                    ->setPointLogisticInterface(PointLogisticManager::createInstance(numberOfThrows,terminalKeyCode))
+                    ->setScoreCalculator(new PointScoreCalculator())
+                    ->setScoreValidator(new PointValidator(terminalKeyCode));
+            return controller;
+        }
+        else if(type == InputModes::ScoreMode)
+        {
+            auto controller = LocalFTPController::createInstance(keyPoint,numberOfThrows)
+                    ->setPointLogisticInterface(PointLogisticManager::createInstance(numberOfThrows,terminalKeyCode))
+                    ->setScoreCalculator(new ScoreCalculator());
             return controller;
         }
         return nullptr;

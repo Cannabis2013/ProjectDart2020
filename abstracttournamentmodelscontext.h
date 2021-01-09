@@ -81,6 +81,7 @@ signals:
                             const int &gameMode,
                             const int &keyPoint,
                             const int &tableViewHint,
+                            const int &inputMode,
                             const QUuid &winner,
                             const QList<QUuid> &assignedPlayers);
     void sendTournamentDetails(const QUuid &tournament,

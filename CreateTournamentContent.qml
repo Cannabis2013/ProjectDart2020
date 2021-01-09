@@ -1,7 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 
-import "componentFactory.js" as ComponentFactory
 import "createTournamentScripts.js" as CreateScripts
 
 Content {
@@ -26,15 +25,18 @@ Content {
         id: stringModels
         property var gameModes: ["FirstToPost"]
         property var keyIdentifiers: ["Single","Double", "Tripple"]
-        property var firstToPostPointValues: ["301","501","701","901"]
+        property var fTPKeyPoints: ["301","501","701","901"]
         property var displayHints: ["SingleView","MultiView"]
         property var inputModes: ["PointInput","ScoreInput"]
     }
     QtObject{
         id: defaultStateValues
         readonly property int defaultGameModeIndex: 0
-        readonly property int defaultWinConditionIndex: 1
+        readonly property int defaultNumberOfThrows: 3
         readonly property int defaultKeyPointIndex: 1
+        readonly property int defaultWinConditionIndex: 1
+        readonly property int defaultTableHintIndex: 0
+        readonly property int defaultInputModeIndex: 1
     }
 
     /*
@@ -60,31 +62,27 @@ Content {
             Layout.fillWidth: true
             onValueChanged: CreateScripts.stateChanged()
         }
-        DefaultSpinBox {
-            id: throwSpinBox
-            Layout.fillWidth: true
-        }
-
         DefaultComboBox{
             id: gameModeSelector
             labelText: "Game modes"
             Layout.fillWidth: true
             model: stringModels.gameModes
-            onValueChanged: CreateScripts.initializeKeyPointComponent()
+            onValueChanged: CreateScripts.initializeComponents()
         }
-
+        DefaultSpinBox {
+            id: throwSpinBox
+            Layout.fillWidth: true
+        }
         DefaultComboBox {
             id: keyPointEdit
             Layout.fillWidth: true
             labelText: "Keypoint:"
         }
-
         DefaultComboBox {
             id: winConditionSelector
             Layout.fillWidth: true
             labelText: "Finish with:"
             model: stringModels.keyIdentifiers
-            Component.onCompleted: winConditionSelector.currentIndex = defaultStateValues.defaultWinConditionIndex
         }
         DefaultComboBox {
             id: displayHintSelector

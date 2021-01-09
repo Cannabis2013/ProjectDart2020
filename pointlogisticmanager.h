@@ -28,14 +28,19 @@ public:
         TrippleModifier = 0x2C
     };
     /*
-     * Constructor
+     * Create instanc
      */
-    PointLogisticManager(const int &throwCount = 3, const int &finishingKeyCode = KeyMappings::DoubleModifier);
+    static PointLogisticManager* createInstance(const int &numberOfThrows,const int &lastThrowKeyCode);
     QString throwSuggestion(const int &remainingScore, const int &turnIndex) override;
     void setNumberOfThrows(const int &throwCount) override;
     void setLastThrowKeyCode(const int &keyCode) override;
     int lastThrowKeyCode() override;
 private:
+    /*
+     * Private constructor
+     */
+    PointLogisticManager(const int &throwCount, const int &finishingKeyCode);
+
     void constructAndAddSuggestions();
     QString constructThrowSuggestion(const int &remainingScore, const int &turnIndex, const int &route);
     bool pointSuggestion(const int &remainingScore, const int &turnIndex, ScoreModel *scoreObject);

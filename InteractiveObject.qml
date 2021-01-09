@@ -11,6 +11,23 @@ Item {
     property bool enablePressAndHoldEvent: false
     property bool enableHoverEvent: true
 
+    QtObject{
+        id: internalEventHandler
+        function handlePressEvent()
+        {
+            var p = isPressed;
+            if(p)
+            {
+                isPressed = false;
+                return false;
+            }
+            isPressed = true;
+            return true;
+        }
+
+        property bool isPressed: false
+    }
+
     MouseArea
     {
         id: buttonMouseArea
@@ -18,7 +35,7 @@ Item {
         anchors.fill: body
         hoverEnabled: true
         onHoveredChanged: {
-            hoverEvent(containsMouse);
+            body.hoverEvent(containsMouse);
         }
 
         onPressAndHold: {
@@ -27,7 +44,7 @@ Item {
         }
 
         onPressedChanged: {
-            pressedEvent(containsPress);
+            body.pressedEvent(internalEventHandler.handlePressEvent());
         }
 
         onClicked: {

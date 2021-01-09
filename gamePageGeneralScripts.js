@@ -33,13 +33,14 @@ function disconnectComponents()
   Handle initializing
   */
 function handleMetaInformation(meta){
-    currentTournamentMetaData.tournamentTitle = meta[0];
-    currentTournamentMetaData.tournamentGameMode = meta[1];
-    currentTournamentMetaData.tournamentKeyPoint = meta[2];
-    currentTournamentMetaData.tournamentTableViewHint = meta[3];
-    currentTournamentMetaData.assignedPlayers = meta[4];;
-    currentTournamentMetaData.determinedWinner = meta[5];
-    if(currentTournamentMetaData.tournamentGameMode === 0x1)
+    tournamentMetaData.tournamentTitle = meta[0];
+    tournamentMetaData.tournamentGameMode = meta[1];
+    tournamentMetaData.tournamentKeyPoint = meta[2];
+    tournamentMetaData.tournamentTableViewHint = meta[3];
+    tournamentMetaData.tournamentInputMode = meta[4];
+    tournamentMetaData.assignedPlayers = meta[5];
+    tournamentMetaData.determinedWinner = meta[6];
+    if(tournamentMetaData.tournamentGameMode === 0x1)
         FirstToPostScripts.setupFirstToPost();
 }
 /*
@@ -51,7 +52,7 @@ function appendScore(player,point,score, keyCode)
 }
 function takeScore(player,score,point)
 {
-    if(currentTournamentMetaData.tournamentGameMode === 0x1)
+    if(tournamentMetaData.tournamentGameMode === 0x1)
         scoreBoardInterface().takeData(player,point,score);
 }
 
@@ -74,8 +75,8 @@ function handleReplyFromBackend(response,args)
         let throwSuggestion = args[4];
 
         let suggestion = textSourceContainer.throwSuggestLabel + " " + throwSuggestion;
-        notificationItemSlot.item.setThrowSuggestion(suggestion);
-        turnControllerItemSlot.item.updateState(currentRoundIndex,
+        gamePageBody.notificationInterface().setThrowSuggestion(suggestion);
+        gamePageBody.turnControllerInterface().updateState(currentRoundIndex,
                                                 currentPlayerUserName,
                                                 canUndo,
                                                 canRedo);
@@ -126,7 +127,7 @@ function handleReplyFromBackend(response,args)
     }
     else if(response === 0x15) // Winner declared
     {
-        currentTournamentMetaData.determinedWinner = args[0];
+        tournamentMetaData.determinedWinner = args[0];
         gamePageBody.state = "winner";
 
     }

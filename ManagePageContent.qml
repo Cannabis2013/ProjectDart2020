@@ -1,6 +1,5 @@
 import QtQuick 2.12
 import QtQuick.Layouts 1.3
-import "componentFactory.js" as ComponentFactory
 import "managePageScripts.js" as ManageScripts
 Content {
     id: body

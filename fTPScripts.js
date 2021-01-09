@@ -10,7 +10,7 @@ function setupFirstToPost(){
       */
     scoreBoardItemSlot.sourceComponent =
             GamePageFactory.buildScoreBoard(TournamentContext.firstToPost,
-                                            currentTournamentMetaData.tournamentTableViewHint);
+                                            tournamentMetaData.tournamentTableViewHint);
     setupFirstToPostScoreTable();
     /*
       Load and setup DisplayKeyDataItem
@@ -21,22 +21,22 @@ function setupFirstToPost(){
       Load and setup DefaultKeyPadComponent
       */
     keyPaditemSlot.sourceComponent =
-            GamePageFactory.buildKeyPad(TournamentContext.pointMode);
+            GamePageFactory.buildKeyPad(tournamentMetaData.tournamentInputMode);
     setupKeyPad();
     initializeFirstToPost();
 }
 
 function initializeFirstToPost()
 {
-    var title = currentTournamentMetaData.tournamentTitle;
+    var title = tournamentMetaData.tournamentTitle;
     requestSetPageTitle(title);
     requestScoreBoardData();
 }
 function setupFirstToPostScoreTable()
 {
     gamePageBody.scoreRecieved.connect(scoreBoardItemSlot.item.setData);
-    var assignedPlayers = currentTournamentMetaData.assignedPlayers;
-    var keyPoint = currentTournamentMetaData.tournamentKeyPoint;
+    var assignedPlayers = tournamentMetaData.assignedPlayers;
+    var keyPoint = tournamentMetaData.tournamentKeyPoint;
     scoreBoardInterface().appendHeaderData(assignedPlayers,keyPoint);
 }
 /*
@@ -52,7 +52,6 @@ function setupTurnController(){
 }
 function setupKeyPad(){
     keyPadInterface().sendInput.connect(GameGeneralScripts.handleKeyPadInput);
-    keyPadInterface().sendInput.connect(gamePageBody.notifyUserInputRecieved);
 }
 
 function handleStartPressAndHold()

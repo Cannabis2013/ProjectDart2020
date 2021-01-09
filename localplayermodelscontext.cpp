@@ -54,6 +54,7 @@ void LocalPlayerModelsContext::handleAndProcessTournamentMetaData(const QString 
                                                                   const int &gameMode,
                                                                   const int &keyPoint,
                                                                   const int &tableViewHint,
+                                                                  const int &inputMode,
                                                                   const QUuid &winnerID,
                                                                   const QList<QUuid> &assignedPlayersID)
 {
@@ -67,6 +68,7 @@ void LocalPlayerModelsContext::handleAndProcessTournamentMetaData(const QString 
                                          gameMode,
                                          keyPoint,
                                          tableViewHint,
+                                         inputMode,
                                          winnerName,
                                          playerNames);
 }

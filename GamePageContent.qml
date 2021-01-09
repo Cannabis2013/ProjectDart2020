@@ -28,9 +28,6 @@ Content {
     signal requestUndo
     signal requestRedo
     signal sendInput(int value, int modifier)
-    signal notifyUserInputRecieved(int value, int keyCode)
-    onNotifyUserInputRecieved: gamePageBody.state = "waitingForInputConfirmation"
-
 
     signal scoreRecieved(string playerName, int point, int score, int keyCode)
     QtObject{
@@ -42,12 +39,13 @@ Content {
         property string waitText: qsTr("Wait")
     }
     QtObject{
-        id: currentTournamentMetaData
+        id: tournamentMetaData
         property string tournamentTitle: ""
         property int tournamentGameMode: 0
         property int tournamentKeyPoint: 0
-        property string determinedWinner: ""
         property int tournamentTableViewHint: 0
+        property int tournamentInputMode: value
+        property string determinedWinner: ""
         property var assignedPlayers: []
     }
     /*
@@ -57,6 +55,10 @@ Content {
     signal setupGame()
     function turnControllerInterface(){
         return turnControllerItemSlot.item;
+    }
+    function notificationInterface()
+    {
+        return notificationItemSlot.item;
     }
 
     function scoreBoardInterface(){
@@ -69,7 +71,7 @@ Content {
     }
 
     onSetupGame: {
-        if(currentTournamentMetaData.tournamentGameMode === 0x1)
+        if(tournamentMetaData.tournamentGameMode === 0x1)
             FirstToPostScripts.setupFirstToPostScoreTable();
     }
     GridLayout{
@@ -108,17 +110,17 @@ Content {
             name: "winner"
             StateChangeScript{
                 script: {
-                    turnControllerItemSlot.item.startButtonText = buttonTextContainer.restartText;
-                    turnControllerItemSlot.item.startButtonEnabled = true;
-                    var currentPlayer = turnControllerItemSlot.item.currentPlayer;
-                    var currentRoundIndex = turnControllerItemSlot.item.currentRoundIndex;
-                    turnControllerItemSlot.item.updateState(currentRoundIndex,
+                    turnControllerInterface().startButtonText = buttonTextContainer.restartText;
+                    turnControllerInterface().startButtonEnabled = true;
+                    var currentPlayer = turnControllerInterface().currentPlayer;
+                    var currentRoundIndex = turnControllerInterface().currentRoundIndex;
+                    turnControllerInterface().updateState(currentRoundIndex,
                                               currentPlayer,
                                               false,
                                               false);
                     var winnerName = textSourceContainer.winnerLabel + " " +
-                            currentTournamentMetaData.determinedWinner;
-                    keyPaditemSlot.item.enableKeys = false;
+                            tournamentMetaData.determinedWinner;
+                    keyPadInterface().enableKeyPad(false);
                     GameGeneralScripts.handleSetWinnerText(winnerName);
                 }
             }
@@ -127,11 +129,11 @@ Content {
             name: "stopped"
             StateChangeScript{
                 script: {
-                    turnControllerItemSlot.item.startButtonText = buttonTextContainer.resumeText;
-                    turnControllerItemSlot.item.startButtonEnabled = true;
-                    turnControllerItemSlot.item.undoButtonEnabled = false;
-                    turnControllerItemSlot.item.redoButtonEnabled = false;
-                    keyPaditemSlot.item.enableKeys = false;
+                    turnControllerInterface().startButtonText = buttonTextContainer.resumeText;
+                    turnControllerInterface().startButtonEnabled = true;
+                    turnControllerInterface().undoButtonEnabled = false;
+                    turnControllerInterface().redoButtonEnabled = false;
+                    keyPadInterface().enableKeyPad(false);
                 }
             }
         },
@@ -139,8 +141,8 @@ Content {
             name: "ready"
             StateChangeScript{
                 script: {
-                    turnControllerItemSlot.item.startButtonEnabled = true;
-                    turnControllerItemSlot.item.startButtonText = buttonTextContainer.startText;
+                    turnControllerInterface().startButtonEnabled = true;
+                    turnControllerInterface().startButtonText = buttonTextContainer.startText;
                 }
             }
         },
@@ -157,11 +159,11 @@ Content {
             name: "preRestart"
             StateChangeScript{
                 script: {
-                    turnControllerItemSlot.item.startButtonText = buttonTextContainer.restartText;
-                    turnControllerItemSlot.item.startButtonEnabled = true;
-                    turnControllerItemSlot.item.undoButtonEnabled = false;
-                    turnControllerItemSlot.item.redoButtonEnabled = false;
-                    keyPaditemSlot.item.enableKeys = false;
+                    turnControllerInterface().startButtonText = buttonTextContainer.restartText;
+                    turnControllerInterface().startButtonEnabled = true;
+                    turnControllerInterface().undoButtonEnabled = false;
+                    turnControllerInterface().redoButtonEnabled = false;
+                    keyPadInterface().enableKeyPad(false);
                     gamePageBody.requestStop();
                 }
             }
@@ -170,10 +172,10 @@ Content {
             name: "waitingForInputConfirmation"
             StateChangeScript{
                 script: {
-                    turnControllerItemSlot.item.startButtonText = buttonTextContainer.waitText;
-                    turnControllerItemSlot.item.undoButtonEnabled = false;
-                    turnControllerItemSlot.item.redoButtonEnabled = false;
-                    keyPaditemSlot.item.enableKeys = false;
+                    turnControllerInterface().startButtonText = buttonTextContainer.waitText;
+                    turnControllerInterface().undoButtonEnabled = false;
+                    turnControllerInterface().redoButtonEnabled = false;
+                    keyPadInterface().enableKeyPad(false);
                 }
             }
         },
@@ -181,9 +183,9 @@ Content {
             name: "waitingForInput"
             StateChangeScript{
                 script: {
-                    turnControllerItemSlot.item.startButtonText = buttonTextContainer.pauseText;
-                    turnControllerItemSlot.item.startButtonEnabled = true;
-                    keyPaditemSlot.item.enableKeys = true;
+                    turnControllerInterface().startButtonText = buttonTextContainer.pauseText;
+                    turnControllerInterface().startButtonEnabled = true;
+                    keyPadInterface().enableKeyPad(true);
                 }
             }
         }

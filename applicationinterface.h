@@ -22,7 +22,7 @@ using namespace std;
 
 typedef IPlayerModel<QUuid,QString> DefaultPlayerModelInterface;
 typedef IPlayerBuilderParameters<QString,QUuid> DefaultParametersInterface;
-typedef IControllerBuilder<AbstractGameController, int> IDefaultGameBuilder;
+typedef IControllerBuilder<AbstractGameController,int,int[]> IDefaultGameBuilder;
 
 class ApplicationInterface : public QObject,
         public IResponseInterface<QVariantList>
@@ -76,6 +76,10 @@ public:
      */
     IDefaultGameBuilder *controllerBuilder();
     ApplicationInterface *setControllerBuilder(IDefaultGameBuilder *builder);
+    // Thread related
+    bool usingThreads() const;
+    void setUsingThreads(bool usingThreads);
+
 public slots:
     void handleTournamentsRequest();
     void handleSetCurrentTournamentRequest(const int &index);
@@ -86,13 +90,13 @@ public slots:
     /*
      * Create tournament
      *
-     * Data array allocates memmory locations in the following order:
-     *  - [0] = Gamemode
-     *  - [1] = Keypoint
-     *  - [2] = KeyCode (win condition)
-     *  - [3] = TableViewHint
-     *  - [4] = InputMode
-     *  - [5] = Number of throws
+     *  Data array allocates memmory locations in the following order:
+     *   - [0] = Gamemode
+     *   - [1] = Keypoint
+     *   - [2] = KeyCode (win condition)
+     *   - [3] = TableViewHint
+     *   - [4] = InputMode
+     *   - [5] = Number of throws
      */
     void handleCreateTournament(const QString &title,
                                 const QList<int> &data,
@@ -184,9 +188,6 @@ signals:
     void removeScore(const QString &player);
     void sendTournamentDetails(const QUuid &tournament,
                                const QString &winner,
-                               const int &keyPoint,
-                               const int &terminalKeyCode,
-                               const int &numberOfThrows,
                                const PlayerPairs &assignedPlayerPairs);
     void playersDeletedStatus(const bool &status);
     void tournamentsDeletedSuccess(const bool &status);
@@ -199,7 +200,7 @@ private slots:
     void processRecievedTournamentMetaData(const QString &title,
                                            const int &gameMode,
                                            const int &keyPoint,
-                                           const int &tableViewHint,
+                                           const int &tableViewHint, const int &inputMode,
                                            const QString &winnerName,
                                            const QStringList &assignedPlayerNames);
     void handleTournamentDetailsAndSetController(const QUuid &tournament,
@@ -215,6 +216,8 @@ private:
     void connectModelInterfaces();
     void connectControllerInterface();
 
+    void clearGameController();
+
     void startTournamentModelsWorkerThread();
     void startPlayerModelsWorkerThread();
     void stopTournamentModelsWorkerThread();
@@ -226,10 +229,11 @@ private:
     QThread *_playerModelsThread = new QThread();
     QThread *_gameControllerThread = new QThread();
 
-    IControllerBuilder<AbstractGameController, int> *_controllerBuilder;
+    IDefaultGameBuilder *_controllerBuilder;
     AbstractGameController *_gameController = nullptr;
     AbstractTournamentModelsContext *_tournamentModelsContext = nullptr;
     AbstractPlayerModelsContext *_playerModelsContext;
+    bool _usingThreads;
 
 };
 

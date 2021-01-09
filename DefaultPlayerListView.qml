@@ -1,8 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 
-import "componentFactory.js" as ComponentFactory
-
 ListComponent {
     id: playersListView
     titleBackground: "transparent"

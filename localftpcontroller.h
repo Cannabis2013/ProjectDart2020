@@ -1,16 +1,16 @@
 #ifndef FIVEHUNDREDANDONEGAME_H
 #define FIVEHUNDREDANDONEGAME_H
-
-#include "ipointlogisticinterface.h"
-
-#include "abstractgamecontroller.h"
-
+// Proprietary QT classes
 #include <QVariantList>
-
 #include <quuid.h>
 #include <qlist.h>
-
 #include <qthread.h>
+// Custom classes
+#include "abstractgamecontroller.h"
+#include "ipointlogisticinterface.h"
+#include "scoreCalculatorInterface.h"
+#include "scorevalidatorinterface.h"
+
 
 #define GAME_IS_NOT_IN_PROGRESS "Game is not in progress"
 #define GAME_WINNER_ANNOUNCEMENT(x) QString("Winner with ID: %! is declared winner").arg(x);
@@ -21,7 +21,7 @@
 
 using namespace std;
 
-class PointFTPController :public AbstractGameController
+class LocalFTPController : public AbstractGameController
 {
     Q_OBJECT
 public:
@@ -54,18 +54,16 @@ public:
         isProcessingUserInput,
         transmitInitialScore = 0x29,
     };
-    enum KeyMappings{
-        SingleModifer = 0x2A,
-        DoubleModifier = 0x2B,
-        TrippleModifier = 0x2C,
-        BullModifier,
-        BullsEyeModifier
-    };
+    // Create instance of LocalFTPController
+    static LocalFTPController* createInstance(const int &keyPoint,
+                                              const int &numberOfThrows);
+    // Set number of throws
+    LocalFTPController *setNumberOfThrows(int numberOfThrows);
     /*
      * Point suggestion section
      */
     IPointLogisticInterface<QString> *pointLogisticInterface() const;
-    AbstractGameController *setPointLogisticInterface(IPointLogisticInterface<QString> *pointLogisticInterface);
+    LocalFTPController *setPointLogisticInterface(IPointLogisticInterface<QString> *pointLogisticInterface);
 
     /*
      * Start/stop game progress
@@ -92,10 +90,8 @@ public:
     void handleAndProcessUserInput(const int &point, const int &modifierKeyCode) override;
     void handleRequestForCurrentTournamentMetaData() override;
     void handleRequestForPlayerScores() override;
-    void recieveTournamentDetails(const QUuid &tournament, const QString &winner,
-                                  const int &keyPoint,
-                                  const int &terminalKeyCode,
-                                  const int &numberOfThrows,
+    void recieveTournamentDetails(const QUuid &tournament,
+                                  const QString &winner,
                                   const PlayerPairs &assignedPlayerPairs) override;
     void recieveTournamentIndexes(const int &roundIndex,
                                   const int &setIndex,
@@ -118,7 +114,26 @@ public:
     void handleResetTournament() override;
     void handleTournamentResetSuccess() override;
 
+    /*
+     * Get/set score calculator service
+     */
+    ScoreCalculatorInterface* scoreCalculator() const;
+    LocalFTPController *setScoreCalculator(ScoreCalculatorInterface *service);
+    /*
+     * Get/set evaluator service
+     */
+
+    ScoreValidatorInterface *scoreEvaluator() const;
+    LocalFTPController *setScoreValidator(ScoreValidatorInterface *scoreEvaluator);
+
 private:
+    /*
+     * Private constructor which takes the following parameters:
+     *  - Keypoint
+     *  - Terminal condition
+     *  - Number of throws
+     */
+    LocalFTPController(const int &keyPoint,const int &numberOfThrows);
     /* Private types
      *
      * Pointdomain refers to the interval between 180 and 'targetpoint'
@@ -126,7 +141,13 @@ private:
      * TargetDomain only consists of the number zero and is regarded as the target that defines the winner
      * Points not belonging to the above domains is not in the domain at all
      */
-    enum PointDomains {InvalidDomain = 0x02,PointDomain = 0x04,CriticalDomain = 0x06, OutsideDomain = 0x08, TargetDomain = 0xa};
+    enum PointDomains {
+        InvalidDomain = 0x02,
+        PointDomain = 0x04,
+        CriticalDomain = 0x06,
+        OutsideDomain = 0x08,
+        TargetDomain = 0xa
+    };
     /*
      * Notify UI about controller state, current round index, undo/redo possibility and current user
      */
@@ -138,7 +159,6 @@ private:
     int currentSetIndex() {return _setIndex;}
     int currentThrowIndex();
     int numberOfThrows() const;
-    void setNumberOfThrows(int numberOfThrows);
     QUuid currentTournamentID() {return _currentTournament;}
     int status() {return _currentStatus;}
     void setCurrentStatus(int currentStatus);
@@ -152,11 +172,6 @@ private:
     bool canUndoTurn() ;
     bool canRedoTurn() ;
     /*
-     * terminate condition
-     *  - Get keycode that that terminates
-     */
-    int terminateConditionModifier() const;
-    /*
      * Activity check
      */
     bool isActive()
@@ -168,13 +183,6 @@ private:
      *  - Check if assigned tournament players is consistent with playercontext
      */
     void consistencyCheck();
-    // Post validation : Validate player score after updating datacontext
-    int validateCurrentState(const int &currentScore);
-    /* Pre validation :
-     *  - Validate input domain
-     *  - Validate projected player score before updating datacontext
-     */
-    int validateInput(const int &currentScore, const int &modifierKeyCode, const int &userInput);
     /*
      * Update datacontext
      */
@@ -213,8 +221,6 @@ private:
      */
     PlayerTubbles setPlayerTubblesFromPairs(PlayerPairs pairs, const int &initialThirdValue);
     void updatePlayerTubbles(const QList<int> &scores);
-    // Generate throwsuggestions
-    IPointLogisticInterface<QString> *_pointLogisticInterface;
     /*
      * Private getter methods
      */
@@ -244,9 +250,17 @@ private:
     /*
      * Status member variable
      */
+    // Status
     int _currentStatus = ControllerState::NotInitialized;
-
+    // Playernames/playerscores
     PlayerTubbles _assignedPlayerTupples;
+    //Services
+    // Calculate score
+    ScoreCalculatorInterface* _scoreCalculatorService;
+    // Generate throwsuggestions
+    IPointLogisticInterface<QString> *_pointLogisticInterface;
+    // Evaluate input
+    ScoreValidatorInterface* _scoreEvaluator;
 };
 
 

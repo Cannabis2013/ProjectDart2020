@@ -48,19 +48,15 @@ function convertInputStringToHex(inputMode)
         return TournamentContext.scoreMode;
 }
 
-function createStringModel()
-{
-    var text = gameModeSelector.currentValue;
-    var gameMode = gameModeToHex(text);
-    if(gameMode === 0x1)
-        return stringModels.firstToPostPointValues;
 
-    return [];
-}
-
-function initializeKeyPointComponent(){
-    keyPointEdit.model = createStringModel();
-    keyPointEdit.currentIndex = defaultStateValues.defaultKeyPointIndex;
+function initializeComponents(){
+    throwSpinBox.contentValue = defaultStateValues.defaultNumberOfThrows;
+    keyPointEdit.model = stringModels.fTPKeyPoints;;
+    keyPointEdit.contentValue = defaultStateValues.defaultKeyPointIndex;
+    displayHintSelector.contentValue = defaultStateValues.defaultTableHintIndex;
+    winConditionSelector.contentValue = defaultStateValues.defaultWinConditionIndex;
+    var df = defaultStateValues.defaultInputModeIndex;
+    inputModeSelector.contentValue = df;
 }
 
 function acceptAndAdd(){

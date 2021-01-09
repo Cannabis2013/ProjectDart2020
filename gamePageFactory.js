@@ -37,10 +37,11 @@ function buildScoreBoard(mode,scoreBoardMode)
 
 function buildKeyPad(mode)
 {
+    var c;
     if(mode === TournamentContext.pointMode)
-    {
-        var c = Qt.createComponent("DefaultPointKeyPad.qml");
-    }
+        c = Qt.createComponent("PointKeyPad.qml");
+    else if(mode === TournamentContext.scoreMode)
+        c = Qt.createComponent("ScoreKeyPad.qml");
     if(c === undefined)
         console.log("Something went wrong!");
     return c;
