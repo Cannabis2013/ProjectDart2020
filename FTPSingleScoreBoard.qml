@@ -5,6 +5,7 @@ import "fTPSingleScripts.js" as ScoreScripts
 
 ScoreBoard {
     id: fTPBody
+    onWidthChanged: ScoreScripts.updateScoreBoard()
     // Data related
     onClearData: fTPModel.clearData();
     // Point related
@@ -39,6 +40,7 @@ ScoreBoard {
     verticalHeaderVisible: false
 
     onAppendHeaderData: {
+        print("Recieve initial header data");
         for(var i = 0; i < data.length;i++)
         {
             var assignedPlayerName = data[i];

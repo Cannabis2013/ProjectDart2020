@@ -31,7 +31,6 @@ function updateScoreBoard()
     refreshHeaders();
 }
 
-
 function refreshHeaders()
 {
     // Refresh horizontal headers
