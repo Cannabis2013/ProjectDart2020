@@ -2,14 +2,26 @@
 #define POINTINDEXCONTROLLER_H
 
 #include "indexcontrollerinterface.h"
+#include <qlist.h>
 
 class PointIndexController : public IndexControllerInterface
 {
     // IndexControllerInterface interface
 public:
-    static PointIndexController* createInstance(const int &legCount, const int &playerCount)
+    static PointIndexController* createInstance(const int &legCount,
+                                                const int &playerCount,
+                                                const QList<int> &indexes)
     {
-        return new PointIndexController(legCount,playerCount);
+        return new PointIndexController(legCount,playerCount,indexes);
+    }
+
+    virtual void reset() override
+    {
+        _totalIndex = 0;
+        _index = 0;
+        _roundIndex = 1;
+        _setIndex = 0;
+        _legIndex = 0;
     }
 
     virtual void next() override
@@ -72,6 +84,10 @@ public:
     {
         return _index < _totalIndex;
     }
+    virtual void syncIndex() override
+    {
+        _totalIndex = _index;
+    }
     virtual int index() override
     {
         return _index;
@@ -93,8 +109,17 @@ public:
         return _legIndex;
     }
 private:
-    PointIndexController(const int &legCount, const int &playerCount):
-    _legCount(legCount),_playerCount(playerCount){}
+    PointIndexController(const int &legCount,
+                         const int &playerCount,
+                         const QList<int> &indexes) :
+    _legCount(legCount),_playerCount(playerCount)
+    {
+        _totalIndex = indexes.at(0);
+        _index = indexes.at(1);
+        _roundIndex = indexes.at(2);
+        _setIndex = indexes.at(3);
+        _legIndex = indexes.at(4);
+    }
 
     int playerCount()
     {
@@ -138,7 +163,7 @@ private:
         return _playerCount -1;
     }
 
-    int _index = 0, _totalIndex  = 0, _roundIndex = 0, _setIndex = 0, _legIndex = 0;
+    int _index = 0, _totalIndex  = 0, _roundIndex = 1, _setIndex = 0, _legIndex = 0;
     const int _legCount, _playerCount;
 };
 

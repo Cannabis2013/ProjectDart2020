@@ -171,29 +171,22 @@ void ApplicationInterface::processRecievedTournamentMetaData(const QString &titl
 
 void ApplicationInterface::handleTournamentDetailsAndSetController(const QUuid &tournament,
                                                                    const QString &winner,
-                                                                   const int &keyPoint,
-                                                                   const int &inputMode,
-                                                                   const int &terminalKeyCode,
-                                                                   const int &numberOfThrows,
-                                                                   const int &gameMode,
-                                                                   const PlayerPairs &assignedPlayerPairs)
+                                                                   const QList<int> &parameters,
+                                                                   const QList<QUuid>& playerIds,
+                                                                   const QList<QString>& playerNames,
+                                                                   const QList<int>& scores)
 {
     if(_gameController != nullptr)
         clearGameController();
+    auto gameMode = parameters.at(0);
     if(gameMode == GameModes::FirstToPost)
     {
         /*
          * Build and inject game controller
          */
-        auto playersCount = assignedPlayerPairs.count();
+
         _gameController = controllerBuilder()->buildGameController(gameMode,
-                                                                   {
-                                                                       inputMode,
-                                                                       keyPoint,
-                                                                       terminalKeyCode,
-                                                                       numberOfThrows,
-                                                                       playersCount
-                                                                   },
+                                                                   parameters,
                                                                    ContextMode::LocalContext);
         // Connect interfaces
         connectControllerInterface();
@@ -218,6 +211,7 @@ void ApplicationInterface::registerTypes()
     qRegisterMetaType<PlayerPair>("PlayerPair");
     qRegisterMetaType<PlayerPairs>("PlayerPairs");
     qRegisterMetaType<QList<QUuid>>("QList<QUuid>");
+    qRegisterMetaType<QList<int>>("QList<int>");
 }
 
 void ApplicationInterface::connectModelInterfaces()
@@ -311,15 +305,6 @@ void ApplicationInterface::connectControllerInterface()
      */
     connect(_gameController,&AbstractGameController::transmitResponse,
             this,&ApplicationInterface::transmitResponse);
-    /*
-     * Set current tournament
-     */
-    connect(this,&ApplicationInterface::sendTournamentDetails,
-            _gameController,&AbstractGameController::recieveTournamentDetails);
-    connect(_gameController,&AbstractGameController::requestTournamentIndexes,
-            _tournamentModelsContext,&AbstractTournamentModelsContext::handleRequestTournamentIndexes);
-    connect(_tournamentModelsContext,&AbstractTournamentModelsContext::sendTournamentIndexes,
-            _gameController,&AbstractGameController::recieveTournamentIndexes);
     /*
      * Send tournament metadata
      */

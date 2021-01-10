@@ -11,6 +11,7 @@
 #include "scoreCalculatorInterface.h"
 #include "inputvalidatorinterface.h"
 #include "indexcontrollerinterface.h"
+#include "userscorescontrollerinterface.h"
 
 
 #define GAME_IS_NOT_IN_PROGRESS "Game is not in progress"
@@ -19,6 +20,9 @@
 #define UNABLE_TO_ALTER_TURN "Unable to alter turn index";
 
 #include <iostream>
+
+
+typedef UserScoresControllerInterface<QUuid, QString,QList<int>> UserScoreController;
 
 using namespace std;
 
@@ -56,10 +60,7 @@ public:
         transmitInitialScore = 0x29,
     };
     // Create instance of LocalFTPController
-    static LocalFTPController* createInstance(const int &keyPoint,
-                                              const int &numberOfThrows);
-    // Set number of throws
-    LocalFTPController *setNumberOfThrows(int numberOfThrows);
+    static LocalFTPController* createInstance();
     /*
      * Point suggestion section
      */
@@ -91,15 +92,6 @@ public:
     void handleAndProcessUserInput(const int &point, const int &modifierKeyCode) override;
     void handleRequestForCurrentTournamentMetaData() override;
     void handleRequestForPlayerScores() override;
-    void recieveTournamentDetails(const QUuid &tournament,
-                                  const QString &winner,
-                                  const PlayerPairs &assignedPlayerPairs) override;
-    void recieveTournamentIndexes(const int &roundIndex,
-                                  const int &setIndex,
-                                  const int &throwIndex,
-                                  const int &turnIndex,
-                                  const int &totalTurns,
-                                  const QList<int> &playerScores) override;
 
     void handleScoreAddedToDataContext(const QUuid &playerID,
                                               const int &point,
@@ -130,6 +122,9 @@ public:
     IndexControllerInterface *indexController() const;
     LocalFTPController *setIndexController(IndexControllerInterface *indexController);
 
+    UserScoreController* scoreController() const;
+    void setScoreController(UserScoreController *scoreController);
+
 private:
     /*
      * Private constructor which takes the following parameters:
@@ -137,18 +132,12 @@ private:
      *  - Terminal condition
      *  - Number of throws
      */
-    LocalFTPController(const int &keyPoint,const int &numberOfThrows);
     /*
      * Notify UI about controller state, current round index, undo/redo possibility and current user
      */
     void sendCurrentTurnValues();
     QString currentActiveUser()  ;
     QUuid currentActivePlayerID();
-    int currentRoundIndex();
-    int currentPlayerIndex();
-    int currentSetIndex();
-    int currentThrowIndex();
-    int numberOfThrows() const;
     QUuid currentTournamentID() {return _currentTournament;}
     int status() {return _currentStatus;}
     void setCurrentStatus(int currentStatus);
@@ -183,24 +172,14 @@ private:
     /*
      * Index manipulating methods
      */
-    int currentTurnIndex();
-    bool isIndexOffset();
     void nextTurn();
     void declareWinner();
-    void incrementTurnIndex();
-    void incrementRoundIndex();
-    void incrementSetIndex();
-    void resetSetIndex();
-    void incrementThrowIndex();
-    void resetThrowIndex();
-    bool checkForEndOfSet();
     /*
      * Get/set current player score
      */
     int playerScore(const int &index);
     void setPlayerScore(const int &index, const int &newScore);
     void setPlayerScore(const QUuid &playerID, const int &newScore);
-    int playerCount(){return _assignedPlayerTupples.count();}
     /*
      * Get playername from ID
      */
@@ -209,31 +188,10 @@ private:
     /*
      * Update playertubbles
      */
-    PlayerTubbles setPlayerTubblesFromPairs(PlayerPairs pairs, const int &initialThirdValue);
     void updatePlayerTubbles(const QList<int> &scores);
     /*
      * Private getter methods
      */
-    int keyPoint() const;
-    /*
-     * Controller index values
-     */
-    int _roundIndex = 0;
-    int _setIndex = 0; // Equivalent to playerindex
-    int _throwIndex = 0; // Index of throw
-    int _totalTurns = 0;
-    int _turnIndex = 0;
-
-    int _numberOfThrows = 3;
-
-    const int defaultKeyPoint = 501;
-    const int criticalLimit = 180;
-
-    const int bullsEye = 50;
-
-    bool _isOff;
-
-    int _keyPoint = defaultKeyPoint;
     QUuid _currentTournament = QUuid();
     QString _winner;
     bool _isActive = false;
@@ -243,7 +201,6 @@ private:
     // Status
     int _currentStatus = ControllerState::NotInitialized;
     // Playernames/playerscores
-    PlayerTubbles _assignedPlayerTupples;
     //Services
     // Calculate score
     ScoreCalculatorInterface* _scoreCalculatorService;
@@ -253,6 +210,8 @@ private:
     InputValidatorInterface* _scoreEvaluator;
     // Index service
     IndexControllerInterface* _indexController;
+    // Userscore service
+    UserScoreController* _scoreController;
 };
 
 

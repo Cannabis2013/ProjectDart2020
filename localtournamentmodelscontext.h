@@ -70,7 +70,8 @@ public:
     void deleteTournaments(const QVector<int>&indexes) override;
     void handleRequestAssignedPlayers(const QUuid &tournament) override;
     void handleTransmitPlayerScores(const QUuid &tournament,
-                                    const QList<QPair<QUuid, QString> > &playerPairs) override;
+                                    const QList<QUuid> &playersId,
+                                    const QList<QString> &playerNames) override;
     void handleTransmitTournaments() override;
     void handleRequestForTournamentMetaData(const QUuid &tournament) override;
     void handleRequestTournamentDetails(const int &index) override;
@@ -145,6 +146,15 @@ private:
     void removeTournamentScores(const QUuid &tournament);
     void removeTournamentModel(const QUuid &tournament);
     void removePointModel(const QUuid &playerScore);
+
+    /*
+     * Tournament indexes
+     */
+    const QList<int> indexes(const QUuid &tournament);
+    /*
+     * Tournament scores
+     */
+    QList<int> tournamentUserScores(const QUuid &tournament);
 
     const DefaultTournamentInterface *getTournamentModelFromID(const QUuid &id);
     const DefaultScoreInterface *getScoreModelFromID(const QUuid &id);

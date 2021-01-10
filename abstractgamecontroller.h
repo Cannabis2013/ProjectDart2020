@@ -6,26 +6,6 @@
 #include <QVariantList>
 #include "iresponseinterface.h"
 
-template<class T1, class T2, class T3>
-struct Tupple
-{
-public:
-    Tupple(T1 firstArg, T2 secondArg, T3 thirdArg)
-    {
-        first = firstArg;
-        second = secondArg;
-        third = thirdArg;
-    }
-    T1 first;
-    T2 second;
-    T3 third;
-};
-
-typedef Tupple<QUuid,QString,int> PlayerTupple;
-typedef QList<PlayerTupple> PlayerTubbles;
-typedef QPair<QUuid,QString> PlayerPair;
-typedef QList<PlayerPair> PlayerPairs;
-
 class AbstractGameController : public QObject,
         public IResponseInterface<QVariantList>
 {
@@ -52,15 +32,6 @@ public slots:
 
     virtual void handleRequestForCurrentTournamentMetaData() = 0;
     virtual void handleRequestForPlayerScores() = 0;
-    virtual void recieveTournamentDetails(const QUuid &tournament,
-                                          const QString &winner,
-                                          const PlayerPairs &assignedPlayerPairs) = 0;
-    virtual void recieveTournamentIndexes(const int &roundIndex,
-                                          const int &setIndex,
-                                          const int &throwIndex,
-                                          const int &turnIndex,
-                                          const int &totalTurns,
-                                          const QList<int> &playerScores) = 0;
     virtual void handleScoreAddedToDataContext(const QUuid &playerID,
                                                       const int &point,
                                                       const int &score) = 0;
@@ -71,7 +42,9 @@ public slots:
 signals:
     void transmitResponse(const int &status, const QVariantList &args) override;
     void requestTournamentMetaData(const QUuid &tournament);
-    void sendAssignedTournamentPlayers(const QUuid &tournament, const PlayerPairs &assignedPlayerPairs);
+    void sendAssignedTournamentPlayers(const QUuid &tournament,
+                                       const QList<QUuid>& playersId,
+                                       const QList<QString>& playerNames);
     void requestTournamentIndexes(const QUuid &tournament);
     void requestAddScore(const QUuid &tournamentID,
                    const QUuid &playerID,

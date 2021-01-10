@@ -22,7 +22,7 @@ using namespace std;
 
 typedef IPlayerModel<QUuid,QString> DefaultPlayerModelInterface;
 typedef IPlayerBuilderParameters<QString,QUuid> DefaultParametersInterface;
-typedef IControllerBuilder<AbstractGameController,int,int[]> IDefaultGameBuilder;
+typedef IControllerBuilder<AbstractGameController,int,QList<int>> IDefaultGameBuilder;
 
 class ApplicationInterface : public QObject,
         public IResponseInterface<QVariantList>
@@ -205,11 +205,7 @@ private slots:
                                            const QStringList &assignedPlayerNames);
     void handleTournamentDetailsAndSetController(const QUuid &tournament,
                                                  const QString &winner,
-                                                 const int &keyPoint,
-                                                 const int &inputMode,
-                                                 const int &terminalKeyCode,
-                                                 const int &numberOfThrows,
-                                                 const int &gameMode,
+                                                 QList<int> &parameters,
                                                  const PlayerPairs &assignedPlayerPairs);
 private:
     void registerTypes();

@@ -42,6 +42,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    DefaultScoreController.h \
     IControllerBuilder.h \
     LinkedList.h \
     PointIndexController.h \
@@ -89,7 +90,8 @@ HEADERS += \
     scorecalculator.h \
     set.h \
     tournament.h \
-    tournamentmodelbuilder.h
+    tournamentmodelbuilder.h \
+    userscorescontrollerinterface.h
 
 DISTFILES += \
 

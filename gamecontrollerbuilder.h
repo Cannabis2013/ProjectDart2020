@@ -12,7 +12,7 @@
 #include "ScoreValidator.h"
 #include "PointIndexController.h"
 
-typedef IControllerBuilder<AbstractGameController,int, int[]> ControllerBuilder;
+typedef IControllerBuilder<AbstractGameController,QList<int>, QList<QUuid>, QList<QString>,QList<int>> ControllerBuilder;
 
 class GameControllerBuilder : public ControllerBuilder
 {
@@ -34,22 +34,12 @@ public:
         RemoteContext = 0x8
     };
 
-    AbstractGameController * buildGameController(const int &gameMode,
-                                                 const int (&params)[],
-                                                 const int &contextMode)
-    {
-        if(contextMode == LocalContext)
-        {
-            auto controller = createLocalController(gameMode,params);
-            return controller;
-        }
-        return nullptr;
-    }
+
 
 private:
 
     AbstractGameController* createLocalController(const int &gameMode,
-                                                  const int (&params)[])
+                                                  const QList<int> &params)
     {
         if(gameMode == GameModes::FirstToPost)
         {
@@ -60,25 +50,26 @@ private:
             return nullptr;
     }
 
-    AbstractGameController* createFTPController(const int (&params)[])
+    AbstractGameController* createFTPController(const QList<int> &params)
     {
-        auto type = params[0];
         auto keyPoint = params[1];
-        auto terminalKeyCode = params[2];
-        auto numberOfThrows = params[3];
-        auto playersCount = params[4];
+        auto numberOfThrows = params[2];
+        auto terminalKeyCode = params[3];
+        auto type = params[4];
+        auto playersCount = params[5];
+        auto indexes = params.mid(6,5);
         if(type == InputModes::PointMode)
         {
-            auto controller = LocalFTPController::createInstance(keyPoint,numberOfThrows)
+            auto controller = LocalFTPController::createInstance()
                     ->setPointLogisticInterface(PointLogisticManager::createInstance(numberOfThrows,terminalKeyCode))
                     ->setScoreCalculator(new PointScoreCalculator())
                     ->setInputValidator(PointValidator::createInstance(terminalKeyCode))
-                    ->setIndexController(PointIndexController::createInstance(numberOfThrows,playersCount));
+                    ->setIndexController(PointIndexController::createInstance(numberOfThrows,playersCount,indexes));
             return controller;
         }
         else if(type == InputModes::ScoreMode)
         {
-            auto controller = LocalFTPController::createInstance(keyPoint,numberOfThrows)
+            auto controller = LocalFTPController::createInstance()
                     ->setPointLogisticInterface(PointLogisticManager::createInstance(numberOfThrows,terminalKeyCode))
                     ->setScoreCalculator(new ScoreCalculator())
                     ->setInputValidator(ScoreValidator::createInstance(terminalKeyCode));

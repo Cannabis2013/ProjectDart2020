@@ -128,21 +128,22 @@ void LocalTournamentModelsContext::deleteTournaments(const QVector<int> &indexes
 }
 
 void LocalTournamentModelsContext::handleTransmitPlayerScores(const QUuid &tournament,
-                                                              const QList<QPair<QUuid,QString>>&playerPairs)
+                                                              const QList<QUuid> &playersId,
+                                                              const QList<QString> &playerNames)
 {
     QVariantList list;
     auto numberOfThrows = tournamentNumberOfThrows(tournament);
-    for (auto player : playerPairs) {
+    for (auto i = 0;i < playersId.count();i++) {
         auto roundIndex = 1;
         auto throwIndex = 0;
-        auto assignedPlayerID = player.first;
-        auto playerName = player.second;
+        auto playerId = playersId.at(i);
+        auto playerName = playerNames.at(i);
         while (1)
         {
             QUuid scoreID;
             try {
                 scoreID = playerScore(tournament,
-                                      assignedPlayerID,
+                                      playerId,
                                       roundIndex,
                                       throwIndex++,
                                       DisplayHint);
@@ -206,26 +207,34 @@ void LocalTournamentModelsContext::handleRequestForTournamentMetaData(const QUui
 
 void LocalTournamentModelsContext::handleRequestTournamentDetails(const int &index)
 {
+    QUuid tournamentID;
     try {
-        auto tournamentID = tournamentIDFromIndex(index);
-        auto keyPoint = tournamentKeyPoint(tournamentID);
-        auto lastThrowKeyCode = tournamentLastThrowKeyCode(tournamentID);
-        auto numberOfThrows = tournamentNumberOfThrows(tournamentID);
-        auto gameMode = tournamentGameMode(tournamentID);
-        auto inputMode = tournamentInputMode(tournamentID);
-        auto assignedPlayersID = tournamentAssignedPlayers(tournamentID);
-        auto winnerID = tournamentDeterminedWinner(tournamentID);
-        emit sendTournamentDetails(tournamentID,
-                                   winnerID,
-                                   keyPoint,
-                                   inputMode,
-                                   lastThrowKeyCode,
-                                   numberOfThrows,
-                                   gameMode,
-                                   assignedPlayersID);
+        tournamentID = tournamentIDFromIndex(index);
     }  catch (const char *msg) {
         return;
     }
+    QList<int> tournamentValues = {
+        tournamentGameMode(tournamentID),
+        tournamentKeyPoint(tournamentID),
+        tournamentNumberOfThrows(tournamentID),
+        tournamentLastThrowKeyCode(tournamentID),
+        tournamentInputMode(tournamentID)
+    };
+    QList<QUuid> assignedPlayersID;
+    try {
+        assignedPlayersID = tournamentAssignedPlayers(tournamentID);
+    }  catch (const char *msg) {
+        return;
+    }
+    auto winnerID = tournamentDeterminedWinner(tournamentID);
+    auto tournamentIndexes = indexes(tournamentID);
+    auto userScores = tournamentUserScores(tournamentID);
+    emit sendTournamentDetails(tournamentID,
+                               winnerID,
+                               tournamentValues,
+                               tournamentIndexes,
+                               assignedPlayersID,
+                               userScores);
 }
 
 void LocalTournamentModelsContext::handleRequestTournamentIndexes(const QUuid &tournament)
@@ -1053,6 +1062,60 @@ void LocalTournamentModelsContext::removePointModel(const QUuid &point)
             return;
         }
     }
+}
+
+const QList<int> LocalTournamentModelsContext::indexes(const QUuid &tournament)
+{
+    auto totalTurns = 0;
+    auto turnIndex = 0;
+    auto roundIndex = 1;
+    auto setIndex = 0;
+    auto throwIndex = 0;
+    auto assignedPlayersID = tournamentAssignedPlayers(tournament);
+    auto playersCount = assignedPlayersID.count();
+    auto numberOfThrows= tournamentNumberOfThrows(tournament);
+    while(1)
+    {
+        auto playerId = assignedPlayersID.at(setIndex);
+        try {
+            playerScore(tournament,playerId,roundIndex,throwIndex,ModelDisplayHint::DisplayHint);
+        } catch (...) {
+            break;
+        }
+        if(++throwIndex % numberOfThrows == 0)
+        {
+            throwIndex = 0;
+            setIndex++;
+            if(setIndex >= playersCount)
+            {
+                roundIndex++;
+                setIndex = 0;
+            }
+        }
+        turnIndex++;
+    }
+    if(turnIndex != 0)
+        totalTurns = playerScoreCount(ModelDisplayHint::allHints);
+
+    QList<int> indexes = {
+        totalTurns,
+        turnIndex,
+        roundIndex,
+        setIndex,
+        throwIndex
+    };
+    return indexes;
+}
+
+QList<int> LocalTournamentModelsContext::tournamentUserScores(const QUuid &tournament)
+{
+    QList<int> userScores;
+    auto assignedPlayersID = tournamentAssignedPlayers(tournament);
+    for (auto playerID : assignedPlayersID) {
+        auto s = score(tournament,playerID);
+        userScores << s;
+    }
+    return userScores;
 }
 
 int LocalTournamentModelsContext::playerScoreCount(const int &hint)

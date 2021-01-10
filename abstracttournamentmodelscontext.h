@@ -51,7 +51,8 @@ public slots:
     virtual void handleAssignPlayersToTournament(const QUuid &tournament, const QList<QUuid> &playersID) = 0;
     virtual void deleteTournaments(const QVector<int>&indexes) = 0;
     virtual void handleTransmitPlayerScores(const QUuid &tournament,
-                                            const QList<QPair<QUuid, QString> > &players) = 0;
+                                            const QList<QUuid> &playersId,
+                                            const QList<QString> &playerNames) = 0;
     virtual void handleRequestAssignedPlayers(const QUuid &tournament) = 0;
     virtual void handleTransmitTournaments() = 0;
     virtual void handleRequestForTournamentMetaData(const QUuid &tournament) = 0;
@@ -86,12 +87,9 @@ signals:
                             const QList<QUuid> &assignedPlayers);
     void sendTournamentDetails(const QUuid &tournament,
                                const QUuid &winner,
-                               const int &keyPoint,
-                               const int &inputMode,
-                               const int &terminalKeyCode,
-                               const int &numberOfThrows,
-                               const int &gameMode,
-                               const QList<QUuid> &assignedPlayersID);
+                               const QList<int> &parameters,
+                               const QList<QUuid> &assignedPlayersID,
+                               const QList<int>& scores);
     void sendTournamentIndexes(const int &roundIndex,
                                const int &setIndex,
                                const int &throwIndex,

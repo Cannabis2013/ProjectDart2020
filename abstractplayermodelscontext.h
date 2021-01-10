@@ -34,12 +34,9 @@ public slots:
     virtual void assembleListOfPlayersFromIndexes(const QVector<int> &playerIndexes) = 0;
     virtual void processTournamentDetails(const QUuid &tournament,
                                           const QUuid &winner,
-                                          const int &keyPoint,
-                                          const int &inputMode,
-                                          const int &terminalKeyCode,
-                                          const int &numberOfThrows,
-                                          const int &gameMode,
-                                          const QList<QUuid> &players) = 0;
+                                          const QList<int> &parameters,
+                                          const QList<QUuid> &assignedPlayersID,
+                                          const QList<int> &scores) = 0;
 
     virtual void handleAndProcessTournamentMetaData(const QString &title,
                                                     const int &gameMode,
@@ -59,13 +56,11 @@ signals:
     void sendPlayerDetails(const QString &playerName, const QString &mail);
     void sendPlayersID(const QList<QUuid> &playersID);
     void sendTournamentDetails(const QUuid &tournament,
-                               const QString &winner,
-                               const int &keyPoint,
-                               const int &inputMode,
-                               const int &terminalKeyCode,
-                               const int &numberOfThrows,
-                               const int &gameMode,
-                               const PlayerPairs &assignedPlayerPairs);
+                               const QUuid &winner,
+                               const QList<int> &parameters,
+                               const QList<QUuid> &playerIds,
+                               const QList<QString>& playerNames,
+                               const QList<int>& scores);
     void sendProcessedTournamentMetaData(const QString &title,
                                          const int &gameMode,
                                          const int &keyPoint,

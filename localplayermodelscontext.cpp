@@ -18,36 +18,28 @@ void LocalPlayerModelsContext::assembleListOfPlayersFromIndexes(const QVector<in
 
 void LocalPlayerModelsContext::processTournamentDetails(const QUuid &tournament,
                                                         const QUuid &winner,
-                                                        const int &keyPoint,
-                                                        const int &inputMode,
-                                                        const int &terminalKeyCode,
-                                                        const int &numberOfThrows,
-                                                        const int &gameMode,
-                                                        const QList<QUuid> &players)
+                                                        const QList<int> &parameters,
+                                                        const QList<QUuid> &playerIds,
+                                                        const QList<int>& scores)
 {
-    QList<QPair<QUuid,QString>> resultingList;
-    for (int i = 0; i <players.count();i++) {
-        auto playerID = players.at(i);
+    QList<QString> resultingList;
+    for (int i = 0; i <playerIds.count();i++) {
+        auto playerID = playerIds.at(i);
         auto playerName = this->playerName(playerID);
         if(playerName == QString())
         {
             emit transmitResponse(ContextResponse::InconsistencyDetected,{tournament});
             return;
         }
-
-        auto pair = QPair<QUuid,QString>(playerID,playerName);
-
-        resultingList << pair;
+        resultingList << playerName;
     }
     auto winnerName = playerName(winner);
     emit sendTournamentDetails(tournament,
                                winnerName,
-                               keyPoint,
-                               inputMode,
-                               terminalKeyCode,
-                               numberOfThrows,
-                               gameMode,
-                               resultingList);
+                               parameters,
+                               playerIds,
+                               resultingList,
+                               scores);
 }
 
 void LocalPlayerModelsContext::handleAndProcessTournamentMetaData(const QString &title,

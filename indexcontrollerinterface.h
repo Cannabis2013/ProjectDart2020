@@ -4,6 +4,7 @@
 class IndexControllerInterface
 {
 public:
+    virtual void reset() = 0;
     virtual void next() = 0;
 
     virtual void undo() = 0;
@@ -11,6 +12,8 @@ public:
 
     virtual bool canUndo() = 0;
     virtual bool canRedo() = 0;
+
+    virtual void syncIndex() = 0;
 
     virtual int index() = 0;
     virtual int totalIndex() = 0;
