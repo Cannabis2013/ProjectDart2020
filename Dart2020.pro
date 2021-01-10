@@ -44,6 +44,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     IControllerBuilder.h \
     LinkedList.h \
+    PointIndexController.h \
+    ScoreValidator.h \
     abstractgamecontroller.h \
     abstractjsonpersistence.h \
     abstractpersistence.h \
@@ -55,6 +57,8 @@ HEADERS += \
     idatacontext.h \
     imodel.h \
     imodelsdbcontext.h \
+    indexcontrollerinterface.h \
+    inputvalidatorinterface.h \
     iplayerbuildercontext.h \
     iplayercontext.h \
     iplayermodel.h \
@@ -83,7 +87,6 @@ HEADERS += \
     score.h \
     scoreCalculatorInterface.h \
     scorecalculator.h \
-    scorevalidatorinterface.h \
     set.h \
     tournament.h \
     tournamentmodelbuilder.h

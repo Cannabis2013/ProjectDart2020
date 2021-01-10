@@ -9,7 +9,8 @@
 #include "abstractgamecontroller.h"
 #include "ipointlogisticinterface.h"
 #include "scoreCalculatorInterface.h"
-#include "scorevalidatorinterface.h"
+#include "inputvalidatorinterface.h"
+#include "indexcontrollerinterface.h"
 
 
 #define GAME_IS_NOT_IN_PROGRESS "Game is not in progress"
@@ -123,8 +124,11 @@ public:
      * Get/set evaluator service
      */
 
-    ScoreValidatorInterface *scoreEvaluator() const;
-    LocalFTPController *setScoreValidator(ScoreValidatorInterface *scoreEvaluator);
+    InputValidatorInterface *scoreEvaluator() const;
+    LocalFTPController *setInputValidator(InputValidatorInterface *scoreEvaluator);
+
+    IndexControllerInterface *indexController() const;
+    LocalFTPController *setIndexController(IndexControllerInterface *indexController);
 
 private:
     /*
@@ -134,29 +138,15 @@ private:
      *  - Number of throws
      */
     LocalFTPController(const int &keyPoint,const int &numberOfThrows);
-    /* Private types
-     *
-     * Pointdomain refers to the interval between 180 and 'targetpoint'
-     * CriticalDomain refers to points below or equal 180 but greater than zero
-     * TargetDomain only consists of the number zero and is regarded as the target that defines the winner
-     * Points not belonging to the above domains is not in the domain at all
-     */
-    enum PointDomains {
-        InvalidDomain = 0x02,
-        PointDomain = 0x04,
-        CriticalDomain = 0x06,
-        OutsideDomain = 0x08,
-        TargetDomain = 0xa
-    };
     /*
      * Notify UI about controller state, current round index, undo/redo possibility and current user
      */
     void sendCurrentTurnValues();
     QString currentActiveUser()  ;
     QUuid currentActivePlayerID();
-    int currentRoundIndex()  {return _roundIndex;}
-    int currentPlayerIndex()  {return _setIndex;}
-    int currentSetIndex() {return _setIndex;}
+    int currentRoundIndex();
+    int currentPlayerIndex();
+    int currentSetIndex();
     int currentThrowIndex();
     int numberOfThrows() const;
     QUuid currentTournamentID() {return _currentTournament;}
@@ -259,8 +249,10 @@ private:
     ScoreCalculatorInterface* _scoreCalculatorService;
     // Generate throwsuggestions
     IPointLogisticInterface<QString> *_pointLogisticInterface;
-    // Evaluate input
-    ScoreValidatorInterface* _scoreEvaluator;
+    // Validator service
+    InputValidatorInterface* _scoreEvaluator;
+    // Index service
+    IndexControllerInterface* _indexController;
 };
 
 

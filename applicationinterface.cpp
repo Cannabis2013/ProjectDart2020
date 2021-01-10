@@ -185,12 +185,14 @@ void ApplicationInterface::handleTournamentDetailsAndSetController(const QUuid &
         /*
          * Build and inject game controller
          */
+        auto playersCount = assignedPlayerPairs.count();
         _gameController = controllerBuilder()->buildGameController(gameMode,
                                                                    {
                                                                        inputMode,
                                                                        keyPoint,
                                                                        terminalKeyCode,
-                                                                       numberOfThrows
+                                                                       numberOfThrows,
+                                                                       playersCount
                                                                    },
                                                                    ContextMode::LocalContext);
         // Connect interfaces

@@ -90,3 +90,19 @@ function handleClearPadClicked()
         return;
     scoreView.takeCharacter();
 }
+
+function handleScoreViewValueChanged(text)
+{
+    if(text.length > 0)
+        submitPad.text = submitPadTextValues.scoreEnted;
+    else
+        submitPad.text = submitPadTextValues.noScoreEnted;
+}
+
+function handleSubmitpadClicked()
+{
+    var currentText = scoreView.currentText;
+    scoreView.clearView();
+    sendInput(currentText,0x1);
+
+}

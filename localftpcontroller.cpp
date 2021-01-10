@@ -39,22 +39,23 @@ void LocalFTPController::handleAndProcessUserInput(const int &point,
     _currentStatus = ControllerState::AddScoreState;
     // Calculate score
     auto score = scoreCalculator()->calculateScore(point,modifierKeyCode);
-    auto currentScore = playerScore(_setIndex);
+    auto currentScore = playerScore(currentSetIndex());
     auto newScore = currentScore - score;
 
     // Evaluate input according to point domain and aggregated sum domain
-    auto domain = scoreEvaluator()->evaluateScore(newScore,modifierKeyCode,point);
+    auto domain = scoreEvaluator()->validateInput(newScore,modifierKeyCode,point);
     switch (domain)
     {
-        case PointDomains::InvalidDomain : throw INVALID_DOMAIN;
-        case PointDomains::PointDomain : addPoint(score,newScore);break;
-        case PointDomains::CriticalDomain : addPoint(score,newScore);break;
-        case PointDomains::TargetDomain : {
+        // In case user enters scores above 180
+        case InputValidatorInterface::InputOutOfRange : sendCurrentTurnValues(); break;
+        case InputValidatorInterface::PointDomain : addPoint(score,newScore);break;
+        case InputValidatorInterface::CriticalDomain : addPoint(score,newScore);break;
+        case InputValidatorInterface::TargetDomain : {
             declareWinner();
             addPoint(score,newScore);
             break;
         }
-    case PointDomains::OutsideDomain : addPoint(0,currentScore);break;
+        case InputValidatorInterface::OutsideDomain : addPoint(0,currentScore);break;
     }
 }
 
@@ -195,21 +196,38 @@ void LocalFTPController::sendCurrentTurnValues()
 
 QString LocalFTPController::currentActiveUser()
 {
-    auto tupple = _assignedPlayerTupples.at(currentSetIndex());
+    auto index = currentSetIndex();
+    auto tupple = _assignedPlayerTupples.at(index);
     auto playerName = tupple.second;
     return playerName;
 }
 
 QUuid LocalFTPController::currentActivePlayerID()
 {
-    auto tupple = _assignedPlayerTupples.at(currentSetIndex());
+    auto index = currentSetIndex();
+    auto tupple = _assignedPlayerTupples.at(index);
     auto playerID = tupple.first;
     return playerID;
 }
 
+int LocalFTPController::currentRoundIndex()
+{
+    return indexController()->roundIndex();
+}
+
+int LocalFTPController::currentPlayerIndex()
+{
+    return indexController()->roundIndex();
+}
+
+int LocalFTPController::currentSetIndex()
+{
+    return indexController()->setIndex();
+}
+
 int LocalFTPController::currentThrowIndex()
 {
-    return _throwIndex;
+    return indexController()->legIndex();
 }
 
 int LocalFTPController::lastPlayerIndex()
@@ -224,90 +242,46 @@ int LocalFTPController::playerIndex()
 
 QUuid LocalFTPController::undoTurn()
 {
-    if(_turnIndex <= 0)
+    if(status() == ControllerState::WinnerDeclared)
         return QUuid();
-    else if(status() == ControllerState::WinnerDeclared)
-        return QUuid();
-
     _currentStatus = ControllerState::UndoState;
-
-    _turnIndex--;
-    if(_throwIndex > 0)
-    {
-        _throwIndex--;
-        emit requestSetModelHint(currentTournamentID(),
-                                 currentActivePlayerID(),
-                                 currentRoundIndex(),
-                                 currentThrowIndex(),
-                                 ModelDisplayHint::HiddenHint);
-        return _assignedPlayerTupples.at(_setIndex).first;
-    }
-
-    _throwIndex = 2;
-
-    if(_setIndex == 0)
-    {
-        _setIndex = lastPlayerIndex();
-        _roundIndex--;
-    }
-    else
-    {
-        _setIndex--;
-    }
+    indexController()->undo();
     emit requestSetModelHint(currentTournamentID(),
                              currentActivePlayerID(),
                              currentRoundIndex(),
                              currentThrowIndex(),
                              ModelDisplayHint::HiddenHint);
-    return _assignedPlayerTupples.at(_setIndex).first;
+    auto index = currentSetIndex();
+    return _assignedPlayerTupples.at(index).first;
 }
 
 QUuid LocalFTPController::redoTurn()
 {
-    if(_turnIndex >= _totalTurns)
-        return QUuid();
-    else if(status() == ControllerState::WinnerDeclared)
-        return QUuid();
-
+    setCurrentStatus(ControllerState::RedoState);
     auto activeUser = currentActivePlayerID();
     auto roundIndex = currentRoundIndex();
     auto throwIndex = currentThrowIndex();
-
-    _currentStatus = ControllerState::RedoState;
-
-    if(++_throwIndex >= _numberOfThrows)
-    {
-        _throwIndex = 0;
-        if(_setIndex == lastPlayerIndex())
-        {
-            _setIndex = 0;
-            _roundIndex++;
-        }
-        else
-            _setIndex++;
-    }
-    _turnIndex++;
+    indexController()->redo();
     emit requestSetModelHint(currentTournamentID(),
                              activeUser,
                              roundIndex,
                              throwIndex,
                              ModelDisplayHint::DisplayHint);
-    return _assignedPlayerTupples.at(_setIndex).first;
+    auto index = currentSetIndex();
+    return _assignedPlayerTupples.at(index).first;
 }
 
 
 bool LocalFTPController::canUndoTurn()
 {
-    if(status() == ControllerState::WinnerDeclared)
-        return false;
-    return _turnIndex > 0;
+    auto result = indexController()->canUndo();
+    return result;
 }
 
 bool LocalFTPController::canRedoTurn()
 {
-    if(status() == ControllerState::WinnerDeclared)
-        return false;
-    return _turnIndex < _totalTurns;
+    auto result = indexController()->canRedo();
+    return result;
 }
 
 void LocalFTPController::addPoint(const int &point, const int &score)
@@ -378,20 +352,7 @@ void LocalFTPController::handleRequestFromUI()
 
 void LocalFTPController::nextTurn()
 {
-    incrementTurnIndex();
-    if(checkForEndOfSet())
-    {
-        incrementSetIndex();
-        resetThrowIndex();
-        if(currentSetIndex() >= playerCount()){
-            incrementRoundIndex();
-            resetSetIndex();
-        }
-    }
-    else
-    {
-        incrementThrowIndex();
-    }
+    indexController()->next();
     _currentStatus = ControllerState::AwaitsInput;
     sendCurrentTurnValues();
 }
@@ -519,12 +480,23 @@ int LocalFTPController::keyPoint() const
     return _keyPoint;
 }
 
-ScoreValidatorInterface *LocalFTPController::scoreEvaluator() const
+IndexControllerInterface *LocalFTPController::indexController() const
+{
+    return _indexController;
+}
+
+LocalFTPController* LocalFTPController::setIndexController(IndexControllerInterface *indexController)
+{
+    _indexController = indexController;
+    return this;
+}
+
+InputValidatorInterface *LocalFTPController::scoreEvaluator() const
 {
     return _scoreEvaluator;
 }
 
-LocalFTPController* LocalFTPController::setScoreValidator(ScoreValidatorInterface *scoreEvaluator)
+LocalFTPController* LocalFTPController::setInputValidator(InputValidatorInterface *scoreEvaluator)
 {
     _scoreEvaluator = scoreEvaluator;
     return this;

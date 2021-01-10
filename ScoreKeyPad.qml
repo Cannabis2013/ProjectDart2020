@@ -14,6 +14,12 @@ KeyPadInterface {
     onInternalHotKeyClicked: sendInput(value,1)
     onInternalKeyClicked: Scripts.handleNumberPadClicked(value);
 
+    QtObject{
+        id: submitPadTextValues
+        readonly property string noScoreEnted: "Bust"
+        readonly property string scoreEnted: "Submit"
+    }
+
     GridLayout{
         id: keyPadLayout
         anchors.fill: parent
@@ -29,6 +35,7 @@ KeyPadInterface {
             Layout.row: 0
             Layout.column: 2
             backgroundColor: "white"
+            onValueChanged: Scripts.handleScoreViewValueChanged(value)
         }
         KeyPadItem{
             id: clearPad
@@ -45,6 +52,7 @@ KeyPadInterface {
             Layout.column: 4
             text: "Bust"
             backgroundColor: "red"
+            onClicked: Scripts.handleSubmitpadClicked()
         }
     }
     Component.onCompleted: Scripts.assembleKeyPad()

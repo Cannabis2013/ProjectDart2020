@@ -1,11 +1,10 @@
-#ifndef POINTVALIDATOR_H
-#define POINTVALIDATOR_H
+#ifndef SCOREVALIDATOR_H
+#define SCOREVALIDATOR_H
 
 #include "inputvalidatorinterface.h"
 
-class PointValidator : public InputValidatorInterface
+class ScoreValidator : public InputValidatorInterface
 {
-    // ScoreEvaluatorInterface interface
 public:
     enum KeyMappings{
         SingleModifer = 0x2A,
@@ -14,13 +13,13 @@ public:
         BullModifier,
         BullsEyeModifier
     };
-    static PointValidator* createInstance(const int& terminalKeyCode)
+    // Create instance
+    static ScoreValidator* createInstance(const int &terminalKeyCode)
     {
-        return new PointValidator(terminalKeyCode);
+        return new ScoreValidator(terminalKeyCode);
     }
-    virtual int validateInput(const int &currentScore,
-                              const int &keyCode,
-                              const int &input) const override
+    // InputValidatorInterface interface
+    virtual int validateInput(const int &currentScore, const int &, const int &input) const override
     {
         int minimumAllowedScore = 2;
         if(terminalKeyCode() == KeyMappings::SingleModifer)
@@ -30,37 +29,34 @@ public:
         else
             minimumAllowedScore = 3;
 
+        if(input > maxAllowedInput())
+            return InputOutOfRange;
 
         if(currentScore > maxAllowedInput())
             return PointDomain;
         else if(currentScore <= maxAllowedInput() &&
                 currentScore >= minimumAllowedScore)
             return CriticalDomain;
-        else if(currentScore == 0 && (keyCode == terminalKeyCode() ||
-                                      input == bullsEye()))
+        else if(currentScore == 0)
             return TargetDomain;
         else
             return OutsideDomain;
     }
-    int bullsEye() const
-    {
-        return _bullsEye;
-    }
 
-private:
-    PointValidator(const int& terminalCondition):
-        _terminalKeyCode(terminalCondition){}
     int terminalKeyCode() const
     {
         return _terminalKeyCode;
     }
+
     int maxAllowedInput() const
     {
         return _maxAllowedInput;
     }
-    const int _maxAllowedInput = 180;
+private:
+    ScoreValidator(const int &terminalKeyCode):
+        _terminalKeyCode(terminalKeyCode){}
     const int _terminalKeyCode;
-    const int _bullsEye = 50;
+    const int _maxAllowedInput = 180;
 };
 
 
@@ -68,5 +64,4 @@ private:
 
 
 
-
-#endif // POINTVALIDATOR_H
+#endif // SCOREVALIDATOR_H

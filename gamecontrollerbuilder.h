@@ -4,10 +4,13 @@
 #include "IControllerBuilder.h"
 #include "abstractgamecontroller.h"
 #include "localftpcontroller.h"
+// Include services
 #include "pointlogisticmanager.h"
 #include "pointScoreCalculator.h"
 #include "scorecalculator.h"
 #include "pointvalidator.h"
+#include "ScoreValidator.h"
+#include "PointIndexController.h"
 
 typedef IControllerBuilder<AbstractGameController,int, int[]> ControllerBuilder;
 
@@ -63,19 +66,22 @@ private:
         auto keyPoint = params[1];
         auto terminalKeyCode = params[2];
         auto numberOfThrows = params[3];
+        auto playersCount = params[4];
         if(type == InputModes::PointMode)
         {
             auto controller = LocalFTPController::createInstance(keyPoint,numberOfThrows)
                     ->setPointLogisticInterface(PointLogisticManager::createInstance(numberOfThrows,terminalKeyCode))
                     ->setScoreCalculator(new PointScoreCalculator())
-                    ->setScoreValidator(new PointValidator(terminalKeyCode));
+                    ->setInputValidator(PointValidator::createInstance(terminalKeyCode))
+                    ->setIndexController(PointIndexController::createInstance(numberOfThrows,playersCount));
             return controller;
         }
         else if(type == InputModes::ScoreMode)
         {
             auto controller = LocalFTPController::createInstance(keyPoint,numberOfThrows)
                     ->setPointLogisticInterface(PointLogisticManager::createInstance(numberOfThrows,terminalKeyCode))
-                    ->setScoreCalculator(new ScoreCalculator());
+                    ->setScoreCalculator(new ScoreCalculator())
+                    ->setInputValidator(ScoreValidator::createInstance(terminalKeyCode));
             return controller;
         }
         return nullptr;

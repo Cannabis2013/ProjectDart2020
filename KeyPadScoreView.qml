@@ -5,6 +5,9 @@ import "scoreViewScripts.js" as Scripts
 
 Item {
     id: scoreViewBody
+    // Font size
+    property int fontSize: 28
+    onFontSizeChanged: scoreViewTextEdit.font.pointSize = fontSize
     // background color and font color
     property color backgroundColor: "transparent"
     onBackgroundColorChanged: scoreViewRect.color = backgroundColor
@@ -16,6 +19,8 @@ Item {
     onAppendCharacter: Scripts.appendCharacter(c)
     signal takeCharacter
     onTakeCharacter: Scripts.takeLastCharacter()
+    signal clearView()
+    onClearView: scoreViewTextEdit.clear()
     // Notify state change
     signal valueChanged(var value)
     Rectangle{
@@ -31,7 +36,7 @@ Item {
         readOnly: true
         horizontalAlignment: TextEdit.AlignHCenter
         verticalAlignment: TextEdit.AlignVCenter
-        font.pointSize: 32
+        font.pointSize: scoreViewBody.fontSize
         onTextChanged: valueChanged(text)
         MouseArea{
             anchors.fill: parent
