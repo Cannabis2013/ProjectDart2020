@@ -40,9 +40,9 @@ public:
     };
     enum UserRoles{Admin = 0x0, Player = 0x02};
 
-    AbstractPlayerModelsContext *setup() override;
+    LocalPlayerModelsContext* setup();
 
-    static AbstractPlayerModelsContext* createInstance()
+    static LocalPlayerModelsContext* createInstance()
     {
         return new LocalPlayerModelsContext();
     }
@@ -53,8 +53,8 @@ public:
     void write() override;
 
     DefaultPlayerBuilder *playerBuilder();
-    AbstractPlayerModelsContext* setPlayerBuilder(DefaultPlayerBuilder *builder) override;
-    AbstractPlayerModelsContext* setModelDBContext(ImodelsDBContext<DefaultPlayerModelInterface, QUuid> *context) override;
+    LocalPlayerModelsContext* setPlayerBuilder(DefaultPlayerBuilder *builder);
+    LocalPlayerModelsContext* setModelDBContext(ImodelsDBContext<DefaultPlayerModelInterface, QUuid> *context);
 public slots:
     void createPlayer(const QString &name, const QString &mail) override;
     void deletePlayer(const int &index) override;
@@ -63,7 +63,6 @@ public slots:
     void processTournamentDetails(const QUuid &tournament,
                                   const QUuid &winner,
                                   const QList<int> &parameters,
-                                  const QList<int> &indexes,
                                   const QList<QUuid> &playerIds,
                                   const QList<int> &scores) override;
     void handleAndProcessTournamentMetaData(const QString &title,

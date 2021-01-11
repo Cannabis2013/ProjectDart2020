@@ -23,10 +23,6 @@ class AbstractPlayerModelsContext : public QObject,
     Q_OBJECT
 public:
     virtual ~AbstractPlayerModelsContext()=default;
-
-    virtual AbstractPlayerModelsContext* setup() = 0;
-    virtual AbstractPlayerModelsContext* setPlayerBuilder(DefaultPlayerBuilder *builder) = 0;
-    virtual AbstractPlayerModelsContext *setModelDBContext(ImodelsDBContext<DefaultPlayerModelInterface,QUuid> *context) = 0;
 public slots:
     virtual void createPlayer(const QString &name, const QString &mail) = 0;
     virtual void deletePlayer(const int &index) = 0;
@@ -35,7 +31,7 @@ public slots:
     virtual void processTournamentDetails(const QUuid &tournament,
                                           const QUuid &winner,
                                           const QList<int> &parameters,
-                                          const QList<QUuid> &assignedPlayersID,
+                                          const QList<QUuid> &playerIds,
                                           const QList<int> &scores) = 0;
 
     virtual void handleAndProcessTournamentMetaData(const QString &title,
@@ -55,10 +51,10 @@ signals:
     void transmitResponse(const int &status, const QVariantList &arguments) override;
     void sendPlayerDetails(const QString &playerName, const QString &mail);
     void sendPlayersID(const QList<QUuid> &playersID);
-    void sendTournamentDetails(const QUuid &tournament,
-                               const QUuid &winner,
-                               const QList<int> &parameters,
-                               const QList<QUuid> &playerIds,
+    void sendTournamentDetails(const QUuid& tournament,
+                               const QUuid& winner,
+                               const QList<int>& parameters,
+                               const QList<QUuid>& playerIds,
                                const QList<QString>& playerNames,
                                const QList<int>& scores);
     void sendProcessedTournamentMetaData(const QString &title,

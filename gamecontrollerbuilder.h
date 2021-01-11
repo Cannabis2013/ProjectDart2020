@@ -11,8 +11,9 @@
 #include "pointvalidator.h"
 #include "ScoreValidator.h"
 #include "PointIndexController.h"
+#include "ftpscorecontroller.h"
 
-typedef IControllerBuilder<AbstractGameController,QList<int>, QList<QUuid>, QList<QString>,QList<int>> ControllerBuilder;
+typedef IControllerBuilder<AbstractGameController,QUuid,QList<int>, QList<QUuid>, QList<QString>,QList<int>> ControllerBuilder;
 
 class GameControllerBuilder : public ControllerBuilder
 {
@@ -34,45 +35,35 @@ public:
         RemoteContext = 0x8
     };
 
-
-
-private:
-
-    AbstractGameController* createLocalController(const int &gameMode,
-                                                  const QList<int> &params)
+    virtual AbstractGameController *assembleFTPGameController(const QUuid &tournament,
+                                                              const QUuid &winner,
+                                                              const QList<int> &parameters,
+                                                              const QList<QUuid> &userIds,
+                                                              const QList<QString> &userNames,
+                                                              const QList<int> &userScores) override
     {
-        if(gameMode == GameModes::FirstToPost)
-        {
-            auto controller = createFTPController(params);
-            return controller;
-        }
-        else
-            return nullptr;
-    }
-
-    AbstractGameController* createFTPController(const QList<int> &params)
-    {
-        auto keyPoint = params[1];
-        auto numberOfThrows = params[2];
-        auto terminalKeyCode = params[3];
-        auto type = params[4];
-        auto playersCount = params[5];
-        auto indexes = params.mid(6,5);
+        auto numberOfThrows = parameters[2];
+        auto terminalKeyCode = parameters[3];
+        auto type = parameters[4];
+        auto indexes = parameters.mid(5,5);
+        auto playersCount = userIds.count();
         if(type == InputModes::PointMode)
         {
-            auto controller = LocalFTPController::createInstance()
+            auto controller = LocalFTPController::createInstance(tournament)
                     ->setPointLogisticInterface(PointLogisticManager::createInstance(numberOfThrows,terminalKeyCode))
                     ->setScoreCalculator(new PointScoreCalculator())
                     ->setInputValidator(PointValidator::createInstance(terminalKeyCode))
-                    ->setIndexController(PointIndexController::createInstance(numberOfThrows,playersCount,indexes));
+                    ->setIndexController(PointIndexController::createInstance(numberOfThrows,playersCount,indexes))
+                    ->setScoreController(FTPScoreController::createInstance(userIds,userNames,userScores));
             return controller;
         }
         else if(type == InputModes::ScoreMode)
         {
-            auto controller = LocalFTPController::createInstance()
+            auto controller = LocalFTPController::createInstance(tournament)
                     ->setPointLogisticInterface(PointLogisticManager::createInstance(numberOfThrows,terminalKeyCode))
                     ->setScoreCalculator(new ScoreCalculator())
-                    ->setInputValidator(ScoreValidator::createInstance(terminalKeyCode));
+                    ->setInputValidator(ScoreValidator::createInstance(terminalKeyCode))
+                    ->setScoreController(FTPScoreController::createInstance(userIds,userNames,userScores));
             return controller;
         }
         return nullptr;

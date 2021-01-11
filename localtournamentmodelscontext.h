@@ -52,14 +52,14 @@ public:
     /*
      * Create and setup instance
      */
-    static AbstractTournamentModelsContext* createInstance();
-    AbstractTournamentModelsContext *setup() override;
+    static LocalTournamentModelsContext *createInstance();
+    LocalTournamentModelsContext* setup();
 
     /*
      * Model builder
      */
-    AbstractTournamentModelsContext *setModelBuilder(DefaultTournamentModelBuilder *builder) override;
-    DefaultTournamentModelBuilder *modelBuilder() override;
+    LocalTournamentModelsContext *setModelBuilder(DefaultTournamentModelBuilder *builder);
+    DefaultTournamentModelBuilder *modelBuilder();
     /*
      * Handle requests from external context
      */
@@ -75,7 +75,6 @@ public:
     void handleTransmitTournaments() override;
     void handleRequestForTournamentMetaData(const QUuid &tournament) override;
     void handleRequestTournamentDetails(const int &index) override;
-    void handleRequestTournamentIndexes(const QUuid &tournament) override;
     void addScore(const QUuid &tournament,
                   const QUuid &player,
                   const QList<int> &dataValues,
@@ -87,7 +86,7 @@ public:
                                                const int &hint) override;
     void handleResetTournament(const QUuid &tournament) override;
     ImodelsDBContext<IModel<QUuid>, QString> *modelDBContext() const;
-    AbstractTournamentModelsContext *setModelDBContext(ImodelsDBContext<IModel<QUuid>, QString> *context) override;
+    LocalTournamentModelsContext* setModelDBContext(ImodelsDBContext<IModel<QUuid>, QString> *context);
 
 private:
     /*

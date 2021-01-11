@@ -32,18 +32,18 @@ LocalTournamentModelsContext::~LocalTournamentModelsContext()
 {
 }
 
-AbstractTournamentModelsContext *LocalTournamentModelsContext::createInstance()
+LocalTournamentModelsContext *LocalTournamentModelsContext::createInstance()
 {
     return new LocalTournamentModelsContext();
 }
 
-AbstractTournamentModelsContext *LocalTournamentModelsContext::setup()
+LocalTournamentModelsContext* LocalTournamentModelsContext::setup()
 {
     read();
     return this;
 }
 
-AbstractTournamentModelsContext *LocalTournamentModelsContext::setModelBuilder(DefaultTournamentModelBuilder *builder)
+LocalTournamentModelsContext *LocalTournamentModelsContext::setModelBuilder(DefaultTournamentModelBuilder *builder)
 {
     _tournamentModelBuilder = builder;
     return this;
@@ -227,59 +227,12 @@ void LocalTournamentModelsContext::handleRequestTournamentDetails(const int &ind
         return;
     }
     auto winnerID = tournamentDeterminedWinner(tournamentID);
-    auto tournamentIndexes = indexes(tournamentID);
+    tournamentValues += indexes(tournamentID);
     auto userScores = tournamentUserScores(tournamentID);
     emit sendTournamentDetails(tournamentID,
                                winnerID,
                                tournamentValues,
-                               tournamentIndexes,
                                assignedPlayersID,
-                               userScores);
-}
-
-void LocalTournamentModelsContext::handleRequestTournamentIndexes(const QUuid &tournament)
-{
-    auto roundIndex = 1;
-    auto setIndex = 0;
-    auto throwIndex = 0;
-    auto turnIndex = 0;
-    auto assignedPlayersID = tournamentAssignedPlayers(tournament);
-    auto playersCount = assignedPlayersID.count();
-    auto numberOfThrows= tournamentNumberOfThrows(tournament);
-    auto totalTurns = 0;
-    while(1)
-    {
-        auto playerId = assignedPlayersID.at(setIndex);
-        try {
-            playerScore(tournament,playerId,roundIndex,throwIndex,ModelDisplayHint::DisplayHint);
-        } catch (...) {
-            break;
-        }
-        if(++throwIndex % numberOfThrows == 0)
-        {
-            throwIndex = 0;
-            setIndex++;
-            if(setIndex >= playersCount)
-            {
-                roundIndex++;
-                setIndex = 0;
-            }
-        }
-        turnIndex++;
-    }
-    if(turnIndex != 0)
-        totalTurns = playerScoreCount(ModelDisplayHint::allHints);
-
-    QList<int> userScores;
-    for (auto playerID : assignedPlayersID) {
-        auto s = score(tournament,playerID);
-        userScores << s;
-    }
-    emit sendTournamentIndexes(roundIndex,
-                               setIndex,
-                               throwIndex,
-                               turnIndex,
-                               totalTurns,
                                userScores);
 }
 
@@ -1029,7 +982,7 @@ ImodelsDBContext<IModel<QUuid>, QString> *LocalTournamentModelsContext::modelDBC
     return _dbContext;
 }
 
-AbstractTournamentModelsContext *LocalTournamentModelsContext::setModelDBContext(ImodelsDBContext<IModel<QUuid>,
+LocalTournamentModelsContext* LocalTournamentModelsContext::setModelDBContext(ImodelsDBContext<IModel<QUuid>,
                                                                                  QString> *context)
 {
     _dbContext = context;

@@ -2,6 +2,7 @@
 #define ICONTROLLERBUILDER_H
 
 template<class TControllerInterface,
+         class TUuid,
          class TParameter,
          class TUserIds,
          class TUserNames,
@@ -9,11 +10,12 @@ template<class TControllerInterface,
 class IControllerBuilder
 {
 public:
-    virtual TControllerInterface *assembleFTPGameController(const TParameter &parameters,
+    virtual TControllerInterface *assembleFTPGameController(const TUuid &tournament,
+                                                            const TUuid &winner,
+                                                            const TParameter &parameters,
                                                             const TUserIds& userIds,
                                                             const TUserNames& userNames,
-                                                            const TScores& scores,
-                                                            const int &contextMode) = 0;
+                                                            const TScores& scores) = 0;
 };
 
 #endif // ICONTROLLERBUILDER_H

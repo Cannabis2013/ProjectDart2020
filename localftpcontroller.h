@@ -53,20 +53,25 @@ public:
         isStopped = 0x3A,
         ScoreTransmit = 0x27,
         ScoreRemove = 0x28,
-        controllerInitializedAndAwaitsInput = 0x2D,
-        controllerInitializedAndReady = 0x45,
+        initializedAndAwaitsInput = 0x2D,
+        initializedAndReady = 0x45,
         WinnerFound = 0x3E,
         isProcessingUserInput,
         transmitInitialScore = 0x29,
     };
     // Create instance of LocalFTPController
-    static LocalFTPController* createInstance();
+    static LocalFTPController* createInstance(const QUuid &tournament);
     /*
      * Point suggestion section
      */
     IPointLogisticInterface<QString> *pointLogisticInterface() const;
     LocalFTPController *setPointLogisticInterface(IPointLogisticInterface<QString> *pointLogisticInterface);
-
+    /*
+     * Handle wake up request
+     *  - Set status to 'InitializedAndReady'
+     *  - Transmit 'ready' response
+     */
+    void handleWakeUpRequest() override;
     /*
      * Start/stop game progress
      */
@@ -106,7 +111,6 @@ public:
      */
     void handleResetTournament() override;
     void handleTournamentResetSuccess() override;
-
     /*
      * Get/set score calculator service
      */
@@ -115,7 +119,6 @@ public:
     /*
      * Get/set evaluator service
      */
-
     InputValidatorInterface *scoreEvaluator() const;
     LocalFTPController *setInputValidator(InputValidatorInterface *scoreEvaluator);
 
@@ -123,33 +126,25 @@ public:
     LocalFTPController *setIndexController(IndexControllerInterface *indexController);
 
     UserScoreController* scoreController() const;
-    void setScoreController(UserScoreController *scoreController);
-
+    LocalFTPController *setScoreController(UserScoreController *scoreController);
 private:
     /*
-     * Private constructor which takes the following parameters:
-     *  - Keypoint
-     *  - Terminal condition
-     *  - Number of throws
+     * Private constructor
      */
+    LocalFTPController(const QUuid &tournament)
+    {
+        _tournament = tournament;
+    }
     /*
      * Notify UI about controller state, current round index, undo/redo possibility and current user
      */
     void sendCurrentTurnValues();
     QString currentActiveUser()  ;
     QUuid currentActivePlayerID();
-    QUuid currentTournamentID() {return _currentTournament;}
-    int status() {return _currentStatus;}
+    QUuid tournament();
+    int status();
     void setCurrentStatus(int currentStatus);
     int lastPlayerIndex();
-    int playerIndex();
-    QString determinedWinnerName();
-    /*
-     * Undo/return turn
-     *  - Set indexes according to the action invoked
-     */
-    bool canUndoTurn() ;
-    bool canRedoTurn() ;
     /*
      * Activity check
      */
@@ -157,11 +152,6 @@ private:
     {
         return _isActive;
     }
-    /*
-     * Consistency check
-     *  - Check if assigned tournament players is consistent with playercontext
-     */
-    void consistencyCheck();
     /*
      * Update datacontext
      */
@@ -175,25 +165,9 @@ private:
     void nextTurn();
     void declareWinner();
     /*
-     * Get/set current player score
-     */
-    int playerScore(const int &index);
-    void setPlayerScore(const int &index, const int &newScore);
-    void setPlayerScore(const QUuid &playerID, const int &newScore);
-    /*
-     * Get playername from ID
-     */
-    QString getPlayerNameFromID(const QUuid &playerID);
-    QString playerNameFromIndex(const int &index);
-    /*
-     * Update playertubbles
-     */
-    void updatePlayerTubbles(const QList<int> &scores);
-    /*
      * Private getter methods
      */
-    QUuid _currentTournament = QUuid();
-    QString _winner;
+    QUuid _tournament = QUuid();
     bool _isActive = false;
     /*
      * Status member variable

@@ -39,6 +39,8 @@ public slots:
     virtual void handleScoreHintUpdated(const QUuid &playerID, const int &point,const int &score) = 0;
     virtual void handleTournamentResetSuccess() = 0;
     virtual void handleResetTournament() = 0;
+
+    virtual void handleWakeUpRequest() = 0;
 signals:
     void transmitResponse(const int &status, const QVariantList &args) override;
     void requestTournamentMetaData(const QUuid &tournament);

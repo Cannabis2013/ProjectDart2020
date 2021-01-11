@@ -20,7 +20,6 @@ typedef ITournamentModelBuilder<DefaultTournamentInterface,
                                 DefaultScoreInterface,
                                 ScoreParameters,
                                 ModelOptions> DefaultTournamentModelBuilder;
-
 class IModelParameter
 {
 public:
@@ -34,16 +33,6 @@ class AbstractTournamentModelsContext : public QObject,
     Q_OBJECT
 public:
     virtual ~AbstractTournamentModelsContext() =default;
-    /*
-     * Setup/read initial values
-     */
-    virtual AbstractTournamentModelsContext *setup() = 0;
-    /*
-     * Builders
-     */
-    virtual AbstractTournamentModelsContext *setModelBuilder(DefaultTournamentModelBuilder *builder) = 0;
-    virtual DefaultTournamentModelBuilder *modelBuilder() = 0;
-    virtual AbstractTournamentModelsContext *setModelDBContext(ImodelsDBContext<IModel<QUuid>, QString> *context) = 0;
 public slots:
     virtual void assembleAndAddTournament(const QString &title,
                                           const QList<int> &data,
@@ -85,10 +74,10 @@ signals:
                             const int &inputMode,
                             const QUuid &winner,
                             const QList<QUuid> &assignedPlayers);
-    void sendTournamentDetails(const QUuid &tournament,
-                               const QUuid &winner,
-                               const QList<int> &parameters,
-                               const QList<QUuid> &assignedPlayersID,
+    void sendTournamentDetails(const QUuid& tournament,
+                               const QUuid& winner,
+                               const QList<int>& parameters,
+                               const QList<QUuid>& assignedPlayersID,
                                const QList<int>& scores);
     void sendTournamentIndexes(const int &roundIndex,
                                const int &setIndex,

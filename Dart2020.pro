@@ -42,7 +42,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    DefaultScoreController.h \
     IControllerBuilder.h \
     LinkedList.h \
     PointIndexController.h \
@@ -54,6 +53,7 @@ HEADERS += \
     abstracttournamentmodelscontext.h \
     applicationinterface.h \
     ftpdatamodel.h \
+    ftpscorecontroller.h \
     gamecontrollerbuilder.h \
     idatacontext.h \
     imodel.h \

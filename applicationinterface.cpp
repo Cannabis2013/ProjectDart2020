@@ -169,9 +169,9 @@ void ApplicationInterface::processRecievedTournamentMetaData(const QString &titl
     emit sendTournamentMetaData(args);
 }
 
-void ApplicationInterface::handleTournamentDetailsAndSetController(const QUuid &tournament,
-                                                                   const QString &winner,
-                                                                   const QList<int> &parameters,
+void ApplicationInterface::handleTournamentDetailsAndSetController(const QUuid& tournament,
+                                                                   const QUuid& winner,
+                                                                   const QList<int>& parameters,
                                                                    const QList<QUuid>& playerIds,
                                                                    const QList<QString>& playerNames,
                                                                    const QList<int>& scores)
@@ -185,9 +185,12 @@ void ApplicationInterface::handleTournamentDetailsAndSetController(const QUuid &
          * Build and inject game controller
          */
 
-        _gameController = controllerBuilder()->buildGameController(gameMode,
-                                                                   parameters,
-                                                                   ContextMode::LocalContext);
+        _gameController = controllerBuilder()->assembleFTPGameController(tournament,
+                                                                         winner,
+                                                                         parameters,
+                                                                         playerIds,
+                                                                         playerNames,
+                                                                         scores);
         // Connect interfaces
         connectControllerInterface();
         // If using threads, move controller to its designated thread
@@ -195,11 +198,8 @@ void ApplicationInterface::handleTournamentDetailsAndSetController(const QUuid &
         {
             _gameController->moveToThread(_gameControllerThread);
             _gameControllerThread->start();
-        }
-
-        emit sendTournamentDetails(tournament,
-                                   winner,
-                                   assignedPlayerPairs);
+        };
+        emit requestWakeUp();
     }
 }
 
@@ -208,8 +208,6 @@ void ApplicationInterface::registerTypes()
     /*
      * Register meta types
      */
-    qRegisterMetaType<PlayerPair>("PlayerPair");
-    qRegisterMetaType<PlayerPairs>("PlayerPairs");
     qRegisterMetaType<QList<QUuid>>("QList<QUuid>");
     qRegisterMetaType<QList<int>>("QList<int>");
 }
@@ -319,6 +317,11 @@ void ApplicationInterface::connectControllerInterface()
             _gameController,&AbstractGameController::handleRequestForPlayerScores);
     connect(_gameController,&AbstractGameController::sendAssignedTournamentPlayers,
             _tournamentModelsContext,&AbstractTournamentModelsContext::handleTransmitPlayerScores);
+    /*
+     * Wake up controller
+     */
+    connect(this,&ApplicationInterface::requestWakeUp,
+            _gameController,&AbstractGameController::handleWakeUpRequest);
     /*
      * Start/stop game
      */

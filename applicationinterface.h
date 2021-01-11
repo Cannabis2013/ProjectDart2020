@@ -22,7 +22,7 @@ using namespace std;
 
 typedef IPlayerModel<QUuid,QString> DefaultPlayerModelInterface;
 typedef IPlayerBuilderParameters<QString,QUuid> DefaultParametersInterface;
-typedef IControllerBuilder<AbstractGameController,int,QList<int>> IDefaultGameBuilder;
+typedef IControllerBuilder<AbstractGameController,QUuid,QList<int>,QList<QUuid>,QList<QString>,QList<int>> IDefaultGameBuilder;
 
 class ApplicationInterface : public QObject,
         public IResponseInterface<QVariantList>
@@ -49,6 +49,9 @@ public:
         HiddenHint = 0x9,
         DisplayHint = 0xA,
         allHints = 0xB
+    };
+    enum ApplicationResponse {
+        ControllerIsInitializedAndReady = 0x45
     };
 
     /*
@@ -144,6 +147,7 @@ signals:
     /*
      * ApplicationInterface interface
      */
+    void requestWakeUp();
     void requestCreatePlayer(const QString &playerName, const QString &mail);
     void requestDeletePlayer(const int &index);
     void requestDeletePlayers(const QVector<int> &indexes);
@@ -200,13 +204,16 @@ private slots:
     void processRecievedTournamentMetaData(const QString &title,
                                            const int &gameMode,
                                            const int &keyPoint,
-                                           const int &tableViewHint, const int &inputMode,
+                                           const int &tableViewHint,
+                                           const int &inputMode,
                                            const QString &winnerName,
                                            const QStringList &assignedPlayerNames);
     void handleTournamentDetailsAndSetController(const QUuid &tournament,
-                                                 const QString &winner,
-                                                 QList<int> &parameters,
-                                                 const PlayerPairs &assignedPlayerPairs);
+                                                 const QUuid &winner,
+                                                 const QList<int> &parameters,
+                                                 const QList<QUuid>& playerIds,
+                                                 const QList<QString>& playerNames,
+                                                 const QList<int>& scores);
 private:
     void registerTypes();
     void connectModelInterfaces();

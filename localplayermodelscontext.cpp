@@ -20,7 +20,7 @@ void LocalPlayerModelsContext::processTournamentDetails(const QUuid &tournament,
                                                         const QUuid &winner,
                                                         const QList<int> &parameters,
                                                         const QList<QUuid> &playerIds,
-                                                        const QList<int>& scores)
+                                                        const QList<int> &scores)
 {
     QList<QString> resultingList;
     for (int i = 0; i <playerIds.count();i++) {
@@ -97,7 +97,7 @@ void LocalPlayerModelsContext::handleRequestPlayersDetails()
     emit lastPlayerDetailTransmitted();
 }
 
-AbstractPlayerModelsContext *LocalPlayerModelsContext::setup()
+LocalPlayerModelsContext *LocalPlayerModelsContext::setup()
 {
     read();
     return this;
@@ -135,13 +135,13 @@ DefaultPlayerBuilder *LocalPlayerModelsContext::playerBuilder()
     return _playerBuilder;
 }
 
-AbstractPlayerModelsContext *LocalPlayerModelsContext::setPlayerBuilder(DefaultPlayerBuilder *builder)
+LocalPlayerModelsContext* LocalPlayerModelsContext::setPlayerBuilder(DefaultPlayerBuilder *builder)
 {
     _playerBuilder = builder;
     return this;
 }
 
-AbstractPlayerModelsContext *LocalPlayerModelsContext::setModelDBContext(ImodelsDBContext<DefaultPlayerModelInterface, QUuid> *context)
+LocalPlayerModelsContext* LocalPlayerModelsContext::setModelDBContext(ImodelsDBContext<DefaultPlayerModelInterface, QUuid> *context)
 {
     _dbContext = context;
     return this;
