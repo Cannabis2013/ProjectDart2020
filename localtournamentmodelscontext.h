@@ -18,6 +18,14 @@ using namespace std;
 #define THROW_OBJECT_WITH_ID_NOT_FOUND(x) QString("Model with ID: '%1' does not exists in the current context").arg(x).toStdString();
 #define THROW_OBJECT_WITH_INDEX_NOT_FOUND(x) QString("Model with index: '%1' does not exists in the current context").arg(x).toStdString();
 
+typedef ITournament<QUuid,QList<QUuid>,QString> DefaultTournamentInterface;
+typedef IScore<QUuid> DefaultScoreInterface;
+
+typedef ITournamentModelBuilder<DefaultTournamentInterface,
+                                TournamentParameters,
+                                DefaultScoreInterface,
+                                ScoreParameters,
+                                ModelOptions> DefaultTournamentModelBuilder;
 
 class LocalTournamentModelsContext :
         public AbstractTournamentModelsContext,
@@ -73,8 +81,8 @@ public:
                                     const QList<QUuid> &playersId,
                                     const QList<QString> &playerNames) override;
     void handleTransmitTournaments() override;
+    void handleRequestTournamentGameMode(const int &index) override;
     void handleRequestForTournamentMetaData(const QUuid &tournament) override;
-    void handleRequestTournamentDetails(const int &index) override;
     void addScore(const QUuid &tournament,
                   const QUuid &player,
                   const QList<int> &dataValues,
@@ -87,7 +95,10 @@ public:
     void handleResetTournament(const QUuid &tournament) override;
     ImodelsDBContext<IModel<QUuid>, QString> *modelDBContext() const;
     LocalTournamentModelsContext* setModelDBContext(ImodelsDBContext<IModel<QUuid>, QString> *context);
-
+    /*
+     * Send tournament values
+     */
+    void handleRequestFTPDetails(const QUuid& tournament) override;
 private:
     /*
      * Tournament related section
@@ -154,7 +165,9 @@ private:
      * Tournament scores
      */
     QList<int> tournamentUserScores(const QUuid &tournament);
-
+    /*
+     * Get tournament model
+     */
     const DefaultTournamentInterface *getTournamentModelFromID(const QUuid &id);
     const DefaultScoreInterface *getScoreModelFromID(const QUuid &id);
     /*

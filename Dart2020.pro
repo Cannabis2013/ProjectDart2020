@@ -15,7 +15,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         abstractjsonpersistence.cpp \
-        applicationinterface.cpp \
+        dartapplication.cpp \
         ftpdatamodel.cpp \
         localftpcontroller.cpp \
         localplayerdbcontext.cpp \
@@ -42,16 +42,18 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    ApplicationInterface.h \
     IControllerBuilder.h \
     LinkedList.h \
     PointIndexController.h \
     ScoreValidator.h \
+    abstractcontrollerbuilder.h \
     abstractgamecontroller.h \
     abstractjsonpersistence.h \
     abstractpersistence.h \
     abstractplayermodelscontext.h \
     abstracttournamentmodelscontext.h \
-    applicationinterface.h \
+    dartapplication.h \
     ftpdatamodel.h \
     ftpscorecontroller.h \
     gamecontrollerbuilder.h \

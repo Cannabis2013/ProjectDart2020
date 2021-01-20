@@ -3,7 +3,7 @@
 #include <QtQuick/QQuickView>
 
 #include <qqmlcontext.h>
-#include "applicationinterface.h"
+#include "dartapplication.h"
 #include "playermodelbuilder.h"
 #include "gamecontrollerbuilder.h"
 #include "localtournamentmodelscontext.h"
@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
             setup();
 
     auto _dart =
-            ApplicationInterface::createInstance()->
+            DartApplication::createInstance()->
             setTournamentsModelContext(tournamentModelsContext)->
             setPlayerModelsContext(playerModelsContext)->
             setControllerBuilder(new GameControllerBuilder())->

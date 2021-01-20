@@ -10,16 +10,6 @@
 
 #define CREATE_TOURNAMENT_PARAMS_SIZE 5
 
-typedef QList<QPair<QUuid,QString>> PlayerPairs;
-
-typedef ITournament<QUuid,QList<QUuid>,QString> DefaultTournamentInterface;
-typedef IScore<QUuid> DefaultScoreInterface;
-
-typedef ITournamentModelBuilder<DefaultTournamentInterface,
-                                TournamentParameters,
-                                DefaultScoreInterface,
-                                ScoreParameters,
-                                ModelOptions> DefaultTournamentModelBuilder;
 class IModelParameter
 {
 public:
@@ -45,8 +35,7 @@ public slots:
     virtual void handleRequestAssignedPlayers(const QUuid &tournament) = 0;
     virtual void handleTransmitTournaments() = 0;
     virtual void handleRequestForTournamentMetaData(const QUuid &tournament) = 0;
-    virtual void handleRequestTournamentDetails(const int &index) = 0;
-    virtual void handleRequestTournamentIndexes(const QUuid &tournament) = 0;
+    virtual void handleRequestTournamentGameMode(const int &index) = 0;
     virtual void addScore(const QUuid &tournament,
                           const QUuid &playerID,
                           const QList<int> &dataValues,
@@ -57,6 +46,7 @@ public slots:
                                            const int &throwIndex,
                                            const int &hint) = 0;
     virtual void handleResetTournament(const QUuid &tournament) = 0;
+    virtual void handleRequestFTPDetails(const QUuid& tournament) = 0;
 signals:
     void transmitResponse(const int &status, const QVariantList &arguments) override;
     void sendPlayerScore(const QString &player, const int &point, const int &score, const int &keyCode);
@@ -74,11 +64,11 @@ signals:
                             const int &inputMode,
                             const QUuid &winner,
                             const QList<QUuid> &assignedPlayers);
+    void sendTournamentGameMode(const QUuid &tournament, const int &gameMode);
     void sendTournamentDetails(const QUuid& tournament,
                                const QUuid& winner,
                                const QList<int>& parameters,
-                               const QList<QUuid>& assignedPlayersID,
-                               const QList<int>& scores);
+                               const QList<QUuid>& assignedPlayersID);
     void sendTournamentIndexes(const int &roundIndex,
                                const int &setIndex,
                                const int &throwIndex,

@@ -62,9 +62,8 @@ public slots:
     void assembleListOfPlayersFromIndexes(const QVector<int> &playerIndexes) override;
     void processTournamentDetails(const QUuid &tournament,
                                   const QUuid &winner,
-                                  const QList<int> &parameters,
-                                  const QList<QUuid> &playerIds,
-                                  const QList<int> &scores) override;
+                                  const QList<int> &tournamentValues,
+                                  const QList<QUuid> &assignedPlayers) override;
     void handleAndProcessTournamentMetaData(const QString &title,
                                             const int &gameMode,
                                             const int &keyPoint,

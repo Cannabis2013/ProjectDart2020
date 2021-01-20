@@ -12,10 +12,9 @@ class IControllerBuilder
 public:
     virtual TControllerInterface *assembleFTPGameController(const TUuid &tournament,
                                                             const TUuid &winner,
-                                                            const TParameter &parameters,
+                                                            const TParameter &values,
                                                             const TUserIds& userIds,
-                                                            const TUserNames& userNames,
-                                                            const TScores& scores) = 0;
+                                                            const TUserNames& userNames) = 0;
 };
 
 #endif // ICONTROLLERBUILDER_H

@@ -18,28 +18,26 @@ void LocalPlayerModelsContext::assembleListOfPlayersFromIndexes(const QVector<in
 
 void LocalPlayerModelsContext::processTournamentDetails(const QUuid &tournament,
                                                         const QUuid &winner,
-                                                        const QList<int> &parameters,
-                                                        const QList<QUuid> &playerIds,
-                                                        const QList<int> &scores)
+                                                        const QList<int> &tournamentValues,
+                                                        const QList<QUuid> &assignedPlayers)
 {
-    QList<QString> resultingList;
-    for (int i = 0; i <playerIds.count();i++) {
-        auto playerID = playerIds.at(i);
+    QList<QString> assignedPlayerNames;
+    for (int i = 0; i <assignedPlayers.count();i++) {
+        auto playerID = assignedPlayers.at(i);
         auto playerName = this->playerName(playerID);
         if(playerName == QString())
         {
             emit transmitResponse(ContextResponse::InconsistencyDetected,{tournament});
             return;
         }
-        resultingList << playerName;
+        assignedPlayerNames << playerName;
     }
     auto winnerName = playerName(winner);
     emit sendTournamentDetails(tournament,
                                winnerName,
-                               parameters,
-                               playerIds,
-                               resultingList,
-                               scores);
+                               tournamentValues,
+                               assignedPlayers,
+                               assignedPlayerNames);
 }
 
 void LocalPlayerModelsContext::handleAndProcessTournamentMetaData(const QString &title,

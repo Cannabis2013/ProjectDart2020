@@ -40,10 +40,11 @@ class FTPScoreController : public UserScoresControllerInterface<QUuid,QString,QL
 {
 public:
     static FTPScoreController* createInstance(const QList<QUuid>& userIds,
-                                           const QList<QString>& userNames,
-                                           const QList<int>& userScores)
+                                              const QList<QString>& userNames,
+                                              const QList<int>& userScores,
+                                              const QUuid &winner)
     {
-        return new FTPScoreController(userIds,userNames,userScores);
+        return new FTPScoreController(userIds,userNames,userScores,winner);
     }
     // UserScoresControllerInterface interface
     virtual int scoreAtIndex(const int &index) const override
@@ -115,10 +116,12 @@ private:
 
     FTPScoreController(const QList<QUuid>& userIds,
                        const QList<QString>& userNames,
-                       const QList<int>& userScores)
+                       const QList<int>& userScores,
+                       const QUuid& winner)
     {
         auto assembledTuples = assembleScoreTubble(userIds,userNames,userScores);
         _playerTuples = assembledTuples;
+        setWinner(winner);
     }
 
     PlayerTuples assembleScoreTubble(const QList<QUuid>& userIds,

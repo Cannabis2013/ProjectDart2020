@@ -205,35 +205,17 @@ void LocalTournamentModelsContext::handleRequestForTournamentMetaData(const QUui
                             playersID);
 }
 
-void LocalTournamentModelsContext::handleRequestTournamentDetails(const int &index)
+void LocalTournamentModelsContext::handleRequestTournamentGameMode(const int &index)
 {
-    QUuid tournamentID;
+    QUuid tournamentId;
     try {
-        tournamentID = tournamentIDFromIndex(index);
+        tournamentId = tournamentIDFromIndex(index);
     }  catch (const char *msg) {
         return;
     }
-    QList<int> tournamentValues = {
-        tournamentGameMode(tournamentID),
-        tournamentKeyPoint(tournamentID),
-        tournamentNumberOfThrows(tournamentID),
-        tournamentLastThrowKeyCode(tournamentID),
-        tournamentInputMode(tournamentID)
-    };
-    QList<QUuid> assignedPlayersID;
-    try {
-        assignedPlayersID = tournamentAssignedPlayers(tournamentID);
-    }  catch (const char *msg) {
-        return;
-    }
-    auto winnerID = tournamentDeterminedWinner(tournamentID);
-    tournamentValues += indexes(tournamentID);
-    auto userScores = tournamentUserScores(tournamentID);
-    emit sendTournamentDetails(tournamentID,
-                               winnerID,
-                               tournamentValues,
-                               assignedPlayersID,
-                               userScores);
+    auto gameMode = this->tournamentGameMode(tournamentId);
+    sendTournamentGameMode(tournamentId,gameMode);
+
 }
 
 void LocalTournamentModelsContext::handleRequestAssignedPlayers(const QUuid &tournament)
@@ -1069,6 +1051,30 @@ QList<int> LocalTournamentModelsContext::tournamentUserScores(const QUuid &tourn
         userScores << s;
     }
     return userScores;
+}
+
+void LocalTournamentModelsContext::handleRequestFTPDetails(const QUuid &tournament)
+{
+    QList<int> tournamentValues = {
+        tournamentGameMode(tournament),
+        tournamentKeyPoint(tournament),
+        tournamentNumberOfThrows(tournament),
+        tournamentLastThrowKeyCode(tournament),
+        tournamentInputMode(tournament)
+    };
+    QList<QUuid> assignedPlayersID;
+    try {
+        assignedPlayersID = tournamentAssignedPlayers(tournament);
+    }  catch (const char *msg) {
+        return;
+    }
+    auto winnerID = tournamentDeterminedWinner(tournament);
+    tournamentValues += indexes(tournament);
+    tournamentValues += tournamentUserScores(tournament);
+    emit sendTournamentDetails(tournament,
+                               winnerID,
+                               tournamentValues,
+                               assignedPlayersID);
 }
 
 int LocalTournamentModelsContext::playerScoreCount(const int &hint)

@@ -31,8 +31,7 @@ public slots:
     virtual void processTournamentDetails(const QUuid &tournament,
                                           const QUuid &winner,
                                           const QList<int> &parameters,
-                                          const QList<QUuid> &playerIds,
-                                          const QList<int> &scores) = 0;
+                                          const QList<QUuid> &playerIds) = 0;
 
     virtual void handleAndProcessTournamentMetaData(const QString &title,
                                                     const int &gameMode,
@@ -53,10 +52,9 @@ signals:
     void sendPlayersID(const QList<QUuid> &playersID);
     void sendTournamentDetails(const QUuid& tournament,
                                const QUuid& winner,
-                               const QList<int>& parameters,
+                               const QList<int>& tournamentValues,
                                const QList<QUuid>& playerIds,
-                               const QList<QString>& playerNames,
-                               const QList<int>& scores);
+                               const QList<QString>& playerNames);
     void sendProcessedTournamentMetaData(const QString &title,
                                          const int &gameMode,
                                          const int &keyPoint,

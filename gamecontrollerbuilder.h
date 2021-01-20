@@ -12,10 +12,10 @@
 #include "ScoreValidator.h"
 #include "PointIndexController.h"
 #include "ftpscorecontroller.h"
-
+#include "abstractcontrollerbuilder.h"
 typedef IControllerBuilder<AbstractGameController,QUuid,QList<int>, QList<QUuid>, QList<QString>,QList<int>> ControllerBuilder;
 
-class GameControllerBuilder : public ControllerBuilder
+class GameControllerBuilder : public AbstractControllerBuilder
 {
     // IControllerBuilder interface
 public:
@@ -37,15 +37,15 @@ public:
 
     virtual AbstractGameController *assembleFTPGameController(const QUuid &tournament,
                                                               const QUuid &winner,
-                                                              const QList<int> &parameters,
+                                                              const QList<int> &values,
                                                               const QList<QUuid> &userIds,
-                                                              const QList<QString> &userNames,
-                                                              const QList<int> &userScores) override
+                                                              const QList<QString> &userNames) override
     {
-        auto numberOfThrows = parameters[2];
-        auto terminalKeyCode = parameters[3];
-        auto type = parameters[4];
-        auto indexes = parameters.mid(5,5);
+        auto numberOfThrows = values[2];
+        auto terminalKeyCode = values[3];
+        auto type = values[4];
+        auto indexes = values.mid(5,5);
+        auto userScores = values.mid(10);
         auto playersCount = userIds.count();
         if(type == InputModes::PointMode)
         {
@@ -54,7 +54,7 @@ public:
                     ->setScoreCalculator(new PointScoreCalculator())
                     ->setInputValidator(PointValidator::createInstance(terminalKeyCode))
                     ->setIndexController(PointIndexController::createInstance(numberOfThrows,playersCount,indexes))
-                    ->setScoreController(FTPScoreController::createInstance(userIds,userNames,userScores));
+                    ->setScoreController(FTPScoreController::createInstance(userIds,userNames,userScores,winner));
             return controller;
         }
         else if(type == InputModes::ScoreMode)
@@ -63,10 +63,15 @@ public:
                     ->setPointLogisticInterface(PointLogisticManager::createInstance(numberOfThrows,terminalKeyCode))
                     ->setScoreCalculator(new ScoreCalculator())
                     ->setInputValidator(ScoreValidator::createInstance(terminalKeyCode))
-                    ->setScoreController(FTPScoreController::createInstance(userIds,userNames,userScores));
+                    ->setScoreController(FTPScoreController::createInstance(userIds,userNames,userScores,winner));
             return controller;
         }
         return nullptr;
+    }
+    virtual void handleRecieveGameMode(const QUuid &tournament, const int &gameMode) override
+    {
+        if(gameMode == GameModes::FirstToPost)
+            emit requestFTPDetails(tournament);
     }
 };
 

@@ -2,18 +2,16 @@
 #define PROJECTDARTINTERFACE_H
 
 #include <QtCore>
+#include <qthreadpool.h>
+#include <iostream>
 
 #include "abstracttournamentmodelscontext.h"
 #include "abstractplayermodelscontext.h"
-#include <abstractgamecontroller.h>
-#include <itournamentmodelbuilder.h>
+#include "abstractgamecontroller.h"
+#include "itournamentmodelbuilder.h"
 #include "iplayerbuildercontext.h"
 #include "IControllerBuilder.h"
-#include "ipointlogisticinterface.h"
 #include "iresponseinterface.h"
-
-#include <qthreadpool.h>
-#include <iostream>
 
 using namespace std;
 
@@ -24,7 +22,7 @@ typedef IPlayerModel<QUuid,QString> DefaultPlayerModelInterface;
 typedef IPlayerBuilderParameters<QString,QUuid> DefaultParametersInterface;
 typedef IControllerBuilder<AbstractGameController,QUuid,QList<int>,QList<QUuid>,QList<QString>,QList<int>> IDefaultGameBuilder;
 
-class ApplicationInterface : public QObject,
+class DartApplication : public QObject,
         public IResponseInterface<QVariantList>
 {
     Q_OBJECT
@@ -57,32 +55,28 @@ public:
     /*
      * Destructor
      */
-    ~ApplicationInterface();
+    ~DartApplication();
     /*
      * Create and setup instance
      */
-    static ApplicationInterface* createInstance();
-    ApplicationInterface *setup();
-    ApplicationInterface *useThreads();
+    static DartApplication* createInstance();
+    DartApplication *setup();
+    DartApplication *useThreads();
     /*
      * Get/set TournamentModelsContext
      */
     AbstractTournamentModelsContext *tournamentsModelContext() const;
-    ApplicationInterface* setTournamentsModelContext(AbstractTournamentModelsContext *tournamentsModelContext);
+    DartApplication* setTournamentsModelContext(AbstractTournamentModelsContext *tournamentsModelContext);
     /*
      * Get/set PlayerModelsContext
      */
     AbstractPlayerModelsContext *playerModelsContext() const;
-    ApplicationInterface* setPlayerModelsContext(AbstractPlayerModelsContext *playerModelsContext);
+    DartApplication* setPlayerModelsContext(AbstractPlayerModelsContext *playerModelsContext);
     /*
      * Get/set GameControllerBuilder
      */
     IDefaultGameBuilder *controllerBuilder();
-    ApplicationInterface *setControllerBuilder(IDefaultGameBuilder *builder);
-    // Thread related
-    bool usingThreads() const;
-    void setUsingThreads(bool usingThreads);
-
+    DartApplication *setControllerBuilder(IDefaultGameBuilder *builder);
 public slots:
     void handleTournamentsRequest();
     void handleSetCurrentTournamentRequest(const int &index);
@@ -212,26 +206,29 @@ private slots:
                                                  const QUuid &winner,
                                                  const QList<int> &parameters,
                                                  const QList<QUuid>& playerIds,
-                                                 const QList<QString>& playerNames,
-                                                 const QList<int>& scores);
+                                                 const QList<QString>& playerNames);
 private:
+    // Register and connect interfaces related..
     void registerTypes();
     void connectModelInterfaces();
     void connectControllerInterface();
-
+    // Clear controller..
     void clearGameController();
 
+    // Threads related..
+    bool usingThreads() const;
+    void setUsingThreads(bool usingThreads);
     void startTournamentModelsWorkerThread();
     void startPlayerModelsWorkerThread();
     void stopTournamentModelsWorkerThread();
     void stopPlayerModelsWorkerThread();
+    // Builders related..
     AbstractGameController *gameController() const;
     IDefaultGameBuilder *controllerBuilder() const;
-
+    // Application state member variables
     QThread *_tournamentModelsThread = new QThread();
     QThread *_playerModelsThread = new QThread();
     QThread *_gameControllerThread = new QThread();
-
     IDefaultGameBuilder *_controllerBuilder;
     AbstractGameController *_gameController = nullptr;
     AbstractTournamentModelsContext *_tournamentModelsContext = nullptr;
