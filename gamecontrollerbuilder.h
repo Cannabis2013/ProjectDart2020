@@ -13,7 +13,6 @@
 #include "PointIndexController.h"
 #include "ftpscorecontroller.h"
 #include "abstractcontrollerbuilder.h"
-typedef IControllerBuilder<AbstractGameController,QUuid,QList<int>, QList<QUuid>, QList<QString>,QList<int>> ControllerBuilder;
 
 class GameControllerBuilder : public AbstractControllerBuilder
 {
@@ -35,11 +34,11 @@ public:
         RemoteContext = 0x8
     };
 
-    virtual AbstractGameController *assembleFTPGameController(const QUuid &tournament,
-                                                              const QUuid &winner,
-                                                              const QList<int> &values,
-                                                              const QList<QUuid> &userIds,
-                                                              const QList<QString> &userNames) override
+    AbstractGameController *assembleFTPGameController(const QUuid& tournament,
+                                                      const QUuid& winner,
+                                                      const QVector<int>& values,
+                                                      const QVector<QUuid>& userIds,
+                                                      const QVector<QString>& userNames) override
     {
         auto numberOfThrows = values[2];
         auto terminalKeyCode = values[3];

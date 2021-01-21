@@ -7,6 +7,7 @@ template<class TModel, class TKey>
 class ImodelsDBContext
 {
 public:
+    virtual ~ImodelsDBContext() = default;
     virtual bool addModel(const TKey &type,const TModel *model) = 0;
     virtual bool removeModel(const TKey &type, const int &indexOfModel) = 0;
     virtual bool replaceModel(const TKey &type, const int &indexOfModel, const TModel *model) = 0;

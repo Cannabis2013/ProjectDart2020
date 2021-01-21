@@ -8,9 +8,10 @@ Content {
     color: "transparent"
 
     signal requestPlayers
-    signal sendTournament(string title,
+    signal sendFTPDetails(string title,
                           var data,
                           var playerIndexes)
+    signal sendCricketDetails
     signal requestGameModes
 
     minimumHeight: 538
@@ -130,13 +131,13 @@ Content {
         }
 
         Component.onCompleted: {
-            createBody.sendTournament.connect(applicationInterface.handleCreateTournament); // Tournament request
+            createBody.sendFTPDetails.connect(applicationInterface.handleFTPDetails); // Tournament request
             createBody.requestPlayers.connect(applicationInterface.requestPlayerDetails); // Request initial/continous players
             applicationInterface.sendPlayerDetail.connect(CreateScripts.addPlayer); // Recieve initial players
             requestUpdate();
         }
         Component.onDestruction: {
-            createBody.sendTournament.disconnect(applicationInterface.handleCreateTournament);
+            createBody.sendFTPDetails.disconnect(applicationInterface.handleFTPDetails);
             createBody.requestPlayers.disconnect(applicationInterface.requestPlayerDetails);
             applicationInterface.sendPlayerDetail.disconnect(CreateScripts.addPlayer);
         }

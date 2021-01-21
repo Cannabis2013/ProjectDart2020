@@ -6,24 +6,42 @@
 #include "imodelsdbcontext.h"
 #include "tournamentmodelbuilder.h"
 
+#include "persistenceinterface.h"
+#include "abstractpersistence.h"
 
-class LocalTournamentModelDB : public ImodelsDBContext<IModel<QUuid>,QString>
+#include <qjsonobject.h>
+#include <qjsonarray.h>
+
+class LocalTournamentModelDB :
+        public ImodelsDBContext<IModel<QUuid>,QString>,
+        public AbstractPersistence,
+        public PersistenceInterface
 {
 public:
-    LocalTournamentModelDB();
-
+    LocalTournamentModelDB(const QString& orgName = "MH", const QString& appName = "Dart2020");
+    ~LocalTournamentModelDB();
     const QStringList acceptedModelTypes = {"Tournament", "Round", "Set", "Score"};
 
     // IModelDBContext interface
-    bool addModel(const QString &type, const IModel<QUuid> *model);
-    bool removeModel(const QString &type, const int &indexOfModel);
-    bool replaceModel(const QString &type, const int &indexOfModel, const IModel<QUuid> *newModel);
-    const IModel<QUuid> *model(const QString &type, const int &index);
-    int indexOfModel(const QString &type, const IModel<QUuid> *model);
-    int countOfModels(const QString &type);
-    QList<const IModel<QUuid> *> models(const QString &type);
+    bool addModel(const QString &type, const IModel<QUuid> *model) override;
+    bool removeModel(const QString &type, const int &indexOfModel) override;
+    bool replaceModel(const QString &type, const int &indexOfModel, const IModel<QUuid> *newModel) override;
+    const IModel<QUuid> *model(const QString &type, const int &index) override;
+    int indexOfModel(const QString &type, const IModel<QUuid> *model) override;
+    int countOfModels(const QString &type) override;
+    QList<const IModel<QUuid> *> models(const QString &type) override;
 
+    // PersistenceInterface interface
+    void read() override;
+    void write() override;
 private:
+
+    QJsonArray assembleTournamentsJSONArray();
+    QJsonArray assembleScoresJSONArray();
+
+    void extractTournamentModelsFromJSON(const QJsonArray &arr);
+    void extractScoreModelsFromJSON(const QJsonArray &arr);
+
     QMultiHash<QString,const IModel<QUuid>*> _models;
 };
 #endif // LOCALTOURNAMENTMODELDB_H

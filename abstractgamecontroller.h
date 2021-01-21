@@ -35,7 +35,6 @@ public slots:
     virtual void handleScoreAddedToDataContext(const QUuid &playerID,
                                                       const int &point,
                                                       const int &score) = 0;
-    virtual void handleDataContextUpdated() = 0;
     virtual void handleScoreHintUpdated(const QUuid &playerID, const int &point,const int &score) = 0;
     virtual void handleTournamentResetSuccess() = 0;
     virtual void handleResetTournament() = 0;
@@ -44,9 +43,7 @@ public slots:
 signals:
     void transmitResponse(const int &status, const QVariantList &args) override;
     void requestTournamentMetaData(const QUuid &tournament);
-    void sendAssignedTournamentPlayers(const QUuid &tournament,
-                                       const QList<QUuid>& playersId,
-                                       const QList<QString>& playerNames);
+    void requestTransmitPlayerScores(const QUuid &tournament);
     void requestTournamentIndexes(const QUuid &tournament);
     void requestAddScore(const QUuid &tournamentID,
                    const QUuid &playerID,

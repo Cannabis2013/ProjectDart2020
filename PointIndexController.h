@@ -10,7 +10,7 @@ class PointIndexController : public IndexControllerInterface
 public:
     static PointIndexController* createInstance(const int &legCount,
                                                 const int &playerCount,
-                                                const QList<int> &indexes)
+                                                const QVector<int> &indexes)
     {
         return new PointIndexController(legCount,playerCount,indexes);
     }
@@ -111,7 +111,7 @@ public:
 private:
     PointIndexController(const int &legCount,
                          const int &playerCount,
-                         const QList<int> &indexes) :
+                         const QVector<int> &indexes) :
     _legCount(legCount),_playerCount(playerCount)
     {
         _totalIndex = indexes.at(0);

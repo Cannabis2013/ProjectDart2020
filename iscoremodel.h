@@ -1,7 +1,7 @@
 #ifndef ISCOREMODEL_H
 #define ISCOREMODEL_H
 
-#include "isetmodel.h"
+#include "itournamentmodel.h"
 
 template <class TUuid>
 class IScore : public IModel<TUuid>

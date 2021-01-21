@@ -2,10 +2,8 @@
 #define ABSTRACTPERSISTENCE_H
 
 #include <qsettings.h>
-#include "persistenceinterface.h"
 
-
-class AbstractPersistence : public PersistenceInterface
+class AbstractPersistence
 {
 public:
 

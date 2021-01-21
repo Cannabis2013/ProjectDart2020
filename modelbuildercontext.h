@@ -15,7 +15,7 @@ struct TournamentParameters
     QUuid winner;
     QUuid id;
     QString title;
-    QList<QUuid> playerIdentities;
+    QVector<QUuid> playerIdentities;
 
     QString defaultTitle = "Tournament";
     int defaultLegCount = 3;

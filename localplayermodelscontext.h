@@ -6,13 +6,21 @@
 #include <QString>
 #include <qlist.h>
 #include <qobject.h>
-#include "abstractplayermodelscontext.h"
+#include <iostream>
+#include "playermodelscontextinterface.h"
 #include "playermodelbuildercontext.h"
 #include <QVariantList>
-#include <iostream>
 #include "abstractjsonpersistence.h"
+#include "iplayermodelbuilder.h"
+#include "imodelsdbcontext.h"
 
 using namespace std;
+
+typedef IPlayerModel<QUuid,QString> DefaultPlayerModelInterface;
+typedef IPlayerBuilderParameters<QString,QUuid> DefaultParametersInterface;
+typedef IPlayerModelOptions<QUuid> DefaultOptionsInterface;
+typedef IPlayerModelBuilder<DefaultPlayerModelInterface,DefaultParametersInterface,DefaultOptionsInterface> DefaultPlayerBuilder;
+typedef QList<QPair<QUuid,QString>> PlayerPairs;
 
 namespace PlayerContext {
     class LocalPlayerContext;
@@ -24,10 +32,9 @@ typedef IPlayerModel<QUuid,QString> DefaultPlayerModelInterface;
 typedef IPlayerBuilderParameters<QString,QUuid> DefaultParametersInterface;
 
 class LocalPlayerModelsContext :
-        public AbstractPlayerModelsContext,
+        public PlayerModelsContextInterface,
         public AbstractJSONPersistence
 {
-    Q_OBJECT
 public:
     /*
      * Public types
@@ -52,52 +59,48 @@ public:
     void read() override;
     void write() override;
 
+    QUuid createPlayer(const QString &name,
+                      const QString& mail,
+                      const int &role = -1) override;
+    bool deletePlayer(const int &index) override;
+    bool deletePlayers(const QVector<int>& indexes) override;
+
     DefaultPlayerBuilder *playerBuilder();
     LocalPlayerModelsContext* setPlayerBuilder(DefaultPlayerBuilder *builder);
     LocalPlayerModelsContext* setModelDBContext(ImodelsDBContext<DefaultPlayerModelInterface, QUuid> *context);
-public slots:
-    void createPlayer(const QString &name, const QString &mail) override;
-    void deletePlayer(const int &index) override;
-    void deletePlayers(const QVector<int> &playerIndexes) override;
-    void assembleListOfPlayersFromIndexes(const QVector<int> &playerIndexes) override;
-    void processTournamentDetails(const QUuid &tournament,
-                                  const QUuid &winner,
-                                  const QList<int> &tournamentValues,
-                                  const QList<QUuid> &assignedPlayers) override;
-    void handleAndProcessTournamentMetaData(const QString &title,
-                                            const int &gameMode,
-                                            const int &keyPoint,
-                                            const int &tableViewHint,
-                                            const int &inputMode,
-                                            const QUuid &winnerID,
-                                            const QList<QUuid> &assignedPlayersID) override;
-    void handleRequestPlayersDetails() override;
-    void handleAndProcessCreatedTournament(const QString &title,
-                                        const QList<int> &data,
-                                        const QList<int> &playerIndexes) override;
-private:
-    ImodelsDBContext<DefaultPlayerModelInterface, QUuid> *modelDBContext();
+    /*
+     * PlayerModelsInterface interface
+     */
+    QVector<QString> assemblePlayerMailAdressesFromIds(const QVector<QUuid> &ids) override;
+    QVector<QString> assemblePlayerNamesFromIds(const QVector<QUuid> &ids) override;
+    QVector<QUuid> assemblePlayerIds(const QVector<int> &indexes) override;
 
-    void deletePlayerByUserName(const QString &firstName) ;
-    void deletePlayerByID(const QUuid &player) ;
-    void deletePlayerByEmail(const QString &playerEMail) ;
-    QUuid playerIDFromName(const QString &fullName) ;
-    QUuid playerIDFromIndex(const int &index) ;
-    QString playerName(const QUuid &id) ;
-    QString playerEMail(const QUuid &id) ;
-    QList<QUuid> players() ;
-    int playersCount() ;
+    void deletePlayerByUserName(const QString &firstName)  override;
+    void deletePlayerByID(const QUuid &player)  override;
+    void deletePlayerByEmail(const QString &playerEMail)  override;
+    QUuid playerIDFromName(const QString &fullName)  override;
+    QUuid playerIdFromIndex(const int &index)  override;
+    QString playerNameFromId(const QUuid &id)  override;
+    QString playerMailFromId(const QUuid &id)  override;
+    QList<QUuid> players() override;
+    int playersCount() override;
+private:
+
     DefaultPlayerBuilder *playerBuilder() const;
+
+
+    QUuid buildPlayerModel(const QString &playerName,
+                           const QString& email,
+                           const int &role,
+                           const bool &generateID = true,
+                           const QUuid &id = QUuid());
+
+    const DefaultPlayerModelInterface *getModel(const QString &playerName);
+
+    ImodelsDBContext<DefaultPlayerModelInterface, QUuid> *modelDBContext();
 
     QJsonArray assemblePlayersJSONArray();
     void extractPlayerModelsFromJSON(const QJsonArray &arr);
-
-    QUuid buildPlayerModel(const QString &playerName,
-                          const QString& email, const int &role,
-                          const bool &generateID = true,
-                          const QUuid &id = QUuid()) ;
-
-    const DefaultPlayerModelInterface *getModel(const QString &playerName);
 
     ImodelsDBContext<DefaultPlayerModelInterface,QUuid> *_dbContext;
     DefaultPlayerBuilder *_playerBuilder;

@@ -1,7 +1,14 @@
 #include "localtournamentmodeldb.h"
 
-LocalTournamentModelDB::LocalTournamentModelDB()
+LocalTournamentModelDB::LocalTournamentModelDB(const QString &orgName, const QString &appName):
+    AbstractPersistence(orgName,appName)
 {
+    read();
+}
+
+LocalTournamentModelDB::~LocalTournamentModelDB()
+{
+    write();
 }
 
 bool LocalTournamentModelDB::addModel(const QString &type, const IModel<QUuid> *model)
@@ -68,4 +75,62 @@ QList<const IModel<QUuid> *> LocalTournamentModelDB::models(const QString &type)
         QList<const IModel<QUuid>*>();
     auto models = _models.values(type);
     return models;
+}
+
+void LocalTournamentModelDB::read()
+{
+
+}
+
+void LocalTournamentModelDB::write()
+{
+
+}
+
+QJsonArray LocalTournamentModelDB::assembleTournamentsJSONArray()
+{
+
+    QJsonArray tournamentsJSON;
+    auto tournamentModels = models("Tournament");
+    for (auto model : tournamentModels) {
+        auto tournamentModel = dynamic_cast<const Tournament*>(model);
+        QJsonObject obj;
+        auto id = tournamentModel->id();
+        obj["ID"] = id.toString();
+        obj["Title"] = tournamentModel->title();
+        obj["KeyPoint"] = tournamentModel->keyPoint();
+        obj["GameMode"] = tournamentModel->gameMode();
+        obj["TableViewHint"] = tournamentModel->modelTableViewHint();
+        obj["InputMode"] = tournamentModel->inputMode();
+        obj["Winner"] = tournamentModel->winner().toString();
+        obj["Throws"] = tournamentModel->numberOfThrows();
+        auto players = tournamentModel->assignedPlayerIdentities();
+
+        QJsonArray playersJSON;
+        auto count = players.count();
+        for (int j = 0; j < count; ++j) {
+            auto playerID = players.at(j).toString();
+            QJsonObject playerObj;
+            playerObj["ID"] = playerID;
+            playersJSON.append(playerObj);
+        }
+        obj["Players"] = playersJSON;
+        tournamentsJSON.append(obj);
+    }
+    return tournamentsJSON;
+}
+
+QJsonArray LocalTournamentModelDB::assembleScoresJSONArray()
+{
+
+}
+
+void LocalTournamentModelDB::extractTournamentModelsFromJSON(const QJsonArray &arr)
+{
+
+}
+
+void LocalTournamentModelDB::extractScoreModelsFromJSON(const QJsonArray &arr)
+{
+
 }

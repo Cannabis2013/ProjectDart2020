@@ -1,98 +1,54 @@
 #include "localplayermodelscontext.h"
-void LocalPlayerModelsContext::assembleListOfPlayersFromIndexes(const QVector<int> &playerIndexes)
+
+QVector<QString> LocalPlayerModelsContext::assemblePlayerMailAdressesFromIds(const QVector<QUuid> &ids)
 {
-    QList<QUuid> playersID;
-
-    for (auto index : playerIndexes) {
-        try {
-            auto playerID = playerIDFromIndex(index);
-            playersID << playerID;
-
-        }  catch (...)
-        {
-            return;
-        }
+    QVector<QString> mailAdresses;
+    for (auto id : ids) {
+        auto mail = playerMailFromId(id);
+        mailAdresses << mail;
     }
-    emit sendPlayersID(playersID);
+    return mailAdresses;
 }
 
-void LocalPlayerModelsContext::processTournamentDetails(const QUuid &tournament,
-                                                        const QUuid &winner,
-                                                        const QList<int> &tournamentValues,
-                                                        const QList<QUuid> &assignedPlayers)
+QVector<QString> LocalPlayerModelsContext::assemblePlayerNamesFromIds(const QVector<QUuid> &ids)
 {
-    QList<QString> assignedPlayerNames;
-    for (int i = 0; i <assignedPlayers.count();i++) {
-        auto playerID = assignedPlayers.at(i);
-        auto playerName = this->playerName(playerID);
+    QVector<QString> assignedPlayerNames;
+    for (int i = 0; i <ids.count();i++) {
+        auto playerID = ids.at(i);
+        auto playerName = this->playerNameFromId(playerID);
         if(playerName == QString())
         {
-            emit transmitResponse(ContextResponse::InconsistencyDetected,{tournament});
-            return;
+            /*
+             * TODO: Implement proper exception string
+             */
+            throw "Some text";
         }
         assignedPlayerNames << playerName;
     }
-    auto winnerName = playerName(winner);
-    emit sendTournamentDetails(tournament,
-                               winnerName,
-                               tournamentValues,
-                               assignedPlayers,
-                               assignedPlayerNames);
+    return assignedPlayerNames;
 }
 
-void LocalPlayerModelsContext::handleAndProcessTournamentMetaData(const QString &title,
-                                                                  const int &gameMode,
-                                                                  const int &keyPoint,
-                                                                  const int &tableViewHint,
-                                                                  const int &inputMode,
-                                                                  const QUuid &winnerID,
-                                                                  const QList<QUuid> &assignedPlayersID)
+QVector<QUuid> LocalPlayerModelsContext::assemblePlayerIds(const QVector<int> &indexes)
 {
-    QStringList playerNames;
-    for (auto playerID : assignedPlayersID) {
-        auto playerName = this->playerName(playerID);
-        playerNames << playerName;
-    }
-    auto winnerName = playerName(winnerID);
-    emit sendProcessedTournamentMetaData(title,
-                                         gameMode,
-                                         keyPoint,
-                                         tableViewHint,
-                                         inputMode,
-                                         winnerName,
-                                         playerNames);
-}
+    QVector<QUuid> playersId;
 
-void LocalPlayerModelsContext::handleAndProcessCreatedTournament(const QString &title,
-                                                                 const QList<int> &data,
-                                                                 const QList<int> &playerIndexes)
-{
-    QList<QUuid> playersID;
-    for (int i = 0; i < playerIndexes.count(); ++i) {
-        auto playerIndex = playerIndexes.at(i);
-        auto playerID = playerIDFromIndex(playerIndex);
-        auto playerName = this->playerName(playerID);
-        playersID << playerID;
+    for (auto index : indexes) {
+        try {
+            auto playerID = playerIdFromIndex(index);
+            playersId << playerID;
+
+        }  catch (...)
+        {
+            // TODO: Implement proper exception string
+            throw "Some warning";
+        }
     }
-    emit sendProcessedTournamentDetails(title,
-                                        data,
-                                        playersID);
+    return playersId;
 }
 
 ImodelsDBContext<DefaultPlayerModelInterface, QUuid> *LocalPlayerModelsContext::modelDBContext()
 {
     return _dbContext;
-}
-
-void LocalPlayerModelsContext::handleRequestPlayersDetails()
-{
-    for (int i = 0; i < playersCount(); ++i) {
-        auto playerID = playerIDFromIndex(i);
-        auto playerName = this->playerName(playerID);
-        auto mail = playerEMail(playerID);
-        emit sendPlayerDetails(playerName,mail);
-    }
-    emit lastPlayerDetailTransmitted();
 }
 
 LocalPlayerModelsContext *LocalPlayerModelsContext::setup()
@@ -128,6 +84,11 @@ void LocalPlayerModelsContext::write()
     writeJSONToFile(modelJSON,"PlayerModels");
 }
 
+QUuid LocalPlayerModelsContext::createPlayer(const QString &name, const QString &mail, const int &role)
+{
+    return buildPlayerModel(name,mail,role);
+}
+
 DefaultPlayerBuilder *LocalPlayerModelsContext::playerBuilder()
 {
     return _playerBuilder;
@@ -145,23 +106,12 @@ LocalPlayerModelsContext* LocalPlayerModelsContext::setModelDBContext(ImodelsDBC
     return this;
 }
 
-void LocalPlayerModelsContext::createPlayer(const QString &name, const QString &mail)
-{
-    auto id = buildPlayerModel(name,mail,UserRoles::Player);
-    auto status = id != QUuid() ? true :
-                                  false;
-    // Persist state change
-    write();
-    // Notify front-end
-    emit confirmPlayerCreated(status);
-}
-
-void LocalPlayerModelsContext::deletePlayer(const int &index)
+bool LocalPlayerModelsContext::deletePlayer(const int &index)
 {
     bool status = true;
     QUuid playerID;
     try {
-        playerID = playerIDFromIndex(index);
+        playerID = playerIdFromIndex(index);
     }  catch (...) {
         status = false;
     }
@@ -169,18 +119,18 @@ void LocalPlayerModelsContext::deletePlayer(const int &index)
     deletePlayerByID(playerID);
     // Persist state change
     write();
-    emit playersDeletedStatus(status);
+    return status;
 }
 
-void LocalPlayerModelsContext::deletePlayers(const QVector<int> &playerIndexes)
+bool LocalPlayerModelsContext::deletePlayers(const QVector<int> &indexes)
 {
     bool status = true;
-    QList<QUuid> playersID;
-    for (auto playerIndex : playerIndexes) {
-        auto playerID = playerIDFromIndex(playerIndex);
-        playersID << playerID;
+    QList<QUuid> playerIds;
+    for (auto index : indexes) {
+        auto playerId = playerIdFromIndex(index);
+        playerIds << playerId;
     }
-    for (auto playerID : playersID) {
+    for (auto playerID : playerIds) {
         try {
             deletePlayerByID(playerID);
         }  catch (...) {
@@ -189,8 +139,9 @@ void LocalPlayerModelsContext::deletePlayers(const QVector<int> &playerIndexes)
     }
     // Persist state change
     write();
-    emit playersDeletedStatus(status);
+    return status;
 }
+
 
 void LocalPlayerModelsContext::deletePlayerByUserName(const QString &playerName)
 {
@@ -249,7 +200,7 @@ QUuid LocalPlayerModelsContext::playerIDFromName(const QString &playerName)
     }
 }
 
-QUuid LocalPlayerModelsContext::playerIDFromIndex(const int &index)
+QUuid LocalPlayerModelsContext::playerIdFromIndex(const int &index)
 {
     try {
         auto model = modelDBContext()->model(QUuid(),index);
@@ -260,7 +211,7 @@ QUuid LocalPlayerModelsContext::playerIDFromIndex(const int &index)
     }
 }
 
-QString LocalPlayerModelsContext::playerName(const QUuid &id)
+QString LocalPlayerModelsContext::playerNameFromId(const QUuid &id)
 {
     auto models = modelDBContext()->models("Player");
     for (auto model : models) {
@@ -272,7 +223,7 @@ QString LocalPlayerModelsContext::playerName(const QUuid &id)
     return QString();
 }
 
-QString LocalPlayerModelsContext::playerEMail(const QUuid &id)
+QString LocalPlayerModelsContext::playerMailFromId(const QUuid &id)
 {
     auto models = modelDBContext()->models("Player");
     for (auto model : models) {
@@ -313,8 +264,8 @@ QJsonArray LocalPlayerModelsContext::assemblePlayersJSONArray()
     for (auto playerID : players) {
         QJsonObject playerJSON;
         playerJSON["ID"] = playerID.toString();
-        playerJSON["UserName"] = playerName(playerID);
-        playerJSON["Mail"] = playerEMail(playerID);
+        playerJSON["UserName"] = playerNameFromId(playerID);
+        playerJSON["Mail"] = playerMailFromId(playerID);
 
         playersJSON.append(playerJSON);
     }

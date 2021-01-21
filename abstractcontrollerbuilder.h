@@ -6,14 +6,15 @@
 #include<qlist.h>
 #include "abstractgamecontroller.h"
 typedef IControllerBuilder<AbstractGameController,
-                           QUuid,QList<int>,
-                           QList<QUuid>,
-                           QList<QString>,
-                           QList<int>> ControllerBuilder;
+                           QUuid,QVector<int>,
+                           QVector<QUuid>,
+                           QVector<QString>,
+                           QVector<int>> ControllerBuilder;
 
 class AbstractControllerBuilder : public QObject,
         public ControllerBuilder
 {
+    Q_OBJECT
 signals:
     void requestFTPDetails(const QUuid &tournament);
     void sendController(AbstractGameController* controller);
@@ -22,10 +23,10 @@ public slots:
     virtual void handleRecieveGameMode(const QUuid& tournament,
                                        const int &gameMode) = 0;
     virtual AbstractGameController* assembleFTPGameController(const QUuid& tournament,
-                                   const QUuid& winner,
-                                   const QList<int>& parameters,
-                                   const QList<QUuid>& playerIds,
-                                   const QList<QString>& playerNames) = 0;
+                                                              const QUuid& winner,
+                                                              const QVector<int>& values,
+                                                              const QVector<QUuid>& userIds,
+                                                              const QVector<QString>& userNames) = 0;
 
 
 };

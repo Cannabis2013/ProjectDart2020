@@ -69,15 +69,7 @@ void LocalFTPController::handleRequestForCurrentTournamentMetaData()
 void LocalFTPController::handleRequestForPlayerScores()
 {
     auto tournamentId = tournament();
-    QList<QUuid> playerIds;
-    QList<QString> playerNames;
-    auto count = scoreController()->userScoresCount();
-    for (int i = 0; i < count; ++i) {
-        playerIds += scoreController()->userIdAtIndex(i);
-        playerNames += scoreController()->userNameAtIndex(i);
-
-    }
-    emit sendAssignedTournamentPlayers(tournamentId,playerIds,playerNames);
+    emit requestTransmitPlayerScores(tournamentId);
 }
 
 void LocalFTPController::handleScoreAddedToDataContext(const QUuid &playerID,
@@ -88,12 +80,6 @@ void LocalFTPController::handleScoreAddedToDataContext(const QUuid &playerID,
     auto playerName = scoreController()->userNameFromId(playerID);
     indexController()->syncIndex();
     emit transmitResponse(ControllerResponse::ScoreTransmit,{playerName,point,score});
-}
-
-void LocalFTPController::handleDataContextUpdated()
-{
-    _currentStatus = ControllerState::AwaitsInput;
-    sendCurrentTurnValues();
 }
 
 void LocalFTPController::handleScoreHintUpdated(const QUuid &playerID,

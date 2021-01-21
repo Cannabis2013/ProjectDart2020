@@ -5,20 +5,27 @@
 #include <qjsonobject.h>
 #include <qjsonarray.h>
 #include <qfile.h>
-#include "abstracttournamentmodelscontext.h"
-#include "abstractjsonpersistence.h"
-
 #include <iostream>
-
 #include <qthread.h>
-
 using namespace std;
 
+#include "imodelsdbcontext.h"
+class IModelParameter
+{
+public:
+    virtual bool generateID() = 0;
+    virtual IModelParameter *setGenerateID(const bool &) = 0;
+};
 
 #define THROW_OBJECT_WITH_ID_NOT_FOUND(x) QString("Model with ID: '%1' does not exists in the current context").arg(x).toStdString();
 #define THROW_OBJECT_WITH_INDEX_NOT_FOUND(x) QString("Model with index: '%1' does not exists in the current context").arg(x).toStdString();
 
-typedef ITournament<QUuid,QList<QUuid>,QString> DefaultTournamentInterface;
+#include "itournamentmodelbuilder.h"
+#include "modelbuildercontext.h"
+#include "itournamentmodel.h"
+#include "iscoremodel.h"
+
+typedef ITournament<QUuid,QVector<QUuid>,QString> DefaultTournamentInterface;
 typedef IScore<QUuid> DefaultScoreInterface;
 
 typedef ITournamentModelBuilder<DefaultTournamentInterface,
@@ -27,12 +34,13 @@ typedef ITournamentModelBuilder<DefaultTournamentInterface,
                                 ScoreParameters,
                                 ModelOptions> DefaultTournamentModelBuilder;
 
+#include "tournamentmodelscontextinterface.h"
+#include "abstractjsonpersistence.h"
+
 class LocalTournamentModelsContext :
-        public AbstractTournamentModelsContext,
+        public TournamentModelsContextInterface,
         public AbstractJSONPersistence
 {
-Q_OBJECT
-
 public:
     /*
      * Public types
@@ -68,103 +76,99 @@ public:
      */
     LocalTournamentModelsContext *setModelBuilder(DefaultTournamentModelBuilder *builder);
     DefaultTournamentModelBuilder *modelBuilder();
+
     /*
-     * Handle requests from external context
+     * Tournament related section
      */
-    void assembleAndAddTournament(const QString &title,
-                                  const QList<int> &data,
-                                  const QList<QUuid> &assignedPlayersID) override;
-    void handleAssignPlayersToTournament(const QUuid &tournament, const QList<QUuid> &playersID) override;
-    void deleteTournaments(const QVector<int>&indexes) override;
-    void handleRequestAssignedPlayers(const QUuid &tournament) override;
-    void handleTransmitPlayerScores(const QUuid &tournament,
-                                    const QList<QUuid> &playersId,
-                                    const QList<QString> &playerNames) override;
-    void handleTransmitTournaments() override;
-    void handleRequestTournamentGameMode(const int &index) override;
-    void handleRequestForTournamentMetaData(const QUuid &tournament) override;
+    QUuid assembleAndAddFTPTournament(const QString &title,
+                                      const QVector<int> &data,
+                                      const QVector<QUuid> &playerIds) override;
+    bool removeTournament(const QUuid &tournament) override;
+    bool removeTournamentsFromIndexes(const QVector<int>& indexes) override;
+    QUuid tournamentIdFromIndex(const int &index) override;
+    QVector<QUuid> tournaments() override;
+    int tournamentsCount() override;
+    QString tournamentTitle(const QUuid &tournament) override;
+    int tournamentNumberOfThrows(const QUuid &tournament) override;
+    QVector<QUuid> tournamentAssignedPlayers(const QUuid &tournament) override;
+    int tournamentGameMode(const QUuid &tournament) override;
+    int tournamentLastThrowKeyCode(const QUuid &tournament) override;
+    int tournamentKeyPoint(const QUuid &tournament) override;
+    int tournamentTableViewHint(const QUuid &tournament) override;
+    int tournamentInputMode(const QUuid &tournament) override;
+    int tournamentStatus(const QUuid &tournament) override;
+    QUuid tournamentDeterminedWinner(const QUuid &tournament) override;
+    void setTournamentDeterminedWinner(const QUuid &tournament,
+                                       const QUuid &winner) override;
+    void assignPlayerToTournament(const QUuid &tournament,
+                                  const QUuid &player) override;
+    void tournamentRemovePlayer(const QUuid &tournament,
+                                const QUuid &player) override;
+    /*
+     * Scores related section
+     */
     void addScore(const QUuid &tournament,
                   const QUuid &player,
                   const QList<int> &dataValues,
                   const bool &isWinnerDetermined) override;
-    void handleRequestSetScoreHint(const QUuid &tournament,
-                                               const QUuid &player,
-                                               const int &roundIndex,
-                                               const int &throwIndex,
-                                               const int &hint) override;
-    void handleResetTournament(const QUuid &tournament) override;
-    ImodelsDBContext<IModel<QUuid>, QString> *modelDBContext() const;
-    LocalTournamentModelsContext* setModelDBContext(ImodelsDBContext<IModel<QUuid>, QString> *context);
-    /*
-     * Send tournament values
-     */
-    void handleRequestFTPDetails(const QUuid& tournament) override;
-private:
-    /*
-     * Tournament related section
-     */
-    QUuid createTournament(const QString &title,
-                           const QList<int> &data);
-    void removeTournament(const QUuid &tournament);
-    void removeModelsRelatedToTournament(const QUuid &tournament);
-    QUuid tournamentIDFromIndex(const int &index);
-    QList<QUuid> tournaments();
-    int tournamentsCount();
-    QString tournamentTitle(const QUuid &tournament);
-    int tournamentNumberOfThrows(const QUuid &tournament);
-    QList<QUuid> tournamentAssignedPlayers(const QUuid &tournament);
-    int tournamentGameMode(const QUuid &tournament);
-    int tournamentLastThrowKeyCode(const QUuid &tournament);
-    int tournamentKeyPoint(const QUuid &tournament);
-    int tournamentTableViewHint(const QUuid &tournament);
-    int tournamentInputMode(const QUuid &tournament);
-    int tournamentStatus(const QUuid &tournament);
-    QUuid tournamentDeterminedWinner(const QUuid &tournament);
-    void setTournamentDeterminedWinner(const QUuid &tournament, const QUuid &winner);
-    void assignPlayerToTournament(const QUuid &tournament, const QUuid &player);
-    void tournamentRemovePlayer(const QUuid &tournament, const QUuid &player);
-    /*
-     * Scores related section
-     */
-    QUuid playerScore(const QUuid &tournament, const QUuid &player , const int &round, const int &throwIndex, const int &hint);
-    QList<QUuid> scores();
-    QList<QUuid> scores(const QUuid &tournament);
-    QList<QUuid> scores(const QUuid &tournament, const int &roundID);
-    QList<QUuid> scores(const QUuid &tournament, const int &roundID, const int &setID);
-    QList<QUuid> scores(const int &hint,const QUuid &tournament);
-    QList<QUuid> playerScores(const QUuid &tournament, const QUuid &player, const int &hint);
-    int playerScoreCount(const int &hint);
-    QUuid setScoreHint(const QUuid &point, const int &hint);
-    QUuid editScore(const QUuid &pointId, const int &value, const int &score,const int &hint);
-    int scoreRoundIndex(const QUuid &playerScore);
-    int scoreSetIndex(const QUuid &playerScore);
-    int scoreThrowIndex(const QUuid &playerScore);
-    int scorePointValue(const QUuid &playerScore);
-    int scoreValue(const QUuid &point);
-    QUuid scoreTournament(const QUuid &playerScore);
-    QUuid scorePlayer(const QUuid &playerScore);
-    int scoreHint(const QUuid &scoreID);
-    int scoreKeyCode(const QUuid &scoreID);
-    bool removeScore(const QUuid &point);
-    void removePlayerScore(const QUuid &point);
+    QUuid playerScore(const QUuid &tournament,
+                      const QUuid &player ,
+                      const int &round,
+                      const int &throwIndex,
+                      const int &hint) override;
+    QList<QUuid> scores() override;
+    QList<QUuid> scores(const QUuid &tournament) override;
+    QList<QUuid> scores(const QUuid &tournament,
+                        const int &roundID) override;
+    QList<QUuid> scores(const QUuid &tournament,
+                        const int &roundID,
+                        const int &setID) override;
+    QList<QUuid> scores(const int &hint,
+                        const QUuid &tournament) override;
+    QList<QUuid> playerScores(const QUuid &tournament,
+                              const QUuid &player,
+                              const int &hint) override;
+    int playerScoreCount(const int &hint) override;
+    QUuid setScoreHint(const QUuid &point,
+                       const int &hint) override;
+    QUuid editScore(const QUuid &pointId,
+                    const int &value,
+                    const int &score,
+                    const int &hint) override;
+    int scoreRoundIndex(const QUuid &playerScore) override;
+    int scoreSetIndex(const QUuid &playerScore) override;
+    int scoreThrowIndex(const QUuid &playerScore) override;
+    int scorePointValue(const QUuid &playerScore) override;
+    int scoreValue(const QUuid &point) override;
+    QUuid scoreTournament(const QUuid &playerScore) override;
+    QUuid scorePlayer(const QUuid &playerScore) override;
+    int scoreHint(const QUuid &scoreID) override;
+    int scoreKeyCode(const QUuid &scoreID) override;
+    bool removeScore(const QUuid &point) override;
+    void removePlayerScore(const QUuid &point) override;
 
-    void removeHiddenScores(const QUuid &tournament);
+    void removeHiddenScores(const QUuid &tournament) override;
 
-    int score(const QUuid &tournament, const QUuid &player);
-    int score(const QUuid &player);
-    QList<QUuid> pointModels(const QUuid &player);
-    void removeTournamentScores(const QUuid &tournament);
-    void removeTournamentModel(const QUuid &tournament);
-    void removePointModel(const QUuid &playerScore);
+    int score(const QUuid &tournament,
+              const QUuid &player) override;
+    int score(const QUuid &player) override;
+    QList<QUuid> pointModels(const QUuid &player) override;
+    void removeTournamentScores(const QUuid &tournament) override;
+    void removeTournamentModel(const QUuid &tournament) override;
+    void removePointModel(const QUuid &playerScore) override;
 
     /*
      * Tournament indexes
      */
-    const QList<int> indexes(const QUuid &tournament);
+    const QList<int> indexes(const QUuid &tournament) override;
     /*
      * Tournament scores
      */
-    QList<int> tournamentUserScores(const QUuid &tournament);
+    QList<int> tournamentUserScores(const QUuid &tournament) override;
+    LocalTournamentModelsContext* setModelDBContext(ImodelsDBContext<IModel<QUuid>, QString> *context);
+private:
+
+    ImodelsDBContext<IModel<QUuid>,QString>* modelDBContext();
     /*
      * Get tournament model
      */
@@ -196,7 +200,7 @@ private:
 
     DefaultTournamentModelBuilder *_tournamentModelBuilder;
 
-    ImodelsDBContext<IModel<QUuid>,QString> *_dbContext;
+    ImodelsDBContext<IModel<QUuid>,QString>* _dbContext;
 };
 
 #endif // TOURNAMENTMODELCONTEXT_H

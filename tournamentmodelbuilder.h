@@ -5,13 +5,9 @@
 #include "itournamentmodelbuilder.h"
 
 #include "tournament.h"
-#include "round.h"
-#include "set.h"
 #include "score.h"
 
-typedef ITournament<QUuid,QList<QUuid>,QString> DefaultTournamentInterface;
-typedef IRound<QUuid, QList<QUuid>> DefaultRoundInterface;
-typedef ISet<QUuid,QList<QUuid>> DefaultSetInterface;
+typedef ITournament<QUuid,QVector<QUuid>,QString> DefaultTournamentInterface;
 typedef IScore<QUuid> DefaultScoreInterface;
 
 

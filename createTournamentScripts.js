@@ -60,6 +60,13 @@ function initializeComponents(){
 }
 
 function acceptAndAdd(){
+    var gameMode = gameModeSelector.currentValue;
+    if(gameMode === 0x1)
+        assembleAndSendFTPTournament();
+}
+
+function assembleAndSendFTPTournament()
+{
     var indexes = playersListView.currentIndexes();
     if(indexes.length <= 0)
         return;
@@ -80,7 +87,7 @@ function acceptAndAdd(){
     arguments[4] = convertInputStringToHex(inputModeSelectorValue);
     arguments[5] = throwSpinBox.currentValue;
     // Send values
-    createBody.sendTournament(title,
+    createBody.sendFTPDetails(title,
                               arguments,
                               indexes);
 }

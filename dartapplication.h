@@ -5,22 +5,19 @@
 #include <qthreadpool.h>
 #include <iostream>
 
-#include "abstracttournamentmodelscontext.h"
-#include "abstractplayermodelscontext.h"
+#include "tournamentmodelscontextinterface.h"
+#include "playermodelscontextinterface.h"
 #include "abstractgamecontroller.h"
 #include "itournamentmodelbuilder.h"
 #include "iplayerbuildercontext.h"
-#include "IControllerBuilder.h"
+#include "abstractcontrollerbuilder.h"
 #include "iresponseinterface.h"
+#include "abstractmodelscontextinterface.h"
 
 using namespace std;
 
 #define printVariable(var) #var
 #define STATUS_ERROR -1
-
-typedef IPlayerModel<QUuid,QString> DefaultPlayerModelInterface;
-typedef IPlayerBuilderParameters<QString,QUuid> DefaultParametersInterface;
-typedef IControllerBuilder<AbstractGameController,QUuid,QList<int>,QList<QUuid>,QList<QString>,QList<int>> IDefaultGameBuilder;
 
 class DartApplication : public QObject,
         public IResponseInterface<QVariantList>
@@ -63,20 +60,18 @@ public:
     DartApplication *setup();
     DartApplication *useThreads();
     /*
-     * Get/set TournamentModelsContext
+     * Get/set modelcontext interface
      */
-    AbstractTournamentModelsContext *tournamentsModelContext() const;
-    DartApplication* setTournamentsModelContext(AbstractTournamentModelsContext *tournamentsModelContext);
-    /*
-     * Get/set PlayerModelsContext
-     */
-    AbstractPlayerModelsContext *playerModelsContext() const;
-    DartApplication* setPlayerModelsContext(AbstractPlayerModelsContext *playerModelsContext);
+    AbstractModelsContextInterface* modelsContextInterface();
+    DartApplication* setModelsContextInterface(AbstractModelsContextInterface* context);
     /*
      * Get/set GameControllerBuilder
      */
-    IDefaultGameBuilder *controllerBuilder();
-    DartApplication *setControllerBuilder(IDefaultGameBuilder *builder);
+    AbstractControllerBuilder* controllerBuilder();
+    DartApplication *setControllerBuilder(AbstractControllerBuilder *builder);
+    AbstractModelsContextInterface *modelsInterface() const;
+    DartApplication* setModelsInterface(AbstractModelsContextInterface *modelsInterface);
+
 public slots:
     void handleTournamentsRequest();
     void handleSetCurrentTournamentRequest(const int &index);
@@ -95,9 +90,9 @@ public slots:
      *   - [4] = InputMode
      *   - [5] = Number of throws
      */
-    void handleCreateTournament(const QString &title,
-                                const QList<int> &data,
-                                const QVariantList &playerIndexes);
+    void handleFTPDetails(const QString &title,
+                                const QVector<int> &data,
+                                const QVector<int> &playerIndexes);
     /*
      * Delete tournament
      */
@@ -155,13 +150,11 @@ signals:
     void sendAssignedPlayerName(const QString &playerName);
     void sendCurrentTournamentKeyPoint(const int &point);
     void sendRequestedTournament(const QString &title,
-                                 const int &numberOfThrows,
                                  const int &gameMode,
-                                 const int &keyPoint,
                                  const int &playersCount);
-    void sendTournamentCandidate(const QString &title,
-                                 const QList<int> &data,
-                                 const QList<int> &playerIndexes);
+    void sendFTPDetails(const QString &title,
+                        const QVector<int> &data,
+                        const QVector<int> &playerIndexes);
     void sendInformalControllerValues(const int &roundIndex,
                                       const QString &playerName,
                                       const bool &undoAvailable,
@@ -182,7 +175,9 @@ signals:
     void requestUndo();
     void requestRedo();
     void requestTournamentMetaData();
-    void sendTournamentMetaData(const QVariantList &meta);
+    void sendTournamentMetaData(const QVector<QString> &stringMetaData,
+                                const QVector<int> numericMetaData,
+                                const QVector<QString> &assignedPlayerNames);
     void removeScore(const QString &player);
     void sendTournamentDetails(const QUuid &tournament,
                                const QString &winner,
@@ -195,18 +190,7 @@ signals:
     void playerCreatedSuccess(const bool &status);
 
 private slots:
-    void processRecievedTournamentMetaData(const QString &title,
-                                           const int &gameMode,
-                                           const int &keyPoint,
-                                           const int &tableViewHint,
-                                           const int &inputMode,
-                                           const QString &winnerName,
-                                           const QStringList &assignedPlayerNames);
-    void handleTournamentDetailsAndSetController(const QUuid &tournament,
-                                                 const QUuid &winner,
-                                                 const QList<int> &parameters,
-                                                 const QList<QUuid>& playerIds,
-                                                 const QList<QString>& playerNames);
+    void setGameController(AbstractGameController* controller);
 private:
     // Register and connect interfaces related..
     void registerTypes();
@@ -218,23 +202,18 @@ private:
     // Threads related..
     bool usingThreads() const;
     void setUsingThreads(bool usingThreads);
-    void startTournamentModelsWorkerThread();
-    void startPlayerModelsWorkerThread();
-    void stopTournamentModelsWorkerThread();
-    void stopPlayerModelsWorkerThread();
+    void startModelsContextInterfaceThread();
+    void stopModelsInterfaceThread();
     // Builders related..
     AbstractGameController *gameController() const;
-    IDefaultGameBuilder *controllerBuilder() const;
+    AbstractControllerBuilder* controllerBuilder() const;
     // Application state member variables
-    QThread *_tournamentModelsThread = new QThread();
-    QThread *_playerModelsThread = new QThread();
-    QThread *_gameControllerThread = new QThread();
-    IDefaultGameBuilder *_controllerBuilder;
-    AbstractGameController *_gameController = nullptr;
-    AbstractTournamentModelsContext *_tournamentModelsContext = nullptr;
-    AbstractPlayerModelsContext *_playerModelsContext;
     bool _usingThreads;
-
+    QThread* _modelsContextInterfaceThread = new QThread();
+    QThread *_gameControllerThread = new QThread();
+    AbstractControllerBuilder *_controllerBuilder;
+    AbstractModelsContextInterface* _modelsInterface;
+    AbstractGameController *_gameController = nullptr;
 };
 
 #endif // PROJECTDARTINTERFACE_H

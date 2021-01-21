@@ -1,13 +1,12 @@
 #ifndef ABSTRACTJSONPERSISTENCE_H
 #define ABSTRACTJSONPERSISTENCE_H
 
-#include "persistenceinterface.h"
 #include <qdatastream.h>
 #include <qjsonobject.h>
 #include <qjsonarray.h>
 #include <qfile.h>
 
-class AbstractJSONPersistence : public PersistenceInterface
+class AbstractJSONPersistence
 {
 protected:
     void writeJSONToFile(const QJsonObject &json, const QString &fileName);

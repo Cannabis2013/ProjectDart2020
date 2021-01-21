@@ -39,9 +39,9 @@ typedef QList<PlayerPair> PlayerPairs;
 class FTPScoreController : public UserScoresControllerInterface<QUuid,QString,QList<int>>
 {
 public:
-    static FTPScoreController* createInstance(const QList<QUuid>& userIds,
-                                              const QList<QString>& userNames,
-                                              const QList<int>& userScores,
+    static FTPScoreController* createInstance(const QVector<QUuid>& userIds,
+                                              const QVector<QString>& userNames,
+                                              const QVector<int>& userScores,
                                               const QUuid &winner)
     {
         return new FTPScoreController(userIds,userNames,userScores,winner);
@@ -114,9 +114,9 @@ private:
      * Private constructor
      */
 
-    FTPScoreController(const QList<QUuid>& userIds,
-                       const QList<QString>& userNames,
-                       const QList<int>& userScores,
+    FTPScoreController(const QVector<QUuid>& userIds,
+                       const QVector<QString>& userNames,
+                       const QVector<int>& userScores,
                        const QUuid& winner)
     {
         auto assembledTuples = assembleScoreTubble(userIds,userNames,userScores);
@@ -124,9 +124,9 @@ private:
         setWinner(winner);
     }
 
-    PlayerTuples assembleScoreTubble(const QList<QUuid>& userIds,
-                             const QList<QString>& userNames,
-                             const QList<int>& userScores)
+    PlayerTuples assembleScoreTubble(const QVector<QUuid>& userIds,
+                             const QVector<QString>& userNames,
+                             const QVector<int>& userScores)
     {
         // First check for consistency
         auto userIdsCount = userIds.count();

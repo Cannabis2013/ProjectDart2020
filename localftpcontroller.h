@@ -101,7 +101,6 @@ public:
     void handleScoreAddedToDataContext(const QUuid &playerID,
                                               const int &point,
                                               const int &score) override;
-    void handleDataContextUpdated() override;
     void handleScoreHintUpdated(const QUuid &playerID,
                                        const int &point,
                                        const int &score) override;

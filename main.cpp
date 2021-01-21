@@ -8,6 +8,7 @@
 #include "gamecontrollerbuilder.h"
 #include "localtournamentmodelscontext.h"
 #include "localplayermodelscontext.h"
+#include "modelscontextinterface.h"
 #include "ftpdatamodel.h"
 #include "localtournamentmodeldb.h"
 #include "localplayerdbcontext.h"
@@ -34,11 +35,12 @@ int main(int argc, char *argv[])
             setPlayerBuilder(new PlayerModelBuilder())->
             setModelDBContext(new LocalPlayerDBContext)->
             setup();
-
+    auto modelsContext = ModelsContextInterface::createInstance()
+            ->setTournamentModelsContext(tournamentModelsContext)
+            ->setPlayerModelsContext(playerModelsContext);
     auto _dart =
             DartApplication::createInstance()->
-            setTournamentsModelContext(tournamentModelsContext)->
-            setPlayerModelsContext(playerModelsContext)->
+            setModelsContextInterface(modelsContext)->
             setControllerBuilder(new GameControllerBuilder())->
             /*useThreads()->*/
             setup();

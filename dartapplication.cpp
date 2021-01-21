@@ -3,8 +3,7 @@
 
 DartApplication::~DartApplication()
 {
-    delete _tournamentModelsContext;
-    delete _playerModelsContext;
+    delete _modelsInterface;
     delete _gameController;
 }
 
@@ -24,15 +23,24 @@ DartApplication *DartApplication::setup()
 DartApplication *DartApplication::useThreads()
 {
     try {
-        _tournamentModelsContext->moveToThread(_tournamentModelsThread);
-        _playerModelsContext->moveToThread(_playerModelsThread);
-        startTournamentModelsWorkerThread();
-        startPlayerModelsWorkerThread();
+        _modelsInterface->moveToThread(_modelsContextInterfaceThread);
+        startModelsContextInterfaceThread();
     }  catch (...) {
         // Implement some error functionality here
         return this;
     }
     setUsingThreads(true);
+    return this;
+}
+
+AbstractModelsContextInterface *DartApplication::modelsContextInterface()
+{
+    return _modelsInterface;
+}
+
+DartApplication *DartApplication::setModelsContextInterface(AbstractModelsContextInterface *context)
+{
+    _modelsInterface = context;
     return this;
 }
 
@@ -50,17 +58,13 @@ void DartApplication::handleScoreBoardRequest()
     emit requestPlayerScores();
 }
 
-void DartApplication::handleCreateTournament(const QString &title,
-                                                  const QList<int> &data,
-                                                  const QVariantList &playerIndexes)
+void DartApplication::handleFTPDetails(const QString &title,
+                                       const QVector<int> &data,
+                                       const QVector<int> &playerIndexes)
 {
-    QList<int> indexes;
-    for (auto variant : playerIndexes)
-        indexes << variant.toInt();
-
-    emit sendTournamentCandidate(title,
-                                 data,
-                                 indexes);
+    emit sendFTPDetails(title,
+                        data,
+                        playerIndexes);
 }
 
 void DartApplication::handleCreatePlayer(const QString &playerName,
@@ -151,54 +155,12 @@ void DartApplication::handleTournamentMetaRequest()
     emit requestTournamentMetaData();
 }
 
-void DartApplication::processRecievedTournamentMetaData(const QString &title,
-                                                             const int &gameMode,
-                                                             const int &keyPoint,
-                                                             const int &tableViewHint,
-                                                             const int &inputMode,
-                                                             const QString &winnerName,
-                                                             const QStringList &assignedPlayerNames)
-{
-    QVariantList args = {title,
-                         gameMode,
-                         keyPoint,
-                         tableViewHint,
-                         inputMode,
-                         assignedPlayerNames,
-                         winnerName};
-    emit sendTournamentMetaData(args);
-}
-
-void DartApplication::handleTournamentDetailsAndSetController(const QUuid& tournament,
-                                                              const QUuid& winner,
-                                                              const QList<int>& parameters,
-                                                              const QList<QUuid>& playerIds,
-                                                              const QList<QString>& playerNames)
+void DartApplication::setGameController(AbstractGameController *controller)
 {
     if(_gameController != nullptr)
-        clearGameController();
-    auto gameMode = parameters.at(0);
-    if(gameMode == GameModes::FirstToPost)
-    {
-        /*
-         * Build and inject game controller
-         */
-
-        _gameController = controllerBuilder()->assembleFTPGameController(tournament,
-                                                                         winner,
-                                                                         parameters,
-                                                                         playerIds,
-                                                                         playerNames);
-        // Connect interfaces
-        connectControllerInterface();
-        // If using threads, move controller to its designated thread
-        if(usingThreads())
-        {
-            _gameController->moveToThread(_gameControllerThread);
-            _gameControllerThread->start();
-        };
-        emit requestWakeUp();
-    }
+        _gameController->disconnect();
+    _gameController = controller;
+    connectControllerInterface();
 }
 
 void DartApplication::registerTypes()
@@ -206,8 +168,9 @@ void DartApplication::registerTypes()
     /*
      * Register meta types
      */
-    qRegisterMetaType<QList<QUuid>>("QList<QUuid>");
-    qRegisterMetaType<QList<int>>("QList<int>");
+    qRegisterMetaType<QVector<QString>>("QVector<QString>");
+    qRegisterMetaType<QVector<QUuid>>("QVector<QUuid>");
+    qRegisterMetaType<QVector<int>>("QVector<int>");
 }
 
 void DartApplication::connectModelInterfaces()
@@ -215,87 +178,68 @@ void DartApplication::connectModelInterfaces()
     /*
      * Setup upstream communication between UI and modelcontexts
      */
-    connect(_tournamentModelsContext,&AbstractTournamentModelsContext::transmitResponse,
-            this,&DartApplication::transmitResponse);
-    connect(_playerModelsContext,&AbstractPlayerModelsContext::transmitResponse,
+    connect(_modelsInterface,&AbstractModelsContextInterface::transmitResponse,
             this,&DartApplication::transmitResponse);
     /*
      * Get all tournaments
      */
     connect(this,&DartApplication::requestTournaments,
-            _tournamentModelsContext,&AbstractTournamentModelsContext::handleTransmitTournaments);
-    connect(_tournamentModelsContext,&AbstractTournamentModelsContext::sendTournament,
+            _modelsInterface,&AbstractModelsContextInterface::handleTransmitTournamentData);
+    connect(_modelsInterface,&AbstractModelsContextInterface::sendTournament,
             this,&DartApplication::sendRequestedTournament);
-    connect(_tournamentModelsContext,&AbstractTournamentModelsContext::lastTournamentTransmitted,
+    connect(_modelsInterface,&AbstractModelsContextInterface::lastTournamentTransmitted,
             this,&DartApplication::lastTournamentDetailsTransmitted);
     /*
      * Get all players
      */
     connect(this,&DartApplication::requestPlayers,
-            _playerModelsContext,&AbstractPlayerModelsContext::handleRequestPlayersDetails);
-    connect(_playerModelsContext,&AbstractPlayerModelsContext::sendPlayerDetails,
+            _modelsInterface,&AbstractModelsContextInterface::handleRequestPlayersDetails);
+    connect(_modelsInterface,&AbstractModelsContextInterface::sendPlayerDetails,
             this,&DartApplication::sendPlayerDetail);
-    connect(_playerModelsContext,&AbstractPlayerModelsContext::lastPlayerDetailTransmitted,
+    connect(_modelsInterface,&AbstractModelsContextInterface::lastPlayerDetailTransmitted,
             this,&DartApplication::lastPlayerDetailsTransmitted);
     /*
      * Create tournament
      */
-    connect(this,&DartApplication::sendTournamentCandidate,
-            _playerModelsContext,&AbstractPlayerModelsContext::handleAndProcessCreatedTournament);
-    connect(_playerModelsContext,&AbstractPlayerModelsContext::sendProcessedTournamentDetails,
-            _tournamentModelsContext,&AbstractTournamentModelsContext::assembleAndAddTournament);
+    connect(this,&DartApplication::sendFTPDetails,
+            _modelsInterface,&AbstractModelsContextInterface::handleRequestForAddFTPTournament);
     /*
      * Create player
      */
     connect(this,&DartApplication::requestCreatePlayer,
-            _playerModelsContext,&AbstractPlayerModelsContext::createPlayer);
-    connect(_playerModelsContext,&AbstractPlayerModelsContext::confirmPlayerCreated,
+            _modelsInterface,&AbstractModelsContextInterface::handleCreatePlayer);
+    connect(_modelsInterface,&AbstractModelsContextInterface::confirmPlayerCreated,
             this,&DartApplication::playerCreatedSuccess);
     /*
      * Delete tournament
      */
     connect(this,&DartApplication::requestDeleteTournaments,
-            _tournamentModelsContext,&AbstractTournamentModelsContext::deleteTournaments);
-    connect(_tournamentModelsContext,&AbstractTournamentModelsContext::tournamentsDeletedSuccess,
+            _modelsInterface,&AbstractModelsContextInterface::handleDeleteTournaments);
+    connect(_modelsInterface,&AbstractModelsContextInterface::tournamentsDeletedSuccess,
             this,&DartApplication::tournamentsDeletedSuccess);
     /*
      * Delete player{s}
      */
     connect(this,&DartApplication::requestDeletePlayer,
-            _playerModelsContext,&AbstractPlayerModelsContext::deletePlayer);
+            _modelsInterface,&AbstractModelsContextInterface::handleDeletePlayerFromIndex);
     connect(this,&DartApplication::requestDeletePlayers,
-            _playerModelsContext,&AbstractPlayerModelsContext::deletePlayers);
-    connect(_playerModelsContext,&AbstractPlayerModelsContext::playersDeletedStatus,
+            _modelsInterface,&AbstractModelsContextInterface::handleDeletePlayersFromIndexes);
+    connect(_modelsInterface,&AbstractModelsContextInterface::playersDeletedStatus,
             this,&DartApplication::playersDeletedStatus);
-    /*
-     * Set current tournament
-     */
-    connect(this,&DartApplication::setCurrentActiveTournament,
-            _tournamentModelsContext,&AbstractTournamentModelsContext::handleRequestTournamentGameMode);
-    connect(_tournamentModelsContext,&AbstractTournamentModelsContext::sendTournamentDetails,
-            _playerModelsContext,&AbstractPlayerModelsContext::processTournamentDetails);
-    connect(_playerModelsContext,&AbstractPlayerModelsContext::sendTournamentDetails,
-            this,&DartApplication::handleTournamentDetailsAndSetController);
     /*
      * Send tournament meta information
      */
-    connect(_tournamentModelsContext,&AbstractTournamentModelsContext::sendTournamentMeta,
-            _playerModelsContext,&AbstractPlayerModelsContext::handleAndProcessTournamentMetaData);
-    connect(_playerModelsContext,&AbstractPlayerModelsContext::sendProcessedTournamentMetaData,
-            this,&DartApplication::processRecievedTournamentMetaData);
+    connect(_modelsInterface,&AbstractModelsContextInterface::sendTournamentMeta,
+            this,&DartApplication::sendTournamentMetaData);
     /*
      * Send scorepoints
      */
-    connect(_tournamentModelsContext,&AbstractTournamentModelsContext::sendPlayerScore,
+    connect(_modelsInterface,&AbstractModelsContextInterface::sendPlayerScore,
             this,&DartApplication::sendPlayerScore);
 }
 
 void DartApplication::connectControllerInterface()
 {
-    /*
-    stopTournamentModelsWorkerThread();
-    stopPlayerModelsWorkerThread();
-    */
     /*
      * Establish communication between controller and UI
      */
@@ -307,14 +251,14 @@ void DartApplication::connectControllerInterface()
     connect(this,&DartApplication::requestTournamentMetaData,
             _gameController,&AbstractGameController::handleRequestForCurrentTournamentMetaData);
     connect(_gameController,&AbstractGameController::requestTournamentMetaData,
-            _tournamentModelsContext,&AbstractTournamentModelsContext::handleRequestForTournamentMetaData);
+            _modelsInterface,&AbstractModelsContextInterface::handleRequestForTournamentMetaData);
     /*
      * Setup request transmitting playerscores
      */
     connect(this,&DartApplication::requestPlayerScores,
             _gameController,&AbstractGameController::handleRequestForPlayerScores);
-    connect(_gameController,&AbstractGameController::sendAssignedTournamentPlayers,
-            _tournamentModelsContext,&AbstractTournamentModelsContext::handleTransmitPlayerScores);
+    connect(_gameController,&AbstractGameController::requestTransmitPlayerScores,
+            _modelsInterface,&AbstractModelsContextInterface::handleTransmitPlayerScores);
     /*
      * Wake up controller
      */
@@ -333,8 +277,8 @@ void DartApplication::connectControllerInterface()
     connect(this,&DartApplication::requestTournamentReset,
             _gameController,&AbstractGameController::handleResetTournament);
     connect(_gameController,&AbstractGameController::requestResetTournament,
-            _tournamentModelsContext,&AbstractTournamentModelsContext::handleResetTournament);
-    connect(_tournamentModelsContext,&AbstractTournamentModelsContext::tournamentResetSuccess,
+            _modelsInterface,&AbstractModelsContextInterface::handleResetTournament);
+    connect(_modelsInterface,&AbstractModelsContextInterface::tournamentResetSuccess,
             _gameController,&AbstractGameController::handleTournamentResetSuccess);
     /*
      * Add point
@@ -344,11 +288,9 @@ void DartApplication::connectControllerInterface()
     connect(this,&DartApplication::sendPoint,
             _gameController,&AbstractGameController::handleAndProcessUserInput);
     connect(_gameController,&AbstractGameController::requestAddScore,
-            _tournamentModelsContext,&AbstractTournamentModelsContext::addScore);
-    connect(_tournamentModelsContext,&AbstractTournamentModelsContext::scoreAddedToDataContext,
+            _modelsInterface,&AbstractModelsContextInterface::handleAddScore);
+    connect(_modelsInterface,&AbstractModelsContextInterface::scoreAddedToDataContext,
             _gameController,&AbstractGameController::handleScoreAddedToDataContext);
-    connect(_tournamentModelsContext,&AbstractTournamentModelsContext::datacontextUpdated,
-            _gameController,&AbstractGameController::handleDataContextUpdated);
     /*
      * Undo/redo
      */
@@ -357,8 +299,8 @@ void DartApplication::connectControllerInterface()
     connect(this,&DartApplication::requestRedo,
             _gameController,&AbstractGameController::redoTurn);
     connect(_gameController,&AbstractGameController::requestSetModelHint,
-            _tournamentModelsContext,&AbstractTournamentModelsContext::handleRequestSetScoreHint);
-    connect(_tournamentModelsContext,&AbstractTournamentModelsContext::scoreHintUpdated,
+            _modelsInterface,&AbstractModelsContextInterface::handleRequestSetScoreHint);
+    connect(_modelsInterface,&AbstractModelsContextInterface::scoreHintUpdated,
             _gameController,&AbstractGameController::handleScoreHintUpdated);
 }
 
@@ -369,26 +311,16 @@ void DartApplication::clearGameController()
     _gameController = nullptr;
 }
 
-void DartApplication::startTournamentModelsWorkerThread()
+void DartApplication::startModelsContextInterfaceThread()
 {
-    _tournamentModelsThread->start();
+    _modelsContextInterfaceThread->start();
 }
 
-void DartApplication::startPlayerModelsWorkerThread()
-{
-    _playerModelsThread->start();
-}
 
-void DartApplication::stopTournamentModelsWorkerThread()
+void DartApplication::stopModelsInterfaceThread()
 {
-    _tournamentModelsThread->terminate();
-    _tournamentModelsThread->wait();
-}
-
-void DartApplication::stopPlayerModelsWorkerThread()
-{
-    _playerModelsThread->terminate();
-    _playerModelsThread->wait();
+    _modelsContextInterfaceThread->terminate();
+    _modelsContextInterfaceThread->wait();
 }
 
 AbstractGameController *DartApplication::gameController() const
@@ -396,9 +328,15 @@ AbstractGameController *DartApplication::gameController() const
     return _gameController;
 }
 
-IDefaultGameBuilder *DartApplication::controllerBuilder() const
+AbstractModelsContextInterface *DartApplication::modelsInterface() const
 {
-    return _controllerBuilder;
+    return _modelsInterface;
+}
+
+DartApplication *DartApplication::setModelsInterface(AbstractModelsContextInterface *modelsInterface)
+{
+    _modelsInterface = modelsInterface;
+    return this;
 }
 
 bool DartApplication::usingThreads() const
@@ -411,35 +349,26 @@ void DartApplication::setUsingThreads(bool usingThreads)
     _usingThreads = usingThreads;
 }
 
-AbstractPlayerModelsContext *DartApplication::playerModelsContext() const
-{
-    return _playerModelsContext;
-}
-
-DartApplication *DartApplication::setPlayerModelsContext(AbstractPlayerModelsContext *playerModelsContext)
-{
-    _playerModelsContext = playerModelsContext;
-    return this;
-}
-
-IDefaultGameBuilder *DartApplication::controllerBuilder()
+AbstractControllerBuilder *DartApplication::controllerBuilder()
 {
     return _controllerBuilder;
 }
 
-DartApplication *DartApplication::setControllerBuilder(IDefaultGameBuilder *builder)
+DartApplication *DartApplication::setControllerBuilder(AbstractControllerBuilder* builder)
 {
     _controllerBuilder = builder;
-    return this;
-}
-
-AbstractTournamentModelsContext *DartApplication::tournamentsModelContext() const
-{
-    return _tournamentModelsContext;
-}
-
-DartApplication *DartApplication::setTournamentsModelContext(AbstractTournamentModelsContext *tournamentsModelContext)
-{
-    _tournamentModelsContext = tournamentsModelContext;
+    /*
+     * Connect interface
+     */
+    connect(this,&DartApplication::setCurrentActiveTournament,
+            _modelsInterface,&AbstractModelsContextInterface::handleRequestTournamentGameMode);
+    connect(_modelsInterface,&AbstractModelsContextInterface::sendTournamentGameMode,
+            _controllerBuilder,&AbstractControllerBuilder::handleRecieveGameMode);
+    connect(_controllerBuilder,&AbstractControllerBuilder::requestFTPDetails,
+            _modelsInterface,&AbstractModelsContextInterface::handleRequestFTPDetails);
+    connect(_modelsInterface,&AbstractModelsContextInterface::sendTournamentFTPDetails,
+            _controllerBuilder,&AbstractControllerBuilder::assembleFTPGameController);
+    connect(_controllerBuilder,&AbstractControllerBuilder::sendController,
+            this,&DartApplication::setGameController);
     return this;
 }
