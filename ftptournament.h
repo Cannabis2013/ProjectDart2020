@@ -4,9 +4,9 @@
 #include <quuid.h>
 #include <qstring.h>
 #include <qlist.h>
-#include "itournamentmodel.h"
+#include "ftptournamentmodelinterface.h"
 
-class Tournament : public ITournament<QUuid,QVector<QUuid>,QString>
+class FTPTournament : public FTPTournamentModelInterface<QUuid,QVector<QUuid>,QString>
 {
     // IModel interface
 public:
@@ -14,7 +14,7 @@ public:
     {
         return _id;
     }
-    Tournament* setId(const QUuid &val) override
+    FTPTournament* setId(const QUuid &val) override
     {
         _id = val;
         return this;
@@ -23,7 +23,7 @@ public:
     {
         return _modelType;
     }
-    Tournament* setType(const int &val) override
+    FTPTournament* setType(const int &val) override
     {
         _modelType = val;
         return this;
@@ -34,7 +34,7 @@ public:
     {
         return _title;
     }
-    ITournament<QUuid,QVector<QUuid>,QString>* setTitle(const QString &string) override
+    FTPTournamentModelInterface<QUuid,QVector<QUuid>,QString>* setTitle(const QString &string) override
     {
         _title = string;
         return this;
@@ -43,7 +43,7 @@ public:
     {
         return _numberOfThrows;
     }
-    ITournament<QUuid,QVector<QUuid>,QString>* setNumberOfThrows(const int &val) override
+    FTPTournamentModelInterface<QUuid,QVector<QUuid>,QString>* setNumberOfThrows(const int &val) override
     {
         _numberOfThrows = val;
         return this;
@@ -52,7 +52,7 @@ public:
     {
         return _gameMode;
     }
-    ITournament<QUuid,QVector<QUuid>,QString>* setGameMode(const int &val) override
+    FTPTournamentModelInterface<QUuid,QVector<QUuid>,QString>* setGameMode(const int &val) override
     {
         _gameMode = val;
         return this;
@@ -61,7 +61,7 @@ public:
     {
         return _keyPoint;
     }
-    ITournament<QUuid,QVector<QUuid>,QString>* setKeyPoint(const int &val) override
+    FTPTournamentModelInterface<QUuid,QVector<QUuid>,QString>* setKeyPoint(const int &val) override
     {
         _keyPoint = val;
         return this;
@@ -70,7 +70,7 @@ public:
     {
         return _status;
     }
-    ITournament<QUuid,QVector<QUuid>,QString>* setStatus(const bool &status) override
+    FTPTournamentModelInterface<QUuid,QVector<QUuid>,QString>* setStatus(const bool &status) override
     {
         _status = status;
         return this;
@@ -79,7 +79,7 @@ public:
     {
         return _winner;
     }
-    ITournament<QUuid,QVector<QUuid>,QString>* setWinner(const QUuid &val) override
+    FTPTournamentModelInterface<QUuid,QVector<QUuid>,QString>* setWinner(const QUuid &val) override
     {
         _winner = val;
         return this;
@@ -89,18 +89,18 @@ public:
     {
         return _assignedPlayerIdentities;
     }
-    ITournament<QUuid,QVector<QUuid>,QString>*setAssignedPlayerIdentities(const QVector<QUuid> &playerIdentities) override
+    FTPTournamentModelInterface<QUuid,QVector<QUuid>,QString>*setAssignedPlayerIdentities(const QVector<QUuid> &playerIdentities) override
     {
         _assignedPlayerIdentities = playerIdentities;
         return this;
     }
-    ITournament<QUuid,QVector<QUuid>,QString>* assignPlayerIdentity(const QUuid &identity) override
+    FTPTournamentModelInterface<QUuid,QVector<QUuid>,QString>* assignPlayerIdentity(const QUuid &identity) override
     {
         _assignedPlayerIdentities.append(identity);
         return this;
     }
 
-    ITournament* setParent(const QUuid &) override{
+    FTPTournamentModelInterface* setParent(const QUuid &) override{
         /*
          * No parent
          */
@@ -115,21 +115,21 @@ public:
     {
         return _terminateConditionKeyCode;
     }
-    ITournament<QUuid,QVector<QUuid>,QString>* setTerminateKeyCondition(const int &keyCode) override
+    FTPTournamentModelInterface<QUuid,QVector<QUuid>,QString>* setTerminateKeyCondition(const int &keyCode) override
     {
         _terminateConditionKeyCode = keyCode;
         return this;
     }
-    static ITournament<QUuid,QVector<QUuid>,QString> * createInstance()
+    static FTPTournamentModelInterface<QUuid,QVector<QUuid>,QString> * createInstance()
     {
-        return new Tournament();
+        return new FTPTournament();
     }
     int modelTableViewHint() const override
     {
         return _modelDisplayHint;
     }
 
-    ITournament* setModelTableViewHint(int modelDisplayHint) override
+    FTPTournamentModelInterface* setModelTableViewHint(int modelDisplayHint) override
     {
         _modelDisplayHint = modelDisplayHint;
         return this;
@@ -138,7 +138,7 @@ public:
     {
         return _inputMode;
     }
-    ITournament* setInputMode(const int &inputMode) override
+    FTPTournamentModelInterface* setInputMode(const int &inputMode) override
     {
         _inputMode = inputMode;
         return this;

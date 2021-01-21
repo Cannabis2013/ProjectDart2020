@@ -7,9 +7,16 @@
 #include <qfile.h>
 #include <iostream>
 #include <qthread.h>
-using namespace std;
 
 #include "imodelsdbcontext.h"
+#include "itournamentmodelbuilder.h"
+#include "modelbuildercontext.h"
+#include "ftptournamentmodelinterface.h"
+#include "iscoremodel.h"
+
+using namespace std;
+
+
 class IModelParameter
 {
 public:
@@ -20,12 +27,9 @@ public:
 #define THROW_OBJECT_WITH_ID_NOT_FOUND(x) QString("Model with ID: '%1' does not exists in the current context").arg(x).toStdString();
 #define THROW_OBJECT_WITH_INDEX_NOT_FOUND(x) QString("Model with index: '%1' does not exists in the current context").arg(x).toStdString();
 
-#include "itournamentmodelbuilder.h"
-#include "modelbuildercontext.h"
-#include "itournamentmodel.h"
-#include "iscoremodel.h"
 
-typedef ITournament<QUuid,QVector<QUuid>,QString> DefaultTournamentInterface;
+
+typedef FTPTournamentModelInterface<QUuid,QVector<QUuid>,QString> DefaultTournamentInterface;
 typedef IScore<QUuid> DefaultScoreInterface;
 
 typedef ITournamentModelBuilder<DefaultTournamentInterface,
@@ -165,10 +169,10 @@ public:
      * Tournament scores
      */
     QList<int> tournamentUserScores(const QUuid &tournament) override;
-    LocalTournamentModelsContext* setModelDBContext(ImodelsDBContext<IModel<QUuid>, QString> *context);
+    LocalTournamentModelsContext* setModelDBContext(ImodelsDBContext<ModelInterface<QUuid>, QString> *context);
 private:
 
-    ImodelsDBContext<IModel<QUuid>,QString>* modelDBContext();
+    ImodelsDBContext<ModelInterface<QUuid>,QString>* modelDBContext();
     /*
      * Get tournament model
      */
@@ -200,7 +204,7 @@ private:
 
     DefaultTournamentModelBuilder *_tournamentModelBuilder;
 
-    ImodelsDBContext<IModel<QUuid>,QString>* _dbContext;
+    ImodelsDBContext<ModelInterface<QUuid>,QString>* _dbContext;
 };
 
 #endif // TOURNAMENTMODELCONTEXT_H

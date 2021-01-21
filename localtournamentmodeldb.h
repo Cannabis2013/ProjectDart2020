@@ -13,7 +13,7 @@
 #include <qjsonarray.h>
 
 class LocalTournamentModelDB :
-        public ImodelsDBContext<IModel<QUuid>,QString>,
+        public ImodelsDBContext<ModelInterface<QUuid>,QString>,
         public AbstractPersistence,
         public PersistenceInterface
 {
@@ -23,13 +23,13 @@ public:
     const QStringList acceptedModelTypes = {"Tournament", "Round", "Set", "Score"};
 
     // IModelDBContext interface
-    bool addModel(const QString &type, const IModel<QUuid> *model) override;
+    bool addModel(const QString &type, const ModelInterface<QUuid> *model) override;
     bool removeModel(const QString &type, const int &indexOfModel) override;
-    bool replaceModel(const QString &type, const int &indexOfModel, const IModel<QUuid> *newModel) override;
-    const IModel<QUuid> *model(const QString &type, const int &index) override;
-    int indexOfModel(const QString &type, const IModel<QUuid> *model) override;
+    bool replaceModel(const QString &type, const int &indexOfModel, const ModelInterface<QUuid> *newModel) override;
+    const ModelInterface<QUuid> *model(const QString &type, const int &index) override;
+    int indexOfModel(const QString &type, const ModelInterface<QUuid> *model) override;
     int countOfModels(const QString &type) override;
-    QList<const IModel<QUuid> *> models(const QString &type) override;
+    QList<const ModelInterface<QUuid> *> models(const QString &type) override;
 
     // PersistenceInterface interface
     void read() override;
@@ -42,6 +42,6 @@ private:
     void extractTournamentModelsFromJSON(const QJsonArray &arr);
     void extractScoreModelsFromJSON(const QJsonArray &arr);
 
-    QMultiHash<QString,const IModel<QUuid>*> _models;
+    QMultiHash<QString,const ModelInterface<QUuid>*> _models;
 };
 #endif // LOCALTOURNAMENTMODELDB_H

@@ -1,10 +1,10 @@
 #ifndef ISCOREMODEL_H
 #define ISCOREMODEL_H
 
-#include "itournamentmodel.h"
+#include "modelinterface.h"
 
 template <class TUuid>
-class IScore : public IModel<TUuid>
+class IScore : public ModelInterface<TUuid>
 {
 public:
     virtual int point() const = 0;

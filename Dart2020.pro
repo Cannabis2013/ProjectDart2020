@@ -56,9 +56,10 @@ HEADERS += \
     dartapplication.h \
     ftpdatamodel.h \
     ftpscorecontroller.h \
+    ftptournament.h \
+    ftptournamentmodelinterface.h \
     gamecontrollerbuilder.h \
     idatacontext.h \
-    imodel.h \
     imodelsdbcontext.h \
     indexcontrollerinterface.h \
     inputvalidatorinterface.h \
@@ -71,7 +72,6 @@ HEADERS += \
     iroundmodel.h \
     iscoremodel.h \
     isetmodel.h \
-    itournamentmodel.h \
     itournamentmodelbuilder.h \
     localftpcontroller.h \
     localplayerdbcontext.h \
@@ -79,6 +79,7 @@ HEADERS += \
     localtournamentmodeldb.h \
     localtournamentmodelscontext.h \
     modelbuildercontext.h \
+    modelinterface.h \
     modelscontextinterface.h \
     persistenceinterface.h \
     player.h \
@@ -93,7 +94,6 @@ HEADERS += \
     scoreCalculatorInterface.h \
     scorecalculator.h \
     set.h \
-    tournament.h \
     tournamentmodelbuilder.h \
     tournamentmodelscontextinterface.h \
     userscorescontrollerinterface.h

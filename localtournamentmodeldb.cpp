@@ -11,7 +11,7 @@ LocalTournamentModelDB::~LocalTournamentModelDB()
     write();
 }
 
-bool LocalTournamentModelDB::addModel(const QString &type, const IModel<QUuid> *model)
+bool LocalTournamentModelDB::addModel(const QString &type, const ModelInterface<QUuid> *model)
 {
     if(!acceptedModelTypes.contains(type))
         return false;
@@ -31,7 +31,7 @@ bool LocalTournamentModelDB::removeModel(const QString &type, const int &indexOf
     return true;
 }
 
-bool LocalTournamentModelDB::replaceModel(const QString &type, const int &indexOfModel, const IModel<QUuid> *newModel)
+bool LocalTournamentModelDB::replaceModel(const QString &type, const int &indexOfModel, const ModelInterface<QUuid> *newModel)
 {
     if(!acceptedModelTypes.contains(type))
         return false;
@@ -43,7 +43,7 @@ bool LocalTournamentModelDB::replaceModel(const QString &type, const int &indexO
     return true;
 }
 
-const IModel<QUuid> *LocalTournamentModelDB::model(const QString &type, const int &index)
+const ModelInterface<QUuid> *LocalTournamentModelDB::model(const QString &type, const int &index)
 {
     if(!acceptedModelTypes.contains(type))
         throw "Type provided not covered by this context";
@@ -52,7 +52,7 @@ const IModel<QUuid> *LocalTournamentModelDB::model(const QString &type, const in
     return model;
 }
 
-int LocalTournamentModelDB::indexOfModel(const QString &type, const IModel<QUuid> *model)
+int LocalTournamentModelDB::indexOfModel(const QString &type, const ModelInterface<QUuid> *model)
 {
     if(!acceptedModelTypes.contains(type))
         return -1;
@@ -69,10 +69,10 @@ int LocalTournamentModelDB::countOfModels(const QString &type)
     return count;
 }
 
-QList<const IModel<QUuid> *> LocalTournamentModelDB::models(const QString &type)
+QList<const ModelInterface<QUuid> *> LocalTournamentModelDB::models(const QString &type)
 {
     if(!acceptedModelTypes.contains(type))
-        QList<const IModel<QUuid>*>();
+        QList<const ModelInterface<QUuid>*>();
     auto models = _models.values(type);
     return models;
 }
@@ -93,7 +93,7 @@ QJsonArray LocalTournamentModelDB::assembleTournamentsJSONArray()
     QJsonArray tournamentsJSON;
     auto tournamentModels = models("Tournament");
     for (auto model : tournamentModels) {
-        auto tournamentModel = dynamic_cast<const Tournament*>(model);
+        auto tournamentModel = dynamic_cast<const FTPTournament*>(model);
         QJsonObject obj;
         auto id = tournamentModel->id();
         obj["ID"] = id.toString();

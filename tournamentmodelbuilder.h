@@ -4,10 +4,10 @@
 #include "modelbuildercontext.h"
 #include "itournamentmodelbuilder.h"
 
-#include "tournament.h"
+#include "ftptournament.h"
 #include "score.h"
 
-typedef ITournament<QUuid,QVector<QUuid>,QString> DefaultTournamentInterface;
+typedef FTPTournamentModelInterface<QUuid,QVector<QUuid>,QString> DefaultTournamentInterface;
 typedef IScore<QUuid> DefaultScoreInterface;
 
 
@@ -30,7 +30,7 @@ public:
     DefaultTournamentInterface *buildTournamentModel(const TournamentParameters& params,
                                                      const ModelOptions& options) override
     {
-        auto t = Tournament::createInstance()
+        auto t = FTPTournament::createInstance()
                 ->setTitle(params.title)
                 ->setKeyPoint(params.keyPoint)
                 ->setGameMode(params.gameMode)

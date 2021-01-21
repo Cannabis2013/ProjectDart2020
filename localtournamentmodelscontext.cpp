@@ -879,13 +879,13 @@ QList<int> LocalTournamentModelsContext::tournamentUserScores(const QUuid &tourn
     return userScores;
 }
 
-LocalTournamentModelsContext *LocalTournamentModelsContext::setModelDBContext(ImodelsDBContext<IModel<QUuid>, QString> *context)
+LocalTournamentModelsContext *LocalTournamentModelsContext::setModelDBContext(ImodelsDBContext<ModelInterface<QUuid>, QString> *context)
 {
     _dbContext = context;
     return this;
 }
 
-ImodelsDBContext<IModel<QUuid>, QString> *LocalTournamentModelsContext::modelDBContext()
+ImodelsDBContext<ModelInterface<QUuid>, QString> *LocalTournamentModelsContext::modelDBContext()
 {
     return _dbContext;
 }
