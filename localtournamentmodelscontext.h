@@ -37,9 +37,9 @@ typedef FTPTournamentModelInterface<QUuid,QVector<QUuid>,QString> DefaultTournam
 typedef IScore<QUuid> DefaultScoreInterface;
 
 typedef ITournamentModelBuilder<DefaultTournamentInterface,
-                                TournamentParameters,
+                                FTPParameters,
                                 DefaultScoreInterface,
-                                ScoreParameters,
+                                FTPScoreParameters,
                                 ModelOptions> DefaultTournamentModelBuilder;
 
 class LocalTournamentModelsContext :

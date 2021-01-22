@@ -9,7 +9,7 @@ template<class TTournamentModel,
 class ITournamentModelBuilder
 {
 public:
-    virtual TTournamentModel *buildTournamentModel(const TTournamentParameters&, const TOptions&) = 0;
+    virtual TTournamentModel *buildFTPTournament(const TTournamentParameters&, const TOptions&) = 0;
     virtual TScoreModel *buildScoreModel(const TScoreParameters&, const TOptions&) = 0;
 };
 

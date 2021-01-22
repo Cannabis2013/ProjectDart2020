@@ -69,9 +69,9 @@ QUuid LocalTournamentModelsContext::assembleAndAddFTPTournament(const QString &t
      *  - [5] = Number of throws
      */
     // Build model
-    auto tournament = modelBuilder()->buildTournamentModel([this,title,data,playerIds]
+    auto tournament = modelBuilder()->buildFTPTournament([this,title,data,playerIds]
     {
-        TournamentParameters params;
+        FTPParameters params;
         params.title = title;
         params.gameMode = data[0];
         params.keyPoint = data[1];
@@ -220,10 +220,10 @@ void LocalTournamentModelsContext::setTournamentDeterminedWinner(const QUuid &to
                                                                  const QUuid &winner)
 {
     auto oldModel = getTournamentModelFromID(tournament);
-    auto newModel = modelBuilder()->buildTournamentModel(
+    auto newModel = modelBuilder()->buildFTPTournament(
                     [oldModel, winner]
                     {
-                        TournamentParameters params;
+                        FTPParameters params;
                         params.id = oldModel->id();
                         params.title = oldModel->title();
                         params.status = oldModel->status();
@@ -250,10 +250,10 @@ void LocalTournamentModelsContext::assignPlayerToTournament(const QUuid &tournam
     auto oldModel = getTournamentModelFromID(tournament);
     auto assignedPlayers = oldModel->assignedPlayerIdentities();
     assignedPlayers.append(player);
-    auto newModel = modelBuilder()->buildTournamentModel(
+    auto newModel = modelBuilder()->buildFTPTournament(
                 [oldModel, assignedPlayers]
     {
-        TournamentParameters params;
+        FTPParameters params;
         params.id = oldModel->id();
         params.title = oldModel->title();
         params.status = oldModel->status();
@@ -280,10 +280,10 @@ void LocalTournamentModelsContext::tournamentRemovePlayer(const QUuid &tournamen
     auto oldModel = getTournamentModelFromID(tournament);
     auto pList = oldModel->assignedPlayerIdentities();
     pList.removeOne(player);
-    auto newModel = modelBuilder()->buildTournamentModel(
+    auto newModel = modelBuilder()->buildFTPTournament(
                 [oldModel, pList]
     {
-        TournamentParameters params;
+        FTPParameters params;
         params.id = oldModel->id();
         params.title = oldModel->title();
         params.status = oldModel->status();
@@ -379,7 +379,7 @@ QUuid LocalTournamentModelsContext::setScoreHint(const QUuid &point,
     try {
         auto oldModel = getScoreModelFromID(point);
         auto newModel = modelBuilder()->buildScoreModel([oldModel,hint]{
-            ScoreParameters params;
+            FTPScoreParameters params;
             params.id = oldModel->id();
             params.tournament = oldModel->parent();
             params.pointValue = oldModel->point();
@@ -414,7 +414,7 @@ QUuid LocalTournamentModelsContext::editScore(const QUuid &pointId,
     auto newScoreModel = modelBuilder()->buildScoreModel(
                 [oldScoreModel, score, value,hint]
     {
-        ScoreParameters params;
+        FTPScoreParameters params;
         params.id = oldScoreModel->id();
         params.roundIndex = oldScoreModel->roundIndex();
         params.setIndex = oldScoreModel->setIndex();
@@ -733,9 +733,9 @@ void LocalTournamentModelsContext::buildTournament(const QUuid &id,
                                                    const int &gameMode,
                                                    const QUuid &winner)
 {
-    auto tournament = modelBuilder()->buildTournamentModel(
+    auto tournament = modelBuilder()->buildFTPTournament(
                 [id,title,keyPoint,tableViewHint,inputMode,throws,gameMode,winner]{
-                TournamentParameters params;
+                FTPParameters params;
                 params.id = id;
                 params.title = title;
                 params.keyPoint = keyPoint;
@@ -775,7 +775,7 @@ void LocalTournamentModelsContext::buildScoreModel(const QUuid &tournament,
     auto model = modelBuilder()->buildScoreModel(
                 [id,tournament,dataValues,player,hint]
     {
-        ScoreParameters params;
+        FTPScoreParameters params;
         params.id = id;
         params.playerId = player;
         params.hint = hint;

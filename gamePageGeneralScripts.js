@@ -4,7 +4,7 @@
 function connectComponents()
 {
     gamePageBody.requestMetaInformation.connect(applicationInterface.handleTournamentMetaRequest);
-    applicationInterface.sendFTPTournamentMetaData.connect(handleMetaInformation);
+    applicationInterface.sendFTPTournamentMetaData.connect(handleFTPTournamentMetaData);
     gamePageBody.requestScoreBoardData.connect(applicationInterface.handleScoreBoardRequest);
     applicationInterface.sendPlayerScore.connect(appendScore);
     gamePageBody.requestStart.connect(applicationInterface.handleRequestStart);
@@ -18,7 +18,7 @@ function connectComponents()
 function disconnectComponents()
 {
     gamePageBody.requestMetaInformation.disconnect(applicationInterface.handleTournamentMetaRequest);
-    applicationInterface.sendFTPTournamentMetaData.disconnect(handleMetaInformation);
+    applicationInterface.sendFTPTournamentMetaData.disconnect(handleFTPTournamentMetaData);
     gamePageBody.requestScoreBoardData.disconnect(applicationInterface.handleScoreBoardRequest);
     applicationInterface.sendPlayerScore.disconnect(appendScore);
     gamePageBody.requestStart.disconnect(applicationInterface.handleRequestStart);
@@ -32,7 +32,7 @@ function disconnectComponents()
 /*
   Handle initializing
   */
-function handleMetaInformation(stringArray, numericArray, playerNames){
+function handleFTPTournamentMetaData(stringArray, numericArray, playerNames){
     tournamentMetaData.tournamentTitle = stringArray[0];
     tournamentMetaData.determinedWinner = stringArray[1];
     tournamentMetaData.tournamentGameMode = numericArray[0];
