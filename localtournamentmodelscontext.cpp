@@ -89,6 +89,8 @@ QUuid LocalTournamentModelsContext::assembleAndAddFTPTournament(const QString &t
     }());
     // Add model to dbcontext
     _dbContext->addModel("Tournament",tournament);
+    // Persist state change
+    write();
     // Return model id
     return tournament->id();
 }

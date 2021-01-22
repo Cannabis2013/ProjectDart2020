@@ -22,7 +22,7 @@
 #include <iostream>
 
 
-typedef UserScoresControllerInterface<QUuid, QString,QList<int>> UserScoreController;
+typedef UserScoresControllerInterface<QUuid, QString,QVector<int>,QVector<QString>> UserScoreController;
 
 using namespace std;
 

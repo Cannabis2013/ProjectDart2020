@@ -36,79 +36,28 @@ typedef QList<PlayerTuple> PlayerTuples;
 typedef QPair<QUuid,QString> PlayerPair;
 typedef QList<PlayerPair> PlayerPairs;
 
-class FTPScoreController : public UserScoresControllerInterface<QUuid,QString,QList<int>>
+typedef UserScoresControllerInterface<QUuid,QString,QVector<int>,QVector<QString>> ScoreControllerInterface;
+
+class FTPScoreController : public ScoreControllerInterface
 {
 public:
     static FTPScoreController* createInstance(const QVector<QUuid>& userIds,
                                               const QVector<QString>& userNames,
                                               const QVector<int>& userScores,
-                                              const QUuid &winner)
-    {
-        return new FTPScoreController(userIds,userNames,userScores,winner);
-    }
+                                              const QUuid &winner);
     // UserScoresControllerInterface interface
-    virtual int scoreAtIndex(const int &index) const override
-    {
-        auto tuple = tupleAtIndex(index);
-        auto score = tuple.third;
-        return score;
-    }
-    virtual void setScoreAtIndex(const int &index, const int &input) override
-    {
-        auto tuple = tupleAtIndex(index);
-        tuple.third = input;
-        replaceTupleAt(index,tuple);
-
-    }
-    virtual void setScoreFromList(const QList<int> &list) override
-    {
-        if(list.count() != userScoresCount())
-            throw INCONSISTENCY_EXCEPTION_MESSAGE;
-        for (int i = 0; i < userScoresCount(); ++i) {
-            auto tuple = tupleAtIndex(i);
-            tuple.third = list.at(i);
-            replaceTupleAt(i,tuple);
-        }
-    }
-    virtual void setScoreAtId(const QUuid &id, const int &input) override
-    {
-        auto tuple = tupleAtId(id);
-        auto index = indexOf(tuple);
-        tuple.third = input;
-        replaceTupleAt(index,tuple);
-
-    }
-    virtual QString userNameAtIndex(const int &index) const override
-    {
-        auto tuple = tupleAtIndex(index);
-        auto name = tuple.second;
-        return name;
-    }
-    virtual QString userNameFromId(const QUuid &id) const override
-    {
-        auto tuple = tupleAtId(id);
-        auto name = tuple.second;
-        return name;
-    }
-    virtual QUuid userIdAtIndex(const int &index) const override
-    {
-        auto tuple = tupleAtIndex(index);
-        auto id = tuple.first;
-        return id;
-    }
-    virtual int userScoresCount() const override
-    {
-        return count();
-    }
-    virtual QUuid winner() const override
-    {
-        return _winner;
-    }
-    virtual UserScoresControllerInterface *setWinner(const QUuid &id) override
-    {
-        _winner = id;
-        return this;
-    }
+    virtual int scoreAtIndex(const int &index) const override;
+    virtual void setScoreAtIndex(const int &index, const int &input) override;
+    virtual void setScoreFromList(const QVector<int> &list) override;
+    virtual void setScoreAtId(const QUuid &id, const int &input) override;
+    virtual QString userNameAtIndex(const int &index) const override;
+    virtual QString userNameFromId(const QUuid &id) const override;
+    virtual QVector<QString> userNames() const override;
+    virtual QUuid userIdAtIndex(const int &index) const override;
+    virtual int userScoresCount() const override;
+    virtual QUuid winnerId() const override;
+    virtual ScoreControllerInterface *setWinner(const QUuid &id) override;
+    virtual QString winnerUserName() const override;
 private:
     /*
      * Private constructor
@@ -117,67 +66,19 @@ private:
     FTPScoreController(const QVector<QUuid>& userIds,
                        const QVector<QString>& userNames,
                        const QVector<int>& userScores,
-                       const QUuid& winner)
-    {
-        auto assembledTuples = assembleScoreTubble(userIds,userNames,userScores);
-        _playerTuples = assembledTuples;
-        setWinner(winner);
-    }
+                       const QUuid& winner);
 
     PlayerTuples assembleScoreTubble(const QVector<QUuid>& userIds,
                              const QVector<QString>& userNames,
-                             const QVector<int>& userScores)
-    {
-        // First check for consistency
-        auto userIdsCount = userIds.count();
-        auto userNamesCount = userNames.count();
-        auto userScoresCount = userScores.count();
-        auto sum = userIdsCount + userNamesCount + userScoresCount;
-        if(sum / 3 != userIdsCount)
-            throw INCONSISTENCY_EXCEPTION_MESSAGE;
-        PlayerTuples tuples;
-        for (int i = 0; i < userIdsCount; ++i) {
-            auto userId = userIds.at(i);
-            auto userName = userNames.at(i);
-            auto userScore = userScores.at(i);
-            tuples += PlayerTuple(userId,userName,userScore);
-        }
-        return tuples;
-    }
+                             const QVector<int>& userScores);
 
-    PlayerTuple tupleAtIndex(const int &index) const
-    {
-        auto tuple = _playerTuples.at(index);
-        return tuple;
-    }
-    PlayerTuple tupleAtId(const QUuid& id) const{
-        for (int i = 0; i < count(); ++i) {
-            auto tuple = _playerTuples.at(i);
-            auto _id = tuple.first;
-            if(id == _id)
-                return tuple;
-        }
-        return PlayerTuple();
-    }
+    PlayerTuple tupleAtIndex(const int &index) const;
+    PlayerTuple tupleAtId(const QUuid& id) const;
 
-    int indexOf(const PlayerTuple& tuple)
-    {
-        for (int i = 0; i < count(); ++i) {
-            auto t = _playerTuples.at(i);
-            if(t == tuple)
-                return i;
-        }
-        return -1;
-    }
+    int indexOf(const PlayerTuple& tuple);
 
-    void replaceTupleAt(const int &index,const PlayerTuple &tuple)
-    {
-        _playerTuples.replace(index,tuple);
-    }
-    int count() const
-    {
-        return _playerTuples.count();
-    }
+    void replaceTupleAt(const int &index,const PlayerTuple &tuple);
+    int count() const;
     PlayerTuples _playerTuples;
     QUuid _winner;
 };

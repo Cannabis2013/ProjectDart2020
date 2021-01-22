@@ -60,7 +60,8 @@ function initializeComponents(){
 }
 
 function acceptAndAdd(){
-    var gameMode = gameModeSelector.currentValue;
+    var gameModeString = gameModeSelector.currentValue;
+    var gameMode = gameModeToHex(gameModeString);
     if(gameMode === 0x1)
         assembleAndSendFTPTournament();
 }

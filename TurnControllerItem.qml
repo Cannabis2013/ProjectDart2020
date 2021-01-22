@@ -59,8 +59,8 @@ Item {
             Layout.fillHeight: true
             Layout.preferredWidth: 64
             onPressAndHoldClicked: startButtonPressAndHoldClicked()
-            onStartButtonClicked: body.startButtonClicked()
             startButtonText: body.startButtonText
+            onStartButtonClicked: body.startButtonClicked()
         }
 
         PushButton{

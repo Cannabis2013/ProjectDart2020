@@ -17,6 +17,7 @@ SOURCES += \
         abstractjsonpersistence.cpp \
         dartapplication.cpp \
         ftpdatamodel.cpp \
+        ftpscorecontroller.cpp \
         localftpcontroller.cpp \
         localplayerdbcontext.cpp \
         localplayermodelscontext.cpp \

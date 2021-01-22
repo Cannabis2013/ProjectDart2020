@@ -106,6 +106,7 @@ void LocalFTPController::handleTournamentResetSuccess()
 {
     // Reset index controller
     indexController()->reset();
+    auto userNames = scoreController()->userNames();
     emit transmitResponse(ControllerResponse::transmitInitialScore,{});
 
 }
@@ -265,7 +266,7 @@ void LocalFTPController::handleRequestFromUI()
     }
     else if(status() == ControllerState::WinnerDeclared)
     {
-        auto winnerName = scoreController()->winner();
+        auto winnerName = scoreController()->winnerUserName();
         emit transmitResponse(ControllerState::WinnerDeclared,{winnerName});
     }
     else if(status() == ControllerState::resetState)

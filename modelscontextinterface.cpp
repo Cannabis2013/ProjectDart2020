@@ -1,8 +1,9 @@
 #include "modelscontextinterface.h"
 
-ModelsContextInterface::ModelsContextInterface()
+ModelsContextInterface::~ModelsContextInterface()
 {
-
+    delete _tournamentModelsContext;
+    delete _playerModelsContext;
 }
 
 ModelsContextInterface *ModelsContextInterface::createInstance()
@@ -37,8 +38,9 @@ void ModelsContextInterface::handleRequestForAddFTPTournament(const QString &tit
 {
     auto playerIds = playerModelsContext()->assemblePlayerIds(assignedPlayerIndexes);
     tournamentModelsContext()->assembleAndAddFTPTournament(title,
-                                                           data,
+                                                          data,
                                                            playerIds);
+    emit transmitResponse(TournamentModelsContextResponse::TournamentCreatedOK,{});
 
 }
 

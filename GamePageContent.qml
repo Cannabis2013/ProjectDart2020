@@ -20,7 +20,7 @@ Content {
     }
     onBackButtonPressed: requestStop()
     signal requestMetaInformation
-    signal requestScoreBoardData
+    signal requestMultiScoreBoardData
     signal requestStatusFromBackend
     signal requestStart
     signal requestStop
@@ -28,8 +28,12 @@ Content {
     signal requestUndo
     signal requestRedo
     signal sendInput(int value, int modifier)
-
     signal scoreRecieved(string playerName, int point, int score, int keyCode)
+    signal setupGame()
+    onSetupGame: {
+        if(ftpMetaData.tournamentGameMode === 0x1)
+            FirstToPostScripts.setupFirstToPostScoreTable();
+    }
     QtObject{
         id: buttonTextContainer
         property string startText: qsTr("Start")
@@ -39,20 +43,23 @@ Content {
         property string waitText: qsTr("Wait")
     }
     QtObject{
-        id: tournamentMetaData
+        id: generalTournamentMetaData
         property string tournamentTitle: ""
         property int tournamentGameMode: 0
-        property int tournamentKeyPoint: 0
-        property int tournamentTableViewHint: 0
-        property int tournamentInputMode: value
         property string determinedWinner: ""
         property var assignedPlayers: []
+    }
+
+    QtObject{
+        id: ftpMetaData
+        property int tournamentKeyPoint: 0
+        property int tournamentInputMode: value
+        property int tournamentTableViewHint: 0
     }
     /*
       Handle reply from backend:
       */
     onReplyFromBackendRecieved: GameGeneralScripts.handleReplyFromBackend(response,args)
-    signal setupGame()
     function turnControllerInterface(){
         return turnControllerItemSlot.item;
     }
@@ -68,11 +75,6 @@ Content {
     function keyPadInterface()
     {
         return keyPaditemSlot.item;
-    }
-
-    onSetupGame: {
-        if(tournamentMetaData.tournamentGameMode === 0x1)
-            FirstToPostScripts.setupFirstToPostScoreTable();
     }
     GridLayout{
         id: bodyLayout
@@ -90,7 +92,7 @@ Content {
             Layout.fillWidth: true
             Layout.minimumHeight: 128
         }
-        Loader{
+         Loader{
             id: notificationItemSlot
             Layout.fillWidth: true
             Layout.maximumHeight: 40
@@ -119,7 +121,7 @@ Content {
                                               false,
                                               false);
                     var winnerName = textSourceContainer.winnerLabel + " " +
-                            tournamentMetaData.determinedWinner;
+                            ftpMetaData.determinedWinner;
                     keyPadInterface().enableKeyPad(false);
                     GameGeneralScripts.handleSetWinnerText(winnerName);
                 }
@@ -143,15 +145,6 @@ Content {
                 script: {
                     turnControllerInterface().startButtonEnabled = true;
                     turnControllerInterface().startButtonText = buttonTextContainer.startText;
-                }
-            }
-        },
-        State {
-            name: "restart"
-            StateChangeScript{
-                script: {
-                    FirstToPostScripts.setupFirstToPost();
-                    gamePageBody.requestRestart();
                 }
             }
         },

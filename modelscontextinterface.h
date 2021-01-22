@@ -36,8 +36,14 @@ public:
         Circular = 0x3,
         Cricket = 0x4
     };
-    ModelsContextInterface();
-
+    /*
+     * Destructor
+     *  - Delete contexts to persists changes
+     */
+    ~ModelsContextInterface();
+    /*
+     * Create instance
+     */
     static ModelsContextInterface* createInstance();
 
 

@@ -13,6 +13,10 @@ class AbstractModelsContextInterface : public QObject,
     Q_OBJECT
 public:
     /*
+     * Destructor
+     */
+    virtual ~AbstractModelsContextInterface() = default;
+    /*
      * Tournament-models context interface..
      */
     /*

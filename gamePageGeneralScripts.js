@@ -5,7 +5,7 @@ function connectComponents()
 {
     gamePageBody.requestMetaInformation.connect(applicationInterface.handleTournamentMetaRequest);
     applicationInterface.sendFTPTournamentMetaData.connect(handleFTPTournamentMetaData);
-    gamePageBody.requestScoreBoardData.connect(applicationInterface.handleScoreBoardRequest);
+    gamePageBody.requestMultiScoreBoardData.connect(applicationInterface.handleScoreBoardRequest);
     applicationInterface.sendPlayerScore.connect(appendScore);
     gamePageBody.requestStart.connect(applicationInterface.handleRequestStart);
     gamePageBody.requestStop.connect(applicationInterface.handleRequestStop);
@@ -19,7 +19,7 @@ function disconnectComponents()
 {
     gamePageBody.requestMetaInformation.disconnect(applicationInterface.handleTournamentMetaRequest);
     applicationInterface.sendFTPTournamentMetaData.disconnect(handleFTPTournamentMetaData);
-    gamePageBody.requestScoreBoardData.disconnect(applicationInterface.handleScoreBoardRequest);
+    gamePageBody.requestMultiScoreBoardData.disconnect(applicationInterface.handleScoreBoardRequest);
     applicationInterface.sendPlayerScore.disconnect(appendScore);
     gamePageBody.requestStart.disconnect(applicationInterface.handleRequestStart);
     gamePageBody.requestStop.disconnect(applicationInterface.handleRequestStop);
@@ -33,14 +33,14 @@ function disconnectComponents()
   Handle initializing
   */
 function handleFTPTournamentMetaData(stringArray, numericArray, playerNames){
-    tournamentMetaData.tournamentTitle = stringArray[0];
-    tournamentMetaData.determinedWinner = stringArray[1];
-    tournamentMetaData.tournamentGameMode = numericArray[0];
-    tournamentMetaData.tournamentKeyPoint = numericArray[1];
-    tournamentMetaData.tournamentTableViewHint = numericArray[2];
-    tournamentMetaData.tournamentInputMode = numericArray[3];
-    tournamentMetaData.assignedPlayers = playerNames;
-    if(tournamentMetaData.tournamentGameMode === 0x1)
+    generalTournamentMetaData.tournamentTitle = stringArray[0];
+    generalTournamentMetaData.determinedWinner = stringArray[1];
+    generalTournamentMetaData.tournamentGameMode = numericArray[0];
+    generalTournamentMetaData.assignedPlayers = playerNames;
+    ftpMetaData.tournamentKeyPoint = numericArray[1];
+    ftpMetaData.tournamentTableViewHint = numericArray[2];
+    ftpMetaData.tournamentInputMode = numericArray[3];
+    if(generalTournamentMetaData.tournamentGameMode === 0x1)
         FirstToPostScripts.setupFirstToPost();
 }
 /*
@@ -52,7 +52,7 @@ function appendScore(player,point,score, keyCode)
 }
 function takeScore(player,score,point)
 {
-    if(tournamentMetaData.tournamentGameMode === 0x1)
+    if(ftpMetaData.tournamentGameMode === 0x1)
         scoreBoardInterface().takeData(player,point,score);
 }
 
@@ -94,15 +94,9 @@ function handleReplyFromBackend(response,args)
     }
     else if(response === 0x29) // Backend is reset
     {
-        let keyPoint = args[0];
-        let names = args[1];
-
-        for(var i = 0;i < names.length;i++)
-        {
-            let name = names[i];
-            appendScore(name,0,keyPoint,-1);
-        }
-        requestStatusFromBackend();
+        var gameMode = generalTournamentMetaData.tournamentGameMode;
+        if(gameMode === 0x1)
+            reinitializeFTPTournament();
     }
     /*
       Backend responds that it has updated its datacontext
@@ -127,7 +121,7 @@ function handleReplyFromBackend(response,args)
     }
     else if(response === 0x15) // Winner declared
     {
-        tournamentMetaData.determinedWinner = args[0];
+        ftpMetaData.determinedWinner = args[0];
         gamePageBody.state = "winner";
 
     }
@@ -165,4 +159,17 @@ function handleKeyPadInput(value,keyCode){
 function handleSetWinnerText(text)
 {
     notificationItemSlot.item.setCurrentWinner(text);
+}
+
+function reinitializeFTPTournament()
+{
+    let keyPoint = ftpMetaData.tournamentKeyPoint;
+    let names = generalTournamentMetaData.assignedPlayers;
+
+    for(var i = 0;i < names.length;i++)
+    {
+        let name = names[i];
+        appendScore(name,0,keyPoint,-1);
+    }
+    FirstToPostScripts.setupFirstToPost();
 }
