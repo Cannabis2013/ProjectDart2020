@@ -18,6 +18,15 @@ class LocalTournamentModelDB :
         public PersistenceInterface
 {
 public:
+    /*
+     * Public types
+     */
+    enum GameModes {
+        FirstToPost = 0x1,
+        RoundLimit =0x2,
+        Circular = 0x3,
+        Cricket = 0x4
+    };
     LocalTournamentModelDB(const QString& orgName = "MH", const QString& appName = "Dart2020");
     ~LocalTournamentModelDB();
     const QStringList acceptedModelTypes = {"Tournament", "Round", "Set", "Score"};
@@ -35,8 +44,8 @@ public:
     void read() override;
     void write() override;
 private:
-
     QJsonArray assembleTournamentsJSONArray();
+    QJsonObject assembleFTPTournamentJSONArray(const FTPTournament *tournamentModel);
     QJsonArray assembleScoresJSONArray();
 
     void extractTournamentModelsFromJSON(const QJsonArray &arr);

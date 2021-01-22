@@ -4,7 +4,7 @@
 function connectComponents()
 {
     gamePageBody.requestMetaInformation.connect(applicationInterface.handleTournamentMetaRequest);
-    applicationInterface.sendTournamentMetaData.connect(handleMetaInformation);
+    applicationInterface.sendFTPTournamentMetaData.connect(handleMetaInformation);
     gamePageBody.requestScoreBoardData.connect(applicationInterface.handleScoreBoardRequest);
     applicationInterface.sendPlayerScore.connect(appendScore);
     gamePageBody.requestStart.connect(applicationInterface.handleRequestStart);
@@ -18,7 +18,7 @@ function connectComponents()
 function disconnectComponents()
 {
     gamePageBody.requestMetaInformation.disconnect(applicationInterface.handleTournamentMetaRequest);
-    applicationInterface.sendTournamentMetaData.disconnect(handleMetaInformation);
+    applicationInterface.sendFTPTournamentMetaData.disconnect(handleMetaInformation);
     gamePageBody.requestScoreBoardData.disconnect(applicationInterface.handleScoreBoardRequest);
     applicationInterface.sendPlayerScore.disconnect(appendScore);
     gamePageBody.requestStart.disconnect(applicationInterface.handleRequestStart);
@@ -32,14 +32,14 @@ function disconnectComponents()
 /*
   Handle initializing
   */
-function handleMetaInformation(meta){
-    tournamentMetaData.tournamentTitle = meta[0];
-    tournamentMetaData.tournamentGameMode = meta[1];
-    tournamentMetaData.tournamentKeyPoint = meta[2];
-    tournamentMetaData.tournamentTableViewHint = meta[3];
-    tournamentMetaData.tournamentInputMode = meta[4];
-    tournamentMetaData.assignedPlayers = meta[5];
-    tournamentMetaData.determinedWinner = meta[6];
+function handleMetaInformation(stringArray, numericArray, playerNames){
+    tournamentMetaData.tournamentTitle = stringArray[0];
+    tournamentMetaData.determinedWinner = stringArray[1];
+    tournamentMetaData.tournamentGameMode = numericArray[0];
+    tournamentMetaData.tournamentKeyPoint = numericArray[1];
+    tournamentMetaData.tournamentTableViewHint = numericArray[2];
+    tournamentMetaData.tournamentInputMode = numericArray[3];
+    tournamentMetaData.assignedPlayers = playerNames;
     if(tournamentMetaData.tournamentGameMode === 0x1)
         FirstToPostScripts.setupFirstToPost();
 }

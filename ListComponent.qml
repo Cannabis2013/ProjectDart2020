@@ -202,7 +202,7 @@ Rectangle{
                     if(type == "player")
                         return "Mail: " + mail;
                     else
-                        "Throws: " + Throws + " | Keypoint: " + KeyPoint + " | Playercount: " + playersCount;
+                        "Playercount: " + playersCount;
                 }
 
                 x: parent.width / 2 - width / 2

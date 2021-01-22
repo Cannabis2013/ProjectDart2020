@@ -14,6 +14,10 @@
 #include "ftptournamentmodelinterface.h"
 #include "iscoremodel.h"
 
+#include "tournamentmodelscontextinterface.h"
+#include "abstractjsonpersistence.h"
+#include "persistenceinterface.h"
+
 using namespace std;
 
 
@@ -38,12 +42,10 @@ typedef ITournamentModelBuilder<DefaultTournamentInterface,
                                 ScoreParameters,
                                 ModelOptions> DefaultTournamentModelBuilder;
 
-#include "tournamentmodelscontextinterface.h"
-#include "abstractjsonpersistence.h"
-
 class LocalTournamentModelsContext :
         public TournamentModelsContextInterface,
-        public AbstractJSONPersistence
+        public AbstractJSONPersistence,
+        public PersistenceInterface
 {
 public:
     /*
@@ -171,7 +173,6 @@ public:
     QList<int> tournamentUserScores(const QUuid &tournament) override;
     LocalTournamentModelsContext* setModelDBContext(ImodelsDBContext<ModelInterface<QUuid>, QString> *context);
 private:
-
     ImodelsDBContext<ModelInterface<QUuid>,QString>* modelDBContext();
     /*
      * Get tournament model

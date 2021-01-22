@@ -2,9 +2,8 @@
 #define TOURNAMENTMODELINTERFACE_H
 
 #include <quuid.h>
-#include "persistenceinterface.h"
 
-class TournamentModelsContextInterface : public PersistenceInterface
+class TournamentModelsContextInterface
 {
 public:
     virtual ~TournamentModelsContextInterface()= default;

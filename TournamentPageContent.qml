@@ -17,11 +17,9 @@ Content{
         property int currentIndex: -1
     }
 
-    function recieveTournament(title,numberOfThrows,gameMode,keyPoint,playersCount){
+    function recieveTournament(title,gameMode,playersCount){
         tournamentListView.addItemModel({"type" : "tournament",
                                             "tournamentTitle" : title,
-                                            "Throws" : numberOfThrows,
-                                            "KeyPoint" : keyPoint,
                                             "playersCount" : playersCount})
     }
     onReplyFromBackendRecieved: {

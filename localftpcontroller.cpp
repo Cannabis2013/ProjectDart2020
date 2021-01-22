@@ -63,7 +63,7 @@ void LocalFTPController::handleAndProcessUserInput(const int &point,
 void LocalFTPController::handleRequestForCurrentTournamentMetaData()
 {
     auto tournament = this->tournament();
-    emit requestTournamentMetaData(tournament);
+    emit requestFTPTournamentMetaData(tournament);
 }
 
 void LocalFTPController::handleRequestForPlayerScores()

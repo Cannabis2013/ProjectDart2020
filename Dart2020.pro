@@ -69,9 +69,7 @@ HEADERS += \
     iplayermodelbuilder.h \
     ipointlogisticinterface.h \
     iresponseinterface.h \
-    iroundmodel.h \
     iscoremodel.h \
-    isetmodel.h \
     itournamentmodelbuilder.h \
     localftpcontroller.h \
     localplayerdbcontext.h \
@@ -89,11 +87,9 @@ HEADERS += \
     pointScoreCalculator.h \
     pointlogisticmanager.h \
     pointvalidator.h \
-    round.h \
     score.h \
     scoreCalculatorInterface.h \
     scorecalculator.h \
-    set.h \
     tournamentmodelbuilder.h \
     tournamentmodelscontextinterface.h \
     userscorescontrollerinterface.h

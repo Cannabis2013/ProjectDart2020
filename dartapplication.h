@@ -74,6 +74,9 @@ public:
 
 public slots:
     void handleTournamentsRequest();
+    /*
+     * Set current tournament
+     */
     void handleSetCurrentTournamentRequest(const int &index);
     /*
      * UI request data to populate scoreboard
@@ -175,7 +178,7 @@ signals:
     void requestUndo();
     void requestRedo();
     void requestTournamentMetaData();
-    void sendTournamentMetaData(const QVector<QString> &stringMetaData,
+    void sendFTPTournamentMetaData(const QVector<QString> &stringMetaData,
                                 const QVector<int> numericMetaData,
                                 const QVector<QString> &assignedPlayerNames);
     void removeScore(const QString &player);

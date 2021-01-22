@@ -10,6 +10,9 @@
 class ModelsContextInterface : public AbstractModelsContextInterface
 {
 public:
+    /*
+     * Public types
+     */
     enum TournamentModelsContextResponse{
         TournamentCreatedOK = 0x32,
         TournamentDeletedOK = 0x35,
@@ -26,6 +29,12 @@ public:
         HiddenHint = 0x9,
         DisplayHint = 0xA,
         allHints = 0xB
+    };
+    enum GameModes {
+        FirstToPost = 0x1,
+        RoundLimit =0x2,
+        Circular = 0x3,
+        Cricket = 0x4
     };
     ModelsContextInterface();
 
@@ -54,7 +63,23 @@ public slots:
     void handleTransmitPlayerScores(const QUuid &tournament) override;
     void handleTransmitTournamentData() override;
     void handleRequestTournamentGameMode(const int &index) override;
-    void handleRequestForTournamentMetaData(const QUuid &tournament) override;
+    /*
+     * Handle request for 'first to post'-tournament related meta information
+     * from frontend
+     *
+     * Returned data structure:
+     *  - String values are placed in a list of strings
+     *  | in the following locations:
+     *      [0] = Tournament title
+     *      [1] = Tournament winner name
+     *  - Numeric values are placed in a list of integers
+     *  | in the following locations:
+     *      [0] = Tournmaent game mode
+     *      [1] = Tournament keypoint
+     *      [2] = Tournament model tablehint
+     *      [3] = Tournament input mode
+     */
+    void handleRequestForFTPMetaData(const QUuid& tournament);
     void handleAddScore(const QUuid &tournament,
                   const QUuid &player,
                   const QList<int> &dataValues,

@@ -161,6 +161,8 @@ void DartApplication::setGameController(AbstractGameController *controller)
         _gameController->disconnect();
     _gameController = controller;
     connectControllerInterface();
+
+    emit requestWakeUp();
 }
 
 void DartApplication::registerTypes()
@@ -230,7 +232,7 @@ void DartApplication::connectModelInterfaces()
      * Send tournament meta information
      */
     connect(_modelsInterface,&AbstractModelsContextInterface::sendTournamentMeta,
-            this,&DartApplication::sendTournamentMetaData);
+            this,&DartApplication::sendFTPTournamentMetaData);
     /*
      * Send scorepoints
      */
@@ -250,8 +252,8 @@ void DartApplication::connectControllerInterface()
      */
     connect(this,&DartApplication::requestTournamentMetaData,
             _gameController,&AbstractGameController::handleRequestForCurrentTournamentMetaData);
-    connect(_gameController,&AbstractGameController::requestTournamentMetaData,
-            _modelsInterface,&AbstractModelsContextInterface::handleRequestForTournamentMetaData);
+    connect(_gameController,&AbstractGameController::requestFTPTournamentMetaData,
+            _modelsInterface,&AbstractModelsContextInterface::handleRequestForFTPMetaData);
     /*
      * Setup request transmitting playerscores
      */

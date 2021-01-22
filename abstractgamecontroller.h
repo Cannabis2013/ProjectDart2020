@@ -42,7 +42,7 @@ public slots:
     virtual void handleWakeUpRequest() = 0;
 signals:
     void transmitResponse(const int &status, const QVariantList &args) override;
-    void requestTournamentMetaData(const QUuid &tournament);
+    void requestFTPTournamentMetaData(const QUuid &tournament);
     void requestTransmitPlayerScores(const QUuid &tournament);
     void requestTournamentIndexes(const QUuid &tournament);
     void requestAddScore(const QUuid &tournamentID,

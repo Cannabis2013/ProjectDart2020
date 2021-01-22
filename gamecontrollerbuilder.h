@@ -46,26 +46,25 @@ public:
         auto indexes = values.mid(5,5);
         auto userScores = values.mid(10);
         auto playersCount = userIds.count();
+        AbstractGameController* controller = nullptr;
         if(type == InputModes::PointMode)
         {
-            auto controller = LocalFTPController::createInstance(tournament)
+            controller = LocalFTPController::createInstance(tournament)
                     ->setPointLogisticInterface(PointLogisticManager::createInstance(numberOfThrows,terminalKeyCode))
                     ->setScoreCalculator(new PointScoreCalculator())
                     ->setInputValidator(PointValidator::createInstance(terminalKeyCode))
                     ->setIndexController(PointIndexController::createInstance(numberOfThrows,playersCount,indexes))
                     ->setScoreController(FTPScoreController::createInstance(userIds,userNames,userScores,winner));
-            return controller;
         }
         else if(type == InputModes::ScoreMode)
         {
-            auto controller = LocalFTPController::createInstance(tournament)
+            controller = LocalFTPController::createInstance(tournament)
                     ->setPointLogisticInterface(PointLogisticManager::createInstance(numberOfThrows,terminalKeyCode))
                     ->setScoreCalculator(new ScoreCalculator())
                     ->setInputValidator(ScoreValidator::createInstance(terminalKeyCode))
                     ->setScoreController(FTPScoreController::createInstance(userIds,userNames,userScores,winner));
-            return controller;
         }
-        return nullptr;
+        emit sendController(controller);
     }
     virtual void handleRecieveGameMode(const QUuid &tournament, const int &gameMode) override
     {

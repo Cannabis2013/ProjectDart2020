@@ -131,35 +131,6 @@ void ModelsContextInterface::handleRequestTournamentGameMode(const int &index)
     auto gameMode = tournamentModelsContext()->tournamentGameMode(tournamentId);
     emit sendTournamentGameMode(tournamentId,gameMode);
 }
-
-void ModelsContextInterface::handleRequestForTournamentMetaData(const QUuid &tournament)
-{
-    auto title = tournamentModelsContext()->tournamentTitle(tournament);
-    // Get winner name from id, if any
-    auto winnerId = tournamentModelsContext()->tournamentDeterminedWinner(tournament);
-    auto winnerName = playerModelsContext()->playerNameFromId(winnerId);
-    auto gameMode = tournamentModelsContext()->tournamentGameMode(tournament);
-    auto keyPoint = tournamentModelsContext()->tournamentKeyPoint(tournament);
-    auto modelTableViewHint = tournamentModelsContext()->tournamentTableViewHint(tournament);
-    auto inputMode = tournamentModelsContext()->tournamentInputMode(tournament);
-    // Get playernames from ids
-    auto playersId = tournamentModelsContext()->tournamentAssignedPlayers(tournament);
-    auto assignedPlayerNames = playerModelsContext()->assemblePlayerNamesFromIds(playersId);
-    QVector<QString> stringMetaData = {
-        title,
-        winnerName
-    };
-    QVector<int> numericMetaData = {
-        gameMode,
-        keyPoint,
-        modelTableViewHint,
-        inputMode
-    };
-    emit sendTournamentMeta(stringMetaData,
-                            numericMetaData,
-                            assignedPlayerNames);
-}
-
 void ModelsContextInterface::handleAddScore(const QUuid &tournament,
                                             const QUuid &player,
                                             const QList<int> &dataValues,
@@ -261,4 +232,32 @@ void ModelsContextInterface::handleRequestPlayersDetails()
         emit sendPlayerDetails(playerName,mail);
     }
     emit lastPlayerDetailTransmitted();
+}
+
+void ModelsContextInterface::handleRequestForFTPMetaData(const QUuid &tournament)
+{
+    auto title = tournamentModelsContext()->tournamentTitle(tournament);
+    // Get winner name from id, if any
+    auto winnerId = tournamentModelsContext()->tournamentDeterminedWinner(tournament);
+    auto winnerName = playerModelsContext()->playerNameFromId(winnerId);
+    auto gameMode = tournamentModelsContext()->tournamentGameMode(tournament);
+    auto keyPoint = tournamentModelsContext()->tournamentKeyPoint(tournament);
+    auto modelTableViewHint = tournamentModelsContext()->tournamentTableViewHint(tournament);
+    auto inputMode = tournamentModelsContext()->tournamentInputMode(tournament);
+    // Get playernames from ids
+    auto playersId = tournamentModelsContext()->tournamentAssignedPlayers(tournament);
+    auto assignedPlayerNames = playerModelsContext()->assemblePlayerNamesFromIds(playersId);
+    QVector<QString> stringMetaData = {
+        title,
+        winnerName
+    };
+    QVector<int> numericMetaData = {
+        gameMode,
+        keyPoint,
+        modelTableViewHint,
+        inputMode
+    };
+    emit sendTournamentMeta(stringMetaData,
+                            numericMetaData,
+                            assignedPlayerNames);
 }
