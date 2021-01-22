@@ -5,18 +5,14 @@
 function assembleKeyPad()
 {
     /*
-      Left side button hot keys
+      Various hotkeys
       */
     assembleHotPadItems();
     /*
       Numberpads
-        - Digits from 1 to 9
+        - Digits from 0 to 9
       */
     assembleNumberPadItems();
-    /*
-      '0' numberpad
-      */
-
 }
 function assembleHotPadItems()
 {

@@ -4,7 +4,7 @@
 #include <quuid.h>
 #include <qlist.h>
 
-struct TournamentParameters
+struct FTPParameters
 {
     int throws;
     int gameMode;
@@ -27,7 +27,7 @@ struct TournamentParameters
     int winConditionKey = 0x2B;
 };
 
-struct ScoreParameters
+struct FTPScoreParameters
 {
     int pointValue;
     int scoreValue;

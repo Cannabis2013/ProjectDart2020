@@ -10,10 +10,10 @@
 #include "scorecalculator.h"
 #include "pointvalidator.h"
 #include "ScoreValidator.h"
-#include "PointIndexController.h"
-#include "ftpscorecontroller.h"
 #include "abstractcontrollerbuilder.h"
-
+#include "ftpscorecontroller.h"
+#include "PointIndexController.h"
+#include "scoreindexcontroller.h"
 class GameControllerBuilder : public AbstractControllerBuilder
 {
     // IControllerBuilder interface
@@ -62,9 +62,11 @@ public:
                     ->setPointLogisticInterface(PointLogisticManager::createInstance(numberOfThrows,terminalKeyCode))
                     ->setScoreCalculator(new ScoreCalculator())
                     ->setInputValidator(ScoreValidator::createInstance(terminalKeyCode))
+                    ->setIndexController(ScoreIndexController::createInstance(playersCount,indexes))
                     ->setScoreController(FTPScoreController::createInstance(userIds,userNames,userScores,winner));
         }
         emit sendController(controller);
+        return controller;
     }
     virtual void handleRecieveGameMode(const QUuid &tournament, const int &gameMode) override
     {

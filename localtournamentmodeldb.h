@@ -13,9 +13,7 @@
 #include <qjsonarray.h>
 
 class LocalTournamentModelDB :
-        public ImodelsDBContext<ModelInterface<QUuid>,QString>,
-        public AbstractPersistence,
-        public PersistenceInterface
+        public ImodelsDBContext<ModelInterface<QUuid>,QString>
 {
 public:
     /*
@@ -27,7 +25,7 @@ public:
         Circular = 0x3,
         Cricket = 0x4
     };
-    LocalTournamentModelDB(const QString& orgName = "MH", const QString& appName = "Dart2020");
+    LocalTournamentModelDB();
     ~LocalTournamentModelDB();
     const QStringList acceptedModelTypes = {"Tournament", "Round", "Set", "Score"};
 
@@ -39,18 +37,7 @@ public:
     int indexOfModel(const QString &type, const ModelInterface<QUuid> *model) override;
     int countOfModels(const QString &type) override;
     QList<const ModelInterface<QUuid> *> models(const QString &type) override;
-
-    // PersistenceInterface interface
-    void read() override;
-    void write() override;
 private:
-    QJsonArray assembleTournamentsJSONArray();
-    QJsonObject assembleFTPTournamentJSONArray(const FTPTournament *tournamentModel);
-    QJsonArray assembleScoresJSONArray();
-
-    void extractTournamentModelsFromJSON(const QJsonArray &arr);
-    void extractScoreModelsFromJSON(const QJsonArray &arr);
-
     QMultiHash<QString,const ModelInterface<QUuid>*> _models;
 };
 #endif // LOCALTOURNAMENTMODELDB_H

@@ -18,16 +18,14 @@ namespace DefaultModelBuilderContext
 
 class TournamentModelBuilder :
         public ITournamentModelBuilder<DefaultTournamentInterface,
-                                       TournamentParameters,
+                                       FTPParameters,
                                        DefaultScoreInterface,
-                                       ScoreParameters,
+                                       FTPScoreParameters,
                                        ModelOptions>
 {
 public:
-
     // ITournamentModelBuilder interface
-public:
-    DefaultTournamentInterface *buildTournamentModel(const TournamentParameters& params,
+    DefaultTournamentInterface *buildFTPTournament(const FTPParameters& params,
                                                      const ModelOptions& options) override
     {
         auto t = FTPTournament::createInstance()
@@ -49,7 +47,7 @@ public:
         return t;
 
     }
-    DefaultScoreInterface *buildScoreModel(const ScoreParameters& params,
+    DefaultScoreInterface *buildScoreModel(const FTPScoreParameters& params,
                                            const ModelOptions& options) override
     {
         auto t = Score::createInstance()

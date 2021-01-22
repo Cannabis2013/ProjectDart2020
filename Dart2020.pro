@@ -24,7 +24,8 @@ SOURCES += \
         localtournamentmodelscontext.cpp \
         main.cpp \
         modelscontextinterface.cpp \
-        pointlogisticmanager.cpp
+        pointlogisticmanager.cpp \
+        scoreindexcontroller.cpp
 
 RESOURCES += qml.qrc
 
@@ -90,6 +91,7 @@ HEADERS += \
     score.h \
     scoreCalculatorInterface.h \
     scorecalculator.h \
+    scoreindexcontroller.h \
     tournamentmodelbuilder.h \
     tournamentmodelscontextinterface.h \
     userscorescontrollerinterface.h

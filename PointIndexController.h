@@ -44,13 +44,13 @@ public:
     virtual void undo() override
     {
         _index--;
-        if(_legIndex > 0)
-            _legIndex--;
+        if(legIndex() > 0)
+           _legIndex--;
         else
         {
             _legIndex = 2;
 
-            if(_setIndex == 0)
+            if(setIndex() == 0)
             {
                 _setIndex = lastPlayerIndex();
                 _roundIndex--;
@@ -78,11 +78,11 @@ public:
     }
     virtual bool canUndo() override
     {
-        return _index > 0;
+        return index() > 0;
     }
     virtual bool canRedo() override
     {
-        return _index < _totalIndex;
+        return index() < _totalIndex;
     }
     virtual void syncIndex() override
     {
@@ -120,7 +120,6 @@ private:
         _setIndex = indexes.at(3);
         _legIndex = indexes.at(4);
     }
-
     int playerCount()
     {
         return _playerCount;
@@ -160,7 +159,7 @@ private:
 
     int lastPlayerIndex()
     {
-        return _playerCount -1;
+        return playerCount() -1;
     }
 
     int _index = 0, _totalIndex  = 0, _roundIndex = 1, _setIndex = 0, _legIndex = 0;
