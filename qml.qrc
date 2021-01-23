@@ -12,7 +12,7 @@
         <file>MyRectangle.qml</file>
         <file>TextInputBox.qml</file>
         <file>MyLabel.qml</file>
-        <file>ListComponent.qml</file>
+        <file>ListViewComponent.qml</file>
         <file>ComboBoxComponent.qml</file>
         <file>MainComponent.qml</file>
         <file>ButtonsComponent.qml</file>
@@ -73,6 +73,7 @@
         <file>KeyPadScoreView.qml</file>
         <file>scoreKeyPadScripts.js</file>
         <file>scoreViewScripts.js</file>
+        <file>DefaultTitleComponent.qml</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>

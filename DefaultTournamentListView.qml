@@ -1,10 +1,10 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 
-ListComponent {
+ListViewComponent {
     id: tournamentListView
     radius: 15
-    componentTitle: "Tournaments"
+    componentTitle: "| Tournaments"
     titleBackground: "transparent"
     itemBackgroundColor: "gray"
     itemBackgroundOpacity: 0.3

@@ -4,7 +4,7 @@ import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.3
 
 Rectangle{
-    id: body
+    id: labelComponentBody
 
     clip: true
     property color fontColor: "black"
@@ -12,17 +12,17 @@ Rectangle{
     property int fontSize: 16
     onFontSizeChanged: labelTitle.font.pointSize = fontSize
     property color backgroundColor: "transparent"
-    onBackgroundColorChanged: body.color = backgroundColor
+    onBackgroundColorChanged: labelComponentBody.color = backgroundColor
     color: backgroundColor
     property string text: "List label"
     onTextChanged: labelTitle.text = text;
+    property int horizontalTextAlignment: Qt.AlignHCenter
     Label{
         id: labelTitle
-        color: body.fontColor
-        anchors.fill: parent
-        text: body.text
-        font.pointSize: body.fontSize
-        horizontalAlignment: Qt.AlignHCenter
+        color: labelComponentBody.fontColor
+        text: labelComponentBody.text
+        font.pointSize: labelComponentBody.fontSize
+        horizontalAlignment: labelComponentBody.horizontalTextAlignment
         verticalAlignment: Qt.AlignVCenter
     }
 }

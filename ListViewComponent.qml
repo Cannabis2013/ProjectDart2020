@@ -5,7 +5,7 @@ import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.13
 
 Rectangle{
-    id: body
+    id: listComponentBody
 
     color: "transparent"
 
@@ -14,7 +14,7 @@ Rectangle{
     signal itemClicked(int index)
     signal itemSelected(int index)
     signal requestUpdate
-
+    // Properties
     property double hoveredSizeScale: 0.90
     onHoveredSizeScaleChanged: listItem.hoveredSizeScale = hoveredSizeScale
     property double selectedSizeScale: 0.98
@@ -28,11 +28,13 @@ Rectangle{
     property string componentTitle: "Title"
     onComponentTitleChanged: labelTitle.text = componentTitle
     property color backgroundColor: "white"
-    onBackgroundColorChanged: backgroundRect.color = body.backgroundColor
+    onBackgroundColorChanged: backgroundRect.color = listComponentBody.backgroundColor
     property color titleBackground: "transparent"
     onTitleBackgroundChanged: labelTitle.backgroundColor = titleBackground
     property color labelTextColor: "black"
     onLabelTextColorChanged: labelTitle.fontColor = labelTextColor
+    property url labelImageUrl: ""
+    onLabelImageUrlChanged: labelTitle.imageUrl = labelImageUrl
     // General item properties
     // Item font/color/background properties
     property color itemTitleTextColor: "black"
@@ -46,7 +48,12 @@ Rectangle{
     property color itemDescriptionBackgroundColor : "transparent"
     onItemDescriptionBackgroundColorChanged: listItem.descriptionBackgroundColor = itemDescriptionBackgroundColor
     property color itemTitleBackgroundColor: "transparent"
+    // Label alignment properties
+    property int horizontalLabelAlignment: Qt.AlignHCenter
+    onHorizontalLabelAlignmentChanged: labelTitle.horizontalLabelAlignment = horizontalLabelAlignment
     onItemTitleBackgroundColorChanged: listItem.labelBackgroundColor = itemTitleBackgroundColor
+    // Label
+
     // Item background properties
     property color itemSelectedBackgroundColor: "white"
     onItemSelectedBackgroundColorChanged: listItem.selectedColor = itemSelectedBackgroundColor
@@ -64,7 +71,7 @@ Rectangle{
     property double itemWidthScale: 0.95
     property int itemHeight: 50
     onItemHeightChanged: listItem.height = itemHeight
-    property int itemWidth : body.width * itemWidthScale
+    property int itemWidth : listComponentBody.width * itemWidthScale
     onItemWidthChanged: listItem.width = itemWidth
     property color hoveredItemTextColor: "blue"
     onHoveredItemTextColorChanged: listItem.hoveredItemTextColor = hoveredItemTextColor
@@ -123,12 +130,12 @@ Rectangle{
 
     layer.effect: OpacityMask{
         maskSource: Item {
-            width: body.width
-            height: body.height
+            width: listComponentBody.width
+            height: listComponentBody.height
 
             Rectangle{
                 anchors.fill: parent
-                radius: body.radius
+                radius: listComponentBody.radius
             }
         }
     }
@@ -136,7 +143,7 @@ Rectangle{
     Rectangle{
         id: backgroundRect
         anchors.fill: parent
-        color: body.backgroundColor
+        color: listComponentBody.backgroundColor
         opacity: 0.1
     }
 
@@ -145,14 +152,12 @@ Rectangle{
         id: bodyLayout
         anchors.fill: parent
         flow: GridLayout.TopToBottom
-        LabelComponent {
+
+        DefaultTitleComponent{
             id: labelTitle
+            Layout.minimumHeight: 64
             Layout.fillWidth: true
-            Layout.minimumHeight: 48
-            fontSize: 24
-            backgroundColor: body.titleBackground
-            fontColor: body.labelTextColor
-            text: componentTitle
+            imageUrl: listComponentBody.labelImageUrl
         }
 
         ListView
@@ -172,23 +177,23 @@ Rectangle{
                 onClicked: itemClicked(index)
                 onCheckedChanged: itemSelected(index)
 
-                titleFontSize: body.itemTitleFontSize
-                titleFontColor: body.itemTitleTextColor
-                descriptionFontSize: body.itemDescriptionFontSize
-                descriptionFontColor: body.itemDescriptionFontColor
+                titleFontSize: listComponentBody.itemTitleFontSize
+                titleFontColor: listComponentBody.itemTitleTextColor
+                descriptionFontSize: listComponentBody.itemDescriptionFontSize
+                descriptionFontColor: listComponentBody.itemDescriptionFontColor
                 isCheckable: allowCheckState
-                hoveredColor: body.itemHoveredColor
-                selectedColor: body.itemSelectedBackgroundColor
-                selectedTextColor: body.itemSelectedtextColor
-                height: body.itemHeight
-                width: body.itemWidth
-                backgroundColor: body.itemBackgroundColor
-                radius: body.itemRoundedCorners
-                logoUrl: body.itemImageUrl
-                noDelayPressSelect: body.instantSelectEnabled
-                labelBackgroundColor: body.itemTitleBackgroundColor
-                imageBackgroundColor: body.itemImageBackgroundColor
-                descriptionBackgroundColor: body.itemDescriptionBackgroundColor
+                hoveredColor: listComponentBody.itemHoveredColor
+                selectedColor: listComponentBody.itemSelectedBackgroundColor
+                selectedTextColor: listComponentBody.itemSelectedtextColor
+                height: listComponentBody.itemHeight
+                width: listComponentBody.itemWidth
+                backgroundColor: listComponentBody.itemBackgroundColor
+                radius: listComponentBody.itemRoundedCorners
+                logoUrl: listComponentBody.itemImageUrl
+                noDelayPressSelect: listComponentBody.instantSelectEnabled
+                labelBackgroundColor: listComponentBody.itemTitleBackgroundColor
+                imageBackgroundColor: listComponentBody.itemImageBackgroundColor
+                descriptionBackgroundColor: listComponentBody.itemDescriptionBackgroundColor
 
                 title: {
                     if(type == "player")

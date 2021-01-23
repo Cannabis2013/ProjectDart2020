@@ -6,6 +6,7 @@ Rectangle
     id: imageRect
     clip: true
     color: "transparent"
+
     property url source: imageDecorator.source = source
     Image
     {

@@ -1,8 +1,10 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 
-ListComponent {
+ListViewComponent {
     id: playersListView
+    componentTitle: "| Players"
+    labelTextColor: ThemeContext.manPlayerListViewLabelColor
     titleBackground: "transparent"
     itemBackgroundColor: "gray"
     itemBackgroundOpacity: 0.3
@@ -17,4 +19,5 @@ ListComponent {
     allowCheckState: true
     allowMultipleSelections: true
     instantSelectEnabled: true
+    horizontalLabelAlignment: Qt.AlignLeft
 }
