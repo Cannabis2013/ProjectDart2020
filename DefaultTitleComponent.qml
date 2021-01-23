@@ -3,7 +3,7 @@ import QtQuick.Layouts 1.3
 
 Rectangle{
     id: defaultTitleComponentBody
-    color: defaultTitleComponentBody.backgroundColor
+    color: "transparent"
     property url imageUrl: ""
     onImageUrlChanged: {
         imageIcon.source = imageUrl;
@@ -16,11 +16,20 @@ Rectangle{
     property string text: ""
     onTextChanged: labelTitle.text = text
     property color backgroundColor: "transparent"
-    onBackgroundColorChanged: labelTitle.backgroundColor = backgroundColor
+    onBackgroundColorChanged: backgroundRect.color = backgroundColor
+    property double backOpacity: 1
+    onBackOpacityChanged: backgroundRect.opacity = backOpacity
     property color fontColor: "black"
     onFontColorChanged: labelTitle.fontColor = fontColor
     property int horizontalLabelAlignment: Qt.AlignHCenter
     onHorizontalLabelAlignmentChanged: labelTitle.horizontalTextAlignment = horizontalLabelAlignment
+    Rectangle{
+        id: backgroundRect
+        anchors.fill: parent
+        color: defaultTitleComponentBody.backgroundColor
+        opacity: defaultTitleComponentBody.backOpacity
+    }
+
     GridLayout{
         flow: GridLayout.TopToBottom
         anchors.fill: parent

@@ -35,8 +35,6 @@ void LocalFTPController::handleAndProcessUserInput(const int &point,
         emit transmitResponse(ControllerResponse::isProcessingUserInput,{});
         return;
     }
-    // Set controller state
-    _currentStatus = ControllerState::AddScoreState;
     // Calculate score
     auto score = scoreCalculator()->calculateScore(point,modifierKeyCode);
     auto setIndex = indexController()->setIndex();
@@ -48,7 +46,7 @@ void LocalFTPController::handleAndProcessUserInput(const int &point,
     switch (domain)
     {
         // In case user enters scores above 180
-        case InputValidatorInterface::InputOutOfRange : sendCurrentTurnValues(); break;
+    case InputValidatorInterface::InputOutOfRange : sendCurrentTurnValues();break;
         case InputValidatorInterface::PointDomain : addPoint(score,newScore);break;
         case InputValidatorInterface::CriticalDomain : addPoint(score,newScore);break;
         case InputValidatorInterface::TargetDomain : {
@@ -218,6 +216,9 @@ QUuid LocalFTPController::redoTurn()
 
 void LocalFTPController::addPoint(const int &point, const int &score)
 {
+    // Set controller state, unless winner declared
+    if(currentStatus() != ControllerState::WinnerDeclared)
+        setCurrentStatus(ControllerState::AddScoreState);
     auto tournamentID = tournament();
     auto roundIndex = indexController()->roundIndex();
     auto setIndex = indexController()->setIndex();
@@ -289,7 +290,12 @@ void LocalFTPController::declareWinner()
     auto currentPlayerId = scoreController()->userIdAtIndex(index);
     scoreController()->setWinner(currentPlayerId);
     _isActive = false;
-    _currentStatus = WinnerDeclared;
+    setCurrentStatus(ControllerState::WinnerDeclared);
+}
+
+int LocalFTPController::currentStatus() const
+{
+    return _currentStatus;
 }
 
 UserScoreController *LocalFTPController::scoreController() const

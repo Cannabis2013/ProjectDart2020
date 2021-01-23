@@ -67,7 +67,7 @@ Content{
            onItemClicked: sendClickedTournamentIndex(index)
            itemTitleTextColor: ThemeContext.tournamentListViewTextColor
            itemDescriptionFontColor: ThemeContext.tournamentListViewTextColor
-           labelTextColor: ThemeContext.tournamentListViewTextColor
+           titleTextColor: ThemeContext.tournamentListViewTextColor
        }
        GridLayout{
            flow: GridLayout.LeftToRight

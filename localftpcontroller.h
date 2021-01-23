@@ -126,6 +126,9 @@ public:
 
     UserScoreController* scoreController() const;
     LocalFTPController *setScoreController(UserScoreController *scoreController);
+    // Get current status
+    int currentStatus() const;
+
 private:
     /*
      * Private constructor
@@ -163,17 +166,14 @@ private:
      */
     void nextTurn();
     void declareWinner();
-    /*
-     * Private getter methods
-     */
+    // Current tournament id
     QUuid _tournament = QUuid();
+    // Controller active state variable
     bool _isActive = false;
     /*
      * Status member variable
      */
-    // Status
     int _currentStatus = ControllerState::NotInitialized;
-    // Playernames/playerscores
     //Services
     // Calculate score
     ScoreCalculatorInterface* _scoreCalculatorService;

@@ -4,8 +4,9 @@ import QtQuick.Layouts 1.3
 ListViewComponent {
     id: playersListView
     componentTitle: "| Players"
-    labelTextColor: ThemeContext.manPlayerListViewLabelColor
-    titleBackground: "transparent"
+    titleTextColor: ThemeContext.manPlayerListViewLabelColor
+    titleBackground: "white"
+    titleBackgroundOpacity: 0.3
     itemBackgroundColor: "gray"
     itemBackgroundOpacity: 0.3
     itemDescriptionFontColor: "white"

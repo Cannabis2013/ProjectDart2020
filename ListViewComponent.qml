@@ -29,12 +29,15 @@ Rectangle{
     onComponentTitleChanged: labelTitle.text = componentTitle
     property color backgroundColor: "white"
     onBackgroundColorChanged: backgroundRect.color = listComponentBody.backgroundColor
+    // Title backgroundcolor/opacity and title fontcolor
     property color titleBackground: "transparent"
     onTitleBackgroundChanged: labelTitle.backgroundColor = titleBackground
-    property color labelTextColor: "black"
-    onLabelTextColorChanged: labelTitle.fontColor = labelTextColor
-    property url labelImageUrl: ""
-    onLabelImageUrlChanged: labelTitle.imageUrl = labelImageUrl
+    property double titleBackgroundOpacity: 1
+    onTitleBackgroundOpacityChanged: labelTitle.backOpacity = titleBackgroundOpacity
+    property color titleTextColor: "black"
+    onTitleTextColorChanged: labelTitle.fontColor = titleTextColor
+    property url titleImageUrl: ""
+    onTitleImageUrlChanged: labelTitle.imageUrl = titleImageUrl
     // General item properties
     // Item font/color/background properties
     property color itemTitleTextColor: "black"
@@ -52,8 +55,6 @@ Rectangle{
     property int horizontalLabelAlignment: Qt.AlignHCenter
     onHorizontalLabelAlignmentChanged: labelTitle.horizontalLabelAlignment = horizontalLabelAlignment
     onItemTitleBackgroundColorChanged: listItem.labelBackgroundColor = itemTitleBackgroundColor
-    // Label
-
     // Item background properties
     property color itemSelectedBackgroundColor: "white"
     onItemSelectedBackgroundColorChanged: listItem.selectedColor = itemSelectedBackgroundColor
@@ -87,7 +88,6 @@ Rectangle{
     function clear(){
         listModel.clear();
     }
-
     function currentIndexes()
     {
         var cIndexes = [];
@@ -157,7 +157,9 @@ Rectangle{
             id: labelTitle
             Layout.minimumHeight: 64
             Layout.fillWidth: true
-            imageUrl: listComponentBody.labelImageUrl
+            imageUrl: listComponentBody.titleImageUrl
+            backgroundColor: listComponentBody.labelBackgroundColor
+            backOpacity: listComponentBody.titleBackgroundOpacity
         }
 
         ListView

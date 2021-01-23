@@ -138,7 +138,10 @@ void ModelsContextInterface::handleAddScore(const QUuid &tournament,
                                             const QList<int> &dataValues,
                                             const bool &isWinnerDetermined)
 {
-    tournamentModelsContext()->addScore(tournament,player,dataValues,isWinnerDetermined);
+    tournamentModelsContext()->addScore(tournament,
+                                        player,
+                                        dataValues,
+                                        isWinnerDetermined);
     emit scoreAddedToDataContext(player,dataValues.at(3),dataValues.at(4));
 }
 

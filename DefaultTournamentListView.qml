@@ -5,7 +5,8 @@ ListViewComponent {
     id: tournamentListView
     radius: 15
     componentTitle: "| Tournaments"
-    titleBackground: "transparent"
+    titleBackground: "white"
+    titleBackgroundOpacity: 0.3
     itemBackgroundColor: "gray"
     itemBackgroundOpacity: 0.3
 
