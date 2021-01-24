@@ -4,6 +4,7 @@ Item {
     id: body
     signal backPushed
 
+
     Component{
         id: createPlayerComponent
         Page{

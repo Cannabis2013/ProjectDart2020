@@ -2,6 +2,11 @@ import QtQuick 2.4
 import QtQuick.Layouts 1.3
 
 Rectangle {
+    // Basic properties (color, clip, size)
+    color: "transparent"
+    clip: true
+    anchors.fill: parent
+    // Signals
     signal backButtonPressed
     signal replyFromBackendRecieved(int response,var args)
     signal requestUpdate
@@ -10,17 +15,13 @@ Rectangle {
     signal notifyHeightChange(double h)
     signal requestSetPageTitle(string title)
     signal requestSetPageIcon(url url)
+    signal requestDisableBackButton(bool disable)
 
     property bool isPopUp: false
     onIsPopUpChanged: applicationInterface.transmitResponse.disconnect(replyFromBackendRecieved);
-    clip: true
 
     property double minimumHeight: 0
     property double minimumWidth: 0
-
-    color: "transparent"
-
-    anchors.fill: parent
 
     onWidthChanged: {
         if(width < minimumWidth)

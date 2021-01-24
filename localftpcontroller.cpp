@@ -16,7 +16,7 @@ void LocalFTPController::start()
 void LocalFTPController::stop()
 {
     _isActive = false;
-    _currentStatus = ControllerState::Stopped;
+    setCurrentStatus(ControllerState::Stopped);
     emit transmitResponse(ControllerResponse::isStopped,{});
 }
 

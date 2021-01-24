@@ -5,8 +5,6 @@ Content
 {
     id: startPageContentBody
 
-    color: "transparent"
-
     signal setupGameClicked
     signal manageContentClicked
     signal settingsButtonClicked

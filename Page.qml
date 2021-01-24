@@ -5,10 +5,13 @@ import QtQuick.Window 2.3
 
 Rectangle {
     id: body
+    color: ThemeContext.pageColor
+    border.width: 0
     signal backButtonPressed
     onBackButtonPressed: body.destroy()
-
-    color: "transparent"
+    // Notify Page component that content wants to disable backbutton
+    signal requestDisableBackButton(bool disable)
+    onRequestDisableBackButton: backButtonDisabled = disable
     property bool backButtonVisible: true
     onBackButtonVisibleChanged: backButton.visible = backButtonVisible
     property bool backButtonDisabled: false
@@ -16,12 +19,13 @@ Rectangle {
     property Content pageContent: Content{}
     onPageContentChanged: {
         contentFlickable.children[0].children[0] = pageContent;
-        pageContent.requestSetPageTitle.connect(body.handleSetPageTitleRequest);
-        pageContent.requestSetPageIcon.connect(body.handleSetPageIcon);
+        pageContent.requestSetPageTitle.connect(handleSetPageTitleRequest);
+        pageContent.requestSetPageIcon.connect(handleSetPageIcon);
         pageContent.notifyWidthChange.connect(contentFlickable.setContentWidth);
         pageContent.notifyHeightChange.connect(contentFlickable.setContentHeight);
-        pageContent.requestSetVisible.connect(body.handleSetVisible);
+        pageContent.requestSetVisible.connect(handleSetVisible);
         pageContent.backButtonPressed.connect(backButtonPressed);
+        pageContent.requestDisableBackButton.connect(requestDisableBackButton)
         pageContent.anchors.fill = contentFlickable.contentItem;
     }
     onWidthChanged: {

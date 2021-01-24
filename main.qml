@@ -11,7 +11,7 @@ ApplicationWindow {
 
     visible: true
 
-    color: "lightgray"
+    color: ThemeContext.pageColor
 
     minimumHeight: 640
     minimumWidth: 400
@@ -48,7 +48,6 @@ ApplicationWindow {
 
     MainComponent{
         id: mainPage
-
         anchors.fill: parent
     }
 }
