@@ -827,7 +827,7 @@ void LocalTournamentModelsContext::removePointModel(const QUuid &point)
     }
 }
 
-const QList<int> LocalTournamentModelsContext::indexes(const QUuid &tournament)
+const QVector<int> LocalTournamentModelsContext::indexes(const QUuid &tournament)
 {
     auto totalTurns = 0;
     auto turnIndex = 0;
@@ -860,7 +860,7 @@ const QList<int> LocalTournamentModelsContext::indexes(const QUuid &tournament)
     if(turnIndex != 0)
         totalTurns = playerScoreCount(ModelDisplayHint::allHints);
 
-    QList<int> indexes = {
+    QVector<int> indexes = {
         totalTurns,
         turnIndex,
         roundIndex,
@@ -870,9 +870,9 @@ const QList<int> LocalTournamentModelsContext::indexes(const QUuid &tournament)
     return indexes;
 }
 
-QList<int> LocalTournamentModelsContext::tournamentUserScores(const QUuid &tournament)
+QVector<int> LocalTournamentModelsContext::tournamentUserScores(const QUuid &tournament)
 {
-    QList<int> userScores;
+    QVector<int> userScores;
     auto assignedPlayersID = tournamentAssignedPlayers(tournament);
     for (auto playerID : assignedPlayersID) {
         auto s = score(tournament,playerID);

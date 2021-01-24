@@ -31,31 +31,21 @@ Content {
     signal scoreRecieved(string playerName, int point, int score, int keyCode)
     signal setupGame()
     onSetupGame: {
-        if(ftpMetaData.tournamentGameMode === 0x1)
+        if(tournamentMetaData.tournamentGameMode === 0x1)
             FirstToPostScripts.setupFirstToPostScoreTable();
     }
     QtObject{
         id: buttonTextContainer
-        property string startText: qsTr("Start")
-        property string pauseText: qsTr("Pause")
-        property string restartText: qsTr("Restart")
-        property string resumeText: qsTr("Resume")
-        property string waitText: qsTr("Wait")
+        readonly property string startText: qsTr("Start")
+        readonly property string pauseText: qsTr("Pause")
+        readonly property string restartText: qsTr("Restart")
+        readonly property string resumeText: qsTr("Resume")
+        readonly property string waitText: qsTr("Wait")
     }
-    QtObject{
-        id: generalTournamentMetaData
-        property string tournamentTitle: ""
-        property int tournamentGameMode: 0
-        property string determinedWinner: ""
-        property var assignedPlayers: []
-        property int tournamentTableViewHint: 0
-    }
-
-    QtObject{
-        id: ftpMetaData
-        property int tournamentKeyPoint: 0
-        property int tournamentInputMode: value
-    }
+    /*
+      Tournament metadata property
+      */
+    property QtObject tournamentMetaData: QtObject{}
     /*
       Handle reply from backend:
       */
@@ -121,7 +111,7 @@ Content {
                                               false,
                                               false);
                     var winnerName = textSourceContainer.winnerLabel + " " +
-                            ftpMetaData.determinedWinner;
+                            tournamentMetaData.determinedWinner;
                     keyPadInterface().enableKeyPad(false);
                     GameGeneralScripts.handleSetWinnerText(winnerName);
                 }
@@ -183,11 +173,6 @@ Content {
             }
         }
     ]
-    Component.onCompleted: {
-        GameGeneralScripts.connectComponents();
-        requestMetaInformation();
-    }
-    Component.onDestruction: {
-        GameGeneralScripts.disconnectComponents();
-    }
+    Component.onCompleted: GameGeneralScripts.initializeComponent()
+    Component.onDestruction: GameGeneralScripts.disconnectComponents()
 }

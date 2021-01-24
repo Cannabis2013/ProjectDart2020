@@ -22,13 +22,10 @@ signals:
 public slots:
     virtual void handleRecieveGameMode(const QUuid& tournament,
                                        const int &gameMode) = 0;
-    virtual AbstractGameController* assembleFTPGameController(const QUuid& tournament,
-                                                              const QUuid& winner,
+    virtual AbstractGameController* assembleFTPGameController(const QVector<QUuid>& tournamentIdAndWinner,
                                                               const QVector<int>& values,
                                                               const QVector<QUuid>& userIds,
                                                               const QVector<QString>& userNames) = 0;
-
-
 };
 
 #endif // ABSTRACTCONTROLLERBUILDER_H

@@ -166,11 +166,11 @@ public:
     /*
      * Tournament indexes
      */
-    const QList<int> indexes(const QUuid &tournament) override;
+    const QVector<int> indexes(const QUuid &tournament) override;
     /*
      * Tournament scores
      */
-    QList<int> tournamentUserScores(const QUuid &tournament) override;
+    QVector<int> tournamentUserScores(const QUuid &tournament) override;
     LocalTournamentModelsContext* setModelDBContext(ImodelsDBContext<ModelInterface<QUuid>, QString> *context);
 private:
     ImodelsDBContext<ModelInterface<QUuid>,QString>* modelDBContext();

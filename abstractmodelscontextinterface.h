@@ -95,8 +95,7 @@ signals:
      */
     void sendPlayerDetails(const QString &playerName, const QString &mail);
     void sendPlayersID(const QList<QUuid> &playersID);
-    void sendTournamentFTPDetails(const QUuid &tournament,
-                                  const QUuid &winner,
+    void sendTournamentFTPDetails(const QVector<QUuid>& idAndWinner,
                                   const QVector<int> &values,
                                   const QVector<QUuid> &userIds,
                                   const QVector<QString> &playerNames);

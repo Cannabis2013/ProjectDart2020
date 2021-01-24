@@ -181,7 +181,7 @@ void ModelsContextInterface::handleResetTournament(const QUuid &tournament)
 
 void ModelsContextInterface::handleRequestFTPDetails(const QUuid &tournament)
 {
-    QList<int> tournamentValues = {
+    QVector<int> tournamentValues = {
         tournamentModelsContext()->tournamentGameMode(tournament),
         tournamentModelsContext()->tournamentKeyPoint(tournament),
         tournamentModelsContext()->tournamentNumberOfThrows(tournament),
@@ -195,11 +195,15 @@ void ModelsContextInterface::handleRequestFTPDetails(const QUuid &tournament)
         return;
     }
     auto assignedPlayerNames = playerModelsContext()->assemblePlayerNamesFromIds(assignedPlayersId);
-    auto winnerID = tournamentModelsContext()->tournamentDeterminedWinner(tournament);
+    auto winnerId = tournamentModelsContext()->tournamentDeterminedWinner(tournament);
+    QVector<QUuid> tournamentIdAndWinner = {
+        tournament,
+        winnerId
+    };
     tournamentValues += tournamentModelsContext()->indexes(tournament);
     tournamentValues += tournamentModelsContext()->tournamentUserScores(tournament);
-    emit sendTournamentFTPDetails(tournament,
-                                  winnerID,tournamentValues.toVector(),
+    emit sendTournamentFTPDetails(tournamentIdAndWinner,
+                                  tournamentValues,
                                   assignedPlayersId,
                                   assignedPlayerNames);
 }

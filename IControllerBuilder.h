@@ -10,8 +10,7 @@ template<class TControllerInterface,
 class IControllerBuilder
 {
 public:
-    virtual TControllerInterface *assembleFTPGameController(const TUuid &tournament,
-                                                            const TUuid &winner,
+    virtual TControllerInterface *assembleFTPGameController(const TUserIds& tournamentIds,
                                                             const TParameter &values,
                                                             const TUserIds& userIds,
                                                             const TUserNames& userNames) = 0;

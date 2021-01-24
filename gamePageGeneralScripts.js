@@ -1,3 +1,10 @@
+
+function initializeComponent()
+{
+    connectComponents();
+    gamePageBody.requestMetaInformation();
+}
+
 /*
   Connect signals and slots
   */
@@ -45,15 +52,19 @@ function disconnectComponents()
        [3] = Tournament input mode
   */
 function handleFTPTournamentMetaData(stringArray, numericArray, playerNames){
-    generalTournamentMetaData.tournamentTitle = stringArray[0];
-    generalTournamentMetaData.determinedWinner = stringArray[1];
-    generalTournamentMetaData.tournamentGameMode = numericArray[0];
-    generalTournamentMetaData.tournamentTableViewHint = numericArray[2];
-    generalTournamentMetaData.assignedPlayers = playerNames;
-    ftpMetaData.tournamentKeyPoint = numericArray[1];
-    ftpMetaData.tournamentInputMode = numericArray[3];
-    if(generalTournamentMetaData.tournamentGameMode === 0x1)
-        FirstToPostScripts.setupFirstToPost();
+    var ftpComponent = Qt.createComponent("FirstToPostMetaData.qml");
+    var properties = {
+        "tournamentTitle" : stringArray[0],
+        "determinedWinner" : stringArray[1],
+        "tournamentGameMode" : numericArray[0],
+        "tournamentKeyPoint" : numericArray[1],
+        "tournamentTableViewHint" : numericArray[2],
+        "tournamentInputMode" : numericArray[3],
+        "assignedPlayers" : playerNames
+    }
+    var metaDataObject = ftpComponent.createObject(gamePageBody,properties);
+    gamePageBody.tournamentMetaData = metaDataObject;
+    FirstToPostScripts.setupFirstToPost();
 }
 /*
   Handle ScoreData related stuff
@@ -64,11 +75,11 @@ function appendScore(player,point,score, keyCode)
 }
 function alterScore(player,score,point)
 {
-    if(generalTournamentMetaData.tournamentGameMode === TournamentContext.firstToPost)
+    if(tournamentMetaData.tournamentGameMode === TournamentContext.firstToPost)
     {
-        if(generalTournamentMetaData.tournamentTableViewHint === DataModelContext.singleDimensional)
+        if(tournamentMetaData.tournamentTableViewHint === DataModelContext.singleDimensional)
             scoreBoardInterface().setData(player,point,score,-1);
-        else if(generalTournamentMetaData.tournamentTableViewHint === DataModelContext.multiDimensional)
+        else if(tournamentMetaData.tournamentTableViewHint === DataModelContext.multiDimensional)
             scoreBoardInterface().takeData(-1,-1,player);
     }
 }
@@ -111,7 +122,7 @@ function handleReplyFromBackend(response,args)
     }
     else if(response === 0x29) // Backend is reset
     {
-        var gameMode = generalTournamentMetaData.tournamentGameMode;
+        var gameMode = tournamentMetaData.tournamentGameMode;
         if(gameMode === 0x1)
             reinitializeFTPTournament();
     }
@@ -138,7 +149,7 @@ function handleReplyFromBackend(response,args)
     }
     else if(response === 0x15) // Winner declared
     {
-        ftpMetaData.determinedWinner = args[0];
+        tournamentMetaData.determinedWinner = args[0];
         gamePageBody.state = "winner";
 
     }
@@ -180,8 +191,8 @@ function handleSetWinnerText(text)
 
 function reinitializeFTPTournament()
 {
-    let keyPoint = ftpMetaData.tournamentKeyPoint;
-    let names = generalTournamentMetaData.assignedPlayers;
+    let keyPoint = tournamentMetaData.tournamentKeyPoint;
+    let names = tournamentMetaData.assignedPlayers;
 
     for(var i = 0;i < names.length;i++)
     {

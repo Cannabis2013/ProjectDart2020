@@ -161,6 +161,10 @@ Rectangle{
             backgroundColor: listComponentBody.labelBackgroundColor
             backOpacity: listComponentBody.titleBackgroundOpacity
         }
+        Rectangle{
+            color: "transparent"
+            height: 5
+        }
 
         ListView
         {
@@ -178,7 +182,7 @@ Rectangle{
 
                 onClicked: itemClicked(index)
                 onCheckedChanged: itemSelected(index)
-
+                hoveredSizeScale: 0.99
                 titleFontSize: listComponentBody.itemTitleFontSize
                 titleFontColor: listComponentBody.itemTitleTextColor
                 descriptionFontSize: listComponentBody.itemDescriptionFontSize

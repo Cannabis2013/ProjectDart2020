@@ -34,12 +34,13 @@ public:
         RemoteContext = 0x8
     };
 
-    AbstractGameController *assembleFTPGameController(const QUuid& tournament,
-                                                      const QUuid& winner,
+    AbstractGameController *assembleFTPGameController(const QVector<QUuid>& tournamentIdAndWinner,
                                                       const QVector<int>& values,
                                                       const QVector<QUuid>& userIds,
                                                       const QVector<QString>& userNames) override
     {
+        auto tournament = tournamentIdAndWinner[0];
+        auto winner = tournamentIdAndWinner[1];
         auto numberOfThrows = values[2];
         auto terminalKeyCode = values[3];
         auto type = values[4];

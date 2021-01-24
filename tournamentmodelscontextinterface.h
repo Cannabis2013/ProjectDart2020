@@ -72,11 +72,11 @@ public:
     /*
      * Tournament indexes
      */
-    virtual const QList<int> indexes(const QUuid &tournament) = 0;
+    virtual const QVector<int> indexes(const QUuid &tournament) = 0;
     /*
      * Tournament scores
      */
-    virtual QList<int> tournamentUserScores(const QUuid &tournament) = 0;
+    virtual QVector<int> tournamentUserScores(const QUuid &tournament) = 0;
 };
 
 #endif // TOURNAMENTMODELINTERFACE_H
