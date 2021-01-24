@@ -66,9 +66,9 @@ ScoreBoard {
     onNotifyCellPosition: ScoreScripts.setViewPosition(x,y)
 
     onAppendHeader: ScoreScripts.appendHeader(header,orientation)
-
+    // Manipulate state such as: add score, takescore, edit score
     onSetData: ScoreScripts.setData(playerName,point,score)
-    onTakeData: ScoreScripts.takeData(playerName,point,score)
+    onTakeData: ScoreScripts.takeData(row,column,playerName)
     onEditData: ScoreScripts.editData(row,column,point,score)
 
     QtObject{

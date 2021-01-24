@@ -30,15 +30,27 @@ function disconnectComponents()
     gamePageBody.requestStatusFromBackend.disconnect(applicationInterface.handleControllerStateRequest);
 }
 /*
-  Handle initializing
+  Handle recieved 'First to Post tournament' meta data
+
+  Passed data structure:
+   - String values are placed in a list of strings
+   | in the following locations:
+       [0] = Tournament title
+       [1] = Tournament winner name
+   - Numeric values are placed in a list of integers
+   | in the following locations:
+       [0] = Tournamaent game mode
+       [1] = Tournament keypoint
+       [2] = Tournament model tablehint
+       [3] = Tournament input mode
   */
 function handleFTPTournamentMetaData(stringArray, numericArray, playerNames){
     generalTournamentMetaData.tournamentTitle = stringArray[0];
     generalTournamentMetaData.determinedWinner = stringArray[1];
     generalTournamentMetaData.tournamentGameMode = numericArray[0];
+    generalTournamentMetaData.tournamentTableViewHint = numericArray[2];
     generalTournamentMetaData.assignedPlayers = playerNames;
     ftpMetaData.tournamentKeyPoint = numericArray[1];
-    ftpMetaData.tournamentTableViewHint = numericArray[2];
     ftpMetaData.tournamentInputMode = numericArray[3];
     if(generalTournamentMetaData.tournamentGameMode === 0x1)
         FirstToPostScripts.setupFirstToPost();
@@ -50,10 +62,15 @@ function appendScore(player,point,score, keyCode)
 {
     gamePageBody.scoreRecieved(player,point,score,keyCode);
 }
-function takeScore(player,score,point)
+function alterScore(player,score,point)
 {
-    if(ftpMetaData.tournamentGameMode === 0x1)
-        scoreBoardInterface().takeData(player,point,score);
+    if(generalTournamentMetaData.tournamentGameMode === TournamentContext.firstToPost)
+    {
+        if(generalTournamentMetaData.tournamentTableViewHint === DataModelContext.singleDimensional)
+            scoreBoardInterface().setData(player,point,score,-1);
+        else if(generalTournamentMetaData.tournamentTableViewHint === DataModelContext.multiDimensional)
+            scoreBoardInterface().takeData(-1,-1,player);
+    }
 }
 
 /*
@@ -116,7 +133,7 @@ function handleReplyFromBackend(response,args)
         let playerName = args[0];
         let scoreValue = args[1];
         let pointValue = args[2];
-        takeScore(playerName,scoreValue,pointValue);
+        alterScore(playerName,scoreValue,pointValue);
         requestStatusFromBackend();
     }
     else if(response === 0x15) // Winner declared

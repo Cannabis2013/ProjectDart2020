@@ -47,22 +47,21 @@ bool FTPDataModel::insertData(const QString &playerName,
 }
 
 bool FTPDataModel::setPlayerData(const QString &playerName,
-                                         const int &point,
-                                         const int &score,
-                                         const int &headerOrientation)
+                                 const int &point,
+                                 const int &score,
+                                 const int &headerOrientation)
 {
     auto orientation = headerOrientation != -1 ? headerOrientation : this->headerOrientation();
-    auto index = indexOfHeaderItem(playerName,orientation);
-    auto pair = scoreModel(point,score);
+    auto indexOfPlayer = indexOfHeaderItem(playerName,orientation);
+    auto scorePair = scoreModel(point,score);
     if(orientation == Qt::Horizontal)
     {
-        auto row = 0;
-        auto modelIndex = this->createIndex(row,index);
+        auto modelIndex = this->createIndex(0,indexOfPlayer);
 
         if(!modelIndex.isValid())
             return false;
         try {
-            setData(modelIndex,QVariant::fromValue<scoreModel>(pair),Qt::DisplayRole);
+            setData(modelIndex,QVariant::fromValue<scoreModel>(scorePair),Qt::DisplayRole);
         } catch (std::out_of_range *e) {
             printf("%s\n",e->what());
             return false;
@@ -70,12 +69,11 @@ bool FTPDataModel::setPlayerData(const QString &playerName,
     }
     else if(orientation == Qt::Vertical)
     {
-        auto column = 0;
-        auto modelIndex = this->createIndex(index,column);
+        auto modelIndex = this->createIndex(indexOfPlayer,0);
         if(!modelIndex.isValid())
             return false;
         try {
-            setData(modelIndex,QVariant::fromValue<scoreModel>(pair),Qt::DisplayRole);
+            setData(modelIndex,QVariant::fromValue<scoreModel>(scorePair),Qt::DisplayRole);
         } catch (std::out_of_range *e) {
             printf("%s\n",e->what());
             return false;

@@ -10,7 +10,7 @@ function setupFirstToPost(){
       */
     scoreBoardItemSlot.sourceComponent =
             GamePageFactory.buildScoreBoard(TournamentContext.firstToPost,
-                                            ftpMetaData.tournamentTableViewHint);
+                                            generalTournamentMetaData.tournamentTableViewHint);
     setupFirstToPostScoreTable();
     /*
       Load and setup DisplayKeyDataItem

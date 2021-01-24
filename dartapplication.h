@@ -24,31 +24,14 @@ class DartApplication : public QObject,
 {
     Q_OBJECT
 public:
-    enum GameModes {
-        FirstToPost = 0x1,
-        RoundLimit =0x2,
-        Circular = 0x3,
-        Cricket = 0x4
-    };
 
-    enum InputModes {
-        PointInput = 0x5,
-        ScoreInput = 0x6
-    };
-
-    enum ContextMode {
+    /*
+     * Should be located in an eventual 'ModelsContextBuilder'
+     * enum ContextMode {
         LocalContext = 0x7,
         RemoteContext = 0x8
     };
-    enum ModelDisplayHint{
-        HiddenHint = 0x9,
-        DisplayHint = 0xA,
-        allHints = 0xB
-    };
-    enum ApplicationResponse {
-        ControllerIsInitializedAndReady = 0x45
-    };
-
+     */
     /*
      * Destructor
      */

@@ -48,13 +48,13 @@ Content {
         property int tournamentGameMode: 0
         property string determinedWinner: ""
         property var assignedPlayers: []
+        property int tournamentTableViewHint: 0
     }
 
     QtObject{
         id: ftpMetaData
         property int tournamentKeyPoint: 0
         property int tournamentInputMode: value
-        property int tournamentTableViewHint: 0
     }
     /*
       Handle reply from backend:
