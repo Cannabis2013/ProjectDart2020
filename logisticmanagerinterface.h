@@ -1,7 +1,7 @@
 #ifndef ILOGISTICMANAGER_H
 #define ILOGISTICMANAGER_H
 template<class TString>
-class IPointLogisticInterface
+class LogisticManagerInterface
 {
 public:
     virtual TString throwSuggestion(const int &remainingScore, const int &turnIndex) = 0;

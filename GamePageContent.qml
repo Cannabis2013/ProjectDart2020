@@ -15,7 +15,7 @@ Content {
     id: gamePageBody
     QtObject{
         id: textSourceContainer
-        property string throwSuggestLabel: "Suggested target row:"
+        property string throwSuggestLabel: "Target row:"
         property string winnerLabel: "Winner:"
     }
     signal requestMetaInformation
@@ -83,11 +83,19 @@ Content {
             Layout.fillWidth: true
             Layout.minimumHeight: 128
         }
+        Rectangle{
+            color: "transparent"
+            Layout.fillHeight: true
+        }
          Loader{
             id: notificationItemSlot
             Layout.fillWidth: true
             Layout.maximumHeight: 40
             visible: status === Loader.Ready
+        }
+        Rectangle{
+             color: "transparent"
+             height: 5
         }
         Loader{
             id: keyPaditemSlot

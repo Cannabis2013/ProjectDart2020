@@ -76,7 +76,17 @@ function handleNumberPadClicked(value)
     var currentValue = scoreView.currentText;
     if(currentValue.length >= 3)
         return;
+    else if(currentValue.length === 0 && value === 0)
+        return;
+    /*
+      TODO:
+        - Add support for selfdeterminism regarding values greater than 1
+        */
     scoreView.appendCharacter(value);
+    if(currentValue.length === 1 && currentValue > 1)
+        handleSubmitpadClicked();
+    else if(currentValue.length === 2)
+        handleSubmitpadClicked();
 }
 
 function handleClearPadClicked()
@@ -84,7 +94,7 @@ function handleClearPadClicked()
     var currentValue = scoreView.currentText;
     if(currentValue.length <= 0)
         return;
-    scoreView.takeCharacter();
+    scoreView.clearView();
 }
 
 function handleScoreViewValueChanged(text)

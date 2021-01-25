@@ -69,7 +69,6 @@ HEADERS += \
     iplayercontext.h \
     iplayermodel.h \
     iplayermodelbuilder.h \
-    ipointlogisticinterface.h \
     iresponseinterface.h \
     iscoremodel.h \
     itournamentmodelbuilder.h \
@@ -78,6 +77,7 @@ HEADERS += \
     localplayermodelscontext.h \
     localtournamentmodeldb.h \
     localtournamentmodelscontext.h \
+    logisticmanagerinterface.h \
     modelbuildercontext.h \
     modelinterface.h \
     modelscontextinterface.h \

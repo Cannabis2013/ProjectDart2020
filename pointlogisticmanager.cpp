@@ -9,7 +9,7 @@ bool PointLogisticManager::pointSuggestion(const int &remainingScore,
     /*
      * Evaluate constrains
      */
-    if(!evaluteConstraints(remainingScore,turnIndex,totalTurns))
+    if(!evaluateConstraints(remainingScore,turnIndex,totalTurns))
         return false;
     /*
      * The terminal state
@@ -44,7 +44,7 @@ int PointLogisticManager::initializeLowerBound(int remainingScore, int multiplie
     return remainingScore - rest;
 }
 
-bool PointLogisticManager::evaluteConstraints(const int &remainingScore, const int &turnIndex, const int &totalTurns)
+bool PointLogisticManager::evaluateConstraints(const int &remainingScore, const int &turnIndex, const int &totalTurns)
 {
     /*
      * Parameter constraints:
@@ -210,12 +210,13 @@ bool PointLogisticManager::isWithinTerminalThreshold(const int &remainingScore,
     return false;
 }
 
-bool PointLogisticManager::determineRouteByThresholdDiff(const int &remainingScore, const int &turnIndex,ScoreModel *s)
+bool PointLogisticManager::determineRouteByThresholdDiff(const int &remainingScore,
+                                                         const int &turnIndex,ScoreModel *s)
 {
     auto thresholdDiff = remainingScore - _upperThresholdValue;
     if(thresholdDiff == 0) // If the remaining score is spot on 110
         return writeToScoreObject(remainingScore,_trippleMaxValue,_trippleDivisor,turnIndex,s);
-    else if(thresholdDiff == _bullsEye || thresholdDiff == _bull)
+    else if(thresholdDiff == _bullsEye || thresholdDiff == _bull) // Bullseye
         return writeToScoreObject(remainingScore,thresholdDiff,_singleDivisor,turnIndex,s);
     else if(thresholdDiff <= _singleMaxValue)
         return writeToScoreObject(remainingScore,thresholdDiff,_singleDivisor,turnIndex,s);

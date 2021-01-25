@@ -22,24 +22,6 @@ Content {
         readonly property int updateCount: 2
     }
 
-    QtObject{
-        id: stringModels
-        property var gameModes: ["FirstToPost"]
-        property var keyIdentifiers: ["Single","Double", "Tripple"]
-        property var fTPKeyPoints: ["301","501","701","901"]
-        property var displayHints: ["SingleView","MultiView"]
-        property var inputModes: ["PointInput","ScoreInput"]
-    }
-    QtObject{
-        id: defaultStateValues
-        readonly property int defaultGameModeIndex: 0
-        readonly property int defaultNumberOfThrows: 3
-        readonly property int defaultKeyPointIndex: 1
-        readonly property int defaultWinConditionIndex: 1
-        readonly property int defaultTableHintIndex: 0
-        readonly property int defaultInputModeIndex: 1
-    }
-
     /*
       Event/signal handling
       */
@@ -52,6 +34,11 @@ Content {
     }
     onRequestUpdate: {
         requestPlayers();
+    }
+
+    function selectorComponent()
+    {
+        return selectorLoader.item;
     }
 
     GridLayout{
@@ -67,35 +54,13 @@ Content {
             id: gameModeSelector
             labelText: "Game modes"
             Layout.fillWidth: true
-            model: stringModels.gameModes
-            onValueChanged: CreateScripts.initializeComponents()
+            model: ["FirstToPost"]
+            onValueChanged: CreateScripts.setupSelectors()
         }
-        DefaultSpinBox {
-            id: throwSpinBox
+
+        Loader{
+            id: selectorLoader
             Layout.fillWidth: true
-        }
-        DefaultComboBox {
-            id: keyPointEdit
-            Layout.fillWidth: true
-            labelText: "Keypoint:"
-        }
-        DefaultComboBox {
-            id: winConditionSelector
-            Layout.fillWidth: true
-            labelText: "Finish with:"
-            model: stringModels.keyIdentifiers
-        }
-        DefaultComboBox {
-            id: displayHintSelector
-            Layout.fillWidth: true
-            labelText: "Select display hint:"
-            model: stringModels.displayHints
-        }
-        DefaultComboBox {
-            id: inputModeSelector
-            Layout.fillWidth: true
-            labelText: "Select input mode:"
-            model: stringModels.inputModes
         }
 
         Rectangle{
@@ -134,6 +99,7 @@ Content {
             createBody.sendFTPDetails.connect(applicationInterface.handleFTPDetails); // Tournament request
             createBody.requestPlayers.connect(applicationInterface.requestPlayerDetails); // Request initial/continous players
             applicationInterface.sendPlayerDetail.connect(CreateScripts.addPlayer); // Recieve initial players
+            CreateScripts.setupSelectors();
             requestUpdate();
         }
         Component.onDestruction: {

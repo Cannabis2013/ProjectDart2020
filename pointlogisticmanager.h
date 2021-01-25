@@ -6,7 +6,7 @@
 #include <QMultiHash>
 #include <QRandomGenerator>
 
-#include "ipointlogisticinterface.h"
+#include "logisticmanagerinterface.h"
 
 #define TRIPPLE "T";
 
@@ -16,7 +16,7 @@ struct ScoreModel
     QVector<int> pointValue;
 };
 
-class PointLogisticManager : public IPointLogisticInterface<QString>
+class PointLogisticManager : public LogisticManagerInterface<QString>
 {
 public:
     /*
@@ -53,7 +53,7 @@ private:
     /*
      * Helper methods
      */
-    bool evaluteConstraints(const int &remainingScore, const int &turnIndex, const int &totalTurns);
+    bool evaluateConstraints(const int &remainingScore, const int &turnIndex, const int &totalTurns);
     bool isWithinTerminalThreshold(const int &remainingScore, const int &turnIndex, ScoreModel *scoreObject);
     bool determineRouteByThresholdDiff(const int &remainingScore, const int &turnIndex, ScoreModel *s);
     bool determineRouteByDiff(const int &remainingScore, const int &turnIndex, ScoreModel *scoreObject);
@@ -68,6 +68,12 @@ private:
     const int _singleDivisor = 1;
     const int _doubleDivisor = 2;
     const int _trippleDivisor = 3;
+    /*
+     * The upper threshold by two remaining turns.
+     *
+     *  - You must finish with either a double or bullseye
+     *  - That means, a max row to finish is: T20 - bullseye = 110 points
+     */
     const int _upperThresholdValue = 110;
     const int _bull = 25;
     const int _bullsEye =  50;

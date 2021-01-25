@@ -75,6 +75,8 @@
         <file>scoreViewScripts.js</file>
         <file>DefaultTitleComponent.qml</file>
         <file>FirstToPostMetaData.qml</file>
+        <file>FTPSelectors.qml</file>
+        <file>ftpSelectorsScripts.js</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>

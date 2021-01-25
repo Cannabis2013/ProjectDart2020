@@ -152,7 +152,9 @@ void LocalFTPController::sendCurrentTurnValues()
     auto setIndex = indexController()->setIndex();
     auto score = scoreController()->userscoreAtIndex(setIndex);;
     auto throwIndex = indexController()->legIndex() + 1;
-    auto throwSuggestion = pointLogisticInterface()->throwSuggestion(score,throwIndex);
+    QString throwSuggestion = "Score logistic manager not injected!";
+    if(_pointLogisticInterface != nullptr)
+        throwSuggestion = pointLogisticInterface()->throwSuggestion(score,throwIndex);
     QVariantList responseParameters = {
         canUndo,
         canRedo,
@@ -297,7 +299,7 @@ void LocalFTPController::handleRequestFromUI()
 void LocalFTPController::nextTurn()
 {
     indexController()->next();
-    _currentStatus = ControllerState::AwaitsInput;
+    setCurrentStatus(ControllerState::AwaitsInput);
     sendCurrentTurnValues();
 }
 
@@ -358,12 +360,12 @@ LocalFTPController *LocalFTPController::createInstance(const QUuid &tournament)
     return new LocalFTPController(tournament);
 }
 
-IPointLogisticInterface<QString> *LocalFTPController::pointLogisticInterface() const
+LogisticManagerInterface<QString> *LocalFTPController::pointLogisticInterface() const
 {
     return _pointLogisticInterface;
 }
 
-LocalFTPController *LocalFTPController::setPointLogisticInterface(IPointLogisticInterface<QString> *pointLogisticInterface)
+LocalFTPController *LocalFTPController::setPointLogisticInterface(LogisticManagerInterface<QString> *pointLogisticInterface)
 {
     _pointLogisticInterface = pointLogisticInterface;
     return this;

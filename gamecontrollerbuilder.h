@@ -71,8 +71,6 @@ public:
         else if(inputMode == InputModes::ScoreMode)
         {
             controller = LocalFTPController::createInstance(tournament)
-                    ->setPointLogisticInterface(PointLogisticManager::createInstance(numberOfThrows,
-                                                                                     terminalKeyCode))
                     ->setScoreCalculator(new ScoreCalculator())
                     ->setInputValidator(ScoreValidator::createInstance(terminalKeyCode))
                     ->setIndexController(ScoreIndexController::createInstance(playersCount,

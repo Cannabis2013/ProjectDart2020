@@ -100,7 +100,6 @@ function handleReplyFromBackend(response,args)
         let currentRoundIndex = args[2];
         let currentPlayerUserName = args[3];
         let throwSuggestion = args[4];
-
         let suggestion = textSourceContainer.throwSuggestLabel + " " + throwSuggestion;
         gamePageBody.notificationInterface().setThrowSuggestion(suggestion);
         gamePageBody.turnControllerInterface().updateState(currentRoundIndex,
