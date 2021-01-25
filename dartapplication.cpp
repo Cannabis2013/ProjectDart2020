@@ -146,7 +146,7 @@ void DartApplication::handleDeleteTournamentsRequest(const QVariantList &indexes
 
 void DartApplication::handleTournamentMetaRequest()
 {
-    emit requestTournamentMetaData();
+    emit requestCurrentTournamentId();
 }
 
 void DartApplication::handlePersistTournamentRequest()

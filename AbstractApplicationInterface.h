@@ -120,7 +120,7 @@ signals:
     void requestControllerState();
     void requestUndo();
     void requestRedo();
-    void requestTournamentMetaData();
+    void requestCurrentTournamentId();
     void sendFTPTournamentMetaData(const QVector<QString> &stringMetaData,
                                    const QVector<int> numericMetaData,
                                    const QVector<QString> &assignedPlayerNames);

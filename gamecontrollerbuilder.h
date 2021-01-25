@@ -104,10 +104,10 @@ private:
         /*
          * Send tournament metadata
          */
-        connect(applicationInterface,&AbstractApplicationInterface::requestTournamentMetaData,
+        connect(applicationInterface,&AbstractApplicationInterface::requestCurrentTournamentId,
                 controller,&AbstractGameController::handleRequestForCurrentTournamentMetaData);
-        connect(controller,&AbstractGameController::requestFTPTournamentMetaData,
-                modelsContext,&AbstractModelsContextInterface::handleRequestForFTPMetaData);
+        connect(controller,&AbstractGameController::sendCurrentTournamentId,
+                modelsContext,&AbstractModelsContextInterface::assembleTournamentMetaDataFromId);
         /*
          * Setup request transmitting multithrow playerscores
          */

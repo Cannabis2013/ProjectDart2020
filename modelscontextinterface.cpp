@@ -249,7 +249,7 @@ void ModelsContextInterface::handleRequestPersistTournamentState()
     emit tournamentModelsStatePersisted();
 }
 
-void ModelsContextInterface::handleRequestForFTPMetaData(const QUuid &tournament)
+void ModelsContextInterface::assembleTournamentMetaDataFromId(const QUuid &tournament)
 {
     auto title = tournamentModelsContext()->tournamentTitle(tournament);
     // Get winner name from id, if any

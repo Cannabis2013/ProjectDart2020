@@ -8,14 +8,12 @@ void LocalFTPController::start()
         emit transmitResponse(ControllerState::NotInitialized,{});
         return;
     }
-    _isActive = true;
     setCurrentStatus(ControllerState::AwaitsInput);
     sendCurrentTurnValues();
 }
 
 void LocalFTPController::stop()
 {
-    _isActive = false;
     setCurrentStatus(ControllerState::Stopped);
 }
 
@@ -59,7 +57,7 @@ void LocalFTPController::handleAndProcessUserInput(const int &point,
 void LocalFTPController::handleRequestForCurrentTournamentMetaData()
 {
     auto tournament = this->tournament();
-    emit requestFTPTournamentMetaData(tournament);
+    emit sendCurrentTournamentId(tournament);
 }
 
 void LocalFTPController::handleRequestForSingleThrowPlayerScores()
@@ -308,7 +306,6 @@ void LocalFTPController::declareWinner()
     auto index = indexController()->setIndex();
     auto currentPlayerId = scoreController()->userIdAtIndex(index);
     scoreController()->setWinner(currentPlayerId);
-    _isActive = false;
     setCurrentStatus(ControllerState::WinnerDeclared);
 }
 
@@ -374,6 +371,9 @@ LocalFTPController *LocalFTPController::setPointLogisticInterface(IPointLogistic
 
 void LocalFTPController::handleWakeUpRequest()
 {
-    setCurrentStatus(ControllerState::Initialized);
+    if(scoreController()->winnerId() != QUuid())
+        setCurrentStatus(ControllerState::WinnerDeclared);
+    else
+        setCurrentStatus(ControllerState::Initialized);
     emit transmitResponse(ControllerResponse::initializedAndReady,{});
 }

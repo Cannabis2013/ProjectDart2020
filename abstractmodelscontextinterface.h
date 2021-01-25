@@ -32,7 +32,7 @@ public:
     virtual void handleTransmitPlayerScores(const QUuid &tournament) = 0;
     virtual void handleTransmitTournamentData() = 0;
     virtual void handleRequestTournamentGameMode(const int &index) = 0;
-    virtual void handleRequestForFTPMetaData(const QUuid& tournament) = 0;
+    virtual void assembleTournamentMetaDataFromId(const QUuid& tournament) = 0;
     virtual void handleAddScore(const QUuid &tournament,
                   const QUuid &player,
                   const QList<int> &dataValues,

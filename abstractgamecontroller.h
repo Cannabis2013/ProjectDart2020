@@ -53,7 +53,7 @@ public slots:
     virtual void handlePersistModelStateDone() = 0;
 signals:
     void transmitResponse(const int &status, const QVariantList &args) override;
-    void requestFTPTournamentMetaData(const QUuid &tournament);
+    void sendCurrentTournamentId(const QUuid &tournament);
     void requestTransmitPlayerScores(const QUuid &tournament);
     void requestTournamentIndexes(const QUuid &tournament);
     void requestAddScore(const QUuid &tournamentID,

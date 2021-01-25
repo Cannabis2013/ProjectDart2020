@@ -167,13 +167,6 @@ private:
     void setCurrentStatus(int currentStatus);
     int lastPlayerIndex();
     /*
-     * Activity check
-     */
-    bool isActive()
-    {
-        return _isActive;
-    }
-    /*
      * Update datacontext
      */
     void addPoint(const int &point, const int &score);
@@ -187,8 +180,6 @@ private:
     void declareWinner();
     // Current tournament id
     QUuid _tournament = QUuid();
-    // Controller active state variable
-    bool _isActive = false;
     /*
      * Status member variable
      */
