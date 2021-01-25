@@ -18,9 +18,9 @@ Content {
         property string throwSuggestLabel: "Suggested target row:"
         property string winnerLabel: "Winner:"
     }
-    onBackButtonPressed: requestStop()
     signal requestMetaInformation
-    signal requestMultiScoreBoardData
+    signal requestMultiThrowScores
+    signal requestSingleThrowScores
     signal requestStatusFromBackend
     signal requestStart
     signal requestStop
@@ -34,6 +34,7 @@ Content {
         if(tournamentMetaData.tournamentGameMode === 0x1)
             FirstToPostScripts.setupFirstToPostScoreTable();
     }
+    signal requestPersistState
     QtObject{
         id: buttonTextContainer
         readonly property string startText: qsTr("Start")

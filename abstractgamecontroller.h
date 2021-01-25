@@ -31,15 +31,26 @@ public slots:
     virtual QUuid redoTurn() = 0;
 
     virtual void handleRequestForCurrentTournamentMetaData() = 0;
-    virtual void handleRequestForPlayerScores() = 0;
+    virtual void handleRequestForSingleThrowPlayerScores() = 0;
+    virtual void handleRequestForMultiThrowPlayerScores() = 0;
     virtual void handleScoreAddedToDataContext(const QUuid &playerID,
                                                       const int &point,
                                                       const int &score) = 0;
     virtual void handleScoreHintUpdated(const QUuid &playerID, const int &point,const int &score) = 0;
     virtual void handleTournamentResetSuccess() = 0;
     virtual void handleResetTournament() = 0;
-
+    /*
+     * Set initial state
+     */
     virtual void handleWakeUpRequest() = 0;
+    /*
+     * Handle persist model request
+     */
+    virtual void handleRequestPersistCurrentState() = 0;
+    /*
+     * Tournament persisted success
+     */
+    virtual void handlePersistModelStateDone() = 0;
 signals:
     void transmitResponse(const int &status, const QVariantList &args) override;
     void requestFTPTournamentMetaData(const QUuid &tournament);
@@ -59,6 +70,7 @@ signals:
                              const int &throwIndex,
                              const int &hint);
     void requestResetTournament(const QUuid &tournament);
+    void requestPersistModelState();
 };
 
 #endif // ABSTRACTGAMECONTROLLER_H

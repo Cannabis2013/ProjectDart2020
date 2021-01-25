@@ -1,15 +1,15 @@
 #ifndef LOCALPLAYERCONTEXT_H
 #define LOCALPLAYERCONTEXT_H
 
-#include "iplayermodel.h"
 #include <quuid.h>
 #include <QString>
 #include <qlist.h>
 #include <qobject.h>
 #include <iostream>
+#include <QVariantList>
+#include "iplayermodel.h"
 #include "playermodelscontextinterface.h"
 #include "playermodelbuildercontext.h"
-#include <QVariantList>
 #include "abstractjsonpersistence.h"
 #include "iplayermodelbuilder.h"
 #include "imodelsdbcontext.h"

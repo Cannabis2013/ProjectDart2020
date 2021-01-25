@@ -7,6 +7,7 @@ Item {
 
     clip: true
     signal startButtonClicked
+    signal quitButtonClicked
     signal leftButtonClicked
     signal rightButtonClicked
 
@@ -61,6 +62,7 @@ Item {
             onPressAndHoldClicked: startButtonPressAndHoldClicked()
             startButtonText: body.startButtonText
             onStartButtonClicked: body.startButtonClicked()
+            onQuitButtonClicked: body.quitButtonClicked()
         }
 
         PushButton{

@@ -131,7 +131,7 @@ void ModelsContextInterface::handleRequestTournamentGameMode(const int &index)
         return;
     }
     auto gameMode = tournamentModelsContext()->tournamentGameMode(tournamentId);
-    emit sendTournamentGameMode(tournamentId,gameMode);
+    emit requestAssembleTournament(tournamentId,gameMode);
 }
 void ModelsContextInterface::handleAddScore(const QUuid &tournament,
                                             const QUuid &player,
@@ -241,6 +241,12 @@ void ModelsContextInterface::handleRequestPlayersDetails()
         emit sendPlayerDetails(playerName,mail);
     }
     emit lastPlayerDetailTransmitted();
+}
+
+void ModelsContextInterface::handleRequestPersistTournamentState()
+{
+    tournamentModelsContext()->write();
+    emit tournamentModelsStatePersisted();
 }
 
 void ModelsContextInterface::handleRequestForFTPMetaData(const QUuid &tournament)

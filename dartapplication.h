@@ -5,22 +5,16 @@
 #include <qthreadpool.h>
 #include <iostream>
 
-#include "tournamentmodelscontextinterface.h"
-#include "playermodelscontextinterface.h"
-#include "abstractgamecontroller.h"
 #include "itournamentmodelbuilder.h"
 #include "iplayerbuildercontext.h"
 #include "abstractcontrollerbuilder.h"
-#include "iresponseinterface.h"
-#include "abstractmodelscontextinterface.h"
 
 using namespace std;
 
 #define printVariable(var) #var
 #define STATUS_ERROR -1
 
-class DartApplication : public QObject,
-        public IResponseInterface<QVariantList>
+class DartApplication : public AbstractApplicationInterface
 {
     Q_OBJECT
 public:
@@ -35,7 +29,7 @@ public:
     /*
      * Destructor
      */
-    ~DartApplication();
+    ~DartApplication() override;
     /*
      * Create and setup instance
      */
@@ -45,26 +39,25 @@ public:
     /*
      * Get/set modelcontext interface
      */
-    AbstractModelsContextInterface* modelsContextInterface();
-    DartApplication* setModelsContextInterface(AbstractModelsContextInterface* context);
+    AbstractModelsContextInterface *modelsContextInterface() const;
+    DartApplication* setModelsContextInterface(AbstractModelsContextInterface *modelsInterface);
     /*
      * Get/set GameControllerBuilder
      */
     AbstractControllerBuilder* controllerBuilder();
-    DartApplication *setControllerBuilder(AbstractControllerBuilder *builder);
-    AbstractModelsContextInterface *modelsInterface() const;
-    DartApplication* setModelsInterface(AbstractModelsContextInterface *modelsInterface);
+    DartApplication *setControllerBuilder(ControllerBuilder *builder);
 
 public slots:
-    void handleTournamentsRequest();
+    void handleTournamentsRequest() override;
     /*
      * Set current tournament
      */
-    void handleSetCurrentTournamentRequest(const int &index);
+    void handleSetCurrentTournamentRequest(const int &index) override;
     /*
      * UI request data to populate scoreboard
      */
-    void handleScoreBoardRequest();
+    void handleRequestForSingleThrowScoreData() override;
+    void handleRequestForMultiThrowScoreData() override;
     /*
      * Create tournament
      *
@@ -78,110 +71,64 @@ public slots:
      */
     void handleFTPDetails(const QString &title,
                                 const QVector<int> &data,
-                                const QVector<int> &playerIndexes);
+                                const QVector<int> &playerIndexes) override;
     /*
      * Delete tournament
      */
-    void handleDeleteTournamentsRequest(const QVariantList &indexes);
+    void handleDeleteTournamentsRequest(const QVariantList &indexes) override;
     /*
      * UI requests to create/delete player from datacontext
      */
-    void handleCreatePlayer(const QString &playerName, const QString &email);
-    void handleDeletePlayer(const int &index);
-    void handleDeletePlayersRequest(const QVariantList &args);
+    void handleCreatePlayer(const QString &playerName, const QString &email) override;
+    void handleDeletePlayer(const int &index) override;
+    void handleDeletePlayersRequest(const QVariantList &args) override;
     /*
      * UI requests playerdetails from datacontext
      */
-    void requestPlayerDetails();
-    void handleSendGameModesRequest() const;
+    void requestPlayerDetails() override;
+    void handleSendGameModesRequest() const override;
     /*
      *  - Start/stop tournament
      *  - Reset and restart tournament
      */
-    void handleRequestStart();
-    void handleRequestStop();
-    void handleRestartTournament();
+    void handleRequestStart() override;
+    void handleRequestStop() override;
+    void handleRestartTournament() override;
     /*
      * Handle UI user input
      *  - Users enters points to be stored in datacontext
      *  - In return, datacontext, in collaboration with gamecontroller, send current score to UI
      */
-    void handleUserInput(const int &point, const int &pressedModfier);
-    void handleUndoRequest();
-    void handleRedoRequest();
-    void handleControllerStateRequest();
+    void handleUserInput(const int &point, const int &pressedModfier) override;
+    void handleUndoRequest() override;
+    void handleRedoRequest() override;
+    void handleControllerStateRequest() override;
     /*
      * Handle request for tournament meta information
      */
-    void handleTournamentMetaRequest();
+    void handleTournamentMetaRequest() override;
+    /*
+     * Handle request for tournament persist
+     */
+    void handlePersistTournamentRequest() override;
+
 signals:
-    /*
-     * Iresponse interface
-     */
-    void transmitResponse(const int &status, const QVariantList &arguments) override;
-    /*
-     * ApplicationInterface interface
-     */
-    void requestWakeUp();
-    void requestCreatePlayer(const QString &playerName, const QString &mail);
-    void requestDeletePlayer(const int &index);
-    void requestDeletePlayers(const QVector<int> &indexes);
-    void requestDeleteTournaments(const QVector<int> &indexes);
-    void requestTournaments();
-    void requestPlayers();
-    void sendAssignedPlayerIndexes(const QVariantList &indexes, const QUuid &tournament);
-    void sendRequestedGameModes(const QStringList &gameModes);
-    void sendPlayerDetail(const QString &playerName, const QString &mail);
-    void sendPlayerScore(const QString &playerName,const int &point, const int &score, const int &keyCode);
-    void sendAssignedPlayerName(const QString &playerName);
-    void sendCurrentTournamentKeyPoint(const int &point);
-    void sendRequestedTournament(const QString &title,
-                                 const int &gameMode,
-                                 const int &playersCount);
-    void sendFTPDetails(const QString &title,
-                        const QVector<int> &data,
-                        const QVector<int> &playerIndexes);
-    void sendInformalControllerValues(const int &roundIndex,
-                                      const QString &playerName,
-                                      const bool &undoAvailable,
-                                      const bool &redoAvailable);
-    void sendGameModes(const QStringList &modes) const;
-    void stateChanged();
-    void sendInitialControllerValues(const QUuid &tournament,
-                                     const int &keyPoint,
-                                     const int &numberOfThrows,
-                                     QList<QUuid> assignedPlayers);
-    void requestPlayerScores();
-    void setCurrentActiveTournament(const int &index);
-    void sendPoint(const int &point, const int &pressedModifier);
-    void requestStartGame();
-    void requestStopGame();
-    void requestTournamentReset();
-    void requestControllerState();
-    void requestUndo();
-    void requestRedo();
-    void requestTournamentMetaData();
-    void sendFTPTournamentMetaData(const QVector<QString> &stringMetaData,
-                                const QVector<int> numericMetaData,
-                                const QVector<QString> &assignedPlayerNames);
-    void removeScore(const QString &player);
-    void sendTournamentDetails(const QUuid &tournament,
-                               const QString &winner,
-                               const PlayerPairs &assignedPlayerPairs);
-    void playersDeletedStatus(const bool &status);
-    void tournamentsDeletedSuccess(const bool &status);
-
-    void lastTournamentDetailsTransmitted();
-    void lastPlayerDetailsTransmitted();
-    void playerCreatedSuccess(const bool &status);
-
+    void assembleFTPController(const QVector<QUuid> &idAndWinner,
+                               const QVector<int> &values,
+                               const QVector<QUuid> &userIds,
+                               const QVector<QString> &playerNames,
+                               AbstractApplicationInterface* applicationsInteface,
+                               AbstractModelsContextInterface* modelsContextInterface);
 private slots:
+    void assembleAndConfigureControllerBuilder(const QVector<QUuid>& idAndWinner,
+                                    const QVector<int> &values,
+                                    const QVector<QUuid> &userIds,
+                                    const QVector<QString> &playerNames);
     void setGameController(AbstractGameController* controller);
 private:
     // Register and connect interfaces related..
     void registerTypes();
     void connectModelInterfaces();
-    void connectControllerInterface();
     // Clear controller..
     void clearGameController();
 
@@ -198,7 +145,7 @@ private:
     QThread* _modelsContextInterfaceThread = new QThread();
     QThread *_gameControllerThread = new QThread();
     AbstractControllerBuilder *_controllerBuilder;
-    AbstractModelsContextInterface* _modelsInterface;
+    AbstractModelsContextInterface* _modelsContext;
     AbstractGameController *_gameController = nullptr;
 };
 

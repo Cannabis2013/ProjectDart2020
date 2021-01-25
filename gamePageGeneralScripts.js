@@ -12,7 +12,6 @@ function connectComponents()
 {
     gamePageBody.requestMetaInformation.connect(applicationInterface.handleTournamentMetaRequest);
     applicationInterface.sendFTPTournamentMetaData.connect(handleFTPTournamentMetaData);
-    gamePageBody.requestMultiScoreBoardData.connect(applicationInterface.handleScoreBoardRequest);
     applicationInterface.sendPlayerScore.connect(appendScore);
     gamePageBody.requestStart.connect(applicationInterface.handleRequestStart);
     gamePageBody.requestStop.connect(applicationInterface.handleRequestStop);
@@ -21,12 +20,12 @@ function connectComponents()
     gamePageBody.requestUndo.connect(applicationInterface.handleUndoRequest);
     gamePageBody.requestRedo.connect(applicationInterface.handleRedoRequest);
     gamePageBody.requestStatusFromBackend.connect(applicationInterface.handleControllerStateRequest);
+    gamePageBody.requestPersistState.connect(applicationInterface.handlePersistTournamentRequest);
 }
 function disconnectComponents()
 {
     gamePageBody.requestMetaInformation.disconnect(applicationInterface.handleTournamentMetaRequest);
     applicationInterface.sendFTPTournamentMetaData.disconnect(handleFTPTournamentMetaData);
-    gamePageBody.requestMultiScoreBoardData.disconnect(applicationInterface.handleScoreBoardRequest);
     applicationInterface.sendPlayerScore.disconnect(appendScore);
     gamePageBody.requestStart.disconnect(applicationInterface.handleRequestStart);
     gamePageBody.requestStop.disconnect(applicationInterface.handleRequestStop);
@@ -77,9 +76,9 @@ function alterScore(player,score,point)
 {
     if(tournamentMetaData.tournamentGameMode === TournamentContext.firstToPost)
     {
-        if(tournamentMetaData.tournamentTableViewHint === DataModelContext.singleDimensional)
+        if(tournamentMetaData.tournamentTableViewHint === DataModelContext.singleThrowInput)
             scoreBoardInterface().setData(player,point,score,-1);
-        else if(tournamentMetaData.tournamentTableViewHint === DataModelContext.multiDimensional)
+        else if(tournamentMetaData.tournamentTableViewHint === DataModelContext.multiThrowInput)
             scoreBoardInterface().takeData(-1,-1,player);
     }
 }
@@ -112,7 +111,7 @@ function handleReplyFromBackend(response,args)
     }
     else if(response === 0x10) // Backend replies end of transmission
     {
-        handleRecievedScores(args);
+        handleRecievedMultiThrowScores(args);
         gamePageBody.requestStatusFromBackend();
     }
 
@@ -157,11 +156,20 @@ function handleReplyFromBackend(response,args)
     {
         turnControllerItemSlot.item.startButtonEnabled = true;
     }
+    else if(response === 0x3B)
+    {
+        backButtonPressed();
+    }
+    else if(response === 0xA) // Backend transmits user scores
+    {
+        handleRecievedSingleThrowScores(args);
+        gamePageBody.requestStatusFromBackend();
+    }
 }
 /*
-  Handle recieved score
+  Handle recieved scores
   */
-function handleRecievedScores(data)
+function handleRecievedMultiThrowScores(data)
 {
     if(data.length % 4 !== 0)
         return;
@@ -174,6 +182,18 @@ function handleRecievedScores(data)
         gamePageBody.scoreRecieved(name,point,score,keyCode);
     }
 }
+function handleRecievedSingleThrowScores(data)
+{
+    if(data.length % 2 !== 0)
+        return;
+    for(var i = 0; i < data.length;i += 2)
+    {
+        var name = data[i];
+        var score = data[i + 1];
+        gamePageBody.scoreRecieved(name,0,score,-1);
+    }
+}
+
 /*
   Handle user input
   */

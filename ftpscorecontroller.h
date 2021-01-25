@@ -30,7 +30,7 @@ struct Tuple
     T2 second;
     T3 third;
 };
-
+// S = {UserId, UserName, UserScore}
 typedef Tuple<QUuid,QString,int> PlayerTuple;
 typedef QList<PlayerTuple> PlayerTuples;
 typedef QPair<QUuid,QString> PlayerPair;
@@ -46,18 +46,21 @@ public:
                                               const QVector<int>& userScores,
                                               const QUuid &winner);
     // UserScoresControllerInterface interface
-    virtual int scoreAtIndex(const int &index) const override;
-    virtual void setScoreAtIndex(const int &index, const int &input) override;
-    virtual void setScoreFromList(const QVector<int> &list) override;
-    virtual void setScoreAtId(const QUuid &id, const int &input) override;
+    virtual int userscoreAtIndex(const int &index) const override;
+    virtual void setUserScoreAtIndex(const int &index, const int &input) override;
+    virtual void setUserScoresFromList(const QVector<int> &list) override;
+    virtual void setUserScoreAtId(const QUuid &id, const int &input) override;
     virtual QString userNameAtIndex(const int &index) const override;
     virtual QString userNameFromId(const QUuid &id) const override;
     virtual QVector<QString> userNames() const override;
     virtual QUuid userIdAtIndex(const int &index) const override;
-    virtual int userScoresCount() const override;
+    virtual int playersCount() const override;
     virtual QUuid winnerId() const override;
     virtual ScoreControllerInterface *setWinner(const QUuid &id) override;
     virtual QString winnerUserName() const override;
+    int calculateAggregateduserScoreCandidate(const int& index,
+                                              const int& score) const override;
+    void resetScores(const int& initialScore) override;
 private:
     /*
      * Private constructor

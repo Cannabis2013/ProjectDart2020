@@ -28,10 +28,17 @@ function setupFirstToPost(){
 
 function initializeFirstToPost()
 {
+    // Connect
+    gamePageBody.requestSingleThrowScores.connect(applicationInterface.handleRequestForSingleThrowScoreData);
+    gamePageBody.requestMultiThrowScores.connect(applicationInterface.handleRequestForMultiThrowScoreData);
     var title = tournamentMetaData.tournamentTitle;
     requestSetPageTitle(title);
     var hint = tournamentMetaData.tournamentTableViewHint;
-    requestMultiScoreBoardData();
+    if(hint === DataModelContext.singleThrowInput)
+        requestSingleThrowScores();
+    else if(hint === DataModelContext.multiThrowInput);
+        requestMultiThrowScores();
+
 }
 function setupFirstToPostScoreTable()
 {
@@ -48,6 +55,7 @@ function setupFirstToPostScoreTable()
 function setupTurnController(){
     turnControllerInterface().startButtonPressAndHoldClicked.connect(handleStartPressAndHold);
     turnControllerInterface().startButtonClicked.connect(handleStartClicked);
+    turnControllerInterface().quitButtonClicked.connect(requestPersistState);
     turnControllerInterface().leftButtonClicked.connect(leftButtonClicked);
     turnControllerInterface().rightButtonClicked.connect(rightButtonClicked);
 }

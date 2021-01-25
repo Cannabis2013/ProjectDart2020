@@ -45,7 +45,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    ApplicationInterface.h \
+    AbstractApplicationInterface.h \
     IControllerBuilder.h \
     LinkedList.h \
     PointIndexController.h \

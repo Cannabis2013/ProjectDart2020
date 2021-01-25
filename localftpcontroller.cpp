@@ -17,7 +17,6 @@ void LocalFTPController::stop()
 {
     _isActive = false;
     setCurrentStatus(ControllerState::Stopped);
-    emit transmitResponse(ControllerResponse::isStopped,{});
 }
 
 void LocalFTPController::handleAndProcessUserInput(const int &point,
@@ -38,9 +37,8 @@ void LocalFTPController::handleAndProcessUserInput(const int &point,
     // Calculate score
     auto score = scoreCalculator()->calculateScore(point,modifierKeyCode);
     auto setIndex = indexController()->setIndex();
-    auto currentScore = scoreController()->scoreAtIndex(setIndex);;
-    auto newScore = currentScore - score;
-
+    auto currentScore = scoreController()->userscoreAtIndex(setIndex);;
+    auto newScore = scoreController()->calculateAggregateduserScoreCandidate(setIndex,score);
     // Evaluate input according to point domain and aggregated sum domain
     auto domain = scoreEvaluator()->validateInput(newScore,modifierKeyCode,point);
     switch (domain)
@@ -64,7 +62,20 @@ void LocalFTPController::handleRequestForCurrentTournamentMetaData()
     emit requestFTPTournamentMetaData(tournament);
 }
 
-void LocalFTPController::handleRequestForPlayerScores()
+void LocalFTPController::handleRequestForSingleThrowPlayerScores()
+{
+    QVariantList list;
+    auto count = scoreController()->playersCount();
+    for (int i = 0; i < count; ++i) {
+        QVariantList subList;
+        subList << scoreController()->userNameAtIndex(i)
+                << scoreController()->userscoreAtIndex(i);
+        list << subList;
+    }
+    emit transmitResponse(ControllerResponse::ScoresTransmit,list);
+}
+
+void LocalFTPController::handleRequestForMultiThrowPlayerScores()
 {
     auto tournamentId = tournament();
     emit requestTransmitPlayerScores(tournamentId);
@@ -74,7 +85,7 @@ void LocalFTPController::handleScoreAddedToDataContext(const QUuid &playerID,
                                                             const int &point,
                                                             const int &score)
 {
-    scoreController()->setScoreAtId(playerID,score);
+    scoreController()->setUserScoreAtId(playerID,score);
     auto playerName = scoreController()->userNameFromId(playerID);
     indexController()->syncIndex();
     emit transmitResponse(ControllerResponse::ScoreTransmit,{playerName,point,score});
@@ -87,14 +98,14 @@ void LocalFTPController::handleScoreHintUpdated(const QUuid &playerID,
     if(status() == ControllerState::UndoState)
     {
         auto newScore = score + point;
-        scoreController()->setScoreAtId(playerID,newScore);
+        scoreController()->setUserScoreAtId(playerID,newScore);
         auto playerName = scoreController()->userNameFromId(playerID);
         emit transmitResponse(ControllerResponse::ScoreRemove,
                               {playerName,newScore,point});
     }
     else if(status() == ControllerState::RedoState)
     {
-        scoreController()->setScoreAtId(playerID,score);
+        scoreController()->setUserScoreAtId(playerID,score);
         auto playerName = scoreController()->userNameFromId(playerID);
         emit transmitResponse(ControllerResponse::ScoreTransmit,{playerName,point,score});
     }
@@ -102,11 +113,17 @@ void LocalFTPController::handleScoreHintUpdated(const QUuid &playerID,
 
 void LocalFTPController::handleTournamentResetSuccess()
 {
-    // Reset index controller
-    indexController()->reset();
-    auto userNames = scoreController()->userNames();
-    emit transmitResponse(ControllerResponse::transmitInitialScore,{});
+    emit transmitResponse(ControllerResponse::transmitInitialScore,{keyPoint()});
+}
 
+void LocalFTPController::handleRequestPersistCurrentState()
+{
+    emit requestPersistModelState();
+}
+
+void LocalFTPController::handlePersistModelStateDone()
+{
+    emit transmitResponse(ControllerResponse::isIdle,{});
 }
 
 ScoreCalculatorInterface *LocalFTPController::scoreCalculator() const
@@ -123,6 +140,8 @@ LocalFTPController *LocalFTPController::setScoreCalculator(ScoreCalculatorInterf
 void LocalFTPController::handleResetTournament()
 {
     _currentStatus = ControllerState::resetState;
+    _indexController->reset();
+    _scoreController->resetScores(keyPoint());
     emit requestResetTournament(tournament());
 }
 
@@ -133,7 +152,7 @@ void LocalFTPController::sendCurrentTurnValues()
     auto roundIndex = indexController()->roundIndex();
     auto currentUserName = currentActiveUser();
     auto setIndex = indexController()->setIndex();
-    auto score = scoreController()->scoreAtIndex(setIndex);;
+    auto score = scoreController()->userscoreAtIndex(setIndex);;
     auto throwIndex = indexController()->legIndex() + 1;
     auto throwSuggestion = pointLogisticInterface()->throwSuggestion(score,throwIndex);
     QVariantList responseParameters = {
@@ -173,7 +192,7 @@ int LocalFTPController::status()
 
 int LocalFTPController::lastPlayerIndex()
 {
-    auto playerCount = scoreController()->userScoresCount();
+    auto playerCount = scoreController()->playersCount();
     auto lastIndex = playerCount - 1;
     return lastIndex;
 }
@@ -293,6 +312,16 @@ void LocalFTPController::declareWinner()
     setCurrentStatus(ControllerState::WinnerDeclared);
 }
 
+int LocalFTPController::keyPoint() const
+{
+    return _keyPoint;
+}
+
+void LocalFTPController::setKeyPoint(int keyPoint)
+{
+    _keyPoint = keyPoint;
+}
+
 int LocalFTPController::currentStatus() const
 {
     return _currentStatus;
@@ -337,9 +366,10 @@ void LocalFTPController::setCurrentStatus(int currentStatus)
     _currentStatus = currentStatus;
 }
 
-LocalFTPController *LocalFTPController::createInstance(const QUuid &tournament)
+LocalFTPController *LocalFTPController::createInstance(const QUuid &tournament,
+                                                       const int& keyPoint)
 {
-    return new LocalFTPController(tournament);
+    return new LocalFTPController(tournament,keyPoint);
 }
 
 IPointLogisticInterface<QString> *LocalFTPController::pointLogisticInterface() const

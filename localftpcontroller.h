@@ -47,20 +47,23 @@ public:
         RedoState = 0x20,
         AddScoreState = 0x21,
         UpdateContextState = 0x22,
-        resetState = 0x29
+        resetState = 0x29,
+        idle = 0xA
     };
     enum ControllerResponse{
         isStopped = 0x3A,
+        isIdle = 0x3B,
         ScoreTransmit = 0x27,
+        ScoresTransmit = 0xA,
         ScoreRemove = 0x28,
         initializedAndAwaitsInput = 0x2D,
         initializedAndReady = 0x45,
         WinnerFound = 0x3E,
         isProcessingUserInput,
-        transmitInitialScore = 0x29,
+        tournamentIsReset = 0x29
     };
     // Create instance of LocalFTPController
-    static LocalFTPController* createInstance(const QUuid &tournament);
+    static LocalFTPController* createInstance(const QUuid &tournament, const int &keyPoint);
     /*
      * Point suggestion section
      */
@@ -95,8 +98,17 @@ public:
      * Handle and Evaluate input from user
      */
     void handleAndProcessUserInput(const int &point, const int &modifierKeyCode) override;
+    /*
+     * Send current tournament id to external context
+     */
     void handleRequestForCurrentTournamentMetaData() override;
-    void handleRequestForPlayerScores() override;
+    /*
+     * Handle request for playerscores
+     *
+     * The following methods is called dependently on input hint
+     */
+    void handleRequestForSingleThrowPlayerScores() override;
+    void handleRequestForMultiThrowPlayerScores() override;
 
     void handleScoreAddedToDataContext(const QUuid &playerID,
                                               const int &point,
@@ -110,6 +122,14 @@ public:
      */
     void handleResetTournament() override;
     void handleTournamentResetSuccess() override;
+    /*
+     * Handle persist controller state
+     */
+    void handleRequestPersistCurrentState() override;
+    /*
+     * Handle persist modelstate done
+     */
+    void handlePersistModelStateDone() override;
     /*
      * Get/set score calculator service
      */
@@ -129,13 +149,18 @@ public:
     // Get current status
     int currentStatus() const;
 
+    int keyPoint() const;
+    void setKeyPoint(int keyPoint);
+
 private:
     /*
      * Private constructor
      */
-    LocalFTPController(const QUuid &tournament)
+    LocalFTPController(const QUuid &tournament,
+                       const int& keyPoint)
     {
         _tournament = tournament;
+        _keyPoint = keyPoint;
     }
     /*
      * Notify UI about controller state, current round index, undo/redo possibility and current user
@@ -168,6 +193,8 @@ private:
     void declareWinner();
     // Current tournament id
     QUuid _tournament = QUuid();
+    // Tournament keypoint
+    int _keyPoint;
     // Controller active state variable
     bool _isActive = false;
     /*

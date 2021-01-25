@@ -17,7 +17,7 @@
 
 #ifndef TEST_MODE
 
-DartApplication* configureAndInstantiateDart()
+AbstractApplicationInterface* configureAndInstantiateDart()
 {
     auto tournamentModelsContext =
             LocalTournamentModelsContext::createInstance()->

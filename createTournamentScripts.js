@@ -32,9 +32,9 @@ function convertKeyModifierToHex(key){
 function convertHintToHex(hint){
     var hints = stringModels.displayHints;
     if(hint === hints[0])
-        return DataModelContext.singleDimensional;
+        return DataModelContext.singleThrowInput;
     else if(hint === hints[1])
-        return DataModelContext.multiDimensional;
+        return DataModelContext.multiThrowInput;
     else
         return -1;
 }

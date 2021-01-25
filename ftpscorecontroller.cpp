@@ -6,14 +6,14 @@ FTPScoreController *FTPScoreController::createInstance(const QVector<QUuid> &use
     return new FTPScoreController(userIds,userNames,userScores,winner);
 }
 
-int FTPScoreController::scoreAtIndex(const int &index) const
+int FTPScoreController::userscoreAtIndex(const int &index) const
 {
     auto tuple = tupleAtIndex(index);
     auto score = tuple.third;
     return score;
 }
 
-void FTPScoreController::setScoreAtIndex(const int &index, const int &input)
+void FTPScoreController::setUserScoreAtIndex(const int &index, const int &input)
 {
     auto tuple = tupleAtIndex(index);
     tuple.third = input;
@@ -21,18 +21,18 @@ void FTPScoreController::setScoreAtIndex(const int &index, const int &input)
 
 }
 
-void FTPScoreController::setScoreFromList(const QVector<int> &list)
+void FTPScoreController::setUserScoresFromList(const QVector<int> &list)
 {
-    if(list.count() != userScoresCount())
+    if(list.count() != playersCount())
         throw INCONSISTENCY_EXCEPTION_MESSAGE;
-    for (int i = 0; i < userScoresCount(); ++i) {
+    for (int i = 0; i < playersCount(); ++i) {
         auto tuple = tupleAtIndex(i);
         tuple.third = list.at(i);
         replaceTupleAt(i,tuple);
     }
 }
 
-void FTPScoreController::setScoreAtId(const QUuid &id, const int &input)
+void FTPScoreController::setUserScoreAtId(const QUuid &id, const int &input)
 {
     auto tuple = tupleAtId(id);
     auto index = indexOf(tuple);
@@ -58,7 +58,7 @@ QString FTPScoreController::userNameFromId(const QUuid &id) const
 QVector<QString> FTPScoreController::userNames() const
 {
     QVector<QString> resultingList;
-    for (int i = 0; i < userScoresCount(); ++i) {
+    for (int i = 0; i < playersCount(); ++i) {
         auto tuple = _playerTuples.at(i);
         auto userName = tuple.second;
         resultingList << userName;
@@ -73,7 +73,7 @@ QUuid FTPScoreController::userIdAtIndex(const int &index) const
     return id;
 }
 
-int FTPScoreController::userScoresCount() const
+int FTPScoreController::playersCount() const
 {
     return count();
 }
@@ -94,6 +94,23 @@ QString FTPScoreController::winnerUserName() const
     auto id = winnerId();
     auto userName = userNameFromId(id);
     return userName;
+}
+
+int FTPScoreController::calculateAggregateduserScoreCandidate(const int &index, const int &score) const
+{
+    auto tuple = tupleAtIndex(index);
+    auto s = tuple.third;
+    auto scoreCandidate = s - score;
+    return scoreCandidate;
+}
+
+void FTPScoreController::resetScores(const int &initialScore)
+{
+    for (int i = 0; i < playersCount(); ++i) {
+        auto tuple = tupleAtIndex(i);
+        tuple.third = initialScore;
+        _playerTuples.replace(i,tuple);
+    }
 }
 
 FTPScoreController::FTPScoreController(const QVector<QUuid> &userIds, const QVector<QString> &userNames, const QVector<int> &userScores, const QUuid &winner)

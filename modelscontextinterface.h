@@ -109,6 +109,10 @@ public slots:
 
     void handleDeletePlayersFromIndexes(const QVector<int> &indexes) override;
     void handleRequestPlayersDetails() override;
+    /*
+     * Persist changes at current time of request
+     */
+    void handleRequestPersistTournamentState() override;
 private:
     TournamentModelsContextInterface* _tournamentModelsContext;
     PlayerModelsContextInterface* _playerModelsContext;

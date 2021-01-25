@@ -16,8 +16,10 @@ QtObject{
     property color navButtonsTextColor: "white"
     property color navTextDisplayColor: "white"
     property color navStartButtonBackgroundColor: "gray"
+    property color navQuitButtonBackgroundColor: "red"
     property color navStartButtonTextColor: "white"
     property color navStartButtonHoveredBackgroundColor: "lightgray"
+    property color navQuitButtonHoveredBackgroundColor: "red"
             // DisplayKeyDataItem
     property color keyTextDisplayColor: "white"
             // ManagePageContent

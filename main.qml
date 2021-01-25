@@ -8,17 +8,15 @@ ApplicationWindow {
     id: applicationWindow
 
     readonly property int defaultPageContentWidth: 512
-
     visible: true
-
     color: ThemeContext.pageColor
-
     minimumHeight: 640
     minimumWidth: 400
     width: 480
     height: 640
 
-    Screen.orientationUpdateMask:  Qt.LandscapeOrientation | Qt.PortraitOrientation
+    Screen.orientationUpdateMask:  Qt.LandscapeOrientation |
+                                   Qt.PortraitOrientation
 
     title: qsTr("Dart2020")
 

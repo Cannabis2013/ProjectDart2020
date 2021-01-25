@@ -20,7 +20,8 @@ Item {
         Page{
             onBackButtonPressed: pageLoader.sourceComponent = tournamentPageComponent
             pageTitle: "Game"
-            pageContent: GamePageContent{}
+            pageContent: GamePageContent{
+            }
             Component.onCompleted: body.backPushed.connect(backButtonPressed)
         }
     }

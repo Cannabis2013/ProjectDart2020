@@ -16,6 +16,10 @@ public:
 
     // ScoreCalculatorInterface interface
 public:
+    static PointScoreCalculator* createInstance()
+    {
+        return new PointScoreCalculator();
+    }
     virtual int calculateScore(const int &point, const int &keyCode) const override
     {
         // Initialize pointmultiplier

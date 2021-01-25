@@ -16,7 +16,6 @@
 
 #include "tournamentmodelscontextinterface.h"
 #include "abstractjsonpersistence.h"
-#include "persistenceinterface.h"
 
 using namespace std;
 
@@ -44,8 +43,7 @@ typedef ITournamentModelBuilder<DefaultTournamentInterface,
 
 class LocalTournamentModelsContext :
         public TournamentModelsContextInterface,
-        public AbstractJSONPersistence,
-        public PersistenceInterface
+        public AbstractJSONPersistence
 {
 public:
     /*
@@ -162,7 +160,6 @@ public:
     void removeTournamentScores(const QUuid &tournament) override;
     void removeTournamentModel(const QUuid &tournament) override;
     void removePointModel(const QUuid &playerScore) override;
-
     /*
      * Tournament indexes
      */

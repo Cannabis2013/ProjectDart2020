@@ -5,11 +5,15 @@
 #include <quuid.h>
 #include<qlist.h>
 #include "abstractgamecontroller.h"
+#include "abstractmodelscontextinterface.h"
+#include "AbstractApplicationInterface.h"
+
 typedef IControllerBuilder<AbstractGameController,
-                           QUuid,QVector<int>,
+                           AbstractModelsContextInterface,
+                           AbstractApplicationInterface,
+                           QVector<int>,
                            QVector<QUuid>,
-                           QVector<QString>,
-                           QVector<int>> ControllerBuilder;
+                           QVector<QString>> ControllerBuilder;
 
 class AbstractControllerBuilder : public QObject,
         public ControllerBuilder
@@ -20,12 +24,14 @@ signals:
     void sendController(AbstractGameController* controller);
 
 public slots:
-    virtual void handleRecieveGameMode(const QUuid& tournament,
+    virtual void determineTournamentGameMode(const QUuid& tournament,
                                        const int &gameMode) = 0;
     virtual AbstractGameController* assembleFTPGameController(const QVector<QUuid>& tournamentIdAndWinner,
                                                               const QVector<int>& values,
                                                               const QVector<QUuid>& userIds,
-                                                              const QVector<QString>& userNames) = 0;
+                                                              const QVector<QString>& userNames,
+                                                              AbstractApplicationInterface* applicationInterface,
+                                                              AbstractModelsContextInterface* modelsContext) = 0;
 };
 
 #endif // ABSTRACTCONTROLLERBUILDER_H

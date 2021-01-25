@@ -54,6 +54,10 @@ public:
     virtual void handleDeletePlayerFromIndex(const int &index)= 0;
     virtual void handleDeletePlayersFromIndexes(const QVector<int> &playerIndexes)= 0;
     virtual void handleRequestPlayersDetails() = 0;
+    /*
+     * Persist state
+     */
+    virtual void handleRequestPersistTournamentState() = 0;
 
 signals:
     // IResponseInterface interface
@@ -73,7 +77,7 @@ signals:
     void sendTournamentMeta(const QVector<QString> &stringMetaData,
                             const QVector<int> numericMetaData,
                             const QVector<QString> &assignedPlayerNames);
-    void sendTournamentGameMode(const QUuid &tournament,
+    void requestAssembleTournament(const QUuid &tournament,
                                 const int &gameMode);
     void sendTournamentIndexes(const int &roundIndex,
                                const int &setIndex,
@@ -113,8 +117,8 @@ signals:
                                         const QList<QUuid> &playersID);
     void playersDeletedStatus(const bool &status);
     void lastPlayerDetailTransmitted();
-
     void confirmPlayerCreated(const bool &status);
+    void tournamentModelsStatePersisted();
 };
 
 #endif // ABSTRACTMODELCONTEXTINTERFACE_H

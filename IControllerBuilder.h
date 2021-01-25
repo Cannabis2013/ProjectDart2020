@@ -2,18 +2,20 @@
 #define ICONTROLLERBUILDER_H
 
 template<class TControllerInterface,
-         class TUuid,
+         class TModelsContextInterface,
+         class TApplicatonInterface,
          class TParameter,
          class TUserIds,
-         class TUserNames,
-         class TScores>
+         class TUserNames>
 class IControllerBuilder
 {
 public:
     virtual TControllerInterface *assembleFTPGameController(const TUserIds& tournamentIds,
                                                             const TParameter &values,
                                                             const TUserIds& userIds,
-                                                            const TUserNames& userNames) = 0;
+                                                            const TUserNames& userNames,
+                                                            TApplicatonInterface* applicationInterface,
+                                                            TModelsContextInterface* modelsContext) = 0;
 };
 
 #endif // ICONTROLLERBUILDER_H

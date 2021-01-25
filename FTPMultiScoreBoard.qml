@@ -100,7 +100,7 @@ ScoreBoard {
         scoreFontPointSize: fTPBody.scoreFontSize
         horizontalFillMode: fTPBody.horizontalHeaderFillMode
         verticalFillMode: fTPBody.verticalHeaderFillMode
-        appendMode: DataModelContext.multiDimensional
+        appendMode: DataModelContext.multiThrowInput
         minimumColumnCount: fTPBody.minimumColumnCount
         scale: fTPBody.modelScale
     }
