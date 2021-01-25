@@ -706,7 +706,7 @@ void LocalTournamentModelsContext::extractTournamentModelsFromJSON(const QJsonAr
         auto inputMode = tournamentJSON["InputMode"].toInt();
         auto gameMode = tournamentJSON["GameMode"].toInt();
         auto throws = tournamentJSON["Throws"].toInt();
-        auto winnerStringID = tournamentJSON["WinnerID"].toString();
+        auto winnerStringID = tournamentJSON["Winner"].toString();
         auto winnerID = QUuid::fromString(winnerStringID);
         buildTournament(tournamentID,title,
                         keyPoint,
