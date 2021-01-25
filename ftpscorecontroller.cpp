@@ -1,9 +1,17 @@
 #include "ftpscorecontroller.h"
 
 
-FTPScoreController *FTPScoreController::createInstance(const QVector<QUuid> &userIds, const QVector<QString> &userNames, const QVector<int> &userScores, const QUuid &winner)
+FTPScoreController *FTPScoreController::createInstance(const QVector<QUuid> &userIds,
+                                                       const QVector<QString> &userNames,
+                                                       const QVector<int> &userScores,
+                                                       const int &initialScore,
+                                                       const QUuid &winner)
 {
-    return new FTPScoreController(userIds,userNames,userScores,winner);
+    return new FTPScoreController(userIds,
+                                  userNames,
+                                  userScores,
+                                  initialScore,
+                                  winner);
 }
 
 int FTPScoreController::userscoreAtIndex(const int &index) const
@@ -96,6 +104,11 @@ QString FTPScoreController::winnerUserName() const
     return userName;
 }
 
+int FTPScoreController::initialScore() const
+{
+    return _initialScore;
+}
+
 int FTPScoreController::calculateAggregateduserScoreCandidate(const int &index, const int &score) const
 {
     auto tuple = tupleAtIndex(index);
@@ -104,18 +117,23 @@ int FTPScoreController::calculateAggregateduserScoreCandidate(const int &index, 
     return scoreCandidate;
 }
 
-void FTPScoreController::resetScores(const int &initialScore)
+void FTPScoreController::resetScores()
 {
     for (int i = 0; i < playersCount(); ++i) {
         auto tuple = tupleAtIndex(i);
-        tuple.third = initialScore;
+        tuple.third = initialScore();
         _playerTuples.replace(i,tuple);
     }
 }
 
-FTPScoreController::FTPScoreController(const QVector<QUuid> &userIds, const QVector<QString> &userNames, const QVector<int> &userScores, const QUuid &winner)
+FTPScoreController::FTPScoreController(const QVector<QUuid> &userIds,
+                                       const QVector<QString> &userNames,
+                                       const QVector<int> &userScores,
+                                       const int &initialScore,
+                                       const QUuid &winner)
 {
     auto assembledTuples = assembleScoreTubble(userIds,userNames,userScores);
+    _initialScore = initialScore;
     _playerTuples = assembledTuples;
     _winner = winner;
 }

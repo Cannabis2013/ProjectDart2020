@@ -54,21 +54,32 @@ public:
         AbstractGameController* controller = nullptr;
         if(inputMode == InputModes::PointMode)
         {
-            controller = LocalFTPController::createInstance(tournament,keyPoint)
-                    ->setPointLogisticInterface(PointLogisticManager::createInstance(numberOfThrows,terminalKeyCode))
+            controller = LocalFTPController::createInstance(tournament)
+                    ->setPointLogisticInterface(PointLogisticManager::createInstance(numberOfThrows,
+                                                                                     terminalKeyCode))
                     ->setScoreCalculator(PointScoreCalculator::createInstance())
                     ->setInputValidator(PointValidator::createInstance(terminalKeyCode))
-                    ->setIndexController(PointIndexController::createInstance(numberOfThrows,playersCount,indexes))
-                    ->setScoreController(FTPScoreController::createInstance(userIds,userNames,userScores,winner));
+                    ->setIndexController(PointIndexController::createInstance(numberOfThrows,
+                                                                              playersCount,
+                                                                              indexes))
+                    ->setScoreController(FTPScoreController::createInstance(userIds,
+                                                                            userNames,
+                                                                            userScores,
+                                                                            keyPoint,
+                                                                            winner));
         }
         else if(inputMode == InputModes::ScoreMode)
         {
-            controller = LocalFTPController::createInstance(tournament,keyPoint)
-                    ->setPointLogisticInterface(PointLogisticManager::createInstance(numberOfThrows,terminalKeyCode))
+            controller = LocalFTPController::createInstance(tournament)
+                    ->setPointLogisticInterface(PointLogisticManager::createInstance(numberOfThrows,
+                                                                                     terminalKeyCode))
                     ->setScoreCalculator(new ScoreCalculator())
                     ->setInputValidator(ScoreValidator::createInstance(terminalKeyCode))
-                    ->setIndexController(ScoreIndexController::createInstance(playersCount,indexes))
-                    ->setScoreController(FTPScoreController::createInstance(userIds,userNames,userScores,winner));
+                    ->setIndexController(ScoreIndexController::createInstance(playersCount,
+                                                                              indexes))
+                    ->setScoreController(FTPScoreController::createInstance(userIds,
+                                                                            userNames,
+                                                                            userScores,keyPoint,winner));
         }
         connectFTPControllerWithInterfaces(controller,applicationInterface,modelsContext);
         emit sendController(controller);

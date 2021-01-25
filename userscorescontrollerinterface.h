@@ -23,8 +23,9 @@ public:
     virtual TUuid userIdAtIndex(const int &index) const = 0;
 
     virtual int playersCount() const = 0;
+    virtual int initialScore() const = 0;
     virtual int calculateAggregateduserScoreCandidate(const int& index, const int& score) const = 0;
-    virtual void resetScores(const int& initialScore) = 0;
+    virtual void resetScores() = 0;
 };
 
 #endif // USERSCORESCONTROLLERINTERFACE_H

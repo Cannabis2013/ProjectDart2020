@@ -113,7 +113,7 @@ void LocalFTPController::handleScoreHintUpdated(const QUuid &playerID,
 
 void LocalFTPController::handleTournamentResetSuccess()
 {
-    emit transmitResponse(ControllerResponse::transmitInitialScore,{keyPoint()});
+    emit transmitResponse(ControllerResponse::tournamentIsReset,{});
 }
 
 void LocalFTPController::handleRequestPersistCurrentState()
@@ -141,7 +141,7 @@ void LocalFTPController::handleResetTournament()
 {
     _currentStatus = ControllerState::resetState;
     _indexController->reset();
-    _scoreController->resetScores(keyPoint());
+    _scoreController->resetScores();
     emit requestResetTournament(tournament());
 }
 
@@ -312,16 +312,6 @@ void LocalFTPController::declareWinner()
     setCurrentStatus(ControllerState::WinnerDeclared);
 }
 
-int LocalFTPController::keyPoint() const
-{
-    return _keyPoint;
-}
-
-void LocalFTPController::setKeyPoint(int keyPoint)
-{
-    _keyPoint = keyPoint;
-}
-
 int LocalFTPController::currentStatus() const
 {
     return _currentStatus;
@@ -366,10 +356,9 @@ void LocalFTPController::setCurrentStatus(int currentStatus)
     _currentStatus = currentStatus;
 }
 
-LocalFTPController *LocalFTPController::createInstance(const QUuid &tournament,
-                                                       const int& keyPoint)
+LocalFTPController *LocalFTPController::createInstance(const QUuid &tournament)
 {
-    return new LocalFTPController(tournament,keyPoint);
+    return new LocalFTPController(tournament);
 }
 
 IPointLogisticInterface<QString> *LocalFTPController::pointLogisticInterface() const

@@ -63,7 +63,7 @@ public:
         tournamentIsReset = 0x29
     };
     // Create instance of LocalFTPController
-    static LocalFTPController* createInstance(const QUuid &tournament, const int &keyPoint);
+    static LocalFTPController* createInstance(const QUuid &tournament);
     /*
      * Point suggestion section
      */
@@ -148,19 +148,13 @@ public:
     LocalFTPController *setScoreController(UserScoreController *scoreController);
     // Get current status
     int currentStatus() const;
-
-    int keyPoint() const;
-    void setKeyPoint(int keyPoint);
-
 private:
     /*
      * Private constructor
      */
-    LocalFTPController(const QUuid &tournament,
-                       const int& keyPoint)
+    LocalFTPController(const QUuid &tournament)
     {
         _tournament = tournament;
-        _keyPoint = keyPoint;
     }
     /*
      * Notify UI about controller state, current round index, undo/redo possibility and current user
@@ -193,8 +187,6 @@ private:
     void declareWinner();
     // Current tournament id
     QUuid _tournament = QUuid();
-    // Tournament keypoint
-    int _keyPoint;
     // Controller active state variable
     bool _isActive = false;
     /*

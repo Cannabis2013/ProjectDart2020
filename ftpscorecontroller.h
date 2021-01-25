@@ -44,23 +44,26 @@ public:
     static FTPScoreController* createInstance(const QVector<QUuid>& userIds,
                                               const QVector<QString>& userNames,
                                               const QVector<int>& userScores,
+                                              const int& initialScore,
                                               const QUuid &winner);
     // UserScoresControllerInterface interface
-    virtual int userscoreAtIndex(const int &index) const override;
-    virtual void setUserScoreAtIndex(const int &index, const int &input) override;
-    virtual void setUserScoresFromList(const QVector<int> &list) override;
-    virtual void setUserScoreAtId(const QUuid &id, const int &input) override;
-    virtual QString userNameAtIndex(const int &index) const override;
-    virtual QString userNameFromId(const QUuid &id) const override;
-    virtual QVector<QString> userNames() const override;
-    virtual QUuid userIdAtIndex(const int &index) const override;
-    virtual int playersCount() const override;
-    virtual QUuid winnerId() const override;
-    virtual ScoreControllerInterface *setWinner(const QUuid &id) override;
-    virtual QString winnerUserName() const override;
+    int userscoreAtIndex(const int &index) const override;
+    void setUserScoreAtIndex(const int &index, const int &input) override;
+    void setUserScoresFromList(const QVector<int> &list) override;
+    void setUserScoreAtId(const QUuid &id, const int &input) override;
+    QString userNameAtIndex(const int &index) const override;
+    QString userNameFromId(const QUuid &id) const override;
+    QVector<QString> userNames() const override;
+    QUuid userIdAtIndex(const int &index) const override;
+    int playersCount() const override;
+    QUuid winnerId() const override;
+    ScoreControllerInterface *setWinner(const QUuid &id) override;
+    QString winnerUserName() const override;
+    int initialScore() const override;
     int calculateAggregateduserScoreCandidate(const int& index,
                                               const int& score) const override;
-    void resetScores(const int& initialScore) override;
+    void resetScores() override;
+
 private:
     /*
      * Private constructor
@@ -69,6 +72,7 @@ private:
     FTPScoreController(const QVector<QUuid>& userIds,
                        const QVector<QString>& userNames,
                        const QVector<int>& userScores,
+                       const int& initialScore,
                        const QUuid& winner);
 
     PlayerTuples assembleScoreTubble(const QVector<QUuid>& userIds,
@@ -82,6 +86,7 @@ private:
 
     void replaceTupleAt(const int &index,const PlayerTuple &tuple);
     int count() const;
+    int _initialScore;
     PlayerTuples _playerTuples;
     QUuid _winner;
 };
