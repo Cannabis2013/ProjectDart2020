@@ -5,10 +5,10 @@
 #include <qfontmetrics.h>
 #include "LinkedList.h"
 
-const int defaultCellWidth = 25;
-const int defaultCellHeight = 25;
-const QString defaultFontFamily = "MS Sans Serif";
-const int defaultPointSize = 12;
+const QString preferedFontFamily = "MS Sans Serif";
+const int preferedPointSize = 12;
+const int minimumPreferedColumnWidth = 64;
+const int minimumPreferedRowHeight = 25;
 
 typedef QPair<int,int> scoreModel;
 
@@ -26,6 +26,11 @@ public:
                         FixedStrings = 0x2};
     enum AppendDataMode{SingleAppend = 0x4,
                         MultiAppend = 0x8};
+    enum InputMode {
+        Score = 0x1,
+        Point = 0x2
+    };
+
     // Constructor
     FTPDataModel();
     // Public properties
@@ -80,7 +85,6 @@ public:
     Q_INVOKABLE void setMinimumRowCount(int minimumRowCount);
     Q_INVOKABLE int initialValue() const;
     Q_INVOKABLE void setInitialValue(int initialValue);
-
     /*
      * Public virtual method implementations
      *  - Header orientation

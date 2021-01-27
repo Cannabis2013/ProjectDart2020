@@ -11,7 +11,9 @@ QVariant FTPDataModel::getData(const int &row, const int &column, const int &mod
         return -1;
     auto columnsData = _data.at(row);
     auto columnData = columnsData.at(column);
-    auto result = mode == 0x1 ? columnData.first : columnData.second;
+    auto pointValue = columnData.first;
+    auto scoreValue = columnData.second;
+    auto result = mode == 0x1 ? pointValue : scoreValue;
     if(result == -1)
         return "-";
     else
@@ -228,7 +230,10 @@ double FTPDataModel::columnWidthAt(const int &column) const
     auto s = scale();
     auto w = columnWidthsAt(column);
     auto columnWidth = s*w;
-    return columnWidth;
+    if(columnWidth < minimumPreferedColumnWidth)
+        return minimumPreferedColumnWidth;
+    else
+        return columnWidth;
 }
 
 double FTPDataModel::rowHeightAt(const int &row) const
@@ -246,7 +251,7 @@ double FTPDataModel::rowHeightAt(const int &row) const
         if(verticalHeaderFillMode() == HeaderFillMode::DynamicNumerics)
             headerString = QString::number(row + 1);
         else
-            return defaultCellHeight;
+            return minimumPreferedRowHeight;
     }
     else
         headerString = _verticalHeaderData.at(row);
@@ -269,8 +274,8 @@ double FTPDataModel::rowHeightAt(const int &row) const
         resultingGlyphLenght = totalGlypHeight > resultingGlyphLenght ? totalGlypHeight : resultingGlyphLenght;
     }
 
-    if(resultingGlyphLenght < defaultCellHeight)
-        resultingGlyphLenght = defaultCellHeight;
+    if(resultingGlyphLenght < minimumPreferedRowHeight)
+        resultingGlyphLenght = minimumPreferedRowHeight;
 
     return resultingGlyphLenght;
 }
@@ -302,7 +307,8 @@ void FTPDataModel::setColumnWidthAt(const int &column, const double &w)
 
 int FTPDataModel::columnWidthsAt(const int &index) const
 {
-    return _columnWidths.at(index);
+    auto columnWidth = _columnWidths.at(index);
+    return columnWidth;
 }
 
 QVariant FTPDataModel::data(const QModelIndex &index, int role) const
@@ -463,7 +469,7 @@ bool FTPDataModel::insertColumns(int column, int count, const QModelIndex &)
 
     QList<double> newColumnWidths;
     for (int i = 0; i < c; ++i)
-        newColumnWidths << defaultCellWidth;
+        newColumnWidths << minimumPreferedColumnWidth;
 
     for (int i = 0; i < newColumnWidths.count(); ++i) {
         auto columnWidth = newColumnWidths.at(i);
