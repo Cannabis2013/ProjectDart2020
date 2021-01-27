@@ -23,6 +23,8 @@ Rectangle{
     onFontColorChanged: labelTitle.fontColor = fontColor
     property int horizontalLabelAlignment: Qt.AlignHCenter
     onHorizontalLabelAlignmentChanged: labelTitle.horizontalTextAlignment = horizontalLabelAlignment
+    property int fontSize: 20
+    onFontSizeChanged: labelTitle.fontSize = fontSize
     Rectangle{
         id: backgroundRect
         anchors.fill: parent
@@ -37,7 +39,7 @@ Rectangle{
             id: upperSpacer
             color: "transparent"
             Layout.fillWidth: true
-            height: 10
+            height: 0
         }
         GridLayout{
             flow: GridLayout.LeftToRight
@@ -61,7 +63,7 @@ Rectangle{
                 id: labelTitle
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                fontSize: 24
+                fontSize: defaultTitleComponentBody.fontSize
                 backgroundColor: "transparent"
                 fontColor: defaultTitleComponentBody.fontColor
                 text: defaultTitleComponentBody.text
@@ -83,7 +85,7 @@ Rectangle{
             id: lowerSpacer
             color: "transparent"
             Layout.fillWidth: true
-            height: 10
+            height: 0
         }
     }
 }

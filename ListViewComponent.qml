@@ -6,11 +6,9 @@ import QtGraphicalEffects 1.13
 
 Rectangle{
     id: listComponentBody
-
     color: "transparent"
-
     clip: true
-
+    // Signals
     signal itemClicked(int index)
     signal itemSelected(int index)
     signal requestUpdate
@@ -29,6 +27,7 @@ Rectangle{
     onComponentTitleChanged: labelTitle.text = componentTitle
     property color backgroundColor: "white"
     onBackgroundColorChanged: backgroundRect.color = listComponentBody.backgroundColor
+    // Title properties
     // Title backgroundcolor/opacity and title fontcolor
     property color titleBackground: "transparent"
     onTitleBackgroundChanged: labelTitle.backgroundColor = titleBackground
@@ -38,6 +37,9 @@ Rectangle{
     onTitleTextColorChanged: labelTitle.fontColor = titleTextColor
     property url titleImageUrl: ""
     onTitleImageUrlChanged: labelTitle.imageUrl = titleImageUrl
+    // Title font hoveredSizeScale:
+    property int titleFontSize: 20
+    onTitleFontSizeChanged: labelTitle.fontSize = titleFontSize
     // General item properties
     // Item font/color/background properties
     property color itemTitleTextColor: "black"
@@ -155,8 +157,9 @@ Rectangle{
 
         DefaultTitleComponent{
             id: labelTitle
-            Layout.minimumHeight: 64
+            Layout.minimumHeight: 40
             Layout.fillWidth: true
+            fontSize: listComponentBody.titleFontSize
             imageUrl: listComponentBody.titleImageUrl
             backgroundColor: listComponentBody.labelBackgroundColor
             backOpacity: listComponentBody.titleBackgroundOpacity
