@@ -29,8 +29,6 @@ public:
     // FTPLogisticControllerInterface interface
     virtual QString suggestTargetRow(const int &remainingScore, const int &turnIndex) override;
 
-
-
 private:
     bool isEven(const int& integer);
     int terminalDivisor() const;

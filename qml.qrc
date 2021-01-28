@@ -22,7 +22,6 @@
         <file>TurnControllerItem.qml</file>
         <file>PointKeyPad.qml</file>
         <file>PointKeyPadFactory.js</file>
-        <file>CreatePlayerPopUp.qml</file>
         <file>Content.qml</file>
         <file>CRUDButton.qml</file>
         <file>CellDelegate.qml</file>

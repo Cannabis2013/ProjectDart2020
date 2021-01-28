@@ -163,8 +163,7 @@ bool ScoreLogisticController::isDivisor(int base, int div)
     return base % div == 0;
 }
 
-bool ScoreLogisticController::
-determineRouteByThresholdDiff(const int &remainingScore,
+bool ScoreLogisticController::determineRouteByThresholdDiff(const int &remainingScore,
                                                             const int &turnIndex,
                                                             ScoreModel *s)
 {
@@ -362,13 +361,9 @@ ScoreLogisticController *ScoreLogisticController::createInstance(const int &atte
 
 QString ScoreLogisticController::suggestTargetRow(const int &remainingScore, const int &turnIndex)
 {
-    if(turnIndex != 1)
+    if(remainingScore > 180 || remainingScore < terminalDivisor())
         return QString();
-    else if(remainingScore > 180)
-        return QString();
-
-    auto i = turnIndex - 1;
-    auto list = _throwSuggestions.at(i);
+    auto list = _throwSuggestions.at(0);
     auto valuesAtKey = list.values(remainingScore);
     auto count = valuesAtKey.count();
     QString suggestion;

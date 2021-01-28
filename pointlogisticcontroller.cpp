@@ -1,11 +1,71 @@
 #include "pointlogisticcontroller.h"
 
-bool PointLogisticController::pointSuggestion(const int &remainingScore,
-                                           const int &turnIndex,
-                                           PointLogisticContext::ScoreModel *scoreObject)
+PointLogisticController::PointLogisticController(const int &attempts, const int &lastAttemptKeyCode):
+    _attempts(attempts),_lastAttemptKeyCode(lastAttemptKeyCode)
 {
-    auto totalTurns = _attempts;
-    int remainingTurns = totalTurns - turnIndex;
+    if(_lastAttemptKeyCode == KeyMappings::SingleModifer)
+        _terminalThreshold = _singleMaxValue;
+    else if(_lastAttemptKeyCode == KeyMappings::DoubleModifier)
+        _terminalThreshold = _doubleMaxValue;
+    else if(_lastAttemptKeyCode == KeyMappings::TrippleModifier)
+        _terminalThreshold = _trippleMaxValue;
+
+    if(_lastAttemptKeyCode == KeyMappings::SingleModifer)
+        _terminalDivisor = 1;
+    else if(_lastAttemptKeyCode == KeyMappings::DoubleModifier)
+        _terminalDivisor = 2;
+    else if(_lastAttemptKeyCode == KeyMappings::TrippleModifier)
+        _terminalDivisor = 3;
+
+    constructAndAddSuggestions();
+}
+
+void PointLogisticController::constructAndAddSuggestions()
+{
+    for (int turnIndex = 1; turnIndex <= attempts(); ++turnIndex) {
+        auto remainingTurns = attempts() - turnIndex;
+        auto currentPointLimit = remainingTurns*_trippleMaxValue + _bullsEye;
+
+        auto suggestions = QMultiHash<int,QString>();
+        for (int i = _doubleDivisor; i <= currentPointLimit; ++i) {
+            auto firstSuggestion = constructThrowSuggestion(i,turnIndex);
+            if(firstSuggestion != QString())
+                suggestions.insert(i,firstSuggestion);
+        }
+
+        _throwSuggestions.append(suggestions);
+    }
+}
+
+QString PointLogisticController::constructThrowSuggestion(const int &remainingScore,
+                                                          const int &turnIndex)
+{
+    auto score = new PointLogisticContext::ScoreModel();
+
+    score->multiplier = QVector<char>(_attempts,'\0');
+    score->pointValue = QVector<int>(_attempts,0);
+
+    bool hasADeterminedPath;
+
+    try {
+        hasADeterminedPath = pointSuggestion(remainingScore,turnIndex,score);
+    } catch (std::exception *e) {
+        return QString();
+    }
+
+    if (hasADeterminedPath) {
+        auto result = toString(score);
+        return result;
+    }
+
+    return QString();
+}
+
+bool PointLogisticController::pointSuggestion(const int &remainingScore,
+                                              const int &turnIndex,
+                                              PointLogisticContext::ScoreModel *scoreObject)
+{
+    auto totalTurns = attempts();
     /*
      * Evaluate constrains
      */
@@ -15,11 +75,11 @@ bool PointLogisticController::pointSuggestion(const int &remainingScore,
      * The terminal state
      *
      * The algorithm checks if the remaining score is below the terminal threshold, and if that's the case,
-     *  how to get to the terminal point. If not, the algorithm proceeds to find another way to reach terminal state.
+     *  how to get to terminal point. If not, the algorithm proceeds to find another way.
      */
     if(remainingScore <= _terminalThreshold)
         return isWithinTerminalThreshold(remainingScore,turnIndex,scoreObject);
-    else if(remainingTurns == 0 && remainingScore != _bullsEye)
+    else if(turnIndex == attempts() && remainingScore != _bullsEye)
         return false;
     /*
      * This is the pathfinding state where the algorithm tries to determine, if exists, the route.
@@ -28,23 +88,16 @@ bool PointLogisticController::pointSuggestion(const int &remainingScore,
     if(remainingScore == _bullsEye)
         return writeToScoreObject(remainingScore,_bullsEye,_singleDivisor,turnIndex,scoreObject);
 
-    if(remainingScore >= _upperThresholdValue && turnIndex == 1 && _route == 1)
+    if(remainingScore >= upperThresholdValue() && turnIndex == 1)
         return determineRouteByThresholdDiff(remainingScore,turnIndex,scoreObject);
     else
         return determineRouteByDiff(remainingScore,turnIndex,scoreObject);
+
 }
 
-int PointLogisticController::initializeLowerBound(int remainingScore, int multiplier)
-{
-    if(remainingScore < multiplier)
-        return 0;
-
-    auto rest = remainingScore % multiplier;
-
-    return remainingScore - rest;
-}
-
-bool PointLogisticController::evaluateConstraints(const int &remainingScore, const int &turnIndex, const int &totalTurns)
+bool PointLogisticController::evaluateConstraints(const int &remainingScore,
+                                                  const int &turnIndex,
+                                                  const int &totalTurns)
 {
     /*
      * Parameter constraints:
@@ -67,112 +120,9 @@ bool PointLogisticController::evaluateConstraints(const int &remainingScore, con
         return true;
 }
 
-PointLogisticController::PointLogisticController(const int &throwCount, const int &finishingKeyCode):
-    _attempts(throwCount),_lastAttemptKeyCode(finishingKeyCode)
-{
-    if(_lastAttemptKeyCode == KeyMappings::SingleModifer)
-        _terminalThreshold = _singleMaxValue;
-    else if(_lastAttemptKeyCode == KeyMappings::DoubleModifier)
-        _terminalThreshold = _doubleMaxValue;
-    else if(_lastAttemptKeyCode == KeyMappings::TrippleModifier)
-        _terminalThreshold = _trippleMaxValue;
-
-    if(_lastAttemptKeyCode == KeyMappings::SingleModifer)
-        _terminalDivisor = 1;
-    else if(_lastAttemptKeyCode == KeyMappings::DoubleModifier)
-        _terminalDivisor = 2;
-    else if(_lastAttemptKeyCode == KeyMappings::TrippleModifier)
-        _terminalDivisor = 3;
-
-    constructAndAddSuggestions();
-}
-
-PointLogisticController *PointLogisticController::createInstance(const int &numberOfAttemps, const int &lastAttemptKeyCode)
-{
-    return new PointLogisticController(numberOfAttemps,lastAttemptKeyCode);
-}
-
-QString PointLogisticController::suggestTargetRow(const int &remainingScore, const int &turnIndex)
-{
-    if(turnIndex < 1 || turnIndex > 3)
-        return QString();
-    else if(remainingScore > 180)
-        return QString();
-    auto i = turnIndex - 1;
-    auto list = _throwSuggestions.at(i);
-    auto valuesAtKey = list.values(remainingScore);
-    auto count = valuesAtKey.count();
-    if(count == 0)
-        return QString();
-    auto pick = QRandomGenerator::global()->bounded(count - 1);
-    auto S = valuesAtKey.at(pick);
-    return S;
-}
-
-QString PointLogisticController::constructThrowSuggestion(const int &remainingScore, const int &turnIndex, const int &route)
-{
-    _route = route;
-    auto score = new PointLogisticContext::ScoreModel();
-
-    score->multiplier = QVector<char>(_attempts,'\0');
-    score->pointValue = QVector<int>(_attempts,0);
-
-    bool hasADeterminedPath;
-
-    try {
-        hasADeterminedPath = pointSuggestion(remainingScore,turnIndex,score);
-    } catch (std::exception *e) {
-        return QString();
-    }
-
-    if (hasADeterminedPath) {
-        auto result = toString(score);
-        return result;
-    }
-
-    return QString();
-}
-
-int PointLogisticController::lastAttemptKeyCode()
-{
-    return _lastAttemptKeyCode;
-}
-
-void PointLogisticController::constructAndAddSuggestions()
-{
-    for (int turnIndex = 1; turnIndex <= _attempts; ++turnIndex) {
-        auto remainingTurns = _attempts - turnIndex;
-        auto currentPointLimit = remainingTurns*_trippleMaxValue + _bullsEye;
-
-        auto suggestions = QMultiHash<int,QString>();
-        for (int i = _trippleDivisor; i <= currentPointLimit; ++i) {
-            auto firstSuggestion = constructThrowSuggestion(i,turnIndex,1);
-            if(firstSuggestion != QString())
-                suggestions.insert(i,firstSuggestion);
-            auto secondSuggestion = constructThrowSuggestion(i,turnIndex,2);
-            if(firstSuggestion != QString())
-                suggestions.insert(i,secondSuggestion);
-        }
-
-        _throwSuggestions.append(suggestions);
-    }
-}
-
-QString PointLogisticController::toString(PointLogisticContext::ScoreModel *s)
-{
-    QString result;
-    for (int i = 0; i < _attempts; ++i) {
-        auto identifier = s->multiplier.at(i);
-        auto pVal = s->pointValue.at(i);
-        result += identifier == '\0' ? "" : identifier + QString::number(pVal) + " ";
-    }
-
-    return result;
-}
-
 bool PointLogisticController::isWithinTerminalThreshold(const int &remainingScore,
-                                                     const int &turnIndex,
-                                                     PointLogisticContext::ScoreModel *scoreObject)
+                                                        const int &turnIndex,
+                                                        PointLogisticContext::ScoreModel *scoreObject)
 {
     auto newScore = remainingScore;
     if(isDivisor(remainingScore,_terminalDivisor))
@@ -205,70 +155,121 @@ bool PointLogisticController::isWithinTerminalThreshold(const int &remainingScor
     return false;
 }
 
-bool PointLogisticController::determineRouteByThresholdDiff(const int &remainingScore,
-                                                         const int &turnIndex,PointLogisticContext::ScoreModel *s)
+bool PointLogisticController::isDivisor(int base, int div)
+{
+    if(base == 0 || div == 0)
+        throw new std::domain_error("One of operands zero");
+
+    return base % div == 0;
+}
+
+bool PointLogisticController::
+determineRouteByThresholdDiff(const int &remainingScore,
+                                                            const int &turnIndex,
+                                                            PointLogisticContext::ScoreModel *s)
 {
     auto thresholdDiff = remainingScore - _upperThresholdValue;
     if(thresholdDiff == 0) // If the remaining score is spot on 110
         return writeToScoreObject(remainingScore,_trippleMaxValue,_trippleDivisor,turnIndex,s);
-    else if(thresholdDiff == _bullsEye || thresholdDiff == _bull) // Bullseye
+    else if(thresholdDiff == bullsEye() || thresholdDiff == _bull) // Bullseye
         return writeToScoreObject(remainingScore,thresholdDiff,_singleDivisor,turnIndex,s);
     else if(thresholdDiff <= _singleMaxValue)
         return writeToScoreObject(remainingScore,thresholdDiff,_singleDivisor,turnIndex,s);
-    else if(thresholdDiff <= _doubleMaxValue)
+    else if(thresholdDiff <= doubleMaxValue())
     {
         if(isDivisor(thresholdDiff,_doubleDivisor))
             return writeToScoreObject(remainingScore,thresholdDiff,_doubleDivisor,turnIndex,s);
         else if(isDivisor(thresholdDiff,_trippleDivisor))
             return writeToScoreObject(remainingScore,thresholdDiff,_trippleDivisor,turnIndex,s);
-        else
-            return false;
+        else if(!isEven(thresholdDiff))
+            return findGreatestOddDivisibleByThree(remainingScore,turnIndex,s);
     }
-    else if(thresholdDiff <= _trippleMaxValue && isDivisor(thresholdDiff,_trippleDivisor))
-        return writeToScoreObject(remainingScore,thresholdDiff,_trippleDivisor,turnIndex,s);
-    else
-        return false;
+    else if(thresholdDiff <= trippleMaxValue())
+    {
+        if(isDivisor(thresholdDiff,_trippleDivisor))
+            return writeToScoreObject(remainingScore,thresholdDiff,_trippleDivisor,turnIndex,s);
+        else if(!isEven(thresholdDiff))
+            return findGreatestOddDivisibleByThree(remainingScore,turnIndex,s);
+        else if(isEven(thresholdDiff))
+            return writeToScoreObject(remainingScore,trippleMaxValue(),trippleDivisor(),turnIndex,s);
+    }
+    return false;
 }
 
-bool PointLogisticController::determineRouteByDiff(const int &remainingScore,const int &turnIndex,PointLogisticContext::ScoreModel *scoreObject)
+bool PointLogisticController::determineRouteByDiff(const int &remainingScore,
+                                                   const int &turnIndex,
+                                                   PointLogisticContext::ScoreModel *scoreObject)
 {
     auto diff = remainingScore - _terminalThreshold;
 
     if(diff <= _singleMaxValue)
-        return findLongestDivisibleWithinThreshold(remainingScore,turnIndex,_singleMaxValue,_singleDivisor,scoreObject);
-    else if(remainingScore % 2 == 0 && diff < _doubleMaxValue)
-        return findLongestDivisibleWithinThreshold(remainingScore,turnIndex,_doubleMaxValue,_doubleDivisor,scoreObject);
-    else if(remainingScore % 2 != 0 && diff < _trippleMaxValue)
-        return findLongestDivisibleWithinThreshold(remainingScore,turnIndex,_trippleMaxValue,_trippleDivisor,scoreObject);
+        return findGreatestPointsWithinThreshold(remainingScore,turnIndex,_singleMaxValue,_singleDivisor,scoreObject);
+    else if(diff < _trippleMaxValue)
+        return findGreatestPointsWithinTerminalThreshold(remainingScore,turnIndex,_trippleMaxValue,scoreObject);
     else if(diff >= _trippleMaxValue)
         return writeToScoreObject(remainingScore,_trippleMaxValue,_trippleDivisor,turnIndex,scoreObject);
     return false;
 }
 
-bool PointLogisticController::findLongestDivisibleWithinThreshold(const int &remainingScore,
-                                                const int &turnIndex,
-                                                const int &limit,
-                                                const int &divisor,
-                                                PointLogisticContext::ScoreModel *s)
+bool PointLogisticController::findGreatestPointsWithinThreshold(const int &remainingScore,
+                                                                           const int &turnIndex,
+                                                                           const int &threshold,
+                                                                           const int &divisor,
+                                                                           PointLogisticContext::ScoreModel *s)
 {
-    for (int i = limit; i > 0; i -= divisor) {
-        auto endScore = remainingScore - i;
-        if(endScore < _terminalThreshold && endScore % _terminalDivisor == 0)
+    for (int points = threshold; points > 0; points -= divisor) {
+        auto endScore = remainingScore - points;
+        if(endScore <= terminalThreshold() && endScore % terminalDivisor() == 0)
+            return writeToScoreObject(remainingScore,points,divisor,turnIndex,s);
+        else if(endScore >= _terminalThreshold)
+            return false;
+    }
+    return false;
+}
+
+bool PointLogisticController::findGreatestPointsWithinTerminalThreshold(const int &remainingScore,
+                                                              const int &turnIndex,
+                                                              const int &threshold,
+                                                              PointLogisticContext::ScoreModel *s)
+{
+    for (int points = threshold; points > 0; points--) {
+        auto endScore = remainingScore - points;
+        if(endScore < _terminalThreshold && endScore >= terminalDivisor())
         {
-            return writeToScoreObject(remainingScore,i,divisor,turnIndex,s);
+            if(points % _terminalDivisor == 0 && points <= doubleMaxValue())
+                return writeToScoreObject(remainingScore,points,doubleDivisor(),turnIndex,s);
+            else if(points % trippleDivisor() == 0 && points <= trippleMaxValue())
+                return writeToScoreObject(remainingScore,points,trippleDivisor(),turnIndex,s);
         }
     }
     return false;
 }
 
-bool PointLogisticController::writeToScoreObject(const int &score,
-                                              const int &points,
-                                              const int &divisor,
-                                              const int &turnIndex,
-                                              PointLogisticContext::ScoreModel *s)
+bool PointLogisticController::findGreatestOddDivisibleByThree(const int &remainingScore, const int &turnIndex, PointLogisticContext::ScoreModel *s)
 {
-    auto newScore = score;
-    newScore -= points;
+    for (int points = trippleMaxValue(); points > 0; points -= trippleDivisor()) {
+        auto endScore = remainingScore - points;
+        if(isEven(endScore) && endScore <= upperThresholdValue())
+            return writeToScoreObject(remainingScore,points,trippleDivisor(),turnIndex,s);
+    }
+    return false;
+}
+
+void PointLogisticController::updateScoreObject(char stringIdentifier, int value, int index, PointLogisticContext::ScoreModel *s)
+{
+    if(value < 0)
+        throw new std::out_of_range("Value out of bounds");
+
+    s->multiplier[index - 1] = stringIdentifier;
+    s->pointValue[index - 1] = value;
+}
+
+bool PointLogisticController::writeToScoreObject(const int &remainingScore,
+                                                 const int &points,
+                                                 const int &divisor,
+                                                 const int &turnIndex, PointLogisticContext::ScoreModel *s)
+{
+    auto newScore = remainingScore - points;
     auto turnScore = points/divisor;
     auto identifier = identifiers[divisor - 1];
     try {
@@ -282,19 +283,107 @@ bool PointLogisticController::writeToScoreObject(const int &score,
     }
 }
 
-bool PointLogisticController::isDivisor(int base, int div)
+QString PointLogisticController::toString(PointLogisticContext::ScoreModel *s)
 {
-    if(base == 0 || div == 0)
-        throw new std::domain_error("One of operands zero");
+    QString result;
+    for (int i = 0; i < attempts(); ++i) {
+        auto identifier = s->multiplier.at(i);
+        auto pVal = s->pointValue.at(i);
+        result += identifier == '\0' ? "" : identifier + QString::number(pVal) + " ";
+    }
 
-    return base % div == 0;
+    return result;
 }
 
-void PointLogisticController::updateScoreObject(char stringIdentifier, int value, int index, PointLogisticContext::ScoreModel *s)
+int PointLogisticController::terminalThreshold() const
 {
-    if(value < 0)
-        throw new std::out_of_range("Value out of bounds");
+    return _terminalThreshold;
+}
 
-    s->multiplier[index - 1] = stringIdentifier;
-    s->pointValue[index - 1] = value;
+int PointLogisticController::terminalDivisor() const
+{
+    return _terminalDivisor;
+}
+
+int PointLogisticController::singleDivisor() const
+{
+    return _singleDivisor;
+}
+
+int PointLogisticController::doubleDivisor() const
+{
+    return _doubleDivisor;
+}
+
+int PointLogisticController::trippleDivisor() const
+{
+    return _trippleDivisor;
+}
+
+int PointLogisticController::upperThresholdValue() const
+{
+    return _upperThresholdValue;
+}
+
+int PointLogisticController::bull() const
+{
+    return _bull;
+}
+
+int PointLogisticController::bullsEye() const
+{
+    return _bullsEye;
+}
+
+int PointLogisticController::singleMaxValue() const
+{
+    return _singleMaxValue;
+}
+
+int PointLogisticController::doubleMaxValue() const
+{
+    return _doubleMaxValue;
+}
+
+int PointLogisticController::trippleMaxValue() const
+{
+    return _trippleMaxValue;
+}
+
+int PointLogisticController::attempts() const
+{
+    return _attempts;
+}
+
+PointLogisticController *PointLogisticController::createInstance(const int &attemps, const int &lastAttemptKeyCode)
+{
+    return new PointLogisticController(attemps,lastAttemptKeyCode);
+}
+
+QString PointLogisticController::suggestTargetRow(const int &remainingScore, const int &turnIndex)
+{
+    if(turnIndex < 1 || turnIndex > 3)
+        return QString();
+    else if(remainingScore > 180)
+        return QString();
+    auto i = turnIndex - 1;
+    auto list = _throwSuggestions.at(i);
+    auto valuesAtKey = list.values(remainingScore);
+    auto count = valuesAtKey.count();
+    if(count == 0)
+        return QString();
+    //auto pick = QRandomGenerator::global()->bounded(count - 1);
+    auto S = valuesAtKey.at(0);
+    return S;
+}
+
+bool PointLogisticController::isEven(const int &integer)
+{
+    auto result = integer % 2 == 0;
+    return result;
+}
+
+int PointLogisticController::lastAttemptKeyCode()
+{
+    return _lastAttemptKeyCode;
 }
