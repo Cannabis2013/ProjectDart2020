@@ -87,9 +87,9 @@ int ScoreIndexController::setIndex()
     return _setIndex;
 }
 
-int ScoreIndexController::legIndex()
+int ScoreIndexController::attempt()
 {
-    return _legCount;
+    return _attempt;
 }
 
 void ScoreIndexController::incrementTurnIndex()

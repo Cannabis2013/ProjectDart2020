@@ -25,8 +25,9 @@ SOURCES += \
         localtournamentmodelscontext.cpp \
         main.cpp \
         modelscontextinterface.cpp \
-        pointlogisticmanager.cpp \
-        scoreindexcontroller.cpp
+        pointlogisticcontroller.cpp \
+        scoreindexcontroller.cpp \
+        scorelogisticcontroller.cpp
 
 RESOURCES += qml.qrc
 
@@ -57,6 +58,7 @@ HEADERS += \
     abstractpersistence.h \
     dartapplication.h \
     ftpdatamodel.h \
+    ftplogisticcontrollerinterface.h \
     ftpscorecontroller.h \
     ftptournament.h \
     ftptournamentmodelinterface.h \
@@ -77,7 +79,6 @@ HEADERS += \
     localplayermodelscontext.h \
     localtournamentmodeldb.h \
     localtournamentmodelscontext.h \
-    logisticmanagerinterface.h \
     modelbuildercontext.h \
     modelinterface.h \
     modelscontextinterface.h \
@@ -87,12 +88,13 @@ HEADERS += \
     playermodelbuildercontext.h \
     playermodelscontextinterface.h \
     pointScoreCalculator.h \
-    pointlogisticmanager.h \
+    pointlogisticcontroller.h \
     pointvalidator.h \
     score.h \
     scoreCalculatorInterface.h \
     scorecalculator.h \
     scoreindexcontroller.h \
+    scorelogisticcontroller.h \
     tournamentmodelbuilder.h \
     tournamentmodelscontextinterface.h \
     userscorescontrollerinterface.h

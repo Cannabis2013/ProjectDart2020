@@ -7,7 +7,7 @@
 #include <qthread.h>
 // Custom classes
 #include "abstractgamecontroller.h"
-#include "logisticmanagerinterface.h"
+#include "ftplogisticcontrollerinterface.h"
 #include "scoreCalculatorInterface.h"
 #include "inputvalidatorinterface.h"
 #include "indexcontrollerinterface.h"
@@ -67,8 +67,8 @@ public:
     /*
      * Point suggestion section
      */
-    LogisticManagerInterface<QString> *pointLogisticInterface() const;
-    LocalFTPController *setPointLogisticInterface(LogisticManagerInterface<QString> *pointLogisticInterface);
+    FTPLogisticControllerInterface<QString> *pointLogisticInterface() const;
+    LocalFTPController *setLogisticInterface(FTPLogisticControllerInterface<QString> *pointLogisticInterface);
     /*
      * Handle wake up request
      *  - Set status to 'InitializedAndReady'
@@ -188,7 +188,7 @@ private:
     // Calculate score
     ScoreCalculatorInterface* _scoreCalculatorService = nullptr;
     // Generate throwsuggestions
-    LogisticManagerInterface<QString> *_pointLogisticInterface = nullptr;
+    FTPLogisticControllerInterface<QString> *_pointLogisticInterface = nullptr;
     // Validator service
     InputValidatorInterface* _scoreEvaluator = nullptr;
     // Index service

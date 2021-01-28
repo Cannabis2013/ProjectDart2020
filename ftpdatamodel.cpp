@@ -324,10 +324,10 @@ QVariant FTPDataModel::data(const QModelIndex &index, int role) const
         return QVariant();
 
     auto pair = pairs.at(column);
-    auto point = pair.first;
-    auto score = pair.second;
-    auto data = QString::number(point) + " " + QString::number(score);
-    return score >= 0 ?
+    auto pointValue = pair.first;
+    auto scoreValue = pair.second;
+    auto data = QString::number(pointValue) + " " + QString::number(scoreValue);
+    return scoreValue >= 0 ?
                 QVariant(data) :
                 QVariant("");
 }

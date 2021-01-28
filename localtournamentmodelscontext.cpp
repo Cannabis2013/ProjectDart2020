@@ -157,7 +157,7 @@ QString LocalTournamentModelsContext::tournamentTitle(const QUuid &tournament)
 int LocalTournamentModelsContext::tournamentNumberOfThrows(const QUuid &tournament)
 {
     auto model = getTournamentModelFromID(tournament);
-    auto numberOfThrows = model->numberOfThrows();
+    auto numberOfThrows = model->attemps();
     return numberOfThrows;
 }
 
@@ -182,28 +182,28 @@ int LocalTournamentModelsContext::tournamentGameMode(const QUuid &tournament)
 int LocalTournamentModelsContext::tournamentLastThrowKeyCode(const QUuid &tournament)
 {
     auto tournamentModel = getTournamentModelFromID(tournament);
-    auto conditionKeyCode = tournamentModel->terminateKeyCondition();
+    auto conditionKeyCode = tournamentModel->terminalKeyCode();
     return conditionKeyCode;
 }
 
 int LocalTournamentModelsContext::tournamentKeyPoint(const QUuid &tournament)
 {
     auto tournamentModel = getTournamentModelFromID(tournament);
-    auto keyPoint = tournamentModel->keyPoint();
+    auto keyPoint = tournamentModel->initialPoint();
     return keyPoint;
 }
 
 int LocalTournamentModelsContext::tournamentTableViewHint(const QUuid &tournament)
 {
     auto tournamentModel = getTournamentModelFromID(tournament);
-    auto hint = tournamentModel->modelTableViewHint();
+    auto hint = tournamentModel->displayHint();
     return hint;
 }
 
 int LocalTournamentModelsContext::tournamentInputMode(const QUuid &tournament)
 {
     auto tournamentModel = getTournamentModelFromID(tournament);
-    auto inputMode = tournamentModel->inputMode();
+    auto inputMode = tournamentModel->inputHint();
     return inputMode;
 }
 
@@ -215,7 +215,7 @@ int LocalTournamentModelsContext::tournamentStatus(const QUuid &tournament)
 QUuid LocalTournamentModelsContext::tournamentDeterminedWinner(const QUuid &tournament)
 {
     auto tournamentModel = getTournamentModelFromID(tournament);
-    return tournamentModel->winner();
+    return tournamentModel->winnerId();
 }
 
 void LocalTournamentModelsContext::setTournamentDeterminedWinner(const QUuid &tournament,
@@ -230,10 +230,10 @@ void LocalTournamentModelsContext::setTournamentDeterminedWinner(const QUuid &to
                         params.title = oldModel->title();
                         params.status = oldModel->status();
                         params.gameMode = oldModel->gameMode();
-                        params.keyPoint = oldModel->keyPoint();
-                        params.modelTableViewHint = oldModel->modelTableViewHint();
-                        params.inputMode = oldModel->inputMode();
-                        params.throws = oldModel->numberOfThrows();
+                        params.keyPoint = oldModel->initialPoint();
+                        params.modelTableViewHint = oldModel->displayHint();
+                        params.inputMode = oldModel->inputHint();
+                        params.throws = oldModel->attemps();
                         params.winner = winner;
                         params.playerIdentities = oldModel->assignedPlayerIdentities();
                         return params;
@@ -260,11 +260,11 @@ void LocalTournamentModelsContext::assignPlayerToTournament(const QUuid &tournam
         params.title = oldModel->title();
         params.status = oldModel->status();
         params.gameMode = oldModel->gameMode();
-        params.keyPoint = oldModel->keyPoint();
-        params.modelTableViewHint = oldModel->modelTableViewHint();
-        params.inputMode = oldModel->inputMode();
-        params.throws = oldModel->numberOfThrows();
-        params.winner = oldModel->winner();
+        params.keyPoint = oldModel->initialPoint();
+        params.modelTableViewHint = oldModel->displayHint();
+        params.inputMode = oldModel->inputHint();
+        params.throws = oldModel->attemps();
+        params.winner = oldModel->winnerId();
         params.playerIdentities = assignedPlayers;
         return params;
     }(),[]
@@ -290,12 +290,12 @@ void LocalTournamentModelsContext::tournamentRemovePlayer(const QUuid &tournamen
         params.title = oldModel->title();
         params.status = oldModel->status();
         params.gameMode = oldModel->gameMode();
-        params.keyPoint = oldModel->keyPoint();
-        params.modelTableViewHint = oldModel->modelTableViewHint();
-        params.inputMode = oldModel->inputMode();
+        params.keyPoint = oldModel->initialPoint();
+        params.modelTableViewHint = oldModel->displayHint();
+        params.inputMode = oldModel->inputHint();
         params.playerIdentities = oldModel->assignedPlayerIdentities();
-        params.throws = oldModel->numberOfThrows();
-        params.winner = oldModel->winner();
+        params.throws = oldModel->attemps();
+        params.winner = oldModel->winnerId();
         params.playerIdentities = pList;
         return params;
     }(),[]

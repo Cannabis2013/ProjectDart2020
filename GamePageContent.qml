@@ -83,11 +83,11 @@ Content {
             Layout.fillWidth: true
             Layout.minimumHeight: 128
         }
-        Rectangle{
-            color: "transparent"
+        MyRectangle{
             Layout.fillHeight: true
         }
-         Loader{
+
+        Loader{
             id: notificationItemSlot
             Layout.fillWidth: true
             Layout.maximumHeight: 40

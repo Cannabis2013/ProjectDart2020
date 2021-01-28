@@ -39,7 +39,7 @@ public:
         _title = string;
         return this;
     }
-    int numberOfThrows() const override
+    int attemps() const override
     {
         return _numberOfThrows;
     }
@@ -57,7 +57,7 @@ public:
         _gameMode = val;
         return this;
     }
-    int keyPoint() const override
+    int initialPoint() const override
     {
         return _keyPoint;
     }
@@ -75,7 +75,7 @@ public:
         _status = status;
         return this;
     }
-    QUuid winner() const override
+    QUuid winnerId() const override
     {
         return _winner;
     }
@@ -111,7 +111,7 @@ public:
         return QUuid();
     }
 
-    int terminateKeyCondition() const override
+    int terminalKeyCode() const override
     {
         return _terminateConditionKeyCode;
     }
@@ -124,7 +124,7 @@ public:
     {
         return new FTPTournament();
     }
-    int modelTableViewHint() const override
+    int displayHint() const override
     {
         return _modelDisplayHint;
     }
@@ -134,7 +134,7 @@ public:
         _modelDisplayHint = modelDisplayHint;
         return this;
     }
-    int inputMode() const override
+    int inputHint() const override
     {
         return _inputMode;
     }

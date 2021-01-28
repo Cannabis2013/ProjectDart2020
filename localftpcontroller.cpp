@@ -151,16 +151,16 @@ void LocalFTPController::sendCurrentTurnValues()
     auto currentUserName = currentActiveUser();
     auto setIndex = indexController()->setIndex();
     auto score = scoreController()->userscoreAtIndex(setIndex);;
-    auto throwIndex = indexController()->legIndex() + 1;
-    QString throwSuggestion = "Score logistic manager not injected!";
+    auto throwIndex = indexController()->attempt() + 1;
+    QString targetRow = "Logistic controller not injected!";
     if(_pointLogisticInterface != nullptr)
-        throwSuggestion = pointLogisticInterface()->throwSuggestion(score,throwIndex);
+        targetRow = pointLogisticInterface()->suggestTargetRow(score,throwIndex);
     QVariantList responseParameters = {
         canUndo,
         canRedo,
         roundIndex,
         currentUserName,
-        throwSuggestion
+        targetRow
     };
     emit transmitResponse(ControllerResponse::initializedAndAwaitsInput,
                           responseParameters);
@@ -205,7 +205,7 @@ QUuid LocalFTPController::undoTurn()
     _currentStatus = ControllerState::UndoState;
     indexController()->undo();
     auto roundIndex = indexController()->roundIndex();
-    auto throwIndex = indexController()->legIndex();
+    auto throwIndex = indexController()->attempt();
     emit requestSetModelHint(tournament(),
                              currentActivePlayerID(),
                              roundIndex,
@@ -221,7 +221,7 @@ QUuid LocalFTPController::redoTurn()
     setCurrentStatus(ControllerState::RedoState);
     auto activeUser = currentActivePlayerID();
     auto roundIndex = indexController()->roundIndex();
-    auto throwIndex = indexController()->legIndex();
+    auto throwIndex = indexController()->attempt();
     indexController()->redo();
     emit requestSetModelHint(tournament(),
                              activeUser,
@@ -241,7 +241,7 @@ void LocalFTPController::addPoint(const int &point, const int &score)
     auto tournamentID = tournament();
     auto roundIndex = indexController()->roundIndex();
     auto setIndex = indexController()->setIndex();
-    auto throwIndex = indexController()->legIndex();
+    auto throwIndex = indexController()->attempt();
     QList<int> values = {
         roundIndex,
         setIndex,
@@ -360,12 +360,12 @@ LocalFTPController *LocalFTPController::createInstance(const QUuid &tournament)
     return new LocalFTPController(tournament);
 }
 
-LogisticManagerInterface<QString> *LocalFTPController::pointLogisticInterface() const
+FTPLogisticControllerInterface<QString> *LocalFTPController::pointLogisticInterface() const
 {
     return _pointLogisticInterface;
 }
 
-LocalFTPController *LocalFTPController::setPointLogisticInterface(LogisticManagerInterface<QString> *pointLogisticInterface)
+LocalFTPController *LocalFTPController::setLogisticInterface(FTPLogisticControllerInterface<QString> *pointLogisticInterface)
 {
     _pointLogisticInterface = pointLogisticInterface;
     return this;

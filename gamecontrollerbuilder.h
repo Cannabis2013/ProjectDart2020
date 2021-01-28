@@ -5,7 +5,8 @@
 #include "abstractgamecontroller.h"
 #include "localftpcontroller.h"
 // Include services
-#include "pointlogisticmanager.h"
+#include "pointlogisticcontroller.h"
+#include "scorelogisticcontroller.h"
 #include "pointScoreCalculator.h"
 #include "scorecalculator.h"
 #include "pointvalidator.h"
@@ -45,39 +46,23 @@ public:
         auto tournament = tournamentIdAndWinner[0];
         auto winner = tournamentIdAndWinner[1];
         auto keyPoint = values[1];
-        auto numberOfThrows = values[2];
+        auto attempts = values[2];
         auto terminalKeyCode = values[3];
         auto inputMode = values[4];
         auto indexes = values.mid(5,5);
         auto userScores = values.mid(10);
-        auto playersCount = userIds.count();
         AbstractGameController* controller = nullptr;
         if(inputMode == InputModes::PointMode)
         {
-            controller = LocalFTPController::createInstance(tournament)
-                    ->setPointLogisticInterface(PointLogisticManager::createInstance(numberOfThrows,
-                                                                                     terminalKeyCode))
-                    ->setScoreCalculator(PointScoreCalculator::createInstance())
-                    ->setInputValidator(PointValidator::createInstance(terminalKeyCode))
-                    ->setIndexController(PointIndexController::createInstance(numberOfThrows,
-                                                                              playersCount,
-                                                                              indexes))
-                    ->setScoreController(FTPScoreController::createInstance(userIds,
-                                                                            userNames,
-                                                                            userScores,
-                                                                            keyPoint,
-                                                                            winner));
+            controller = assembleFTPPointBasedController(tournament,winner,keyPoint,
+                                                         terminalKeyCode,attempts,indexes,
+                                                         userIds,userNames,userScores);
         }
         else if(inputMode == InputModes::ScoreMode)
         {
-            controller = LocalFTPController::createInstance(tournament)
-                    ->setScoreCalculator(new ScoreCalculator())
-                    ->setInputValidator(ScoreValidator::createInstance(terminalKeyCode))
-                    ->setIndexController(ScoreIndexController::createInstance(playersCount,
-                                                                              indexes))
-                    ->setScoreController(FTPScoreController::createInstance(userIds,
-                                                                            userNames,
-                                                                            userScores,keyPoint,winner));
+            controller = assembleFTPScoreBasedController(tournament,winner,keyPoint,
+                                                         terminalKeyCode,attempts,indexes,userIds,
+                                                         userNames,userScores);
         }
         connectFTPControllerWithInterfaces(controller,applicationInterface,modelsContext);
         emit sendController(controller);
@@ -90,6 +75,55 @@ public:
     }
 
 private:
+    AbstractGameController* assembleFTPPointBasedController(const QUuid& tournament,
+                                                            const QUuid& winnerId,
+                                                            const int& keyPoint,
+                                                            const int& terminalKeyCode,
+                                                            const int& attempts,
+                                                            const QVector<int>& indexes,
+                                                            const QVector<QUuid>& playerIds,
+                                                            const QVector<QString>& playerNames,
+                                                            const QVector<int>& playerScores)
+    {
+        auto playersCount = playerIds.count();
+        AbstractGameController* controller = LocalFTPController::createInstance(tournament)
+                ->setLogisticInterface(PointLogisticController::createInstance(attempts,
+                                                                                 terminalKeyCode))
+                ->setScoreCalculator(PointScoreCalculator::createInstance())
+                ->setInputValidator(PointValidator::createInstance(terminalKeyCode))
+                ->setIndexController(PointIndexController::createInstance(attempts,
+                                                                          playersCount,
+                                                                          indexes))
+                ->setScoreController(FTPScoreController::createInstance(playerIds,
+                                                                        playerNames,
+                                                                        playerScores,
+                                                                        keyPoint,
+                                                                        winnerId));
+        return controller;
+    }
+    AbstractGameController* assembleFTPScoreBasedController(const QUuid& tournament,
+                                                            const QUuid& winnerId,
+                                                            const int& keyPoint,
+                                                            const int& terminalKeyCode,
+                                                            const int& attempts,
+                                                            const QVector<int>& indexes,
+                                                            const QVector<QUuid>& playerIds,
+                                                            const QVector<QString>& playerNames,
+                                                            const QVector<int>& playerScores)
+    {
+        auto playersCount = playerIds.count();
+        AbstractGameController* controller = LocalFTPController::createInstance(tournament)
+                ->setLogisticInterface(ScoreLogisticController::createInstance(attempts,terminalKeyCode))
+                ->setScoreCalculator(new ScoreCalculator())
+                ->setInputValidator(ScoreValidator::createInstance(terminalKeyCode))
+                ->setIndexController(ScoreIndexController::createInstance(playersCount,
+                                                                          indexes))
+                ->setScoreController(FTPScoreController::createInstance(playerIds,
+                                                                        playerNames,
+                                                                        playerScores,
+                                                                        keyPoint,winnerId));
+        return controller;
+    }
     void connectFTPControllerWithInterfaces(AbstractGameController* controller,
                                             AbstractApplicationInterface* applicationInterface,
                                             AbstractModelsContextInterface* modelsContext)

@@ -22,7 +22,7 @@ public:
     virtual int totalIndex() override;
     virtual int roundIndex() override;
     virtual int setIndex() override;
-    virtual int legIndex() override;
+    virtual int attempt() override;
 
 private:
     // Private methods
@@ -36,7 +36,7 @@ private:
 
     ScoreIndexController(const int &playerCount, const QVector<int>& indexes);
     int _index = 0, _totalIndex  = 0, _roundIndex = 1, _setIndex = 0, _legIndex = 0;
-    const int _legCount = -1, _playerCount;
+    const int _attempt = 0, _playerCount;
 };
 
 #endif // SCOREINDEXCONTROLLER_H

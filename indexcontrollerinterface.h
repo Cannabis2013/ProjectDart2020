@@ -19,7 +19,7 @@ public:
     virtual int totalIndex() = 0;
     virtual int roundIndex() = 0;
     virtual int setIndex() = 0;
-    virtual int legIndex() = 0;
+    virtual int attempt() = 0;
 };
 
 #endif // INDEXCONTROLLERINTERFACE_H

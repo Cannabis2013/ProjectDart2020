@@ -44,7 +44,7 @@ public:
     virtual void undo() override
     {
         _index--;
-        if(legIndex() > 0)
+        if(attempt() > 0)
            _legIndex--;
         else
         {
@@ -104,7 +104,7 @@ public:
     {
         return _setIndex;
     }
-    virtual int legIndex() override
+    virtual int attempt() override
     {
         return _legIndex;
     }

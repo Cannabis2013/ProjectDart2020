@@ -26,10 +26,6 @@ public:
                         FixedStrings = 0x2};
     enum AppendDataMode{SingleAppend = 0x4,
                         MultiAppend = 0x8};
-    enum InputMode {
-        Score = 0x1,
-        Point = 0x2
-    };
 
     // Constructor
     FTPDataModel();
