@@ -361,6 +361,7 @@ ScoreLogisticController *ScoreLogisticController::createInstance(const int &atte
 
 QString ScoreLogisticController::suggestTargetRow(const int &remainingScore, const int &turnIndex)
 {
+    Q_UNUSED(turnIndex);
     if(remainingScore > 180 || remainingScore < terminalDivisor())
         return QString();
     auto list = _throwSuggestions.at(0);
