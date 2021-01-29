@@ -135,7 +135,7 @@ void ModelsContextInterface::handleRequestTournamentGameMode(const int &index)
 }
 void ModelsContextInterface::handleAddScore(const QUuid &tournament,
                                             const QUuid &player,
-                                            const QList<int> &dataValues,
+                                            const QVector<int> &dataValues,
                                             const bool &isWinnerDetermined)
 {
     tournamentModelsContext()->addScore(tournament,

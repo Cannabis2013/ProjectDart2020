@@ -66,10 +66,11 @@ int LocalTournamentModelDB::countOfModels(const QString &type)
     return count;
 }
 
-QList<const ModelInterface<QUuid> *> LocalTournamentModelDB::models(const QString &type)
+QVector<const ModelInterface<QUuid> *> LocalTournamentModelDB::models(const QString &type)
 {
     if(!acceptedModelTypes.contains(type))
-        QList<const ModelInterface<QUuid>*>();
-    auto models = _models.values(type);
+        QVector<const ModelInterface<QUuid>*>();
+    auto values = _models.values(type);
+    auto models = values.toVector();
     return models;
 }

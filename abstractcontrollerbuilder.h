@@ -3,7 +3,6 @@
 
 #include "IControllerBuilder.h"
 #include <quuid.h>
-#include<qlist.h>
 #include "abstractgamecontroller.h"
 #include "abstractmodelscontextinterface.h"
 #include "AbstractApplicationInterface.h"

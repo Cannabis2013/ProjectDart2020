@@ -30,9 +30,9 @@ public:
     {
         auto t = FTPTournament::createInstance()
                 ->setTitle(params.title)
-                ->setKeyPoint(params.keyPoint)
+                ->setKeyPoint(params.initialPoint)
                 ->setGameMode(params.gameMode)
-                ->setNumberOfThrows(params.throws)
+                ->setNumberOfThrows(params.attempts)
                 ->setStatus(params.status)
                 ->setAssignedPlayerIdentities(params.playerIdentities)
                 ->setTerminateKeyCondition(params.winConditionKey)

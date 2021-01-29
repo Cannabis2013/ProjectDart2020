@@ -1,12 +1,9 @@
 #ifndef TOURNAMENTMODELCONTEXT_H
 #define TOURNAMENTMODELCONTEXT_H
 
-#include <quuid.h>
 #include <qjsonobject.h>
 #include <qjsonarray.h>
 #include <qfile.h>
-#include <iostream>
-#include <qthread.h>
 
 #include "imodelsdbcontext.h"
 #include "itournamentmodelbuilder.h"
@@ -16,9 +13,6 @@
 
 #include "tournamentmodelscontextinterface.h"
 #include "abstractjsonpersistence.h"
-
-using namespace std;
-
 
 class IModelParameter
 {
@@ -113,7 +107,7 @@ public:
      */
     void addScore(const QUuid &tournament,
                   const QUuid &player,
-                  const QList<int> &dataValues,
+                  const QVector<int> &dataValues,
                   const bool &isWinnerDetermined) override;
     QUuid playerScore(const QUuid &tournament,
                       const QUuid &player ,
@@ -190,12 +184,12 @@ private:
     void buildTournament(const QUuid &id,
                          const QString &title,
                          const int &keyPoint, const int &tableViewHint, const int &inputMode,
-                         const int &throws,
+                         const int &attemps,
                          const int &gameMode,
                          const QUuid &winner);
     void buildScoreModel(const QUuid &tournament,
                          const QUuid &player,
-                         const QList<int> &dataValues,
+                         const QVector<int> &dataValues,
                          const int &hint,
                          const bool &generateID = true,
                          const QUuid &id = QUuid());

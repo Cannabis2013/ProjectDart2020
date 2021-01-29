@@ -74,11 +74,11 @@ QUuid LocalTournamentModelsContext::assembleAndAddFTPTournament(const QString &t
         FTPParameters params;
         params.title = title;
         params.gameMode = data[0];
-        params.keyPoint = data[1];
+        params.initialPoint = data[1];
         params.winConditionKey = data[2];
         params.modelTableViewHint = data[3];
         params.inputMode = data[4];
-        params.throws = data[5];
+        params.attempts = data[5];
         params.playerIdentities = playerIds;
         params.tournamentsCount = this->tournamentsCount();
         return params;
@@ -230,10 +230,10 @@ void LocalTournamentModelsContext::setTournamentDeterminedWinner(const QUuid &to
                         params.title = oldModel->title();
                         params.status = oldModel->status();
                         params.gameMode = oldModel->gameMode();
-                        params.keyPoint = oldModel->initialPoint();
+                        params.initialPoint = oldModel->initialPoint();
                         params.modelTableViewHint = oldModel->displayHint();
                         params.inputMode = oldModel->inputHint();
-                        params.throws = oldModel->attemps();
+                        params.attempts = oldModel->attemps();
                         params.winner = winner;
                         params.playerIdentities = oldModel->assignedPlayerIdentities();
                         return params;
@@ -260,10 +260,10 @@ void LocalTournamentModelsContext::assignPlayerToTournament(const QUuid &tournam
         params.title = oldModel->title();
         params.status = oldModel->status();
         params.gameMode = oldModel->gameMode();
-        params.keyPoint = oldModel->initialPoint();
+        params.initialPoint = oldModel->initialPoint();
         params.modelTableViewHint = oldModel->displayHint();
         params.inputMode = oldModel->inputHint();
-        params.throws = oldModel->attemps();
+        params.attempts = oldModel->attemps();
         params.winner = oldModel->winnerId();
         params.playerIdentities = assignedPlayers;
         return params;
@@ -290,11 +290,11 @@ void LocalTournamentModelsContext::tournamentRemovePlayer(const QUuid &tournamen
         params.title = oldModel->title();
         params.status = oldModel->status();
         params.gameMode = oldModel->gameMode();
-        params.keyPoint = oldModel->initialPoint();
+        params.initialPoint = oldModel->initialPoint();
         params.modelTableViewHint = oldModel->displayHint();
         params.inputMode = oldModel->inputHint();
         params.playerIdentities = oldModel->assignedPlayerIdentities();
-        params.throws = oldModel->attemps();
+        params.attempts = oldModel->attemps();
         params.winner = oldModel->winnerId();
         params.playerIdentities = pList;
         return params;
@@ -731,20 +731,20 @@ void LocalTournamentModelsContext::buildTournament(const QUuid &id,
                                                    const int &keyPoint,
                                                    const int &tableViewHint,
                                                    const int &inputMode,
-                                                   const int &throws,
+                                                   const int &attemps,
                                                    const int &gameMode,
                                                    const QUuid &winner)
 {
     auto tournament = modelBuilder()->buildFTPTournament(
-                [id,title,keyPoint,tableViewHint,inputMode,throws,gameMode,winner]{
+                [id,title,keyPoint,tableViewHint,inputMode,attemps,gameMode,winner]{
                 FTPParameters params;
                 params.id = id;
                 params.title = title;
-                params.keyPoint = keyPoint;
+                params.initialPoint = keyPoint;
                 params.modelTableViewHint = tableViewHint;
                 params.inputMode = inputMode;
                 params.gameMode = gameMode;
-                params.throws = throws;
+                params.attempts = attemps;
                 params.winner = winner;
                 return params;
         }(),[]{
@@ -758,7 +758,7 @@ void LocalTournamentModelsContext::buildTournament(const QUuid &id,
 
 void LocalTournamentModelsContext::buildScoreModel(const QUuid &tournament,
                                                    const QUuid &player,
-                                                   const QList<int> &dataValues,
+                                                   const QVector<int> &dataValues,
                                                    const int &hint,
                                                    const bool &generateID,
                                                    const QUuid &id)
@@ -906,7 +906,7 @@ int LocalTournamentModelsContext::playerScoreCount(const int &hint)
 
 void LocalTournamentModelsContext::addScore(const QUuid &tournament,
                                             const QUuid &player,
-                                            const QList<int> &dataValues,
+                                            const QVector<int> &dataValues,
                                             const bool &isWinnerDetermined)
 {
     buildScoreModel(tournament,
@@ -945,7 +945,7 @@ int LocalTournamentModelsContext::score(const QUuid &player)
 void LocalTournamentModelsContext::extractScoreModelsFromJSON(const QJsonArray &arr)
 {
     for (auto JSONValue : arr) {
-        QList<int> dataValues;
+        QVector<int> dataValues;
         auto stringID = JSONValue["ID"].toString();
         auto id = QUuid::fromString(stringID);
         auto tournament = JSONValue["Tournament"].toString();

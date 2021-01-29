@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include <quuid.h>
-#include <QVariantList>
 #include "iresponseinterface.h"
 
 class AbstractGameController : public QObject,
@@ -58,7 +57,7 @@ signals:
     void requestTournamentIndexes(const QUuid &tournament);
     void requestAddScore(const QUuid &tournamentID,
                    const QUuid &playerID,
-                   const QList<int> &dataValues,
+                   const QVector<int> &dataValues,
                    const bool &isWinnerDetermined);
     void winnerDetermined(const QUuid &tournament, const QUuid &player);
     void requestUpdateContext(const QUuid &tournamentID,

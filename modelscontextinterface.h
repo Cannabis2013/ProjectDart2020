@@ -88,7 +88,7 @@ public slots:
     void assembleTournamentMetaDataFromId(const QUuid& tournament) override;
     void handleAddScore(const QUuid &tournament,
                   const QUuid &player,
-                  const QList<int> &dataValues,
+                  const QVector<int> &dataValues,
                   const bool &isWinnerDetermined) override;
     // Done
     void handleRequestSetScoreHint(const QUuid &tournament,

@@ -58,8 +58,9 @@ int LocalPlayerDBContext::countOfModels(const QUuid &key)
 }
 
 
-QList<const IPlayerModel<QUuid, QString> *> LocalPlayerDBContext::models(const QUuid &)
+QVector<const IPlayerModel<QUuid, QString> *> LocalPlayerDBContext::models(const QUuid &)
 {
     auto models = _models.values();
-    return models;
+    auto vectorList = models.toVector();
+    return vectorList;
 }

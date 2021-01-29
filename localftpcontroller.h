@@ -1,10 +1,9 @@
 #ifndef FIVEHUNDREDANDONEGAME_H
 #define FIVEHUNDREDANDONEGAME_H
 // Proprietary QT classes
-#include <QVariantList>
+
 #include <quuid.h>
-#include <qlist.h>
-#include <qthread.h>
+#include <qvariant.h>
 // Custom classes
 #include "abstractgamecontroller.h"
 #include "ftplogisticcontrollerinterface.h"
@@ -76,11 +75,10 @@ public:
      */
     void handleWakeUpRequest() override;
     /*
-     * Start/stop game progress
+     * Start/stop/undo/redo
      */
     void start() override;
     void stop() override;
-
     QUuid undoTurn() override;
     QUuid redoTurn() override;
     /*
@@ -111,11 +109,11 @@ public:
     void handleRequestForMultiThrowPlayerScores() override;
 
     void handleScoreAddedToDataContext(const QUuid &playerID,
-                                              const int &point,
-                                              const int &score) override;
-    void handleScoreHintUpdated(const QUuid &playerID,
                                        const int &point,
                                        const int &score) override;
+    void handleScoreHintUpdated(const QUuid &playerID,
+                                const int &point,
+                                const int &score) override;
     /*
      * Reinitialize controller
      *  - Set controller back to its original state
@@ -171,18 +169,12 @@ private:
      */
     void addPoint(const int &point, const int &score);
     /*
-     * Set controller state according to datacontext
-     */
-    /*
      * Index manipulating methods
      */
     void nextTurn();
     void declareWinner();
-    // Current tournament id
+    // Member variables
     QUuid _tournament = QUuid();
-    /*
-     * Status member variable
-     */
     int _currentStatus = ControllerState::NotInitialized;
     //Services
     // Calculate score
@@ -196,7 +188,5 @@ private:
     // Userscore service
     UserScoreController* _scoreController = nullptr;
 };
-
-
 
 #endif // FIVEHUNDREDANDONEGAME_H

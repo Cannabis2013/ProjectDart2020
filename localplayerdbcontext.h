@@ -19,7 +19,7 @@ public:
     const IPlayerModel<QUuid,QString> *model(const QUuid &key, const int &index);
     int indexOfModel(const QUuid &key, const IPlayerModel<QUuid,QString> *model);
     int countOfModels(const QUuid &key);
-    QList<const IPlayerModel<QUuid,QString> *> models(const QUuid &);
+    QVector<const IPlayerModel<QUuid,QString> *> models(const QUuid &);
 
 private:
     QMultiHash<QString,const IPlayerModel<QUuid,QString>*> _models;

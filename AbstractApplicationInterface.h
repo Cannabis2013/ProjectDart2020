@@ -4,7 +4,6 @@
 #include <qobject.h>
 #include "iresponseinterface.h"
 #include <quuid.h>
-#include <QVariantList>
 class AbstractApplicationInterface : public QObject,
         public IResponseInterface<QVariantList>
 {

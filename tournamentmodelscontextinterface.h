@@ -37,7 +37,7 @@ public:
      */
     virtual void addScore(const QUuid &tournament,
                   const QUuid &player,
-                  const QList<int> &dataValues,
+                  const QVector<int> &dataValues,
                   const bool &isWinnerDetermined) = 0;
     virtual QUuid playerScore(const QUuid &tournament, const QUuid &player ,
                               const int &round,

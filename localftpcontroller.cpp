@@ -242,7 +242,7 @@ void LocalFTPController::addPoint(const int &point, const int &score)
     auto roundIndex = indexController()->roundIndex();
     auto setIndex = indexController()->setIndex();
     auto throwIndex = indexController()->attempt();
-    QList<int> values = {
+    QVector<int> values = {
         roundIndex,
         setIndex,
         throwIndex,

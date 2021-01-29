@@ -35,7 +35,7 @@ public:
     virtual void assembleTournamentMetaDataFromId(const QUuid& tournament) = 0;
     virtual void handleAddScore(const QUuid &tournament,
                   const QUuid &player,
-                  const QList<int> &dataValues,
+                  const QVector<int> &dataValues,
                   const bool &isWinnerDetermined) = 0;
     virtual void handleRequestSetScoreHint(const QUuid &tournament,
                                                const QUuid &player,

@@ -36,7 +36,7 @@ public:
     const ModelInterface<QUuid> *model(const QString &type, const int &index) override;
     int indexOfModel(const QString &type, const ModelInterface<QUuid> *model) override;
     int countOfModels(const QString &type) override;
-    QList<const ModelInterface<QUuid> *> models(const QString &type) override;
+    QVector<const ModelInterface<QUuid> *> models(const QString &type) override;
 private:
     QMultiHash<QString,const ModelInterface<QUuid>*> _models;
 };
