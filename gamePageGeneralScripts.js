@@ -57,7 +57,7 @@ function handleFTPTournamentMetaData(stringArray, numericArray, playerNames){
         "determinedWinner" : stringArray[1],
         "tournamentGameMode" : numericArray[0],
         "tournamentKeyPoint" : numericArray[1],
-        "attemps" : numericArray[2],
+        "attempts" : numericArray[2],
         "tournamentTableViewHint" : numericArray[3],
         "tournamentInputMode" : numericArray[4],
         "assignedPlayers" : playerNames

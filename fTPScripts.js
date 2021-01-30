@@ -44,7 +44,7 @@ function initializeFirstToPost()
 function configureMultiScoreBoard()
 {
     if(tournamentMetaData.tournamentInputMode === TournamentContext.scoreMode)
-        scoreBoardInterface().attempts = 1;
+        scoreBoardInterface().attempts = tournamentMetaData.attempts;
 
     requestMultiThrowScores();
 }
