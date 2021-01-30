@@ -44,7 +44,7 @@ AbstractApplicationInterface* configureAndInstantiateDart()
 
 void registerCustomTypes()
 {
-    qmlRegisterType<FTPDataModel>("CustomItems",1,0,"FTPSingleDataModel");
+    qmlRegisterType<FTPDataModel>("CustomItems",1,0,"FTPDataModel");
     qmlRegisterSingletonType(QUrl("qrc:/ThemeContext.qml"),"customDefinitions",1,0,"ThemeContext");
     qmlRegisterSingletonType(QUrl("qrc:/TournamentContext.qml"),"CustomValues",1,0,"TournamentContext");
     qmlRegisterSingletonType(QUrl("qrc:/DataModelContext.qml"),"CustomValues",1,0,"DataModelContext");

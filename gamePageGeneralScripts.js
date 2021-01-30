@@ -57,8 +57,9 @@ function handleFTPTournamentMetaData(stringArray, numericArray, playerNames){
         "determinedWinner" : stringArray[1],
         "tournamentGameMode" : numericArray[0],
         "tournamentKeyPoint" : numericArray[1],
-        "tournamentTableViewHint" : numericArray[2],
-        "tournamentInputMode" : numericArray[3],
+        "attemps" : numericArray[2],
+        "tournamentTableViewHint" : numericArray[3],
+        "tournamentInputMode" : numericArray[4],
         "assignedPlayers" : playerNames
     }
     var metaDataObject = ftpComponent.createObject(gamePageBody,properties);
@@ -76,9 +77,9 @@ function alterScore(player,score,point)
 {
     if(tournamentMetaData.tournamentGameMode === TournamentContext.firstToPost)
     {
-        if(tournamentMetaData.tournamentTableViewHint === DataModelContext.singleThrowInput)
+        if(tournamentMetaData.tournamentTableViewHint === DataModelContext.singleAttempt)
             scoreBoardInterface().setData(player,point,score,-1);
-        else if(tournamentMetaData.tournamentTableViewHint === DataModelContext.multiThrowInput)
+        else if(tournamentMetaData.tournamentTableViewHint === DataModelContext.multiAttempt)
             scoreBoardInterface().takeData(-1,-1,player);
     }
 }

@@ -25,7 +25,7 @@ function buildScoreBoard(mode,scoreBoardMode)
     var c;
     if(mode === TournamentContext.firstToPost)
     {
-        if(scoreBoardMode === DataModelContext.singleThrowInput)
+        if(scoreBoardMode === DataModelContext.singleAttempt)
             c = Qt.createComponent("FTPSingleScoreBoard.qml");
         else
             c = Qt.createComponent("FTPMultiScoreBoard.qml");

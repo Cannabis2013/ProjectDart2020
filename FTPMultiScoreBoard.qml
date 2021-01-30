@@ -21,9 +21,9 @@ ScoreBoard {
     }
 
     onSizeScale: fTPModel.scale = s
-
-    property int throwsPerRound: 3
-    onThrowsPerRoundChanged: fTPModel.throwCount = throwsPerRound;
+    // Notify datamodel about the number of attemps
+    property int attempts: 3
+    onAttemptsChanged: fTPModel.attempts = attempts;
 
     onMinimumRowCount: fTPModel.setMinimumRowCount(count);
 
@@ -91,16 +91,16 @@ ScoreBoard {
         return fTPModel.rowHeightAt(row);
     }
 
-    model: FTPSingleDataModel {
+    model: FTPDataModel {
         id: fTPModel
         onDataChanged: ScoreScripts.updateScoreBoard();
-        throwCount : fTPBody.throwsPerRound
+        attempts: fTPBody.attempts
         headerOrientation: fTPBody.headerOrientation
         pointFontPointSize: fTPBody.pointFontSize
         scoreFontPointSize: fTPBody.scoreFontSize
         horizontalFillMode: fTPBody.horizontalHeaderFillMode
         verticalFillMode: fTPBody.verticalHeaderFillMode
-        appendMode: DataModelContext.multiThrowInput
+        appendMode: DataModelContext.multiAttempt
         minimumColumnCount: fTPBody.minimumColumnCount
         scale: fTPBody.modelScale
     }

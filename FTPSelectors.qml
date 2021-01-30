@@ -25,7 +25,7 @@ Rectangle {
         property var inputModes: ["PointInput","ScoreInput"]
     }
 
-    readonly property int numberOfThrows: throwSpinBox.currentValue
+    readonly property int numberOfThrows: attemptSelector.currentValue
     readonly property int keyPoint: keyPointSelector.currentValue
     readonly property int conditionKeyCode: SelectorScripts.conditionKeyCode()
     readonly property int displayHint: SelectorScripts.tableViewHintFromString()
@@ -36,7 +36,7 @@ Rectangle {
         flow : GridLayout.TopToBottom
         rowSpacing: 3
         DefaultSpinBox {
-            id: throwSpinBox
+            id: attemptSelector
             Layout.fillWidth: true
         }
         DefaultComboBox {
@@ -62,6 +62,7 @@ Rectangle {
             Layout.fillWidth: true
             labelText: "Select input mode:"
             model: stringModels.inputModes
+            onValueChanged: SelectorScripts.setAttempts(val)
         }
         Rectangle{
             color: "transparent"

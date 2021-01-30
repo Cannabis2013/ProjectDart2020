@@ -337,7 +337,7 @@ QVariant FTPDataModel::headerData(int section, Qt::Orientation orientation, int 
     if(role != Qt::DisplayRole)
         return QVariant();
 
-    auto roundIndex = (section - 1)/_numberOfThrows + 1;
+    auto roundIndex = (section - 1)/_attemps + 1;
 
     if(orientation == Qt::Horizontal){
         if(horizontalHeaderFillMode() == HeaderFillMode::DynamicNumerics)
@@ -374,9 +374,9 @@ QVariant FTPDataModel::headerData(int section, Qt::Orientation orientation, int 
     return QVariant();
 }
 
-int FTPDataModel::numberOfThrows() const
+int FTPDataModel::numberOfAttemps() const
 {
-    return _numberOfThrows;
+    return _attemps;
 }
 
 bool FTPDataModel::setData(const QModelIndex &index, const QVariant &value, int role)
@@ -390,14 +390,14 @@ bool FTPDataModel::setData(const QModelIndex &index, const QVariant &value, int 
     if(row >= rowCount())
     {
         auto deltaR = appendMode() != AppendDataMode::SingleAppend ?
-                    numberOfThrows() : 1;
+                    numberOfAttemps() : 1;
         insertRows(row,deltaR,QModelIndex());
     }
 
     if(column >= columnCount())
     {
         auto deltaC = appendMode() != AppendDataMode::SingleAppend ?
-                    numberOfThrows() : 1;
+                    numberOfAttemps() : 1;
         insertColumns(column,deltaC,QModelIndex());
     }
 
@@ -835,9 +835,10 @@ int FTPDataModel::preferedHeaderItemWidth() const
     return preferedWidth;
 }
 
-void FTPDataModel::setNumberOfThrows(const int &count)
+void FTPDataModel::setNumberOfAttemps(const int &count)
 {
-    _numberOfThrows = count;
+    _attemps = count;
+    emit dataChanged(QModelIndex(),QModelIndex());
 }
 
 void FTPDataModel::setColumnCount(const int &count)

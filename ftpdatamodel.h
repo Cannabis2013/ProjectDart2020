@@ -49,7 +49,7 @@ public:
     // Data properties
     Q_PROPERTY(int appendMode READ appendMode WRITE setAppendMode NOTIFY appendModeChanged);
     Q_PROPERTY(int initialValue READ initialValue WRITE setInitialValue NOTIFY initialValueChanged);
-    Q_PROPERTY(int throwCount READ numberOfThrows WRITE setNumberOfThrows NOTIFY numberOfThrowsChanged);
+    Q_PROPERTY(int attempts READ numberOfAttemps WRITE setNumberOfAttemps NOTIFY numberOfThrowsChanged);
     // public exposed methods
     // Data related
     Q_INVOKABLE bool insertData(const QString &playerName,
@@ -88,8 +88,8 @@ public:
      */
     Q_INVOKABLE int headerOrientation() const;
     Q_INVOKABLE void setHeaderOrientation(int headerOrientation);
-    Q_INVOKABLE int numberOfThrows() const;
-    Q_INVOKABLE void setNumberOfThrows(const int &count);
+    Q_INVOKABLE int numberOfAttemps() const;
+    Q_INVOKABLE void setNumberOfAttemps(const int &count);
 
     // Public non-exposed methods
     // Font non-exposed methods
@@ -181,7 +181,7 @@ private:
     double _scale = 1.05;
     int _horizontalFillMode = HeaderFillMode::DynamicNumerics;
     int _verticalFillMode = HeaderFillMode::FixedStrings;
-    int _numberOfThrows = 3;
+    int _attemps = 3;
     int _headerOrientation = 0x2;
     int _minimumColumnCount = 0;
     int _minimumRowCount = 0;

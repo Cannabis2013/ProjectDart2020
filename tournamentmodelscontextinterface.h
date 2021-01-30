@@ -20,7 +20,7 @@ public:
     virtual QVector<QUuid> tournaments() = 0;
     virtual int tournamentsCount() = 0;
     virtual QString tournamentTitle(const QUuid &tournament) = 0;
-    virtual int tournamentNumberOfThrows(const QUuid &tournament) = 0;
+    virtual int tournamentAttempts(const QUuid &tournament) = 0;
     virtual QVector<QUuid> tournamentAssignedPlayers(const QUuid &tournament) = 0;
     virtual int tournamentGameMode(const QUuid &tournament) = 0;
     virtual int tournamentLastThrowKeyCode(const QUuid &tournament) = 0;

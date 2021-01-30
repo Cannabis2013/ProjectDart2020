@@ -12,9 +12,9 @@ function convertKeyModifierToHex(key){
 function convertHintToHex(hint){
     var hints = stringModels.displayHints;
     if(hint === hints[0])
-        return DataModelContext.singleThrowInput;
+        return DataModelContext.singleAttempt;
     else if(hint === hints[1])
-        return DataModelContext.multiThrowInput;
+        return DataModelContext.multiAttempt;
     else
         return -1;
 }
@@ -50,9 +50,23 @@ function inputModeFromString()
 }
 
 function initializeComponents(){
-    throwSpinBox.contentValue = defaultStateValues.defaultNumberOfThrows;
     keyPointSelector.currentIndex = defaultStateValues.defaultKeyPointIndex;
     winConditionSelector.currentIndex = defaultStateValues.defaultWinConditionIndex;
     displayHintSelector.currentIndex = defaultStateValues.defaultTableHintIndex;
     inputModeSelector.currentIndex = defaultStateValues.defaultInputModeIndex;
+}
+
+function setAttempts(value)
+{
+    var mode = convertInputStringToHex(value);
+    if(mode === TournamentContext.scoreMode)
+    {
+        attemptSelector.contentValue = 1;
+        attemptSelector.enabled = false;
+    }
+    else if(mode === TournamentContext.pointMode)
+    {
+        attemptSelector.contentValue = defaultStateValues.defaultNumberOfThrows;
+        attemptSelector.enabled = true;
+    }
 }

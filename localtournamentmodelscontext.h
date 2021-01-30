@@ -87,7 +87,7 @@ public:
     QVector<QUuid> tournaments() override;
     int tournamentsCount() override;
     QString tournamentTitle(const QUuid &tournament) override;
-    int tournamentNumberOfThrows(const QUuid &tournament) override;
+    int tournamentAttempts(const QUuid &tournament) override;
     QVector<QUuid> tournamentAssignedPlayers(const QUuid &tournament) override;
     int tournamentGameMode(const QUuid &tournament) override;
     int tournamentLastThrowKeyCode(const QUuid &tournament) override;

@@ -34,17 +34,27 @@ function initializeFirstToPost()
     var title = tournamentMetaData.tournamentTitle;
     requestSetPageTitle(title);
     var hint = tournamentMetaData.tournamentTableViewHint;
-    if(hint === DataModelContext.singleThrowInput)
+    if(hint === DataModelContext.singleAttempt)
         requestSingleThrowScores();
-    else if(hint === DataModelContext.multiThrowInput);
-        requestMultiThrowScores();
+    else if(hint === DataModelContext.multiAttempt);
+        configureMultiScoreBoard();
 
 }
+
+function configureMultiScoreBoard()
+{
+    if(tournamentMetaData.tournamentInputMode === TournamentContext.scoreMode)
+        scoreBoardInterface().attempts = 1;
+
+    requestMultiThrowScores();
+}
+
 function setupFirstToPostScoreTable()
 {
     gamePageBody.scoreRecieved.connect(scoreBoardItemSlot.item.setData);
     var assignedPlayers = tournamentMetaData.assignedPlayers;
     var keyPoint = tournamentMetaData.tournamentKeyPoint;
+
     scoreBoardInterface().appendHeaderData(assignedPlayers,keyPoint);
 }
 /*

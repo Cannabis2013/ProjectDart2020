@@ -68,7 +68,7 @@ void ModelsContextInterface::handleRequestAssignedPlayers(const QUuid &tournamen
 void ModelsContextInterface::handleTransmitPlayerScores(const QUuid &tournament)
 {
     QVariantList list;
-    auto numberOfThrows = tournamentModelsContext()->tournamentNumberOfThrows(tournament);
+    auto numberOfThrows = tournamentModelsContext()->tournamentAttempts(tournament);
     auto assignedPlayerIds = tournamentModelsContext()->tournamentAssignedPlayers(tournament);
     for (auto i = 0;i < assignedPlayerIds.count();i++) {
         auto roundIndex = 1;
@@ -184,7 +184,7 @@ void ModelsContextInterface::handleRequestFTPDetails(const QUuid &tournament)
     QVector<int> tournamentValues = {
         tournamentModelsContext()->tournamentGameMode(tournament),
         tournamentModelsContext()->tournamentKeyPoint(tournament),
-        tournamentModelsContext()->tournamentNumberOfThrows(tournament),
+        tournamentModelsContext()->tournamentAttempts(tournament),
         tournamentModelsContext()->tournamentLastThrowKeyCode(tournament),
         tournamentModelsContext()->tournamentInputMode(tournament)
     };
@@ -257,6 +257,7 @@ void ModelsContextInterface::assembleTournamentMetaDataFromId(const QUuid &tourn
     auto winnerName = playerModelsContext()->playerNameFromId(winnerId);
     auto gameMode = tournamentModelsContext()->tournamentGameMode(tournament);
     auto keyPoint = tournamentModelsContext()->tournamentKeyPoint(tournament);
+    auto attempts = tournamentModelsContext()->tournamentAttempts(tournament);
     auto modelTableViewHint = tournamentModelsContext()->tournamentTableViewHint(tournament);
     auto inputMode = tournamentModelsContext()->tournamentInputMode(tournament);
     // Get playernames from ids
@@ -269,6 +270,7 @@ void ModelsContextInterface::assembleTournamentMetaDataFromId(const QUuid &tourn
     QVector<int> numericMetaData = {
         gameMode,
         keyPoint,
+        attempts,
         modelTableViewHint,
         inputMode
     };
