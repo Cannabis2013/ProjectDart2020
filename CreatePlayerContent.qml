@@ -10,7 +10,7 @@ Content
     function playerCreatedSucess(status)
     {
         if(status)
-            backButtonPressed();
+            requestQuit();
         else
         {
             buttonOneEnabled = true;
@@ -62,7 +62,7 @@ Content
             buttonBackgroundColor: ThemeContext.plaButtonBackgroundColor
             buttonsHoveredColor: ThemeContext.plaButtonHoveredBackgroundColor
             buttonTwoEnabled: false
-            onButtonOneClicked: backButtonPressed();
+            onButtonOneClicked: requestQuit();
             onButtonTwoClicked: {
                 var playerName = userNameEdit.currentValue;
                 if(playerName === "")

@@ -4,11 +4,11 @@ import QtQuick.Layouts 1.3
 import QtQuick.Window 2.3
 
 Rectangle {
-    id: body
+    id: pageBody
     color: ThemeContext.pageColor
     border.width: 0
     signal backButtonPressed
-    onBackButtonPressed: body.destroy()
+    onBackButtonPressed: pageBody.destroy()
     // Notify Page component that content wants to disable backbutton
     signal requestDisableBackButton(bool disable)
     onRequestDisableBackButton: backButtonDisabled = disable
@@ -24,7 +24,7 @@ Rectangle {
         pageContent.notifyWidthChange.connect(contentFlickable.setContentWidth);
         pageContent.notifyHeightChange.connect(contentFlickable.setContentHeight);
         pageContent.requestSetVisible.connect(handleSetVisible);
-        pageContent.backButtonPressed.connect(backButtonPressed);
+        pageContent.requestQuit.connect(backButtonPressed);
         pageContent.requestDisableBackButton.connect(requestDisableBackButton)
         pageContent.anchors.fill = contentFlickable.contentItem;
     }
@@ -81,7 +81,7 @@ Rectangle {
             PushButton
             {
                 id: backButton
-                visible: body.backButtonVisible
+                visible: pageBody.backButtonVisible
                 Layout.preferredWidth: 65
                 Layout.maximumHeight: 30
                 Layout.minimumHeight: 30
@@ -115,7 +115,7 @@ Rectangle {
                 Layout.minimumHeight: 30
                 fontSize: 20
                 textLeftMargin: 5
-                text: body.pageTitle
+                text: pageBody.pageTitle
                 fontColor: "white"
             }
         }

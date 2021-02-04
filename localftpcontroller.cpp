@@ -24,12 +24,12 @@ void LocalFTPController::handleAndProcessUserInput(const int &point,
     if(status() == Stopped ||
             status() == WinnerDeclared)
     {
-        emit transmitResponse(ControllerResponse::isStopped,{});
+        emit transmitResponse(ControllerResponse::IsStopped,{});
         return;
     }
     else if(status() == ControllerState::AddScoreState)
     {
-        emit transmitResponse(ControllerResponse::isProcessingUserInput,{});
+        emit transmitResponse(ControllerResponse::IsProcessingUserInput,{});
         return;
     }
     // Calculate score
@@ -111,17 +111,12 @@ void LocalFTPController::handleScoreHintUpdated(const QUuid &playerID,
 
 void LocalFTPController::handleTournamentResetSuccess()
 {
-    emit transmitResponse(ControllerResponse::tournamentIsReset,{});
+    emit transmitResponse(ControllerResponse::TournamentIsReset,{});
 }
 
 void LocalFTPController::handleRequestPersistCurrentState()
 {
     emit requestPersistModelState();
-}
-
-void LocalFTPController::handlePersistModelStateDone()
-{
-    emit transmitResponse(ControllerResponse::isIdle,{});
 }
 
 ScoreCalculatorInterface *LocalFTPController::scoreCalculator() const
@@ -162,7 +157,7 @@ void LocalFTPController::sendCurrentTurnValues()
         currentUserName,
         targetRow
     };
-    emit transmitResponse(ControllerResponse::initializedAndAwaitsInput,
+    emit transmitResponse(ControllerResponse::InitializedAndAwaitsInput,
                           responseParameters);
 }
 
@@ -262,7 +257,7 @@ void LocalFTPController::handleRequestFromUI()
 {
     if(status() == ControllerState::Initialized)
     {
-        emit transmitResponse(ControllerResponse::initializedAndReady,{});
+        emit transmitResponse(ControllerResponse::InitializedAndReady,{});
     }
     else if(status() == ControllerState::AddScoreState)
     {
@@ -292,7 +287,7 @@ void LocalFTPController::handleRequestFromUI()
     else if(status() == ControllerState::resetState)
     {
         setCurrentStatus(ControllerState::Initialized);
-        emit transmitResponse(ControllerResponse::initializedAndReady,{});
+        emit transmitResponse(ControllerResponse::InitializedAndReady,{});
     }
 }
 
@@ -377,5 +372,5 @@ void LocalFTPController::handleWakeUpRequest()
         setCurrentStatus(ControllerState::WinnerDeclared);
     else
         setCurrentStatus(ControllerState::Initialized);
-    emit transmitResponse(ControllerResponse::initializedAndReady,{});
+    emit transmitResponse(ControllerResponse::InitializedAndReady,{});
 }

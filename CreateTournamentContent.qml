@@ -29,7 +29,7 @@ Content {
         // Backend has processed transmitted details and created the tournament
         if(response === 0x32)
         {
-            backButtonPressed();
+            requestQuit();
         }
     }
     onRequestUpdate: {
@@ -91,7 +91,7 @@ Content {
             buttonTwoTitle: "Save tournament"
             buttonTwoEnabled: false
             buttonBackgroundColor: ThemeContext.touButtonBackgroundColor
-            onButtonOneClicked: backButtonPressed()
+            onButtonOneClicked: requestQuit()
             onButtonTwoClicked: CreateScripts.acceptAndAdd()
         }
 

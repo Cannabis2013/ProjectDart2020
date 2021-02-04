@@ -7,7 +7,7 @@ Rectangle {
     clip: true
     anchors.fill: parent
     // Signals
-    signal backButtonPressed
+    signal requestQuit
     signal replyFromBackendRecieved(int response,var args)
     signal requestUpdate
     signal requestSetVisible(bool v)

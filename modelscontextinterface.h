@@ -17,7 +17,7 @@ public:
         TournamentCreatedOK = 0x32,
         TournamentDeletedOK = 0x35,
         EndOfTransmission = 0x10,
-        TournamentDetailsFailed
+        ModelsStatePersisted = 0x47
     };
     enum PlayerContextResponse{
         PlayerCreatedOK = 0x33,

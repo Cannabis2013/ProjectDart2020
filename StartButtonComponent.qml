@@ -6,25 +6,34 @@ GridLayout{
     id: body
     flow: GridLayout.TopToBottom
 
-    signal startButtonClicked
-    onStartButtonClicked: {
-        quitButton.visible = false;
-        textDescription.visible = true;
-    }
-    signal pressAndHoldClicked
-    onPressAndHoldClicked: {
-        if(quitButton.visible)
+    signal showOptions(bool show)
+    onShowOptions: {
+        if(show)
+        {
+            textDescription.visible = false;
+            restartButton.visible = true;
+        }
+        else
         {
             textDescription.visible = true;
-            quitButton.visible = false;
+            restartButton.visible = false;
+         }
+    }
+    signal startButtonClicked
+    signal pressAndHoldClicked
+    onPressAndHoldClicked: {
+        if(restartButton.visible)
+        {
+            textDescription.visible = true;
+            restartButton.visible = false;
         }
         else
         {
             textDescription.visible = false;
-            quitButton.visible = true;
+            restartButton.visible = true;
         }
     }
-    signal quitButtonClicked
+    signal restartButtonClicked
 
     signal enablePressAndHold(bool enable)
     onEnablePressAndHold: startButton.enablePressAndHold = enable
@@ -54,7 +63,7 @@ GridLayout{
         PropertyAnimation on height {
             id: textDescriptionAnimation
             from: 0
-            to: quitButton.height
+            to: restartButton.height
             duration: 125
         }
     }
@@ -82,8 +91,8 @@ GridLayout{
         enabled: body.startButtonEnabled
     }
     PushButton{
-        id: quitButton
-        text: "Quit"
+        id: restartButton
+        text: "Restart"
         textColor: ThemeContext.navStartButtonTextColor
         backgroundColor: ThemeContext.navQuitButtonBackgroundColor
         hoveredColor: ThemeContext.navQuitButtonHoveredBackgroundColor
@@ -92,12 +101,12 @@ GridLayout{
         width: 64
         height: 24
         visible: false
-        onClicked: quitButtonClicked()
-        onVisibleChanged: quitButtonAnimation.restart()
+        onClicked: restartButtonClicked()
+        onVisibleChanged: restartButtonAnimation.restart()
         PropertyAnimation on height {
-            id: quitButtonAnimation
+            id: restartButtonAnimation
             from: 0
-            to: quitButton.height
+            to: restartButton.height
             duration: 125
         }
     }

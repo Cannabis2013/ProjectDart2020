@@ -148,19 +148,6 @@ Content {
             }
         },
         State {
-            name: "preRestart"
-            StateChangeScript{
-                script: {
-                    turnControllerInterface().startButtonText = buttonTextContainer.restartText;
-                    turnControllerInterface().startButtonEnabled = true;
-                    turnControllerInterface().undoButtonEnabled = false;
-                    turnControllerInterface().redoButtonEnabled = false;
-                    keyPadInterface().enableKeyPad(false);
-                    gamePageBody.requestStop();
-                }
-            }
-        },
-        State {
             name: "waitingForInputConfirmation"
             StateChangeScript{
                 script: {
@@ -183,5 +170,5 @@ Content {
         }
     ]
     Component.onCompleted: GameGeneralScripts.initializeComponent()
-    Component.onDestruction: GameGeneralScripts.disconnectComponents()
+    Component.onDestruction: GameGeneralScripts.handleDestruction()
 }

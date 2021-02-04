@@ -7,13 +7,16 @@ Item {
 
     clip: true
     signal startButtonClicked
-    signal quitButtonClicked
+    signal restartButtonClicked
     signal leftButtonClicked
     signal rightButtonClicked
 
     signal startButtonPressAndHoldClicked
     signal leftButtonPressAndHoldClicked
     signal rightButtonPressAndHoldClicked
+
+    property bool options: false
+    onOptionsChanged: startButtonComponent.showOptions(options)
 
     property bool startButtonEnablePressAndHold : false
     onStartButtonEnablePressAndHoldChanged: startButtonComponent.enablePressAndHold(startButtonEnablePressAndHold)
@@ -62,7 +65,7 @@ Item {
             onPressAndHoldClicked: startButtonPressAndHoldClicked()
             startButtonText: body.startButtonText
             onStartButtonClicked: body.startButtonClicked()
-            onQuitButtonClicked: body.quitButtonClicked()
+            onRestartButtonClicked: body.restartButtonClicked()
         }
 
         PushButton{

@@ -202,8 +202,6 @@ private:
                 controller,&AbstractGameController::handleRequestPersistCurrentState);
         connect(controller,&AbstractGameController::requestPersistModelState,
                 modelsContext,&AbstractModelsContextInterface::handleRequestPersistTournamentState);
-        connect(modelsContext,&AbstractModelsContextInterface::tournamentModelsStatePersisted,
-                controller,&AbstractGameController::handlePersistModelStateDone);
     }
 };
 

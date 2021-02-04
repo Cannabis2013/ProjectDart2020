@@ -63,9 +63,8 @@ function setupFirstToPostScoreTable()
     - Handle TurnController events
   */
 function setupTurnController(){
-    turnControllerInterface().startButtonPressAndHoldClicked.connect(handleStartPressAndHold);
     turnControllerInterface().startButtonClicked.connect(handleStartClicked);
-    turnControllerInterface().quitButtonClicked.connect(requestPersistState);
+    turnControllerInterface().restartButtonClicked.connect(requestRestart);
     turnControllerInterface().leftButtonClicked.connect(leftButtonClicked);
     turnControllerInterface().rightButtonClicked.connect(rightButtonClicked);
 }
@@ -73,34 +72,19 @@ function setupKeyPad(){
     keyPadInterface().sendInput.connect(GameGeneralScripts.handleKeyPadInput);
 }
 
-function handleStartPressAndHold()
-{
-    if(gamePageBody.state === "waitingForInput")
-        gamePageBody.state = "preRestart";
-    else if(gamePageBody.state === "stopped")
-        gamePageBody.state = "preRestart";
-    else if(gamePageBody.state === "ready")
-        gamePageBody.state = "preRestart";
-    else if(gamePageBody.state === "winner")
-        gamePageBody.state = "preRestart";
-    else if(gamePageBody.state === "preRestart")
-        gamePageBody.state = "ready";
-}
 function handleStartClicked()
 {
     var buttonText = turnControllerItemSlot.item.startButtonText;
     if(buttonText === buttonTextContainer.startText ||
             buttonText === buttonTextContainer.resumeText)
     {
+        turnControllerInterface().options = false;
         requestStart();
-    }
-    else if(buttonText === buttonTextContainer.restartText)
-    {
-        gamePageBody.requestRestart();
     }
     else
     {
-        gamePageBody.state = "pauseState";
+        turnControllerInterface().options = true;
+        gamePageBody.state = "stopped";
         requestStop();
     }
 }

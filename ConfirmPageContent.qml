@@ -30,7 +30,7 @@ Page{
                 Layout.alignment: Qt.AlignBottom | Qt.alignRight
                 onClicked: {
                     pageBody.cancelClicked();
-                    backButtonPressed();
+                    requestQuit();
                 }
             }
             PushButton{
@@ -44,7 +44,7 @@ Page{
                 Layout.alignment: Qt.AlignBottom | Qt.alignRight
                 onClicked: {
                     pageBody.acceptClicked();
-                    backButtonPressed();
+                    requestQuit();
                 }
             }
         }

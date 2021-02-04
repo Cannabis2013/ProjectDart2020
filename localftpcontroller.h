@@ -50,16 +50,16 @@ public:
         idle = 0xA
     };
     enum ControllerResponse{
-        isStopped = 0x3A,
-        isIdle = 0x3B,
+        IsStopped = 0x3A,
+        IsIdle = 0x3B,
         ScoreTransmit = 0x27,
         ScoresTransmit = 0xA,
         ScoreRemove = 0x28,
-        initializedAndAwaitsInput = 0x2D,
-        initializedAndReady = 0x45,
+        InitializedAndAwaitsInput = 0x2D,
+        InitializedAndReady = 0x45,
         WinnerFound = 0x3E,
-        isProcessingUserInput,
-        tournamentIsReset = 0x29
+        IsProcessingUserInput = 0x46,
+        TournamentIsReset = 0x29
     };
     // Create instance of LocalFTPController
     static LocalFTPController* createInstance(const QUuid &tournament);
@@ -124,10 +124,6 @@ public:
      * Handle persist controller state
      */
     void handleRequestPersistCurrentState() override;
-    /*
-     * Handle persist modelstate done
-     */
-    void handlePersistModelStateDone() override;
     /*
      * Get/set score calculator service
      */

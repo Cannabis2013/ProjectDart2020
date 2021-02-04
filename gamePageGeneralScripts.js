@@ -1,8 +1,13 @@
-
+// Handle construction/destruction
 function initializeComponent()
 {
     connectComponents();
     gamePageBody.requestMetaInformation();
+}
+function handleDestruction()
+{
+    requestPersistState();
+    disconnectComponents();
 }
 
 /*
@@ -34,6 +39,7 @@ function disconnectComponents()
     gamePageBody.requestUndo.disconnect(applicationInterface.requestUndo);
     gamePageBody.requestRedo.disconnect(applicationInterface.requestRedo);
     gamePageBody.requestStatusFromBackend.disconnect(applicationInterface.handleControllerStateRequest);
+    print("Page request destruction")
 }
 /*
   Handle recieved 'First to Post tournament' meta data
@@ -158,7 +164,7 @@ function handleReplyFromBackend(response,args)
     }
     else if(response === 0x3B)
     {
-        backButtonPressed();
+        requestQuit();
     }
     else if(response === 0xA) // Backend transmits user scores
     {

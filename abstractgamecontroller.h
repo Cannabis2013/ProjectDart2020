@@ -46,10 +46,6 @@ public slots:
      * Handle persist model request
      */
     virtual void handleRequestPersistCurrentState() = 0;
-    /*
-     * Tournament persisted success
-     */
-    virtual void handlePersistModelStateDone() = 0;
 signals:
     void transmitResponse(const int &status, const QVariantList &args) override;
     void sendCurrentTournamentId(const QUuid &tournament);
