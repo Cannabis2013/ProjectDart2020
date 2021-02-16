@@ -227,3 +227,9 @@ function reinitializeFTPTournament()
     }
     FirstToPostScripts.setupFirstToPost();
 }
+
+function handleRequestTournamentReset()
+{
+    if(gamePageBody.state === "ready")
+        gamePageBody.state = "stopped";
+}

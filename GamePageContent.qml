@@ -25,6 +25,7 @@ Content {
     signal requestStart
     signal requestStop
     signal requestRestart
+    onRequestRestart: GameGeneralScripts.handleRequestTournamentReset()
     signal requestUndo
     signal requestRedo
     signal sendInput(int value, int modifier)
