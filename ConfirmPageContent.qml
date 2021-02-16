@@ -7,7 +7,9 @@ Page{
     pageTitle: qsTr("Confirm your action")
 
     signal acceptClicked
+    onAcceptClicked: destroy()
     signal cancelClicked
+    onCancelClicked: destroy()
 
     pageContent: Content {
         id: contentBody
@@ -42,10 +44,7 @@ Page{
                 backgroundColor: "green"
                 textColor: "white"
                 Layout.alignment: Qt.AlignBottom | Qt.alignRight
-                onClicked: {
-                    pageBody.acceptClicked();
-                    requestQuit();
-                }
+                onClicked: pageBody.acceptClicked()
             }
         }
     }
