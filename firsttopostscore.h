@@ -5,14 +5,14 @@
 
 #include "iscoremodel.h"
 
-class Score : public IScore<QUuid>
+class FirstToPostScore : public IScore<QUuid>
 {
 public:
     QUuid id() const override
     {
         return _id;
     }
-    Score* setId(const QUuid &val) override
+    FirstToPostScore* setId(const QUuid &val) override
     {
         _id = val;
         return this;
@@ -21,7 +21,7 @@ public:
     {
         return _modelType;
     }
-    Score* setType(const int &val) override
+    FirstToPostScore* setType(const int &val) override
     {
         _modelType = val;
         return this;
@@ -30,7 +30,7 @@ public:
     {
         return _pointValue;
     }
-    Score* setPoint(const int &point) override
+    FirstToPostScore* setPoint(const int &point) override
     {
         _pointValue = point;
         return this;
@@ -39,7 +39,7 @@ public:
     {
         return _tournament;
     }
-    Score* setParent(const QUuid &id) override
+    FirstToPostScore* setParent(const QUuid &id) override
     {
         _tournament = id;
         return this;
@@ -48,7 +48,7 @@ public:
     {
         return _player;
     }
-    Score* setPlayer(const QUuid &id) override
+    FirstToPostScore* setPlayer(const QUuid &id) override
     {
         _player = id;
         return this;
@@ -57,7 +57,7 @@ public:
     {
         return _throwIndex;
     }
-    Score* setThrowIndex(const int &index) override
+    FirstToPostScore* setThrowIndex(const int &index) override
     {
         _throwIndex = index;
         return this;
@@ -66,7 +66,7 @@ public:
     {
         return _hint;
     }
-    Score* setHint(const int &hint) override
+    FirstToPostScore* setHint(const int &hint) override
     {
         _hint = hint;
         return this;
@@ -75,7 +75,7 @@ public:
     {
         return _scoreValue;
     }
-    Score* setScore(const int &score) override
+    FirstToPostScore* setScore(const int &score) override
     {
         _scoreValue = score;
         return this;
@@ -85,20 +85,20 @@ public:
     {
         return _keyCode;
     }
-    Score* setKeyCode(const int &key) override
+    FirstToPostScore* setKeyCode(const int &key) override
     {
         _keyCode = key;
         return this;
     }
-    static Score* createInstance()
+    static FirstToPostScore* createInstance()
     {
-        return new Score();
+        return new FirstToPostScore();
     }
     int setIndex() const override
     {
         return _setIndex;
     }
-    Score* setSetIndex(const int &index) override
+    FirstToPostScore* setSetIndex(const int &index) override
     {
         _setIndex = index;
         return this;
@@ -108,7 +108,7 @@ public:
     {
         return _roundIndex;
     }
-    Score* setRoundIndex(const int &index) override
+    FirstToPostScore* setRoundIndex(const int &index) override
     {
         _roundIndex = index;
         return this;

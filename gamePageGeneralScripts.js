@@ -54,7 +54,7 @@ function disconnectComponents()
        [0] = Tournamaent game mode
        [1] = Tournament keypoint
        [2] = Tournament model tablehint
-       [3] = Tournament input mode
+       [3] = Tournament input mode {Accumulated input for all sets, Input for every set}
   */
 function handleFTPTournamentMetaData(stringArray, numericArray, playerNames){
     var ftpComponent = Qt.createComponent("FirstToPostMetaData.qml");

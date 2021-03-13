@@ -5,7 +5,7 @@
 #include "itournamentmodelbuilder.h"
 
 #include "ftptournament.h"
-#include "score.h"
+#include "firsttopostscore.h"
 
 typedef FTPTournamentModelInterface<QUuid,QVector<QUuid>,QString> DefaultTournamentInterface;
 typedef IScore<QUuid> DefaultScoreInterface;
@@ -50,7 +50,7 @@ public:
     DefaultScoreInterface *buildScoreModel(const FTPScoreParameters& params,
                                            const ModelOptions& options) override
     {
-        auto t = Score::createInstance()
+        auto t = FirstToPostScore::createInstance()
                 ->setRoundIndex(params.roundIndex)
                 ->setSetIndex(params.setIndex)
                 ->setThrowIndex(params.throwIndex)

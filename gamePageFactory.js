@@ -1,11 +1,11 @@
 function buildTurnController(mode) {
     if(mode === TournamentContext.firstToPost)
     {
-        var c = Qt.createComponent("FirstToPostTurnController.qml");
+        var turnController = Qt.createComponent("FirstToPostTurnController.qml");
     }
-    if(c === undefined)
+    if(turnController === undefined)
         console.log("Something went wrong!");
-    return c;
+    return turnController;
 }
 
 function buildDisplayItem(mode)
@@ -20,16 +20,13 @@ function buildDisplayItem(mode)
     return c;
 }
 
-function buildScoreBoard(mode,scoreBoardMode)
+function buildFTPScoreBoard(tableHint)
 {
     var c;
-    if(mode === TournamentContext.firstToPost)
-    {
-        if(scoreBoardMode === DataModelContext.singleAttempt)
-            c = Qt.createComponent("FTPSingleScoreBoard.qml");
-        else
-            c = Qt.createComponent("FTPMultiScoreBoard.qml");
-    }
+    if(tableHint === DataModelContext.singleAttempt)
+        c = Qt.createComponent("FTPSingleScoreBoard.qml");
+    else
+        c = Qt.createComponent("FTPMultiScoreBoard.qml");
     if(c === undefined)
         console.log("Something went wrong!");
     return c;

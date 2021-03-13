@@ -91,16 +91,13 @@ ScoreBoard {
         //return myModel.rowHeightAt(row);
     }
 
-    model: FTPDataModel{
+    model: SFTPDataModel{
         id: fTPModel
         onDataChanged: ScoreScripts.updateScoreBoard();
         attempts: fTPBody.throwsPerRound
-        headerOrientation: fTPBody.headerOrientation
         pointFontPointSize: fTPBody.pointFontSize
         scoreFontPointSize: fTPBody.scoreFontSize
         horizontalFillMode: fTPBody.horizontalHeaderFillMode
-        verticalFillMode: fTPBody.verticalHeaderFillMode
-        appendMode: DataModelContext.singleAttempt
     }
 
     cellDelegate: CellDelegate {

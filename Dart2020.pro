@@ -27,7 +27,8 @@ SOURCES += \
         modelscontextinterface.cpp \
         pointlogisticcontroller.cpp \
         scoreindexcontroller.cpp \
-        scorelogisticcontroller.cpp
+        scorelogisticcontroller.cpp \
+        sftpdatamodel.cpp
 
 RESOURCES += qml.qrc
 
@@ -57,6 +58,7 @@ HEADERS += \
     abstractmodelscontextinterface.h \
     abstractpersistence.h \
     dartapplication.h \
+    firsttopostscore.h \
     ftpdatamodel.h \
     ftplogisticcontrollerinterface.h \
     ftpscorecontroller.h \
@@ -90,11 +92,11 @@ HEADERS += \
     pointScoreCalculator.h \
     pointlogisticcontroller.h \
     pointvalidator.h \
-    score.h \
     scoreCalculatorInterface.h \
     scorecalculator.h \
     scoreindexcontroller.h \
     scorelogisticcontroller.h \
+    sftpdatamodel.h \
     tournamentmodelbuilder.h \
     tournamentmodelscontextinterface.h \
     userscorescontrollerinterface.h

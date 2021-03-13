@@ -9,8 +9,7 @@ function setupFirstToPost(){
       Load and setup ScoreTable
       */
     scoreBoardItemSlot.sourceComponent =
-            GamePageFactory.buildScoreBoard(TournamentContext.firstToPost,
-                                            tournamentMetaData.tournamentTableViewHint);
+            GamePageFactory.buildFTPScoreBoard(tournamentMetaData.tournamentTableViewHint);
     setupFirstToPostScoreTable();
     /*
       Load and setup DisplayKeyDataItem
@@ -45,7 +44,6 @@ function configureMultiScoreBoard()
 {
     if(tournamentMetaData.tournamentInputMode === TournamentContext.scoreMode)
         scoreBoardInterface().attempts = tournamentMetaData.attempts;
-
     requestMultiThrowScores();
 }
 

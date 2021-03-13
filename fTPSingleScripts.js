@@ -43,17 +43,6 @@ function refreshHeaders()
         fTPBody.setColumnWidth(j,columnWidth);
         fTPBody.setHorizontalHeaderDataAt(j,hHeaderValue);
     }
-    // Refresh vertical headers
-    let headerCount = fTPModel.headerItemCount(Qt.Vertical);
-    fTPBody.verticalHeaderModel = headerCount;
-    for(var i = 0;i < headerCount;i++)
-    {
-        let vHeaderValue = fTPModel.getHeaderData(i,Qt.Vertical);
-        let rowHeight = fTPModel.rowHeightAt(i);
-        fTPBody.setRowHeight(i,rowHeight);
-        fTPBody.setVerticalHeaderDataAt(i,vHeaderValue);
-    }
-    fTPBody.requestUpdateCells();
 }
 
 function setViewPosition(x,y)

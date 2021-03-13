@@ -14,6 +14,7 @@
 #include "localplayerdbcontext.h"
 #include "tournamentmodelbuilder.h"
 #include "playermodelbuilder.h"
+#include "sftpdatamodel.h"
 
 #ifndef TEST_MODE
 
@@ -44,6 +45,7 @@ AbstractApplicationInterface* configureAndInstantiateDart()
 
 void registerCustomTypes()
 {
+    qmlRegisterType<SFTPDataModel>("CustomItems",1,0,"SFTPDataModel");
     qmlRegisterType<FTPDataModel>("CustomItems",1,0,"FTPDataModel");
     qmlRegisterSingletonType(QUrl("qrc:/ThemeContext.qml"),"customDefinitions",1,0,"ThemeContext");
     qmlRegisterSingletonType(QUrl("qrc:/TournamentContext.qml"),"CustomValues",1,0,"TournamentContext");
