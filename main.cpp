@@ -18,7 +18,7 @@
 
 #ifndef TEST_MODE
 
-AbstractApplicationInterface* configureAndInstantiateDart()
+AbstractApplicationInterface* createDartApplication()
 {
     auto tournamentModelsContext =
             LocalTournamentModelsContext::createInstance()->
@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
      * Configue DartApplication
      * Instantiate DartApplication
      */
-    auto _dart = configureAndInstantiateDart();
+    auto _dart = createDartApplication();
     /*
      * Register custom types/singletons
      */

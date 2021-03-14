@@ -18,6 +18,7 @@ SOURCES += \
         dartapplication.cpp \
         ftpdatamodel.cpp \
         ftpscorecontroller.cpp \
+        iurlparser.cpp \
         localftpcontroller.cpp \
         localplayerdbcontext.cpp \
         localplayermodelscontext.cpp \
@@ -25,10 +26,12 @@ SOURCES += \
         localtournamentmodelscontext.cpp \
         main.cpp \
         modelscontextinterface.cpp \
+        networkmanager.cpp \
         pointlogisticcontroller.cpp \
         scoreindexcontroller.cpp \
         scorelogisticcontroller.cpp \
-        sftpdatamodel.cpp
+        sftpdatamodel.cpp \
+        urlparser.cpp \
 
 RESOURCES += qml.qrc
 
@@ -76,6 +79,7 @@ HEADERS += \
     iresponseinterface.h \
     iscoremodel.h \
     itournamentmodelbuilder.h \
+    iurlparser.h \
     localftpcontroller.h \
     localplayerdbcontext.h \
     localplayermodelscontext.h \
@@ -84,6 +88,7 @@ HEADERS += \
     modelbuildercontext.h \
     modelinterface.h \
     modelscontextinterface.h \
+    networkmanager.h \
     persistenceinterface.h \
     player.h \
     playermodelbuilder.h \
@@ -92,6 +97,7 @@ HEADERS += \
     pointScoreCalculator.h \
     pointlogisticcontroller.h \
     pointvalidator.h \
+    replytimeout.h \
     scoreCalculatorInterface.h \
     scorecalculator.h \
     scoreindexcontroller.h \
@@ -99,6 +105,7 @@ HEADERS += \
     sftpdatamodel.h \
     tournamentmodelbuilder.h \
     tournamentmodelscontextinterface.h \
+    urlparser.h \
     userscorescontrollerinterface.h
 
 DISTFILES += \
