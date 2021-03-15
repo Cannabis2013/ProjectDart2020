@@ -108,10 +108,11 @@ bool LocalTournamentModelsContext::removeTournament(const QUuid &tournament)
 
 bool LocalTournamentModelsContext::removeTournamentsFromIndexes(const QVector<int> &indexes)
 {
-    for (auto index : indexes) {
-        auto tournamentId = tournamentIdFromIndex(index);
+    QVector<QUuid> tournamentIds;
+    for (auto index : indexes)
+        tournamentIds << tournamentIdFromIndex(index);
+    for (auto tournamentId : tournamentIds)
         removeTournament(tournamentId);
-    }
     // Persists changes
     write();
     return true;
