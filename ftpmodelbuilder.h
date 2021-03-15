@@ -7,8 +7,8 @@
 #include "ftptournament.h"
 #include "firsttopostscore.h"
 
-typedef FTPTournamentModelInterface<QUuid,QVector<QUuid>,QString> DefaultTournamentInterface;
-typedef IScore<QUuid> DefaultScoreInterface;
+typedef FTPTournamentModelInterface<QUuid,QVector<QUuid>,QString> FTPInterface;
+typedef IScore<QUuid> FTPScoreInterface;
 
 
 namespace DefaultModelBuilderContext
@@ -16,16 +16,16 @@ namespace DefaultModelBuilderContext
     enum ModelType {TournamentModel = 0x00,RoundModel = 0x02, SetModel = 0x04, ScoreModel = 0x06};
 };
 
-class TournamentModelBuilder :
-        public ITournamentModelBuilder<DefaultTournamentInterface,
+class FTPModelBuilder :
+        public ITournamentModelBuilder<FTPInterface,
                                        FTPParameters,
-                                       DefaultScoreInterface,
+                                       FTPScoreInterface,
                                        FTPScoreParameters,
                                        ModelOptions>
 {
 public:
     // ITournamentModelBuilder interface
-    DefaultTournamentInterface *buildFTPTournament(const FTPParameters& params,
+    FTPInterface *buildFTPTournament(const FTPParameters& params,
                                                      const ModelOptions& options) override
     {
         auto t = FTPTournament::createInstance()
@@ -47,7 +47,7 @@ public:
         return t;
 
     }
-    DefaultScoreInterface *buildScoreModel(const FTPScoreParameters& params,
+    FTPScoreInterface *buildScoreModel(const FTPScoreParameters& params,
                                            const ModelOptions& options) override
     {
         auto t = FirstToPostScore::createInstance()

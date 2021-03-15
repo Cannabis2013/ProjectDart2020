@@ -16,18 +16,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         abstractjsonpersistence.cpp \
         dartapplication.cpp \
-    defaultmodelscontext.cpp \
     defaultmodelsdbcontext.cpp \
         ftpdatamodel.cpp \
         ftpscorecontroller.cpp \
         iurlparser.cpp \
         localftpcontroller.cpp \
+    localmodelscontext.cpp \
         localplayerdbcontext.cpp \
         localplayermodelscontext.cpp \
         localtournamentmodelscontext.cpp \
         main.cpp \
         networkmanager.cpp \
         pointlogisticcontroller.cpp \
+    remotemodelscontext.cpp \
         scoreindexcontroller.cpp \
         scorelogisticcontroller.cpp \
         sftpdatamodel.cpp \
@@ -61,11 +62,11 @@ HEADERS += \
     abstractmodelscontext.h \
     abstractpersistence.h \
     dartapplication.h \
-    defaultmodelscontext.h \
     defaultmodelsdbcontext.h \
     firsttopostscore.h \
     ftpdatamodel.h \
     ftplogisticcontrollerinterface.h \
+    ftpmodelbuilder.h \
     ftpscorecontroller.h \
     ftptournament.h \
     ftptournamentmodelinterface.h \
@@ -83,6 +84,7 @@ HEADERS += \
     itournamentmodelbuilder.h \
     iurlparser.h \
     localftpcontroller.h \
+    localmodelscontext.h \
     localplayerdbcontext.h \
     localplayermodelscontext.h \
     localtournamentmodelscontext.h \
@@ -97,13 +99,13 @@ HEADERS += \
     pointScoreCalculator.h \
     pointlogisticcontroller.h \
     pointvalidator.h \
+    remotemodelscontext.h \
     replytimeout.h \
     scoreCalculatorInterface.h \
     scorecalculator.h \
     scoreindexcontroller.h \
     scorelogisticcontroller.h \
     sftpdatamodel.h \
-    tournamentmodelbuilder.h \
     tournamentmodelscontextinterface.h \
     urlparser.h \
     userscorescontrollerinterface.h

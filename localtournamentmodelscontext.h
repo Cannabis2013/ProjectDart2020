@@ -26,14 +26,14 @@ public:
 
 
 
-typedef FTPTournamentModelInterface<QUuid,QVector<QUuid>,QString> DefaultTournamentInterface;
-typedef IScore<QUuid> DefaultScoreInterface;
+typedef FTPTournamentModelInterface<QUuid,QVector<QUuid>,QString> FTPInterface;
+typedef IScore<QUuid> FTPScoreInterface;
 
-typedef ITournamentModelBuilder<DefaultTournamentInterface,
+typedef ITournamentModelBuilder<FTPInterface,
                                 FTPParameters,
-                                DefaultScoreInterface,
+                                FTPScoreInterface,
                                 FTPScoreParameters,
-                                ModelOptions> DefaultTournamentModelBuilder;
+                                ModelOptions> FTPModelBuilderInterface;
 
 class LocalTournamentModelsContext :
         public TournamentModelsContextInterface,
@@ -72,8 +72,8 @@ public:
     /*
      * Model builder
      */
-    LocalTournamentModelsContext *setModelBuilder(DefaultTournamentModelBuilder *builder);
-    DefaultTournamentModelBuilder *modelBuilder();
+    LocalTournamentModelsContext *setModelBuilder(FTPModelBuilderInterface *builder);
+    FTPModelBuilderInterface *modelBuilder();
 
     /*
      * Tournament related section
@@ -168,8 +168,8 @@ private:
     /*
      * Get tournament model
      */
-    const DefaultTournamentInterface *getTournamentModelFromID(const QUuid &id);
-    const DefaultScoreInterface *getScoreModelFromID(const QUuid &id);
+    const FTPInterface *getTournamentModelFromID(const QUuid &id);
+    const FTPScoreInterface *getScoreModelFromID(const QUuid &id);
     /*
      * Extract models from JSO
      */
@@ -194,7 +194,7 @@ private:
                          const bool &generateID = true,
                          const QUuid &id = QUuid());
 
-    DefaultTournamentModelBuilder *_tournamentModelBuilder;
+    FTPModelBuilderInterface *_tournamentModelBuilder;
 
     ImodelsDBContext<ModelInterface<QUuid>,QString>* _dbContext;
 };

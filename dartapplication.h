@@ -39,8 +39,8 @@ public:
     /*
      * Get/set modelcontext interface
      */
-    AbstractModelsContextInterface *modelsContextInterface() const;
-    DartApplication* setModelsContextInterface(AbstractModelsContextInterface *modelsInterface);
+    AbstractModelsContext *modelsContextInterface() const;
+    DartApplication* setModelsContextInterface(AbstractModelsContext *modelsInterface);
     /*
      * Get/set GameControllerBuilder
      */
@@ -118,7 +118,7 @@ signals:
                                const QVector<QUuid> &userIds,
                                const QVector<QString> &playerNames,
                                AbstractApplicationInterface* applicationsInteface,
-                               AbstractModelsContextInterface* modelsContextInterface);
+                               AbstractModelsContext* modelsContextInterface);
 private slots:
     void assembleAndConfigureControllerBuilder(const QVector<QUuid>& idAndWinner,
                                     const QVector<int> &values,
@@ -145,7 +145,7 @@ private:
     QThread* _modelsContextInterfaceThread = new QThread();
     QThread *_gameControllerThread = new QThread();
     AbstractControllerBuilder *_controllerBuilder;
-    AbstractModelsContextInterface* _modelsContext;
+    AbstractModelsContext* _modelsContext;
     AbstractGameController *_gameController = nullptr;
 };
 

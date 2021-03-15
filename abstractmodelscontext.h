@@ -7,7 +7,7 @@
 
 typedef QList<QPair<QUuid,QString>> PlayerPairs;
 
-class AbstractModelsContextInterface : public QObject,
+class AbstractModelsContext : public QObject,
         public IResponseInterface<QVariantList>
 {
     Q_OBJECT
@@ -15,7 +15,7 @@ public:
     /*
      * Destructor
      */
-    virtual ~AbstractModelsContextInterface() = default;
+    virtual ~AbstractModelsContext() = default;
     /*
      * Tournament-models context interface..
      */

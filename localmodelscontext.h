@@ -5,12 +5,12 @@
 #include "abstractmodelscontext.h"
 #include "localtournamentmodelscontext.h"
 #include "localplayermodelscontext.h"
-#include "tournamentmodelbuilder.h"
+#include "ftpmodelbuilder.h"
 #include "playermodelbuilder.h"
 #include "defaultmodelsdbcontext.h"
 
 
-class DefaultModelsContext : public AbstractModelsContext
+class LocalModelsContext : public AbstractModelsContext
 {
 public:
     /*
@@ -43,19 +43,16 @@ public:
      * Destructor
      *  - Delete contexts to persists changes
      */
-    ~DefaultModelsContext();
+    ~LocalModelsContext();
     /*
      * Create instance
      */
-    static DefaultModelsContext* createInstance();
-
-
-
+    static LocalModelsContext* createInstance();
     TournamentModelsContextInterface* tournamentModelsContext() const;
-    DefaultModelsContext *setTournamentModelsContext(TournamentModelsContextInterface* tournamentModelsContext);
+    LocalModelsContext *setTournamentModelsContext(TournamentModelsContextInterface* tournamentModelsContext);
 
     PlayerModelsContextInterface* playerModelsContext() const;
-    DefaultModelsContext *setPlayerModelsContext(PlayerModelsContextInterface *playerModelsContext);
+    LocalModelsContext *setPlayerModelsContext(PlayerModelsContextInterface *playerModelsContext);
 public slots:
     /*
      * Tournament models context interface..

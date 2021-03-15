@@ -44,13 +44,13 @@ LocalTournamentModelsContext* LocalTournamentModelsContext::setup()
     return this;
 }
 
-LocalTournamentModelsContext *LocalTournamentModelsContext::setModelBuilder(DefaultTournamentModelBuilder *builder)
+LocalTournamentModelsContext *LocalTournamentModelsContext::setModelBuilder(FTPModelBuilderInterface *builder)
 {
     _tournamentModelBuilder = builder;
     return this;
 }
 
-DefaultTournamentModelBuilder *LocalTournamentModelsContext::modelBuilder()
+FTPModelBuilderInterface *LocalTournamentModelsContext::modelBuilder()
 {
     return _tournamentModelBuilder;
 }
@@ -122,7 +122,7 @@ bool LocalTournamentModelsContext::removeTournamentsFromIndexes(const QVector<in
 QUuid LocalTournamentModelsContext::tournamentIdFromIndex(const int &index)
 {
     try {
-        auto tournament = dynamic_cast<const DefaultTournamentInterface*>(modelDBContext()->model("Tournament",index));
+        auto tournament = dynamic_cast<const FTPInterface*>(modelDBContext()->model("Tournament",index));
         auto id = tournament->id();
         return id;
 
@@ -530,7 +530,7 @@ QList<QUuid> LocalTournamentModelsContext::pointModels(const QUuid &player)
     QList<QUuid> resultingList;
     auto models = modelDBContext()->models("Score");
     for (auto model : models) {
-        auto scoreModel = dynamic_cast<const DefaultScoreInterface*>(model);
+        auto scoreModel = dynamic_cast<const FTPScoreInterface*>(model);
         auto pointID = model->id();
         if(scoreModel->player() == player)
             resultingList << pointID;
@@ -619,24 +619,24 @@ QUuid LocalTournamentModelsContext::playerScore(const QUuid &tournament,
     throw "Object not found";
 }
 
-const DefaultTournamentInterface *LocalTournamentModelsContext::getTournamentModelFromID(const QUuid &id)
+const FTPInterface *LocalTournamentModelsContext::getTournamentModelFromID(const QUuid &id)
 {
     auto models = modelDBContext()->models("Tournament");
     for (auto model : models) {
         if(model->id() == id)
-            return dynamic_cast<const DefaultTournamentInterface*>(model);
+            return dynamic_cast<const FTPInterface*>(model);
     }
 
     throw THROW_OBJECT_WITH_ID_NOT_FOUND(id.toString());
 }
 
-const DefaultScoreInterface *LocalTournamentModelsContext::getScoreModelFromID(const QUuid &id)
+const FTPScoreInterface *LocalTournamentModelsContext::getScoreModelFromID(const QUuid &id)
 {
     auto models = modelDBContext()->models("Score");
     for (auto model : models)
     {
         if(model->id() == id)
-            return dynamic_cast<const DefaultScoreInterface*>(model);
+            return dynamic_cast<const FTPScoreInterface*>(model);
     }
 
     throw THROW_OBJECT_WITH_ID_NOT_FOUND(id.toString());
@@ -898,7 +898,7 @@ int LocalTournamentModelsContext::playerScoreCount(const int &hint)
     auto count = 0;
     auto models = modelDBContext()->models("Score");
     for (auto model : models) {
-        auto scoreModel = dynamic_cast<const DefaultScoreInterface*>(model);
+        auto scoreModel = dynamic_cast<const FTPScoreInterface*>(model);
         if(scoreModel->hint() == hint || hint == allHints)
             count++;
     }

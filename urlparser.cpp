@@ -7,8 +7,8 @@ UrlParser::UrlParser()
 
 QUrl UrlParser::parseUrl(const QString &baseUrl,
                         const QString &method,
-                        const QString &nonQueryParameter,
-                        const QString &queryParameter)
+                        const QString &paramterString,
+                        const QString &queryString)
 {
     /*
      * Template: {baseUrl}/{Method}/{urlParameter}?code={userCode}
@@ -17,20 +17,20 @@ QUrl UrlParser::parseUrl(const QString &baseUrl,
 
     QString hostUrl = baseUrl;
     QString urlMethod = method;
-    QString urlCode = queryParameter;
+    QString urlCode = queryString;
 
     if(hostUrl.at(hostUrl.length() - 1) != '/')
         hostUrl.append('/');
 
-    if(urlMethod.at(method.length() - 1 ) != '/' && nonQueryParameter != QString())
+    if(urlMethod.at(method.length() - 1 ) != '/' && paramterString != QString())
         urlMethod.append('/');
-    else if(urlMethod.at(method.length() - 1 ) == '/' && nonQueryParameter == QString())
+    else if(urlMethod.at(method.length() - 1 ) == '/' && paramterString == QString())
         urlMethod.remove(urlMethod.count() -1,1);
 
     hostUrl += urlMethod;
 
-    if(nonQueryParameter != QString())
-        hostUrl += nonQueryParameter;
+    if(paramterString != QString())
+        hostUrl += paramterString;
 
     if(urlCode != QString())
         hostUrl += "?code=" + urlCode;

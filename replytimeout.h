@@ -17,9 +17,13 @@ public:
     enum HandleMethod { Abort, Close };
     ReplyTimeout(QNetworkReply* reply,
                  const int timeout,
-                 HandleMethod method = Abort) :
+                 HandleMethod method = Abort,
+                 QObject* reciever = nullptr,
+                 const char* timeoutSlot = nullptr) :
         QObject(reply), _method(method)
     {
+        if(timeoutSlot != nullptr && reciever != nullptr)
+            connect(this,SIGNAL(timeoutOccured()),reciever,SLOT(timeoutSlot));
         if (reply->isRunning())
         {
           _timer.start(timeout, this);
@@ -28,10 +32,12 @@ public:
     }
     static void setTimer(QNetworkReply* reply,
                          const int timeout,
-                         HandleMethod method = Abort)
+                         HandleMethod method = Abort,
+                         QObject* reciever = nullptr,
+                         const char* timeoutSlot = nullptr)
     {
         if(timeout > 5)
-            new ReplyTimeout(reply, timeout,method);
+            new ReplyTimeout(reply, timeout,method,reciever,timeoutSlot);
     }
 
 signals:

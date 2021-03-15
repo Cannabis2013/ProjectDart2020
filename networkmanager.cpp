@@ -6,18 +6,19 @@ NetworkManager::NetworkManager(const QString &serverHostUrl, const QString &code
     _netMng = new QNetworkAccessManager();
 
     connect(_netMng,&QNetworkAccessManager::sslErrors,this,&NetworkManager::handleSslErrors);
-    setParserService(new UrlParser());
-
 }
 
 void NetworkManager::sendGetRequest(const QString &method,
                                     const QString &urlParameter,
                                     QObject *reciever,
-                                    const char *slot)
+                                    const char *slot,
+                                    const char* timeoutSlot)
 {
     QUrl fullServerUrl = _parserService->parseUrl(_baseUrl,method,urlParameter,_userCode);
 
     tempReply = _netMng->get(QNetworkRequest(fullServerUrl));
+    auto req = QNetworkRequest();
+
 
     _responseTimer.start();
 
@@ -28,40 +29,38 @@ void NetworkManager::sendGetRequest(const QString &method,
 
     ReplyTimeout::setTimer(tempReply,
                            timeoutThreshold(),
-                           ReplyTimeout::Abort);
+                           ReplyTimeout::Abort,
+                           reciever, timeoutSlot);
 }
 
 void NetworkManager::sendPostRequest(const QString &method,
                                      const QByteArray &data,
                                      const QString &urlParameter,
                                      QObject* reciever,
-                                     const char* slot)
+                                     const char* slot,
+                                     const char* timeoutSlot)
 {
     QUrl fullServerUrl = _parserService->parseUrl(_baseUrl,method,urlParameter,_userCode);
-
     QNetworkRequest req(fullServerUrl);
-
     req.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     tempReply = _netMng->post(req,data);
-
-
     _responseTimer.start();
-
     if(slot != nullptr)
         connect(tempReply,SIGNAL(finished()),reciever,slot);
     else
         connect(tempReply,SIGNAL(finished()),this,SLOT(handleReply()));
-
     ReplyTimeout::setTimer(tempReply,
                            timeoutThreshold(),
-                           ReplyTimeout::Abort);
+                           ReplyTimeout::Abort,
+                           reciever,timeoutSlot);
 }
 
 
 void NetworkManager::sendDeleteRequest(const QString &method,
                                        const QString &urlParameter,
                                        QObject *reciever,
-                                       const char* slot)
+                                       const char* slot,
+                                       const char* timeoutSlot)
 {
     QUrl fullServerUrl = _parserService->parseUrl(_baseUrl,method,urlParameter,_userCode);
     tempReply = _netMng->deleteResource(QNetworkRequest(fullServerUrl));
@@ -77,7 +76,9 @@ void NetworkManager::sendDeleteRequest(const QString &method,
 
     ReplyTimeout::setTimer(tempReply,
                            timeoutThreshold(),
-                           ReplyTimeout::Abort);
+                           ReplyTimeout::Abort,
+                           reciever,
+                           timeoutSlot);
 }
 
 void NetworkManager::handleSslErrors(QNetworkReply *reply, const QList<QSslError> &errors)
@@ -128,12 +129,12 @@ QString NetworkManager::baseUrl() const
 }
 
 
-void NetworkManager::setParserService(IParserService *t)
+void NetworkManager::setParserService(IParserService<QUrl, QString> *t)
 {
     _parserService = t;
 }
 
-const IParserService *NetworkManager::parserService()
+const IParserService<QUrl, QString> *NetworkManager::parserService()
 {
     return _parserService;
 }
