@@ -16,16 +16,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         abstractjsonpersistence.cpp \
         dartapplication.cpp \
+    defaultmodelscontext.cpp \
+    defaultmodelsdbcontext.cpp \
         ftpdatamodel.cpp \
         ftpscorecontroller.cpp \
         iurlparser.cpp \
         localftpcontroller.cpp \
         localplayerdbcontext.cpp \
         localplayermodelscontext.cpp \
-        localtournamentmodeldb.cpp \
         localtournamentmodelscontext.cpp \
         main.cpp \
-        modelscontextinterface.cpp \
         networkmanager.cpp \
         pointlogisticcontroller.cpp \
         scoreindexcontroller.cpp \
@@ -58,9 +58,11 @@ HEADERS += \
     abstractcontrollerbuilder.h \
     abstractgamecontroller.h \
     abstractjsonpersistence.h \
-    abstractmodelscontextinterface.h \
+    abstractmodelscontext.h \
     abstractpersistence.h \
     dartapplication.h \
+    defaultmodelscontext.h \
+    defaultmodelsdbcontext.h \
     firsttopostscore.h \
     ftpdatamodel.h \
     ftplogisticcontrollerinterface.h \
@@ -83,11 +85,9 @@ HEADERS += \
     localftpcontroller.h \
     localplayerdbcontext.h \
     localplayermodelscontext.h \
-    localtournamentmodeldb.h \
     localtournamentmodelscontext.h \
     modelbuildercontext.h \
     modelinterface.h \
-    modelscontextinterface.h \
     networkmanager.h \
     persistenceinterface.h \
     player.h \

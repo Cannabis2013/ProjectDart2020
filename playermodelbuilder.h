@@ -8,8 +8,8 @@
 
 #include "playermodelbuildercontext.h"
 
-typedef IPlayerModel<QUuid,QString> DefaultPlayerModelInterface;
-typedef IPlayerModelBuilder<DefaultPlayerModelInterface,IPlayerBuilderParameters<QString,QUuid>,IPlayerModelOptions<QUuid>> PlayerBuilder;
+typedef IPlayerModel<QUuid,QString> IDefaultPlayerModel;
+typedef IPlayerModelBuilder<IDefaultPlayerModel,IPlayerBuilderParameters<QString,QUuid>,IPlayerModelOptions<QUuid>> PlayerBuilder;
 
 class PlayerModelBuilder : public PlayerBuilder
 {
@@ -18,9 +18,9 @@ public:
 
     // IDataModelBuilder interface
 public:
-    DefaultPlayerModelInterface *buildPlayerModel(const IPlayerBuilderParameters<QString,QUuid> &params, const IPlayerModelOptions<QUuid> &options) override
+    IDefaultPlayerModel *buildPlayerModel(const IPlayerBuilderParameters<QString,QUuid> &params, const IPlayerModelOptions<QUuid> &options) override
     {
-        DefaultPlayerModelInterface* model = new Player();
+        IDefaultPlayerModel* model = new Player();
         auto mail = params.eMail() != "" ? params.eMail() : "defaultsucker@mail.com";
         model->setId(QUuid::createUuid());
         model->setUserName(params.playerName());

@@ -1,38 +1,51 @@
-#include "modelscontextinterface.h"
+#include "defaultmodelscontextinterface.h"
 
-ModelsContextInterface::~ModelsContextInterface()
+DefaultModelsContextInterface::~DefaultModelsContextInterface()
 {
     delete _tournamentModelsContext;
     delete _playerModelsContext;
 }
 
-ModelsContextInterface *ModelsContextInterface::createInstance()
+DefaultModelsContextInterface *DefaultModelsContextInterface::createInstance()
 {
-    return new ModelsContextInterface();
+    auto dbContext = new DefaultModelsDbContext();
+    auto tournamentModelsContext =
+            LocalTournamentModelsContext::createInstance()
+            ->setModelBuilder(new TournamentModelBuilder())
+            ->setModelDBContext(dbContext)
+            ->setup();
+    auto playerModelsContext =
+            LocalPlayerModelsContext::createInstance()
+            ->setPlayerBuilder(new PlayerModelBuilder())
+            ->setModelDBContext(dbContext)
+            ->setup();
+    return (new DefaultModelsContextInterface)
+            ->setTournamentModelsContext(tournamentModelsContext)
+            ->setPlayerModelsContext(playerModelsContext);
 }
-TournamentModelsContextInterface* ModelsContextInterface::tournamentModelsContext() const
+TournamentModelsContextInterface* DefaultModelsContextInterface::tournamentModelsContext() const
 {
     return _tournamentModelsContext;
 }
 
-ModelsContextInterface* ModelsContextInterface::setTournamentModelsContext(TournamentModelsContextInterface *tournamentModelsContext)
+DefaultModelsContextInterface* DefaultModelsContextInterface::setTournamentModelsContext(TournamentModelsContextInterface *tournamentModelsContext)
 {
     _tournamentModelsContext = tournamentModelsContext;
     return this;
 }
 
-PlayerModelsContextInterface *ModelsContextInterface::playerModelsContext() const
+PlayerModelsContextInterface *DefaultModelsContextInterface::playerModelsContext() const
 {
     return _playerModelsContext;
 }
 
-ModelsContextInterface* ModelsContextInterface::setPlayerModelsContext(PlayerModelsContextInterface *playerModelsContext)
+DefaultModelsContextInterface* DefaultModelsContextInterface::setPlayerModelsContext(PlayerModelsContextInterface *playerModelsContext)
 {
     _playerModelsContext = playerModelsContext;
     return this;
 }
 
-void ModelsContextInterface::handleRequestForAddFTPTournament(const QString &title,
+void DefaultModelsContextInterface::handleRequestForAddFTPTournament(const QString &title,
                                                               const QVector<int> &data,
                                                               const QVector<int> &assignedPlayerIndexes)
 {
@@ -44,28 +57,28 @@ void ModelsContextInterface::handleRequestForAddFTPTournament(const QString &tit
 
 }
 
-void ModelsContextInterface::handleAssignPlayersToTournament(const QUuid &tournament,
+void DefaultModelsContextInterface::handleAssignPlayersToTournament(const QUuid &tournament,
                                                              const QList<QUuid> &playersID)
 {
     for (auto playerID : playersID)
         tournamentModelsContext()->assignPlayerToTournament(tournament,playerID);
 }
 
-void ModelsContextInterface::handleDeleteTournaments(const QVector<int> &indexes)
+void DefaultModelsContextInterface::handleDeleteTournaments(const QVector<int> &indexes)
 {
     // TODO: Implement return functionality later
     auto status = tournamentModelsContext()->removeTournamentsFromIndexes(indexes);
     emit tournamentsDeletedSuccess(status);
 }
 
-void ModelsContextInterface::handleRequestAssignedPlayers(const QUuid &tournament)
+void DefaultModelsContextInterface::handleRequestAssignedPlayers(const QUuid &tournament)
 {
     auto assignedPlayersID = tournamentModelsContext()->tournamentAssignedPlayers(tournament);
     auto assignedPlayerNames = playerModelsContext()->assemblePlayerNamesFromIds(assignedPlayersID);
     emit sendAssignedPlayerNames(assignedPlayerNames);
 }
 
-void ModelsContextInterface::handleTransmitPlayerScores(const QUuid &tournament)
+void DefaultModelsContextInterface::handleTransmitPlayerScores(const QUuid &tournament)
 {
     QVariantList list;
     auto numberOfThrows = tournamentModelsContext()->tournamentAttempts(tournament);
@@ -109,7 +122,7 @@ void ModelsContextInterface::handleTransmitPlayerScores(const QUuid &tournament)
     emit transmitResponse(TournamentModelsContextResponse::EndOfTransmission,{list});
 }
 
-void ModelsContextInterface::handleTransmitTournamentData()
+void DefaultModelsContextInterface::handleTransmitTournamentData()
 {
     auto count = tournamentModelsContext()->tournamentsCount();
     for (int i = 0; i < count; ++i) {
@@ -122,7 +135,7 @@ void ModelsContextInterface::handleTransmitTournamentData()
     emit lastTournamentTransmitted();
 }
 
-void ModelsContextInterface::handleRequestTournamentGameMode(const int &index)
+void DefaultModelsContextInterface::handleRequestTournamentGameMode(const int &index)
 {
     QUuid tournamentId;
     try {
@@ -133,7 +146,7 @@ void ModelsContextInterface::handleRequestTournamentGameMode(const int &index)
     auto gameMode = tournamentModelsContext()->tournamentGameMode(tournamentId);
     emit requestAssembleTournament(tournamentId,gameMode);
 }
-void ModelsContextInterface::handleAddScore(const QUuid &tournament,
+void DefaultModelsContextInterface::handleAddScore(const QUuid &tournament,
                                             const QUuid &player,
                                             const QVector<int> &dataValues,
                                             const bool &isWinnerDetermined)
@@ -145,7 +158,7 @@ void ModelsContextInterface::handleAddScore(const QUuid &tournament,
     emit scoreAddedToDataContext(player,dataValues.at(3),dataValues.at(4));
 }
 
-void ModelsContextInterface::handleRequestSetScoreHint(const QUuid &tournament,
+void DefaultModelsContextInterface::handleRequestSetScoreHint(const QUuid &tournament,
                                                       const QUuid &player,
                                                       const int &roundIndex,
                                                       const int &throwIndex, const int &hint)
@@ -168,7 +181,7 @@ void ModelsContextInterface::handleRequestSetScoreHint(const QUuid &tournament,
     emit scoreHintUpdated(player,point,score);
 }
 
-void ModelsContextInterface::handleResetTournament(const QUuid &tournament)
+void DefaultModelsContextInterface::handleResetTournament(const QUuid &tournament)
 {
     /*
      * - Remove models associated to the tournament
@@ -179,7 +192,7 @@ void ModelsContextInterface::handleResetTournament(const QUuid &tournament)
     emit tournamentResetSuccess();
 }
 
-void ModelsContextInterface::handleRequestFTPDetails(const QUuid &tournament)
+void DefaultModelsContextInterface::handleRequestFTPDetails(const QUuid &tournament)
 {
     QVector<int> tournamentValues = {
         tournamentModelsContext()->tournamentGameMode(tournament),
@@ -208,7 +221,7 @@ void ModelsContextInterface::handleRequestFTPDetails(const QUuid &tournament)
                                   assignedPlayerNames);
 }
 
-void ModelsContextInterface::handleCreatePlayer(const QString &name, const QString &mail)
+void DefaultModelsContextInterface::handleCreatePlayer(const QString &name, const QString &mail)
 {
     auto id = playerModelsContext()->createPlayer(name,mail);
     auto status = id != QUuid() ? true :
@@ -219,19 +232,19 @@ void ModelsContextInterface::handleCreatePlayer(const QString &name, const QStri
     emit confirmPlayerCreated(status);
 }
 
-void ModelsContextInterface::handleDeletePlayerFromIndex(const int &index)
+void DefaultModelsContextInterface::handleDeletePlayerFromIndex(const int &index)
 {
     auto status = playerModelsContext()->deletePlayer(index);
     emit playersDeletedStatus(status);
 }
 
-void ModelsContextInterface::handleDeletePlayersFromIndexes(const QVector<int> &indexes)
+void DefaultModelsContextInterface::handleDeletePlayersFromIndexes(const QVector<int> &indexes)
 {
     auto status = playerModelsContext()->deletePlayers(indexes);
     emit playersDeletedStatus(status);
 }
 
-void ModelsContextInterface::handleRequestPlayersDetails()
+void DefaultModelsContextInterface::handleRequestPlayersDetails()
 {
     auto count = playerModelsContext()->playersCount();
     for (int i = 0; i < count; ++i) {
@@ -243,13 +256,13 @@ void ModelsContextInterface::handleRequestPlayersDetails()
     emit lastPlayerDetailTransmitted();
 }
 
-void ModelsContextInterface::handleRequestPersistTournamentState()
+void DefaultModelsContextInterface::handleRequestPersistTournamentState()
 {
     tournamentModelsContext()->write();
     emit tournamentModelsStatePersisted();
 }
 
-void ModelsContextInterface::assembleTournamentMetaDataFromId(const QUuid &tournament)
+void DefaultModelsContextInterface::assembleTournamentMetaDataFromId(const QUuid &tournament)
 {
     auto title = tournamentModelsContext()->tournamentTitle(tournament);
     // Get winner name from id, if any

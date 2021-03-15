@@ -4,7 +4,7 @@
 #include <quuid.h>
 #include <QMultiHash>
 #include "imodelsdbcontext.h"
-#include "tournamentmodelbuilder.h"
+#include "modelinterface.h"
 
 #include "persistenceinterface.h"
 #include "abstractpersistence.h"
@@ -12,22 +12,13 @@
 #include <qjsonobject.h>
 #include <qjsonarray.h>
 
-class LocalTournamentModelDB :
+class DefaultModelsDbContext :
         public ImodelsDBContext<ModelInterface<QUuid>,QString>
 {
 public:
-    /*
-     * Public types
-     */
-    enum GameModes {
-        FirstToPost = 0x1,
-        RoundLimit =0x2,
-        Circular = 0x3,
-        Cricket = 0x4
-    };
-    LocalTournamentModelDB();
-    ~LocalTournamentModelDB();
-    const QStringList acceptedModelTypes = {"Tournament", "Round", "Set", "Score"};
+    DefaultModelsDbContext();
+    ~DefaultModelsDbContext();
+    const QStringList acceptedModelTypes = {"Tournament", "Player", "Score"};
 
     // IModelDBContext interface
     bool addModel(const QString &type, const ModelInterface<QUuid> *model) override;

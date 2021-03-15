@@ -1,14 +1,14 @@
-#include "localtournamentmodeldb.h"
+#include "defaultmodelsdbcontext.h"
 
-LocalTournamentModelDB::LocalTournamentModelDB()
+DefaultModelsDbContext::DefaultModelsDbContext()
 {
 }
 
-LocalTournamentModelDB::~LocalTournamentModelDB()
+DefaultModelsDbContext::~DefaultModelsDbContext()
 {
 }
 
-bool LocalTournamentModelDB::addModel(const QString &type, const ModelInterface<QUuid> *model)
+bool DefaultModelsDbContext::addModel(const QString &type, const ModelInterface<QUuid> *model)
 {
     if(!acceptedModelTypes.contains(type))
         return false;
@@ -16,7 +16,7 @@ bool LocalTournamentModelDB::addModel(const QString &type, const ModelInterface<
     return true;
 }
 
-bool LocalTournamentModelDB::removeModel(const QString &type, const int &indexOfModel)
+bool DefaultModelsDbContext::removeModel(const QString &type, const int &indexOfModel)
 {
     if(!acceptedModelTypes.contains(type))
         return false;
@@ -28,7 +28,7 @@ bool LocalTournamentModelDB::removeModel(const QString &type, const int &indexOf
     return true;
 }
 
-bool LocalTournamentModelDB::replaceModel(const QString &type, const int &indexOfModel, const ModelInterface<QUuid> *newModel)
+bool DefaultModelsDbContext::replaceModel(const QString &type, const int &indexOfModel, const ModelInterface<QUuid> *newModel)
 {
     if(!acceptedModelTypes.contains(type))
         return false;
@@ -40,7 +40,7 @@ bool LocalTournamentModelDB::replaceModel(const QString &type, const int &indexO
     return true;
 }
 
-const ModelInterface<QUuid> *LocalTournamentModelDB::model(const QString &type, const int &index)
+const ModelInterface<QUuid> *DefaultModelsDbContext::model(const QString &type, const int &index)
 {
     if(!acceptedModelTypes.contains(type))
         throw "Type provided not covered by this context";
@@ -49,7 +49,7 @@ const ModelInterface<QUuid> *LocalTournamentModelDB::model(const QString &type, 
     return model;
 }
 
-int LocalTournamentModelDB::indexOfModel(const QString &type, const ModelInterface<QUuid> *model)
+int DefaultModelsDbContext::indexOfModel(const QString &type, const ModelInterface<QUuid> *model)
 {
     if(!acceptedModelTypes.contains(type))
         return -1;
@@ -58,7 +58,7 @@ int LocalTournamentModelDB::indexOfModel(const QString &type, const ModelInterfa
     return index;
 }
 
-int LocalTournamentModelDB::countOfModels(const QString &type)
+int DefaultModelsDbContext::countOfModels(const QString &type)
 {
     if(!acceptedModelTypes.contains(type))
         return -1;
@@ -66,10 +66,10 @@ int LocalTournamentModelDB::countOfModels(const QString &type)
     return count;
 }
 
-QVector<const ModelInterface<QUuid> *> LocalTournamentModelDB::models(const QString &type)
+QVector<const ModelInterface<QUuid> *> DefaultModelsDbContext::models(const QString &type)
 {
     if(!acceptedModelTypes.contains(type))
-        QVector<const ModelInterface<QUuid>*>();
+        return QVector<const ModelInterface<QUuid>*>();
     auto values = _models.values(type);
     auto models = values.toVector();
     return models;

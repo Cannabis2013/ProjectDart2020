@@ -4,11 +4,11 @@
 #include "IControllerBuilder.h"
 #include <quuid.h>
 #include "abstractgamecontroller.h"
-#include "abstractmodelscontextinterface.h"
+#include "abstractmodelscontext.h"
 #include "AbstractApplicationInterface.h"
 
 typedef IControllerBuilder<AbstractGameController,
-                           AbstractModelsContextInterface,
+                           AbstractModelsContext,
                            AbstractApplicationInterface,
                            QVector<int>,
                            QVector<QUuid>,
@@ -30,7 +30,7 @@ public slots:
                                                               const QVector<QUuid>& userIds,
                                                               const QVector<QString>& userNames,
                                                               AbstractApplicationInterface* applicationInterface,
-                                                              AbstractModelsContextInterface* modelsContext) = 0;
+                                                              AbstractModelsContext* modelsContext) = 0;
 };
 
 #endif // ABSTRACTCONTROLLERBUILDER_H

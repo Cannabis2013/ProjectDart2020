@@ -13,9 +13,10 @@ public:
     {
         return _id;
     }
-    void setId(const QUuid &id) override
+    Player* setId(const QUuid &id) override
     {
         _id = id;
+        return this;
     }
     QString email() const override
     {
@@ -37,9 +38,10 @@ public:
     {
         return _type;
     }
-    void setType(const int &type) override
+    Player* setType(const int &type) override
     {
         _type = type;
+        return this;
     }
     QString playerName() const override
     {
@@ -56,6 +58,14 @@ public:
             return true;
         else
             return false;
+    }
+    virtual ModelInterface *setParent(const QUuid &parent) override
+    {
+        return this;
+    }
+    virtual QUuid parent() const override
+    {
+        return QUuid();
     }
 
 private:

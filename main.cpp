@@ -8,9 +8,8 @@
 #include "gamecontrollerbuilder.h"
 #include "localtournamentmodelscontext.h"
 #include "localplayermodelscontext.h"
-#include "modelscontextinterface.h"
+#include "defaultmodelscontextinterface.h"
 #include "ftpdatamodel.h"
-#include "localtournamentmodeldb.h"
 #include "localplayerdbcontext.h"
 #include "tournamentmodelbuilder.h"
 #include "playermodelbuilder.h"
@@ -20,23 +19,10 @@
 
 AbstractApplicationInterface* createDartApplication()
 {
-    auto tournamentModelsContext =
-            LocalTournamentModelsContext::createInstance()->
-            setModelBuilder(new TournamentModelBuilder())->
-            setModelDBContext(new LocalTournamentModelDB())->
-            setup();
-
-    auto playerModelsContext =
-            LocalPlayerModelsContext::createInstance()->
-            setPlayerBuilder(new PlayerModelBuilder())->
-            setModelDBContext(new LocalPlayerDBContext)->
-            setup();
-    auto modelsContext = ModelsContextInterface::createInstance()
-            ->setTournamentModelsContext(tournamentModelsContext)
-            ->setPlayerModelsContext(playerModelsContext);
     auto _dart =
             DartApplication::createInstance()->
-            setModelsContextInterface(modelsContext)->
+            setModelsContextInterface(
+                DefaultModelsContextInterface::createInstance())->
             setControllerBuilder(new GameControllerBuilder())->
             /*useThreads()->*/
             setup();

@@ -41,7 +41,7 @@ public:
                                                       const QVector<QUuid>& userIds,
                                                       const QVector<QString>& userNames,
                                                       AbstractApplicationInterface* applicationInterface,
-                                                      AbstractModelsContextInterface* modelsContext) override
+                                                      AbstractModelsContext* modelsContext) override
     {
         auto tournament = tournamentIdAndWinner[0];
         auto winner = tournamentIdAndWinner[1];
@@ -126,7 +126,7 @@ private:
     }
     void connectFTPControllerWithInterfaces(AbstractGameController* controller,
                                             AbstractApplicationInterface* applicationInterface,
-                                            AbstractModelsContextInterface* modelsContext)
+                                            AbstractModelsContext* modelsContext)
     {
         /*
          * Establish communication between controller and UI
@@ -139,14 +139,14 @@ private:
         connect(applicationInterface,&AbstractApplicationInterface::requestCurrentTournamentId,
                 controller,&AbstractGameController::handleRequestForCurrentTournamentMetaData);
         connect(controller,&AbstractGameController::sendCurrentTournamentId,
-                modelsContext,&AbstractModelsContextInterface::assembleTournamentMetaDataFromId);
+                modelsContext,&AbstractModelsContext::assembleTournamentMetaDataFromId);
         /*
          * Setup request transmitting multithrow playerscores
          */
         connect(applicationInterface,&AbstractApplicationInterface::requestMultiThrowPlayerScores,
                 controller,&AbstractGameController::handleRequestForMultiThrowPlayerScores);
         connect(controller,&AbstractGameController::requestTransmitPlayerScores,
-                modelsContext,&AbstractModelsContextInterface::handleTransmitPlayerScores);
+                modelsContext,&AbstractModelsContext::handleTransmitPlayerScores);
         /*
          * Setup request transmitting singlethrow playerscores
          */
@@ -170,8 +170,8 @@ private:
         connect(applicationInterface,&AbstractApplicationInterface::requestTournamentReset,
                 controller,&AbstractGameController::handleResetTournament);
         connect(controller,&AbstractGameController::requestResetTournament,
-                modelsContext,&AbstractModelsContextInterface::handleResetTournament);
-        connect(modelsContext,&AbstractModelsContextInterface::tournamentResetSuccess,
+                modelsContext,&AbstractModelsContext::handleResetTournament);
+        connect(modelsContext,&AbstractModelsContext::tournamentResetSuccess,
                 controller,&AbstractGameController::handleTournamentResetSuccess);
         /*
          * Add point
@@ -181,8 +181,8 @@ private:
         connect(applicationInterface,&AbstractApplicationInterface::sendPoint,
                 controller,&AbstractGameController::handleAndProcessUserInput);
         connect(controller,&AbstractGameController::requestAddScore,
-                modelsContext,&AbstractModelsContextInterface::handleAddScore);
-        connect(modelsContext,&AbstractModelsContextInterface::scoreAddedToDataContext,
+                modelsContext,&AbstractModelsContext::handleAddScore);
+        connect(modelsContext,&AbstractModelsContext::scoreAddedToDataContext,
                 controller,&AbstractGameController::handleScoreAddedToDataContext);
         /*
          * Undo/redo
@@ -192,8 +192,8 @@ private:
         connect(applicationInterface,&AbstractApplicationInterface::requestRedo,
                 controller,&AbstractGameController::redoTurn);
         connect(controller,&AbstractGameController::requestSetModelHint,
-                modelsContext,&AbstractModelsContextInterface::handleRequestSetScoreHint);
-        connect(modelsContext,&AbstractModelsContextInterface::scoreHintUpdated,
+                modelsContext,&AbstractModelsContext::handleRequestSetScoreHint);
+        connect(modelsContext,&AbstractModelsContext::scoreHintUpdated,
                 controller,&AbstractGameController::handleScoreHintUpdated);
         /*
          * Controller request tournament persistence
@@ -201,7 +201,7 @@ private:
         connect(applicationInterface,&AbstractApplicationInterface::requestPersistTournament,
                 controller,&AbstractGameController::handleRequestPersistCurrentState);
         connect(controller,&AbstractGameController::requestPersistModelState,
-                modelsContext,&AbstractModelsContextInterface::handleRequestPersistTournamentState);
+                modelsContext,&AbstractModelsContext::handleRequestPersistTournamentState);
     }
 };
 

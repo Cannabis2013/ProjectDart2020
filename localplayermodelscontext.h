@@ -14,12 +14,13 @@
 #include "iplayermodelbuilder.h"
 #include "imodelsdbcontext.h"
 
+
 using namespace std;
 
-typedef IPlayerModel<QUuid,QString> DefaultPlayerModelInterface;
+typedef IPlayerModel<QUuid,QString> IDefaultPlayerModel;
 typedef IPlayerBuilderParameters<QString,QUuid> DefaultParametersInterface;
 typedef IPlayerModelOptions<QUuid> DefaultOptionsInterface;
-typedef IPlayerModelBuilder<DefaultPlayerModelInterface,DefaultParametersInterface,DefaultOptionsInterface> DefaultPlayerBuilder;
+typedef IPlayerModelBuilder<IDefaultPlayerModel,DefaultParametersInterface,DefaultOptionsInterface> DefaultPlayerBuilder;
 typedef QList<QPair<QUuid,QString>> PlayerPairs;
 
 namespace PlayerContext {
@@ -28,7 +29,7 @@ namespace PlayerContext {
     class PlayerBuilderParameters;
 }
 
-typedef IPlayerModel<QUuid,QString> DefaultPlayerModelInterface;
+typedef IPlayerModel<QUuid,QString> IDefaultPlayerModel;
 typedef IPlayerBuilderParameters<QString,QUuid> DefaultParametersInterface;
 
 class LocalPlayerModelsContext :
@@ -67,7 +68,7 @@ public:
 
     DefaultPlayerBuilder *playerBuilder();
     LocalPlayerModelsContext* setPlayerBuilder(DefaultPlayerBuilder *builder);
-    LocalPlayerModelsContext* setModelDBContext(ImodelsDBContext<DefaultPlayerModelInterface, QUuid> *context);
+    LocalPlayerModelsContext* setModelDBContext(ImodelsDBContext<ModelInterface<QUuid>,QString> *context);
     /*
      * PlayerModelsInterface interface
      */
@@ -95,14 +96,14 @@ private:
                            const bool &generateID = true,
                            const QUuid &id = QUuid());
 
-    const DefaultPlayerModelInterface *getModel(const QString &playerName);
+    const IDefaultPlayerModel *getModel(const QString &playerName);
 
-    ImodelsDBContext<DefaultPlayerModelInterface, QUuid> *modelDBContext();
+    ImodelsDBContext<ModelInterface<QUuid>, QString> *modelDBContext();
 
     QJsonArray assemblePlayersJSONArray();
     void extractPlayerModelsFromJSON(const QJsonArray &arr);
 
-    ImodelsDBContext<DefaultPlayerModelInterface,QUuid> *_dbContext;
+    ImodelsDBContext<ModelInterface<QUuid>,QString> *_dbContext;
     DefaultPlayerBuilder *_playerBuilder;
 };
 

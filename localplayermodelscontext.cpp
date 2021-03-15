@@ -46,7 +46,7 @@ QVector<QUuid> LocalPlayerModelsContext::assemblePlayerIds(const QVector<int> &i
     return playersId;
 }
 
-ImodelsDBContext<DefaultPlayerModelInterface, QUuid> *LocalPlayerModelsContext::modelDBContext()
+ImodelsDBContext<ModelInterface<QUuid>,QString> *LocalPlayerModelsContext::modelDBContext()
 {
     return _dbContext;
 }
@@ -100,7 +100,7 @@ LocalPlayerModelsContext* LocalPlayerModelsContext::setPlayerBuilder(DefaultPlay
     return this;
 }
 
-LocalPlayerModelsContext* LocalPlayerModelsContext::setModelDBContext(ImodelsDBContext<DefaultPlayerModelInterface, QUuid> *context)
+LocalPlayerModelsContext* LocalPlayerModelsContext::setModelDBContext(ImodelsDBContext<ModelInterface<QUuid>, QString> *context)
 {
     _dbContext = context;
     return this;
@@ -147,7 +147,8 @@ void LocalPlayerModelsContext::deletePlayerByUserName(const QString &playerName)
 {
     auto models = modelDBContext()->models("Player");
     for (auto model : models) {
-        auto uName = model->playerName();
+        auto playerModel = dynamic_cast<const IDefaultPlayerModel*>(model);
+        auto uName = playerModel->playerName();
         if(uName == playerName)
         {
             auto index = modelDBContext()->indexOfModel("Player",model);
@@ -166,7 +167,8 @@ void LocalPlayerModelsContext::deletePlayerByID(const QUuid &player)
         auto modelID = model->id();
         if(modelID == player)
         {
-            modelDBContext()->removeModel(modelID,-1);
+            auto index = modelDBContext()->indexOfModel("Player",model);
+            modelDBContext()->removeModel("Player",index);
             return;
         }
     }
@@ -178,7 +180,8 @@ void LocalPlayerModelsContext::deletePlayerByEmail(const QString &email)
 {
     auto models = modelDBContext()->models("Player");
     for (auto model : models) {
-        auto mailAdress = model->email();
+        auto playerModel = dynamic_cast<const IDefaultPlayerModel*>(model);
+        auto mailAdress = playerModel->email();
         if(mailAdress == email)
         {
             auto index = modelDBContext()->indexOfModel("Player",model);
@@ -203,7 +206,7 @@ QUuid LocalPlayerModelsContext::playerIDFromName(const QString &playerName)
 QUuid LocalPlayerModelsContext::playerIdFromIndex(const int &index)
 {
     try {
-        auto model = modelDBContext()->model(QUuid(),index);
+        auto model = modelDBContext()->model("Player",index);
         auto modelID = model->id();
         return modelID;
     } catch (...) {
@@ -215,9 +218,10 @@ QString LocalPlayerModelsContext::playerNameFromId(const QUuid &id)
 {
     auto models = modelDBContext()->models("Player");
     for (auto model : models) {
-        auto modelID = model->id();
+        auto playerModel = dynamic_cast<const IDefaultPlayerModel*>(model);
+        auto modelID = playerModel->id();
         if(modelID == id)
-            return model->playerName();
+            return playerModel->playerName();
     }
 
     return QString();
@@ -227,9 +231,10 @@ QString LocalPlayerModelsContext::playerMailFromId(const QUuid &id)
 {
     auto models = modelDBContext()->models("Player");
     for (auto model : models) {
+        auto playerModel = dynamic_cast<const IDefaultPlayerModel*>(model);
         auto modelID = model->id();
         if(modelID == id)
-            return model->email();
+            return playerModel->email();
     }
 
     return QString();
@@ -304,7 +309,7 @@ QUuid LocalPlayerModelsContext::buildPlayerModel(const QString &playerName,
         return options;
     }());
     try {
-        modelDBContext()->addModel(model->id(),model);
+        modelDBContext()->addModel("Player",model);
     }  catch (...) {
         return QUuid();
     }
@@ -312,12 +317,13 @@ QUuid LocalPlayerModelsContext::buildPlayerModel(const QString &playerName,
     return modelID;
 }
 
-const DefaultPlayerModelInterface *LocalPlayerModelsContext::getModel(const QString &playerName)
+const IDefaultPlayerModel *LocalPlayerModelsContext::getModel(const QString &playerName)
 {
     auto models = modelDBContext()->models("Player");
     for (auto model : models) {
-        if(model->playerName() == playerName)
-            return model;
+        auto playerModel = dynamic_cast<const IDefaultPlayerModel*>(model);
+        if(playerModel->playerName() == playerName)
+            return playerModel;
     }
 
     throw "Model not found";

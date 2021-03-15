@@ -1,16 +1,12 @@
 #ifndef IMODEL_H
 #define IMODEL_H
 
+#include "modelinterface.h"
+
 template<class TUuid, class TString>
-class IPlayerModel
+class IPlayerModel : public ModelInterface<TUuid>
 {
 public:
-    virtual TUuid id() const = 0;
-    virtual void setId(const TUuid &id) = 0;
-
-    virtual int type() const = 0;
-    virtual void setType(const int &type) = 0;
-
     virtual TString playerName() const = 0;
 
     virtual void setUserName(const TString &name) = 0;

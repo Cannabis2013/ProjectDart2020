@@ -1,13 +1,16 @@
 #ifndef MODELCONTEXTINTERFACE_H
 #define MODELCONTEXTINTERFACE_H
 
-#include "abstractmodelscontextinterface.h"
-#include "tournamentmodelscontextinterface.h"
-#include "playermodelscontextinterface.h"
-
 #include <QVariantList>
+#include "abstractmodelscontext.h"
+#include "localtournamentmodelscontext.h"
+#include "localplayermodelscontext.h"
+#include "tournamentmodelbuilder.h"
+#include "playermodelbuilder.h"
+#include "defaultmodelsdbcontext.h"
 
-class ModelsContextInterface : public AbstractModelsContextInterface
+
+class DefaultModelsContext : public AbstractModelsContext
 {
 public:
     /*
@@ -40,19 +43,19 @@ public:
      * Destructor
      *  - Delete contexts to persists changes
      */
-    ~ModelsContextInterface();
+    ~DefaultModelsContext();
     /*
      * Create instance
      */
-    static ModelsContextInterface* createInstance();
+    static DefaultModelsContext* createInstance();
+
 
 
     TournamentModelsContextInterface* tournamentModelsContext() const;
-    ModelsContextInterface *setTournamentModelsContext(TournamentModelsContextInterface* tournamentModelsContext);
+    DefaultModelsContext *setTournamentModelsContext(TournamentModelsContextInterface* tournamentModelsContext);
 
     PlayerModelsContextInterface* playerModelsContext() const;
-    ModelsContextInterface *setPlayerModelsContext(PlayerModelsContextInterface *playerModelsContext);
-
+    DefaultModelsContext *setPlayerModelsContext(PlayerModelsContextInterface *playerModelsContext);
 public slots:
     /*
      * Tournament models context interface..
