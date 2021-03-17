@@ -4,8 +4,8 @@
 class PersistenceInterface
 {
 public:
-    virtual void read() = 0;
-    virtual void write() = 0;
+    virtual void loadIntoMemmory() = 0;
+    virtual void saveState() = 0;
 };
 
 #endif // PERSISTENCEINTERFACE_H

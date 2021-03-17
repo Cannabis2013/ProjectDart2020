@@ -4,7 +4,7 @@
 #include <quuid.h>
 #include "persistenceinterface.h"
 
-class TournamentModelsContextInterface : public PersistenceInterface
+class TournamentModelsContextInterface
 {
 public:
     virtual ~TournamentModelsContextInterface()= default;
@@ -35,7 +35,7 @@ public:
     /*
      * Scores related section
      */
-    virtual void addScore(const QUuid &tournament,
+    virtual void addFTPScore(const QUuid &tournament,
                   const QUuid &player,
                   const QVector<int> &dataValues,
                   const bool &isWinnerDetermined) = 0;
@@ -54,7 +54,7 @@ public:
     virtual QUuid editScore(const QUuid &pointId, const int &value, const int &score,const int &hint) = 0;
     virtual int scoreRoundIndex(const QUuid &playerScore) = 0;
     virtual int scoreSetIndex(const QUuid &playerScore) = 0;
-    virtual int scoreThrowIndex(const QUuid &playerScore) = 0;
+    virtual int scoreAttemptIndex(const QUuid &playerScore) = 0;
     virtual int scorePointValue(const QUuid &playerScore) = 0;
     virtual int scoreValue(const QUuid &point) = 0;
     virtual QUuid scoreTournament(const QUuid &playerScore) = 0;

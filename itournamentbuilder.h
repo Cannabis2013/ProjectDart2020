@@ -3,14 +3,14 @@
 
 template<class TTournamentModel,
          class TTournamentParameters,
-         class TScoreModel,
-         class TScoreParameters,
          class TOptions>
-class ITournamentModelBuilder
+class ITournamentBuilder
 {
 public:
     virtual TTournamentModel *buildFTPTournament(const TTournamentParameters&, const TOptions&) = 0;
-    virtual TScoreModel *buildScoreModel(const TScoreParameters&, const TOptions&) = 0;
+    virtual TTournamentModel* editFTPTournament(const TTournamentModel*,
+                                             const TTournamentParameters&,
+                                             const TOptions&) = 0;
 };
 
 #endif // IDATAMODELBUILDER_H

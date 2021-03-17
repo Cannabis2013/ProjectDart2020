@@ -33,8 +33,7 @@ typedef IPlayerModel<QUuid,QString> IDefaultPlayerModel;
 typedef IPlayerBuilderParameters<QString,QUuid> DefaultParametersInterface;
 
 class LocalPlayerModelsContext :
-        public PlayerModelsContextInterface,
-        public AbstractJSONPersistence
+        public PlayerModelsContextInterface
 {
 public:
     /*
@@ -56,9 +55,6 @@ public:
     }
 
     ~LocalPlayerModelsContext();
-    // PersistenceInterface interface
-    void read() override;
-    void write() override;
 
     QUuid createPlayer(const QString &name,
                       const QString& mail,
@@ -68,7 +64,7 @@ public:
 
     DefaultPlayerBuilder *playerBuilder();
     LocalPlayerModelsContext* setPlayerBuilder(DefaultPlayerBuilder *builder);
-    LocalPlayerModelsContext* setModelDBContext(ImodelsDBContext<ModelInterface<QUuid>,QString> *context);
+    LocalPlayerModelsContext* setModelDBContext(ImodelsDBContext *context);
     /*
      * PlayerModelsInterface interface
      */
@@ -79,7 +75,7 @@ public:
     void deletePlayerByUserName(const QString &firstName)  override;
     void deletePlayerByID(const QUuid &player)  override;
     void deletePlayerByEmail(const QString &playerEMail)  override;
-    QUuid playerIDFromName(const QString &fullName)  override;
+    QUuid playerIdFromName(const QString &fullName)  override;
     QUuid playerIdFromIndex(const int &index)  override;
     QString playerNameFromId(const QUuid &id)  override;
     QString playerMailFromId(const QUuid &id)  override;
@@ -98,12 +94,9 @@ private:
 
     const IDefaultPlayerModel *getModel(const QString &playerName);
 
-    ImodelsDBContext<ModelInterface<QUuid>, QString> *modelDBContext();
+    ImodelsDBContext *modelDBContext();
 
-    QJsonArray assemblePlayersJSONArray();
-    void extractPlayerModelsFromJSON(const QJsonArray &arr);
-
-    ImodelsDBContext<ModelInterface<QUuid>,QString> *_dbContext;
+    ImodelsDBContext* _dbContext;
     DefaultPlayerBuilder *_playerBuilder;
 };
 

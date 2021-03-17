@@ -5,9 +5,9 @@
 #include "abstractmodelscontext.h"
 #include "localtournamentmodelscontext.h"
 #include "localplayermodelscontext.h"
-#include "ftpmodelbuilder.h"
+#include "tournamentbuilder.h"
 #include "playermodelbuilder.h"
-#include "defaultmodelsdbcontext.h"
+#include "jsondbcontext.h"
 
 
 class LocalModelsContext : public AbstractModelsContext

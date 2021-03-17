@@ -4,7 +4,7 @@
 #include <quuid.h>
 #include "persistenceinterface.h"
 
-class PlayerModelsContextInterface : public PersistenceInterface
+class PlayerModelsContextInterface
 {
 public:
     virtual ~PlayerModelsContextInterface()=default;
@@ -19,7 +19,7 @@ public:
     virtual void deletePlayerByUserName(const QString &firstName)  = 0;
     virtual void deletePlayerByID(const QUuid &player)  = 0;
     virtual void deletePlayerByEmail(const QString &playerEMail)  = 0;
-    virtual QUuid playerIDFromName(const QString &fullName)  = 0;
+    virtual QUuid playerIdFromName(const QString &fullName)  = 0;
     virtual QUuid playerIdFromIndex(const int &index)  = 0;
     virtual QString playerNameFromId(const QUuid &id)  = 0;
     virtual QString playerMailFromId(const QUuid &id)  = 0;

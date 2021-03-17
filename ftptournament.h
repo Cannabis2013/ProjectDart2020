@@ -4,9 +4,9 @@
 #include <quuid.h>
 #include <qstring.h>
 #include <qlist.h>
-#include "ftptournamentmodelinterface.h"
+#include "iftptournament.h"
 
-class FTPTournament : public FTPTournamentModelInterface<QUuid,QVector<QUuid>,QString>
+class FTPTournament : public IFTPTournament<QUuid,QVector<QUuid>,QString>
 {
     // IModel interface
 public:
@@ -34,16 +34,16 @@ public:
     {
         return _title;
     }
-    FTPTournamentModelInterface<QUuid,QVector<QUuid>,QString>* setTitle(const QString &string) override
+    FTPTournament* setTitle(const QString &string) override
     {
         _title = string;
         return this;
     }
-    int attemps() const override
+    int attempts() const override
     {
         return _numberOfThrows;
     }
-    FTPTournamentModelInterface<QUuid,QVector<QUuid>,QString>* setNumberOfThrows(const int &val) override
+    FTPTournament* setAttempts(const int &val) override
     {
         _numberOfThrows = val;
         return this;
@@ -52,16 +52,16 @@ public:
     {
         return _gameMode;
     }
-    FTPTournamentModelInterface<QUuid,QVector<QUuid>,QString>* setGameMode(const int &val) override
+    FTPTournament* setGameMode(const int &val) override
     {
         _gameMode = val;
         return this;
     }
-    int initialPoint() const override
+    int keyPoint() const override
     {
         return _keyPoint;
     }
-    FTPTournamentModelInterface<QUuid,QVector<QUuid>,QString>* setKeyPoint(const int &val) override
+    FTPTournament* setKeyPoint(const int &val) override
     {
         _keyPoint = val;
         return this;
@@ -70,7 +70,7 @@ public:
     {
         return _status;
     }
-    FTPTournamentModelInterface<QUuid,QVector<QUuid>,QString>* setStatus(const bool &status) override
+    FTPTournament* setStatus(const bool &status) override
     {
         _status = status;
         return this;
@@ -79,7 +79,7 @@ public:
     {
         return _winner;
     }
-    FTPTournamentModelInterface<QUuid,QVector<QUuid>,QString>* setWinner(const QUuid &val) override
+    IFTPTournament<QUuid,QVector<QUuid>,QString>* setWinner(const QUuid &val) override
     {
         _winner = val;
         return this;
@@ -89,18 +89,18 @@ public:
     {
         return _assignedPlayerIdentities;
     }
-    FTPTournamentModelInterface<QUuid,QVector<QUuid>,QString>*setAssignedPlayerIdentities(const QVector<QUuid> &playerIdentities) override
+    FTPTournament* setAssignedPlayerIdentities(const QVector<QUuid> &playerIdentities) override
     {
         _assignedPlayerIdentities = playerIdentities;
         return this;
     }
-    FTPTournamentModelInterface<QUuid,QVector<QUuid>,QString>* assignPlayerIdentity(const QUuid &identity) override
+    FTPTournament* assignPlayerIdentity(const QUuid &identity) override
     {
         _assignedPlayerIdentities.append(identity);
         return this;
     }
 
-    FTPTournamentModelInterface* setParent(const QUuid &) override{
+    FTPTournament* setParent(const QUuid &) override{
         /*
          * No parent
          */
@@ -115,12 +115,12 @@ public:
     {
         return _terminateConditionKeyCode;
     }
-    FTPTournamentModelInterface<QUuid,QVector<QUuid>,QString>* setTerminateKeyCondition(const int &keyCode) override
+    FTPTournament* setTerminalKeyCode(const int &keyCode) override
     {
         _terminateConditionKeyCode = keyCode;
         return this;
     }
-    static FTPTournamentModelInterface<QUuid,QVector<QUuid>,QString> * createInstance()
+    static FTPTournament * createInstance()
     {
         return new FTPTournament();
     }
@@ -129,7 +129,7 @@ public:
         return _modelDisplayHint;
     }
 
-    FTPTournamentModelInterface* setModelTableViewHint(int modelDisplayHint) override
+    FTPTournament* setDisplayHint(int modelDisplayHint) override
     {
         _modelDisplayHint = modelDisplayHint;
         return this;
@@ -138,7 +138,7 @@ public:
     {
         return _inputMode;
     }
-    FTPTournamentModelInterface* setInputMode(const int &inputMode) override
+    FTPTournament* setInputMode(const int &inputMode) override
     {
         _inputMode = inputMode;
         return this;

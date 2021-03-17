@@ -6,43 +6,30 @@
 #include <qfile.h>
 
 #include "imodelsdbcontext.h"
-#include "itournamentmodelbuilder.h"
-#include "modelbuildercontext.h"
-#include "ftptournamentmodelinterface.h"
-#include "iscoremodel.h"
-
+#include "tournamentbuildercontext.h"
+#include "tournamentcontextcollection.h"
+#include "scorebuildercontext.h"
 #include "tournamentmodelscontextinterface.h"
 #include "abstractjsonpersistence.h"
 
-class IModelParameter
-{
-public:
-    virtual bool generateID() = 0;
-    virtual IModelParameter *setGenerateID(const bool &) = 0;
-};
 
 #define THROW_OBJECT_WITH_ID_NOT_FOUND(x) QString("Model with ID: '%1' does not exists in the current context").arg(x).toStdString();
 #define THROW_OBJECT_WITH_INDEX_NOT_FOUND(x) QString("Model with index: '%1' does not exists in the current context").arg(x).toStdString();
 
-
-
-typedef FTPTournamentModelInterface<QUuid,QVector<QUuid>,QString> FTPInterface;
-typedef IScore<QUuid> FTPScoreInterface;
-
-typedef ITournamentModelBuilder<FTPInterface,
-                                FTPParameters,
-                                FTPScoreInterface,
-                                FTPScoreParameters,
-                                ModelOptions> FTPModelBuilderInterface;
-
 class LocalTournamentModelsContext :
-        public TournamentModelsContextInterface,
-        public AbstractJSONPersistence
+        public TournamentModelsContextInterface
 {
 public:
     /*
      * Public types
      */
+    enum GameModes {
+        FirstToPost = 0x1,
+        RoundLimit =0x2,
+        Circular = 0x3,
+        Cricket = 0x4
+    };
+
     enum ModelsContextResponse{
         TournamentCreatedOK = 0x32,
         TournamentDeletedOK = 0x35,
@@ -54,11 +41,6 @@ public:
         DisplayHint = 0xA,
         allHints = 0xB
     };
-    /*
-     * AbstractJSONPersistence interface
-     */
-    void read() override;
-    void write() override;
     /*
      * Destructor
      */
@@ -72,9 +54,10 @@ public:
     /*
      * Model builder
      */
-    LocalTournamentModelsContext *setModelBuilder(FTPModelBuilderInterface *builder);
-    FTPModelBuilderInterface *modelBuilder();
-
+    LocalTournamentModelsContext *setTournamentBuilder(LMC::ITournamentModelsBuilder *builder);
+    LMC::ITournamentModelsBuilder *tournamentBuilder();
+    LocalTournamentModelsContext *setScoreBuilder(LMC::IScoreModelsBuilder* builder);
+    LMC::IScoreModelsBuilder* scoreBuilder();
     /*
      * Tournament related section
      */
@@ -105,7 +88,7 @@ public:
     /*
      * Scores related section
      */
-    void addScore(const QUuid &tournament,
+    void addFTPScore(const QUuid &tournament,
                   const QUuid &player,
                   const QVector<int> &dataValues,
                   const bool &isWinnerDetermined) override;
@@ -135,7 +118,7 @@ public:
                     const int &hint) override;
     int scoreRoundIndex(const QUuid &playerScore) override;
     int scoreSetIndex(const QUuid &playerScore) override;
-    int scoreThrowIndex(const QUuid &playerScore) override;
+    int scoreAttemptIndex(const QUuid &playerScore) override;
     int scorePointValue(const QUuid &playerScore) override;
     int scoreValue(const QUuid &point) override;
     QUuid scoreTournament(const QUuid &playerScore) override;
@@ -162,41 +145,19 @@ public:
      * Tournament scores
      */
     QVector<int> tournamentUserScores(const QUuid &tournament) override;
-    LocalTournamentModelsContext* setModelDBContext(ImodelsDBContext<ModelInterface<QUuid>, QString> *context);
+    LocalTournamentModelsContext* setModelDBContext(ImodelsDBContext* context);
 private:
-    ImodelsDBContext<ModelInterface<QUuid>,QString>* modelDBContext();
+    ImodelsDBContext* modelDBContext();
     /*
      * Get tournament model
      */
-    const FTPInterface *getTournamentModelFromID(const QUuid &id);
-    const FTPScoreInterface *getScoreModelFromID(const QUuid &id);
-    /*
-     * Extract models from JSO
-     */
-    QJsonArray assembleTournamentsJSONArray();
-    QJsonArray assembleScoresJSONArray();
+    template<typename TModelInterface>
+    const TModelInterface *getTournamentModelFromID(const QUuid &id);
+    const LMC::ScoreInterface *getScoreModelFromID(const QUuid &id);
 
-    void extractTournamentModelsFromJSON(const QJsonArray &arr);
-    void extractScoreModelsFromJSON(const QJsonArray &arr);
-    /*
-     * Build and update contextmodel state
-     */
-    void buildTournament(const QUuid &id,
-                         const QString &title,
-                         const int &keyPoint, const int &tableViewHint, const int &inputMode,
-                         const int &attemps,
-                         const int &gameMode,
-                         const QUuid &winner);
-    void buildScoreModel(const QUuid &tournament,
-                         const QUuid &player,
-                         const QVector<int> &dataValues,
-                         const int &hint,
-                         const bool &generateID = true,
-                         const QUuid &id = QUuid());
-
-    FTPModelBuilderInterface *_tournamentModelBuilder;
-
-    ImodelsDBContext<ModelInterface<QUuid>,QString>* _dbContext;
+    LMC::ITournamentModelsBuilder *_tournamentModelBuilder;
+    LMC::IScoreModelsBuilder* _scoreModelbuilder;
+    ImodelsDBContext* _dbContext;
 };
 
 #endif // TOURNAMENTMODELCONTEXT_H

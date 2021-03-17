@@ -1,36 +1,7 @@
 #include "localtournamentmodelscontext.h"
 
-void LocalTournamentModelsContext::read()
-{
-    QJsonObject JSONObject;
-    // Extact content from file
-    try {
-        JSONObject = readJSONFromFile("TournamentModels");
-    } catch (...) {
-        return;
-    }
-    // Assemble json objects from content
-    auto tournamentsJSONArray = JSONObject["TournamentsData"].toArray();
-    auto scoresJSONArray = JSONObject["ScoresData"].toArray();
-    // Exctract models from json objects
-    extractTournamentModelsFromJSON(tournamentsJSONArray);
-    extractScoreModelsFromJSON(scoresJSONArray);
-}
-
-void LocalTournamentModelsContext::write()
-{
-    /*
-     * Persist tournament models
-     */
-    QJsonObject modelJSON;
-    modelJSON["TournamentsData"] = assembleTournamentsJSONArray();
-    modelJSON["ScoresData"] = assembleScoresJSONArray();
-    writeJSONToFile(modelJSON,"TournamentModels");
-}
-
 LocalTournamentModelsContext::~LocalTournamentModelsContext()
 {
-    write();
 }
 
 LocalTournamentModelsContext *LocalTournamentModelsContext::createInstance()
@@ -40,19 +11,29 @@ LocalTournamentModelsContext *LocalTournamentModelsContext::createInstance()
 
 LocalTournamentModelsContext* LocalTournamentModelsContext::setup()
 {
-    read();
     return this;
 }
 
-LocalTournamentModelsContext *LocalTournamentModelsContext::setModelBuilder(FTPModelBuilderInterface *builder)
+LocalTournamentModelsContext *LocalTournamentModelsContext::setTournamentBuilder(LMC::ITournamentModelsBuilder *builder)
 {
     _tournamentModelBuilder = builder;
     return this;
 }
 
-FTPModelBuilderInterface *LocalTournamentModelsContext::modelBuilder()
+LMC::ITournamentModelsBuilder *LocalTournamentModelsContext::tournamentBuilder()
 {
     return _tournamentModelBuilder;
+}
+
+LocalTournamentModelsContext *LocalTournamentModelsContext::setScoreBuilder(LMC::IScoreModelsBuilder *builder)
+{
+    _scoreModelbuilder = builder;
+    return this;
+}
+
+LMC::IScoreModelsBuilder *LocalTournamentModelsContext::scoreBuilder()
+{
+    return _scoreModelbuilder;
 }
 
 QUuid LocalTournamentModelsContext::assembleAndAddFTPTournament(const QString &title,
@@ -66,15 +47,15 @@ QUuid LocalTournamentModelsContext::assembleAndAddFTPTournament(const QString &t
      *  - [2] = KeyCode (win condition)
      *  - [3] = TableViewHint
      *  - [4] = InputMode
-     *  - [5] = Number of throws
+     *  - [5] = Number of attempts
      */
     // Build model
-    auto tournament = modelBuilder()->buildFTPTournament([this,title,data,playerIds]
+    auto tournament = tournamentBuilder()->buildFTPTournament([this,title,data,playerIds]
     {
-        FTPParameters params;
+        TBC::FTPParameters params;
         params.title = title;
         params.gameMode = data[0];
-        params.initialPoint = data[1];
+        params.keyPoint = data[1];
         params.winConditionKey = data[2];
         params.modelTableViewHint = data[3];
         params.inputMode = data[4];
@@ -83,14 +64,14 @@ QUuid LocalTournamentModelsContext::assembleAndAddFTPTournament(const QString &t
         params.tournamentsCount = this->tournamentsCount();
         return params;
     }(),[]{
-        ModelOptions options;
+        TBC::ModelOptions options;
         options.generateUniqueId = true;
         return options;
     }());
     // Add model to dbcontext
-    _dbContext->addModel("Tournament",tournament);
+    _dbContext->addTournament(tournament);
     // Persist state change
-    write();
+    modelDBContext()->saveState();
     // Return model id
     return tournament->id();
 }
@@ -113,8 +94,6 @@ bool LocalTournamentModelsContext::removeTournamentsFromIndexes(const QVector<in
         tournamentIds << tournamentIdFromIndex(index);
     for (auto tournamentId : tournamentIds)
         removeTournament(tournamentId);
-    // Persists changes
-    write();
     return true;
 }
 
@@ -122,7 +101,8 @@ bool LocalTournamentModelsContext::removeTournamentsFromIndexes(const QVector<in
 QUuid LocalTournamentModelsContext::tournamentIdFromIndex(const int &index)
 {
     try {
-        auto tournament = dynamic_cast<const FTPInterface*>(modelDBContext()->model("Tournament",index));
+        auto model = modelDBContext()->tournamentModel(index);
+        auto tournament = dynamic_cast<const LMC::TournamentInterface*>(model);
         auto id = tournament->id();
         return id;
 
@@ -134,7 +114,7 @@ QUuid LocalTournamentModelsContext::tournamentIdFromIndex(const int &index)
 QVector<QUuid> LocalTournamentModelsContext::tournaments()
 {
     QVector<QUuid> resultingList;
-    auto tournaments = modelDBContext()->models("Tournament");
+    auto tournaments = modelDBContext()->tournaments();
     for (auto tournament : tournaments)
     {
         auto id = tournament->id();
@@ -146,19 +126,20 @@ QVector<QUuid> LocalTournamentModelsContext::tournaments()
 
 int LocalTournamentModelsContext::tournamentsCount()
 {
-    auto count = modelDBContext()->countOfModels("Tournament");
+    auto tournaments = modelDBContext()->tournaments();
+    auto count = tournaments.count();
     return count;
 }
 
 QString LocalTournamentModelsContext::tournamentTitle(const QUuid &tournament)
 {
-    return getTournamentModelFromID(tournament)->title();
+    return getTournamentModelFromID<LMC::TournamentInterface>(tournament)->title();
 }
 
 int LocalTournamentModelsContext::tournamentAttempts(const QUuid &tournament)
 {
-    auto model = getTournamentModelFromID(tournament);
-    auto numberOfThrows = model->attemps();
+    auto model = getTournamentModelFromID<LMC::FTPInterface>(tournament);
+    auto numberOfThrows = model->attempts();
     return numberOfThrows;
 }
 
@@ -166,7 +147,7 @@ QVector<QUuid> LocalTournamentModelsContext::tournamentAssignedPlayers(const QUu
 {
     QVector<QUuid> assignedPlayers;
     try {
-        auto tournamentModel = getTournamentModelFromID(tournament);
+        auto tournamentModel = getTournamentModelFromID<LMC::TournamentInterface>(tournament);
         assignedPlayers = tournamentModel->assignedPlayerIdentities();
     } catch (const char *msg) {
         throw  msg;
@@ -177,142 +158,125 @@ QVector<QUuid> LocalTournamentModelsContext::tournamentAssignedPlayers(const QUu
 
 int LocalTournamentModelsContext::tournamentGameMode(const QUuid &tournament)
 {
-    return getTournamentModelFromID(tournament)->gameMode();
+    return getTournamentModelFromID<LMC::TournamentInterface>(tournament)->gameMode();
 }
 
 int LocalTournamentModelsContext::tournamentLastThrowKeyCode(const QUuid &tournament)
 {
-    auto tournamentModel = getTournamentModelFromID(tournament);
+    auto tournamentModel = getTournamentModelFromID<LMC::FTPInterface>(tournament);
     auto conditionKeyCode = tournamentModel->terminalKeyCode();
     return conditionKeyCode;
 }
 
 int LocalTournamentModelsContext::tournamentKeyPoint(const QUuid &tournament)
 {
-    auto tournamentModel = getTournamentModelFromID(tournament);
-    auto keyPoint = tournamentModel->initialPoint();
+    auto tournamentModel = getTournamentModelFromID<LMC::FTPInterface>(tournament);
+    auto keyPoint = tournamentModel->keyPoint();
     return keyPoint;
 }
 
 int LocalTournamentModelsContext::tournamentTableViewHint(const QUuid &tournament)
 {
-    auto tournamentModel = getTournamentModelFromID(tournament);
+    auto tournamentModel = getTournamentModelFromID<LMC::FTPInterface>(tournament);
     auto hint = tournamentModel->displayHint();
     return hint;
 }
 
 int LocalTournamentModelsContext::tournamentInputMode(const QUuid &tournament)
 {
-    auto tournamentModel = getTournamentModelFromID(tournament);
+    auto tournamentModel = getTournamentModelFromID<LMC::FTPInterface>(tournament);
     auto inputMode = tournamentModel->inputHint();
     return inputMode;
 }
 
 int LocalTournamentModelsContext::tournamentStatus(const QUuid &tournament)
 {
-    return getTournamentModelFromID(tournament)->status();
+    auto model = getTournamentModelFromID<LMC::TournamentInterface>(tournament);
+    auto status = model->status();
+    return status;
 }
 
 QUuid LocalTournamentModelsContext::tournamentDeterminedWinner(const QUuid &tournament)
 {
-    auto tournamentModel = getTournamentModelFromID(tournament);
+    auto tournamentModel = getTournamentModelFromID<LMC::TournamentInterface>(tournament);
     return tournamentModel->winnerId();
 }
 
 void LocalTournamentModelsContext::setTournamentDeterminedWinner(const QUuid &tournament,
                                                                  const QUuid &winner)
 {
-    auto oldModel = getTournamentModelFromID(tournament);
-    auto newModel = modelBuilder()->buildFTPTournament(
-                    [oldModel, winner]
+    auto oldModel = getTournamentModelFromID<LMC::TournamentInterface>(tournament);
+    LMC::TournamentInterface* newModel = nullptr;
+    auto gameMode = tournamentGameMode(tournament);
+    if(gameMode == GameModes::FirstToPost)
+    {
+        newModel = tournamentBuilder()->editFTPTournament(
+                    oldModel,
+                    [winner,oldModel]
                     {
-                        FTPParameters params;
-                        params.id = oldModel->id();
-                        params.title = oldModel->title();
-                        params.status = oldModel->status();
+                        TBC::FTPParameters params;
                         params.gameMode = oldModel->gameMode();
-                        params.initialPoint = oldModel->initialPoint();
-                        params.modelTableViewHint = oldModel->displayHint();
-                        params.inputMode = oldModel->inputHint();
-                        params.attempts = oldModel->attemps();
                         params.winner = winner;
-                        params.playerIdentities = oldModel->assignedPlayerIdentities();
                         return params;
                     }(),[]
                     {
-                        ModelOptions options;
+                        TBC::ModelOptions options;
                         options.generateUniqueId = false;
                         return options;
                     }());
-    auto index = modelDBContext()->indexOfModel("Tournament",oldModel);
-    modelDBContext()->replaceModel("Tournament",index,newModel);
+    }
+    auto index = modelDBContext()->indexOfTournament(oldModel);
+    modelDBContext()->replaceTournament(index,newModel);
 }
 
 void LocalTournamentModelsContext::assignPlayerToTournament(const QUuid &tournament, const QUuid &player)
 {
-    auto oldModel = getTournamentModelFromID(tournament);
+    auto oldModel = getTournamentModelFromID<LMC::TournamentInterface>(tournament);
     auto assignedPlayers = oldModel->assignedPlayerIdentities();
     assignedPlayers.append(player);
-    auto newModel = modelBuilder()->buildFTPTournament(
-                [oldModel, assignedPlayers]
+    auto newModel = tournamentBuilder()->editFTPTournament(oldModel,
+                [assignedPlayers,oldModel]
     {
-        FTPParameters params;
-        params.id = oldModel->id();
-        params.title = oldModel->title();
-        params.status = oldModel->status();
+        TBC::FTPParameters params;
         params.gameMode = oldModel->gameMode();
-        params.initialPoint = oldModel->initialPoint();
-        params.modelTableViewHint = oldModel->displayHint();
-        params.inputMode = oldModel->inputHint();
-        params.attempts = oldModel->attemps();
-        params.winner = oldModel->winnerId();
         params.playerIdentities = assignedPlayers;
         return params;
     }(),[]
     {
-        ModelOptions options;
+        TBC::ModelOptions options;
         options.generateUniqueId = false;
         return options;
     }());
-    auto index = modelDBContext()->indexOfModel("Tournament",oldModel);
-    modelDBContext()->replaceModel("Tournament",index,newModel);
+    auto index = modelDBContext()->indexOfTournament(oldModel);
+    modelDBContext()->replaceTournament(index,newModel);
 }
 
 void LocalTournamentModelsContext::tournamentRemovePlayer(const QUuid &tournament, const QUuid &player)
 {
-    auto oldModel = getTournamentModelFromID(tournament);
-    auto pList = oldModel->assignedPlayerIdentities();
-    pList.removeOne(player);
-    auto newModel = modelBuilder()->buildFTPTournament(
-                [oldModel, pList]
+    auto oldModel = getTournamentModelFromID<LMC::TournamentInterface>(tournament);
+    auto assignedPlayers = oldModel->assignedPlayerIdentities();
+    assignedPlayers.removeOne(player);
+    auto newModel = tournamentBuilder()->editFTPTournament(oldModel,
+                [assignedPlayers,oldModel]
     {
-        FTPParameters params;
-        params.id = oldModel->id();
-        params.title = oldModel->title();
-        params.status = oldModel->status();
+        TBC::FTPParameters params;
         params.gameMode = oldModel->gameMode();
-        params.initialPoint = oldModel->initialPoint();
-        params.modelTableViewHint = oldModel->displayHint();
-        params.inputMode = oldModel->inputHint();
-        params.playerIdentities = oldModel->assignedPlayerIdentities();
-        params.attempts = oldModel->attemps();
-        params.winner = oldModel->winnerId();
-        params.playerIdentities = pList;
+        params.playerIdentities = assignedPlayers;
         return params;
     }(),[]
     {
-        ModelOptions options;
+        TBC::ModelOptions options;
         options.generateUniqueId = false;
         return options;
     }());
-    auto index = modelDBContext()->indexOfModel("Tournament",oldModel);
-    modelDBContext()->replaceModel("Tournament",index,newModel);
+    auto index = modelDBContext()->indexOfTournament(oldModel);
+    modelDBContext()->replaceTournament(index,newModel);
 }
 
 QList<QUuid> LocalTournamentModelsContext::scores()
 {
     QList<QUuid> resultingList;
-    auto scores = modelDBContext()->models("Score");
+    auto scores = modelDBContext()->scoreModels();
     for (auto scoreModel : scores) {
         auto scoreID = scoreModel->id();
         resultingList << scoreID;
@@ -323,7 +287,7 @@ QList<QUuid> LocalTournamentModelsContext::scores()
 QList<QUuid> LocalTournamentModelsContext::scores(const QUuid &tournament)
 {
     QList<QUuid> resultingList;
-    auto scores = modelDBContext()->models("Score");
+    auto scores = modelDBContext()->scoreModels();
     for (auto scoreModel : scores) {
         auto compareTournamentID = scoreModel->parent();
         if(compareTournamentID == tournament)
@@ -381,30 +345,34 @@ QUuid LocalTournamentModelsContext::setScoreHint(const QUuid &point,
 {
     try {
         auto oldModel = getScoreModelFromID(point);
-        auto newModel = modelBuilder()->buildScoreModel([oldModel,hint]{
-            FTPScoreParameters params;
-            params.id = oldModel->id();
-            params.tournament = oldModel->parent();
-            params.pointValue = oldModel->point();
-            params.roundIndex = oldModel->roundIndex();
-            params.setIndex = oldModel->setIndex();
-            params.throwIndex = oldModel->throwIndex();
-            params.playerId = oldModel->player();
-            params.scoreValue = oldModel->score();
-            params.hint = hint;
-            return params;
-        }(),[]{
-            ModelOptions options;
-            options.generateUniqueId = false;
-            return options;
-        }());
-        auto index = modelDBContext()->indexOfModel("Score",oldModel);
-        modelDBContext()->replaceModel("Score",index,newModel);
-        return newModel->id();
+        if(oldModel->gameMode() == GameModes::FirstToPost)
+        {
+            auto newModel = scoreBuilder()->buildFTPScoreModel([oldModel,hint]{
+                SBC::FTPScoreParameters params;
+                params.id = oldModel->id();
+                params.tournament = oldModel->parent();
+                params.pointValue = oldModel->point();
+                params.roundIndex = oldModel->roundIndex();
+                params.setIndex = oldModel->setIndex();
+                params.attempt = oldModel->attempt();
+                params.playerId = oldModel->player();
+                params.scoreValue = oldModel->score();
+                params.hint = hint;
+                return params;
+            }(),[]{
+                SBC::ModelOptions options;
+                options.generateUniqueId = false;
+                return options;
+            }());
+            auto index = modelDBContext()->indexOfScoreModel(oldModel);
+            modelDBContext()->replaceScoreModel(index,newModel);
+            return newModel->id();
+        }
 
     } catch (const char msg) {
         throw msg;
     }
+    return QUuid();
 }
 
 QUuid LocalTournamentModelsContext::editScore(const QUuid &pointId,
@@ -412,30 +380,37 @@ QUuid LocalTournamentModelsContext::editScore(const QUuid &pointId,
                                               const int &score,
                                               const int &hint)
 {
-    auto oldScoreModel = getScoreModelFromID(pointId);
-
-    auto newScoreModel = modelBuilder()->buildScoreModel(
-                [oldScoreModel, score, value,hint]
-    {
-        FTPScoreParameters params;
-        params.id = oldScoreModel->id();
-        params.roundIndex = oldScoreModel->roundIndex();
-        params.setIndex = oldScoreModel->setIndex();
-        params.pointValue = value;
-        params.playerId = oldScoreModel->player();
-        params.throwIndex = oldScoreModel->throwIndex();
-        params.scoreValue = score;
-        params.hint = hint;
-        return params;
-    }(),[]
-    {
-        ModelOptions options;
-        options.generateUniqueId = false;
-        return options;
-    }());
-    auto index = modelDBContext()->indexOfModel("Score",oldScoreModel);
-    modelDBContext()->replaceModel("Score",index,newScoreModel);
-    return newScoreModel->id();
+    try {
+        auto oldScoreModel = getScoreModelFromID(pointId);
+        if(oldScoreModel->gameMode() == GameModes::FirstToPost)
+        {
+            auto newScoreModel = scoreBuilder()->buildFTPScoreModel(
+                        [oldScoreModel, score, value,hint]
+            {
+                SBC::FTPScoreParameters params;
+                params.id = oldScoreModel->id();
+                params.roundIndex = oldScoreModel->roundIndex();
+                params.setIndex = oldScoreModel->setIndex();
+                params.pointValue = value;
+                params.playerId = oldScoreModel->player();
+                params.attempt = oldScoreModel->attempt();
+                params.scoreValue = score;
+                params.hint = hint;
+                return params;
+            }(),[]
+            {
+                SBC::ModelOptions options;
+                options.generateUniqueId = false;
+                return options;
+            }());
+            auto index = modelDBContext()->indexOfScoreModel(oldScoreModel);
+            modelDBContext()->replaceScoreModel(index,newScoreModel);
+            return newScoreModel->id();
+        }
+    }  catch (const char msg) {
+        throw msg;
+    }
+    return QUuid();
 }
 
 int LocalTournamentModelsContext::scoreRoundIndex(const QUuid &playerScore)
@@ -453,11 +428,11 @@ int LocalTournamentModelsContext::scoreSetIndex(const QUuid &playerScore)
 }
 
 
-int LocalTournamentModelsContext::scoreThrowIndex(const QUuid &point)
+int LocalTournamentModelsContext::scoreAttemptIndex(const QUuid &point)
 {
     try {
         auto scoreModel = getScoreModelFromID(point);
-        auto throwIndex = scoreModel->throwIndex();
+        auto throwIndex = scoreModel->attempt();
         return throwIndex;
     } catch (const char *msg) {
         throw msg;
@@ -528,9 +503,9 @@ int LocalTournamentModelsContext::scoreKeyCode(const QUuid &scoreID)
 QList<QUuid> LocalTournamentModelsContext::pointModels(const QUuid &player)
 {
     QList<QUuid> resultingList;
-    auto models = modelDBContext()->models("Score");
+    auto models = modelDBContext()->scoreModels();
     for (auto model : models) {
-        auto scoreModel = dynamic_cast<const FTPScoreInterface*>(model);
+        auto scoreModel = dynamic_cast<const LMC::ScoreInterface*>(model);
         auto pointID = model->id();
         if(scoreModel->player() == player)
             resultingList << pointID;
@@ -546,8 +521,8 @@ void LocalTournamentModelsContext::removeTournamentScores(const QUuid &tournamen
         auto tournamentID = scoreModel->parent();
         if(tournamentID == tournament)
         {
-            auto index = modelDBContext()->indexOfModel("Score",scoreModel);
-            modelDBContext()->removeModel("Score",index);
+            auto index = modelDBContext()->indexOfScoreModel(scoreModel);
+            modelDBContext()->removeScoreModel(index);
         }
     }
 }
@@ -555,8 +530,8 @@ void LocalTournamentModelsContext::removeTournamentScores(const QUuid &tournamen
 QList<QUuid> LocalTournamentModelsContext::playerScores(const QUuid &tournament, const QUuid &player, const int &hint)
 {
     QList<QUuid> resultingList;
-    auto totalPoints = scores(tournament);
-    for (auto pointID : totalPoints) {
+    auto scoreModelIds = scores(tournament);
+    for (auto pointID : scoreModelIds) {
         auto model = getScoreModelFromID(pointID);
         auto modelHint = scoreHint(pointID);
         if(modelHint != hint && hint != allHints)
@@ -573,20 +548,20 @@ bool LocalTournamentModelsContext::removeScore(const QUuid &point)
 {
     try {
         auto scoreModel = getScoreModelFromID(point);
-        auto index = modelDBContext()->indexOfModel("Score",scoreModel);
-        auto result = modelDBContext()->removeModel("Score",index);
-        return result;
-    } catch (const char *msg) {
+        auto index = modelDBContext()->indexOfScoreModel(scoreModel);
+        modelDBContext()->removeScoreModel(index);
+    }  catch (...) {
         return false;
     }
+    return true;
 }
 
 void LocalTournamentModelsContext::removePlayerScore(const QUuid &point)
 {
     try {
         auto scoreModel = getScoreModelFromID(point);
-        auto index = modelDBContext()->indexOfModel("Score",scoreModel);
-        modelDBContext()->removeModel("Score",index);
+        auto index = modelDBContext()->indexOfScoreModel(scoreModel);
+        modelDBContext()->removeScoreModel(index);
     } catch (const char *msg) {
         return;
     }
@@ -605,7 +580,7 @@ QUuid LocalTournamentModelsContext::playerScore(const QUuid &tournament,
         auto playerID = scoreModel->player();
         if(playerID != player)
             continue;
-        auto leg = scoreThrowIndex(scoreModelID);
+        auto leg = scoreAttemptIndex(scoreModelID);
         if(leg != throwIndex)
             continue;
         auto roundIndex = scoreModel->roundIndex();
@@ -618,197 +593,39 @@ QUuid LocalTournamentModelsContext::playerScore(const QUuid &tournament,
 
     throw "Object not found";
 }
-
-const FTPInterface *LocalTournamentModelsContext::getTournamentModelFromID(const QUuid &id)
+template<typename TModelInterface>
+const TModelInterface *LocalTournamentModelsContext::getTournamentModelFromID(const QUuid &id)
 {
-    auto models = modelDBContext()->models("Tournament");
+    auto models = modelDBContext()->tournaments();
     for (auto model : models) {
         if(model->id() == id)
-            return dynamic_cast<const FTPInterface*>(model);
+            return dynamic_cast<const TModelInterface*>(model);
     }
 
     throw THROW_OBJECT_WITH_ID_NOT_FOUND(id.toString());
 }
 
-const FTPScoreInterface *LocalTournamentModelsContext::getScoreModelFromID(const QUuid &id)
+const IScore<QUuid> *LocalTournamentModelsContext::getScoreModelFromID(const QUuid &id)
 {
-    auto models = modelDBContext()->models("Score");
+    auto models = modelDBContext()->scoreModels();
     for (auto model : models)
     {
         if(model->id() == id)
-            return dynamic_cast<const FTPScoreInterface*>(model);
+            return dynamic_cast<const LMC::ScoreInterface*>(model);
     }
 
     throw THROW_OBJECT_WITH_ID_NOT_FOUND(id.toString());
-}
-
-QJsonArray LocalTournamentModelsContext::assembleTournamentsJSONArray()
-{
-    QJsonArray tournamentsJSON;
-    auto tournamentsID = tournaments();
-    for (auto tournamentID : tournamentsID) {
-        QJsonObject obj;
-        auto id = tournamentID;
-        obj["ID"] = id.toString();
-        obj["Title"] = tournamentTitle(id);
-        obj["KeyPoint"] = tournamentKeyPoint(id);
-        obj["GameMode"] = tournamentGameMode(id);
-        obj["TableViewHint"] = tournamentTableViewHint(id);
-        obj["InputMode"] = tournamentInputMode(id);
-        obj["Winner"] = tournamentDeterminedWinner(id).toString();
-        obj["Throws"] = tournamentAttempts(id);
-        auto players = tournamentAssignedPlayers(id);
-
-        QJsonArray playersJSON;
-        auto count = players.count();
-        for (int j = 0; j < count; ++j) {
-            auto playerID = players.at(j).toString();
-            QJsonObject playerObj;
-            playerObj["ID"] = playerID;
-            playersJSON.append(playerObj);
-        }
-        obj["Players"] = playersJSON;
-        tournamentsJSON.append(obj);
-    }
-    return tournamentsJSON;
-}
-
-QJsonArray LocalTournamentModelsContext::assembleScoresJSONArray()
-{
-    QJsonArray scoresJSON;
-    auto scoresID = scores();
-    for (auto scoreID : scoresID) {
-        QJsonObject scoreJSON;
-        scoreJSON["ID"] = scoreID.toString();
-        scoreJSON["Tournament"] = scoreTournament(scoreID).toString();
-        scoreJSON["PointValue"] = scorePointValue(scoreID);
-        scoreJSON["ScoreValue"] = scoreValue(scoreID);
-        scoreJSON["RoundIndex"] = scoreRoundIndex(scoreID);
-        scoreJSON["SetIndex"] = scoreSetIndex(scoreID);
-        scoreJSON["Index"] = scoreThrowIndex(scoreID);
-        scoreJSON["PlayerID"] = scorePlayer(scoreID).toString();
-        scoreJSON["Hint"] = scoreHint(scoreID);
-        scoreJSON["KeyCode"] = scoreKeyCode(scoreID);
-        scoresJSON.append(scoreJSON);
-    }
-    return scoresJSON;
-}
-
-void LocalTournamentModelsContext::extractTournamentModelsFromJSON(const QJsonArray &arr)
-{
-    auto tournamentsCount = arr.count();
-    for (int i = 0; i < tournamentsCount; ++i) {
-        auto tournamentJSON = arr[i].toObject();
-        auto stringID = tournamentJSON["ID"].toString();
-        auto tournamentID = QUuid::fromString(stringID);
-        auto title = tournamentJSON["Title"].toString();
-        auto keyPoint = tournamentJSON["KeyPoint"].toInt();
-        auto tableViewHint = tournamentJSON["TableViewHint"].toInt();
-        auto inputMode = tournamentJSON["InputMode"].toInt();
-        auto gameMode = tournamentJSON["GameMode"].toInt();
-        auto throws = tournamentJSON["Throws"].toInt();
-        auto winnerStringID = tournamentJSON["Winner"].toString();
-        auto winnerID = QUuid::fromString(winnerStringID);
-        buildTournament(tournamentID,title,
-                        keyPoint,
-                        tableViewHint,
-                        inputMode,
-                        throws,
-                        gameMode,
-                        winnerID);
-        auto playersJSONArray = tournamentJSON["Players"].toArray();
-        auto playersJSONCount = playersJSONArray.count();
-        for (int j = 0; j < playersJSONCount; ++j) {
-            auto assignedPlayerJSON = playersJSONArray[j].toObject();
-            auto stringID = assignedPlayerJSON["ID"].toString();
-            auto playerID = QUuid::fromString(stringID);
-            assignPlayerToTournament(tournamentID,playerID);
-        }
-    }
-}
-
-void LocalTournamentModelsContext::buildTournament(const QUuid &id,
-                                                   const QString &title,
-                                                   const int &keyPoint,
-                                                   const int &tableViewHint,
-                                                   const int &inputMode,
-                                                   const int &attemps,
-                                                   const int &gameMode,
-                                                   const QUuid &winner)
-{
-    auto tournament = modelBuilder()->buildFTPTournament(
-                [id,title,keyPoint,tableViewHint,inputMode,attemps,gameMode,winner]{
-                FTPParameters params;
-                params.id = id;
-                params.title = title;
-                params.initialPoint = keyPoint;
-                params.modelTableViewHint = tableViewHint;
-                params.inputMode = inputMode;
-                params.gameMode = gameMode;
-                params.attempts = attemps;
-                params.winner = winner;
-                return params;
-        }(),[]{
-                ModelOptions options;
-                options.generateUniqueId = false;
-                return options;
-        }());
-    modelDBContext()->addModel("Tournament",tournament);
-}
-
-
-void LocalTournamentModelsContext::buildScoreModel(const QUuid &tournament,
-                                                   const QUuid &player,
-                                                   const QVector<int> &dataValues,
-                                                   const int &hint,
-                                                   const bool &generateID,
-                                                   const QUuid &id)
-{
-    /*
-     * dataValues location/value table:
-     *  - [0] = Round index
-     *  - [1] = Set/player index
-     *  - [2] = throwindex
-     *  - [3] = point value
-     *  - [4} = score value
-     *  - [5] = keycode
-     */
-
-    // Build model
-    auto model = modelBuilder()->buildScoreModel(
-                [id,tournament,dataValues,player,hint]
-    {
-        FTPScoreParameters params;
-        params.id = id;
-        params.playerId = player;
-        params.hint = hint;
-        params.tournament = tournament;
-        params.roundIndex = dataValues.at(0);
-        params.setIndex = dataValues.at(1);
-        params.throwIndex = dataValues.at(2);
-        params.pointValue = dataValues.at(3);
-        params.scoreValue = dataValues.at(4);
-        params.keyCode = dataValues.at(5);
-
-        return params;
-    }(),[generateID]{
-        ModelOptions options;
-        options.generateUniqueId = generateID;
-        return options;
-    }());
-    // Add model to db context
-    modelDBContext()->addModel("Score",model);
 }
 
 void LocalTournamentModelsContext::removeTournamentModel(const QUuid &tournament)
 {
-    auto models = modelDBContext()->models("Tournament");
+    auto models = modelDBContext()->tournaments();
     for (auto model : models) {
         auto id = model->id();
         if(id == tournament)
         {
-            auto index = modelDBContext()->indexOfModel("Tournament",model);
-            modelDBContext()->removeModel("Tournament",index);
+            auto index = modelDBContext()->indexOfTournament(model);
+            modelDBContext()->removeTournamentModel(index);
             return;
         }
     }
@@ -816,13 +633,13 @@ void LocalTournamentModelsContext::removeTournamentModel(const QUuid &tournament
 
 void LocalTournamentModelsContext::removePointModel(const QUuid &point)
 {
-    auto models = modelDBContext()->models("Score");
+    auto models = modelDBContext()->scoreModels();
     for (auto model : models) {
         auto id = model->id();
         if(id == point)
         {
-            auto index = modelDBContext()->indexOfModel("Score",model);
-            modelDBContext()->removeModel("Score",index);
+            auto index = modelDBContext()->indexOfScoreModel(model);
+            modelDBContext()->removeScoreModel(index);
             return;
         }
     }
@@ -882,13 +699,13 @@ QVector<int> LocalTournamentModelsContext::tournamentUserScores(const QUuid &tou
     return userScores;
 }
 
-LocalTournamentModelsContext *LocalTournamentModelsContext::setModelDBContext(ImodelsDBContext<ModelInterface<QUuid>, QString> *context)
+LocalTournamentModelsContext *LocalTournamentModelsContext::setModelDBContext(ImodelsDBContext *context)
 {
     _dbContext = context;
     return this;
 }
 
-ImodelsDBContext<ModelInterface<QUuid>, QString> *LocalTournamentModelsContext::modelDBContext()
+ImodelsDBContext *LocalTournamentModelsContext::modelDBContext()
 {
     return _dbContext;
 }
@@ -896,24 +713,50 @@ ImodelsDBContext<ModelInterface<QUuid>, QString> *LocalTournamentModelsContext::
 int LocalTournamentModelsContext::playerScoreCount(const int &hint)
 {
     auto count = 0;
-    auto models = modelDBContext()->models("Score");
+    auto models = modelDBContext()->scoreModels();
     for (auto model : models) {
-        auto scoreModel = dynamic_cast<const FTPScoreInterface*>(model);
+        auto scoreModel = dynamic_cast<const LMC::ScoreInterface*>(model);
         if(scoreModel->hint() == hint || hint == allHints)
             count++;
     }
     return count;
 }
 
-void LocalTournamentModelsContext::addScore(const QUuid &tournament,
+void LocalTournamentModelsContext::addFTPScore(const QUuid &tournament,
                                             const QUuid &player,
                                             const QVector<int> &dataValues,
                                             const bool &isWinnerDetermined)
 {
-    buildScoreModel(tournament,
-                    player,
-                    dataValues,
-                    ModelDisplayHint::DisplayHint);
+    /*
+     * dataValues memory layout:
+     *  - [0] = Round index
+     *  - [1] = Set/player index
+     *  - [2] = throwindex
+     *  - [3] = point value
+     *  - [4} = score value
+     *  - [5] = keycode
+     */
+    scoreBuilder()->buildFTPScoreModel([this,tournament,player,dataValues]
+    {
+        SBC::FTPScoreParameters params;
+        params.roundIndex = dataValues[0];
+        params.setIndex = dataValues[1];
+        params.attempt = dataValues[2];
+        params.pointValue = dataValues[3];
+        params.scoreValue = dataValues[4];
+        params.keyCode = dataValues[5];
+        params.tournament = tournament;
+        params.playerId = player;
+        params.gameMode = tournamentGameMode(tournament);
+        return params;
+    }(),
+    []
+    {
+        SBC::ModelOptions options;
+        options.generateUniqueId = true;
+        return options;
+    }());
+
     if(isWinnerDetermined)
         setTournamentDeterminedWinner(tournament,player);
     removeHiddenScores(tournament);
@@ -941,31 +784,5 @@ int LocalTournamentModelsContext::score(const QUuid &player)
 {
     Q_UNUSED(player);
     return -1;
-}
-
-void LocalTournamentModelsContext::extractScoreModelsFromJSON(const QJsonArray &arr)
-{
-    for (auto JSONValue : arr) {
-        QVector<int> dataValues;
-        auto stringID = JSONValue["ID"].toString();
-        auto id = QUuid::fromString(stringID);
-        auto tournament = JSONValue["Tournament"].toString();
-        auto tournamentID = QUuid::fromString(tournament);
-        auto playerStringID = JSONValue["PlayerID"].toString();
-        auto playerID = QUuid::fromString(playerStringID);
-        dataValues.append(JSONValue["RoundIndex"].toInt());
-        dataValues.append(JSONValue["SetIndex"].toInt());
-        dataValues.append(JSONValue["Index"].toInt());
-        dataValues.append(JSONValue["PointValue"].toInt());
-        dataValues.append(JSONValue["ScoreValue"].toInt());
-        dataValues.append(JSONValue["KeyCode"].toInt());
-        auto scoreHint = JSONValue["Hint"].toInt();
-        buildScoreModel(tournamentID,
-                        playerID,
-                        dataValues,
-                        scoreHint,
-                        false,
-                        id);
-    }
 }
 

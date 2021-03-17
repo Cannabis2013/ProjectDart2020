@@ -10,8 +10,7 @@
 #include "localplayermodelscontext.h"
 #include "localmodelscontext.h"
 #include "ftpdatamodel.h"
-#include "localplayerdbcontext.h"
-#include "ftpmodelbuilder.h"
+#include "tournamentbuilder.h"
 #include "playermodelbuilder.h"
 #include "sftpdatamodel.h"
 

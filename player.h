@@ -22,17 +22,19 @@ public:
     {
         return _email;
     }
-    void setEmail(const QString &email) override
+    Player* setEmail(const QString &email) override
     {
         _email = email;
+        return this;
     }
     int userRole() const override
     {
         return _role;
     }
-    void setUserRole(const int &role) override
+    Player* setUserRole(const int &role) override
     {
         _role = role;
+        return this;
     }
     int type() const override
     {
@@ -47,9 +49,10 @@ public:
     {
         return _userName;
     }
-    void setUserName(const QString &name) override
+    Player* setUserName(const QString &name) override
     {
         _userName = name;
+        return this;
     }
 
     bool operator==(IPlayerModel<QUuid,QString>* &other) override
@@ -59,7 +62,7 @@ public:
         else
             return false;
     }
-    virtual ModelInterface *setParent(const QUuid &parent) override
+    virtual Player* setParent(const QUuid &) override
     {
         return this;
     }
@@ -67,7 +70,10 @@ public:
     {
         return QUuid();
     }
-
+    static Player* createInstance()
+    {
+        return new Player;
+    }
 private:
     QUuid _id;
     QString _userName, _email;

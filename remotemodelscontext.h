@@ -4,8 +4,8 @@
 #include "networkmanager.h"
 #include "abstractmodelscontext.h"
 #include <qjsonobject.h>
-#include "itournamentmodelbuilder.h"
-#include "modelbuildercontext.h"
+#include "itournamentbuilder.h"
+#include "tournamentbuildercontext.h"
 
 #define PRODUCTION
 #ifdef PRODUCTION

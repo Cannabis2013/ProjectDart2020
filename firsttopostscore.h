@@ -30,7 +30,7 @@ public:
     {
         return _pointValue;
     }
-    FirstToPostScore* setPoint(const int &point) override
+    FirstToPostScore* setPointValue(const int &point) override
     {
         _pointValue = point;
         return this;
@@ -53,11 +53,11 @@ public:
         _player = id;
         return this;
     }
-    int throwIndex() const override
+    int attempt() const override
     {
         return _throwIndex;
     }
-    FirstToPostScore* setThrowIndex(const int &index) override
+    FirstToPostScore* setAttempt(const int &index) override
     {
         _throwIndex = index;
         return this;
@@ -66,7 +66,7 @@ public:
     {
         return _hint;
     }
-    FirstToPostScore* setHint(const int &hint) override
+    FirstToPostScore* setDisplayHint(const int &hint) override
     {
         _hint = hint;
         return this;
@@ -75,7 +75,7 @@ public:
     {
         return _scoreValue;
     }
-    FirstToPostScore* setScore(const int &score) override
+    FirstToPostScore* setScoreValue(const int &score) override
     {
         _scoreValue = score;
         return this;
@@ -88,6 +88,16 @@ public:
     FirstToPostScore* setKeyCode(const int &key) override
     {
         _keyCode = key;
+        return this;
+    }
+
+    int gameMode() const override
+    {
+        return _gameMode;
+    }
+    FirstToPostScore* setGameMode(const int& mode) override
+    {
+        _gameMode = mode;
         return this;
     }
     static FirstToPostScore* createInstance()
@@ -125,14 +135,15 @@ public:
     }
 
 private:
-    int _modelType,
-        _pointValue,
-        _scoreValue,
-        _throwIndex,
-        _setIndex,
-        _roundIndex,
-        _hint,
-        _keyCode;
+    int _modelType;
+    int _pointValue;
+    int _scoreValue;
+    int _throwIndex;
+    int _setIndex;
+    int _roundIndex;
+    int _hint;
+    int _keyCode;
+    int _gameMode;
     QUuid _id, _player, _tournament;
 };
 

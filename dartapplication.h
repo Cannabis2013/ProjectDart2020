@@ -5,7 +5,7 @@
 #include <qthreadpool.h>
 #include <iostream>
 
-#include "itournamentmodelbuilder.h"
+#include "itournamentbuilder.h"
 #include "iplayerbuildercontext.h"
 #include "abstractcontrollerbuilder.h"
 

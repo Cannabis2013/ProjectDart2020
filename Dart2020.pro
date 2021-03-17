@@ -16,13 +16,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         abstractjsonpersistence.cpp \
         dartapplication.cpp \
-    defaultmodelsdbcontext.cpp \
         ftpdatamodel.cpp \
         ftpscorecontroller.cpp \
         iurlparser.cpp \
+    jsondbcontext.cpp \
         localftpcontroller.cpp \
     localmodelscontext.cpp \
-        localplayerdbcontext.cpp \
         localplayermodelscontext.cpp \
         localtournamentmodelscontext.cpp \
         main.cpp \
@@ -53,6 +52,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     AbstractApplicationInterface.h \
     IControllerBuilder.h \
+    IScoreBuilder.h \
     LinkedList.h \
     PointIndexController.h \
     ScoreValidator.h \
@@ -62,16 +62,15 @@ HEADERS += \
     abstractmodelscontext.h \
     abstractpersistence.h \
     dartapplication.h \
-    defaultmodelsdbcontext.h \
     firsttopostscore.h \
     ftpdatamodel.h \
     ftplogisticcontrollerinterface.h \
-    ftpmodelbuilder.h \
     ftpscorecontroller.h \
     ftptournament.h \
-    ftptournamentmodelinterface.h \
     gamecontrollerbuilder.h \
     idatacontext.h \
+    iftptournament.h \
+    imodel.h \
     imodelsdbcontext.h \
     indexcontrollerinterface.h \
     inputvalidatorinterface.h \
@@ -81,15 +80,16 @@ HEADERS += \
     iplayermodelbuilder.h \
     iresponseinterface.h \
     iscoremodel.h \
-    itournamentmodelbuilder.h \
+    iscoreparameter.h \
+    itournament.h \
+    itournamentbuilder.h \
+    itournamentparameter.h \
     iurlparser.h \
+    jsondbcontext.h \
     localftpcontroller.h \
     localmodelscontext.h \
-    localplayerdbcontext.h \
     localplayermodelscontext.h \
     localtournamentmodelscontext.h \
-    modelbuildercontext.h \
-    modelinterface.h \
     networkmanager.h \
     persistenceinterface.h \
     player.h \
@@ -102,10 +102,15 @@ HEADERS += \
     remotemodelscontext.h \
     replytimeout.h \
     scoreCalculatorInterface.h \
+    scorebuilder.h \
+    scorebuildercontext.h \
     scorecalculator.h \
     scoreindexcontroller.h \
     scorelogisticcontroller.h \
     sftpdatamodel.h \
+    tournamentbuilder.h \
+    tournamentbuildercontext.h \
+    tournamentcontextcollection.h \
     tournamentmodelscontextinterface.h \
     urlparser.h \
     userscorescontrollerinterface.h

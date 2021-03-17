@@ -8,10 +8,10 @@ LocalModelsContext::~LocalModelsContext()
 
 LocalModelsContext *LocalModelsContext::createInstance()
 {
-    auto dbContext = new DefaultModelsDbContext();
+    auto dbContext = new JsonDbContext();
     auto tournamentModelsContext =
             LocalTournamentModelsContext::createInstance()
-            ->setModelBuilder(new FTPModelBuilder())
+            ->setTournamentBuilder(new TournamentBuilder())
             ->setModelDBContext(dbContext)
             ->setup();
     auto playerModelsContext =
@@ -151,7 +151,7 @@ void LocalModelsContext::handleAddScore(const QUuid &tournament,
                                             const QVector<int> &dataValues,
                                             const bool &isWinnerDetermined)
 {
-    tournamentModelsContext()->addScore(tournament,
+    tournamentModelsContext()->addFTPScore(tournament,
                                         player,
                                         dataValues,
                                         isWinnerDetermined);
@@ -226,8 +226,6 @@ void LocalModelsContext::handleCreatePlayer(const QString &name, const QString &
     auto id = playerModelsContext()->createPlayer(name,mail);
     auto status = id != QUuid() ? true :
                                   false;
-    // Persist state change
-    playerModelsContext()->write();
     // Notify front-end
     emit confirmPlayerCreated(status);
 }
@@ -258,7 +256,7 @@ void LocalModelsContext::handleRequestPlayersDetails()
 
 void LocalModelsContext::handleRequestPersistTournamentState()
 {
-    tournamentModelsContext()->write();
+    // Implement save state
     emit tournamentModelsStatePersisted();
 }
 

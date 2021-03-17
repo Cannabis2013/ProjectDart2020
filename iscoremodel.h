@@ -1,26 +1,26 @@
 #ifndef ISCOREMODEL_H
 #define ISCOREMODEL_H
 
-#include "modelinterface.h"
+#include "imodel.h"
 
 template <class TUuid>
-class IScore : public ModelInterface<TUuid>
+class IScore : public IModel<TUuid>
 {
 public:
     virtual int point() const = 0;
-    virtual IScore* setPoint(const int &point) = 0;
+    virtual IScore* setPointValue(const int &point) = 0;
 
     virtual int score() const = 0;
-    virtual IScore* setScore(const int &score) = 0;
+    virtual IScore* setScoreValue(const int &score) = 0;
 
-    virtual int throwIndex() const = 0;
-    virtual IScore* setThrowIndex(const int &index) = 0;
+    virtual int attempt() const = 0;
+    virtual IScore* setAttempt(const int &index) = 0;
 
     virtual TUuid player() const = 0;
     virtual IScore* setPlayer(const TUuid &id) = 0;
 
     virtual int hint() const = 0;
-    virtual IScore* setHint(const int &hint) = 0;
+    virtual IScore* setDisplayHint(const int &hint) = 0;
 
     virtual int keyCode() const = 0;
     virtual IScore* setKeyCode(const int &key) = 0;
@@ -30,6 +30,9 @@ public:
 
     virtual int setIndex() const = 0;
     virtual IScore* setSetIndex(const int &index) = 0;
+
+    virtual int gameMode() const = 0;
+    virtual IScore* setGameMode(const int&) = 0;
 };
 
 #endif // ISCOREMODEL_H
