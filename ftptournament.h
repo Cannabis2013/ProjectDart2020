@@ -113,11 +113,11 @@ public:
 
     int terminalKeyCode() const override
     {
-        return _terminateConditionKeyCode;
+        return _terminalKeyCode;
     }
     FTPTournament* setTerminalKeyCode(const int &keyCode) override
     {
-        _terminateConditionKeyCode = keyCode;
+        _terminalKeyCode = keyCode;
         return this;
     }
     static FTPTournament * createInstance()
@@ -151,7 +151,7 @@ private:
     int _keyPoint;
     int _status;
     int _modelType;
-    int _terminateConditionKeyCode;
+    int _terminalKeyCode;
     int _modelDisplayHint;
     int _inputMode;
     QUuid _id,_winner;

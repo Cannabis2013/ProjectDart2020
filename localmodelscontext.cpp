@@ -51,7 +51,7 @@ void LocalModelsContext::handleRequestForAddFTPTournament(const QString &title,
                                                               const QVector<int> &assignedPlayerIndexes)
 {
     auto playerIds = playerModelsContext()->assemblePlayerIds(assignedPlayerIndexes);
-    tournamentModelsContext()->assembleAndAddFTPTournament(title,
+    tournamentModelsContext()->tournamentAssembleAndAddFTP(title,
                                                            data,
                                                            playerIds);
     emit transmitResponse(TournamentModelsContextResponse::TournamentCreatedOK,{});
@@ -62,7 +62,7 @@ void LocalModelsContext::handleAssignPlayersToTournament(const QUuid &tournament
                                                              const QList<QUuid> &playersID)
 {
     for (auto playerID : playersID)
-        tournamentModelsContext()->assignPlayerToTournament(tournament,playerID);
+        tournamentModelsContext()->tournamentAssignPlayer(tournament,playerID);
 }
 
 void LocalModelsContext::handleDeleteTournaments(const QVector<int> &indexes)
@@ -190,7 +190,7 @@ void LocalModelsContext::handleResetTournament(const QUuid &tournament)
      * - Add a round model and a set model
      */
     tournamentModelsContext()->removeTournamentScores(tournament);
-    tournamentModelsContext()->setTournamentDeterminedWinner(tournament,QUuid());
+    tournamentModelsContext()->tournamentSetWinnerId(tournament,QUuid());
     emit tournamentResetSuccess();
 }
 
@@ -200,7 +200,7 @@ void LocalModelsContext::handleRequestFTPDetails(const QUuid &tournament)
         tournamentModelsContext()->tournamentGameMode(tournament),
         tournamentModelsContext()->tournamentKeyPoint(tournament),
         tournamentModelsContext()->tournamentAttempts(tournament),
-        tournamentModelsContext()->tournamentLastThrowKeyCode(tournament),
+        tournamentModelsContext()->tournamentTerminalKeyCode(tournament),
         tournamentModelsContext()->tournamentInputMode(tournament)
     };
     QVector<QUuid> assignedPlayersId;
@@ -210,7 +210,7 @@ void LocalModelsContext::handleRequestFTPDetails(const QUuid &tournament)
         return;
     }
     auto assignedPlayerNames = playerModelsContext()->assemblePlayerNamesFromIds(assignedPlayersId);
-    auto winnerId = tournamentModelsContext()->tournamentDeterminedWinner(tournament);
+    auto winnerId = tournamentModelsContext()->tournamentWinner(tournament);
     QVector<QUuid> tournamentIdAndWinner = {
         tournament,
         winnerId
@@ -266,7 +266,7 @@ void LocalModelsContext::assembleTournamentMetaDataFromId(const QUuid &tournamen
 {
     auto title = tournamentModelsContext()->tournamentTitle(tournament);
     // Get winner name from id, if any
-    auto winnerId = tournamentModelsContext()->tournamentDeterminedWinner(tournament);
+    auto winnerId = tournamentModelsContext()->tournamentWinner(tournament);
     auto winnerName = playerModelsContext()->playerNameFromId(winnerId);
     auto gameMode = tournamentModelsContext()->tournamentGameMode(tournament);
     auto keyPoint = tournamentModelsContext()->tournamentKeyPoint(tournament);

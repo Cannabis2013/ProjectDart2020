@@ -11,7 +11,7 @@ public:
     /*
      * Tournament related section
      */
-    virtual QUuid assembleAndAddFTPTournament(const QString &title,
+    virtual QUuid tournamentAssembleAndAddFTP(const QString &title,
                                               const QVector<int> &data,
                                               const QVector<QUuid> &playerIds) = 0;
     virtual bool removeTournament(const QUuid &tournament) = 0;
@@ -23,15 +23,15 @@ public:
     virtual int tournamentAttempts(const QUuid &tournament) = 0;
     virtual QVector<QUuid> tournamentAssignedPlayers(const QUuid &tournament) = 0;
     virtual int tournamentGameMode(const QUuid &tournament) = 0;
-    virtual int tournamentLastThrowKeyCode(const QUuid &tournament) = 0;
+    virtual int tournamentTerminalKeyCode(const QUuid &tournament) = 0;
     virtual int tournamentKeyPoint(const QUuid &tournament) = 0;
     virtual int tournamentTableViewHint(const QUuid &tournament) = 0;
     virtual int tournamentInputMode(const QUuid &tournament) = 0;
     virtual int tournamentStatus(const QUuid &tournament) = 0;
-    virtual QUuid tournamentDeterminedWinner(const QUuid &tournament) = 0;
-    virtual void setTournamentDeterminedWinner(const QUuid &tournament, const QUuid &winner) = 0;
-    virtual void assignPlayerToTournament(const QUuid &tournament, const QUuid &player) = 0;
-    virtual void tournamentRemovePlayer(const QUuid &tournament, const QUuid &player) = 0;
+    virtual QUuid tournamentWinner(const QUuid &tournament) = 0;
+    virtual void tournamentSetWinnerId(const QUuid &tournament, const QUuid &winner) = 0;
+    virtual void tournamentAssignPlayer(const QUuid &tournament, const QUuid &player) = 0;
+    virtual void tournamentUnAssignPlayer(const QUuid &tournament, const QUuid &player) = 0;
     /*
      * Scores related section
      */

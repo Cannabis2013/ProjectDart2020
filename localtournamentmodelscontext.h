@@ -61,30 +61,36 @@ public:
     /*
      * Tournament related section
      */
-    QUuid assembleAndAddFTPTournament(const QString &title,
-                                      const QVector<int> &data,
-                                      const QVector<QUuid> &playerIds) override;
+    /*
+     * General tournament related
+     */
     bool removeTournament(const QUuid &tournament) override;
     bool removeTournamentsFromIndexes(const QVector<int>& indexes) override;
     QUuid tournamentIdFromIndex(const int &index) override;
     QVector<QUuid> tournaments() override;
     int tournamentsCount() override;
     QString tournamentTitle(const QUuid &tournament) override;
-    int tournamentAttempts(const QUuid &tournament) override;
+    int tournamentStatus(const QUuid &tournament) override;
+    QUuid tournamentWinner(const QUuid &tournament) override;
+    void tournamentSetWinnerId(const QUuid &tournament,
+                                       const QUuid &winner) override;
     QVector<QUuid> tournamentAssignedPlayers(const QUuid &tournament) override;
+    void tournamentAssignPlayer(const QUuid &tournament,
+                                  const QUuid &player) override;
+    void tournamentUnAssignPlayer(const QUuid &tournament,
+                                const QUuid &player) override;
+    /*
+     * FTP tournament related
+     */
+    QUuid tournamentAssembleAndAddFTP(const QString &title,
+                                      const QVector<int> &data,
+                                      const QVector<QUuid> &playerIds) override;
+    int tournamentAttempts(const QUuid &tournament) override;
     int tournamentGameMode(const QUuid &tournament) override;
-    int tournamentLastThrowKeyCode(const QUuid &tournament) override;
+    int tournamentTerminalKeyCode(const QUuid &tournament) override;
     int tournamentKeyPoint(const QUuid &tournament) override;
     int tournamentTableViewHint(const QUuid &tournament) override;
     int tournamentInputMode(const QUuid &tournament) override;
-    int tournamentStatus(const QUuid &tournament) override;
-    QUuid tournamentDeterminedWinner(const QUuid &tournament) override;
-    void setTournamentDeterminedWinner(const QUuid &tournament,
-                                       const QUuid &winner) override;
-    void assignPlayerToTournament(const QUuid &tournament,
-                                  const QUuid &player) override;
-    void tournamentRemovePlayer(const QUuid &tournament,
-                                const QUuid &player) override;
     /*
      * Scores related section
      */

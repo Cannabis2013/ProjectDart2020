@@ -34,12 +34,6 @@ public:
         DisplayHint = 0xA,
         allHints = 0xB
     };
-    enum GameModes {
-        FirstToPost = 0x1,
-        RoundLimit =0x2,
-        Circular = 0x3,
-        Cricket = 0x4
-    };
     /*
      * Destructor
      *  - Delete contexts to persists changes

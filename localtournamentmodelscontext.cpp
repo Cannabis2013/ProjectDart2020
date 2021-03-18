@@ -36,7 +36,7 @@ LMC::IScoreModelsBuilder *LocalTournamentModelsContext::scoreBuilder()
     return _scoreModelbuilder;
 }
 
-QUuid LocalTournamentModelsContext::assembleAndAddFTPTournament(const QString &title,
+QUuid LocalTournamentModelsContext::tournamentAssembleAndAddFTP(const QString &title,
                                                                 const QVector<int> &data,
                                                                 const QVector<QUuid>& playerIds)
 {
@@ -161,7 +161,7 @@ int LocalTournamentModelsContext::tournamentGameMode(const QUuid &tournament)
     return getTournamentModelFromID<LMC::TournamentInterface>(tournament)->gameMode();
 }
 
-int LocalTournamentModelsContext::tournamentLastThrowKeyCode(const QUuid &tournament)
+int LocalTournamentModelsContext::tournamentTerminalKeyCode(const QUuid &tournament)
 {
     auto tournamentModel = getTournamentModelFromID<LMC::FTPInterface>(tournament);
     auto conditionKeyCode = tournamentModel->terminalKeyCode();
@@ -196,13 +196,13 @@ int LocalTournamentModelsContext::tournamentStatus(const QUuid &tournament)
     return status;
 }
 
-QUuid LocalTournamentModelsContext::tournamentDeterminedWinner(const QUuid &tournament)
+QUuid LocalTournamentModelsContext::tournamentWinner(const QUuid &tournament)
 {
     auto tournamentModel = getTournamentModelFromID<LMC::TournamentInterface>(tournament);
     return tournamentModel->winnerId();
 }
 
-void LocalTournamentModelsContext::setTournamentDeterminedWinner(const QUuid &tournament,
+void LocalTournamentModelsContext::tournamentSetWinnerId(const QUuid &tournament,
                                                                  const QUuid &winner)
 {
     auto oldModel = getTournamentModelFromID<LMC::TournamentInterface>(tournament);
@@ -229,7 +229,7 @@ void LocalTournamentModelsContext::setTournamentDeterminedWinner(const QUuid &to
     modelDBContext()->replaceTournament(index,newModel);
 }
 
-void LocalTournamentModelsContext::assignPlayerToTournament(const QUuid &tournament, const QUuid &player)
+void LocalTournamentModelsContext::tournamentAssignPlayer(const QUuid &tournament, const QUuid &player)
 {
     auto oldModel = getTournamentModelFromID<LMC::TournamentInterface>(tournament);
     auto assignedPlayers = oldModel->assignedPlayerIdentities();
@@ -251,7 +251,7 @@ void LocalTournamentModelsContext::assignPlayerToTournament(const QUuid &tournam
     modelDBContext()->replaceTournament(index,newModel);
 }
 
-void LocalTournamentModelsContext::tournamentRemovePlayer(const QUuid &tournament, const QUuid &player)
+void LocalTournamentModelsContext::tournamentUnAssignPlayer(const QUuid &tournament, const QUuid &player)
 {
     auto oldModel = getTournamentModelFromID<LMC::TournamentInterface>(tournament);
     auto assignedPlayers = oldModel->assignedPlayerIdentities();
@@ -762,7 +762,7 @@ void LocalTournamentModelsContext::addFTPScore(const QUuid &tournament,
     }());
 
     if(isWinnerDetermined)
-        setTournamentDeterminedWinner(tournament,player);
+        tournamentSetWinnerId(tournament,player);
     removeHiddenScores(tournament);
     modelDBContext()->addScoreModel(model);
 }
