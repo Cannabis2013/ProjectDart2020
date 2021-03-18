@@ -83,9 +83,6 @@ public:
                 ->setWinner(winnerId);
         return model;
     }
-
-private:
-
 };
 
 
