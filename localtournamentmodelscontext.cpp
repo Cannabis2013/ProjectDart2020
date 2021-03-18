@@ -221,7 +221,7 @@ void LocalTournamentModelsContext::setTournamentDeterminedWinner(const QUuid &to
                     }(),[]
                     {
                         TBC::ModelOptions options;
-                        options.generateUniqueId = false;
+                        options.useProvidedId = true;
                         return options;
                     }());
     }
@@ -347,26 +347,29 @@ QUuid LocalTournamentModelsContext::setScoreHint(const QUuid &point,
         auto oldModel = getScoreModelFromID(point);
         if(oldModel->gameMode() == GameModes::FirstToPost)
         {
-            auto newModel = scoreBuilder()->buildFTPScoreModel([oldModel,hint]{
-                SBC::FTPScoreParameters params;
-                params.id = oldModel->id();
-                params.tournament = oldModel->parent();
-                params.pointValue = oldModel->point();
-                params.roundIndex = oldModel->roundIndex();
-                params.setIndex = oldModel->setIndex();
-                params.attempt = oldModel->attempt();
-                params.playerId = oldModel->player();
-                params.scoreValue = oldModel->score();
-                params.hint = hint;
-                return params;
-            }(),[]{
-                SBC::ModelOptions options;
-                options.generateUniqueId = false;
-                return options;
-            }());
-            auto index = modelDBContext()->indexOfScoreModel(oldModel);
-            modelDBContext()->replaceScoreModel(index,newModel);
-            return newModel->id();
+            if(oldModel->gameMode() == GameModes::FirstToPost)
+            {
+                auto newModel = scoreBuilder()->buildFTPScoreModel([oldModel,hint]{
+                    SBC::FTPScoreParameters params;
+                    params.id = oldModel->id();
+                    params.tournament = oldModel->parent();
+                    params.pointValue = oldModel->point();
+                    params.roundIndex = oldModel->roundIndex();
+                    params.setIndex = oldModel->setIndex();
+                    params.attempt = oldModel->attempt();
+                    params.playerId = oldModel->player();
+                    params.scoreValue = oldModel->score();
+                    params.hint = hint;
+                    return params;
+                }(),[]{
+                    SBC::ModelOptions options;
+                    options.generateUniqueId = false;
+                    return options;
+                }());
+                auto index = modelDBContext()->indexOfScoreModel(oldModel);
+                modelDBContext()->replaceScoreModel(index,newModel);
+                return newModel->id();
+            }
         }
 
     } catch (const char msg) {
@@ -723,9 +726,9 @@ int LocalTournamentModelsContext::playerScoreCount(const int &hint)
 }
 
 void LocalTournamentModelsContext::addFTPScore(const QUuid &tournament,
-                                            const QUuid &player,
-                                            const QVector<int> &dataValues,
-                                            const bool &isWinnerDetermined)
+                                               const QUuid &player,
+                                               const QVector<int> &dataValues,
+                                               const bool &isWinnerDetermined)
 {
     /*
      * dataValues memory layout:
@@ -736,7 +739,7 @@ void LocalTournamentModelsContext::addFTPScore(const QUuid &tournament,
      *  - [4} = score value
      *  - [5] = keycode
      */
-    scoreBuilder()->buildFTPScoreModel([this,tournament,player,dataValues]
+    auto model = scoreBuilder()->buildFTPScoreModel([this,tournament,player,dataValues]
     {
         SBC::FTPScoreParameters params;
         params.roundIndex = dataValues[0];
@@ -748,6 +751,7 @@ void LocalTournamentModelsContext::addFTPScore(const QUuid &tournament,
         params.tournament = tournament;
         params.playerId = player;
         params.gameMode = tournamentGameMode(tournament);
+        params.hint = ModelDisplayHint::DisplayHint;
         return params;
     }(),
     []
@@ -760,6 +764,7 @@ void LocalTournamentModelsContext::addFTPScore(const QUuid &tournament,
     if(isWinnerDetermined)
         setTournamentDeterminedWinner(tournament,player);
     removeHiddenScores(tournament);
+    modelDBContext()->addScoreModel(model);
 }
 
 void LocalTournamentModelsContext::removeHiddenScores(const QUuid &tournament)

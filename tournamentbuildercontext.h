@@ -10,14 +10,14 @@ namespace TBC {
     {
     public:
         QUuid id;
-        QString title;
+        QString title = "";
         QUuid winner;
         int gameMode = -1;
-        int status;
+        int status = -1;
         int attempts = -1;
         int keyPoint = -1;
-        int modelTableViewHint;
-        int inputMode;
+        int modelTableViewHint = -1;
+        int inputMode = -1;
         int tournamentsCount = 0;
         int winConditionKey = 0x2B;
         QVector<QUuid> playerIdentities;
@@ -31,6 +31,7 @@ namespace TBC {
     public:
         bool generateUniqueId = true;
         bool customUuid = false;
+        bool useProvidedId = false;
     };
 }
 

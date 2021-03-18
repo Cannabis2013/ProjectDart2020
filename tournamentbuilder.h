@@ -45,7 +45,7 @@ public:
                 ->setDisplayHint(params.modelTableViewHint)
                 ->setInputMode(params.inputMode)
                 ->setWinner(params.winner);
-        if(options.generateUniqueId)
+        if(options.generateUniqueId && !options.useProvidedId)
             t->setId(QUuid::createUuid());
         else
             t->setId(params.id);
@@ -53,7 +53,7 @@ public:
     }
     virtual TournamentInterface* editFTPTournament(const TournamentInterface* tournament,
                                                 const ITournamentParameter& p,
-                                                const TBC::ModelOptions &) override
+                                                const TBC::ModelOptions &options) override
     {
         auto ftpTournament = dynamic_cast<const FTPTournament*>(tournament);
         auto params = dynamic_cast<const TBC::FTPParameters&>(p);
@@ -67,8 +67,9 @@ public:
         auto terminalKeyCode = params.winConditionKey != -1 ? params.winConditionKey : ftpTournament->terminalKeyCode();
         auto displayHint = params.modelTableViewHint != -1 ? params.modelTableViewHint : ftpTournament->displayHint();
         auto inputMode = params.inputMode != -1 ? params.inputMode : ftpTournament->inputHint();
-        auto winnerId = params.winner != QUuid() ? params.winner : ftpTournament->winnerId();
+        auto winnerId = options.useProvidedId ? params.winner : ftpTournament->winnerId();
         auto model = FTPTournament::createInstance()
+                ->setId(ftpTournament->id())
                 ->setTitle(title)
                 ->setKeyPoint(keyPoint)
                 ->setGameMode(gameMode)

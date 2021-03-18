@@ -32,7 +32,6 @@ Item {
     TextEdit{
         id: scoreViewTextEdit
         anchors.fill: parent
-        text: scoreViewBody.value
         readOnly: true
         horizontalAlignment: TextEdit.AlignHCenter
         verticalAlignment: TextEdit.AlignVCenter

@@ -6,6 +6,7 @@
 #include "localtournamentmodelscontext.h"
 #include "localplayermodelscontext.h"
 #include "tournamentbuilder.h"
+#include "scorebuilder.h"
 #include "playermodelbuilder.h"
 #include "jsondbcontext.h"
 

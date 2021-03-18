@@ -31,7 +31,7 @@ void JsonDbContext::saveState()
     modelJSON["FTPTournaments"] = assembleFTPTournamentsJSONArray();
     modelJSON["FTPScores"] = assembleScoresJSONArray();
     modelJSON["Players"] = assemblePlayersJSONArray();
-    writeJSONToFile(modelJSON,"TournamentModels");
+    writeJSONToFile(modelJSON,"Models");
 }
 
 void JsonDbContext::addTournament(DbModels::TournamentInterface *model)
@@ -167,10 +167,10 @@ QJsonArray JsonDbContext::assembleScoresJSONArray()
     for (auto i = _scoreModels.begin();i != _scoreModels.end();i++) {
         auto model = *i;
         // Check if FTP model
+        auto ftpScoreModel = dynamic_cast<const FirstToPostScore*>(model);
         if(model->gameMode() != GameModes::FirstToPost)
             continue;
         QJsonObject scoreJSON;
-        auto ftpScoreModel = dynamic_cast<const FirstToPostScore*>(model);
         scoreJSON["Id"] = ftpScoreModel->id().toString();
         scoreJSON["Tournament"] = ftpScoreModel->tournament().toString();
         scoreJSON["PointValue"] = ftpScoreModel->point();
@@ -178,7 +178,7 @@ QJsonArray JsonDbContext::assembleScoresJSONArray()
         scoreJSON["RoundIndex"] = ftpScoreModel->roundIndex();
         scoreJSON["SetIndex"] = ftpScoreModel->setIndex();
         scoreJSON["Attempt"] = ftpScoreModel->attempt();
-        scoreJSON["PlayerID"] = ftpScoreModel->player().toString();
+        scoreJSON["PlayerId"] = ftpScoreModel->player().toString();
         scoreJSON["Hint"] = ftpScoreModel->hint();
         scoreJSON["KeyCode"] = ftpScoreModel->keyCode();
         scoresJSON.append(scoreJSON);
@@ -205,14 +205,14 @@ void JsonDbContext::extractTournamentModelsFromJSON(const QJsonArray &arr)
     auto tournamentsCount = arr.count();
     for (int i = 0; i < tournamentsCount; ++i) {
         auto tournamentJSON = arr[i].toObject();
-        auto stringID = tournamentJSON["ID"].toString();
+        auto stringID = tournamentJSON["Id"].toString();
         auto tournamentId = QUuid::fromString(stringID);
         auto title = tournamentJSON["Title"].toString();
         auto keyPoint = tournamentJSON["KeyPoint"].toInt();
         auto tableViewHint = tournamentJSON["TableViewHint"].toInt();
         auto inputMode = tournamentJSON["InputMode"].toInt();
         auto gameMode = tournamentJSON["GameMode"].toInt();
-        auto attempts = tournamentJSON["Throws"].toInt();
+        auto attempts = tournamentJSON["Attempts"].toInt();
         auto winnerStringID = tournamentJSON["Winner"].toString();
         auto winnerId = QUuid::fromString(winnerStringID);
         auto playersJSONArray = tournamentJSON["Players"].toArray();
@@ -242,11 +242,11 @@ void JsonDbContext::extractScoreModelsFromJSON(const QJsonArray &arr)
 {
     for (auto i = arr.begin();i != arr.end();i++) {
         auto JSONValue = *i;
-        auto stringID = JSONValue["ID"].toString();
+        auto stringID = JSONValue["Id"].toString();
         auto id = QUuid::fromString(stringID);
         auto tournament = JSONValue["Tournament"].toString();
         auto tournamentId = QUuid::fromString(tournament);
-        auto playerStringID = JSONValue["PlayerID"].toString();
+        auto playerStringID = JSONValue["PlayerId"].toString();
         auto playerId = QUuid::fromString(playerStringID);
         auto roundIndex = JSONValue["RoundIndex"].toInt();
         auto setIndex = JSONValue["SetIndex"].toInt();

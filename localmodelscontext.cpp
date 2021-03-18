@@ -12,6 +12,7 @@ LocalModelsContext *LocalModelsContext::createInstance()
     auto tournamentModelsContext =
             LocalTournamentModelsContext::createInstance()
             ->setTournamentBuilder(new TournamentBuilder())
+            ->setScoreBuilder(new ScoreBuilder)
             ->setModelDBContext(dbContext)
             ->setup();
     auto playerModelsContext =
@@ -51,7 +52,7 @@ void LocalModelsContext::handleRequestForAddFTPTournament(const QString &title,
 {
     auto playerIds = playerModelsContext()->assemblePlayerIds(assignedPlayerIndexes);
     tournamentModelsContext()->assembleAndAddFTPTournament(title,
-                                                          data,
+                                                           data,
                                                            playerIds);
     emit transmitResponse(TournamentModelsContextResponse::TournamentCreatedOK,{});
 
@@ -159,17 +160,18 @@ void LocalModelsContext::handleAddScore(const QUuid &tournament,
 }
 
 void LocalModelsContext::handleRequestSetScoreHint(const QUuid &tournament,
-                                                      const QUuid &player,
-                                                      const int &roundIndex,
-                                                      const int &throwIndex, const int &hint)
+                                                   const QUuid &player,
+                                                   const int &roundIndex,
+                                                   const int &throwIndex,
+                                                   const int &hint)
 {
     QUuid scoreID;
     try {
         scoreID = tournamentModelsContext()->playerScore(tournament,
-                              player,
-                              roundIndex,
-                              throwIndex,
-                              ModelDisplayHint::allHints);
+                                                         player,
+                                                         roundIndex,
+                                                         throwIndex,
+                                                         ModelDisplayHint::allHints);
 
     }  catch (const char *msg) {
         emit scoreHintNotUpdated(tournament,msg);
