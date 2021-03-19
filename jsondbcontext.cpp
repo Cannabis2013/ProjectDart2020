@@ -166,10 +166,13 @@ QJsonArray JsonDbContext::assembleScoresJSONArray()
     auto scoreModels = this->scoreModels();
     for (auto i = _scoreModels.begin();i != _scoreModels.end();i++) {
         auto model = *i;
-        // Check if FTP model
-        auto ftpScoreModel = dynamic_cast<const FirstToPostScore*>(model);
-        if(model->gameMode() != GameModes::FirstToPost)
+        auto tournamentId = model->parent();
+        auto tournament = tournamentModel(tournamentId);
+        auto gameMode = tournament->gameMode();
+        auto ftpScoreModel = dynamic_cast<const FTPScore*>(model);
+        if(gameMode != GameModes::FirstToPost)
             continue;
+        // Check if FTP model
         QJsonObject scoreJSON;
         scoreJSON["Id"] = ftpScoreModel->id().toString();
         scoreJSON["Tournament"] = ftpScoreModel->tournament().toString();
@@ -255,7 +258,7 @@ void JsonDbContext::extractScoreModelsFromJSON(const QJsonArray &arr)
         auto scoreValue = JSONValue["ScoreValue"].toInt();
         auto keyCode = JSONValue["KeyCode"].toInt();
         auto scoreHint = JSONValue["Hint"].toInt();
-        auto scoreModel = FirstToPostScore::createInstance()
+        auto scoreModel = FTPScore::createInstance()
                 ->setId(id)
                 ->setTournament(tournamentId)
                 ->setPlayer(playerId)

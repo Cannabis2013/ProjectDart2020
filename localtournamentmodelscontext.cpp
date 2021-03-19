@@ -345,31 +345,30 @@ QUuid LocalTournamentModelsContext::setScoreHint(const QUuid &point,
 {
     try {
         auto oldModel = getScoreModelFromID(point);
-        if(oldModel->gameMode() == GameModes::FirstToPost)
+        auto tournamentId = oldModel->parent();
+        auto gameMode = tournamentGameMode(tournamentId);
+        if(gameMode == GameModes::FirstToPost)
         {
-            if(oldModel->gameMode() == GameModes::FirstToPost)
-            {
-                auto newModel = scoreBuilder()->buildFTPScoreModel([oldModel,hint]{
-                    SBC::FTPScoreParameters params;
-                    params.id = oldModel->id();
-                    params.tournament = oldModel->parent();
-                    params.pointValue = oldModel->point();
-                    params.roundIndex = oldModel->roundIndex();
-                    params.setIndex = oldModel->setIndex();
-                    params.attempt = oldModel->attempt();
-                    params.playerId = oldModel->player();
-                    params.scoreValue = oldModel->score();
-                    params.hint = hint;
-                    return params;
-                }(),[]{
-                    SBC::ModelOptions options;
-                    options.generateUniqueId = false;
-                    return options;
-                }());
-                auto index = modelDBContext()->indexOfScoreModel(oldModel);
-                modelDBContext()->replaceScoreModel(index,newModel);
-                return newModel->id();
-            }
+            auto newModel = scoreBuilder()->buildFTPScoreModel([oldModel,hint]{
+                SBC::FTPScoreParameters params;
+                params.id = oldModel->id();
+                params.tournament = oldModel->parent();
+                params.pointValue = oldModel->point();
+                params.roundIndex = oldModel->roundIndex();
+                params.setIndex = oldModel->setIndex();
+                params.attempt = oldModel->attempt();
+                params.playerId = oldModel->player();
+                params.scoreValue = oldModel->score();
+                params.hint = hint;
+                return params;
+            }(),[]{
+                SBC::ModelOptions options;
+                options.generateUniqueId = false;
+                return options;
+            }());
+            auto index = modelDBContext()->indexOfScoreModel(oldModel);
+            modelDBContext()->replaceScoreModel(index,newModel);
+            return newModel->id();
         }
 
     } catch (const char msg) {
@@ -384,19 +383,21 @@ QUuid LocalTournamentModelsContext::editScore(const QUuid &pointId,
                                               const int &hint)
 {
     try {
-        auto oldScoreModel = getScoreModelFromID(pointId);
-        if(oldScoreModel->gameMode() == GameModes::FirstToPost)
+        auto oldModel = getScoreModelFromID(pointId);
+        auto tournamentId = oldModel->parent();
+        auto gameMode = tournamentGameMode(tournamentId);
+        if(gameMode == GameModes::FirstToPost)
         {
             auto newScoreModel = scoreBuilder()->buildFTPScoreModel(
-                        [oldScoreModel, score, value,hint]
+                        [oldModel, score, value,hint]
             {
                 SBC::FTPScoreParameters params;
-                params.id = oldScoreModel->id();
-                params.roundIndex = oldScoreModel->roundIndex();
-                params.setIndex = oldScoreModel->setIndex();
+                params.id = oldModel->id();
+                params.roundIndex = oldModel->roundIndex();
+                params.setIndex = oldModel->setIndex();
                 params.pointValue = value;
-                params.playerId = oldScoreModel->player();
-                params.attempt = oldScoreModel->attempt();
+                params.playerId = oldModel->player();
+                params.attempt = oldModel->attempt();
                 params.scoreValue = score;
                 params.hint = hint;
                 return params;
@@ -406,7 +407,7 @@ QUuid LocalTournamentModelsContext::editScore(const QUuid &pointId,
                 options.generateUniqueId = false;
                 return options;
             }());
-            auto index = modelDBContext()->indexOfScoreModel(oldScoreModel);
+            auto index = modelDBContext()->indexOfScoreModel(oldModel);
             modelDBContext()->replaceScoreModel(index,newScoreModel);
             return newScoreModel->id();
         }
@@ -739,7 +740,7 @@ void LocalTournamentModelsContext::addFTPScore(const QUuid &tournament,
      *  - [4} = score value
      *  - [5] = keycode
      */
-    auto model = scoreBuilder()->buildFTPScoreModel([this,tournament,player,dataValues]
+    auto model = scoreBuilder()->buildFTPScoreModel([tournament,player,dataValues]
     {
         SBC::FTPScoreParameters params;
         params.roundIndex = dataValues[0];
@@ -750,7 +751,6 @@ void LocalTournamentModelsContext::addFTPScore(const QUuid &tournament,
         params.keyCode = dataValues[5];
         params.tournament = tournament;
         params.playerId = player;
-        params.gameMode = tournamentGameMode(tournament);
         params.hint = ModelDisplayHint::DisplayHint;
         return params;
     }(),

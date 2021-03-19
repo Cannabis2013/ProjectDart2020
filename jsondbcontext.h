@@ -8,7 +8,7 @@
 #include <qjsonobject.h>
 #include <qjsonarray.h>
 #include "ftptournament.h"
-#include "firsttopostscore.h"
+#include "ftpscore.h"
 #include "abstractjsonpersistence.h"
 #include "player.h"
 

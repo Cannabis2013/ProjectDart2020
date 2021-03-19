@@ -15,13 +15,12 @@ namespace SBC {
         int attempt;
         int hint;
         int keyCode;
-        int gameMode;
         QUuid playerId;
         QUuid tournament;
         QUuid id;
         virtual int parentGameMode() const override
         {
-            return gameMode;
+            return -1;
         }
     };
 

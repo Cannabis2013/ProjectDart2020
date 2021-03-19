@@ -6,7 +6,7 @@
 #include "iscoreparameter.h"
 #include <quuid.h>
 #include "scorebuildercontext.h"
-#include "firsttopostscore.h"
+#include "ftpscore.h"
 
 class ScoreBuilder : public IScoreBuilder<IScore<QUuid>,IScoreParameter,SBC::ModelOptions>
 {
@@ -22,7 +22,7 @@ public:
                                            const SBC::ModelOptions &options) override
     {
         auto params = dynamic_cast<const SBC::FTPScoreParameters&>(p);
-        auto t = FirstToPostScore::createInstance()
+        auto t = FTPScore::createInstance()
                 ->setRoundIndex(params.roundIndex)
                 ->setSetIndex(params.setIndex)
                 ->setAttempt(params.attempt)
@@ -31,8 +31,7 @@ public:
                 ->setPlayer(params.playerId)
                 ->setParent(params.tournament)
                 ->setKeyCode(params.keyCode)
-                ->setDisplayHint(params.hint)
-                ->setGameMode(params.gameMode);
+                ->setDisplayHint(params.hint);
         if(options.generateUniqueId)
             t->setId(QUuid::createUuid());
         else

@@ -5,7 +5,7 @@
 #include "itournamentbuilder.h"
 
 #include "ftptournament.h"
-#include "firsttopostscore.h"
+#include "ftpscore.h"
 
 typedef ITournament<QUuid,QVector<QUuid>,QString> TournamentInterface;
 typedef IScore<QUuid> FTPScoreInterface;

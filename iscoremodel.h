@@ -30,9 +30,6 @@ public:
 
     virtual int setIndex() const = 0;
     virtual IScore* setSetIndex(const int &index) = 0;
-
-    virtual int gameMode() const = 0;
-    virtual IScore* setGameMode(const int&) = 0;
 };
 
 #endif // ISCOREMODEL_H

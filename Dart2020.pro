@@ -62,9 +62,9 @@ HEADERS += \
     abstractmodelscontext.h \
     abstractpersistence.h \
     dartapplication.h \
-    firsttopostscore.h \
     ftpdatamodel.h \
     ftplogisticcontrollerinterface.h \
+    ftpscore.h \
     ftpscorecontroller.h \
     ftptournament.h \
     gamecontrollerbuilder.h \
