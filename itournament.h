@@ -15,7 +15,7 @@ public:
     virtual int gameMode() const = 0;
     virtual ITournament* setGameMode(const int &val) = 0;
 
-    virtual bool status() const = 0;
+    virtual int status() const = 0;
     virtual ITournament* setStatus(const bool &active) = 0;
 
     virtual TUuid winnerId() const = 0;

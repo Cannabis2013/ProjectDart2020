@@ -10,11 +10,12 @@ NetworkManager::NetworkManager(const QString &serverHostUrl, const QString &code
 
 void NetworkManager::sendGetRequest(const QString &method,
                                     const QString &urlParameter,
+                                    const QVector<Query> stringQuery,
                                     QObject *reciever,
                                     const char *slot,
                                     const char* timeoutSlot)
 {
-    QUrl fullServerUrl = _parserService->parseUrl(_baseUrl,method,urlParameter,_userCode);
+    QUrl fullServerUrl = _parserService->parseUrl(_baseUrl,method,urlParameter,stringQuery);
 
     tempReply = _netMng->get(QNetworkRequest(fullServerUrl));
     auto req = QNetworkRequest();
@@ -36,11 +37,12 @@ void NetworkManager::sendGetRequest(const QString &method,
 void NetworkManager::sendPostRequest(const QString &method,
                                      const QByteArray &data,
                                      const QString &urlParameter,
+                                     const QVector<Query> stringQuery,
                                      QObject* reciever,
                                      const char* slot,
                                      const char* timeoutSlot)
 {
-    QUrl fullServerUrl = _parserService->parseUrl(_baseUrl,method,urlParameter,_userCode);
+    QUrl fullServerUrl = _parserService->parseUrl(_baseUrl,method,urlParameter,stringQuery);
     QNetworkRequest req(fullServerUrl);
     req.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     tempReply = _netMng->post(req,data);
@@ -58,11 +60,12 @@ void NetworkManager::sendPostRequest(const QString &method,
 
 void NetworkManager::sendDeleteRequest(const QString &method,
                                        const QString &urlParameter,
+                                       const QVector<Query> stringQuery,
                                        QObject *reciever,
                                        const char* slot,
                                        const char* timeoutSlot)
 {
-    QUrl fullServerUrl = _parserService->parseUrl(_baseUrl,method,urlParameter,_userCode);
+    QUrl fullServerUrl = _parserService->parseUrl(_baseUrl,method,urlParameter,stringQuery);
     tempReply = _netMng->deleteResource(QNetworkRequest(fullServerUrl));
 
     _responseTimer.start();
@@ -129,12 +132,12 @@ QString NetworkManager::baseUrl() const
 }
 
 
-void NetworkManager::setParserService(IParserService<QUrl, QString> *t)
+void NetworkManager::setParserService(Iparser *t)
 {
     _parserService = t;
 }
 
-const IParserService<QUrl, QString> *NetworkManager::parserService()
+const Iparser *NetworkManager::parserService()
 {
     return _parserService;
 }

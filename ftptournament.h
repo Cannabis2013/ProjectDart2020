@@ -19,15 +19,6 @@ public:
         _id = val;
         return this;
     }
-    int type() const override
-    {
-        return _modelType;
-    }
-    FTPTournament* setType(const int &val) override
-    {
-        _modelType = val;
-        return this;
-    }
 
     // ITournament interface
     QString title() const override
@@ -66,7 +57,7 @@ public:
         _keyPoint = val;
         return this;
     }
-    bool status() const override
+    int status() const override
     {
         return _status;
     }

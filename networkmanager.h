@@ -14,6 +14,10 @@
 #include "replytimeout.h"
 #include "iurlparser.h"
 
+
+typedef QPair<QString,QString> Query;
+typedef IParserService<QUrl,QString, QString, QVector<Query>> Iparser;
+
 using namespace std;
 
 class NetworkManager : public QObject
@@ -30,23 +34,26 @@ public:
     int timeoutThreshold() const;
     void setTimeoutThreshold(int timeoutThreshold);
 
-    void setParserService(IParserService<QUrl,QString>* t);
-    const IParserService<QUrl,QString>* parserService();
+    void setParserService(Iparser* t);
+    const Iparser* parserService();
 
 
     void sendGetRequest(const QString &method,
-                        const QString &urlParameter = QString(),
+                        const QString &urlParameter,
+                        const QVector<Query> stringQuery,
                         QObject* reciever = nullptr,
                         const char* slot = nullptr,
                         const char *timeoutSlot = nullptr);
     void sendPostRequest(const QString &method,
-                          const QByteArray &data,
-                         const QString &urlParameters = QString(),
+                         const QByteArray &data,
+                         const QString &urlParameters,
+                         const QVector<Query> stringQuery,
                          QObject *reciever = nullptr,
                          const char *slot= nullptr,
                          const char *timeoutSlot = nullptr);
     void sendDeleteRequest(const QString &method,
-                           const QString &urlParameter = QString(),
+                           const QString &urlParameter,
+                           const QVector<Query> stringQuery,
                            QObject *reciever = nullptr,
                            const char* slot = nullptr,
                            const char *timeoutSlot = nullptr);
@@ -72,7 +79,7 @@ private:
     QElapsedTimer _responseTimer;
     int _timeoutThreshold = 3000;
 
-    IParserService<QUrl,QString>* _parserService;
+    Iparser* _parserService;
 };
 
 #endif // HTTPINTERFACE_H

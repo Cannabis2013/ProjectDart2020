@@ -8,7 +8,7 @@ UrlParser::UrlParser()
 QUrl UrlParser::parseUrl(const QString &baseUrl,
                         const QString &method,
                         const QString &paramterString,
-                        const QString &queryString)
+                        const QVector<QPair<QString,QString>> &queryElements)
 {
     /*
      * Template: {baseUrl}/{Method}/{urlParameter}?code={userCode}
@@ -17,7 +17,7 @@ QUrl UrlParser::parseUrl(const QString &baseUrl,
 
     QString hostUrl = baseUrl;
     QString urlMethod = method;
-    QString urlCode = queryString;
+    auto stringQuery = assembleStringQuery(queryElements);
 
     if(hostUrl.at(hostUrl.length() - 1) != '/')
         hostUrl.append('/');
@@ -32,8 +32,8 @@ QUrl UrlParser::parseUrl(const QString &baseUrl,
     if(paramterString != QString())
         hostUrl += paramterString;
 
-    if(urlCode != QString())
-        hostUrl += "?code=" + urlCode;
+    if(stringQuery != QString())
+        hostUrl += "?" + stringQuery;
 
     return QUrl(hostUrl);
 }

@@ -17,15 +17,6 @@ public:
         _id = val;
         return this;
     }
-    int type() const override
-    {
-        return _modelType;
-    }
-    FTPScore* setType(const int &val) override
-    {
-        _modelType = val;
-        return this;
-    }
     int point() const override
     {
         return _pointValue;
@@ -134,7 +125,6 @@ private:
     int _roundIndex;
     int _hint;
     int _keyCode;
-    int _gameMode;
     QUuid _id, _player, _tournament;
 };
 

@@ -36,15 +36,6 @@ public:
         _role = role;
         return this;
     }
-    int type() const override
-    {
-        return _type;
-    }
-    Player* setType(const int &type) override
-    {
-        _type = type;
-        return this;
-    }
     QString playerName() const override
     {
         return _userName;

@@ -47,8 +47,8 @@ LocalModelsContext* LocalModelsContext::setPlayerModelsContext(PlayerModelsConte
 }
 
 void LocalModelsContext::handleRequestForAddFTPTournament(const QString &title,
-                                                              const QVector<int> &data,
-                                                              const QVector<int> &assignedPlayerIndexes)
+                                                          const QVector<int> &data,
+                                                          const QVector<int> &assignedPlayerIndexes)
 {
     auto playerIds = playerModelsContext()->assemblePlayerIds(assignedPlayerIndexes);
     tournamentModelsContext()->tournamentAssembleAndAddFTP(title,

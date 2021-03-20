@@ -1,16 +1,18 @@
 #ifndef IURLPARSER_H
 #define IURLPARSER_H
 
-template<class TUrl, class TString>
+template<typename TUrl,
+         typename TString,
+         typename TParameters,
+         typename TQueries>
 class IParserService
 {
 public:
-    virtual ~IParserService() = default;
     // /{baseurl}/{method}/{url parameter}?{url query}
-    virtual TUrl parseUrl(const TString &arg1,
-                          const TString &arg2,
-                          const TString &arg3,
-                          const TString &arg4)=0;
+    virtual TUrl parseUrl(const TString &baseUrl,
+                          const TString &method,
+                          const TParameters& parameters,
+                          const TQueries& queries)=0;
 };
 
 #endif // IURLPARSER_H

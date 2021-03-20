@@ -41,7 +41,6 @@ public:
                 ->setStatus(params.status)
                 ->setAssignedPlayerIdentities(params.playerIdentities)
                 ->setTerminalKeyCode(params.winConditionKey)
-                ->setType(DefaultModelBuilderContext::TournamentModel)
                 ->setDisplayHint(params.modelTableViewHint)
                 ->setInputMode(params.inputMode)
                 ->setWinner(params.winner);
@@ -77,7 +76,6 @@ public:
                 ->setStatus(status)
                 ->setAssignedPlayerIdentities(assignedPlayerIdentities)
                 ->setTerminalKeyCode(terminalKeyCode)
-                ->setType(DefaultModelBuilderContext::TournamentModel)
                 ->setDisplayHint(displayHint)
                 ->setInputMode(inputMode)
                 ->setWinner(winnerId);
