@@ -30,7 +30,7 @@ public:
     virtual void handleDeleteTournaments(const QVector<int>&indexes) = 0;
     virtual void handleRequestAssignedPlayers(const QUuid &tournament) = 0;
     virtual void handleTransmitPlayerScores(const QUuid &tournament) = 0;
-    virtual void handleTransmitTournamentData() = 0;
+    virtual void handleRequestTournaments() = 0;
     virtual void handleRequestTournamentGameMode(const int &index) = 0;
     virtual void assembleTournamentMetaDataFromId(const QUuid& tournament) = 0;
     virtual void handleAddScore(const QUuid &tournament,
@@ -93,7 +93,7 @@ signals:
     void tournamentResetSuccess();
     void tournamentsDeletedSuccess(const bool &status);
 
-    void lastTournamentTransmitted();
+    void sendTournaments(const QVariantList& list);
     /*
      * Player-models signals
      */

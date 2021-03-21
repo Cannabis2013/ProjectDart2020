@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 
-ListViewComponent {
+PlayerListView {
     id: playersListView
     componentTitle: "| Players"
     titleTextColor: ThemeContext.manPlayerListViewLabelColor

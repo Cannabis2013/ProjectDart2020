@@ -218,7 +218,6 @@ Rectangle{
                     else
                         "Playercount: " + playersCount;
                 }
-
                 x: parent.width / 2 - width / 2
             }
         }

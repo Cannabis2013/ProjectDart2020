@@ -1,10 +1,11 @@
 #include "remotemodelscontext.h"
 
+
+
 RemoteModelsContext::RemoteModelsContext()
 {
-
+    _netMng->setParserService(new UrlParser);
 }
-
 
 void RemoteModelsContext::transmitResponse(const int &response, const QVariantList &args)
 {
@@ -33,8 +34,13 @@ void RemoteModelsContext::handleTransmitPlayerScores(const QUuid &tournament)
 {
 }
 
-void RemoteModelsContext::handleTransmitTournamentData()
+void RemoteModelsContext::handleRequestTournaments()
 {
+    _netMng->sendGetRequest("GetTournaments",
+                            QString(),
+                            {},
+                            this,
+                            SLOT(handleRecievedTournaments(QNetworkReply*)));
 }
 
 void RemoteModelsContext::handleRequestTournamentGameMode(const int &index)
@@ -79,4 +85,10 @@ void RemoteModelsContext::handleRequestPlayersDetails()
 
 void RemoteModelsContext::handleRequestPersistTournamentState()
 {
+}
+
+void RemoteModelsContext::handleRecievedTournaments(QNetworkReply *reply)
+{
+    Q_UNUSED(reply);
+    cout << "Reply recieved. Data " << reply->readAll().toStdString() << endl;
 }

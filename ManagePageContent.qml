@@ -9,12 +9,6 @@ Content {
     signal requestDeletePlayers(var indexes)
     signal requestTournaments
     signal requestDeleteTournaments(var indexes)
-    signal recieveTournament(string title,
-                             int gameMode,
-                             int playersCount)
-    onRecieveTournament: tournamentListView.addItemModel({"type" : "tournament",
-                                                             "tournamentTitle" : title,
-                                                             "playersCount" : playersCount})
     GridLayout{
         id: mainLayout
         anchors.fill: parent

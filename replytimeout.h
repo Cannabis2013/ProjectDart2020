@@ -23,7 +23,7 @@ public:
         QObject(reply), _method(method)
     {
         if(timeoutSlot != nullptr && reciever != nullptr)
-            connect(this,SIGNAL(timeoutOccured()),reciever,SLOT(timeoutSlot));
+            connect(this,SIGNAL(timeoutOccured()),reciever,timeoutSlot);
         if (reply->isRunning())
         {
           _timer.start(timeout, this);

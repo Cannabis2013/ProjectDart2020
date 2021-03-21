@@ -17,10 +17,28 @@ Content{
         property int currentIndex: -1
     }
 
-    function recieveTournament(title,gameMode,playersCount){
-        tournamentListView.addItemModel({"type" : "tournament",
-                                            "tournamentTitle" : title,
-                                            "playersCount" : playersCount})
+    function recieveTournaments(tournaments)
+    {
+        var count = tournaments.length;
+        for(var i = 0; i < count;i += 4)
+        {
+            var title = tournaments[i + 1];
+            var gameMode = tournaments[i+2];
+            var playersCount = tournaments[i + 3];
+            tournamentListView.addItemModel(
+                        {
+                            "type" : "tournament",
+                            "gameMode" : translateGameModeFromHex(gameMode),
+                            "tournamentTitle" : title,
+                            "playersCount" : playersCount
+                        })
+        }
+    }
+
+    function translateGameModeFromHex(gameMode)
+    {
+        if(gameMode === TournamentContext.firstToPost)
+            return "First to post"
     }
     onReplyFromBackendRecieved: {
         /*
@@ -84,13 +102,13 @@ Content{
     }
     Component.onCompleted: {
         body.requestTournaments.connect(applicationInterface.handleTournamentsRequest); // Request initial tournaments
-        applicationInterface.sendRequestedTournament.connect(recieveTournament);
+        applicationInterface.sendTournaments.connect(recieveTournaments);
         body.sendClickedTournamentIndex.connect(applicationInterface.handleSetCurrentTournamentRequest);
         body.requestTournaments();
     }
     Component.onDestruction: {
         body.requestTournaments.disconnect(applicationInterface.handleTournamentsRequest);
-        applicationInterface.sendRequestedTournament.disconnect(recieveTournament);
+        applicationInterface.sendTournaments.disconnect(recieveTournaments);
         body.sendClickedTournamentIndex.disconnect(applicationInterface.handleSetCurrentTournamentRequest);
         }
 }

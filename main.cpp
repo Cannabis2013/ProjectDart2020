@@ -8,20 +8,19 @@
 #include "gamecontrollerbuilder.h"
 #include "localtournamentmodelscontext.h"
 #include "localplayermodelscontext.h"
+#include "remotemodelscontext.h"
 #include "localmodelscontext.h"
 #include "ftpdatamodel.h"
 #include "tournamentbuilder.h"
 #include "playermodelbuilder.h"
 #include "sftpdatamodel.h"
 
-#ifndef TEST_MODE
 
-AbstractApplicationInterface* createDartApplication()
+DartApplication* createDartApplication()
 {
     auto _dart =
             DartApplication::createInstance()->
-            setModelsContextInterface(
-                LocalModelsContext::createInstance())->
+            setModelsContextInterface(LocalModelsContext::createInstance())->
             setControllerBuilder(new GameControllerBuilder())->
             /*useThreads()->*/
             setup();
@@ -46,6 +45,7 @@ int main(int argc, char *argv[])
      * Instantiate DartApplication
      */
     auto _dart = createDartApplication();
+#ifndef TEST_MODE
     /*
      * Register custom types/singletons
      */
@@ -71,6 +71,12 @@ int main(int argc, char *argv[])
     /*
      * Start main event loop
      */
+#endif
+#ifdef TEST_MODE
+    // Insert test methods here
+
+    _dart->modelsContextInterface()->handleRequestTournaments();
+
+#endif
     return app.exec();
 }
-#endif

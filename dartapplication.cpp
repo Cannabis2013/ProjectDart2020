@@ -194,11 +194,11 @@ void DartApplication::connectModelInterfaces()
      * Get all tournaments
      */
     connect(this,&DartApplication::requestTournaments,
-            _modelsContext,&AbstractModelsContext::handleTransmitTournamentData);
+            _modelsContext,&AbstractModelsContext::handleRequestTournaments);
     connect(_modelsContext,&AbstractModelsContext::sendTournament,
             this,&DartApplication::sendRequestedTournament);
-    connect(_modelsContext,&AbstractModelsContext::lastTournamentTransmitted,
-            this,&DartApplication::lastTournamentDetailsTransmitted);
+    connect(_modelsContext,&AbstractModelsContext::sendTournaments,
+            this,&DartApplication::sendTournaments);
     /*
      * Get all players
      */

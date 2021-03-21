@@ -9,6 +9,7 @@
 #include <QElapsedTimer>
 #include <iostream>
 #include <quuid.h>
+#include <qauthenticator.h>
 // Custom includes
 #define SINGLELINE_QUERY_PARAMETERS
 #include "replytimeout.h"
@@ -24,10 +25,13 @@ class NetworkManager : public QObject
 {
     Q_OBJECT
 public:
-    NetworkManager(const QString &serverHostUrl, const QString &code = QString());
+    enum ConnectionOptions {
+        ShowSslErrors = 0x1,
+        IgnoreSSlErrors = 0x2
+    };
+    NetworkManager(const QString &serverHostUrl);
 
     QString baseUrl() const;
-    void setBaseUrl(const QString &baseUrl);
 
     void setUserCode(const QString &value);
 
@@ -38,29 +42,29 @@ public:
     const Iparser* parserService();
 
 
-    void sendGetRequest(const QString &method,
+    QNetworkReply* sendGetRequest(const QString &method,
                         const QString &urlParameter,
                         const QVector<Query> stringQuery,
                         QObject* reciever = nullptr,
                         const char* slot = nullptr,
                         const char *timeoutSlot = nullptr);
-    void sendPostRequest(const QString &method,
+    QNetworkReply* sendPostRequest(const QString &method,
                          const QByteArray &data,
                          const QString &urlParameters,
                          const QVector<Query> stringQuery,
                          QObject *reciever = nullptr,
                          const char *slot= nullptr,
                          const char *timeoutSlot = nullptr);
-    void sendDeleteRequest(const QString &method,
+    QNetworkReply* sendDeleteRequest(const QString &method,
                            const QString &urlParameter,
                            const QVector<Query> stringQuery,
                            QObject *reciever = nullptr,
                            const char* slot = nullptr,
                            const char *timeoutSlot = nullptr);
     int timeElapsed();
-    bool errorOccured();
-    QString errorString();
-    const QByteArray extractData();
+    ConnectionOptions connectionOptions() const;
+    void setConnectionOptions(const ConnectionOptions &options);
+
 signals:
     void sendNotification(const bool &success,const QByteArray &data = QByteArray());
     void sendErrorString(const QString &err);
@@ -68,17 +72,17 @@ signals:
 
 private slots:
     void handleSslErrors(QNetworkReply *reply,const QList<QSslError>&errors);
-
+    void handleAuthRequired(QNetworkReply *reply, QAuthenticator *);
+    void handleEncrypted(QNetworkReply *reply);
     virtual void handleReply();
+    virtual void handleTimeOut();
 
 private:
-    QNetworkReply* tempReply;
     QNetworkAccessManager* _netMng = new QNetworkAccessManager();
-    QString _baseUrl;
-    QString _userCode;
+    const QString _baseUrl;
     QElapsedTimer _responseTimer;
     int _timeoutThreshold = 3000;
-
+    ConnectionOptions _options;
     Iparser* _parserService;
 };
 

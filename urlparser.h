@@ -7,6 +7,10 @@
 #include <qurl.h>
 #include <qstring.h>
 
+#include <iostream>
+
+using namespace std;
+
 class UrlParser : public IParserService<QUrl,QString,QString, QVector<QPair<QString,QString>>>
 {
 public:
@@ -18,18 +22,6 @@ public:
                   const QVector<QPair<QString, QString> > &queryElements) override;
 
 private:
-    QString assembleStringQuery(const QVector<QPair<QString,QString>>& queries)
-    {
-        auto queryList = queries;
-        auto lastQuery = queryList.takeLast();
-
-        QString result = "?";
-        for (auto i = queryList.constBegin(); i != queryList.constEnd(); ++i) {
-            auto query = *i;
-            result += query.first + "=" + query.second + "&";
-        }
-        result += lastQuery.first + "=" + lastQuery.second;
-        return result;
-    }
+    QString assembleStringQuery(const QVector<QPair<QString,QString>>& queries);
 };
 #endif // MYPARSER_H

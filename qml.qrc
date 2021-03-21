@@ -12,7 +12,7 @@
         <file>MyRectangle.qml</file>
         <file>TextInputBox.qml</file>
         <file>MyLabel.qml</file>
-        <file>ListViewComponent.qml</file>
+        <file>PlayerListView.qml</file>
         <file>ComboBoxComponent.qml</file>
         <file>MainComponent.qml</file>
         <file>ButtonsComponent.qml</file>
@@ -75,6 +75,8 @@
         <file>FirstToPostMetaData.qml</file>
         <file>FTPSelectors.qml</file>
         <file>ftpSelectorsScripts.js</file>
+        <file>TournamentListViewDelegate.qml</file>
+        <file>TournamentListView.qml</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>

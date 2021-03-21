@@ -123,17 +123,18 @@ void LocalModelsContext::handleTransmitPlayerScores(const QUuid &tournament)
     emit transmitResponse(TournamentModelsContextResponse::EndOfTransmission,{list});
 }
 
-void LocalModelsContext::handleTransmitTournamentData()
+void LocalModelsContext::handleRequestTournaments()
 {
+    QVariantList tournaments;
     auto count = tournamentModelsContext()->tournamentsCount();
     for (int i = 0; i < count; ++i) {
         auto id = tournamentModelsContext()->tournamentIdFromIndex(i);
         auto title = tournamentModelsContext()->tournamentTitle(id);
         auto gameMode = tournamentModelsContext()->tournamentGameMode(id);
         auto playersCount = tournamentModelsContext()->tournamentAssignedPlayers(id).count();
-        emit sendTournament(title,gameMode,playersCount);
+        tournaments += {id,title,gameMode,playersCount};
     }
-    emit lastTournamentTransmitted();
+    emit sendTournaments(tournaments);
 }
 
 void LocalModelsContext::handleRequestTournamentGameMode(const int &index)

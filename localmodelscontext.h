@@ -62,7 +62,7 @@ public slots:
     void handleDeleteTournaments(const QVector<int>&indexes) override;
     void handleRequestAssignedPlayers(const QUuid &tournament) override;
     void handleTransmitPlayerScores(const QUuid &tournament) override;
-    void handleTransmitTournamentData() override;
+    void handleRequestTournaments() override;
     void handleRequestTournamentGameMode(const int &index) override;
     /*
      * Handle request for 'first to post'-tournament related meta information
@@ -85,7 +85,6 @@ public slots:
                   const QUuid &player,
                   const QVector<int> &dataValues,
                   const bool &isWinnerDetermined) override;
-    // Done
     void handleRequestSetScoreHint(const QUuid &tournament,
                                                const QUuid &player,
                                                const int &roundIndex,

@@ -6,6 +6,7 @@
 #include <qjsonobject.h>
 #include "itournamentbuilder.h"
 #include "tournamentbuildercontext.h"
+#include "urlparser.h"
 
 #define PRODUCTION
 #ifdef PRODUCTION
@@ -17,7 +18,13 @@
 
 class RemoteModelsContext : public AbstractModelsContext
 {
+    Q_OBJECT
 public:
+    // Create instance
+    static RemoteModelsContext* createInstance()
+    {
+        return new RemoteModelsContext();
+    }
     // Constructor
     RemoteModelsContext();
     // IResponseInterface interface
@@ -28,7 +35,7 @@ public:
     virtual void handleDeleteTournaments(const QVector<int> &indexes) override;
     virtual void handleRequestAssignedPlayers(const QUuid &tournament) override;
     virtual void handleTransmitPlayerScores(const QUuid &tournament) override;
-    virtual void handleTransmitTournamentData() override;
+    virtual void handleRequestTournaments() override;
     virtual void handleRequestTournamentGameMode(const int &index) override;
     virtual void assembleTournamentMetaDataFromId(const QUuid &tournament) override;
     virtual void handleAddScore(const QUuid &tournament, const QUuid &player, const QVector<int> &dataValues, const bool &isWinnerDetermined) override;
@@ -41,6 +48,8 @@ public:
     virtual void handleRequestPlayersDetails() override;
     virtual void handleRequestPersistTournamentState() override;
 
+private slots:
+    void handleRecievedTournaments(QNetworkReply*reply);
 private:
     NetworkManager* _netMng = new NetworkManager(API_HOST_URL);
 };

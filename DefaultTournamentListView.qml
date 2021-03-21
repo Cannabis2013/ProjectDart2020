@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 
-ListViewComponent {
+TournamentListView{
     id: tournamentListView
     radius: 15
     componentTitle: "| Tournaments"
@@ -14,10 +14,10 @@ ListViewComponent {
     itemSelectedBackgroundColor: "gray"
     itemSelectedtextColor: "black"
     itemHoveredColor: "transparent"
-    itemTitleFontSize: 12
+    itemTitleFontSize: 18
     itemTitleTextColor: "white"
-    itemDescriptionFontSize: 8
-    itemHeight: 64
+    itemDescriptionFontSize: 10
+    itemHeight: 80
     allowCheckState: true
     allowMultipleSelections: true
     instantSelectEnabled: true

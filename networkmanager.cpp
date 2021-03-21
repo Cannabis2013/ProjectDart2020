@@ -1,40 +1,57 @@
 #include "networkmanager.h"
 
-NetworkManager::NetworkManager(const QString &serverHostUrl, const QString &code):
-    _baseUrl(serverHostUrl),_userCode(code)
+NetworkManager::NetworkManager(const QString &serverHostUrl):
+    _baseUrl(serverHostUrl)
 {
     _netMng = new QNetworkAccessManager();
 
-    connect(_netMng,&QNetworkAccessManager::sslErrors,this,&NetworkManager::handleSslErrors);
+
+    connect(_netMng,&QNetworkAccessManager::sslErrors,
+            this,&NetworkManager::handleSslErrors);
+    connect(_netMng,&QNetworkAccessManager::authenticationRequired,
+            this,&NetworkManager::handleAuthRequired);
+    connect(_netMng,&QNetworkAccessManager::encrypted,
+            this,&NetworkManager::handleEncrypted);
 }
 
-void NetworkManager::sendGetRequest(const QString &method,
+QNetworkReply *NetworkManager::sendGetRequest(const QString &method,
                                     const QString &urlParameter,
                                     const QVector<Query> stringQuery,
                                     QObject *reciever,
                                     const char *slot,
                                     const char* timeoutSlot)
 {
+    if(slot != nullptr)
+        connect(_netMng,SIGNAL(finished(QNetworkReply*)),reciever,slot);
+    else
+        connect(_netMng,SIGNAL(finished(QNetworkReply*)),this,SLOT(handleReply()));
+
+    cout << "Get request called" << endl;
     QUrl fullServerUrl = _parserService->parseUrl(_baseUrl,method,urlParameter,stringQuery);
-
-    tempReply = _netMng->get(QNetworkRequest(fullServerUrl));
-    auto req = QNetworkRequest();
-
-
+    cout << fullServerUrl.toString().toStdString() << endl;
+    auto reply = _netMng->get(QNetworkRequest(fullServerUrl));
+    cout << "Post get request sent" << endl;
     _responseTimer.start();
 
-    if(slot != nullptr)
-        connect(tempReply,SIGNAL(finished()),reciever,slot);
+    if(timeoutSlot != nullptr)
+    {
+        ReplyTimeout::setTimer(reply,
+                               timeoutThreshold(),
+                               ReplyTimeout::Abort,
+                               reciever, timeoutSlot);
+    }
     else
-        connect(tempReply,SIGNAL(finished()),this,SLOT(handleReply()));
-
-    ReplyTimeout::setTimer(tempReply,
-                           timeoutThreshold(),
-                           ReplyTimeout::Abort,
-                           reciever, timeoutSlot);
+    {
+        ReplyTimeout::setTimer(reply,
+                               timeoutThreshold(),
+                               ReplyTimeout::Abort,
+                               this, SLOT(handleTimeOut()));
+    }
+    cout << "Method ended" << endl;
+    return reply;
 }
 
-void NetworkManager::sendPostRequest(const QString &method,
+QNetworkReply *NetworkManager::sendPostRequest(const QString &method,
                                      const QByteArray &data,
                                      const QString &urlParameter,
                                      const QVector<Query> stringQuery,
@@ -45,20 +62,22 @@ void NetworkManager::sendPostRequest(const QString &method,
     QUrl fullServerUrl = _parserService->parseUrl(_baseUrl,method,urlParameter,stringQuery);
     QNetworkRequest req(fullServerUrl);
     req.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    tempReply = _netMng->post(req,data);
+    auto reply = _netMng->post(req,data);
     _responseTimer.start();
     if(slot != nullptr)
-        connect(tempReply,SIGNAL(finished()),reciever,slot);
+        connect(reply,SIGNAL(finished()),reciever,slot);
     else
-        connect(tempReply,SIGNAL(finished()),this,SLOT(handleReply()));
-    ReplyTimeout::setTimer(tempReply,
+        connect(reply,SIGNAL(finished()),this,SLOT(handleReply()));
+
+    ReplyTimeout::setTimer(reply,
                            timeoutThreshold(),
                            ReplyTimeout::Abort,
                            reciever,timeoutSlot);
+    return reply;
 }
 
 
-void NetworkManager::sendDeleteRequest(const QString &method,
+QNetworkReply *NetworkManager::sendDeleteRequest(const QString &method,
                                        const QString &urlParameter,
                                        const QVector<Query> stringQuery,
                                        QObject *reciever,
@@ -66,64 +85,71 @@ void NetworkManager::sendDeleteRequest(const QString &method,
                                        const char* timeoutSlot)
 {
     QUrl fullServerUrl = _parserService->parseUrl(_baseUrl,method,urlParameter,stringQuery);
-    tempReply = _netMng->deleteResource(QNetworkRequest(fullServerUrl));
+    auto reply = _netMng->deleteResource(QNetworkRequest(fullServerUrl));
 
     _responseTimer.start();
 
     if(slot != nullptr)
-        connect(tempReply,SIGNAL(finished()),reciever,slot);
+        connect(reply,SIGNAL(finished()),reciever,slot);
     else
-        connect(tempReply,SIGNAL(finished()),this,SLOT(handleReply()));
+        connect(reply,SIGNAL(finished()),this,SLOT(handleReply()));
 
-    connect(tempReply,&QNetworkReply::finished,tempReply,&QNetworkReply::deleteLater);
+    connect(reply,&QNetworkReply::finished,reply,&QNetworkReply::deleteLater);
 
-    ReplyTimeout::setTimer(tempReply,
+    ReplyTimeout::setTimer(reply,
                            timeoutThreshold(),
                            ReplyTimeout::Abort,
                            reciever,
                            timeoutSlot);
+    return reply;
 }
 
 void NetworkManager::handleSslErrors(QNetworkReply *reply, const QList<QSslError> &errors)
 {
     Q_UNUSED(reply);
-    Q_UNUSED(errors);
 
     // TODO: Handle Ssl errors when its time for that
+    for (auto err : errors) {
+        cout << err.errorString().toStdString() << endl;
+    }
+
+    reply->ignoreSslErrors();
+}
+
+void NetworkManager::handleAuthRequired(QNetworkReply *reply, QAuthenticator*)
+{
+    cout << "Auth required" << endl;
+}
+
+void NetworkManager::handleEncrypted(QNetworkReply *reply)
+{
+    cout << "Encrypted called" << endl;
+
 }
 
 void NetworkManager::handleReply()
 {
+    cout << "Default reply handling" << endl;
 }
 
-void NetworkManager::setBaseUrl(const QString &baseUrl)
+void NetworkManager::handleTimeOut()
 {
-    _baseUrl = baseUrl;
+    cout << "Timeout occured" << endl;
+}
+
+NetworkManager::ConnectionOptions NetworkManager::connectionOptions() const
+{
+    return _options;
+}
+
+void NetworkManager::setConnectionOptions(const ConnectionOptions &options)
+{
+    _options = options;
 }
 
 int NetworkManager::timeElapsed()
 {
     return _responseTimer.elapsed();
-}
-
-bool NetworkManager::errorOccured()
-{
-    return tempReply->error();
-}
-
-QString NetworkManager::errorString()
-{
-    return tempReply->errorString();
-}
-
-const QByteArray NetworkManager::extractData()
-{
-    return tempReply->readAll();
-}
-
-void NetworkManager::setUserCode(const QString &value)
-{
-    _userCode = value;
 }
 
 QString NetworkManager::baseUrl() const

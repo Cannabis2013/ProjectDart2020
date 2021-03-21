@@ -127,7 +127,7 @@ signals:
     void playersDeletedStatus(const bool &status);
     void tournamentsDeletedSuccess(const bool &status);
 
-    void lastTournamentDetailsTransmitted();
+    void sendTournaments(const QVariantList& list);
     void lastPlayerDetailsTransmitted();
     void playerCreatedSuccess(const bool &status);
     void requestPersistTournament();
