@@ -41,7 +41,7 @@ public:
     virtual void handleRequestFTPScores(const QUuid &tournament) override;
     virtual void handleRequestTournaments() override;
     virtual void handleRequestGameMode(const int &index) override;
-    virtual void assembleTournamentMetaDataFromId(const QUuid &tournament) override;
+    virtual void assembleFTPMetaDataFromId(const QUuid &tournamentId) override;
     virtual void handleAddScore(const QUuid &tournament, const QUuid &player, const QVector<int> &dataValues, const bool &isWinnerDetermined) override;
     virtual void handleRequestSetScoreHint(const QUuid &tournament, const QUuid &player, const int &roundIndex, const int &throwIndex, const int &hint) override;
     virtual void handleResetTournament(const QUuid &tournament) override;
@@ -59,6 +59,7 @@ private slots:
     void handleCreatePlayerResponse();
     void handleRequestGameModeReply();
     void handleRequestFtpDetailsReply();
+    void handleFtpTournamentMetaReply();
 private:
     NetworkManager* _netMng = new NetworkManager(API_HOST_URL);
 };

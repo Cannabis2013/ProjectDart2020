@@ -37,8 +37,8 @@ int FTPDataModel::editData(const int &row, const int &column, const int &point, 
 }
 
 bool FTPDataModel::insertData(const QString &playerName,
-                                         const int &point,
-                                         const int &score)
+                              const int &point,
+                              const int &score)
 {
     if(appendMode() == AppendDataMode::SingleAppend)
         return setPlayerData(playerName,point,score,headerOrientation());

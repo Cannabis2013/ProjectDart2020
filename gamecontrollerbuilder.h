@@ -71,7 +71,7 @@ public:
                                                          terminalKeyCode,attempts,indexes,userIds,
                                                          userNames,userScores);
         }
-        connectFTPControllerWithInterfaces(controller,applicationInterface,modelsContext);
+        connectFTPController(controller,applicationInterface,modelsContext);
         emit sendController(controller);
         return controller;
     }
@@ -131,7 +131,7 @@ private:
                                                                         keyPoint,winnerId));
         return controller;
     }
-    void connectFTPControllerWithInterfaces(AbstractGameController* controller,
+    void connectFTPController(AbstractGameController* controller,
                                             AbstractApplicationInterface* applicationInterface,
                                             AbstractModelsContext* modelsContext)
     {
@@ -146,7 +146,7 @@ private:
         connect(applicationInterface,&AbstractApplicationInterface::requestCurrentTournamentId,
                 controller,&AbstractGameController::handleRequestForCurrentTournamentMetaData);
         connect(controller,&AbstractGameController::sendCurrentTournamentId,
-                modelsContext,&AbstractModelsContext::assembleTournamentMetaDataFromId);
+                modelsContext,&AbstractModelsContext::assembleFTPMetaDataFromId);
         /*
          * Setup request transmitting multithrow playerscores
          */

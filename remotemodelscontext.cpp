@@ -69,8 +69,12 @@ void RemoteModelsContext::handleRequestGameMode(const int &index)
                             SLOT(handleRequestGameModeReply()));
 }
 
-void RemoteModelsContext::assembleTournamentMetaDataFromId(const QUuid &tournament)
+void RemoteModelsContext::assembleFTPMetaDataFromId(const QUuid &tournamentId)
 {
+    auto formattedTournamentId  = tournamentId.toString(QUuid::WithoutBraces);
+    _netMng->sendGetRequest("GetFtpTournamentMeta",
+                            QString(),{{"tournamentId",formattedTournamentId}},
+                            this,SLOT(handleFtpTournamentMetaReply()));
 }
 
 void RemoteModelsContext::handleAddScore(const QUuid &tournament, const QUuid &player, const QVector<int> &dataValues, const bool &isWinnerDetermined)
@@ -272,8 +276,7 @@ void RemoteModelsContext::handleRequestFtpDetailsReply()
     for (auto i = jsonPlayerScores.constBegin(); i != jsonPlayerScores.constEnd(); ++i)
     {
         auto jsonVal = *i;
-        auto jsonObj = jsonVal.toObject();
-        auto playerScore = jsonObj.value("score").toInt();
+        auto playerScore = jsonVal.toInt();
         assignedPlayerScores << playerScore;
     }
     auto totalTurns = payLoad.value("totalTurns").toInt();
@@ -293,4 +296,41 @@ void RemoteModelsContext::handleRequestFtpDetailsReply()
                                   assignedPlayerIds,
                                   assignedPlayerNames,
                                   assignedPlayerScores);
+}
+
+void RemoteModelsContext::handleFtpTournamentMetaReply()
+{
+    if(!_netMng->reply()->isOpen())
+        emit createPlayerResponse(false);
+    auto byteData = _netMng->reply()->readAll();
+    auto jsonDocument = QJsonDocument::fromJson(byteData);
+    auto jsonObject = jsonDocument.object();
+    auto responseCode = jsonObject.value("response").toInt();
+    if(responseCode == 0x1)
+        throw "Tournament doesn't exists";
+    auto payLoad = jsonObject.value("payLoad").toObject();
+    auto title = payLoad.value("title").toString();
+    auto winnerName = payLoad.value("winnerName").toString();
+    auto keyPoint = payLoad.value("keyPoint").toInt();
+    auto attempts = payLoad.value("attempts").toInt();
+    auto displayHint = payLoad.value("displayHint").toInt();
+    auto inputHint = payLoad.value("inputHint").toInt();
+    auto gameMode = payLoad.value("gameMode").toInt();
+    QVector<QString> stringData = {title,winnerName};
+    QVector<int> numericData = {
+        gameMode,
+        keyPoint,
+        attempts,
+        displayHint,
+        inputHint
+    };
+    auto playerNames = payLoad.value("assignedPlayerNames").toArray();
+    QVector<QString> assignedPlayerNames;
+    for (auto i = playerNames.constBegin(); i != playerNames.constEnd(); ++i) {
+        auto playerName = (*i).toString();;
+        assignedPlayerNames << playerName;
+    }
+    emit sendTournamentMeta(stringData,
+                            numericData,
+                            assignedPlayerNames);
 }

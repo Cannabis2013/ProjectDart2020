@@ -74,7 +74,7 @@ public slots:
      *      [2] = Tournament model tablehint
      *      [3] = Tournament input mode
      */
-    void assembleTournamentMetaDataFromId(const QUuid& tournament) override;
+    void assembleFTPMetaDataFromId(const QUuid& tournament) override;
     void handleAddScore(const QUuid &tournament,
                   const QUuid &player,
                   const QVector<int> &dataValues,

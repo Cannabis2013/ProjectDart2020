@@ -20,7 +20,7 @@ DartApplication* createDartApplication()
 {
     auto _dart =
             DartApplication::createInstance()->
-            setModelsContextInterface(LocalModelsContext::createInstance())->
+            setModelsContextInterface(RemoteModelsContext::createInstance())->
             setControllerBuilder(new GameControllerBuilder())->
             /*useThreads()->*/
             setup();

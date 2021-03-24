@@ -86,7 +86,7 @@ void LocalModelsContext::handleRequestFTPScores(const QUuid &tournament)
     auto assignedPlayerIds = tournamentModelsContext()->tournamentAssignedPlayers(tournament);
     for (auto i = 0;i < assignedPlayerIds.count();i++) {
         auto roundIndex = 1;
-        auto throwIndex = 0;
+        auto attemptIndex = 0;
         auto assignedPlayerId = assignedPlayerIds.at(i);
         auto assignedPlayerName = playerModelsContext()->playerNameFromId(assignedPlayerId);
         while (1)
@@ -96,7 +96,7 @@ void LocalModelsContext::handleRequestFTPScores(const QUuid &tournament)
                 scoreID = tournamentModelsContext()->playerScore(tournament,
                                       assignedPlayerId,
                                       roundIndex,
-                                      throwIndex++,
+                                      attemptIndex++,
                                       ModelDisplayHint::DisplayHint);
             }  catch (...) {
                 break;
@@ -113,9 +113,9 @@ void LocalModelsContext::handleRequestFTPScores(const QUuid &tournament)
             }
             QVariantList subList = {assignedPlayerName,point,score,keyCode};
             list.append(subList);
-            if(throwIndex % numberOfThrows == 0)
+            if(attemptIndex % numberOfThrows == 0)
             {
-                throwIndex = 0;
+                attemptIndex = 0;
                 roundIndex++;
             }
         }
@@ -290,7 +290,7 @@ void LocalModelsContext::handleRequestPersistTournamentState()
     emit tournamentModelsStatePersisted();
 }
 
-void LocalModelsContext::assembleTournamentMetaDataFromId(const QUuid &tournament)
+void LocalModelsContext::assembleFTPMetaDataFromId(const QUuid &tournament)
 {
     auto title = tournamentModelsContext()->tournamentTitle(tournament);
     // Get winner name from id, if any
@@ -299,11 +299,11 @@ void LocalModelsContext::assembleTournamentMetaDataFromId(const QUuid &tournamen
     auto gameMode = tournamentModelsContext()->tournamentGameMode(tournament);
     auto keyPoint = tournamentModelsContext()->tournamentKeyPoint(tournament);
     auto attempts = tournamentModelsContext()->tournamentAttempts(tournament);
-    auto modelTableViewHint = tournamentModelsContext()->tournamentTableViewHint(tournament);
+    auto displayHint = tournamentModelsContext()->tournamentTableViewHint(tournament);
     auto inputMode = tournamentModelsContext()->tournamentInputMode(tournament);
     // Get playernames from ids
-    auto playersId = tournamentModelsContext()->tournamentAssignedPlayers(tournament);
-    auto assignedPlayerNames = playerModelsContext()->assemblePlayerNamesFromIds(playersId);
+    auto playerIds = tournamentModelsContext()->tournamentAssignedPlayers(tournament);
+    auto assignedPlayerNames = playerModelsContext()->assemblePlayerNamesFromIds(playerIds);
     QVector<QString> stringMetaData = {
         title,
         winnerName
@@ -312,7 +312,7 @@ void LocalModelsContext::assembleTournamentMetaDataFromId(const QUuid &tournamen
         gameMode,
         keyPoint,
         attempts,
-        modelTableViewHint,
+        displayHint,
         inputMode
     };
     emit sendTournamentMeta(stringMetaData,

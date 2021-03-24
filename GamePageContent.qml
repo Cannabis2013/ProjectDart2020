@@ -82,7 +82,7 @@ Content {
         Loader{
             id: scoreBoardItemSlot
             Layout.fillWidth: true
-            Layout.minimumHeight: 128
+            Layout.minimumHeight: 160
         }
         MyRectangle{
             Layout.fillHeight: true
