@@ -94,17 +94,17 @@ function handleDeleteTournamentsSuccess(status)
     }
 }
 /*
-  Begin request tournaments after last player transmitted
-  */
-function lastPlayerDetailsTransmitted(){
-    requestTournaments();
-}
-/*
   Add player to listview
   */
-function addPlayer(playerName,email)
+function recievePlayers(players)
 {
-    playersListView.addItemModel({"type" : "player","username" : playerName, "mail" : email})
+    for(var i=0;i < players.length;i += 2)
+    {
+        var playerName = players[i];
+        var email = players[i+1];
+        playersListView.addItemModel({"type" : "player","username" : playerName, "mail" : email})
+    }
+    requestTournaments();
 }
 /*
   Update player listview
@@ -126,15 +126,20 @@ function updateTournamentListView()
 // Recieve tournament data
 function recieveTournaments(tournaments)
 {
-    for(var i = 0;i < tournaments.length;i += 4)
+    for(var i = 0;i < tournaments.length;i += 5)
     {
         var title = tournaments[i + 1];
         var gameMode = tournaments[i+2];
-        var playersCount = tournaments[i+3];
-        tournamentListView.addItemModel({"type" : "tournament",
-                                        "tournamentTitle" : title,
-                                            "gameMode" : translateGameModeFromHex(gameMode),
-                                        "playersCount" : playersCount})
+        var winnerName = tournaments[i+3];
+        var playersCount = tournaments[i + 4];
+        tournamentListView.addItemModel(
+                    {
+                        "type" : "tournament",
+                        "gameMode" : translateGameModeFromHex(gameMode),
+                        "tournamentTitle" : title,
+                        "winner" : winnerName,
+                        "playersCount" : playersCount
+                    });
     }
 }
 
@@ -150,20 +155,19 @@ function translateGameModeFromHex(gameMode)
   */
 function connectInterface(){
     body.requestDeletePlayers.connect(applicationInterface.handleDeletePlayersRequest);
-    body.requestPlayers.connect(applicationInterface.requestPlayers); // Request initial/continous players
-    applicationInterface.sendPlayerDetail.connect(addPlayer); // Recieve initial players
+    body.requestPlayers.connect(applicationInterface.requestPlayerDetails); // Request initial/continous players
+    applicationInterface.sendPlayers.connect(recievePlayers); // Recieve initial players
     body.requestTournaments.connect(applicationInterface.handleTournamentsRequest); // Request initial tournaments
     applicationInterface.sendTournaments.connect(recieveTournaments);
     applicationInterface.playersDeletedStatus.connect(recievePlayersDeletedStatusFromBackend);
     applicationInterface.tournamentsDeletedSuccess.connect(handleDeleteTournamentsSuccess);
-    applicationInterface.lastPlayerDetailsTransmitted.connect(lastPlayerDetailsTransmitted);
 }
 function disconnectInterface(){
-    body.requestPlayers.disconnect(applicationInterface.requestPlayers); // Request initial/continous players
-    applicationInterface.sendPlayerDetail.disconnect(addPlayer); // Recieve initial players
+    body.requestPlayers.disconnect(applicationInterface.requestPlayerDetails); // Request initial/continous players
+    applicationInterface.sendPlayers.disconnect(recievePlayers); // Recieve initial players
     body.requestTournaments.disconnect(applicationInterface.handleTournamentsRequest); // Request initial tournaments
     applicationInterface.sendTournaments.disconnect(recieveTournaments);
     applicationInterface.playersDeletedStatus.disconnect(recievePlayersDeletedStatusFromBackend);
     applicationInterface.tournamentsDeletedSuccess.disconnect(handleDeleteTournamentsSuccess);
-    applicationInterface.lastPlayerDetailsTransmitted.disconnect(lastPlayerDetailsTransmitted);
+
 }

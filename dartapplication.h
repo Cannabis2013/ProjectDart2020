@@ -48,6 +48,7 @@ public:
     DartApplication *setControllerBuilder(ControllerBuilder *builder);
 
 public slots:
+    // Get tournaments
     void handleTournamentsRequest() override;
     /*
      * Set current tournament
@@ -113,17 +114,18 @@ public slots:
     void handlePersistTournamentRequest() override;
 
 signals:
-    void assembleFTPController(const QVector<QUuid> &idAndWinner,
-                               const QVector<int> &values,
-                               const QVector<QUuid> &userIds,
-                               const QVector<QString> &playerNames,
+    void assembleFTPController(const QVector<QUuid>& idAndWinner,
+                               const QVector<int>& values,
+                               const QVector<QUuid>& userIds,
+                               const QVector<QString>& playerNames,
+                               const QVector<int>& playerScores,
                                AbstractApplicationInterface* applicationsInteface,
                                AbstractModelsContext* modelsContextInterface);
 private slots:
     void assembleAndConfigureControllerBuilder(const QVector<QUuid>& idAndWinner,
                                     const QVector<int> &values,
                                     const QVector<QUuid> &userIds,
-                                    const QVector<QString> &playerNames);
+                                    const QVector<QString> &playerNames, const QVector<int> &playerScores);
     void setGameController(AbstractGameController* controller);
 private:
     // Register and connect interfaces related..

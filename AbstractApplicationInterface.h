@@ -110,7 +110,7 @@ signals:
                                      const int &numberOfThrows,
                                      QList<QUuid> assignedPlayers);
     void requestSingleThrowPlayerScores();
-    void requestMultiThrowPlayerScores();
+    void requestFTPScores();
     void setCurrentActiveTournament(const int &index);
     void sendPoint(const int &point, const int &pressedModifier);
     void requestStartGame();
@@ -128,10 +128,11 @@ signals:
     void tournamentsDeletedSuccess(const bool &status);
 
     void sendTournaments(const QVariantList& list);
-    void lastPlayerDetailsTransmitted();
-    void playerCreatedSuccess(const bool &status);
+    void sendPlayers(const QVariantList& list);
+    void createPlayerResponse(const bool &status);
     void requestPersistTournament();
     void requestAssembleFTPTournament();
+    void tournamentAssembledAndStored(const bool &status);
 
 };
 

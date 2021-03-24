@@ -6,16 +6,18 @@ template<class TControllerInterface,
          class TApplicatonInterface,
          class TParameter,
          class TUserIds,
-         class TUserNames>
+         class TUserNames,
+         class TScoreValues>
 class IControllerBuilder
 {
 public:
-    virtual TControllerInterface *assembleFTPGameController(const TUserIds& tournamentIds,
-                                                            const TParameter &values,
-                                                            const TUserIds& userIds,
-                                                            const TUserNames& userNames,
-                                                            TApplicatonInterface* applicationInterface,
-                                                            TModelsContextInterface* modelsContext) = 0;
+    virtual TControllerInterface *assembleFTPGameController(const TUserIds&,
+                                                            const TParameter&,
+                                                            const TUserIds&,
+                                                            const TUserNames&,
+                                                            const TScoreValues&,
+                                                            TApplicatonInterface*,
+                                                            TModelsContextInterface*) = 0;
 };
 
 #endif // ICONTROLLERBUILDER_H

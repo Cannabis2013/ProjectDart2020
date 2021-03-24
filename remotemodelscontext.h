@@ -7,6 +7,10 @@
 #include "itournamentbuilder.h"
 #include "tournamentbuildercontext.h"
 #include "urlparser.h"
+#include <qjsondocument.h>
+#include <qjsonobject.h>
+#include <QJsonArray>
+#include <QVariantList>
 
 #define PRODUCTION
 #ifdef PRODUCTION
@@ -30,18 +34,18 @@ public:
     // IResponseInterface interface
     virtual void transmitResponse(const int &response, const QVariantList &args) override;
     // AbstractModelsContext interface
-    virtual void handleRequestForAddFTPTournament(const QString &title, const QVector<int> &data, const QVector<int> &playerIndexes) override;
+    virtual void handleAddFTPTournament(const QString &title, const QVector<int> &data, const QVector<int> &playerIndexes) override;
     virtual void handleAssignPlayersToTournament(const QUuid &tournament, const QList<QUuid> &playersID) override;
     virtual void handleDeleteTournaments(const QVector<int> &indexes) override;
     virtual void handleRequestAssignedPlayers(const QUuid &tournament) override;
-    virtual void handleTransmitPlayerScores(const QUuid &tournament) override;
+    virtual void handleRequestFTPScores(const QUuid &tournament) override;
     virtual void handleRequestTournaments() override;
-    virtual void handleRequestTournamentGameMode(const int &index) override;
+    virtual void handleRequestGameMode(const int &index) override;
     virtual void assembleTournamentMetaDataFromId(const QUuid &tournament) override;
     virtual void handleAddScore(const QUuid &tournament, const QUuid &player, const QVector<int> &dataValues, const bool &isWinnerDetermined) override;
     virtual void handleRequestSetScoreHint(const QUuid &tournament, const QUuid &player, const int &roundIndex, const int &throwIndex, const int &hint) override;
     virtual void handleResetTournament(const QUuid &tournament) override;
-    virtual void handleRequestFTPDetails(const QUuid &tournament) override;
+    virtual void handleRequestFtpDetails(const QUuid &tournament) override;
     virtual void handleCreatePlayer(const QString &name, const QString &mail) override;
     virtual void handleDeletePlayerFromIndex(const int &index) override;
     virtual void handleDeletePlayersFromIndexes(const QVector<int> &playerIndexes) override;
@@ -49,7 +53,12 @@ public:
     virtual void handleRequestPersistTournamentState() override;
 
 private slots:
-    void handleRecievedTournaments(QNetworkReply*reply);
+    void handleRecievedTournamentsReply();
+    void handleAddFTPTournamentReply();
+    void handleRequestPlayersReply();
+    void handleCreatePlayerResponse();
+    void handleRequestGameModeReply();
+    void handleRequestFtpDetailsReply();
 private:
     NetworkManager* _netMng = new NetworkManager(API_HOST_URL);
 };

@@ -9,10 +9,10 @@ Item {
     /*
       Properties
       */
-    property int contentBorderRadius: 20
+    property int contentBorderRadius: 0
     onContentBorderRadiusChanged: label.width = width - contentBorderRadius
     property color fontColor: "black"
-    property int labelBorderRadius: 20
+    property int labelBorderRadius: 0
     onLabelBorderRadiusChanged: label.radius = labelBorderRadius
     property color labelBackgroundColor: "black"
     onLabelBackgroundColorChanged: label.color = labelBackgroundColor

@@ -9,7 +9,7 @@ QtObject {
     // Input mode values
     readonly property int pointMode: 0x5
     readonly property int scoreMode: 0x6
-    // ??
+    // Keypad values
     readonly property int numberPad: 0x7
     readonly property int hotPad: 0x8
     readonly property int modifierPad: 0x9

@@ -22,16 +22,16 @@ public:
     /*
      * Handle requests from external context
      */
-    virtual void handleRequestForAddFTPTournament(const QString &title,
+    virtual void handleAddFTPTournament(const QString &title,
                                                   const QVector<int> &data,
                                                   const QVector<int> &playerIndexes) = 0;
     virtual void handleAssignPlayersToTournament(const QUuid &tournament,
                                                  const QList<QUuid> &playersID) = 0;
     virtual void handleDeleteTournaments(const QVector<int>&indexes) = 0;
     virtual void handleRequestAssignedPlayers(const QUuid &tournament) = 0;
-    virtual void handleTransmitPlayerScores(const QUuid &tournament) = 0;
+    virtual void handleRequestFTPScores(const QUuid &tournament) = 0;
     virtual void handleRequestTournaments() = 0;
-    virtual void handleRequestTournamentGameMode(const int &index) = 0;
+    virtual void handleRequestGameMode(const int &index) = 0;
     virtual void assembleTournamentMetaDataFromId(const QUuid& tournament) = 0;
     virtual void handleAddScore(const QUuid &tournament,
                   const QUuid &player,
@@ -46,7 +46,7 @@ public:
     /*
      * Send tournament values
      */
-    virtual void handleRequestFTPDetails(const QUuid& tournament) = 0;
+    virtual void handleRequestFtpDetails(const QUuid& tournament) = 0;
     /*
      * Player-models context interface..
      */
@@ -97,12 +97,12 @@ signals:
     /*
      * Player-models signals
      */
-    void sendPlayerDetails(const QString &playerName, const QString &mail);
     void sendPlayersID(const QList<QUuid> &playersID);
-    void sendTournamentFTPDetails(const QVector<QUuid>& idAndWinner,
+    void sendTournamentFTPDetails(const QVector<QUuid>& tournamentIdAndWinner,
                                   const QVector<int> &values,
                                   const QVector<QUuid> &userIds,
-                                  const QVector<QString> &playerNames);
+                                  const QVector<QString> &playerNames,
+                                  const QVector<int>& playerScores);
     void sendProcessedTournamentMetaData(const QString &title,
                                          const int &gameMode,
                                          const int &keyPoint,
@@ -116,9 +116,10 @@ signals:
                                         const QList<int> &data,
                                         const QList<QUuid> &playersID);
     void playersDeletedStatus(const bool &status);
-    void lastPlayerDetailTransmitted();
-    void confirmPlayerCreated(const bool &status);
+    void sendPlayers(const QVariantList& list);
+    void createPlayerResponse(const bool &status);
     void tournamentModelsStatePersisted();
+    void tournamentAssembledAndStored(const bool& status);
 };
 
 #endif // ABSTRACTMODELCONTEXTINTERFACE_H

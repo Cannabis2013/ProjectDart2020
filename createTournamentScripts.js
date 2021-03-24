@@ -8,9 +8,14 @@ function stateChanged()
     buttonsComponent.buttonTwoEnabled = status;
 }
 
-function addPlayer(playerName,email)
+function recievePlayers(players)
 {
-    playersListView.addItemModel({"type" : "player","username" : playerName, "mail" : email})
+    for(var i=0;i < players.length;i += 2)
+    {
+        var playerName = players[i];
+        var email = players[i+1];
+        playersListView.addItemModel({"type" : "player","username" : playerName, "mail" : email})
+    }
 }
 
 function gameModeToHex(text)

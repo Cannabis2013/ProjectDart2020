@@ -46,11 +46,11 @@ public:
     }
     int attempt() const override
     {
-        return _throwIndex;
+        return _attemptIndex;
     }
     FTPScore* setAttempt(const int &index) override
     {
-        _throwIndex = index;
+        _attemptIndex = index;
         return this;
     }
     int hint() const override
@@ -117,12 +117,11 @@ public:
     }
 
 private:
-    int _modelType;
     int _pointValue;
     int _scoreValue;
-    int _throwIndex;
-    int _setIndex;
     int _roundIndex;
+    int _setIndex;
+    int _attemptIndex;
     int _hint;
     int _keyCode;
     QUuid _id, _player, _tournament;

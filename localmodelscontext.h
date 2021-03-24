@@ -23,12 +23,6 @@ public:
         EndOfTransmission = 0x10,
         ModelsStatePersisted = 0x47
     };
-    enum PlayerContextResponse{
-        PlayerCreatedOK = 0x33,
-        PlayerDeletedOK = 0x34,
-        PlayersDeletedOK = 0x36,
-        InconsistencyDetected = 0x39
-    };
     enum ModelDisplayHint{
         HiddenHint = 0x9,
         DisplayHint = 0xA,
@@ -55,15 +49,15 @@ public slots:
     /*
      * Handle requests from external context
      */
-    void handleRequestForAddFTPTournament(const QString &title,
+    void handleAddFTPTournament(const QString &title,
                                   const QVector<int> &data,
                                   const QVector<int> &assignedPlayerIndexes) override;
     void handleAssignPlayersToTournament(const QUuid &tournament, const QList<QUuid> &playersID) override;
     void handleDeleteTournaments(const QVector<int>&indexes) override;
     void handleRequestAssignedPlayers(const QUuid &tournament) override;
-    void handleTransmitPlayerScores(const QUuid &tournament) override;
+    void handleRequestFTPScores(const QUuid &tournament) override;
     void handleRequestTournaments() override;
-    void handleRequestTournamentGameMode(const int &index) override;
+    void handleRequestGameMode(const int &index) override;
     /*
      * Handle request for 'first to post'-tournament related meta information
      * from frontend
@@ -94,7 +88,7 @@ public slots:
     /*
      * Send tournament values
      */
-    void handleRequestFTPDetails(const QUuid& tournament) override;
+    void handleRequestFtpDetails(const QUuid& tournament) override;
     /*
      * Player models context interface..
      */

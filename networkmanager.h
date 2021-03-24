@@ -65,10 +65,13 @@ public:
     ConnectionOptions connectionOptions() const;
     void setConnectionOptions(const ConnectionOptions &options);
 
+    QNetworkReply *reply();
+
 signals:
     void sendNotification(const bool &success,const QByteArray &data = QByteArray());
     void sendErrorString(const QString &err);
     void sendSslErrorStrings(const QStringList &err);
+    void timeOutOccured(const QString& msg);
 
 private slots:
     void handleSslErrors(QNetworkReply *reply,const QList<QSslError>&errors);
@@ -78,7 +81,9 @@ private slots:
     virtual void handleTimeOut();
 
 private:
+
     QNetworkAccessManager* _netMng = new QNetworkAccessManager();
+    QNetworkReply* _tempReply;
     const QString _baseUrl;
     QElapsedTimer _responseTimer;
     int _timeoutThreshold = 3000;

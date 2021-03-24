@@ -105,7 +105,6 @@ QUuid LocalTournamentModelsContext::tournamentIdFromIndex(const int &index)
         auto tournament = dynamic_cast<const LMC::TournamentInterface*>(model);
         auto id = tournament->id();
         return id;
-
     }  catch (...) {
         throw "TOURNAMENT_NOT_FOUND";
     }
@@ -146,12 +145,13 @@ int LocalTournamentModelsContext::tournamentAttempts(const QUuid &tournament)
 QVector<QUuid> LocalTournamentModelsContext::tournamentAssignedPlayers(const QUuid &tournament)
 {
     QVector<QUuid> assignedPlayers;
+    const LMC::TournamentInterface* tournamentModel;
     try {
-        auto tournamentModel = getTournamentModelFromID<LMC::TournamentInterface>(tournament);
-        assignedPlayers = tournamentModel->assignedPlayerIdentities();
+        tournamentModel = getTournamentModelFromID<LMC::TournamentInterface>(tournament);
     } catch (const char *msg) {
         throw  msg;
     }
+    assignedPlayers = tournamentModel->assignedPlayerIdentities();
     return assignedPlayers;
 }
 
@@ -597,6 +597,25 @@ QUuid LocalTournamentModelsContext::playerScore(const QUuid &tournament,
 
     throw "Object not found";
 }
+
+QUuid LocalTournamentModelsContext::playerScore(const QUuid &tournament, const QUuid &player, const int &round, const int &throwIndex)
+{
+    auto tournamentScoreModels = scores(tournament);
+    for (auto scoreModelID : tournamentScoreModels) {
+        auto scoreModel = getScoreModelFromID(scoreModelID);
+        auto playerID = scoreModel->player();
+        if(playerID != player)
+            continue;
+        auto leg = scoreAttemptIndex(scoreModelID);
+        if(leg != throwIndex)
+            continue;
+        auto roundIndex = scoreModel->roundIndex();
+        if(roundIndex != round)
+            continue;
+        return scoreModelID;
+    }
+    throw "Object not found";
+}
 template<typename TModelInterface>
 const TModelInterface *LocalTournamentModelsContext::getTournamentModelFromID(const QUuid &id)
 {
@@ -655,21 +674,25 @@ const QVector<int> LocalTournamentModelsContext::indexes(const QUuid &tournament
     auto turnIndex = 0;
     auto roundIndex = 1;
     auto setIndex = 0;
-    auto throwIndex = 0;
+    auto attemptIndex = 0;
     auto assignedPlayersID = tournamentAssignedPlayers(tournament);
     auto playersCount = assignedPlayersID.count();
-    auto numberOfThrows= tournamentAttempts(tournament);
+    auto numberOfAttempts = tournamentAttempts(tournament);
     while(1)
     {
         auto playerId = assignedPlayersID.at(setIndex);
         try {
-            playerScore(tournament,playerId,roundIndex,throwIndex,ModelDisplayHint::DisplayHint);
+            playerScore(tournament,
+                        playerId,
+                        roundIndex,
+                        attemptIndex,
+                        ModelDisplayHint::DisplayHint);
         } catch (...) {
             break;
         }
-        if(++throwIndex % numberOfThrows == 0)
+        if(++attemptIndex % numberOfAttempts == 0)
         {
-            throwIndex = 0;
+            attemptIndex = 0;
             setIndex++;
             if(setIndex >= playersCount)
             {
@@ -687,7 +710,7 @@ const QVector<int> LocalTournamentModelsContext::indexes(const QUuid &tournament
         turnIndex,
         roundIndex,
         setIndex,
-        throwIndex
+        attemptIndex
     };
     return indexes;
 }

@@ -14,7 +14,6 @@ QUrl UrlParser::parseUrl(const QString &baseUrl,
      * Template: {baseUrl}/{Method}/{urlParameter}?code={userCode}
      * Example: www.testapi.dk/api/DeleteTournament/ad4a22ee-4c5c-4911-a01f-d9578edb387c?code={{code}}
      */
-    cout << "parseUrl entered" << endl;
     QString hostUrl = baseUrl;
     QString urlMethod = method;
     auto stringQuery = assembleStringQuery(queryElements);

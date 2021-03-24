@@ -43,6 +43,9 @@ public:
                               const int &round,
                               const int &throwIndex,
                               const int &hint) = 0;
+    virtual QUuid playerScore(const QUuid &tournament, const QUuid &player ,
+                              const int &round,
+                              const int &throwIndex) = 0;
     virtual QList<QUuid> scores() = 0;
     virtual QList<QUuid> scores(const QUuid &tournament) = 0;
     virtual QList<QUuid> scores(const QUuid &tournament, const int &roundID) = 0;

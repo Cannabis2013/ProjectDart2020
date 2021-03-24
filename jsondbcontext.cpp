@@ -112,6 +112,7 @@ QVector<const IScore<QUuid> *> JsonDbContext::scoreModels()
 void JsonDbContext::replaceScoreModel(const int &index, const IScore<QUuid>* score)
 {
     _scoreModels.replace(index,score);
+    saveState();
 }
 
 int JsonDbContext::indexOfScoreModel(const DbModels::ScoreInterface *score)
@@ -123,6 +124,7 @@ int JsonDbContext::indexOfScoreModel(const DbModels::ScoreInterface *score)
 void JsonDbContext::removeScoreModel(const int &index)
 {
     _scoreModels.remove(index);
+    saveState();
 }
 
 QJsonArray JsonDbContext::assembleFTPTournamentsJSONArray()

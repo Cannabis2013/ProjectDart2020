@@ -5,7 +5,6 @@ NetworkManager::NetworkManager(const QString &serverHostUrl):
 {
     _netMng = new QNetworkAccessManager();
 
-
     connect(_netMng,&QNetworkAccessManager::sslErrors,
             this,&NetworkManager::handleSslErrors);
     connect(_netMng,&QNetworkAccessManager::authenticationRequired,
@@ -21,34 +20,30 @@ QNetworkReply *NetworkManager::sendGetRequest(const QString &method,
                                     const char *slot,
                                     const char* timeoutSlot)
 {
-    if(slot != nullptr)
-        connect(_netMng,SIGNAL(finished(QNetworkReply*)),reciever,slot);
-    else
-        connect(_netMng,SIGNAL(finished(QNetworkReply*)),this,SLOT(handleReply()));
-
-    cout << "Get request called" << endl;
     QUrl fullServerUrl = _parserService->parseUrl(_baseUrl,method,urlParameter,stringQuery);
-    cout << fullServerUrl.toString().toStdString() << endl;
-    auto reply = _netMng->get(QNetworkRequest(fullServerUrl));
-    cout << "Post get request sent" << endl;
+    _tempReply = _netMng->get(QNetworkRequest(fullServerUrl));
+    if(slot != nullptr)
+        connect(_tempReply,SIGNAL(finished()),reciever,slot);
+    else
+        connect(_tempReply,SIGNAL(finished()),this,SLOT(handleReply()));
+
     _responseTimer.start();
 
     if(timeoutSlot != nullptr)
     {
-        ReplyTimeout::setTimer(reply,
+        ReplyTimeout::setTimer(_tempReply,
                                timeoutThreshold(),
                                ReplyTimeout::Abort,
                                reciever, timeoutSlot);
     }
     else
     {
-        ReplyTimeout::setTimer(reply,
+        ReplyTimeout::setTimer(_tempReply,
                                timeoutThreshold(),
                                ReplyTimeout::Abort,
                                this, SLOT(handleTimeOut()));
     }
-    cout << "Method ended" << endl;
-    return reply;
+    return _tempReply;
 }
 
 QNetworkReply *NetworkManager::sendPostRequest(const QString &method,
@@ -62,18 +57,18 @@ QNetworkReply *NetworkManager::sendPostRequest(const QString &method,
     QUrl fullServerUrl = _parserService->parseUrl(_baseUrl,method,urlParameter,stringQuery);
     QNetworkRequest req(fullServerUrl);
     req.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    auto reply = _netMng->post(req,data);
+    _tempReply = _netMng->post(req,data);
     _responseTimer.start();
     if(slot != nullptr)
-        connect(reply,SIGNAL(finished()),reciever,slot);
+        connect(_tempReply,SIGNAL(finished()),reciever,slot);
     else
-        connect(reply,SIGNAL(finished()),this,SLOT(handleReply()));
+        connect(_tempReply,SIGNAL(finished()),this,SLOT(handleReply()));
 
-    ReplyTimeout::setTimer(reply,
+    ReplyTimeout::setTimer(_tempReply,
                            timeoutThreshold(),
                            ReplyTimeout::Abort,
                            reciever,timeoutSlot);
-    return reply;
+    return _tempReply;
 }
 
 
@@ -85,56 +80,51 @@ QNetworkReply *NetworkManager::sendDeleteRequest(const QString &method,
                                        const char* timeoutSlot)
 {
     QUrl fullServerUrl = _parserService->parseUrl(_baseUrl,method,urlParameter,stringQuery);
-    auto reply = _netMng->deleteResource(QNetworkRequest(fullServerUrl));
+    _tempReply = _netMng->deleteResource(QNetworkRequest(fullServerUrl));
 
     _responseTimer.start();
 
     if(slot != nullptr)
-        connect(reply,SIGNAL(finished()),reciever,slot);
+        connect(_tempReply,SIGNAL(finished()),reciever,slot);
     else
-        connect(reply,SIGNAL(finished()),this,SLOT(handleReply()));
+        connect(_tempReply,SIGNAL(finished()),this,SLOT(handleReply()));
 
-    connect(reply,&QNetworkReply::finished,reply,&QNetworkReply::deleteLater);
+    connect(_tempReply,&QNetworkReply::finished,_tempReply,&QNetworkReply::deleteLater);
 
-    ReplyTimeout::setTimer(reply,
+    ReplyTimeout::setTimer(_tempReply,
                            timeoutThreshold(),
                            ReplyTimeout::Abort,
                            reciever,
                            timeoutSlot);
-    return reply;
+    return _tempReply;
 }
 
 void NetworkManager::handleSslErrors(QNetworkReply *reply, const QList<QSslError> &errors)
 {
     Q_UNUSED(reply);
-
-    // TODO: Handle Ssl errors when its time for that
-    for (auto err : errors) {
-        cout << err.errorString().toStdString() << endl;
-    }
-
     reply->ignoreSslErrors();
 }
 
 void NetworkManager::handleAuthRequired(QNetworkReply *reply, QAuthenticator*)
 {
-    cout << "Auth required" << endl;
 }
 
 void NetworkManager::handleEncrypted(QNetworkReply *reply)
 {
-    cout << "Encrypted called" << endl;
-
 }
 
 void NetworkManager::handleReply()
 {
-    cout << "Default reply handling" << endl;
 }
 
 void NetworkManager::handleTimeOut()
 {
-    cout << "Timeout occured" << endl;
+    emit timeOutOccured("Timeout occured");
+}
+
+QNetworkReply *NetworkManager::reply()
+{
+    return _tempReply;
 }
 
 NetworkManager::ConnectionOptions NetworkManager::connectionOptions() const

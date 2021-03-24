@@ -8,5 +8,7 @@ UserInputComponent{
     labelText: "Number of throws"
     labelLeftMargin: 10
     labelFontColor: "darkblue"
-    content: SpinBoxInputContent{}
+    content: SpinBoxInputContent{
+        borderRadius: 0
+    }
 }

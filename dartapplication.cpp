@@ -47,7 +47,7 @@ void DartApplication::handleRequestForSingleThrowScoreData()
 
 void DartApplication::handleRequestForMultiThrowScoreData()
 {
-    emit requestMultiThrowPlayerScores();
+    emit requestFTPScores();
 }
 
 void DartApplication::handleFTPDetails(const QString &title,
@@ -153,14 +153,16 @@ void DartApplication::handlePersistTournamentRequest()
 }
 
 void DartApplication::assembleAndConfigureControllerBuilder(const QVector<QUuid> &idAndWinner,
-                                                 const QVector<int> &values,
-                                                 const QVector<QUuid> &userIds,
-                                                 const QVector<QString> &playerNames)
+                                                            const QVector<int> &values,
+                                                            const QVector<QUuid> &userIds,
+                                                            const QVector<QString> &playerNames,
+                                                            const QVector<int>& playerScores)
 {
     emit assembleFTPController(idAndWinner,
                                values,
                                userIds,
                                playerNames,
+                               playerScores,
                                this,
                                _modelsContext);
 }
@@ -204,22 +206,22 @@ void DartApplication::connectModelInterfaces()
      */
     connect(this,&DartApplication::requestPlayers,
             _modelsContext,&AbstractModelsContext::handleRequestPlayersDetails);
-    connect(_modelsContext,&AbstractModelsContext::sendPlayerDetails,
-            this,&DartApplication::sendPlayerDetail);
-    connect(_modelsContext,&AbstractModelsContext::lastPlayerDetailTransmitted,
-            this,&DartApplication::lastPlayerDetailsTransmitted);
+    connect(_modelsContext,&AbstractModelsContext::sendPlayers,
+            this,&DartApplication::sendPlayers);
     /*
      * Create tournament
      */
     connect(this,&DartApplication::sendFTPDetails,
-            _modelsContext,&AbstractModelsContext::handleRequestForAddFTPTournament);
+            _modelsContext,&AbstractModelsContext::handleAddFTPTournament);
+    connect(_modelsContext,&AbstractModelsContext::tournamentAssembledAndStored,
+            this,&AbstractApplicationInterface::tournamentAssembledAndStored);
     /*
      * Create player
      */
     connect(this,&DartApplication::requestCreatePlayer,
             _modelsContext,&AbstractModelsContext::handleCreatePlayer);
-    connect(_modelsContext,&AbstractModelsContext::confirmPlayerCreated,
-            this,&DartApplication::playerCreatedSuccess);
+    connect(_modelsContext,&AbstractModelsContext::createPlayerResponse,
+            this,&DartApplication::createPlayerResponse);
     /*
      * Delete tournament
      */
@@ -306,11 +308,11 @@ DartApplication *DartApplication::setControllerBuilder(ControllerBuilder *builde
      * Connect interface
      */
     connect(this,&DartApplication::setCurrentActiveTournament,
-            _modelsContext,&AbstractModelsContext::handleRequestTournamentGameMode);
+            _modelsContext,&AbstractModelsContext::handleRequestGameMode);
     connect(_modelsContext,&AbstractModelsContext::requestAssembleTournament,
             _controllerBuilder,&AbstractControllerBuilder::determineTournamentGameMode);
     connect(_controllerBuilder,&AbstractControllerBuilder::requestFTPDetails,
-            _modelsContext,&AbstractModelsContext::handleRequestFTPDetails);
+            _modelsContext,&AbstractModelsContext::handleRequestFtpDetails);
     connect(_modelsContext,&AbstractModelsContext::sendTournamentFTPDetails,
             this,&DartApplication::assembleAndConfigureControllerBuilder);
     connect(this,&DartApplication::assembleFTPController,

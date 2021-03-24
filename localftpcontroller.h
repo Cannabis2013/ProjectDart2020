@@ -106,7 +106,7 @@ public:
      * The following methods is called dependently on input hint
      */
     void handleRequestForSingleThrowPlayerScores() override;
-    void handleRequestForMultiThrowPlayerScores() override;
+    void handleRequestFTPPlayerScores() override;
 
     void handleScoreAddedToDataContext(const QUuid &playerID,
                                        const int &point,

@@ -20,18 +20,20 @@ Content{
     function recieveTournaments(tournaments)
     {
         var count = tournaments.length;
-        for(var i = 0; i < count;i += 4)
+        for(var i = 0; i < count;i += 5)
         {
             var title = tournaments[i + 1];
             var gameMode = tournaments[i+2];
-            var playersCount = tournaments[i + 3];
+            var winnerName = tournaments[i+3];
+            var playersCount = tournaments[i + 4];
             tournamentListView.addItemModel(
                         {
                             "type" : "tournament",
                             "gameMode" : translateGameModeFromHex(gameMode),
                             "tournamentTitle" : title,
+                            "winner" : winnerName,
                             "playersCount" : playersCount
-                        })
+                        });
         }
     }
 

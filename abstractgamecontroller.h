@@ -31,7 +31,7 @@ public slots:
 
     virtual void handleRequestForCurrentTournamentMetaData() = 0;
     virtual void handleRequestForSingleThrowPlayerScores() = 0;
-    virtual void handleRequestForMultiThrowPlayerScores() = 0;
+    virtual void handleRequestFTPPlayerScores() = 0;
     virtual void handleScoreAddedToDataContext(const QUuid &playerID,
                                                       const int &point,
                                                       const int &score) = 0;
@@ -49,7 +49,7 @@ public slots:
 signals:
     void transmitResponse(const int &status, const QVariantList &args) override;
     void sendCurrentTournamentId(const QUuid &tournament);
-    void requestTransmitPlayerScores(const QUuid &tournament);
+    void requestFTPScores(const QUuid &tournament);
     void requestTournamentIndexes(const QUuid &tournament);
     void requestAddScore(const QUuid &tournamentID,
                    const QUuid &playerID,

@@ -7,7 +7,7 @@ UserInputContent
 {
     id: body
     color: "white"
-    radius: 20
+    radius: 0
     /*
       Properties
       */

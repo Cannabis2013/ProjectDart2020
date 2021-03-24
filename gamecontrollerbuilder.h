@@ -31,6 +31,12 @@ public:
         ScoreMode = 0x6
     };
 
+    enum DisplayHint
+    {
+        SingleColumn = 0x4,
+        MultiColumn = 0x8
+    };
+
     enum ContextMode {
         LocalContext = 0x7,
         RemoteContext = 0x8
@@ -40,6 +46,7 @@ public:
                                                       const QVector<int>& values,
                                                       const QVector<QUuid>& userIds,
                                                       const QVector<QString>& userNames,
+                                                      const QVector<int>& playerScores,
                                                       AbstractApplicationInterface* applicationInterface,
                                                       AbstractModelsContext* modelsContext) override
     {
@@ -50,7 +57,7 @@ public:
         auto terminalKeyCode = values[3];
         auto inputMode = values[4];
         auto indexes = values.mid(5,5);
-        auto userScores = values.mid(10);
+        auto userScores = playerScores;
         AbstractGameController* controller = nullptr;
         if(inputMode == InputModes::PointMode)
         {
@@ -143,10 +150,10 @@ private:
         /*
          * Setup request transmitting multithrow playerscores
          */
-        connect(applicationInterface,&AbstractApplicationInterface::requestMultiThrowPlayerScores,
-                controller,&AbstractGameController::handleRequestForMultiThrowPlayerScores);
-        connect(controller,&AbstractGameController::requestTransmitPlayerScores,
-                modelsContext,&AbstractModelsContext::handleTransmitPlayerScores);
+        connect(applicationInterface,&AbstractApplicationInterface::requestFTPScores,
+                controller,&AbstractGameController::handleRequestFTPPlayerScores);
+        connect(controller,&AbstractGameController::requestFTPScores,
+                modelsContext,&AbstractModelsContext::handleRequestFTPScores);
         /*
          * Setup request transmitting singlethrow playerscores
          */

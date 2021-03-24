@@ -29,8 +29,8 @@ ScoreBoard {
 
     onSizeScale: fTPModel.scale = s
 
-    property int throwsPerRound: 3
-    onThrowsPerRoundChanged: fTPModel.throwCount = throwsPerRound;
+    property int attempts: 3
+    onAttemptsChanged: fTPModel.attempts = attempts;
 
     onMinimumColumnCountChanged: fTPModel.setMinimumColumnCount(fTPBody.minimumColumnCount)
     onMinimumRowCount: fTPModel.setMinimumRowCount(count);
@@ -94,7 +94,7 @@ ScoreBoard {
     model: SFTPDataModel{
         id: fTPModel
         onDataChanged: ScoreScripts.updateScoreBoard();
-        attempts: fTPBody.throwsPerRound
+        attempts: fTPBody.attempts
         pointFontPointSize: fTPBody.pointFontSize
         scoreFontPointSize: fTPBody.scoreFontSize
         horizontalFillMode: fTPBody.horizontalHeaderFillMode

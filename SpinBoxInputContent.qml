@@ -4,7 +4,7 @@ import QtQuick.Controls 2.5
 import QtGraphicalEffects 1.13
 
 UserInputContent{
-    id: body
+    id: spinBoxBody
     /*
       UserInputContent interface
       */
@@ -12,6 +12,8 @@ UserInputContent{
     onFontSizeChanged: spinBox.font.pointSize = fontSize
     currentValue: spinBox.value
     onSetValue: spinBox.value = value
+    property int borderRadius: 20
+    onBorderRadiusChanged: maskRect.radius = borderRadius
     SpinBox {
         id: spinBox
         layer.enabled: true
@@ -20,14 +22,15 @@ UserInputContent{
                 width: spinBox.width
                 height: spinBox.height
                 Rectangle{
+                    id: maskRect
                     anchors.fill: parent
-                    radius: 20
+                    radius: spinBoxBody.borderRadius
                 }
             }
         }
         value: 1
         anchors.fill: parent
-        font.pointSize: body.fontSize
-        onValueChanged: body.valueChanged(value)
+        font.pointSize: spinBoxBody.fontSize
+        onValueChanged: spinBoxBody.valueChanged(value)
     }
 }

@@ -14,6 +14,9 @@ UserInputContent{
     property color popupBackgroundColor: "white"
     onPopupBackgroundColorChanged: popupItem.color = popupBackgroundColor
 
+    property int borderRadius: 0
+    onBorderRadiusChanged: maskRect.radius = borderRadius
+
     property color popupItemHoveredColor: "white"
     onPopupItemHoveredColorChanged: popupItem.hoveredColor = popupItemHoveredColor
     currentValue : comboBox.currentText
@@ -26,8 +29,9 @@ UserInputContent{
             width: comboBox.width
             height: comboBox.height
             Rectangle{
+                id: maskRect
                 anchors.fill: parent
-                radius: 20
+                radius: comboBoxComponentBody.borderRadius
             }
         }
     }

@@ -7,7 +7,7 @@ Content
     
     signal sendPlayerDetails(string playerName,string mail)
 
-    function playerCreatedSucess(status)
+    function handleCreatePlayerResponse(status)
     {
         if(status)
             requestQuit();
@@ -77,10 +77,10 @@ Content
 
     Component.onCompleted: {
         body.sendPlayerDetails.connect(applicationInterface.handleCreatePlayer);
-        applicationInterface.playerCreatedSuccess.connect(body.playerCreatedSucess);
+        applicationInterface.createPlayerResponse.connect(body.handleCreatePlayerResponse);
     }
     Component.onDestruction: {
         body.sendPlayerDetails.disconnect(applicationInterface.handleCreatePlayer);
-        applicationInterface.playerCreatedSuccess.disconnect(body.playerCreatedSucess);
+        applicationInterface.createPlayerResponse.disconnect(body.handleCreatePlayerResponse);
     }
 }

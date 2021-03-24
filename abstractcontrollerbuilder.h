@@ -12,7 +12,8 @@ typedef IControllerBuilder<AbstractGameController,
                            AbstractApplicationInterface,
                            QVector<int>,
                            QVector<QUuid>,
-                           QVector<QString>> ControllerBuilder;
+                           QVector<QString>,
+                           QVector<int>> ControllerBuilder;
 
 class AbstractControllerBuilder : public QObject,
         public ControllerBuilder
@@ -29,6 +30,7 @@ public slots:
                                                               const QVector<int>& values,
                                                               const QVector<QUuid>& userIds,
                                                               const QVector<QString>& userNames,
+                                                              const QVector<int>& playerScores,
                                                               AbstractApplicationInterface* applicationInterface,
                                                               AbstractModelsContext* modelsContext) = 0;
 };

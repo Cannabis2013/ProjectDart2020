@@ -73,10 +73,10 @@ void LocalFTPController::handleRequestForSingleThrowPlayerScores()
     emit transmitResponse(ControllerResponse::ScoresTransmit,list);
 }
 
-void LocalFTPController::handleRequestForMultiThrowPlayerScores()
+void LocalFTPController::handleRequestFTPPlayerScores()
 {
     auto tournamentId = tournament();
-    emit requestTransmitPlayerScores(tournamentId);
+    emit requestFTPScores(tournamentId);
 }
 
 void LocalFTPController::handleScoreAddedToDataContext(const QUuid &playerID,

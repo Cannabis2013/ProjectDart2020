@@ -11,6 +11,19 @@ Content {
     signal sendFTPDetails(string title,
                           var data,
                           var playerIndexes)
+    signal tournamentAssembledAndStored(bool status)
+    onTournamentAssembledAndStored: {
+        if(status)
+        {
+            requestQuit();
+        }
+        else
+        {
+            buttonsComponent.buttonOneEnabled = true;
+            buttonsComponent.buttonTwoEnabled = true;
+        }
+    }
+
     signal sendCricketDetails
     signal requestGameModes
 
@@ -97,15 +110,17 @@ Content {
 
         Component.onCompleted: {
             createBody.sendFTPDetails.connect(applicationInterface.handleFTPDetails); // Tournament request
+            applicationInterface.tournamentAssembledAndStored.connect(createBody.tournamentAssembledAndStored);
             createBody.requestPlayers.connect(applicationInterface.requestPlayerDetails); // Request initial/continous players
-            applicationInterface.sendPlayerDetail.connect(CreateScripts.addPlayer); // Recieve initial players
+            applicationInterface.sendPlayers.connect(CreateScripts.recievePlayers); // Recieve initial players
             CreateScripts.setupSelectors();
             requestUpdate();
         }
         Component.onDestruction: {
             createBody.sendFTPDetails.disconnect(applicationInterface.handleFTPDetails);
+            applicationInterface.tournamentAssembledAndStored.disconnect(createBody.tournamentAssembledAndStored);
             createBody.requestPlayers.disconnect(applicationInterface.requestPlayerDetails);
-            applicationInterface.sendPlayerDetail.disconnect(CreateScripts.addPlayer);
+            applicationInterface.sendPlayerDetail.disconnect(CreateScripts.recievePlayers);
         }
     }
 }

@@ -46,7 +46,7 @@ LocalModelsContext* LocalModelsContext::setPlayerModelsContext(PlayerModelsConte
     return this;
 }
 
-void LocalModelsContext::handleRequestForAddFTPTournament(const QString &title,
+void LocalModelsContext::handleAddFTPTournament(const QString &title,
                                                           const QVector<int> &data,
                                                           const QVector<int> &assignedPlayerIndexes)
 {
@@ -79,7 +79,7 @@ void LocalModelsContext::handleRequestAssignedPlayers(const QUuid &tournament)
     emit sendAssignedPlayerNames(assignedPlayerNames);
 }
 
-void LocalModelsContext::handleTransmitPlayerScores(const QUuid &tournament)
+void LocalModelsContext::handleRequestFTPScores(const QUuid &tournament)
 {
     QVariantList list;
     auto numberOfThrows = tournamentModelsContext()->tournamentAttempts(tournament);
@@ -97,7 +97,7 @@ void LocalModelsContext::handleTransmitPlayerScores(const QUuid &tournament)
                                       assignedPlayerId,
                                       roundIndex,
                                       throwIndex++,
-                                      DisplayHint);
+                                      ModelDisplayHint::DisplayHint);
             }  catch (...) {
                 break;
             }
@@ -132,12 +132,14 @@ void LocalModelsContext::handleRequestTournaments()
         auto title = tournamentModelsContext()->tournamentTitle(id);
         auto gameMode = tournamentModelsContext()->tournamentGameMode(id);
         auto playersCount = tournamentModelsContext()->tournamentAssignedPlayers(id).count();
-        tournaments += {id,title,gameMode,playersCount};
+        auto winnerId = tournamentModelsContext()->tournamentWinner(id);
+        auto winnerName = playerModelsContext()->playerNameFromId(winnerId);
+        tournaments += {id,title,gameMode,winnerName,playersCount};
     }
     emit sendTournaments(tournaments);
 }
 
-void LocalModelsContext::handleRequestTournamentGameMode(const int &index)
+void LocalModelsContext::handleRequestGameMode(const int &index)
 {
     QUuid tournamentId;
     try {
@@ -171,8 +173,7 @@ void LocalModelsContext::handleRequestSetScoreHint(const QUuid &tournament,
         scoreID = tournamentModelsContext()->playerScore(tournament,
                                                          player,
                                                          roundIndex,
-                                                         throwIndex,
-                                                         ModelDisplayHint::allHints);
+                                                         throwIndex);
 
     }  catch (const char *msg) {
         emit scoreHintNotUpdated(tournament,msg);
@@ -195,42 +196,67 @@ void LocalModelsContext::handleResetTournament(const QUuid &tournament)
     emit tournamentResetSuccess();
 }
 
-void LocalModelsContext::handleRequestFTPDetails(const QUuid &tournament)
+void LocalModelsContext::handleRequestFtpDetails(const QUuid &tournament)
 {
-    QVector<int> tournamentValues = {
+    /*
+     * Asemble ftp tournament values:
+     *  - Gamemode
+     *  - Keypoint
+     *  - Attempts
+     *  - Terminalkeycode
+     *  - Input hint
+     */
+    QVector<int> tournamentValues {
         tournamentModelsContext()->tournamentGameMode(tournament),
         tournamentModelsContext()->tournamentKeyPoint(tournament),
         tournamentModelsContext()->tournamentAttempts(tournament),
         tournamentModelsContext()->tournamentTerminalKeyCode(tournament),
         tournamentModelsContext()->tournamentInputMode(tournament)
     };
+    /*
+     * Get assigned player ids
+     */
     QVector<QUuid> assignedPlayersId;
     try {
         assignedPlayersId = tournamentModelsContext()->tournamentAssignedPlayers(tournament);
     }  catch (const char *msg) {
-        return;
+        cout << msg << endl;
+        throw msg;
     }
+    /*
+     *  Get assigned player names
+     */
     auto assignedPlayerNames = playerModelsContext()->assemblePlayerNamesFromIds(assignedPlayersId);
     auto winnerId = tournamentModelsContext()->tournamentWinner(tournament);
-    QVector<QUuid> tournamentIdAndWinner = {
+    QVector<QUuid> tournamentIdAndWinner {
         tournament,
         winnerId
     };
     tournamentValues += tournamentModelsContext()->indexes(tournament);
-    tournamentValues += tournamentModelsContext()->tournamentUserScores(tournament);
+    /*
+     * Get tournament user scores
+     */
+    auto playerScores = tournamentModelsContext()->tournamentUserScores(tournament);
     emit sendTournamentFTPDetails(tournamentIdAndWinner,
                                   tournamentValues,
                                   assignedPlayersId,
-                                  assignedPlayerNames);
+                                  assignedPlayerNames,
+                                  playerScores);
 }
 
 void LocalModelsContext::handleCreatePlayer(const QString &name, const QString &mail)
 {
-    auto id = playerModelsContext()->createPlayer(name,mail);
-    auto status = id != QUuid() ? true :
-                                  false;
-    // Notify front-end
-    emit confirmPlayerCreated(status);
+    try {
+        playerModelsContext()->playerIdFromName(name);
+    }  catch (const char *msg) {
+        auto id = playerModelsContext()->createPlayer(name,mail);
+        auto status = id != QUuid() ? true :
+                                      false;
+        // Notify front-end
+        emit createPlayerResponse(status);
+        return;
+    }
+    emit createPlayerResponse(false);
 }
 
 void LocalModelsContext::handleDeletePlayerFromIndex(const int &index)
@@ -248,13 +274,14 @@ void LocalModelsContext::handleDeletePlayersFromIndexes(const QVector<int> &inde
 void LocalModelsContext::handleRequestPlayersDetails()
 {
     auto count = playerModelsContext()->playersCount();
+    QVariantList list;
     for (int i = 0; i < count; ++i) {
         auto playerId = playerModelsContext()->playerIdFromIndex(i);
         auto playerName = playerModelsContext()->playerNameFromId(playerId);
         auto mail = playerModelsContext()->playerMailFromId(playerId);
-        emit sendPlayerDetails(playerName,mail);
+        list += {playerName,mail};
     }
-    emit lastPlayerDetailTransmitted();
+    emit sendPlayers(list);
 }
 
 void LocalModelsContext::handleRequestPersistTournamentState()
