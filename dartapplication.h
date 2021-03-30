@@ -114,18 +114,15 @@ public slots:
     void handlePersistTournamentRequest() override;
 
 signals:
-    void assembleFTPController(const QVector<QUuid>& idAndWinner,
+    void assembleFTPController(const QUuid& tournamentId,
+                               const QUuid& winnerId,
                                const QVector<int>& values,
-                               const QVector<QUuid>& userIds,
-                               const QVector<QString>& playerNames,
-                               const QVector<int>& playerScores,
                                AbstractApplicationInterface* applicationsInteface,
                                AbstractModelsContext* modelsContextInterface);
 private slots:
-    void assembleAndConfigureControllerBuilder(const QVector<QUuid>& idAndWinner,
-                                    const QVector<int> &values,
-                                    const QVector<QUuid> &userIds,
-                                    const QVector<QString> &playerNames, const QVector<int> &playerScores);
+    void assembleAndConfigureControllerBuilder(const QUuid &tournamentId,
+                                               const QUuid &winnerId,
+                                               const QVector<int> &values);
     void setGameController(AbstractGameController* controller);
 private:
     // Register and connect interfaces related..

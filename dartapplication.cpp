@@ -152,17 +152,13 @@ void DartApplication::handlePersistTournamentRequest()
     emit requestPersistTournament();
 }
 
-void DartApplication::assembleAndConfigureControllerBuilder(const QVector<QUuid> &idAndWinner,
-                                                            const QVector<int> &values,
-                                                            const QVector<QUuid> &userIds,
-                                                            const QVector<QString> &playerNames,
-                                                            const QVector<int>& playerScores)
+void DartApplication::assembleAndConfigureControllerBuilder(const QUuid& tournamentId,
+                                                            const QUuid& winnerId,
+                                                            const QVector<int> &values)
 {
-    emit assembleFTPController(idAndWinner,
+    emit assembleFTPController(tournamentId,
+                               winnerId,
                                values,
-                               userIds,
-                               playerNames,
-                               playerScores,
                                this,
                                _modelsContext);
 }
@@ -312,8 +308,8 @@ DartApplication *DartApplication::setControllerBuilder(ControllerBuilder *builde
     connect(_modelsContext,&AbstractModelsContext::requestAssembleTournament,
             _controllerBuilder,&AbstractControllerBuilder::determineTournamentGameMode);
     connect(_controllerBuilder,&AbstractControllerBuilder::requestFTPDetails,
-            _modelsContext,&AbstractModelsContext::handleRequestFtpDetails);
-    connect(_modelsContext,&AbstractModelsContext::sendTournamentFTPDetails,
+            _modelsContext,&AbstractModelsContext::assembleFtpKeyValues);
+    connect(_modelsContext,&AbstractModelsContext::sendTournamentFtpDetails,
             this,&DartApplication::assembleAndConfigureControllerBuilder);
     connect(this,&DartApplication::assembleFTPController,
             _controllerBuilder,&AbstractControllerBuilder::assembleFTPGameController);

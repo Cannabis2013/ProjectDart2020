@@ -1,24 +1,24 @@
 #include "scoreindexcontroller.h"
 
-ScoreIndexController *ScoreIndexController::createInstance(const int &playerCount, const QVector<int> &indexes)
+ScoreIndexController *ScoreIndexController::createInstance()
 {
-    return new ScoreIndexController(playerCount,indexes);
+    return new ScoreIndexController();
 }
 
 void ScoreIndexController::reset()
 {
     _totalIndex = 0;
-    _index = 0;
+    _turnIndex = 0;
     _roundIndex = 1;
     _setIndex = 0;
-    _legIndex = 0;
+    _attemptIndex = 0;
 }
 
 void ScoreIndexController::next()
 {
     incrementTurnIndex();
     incrementSetIndex();
-    if(setIndex() >= playerCount()){
+    if(setIndex() >= playersCount()){
         incrementRoundIndex();
         resetSetIndex();
     }
@@ -28,7 +28,7 @@ void ScoreIndexController::undo()
 {
     if(!canUndo())
         return;
-    _index--;
+    _turnIndex--;
     if(_setIndex == 0)
     {
         _setIndex = lastPlayerIndex();
@@ -49,27 +49,27 @@ void ScoreIndexController::redo()
     }
     else
         _setIndex++;
-    _index++;
+    _turnIndex++;
 }
 
 bool ScoreIndexController::canUndo()
 {
-    return index() > 0;
+    return turnIndex() > 0;
 }
 
 bool ScoreIndexController::canRedo()
 {
-    return index() < _totalIndex;
+    return turnIndex() < _totalIndex;
 }
 
 void ScoreIndexController::syncIndex()
 {
-    _totalIndex = _index;
+    _totalIndex = _turnIndex;
 }
 
-int ScoreIndexController::index()
+int ScoreIndexController::turnIndex()
 {
-    return _index;
+    return _turnIndex;
 }
 
 int ScoreIndexController::totalIndex()
@@ -94,9 +94,9 @@ int ScoreIndexController::attempt()
 
 void ScoreIndexController::incrementTurnIndex()
 {
-    if(_index == _totalIndex)
+    if(_turnIndex == _totalIndex)
         _totalIndex++;
-    _index++;
+    _turnIndex++;
 }
 
 void ScoreIndexController::incrementRoundIndex()
@@ -116,26 +116,45 @@ void ScoreIndexController::resetSetIndex()
 
 void ScoreIndexController::resetLegIndex()
 {
-    _legIndex = 0;
+    _attemptIndex = 0;
 }
 
-int ScoreIndexController::playerCount()
+int ScoreIndexController::playersCount()
 {
     return _playerCount;
 }
 
-int ScoreIndexController::lastPlayerIndex()
+void ScoreIndexController::setRoundIndex(const int &index)
 {
-    return playerCount() -1;
+    _roundIndex = index;
 }
 
-ScoreIndexController::ScoreIndexController(const int &playerCount,
-                                           const QVector<int> &indexes):
-    _playerCount(playerCount)
+void ScoreIndexController::setSetIndex(const int &index)
 {
-    _totalIndex = indexes.at(0);
-    _index = indexes.at(1);
-    _roundIndex = indexes.at(2);
-    _setIndex = indexes.at(3);
-    _legIndex = indexes.at(4);
+    _setIndex = index;
+}
+
+void ScoreIndexController::setAttempt(const int &)
+{
+    Q_UNIMPLEMENTED();
+}
+
+int ScoreIndexController::numberOfAttempts()
+{
+    return 1;
+}
+
+void ScoreIndexController::setNumberOfAttempts(const int &)
+{
+    Q_UNIMPLEMENTED();
+}
+
+int ScoreIndexController::lastPlayerIndex()
+{
+    return playersCount() -1;
+}
+
+void ScoreIndexController::setPlayersCount(const int &playerCount)
+{
+    _playerCount = playerCount;
 }

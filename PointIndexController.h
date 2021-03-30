@@ -8,20 +8,31 @@ class PointIndexController : public IndexControllerInterface
 {
     // IndexControllerInterface interface
 public:
-    static PointIndexController* createInstance(const int &legCount,
-                                                const int &playerCount,
-                                                const QVector<int> &indexes)
+    static PointIndexController* createInstance(const int &attemptCount)
     {
-        return new PointIndexController(legCount,playerCount,indexes);
+        return new PointIndexController(attemptCount);
+    }
+
+    virtual void setIndexes(const int &totalTurns,
+                            const int & turnIndex,
+                            const int &roundIndex,
+                            const int &setIndex,
+                            const int &attemptIndex) override
+    {
+        _totalIndex = totalTurns;
+        _turnIndex = turnIndex;
+        _roundIndex = roundIndex;
+        _setIndex = setIndex;
+        _attemptIndex = attemptIndex;
     }
 
     virtual void reset() override
     {
         _totalIndex = 0;
-        _index = 0;
+        _turnIndex = 0;
         _roundIndex = 1;
         _setIndex = 0;
-        _legIndex = 0;
+        _attemptIndex = 0;
     }
 
     virtual void next() override
@@ -43,12 +54,12 @@ public:
     }
     virtual void undo() override
     {
-        _index--;
+        _turnIndex--;
         if(attempt() > 0)
-           _legIndex--;
+           _attemptIndex--;
         else
         {
-            _legIndex = 2;
+            _attemptIndex = 2;
 
             if(setIndex() == 0)
             {
@@ -63,9 +74,9 @@ public:
     }
     virtual void redo() override
     {
-        if(++_legIndex >= _legCount)
+        if(++_attemptIndex >= _numberOfAttempts)
         {
-            _legIndex = 0;
+            _attemptIndex = 0;
             if(_setIndex == lastPlayerIndex())
             {
                 _setIndex = 0;
@@ -74,66 +85,95 @@ public:
             else
                 _setIndex++;
         }
-        _index++;
+        _turnIndex++;
     }
     virtual bool canUndo() override
     {
-        return index() > 0;
+        return turnIndex() > 0;
     }
     virtual bool canRedo() override
     {
-        return index() < _totalIndex;
+        return turnIndex() < _totalIndex;
     }
     virtual void syncIndex() override
     {
-        _totalIndex = _index;
+        _totalIndex = _turnIndex;
     }
-    virtual int index() override
+    virtual int turnIndex() override
     {
-        return _index;
+        return _turnIndex;
+    }
+    virtual void setTurnIndex(const int &index) override
+    {
+        _turnIndex = index;
     }
     virtual int totalIndex() override
     {
         return _totalIndex;
     }
+    virtual void setTotalIndex(const int &index) override
+    {
+        _totalIndex = index;
+    }
     virtual int roundIndex() override
     {
         return _roundIndex;
+    }
+    void setRoundIndex(const int& roundIndex) override
+    {
+        _roundIndex = roundIndex;
     }
     virtual int setIndex() override
     {
         return _setIndex;
     }
+    void setSetIndex(const int& setIndex) override
+    {
+        _setIndex = setIndex;
+    }
     virtual int attempt() override
     {
-        return _legIndex;
+        return _attemptIndex;
+    }
+
+    virtual void setAttempt(const int &index) override
+    {
+        _attemptIndex = index;
+    }
+    int numberOfAttempts() override
+    {
+        return _numberOfAttempts;
+    }
+    void setNumberOfAttempts(const int& numberOfAttempts) override
+    {
+        _numberOfAttempts = numberOfAttempts;
+    }
+    virtual int playersCount() override
+    {
+        return _playersCount;
+    }
+    virtual void setPlayersCount(const int &count) override
+    {
+        _playersCount = count;
     }
 private:
-    PointIndexController(const int &legCount,
-                         const int &playerCount,
-                         const QVector<int> &indexes) :
-    _legCount(legCount),_playerCount(playerCount)
-    {
-        _totalIndex = indexes.at(0);
-        _index = indexes.at(1);
-        _roundIndex = indexes.at(2);
-        _setIndex = indexes.at(3);
-        _legIndex = indexes.at(4);
-    }
+    PointIndexController(const int &legCount) :
+        _numberOfAttempts(legCount)
+    {}
     int playerCount()
     {
-        return _playerCount;
+        return _playersCount;
     }
     void incrementTurnIndex()
     {
-        if(_index == _totalIndex)
+        if(_turnIndex == _totalIndex)
             _totalIndex++;
-        _index++;
+        _turnIndex++;
     }
 
     int checkForEndOfLeg()
     {
-        auto result = _index % _legCount == 0;
+        auto result = _turnIndex % _numberOfAttempts == 0;
         return result;
     }
     void incrementRoundIndex()
@@ -146,7 +186,7 @@ private:
     }
     void incrementLegIndex()
     {
-        _legIndex++;
+        _attemptIndex++;
     }
     void resetSetIndex()
     {
@@ -154,7 +194,7 @@ private:
     }
     void resetLegIndex()
     {
-        _legIndex = 0;
+        _attemptIndex = 0;
     }
 
     int lastPlayerIndex()
@@ -162,10 +202,7 @@ private:
         return playerCount() -1;
     }
 
-    int _index = 0, _totalIndex  = 0, _roundIndex = 1, _setIndex = 0, _legIndex = 0;
-    const int _legCount, _playerCount;
+    int _turnIndex = 0, _totalIndex  = 0, _roundIndex = 1, _setIndex = 0, _attemptIndex = 0;
+    int _numberOfAttempts, _playersCount;
 };
-
-
-
 #endif // POINTINDEXCONTROLLER_H

@@ -38,19 +38,28 @@ public:
     virtual void handleAssignPlayersToTournament(const QUuid &tournament, const QList<QUuid> &playersID) override;
     virtual void handleDeleteTournaments(const QVector<int> &indexes) override;
     virtual void handleRequestAssignedPlayers(const QUuid &tournament) override;
-    virtual void handleRequestFTPScores(const QUuid &tournament) override;
+    virtual void handleRequestFtpScores(const QUuid &tournament) override;
     virtual void handleRequestTournaments() override;
     virtual void handleRequestGameMode(const int &index) override;
     virtual void assembleFTPMetaDataFromId(const QUuid &tournamentId) override;
-    virtual void handleAddScore(const QUuid &tournament, const QUuid &player, const QVector<int> &dataValues, const bool &isWinnerDetermined) override;
+    virtual void handleAddFtpScore(const QUuid &tournament,
+                                const QUuid &player,
+                                const int& roundIndex,
+                                const int& setIndex,
+                                const int& attemptIndex,
+                                const int& point,
+                                const int& score,
+                                const int& keyCode,
+                                const bool &isWinnerDetermined) override;
     virtual void handleRequestSetScoreHint(const QUuid &tournament, const QUuid &player, const int &roundIndex, const int &throwIndex, const int &hint) override;
     virtual void handleResetTournament(const QUuid &tournament) override;
-    virtual void handleRequestFtpDetails(const QUuid &tournament) override;
+    virtual void assembleFtpKeyValues(const QUuid &tournament) override;
     virtual void handleCreatePlayer(const QString &name, const QString &mail) override;
     virtual void handleDeletePlayerFromIndex(const int &index) override;
     virtual void handleDeletePlayersFromIndexes(const QVector<int> &playerIndexes) override;
     virtual void handleRequestPlayersDetails() override;
     virtual void handleRequestPersistTournamentState() override;
+    virtual void assembleFtpIndexesAndScores(const QUuid &tournament) override;
 
 private slots:
     void handleRecievedTournamentsReply();
@@ -59,7 +68,9 @@ private slots:
     void handleCreatePlayerResponse();
     void handleRequestGameModeReply();
     void handleRequestFtpDetailsReply();
+    void handleFtpIndexesAndScores();
     void handleFtpTournamentMetaReply();
+    void handleAddFtpScoreReply();
 private:
     NetworkManager* _netMng = new NetworkManager(API_HOST_URL);
 };

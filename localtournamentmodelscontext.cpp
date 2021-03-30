@@ -751,7 +751,12 @@ int LocalTournamentModelsContext::playerScoreCount(const int &hint)
 
 void LocalTournamentModelsContext::addFTPScore(const QUuid &tournament,
                                                const QUuid &player,
-                                               const QVector<int> &dataValues,
+                                               const int &roundIndex,
+                                               const int &setIndex,
+                                               const int &attemptIndex,
+                                               const int &point,
+                                               const int &score,
+                                               const int &keyCode,
                                                const bool &isWinnerDetermined)
 {
     /*
@@ -763,15 +768,23 @@ void LocalTournamentModelsContext::addFTPScore(const QUuid &tournament,
      *  - [4} = score value
      *  - [5] = keycode
      */
-    auto model = scoreBuilder()->buildFTPScoreModel([tournament,player,dataValues]
+    auto model = scoreBuilder()->buildFTPScoreModel(
+                [tournament,
+                player,
+                roundIndex,
+                setIndex,
+                attemptIndex,
+                point,
+                score,
+                keyCode]
     {
         SBC::FTPScoreParameters params;
-        params.roundIndex = dataValues[0];
-        params.setIndex = dataValues[1];
-        params.attempt = dataValues[2];
-        params.pointValue = dataValues[3];
-        params.scoreValue = dataValues[4];
-        params.keyCode = dataValues[5];
+        params.roundIndex = roundIndex;
+        params.setIndex = setIndex;
+        params.attempt = attemptIndex;
+        params.pointValue = point;
+        params.scoreValue = score;
+        params.keyCode = keyCode;
         params.tournament = tournament;
         params.playerId = player;
         params.hint = ModelDisplayHint::DisplayHint;

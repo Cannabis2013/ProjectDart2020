@@ -1,22 +1,40 @@
 #include "ftpscorecontroller.h"
 
 
-FTPScoreController *FTPScoreController::createInstance(const QVector<QUuid> &userIds,
-                                                       const QVector<QString> &userNames,
-                                                       const QVector<int> &userScores,
-                                                       const int &initialScore,
+FTPScoreController *FTPScoreController::createInstance(const int &initialScore,
                                                        const QUuid &winner)
 {
-    return new FTPScoreController(userIds,
-                                  userNames,
-                                  userScores,
-                                  initialScore,
+    return new FTPScoreController(initialScore,
                                   winner);
 }
 
-int FTPScoreController::userscoreAtIndex(const int &index) const
+void FTPScoreController::addPlayerEntity(const QUuid& id, const QString& name)
+{
+    auto tuple = PlayerTuple(id,name,initialScore());
+    _playerTuples.append(tuple);
+}
+
+
+void FTPScoreController::addPlayerScore(const QUuid& id, const int& score)
+{
+    auto tuple = tupleAtId(id);
+    auto indexOfTuple = indexOf(tuple);
+    auto tupleScore = tuple.third;
+    auto newTupleScore = tupleScore - score;
+    tuple.third = newTupleScore;
+    replaceTupleAt(indexOfTuple,tuple);
+}
+
+int FTPScoreController::userScore(const int &index) const
 {
     auto tuple = tupleAtIndex(index);
+    auto score = tuple.third;
+    return score;
+}
+
+int FTPScoreController::userScore(const QUuid &id) const
+{
+    auto tuple = tupleAtId(id);
     auto score = tuple.third;
     return score;
 }
@@ -126,19 +144,14 @@ void FTPScoreController::resetScores()
     }
 }
 
-FTPScoreController::FTPScoreController(const QVector<QUuid> &userIds,
-                                       const QVector<QString> &userNames,
-                                       const QVector<int> &userScores,
-                                       const int &initialScore,
+FTPScoreController::FTPScoreController(const int &initialScore,
                                        const QUuid &winner)
 {
-    auto assembledTuples = assembleScoreTubble(userIds,userNames,userScores);
     _initialScore = initialScore;
-    _playerTuples = assembledTuples;
     _winner = winner;
 }
 
-PlayerTuples FTPScoreController::assembleScoreTubble(const QVector<QUuid> &userIds, const QVector<QString> &userNames, const QVector<int> &userScores)
+FTPScoreController::FTPScoreController::PlayerTuples FTPScoreController::assembleScoreTubble(const QVector<QUuid> &userIds, const QVector<QString> &userNames, const QVector<int> &userScores)
 {
     // First check for consistency
     auto userIdsCount = userIds.count();
@@ -157,13 +170,13 @@ PlayerTuples FTPScoreController::assembleScoreTubble(const QVector<QUuid> &userI
     return tuples;
 }
 
-PlayerTuple FTPScoreController::tupleAtIndex(const int &index) const
+FTPScoreController::PlayerTuple FTPScoreController::tupleAtIndex(const int &index) const
 {
     auto tuple = _playerTuples.at(index);
     return tuple;
 }
 
-PlayerTuple FTPScoreController::tupleAtId(const QUuid &id) const{
+FTPScoreController::PlayerTuple FTPScoreController::tupleAtId(const QUuid &id) const{
     for (int i = 0; i < count(); ++i) {
         auto tuple = _playerTuples.at(i);
         auto _id = tuple.first;

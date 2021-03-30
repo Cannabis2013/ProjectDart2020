@@ -5,17 +5,13 @@ template<class TControllerInterface,
          class TModelsContextInterface,
          class TApplicatonInterface,
          class TParameter,
-         class TUserIds,
-         class TUserNames,
-         class TScoreValues>
+         class TUuid>
 class IControllerBuilder
 {
 public:
-    virtual TControllerInterface *assembleFTPGameController(const TUserIds&,
+    virtual TControllerInterface *assembleFTPGameController(const TUuid& TTournamentId,
+                                                            const TUuid& TWinnerId,
                                                             const TParameter&,
-                                                            const TUserIds&,
-                                                            const TUserNames&,
-                                                            const TScoreValues&,
                                                             TApplicatonInterface*,
                                                             TModelsContextInterface*) = 0;
 };

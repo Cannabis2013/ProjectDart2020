@@ -37,7 +37,12 @@ public:
      */
     virtual void addFTPScore(const QUuid &tournament,
                   const QUuid &player,
-                  const QVector<int> &dataValues,
+                  const int &roundIndex,
+                  const int &setIndex,
+                  const int &attemptIndex,
+                  const int &point,
+                  const int &score,
+                  const int &keyCode,
                   const bool &isWinnerDetermined) = 0;
     virtual QUuid playerScore(const QUuid &tournament, const QUuid &player ,
                               const int &round,

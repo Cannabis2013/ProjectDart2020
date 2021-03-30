@@ -12,6 +12,9 @@ class AbstractModelsContext : public QObject,
 {
     Q_OBJECT
 public:
+    // Public types
+    typedef QPair<QUuid,QString> PlayerEntity;
+    typedef QPair<QUuid,int> ScoreEntity;
     /*
      * Destructor
      */
@@ -29,14 +32,19 @@ public:
                                                  const QList<QUuid> &playersID) = 0;
     virtual void handleDeleteTournaments(const QVector<int>&indexes) = 0;
     virtual void handleRequestAssignedPlayers(const QUuid &tournament) = 0;
-    virtual void handleRequestFTPScores(const QUuid &tournament) = 0;
+    virtual void handleRequestFtpScores(const QUuid &tournament) = 0;
     virtual void handleRequestTournaments() = 0;
     virtual void handleRequestGameMode(const int &index) = 0;
     virtual void assembleFTPMetaDataFromId(const QUuid& tournament) = 0;
-    virtual void handleAddScore(const QUuid &tournament,
-                  const QUuid &player,
-                  const QVector<int> &dataValues,
-                  const bool &isWinnerDetermined) = 0;
+    virtual void handleAddFtpScore(const QUuid &tournament,
+                                const QUuid &player,
+                                const int& roundIndex,
+                                const int& setIndex,
+                                const int& attemptIndex,
+                                const int& point,
+                                const int& score,
+                                const int& keyCode,
+                                const bool &isWinnerDetermined) = 0;
     virtual void handleRequestSetScoreHint(const QUuid &tournament,
                                                const QUuid &player,
                                                const int &roundIndex,
@@ -44,9 +52,10 @@ public:
                                                const int &hint) = 0;
     virtual void handleResetTournament(const QUuid &tournament) = 0;
     /*
-     * Send tournament values
+     * Assemble and send basic ftp tournament values
      */
-    virtual void handleRequestFtpDetails(const QUuid& tournament) = 0;
+    virtual void assembleFtpKeyValues(const QUuid& tournament) = 0;
+    virtual void assembleFtpIndexesAndScores(const QUuid& tournament) = 0;
     /*
      * Player-models context interface..
      */
@@ -69,6 +78,7 @@ signals:
                          const int &point,
                          const int &score,
                          const int &keyCode);
+
     void sendAssignedPlayerNames(const QVector<QString> &players);
     void confirmScoresTransmittedAndContextUpdated();
     void sendTournament(const QString &title,
@@ -88,6 +98,7 @@ signals:
     void scoreAddedToDataContext(const QUuid &playerID,
                                      const int &point,
                                      const int &score);
+    void scoreNotAddedToDataContext(const QString& msg);
     void scoreHintUpdated(const QUuid &player, const int &point, const int &score);
     void scoreHintNotUpdated(const QUuid &player, const char *err);
     void tournamentResetSuccess();
@@ -98,11 +109,9 @@ signals:
      * Player-models signals
      */
     void sendPlayersID(const QList<QUuid> &playersID);
-    void sendTournamentFTPDetails(const QVector<QUuid>& tournamentIdAndWinner,
-                                  const QVector<int> &values,
-                                  const QVector<QUuid> &userIds,
-                                  const QVector<QString> &playerNames,
-                                  const QVector<int>& playerScores);
+    void sendTournamentFtpDetails(const QUuid& tournamentId,
+                                  const QUuid& winnerId,
+                                  const QVector<int> &values);
     void sendProcessedTournamentMetaData(const QString &title,
                                          const int &gameMode,
                                          const int &keyPoint,
@@ -120,6 +129,13 @@ signals:
     void createPlayerResponse(const bool &status);
     void tournamentModelsStatePersisted();
     void tournamentAssembledAndStored(const bool& status);
+    void sendFtpIndexesAndScoreEntities(const int& totalTurns,
+                                        const int& turns,
+                                        const int& roundIndex,
+                                        const int& setIndex,
+                                        const int& attemptIndex,
+                                        const QVector<PlayerEntity>& playerEntities,
+                                        const QVector<ScoreEntity>& scoreEntities);
 };
 
 #endif // ABSTRACTMODELCONTEXTINTERFACE_H

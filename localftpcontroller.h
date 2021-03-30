@@ -19,13 +19,14 @@
 #define UNABLE_TO_ALTER_TURN "Unable to alter turn index";
 
 #include <iostream>
+#include "AbstractFtpController.h"
 
 
-typedef UserScoresControllerInterface<QUuid, QString,QVector<int>,QVector<QString>> UserScoreController;
+typedef UserScoresControllerInterface<QUuid, QString,QVector<int>,QVector<QString>> ScoreController;
 
 using namespace std;
 
-class LocalFTPController : public AbstractGameController
+class LocalFtpController : public AbstractFtpController
 {
     Q_OBJECT
 public:
@@ -62,18 +63,19 @@ public:
         TournamentIsReset = 0x29
     };
     // Create instance of LocalFTPController
-    static LocalFTPController* createInstance(const QUuid &tournament);
+    static LocalFtpController* createInstance(const QUuid &tournament);
     /*
      * Point suggestion section
      */
     FTPLogisticControllerInterface<QString> *pointLogisticInterface() const;
-    LocalFTPController *setLogisticInterface(FTPLogisticControllerInterface<QString> *pointLogisticInterface);
+    LocalFtpController *setLogisticInterface(FTPLogisticControllerInterface<QString> *pointLogisticInterface);
+public slots:
     /*
      * Handle wake up request
      *  - Set status to 'InitializedAndReady'
      *  - Transmit 'ready' response
      */
-    void handleWakeUpRequest() override;
+    void initialize() override;
     /*
      * Start/stop/undo/redo
      */
@@ -106,7 +108,7 @@ public:
      * The following methods is called dependently on input hint
      */
     void handleRequestForSingleThrowPlayerScores() override;
-    void handleRequestFTPPlayerScores() override;
+    void handleRequestFtpPlayerScores() override;
 
     void handleScoreAddedToDataContext(const QUuid &playerID,
                                        const int &point,
@@ -128,25 +130,34 @@ public:
      * Get/set score calculator service
      */
     ScoreCalculatorInterface* scoreCalculator() const;
-    LocalFTPController *setScoreCalculator(ScoreCalculatorInterface *service);
+    LocalFtpController *setScoreCalculator(ScoreCalculatorInterface *service);
     /*
      * Get/set evaluator service
      */
     InputValidatorInterface *scoreEvaluator() const;
-    LocalFTPController *setInputValidator(InputValidatorInterface *scoreEvaluator);
+    LocalFtpController *setInputValidator(InputValidatorInterface *scoreEvaluator);
 
     IndexControllerInterface *indexController() const;
-    LocalFTPController *setIndexController(IndexControllerInterface *indexController);
+    LocalFtpController *setIndexController(IndexControllerInterface *indexController);
 
-    UserScoreController* scoreController() const;
-    LocalFTPController *setScoreController(UserScoreController *scoreController);
+    ScoreController* scoreController() const;
+    LocalFtpController *setScoreController(ScoreController *scoreController);
     // Get current status
     int currentStatus() const;
+
+    virtual void recieveFtpIndexesAndEntities(const int& totalTurns,
+                                              const int& turns,
+                                              const int& roundIndex,
+                                              const int& setIndex,
+                                              const int& attemptIndex,
+                                              const QVector<Player>& players,
+                                              const QVector<PlayerScore>& playerScores) override;
+
 private:
     /*
      * Private constructor
      */
-    LocalFTPController(const QUuid &tournament)
+    LocalFtpController(const QUuid &tournament)
     {
         _tournament = tournament;
     }
@@ -163,7 +174,7 @@ private:
     /*
      * Update datacontext
      */
-    void addPoint(const int &point, const int &score);
+    void addPoint(const int &point, const int &score, const int &keyCode);
     /*
      * Index manipulating methods
      */
@@ -182,7 +193,7 @@ private:
     // Index service
     IndexControllerInterface* _indexController = nullptr;
     // Userscore service
-    UserScoreController* _scoreController = nullptr;
+    ScoreController* _scoreController = nullptr;
 };
 
 #endif // FIVEHUNDREDANDONEGAME_H

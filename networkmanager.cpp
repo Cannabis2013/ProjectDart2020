@@ -14,11 +14,11 @@ NetworkManager::NetworkManager(const QString &serverHostUrl):
 }
 
 QNetworkReply *NetworkManager::sendGetRequest(const QString &method,
-                                    const QString &urlParameter,
-                                    const QVector<Query> stringQuery,
-                                    QObject *reciever,
-                                    const char *slot,
-                                    const char* timeoutSlot)
+                                              const QString &urlParameter,
+                                              const QVector<Query> stringQuery,
+                                              QObject *reciever,
+                                              const char *slot,
+                                              const char* timeoutSlot)
 {
     QUrl fullServerUrl = _parserService->parseUrl(_baseUrl,method,urlParameter,stringQuery);
     _tempReply = _netMng->get(QNetworkRequest(fullServerUrl));

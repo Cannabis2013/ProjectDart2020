@@ -55,7 +55,7 @@ public slots:
     void handleAssignPlayersToTournament(const QUuid &tournament, const QList<QUuid> &playersID) override;
     void handleDeleteTournaments(const QVector<int>&indexes) override;
     void handleRequestAssignedPlayers(const QUuid &tournament) override;
-    void handleRequestFTPScores(const QUuid &tournament) override;
+    void handleRequestFtpScores(const QUuid &tournament) override;
     void handleRequestTournaments() override;
     void handleRequestGameMode(const int &index) override;
     /*
@@ -75,10 +75,15 @@ public slots:
      *      [3] = Tournament input mode
      */
     void assembleFTPMetaDataFromId(const QUuid& tournament) override;
-    void handleAddScore(const QUuid &tournament,
-                  const QUuid &player,
-                  const QVector<int> &dataValues,
-                  const bool &isWinnerDetermined) override;
+    void handleAddFtpScore(const QUuid &tournament,
+                        const QUuid &player,
+                        const int& roundIndex,
+                        const int& setIndex,
+                        const int& attemptIndex,
+                        const int& point,
+                        const int& score,
+                        const int& keyCode,
+                        const bool &isWinnerDetermined) override;
     void handleRequestSetScoreHint(const QUuid &tournament,
                                                const QUuid &player,
                                                const int &roundIndex,
@@ -88,7 +93,7 @@ public slots:
     /*
      * Send tournament values
      */
-    void handleRequestFtpDetails(const QUuid& tournament) override;
+    void assembleFtpKeyValues(const QUuid& tournament) override;
     /*
      * Player models context interface..
      */
@@ -101,6 +106,8 @@ public slots:
      * Persist changes at current time of request
      */
     void handleRequestPersistTournamentState() override;
+
+    virtual void assembleFtpIndexesAndScores(const QUuid &tournament) override;
 private:
     TournamentModelsContextInterface* _tournamentModelsContext;
     PlayerModelsContextInterface* _playerModelsContext;

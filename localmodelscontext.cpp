@@ -54,7 +54,7 @@ void LocalModelsContext::handleAddFTPTournament(const QString &title,
     tournamentModelsContext()->tournamentAssembleAndAddFTP(title,
                                                            data,
                                                            playerIds);
-    emit transmitResponse(TournamentModelsContextResponse::TournamentCreatedOK,{});
+    emit tournamentAssembledAndStored(true);
 
 }
 
@@ -79,7 +79,7 @@ void LocalModelsContext::handleRequestAssignedPlayers(const QUuid &tournament)
     emit sendAssignedPlayerNames(assignedPlayerNames);
 }
 
-void LocalModelsContext::handleRequestFTPScores(const QUuid &tournament)
+void LocalModelsContext::handleRequestFtpScores(const QUuid &tournament)
 {
     QVariantList list;
     auto numberOfThrows = tournamentModelsContext()->tournamentAttempts(tournament);
@@ -150,16 +150,28 @@ void LocalModelsContext::handleRequestGameMode(const int &index)
     auto gameMode = tournamentModelsContext()->tournamentGameMode(tournamentId);
     emit requestAssembleTournament(tournamentId,gameMode);
 }
-void LocalModelsContext::handleAddScore(const QUuid &tournament,
-                                            const QUuid &player,
-                                            const QVector<int> &dataValues,
-                                            const bool &isWinnerDetermined)
+void LocalModelsContext::handleAddFtpScore(const QUuid &tournament,
+                                        const QUuid &player,
+                                        const int &roundIndex,
+                                        const int &setIndex,
+                                        const int &attemptIndex,
+                                        const int &point,
+                                        const int &score,
+                                        const int &keyCode,
+                                        const bool &isWinnerDetermined)
 {
     tournamentModelsContext()->addFTPScore(tournament,
-                                        player,
-                                        dataValues,
-                                        isWinnerDetermined);
-    emit scoreAddedToDataContext(player,dataValues.at(3),dataValues.at(4));
+                                           player,
+                                           roundIndex,
+                                           setIndex,
+                                           attemptIndex,
+                                           point,
+                                           score,
+                                           keyCode,
+                                           isWinnerDetermined);
+    emit scoreAddedToDataContext(player,
+                                 point,
+                                 score);
 }
 
 void LocalModelsContext::handleRequestSetScoreHint(const QUuid &tournament,
@@ -196,7 +208,7 @@ void LocalModelsContext::handleResetTournament(const QUuid &tournament)
     emit tournamentResetSuccess();
 }
 
-void LocalModelsContext::handleRequestFtpDetails(const QUuid &tournament)
+void LocalModelsContext::assembleFtpKeyValues(const QUuid &tournamentId)
 {
     /*
      * Asemble ftp tournament values:
@@ -207,18 +219,18 @@ void LocalModelsContext::handleRequestFtpDetails(const QUuid &tournament)
      *  - Input hint
      */
     QVector<int> tournamentValues {
-        tournamentModelsContext()->tournamentGameMode(tournament),
-        tournamentModelsContext()->tournamentKeyPoint(tournament),
-        tournamentModelsContext()->tournamentAttempts(tournament),
-        tournamentModelsContext()->tournamentTerminalKeyCode(tournament),
-        tournamentModelsContext()->tournamentInputMode(tournament)
+        tournamentModelsContext()->tournamentGameMode(tournamentId),
+        tournamentModelsContext()->tournamentKeyPoint(tournamentId),
+        tournamentModelsContext()->tournamentAttempts(tournamentId),
+        tournamentModelsContext()->tournamentTerminalKeyCode(tournamentId),
+        tournamentModelsContext()->tournamentInputMode(tournamentId)
     };
     /*
      * Get assigned player ids
      */
     QVector<QUuid> assignedPlayersId;
     try {
-        assignedPlayersId = tournamentModelsContext()->tournamentAssignedPlayers(tournament);
+        assignedPlayersId = tournamentModelsContext()->tournamentAssignedPlayers(tournamentId);
     }  catch (const char *msg) {
         cout << msg << endl;
         throw msg;
@@ -226,22 +238,10 @@ void LocalModelsContext::handleRequestFtpDetails(const QUuid &tournament)
     /*
      *  Get assigned player names
      */
-    auto assignedPlayerNames = playerModelsContext()->assemblePlayerNamesFromIds(assignedPlayersId);
-    auto winnerId = tournamentModelsContext()->tournamentWinner(tournament);
-    QVector<QUuid> tournamentIdAndWinner {
-        tournament,
-        winnerId
-    };
-    tournamentValues += tournamentModelsContext()->indexes(tournament);
-    /*
-     * Get tournament user scores
-     */
-    auto playerScores = tournamentModelsContext()->tournamentUserScores(tournament);
-    emit sendTournamentFTPDetails(tournamentIdAndWinner,
-                                  tournamentValues,
-                                  assignedPlayersId,
-                                  assignedPlayerNames,
-                                  playerScores);
+    auto winnerId = tournamentModelsContext()->tournamentWinner(tournamentId);
+    emit sendTournamentFtpDetails(tournamentId,
+                                  winnerId,
+                                  tournamentValues);
 }
 
 void LocalModelsContext::handleCreatePlayer(const QString &name, const QString &mail)
@@ -288,6 +288,35 @@ void LocalModelsContext::handleRequestPersistTournamentState()
 {
     // Implement save state
     emit tournamentModelsStatePersisted();
+}
+
+void LocalModelsContext::assembleFtpIndexesAndScores(const QUuid &tournament)
+{
+    auto indexes = tournamentModelsContext()->indexes(tournament);
+    auto totalTurns = indexes.at(0);
+    auto turns  = indexes.at(1);
+    auto roundIndex = indexes.at(2);
+    auto setIndex = indexes.at(3);
+    auto attemptIndex = indexes.at(4);
+    auto assignedPlayerIds = tournamentModelsContext()->tournamentAssignedPlayers(tournament);
+    auto assignedPlayerNames = playerModelsContext()->assemblePlayerNamesFromIds(assignedPlayerIds);
+    auto scores = tournamentModelsContext()->scores(tournament);
+    QVector<PlayerEntity> playerEntities;
+    for (int i = 0; i < assignedPlayerIds.count(); ++i) {
+        auto playerId = assignedPlayerIds.at(i);
+        auto playerName = assignedPlayerNames.at(i);
+        playerEntities << PlayerEntity(playerId,playerName);
+    }
+    QVector<ScoreEntity> scoreEntities;
+    for (auto i = scores.constBegin(); i != scores.constEnd(); ++i) {
+        auto scoreId = *i;
+        auto playerId = tournamentModelsContext()->scorePlayer(scoreId);
+        auto scoreValue = tournamentModelsContext()->scoreValue(scoreId);
+        scoreEntities << ScoreEntity(playerId,scoreValue);
+    }
+    emit sendFtpIndexesAndScoreEntities(totalTurns,turns,roundIndex,
+                                        setIndex,attemptIndex,
+                                        playerEntities,scoreEntities);
 }
 
 void LocalModelsContext::assembleFTPMetaDataFromId(const QUuid &tournament)

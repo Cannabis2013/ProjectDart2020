@@ -134,7 +134,14 @@ signals:
     void requestPersistTournament();
     void requestAssembleFTPTournament();
     void tournamentAssembledAndStored(const bool &status);
-
+    void tournamentCreatedOk();
+    void FtpControllerInitializedAndReady(const bool& canUndo,
+                                       const bool& canRedo,
+                                       const int& roundIndex,
+                                       const int& setIndex,
+                                       const int& attemptIndex,
+                                       const int& score,
+                                       const QString& targetRow);
 };
 
 #endif // APPLICATIONINTERFACE_H

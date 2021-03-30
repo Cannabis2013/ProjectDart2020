@@ -30,24 +30,25 @@ struct Tuple
     T2 second;
     T3 third;
 };
-// S = {UserId, UserName, UserScore}
-typedef Tuple<QUuid,QString,int> PlayerTuple;
-typedef QList<PlayerTuple> PlayerTuples;
-typedef QPair<QUuid,QString> PlayerPair;
-typedef QList<PlayerPair> PlayerPairs;
+
 
 typedef UserScoresControllerInterface<QUuid,QString,QVector<int>,QVector<QString>> ScoreControllerInterface;
 
 class FTPScoreController : public ScoreControllerInterface
 {
 public:
-    static FTPScoreController* createInstance(const QVector<QUuid>& userIds,
-                                              const QVector<QString>& userNames,
-                                              const QVector<int>& userScores,
-                                              const int& initialScore,
+    // Tuple : {UserId, UserName, UserScore}
+    typedef Tuple<QUuid,QString,int> PlayerTuple;
+    typedef QList<PlayerTuple> PlayerTuples;
+    typedef QPair<QUuid,QString> PlayerPair;
+    typedef QList<PlayerPair> PlayerPairs;
+    static FTPScoreController* createInstance(const int& initialScore,
                                               const QUuid &winner);
+    virtual void addPlayerEntity(const QUuid &id, const QString &name) override;
+    virtual void addPlayerScore(const QUuid& id, const int &score) override;
     // UserScoresControllerInterface interface
-    int userscoreAtIndex(const int &index) const override;
+    int userScore(const int &index) const override;
+    int userScore(const QUuid& id) const override;
     void setUserScoreAtIndex(const int &index, const int &input) override;
     void setUserScoresFromList(const QVector<int> &list) override;
     void setUserScoreAtId(const QUuid &id, const int &input) override;
@@ -69,10 +70,7 @@ private:
      * Private constructor
      */
 
-    FTPScoreController(const QVector<QUuid>& userIds,
-                       const QVector<QString>& userNames,
-                       const QVector<int>& userScores,
-                       const int& initialScore,
+    FTPScoreController(const int& initialScore,
                        const QUuid& winner);
 
     PlayerTuples assembleScoreTubble(const QVector<QUuid>& userIds,

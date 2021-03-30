@@ -35,16 +35,6 @@ Content {
         readonly property int updateCount: 2
     }
 
-    /*
-      Event/signal handling
-      */
-    onReplyFromBackendRecieved: {
-        // Backend has processed transmitted details and created the tournament
-        if(response === 0x32)
-        {
-            requestQuit();
-        }
-    }
     onRequestUpdate: {
         requestPlayers();
     }

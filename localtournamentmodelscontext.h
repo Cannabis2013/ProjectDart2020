@@ -37,9 +37,9 @@ public:
         TournamentDetailsFailed
     };
     enum ModelDisplayHint{
-        HiddenHint = 0x9,
-        DisplayHint = 0xA,
-        allHints = 0xB
+        HiddenHint = 0x1,
+        DisplayHint = 0x2,
+        allHints = 0x3
     };
     /*
      * Destructor
@@ -73,7 +73,7 @@ public:
     int tournamentStatus(const QUuid &tournament) override;
     QUuid tournamentWinner(const QUuid &tournament) override;
     void tournamentSetWinnerId(const QUuid &tournament,
-                                       const QUuid &winner) override;
+                               const QUuid &winner) override;
     QVector<QUuid> tournamentAssignedPlayers(const QUuid &tournament) override;
     void tournamentAssignPlayer(const QUuid &tournament,
                                   const QUuid &player) override;
@@ -95,9 +95,14 @@ public:
      * Scores related section
      */
     void addFTPScore(const QUuid &tournament,
-                  const QUuid &player,
-                  const QVector<int> &dataValues,
-                  const bool &isWinnerDetermined) override;
+                     const QUuid &player,
+                     const int &roundIndex,
+                     const int &setIndex,
+                     const int &attemptIndex,
+                     const int &point,
+                     const int &score,
+                     const int &keyCode,
+                     const bool &isWinnerDetermined) override;
     QUuid playerScore(const QUuid &tournament,
                       const QUuid &player ,
                       const int &round,

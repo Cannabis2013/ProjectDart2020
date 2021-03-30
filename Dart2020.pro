@@ -51,6 +51,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     AbstractApplicationInterface.h \
+    AbstractFtpController.h \
     IControllerBuilder.h \
     IScoreBuilder.h \
     LinkedList.h \

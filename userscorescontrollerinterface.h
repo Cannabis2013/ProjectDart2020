@@ -12,7 +12,11 @@ public:
     virtual UserScoresControllerInterface* setWinner(const QUuid& id) = 0;
     virtual TString winnerUserName() const = 0;
 
-    virtual int userscoreAtIndex(const int &index) const = 0;
+    virtual void addPlayerEntity(const TUuid&,const TString&) = 0;
+    virtual void addPlayerScore(const TUuid&, const int&) = 0;
+
+    virtual int userScore(const int& index) const = 0;
+    virtual int userScore(const TUuid& index) const = 0;
     virtual void setUserScoreAtIndex(const int &index, const int &input) = 0;
     virtual void setUserScoresFromList(const TScoreList& list) = 0;
     virtual void setUserScoreAtId(const TUuid &id, const int &input) = 0;

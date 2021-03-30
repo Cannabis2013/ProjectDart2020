@@ -28,20 +28,17 @@ public slots:
      */
     virtual QUuid undoTurn() = 0;
     virtual QUuid redoTurn() = 0;
-
     virtual void handleRequestForCurrentTournamentMetaData() = 0;
-    virtual void handleRequestForSingleThrowPlayerScores() = 0;
-    virtual void handleRequestFTPPlayerScores() = 0;
     virtual void handleScoreAddedToDataContext(const QUuid &playerID,
-                                                      const int &point,
-                                                      const int &score) = 0;
+                                               const int &point,
+                                               const int &score) = 0;
     virtual void handleScoreHintUpdated(const QUuid &playerID, const int &point,const int &score) = 0;
     virtual void handleTournamentResetSuccess() = 0;
     virtual void handleResetTournament() = 0;
     /*
      * Set initial state
      */
-    virtual void handleWakeUpRequest() = 0;
+    virtual void initialize() = 0;
     /*
      * Handle persist model request
      */
@@ -49,12 +46,6 @@ public slots:
 signals:
     void transmitResponse(const int &status, const QVariantList &args) override;
     void sendCurrentTournamentId(const QUuid &tournament);
-    void requestFTPScores(const QUuid &tournament);
-    void requestTournamentIndexes(const QUuid &tournament);
-    void requestAddScore(const QUuid &tournamentID,
-                   const QUuid &playerID,
-                   const QVector<int> &dataValues,
-                   const bool &isWinnerDetermined);
     void winnerDetermined(const QUuid &tournament, const QUuid &player);
     void requestUpdateContext(const QUuid &tournamentID,
                               const int &roundIndex,
