@@ -102,6 +102,7 @@ signals:
     void scoreHintUpdated(const QUuid &player, const int &point, const int &score);
     void scoreHintNotUpdated(const QUuid &player, QString err);
     void tournamentResetSuccess();
+    void tournamentResetFailed();
     void tournamentsDeletedSuccess(const bool &status);
 
     void sendTournaments(const QVariantList& list);

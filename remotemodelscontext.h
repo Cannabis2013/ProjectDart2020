@@ -71,6 +71,7 @@ private slots:
     void handleFtpTournamentMetaReply();
     void handleAddFtpScoreReply();
     void handleSetScoreHintReply();
+    void tournamentResetReply();
 private:
     NetworkManager* _netMng = new NetworkManager(API_HOST_URL);
 };

@@ -16,7 +16,7 @@ public:
     typedef QPair<QUuid,QString> Player;
     typedef QPair<QUuid,int> PlayerScore;
 public slots:
-    virtual void handleRequestForSingleThrowPlayerScores() = 0;
+    virtual void assembleSingleAttemptFtpScores() = 0;
     virtual void handleRequestFtpPlayerScores() = 0;
     virtual void recieveFtpIndexesAndEntities(const int& totalTurns,
                                               const int& turns,

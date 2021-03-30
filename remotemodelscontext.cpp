@@ -130,6 +130,8 @@ void RemoteModelsContext::setFtpScoreHint(const QUuid &tournament,
 
 void RemoteModelsContext::resetTournament(const QUuid &tournament)
 {
+    auto tournamentId = tournament.toString(QUuid::WithoutBraces);
+    _netMng->sendPostRequest("ResetTournament",QByteArray(),QString(),{{"tournamentId",tournamentId}},this,SLOT(tournamentResetReply()));
 }
 
 void RemoteModelsContext::assembleFtpKeyValues(const QUuid &tournament)
@@ -415,6 +417,7 @@ void RemoteModelsContext::handleSetScoreHintReply()
     if(!reply->isOpen())
     {
         // TODO : Implement error functionality here
+        return;
     }
     auto byteData = _netMng->reply()->readAll();
     auto jsonDocument = QJsonDocument::fromJson(byteData);
@@ -431,4 +434,23 @@ void RemoteModelsContext::handleSetScoreHintReply()
     auto point = payLoad.value("point").toInt();
     auto score = payLoad.value("scoreValue").toInt();
     emit scoreHintUpdated(playerId,point,score);
+}
+
+void RemoteModelsContext::tournamentResetReply()
+{
+    auto reply = _netMng->reply();
+    if(!reply->isOpen())
+    {
+        // TODO : Implement error functionality here
+        emit tournamentResetFailed();
+        return;
+    }
+    auto byteData = _netMng->reply()->readAll();
+    auto jsonDocument = QJsonDocument::fromJson(byteData);
+    auto jsonObject = jsonDocument.object();
+    auto responseCode = jsonObject.value("response").toInt();
+    if(responseCode == 0x1)
+        emit tournamentResetFailed();
+    else
+        emit tournamentResetSuccess();
 }

@@ -201,7 +201,7 @@ void LocalModelsContext::resetTournament(const QUuid &tournament)
 {
     /*
      * - Remove models associated to the tournament
-     * - Add a round model and a set model
+     * - Reset tournament winner
      */
     tournamentModelsContext()->removeTournamentScores(tournament);
     tournamentModelsContext()->tournamentSetWinnerId(tournament,QUuid());
