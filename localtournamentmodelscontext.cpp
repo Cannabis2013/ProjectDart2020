@@ -598,7 +598,10 @@ QUuid LocalTournamentModelsContext::playerScore(const QUuid &tournament,
     throw "Object not found";
 }
 
-QUuid LocalTournamentModelsContext::playerScore(const QUuid &tournament, const QUuid &player, const int &round, const int &throwIndex)
+QUuid LocalTournamentModelsContext::playerScore(const QUuid &tournament,
+                                                const QUuid &player,
+                                                const int &round,
+                                                const int &attemptIndex)
 {
     auto tournamentScoreModels = scores(tournament);
     for (auto scoreModelID : tournamentScoreModels) {
@@ -607,7 +610,7 @@ QUuid LocalTournamentModelsContext::playerScore(const QUuid &tournament, const Q
         if(playerID != player)
             continue;
         auto leg = scoreAttemptIndex(scoreModelID);
-        if(leg != throwIndex)
+        if(leg != attemptIndex)
             continue;
         auto roundIndex = scoreModel->roundIndex();
         if(roundIndex != round)

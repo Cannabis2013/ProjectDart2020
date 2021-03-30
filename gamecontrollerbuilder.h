@@ -164,7 +164,7 @@ private:
         connect(applicationInterface,&AbstractApplicationInterface::requestTournamentReset,
                 controller,&AbstractGameController::handleResetTournament);
         connect(controller,&AbstractGameController::requestResetTournament,
-                modelsContext,&AbstractModelsContext::handleResetTournament);
+                modelsContext,&AbstractModelsContext::resetTournament);
         connect(modelsContext,&AbstractModelsContext::tournamentResetSuccess,
                 controller,&AbstractGameController::handleTournamentResetSuccess);
         /*
@@ -173,7 +173,7 @@ private:
         connect(applicationInterface,&AbstractApplicationInterface::sendPoint,
                 controller,&AbstractGameController::handleAndProcessUserInput);
         connect(controller,&AbstractFtpController::requestAddFtpScore,
-                modelsContext,&AbstractModelsContext::handleAddFtpScore);
+                modelsContext,&AbstractModelsContext::addFtpScore);
         connect(modelsContext,&AbstractModelsContext::scoreAddedToDataContext,
                 controller,&AbstractGameController::handleScoreAddedToDataContext);
         connect(applicationInterface,&AbstractApplicationInterface::requestControllerState,
@@ -186,7 +186,7 @@ private:
         connect(applicationInterface,&AbstractApplicationInterface::requestRedo,
                 controller,&AbstractGameController::redoTurn);
         connect(controller,&AbstractGameController::requestSetModelHint,
-                modelsContext,&AbstractModelsContext::handleRequestSetScoreHint);
+                modelsContext,&AbstractModelsContext::setFtpScoreHint);
         connect(modelsContext,&AbstractModelsContext::scoreHintUpdated,
                 controller,&AbstractGameController::handleScoreHintUpdated);
         /*

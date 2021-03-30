@@ -110,7 +110,7 @@ public:
                       const int &hint) override;
     virtual QUuid playerScore(const QUuid &tournament, const QUuid &player ,
                               const int &round,
-                              const int &throwIndex) override;
+                              const int &attemptIndex) override;
     QList<QUuid> scores() override;
     QList<QUuid> scores(const QUuid &tournament) override;
     QList<QUuid> scores(const QUuid &tournament,

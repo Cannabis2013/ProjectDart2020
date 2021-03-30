@@ -32,9 +32,9 @@ class LocalFtpController : public AbstractFtpController
 public:
     // Public types
     enum ModelDisplayHint{
-        HiddenHint = 0x9,
-        DisplayHint = 0xA,
-        allHints = 0xB
+        HiddenHint = 0x1,
+        DisplayHint = 0x2,
+        allHints = 0x3
     };
     enum ControllerState {
         GameBusy = 0x11, // Game is idle but in progress

@@ -46,7 +46,7 @@ LocalModelsContext* LocalModelsContext::setPlayerModelsContext(PlayerModelsConte
     return this;
 }
 
-void LocalModelsContext::handleAddFTPTournament(const QString &title,
+void LocalModelsContext::addFTPTournament(const QString &title,
                                                           const QVector<int> &data,
                                                           const QVector<int> &assignedPlayerIndexes)
 {
@@ -58,14 +58,14 @@ void LocalModelsContext::handleAddFTPTournament(const QString &title,
 
 }
 
-void LocalModelsContext::handleAssignPlayersToTournament(const QUuid &tournament,
+void LocalModelsContext::assignPlayersToTournament(const QUuid &tournament,
                                                              const QList<QUuid> &playersID)
 {
     for (auto playerID : playersID)
         tournamentModelsContext()->tournamentAssignPlayer(tournament,playerID);
 }
 
-void LocalModelsContext::handleDeleteTournaments(const QVector<int> &indexes)
+void LocalModelsContext::deleteTournaments(const QVector<int> &indexes)
 {
     // TODO: Implement return functionality later
     auto status = tournamentModelsContext()->removeTournamentsFromIndexes(indexes);
@@ -150,7 +150,7 @@ void LocalModelsContext::handleRequestGameMode(const int &index)
     auto gameMode = tournamentModelsContext()->tournamentGameMode(tournamentId);
     emit requestAssembleTournament(tournamentId,gameMode);
 }
-void LocalModelsContext::handleAddFtpScore(const QUuid &tournament,
+void LocalModelsContext::addFtpScore(const QUuid &tournament,
                                         const QUuid &player,
                                         const int &roundIndex,
                                         const int &setIndex,
@@ -174,18 +174,18 @@ void LocalModelsContext::handleAddFtpScore(const QUuid &tournament,
                                  score);
 }
 
-void LocalModelsContext::handleRequestSetScoreHint(const QUuid &tournament,
-                                                   const QUuid &player,
-                                                   const int &roundIndex,
-                                                   const int &throwIndex,
-                                                   const int &hint)
+void LocalModelsContext::setFtpScoreHint(const QUuid &tournament,
+                                         const QUuid &player,
+                                         const int &roundIndex,
+                                         const int &attemptIndex,
+                                         const int &hint)
 {
     QUuid scoreID;
     try {
         scoreID = tournamentModelsContext()->playerScore(tournament,
                                                          player,
                                                          roundIndex,
-                                                         throwIndex);
+                                                         attemptIndex);
 
     }  catch (const char *msg) {
         emit scoreHintNotUpdated(tournament,msg);
@@ -197,7 +197,7 @@ void LocalModelsContext::handleRequestSetScoreHint(const QUuid &tournament,
     emit scoreHintUpdated(player,point,score);
 }
 
-void LocalModelsContext::handleResetTournament(const QUuid &tournament)
+void LocalModelsContext::resetTournament(const QUuid &tournament)
 {
     /*
      * - Remove models associated to the tournament
@@ -244,7 +244,7 @@ void LocalModelsContext::assembleFtpKeyValues(const QUuid &tournamentId)
                                   tournamentValues);
 }
 
-void LocalModelsContext::handleCreatePlayer(const QString &name, const QString &mail)
+void LocalModelsContext::createPlayer(const QString &name, const QString &mail)
 {
     try {
         playerModelsContext()->playerIdFromName(name);
@@ -259,13 +259,13 @@ void LocalModelsContext::handleCreatePlayer(const QString &name, const QString &
     emit createPlayerResponse(false);
 }
 
-void LocalModelsContext::handleDeletePlayerFromIndex(const int &index)
+void LocalModelsContext::deletePlayerFromIndex(const int &index)
 {
     auto status = playerModelsContext()->deletePlayer(index);
     emit playersDeletedStatus(status);
 }
 
-void LocalModelsContext::handleDeletePlayersFromIndexes(const QVector<int> &indexes)
+void LocalModelsContext::deletePlayersFromIndexes(const QVector<int> &indexes)
 {
     auto status = playerModelsContext()->deletePlayers(indexes);
     emit playersDeletedStatus(status);

@@ -25,18 +25,18 @@ public:
     /*
      * Handle requests from external context
      */
-    virtual void handleAddFTPTournament(const QString &title,
+    virtual void addFTPTournament(const QString &title,
                                                   const QVector<int> &data,
                                                   const QVector<int> &playerIndexes) = 0;
-    virtual void handleAssignPlayersToTournament(const QUuid &tournament,
+    virtual void assignPlayersToTournament(const QUuid &tournament,
                                                  const QList<QUuid> &playersID) = 0;
-    virtual void handleDeleteTournaments(const QVector<int>&indexes) = 0;
+    virtual void deleteTournaments(const QVector<int>&indexes) = 0;
     virtual void handleRequestAssignedPlayers(const QUuid &tournament) = 0;
     virtual void handleRequestFtpScores(const QUuid &tournament) = 0;
     virtual void handleRequestTournaments() = 0;
     virtual void handleRequestGameMode(const int &index) = 0;
     virtual void assembleFTPMetaDataFromId(const QUuid& tournament) = 0;
-    virtual void handleAddFtpScore(const QUuid &tournament,
+    virtual void addFtpScore(const QUuid &tournament,
                                 const QUuid &player,
                                 const int& roundIndex,
                                 const int& setIndex,
@@ -45,12 +45,12 @@ public:
                                 const int& score,
                                 const int& keyCode,
                                 const bool &isWinnerDetermined) = 0;
-    virtual void handleRequestSetScoreHint(const QUuid &tournament,
+    virtual void setFtpScoreHint(const QUuid &tournament,
                                                const QUuid &player,
                                                const int &roundIndex,
                                                const int &throwIndex,
                                                const int &hint) = 0;
-    virtual void handleResetTournament(const QUuid &tournament) = 0;
+    virtual void resetTournament(const QUuid &tournament) = 0;
     /*
      * Assemble and send basic ftp tournament values
      */
@@ -59,9 +59,9 @@ public:
     /*
      * Player-models context interface..
      */
-    virtual void handleCreatePlayer(const QString &name, const QString &mail) = 0;
-    virtual void handleDeletePlayerFromIndex(const int &index)= 0;
-    virtual void handleDeletePlayersFromIndexes(const QVector<int> &playerIndexes)= 0;
+    virtual void createPlayer(const QString &name, const QString &mail) = 0;
+    virtual void deletePlayerFromIndex(const int &index)= 0;
+    virtual void deletePlayersFromIndexes(const QVector<int> &playerIndexes)= 0;
     virtual void handleRequestPlayersDetails() = 0;
     /*
      * Persist state
@@ -100,7 +100,7 @@ signals:
                                      const int &score);
     void scoreNotAddedToDataContext(const QString& msg);
     void scoreHintUpdated(const QUuid &player, const int &point, const int &score);
-    void scoreHintNotUpdated(const QUuid &player, const char *err);
+    void scoreHintNotUpdated(const QUuid &player, QString err);
     void tournamentResetSuccess();
     void tournamentsDeletedSuccess(const bool &status);
 

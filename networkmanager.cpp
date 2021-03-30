@@ -153,7 +153,7 @@ void NetworkManager::setParserService(Iparser *t)
     _parserService = t;
 }
 
-const Iparser *NetworkManager::parserService()
+const NetworkManager::Iparser *NetworkManager::parserService()
 {
     return _parserService;
 }

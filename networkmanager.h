@@ -16,8 +16,8 @@
 #include "iurlparser.h"
 
 
-typedef QPair<QString,QString> Query;
-typedef IParserService<QUrl,QString, QString, QVector<Query>> Iparser;
+
+
 
 using namespace std;
 
@@ -25,6 +25,8 @@ class NetworkManager : public QObject
 {
     Q_OBJECT
 public:
+    typedef QPair<QString,QString> Query;
+    typedef IParserService<QUrl,QString, QString, QVector<Query>> Iparser;
     enum ConnectionOptions {
         ShowSslErrors = 0x1,
         IgnoreSSlErrors = 0x2
@@ -39,7 +41,7 @@ public:
     void setTimeoutThreshold(int timeoutThreshold);
 
     void setParserService(Iparser* t);
-    const Iparser* parserService();
+    const Iparser *parserService();
 
 
     QNetworkReply* sendGetRequest(const QString &method,

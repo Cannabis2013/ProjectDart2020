@@ -83,7 +83,7 @@ void LocalFtpController::handleScoreAddedToDataContext(const QUuid &playerId,
                                                             const int &point,
                                                             const int &score)
 {
-    scoreController()->addPlayerScore(playerId,score);
+    scoreController()->subtractPlayerScore(playerId,score);
     auto playerName = scoreController()->userNameFromId(playerId);
     auto currentScore = scoreController()->userScore(playerId);
     indexController()->syncIndex();
@@ -91,22 +91,23 @@ void LocalFtpController::handleScoreAddedToDataContext(const QUuid &playerId,
 }
 
 void LocalFtpController::handleScoreHintUpdated(const QUuid &playerId,
-                                                     const int &point,
-                                                     const int &score)
+                                                const int &point,
+                                                const int &score)
 {
-    if(status() == ControllerState::UndoState)
+    if(this->status() == ControllerState::UndoState)
     {
-        auto newScore = score + point;
-        scoreController()->setUserScoreAtId(playerId,newScore);
+        scoreController()->addPlayerScore(playerId,score);
+        auto newScore = scoreController()->userScore(playerId);
         auto playerName = scoreController()->userNameFromId(playerId);
         emit transmitResponse(ControllerResponse::ScoreRemove,
                               {playerName,newScore,point});
     }
-    else if(status() == ControllerState::RedoState)
+    else if(this->status() == ControllerState::RedoState)
     {
-        scoreController()->setUserScoreAtId(playerId,score);
+        scoreController()->subtractPlayerScore(playerId,score);
+        auto newScore = scoreController()->userScore(playerId);
         auto playerName = scoreController()->userNameFromId(playerId);
-        emit transmitResponse(ControllerResponse::ScoreTransmit,{playerName,point,score});
+        emit transmitResponse(ControllerResponse::ScoreTransmit,{playerName,point,newScore});
     }
 }
 
@@ -207,8 +208,7 @@ QUuid LocalFtpController::undoTurn()
                              roundIndex,
                              throwIndex,
                              ModelDisplayHint::HiddenHint);
-    auto index = indexController()->setIndex();
-    auto playerId = scoreController()->userIdAtIndex(index);
+    auto playerId = currentActivePlayerID();
     return playerId;
 }
 
@@ -331,7 +331,7 @@ void LocalFtpController::recieveFtpIndexesAndEntities(const int& totalTurns,
     for (auto i = playerScores.constBegin(); i != playerScores.constEnd(); ++i)
     {
         auto p = *i;
-        scoreController()->addPlayerScore(p.first,p.second);
+        scoreController()->subtractPlayerScore(p.first,p.second);
     }
     if(scoreController()->winnerId() != QUuid())
         setCurrentStatus(ControllerState::WinnerDeclared);

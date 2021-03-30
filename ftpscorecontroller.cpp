@@ -15,12 +15,22 @@ void FTPScoreController::addPlayerEntity(const QUuid& id, const QString& name)
 }
 
 
-void FTPScoreController::addPlayerScore(const QUuid& id, const int& score)
+void FTPScoreController::subtractPlayerScore(const QUuid& id, const int& score)
 {
     auto tuple = tupleAtId(id);
     auto indexOfTuple = indexOf(tuple);
     auto tupleScore = tuple.third;
     auto newTupleScore = tupleScore - score;
+    tuple.third = newTupleScore;
+    replaceTupleAt(indexOfTuple,tuple);
+}
+
+void FTPScoreController::addPlayerScore(const QUuid &id, const int &score)
+{
+    auto tuple = tupleAtId(id);
+    auto indexOfTuple = indexOf(tuple);
+    auto tupleScore = tuple.third;
+    auto newTupleScore = tupleScore + score;
     tuple.third = newTupleScore;
     replaceTupleAt(indexOfTuple,tuple);
 }

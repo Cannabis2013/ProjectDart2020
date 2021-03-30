@@ -32,7 +32,9 @@ public slots:
     virtual void handleScoreAddedToDataContext(const QUuid &playerID,
                                                const int &point,
                                                const int &score) = 0;
-    virtual void handleScoreHintUpdated(const QUuid &playerID, const int &point,const int &score) = 0;
+    virtual void handleScoreHintUpdated(const QUuid &playerID,
+                                        const int &point,
+                                        const int &score) = 0;
     virtual void handleTournamentResetSuccess() = 0;
     virtual void handleResetTournament() = 0;
     /*

@@ -208,30 +208,30 @@ void DartApplication::connectModelInterfaces()
      * Create tournament
      */
     connect(this,&DartApplication::sendFTPDetails,
-            _modelsContext,&AbstractModelsContext::handleAddFTPTournament);
+            _modelsContext,&AbstractModelsContext::addFTPTournament);
     connect(_modelsContext,&AbstractModelsContext::tournamentAssembledAndStored,
             this,&AbstractApplicationInterface::tournamentAssembledAndStored);
     /*
      * Create player
      */
     connect(this,&DartApplication::requestCreatePlayer,
-            _modelsContext,&AbstractModelsContext::handleCreatePlayer);
+            _modelsContext,&AbstractModelsContext::createPlayer);
     connect(_modelsContext,&AbstractModelsContext::createPlayerResponse,
             this,&DartApplication::createPlayerResponse);
     /*
      * Delete tournament
      */
     connect(this,&DartApplication::requestDeleteTournaments,
-            _modelsContext,&AbstractModelsContext::handleDeleteTournaments);
+            _modelsContext,&AbstractModelsContext::deleteTournaments);
     connect(_modelsContext,&AbstractModelsContext::tournamentsDeletedSuccess,
             this,&DartApplication::tournamentsDeletedSuccess);
     /*
      * Delete player{s}
      */
     connect(this,&DartApplication::requestDeletePlayer,
-            _modelsContext,&AbstractModelsContext::handleDeletePlayerFromIndex);
+            _modelsContext,&AbstractModelsContext::deletePlayerFromIndex);
     connect(this,&DartApplication::requestDeletePlayers,
-            _modelsContext,&AbstractModelsContext::handleDeletePlayersFromIndexes);
+            _modelsContext,&AbstractModelsContext::deletePlayersFromIndexes);
     connect(_modelsContext,&AbstractModelsContext::playersDeletedStatus,
             this,&DartApplication::playersDeletedStatus);
     /*

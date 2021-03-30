@@ -11,7 +11,7 @@ void RemoteModelsContext::transmitResponse(const int &response, const QVariantLi
 {
 }
 
-void RemoteModelsContext::handleAddFTPTournament(const QString &title,
+void RemoteModelsContext::addFTPTournament(const QString &title,
                                                  const QVector<int> &data,
                                                  const QVector<int> &playerIndexes)
 {
@@ -37,11 +37,11 @@ void RemoteModelsContext::handleAddFTPTournament(const QString &title,
                              SLOT(handleAddFTPTournamentReply()));
 }
 
-void RemoteModelsContext::handleAssignPlayersToTournament(const QUuid &tournament, const QList<QUuid> &playersID)
+void RemoteModelsContext::assignPlayersToTournament(const QUuid &tournament, const QList<QUuid> &playersID)
 {
 }
 
-void RemoteModelsContext::handleDeleteTournaments(const QVector<int> &indexes)
+void RemoteModelsContext::deleteTournaments(const QVector<int> &indexes)
 {
 }
 
@@ -78,7 +78,7 @@ void RemoteModelsContext::assembleFTPMetaDataFromId(const QUuid &tournamentId)
                             this,SLOT(handleFtpTournamentMetaReply()));
 }
 
-void RemoteModelsContext::handleAddFtpScore(const QUuid &tournamentId,
+void RemoteModelsContext::addFtpScore(const QUuid &tournamentId,
                                          const QUuid &playerId,
                                          const int &roundIndex,
                                          const int &setIndex,
@@ -95,7 +95,7 @@ void RemoteModelsContext::handleAddFtpScore(const QUuid &tournamentId,
         {"SetIndex", setIndex},
         {"AttemptIndex",attemptIndex},
         {"Point",point},
-        {"Score",score},
+        {"ScoreValue",score},
         {"KeyCode",keyCode}
     };
     auto winnerId = isWinnerDetermined ? playerId.toString() : "";
@@ -110,11 +110,25 @@ void RemoteModelsContext::handleAddFtpScore(const QUuid &tournamentId,
 
 }
 
-void RemoteModelsContext::handleRequestSetScoreHint(const QUuid &tournament, const QUuid &player, const int &roundIndex, const int &throwIndex, const int &hint)
+void RemoteModelsContext::setFtpScoreHint(const QUuid &tournament,
+                                          const QUuid &player,
+                                          const int &roundIndex,
+                                          const int &attemptIndex,
+                                          const int &hint)
 {
+    auto tournamentId = tournament.toString(QUuid::WithoutBraces);
+    auto playerId = player.toString(QUuid::WithoutBraces);
+    QVector<NetworkManager::Query> stringQuery = {
+        {"tournamentId", tournamentId},
+        {"playerId",playerId},
+        {"roundIndex",QString::number(roundIndex)},
+        {"attemptIndex",QString::number(attemptIndex)},
+        {"hint",QString::number(hint)}
+    };
+    _netMng->sendPostRequest("SetFtpScoreHint",QByteArray(),QString(),stringQuery,this,SLOT(handleSetScoreHintReply()));
 }
 
-void RemoteModelsContext::handleResetTournament(const QUuid &tournament)
+void RemoteModelsContext::resetTournament(const QUuid &tournament)
 {
 }
 
@@ -125,7 +139,7 @@ void RemoteModelsContext::assembleFtpKeyValues(const QUuid &tournament)
                             SLOT(handleRequestFtpDetailsReply()));
 }
 
-void RemoteModelsContext::handleCreatePlayer(const QString &name, const QString &mail)
+void RemoteModelsContext::createPlayer(const QString &name, const QString &mail)
 {
     QJsonObject obj({{"PlayerName",name},{"PlayerMail",mail}});
     auto data = QJsonDocument(obj).toJson();
@@ -134,11 +148,11 @@ void RemoteModelsContext::handleCreatePlayer(const QString &name, const QString 
                              SLOT(handleCreatePlayerResponse()));
 }
 
-void RemoteModelsContext::handleDeletePlayerFromIndex(const int &index)
+void RemoteModelsContext::deletePlayerFromIndex(const int &index)
 {
 }
 
-void RemoteModelsContext::handleDeletePlayersFromIndexes(const QVector<int> &playerIndexes)
+void RemoteModelsContext::deletePlayersFromIndexes(const QVector<int> &playerIndexes)
 {
 }
 
@@ -311,8 +325,8 @@ void RemoteModelsContext::handleFtpIndexesAndScores()
     }
     auto payLoad = jsonObject.value("payLoad").toObject();
     auto indexes = payLoad.value("indexes").toObject();
-    auto totalTurns = payLoad.value("totalTurns").toInt();
-    auto turns = payLoad.value("turns").toInt();
+    auto totalTurns = indexes.value("totalTurns").toInt();
+    auto turns = indexes.value("turns").toInt();
     auto roundIndex = indexes.value("roundIndex").toInt();
     auto setIndex = indexes.value("setIndex").toInt();
     auto attemptIndex = indexes.value("attemptIndex").toInt();
@@ -332,7 +346,7 @@ void RemoteModelsContext::handleFtpIndexesAndScores()
         auto value = *i;
         auto object = value.toObject();
         auto playerId = object.value("playerId").toString();
-        auto scoreValue = object.value("scorValue").toInt();
+        auto scoreValue = object.value("scoreValue").toInt();
         scoreEntities << ScoreEntity(playerId,scoreValue);
     }
     emit sendFtpIndexesAndScoreEntities(totalTurns,turns,
@@ -393,4 +407,28 @@ void RemoteModelsContext::handleAddFtpScoreReply()
     auto point = payLoad.value("point").toInt();
     auto score = payLoad.value("scoreValue").toInt();
     emit scoreAddedToDataContext(playerId,point,score);
+}
+
+void RemoteModelsContext::handleSetScoreHintReply()
+{
+    auto reply = _netMng->reply();
+    if(!reply->isOpen())
+    {
+        // TODO : Implement error functionality here
+    }
+    auto byteData = _netMng->reply()->readAll();
+    auto jsonDocument = QJsonDocument::fromJson(byteData);
+    auto jsonObject = jsonDocument.object();
+    auto responseCode = jsonObject.value("response").toInt();
+    auto payLoad = jsonObject.value("payLoad").toObject();
+    if(responseCode == 0x1)
+    {
+        auto playerId = payLoad.value("playerId").toString();
+        auto message = payLoad.value("message").toString();
+        emit scoreHintNotUpdated(playerId,message);
+    }
+    auto playerId = payLoad.value("playerId").toString();
+    auto point = payLoad.value("point").toInt();
+    auto score = payLoad.value("scoreValue").toInt();
+    emit scoreHintUpdated(playerId,point,score);
 }

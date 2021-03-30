@@ -49,11 +49,11 @@ public slots:
     /*
      * Handle requests from external context
      */
-    void handleAddFTPTournament(const QString &title,
+    void addFTPTournament(const QString &title,
                                   const QVector<int> &data,
                                   const QVector<int> &assignedPlayerIndexes) override;
-    void handleAssignPlayersToTournament(const QUuid &tournament, const QList<QUuid> &playersID) override;
-    void handleDeleteTournaments(const QVector<int>&indexes) override;
+    void assignPlayersToTournament(const QUuid &tournament, const QList<QUuid> &playersID) override;
+    void deleteTournaments(const QVector<int>&indexes) override;
     void handleRequestAssignedPlayers(const QUuid &tournament) override;
     void handleRequestFtpScores(const QUuid &tournament) override;
     void handleRequestTournaments() override;
@@ -75,7 +75,7 @@ public slots:
      *      [3] = Tournament input mode
      */
     void assembleFTPMetaDataFromId(const QUuid& tournament) override;
-    void handleAddFtpScore(const QUuid &tournament,
+    void addFtpScore(const QUuid &tournament,
                         const QUuid &player,
                         const int& roundIndex,
                         const int& setIndex,
@@ -84,12 +84,12 @@ public slots:
                         const int& score,
                         const int& keyCode,
                         const bool &isWinnerDetermined) override;
-    void handleRequestSetScoreHint(const QUuid &tournament,
+    void setFtpScoreHint(const QUuid &tournament,
                                                const QUuid &player,
                                                const int &roundIndex,
-                                               const int &throwIndex,
+                                               const int &attemptIndex,
                                                const int &hint) override;
-    void handleResetTournament(const QUuid &tournament) override;
+    void resetTournament(const QUuid &tournament) override;
     /*
      * Send tournament values
      */
@@ -97,10 +97,10 @@ public slots:
     /*
      * Player models context interface..
      */
-    void handleCreatePlayer(const QString &name, const QString &mail) override;
-    void handleDeletePlayerFromIndex(const int &index) override;
+    void createPlayer(const QString &name, const QString &mail) override;
+    void deletePlayerFromIndex(const int &index) override;
 
-    void handleDeletePlayersFromIndexes(const QVector<int> &indexes) override;
+    void deletePlayersFromIndexes(const QVector<int> &indexes) override;
     void handleRequestPlayersDetails() override;
     /*
      * Persist changes at current time of request
