@@ -7,6 +7,7 @@
 #include "abstractpersistence.h"
 #include <qjsonobject.h>
 #include <qjsonarray.h>
+#include <qjsondocument.h>
 #include "ftptournament.h"
 #include "ftpscore.h"
 #include "abstractjsonpersistence.h"

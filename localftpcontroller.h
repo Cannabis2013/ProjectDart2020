@@ -1,17 +1,18 @@
 #ifndef FIVEHUNDREDANDONEGAME_H
 #define FIVEHUNDREDANDONEGAME_H
 // Proprietary QT classes
-
 #include <quuid.h>
 #include <qvariant.h>
+#include <qjsonobject.h>
+#include <qjsonarray.h>
+#include <QJsonDocument>
 // Custom classes
 #include "abstractgamecontroller.h"
 #include "ftplogisticcontrollerinterface.h"
 #include "scoreCalculatorInterface.h"
 #include "inputvalidatorinterface.h"
 #include "indexcontrollerinterface.h"
-#include "userscorescontrollerinterface.h"
-
+#include "iscorecontroller.h"
 
 #define GAME_IS_NOT_IN_PROGRESS "Game is not in progress"
 #define GAME_WINNER_ANNOUNCEMENT(x) QString("Winner with ID: %! is declared winner").arg(x);
@@ -22,7 +23,7 @@
 #include "AbstractFtpController.h"
 
 
-typedef UserScoresControllerInterface<QUuid, QString,QVector<int>,QVector<QString>> ScoreController;
+typedef IScoreController<QUuid, QString,QVector<int>,QVector<QString>> ScoreController;
 
 using namespace std;
 
@@ -51,16 +52,10 @@ public:
         idle = 0xA
     };
     enum ControllerResponse{
-        IsStopped = 0x3A,
         IsIdle = 0x3B,
-        ScoreTransmit = 0x27,
-        ScoresTransmit = 0xA,
         ScoreRemove = 0x28,
-        InitializedAndAwaitsInput = 0x2D,
-        InitializedAndReady = 0x45,
         WinnerFound = 0x3E,
-        IsProcessingUserInput = 0x46,
-        TournamentIsReset = 0x29
+        IsProcessingUserInput = 0x46
     };
     // Create instance of LocalFTPController
     static LocalFtpController* createInstance(const QUuid &tournament);
@@ -107,21 +102,20 @@ public slots:
      *
      * The following methods is called dependently on input hint
      */
-    void handleRequestForSingleThrowPlayerScores() override;
+    void assembleSingleAttemptFtpScores() override;
     void handleRequestFtpPlayerScores() override;
 
     void handleScoreAddedToDataContext(const QUuid &playerID,
                                        const int &point,
-                                       const int &score) override;
+                                       const int &score, const int &keyCode) override;
     void handleScoreHintUpdated(const QUuid &playerID,
                                 const int &point,
-                                const int &score) override;
+                                const int &score, const int &keyCode) override;
     /*
      * Reinitialize controller
      *  - Set controller back to its original state
      */
     void handleResetTournament() override;
-    void handleTournamentResetSuccess() override;
     /*
      * Handle persist controller state
      */
@@ -166,7 +160,7 @@ private:
      */
     void sendCurrentTurnValues();
     QString currentActiveUser()  ;
-    QUuid currentActivePlayerID();
+    QUuid currentActivePlayerId();
     QUuid tournament();
     int status();
     void setCurrentStatus(int currentStatus);

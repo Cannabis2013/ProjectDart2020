@@ -96,10 +96,14 @@ signals:
                                const int &totalTurns ,
                                const QList<int> &playerScores);
     void scoreAddedToDataContext(const QUuid &playerID,
-                                     const int &point,
-                                     const int &score);
+                                 const int &point,
+                                 const int &score,
+                                 const int& keyCode);
     void scoreNotAddedToDataContext(const QString& msg);
-    void scoreHintUpdated(const QUuid &player, const int &point, const int &score);
+    void scoreHintUpdated(const QUuid &player,
+                          const int& point,
+                          const int& score,
+                          const int& keyCode);
     void scoreHintNotUpdated(const QUuid &player, QString err);
     void tournamentResetSuccess();
     void tournamentResetFailed();
@@ -137,6 +141,7 @@ signals:
                                         const int& attemptIndex,
                                         const QVector<PlayerEntity>& playerEntities,
                                         const QVector<ScoreEntity>& scoreEntities);
+    void sendFtpMultiScores(const QString& scores);
 };
 
 #endif // ABSTRACTMODELCONTEXTINTERFACE_H

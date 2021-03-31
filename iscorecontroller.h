@@ -5,11 +5,11 @@
 #include <qpair.h>
 
 template<typename TUuid, typename TString, typename  TScoreList, typename TUserNameList>
-class UserScoresControllerInterface
+class IScoreController
 {
 public:
     virtual TUuid winnerId() const = 0;
-    virtual UserScoresControllerInterface* setWinner(const QUuid& id) = 0;
+    virtual IScoreController* setWinner(const QUuid& id) = 0;
     virtual TString winnerUserName() const = 0;
 
     virtual void addPlayerEntity(const TUuid&,const TString&) = 0;

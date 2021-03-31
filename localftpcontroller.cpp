@@ -24,7 +24,7 @@ void LocalFtpController::handleAndProcessUserInput(const int &point,
     if(status() == Stopped ||
             status() == WinnerDeclared)
     {
-        emit transmitResponse(ControllerResponse::IsStopped,{});
+        emit isStopped();
         return;
     }
     else if(status() == ControllerState::AddScoreState)
@@ -60,60 +60,83 @@ void LocalFtpController::handleRequestForCurrentTournamentMetaData()
     emit sendCurrentTournamentId(tournament);
 }
 
-void LocalFtpController::handleRequestForSingleThrowPlayerScores()
+void LocalFtpController::assembleSingleAttemptFtpScores()
 {
     QVariantList list;
     auto count = scoreController()->playersCount();
+    QJsonObject jsonObject;
+    QJsonArray playerScoreEntities;
     for (int i = 0; i < count; ++i) {
-        QVariantList subList;
-        subList << scoreController()->userNameAtIndex(i)
-                << scoreController()->userScore(i);
-        list << subList;
-    }
-    emit transmitResponse(ControllerResponse::ScoresTransmit,list);
+        QJsonObject obj;
+        auto playerName = scoreController()->userNameAtIndex(i);
+        auto score =scoreController()->userScore(i);
+        obj["playerName"] = playerName;
+        obj["playerScore"] = score;
+        playerScoreEntities.append(obj);
+    };
+    jsonObject["entities"] = playerScoreEntities;
+    auto document = QJsonDocument(jsonObject);
+    auto jsonString = QString(document.toJson(QJsonDocument::Compact));
+    emit sendSingleAttemptFtpScores(jsonString);
 }
 
 void LocalFtpController::handleRequestFtpPlayerScores()
 {
     auto tournamentId = tournament();
-    emit requestFTPScores(tournamentId);
+    emit requestFtpMultiAttemptScores(tournamentId);
 }
 
 void LocalFtpController::handleScoreAddedToDataContext(const QUuid &playerId,
-                                                            const int &point,
-                                                            const int &score)
+                                                       const int &point,
+                                                       const int &score,
+                                                       const int& keyCode)
 {
     scoreController()->subtractPlayerScore(playerId,score);
     auto playerName = scoreController()->userNameFromId(playerId);
     auto currentScore = scoreController()->userScore(playerId);
     indexController()->syncIndex();
-    emit transmitResponse(ControllerResponse::ScoreTransmit,{playerName,point,currentScore});
+    QJsonObject json = {
+        {"playerName",playerName},
+        {"playerPoint",point},
+        {"playerScore",currentScore},
+        {"keyCode",keyCode}
+    };
+    auto data = QJsonDocument(json).toJson(QJsonDocument::Compact);
+    emit scoreAddedAndPersisted(data);
 }
 
 void LocalFtpController::handleScoreHintUpdated(const QUuid &playerId,
                                                 const int &point,
-                                                const int &score)
+                                                const int &score,
+                                                const int& keyCode)
 {
     if(this->status() == ControllerState::UndoState)
     {
         scoreController()->addPlayerScore(playerId,score);
         auto newScore = scoreController()->userScore(playerId);
         auto playerName = scoreController()->userNameFromId(playerId);
-        emit transmitResponse(ControllerResponse::ScoreRemove,
-                              {playerName,newScore,point});
+        QJsonObject json = {
+            {"playerName",playerName},
+            {"playerPoint",point},
+            {"playerScore",newScore}
+        };
+        auto data = QJsonDocument(json).toJson(QJsonDocument::Compact);
+        emit scoreRemoved(data);
     }
     else if(this->status() == ControllerState::RedoState)
     {
         scoreController()->subtractPlayerScore(playerId,score);
         auto newScore = scoreController()->userScore(playerId);
         auto playerName = scoreController()->userNameFromId(playerId);
-        emit transmitResponse(ControllerResponse::ScoreTransmit,{playerName,point,newScore});
+        QJsonObject json = {
+            {"playerName",playerName},
+            {"playerPoint",point},
+            {"playerScore",newScore},
+            {"keyCode",keyCode}
+        };
+        auto data = QJsonDocument(json).toJson(QJsonDocument::Compact);
+        emit scoreAddedAndPersisted(data);
     }
-}
-
-void LocalFtpController::handleTournamentResetSuccess()
-{
-    emit transmitResponse(ControllerResponse::TournamentIsReset,{});
 }
 
 void LocalFtpController::handleRequestPersistCurrentState()
@@ -152,15 +175,15 @@ void LocalFtpController::sendCurrentTurnValues()
     QString targetRow = "Logistic controller not injected!";
     if(_pointLogisticInterface != nullptr)
         targetRow = pointLogisticInterface()->suggestTargetRow(score,attemptIndex);
-    QVariantList responseParameters = {
-        canUndo,
-        canRedo,
-        roundIndex,
-        currentUserName,
-        targetRow
+    QJsonObject jsonObject = {
+        {"canUndo", canUndo},
+        {"canRedo",canRedo},
+        {"roundIndex",roundIndex},
+        {"currentUserName",currentUserName},
+        {"targetRow",targetRow}
     };
-    emit transmitResponse(ControllerResponse::InitializedAndAwaitsInput,
-                          responseParameters);
+    auto data = QJsonDocument(jsonObject).toJson(QJsonDocument::Compact);
+    emit isReadyAndAwaitsInput(data);
 }
 
 QString LocalFtpController::currentActiveUser()
@@ -170,7 +193,7 @@ QString LocalFtpController::currentActiveUser()
     return playerName;
 }
 
-QUuid LocalFtpController::currentActivePlayerID()
+QUuid LocalFtpController::currentActivePlayerId()
 {
     auto index = indexController()->setIndex();
     auto playerID = scoreController()->userIdAtIndex(index);
@@ -204,18 +227,18 @@ QUuid LocalFtpController::undoTurn()
     auto roundIndex = indexController()->roundIndex();
     auto throwIndex = indexController()->attempt();
     emit requestSetModelHint(tournament(),
-                             currentActivePlayerID(),
+                             currentActivePlayerId(),
                              roundIndex,
                              throwIndex,
                              ModelDisplayHint::HiddenHint);
-    auto playerId = currentActivePlayerID();
+    auto playerId = currentActivePlayerId();
     return playerId;
 }
 
 QUuid LocalFtpController::redoTurn()
 {
     setCurrentStatus(ControllerState::RedoState);
-    auto activeUser = currentActivePlayerID();
+    auto activeUser = currentActivePlayerId();
     auto roundIndex = indexController()->roundIndex();
     auto throwIndex = indexController()->attempt();
     indexController()->redo();
@@ -241,7 +264,7 @@ void LocalFtpController::addPoint(const int& point,
     auto setIndex = indexController()->setIndex();
     auto attemptIndex = indexController()->attempt();
     auto isWinnerDetermined = status() == ControllerState::WinnerDeclared;
-    auto currentPlayer = currentActivePlayerID();
+    auto currentPlayer = currentActivePlayerId();
     emit requestAddFtpScore (tournamentID,
                          currentPlayer,
                          roundIndex,
@@ -257,7 +280,7 @@ void LocalFtpController::handleRequestFromUI()
 {
     if(status() == ControllerState::Initialized)
     {
-        emit transmitResponse(ControllerResponse::InitializedAndReady,{});
+        emit isInitialized();
     }
     else if(status() == ControllerState::AddScoreState)
     {
@@ -287,7 +310,7 @@ void LocalFtpController::handleRequestFromUI()
     else if(status() == ControllerState::resetState)
     {
         setCurrentStatus(ControllerState::Initialized);
-        emit transmitResponse(ControllerResponse::InitializedAndReady,{});
+        emit isInitialized();
     }
 }
 
@@ -337,7 +360,7 @@ void LocalFtpController::recieveFtpIndexesAndEntities(const int& totalTurns,
         setCurrentStatus(ControllerState::WinnerDeclared);
     else
         setCurrentStatus(ControllerState::Initialized);
-    emit transmitResponse(ControllerResponse::InitializedAndReady,{});
+    emit isInitialized();
 }
 
 ScoreController *LocalFtpController::scoreController() const

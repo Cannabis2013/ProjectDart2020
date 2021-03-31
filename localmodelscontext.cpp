@@ -81,7 +81,8 @@ void LocalModelsContext::handleRequestAssignedPlayers(const QUuid &tournament)
 
 void LocalModelsContext::handleRequestFtpScores(const QUuid &tournament)
 {
-    QVariantList list;
+    QJsonObject jsonData;
+    QJsonArray jsonEntities;
     auto numberOfThrows = tournamentModelsContext()->tournamentAttempts(tournament);
     auto assignedPlayerIds = tournamentModelsContext()->tournamentAssignedPlayers(tournament);
     for (auto i = 0;i < assignedPlayerIds.count();i++) {
@@ -111,8 +112,13 @@ void LocalModelsContext::handleRequestFtpScores(const QUuid &tournament)
             } catch (const char *msg) {
                 throw msg;
             }
-            QVariantList subList = {assignedPlayerName,point,score,keyCode};
-            list.append(subList);
+            QJsonObject jsonEntity = {
+                {"playerName",assignedPlayerName},
+                {"playerPoint",point},
+                {"playerScore",score},
+                {"keyCode",keyCode}
+            };
+            jsonEntities << jsonEntity;
             if(attemptIndex % numberOfThrows == 0)
             {
                 attemptIndex = 0;
@@ -120,7 +126,10 @@ void LocalModelsContext::handleRequestFtpScores(const QUuid &tournament)
             }
         }
     }
-    emit transmitResponse(TournamentModelsContextResponse::EndOfTransmission,{list});
+    jsonData["entities"] = jsonEntities;
+    auto jsonDocument = QJsonDocument(jsonData);
+    auto jsonString = jsonDocument.toJson(QJsonDocument::Compact);
+    emit sendFtpMultiScores(jsonString);
 }
 
 void LocalModelsContext::handleRequestTournaments()
@@ -171,7 +180,8 @@ void LocalModelsContext::addFtpScore(const QUuid &tournament,
                                            isWinnerDetermined);
     emit scoreAddedToDataContext(player,
                                  point,
-                                 score);
+                                 score,
+                                 keyCode);
 }
 
 void LocalModelsContext::setFtpScoreHint(const QUuid &tournament,
@@ -180,9 +190,9 @@ void LocalModelsContext::setFtpScoreHint(const QUuid &tournament,
                                          const int &attemptIndex,
                                          const int &hint)
 {
-    QUuid scoreID;
+    QUuid scoreId;
     try {
-        scoreID = tournamentModelsContext()->playerScore(tournament,
+        scoreId = tournamentModelsContext()->playerScore(tournament,
                                                          player,
                                                          roundIndex,
                                                          attemptIndex);
@@ -191,10 +201,11 @@ void LocalModelsContext::setFtpScoreHint(const QUuid &tournament,
         emit scoreHintNotUpdated(tournament,msg);
         return;
     }
-    auto point = tournamentModelsContext()->scorePointValue(scoreID);
-    auto score = tournamentModelsContext()->scoreValue(scoreID);
-    tournamentModelsContext()->setScoreHint(scoreID,hint);
-    emit scoreHintUpdated(player,point,score);
+    auto point = tournamentModelsContext()->scorePointValue(scoreId);
+    auto score = tournamentModelsContext()->scoreValue(scoreId);
+    auto keyCode = tournamentModelsContext()->scoreKeyCode(scoreId);
+    tournamentModelsContext()->setScoreHint(scoreId,hint);
+    emit scoreHintUpdated(player,point,score,keyCode);
 }
 
 void LocalModelsContext::resetTournament(const QUuid &tournament)

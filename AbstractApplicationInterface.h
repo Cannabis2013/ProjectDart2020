@@ -111,7 +111,7 @@ signals:
                                      const int &numberOfThrows,
                                      QList<QUuid> assignedPlayers);
     void requestSingleThrowPlayerScores();
-    void requestFTPScores();
+    void requestFtpMultiAttemptScores();
     void setCurrentActiveTournament(const int &index);
     void sendPoint(const int &point, const int &pressedModifier);
     void requestStartGame();
@@ -142,6 +142,15 @@ signals:
                                        const int& attemptIndex,
                                        const int& score,
                                        const QString& targetRow);
+    void sendAssembledSingleFtpScores(const QString& scores);
+    void sendAssembledMultiFtpScores(const QString& scores);
+    // Controller states
+    void controllerIsStopped();
+    void controllerIsInitialized();
+    void controllerAwaitsInput(const QString& json);
+    void ftpControllerIsReset();
+    void ftpControllerAddedAndPersistedScore(const QString& json);
+    void ftpControllerRemovedScore(const QString& json);
 };
 
 #endif // APPLICATIONINTERFACE_H

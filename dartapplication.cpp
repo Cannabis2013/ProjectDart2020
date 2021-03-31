@@ -47,7 +47,7 @@ void DartApplication::handleRequestForSingleThrowScoreData()
 
 void DartApplication::handleRequestForMultiThrowScoreData()
 {
-    emit requestFTPScores();
+    emit requestFtpMultiAttemptScores();
 }
 
 void DartApplication::handleFTPDetails(const QString &title,

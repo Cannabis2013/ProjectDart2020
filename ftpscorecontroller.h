@@ -1,7 +1,7 @@
 #ifndef FTPSCORECONTROLLER_H
 #define FTPSCORECONTROLLER_H
 
-#include "userscorescontrollerinterface.h"
+#include "iscorecontroller.h"
 #include <qlist.h>
 
 #define INCONSISTENCY_EXCEPTION_MESSAGE "User inconsistency!"
@@ -32,7 +32,7 @@ struct Tuple
 };
 
 
-typedef UserScoresControllerInterface<QUuid,QString,QVector<int>,QVector<QString>> ScoreControllerInterface;
+typedef IScoreController<QUuid,QString,QVector<int>,QVector<QString>> ScoreControllerInterface;
 
 class FTPScoreController : public ScoreControllerInterface
 {
@@ -70,7 +70,6 @@ private:
     /*
      * Private constructor
      */
-
     FTPScoreController(const int& initialScore,
                        const QUuid& winner);
 

@@ -107,8 +107,8 @@ private:
         return controller;
     }
     void connectFTPController(AbstractFtpController* controller,
-                                            AbstractApplicationInterface*  applicationInterface,
-                                            AbstractModelsContext* modelsContext)
+                              AbstractApplicationInterface*  applicationInterface,
+                              AbstractModelsContext* modelsContext)
     {
         /*
          * Establish communication between controller and UI
@@ -130,27 +130,37 @@ private:
         connect(modelsContext,&AbstractModelsContext::sendFtpIndexesAndScoreEntities,
                 controller,&AbstractFtpController::recieveFtpIndexesAndEntities);
         /*
-         * Controller is initialized and ready
-         */
-        connect(controller,&AbstractFtpController::initializedAndAwaitsInput,
-                applicationInterface,&AbstractApplicationInterface::FtpControllerInitializedAndReady);
-        /*
          * Controller requests transmitting multithrow playerscores
          */
-        connect(applicationInterface,&AbstractApplicationInterface::requestFTPScores,
+        connect(applicationInterface,&AbstractApplicationInterface::requestFtpMultiAttemptScores,
                 controller,&AbstractFtpController::handleRequestFtpPlayerScores);
-        connect(controller,&AbstractFtpController::requestFTPScores,
+        connect(controller,&AbstractFtpController::requestFtpMultiAttemptScores,
                 modelsContext,&AbstractModelsContext::handleRequestFtpScores);
+        connect(modelsContext,&AbstractModelsContext::sendFtpMultiScores,
+                controller,&AbstractFtpController::propagateFtpMultiAttemptScores);
+        connect(controller,&AbstractFtpController::propagateFtpMultiAttemptScores,
+                applicationInterface,&AbstractApplicationInterface::sendAssembledMultiFtpScores);
         /*
          * Controller requests transmitting singlethrow playerscores
          */
         connect(applicationInterface,&AbstractApplicationInterface::requestSingleThrowPlayerScores,
-                controller,&AbstractFtpController::handleRequestForSingleThrowPlayerScores);
+                controller,&AbstractFtpController::assembleSingleAttemptFtpScores);
+        connect(controller,&AbstractFtpController::sendSingleAttemptFtpScores,
+                applicationInterface,&AbstractApplicationInterface::sendAssembledSingleFtpScores);
         /*
          * Wake up controller
          */
         connect(applicationInterface,&AbstractApplicationInterface::requestWakeUp,
                 controller,&AbstractGameController::initialize);
+        /*
+         * Controller needs to inform external context about its state
+         */
+        connect(controller,&AbstractFtpController::isStopped,
+                applicationInterface,&AbstractApplicationInterface::controllerIsStopped);
+        connect(controller,&AbstractFtpController::isInitialized,
+                applicationInterface,&AbstractApplicationInterface::controllerIsInitialized);
+        connect(controller,&AbstractFtpController::isReadyAndAwaitsInput,
+                applicationInterface,&AbstractApplicationInterface::controllerAwaitsInput);
         /*
          * Start/stop game
          */
@@ -166,7 +176,9 @@ private:
         connect(controller,&AbstractGameController::requestResetTournament,
                 modelsContext,&AbstractModelsContext::resetTournament);
         connect(modelsContext,&AbstractModelsContext::tournamentResetSuccess,
-                controller,&AbstractGameController::handleTournamentResetSuccess);
+                controller,&AbstractGameController::isReset);
+        connect(controller,&AbstractFtpController::isReset,
+                applicationInterface,&AbstractApplicationInterface::ftpControllerIsReset);
         /*
          * Add point
          */
@@ -176,8 +188,15 @@ private:
                 modelsContext,&AbstractModelsContext::addFtpScore);
         connect(modelsContext,&AbstractModelsContext::scoreAddedToDataContext,
                 controller,&AbstractGameController::handleScoreAddedToDataContext);
+        connect(controller,&AbstractFtpController::scoreAddedAndPersisted,
+                applicationInterface,&AbstractApplicationInterface::ftpControllerAddedAndPersistedScore);
         connect(applicationInterface,&AbstractApplicationInterface::requestControllerState,
                 controller,&AbstractGameController::handleRequestFromUI);
+        /*
+         * Controller remove has removed scores
+         */
+        connect(controller,&AbstractFtpController::scoreRemoved,
+                applicationInterface,&AbstractApplicationInterface::ftpControllerRemovedScore);
         /*
          * Undo/redo
          */

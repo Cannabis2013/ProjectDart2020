@@ -31,11 +31,12 @@ public slots:
     virtual void handleRequestForCurrentTournamentMetaData() = 0;
     virtual void handleScoreAddedToDataContext(const QUuid &playerID,
                                                const int &point,
-                                               const int &score) = 0;
+                                               const int &score,
+                                               const int& keyCode) = 0;
     virtual void handleScoreHintUpdated(const QUuid &playerID,
-                                        const int &point,
-                                        const int &score) = 0;
-    virtual void handleTournamentResetSuccess() = 0;
+                                        const int& point,
+                                        const int& score,
+                                        const int& keyCode) = 0;
     virtual void handleResetTournament() = 0;
     /*
      * Set initial state
@@ -59,6 +60,9 @@ signals:
                              const int &hint);
     void requestResetTournament(const QUuid &tournament);
     void requestPersistModelState();
+    void isStopped();
+    void isInitialized();
+    void isReset();
 };
 
 #endif // ABSTRACTGAMECONTROLLER_H

@@ -26,6 +26,7 @@ public slots:
                                               const QVector<Player>&,
                                               const QVector<PlayerScore>&) = 0;
 signals:
+    void isReadyAndAwaitsInput(const QString& json);
     void requestFtpDetails(const QUuid& tournamentId);
     void initializedAndAwaitsInput(const bool& canUndo,
                                    const bool& canRedo,
@@ -34,7 +35,7 @@ signals:
                                    const int& attemptIndex,
                                    const int& score,
                                    const QString& targetRow);
-    void requestFTPScores(const QUuid &tournament);
+    void requestFtpMultiAttemptScores(const QUuid &tournament);
     void requestAddFtpScore(const QUuid &tournamentId,
                          const QUuid &playerID,
                          const int& roundIndex,
@@ -44,7 +45,11 @@ signals:
                          const int& score,
                          const int& keyCode,
                          const bool &isWinnerDetermined);
+    void scoreAddedAndPersisted(const QString& json);
+    void scoreRemoved(const QString& json);
     void requestFtpIndexesAndScores(const QUuid &tournament);
+    void sendSingleAttemptFtpScores(const QString& json);
+    void propagateFtpMultiAttemptScores(const QString& scores);
 };
 
 #endif // FTPCONTROLLER_H

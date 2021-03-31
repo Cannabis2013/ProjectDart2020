@@ -80,6 +80,7 @@ HEADERS += \
     iplayermodel.h \
     iplayermodelbuilder.h \
     iresponseinterface.h \
+    iscorecontroller.h \
     iscoremodel.h \
     iscoreparameter.h \
     itournament.h \
@@ -113,8 +114,7 @@ HEADERS += \
     tournamentbuildercontext.h \
     tournamentcontextcollection.h \
     tournamentmodelscontextinterface.h \
-    urlparser.h \
-    userscorescontrollerinterface.h
+    urlparser.h
 
 DISTFILES += \
 

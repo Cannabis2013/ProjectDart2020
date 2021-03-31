@@ -171,5 +171,8 @@ Content {
         }
     ]
     Component.onCompleted: GameGeneralScripts.initializeComponent()
-    Component.onDestruction: GameGeneralScripts.handleDestruction()
+    Component.onDestruction: {
+        GameGeneralScripts.disconnectComponents();
+        FirstToPostScripts.disConnectFtpInterface();
+    }
 }

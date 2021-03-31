@@ -408,7 +408,8 @@ void RemoteModelsContext::handleAddFtpScoreReply()
     auto playerId = payLoad.value("playerId").toString();
     auto point = payLoad.value("point").toInt();
     auto score = payLoad.value("scoreValue").toInt();
-    emit scoreAddedToDataContext(playerId,point,score);
+    auto keyCode = payLoad.value("keyCode").toInt();
+    emit scoreAddedToDataContext(playerId,point,score,keyCode);
 }
 
 void RemoteModelsContext::handleSetScoreHintReply()
@@ -433,7 +434,8 @@ void RemoteModelsContext::handleSetScoreHintReply()
     auto playerId = payLoad.value("playerId").toString();
     auto point = payLoad.value("point").toInt();
     auto score = payLoad.value("scoreValue").toInt();
-    emit scoreHintUpdated(playerId,point,score);
+    auto keyCode = payLoad.value("keyCode").toInt();
+    emit scoreHintUpdated(playerId,point,score,keyCode);
 }
 
 void RemoteModelsContext::tournamentResetReply()
