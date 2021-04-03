@@ -69,7 +69,7 @@ void LocalModelsContext::deleteTournaments(const QVector<int> &indexes)
 {
     // TODO: Implement return functionality later
     auto status = tournamentModelsContext()->removeTournamentsFromIndexes(indexes);
-    emit tournamentsDeletedSuccess(status);
+    emit tournamentsDeletedStatus(status);
 }
 
 void LocalModelsContext::handleRequestAssignedPlayers(const QUuid &tournament)
@@ -94,7 +94,7 @@ void LocalModelsContext::handleRequestFtpScores(const QUuid &tournament)
         {
             QUuid scoreID;
             try {
-                scoreID = tournamentModelsContext()->playerScore(tournament,
+                scoreID = tournamentModelsContext()->ftpScore(tournament,
                                       assignedPlayerId,
                                       roundIndex,
                                       attemptIndex++,
@@ -106,8 +106,8 @@ void LocalModelsContext::handleRequestFtpScores(const QUuid &tournament)
             int point;
             int keyCode;
             try {
-                point = tournamentModelsContext()->scorePointValue(scoreID);
-                score = tournamentModelsContext()->scoreValue(scoreID);
+                point = tournamentModelsContext()->ftpScorePointValue(scoreID);
+                score = tournamentModelsContext()->ftpScoreValue(scoreID);
                 keyCode = tournamentModelsContext()->scoreKeyCode(scoreID);
             } catch (const char *msg) {
                 throw msg;
@@ -192,7 +192,7 @@ void LocalModelsContext::setFtpScoreHint(const QUuid &tournament,
 {
     QUuid scoreId;
     try {
-        scoreId = tournamentModelsContext()->playerScore(tournament,
+        scoreId = tournamentModelsContext()->ftpScore(tournament,
                                                          player,
                                                          roundIndex,
                                                          attemptIndex);
@@ -201,8 +201,8 @@ void LocalModelsContext::setFtpScoreHint(const QUuid &tournament,
         emit scoreHintNotUpdated(tournament,msg);
         return;
     }
-    auto point = tournamentModelsContext()->scorePointValue(scoreId);
-    auto score = tournamentModelsContext()->scoreValue(scoreId);
+    auto point = tournamentModelsContext()->ftpScorePointValue(scoreId);
+    auto score = tournamentModelsContext()->ftpScoreValue(scoreId);
     auto keyCode = tournamentModelsContext()->scoreKeyCode(scoreId);
     tournamentModelsContext()->setScoreHint(scoreId,hint);
     emit scoreHintUpdated(player,point,score,keyCode);
@@ -295,12 +295,6 @@ void LocalModelsContext::handleRequestPlayersDetails()
     emit sendPlayers(list);
 }
 
-void LocalModelsContext::handleRequestPersistTournamentState()
-{
-    // Implement save state
-    emit tournamentModelsStatePersisted();
-}
-
 void LocalModelsContext::assembleFtpIndexesAndScores(const QUuid &tournament)
 {
     auto indexes = tournamentModelsContext()->indexes(tournament);
@@ -311,7 +305,7 @@ void LocalModelsContext::assembleFtpIndexesAndScores(const QUuid &tournament)
     auto attemptIndex = indexes.at(4);
     auto assignedPlayerIds = tournamentModelsContext()->tournamentAssignedPlayers(tournament);
     auto assignedPlayerNames = playerModelsContext()->assemblePlayerNamesFromIds(assignedPlayerIds);
-    auto scores = tournamentModelsContext()->scores(tournament);
+    auto scores = tournamentModelsContext()->ftpScores(tournament);
     QVector<PlayerEntity> playerEntities;
     for (int i = 0; i < assignedPlayerIds.count(); ++i) {
         auto playerId = assignedPlayerIds.at(i);
@@ -322,7 +316,7 @@ void LocalModelsContext::assembleFtpIndexesAndScores(const QUuid &tournament)
     for (auto i = scores.constBegin(); i != scores.constEnd(); ++i) {
         auto scoreId = *i;
         auto playerId = tournamentModelsContext()->scorePlayer(scoreId);
-        auto scoreValue = tournamentModelsContext()->scoreValue(scoreId);
+        auto scoreValue = tournamentModelsContext()->ftpScoreValue(scoreId);
         scoreEntities << ScoreEntity(playerId,scoreValue);
     }
     emit sendFtpIndexesAndScoreEntities(totalTurns,turns,roundIndex,

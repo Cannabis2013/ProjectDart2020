@@ -25,12 +25,18 @@ public:
         Circular = 0x3,
         Cricket = 0x4
     };
-    JsonDbContext()
+    JsonDbContext():
+        _fileName("model")
     {
-        loadIntoMemmory();
+        fetchModels();
+    }
+    JsonDbContext(const QString& fileName):
+        _fileName(fileName)
+    {
+        fetchModels();
     }
     // PersistenceInterface interface
-    void loadIntoMemmory() override;
+    void fetchModels() override;
     void saveState() override;
     // ImodelsDBContext interface
     void addTournament(DbModels::TournamentInterface *model) override;
@@ -68,6 +74,7 @@ private:
     void extractScoreModelsFromJSON(const QJsonArray &arr);
     void extractPlayerModelsFromJSON(const QJsonArray &arr);
 
+    const QString _fileName;
 
     QVector<const DbModels::TournamentInterface*> _tournamentModels;
     QVector<const DbModels::ScoreInterface*> _scoreModels;

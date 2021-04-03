@@ -52,9 +52,6 @@ public:
         idle = 0xA
     };
     enum ControllerResponse{
-        IsIdle = 0x3B,
-        ScoreRemove = 0x28,
-        WinnerFound = 0x3E,
         IsProcessingUserInput = 0x46
     };
     // Create instance of LocalFTPController

@@ -44,22 +44,23 @@ public:
     LocalModelsContext *setPlayerModelsContext(PlayerModelsContextInterface *playerModelsContext);
 public slots:
     /*
-     * Tournament models context interface..
+     * General tournaments methods
      */
+    void assignPlayersToTournament(const QUuid &tournament, const QList<QUuid> &playersID) override;
+    void deleteTournaments(const QVector<int>&indexes) override;
+    void handleRequestAssignedPlayers(const QUuid &tournament) override;
+    void handleRequestGameMode(const int &index) override;
+    void handleRequestTournaments() override;
+    void resetTournament(const QUuid &tournament) override;
     /*
-     * Handle requests from external context
+     * First To Post tournaments methods
      */
     void addFTPTournament(const QString &title,
                                   const QVector<int> &data,
                                   const QVector<int> &assignedPlayerIndexes) override;
-    void assignPlayersToTournament(const QUuid &tournament, const QList<QUuid> &playersID) override;
-    void deleteTournaments(const QVector<int>&indexes) override;
-    void handleRequestAssignedPlayers(const QUuid &tournament) override;
     void handleRequestFtpScores(const QUuid &tournament) override;
-    void handleRequestTournaments() override;
-    void handleRequestGameMode(const int &index) override;
     /*
-     * Handle request for 'first to post'-tournament related meta information
+     * Handle request for 'first To Post'-tournament related meta information
      * from frontend
      *
      * Returned data structure:
@@ -89,25 +90,23 @@ public slots:
                                                const int &roundIndex,
                                                const int &attemptIndex,
                                                const int &hint) override;
-    void resetTournament(const QUuid &tournament) override;
     /*
      * Send tournament values
      */
     void assembleFtpKeyValues(const QUuid& tournament) override;
     /*
-     * Player models context interface..
+     * Assemble First To Post tournament indexes and playerscores
+     */
+    virtual void assembleFtpIndexesAndScores(const QUuid &tournament) override;
+    /*
+     * Player models context related methods
      */
     void createPlayer(const QString &name, const QString &mail) override;
     void deletePlayerFromIndex(const int &index) override;
 
     void deletePlayersFromIndexes(const QVector<int> &indexes) override;
     void handleRequestPlayersDetails() override;
-    /*
-     * Persist changes at current time of request
-     */
-    void handleRequestPersistTournamentState() override;
 
-    virtual void assembleFtpIndexesAndScores(const QUuid &tournament) override;
 private:
     TournamentModelsContextInterface* _tournamentModelsContext;
     PlayerModelsContextInterface* _playerModelsContext;

@@ -2,14 +2,17 @@
 #define APPLICATIONINTERFACE_H
 
 #include <qobject.h>
-#include "iresponseinterface.h"
 #include <quuid.h>
+#include "abstractmodelscontext.h"
+#include "iresponseinterface.h"
 class
         AbstractApplicationInterface : public QObject,
         public IResponseInterface<QVariantList>
 {
     Q_OBJECT
 public slots:
+    virtual AbstractModelsContext *modelsContextInterface() const = 0;
+    virtual AbstractApplicationInterface* setModelsContextInterface(AbstractModelsContext *modelsInterface) = 0;
     virtual void handleTournamentsRequest() = 0;
     /*
      * Set current tournament
@@ -69,10 +72,6 @@ public slots:
      * Handle request for tournament meta information
      */
     virtual void handleTournamentMetaRequest() = 0;
-    /*
-     * Handle request for tournament persist
-     */
-    virtual void handlePersistTournamentRequest() = 0;
 signals:
     /*
      * IResponse interface
@@ -131,7 +130,6 @@ signals:
     void sendTournaments(const QVariantList& list);
     void sendPlayers(const QVariantList& list);
     void createPlayerResponse(const bool &status);
-    void requestPersistTournament();
     void requestAssembleFTPTournament();
     void tournamentAssembledAndStored(const bool &status);
     void tournamentCreatedOk();
@@ -151,6 +149,7 @@ signals:
     void ftpControllerIsReset();
     void ftpControllerAddedAndPersistedScore(const QString& json);
     void ftpControllerRemovedScore(const QString& json);
+    void controllerHasDeclaredAWinner(const QString& json);
 };
 
 #endif // APPLICATIONINTERFACE_H

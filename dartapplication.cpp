@@ -147,11 +147,6 @@ void DartApplication::handleTournamentMetaRequest()
     emit requestCurrentTournamentId();
 }
 
-void DartApplication::handlePersistTournamentRequest()
-{
-    emit requestPersistTournament();
-}
-
 void DartApplication::assembleAndConfigureControllerBuilder(const QUuid& tournamentId,
                                                             const QUuid& winnerId,
                                                             const QVector<int> &values)
@@ -223,7 +218,7 @@ void DartApplication::connectModelInterfaces()
      */
     connect(this,&DartApplication::requestDeleteTournaments,
             _modelsContext,&AbstractModelsContext::deleteTournaments);
-    connect(_modelsContext,&AbstractModelsContext::tournamentsDeletedSuccess,
+    connect(_modelsContext,&AbstractModelsContext::tournamentsDeletedStatus,
             this,&DartApplication::tournamentsDeletedSuccess);
     /*
      * Delete player{s}

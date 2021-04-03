@@ -4,12 +4,12 @@ function initializeComponent()
     connectComponents();
     gamePageBody.requestMetaInformation();
 }
-
 /*
   Connect signals and slots
   */
 function connectComponents()
 {
+    applicationInterface.controllerHasDeclaredAWinner.connect(backendDeclaredAWinner);
     applicationInterface.controllerIsStopped.connect(backendIsStopped);
     applicationInterface.controllerIsInitialized.connect(backendIsInitialized);
     gamePageBody.requestMetaInformation.connect(applicationInterface.handleTournamentMetaRequest);
@@ -22,10 +22,10 @@ function connectComponents()
     gamePageBody.requestUndo.connect(applicationInterface.handleUndoRequest);
     gamePageBody.requestRedo.connect(applicationInterface.handleRedoRequest);
     gamePageBody.requestStatusFromBackend.connect(applicationInterface.handleControllerStateRequest);
-    gamePageBody.requestPersistState.connect(applicationInterface.handlePersistTournamentRequest);
 }
 function disconnectComponents()
 {
+    applicationInterface.controllerHasDeclaredAWinner.disconnect(backendDeclaredAWinner);
     applicationInterface.controllerIsStopped.disconnect(backendIsStopped);
     applicationInterface.controllerIsInitialized.disconnect(backendIsInitialized);
     gamePageBody.requestMetaInformation.disconnect(applicationInterface.handleTournamentMetaRequest);
@@ -79,23 +79,6 @@ function appendScore(player,point,score, keyCode)
 }
 
 /*
-  Handle reply from backend
-  */
-function handleReplyFromBackend(response,args)
-{
-    if(response === 0x15) // Winner declared
-    {
-        tournamentMetaData.determinedWinner = args[0];
-        gamePageBody.state = "winner";
-
-    }
-    else if(response === 0x3B)
-    {
-        requestQuit();
-    }
-}
-
-/*
   Handle user input
   */
 function handleKeyPadInput(value,keyCode){
@@ -125,4 +108,11 @@ function backendIsStopped()
 function backendIsInitialized()
 {
     gamePageBody.state = "ready";
+}
+
+function backendDeclaredAWinner(data)
+{
+    var json = JSON.parse(data);
+    tournamentMetaData.determinedWinner = json.winner;
+    gamePageBody.state = "winner";
 }

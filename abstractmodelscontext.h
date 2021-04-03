@@ -63,10 +63,6 @@ public:
     virtual void deletePlayerFromIndex(const int &index)= 0;
     virtual void deletePlayersFromIndexes(const QVector<int> &playerIndexes)= 0;
     virtual void handleRequestPlayersDetails() = 0;
-    /*
-     * Persist state
-     */
-    virtual void handleRequestPersistTournamentState() = 0;
 
 signals:
     // IResponseInterface interface
@@ -107,7 +103,7 @@ signals:
     void scoreHintNotUpdated(const QUuid &player, QString err);
     void tournamentResetSuccess();
     void tournamentResetFailed();
-    void tournamentsDeletedSuccess(const bool &status);
+    void tournamentsDeletedStatus(const bool &status);
 
     void sendTournaments(const QVariantList& list);
     /*

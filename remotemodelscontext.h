@@ -12,6 +12,8 @@
 #include <QJsonArray>
 #include <QVariantList>
 
+#include <iostream>
+
 #define PRODUCTION
 #ifdef PRODUCTION
 #define API_HOST_URL "https://localhost:5001"
@@ -19,6 +21,29 @@
 #define API_HOST_URL "Insert api url"
 #endif
 
+namespace RemoteContext
+{
+    class RemoteJsonObject : public QJsonObject
+    {
+    public:
+        RemoteJsonObject(const std::initializer_list<QPair<QString,QJsonValue>>& list):
+            QJsonObject(list)
+        {
+
+        }
+        RemoteJsonObject()
+        {
+
+        }
+
+        QByteArray toJson()
+        {
+            QJsonDocument document = QJsonDocument(*this);
+            auto json = document.toJson(QJsonDocument::Compact);
+            return json;
+        }
+    };
+}
 
 class RemoteModelsContext : public AbstractModelsContext
 {
@@ -58,11 +83,11 @@ public:
     virtual void deletePlayerFromIndex(const int &index) override;
     virtual void deletePlayersFromIndexes(const QVector<int> &playerIndexes) override;
     virtual void handleRequestPlayersDetails() override;
-    virtual void handleRequestPersistTournamentState() override;
     virtual void assembleFtpIndexesAndScores(const QUuid &tournament) override;
 private slots:
     void handleRecievedTournamentsReply();
     void handleAddFTPTournamentReply();
+    void handleDeleteTournamentsReply();
     void handleRequestPlayersReply();
     void handleCreatePlayerResponse();
     void handleRequestGameModeReply();

@@ -37,17 +37,17 @@ public:
     DartApplication *setup();
     DartApplication *useThreads();
     /*
-     * Get/set modelcontext interface
-     */
-    AbstractModelsContext *modelsContextInterface() const;
-    DartApplication* setModelsContextInterface(AbstractModelsContext *modelsInterface);
-    /*
      * Get/set GameControllerBuilder
      */
     AbstractControllerBuilder* controllerBuilder();
     DartApplication *setControllerBuilder(ControllerBuilder *builder);
 
 public slots:
+    /*
+     * Get/set modelcontext interface
+     */
+    virtual AbstractModelsContext *modelsContextInterface() const override;
+    virtual DartApplication* setModelsContextInterface(AbstractModelsContext *modelsInterface) override;
     // Get tournaments
     void handleTournamentsRequest() override;
     /*
@@ -108,10 +108,6 @@ public slots:
      * Handle request for tournament meta information
      */
     void handleTournamentMetaRequest() override;
-    /*
-     * Handle request for tournament persist
-     */
-    void handlePersistTournamentRequest() override;
 
 signals:
     void assembleFTPController(const QUuid& tournamentId,

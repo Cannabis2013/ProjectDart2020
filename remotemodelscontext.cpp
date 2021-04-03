@@ -43,6 +43,17 @@ void RemoteModelsContext::assignPlayersToTournament(const QUuid &tournament, con
 
 void RemoteModelsContext::deleteTournaments(const QVector<int> &indexes)
 {
+    RemoteContext::RemoteJsonObject jsonObject;
+    QJsonArray arr;
+    for (auto i = indexes.constBegin(); i != indexes.constEnd(); ++i) {
+        auto value = *i;
+        arr << value;
+    }
+    jsonObject["Indexes"] = arr;
+    auto data = jsonObject.toJson();
+    _netMng->sendPostRequest("DeleteTournamentsFromIndexes",
+                             data,QString(),{},this,
+                             SLOT(handleDeleteTournamentsReply()));
 }
 
 void RemoteModelsContext::handleRequestAssignedPlayers(const QUuid &tournament)
@@ -167,14 +178,10 @@ void RemoteModelsContext::handleRequestPlayersDetails()
                             SLOT(handleRequestPlayersReply()));
 }
 
-void RemoteModelsContext::handleRequestPersistTournamentState()
-{
-}
-
 void RemoteModelsContext::assembleFtpIndexesAndScores(const QUuid &tournament)
 {
     auto tournamentId = tournament.toString(QUuid::WithoutBraces);
-    _netMng->sendGetRequest("GetIndexesAndScores",
+    _netMng->sendGetRequest("GetFtpIndexesAndScores",
                             QString(),{{"tournamentId",tournamentId}},
                             this,SLOT(handleFtpIndexesAndScores()));
 }
@@ -215,6 +222,20 @@ void RemoteModelsContext::handleAddFTPTournamentReply()
         emit tournamentAssembledAndStored(false);
     else
         emit tournamentAssembledAndStored(true);
+}
+
+void RemoteModelsContext::handleDeleteTournamentsReply()
+{
+    if(!_netMng->reply()->isOpen())
+        emit tournamentAssembledAndStored(false);
+    auto byteData = _netMng->reply()->readAll();
+    auto jsonDocument = QJsonDocument::fromJson(byteData);
+    auto jsonObject = jsonDocument.object();
+    auto responseCode = jsonObject.value("response");
+    if(responseCode == 0x1)
+        emit tournamentsDeletedStatus(false);
+    else
+        emit tournamentsDeletedStatus(true);
 }
 
 

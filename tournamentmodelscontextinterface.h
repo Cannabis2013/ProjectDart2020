@@ -44,28 +44,30 @@ public:
                   const int &score,
                   const int &keyCode,
                   const bool &isWinnerDetermined) = 0;
-    virtual QUuid playerScore(const QUuid &tournament, const QUuid &player ,
-                              const int &round,
-                              const int &throwIndex,
-                              const int &hint) = 0;
-    virtual QUuid playerScore(const QUuid &tournament, const QUuid &player ,
-                              const int &round,
-                              const int &throwIndex) = 0;
-    virtual QList<QUuid> scores() = 0;
-    virtual QList<QUuid> scores(const QUuid &tournament) = 0;
-    virtual QList<QUuid> scores(const QUuid &tournament, const int &roundID) = 0;
-    virtual QList<QUuid> scores(const QUuid &tournament, const int &roundID, const int &setID) = 0;
-    virtual QList<QUuid> scores(const int &hint,const QUuid &tournament) = 0;
+    virtual QUuid ftpScore(const QUuid &tournament,
+                           const QUuid &player ,
+                           const int &round,
+                           const int &throwIndex,
+                           const int &hint) = 0;
+    virtual QUuid ftpScore(const QUuid &tournament,
+                           const QUuid &player ,
+                           const int &round,
+                           const int &throwIndex) = 0;
+    virtual QList<QUuid> ftpScores() = 0;
+    virtual QList<QUuid> ftpScores(const QUuid &tournament) = 0;
+    virtual QList<QUuid> ftpScores(const QUuid &tournament, const int &roundID) = 0;
+    virtual QList<QUuid> ftpScores(const QUuid &tournament, const int &roundID, const int &setID) = 0;
+    virtual QList<QUuid> ftpScores(const int &hint,const QUuid &tournament) = 0;
     virtual QList<QUuid> playerScores(const QUuid &tournament, const QUuid &player, const int &hint) = 0;
-    virtual int playerScoreCount(const int &hint) = 0;
+    virtual int ftpScoresCount(const int &hint) = 0;
     virtual QUuid setScoreHint(const QUuid &point, const int &hint) = 0;
     virtual QUuid editScore(const QUuid &pointId, const int &value, const int &score,const int &hint) = 0;
-    virtual int scoreRoundIndex(const QUuid &playerScore) = 0;
-    virtual int scoreSetIndex(const QUuid &playerScore) = 0;
-    virtual int scoreAttemptIndex(const QUuid &playerScore) = 0;
-    virtual int scorePointValue(const QUuid &playerScore) = 0;
-    virtual int scoreValue(const QUuid &point) = 0;
-    virtual QUuid scoreTournament(const QUuid &playerScore) = 0;
+    virtual int ftpScoreRoundIndex(const QUuid &playerScore) = 0;
+    virtual int ftpScoreSetIndex(const QUuid &playerScore) = 0;
+    virtual int ftpScoreAttemptIndex(const QUuid &playerScore) = 0;
+    virtual int ftpScorePointValue(const QUuid &playerScore) = 0;
+    virtual int ftpScoreValue(const QUuid &point) = 0;
+    virtual QUuid ftpScoreTournament(const QUuid &playerScore) = 0;
     virtual QUuid scorePlayer(const QUuid &playerScore) = 0;
     virtual int scoreHint(const QUuid &scoreID) = 0;
     virtual int scoreKeyCode(const QUuid &scoreID) = 0;

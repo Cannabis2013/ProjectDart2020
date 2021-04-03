@@ -103,39 +103,39 @@ public:
                      const int &score,
                      const int &keyCode,
                      const bool &isWinnerDetermined) override;
-    QUuid playerScore(const QUuid &tournament,
+    QUuid ftpScore(const QUuid &tournament,
                       const QUuid &player ,
                       const int &round,
                       const int &throwIndex,
                       const int &hint) override;
-    virtual QUuid playerScore(const QUuid &tournament, const QUuid &player ,
+    virtual QUuid ftpScore(const QUuid &tournament, const QUuid &player ,
                               const int &round,
                               const int &attemptIndex) override;
-    QList<QUuid> scores() override;
-    QList<QUuid> scores(const QUuid &tournament) override;
-    QList<QUuid> scores(const QUuid &tournament,
+    QList<QUuid> ftpScores() override;
+    QList<QUuid> ftpScores(const QUuid &tournament) override;
+    QList<QUuid> ftpScores(const QUuid &tournament,
                         const int &roundID) override;
-    QList<QUuid> scores(const QUuid &tournament,
+    QList<QUuid> ftpScores(const QUuid &tournament,
                         const int &roundID,
                         const int &setID) override;
-    QList<QUuid> scores(const int &hint,
+    QList<QUuid> ftpScores(const int &hint,
                         const QUuid &tournament) override;
     QList<QUuid> playerScores(const QUuid &tournament,
                               const QUuid &player,
                               const int &hint) override;
-    int playerScoreCount(const int &hint) override;
+    int ftpScoresCount(const int &hint) override;
     QUuid setScoreHint(const QUuid &point,
                        const int &hint) override;
     QUuid editScore(const QUuid &pointId,
                     const int &value,
                     const int &score,
                     const int &hint) override;
-    int scoreRoundIndex(const QUuid &playerScore) override;
-    int scoreSetIndex(const QUuid &playerScore) override;
-    int scoreAttemptIndex(const QUuid &playerScore) override;
-    int scorePointValue(const QUuid &playerScore) override;
-    int scoreValue(const QUuid &point) override;
-    QUuid scoreTournament(const QUuid &playerScore) override;
+    int ftpScoreRoundIndex(const QUuid &playerScore) override;
+    int ftpScoreSetIndex(const QUuid &playerScore) override;
+    int ftpScoreAttemptIndex(const QUuid &playerScore) override;
+    int ftpScorePointValue(const QUuid &playerScore) override;
+    int ftpScoreValue(const QUuid &point) override;
+    QUuid ftpScoreTournament(const QUuid &playerScore) override;
     QUuid scorePlayer(const QUuid &playerScore) override;
     int scoreHint(const QUuid &scoreID) override;
     int scoreKeyCode(const QUuid &scoreID) override;

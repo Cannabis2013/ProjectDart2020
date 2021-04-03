@@ -4,7 +4,6 @@
 #include "IControllerBuilder.h"
 #include <quuid.h>
 #include "abstractgamecontroller.h"
-#include "abstractmodelscontext.h"
 #include "AbstractApplicationInterface.h"
 
 typedef IControllerBuilder<AbstractGameController,

@@ -305,7 +305,9 @@ void LocalFtpController::handleRequestFromUI()
     else if(status() == ControllerState::WinnerDeclared)
     {
         auto winnerName = scoreController()->winnerUserName();
-        emit transmitResponse(ControllerState::WinnerDeclared,{winnerName});
+        QJsonObject jsonObject = {{"winner",winnerName}};
+        auto json = QJsonDocument(jsonObject).toJson(QJsonDocument::Compact);
+        emit winnerDeclared(json);
     }
     else if(status() == ControllerState::resetState)
     {

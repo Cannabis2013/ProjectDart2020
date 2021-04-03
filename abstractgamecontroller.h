@@ -63,6 +63,7 @@ signals:
     void isStopped();
     void isInitialized();
     void isReset();
+    void winnerDeclared(const QString& jsons);
 };
 
 #endif // ABSTRACTGAMECONTROLLER_H

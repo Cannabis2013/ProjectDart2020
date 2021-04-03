@@ -161,6 +161,8 @@ private:
                 applicationInterface,&AbstractApplicationInterface::controllerIsInitialized);
         connect(controller,&AbstractFtpController::isReadyAndAwaitsInput,
                 applicationInterface,&AbstractApplicationInterface::controllerAwaitsInput);
+        connect(controller,&AbstractFtpController::winnerDeclared,
+                applicationInterface,&AbstractApplicationInterface::controllerHasDeclaredAWinner);
         /*
          * Start/stop game
          */
@@ -208,13 +210,6 @@ private:
                 modelsContext,&AbstractModelsContext::setFtpScoreHint);
         connect(modelsContext,&AbstractModelsContext::scoreHintUpdated,
                 controller,&AbstractGameController::handleScoreHintUpdated);
-        /*
-         * Controller request tournament persistence
-         */
-        connect(applicationInterface,&AbstractApplicationInterface::requestPersistTournament,
-                controller,&AbstractGameController::handleRequestPersistCurrentState);
-        connect(controller,&AbstractGameController::requestPersistModelState,
-                modelsContext,&AbstractModelsContext::handleRequestPersistTournamentState);
     }
 };
 

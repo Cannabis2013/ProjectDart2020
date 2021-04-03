@@ -4,7 +4,7 @@
 class PersistenceInterface
 {
 public:
-    virtual void loadIntoMemmory() = 0;
+    virtual void fetchModels() = 0;
     virtual void saveState() = 0;
 };
 

@@ -1,11 +1,11 @@
 #include "jsondbcontext.h"
 
-void JsonDbContext::loadIntoMemmory()
+void JsonDbContext::fetchModels()
 {
     QJsonObject JSONObject;
     // Extact content from file
     try {
-        JSONObject = readJSONFromFile("Models");
+        JSONObject = readJSONFromFile(_fileName);
     } catch (...) {
         return;
     }
