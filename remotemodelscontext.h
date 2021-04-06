@@ -32,9 +32,7 @@ namespace RemoteContext
 
         }
         RemoteJsonObject()
-        {
-
-        }
+        {}
 
         QByteArray toJson()
         {
@@ -81,7 +79,7 @@ public:
     virtual void assembleFtpKeyValues(const QUuid &tournament) override;
     virtual void createPlayer(const QString &name, const QString &mail) override;
     virtual void deletePlayerFromIndex(const int &index) override;
-    virtual void deletePlayersFromIndexes(const QVector<int> &playerIndexes) override;
+    virtual void deletePlayersFromIndexes(const QVector<int> &indexes) override;
     virtual void handleRequestPlayersDetails() override;
     virtual void assembleFtpIndexesAndScores(const QUuid &tournament) override;
 private slots:
@@ -97,6 +95,7 @@ private slots:
     void handleAddFtpScoreReply();
     void handleSetScoreHintReply();
     void tournamentResetReply();
+    void deletePlayersReply();
 private:
     NetworkManager* _netMng = new NetworkManager(API_HOST_URL);
 };

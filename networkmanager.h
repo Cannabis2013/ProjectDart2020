@@ -15,10 +15,6 @@
 #include "replytimeout.h"
 #include "iurlparser.h"
 
-
-
-
-
 using namespace std;
 
 class NetworkManager : public QObject

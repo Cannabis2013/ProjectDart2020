@@ -154,7 +154,7 @@ void RemoteModelsContext::assembleFtpKeyValues(const QUuid &tournament)
 
 void RemoteModelsContext::createPlayer(const QString &name, const QString &mail)
 {
-    QJsonObject obj({{"PlayerName",name},{"PlayerMail",mail}});
+    RemoteContext::RemoteJsonObject obj({{"PlayerName",name},{"PlayerMail",mail}});
     auto data = QJsonDocument(obj).toJson();
     _netMng->sendPostRequest("CreatePlayer",
                              data,QString(),{},this,
@@ -165,8 +165,19 @@ void RemoteModelsContext::deletePlayerFromIndex(const int &index)
 {
 }
 
-void RemoteModelsContext::deletePlayersFromIndexes(const QVector<int> &playerIndexes)
+void RemoteModelsContext::deletePlayersFromIndexes(const QVector<int> &indexes)
 {
+    RemoteContext::RemoteJsonObject jsonObject;
+    QJsonArray arr;
+    for (auto i = indexes.constBegin(); i != indexes.constEnd(); ++i) {
+        auto value = *i;
+        arr << value;
+    }
+    jsonObject["Indexes"] = arr;
+    auto data = jsonObject.toJson();
+    _netMng->sendPostRequest("DeletePlayers",
+                             data,QString(),{},this,
+                             SLOT(deletePlayersReply()));
 }
 
 void RemoteModelsContext::handleRequestPlayersDetails()
@@ -476,4 +487,18 @@ void RemoteModelsContext::tournamentResetReply()
         emit tournamentResetFailed();
     else
         emit tournamentResetSuccess();
+}
+
+void RemoteModelsContext::deletePlayersReply()
+{
+    if(!_netMng->reply()->isOpen())
+        emit playersDeletedStatus(false);
+    auto byteData = _netMng->reply()->readAll();
+    auto jsonDocument = QJsonDocument::fromJson(byteData);
+    auto jsonObject = jsonDocument.object();
+    auto responseCode = jsonObject.value("response");
+    if(responseCode == 0x1)
+        emit playersDeletedStatus(false);
+    else
+        emit playersDeletedStatus(true);
 }

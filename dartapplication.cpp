@@ -73,7 +73,8 @@ void DartApplication::handleDeletePlayer(const int &index)
 void DartApplication::handleDeletePlayersRequest(const QVariantList &args)
 {
     QVector<int> indexes;
-    for (auto variant : args) {
+    for (auto i = args.constBegin();i != args.constEnd();++i) {
+        auto variant = *i;
         auto index = variant.toInt();
         indexes << index;
     }
@@ -136,9 +137,8 @@ void DartApplication::handleControllerStateRequest()
 void DartApplication::handleDeleteTournamentsRequest(const QVariantList &indexes)
 {
     QVector<int> tournamentIndexes;
-    for (auto variant : indexes)
-        tournamentIndexes << variant.toInt();
-
+    for (auto variant = indexes.constBegin();variant != indexes.constEnd();++variant)
+        tournamentIndexes << (*variant).toInt();
     emit requestDeleteTournaments(tournamentIndexes);
 }
 
@@ -151,11 +151,8 @@ void DartApplication::assembleAndConfigureControllerBuilder(const QUuid& tournam
                                                             const QUuid& winnerId,
                                                             const QVector<int> &values)
 {
-    emit assembleFTPController(tournamentId,
-                               winnerId,
-                               values,
-                               this,
-                               _modelsContext);
+    emit assembleFTPController(tournamentId,winnerId,
+                               values,this,_modelsContext);
 }
 
 void DartApplication::setGameController(AbstractGameController *controller)
