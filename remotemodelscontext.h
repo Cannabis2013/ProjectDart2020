@@ -61,7 +61,7 @@ public:
     virtual void assignPlayersToTournament(const QUuid &tournament, const QList<QUuid> &playersID) override;
     virtual void deleteTournaments(const QVector<int> &indexes) override;
     virtual void handleRequestAssignedPlayers(const QUuid &tournament) override;
-    virtual void handleRequestFtpScores(const QUuid &tournament) override;
+    virtual void handleRequestFtpScores(const QUuid &tournamentId) override;
     virtual void handleRequestTournaments() override;
     virtual void handleRequestGameMode(const int &index) override;
     virtual void assembleFTPMetaDataFromId(const QUuid &tournamentId) override;
@@ -96,7 +96,13 @@ private slots:
     void handleSetScoreHintReply();
     void tournamentResetReply();
     void deletePlayersReply();
+    void recieveFtpScores();
 private:
+
+    enum ResponseCode {
+        Error = 0x1,
+        Success = 0x2
+    };
     NetworkManager* _netMng = new NetworkManager(API_HOST_URL);
 };
 

@@ -60,9 +60,12 @@ void RemoteModelsContext::handleRequestAssignedPlayers(const QUuid &tournament)
 {
 }
 
-void RemoteModelsContext::handleRequestFtpScores(const QUuid &tournament)
+void RemoteModelsContext::handleRequestFtpScores(const QUuid &tournamentId)
 {
-
+    auto formattedTournamentId  = tournamentId.toString(QUuid::WithoutBraces);
+    _netMng->sendGetRequest("GetOrderedFtpPlayerScores",
+                            QString(),{{"tournamentId",formattedTournamentId}},
+                            this,SLOT(recieveFtpScores()));
 }
 
 void RemoteModelsContext::handleRequestTournaments()
@@ -205,7 +208,7 @@ void RemoteModelsContext::handleRecievedTournamentsReply()
     auto jsonDocument = QJsonDocument::fromJson(byteData);
     auto jsonObject = jsonDocument.object();
     auto responseCode = jsonObject.value("response");
-    if(responseCode == 0x1)
+    if(responseCode == ResponseCode::Error)
         return;
     auto tournaments = jsonObject.value("payLoad").toArray();
     QVariantList list;
@@ -229,7 +232,7 @@ void RemoteModelsContext::handleAddFTPTournamentReply()
     auto jsonDocument = QJsonDocument::fromJson(byteData);
     auto jsonObject = jsonDocument.object();
     auto responseCode = jsonObject.value("response");
-    if(responseCode == 0x1)
+    if(responseCode == ResponseCode::Error)
         emit tournamentAssembledAndStored(false);
     else
         emit tournamentAssembledAndStored(true);
@@ -243,7 +246,7 @@ void RemoteModelsContext::handleDeleteTournamentsReply()
     auto jsonDocument = QJsonDocument::fromJson(byteData);
     auto jsonObject = jsonDocument.object();
     auto responseCode = jsonObject.value("response");
-    if(responseCode == 0x1)
+    if(responseCode == ResponseCode::Error)
         emit tournamentsDeletedStatus(false);
     else
         emit tournamentsDeletedStatus(true);
@@ -258,7 +261,7 @@ void RemoteModelsContext::handleRequestPlayersReply()
     auto jsonDocument = QJsonDocument::fromJson(byteData);
     auto jsonObject = jsonDocument.object();
     auto responseCode = jsonObject.value("response");
-    if(responseCode == 0x1)
+    if(responseCode == ResponseCode::Error)
         return;
     QVariantList list;
     auto players = jsonObject.value("payLoad").toArray();
@@ -279,7 +282,7 @@ void RemoteModelsContext::handleCreatePlayerResponse()
     auto jsonDocument = QJsonDocument::fromJson(byteData);
     auto jsonObject = jsonDocument.object();
     auto responseCode = jsonObject.value("response").toInt();
-    if(responseCode == 0x1)
+    if(responseCode == ResponseCode::Error)
         emit createPlayerResponse(false);
     else
         emit createPlayerResponse(true);
@@ -396,7 +399,7 @@ void RemoteModelsContext::handleFtpTournamentMetaReply()
     auto jsonDocument = QJsonDocument::fromJson(byteData);
     auto jsonObject = jsonDocument.object();
     auto responseCode = jsonObject.value("response").toInt();
-    if(responseCode == 0x1)
+    if(responseCode == ResponseCode::Error)
         throw "Tournament doesn't exists";
     auto payLoad = jsonObject.value("payLoad").toObject();
     auto title = payLoad.value("title").toString();
@@ -434,7 +437,7 @@ void RemoteModelsContext::handleAddFtpScoreReply()
     auto jsonDocument = QJsonDocument::fromJson(byteData);
     auto jsonObject = jsonDocument.object();
     auto responseCode = jsonObject.value("response").toInt();
-    if(responseCode == 0x1)
+    if(responseCode == ResponseCode::Error)
         emit scoreNotAddedToDataContext("Something went wrong!");
     auto payLoad = jsonObject.value("payLoad").toObject();
     auto playerId = payLoad.value("playerId").toString();
@@ -457,7 +460,7 @@ void RemoteModelsContext::handleSetScoreHintReply()
     auto jsonObject = jsonDocument.object();
     auto responseCode = jsonObject.value("response").toInt();
     auto payLoad = jsonObject.value("payLoad").toObject();
-    if(responseCode == 0x1)
+    if(responseCode == ResponseCode::Error)
     {
         auto playerId = payLoad.value("playerId").toString();
         auto message = payLoad.value("message").toString();
@@ -483,7 +486,7 @@ void RemoteModelsContext::tournamentResetReply()
     auto jsonDocument = QJsonDocument::fromJson(byteData);
     auto jsonObject = jsonDocument.object();
     auto responseCode = jsonObject.value("response").toInt();
-    if(responseCode == 0x1)
+    if(responseCode == ResponseCode::Error)
         emit tournamentResetFailed();
     else
         emit tournamentResetSuccess();
@@ -496,9 +499,29 @@ void RemoteModelsContext::deletePlayersReply()
     auto byteData = _netMng->reply()->readAll();
     auto jsonDocument = QJsonDocument::fromJson(byteData);
     auto jsonObject = jsonDocument.object();
-    auto responseCode = jsonObject.value("response");
-    if(responseCode == 0x1)
+    auto responseCode = jsonObject.value("response").toInt();
+    if(responseCode == ResponseCode::Error)
         emit playersDeletedStatus(false);
     else
         emit playersDeletedStatus(true);
+}
+
+void RemoteModelsContext::recieveFtpScores()
+{
+    if(!_netMng->reply()->isOpen())
+    {
+        // TODO: Implement generic failure handling
+        throw "Not implemented";
+    }
+    auto byteData = _netMng->reply()->readAll();
+    auto jsonDocument = QJsonDocument::fromJson(byteData);
+    auto jsonObject = jsonDocument.object();
+    auto responseCode = jsonObject.value("response").toInt();
+    if(responseCode == ResponseCode::Error)
+        throw "Not implemented";
+    auto payLoad = jsonObject.value("payLoad").toArray();
+    for (auto i = payLoad.constBegin(); i != payLoad.constEnd(); ++i) {
+        auto arr = (*i).toArray();
+
+    }
 }
