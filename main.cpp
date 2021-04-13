@@ -1,3 +1,5 @@
+#include "testconfiguration.h"
+#ifndef TEST_MODE
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QtQuick/QQuickView>
@@ -14,8 +16,6 @@
 #include "tournamentbuilder.h"
 #include "playermodelbuilder.h"
 #include "sftpdatamodel.h"
-
-
 
 DartApplication* createDartApplication()
 {
@@ -46,7 +46,6 @@ int main(int argc, char *argv[])
      * Instantiate DartApplication
      */
     auto _dart = createDartApplication();
-#ifndef TEST_MODE
     /*
      * Register custom types/singletons
      */
@@ -72,12 +71,6 @@ int main(int argc, char *argv[])
     /*
      * Start main event loop
      */
-#endif
-#ifdef TEST_MODE
-    // Insert test methods here
-
-    _dart->modelsContextInterface()->handleRequestTournaments();
-
-#endif
     return app.exec();
 }
+#endif

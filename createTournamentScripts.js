@@ -55,7 +55,7 @@ function assembleAndSendFTPTournament()
     var arguments = [];
     // Convert values
     var gameMode = gameModeSelector.currentValue;
-    var numberOfThrows = selectorComponent().numberOfThrows;
+    var attempts = selectorComponent().numberOfThrows;
     var keyPoint = selectorComponent().keyPoint;
     var winConditionKeyIdentifier = selectorComponent().conditionKeyCode;
     var displayHintSelectorValue = selectorComponent().displayHint;
@@ -66,7 +66,7 @@ function assembleAndSendFTPTournament()
     arguments[2] = winConditionKeyIdentifier;
     arguments[3] = displayHintSelectorValue;
     arguments[4] = inputModeSelectorValue;
-    arguments[5] = numberOfThrows;
+    arguments[5] = attempts;
     // Send values
     createBody.sendFTPDetails(title,
                               arguments,

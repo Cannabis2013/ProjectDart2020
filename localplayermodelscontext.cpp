@@ -86,17 +86,16 @@ LocalPlayerModelsContext* LocalPlayerModelsContext::setModelDBContext(ImodelsDBC
 
 bool LocalPlayerModelsContext::deletePlayer(const int &index)
 {
-    bool status = true;
     QUuid playerID;
     try {
         playerID = playerIdFromIndex(index);
     }  catch (...) {
-        status = false;
+        return false;
     }
     // Delete model from state
     deletePlayerByID(playerID);
     // Persist state change
-    return status;
+    return true;
 }
 
 bool LocalPlayerModelsContext::deletePlayers(const QVector<int> &indexes)
@@ -104,7 +103,12 @@ bool LocalPlayerModelsContext::deletePlayers(const QVector<int> &indexes)
     bool status = true;
     QList<QUuid> playerIds;
     for (auto index : indexes) {
-        auto playerId = playerIdFromIndex(index);
+        QUuid playerId;
+        try {
+            playerId = playerIdFromIndex(index);
+        }  catch (...) {
+            return false;
+        }
         playerIds << playerId;
     }
     for (auto playerID : playerIds) {

@@ -333,6 +333,9 @@ void JsonDbContext::replacePlayerModel(const int &index, const DbModels::PlayerI
 
 const DbModels::PlayerInterface *JsonDbContext::playerModel(const int &index)
 {
+    auto count = _playerModels.count();
+    if(index >= count)
+        throw "Index out of range";
     auto model = _playerModels.at(index);
     return model;
 }

@@ -1,4 +1,4 @@
-QT += quick
+QT += quick testlib
 
 CONFIG += c++17
 
@@ -14,29 +14,30 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        abstractjsonpersistence.cpp \
-        dartapplication.cpp \
-        ftpdatamodel.cpp \
-        ftpscorecontroller.cpp \
-        iurlparser.cpp \
-    jsondbcontext.cpp \
-        localftpcontroller.cpp \
-    localmodelscontext.cpp \
-        localplayermodelscontext.cpp \
-        localtournamentmodelscontext.cpp \
-        main.cpp \
-        networkmanager.cpp \
-        pointlogisticcontroller.cpp \
-    remotemodelscontext.cpp \
-        scoreindexcontroller.cpp \
-        scorelogisticcontroller.cpp \
-        sftpdatamodel.cpp \
-        urlparser.cpp \
+            abstractjsonpersistence.cpp \
+            dartapplication.cpp \
+            ftpdatamodel.cpp \
+            ftpscorecontroller.cpp \
+            iurlparser.cpp \
+            jsondbcontext.cpp \
+            localftpcontroller.cpp \
+            localmodelscontext.cpp \
+            localplayermodelscontext.cpp \
+            localtournamentmodelscontext.cpp \
+            main.cpp \
+            networkmanager.cpp \
+            pointlogisticcontroller.cpp \
+            remotemodelscontext.cpp \
+            scoreindexcontroller.cpp \
+            scorelogisticcontroller.cpp \
+            sftpdatamodel.cpp \
+            tst_Dart2020.cpp \
+            urlparser.cpp \
 
 RESOURCES += qml.qrc
 
 TRANSLATIONS += \
-    Dart2020_da_DK.ts
+                Dart2020_da_DK.ts
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -50,71 +51,73 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    AbstractApplicationInterface.h \
-    AbstractFtpController.h \
-    IControllerBuilder.h \
-    IScoreBuilder.h \
-    LinkedList.h \
-    PointIndexController.h \
-    ScoreValidator.h \
-    abstractcontrollerbuilder.h \
-    abstractgamecontroller.h \
-    abstractjsonpersistence.h \
-    abstractmodelscontext.h \
-    abstractpersistence.h \
-    dartapplication.h \
-    ftpdatamodel.h \
-    ftplogisticcontrollerinterface.h \
-    ftpscore.h \
-    ftpscorecontroller.h \
-    ftptournament.h \
-    gamecontrollerbuilder.h \
-    idatacontext.h \
-    iftptournament.h \
-    imodel.h \
-    imodelsdbcontext.h \
-    indexcontrollerinterface.h \
-    inputvalidatorinterface.h \
-    iplayerbuildercontext.h \
-    iplayercontext.h \
-    iplayermodel.h \
-    iplayermodelbuilder.h \
-    iresponseinterface.h \
-    iscorecontroller.h \
-    iscoremodel.h \
-    iscoreparameter.h \
-    itournament.h \
-    itournamentbuilder.h \
-    itournamentparameter.h \
-    iurlparser.h \
-    jsondbcontext.h \
-    localftpcontroller.h \
-    localmodelscontext.h \
-    localplayermodelscontext.h \
-    localtournamentmodelscontext.h \
-    networkmanager.h \
-    persistenceinterface.h \
-    player.h \
-    playermodelbuilder.h \
-    playermodelbuildercontext.h \
-    playermodelscontextinterface.h \
-    pointScoreCalculator.h \
-    pointlogisticcontroller.h \
-    pointvalidator.h \
-    remotemodelscontext.h \
-    replytimeout.h \
-    scoreCalculatorInterface.h \
-    scorebuilder.h \
-    scorebuildercontext.h \
-    scorecalculator.h \
-    scoreindexcontroller.h \
-    scorelogisticcontroller.h \
-    sftpdatamodel.h \
-    tournamentbuilder.h \
-    tournamentbuildercontext.h \
-    tournamentcontextcollection.h \
-    tournamentmodelscontextinterface.h \
-    urlparser.h
+            AbstractApplicationInterface.h \
+            AbstractFtpController.h \
+            IControllerBuilder.h \
+            IScoreBuilder.h \
+            LinkedList.h \
+            PointIndexController.h \
+            ScoreValidator.h \
+            abstractcontrollerbuilder.h \
+            abstractgamecontroller.h \
+            abstractjsonpersistence.h \
+            abstractmodelscontext.h \
+            abstractpersistence.h \
+            dartapplication.h \
+            ftpdatamodel.h \
+            ftplogisticcontrollerinterface.h \
+            ftpscore.h \
+            ftpscorecontroller.h \
+            ftptournament.h \
+            gamecontrollerbuilder.h \
+            idatacontext.h \
+            iftptournament.h \
+            imodel.h \
+            imodelsdbcontext.h \
+            indexcontrollerinterface.h \
+            inputvalidatorinterface.h \
+            iplayerbuildercontext.h \
+            iplayercontext.h \
+            iplayermodel.h \
+            iplayermodelbuilder.h \
+            iresponseinterface.h \
+            iscorecontroller.h \
+            iscoremodel.h \
+            iscoreparameter.h \
+            itournament.h \
+            itournamentbuilder.h \
+            itournamentparameter.h \
+            iurlparser.h \
+            jsondbcontext.h \
+            localftpcontroller.h \
+            localmodelscontext.h \
+            localplayermodelscontext.h \
+            localtournamentmodelscontext.h \
+            networkmanager.h \
+            persistenceinterface.h \
+            player.h \
+            playermodelbuilder.h \
+            playermodelbuildercontext.h \
+            playermodelscontextinterface.h \
+            pointScoreCalculator.h \
+            pointlogisticcontroller.h \
+            pointvalidator.h \
+            remotemodelscontext.h \
+            replytimeout.h \
+            scoreCalculatorInterface.h \
+            scorebuilder.h \
+            scorebuildercontext.h \
+            scorecalculator.h \
+            scoreindexcontroller.h \
+            scorelogisticcontroller.h \
+            sftpdatamodel.h \
+            testconfiguration.h \
+            tournamentbuilder.h \
+            tournamentbuildercontext.h \
+            tournamentcontextcollection.h \
+            tournamentmodelscontextinterface.h \
+            urlparser.h \
+            testeventloop.h
 
 DISTFILES += \
 
