@@ -7,7 +7,7 @@
 #include <qqmlcontext.h>
 #include "dartapplication.h"
 #include "playermodelbuilder.h"
-#include "gamecontrollerbuilder.h"
+#include "controllerbuilder.h"
 #include "localtournamentmodelscontext.h"
 #include "localplayermodelscontext.h"
 #include "remotemodelscontext.h"
@@ -21,8 +21,8 @@ DartApplication* createDartApplication()
 {
     auto _dart =
             DartApplication::createInstance()->
-            setModelsContextInterface(RemoteModelsContext::createInstance())->
-            setControllerBuilder(new GameControllerBuilder())->
+            setModelsContextInterface(LocalModelsContext::createInstance())->
+            setControllerBuilder(new ControllerBuilder())->
             /*useThreads()->*/
             setup();
     return _dart;

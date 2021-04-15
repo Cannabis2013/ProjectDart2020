@@ -4,7 +4,10 @@
 #include <quuid.h>
 #include <qpair.h>
 
-template<typename TUuid, typename TString, typename  TScoreList, typename TUserNameList>
+template<typename TUuid,
+         typename TString,
+         typename  TScoreList,
+         typename TUserNameList>
 class IScoreController
 {
 public:
@@ -29,7 +32,7 @@ public:
 
     virtual int playersCount() const = 0;
     virtual int initialScore() const = 0;
-    virtual int calculateAggregateduserScoreCandidate(const int& index, const int& score) const = 0;
+    virtual int calculateAccumulatedScoreCandidate(const int& index, const int& score) const = 0;
     virtual void resetScores() = 0;
 };
 

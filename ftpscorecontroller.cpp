@@ -137,7 +137,7 @@ int FTPScoreController::initialScore() const
     return _initialScore;
 }
 
-int FTPScoreController::calculateAggregateduserScoreCandidate(const int &index, const int &score) const
+int FTPScoreController::calculateAccumulatedScoreCandidate(const int &index, const int &score) const
 {
     auto tuple = tupleAtIndex(index);
     auto s = tuple.third;
@@ -194,6 +194,30 @@ FTPScoreController::PlayerTuple FTPScoreController::tupleAtId(const QUuid &id) c
             return tuple;
     }
     return PlayerTuple();
+}
+
+FTPScoreController::PlayerTuple FTPScoreController::tupleAtId(const FTPScoreController::PlayerTuples *_tuples, const QUuid &id)
+{
+    for (const auto &tuple : *_tuples)
+    {
+        auto playerId = tuple.first;
+        if(playerId == id)
+            return tuple;
+    }
+    return PlayerTuple();
+}
+
+FTPScoreController::PlayerTuples FTPScoreController::createInitializedTuples()
+{
+    PlayerTuples initializedTuples;
+    for (const auto &tuple : _playerTuples)
+    {
+        PlayerTuple t;
+        t.first = tuple.first;
+        t.second = tuple.second;
+        t.third = initialScore();
+    }
+    return initializedTuples;
 }
 
 int FTPScoreController::indexOf(const PlayerTuple &tuple)

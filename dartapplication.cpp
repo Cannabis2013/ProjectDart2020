@@ -50,35 +50,24 @@ void DartApplication::handleRequestForMultiThrowScoreData()
     emit requestFtpMultiAttemptScores();
 }
 
-void DartApplication::handleFTPDetails(const QString &title,
-                                       const QVector<int> &data,
-                                       const QVector<int> &playerIndexes)
+void DartApplication::handleFTPDetails(const QByteArray& json)
 {
-    emit sendFTPDetails(title,
-                        data,
-                        playerIndexes);
+    emit sendFTPDetails(json);
 }
 
-void DartApplication::handleCreatePlayer(const QString &playerName,
-                                              const QString &email)
+void DartApplication::handleCreatePlayer(const QByteArray &json)
 {
-    emit requestCreatePlayer(playerName,email);
+    emit requestCreatePlayer(json);
 }
 
-void DartApplication::handleDeletePlayer(const int &index)
+void DartApplication::handleDeletePlayer(const QByteArray& json)
 {
-    emit requestDeletePlayer(index);
+    emit requestDeletePlayer(json);
 }
 
-void DartApplication::handleDeletePlayersRequest(const QVariantList &args)
+void DartApplication::handleDeletePlayersRequest(const QByteArray& json)
 {
-    QVector<int> indexes;
-    for (auto i = args.constBegin();i != args.constEnd();++i) {
-        auto variant = *i;
-        auto index = variant.toInt();
-        indexes << index;
-    }
-    emit requestDeletePlayers(indexes);
+    emit requestDeletePlayers(json);
 }
 
 void DartApplication::requestPlayerDetails()
@@ -114,9 +103,9 @@ void DartApplication::handleRequestStop()
     emit requestStopGame();
 }
 
-void DartApplication::handleUserInput(const int &point, const int &pressedModfier)
+void DartApplication::handleUserInput(const QByteArray& json)
 {
-    emit sendPoint(point,pressedModfier);
+    emit sendPoint(json);
 }
 
 void DartApplication::handleUndoRequest()
@@ -134,12 +123,9 @@ void DartApplication::handleControllerStateRequest()
     emit requestControllerState();
 }
 
-void DartApplication::handleDeleteTournamentsRequest(const QVariantList &indexes)
+void DartApplication::handleDeleteTournamentsRequest(const QByteArray& json)
 {
-    QVector<int> tournamentIndexes;
-    for (auto variant = indexes.constBegin();variant != indexes.constEnd();++variant)
-        tournamentIndexes << (*variant).toInt();
-    emit requestDeleteTournaments(tournamentIndexes);
+    emit requestDeleteTournaments(json);
 }
 
 void DartApplication::handleTournamentMetaRequest()
@@ -147,18 +133,14 @@ void DartApplication::handleTournamentMetaRequest()
     emit requestCurrentTournamentId();
 }
 
-void DartApplication::assembleAndConfigureControllerBuilder(const QUuid& tournamentId,
-                                                            const QUuid& winnerId,
-                                                            const QVector<int> &values)
+void DartApplication::assembleAndConfigureControllerBuilder(const QByteArray& json)
 {
-    emit assembleFTPController(tournamentId,winnerId,
-                               values,this,_modelsContext);
+    emit assembleFTPController(json,this,_modelsContext);
 }
 
 void DartApplication::setGameController(AbstractGameController *controller)
 {
-    if(_gameController != nullptr)
-        _gameController->disconnect();
+    delete _gameController;
     _gameController = controller;
     emit requestWakeUp();
 }
@@ -175,11 +157,6 @@ void DartApplication::registerTypes()
 
 void DartApplication::connectModelInterfaces()
 {
-    /*
-     * Setup upstream communication between UI and modelcontexts
-     */
-    connect(_modelsContext,&AbstractModelsContext::transmitResponse,
-            this,&DartApplication::transmitResponse);
     /*
      * Get all tournaments
      */
@@ -231,11 +208,6 @@ void DartApplication::connectModelInterfaces()
      */
     connect(_modelsContext,&AbstractModelsContext::sendTournamentMeta,
             this,&DartApplication::sendFTPTournamentMetaData);
-    /*
-     * Send scorepoints
-     */
-    connect(_modelsContext,&AbstractModelsContext::sendPlayerScore,
-            this,&DartApplication::sendPlayerScore);
 }
 
 void DartApplication::clearGameController()
@@ -289,7 +261,7 @@ AbstractControllerBuilder *DartApplication::controllerBuilder()
     return _controllerBuilder;
 }
 
-DartApplication *DartApplication::setControllerBuilder(ControllerBuilder *builder)
+DartApplication *DartApplication::setControllerBuilder(ControllerBuilderInterface *builder)
 {
     _controllerBuilder = dynamic_cast<AbstractControllerBuilder*>(builder);
     /*

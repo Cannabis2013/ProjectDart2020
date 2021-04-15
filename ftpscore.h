@@ -5,7 +5,7 @@
 
 #include "iscoremodel.h"
 
-class FTPScore : public IScore<QUuid>
+class FTPScore : public IFtpScore<QUuid>
 {
 public:
     QUuid id() const override
@@ -24,6 +24,16 @@ public:
     FTPScore* setPointValue(const int &point) override
     {
         _pointValue = point;
+        return this;
+    }
+
+    virtual int accumulatedScore() const override
+    {
+        return _accumulatedScore;
+    }
+    virtual FTPScore *setAccumulatedScore(const int& score) override
+    {
+        _accumulatedScore = score;
         return this;
     }
     QUuid parent() const override
@@ -72,11 +82,11 @@ public:
         return this;
     }
 
-    int keyCode() const override
+    int modKeyCode() const override
     {
         return _keyCode;
     }
-    FTPScore* setKeyCode(const int &key) override
+    FTPScore* setModKeyCode(const int &key) override
     {
         _keyCode = key;
         return this;
@@ -110,7 +120,7 @@ public:
     {
         return _tournament;
     }
-    IScore* setTournament(const QUuid &tournament)
+    FTPScore* setTournament(const QUuid &tournament)
     {
         _tournament = tournament;
         return this;
@@ -119,6 +129,7 @@ public:
 private:
     int _pointValue;
     int _scoreValue;
+    int _accumulatedScore;
     int _roundIndex;
     int _setIndex;
     int _attemptIndex;

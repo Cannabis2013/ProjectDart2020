@@ -8,7 +8,7 @@
 #include "scorebuildercontext.h"
 #include "ftpscore.h"
 
-class ScoreBuilder : public IScoreBuilder<IScore<QUuid>,IScoreParameter,SBC::ModelOptions>
+class ScoreBuilder : public IScoreBuilder<IModel<QUuid>,IScoreParameter,SBC::ModelOptions>
 {
 public:
     enum GameModes {
@@ -18,19 +18,20 @@ public:
         Cricket = 0x4
     };
     // IScoreBuilder interface
-    virtual IScore<QUuid> *buildFTPScoreModel(const IScoreParameter &p,
+    virtual IFtpScore<QUuid> *buildFTPScoreModel(const IScoreParameter &p,
                                            const SBC::ModelOptions &options) override
     {
-        auto params = dynamic_cast<const SBC::FTPScoreParameters&>(p);
+        auto params = dynamic_cast<const SBC::FtpScoreParameters&>(p);
         auto t = FTPScore::createInstance()
                 ->setRoundIndex(params.roundIndex)
                 ->setSetIndex(params.setIndex)
                 ->setAttempt(params.attempt)
                 ->setPointValue(params.pointValue)
                 ->setScoreValue(params.scoreValue)
+                ->setAccumulatedScore(params.accumulatedScoreValue)
                 ->setPlayer(params.playerId)
                 ->setParent(params.tournament)
-                ->setKeyCode(params.keyCode)
+                ->setModKeyCode(params.keyCode)
                 ->setDisplayHint(params.hint);
         if(options.generateUniqueId)
             t->setId(QUuid::createUuid());

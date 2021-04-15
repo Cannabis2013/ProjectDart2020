@@ -42,28 +42,6 @@ Content{
         if(gameMode === TournamentContext.firstToPost)
             return "First to post"
     }
-    onReplyFromBackendRecieved: {
-        /*
-          Backend has responded with a status code that signals it is initialized and ready to start
-          */
-        if(response === 0x45)
-        {
-            startGameClicked();
-        }
-        /*
-          Backend responds with a status code that signals is has detected
-            an inconsistency.
-          */
-        else if(response === 0x39)
-        {
-            /*
-              TODO:
-                - Notify the player about the issue
-                - Maybe provide some options to the player to correct the issue
-              */
-            print("Inconsistencies detected");
-        }
-    }
     onRequestUpdate: {
         requestTournaments();
     }

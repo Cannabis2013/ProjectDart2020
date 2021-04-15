@@ -50,25 +50,18 @@ function assembleAndSendFTPTournament()
     if(indexes.length <= 0)
         return;
     buttonsComponent.buttonTwoEnabled = false;
-    var title = titleEdit.currentValue;
-    // Declare array
-    var arguments = [];
-    // Convert values
-    var gameMode = gameModeSelector.currentValue;
-    var attempts = selectorComponent().numberOfThrows;
-    var keyPoint = selectorComponent().keyPoint;
-    var winConditionKeyIdentifier = selectorComponent().conditionKeyCode;
-    var displayHintSelectorValue = selectorComponent().displayHint;
-    var inputModeSelectorValue = selectorComponent().inputMode;
-    // Add values to array
-    arguments[0] = gameModeToHex(gameMode);
-    arguments[1] = keyPoint;
-    arguments[2] = winConditionKeyIdentifier;
-    arguments[3] = displayHintSelectorValue;
-    arguments[4] = inputModeSelectorValue;
-    arguments[5] = attempts;
+    var gameMode = gameModeToHex(gameModeSelector.currentValue);
+    var obj = {
+        Title : titleEdit.currentValue,
+        GameMode : gameMode,
+        Attempts : selectorComponent().attempts,
+        KeyPoint : selectorComponent().keyPoint,
+        TerminalKeyCode : selectorComponent().conditionKeyCode,
+        DisplayHint : selectorComponent().displayHint,
+        InputHint : selectorComponent().inputMode,
+        PlayerIndexes : indexes
+    };
+    var json = JSON.stringify(obj);
     // Send values
-    createBody.sendFTPDetails(title,
-                              arguments,
-                              indexes);
+    createBody.sendFTPDetails(json);
 }

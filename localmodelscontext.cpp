@@ -46,13 +46,33 @@ LocalModelsContext* LocalModelsContext::setPlayerModelsContext(PlayerModelsConte
     return this;
 }
 
-void LocalModelsContext::addFTPTournament(const QString &title,
-                                                          const QVector<int> &data,
-                                                          const QVector<int> &assignedPlayerIndexes)
+void LocalModelsContext::addFTPTournament(const QByteArray& json)
 {
+    auto jsonObject = QJsonDocument::fromJson(json).object();
+    // Extract player-indexes
+    QVector<int> assignedPlayerIndexes;
+    auto arr = jsonObject["PlayerIndexes"].toArray();
+    for (auto jsonVal : arr) {
+        auto index = jsonVal.toInt();
+        assignedPlayerIndexes << index;
+    }
+    // Extract ftp tournament values
+    auto title = jsonObject.value("Title").toString();
+    auto gameMode = jsonObject.value("GameMode").toInt();
+    auto keyPoint = jsonObject.value("KeyPoint").toInt();
+    auto terminalKeyCode = jsonObject.value("TerminalKeyCode").toInt();
+    auto displayHint = jsonObject.value("DisplayHint").toInt();
+    auto inputHint = jsonObject.value("InputHint").toInt();
+    auto attempts = jsonObject.value("Attempts").toInt();
+    // Get playerids
     auto playerIds = playerModelsContext()->assemblePlayerIds(assignedPlayerIndexes);
     tournamentModelsContext()->tournamentAssembleAndAddFTP(title,
-                                                           data,
+                                                           gameMode,
+                                                           keyPoint,
+                                                           terminalKeyCode,
+                                                           displayHint,
+                                                           inputHint,
+                                                           attempts,
                                                            playerIds);
     emit tournamentAssembledAndStored(true);
 
@@ -65,68 +85,71 @@ void LocalModelsContext::assignPlayersToTournament(const QUuid &tournament,
         tournamentModelsContext()->tournamentAssignPlayer(tournament,playerID);
 }
 
-void LocalModelsContext::deleteTournaments(const QVector<int> &indexes)
+void LocalModelsContext::deleteTournaments(const QByteArray& json)
 {
-    // TODO: Implement return functionality later
+    QVector<int> indexes;
+    auto obj = QJsonDocument::fromJson(json).object();
+    auto arr = obj.value("Indexes").toArray();
+    for (auto jsonValue : arr) {
+        auto index = jsonValue.toInt();
+        indexes << index;
+    }
     auto status = tournamentModelsContext()->removeTournamentsFromIndexes(indexes);
     emit tournamentsDeletedStatus(status);
-}
-
-void LocalModelsContext::handleRequestAssignedPlayers(const QUuid &tournament)
-{
-    auto assignedPlayersID = tournamentModelsContext()->tournamentAssignedPlayers(tournament);
-    auto assignedPlayerNames = playerModelsContext()->assemblePlayerNamesFromIds(assignedPlayersID);
-    emit sendAssignedPlayerNames(assignedPlayerNames);
 }
 
 void LocalModelsContext::handleRequestFtpScores(const QUuid &tournament)
 {
     QJsonObject jsonData;
     QJsonArray jsonEntities;
-    auto numberOfThrows = tournamentModelsContext()->tournamentAttempts(tournament);
+    auto attempts = tournamentModelsContext()->tournamentAttempts(tournament);
     auto assignedPlayerIds = tournamentModelsContext()->tournamentAssignedPlayers(tournament);
     for (auto i = 0;i < assignedPlayerIds.count();i++) {
-        auto roundIndex = 1;
-        auto attemptIndex = 0;
+        auto round = 1;
+        auto attempt = 0;
         auto assignedPlayerId = assignedPlayerIds.at(i);
         auto assignedPlayerName = playerModelsContext()->playerNameFromId(assignedPlayerId);
         while (1)
         {
-            QUuid scoreID;
+            QUuid scoreId;
             try {
-                scoreID = tournamentModelsContext()->ftpScore(tournament,
-                                      assignedPlayerId,
-                                      roundIndex,
-                                      attemptIndex++,
-                                      ModelDisplayHint::DisplayHint);
+                scoreId = tournamentModelsContext()->ftpScore(tournament,
+                                                              assignedPlayerId,
+                                                              round,
+                                                              attempt++,
+                                                              ModelDisplayHint::DisplayHint);
             }  catch (...) {
                 break;
             }
-            int score;
             int point;
-            int keyCode;
+            int score;
+            int accumulatedScore;
+            int modKeyCode;
             try {
-                point = tournamentModelsContext()->ftpScorePointValue(scoreID);
-                score = tournamentModelsContext()->ftpScoreValue(scoreID);
-                keyCode = tournamentModelsContext()->scoreKeyCode(scoreID);
+                point = tournamentModelsContext()->ftpScorePointValue(scoreId);
+                score = tournamentModelsContext()->ftpScoreValue(scoreId);
+                accumulatedScore = tournamentModelsContext()->ftpAccumulatedScoreValue(scoreId);
+                modKeyCode = tournamentModelsContext()->scoreKeyCode(scoreId);
             } catch (const char *msg) {
                 throw msg;
             }
             QJsonObject jsonEntity = {
-                {"playerName",assignedPlayerName},
-                {"playerPoint",point},
-                {"playerScore",score},
-                {"keyCode",keyCode}
+                {"PlayerId",assignedPlayerId.toString()},
+                {"PlayerName",assignedPlayerName},
+                {"PlayerPoint",point},
+                {"PlayerScore",score},
+                {"PlayerAccumulatedScore",accumulatedScore},
+                {"ModKeyCode",modKeyCode}
             };
             jsonEntities << jsonEntity;
-            if(attemptIndex % numberOfThrows == 0)
+            if(attempt % attempts == 0)
             {
-                attemptIndex = 0;
-                roundIndex++;
+                attempt = 0;
+                round++;
             }
         }
     }
-    jsonData["entities"] = jsonEntities;
+    jsonData["ScoreEntities"] = jsonEntities;
     auto jsonDocument = QJsonDocument(jsonData);
     auto jsonString = jsonDocument.toJson(QJsonDocument::Compact);
     emit sendFtpMultiScores(jsonString);
@@ -159,29 +182,37 @@ void LocalModelsContext::handleRequestGameMode(const int &index)
     auto gameMode = tournamentModelsContext()->tournamentGameMode(tournamentId);
     emit requestAssembleTournament(tournamentId,gameMode);
 }
-void LocalModelsContext::addFtpScore(const QUuid &tournament,
-                                        const QUuid &player,
-                                        const int &roundIndex,
-                                        const int &setIndex,
-                                        const int &attemptIndex,
-                                        const int &point,
-                                        const int &score,
-                                        const int &keyCode,
-                                        const bool &isWinnerDetermined)
+void LocalModelsContext::addFtpScore(const QByteArray &json)
 {
-    tournamentModelsContext()->addFTPScore(tournament,
-                                           player,
+    auto jsonObject = QJsonDocument::fromJson(json).object();
+    auto tournamentStringId = jsonObject.value("TournamentId").toString();
+    auto tournamentId = QUuid::fromString(tournamentStringId);
+    auto currentPlayerStringId = jsonObject.value("CurrentPlayerId").toString();
+    auto currentPlayerId = QUuid::fromString(currentPlayerStringId);
+    auto roundIndex = jsonObject.value("RoundIndex").toInt();
+    auto setIndex = jsonObject.value("SetIndex").toInt();
+    auto attempt = jsonObject.value("Attempt").toInt();
+    auto point = jsonObject.value("Point").toInt();
+    auto score = jsonObject.value("Score").toInt();
+    auto accumulatedScore = jsonObject.value("AccumulatedScore").toInt();
+    auto modKeyCode = jsonObject.value("ModKeyCode").toInt();
+    auto isWinnerDetermined = jsonObject.value("IsWinnerDetermined").toBool();
+
+    tournamentModelsContext()->addFTPScore(tournamentId,
+                                           currentPlayerId,
                                            roundIndex,
                                            setIndex,
-                                           attemptIndex,
+                                           attempt,
                                            point,
                                            score,
-                                           keyCode,
+                                           accumulatedScore,
+                                           modKeyCode,
                                            isWinnerDetermined);
-    emit scoreAddedToDataContext(player,
-                                 point,
-                                 score,
-                                 keyCode);
+    auto playerName = playerModelsContext()->playerNameFromId(currentPlayerId);
+    jsonObject["CurrentPlayerName"] = playerName;
+    auto newJson = QJsonDocument(jsonObject).toJson();
+
+    emit scoreAddedToDataContext(newJson);
 }
 
 void LocalModelsContext::setFtpScoreHint(const QUuid &tournament,
@@ -221,21 +252,15 @@ void LocalModelsContext::resetTournament(const QUuid &tournament)
 
 void LocalModelsContext::assembleFtpKeyValues(const QUuid &tournamentId)
 {
-    /*
-     * Asemble ftp tournament values:
-     *  - Gamemode
-     *  - Keypoint
-     *  - Attempts
-     *  - Terminalkeycode
-     *  - Input hint
-     */
-    QVector<int> tournamentValues {
-        tournamentModelsContext()->tournamentGameMode(tournamentId),
-        tournamentModelsContext()->tournamentKeyPoint(tournamentId),
-        tournamentModelsContext()->tournamentAttempts(tournamentId),
-        tournamentModelsContext()->tournamentTerminalKeyCode(tournamentId),
-        tournamentModelsContext()->tournamentInputMode(tournamentId)
-    };
+    QJsonObject obj;
+    obj["TournamentId"] = tournamentId.toString(QUuid::WithoutBraces);
+    obj["GameMode"] = tournamentModelsContext()->tournamentGameMode(tournamentId);
+    obj["Attempts"] = tournamentModelsContext()->tournamentAttempts(tournamentId);
+    obj["KeyPoint"] = tournamentModelsContext()->tournamentKeyPoint(tournamentId);
+    obj["TerminalKeyCode"] = tournamentModelsContext()->tournamentTerminalKeyCode(tournamentId);
+    obj["InputHint"] = tournamentModelsContext()->tournamentInputMode(tournamentId);
+    auto winnerId = tournamentModelsContext()->tournamentWinner(tournamentId);
+    obj["WinnerId"] = winnerId.toString(QUuid::WithoutBraces);
     /*
      * Get assigned player ids
      */
@@ -246,17 +271,22 @@ void LocalModelsContext::assembleFtpKeyValues(const QUuid &tournamentId)
         cout << msg << endl;
         throw msg;
     }
-    /*
-     *  Get assigned player names
-     */
-    auto winnerId = tournamentModelsContext()->tournamentWinner(tournamentId);
-    emit sendTournamentFtpDetails(tournamentId,
-                                  winnerId,
-                                  tournamentValues);
+    QJsonArray playerIds;
+    for (auto assignedPlayerId : assignedPlayersId) {
+        auto assignedPlayerStringId = assignedPlayerId.toString(QUuid::WithoutBraces);
+        playerIds << assignedPlayerStringId;
+    }
+
+    auto json = QJsonDocument(obj).toJson();
+    emit sendTournamentFtpDetails(json);
 }
 
-void LocalModelsContext::createPlayer(const QString &name, const QString &mail)
+void LocalModelsContext::createPlayer(const QByteArray &json)
 {
+    auto document = QJsonDocument::fromJson(json);
+    auto jsonObject = document.object();
+    auto name = jsonObject.value("playerName").toString();
+    auto mail = jsonObject.value("playerMail").toString();
     try {
         playerModelsContext()->playerIdFromName(name);
     }  catch (const char *msg) {
@@ -270,14 +300,22 @@ void LocalModelsContext::createPlayer(const QString &name, const QString &mail)
     emit createPlayerResponse(false);
 }
 
-void LocalModelsContext::deletePlayerFromIndex(const int &index)
+void LocalModelsContext::deletePlayerFromIndex(const QByteArray &json)
 {
+    auto jsonObject = QJsonDocument::fromJson(json).object();
+    auto index = jsonObject.value("index").toInt();
     auto status = playerModelsContext()->deletePlayer(index);
     emit playersDeletedStatus(status);
 }
 
-void LocalModelsContext::deletePlayersFromIndexes(const QVector<int> &indexes)
+void LocalModelsContext::deletePlayersFromIndexes(const QByteArray &json)
 {
+    auto jsonArray = QJsonDocument::fromJson(json).array();
+    QVector<int> indexes;
+    for (auto i = jsonArray.constBegin(); i != jsonArray.constEnd(); ++i) {
+        auto index = (*i).toInt();
+        indexes << index;
+    }
     auto status = playerModelsContext()->deletePlayers(indexes);
     emit playersDeletedStatus(status);
 }
@@ -298,33 +336,39 @@ void LocalModelsContext::handleRequestPlayersDetails()
 void LocalModelsContext::assembleFtpIndexesAndScores(const QUuid &tournament)
 {
     auto indexes = tournamentModelsContext()->indexes(tournament);
-    auto totalTurns = indexes.at(0);
-    auto turns  = indexes.at(1);
-    auto roundIndex = indexes.at(2);
-    auto setIndex = indexes.at(3);
-    auto attemptIndex = indexes.at(4);
-    auto assignedPlayerIds = tournamentModelsContext()->tournamentAssignedPlayers(tournament);
-    auto assignedPlayerNames = playerModelsContext()->assemblePlayerNamesFromIds(assignedPlayerIds);
-    auto scores = tournamentModelsContext()->ftpScores(tournament);
-    QVector<PlayerEntity> playerEntities;
-    for (int i = 0; i < assignedPlayerIds.count(); ++i) {
-        auto playerId = assignedPlayerIds.at(i);
-        auto playerName = assignedPlayerNames.at(i);
-        playerEntities << PlayerEntity(playerId,playerName);
+    auto playerIds = tournamentModelsContext()->tournamentAssignedPlayers(tournament);
+    auto playerNames = playerModelsContext()->assemblePlayerNamesFromIds(playerIds);
+    QJsonObject obj;
+    obj["TotalTurns"] = indexes.at(0);
+    obj["Turns"]  = indexes.at(1);
+    obj["RoundIndex"] = indexes.at(2);
+    obj["SetIndex"] = indexes.at(3);
+    obj["AttemptIndex"] = indexes.at(4);
+    QJsonArray playerJsonArray;
+    for (int i = 0; i < playerIds.count(); ++i) {
+        QJsonObject playerJsonObject;
+        playerJsonObject["PlayerId"] = playerIds.at(i).toString(QUuid::WithoutBraces);
+        playerJsonObject["PlayerName"] = playerNames.at(i);
+        playerJsonArray << playerJsonObject;
     }
-    QVector<ScoreEntity> scoreEntities;
+    obj["PlayerEntities"] = playerJsonArray;
+    auto scores = tournamentModelsContext()->ftpScoreIds(tournament);
+    QJsonArray scoresJsonArray;
     for (auto i = scores.constBegin(); i != scores.constEnd(); ++i) {
         auto scoreId = *i;
+        QJsonObject playerJsonObject;
         auto playerId = tournamentModelsContext()->scorePlayer(scoreId);
         auto scoreValue = tournamentModelsContext()->ftpScoreValue(scoreId);
-        scoreEntities << ScoreEntity(playerId,scoreValue);
+        playerJsonObject["PlayerId"] = playerId.toString(QUuid::WithoutBraces);
+        playerJsonObject["Score"] = scoreValue;
+        scoresJsonArray << playerJsonObject;
     }
-    emit sendFtpIndexesAndScoreEntities(totalTurns,turns,roundIndex,
-                                        setIndex,attemptIndex,
-                                        playerEntities,scoreEntities);
+    obj["ScoreEntities"] = scoresJsonArray;
+    auto json = QJsonDocument(obj).toJson();
+    emit sendFtpIndexesAndScoreEntities(json);
 }
 
-void LocalModelsContext::assembleFTPMetaDataFromId(const QUuid &tournament)
+void LocalModelsContext::assembleFtpMetaDataFromId(const QUuid &tournament)
 {
     auto title = tournamentModelsContext()->tournamentTitle(tournament);
     // Get winner name from id, if any
@@ -334,22 +378,22 @@ void LocalModelsContext::assembleFTPMetaDataFromId(const QUuid &tournament)
     auto keyPoint = tournamentModelsContext()->tournamentKeyPoint(tournament);
     auto attempts = tournamentModelsContext()->tournamentAttempts(tournament);
     auto displayHint = tournamentModelsContext()->tournamentTableViewHint(tournament);
-    auto inputMode = tournamentModelsContext()->tournamentInputMode(tournament);
+    auto inputHint = tournamentModelsContext()->tournamentInputMode(tournament);
     // Get playernames from ids
     auto playerIds = tournamentModelsContext()->tournamentAssignedPlayers(tournament);
     auto assignedPlayerNames = playerModelsContext()->assemblePlayerNamesFromIds(playerIds);
-    QVector<QString> stringMetaData = {
-        title,
-        winnerName
-    };
-    QVector<int> numericMetaData = {
-        gameMode,
-        keyPoint,
-        attempts,
-        displayHint,
-        inputMode
-    };
-    emit sendTournamentMeta(stringMetaData,
-                            numericMetaData,
-                            assignedPlayerNames);
+    QJsonObject obj;
+    obj["Title"] = title;
+    obj["WinnerName"] = winnerName;
+    obj["GameMode"] = gameMode;
+    obj["Attempts"] = attempts;
+    obj["KeyPoint"] = keyPoint;
+    obj["DisplayHint"] = displayHint;
+    obj["InputHint"] = inputHint;
+    QJsonArray arr;
+    for (auto assignedPlayerName : assignedPlayerNames)
+        arr << assignedPlayerName;
+    obj["AssignedPlayerNames"] = arr;
+    auto json = QJsonDocument(obj).toJson();
+    emit sendTournamentMeta(json);
 }

@@ -8,9 +8,7 @@ Content {
     color: "transparent"
 
     signal requestPlayers
-    signal sendFTPDetails(string title,
-                          var data,
-                          var playerIndexes)
+    signal sendFTPDetails(string json)
     signal tournamentAssembledAndStored(bool status)
     onTournamentAssembledAndStored: {
         if(status)

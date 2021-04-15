@@ -9,11 +9,10 @@
 typedef IControllerBuilder<AbstractGameController,
                            AbstractModelsContext,
                            AbstractApplicationInterface,
-                           QVector<int>,
-                           QUuid> ControllerBuilder;
+                           QByteArray> ControllerBuilderInterface;
 
 class AbstractControllerBuilder : public QObject,
-        public ControllerBuilder
+        public ControllerBuilderInterface
 {
     Q_OBJECT
 signals:
@@ -23,9 +22,7 @@ signals:
 public slots:
     virtual void determineTournamentGameMode(const QUuid& tournament,
                                        const int &gameMode) = 0;
-    virtual AbstractGameController* assembleFTPGameController(const QUuid&,
-                                                              const QUuid&,
-                                                              const QVector<int>&,
+    virtual AbstractGameController* assembleFTPGameController(const QByteArray&,
                                                               AbstractApplicationInterface*,
                                                               AbstractModelsContext*) = 0;
 };

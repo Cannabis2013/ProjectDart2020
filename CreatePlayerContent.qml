@@ -5,7 +5,7 @@ Content
 {
     id: body
     
-    signal sendPlayerDetails(string playerName,string mail)
+    signal sendPlayerDetails(string json)
 
     function handleCreatePlayerResponse(status)
     {
@@ -64,13 +64,21 @@ Content
             buttonTwoEnabled: false
             onButtonOneClicked: requestQuit();
             onButtonTwoClicked: {
+
                 var playerName = userNameEdit.currentValue;
                 if(playerName === "")
                     return;
                 var mail = mailEdit.currentValue;
+                if(mail === "")
+                    mail = "defaultsucker@gmail.com";
+                var obj = {
+                    playerName : playerName,
+                    playerMail : mail
+                };
+                var json = JSON.stringify(obj);
                 buttonOneEnabled = false;
                 buttonTwoEnabled = false;
-                body.sendPlayerDetails(playerName,mail);
+                body.sendPlayerDetails(json);
             }
         }
     }

@@ -5,8 +5,7 @@
 #include <quuid.h>
 #include "iresponseinterface.h"
 
-class AbstractGameController : public QObject,
-        public IResponseInterface<QVariantList>
+class AbstractGameController : public QObject
 {
     Q_OBJECT
 public slots:
@@ -18,7 +17,7 @@ public slots:
     /*
      * Recieve and evaluate UI input
      */
-    virtual void handleAndProcessUserInput(const int &point, const int &modifierKeyCode) = 0;
+    virtual void handleAndProcessUserInput(const QByteArray& json) = 0;
     /*
      * Handle requests from UI
      */
@@ -29,10 +28,7 @@ public slots:
     virtual QUuid undoTurn() = 0;
     virtual QUuid redoTurn() = 0;
     virtual void handleRequestForCurrentTournamentMetaData() = 0;
-    virtual void handleScoreAddedToDataContext(const QUuid &playerID,
-                                               const int &point,
-                                               const int &score,
-                                               const int& keyCode) = 0;
+    virtual void handleScoreAddedToDataContext(const QByteArray& json) = 0;
     virtual void handleScoreHintUpdated(const QUuid &playerID,
                                         const int& point,
                                         const int& score,
@@ -47,7 +43,6 @@ public slots:
      */
     virtual void handleRequestPersistCurrentState() = 0;
 signals:
-    void transmitResponse(const int &status, const QVariantList &args) override;
     void sendCurrentTournamentId(const QUuid &tournament);
     void winnerDetermined(const QUuid &tournament, const QUuid &player);
     void requestUpdateContext(const QUuid &tournamentID,

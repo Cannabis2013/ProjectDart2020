@@ -14,52 +14,56 @@ LocalTournamentModelsContext* LocalTournamentModelsContext::setup()
     return this;
 }
 
-LocalTournamentModelsContext *LocalTournamentModelsContext::setTournamentBuilder(LMC::ITournamentModelsBuilder *builder)
+LocalTournamentModelsContext *LocalTournamentModelsContext::setTournamentBuilder(TCC::ITournamentModelsBuilder *builder)
 {
     _tournamentModelBuilder = builder;
     return this;
 }
 
-LMC::ITournamentModelsBuilder *LocalTournamentModelsContext::tournamentBuilder()
+TCC::ITournamentModelsBuilder *LocalTournamentModelsContext::tournamentBuilder()
 {
     return _tournamentModelBuilder;
 }
 
-LocalTournamentModelsContext *LocalTournamentModelsContext::setScoreBuilder(LMC::IScoreModelsBuilder *builder)
+LocalTournamentModelsContext *LocalTournamentModelsContext::setScoreBuilder(TCC::ScoreBuilderInterface *builder)
 {
     _scoreModelbuilder = builder;
     return this;
 }
 
-LMC::IScoreModelsBuilder *LocalTournamentModelsContext::scoreBuilder()
+TCC::ScoreBuilderInterface *LocalTournamentModelsContext::scoreBuilder()
 {
     return _scoreModelbuilder;
 }
 
 QUuid LocalTournamentModelsContext::tournamentAssembleAndAddFTP(const QString &title,
-                                                                const QVector<int> &data,
+                                                                const int& gameMode,
+                                                                const int& keyPoint,
+                                                                const int& terminalKeyCode,
+                                                                const int& displayHint,
+                                                                const int& inputHint,
+                                                                const int& attempts,
                                                                 const QVector<QUuid>& playerIds)
 {
-    /*
-     * Data array allocate each memmory location to the following values:
-     *  - [0] = Gamemode
-     *  - [1] = Keypoint
-     *  - [2] = KeyCode (win condition)
-     *  - [3] = TableViewHint
-     *  - [4] = InputMode
-     *  - [5] = Number of attempts
-     */
     // Build model
-    auto tournament = tournamentBuilder()->buildFTPTournament([this,title,data,playerIds]
+    auto tournament = tournamentBuilder()->buildFTPTournament([this,
+                                                              title,
+                                                              gameMode,
+                                                              keyPoint,
+                                                              terminalKeyCode,
+                                                              displayHint,
+                                                              inputHint,
+                                                              attempts,
+                                                              playerIds]
     {
         TBC::FTPParameters params;
         params.title = title;
-        params.gameMode = data[0];
-        params.keyPoint = data[1];
-        params.winConditionKey = data[2];
-        params.modelTableViewHint = data[3];
-        params.inputMode = data[4];
-        params.attempts = data[5];
+        params.gameMode = gameMode;
+        params.keyPoint = keyPoint;
+        params.terminalKeyCode = terminalKeyCode;
+        params.displayHint = displayHint;
+        params.inputHint = inputHint;
+        params.attempts = attempts;
         params.playerIdentities = playerIds;
         params.tournamentsCount = this->tournamentsCount();
         return params;
@@ -102,7 +106,7 @@ QUuid LocalTournamentModelsContext::tournamentIdFromIndex(const int &index)
 {
     try {
         auto model = modelDBContext()->tournamentModel(index);
-        auto tournament = dynamic_cast<const LMC::TournamentInterface*>(model);
+        auto tournament = dynamic_cast<const TCC::TournamentInterface*>(model);
         auto id = tournament->id();
         return id;
     }  catch (...) {
@@ -132,12 +136,12 @@ int LocalTournamentModelsContext::tournamentsCount()
 
 QString LocalTournamentModelsContext::tournamentTitle(const QUuid &tournament)
 {
-    return getTournamentModelFromID<LMC::TournamentInterface>(tournament)->title();
+    return getTournamentModelFromID<TCC::TournamentInterface>(tournament)->title();
 }
 
 int LocalTournamentModelsContext::tournamentAttempts(const QUuid &tournament)
 {
-    auto model = getTournamentModelFromID<LMC::FTPInterface>(tournament);
+    auto model = getTournamentModelFromID<TCC::FTPInterface>(tournament);
     auto numberOfThrows = model->attempts();
     return numberOfThrows;
 }
@@ -145,9 +149,9 @@ int LocalTournamentModelsContext::tournamentAttempts(const QUuid &tournament)
 QVector<QUuid> LocalTournamentModelsContext::tournamentAssignedPlayers(const QUuid &tournament)
 {
     QVector<QUuid> assignedPlayers;
-    const LMC::TournamentInterface* tournamentModel;
+    const TCC::TournamentInterface* tournamentModel;
     try {
-        tournamentModel = getTournamentModelFromID<LMC::TournamentInterface>(tournament);
+        tournamentModel = getTournamentModelFromID<TCC::TournamentInterface>(tournament);
     } catch (const char *msg) {
         throw  msg;
     }
@@ -158,55 +162,55 @@ QVector<QUuid> LocalTournamentModelsContext::tournamentAssignedPlayers(const QUu
 
 int LocalTournamentModelsContext::tournamentGameMode(const QUuid &tournament)
 {
-    return getTournamentModelFromID<LMC::TournamentInterface>(tournament)->gameMode();
+    return getTournamentModelFromID<TCC::TournamentInterface>(tournament)->gameMode();
 }
 
 int LocalTournamentModelsContext::tournamentTerminalKeyCode(const QUuid &tournament)
 {
-    auto tournamentModel = getTournamentModelFromID<LMC::FTPInterface>(tournament);
+    auto tournamentModel = getTournamentModelFromID<TCC::FTPInterface>(tournament);
     auto conditionKeyCode = tournamentModel->terminalKeyCode();
     return conditionKeyCode;
 }
 
 int LocalTournamentModelsContext::tournamentKeyPoint(const QUuid &tournament)
 {
-    auto tournamentModel = getTournamentModelFromID<LMC::FTPInterface>(tournament);
+    auto tournamentModel = getTournamentModelFromID<TCC::FTPInterface>(tournament);
     auto keyPoint = tournamentModel->keyPoint();
     return keyPoint;
 }
 
 int LocalTournamentModelsContext::tournamentTableViewHint(const QUuid &tournament)
 {
-    auto tournamentModel = getTournamentModelFromID<LMC::FTPInterface>(tournament);
+    auto tournamentModel = getTournamentModelFromID<TCC::FTPInterface>(tournament);
     auto hint = tournamentModel->displayHint();
     return hint;
 }
 
 int LocalTournamentModelsContext::tournamentInputMode(const QUuid &tournament)
 {
-    auto tournamentModel = getTournamentModelFromID<LMC::FTPInterface>(tournament);
+    auto tournamentModel = getTournamentModelFromID<TCC::FTPInterface>(tournament);
     auto inputMode = tournamentModel->inputHint();
     return inputMode;
 }
 
 int LocalTournamentModelsContext::tournamentStatus(const QUuid &tournament)
 {
-    auto model = getTournamentModelFromID<LMC::TournamentInterface>(tournament);
+    auto model = getTournamentModelFromID<TCC::TournamentInterface>(tournament);
     auto status = model->status();
     return status;
 }
 
 QUuid LocalTournamentModelsContext::tournamentWinner(const QUuid &tournament)
 {
-    auto tournamentModel = getTournamentModelFromID<LMC::TournamentInterface>(tournament);
+    auto tournamentModel = getTournamentModelFromID<TCC::TournamentInterface>(tournament);
     return tournamentModel->winnerId();
 }
 
 void LocalTournamentModelsContext::tournamentSetWinnerId(const QUuid &tournament,
                                                                  const QUuid &winner)
 {
-    auto oldModel = getTournamentModelFromID<LMC::TournamentInterface>(tournament);
-    LMC::TournamentInterface* newModel = nullptr;
+    auto oldModel = getTournamentModelFromID<TCC::TournamentInterface>(tournament);
+    TCC::TournamentInterface* newModel = nullptr;
     auto gameMode = tournamentGameMode(tournament);
     if(gameMode == GameModes::FirstToPost)
     {
@@ -231,7 +235,7 @@ void LocalTournamentModelsContext::tournamentSetWinnerId(const QUuid &tournament
 
 void LocalTournamentModelsContext::tournamentAssignPlayer(const QUuid &tournament, const QUuid &player)
 {
-    auto oldModel = getTournamentModelFromID<LMC::TournamentInterface>(tournament);
+    auto oldModel = getTournamentModelFromID<TCC::TournamentInterface>(tournament);
     auto assignedPlayers = oldModel->assignedPlayerIdentities();
     assignedPlayers.append(player);
     auto newModel = tournamentBuilder()->editFTPTournament(oldModel,
@@ -253,7 +257,7 @@ void LocalTournamentModelsContext::tournamentAssignPlayer(const QUuid &tournamen
 
 void LocalTournamentModelsContext::tournamentUnAssignPlayer(const QUuid &tournament, const QUuid &player)
 {
-    auto oldModel = getTournamentModelFromID<LMC::TournamentInterface>(tournament);
+    auto oldModel = getTournamentModelFromID<TCC::TournamentInterface>(tournament);
     auto assignedPlayers = oldModel->assignedPlayerIdentities();
     assignedPlayers.removeOne(player);
     auto newModel = tournamentBuilder()->editFTPTournament(oldModel,
@@ -273,7 +277,7 @@ void LocalTournamentModelsContext::tournamentUnAssignPlayer(const QUuid &tournam
     modelDBContext()->replaceTournament(index,newModel);
 }
 
-QList<QUuid> LocalTournamentModelsContext::ftpScores()
+QList<QUuid> LocalTournamentModelsContext::ftpScoreIds()
 {
     QList<QUuid> resultingList;
     auto scores = modelDBContext()->scoreModels();
@@ -284,7 +288,7 @@ QList<QUuid> LocalTournamentModelsContext::ftpScores()
     return resultingList;
 }
 
-QList<QUuid> LocalTournamentModelsContext::ftpScores(const QUuid &tournament)
+QList<QUuid> LocalTournamentModelsContext::ftpScoreIds(const QUuid &tournament)
 {
     QList<QUuid> resultingList;
     auto scores = modelDBContext()->scoreModels();
@@ -297,29 +301,29 @@ QList<QUuid> LocalTournamentModelsContext::ftpScores(const QUuid &tournament)
     return resultingList;
 }
 
-QList<QUuid> LocalTournamentModelsContext::ftpScores(const QUuid &tournament, const int &round)
+QList<QUuid> LocalTournamentModelsContext::ftpScoreIds(const QUuid &tournament,
+                                                     const int &round)
 {
     QList<QUuid> resultingList;
-    auto tPoints = this->ftpScores(tournament);
-    for (auto pointID : tPoints) {
-        auto s = this->getScoreModelFromID(pointID);
-        auto roundIndex = s->roundIndex();
+    auto ftpScoreIds = this->ftpScoreIds(tournament);
+    for (auto pointID : ftpScoreIds) {
+        auto ftpScore = this->getScoreModelFromId<IFtpScore<QUuid>>(pointID);
+        auto roundIndex = ftpScore->roundIndex();
         if(roundIndex == round)
             resultingList << pointID;
     }
-
     return resultingList;
 }
 
-QList<QUuid> LocalTournamentModelsContext::ftpScores(const QUuid &tournament,
+QList<QUuid> LocalTournamentModelsContext::ftpScoreIds(const QUuid &tournament,
                                                   const int &round,
                                                   const int &set)
 {
     QList<QUuid> resultingList;
-    auto p = this->ftpScores(tournament,round);
+    auto p = this->ftpScoreIds(tournament,round);
     for (auto scoreModelID : p) {
-        auto scoreModel = getScoreModelFromID(scoreModelID);
-        auto setIndex = scoreModel->setIndex();
+        auto ftpScore = getScoreModelFromId<IFtpScore<QUuid>>(scoreModelID);
+        auto setIndex = ftpScore->setIndex();
         if(setIndex == set)
             resultingList << scoreModelID;
     }
@@ -327,15 +331,15 @@ QList<QUuid> LocalTournamentModelsContext::ftpScores(const QUuid &tournament,
     return resultingList;
 }
 
-QList<QUuid> LocalTournamentModelsContext::ftpScores(const int &hint, const QUuid &tournament)
+QList<QUuid> LocalTournamentModelsContext::ftpScoreIds(const int &hint, const QUuid &tournament)
 {
     QList<QUuid> resultingList;
-    auto scores = this->ftpScores(tournament);
-    for (auto model : scores) {
-        auto scoreModel = getScoreModelFromID(model);
-        auto scoreModelHint = scoreModel->hint();
+    auto modelIds = this->ftpScoreIds(tournament);
+    for (auto modelId : modelIds) {
+        auto ftpScoreModel = getScoreModelFromId<IScore<QUuid>>(modelId);
+        auto scoreModelHint = ftpScoreModel->hint();
         if(scoreModelHint == hint)
-            resultingList << model;
+            resultingList << modelId;
     }
     return resultingList;
 }
@@ -344,21 +348,21 @@ QUuid LocalTournamentModelsContext::setScoreHint(const QUuid &point,
                                                  const int &hint)
 {
     try {
-        auto oldModel = getScoreModelFromID(point);
-        auto tournamentId = oldModel->parent();
+        auto oldFtpScoreModel = getScoreModelFromId<IFtpScore<QUuid>>(point);
+        auto tournamentId = oldFtpScoreModel->parent();
         auto gameMode = tournamentGameMode(tournamentId);
         if(gameMode == GameModes::FirstToPost)
         {
-            auto newModel = scoreBuilder()->buildFTPScoreModel([oldModel,hint]{
-                SBC::FTPScoreParameters params;
-                params.id = oldModel->id();
-                params.tournament = oldModel->parent();
-                params.pointValue = oldModel->point();
-                params.roundIndex = oldModel->roundIndex();
-                params.setIndex = oldModel->setIndex();
-                params.attempt = oldModel->attempt();
-                params.playerId = oldModel->player();
-                params.scoreValue = oldModel->score();
+            auto newModel = scoreBuilder()->buildFTPScoreModel([oldFtpScoreModel,hint]{
+                SBC::FtpScoreParameters params;
+                params.id = oldFtpScoreModel->id();
+                params.tournament = oldFtpScoreModel->parent();
+                params.pointValue = oldFtpScoreModel->point();
+                params.roundIndex = oldFtpScoreModel->roundIndex();
+                params.setIndex = oldFtpScoreModel->setIndex();
+                params.attempt = oldFtpScoreModel->attempt();
+                params.playerId = oldFtpScoreModel->player();
+                params.scoreValue = oldFtpScoreModel->score();
                 params.hint = hint;
                 return params;
             }(),[]{
@@ -366,8 +370,9 @@ QUuid LocalTournamentModelsContext::setScoreHint(const QUuid &point,
                 options.generateUniqueId = false;
                 return options;
             }());
-            auto index = modelDBContext()->indexOfScoreModel(oldModel);
-            modelDBContext()->replaceScoreModel(index,newModel);
+            auto index = modelDBContext()->indexOfScoreModel(oldFtpScoreModel);
+            auto newFtpScoreModel = dynamic_cast<const IFtpScore<QUuid>*>(newModel);
+            modelDBContext()->replaceScoreModel(index,newFtpScoreModel);
             return newModel->id();
         }
 
@@ -383,32 +388,27 @@ QUuid LocalTournamentModelsContext::editScore(const QUuid &pointId,
                                               const int &hint)
 {
     try {
-        auto oldModel = getScoreModelFromID(pointId);
-        auto tournamentId = oldModel->parent();
+        auto oldFtpScoreModel = getScoreModelFromId<IFtpScore<QUuid>>(pointId);
+        auto tournamentId = oldFtpScoreModel->parent();
         auto gameMode = tournamentGameMode(tournamentId);
         if(gameMode == GameModes::FirstToPost)
         {
-            auto newScoreModel = scoreBuilder()->buildFTPScoreModel(
-                        [oldModel, score, value,hint]
-            {
-                SBC::FTPScoreParameters params;
-                params.id = oldModel->id();
-                params.roundIndex = oldModel->roundIndex();
-                params.setIndex = oldModel->setIndex();
-                params.pointValue = value;
-                params.playerId = oldModel->player();
-                params.attempt = oldModel->attempt();
-                params.scoreValue = score;
-                params.hint = hint;
-                return params;
-            }(),[]
-            {
-                SBC::ModelOptions options;
-                options.generateUniqueId = false;
-                return options;
-            }());
-            auto index = modelDBContext()->indexOfScoreModel(oldModel);
-            modelDBContext()->replaceScoreModel(index,newScoreModel);
+            SBC::FtpScoreParameters params;
+            params.id = oldFtpScoreModel->id();
+            params.roundIndex = oldFtpScoreModel->roundIndex();
+            params.setIndex = oldFtpScoreModel->setIndex();
+            params.pointValue = value;
+            params.playerId = oldFtpScoreModel->player();
+            params.attempt = oldFtpScoreModel->attempt();
+            params.scoreValue = score;
+            params.accumulatedScoreValue = oldFtpScoreModel->accumulatedScore();
+            params.hint = hint;
+            SBC::ModelOptions options;
+            options.generateUniqueId = false;
+            auto newScoreModel = scoreBuilder()->buildFTPScoreModel(params,options);
+            auto index = modelDBContext()->indexOfScoreModel(oldFtpScoreModel);
+            auto newFtpScoreModel = dynamic_cast<const IFtpScore<QUuid>*>(newScoreModel);
+            modelDBContext()->replaceScoreModel(index,newFtpScoreModel);
             return newScoreModel->id();
         }
     }  catch (const char msg) {
@@ -419,15 +419,15 @@ QUuid LocalTournamentModelsContext::editScore(const QUuid &pointId,
 
 int LocalTournamentModelsContext::ftpScoreRoundIndex(const QUuid &playerScore)
 {
-    auto scoreModel = getScoreModelFromID(playerScore);
-    auto roundIndex = scoreModel->roundIndex();
+    auto ftpScoreModel = getScoreModelFromId<IFtpScore<QUuid>>(playerScore);
+    auto roundIndex = ftpScoreModel->roundIndex();
     return roundIndex;
 }
 
 int LocalTournamentModelsContext::ftpScoreSetIndex(const QUuid &playerScore)
 {
-    auto scoreModel = getScoreModelFromID(playerScore);
-    auto setIndex = scoreModel->setIndex();
+    auto ftpScoreModel = getScoreModelFromId<IFtpScore<QUuid>>(playerScore);
+    auto setIndex = ftpScoreModel->setIndex();
     return setIndex;
 }
 
@@ -435,19 +435,18 @@ int LocalTournamentModelsContext::ftpScoreSetIndex(const QUuid &playerScore)
 int LocalTournamentModelsContext::ftpScoreAttemptIndex(const QUuid &point)
 {
     try {
-        auto scoreModel = getScoreModelFromID(point);
-        auto throwIndex = scoreModel->attempt();
+        auto ftpScoreModel = getScoreModelFromId<IFtpScore<QUuid>>(point);
+        auto throwIndex = ftpScoreModel->attempt();
         return throwIndex;
     } catch (const char *msg) {
         throw msg;
     }
 }
-
 int LocalTournamentModelsContext::ftpScorePointValue(const QUuid &point)
 {
     try {
-        auto scoreModel = getScoreModelFromID(point);
-        auto pointValue = scoreModel->point();
+        auto ftpScoreModel = getScoreModelFromId<IFtpScore<QUuid>>(point);
+        auto pointValue = ftpScoreModel->point();
         return pointValue;
 
     }  catch (const char *msg) {
@@ -458,10 +457,20 @@ int LocalTournamentModelsContext::ftpScorePointValue(const QUuid &point)
 int LocalTournamentModelsContext::ftpScoreValue(const QUuid &point)
 {
     try {
-        auto scoreModel = getScoreModelFromID(point);
-        auto score = scoreModel->score();
+        auto ftpScoreModel = getScoreModelFromId<IFtpScore<QUuid>>(point);
+        auto score = ftpScoreModel->score();
         return score;
+    }  catch (const char *msg) {
+        throw msg;
+    }
+}
 
+int LocalTournamentModelsContext::ftpAccumulatedScoreValue(const QUuid &point)
+{
+    try {
+        auto ftpScoreModel = getScoreModelFromId<IFtpScore<QUuid>>(point);
+        auto accumulatedScore = ftpScoreModel->accumulatedScore();
+        return accumulatedScore;
     }  catch (const char *msg) {
         throw msg;
     }
@@ -469,23 +478,22 @@ int LocalTournamentModelsContext::ftpScoreValue(const QUuid &point)
 
 QUuid LocalTournamentModelsContext::ftpScoreTournament(const QUuid &playerScore)
 {
-    auto model = getScoreModelFromID(playerScore);
+    auto model = getScoreModelFromId(playerScore);
     auto tournamentID = model->parent();
     return tournamentID;
 }
 
 QUuid LocalTournamentModelsContext::scorePlayer(const QUuid &point)
 {
-    auto model = getScoreModelFromID(point);
-    auto playerID = model->player();
+    auto ftpScoreModel = getScoreModelFromId<IScore<QUuid>>(point);
+    auto playerID = ftpScoreModel->player();
     return playerID;
-
 }
 
 int LocalTournamentModelsContext::scoreHint(const QUuid &scoreID)
 {
     try {
-        auto scoreModel = getScoreModelFromID(scoreID);
+        auto scoreModel = getScoreModelFromId<IScore<QUuid>>(scoreID);
         auto hint = scoreModel->hint();
         return hint;
     } catch (const char *msg) {
@@ -496,8 +504,8 @@ int LocalTournamentModelsContext::scoreHint(const QUuid &scoreID)
 int LocalTournamentModelsContext::scoreKeyCode(const QUuid &scoreID)
 {
     try {
-        auto scoreModel = getScoreModelFromID(scoreID);
-        auto keyCode = scoreModel->keyCode();
+        auto ftpScoreModel = getScoreModelFromId<IScore<QUuid>>(scoreID);
+        auto keyCode = ftpScoreModel->modKeyCode();
         return keyCode;
     } catch (const char *msg) {
         throw msg;
@@ -509,8 +517,8 @@ QList<QUuid> LocalTournamentModelsContext::pointModels(const QUuid &player)
     QList<QUuid> resultingList;
     auto models = modelDBContext()->scoreModels();
     for (auto model : models) {
-        auto scoreModel = dynamic_cast<const LMC::ScoreInterface*>(model);
-        auto pointID = model->id();
+        auto scoreModel = dynamic_cast<const IScore<QUuid>*>(model);
+        auto pointID = scoreModel->id();
         if(scoreModel->player() == player)
             resultingList << pointID;
     }
@@ -519,9 +527,9 @@ QList<QUuid> LocalTournamentModelsContext::pointModels(const QUuid &player)
 
 void LocalTournamentModelsContext::removeTournamentScores(const QUuid &tournament)
 {
-    auto scoresID = this->ftpScores(tournament);
+    auto scoresID = this->ftpScoreIds(tournament);
     for (auto scoreID : scoresID) {
-        auto scoreModel = getScoreModelFromID(scoreID);
+        auto scoreModel = getScoreModelFromId(scoreID);
         auto tournamentID = scoreModel->parent();
         if(tournamentID == tournament)
         {
@@ -534,13 +542,14 @@ void LocalTournamentModelsContext::removeTournamentScores(const QUuid &tournamen
 QList<QUuid> LocalTournamentModelsContext::playerScores(const QUuid &tournament, const QUuid &player, const int &hint)
 {
     QList<QUuid> resultingList;
-    auto scoreModelIds = ftpScores(tournament);
+    auto scoreModelIds = ftpScoreIds(tournament);
     for (auto pointID : scoreModelIds) {
-        auto model = getScoreModelFromID(pointID);
+        auto model = getScoreModelFromId(pointID);
+        auto scoreModel = dynamic_cast<const IScore<QUuid>*>(model);
         auto modelHint = scoreHint(pointID);
         if(modelHint != hint && hint != allHints)
             continue;
-        auto pointPlayer = model->player();
+        auto pointPlayer = scoreModel->player();
         if(pointPlayer != player)
             continue;
         resultingList << pointID;
@@ -551,7 +560,7 @@ QList<QUuid> LocalTournamentModelsContext::playerScores(const QUuid &tournament,
 bool LocalTournamentModelsContext::removeScore(const QUuid &point)
 {
     try {
-        auto scoreModel = getScoreModelFromID(point);
+        auto scoreModel = getScoreModelFromId(point);
         auto index = modelDBContext()->indexOfScoreModel(scoreModel);
         modelDBContext()->removeScoreModel(index);
     }  catch (...) {
@@ -563,7 +572,7 @@ bool LocalTournamentModelsContext::removeScore(const QUuid &point)
 void LocalTournamentModelsContext::removePlayerScore(const QUuid &point)
 {
     try {
-        auto scoreModel = getScoreModelFromID(point);
+        auto scoreModel = getScoreModelFromId(point);
         auto index = modelDBContext()->indexOfScoreModel(scoreModel);
         modelDBContext()->removeScoreModel(index);
     } catch (const char *msg) {
@@ -577,17 +586,18 @@ QUuid LocalTournamentModelsContext::ftpScore(const QUuid &tournament,
                                                 const int &throwIndex,
                                                 const int &hint)
 {
-    auto tournamentScoreModels = ftpScores(tournament);
+    auto tournamentScoreModels = ftpScoreIds(tournament);
     for (auto scoreModelID : tournamentScoreModels) {
-        auto scoreModel = getScoreModelFromID(scoreModelID);
+        auto model = getScoreModelFromId(scoreModelID);
+        auto scoreModel = dynamic_cast<const IFtpScore<QUuid>*>(model);
         auto modelHint = scoreModel->hint();
         auto playerID = scoreModel->player();
+        auto leg = ftpScoreAttemptIndex(scoreModelID);
+        auto roundIndex = scoreModel->roundIndex();
         if(playerID != player)
             continue;
-        auto leg = ftpScoreAttemptIndex(scoreModelID);
         if(leg != throwIndex)
             continue;
-        auto roundIndex = scoreModel->roundIndex();
         if(roundIndex != round)
             continue;
         if(hint != modelHint && hint != allHints)
@@ -603,9 +613,10 @@ QUuid LocalTournamentModelsContext::ftpScore(const QUuid &tournament,
                                                 const int &round,
                                                 const int &attemptIndex)
 {
-    auto tournamentScoreModels = ftpScores(tournament);
+    auto tournamentScoreModels = ftpScoreIds(tournament);
     for (auto scoreModelID : tournamentScoreModels) {
-        auto scoreModel = getScoreModelFromID(scoreModelID);
+        auto model = getScoreModelFromId(scoreModelID);
+        auto scoreModel = dynamic_cast<const IFtpScore<QUuid>*>(model);
         auto playerID = scoreModel->player();
         if(playerID != player)
             continue;
@@ -630,14 +641,14 @@ const TModelInterface *LocalTournamentModelsContext::getTournamentModelFromID(co
 
     throw THROW_OBJECT_WITH_ID_NOT_FOUND(id.toString());
 }
-
-const IScore<QUuid> *LocalTournamentModelsContext::getScoreModelFromID(const QUuid &id)
+template<typename T>
+const T *LocalTournamentModelsContext::getScoreModelFromId(const QUuid &id)
 {
     auto models = modelDBContext()->scoreModels();
     for (auto model : models)
     {
         if(model->id() == id)
-            return dynamic_cast<const LMC::ScoreInterface*>(model);
+            return dynamic_cast<const T*>(model);
     }
 
     throw THROW_OBJECT_WITH_ID_NOT_FOUND(id.toString());
@@ -745,7 +756,7 @@ int LocalTournamentModelsContext::ftpScoresCount(const int &hint)
     auto count = 0;
     auto models = modelDBContext()->scoreModels();
     for (auto model : models) {
-        auto scoreModel = dynamic_cast<const LMC::ScoreInterface*>(model);
+        auto scoreModel = dynamic_cast<const IScore<QUuid>*>(model);
         if(scoreModel->hint() == hint || hint == allHints)
             count++;
     }
@@ -759,47 +770,24 @@ void LocalTournamentModelsContext::addFTPScore(const QUuid &tournament,
                                                const int &attemptIndex,
                                                const int &point,
                                                const int &score,
+                                               const int &accumulatedScore,
                                                const int &keyCode,
                                                const bool &isWinnerDetermined)
 {
-    /*
-     * dataValues memory layout:
-     *  - [0] = Round index
-     *  - [1] = Set/player index
-     *  - [2] = throwindex
-     *  - [3] = point value
-     *  - [4} = score value
-     *  - [5] = keycode
-     */
-    auto model = scoreBuilder()->buildFTPScoreModel(
-                [tournament,
-                player,
-                roundIndex,
-                setIndex,
-                attemptIndex,
-                point,
-                score,
-                keyCode]
-    {
-        SBC::FTPScoreParameters params;
-        params.roundIndex = roundIndex;
-        params.setIndex = setIndex;
-        params.attempt = attemptIndex;
-        params.pointValue = point;
-        params.scoreValue = score;
-        params.keyCode = keyCode;
-        params.tournament = tournament;
-        params.playerId = player;
-        params.hint = ModelDisplayHint::DisplayHint;
-        return params;
-    }(),
-    []
-    {
-        SBC::ModelOptions options;
-        options.generateUniqueId = true;
-        return options;
-    }());
-
+    SBC::FtpScoreParameters params;
+    params.roundIndex = roundIndex;
+    params.setIndex = setIndex;
+    params.attempt = attemptIndex;
+    params.pointValue = point;
+    params.scoreValue = score;
+    params.accumulatedScoreValue = accumulatedScore;
+    params.keyCode = keyCode;
+    params.tournament = tournament;
+    params.playerId = player;
+    params.hint = ModelDisplayHint::DisplayHint;
+    SBC::ModelOptions options;
+    options.generateUniqueId = true;
+    auto model = scoreBuilder()->buildFTPScoreModel(params,options);
     if(isWinnerDetermined)
         tournamentSetWinnerId(tournament,player);
     removeHiddenScores(tournament);
@@ -808,7 +796,7 @@ void LocalTournamentModelsContext::addFTPScore(const QUuid &tournament,
 
 void LocalTournamentModelsContext::removeHiddenScores(const QUuid &tournament)
 {
-    auto scoresID = ftpScores(tournament,ModelDisplayHint::HiddenHint);
+    auto scoresID = ftpScoreIds(ModelDisplayHint::HiddenHint,tournament);
     for (auto scoreID : scoresID)
         removeScore(scoreID);
 }

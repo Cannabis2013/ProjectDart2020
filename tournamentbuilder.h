@@ -8,7 +8,7 @@
 #include "ftpscore.h"
 
 typedef ITournament<QUuid,QVector<QUuid>,QString> TournamentInterface;
-typedef IScore<QUuid> FTPScoreInterface;
+typedef IFtpScore<QUuid> FTPScoreInterface;
 
 
 namespace DefaultModelBuilderContext
@@ -40,9 +40,9 @@ public:
                 ->setAttempts(params.attempts)
                 ->setStatus(params.status)
                 ->setAssignedPlayerIdentities(params.playerIdentities)
-                ->setTerminalKeyCode(params.winConditionKey)
-                ->setDisplayHint(params.modelTableViewHint)
-                ->setInputMode(params.inputMode)
+                ->setTerminalKeyCode(params.terminalKeyCode)
+                ->setDisplayHint(params.displayHint)
+                ->setInputMode(params.inputHint)
                 ->setWinner(params.winner);
         if(options.generateUniqueId && !options.useProvidedId)
             t->setId(QUuid::createUuid());
@@ -63,9 +63,9 @@ public:
         auto status = params.status != -1 ? params.status: ftpTournament->status();
         auto assignedPlayerIdentities = params.playerIdentities != QVector<QUuid>() ?
                     params.playerIdentities : ftpTournament->assignedPlayerIdentities();
-        auto terminalKeyCode = params.winConditionKey != -1 ? params.winConditionKey : ftpTournament->terminalKeyCode();
-        auto displayHint = params.modelTableViewHint != -1 ? params.modelTableViewHint : ftpTournament->displayHint();
-        auto inputMode = params.inputMode != -1 ? params.inputMode : ftpTournament->inputHint();
+        auto terminalKeyCode = params.terminalKeyCode != -1 ? params.terminalKeyCode : ftpTournament->terminalKeyCode();
+        auto displayHint = params.displayHint != -1 ? params.displayHint : ftpTournament->displayHint();
+        auto inputMode = params.inputHint != -1 ? params.inputHint : ftpTournament->inputHint();
         auto winnerId = options.useProvidedId ? params.winner : ftpTournament->winnerId();
         auto model = FTPTournament::createInstance()
                 ->setId(ftpTournament->id())

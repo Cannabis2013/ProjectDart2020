@@ -5,9 +5,7 @@
 #include <quuid.h>
 #include "abstractmodelscontext.h"
 #include "iresponseinterface.h"
-class
-        AbstractApplicationInterface : public QObject,
-        public IResponseInterface<QVariantList>
+class AbstractApplicationInterface : public QObject
 {
     Q_OBJECT
 public slots:
@@ -23,30 +21,17 @@ public slots:
      */
     virtual void handleRequestForSingleThrowScoreData() = 0;
     virtual void handleRequestForMultiThrowScoreData() = 0;
-    /*
-     * Create tournament
-     *
-     *  Data array allocates memmory locations in the following order:
-     *   - [0] = Gamemode
-     *   - [1] = Keypoint
-     *   - [2] = KeyCode (win condition)
-     *   - [3] = TableViewHint
-     *   - [4] = InputMode
-     *   - [5] = Number of throws
-     */
-    virtual void handleFTPDetails(const QString &title,
-                                const QVector<int> &data,
-                                const QVector<int> &playerIndexes) = 0;
+    virtual void handleFTPDetails(const QByteArray& json) = 0;
     /*
      * Delete tournament
      */
-    virtual void handleDeleteTournamentsRequest(const QVariantList &indexes) = 0;
+    virtual void handleDeleteTournamentsRequest(const QByteArray& json) = 0;
     /*
      * UI requests to create/delete player from datacontext
      */
-    virtual void handleCreatePlayer(const QString &playerName, const QString &email) = 0;
-    virtual void handleDeletePlayer(const int &index) = 0;
-    virtual void handleDeletePlayersRequest(const QVariantList &args) = 0;
+    virtual void handleCreatePlayer(const QByteArray& json) = 0;
+    virtual void handleDeletePlayer(const QByteArray& json) = 0;
+    virtual void handleDeletePlayersRequest(const QByteArray& json) = 0;
     /*
      * UI requests playerdetails from datacontext
      */
@@ -64,7 +49,7 @@ public slots:
      *  - Users enters points to be stored in datacontext
      *  - In return, datacontext, in collaboration with gamecontroller, send current score to UI
      */
-    virtual void handleUserInput(const int &point, const int &pressedModfier) = 0;
+    virtual void handleUserInput(const QByteArray& json) = 0;
     virtual void handleUndoRequest() = 0;
     virtual void handleRedoRequest() = 0;
     virtual void handleControllerStateRequest() = 0;
@@ -74,35 +59,22 @@ public slots:
     virtual void handleTournamentMetaRequest() = 0;
 signals:
     /*
-     * IResponse interface
-     */
-    void transmitResponse(const int &status, const QVariantList &arguments) override;
-    /*
      * ApplicationInterface interface
      */
     void requestWakeUp();
-    void requestCreatePlayer(const QString &playerName, const QString &mail);
-    void requestDeletePlayer(const int &index);
-    void requestDeletePlayers(const QVector<int> &indexes);
-    void requestDeleteTournaments(const QVector<int> &indexes);
+    void requestCreatePlayer(const QByteArray &json);
+    void requestDeletePlayer(const QByteArray& json);
+    void requestDeletePlayers(const QByteArray& json);
+    void requestDeleteTournaments(const QByteArray& json);
     void requestTournaments();
     void requestPlayers();
-    void sendAssignedPlayerIndexes(const QVariantList &indexes, const QUuid &tournament);
+    void sendAssignedPlayerIndexes(const QVariantList &indexes,
+                                   const QUuid &tournament);
     void sendRequestedGameModes(const QStringList &gameModes);
-    void sendPlayerDetail(const QString &playerName, const QString &mail);
-    void sendPlayerScore(const QString &playerName,const int &point, const int &score, const int &keyCode);
-    void sendAssignedPlayerName(const QString &playerName);
-    void sendCurrentTournamentKeyPoint(const int &point);
     void sendRequestedTournament(const QString &title,
                                  const int &gameMode,
                                  const int &playersCount);
-    void sendFTPDetails(const QString &title,
-                        const QVector<int> &data,
-                        const QVector<int> &playerIndexes);
-    void sendInformalControllerValues(const int &roundIndex,
-                                      const QString &playerName,
-                                      const bool &undoAvailable,
-                                      const bool &redoAvailable);
+    void sendFTPDetails(const QByteArray& json);
     void sendGameModes(const QStringList &modes) const;
     void stateChanged();
     void sendInitialControllerValues(const QUuid &tournament,
@@ -112,7 +84,7 @@ signals:
     void requestSingleThrowPlayerScores();
     void requestFtpMultiAttemptScores();
     void setCurrentActiveTournament(const int &index);
-    void sendPoint(const int &point, const int &pressedModifier);
+    void sendPoint(const QByteArray& json);
     void requestStartGame();
     void requestStopGame();
     void requestTournamentReset();
@@ -120,13 +92,10 @@ signals:
     void requestUndo();
     void requestRedo();
     void requestCurrentTournamentId();
-    void sendFTPTournamentMetaData(const QVector<QString> &stringMetaData,
-                                   const QVector<int> numericMetaData,
-                                   const QVector<QString> &assignedPlayerNames);
+    void sendFTPTournamentMetaData(const QByteArray& json);
     void removeScore(const QString &player);
     void playersDeletedStatus(const bool &status);
     void tournamentsDeletedSuccess(const bool &status);
-
     void sendTournaments(const QVariantList& list);
     void sendPlayers(const QVariantList& list);
     void createPlayerResponse(const bool &status);
@@ -140,14 +109,14 @@ signals:
                                        const int& attemptIndex,
                                        const int& score,
                                        const QString& targetRow);
-    void sendAssembledSingleFtpScores(const QString& scores);
-    void sendAssembledMultiFtpScores(const QString& scores);
+    void sendAssembledSingleFtpScores(const QByteArray& json);
+    void sendAssembledMultiFtpScores(const QByteArray& json);
     // Controller states
     void controllerIsStopped();
     void controllerIsInitialized();
     void controllerAwaitsInput(const QString& json);
     void ftpControllerIsReset();
-    void ftpControllerAddedAndPersistedScore(const QString& json);
+    void ftpControllerAddedAndPersistedScore(const QByteArray& json);
     void ftpControllerRemovedScore(const QString& json);
     void controllerHasDeclaredAWinner(const QString& json);
 };

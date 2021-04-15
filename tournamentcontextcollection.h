@@ -8,15 +8,16 @@
 #include "scorebuildercontext.h"
 #include "IScoreBuilder.h"
 
-namespace LMC {
+namespace TCC {
     typedef ITournament<QUuid,QVector<QUuid>,QString> TournamentInterface;
     typedef IFTPTournament<QUuid,QVector<QUuid>,QString> FTPInterface;
-    typedef IScore<QUuid> ScoreInterface;
 
     typedef ITournamentBuilder<TournamentInterface,
                                ITournamentParameter,
                                TBC::ModelOptions> ITournamentModelsBuilder;
-    typedef IScoreBuilder<ScoreInterface,IScoreParameter,SBC::ModelOptions> IScoreModelsBuilder;
+    typedef IScoreBuilder<IModel<QUuid>,
+                          IScoreParameter,
+                          SBC::ModelOptions> ScoreBuilderInterface;
 }
 
 #endif // TOURNAMENTCONTEXTCOLLECTION_H

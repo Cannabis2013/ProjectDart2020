@@ -32,8 +32,10 @@ struct Tuple
 };
 
 
-typedef IScoreController<QUuid,QString,QVector<int>,QVector<QString>> ScoreControllerInterface;
-
+typedef IScoreController<QUuid,
+                         QString,
+                         QVector<int>,
+                         QVector<QString>> ScoreControllerInterface;
 class FTPScoreController : public ScoreControllerInterface
 {
 public:
@@ -62,10 +64,9 @@ public:
     ScoreControllerInterface *setWinner(const QUuid &id) override;
     QString winnerUserName() const override;
     int initialScore() const override;
-    int calculateAggregateduserScoreCandidate(const int& index,
+    int calculateAccumulatedScoreCandidate(const int& index,
                                               const int& score) const override;
     void resetScores() override;
-
 private:
     /*
      * Private constructor
@@ -79,6 +80,8 @@ private:
 
     PlayerTuple tupleAtIndex(const int &index) const;
     PlayerTuple tupleAtId(const QUuid& id) const;
+    PlayerTuple tupleAtId(const PlayerTuples* _tuples, const QUuid& id);
+    PlayerTuples createInitializedTuples();
 
     int indexOf(const PlayerTuple& tuple);
 

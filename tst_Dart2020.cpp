@@ -7,6 +7,9 @@
 #include <gamecontrollerbuilder.h>
 #include <qsignalspy.h>
 #include "testeventloop.h"
+#include <qjsondocument.h>
+#include <qjsonobject.h>
+#include <qjsonarray.h>
 
 #define DEFAULT_WAIT_TIME 750
 
@@ -23,9 +26,17 @@ public:
                 ->setModelsContextInterface(LocalModelsContext::createInstance())
                 ->setControllerBuilder(new GameControllerBuilder)
                 ->setup();
+        QJsonObject per;
+        per["playerName"] = "Per";
+        per["playerMail"] = defaultPlayerMail;
 
-        _app->handleCreatePlayer("Per",defaultPlayerMail);
-        _app->handleCreatePlayer("Jesper Hockey",defaultPlayerMail);
+        auto perJson = QJsonDocument(per).toJson();
+        _app->handleCreatePlayer(perJson);
+        QJsonObject jesper;
+        jesper["playerName"] = "Jesper Hockey";
+        jesper["playerMail"] = defaultPlayerMail;
+        auto jesperJson = QJsonDocument(jesper).toJson();
+        _app->handleCreatePlayer(jesperJson);
         TestEventLoop::wait(250);
 
     }
@@ -58,9 +69,11 @@ private slots:
         QSignalSpy spy(
                     _app,
                     &DartApplication::createPlayerResponse);
-        auto userName = "Kent KillerHertz";
-        auto userMail = "KillerHertz@outlook.dk";
-        _app->handleCreatePlayer(userName,userMail);
+        QJsonObject obj;
+        obj["playerName"] = "Kent KillerHertz";
+        obj["playerMail"] = "KillerHertz@outlook.dk";
+        auto json = QJsonDocument(obj).toJson();
+        _app->handleCreatePlayer(json);
         auto firstArgument = waitAndReturnFirstSignal(spy,DEFAULT_WAIT_TIME);
         if(firstArgument == QVariant())
             QVERIFY(false);
@@ -96,7 +109,10 @@ private slots:
     void test_delete_player_succes()
     {
         QSignalSpy spy(_app,&DartApplication::playersDeletedStatus);
-        _app->handleDeletePlayer(2);
+        QJsonObject obj;
+        obj["index"] = 2;
+        auto json = QJsonDocument(obj).toJson();
+        _app->handleDeletePlayer(json);
         auto firstArgument = waitAndReturnFirstSignal(spy,DEFAULT_WAIT_TIME);
         if(firstArgument == QVariant())
             QVERIFY(false);
@@ -112,18 +128,20 @@ private slots:
         auto keyPoint = 501;
         auto winKeyCode = 0x2B;
         auto displayHint = 0x4;
-        auto inputMode = 0x6;
+        auto inputHint = 0x6;
         auto attempts = 1;
-        auto data = {
-            gameMode,
-            keyPoint,
-            winKeyCode,
-            displayHint,
-            inputMode,
-            attempts
-        };
-        auto playerIndexes = {0,1};
-        _app->handleFTPDetails(title,data,playerIndexes);
+        QJsonObject obj;
+        obj["Title"] = title;
+        obj["GameMode"] = gameMode;
+        obj["KeyPoint"] = keyPoint;
+        obj["TerminalKeyCode"] = winKeyCode;
+        obj["DisplayHint"] = displayHint;
+        obj["InputHint"] = inputHint;
+        obj["Attempts"] = attempts;
+        QJsonArray arr = {0,1};
+        obj["PlayerIndexes"] = arr;
+        auto json = QJsonDocument(obj).toJson();
+        _app->handleFTPDetails(json);
         auto firstArgument = waitAndReturnFirstSignal(spy,DEFAULT_WAIT_TIME);
         auto inferedArgument = firstArgument.toBool();
         QVERIFY(inferedArgument);

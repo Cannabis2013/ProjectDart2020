@@ -10,7 +10,7 @@
 
 namespace DbModels {
     typedef ITournament<QUuid,QVector<QUuid>,QString> TournamentInterface;
-    typedef IScore<QUuid> ScoreInterface;
+    typedef IModel<QUuid> ScoreInterface;
     typedef IFTPTournament<QUuid,QVector<QUuid>,QString> IFirstToPostModel;
     typedef IPlayerModel<QUuid,QString> PlayerInterface;
 }
@@ -31,12 +31,12 @@ public:
     virtual int indexOfTournament(const DbModels::TournamentInterface*) = 0;
     virtual void replaceTournament(const int&, const DbModels::TournamentInterface*) = 0;
     // Score section
-    virtual void addScoreModel(const IScore<QUuid>* model) = 0;
-    virtual const IScore<QUuid>* scoreModel(const int& index) = 0;
-    virtual QVector<const IScore<QUuid>*> scoreModels() = 0;
+    virtual void addScoreModel(const DbModels::ScoreInterface* model) = 0;
+    virtual const DbModels::ScoreInterface* scoreModel(const int& index) = 0;
+    virtual QVector<const DbModels::ScoreInterface*> scoreModels() = 0;
     virtual void removeScoreModel(const int&) = 0;
-    virtual int indexOfScoreModel(const IScore<QUuid>*) = 0;
-    virtual void replaceScoreModel(const int&, const IScore<QUuid>*) = 0;
+    virtual int indexOfScoreModel(const DbModels::ScoreInterface*) = 0;
+    virtual void replaceScoreModel(const int&, const DbModels::ScoreInterface*) = 0;
     // Player section
     virtual void addPlayerModel(const DbModels::PlayerInterface*) = 0;
     virtual const DbModels::PlayerInterface* playerModel(const int&) = 0;

@@ -40,7 +40,7 @@ public:
      * Get/set GameControllerBuilder
      */
     AbstractControllerBuilder* controllerBuilder();
-    DartApplication *setControllerBuilder(ControllerBuilder *builder);
+    DartApplication *setControllerBuilder(ControllerBuilderInterface *builder);
 
 public slots:
     /*
@@ -70,19 +70,17 @@ public slots:
      *   - [4] = InputMode
      *   - [5] = Number of throws
      */
-    void handleFTPDetails(const QString &title,
-                                const QVector<int> &data,
-                                const QVector<int> &playerIndexes) override;
+    void handleFTPDetails(const QByteArray &json) override;
     /*
      * Delete tournament
      */
-    void handleDeleteTournamentsRequest(const QVariantList &indexes) override;
+    void handleDeleteTournamentsRequest(const QByteArray &json) override;
     /*
      * UI requests to create/delete player from datacontext
      */
-    void handleCreatePlayer(const QString &playerName, const QString &email) override;
-    void handleDeletePlayer(const int &index) override;
-    void handleDeletePlayersRequest(const QVariantList &args) override;
+    void handleCreatePlayer(const QByteArray &json) override;
+    void handleDeletePlayer(const QByteArray &json) override;
+    void handleDeletePlayersRequest(const QByteArray &json) override;
     /*
      * UI requests playerdetails from datacontext
      */
@@ -100,7 +98,7 @@ public slots:
      *  - Users enters points to be stored in datacontext
      *  - In return, datacontext, in collaboration with gamecontroller, send current score to UI
      */
-    void handleUserInput(const int &point, const int &pressedModfier) override;
+    void handleUserInput(const QByteArray& json) override;
     void handleUndoRequest() override;
     void handleRedoRequest() override;
     void handleControllerStateRequest() override;
@@ -110,15 +108,11 @@ public slots:
     void handleTournamentMetaRequest() override;
 
 signals:
-    void assembleFTPController(const QUuid& tournamentId,
-                               const QUuid& winnerId,
-                               const QVector<int>& values,
+    void assembleFTPController(const QByteArray& json,
                                AbstractApplicationInterface* applicationsInteface,
                                AbstractModelsContext* modelsContextInterface);
 private slots:
-    void assembleAndConfigureControllerBuilder(const QUuid &tournamentId,
-                                               const QUuid &winnerId,
-                                               const QVector<int> &values);
+    void assembleAndConfigureControllerBuilder(const QByteArray &json);
     void setGameController(AbstractGameController* controller);
 private:
     // Register and connect interfaces related..

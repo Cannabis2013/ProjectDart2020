@@ -12,7 +12,12 @@ public:
      * Tournament related section
      */
     virtual QUuid tournamentAssembleAndAddFTP(const QString &title,
-                                              const QVector<int> &data,
+                                              const int& gameMode,
+                                              const int& keyPoint,
+                                              const int& winKeyCode,
+                                              const int& displayHint,
+                                              const int& inputHint,
+                                              const int& attempts,
                                               const QVector<QUuid> &playerIds) = 0;
     virtual bool removeTournament(const QUuid &tournament) = 0;
     virtual bool removeTournamentsFromIndexes(const QVector<int>& indexes) = 0;
@@ -36,14 +41,15 @@ public:
      * Scores related section
      */
     virtual void addFTPScore(const QUuid &tournament,
-                  const QUuid &player,
-                  const int &roundIndex,
-                  const int &setIndex,
-                  const int &attemptIndex,
-                  const int &point,
-                  const int &score,
-                  const int &keyCode,
-                  const bool &isWinnerDetermined) = 0;
+                             const QUuid &player,
+                             const int &roundIndex,
+                             const int &setIndex,
+                             const int &attemptIndex,
+                             const int &point,
+                             const int &score,
+                             const int& accumulatedScore,
+                             const int &keyCode,
+                             const bool &isWinnerDetermined) = 0;
     virtual QUuid ftpScore(const QUuid &tournament,
                            const QUuid &player ,
                            const int &round,
@@ -53,20 +59,21 @@ public:
                            const QUuid &player ,
                            const int &round,
                            const int &throwIndex) = 0;
-    virtual QList<QUuid> ftpScores() = 0;
-    virtual QList<QUuid> ftpScores(const QUuid &tournament) = 0;
-    virtual QList<QUuid> ftpScores(const QUuid &tournament, const int &roundID) = 0;
-    virtual QList<QUuid> ftpScores(const QUuid &tournament, const int &roundID, const int &setID) = 0;
-    virtual QList<QUuid> ftpScores(const int &hint,const QUuid &tournament) = 0;
+    virtual QList<QUuid> ftpScoreIds() = 0;
+    virtual QList<QUuid> ftpScoreIds(const QUuid &tournament) = 0;
+    virtual QList<QUuid> ftpScoreIds(const QUuid &tournament, const int &roundID) = 0;
+    virtual QList<QUuid> ftpScoreIds(const QUuid &tournament, const int &roundID, const int &setID) = 0;
+    virtual QList<QUuid> ftpScoreIds(const int &hint,const QUuid &tournament) = 0;
     virtual QList<QUuid> playerScores(const QUuid &tournament, const QUuid &player, const int &hint) = 0;
     virtual int ftpScoresCount(const int &hint) = 0;
     virtual QUuid setScoreHint(const QUuid &point, const int &hint) = 0;
     virtual QUuid editScore(const QUuid &pointId, const int &value, const int &score,const int &hint) = 0;
-    virtual int ftpScoreRoundIndex(const QUuid &playerScore) = 0;
-    virtual int ftpScoreSetIndex(const QUuid &playerScore) = 0;
-    virtual int ftpScoreAttemptIndex(const QUuid &playerScore) = 0;
-    virtual int ftpScorePointValue(const QUuid &playerScore) = 0;
-    virtual int ftpScoreValue(const QUuid &point) = 0;
+    virtual int ftpScoreRoundIndex(const QUuid &) = 0;
+    virtual int ftpScoreSetIndex(const QUuid &) = 0;
+    virtual int ftpScoreAttemptIndex(const QUuid &) = 0;
+    virtual int ftpScorePointValue(const QUuid &) = 0;
+    virtual int ftpScoreValue(const QUuid &) = 0;
+    virtual int ftpAccumulatedScoreValue(const QUuid&) = 0;
     virtual QUuid ftpScoreTournament(const QUuid &playerScore) = 0;
     virtual QUuid scorePlayer(const QUuid &playerScore) = 0;
     virtual int scoreHint(const QUuid &scoreID) = 0;

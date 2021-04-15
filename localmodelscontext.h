@@ -24,9 +24,9 @@ public:
         ModelsStatePersisted = 0x47
     };
     enum ModelDisplayHint{
-        HiddenHint = 0x9,
-        DisplayHint = 0xA,
-        allHints = 0xB
+        HiddenHint = 0x1,
+        DisplayHint = 0x2,
+        allHints = HiddenHint | DisplayHint
     };
     /*
      * Destructor
@@ -47,17 +47,14 @@ public slots:
      * General tournaments methods
      */
     void assignPlayersToTournament(const QUuid &tournament, const QList<QUuid> &playersID) override;
-    void deleteTournaments(const QVector<int>&indexes) override;
-    void handleRequestAssignedPlayers(const QUuid &tournament) override;
+    void deleteTournaments(const QByteArray &json) override;
     void handleRequestGameMode(const int &index) override;
     void handleRequestTournaments() override;
     void resetTournament(const QUuid &tournament) override;
     /*
      * First To Post tournaments methods
      */
-    void addFTPTournament(const QString &title,
-                                  const QVector<int> &data,
-                                  const QVector<int> &assignedPlayerIndexes) override;
+    void addFTPTournament(const QByteArray &json) override;
     void handleRequestFtpScores(const QUuid &tournament) override;
     /*
      * Handle request for 'first To Post'-tournament related meta information
@@ -75,16 +72,8 @@ public slots:
      *      [2] = Tournament model tablehint
      *      [3] = Tournament input mode
      */
-    void assembleFTPMetaDataFromId(const QUuid& tournament) override;
-    void addFtpScore(const QUuid &tournament,
-                        const QUuid &player,
-                        const int& roundIndex,
-                        const int& setIndex,
-                        const int& attemptIndex,
-                        const int& point,
-                        const int& score,
-                        const int& keyCode,
-                        const bool &isWinnerDetermined) override;
+    void assembleFtpMetaDataFromId(const QUuid& tournament) override;
+    void addFtpScore(const QByteArray& json) override;
     void setFtpScoreHint(const QUuid &tournament,
                                                const QUuid &player,
                                                const int &roundIndex,
@@ -101,10 +90,10 @@ public slots:
     /*
      * Player models context related methods
      */
-    void createPlayer(const QString &name, const QString &mail) override;
-    void deletePlayerFromIndex(const int &index) override;
+    void createPlayer(const QByteArray &json) override;
+    void deletePlayerFromIndex(const QByteArray& json) override;
 
-    void deletePlayersFromIndexes(const QVector<int> &indexes) override;
+    void deletePlayersFromIndexes(const QByteArray& json) override;
     void handleRequestPlayersDetails() override;
 
 private:

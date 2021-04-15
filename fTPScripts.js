@@ -31,7 +31,6 @@ function initialize()
     setupFirstToPostScoreTable();
     // Setup window title
     setupWindowTitle();
-
     var hint = tournamentMetaData.tournamentTableViewHint;
     if(hint === DataModelContext.singleAttempt)
         requestSingleThrowScores();
@@ -75,6 +74,8 @@ function connectFtpInterface()
 function disConnectFtpInterface()
 {
     applicationInterface.ftpControllerRemovedScore.disconnect(backendRemovedScore);
+    applicationInterface.ftpControllerAddedAndPersistedScore.disconnect(backendAddedAndPersistedScore);
+    applicationInterface.ftpControllerIsReset.disconnect(reinitialize);
     keyPadInterface().sendInput.disconnect(GameGeneralScripts.handleKeyPadInput);
     gamePageBody.scoreRecieved.disconnect(scoreBoardItemSlot.item.setData);
     applicationInterface.sendAssembledMultiFtpScores.disconnect(recieveFtpMultiAttemptScores);
@@ -159,15 +160,15 @@ function backendIsReadyAndAwaitsInput(data)
 function recieveFtpMultiAttemptScores(scores)
 {
     var jsonData = JSON.parse(scores);
-    var entities = jsonData.entities;
+    var entities = jsonData["ScoreEntities"];
     var count = entities.length;
     for(var i = 0;i < count;++i)
     {
         var entity = entities[i];
-        var playerName = entity.playerName;
-        var playerScore = entity.playerScore;
-        var playerPoint = entity.playerPoint;
-        var keyCode = entity.keyCode;
+        var playerName = entity["PlayerName"];
+        var playerScore = entity["PlayerAccumulatedScore"];
+        var playerPoint = entity["PlayerPoint"];
+        var keyCode = entity["ModKeyCode"];
         gamePageBody.scoreRecieved(playerName,playerPoint,playerScore,keyCode);
     }
     gamePageBody.requestStatusFromBackend();
@@ -191,10 +192,10 @@ function recieveFtpSingleAttemptScores(scores)
 function backendAddedAndPersistedScore(data)
 {
     var json = JSON.parse(data);
-    let playerName = json["playerName"];
-    let pointValue = json["playerPoint"];
-    let scoreValue = json["playerScore"];
-    let keyCode = json["keyCode"];
+    let playerName = json["CurrentPlayerName"];
+    let pointValue = json["Point"];
+    let scoreValue = json["AccumulatedScore"];
+    let keyCode = json["ModKeyCode"];
     appendScore(playerName,pointValue,scoreValue,keyCode);
     requestStatusFromBackend();
 }

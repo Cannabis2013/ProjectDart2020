@@ -15,6 +15,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
             abstractjsonpersistence.cpp \
+    controllerbuilder.cpp \
             dartapplication.cpp \
             ftpdatamodel.cpp \
             ftpscorecontroller.cpp \
@@ -63,13 +64,13 @@ HEADERS += \
             abstractjsonpersistence.h \
             abstractmodelscontext.h \
             abstractpersistence.h \
+            controllerbuilder.h \
             dartapplication.h \
             ftpdatamodel.h \
             ftplogisticcontrollerinterface.h \
             ftpscore.h \
             ftpscorecontroller.h \
             ftptournament.h \
-            gamecontrollerbuilder.h \
             idatacontext.h \
             iftptournament.h \
             imodel.h \
@@ -81,6 +82,7 @@ HEADERS += \
             iplayermodel.h \
             iplayermodelbuilder.h \
             iresponseinterface.h \
+            iscore.h \
             iscorecontroller.h \
             iscoremodel.h \
             iscoreparameter.h \

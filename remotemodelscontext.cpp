@@ -7,30 +7,10 @@ RemoteModelsContext::RemoteModelsContext()
     _netMng->setParserService(new UrlParser);
 }
 
-void RemoteModelsContext::transmitResponse(const int &response, const QVariantList &args)
+void RemoteModelsContext::addFTPTournament(const QByteArray& json)
 {
-}
-
-void RemoteModelsContext::addFTPTournament(const QString &title,
-                                                 const QVector<int> &data,
-                                                 const QVector<int> &playerIndexes)
-{
-    QJsonObject jsonObject = {
-        {"Title", title},
-        {"GameMode",data[0]},
-        {"KeyPoint",data[1]},
-        {"TerminalKeyCode",data[2]},
-        {"DisplayHint",data[3]},
-        {"InputHint",data[4]},
-        {"Attempts",data[5]}
-    };
-    QJsonArray indexes;
-    for (auto i = playerIndexes.constBegin();i != playerIndexes.constEnd() ;++i )
-        indexes << *i;
-    jsonObject["Indexes"] = indexes;
-    auto tournament = QJsonDocument(jsonObject).toJson();
     _netMng->sendPostRequest("AddFtpTournament",
-                             tournament,
+                             json,
                              QString(),
                              {},
                              this,
@@ -41,23 +21,11 @@ void RemoteModelsContext::assignPlayersToTournament(const QUuid &tournament, con
 {
 }
 
-void RemoteModelsContext::deleteTournaments(const QVector<int> &indexes)
+void RemoteModelsContext::deleteTournaments(const QByteArray &json)
 {
-    RemoteContext::RemoteJsonObject jsonObject;
-    QJsonArray arr;
-    for (auto i = indexes.constBegin(); i != indexes.constEnd(); ++i) {
-        auto value = *i;
-        arr << value;
-    }
-    jsonObject["Indexes"] = arr;
-    auto data = jsonObject.toJson();
     _netMng->sendPostRequest("DeleteTournamentsFromIndexes",
-                             data,QString(),{},this,
+                             json,QString(),{},this,
                              SLOT(handleDeleteTournamentsReply()));
-}
-
-void RemoteModelsContext::handleRequestAssignedPlayers(const QUuid &tournament)
-{
 }
 
 void RemoteModelsContext::handleRequestFtpScores(const QUuid &tournamentId)
@@ -84,7 +52,7 @@ void RemoteModelsContext::handleRequestGameMode(const int &index)
                             SLOT(handleRequestGameModeReply()));
 }
 
-void RemoteModelsContext::assembleFTPMetaDataFromId(const QUuid &tournamentId)
+void RemoteModelsContext::assembleFtpMetaDataFromId(const QUuid &tournamentId)
 {
     auto formattedTournamentId  = tournamentId.toString(QUuid::WithoutBraces);
     _netMng->sendGetRequest("GetFtpTournamentMeta",
@@ -92,35 +60,11 @@ void RemoteModelsContext::assembleFTPMetaDataFromId(const QUuid &tournamentId)
                             this,SLOT(handleFtpTournamentMetaReply()));
 }
 
-void RemoteModelsContext::addFtpScore(const QUuid &tournamentId,
-                                         const QUuid &playerId,
-                                         const int &roundIndex,
-                                         const int &setIndex,
-                                         const int &attemptIndex,
-                                         const int &point,
-                                         const int &score,
-                                         const int &keyCode,
-                                         const bool &isWinnerDetermined)
+void RemoteModelsContext::addFtpScore(const QByteArray &json)
 {
-    QJsonObject jsonObject= {
-        {"TournamentId", tournamentId.toString(QUuid::WithoutBraces)},
-        {"PlayerId",playerId.toString(QUuid::WithoutBraces)},
-        {"RoundIndex", roundIndex},
-        {"SetIndex", setIndex},
-        {"AttemptIndex",attemptIndex},
-        {"Point",point},
-        {"ScoreValue",score},
-        {"KeyCode",keyCode}
-    };
-    auto winnerId = isWinnerDetermined ? playerId.toString() : "";
-
-    auto document = QJsonDocument(jsonObject);
-    auto data = document.toJson();
-
     _netMng->sendPostRequest("AddFtpScore",
-                             data,QString(),
-                             {{"winnerId",winnerId}},
-                             this,SLOT(handleAddFtpScoreReply()));
+                             json,QString(),{},this,
+                             SLOT(handleAddFtpScoreReply()));
 
 }
 
@@ -155,31 +99,21 @@ void RemoteModelsContext::assembleFtpKeyValues(const QUuid &tournament)
                             SLOT(handleRequestFtpDetailsReply()));
 }
 
-void RemoteModelsContext::createPlayer(const QString &name, const QString &mail)
+void RemoteModelsContext::createPlayer(const QByteArray &json)
 {
-    RemoteContext::RemoteJsonObject obj({{"PlayerName",name},{"PlayerMail",mail}});
-    auto data = QJsonDocument(obj).toJson();
     _netMng->sendPostRequest("CreatePlayer",
-                             data,QString(),{},this,
+                             json,QString(),{},this,
                              SLOT(handleCreatePlayerResponse()));
 }
 
-void RemoteModelsContext::deletePlayerFromIndex(const int &index)
+void RemoteModelsContext::deletePlayerFromIndex(const QByteArray &json)
 {
 }
 
-void RemoteModelsContext::deletePlayersFromIndexes(const QVector<int> &indexes)
+void RemoteModelsContext::deletePlayersFromIndexes(const QByteArray &json)
 {
-    RemoteContext::RemoteJsonObject jsonObject;
-    QJsonArray arr;
-    for (auto i = indexes.constBegin(); i != indexes.constEnd(); ++i) {
-        auto value = *i;
-        arr << value;
-    }
-    jsonObject["Indexes"] = arr;
-    auto data = jsonObject.toJson();
     _netMng->sendPostRequest("DeletePlayers",
-                             data,QString(),{},this,
+                             json,QString(),{},this,
                              SLOT(deletePlayersReply()));
 }
 
@@ -315,34 +249,9 @@ void RemoteModelsContext::handleRequestFtpDetailsReply()
         throw msg;
     }
     auto payLoad = jsonObject.value("payLoad").toObject();
-    /*
-     * Assemble basic tournament values
-     */
-    auto tournament = payLoad.value("tournament").toObject();
-    auto tournamentId = tournament.value("id").toString();
-    auto winnerId = tournament.value("winnerId").toString();
-    /*
-     * Asemble ftp tournament values:
-     *  - Gamemode
-     *  - Keypoint
-     *  - Attempts
-     *  - Terminalkeycode
-     *  - Input hint
-     */
     auto ftpDetails = payLoad.value("ftpDetails").toObject();
-    auto keyPoint = ftpDetails.value("keyPoint").toInt();
-    auto attempt = ftpDetails.value("attempts").toInt();
-    auto terminalKeyCode = ftpDetails.value("terminalKeyCode").toInt();
-    auto inputHint = ftpDetails.value("inputHint").toInt();
-    QVector<int> tournamentValues {
-        keyPoint,
-        attempt,
-        terminalKeyCode,
-        inputHint
-    };
-    emit sendTournamentFtpDetails(tournamentId,
-                                  winnerId,
-                                  tournamentValues);
+    auto json = QJsonDocument(ftpDetails).toJson();
+    emit sendTournamentFtpDetails(json);
 }
 
 void RemoteModelsContext::handleFtpIndexesAndScores()
@@ -361,34 +270,8 @@ void RemoteModelsContext::handleFtpIndexesAndScores()
         throw msg;
     }
     auto payLoad = jsonObject.value("payLoad").toObject();
-    auto indexes = payLoad.value("indexes").toObject();
-    auto totalTurns = indexes.value("totalTurns").toInt();
-    auto turns = indexes.value("turns").toInt();
-    auto roundIndex = indexes.value("roundIndex").toInt();
-    auto setIndex = indexes.value("setIndex").toInt();
-    auto attemptIndex = indexes.value("attemptIndex").toInt();
-
-    QVector<PlayerEntity> playerEntities;
-    auto playerIdsAndNames = payLoad.value("playerEntities").toArray();
-    for (auto i = playerIdsAndNames.constBegin(); i != playerIdsAndNames.constEnd(); ++i) {
-        auto value = *i;
-        auto object = value.toObject();
-        auto playerId = object.value("id").toString();
-        auto playerName = object.value("playerName").toString();
-        playerEntities << PlayerEntity(playerId,playerName);
-    }
-    QVector<ScoreEntity> scoreEntities;
-    auto playerIdsAndScoreValues = payLoad.value("scoreEntities").toArray();
-    for (auto i = playerIdsAndScoreValues.constBegin(); i != playerIdsAndScoreValues.constEnd(); ++i) {
-        auto value = *i;
-        auto object = value.toObject();
-        auto playerId = object.value("playerId").toString();
-        auto scoreValue = object.value("scoreValue").toInt();
-        scoreEntities << ScoreEntity(playerId,scoreValue);
-    }
-    emit sendFtpIndexesAndScoreEntities(totalTurns,turns,
-                                        roundIndex,setIndex,attemptIndex,
-                                        playerEntities,scoreEntities);
+    auto json = QJsonDocument(payLoad).toJson();
+    emit sendFtpIndexesAndScoreEntities(json);
 }
 
 void RemoteModelsContext::handleFtpTournamentMetaReply()
@@ -396,36 +279,7 @@ void RemoteModelsContext::handleFtpTournamentMetaReply()
     if(!_netMng->reply()->isOpen())
         emit createPlayerResponse(false);
     auto byteData = _netMng->reply()->readAll();
-    auto jsonDocument = QJsonDocument::fromJson(byteData);
-    auto jsonObject = jsonDocument.object();
-    auto responseCode = jsonObject.value("response").toInt();
-    if(responseCode == ResponseCode::Error)
-        throw "Tournament doesn't exists";
-    auto payLoad = jsonObject.value("payLoad").toObject();
-    auto title = payLoad.value("title").toString();
-    auto winnerName = payLoad.value("winnerName").toString();
-    auto keyPoint = payLoad.value("keyPoint").toInt();
-    auto attempts = payLoad.value("attempts").toInt();
-    auto displayHint = payLoad.value("displayHint").toInt();
-    auto inputHint = payLoad.value("inputHint").toInt();
-    auto gameMode = payLoad.value("gameMode").toInt();
-    QVector<QString> stringData = {title,winnerName};
-    QVector<int> numericData = {
-        gameMode,
-        keyPoint,
-        attempts,
-        displayHint,
-        inputHint
-    };
-    auto playerNames = payLoad.value("assignedPlayerNames").toArray();
-    QVector<QString> assignedPlayerNames;
-    for (auto i = playerNames.constBegin(); i != playerNames.constEnd(); ++i) {
-        auto playerName = (*i).toString();;
-        assignedPlayerNames << playerName;
-    }
-    emit sendTournamentMeta(stringData,
-                            numericData,
-                            assignedPlayerNames);
+    emit sendTournamentMeta(byteData);
 }
 
 void RemoteModelsContext::handleAddFtpScoreReply()
@@ -440,11 +294,8 @@ void RemoteModelsContext::handleAddFtpScoreReply()
     if(responseCode == ResponseCode::Error)
         emit scoreNotAddedToDataContext("Something went wrong!");
     auto payLoad = jsonObject.value("payLoad").toObject();
-    auto playerId = payLoad.value("playerId").toString();
-    auto point = payLoad.value("point").toInt();
-    auto score = payLoad.value("scoreValue").toInt();
-    auto keyCode = payLoad.value("keyCode").toInt();
-    emit scoreAddedToDataContext(playerId,point,score,keyCode);
+    auto json = QJsonDocument(payLoad).toJson();
+    emit scoreAddedToDataContext(json);
 }
 
 void RemoteModelsContext::handleSetScoreHintReply()

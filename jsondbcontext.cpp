@@ -92,24 +92,24 @@ const DbModels::TournamentInterface *JsonDbContext::tournamentModel(const QUuid 
     return nullptr;
 }
 
-void JsonDbContext::addScoreModel(const IScore<QUuid> *model)
+void JsonDbContext::addScoreModel(const DbModels::ScoreInterface *model)
 {
     _scoreModels.append(model);
     saveState();
 }
 
-const IScore<QUuid> *JsonDbContext::scoreModel(const int &index)
+const DbModels::ScoreInterface *JsonDbContext::scoreModel(const int &index)
 {
     auto model = _scoreModels.at(index);
     return model;
 }
 
-QVector<const IScore<QUuid> *> JsonDbContext::scoreModels()
+QVector<const DbModels::ScoreInterface *> JsonDbContext::scoreModels()
 {
     return _scoreModels;
 }
 
-void JsonDbContext::replaceScoreModel(const int &index, const IScore<QUuid>* score)
+void JsonDbContext::replaceScoreModel(const int &index, const DbModels::ScoreInterface* score)
 {
     _scoreModels.replace(index,score);
     saveState();
@@ -142,6 +142,7 @@ QJsonArray JsonDbContext::assembleFTPTournamentsJSONArray()
         obj["Title"] = tournament->title();
         obj["KeyPoint"] = tournament->keyPoint();
         obj["GameMode"] = tournament->gameMode();
+        obj["TerminalKeyCode"] = tournament->terminalKeyCode();
         obj["TableViewHint"] = tournament->displayHint();
         obj["InputMode"] = tournament->inputHint();
         obj["Winner"] = tournament->winnerId().toString();
@@ -180,12 +181,13 @@ QJsonArray JsonDbContext::assembleScoresJSONArray()
         scoreJSON["Tournament"] = ftpScoreModel->tournament().toString();
         scoreJSON["PointValue"] = ftpScoreModel->point();
         scoreJSON["ScoreValue"] = ftpScoreModel->score();
+        scoreJSON["AccumulatedScoreValue"] = ftpScoreModel->accumulatedScore();
         scoreJSON["RoundIndex"] = ftpScoreModel->roundIndex();
         scoreJSON["SetIndex"] = ftpScoreModel->setIndex();
         scoreJSON["Attempt"] = ftpScoreModel->attempt();
         scoreJSON["PlayerId"] = ftpScoreModel->player().toString();
         scoreJSON["Hint"] = ftpScoreModel->hint();
-        scoreJSON["KeyCode"] = ftpScoreModel->keyCode();
+        scoreJSON["KeyCode"] = ftpScoreModel->modKeyCode();
         scoresJSON.append(scoreJSON);
     }
     return scoresJSON;
@@ -218,6 +220,7 @@ void JsonDbContext::extractTournamentModelsFromJSON(const QJsonArray &arr)
         auto inputMode = tournamentJSON["InputMode"].toInt();
         auto gameMode = tournamentJSON["GameMode"].toInt();
         auto attempts = tournamentJSON["Attempts"].toInt();
+        auto terminalKeyCode = tournamentJSON["TerminalKeyCode"].toInt();
         auto winnerStringID = tournamentJSON["Winner"].toString();
         auto winnerId = QUuid::fromString(winnerStringID);
         auto playersJSONArray = tournamentJSON["Players"].toArray();
@@ -238,6 +241,7 @@ void JsonDbContext::extractTournamentModelsFromJSON(const QJsonArray &arr)
                 ->setGameMode(gameMode)
                 ->setAttempts(attempts)
                 ->setWinner(winnerId)
+                ->setTerminalKeyCode(terminalKeyCode)
                 ->setAssignedPlayerIdentities(assignedPlayerIds);
         _tournamentModels.append(tournamentModel);
     }
@@ -258,6 +262,7 @@ void JsonDbContext::extractScoreModelsFromJSON(const QJsonArray &arr)
         auto attempt = JSONValue["Attempt"].toInt();
         auto pointValue = JSONValue["PointValue"].toInt();
         auto scoreValue = JSONValue["ScoreValue"].toInt();
+        auto accumulatedScoreValue = JSONValue["AccumulatedScoreValue"].toInt();
         auto keyCode = JSONValue["KeyCode"].toInt();
         auto scoreHint = JSONValue["Hint"].toInt();
         auto scoreModel = FTPScore::createInstance()
@@ -269,7 +274,8 @@ void JsonDbContext::extractScoreModelsFromJSON(const QJsonArray &arr)
                 ->setAttempt(attempt)
                 ->setPointValue(pointValue)
                 ->setScoreValue(scoreValue)
-                ->setKeyCode(keyCode)
+                ->setAccumulatedScore(accumulatedScoreValue)
+                ->setModKeyCode(keyCode)
                 ->setDisplayHint(scoreHint);
         _scoreModels.append(scoreModel);
     }

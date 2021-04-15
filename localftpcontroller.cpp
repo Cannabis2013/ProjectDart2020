@@ -5,7 +5,6 @@ void LocalFtpController::start()
     if(_currentStatus != ControllerState::Initialized &&
             _currentStatus != ControllerState::Stopped)
     {
-        emit transmitResponse(ControllerState::NotInitialized,{});
         return;
     }
     setCurrentStatus(ControllerState::AwaitsInput);
@@ -17,9 +16,11 @@ void LocalFtpController::stop()
     setCurrentStatus(ControllerState::Stopped);
 }
 
-void LocalFtpController::handleAndProcessUserInput(const int &point,
-                                                   const int &modifierKeyCode)
+void LocalFtpController::handleAndProcessUserInput(const QByteArray& json)
 {
+    auto jsonObject = QJsonDocument::fromJson(json).object();
+    auto point = jsonObject.value("Point").toInt();
+    auto modKeyCode = jsonObject.value("ModKeyCode").toInt();
     // Check for status
     if(status() == Stopped ||
             status() == WinnerDeclared)
@@ -29,28 +30,27 @@ void LocalFtpController::handleAndProcessUserInput(const int &point,
     }
     else if(status() == ControllerState::AddScoreState)
     {
-        emit transmitResponse(ControllerResponse::IsProcessingUserInput,{});
         return;
     }
     // Calculate score
-    auto score = scoreCalculator()->calculateScore(point,modifierKeyCode);
+    auto score = scoreCalculator()->calculateScore(point,modKeyCode);
     auto setIndex = indexController()->setIndex();
     auto currentScore = scoreController()->userScore(setIndex);;
-    auto newScore = scoreController()->calculateAggregateduserScoreCandidate(setIndex,score);
+    auto accumulatedScore = scoreController()->calculateAccumulatedScoreCandidate(setIndex,score);
     // Evaluate input according to point domain and aggregated sum domain
-    auto domain = scoreEvaluator()->validateInput(newScore,modifierKeyCode,point);
+    auto domain = scoreEvaluator()->validateInput(accumulatedScore,modKeyCode,point);
     switch (domain)
     {
         // In case user enters scores above 180
     case InputValidatorInterface::InputOutOfRange : sendCurrentTurnValues();break;
-        case InputValidatorInterface::PointDomain : addPoint(point,score,modifierKeyCode);break;
-        case InputValidatorInterface::CriticalDomain : addPoint(point,score,modifierKeyCode);break;
+        case InputValidatorInterface::PointDomain : addPoint(point,score,accumulatedScore,modKeyCode);break;
+        case InputValidatorInterface::CriticalDomain : addPoint(point,score,accumulatedScore,modKeyCode);break;
         case InputValidatorInterface::TargetDomain : {
             declareWinner();
-            addPoint(point,score,modifierKeyCode);
+            addPoint(point,score,accumulatedScore,modKeyCode);
             break;
         }
-        case InputValidatorInterface::OutsideDomain : addPoint(0,currentScore,modifierKeyCode);break;
+        case InputValidatorInterface::OutsideDomain : addPoint(0,0,currentScore,modKeyCode);break;
     }
 }
 
@@ -62,7 +62,6 @@ void LocalFtpController::handleRequestForCurrentTournamentMetaData()
 
 void LocalFtpController::assembleSingleAttemptFtpScores()
 {
-    QVariantList list;
     auto count = scoreController()->playersCount();
     QJsonObject jsonObject;
     QJsonArray playerScoreEntities;
@@ -76,7 +75,7 @@ void LocalFtpController::assembleSingleAttemptFtpScores()
     };
     jsonObject["entities"] = playerScoreEntities;
     auto document = QJsonDocument(jsonObject);
-    auto jsonString = QString(document.toJson(QJsonDocument::Compact));
+    auto jsonString = document.toJson(QJsonDocument::Compact);
     emit sendSingleAttemptFtpScores(jsonString);
 }
 
@@ -86,23 +85,18 @@ void LocalFtpController::handleRequestFtpPlayerScores()
     emit requestFtpMultiAttemptScores(tournamentId);
 }
 
-void LocalFtpController::handleScoreAddedToDataContext(const QUuid &playerId,
-                                                       const int &point,
-                                                       const int &score,
-                                                       const int& keyCode)
+void LocalFtpController::handleScoreAddedToDataContext(const QByteArray &json)
 {
-    scoreController()->subtractPlayerScore(playerId,score);
-    auto playerName = scoreController()->userNameFromId(playerId);
-    auto currentScore = scoreController()->userScore(playerId);
+    auto obj = QJsonDocument::fromJson(json).object();
+    auto score = obj.value("Score").toInt();
+    auto currentPlayerStringId = obj.value("CurrentPlayerId").toString();
+    auto currentPlayerId = QUuid::fromString(currentPlayerStringId);
+    scoreController()->subtractPlayerScore(currentPlayerId,score);
+    auto newAccumulatedScore = scoreController()->userScore(currentPlayerId);
+    obj["AccumulatedScore"] = newAccumulatedScore;
     indexController()->syncIndex();
-    QJsonObject json = {
-        {"playerName",playerName},
-        {"playerPoint",point},
-        {"playerScore",currentScore},
-        {"keyCode",keyCode}
-    };
-    auto data = QJsonDocument(json).toJson(QJsonDocument::Compact);
-    emit scoreAddedAndPersisted(data);
+    auto newJson = QJsonDocument(obj).toJson(QJsonDocument::Compact);
+    emit scoreAddedAndPersisted(newJson);
 }
 
 void LocalFtpController::handleScoreHintUpdated(const QUuid &playerId,
@@ -254,26 +248,25 @@ QUuid LocalFtpController::redoTurn()
 
 void LocalFtpController::addPoint(const int& point,
                                   const int& score,
+                                  const int& accumulatedScore,
                                   const int& keyCode)
 {
     // Set controller state, unless winner declared
     if(currentStatus() != ControllerState::WinnerDeclared)
         setCurrentStatus(ControllerState::AddScoreState);
-    auto tournamentID = tournament();
-    auto roundIndex = indexController()->roundIndex();
-    auto setIndex = indexController()->setIndex();
-    auto attemptIndex = indexController()->attempt();
-    auto isWinnerDetermined = status() == ControllerState::WinnerDeclared;
-    auto currentPlayer = currentActivePlayerId();
-    emit requestAddFtpScore (tournamentID,
-                         currentPlayer,
-                         roundIndex,
-                         setIndex,
-                         attemptIndex,
-                         point,
-                         score,
-                         keyCode,
-                         isWinnerDetermined);
+    QJsonObject obj;
+    obj["TournamentId"] = tournament().toString(QUuid::WithoutBraces);
+    obj["RoundIndex"] = indexController()->roundIndex();
+    obj["SetIndex"] = indexController()->setIndex();
+    obj["Attempt"] = indexController()->attempt();
+    obj["IsWinnerDetermined"] = status() == ControllerState::WinnerDeclared;
+    obj["CurrentPlayerId"] = currentActivePlayerId().toString(QUuid::WithoutBraces);
+    obj["Point"] = point;
+    obj["Score"] = score;
+    obj["AccumulatedScore"] = accumulatedScore;
+    obj["ModKeyCode"] = keyCode;
+    auto json = QJsonDocument(obj).toJson();
+    emit requestAddFtpScore (json);
 }
 
 void LocalFtpController::handleRequestFromUI()
@@ -336,33 +329,49 @@ int LocalFtpController::currentStatus() const
     return _currentStatus;
 }
 
-void LocalFtpController::recieveFtpIndexesAndEntities(const int& totalTurns,
-                                                      const int& turns,
-                                                      const int& roundIndex,
-                                                      const int& setIndex,
-                                                      const int& attemptIndex,
-                                                      const QVector<AbstractFtpController::Player> &players,
-                                                      const QVector<AbstractFtpController::PlayerScore> &playerScores)
+void LocalFtpController::recieveFtpIndexesAndEntities(const QByteArray& json)
 {
+    auto jsonObject = QJsonDocument::fromJson(json).object();
+    auto totalTurns = jsonObject["TotalTurns"].toInt();
+    auto turns = jsonObject["Turns"].toInt();
+    auto roundIndex = jsonObject["RoundIndex"].toInt();
+    auto setIndex = jsonObject["SetIndex"].toInt();
+    auto attemptIndex = jsonObject["AttemptIndex"].toInt();
     indexController()->setIndexes(totalTurns,turns,
                                   roundIndex,setIndex,
                                   attemptIndex);
-    indexController()->setPlayersCount(players.count());
-    for (auto i = players.constBegin(); i != players.constEnd(); ++i) {
-        auto p = *i;
-        scoreController()->addPlayerEntity(p.first,p.second);
+    auto playerData = jsonObject.value("PlayerEntities").toArray();
+    indexController()->setPlayersCount(playerData.count());
+    for (const auto &jsonVal : playerData) {
+        auto obj = jsonVal.toObject();
+        auto playerStringId = obj["PlayerId"].toString();
+        auto playerId = QUuid::fromString(playerStringId);
+        auto playerName = obj["PlayerName"].toString();
+        scoreController()->addPlayerEntity(playerId,playerName);
     }
-
-    for (auto i = playerScores.constBegin(); i != playerScores.constEnd(); ++i)
-    {
-        auto p = *i;
-        scoreController()->subtractPlayerScore(p.first,p.second);
+    auto scoreData = jsonObject.value("ScoreEntities").toArray();
+    for (const auto &jsonVal : scoreData) {
+        auto obj = jsonVal.toObject();
+        auto playerStringId = obj.value("PlayerId").toString();
+        auto playerId = QUuid::fromString(playerStringId);
+        auto score = obj.value("Score").toInt();
+        scoreController()->subtractPlayerScore(playerId,score);
     }
     if(scoreController()->winnerId() != QUuid())
         setCurrentStatus(ControllerState::WinnerDeclared);
     else
         setCurrentStatus(ControllerState::Initialized);
     emit isInitialized();
+}
+
+void LocalFtpController::calculateAccumulatedPlayerScores(const QByteArray &json)
+{
+    auto jsonErr = new QJsonParseError;
+    auto jsonDocument = QJsonDocument::fromJson(json,jsonErr);
+    if(jsonErr->error != QJsonParseError::NoError)
+        throw "JSON parse error!";
+    auto jsonObject = jsonDocument.object();
+    QJsonArray arr = jsonObject.value("PlayerEntities").toArray();
 }
 
 ScoreController *LocalFtpController::scoreController() const

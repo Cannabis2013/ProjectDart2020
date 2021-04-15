@@ -5,11 +5,12 @@
 #include "iscoreparameter.h"
 // ScoreBuilderCollection
 namespace SBC {
-    class FTPScoreParameters : public IScoreParameter
+    class FtpScoreParameters : public IScoreParameter
     {
     public:
         int pointValue;
         int scoreValue;
+        int accumulatedScoreValue;
         int roundIndex;
         int setIndex;
         int attempt;

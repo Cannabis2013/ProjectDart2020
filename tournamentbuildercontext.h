@@ -16,10 +16,10 @@ namespace TBC {
         int status = -1;
         int attempts = -1;
         int keyPoint = -1;
-        int modelTableViewHint = -1;
-        int inputMode = -1;
+        int displayHint = -1;
+        int inputHint = -1;
         int tournamentsCount = 0;
-        int winConditionKey = 0x2B;
+        int terminalKeyCode = 0x2B;
         QVector<QUuid> playerIdentities;
         int tournamentGameMode() const override
         {

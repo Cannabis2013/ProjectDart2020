@@ -36,10 +36,8 @@ Rectangle {
     }
 
     Component.onCompleted: {
-        applicationInterface.transmitResponse.connect(replyFromBackendRecieved);
     }
 
     Component.onDestruction: {
-        applicationInterface.transmitResponse.disconnect(replyFromBackendRecieved);
     }
 }

@@ -25,7 +25,7 @@ Rectangle {
         property var inputModes: ["PointInput","ScoreInput"]
     }
 
-    readonly property int numberOfThrows: attemptSelector.currentValue
+    readonly property int attempts: attemptSelector.currentValue
     readonly property int keyPoint: keyPointSelector.currentValue
     readonly property int conditionKeyCode: SelectorScripts.conditionKeyCode()
     readonly property int displayHint: SelectorScripts.tableViewHintFromString()

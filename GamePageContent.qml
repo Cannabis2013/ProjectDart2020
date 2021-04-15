@@ -28,7 +28,7 @@ Content {
     onRequestRestart: GameGeneralScripts.handleRequestTournamentReset()
     signal requestUndo
     signal requestRedo
-    signal sendInput(int value, int modifier)
+    signal sendInput(string json)
     signal scoreRecieved(string playerName, int point, int score, int keyCode)
     signal setupGame()
     onSetupGame: {

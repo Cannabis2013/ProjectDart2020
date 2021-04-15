@@ -89,7 +89,7 @@ public slots:
     /*
      * Handle and Evaluate input from user
      */
-    void handleAndProcessUserInput(const int &point, const int &modifierKeyCode) override;
+    void handleAndProcessUserInput(const QByteArray &json) override;
     /*
      * Send current tournament id to external context
      */
@@ -102,9 +102,7 @@ public slots:
     void assembleSingleAttemptFtpScores() override;
     void handleRequestFtpPlayerScores() override;
 
-    void handleScoreAddedToDataContext(const QUuid &playerID,
-                                       const int &point,
-                                       const int &score, const int &keyCode) override;
+    void handleScoreAddedToDataContext(const QByteArray& json) override;
     void handleScoreHintUpdated(const QUuid &playerID,
                                 const int &point,
                                 const int &score, const int &keyCode) override;
@@ -136,13 +134,8 @@ public slots:
     // Get current status
     int currentStatus() const;
 
-    virtual void recieveFtpIndexesAndEntities(const int& totalTurns,
-                                              const int& turns,
-                                              const int& roundIndex,
-                                              const int& setIndex,
-                                              const int& attemptIndex,
-                                              const QVector<Player>& players,
-                                              const QVector<PlayerScore>& playerScores) override;
+    virtual void recieveFtpIndexesAndEntities(const QByteArray& json) override;
+    void calculateAccumulatedPlayerScores(const QByteArray& json) override;
 
 private:
     /*
@@ -165,7 +158,10 @@ private:
     /*
      * Update datacontext
      */
-    void addPoint(const int &point, const int &score, const int &keyCode);
+    void addPoint(const int &point,
+                  const int &score,
+                  const int &accumulatedScore,
+                  const int &keyCode);
     /*
      * Index manipulating methods
      */

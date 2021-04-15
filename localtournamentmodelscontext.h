@@ -54,10 +54,10 @@ public:
     /*
      * Model builder
      */
-    LocalTournamentModelsContext *setTournamentBuilder(LMC::ITournamentModelsBuilder *builder);
-    LMC::ITournamentModelsBuilder *tournamentBuilder();
-    LocalTournamentModelsContext *setScoreBuilder(LMC::IScoreModelsBuilder* builder);
-    LMC::IScoreModelsBuilder* scoreBuilder();
+    LocalTournamentModelsContext *setTournamentBuilder(TCC::ITournamentModelsBuilder *builder);
+    TCC::ITournamentModelsBuilder *tournamentBuilder();
+    LocalTournamentModelsContext *setScoreBuilder(TCC::ScoreBuilderInterface* builder);
+    TCC::ScoreBuilderInterface* scoreBuilder();
     /*
      * Tournament related section
      */
@@ -83,8 +83,13 @@ public:
      * FTP tournament related
      */
     QUuid tournamentAssembleAndAddFTP(const QString &title,
-                                      const QVector<int> &data,
-                                      const QVector<QUuid> &playerIds) override;
+                                      const int& gameMode,
+                                      const int& keyPoint,
+                                      const int& winKeyCode,
+                                      const int& displayHint,
+                                      const int& inputHint,
+                                      const int& attempts,
+                                      const QVector<QUuid>& playerIds) override;
     int tournamentAttempts(const QUuid &tournament) override;
     int tournamentGameMode(const QUuid &tournament) override;
     int tournamentTerminalKeyCode(const QUuid &tournament) override;
@@ -101,6 +106,7 @@ public:
                      const int &attemptIndex,
                      const int &point,
                      const int &score,
+                     const int& accumulatedScore,
                      const int &keyCode,
                      const bool &isWinnerDetermined) override;
     QUuid ftpScore(const QUuid &tournament,
@@ -111,14 +117,14 @@ public:
     virtual QUuid ftpScore(const QUuid &tournament, const QUuid &player ,
                               const int &round,
                               const int &attemptIndex) override;
-    QList<QUuid> ftpScores() override;
-    QList<QUuid> ftpScores(const QUuid &tournament) override;
-    QList<QUuid> ftpScores(const QUuid &tournament,
+    QList<QUuid> ftpScoreIds() override;
+    QList<QUuid> ftpScoreIds(const QUuid &tournament) override;
+    QList<QUuid> ftpScoreIds(const QUuid &tournament,
                         const int &roundID) override;
-    QList<QUuid> ftpScores(const QUuid &tournament,
+    QList<QUuid> ftpScoreIds(const QUuid &tournament,
                         const int &roundID,
                         const int &setID) override;
-    QList<QUuid> ftpScores(const int &hint,
+    QList<QUuid> ftpScoreIds(const int &hint,
                         const QUuid &tournament) override;
     QList<QUuid> playerScores(const QUuid &tournament,
                               const QUuid &player,
@@ -135,6 +141,7 @@ public:
     int ftpScoreAttemptIndex(const QUuid &playerScore) override;
     int ftpScorePointValue(const QUuid &playerScore) override;
     int ftpScoreValue(const QUuid &point) override;
+    int ftpAccumulatedScoreValue(const QUuid&point) override;
     QUuid ftpScoreTournament(const QUuid &playerScore) override;
     QUuid scorePlayer(const QUuid &playerScore) override;
     int scoreHint(const QUuid &scoreID) override;
@@ -160,6 +167,7 @@ public:
      */
     QVector<int> tournamentUserScores(const QUuid &tournament) override;
     LocalTournamentModelsContext* setModelDBContext(ImodelsDBContext* context);
+
 private:
     ImodelsDBContext* modelDBContext();
     /*
@@ -167,10 +175,11 @@ private:
      */
     template<typename TModelInterface>
     const TModelInterface *getTournamentModelFromID(const QUuid &id);
-    const LMC::ScoreInterface *getScoreModelFromID(const QUuid &id);
+    template<typename T = IModel<QUuid>>
+    const T* getScoreModelFromId(const QUuid &id);
 
-    LMC::ITournamentModelsBuilder *_tournamentModelBuilder;
-    LMC::IScoreModelsBuilder* _scoreModelbuilder;
+    TCC::ITournamentModelsBuilder *_tournamentModelBuilder;
+    TCC::ScoreBuilderInterface* _scoreModelbuilder;
     ImodelsDBContext* _dbContext;
 };
 

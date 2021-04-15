@@ -14,7 +14,6 @@ function connectComponents()
     applicationInterface.controllerIsInitialized.connect(backendIsInitialized);
     gamePageBody.requestMetaInformation.connect(applicationInterface.handleTournamentMetaRequest);
     applicationInterface.sendFTPTournamentMetaData.connect(handleFTPTournamentMetaData);
-    applicationInterface.sendPlayerScore.connect(appendScore);
     gamePageBody.requestStart.connect(applicationInterface.handleRequestStart);
     gamePageBody.requestStop.connect(applicationInterface.handleRequestStop);
     gamePageBody.requestRestart.connect(applicationInterface.handleRestartTournament);
@@ -30,7 +29,6 @@ function disconnectComponents()
     applicationInterface.controllerIsInitialized.disconnect(backendIsInitialized);
     gamePageBody.requestMetaInformation.disconnect(applicationInterface.handleTournamentMetaRequest);
     applicationInterface.sendFTPTournamentMetaData.disconnect(handleFTPTournamentMetaData);
-    applicationInterface.sendPlayerScore.disconnect(appendScore);
     gamePageBody.requestStart.disconnect(applicationInterface.handleRequestStart);
     gamePageBody.requestStop.disconnect(applicationInterface.handleRequestStop);
     gamePageBody.requestRestart.disconnect(applicationInterface.handleRestartTournament);
@@ -54,17 +52,19 @@ function disconnectComponents()
        [2] = Tournament model tablehint
        [3] = Tournament input mode {Accumulated input for all sets, Input for every set}
   */
-function handleFTPTournamentMetaData(stringArray, numericArray, playerNames){
+function handleFTPTournamentMetaData(data){
+    var json = JSON.parse(data);
+
     var ftpComponent = Qt.createComponent("FirstToPostMetaData.qml");
     var properties = {
-        "tournamentTitle" : stringArray[0],
-        "determinedWinner" : stringArray[1],
-        "tournamentGameMode" : numericArray[0],
-        "tournamentKeyPoint" : numericArray[1],
-        "attempts" : numericArray[2],
-        "tournamentTableViewHint" : numericArray[3],
-        "tournamentInputMode" : numericArray[4],
-        "assignedPlayers" : playerNames
+        "tournamentTitle" : json["Title"],
+        "determinedWinner" : json["WinnerName"],
+        "tournamentGameMode" : json["GameMode"],
+        "tournamentKeyPoint" : json["KeyPoint"],
+        "attempts" : json["Attempts"],
+        "tournamentTableViewHint" : json["DisplayHint"],
+        "tournamentInputMode" : json["InputHint"],
+        "assignedPlayers" : json["AssignedPlayerNames"]
     }
     var metaDataObject = ftpComponent.createObject(gamePageBody,properties);
     gamePageBody.tournamentMetaData = metaDataObject;
@@ -83,7 +83,12 @@ function appendScore(player,point,score, keyCode)
   */
 function handleKeyPadInput(value,keyCode){
     gamePageBody.state = "waitingForInputConfirmation";
-    gamePageBody.sendInput(value,keyCode);
+    var obj = {
+        Point : value,
+        ModKeyCode : keyCode
+    };
+    var json = JSON.stringify(obj);
+    gamePageBody.sendInput(json);
 }
 /*
   Handle Notification related stuff
