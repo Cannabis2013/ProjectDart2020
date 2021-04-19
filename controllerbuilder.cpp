@@ -1,14 +1,16 @@
 #include "controllerbuilder.h"
 
-AbstractGameController *ControllerBuilder::assembleFTPGameController(const QByteArray &json, AbstractApplicationInterface *applicationInterface, AbstractModelsContext *modelsContext)
+AbstractGameController *ControllerBuilder::assembleFTPGameController(const QByteArray &json,
+                                                                     AbstractApplicationInterface *applicationInterface,
+                                                                     AbstractModelsContext *modelsContext)
 {
     auto jsonObject = QJsonDocument::fromJson(json).object();
-    auto tournamentId = jsonObject.value("TournamentId").toString();
-    auto keyPoint = jsonObject.value("KeyPoint").toInt();
-    auto attempts = jsonObject.value("Attempts").toInt();
-    auto terminalKeyCode = jsonObject.value("TerminalKeyCode").toInt();
-    auto inputHint = jsonObject.value("InputHint");
-    auto winnerStringId = jsonObject.value("WinnerId").toString();
+    auto tournamentId = jsonObject.value("tournamentId").toString();
+    auto keyPoint = jsonObject.value("keyPoint").toInt();
+    auto attempts = jsonObject.value("attempts").toInt();
+    auto terminalKeyCode = jsonObject.value("terminalKeyCode").toInt();
+    auto inputHint = jsonObject.value("inputHint");
+    auto winnerStringId = jsonObject.value("winnerId").toString();
     auto winnerId = QUuid::fromString(winnerStringId);
     AbstractFtpController* controller = nullptr;
     if(inputHint == InputModes::PointMode)

@@ -42,13 +42,12 @@ function reinitialize()
 {
     let keyPoint = tournamentMetaData.tournamentKeyPoint;
     let names = tournamentMetaData.assignedPlayers;
-
     for(var i = 0;i < names.length;i++)
     {
         let name = names[i];
-
         appendScore(name,0,keyPoint,-1);
     }
+    disconnectFtpInterface();
     buildFtpComponents();
 }
 
@@ -71,7 +70,7 @@ function connectFtpInterface()
     applicationInterface.sendAssembledSingleFtpScores.connect(recieveFtpSingleAttemptScores);
     applicationInterface.controllerAwaitsInput.connect(backendIsReadyAndAwaitsInput);
 }
-function disConnectFtpInterface()
+function disconnectFtpInterface()
 {
     applicationInterface.ftpControllerRemovedScore.disconnect(backendRemovedScore);
     applicationInterface.ftpControllerAddedAndPersistedScore.disconnect(backendAddedAndPersistedScore);
@@ -96,7 +95,6 @@ function setupFirstToPostScoreTable()
 {
     var assignedPlayers = tournamentMetaData.assignedPlayers;
     var keyPoint = tournamentMetaData.tournamentKeyPoint;
-
     scoreBoardInterface().appendHeaderData(assignedPlayers,keyPoint);
 }
 /*
@@ -160,15 +158,14 @@ function backendIsReadyAndAwaitsInput(data)
 function recieveFtpMultiAttemptScores(scores)
 {
     var jsonData = JSON.parse(scores);
-    var entities = jsonData["ScoreEntities"];
-    var count = entities.length;
+    var count = jsonData.length;
     for(var i = 0;i < count;++i)
     {
-        var entity = entities[i];
-        var playerName = entity["PlayerName"];
-        var playerScore = entity["PlayerAccumulatedScore"];
-        var playerPoint = entity["PlayerPoint"];
-        var keyCode = entity["ModKeyCode"];
+        var entity = jsonData[i];
+        var playerName = entity["playerName"];
+        var playerScore = entity["playerAccumulatedScore"];
+        var playerPoint = entity["playerPoint"];
+        var keyCode = entity["modKeyCode"];
         gamePageBody.scoreRecieved(playerName,playerPoint,playerScore,keyCode);
     }
     gamePageBody.requestStatusFromBackend();
@@ -192,10 +189,10 @@ function recieveFtpSingleAttemptScores(scores)
 function backendAddedAndPersistedScore(data)
 {
     var json = JSON.parse(data);
-    let playerName = json["CurrentPlayerName"];
-    let pointValue = json["Point"];
-    let scoreValue = json["AccumulatedScore"];
-    let keyCode = json["ModKeyCode"];
+    let playerName = json["playerName"];
+    let pointValue = json["point"];
+    let scoreValue = json["accumulatedScoreValue"];
+    let keyCode = json["modKeyCode"];
     appendScore(playerName,pointValue,scoreValue,keyCode);
     requestStatusFromBackend();
 }

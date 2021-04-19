@@ -31,7 +31,7 @@ void RemoteModelsContext::deleteTournaments(const QByteArray &json)
 void RemoteModelsContext::handleRequestFtpScores(const QUuid &tournamentId)
 {
     auto formattedTournamentId  = tournamentId.toString(QUuid::WithoutBraces);
-    _netMng->sendGetRequest("GetOrderedFtpPlayerScores",
+    _netMng->sendGetRequest("AssembleOrderedFtpPlayerScores",
                             QString(),{{"tournamentId",formattedTournamentId}},
                             this,SLOT(recieveFtpScores()));
 }
@@ -279,7 +279,10 @@ void RemoteModelsContext::handleFtpTournamentMetaReply()
     if(!_netMng->reply()->isOpen())
         emit createPlayerResponse(false);
     auto byteData = _netMng->reply()->readAll();
-    emit sendTournamentMeta(byteData);
+    auto jsonObject = QJsonDocument::fromJson(byteData).object();
+    auto payLoad = jsonObject.value("payLoad").toObject();
+    auto json = QJsonDocument(payLoad).toJson();
+    emit sendTournamentMeta(json);
 }
 
 void RemoteModelsContext::handleAddFtpScoreReply()
@@ -314,14 +317,11 @@ void RemoteModelsContext::handleSetScoreHintReply()
     if(responseCode == ResponseCode::Error)
     {
         auto playerId = payLoad.value("playerId").toString();
-        auto message = payLoad.value("message").toString();
+        auto message = jsonObject.value("message").toString();
         emit scoreHintNotUpdated(playerId,message);
     }
-    auto playerId = payLoad.value("playerId").toString();
-    auto point = payLoad.value("point").toInt();
-    auto score = payLoad.value("scoreValue").toInt();
-    auto keyCode = payLoad.value("keyCode").toInt();
-    emit scoreHintUpdated(playerId,point,score,keyCode);
+    auto json = QJsonDocument(payLoad).toJson();
+    emit scoreHintUpdated(json);
 }
 
 void RemoteModelsContext::tournamentResetReply()
@@ -369,10 +369,8 @@ void RemoteModelsContext::recieveFtpScores()
     auto jsonObject = jsonDocument.object();
     auto responseCode = jsonObject.value("response").toInt();
     if(responseCode == ResponseCode::Error)
-        throw "Not implemented";
+        throw "Recieve ftp scores: error";
     auto payLoad = jsonObject.value("payLoad").toArray();
-    for (auto i = payLoad.constBegin(); i != payLoad.constEnd(); ++i) {
-        auto arr = (*i).toArray();
-
-    }
+    auto json = QJsonDocument(payLoad).toJson();
+    emit sendFtpMultiScores(json);
 }

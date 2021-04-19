@@ -157,8 +157,8 @@ public:
         _playersCount = count;
     }
 private:
-    PointIndexController(const int &legCount) :
-        _numberOfAttempts(legCount)
+    PointIndexController(const int &attempts) :
+        _numberOfAttempts(attempts)
     {}
     int playerCount()
     {

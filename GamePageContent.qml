@@ -173,6 +173,6 @@ Content {
     Component.onCompleted: GameGeneralScripts.initializeComponent()
     Component.onDestruction: {
         GameGeneralScripts.disconnectComponents();
-        FirstToPostScripts.disConnectFtpInterface();
+        FirstToPostScripts.disconnectFtpInterface();
     }
 }

@@ -689,12 +689,12 @@ const QVector<int> LocalTournamentModelsContext::indexes(const QUuid &tournament
     auto roundIndex = 1;
     auto setIndex = 0;
     auto attemptIndex = 0;
-    auto assignedPlayersID = tournamentAssignedPlayers(tournament);
-    auto playersCount = assignedPlayersID.count();
+    auto assignedPlayersId = tournamentAssignedPlayers(tournament);
+    auto playersCount = assignedPlayersId.count();
     auto numberOfAttempts = tournamentAttempts(tournament);
     while(1)
     {
-        auto playerId = assignedPlayersID.at(setIndex);
+        auto playerId = assignedPlayersId.at(setIndex);
         try {
             ftpScore(tournament,
                         playerId,

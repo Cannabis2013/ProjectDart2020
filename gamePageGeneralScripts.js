@@ -57,14 +57,14 @@ function handleFTPTournamentMetaData(data){
 
     var ftpComponent = Qt.createComponent("FirstToPostMetaData.qml");
     var properties = {
-        "tournamentTitle" : json["Title"],
-        "determinedWinner" : json["WinnerName"],
-        "tournamentGameMode" : json["GameMode"],
-        "tournamentKeyPoint" : json["KeyPoint"],
-        "attempts" : json["Attempts"],
-        "tournamentTableViewHint" : json["DisplayHint"],
-        "tournamentInputMode" : json["InputHint"],
-        "assignedPlayers" : json["AssignedPlayerNames"]
+        "tournamentTitle" : json["title"],
+        "determinedWinner" : json["winnerName"],
+        "tournamentGameMode" : json["gameMode"],
+        "tournamentKeyPoint" : json["keyPoint"],
+        "attempts" : json["attempts"],
+        "tournamentTableViewHint" : json["displayHint"],
+        "tournamentInputMode" : json["inputHint"],
+        "assignedPlayers" : json["assignedPlayerNames"]
     }
     var metaDataObject = ftpComponent.createObject(gamePageBody,properties);
     gamePageBody.tournamentMetaData = metaDataObject;

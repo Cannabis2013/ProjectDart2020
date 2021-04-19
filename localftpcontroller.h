@@ -103,9 +103,7 @@ public slots:
     void handleRequestFtpPlayerScores() override;
 
     void handleScoreAddedToDataContext(const QByteArray& json) override;
-    void handleScoreHintUpdated(const QUuid &playerID,
-                                const int &point,
-                                const int &score, const int &keyCode) override;
+    void handleScoreHintUpdated(const QByteArray& json) override;
     /*
      * Reinitialize controller
      *  - Set controller back to its original state

@@ -29,10 +29,7 @@ public slots:
     virtual QUuid redoTurn() = 0;
     virtual void handleRequestForCurrentTournamentMetaData() = 0;
     virtual void handleScoreAddedToDataContext(const QByteArray& json) = 0;
-    virtual void handleScoreHintUpdated(const QUuid &playerID,
-                                        const int& point,
-                                        const int& score,
-                                        const int& keyCode) = 0;
+    virtual void handleScoreHintUpdated(const QByteArray&) = 0;
     virtual void handleResetTournament() = 0;
     /*
      * Set initial state

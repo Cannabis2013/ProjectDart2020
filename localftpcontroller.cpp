@@ -88,22 +88,24 @@ void LocalFtpController::handleRequestFtpPlayerScores()
 void LocalFtpController::handleScoreAddedToDataContext(const QByteArray &json)
 {
     auto obj = QJsonDocument::fromJson(json).object();
-    auto score = obj.value("Score").toInt();
-    auto currentPlayerStringId = obj.value("CurrentPlayerId").toString();
+    auto score = obj.value("scoreValue").toInt();
+    auto currentPlayerStringId = obj.value("playerId").toString();
     auto currentPlayerId = QUuid::fromString(currentPlayerStringId);
+    // Subtract score value from current user score
     scoreController()->subtractPlayerScore(currentPlayerId,score);
-    auto newAccumulatedScore = scoreController()->userScore(currentPlayerId);
-    obj["AccumulatedScore"] = newAccumulatedScore;
+    // Sync totalturns with the current turn index
     indexController()->syncIndex();
     auto newJson = QJsonDocument(obj).toJson(QJsonDocument::Compact);
     emit scoreAddedAndPersisted(newJson);
 }
 
-void LocalFtpController::handleScoreHintUpdated(const QUuid &playerId,
-                                                const int &point,
-                                                const int &score,
-                                                const int& keyCode)
+void LocalFtpController::handleScoreHintUpdated(const QByteArray &json)
 {
+    auto jsonObject = QJsonDocument::fromJson(json).object();
+    auto score = jsonObject.value("scoreValue").toInt();
+    auto point = jsonObject.value("point").toInt();
+    auto playerId = jsonObject.value("playerId").toString();
+    auto keyCode = jsonObject.value("modKeyCode").toInt();
     if(this->status() == ControllerState::UndoState)
     {
         scoreController()->addPlayerScore(playerId,score);
@@ -122,13 +124,13 @@ void LocalFtpController::handleScoreHintUpdated(const QUuid &playerId,
         scoreController()->subtractPlayerScore(playerId,score);
         auto newScore = scoreController()->userScore(playerId);
         auto playerName = scoreController()->userNameFromId(playerId);
-        QJsonObject json = {
+        QJsonObject obj = {
             {"playerName",playerName},
             {"playerPoint",point},
             {"playerScore",newScore},
             {"keyCode",keyCode}
         };
-        auto data = QJsonDocument(json).toJson(QJsonDocument::Compact);
+        auto data = QJsonDocument(obj).toJson(QJsonDocument::Compact);
         emit scoreAddedAndPersisted(data);
     }
 }
@@ -154,7 +156,8 @@ void LocalFtpController::handleResetTournament()
     _currentStatus = ControllerState::resetState;
     _indexController->reset();
     _scoreController->resetScores();
-    emit requestResetTournament(tournament());
+    auto tournamentId = tournament();
+    emit requestResetTournament(tournamentId);
 }
 
 void LocalFtpController::sendCurrentTurnValues()
@@ -255,16 +258,16 @@ void LocalFtpController::addPoint(const int& point,
     if(currentStatus() != ControllerState::WinnerDeclared)
         setCurrentStatus(ControllerState::AddScoreState);
     QJsonObject obj;
-    obj["TournamentId"] = tournament().toString(QUuid::WithoutBraces);
-    obj["RoundIndex"] = indexController()->roundIndex();
-    obj["SetIndex"] = indexController()->setIndex();
-    obj["Attempt"] = indexController()->attempt();
-    obj["IsWinnerDetermined"] = status() == ControllerState::WinnerDeclared;
-    obj["CurrentPlayerId"] = currentActivePlayerId().toString(QUuid::WithoutBraces);
-    obj["Point"] = point;
-    obj["Score"] = score;
-    obj["AccumulatedScore"] = accumulatedScore;
-    obj["ModKeyCode"] = keyCode;
+    obj["tournamentId"] = tournament().toString(QUuid::WithoutBraces);
+    obj["roundIndex"] = indexController()->roundIndex();
+    obj["setIndex"] = indexController()->setIndex();
+    obj["attempt"] = indexController()->attempt();
+    obj["isWinnerDetermined"] = status() == ControllerState::WinnerDeclared;
+    obj["playerId"] = currentActivePlayerId().toString(QUuid::WithoutBraces);
+    obj["point"] = point;
+    obj["scoreValue"] = score;
+    obj["accumulatedScoreValue"] = accumulatedScore;
+    obj["modKeyCode"] = keyCode;
     auto json = QJsonDocument(obj).toJson();
     emit requestAddFtpScore (json);
 }
@@ -332,29 +335,30 @@ int LocalFtpController::currentStatus() const
 void LocalFtpController::recieveFtpIndexesAndEntities(const QByteArray& json)
 {
     auto jsonObject = QJsonDocument::fromJson(json).object();
-    auto totalTurns = jsonObject["TotalTurns"].toInt();
-    auto turns = jsonObject["Turns"].toInt();
-    auto roundIndex = jsonObject["RoundIndex"].toInt();
-    auto setIndex = jsonObject["SetIndex"].toInt();
-    auto attemptIndex = jsonObject["AttemptIndex"].toInt();
+    auto jsonIndexObject = jsonObject["indexes"].toObject();
+    auto totalTurns = jsonIndexObject["totalTurns"].toInt();
+    auto turns = jsonIndexObject["turns"].toInt();
+    auto roundIndex = jsonIndexObject["roundIndex"].toInt();
+    auto setIndex = jsonIndexObject["setIndex"].toInt();
+    auto attemptIndex = jsonIndexObject["attemptIndex"].toInt();
     indexController()->setIndexes(totalTurns,turns,
                                   roundIndex,setIndex,
                                   attemptIndex);
-    auto playerData = jsonObject.value("PlayerEntities").toArray();
+    auto playerData = jsonObject.value("playerEntities").toArray();
     indexController()->setPlayersCount(playerData.count());
     for (const auto &jsonVal : playerData) {
         auto obj = jsonVal.toObject();
-        auto playerStringId = obj["PlayerId"].toString();
+        auto playerStringId = obj["playerId"].toString();
         auto playerId = QUuid::fromString(playerStringId);
-        auto playerName = obj["PlayerName"].toString();
+        auto playerName = obj["playerName"].toString();
         scoreController()->addPlayerEntity(playerId,playerName);
     }
-    auto scoreData = jsonObject.value("ScoreEntities").toArray();
+    auto scoreData = jsonObject.value("scoreEntities").toArray();
     for (const auto &jsonVal : scoreData) {
         auto obj = jsonVal.toObject();
-        auto playerStringId = obj.value("PlayerId").toString();
+        auto playerStringId = obj.value("playerId").toString();
         auto playerId = QUuid::fromString(playerStringId);
-        auto score = obj.value("Score").toInt();
+        auto score = obj.value("score").toInt();
         scoreController()->subtractPlayerScore(playerId,score);
     }
     if(scoreController()->winnerId() != QUuid())
@@ -438,5 +442,6 @@ void LocalFtpController::initialize()
         setCurrentStatus(ControllerState::Initialized);
     emit transmitResponse(ControllerResponse::InitializedAndReady,{});
      */
-    emit requestFtpIndexesAndScores(tournament());
+    auto tournamentId = tournament();
+    emit requestFtpIndexesAndScores(tournamentId);
 }

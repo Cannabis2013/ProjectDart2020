@@ -4,7 +4,7 @@ function buildTurnController(mode) {
         var turnController = Qt.createComponent("FirstToPostTurnController.qml");
     }
     if(turnController === undefined)
-        console.log("Something went wrong!");
+        console.log("TurnController: Something went wrong!");
     return turnController;
 }
 
@@ -16,7 +16,7 @@ function buildDisplayItem(mode)
         c = Qt.createComponent("DisplayKeyDataItem.qml");
     }
     if(c === undefined)
-        console.log("Something went wrong!");
+        console.log("DisplayItem: Something went wrong!");
     return c;
 }
 
@@ -28,7 +28,7 @@ function buildFTPScoreBoard(tableHint)
     else
         c = Qt.createComponent("FTPMultiScoreBoard.qml");
     if(c === undefined)
-        console.log("Something went wrong!");
+        console.log("ScoreBoard: Something went wrong!");
     return c;
 }
 
@@ -40,7 +40,7 @@ function buildKeyPad(mode)
     else if(mode === TournamentContext.scoreMode)
         c = Qt.createComponent("ScoreKeyPad.qml");
     if(c === undefined)
-        console.log("Something went wrong!");
+        console.log("PointKeyPad: Something went wrong!");
     return c;
 }
 

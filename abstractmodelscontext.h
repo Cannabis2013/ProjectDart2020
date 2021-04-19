@@ -77,10 +77,7 @@ signals:
                                const QList<int> &playerScores);
     void scoreAddedToDataContext(const QByteArray& json);
     void scoreNotAddedToDataContext(const QString& msg);
-    void scoreHintUpdated(const QUuid &player,
-                          const int& point,
-                          const int& score,
-                          const int& keyCode);
+    void scoreHintUpdated(const QByteArray& json);
     void scoreHintNotUpdated(const QUuid &player, QString err);
     void tournamentResetSuccess();
     void tournamentResetFailed();
