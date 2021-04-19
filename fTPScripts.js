@@ -103,25 +103,12 @@ function setupFirstToPostScoreTable()
     - Handle TurnController events
   */
 function setupTurnController(){
-    turnControllerInterface().startButtonClicked.connect(handleStartClicked);
+    turnControllerInterface().startButtonClicked.connect(gamePageBody.requestStart);
+    turnControllerInterface().resumeButtonClicked.connect(gamePageBody.requestStart);
+    turnControllerInterface().pauseButtonClicked.connect(gamePageBody.requestStop);
     turnControllerInterface().restartButtonClicked.connect(requestRestart);
     turnControllerInterface().leftButtonClicked.connect(leftButtonClicked);
     turnControllerInterface().rightButtonClicked.connect(rightButtonClicked);
-}
-
-function handleStartClicked()
-{
-    var buttonText = turnControllerItemSlot.item.startButtonText;
-    if(buttonText === buttonTextContainer.startText ||
-            buttonText === buttonTextContainer.resumeText)
-    {
-        requestStart();
-    }
-    else
-    {
-        gamePageBody.state = "stopped";
-        requestStop();
-    }
 }
 
 function leftButtonClicked()

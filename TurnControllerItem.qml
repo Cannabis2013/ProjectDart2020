@@ -4,28 +4,43 @@ import QtQuick.Controls 2.5
 
 Item {
     id: body
-
     clip: true
     signal startButtonClicked
+    signal pauseButtonClicked
+    signal resumeButtonClicked
     signal restartButtonClicked
     signal leftButtonClicked
     signal rightButtonClicked
-
-    signal setRestartMode
-    onSetRestartMode: startButtonComponent.setRestartMode()
-
+    // States
+    signal backendIsReady
+    onBackendIsReady: startButtonComponent.setStartMode()
+    signal backendAwaitsInput
+    onBackendAwaitsInput: {
+        startButtonComponent.setRunningMode();
+    }
+    signal backendProcessesInput
+    onBackendProcessesInput: {
+        startButtonComponent.setWaitState();
+        leftButton.enabled = false;
+        rightButton.enabled = false;
+    }
+    signal backendIsStopped
+    onBackendIsStopped: {
+        startButtonComponent.setStoppedState();
+        leftButton.enabled = false;
+        rightButton.enabled = false;
+    }
+    signal backenHasDeclaredAWinner
+    onBackenHasDeclaredAWinner: {
+        startButtonComponent.setRestartMode();
+        updateState(currentRoundIndex,currentPlayer,false,false);
+    }
     signal startButtonPressAndHoldClicked
     signal leftButtonPressAndHoldClicked
     signal rightButtonPressAndHoldClicked
 
     property bool startButtonEnablePressAndHold : false
-    onStartButtonEnablePressAndHoldChanged: startButtonComponent.enablePressAndHold(startButtonEnablePressAndHold)
-
-    property string startButtonText: "Start"
-    onStartButtonTextChanged: startButtonComponent.startButtonText = startButtonText
-
-    property bool startButtonEnabled: false
-    onStartButtonEnabledChanged: startButtonComponent.startButtonEnabled = startButtonEnabled
+    onStartButtonEnablePressAndHoldChanged: startButtonComponent.pressAndHoldEnabled = startButtonEnablePressAndHold
 
     property int currentRoundIndex: 0
     property string currentPlayer: ""
@@ -61,7 +76,8 @@ Item {
             Layout.fillHeight: true
             Layout.preferredWidth: 64
             onPressAndHoldClicked: startButtonPressAndHoldClicked()
-            startButtonText: body.startButtonText
+            onResumeButtonClicked: body.resumeButtonClicked()
+            onPauseButtonClicked: body.pauseButtonClicked()
             onStartButtonClicked: body.startButtonClicked()
             onRestartButtonClicked: body.restartButtonClicked()
         }

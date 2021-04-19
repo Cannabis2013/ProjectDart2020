@@ -15,6 +15,5 @@ import QtQuick.Layouts 1.3
 
 TurnControllerItem{
     id: turnNavigator
-    startButtonEnabled: false
     startButtonEnablePressAndHold: true
 }

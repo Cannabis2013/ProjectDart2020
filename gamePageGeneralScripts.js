@@ -93,9 +93,11 @@ function handleKeyPadInput(value,keyCode){
 /*
   Handle Notification related stuff
   */
-function handleSetWinnerText(text)
+function setWinnerText()
 {
-    notificationItemSlot.item.setCurrentWinner(text);
+    var winnerName = textSourceContainer.winnerLabel + " " +
+            tournamentMetaData.determinedWinner;
+    notificationItemSlot.item.setCurrentWinner(winnerName);
 }
 
 function handleRequestTournamentReset()

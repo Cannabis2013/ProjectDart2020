@@ -112,17 +112,9 @@ Content {
             name: "winner"
             StateChangeScript{
                 script: {
-                    turnControllerInterface().setRestartMode();
-                    var currentPlayer = turnControllerInterface().currentPlayer;
-                    var currentRoundIndex = turnControllerInterface().currentRoundIndex;
-                    turnControllerInterface().updateState(currentRoundIndex,
-                                              currentPlayer,
-                                              false,
-                                              false);
-                    var winnerName = textSourceContainer.winnerLabel + " " +
-                            tournamentMetaData.determinedWinner;
+                    turnControllerInterface().backendHasDeclaredAWinner();
                     keyPadInterface().enableKeyPad(false);
-                    GameGeneralScripts.handleSetWinnerText(winnerName);
+                    GameGeneralScripts.setWinnerText();
                 }
             }
         },
@@ -130,10 +122,7 @@ Content {
             name: "stopped"
             StateChangeScript{
                 script: {
-                    turnControllerInterface().startButtonText = buttonTextContainer.resumeText;
-                    turnControllerInterface().startButtonEnabled = true;
-                    turnControllerInterface().undoButtonEnabled = false;
-                    turnControllerInterface().redoButtonEnabled = false;
+                    turnControllerInterface().backendIsStopped();
                     keyPadInterface().enableKeyPad(false);
                 }
             }
@@ -141,19 +130,14 @@ Content {
         State {
             name: "ready"
             StateChangeScript{
-                script: {
-                    turnControllerInterface().startButtonEnabled = true;
-                    turnControllerInterface().startButtonText = buttonTextContainer.startText;
-                }
+                script: turnControllerInterface().backendIsReady()
             }
         },
         State {
             name: "waitingForInputConfirmation"
             StateChangeScript{
                 script: {
-                    turnControllerInterface().startButtonText = buttonTextContainer.waitText;
-                    turnControllerInterface().undoButtonEnabled = false;
-                    turnControllerInterface().redoButtonEnabled = false;
+                    turnControllerInterface().backendProcessesInput();
                     keyPadInterface().enableKeyPad(false);
                 }
             }
@@ -162,8 +146,7 @@ Content {
             name: "waitingForInput"
             StateChangeScript{
                 script: {
-                    turnControllerInterface().startButtonText = buttonTextContainer.pauseText;
-                    turnControllerInterface().startButtonEnabled = true;
+                    turnControllerInterface().backendAwaitsInput();
                     keyPadInterface().enableKeyPad(true);
                 }
             }

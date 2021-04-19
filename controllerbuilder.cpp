@@ -112,7 +112,7 @@ void ControllerBuilder::connectFTPController(AbstractFtpController *controller, 
     /*
          * Controller needs to inform external context about its state
          */
-    connect(controller,&AbstractFtpController::isStopped,
+    connect(controller,&AbstractFtpController::controllerIsStopped,
             applicationInterface,&AbstractApplicationInterface::controllerIsStopped);
     connect(controller,&AbstractFtpController::isInitialized,
             applicationInterface,&AbstractApplicationInterface::controllerIsInitialized);

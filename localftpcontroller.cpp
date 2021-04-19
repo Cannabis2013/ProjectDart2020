@@ -14,6 +14,7 @@ void LocalFtpController::start()
 void LocalFtpController::stop()
 {
     setCurrentStatus(ControllerState::Stopped);
+    emit controllerIsStopped();
 }
 
 void LocalFtpController::handleAndProcessUserInput(const QByteArray& json)
@@ -25,7 +26,7 @@ void LocalFtpController::handleAndProcessUserInput(const QByteArray& json)
     if(status() == Stopped ||
             status() == WinnerDeclared)
     {
-        emit isStopped();
+        emit controllerIsStopped();
         return;
     }
     else if(status() == ControllerState::AddScoreState)
