@@ -5,35 +5,15 @@ import QtQuick.Controls 2.5
 GridLayout{
     id: body
     flow: GridLayout.TopToBottom
-
-    signal showOptions(bool show)
-    onShowOptions: {
-        if(show)
-        {
-            textDescription.visible = false;
-            restartButton.visible = true;
-        }
-        else
-        {
-            textDescription.visible = true;
-            restartButton.visible = false;
-         }
-    }
     signal startButtonClicked
+    onStartButtonClicked: state = ""
     signal pressAndHoldClicked
-    onPressAndHoldClicked: {
-        if(restartButton.visible)
-        {
-            textDescription.visible = true;
-            restartButton.visible = false;
-        }
-        else
-        {
-            textDescription.visible = false;
-            restartButton.visible = true;
-        }
-    }
+    onPressAndHoldClicked: state = "optionsState"
     signal restartButtonClicked
+    onRestartButtonClicked: state = ""
+
+    signal setRestartMode
+    onSetRestartMode: state = "restartState"
 
     signal enablePressAndHold(bool enable)
     onEnablePressAndHold: startButton.enablePressAndHold = enable
@@ -100,6 +80,7 @@ GridLayout{
         fontSize: 12
         width: 64
         height: 24
+        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
         visible: false
         onClicked: restartButtonClicked()
         onVisibleChanged: restartButtonAnimation.restart()
@@ -114,4 +95,39 @@ GridLayout{
     Rectangle{
         Layout.fillHeight: true
     }
+
+    states: [
+        State {
+            name: "optionsState"
+            PropertyChanges {
+                target: textDescription
+                visible : false;
+            }
+            PropertyChanges {
+                target: restartButton
+                visible : true;
+            }
+            PropertyChanges {
+                target: startButton
+                text : "Pause"
+            }
+        },
+        State {
+            name: "restartState"
+            PropertyChanges {
+                target: textDescription
+                visible : false
+            }
+            PropertyChanges {
+                target: restartButton
+                visible : true
+                height : 24
+            }
+            PropertyChanges {
+                target: startButton
+                text : "Pause"
+                visible : false
+            }
+        }
+    ]
 }

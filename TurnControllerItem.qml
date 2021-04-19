@@ -11,12 +11,12 @@ Item {
     signal leftButtonClicked
     signal rightButtonClicked
 
+    signal setRestartMode
+    onSetRestartMode: startButtonComponent.setRestartMode()
+
     signal startButtonPressAndHoldClicked
     signal leftButtonPressAndHoldClicked
     signal rightButtonPressAndHoldClicked
-
-    property bool options: false
-    onOptionsChanged: startButtonComponent.showOptions(options)
 
     property bool startButtonEnablePressAndHold : false
     onStartButtonEnablePressAndHoldChanged: startButtonComponent.enablePressAndHold(startButtonEnablePressAndHold)
@@ -45,13 +45,11 @@ Item {
         leftButton.enabled = undoPossible;
         rightButton.enabled = redoPossible;
     }
-
     QtObject{
         id: textBeholder
         property string currentRoundText: qsTr("Current round: ")
         property string currentPlayerText: qsTr("Current player: ")
     }
-
     GridLayout{
         anchors.fill: parent
         flow: GridLayout.LeftToRight
@@ -67,7 +65,6 @@ Item {
             onStartButtonClicked: body.startButtonClicked()
             onRestartButtonClicked: body.restartButtonClicked()
         }
-
         PushButton{
             id: leftButton
             width: 48
@@ -112,7 +109,6 @@ Item {
                 horizontalAlignment: Text.AlignHCenter
             }
         }
-
         PushButton{
             id: rightButton
             width: 48

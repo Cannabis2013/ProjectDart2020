@@ -257,13 +257,14 @@ void LocalFtpController::addPoint(const int& point,
     // Set controller state, unless winner declared
     if(currentStatus() != ControllerState::WinnerDeclared)
         setCurrentStatus(ControllerState::AddScoreState);
+    auto currentPlayerId = currentActivePlayerId().toString(QUuid::WithoutBraces);
     QJsonObject obj;
     obj["tournamentId"] = tournament().toString(QUuid::WithoutBraces);
     obj["roundIndex"] = indexController()->roundIndex();
     obj["setIndex"] = indexController()->setIndex();
     obj["attempt"] = indexController()->attempt();
-    obj["isWinnerDetermined"] = status() == ControllerState::WinnerDeclared;
-    obj["playerId"] = currentActivePlayerId().toString(QUuid::WithoutBraces);
+    obj["winnerId"] = status() == ControllerState::WinnerDeclared ? currentPlayerId : "";
+    obj["playerId"] = currentPlayerId;
     obj["point"] = point;
     obj["scoreValue"] = score;
     obj["accumulatedScoreValue"] = accumulatedScore;
@@ -344,6 +345,10 @@ void LocalFtpController::recieveFtpIndexesAndEntities(const QByteArray& json)
     indexController()->setIndexes(totalTurns,turns,
                                   roundIndex,setIndex,
                                   attemptIndex);
+    auto tournamentWinnerStringId = jsonObject.value("tournamentWinnerId").toString();
+    auto tournamentWinnerId = tournamentWinnerStringId != "" ?
+                QUuid::fromString(tournamentWinnerStringId) : QUuid();
+    scoreController()->setWinner(tournamentWinnerId);
     auto playerData = jsonObject.value("playerEntities").toArray();
     indexController()->setPlayersCount(playerData.count());
     for (const auto &jsonVal : playerData) {
@@ -366,16 +371,6 @@ void LocalFtpController::recieveFtpIndexesAndEntities(const QByteArray& json)
     else
         setCurrentStatus(ControllerState::Initialized);
     emit isInitialized();
-}
-
-void LocalFtpController::calculateAccumulatedPlayerScores(const QByteArray &json)
-{
-    auto jsonErr = new QJsonParseError;
-    auto jsonDocument = QJsonDocument::fromJson(json,jsonErr);
-    if(jsonErr->error != QJsonParseError::NoError)
-        throw "JSON parse error!";
-    auto jsonObject = jsonDocument.object();
-    QJsonArray arr = jsonObject.value("PlayerEntities").toArray();
 }
 
 ScoreController *LocalFtpController::scoreController() const

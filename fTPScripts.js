@@ -115,12 +115,10 @@ function handleStartClicked()
     if(buttonText === buttonTextContainer.startText ||
             buttonText === buttonTextContainer.resumeText)
     {
-        turnControllerInterface().options = false;
         requestStart();
     }
     else
     {
-        turnControllerInterface().options = true;
         gamePageBody.state = "stopped";
         requestStop();
     }

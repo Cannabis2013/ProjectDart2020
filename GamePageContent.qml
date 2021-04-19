@@ -112,8 +112,7 @@ Content {
             name: "winner"
             StateChangeScript{
                 script: {
-                    turnControllerInterface().startButtonText = buttonTextContainer.restartText;
-                    turnControllerInterface().startButtonEnabled = true;
+                    turnControllerInterface().setRestartMode();
                     var currentPlayer = turnControllerInterface().currentPlayer;
                     var currentRoundIndex = turnControllerInterface().currentRoundIndex;
                     turnControllerInterface().updateState(currentRoundIndex,

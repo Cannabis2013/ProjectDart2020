@@ -19,7 +19,6 @@ public slots:
     virtual void assembleSingleAttemptFtpScores() = 0;
     virtual void handleRequestFtpPlayerScores() = 0;
     virtual void recieveFtpIndexesAndEntities(const QByteArray&) = 0;
-    virtual void calculateAccumulatedPlayerScores(const QByteArray&) = 0;
 signals:
     void isReadyAndAwaitsInput(const QString& json);
     void requestFtpDetails(const QUuid& tournamentId);

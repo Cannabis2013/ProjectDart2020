@@ -62,8 +62,10 @@ void RemoteModelsContext::assembleFtpMetaDataFromId(const QUuid &tournamentId)
 
 void RemoteModelsContext::addFtpScore(const QByteArray &json)
 {
+    auto jsonDocument = QJsonDocument::fromJson(json).object();
+    auto winnerStringId = jsonDocument.value("winnerId").toString();
     _netMng->sendPostRequest("AddFtpScore",
-                             json,QString(),{},this,
+                             json,QString(),{{"winnerId",winnerStringId}},this,
                              SLOT(handleAddFtpScoreReply()));
 
 }
@@ -89,7 +91,7 @@ void RemoteModelsContext::setFtpScoreHint(const QUuid &tournament,
 void RemoteModelsContext::resetTournament(const QUuid &tournament)
 {
     auto tournamentId = tournament.toString(QUuid::WithoutBraces);
-    _netMng->sendPostRequest("ResetTournament",QByteArray(),QString(),{{"tournamentId",tournamentId}},this,SLOT(tournamentResetReply()));
+    _netMng->sendPostRequest("ResetFtpTournament",QByteArray(),QString(),{{"tournamentId",tournamentId}},this,SLOT(tournamentResetReply()));
 }
 
 void RemoteModelsContext::assembleFtpKeyValues(const QUuid &tournament)

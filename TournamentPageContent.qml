@@ -62,10 +62,10 @@ Content{
            allowMultipleSelections: false
            allowCheckState: false
            instantSelectEnabled: true
-           onItemClicked: sendClickedTournamentIndex(index)
            itemTitleTextColor: ThemeContext.tournamentListViewTextColor
            itemDescriptionFontColor: ThemeContext.tournamentListViewTextColor
            titleTextColor: ThemeContext.tournamentListViewTextColor
+           onItemClicked: sendClickedTournamentIndex(index)
        }
        GridLayout{
            flow: GridLayout.LeftToRight

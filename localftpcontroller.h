@@ -131,10 +131,10 @@ public slots:
     LocalFtpController *setScoreController(ScoreController *scoreController);
     // Get current status
     int currentStatus() const;
-
+    /*
+     * Recieve ftp index values, score values, and player values from modelscontext
+     */
     virtual void recieveFtpIndexesAndEntities(const QByteArray& json) override;
-    void calculateAccumulatedPlayerScores(const QByteArray& json) override;
-
 private:
     /*
      * Private constructor
