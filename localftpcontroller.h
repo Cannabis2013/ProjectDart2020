@@ -67,7 +67,7 @@ public slots:
      *  - Set status to 'InitializedAndReady'
      *  - Transmit 'ready' response
      */
-    void initialize() override;
+    void beginInitialize() override;
     /*
      * Start/stop/undo/redo
      */
@@ -134,7 +134,7 @@ public slots:
     /*
      * Recieve ftp index values, score values, and player values from modelscontext
      */
-    virtual void recieveFtpIndexesAndEntities(const QByteArray& json) override;
+    virtual void initializeController(const QByteArray& json) override;
 private:
     /*
      * Private constructor

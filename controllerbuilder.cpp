@@ -85,7 +85,7 @@ void ControllerBuilder::connectFTPController(AbstractFtpController *controller, 
     connect(controller,&AbstractFtpController::requestFtpIndexesAndScores,
             modelsContext,&AbstractModelsContext::assembleFtpIndexesAndScores);
     connect(modelsContext,&AbstractModelsContext::sendFtpIndexesAndScoreEntities,
-            controller,&AbstractFtpController::recieveFtpIndexesAndEntities);
+            controller,&AbstractFtpController::initializeController);
     /*
          * Controller requests transmitting multithrow playerscores
          */
@@ -108,13 +108,13 @@ void ControllerBuilder::connectFTPController(AbstractFtpController *controller, 
          * Wake up controller
          */
     connect(applicationInterface,&AbstractApplicationInterface::requestWakeUp,
-            controller,&AbstractGameController::initialize);
+            controller,&AbstractGameController::beginInitialize);
     /*
          * Controller needs to inform external context about its state
          */
     connect(controller,&AbstractFtpController::controllerIsStopped,
             applicationInterface,&AbstractApplicationInterface::controllerIsStopped);
-    connect(controller,&AbstractFtpController::isInitialized,
+    connect(controller,&AbstractFtpController::controllerIsInitialized,
             applicationInterface,&AbstractApplicationInterface::controllerIsInitialized);
     connect(controller,&AbstractFtpController::isReadyAndAwaitsInput,
             applicationInterface,&AbstractApplicationInterface::controllerAwaitsInput);

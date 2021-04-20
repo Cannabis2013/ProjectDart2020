@@ -5,6 +5,7 @@ void LocalFtpController::start()
     if(_currentStatus != ControllerState::Initialized &&
             _currentStatus != ControllerState::Stopped)
     {
+        emit controllerIsNotInitialized();
         return;
     }
     setCurrentStatus(ControllerState::AwaitsInput);
@@ -278,7 +279,7 @@ void LocalFtpController::handleRequestFromUI()
 {
     if(status() == ControllerState::Initialized)
     {
-        emit isInitialized();
+        emit controllerIsInitialized();
     }
     else if(status() == ControllerState::AddScoreState)
     {
@@ -310,7 +311,7 @@ void LocalFtpController::handleRequestFromUI()
     else if(status() == ControllerState::resetState)
     {
         setCurrentStatus(ControllerState::Initialized);
-        emit isInitialized();
+        emit controllerIsInitialized();
     }
 }
 
@@ -334,7 +335,7 @@ int LocalFtpController::currentStatus() const
     return _currentStatus;
 }
 
-void LocalFtpController::recieveFtpIndexesAndEntities(const QByteArray& json)
+void LocalFtpController::initializeController(const QByteArray& json)
 {
     auto jsonObject = QJsonDocument::fromJson(json).object();
     auto jsonIndexObject = jsonObject["indexes"].toObject();
@@ -371,7 +372,7 @@ void LocalFtpController::recieveFtpIndexesAndEntities(const QByteArray& json)
         setCurrentStatus(ControllerState::WinnerDeclared);
     else
         setCurrentStatus(ControllerState::Initialized);
-    emit isInitialized();
+    emit controllerIsInitialized();
 }
 
 ScoreController *LocalFtpController::scoreController() const
@@ -429,15 +430,8 @@ LocalFtpController *LocalFtpController::setLogisticInterface(FTPLogisticControll
     return this;
 }
 
-void LocalFtpController::initialize()
+void LocalFtpController::beginInitialize()
 {
-    /*
-    if(scoreController()->winnerId() != QUuid())
-        setCurrentStatus(ControllerState::WinnerDeclared);
-    else
-        setCurrentStatus(ControllerState::Initialized);
-    emit transmitResponse(ControllerResponse::InitializedAndReady,{});
-     */
     auto tournamentId = tournament();
     emit requestFtpIndexesAndScores(tournamentId);
 }

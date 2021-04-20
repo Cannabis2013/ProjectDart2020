@@ -31,8 +31,8 @@ Item {
         leftButton.enabled = false;
         rightButton.enabled = false;
     }
-    signal backenHasDeclaredAWinner
-    onBackenHasDeclaredAWinner: {
+    signal backendHasDeclaredAWinner()
+    onBackendHasDeclaredAWinner: {
         startButtonComponent.setRestartMode();
         updateState(currentRoundIndex,currentPlayer,false,false);
     }

@@ -34,7 +34,7 @@ public slots:
     /*
      * Set initial state
      */
-    virtual void initialize() = 0;
+    virtual void beginInitialize() = 0;
     /*
      * Handle persist model request
      */
@@ -52,8 +52,8 @@ signals:
                              const int &hint);
     void requestResetTournament(const QUuid &tournament);
     void requestPersistModelState();
-    void isStopped();
-    void isInitialized();
+    void controllerIsNotInitialized();
+    void controllerIsInitialized();
     void isReset();
     void winnerDeclared(const QString& jsons);
     void controllerIsStopped();

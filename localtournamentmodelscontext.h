@@ -16,6 +16,12 @@
 #define THROW_OBJECT_WITH_ID_NOT_FOUND(x) QString("Model with ID: '%1' does not exists in the current context").arg(x).toStdString();
 #define THROW_OBJECT_WITH_INDEX_NOT_FOUND(x) QString("Model with index: '%1' does not exists in the current context").arg(x).toStdString();
 
+/*
+ * Context responsibilities
+ *  - Get and modify data values from data storage class containers
+ *  - Build and persist data storage class containers by the help of appropriate services
+ */
+
 class LocalTournamentModelsContext :
         public TournamentModelsContextInterface
 {
@@ -58,6 +64,11 @@ public:
     TCC::ITournamentModelsBuilder *tournamentBuilder();
     LocalTournamentModelsContext *setScoreBuilder(TCC::ScoreBuilderInterface* builder);
     TCC::ScoreBuilderInterface* scoreBuilder();
+    /*
+     * Persistence service
+     */
+    LocalTournamentModelsContext* setModelDBContext(ImodelsDBContext* context);
+    ImodelsDBContext* modelDBContext();
     /*
      * Tournament related section
      */
@@ -166,10 +177,8 @@ public:
      * Tournament scores
      */
     QVector<int> tournamentUserScores(const QUuid &tournament) override;
-    LocalTournamentModelsContext* setModelDBContext(ImodelsDBContext* context);
 
 private:
-    ImodelsDBContext* modelDBContext();
     /*
      * Get tournament model
      */

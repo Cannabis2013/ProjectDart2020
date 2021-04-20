@@ -91,6 +91,7 @@ HEADERS += \
             itournamentparameter.h \
             iurlparser.h \
             jsondbcontext.h \
+            jsonextractor.h \
             localftpcontroller.h \
             localmodelscontext.h \
             localplayermodelscontext.h \

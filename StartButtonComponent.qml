@@ -83,6 +83,7 @@ GridLayout{
         onClicked: body.startButtonClicked()
         onPressAndHoldClicked: body.pressAndHoldClicked()
         enablePressAndHold: body.pressAndHoldEnabled
+        visible: false
     }
     PushButton{
         id: pauseButton
@@ -112,7 +113,7 @@ GridLayout{
         height: buttonDimensions.defaultHeight
         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
         onClicked: body.resumeButtonClicked()
-        enablePressAndHold: body.startButtonEnabled
+        enablePressAndHold: body.pressAndHoldEnabled
         onPressAndHoldClicked: body.pressAndHoldClicked()
         visible: false
     }
@@ -168,99 +169,30 @@ GridLayout{
                 target: startButton
                 visible: true
             }
-            PropertyChanges {
-                target: pauseButton
-                visible: false
-            }
-            PropertyChanges {
-                target: resumeButton
-                visible: false
-            }
-            PropertyChanges {
-                target: waitButton
-                visible: false
-            }
         },
         State {
             name: "runningState"
             PropertyChanges {
                 target: textDescription
-                visible : false;
-            }
-            PropertyChanges {
-                target: startButton
-                visible: false
+                visible : true;
             }
             PropertyChanges {
                 target: pauseButton
                 visible: true
             }
-            PropertyChanges {
-                target: resumeButton
-                visible: false
-            }
-            PropertyChanges {
-                target: waitButton
-                visible: false
-            }
-            PropertyChanges {
-                target: restartButton
-                visible: false
-            }
-
         },
         State {
             name: "waitState"
             PropertyChanges {
-                target: textDescription
-                visible : false;
-            }
-            PropertyChanges {
-                target: startButton
-                visible: false
-            }
-            PropertyChanges {
-                target: pauseButton
-                visible: false
-            }
-            PropertyChanges {
-                target: resumeButton
-                visible: false
-            }
-            PropertyChanges {
                 target: waitButton
                 visible: true
-            }
-            PropertyChanges {
-                target: restartButton
-                visible: false
             }
         },
         State {
             name: "stoppedState"
             PropertyChanges {
-                target: textDescription
-                visible : false;
-            }
-            PropertyChanges {
-                target: startButton
-                visible: false
-            }
-            PropertyChanges {
-                target: pauseButton
-                visible: false
-            }
-            PropertyChanges {
                 target: resumeButton
                 visible: true
-            }
-            PropertyChanges {
-                target: waitButton
-                visible: false
-            }
-            PropertyChanges {
-                target: restartButton
-                visible: false
             }
         },
         State {
@@ -297,13 +229,9 @@ GridLayout{
         State {
             name: "restartState"
             PropertyChanges {
-                target: textDescription
-                visible : false
-            }
-            PropertyChanges {
                 target: restartButton
-                visible : true
-                height : restartButton.height
+                visible: true
+                height: buttonDimensions.defaultHeight
             }
         }
     ]

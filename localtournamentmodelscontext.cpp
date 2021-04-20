@@ -46,32 +46,20 @@ QUuid LocalTournamentModelsContext::tournamentAssembleAndAddFTP(const QString &t
                                                                 const QVector<QUuid>& playerIds)
 {
     // Build model
-    auto tournament = tournamentBuilder()->buildFTPTournament([this,
-                                                              title,
-                                                              gameMode,
-                                                              keyPoint,
-                                                              terminalKeyCode,
-                                                              displayHint,
-                                                              inputHint,
-                                                              attempts,
-                                                              playerIds]
-    {
-        TBC::FTPParameters params;
-        params.title = title;
-        params.gameMode = gameMode;
-        params.keyPoint = keyPoint;
-        params.terminalKeyCode = terminalKeyCode;
-        params.displayHint = displayHint;
-        params.inputHint = inputHint;
-        params.attempts = attempts;
-        params.playerIdentities = playerIds;
-        params.tournamentsCount = this->tournamentsCount();
-        return params;
-    }(),[]{
-        TBC::ModelOptions options;
-        options.generateUniqueId = true;
-        return options;
-    }());
+    TBC::FTPParameters params;
+    params.title = title;
+    params.gameMode = gameMode;
+    params.keyPoint = keyPoint;
+    params.terminalKeyCode = terminalKeyCode;
+    params.displayHint = displayHint;
+    params.inputHint = inputHint;
+    params.attempts = attempts;
+    params.playerIdentities = playerIds;
+    params.tournamentsCount = this->tournamentsCount();
+    TBC::ModelOptions options;
+    options.generateUniqueId = true;
+
+    auto tournament = tournamentBuilder()->buildFTPTournament(params,options);
     // Add model to dbcontext
     _dbContext->addTournament(tournament);
     // Persist state change
