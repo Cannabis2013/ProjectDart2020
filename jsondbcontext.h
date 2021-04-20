@@ -14,7 +14,7 @@
 #include "player.h"
 
 class JsonDbContext :
-        public ImodelsDBContext,
+        public IModelsDbContext,
         public AbstractJSONPersistence
 {
 public:

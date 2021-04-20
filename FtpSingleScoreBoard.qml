@@ -91,7 +91,7 @@ ScoreBoard {
         //return myModel.rowHeightAt(row);
     }
 
-    model: SFTPDataModel{
+    model: SFtpDataModel{
         id: fTPModel
         onDataChanged: ScoreScripts.updateScoreBoard();
         attempts: fTPBody.attempts

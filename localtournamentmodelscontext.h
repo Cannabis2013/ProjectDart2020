@@ -67,8 +67,8 @@ public:
     /*
      * Persistence service
      */
-    LocalTournamentModelsContext* setModelDBContext(ImodelsDBContext* context);
-    ImodelsDBContext* modelDBContext();
+    LocalTournamentModelsContext* setModelDBContext(IModelsDbContext* context);
+    IModelsDbContext* modelDBContext();
     /*
      * Tournament related section
      */
@@ -189,7 +189,7 @@ private:
 
     TCC::ITournamentModelsBuilder *_tournamentModelBuilder;
     TCC::ScoreBuilderInterface* _scoreModelbuilder;
-    ImodelsDBContext* _dbContext;
+    IModelsDbContext* _dbContext;
 };
 
 #endif // TOURNAMENTMODELCONTEXT_H

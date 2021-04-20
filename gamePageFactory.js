@@ -18,13 +18,13 @@ function buildDisplayItem(mode)
     return c;
 }
 
-function buildFTPScoreBoard(tableHint)
+function buildFtpScoreBoard(tableHint)
 {
     var c;
     if(tableHint === DataModelContext.singleAttempt)
-        c = Qt.createComponent("FTPSingleScoreBoard.qml");
+        c = Qt.createComponent("FtpSingleScoreBoard.qml");
     else
-        c = Qt.createComponent("FTPMultiScoreBoard.qml");
+        c = Qt.createComponent("FtpMultiScoreBoard.qml");
     if(c === undefined)
         console.log("ScoreBoard: Something went wrong!");
     return c;

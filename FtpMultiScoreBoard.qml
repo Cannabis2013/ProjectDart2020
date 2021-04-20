@@ -91,7 +91,7 @@ ScoreBoard {
         return fTPModel.rowHeightAt(row);
     }
 
-    model: FTPDataModel {
+    model: FtpDataModel {
         id: fTPModel
         onDataChanged: ScoreScripts.updateScoreBoard();
         attempts: fTPBody.attempts

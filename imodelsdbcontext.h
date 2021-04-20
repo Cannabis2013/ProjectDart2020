@@ -15,12 +15,11 @@ namespace DbModels {
     typedef IPlayerModel<QUuid,QString> PlayerInterface;
 }
 
-class ImodelsDBContext : public PersistenceInterface
+class IModelsDbContext : public PersistenceInterface
 {
 public:
     // Public types
-
-    virtual ~ImodelsDBContext() = default;
+    virtual ~IModelsDbContext() = default;
     // Tournament section
     virtual void addTournament(DbModels::TournamentInterface* model) = 0;
     virtual const DbModels::TournamentInterface* tournamentModel(const int&) = 0;

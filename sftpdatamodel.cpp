@@ -1,11 +1,11 @@
 #include "sftpdatamodel.h"
 
-SFTPDataModel::SFTPDataModel()
+SFtpDataModel::SFtpDataModel()
 {
-    connect(this,&SFTPDataModel::initialValueChanged,this,&SFTPDataModel::updateInitialCellValues);
+    connect(this,&SFtpDataModel::initialValueChanged,this,&SFtpDataModel::updateInitialCellValues);
 }
 
-QVariant SFTPDataModel::getData(const int &row, const int &column, const int &mode)
+QVariant SFtpDataModel::getData(const int &row, const int &column, const int &mode)
 {
     if(row >= rowCount() || column >= columnCount())
         return -1;
@@ -20,7 +20,7 @@ QVariant SFTPDataModel::getData(const int &row, const int &column, const int &mo
         return result;
 }
 
-int SFTPDataModel::editData(const int &row, const int &column, const int &point, const int &score)
+int SFtpDataModel::editData(const int &row, const int &column, const int &point, const int &score)
 {
     if(row < 0 || row >= rowCount())
         return -1;
@@ -36,14 +36,14 @@ int SFTPDataModel::editData(const int &row, const int &column, const int &point,
     return oldData.toInt();
 }
 
-bool SFTPDataModel::insertData(const QString &playerName,
+bool SFtpDataModel::insertData(const QString &playerName,
                                          const int &point,
                                          const int &score)
 {
     return setPlayerData(playerName,point,score);;
 }
 
-bool SFTPDataModel::setPlayerData(const QString &playerName,
+bool SFtpDataModel::setPlayerData(const QString &playerName,
                                  const int &point,
                                  const int &score)
 {
@@ -62,7 +62,7 @@ bool SFTPDataModel::setPlayerData(const QString &playerName,
     return true;
 }
 
-bool SFTPDataModel::removeLastItem(const QString &playerName)
+bool SFtpDataModel::removeLastItem(const QString &playerName)
 {
     auto column = indexOfHeaderItem(playerName);
     auto row = indexOfLastDecoratedCell(column);
@@ -71,7 +71,7 @@ bool SFTPDataModel::removeLastItem(const QString &playerName)
     return result;
 }
 
-void SFTPDataModel::appendHeaderItem(const QVariant &data)
+void SFtpDataModel::appendHeaderItem(const QVariant &data)
 {
     auto glyphLength = stringWidth(data.toString(),
                                    scoreFontFamily(),
@@ -86,7 +86,7 @@ void SFTPDataModel::appendHeaderItem(const QVariant &data)
         setColumnWidthAt(column,glyphLength);
 }
 
-void SFTPDataModel::clearData()
+void SFtpDataModel::clearData()
 {
     _data.clear();
     auto bottomRight = createIndex(rowCount() - 1,columnCount() - 1);
@@ -98,13 +98,13 @@ void SFTPDataModel::clearData()
     emit dataChanged(createIndex(0,0),bottomRight);
 }
 
-QString SFTPDataModel::getHeaderData(const int &index) const
+QString SFtpDataModel::getHeaderData(const int &index) const
 {
     auto value = headerData(index,Qt::Horizontal,Qt::DisplayRole).toString();
     return value;
 }
 
-int SFTPDataModel::headerItemCount() const
+int SFtpDataModel::headerItemCount() const
 {
     if(horizontalHeaderFillMode() == HeaderFillMode::FixedStrings)
         return _horizontalHeaderData.count();
@@ -112,28 +112,28 @@ int SFTPDataModel::headerItemCount() const
         return columnCount();
 }
 
-int SFTPDataModel::rowCount() const
+int SFtpDataModel::rowCount() const
 {
     return rowCount(QModelIndex());
 }
 
-int SFTPDataModel::columnCount() const
+int SFtpDataModel::columnCount() const
 {
     return columnCount(QModelIndex());
 }
 
-double SFTPDataModel::columnWidthAt(const int &column) const
+double SFtpDataModel::columnWidthAt(const int &column) const
 {
     auto s = scale();
     auto w = columnWidthsAt(column);
     auto columnWidth = s*w;
-    if(columnWidth < SingleFTPDataModel::minimumPreferedColumnWidth)
-        return SingleFTPDataModel::minimumPreferedColumnWidth;
+    if(columnWidth < SingleFtpDataModel::minimumPreferedColumnWidth)
+        return SingleFtpDataModel::minimumPreferedColumnWidth;
     else
         return columnWidth;
 }
 
-double SFTPDataModel::rowHeightAt(const int &row) const
+double SFtpDataModel::rowHeightAt(const int &row) const
 {
     if(_data.count() <= 0)
         return 0;
@@ -159,44 +159,44 @@ double SFTPDataModel::rowHeightAt(const int &row) const
         resultingGlyphLenght = totalGlypHeight > resultingGlyphLenght ? totalGlypHeight : resultingGlyphLenght;
     }
 
-    if(resultingGlyphLenght < SingleFTPDataModel::minimumPreferedRowHeight)
-        resultingGlyphLenght = SingleFTPDataModel::minimumPreferedRowHeight;
+    if(resultingGlyphLenght < SingleFtpDataModel::minimumPreferedRowHeight)
+        resultingGlyphLenght = SingleFtpDataModel::minimumPreferedRowHeight;
 
     return resultingGlyphLenght;
 }
 
-int SFTPDataModel::horizontalHeaderCount() const
+int SFtpDataModel::horizontalHeaderCount() const
 {
     return _horizontalHeaderData.count();
 }
 
-int SFTPDataModel::verticalHeaderCount() const
+int SFtpDataModel::verticalHeaderCount() const
 {
     return 0;
 }
 
-int SFTPDataModel::rowCount(const QModelIndex &) const
+int SFtpDataModel::rowCount(const QModelIndex &) const
 {
     return _rows;
 }
 
-int SFTPDataModel::columnCount(const QModelIndex &) const
+int SFtpDataModel::columnCount(const QModelIndex &) const
 {
     return _columns;
 }
 
-void SFTPDataModel::setColumnWidthAt(const int &column, const double &w)
+void SFtpDataModel::setColumnWidthAt(const int &column, const double &w)
 {
     _columnWidths.replace(column,w);
 }
 
-int SFTPDataModel::columnWidthsAt(const int &index) const
+int SFtpDataModel::columnWidthsAt(const int &index) const
 {
     auto columnWidth = _columnWidths.at(index);
     return columnWidth;
 }
 
-QVariant SFTPDataModel::data(const QModelIndex &index, int role) const
+QVariant SFtpDataModel::data(const QModelIndex &index, int role) const
 {
     if(!index.isValid() || _data.count() <= 0)
         return QVariant();
@@ -217,7 +217,7 @@ QVariant SFTPDataModel::data(const QModelIndex &index, int role) const
                 QVariant("");
 }
 
-QVariant SFTPDataModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant SFtpDataModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     Q_UNUSED(orientation);
     if(role != Qt::DisplayRole)
@@ -236,12 +236,12 @@ QVariant SFTPDataModel::headerData(int section, Qt::Orientation orientation, int
         return QVariant();
 }
 
-int SFTPDataModel::numberOfAttemps() const
+int SFtpDataModel::numberOfAttemps() const
 {
     return _attemps;
 }
 
-bool SFTPDataModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool SFtpDataModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     auto row = index.row();
     auto column = index.column();
@@ -275,7 +275,7 @@ bool SFTPDataModel::setData(const QModelIndex &index, const QVariant &value, int
     return true;
 }
 
-bool SFTPDataModel::insertRows(int row, int count, const QModelIndex &)
+bool SFtpDataModel::insertRows(int row, int count, const QModelIndex &)
 {
     auto firstRow = row <= rowCount(QModelIndex()) ? row : rowCount(QModelIndex()) - 1;
     auto lastRow  =  row <= rowCount(QModelIndex()) ? firstRow + count : 2*row + count - firstRow;
@@ -294,17 +294,13 @@ bool SFTPDataModel::insertRows(int row, int count, const QModelIndex &)
         }();
         _data.insert(row,initializedDataRow);
     }
-
     endInsertRows();
-
     _rows += c;
-
     emit dataChanged(createIndex(row,0),createIndex(lastRow,columnCount()));
-
     return true;
 }
 
-bool SFTPDataModel::insertColumns(int column, int count, const QModelIndex &)
+bool SFtpDataModel::insertColumns(int column, int count, const QModelIndex &)
 {
     auto firstColumn = column <= columnCount() ? column : columnCount() - 1;
     auto lastColumn  =  column <= columnCount() ? firstColumn + count : 2*column + count - firstColumn;
@@ -323,7 +319,7 @@ bool SFTPDataModel::insertColumns(int column, int count, const QModelIndex &)
 
     QList<double> newColumnWidths;
     for (int i = 0; i < c; ++i)
-        newColumnWidths << SingleFTPDataModel::minimumPreferedColumnWidth;
+        newColumnWidths << SingleFtpDataModel::minimumPreferedColumnWidth;
 
     for (int i = 0; i < newColumnWidths.count(); ++i) {
         auto columnWidth = newColumnWidths.at(i);
@@ -336,7 +332,7 @@ bool SFTPDataModel::insertColumns(int column, int count, const QModelIndex &)
     return true;
 }
 
-bool SFTPDataModel::removeRows(int row, int count, const QModelIndex &)
+bool SFtpDataModel::removeRows(int row, int count, const QModelIndex &)
 {
     // Check if input satisfies model constraints
     if(row < 0 || row >= rowCount())
@@ -360,7 +356,7 @@ bool SFTPDataModel::removeRows(int row, int count, const QModelIndex &)
     return true;
 }
 
-bool SFTPDataModel::removeColumns(int column, int count, const QModelIndex &)
+bool SFtpDataModel::removeColumns(int column, int count, const QModelIndex &)
 {
     // Check if input satisfies model constraints
     if(column < 0 || column >= columnCount())
@@ -384,7 +380,7 @@ bool SFTPDataModel::removeColumns(int column, int count, const QModelIndex &)
     return true;
 }
 
-void SFTPDataModel::updateInitialCellValues()
+void SFtpDataModel::updateInitialCellValues()
 {
 
     if(_data.count() < 1)
@@ -397,13 +393,13 @@ void SFTPDataModel::updateInitialCellValues()
         setData(createIndex(0,i),initialValue,Qt::DisplayRole);
 }
 
-bool SFTPDataModel::isCellDecorated(const QModelIndex &index)
+bool SFtpDataModel::isCellDecorated(const QModelIndex &index)
 {
     return data(index,Qt::DisplayRole) != "-";
 }
 
 
-int SFTPDataModel::indexOfLastDecoratedCell(const int &index)
+int SFtpDataModel::indexOfLastDecoratedCell(const int &index)
 {
     for (int row = 0; row < rowCount(); ++row) {
         auto pairs = _data.at(row);
@@ -417,7 +413,7 @@ int SFTPDataModel::indexOfLastDecoratedCell(const int &index)
     return rowCount() - 1;
 }
 
-int SFTPDataModel::rowCount(const int &column)
+int SFtpDataModel::rowCount(const int &column)
 {
     for (int row = 0; row < _data.count(); ++row) {
         auto scoreModels = _data.at(row);
@@ -430,7 +426,7 @@ int SFTPDataModel::rowCount(const int &column)
     return rowCount();
 }
 
-bool SFTPDataModel::isColumnEmpty(const int &col)
+bool SFtpDataModel::isColumnEmpty(const int &col)
 {
     if(col < 0 || col >= columnCount())
         throw std::out_of_range("Index out of range");
@@ -444,7 +440,7 @@ bool SFTPDataModel::isColumnEmpty(const int &col)
     return true;
 }
 
-bool SFTPDataModel::isRowEmpty(const int &row)
+bool SFtpDataModel::isRowEmpty(const int &row)
 {
     if(row < 0 || row >= rowCount())
         throw std::out_of_range("Index out of range");
@@ -458,7 +454,7 @@ bool SFTPDataModel::isRowEmpty(const int &row)
     return true;
 }
 
-QPair<int, int> SFTPDataModel::removeData(const QModelIndex &index)
+QPair<int, int> SFtpDataModel::removeData(const QModelIndex &index)
 {
     if(!index.isValid())
         return scoreModel(-1,-1);
@@ -480,125 +476,125 @@ QPair<int, int> SFTPDataModel::removeData(const QModelIndex &index)
     return data;
 }
 
-int SFTPDataModel::indexOfHeaderItem(const QString &data)
+int SFtpDataModel::indexOfHeaderItem(const QString &data)
 {
     auto index = _horizontalHeaderData.indexOf(data);
     return index;
 }
 
-int SFTPDataModel::stringWidth(const QString &string, const QString &family, const int &pointSize) const
+int SFtpDataModel::stringWidth(const QString &string, const QString &family, const int &pointSize) const
 {
     auto fontMetric = QFontMetrics(QFont(family,pointSize));
     auto r = fontMetric.boundingRect(string).width();
     return r;
 }
 
-int SFTPDataModel::headerFontSize() const
+int SFtpDataModel::headerFontSize() const
 {
     return _headerFontSize;
 }
 
-void SFTPDataModel::setHeaderFontSize(int headerFontSize)
+void SFtpDataModel::setHeaderFontSize(int headerFontSize)
 {
     _headerFontSize = headerFontSize;
 }
 
-QStringList SFTPDataModel::getHorizontalHeaderData() const
+QStringList SFtpDataModel::getHorizontalHeaderData() const
 {
     return _horizontalHeaderData;
 }
 
-void SFTPDataModel::setHorizontalHeaderData(const QList<QString> &horizontalHeaderData)
+void SFtpDataModel::setHorizontalHeaderData(const QList<QString> &horizontalHeaderData)
 {
     _horizontalHeaderData = horizontalHeaderData;
 }
 
-QString SFTPDataModel::pointFontFamily() const
+QString SFtpDataModel::pointFontFamily() const
 {
     return _pointFontFamily;
 }
 
-void SFTPDataModel::setPointFontFamily(const QString &pointFontFamily)
+void SFtpDataModel::setPointFontFamily(const QString &pointFontFamily)
 {
     _pointFontFamily = pointFontFamily;
 }
 
-QString SFTPDataModel::scoreFontFamily() const
+QString SFtpDataModel::scoreFontFamily() const
 {
     return _scoreFontFamily;
 }
 
-void SFTPDataModel::setScoreFontFamily(const QString &scoreFontFamily)
+void SFtpDataModel::setScoreFontFamily(const QString &scoreFontFamily)
 {
     _scoreFontFamily = scoreFontFamily;
 }
 
-int SFTPDataModel::pointFontSize() const
+int SFtpDataModel::pointFontSize() const
 {
     return _pointFontSize;
 }
 
-void SFTPDataModel::setPointFontSize(int pointFontSize)
+void SFtpDataModel::setPointFontSize(int pointFontSize)
 {
     _pointFontSize = pointFontSize;
 }
 
-int SFTPDataModel::scoreFontSize() const
+int SFtpDataModel::scoreFontSize() const
 {
     return _scoreFontSize;
 }
 
-void SFTPDataModel::setScoreFontSize(int scoreFontSize)
+void SFtpDataModel::setScoreFontSize(int scoreFontSize)
 {
     _scoreFontSize = scoreFontSize;
 }
 
-int SFTPDataModel::initialValue() const
+int SFtpDataModel::initialValue() const
 {
     return _initialValue;
 }
 
-void SFTPDataModel::setInitialValue(int initialValue)
+void SFtpDataModel::setInitialValue(int initialValue)
 {
     _initialValue = initialValue;
     emit initialValueChanged();
 }
 
-int SFTPDataModel::minimumRowCount() const
+int SFtpDataModel::minimumRowCount() const
 {
     return _minimumRowCount;
 }
 
-void SFTPDataModel::setMinimumRowCount(int minimumRowCount)
+void SFtpDataModel::setMinimumRowCount(int minimumRowCount)
 {
     Q_UNUSED(minimumRowCount);
     return;
 }
 
-int SFTPDataModel::minimumColumnCount() const
+int SFtpDataModel::minimumColumnCount() const
 {
     return _minimumColumnCount;
 }
 
-void SFTPDataModel::setMinimumColumnCount(int minimumColumnCount)
+void SFtpDataModel::setMinimumColumnCount(int minimumColumnCount)
 {
     Q_UNUSED(minimumColumnCount);
     return;
 }
 
-int SFTPDataModel::preferedHeaderItemWidth() const
+int SFtpDataModel::preferedHeaderItemWidth() const
 {
     auto preferedWidth = columnWidthsAt(0);
     return preferedWidth;
 }
 
-void SFTPDataModel::setNumberOfAttemps(const int &count)
+void SFtpDataModel::setNumberOfAttemps(const int &count)
 {
     _attemps = count;
     emit dataChanged(QModelIndex(),QModelIndex());
 }
 
-void SFTPDataModel::setColumnCount(const int &count)
+void SFtpDataModel::setColumnCount(const int &count)
 {
     if(count < 0)
         return;
@@ -615,7 +611,7 @@ void SFTPDataModel::setColumnCount(const int &count)
     }
 }
 
-void SFTPDataModel::setRowCount(const int &count)
+void SFtpDataModel::setRowCount(const int &count)
 {
     if(count < 0)
         return;
@@ -633,22 +629,22 @@ void SFTPDataModel::setRowCount(const int &count)
     emit minimumRowCountChanged();
 }
 
-double SFTPDataModel::scale() const
+double SFtpDataModel::scale() const
 {
     return _scale;
 }
 
-void SFTPDataModel::setScale(double scale)
+void SFtpDataModel::setScale(double scale)
 {
     _scale = scale;
 }
 
-int SFTPDataModel::horizontalHeaderFillMode() const
+int SFtpDataModel::horizontalHeaderFillMode() const
 {
     return _horizontalFillMode;
 }
 
-void SFTPDataModel::setHorizontalHeaderFillMode(const int &fillMode)
+void SFtpDataModel::setHorizontalHeaderFillMode(const int &fillMode)
 {
     _horizontalFillMode = fillMode;
     emit fillModeChanged();

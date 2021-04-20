@@ -17,7 +17,7 @@ typedef QPair<int,int> scoreModel;
  *  - The datamodel orientation is based on the axis for which player names are listed
  */
 
-class FTPDataModel : public QAbstractTableModel
+class FtpDataModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
@@ -28,7 +28,7 @@ public:
                         MultiAppend = 0x8};
 
     // Constructor
-    FTPDataModel();
+    FtpDataModel();
     // Public properties
     // Fonts properties
     Q_PROPERTY(int scoreFontPointSize READ scoreFontSize WRITE setScoreFontSize NOTIFY fontChanged);

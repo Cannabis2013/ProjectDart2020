@@ -47,8 +47,8 @@ void RemoteModelsContext::handleRequestTournaments()
 
 void RemoteModelsContext::handleRequestGameMode(const int &index)
 {
-    _netMng->sendGetRequest("GetTournamentGameMode",
-                            QString(),{},this,
+    _netMng->sendGetRequest("GetTournamentGameModeAndId",
+                            QString(),{{"index",QString::number(index)}},this,
                             SLOT(handleRequestGameModeReply()));
 }
 

@@ -64,7 +64,7 @@ public:
 
     DefaultPlayerBuilder *playerBuilder();
     LocalPlayerModelsContext* setPlayerBuilder(DefaultPlayerBuilder *builder);
-    LocalPlayerModelsContext* setModelDBContext(ImodelsDBContext *context);
+    LocalPlayerModelsContext* setModelDBContext(IModelsDbContext *context);
     /*
      * PlayerModelsInterface interface
      */
@@ -94,9 +94,9 @@ private:
 
     const IDefaultPlayerModel *getModel(const QString &playerName);
 
-    ImodelsDBContext *modelDBContext();
+    IModelsDbContext *modelDBContext();
 
-    ImodelsDBContext* _dbContext;
+    IModelsDbContext* _dbContext;
     DefaultPlayerBuilder *_playerBuilder;
 };
 

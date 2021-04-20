@@ -50,7 +50,7 @@
         <file>managePageScripts.js</file>
         <file>PageIconItem.qml</file>
         <file>gamePageGeneralScripts.js</file>
-        <file>FTPSingleScoreBoard.qml</file>
+        <file>FtpSingleScoreBoard.qml</file>
         <file>StartButtonComponent.qml</file>
         <file>KeyPadItem.qml</file>
         <file>InteractiveObject.qml</file>
@@ -58,7 +58,7 @@
         <file>gamePageFactory.js</file>
         <file>TournamentContext.qml</file>
         <file>NotificationItem.qml</file>
-        <file>FTPMultiScoreBoard.qml</file>
+        <file>FtpMultiScoreBoard.qml</file>
         <file>DataModelContext.qml</file>
         <file>fTPMultiScripts.js</file>
         <file>createTournamentScripts.js</file>

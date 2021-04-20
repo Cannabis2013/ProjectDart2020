@@ -46,7 +46,7 @@ QVector<QUuid> LocalPlayerModelsContext::assemblePlayerIds(const QVector<int> &i
     return playersId;
 }
 
-ImodelsDBContext *LocalPlayerModelsContext::modelDBContext()
+IModelsDbContext *LocalPlayerModelsContext::modelDBContext()
 {
     return _dbContext;
 }
@@ -78,7 +78,7 @@ LocalPlayerModelsContext* LocalPlayerModelsContext::setPlayerBuilder(DefaultPlay
     return this;
 }
 
-LocalPlayerModelsContext* LocalPlayerModelsContext::setModelDBContext(ImodelsDBContext *context)
+LocalPlayerModelsContext* LocalPlayerModelsContext::setModelDBContext(IModelsDbContext *context)
 {
     _dbContext = context;
     return this;

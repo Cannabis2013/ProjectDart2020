@@ -6,22 +6,21 @@
 #include "LinkedList.h"
 
 
-namespace SingleFTPDataModel {
+namespace SingleFtpDataModel {
     const QString preferedFontFamily = "MS Sans Serif";
     const int preferedPointSize = 12;
     const int minimumPreferedColumnWidth = 64;
     const int minimumPreferedRowHeight = 25;
 }
 
-typedef QPair<int,int> scoreModel;
-
-class SFTPDataModel : public QAbstractTableModel
+class SFtpDataModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
-    SFTPDataModel();
+    SFtpDataModel();
 
     // Public types
+    typedef QPair<int,int> scoreModel;
     enum HeaderFillMode{DynamicNumerics = 0x1,
                         FixedStrings = 0x2};
 

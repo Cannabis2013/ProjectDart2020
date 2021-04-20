@@ -728,13 +728,13 @@ QVector<int> LocalTournamentModelsContext::tournamentUserScores(const QUuid &tou
     return userScores;
 }
 
-LocalTournamentModelsContext *LocalTournamentModelsContext::setModelDBContext(ImodelsDBContext *context)
+LocalTournamentModelsContext *LocalTournamentModelsContext::setModelDBContext(IModelsDbContext *context)
 {
     _dbContext = context;
     return this;
 }
 
-ImodelsDBContext *LocalTournamentModelsContext::modelDBContext()
+IModelsDbContext *LocalTournamentModelsContext::modelDBContext()
 {
     return _dbContext;
 }

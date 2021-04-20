@@ -8,7 +8,7 @@ function buildFtpComponents(){
       Load and setup ScoreTable
       */
     scoreBoardItemSlot.sourceComponent =
-            GamePageFactory.buildFTPScoreBoard(tournamentMetaData.tournamentTableViewHint);
+            GamePageFactory.buildFtpScoreBoard(tournamentMetaData.tournamentTableViewHint);
     /*
       Load and setup DisplayKeyDataItem
       */
