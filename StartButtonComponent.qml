@@ -13,7 +13,6 @@ GridLayout{
     onRestartButtonClicked: state = "startState"
     signal pauseButtonClicked
     signal resumeButtonClicked
-
     // States
     signal setStartMode
     onSetStartMode: state = "startState"
@@ -25,14 +24,14 @@ GridLayout{
     onSetWaitState: state = "waitState"
     signal setStoppedState
     onSetStoppedState: state = "stoppedState"
-
-    property bool pressAndHoldEnabled: false
+    // Properties
+    property bool pressAndHoldEnabled: true
     onPressAndHoldEnabledChanged: {
         startButton.enablePressAndHold = pressAndHoldEnabled;
         pauseButton.enablePressAndHold = pressAndHoldEnabled;
         resumeButton.enablePressAndHold = pressAndHoldEnabled;
     }
-
+    // Components
     QtObject{
         id: buttonDimensions
         property int defaultHeight: 24
@@ -83,6 +82,7 @@ GridLayout{
         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
         onClicked: body.startButtonClicked()
         onPressAndHoldClicked: body.pressAndHoldClicked()
+        enablePressAndHold: body.pressAndHoldEnabled
     }
     PushButton{
         id: pauseButton
@@ -98,6 +98,7 @@ GridLayout{
         onClicked: body.pauseButtonClicked()
         onPressAndHoldClicked: body.pressAndHoldClicked()
         visible: false
+        enablePressAndHold: body.pressAndHoldEnabled
     }
     PushButton{
         id: resumeButton
@@ -109,9 +110,9 @@ GridLayout{
         fontSize: 12
         width: buttonDimensions.defaultWidth
         height: buttonDimensions.defaultHeight
-        enablePressAndHold: body.startButtonEnabled
         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
         onClicked: body.resumeButtonClicked()
+        enablePressAndHold: body.startButtonEnabled
         onPressAndHoldClicked: body.pressAndHoldClicked()
         visible: false
     }

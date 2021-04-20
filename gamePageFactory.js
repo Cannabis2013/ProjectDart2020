@@ -1,8 +1,6 @@
 function buildTurnController(mode) {
     if(mode === TournamentContext.firstToPost)
-    {
-        var turnController = Qt.createComponent("FirstToPostTurnController.qml");
-    }
+        var turnController = Qt.createComponent("TurnController.qml");
     if(turnController === undefined)
         console.log("TurnController: Something went wrong!");
     return turnController;
@@ -13,7 +11,7 @@ function buildDisplayItem(mode)
     var c;
     if(mode === TournamentContext.firstToPost)
     {
-        c = Qt.createComponent("DisplayKeyDataItem.qml");
+        c = Qt.createComponent("KeyDataDisplay.qml");
     }
     if(c === undefined)
         console.log("DisplayItem: Something went wrong!");

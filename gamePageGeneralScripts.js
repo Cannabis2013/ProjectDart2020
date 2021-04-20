@@ -37,21 +37,7 @@ function disconnectComponents()
     gamePageBody.requestRedo.disconnect(applicationInterface.requestRedo);
     gamePageBody.requestStatusFromBackend.disconnect(applicationInterface.handleControllerStateRequest);
 }
-/*
-  Handle recieved 'First to Post tournament' meta data
 
-  Passed data structure:
-   - String values are placed in a list of strings
-   | in the following locations:
-       [0] = Tournament title
-       [1] = Tournament winner name
-   - Numeric values are placed in a list of integers
-   | in the following locations:
-       [0] = Tournamaent game mode
-       [1] = Tournament keypoint
-       [2] = Tournament model tablehint
-       [3] = Tournament input mode {Accumulated input for all sets, Input for every set}
-  */
 function handleFTPTournamentMetaData(data){
     var json = JSON.parse(data);
 

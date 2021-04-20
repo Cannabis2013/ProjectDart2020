@@ -5,13 +5,14 @@ import QtQuick.Controls 2.5
 Item {
     id: body
     clip: true
+    // Buttons
     signal startButtonClicked
     signal pauseButtonClicked
     signal resumeButtonClicked
     signal restartButtonClicked
     signal leftButtonClicked
     signal rightButtonClicked
-    // States
+    // Signal backend states
     signal backendIsReady
     onBackendIsReady: startButtonComponent.setStartMode()
     signal backendAwaitsInput
@@ -39,7 +40,7 @@ Item {
     signal leftButtonPressAndHoldClicked
     signal rightButtonPressAndHoldClicked
 
-    property bool startButtonEnablePressAndHold : false
+    property bool startButtonEnablePressAndHold : true
     onStartButtonEnablePressAndHoldChanged: startButtonComponent.pressAndHoldEnabled = startButtonEnablePressAndHold
 
     property int currentRoundIndex: 0
@@ -47,11 +48,6 @@ Item {
 
     onCurrentRoundIndexChanged: currentRoundLabel.text = currentRoundIndex
     onCurrentPlayerChanged: currentPlayerLabel.text = currentPlayer
-
-    property bool undoButtonEnabled: false
-    onUndoButtonEnabledChanged: leftButton.enabled = undoButtonEnabled
-    property bool redoButtonEnabled: false
-    onRedoButtonEnabledChanged: rightButton.enabled = redoButtonEnabled
 
     function updateState(roundIndex, playerName, undoPossible, redoPossible)
     {

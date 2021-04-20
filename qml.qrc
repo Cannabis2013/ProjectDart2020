@@ -19,7 +19,7 @@
         <file>Page.qml</file>
         <file>CreateTournamentContent.qml</file>
         <file>GamePageContent.qml</file>
-        <file>TurnControllerItem.qml</file>
+        <file>TurnController.qml</file>
         <file>PointKeyPad.qml</file>
         <file>PointKeyPadFactory.js</file>
         <file>Content.qml</file>
@@ -34,8 +34,7 @@
         <file>StartMenuButton.qml</file>
         <file>DefaultPlayerListView.qml</file>
         <file>DefaultTournamentListView.qml</file>
-        <file>DisplayKeyDataItem.qml</file>
-        <file>FirstToPostTurnController.qml</file>
+        <file>KeyDataDisplay.qml</file>
         <file>fTPScripts.js</file>
         <file>KeyPadInterface.qml</file>
         <file>fTPSingleScripts.js</file>
