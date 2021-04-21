@@ -12,7 +12,6 @@ public:
         InputOutOfRange = 0x5
     };
     virtual int validateInput(const int& currentScore,
-                              const int& keyCode,
                               const int& input) const = 0;
 };
 

@@ -19,7 +19,8 @@ public:
         return new ScoreValidator(terminalKeyCode);
     }
     // InputValidatorInterface interface
-    virtual int validateInput(const int &currentScore, const int &, const int &input) const override
+    virtual int validateInput(const int &currentScore,
+                              const int &input) const override
     {
         int minimumAllowedScore = 2;
         if(terminalKeyCode() == KeyMappings::SingleModifer)
@@ -58,10 +59,4 @@ private:
     const int _terminalKeyCode;
     const int _maxAllowedInput = 180;
 };
-
-
-
-
-
-
 #endif // SCOREVALIDATOR_H

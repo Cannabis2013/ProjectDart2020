@@ -21,6 +21,7 @@ SOURCES += \
             ftpscorecontroller.cpp \
             iurlparser.cpp \
             jsondbcontext.cpp \
+    localcricketcontroller.cpp \
             localftpcontroller.cpp \
             localmodelscontext.cpp \
             localplayermodelscontext.cpp \
@@ -60,6 +61,7 @@ HEADERS += \
             PointIndexController.h \
             ScoreValidator.h \
             abstractcontrollerbuilder.h \
+            abstractcricketcontroller.h \
             abstractgamecontroller.h \
             abstractjsonpersistence.h \
             abstractmodelscontext.h \
@@ -92,6 +94,7 @@ HEADERS += \
             iurlparser.h \
             jsondbcontext.h \
             jsonextractor.h \
+            localcricketcontroller.h \
             localftpcontroller.h \
             localmodelscontext.h \
             localplayermodelscontext.h \
