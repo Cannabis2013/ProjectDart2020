@@ -1,11 +1,18 @@
 #ifndef SCOREVALIDATOR_H
 #define SCOREVALIDATOR_H
 
-#include "inputvalidatorinterface.h"
+#include "iscorevalidator.h"
 
-class ScoreValidator : public InputValidatorInterface
+class ScoreValidator : public IScoreValidator
 {
 public:
+    enum InputDomains {
+        PointDomain = 0x01,
+        CriticalDomain = 0x02,
+        OutsideDomain = 0x03,
+        TargetDomain = 0x4,
+        InputOutOfRange = 0x5
+    };
     enum KeyMappings{
         SingleModifer = 0x2A,
         DoubleModifier = 0x2B,
@@ -19,8 +26,7 @@ public:
         return new ScoreValidator(terminalKeyCode);
     }
     // InputValidatorInterface interface
-    virtual int validateInput(const int &currentScore,
-                              const int &input) const override
+    virtual int validateInput(const int &currentScore) const override
     {
         int minimumAllowedScore = 2;
         if(terminalKeyCode() == KeyMappings::SingleModifer)
@@ -29,9 +35,6 @@ public:
             minimumAllowedScore = 2;
         else
             minimumAllowedScore = 3;
-
-        if(input > maxAllowedInput())
-            return InputOutOfRange;
 
         if(currentScore > maxAllowedInput())
             return PointDomain;

@@ -10,7 +10,7 @@
 #include "abstractgamecontroller.h"
 #include "ftplogisticcontrollerinterface.h"
 #include "scoreCalculatorInterface.h"
-#include "inputvalidatorinterface.h"
+#include "iscorevalidator.h"
 #include "indexcontrollerinterface.h"
 #include "iscorecontroller.h"
 
@@ -27,11 +27,18 @@ typedef IScoreController<QUuid, QString,QVector<int>,QVector<QString>> ScoreCont
 
 using namespace std;
 
-class LocalFtpController : public AbstractFtpController
+class ScoreFtpController : public AbstractFtpController
 {
     Q_OBJECT
 public:
     // Public types
+    enum InputDomains {
+        PointDomain = 0x01,
+        CriticalDomain = 0x02,
+        OutsideDomain = 0x03,
+        TargetDomain = 0x4,
+        InputOutOfRange = 0x5
+    };
     enum ModelDisplayHint{
         HiddenHint = 0x1,
         DisplayHint = 0x2,
@@ -55,12 +62,28 @@ public:
         IsProcessingUserInput = 0x46
     };
     // Create instance of LocalFTPController
-    static LocalFtpController* createInstance(const QUuid &tournament);
+    static ScoreFtpController* createInstance(const QUuid &tournament);
+    /*
+     * Get/set score calculator service
+     */
+    ScoreCalculatorInterface* scoreCalculator() const;
+    ScoreFtpController *setScoreCalculator(ScoreCalculatorInterface *service);
+    /*
+     * Get/set evaluator service
+     */
+    IScoreValidator *scoreEvaluator() const;
+    ScoreFtpController *setInputValidator(IScoreValidator *scoreEvaluator);
+
+    IndexControllerInterface *indexController() const;
+    ScoreFtpController *setIndexController(IndexControllerInterface *indexController);
+
+    ScoreController* scoreController() const;
+    ScoreFtpController *setScoreController(ScoreController *scoreController);
     /*
      * Point suggestion section
      */
     FTPLogisticControllerInterface<QString> *pointLogisticInterface() const;
-    LocalFtpController *setLogisticInterface(FTPLogisticControllerInterface<QString> *pointLogisticInterface);
+    ScoreFtpController *setLogisticInterface(FTPLogisticControllerInterface<QString> *pointLogisticInterface);
 public slots:
     /*
      * Handle wake up request
@@ -113,22 +136,6 @@ public slots:
      * Handle persist controller state
      */
     void handleRequestPersistCurrentState() override;
-    /*
-     * Get/set score calculator service
-     */
-    ScoreCalculatorInterface* scoreCalculator() const;
-    LocalFtpController *setScoreCalculator(ScoreCalculatorInterface *service);
-    /*
-     * Get/set evaluator service
-     */
-    InputValidatorInterface *scoreEvaluator() const;
-    LocalFtpController *setInputValidator(InputValidatorInterface *scoreEvaluator);
-
-    IndexControllerInterface *indexController() const;
-    LocalFtpController *setIndexController(IndexControllerInterface *indexController);
-
-    ScoreController* scoreController() const;
-    LocalFtpController *setScoreController(ScoreController *scoreController);
     // Get current status
     int currentStatus() const;
     /*
@@ -139,10 +146,19 @@ private:
     /*
      * Private constructor
      */
-    LocalFtpController(const QUuid &tournament)
+    ScoreFtpController(const QUuid &tournament)
     {
         _tournament = tournament;
     }
+    /*
+     * Check if controller is busy doing something else
+     */
+    bool isBusy();
+    void processDomain(const int& domain, const int &score,
+                       const int& point,
+                       const int& modKeyCode,
+                       const int &currentScore,
+                       const int& accumulatedScore);
     /*
      * Notify UI about controller state, current round index, undo/redo possibility and current user
      */
@@ -174,7 +190,7 @@ private:
     // Generate throwsuggestions
     FTPLogisticControllerInterface<QString> *_pointLogisticInterface = nullptr;
     // Validator service
-    InputValidatorInterface* _scoreEvaluator = nullptr;
+    IScoreValidator* _scoreEvaluator = nullptr;
     // Index service
     IndexControllerInterface* _indexController = nullptr;
     // Userscore service

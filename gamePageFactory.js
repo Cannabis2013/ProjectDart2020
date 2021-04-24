@@ -30,15 +30,28 @@ function buildFtpScoreBoard(tableHint)
     return c;
 }
 
-function buildKeyPad(mode)
+function buildAndConnectKeyPad(mode)
 {
     var c;
     if(mode === TournamentContext.pointMode)
+    {
         c = Qt.createComponent("PointKeyPad.qml");
+        connectPointKeyPadInterface(c);
+    }
+
     else if(mode === TournamentContext.scoreMode)
         c = Qt.createComponent("ScoreKeyPad.qml");
     if(c === undefined)
         console.log("PointKeyPad: Something went wrong!");
     return c;
+}
+
+function connectPointKeyPadInterface(keyPad)
+{
+    keyPad.sendInput.connect(FirstToPostScripts.handleKeyPadInput);
+}
+function connectScoreKeyPadInterface(keyPad)
+{
+    keyPad.sendInput.connect(FirstToPostScripts.handleKeyPadInput);
 }
 

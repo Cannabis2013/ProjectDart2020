@@ -1,6 +1,6 @@
-#include "localftpcontroller.h"
+#include "scoreftpcontroller.h"
 
-void LocalFtpController::start()
+void ScoreFtpController::start()
 {
     if(_currentStatus != ControllerState::Initialized &&
             _currentStatus != ControllerState::Stopped)
@@ -12,57 +12,36 @@ void LocalFtpController::start()
     sendCurrentTurnValues();
 }
 
-void LocalFtpController::stop()
+void ScoreFtpController::stop()
 {
     setCurrentStatus(ControllerState::Stopped);
     emit controllerIsStopped();
 }
 
-void LocalFtpController::handleAndProcessUserInput(const QByteArray& json)
+void ScoreFtpController::handleAndProcessUserInput(const QByteArray& json)
 {
     auto jsonObject = QJsonDocument::fromJson(json).object();
     auto point = jsonObject.value("Point").toInt();
     auto modKeyCode = jsonObject.value("ModKeyCode").toInt();
     // Check for status
-    if(status() == Stopped ||
-            status() == WinnerDeclared)
-    {
-        emit controllerIsStopped();
-        return;
-    }
-    else if(status() == ControllerState::AddScoreState)
-    {
-        return;
-    }
+    if(isBusy()) return;
     // Calculate score
     auto score = scoreCalculator()->calculateScore(point,modKeyCode);
     auto setIndex = indexController()->setIndex();
     auto currentScore = scoreController()->userScore(setIndex);;
     auto accumulatedScore = scoreController()->calculateAccumulatedScoreCandidate(setIndex,score);
     // Evaluate input according to point domain and aggregated sum domain
-    auto domain = scoreEvaluator()->validateInput(accumulatedScore,modKeyCode,point);
-    switch (domain)
-    {
-        // In case user enters scores above 180
-    case InputValidatorInterface::InputOutOfRange : sendCurrentTurnValues();break;
-        case InputValidatorInterface::PointDomain : addPoint(point,score,accumulatedScore,modKeyCode);break;
-        case InputValidatorInterface::CriticalDomain : addPoint(point,score,accumulatedScore,modKeyCode);break;
-        case InputValidatorInterface::TargetDomain : {
-            declareWinner();
-            addPoint(point,score,accumulatedScore,modKeyCode);
-            break;
-        }
-        case InputValidatorInterface::OutsideDomain : addPoint(0,0,currentScore,modKeyCode);break;
-    }
+    auto domain = scoreEvaluator()->validateInput(accumulatedScore);
+    processDomain(domain,score,point,modKeyCode,currentScore,accumulatedScore);
 }
 
-void LocalFtpController::handleRequestForCurrentTournamentMetaData()
+void ScoreFtpController::handleRequestForCurrentTournamentMetaData()
 {
     auto tournament = this->tournament();
     emit sendCurrentTournamentId(tournament);
 }
 
-void LocalFtpController::assembleSingleAttemptFtpScores()
+void ScoreFtpController::assembleSingleAttemptFtpScores()
 {
     auto count = scoreController()->playersCount();
     QJsonObject jsonObject;
@@ -81,13 +60,13 @@ void LocalFtpController::assembleSingleAttemptFtpScores()
     emit sendSingleAttemptFtpScores(jsonString);
 }
 
-void LocalFtpController::handleRequestFtpPlayerScores()
+void ScoreFtpController::handleRequestFtpPlayerScores()
 {
     auto tournamentId = tournament();
     emit requestFtpMultiAttemptScores(tournamentId);
 }
 
-void LocalFtpController::handleScoreAddedToDataContext(const QByteArray &json)
+void ScoreFtpController::handleScoreAddedToDataContext(const QByteArray &json)
 {
     auto obj = QJsonDocument::fromJson(json).object();
     auto score = obj.value("scoreValue").toInt();
@@ -101,7 +80,7 @@ void LocalFtpController::handleScoreAddedToDataContext(const QByteArray &json)
     emit scoreAddedAndPersisted(newJson);
 }
 
-void LocalFtpController::handleScoreHintUpdated(const QByteArray &json)
+void ScoreFtpController::handleScoreHintUpdated(const QByteArray &json)
 {
     auto jsonObject = QJsonDocument::fromJson(json).object();
     auto score = jsonObject.value("scoreValue").toInt();
@@ -137,23 +116,23 @@ void LocalFtpController::handleScoreHintUpdated(const QByteArray &json)
     }
 }
 
-void LocalFtpController::handleRequestPersistCurrentState()
+void ScoreFtpController::handleRequestPersistCurrentState()
 {
     emit requestPersistModelState();
 }
 
-ScoreCalculatorInterface *LocalFtpController::scoreCalculator() const
+ScoreCalculatorInterface *ScoreFtpController::scoreCalculator() const
 {
     return _scoreCalculatorService;
 }
 
-LocalFtpController *LocalFtpController::setScoreCalculator(ScoreCalculatorInterface *service)
+ScoreFtpController *ScoreFtpController::setScoreCalculator(ScoreCalculatorInterface *service)
 {
     _scoreCalculatorService = service;
     return this;
 }
 
-void LocalFtpController::handleResetTournament()
+void ScoreFtpController::handleResetTournament()
 {
     _currentStatus = ControllerState::resetState;
     _indexController->reset();
@@ -162,7 +141,7 @@ void LocalFtpController::handleResetTournament()
     emit requestResetTournament(tournamentId);
 }
 
-void LocalFtpController::sendCurrentTurnValues()
+void ScoreFtpController::sendCurrentTurnValues()
 {
     auto canUndo = indexController()->canUndo();
     auto canRedo = indexController()->canRedo();
@@ -185,31 +164,31 @@ void LocalFtpController::sendCurrentTurnValues()
     emit isReadyAndAwaitsInput(data);
 }
 
-QString LocalFtpController::currentActiveUser()
+QString ScoreFtpController::currentActiveUser()
 {
     auto index = indexController()->setIndex();
     auto playerName = scoreController()->userNameAtIndex(index);
     return playerName;
 }
 
-QUuid LocalFtpController::currentActivePlayerId()
+QUuid ScoreFtpController::currentActivePlayerId()
 {
     auto index = indexController()->setIndex();
     auto playerID = scoreController()->userIdAtIndex(index);
     return playerID;
 }
 
-QUuid LocalFtpController::tournament()
+QUuid ScoreFtpController::tournament()
 {
     return _tournament;
 }
 
-int LocalFtpController::status()
+int ScoreFtpController::status()
 {
     return _currentStatus;
 }
 
-int LocalFtpController::lastPlayerIndex()
+int ScoreFtpController::lastPlayerIndex()
 {
     auto playerCount = scoreController()->playersCount();
     auto lastIndex = playerCount - 1;
@@ -217,7 +196,7 @@ int LocalFtpController::lastPlayerIndex()
 }
 
 
-QUuid LocalFtpController::undoTurn()
+QUuid ScoreFtpController::undoTurn()
 {
     if(status() == ControllerState::WinnerDeclared)
         return QUuid();
@@ -234,7 +213,7 @@ QUuid LocalFtpController::undoTurn()
     return playerId;
 }
 
-QUuid LocalFtpController::redoTurn()
+QUuid ScoreFtpController::redoTurn()
 {
     setCurrentStatus(ControllerState::RedoState);
     auto activeUser = currentActivePlayerId();
@@ -251,7 +230,7 @@ QUuid LocalFtpController::redoTurn()
     return playerId;
 }
 
-void LocalFtpController::addPoint(const int& point,
+void ScoreFtpController::addPoint(const int& point,
                                   const int& score,
                                   const int& accumulatedScore,
                                   const int& keyCode)
@@ -275,7 +254,7 @@ void LocalFtpController::addPoint(const int& point,
     emit requestAddFtpScore (json);
 }
 
-void LocalFtpController::handleRequestFromUI()
+void ScoreFtpController::handleRequestFromUI()
 {
     if(status() == ControllerState::Initialized)
     {
@@ -315,14 +294,14 @@ void LocalFtpController::handleRequestFromUI()
     }
 }
 
-void LocalFtpController::nextTurn()
+void ScoreFtpController::nextTurn()
 {
     indexController()->next();
     setCurrentStatus(ControllerState::AwaitsInput);
     sendCurrentTurnValues();
 }
 
-void LocalFtpController::declareWinner()
+void ScoreFtpController::declareWinner()
 {
     auto index = indexController()->setIndex();
     auto currentPlayerId = scoreController()->userIdAtIndex(index);
@@ -330,12 +309,12 @@ void LocalFtpController::declareWinner()
     setCurrentStatus(ControllerState::WinnerDeclared);
 }
 
-int LocalFtpController::currentStatus() const
+int ScoreFtpController::currentStatus() const
 {
     return _currentStatus;
 }
 
-void LocalFtpController::initializeController(const QByteArray& json)
+void ScoreFtpController::initializeController(const QByteArray& json)
 {
     auto jsonObject = QJsonDocument::fromJson(json).object();
     auto jsonIndexObject = jsonObject["indexes"].toObject();
@@ -375,62 +354,94 @@ void LocalFtpController::initializeController(const QByteArray& json)
     emit controllerIsInitialized();
 }
 
-ScoreController *LocalFtpController::scoreController() const
+bool ScoreFtpController::isBusy()
+{
+    if(status() == Stopped ||
+            status() == WinnerDeclared)
+    {
+        emit controllerIsStopped();
+        return true;
+    }
+    if(status() == ControllerState::AddScoreState)
+    {
+        return true;
+    }
+    return false;
+}
+
+void ScoreFtpController::processDomain(const int &domain, const int &score, const int &point, const int &modKeyCode, const int &currentScore, const int &accumulatedScore)
+{
+    switch (domain)
+    {
+        // In case user enters scores above 180
+    case InputOutOfRange : sendCurrentTurnValues();break;
+        case PointDomain : addPoint(point,score,accumulatedScore,modKeyCode);break;
+        case CriticalDomain : addPoint(point,score,accumulatedScore,modKeyCode);break;
+        case TargetDomain : {
+            declareWinner();
+            addPoint(point,score,accumulatedScore,modKeyCode);
+            break;
+        }
+        case OutsideDomain : addPoint(0,0,currentScore,modKeyCode);break;
+    }
+}
+
+ScoreController *ScoreFtpController::scoreController() const
 {
     return _scoreController;
 }
 
-LocalFtpController* LocalFtpController::setScoreController(ScoreController* scoreController)
+ScoreFtpController* ScoreFtpController::setScoreController(ScoreController* scoreController)
 {
     _scoreController = scoreController;
     return this;
 }
 
 
-IndexControllerInterface *LocalFtpController::indexController() const
+IndexControllerInterface *ScoreFtpController::indexController() const
 {
     return _indexController;
 }
 
-LocalFtpController* LocalFtpController::setIndexController(IndexControllerInterface *indexController)
+ScoreFtpController* ScoreFtpController::setIndexController(IndexControllerInterface *indexController)
 {
     _indexController = indexController;
     return this;
 }
 
-InputValidatorInterface *LocalFtpController::scoreEvaluator() const
+IScoreValidator *ScoreFtpController::scoreEvaluator() const
 {
     return _scoreEvaluator;
 }
 
-LocalFtpController* LocalFtpController::setInputValidator(InputValidatorInterface *scoreEvaluator)
+ScoreFtpController *ScoreFtpController::setInputValidator(IScoreValidator *scoreEvaluator)
 {
     _scoreEvaluator = scoreEvaluator;
     return this;
 }
 
-void LocalFtpController::setCurrentStatus(int currentStatus)
+void ScoreFtpController::setCurrentStatus(int currentStatus)
 {
     _currentStatus = currentStatus;
 }
 
-LocalFtpController *LocalFtpController::createInstance(const QUuid &tournament)
+ScoreFtpController *ScoreFtpController::createInstance(const QUuid &tournament)
 {
-    return new LocalFtpController(tournament);
+    return new ScoreFtpController(tournament);
 }
 
-FTPLogisticControllerInterface<QString> *LocalFtpController::pointLogisticInterface() const
+FTPLogisticControllerInterface<QString> *ScoreFtpController::pointLogisticInterface() const
 {
     return _pointLogisticInterface;
 }
 
-LocalFtpController *LocalFtpController::setLogisticInterface(FTPLogisticControllerInterface<QString> *pointLogisticInterface)
+ScoreFtpController *ScoreFtpController::setLogisticInterface(FTPLogisticControllerInterface<QString> *pointLogisticInterface)
 {
     _pointLogisticInterface = pointLogisticInterface;
     return this;
 }
 
-void LocalFtpController::beginInitialize()
+void ScoreFtpController::beginInitialize()
 {
     auto tournamentId = tournament();
     emit requestFtpIndexesAndScores(tournamentId);

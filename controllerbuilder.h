@@ -3,7 +3,8 @@
 
 #include "IControllerBuilder.h"
 #include "AbstractFtpController.h"
-#include "localftpcontroller.h"
+#include "scoreftpcontroller.h"
+#include "pointftpcontroller.h"
 // Include services
 #include "pointlogisticcontroller.h"
 #include "scorelogisticcontroller.h"

@@ -4,14 +4,14 @@ import QtQuick.Layouts 1.3
 import "scoreKeyPadFactory.js" as ComponentFactory
 import "scoreKeyPadScripts.js" as Scripts
 
-KeyPadInterface {
+ScoreKeyPadInterface {
     id: keyPadBody
     onEnableKeyPad: {
         clearPad.enabled = enable;
         submitPad.enabled = enable;
     }
 
-    onInternalHotKeyClicked: sendInput(value,1)
+    onInternalHotKeyClicked: sendInput(value)
     onInternalKeyClicked: Scripts.handleNumberPadClicked(value);
 
     QtObject{

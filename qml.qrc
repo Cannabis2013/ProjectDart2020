@@ -76,6 +76,7 @@
         <file>ftpSelectorsScripts.js</file>
         <file>TournamentListViewDelegate.qml</file>
         <file>TournamentListView.qml</file>
+        <file>ScoreKeyPadInterface.qml</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>

@@ -22,14 +22,15 @@ SOURCES += \
             iurlparser.cpp \
             jsondbcontext.cpp \
     localcricketcontroller.cpp \
-            localftpcontroller.cpp \
             localmodelscontext.cpp \
             localplayermodelscontext.cpp \
             localtournamentmodelscontext.cpp \
             main.cpp \
             networkmanager.cpp \
+    pointftpcontroller.cpp \
             pointlogisticcontroller.cpp \
             remotemodelscontext.cpp \
+    scoreftpcontroller.cpp \
             scoreindexcontroller.cpp \
             scorelogisticcontroller.cpp \
             sftpdatamodel.cpp \
@@ -78,16 +79,17 @@ HEADERS += \
             imodel.h \
             imodelsdbcontext.h \
             indexcontrollerinterface.h \
-            inputvalidatorinterface.h \
             iplayerbuildercontext.h \
             iplayercontext.h \
             iplayermodel.h \
             iplayermodelbuilder.h \
+            ipointvalidator.h \
             iresponseinterface.h \
             iscore.h \
             iscorecontroller.h \
             iscoremodel.h \
             iscoreparameter.h \
+            iscorevalidator.h \
             itournament.h \
             itournamentbuilder.h \
             itournamentparameter.h \
@@ -95,7 +97,6 @@ HEADERS += \
             jsondbcontext.h \
             jsonextractor.h \
             localcricketcontroller.h \
-            localftpcontroller.h \
             localmodelscontext.h \
             localplayermodelscontext.h \
             localtournamentmodelscontext.h \
@@ -106,6 +107,7 @@ HEADERS += \
             playermodelbuildercontext.h \
             playermodelscontextinterface.h \
             pointScoreCalculator.h \
+            pointftpcontroller.h \
             pointlogisticcontroller.h \
             pointvalidator.h \
             remotemodelscontext.h \
@@ -114,6 +116,7 @@ HEADERS += \
             scorebuilder.h \
             scorebuildercontext.h \
             scorecalculator.h \
+            scoreftpcontroller.h \
             scoreindexcontroller.h \
             scorelogisticcontroller.h \
             sftpdatamodel.h \

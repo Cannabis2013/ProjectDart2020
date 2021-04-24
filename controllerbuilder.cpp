@@ -43,7 +43,7 @@ AbstractFtpController *ControllerBuilder::assembleFtpPointBasedController(const 
                                                                           const int &terminalKeyCode,
                                                                           const int &attempts)
 {
-    AbstractFtpController* controller = LocalFtpController::createInstance(tournament)
+    AbstractFtpController* controller = PointFtpController::createInstance(tournament)
             ->setLogisticInterface(PointLogisticController::createInstance(attempts,
                                                                            terminalKeyCode))
             ->setScoreCalculator(PointScoreCalculator::createInstance())
@@ -60,7 +60,7 @@ AbstractFtpController *ControllerBuilder::assembleFtpScoreBasedController(const 
                                                                           const int &terminalKeyCode,
                                                                           const int &attempts)
 {
-    AbstractFtpController* controller = LocalFtpController::createInstance(tournament)
+    AbstractFtpController* controller = ScoreFtpController::createInstance(tournament)
             ->setLogisticInterface(ScoreLogisticController::createInstance(attempts,terminalKeyCode))
             ->setScoreCalculator(new ScoreCalculator())
             ->setInputValidator(ScoreValidator::createInstance(terminalKeyCode))

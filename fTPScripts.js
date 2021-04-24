@@ -18,7 +18,7 @@ function buildFtpComponents(){
       Load and setup DefaultKeyPadComponent
       */
     keyPaditemSlot.sourceComponent =
-            GamePageFactory.buildKeyPad(tournamentMetaData.tournamentInputMode);
+            GamePageFactory.buildAndConnectKeyPad(tournamentMetaData.tournamentInputMode);
     initialize();
 }
 
@@ -62,7 +62,7 @@ function connectFtpInterface()
     applicationInterface.ftpControllerRemovedScore.connect(backendRemovedScore);
     applicationInterface.ftpControllerAddedAndPersistedScore.connect(backendAddedAndPersistedScore);
     applicationInterface.ftpControllerIsReset.connect(reinitialize);
-    keyPadInterface().sendInput.connect(GameGeneralScripts.handleKeyPadInput);
+    keyPadInterface().sendInput.connect(handlePointKeyPadInput);
     gamePageBody.scoreRecieved.connect(scoreBoardItemSlot.item.setData);
     applicationInterface.sendAssembledMultiFtpScores.connect(recieveFtpMultiAttemptScores);
     gamePageBody.requestSingleThrowScores.connect(applicationInterface.handleRequestForSingleThrowScoreData);
@@ -75,7 +75,7 @@ function disconnectFtpInterface()
     applicationInterface.ftpControllerRemovedScore.disconnect(backendRemovedScore);
     applicationInterface.ftpControllerAddedAndPersistedScore.disconnect(backendAddedAndPersistedScore);
     applicationInterface.ftpControllerIsReset.disconnect(reinitialize);
-    keyPadInterface().sendInput.disconnect(GameGeneralScripts.handleKeyPadInput);
+    keyPadInterface().sendInput.disconnect(handlePointKeyPadInput);
     gamePageBody.scoreRecieved.disconnect(scoreBoardItemSlot.item.setData);
     applicationInterface.sendAssembledMultiFtpScores.disconnect(recieveFtpMultiAttemptScores);
     gamePageBody.requestSingleThrowScores.disconnect(applicationInterface.handleRequestForSingleThrowScoreData);
@@ -203,6 +203,19 @@ function alterScore(player,score,point)
         else if(tournamentMetaData.tournamentTableViewHint === DataModelContext.multiAttempt)
             scoreBoardInterface().takeData(-1,-1,player);
     }
+}
+
+/*
+  Handle user input
+  */
+function handlePointKeyPadInput(value,keyCode){
+    gamePageBody.state = "waitingForInputConfirmation";
+    var obj = {
+        Point : value,
+        ModKeyCode : keyCode
+    };
+    var json = JSON.stringify(obj);
+    gamePageBody.sendInput(json);
 }
 
 

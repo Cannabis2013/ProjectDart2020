@@ -1,12 +1,19 @@
 #ifndef POINTVALIDATOR_H
 #define POINTVALIDATOR_H
 
-#include "inputvalidatorinterface.h"
+#include "ipointvalidator.h"
 
-class PointValidator : public InputValidatorInterface
+class PointValidator : public IPointValidator
 {
     // ScoreEvaluatorInterface interface
 public:
+    enum InputDomains {
+        PointDomain = 0x01,
+        CriticalDomain = 0x02,
+        OutsideDomain = 0x03,
+        TargetDomain = 0x4,
+        InputOutOfRange = 0x5
+    };
     enum KeyMappings{
         SingleModifer = 0x2A,
         DoubleModifier = 0x2B,

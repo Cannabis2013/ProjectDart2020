@@ -65,18 +65,6 @@ function appendScore(player,point,score, keyCode)
 }
 
 /*
-  Handle user input
-  */
-function handleKeyPadInput(value,keyCode){
-    gamePageBody.state = "waitingForInputConfirmation";
-    var obj = {
-        Point : value,
-        ModKeyCode : keyCode
-    };
-    var json = JSON.stringify(obj);
-    gamePageBody.sendInput(json);
-}
-/*
   Handle Notification related stuff
   */
 function setWinnerText()
