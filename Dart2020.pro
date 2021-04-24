@@ -15,26 +15,23 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
             abstractjsonpersistence.cpp \
-    controllerbuilder.cpp \
+            controllerbuilder.cpp \
             dartapplication.cpp \
             ftpdatamodel.cpp \
             ftpscorecontroller.cpp \
             iurlparser.cpp \
             jsondbcontext.cpp \
-    localcricketcontroller.cpp \
-<<<<<<< Updated upstream
-=======
+            localcricketcontroller.cpp \
             localftpcontroller.cpp \
->>>>>>> Stashed changes
             localmodelscontext.cpp \
             localplayermodelscontext.cpp \
             localtournamentmodelscontext.cpp \
             main.cpp \
             networkmanager.cpp \
-    pointftpcontroller.cpp \
+            pointftpcontroller.cpp \
             pointlogisticcontroller.cpp \
             remotemodelscontext.cpp \
-    scoreftpcontroller.cpp \
+            scoreftpcontroller.cpp \
             scoreindexcontroller.cpp \
             scorelogisticcontroller.cpp \
             sftpdatamodel.cpp \
