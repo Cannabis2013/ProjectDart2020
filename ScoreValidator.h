@@ -26,6 +26,7 @@ public:
         return new ScoreValidator(terminalKeyCode);
     }
     // InputValidatorInterface interface
+
     virtual int validateInput(const int &currentScore) const override
     {
         int minimumAllowedScore = 2;

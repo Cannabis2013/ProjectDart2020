@@ -22,6 +22,10 @@ SOURCES += \
             iurlparser.cpp \
             jsondbcontext.cpp \
     localcricketcontroller.cpp \
+<<<<<<< Updated upstream
+=======
+            localftpcontroller.cpp \
+>>>>>>> Stashed changes
             localmodelscontext.cpp \
             localplayermodelscontext.cpp \
             localtournamentmodelscontext.cpp \
