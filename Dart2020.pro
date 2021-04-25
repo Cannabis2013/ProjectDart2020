@@ -22,7 +22,6 @@ SOURCES += \
             iurlparser.cpp \
             jsondbcontext.cpp \
             localcricketcontroller.cpp \
-            localftpcontroller.cpp \
             localmodelscontext.cpp \
             localplayermodelscontext.cpp \
             localtournamentmodelscontext.cpp \

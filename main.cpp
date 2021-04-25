@@ -21,7 +21,7 @@ DartApplication* createDartApplication()
 {
     auto _dart =
             DartApplication::createInstance()->
-            setModelsContextInterface(RemoteModelsContext::createInstance())->
+            setModelsContextInterface(LocalModelsContext::createInstance())->
             setControllerBuilder(new ControllerBuilder())->
             /*useThreads()->*/
             setup();

@@ -80,7 +80,6 @@ public:
      */
     Q_INVOKABLE int numberOfAttemps() const;
     Q_INVOKABLE void setNumberOfAttemps(const int &count);
-
     // Public non-exposed methods
     // Font non-exposed methods
     double scale() const;
@@ -93,7 +92,6 @@ public:
     void setScoreFontFamily(const QString &scoreFontFamily);
     QString pointFontFamily() const;
     void setPointFontFamily(const QString &pointFontFamily);
-
     // Header non-exposed methods
     int horizontalHeaderFillMode() const;
     void setHorizontalHeaderFillMode(const int &fillMode);

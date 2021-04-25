@@ -5,13 +5,6 @@
 #include <qfontmetrics.h>
 #include "LinkedList.h"
 
-const QString preferedFontFamily = "MS Sans Serif";
-const int preferedPointSize = 12;
-const int minimumPreferedColumnWidth = 64;
-const int minimumPreferedRowHeight = 25;
-
-typedef QPair<int,int> scoreModel;
-
 /*
  * Orientation:
  *  - The datamodel orientation is based on the axis for which player names are listed
@@ -22,11 +15,11 @@ class FtpDataModel : public QAbstractTableModel
     Q_OBJECT
 public:
     // Public types
+    typedef QPair<int,int> scoreModel;
     enum HeaderFillMode{DynamicNumerics = 0x1,
                         FixedStrings = 0x2};
     enum AppendDataMode{SingleAppend = 0x4,
                         MultiAppend = 0x8};
-
     // Constructor
     FtpDataModel();
     // Public properties
@@ -207,6 +200,13 @@ private:
      * Column widths
      */
     QList<double> _columnWidths;
+    /*
+     * Const member variables
+     */
+    const QString preferedFontFamily = "MS Sans Serif";
+    const int preferedPointSize = 12;
+    const int minimumPreferedColumnWidth = 64;
+    const int minimumPreferedRowHeight = 25;
     /*
      * Scores and points
      */

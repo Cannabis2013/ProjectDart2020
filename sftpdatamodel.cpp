@@ -207,7 +207,6 @@ QVariant SFtpDataModel::data(const QModelIndex &index, int role) const
         return QVariant();
     if(role != Qt::DisplayRole)
         return QVariant();
-
     auto pair = pairs.at(column);
     auto pointValue = pair.first;
     auto scoreValue = pair.second;
