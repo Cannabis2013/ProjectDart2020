@@ -8,37 +8,16 @@ ScoreBoard {
     onWidthChanged: ScoreScripts.updateScoreBoard()
     // Data related
     onClearData: fTPModel.clearData();
-    // Point related
-    property int pointFontSize: 10
-    onPointFontSizeChanged: {
-        delegate.pointFontSize = fTPBody.pointFontSize;
-        fTPModel.pointFontPointSize = fTPBody.pointFontSize;
-    }
-
-    property bool displayPoints: false
-    onDisplayPointsChanged:  delegate.pointDisplayVisible = displayPoints
-    property int pointDisplayWidth: 20
-    property int pointDisplayHeight: 20
-
-    // Score related
-    property int scoreFontSize: 48
-    onScoreFontSizeChanged: {
-        fTPModel.scoreFontPointSize = fTPBody.scoreFontSize;
-        delegate.scoreFontSize = fTPBody.scoreFontSize;
-    }
-
-    onSizeScale: fTPModel.scale = s
 
     property int attempts: 3
     onAttemptsChanged: fTPModel.attempts = attempts;
 
-    onMinimumColumnCountChanged: fTPModel.setMinimumColumnCount(fTPBody.minimumColumnCount)
-    onMinimumRowCount: fTPModel.setMinimumRowCount(count);
-
     // Header related
-    horizontalHeaderFontSize: 24
+    horizontalHeaderFontSize: 16
+    onHorizontalHeaderFontSizeChanged:
+        fTPModel.headerFontSize =
+        fTPBody.horizontalHeaderFontSize
     verticalHeaderVisible: false
-
     onAppendHeaderData: {
         for(var i = 0; i < data.length;i++)
         {
@@ -47,22 +26,11 @@ ScoreBoard {
             setData(assignedPlayerName,0,defaultVal,undefined);
         }
     }
-
-    property int headerFontSize: 24
-    onHeaderFontSizeChanged: fTPModel.headerFontSize = fTPBody.headerFontSize
     headerOrientation: Qt.Horizontal
-    verticalHeaderFillMode: 0x1
-    horizontalHeaderFillMode: 0x2
     onHeaderOrientationChanged: fTPModel.setHeaderOrientation(headerOrientation)
-    onVerticalHeaderFillModeChanged: fTPModel.verticalFillMode = verticalHeaderFillMode
-    onHorizontalHeaderFillModeChanged: fTPModel.horizontalFillMode = horizontalHeaderFillMode
-
     // Cell related
     property int cellBorderWidth: 0
     onCellBorderWidthChanged: delegate.borderWidth = cellBorderWidth
-
-    onPointDisplayWidthChanged: delegate.pointDisplayWidth = pointDisplayWidth
-
     onNotifyCellPosition: ScoreScripts.setViewPosition(x,y)
 
     onAppendHeader: ScoreScripts.appendHeader(header,orientation)
@@ -88,27 +56,19 @@ ScoreBoard {
     rowHeightProvider: function(row)
     {
         return fTPBody.height;
-        //return myModel.rowHeightAt(row);
     }
 
     model: SFtpDataModel{
         id: fTPModel
         onDataChanged: ScoreScripts.updateScoreBoard();
         attempts: fTPBody.attempts
-        pointFontPointSize: fTPBody.pointFontSize
-        scoreFontPointSize: fTPBody.scoreFontSize
-        horizontalFillMode: fTPBody.horizontalHeaderFillMode
+        scoreFontPointSize: 48
+        horizontalFillMode: DataModelContext.fixedFill
+        scale: 1
     }
-
-    cellDelegate: CellDelegate {
+    cellDelegate: SingleScoreDelegate {
         id: delegate
-        cellBorderWidth: fTPBody.cellBorderWidth
-        cellColor: "transparent"
-        scoreFontSize: fTPBody.scoreFontSize
-        pointFontSize: fTPBody.pointFontSize
-        pointDisplayVisible: fTPBody.displayPoints
-        pointDisplayWidth: fTPBody.pointDisplayWidth
-        onTextChanged: notifyCellPosition(delegate.x,delegate.y);
         text: display
+        scoreFontSize: 48
     }
 }

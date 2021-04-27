@@ -3,6 +3,7 @@ import QtQuick.Layouts 1.3
 import "gamePageFactory.js" as GamePageFactory
 import "fTPScripts.js" as FirstToPostScripts
 import "gamePageGeneralScripts.js" as GameGeneralScripts
+import "FtpScoreBoardFactory.js" as FtpScoreBoardFactory
 
 /*
   Gamemodes:

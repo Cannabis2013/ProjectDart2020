@@ -8,7 +8,9 @@ function buildFtpComponents(){
       Load and setup ScoreTable
       */
     scoreBoardItemSlot.sourceComponent =
-            GamePageFactory.buildFtpScoreBoard(tournamentMetaData.tournamentTableViewHint);
+            GamePageFactory.buildFtpScoreBoard(tournamentMetaData.inputHint,
+                                               tournamentMetaData.displayHint,
+                                               tournamentMetaData.attempts);
     /*
       Load and setup DisplayKeyDataItem
       */
@@ -18,7 +20,7 @@ function buildFtpComponents(){
       Load and setup DefaultKeyPadComponent
       */
     keyPaditemSlot.sourceComponent =
-            GamePageFactory.buildAndConnectKeyPad(tournamentMetaData.tournamentInputMode);
+            GamePageFactory.buildAndConnectKeyPad(tournamentMetaData.inputHint);
     initialize();
 }
 
@@ -86,11 +88,16 @@ function disconnectFtpInterface()
 
 function configureMultiScoreBoard()
 {
-    if(tournamentMetaData.tournamentInputMode === TournamentContext.scoreMode)
-        scoreBoardInterface().attempts = tournamentMetaData.attempts;
+    if(tournamentMetaData.inputHint === TournamentContext.pointMode)
+        configurePointScoreBoard();
     requestMultiThrowScores();
 }
 
+function configurePointScoreBoard()
+{
+    scoreBoardInterface().attempts = tournamentMetaData.attempts;
+    keyPadInterface().sendInput.connect(handlePointKeyPadInput);
+}
 function setupFirstToPostScoreTable()
 {
     var assignedPlayers = tournamentMetaData.assignedPlayers;

@@ -17,16 +17,11 @@ function buildDisplayItem(mode)
         console.log("DisplayItem: Something went wrong!");
     return c;
 }
-
-function buildFtpScoreBoard(tableHint)
+function buildFtpScoreBoard(inputHint,displayHint,attempts)
 {
-    var c;
-    if(tableHint === DataModelContext.singleAttempt)
-        c = Qt.createComponent("FtpSingleScoreBoard.qml");
-    else
-        c = Qt.createComponent("FtpMultiScoreBoard.qml");
-    if(c === undefined)
-        console.log("ScoreBoard: Something went wrong!");
+    let c = FtpScoreBoardFactory.buildFtpScoreBoard(inputHint,
+                                                    displayHint,
+                                                    attempts);
     return c;
 }
 
@@ -36,22 +31,16 @@ function buildAndConnectKeyPad(mode)
     if(mode === TournamentContext.pointMode)
     {
         c = Qt.createComponent("PointKeyPad.qml");
-        connectPointKeyPadInterface(c);
+        if(c === undefined)
+            console.log("PointKeyPad: Something went wrong!");
     }
 
     else if(mode === TournamentContext.scoreMode)
+    {
         c = Qt.createComponent("ScoreKeyPad.qml");
-    if(c === undefined)
-        console.log("PointKeyPad: Something went wrong!");
+        if(c === undefined)
+            console.log("ScoreKeyPad: Something went wrong!");
+    }
     return c;
-}
-
-function connectPointKeyPadInterface(keyPad)
-{
-    keyPad.sendInput.connect(FirstToPostScripts.handleKeyPadInput);
-}
-function connectScoreKeyPadInterface(keyPad)
-{
-    keyPad.sendInput.connect(FirstToPostScripts.handleKeyPadInput);
 }
 

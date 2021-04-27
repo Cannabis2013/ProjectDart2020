@@ -46,23 +46,14 @@ MyRectangle{
     
     implicitWidth: 25
     implicitHeight: 25
-    
+
+    property string point: ""
+    onPointChanged: pointText.text = point
+    property string score: ""
+    onScoreChanged: scoreText.text = score
     property string text: ""
-    onTextChanged: {
-        processText(text);
-    }
 
     color: cellColor
-
-    function processText(txt)
-    {
-        var i = txt.indexOf(' ');
-        var n = txt.length;
-        var point = txt.substring(0,i);
-        var score = txt.substring(i + 1,n);
-        pointText.text = point;
-        scoreText.text = score;
-    }
 
     GridLayout{
         anchors.fill: parent

@@ -77,6 +77,10 @@
         <file>TournamentListViewDelegate.qml</file>
         <file>TournamentListView.qml</file>
         <file>ScoreKeyPadInterface.qml</file>
+        <file>SingleScoreDelegate.qml</file>
+        <file>MultiScoreDelegate.qml</file>
+        <file>FtpMultiPointScoreBoard.qml</file>
+        <file>FtpScoreBoardFactory.js</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>

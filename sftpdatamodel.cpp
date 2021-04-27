@@ -2,24 +2,8 @@
 
 SFtpDataModel::SFtpDataModel()
 {
-    connect(this,&SFtpDataModel::initialValueChanged,this,&SFtpDataModel::updateInitialCellValues);
-}
 
-QVariant SFtpDataModel::getData(const int &row, const int &column, const int &mode)
-{
-    if(row >= rowCount() || column >= columnCount())
-        return -1;
-    auto columnsData = _data.at(row);
-    auto columnData = columnsData.at(column);
-    auto pointValue = columnData.first;
-    auto scoreValue = columnData.second;
-    auto result = mode == 0x1 ? pointValue : scoreValue;
-    if(result == -1)
-        return "-";
-    else
-        return result;
 }
-
 int SFtpDataModel::editData(const int &row, const int &column, const int &point, const int &score)
 {
     if(row < 0 || row >= rowCount())
@@ -40,21 +24,19 @@ bool SFtpDataModel::insertData(const QString &playerName,
                                          const int &point,
                                          const int &score)
 {
-    return setPlayerData(playerName,point,score);;
+    Q_UNUSED(point);
+    return setPlayerData(playerName,score);;
 }
 
 bool SFtpDataModel::setPlayerData(const QString &playerName,
-                                 const int &point,
-                                 const int &score)
+                                  const int &score)
 {
     auto indexOfPlayer = indexOfHeaderItem(playerName);
-    auto scorePair = scoreModel(point,score);
     auto modelIndex = this->createIndex(0,indexOfPlayer);
-
     if(!modelIndex.isValid())
         return false;
     try {
-        setData(modelIndex,QVariant::fromValue<scoreModel>(scorePair),Qt::DisplayRole);
+        setData(modelIndex,score,Qt::DisplayRole);
     } catch (std::out_of_range *e) {
         printf("%s\n",e->what());
         return false;
@@ -65,9 +47,9 @@ bool SFtpDataModel::setPlayerData(const QString &playerName,
 bool SFtpDataModel::removeLastItem(const QString &playerName)
 {
     auto column = indexOfHeaderItem(playerName);
-    auto row = indexOfLastDecoratedCell(column);
+    auto row = indexOfLastDecoratedField();
     auto index = createIndex(row,column);
-    auto result = removeData(index) != scoreModel(-1,-1);
+    auto result = removeData(index);
     return result;
 }
 
@@ -76,14 +58,13 @@ void SFtpDataModel::appendHeaderItem(const QVariant &data)
     auto glyphLength = stringWidth(data.toString(),
                                    scoreFontFamily(),
                                    headerFontSize());
-    if(_horizontalHeaderData.count() >= columnCount())
-        insertColumns(_horizontalHeaderData.count(),1,QModelIndex());
-    else
-        emit dataChanged(QModelIndex(),QModelIndex());
-    _horizontalHeaderData.append(data.toString());
-    auto column = _horizontalHeaderData.count() - 1;
+    if(horizontalHeaderCount() >= columnCount())
+        insertColumns(horizontalHeaderCount(),1,QModelIndex());
+    addHorizontalHeaderData(data.toString());
+    auto column = horizontalHeaderCount() - 1;
     if(glyphLength > columnWidthsAt(column))
         setColumnWidthAt(column,glyphLength);
+    emit dataChanged(QModelIndex(),QModelIndex());
 }
 
 void SFtpDataModel::clearData()
@@ -107,7 +88,7 @@ QString SFtpDataModel::getHeaderData(const int &index) const
 int SFtpDataModel::headerItemCount() const
 {
     if(horizontalHeaderFillMode() == HeaderFillMode::FixedStrings)
-        return _horizontalHeaderData.count();
+        return horizontalHeaderCount();
     else
         return columnCount();
 }
@@ -127,8 +108,8 @@ double SFtpDataModel::columnWidthAt(const int &column) const
     auto s = scale();
     auto w = columnWidthsAt(column);
     auto columnWidth = s*w;
-    if(columnWidth < SingleFtpDataModel::minimumPreferedColumnWidth)
-        return SingleFtpDataModel::minimumPreferedColumnWidth;
+    if(columnWidth < minimumPreferedColumnWidth)
+        return minimumPreferedColumnWidth;
     else
         return columnWidth;
 }
@@ -139,28 +120,19 @@ double SFtpDataModel::rowHeightAt(const int &row) const
         return 0;
 
     auto scoreFontMetric = QFontMetrics(QFont(scoreFontFamily(),scoreFontSize()));
-    auto pointFontmetric = QFontMetrics(QFont(pointFontFamily(),pointFontSize()));
 
     auto resultingGlyphLenght = 0;
     auto count = columnCount();
     for (int c = 0; c < count; ++c) {
-        auto columnsData = _data.at(row);
-        auto columnsDataCount = columnsData.count();
-        if(columnsDataCount != columnCount())
-            return 0;
-        auto columnData = columnsData.at(c);
-        auto point = columnData.first;
-        auto score = columnData.second;
-        auto pointString = QString::number(point);
-        auto scoreString = QString::number(score);
+        auto columnData = _data.at(row);
+        auto scoreString = QString::number(columnData);
         auto scoreGlyphHeight = scoreFontMetric.boundingRect(scoreString).height();
-        auto pointGlyphHeight = pointFontmetric.boundingRect(pointString).height();
-        auto totalGlypHeight = scoreGlyphHeight + pointGlyphHeight;
-        resultingGlyphLenght = totalGlypHeight > resultingGlyphLenght ? totalGlypHeight : resultingGlyphLenght;
+        resultingGlyphLenght = scoreGlyphHeight > resultingGlyphLenght ?
+                    scoreGlyphHeight: resultingGlyphLenght;
     }
 
-    if(resultingGlyphLenght < SingleFtpDataModel::minimumPreferedRowHeight)
-        resultingGlyphLenght = SingleFtpDataModel::minimumPreferedRowHeight;
+    if(resultingGlyphLenght < minimumPreferedRowHeight)
+        resultingGlyphLenght = minimumPreferedRowHeight;
 
     return resultingGlyphLenght;
 }
@@ -200,17 +172,11 @@ QVariant SFtpDataModel::data(const QModelIndex &index, int role) const
 {
     if(!index.isValid() || _data.count() <= 0)
         return QVariant();
-    auto row = index.row();
-    auto column = index.column();
-    auto pairs = _data.at(row);
-    if(index.column() >= pairs.count())
-        return QVariant();
     if(role != Qt::DisplayRole)
         return QVariant();
-    auto pair = pairs.at(column);
-    auto pointValue = pair.first;
-    auto scoreValue = pair.second;
-    auto data = QString::number(pointValue) + " " + QString::number(scoreValue);
+    auto row = index.row();
+    auto scoreValue = _data.at(row);
+    auto data = QString::number(scoreValue);
     return scoreValue >= 0 ?
                 QVariant(data) :
                 QVariant("");
@@ -242,35 +208,24 @@ int SFtpDataModel::numberOfAttemps() const
 
 bool SFtpDataModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
+    // Get row and column from index
     auto row = index.row();
     auto column = index.column();
-
+    // Check for correctness
     if(row < 0 || column < 0)
         return false;
-
-    if(row >= rowCount())
-        insertRows(row,1,QModelIndex());
-
+    // Check if columns has to be made
     if(column >= columnCount())
         insertColumns(column,1,QModelIndex());
-
-    auto pairs = _data.at(row);
-    auto newPair = value.value<scoreModel>();
-    pairs.replace(column,newPair);
-    _data.replace(row,pairs);
-
-    auto pointGlypWidth = stringWidth(QString::number(newPair.first),
-                                      pointFontFamily(),
-                                      pointFontSize());
-    auto scoreGlypWidth = stringWidth(QString::number(newPair.second),
-                                      scoreFontFamily(),
-                                      scoreFontSize());
-    int totalGlyphWidth = pointGlypWidth + scoreGlypWidth;
-    if(totalGlyphWidth > columnWidthsAt(column))
-        setColumnWidthAt(column,totalGlyphWidth);
-
+    // Likewise for rows
+    if(row >= rowCount())
+        insertRows(row,1,QModelIndex());
+    // Set data
+    auto data = value.toInt();
+    _data.replace(column,data);
+    // Update column width from column by the size of its data
+    updateColumnWidth(column,data);
     emit dataChanged(index,index,{role});
-
     return true;
 }
 
@@ -279,23 +234,13 @@ bool SFtpDataModel::insertRows(int row, int count, const QModelIndex &)
     auto firstRow = row <= rowCount(QModelIndex()) ? row : rowCount(QModelIndex()) - 1;
     auto lastRow  =  row <= rowCount(QModelIndex()) ? firstRow + count : 2*row + count - firstRow;
     auto c = row <= rowCount(QModelIndex()) ? count : count + (row - firstRow) - 1;
-
     beginInsertRows(QModelIndex(),firstRow,lastRow);
-
-    for (int i = 0; i < c; ++i) {
-        auto initializedDataRow = [this]
-        {
-            LinkedList<scoreModel> resultingList;
-            auto count = columnCount(QModelIndex(QModelIndex()));
-            for (int i = 0; i < count; ++i)
-                resultingList << scoreModel(-1,-1);
-            return resultingList;
-        }();
-        _data.insert(row,initializedDataRow);
-    }
+    auto columnCount = this->columnCount();
+    for (int i = 0; i < columnCount; ++i)
+        _data.insert(i,-1);
     endInsertRows();
     _rows += c;
-    emit dataChanged(createIndex(row,0),createIndex(lastRow,columnCount()));
+    emit dataChanged(createIndex(row,0),createIndex(lastRow,columnCount));
     return true;
 }
 
@@ -306,28 +251,10 @@ bool SFtpDataModel::insertColumns(int column, int count, const QModelIndex &)
     auto c = column <= columnCount() ? count : count + (column - firstColumn) - 1;
 
     beginInsertColumns(QModelIndex(),firstColumn,lastColumn);
-
-    for (int i = 0;i<_data.count();i++) {
-        auto columnsData = _data.at(i);
-        LinkedList<scoreModel> columnsDataIndice;
-        for (int i = 0; i < c; ++i)
-            columnsDataIndice << scoreModel(-1,-1);
-        columnsData.insert(column,columnsDataIndice);
-        _data.replace(i,columnsData);
-    }
-
-    QList<double> newColumnWidths;
-    for (int i = 0; i < c; ++i)
-        newColumnWidths << SingleFtpDataModel::minimumPreferedColumnWidth;
-
-    for (int i = 0; i < newColumnWidths.count(); ++i) {
-        auto columnWidth = newColumnWidths.at(i);
-        _columnWidths.insert(column,columnWidth);
-    }
+    initializeFieldsHorizontally(column);
+    setInitialColumnWidths(count);
     endInsertColumns();
     _columns += c;
-    emit dataChanged(createIndex(0,firstColumn),
-                     createIndex(headerItemCount(),lastColumn));
     return true;
 }
 
@@ -360,18 +287,13 @@ bool SFtpDataModel::removeColumns(int column, int count, const QModelIndex &)
     // Check if input satisfies model constraints
     if(column < 0 || column >= columnCount())
         return false;
-
     // Begin remove columns
     auto limit = column + count;
     beginRemoveColumns(QModelIndex(),column,column + count);
-
     for (int i = 0; i < _data.count(); ++i) {
-        auto row = _data.at(i);
         for (int j = column; j < limit; ++j)
-            row.removeAt(j);
-        _data.replace(i,row);
+            _data.removeAt(j);
     }
-
     _columns -= count;
     endRemoveColumns();
     emit dataChanged(QModelIndex(),QModelIndex());
@@ -385,11 +307,48 @@ void SFtpDataModel::updateInitialCellValues()
     if(_data.count() < 1)
         return;
     auto initialValue = this->initialValue();
-    auto firstColumn = _data.at(0);
-    if(firstColumn.count() < 1)
-        return;
-    for (int i = 0; i < firstColumn.count(); ++i)
+    for (int i = 0; i < columnCount(); ++i)
         setData(createIndex(0,i),initialValue,Qt::DisplayRole);
+}
+
+void SFtpDataModel::updateColumnWidth(const int& column,const int& data)
+{
+    auto scoreGlypWidth = stringWidth(QString::number(data),
+                                      scoreFontFamily(),
+                                      scoreFontSize());
+    if(scoreGlypWidth > columnWidthsAt(column))
+        setColumnWidthAt(column,scoreGlypWidth);
+}
+
+void SFtpDataModel::setInitialColumnWidths(const int &count)
+{
+    QList<double> newColumnWidths;
+    for (int i = 0; i < count; ++i)
+        newColumnWidths << minimumPreferedColumnWidth;
+    _columnWidths << newColumnWidths;
+}
+
+void SFtpDataModel::initializeFieldsHorizontally(const int &startColumn,const int &initialValue)
+{
+    auto dataCount = _data.count();
+    if(startColumn < dataCount)
+        return;
+    auto lastDecoratedField = indexOfLastDecoratedField();
+    auto count = startColumn - lastDecoratedField;
+
+    for (int i = 0; i < count; ++i)
+        _data.append(initialValue);
+}
+
+bool SFtpDataModel::isIndexValid(const QModelIndex &index)
+{
+    auto row = index.row();
+    auto column = index.column();
+    if(row > 0)
+        return false;
+    else if(column >= _data.count())
+        return false;
+    return true;
 }
 
 bool SFtpDataModel::isCellDecorated(const QModelIndex &index)
@@ -398,87 +357,51 @@ bool SFtpDataModel::isCellDecorated(const QModelIndex &index)
 }
 
 
-int SFtpDataModel::indexOfLastDecoratedCell(const int &index)
+int SFtpDataModel::indexOfLastDecoratedField()
 {
-    for (int row = 0; row < rowCount(); ++row) {
-        auto pairs = _data.at(row);
-        auto pair = pairs.at(index);
-        auto score = pair.first;
-        if(score == -1)
-        {
-            return row - 1;
-        }
-    }
-    return rowCount() - 1;
+    auto lastDecoratedField = _data.count() - 1;
+    return lastDecoratedField;
 }
 
-int SFtpDataModel::rowCount(const int &column)
-{
-    for (int row = 0; row < _data.count(); ++row) {
-        auto scoreModels = _data.at(row);
-        auto scoreModel = scoreModels.at(column);
-        auto point = scoreModel.first;
-        auto scoreModelsCount = scoreModels.count();
-        if(scoreModelsCount > column && point == -1)
-            return row;
-    }
-    return rowCount();
-}
-
-bool SFtpDataModel::isColumnEmpty(const int &col)
-{
-    if(col < 0 || col >= columnCount())
-        throw std::out_of_range("Index out of range");
-
-    for (auto pairsRow : _data) {
-        auto pair = pairsRow.at(col);
-        auto point = pair.first;
-        if(point != -1)
-            return false;
-    }
-    return true;
-}
 
 bool SFtpDataModel::isRowEmpty(const int &row)
 {
     if(row < 0 || row >= rowCount())
         throw std::out_of_range("Index out of range");
-    auto columnsData = _data.at(row);
-    for (int i = 0; i < columnsData.count(); ++i) {
-        auto columnData = columnsData.at(i);
-        auto point = columnData.first;
-        if(point != -1)
+    for (int i = 0; i < _data.count(); ++i) {
+        auto data = _data.at(i);
+        if(data != -1)
             return false;
     }
     return true;
 }
 
-QPair<int, int> SFtpDataModel::removeData(const QModelIndex &index)
+bool SFtpDataModel::removeData(const QModelIndex &index)
 {
-    if(!index.isValid())
-        return scoreModel(-1,-1);
+    if(!isIndexValid(index))
+        return -1;
     auto row = index.row();
     auto column = index.column();
-    auto columnData = _data.at(row);
-    auto data = columnData.at(column);
-    auto initialPair = scoreModel(-1,-1);
-
-    columnData.replace(column,initialPair);
-    _data.replace(row,columnData);
     if(isRowEmpty(row) && row > minimumRowCount())
     {
         removeColumns(column,1,QModelIndex());
-        return data;
+        return true;
     }
 
     emit dataChanged(createIndex(row,column),createIndex(row,column));
-    return data;
+    return false;
 }
 
 int SFtpDataModel::indexOfHeaderItem(const QString &data)
 {
     auto index = _horizontalHeaderData.indexOf(data);
     return index;
+}
+
+void SFtpDataModel::addHorizontalHeaderData(const QString &data)
+{
+    _horizontalHeaderData.append(data);
+    emit dataChanged(QModelIndex(),QModelIndex());
 }
 
 int SFtpDataModel::stringWidth(const QString &string, const QString &family, const int &pointSize) const
@@ -556,7 +479,7 @@ int SFtpDataModel::initialValue() const
 void SFtpDataModel::setInitialValue(int initialValue)
 {
     _initialValue = initialValue;
-    emit initialValueChanged();
+    updateInitialCellValues();
 }
 
 int SFtpDataModel::minimumRowCount() const
@@ -601,13 +524,13 @@ void SFtpDataModel::setColumnCount(const int &count)
     {
         auto deltaC = count - columnCount();
         insertColumns(columnCount(),deltaC,QModelIndex());
-
     }
     else
     {
         auto deltaC = columnCount() - count ;
         removeColumns(count,deltaC,QModelIndex());
     }
+    emit dataChanged(QModelIndex(),QModelIndex());
 }
 
 void SFtpDataModel::setRowCount(const int &count)

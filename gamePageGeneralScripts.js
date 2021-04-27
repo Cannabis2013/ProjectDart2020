@@ -48,12 +48,12 @@ function handleFTPTournamentMetaData(data){
         "tournamentGameMode" : json["gameMode"],
         "tournamentKeyPoint" : json["keyPoint"],
         "attempts" : json["attempts"],
-        "tournamentTableViewHint" : json["displayHint"],
-        "tournamentInputMode" : json["inputHint"],
+        "displayHint" : json["displayHint"],
+        "inputHint" : json["inputHint"],
         "assignedPlayers" : json["assignedPlayerNames"]
     }
-    var metaDataObject = ftpComponent.createObject(gamePageBody,properties);
-    gamePageBody.tournamentMetaData = metaDataObject;
+    var ftpMetaData = ftpComponent.createObject(gamePageBody,properties);
+    gamePageBody.tournamentMetaData = ftpMetaData;
     FirstToPostScripts.buildFtpComponents();
 }
 /*

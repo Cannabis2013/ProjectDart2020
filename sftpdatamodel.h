@@ -7,10 +7,7 @@
 
 
 namespace SingleFtpDataModel {
-    const QString preferedFontFamily = "MS Sans Serif";
-    const int preferedPointSize = 12;
-    const int minimumPreferedColumnWidth = 64;
-    const int minimumPreferedRowHeight = 25;
+
 }
 
 class SFtpDataModel : public QAbstractTableModel
@@ -46,10 +43,9 @@ public:
     // public exposed methods
     // Data related
     Q_INVOKABLE bool insertData(const QString &playerName,
-                                   const int &point,
-                                   const int &score);
+                                const int &point,
+                                const int &score);
     Q_INVOKABLE int editData(const int &row, const int &column, const int &point, const int &score);
-    Q_INVOKABLE QVariant getData(const int &row, const int &column, const int &mode);
     Q_INVOKABLE bool removeLastItem(const QString &playerName);
     Q_INVOKABLE void clearData();
     // Header related
@@ -104,7 +100,6 @@ public:
     int columnWidthsAt(const int &index) const;
     int headerFontSize() const;
     void setHeaderFontSize(int headerFontSize);
-
 signals:
     void fillModeChanged();
     void columnWidthScaleChanged();
@@ -125,20 +120,26 @@ protected:
     bool insertColumns(int column, int count, const QModelIndex &) override;
     bool removeRows(int row, int count, const QModelIndex &) override;
     bool removeColumns(int column, int count, const QModelIndex &) override;
-private slots:
-    void updateInitialCellValues();
 private:
+    // Const member variables
+    const QString preferedFontFamily = "MS Sans Serif";
+    const int preferedPointSize = 12;
+    const int minimumPreferedColumnWidth = 64;
+    const int minimumPreferedRowHeight = 25;
+    void updateColumnWidth(const int &column, const int &data);
     // Data related
+    void updateInitialCellValues();
+    void setInitialColumnWidths(const int& count);
+    void initializeFieldsHorizontally(const int& startColumn, const int& initialValue = -1);
+    bool isIndexValid(const QModelIndex& index);
     bool setPlayerData(const QString &playerName,
-                       const int &point,
                        const int &score);
     bool isCellDecorated(const QModelIndex &index);
-    int indexOfLastDecoratedCell(const int &index);
-    int rowCount(const int &column);
-    bool isColumnEmpty(const int &col);
+    int indexOfLastDecoratedField();
     bool isRowEmpty(const int &row);
-    QPair<int,int> removeData(const QModelIndex &index);
+    bool removeData(const QModelIndex &index);
     int indexOfHeaderItem(const QString &data);
+    void addHorizontalHeaderData(const QString &data);
     /*
      * Font metrics related
      */
@@ -156,7 +157,7 @@ private:
     int _attemps = 3;
     int _minimumColumnCount = 0;
     int _minimumRowCount = 0;
-    int _initialValue = 0;
+    int _initialValue = -1;
 
     /*
      * Font related
@@ -180,7 +181,7 @@ private:
     /*
      * Scores and points
      */
-    QList<LinkedList<scoreModel>> _data;
+    QList<int> _data;
 };
 
 #endif // HORIZONTALFTPSINGLEDATAMODEL_H

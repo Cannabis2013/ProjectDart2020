@@ -30,6 +30,7 @@ function updateScoreBoard()
 {
     updateContentDimensions();
     refreshHeaders();
+    fTPBody.requestUpdateCells();
 }
 
 function updateContentDimensions()
@@ -61,7 +62,6 @@ function refreshHeaders()
         fTPBody.setRowHeight(i,rowHeight);
         fTPBody.setVerticalHeaderDataAt(i,vHeaderValue);
     }
-    fTPBody.requestUpdateCells();
 }
 
 function calculateHeight()
@@ -125,4 +125,14 @@ function editData(row,column,point,score){
     var result = fTPModel.editData(row,column,point,score);
     if(!result)
         print("Couldn't edit data");
+}
+
+function addHeaderData(data)
+{
+    for(var i = 0; i < data.length;i++)
+    {
+        var assignedPlayerName = data[i];
+        scoreBoardItemSlot.item.appendHeader(assignedPlayerName,Qt.Horizontal);
+        scoreBoardItemSlot.item.setData(assignedPlayerName,0,defaultVal,undefined);
+    }
 }

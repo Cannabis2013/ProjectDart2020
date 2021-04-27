@@ -21,6 +21,9 @@ ScoreBoard {
     }
 
     onSizeScale: fTPModel.scale = s
+    // Notify datamodel about the number of attemps
+    property int attempts: 3
+    onAttemptsChanged: fTPModel.attempts = attempts;
 
     onMinimumRowCount: fTPModel.setMinimumRowCount(count);
 
@@ -78,7 +81,7 @@ ScoreBoard {
     model: FtpDataModel {
         id: fTPModel
         onDataChanged: ScoreScripts.updateScoreBoard();
-        attempts: 1
+        attempts: fTPBody.attempts
         headerOrientation: fTPBody.headerOrientation
         pointFontPointSize: fTPBody.pointFontSize
         scoreFontPointSize: fTPBody.scoreFontSize
