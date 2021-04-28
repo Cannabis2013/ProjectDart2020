@@ -9,7 +9,7 @@
 #include "tournamentbuildercontext.h"
 #include "tournamentcontextcollection.h"
 #include "scorebuildercontext.h"
-#include "tournamentmodelscontextinterface.h"
+#include "itournamentmodelscontext.h"
 #include "abstractjsonpersistence.h"
 
 
@@ -23,7 +23,7 @@
  */
 
 class LocalTournamentModelsContext :
-        public TournamentModelsContextInterface
+        public ITournamentModelsContext
 {
 public:
     /*
@@ -110,14 +110,13 @@ public:
     /*
      * Scores related section
      */
-    void addFTPScore(const QUuid &tournament,
+    void addDartsPoint(const QUuid &tournament,
                      const QUuid &player,
                      const int &roundIndex,
                      const int &setIndex,
                      const int &attemptIndex,
                      const int &point,
                      const int &score,
-                     const int& accumulatedScore,
                      const int &keyCode,
                      const bool &isWinnerDetermined) override;
     QUuid ftpScore(const QUuid &tournament,
@@ -141,7 +140,7 @@ public:
                               const QUuid &player,
                               const int &hint) override;
     int ftpScoresCount(const int &hint) override;
-    QUuid setScoreHint(const QUuid &point,
+    QUuid setDartsPointHint(const QUuid &point,
                        const int &hint) override;
     QUuid editScore(const QUuid &pointId,
                     const int &value,

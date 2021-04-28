@@ -2,20 +2,20 @@
 
 void JsonDbContext::fetchModels()
 {
-    QJsonObject JSONObject;
+    QJsonObject jsonObject;
     // Extact content from file
     try {
-        JSONObject = readJSONFromFile(_fileName);
+        jsonObject = readJSONFromFile(_fileName);
     } catch (...) {
         return;
     }
     // Assemble json objects from content
-    auto tournamentsJSONArray = JSONObject["FTPTournaments"].toArray();
-    auto scoresJSONArray = JSONObject["FTPScores"].toArray();
-    auto playerJSONArray = JSONObject["Players"].toArray();
+    auto tournamentsJSONArray = jsonObject["FTPTournaments"].toArray();
+    auto dartsPointsJsonArray = jsonObject["DartsPoints"].toArray();
+    auto playerJSONArray = jsonObject["Players"].toArray();
     // Exctract models from json objects
-    extractTournamentModelsFromJSON(tournamentsJSONArray);
-    extractScoreModelsFromJSON(scoresJSONArray);
+    extractDartsTournamentModelsFromJSON(tournamentsJSONArray);
+    extractScoreModelsFromJSON(dartsPointsJsonArray);
     extractPlayerModelsFromJSON(playerJSONArray);
 }
 
@@ -28,63 +28,63 @@ void JsonDbContext::saveState()
     /*
      * Persist 'first to post' tournaments
      */
-    modelJSON["FTPTournaments"] = assembleFTPTournamentsJSONArray();
-    modelJSON["FTPScores"] = assembleScoresJSONArray();
+    modelJSON["FTPTournaments"] = assembleDartsTournamentsJsonArray();
+    modelJSON["DartsPoints"] = assembleDartsPointsJSONArray();
     modelJSON["Players"] = assemblePlayersJSONArray();
     writeJSONToFile(modelJSON,"Models");
 }
 
-void JsonDbContext::addTournament(DbModels::TournamentInterface *model)
+void JsonDbContext::addTournament(const IModel<QUuid> *model)
 {
-    _tournamentModels.append(model);
+    _dartsTournamentModels.append(model);
     saveState();
 }
 
-QVector<const DbModels::TournamentInterface*> JsonDbContext::tournaments()
+QVector<const IModel<QUuid>*> JsonDbContext::dartsTournaments()
 {
-    return _tournamentModels;
+    return _dartsTournamentModels;
 }
 
-void JsonDbContext::removeTournamentModel(const QUuid &id)
+void JsonDbContext::removeDartsTournamentModelFromId(const QUuid &id)
 {
-    for (auto i = _tournamentModels.begin();i != _tournamentModels.end();i++) {
+    for (auto i = _dartsTournamentModels.begin();i != _dartsTournamentModels.end();i++) {
         auto model = *i;
         auto modelId = model->id();
         if(modelId == id)
         {
-            _tournamentModels.removeOne(model);
+            _dartsTournamentModels.removeOne(model);
             return;
         }
     }
 }
 
-void JsonDbContext::removeTournamentModel(const int &index)
+void JsonDbContext::removeDartsTournamentModelFromId(const int &index)
 {
-    _tournamentModels.removeAt(index);
+    _dartsTournamentModels.removeAt(index);
     saveState();
 }
 
-int JsonDbContext::indexOfTournament(const DbModels::TournamentInterface *model)
+int JsonDbContext::indexOfTournament(const IModel<QUuid> *model)
 {
-    auto index = _tournamentModels.indexOf(model);
+    auto index = _dartsTournamentModels.indexOf(model);
     return index;
 }
 
-void JsonDbContext::replaceTournament(const int &index, const DbModels::TournamentInterface *tournament)
+void JsonDbContext::replaceTournament(const int &index, const IModel<QUuid> *tournament)
 {
-    _tournamentModels.replace(index,tournament);
+    _dartsTournamentModels.replace(index,tournament);
     saveState();
 }
 
-const DbModels::TournamentInterface *JsonDbContext::tournamentModel(const int &index)
+const IModel<QUuid> *JsonDbContext::dartsTournamentModelFromIndex(const int &index)
 {
-    auto model = _tournamentModels.at(index);
+    auto model = _dartsTournamentModels.at(index);
     return model;
 }
 
-const DbModels::TournamentInterface *JsonDbContext::tournamentModel(const QUuid &id)
+const IModel<QUuid> *JsonDbContext::dartsTournamentModelFromIndex(const QUuid &id)
 {
-    for (auto var = _tournamentModels.begin(); var != _tournamentModels.end(); ++var) {
+    for (auto var = _dartsTournamentModels.begin(); var != _dartsTournamentModels.end(); ++var) {
         auto model = *var;
         if(model->id() == id)
             return model;
@@ -92,217 +92,84 @@ const DbModels::TournamentInterface *JsonDbContext::tournamentModel(const QUuid 
     return nullptr;
 }
 
-void JsonDbContext::addScoreModel(const DbModels::ScoreInterface *model)
+void JsonDbContext::addScoreModel(const IModel<QUuid> *model)
 {
-    _scoreModels.append(model);
+    _dartsPointModels.append(model);
     saveState();
 }
 
-const DbModels::ScoreInterface *JsonDbContext::scoreModel(const int &index)
+const IModel<QUuid> *JsonDbContext::scoreModel(const int &index)
 {
-    auto model = _scoreModels.at(index);
+    auto model = _dartsPointModels.at(index);
     return model;
 }
 
-QVector<const DbModels::ScoreInterface *> JsonDbContext::scoreModels()
+QVector<const IModel<QUuid> *> JsonDbContext::dartsPointModels()
 {
-    return _scoreModels;
+    return _dartsPointModels;
 }
 
-void JsonDbContext::replaceScoreModel(const int &index, const DbModels::ScoreInterface* score)
+void JsonDbContext::replaceScoreModel(const int &index, const IModel<QUuid> *score)
 {
-    _scoreModels.replace(index,score);
+    _dartsPointModels.replace(index,score);
     saveState();
 }
 
-int JsonDbContext::indexOfScoreModel(const DbModels::ScoreInterface *score)
+int JsonDbContext::indexOfScoreModel(const IModel<QUuid> *score)
 {
-    auto index = _scoreModels.indexOf(score);
+    auto index = _dartsPointModels.indexOf(score);
     return index;
 }
 
 void JsonDbContext::removeScoreModel(const int &index)
 {
-    _scoreModels.remove(index);
+    _dartsPointModels.remove(index);
     saveState();
 }
 
-QJsonArray JsonDbContext::assembleFTPTournamentsJSONArray()
+QJsonArray JsonDbContext::assembleDartsTournamentsJsonArray()
 {
-    QJsonArray tournamentsJSON;
-    auto tournamentModels = tournaments();
-    for (auto i = _tournamentModels.begin();i != _tournamentModels.end();i++) {
-        auto model = *i;
-        if(model->gameMode() != GameModes::FirstToPost)
-            continue;
-        QJsonObject obj;
-        auto tournament = dynamic_cast<const FTPTournament*>(model);
-        auto tournamentId = model->id();
-        obj["Id"] = tournamentId.toString();
-        obj["Title"] = tournament->title();
-        obj["KeyPoint"] = tournament->keyPoint();
-        obj["GameMode"] = tournament->gameMode();
-        obj["TerminalKeyCode"] = tournament->terminalKeyCode();
-        obj["TableViewHint"] = tournament->displayHint();
-        obj["InputMode"] = tournament->inputHint();
-        obj["Winner"] = tournament->winnerId().toString();
-        obj["Attempts"] = tournament->attempts();
-        auto players = tournament->assignedPlayerIdentities();
-
-        QJsonArray playersJSON;
-        auto count = players.count();
-        for (int j = 0; j < count; ++j) {
-            auto playerID = players.at(j).toString();
-            QJsonObject playerObj;
-            playerObj["ID"] = playerID;
-            playersJSON.append(playerObj);
-        }
-        obj["Players"] = playersJSON;
-        tournamentsJSON.append(obj);
-    }
+    auto tournamentsJSON = _dartsTournamentAssembler->assembleDartsTournamentsFromModels(dartsTournaments());
     return tournamentsJSON;
 }
 
-QJsonArray JsonDbContext::assembleScoresJSONArray()
+QJsonArray JsonDbContext::assembleDartsPointsJSONArray()
 {
-    QJsonArray scoresJSON;
-    auto scoreModels = this->scoreModels();
-    for (auto i = _scoreModels.begin();i != _scoreModels.end();i++) {
-        auto model = *i;
-        auto tournamentId = model->parent();
-        auto tournament = tournamentModel(tournamentId);
-        auto gameMode = tournament->gameMode();
-        auto ftpScoreModel = dynamic_cast<const FTPScore*>(model);
-        if(gameMode != GameModes::FirstToPost)
-            continue;
-        // Check if FTP model
-        QJsonObject scoreJSON;
-        scoreJSON["Id"] = ftpScoreModel->id().toString();
-        scoreJSON["Tournament"] = ftpScoreModel->tournament().toString();
-        scoreJSON["PointValue"] = ftpScoreModel->point();
-        scoreJSON["ScoreValue"] = ftpScoreModel->score();
-        scoreJSON["AccumulatedScoreValue"] = ftpScoreModel->accumulatedScore();
-        scoreJSON["RoundIndex"] = ftpScoreModel->roundIndex();
-        scoreJSON["SetIndex"] = ftpScoreModel->setIndex();
-        scoreJSON["Attempt"] = ftpScoreModel->attempt();
-        scoreJSON["PlayerId"] = ftpScoreModel->player().toString();
-        scoreJSON["Hint"] = ftpScoreModel->hint();
-        scoreJSON["KeyCode"] = ftpScoreModel->modKeyCode();
-        scoresJSON.append(scoreJSON);
-    }
-    return scoresJSON;
+    auto jsonArray = _dartsInputAssembler->assembleDartsPointJson(dartsPointModels());
+    return jsonArray;
 }
 
 QJsonArray JsonDbContext::assemblePlayersJSONArray()
 {
-    QJsonArray playersJSON;
-    auto players = playerModels();
-    for (auto playerModel : players) {
-        QJsonObject playerJSON;
-        playerJSON["Id"] = playerModel->id().toString();
-        playerJSON["UserName"] = playerModel->playerName();
-        playerJSON["Mail"] = playerModel->email();
-        playersJSON.append(playerJSON);
-    }
+    QJsonArray playersJSON = _playerModelsAssemblerService->assembleJsonArrayFromModels(playerModels());
     return playersJSON;
 }
 
-void JsonDbContext::extractTournamentModelsFromJSON(const QJsonArray &arr)
+void JsonDbContext::extractDartsTournamentModelsFromJSON(const QJsonArray &arr)
 {
-    auto tournamentsCount = arr.count();
-    for (int i = 0; i < tournamentsCount; ++i) {
-        auto tournamentJSON = arr[i].toObject();
-        auto stringID = tournamentJSON["Id"].toString();
-        auto tournamentId = QUuid::fromString(stringID);
-        auto title = tournamentJSON["Title"].toString();
-        auto keyPoint = tournamentJSON["KeyPoint"].toInt();
-        auto tableViewHint = tournamentJSON["TableViewHint"].toInt();
-        auto inputMode = tournamentJSON["InputMode"].toInt();
-        auto gameMode = tournamentJSON["GameMode"].toInt();
-        auto attempts = tournamentJSON["Attempts"].toInt();
-        auto terminalKeyCode = tournamentJSON["TerminalKeyCode"].toInt();
-        auto winnerStringID = tournamentJSON["Winner"].toString();
-        auto winnerId = QUuid::fromString(winnerStringID);
-        auto playersJSONArray = tournamentJSON["Players"].toArray();
-        auto playersJSONCount = playersJSONArray.count();
-        QVector<QUuid> assignedPlayerIds;
-        for (int j = 0; j < playersJSONCount; ++j) {
-            auto assignedPlayerJSON = playersJSONArray[j].toObject();
-            auto stringID = assignedPlayerJSON["ID"].toString();
-            auto playerId = QUuid::fromString(stringID);
-            assignedPlayerIds << playerId;
-        }
-        auto tournamentModel = FTPTournament::createInstance()
-                ->setId(tournamentId)
-                ->setTitle(title)
-                ->setKeyPoint(keyPoint)
-                ->setDisplayHint(tableViewHint)
-                ->setInputMode(inputMode)
-                ->setGameMode(gameMode)
-                ->setAttempts(attempts)
-                ->setWinner(winnerId)
-                ->setTerminalKeyCode(terminalKeyCode)
-                ->setAssignedPlayerIdentities(assignedPlayerIds);
-        _tournamentModels.append(tournamentModel);
-    }
+    auto dartsTournaments = _dartsTournamentJsoNExstractorService->extractDartsTournamentFromJson(arr);
+    _dartsTournamentModels << dartsTournaments;
 }
 
 void JsonDbContext::extractScoreModelsFromJSON(const QJsonArray &arr)
 {
     for (auto i = arr.begin();i != arr.end();i++) {
-        auto JSONValue = *i;
-        auto stringID = JSONValue["Id"].toString();
-        auto id = QUuid::fromString(stringID);
-        auto tournament = JSONValue["Tournament"].toString();
-        auto tournamentId = QUuid::fromString(tournament);
-        auto playerStringID = JSONValue["PlayerId"].toString();
-        auto playerId = QUuid::fromString(playerStringID);
-        auto roundIndex = JSONValue["RoundIndex"].toInt();
-        auto setIndex = JSONValue["SetIndex"].toInt();
-        auto attempt = JSONValue["Attempt"].toInt();
-        auto pointValue = JSONValue["PointValue"].toInt();
-        auto scoreValue = JSONValue["ScoreValue"].toInt();
-        auto accumulatedScoreValue = JSONValue["AccumulatedScoreValue"].toInt();
-        auto keyCode = JSONValue["KeyCode"].toInt();
-        auto scoreHint = JSONValue["Hint"].toInt();
-        auto scoreModel = FTPScore::createInstance()
-                ->setId(id)
-                ->setTournament(tournamentId)
-                ->setPlayer(playerId)
-                ->setRoundIndex(roundIndex)
-                ->setSetIndex(setIndex)
-                ->setAttempt(attempt)
-                ->setPointValue(pointValue)
-                ->setScoreValue(scoreValue)
-                ->setAccumulatedScore(accumulatedScoreValue)
-                ->setModKeyCode(keyCode)
-                ->setDisplayHint(scoreHint);
-        _scoreModels.append(scoreModel);
+        auto scoreModel = _dartsInputExtractor->extractDartsPointFromJson(*i);
+        _dartsPointModels.append(scoreModel);
     }
 }
 
 void JsonDbContext::extractPlayerModelsFromJSON(const QJsonArray &arr)
 {
-    for (auto i = arr.begin();i != arr.end();i++) {
-        auto JSONValue = *i;
-        auto stringID = JSONValue["Id"].toString();
-        auto playerId = QUuid::fromString(stringID);
-        auto playerName = JSONValue["UserName"].toString();
-        auto mail = JSONValue["Mail"].toString();
-        auto model = Player::createInstance()
-                ->setId(playerId)
-                ->setUserName(playerName)
-                ->setEmail(mail);
-        _playerModels.append(model);
-    }
+    _playerModels << _playerJsonExtractorService->extractPlayerModelsFromJsonArray(arr);
 }
 
-QVector<const DbModels::PlayerInterface *> JsonDbContext::playerModels()
+QVector<const IModel<QUuid>*> JsonDbContext::playerModels()
 {
     return _playerModels;
 }
 
-void JsonDbContext::addPlayerModel(const DbModels::PlayerInterface *player)
+void JsonDbContext::addPlayerModel(const IModel<QUuid> *player)
 {
     _playerModels.append(player);
     saveState();
@@ -310,7 +177,7 @@ void JsonDbContext::addPlayerModel(const DbModels::PlayerInterface *player)
 
 void JsonDbContext::removePlayerModel(const QUuid &id)
 {
-    for (auto playerInterface : _playerModels) {
+    for (const auto& playerInterface : qAsConst(_playerModels)) {
         if(playerInterface->id() == id)
         {
             _playerModels.removeOne(playerInterface);
@@ -325,19 +192,19 @@ void JsonDbContext::removePlayerModel(const int &index)
     saveState();
 }
 
-int JsonDbContext::indexOfPlayerModel(const DbModels::PlayerInterface *player)
+int JsonDbContext::indexOfPlayerModel(const IModel<QUuid> *player)
 {
     auto index = _playerModels.indexOf(player);
     return index;
 }
 
-void JsonDbContext::replacePlayerModel(const int &index, const DbModels::PlayerInterface *player)
+void JsonDbContext::replacePlayerModel(const int &index, const IModel<QUuid> *player)
 {
     _playerModels.replace(index,player);
     saveState();
 }
 
-const DbModels::PlayerInterface *JsonDbContext::playerModel(const int &index)
+const IModel<QUuid>* JsonDbContext::playerModel(const int &index)
 {
     auto count = _playerModels.count();
     if(index >= count)

@@ -4,10 +4,10 @@
 #include <quuid.h>
 #include "persistenceinterface.h"
 
-class PlayerModelsContextInterface
+class IPlayerModelsContext
 {
 public:
-    virtual ~PlayerModelsContextInterface()=default;
+    virtual ~IPlayerModelsContext()=default;
     virtual QUuid createPlayer(const QString &name,
                               const QString& mail,
                               const int &role = -1) = 0;

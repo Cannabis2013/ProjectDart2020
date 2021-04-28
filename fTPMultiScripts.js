@@ -127,7 +127,7 @@ function editData(row,column,point,score){
         print("Couldn't edit data");
 }
 
-function addHeaderData(data)
+function addHeaderData(data,defaultVal)
 {
     for(var i = 0; i < data.length;i++)
     {

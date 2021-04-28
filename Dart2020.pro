@@ -17,8 +17,10 @@ SOURCES += \
             abstractjsonpersistence.cpp \
             controllerbuilder.cpp \
             dartapplication.cpp \
-            ftpdatamodel.cpp \
-            ftpscorecontroller.cpp \
+    dartsinputjsonassembler.cpp \
+    dartsinputjsonextractor.cpp \
+    dartsscorecontroller.cpp \
+    dartstournamentjsonextractor.cpp \
             iurlparser.cpp \
             jsondbcontext.cpp \
             localcricketcontroller.cpp \
@@ -27,13 +29,18 @@ SOURCES += \
             localtournamentmodelscontext.cpp \
             main.cpp \
             networkmanager.cpp \
-            pointftpcontroller.cpp \
+    playerjsonassembler.cpp \
+    playermodeljsonextractor.cpp \
+    pointdartscontroller.cpp \
             pointlogisticcontroller.cpp \
+    pointscore501datamodel.cpp \
             remotemodelscontext.cpp \
-            scoreftpcontroller.cpp \
+    scoredartscontroller.cpp \
             scoreindexcontroller.cpp \
             scorelogisticcontroller.cpp \
             sftpdatamodel.cpp \
+    tournamentsjsonassembler.cpp \
+    tournamentsjsonassemblerservice.cpp \
             tst_Dart2020.cpp \
             urlparser.cpp \
 
@@ -54,8 +61,10 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+            Abstract501JsonAssembler.h \
             AbstractApplicationInterface.h \
-            AbstractFtpController.h \
+            AbstractDartsController.h \
+            Default501JsonAssembler.h \
             IControllerBuilder.h \
             IScoreBuilder.h \
             LinkedList.h \
@@ -69,29 +78,43 @@ HEADERS += \
             abstractpersistence.h \
             controllerbuilder.h \
             dartapplication.h \
-            ftpdatamodel.h \
+            dartsinputjsonassembler.h \
+            dartsinputjsonextractor.h \
+            dartspointinput.h \
+            dartsscorebuilder.h \
+            dartsscorecontroller.h \
+            dartsscoreinput.h \
+            dartstournamentjsonextractor.h \
+            dartstournamentmodel.h \
             ftplogisticcontrollerinterface.h \
-            ftpscore.h \
-            ftpscorecontroller.h \
-            ftptournament.h \
+            idartsinput.h \
+            idartsinputassembler.h \
+            idartsinputjsonextractor.h \
+            idartspointinput.h \
+            idartsscoreinput.h \
+            idartstournament.h \
+            idartstournamentjsonextractorservice.h \
+            idartstournamentsjsonassemblerservice.h \
             idatacontext.h \
-            iftptournament.h \
             imodel.h \
             imodelsdbcontext.h \
             indexcontrollerinterface.h \
             iplayerbuildercontext.h \
             iplayercontext.h \
+            iplayerinput.h \
+            iplayerjsonassemblerservice.h \
+            iplayerjsonextractorservice.h \
             iplayermodel.h \
             iplayermodelbuilder.h \
+            iplayermodelscontext.h \
             ipointvalidator.h \
             iresponseinterface.h \
-            iscore.h \
             iscorecontroller.h \
-            iscoremodel.h \
             iscoreparameter.h \
             iscorevalidator.h \
             itournament.h \
             itournamentbuilder.h \
+            itournamentmodelscontext.h \
             itournamentparameter.h \
             iurlparser.h \
             jsondbcontext.h \
@@ -102,21 +125,22 @@ HEADERS += \
             localtournamentmodelscontext.h \
             networkmanager.h \
             persistenceinterface.h \
-            player.h \
+            playerjsonassembler.h \
+            playermodel.h \
             playermodelbuilder.h \
             playermodelbuildercontext.h \
-            playermodelscontextinterface.h \
+            playermodeljsonextractor.h \
             pointScoreCalculator.h \
-            pointftpcontroller.h \
+            pointdartscontroller.h \
             pointlogisticcontroller.h \
+            pointscore501datamodel.h \
             pointvalidator.h \
             remotemodelscontext.h \
             replytimeout.h \
             scoreCalculatorInterface.h \
-            scorebuilder.h \
             scorebuildercontext.h \
             scorecalculator.h \
-            scoreftpcontroller.h \
+            scoredartscontroller.h \
             scoreindexcontroller.h \
             scorelogisticcontroller.h \
             sftpdatamodel.h \
@@ -124,7 +148,7 @@ HEADERS += \
             tournamentbuilder.h \
             tournamentbuildercontext.h \
             tournamentcontextcollection.h \
-            tournamentmodelscontextinterface.h \
+            tournamentsjsonassemblerservice.h \
             urlparser.h \
             testeventloop.h
 

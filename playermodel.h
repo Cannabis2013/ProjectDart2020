@@ -5,7 +5,7 @@
 
 #include "iplayermodel.h"
 
-class Player : public IPlayerModel<QUuid,QString>
+class PlayerModel : public IPlayerModel<QUuid,QString>
 {
     // IPlayerModel interface
 public:
@@ -13,7 +13,7 @@ public:
     {
         return _id;
     }
-    Player* setId(const QUuid &id) override
+    PlayerModel* setId(const QUuid &id) override
     {
         _id = id;
         return this;
@@ -22,7 +22,7 @@ public:
     {
         return _email;
     }
-    Player* setEmail(const QString &email) override
+    PlayerModel* setEmail(const QString &email) override
     {
         _email = email;
         return this;
@@ -31,7 +31,7 @@ public:
     {
         return _role;
     }
-    Player* setUserRole(const int &role) override
+    PlayerModel* setUserRole(const int &role) override
     {
         _role = role;
         return this;
@@ -40,7 +40,7 @@ public:
     {
         return _userName;
     }
-    Player* setUserName(const QString &name) override
+    PlayerModel* setUserName(const QString &name) override
     {
         _userName = name;
         return this;
@@ -53,7 +53,7 @@ public:
         else
             return false;
     }
-    virtual Player* setParent(const QUuid &) override
+    virtual PlayerModel* setParent(const QUuid &) override
     {
         return this;
     }
@@ -61,9 +61,9 @@ public:
     {
         return QUuid();
     }
-    static Player* createInstance()
+    static PlayerModel* createInstance()
     {
-        return new Player;
+        return new PlayerModel;
     }
 private:
     QUuid _id;

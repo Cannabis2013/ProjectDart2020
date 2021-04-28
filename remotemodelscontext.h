@@ -62,8 +62,8 @@ public:
     virtual void handleRequestTournaments() override;
     virtual void handleRequestGameMode(const int &index) override;
     virtual void assembleFtpMetaDataFromId(const QUuid &tournamentId) override;
-    virtual void addFtpScore(const QByteArray& json) override;
-    virtual void setFtpScoreHint(const QUuid &tournament, const QUuid &player, const int &roundIndex, const int &attemptIndex, const int &hint) override;
+    virtual void addDartsPoint(const QByteArray& json) override;
+    virtual void set501MultiPointHint(const QUuid &tournament, const QUuid &player, const int &roundIndex, const int &attemptIndex, const int &hint) override;
     virtual void resetTournament(const QUuid &tournament) override;
     virtual void assembleFtpKeyValues(const QUuid &tournament) override;
     virtual void createPlayer(const QByteArray& json) override;

@@ -18,8 +18,6 @@ function connectComponents()
     gamePageBody.requestStop.connect(applicationInterface.handleRequestStop);
     gamePageBody.requestRestart.connect(applicationInterface.handleRestartTournament);
     gamePageBody.sendInput.connect(applicationInterface.handleUserInput);
-    gamePageBody.requestUndo.connect(applicationInterface.handleUndoRequest);
-    gamePageBody.requestRedo.connect(applicationInterface.handleRedoRequest);
     gamePageBody.requestStatusFromBackend.connect(applicationInterface.handleControllerStateRequest);
 }
 function disconnectComponents()
@@ -33,8 +31,6 @@ function disconnectComponents()
     gamePageBody.requestStop.disconnect(applicationInterface.handleRequestStop);
     gamePageBody.requestRestart.disconnect(applicationInterface.handleRestartTournament);
     gamePageBody.sendInput.disconnect(applicationInterface.handleUserInput);
-    gamePageBody.requestUndo.disconnect(applicationInterface.requestUndo);
-    gamePageBody.requestRedo.disconnect(applicationInterface.requestRedo);
     gamePageBody.requestStatusFromBackend.disconnect(applicationInterface.handleControllerStateRequest);
 }
 

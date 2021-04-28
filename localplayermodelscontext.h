@@ -8,7 +8,7 @@
 #include <iostream>
 #include <QVariantList>
 #include "iplayermodel.h"
-#include "playermodelscontextinterface.h"
+#include "iplayermodelscontext.h"
 #include "playermodelbuildercontext.h"
 #include "abstractjsonpersistence.h"
 #include "iplayermodelbuilder.h"
@@ -33,7 +33,7 @@ typedef IPlayerModel<QUuid,QString> IDefaultPlayerModel;
 typedef IPlayerBuilderParameters<QString,QUuid> DefaultParametersInterface;
 
 class LocalPlayerModelsContext :
-        public PlayerModelsContextInterface
+        public IPlayerModelsContext
 {
 public:
     /*

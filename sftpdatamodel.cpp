@@ -21,10 +21,8 @@ int SFtpDataModel::editData(const int &row, const int &column, const int &point,
 }
 
 bool SFtpDataModel::insertData(const QString &playerName,
-                                         const int &point,
                                          const int &score)
 {
-    Q_UNUSED(point);
     return setPlayerData(playerName,score);;
 }
 
@@ -174,8 +172,8 @@ QVariant SFtpDataModel::data(const QModelIndex &index, int role) const
         return QVariant();
     if(role != Qt::DisplayRole)
         return QVariant();
-    auto row = index.row();
-    auto scoreValue = _data.at(row);
+    auto column = index.column();
+    auto scoreValue = _data.at(column);
     auto data = QString::number(scoreValue);
     return scoreValue >= 0 ?
                 QVariant(data) :

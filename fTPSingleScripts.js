@@ -57,8 +57,8 @@ function appendHeader(header,orientation)
     fTPBody.updateVerticalHeaderWidth(preferedWidth);
 }
 
-function setData(playerName,point,score){
-    var result = fTPModel.insertData(playerName,point,score);
+function setData(playerName,score){
+    var result = fTPModel.insertData(playerName,score);
     if(!result)
         print("Couldn't add data to model");
 }

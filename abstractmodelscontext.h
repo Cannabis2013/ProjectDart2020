@@ -32,8 +32,8 @@ public:
     virtual void handleRequestTournaments() = 0;
     virtual void handleRequestGameMode(const int &index) = 0;
     virtual void assembleFtpMetaDataFromId(const QUuid& tournament) = 0;
-    virtual void addFtpScore(const QByteArray& json) = 0;
-    virtual void setFtpScoreHint(const QUuid &tournament,
+    virtual void addDartsPoint(const QByteArray& json) = 0;
+    virtual void set501MultiPointHint(const QUuid &tournament,
                                                const QUuid &player,
                                                const int &roundIndex,
                                                const int &throwIndex,

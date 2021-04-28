@@ -8,7 +8,7 @@
  */
 
 
-class AbstractFtpController : public AbstractGameController
+class AbstractDartsController : public AbstractGameController
 {
     Q_OBJECT
 public:
@@ -30,7 +30,7 @@ signals:
                                    const int& score,
                                    const QString& targetRow);
     void requestFtpMultiAttemptScores(const QUuid &tournament);
-    void requestAddFtpScore(const QByteArray& json);
+    void requestAddDartsScore(const QByteArray& json);
     void scoreAddedAndPersisted(const QByteArray& json);
     void scoreRemoved(const QString& json);
     void requestFtpIndexesAndScores(const QUuid &tournament);

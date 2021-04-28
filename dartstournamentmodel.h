@@ -4,9 +4,9 @@
 #include <quuid.h>
 #include <qstring.h>
 #include <qlist.h>
-#include "iftptournament.h"
+#include "idartstournament.h"
 
-class FTPTournament : public IFTPTournament<QUuid,QVector<QUuid>,QString>
+class DartsTournamentModel : public IDartsTournament<QUuid,QVector<QUuid>,QString>
 {
     // IModel interface
 public:
@@ -14,7 +14,7 @@ public:
     {
         return _id;
     }
-    FTPTournament* setId(const QUuid &val) override
+    DartsTournamentModel* setId(const QUuid &val) override
     {
         _id = val;
         return this;
@@ -25,7 +25,7 @@ public:
     {
         return _title;
     }
-    FTPTournament* setTitle(const QString &string) override
+    DartsTournamentModel* setTitle(const QString &string) override
     {
         _title = string;
         return this;
@@ -34,7 +34,7 @@ public:
     {
         return _numberOfThrows;
     }
-    FTPTournament* setAttempts(const int &val) override
+    DartsTournamentModel* setAttempts(const int &val) override
     {
         _numberOfThrows = val;
         return this;
@@ -43,7 +43,7 @@ public:
     {
         return _gameMode;
     }
-    FTPTournament* setGameMode(const int &val) override
+    DartsTournamentModel* setGameMode(const int &val) override
     {
         _gameMode = val;
         return this;
@@ -52,7 +52,7 @@ public:
     {
         return _keyPoint;
     }
-    FTPTournament* setKeyPoint(const int &val) override
+    DartsTournamentModel* setKeyPoint(const int &val) override
     {
         _keyPoint = val;
         return this;
@@ -61,7 +61,7 @@ public:
     {
         return _status;
     }
-    FTPTournament* setStatus(const bool &status) override
+    DartsTournamentModel* setStatus(const bool &status) override
     {
         _status = status;
         return this;
@@ -70,7 +70,7 @@ public:
     {
         return _winner;
     }
-    IFTPTournament<QUuid,QVector<QUuid>,QString>* setWinner(const QUuid &val) override
+    IDartsTournament<QUuid,QVector<QUuid>,QString>* setWinner(const QUuid &val) override
     {
         _winner = val;
         return this;
@@ -80,18 +80,18 @@ public:
     {
         return _assignedPlayerIdentities;
     }
-    FTPTournament* setAssignedPlayerIdentities(const QVector<QUuid> &playerIdentities) override
+    DartsTournamentModel* setAssignedPlayerIdentities(const QVector<QUuid> &playerIdentities) override
     {
         _assignedPlayerIdentities = playerIdentities;
         return this;
     }
-    FTPTournament* assignPlayerIdentity(const QUuid &identity) override
+    DartsTournamentModel* assignPlayerIdentity(const QUuid &identity) override
     {
         _assignedPlayerIdentities.append(identity);
         return this;
     }
 
-    FTPTournament* setParent(const QUuid &) override{
+    DartsTournamentModel* setParent(const QUuid &) override{
         /*
          * No parent
          */
@@ -106,21 +106,21 @@ public:
     {
         return _terminalKeyCode;
     }
-    FTPTournament* setTerminalKeyCode(const int &keyCode) override
+    DartsTournamentModel* setTerminalKeyCode(const int &keyCode) override
     {
         _terminalKeyCode = keyCode;
         return this;
     }
-    static FTPTournament * createInstance()
+    static DartsTournamentModel * createInstance()
     {
-        return new FTPTournament();
+        return new DartsTournamentModel();
     }
     int displayHint() const override
     {
         return _modelDisplayHint;
     }
 
-    FTPTournament* setDisplayHint(int modelDisplayHint) override
+    DartsTournamentModel* setDisplayHint(int modelDisplayHint) override
     {
         _modelDisplayHint = modelDisplayHint;
         return this;
@@ -129,7 +129,7 @@ public:
     {
         return _inputMode;
     }
-    FTPTournament* setInputMode(const int &inputMode) override
+    DartsTournamentModel* setInputMode(const int &inputMode) override
     {
         _inputMode = inputMode;
         return this;

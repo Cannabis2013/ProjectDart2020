@@ -2,9 +2,9 @@
 #define GAMEBUILDER_H
 
 #include "IControllerBuilder.h"
-#include "AbstractFtpController.h"
-#include "scoreftpcontroller.h"
-#include "pointftpcontroller.h"
+#include "AbstractDartsController.h"
+#include "scoredartscontroller.h"
+#include "pointdartscontroller.h"
 // Include services
 #include "pointlogisticcontroller.h"
 #include "scorelogisticcontroller.h"
@@ -13,7 +13,7 @@
 #include "pointvalidator.h"
 #include "ScoreValidator.h"
 #include "abstractcontrollerbuilder.h"
-#include "ftpscorecontroller.h"
+#include "dartsscorecontroller.h"
 #include "PointIndexController.h"
 #include "scoreindexcontroller.h"
 #include <qjsondocument.h>
@@ -52,17 +52,17 @@ public:
     virtual void determineTournamentGameMode(const QUuid &tournament, const int &gameMode) override;
 
 private:
-    AbstractFtpController* assembleFtpPointBasedController(const QUuid& tournament,
+    AbstractDartsController* assembleFtpPointBasedController(const QUuid& tournament,
                                                             const QUuid& winnerId,
                                                             const int& keyPoint,
                                                             const int& terminalKeyCode,
                                                             const int& attempts);
-    AbstractFtpController* assembleFtpScoreBasedController(const QUuid& tournament,
+    AbstractDartsController* assembleFtpScoreBasedController(const QUuid& tournament,
                                                             const QUuid& winnerId,
                                                             const int& keyPoint,
                                                             const int& terminalKeyCode,
                                                             const int& attempts);
-    void connectFTPController(AbstractFtpController* controller,
+    void connectFTPController(AbstractDartsController* controller,
                               AbstractApplicationInterface*  applicationInterface,
                               AbstractModelsContext* modelsContext);
 };

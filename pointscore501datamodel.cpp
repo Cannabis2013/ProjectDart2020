@@ -1,11 +1,11 @@
-#include "ftpdatamodel.h"
+#include "pointscore501datamodel.h"
 
-FtpDataModel::FtpDataModel()
+PointScore501DataModel::PointScore501DataModel()
 {
-    connect(this,&FtpDataModel::initialValueChanged,this,&FtpDataModel::updateInitialCellValues);
+    connect(this,&PointScore501DataModel::initialValueChanged,this,&PointScore501DataModel::updateInitialCellValues);
 }
 
-QVariant FtpDataModel::getData(const int &row, const int &column, const int &mode)
+QVariant PointScore501DataModel::getData(const int &row, const int &column, const int &mode)
 {
     if(row >= rowCount() || column >= columnCount())
         return -1;
@@ -20,7 +20,7 @@ QVariant FtpDataModel::getData(const int &row, const int &column, const int &mod
         return result;
 }
 
-int FtpDataModel::editData(const int &row, const int &column, const int &point, const int &score)
+int PointScore501DataModel::editData(const int &row, const int &column, const int &point, const int &score)
 {
     if(row < 0 || row >= rowCount())
         return -1;
@@ -36,7 +36,7 @@ int FtpDataModel::editData(const int &row, const int &column, const int &point, 
     return oldData.toInt();
 }
 
-bool FtpDataModel::insertData(const QString &playerName,
+bool PointScore501DataModel::insertData(const QString &playerName,
                               const int &point,
                               const int &score)
 {
@@ -48,7 +48,7 @@ bool FtpDataModel::insertData(const QString &playerName,
     return false;
 }
 
-bool FtpDataModel::setPlayerData(const QString &playerName,
+bool PointScore501DataModel::setPlayerData(const QString &playerName,
                                  const int &point,
                                  const int &score,
                                  const int &headerOrientation)
@@ -84,7 +84,7 @@ bool FtpDataModel::setPlayerData(const QString &playerName,
     return true;
 }
 
-bool FtpDataModel::appendPlayerData(const QString &playerName,
+bool PointScore501DataModel::appendPlayerData(const QString &playerName,
                                 const int &point,
                                 const int &score,
                                 const int &headerOrientation)
@@ -124,7 +124,7 @@ bool FtpDataModel::appendPlayerData(const QString &playerName,
     return true;
 }
 
-bool FtpDataModel::removeLastItem(const QString &playerName, const int &headerOrientation)
+bool PointScore501DataModel::removeLastItem(const QString &playerName, const int &headerOrientation)
 {
     auto orientation = headerOrientation != -1 ? headerOrientation : this->headerOrientation();
     if(orientation == Qt::Horizontal)
@@ -145,7 +145,7 @@ bool FtpDataModel::removeLastItem(const QString &playerName, const int &headerOr
     }
 }
 
-void FtpDataModel::appendHeaderItem(const QVariant &data,
+void PointScore501DataModel::appendHeaderItem(const QVariant &data,
                                             const int &headerOrientation)
 {
     auto orientation = headerOrientation != -1 ?
@@ -174,7 +174,7 @@ void FtpDataModel::appendHeaderItem(const QVariant &data,
     }
 }
 
-void FtpDataModel::clearData()
+void PointScore501DataModel::clearData()
 {
     _data.clear();
     auto bottomRight = createIndex(rowCount() - 1,columnCount() - 1);
@@ -187,7 +187,7 @@ void FtpDataModel::clearData()
     emit dataChanged(createIndex(0,0),bottomRight);
 }
 
-QString FtpDataModel::getHeaderData(const int &index, const int &headerOrientation) const
+QString PointScore501DataModel::getHeaderData(const int &index, const int &headerOrientation) const
 {
     auto orientation = headerOrientation != -1 ? headerOrientation :
                                                  this->headerOrientation();
@@ -195,7 +195,7 @@ QString FtpDataModel::getHeaderData(const int &index, const int &headerOrientati
     return value;
 }
 
-int FtpDataModel::headerItemCount(const int &headerOrientation) const
+int PointScore501DataModel::headerItemCount(const int &headerOrientation) const
 {
     auto orientation = headerOrientation != -1 ?
                 headerOrientation : this->headerOrientation();
@@ -215,17 +215,17 @@ int FtpDataModel::headerItemCount(const int &headerOrientation) const
     }
 }
 
-int FtpDataModel::rowCount() const
+int PointScore501DataModel::rowCount() const
 {
     return rowCount(QModelIndex());
 }
 
-int FtpDataModel::columnCount() const
+int PointScore501DataModel::columnCount() const
 {
     return columnCount(QModelIndex());
 }
 
-double FtpDataModel::columnWidthAt(const int &column) const
+double PointScore501DataModel::columnWidthAt(const int &column) const
 {
     auto s = scale();
     auto w = columnWidthsAt(column);
@@ -236,7 +236,7 @@ double FtpDataModel::columnWidthAt(const int &column) const
         return columnWidth;
 }
 
-double FtpDataModel::rowHeightAt(const int &row) const
+double PointScore501DataModel::rowHeightAt(const int &row) const
 {
     if(_data.count() <= 0)
         return 0;
@@ -280,38 +280,38 @@ double FtpDataModel::rowHeightAt(const int &row) const
     return resultingGlyphLenght;
 }
 
-int FtpDataModel::horizontalHeaderCount() const
+int PointScore501DataModel::horizontalHeaderCount() const
 {
     return _horizontalHeaderData.count();
 }
 
-int FtpDataModel::verticalHeaderCount() const
+int PointScore501DataModel::verticalHeaderCount() const
 {
     return _verticalHeaderData.count();
 }
 
-int FtpDataModel::rowCount(const QModelIndex &) const
+int PointScore501DataModel::rowCount(const QModelIndex &) const
 {
     return _rows;
 }
 
-int FtpDataModel::columnCount(const QModelIndex &) const
+int PointScore501DataModel::columnCount(const QModelIndex &) const
 {
     return _columns;
 }
 
-void FtpDataModel::setColumnWidthAt(const int &column, const double &w)
+void PointScore501DataModel::setColumnWidthAt(const int &column, const double &w)
 {
     _columnWidths.replace(column,w);
 }
 
-int FtpDataModel::columnWidthsAt(const int &index) const
+int PointScore501DataModel::columnWidthsAt(const int &index) const
 {
     auto columnWidth = _columnWidths.at(index);
     return columnWidth;
 }
 
-QVariant FtpDataModel::data(const QModelIndex &index, int role) const
+QVariant PointScore501DataModel::data(const QModelIndex &index, int role) const
 {
     if(!index.isValid() || _data.count() <= 0)
         return QVariant();
@@ -332,7 +332,7 @@ QVariant FtpDataModel::data(const QModelIndex &index, int role) const
                 QVariant("");
 }
 
-QVariant FtpDataModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant PointScore501DataModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if(role != Qt::DisplayRole)
         return QVariant();
@@ -374,12 +374,12 @@ QVariant FtpDataModel::headerData(int section, Qt::Orientation orientation, int 
     return QVariant();
 }
 
-int FtpDataModel::numberOfAttemps() const
+int PointScore501DataModel::numberOfAttemps() const
 {
     return _attemps;
 }
 
-bool FtpDataModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool PointScore501DataModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     auto row = index.row();
     auto column = index.column();
@@ -417,11 +417,10 @@ bool FtpDataModel::setData(const QModelIndex &index, const QVariant &value, int 
         setColumnWidthAt(column,totalGlyphWidth);
 
     emit dataChanged(index,index,{role});
-
     return true;
 }
 
-bool FtpDataModel::insertRows(int row, int count, const QModelIndex &)
+bool PointScore501DataModel::insertRows(int row, int count, const QModelIndex &)
 {
     auto firstRow = row <= rowCount(QModelIndex()) ? row : rowCount(QModelIndex()) - 1;
     auto lastRow  =  row <= rowCount(QModelIndex()) ? firstRow + count : 2*row + count - firstRow;
@@ -450,7 +449,7 @@ bool FtpDataModel::insertRows(int row, int count, const QModelIndex &)
     return true;
 }
 
-bool FtpDataModel::insertColumns(int column, int count, const QModelIndex &)
+bool PointScore501DataModel::insertColumns(int column, int count, const QModelIndex &)
 {
     auto firstColumn = column <= columnCount() ? column : columnCount() - 1;
     auto lastColumn  =  column <= columnCount() ? firstColumn + count : 2*column + count - firstColumn;
@@ -482,7 +481,7 @@ bool FtpDataModel::insertColumns(int column, int count, const QModelIndex &)
     return true;
 }
 
-bool FtpDataModel::removeRows(int row, int count, const QModelIndex &)
+bool PointScore501DataModel::removeRows(int row, int count, const QModelIndex &)
 {
     // Check if input satisfies model constraints
     if(row < 0 || row >= rowCount())
@@ -512,7 +511,7 @@ bool FtpDataModel::removeRows(int row, int count, const QModelIndex &)
     return true;
 }
 
-bool FtpDataModel::removeColumns(int column, int count, const QModelIndex &)
+bool PointScore501DataModel::removeColumns(int column, int count, const QModelIndex &)
 {
     // Check if input satisfies model constraints
     if(column < 0 || column >= columnCount())
@@ -536,7 +535,7 @@ bool FtpDataModel::removeColumns(int column, int count, const QModelIndex &)
     return true;
 }
 
-void FtpDataModel::updateInitialCellValues()
+void PointScore501DataModel::updateInitialCellValues()
 {
 
     if(_data.count() < 1)
@@ -559,13 +558,13 @@ void FtpDataModel::updateInitialCellValues()
     }
 }
 
-bool FtpDataModel::isCellDecorated(const QModelIndex &index)
+bool PointScore501DataModel::isCellDecorated(const QModelIndex &index)
 {
     return data(index,Qt::DisplayRole) != "-";
 }
 
 
-int FtpDataModel::indexOfLastDecoratedCell(const int &index,const int &orientation)
+int PointScore501DataModel::indexOfLastDecoratedCell(const int &index,const int &orientation)
 {
     if(orientation == Qt::Vertical)
     {
@@ -602,7 +601,7 @@ int FtpDataModel::indexOfLastDecoratedCell(const int &index,const int &orientati
     }
 }
 
-int FtpDataModel::rowCount(const int &column)
+int PointScore501DataModel::rowCount(const int &column)
 {
     for (int row = 0; row < _data.count(); ++row) {
         auto scoreModels = _data.at(row);
@@ -615,7 +614,7 @@ int FtpDataModel::rowCount(const int &column)
     return rowCount();
 }
 
-bool FtpDataModel::isColumnEmpty(const int &col)
+bool PointScore501DataModel::isColumnEmpty(const int &col)
 {
     if(col < 0 || col >= columnCount())
         throw std::out_of_range("Index out of range");
@@ -629,7 +628,7 @@ bool FtpDataModel::isColumnEmpty(const int &col)
     return true;
 }
 
-bool FtpDataModel::isRowEmpty(const int &row)
+bool PointScore501DataModel::isRowEmpty(const int &row)
 {
     if(row < 0 || row >= rowCount())
         throw std::out_of_range("Index out of range");
@@ -643,7 +642,7 @@ bool FtpDataModel::isRowEmpty(const int &row)
     return true;
 }
 
-QPair<int, int> FtpDataModel::removeData(const QModelIndex &index)
+QPair<int, int> PointScore501DataModel::removeData(const QModelIndex &index)
 {
     if(!index.isValid())
         return scoreModel(-1,-1);
@@ -676,7 +675,7 @@ QPair<int, int> FtpDataModel::removeData(const QModelIndex &index)
     return data;
 }
 
-int FtpDataModel::indexOfHeaderItem(const QString &data, const int &orientation)
+int PointScore501DataModel::indexOfHeaderItem(const QString &data, const int &orientation)
 {
     if(orientation == Qt::Vertical)
     {
@@ -690,110 +689,110 @@ int FtpDataModel::indexOfHeaderItem(const QString &data, const int &orientation)
     }
 }
 
-int FtpDataModel::stringWidth(const QString &string, const QString &family, const int &pointSize) const
+int PointScore501DataModel::stringWidth(const QString &string, const QString &family, const int &pointSize) const
 {
     auto fontMetric = QFontMetrics(QFont(family,pointSize));
     auto r = fontMetric.boundingRect(string).width();
     return r;
 }
 
-int FtpDataModel::headerFontSize() const
+int PointScore501DataModel::headerFontSize() const
 {
     return _headerFontSize;
 }
 
-void FtpDataModel::setHeaderFontSize(int headerFontSize)
+void PointScore501DataModel::setHeaderFontSize(int headerFontSize)
 {
     _headerFontSize = headerFontSize;
 }
 
-QStringList FtpDataModel::getHorizontalHeaderData() const
+QStringList PointScore501DataModel::getHorizontalHeaderData() const
 {
     return _horizontalHeaderData;
 }
 
-void FtpDataModel::setHorizontalHeaderData(const QList<QString> &horizontalHeaderData)
+void PointScore501DataModel::setHorizontalHeaderData(const QList<QString> &horizontalHeaderData)
 {
     _horizontalHeaderData = horizontalHeaderData;
 }
 
-QStringList FtpDataModel::getVerticalHeaderData() const
+QStringList PointScore501DataModel::getVerticalHeaderData() const
 {
     return _verticalHeaderData;
 }
 
-void FtpDataModel::setVerticalHeaderData(const QList<QString> &verticalHeaderData)
+void PointScore501DataModel::setVerticalHeaderData(const QList<QString> &verticalHeaderData)
 {
     _verticalHeaderData = verticalHeaderData;
 }
 
-int FtpDataModel::appendMode() const
+int PointScore501DataModel::appendMode() const
 {
     return _appendMode;
 }
 
-void FtpDataModel::setAppendMode(int appendMode)
+void PointScore501DataModel::setAppendMode(int appendMode)
 {
     _appendMode = appendMode;
 }
 
-QString FtpDataModel::pointFontFamily() const
+QString PointScore501DataModel::pointFontFamily() const
 {
     return _pointFontFamily;
 }
 
-void FtpDataModel::setPointFontFamily(const QString &pointFontFamily)
+void PointScore501DataModel::setPointFontFamily(const QString &pointFontFamily)
 {
     _pointFontFamily = pointFontFamily;
 }
 
-QString FtpDataModel::scoreFontFamily() const
+QString PointScore501DataModel::scoreFontFamily() const
 {
     return _scoreFontFamily;
 }
 
-void FtpDataModel::setScoreFontFamily(const QString &scoreFontFamily)
+void PointScore501DataModel::setScoreFontFamily(const QString &scoreFontFamily)
 {
     _scoreFontFamily = scoreFontFamily;
 }
 
-int FtpDataModel::pointFontSize() const
+int PointScore501DataModel::pointFontSize() const
 {
     return _pointFontSize;
 }
 
-void FtpDataModel::setPointFontSize(int pointFontSize)
+void PointScore501DataModel::setPointFontSize(int pointFontSize)
 {
     _pointFontSize = pointFontSize;
 }
 
-int FtpDataModel::scoreFontSize() const
+int PointScore501DataModel::scoreFontSize() const
 {
     return _scoreFontSize;
 }
 
-void FtpDataModel::setScoreFontSize(int scoreFontSize)
+void PointScore501DataModel::setScoreFontSize(int scoreFontSize)
 {
     _scoreFontSize = scoreFontSize;
 }
 
-int FtpDataModel::initialValue() const
+int PointScore501DataModel::initialValue() const
 {
     return _initialValue;
 }
 
-void FtpDataModel::setInitialValue(int initialValue)
+void PointScore501DataModel::setInitialValue(int initialValue)
 {
     _initialValue = initialValue;
     emit initialValueChanged();
 }
 
-int FtpDataModel::minimumRowCount() const
+int PointScore501DataModel::minimumRowCount() const
 {
     return _minimumRowCount;
 }
 
-void FtpDataModel::setMinimumRowCount(int minimumRowCount)
+void PointScore501DataModel::setMinimumRowCount(int minimumRowCount)
 {
     if(appendMode() == AppendDataMode::SingleAppend)
         return;
@@ -803,12 +802,12 @@ void FtpDataModel::setMinimumRowCount(int minimumRowCount)
         setRowCount(minimumRowCount);
 }
 
-int FtpDataModel::minimumColumnCount() const
+int PointScore501DataModel::minimumColumnCount() const
 {
     return _minimumColumnCount;
 }
 
-void FtpDataModel::setMinimumColumnCount(int minimumColumnCount)
+void PointScore501DataModel::setMinimumColumnCount(int minimumColumnCount)
 {
     if(appendMode() == AppendDataMode::SingleAppend)
         return;
@@ -819,29 +818,29 @@ void FtpDataModel::setMinimumColumnCount(int minimumColumnCount)
     emit minimumColumnCountChanged();
 }
 
-int FtpDataModel::headerOrientation() const
+int PointScore501DataModel::headerOrientation() const
 {
     return _headerOrientation;
 }
 
-void FtpDataModel::setHeaderOrientation(int headerOrientation)
+void PointScore501DataModel::setHeaderOrientation(int headerOrientation)
 {
     _headerOrientation = headerOrientation;
 }
 
-int FtpDataModel::preferedHeaderItemWidth() const
+int PointScore501DataModel::preferedHeaderItemWidth() const
 {
     auto preferedWidth = columnWidthsAt(0);
     return preferedWidth;
 }
 
-void FtpDataModel::setNumberOfAttemps(const int &count)
+void PointScore501DataModel::setNumberOfAttemps(const int &count)
 {
     _attemps = count;
     emit dataChanged(QModelIndex(),QModelIndex());
 }
 
-void FtpDataModel::setColumnCount(const int &count)
+void PointScore501DataModel::setColumnCount(const int &count)
 {
     if(count < 0)
         return;
@@ -858,7 +857,7 @@ void FtpDataModel::setColumnCount(const int &count)
     }
 }
 
-void FtpDataModel::setRowCount(const int &count)
+void PointScore501DataModel::setRowCount(const int &count)
 {
     if(count < 0)
         return;
@@ -876,33 +875,33 @@ void FtpDataModel::setRowCount(const int &count)
     emit minimumRowCountChanged();
 }
 
-double FtpDataModel::scale() const
+double PointScore501DataModel::scale() const
 {
     return _scale;
 }
 
-void FtpDataModel::setScale(double scale)
+void PointScore501DataModel::setScale(double scale)
 {
     _scale = scale;
 }
 
-int FtpDataModel::horizontalHeaderFillMode() const
+int PointScore501DataModel::horizontalHeaderFillMode() const
 {
     return _horizontalFillMode;
 }
 
-int FtpDataModel::verticalHeaderFillMode() const
+int PointScore501DataModel::verticalHeaderFillMode() const
 {
     return _verticalFillMode;
 }
 
-void FtpDataModel::setHorizontalHeaderFillMode(const int &fillMode)
+void PointScore501DataModel::setHorizontalHeaderFillMode(const int &fillMode)
 {
     _horizontalFillMode = fillMode;
     emit fillModeChanged();
 }
 
-void FtpDataModel::setVerticalHeaderFillMode(const int &fillMode)
+void PointScore501DataModel::setVerticalHeaderFillMode(const int &fillMode)
 {
     _verticalFillMode = fillMode;
     emit fillModeChanged();

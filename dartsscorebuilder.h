@@ -2,13 +2,13 @@
 #define SCOREBUILDER_H
 
 #include "IScoreBuilder.h"
-#include "iscoremodel.h"
+#include "idartspointinput.h"
 #include "iscoreparameter.h"
 #include <quuid.h>
 #include "scorebuildercontext.h"
-#include "ftpscore.h"
+#include "dartspointinput.h"
 
-class ScoreBuilder : public IScoreBuilder<IModel<QUuid>,IScoreParameter,SBC::ModelOptions>
+class DartsScoreBuilder : public IScoreBuilder<IModel<QUuid>,SBC::DartsPointParameters,SBC::ModelOptions>
 {
 public:
     enum GameModes {
@@ -18,11 +18,11 @@ public:
         Cricket = 0x4
     };
     // IScoreBuilder interface
-    virtual IFtpScore<QUuid> *buildFTPScoreModel(const IScoreParameter &p,
+    virtual IDartsPointInput<QUuid> *buildDartsPoint(const SBC::DartsPointParameters &p,
                                            const SBC::ModelOptions &options) override
     {
-        auto params = dynamic_cast<const SBC::FtpScoreParameters&>(p);
-        auto t = FTPScore::createInstance()
+        auto params = dynamic_cast<const SBC::DartsPointParameters&>(p);
+        auto t = DartsPointInput::createInstance()
                 ->setRoundIndex(params.roundIndex)
                 ->setSetIndex(params.setIndex)
                 ->setAttempt(params.attempt)

@@ -1,21 +1,21 @@
-#include "ftpscorecontroller.h"
+#include "dartsscorecontroller.h"
 
 
-FTPScoreController *FTPScoreController::createInstance(const int &initialScore,
+DartsScoreController *DartsScoreController::createInstance(const int &initialScore,
                                                        const QUuid &winner)
 {
-    return new FTPScoreController(initialScore,
+    return new DartsScoreController(initialScore,
                                   winner);
 }
 
-void FTPScoreController::addPlayerEntity(const QUuid& id, const QString& name)
+void DartsScoreController::addPlayerEntity(const QUuid& id, const QString& name)
 {
     auto tuple = PlayerTuple(id,name,initialScore());
     _playerTuples.append(tuple);
 }
 
 
-void FTPScoreController::subtractPlayerScore(const QUuid& id, const int& score)
+void DartsScoreController::subtractPlayerScore(const QUuid& id, const int& score)
 {
     auto tuple = tupleAtId(id);
     auto indexOfTuple = indexOf(tuple);
@@ -25,7 +25,7 @@ void FTPScoreController::subtractPlayerScore(const QUuid& id, const int& score)
     replaceTupleAt(indexOfTuple,tuple);
 }
 
-void FTPScoreController::addPlayerScore(const QUuid &id, const int &score)
+void DartsScoreController::addPlayerScore(const QUuid &id, const int &score)
 {
     auto tuple = tupleAtId(id);
     auto indexOfTuple = indexOf(tuple);
@@ -35,21 +35,21 @@ void FTPScoreController::addPlayerScore(const QUuid &id, const int &score)
     replaceTupleAt(indexOfTuple,tuple);
 }
 
-int FTPScoreController::userScore(const int &index) const
+int DartsScoreController::userScore(const int &index) const
 {
     auto tuple = tupleAtIndex(index);
     auto score = tuple.third;
     return score;
 }
 
-int FTPScoreController::userScore(const QUuid &id) const
+int DartsScoreController::userScore(const QUuid &id) const
 {
     auto tuple = tupleAtId(id);
     auto score = tuple.third;
     return score;
 }
 
-void FTPScoreController::setUserScoreAtIndex(const int &index, const int &input)
+void DartsScoreController::setUserScoreAtIndex(const int &index, const int &input)
 {
     auto tuple = tupleAtIndex(index);
     tuple.third = input;
@@ -57,7 +57,7 @@ void FTPScoreController::setUserScoreAtIndex(const int &index, const int &input)
 
 }
 
-void FTPScoreController::setUserScoresFromList(const QVector<int> &list)
+void DartsScoreController::setUserScoresFromList(const QVector<int> &list)
 {
     if(list.count() != playersCount())
         throw INCONSISTENCY_EXCEPTION_MESSAGE;
@@ -68,7 +68,7 @@ void FTPScoreController::setUserScoresFromList(const QVector<int> &list)
     }
 }
 
-void FTPScoreController::setUserScoreAtId(const QUuid &id, const int &input)
+void DartsScoreController::setUserScoreAtId(const QUuid &id, const int &input)
 {
     auto tuple = tupleAtId(id);
     auto index = indexOf(tuple);
@@ -77,21 +77,21 @@ void FTPScoreController::setUserScoreAtId(const QUuid &id, const int &input)
 
 }
 
-QString FTPScoreController::userNameAtIndex(const int &index) const
+QString DartsScoreController::userNameAtIndex(const int &index) const
 {
     auto tuple = tupleAtIndex(index);
     auto name = tuple.second;
     return name;
 }
 
-QString FTPScoreController::userNameFromId(const QUuid &id) const
+QString DartsScoreController::userNameFromId(const QUuid &id) const
 {
     auto tuple = tupleAtId(id);
     auto name = tuple.second;
     return name;
 }
 
-QVector<QString> FTPScoreController::userNames() const
+QVector<QString> DartsScoreController::userNames() const
 {
     QVector<QString> resultingList;
     for (int i = 0; i < playersCount(); ++i) {
@@ -102,42 +102,42 @@ QVector<QString> FTPScoreController::userNames() const
     return resultingList;
 }
 
-QUuid FTPScoreController::userIdAtIndex(const int &index) const
+QUuid DartsScoreController::userIdAtIndex(const int &index) const
 {
     auto tuple = tupleAtIndex(index);
     auto id = tuple.first;
     return id;
 }
 
-int FTPScoreController::playersCount() const
+int DartsScoreController::playersCount() const
 {
     return count();
 }
 
-QUuid FTPScoreController::winnerId() const
+QUuid DartsScoreController::winnerId() const
 {
     return _winner;
 }
 
-ScoreControllerInterface *FTPScoreController::setWinner(const QUuid &id)
+ScoreControllerInterface *DartsScoreController::setWinner(const QUuid &id)
 {
     _winner = id;
     return this;
 }
 
-QString FTPScoreController::winnerUserName() const
+QString DartsScoreController::winnerUserName() const
 {
     auto id = winnerId();
     auto userName = userNameFromId(id);
     return userName;
 }
 
-int FTPScoreController::initialScore() const
+int DartsScoreController::initialScore() const
 {
     return _initialScore;
 }
 
-int FTPScoreController::calculateAccumulatedScoreCandidate(const int &index, const int &score) const
+int DartsScoreController::calculateAccumulatedScoreCandidate(const int &index, const int &score) const
 {
     auto tuple = tupleAtIndex(index);
     auto s = tuple.third;
@@ -145,7 +145,7 @@ int FTPScoreController::calculateAccumulatedScoreCandidate(const int &index, con
     return scoreCandidate;
 }
 
-void FTPScoreController::resetScores()
+void DartsScoreController::resetScores()
 {
     for (int i = 0; i < playersCount(); ++i) {
         auto tuple = tupleAtIndex(i);
@@ -154,14 +154,14 @@ void FTPScoreController::resetScores()
     }
 }
 
-FTPScoreController::FTPScoreController(const int &initialScore,
+DartsScoreController::DartsScoreController(const int &initialScore,
                                        const QUuid &winner)
 {
     _initialScore = initialScore;
     _winner = winner;
 }
 
-FTPScoreController::FTPScoreController::PlayerTuples FTPScoreController::assembleScoreTubble(const QVector<QUuid> &userIds, const QVector<QString> &userNames, const QVector<int> &userScores)
+DartsScoreController::DartsScoreController::PlayerTuples DartsScoreController::assembleScoreTubble(const QVector<QUuid> &userIds, const QVector<QString> &userNames, const QVector<int> &userScores)
 {
     // First check for consistency
     auto userIdsCount = userIds.count();
@@ -180,13 +180,13 @@ FTPScoreController::FTPScoreController::PlayerTuples FTPScoreController::assembl
     return tuples;
 }
 
-FTPScoreController::PlayerTuple FTPScoreController::tupleAtIndex(const int &index) const
+DartsScoreController::PlayerTuple DartsScoreController::tupleAtIndex(const int &index) const
 {
     auto tuple = _playerTuples.at(index);
     return tuple;
 }
 
-FTPScoreController::PlayerTuple FTPScoreController::tupleAtId(const QUuid &id) const{
+DartsScoreController::PlayerTuple DartsScoreController::tupleAtId(const QUuid &id) const{
     for (int i = 0; i < count(); ++i) {
         auto tuple = _playerTuples.at(i);
         auto _id = tuple.first;
@@ -196,7 +196,7 @@ FTPScoreController::PlayerTuple FTPScoreController::tupleAtId(const QUuid &id) c
     return PlayerTuple();
 }
 
-FTPScoreController::PlayerTuple FTPScoreController::tupleAtId(const FTPScoreController::PlayerTuples *_tuples, const QUuid &id)
+DartsScoreController::PlayerTuple DartsScoreController::tupleAtId(const DartsScoreController::PlayerTuples *_tuples, const QUuid &id)
 {
     for (const auto &tuple : *_tuples)
     {
@@ -207,7 +207,7 @@ FTPScoreController::PlayerTuple FTPScoreController::tupleAtId(const FTPScoreCont
     return PlayerTuple();
 }
 
-FTPScoreController::PlayerTuples FTPScoreController::createInitializedTuples()
+DartsScoreController::PlayerTuples DartsScoreController::createInitializedTuples()
 {
     PlayerTuples initializedTuples;
     for (const auto &tuple : _playerTuples)
@@ -220,7 +220,7 @@ FTPScoreController::PlayerTuples FTPScoreController::createInitializedTuples()
     return initializedTuples;
 }
 
-int FTPScoreController::indexOf(const PlayerTuple &tuple)
+int DartsScoreController::indexOf(const PlayerTuple &tuple)
 {
     for (int i = 0; i < count(); ++i) {
         auto t = _playerTuples.at(i);
@@ -230,12 +230,12 @@ int FTPScoreController::indexOf(const PlayerTuple &tuple)
     return -1;
 }
 
-void FTPScoreController::replaceTupleAt(const int &index, const PlayerTuple &tuple)
+void DartsScoreController::replaceTupleAt(const int &index, const PlayerTuple &tuple)
 {
     _playerTuples.replace(index,tuple);
 }
 
-int FTPScoreController::count() const
+int DartsScoreController::count() const
 {
     return _playerTuples.count();
 }

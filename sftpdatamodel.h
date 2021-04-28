@@ -43,7 +43,6 @@ public:
     // public exposed methods
     // Data related
     Q_INVOKABLE bool insertData(const QString &playerName,
-                                const int &point,
                                 const int &score);
     Q_INVOKABLE int editData(const int &row, const int &column, const int &point, const int &score);
     Q_INVOKABLE bool removeLastItem(const QString &playerName);

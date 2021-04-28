@@ -36,7 +36,7 @@ typedef IScoreController<QUuid,
                          QString,
                          QVector<int>,
                          QVector<QString>> ScoreControllerInterface;
-class FTPScoreController : public ScoreControllerInterface
+class DartsScoreController : public ScoreControllerInterface
 {
 public:
     // Tuple : {UserId, UserName, UserScore}
@@ -44,7 +44,7 @@ public:
     typedef QList<PlayerTuple> PlayerTuples;
     typedef QPair<QUuid,QString> PlayerPair;
     typedef QList<PlayerPair> PlayerPairs;
-    static FTPScoreController* createInstance(const int& initialScore,
+    static DartsScoreController* createInstance(const int& initialScore,
                                               const QUuid &winner);
     virtual void addPlayerEntity(const QUuid &id, const QString &name) override;
     virtual void subtractPlayerScore(const QUuid& id, const int &score) override;
@@ -71,7 +71,7 @@ private:
     /*
      * Private constructor
      */
-    FTPScoreController(const int& initialScore,
+    DartsScoreController(const int& initialScore,
                        const QUuid& winner);
 
     PlayerTuples assembleScoreTubble(const QVector<QUuid>& userIds,

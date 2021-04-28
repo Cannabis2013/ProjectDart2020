@@ -7,7 +7,7 @@ template <typename TBaseModel,
 class IScoreBuilder
 {
 public:
-    virtual TBaseModel* buildFTPScoreModel(const TParameters&, const TOptions&) = 0;
+    virtual TBaseModel* buildDartsPoint(const TParameters&, const TOptions&) = 0;
 };
 
 #endif // ISCOREBUILDER_H

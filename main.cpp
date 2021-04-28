@@ -12,7 +12,7 @@
 #include "localplayermodelscontext.h"
 #include "remotemodelscontext.h"
 #include "localmodelscontext.h"
-#include "ftpdatamodel.h"
+#include "pointscore501datamodel.h"
 #include "tournamentbuilder.h"
 #include "playermodelbuilder.h"
 #include "sftpdatamodel.h"
@@ -31,7 +31,7 @@ DartApplication* createDartApplication()
 void registerCustomTypes()
 {
     qmlRegisterType<SFtpDataModel>("CustomItems",1,0,"SFtpDataModel");
-    qmlRegisterType<FtpDataModel>("CustomItems",1,0,"FtpDataModel");
+    qmlRegisterType<PointScore501DataModel>("CustomItems",1,0,"PointScore501DataModel");
     qmlRegisterSingletonType(QUrl("qrc:/ThemeContext.qml"),"customDefinitions",1,0,"ThemeContext");
     qmlRegisterSingletonType(QUrl("qrc:/TournamentContext.qml"),"CustomValues",1,0,"TournamentContext");
     qmlRegisterSingletonType(QUrl("qrc:/DataModelContext.qml"),"CustomValues",1,0,"DataModelContext");

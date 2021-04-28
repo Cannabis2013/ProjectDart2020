@@ -10,7 +10,7 @@
  *  - The datamodel orientation is based on the axis for which player names are listed
  */
 
-class FtpDataModel : public QAbstractTableModel
+class PointScore501DataModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
@@ -21,7 +21,7 @@ public:
     enum AppendDataMode{SingleAppend = 0x4,
                         MultiAppend = 0x8};
     // Constructor
-    FtpDataModel();
+    PointScore501DataModel();
     // Public properties
     // Fonts properties
     Q_PROPERTY(int scoreFontPointSize READ scoreFontSize WRITE setScoreFontSize NOTIFY fontChanged);

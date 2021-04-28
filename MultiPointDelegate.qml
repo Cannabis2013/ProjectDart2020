@@ -3,12 +3,8 @@ import CustomItems 1.0
 
 import "fTPMultiScripts.js" as ScoreScripts
 
-CellDelegate {
+PointScoreRectDelegate {
     id: delegate
-    cellBorderWidth: fTPBody.cellBorderWidth
-    cellColor: fTPBody.scoreCellColor
-    scoreFontSize: fTPBody.scoreFontSize
-    pointFontSize: fTPBody.pointFontSize
     pointDisplayVisible: true
     pointDisplayWidth: 20
     onTextChanged: {
@@ -22,7 +18,7 @@ CellDelegate {
         var n = txt.length;
         var p = txt.substring(0,i);
         var s = txt.substring(i + 1,n);
-        point.text = p;
-        score.text = s;
+        point  = p;
+        score = s;
     }
 }

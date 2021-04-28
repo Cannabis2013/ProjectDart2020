@@ -1,6 +1,6 @@
-#include "scoreftpcontroller.h"
+#include "pointdartscontroller.h"
 
-void ScoreFtpController::start()
+void PointDartsController ::start()
 {
     if(_currentStatus != ControllerState::Initialized &&
             _currentStatus != ControllerState::Stopped)
@@ -12,13 +12,13 @@ void ScoreFtpController::start()
     sendCurrentTurnValues();
 }
 
-void ScoreFtpController::stop()
+void PointDartsController::stop()
 {
     setCurrentStatus(ControllerState::Stopped);
     emit controllerIsStopped();
 }
 
-void ScoreFtpController::handleAndProcessUserInput(const QByteArray& json)
+void PointDartsController::handleAndProcessUserInput(const QByteArray& json)
 {
     auto jsonObject = QJsonDocument::fromJson(json).object();
     auto point = jsonObject.value("Point").toInt();
@@ -26,22 +26,26 @@ void ScoreFtpController::handleAndProcessUserInput(const QByteArray& json)
     // Check for status
     if(isBusy()) return;
     // Calculate score
-    auto score = scoreCalculator()->calculateScore(point,modKeyCode);
+    auto score = scoreCalculator()->calculateScoreFromDartsPoint(point,modKeyCode);
     auto setIndex = indexController()->setIndex();
     auto currentScore = scoreController()->userScore(setIndex);;
     auto accumulatedScore = scoreController()->calculateAccumulatedScoreCandidate(setIndex,score);
     // Evaluate input according to point domain and aggregated sum domain
-    auto domain = scoreEvaluator()->validateInput(accumulatedScore);
+    auto domain = scoreEvaluator()->validateInput(accumulatedScore,modKeyCode,point);
+    /*
+     * - Check domain value
+     * - Add or nullify point
+     */
     processDomain(domain,score,point,modKeyCode,currentScore,accumulatedScore);
 }
 
-void ScoreFtpController::handleRequestForCurrentTournamentMetaData()
+void PointDartsController::handleRequestForCurrentTournamentMetaData()
 {
     auto tournament = this->tournament();
     emit sendCurrentTournamentId(tournament);
 }
 
-void ScoreFtpController::assembleSingleAttemptFtpScores()
+void PointDartsController::assembleSingleAttemptFtpScores()
 {
     auto count = scoreController()->playersCount();
     QJsonObject jsonObject;
@@ -60,13 +64,13 @@ void ScoreFtpController::assembleSingleAttemptFtpScores()
     emit sendSingleAttemptFtpScores(jsonString);
 }
 
-void ScoreFtpController::handleRequestFtpPlayerScores()
+void PointDartsController::handleRequestFtpPlayerScores()
 {
     auto tournamentId = tournament();
     emit requestFtpMultiAttemptScores(tournamentId);
 }
 
-void ScoreFtpController::handleScoreAddedToDataContext(const QByteArray &json)
+void PointDartsController::handleScoreAddedToDataContext(const QByteArray &json)
 {
     auto obj = QJsonDocument::fromJson(json).object();
     auto score = obj.value("scoreValue").toInt();
@@ -80,7 +84,7 @@ void ScoreFtpController::handleScoreAddedToDataContext(const QByteArray &json)
     emit scoreAddedAndPersisted(newJson);
 }
 
-void ScoreFtpController::handleScoreHintUpdated(const QByteArray &json)
+void PointDartsController::handleScoreHintUpdated(const QByteArray &json)
 {
     auto jsonObject = QJsonDocument::fromJson(json).object();
     auto score = jsonObject.value("scoreValue").toInt();
@@ -116,23 +120,23 @@ void ScoreFtpController::handleScoreHintUpdated(const QByteArray &json)
     }
 }
 
-void ScoreFtpController::handleRequestPersistCurrentState()
+void PointDartsController::handleRequestPersistCurrentState()
 {
     emit requestPersistModelState();
 }
 
-ScoreCalculatorInterface *ScoreFtpController::scoreCalculator() const
+ScoreCalculatorInterface *PointDartsController::scoreCalculator() const
 {
     return _scoreCalculatorService;
 }
 
-ScoreFtpController *ScoreFtpController::setScoreCalculator(ScoreCalculatorInterface *service)
+PointDartsController *PointDartsController::setScoreCalculator(ScoreCalculatorInterface *service)
 {
     _scoreCalculatorService = service;
     return this;
 }
 
-void ScoreFtpController::handleResetTournament()
+void PointDartsController::handleResetTournament()
 {
     _currentStatus = ControllerState::resetState;
     _indexController->reset();
@@ -141,7 +145,7 @@ void ScoreFtpController::handleResetTournament()
     emit requestResetTournament(tournamentId);
 }
 
-void ScoreFtpController::sendCurrentTurnValues()
+void PointDartsController::sendCurrentTurnValues()
 {
     auto canUndo = indexController()->canUndo();
     auto canRedo = indexController()->canRedo();
@@ -164,31 +168,31 @@ void ScoreFtpController::sendCurrentTurnValues()
     emit isReadyAndAwaitsInput(data);
 }
 
-QString ScoreFtpController::currentActiveUser()
+QString PointDartsController::currentActiveUser()
 {
     auto index = indexController()->setIndex();
     auto playerName = scoreController()->userNameAtIndex(index);
     return playerName;
 }
 
-QUuid ScoreFtpController::currentActivePlayerId()
+QUuid PointDartsController::currentActivePlayerId()
 {
     auto index = indexController()->setIndex();
     auto playerID = scoreController()->userIdAtIndex(index);
     return playerID;
 }
 
-QUuid ScoreFtpController::tournament()
+QUuid PointDartsController::tournament()
 {
     return _tournament;
 }
 
-int ScoreFtpController::status()
+int PointDartsController::status()
 {
     return _currentStatus;
 }
 
-int ScoreFtpController::lastPlayerIndex()
+int PointDartsController::lastPlayerIndex()
 {
     auto playerCount = scoreController()->playersCount();
     auto lastIndex = playerCount - 1;
@@ -196,7 +200,7 @@ int ScoreFtpController::lastPlayerIndex()
 }
 
 
-QUuid ScoreFtpController::undoTurn()
+QUuid PointDartsController::undoTurn()
 {
     if(status() == ControllerState::WinnerDeclared)
         return QUuid();
@@ -213,7 +217,7 @@ QUuid ScoreFtpController::undoTurn()
     return playerId;
 }
 
-QUuid ScoreFtpController::redoTurn()
+QUuid PointDartsController::redoTurn()
 {
     setCurrentStatus(ControllerState::RedoState);
     auto activeUser = currentActivePlayerId();
@@ -230,7 +234,7 @@ QUuid ScoreFtpController::redoTurn()
     return playerId;
 }
 
-void ScoreFtpController::addPoint(const int& point,
+void PointDartsController::addPoint(const int& point,
                                   const int& score,
                                   const int& accumulatedScore,
                                   const int& keyCode)
@@ -251,10 +255,10 @@ void ScoreFtpController::addPoint(const int& point,
     obj["accumulatedScoreValue"] = accumulatedScore;
     obj["modKeyCode"] = keyCode;
     auto json = QJsonDocument(obj).toJson();
-    emit requestAddFtpScore (json);
+    emit requestAddDartsScore (json);
 }
 
-void ScoreFtpController::handleRequestFromUI()
+void PointDartsController::handleRequestFromUI()
 {
     if(status() == ControllerState::Initialized)
     {
@@ -294,14 +298,14 @@ void ScoreFtpController::handleRequestFromUI()
     }
 }
 
-void ScoreFtpController::nextTurn()
+void PointDartsController::nextTurn()
 {
     indexController()->next();
     setCurrentStatus(ControllerState::AwaitsInput);
     sendCurrentTurnValues();
 }
 
-void ScoreFtpController::declareWinner()
+void PointDartsController::declareWinner()
 {
     auto index = indexController()->setIndex();
     auto currentPlayerId = scoreController()->userIdAtIndex(index);
@@ -309,12 +313,12 @@ void ScoreFtpController::declareWinner()
     setCurrentStatus(ControllerState::WinnerDeclared);
 }
 
-int ScoreFtpController::currentStatus() const
+int PointDartsController::currentStatus() const
 {
     return _currentStatus;
 }
 
-void ScoreFtpController::initializeController(const QByteArray& json)
+void PointDartsController::initializeController(const QByteArray& json)
 {
     auto jsonObject = QJsonDocument::fromJson(json).object();
     auto jsonIndexObject = jsonObject["indexes"].toObject();
@@ -354,7 +358,7 @@ void ScoreFtpController::initializeController(const QByteArray& json)
     emit controllerIsInitialized();
 }
 
-bool ScoreFtpController::isBusy()
+bool PointDartsController::isBusy()
 {
     if(status() == Stopped ||
             status() == WinnerDeclared)
@@ -362,19 +366,24 @@ bool ScoreFtpController::isBusy()
         emit controllerIsStopped();
         return true;
     }
-    if(status() == ControllerState::AddScoreState)
+    else if(status() == ControllerState::AddScoreState)
     {
         return true;
     }
     return false;
 }
 
-void ScoreFtpController::processDomain(const int &domain, const int &score, const int &point, const int &modKeyCode, const int &currentScore, const int &accumulatedScore)
+void PointDartsController::processDomain(const int& domain,
+                                       const int& score,
+                                       const int& point,
+                                       const int& modKeyCode,
+                                       const int& currentScore,
+                                       const int& accumulatedScore)
 {
     switch (domain)
     {
         // In case user enters scores above 180
-    case InputOutOfRange : sendCurrentTurnValues();break;
+        case OutOfRange : sendCurrentTurnValues();break;
         case PointDomain : addPoint(point,score,accumulatedScore,modKeyCode);break;
         case CriticalDomain : addPoint(point,score,accumulatedScore,modKeyCode);break;
         case TargetDomain : {
@@ -386,62 +395,62 @@ void ScoreFtpController::processDomain(const int &domain, const int &score, cons
     }
 }
 
-ScoreController *ScoreFtpController::scoreController() const
+ScoreController *PointDartsController::scoreController() const
 {
     return _scoreController;
 }
 
-ScoreFtpController* ScoreFtpController::setScoreController(ScoreController* scoreController)
+PointDartsController* PointDartsController::setScoreController(ScoreController* scoreController)
 {
     _scoreController = scoreController;
     return this;
 }
 
 
-IndexControllerInterface *ScoreFtpController::indexController() const
+IndexControllerInterface *PointDartsController::indexController() const
 {
     return _indexController;
 }
 
-ScoreFtpController* ScoreFtpController::setIndexController(IndexControllerInterface *indexController)
+PointDartsController* PointDartsController::setIndexController(IndexControllerInterface *indexController)
 {
     _indexController = indexController;
     return this;
 }
 
-IScoreValidator *ScoreFtpController::scoreEvaluator() const
+IPointValidator *PointDartsController::scoreEvaluator() const
 {
     return _scoreEvaluator;
 }
 
-ScoreFtpController *ScoreFtpController::setInputValidator(IScoreValidator *scoreEvaluator)
+PointDartsController *PointDartsController::setInputValidator(IPointValidator *scoreEvaluator)
 {
     _scoreEvaluator = scoreEvaluator;
     return this;
 }
 
-void ScoreFtpController::setCurrentStatus(int currentStatus)
+void PointDartsController::setCurrentStatus(int currentStatus)
 {
     _currentStatus = currentStatus;
 }
 
-ScoreFtpController *ScoreFtpController::createInstance(const QUuid &tournament)
+PointDartsController *PointDartsController::createInstance(const QUuid &tournament)
 {
-    return new ScoreFtpController(tournament);
+    return new PointDartsController(tournament);
 }
 
-FTPLogisticControllerInterface<QString> *ScoreFtpController::pointLogisticInterface() const
+FTPLogisticControllerInterface<QString> *PointDartsController::pointLogisticInterface() const
 {
     return _pointLogisticInterface;
 }
 
-ScoreFtpController *ScoreFtpController::setLogisticInterface(FTPLogisticControllerInterface<QString> *pointLogisticInterface)
+PointDartsController *PointDartsController::setLogisticInterface(FTPLogisticControllerInterface<QString> *pointLogisticInterface)
 {
     _pointLogisticInterface = pointLogisticInterface;
     return this;
 }
 
-void ScoreFtpController::beginInitialize()
+void PointDartsController::beginInitialize()
 {
     auto tournamentId = tournament();
     emit requestFtpIndexesAndScores(tournamentId);

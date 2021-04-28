@@ -12,7 +12,7 @@ AbstractGameController *ControllerBuilder::assembleFTPGameController(const QByte
     auto inputHint = jsonObject.value("inputHint");
     auto winnerStringId = jsonObject.value("winnerId").toString();
     auto winnerId = QUuid::fromString(winnerStringId);
-    AbstractFtpController* controller = nullptr;
+    AbstractDartsController* controller = nullptr;
     if(inputHint == InputModes::PointMode)
     {
         controller = assembleFtpPointBasedController(tournamentId,winnerId,keyPoint,
@@ -37,72 +37,72 @@ void ControllerBuilder::determineTournamentGameMode(const QUuid &tournament, con
         emit requestFTPDetails(tournament);
 }
 
-AbstractFtpController *ControllerBuilder::assembleFtpPointBasedController(const QUuid &tournament,
+AbstractDartsController *ControllerBuilder::assembleFtpPointBasedController(const QUuid &tournament,
                                                                           const QUuid &winnerId,
                                                                           const int &keyPoint,
                                                                           const int &terminalKeyCode,
                                                                           const int &attempts)
 {
-    AbstractFtpController* controller = PointFtpController::createInstance(tournament)
+    AbstractDartsController* controller = PointDartsController::createInstance(tournament)
             ->setLogisticInterface(PointLogisticController::createInstance(attempts,
                                                                            terminalKeyCode))
             ->setScoreCalculator(PointScoreCalculator::createInstance())
             ->setInputValidator(PointValidator::createInstance(terminalKeyCode))
             ->setIndexController(PointIndexController::createInstance(attempts))
-            ->setScoreController(FTPScoreController::createInstance(keyPoint,
+            ->setScoreController(DartsScoreController::createInstance(keyPoint,
                                                                     winnerId));
     return controller;
 }
 
-AbstractFtpController *ControllerBuilder::assembleFtpScoreBasedController(const QUuid &tournament,
+AbstractDartsController *ControllerBuilder::assembleFtpScoreBasedController(const QUuid &tournament,
                                                                           const QUuid &winnerId,
                                                                           const int &keyPoint,
                                                                           const int &terminalKeyCode,
                                                                           const int &attempts)
 {
-    AbstractFtpController* controller = ScoreFtpController::createInstance(tournament)
+    AbstractDartsController* controller = ScoreDartsController::createInstance(tournament)
             ->setLogisticInterface(ScoreLogisticController::createInstance(attempts,terminalKeyCode))
             ->setScoreCalculator(new ScoreCalculator())
             ->setInputValidator(ScoreValidator::createInstance(terminalKeyCode))
             ->setIndexController(ScoreIndexController::createInstance())
-            ->setScoreController(FTPScoreController::createInstance(keyPoint,
+            ->setScoreController(DartsScoreController::createInstance(keyPoint,
                                                                     winnerId));
     return controller;
 }
 
-void ControllerBuilder::connectFTPController(AbstractFtpController *controller, AbstractApplicationInterface *applicationInterface, AbstractModelsContext *modelsContext)
+void ControllerBuilder::connectFTPController(AbstractDartsController *controller, AbstractApplicationInterface *applicationInterface, AbstractModelsContext *modelsContext)
 {
     /*
          * Send tournament metadata
          */
     connect(applicationInterface,&AbstractApplicationInterface::requestCurrentTournamentId,
-            controller,&AbstractFtpController::handleRequestForCurrentTournamentMetaData);
-    connect(controller,&AbstractFtpController::sendCurrentTournamentId,
+            controller,&AbstractDartsController::handleRequestForCurrentTournamentMetaData);
+    connect(controller,&AbstractDartsController::sendCurrentTournamentId,
             modelsContext,&AbstractModelsContext::assembleFtpMetaDataFromId);
     /*
          * Controller requests indexes and playerscores
          */
-    connect(controller,&AbstractFtpController::requestFtpIndexesAndScores,
+    connect(controller,&AbstractDartsController::requestFtpIndexesAndScores,
             modelsContext,&AbstractModelsContext::assembleFtpIndexesAndScores);
     connect(modelsContext,&AbstractModelsContext::sendFtpIndexesAndScoreEntities,
-            controller,&AbstractFtpController::initializeController);
+            controller,&AbstractDartsController::initializeController);
     /*
          * Controller requests transmitting multithrow playerscores
          */
     connect(applicationInterface,&AbstractApplicationInterface::requestFtpMultiAttemptScores,
-            controller,&AbstractFtpController::handleRequestFtpPlayerScores);
-    connect(controller,&AbstractFtpController::requestFtpMultiAttemptScores,
+            controller,&AbstractDartsController::handleRequestFtpPlayerScores);
+    connect(controller,&AbstractDartsController::requestFtpMultiAttemptScores,
             modelsContext,&AbstractModelsContext::handleRequestFtpScores);
     connect(modelsContext,&AbstractModelsContext::sendFtpMultiScores,
-            controller,&AbstractFtpController::sendMultiAttemptFtpScores);
-    connect(controller,&AbstractFtpController::sendMultiAttemptFtpScores,
+            controller,&AbstractDartsController::sendMultiAttemptFtpScores);
+    connect(controller,&AbstractDartsController::sendMultiAttemptFtpScores,
             applicationInterface,&AbstractApplicationInterface::sendAssembledMultiFtpScores);
     /*
          * Controller requests transmitting singlethrow playerscores
          */
     connect(applicationInterface,&AbstractApplicationInterface::requestSingleThrowPlayerScores,
-            controller,&AbstractFtpController::assembleSingleAttemptFtpScores);
-    connect(controller,&AbstractFtpController::sendSingleAttemptFtpScores,
+            controller,&AbstractDartsController::assembleSingleAttemptFtpScores);
+    connect(controller,&AbstractDartsController::sendSingleAttemptFtpScores,
             applicationInterface,&AbstractApplicationInterface::sendAssembledSingleFtpScores);
     /*
          * Wake up controller
@@ -112,13 +112,13 @@ void ControllerBuilder::connectFTPController(AbstractFtpController *controller, 
     /*
          * Controller needs to inform external context about its state
          */
-    connect(controller,&AbstractFtpController::controllerIsStopped,
+    connect(controller,&AbstractDartsController::controllerIsStopped,
             applicationInterface,&AbstractApplicationInterface::controllerIsStopped);
-    connect(controller,&AbstractFtpController::controllerIsInitialized,
+    connect(controller,&AbstractDartsController::controllerIsInitialized,
             applicationInterface,&AbstractApplicationInterface::controllerIsInitialized);
-    connect(controller,&AbstractFtpController::isReadyAndAwaitsInput,
+    connect(controller,&AbstractDartsController::isReadyAndAwaitsInput,
             applicationInterface,&AbstractApplicationInterface::controllerAwaitsInput);
-    connect(controller,&AbstractFtpController::winnerDeclared,
+    connect(controller,&AbstractDartsController::winnerDeclared,
             applicationInterface,&AbstractApplicationInterface::controllerHasDeclaredAWinner);
     /*
          * Start/stop game
@@ -136,25 +136,25 @@ void ControllerBuilder::connectFTPController(AbstractFtpController *controller, 
             modelsContext,&AbstractModelsContext::resetTournament);
     connect(modelsContext,&AbstractModelsContext::tournamentResetSuccess,
             controller,&AbstractGameController::isReset);
-    connect(controller,&AbstractFtpController::isReset,
+    connect(controller,&AbstractDartsController::isReset,
             applicationInterface,&AbstractApplicationInterface::ftpControllerIsReset);
     /*
          * Add point
          */
     connect(applicationInterface,&AbstractApplicationInterface::sendPoint,
             controller,&AbstractGameController::handleAndProcessUserInput);
-    connect(controller,&AbstractFtpController::requestAddFtpScore,
-            modelsContext,&AbstractModelsContext::addFtpScore);
+    connect(controller,&AbstractDartsController::requestAddDartsScore,
+            modelsContext,&AbstractModelsContext::addDartsPoint);
     connect(modelsContext,&AbstractModelsContext::scoreAddedToDataContext,
             controller,&AbstractGameController::handleScoreAddedToDataContext);
-    connect(controller,&AbstractFtpController::scoreAddedAndPersisted,
+    connect(controller,&AbstractDartsController::scoreAddedAndPersisted,
             applicationInterface,&AbstractApplicationInterface::ftpControllerAddedAndPersistedScore);
     connect(applicationInterface,&AbstractApplicationInterface::requestControllerState,
             controller,&AbstractGameController::handleRequestFromUI);
     /*
          * Controller remove has removed scores
          */
-    connect(controller,&AbstractFtpController::scoreRemoved,
+    connect(controller,&AbstractDartsController::scoreRemoved,
             applicationInterface,&AbstractApplicationInterface::ftpControllerRemovedScore);
     /*
          * Undo/redo
@@ -164,7 +164,7 @@ void ControllerBuilder::connectFTPController(AbstractFtpController *controller, 
     connect(applicationInterface,&AbstractApplicationInterface::requestRedo,
             controller,&AbstractGameController::redoTurn);
     connect(controller,&AbstractGameController::requestSetModelHint,
-            modelsContext,&AbstractModelsContext::setFtpScoreHint);
+            modelsContext,&AbstractModelsContext::set501MultiPointHint);
     connect(modelsContext,&AbstractModelsContext::scoreHintUpdated,
             controller,&AbstractGameController::handleScoreHintUpdated);
 }

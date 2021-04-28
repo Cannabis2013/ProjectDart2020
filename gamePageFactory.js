@@ -17,11 +17,13 @@ function buildDisplayItem(mode)
         console.log("DisplayItem: Something went wrong!");
     return c;
 }
-function buildFtpScoreBoard(inputHint,displayHint,attempts)
+function buildFtpScoreBoard(displayHint,inputHint,attempts)
 {
-    let c = FtpScoreBoardFactory.buildFtpScoreBoard(inputHint,
-                                                    displayHint,
+    let c = FtpScoreBoardFactory.buildFtpScoreBoard(displayHint,
+                                                    inputHint,
                                                     attempts);
+    if(c === undefined)
+        throw "Undefined";
     return c;
 }
 

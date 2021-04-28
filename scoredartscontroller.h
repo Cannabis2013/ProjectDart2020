@@ -20,14 +20,14 @@
 #define UNABLE_TO_ALTER_TURN "Unable to alter turn index";
 
 #include <iostream>
-#include "AbstractFtpController.h"
+#include "AbstractDartsController.h"
 
 
 typedef IScoreController<QUuid, QString,QVector<int>,QVector<QString>> ScoreController;
 
 using namespace std;
 
-class ScoreFtpController : public AbstractFtpController
+class ScoreDartsController : public AbstractDartsController
 {
     Q_OBJECT
 public:
@@ -62,28 +62,28 @@ public:
         IsProcessingUserInput = 0x46
     };
     // Create instance of LocalFTPController
-    static ScoreFtpController* createInstance(const QUuid &tournament);
+    static ScoreDartsController* createInstance(const QUuid &tournament);
     /*
      * Get/set score calculator service
      */
     ScoreCalculatorInterface* scoreCalculator() const;
-    ScoreFtpController *setScoreCalculator(ScoreCalculatorInterface *service);
+    ScoreDartsController *setScoreCalculator(ScoreCalculatorInterface *service);
     /*
      * Get/set evaluator service
      */
     IScoreValidator *scoreEvaluator() const;
-    ScoreFtpController *setInputValidator(IScoreValidator *scoreEvaluator);
+    ScoreDartsController *setInputValidator(IScoreValidator *scoreEvaluator);
 
     IndexControllerInterface *indexController() const;
-    ScoreFtpController *setIndexController(IndexControllerInterface *indexController);
+    ScoreDartsController *setIndexController(IndexControllerInterface *indexController);
 
     ScoreController* scoreController() const;
-    ScoreFtpController *setScoreController(ScoreController *scoreController);
+    ScoreDartsController *setScoreController(ScoreController *scoreController);
     /*
      * Point suggestion section
      */
     FTPLogisticControllerInterface<QString> *pointLogisticInterface() const;
-    ScoreFtpController *setLogisticInterface(FTPLogisticControllerInterface<QString> *pointLogisticInterface);
+    ScoreDartsController *setLogisticInterface(FTPLogisticControllerInterface<QString> *pointLogisticInterface);
 public slots:
     /*
      * Handle wake up request
@@ -146,7 +146,7 @@ private:
     /*
      * Private constructor
      */
-    ScoreFtpController(const QUuid &tournament)
+    ScoreDartsController(const QUuid &tournament)
     {
         _tournament = tournament;
     }
@@ -155,7 +155,6 @@ private:
      */
     bool isBusy();
     void processDomain(const int& domain, const int &score,
-                       const int& point,
                        const int& modKeyCode,
                        const int &currentScore,
                        const int& accumulatedScore);
@@ -172,8 +171,7 @@ private:
     /*
      * Update datacontext
      */
-    void addPoint(const int &point,
-                  const int &score,
+    void addPoint(const int &score,
                   const int &accumulatedScore,
                   const int &keyCode);
     /*

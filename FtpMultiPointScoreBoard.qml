@@ -6,6 +6,9 @@ import "fTPMultiScripts.js" as ScoreScripts
 ScoreBoard {
     id: fTPBody
     // Data related
+    signal setData(string playerName, int point, int score, int keyCode)
+    signal takeData(int row, int column,string playerName)
+    signal editData(int row, int column,int point,int score)
     onSetData: ScoreScripts.setData(playerName,point,score)
     onTakeData: ScoreScripts.takeData(playerName)
     onEditData: ScoreScripts.editData(row,column,point,score)
@@ -30,7 +33,7 @@ ScoreBoard {
     // Header related
     horizontalHeaderFontSize: 24
     verticalHeaderVisible: true
-    onAppendHeaderData: ScoreScripts.addHeaderData(data)
+    onAppendHeaderData: ScoreScripts.addHeaderData(data,defaultVal)
 
     property int headerFontSize: 24
     onHeaderFontSizeChanged: fTPModel.headerFontSize = fTPBody.headerFontSize
@@ -78,7 +81,7 @@ ScoreBoard {
         return fTPModel.rowHeightAt(row);
     }
 
-    model: FtpDataModel {
+    model: PointScore501DataModel {
         id: fTPModel
         onDataChanged: ScoreScripts.updateScoreBoard();
         attempts: fTPBody.attempts
@@ -92,8 +95,12 @@ ScoreBoard {
         scale: fTPBody.modelScale
     }
 
-    cellDelegate: MultiScoreDelegate {
+    cellDelegate: MultiPointDelegate {
         id: delegate
         text: display
+        cellBorderWidth: fTPBody.cellBorderWidth
+        cellColor: fTPBody.scoreCellColor
+        scoreFontSize: fTPBody.scoreFontSize
+        pointFontSize: fTPBody.pointFontSize
     }
 }

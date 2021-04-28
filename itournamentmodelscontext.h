@@ -4,10 +4,10 @@
 #include <quuid.h>
 #include "persistenceinterface.h"
 
-class TournamentModelsContextInterface
+class ITournamentModelsContext
 {
 public:
-    virtual ~TournamentModelsContextInterface()= default;
+    virtual ~ITournamentModelsContext()= default;
     /*
      * Tournament related section
      */
@@ -40,14 +40,13 @@ public:
     /*
      * Scores related section
      */
-    virtual void addFTPScore(const QUuid &tournament,
+    virtual void addDartsPoint(const QUuid &tournament,
                              const QUuid &player,
                              const int &roundIndex,
                              const int &setIndex,
                              const int &attemptIndex,
                              const int &point,
                              const int &score,
-                             const int& accumulatedScore,
                              const int &keyCode,
                              const bool &isWinnerDetermined) = 0;
     virtual QUuid ftpScore(const QUuid &tournament,
@@ -66,7 +65,7 @@ public:
     virtual QList<QUuid> ftpScoreIds(const int &hint,const QUuid &tournament) = 0;
     virtual QList<QUuid> playerScores(const QUuid &tournament, const QUuid &player, const int &hint) = 0;
     virtual int ftpScoresCount(const int &hint) = 0;
-    virtual QUuid setScoreHint(const QUuid &point, const int &hint) = 0;
+    virtual QUuid setDartsPointHint(const QUuid &point, const int &hint) = 0;
     virtual QUuid editScore(const QUuid &pointId, const int &value, const int &score,const int &hint) = 0;
     virtual int ftpScoreRoundIndex(const QUuid &) = 0;
     virtual int ftpScoreSetIndex(const QUuid &) = 0;

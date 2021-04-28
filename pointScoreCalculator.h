@@ -20,7 +20,7 @@ public:
     {
         return new PointScoreCalculator();
     }
-    virtual int calculateScore(const int &point, const int &keyCode) const override
+    virtual int calculateScoreFromDartsPoint(const int &point, const int &keyCode) const override
     {
         // Initialize pointmultiplier
         auto pointMultiplier = keyCode == KeyMappings::TrippleModifier ? 3 :

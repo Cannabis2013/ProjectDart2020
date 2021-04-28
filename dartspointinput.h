@@ -3,16 +3,16 @@
 
 #include <quuid.h>
 
-#include "iscoremodel.h"
+#include "idartspointinput.h"
 
-class FTPScore : public IFtpScore<QUuid>
+class DartsPointInput : public IDartsPointInput<QUuid>
 {
 public:
     QUuid id() const override
     {
         return _id;
     }
-    FTPScore* setId(const QUuid &val) override
+    DartsPointInput* setId(const QUuid &val) override
     {
         _id = val;
         return this;
@@ -21,26 +21,17 @@ public:
     {
         return _pointValue;
     }
-    FTPScore* setPointValue(const int &point) override
+    DartsPointInput* setPointValue(const int &point) override
     {
         _pointValue = point;
         return this;
     }
 
-    virtual int accumulatedScore() const override
-    {
-        return _accumulatedScore;
-    }
-    virtual FTPScore *setAccumulatedScore(const int& score) override
-    {
-        _accumulatedScore = score;
-        return this;
-    }
     QUuid parent() const override
     {
         return _tournament;
     }
-    FTPScore* setParent(const QUuid &id) override
+    DartsPointInput* setParent(const QUuid &id) override
     {
         _tournament = id;
         return this;
@@ -49,7 +40,7 @@ public:
     {
         return _player;
     }
-    FTPScore* setPlayer(const QUuid &id) override
+    DartsPointInput* setPlayer(const QUuid &id) override
     {
         _player = id;
         return this;
@@ -58,7 +49,7 @@ public:
     {
         return _attemptIndex;
     }
-    FTPScore* setAttempt(const int &index) override
+    DartsPointInput* setAttempt(const int &index) override
     {
         _attemptIndex = index;
         return this;
@@ -67,7 +58,7 @@ public:
     {
         return _hint;
     }
-    FTPScore* setDisplayHint(const int &hint) override
+    DartsPointInput* setDisplayHint(const int &hint) override
     {
         _hint = hint;
         return this;
@@ -76,7 +67,7 @@ public:
     {
         return _scoreValue;
     }
-    FTPScore* setScoreValue(const int &score) override
+    DartsPointInput* setScoreValue(const int &score) override
     {
         _scoreValue = score;
         return this;
@@ -86,21 +77,21 @@ public:
     {
         return _keyCode;
     }
-    FTPScore* setModKeyCode(const int &key) override
+    DartsPointInput* setModKeyCode(const int &key) override
     {
         _keyCode = key;
         return this;
     }
 
-    static FTPScore* createInstance()
+    static DartsPointInput* createInstance()
     {
-        return new FTPScore();
+        return new DartsPointInput();
     }
     int setIndex() const override
     {
         return _setIndex;
     }
-    FTPScore* setSetIndex(const int &index) override
+    DartsPointInput* setSetIndex(const int &index) override
     {
         _setIndex = index;
         return this;
@@ -110,7 +101,7 @@ public:
     {
         return _roundIndex;
     }
-    FTPScore* setRoundIndex(const int &index) override
+    DartsPointInput* setRoundIndex(const int &index) override
     {
         _roundIndex = index;
         return this;
@@ -120,7 +111,7 @@ public:
     {
         return _tournament;
     }
-    FTPScore* setTournament(const QUuid &tournament)
+    DartsPointInput* setTournament(const QUuid &tournament)
     {
         _tournament = tournament;
         return this;

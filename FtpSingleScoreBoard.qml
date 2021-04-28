@@ -7,6 +7,13 @@ ScoreBoard {
     id: fTPBody
     onWidthChanged: ScoreScripts.updateScoreBoard()
     // Data related
+    signal setData(string playerName, int score)
+    signal takeData(int row, int column,string playerName)
+    signal editData(int row, int column,int score)
+    // Manipulate state such as: add score, takescore, edit score
+    onSetData: ScoreScripts.setData(playerName,score)
+    onTakeData: ScoreScripts.takeData(row,column,playerName)
+    onEditData: ScoreScripts.editData(row,column,point,score)
     onClearData: fTPModel.clearData();
 
     property int attempts: 3
@@ -23,7 +30,7 @@ ScoreBoard {
         {
             var assignedPlayerName = data[i];
             appendHeader(assignedPlayerName,Qt.Horizontal);
-            setData(assignedPlayerName,0,defaultVal,undefined);
+            setData(assignedPlayerName,defaultVal);
         }
     }
     headerOrientation: Qt.Horizontal
@@ -34,10 +41,6 @@ ScoreBoard {
     onNotifyCellPosition: ScoreScripts.setViewPosition(x,y)
 
     onAppendHeader: ScoreScripts.appendHeader(header,orientation)
-    // Manipulate state such as: add score, takescore, edit score
-    onSetData: ScoreScripts.setData(playerName,point,score)
-    onTakeData: ScoreScripts.takeData(row,column,playerName)
-    onEditData: ScoreScripts.editData(row,column,point,score)
 
     QtObject{
         id: cellPositionHolder

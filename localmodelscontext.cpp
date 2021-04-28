@@ -12,7 +12,7 @@ LocalModelsContext *LocalModelsContext::createInstance()
     auto tournamentModelsContext =
             LocalTournamentModelsContext::createInstance()
             ->setTournamentBuilder(new TournamentBuilder())
-            ->setScoreBuilder(new ScoreBuilder)
+            ->setScoreBuilder(new DartsScoreBuilder)
             ->setModelDBContext(dbContext)
             ->setup();
     auto playerModelsContext =
@@ -24,23 +24,23 @@ LocalModelsContext *LocalModelsContext::createInstance()
             ->setTournamentModelsContext(tournamentModelsContext)
             ->setPlayerModelsContext(playerModelsContext);
 }
-TournamentModelsContextInterface* LocalModelsContext::tournamentModelsContext() const
+ITournamentModelsContext* LocalModelsContext::tournamentModelsContext() const
 {
     return _tournamentModelsContext;
 }
 
-LocalModelsContext* LocalModelsContext::setTournamentModelsContext(TournamentModelsContextInterface *tournamentModelsContext)
+LocalModelsContext* LocalModelsContext::setTournamentModelsContext(ITournamentModelsContext *tournamentModelsContext)
 {
     _tournamentModelsContext = tournamentModelsContext;
     return this;
 }
 
-PlayerModelsContextInterface *LocalModelsContext::playerModelsContext() const
+IPlayerModelsContext *LocalModelsContext::playerModelsContext() const
 {
     return _playerModelsContext;
 }
 
-LocalModelsContext* LocalModelsContext::setPlayerModelsContext(PlayerModelsContextInterface *playerModelsContext)
+LocalModelsContext* LocalModelsContext::setPlayerModelsContext(IPlayerModelsContext *playerModelsContext)
 {
     _playerModelsContext = playerModelsContext;
     return this;
@@ -181,7 +181,7 @@ void LocalModelsContext::handleRequestGameMode(const int &index)
     auto gameMode = tournamentModelsContext()->tournamentGameMode(tournamentId);
     emit requestAssembleTournament(tournamentId,gameMode);
 }
-void LocalModelsContext::addFtpScore(const QByteArray &json)
+void LocalModelsContext::addDartsPoint(const QByteArray &json)
 {
     auto jsonObject = QJsonDocument::fromJson(json).object();
     auto tournamentStringId = jsonObject.value("tournamentId").toString();
@@ -193,17 +193,15 @@ void LocalModelsContext::addFtpScore(const QByteArray &json)
     auto attempt = jsonObject.value("attempt").toInt();
     auto point = jsonObject.value("point").toInt();
     auto score = jsonObject.value("scoreValue").toInt();
-    auto accumulatedScore = jsonObject.value("accumulatedScoreValue").toInt();
     auto modKeyCode = jsonObject.value("modKeyCode").toInt();
     auto isWinnerDetermined = jsonObject.value("isWinnerDetermined").toBool();
-    tournamentModelsContext()->addFTPScore(tournamentId,
+    tournamentModelsContext()->addDartsPoint(tournamentId,
                                            currentPlayerId,
                                            roundIndex,
                                            setIndex,
                                            attempt,
                                            point,
                                            score,
-                                           accumulatedScore,
                                            modKeyCode,
                                            isWinnerDetermined);
     auto playerName = playerModelsContext()->playerNameFromId(currentPlayerId);
@@ -213,30 +211,24 @@ void LocalModelsContext::addFtpScore(const QByteArray &json)
     emit scoreAddedToDataContext(newJson);
 }
 
-void LocalModelsContext::setFtpScoreHint(const QUuid &tournament,
-                                         const QUuid &player,
-                                         const int &roundIndex,
-                                         const int &attemptIndex,
-                                         const int &hint)
+void LocalModelsContext::set501MultiPointHint(const QUuid &tournament,
+                                              const QUuid &player,
+                                              const int &roundIndex,
+                                              const int &attemptIndex,
+                                              const int &hint)
 {
-    QUuid scoreId;
-    try {
-        scoreId = tournamentModelsContext()->ftpScore(tournament,
-                                                         player,
-                                                         roundIndex,
-                                                         attemptIndex);
-
-    }  catch (const char *msg) {
-        emit scoreHintNotUpdated(tournament,msg);
+    QUuid scoreId = tournamentModelsContext()->ftpScore(tournament,
+                                                        player,
+                                                        roundIndex,
+                                                        attemptIndex);
+    if(scoreId == QUuid())
+    {
+        emit scoreHintNotUpdated(tournament,"");
         return;
-    } 
-    tournamentModelsContext()->setScoreHint(scoreId,hint);
-    QJsonObject obj;
-    obj["point"] = tournamentModelsContext()->ftpScorePointValue(scoreId);
-    obj["scoreValue"] = tournamentModelsContext()->ftpScoreValue(scoreId);
-    obj["modKeyCode"] = tournamentModelsContext()->scoreKeyCode(scoreId);;
-    obj["playerId"] = player.toString(QUuid::WithoutBraces);
-    auto json = QJsonDocument(obj).toJson();
+    }
+    tournamentModelsContext()->setDartsPointHint(scoreId,hint);
+    auto json = tournament501JsonAssembler()->assembleJsonFromMultiAttemptPoint(scoreId,player,
+                                                                                tournamentModelsContext());
     emit scoreHintUpdated(json);
 }
 
@@ -316,6 +308,16 @@ void LocalModelsContext::handleRequestPlayersDetails()
         list += {playerName,mail};
     }
     emit sendPlayers(list);
+}
+
+ModelsContext::I501JsonAssembler *LocalModelsContext::tournament501JsonAssembler() const
+{
+    return _jsonAssembler;
+}
+
+void LocalModelsContext::setJsonAssembler(ModelsContext::I501JsonAssembler *jsonAssembler)
+{
+    _jsonAssembler = jsonAssembler;
 }
 
 void LocalModelsContext::assembleFtpIndexesAndScores(const QUuid &tournament)

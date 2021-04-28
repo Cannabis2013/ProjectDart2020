@@ -21,14 +21,14 @@
 #define UNABLE_TO_ALTER_TURN "Unable to alter turn index";
 
 #include <iostream>
-#include "AbstractFtpController.h"
+#include "AbstractDartsController.h"
 
 
 typedef IScoreController<QUuid, QString,QVector<int>,QVector<QString>> ScoreController;
 
 using namespace std;
 
-class PointFtpController : public AbstractFtpController
+class PointDartsController : public AbstractDartsController
 {
     Q_OBJECT
 public:
@@ -63,29 +63,29 @@ public:
         IsProcessingUserInput = 0x46
     };
     // Create instance of LocalFTPController
-    static PointFtpController* createInstance(const QUuid &tournament);
+    static PointDartsController* createInstance(const QUuid &tournament);
     /*
      * Get/set score calculator service
      */
     ScoreCalculatorInterface* scoreCalculator() const;
-    PointFtpController *setScoreCalculator(ScoreCalculatorInterface *service);
+    PointDartsController *setScoreCalculator(ScoreCalculatorInterface *service);
     /*
      * Get/set evaluator service
      */
     IPointValidator *scoreEvaluator() const;
-    PointFtpController *setInputValidator(IPointValidator
+    PointDartsController *setInputValidator(IPointValidator
                                           *scoreEvaluator);
 
     IndexControllerInterface *indexController() const;
-    PointFtpController *setIndexController(IndexControllerInterface *indexController);
+    PointDartsController *setIndexController(IndexControllerInterface *indexController);
 
     ScoreController* scoreController() const;
-    PointFtpController *setScoreController(ScoreController *scoreController);
+    PointDartsController *setScoreController(ScoreController *scoreController);
     /*
      * Point suggestion section
      */
     FTPLogisticControllerInterface<QString> *pointLogisticInterface() const;
-    PointFtpController *setLogisticInterface(FTPLogisticControllerInterface<QString> *pointLogisticInterface);
+    PointDartsController *setLogisticInterface(FTPLogisticControllerInterface<QString> *pointLogisticInterface);
 public slots:
     /*
      * Handle wake up request
@@ -148,7 +148,7 @@ private:
     /*
      * Private constructor
      */
-    PointFtpController(const QUuid &tournament)
+    PointDartsController(const QUuid &tournament)
     {
         _tournament = tournament;
     }

@@ -4,11 +4,11 @@
 #include "tournamentbuildercontext.h"
 #include "itournamentbuilder.h"
 
-#include "ftptournament.h"
-#include "ftpscore.h"
+#include "dartstournamentmodel.h"
+#include "dartspointinput.h"
 
 typedef ITournament<QUuid,QVector<QUuid>,QString> TournamentInterface;
-typedef IFtpScore<QUuid> FTPScoreInterface;
+typedef IDartsPointInput<QUuid> FTPScoreInterface;
 
 
 namespace DefaultModelBuilderContext
@@ -33,7 +33,7 @@ public:
                                             const TBC::ModelOptions& options) override
     {
         auto params = dynamic_cast<const TBC::FTPParameters&>(p);
-        auto t = FTPTournament::createInstance()
+        auto t = DartsTournamentModel::createInstance()
                 ->setTitle(params.title)
                 ->setKeyPoint(params.keyPoint)
                 ->setGameMode(params.gameMode)
@@ -54,7 +54,7 @@ public:
                                                 const ITournamentParameter& p,
                                                 const TBC::ModelOptions &options) override
     {
-        auto ftpTournament = dynamic_cast<const FTPTournament*>(tournament);
+        auto ftpTournament = dynamic_cast<const DartsTournamentModel*>(tournament);
         auto params = dynamic_cast<const TBC::FTPParameters&>(p);
         auto title = params.title != "" ? params.title = tournament->title() : ftpTournament->title();
         auto keyPoint = params.keyPoint != -1 ? params.keyPoint : ftpTournament->keyPoint();
@@ -67,7 +67,7 @@ public:
         auto displayHint = params.displayHint != -1 ? params.displayHint : ftpTournament->displayHint();
         auto inputMode = params.inputHint != -1 ? params.inputHint : ftpTournament->inputHint();
         auto winnerId = options.useProvidedId ? params.winner : ftpTournament->winnerId();
-        auto model = FTPTournament::createInstance()
+        auto model = DartsTournamentModel::createInstance()
                 ->setId(ftpTournament->id())
                 ->setTitle(title)
                 ->setKeyPoint(keyPoint)

@@ -8,8 +8,8 @@ function buildFtpComponents(){
       Load and setup ScoreTable
       */
     scoreBoardItemSlot.sourceComponent =
-            GamePageFactory.buildFtpScoreBoard(tournamentMetaData.inputHint,
-                                               tournamentMetaData.displayHint,
+            GamePageFactory.buildFtpScoreBoard(tournamentMetaData.displayHint,
+                                               tournamentMetaData.inputHint,
                                                tournamentMetaData.attempts);
     /*
       Load and setup DisplayKeyDataItem
@@ -33,24 +33,24 @@ function initialize()
     setupFirstToPostScoreTable();
     // Setup window title
     setupWindowTitle();
-    var hint = tournamentMetaData.tournamentTableViewHint;
-    if(hint === DataModelContext.singleAttempt)
-        requestSingleThrowScores();
-    else if(hint === DataModelContext.multiAttempt);
-        configureMultiScoreBoard();
+    // Request initial scores
+    requestScoresFromBackend();
 }
 
 function reinitialize()
 {
-    let keyPoint = tournamentMetaData.tournamentKeyPoint;
-    let names = tournamentMetaData.assignedPlayers;
-    for(var i = 0;i < names.length;i++)
-    {
-        let name = names[i];
-        appendScore(name,0,keyPoint,-1);
-    }
     disconnectFtpInterface();
     buildFtpComponents();
+    requestScoresFromBackend();
+}
+
+function requestScoresFromBackend()
+{
+    var hint = tournamentMetaData.tournamentTableViewHint;
+    if(hint === DataModelContext.singleAttempt)
+        requestSingleThrowScores();
+    else if(hint === DataModelContext.multiAttempt);
+        requestMultiThrowScores();
 }
 
 function setupWindowTitle()
@@ -62,41 +62,30 @@ function setupWindowTitle()
 function connectFtpInterface()
 {
     applicationInterface.ftpControllerRemovedScore.connect(backendRemovedScore);
-    applicationInterface.ftpControllerAddedAndPersistedScore.connect(backendAddedAndPersistedScore);
     applicationInterface.ftpControllerIsReset.connect(reinitialize);
     keyPadInterface().sendInput.connect(handlePointKeyPadInput);
-    gamePageBody.scoreRecieved.connect(scoreBoardItemSlot.item.setData);
-    applicationInterface.sendAssembledMultiFtpScores.connect(recieveFtpMultiAttemptScores);
+    gamePageBody.requestUndo.connect(applicationInterface.handleUndoRequest);
+    gamePageBody.requestRedo.connect(applicationInterface.handleRedoRequest);
     gamePageBody.requestSingleThrowScores.connect(applicationInterface.handleRequestForSingleThrowScoreData);
     gamePageBody.requestMultiThrowScores.connect(applicationInterface.handleRequestForMultiThrowScoreData);
     applicationInterface.sendAssembledSingleFtpScores.connect(recieveFtpSingleAttemptScores);
+    applicationInterface.sendAssembledMultiFtpScores.connect(recieveFtpMultiAttemptScores);
     applicationInterface.controllerAwaitsInput.connect(backendIsReadyAndAwaitsInput);
 }
 function disconnectFtpInterface()
 {
     applicationInterface.ftpControllerRemovedScore.disconnect(backendRemovedScore);
-    applicationInterface.ftpControllerAddedAndPersistedScore.disconnect(backendAddedAndPersistedScore);
+    applicationInterface.ftpControllerAddedAndPersistedScore.disconnect(extractPointScoreFromJson);
+    applicationInterface.ftpControllerAddedAndPersistedScore.disconnect(extractScoreFromJson);
     applicationInterface.ftpControllerIsReset.disconnect(reinitialize);
     keyPadInterface().sendInput.disconnect(handlePointKeyPadInput);
-    gamePageBody.scoreRecieved.disconnect(scoreBoardItemSlot.item.setData);
+    gamePageBody.requestUndo.disconnect(applicationInterface.requestUndo);
+    gamePageBody.requestRedo.disconnect(applicationInterface.requestRedo);
     applicationInterface.sendAssembledMultiFtpScores.disconnect(recieveFtpMultiAttemptScores);
     gamePageBody.requestSingleThrowScores.disconnect(applicationInterface.handleRequestForSingleThrowScoreData);
     gamePageBody.requestMultiThrowScores.disconnect(applicationInterface.handleRequestForMultiThrowScoreData);
     applicationInterface.sendAssembledSingleFtpScores.disconnect(recieveFtpSingleAttemptScores);
     applicationInterface.controllerAwaitsInput.disconnect(backendIsReadyAndAwaitsInput);
-}
-
-function configureMultiScoreBoard()
-{
-    if(tournamentMetaData.inputHint === TournamentContext.pointMode)
-        configurePointScoreBoard();
-    requestMultiThrowScores();
-}
-
-function configurePointScoreBoard()
-{
-    scoreBoardInterface().attempts = tournamentMetaData.attempts;
-    keyPadInterface().sendInput.connect(handlePointKeyPadInput);
 }
 function setupFirstToPostScoreTable()
 {
@@ -158,7 +147,7 @@ function recieveFtpMultiAttemptScores(scores)
         var playerScore = entity["playerAccumulatedScore"];
         var playerPoint = entity["playerPoint"];
         var keyCode = entity["modKeyCode"];
-        gamePageBody.scoreRecieved(playerName,playerPoint,playerScore,keyCode);
+        scoreBoardInterface().setData(playerName,playerScore,playerPoint,keyCode);
     }
     gamePageBody.requestStatusFromBackend();
 }
@@ -173,21 +162,30 @@ function recieveFtpSingleAttemptScores(scores)
         var entity = entities[i];
         var playerName = entity.playerName;
         var playerScore = entity.playerScore;
-        gamePageBody.scoreRecieved(playerName,0,playerScore,-1);
+        scoreBoardInterface().setData(playerName,playerScore);
     }
     gamePageBody.requestStatusFromBackend();
 }
 
-function backendAddedAndPersistedScore(data)
+function extractPointScoreFromJson(data)
 {
     var json = JSON.parse(data);
     let playerName = json["playerName"];
     let pointValue = json["point"];
     let scoreValue = json["accumulatedScoreValue"];
     let keyCode = json["modKeyCode"];
-    appendScore(playerName,pointValue,scoreValue,keyCode);
+    scoreBoardInterface().setData(playerName,pointValue,scoreValue,keyCode);
     requestStatusFromBackend();
 }
+function extractScoreFromJson(data)
+{
+    var json = JSON.parse(data);
+    var playerName = json["playerName"];
+    var scoreValue = json["accumulatedScoreValue"];
+    scoreBoardInterface().setData(playerName,scoreValue);
+    requestStatusFromBackend();
+}
+
 function backendRemovedScore(data)
 {
     var json = JSON.parse(data);
@@ -197,10 +195,7 @@ function backendRemovedScore(data)
     alterScore(playerName,scoreValue,pointValue);
     requestStatusFromBackend();
 }
-function appendScore(player,point,score,keyCode)
-{
-    gamePageBody.scoreRecieved(player,point,score,keyCode);
-}
+
 function alterScore(player,score,point)
 {
     if(tournamentMetaData.tournamentGameMode === TournamentContext.firstToPost)

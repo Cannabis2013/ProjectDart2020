@@ -60,7 +60,7 @@ void RemoteModelsContext::assembleFtpMetaDataFromId(const QUuid &tournamentId)
                             this,SLOT(handleFtpTournamentMetaReply()));
 }
 
-void RemoteModelsContext::addFtpScore(const QByteArray &json)
+void RemoteModelsContext::addDartsPoint(const QByteArray &json)
 {
     auto jsonDocument = QJsonDocument::fromJson(json).object();
     auto winnerStringId = jsonDocument.value("winnerId").toString();
@@ -70,7 +70,7 @@ void RemoteModelsContext::addFtpScore(const QByteArray &json)
 
 }
 
-void RemoteModelsContext::setFtpScoreHint(const QUuid &tournament,
+void RemoteModelsContext::set501MultiPointHint(const QUuid &tournament,
                                           const QUuid &player,
                                           const int &roundIndex,
                                           const int &attemptIndex,

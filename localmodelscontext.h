@@ -6,10 +6,17 @@
 #include "localtournamentmodelscontext.h"
 #include "localplayermodelscontext.h"
 #include "tournamentbuilder.h"
-#include "scorebuilder.h"
+#include "dartsscorebuilder.h"
 #include "playermodelbuilder.h"
 #include "jsondbcontext.h"
+#include "Abstract501JsonAssembler.h"
 
+namespace ModelsContext {
+    typedef Abstract501JsonAssembler<QByteArray,
+                                    ITournamentModelsContext,
+                                    IPlayerModelsContext,
+                                    QUuid> I501JsonAssembler;
+}
 
 class LocalModelsContext : public AbstractModelsContext
 {
@@ -37,11 +44,14 @@ public:
      * Create instance
      */
     static LocalModelsContext* createInstance();
-    TournamentModelsContextInterface* tournamentModelsContext() const;
-    LocalModelsContext *setTournamentModelsContext(TournamentModelsContextInterface* tournamentModelsContext);
+    ITournamentModelsContext* tournamentModelsContext() const;
+    LocalModelsContext *setTournamentModelsContext(ITournamentModelsContext* tournamentModelsContext);
 
-    PlayerModelsContextInterface* playerModelsContext() const;
-    LocalModelsContext *setPlayerModelsContext(PlayerModelsContextInterface *playerModelsContext);
+    IPlayerModelsContext* playerModelsContext() const;
+    LocalModelsContext *setPlayerModelsContext(IPlayerModelsContext *playerModelsContext);
+    ModelsContext::I501JsonAssembler *tournament501JsonAssembler() const;
+    void setJsonAssembler(ModelsContext::I501JsonAssembler *jsonAssembler);
+
 public slots:
     /*
      * General tournaments methods
@@ -73,8 +83,8 @@ public slots:
      *      [3] = Tournament input mode
      */
     void assembleFtpMetaDataFromId(const QUuid& tournament) override;
-    void addFtpScore(const QByteArray& json) override;
-    void setFtpScoreHint(const QUuid &tournament,
+    void addDartsPoint(const QByteArray& json) override;
+    void set501MultiPointHint(const QUuid &tournament,
                                                const QUuid &player,
                                                const int &roundIndex,
                                                const int &attemptIndex,
@@ -97,8 +107,10 @@ public slots:
     void handleRequestPlayersDetails() override;
 
 private:
-    TournamentModelsContextInterface* _tournamentModelsContext;
-    PlayerModelsContextInterface* _playerModelsContext;
+
+    ITournamentModelsContext* _tournamentModelsContext;
+    IPlayerModelsContext* _playerModelsContext;
+    ModelsContext::I501JsonAssembler* _jsonAssembler;
 };
 
 #endif // MODELCONTEXTINTERFACE_H

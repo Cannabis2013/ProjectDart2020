@@ -5,12 +5,11 @@
 #include "iscoreparameter.h"
 // ScoreBuilderCollection
 namespace SBC {
-    class FtpScoreParameters : public IScoreParameter
+    class DartsPointParameters
     {
     public:
         int pointValue;
         int scoreValue;
-        int accumulatedScoreValue;
         int roundIndex;
         int setIndex;
         int attempt;
@@ -19,10 +18,6 @@ namespace SBC {
         QUuid playerId;
         QUuid tournament;
         QUuid id;
-        virtual int parentGameMode() const override
-        {
-            return -1;
-        }
     };
 
     class ModelOptions

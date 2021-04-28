@@ -1,9 +1,9 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
+import "ftpScoreBoardFactory.js" as FtpScoreBoardFactory
 import "gamePageFactory.js" as GamePageFactory
 import "fTPScripts.js" as FirstToPostScripts
 import "gamePageGeneralScripts.js" as GameGeneralScripts
-import "FtpScoreBoardFactory.js" as FtpScoreBoardFactory
 
 /*
   Gamemodes:
@@ -30,7 +30,6 @@ Content {
     signal requestUndo
     signal requestRedo
     signal sendInput(string json)
-    signal scoreRecieved(string playerName, int point, int score, int keyCode)
     signal setupGame()
     onSetupGame: {
         if(tournamentMetaData.tournamentGameMode === 0x1)

@@ -10,7 +10,7 @@ public:
 
     // ScoreCalculatorInterface interface
 public:
-    virtual int calculateScore(const int &point, const int &) const override
+    virtual int calculateScoreFromDartsPoint(const int &point, const int &) const override
     {
         return point;
     }

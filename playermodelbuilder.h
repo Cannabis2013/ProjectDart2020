@@ -2,7 +2,7 @@
 #define LOCALPLAYERBUILDER_H
 
 #include "iplayermodelbuilder.h"
-#include "player.h"
+#include "playermodel.h"
 #include <qstring.h>
 #include "quuid.h"
 
@@ -20,7 +20,7 @@ public:
 public:
     IDefaultPlayerModel *buildPlayerModel(const IPlayerBuilderParameters<QString,QUuid> &params, const IPlayerModelOptions<QUuid> &options) override
     {
-        IDefaultPlayerModel* model = new Player();
+        IDefaultPlayerModel* model = new PlayerModel();
         auto mail = params.eMail() != "" ? params.eMail() : "defaultsucker@mail.com";
         model->setId(QUuid::createUuid());
         model->setUserName(params.playerName());

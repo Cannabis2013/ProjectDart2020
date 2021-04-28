@@ -24,7 +24,7 @@
         <file>PointKeyPadFactory.js</file>
         <file>Content.qml</file>
         <file>CRUDButton.qml</file>
-        <file>CellDelegate.qml</file>
+        <file>PointScoreRectDelegate.qml</file>
         <file>LabelComponent.qml</file>
         <file>ListViewDelegate.qml</file>
         <file>DecoratedItem.qml</file>
@@ -78,9 +78,10 @@
         <file>TournamentListView.qml</file>
         <file>ScoreKeyPadInterface.qml</file>
         <file>SingleScoreDelegate.qml</file>
-        <file>MultiScoreDelegate.qml</file>
+        <file>MultiPointDelegate.qml</file>
         <file>FtpMultiPointScoreBoard.qml</file>
-        <file>FtpScoreBoardFactory.js</file>
+        <file>ftpScoreBoardFactory.js</file>
+        <file>ScoreRectDelegate.qml</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>
