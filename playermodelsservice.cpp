@@ -1,12 +1,12 @@
-#include "localmodelscontext.h"
+#include "playermodelsservice.h"
 
-LocalModelsContext::~LocalModelsContext()
+PlayerModelsService::~PlayerModelsService()
 {
     delete _tournamentModelsContext;
     delete _playerModelsContext;
 }
 
-LocalModelsContext *LocalModelsContext::createInstance()
+PlayerModelsService *PlayerModelsService::createInstance()
 {
     auto dbContext = new JsonDbContext();
     auto tournamentModelsContext =
@@ -20,33 +20,33 @@ LocalModelsContext *LocalModelsContext::createInstance()
             ->setPlayerBuilder(new PlayerModelBuilder())
             ->setModelDBContext(dbContext)
             ->setup();
-    return (new LocalModelsContext)
+    return (new PlayerModelsService)
             ->setTournamentModelsContext(tournamentModelsContext)
             ->setPlayerModelsContext(playerModelsContext);
 }
-ITournamentModelsContext* LocalModelsContext::tournamentModelsContext() const
+ITournamentModelsContext* PlayerModelsService::tournamentModelsContext() const
 {
     return _tournamentModelsContext;
 }
 
-LocalModelsContext* LocalModelsContext::setTournamentModelsContext(ITournamentModelsContext *tournamentModelsContext)
+PlayerModelsService* PlayerModelsService::setTournamentModelsContext(ITournamentModelsContext *tournamentModelsContext)
 {
     _tournamentModelsContext = tournamentModelsContext;
     return this;
 }
 
-IPlayerModelsContext *LocalModelsContext::playerModelsContext() const
+IPlayerModelsContext *PlayerModelsService::playerModelsContext() const
 {
     return _playerModelsContext;
 }
 
-LocalModelsContext* LocalModelsContext::setPlayerModelsContext(IPlayerModelsContext *playerModelsContext)
+PlayerModelsService* PlayerModelsService::setPlayerModelsContext(IPlayerModelsContext *playerModelsContext)
 {
     _playerModelsContext = playerModelsContext;
     return this;
 }
 
-void LocalModelsContext::addFTPTournament(const QByteArray& json)
+void PlayerModelsService::addFTPTournament(const QByteArray& json)
 {
     auto jsonObject = QJsonDocument::fromJson(json).object();
     // Extract player-indexes
@@ -78,14 +78,14 @@ void LocalModelsContext::addFTPTournament(const QByteArray& json)
 
 }
 
-void LocalModelsContext::assignPlayersToTournament(const QUuid &tournament,
+void PlayerModelsService::assignPlayersToTournament(const QUuid &tournament,
                                                              const QList<QUuid> &playersID)
 {
     for (auto playerID : playersID)
         tournamentModelsContext()->tournamentAssignPlayer(tournament,playerID);
 }
 
-void LocalModelsContext::deleteTournaments(const QByteArray& json)
+void PlayerModelsService::deleteTournaments(const QByteArray& json)
 {
     QVector<int> indexes;
     auto obj = QJsonDocument::fromJson(json).object();
@@ -98,7 +98,7 @@ void LocalModelsContext::deleteTournaments(const QByteArray& json)
     emit tournamentsDeletedStatus(status);
 }
 
-void LocalModelsContext::handleRequestFtpScores(const QUuid &tournament)
+void PlayerModelsService::handleRequestFtpScores(const QUuid &tournament)
 {
     QJsonObject jsonData;
     QJsonArray jsonEntities;
@@ -154,7 +154,7 @@ void LocalModelsContext::handleRequestFtpScores(const QUuid &tournament)
     emit sendFtpMultiScores(jsonString);
 }
 
-void LocalModelsContext::handleRequestTournaments()
+void PlayerModelsService::handleRequestTournaments()
 {
     QVariantList tournaments;
     auto count = tournamentModelsContext()->tournamentsCount();
@@ -170,7 +170,7 @@ void LocalModelsContext::handleRequestTournaments()
     emit sendTournaments(tournaments);
 }
 
-void LocalModelsContext::handleRequestGameMode(const int &index)
+void PlayerModelsService::handleRequestGameMode(const int &index)
 {
     QUuid tournamentId;
     try {
@@ -181,7 +181,7 @@ void LocalModelsContext::handleRequestGameMode(const int &index)
     auto gameMode = tournamentModelsContext()->tournamentGameMode(tournamentId);
     emit requestAssembleTournament(tournamentId,gameMode);
 }
-void LocalModelsContext::addDartsPoint(const QByteArray &json)
+void PlayerModelsService::addDartsPoint(const QByteArray &json)
 {
     auto jsonObject = QJsonDocument::fromJson(json).object();
     auto tournamentStringId = jsonObject.value("tournamentId").toString();
@@ -211,7 +211,7 @@ void LocalModelsContext::addDartsPoint(const QByteArray &json)
     emit scoreAddedToDataContext(newJson);
 }
 
-void LocalModelsContext::set501MultiPointHint(const QUuid &tournament,
+void PlayerModelsService::set501MultiPointHint(const QUuid &tournament,
                                               const QUuid &player,
                                               const int &roundIndex,
                                               const int &attemptIndex,
@@ -232,7 +232,7 @@ void LocalModelsContext::set501MultiPointHint(const QUuid &tournament,
     emit scoreHintUpdated(json);
 }
 
-void LocalModelsContext::resetTournament(const QUuid &tournament)
+void PlayerModelsService::resetTournament(const QUuid &tournament)
 {
     /*
      * - Remove models associated to the tournament
@@ -243,7 +243,7 @@ void LocalModelsContext::resetTournament(const QUuid &tournament)
     emit tournamentResetSuccess();
 }
 
-void LocalModelsContext::assembleFtpKeyValues(const QUuid &tournamentId)
+void PlayerModelsService::assembleFtpKeyValues(const QUuid &tournamentId)
 {
     QJsonObject obj;
     obj["tournamentId"] = tournamentId.toString(QUuid::WithoutBraces);
@@ -258,7 +258,7 @@ void LocalModelsContext::assembleFtpKeyValues(const QUuid &tournamentId)
     emit sendTournamentFtpDetails(json);
 }
 
-void LocalModelsContext::createPlayer(const QByteArray &json)
+void PlayerModelsService::createPlayer(const QByteArray &json)
 {
     auto document = QJsonDocument::fromJson(json);
     auto jsonObject = document.object();
@@ -277,7 +277,7 @@ void LocalModelsContext::createPlayer(const QByteArray &json)
     emit createPlayerResponse(false);
 }
 
-void LocalModelsContext::deletePlayerFromIndex(const QByteArray &json)
+void PlayerModelsService::deletePlayerFromIndex(const QByteArray &json)
 {
     auto jsonObject = QJsonDocument::fromJson(json).object();
     auto index = jsonObject.value("index").toInt();
@@ -285,7 +285,7 @@ void LocalModelsContext::deletePlayerFromIndex(const QByteArray &json)
     emit playersDeletedStatus(status);
 }
 
-void LocalModelsContext::deletePlayersFromIndexes(const QByteArray &json)
+void PlayerModelsService::deletePlayersFromIndexes(const QByteArray &json)
 {
     auto jsonArray = QJsonDocument::fromJson(json).array();
     QVector<int> indexes;
@@ -297,7 +297,7 @@ void LocalModelsContext::deletePlayersFromIndexes(const QByteArray &json)
     emit playersDeletedStatus(status);
 }
 
-void LocalModelsContext::handleRequestPlayersDetails()
+void PlayerModelsService::handleRequestPlayersDetails()
 {
     auto count = playerModelsContext()->playersCount();
     QVariantList list;
@@ -310,17 +310,17 @@ void LocalModelsContext::handleRequestPlayersDetails()
     emit sendPlayers(list);
 }
 
-ModelsContext::I501JsonAssembler *LocalModelsContext::tournament501JsonAssembler() const
+ModelsContext::I501JsonAssembler *PlayerModelsService::tournament501JsonAssembler() const
 {
     return _jsonAssembler;
 }
 
-void LocalModelsContext::setJsonAssembler(ModelsContext::I501JsonAssembler *jsonAssembler)
+void PlayerModelsService::setJsonAssembler(ModelsContext::I501JsonAssembler *jsonAssembler)
 {
     _jsonAssembler = jsonAssembler;
 }
 
-void LocalModelsContext::assembleFtpIndexesAndScores(const QUuid &tournament)
+void PlayerModelsService::assembleFtpIndexesAndScores(const QUuid &tournament)
 {
     auto indexes = tournamentModelsContext()->indexes(tournament);
     auto playerIds = tournamentModelsContext()->tournamentAssignedPlayers(tournament);
@@ -357,7 +357,7 @@ void LocalModelsContext::assembleFtpIndexesAndScores(const QUuid &tournament)
     emit sendFtpIndexesAndScoreEntities(json);
 }
 
-void LocalModelsContext::assembleFtpMetaDataFromId(const QUuid &tournament)
+void PlayerModelsService::assembleFtpMetaDataFromId(const QUuid &tournament)
 {
     auto title = tournamentModelsContext()->tournamentTitle(tournament);
     // Get winner name from id, if any

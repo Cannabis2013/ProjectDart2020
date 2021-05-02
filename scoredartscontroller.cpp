@@ -30,7 +30,7 @@ void ScoreDartsController::handleAndProcessUserInput(const QByteArray& json)
     auto accumulatedScore = scoreController()->calculateAccumulatedScoreCandidate(setIndex,score);
     // Evaluate input according to point domain and aggregated sum domain
     auto domain = scoreEvaluator()->validateInput(accumulatedScore);
-    processDomain(domain,score,point,modKeyCode,currentScore,accumulatedScore);
+    processDomain(domain,score,currentScore,accumulatedScore);
 }
 
 void ScoreDartsController::handleRequestForCurrentTournamentMetaData()
@@ -229,8 +229,7 @@ QUuid ScoreDartsController::redoTurn()
 }
 
 void ScoreDartsController::addPoint(const int& score,
-                                  const int& accumulatedScore,
-                                  const int& keyCode)
+                                  const int& accumulatedScore)
 {
     // Set controller state, unless winner declared
     if(currentStatus() != ControllerState::WinnerDeclared)
@@ -245,7 +244,6 @@ void ScoreDartsController::addPoint(const int& score,
     obj["playerId"] = currentPlayerId;
     obj["scoreValue"] = score;
     obj["accumulatedScoreValue"] = accumulatedScore;
-    obj["modKeyCode"] = keyCode;
     auto json = QJsonDocument(obj).toJson();
     emit requestAddDartsScore (json);
 }
@@ -365,20 +363,23 @@ bool ScoreDartsController::isBusy()
     return false;
 }
 
-void ScoreDartsController::processDomain(const int &domain, const int &score, const int &modKeyCode, const int &currentScore, const int &accumulatedScore)
+void ScoreDartsController::processDomain(const int &domain,
+                                         const int &score,
+                                         const int &currentScore,
+                                         const int &accumulatedScore)
 {
     switch (domain)
     {
         // In case user enters scores above 180
     case InputOutOfRange : sendCurrentTurnValues();break;
-        case PointDomain : addPoint(point,score,accumulatedScore,modKeyCode);break;
-        case CriticalDomain : addPoint(point,score,accumulatedScore,modKeyCode);break;
+        case PointDomain : addPoint(score,accumulatedScore);break;
+        case CriticalDomain : addPoint(score,accumulatedScore);break;
         case TargetDomain : {
             declareWinner();
-            addPoint(point,score,accumulatedScore,modKeyCode);
+            addPoint(score,accumulatedScore);
             break;
         }
-        case OutsideDomain : addPoint(0,0,currentScore,modKeyCode);break;
+        case OutsideDomain : addPoint(0,currentScore);break;
     }
 }
 

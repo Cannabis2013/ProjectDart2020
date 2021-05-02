@@ -27,11 +27,11 @@ public:
         return this;
     }
 
-    QUuid parent() const override
+    QUuid tournamentId() const override
     {
         return _tournament;
     }
-    DartsPointInput* setParent(const QUuid &id) override
+    DartsPointInput* setTournamentId(const QUuid &id) override
     {
         _tournament = id;
         return this;
@@ -120,7 +120,6 @@ public:
 private:
     int _pointValue;
     int _scoreValue;
-    int _accumulatedScore;
     int _roundIndex;
     int _setIndex;
     int _attemptIndex;

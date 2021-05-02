@@ -27,7 +27,7 @@ QVector<const IModel<QUuid>*> DartsTournamentJsonExtractor::extractDartsTourname
             auto playerId = QUuid::fromString(stringID);
             assignedPlayerIds << playerId;
         }
-        auto tournamentModel = DartsTournamentModel::createInstance()
+        auto tournamentModel = DartsTournament::createInstance()
                 ->setId(tournamentId)
                 ->setTitle(title)
                 ->setKeyPoint(keyPoint)
@@ -35,7 +35,7 @@ QVector<const IModel<QUuid>*> DartsTournamentJsonExtractor::extractDartsTourname
                 ->setInputMode(inputMode)
                 ->setGameMode(gameMode)
                 ->setAttempts(attempts)
-                ->setWinner(winnerId)
+                ->setWinnerId(winnerId)
                 ->setTerminalKeyCode(terminalKeyCode)
                 ->setAssignedPlayerIdentities(assignedPlayerIds);
         dartsTournaments << tournamentModel;

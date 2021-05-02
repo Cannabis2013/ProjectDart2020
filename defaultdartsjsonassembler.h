@@ -1,14 +1,14 @@
 #ifndef DEFAULT501JSONASSEMBLER_H
 #define DEFAULT501JSONASSEMBLER_H
 
-#include "Abstract501JsonAssembler.h"
+#include "abstractdartsjsonassembler.h"
 #include <qbytearray.h>
 #include "itournamentmodelscontext.h"
 #include "iplayermodelscontext.h"
 #include <qjsonobject.h>
 #include <qjsondocument.h>
 #include <quuid.h>
-class Default501JsonAssembler : public Abstract501JsonAssembler<
+class DefaultDartsJsonAssembler : public AbstractDartsJsonAssembler<
         QByteArray, ITournamentModelsContext,IPlayerModelsContext,QUuid>
 {
     // Abstract501JsonAssembler interface

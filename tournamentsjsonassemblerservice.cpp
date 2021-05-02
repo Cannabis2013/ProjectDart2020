@@ -5,7 +5,7 @@ QJsonArray TournamentsJSonAssemblerService::assembleDartsTournamentsFromModels(c
     QJsonArray tournamentsJSON;
     for (auto i = models.begin();i != models.end();i++) {
         auto model = *i;
-        auto tournament = dynamic_cast<const IDartsTournament<QUuid,QVector<QUuid>,QString>*>(model);
+        auto tournament = dynamic_cast<const IDartsTournament<QUuid,QString>*>(model);
         auto obj = assembleJsonObjectFromDartsTournamentModel(tournament);
         auto players = tournament->assignedPlayerIdentities();
         obj["Players"] = assembleJsonArrayFromTournamentPlayerIds(players);
@@ -14,7 +14,7 @@ QJsonArray TournamentsJSonAssemblerService::assembleDartsTournamentsFromModels(c
     return tournamentsJSON;
 }
 
-QJsonObject TournamentsJSonAssemblerService::assembleJsonObjectFromDartsTournamentModel(const IDartsTournament<QUuid, QVector<QUuid>, QString> *model)
+QJsonObject TournamentsJSonAssemblerService::assembleJsonObjectFromDartsTournamentModel(const IDartsTournament<QUuid,QString> *model)
 {
     QJsonObject obj;
     obj["Id"] = model->id().toString();
@@ -39,5 +39,5 @@ QJsonArray TournamentsJSonAssemblerService::assembleJsonArrayFromTournamentPlaye
         playerObj["ID"] = playerID;
         jsonArray << playerObj;
     }
-    return jsonArray:
+    return jsonArray;
 }

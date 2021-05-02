@@ -7,14 +7,14 @@
 #include <qjsonobject.h>
 #include <qvector.h>
 #include <imodel.h>
-#include <dartstournamentmodel.h>
+#include <dartstournament.h>
 
 class TournamentsJSonAssemblerService : public IDartsTournamentsJsonAssemblerService<QJsonArray,QVector<const IModel<QUuid>*>>
 {
 public:
     QJsonArray assembleDartsTournamentsFromModels(const QVector<const IModel<QUuid>*>& models) override;
 private:
-    QJsonObject assembleJsonObjectFromDartsTournamentModel(const IDartsTournament<QUuid,QVector<QUuid>,QString>* model);
+    QJsonObject assembleJsonObjectFromDartsTournamentModel(const IDartsTournament<QUuid,QString>* model);
     QJsonArray assembleJsonArrayFromTournamentPlayerIds(const QVector<QUuid>& players);
 };
 

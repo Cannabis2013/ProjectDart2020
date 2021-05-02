@@ -20,7 +20,7 @@
 #define UNABLE_TO_ALTER_TURN "Unable to alter turn index";
 
 #include <iostream>
-#include "AbstractDartsController.h"
+#include "abstractdartscontroller.h"
 
 
 typedef IScoreController<QUuid, QString,QVector<int>,QVector<QString>> ScoreController;
@@ -155,7 +155,6 @@ private:
      */
     bool isBusy();
     void processDomain(const int& domain, const int &score,
-                       const int& modKeyCode,
                        const int &currentScore,
                        const int& accumulatedScore);
     /*
@@ -172,8 +171,7 @@ private:
      * Update datacontext
      */
     void addPoint(const int &score,
-                  const int &accumulatedScore,
-                  const int &keyCode);
+                  const int &accumulatedScore);
     /*
      * Index manipulating methods
      */

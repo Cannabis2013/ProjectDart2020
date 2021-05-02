@@ -11,8 +11,8 @@
 #include "localtournamentmodelscontext.h"
 #include "localplayermodelscontext.h"
 #include "remotemodelscontext.h"
-#include "localmodelscontext.h"
-#include "pointscore501datamodel.h"
+#include "playermodelsservice.h"
+#include "dartsmultidatamodel.h"
 #include "tournamentbuilder.h"
 #include "playermodelbuilder.h"
 #include "sftpdatamodel.h"
@@ -21,7 +21,7 @@ DartApplication* createDartApplication()
 {
     auto _dart =
             DartApplication::createInstance()->
-            setModelsContextInterface(LocalModelsContext::createInstance())->
+            setModelsContextInterface(PlayerModelsService::createInstance())->
             setControllerBuilder(new ControllerBuilder())->
             /*useThreads()->*/
             setup();
@@ -31,7 +31,7 @@ DartApplication* createDartApplication()
 void registerCustomTypes()
 {
     qmlRegisterType<SFtpDataModel>("CustomItems",1,0,"SFtpDataModel");
-    qmlRegisterType<PointScore501DataModel>("CustomItems",1,0,"PointScore501DataModel");
+    qmlRegisterType<DartsMultiDataModel>("CustomItems",1,0,"DartsMultiDatamodel");
     qmlRegisterSingletonType(QUrl("qrc:/ThemeContext.qml"),"customDefinitions",1,0,"ThemeContext");
     qmlRegisterSingletonType(QUrl("qrc:/TournamentContext.qml"),"CustomValues",1,0,"TournamentContext");
     qmlRegisterSingletonType(QUrl("qrc:/DataModelContext.qml"),"CustomValues",1,0,"DataModelContext");

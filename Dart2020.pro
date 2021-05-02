@@ -14,33 +14,34 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+            assembledartstournamentmodelfromjson.cpp\
             abstractjsonpersistence.cpp \
             controllerbuilder.cpp \
             dartapplication.cpp \
-    dartsinputjsonassembler.cpp \
-    dartsinputjsonextractor.cpp \
-    dartsscorecontroller.cpp \
-    dartstournamentjsonextractor.cpp \
+            dartsinputjsonassembler.cpp \
+            dartsinputjsonextractor.cpp \
+            dartsmultidatamodel.cpp \
+            dartsscorecontroller.cpp \
+            dartstournamentjsonextractor.cpp \
             iurlparser.cpp \
             jsondbcontext.cpp \
             localcricketcontroller.cpp \
-            localmodelscontext.cpp \
             localplayermodelscontext.cpp \
             localtournamentmodelscontext.cpp \
             main.cpp \
             networkmanager.cpp \
-    playerjsonassembler.cpp \
-    playermodeljsonextractor.cpp \
-    pointdartscontroller.cpp \
+            playerjsonassembler.cpp \
+            playermodeljsonextractor.cpp \
+    playermodelsservice.cpp \
+            pointdartscontroller.cpp \
             pointlogisticcontroller.cpp \
-    pointscore501datamodel.cpp \
             remotemodelscontext.cpp \
-    scoredartscontroller.cpp \
+            scoredartscontroller.cpp \
             scoreindexcontroller.cpp \
             scorelogisticcontroller.cpp \
             sftpdatamodel.cpp \
-    tournamentsjsonassembler.cpp \
-    tournamentsjsonassemblerservice.cpp \
+            tournamentsjsonassembler.cpp \
+            tournamentsjsonassemblerservice.cpp \
             tst_Dart2020.cpp \
             urlparser.cpp \
 
@@ -61,10 +62,18 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-            Abstract501JsonAssembler.h \
+            assembledartsscorefromjson.h\
+            playermodelsservice.h \
+            scoresjsonassemblerservice.h\
+            scorejsonassemblerservice.h\
+            assembledartstournamentmodelfromjson.h\
+            abstractdartscontroller.h \
+            abstractdartsjsonassembler.h \
+            dartsmultidatamodel.h \
+            defaultdartsjsonassembler.h \
+            ibinary.h \
+            iunary.h\
             AbstractApplicationInterface.h \
-            AbstractDartsController.h \
-            Default501JsonAssembler.h \
             IControllerBuilder.h \
             IScoreBuilder.h \
             LinkedList.h \
@@ -120,7 +129,6 @@ HEADERS += \
             jsondbcontext.h \
             jsonextractor.h \
             localcricketcontroller.h \
-            localmodelscontext.h \
             localplayermodelscontext.h \
             localtournamentmodelscontext.h \
             networkmanager.h \
@@ -133,7 +141,6 @@ HEADERS += \
             pointScoreCalculator.h \
             pointdartscontroller.h \
             pointlogisticcontroller.h \
-            pointscore501datamodel.h \
             pointvalidator.h \
             remotemodelscontext.h \
             replytimeout.h \

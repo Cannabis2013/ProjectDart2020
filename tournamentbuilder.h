@@ -43,7 +43,7 @@ public:
                 ->setTerminalKeyCode(params.terminalKeyCode)
                 ->setDisplayHint(params.displayHint)
                 ->setInputMode(params.inputHint)
-                ->setWinner(params.winner);
+                ->setWinnerId(params.winner);
         if(options.generateUniqueId && !options.useProvidedId)
             t->setId(QUuid::createUuid());
         else
@@ -78,7 +78,7 @@ public:
                 ->setTerminalKeyCode(terminalKeyCode)
                 ->setDisplayHint(displayHint)
                 ->setInputMode(inputMode)
-                ->setWinner(winnerId);
+                ->setWinnerId(winnerId);
         return model;
     }
 };

@@ -11,6 +11,7 @@
 #include "scorebuildercontext.h"
 #include "itournamentmodelscontext.h"
 #include "abstractjsonpersistence.h"
+#include "idartsscoreinput.h"
 
 
 #define THROW_OBJECT_WITH_ID_NOT_FOUND(x) QString("Model with ID: '%1' does not exists in the current context").arg(x).toStdString();

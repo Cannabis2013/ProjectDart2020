@@ -53,14 +53,6 @@ public:
         else
             return false;
     }
-    virtual PlayerModel* setParent(const QUuid &) override
-    {
-        return this;
-    }
-    virtual QUuid parent() const override
-    {
-        return QUuid();
-    }
     static PlayerModel* createInstance()
     {
         return new PlayerModel;

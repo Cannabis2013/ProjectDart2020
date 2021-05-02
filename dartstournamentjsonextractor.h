@@ -5,11 +5,11 @@
 
 #include <qjsonarray.h>
 #include <qjsonobject.h>
-#include <dartstournamentmodel.h>
+#include <dartstournament.h>
 #include <qvector.h>
 
 namespace JsonExtractorContext {
-    typedef QVector<const IDartsTournament<QUuid,QVector<QUuid>,QString>*> DartsTournaments;
+    typedef QVector<const IDartsTournament<QUuid,QString>*> DartsTournaments;
 }
 
 class DartsTournamentJsonExtractor : public IDartsTournamentJsonExtractorService<

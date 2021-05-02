@@ -6,7 +6,7 @@
 #include <qlist.h>
 #include "idartstournament.h"
 
-class DartsTournamentModel : public IDartsTournament<QUuid,QString>
+class DartsTournament : public IDartsTournament<QUuid,QString>
 {
     // IModel interface
 public:
@@ -14,7 +14,7 @@ public:
     {
         return _id;
     }
-    DartsTournamentModel* setId(const QUuid &val) override
+    DartsTournament* setId(const QUuid &val) override
     {
         _id = val;
         return this;
@@ -25,25 +25,25 @@ public:
     {
         return _title;
     }
-    DartsTournamentModel* setTitle(const QString &string) override
+    DartsTournament* setTitle(const QString &string) override
     {
         _title = string;
         return this;
     }
     int attempts() const override
     {
-        return _numberOfThrows;
+        return _attempts;
     }
-    DartsTournamentModel* setAttempts(const int &val) override
+    DartsTournament* setAttempts(const int &val) override
     {
-        _numberOfThrows = val;
+        _attempts = val;
         return this;
     }
     int gameMode() const override
     {
         return _gameMode;
     }
-    DartsTournamentModel* setGameMode(const int &val) override
+    DartsTournament* setGameMode(const int &val) override
     {
         _gameMode = val;
         return this;
@@ -52,7 +52,7 @@ public:
     {
         return _keyPoint;
     }
-    DartsTournamentModel* setKeyPoint(const int &val) override
+    DartsTournament* setKeyPoint(const int &val) override
     {
         _keyPoint = val;
         return this;
@@ -61,7 +61,7 @@ public:
     {
         return _status;
     }
-    DartsTournamentModel* setStatus(const bool &status) override
+    DartsTournament* setStatus(const bool &status) override
     {
         _status = status;
         return this;
@@ -70,7 +70,7 @@ public:
     {
         return _winner;
     }
-    IDartsTournament<QUuid,QString>* setWinnerId(const QUuid &val) override
+    DartsTournament* setWinnerId(const QUuid &val) override
     {
         _winner = val;
         return this;
@@ -80,12 +80,12 @@ public:
     {
         return _assignedPlayerIdentities;
     }
-    DartsTournamentModel* setAssignedPlayerIdentities(const QVector<QUuid> &playerIdentities) override
+    DartsTournament* setAssignedPlayerIdentities(const QVector<QUuid> &playerIdentities) override
     {
         _assignedPlayerIdentities = playerIdentities;
         return this;
     }
-    DartsTournamentModel* assignPlayerIdentity(const QUuid &identity) override
+    DartsTournament* assignPlayerIdentity(const QUuid &identity) override
     {
         _assignedPlayerIdentities.append(identity);
         return this;
@@ -95,21 +95,21 @@ public:
     {
         return _terminalKeyCode;
     }
-    DartsTournamentModel* setTerminalKeyCode(const int &keyCode) override
+    DartsTournament* setTerminalKeyCode(const int &keyCode) override
     {
         _terminalKeyCode = keyCode;
         return this;
     }
-    static DartsTournamentModel * createInstance()
+    static DartsTournament * createInstance()
     {
-        return new DartsTournamentModel();
+        return new DartsTournament();
     }
     int displayHint() const override
     {
         return _modelDisplayHint;
     }
 
-    DartsTournamentModel* setDisplayHint(int modelDisplayHint) override
+    DartsTournament* setDisplayHint(int modelDisplayHint) override
     {
         _modelDisplayHint = modelDisplayHint;
         return this;
@@ -118,7 +118,7 @@ public:
     {
         return _inputMode;
     }
-    DartsTournamentModel* setInputMode(const int &inputMode) override
+    DartsTournament* setInputMode(const int &inputMode) override
     {
         _inputMode = inputMode;
         return this;
@@ -126,7 +126,7 @@ public:
 
 private:
     QString _title;
-    int _numberOfThrows;
+    int _attempts;
     int _gameMode;
     int _keyPoint;
     int _status;

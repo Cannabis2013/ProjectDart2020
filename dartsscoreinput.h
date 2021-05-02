@@ -7,17 +7,78 @@
 class DartsScoreInput : public IDartsScoreInput<QUuid>
 {
 public:
-    virtual int accumulatedScore() const override
+    QUuid id() const override
     {
-        return _accumulatedScore;
+        return _id;
     }
-    virtual DartsScoreInput *setAccumulatedScore(const int& score) override
+    DartsScoreInput *setId(const QUuid &val) override
     {
-        _accumulatedScore = score;
+        _id = val;
+        return this;
+    }
+    int hint() const override
+    {
+        return _hint;
+    }
+    DartsScoreInput *setDisplayHint(const int &hint) override
+    {
+        _hint = hint;
+        return this;
+    }
+    QUuid player() const override
+    {
+        return _player;
+    }
+    DartsScoreInput *setPlayer(const QUuid &id) override
+    {
+        _player = id;
+        return this;
+    }
+    QUuid tournamentId() const override
+    {
+        return _tournament;
+    }
+    DartsScoreInput *setTournamentId(const QUuid &tournamentId) override
+    {
+        _tournament = tournamentId;
+        return this;
+    }
+    int roundIndex() const override
+    {
+       return _roundIndex;
+    }
+    DartsScoreInput *setRoundIndex(const int &index) override
+    {
+        _roundIndex = index;
+        return this;
+    }
+    int setIndex() const override
+    {
+        return _setIndex;
+    }
+    DartsScoreInput *setSetIndex(const int &index) override
+    {
+        _setIndex = index;
+        return this;
+    }
+    int score() const override
+    {
+        return _score;
+    }
+    DartsScoreInput *setScore(const int &score) override
+    {
+        _score = score;
         return this;
     }
 private:
-    int _accumulatedScore;
+    int _score;
+    int _roundIndex;
+    int _setIndex;
+    int _hint;
+    QUuid _id;
+    QUuid _player;
+    QUuid _tournament;
+
 };
 
 #endif // DARTSSCORE_H

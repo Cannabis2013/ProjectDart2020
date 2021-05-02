@@ -75,7 +75,7 @@ ScoreBoard {
         return fTPModel.rowHeightAt(row);
     }
 
-    model: FtpDataModel {
+    model: DartsMultiDatamodel {
         id: fTPModel
         onDataChanged: ScoreScripts.updateScoreBoard();
         attempts: 1

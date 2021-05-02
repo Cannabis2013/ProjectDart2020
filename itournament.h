@@ -19,6 +19,6 @@ public:
     virtual ITournament* setStatus(const bool &active) = 0;
 
     virtual TUuid winnerId() const = 0;
-    virtual ITournament* setWinner(const TUuid &val) = 0;
+    virtual ITournament* setWinnerId(const TUuid &val) = 0;
 };
 #endif // ITOURNAMENT_H

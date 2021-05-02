@@ -5,7 +5,7 @@ template<typename TByteArray,
          typename TTournamentModelsContextInterface,
          typename TPlayerModelsContextInterface,
          typename TUuid>
-class Abstract501JsonAssembler
+class AbstractDartsJsonAssembler
 {
 public:
     virtual TByteArray assembleJsonFromMultiAttemptPoint(const TUuid&,

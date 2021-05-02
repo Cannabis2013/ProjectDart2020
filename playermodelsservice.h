@@ -9,16 +9,18 @@
 #include "dartsscorebuilder.h"
 #include "playermodelbuilder.h"
 #include "jsondbcontext.h"
-#include "Abstract501JsonAssembler.h"
+#include "abstractdartsjsonassembler.h"
+#include "ibinary.h"
+#include "iunary.h"
 
 namespace ModelsContext {
-    typedef Abstract501JsonAssembler<QByteArray,
+    typedef AbstractDartsJsonAssembler<QByteArray,
                                     ITournamentModelsContext,
                                     IPlayerModelsContext,
                                     QUuid> I501JsonAssembler;
 }
 
-class LocalModelsContext : public AbstractModelsContext
+class PlayerModelsService : public AbstractModelsContext
 {
 public:
     /*
@@ -39,16 +41,16 @@ public:
      * Destructor
      *  - Delete contexts to persists changes
      */
-    ~LocalModelsContext();
+    ~PlayerModelsService();
     /*
      * Create instance
      */
-    static LocalModelsContext* createInstance();
+    static PlayerModelsService* createInstance();
     ITournamentModelsContext* tournamentModelsContext() const;
-    LocalModelsContext *setTournamentModelsContext(ITournamentModelsContext* tournamentModelsContext);
+    PlayerModelsService *setTournamentModelsContext(ITournamentModelsContext* tournamentModelsContext);
 
     IPlayerModelsContext* playerModelsContext() const;
-    LocalModelsContext *setPlayerModelsContext(IPlayerModelsContext *playerModelsContext);
+    PlayerModelsService *setPlayerModelsContext(IPlayerModelsContext *playerModelsContext);
     ModelsContext::I501JsonAssembler *tournament501JsonAssembler() const;
     void setJsonAssembler(ModelsContext::I501JsonAssembler *jsonAssembler);
 

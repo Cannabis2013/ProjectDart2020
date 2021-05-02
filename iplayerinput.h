@@ -9,12 +9,12 @@ class IPlayerInput : public IModel<TUuid>
 public:
     IPlayerInput() {}
 
-    virtual int modKeyCode() const = 0;
-    virtual IPlayerInput* setModKeyCode(const int &key) = 0;
     virtual int hint() const = 0;
     virtual IPlayerInput* setDisplayHint(const int &hint) = 0;
     virtual TUuid player() const = 0;
     virtual IPlayerInput* setPlayer(const TUuid &id) = 0;
+    virtual TUuid tournamentId() const = 0;
+    virtual IPlayerInput* setTournamentId(const TUuid&) = 0;
 };
 
 #endif // ISCORE_H

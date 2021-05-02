@@ -28,9 +28,8 @@ public:
                 ->setAttempt(params.attempt)
                 ->setPointValue(params.pointValue)
                 ->setScoreValue(params.scoreValue)
-                ->setAccumulatedScore(params.accumulatedScoreValue)
                 ->setPlayer(params.playerId)
-                ->setParent(params.tournament)
+                ->setTournamentId(params.tournament)
                 ->setModKeyCode(params.keyCode)
                 ->setDisplayHint(params.hint);
         if(options.generateUniqueId)

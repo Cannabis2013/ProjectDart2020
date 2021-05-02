@@ -7,6 +7,9 @@ template <class TUuid>
 class IDartsPointInput : public IDartsInput<TUuid>
 {
 public:
+
+    virtual int modKeyCode() const = 0;
+    virtual IDartsPointInput* setModKeyCode(const int&) = 0;
     virtual int point() const = 0;
     virtual IDartsPointInput* setPointValue(const int&) = 0;
 

@@ -10,7 +10,7 @@
 
 namespace TCC {
     typedef ITournament<QUuid,QVector<QUuid>,QString> TournamentInterface;
-    typedef IDartsTournament<QUuid,QVector<QUuid>,QString> FTPInterface;
+    typedef IDartsTournament<QUuid,QString> FTPInterface;
 
     typedef ITournamentBuilder<TournamentInterface,
                                ITournamentParameter,

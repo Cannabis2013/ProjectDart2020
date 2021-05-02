@@ -82,6 +82,7 @@
         <file>FtpMultiPointScoreBoard.qml</file>
         <file>ftpScoreBoardFactory.js</file>
         <file>ScoreRectDelegate.qml</file>
+        <file>MultiScoreDelegate.qml</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>
