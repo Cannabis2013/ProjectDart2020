@@ -1,7 +1,7 @@
 #include "dartstournamentjsonextractor.h"
 
 
-QVector<const IModel<QUuid>*> DartsTournamentJsonExtractor::extractDartsTournamentFromJson(const QJsonArray &arr)
+QVector<const IModel<QUuid>*> DartsTournamentJsonExtractor::service(const QJsonArray &arr)
 {
     QVector<const IModel<QUuid>*> dartsTournaments;
     auto tournamentsCount = arr.count();

@@ -7,7 +7,7 @@
 
 #include "itournamentbuilder.h"
 #include "iplayerbuildercontext.h"
-#include "abstractcontrollerbuilder.h"
+#include "abstractdartscontrollerbuilder.h"
 
 using namespace std;
 
@@ -39,15 +39,15 @@ public:
     /*
      * Get/set GameControllerBuilder
      */
-    AbstractControllerBuilder* controllerBuilder();
+    AbstractDartsControllerBuilder* controllerBuilder();
     DartApplication *setControllerBuilder(ControllerBuilderInterface *builder);
 
 public slots:
     /*
      * Get/set modelcontext interface
      */
-    virtual AbstractModelsContext *modelsContextInterface() const override;
-    virtual DartApplication* setModelsContextInterface(AbstractModelsContext *modelsInterface) override;
+    virtual AbstractModelsService *modelsContextInterface() const override;
+    virtual DartApplication* setModelsContextInterface(AbstractModelsService *modelsInterface) override;
     // Get tournaments
     void handleTournamentsRequest() override;
     /*
@@ -110,7 +110,7 @@ public slots:
 signals:
     void assembleFTPController(const QByteArray& json,
                                AbstractApplicationInterface* applicationsInteface,
-                               AbstractModelsContext* modelsContextInterface);
+                               AbstractModelsService* modelsContextInterface);
 private slots:
     void assembleAndConfigureControllerBuilder(const QByteArray &json);
     void setGameController(AbstractGameController* controller);
@@ -128,13 +128,13 @@ private:
     void stopModelsInterfaceThread();
     // Builders related..
     AbstractGameController *gameController() const;
-    AbstractControllerBuilder* controllerBuilder() const;
+    AbstractDartsControllerBuilder* controllerBuilder() const;
     // Application state member variables
     bool _usingThreads;
     QThread* _modelsContextInterfaceThread = new QThread();
     QThread *_gameControllerThread = new QThread();
-    AbstractControllerBuilder *_controllerBuilder;
-    AbstractModelsContext* _modelsContext;
+    AbstractDartsControllerBuilder *_controllerBuilder;
+    AbstractModelsService* _modelsContext;
     AbstractGameController *_gameController = nullptr;
 };
 

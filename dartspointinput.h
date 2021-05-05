@@ -36,7 +36,7 @@ public:
         _tournament = id;
         return this;
     }
-    QUuid player() const override
+    QUuid playerId() const override
     {
         return _player;
     }
@@ -61,15 +61,6 @@ public:
     DartsPointInput* setDisplayHint(const int &hint) override
     {
         _hint = hint;
-        return this;
-    }
-    int score() const override
-    {
-        return _scoreValue;
-    }
-    DartsPointInput* setScoreValue(const int &score) override
-    {
-        _scoreValue = score;
         return this;
     }
 

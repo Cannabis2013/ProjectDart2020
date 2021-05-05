@@ -1,6 +1,6 @@
 #include "tournamentsjsonassemblerservice.h"
 
-QJsonArray TournamentsJSonAssemblerService::assembleDartsTournamentsFromModels(const QVector<const IModel<QUuid>*> &models)
+QJsonArray TournamentsJSonAssemblerService::service(const QVector<const IDartsTournament<QUuid,QString>*>& models)
 {
     QJsonArray tournamentsJSON;
     for (auto i = models.begin();i != models.end();i++) {

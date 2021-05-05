@@ -1,22 +1,23 @@
 #ifndef DARTSINPUTJSONEXTRACTOR_H
 #define DARTSINPUTJSONEXTRACTOR_H
 
-#include "idartsinputjsonextractor.h"
+#include "iunaryservice.h"
 #include "dartspointinput.h"
 #include "dartsscoreinput.h"
-#include "qjsonvalue.h"
+#include <qjsonvalue.h>
+#include <qjsonarray.h>
 #include "qjsonobject.h"
 
 
 
-class DartsInputJsonExtractor : public IDartsInputJsonExtractor<QJsonValue,IModel<QUuid>,IModel<QUuid>>
+class DartsInputJsonExtractor : public IUnaryService<
+        const QJsonArray&,
+        QVector<const IModel<QUuid>*>>
 {
 public:
-
-    // IDartsInputJsonExtractor interface
-public:
-    IModel<QUuid> *extractDartsPointFromJson(const QJsonValue &jsonValue);
-    IModel<QUuid> *extractDartsScoreFromJson(const QJsonValue &);
+    QVector<const IModel<QUuid> *> service(const QJsonArray &arr) override;
+private:
+    const DartsPointInput* assembleModelFromJsonObject(const QJsonObject& JsonObject);
 };
 
 #endif // DARTSINPUTJSONEXTRACTOR_H

@@ -1,7 +1,7 @@
 #ifndef TOURNAMENTSJSONASSEMBLER_H
 #define TOURNAMENTSJSONASSEMBLER_H
 
-#include "idartstournamentsjsonassemblerservice.h"
+#include "iunaryservice.h"
 
 #include <qjsonarray.h>
 #include <qjsonobject.h>
@@ -9,10 +9,11 @@
 #include <imodel.h>
 #include <dartstournament.h>
 
-class TournamentsJSonAssemblerService : public IDartsTournamentsJsonAssemblerService<QJsonArray,QVector<const IModel<QUuid>*>>
+class TournamentsJSonAssemblerService :
+        public IUnaryService<const QVector<const IDartsTournament<QUuid,QString>*>&,QJsonArray>
 {
 public:
-    QJsonArray assembleDartsTournamentsFromModels(const QVector<const IModel<QUuid>*>& models) override;
+    QJsonArray service(const QVector<const IDartsTournament<QUuid,QString>*>& models) override;
 private:
     QJsonObject assembleJsonObjectFromDartsTournamentModel(const IDartsTournament<QUuid,QString>* model);
     QJsonArray assembleJsonArrayFromTournamentPlayerIds(const QVector<QUuid>& players);

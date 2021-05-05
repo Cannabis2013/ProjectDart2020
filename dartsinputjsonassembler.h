@@ -1,7 +1,7 @@
 #ifndef DARTSINPUTJSONASSEMBLER_H
 #define DARTSINPUTJSONASSEMBLER_H
 
-#include "idartsinputassembler.h"
+#include "iunaryservice.h"
 
 #include <QByteArray>
 #include "imodel.h"
@@ -14,16 +14,15 @@
 #include <qjsonarray.h>
 
 namespace InputAssemblerContext {
-    typedef QVector<const IModel<QUuid>*> modelsList;
+    typedef QVector<const IDartsPointInput<QUuid>*> modelsList;
 }
 
-class DartsInputJsonAssembler : public IDartsInputAssembler<QJsonArray,InputAssemblerContext::modelsList>
+class DartsPointsJsonAssembler :
+        public IUnaryService<const InputAssemblerContext::modelsList&,QJsonArray>
 {
-    // IDartsInputAssembler interface
 public:
 
-    QJsonArray assembleDartsPointJson(const InputAssemblerContext::modelsList& modelsList);
-    QJsonArray assembleDartsScoreJson(const InputAssemblerContext::modelsList& modelsList);
+    QJsonArray service(const InputAssemblerContext::modelsList& modelsList) override;
 };
 
 #endif // DARTSINPUTJSONASSEMBLER_H

@@ -45,7 +45,7 @@ void PointDartsController::handleRequestForCurrentTournamentMetaData()
     emit sendCurrentTournamentId(tournament);
 }
 
-void PointDartsController::assembleSingleAttemptFtpScores()
+void PointDartsController::assembleSingleAttemptDartsPoints()
 {
     auto count = scoreController()->playersCount();
     QJsonObject jsonObject;
@@ -61,13 +61,13 @@ void PointDartsController::assembleSingleAttemptFtpScores()
     jsonObject["entities"] = playerScoreEntities;
     auto document = QJsonDocument(jsonObject);
     auto jsonString = document.toJson(QJsonDocument::Compact);
-    emit sendSingleAttemptFtpScores(jsonString);
+    emit sendSingleAttemptDartsPoints(jsonString);
 }
 
-void PointDartsController::handleRequestFtpPlayerScores()
+void PointDartsController::handleRequestDartsPoints()
 {
     auto tournamentId = tournament();
-    emit requestFtpMultiAttemptScores(tournamentId);
+    emit requestDartsPoints(tournamentId);
 }
 
 void PointDartsController::handleScoreAddedToDataContext(const QByteArray &json)
@@ -81,43 +81,7 @@ void PointDartsController::handleScoreAddedToDataContext(const QByteArray &json)
     // Sync totalturns with the current turn index
     indexController()->syncIndex();
     auto newJson = QJsonDocument(obj).toJson(QJsonDocument::Compact);
-    emit scoreAddedAndPersisted(newJson);
-}
-
-void PointDartsController::handleScoreHintUpdated(const QByteArray &json)
-{
-    auto jsonObject = QJsonDocument::fromJson(json).object();
-    auto score = jsonObject.value("scoreValue").toInt();
-    auto point = jsonObject.value("point").toInt();
-    auto playerId = jsonObject.value("playerId").toString();
-    auto keyCode = jsonObject.value("modKeyCode").toInt();
-    if(this->status() == ControllerState::UndoState)
-    {
-        scoreController()->addPlayerScore(playerId,score);
-        auto newScore = scoreController()->userScore(playerId);
-        auto playerName = scoreController()->userNameFromId(playerId);
-        QJsonObject json = {
-            {"playerName",playerName},
-            {"playerPoint",point},
-            {"playerScore",newScore}
-        };
-        auto data = QJsonDocument(json).toJson(QJsonDocument::Compact);
-        emit scoreRemoved(data);
-    }
-    else if(this->status() == ControllerState::RedoState)
-    {
-        scoreController()->subtractPlayerScore(playerId,score);
-        auto newScore = scoreController()->userScore(playerId);
-        auto playerName = scoreController()->userNameFromId(playerId);
-        QJsonObject obj = {
-            {"playerName",playerName},
-            {"playerPoint",point},
-            {"playerScore",newScore},
-            {"keyCode",keyCode}
-        };
-        auto data = QJsonDocument(obj).toJson(QJsonDocument::Compact);
-        emit scoreAddedAndPersisted(data);
-    }
+    emit pointAddedAndPersisted(newJson);
 }
 
 void PointDartsController::handleRequestPersistCurrentState()
@@ -208,11 +172,10 @@ QUuid PointDartsController::undoTurn()
     indexController()->undo();
     auto roundIndex = indexController()->roundIndex();
     auto throwIndex = indexController()->attempt();
-    emit requestSetModelHint(tournament(),
+    emit hideDartsPoint(tournament(),
                              currentActivePlayerId(),
                              roundIndex,
-                             throwIndex,
-                             ModelDisplayHint::HiddenHint);
+                             throwIndex);
     auto playerId = currentActivePlayerId();
     return playerId;
 }
@@ -224,11 +187,10 @@ QUuid PointDartsController::redoTurn()
     auto roundIndex = indexController()->roundIndex();
     auto throwIndex = indexController()->attempt();
     indexController()->redo();
-    emit requestSetModelHint(tournament(),
-                             activeUser,
-                             roundIndex,
-                             throwIndex,
-                             ModelDisplayHint::DisplayHint);
+    emit revealDartsInputPoint(tournament(),
+                               activeUser,
+                               roundIndex,
+                               throwIndex);
     auto index = indexController()->setIndex();
     auto playerId = scoreController()->userIdAtIndex(index);
     return playerId;
@@ -255,7 +217,7 @@ void PointDartsController::addPoint(const int& point,
     obj["accumulatedScoreValue"] = accumulatedScore;
     obj["modKeyCode"] = keyCode;
     auto json = QJsonDocument(obj).toJson();
-    emit requestAddDartsScore (json);
+    emit requestAddDartsPoint (json);
 }
 
 void PointDartsController::handleRequestFromUI()
@@ -348,8 +310,10 @@ void PointDartsController::initializeController(const QByteArray& json)
         auto obj = jsonVal.toObject();
         auto playerStringId = obj.value("playerId").toString();
         auto playerId = QUuid::fromString(playerStringId);
-        auto score = obj.value("score").toInt();
-        scoreController()->subtractPlayerScore(playerId,score);
+        auto point = obj.value("point").toInt();
+        auto modKeyCode = obj.value("modKeyCode").toInt();
+        auto calculatedScore = scoreCalculator()->calculateScoreFromDartsPoint(point,modKeyCode);
+        scoreController()->subtractPlayerScore(playerId,calculatedScore);
     }
     if(scoreController()->winnerId() != QUuid())
         setCurrentStatus(ControllerState::WinnerDeclared);
@@ -453,5 +417,45 @@ PointDartsController *PointDartsController::setLogisticInterface(FTPLogisticCont
 void PointDartsController::beginInitialize()
 {
     auto tournamentId = tournament();
-    emit requestFtpIndexesAndScores(tournamentId);
+    emit requestDartsIndexesAndPoints(tournamentId);
+}
+
+
+void PointDartsController::undoSuccess(const QByteArray& json)
+{
+    auto jsonObject = QJsonDocument::fromJson(json).object();
+    auto modKeyCode = jsonObject.value("modKeyCode").toInt();
+    auto point = jsonObject.value("point").toInt();
+    auto score = scoreCalculator()->calculateScoreFromDartsPoint(point,modKeyCode);
+    auto playerId = jsonObject.value("playerId").toString();
+    scoreController()->addPlayerScore(playerId,score);
+    auto newScore = scoreController()->userScore(playerId);
+    auto playerName = scoreController()->userNameFromId(playerId);
+    QJsonObject responseJson = {
+        {"playerName",playerName},
+        {"playerPoint",point},
+        {"playerScore",newScore}
+    };
+    auto data = QJsonDocument(responseJson).toJson(QJsonDocument::Compact);
+    emit pointRemoved(data);
+}
+
+void PointDartsController::redoSuccess(const QByteArray& json)
+{
+    auto jsonObject = QJsonDocument::fromJson(json).object();
+    auto keyCode = jsonObject.value("modKeyCode").toInt();
+    auto point = jsonObject.value("point").toInt();
+    auto playerId = jsonObject.value("playerId").toString();
+    auto score = scoreCalculator()->calculateScoreFromDartsPoint(point,keyCode);
+    scoreController()->subtractPlayerScore(playerId,score);
+    auto newScore = scoreController()->userScore(playerId);
+    auto playerName = scoreController()->userNameFromId(playerId);
+    QJsonObject obj = {
+        {"playerName",playerName},
+        {"playerPoint",point},
+        {"playerScore",newScore},
+        {"keyCode",keyCode}
+    };
+    auto data = QJsonDocument(obj).toJson(QJsonDocument::Compact);
+    emit pointAddedAndPersisted(data);
 }

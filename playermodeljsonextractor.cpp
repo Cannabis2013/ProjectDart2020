@@ -1,6 +1,6 @@
 #include "playermodeljsonextractor.h"
 
-QVector<const IModel<QUuid> *> PlayerModelJsonExtractor::extractPlayerModelsFromJsonArray(const QJsonArray &arr)
+QVector<const IModel<QUuid> *> PlayerModelJsonExtractor::service(const QJsonArray &arr)
 {
     QVector<const IModel<QUuid>*> playerModels;
     for (auto i = arr.begin();i != arr.end();i++) {

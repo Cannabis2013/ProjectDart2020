@@ -8,7 +8,7 @@
 #include <iostream>
 #include <QVariantList>
 #include "iplayermodel.h"
-#include "iplayermodelscontext.h"
+#include "iplayermodelsservice.h"
 #include "playermodelbuildercontext.h"
 #include "abstractjsonpersistence.h"
 #include "iplayermodelbuilder.h"
@@ -33,7 +33,7 @@ typedef IPlayerModel<QUuid,QString> IDefaultPlayerModel;
 typedef IPlayerBuilderParameters<QString,QUuid> DefaultParametersInterface;
 
 class LocalPlayerModelsContext :
-        public IPlayerModelsContext
+        public IPlayerModelsService
 {
 public:
     /*
@@ -60,7 +60,7 @@ public:
                       const QString& mail,
                       const int &role = -1) override;
     bool deletePlayer(const int &index) override;
-    bool deletePlayers(const QVector<int>& indexes) override;
+    bool deletePlayersByIndexes(const QVector<int>& indexes) override;
 
     DefaultPlayerBuilder *playerBuilder();
     LocalPlayerModelsContext* setPlayerBuilder(DefaultPlayerBuilder *builder);
@@ -68,19 +68,19 @@ public:
     /*
      * PlayerModelsInterface interface
      */
-    QVector<QString> assemblePlayerMailAdressesFromIds(const QVector<QUuid> &ids) override;
-    QVector<QString> assemblePlayerNamesFromIds(const QVector<QUuid> &ids) override;
-    QVector<QUuid> assemblePlayerIds(const QVector<int> &indexes) override;
+    QVector<QString> assemblePlayerMailAdressesFromIds(const QVector<QUuid> &ids) const override;
+    QVector<QString> assemblePlayerNamesFromIds(const QVector<QUuid> &ids) const override;
+    QVector<QUuid> assemblePlayerIds(const QVector<int> &indexes) const override;
 
     void deletePlayerByUserName(const QString &firstName)  override;
     void deletePlayerByID(const QUuid &player)  override;
     void deletePlayerByEmail(const QString &playerEMail)  override;
-    QUuid playerIdFromName(const QString &fullName)  override;
-    QUuid playerIdFromIndex(const int &index)  override;
-    QString playerNameFromId(const QUuid &id)  override;
-    QString playerMailFromId(const QUuid &id)  override;
-    QList<QUuid> players() override;
-    int playersCount() override;
+    QUuid playerIdFromName(const QString &fullName) const override;
+    QUuid playerIdFromIndex(const int &index) const override;
+    QString playerNameFromId(const QUuid &id) const override;
+    QString playerMailFromId(const QUuid &id) const override;
+    QList<QUuid> players() const override;
+    int playersCount() const override;
 private:
 
     DefaultPlayerBuilder *playerBuilder() const;
@@ -92,9 +92,9 @@ private:
                            const bool &generateID = true,
                            const QUuid &id = QUuid());
 
-    const IDefaultPlayerModel *getModel(const QString &playerName);
+    const IDefaultPlayerModel *getModel(const QString &playerName) const;
 
-    IModelsDbContext *modelDBContext();
+    IModelsDbContext *modelDBContext() const;
 
     IModelsDbContext* _dbContext;
     DefaultPlayerBuilder *_playerBuilder;

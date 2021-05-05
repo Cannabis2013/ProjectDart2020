@@ -7,6 +7,10 @@
 class DartsScoreInput : public IDartsScoreInput<QUuid>
 {
 public:
+    static DartsScoreInput* createInstance()
+    {
+        return new DartsScoreInput();
+    }
     QUuid id() const override
     {
         return _id;
@@ -25,7 +29,7 @@ public:
         _hint = hint;
         return this;
     }
-    QUuid player() const override
+    QUuid playerId() const override
     {
         return _player;
     }

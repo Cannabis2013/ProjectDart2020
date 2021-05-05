@@ -8,7 +8,7 @@ template<class TControllerInterface,
 class IControllerBuilder
 {
 public:
-    virtual TControllerInterface *assembleFTPGameController(const TParameterFormat&,
+    virtual TControllerInterface *assembleDartsGameController(const TParameterFormat&,
                                                             TApplicatonInterface*,
                                                             TModelsContextInterface*) = 0;
 };

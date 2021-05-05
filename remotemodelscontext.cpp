@@ -7,7 +7,7 @@ RemoteModelsContext::RemoteModelsContext()
     _netMng->setParserService(new UrlParser);
 }
 
-void RemoteModelsContext::addFTPTournament(const QByteArray& json)
+void RemoteModelsContext::addDartsTournament(const QByteArray& json)
 {
     _netMng->sendPostRequest("AddFtpTournament",
                              json,
@@ -28,7 +28,7 @@ void RemoteModelsContext::deleteTournaments(const QByteArray &json)
                              SLOT(handleDeleteTournamentsReply()));
 }
 
-void RemoteModelsContext::handleRequestFtpScores(const QUuid &tournamentId)
+void RemoteModelsContext::getOrderedDartsPoints(const QUuid &tournamentId)
 {
     auto formattedTournamentId  = tournamentId.toString(QUuid::WithoutBraces);
     _netMng->sendGetRequest("AssembleOrderedFtpPlayerScores",
@@ -52,7 +52,7 @@ void RemoteModelsContext::handleRequestGameMode(const int &index)
                             SLOT(handleRequestGameModeReply()));
 }
 
-void RemoteModelsContext::assembleFtpMetaDataFromId(const QUuid &tournamentId)
+void RemoteModelsContext::assembleDartsTournamentDataFromId(const QUuid &tournamentId)
 {
     auto formattedTournamentId  = tournamentId.toString(QUuid::WithoutBraces);
     _netMng->sendGetRequest("GetFtpTournamentMeta",
@@ -70,31 +70,13 @@ void RemoteModelsContext::addDartsPoint(const QByteArray &json)
 
 }
 
-void RemoteModelsContext::set501MultiPointHint(const QUuid &tournament,
-                                          const QUuid &player,
-                                          const int &roundIndex,
-                                          const int &attemptIndex,
-                                          const int &hint)
-{
-    auto tournamentId = tournament.toString(QUuid::WithoutBraces);
-    auto playerId = player.toString(QUuid::WithoutBraces);
-    QVector<NetworkManager::Query> stringQuery = {
-        {"tournamentId", tournamentId},
-        {"playerId",playerId},
-        {"roundIndex",QString::number(roundIndex)},
-        {"attemptIndex",QString::number(attemptIndex)},
-        {"hint",QString::number(hint)}
-    };
-    _netMng->sendPostRequest("SetFtpScoreHint",QByteArray(),QString(),stringQuery,this,SLOT(handleSetScoreHintReply()));
-}
-
 void RemoteModelsContext::resetTournament(const QUuid &tournament)
 {
     auto tournamentId = tournament.toString(QUuid::WithoutBraces);
     _netMng->sendPostRequest("ResetFtpTournament",QByteArray(),QString(),{{"tournamentId",tournamentId}},this,SLOT(tournamentResetReply()));
 }
 
-void RemoteModelsContext::assembleFtpKeyValues(const QUuid &tournament)
+void RemoteModelsContext::assembleDartsKeyValues(const QUuid &tournament)
 {
     _netMng->sendGetRequest("GetFtpDetails",
                             QString(),{{"tournamentId",tournament.toString(QUuid::WithoutBraces)}},this,
@@ -128,7 +110,7 @@ void RemoteModelsContext::handleRequestPlayersDetails()
                             SLOT(handleRequestPlayersReply()));
 }
 
-void RemoteModelsContext::assembleFtpIndexesAndScores(const QUuid &tournament)
+void RemoteModelsContext::assembleDartsIndexesAndPoints(const QUuid &tournament)
 {
     auto tournamentId = tournament.toString(QUuid::WithoutBraces);
     _netMng->sendGetRequest("GetFtpIndexesAndScores",
@@ -273,7 +255,7 @@ void RemoteModelsContext::handleFtpIndexesAndScores()
     }
     auto payLoad = jsonObject.value("payLoad").toObject();
     auto json = QJsonDocument(payLoad).toJson();
-    emit sendFtpIndexesAndScoreEntities(json);
+    emit sendDartsIndexesAndPointValues(json);
 }
 
 void RemoteModelsContext::handleFtpTournamentMetaReply()
@@ -317,11 +299,7 @@ void RemoteModelsContext::handleSetScoreHintReply()
     auto responseCode = jsonObject.value("response").toInt();
     auto payLoad = jsonObject.value("payLoad").toObject();
     if(responseCode == ResponseCode::Error)
-    {
-        auto playerId = payLoad.value("playerId").toString();
-        auto message = jsonObject.value("message").toString();
-        emit scoreHintNotUpdated(playerId,message);
-    }
+        throw "Error!";
     auto json = QJsonDocument(payLoad).toJson();
     emit scoreHintUpdated(json);
 }
@@ -375,4 +353,30 @@ void RemoteModelsContext::recieveFtpScores()
     auto payLoad = jsonObject.value("payLoad").toArray();
     auto json = QJsonDocument(payLoad).toJson();
     emit sendFtpMultiScores(json);
+}
+
+
+void RemoteModelsContext::hideDartsPoint(const QUuid &, const QUuid &, const int &, const int &)
+{
+}
+
+void RemoteModelsContext::revealPoint(const QUuid &, const QUuid &, const int &, const int &)
+{
+}
+
+void RemoteModelsContext::hideDartsScore(const QUuid &, const QUuid &, const int &)
+{
+}
+
+void RemoteModelsContext::revealScore(const QUuid &, const QUuid &, const int &)
+{
+}
+
+void RemoteModelsContext::assembleDartsIndexesAndScores(const QUuid &tournament)
+{
+}
+
+
+void RemoteModelsContext::addDartsScore(const QByteArray &json)
+{
 }

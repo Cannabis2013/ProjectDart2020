@@ -178,7 +178,7 @@ public:
         auto o = nodeAtIndex->getObj();
         return *o;
     }
-    T value(const int i)
+    T value(const int& i) const
     {
         InternalListNode<T> *nodeAtIndex = nullptr;
         try {
@@ -274,7 +274,7 @@ public:
     }
 
 private:
-    InternalListNode<T> *findAt(const int &i)
+    InternalListNode<T> *findAt(const int &i) const
     {
         auto index = 0;
         auto nodeAtIndex = _firstNode;

@@ -7,22 +7,30 @@
 #include <qqmlcontext.h>
 #include "dartapplication.h"
 #include "playermodelbuilder.h"
-#include "controllerbuilder.h"
-#include "localtournamentmodelscontext.h"
+#include "dartscontrollerbuilder.h"
+#include "dartsmodelsservice.h"
 #include "localplayermodelscontext.h"
 #include "remotemodelscontext.h"
-#include "playermodelsservice.h"
-#include "dartsmultidatamodel.h"
-#include "tournamentbuilder.h"
+#include "localmodelsservice.h"
+#include "dartsmultipointdatamodel.h"
 #include "playermodelbuilder.h"
 #include "sftpdatamodel.h"
+#include "dartsmultiscoredatamodel.h"
+#include "assembledartstournamentmodelfromjson.h"
+#include "connectdartspointcontroller.h"
+#include "connectdartsscorecontroller.h"
 
 DartApplication* createDartApplication()
 {
+    auto modelsContext = LocalModelsService::createInstance()
+            ->setAssembleDartsTournamentFromJson(new AssembleDartsTournamentModelFromJson());
+    auto dartsControllerBuilder = DartsControllerBuilder::createInstance()
+            ->setConnectDartsPointController(new ConnectDartsPointController)
+            ->setConnectDartsScoreController(new ConnectDartsScoreController);
     auto _dart =
             DartApplication::createInstance()->
-            setModelsContextInterface(PlayerModelsService::createInstance())->
-            setControllerBuilder(new ControllerBuilder())->
+            setModelsContextInterface(modelsContext)->
+            setControllerBuilder(dartsControllerBuilder)->
             /*useThreads()->*/
             setup();
     return _dart;
@@ -31,7 +39,8 @@ DartApplication* createDartApplication()
 void registerCustomTypes()
 {
     qmlRegisterType<SFtpDataModel>("CustomItems",1,0,"SFtpDataModel");
-    qmlRegisterType<DartsMultiDataModel>("CustomItems",1,0,"DartsMultiDatamodel");
+    qmlRegisterType<DartsMultiPointDataModel>("CustomItems",1,0,"DartsPointDatamodel");
+    qmlRegisterType<DartsMultiScoreDataModel>("CustomItems",1,0,"DartsMultiScoreDataModel");
     qmlRegisterSingletonType(QUrl("qrc:/ThemeContext.qml"),"customDefinitions",1,0,"ThemeContext");
     qmlRegisterSingletonType(QUrl("qrc:/TournamentContext.qml"),"CustomValues",1,0,"TournamentContext");
     qmlRegisterSingletonType(QUrl("qrc:/DataModelContext.qml"),"CustomValues",1,0,"DataModelContext");

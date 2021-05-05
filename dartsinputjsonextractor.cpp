@@ -1,24 +1,30 @@
 #include "dartsinputjsonextractor.h"
 
-
-
-IModel<QUuid> *DartsInputJsonExtractor::extractDartsPointFromJson(const QJsonValue &jsonValue)
+QVector<const IModel<QUuid>*> DartsInputJsonExtractor::service(const QJsonArray &arr)
 {
-    auto JsonObject = jsonValue.toObject();
-    auto stringID = JsonObject["Id"].toString();
+    QVector<const IModel<QUuid>*> list;
+    for (const auto& jsonValue : arr) {
+        auto jsonObject = jsonValue.toObject();
+        auto model = assembleModelFromJsonObject(jsonObject);
+        list << model;
+    }
+    return list;
+}
+const DartsPointInput *DartsInputJsonExtractor::assembleModelFromJsonObject(const QJsonObject &jsonObject)
+{
+    auto stringID = jsonObject["Id"].toString();
     auto id = QUuid::fromString(stringID);
-    auto tournament = JsonObject["Tournament"].toString();
+    auto tournament = jsonObject["Tournament"].toString();
     auto tournamentId = QUuid::fromString(tournament);
-    auto playerStringID = JsonObject["PlayerId"].toString();
+    auto playerStringID = jsonObject["PlayerId"].toString();
     auto playerId = QUuid::fromString(playerStringID);
-    auto roundIndex = JsonObject["RoundIndex"].toInt();
-    auto setIndex = JsonObject["SetIndex"].toInt();
-    auto attempt = JsonObject["Attempt"].toInt();
-    auto pointValue = JsonObject["PointValue"].toInt();
-    auto scoreValue = JsonObject["ScoreValue"].toInt();
-    auto keyCode = JsonObject["KeyCode"].toInt();
-    auto scoreHint = JsonObject["Hint"].toInt();
-    auto scoreModel = DartsPointInput::createInstance()
+    auto roundIndex = jsonObject["RoundIndex"].toInt();
+    auto setIndex = jsonObject["SetIndex"].toInt();
+    auto attempt = jsonObject["Attempt"].toInt();
+    auto pointValue = jsonObject["PointValue"].toInt();
+    auto keyCode = jsonObject["KeyCode"].toInt();
+    auto scoreHint = jsonObject["Hint"].toInt();
+    auto pointModel = DartsPointInput::createInstance()
             ->setId(id)
             ->setTournament(tournamentId)
             ->setPlayer(playerId)
@@ -26,12 +32,7 @@ IModel<QUuid> *DartsInputJsonExtractor::extractDartsPointFromJson(const QJsonVal
             ->setSetIndex(setIndex)
             ->setAttempt(attempt)
             ->setPointValue(pointValue)
-            ->setScoreValue(scoreValue)
             ->setModKeyCode(keyCode)
             ->setDisplayHint(scoreHint);
-    return scoreModel;
-}
-
-IModel<QUuid> *DartsInputJsonExtractor::extractDartsScoreFromJson(const QJsonValue& jsonObject)
-{
+    return pointModel;
 }

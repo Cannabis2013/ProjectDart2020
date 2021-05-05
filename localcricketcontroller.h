@@ -18,7 +18,6 @@ public slots:
     virtual QUuid redoTurn() override;
     virtual void handleRequestForCurrentTournamentMetaData() override;
     virtual void handleScoreAddedToDataContext(const QByteArray &json) override;
-    virtual void handleScoreHintUpdated(const QByteArray &) override;
     virtual void handleResetTournament() override;
     virtual void beginInitialize() override;
     virtual void handleRequestPersistCurrentState() override;

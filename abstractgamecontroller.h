@@ -9,6 +9,7 @@ class AbstractGameController : public QObject
 {
     Q_OBJECT
 public slots:
+    virtual void initializeController(const QByteArray&) = 0;
     /*
      * Start/stop game
      */
@@ -29,7 +30,6 @@ public slots:
     virtual QUuid redoTurn() = 0;
     virtual void handleRequestForCurrentTournamentMetaData() = 0;
     virtual void handleScoreAddedToDataContext(const QByteArray& json) = 0;
-    virtual void handleScoreHintUpdated(const QByteArray&) = 0;
     virtual void handleResetTournament() = 0;
     /*
      * Set initial state
@@ -45,11 +45,6 @@ signals:
     void requestUpdateContext(const QUuid &tournamentID,
                               const int &roundIndex,
                               const int &setIndex);
-    void requestSetModelHint(const QUuid &tournament,
-                             const QUuid &player,
-                             const int &roundIndex,
-                             const int &throwIndex,
-                             const int &hint);
     void requestResetTournament(const QUuid &tournament);
     void requestPersistModelState();
     void controllerIsNotInitialized();

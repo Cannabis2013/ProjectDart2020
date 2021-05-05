@@ -3,14 +3,14 @@
 
 #include <qobject.h>
 #include <quuid.h>
-#include "abstractmodelscontext.h"
+#include "abstractmodelsservice.h"
 #include "iresponseinterface.h"
 class AbstractApplicationInterface : public QObject
 {
     Q_OBJECT
 public slots:
-    virtual AbstractModelsContext *modelsContextInterface() const = 0;
-    virtual AbstractApplicationInterface* setModelsContextInterface(AbstractModelsContext *modelsInterface) = 0;
+    virtual AbstractModelsService *modelsContextInterface() const = 0;
+    virtual AbstractApplicationInterface* setModelsContextInterface(AbstractModelsService *modelsInterface) = 0;
     virtual void handleTournamentsRequest() = 0;
     /*
      * Set current tournament
@@ -82,7 +82,7 @@ signals:
                                      const int &numberOfThrows,
                                      QList<QUuid> assignedPlayers);
     void requestSingleThrowPlayerScores();
-    void requestFtpMultiAttemptScores();
+    void requestDartsMultiAttemptScores();
     void setCurrentActiveTournament(const int &index);
     void sendPoint(const QByteArray& json);
     void requestStartGame();
@@ -92,7 +92,7 @@ signals:
     void requestUndo();
     void requestRedo();
     void requestCurrentTournamentId();
-    void sendFTPTournamentMetaData(const QByteArray& json);
+    void sendDartsTournamentData(const QByteArray& json);
     void removeScore(const QString &player);
     void playersDeletedStatus(const bool &status);
     void tournamentsDeletedSuccess(const bool &status);

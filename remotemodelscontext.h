@@ -2,10 +2,9 @@
 #define REMOTEMODELSCONTEXT_H
 
 #include "networkmanager.h"
-#include "abstractmodelscontext.h"
+#include "abstractmodelsservice.h"
 #include <qjsonobject.h>
 #include "itournamentbuilder.h"
-#include "tournamentbuildercontext.h"
 #include "urlparser.h"
 #include <qjsondocument.h>
 #include <qjsonobject.h>
@@ -43,7 +42,7 @@ namespace RemoteContext
     };
 }
 
-class RemoteModelsContext : public AbstractModelsContext
+class RemoteModelsContext : public AbstractModelsService
 {
     Q_OBJECT
 public:
@@ -55,22 +54,22 @@ public:
     // Constructor
     RemoteModelsContext();
     // AbstractModelsContext interface
-    virtual void addFTPTournament(const QByteArray& json) override;
+    virtual void addDartsTournament(const QByteArray& json) override;
     virtual void assignPlayersToTournament(const QUuid &tournament, const QList<QUuid> &playersID) override;
     virtual void deleteTournaments(const QByteArray& json) override;
-    virtual void handleRequestFtpScores(const QUuid &tournamentId) override;
+    virtual void getOrderedDartsPoints(const QUuid &tournamentId) override;
     virtual void handleRequestTournaments() override;
     virtual void handleRequestGameMode(const int &index) override;
-    virtual void assembleFtpMetaDataFromId(const QUuid &tournamentId) override;
+    virtual void assembleDartsTournamentDataFromId(const QUuid &tournamentId) override;
     virtual void addDartsPoint(const QByteArray& json) override;
-    virtual void set501MultiPointHint(const QUuid &tournament, const QUuid &player, const int &roundIndex, const int &attemptIndex, const int &hint) override;
+    void addDartsScore(const QByteArray &json) override;
     virtual void resetTournament(const QUuid &tournament) override;
-    virtual void assembleFtpKeyValues(const QUuid &tournament) override;
+    virtual void assembleDartsKeyValues(const QUuid &tournament) override;
     virtual void createPlayer(const QByteArray& json) override;
     virtual void deletePlayerFromIndex(const QByteArray& json) override;
     virtual void deletePlayersFromIndexes(const QByteArray& json) override;
     virtual void handleRequestPlayersDetails() override;
-    virtual void assembleFtpIndexesAndScores(const QUuid &tournament) override;
+    virtual void assembleDartsIndexesAndPoints(const QUuid &tournament) override;
 private slots:
     void handleRecievedTournamentsReply();
     void handleAddFTPTournamentReply();
@@ -93,6 +92,14 @@ private:
         Success = 0x2
     };
     NetworkManager* _netMng = new NetworkManager(API_HOST_URL);
+
+    // AbstractModelsContext interface
+public:
+    void hideDartsPoint(const QUuid &, const QUuid &, const int &, const int &) override;
+    void revealPoint(const QUuid &, const QUuid &, const int &, const int &) override;
+    void hideDartsScore(const QUuid &, const QUuid &, const int &) override;
+    void revealScore(const QUuid &, const QUuid &, const int &) override;
+    void assembleDartsIndexesAndScores(const QUuid &tournament) override;
 };
 
 #endif // REMOTEMODELSCONTEXT_H

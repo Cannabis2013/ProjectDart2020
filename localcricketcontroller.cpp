@@ -38,10 +38,6 @@ void LocalCricketController::handleScoreAddedToDataContext(const QByteArray &jso
 {
 }
 
-void LocalCricketController::handleScoreHintUpdated(const QByteArray &)
-{
-}
-
 void LocalCricketController::handleResetTournament()
 {
 }

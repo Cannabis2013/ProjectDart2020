@@ -1,7 +1,7 @@
 import QtQuick 2.15
 import CustomItems 1.0
 
-import "fTPMultiScripts.js" as ScoreScripts
+import "dartsmultiscorescripts.js" as ScoreScripts
 
 ScoreBoard {
     id: fTPBody
@@ -12,23 +12,23 @@ ScoreBoard {
     onSetData: ScoreScripts.setData(playerName,point,score)
     onTakeData: ScoreScripts.takeData(playerName)
     onEditData: ScoreScripts.editData(row,column,point,score)
-    onClearData: fTPModel.clearData();
+    onClearData: dartsDataModel.clearData();
 
     // Row/column related
-    onMinimumColumnCountChanged: fTPModel.minimumColumnCount = fTPBody.minimumColumnCount
+    onMinimumColumnCountChanged: dartsDataModel.minimumColumnCount = fTPBody.minimumColumnCount
     // Score related
     property int scoreFontSize: 24
     onScoreFontSizeChanged: {
-        fTPModel.scoreFontPointSize = fTPBody.scoreFontSize;
+        dartsDataModel.scoreFontPointSize = fTPBody.scoreFontSize;
         delegate.scoreFontSize = fTPBody.scoreFontSize;
     }
 
-    onSizeScale: fTPModel.scale = s
+    onSizeScale: dartsDataModel.scale = s
     // Notify datamodel about the number of attemps
     property int attempts: 3
-    onAttemptsChanged: fTPModel.attempts = attempts;
+    onAttemptsChanged: dartsDataModel.attempts = attempts;
 
-    onMinimumRowCount: fTPModel.setMinimumRowCount(count);
+    onMinimumRowCount: dartsDataModel.setMinimumRowCount(count);
 
     // Header related
     horizontalHeaderFontSize: 24
@@ -36,13 +36,13 @@ ScoreBoard {
     onAppendHeaderData: ScoreScripts.addHeaderData(data,defaultVal)
 
     property int headerFontSize: 24
-    onHeaderFontSizeChanged: fTPModel.headerFontSize = fTPBody.headerFontSize
+    onHeaderFontSizeChanged: dartsDataModel.headerFontSize = fTPBody.headerFontSize
     headerOrientation: Qt.Vertical
-    onHeaderOrientationChanged: fTPModel.setHeaderOrientation(headerOrientation)
+    onHeaderOrientationChanged: dartsDataModel.setHeaderOrientation(headerOrientation)
     verticalHeaderFillMode: DataModelContext.fixedFill
     horizontalHeaderFillMode: DataModelContext.numericFill
-    onVerticalHeaderFillModeChanged: fTPModel.verticalFillMode = verticalHeaderFillMode
-    onHorizontalHeaderFillModeChanged: fTPModel.horizontalFillMode = horizontalHeaderFillMode
+    onVerticalHeaderFillModeChanged: dartsDataModel.verticalFillMode = verticalHeaderFillMode
+    onHorizontalHeaderFillModeChanged: dartsDataModel.horizontalFillMode = horizontalHeaderFillMode
     onAppendHeader: ScoreScripts.appendHeader(header,orientation)
 
     // Cell related
@@ -54,13 +54,13 @@ ScoreBoard {
     property int pointFontSize: 10
     onPointFontSizeChanged: {
         delegate.pointFontSize = fTPBody.pointFontSize;
-        fTPModel.pointFontPointSize = fTPBody.pointFontSize;
+        dartsDataModel.pointFontPointSize = fTPBody.pointFontSize;
     }
 
     onNotifyCellPosition: ScoreScripts.setViewPosition(x,y)
 
     modelScale: 1.5
-    onModelScaleChanged: fTPModel.scale = modelScale
+    onModelScaleChanged: dartsDataModel.scale = modelScale
 
     QtObject{
         id: cellPositionHolder
@@ -73,16 +73,16 @@ ScoreBoard {
     }
 
     columnWidthProvider: function(column){
-        return fTPModel.columnWidthAt(column);
+        return dartsDataModel.columnWidthAt(column);
     }
 
     rowHeightProvider: function(row)
     {
-        return fTPModel.rowHeightAt(row);
+        return dartsDataModel.rowHeightAt(row);
     }
 
-    model: PointScore501DataModel {
-        id: fTPModel
+    model: DartsPointDatamodel {
+        id: dartsDataModel
         onDataChanged: ScoreScripts.updateScoreBoard();
         attempts: fTPBody.attempts
         headerOrientation: fTPBody.headerOrientation

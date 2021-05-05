@@ -13,7 +13,7 @@ function connectComponents()
     applicationInterface.controllerIsStopped.connect(backendIsStopped);
     applicationInterface.controllerIsInitialized.connect(backendIsInitialized);
     gamePageBody.requestMetaInformation.connect(applicationInterface.handleTournamentMetaRequest);
-    applicationInterface.sendFTPTournamentMetaData.connect(handleFTPTournamentMetaData);
+    applicationInterface.sendDartsTournamentData.connect(handleFTPTournamentMetaData);
     gamePageBody.requestStart.connect(applicationInterface.handleRequestStart);
     gamePageBody.requestStop.connect(applicationInterface.handleRequestStop);
     gamePageBody.requestRestart.connect(applicationInterface.handleRestartTournament);
@@ -26,7 +26,7 @@ function disconnectComponents()
     applicationInterface.controllerIsStopped.disconnect(backendIsStopped);
     applicationInterface.controllerIsInitialized.disconnect(backendIsInitialized);
     gamePageBody.requestMetaInformation.disconnect(applicationInterface.handleTournamentMetaRequest);
-    applicationInterface.sendFTPTournamentMetaData.disconnect(handleFTPTournamentMetaData);
+    applicationInterface.sendDartsTournamentData.disconnect(handleFTPTournamentMetaData);
     gamePageBody.requestStart.disconnect(applicationInterface.handleRequestStart);
     gamePageBody.requestStop.disconnect(applicationInterface.handleRequestStop);
     gamePageBody.requestRestart.disconnect(applicationInterface.handleRestartTournament);

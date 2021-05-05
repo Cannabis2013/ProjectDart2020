@@ -1,11 +1,14 @@
 import QtQuick 2.15
 import CustomItems 1.0
 
-import "fTPMultiScripts.js" as ScoreScripts
+import "fTPMultiPointScripts.js" as ScoreScripts
 
 ScoreBoard {
     id: fTPBody
     // Data related
+    signal setData(string playerName, int score)
+    signal takeData(int row, int column,string playerName)
+    signal editData(int row, int column,int score)
     onSetData: ScoreScripts.setData(playerName,point,score)
     onTakeData: ScoreScripts.takeData(playerName)
     onEditData: ScoreScripts.editData(row,column,point,score)
@@ -75,7 +78,7 @@ ScoreBoard {
         return fTPModel.rowHeightAt(row);
     }
 
-    model: DartsMultiDatamodel {
+    model: DartsPointDatamodel {
         id: fTPModel
         onDataChanged: ScoreScripts.updateScoreBoard();
         attempts: 1

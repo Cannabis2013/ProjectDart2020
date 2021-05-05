@@ -1,7 +1,7 @@
 import QtQuick 2.15
 import CustomItems 1.0
 
-import "fTPMultiScripts.js" as ScoreScripts
+import "fTPMultiPointScripts.js" as ScoreScripts
 
 PointScoreRectDelegate {
     id: delegate

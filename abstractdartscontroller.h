@@ -11,17 +11,13 @@
 class AbstractDartsController : public AbstractGameController
 {
     Q_OBJECT
-public:
-    // Public types
-    typedef QPair<QUuid,QString> Player;
-    typedef QPair<QUuid,int> PlayerScore;
 public slots:
-    virtual void assembleSingleAttemptFtpScores() = 0;
-    virtual void handleRequestFtpPlayerScores() = 0;
     virtual void initializeController(const QByteArray&) = 0;
+    virtual void undoSuccess(const QByteArray&) = 0;
+    virtual void redoSuccess(const QByteArray&) = 0;
 signals:
     void isReadyAndAwaitsInput(const QString& json);
-    void requestFtpDetails(const QUuid& tournamentId);
+    void requestDartsTournamentDetails(const QUuid& tournamentId);
     void initializedAndAwaitsInput(const bool& canUndo,
                                    const bool& canRedo,
                                    const int& roundIndex,
@@ -29,14 +25,6 @@ signals:
                                    const int& attemptIndex,
                                    const int& score,
                                    const QString& targetRow);
-    void requestFtpMultiAttemptScores(const QUuid &tournament);
-    void requestAddDartsScore(const QByteArray& json);
-    void scoreAddedAndPersisted(const QByteArray& json);
-    void scoreRemoved(const QString& json);
-    void requestFtpIndexesAndScores(const QUuid &tournament);
-    void sendSingleAttemptFtpScores(const QByteArray& json);
-    void sendMultiAttemptFtpScores(const QByteArray& json);
-
 };
 
 #endif // FTPCONTROLLER_H

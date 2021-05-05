@@ -60,7 +60,7 @@
         <file>NotificationItem.qml</file>
         <file>FtpMultiScoreBoard.qml</file>
         <file>DataModelContext.qml</file>
-        <file>fTPMultiScripts.js</file>
+        <file>fTPMultiPointScripts.js</file>
         <file>createTournamentScripts.js</file>
         <file>pointKeyPadScripts.js</file>
         <file>ScoreKeyPad.qml</file>
@@ -83,6 +83,7 @@
         <file>ftpScoreBoardFactory.js</file>
         <file>ScoreRectDelegate.qml</file>
         <file>MultiScoreDelegate.qml</file>
+        <file>dartsmultiscorescripts.js</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>

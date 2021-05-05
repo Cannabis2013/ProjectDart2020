@@ -4,10 +4,8 @@ void AbstractJSONPersistence::writeJSONToFile(const QJsonObject &json, const QSt
 {
     QFile file(fileName);
     file.open(QIODevice::WriteOnly);
-
     QDataStream out(&file);
     out << json;
-
     file.close();
 }
 

@@ -1,6 +1,6 @@
 #include "localplayermodelscontext.h"
 
-QVector<QString> LocalPlayerModelsContext::assemblePlayerMailAdressesFromIds(const QVector<QUuid> &ids)
+QVector<QString> LocalPlayerModelsContext::assemblePlayerMailAdressesFromIds(const QVector<QUuid> &ids) const
 {
     QVector<QString> mailAdresses;
     for (auto id : ids) {
@@ -10,7 +10,7 @@ QVector<QString> LocalPlayerModelsContext::assemblePlayerMailAdressesFromIds(con
     return mailAdresses;
 }
 
-QVector<QString> LocalPlayerModelsContext::assemblePlayerNamesFromIds(const QVector<QUuid> &ids)
+QVector<QString> LocalPlayerModelsContext::assemblePlayerNamesFromIds(const QVector<QUuid> &ids) const
 {
     QVector<QString> assignedPlayerNames;
     for (int i = 0; i <ids.count();i++) {
@@ -28,7 +28,7 @@ QVector<QString> LocalPlayerModelsContext::assemblePlayerNamesFromIds(const QVec
     return assignedPlayerNames;
 }
 
-QVector<QUuid> LocalPlayerModelsContext::assemblePlayerIds(const QVector<int> &indexes)
+QVector<QUuid> LocalPlayerModelsContext::assemblePlayerIds(const QVector<int> &indexes) const
 {
     QVector<QUuid> playersId;
 
@@ -46,7 +46,7 @@ QVector<QUuid> LocalPlayerModelsContext::assemblePlayerIds(const QVector<int> &i
     return playersId;
 }
 
-IModelsDbContext *LocalPlayerModelsContext::modelDBContext()
+IModelsDbContext *LocalPlayerModelsContext::modelDBContext() const
 {
     return _dbContext;
 }
@@ -98,7 +98,7 @@ bool LocalPlayerModelsContext::deletePlayer(const int &index)
     return true;
 }
 
-bool LocalPlayerModelsContext::deletePlayers(const QVector<int> &indexes)
+bool LocalPlayerModelsContext::deletePlayersByIndexes(const QVector<int> &indexes)
 {
     bool status = true;
     QList<QUuid> playerIds;
@@ -172,7 +172,7 @@ void LocalPlayerModelsContext::deletePlayerByEmail(const QString &email)
     throw "No model found with given mail adress";
 }
 
-QUuid LocalPlayerModelsContext::playerIdFromName(const QString &playerName)
+QUuid LocalPlayerModelsContext::playerIdFromName(const QString &playerName) const
 {
     try {
         auto model = getModel(playerName);
@@ -182,7 +182,7 @@ QUuid LocalPlayerModelsContext::playerIdFromName(const QString &playerName)
     }
 }
 
-QUuid LocalPlayerModelsContext::playerIdFromIndex(const int &index)
+QUuid LocalPlayerModelsContext::playerIdFromIndex(const int &index) const
 {
     try {
         auto model = modelDBContext()->playerModel(index);
@@ -193,7 +193,7 @@ QUuid LocalPlayerModelsContext::playerIdFromIndex(const int &index)
     }
 }
 
-QString LocalPlayerModelsContext::playerNameFromId(const QUuid &id)
+QString LocalPlayerModelsContext::playerNameFromId(const QUuid &id) const
 {
     auto models = modelDBContext()->playerModels();
     for (auto model : models) {
@@ -206,7 +206,7 @@ QString LocalPlayerModelsContext::playerNameFromId(const QUuid &id)
     return QString();
 }
 
-QString LocalPlayerModelsContext::playerMailFromId(const QUuid &id)
+QString LocalPlayerModelsContext::playerMailFromId(const QUuid &id) const
 {
     auto models = modelDBContext()->playerModels();
     for (auto model : models) {
@@ -219,7 +219,7 @@ QString LocalPlayerModelsContext::playerMailFromId(const QUuid &id)
     return QString();
 }
 
-QList<QUuid> LocalPlayerModelsContext::players()
+QList<QUuid> LocalPlayerModelsContext::players() const
 {
     QList<QUuid> resultingList;
     auto models = modelDBContext()->playerModels();
@@ -230,7 +230,7 @@ QList<QUuid> LocalPlayerModelsContext::players()
     return resultingList;
 }
 
-int LocalPlayerModelsContext::playersCount()
+int LocalPlayerModelsContext::playersCount() const
 {
     auto models = modelDBContext()->playerModels();
     auto count = models.count();
@@ -272,7 +272,7 @@ QUuid LocalPlayerModelsContext::buildPlayerModel(const QString &playerName,
     return modelID;
 }
 
-const IDefaultPlayerModel *LocalPlayerModelsContext::getModel(const QString &playerName)
+const IDefaultPlayerModel *LocalPlayerModelsContext::getModel(const QString &playerName) const
 {
     auto models = modelDBContext()->playerModels();
     for (auto model : models) {

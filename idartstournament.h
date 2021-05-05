@@ -5,7 +5,7 @@
 #include <qvector.h>
 
 template<class TUuid, class TString>
-class IDartsTournament : public ITournament<TUuid,QVector<TUuid>,TString>
+class IDartsTournament : public ITournament<TUuid,TString>
 {
 public:
     virtual IDartsTournament<TUuid,TString>* setTitle(const TString &string) = 0;

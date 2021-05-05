@@ -1,16 +1,17 @@
 #ifndef ITOURNAMENT_H
 #define ITOURNAMENT_H
 #include "imodel.h"
-template<class TUuid,class TList, class TString>
+#include <qvector.h>
+template<class TUuid, class TString>
 class ITournament : public IModel<TUuid>
 {
 public:
     virtual TString title() const = 0;
     virtual ITournament* setTitle(const TString &string) = 0;
 
-    virtual TList assignedPlayerIdentities() const = 0;
+    virtual QVector<TUuid> assignedPlayerIdentities() const = 0;
     virtual ITournament* assignPlayerIdentity(const TUuid &identity) = 0;
-    virtual ITournament* setAssignedPlayerIdentities(const TList &playerIdentities) = 0;
+    virtual ITournament* setAssignedPlayerIdentities(const QVector<TUuid> &playerIdentities) = 0;
 
     virtual int gameMode() const = 0;
     virtual ITournament* setGameMode(const int &val) = 0;

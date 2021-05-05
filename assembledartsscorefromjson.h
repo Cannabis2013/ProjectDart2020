@@ -1,14 +1,14 @@
 #ifndef ASSEMBLEDARTSSCOREFROMJSON_H
 #define ASSEMBLEDARTSSCOREFROMJSON_H
 
-#include "iunary.h"
+#include "iunaryservice.h"
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 #include <QJsonArray>
 #include "dartsscoreinput.h"
 
 class AssembleDartsScoreFromJson : public
-        IUnary<const QByteArray&,const IDartsScoreInput<QUuid>*>
+        IUnaryService<const QByteArray&,const IDartsScoreInput<QUuid>*>
 {
 public:
     enum ModelDisplayHint{
@@ -25,22 +25,14 @@ public:
         auto playerId = QUuid::fromString(currentPlayerStringId);
         auto roundIndex = jsonObject.value("roundIndex").toInt();
         auto setIndex = jsonObject.value("setIndex").toInt();
-        auto attempt = jsonObject.value("attempt").toInt();
-        auto point = jsonObject.value("point").toInt();
         auto score = jsonObject.value("scoreValue").toInt();
-        auto accumulatedScore = jsonObject.value("accumulatedScoreValue").toInt();
-        auto modKeyCode = jsonObject.value("modKeyCode").toInt();
         auto model = DartsScoreInput::createInstance()
                 ->setId(QUuid::createUuid())
-                ->setTournament(tournamentId)
+                ->setTournamentId(tournamentId)
                 ->setPlayer(playerId)
                 ->setRoundIndex(roundIndex)
                 ->setSetIndex(setIndex)
-                ->setAttempt(attempt)
-                ->setPointValue(point)
-                ->setScoreValue(score)
-                ->setAccumulatedScore(accumulatedScore)
-                ->setModKeyCode(modKeyCode)
+                ->setScore(score)
                 ->setDisplayHint(DisplayHint);
         return model;
     }

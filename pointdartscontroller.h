@@ -21,14 +21,14 @@
 #define UNABLE_TO_ALTER_TURN "Unable to alter turn index";
 
 #include <iostream>
-#include "abstractdartscontroller.h"
+#include "abstractdartspointcontroller.h"
 
 
 typedef IScoreController<QUuid, QString,QVector<int>,QVector<QString>> ScoreController;
 
 using namespace std;
 
-class PointDartsController : public AbstractDartsController
+class PointDartsController : public AbstractDartsPointController
 {
     Q_OBJECT
 public:
@@ -124,11 +124,10 @@ public slots:
      *
      * The following methods is called dependently on input hint
      */
-    void assembleSingleAttemptFtpScores() override;
-    void handleRequestFtpPlayerScores() override;
+    void assembleSingleAttemptDartsPoints() override;
+    void handleRequestDartsPoints() override;
 
     void handleScoreAddedToDataContext(const QByteArray& json) override;
-    void handleScoreHintUpdated(const QByteArray& json) override;
     /*
      * Reinitialize controller
      *  - Set controller back to its original state
@@ -144,6 +143,11 @@ public slots:
      * Recieve ftp index values, score values, and player values from modelscontext
      */
     virtual void initializeController(const QByteArray& json) override;
+    /*
+     * Undo/redo success
+     */
+    void undoSuccess(const QByteArray &json) override;
+    void redoSuccess(const QByteArray &json) override;
 private:
     /*
      * Private constructor
