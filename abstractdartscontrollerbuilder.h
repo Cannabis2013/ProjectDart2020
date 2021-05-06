@@ -16,7 +16,7 @@ class AbstractDartsControllerBuilder : public QObject,
 {
     Q_OBJECT
 signals:
-    void requestFTPDetails(const QUuid &tournament);
+    void requestDartsDetails(const QUuid &tournament);
     void sendController(AbstractGameController* controller);
 
 public slots:

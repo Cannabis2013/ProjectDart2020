@@ -14,6 +14,8 @@
 #include "idartspointdb.h"
 #include "iunaryservice.h"
 #include "ibinaryservice.h"
+#include "iternaryservice.h"
+#include "idartspointindexes.h"
 
 
 #define THROW_OBJECT_WITH_ID_NOT_FOUND(x) QString("Model with ID: '%1' does not exists in the current context").arg(x).toStdString();
@@ -63,32 +65,33 @@ public:
     /*
      * Darts tournament related section
      */
+    QVector<const IDartsTournament<QUuid, QString> *> getDartsTournamentModels() const override;
     const IDartsTournament<QUuid, QString> *getDartsTournamentById(const QUuid &tournamentId) const override;
-    bool removeTournamentsByIndexes(const QVector<int>& indexes) override;
-    QUuid tournamentIdFromIndex(const int &index) override;
-    QVector<QUuid> tournaments() override;
-    int tournamentsCount() override;
-    QString tournamentTitle(const QUuid &tournament) override;
-    int tournamentStatus(const QUuid &tournament) override;
-    QUuid tournamentWinner(const QUuid &tournament) override;
+    bool removeTournamentsByIndexes(const QVector<int>& indexes) const override;
+    QUuid tournamentIdFromIndex(const int &index) const override;
+    QVector<QUuid> tournaments() const override;
+    int tournamentsCount() const override;
+    QString tournamentTitle(const QUuid &tournament) const override;
+    int tournamentStatus(const QUuid &tournament) const override;
+    QUuid tournamentWinnerId(const QUuid &tournament) const override;
     void tournamentSetWinnerId(const QUuid &tournament,
                                const QUuid &winner) override;
-    QVector<QUuid> tournamentAssignedPlayers(const QUuid &tournament) override;
+    QVector<QUuid> tournamentAssignedPlayers(const QUuid &tournament) const override;
     void tournamentAssignPlayer(const QUuid &tournament,
                                   const QUuid &player) override;
     void tournamentAssignPlayers(const QUuid &tournament,
                                   const QVector<QUuid> &players) override;
     void tournamentUnAssignPlayer(const QUuid &tournament,
                                 const QUuid &player) override;
-    const IDartsTournament<QUuid,QString>* assembleDartsTournamentFromJson(const QByteArray& json) override;
+    const IDartsTournament<QUuid,QString>* assembleDartsTournamentFromJson(const QByteArray& json) const override;
     QUuid addDartsTournamentToDb(const IDartsTournament<QUuid, QString> *tournament) override;
-    int tournamentAttempts(const QUuid &tournament) override;
-    int tournamentGameMode(const QUuid &tournament) override;
-    int tournamentTerminalKeyCode(const QUuid &tournament) override;
-    int tournamentKeyPoint(const QUuid &tournament) override;
-    int tournamentTableViewHint(const QUuid &tournament) override;
-    int tournamentInputMode(const QUuid &tournament) override;
-    const QVector<int> dartsIndexes(const QUuid &tournament) override;
+    int tournamentAttempts(const QUuid &tournament) const override;
+    int tournamentGameMode(const QUuid &tournament) const override;
+    int tournamentTerminalKeyCode(const QUuid &tournament) const override;
+    int tournamentKeyPoint(const QUuid &tournament) const override;
+    int tournamentTableViewHint(const QUuid &tournament) const override;
+    int tournamentInputMode(const QUuid &tournament) const override;
+    const IDartsPointIndexes *dartsIndexes(const QUuid &tournament) const override;
     /*
      * Points related section
      */
@@ -99,15 +102,15 @@ public:
                    const QUuid &player ,
                    const int &round,
                    const int &throwIndex,
-                   const int &hint) override;
+                   const int &hint) const override;
     virtual QUuid getDartsPointId(const QUuid &tournament,
                            const QUuid &player ,
                            const int &round,
-                           const int &attemptIndex) override;
+                           const int &attemptIndex) const override;
     QList<QUuid> dartsPointIds() const override;
     QList<QUuid> dartsPointIds(const QUuid &tournament) const override;
     QList<QUuid> dartsPointIds(const QUuid &tournament,
-                        const int &roundID) override;
+                        const int &roundID) const override;
     QList<QUuid> dartsPointIds(const QUuid &tournament,
                         const int &roundID,
                         const int &setID) override;
@@ -115,29 +118,28 @@ public:
                         const QUuid &tournament) override;
     QList<QUuid> pointsByPlayerId(const QUuid &tournament,
                               const QUuid &player,
-                              const int &hint) override;
-    int dartsPointsCount(const int &hint) override;
+                              const int &hint) const override;
+    int dartsPointsCount(const int &hint) const override;
     QUuid setDartsPointHint(const QUuid &point,
                        const int &hint) override;
-    int dartsPointRoundIndex(const QUuid &playerScore) override;
-    int dartsPointSetIndex(const QUuid &playerScore) override;
-    int dartsPointAttemptIndex(const QUuid &playerScore) override;
+    int dartsPointRoundIndex(const QUuid &playerScore) const override;
+    int dartsPointSetIndex(const QUuid &playerScore) const override;
+    int dartsPointAttemptIndex(const QUuid &playerScore) const override;
     int pointValueFromPointId(const QUuid &playerScore) const override;
-    QUuid tournamentIdFromPointId(const QUuid &playerScore) override;
+    QUuid tournamentIdFromPointId(const QUuid &playerScore) const override;
     QUuid playerIdFromPointId(const QUuid &playerScore) const override;
-    int pointHint(const QUuid &scoreID) override;
+    int pointHint(const QUuid &scoreID) const override;
     int pointKeyCode(const QUuid &scoreID) const  override;
     void removePointById(const QUuid &point) override;
 
     void removeHiddenPoints(const QUuid &tournament) override;
 
     int point(const QUuid &tournament,
-              const QUuid &player) override;
-    int point(const QUuid &player) override;
+              const QUuid &player) const override;
     QList<QUuid> pointModels(const QUuid &player) override;
     void removePointsByTournamentId(const QUuid &tournament) override;
     void removePointModel(const QUuid &playerScore) override;
-    QVector<int> dartsPointValuesByTournamentId(const QUuid &tournament) override;
+    QVector<int> dartsPointValuesByTournamentId(const QUuid &tournament) const override;
     /*
      * Scores methods
      */
@@ -145,39 +147,50 @@ public:
     void addDartsScore(const IDartsScoreInput<QUuid> *) override;
     QUuid getDartsScoreId(const QUuid &tournament, const QUuid &player,
                           const int &round,
-                          const int &hint) override;
+                          const int &hint) const override;
     QUuid getDartsScoreId(const QUuid &tournament,
                           const QUuid &player,
-                          const int &round) override;
+                          const int &round) const override;
     QList<QUuid> dartsScoreIds() const override;
     QList<QUuid> dartsScoreIds(const QUuid &tournament) const override;
-    QList<QUuid> dartsScoreIds(const QUuid &tournament, const int &roundID) override;
-    QList<QUuid> dartsScoreIds(const QUuid &tournament, const int &roundID, const int &setID) override;
-    QList<QUuid> dartsScoreIds(const int &hint, const QUuid &tournament) override;
-    QList<QUuid> ScoresByPlayerId(const QUuid &tournament, const QUuid &player, const int &hint) override;
-    int dartsScoresCount(const int &hint) override;
+    QList<QUuid> dartsScoreIds(const QUuid &tournament, const int &roundID) const override;
+    QList<QUuid> dartsScoreIds(const QUuid &tournament, const int &roundID, const int &setID) const override;
+    QList<QUuid> dartsScoreIds(const int &hint, const QUuid &tournament) const override;
+    QList<QUuid> ScoresByPlayerId(const QUuid &tournament, const QUuid &player, const int &hint) const override;
+    int dartsScoresCount(const int &hint) const override;
     QUuid setDartsScoreHint(const QUuid &point, const int &hint) override;
-    int dartsScoreRoundIndex(const QUuid &) override;
-    int dartsScoreSetIndex(const QUuid &) override;
+    int dartsScoreRoundIndex(const QUuid &) const override;
+    int dartsScoreSetIndex(const QUuid &) const override;
     int ScoreValueFromScoreId(const QUuid &) const override;
-    QUuid tournamentIdFromScoreId(const QUuid &playerScore) override;
+    QUuid tournamentIdFromScoreId(const QUuid &playerScore) const override;
     QUuid playerIdFromScoreId(const QUuid &playerScore) const override;
-    int ScoreHint(const QUuid &scoreID) override;
+    int ScoreHint(const QUuid &scoreID) const override;
     int ScoreKeyCode(const QUuid &) const override;
     void removeScoreById(const QUuid &) override;
     void removeHiddenScores(const QUuid &) override;
-    int Score(const QUuid &, const QUuid &) override;
-    int Score(const QUuid &player) override;
-    QList<QUuid> ScoreModels(const QUuid &player) override;
+    int Score(const QUuid &, const QUuid &) const override;
+    int Score(const QUuid &player) const override;
+    QList<QUuid> ScoreModels(const QUuid &player) const override;
     void removeScoresByTournamentId(const QUuid &tournament) override;
     void removeScoreModel(const QUuid &playerScore) override;
     // Set services method
-    void setTournamentsDbContext(IDartsTournamentDb<IDartsTournament<QUuid, QString> > *tournamentsDbContext);
+    DartsModelsService *setTournamentsDbContext(
+            IDartsTournamentDb<IDartsTournament<QUuid,
+            QString> > *tournamentsDbContext);
+    void setAssembleDartsInputPointFromJson(
+            IUnaryService<const QByteArray &,
+            const IDartsPointInput<QUuid> *> *assembleDartsInputPointFromJson);
+    DartsModelsService *setAssembleDartsTournamentFromJson(
+            IUnaryService<const QByteArray &,
+            const IDartsTournament<QUuid, QString> *> *assembleDartsTournamentFromJson);
 
-    void setAssembleDartsInputPointFromJson(IUnaryService<const QByteArray &, const IDartsPointInput<QUuid> *> *assembleDartsInputPointFromJson);
-    DartsModelsService *setAssembleDartsTournamentFromJson(IUnaryService<const QByteArray &, const IDartsTournament<QUuid, QString> *> *assembleDartsTournamentFromJson);
+    DartsModelsService *setGetOrderedDartsPointsModels(
+            IBinaryService<const QUuid &,
+            const IdartsPointDb<IDartsPointInput<QUuid> > *,
+            QVector<const IDartsPointInput<QUuid> *> > *getOrderedDartsPointsModels);
+    DartsModelsService *setDartsPointsDb(IdartsPointDb<IDartsPointInput<QUuid> > *dartsPointsDb);
 
-    DartsModelsService *setGetOrderedDartsPointsModels(IBinaryService<const QUuid &, const IdartsPointDb<IDartsPointInput<QUuid> > *, QVector<const IDartsPointInput<QUuid> *> > *getOrderedDartsPointsModels);
+    DartsModelsService *setGetDartsPointIndexes(ITernaryService<const QVector<const IDartsPointInput<QUuid> *> &, const QUuid &, const IDartsModelsService *, const IDartsPointIndexes *> *getDartsPointIndexes);
 
 private:
     /*
@@ -188,17 +201,20 @@ private:
     IUnaryService<const QByteArray&,const IDartsPointInput<QUuid>*>* _assembleDartsInputPointFromJson;
     IBinaryService<const QUuid&,const IdartsPointDb<IDartsPointInput<QUuid>>*,
                   QVector<const IDartsPointInput<QUuid>*>>* _getOrderedDartsPointsModels;
-    /*
-     * Get tournament model
-     */
     template<typename TModelInterface>
-    const TModelInterface *getTournamentModelFromId(const QUuid &id);
+    const TModelInterface *getTournamentModelFromId(const QUuid &id) const;
+    ITernaryService<const QVector<const IDartsPointInput<QUuid>*>&,
+                    const QUuid&,
+                    const IDartsModelsService*,
+                    const IDartsPointIndexes*>* _getDartsPointIndexes;
     template<typename T = IModel<QUuid>>
     const T* getPointModelFromId(const QUuid &id) const;
 
-    IModelsDbContext* _dbContext;
+    // Db services
     IDartsTournamentDb<IDartsTournament<QUuid,QString>>* _tournamentsDbContext;
     IdartsPointDb<IDartsPointInput<QUuid>>* _dartsPointsDb;
 };
+
+
 
 #endif // TOURNAMENTMODELCONTEXT_H

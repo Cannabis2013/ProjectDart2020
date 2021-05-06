@@ -9,7 +9,7 @@ class AbstractGameController : public QObject
 {
     Q_OBJECT
 public slots:
-    virtual void initializeController(const QByteArray&) = 0;
+    virtual void initializeControllerIndexes(const QByteArray&) = 0;
     /*
      * Start/stop game
      */
@@ -48,7 +48,6 @@ signals:
     void requestResetTournament(const QUuid &tournament);
     void requestPersistModelState();
     void controllerIsNotInitialized();
-    void controllerIsInitialized();
     void isReset();
     void winnerDeclared(const QString& jsons);
     void controllerIsStopped();

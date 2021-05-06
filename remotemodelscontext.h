@@ -69,7 +69,7 @@ public:
     virtual void deletePlayerFromIndex(const QByteArray& json) override;
     virtual void deletePlayersFromIndexes(const QByteArray& json) override;
     virtual void handleRequestPlayersDetails() override;
-    virtual void assembleDartsIndexesAndPoints(const QUuid &tournament) override;
+    virtual void assembleDartsPointIndexes(const QUuid &tournament) override;
 private slots:
     void handleRecievedTournamentsReply();
     void handleAddFTPTournamentReply();
@@ -100,6 +100,17 @@ public:
     void hideDartsScore(const QUuid &, const QUuid &, const int &) override;
     void revealScore(const QUuid &, const QUuid &, const int &) override;
     void assembleDartsIndexesAndScores(const QUuid &tournament) override;
+
+    // AbstractModelsService interface
+public:
+    void assembleAssignedPlayerEntities(const QUuid &) override;
+    void assembleAssignedPlayerPoints(const QUuid &) override;
+
+    // AbstractModelsService interface
+public:
+    void assembleDartsTournamentWinnerIdAndName(const QUuid &) override;
 };
+
+
 
 #endif // REMOTEMODELSCONTEXT_H

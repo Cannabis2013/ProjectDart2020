@@ -1,6 +1,6 @@
-#include "connectdartspointcontroller.h"
+#include "connectdartsmultipointcontroller.h"
 
-AbstractDartsPointController *ConnectDartsPointController::service(AbstractDartsPointController *controller,
+AbstractDartsPointController *ConnectDartsMultiPointController::service(AbstractDartsPointController *controller,
                                                                    AbstractApplicationInterface *application,
                                                                    AbstractModelsService *modelsService)
 {
@@ -10,10 +10,22 @@ AbstractDartsPointController *ConnectDartsPointController::service(AbstractDarts
     QObject::connect(controller,&AbstractDartsPointController::sendCurrentTournamentId,
             modelsService,&AbstractModelsService::assembleDartsTournamentDataFromId);
     // Controller requests indexes and playerscores
-    QObject::connect(controller,&AbstractDartsPointController::requestDartsIndexesAndPoints,
-            modelsService,&AbstractModelsService::assembleDartsIndexesAndPoints);
-    QObject::connect(modelsService,&AbstractModelsService::sendDartsIndexesAndPointValues,
-            controller,&AbstractDartsController::initializeController);
+    QObject::connect(controller,&AbstractDartsPointController::requestDartsTournamentIndexes,
+            modelsService,&AbstractModelsService::assembleDartsPointIndexes);
+    QObject::connect(modelsService,&AbstractModelsService::sendDartsPointIndexesAsJson,
+            controller,&AbstractDartsController::initializeControllerIndexes);
+    QObject::connect(controller,&AbstractDartsPointController::requestTournamentAssignedPlayerDetails,
+                     modelsService,&AbstractModelsService::assembleAssignedPlayerEntities);
+    QObject::connect(modelsService,&AbstractModelsService::sendAssignedPlayerIdsAndNamesAsJson,
+                     controller,&AbstractDartsPointController::initializeControllerPlayerDetails);
+    QObject::connect(controller,&AbstractDartsPointController::requestTournamentDartsPoints,
+                     modelsService,&AbstractModelsService::assembleAssignedPlayerPoints);
+    QObject::connect(modelsService,&AbstractModelsService::sendTournamentDartsPointsAsJson,
+                     controller,&AbstractDartsPointController::initializeControllerDartsPoints);
+    QObject::connect(controller,&AbstractDartsPointController::requestTournamentWinnerIdAndName,
+                     modelsService,&AbstractModelsService::assembleDartsTournamentWinnerIdAndName);
+    QObject::connect(modelsService,&AbstractModelsService::sendDartsTournamentWinnerIdAndName,
+                     controller,&AbstractDartsPointController::initializeControllerWinnerIdAndName);
     // Controller requests transmitting multithrow playerscores
     QObject::connect(application,&AbstractApplicationInterface::requestDartsMultiAttemptScores,
             controller,&AbstractDartsPointController::handleRequestDartsPoints);
@@ -29,7 +41,7 @@ AbstractDartsPointController *ConnectDartsPointController::service(AbstractDarts
     QObject::connect(application,&AbstractApplicationInterface::requestSingleThrowPlayerScores,
             controller,&AbstractDartsPointController::assembleSingleAttemptDartsPoints);
     QObject::connect(controller,&AbstractDartsPointController::sendSingleAttemptDartsPoints,
-            application,&AbstractApplicationInterface::sendAssembledSingleFtpScores);
+            application,&AbstractApplicationInterface::sendAssembledSingleDartsScores);
     /*
          * Wake up controller
          */
@@ -40,7 +52,7 @@ AbstractDartsPointController *ConnectDartsPointController::service(AbstractDarts
          */
     QObject::connect(controller,&AbstractDartsController::controllerIsStopped,
             application,&AbstractApplicationInterface::controllerIsStopped);
-    QObject::connect(controller,&AbstractDartsController::controllerIsInitialized,
+    QObject::connect(controller,&AbstractDartsPointController::controllerIsInitialized,
             application,&AbstractApplicationInterface::controllerIsInitialized);
     QObject::connect(controller,&AbstractDartsController::isReadyAndAwaitsInput,
             application,&AbstractApplicationInterface::controllerAwaitsInput);

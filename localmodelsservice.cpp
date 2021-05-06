@@ -8,26 +8,7 @@ LocalModelsService::~LocalModelsService()
 
 LocalModelsService *LocalModelsService::createInstance()
 {
-    auto dbContext = new PlayersJsonDb();
-    auto dartsModelsService =
-            DartsModelsService::createInstance()
-            ->setAssembleDartsTournamentFromJson(new AssembleDartsTournamentModelFromJson)
-            ->setGetOrderedDartsPointsModels(new GetOrderedDartsPointsModels);
-    auto playerModelsService =
-            LocalPlayerModelsContext::createInstance()
-            ->setPlayerBuilder(new PlayerModelBuilder())
-            ->setModelDBContext(dbContext)
-            ->setup();
-    auto modelsContext = new LocalModelsService();
-    modelsContext->setDartsModelsService(dartsModelsService);
-    modelsContext->setPlayerModelsService(playerModelsService);
-    modelsContext->setAssembleJsonObjectFromTournamentIndexes(new AssembleJsonDartsIndexes);
-    modelsContext->setGetPlayerIndexesFromJson(new AssemblePlayerIndexesFromJson);
-    modelsContext->setJsonArrayFromPlayerNamesAndIds(new JsonArrayFromPlayerNamesAndIds);
-    modelsContext->setJsonArrayFromDartsPoints(new JsonArrayFromDartsPoints());
-    modelsContext->setAssembleJsonFromOrderedDartsPointModels(new AssembleJsonFromOrderedDartsPointModels);
-    modelsContext->setAssembleDartsTournamentFromJson(new AssembleDartsTournamentModelFromJson);
-    return modelsContext;
+    return new LocalModelsService();
 }
 
 void LocalModelsService::addDartsTournament(const QByteArray& json)
@@ -63,24 +44,14 @@ void LocalModelsService::deleteTournaments(const QByteArray& json)
 void LocalModelsService::getOrderedDartsPoints(const QUuid &tournamentId)
 {
     auto orderedDartsPointModels = _dartsModelsService->getDartsPointModelsOrdedByIndexes(tournamentId);
-    auto json = _assembleJsonFromOrderedDartsPointModels->service(orderedDartsPointModels,_playerModelsService);
+    auto json = _assembleJsonOrderedDartsPointModels->service(orderedDartsPointModels,_playerModelsService);
     emit sendFtpMultiScores(json);
 }
 
 void LocalModelsService::handleRequestTournaments()
 {
-    QVariantList tournaments;
-    auto count = _dartsModelsService->tournamentsCount();
-    for (int i = 0; i < count; ++i) {
-        auto id = _dartsModelsService->tournamentIdFromIndex(i);
-        auto title = _dartsModelsService->tournamentTitle(id);
-        auto gameMode = _dartsModelsService->tournamentGameMode(id);
-        auto playersCount = _dartsModelsService->tournamentAssignedPlayers(id).count();
-        auto winnerId = _dartsModelsService->tournamentWinner(id);
-        auto winnerName = _playerModelsService->playerNameFromId(winnerId);
-        tournaments += {id,title,gameMode,winnerName,playersCount};
-    }
-    emit sendTournaments(tournaments);
+    auto json = _assembleJsonDartsTournamentModels->service(_dartsModelsService,_playerModelsService);
+    emit sendTournaments(json);
 }
 
 void LocalModelsService::handleRequestGameMode(const int &index)
@@ -122,7 +93,7 @@ void LocalModelsService::assembleDartsKeyValues(const QUuid &tournamentId)
     obj["keyPoint"] = _dartsModelsService->tournamentKeyPoint(tournamentId);
     obj["terminalKeyCode"] = _dartsModelsService->tournamentTerminalKeyCode(tournamentId);
     obj["inputHint"] = _dartsModelsService->tournamentInputMode(tournamentId);
-    auto winnerId = _dartsModelsService->tournamentWinner(tournamentId);
+    auto winnerId = _dartsModelsService->tournamentWinnerId(tournamentId);
     obj["winnerId"] = winnerId.toString(QUuid::WithoutBraces);
     auto json = QJsonDocument(obj).toJson();
     emit sendTournamentFtpDetails(json);
@@ -130,21 +101,9 @@ void LocalModelsService::assembleDartsKeyValues(const QUuid &tournamentId)
 
 void LocalModelsService::createPlayer(const QByteArray &json)
 {
-    auto document = QJsonDocument::fromJson(json);
-    auto jsonObject = document.object();
-    auto name = jsonObject.value("playerName").toString();
-    auto mail = jsonObject.value("playerMail").toString();
-    try {
-        _playerModelsService->playerIdFromName(name);
-    }  catch (const char *msg) {
-        auto id = _playerModelsService->createPlayer(name,mail);
-        auto status = id != QUuid() ? true :
-                                      false;
-        // Notify front-end
-        emit createPlayerResponse(status);
-        return;
-    }
-    emit createPlayerResponse(false);
+    auto playerModel = _playerModelsService->createPlayerFromJson(json);
+    _playerModelsService->addPlayerModelToDb(playerModel);
+    emit createPlayerResponse(true);
 }
 
 void LocalModelsService::deletePlayerFromIndex(const QByteArray &json)
@@ -180,19 +139,9 @@ void LocalModelsService::handleRequestPlayersDetails()
     emit sendPlayers(list);
 }
 
-void LocalModelsService::setJsonArrayFromDartsPoints(IBinaryService<const QUuid &, const IDartsModelsService *, QJsonArray> *JsonArrayFromDartsPoints)
+void LocalModelsService::setAssembleJSonFromTournamentDartsPoints(IBinaryService<const QUuid &, const IDartsModelsService *, QByteArray> *JsonArrayFromDartsPoints)
 {
-    _JsonArrayFromDartsPoints = JsonArrayFromDartsPoints;
-}
-
-void LocalModelsService::setJsonArrayFromPlayerNamesAndIds(IBinaryService<const QVector<QUuid> &, const QVector<QString> &, QJsonArray> *JsonObjectFromPlayerNamesAndIds)
-{
-    _JsonArrayFromPlayerNamesAndIds = JsonObjectFromPlayerNamesAndIds;
-}
-
-void LocalModelsService::setAssembleJsonObjectFromTournamentIndexes(IUnaryService<const QVector<int> &, QJsonObject> *assembleJsonObjectFromTournamentIndexes)
-{
-    _assembleJsonDartsIndexes = assembleJsonObjectFromTournamentIndexes;
+    _assembleJSonFromTournamentDartsPoints = JsonArrayFromDartsPoints;
 }
 
 void LocalModelsService::setGetPlayerIndexesFromJson(IUnaryService<const QByteArray &, QVector<int> > *getPlayerIndexesFromJson)
@@ -200,7 +149,7 @@ void LocalModelsService::setGetPlayerIndexesFromJson(IUnaryService<const QByteAr
     _getPlayerIndexesFromJson = getPlayerIndexesFromJson;
 }
 
-void LocalModelsService::setPlayerModelsService(IPlayerModelsService *playerModelsContext)
+void LocalModelsService::setPlayerModelsService(IPlayerModelsService<IPlayerModel<QUuid,QString>> *playerModelsContext)
 {
     _playerModelsService = playerModelsContext;
 }
@@ -217,34 +166,31 @@ LocalModelsService* LocalModelsService::setAssembleDartsTournamentFromJson(IUnar
     return this;
 }
 
-void LocalModelsService::assembleDartsIndexesAndPoints(const QUuid &tournament)
+void LocalModelsService::assembleDartsPointIndexes(const QUuid &tournament)
 {
     auto indexes = _dartsModelsService->dartsIndexes(tournament);
-    QJsonObject obj;
-    obj["indexes"] = _assembleJsonDartsIndexes->service(indexes);
-    auto playerIds = _dartsModelsService->tournamentAssignedPlayers(tournament);
-    auto playerNames = _playerModelsService->assemblePlayerNamesFromIds(playerIds);
-    obj["playerEntities"] = _JsonArrayFromPlayerNamesAndIds->service(playerIds,playerNames);
-    obj["scoreEntities"] = _JsonArrayFromDartsPoints->service(tournament,_dartsModelsService);
-    emit sendDartsIndexesAndPointValues(QJsonDocument(obj).toJson());
+    auto json = _assembleJsonDartsIndexes->service(indexes);
+    emit sendDartsPointIndexesAsJson(json);
 }
 
 void LocalModelsService::assembleDartsIndexesAndScores(const QUuid &tournament)
 {
+    /*
     auto indexes = _dartsModelsService->dartsIndexes(tournament);
     QJsonObject obj;
     obj["indexes"] = _assembleJsonDartsIndexes->service(indexes);
     auto playerIds = _dartsModelsService->tournamentAssignedPlayers(tournament);
     auto playerNames = _playerModelsService->assemblePlayerNamesFromIds(playerIds);
-    obj["playerEntities"] = _JsonArrayFromPlayerNamesAndIds->service(playerIds,playerNames);
+    obj["playerEntities"] = _JsonArrayPlayerNamesAndIds->service(playerIds,playerNames);
     obj["scoreEntities"] = _JsonArrayFromDartsScores->service(tournament,_dartsModelsService);
     emit sendDartsIndexesAndScoreValues(QJsonDocument(obj).toJson());
+    */
 }
 
 void LocalModelsService::assembleDartsTournamentDataFromId(const QUuid &tournamentId)
 {
     auto dartsTournamentModel = _dartsModelsService->getDartsTournamentById(tournamentId);
-    auto json = _assembleJsonFromDartsTournamentModel->service(dartsTournamentModel,_playerModelsService);
+    auto json = _assembleJsonDartsTournamentModel->service(dartsTournamentModel,_playerModelsService);
     emit sendTournamentMeta(json);
 }
 
@@ -296,20 +242,74 @@ void LocalModelsService::revealScore(const QUuid& tournamentId, const QUuid& pla
     emit dartsScoreRevealedSucces(QByteArray());
 }
 
-LocalModelsService* LocalModelsService::setAssembleJsonFromDartsTournamentModel(IBinaryService<const IDartsTournament<QUuid, QString> *, const IPlayerModelsService *, const QByteArray> *assembleJsonFromDartsTournamentModel)
+LocalModelsService* LocalModelsService::setAssembleJsonDartsTournamentModels(IBinaryService<const IDartsModelsService *,
+                                                                             const IPlayerModelsService<IPlayerModel<QUuid,QString>> *,
+                                                                             const QByteArray> *assembleJsonDartsTournamentModels)
 {
-    _assembleJsonFromDartsTournamentModel = assembleJsonFromDartsTournamentModel;
+    _assembleJsonDartsTournamentModels = assembleJsonDartsTournamentModels;
     return this;
 }
 
-LocalModelsService* LocalModelsService::setAssembleJsonFromOrderedDartsPointModels(IBinaryService<const QVector<const IDartsPointInput<QUuid>*>&, const IPlayerModelsService *, const QByteArray> *assembleJsonFromOrderedDartsPointModels)
+LocalModelsService* LocalModelsService::setAssembleJsonFromDartsTournamentModel(
+        IBinaryService<const IDartsTournament<QUuid, QString> *,
+        const IPlayerModelsService<IPlayerModel<QUuid,QString>> *,
+        const QByteArray> *assembleJsonFromDartsTournamentModel)
 {
-    _assembleJsonFromOrderedDartsPointModels = assembleJsonFromOrderedDartsPointModels;
+    _assembleJsonDartsTournamentModel = assembleJsonFromDartsTournamentModel;
+    return this;
+}
+
+LocalModelsService* LocalModelsService::setAssembleJsonFromOrderedDartsPointModels(
+        IBinaryService<const QVector<const IDartsPointInput<QUuid>*>&,
+        const IPlayerModelsService<IPlayerModel<QUuid,QString>> *,
+        const QByteArray> *assembleJsonFromOrderedDartsPointModels)
+{
+    _assembleJsonOrderedDartsPointModels = assembleJsonFromOrderedDartsPointModels;
     return this;
 }
 
 
 void LocalModelsService::addDartsScore(const QByteArray &json)
 {
+    // TODO: Implement
+}
 
+
+void LocalModelsService::assembleAssignedPlayerEntities(const QUuid& tournamentId)
+{
+    auto playerIds = _dartsModelsService->tournamentAssignedPlayers(tournamentId);
+    auto playerNames = _playerModelsService->assemblePlayerNamesFromIds(playerIds);
+    auto json = _assembleJsonFromPlayerNamesAndIds->service(playerIds,playerNames);
+    emit sendAssignedPlayerIdsAndNamesAsJson(json);
+}
+
+void LocalModelsService::assembleAssignedPlayerPoints(const QUuid& tournamentId)
+{
+    QJsonObject obj;
+    auto json = _assembleJSonFromTournamentDartsPoints->service(tournamentId,_dartsModelsService);
+    emit sendTournamentDartsPointsAsJson(json);
+}
+
+void LocalModelsService::setAssembleJsonFromPlayerNamesAndIds(IBinaryService<const QVector<QUuid> &, const QVector<QString> &, QByteArray> *assembleJsonFromPlayerNamesAndIds)
+{
+    _assembleJsonFromPlayerNamesAndIds = assembleJsonFromPlayerNamesAndIds;
+}
+
+void LocalModelsService::setAssembleJsonDartsIndexes(IUnaryService<const IDartsPointIndexes *, QByteArray> *assembleJsonDartsIndexes)
+{
+    _assembleJsonDartsIndexes = assembleJsonDartsIndexes;
+}
+
+void LocalModelsService::assembleDartsTournamentWinnerIdAndName(const QUuid& tournamentId)
+{
+    auto winnerId = _dartsModelsService->tournamentWinnerId(tournamentId);
+    auto winnerName = _playerModelsService->playerNameFromId(winnerId);
+    auto json = _assembleJsonFromPlayerIdAndName->service(winnerId,winnerName);
+    emit sendDartsTournamentWinnerIdAndName(json);
+}
+
+LocalModelsService* LocalModelsService::setAssembleJsonFromPlayerIdAndName(IBinaryService<const QUuid &, const QString &, QByteArray> *assembleJsonFromPlayerIdAndName)
+{
+    _assembleJsonFromPlayerIdAndName = assembleJsonFromPlayerIdAndName;
+    return this;
 }

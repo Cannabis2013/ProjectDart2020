@@ -62,11 +62,8 @@ Item {
         property string currentPlayerText: qsTr("Current player: ")
     }
     GridLayout{
-        anchors.fill: parent
         flow: GridLayout.LeftToRight
-        Layout.fillHeight: true
-        Layout.fillWidth: true
-
+        anchors.fill: parent
         StartButtonComponent {
             id: startButtonComponent
             Layout.fillHeight: true

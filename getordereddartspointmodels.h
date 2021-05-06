@@ -38,10 +38,6 @@ private:
                 return false;
             else if(_first->setIndex() < _second->setIndex())
                 return true;
-            else if(_first->setIndex() >= _second->setIndex())
-                return false;
-            else if(_first->attempt() < _second->attempt())
-                return true;
             else
                 return false;
         }

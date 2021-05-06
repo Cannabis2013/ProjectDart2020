@@ -9,14 +9,15 @@
 #include <qjsondocument.h>
 #include <qjsonarray.h>
 #include <qjsonobject.h>
+#include "iplayermodel.h"
 
 class AssembleJsonFromOrderedDartsPointModels :
         public IBinaryService<const QVector<const IDartsPointInput<QUuid>*>&,
-                              const IPlayerModelsService*,const QByteArray>
+                              const IPlayerModelsService<IPlayerModel<QUuid,QString>>*,const QByteArray>
 {
 public:
     const QByteArray service(const QVector<const IDartsPointInput<QUuid>*>& orderedDartsPoints,
-                             const IPlayerModelsService* playerModelsService) override
+                             const IPlayerModelsService<IPlayerModel<QUuid,QString>>* playerModelsService) override
     {
         QJsonArray arr;
         for (const auto& dartsPoint : orderedDartsPoints) {
@@ -32,7 +33,7 @@ public:
     }
 private:
     QString getPlayerNameFromPlayerId(const QUuid& playerId,
-                                      const IPlayerModelsService* playerModelsService)
+                                      const IPlayerModelsService<IPlayerModel<QUuid,QString>>* playerModelsService)
     {
         auto playerName = playerModelsService->playerNameFromId(playerId);
         return playerName;

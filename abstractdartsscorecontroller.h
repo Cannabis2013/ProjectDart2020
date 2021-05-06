@@ -11,9 +11,13 @@ public:
     typedef QPair<QUuid,QString> Player;
     typedef QPair<QUuid,int> PlayerScore;
 public slots:
+    virtual void initializeControllerPlayerDetails(const QByteArray&) = 0;
+    virtual void initializeControllerDartsScores(const QByteArray&) = 0;
+    virtual void initializeControllerWinnerIdAndName(const QByteArray&) = 0;
     virtual void assembleSingleAttemptDartsScores() = 0;
     virtual void handleRequestDartsScores() = 0;
 signals:
+    void dartsSingleScoreControllerIsInitialized();
     void requestAddDartsScore(const QByteArray& tournament);
     void hideDartsScore(const QUuid &tournament,
                         const QUuid &player,
@@ -33,7 +37,9 @@ signals:
     void requestDartsScores(const QUuid &tournament);
     void scoreAddedSuccess(const QByteArray& json);
     void scoreRemoved(const QString& json);
-    void requestDartsIndexesAndScores(const QUuid &tournament);
+    void requestTournamentAssignedPlayerDetails(const QUuid& tournamentId);
+    void requestTournamentDartsScores(const QUuid& tournamentId);
+    void requestTournamentWinnerIdAndName( const QUuid& tournamentId);
     void sendSingleAttemptDartsScores(const QByteArray& json);
     void sendMultiAttemptDartsScores(const QByteArray& json);
 };

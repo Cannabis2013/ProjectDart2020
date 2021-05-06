@@ -140,7 +140,7 @@ public slots:
     /*
      * Recieve ftp index values, score values, and player values from modelscontext
      */
-    virtual void initializeController(const QByteArray& json) override;
+    virtual void initializeControllerIndexes(const QByteArray& json) override;
 private:
     /*
      * Private constructor
@@ -195,6 +195,12 @@ private:
 public slots:
     void undoSuccess(const QByteArray &json) override;
     void redoSuccess(const QByteArray &json) override;
+
+    // AbstractDartsScoreController interface
+public slots:
+    void initializeControllerPlayerDetails(const QByteArray &) override;
+    void initializeControllerDartsScores(const QByteArray &) override;
+    void initializeControllerWinnerIdAndName(const QByteArray &) override;
 };
 
 #endif // FIVEHUNDREDANDONEGAME_H

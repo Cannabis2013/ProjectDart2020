@@ -151,7 +151,7 @@ function recieveTournaments(tournaments)
 
 function translateGameModeFromHex(gameMode)
 {
-    if(gameMode === TournamentContext.firstToPost)
+    if(gameMode === TournamentContext.darts)
         return "First to post"
 }
 

@@ -13,6 +13,9 @@
 #include "abstractjsonpersistence.h"
 #include "iplayermodelbuilder.h"
 #include "imodelsdbcontext.h"
+#include <qjsondocument.h>
+#include <qjsonobject.h>
+#include "playermodel.h"
 
 
 using namespace std;
@@ -32,8 +35,8 @@ namespace PlayerContext {
 typedef IPlayerModel<QUuid,QString> IDefaultPlayerModel;
 typedef IPlayerBuilderParameters<QString,QUuid> DefaultParametersInterface;
 
-class LocalPlayerModelsContext :
-        public IPlayerModelsService
+class LocalPlayerModelsService :
+        public IPlayerModelsService<IPlayerModel<QUuid,QString>>
 {
 public:
     /*
@@ -47,24 +50,21 @@ public:
     };
     enum UserRoles{Admin = 0x0, Player = 0x02};
 
-    LocalPlayerModelsContext* setup();
-
-    static LocalPlayerModelsContext* createInstance()
+    static LocalPlayerModelsService* createInstance()
     {
-        return new LocalPlayerModelsContext();
+        return new LocalPlayerModelsService();
     }
 
-    ~LocalPlayerModelsContext();
+    ~LocalPlayerModelsService();
 
-    QUuid createPlayer(const QString &name,
-                      const QString& mail,
-                      const int &role = -1) override;
+    const IPlayerModel<QUuid, QString> *createPlayerFromJson(const QByteArray& json) override;
+    const QUuid addPlayerModelToDb(const IPlayerModel<QUuid,QString>*model) override;
     bool deletePlayer(const int &index) override;
     bool deletePlayersByIndexes(const QVector<int>& indexes) override;
 
     DefaultPlayerBuilder *playerBuilder();
-    LocalPlayerModelsContext* setPlayerBuilder(DefaultPlayerBuilder *builder);
-    LocalPlayerModelsContext* setModelDBContext(IModelsDbContext *context);
+    LocalPlayerModelsService* setPlayerBuilder(DefaultPlayerBuilder *builder);
+    LocalPlayerModelsService* setModelDBContext(IModelsDbContext *context);
     /*
      * PlayerModelsInterface interface
      */

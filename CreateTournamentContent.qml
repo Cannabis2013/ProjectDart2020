@@ -8,7 +8,7 @@ Content {
     color: "transparent"
 
     signal requestPlayers
-    signal sendFTPDetails(string json)
+    signal sendDartsDetails(string json)
     signal tournamentAssembledAndStored(bool status)
     onTournamentAssembledAndStored: {
         if(status)
@@ -97,7 +97,7 @@ Content {
         }
 
         Component.onCompleted: {
-            createBody.sendFTPDetails.connect(applicationInterface.handleFTPDetails); // Tournament request
+            createBody.sendDartsDetails.connect(applicationInterface.handleFTPDetails); // Tournament request
             applicationInterface.tournamentAssembledAndStored.connect(createBody.tournamentAssembledAndStored);
             createBody.requestPlayers.connect(applicationInterface.requestPlayerDetails); // Request initial/continous players
             applicationInterface.sendPlayers.connect(CreateScripts.recievePlayers); // Recieve initial players
@@ -105,7 +105,7 @@ Content {
             requestUpdate();
         }
         Component.onDestruction: {
-            createBody.sendFTPDetails.disconnect(applicationInterface.handleFTPDetails);
+            createBody.sendDartsDetails.disconnect(applicationInterface.handleFTPDetails);
             applicationInterface.tournamentAssembledAndStored.disconnect(createBody.tournamentAssembledAndStored);
             createBody.requestPlayers.disconnect(applicationInterface.requestPlayerDetails);
             applicationInterface.sendPlayerDetail.disconnect(CreateScripts.recievePlayers);

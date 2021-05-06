@@ -210,7 +210,7 @@ void ScoreDartsController::handleRequestFromUI()
 {
     if(status() == ControllerState::Initialized)
     {
-        emit controllerIsInitialized();
+        emit dartsSingleScoreControllerIsInitialized();
     }
     else if(status() == ControllerState::AddScoreState)
     {
@@ -242,7 +242,7 @@ void ScoreDartsController::handleRequestFromUI()
     else if(status() == ControllerState::resetState)
     {
         setCurrentStatus(ControllerState::Initialized);
-        emit controllerIsInitialized();
+        emit dartsSingleScoreControllerIsInitialized();
     }
 }
 
@@ -266,7 +266,7 @@ int ScoreDartsController::currentStatus() const
     return _currentStatus;
 }
 
-void ScoreDartsController::initializeController(const QByteArray& json)
+void ScoreDartsController::initializeControllerIndexes(const QByteArray& json)
 {
     auto jsonObject = QJsonDocument::fromJson(json).object();
     auto jsonIndexObject = jsonObject["indexes"].toObject();
@@ -303,7 +303,7 @@ void ScoreDartsController::initializeController(const QByteArray& json)
         setCurrentStatus(ControllerState::WinnerDeclared);
     else
         setCurrentStatus(ControllerState::Initialized);
-    emit controllerIsInitialized();
+    emit dartsSingleScoreControllerIsInitialized();
 }
 
 bool ScoreDartsController::isBusy()
@@ -399,7 +399,7 @@ ScoreDartsController *ScoreDartsController::setLogisticInterface(FTPLogisticCont
 void ScoreDartsController::beginInitialize()
 {
     auto tournamentId = tournament();
-    emit requestDartsIndexesAndScores(tournamentId);
+    emit requestDartsTournamentIndexes(tournamentId);
 }
 
 
@@ -433,4 +433,16 @@ void ScoreDartsController::redoSuccess(const QByteArray& json)
     };
     auto data = QJsonDocument(obj).toJson(QJsonDocument::Compact);
     emit scoreAddedSuccess(data);
+}
+
+void ScoreDartsController::initializeControllerPlayerDetails(const QByteArray &)
+{
+}
+
+void ScoreDartsController::initializeControllerDartsScores(const QByteArray &)
+{
+}
+
+void ScoreDartsController::initializeControllerWinnerIdAndName(const QByteArray &)
+{
 }

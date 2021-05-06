@@ -72,18 +72,19 @@
         <file>scoreViewScripts.js</file>
         <file>DefaultTitleComponent.qml</file>
         <file>FirstToPostMetaData.qml</file>
-        <file>FTPSelectors.qml</file>
+        <file>DartsTournamentSelectors.qml</file>
         <file>ftpSelectorsScripts.js</file>
         <file>TournamentListViewDelegate.qml</file>
         <file>TournamentListView.qml</file>
         <file>ScoreKeyPadInterface.qml</file>
         <file>SingleScoreDelegate.qml</file>
         <file>MultiPointDelegate.qml</file>
-        <file>FtpMultiPointScoreBoard.qml</file>
+        <file>DartsMultiPointScoreBoard.qml</file>
         <file>ftpScoreBoardFactory.js</file>
         <file>ScoreRectDelegate.qml</file>
         <file>MultiScoreDelegate.qml</file>
         <file>dartsmultiscorescripts.js</file>
+        <file>DartsMultiPointContent.qml</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>

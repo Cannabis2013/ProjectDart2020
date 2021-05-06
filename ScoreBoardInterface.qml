@@ -7,5 +7,4 @@ Rectangle {
     signal appendHeader(string header, int orientation)
     signal sizeScale(double s)
     signal appendHeaderData(var data,int defaultVal)
-
 }

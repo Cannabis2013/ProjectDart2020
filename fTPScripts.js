@@ -3,7 +3,7 @@ function buildFtpComponents(){
       Load and setup turncontroller
       */
     turnControllerItemSlot.sourceComponent =
-            GamePageFactory.buildTurnController(TournamentContext.firstToPost);
+            GamePageFactory.buildTurnController(TournamentContext.darts);
     /*
       Load and setup ScoreTable
       */
@@ -15,7 +15,7 @@ function buildFtpComponents(){
       Load and setup DisplayKeyDataItem
       */
     notificationItemSlot.sourceComponent =
-            GamePageFactory.buildDisplayItem(TournamentContext.firstToPost);
+            GamePageFactory.buildDisplayItem(TournamentContext.darts);
     /*
       Load and setup DefaultKeyPadComponent
       */
@@ -61,7 +61,7 @@ function setupWindowTitle()
 
 function connectFtpInterface()
 {
-    applicationInterface.ftpControllerRemovedScore.connect(backendRemovedScore);
+    applicationInterface.ftpControllerRemovedScore.connect(backendRemovedPoint);
     applicationInterface.ftpControllerIsReset.connect(reinitialize);
     keyPadInterface().sendInput.connect(handlePointKeyPadInput);
     gamePageBody.requestUndo.connect(applicationInterface.handleUndoRequest);
@@ -74,7 +74,7 @@ function connectFtpInterface()
 }
 function disconnectFtpInterface()
 {
-    applicationInterface.ftpControllerRemovedScore.disconnect(backendRemovedScore);
+    applicationInterface.ftpControllerRemovedScore.disconnect(backendRemovedPoint);
     applicationInterface.ftpControllerAddedAndPersistedScore.disconnect(extractPointScoreFromJson);
     applicationInterface.ftpControllerAddedAndPersistedScore.disconnect(extractScoreFromJson);
     applicationInterface.ftpControllerIsReset.disconnect(reinitialize);
@@ -186,7 +186,7 @@ function extractScoreFromJson(data)
     requestStatusFromBackend();
 }
 
-function backendRemovedScore(data)
+function backendRemovedPoint(data)
 {
     var json = JSON.parse(data);
     let playerName = json["playerName"];
@@ -198,7 +198,7 @@ function backendRemovedScore(data)
 
 function alterScore(player,score,point)
 {
-    if(tournamentMetaData.tournamentGameMode === TournamentContext.firstToPost)
+    if(tournamentMetaData.tournamentGameMode === TournamentContext.darts)
     {
         if(tournamentMetaData.tournamentTableViewHint === DataModelContext.singleAttempt)
             scoreBoardInterface().setData(player,point,score,-1);

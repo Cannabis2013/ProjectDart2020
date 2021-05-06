@@ -142,7 +142,7 @@ public slots:
     /*
      * Recieve ftp index values, score values, and player values from modelscontext
      */
-    virtual void initializeController(const QByteArray& json) override;
+    virtual void initializeControllerIndexes(const QByteArray& json) override;
     /*
      * Undo/redo success
      */
@@ -200,6 +200,15 @@ private:
     IndexControllerInterface* _indexController = nullptr;
     // Userscore service
     ScoreController* _scoreController = nullptr;
+
+    // AbstractDartsPointController interface
+public slots:
+    void initializeControllerPlayerDetails(const QByteArray &json) override;
+    void initializeControllerDartsPoints(const QByteArray &json) override;
+
+    // AbstractDartsPointController interface
+public slots:
+    void initializeControllerWinnerIdAndName(const QByteArray &json) override;
 };
 
 #endif // POINTFTPCONTROLLER_H

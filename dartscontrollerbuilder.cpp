@@ -47,7 +47,7 @@ AbstractGameController *DartsControllerBuilder::assembleDartsGameController(cons
 void DartsControllerBuilder::determineTournamentGameMode(const QUuid &tournament, const int &gameMode)
 {
     if(gameMode == GameModes::FirstToPost)
-        emit requestFTPDetails(tournament);
+        emit requestDartsDetails(tournament);
 }
 
 AbstractDartsPointController *DartsControllerBuilder::assembleDartsPointController(const QUuid &tournament,

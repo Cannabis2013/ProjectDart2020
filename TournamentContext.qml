@@ -4,7 +4,7 @@ pragma Singleton
 
 QtObject {
     // Gamemode values
-    readonly property int firstToPost: 0x1
+    readonly property int darts: 0x1
     readonly property int circular: 0x2
     // Input mode values
     readonly property int pointMode: 0x5

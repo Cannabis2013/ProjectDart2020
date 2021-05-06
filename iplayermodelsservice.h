@@ -4,13 +4,13 @@
 #include <quuid.h>
 #include "ipersistence.h"
 
+template<typename TModelInterface>
 class IPlayerModelsService
 {
 public:
     virtual ~IPlayerModelsService()=default;
-    virtual QUuid createPlayer(const QString &name,
-                              const QString& mail,
-                              const int &role = -1) = 0;
+    virtual const TModelInterface* createPlayerFromJson(const QByteArray& json) = 0;
+    virtual const QUuid addPlayerModelToDb(const TModelInterface*) = 0;
     virtual bool deletePlayer(const int &index) = 0;
     virtual bool deletePlayersByIndexes(const QVector<int>& indexes) = 0;
     virtual QVector<QString> assemblePlayerMailAdressesFromIds(const QVector<QUuid> &ids) const = 0;

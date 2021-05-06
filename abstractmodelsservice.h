@@ -50,12 +50,13 @@ public:
                                     const QUuid &,
                                     const int &) = 0;
     virtual void resetTournament(const QUuid &tournament) = 0;
-    /*
-     * Assemble and send basic ftp tournament values
-     */
     virtual void assembleDartsKeyValues(const QUuid& tournament) = 0;
-    virtual void assembleDartsIndexesAndPoints(const QUuid& tournament) = 0;
-    virtual void assembleDartsIndexesAndScores(const QUuid& tournament) = 0;
+    // Initialize controller
+    virtual void assembleDartsPointIndexes(const QUuid& tournament) = 0;
+    virtual void assembleAssignedPlayerEntities(const QUuid&) = 0;
+    virtual void assembleAssignedPlayerPoints(const QUuid&) = 0;
+    virtual void assembleDartsIndexesAndScores(const QUuid&) = 0;
+    virtual void assembleDartsTournamentWinnerIdAndName(const QUuid&) = 0;
     /*
      * Player-models context interface..
      */
@@ -94,7 +95,7 @@ signals:
     void tournamentResetFailed();
     void tournamentsDeletedStatus(const bool &status);
 
-    void sendTournaments(const QVariantList& list);
+    void sendTournaments(const QByteArray& json);
     void dartsPointHiddenSucces(const QByteArray& json);
     void dartsPointRevealedSucces(const QByteArray& json);
     void dartsScoreHiddenSucces(const QByteArray& json);
@@ -121,8 +122,12 @@ signals:
     void createPlayerResponse(const bool &status);
     void tournamentModelsStatePersisted();
     void tournamentAssembledAndStored(const bool& status);
-    void sendDartsIndexesAndPointValues(const QByteArray& json);
+    // Initialize controller
+    void sendDartsPointIndexesAsJson(const QByteArray& json);
+    void sendAssignedPlayerIdsAndNamesAsJson(const QByteArray& json);
+    void sendTournamentDartsPointsAsJson(const QByteArray& json);
     void sendDartsIndexesAndScoreValues(const QByteArray& json);
+    void sendDartsTournamentWinnerIdAndName(const QByteArray& json);
     void sendFtpMultiScores(const QByteArray& scores);
     void hideDartsPointSuccess(const QByteArray&);
     void revealDartsPointSuccess(const QByteArray&);

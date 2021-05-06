@@ -110,7 +110,7 @@ void RemoteModelsContext::handleRequestPlayersDetails()
                             SLOT(handleRequestPlayersReply()));
 }
 
-void RemoteModelsContext::assembleDartsIndexesAndPoints(const QUuid &tournament)
+void RemoteModelsContext::assembleDartsPointIndexes(const QUuid &tournament)
 {
     auto tournamentId = tournament.toString(QUuid::WithoutBraces);
     _netMng->sendGetRequest("GetFtpIndexesAndScores",
@@ -129,17 +129,7 @@ void RemoteModelsContext::handleRecievedTournamentsReply()
     if(responseCode == ResponseCode::Error)
         return;
     auto tournaments = jsonObject.value("payLoad").toArray();
-    QVariantList list;
-    for (auto i = tournaments.constBegin(); i != tournaments.constEnd(); ++i) {
-        auto jsonData = (*i).toObject();
-        auto tournamentId = jsonData.value("id").toString();
-        auto tournamentTitle = jsonData.value("title").toString();
-        auto tournamentGameMode = jsonData.value("gameMode").toInt();
-        auto winnerName = jsonData.value("winnerName").toString();
-        auto playersCount = jsonData.value("playersCount").toInt();
-        list += {tournamentId,tournamentTitle,tournamentGameMode,winnerName,playersCount};
-    }
-    emit sendTournaments(list);
+    emit sendTournaments(QJsonDocument(tournaments).toJson());
 }
 
 void RemoteModelsContext::handleAddFTPTournamentReply()
@@ -255,7 +245,7 @@ void RemoteModelsContext::handleFtpIndexesAndScores()
     }
     auto payLoad = jsonObject.value("payLoad").toObject();
     auto json = QJsonDocument(payLoad).toJson();
-    emit sendDartsIndexesAndPointValues(json);
+    emit sendDartsPointIndexesAsJson(json);
 }
 
 void RemoteModelsContext::handleFtpTournamentMetaReply()
@@ -378,5 +368,18 @@ void RemoteModelsContext::assembleDartsIndexesAndScores(const QUuid &tournament)
 
 
 void RemoteModelsContext::addDartsScore(const QByteArray &json)
+{
+}
+
+
+void RemoteModelsContext::assembleAssignedPlayerEntities(const QUuid &)
+{
+}
+
+void RemoteModelsContext::assembleAssignedPlayerPoints(const QUuid &)
+{
+}
+
+void RemoteModelsContext::assembleDartsTournamentWinnerIdAndName(const QUuid &)
 {
 }

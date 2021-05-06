@@ -4,13 +4,12 @@
 #include <qobject.h>
 #include <quuid.h>
 #include "abstractmodelsservice.h"
+#include "abstractgamecontroller.h"
 #include "iresponseinterface.h"
 class AbstractApplicationInterface : public QObject
 {
     Q_OBJECT
 public slots:
-    virtual AbstractModelsService *modelsContextInterface() const = 0;
-    virtual AbstractApplicationInterface* setModelsContextInterface(AbstractModelsService *modelsInterface) = 0;
     virtual void handleTournamentsRequest() = 0;
     /*
      * Set current tournament
@@ -57,6 +56,8 @@ public slots:
      * Handle request for tournament meta information
      */
     virtual void handleTournamentMetaRequest() = 0;
+    virtual void assembleAndConfigureControllerBuilder(const QByteArray &json) = 0;
+    virtual void setGameController(AbstractGameController* controller) = 0;
 signals:
     /*
      * ApplicationInterface interface
@@ -74,7 +75,7 @@ signals:
     void sendRequestedTournament(const QString &title,
                                  const int &gameMode,
                                  const int &playersCount);
-    void sendFTPDetails(const QByteArray& json);
+    void sendDartsDetails(const QByteArray& json);
     void sendGameModes(const QStringList &modes) const;
     void stateChanged();
     void sendInitialControllerValues(const QUuid &tournament,
@@ -96,7 +97,7 @@ signals:
     void removeScore(const QString &player);
     void playersDeletedStatus(const bool &status);
     void tournamentsDeletedSuccess(const bool &status);
-    void sendTournaments(const QVariantList& list);
+    void sendTournaments(const QByteArray& json);
     void sendPlayers(const QVariantList& list);
     void createPlayerResponse(const bool &status);
     void requestAssembleFTPTournament();
@@ -109,16 +110,20 @@ signals:
                                        const int& attemptIndex,
                                        const int& score,
                                        const QString& targetRow);
-    void sendAssembledSingleFtpScores(const QByteArray& json);
+    void sendAssembledSingleDartsScores(const QByteArray& json);
     void sendAssembledMultiFtpScores(const QByteArray& json);
     // Controller states
     void controllerIsStopped();
     void controllerIsInitialized();
+    void dartsSingleScoreControllerIsInitialized();
     void controllerAwaitsInput(const QString& json);
     void ftpControllerIsReset();
     void ftpControllerAddedAndPersistedScore(const QByteArray& json);
     void ftpControllerRemovedScore(const QString& json);
     void controllerHasDeclaredAWinner(const QString& json);
+    void assembleDartsController(const QByteArray& json,
+                               AbstractApplicationInterface* applicationsInteface,
+                               AbstractModelsService* modelsContextInterface);
 };
 
 #endif // APPLICATIONINTERFACE_H

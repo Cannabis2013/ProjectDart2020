@@ -6,7 +6,7 @@ Content{
     clip: true
 
     signal createTournamentClicked
-    signal startGameClicked
+    signal dartsPointsControllerInitialized
     signal manageButtonClicked
     signal requestTournaments
     signal requestDeleteTournaments(var indexes)
@@ -39,7 +39,7 @@ Content{
 
     function translateGameModeFromHex(gameMode)
     {
-        if(gameMode === TournamentContext.firstToPost)
+        if(gameMode === TournamentContext.darts)
             return "First to post"
     }
     onRequestUpdate: {

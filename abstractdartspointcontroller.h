@@ -14,9 +14,13 @@ public:
     typedef QPair<QUuid,QString> Player;
     typedef QPair<QUuid,int> PlayerScore;
 public slots:
+    virtual void initializeControllerPlayerDetails(const QByteArray&) = 0;
+    virtual void initializeControllerDartsPoints(const QByteArray&) = 0;
+    virtual void initializeControllerWinnerIdAndName(const QByteArray&) = 0;
     virtual void assembleSingleAttemptDartsPoints() = 0;
     virtual void handleRequestDartsPoints() = 0;
 signals:
+    void controllerIsInitialized();
     void hideDartsPoint(const QUuid &tournament,
                              const QUuid &player,
                              const int &roundIndex,
@@ -35,13 +39,14 @@ signals:
                                    const int& attemptIndex,
                                    const int& score,
                                    const QString& targetRow);
-
+    void requestTournamentAssignedPlayerDetails(const QUuid& tournamentId);
+    void requestTournamentDartsPoints(const QUuid& tournamentId);
     void requestAddDartsPoint(const QByteArray& json);
     void pointAddedAndPersisted(const QByteArray& json);
     void pointRemoved(const QString& json);
-    void requestDartsIndexesAndPoints(const QUuid &tournament);
     void sendSingleAttemptDartsPoints(const QByteArray& json);
     void sendMultiAttemptDartsPoints(const QByteArray& json);
+    void requestTournamentWinnerIdAndName( const QUuid& tournamentId);
 };
 
 #endif // ABSTRACTDARTSPOINTCONTROLLER_H

@@ -6,8 +6,10 @@
 #include <iostream>
 
 #include "itournamentbuilder.h"
-#include "iplayerbuildercontext.h"
 #include "abstractdartscontrollerbuilder.h"
+#include "abstractmodelsservicebuilder.h"
+#include "ibinaryservice.h"
+#include "iternaryservice.h"
 
 using namespace std;
 
@@ -42,12 +44,15 @@ public:
     AbstractDartsControllerBuilder* controllerBuilder();
     DartApplication *setControllerBuilder(ControllerBuilderInterface *builder);
 
+    DartApplication *setModelsServiceBuilder(
+            AbstractModelsServiceBuilder<AbstractApplicationInterface,
+                                         AbstractModelsService> *modelsServiceBuilder);
+
+    DartApplication *setConnectModelsServiceInterface(IBinaryService<AbstractApplicationInterface *, AbstractModelsService *, void> *connectModelsServiceInterface);
+
+    DartApplication* setConnectControllerBuilder(ITernaryService<AbstractApplicationInterface *, AbstractDartsControllerBuilder *, AbstractModelsService *, void> *connectControllerBuilder);
+
 public slots:
-    /*
-     * Get/set modelcontext interface
-     */
-    virtual AbstractModelsService *modelsContextInterface() const override;
-    virtual DartApplication* setModelsContextInterface(AbstractModelsService *modelsInterface) override;
     // Get tournaments
     void handleTournamentsRequest() override;
     /*
@@ -107,17 +112,10 @@ public slots:
      */
     void handleTournamentMetaRequest() override;
 
-signals:
-    void assembleFTPController(const QByteArray& json,
-                               AbstractApplicationInterface* applicationsInteface,
-                               AbstractModelsService* modelsContextInterface);
-private slots:
-    void assembleAndConfigureControllerBuilder(const QByteArray &json);
-    void setGameController(AbstractGameController* controller);
+    void assembleAndConfigureControllerBuilder(const QByteArray &json) override;
+    void setGameController(AbstractGameController* controller) override;
 private:
-    // Register and connect interfaces related..
-    void registerTypes();
-    void connectModelInterfaces();
+    DartApplication();
     // Clear controller..
     void clearGameController();
 
@@ -136,6 +134,14 @@ private:
     AbstractDartsControllerBuilder *_controllerBuilder;
     AbstractModelsService* _modelsContext;
     AbstractGameController *_gameController = nullptr;
+    AbstractModelsServiceBuilder<AbstractApplicationInterface,
+                                 AbstractModelsService>* _modelsServiceBuilder;
+    IBinaryService<AbstractApplicationInterface*,
+                   AbstractModelsService*,
+                   void>* _connectModelsServiceInterface;
+    ITernaryService<AbstractApplicationInterface*,
+                    AbstractDartsControllerBuilder*,
+                    AbstractModelsService*,void>* _connectControllerBuilder;
 };
 
 #endif // PROJECTDARTINTERFACE_H

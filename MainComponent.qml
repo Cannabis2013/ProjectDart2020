@@ -57,7 +57,7 @@ Item {
             pageContent: TournamentPageContent{
                 onCreateTournamentClicked: pageLoader.sourceComponent = createTournamentComponent
                 onManageButtonClicked: pageLoader.sourceComponent = managePageComponent
-                onStartGameClicked: pageLoader.sourceComponent = gamePageComponent
+                onDartsPointsControllerInitialized: pageLoader.sourceComponent = gamePageComponent
             }
             Component.onCompleted: body.backPushed.connect(backButtonPressed)
         }
@@ -80,10 +80,20 @@ Item {
             }
         }
     }
+    Component
+    {
+        id: dartsMultiPointComponent
+        Page{
+            pageContent: MultiPointDartsContent{
+
+            }
+        }
+    }
+
     Loader{
         id: pageLoader
         anchors.fill: parent
 
     }
-    Component.onCompleted: pageLoader.sourceComponent = startPageComponent
+    Component.onCompleted: pageLoader.sourceComponent = dartsMultiPointComponent
 }

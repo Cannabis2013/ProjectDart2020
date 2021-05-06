@@ -280,7 +280,7 @@ int PointDartsController::currentStatus() const
     return _currentStatus;
 }
 
-void PointDartsController::initializeController(const QByteArray& json)
+void PointDartsController::initializeControllerIndexes(const QByteArray& json)
 {
     auto jsonObject = QJsonDocument::fromJson(json).object();
     auto jsonIndexObject = jsonObject["indexes"].toObject();
@@ -292,34 +292,7 @@ void PointDartsController::initializeController(const QByteArray& json)
     indexController()->setIndexes(totalTurns,turns,
                                   roundIndex,setIndex,
                                   attemptIndex);
-    auto tournamentWinnerStringId = jsonObject.value("tournamentWinnerId").toString();
-    auto tournamentWinnerId = tournamentWinnerStringId != "" ?
-                QUuid::fromString(tournamentWinnerStringId) : QUuid();
-    scoreController()->setWinner(tournamentWinnerId);
-    auto playerData = jsonObject.value("playerEntities").toArray();
-    indexController()->setPlayersCount(playerData.count());
-    for (const auto &jsonVal : playerData) {
-        auto obj = jsonVal.toObject();
-        auto playerStringId = obj["playerId"].toString();
-        auto playerId = QUuid::fromString(playerStringId);
-        auto playerName = obj["playerName"].toString();
-        scoreController()->addPlayerEntity(playerId,playerName);
-    }
-    auto scoreData = jsonObject.value("scoreEntities").toArray();
-    for (const auto &jsonVal : scoreData) {
-        auto obj = jsonVal.toObject();
-        auto playerStringId = obj.value("playerId").toString();
-        auto playerId = QUuid::fromString(playerStringId);
-        auto point = obj.value("point").toInt();
-        auto modKeyCode = obj.value("modKeyCode").toInt();
-        auto calculatedScore = scoreCalculator()->calculateScoreFromDartsPoint(point,modKeyCode);
-        scoreController()->subtractPlayerScore(playerId,calculatedScore);
-    }
-    if(scoreController()->winnerId() != QUuid())
-        setCurrentStatus(ControllerState::WinnerDeclared);
-    else
-        setCurrentStatus(ControllerState::Initialized);
-    emit controllerIsInitialized();
+    emit requestTournamentAssignedPlayerDetails(tournament());
 }
 
 bool PointDartsController::isBusy()
@@ -417,7 +390,7 @@ PointDartsController *PointDartsController::setLogisticInterface(FTPLogisticCont
 void PointDartsController::beginInitialize()
 {
     auto tournamentId = tournament();
-    emit requestDartsIndexesAndPoints(tournamentId);
+    emit requestDartsTournamentIndexes(tournamentId);
 }
 
 
@@ -458,4 +431,50 @@ void PointDartsController::redoSuccess(const QByteArray& json)
     };
     auto data = QJsonDocument(obj).toJson(QJsonDocument::Compact);
     emit pointAddedAndPersisted(data);
+}
+
+
+void PointDartsController::initializeControllerPlayerDetails(const QByteArray& json)
+{
+    auto document = QJsonDocument::fromJson(json);
+    auto playerData = document.array();
+    indexController()->setPlayersCount(playerData.count());
+    for (const auto &jsonVal : playerData) {
+        auto obj = jsonVal.toObject();
+        auto playerStringId = obj["playerId"].toString();
+        auto playerId = QUuid::fromString(playerStringId);
+        auto playerName = obj["playerName"].toString();
+        scoreController()->addPlayerEntity(playerId,playerName);
+    }
+    emit requestTournamentDartsPoints(tournament());
+}
+
+void PointDartsController::initializeControllerDartsPoints(const QByteArray& json)
+{
+    auto document = QJsonDocument::fromJson(json);
+    auto scoreData = document.array();
+    for (const auto &jsonVal : scoreData) {
+        auto obj = jsonVal.toObject();
+        auto playerStringId = obj.value("playerId").toString();
+        auto playerId = QUuid::fromString(playerStringId);
+        auto point = obj.value("point").toInt();
+        auto modKeyCode = obj.value("modKeyCode").toInt();
+        auto calculatedScore = scoreCalculator()->calculateScoreFromDartsPoint(point,modKeyCode);
+        scoreController()->subtractPlayerScore(playerId,calculatedScore);
+    }
+    emit requestTournamentWinnerIdAndName(tournament());
+}
+
+void PointDartsController::initializeControllerWinnerIdAndName(const QByteArray& json)
+{
+    auto document = QJsonDocument::fromJson(json);
+    auto jsonObject = document.object();
+    auto tournamentWinnerStringId = jsonObject.value("playerId").toString();
+    auto tournamentWinnerId = QUuid::fromString(tournamentWinnerStringId);
+    scoreController()->setWinner(tournamentWinnerId);
+    if(scoreController()->winnerId() != QUuid())
+        setCurrentStatus(ControllerState::WinnerDeclared);
+    else
+        setCurrentStatus(ControllerState::Initialized);
+    emit controllerIsInitialized();
 }

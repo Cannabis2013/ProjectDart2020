@@ -3,7 +3,6 @@ import QtQuick.Layouts 1.3
 
 GridLayout{
     flow: GridLayout.TopToBottom
-    anchors.fill: parent
 
     function setCurrentWinner(text)
     {

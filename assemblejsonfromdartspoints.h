@@ -2,17 +2,18 @@
 #define JSONARRAYFROMDARTSPOINTS_H
 
 #include "ibinaryservice.h"
+#include <qjsondocument.h>
 #include <qjsonarray.h>
 #include <qjsonobject.h>
 #include <qvector.h>
 #include <idartspointinput.h>
 #include "idartsmodelsservice.h"
 
-class JsonArrayFromDartsPoints : public
-        IBinaryService<const QUuid&,const IDartsModelsService*,QJsonArray>
+class AssembleJsonFromDartsPoints : public
+        IBinaryService<const QUuid&,const IDartsModelsService*,QByteArray>
 {
 public:
-    QJsonArray service(const QUuid& tournamentId,const IDartsModelsService*modelsService) override
+    QByteArray service(const QUuid& tournamentId,const IDartsModelsService*modelsService) override
     {
         auto scores = modelsService->dartsPointIds(tournamentId);
         QJsonArray scoresJsonArray;
@@ -25,7 +26,8 @@ public:
             playerJsonObject["modKeyCode"] = modelsService->pointKeyCode(scoreId);
             scoresJsonArray << playerJsonObject;
         }
-        return scoresJsonArray;
+        auto json = QJsonDocument(scoresJsonArray).toJson();
+        return json;
     }
 };
 

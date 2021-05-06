@@ -12,7 +12,7 @@ class AbstractDartsController : public AbstractGameController
 {
     Q_OBJECT
 public slots:
-    virtual void initializeController(const QByteArray&) = 0;
+    virtual void initializeControllerIndexes(const QByteArray&) = 0;
     virtual void undoSuccess(const QByteArray&) = 0;
     virtual void redoSuccess(const QByteArray&) = 0;
 signals:
@@ -25,6 +25,7 @@ signals:
                                    const int& attemptIndex,
                                    const int& score,
                                    const QString& targetRow);
+    void requestDartsTournamentIndexes(const QUuid &tournament);
 };
 
 #endif // FTPCONTROLLER_H

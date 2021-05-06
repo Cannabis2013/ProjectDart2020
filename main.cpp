@@ -9,30 +9,37 @@
 #include "playermodelbuilder.h"
 #include "dartscontrollerbuilder.h"
 #include "dartsmodelsservice.h"
-#include "localplayermodelscontext.h"
+#include "localplayermodelsservice.h"
 #include "remotemodelscontext.h"
-#include "localmodelsservice.h"
 #include "dartsmultipointdatamodel.h"
 #include "playermodelbuilder.h"
 #include "sftpdatamodel.h"
 #include "dartsmultiscoredatamodel.h"
 #include "assembledartstournamentmodelfromjson.h"
-#include "connectdartspointcontroller.h"
+#include "connectdartsmultipointcontroller.h"
 #include "connectdartsscorecontroller.h"
+#include "defaultmodelsservicebuilder.h"
+#include "dartsmodelservicebuilder.h"
+#include "playermodelsservicebuilder.h"
+#include "connectdefaultmodelscontextinterface.h"
+#include "connectcontrollerbuilder.h"
 
 DartApplication* createDartApplication()
 {
-    auto modelsContext = LocalModelsService::createInstance()
-            ->setAssembleDartsTournamentFromJson(new AssembleDartsTournamentModelFromJson());
     auto dartsControllerBuilder = DartsControllerBuilder::createInstance()
-            ->setConnectDartsPointController(new ConnectDartsPointController)
+            ->setConnectDartsPointController(new ConnectDartsMultiPointController)
             ->setConnectDartsScoreController(new ConnectDartsScoreController);
+    auto modelsServiceBuilder = DefaultModelsServiceBuilder::createInstance()
+            ->setModelsTournamentServiceBuilder(new DartsModelServiceBuilder)
+            ->setPlayerServiceBuilder(new PlayerModelsServiceBuilder);
     auto _dart =
             DartApplication::createInstance()->
-            setModelsContextInterface(modelsContext)->
+            setModelsServiceBuilder(modelsServiceBuilder)->
             setControllerBuilder(dartsControllerBuilder)->
+            setConnectModelsServiceInterface(new ConnectDefaultModelsContextInterface)
+            ->setConnectControllerBuilder(new ConnectControllerBuilder)
             /*useThreads()->*/
-            setup();
+            ->setup();
     return _dart;
 }
 

@@ -1,9 +1,5 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
-import "ftpScoreBoardFactory.js" as FtpScoreBoardFactory
-import "gamePageFactory.js" as GamePageFactory
-import "fTPScripts.js" as FirstToPostScripts
-import "gamePageGeneralScripts.js" as GameGeneralScripts
 
 /*
   Gamemodes:
@@ -30,11 +26,7 @@ Content {
     signal requestUndo
     signal requestRedo
     signal sendInput(string json)
-    signal setupGame()
-    onSetupGame: {
-        if(tournamentMetaData.tournamentGameMode === 0x1)
-            FirstToPostScripts.setupFirstToPostScoreTable();
-    }
+    signal setupGame
     signal requestPersistState
     QtObject{
         id: buttonTextContainer
@@ -48,43 +40,29 @@ Content {
       Tournament metadata property
       */
     property QtObject tournamentMetaData: QtObject{}
-    function turnControllerInterface(){
-        return turnControllerItemSlot.item;
-    }
-    function notificationInterface()
-    {
-        return notificationItemSlot.item;
-    }
-
-    function scoreBoardInterface(){
-        return scoreBoardItemSlot.item;
-    }
-
-    function keyPadInterface()
-    {
-        return keyPaditemSlot.item;
-    }
     GridLayout{
         id: bodyLayout
         anchors.fill: parent
         flow: GridLayout.TopToBottom
-        Loader{
-            id: turnControllerItemSlot
+        TurnController{
+            id: multiPointTurnController
             Layout.fillWidth: true
             Layout.minimumHeight: 100
             Layout.maximumHeight: 100
             Layout.alignment: Qt.AlignHCenter
         }
-        Loader{
-            id: scoreBoardItemSlot
+        DartsMultiPointScoreBoard{
+            id: multiPointScoreBoard
+            Layout.fillHeight: true
             Layout.fillWidth: true
             Layout.minimumHeight: 160
+
         }
         MyRectangle{
             Layout.fillHeight: true
         }
 
-        Loader{
+        KeyDataDisplay{
             id: notificationItemSlot
             Layout.fillWidth: true
             Layout.maximumHeight: 40
@@ -94,7 +72,7 @@ Content {
              color: "transparent"
              height: 5
         }
-        Loader{
+        PointKeyPad{
             id: keyPaditemSlot
             Layout.alignment: Qt.AlignBottom
             Layout.fillHeight: true
@@ -108,7 +86,7 @@ Content {
             name: "winner"
             StateChangeScript{
                 script: {
-                    turnControllerInterface().backendHasDeclaredAWinner();
+                    multiPointTurnController.backendHasDeclaredAWinner();
                     keyPadInterface().enableKeyPad(false);
                     GameGeneralScripts.setWinnerText();
                 }
@@ -118,7 +96,7 @@ Content {
             name: "stopped"
             StateChangeScript{
                 script: {
-                    turnControllerInterface().backendIsStopped();
+                    multiPointTurnController.backendIsStopped();
                     keyPadInterface().enableKeyPad(false);
                 }
             }
@@ -126,14 +104,14 @@ Content {
         State {
             name: "ready"
             StateChangeScript{
-                script: turnControllerInterface().backendIsReady()
+                script: multiPointTurnController.backendIsReady()
             }
         },
         State {
             name: "waitingForInputConfirmation"
             StateChangeScript{
                 script: {
-                    turnControllerInterface().backendProcessesInput();
+                    multiPointTurnController.backendProcessesInput();
                     keyPadInterface().enableKeyPad(false);
                 }
             }
@@ -142,15 +120,17 @@ Content {
             name: "waitingForInput"
             StateChangeScript{
                 script: {
-                    turnControllerInterface().backendAwaitsInput();
+                    multiPointTurnController.backendAwaitsInput();
                     keyPadInterface().enableKeyPad(true);
                 }
             }
         }
     ]
-    Component.onCompleted: GameGeneralScripts.initializeComponent()
+    //Component.onCompleted: GameGeneralScripts.initializeComponent()
+    /*
     Component.onDestruction: {
         GameGeneralScripts.disconnectComponents();
         FirstToPostScripts.disconnectFtpInterface();
     }
+    */
 }

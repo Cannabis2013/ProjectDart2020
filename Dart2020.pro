@@ -16,26 +16,32 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     assembledartstournamentmodelfromjson.cpp\
     abstractjsonpersistence.cpp \
-    connectdartspointcontroller.cpp \
+    connectcontrollerbuilder.cpp \
+    connectdartsmultipointcontroller.cpp \
     connectdartsscorecontroller.cpp \
+    connectdartssinglescorecontroller.cpp \
+    connectdefaultmodelscontextinterface.cpp \
     dartapplication.cpp \
     dartscontrollerbuilder.cpp \
     dartsinputjsonassembler.cpp \
     dartsinputjsonextractor.cpp \
+    dartsmodelservicebuilder.cpp \
     dartsmodelsservice.cpp \
     dartsmultipointdatamodel.cpp \
     dartsmultiscoredatamodel.cpp \
     dartspointdbservice.cpp \
     dartsscorecontroller.cpp \
     dartstournamentjsonextractor.cpp \
+    defaultmodelsservicebuilder.cpp \
     iurlparser.cpp \
     localcricketcontroller.cpp \
     localmodelsservice.cpp \
-    localplayermodelscontext.cpp \
+    localplayermodelsservice.cpp \
     main.cpp \
     networkmanager.cpp \
     playerjsonassembler.cpp \
     playermodeljsonextractor.cpp \
+    playermodelsservicebuilder.cpp \
     playersjsondb.cpp \
     pointdartscontroller.cpp \
     pointlogisticcontroller.cpp \
@@ -71,30 +77,43 @@ HEADERS += \
     abstractdartspointcontroller.h \
     abstractdartsscorecontroller.h \
     abstractmodelsservice.h \
+    abstractmodelsservicebuilder.h \
+    assembleJsonFromDartsIndexesAndPoints.h \
+    assembledartspointindexesbydartspointmodel.h \
     assembledartsscorefromjson.h\
-    assemblejsondartsindexes.h \
+    assemblejsondartstournamentmodels.h \
+    assemblejsonfromdartspointindexes.h \
+    assemblejsonfromdartspoints.h \
     assemblejsonfromdartstournament.h \
     assemblejsonfromordereddartspointmodels.h \
+    assemblejsonfromplayeridandname.h \
     assembleplayerindexesfromjson.h \
-    connectdartspointcontroller.h \
+    connectcontrollerbuilder.h \
+    connectdartsmultipointcontroller.h \
     connectdartsscorecontroller.h \
+    connectdartssinglescorecontroller.h \
+    connectdefaultmodelscontextinterface.h \
     dartscontrollerbuilder.h \
+    dartsmodelservicebuilder.h \
     dartsmodelsservice.h \
     dartsmultipointdatamodel.h \
     dartsmultiscoredatamodel.h \
     dartspointdbservice.h \
+    dartspointindexes.h \
     dartsscorejsonassemblerservice.h \
     dartsscoresjsonassemblerservice.h \
+    defaultmodelsservicebuilder.h \
     getordereddartspointmodels.h \
     ibinaryservice.h \
     idartsmodelsservice.h \
     idartspointdb.h \
+    idartspointindexes.h \
     idartstournamentdb.h \
+    imodelsservicebuilder.h \
     ipersistence.h \
     iplayermodelsservice.h \
     iternaryservice.h \
     iunaryservice.h \
-    jsonarrayfromdartspoints.h \
     jsonarrayfromplayernamesandids.h \
     localmodelsservice.h \
     assembledartstournamentmodelfromjson.h\
@@ -147,13 +166,14 @@ HEADERS += \
     iurlparser.h \
     jsonextractor.h \
     localcricketcontroller.h \
-    localplayermodelscontext.h \
+    localplayermodelsservice.h \
     networkmanager.h \
     playerjsonassembler.h \
     playermodel.h \
     playermodelbuilder.h \
     playermodelbuildercontext.h \
     playermodeljsonextractor.h \
+    playermodelsservicebuilder.h \
     playersjsondb.h \
     pointScoreCalculator.h \
     pointdartscontroller.h \
