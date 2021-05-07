@@ -43,7 +43,7 @@ GridLayout{
         Layout.alignment: Qt.AlignTop
         text: qsTr("Hold for options")
         fontColor: "white"
-        fontSize: 8
+        fontSize: 4
         width: buttonDimensions.defaultWidth
         Layout.fillHeight: true
         wrapMode: Text.WordWrap
@@ -160,6 +160,18 @@ GridLayout{
 
     states: [
         State {
+            name: "initialState"
+            PropertyChanges {
+                target: textDescription
+                visible : false;
+            }
+            PropertyChanges {
+                target: startButton
+                visible: true
+                enabled: false
+            }
+        },
+        State {
             name: "startState"
             PropertyChanges {
                 target: textDescription
@@ -235,4 +247,5 @@ GridLayout{
             }
         }
     ]
+    Component.onCompleted: state = "initialState"
 }

@@ -51,11 +51,10 @@ IModelsDbContext *LocalPlayerModelsService::modelDBContext() const
     return _dbContext;
 }
 
-LocalPlayerModelsService::~LocalPlayerModelsService()
+LocalPlayerModelsService *LocalPlayerModelsService::createInstance()
 {
-
+    return new LocalPlayerModelsService();
 }
-
 
 const IPlayerModel<QUuid,QString>* LocalPlayerModelsService::createPlayerFromJson(const QByteArray &json)
 {
@@ -63,9 +62,10 @@ const IPlayerModel<QUuid,QString>* LocalPlayerModelsService::createPlayerFromJso
     auto jsonObject = document.object();
     auto name = jsonObject.value("playerName").toString();
     auto mail = jsonObject.value("playerMail").toString();
-    auto model = PlayerModel::createInstance();
-    model->setUserName(name);
-    model->setEmail(mail);
+    auto model = PlayerModel::createInstance()
+            ->setUserName(name)
+            ->setEmail(mail)
+            ->setId(QUuid::createUuid());
     return model;
 }
 
@@ -73,17 +73,6 @@ const QUuid LocalPlayerModelsService::addPlayerModelToDb(const IPlayerModel<QUui
 {
     _dbContext->addPlayerModel(model);
     return model->id();
-}
-
-DefaultPlayerBuilder *LocalPlayerModelsService::playerBuilder()
-{
-    return _playerBuilder;
-}
-
-LocalPlayerModelsService* LocalPlayerModelsService::setPlayerBuilder(DefaultPlayerBuilder *builder)
-{
-    _playerBuilder = builder;
-    return this;
 }
 
 LocalPlayerModelsService* LocalPlayerModelsService::setModelDBContext(IModelsDbContext *context)
@@ -134,7 +123,7 @@ void LocalPlayerModelsService::deletePlayerByUserName(const QString &playerName)
 {
     auto models = modelDBContext()->playerModels();
     for (auto model : models) {
-        auto playerModel = dynamic_cast<const IDefaultPlayerModel*>(model);
+        auto playerModel = dynamic_cast<const IPlayerModel<QUuid,QString>*>(model);
         auto uName = playerModel->playerName();
         if(uName == playerName)
         {
@@ -167,7 +156,7 @@ void LocalPlayerModelsService::deletePlayerByEmail(const QString &email)
 {
     auto models = modelDBContext()->playerModels();
     for (auto model : models) {
-        auto playerModel = dynamic_cast<const IDefaultPlayerModel*>(model);
+        auto playerModel = dynamic_cast<const IPlayerModel<QUuid,QString>*>(model);
         auto mailAdress = playerModel->email();
         if(mailAdress == email)
         {
@@ -205,7 +194,7 @@ QString LocalPlayerModelsService::playerNameFromId(const QUuid &id) const
 {
     auto models = modelDBContext()->playerModels();
     for (auto model : models) {
-        auto playerModel = dynamic_cast<const IDefaultPlayerModel*>(model);
+        auto playerModel = dynamic_cast<const IPlayerModel<QUuid,QString>*>(model);
         auto modelID = playerModel->id();
         if(modelID == id)
             return playerModel->playerName();
@@ -218,7 +207,7 @@ QString LocalPlayerModelsService::playerMailFromId(const QUuid &id) const
 {
     auto models = modelDBContext()->playerModels();
     for (auto model : models) {
-        auto playerModel = dynamic_cast<const IDefaultPlayerModel*>(model);
+        auto playerModel = dynamic_cast<const IPlayerModel<QUuid,QString>*>(model);
         auto modelID = model->id();
         if(modelID == id)
             return playerModel->email();
@@ -244,47 +233,11 @@ int LocalPlayerModelsService::playersCount() const
     auto count = models.count();
     return count;
 }
-
-DefaultPlayerBuilder *LocalPlayerModelsService::playerBuilder() const
-{
-    return _playerBuilder;
-}
-
-
-QUuid LocalPlayerModelsService::buildPlayerModel(const QString &playerName,
-                                                const QString &email,
-                                                const int &role,
-                                                const bool &generateID,
-                                                const QUuid &id)
-{
-    auto model = playerBuilder()->buildPlayerModel([id,playerName,email,role]
-    {
-        PlayerBuilderParameters params;
-        params.setId(id);
-        params.setRole(role);
-        params.setUserName(playerName);
-        params.setMailAdress(email);
-        return params;
-    }(),[generateID]
-    {
-        PlayerModelOptions options;
-        options.enableGenerateUniqueID(generateID);
-        return options;
-    }());
-    try {
-        modelDBContext()->addPlayerModel(model);
-    }  catch (...) {
-        return QUuid();
-    }
-    auto modelID = model->id();
-    return modelID;
-}
-
-const IDefaultPlayerModel *LocalPlayerModelsService::getModel(const QString &playerName) const
+const IPlayerModel<QUuid,QString> *LocalPlayerModelsService::getModel(const QString &playerName) const
 {
     auto models = modelDBContext()->playerModels();
     for (auto model : models) {
-        auto playerModel = dynamic_cast<const IDefaultPlayerModel*>(model);
+        auto playerModel = dynamic_cast<const IPlayerModel<QUuid,QString>*>(model);
         if(playerModel->playerName() == playerName)
             return playerModel;
     }

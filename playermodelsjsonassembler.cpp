@@ -1,7 +1,12 @@
-#include "playerjsonassembler.h"
+#include "playermodelsjsonassembler.h"
 
 
-QJsonArray PlayerJsonAssembler::assembleJsonArrayFromModels(const QVector<const IModel<QUuid> *> &models)
+PlayerModelsJsonAssembler *PlayerModelsJsonAssembler::createInstance()
+{
+    return new PlayerModelsJsonAssembler;
+}
+
+QJsonArray PlayerModelsJsonAssembler::service(const QVector<const IPlayerModel<QUuid,QString> *> &models)
 {
     QJsonArray playersJSON;
     for (auto model : models) {

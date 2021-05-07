@@ -3,6 +3,8 @@
 
 #include "imodelsservicebuilder.h"
 #include "localplayermodelsservice.h"
+#include "playermodelsjsonassembler.h"
+#include "playermodelsjsonextractor.h"
 #include "playersjsondb.h"
 #include "iplayermodel.h"
 #include <quuid.h>

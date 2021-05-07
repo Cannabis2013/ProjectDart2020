@@ -16,6 +16,7 @@ public slots:
     virtual void initializeControllerWinnerIdAndName(const QByteArray&) = 0;
     virtual void assembleSingleAttemptDartsScores() = 0;
     virtual void handleRequestDartsScores() = 0;
+    virtual void handleScoreAddedToDataContext(const QByteArray&) = 0;
 signals:
     void dartsSingleScoreControllerIsInitialized();
     void requestAddDartsScore(const QByteArray& tournament);

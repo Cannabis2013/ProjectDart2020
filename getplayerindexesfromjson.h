@@ -6,7 +6,7 @@
 #include <qjsonobject.h>
 #include <qjsonarray.h>
 
-class AssemblePlayerIndexesFromJson : public
+class GetPlayerIndexesFromJson : public
         IUnaryService<const QByteArray&,QVector<int>>
 {
 public:

@@ -14,6 +14,12 @@ DartsModelsService* DartsModelsService::setup()
     return this;
 }
 
+const IDartsTournament<QUuid, QString> *DartsModelsService::getDartsTournamentModelById(const QUuid &tournamentId) const
+{
+    auto model = getTournamentModelFromId<IDartsTournament<QUuid,QString>>(tournamentId);
+    return model;
+}
+
 QUuid DartsModelsService::addDartsTournamentToDb(const IDartsTournament<QUuid,QString>* tournament)
 {
     // Add model to dbcontext
@@ -124,12 +130,6 @@ int DartsModelsService::tournamentInputMode(const QUuid &tournament) const
     return inputMode;
 }
 
-const IDartsPointInput<QUuid> *DartsModelsService::assembleDartsInputPointFromJson(const QByteArray &json)
-{
-    auto model = _assembleDartsInputPointFromJson->service(json);
-    return model;
-}
-
 int DartsModelsService::tournamentStatus(const QUuid &tournament) const
 {
     auto model = getTournamentModelFromId<IDartsTournament<QUuid,QString>>(tournament);
@@ -185,12 +185,6 @@ void DartsModelsService::tournamentUnAssignPlayer(const QUuid &tournament, const
     newModel->setAssignedPlayerIdentities(assignedPlayers);
     auto index = _tournamentsDbContext->indexOfTournament(oldModel);
     _tournamentsDbContext->replaceTournament(index,newModel);
-}
-
-const IDartsTournament<QUuid, QString> *DartsModelsService::assembleDartsTournamentFromJson(const QByteArray &json) const
-{
-    auto model = _assembleDartsTournamentFromJson->service(json);
-    return model;
 }
 
 QList<QUuid> DartsModelsService::dartsPointIds() const
@@ -510,17 +504,6 @@ QVector<int> DartsModelsService::dartsPointValuesByTournamentId(const QUuid &tou
 DartsModelsService* DartsModelsService::setTournamentsDbContext(IDartsTournamentDb<IDartsTournament<QUuid, QString> > *tournamentsDbContext)
 {
     _tournamentsDbContext = tournamentsDbContext;
-    return this;
-}
-
-void DartsModelsService::setAssembleDartsInputPointFromJson(IUnaryService<const QByteArray &, const IDartsPointInput<QUuid> *> *assembleDartsInputPointFromJson)
-{
-    _assembleDartsInputPointFromJson = assembleDartsInputPointFromJson;
-}
-
-DartsModelsService* DartsModelsService::setAssembleDartsTournamentFromJson(IUnaryService<const QByteArray &, const IDartsTournament<QUuid, QString> *> *assembleDartsTournamentFromJson)
-{
-    _assembleDartsTournamentFromJson = assembleDartsTournamentFromJson;
     return this;
 }
 

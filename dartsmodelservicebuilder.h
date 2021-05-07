@@ -2,12 +2,13 @@
 #define DARTSTOURNAMNETMODELSERVICEBUILDER_H
 
 #include "dartsmodelsservice.h"
-#include "assembledartstournamentmodelfromjson.h"
-#include "getordereddartspointmodels.h"
 #include "imodelsservicebuilder.h"
+#include "getordereddartspointmodels.h"
 #include "tournamentjsondb.h"
 #include "dartspointdbservice.h"
 #include "assembledartspointindexesbydartspointmodel.h"
+#include "assemblesingleattemptpointsfromjson.h"
+#include "assemblejsonarrayfromdartspoints.h"
 
 class DartsModelServiceBuilder :
         public IModelsServiceBuilder<IDartsModelsService>

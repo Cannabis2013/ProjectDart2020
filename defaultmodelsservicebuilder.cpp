@@ -5,26 +5,32 @@ DefaultModelsServiceBuilder *DefaultModelsServiceBuilder::createInstance()
     return new DefaultModelsServiceBuilder();
 }
 
-AbstractModelsService *DefaultModelsServiceBuilder::buildLocalModelsServiceWithJsonDb(AbstractApplicationInterface *applicationInterface)
+AbstractModelsService *DefaultModelsServiceBuilder::buildLocalModelsServiceWithJsonDb()
 {
-    auto modelsContext = LocalModelsService::createInstance();
-    modelsContext->setAssembleJsonDartsIndexes(new AssembleJsonFromDartsPointIndexes);
-    modelsContext->setGetPlayerIndexesFromJson(new AssemblePlayerIndexesFromJson);
-    modelsContext->setAssembleJsonFromPlayerNamesAndIds(new JsonArrayFromPlayerNamesAndIds);
-    modelsContext->setAssembleJSonFromTournamentDartsPoints(new AssembleJsonFromDartsPoints());
-    modelsContext->setAssembleJsonFromOrderedDartsPointModels(new AssembleJsonFromOrderedDartsPointModels);
-    modelsContext->setAssembleDartsTournamentFromJson(new AssembleDartsTournamentModelFromJson);
-    modelsContext->setAssembleJsonDartsTournamentModels(new AssembleJsonDartsTournamentModels);
-    modelsContext->setDartsModelsService(_tournamentServiceBuilder->buildModelsService());
-    modelsContext->setPlayerModelsService(_playerServiceBuilder->buildModelsService());
-    modelsContext->setAssembleJsonFromPlayerIdAndName(new AssembleJsonFromPlayerNameAndId);
+    auto dartsModelsService = _localDartsTournamentServiceBuilder->buildModelsService();
+    auto playerModelsService = _playerServiceBuilder->buildModelsService();
+    auto modelsContext = LocalModelsService::createInstance()
+            ->setAssembleJsonDartsIndexes(new AssembleJsonFromDartsPointIndexes)
+            ->setGetPlayerIndexesFromJson(new GetPlayerIndexesFromJson)
+            ->setAssembleJsonFromPlayerNamesAndIds(new JsonArrayFromPlayerNamesAndIds)
+            ->setAssembleJSonFromTournamentDartsPoints(new AssembleJsonFromDartsPoints())
+            ->setAssembleJsonFromOrderedDartsPointModels(new AssembleJsonFromOrderedDartsPointModels)
+            ->setAssembleDartsTournamentFromJson(new AssembleDartsTournamentModelFromJson)
+            ->setAssembleJsonDartsTournamentModels(new AssembleJsonDartsTournamentModels)
+            ->setDartsModelsService(dartsModelsService)
+            ->setPlayerModelsService(playerModelsService)
+            ->setAssembleJsonFromPlayerIdAndName(new AssembleJsonFromPlayerNameAndId)
+            ->setAssembleJSonFromDartsTournamentModel(new AssembleJsonFromDartsTournament)
+            ->setGetTournamentIndexesFromJson(new GetTournamentIndexesFromJson)
+            ->setGetDeletePlayerIndexFromJson(new GetDeletePlayerIndexFromJson)
+            ->setAssembleDartsPointModelFromJson(new AssembleDartsPointModelFromJson);
     return modelsContext;
 }
 
 DefaultModelsServiceBuilder *DefaultModelsServiceBuilder::setModelsTournamentServiceBuilder(
         IModelsServiceBuilder<IDartsModelsService> *builder)
 {
-    _tournamentServiceBuilder = builder;
+    _localDartsTournamentServiceBuilder = builder;
     return this;
 }
 

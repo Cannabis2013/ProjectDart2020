@@ -27,10 +27,10 @@ void ConnectDartsSingleScoreController::service(AbstractDartsScoreController *co
     /*
      * Controller requests transmitting singlethrow playerscores
      */
-    QObject::connect(application,&AbstractApplicationInterface::requestSingleThrowPlayerScores,
+    QObject::connect(application,&AbstractApplicationInterface::requestMultiAttemptPlayerScores,
             controller,&AbstractDartsScoreController::assembleSingleAttemptDartsScores);
     QObject::connect(controller,&AbstractDartsScoreController::sendSingleAttemptDartsScores,
-            application,&AbstractApplicationInterface::sendAssembledSingleDartsScores);
+            application,&AbstractApplicationInterface::sendAssembledMultiAttemptDartsScores);
     /*
          * Wake up controller
          */
@@ -64,16 +64,16 @@ void ConnectDartsSingleScoreController::service(AbstractDartsScoreController *co
     QObject::connect(modelsService,&AbstractModelsService::tournamentResetSuccess,
             controller,&AbstractGameController::isReset);
     QObject::connect(controller,&AbstractDartsController::isReset,
-            application,&AbstractApplicationInterface::ftpControllerIsReset);
+            application,&AbstractApplicationInterface::dartsControllerIsReset);
     /*
          * Add point
          */
-    QObject::connect(application,&AbstractApplicationInterface::sendPoint,
+    QObject::connect(application,&AbstractApplicationInterface::sendSingleAttemptPlayerInput,
             controller,&AbstractGameController::handleAndProcessUserInput);
     QObject::connect(controller,&AbstractDartsScoreController::requestAddDartsScore,
             modelsService,&AbstractModelsService::addDartsPoint);
     QObject::connect(modelsService,&AbstractModelsService::scoreAddedToDataContext,
-            controller,&AbstractGameController::handleScoreAddedToDataContext);
+            controller,&AbstractDartsScoreController::handleScoreAddedToDataContext);
     QObject::connect(controller,&AbstractDartsScoreController::scoreAddedSuccess,
             application,&AbstractApplicationInterface::ftpControllerAddedAndPersistedScore);
     QObject::connect(application,&AbstractApplicationInterface::requestControllerState,
@@ -82,7 +82,7 @@ void ConnectDartsSingleScoreController::service(AbstractDartsScoreController *co
          * Controller remove has removed scores
          */
     QObject::connect(controller,&AbstractDartsScoreController::scoreRemoved,
-            application,&AbstractApplicationInterface::ftpControllerRemovedScore);
+            application,&AbstractApplicationInterface::dartsControllerRemovedSingleAttemptPoint);
     /*
          * Undo/redo
          */

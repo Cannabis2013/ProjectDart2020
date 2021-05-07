@@ -17,12 +17,12 @@ namespace InputAssemblerContext {
     typedef QVector<const IDartsPointInput<QUuid>*> modelsList;
 }
 
-class DartsPointsJsonAssembler :
-        public IUnaryService<const InputAssemblerContext::modelsList&,QJsonArray>
+class AssembleJsonArrayFromDartsPoints :
+        public IUnaryService<const QVector<const IDartsPointInput<QUuid>*>&,QJsonArray>
 {
 public:
 
-    QJsonArray service(const InputAssemblerContext::modelsList& modelsList) override;
+    QJsonArray service(const QVector<const IDartsPointInput<QUuid>*>& modelsList) override;
 };
 
 #endif // DARTSINPUTJSONASSEMBLER_H

@@ -85,6 +85,7 @@
         <file>MultiScoreDelegate.qml</file>
         <file>dartsmultiscorescripts.js</file>
         <file>DartsMultiPointContent.qml</file>
+        <file>dartsSingleAttemptPointScripts.js</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>

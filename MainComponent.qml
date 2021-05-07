@@ -83,10 +83,12 @@ Item {
     Component
     {
         id: dartsMultiPointComponent
-        Page{
-            pageContent: MultiPointDartsContent{
 
+        Page{
+            pageTitle : "Darts in progress"
+            pageContent: DartsMultiPointContent{
             }
+            Component.onCompleted: body.backPushed.connect(backButtonPressed)
         }
     }
 
@@ -95,5 +97,5 @@ Item {
         anchors.fill: parent
 
     }
-    Component.onCompleted: pageLoader.sourceComponent = dartsMultiPointComponent
+    Component.onCompleted: pageLoader.sourceComponent = startPageComponent
 }

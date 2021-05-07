@@ -3,19 +3,16 @@
 
 #include "iunaryservice.h"
 #include "dartspointinput.h"
-#include "dartsscoreinput.h"
 #include <qjsonvalue.h>
 #include <qjsonarray.h>
 #include "qjsonobject.h"
 
-
-
-class DartsInputJsonExtractor : public IUnaryService<
+class AssembleSingleAttemptPointsFromJson : public IUnaryService<
         const QJsonArray&,
-        QVector<const IModel<QUuid>*>>
+        QVector<const IDartsPointInput<QUuid>*>>
 {
 public:
-    QVector<const IModel<QUuid> *> service(const QJsonArray &arr) override;
+    QVector<const IDartsPointInput<QUuid> *> service(const QJsonArray &arr) override;
 private:
     const DartsPointInput* assembleModelFromJsonObject(const QJsonObject& JsonObject);
 };

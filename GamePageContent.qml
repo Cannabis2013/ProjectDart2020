@@ -20,7 +20,7 @@ Content {
         property string winnerLabel: "Winner:"
     }
     signal requestMetaInformation
-    signal requestMultiThrowScores
+    signal requestSingleAttemptPoints
     signal requestSingleThrowScores
     signal requestStatusFromBackend
     signal requestStart

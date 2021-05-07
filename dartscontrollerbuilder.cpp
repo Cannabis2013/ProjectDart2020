@@ -25,7 +25,7 @@ AbstractGameController *DartsControllerBuilder::assembleDartsGameController(cons
                                                      keyPoint,
                                                      terminalKeyCode,
                                                      attempts);
-        _connectDartsPointController->service(controller,applicationInterface,modelsContext);
+        _connectDartsSingleAttemptPointController->service(controller,applicationInterface,modelsContext);
         emit sendController(controller);
         return controller;
     }
@@ -88,8 +88,8 @@ DartsControllerBuilder* DartsControllerBuilder::setConnectDartsScoreController(I
     _connectDartsScoreController = connectDartsScoreController;
 }
 
-DartsControllerBuilder* DartsControllerBuilder::setConnectDartsPointController(ITernaryService<AbstractDartsPointController *, AbstractApplicationInterface *, AbstractModelsService *, AbstractDartsPointController *> *connectDartsPointController)
+DartsControllerBuilder* DartsControllerBuilder::setConnectDartsSingleAttemptPointController(ITernaryService<AbstractDartsPointController *, AbstractApplicationInterface *, AbstractModelsService *, AbstractDartsPointController *> *connectDartsPointController)
 {
-    _connectDartsPointController = connectDartsPointController;
+    _connectDartsSingleAttemptPointController = connectDartsPointController;
     return this;
 }

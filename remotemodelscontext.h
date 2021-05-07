@@ -99,7 +99,6 @@ public:
     void revealPoint(const QUuid &, const QUuid &, const int &, const int &) override;
     void hideDartsScore(const QUuid &, const QUuid &, const int &) override;
     void revealScore(const QUuid &, const QUuid &, const int &) override;
-    void assembleDartsIndexesAndScores(const QUuid &tournament) override;
 
     // AbstractModelsService interface
 public:

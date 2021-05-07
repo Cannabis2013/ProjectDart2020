@@ -5,7 +5,6 @@
 #include <QUuid>
 #include "iresponseinterface.h"
 
-typedef QList<QPair<QUuid,QString>> PlayerPairs;
 
 class AbstractModelsService : public QObject
 {
@@ -55,7 +54,6 @@ public:
     virtual void assembleDartsPointIndexes(const QUuid& tournament) = 0;
     virtual void assembleAssignedPlayerEntities(const QUuid&) = 0;
     virtual void assembleAssignedPlayerPoints(const QUuid&) = 0;
-    virtual void assembleDartsIndexesAndScores(const QUuid&) = 0;
     virtual void assembleDartsTournamentWinnerIdAndName(const QUuid&) = 0;
     /*
      * Player-models context interface..
@@ -112,11 +110,6 @@ signals:
                                          const int &inputMode,
                                          const QString &winner,
                                          const QStringList &assignedPlayerNames);
-    void sendCurrentAssignedPlayerPairs(const QUuid &tournament,
-                                        const PlayerPairs &playerPairs);
-    void sendProcessedTournamentDetails(const QString &title,
-                                        const QList<int> &data,
-                                        const QList<QUuid> &playersID);
     void playersDeletedStatus(const bool &status);
     void sendPlayers(const QVariantList& list);
     void createPlayerResponse(const bool &status);
@@ -128,7 +121,7 @@ signals:
     void sendTournamentDartsPointsAsJson(const QByteArray& json);
     void sendDartsIndexesAndScoreValues(const QByteArray& json);
     void sendDartsTournamentWinnerIdAndName(const QByteArray& json);
-    void sendFtpMultiScores(const QByteArray& scores);
+    void sendDartsSingleAttemptPoints(const QByteArray& scores);
     void hideDartsPointSuccess(const QByteArray&);
     void revealDartsPointSuccess(const QByteArray&);
     void hideDartsScoreSuccess(const QByteArray&);

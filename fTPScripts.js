@@ -50,7 +50,7 @@ function requestScoresFromBackend()
     if(hint === DataModelContext.singleAttempt)
         requestSingleThrowScores();
     else if(hint === DataModelContext.multiAttempt);
-        requestMultiThrowScores();
+        requestSingleAttemptPoints();
 }
 
 function setupWindowTitle()
@@ -61,30 +61,30 @@ function setupWindowTitle()
 
 function connectFtpInterface()
 {
-    applicationInterface.ftpControllerRemovedScore.connect(backendRemovedPoint);
-    applicationInterface.ftpControllerIsReset.connect(reinitialize);
+    applicationInterface.dartsControllerRemovedSingleAttemptPoint.connect(backendRemovedPoint);
+    applicationInterface.dartsControllerIsReset.connect(reinitialize);
     keyPadInterface().sendInput.connect(handlePointKeyPadInput);
     gamePageBody.requestUndo.connect(applicationInterface.handleUndoRequest);
     gamePageBody.requestRedo.connect(applicationInterface.handleRedoRequest);
     gamePageBody.requestSingleThrowScores.connect(applicationInterface.handleRequestForSingleThrowScoreData);
-    gamePageBody.requestMultiThrowScores.connect(applicationInterface.handleRequestForMultiThrowScoreData);
-    applicationInterface.sendAssembledSingleFtpScores.connect(recieveFtpSingleAttemptScores);
-    applicationInterface.sendAssembledMultiFtpScores.connect(recieveFtpMultiAttemptScores);
+    gamePageBody.requestSingleAttemptPoints.connect(applicationInterface.handleRequestForDartsSingleAttemptPoints);
+    applicationInterface.sendAssembledSingleFtpScores.connect(recieveDartsMultiAttemptScores);
+    applicationInterface.sendAssembledDartsSingleAttemptPoints.connect(recieveDartsSingleAttemptPoints);
     applicationInterface.controllerAwaitsInput.connect(backendIsReadyAndAwaitsInput);
 }
 function disconnectFtpInterface()
 {
-    applicationInterface.ftpControllerRemovedScore.disconnect(backendRemovedPoint);
+    applicationInterface.dartsControllerRemovedSingleAttemptPoint.disconnect(backendRemovedPoint);
     applicationInterface.ftpControllerAddedAndPersistedScore.disconnect(extractPointScoreFromJson);
     applicationInterface.ftpControllerAddedAndPersistedScore.disconnect(extractScoreFromJson);
     applicationInterface.ftpControllerIsReset.disconnect(reinitialize);
     keyPadInterface().sendInput.disconnect(handlePointKeyPadInput);
     gamePageBody.requestUndo.disconnect(applicationInterface.requestUndo);
     gamePageBody.requestRedo.disconnect(applicationInterface.requestRedo);
-    applicationInterface.sendAssembledMultiFtpScores.disconnect(recieveFtpMultiAttemptScores);
+    applicationInterface.sendAssembledMultiFtpScores.disconnect(recieveDartsSingleAttemptPoints);
     gamePageBody.requestSingleThrowScores.disconnect(applicationInterface.handleRequestForSingleThrowScoreData);
-    gamePageBody.requestMultiThrowScores.disconnect(applicationInterface.handleRequestForMultiThrowScoreData);
-    applicationInterface.sendAssembledSingleFtpScores.disconnect(recieveFtpSingleAttemptScores);
+    gamePageBody.requestSingleAttemptPoints.disconnect(applicationInterface.handleRequestForDartsSingleAttemptPoints);
+    applicationInterface.sendAssembledSingleFtpScores.disconnect(recieveDartsMultiAttemptScores);
     applicationInterface.controllerAwaitsInput.disconnect(backendIsReadyAndAwaitsInput);
 }
 function setupFirstToPostScoreTable()
@@ -136,7 +136,7 @@ function backendIsReadyAndAwaitsInput(data)
     gamePageBody.state = "waitingForInput";
 }
 
-function recieveFtpMultiAttemptScores(scores)
+function recieveDartsSingleAttemptPoints(scores)
 {
     var jsonData = JSON.parse(scores);
     var count = jsonData.length;
@@ -152,7 +152,7 @@ function recieveFtpMultiAttemptScores(scores)
     gamePageBody.requestStatusFromBackend();
 }
 
-function recieveFtpSingleAttemptScores(scores)
+function recieveDartsMultiAttemptScores(scores)
 {
     var jsonData = JSON.parse(scores);
     var entities = jsonData.entities;
@@ -172,7 +172,6 @@ function extractPointScoreFromJson(data)
     var json = JSON.parse(data);
     let playerName = json["playerName"];
     let pointValue = json["point"];
-    let scoreValue = json["accumulatedScoreValue"];
     let keyCode = json["modKeyCode"];
     scoreBoardInterface().setData(playerName,pointValue,scoreValue,keyCode);
     requestStatusFromBackend();

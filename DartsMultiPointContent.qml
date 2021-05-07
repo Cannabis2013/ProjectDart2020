@@ -1,6 +1,8 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 
+import "dartsSingleAttemptPointScripts.js" as DartsSingleAttemptScripts
+
 /*
   Gamemodes:
     FirstToPost = 0x1,
@@ -9,20 +11,19 @@ import QtQuick.Layouts 1.3
     Cricket = 0xAA
   */
 Content {
-    id: gamePageBody
+    id: dartsSingleAttemptBody
     QtObject{
         id: textSourceContainer
         property string throwSuggestLabel: "Target row:"
         property string winnerLabel: "Winner:"
     }
-    signal requestMetaInformation
-    signal requestMultiThrowScores
-    signal requestSingleThrowScores
+    signal requestControllerValues
+    signal requestSingleAttemptPoints
     signal requestStatusFromBackend
     signal requestStart
     signal requestStop
     signal requestRestart
-    onRequestRestart: GameGeneralScripts.handleRequestTournamentReset()
+    onRequestRestart: DartsSingleAttemptScripts.handleRequestTournamentReset()
     signal requestUndo
     signal requestRedo
     signal sendInput(string json)
@@ -73,7 +74,7 @@ Content {
              height: 5
         }
         PointKeyPad{
-            id: keyPaditemSlot
+            id: pointKeyPad
             Layout.alignment: Qt.AlignBottom
             Layout.fillHeight: true
             Layout.fillWidth: true
@@ -87,7 +88,7 @@ Content {
             StateChangeScript{
                 script: {
                     multiPointTurnController.backendHasDeclaredAWinner();
-                    keyPadInterface().enableKeyPad(false);
+                    pointKeyPad.enableKeyPad(false);
                     GameGeneralScripts.setWinnerText();
                 }
             }
@@ -97,7 +98,7 @@ Content {
             StateChangeScript{
                 script: {
                     multiPointTurnController.backendIsStopped();
-                    keyPadInterface().enableKeyPad(false);
+                    pointKeyPad.enableKeyPad(false);
                 }
             }
         },
@@ -112,7 +113,7 @@ Content {
             StateChangeScript{
                 script: {
                     multiPointTurnController.backendProcessesInput();
-                    keyPadInterface().enableKeyPad(false);
+                    pointKeyPad.enableKeyPad(false);
                 }
             }
         },
@@ -121,7 +122,7 @@ Content {
             StateChangeScript{
                 script: {
                     multiPointTurnController.backendAwaitsInput();
-                    keyPadInterface().enableKeyPad(true);
+                    pointKeyPad.enableKeyPad(true);
                 }
             }
         }

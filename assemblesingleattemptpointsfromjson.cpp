@@ -1,8 +1,8 @@
-#include "dartsinputjsonextractor.h"
+#include "assemblesingleattemptpointsfromjson.h"
 
-QVector<const IModel<QUuid>*> DartsInputJsonExtractor::service(const QJsonArray &arr)
+QVector<const IDartsPointInput<QUuid>*> AssembleSingleAttemptPointsFromJson::service(const QJsonArray &arr)
 {
-    QVector<const IModel<QUuid>*> list;
+    QVector<const IDartsPointInput<QUuid>*> list;
     for (const auto& jsonValue : arr) {
         auto jsonObject = jsonValue.toObject();
         auto model = assembleModelFromJsonObject(jsonObject);
@@ -10,7 +10,7 @@ QVector<const IModel<QUuid>*> DartsInputJsonExtractor::service(const QJsonArray 
     }
     return list;
 }
-const DartsPointInput *DartsInputJsonExtractor::assembleModelFromJsonObject(const QJsonObject &jsonObject)
+const DartsPointInput *AssembleSingleAttemptPointsFromJson::assembleModelFromJsonObject(const QJsonObject &jsonObject)
 {
     auto stringID = jsonObject["Id"].toString();
     auto id = QUuid::fromString(stringID);

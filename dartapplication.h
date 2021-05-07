@@ -45,8 +45,7 @@ public:
     DartApplication *setControllerBuilder(ControllerBuilderInterface *builder);
 
     DartApplication *setModelsServiceBuilder(
-            AbstractModelsServiceBuilder<AbstractApplicationInterface,
-                                         AbstractModelsService> *modelsServiceBuilder);
+            AbstractModelsServiceBuilder<AbstractModelsService> *modelsServiceBuilder);
 
     DartApplication *setConnectModelsServiceInterface(IBinaryService<AbstractApplicationInterface *, AbstractModelsService *, void> *connectModelsServiceInterface);
 
@@ -63,7 +62,7 @@ public slots:
      * UI request data to populate scoreboard
      */
     void handleRequestForSingleThrowScoreData() override;
-    void handleRequestForMultiThrowScoreData() override;
+    void handleRequestForDartsSingleAttemptPoints() override;
     /*
      * Create tournament
      *
@@ -103,7 +102,7 @@ public slots:
      *  - Users enters points to be stored in datacontext
      *  - In return, datacontext, in collaboration with gamecontroller, send current score to UI
      */
-    void handleUserInput(const QByteArray& json) override;
+    void handleSingleAttemptPlayerPointInput(const QByteArray& json) override;
     void handleUndoRequest() override;
     void handleRedoRequest() override;
     void handleControllerStateRequest() override;
@@ -134,8 +133,7 @@ private:
     AbstractDartsControllerBuilder *_controllerBuilder;
     AbstractModelsService* _modelsContext;
     AbstractGameController *_gameController = nullptr;
-    AbstractModelsServiceBuilder<AbstractApplicationInterface,
-                                 AbstractModelsService>* _modelsServiceBuilder;
+    AbstractModelsServiceBuilder<AbstractModelsService>* _modelsServiceBuilder;
     IBinaryService<AbstractApplicationInterface*,
                    AbstractModelsService*,
                    void>* _connectModelsServiceInterface;

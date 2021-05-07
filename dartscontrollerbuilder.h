@@ -57,7 +57,7 @@ public:
     virtual void determineTournamentGameMode(const QUuid &tournament,
                                              const int &gameMode) override;
 
-    DartsControllerBuilder *setConnectDartsPointController(ITernaryService<AbstractDartsPointController *, AbstractApplicationInterface *, AbstractModelsService *, AbstractDartsPointController *> *connectDartsPointController);
+    DartsControllerBuilder *setConnectDartsSingleAttemptPointController(ITernaryService<AbstractDartsPointController *, AbstractApplicationInterface *, AbstractModelsService *, AbstractDartsPointController *> *connectDartsPointController);
 
     DartsControllerBuilder *setConnectDartsScoreController(ITernaryService<AbstractDartsScoreController *, AbstractApplicationInterface *, AbstractModelsService *, AbstractDartsScoreController *> *connectDartsScoreController);
 
@@ -74,7 +74,7 @@ private:
                                                                const int& attempts);
     ITernaryService<AbstractDartsPointController*,
                     AbstractApplicationInterface*,AbstractModelsService*,
-                    AbstractDartsPointController*>* _connectDartsPointController;
+                    AbstractDartsPointController*>* _connectDartsSingleAttemptPointController;
     ITernaryService<AbstractDartsScoreController*,
                     AbstractApplicationInterface*,
                     AbstractModelsService*,

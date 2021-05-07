@@ -6,17 +6,15 @@
 
 #include <qqmlcontext.h>
 #include "dartapplication.h"
-#include "playermodelbuilder.h"
 #include "dartscontrollerbuilder.h"
 #include "dartsmodelsservice.h"
 #include "localplayermodelsservice.h"
 #include "remotemodelscontext.h"
 #include "dartsmultipointdatamodel.h"
-#include "playermodelbuilder.h"
 #include "sftpdatamodel.h"
 #include "dartsmultiscoredatamodel.h"
 #include "assembledartstournamentmodelfromjson.h"
-#include "connectdartsmultipointcontroller.h"
+#include "connectdartssingleattemptpointcontroller.h"
 #include "connectdartsscorecontroller.h"
 #include "defaultmodelsservicebuilder.h"
 #include "dartsmodelservicebuilder.h"
@@ -27,7 +25,7 @@
 DartApplication* createDartApplication()
 {
     auto dartsControllerBuilder = DartsControllerBuilder::createInstance()
-            ->setConnectDartsPointController(new ConnectDartsMultiPointController)
+            ->setConnectDartsSingleAttemptPointController(new ConnectDartsSingleAttemptPointController)
             ->setConnectDartsScoreController(new ConnectDartsScoreController);
     auto modelsServiceBuilder = DefaultModelsServiceBuilder::createInstance()
             ->setModelsTournamentServiceBuilder(new DartsModelServiceBuilder)

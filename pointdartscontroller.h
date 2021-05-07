@@ -93,6 +93,9 @@ public slots:
      *  - Transmit 'ready' response
      */
     void beginInitialize() override;
+    void initializeControllerPlayerDetails(const QByteArray &json) override;
+    void initializeControllerDartsPoints(const QByteArray &json) override;
+    void initializeControllerWinnerIdAndName(const QByteArray &json) override;
     /*
      * Start/stop/undo/redo
      */
@@ -127,7 +130,7 @@ public slots:
     void assembleSingleAttemptDartsPoints() override;
     void handleRequestDartsPoints() override;
 
-    void handleScoreAddedToDataContext(const QByteArray& json) override;
+    void handlePointAddedToDataContext(const QByteArray& json) override;
     /*
      * Reinitialize controller
      *  - Set controller back to its original state
@@ -148,6 +151,7 @@ public slots:
      */
     void undoSuccess(const QByteArray &json) override;
     void redoSuccess(const QByteArray &json) override;
+
 private:
     /*
      * Private constructor
@@ -200,15 +204,6 @@ private:
     IndexControllerInterface* _indexController = nullptr;
     // Userscore service
     ScoreController* _scoreController = nullptr;
-
-    // AbstractDartsPointController interface
-public slots:
-    void initializeControllerPlayerDetails(const QByteArray &json) override;
-    void initializeControllerDartsPoints(const QByteArray &json) override;
-
-    // AbstractDartsPointController interface
-public slots:
-    void initializeControllerWinnerIdAndName(const QByteArray &json) override;
 };
 
 #endif // POINTFTPCONTROLLER_H

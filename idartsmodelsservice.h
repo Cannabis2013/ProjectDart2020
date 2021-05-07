@@ -16,7 +16,7 @@ public:
      */
     virtual QVector<const IDartsTournament<QUuid,QString>*> getDartsTournamentModels() const = 0;
     virtual const IDartsTournament<QUuid,QString>* getDartsTournamentById(const QUuid&) const = 0;
-    virtual const IDartsTournament<QUuid,QString>* assembleDartsTournamentFromJson(const QByteArray& json) const = 0;
+    virtual const IDartsTournament<QUuid,QString>* getDartsTournamentModelById(const QUuid&) const = 0;
     virtual QUuid addDartsTournamentToDb(const IDartsTournament<QUuid,QString>*) = 0;
     virtual bool removeTournamentsByIndexes(const QVector<int>& indexes) const = 0;
     virtual QUuid tournamentIdFromIndex(const int &index) const = 0;
@@ -41,7 +41,6 @@ public:
     /*
      * Points related section
      */
-    virtual const IDartsPointInput<QUuid> * assembleDartsInputPointFromJson(const QByteArray& json) = 0;
     virtual void addDartsPoint(const IDartsPointInput<QUuid>*) = 0;
     virtual QVector<const IDartsPointInput<QUuid>*> getDartsPointModelsOrdedByIndexes(const QUuid& tournamentId) const = 0;
     virtual QUuid getDartsPointId(const QUuid &tournament,

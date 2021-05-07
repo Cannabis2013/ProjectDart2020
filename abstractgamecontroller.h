@@ -29,7 +29,6 @@ public slots:
     virtual QUuid undoTurn() = 0;
     virtual QUuid redoTurn() = 0;
     virtual void handleRequestForCurrentTournamentMetaData() = 0;
-    virtual void handleScoreAddedToDataContext(const QByteArray& json) = 0;
     virtual void handleResetTournament() = 0;
     /*
      * Set initial state

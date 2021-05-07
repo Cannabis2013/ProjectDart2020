@@ -70,7 +70,7 @@ void PointDartsController::handleRequestDartsPoints()
     emit requestDartsPoints(tournamentId);
 }
 
-void PointDartsController::handleScoreAddedToDataContext(const QByteArray &json)
+void PointDartsController::handlePointAddedToDataContext(const QByteArray &json)
 {
     auto obj = QJsonDocument::fromJson(json).object();
     auto score = obj.value("scoreValue").toInt();
@@ -224,7 +224,7 @@ void PointDartsController::handleRequestFromUI()
 {
     if(status() == ControllerState::Initialized)
     {
-        emit controllerIsInitialized();
+        emit controllerIsInitializedAndReady();
     }
     else if(status() == ControllerState::AddScoreState)
     {

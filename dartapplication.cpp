@@ -14,7 +14,7 @@ DartApplication *DartApplication::createInstance()
 
 DartApplication *DartApplication::setup()
 {
-    _modelsContext = _modelsServiceBuilder->buildLocalModelsServiceWithJsonDb(this);
+    _modelsContext = _modelsServiceBuilder->buildLocalModelsServiceWithJsonDb();
     _connectModelsServiceInterface->service(this,_modelsContext);
     _connectControllerBuilder->service(this,_controllerBuilder,_modelsContext);
     return this;
@@ -44,12 +44,12 @@ void DartApplication::handleSetCurrentTournamentRequest(const int &index)
 
 void DartApplication::handleRequestForSingleThrowScoreData()
 {
-    emit requestSingleThrowPlayerScores();
+    emit requestMultiAttemptPlayerScores();
 }
 
-void DartApplication::handleRequestForMultiThrowScoreData()
+void DartApplication::handleRequestForDartsSingleAttemptPoints()
 {
-    emit requestDartsMultiAttemptScores();
+    emit requestDartsSingleAttemptPoints();
 }
 
 void DartApplication::handleFTPDetails(const QByteArray& json)
@@ -105,9 +105,9 @@ void DartApplication::handleRequestStop()
     emit requestStopGame();
 }
 
-void DartApplication::handleUserInput(const QByteArray& json)
+void DartApplication::handleSingleAttemptPlayerPointInput(const QByteArray& json)
 {
-    emit sendPoint(json);
+    emit sendSingleAttemptPlayerInput(json);
 }
 
 void DartApplication::handleUndoRequest()
@@ -202,7 +202,7 @@ DartApplication* DartApplication::setConnectModelsServiceInterface(IBinaryServic
     return this;
 }
 
-DartApplication* DartApplication::setModelsServiceBuilder(AbstractModelsServiceBuilder<AbstractApplicationInterface, AbstractModelsService> *modelsServiceBuilder)
+DartApplication* DartApplication::setModelsServiceBuilder(AbstractModelsServiceBuilder<AbstractModelsService> *modelsServiceBuilder)
 {
     _modelsServiceBuilder = modelsServiceBuilder;
     return this;

@@ -19,7 +19,7 @@ public slots:
      * UI request data to populate scoreboard
      */
     virtual void handleRequestForSingleThrowScoreData() = 0;
-    virtual void handleRequestForMultiThrowScoreData() = 0;
+    virtual void handleRequestForDartsSingleAttemptPoints() = 0;
     virtual void handleFTPDetails(const QByteArray& json) = 0;
     /*
      * Delete tournament
@@ -48,7 +48,7 @@ public slots:
      *  - Users enters points to be stored in datacontext
      *  - In return, datacontext, in collaboration with gamecontroller, send current score to UI
      */
-    virtual void handleUserInput(const QByteArray& json) = 0;
+    virtual void handleSingleAttemptPlayerPointInput(const QByteArray& json) = 0;
     virtual void handleUndoRequest() = 0;
     virtual void handleRedoRequest() = 0;
     virtual void handleControllerStateRequest() = 0;
@@ -82,10 +82,10 @@ signals:
                                      const int &keyPoint,
                                      const int &numberOfThrows,
                                      QList<QUuid> assignedPlayers);
-    void requestSingleThrowPlayerScores();
-    void requestDartsMultiAttemptScores();
+    void requestMultiAttemptPlayerScores();
+    void requestDartsSingleAttemptPoints();
     void setCurrentActiveTournament(const int &index);
-    void sendPoint(const QByteArray& json);
+    void sendSingleAttemptPlayerInput(const QByteArray& json);
     void requestStartGame();
     void requestStopGame();
     void requestTournamentReset();
@@ -110,16 +110,17 @@ signals:
                                        const int& attemptIndex,
                                        const int& score,
                                        const QString& targetRow);
-    void sendAssembledSingleDartsScores(const QByteArray& json);
-    void sendAssembledMultiFtpScores(const QByteArray& json);
+    void sendAssembledMultiAttemptDartsScores(const QByteArray& json);
+    void sendAssembledDartsSingleAttemptPoints(const QByteArray& json);
     // Controller states
     void controllerIsStopped();
-    void controllerIsInitialized();
+    void dartsSingleAttemptPointControllerIsInitialized();
+    void dartsSingleAttemptPointControllerIsReady();
     void dartsSingleScoreControllerIsInitialized();
     void controllerAwaitsInput(const QString& json);
-    void ftpControllerIsReset();
+    void dartsControllerIsReset();
     void ftpControllerAddedAndPersistedScore(const QByteArray& json);
-    void ftpControllerRemovedScore(const QString& json);
+    void dartsControllerRemovedSingleAttemptPoint(const QString& json);
     void controllerHasDeclaredAWinner(const QString& json);
     void assembleDartsController(const QByteArray& json,
                                AbstractApplicationInterface* applicationsInteface,

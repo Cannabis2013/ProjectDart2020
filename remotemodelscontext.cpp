@@ -342,7 +342,7 @@ void RemoteModelsContext::recieveFtpScores()
         throw "Recieve ftp scores: error";
     auto payLoad = jsonObject.value("payLoad").toArray();
     auto json = QJsonDocument(payLoad).toJson();
-    emit sendFtpMultiScores(json);
+    emit sendDartsSingleAttemptPoints(json);
 }
 
 
@@ -361,11 +361,6 @@ void RemoteModelsContext::hideDartsScore(const QUuid &, const QUuid &, const int
 void RemoteModelsContext::revealScore(const QUuid &, const QUuid &, const int &)
 {
 }
-
-void RemoteModelsContext::assembleDartsIndexesAndScores(const QUuid &tournament)
-{
-}
-
 
 void RemoteModelsContext::addDartsScore(const QByteArray &json)
 {

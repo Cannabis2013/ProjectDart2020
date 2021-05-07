@@ -19,8 +19,10 @@ public slots:
     virtual void initializeControllerWinnerIdAndName(const QByteArray&) = 0;
     virtual void assembleSingleAttemptDartsPoints() = 0;
     virtual void handleRequestDartsPoints() = 0;
+    virtual void handlePointAddedToDataContext(const QByteArray& json) = 0;
 signals:
     void controllerIsInitialized();
+    void controllerIsInitializedAndReady();
     void hideDartsPoint(const QUuid &tournament,
                              const QUuid &player,
                              const int &roundIndex,
@@ -45,7 +47,7 @@ signals:
     void pointAddedAndPersisted(const QByteArray& json);
     void pointRemoved(const QString& json);
     void sendSingleAttemptDartsPoints(const QByteArray& json);
-    void sendMultiAttemptDartsPoints(const QByteArray& json);
+    void sendDartsSingleAttemptPoints(const QByteArray& json);
     void requestTournamentWinnerIdAndName( const QUuid& tournamentId);
 };
 

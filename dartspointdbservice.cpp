@@ -1,5 +1,10 @@
 #include "dartspointdbservice.h"
 
+DartsPointDbService *DartsPointDbService::createInstance()
+{
+    return new DartsPointDbService;
+}
+
 void DartsPointDbService::fetchModels()
 {
     QJsonObject jsonObject;
@@ -22,7 +27,7 @@ void DartsPointDbService::saveState()
     /*
      * Persist 'first to post' tournaments
      */
-    modelJson["DartsPoints"] = _dartsInputAssembler->service(_dartsPointModels);
+    modelJson["DartsPoints"] = _dartsPointsJsonAssemblerService->service(_dartsPointModels);
     writeJSONToFile(modelJson,_fileName);
 }
 
@@ -61,7 +66,14 @@ void DartsPointDbService::replaceDartsInputModel(const int &index, const IDartsP
     saveState();
 }
 
-void DartsPointDbService::setDartsPointsExtractor(IUnaryService<const QJsonArray &, QVector<const IDartsPointInput<QUuid> *> > *dartsPointsExtractor)
+DartsPointDbService *DartsPointDbService::setDartsPointsExtractorService(IUnaryService<const QJsonArray &, QVector<const IDartsPointInput<QUuid> *> > *dartsPointsExtractor)
 {
     _dartsPointsExtractor = dartsPointsExtractor;
+    return this;
+}
+
+DartsPointDbService *DartsPointDbService::setDartsPointsJsonAssemblerService(IUnaryService<const QVector<const IDartsPointInput<QUuid> *> &, QJsonArray> *dartsSingleAttemptPointInputAssembler)
+{
+    _dartsPointsJsonAssemblerService = dartsSingleAttemptPointInputAssembler;
+    return this;
 }
