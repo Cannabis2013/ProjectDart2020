@@ -6,6 +6,20 @@
 class DartsPointIndexes : public IDartsPointIndexes
 {
 public:
+    static DartsPointIndexes* createInstance()
+    {
+        return new DartsPointIndexes;
+    }
+    static const DartsPointIndexes* createInitialInstance()
+    {
+        auto indexes = DartsPointIndexes::createInstance();
+        indexes->setTotalTurns(0);
+        indexes->setTurnIndex(0);
+        indexes->setRoundIndex(1);
+        indexes->setSetIndex(0);
+        indexes->setAttemptIndex(0);
+        return indexes;
+    }
     int totalTurns() const override
     {
         return _totalTurns;

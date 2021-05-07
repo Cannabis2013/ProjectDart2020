@@ -32,7 +32,6 @@ signals:
                                const int &roundIndex,
                                const int &throwIndex);
     void requestDartsPoints(const QUuid& tournament);
-    void isReadyAndAwaitsInput(const QString& json);
     void requestDartsTournamentDetails(const QUuid& tournamentId);
     void initializedAndAwaitsInput(const bool& canUndo,
                                    const bool& canRedo,

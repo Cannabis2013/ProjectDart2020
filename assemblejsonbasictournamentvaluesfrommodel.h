@@ -8,19 +8,16 @@
 #include <qjsonobject.h>
 #include <qjsonarray.h>
 #include "iplayermodelsservice.h"
+#include "iplayermodel.h"
 
 class AssembleJsonFromDartsTournament :
-        public IBinaryService<const IDartsTournament<QUuid,QString>*,
-                              const IPlayerModelsService<IPlayerModel<QUuid,QString>>*,
+        public IBinaryService<const IDartsTournament*,
+                              const IPlayerModelsService*,
                               const QByteArray>
 {
 public:
-
-
-    // IBinaryService interface
-public:
-    const QByteArray service(const IDartsTournament<QUuid,QString>* dartsTournamentModel,
-                             const IPlayerModelsService<IPlayerModel<QUuid,QString>>* playerService) override
+    const QByteArray service(const IDartsTournament* dartsTournamentModel,
+                             const IPlayerModelsService* playerService) override
     {
         QJsonObject obj;
         obj["title"] = dartsTournamentModel->title();

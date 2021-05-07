@@ -3,9 +3,10 @@
 
 #include "abstractmodelsservice.h"
 #include "iplayermodelsservice.h"
-#include "ibinaryservice.h"
 #include "iunaryservice.h"
+#include "ibinaryservice.h"
 #include "idartsmodelsservice.h"
+#include "dartsmodelsservicescollection.h"
 #include "iplayermodel.h"
 #include <QVariantList>
 
@@ -36,28 +37,28 @@ public:
      */
     static LocalModelsService* createInstance();
 
-    LocalModelsService *setAssembleDartsTournamentFromJson(IUnaryService<const QByteArray &, const IDartsTournament<QUuid, QString> *> *assembleDartsTournamentFromJson);
+    LocalModelsService *setAssembleDartsTournamentFromJson(IUnaryService<const QByteArray &, const IDartsTournament*> *assembleDartsTournamentFromJson);
 
     LocalModelsService *setDartsModelsService(IDartsModelsService *dartsModelsService);
-    LocalModelsService *setPlayerModelsService(IPlayerModelsService<IPlayerModel<QUuid,QString>> *playerModelsContext);
+    LocalModelsService *setPlayerModelsService(IPlayerModelsService *playerModelsContext);
     LocalModelsService *setGetPlayerIndexesFromJson(IUnaryService<const QByteArray &,
                                      QVector<int> > *getPlayerIndexesFromJson);
-    LocalModelsService *setAssembleJSonFromTournamentDartsPoints(IBinaryService<const QUuid &, const IDartsModelsService *, QByteArray> *JsonArrayFromDartsPoints);
+    LocalModelsService *setAssembleJsonFromTournamentDartsPoints(IBinaryService<const QUuid &, const IDartsModelsService *, QByteArray> *JsonArrayFromDartsPoints);
 
     LocalModelsService *setAssembleJsonFromOrderedDartsPointModels(IBinaryService<const QVector<const IDartsPointInput<QUuid> *> &,
-                                                                   const IPlayerModelsService<IPlayerModel<QUuid,QString>> *, const QByteArray> *assembleJsonFromOrderedDartsPointModels);
-    LocalModelsService *setAssembleJsonFromDartsTournamentModel(IBinaryService<const IDartsTournament<QUuid, QString> *,
-                                                                const IPlayerModelsService<IPlayerModel<QUuid,QString>>*, const QByteArray> *assembleJsonFromDartsTournamentModel);
-    LocalModelsService* setAssembleJsonDartsTournamentModels(IBinaryService<const IDartsModelsService *, const IPlayerModelsService<IPlayerModel<QUuid,QString>>*, const QByteArray> *assembleJsonDartsTournamentModels);
+                                                                   const IPlayerModelsService *, const QByteArray> *assembleJsonFromOrderedDartsPointModels);
+    LocalModelsService *setAssembleJsonFromDartsTournamentModel(IBinaryService<const IDartsTournament *,
+                                                                const IPlayerModelsService*, const QByteArray> *assembleJsonFromDartsTournamentModel);
+    LocalModelsService* setAssembleJsonDartsTournamentModels(IBinaryService<const IDartsModelsService *, const IPlayerModelsService*, const QByteArray> *assembleJsonDartsTournamentModels);
     LocalModelsService* setAssembleJsonDartsIndexes(IUnaryService<const IDartsPointIndexes *, QByteArray> *assembleJsonDartsIndexes);
     LocalModelsService* setAssembleJsonFromPlayerNamesAndIds(IBinaryService<const QVector<QUuid> &, const QVector<QString> &, QByteArray> *assembleJsonFromPlayerNamesAndIds);
     LocalModelsService* setAssembleJsonFromPlayerIdAndName(IBinaryService<const QUuid &, const QString &, QByteArray> *assembleJsonFromPlayerIdAndName);
-    LocalModelsService* setAssembleJSonFromDartsTournamentModel(IUnaryService<const IDartsTournament<QUuid, QString> *, QByteArray> *assembleJSonFromDartsTournamentModel);
+    LocalModelsService* setAssembleJSonBasicTournamentValues(IUnaryService<const IDartsTournament *, QByteArray> *assembleJSonFromDartsTournamentModel);
     LocalModelsService* setGetTournamentIndexesFromJson(IUnaryService<const QByteArray &, QVector<int> > *getTournamentIndexesFromJson);
-
     LocalModelsService* setGetDeletePlayerIndexFromJson(IUnaryService<const QByteArray &, int> *getDeletePlayerIndexFromJson);
-
-    LocalModelsService* setAssembleDartsPointModelFromJson(IUnaryService<const QByteArray &, const IDartsPointInput<QUuid> *> *assembleDartsPointModelFromJson);
+    LocalModelsService* setAssembleDartsPointModelFromJson(AssembleDartsPointService *assembleDartsPointModelFromJson);
+    LocalModelsService* setAssemblePlayerModelFromJson(AssemblePlayerModelService *assemblePlayerModelFromJson);
+    LocalModelsService* setAssignPlayerIdsToDartsTournament(AssignPlayerIdsService *assignPlayerIdsToDartsTournament);
 
 public slots:
     /*
@@ -112,35 +113,39 @@ private:
      * Services
      */
     IUnaryService<const QByteArray&,
-                  const IDartsTournament<QUuid,QString>*>* _assembleDartsTournamentFromJson;
+                  const IDartsTournament*>* _assembleDartsTournamentFromJson;
     IUnaryService<const QByteArray&,QVector<int>>* _getPlayerIndexesFromJson;
     IUnaryService<const IDartsPointIndexes*,QByteArray>* _assembleJsonDartsIndexes;
     IBinaryService<const QVector<QUuid>&,
                    const QVector<QString>&,
                    QByteArray>* _assembleJsonFromPlayerNamesAndIds;
-    IBinaryService<const QUuid&,const IDartsModelsService*,QByteArray>* _assembleJSonFromTournamentDartsPoints;
-    IBinaryService<const QUuid&,const IDartsModelsService*,QJsonArray>* _JsonArrayFromDartsScores;
+    IBinaryService<const QUuid&,
+                   const IDartsModelsService*,
+                   QByteArray>* _assembleJsonFromTournamentDartsPoints;
+    IBinaryService<const QUuid&,
+                   const IDartsModelsService*,
+                   QJsonArray>* _JsonArrayFromDartsScores;
     IBinaryService<const QVector<const IDartsPointInput<QUuid>*>&,
-                   const IPlayerModelsService<IPlayerModel<QUuid,
-                   QString>>*,const QByteArray>* _assembleJsonOrderedDartsPointModels;
-    IBinaryService<const IDartsTournament<QUuid,QString>*,
-                   const IPlayerModelsService<IPlayerModel<QUuid,QString>>*,
+                   const IPlayerModelsService*,const QByteArray>* _assembleJsonOrderedDartsPointModels;
+    IBinaryService<const IDartsTournament*,
+                   const IPlayerModelsService*,
                    const QByteArray>* _assembleJsonDartsTournamentModel;
     IBinaryService<const IDartsModelsService*,
-                   const IPlayerModelsService<IPlayerModel<QUuid,QString>>*,
+                   const IPlayerModelsService*,
                    const QByteArray>* _assembleJsonDartsTournamentModels;
     IBinaryService<const IDartsModelsService*,
-                   const IPlayerModelsService<IPlayerModel<QUuid,QString>>*,
+                   const IPlayerModelsService*,
                    const QByteArray>* _assembleJsonFromDartsIndexesAndPoints;
     IBinaryService<const QUuid&,const QString&,QByteArray>* _assembleJsonFromPlayerIdAndName;
-    IUnaryService<const IDartsTournament<QUuid,QString>*,QByteArray>* _assembleJSonFromDartsTournamentModel;
+    IUnaryService<const IDartsTournament*,QByteArray>* _assembleJSonFromDartsTournamentModel;
     IUnaryService<const QByteArray&,QVector<int>>* _getDeleteTournamentIndexesFromJson;
     IUnaryService<const QByteArray&,int>* _getDeletePlayerIndexFromJson;
-    IUnaryService<const QByteArray&,const IDartsPointInput<QUuid>*>* _assembleDartsPointModelFromJson;
-
+    AssembleDartsPointService* _assembleDartsPointModelFromJson;
+    AssemblePlayerModelService* _assemblePlayerModelFromJson;
+    AssignPlayerIdsService* _assignPlayerIdsToDartsTournament;
     // Model services
     IDartsModelsService* _dartsModelsService;
-    IPlayerModelsService<IPlayerModel<QUuid,QString>>* _playerModelsService;
+    IPlayerModelsService* _playerModelsService;
 };
 
 #endif // MODELCONTEXTINTERFACE_H

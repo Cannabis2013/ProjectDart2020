@@ -10,12 +10,12 @@
 #include <dartstournament.h>
 
 class TournamentsJSonAssemblerService :
-        public IUnaryService<const QVector<const IDartsTournament<QUuid,QString>*>&,QJsonArray>
+        public IUnaryService<const QVector<const IDartsTournament*>&,QJsonArray>
 {
 public:
-    QJsonArray service(const QVector<const IDartsTournament<QUuid,QString>*>& models) override;
+    QJsonArray service(const QVector<const IDartsTournament*>& models) override;
 private:
-    QJsonObject assembleJsonObjectFromDartsTournamentModel(const IDartsTournament<QUuid,QString>* model);
+    QJsonObject assembleJsonObjectFromDartsTournamentModel(const IDartsTournament* model);
     QJsonArray assembleJsonArrayFromTournamentPlayerIds(const QVector<QUuid>& players);
 };
 

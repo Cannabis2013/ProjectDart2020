@@ -14,10 +14,9 @@ public:
     /*
      * Tournament related section
      */
-    virtual QVector<const IDartsTournament<QUuid,QString>*> getDartsTournamentModels() const = 0;
-    virtual const IDartsTournament<QUuid,QString>* getDartsTournamentById(const QUuid&) const = 0;
-    virtual const IDartsTournament<QUuid,QString>* getDartsTournamentModelById(const QUuid&) const = 0;
-    virtual QUuid addDartsTournamentToDb(const IDartsTournament<QUuid,QString>*) = 0;
+    virtual QVector<const IDartsTournament*> getDartsTournamentModels() const = 0;
+    virtual const IDartsTournament* getDartsTournamentModelById(const QUuid&) const = 0;
+    virtual QUuid addDartsTournamentToDb(const IDartsTournament*) = 0;
     virtual bool removeTournamentsByIndexes(const QVector<int>& indexes) const = 0;
     virtual QUuid tournamentIdFromIndex(const int &index) const = 0;
     virtual QVector<QUuid> tournaments() const = 0;
@@ -58,7 +57,7 @@ public:
     virtual QList<QUuid> dartsPointIds(const QUuid &tournament, const int &roundID, const int &setID) = 0;
     virtual QList<QUuid> dartsPointIds(const int &hint,const QUuid &tournament) = 0;
     virtual QList<QUuid> pointsByPlayerId(const QUuid &tournament, const QUuid &player, const int &hint) const = 0;
-    virtual int dartsPointsCount(const int &hint) const = 0;
+    virtual int dartsPointsCount(const QUuid&,const int &hint) const = 0;
     virtual QUuid setDartsPointHint(const QUuid &point, const int &hint) = 0;
     virtual int dartsPointRoundIndex(const QUuid &) const = 0;
     virtual int dartsPointSetIndex(const QUuid &) const = 0;

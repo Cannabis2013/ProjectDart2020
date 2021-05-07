@@ -108,7 +108,7 @@ Content {
             createBody.sendDartsDetails.disconnect(applicationInterface.handleFTPDetails);
             applicationInterface.tournamentAssembledAndStored.disconnect(createBody.tournamentAssembledAndStored);
             createBody.requestPlayers.disconnect(applicationInterface.requestPlayerDetails);
-            applicationInterface.sendPlayerDetail.disconnect(CreateScripts.recievePlayers);
+            applicationInterface.sendPlayers.disconnect(CreateScripts.recievePlayers);
         }
     }
 }

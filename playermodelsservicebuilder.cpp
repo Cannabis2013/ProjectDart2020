@@ -1,6 +1,6 @@
 #include "playermodelsservicebuilder.h"
 
-IPlayerModelsService<IPlayerModel<QUuid, QString> > *PlayerModelsServiceBuilder::buildModelsService() const
+IPlayerModelsService *PlayerModelsServiceBuilder::buildModelsService() const
 {
     auto localDb = PlayersJsonDb::createInstance(PlayerModelsJsonExtractor::createInstance(),
                                                  PlayerModelsJsonAssembler::createInstance());

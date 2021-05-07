@@ -3,14 +3,16 @@
 
 IDartsModelsService *DartsModelServiceBuilder::buildModelsService() const
 {
+    auto dartsTournamentsJsonDb = DartsTournamentJSonDb::createInstance(new AssembleDartsTournamentsFromJsonArray,
+                                                                        new AssembleJsonFromDartsTournamentModels);
     auto dartsPointDb = DartsPointDbService::createInstance()
             ->setDartsPointsExtractorService(new AssembleSingleAttemptPointsFromJson)
             ->setDartsPointsJsonAssemblerService(new AssembleJsonArrayFromDartsPoints);
     auto dartsModelsService =
             DartsModelsService::createInstance()
-            ->setTournamentsDbContext(new DartsTournamentJSonDb)
+            ->setTournamentsDbContext(dartsTournamentsJsonDb)
             ->setDartsPointsDb(dartsPointDb)
             ->setGetOrderedDartsPointsModels(new GetOrderedDartsPointsModels)
-            ->setGetDartsPointIndexes(new AssembleDartsPointIndexesByDartsPointModel);
+            ->setAssembleDartsPointIndexes(new AssembleDartsPointIndexesByDartsPointModel);
     return dartsModelsService;
 }

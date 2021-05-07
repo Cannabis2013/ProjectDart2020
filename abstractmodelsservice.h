@@ -3,8 +3,6 @@
 
 #include <QObject>
 #include <QUuid>
-#include "iresponseinterface.h"
-
 
 class AbstractModelsService : public QObject
 {

@@ -13,17 +13,20 @@ AbstractModelsService *DefaultModelsServiceBuilder::buildLocalModelsServiceWithJ
             ->setAssembleJsonDartsIndexes(new AssembleJsonFromDartsPointIndexes)
             ->setGetPlayerIndexesFromJson(new GetPlayerIndexesFromJson)
             ->setAssembleJsonFromPlayerNamesAndIds(new JsonArrayFromPlayerNamesAndIds)
-            ->setAssembleJSonFromTournamentDartsPoints(new AssembleJsonFromDartsPoints())
+            ->setAssembleJsonFromTournamentDartsPoints(new AssembleJsonFromDartsPoints())
             ->setAssembleJsonFromOrderedDartsPointModels(new AssembleJsonFromOrderedDartsPointModels)
             ->setAssembleDartsTournamentFromJson(new AssembleDartsTournamentModelFromJson)
             ->setAssembleJsonDartsTournamentModels(new AssembleJsonDartsTournamentModels)
             ->setDartsModelsService(dartsModelsService)
             ->setPlayerModelsService(playerModelsService)
             ->setAssembleJsonFromPlayerIdAndName(new AssembleJsonFromPlayerNameAndId)
-            ->setAssembleJSonFromDartsTournamentModel(new AssembleJsonFromDartsTournament)
+            ->setAssembleJSonBasicTournamentValues(new AssembleJsonBasicTournamentValues)
             ->setGetTournamentIndexesFromJson(new GetTournamentIndexesFromJson)
             ->setGetDeletePlayerIndexFromJson(new GetDeletePlayerIndexFromJson)
-            ->setAssembleDartsPointModelFromJson(new AssembleDartsPointModelFromJson);
+            ->setAssembleDartsPointModelFromJson(new AssembleDartsPointModelFromJson)
+            ->setAssemblePlayerModelFromJson(new AssemblePlayerModelFromJson)
+            ->setAssignPlayerIdsToDartsTournament(new AssignPlayerIdsToDartsTournamentModel)
+            ->setAssembleJsonFromDartsTournamentModel(new AssembleJsonFromDartsTournament);
     return modelsContext;
 }
 
@@ -34,7 +37,7 @@ DefaultModelsServiceBuilder *DefaultModelsServiceBuilder::setModelsTournamentSer
     return this;
 }
 
-DefaultModelsServiceBuilder *DefaultModelsServiceBuilder::setPlayerServiceBuilder(IModelsServiceBuilder<IPlayerModelsService<IPlayerModel<QUuid, QString> > > *playerServiceBuilder)
+DefaultModelsServiceBuilder *DefaultModelsServiceBuilder::setPlayerServiceBuilder(IModelsServiceBuilder<IPlayerModelsService> *playerServiceBuilder)
 {
     _playerServiceBuilder = playerServiceBuilder;
     return this;

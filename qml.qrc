@@ -83,7 +83,7 @@
         <file>ftpScoreBoardFactory.js</file>
         <file>ScoreRectDelegate.qml</file>
         <file>MultiScoreDelegate.qml</file>
-        <file>dartsmultiscorescripts.js</file>
+        <file>dartssingleattemptscoreboardscripts.js</file>
         <file>DartsMultiPointContent.qml</file>
         <file>dartsSingleAttemptPointScripts.js</file>
     </qresource>

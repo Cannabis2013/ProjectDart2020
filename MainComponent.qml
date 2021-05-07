@@ -3,8 +3,6 @@ import QtQuick 2.12
 Item {
     id: body
     signal backPushed
-
-
     Component{
         id: createPlayerComponent
         Page{
@@ -20,8 +18,7 @@ Item {
         Page{
             onBackButtonPressed: pageLoader.sourceComponent = tournamentPageComponent
             pageTitle: "Game"
-            pageContent: GamePageContent{
-            }
+            pageContent: GamePageContent{}
             Component.onCompleted: body.backPushed.connect(backButtonPressed)
         }
     }
@@ -57,7 +54,7 @@ Item {
             pageContent: TournamentPageContent{
                 onCreateTournamentClicked: pageLoader.sourceComponent = createTournamentComponent
                 onManageButtonClicked: pageLoader.sourceComponent = managePageComponent
-                onDartsPointsControllerInitialized: pageLoader.sourceComponent = gamePageComponent
+                onDartsPointsControllerInitialized: pageLoader.sourceComponent = dartsMultiPointComponent
             }
             Component.onCompleted: body.backPushed.connect(backButtonPressed)
         }
@@ -85,9 +82,8 @@ Item {
         id: dartsMultiPointComponent
 
         Page{
-            pageTitle : "Darts in progress"
-            pageContent: DartsMultiPointContent{
-            }
+            pageTitle : "Darts single attempt"
+            pageContent: DartsMultiPointContent{}
             Component.onCompleted: body.backPushed.connect(backButtonPressed)
         }
     }

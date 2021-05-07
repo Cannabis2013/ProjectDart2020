@@ -130,7 +130,7 @@ void DartApplication::handleDeleteTournamentsRequest(const QByteArray& json)
     emit requestDeleteTournaments(json);
 }
 
-void DartApplication::handleTournamentMetaRequest()
+void DartApplication::assembleDartsTournamentValues()
 {
     emit requestCurrentTournamentId();
 }

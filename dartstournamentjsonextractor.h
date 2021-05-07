@@ -10,7 +10,7 @@
 
 
 namespace JsonExtractorContext {
-    typedef QVector<const IDartsTournament<QUuid,QString>*> DartsTournaments;
+    typedef QVector<const IDartsTournament*> DartsTournaments;
 }
 
 class DartsTournamentJsonExtractor :

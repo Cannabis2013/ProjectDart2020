@@ -9,6 +9,8 @@
 #include "assembledartspointindexesbydartspointmodel.h"
 #include "assemblesingleattemptpointsfromjson.h"
 #include "assemblejsonarrayfromdartspoints.h"
+#include "assemblejsonfromdartstournamentmodels.h"
+#include "AssembleDartsTournamentsFromJsonArray.h"
 
 class DartsModelServiceBuilder :
         public IModelsServiceBuilder<IDartsModelsService>

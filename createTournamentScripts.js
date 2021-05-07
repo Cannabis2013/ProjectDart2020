@@ -41,12 +41,7 @@ function acceptAndAdd(){
     var gameModeString = gameModeSelector.currentValue;
     var gameMode = gameModeToHex(gameModeString);
     if(gameMode === 0x1)
-        dartsTournament();
-}
-
-function dartsTournament()
-{
-
+        assembleDartsTournament();
 }
 
 function assembleDartsTournament()
@@ -57,14 +52,14 @@ function assembleDartsTournament()
     buttonsComponent.buttonTwoEnabled = false;
     var gameMode = gameModeToHex(gameModeSelector.currentValue);
     var obj = {
-        Title : titleEdit.currentValue,
-        GameMode : gameMode,
-        Attempts : selectorComponent().attempts,
-        KeyPoint : selectorComponent().keyPoint,
-        TerminalKeyCode : selectorComponent().conditionKeyCode,
-        DisplayHint : selectorComponent().displayHint,
-        InputHint : selectorComponent().inputMode,
-        PlayerIndexes : indexes
+        title : titleEdit.currentValue,
+        gameMode : gameMode,
+        attempts : selectorComponent().attempts,
+        keyPoint : selectorComponent().keyPoint,
+        terminalKeyCode : selectorComponent().conditionKeyCode,
+        displayHint : selectorComponent().displayHint,
+        inputHint : selectorComponent().inputMode,
+        playerIndexes : indexes
     };
     var json = JSON.stringify(obj);
     // Send values

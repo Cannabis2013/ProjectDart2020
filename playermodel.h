@@ -5,7 +5,7 @@
 
 #include "iplayermodel.h"
 
-class PlayerModel : public IPlayerModel<QUuid,QString>
+class PlayerModel : public IPlayerModel
 {
     // IPlayerModel interface
 public:
@@ -46,7 +46,7 @@ public:
         return this;
     }
 
-    bool operator==(IPlayerModel<QUuid,QString>* &other) override
+    bool operator==(IPlayerModel* &other) override
     {
         if(other->id() == this->id())
             return true;

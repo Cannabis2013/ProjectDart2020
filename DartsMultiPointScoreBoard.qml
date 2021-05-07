@@ -1,26 +1,26 @@
 import QtQuick 2.15
 import CustomItems 1.0
 
-import "dartsmultiscorescripts.js" as ScoreScripts
+import "dartssingleattemptscoreboardscripts.js" as ScoreScripts
 
 ScoreBoard {
-    id: fTPBody
+    id: singleAttemptPointScoreBoard
     // Data related
-    signal setData(string playerName, int point, int score, int keyCode)
+    signal setData(string playerName, int point, int score)
     signal takeData(int row, int column,string playerName)
     signal editData(int row, int column,int point,int score)
-    onSetData: ScoreScripts.setData(playerName,point,score)
+    onSetData: ScoreScripts.setData(playerName,score,point)
     onTakeData: ScoreScripts.takeData(playerName)
     onEditData: ScoreScripts.editData(row,column,point,score)
     onClearData: dartsDataModel.clearData();
 
     // Row/column related
-    onMinimumColumnCountChanged: dartsDataModel.minimumColumnCount = fTPBody.minimumColumnCount
+    onMinimumColumnCountChanged: dartsDataModel.minimumColumnCount = singleAttemptPointScoreBoard.minimumColumnCount
     // Score related
     property int scoreFontSize: 24
     onScoreFontSizeChanged: {
-        dartsDataModel.scoreFontPointSize = fTPBody.scoreFontSize;
-        delegate.scoreFontSize = fTPBody.scoreFontSize;
+        dartsDataModel.scoreFontPointSize = singleAttemptPointScoreBoard.scoreFontSize;
+        delegate.scoreFontSize = singleAttemptPointScoreBoard.scoreFontSize;
     }
 
     onSizeScale: dartsDataModel.scale = s
@@ -36,25 +36,24 @@ ScoreBoard {
     onAppendHeaderData: ScoreScripts.addHeaderData(data,defaultVal)
 
     property int headerFontSize: 24
-    onHeaderFontSizeChanged: dartsDataModel.headerFontSize = fTPBody.headerFontSize
+    onHeaderFontSizeChanged: dartsDataModel.headerFontSize = singleAttemptPointScoreBoard.headerFontSize
     headerOrientation: Qt.Vertical
     onHeaderOrientationChanged: dartsDataModel.setHeaderOrientation(headerOrientation)
     verticalHeaderFillMode: DataModelContext.fixedFill
     horizontalHeaderFillMode: DataModelContext.numericFill
     onVerticalHeaderFillModeChanged: dartsDataModel.verticalFillMode = verticalHeaderFillMode
     onHorizontalHeaderFillModeChanged: dartsDataModel.horizontalFillMode = horizontalHeaderFillMode
-    onAppendHeader: ScoreScripts.appendHeader(header,orientation)
-
+    onAppendHeader: ScoreScripts.appendHeader(header)
     // Cell related
     property color scoreCellColor: "transparent"
-    onScoreCellColorChanged: delegate.cellColor = fTPBody.scoreCellColor
+    onScoreCellColorChanged: delegate.cellColor = singleAttemptPointScoreBoard.scoreCellColor
     property int cellBorderWidth: 0
     onCellBorderWidthChanged: delegate.borderWidth = cellBorderWidth
     // Point related
     property int pointFontSize: 10
     onPointFontSizeChanged: {
-        delegate.pointFontSize = fTPBody.pointFontSize;
-        dartsDataModel.pointFontPointSize = fTPBody.pointFontSize;
+        delegate.pointFontSize = singleAttemptPointScoreBoard.pointFontSize;
+        dartsDataModel.pointFontPointSize = singleAttemptPointScoreBoard.pointFontSize;
     }
 
     onNotifyCellPosition: ScoreScripts.setViewPosition(x,y)
@@ -84,23 +83,23 @@ ScoreBoard {
     model: DartsPointDatamodel {
         id: dartsDataModel
         onDataChanged: ScoreScripts.updateScoreBoard();
-        attempts: fTPBody.attempts
-        headerOrientation: fTPBody.headerOrientation
-        pointFontPointSize: fTPBody.pointFontSize
-        scoreFontPointSize: fTPBody.scoreFontSize
-        horizontalFillMode: fTPBody.horizontalHeaderFillMode
-        verticalFillMode: fTPBody.verticalHeaderFillMode
+        attempts: singleAttemptPointScoreBoard.attempts
+        headerOrientation: singleAttemptPointScoreBoard.headerOrientation
+        pointFontPointSize: singleAttemptPointScoreBoard.pointFontSize
+        scoreFontPointSize: singleAttemptPointScoreBoard.scoreFontSize
+        horizontalFillMode: singleAttemptPointScoreBoard.horizontalHeaderFillMode
+        verticalFillMode: singleAttemptPointScoreBoard.verticalHeaderFillMode
         appendMode: DataModelContext.multiAttempt
-        minimumColumnCount: fTPBody.minimumColumnCount
-        scale: fTPBody.modelScale
+        minimumColumnCount: singleAttemptPointScoreBoard.minimumColumnCount
+        scale: singleAttemptPointScoreBoard.modelScale
     }
 
     cellDelegate: MultiPointDelegate {
         id: delegate
         text: display
-        cellBorderWidth: fTPBody.cellBorderWidth
-        cellColor: fTPBody.scoreCellColor
-        scoreFontSize: fTPBody.scoreFontSize
-        pointFontSize: fTPBody.pointFontSize
+        cellBorderWidth: singleAttemptPointScoreBoard.cellBorderWidth
+        cellColor: singleAttemptPointScoreBoard.scoreCellColor
+        scoreFontSize: singleAttemptPointScoreBoard.scoreFontSize
+        pointFontSize: singleAttemptPointScoreBoard.pointFontSize
     }
 }

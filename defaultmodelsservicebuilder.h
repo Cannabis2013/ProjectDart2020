@@ -13,13 +13,16 @@
 #include "assemblejsonfromdartspoints.h"
 #include "assemblejsonfromordereddartspointmodels.h"
 #include "assembledartstournamentmodelfromjson.h"
+#include "assemblejsonbasictournamentvaluesfrommodel.h"
 #include "assemblejsondartstournamentmodels.h"
 #include "ibinaryservice.h"
 #include "assemblejsonfromplayeridandname.h"
-#include "assemblejsonfromdartstournamentmodel.h"
+#include "assemblejsonbasictournamentvalues.h"
 #include "gettournamentindexesfromjson.h"
 #include "getdeleteplayerindexfromjson.h"
 #include "assembledartspointmodelfromjson.h"
+#include "assembleplayermodelfromjson.h"
+#include "assignplayeridstodartstournamentmodel.h"
 
 class DefaultModelsServiceBuilder :
         public AbstractModelsServiceBuilder<AbstractModelsService>
@@ -28,10 +31,10 @@ public:
     static DefaultModelsServiceBuilder* createInstance();
     AbstractModelsService *buildLocalModelsServiceWithJsonDb() override;
     DefaultModelsServiceBuilder* setModelsTournamentServiceBuilder(IModelsServiceBuilder<IDartsModelsService>* builder);
-    DefaultModelsServiceBuilder* setPlayerServiceBuilder(IModelsServiceBuilder<IPlayerModelsService<IPlayerModel<QUuid, QString> > > *playerServiceBuilder);
+    DefaultModelsServiceBuilder* setPlayerServiceBuilder(IModelsServiceBuilder<IPlayerModelsService> *playerServiceBuilder);
 private:
     IModelsServiceBuilder<IDartsModelsService>* _localDartsTournamentServiceBuilder;
-    IModelsServiceBuilder<IPlayerModelsService<IPlayerModel<QUuid,QString>>>* _playerServiceBuilder;
+    IModelsServiceBuilder<IPlayerModelsService>* _playerServiceBuilder;
 };
 
 #endif // DEFAULTMODELSSERVICEBUILDER_H

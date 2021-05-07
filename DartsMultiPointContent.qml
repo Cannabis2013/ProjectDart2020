@@ -29,18 +29,18 @@ Content {
     signal sendInput(string json)
     signal setupGame
     signal requestPersistState
-    QtObject{
-        id: buttonTextContainer
-        readonly property string startText: qsTr("Start")
-        readonly property string pauseText: qsTr("Pause")
-        readonly property string restartText: qsTr("Restart")
-        readonly property string resumeText: qsTr("Resume")
-        readonly property string waitText: qsTr("Wait")
-    }
     /*
       Tournament metadata property
       */
-    property QtObject tournamentMetaData: QtObject{}
+    QtObject{
+        id: dartsSingleAttemptValues
+        property string title: ""
+        property int keyPoint: 501
+        property int attempts: 3
+        property string winnerName: ""
+        property var assignedPlayerNames: []
+    }
+
     GridLayout{
         id: bodyLayout
         anchors.fill: parent
@@ -51,6 +51,11 @@ Content {
             Layout.minimumHeight: 100
             Layout.maximumHeight: 100
             Layout.alignment: Qt.AlignHCenter
+            onStartButtonClicked: requestStart()
+            onResumeButtonClicked: requestStart()
+            onPauseButtonClicked: requestStop()
+            onRightButtonClicked: DartsSingleAttemptScripts.undoClicked()
+            onLeftButtonClicked: DartsSingleAttemptScripts.redoClicked()
         }
         DartsMultiPointScoreBoard{
             id: multiPointScoreBoard
@@ -127,7 +132,7 @@ Content {
             }
         }
     ]
-    //Component.onCompleted: GameGeneralScripts.initializeComponent()
+    Component.onCompleted: DartsSingleAttemptScripts.initializeComponent()
     /*
     Component.onDestruction: {
         GameGeneralScripts.disconnectComponents();

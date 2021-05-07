@@ -7,8 +7,6 @@
 #include <qqmlcontext.h>
 #include "dartapplication.h"
 #include "dartscontrollerbuilder.h"
-#include "dartsmodelsservice.h"
-#include "localplayermodelsservice.h"
 #include "remotemodelscontext.h"
 #include "dartsmultipointdatamodel.h"
 #include "sftpdatamodel.h"

@@ -6,7 +6,7 @@ PlayerModelsJsonAssembler *PlayerModelsJsonAssembler::createInstance()
     return new PlayerModelsJsonAssembler;
 }
 
-QJsonArray PlayerModelsJsonAssembler::service(const QVector<const IPlayerModel<QUuid,QString> *> &models)
+QJsonArray PlayerModelsJsonAssembler::service(const QVector<const IPlayerModel *> &models)
 {
     QJsonArray playersJSON;
     for (auto model : models) {

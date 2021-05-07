@@ -3,17 +3,18 @@
 
 #include "itournament.h"
 #include <qvector.h>
+#include <quuid.h>
+#include <QString>
 
-template<class TUuid, class TString>
-class IDartsTournament : public ITournament<TUuid,TString>
+class IDartsTournament : public ITournament
 {
 public:
-    virtual IDartsTournament<TUuid,TString>* setTitle(const TString &string) = 0;
+    virtual IDartsTournament* setTitle(const QString &string) = 0;
     virtual int attempts() const = 0;
 
-    virtual IDartsTournament<TUuid,TString>* setAttempts(const int &val) = 0;
+    virtual IDartsTournament* setAttempts(const int &val) = 0;
 
-    virtual IDartsTournament<TUuid,TString>* setAssignedPlayerIdentities(const QVector<TUuid> &playerIdentities) = 0;
+    virtual IDartsTournament* setAssignedPlayerIdentities(const QVector<QUuid> &playerIdentities) = 0;
 
     virtual int keyPoint() const = 0;
     virtual IDartsTournament* setKeyPoint(const int &val) = 0;

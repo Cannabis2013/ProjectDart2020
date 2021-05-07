@@ -8,11 +8,11 @@
 #include <qvector.h>
 
 class PlayerModelsJsonExtractor :
-        public IUnaryService<const QJsonArray&,QVector<const IPlayerModel<QUuid,QString>*>>
+        public IUnaryService<const QJsonArray&,QVector<const IPlayerModel*>>
 {
 public:
     static PlayerModelsJsonExtractor* createInstance();
-    QVector<const IPlayerModel<QUuid,QString>*> service(const QJsonArray& arr);
+    QVector<const IPlayerModel*> service(const QJsonArray& arr);
 };
 
 #endif // PLAYERMODELJSONEXTRACTOR_H

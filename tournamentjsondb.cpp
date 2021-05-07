@@ -1,19 +1,19 @@
 #include "tournamentjsondb.h"
 
 
-void DartsTournamentJSonDb::addTournament(const IDartsTournament<QUuid, QString> *model)
+void DartsTournamentJSonDb::addTournament(const IDartsTournament *model)
 {
     _dartsTournamentModels.append(model);
     saveState();
 }
 
-const IDartsTournament<QUuid, QString> *DartsTournamentJSonDb::dartsTournamentModelFromIndex(const int &index)
+const IDartsTournament *DartsTournamentJSonDb::dartsTournamentModelFromIndex(const int &index)
 {
     auto model = _dartsTournamentModels.at(index);
     return model;
 }
 
-QVector<const IDartsTournament<QUuid, QString> *> DartsTournamentJSonDb::dartsTournaments()
+QVector<const IDartsTournament *> DartsTournamentJSonDb::dartsTournaments()
 {
     return _dartsTournamentModels;
 }
@@ -24,28 +24,36 @@ void DartsTournamentJSonDb::removeDartsTournamentModelByIndex(const int &index)
     saveState();
 }
 
-int DartsTournamentJSonDb::indexOfTournament(const IDartsTournament<QUuid, QString> *model)
+int DartsTournamentJSonDb::indexOfTournament(const IDartsTournament *model)
 {
     auto index = _dartsTournamentModels.indexOf(model);
     return index;
 }
 
-void DartsTournamentJSonDb::replaceTournament(const int& index, const IDartsTournament<QUuid, QString> *tournament)
+void DartsTournamentJSonDb::replaceTournament(const int& index, const IDartsTournament *tournament)
 {
     _dartsTournamentModels.replace(index,tournament);
     saveState();
 }
 
-void DartsTournamentJSonDb::setDartsTournamentsExtractor(IUnaryService<const QJsonArray &, QVector<const IDartsTournament<QUuid, QString> *> > *dartsTournamentsExtractor)
+void DartsTournamentJSonDb::setDartsTournamentsExtractor(JsonExtractor *dartsTournamentsExtractor)
 {
     _dartsTournamentsExtractor = dartsTournamentsExtractor;
 }
 
-void DartsTournamentJSonDb::setDartsTournamentAssembler(IUnaryService<const QVector<const IDartsTournament<QUuid,QString>*>&,QJsonArray> *dartsTournamentAssembler)
+void DartsTournamentJSonDb::setDartsTournamentAssembler(JsonAssembler *dartsTournamentAssembler)
 {
     _dartsTournamentAssembler = dartsTournamentAssembler;
 }
 
+DartsTournamentJSonDb *DartsTournamentJSonDb::createInstance(DartsTournamentJSonDb::JsonExtractor *jsonExtractor, DartsTournamentJSonDb::JsonAssembler *jsonAssembler)
+{
+    auto db = new DartsTournamentJSonDb;
+    db->setDartsTournamentsExtractor(jsonExtractor);
+    db->setDartsTournamentAssembler(jsonAssembler);
+    db->fetchModels();
+    return db;
+}
 
 void DartsTournamentJSonDb::fetchModels()
 {
@@ -56,12 +64,11 @@ void DartsTournamentJSonDb::fetchModels()
     } catch (...) {
         return;
     }
-    auto jsonArray = jsonObject["FTPTournaments"].toArray();
-    _dartsTournamentModels << _dartsTournamentsExtractor->service(jsonArray);
+    _dartsTournamentModels << _dartsTournamentsExtractor->service(jsonObject);
 }
 
 void DartsTournamentJSonDb::saveState()
 {
-    QJsonObject modelJSON;
-    modelJSON["FTPTournaments"] = _dartsTournamentAssembler->service(dartsTournaments());
+    QJsonObject jsonObject = _dartsTournamentAssembler->service(dartsTournaments());
+    writeJSONToFile(jsonObject,_fileName);
 }

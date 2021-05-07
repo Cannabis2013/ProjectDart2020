@@ -109,7 +109,7 @@ public slots:
     /*
      * Handle request for tournament meta information
      */
-    void handleTournamentMetaRequest() override;
+    void assembleDartsTournamentValues() override;
 
     void assembleAndConfigureControllerBuilder(const QByteArray &json) override;
     void setGameController(AbstractGameController* controller) override;
@@ -134,6 +134,9 @@ private:
     AbstractModelsService* _modelsContext;
     AbstractGameController *_gameController = nullptr;
     AbstractModelsServiceBuilder<AbstractModelsService>* _modelsServiceBuilder;
+    /*
+     * Connect-services
+     */
     IBinaryService<AbstractApplicationInterface*,
                    AbstractModelsService*,
                    void>* _connectModelsServiceInterface;

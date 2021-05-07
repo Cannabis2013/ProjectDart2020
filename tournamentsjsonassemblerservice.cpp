@@ -1,11 +1,11 @@
 #include "tournamentsjsonassemblerservice.h"
 
-QJsonArray TournamentsJSonAssemblerService::service(const QVector<const IDartsTournament<QUuid,QString>*>& models)
+QJsonArray TournamentsJSonAssemblerService::service(const QVector<const IDartsTournament*>& models)
 {
     QJsonArray tournamentsJSON;
     for (auto i = models.begin();i != models.end();i++) {
         auto model = *i;
-        auto tournament = dynamic_cast<const IDartsTournament<QUuid,QString>*>(model);
+        auto tournament = dynamic_cast<const IDartsTournament*>(model);
         auto obj = assembleJsonObjectFromDartsTournamentModel(tournament);
         auto players = tournament->assignedPlayerIdentities();
         obj["Players"] = assembleJsonArrayFromTournamentPlayerIds(players);
@@ -14,7 +14,7 @@ QJsonArray TournamentsJSonAssemblerService::service(const QVector<const IDartsTo
     return tournamentsJSON;
 }
 
-QJsonObject TournamentsJSonAssemblerService::assembleJsonObjectFromDartsTournamentModel(const IDartsTournament<QUuid,QString> *model)
+QJsonObject TournamentsJSonAssemblerService::assembleJsonObjectFromDartsTournamentModel(const IDartsTournament *model)
 {
     QJsonObject obj;
     obj["Id"] = model->id().toString();

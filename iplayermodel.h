@@ -2,17 +2,18 @@
 #define IMODEL_H
 
 #include "imodel.h"
+#include <quuid.h>
+#include <qstring.h>
 
-template<class TUuid, class TString>
-class IPlayerModel : public IModel<TUuid>
+class IPlayerModel : public IModel<QUuid>
 {
 public:
-    virtual TString playerName() const = 0;
+    virtual QString playerName() const = 0;
 
-    virtual IPlayerModel* setUserName(const TString &name) = 0;
+    virtual IPlayerModel* setUserName(const QString &name) = 0;
 
-    virtual TString email() const = 0;
-    virtual IPlayerModel* setEmail(const TString& email) = 0;
+    virtual QString email() const = 0;
+    virtual IPlayerModel* setEmail(const QString& email) = 0;
 
     virtual int userRole() const = 0;
     virtual IPlayerModel* setUserRole(const int& role) = 0;

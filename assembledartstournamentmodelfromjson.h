@@ -11,12 +11,19 @@
 
 class AssembleDartsTournamentModelFromJson : public
         IUnaryService<const QByteArray&,
-        const IDartsTournament<QUuid,QString>*>
+        const IDartsTournament*>
 {
 public:
-    const IDartsTournament<QUuid,QString>* service(const QByteArray& json) override;
+    const IDartsTournament* service(const QByteArray& json) override;
 private:
-    const IDartsTournament<QUuid,QString>* buildModelFromParameters(const QString &title, const int &gameMode, const int &keyPoint, const int &terminalKeyCode, const int &displayHint, const int &inputHint, const int &attempts);
+    const IDartsTournament* buildModelFromParameters(const QString &title,
+                                                                    const int &gameMode,
+                                                                    const int &keyPoint,
+                                                                    const int &terminalKeyCode,
+                                                                    const int &displayHint,
+                                                                    const int &inputHint,
+                                                                    const int &attempts);
+    QVector<QUuid> assembleListOfQuuidsFromJsonArray(const QJsonArray& arr);
 };
 
 #endif // BUILDDARTSTOURNAMENTMODELFROMJSON_H

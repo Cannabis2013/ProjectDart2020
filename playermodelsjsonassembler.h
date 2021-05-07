@@ -11,11 +11,11 @@
 #include "playermodel.h"
 #include "iunaryservice.h"
 
-class PlayerModelsJsonAssembler : public IUnaryService<const QVector<const IPlayerModel<QUuid,QString>*>&,QJsonArray>
+class PlayerModelsJsonAssembler : public IUnaryService<const QVector<const IPlayerModel*>&,QJsonArray>
 {
 public:
     static PlayerModelsJsonAssembler* createInstance();
-    QJsonArray service(const QVector<const IPlayerModel<QUuid, QString> *> &models) override;
+    QJsonArray service(const QVector<const IPlayerModel *> &models) override;
 };
 
 #endif // PLAYERJSONASSEMBLER_H

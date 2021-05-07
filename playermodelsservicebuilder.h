@@ -10,10 +10,10 @@
 #include <quuid.h>
 
 class PlayerModelsServiceBuilder :
-        public IModelsServiceBuilder<IPlayerModelsService<IPlayerModel<QUuid,QString>>>
+        public IModelsServiceBuilder<IPlayerModelsService>
 {
 public:
-    IPlayerModelsService<IPlayerModel<QUuid,QString>> *buildModelsService() const override;
+    IPlayerModelsService *buildModelsService() const override;
 };
 
 #endif // PLAYERMODELSSERVICEBUILDER_H

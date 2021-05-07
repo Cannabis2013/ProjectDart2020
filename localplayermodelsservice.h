@@ -1,19 +1,16 @@
 #ifndef LOCALPLAYERCONTEXT_H
 #define LOCALPLAYERCONTEXT_H
 
-#include <QVariantList>
 #include "iplayermodelsservice.h"
 #include "abstractjsonpersistence.h"
 #include "imodelsdbcontext.h"
-#include <qjsondocument.h>
-#include <qjsonobject.h>
 #include "playermodel.h"
 
 using namespace std;
 
 
 class LocalPlayerModelsService :
-        public IPlayerModelsService<IPlayerModel<QUuid,QString>>
+        public IPlayerModelsService
 {
 public:
     /*
@@ -28,8 +25,7 @@ public:
     enum UserRoles{Admin = 0x0, Player = 0x02};
 
     static LocalPlayerModelsService* createInstance();
-    const IPlayerModel<QUuid, QString> *createPlayerFromJson(const QByteArray& json) override;
-    const QUuid addPlayerModelToDb(const IPlayerModel<QUuid,QString>*model) override;
+    const QUuid addPlayerModelToDb(const IPlayerModel*model) override;
     bool deletePlayer(const int &index) override;
     bool deletePlayersByIndexes(const QVector<int>& indexes) override;
 
@@ -51,7 +47,7 @@ public:
     QList<QUuid> players() const override;
     int playersCount() const override;
 private:
-    const IPlayerModel<QUuid,QString> *getModel(const QString &playerName) const;
+    const IPlayerModel *getModel(const QString &playerName) const;
     IModelsDbContext *modelDBContext() const;
     IModelsDbContext* _dbContext;
 };

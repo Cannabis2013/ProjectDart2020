@@ -6,7 +6,7 @@
 #include <qlist.h>
 #include "idartstournament.h"
 
-class DartsTournamentModel : public IDartsTournament<QUuid,QString>
+class DartsTournamentModel : public IDartsTournament
 {
     // IModel interface
 public:
@@ -70,7 +70,7 @@ public:
     {
         return _winner;
     }
-    IDartsTournament<QUuid,QString>* setWinnerId(const QUuid &val) override
+    IDartsTournament* setWinnerId(const QUuid &val) override
     {
         _winner = val;
         return this;

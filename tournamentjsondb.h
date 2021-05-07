@@ -9,28 +9,31 @@
 #include "iunaryservice.h"
 
 class DartsTournamentJSonDb :
-        public IDartsTournamentDb<IDartsTournament<QUuid,QString>>,
+        public IDartsTournamentDb<IDartsTournament>,
         public AbstractJSONPersistence
 {
 public:
+    typedef IUnaryService<const QJsonObject&,QVector<const IDartsTournament*>> JsonExtractor;
+    typedef IUnaryService<const QVector<const IDartsTournament*>&,QJsonObject> JsonAssembler;
+    static DartsTournamentJSonDb* createInstance(JsonExtractor* jsonExtractor,
+                                                 JsonAssembler* jsonAssembler);
     void fetchModels() override;
     void saveState() override;
-    void addTournament(const IDartsTournament<QUuid,QString> *model) override;
-    const IDartsTournament<QUuid,QString> *dartsTournamentModelFromIndex(const int &) override;
-    QVector<const IDartsTournament<QUuid,QString> *> dartsTournaments() override;
+    void addTournament(const IDartsTournament *model) override;
+    const IDartsTournament *dartsTournamentModelFromIndex(const int &) override;
+    QVector<const IDartsTournament *> dartsTournaments() override;
     void removeDartsTournamentModelByIndex(const int &index) override;
-    int indexOfTournament(const IDartsTournament<QUuid,QString> *model) override;
-    void replaceTournament(const int &index, const IDartsTournament<QUuid,QString> *tournament) override;
+    int indexOfTournament(const IDartsTournament *model) override;
+    void replaceTournament(const int &index, const IDartsTournament *tournament) override;
     // Set service methods
-    void setDartsTournamentsExtractor(IUnaryService<const QJsonArray &, QVector<const IDartsTournament<QUuid, QString> *> > *dartsTournamentsExtractor);
-    void setDartsTournamentAssembler(IUnaryService<const QVector<const IDartsTournament<QUuid, QString>*>&, QJsonArray> *dartsTournamentAssembler);
-
+    void setDartsTournamentsExtractor(JsonExtractor* dartsTournamentsExtractor);
+    void setDartsTournamentAssembler(JsonAssembler* dartsTournamentAssembler);
 private:
     const QString _fileName = "DartsTournaments";
     // Json services
-    IUnaryService<const QJsonArray&,QVector<const IDartsTournament<QUuid,QString>*>>* _dartsTournamentsExtractor;
-    IUnaryService<const QVector<const IDartsTournament<QUuid,QString>*>&,QJsonArray>* _dartsTournamentAssembler;
-    QVector<const IDartsTournament<QUuid,QString>*> _dartsTournamentModels;
+    JsonExtractor* _dartsTournamentsExtractor;
+    JsonAssembler* _dartsTournamentAssembler;
+    QVector<const IDartsTournament*> _dartsTournamentModels;
 
 };
 

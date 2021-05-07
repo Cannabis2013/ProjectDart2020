@@ -55,7 +55,7 @@ public slots:
     /*
      * Handle request for tournament meta information
      */
-    virtual void handleTournamentMetaRequest() = 0;
+    virtual void assembleDartsTournamentValues() = 0;
     virtual void assembleAndConfigureControllerBuilder(const QByteArray &json) = 0;
     virtual void setGameController(AbstractGameController* controller) = 0;
 signals:
@@ -117,7 +117,7 @@ signals:
     void dartsSingleAttemptPointControllerIsInitialized();
     void dartsSingleAttemptPointControllerIsReady();
     void dartsSingleScoreControllerIsInitialized();
-    void controllerAwaitsInput(const QString& json);
+    void controllerAwaitsInput(const QByteArray& json);
     void dartsControllerIsReset();
     void ftpControllerAddedAndPersistedScore(const QByteArray& json);
     void dartsControllerRemovedSingleAttemptPoint(const QString& json);

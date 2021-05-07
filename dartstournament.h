@@ -6,7 +6,7 @@
 #include <qlist.h>
 #include "idartstournament.h"
 
-class DartsTournament : public IDartsTournament<QUuid,QString>
+class DartsTournament : public IDartsTournament
 {
     // IModel interface
 public:
@@ -130,7 +130,6 @@ private:
     int _gameMode;
     int _keyPoint;
     int _status;
-    int _modelType;
     int _terminalKeyCode;
     int _modelDisplayHint;
     int _inputMode;

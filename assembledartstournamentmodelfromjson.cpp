@@ -1,6 +1,6 @@
 #include "assembledartstournamentmodelfromjson.h"
 
-const IDartsTournament<QUuid, QString> *AssembleDartsTournamentModelFromJson::service(const QByteArray &json)
+const IDartsTournament *AssembleDartsTournamentModelFromJson::service(const QByteArray &json)
 {
     auto jsonObject = QJsonDocument::fromJson(json).object();
     // Extract Darts tournament values
@@ -13,16 +13,17 @@ const IDartsTournament<QUuid, QString> *AssembleDartsTournamentModelFromJson::se
     auto attempts = jsonObject.value("attempts").toInt();
     auto model = buildModelFromParameters(title,gameMode,keyPoint,terminalKeyCode,
                                           displayHint,inputHint,attempts);
+
     return model;
 }
 
-const IDartsTournament<QUuid, QString> *AssembleDartsTournamentModelFromJson::buildModelFromParameters(const QString &title,
-                                                                                                    const int& gameMode,
-                                                                                                    const int& keyPoint,
-                                                                                                    const int& terminalKeyCode,
-                                                                                                    const int& displayHint,
-                                                                                                    const int& inputHint,
-                                                                                                    const int& attempts)
+const IDartsTournament *AssembleDartsTournamentModelFromJson::buildModelFromParameters(const QString &title,
+                                                                                                       const int& gameMode,
+                                                                                                       const int& keyPoint,
+                                                                                                       const int& terminalKeyCode,
+                                                                                                       const int& displayHint,
+                                                                                                       const int& inputHint,
+                                                                                                       const int& attempts)
 {
     auto model = DartsTournament::createInstance()
             ->setTitle(title)
@@ -34,4 +35,12 @@ const IDartsTournament<QUuid, QString> *AssembleDartsTournamentModelFromJson::bu
             ->setInputMode(inputHint)
             ->setId(QUuid::createUuid());
     return model;
+}
+
+QVector<QUuid> AssembleDartsTournamentModelFromJson::assembleListOfQuuidsFromJsonArray(const QJsonArray &arr)
+{
+    QVector<int> list;
+    for (const auto& jsonValue : arr) {
+        list << jsonValue.toInt();
+    }
 }

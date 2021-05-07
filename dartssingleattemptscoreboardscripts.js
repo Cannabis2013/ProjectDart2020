@@ -30,37 +30,37 @@ function updateScoreBoard()
 {
     updateContentDimensions();
     refreshHeaders();
-    fTPBody.requestUpdateCells();
+    singleAttemptPointScoreBoard.requestUpdateCells();
 }
 
 function updateContentDimensions()
 {
     var tHeight = calculateHeight();
     var tWidth = calculateWidth();
-    fTPBody.updateContentDimensions(tHeight,tWidth);
+    singleAttemptPointScoreBoard.updateContentDimensions(tHeight,tWidth);
 }
 
 function refreshHeaders()
 {
     // Refresh horizontal headers
-    fTPBody.horizontalHeaderModel = dartsDataModel.columnCount;
-    let hDataCount = fTPBody.horizontalHeaderCount;
+    singleAttemptPointScoreBoard.horizontalHeaderModel = dartsDataModel.columnCount;
+    let hDataCount = singleAttemptPointScoreBoard.horizontalHeaderCount;
     for(var j = 0;j < hDataCount;j++)
     {
         let hHeaderValue = dartsDataModel.getHeaderData(j,Qt.Horizontal);
         let columnWidth = dartsDataModel.columnWidthAt(j);
-        fTPBody.setColumnWidth(j,columnWidth);
-        fTPBody.setHorizontalHeaderDataAt(j,hHeaderValue);
+        singleAttemptPointScoreBoard.setColumnWidth(j,columnWidth);
+        singleAttemptPointScoreBoard.setHorizontalHeaderDataAt(j,hHeaderValue);
     }
     // Refresh vertical headers
     let headerCount = dartsDataModel.headerItemCount(Qt.Vertical);
-    fTPBody.verticalHeaderModel = headerCount;
+    singleAttemptPointScoreBoard.verticalHeaderModel = headerCount;
     for(var i = 0;i < headerCount;i++)
     {
         let vHeaderValue = dartsDataModel.getHeaderData(i,Qt.Vertical);
         let rowHeight = dartsDataModel.rowHeightAt(i);
-        fTPBody.setRowHeight(i,rowHeight);
-        fTPBody.setVerticalHeaderDataAt(i,vHeaderValue);
+        singleAttemptPointScoreBoard.setRowHeight(i,rowHeight);
+        singleAttemptPointScoreBoard.setVerticalHeaderDataAt(i,vHeaderValue);
     }
 }
 
@@ -99,18 +99,18 @@ function totalHeaderHeight()
 
 function setViewPosition(x,y)
 {
-    fTPBody.updateViewPosition(x,y);
+    singleAttemptPointScoreBoard.updateViewPosition(x,y);
 }
 
-function appendHeader(header,orientation)
+function appendHeader(header)
 {
     dartsDataModel.appendHeaderItem(header,headerOrientation);
     var preferedWidth = dartsDataModel.preferedHeaderItemWidth();
-    fTPBody.updateVerticalHeaderWidth(preferedWidth);
+    singleAttemptPointScoreBoard.updateVerticalHeaderWidth(preferedWidth);
 }
 
-function setData(playerName,score){
-    var result = dartsDataModel.insertData(playerName,score);
+function setData(playerName,score,point){
+    var result = dartsDataModel.insertData(playerName,point,score);
     if(!result)
         print("Couldn't add data to model");
 }
@@ -132,7 +132,7 @@ function addHeaderData(data,defaultVal)
     for(var i = 0; i < data.length;i++)
     {
         var assignedPlayerName = data[i];
-        scoreBoardItemSlot.item.appendHeader(assignedPlayerName,Qt.Horizontal);
-        scoreBoardItemSlot.item.setData(assignedPlayerName,0,defaultVal,undefined);
+        singleAttemptPointScoreBoard.appendHeader(assignedPlayerName);
+        singleAttemptPointScoreBoard.setData(assignedPlayerName,0,defaultVal);
     }
 }

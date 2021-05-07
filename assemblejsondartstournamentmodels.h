@@ -13,22 +13,22 @@
 
 class AssembleJsonDartsTournamentModels :
         public IBinaryService<const IDartsModelsService*,
-                              const IPlayerModelsService<IPlayerModel<QUuid,QString>>*,
+                              const IPlayerModelsService*,
                               const QByteArray>
 {
 public:
     const QByteArray service(const IDartsModelsService* dartsModelsService,
-                             const IPlayerModelsService<IPlayerModel<QUuid,QString>>* playerModelsService) override
+                             const IPlayerModelsService* playerModelsService) override
     {
         auto models = dartsModelsService->getDartsTournamentModels();
-        QJsonArray arr = assembleJSonArrayFromModels(models,playerModelsService);
+        QJsonArray arr = assembleJsonArrayFromModels(models,playerModelsService);
         auto json = QJsonDocument(arr).toJson();
         return json;
     }
 
 private:
-    QJsonArray assembleJSonArrayFromModels(const QVector<const IDartsTournament<QUuid,QString>*>& models,
-                                           const IPlayerModelsService<IPlayerModel<QUuid,QString>>* playerModelsService)
+    QJsonArray assembleJsonArrayFromModels(const QVector<const IDartsTournament*>& models,
+                                           const IPlayerModelsService* playerModelsService)
     {
         QJsonArray arr;
         for (const auto& model : models) {
@@ -36,9 +36,13 @@ private:
         }
         return arr;
     }
-    QJsonObject assembleJsonObjectFromModel(const IDartsTournament<QUuid,QString>* model,
-                                          const IPlayerModelsService<IPlayerModel<QUuid,QString>>* playerModelsService)
+    QJsonObject assembleJsonObjectFromModel(const IDartsTournament* model,
+                                          const IPlayerModelsService* playerModelsService)
     {
+        auto assignedPlayerIds = model->assignedPlayerIdentities();
+        auto assignedPlayerNames = playerModelsService->assemblePlayerNamesFromIds(assignedPlayerIds);
+        auto winnerId = model->winnerId();
+        auto winnerName = playerModelsService->playerNameFromId(winnerId);
         QJsonObject jsonObject;
         jsonObject["title"] = model->title();
         jsonObject["gameMode"] = model->gameMode();
@@ -47,7 +51,8 @@ private:
         jsonObject["inputHInt"] = model->inputHint();
         jsonObject["terminalKeyCode"] = model->terminalKeyCode();
         jsonObject["assignedPlayerIds"] = assembleJsonPlayerArray(model->assignedPlayerIdentities());
-        jsonObject["winnerId"] = model->winnerId().toString(QUuid::WithoutBraces);
+        jsonObject["assignedPlayerNames"] = assembleJsonByAssignedPlayerNames(assignedPlayerNames);
+        jsonObject["winnerId"] = winnerId.toString(QUuid::WithoutBraces);
         jsonObject["winnerName"] = playerModelsService->playerNameFromId(model->winnerId());
         return jsonObject;
     }
@@ -58,6 +63,13 @@ private:
             auto playerStringId = playerId.toString(QUuid::WithoutBraces);
             arr << playerStringId;
         }
+        return arr;
+    }
+    QJsonArray assembleJsonByAssignedPlayerNames(const QVector<QString>& names)
+    {
+        QJsonArray arr;
+        for (const auto& name : names)
+            arr << name;
         return arr;
     }
 };

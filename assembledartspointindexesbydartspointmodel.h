@@ -9,9 +9,9 @@
 
 class AssembleDartsPointIndexesByDartsPointModel : public
         ITernaryService<const QVector<const IDartsPointInput<QUuid>*>&,
-                        const QUuid&,
-                        const IDartsModelsService*,
-                        const IDartsPointIndexes*>
+                       const IDartsTournament*,
+                       const int&,
+                       const IDartsPointIndexes*>
 {
 public:
     enum ModelDisplayHint{
@@ -20,15 +20,25 @@ public:
         allHints = HiddenHint | DisplayHint
     };
     const IDartsPointIndexes* service(const QVector<const IDartsPointInput<QUuid>*>& orderedModels,
-                                      const QUuid& tournamentId,
-                                      const IDartsModelsService* modelsService) override
+                                      const IDartsTournament* model,
+                                      const int& dartsTournamentPointsCount) override
     {
+        if(!orderedModels.isEmpty())
+            return assembleDartsIndexesByModels(orderedModels,model,dartsTournamentPointsCount);
+        return assembleInitialDartsIndexes();
+    }
+private:
+    const IDartsPointIndexes* assembleDartsIndexesByModels(const QVector<const IDartsPointInput<QUuid>*>& orderedModels,
+                                                          const IDartsTournament* model,
+                                                          const int& dartsTournamentPointsCount)
+    {
+        auto indexes = DartsPointIndexes::createInstance();
         auto lastModel = orderedModels.last();
-        auto assignedPlayerIds = modelsService->tournamentAssignedPlayers(tournamentId);
+        auto assignedPlayerIds = model->assignedPlayerIdentities();
         auto playersCount = assignedPlayerIds.count();
-        auto attempts = modelsService->tournamentAttempts(tournamentId);
+        auto attempts = model->attempts();
         auto totalTurns = orderedModels.count();
-        auto turnIndex = modelsService->dartsPointsCount(ModelDisplayHint::DisplayHint);
+        auto turnIndex = dartsTournamentPointsCount;
         auto roundIndex = lastModel->roundIndex();
         auto attemptIndex = lastModel->attempt();
         auto setIndex = lastModel->setIndex();
@@ -42,13 +52,16 @@ public:
                 setIndex = 0;
             }
         }
-        auto indexes = new DartsPointIndexes;
         indexes->setTotalTurns(totalTurns);
         indexes->setTurnIndex(turnIndex);
         indexes->setRoundIndex(roundIndex);
         indexes->setSetIndex(setIndex);
         indexes->setAttemptIndex(attemptIndex);
         return indexes;
+    };
+    const IDartsPointIndexes* assembleInitialDartsIndexes()
+    {
+        return DartsPointIndexes::createInitialInstance();
     }
 };
 

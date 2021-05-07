@@ -72,6 +72,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    AssembleDartsTournamentsFromJsonArray.h \
     abstractdartscontrollerbuilder.h \
     abstractdartspointcontroller.h \
     abstractdartsscorecontroller.h \
@@ -82,14 +83,17 @@ HEADERS += \
     assembledartspointmodelfromjson.h \
     assembledartsscorefromjson.h\
     assemblejsonarrayfromdartspoints.h \
+    assemblejsonbasictournamentvalues.h \
+    assemblejsonbasictournamentvaluesfrommodel.h \
     assemblejsondartstournamentmodels.h \
     assemblejsonfromdartspointindexes.h \
     assemblejsonfromdartspoints.h \
-    assemblejsonfromdartstournament.h \
-    assemblejsonfromdartstournamentmodel.h \
+    assemblejsonfromdartstournamentmodels.h \
     assemblejsonfromordereddartspointmodels.h \
     assemblejsonfromplayeridandname.h \
+    assembleplayermodelfromjson.h \
     assemblesingleattemptpointsfromjson.h \
+    assignplayeridstodartstournamentmodel.h \
     connectcontrollerbuilder.h \
     connectdartsscorecontroller.h \
     connectdartssingleattemptpointcontroller.h \
@@ -98,6 +102,7 @@ HEADERS += \
     dartscontrollerbuilder.h \
     dartsmodelservicebuilder.h \
     dartsmodelsservice.h \
+    dartsmodelsservicescollection.h \
     dartsmultipointdatamodel.h \
     dartsmultiscoredatamodel.h \
     dartspointdbservice.h \

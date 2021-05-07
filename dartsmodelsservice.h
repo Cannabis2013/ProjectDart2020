@@ -52,6 +52,13 @@ public:
         DisplayHint = 0x2,
         allHints = 0x3
     };
+    typedef IBinaryService<const QUuid &,
+                           const IdartsPointDb<IDartsPointInput<QUuid> > *,
+                           QVector<const IDartsPointInput<QUuid>*>> GetOrderedDartsPointService;
+    typedef ITernaryService<const QVector<const IDartsPointInput<QUuid> *> &,
+                            const IDartsTournament *,
+                            const int &,
+                            const IDartsPointIndexes *> GetPointIndexesFromDartsTournamentService;
     /*
      * Destructor
      */
@@ -65,9 +72,8 @@ public:
     /*
      * Darts tournament related section
      */
-    const IDartsTournament<QUuid, QString> *getDartsTournamentModelById(const QUuid &tournamentId) const override;
-    QVector<const IDartsTournament<QUuid, QString> *> getDartsTournamentModels() const override;
-    const IDartsTournament<QUuid, QString> *getDartsTournamentById(const QUuid &tournamentId) const override;
+    const IDartsTournament *getDartsTournamentModelById(const QUuid &tournamentId) const override;
+    QVector<const IDartsTournament *> getDartsTournamentModels() const override;
     bool removeTournamentsByIndexes(const QVector<int>& indexes) const override;
     QUuid tournamentIdFromIndex(const int &index) const override;
     QVector<QUuid> tournaments() const override;
@@ -84,7 +90,7 @@ public:
                                   const QVector<QUuid> &players) override;
     void tournamentUnAssignPlayer(const QUuid &tournament,
                                 const QUuid &player) override;
-    QUuid addDartsTournamentToDb(const IDartsTournament<QUuid, QString> *tournament) override;
+    QUuid addDartsTournamentToDb(const IDartsTournament *tournament) override;
     int tournamentAttempts(const QUuid &tournament) const override;
     int tournamentGameMode(const QUuid &tournament) const override;
     int tournamentTerminalKeyCode(const QUuid &tournament) const override;
@@ -118,7 +124,7 @@ public:
     QList<QUuid> pointsByPlayerId(const QUuid &tournament,
                               const QUuid &player,
                               const int &hint) const override;
-    int dartsPointsCount(const int &hint) const override;
+    int dartsPointsCount(const QUuid& tournamentId,const int &hint) const override;
     QUuid setDartsPointHint(const QUuid &point,
                        const int &hint) override;
     int dartsPointRoundIndex(const QUuid &playerScore) const override;
@@ -174,35 +180,26 @@ public:
     void removeScoreModel(const QUuid &playerScore) override;
     // Set services method
     DartsModelsService *setTournamentsDbContext(
-            IDartsTournamentDb<IDartsTournament<QUuid,
-            QString> > *tournamentsDbContext);
-    DartsModelsService *setGetOrderedDartsPointsModels(
-            IBinaryService<const QUuid &,
-            const IdartsPointDb<IDartsPointInput<QUuid> > *,
-            QVector<const IDartsPointInput<QUuid> *> > *getOrderedDartsPointsModels);
+            IDartsTournamentDb<IDartsTournament> *tournamentsDbContext);
     DartsModelsService *setDartsPointsDb(IdartsPointDb<IDartsPointInput<QUuid> > *dartsPointsDb);
-
-    DartsModelsService *setGetDartsPointIndexes(ITernaryService<const QVector<const IDartsPointInput<QUuid> *> &, const QUuid &, const IDartsModelsService *, const IDartsPointIndexes *> *getDartsPointIndexes);
+    DartsModelsService* setGetOrderedDartsPointsModels(GetOrderedDartsPointService* getOrderedDartsPointsModels);
+    DartsModelsService* setAssembleDartsPointIndexes(GetPointIndexesFromDartsTournamentService *getDartsPointIndexes);
 
 private:
     /*
      * Services
      */
     IUnaryService<const QByteArray&,
-    const IDartsTournament<QUuid,QString>*>* _assembleDartsTournamentFromJson;
-    IBinaryService<const QUuid&,const IdartsPointDb<IDartsPointInput<QUuid>>*,
-                  QVector<const IDartsPointInput<QUuid>*>>* _getOrderedDartsPointsModels;
+    const IDartsTournament*>* _assembleDartsTournamentFromJson;
+    GetOrderedDartsPointService* _getOrderedDartsPointsModels;
     template<typename TModelInterface>
     const TModelInterface *getTournamentModelFromId(const QUuid &id) const;
-    ITernaryService<const QVector<const IDartsPointInput<QUuid>*>&,
-                    const QUuid&,
-                    const IDartsModelsService*,
-                    const IDartsPointIndexes*>* _getDartsPointIndexes;
+    GetPointIndexesFromDartsTournamentService* _assembleDartsPointIndexes;
     template<typename T = IModel<QUuid>>
     const T* getPointModelFromId(const QUuid &id) const;
 
     // Db services
-    IDartsTournamentDb<IDartsTournament<QUuid,QString>>* _tournamentsDbContext;
+    IDartsTournamentDb<IDartsTournament>* _tournamentsDbContext;
     IdartsPointDb<IDartsPointInput<QUuid>>* _dartsPointsDb;
 };
 

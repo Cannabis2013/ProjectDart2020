@@ -56,20 +56,7 @@ LocalPlayerModelsService *LocalPlayerModelsService::createInstance()
     return new LocalPlayerModelsService();
 }
 
-const IPlayerModel<QUuid,QString>* LocalPlayerModelsService::createPlayerFromJson(const QByteArray &json)
-{
-    auto document = QJsonDocument::fromJson(json);
-    auto jsonObject = document.object();
-    auto name = jsonObject.value("playerName").toString();
-    auto mail = jsonObject.value("playerMail").toString();
-    auto model = PlayerModel::createInstance()
-            ->setUserName(name)
-            ->setEmail(mail)
-            ->setId(QUuid::createUuid());
-    return model;
-}
-
-const QUuid LocalPlayerModelsService::addPlayerModelToDb(const IPlayerModel<QUuid, QString>* model)
+const QUuid LocalPlayerModelsService::addPlayerModelToDb(const IPlayerModel* model)
 {
     _dbContext->addPlayerModel(model);
     return model->id();
@@ -123,7 +110,7 @@ void LocalPlayerModelsService::deletePlayerByUserName(const QString &playerName)
 {
     auto models = modelDBContext()->playerModels();
     for (auto model : models) {
-        auto playerModel = dynamic_cast<const IPlayerModel<QUuid,QString>*>(model);
+        auto playerModel = dynamic_cast<const IPlayerModel*>(model);
         auto uName = playerModel->playerName();
         if(uName == playerName)
         {
@@ -132,7 +119,6 @@ void LocalPlayerModelsService::deletePlayerByUserName(const QString &playerName)
             return;
         }
     }
-
     throw "No model found with given id";
 }
 
@@ -148,7 +134,6 @@ void LocalPlayerModelsService::deletePlayerByID(const QUuid &player)
             return;
         }
     }
-
     throw "No model found with given id";
 }
 
@@ -156,7 +141,7 @@ void LocalPlayerModelsService::deletePlayerByEmail(const QString &email)
 {
     auto models = modelDBContext()->playerModels();
     for (auto model : models) {
-        auto playerModel = dynamic_cast<const IPlayerModel<QUuid,QString>*>(model);
+        auto playerModel = dynamic_cast<const IPlayerModel*>(model);
         auto mailAdress = playerModel->email();
         if(mailAdress == email)
         {
@@ -165,7 +150,6 @@ void LocalPlayerModelsService::deletePlayerByEmail(const QString &email)
             return;
         }
     }
-
     throw "No model found with given mail adress";
 }
 
@@ -194,12 +178,11 @@ QString LocalPlayerModelsService::playerNameFromId(const QUuid &id) const
 {
     auto models = modelDBContext()->playerModels();
     for (auto model : models) {
-        auto playerModel = dynamic_cast<const IPlayerModel<QUuid,QString>*>(model);
+        auto playerModel = dynamic_cast<const IPlayerModel*>(model);
         auto modelID = playerModel->id();
         if(modelID == id)
             return playerModel->playerName();
     }
-
     return QString();
 }
 
@@ -207,7 +190,7 @@ QString LocalPlayerModelsService::playerMailFromId(const QUuid &id) const
 {
     auto models = modelDBContext()->playerModels();
     for (auto model : models) {
-        auto playerModel = dynamic_cast<const IPlayerModel<QUuid,QString>*>(model);
+        auto playerModel = dynamic_cast<const IPlayerModel*>(model);
         auto modelID = model->id();
         if(modelID == id)
             return playerModel->email();
@@ -233,15 +216,14 @@ int LocalPlayerModelsService::playersCount() const
     auto count = models.count();
     return count;
 }
-const IPlayerModel<QUuid,QString> *LocalPlayerModelsService::getModel(const QString &playerName) const
+const IPlayerModel *LocalPlayerModelsService::getModel(const QString &playerName) const
 {
     auto models = modelDBContext()->playerModels();
     for (auto model : models) {
-        auto playerModel = dynamic_cast<const IPlayerModel<QUuid,QString>*>(model);
+        auto playerModel = dynamic_cast<const IPlayerModel*>(model);
         if(playerModel->playerName() == playerName)
             return playerModel;
     }
-
     throw "Model not found";
 }
 

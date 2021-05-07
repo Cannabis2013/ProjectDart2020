@@ -7,11 +7,11 @@
 #include "idartstournament.h"
 #include <quuid.h>
 
-class AssembleJsonFromDartsTournament :
-        public IUnaryService<const IDartsTournament<QUuid,QString>*,QByteArray>
+class AssembleJsonBasicTournamentValues :
+        public IUnaryService<const IDartsTournament*,QByteArray>
 {
 public:
-    QByteArray service(const IDartsTournament<QUuid,QString>* model) override
+    QByteArray service(const IDartsTournament* model) override
     {
         QJsonObject obj;
         obj["tournamentId"] = model->id().toString(QUuid::WithoutBraces);

@@ -12,13 +12,13 @@
 class AssembleJsonFromDartsIndexesAndPoints : public
         ITernaryService<const QUuid&,
                         const IDartsModelsService*,
-                        const IPlayerModelsService<IPlayerModel<QUuid,QString>>*,
+                        const IPlayerModelsService*,
                         const QByteArray>
 {
 public:
     const QByteArray service(const QUuid& tournament,
                              const IDartsModelsService* _dartsModelsService,
-                             const IPlayerModelsService<IPlayerModel<QUuid,QString>>* _playerModelsService) override
+                             const IPlayerModelsService* _playerModelsService) override
     {
         auto indexes = _dartsModelsService->dartsIndexes(tournament);
         auto playerIds = _dartsModelsService->tournamentAssignedPlayers(tournament);

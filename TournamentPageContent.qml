@@ -17,22 +17,25 @@ Content{
         property int currentIndex: -1
     }
 
-    function recieveTournaments(tournaments)
+    function recieveTournaments(json)
     {
-        var count = tournaments.length;
-        for(var i = 0; i < count;i += 5)
+        var jsonTournaments= JSON.parse(json);
+        var jsonLength = jsonTournaments.length;
+        for(var i = 0;i < jsonLength;++i)
         {
-            var title = tournaments[i + 1];
-            var gameMode = tournaments[i+2];
-            var winnerName = tournaments[i+3];
-            var playersCount = tournaments[i + 4];
+            var jsonTournament = jsonTournaments[i];
+            var gameMode = jsonTournament["gameMode"];
+            var title = jsonTournament["title"];
+            var winnerName = jsonTournament["winnerName"];
+            var assignedPlayerNames = jsonTournament["assignedPlayerNames"];
+            var assignedPlayersCount = assignedPlayerNames.length;
             tournamentListView.addItemModel(
                         {
                             "type" : "tournament",
                             "gameMode" : translateGameModeFromHex(gameMode),
                             "tournamentTitle" : title,
                             "winner" : winnerName,
-                            "playersCount" : playersCount
+                            "playersCount" : assignedPlayersCount
                         });
         }
     }
@@ -84,13 +87,13 @@ Content{
         body.requestTournaments.connect(applicationInterface.handleTournamentsRequest); // Request initial tournaments
         applicationInterface.sendTournaments.connect(recieveTournaments);
         body.sendClickedTournamentIndex.connect(applicationInterface.handleSetCurrentTournamentRequest);
-        applicationInterface.dartsSingleAttemptPointControllerIsInitialized.connect(startGameClicked);
+        applicationInterface.dartsSingleAttemptPointControllerIsInitialized.connect(dartsPointsControllerInitialized);
         body.requestTournaments();
     }
     Component.onDestruction: {
         body.requestTournaments.disconnect(applicationInterface.handleTournamentsRequest);
         applicationInterface.sendTournaments.disconnect(recieveTournaments);
         body.sendClickedTournamentIndex.disconnect(applicationInterface.handleSetCurrentTournamentRequest);
-        applicationInterface.dartsSingleAttemptPointControllerIsInitialized.disconnect(startGameClicked);
+        applicationInterface.dartsSingleAttemptPointControllerIsInitialized.disconnect(dartsPointsControllerInitialized);
     }
 }

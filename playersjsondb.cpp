@@ -29,12 +29,12 @@ void PlayersJsonDb::saveState()
     writeJSONToFile(modelJSON,_fileName);
 }
 
-QVector<const IPlayerModel<QUuid, QString> *> PlayersJsonDb::playerModels()
+QVector<const IPlayerModel *> PlayersJsonDb::playerModels()
 {
     return _playerModels;
 }
 
-void PlayersJsonDb::addPlayerModel(const IPlayerModel<QUuid,QString> *player)
+void PlayersJsonDb::addPlayerModel(const IPlayerModel *player)
 {
     _playerModels.append(player);
     saveState();
@@ -57,30 +57,30 @@ void PlayersJsonDb::removePlayerModel(const int &index)
     saveState();
 }
 
-int PlayersJsonDb::indexOfPlayerModel(const IPlayerModel<QUuid, QString> *player)
+int PlayersJsonDb::indexOfPlayerModel(const IPlayerModel *player)
 {
     auto index = _playerModels.indexOf(player);
     return index;
 }
 
-void PlayersJsonDb::replacePlayerModel(const int &index, const IPlayerModel<QUuid, QString> *player)
+void PlayersJsonDb::replacePlayerModel(const int &index, const IPlayerModel *player)
 {
     _playerModels.replace(index,player);
     saveState();
 }
 
-PlayersJsonDb* PlayersJsonDb::setPlayerModelsAssemblerService(IUnaryService<const QVector<const IPlayerModel<QUuid, QString> *> &, QJsonArray> *playerModelsAssemblerService)
+PlayersJsonDb* PlayersJsonDb::setPlayerModelsAssemblerService(IUnaryService<const QVector<const IPlayerModel *> &, QJsonArray> *playerModelsAssemblerService)
 {
     _playerModelsAssemblerService = playerModelsAssemblerService;
     return this;
 }
 
-PlayersJsonDb* PlayersJsonDb::setPlayerJsonExtractorService(IUnaryService<const QJsonArray &, QVector<const IPlayerModel<QUuid, QString> *> > *playerJsonExtractorService)
+PlayersJsonDb* PlayersJsonDb::setPlayerJsonExtractorService(IUnaryService<const QJsonArray &, QVector<const IPlayerModel *> > *playerJsonExtractorService)
 {
     _playerJsonExtractorService = playerJsonExtractorService;
     return this;
 }
-const IPlayerModel<QUuid, QString> *PlayersJsonDb::playerModel(const int &index)
+const IPlayerModel *PlayersJsonDb::playerModel(const int &index)
 {
     auto count = _playerModels.count();
     if(index >= count)

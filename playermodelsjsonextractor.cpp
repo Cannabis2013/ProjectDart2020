@@ -5,9 +5,9 @@ PlayerModelsJsonExtractor *PlayerModelsJsonExtractor::createInstance()
     return new PlayerModelsJsonExtractor;
 }
 
-QVector<const IPlayerModel<QUuid, QString> *> PlayerModelsJsonExtractor::service(const QJsonArray &arr)
+QVector<const IPlayerModel *> PlayerModelsJsonExtractor::service(const QJsonArray &arr)
 {
-    QVector<const IPlayerModel<QUuid,QString>*> playerModels;
+    QVector<const IPlayerModel*> playerModels;
     for (auto i = arr.begin();i != arr.end();i++) {
         auto JSONValue = *i;
         auto stringID = JSONValue["Id"].toString();

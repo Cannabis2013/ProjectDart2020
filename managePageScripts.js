@@ -129,21 +129,25 @@ function updateTournamentListView()
 }
 
 // Recieve tournament data
-function recieveTournaments(tournaments)
+function recieveTournaments(json)
 {
-    for(var i = 0;i < tournaments.length;i += 5)
+    var jsonTournaments= JSON.parse(json);
+    var jsonLength = jsonTournaments.length;
+    for(var i = 0;i < jsonLength;++i)
     {
-        var title = tournaments[i + 1];
-        var gameMode = tournaments[i+2];
-        var winnerName = tournaments[i+3];
-        var playersCount = tournaments[i + 4];
+        var jsonTournament = jsonTournaments[i];
+        var gameMode = jsonTournament["gameMode"];
+        var title = jsonTournament["title"];
+        var winnerName = jsonTournament["winnerName"];
+        var assignedPlayerNames = jsonTournament["assignedPlayerNames"];
+        var assignedPlayersCount = assignedPlayerNames.length;
         tournamentListView.addItemModel(
                     {
                         "type" : "tournament",
                         "gameMode" : translateGameModeFromHex(gameMode),
                         "tournamentTitle" : title,
                         "winner" : winnerName,
-                        "playersCount" : playersCount
+                        "playersCount" : assignedPlayersCount
                     });
     }
 }

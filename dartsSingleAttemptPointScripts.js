@@ -6,7 +6,7 @@ function initializeComponent()
 
 function connectInterface()
 {
-    dartsSingleAttemptBody.requestControllerValues.connect(applicationInterface.handleTournamentMetaRequest);
+    dartsSingleAttemptBody.requestControllerValues.connect(applicationInterface.assembleDartsTournamentValues);
     dartsSingleAttemptBody.requestSingleAttemptPoints.connect(
                 applicationInterface.handleRequestForDartsSingleAttemptPoints);
     applicationInterface.sendAssembledDartsSingleAttemptPoints.connect(
@@ -31,17 +31,30 @@ function connectInterface()
 
 function handleFTPTournamentMetaData(data){
     var json = JSON.parse(data);
+    dartsSingleAttemptValues.title = json["title"];
+    dartsSingleAttemptValues.winnerName= json["winnerName"];
+    dartsSingleAttemptValues.keyPoint = json["keyPoint"];
+    dartsSingleAttemptValues.attempts = json["attempts"];
+    dartsSingleAttemptValues.assignedPlayerNames = json["assignedPlayerNames"];
 
-    var ftpComponent = Qt.createComponent("FirstToPostMetaData.qml");
-    var tournamentTitle = json["title"];
-    var determinedWinnerName = json["winnerName"];
-    var tournamentGameMode = json["gameMode"];
-    var tournamentKeyPoint = json["keyPoint"];
-    var attempts = json["attempts"];
-    var displayHint = json["displayHint"];
-    var inputHint = json["inputHint"];
-    var assignedPlayers = json["assignedPlayerNames"];
+    initializeScoreBoard();
     requestSingleAttemptPoints();
+}
+
+function initializeScoreBoard()
+{
+
+    var assignedPlayerNames = dartsSingleAttemptValues.assignedPlayerNames;
+    var keyPoint = dartsSingleAttemptValues.keyPoint;
+    /*
+    var count = assignedPlayerNames.length;
+    for(var i = 0;i < count;i++)
+    {
+        var assignedPlayerName = assignedPlayerNames[i];
+        multiPointScoreBoard.setData(assignedPlayerName,keyPoint,0);
+    }
+    */
+    multiPointScoreBoard.appendHeaderData(assignedPlayerNames,keyPoint);
 }
 
 function controllerIsInitializedAndReady()
@@ -60,7 +73,7 @@ function recieveDartsSingleAttemptPoints(scores)
         var playerScore = entity["playerAccumulatedScore"];
         var playerPoint = entity["playerPoint"];
         var keyCode = entity["modKeyCode"];
-        scoreBoardInterface().setData(playerName,playerScore,playerPoint,keyCode);
+        multiPointScoreBoard.setData(playerName,playerScore,playerPoint);
     }
     dartsSingleAttemptBody.requestStatusFromBackend();
 }
@@ -106,16 +119,16 @@ function backendIsReadyAndAwaitsInput(data)
     let currentPlayerUserName = json.currentUserName;
     let throwSuggestion = json.targetRow;
     let suggestion = textSourceContainer.throwSuggestLabel + " " + throwSuggestion;
-    dartsSingleAttemptBody.notificationItemSlot.setThrowSuggestion(suggestion);
-    dartsSingleAttemptBody.multiPointTurnController.updateState(currentRoundIndex,
+    notificationItemSlot.setThrowSuggestion(suggestion);
+    multiPointTurnController.updateState(currentRoundIndex,
                                             currentPlayerUserName,
                                             canUndo,
                                             canRedo);
-    gamePageBody.state = "waitingForInput";
+    dartsSingleAttemptBody.state = "waitingForInput";
 }
 
 function handlePointKeyPadInput(value,keyCode){
-    gamePageBody.state = "waitingForInputConfirmation";
+    dartsSingleAttemptBody.state = "waitingForInputConfirmation";
     var obj = {
         Point : value,
         ModKeyCode : keyCode
@@ -126,18 +139,31 @@ function handlePointKeyPadInput(value,keyCode){
 
 function backendIsStopped()
 {
-    if(gamePageBody.state !== "preRestart")
-        gamePageBody.state = "stopped";
+    if(dartsSingleAttemptBody.state !== "preRestart")
+        dartsSingleAttemptBody.state = "stopped";
 }
 
 function backendIsInitialized()
 {
-    gamePageBody.state = "ready";
+    dartsSingleAttemptBody.state = "ready";
 }
 
 function backendDeclaredAWinner(data)
 {
     var json = JSON.parse(data);
     tournamentMetaData.determinedWinner = json.winner;
-    gamePageBody.state = "winner";
+    dartsSingleAttemptBody.state = "winner";
 }
+
+function undoClicked()
+{
+    dartsSingleAttemptBody.state = "waitingForInputConfirmation";
+    requestUndo();
+}
+
+function redoClicked()
+{
+    dartsSingleAttemptBody.state = "waitingForInputConfirmation";
+    requestRedo();
+}
+

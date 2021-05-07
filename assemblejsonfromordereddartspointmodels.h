@@ -13,11 +13,11 @@
 
 class AssembleJsonFromOrderedDartsPointModels :
         public IBinaryService<const QVector<const IDartsPointInput<QUuid>*>&,
-                              const IPlayerModelsService<IPlayerModel<QUuid,QString>>*,const QByteArray>
+                              const IPlayerModelsService*,const QByteArray>
 {
 public:
     const QByteArray service(const QVector<const IDartsPointInput<QUuid>*>& orderedDartsPoints,
-                             const IPlayerModelsService<IPlayerModel<QUuid,QString>>* playerModelsService) override
+                             const IPlayerModelsService* playerModelsService) override
     {
         QJsonArray arr;
         for (const auto& dartsPoint : orderedDartsPoints) {
@@ -33,7 +33,7 @@ public:
     }
 private:
     QString getPlayerNameFromPlayerId(const QUuid& playerId,
-                                      const IPlayerModelsService<IPlayerModel<QUuid,QString>>* playerModelsService)
+                                      const IPlayerModelsService* playerModelsService)
     {
         auto playerName = playerModelsService->playerNameFromId(playerId);
         return playerName;
