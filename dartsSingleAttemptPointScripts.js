@@ -11,6 +11,7 @@ function connectInterface()
                 applicationInterface.handleRequestForDartsSingleAttemptPoints);
     applicationInterface.sendAssembledDartsSingleAttemptPoints.connect(
                 recieveDartsSingleAttemptPoints);
+    applicationInterface.dartsControllerIsReset.connect(reinitialize);
     applicationInterface.dartsSingleAttemptPointControllerIsReady.connect(controllerIsInitializedAndReady);
     applicationInterface.controllerHasDeclaredAWinner.connect(backendDeclaredAWinner);
     applicationInterface.controllerIsStopped.connect(backendIsStopped);
@@ -24,9 +25,34 @@ function connectInterface()
     applicationInterface.dartsControllerRemovedSingleAttemptPoint.connect(backendRemovedPoint);
     dartsSingleAttemptBody.requestUndo.connect(applicationInterface.handleUndoRequest);
     dartsSingleAttemptBody.requestRedo.connect(applicationInterface.handleRedoRequest);
-
     pointKeyPad.sendInput.connect(handlePointKeyPadInput);
     applicationInterface.controllerAwaitsInput.connect(backendIsReadyAndAwaitsInput);
+    applicationInterface.ftpControllerAddedAndPersistedScore.connect(extractPointScoreFromJson);
+}
+
+function disConnectInterface()
+{
+    dartsSingleAttemptBody.requestControllerValues.disconnect(applicationInterface.assembleDartsTournamentValues);
+    dartsSingleAttemptBody.requestSingleAttemptPoints.disconnect(
+                applicationInterface.handleRequestForDartsSingleAttemptPoints);
+    applicationInterface.sendAssembledDartsSingleAttemptPoints.disconnect(
+                recieveDartsSingleAttemptPoints);
+    applicationInterface.dartsSingleAttemptPointControllerIsReady.disconnect(controllerIsInitializedAndReady);
+    applicationInterface.controllerHasDeclaredAWinner.disconnect(backendDeclaredAWinner);
+    applicationInterface.controllerIsStopped.disconnect(backendIsStopped);
+    applicationInterface.dartsSingleAttemptPointControllerIsInitialized.disconnect(backendIsInitialized);
+    applicationInterface.sendDartsTournamentData.disconnect(handleFTPTournamentMetaData);
+    dartsSingleAttemptBody.requestStart.disconnect(applicationInterface.handleRequestStart);
+    dartsSingleAttemptBody.requestStop.disconnect(applicationInterface.handleRequestStop);
+    dartsSingleAttemptBody.requestRestart.disconnect(applicationInterface.handleRestartTournament);
+    dartsSingleAttemptBody.sendInput.disconnect(applicationInterface.handleSingleAttemptPlayerPointInput);
+    dartsSingleAttemptBody.requestStatusFromBackend.disconnect(applicationInterface.handleControllerStateRequest);
+    applicationInterface.dartsControllerRemovedSingleAttemptPoint.disconnect(backendRemovedPoint);
+    dartsSingleAttemptBody.requestUndo.disconnect(applicationInterface.handleUndoRequest);
+    dartsSingleAttemptBody.requestRedo.disconnect(applicationInterface.handleRedoRequest);
+    pointKeyPad.sendInput.disconnect(handlePointKeyPadInput);
+    applicationInterface.controllerAwaitsInput.disconnect(backendIsReadyAndAwaitsInput);
+    applicationInterface.ftpControllerAddedAndPersistedScore.disconnect(extractPointScoreFromJson);
 }
 
 function handleFTPTournamentMetaData(data){
@@ -84,14 +110,19 @@ function extractPointScoreFromJson(data)
     var json = JSON.parse(data);
     let playerName = json["playerName"];
     let pointValue = json["point"];
-    let keyCode = json["modKeyCode"];
-    multiPointScoreBoard.setData(playerName,pointValue,scoreValue,keyCode);
+    let scoreValue = json["scoreValue"];
+    multiPointScoreBoard.setData(playerName,pointValue,scoreValue);
     requestStatusFromBackend();
 }
 
 function reinitialize()
 {
     // reinitialize controller after reset
+    let m = PointScoreBoard.minimumColumnCount;
+    multiPointScoreBoard.clearData();
+    multiPointScoreBoard.minimumColumnCount = m;
+    initializeScoreBoard();
+    requestStatusFromBackend();
 }
 
 function handleRequestTournamentReset()
@@ -130,8 +161,8 @@ function backendIsReadyAndAwaitsInput(data)
 function handlePointKeyPadInput(value,keyCode){
     dartsSingleAttemptBody.state = "waitingForInputConfirmation";
     var obj = {
-        Point : value,
-        ModKeyCode : keyCode
+        point : value,
+        modKeyCode : keyCode
     };
     var json = JSON.stringify(obj);
     dartsSingleAttemptBody.sendInput(json);

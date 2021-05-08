@@ -34,10 +34,6 @@ public slots:
      * Set initial state
      */
     virtual void beginInitialize() = 0;
-    /*
-     * Handle persist model request
-     */
-    virtual void handleRequestPersistCurrentState() = 0;
 signals:
     void sendCurrentTournamentId(const QUuid &tournament);
     void winnerDetermined(const QUuid &tournament, const QUuid &player);

@@ -3,7 +3,6 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QtQuick/QQuickView>
-
 #include <qqmlcontext.h>
 #include "dartapplication.h"
 #include "dartscontrollerbuilder.h"
@@ -11,7 +10,6 @@
 #include "dartsmultipointdatamodel.h"
 #include "sftpdatamodel.h"
 #include "dartsmultiscoredatamodel.h"
-#include "assembledartstournamentmodelfromjson.h"
 #include "connectdartssingleattemptpointcontroller.h"
 #include "connectdartsscorecontroller.h"
 #include "defaultmodelsservicebuilder.h"

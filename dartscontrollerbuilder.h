@@ -4,7 +4,7 @@
 #include "IControllerBuilder.h"
 #include "abstractdartscontroller.h"
 #include "scoredartscontroller.h"
-#include "pointdartscontroller.h"
+#include "dartspointcontroller.h"
 // Include services
 #include "pointlogisticcontroller.h"
 #include "scorelogisticcontroller.h"

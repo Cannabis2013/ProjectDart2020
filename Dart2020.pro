@@ -29,6 +29,7 @@ SOURCES += \
     dartsmodelsservice.cpp \
     dartsmultipointdatamodel.cpp \
     dartsmultiscoredatamodel.cpp \
+    dartspointcontroller.cpp \
     dartspointdbservice.cpp \
     dartsscorecontroller.cpp \
     dartstournamentjsonextractor.cpp \
@@ -42,7 +43,6 @@ SOURCES += \
     playermodelsjsonextractor.cpp \
     playermodelsservicebuilder.cpp \
     playersjsondb.cpp \
-    pointdartscontroller.cpp \
     pointlogisticcontroller.cpp \
     remotemodelscontext.cpp \
     scoredartscontroller.cpp \
@@ -78,6 +78,7 @@ HEADERS += \
     abstractdartsscorecontroller.h \
     abstractmodelsservice.h \
     abstractmodelsservicebuilder.h \
+    addplayernametopointjson.h \
     assembleJsonFromDartsIndexesAndPoints.h \
     assembledartspointindexesbydartspointmodel.h \
     assembledartspointmodelfromjson.h \
@@ -105,6 +106,7 @@ HEADERS += \
     dartsmodelsservicescollection.h \
     dartsmultipointdatamodel.h \
     dartsmultiscoredatamodel.h \
+    dartspointcontroller.h \
     dartspointdbservice.h \
     dartspointindexes.h \
     dartsscorejsonassemblerservice.h \
@@ -179,7 +181,6 @@ HEADERS += \
     playermodelsservicebuilder.h \
     playersjsondb.h \
     pointScoreCalculator.h \
-    pointdartscontroller.h \
     pointlogisticcontroller.h \
     pointvalidator.h \
     remotemodelscontext.h \

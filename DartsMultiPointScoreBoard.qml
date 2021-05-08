@@ -84,7 +84,7 @@ ScoreBoard {
         id: dartsDataModel
         onDataChanged: ScoreScripts.updateScoreBoard();
         attempts: singleAttemptPointScoreBoard.attempts
-        headerOrientation: singleAttemptPointScoreBoard.headerOrientation
+        headerOrientation: Qt.Vertical
         pointFontPointSize: singleAttemptPointScoreBoard.pointFontSize
         scoreFontPointSize: singleAttemptPointScoreBoard.scoreFontSize
         horizontalFillMode: singleAttemptPointScoreBoard.horizontalHeaderFillMode

@@ -63,7 +63,8 @@ void LocalModelsService::addDartsPoint(const QByteArray &json)
 {
     auto model = _assembleDartsPointModelFromJson->service(json);
     _dartsModelsService->addDartsPoint(model);
-    emit scoreAddedToDataContext(json);
+    auto alteredJson = _addPlayerNameToJsonPointModel->service(json,_playerModelsService);
+    emit scoreAddedToDataContext(alteredJson);
 }
 
 void LocalModelsService::resetTournament(const QUuid &tournament)
@@ -276,6 +277,12 @@ void LocalModelsService::assembleDartsTournamentWinnerIdAndName(const QUuid& tou
     auto winnerName = _playerModelsService->playerNameFromId(winnerId);
     auto json = _assembleJsonFromPlayerIdAndName->service(winnerId,winnerName);
     emit sendDartsTournamentWinnerIdAndName(json);
+}
+
+LocalModelsService *LocalModelsService::setAddPlayerNameToJsonPointModel(IBinaryService<const QByteArray &, const IPlayerModelsService *, QByteArray> *addPlayerNameToJsonPointModel)
+{
+    _addPlayerNameToJsonPointModel = addPlayerNameToJsonPointModel;
+    return this;
 }
 
 LocalModelsService *LocalModelsService::setAssignPlayerIdsToDartsTournament(AssignPlayerIdsService *assignPlayerIdsToDartsTournament)

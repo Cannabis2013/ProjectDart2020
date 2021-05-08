@@ -24,13 +24,15 @@ public:
         auto currentPlayerStringId = jsonObject.value("playerId").toString();
         auto playerId = QUuid::fromString(currentPlayerStringId);
         auto roundIndex = jsonObject.value("roundIndex").toInt();
+        auto modKeyCode = jsonObject.value("modKeyCode").toInt();
         auto setIndex = jsonObject.value("setIndex").toInt();
-        auto score = jsonObject.value("pointValue").toInt();
+        auto score = jsonObject.value("scoreValue").toInt();
         auto model = DartsPointInput::createInstance()
                 ->setId(QUuid::createUuid())
                 ->setTournamentId(tournamentId)
                 ->setPlayer(playerId)
                 ->setRoundIndex(roundIndex)
+                ->setModKeyCode(modKeyCode)
                 ->setSetIndex(setIndex)
                 ->setPointValue(score)
                 ->setDisplayHint(DisplayHint);

@@ -26,7 +26,8 @@ AbstractModelsService *DefaultModelsServiceBuilder::buildLocalModelsServiceWithJ
             ->setAssembleDartsPointModelFromJson(new AssembleDartsPointModelFromJson)
             ->setAssemblePlayerModelFromJson(new AssemblePlayerModelFromJson)
             ->setAssignPlayerIdsToDartsTournament(new AssignPlayerIdsToDartsTournamentModel)
-            ->setAssembleJsonFromDartsTournamentModel(new AssembleJsonFromDartsTournament);
+            ->setAssembleJsonFromDartsTournamentModel(new AssembleJsonFromDartsTournament)
+            ->setAddPlayerNameToJsonPointModel(new AddPlayerNameToJsonPointModel);
     return modelsContext;
 }
 

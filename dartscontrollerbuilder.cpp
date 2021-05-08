@@ -56,7 +56,7 @@ AbstractDartsPointController *DartsControllerBuilder::assembleDartsPointControll
                                                                                  const int &terminalKeyCode,
                                                                                  const int &attempts)
 {
-    AbstractDartsPointController* controller = PointDartsController::createInstance(tournament)
+    AbstractDartsPointController* controller = DartsPointController::createInstance(tournament)
             ->setLogisticInterface(PointLogisticController::createInstance(attempts,
                                                                            terminalKeyCode))
             ->setScoreCalculator(PointScoreCalculator::createInstance())

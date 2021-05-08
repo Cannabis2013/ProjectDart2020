@@ -78,11 +78,6 @@ void ScoreDartsController::handleScoreAddedToDataContext(const QByteArray &json)
     emit scoreAddedSuccess(newJson);
 }
 
-void ScoreDartsController::handleRequestPersistCurrentState()
-{
-    emit requestPersistModelState();
-}
-
 ScoreCalculatorInterface *ScoreDartsController::scoreCalculator() const
 {
     return _scoreCalculatorService;

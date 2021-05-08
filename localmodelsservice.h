@@ -60,6 +60,10 @@ public:
     LocalModelsService* setAssemblePlayerModelFromJson(AssemblePlayerModelService *assemblePlayerModelFromJson);
     LocalModelsService* setAssignPlayerIdsToDartsTournament(AssignPlayerIdsService *assignPlayerIdsToDartsTournament);
 
+    LocalModelsService* setAddPlayerNameToJsonPointModel(IBinaryService<const QByteArray &,
+                                                                        const IPlayerModelsService *,
+                                                                        QByteArray> *addPlayerNameToJsonPointModel);
+
 public slots:
     /*
      * General tournaments methods
@@ -143,6 +147,9 @@ private:
     AssembleDartsPointService* _assembleDartsPointModelFromJson;
     AssemblePlayerModelService* _assemblePlayerModelFromJson;
     AssignPlayerIdsService* _assignPlayerIdsToDartsTournament;
+    IBinaryService<const QByteArray&,
+                   const IPlayerModelsService*,
+                   QByteArray>* _addPlayerNameToJsonPointModel;
     // Model services
     IDartsModelsService* _dartsModelsService;
     IPlayerModelsService* _playerModelsService;

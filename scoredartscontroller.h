@@ -131,10 +131,6 @@ public slots:
      *  - Set controller back to its original state
      */
     void handleResetTournament() override;
-    /*
-     * Handle persist controller state
-     */
-    void handleRequestPersistCurrentState() override;
     // Get current status
     int currentStatus() const;
     /*

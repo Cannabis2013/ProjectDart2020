@@ -40,12 +40,7 @@ bool DartsMultiPointDataModel::insertData(const QString &playerName,
                               const int &point,
                               const int &score)
 {
-    if(appendMode() == AppendDataMode::SingleAppend)
-        return setPlayerData(playerName,point,score,headerOrientation());
-    else
-        return appendPlayerData(playerName,point,score,headerOrientation());
-
-    return false;
+    return appendPlayerData(playerName,point,score,headerOrientation());
 }
 
 bool DartsMultiPointDataModel::setPlayerData(const QString &playerName,
@@ -85,9 +80,9 @@ bool DartsMultiPointDataModel::setPlayerData(const QString &playerName,
 }
 
 bool DartsMultiPointDataModel::appendPlayerData(const QString &playerName,
-                                const int &point,
-                                const int &score,
-                                const int &headerOrientation)
+                                                const int &point,
+                                                const int &score,
+                                                const int &headerOrientation)
 {
     auto orientation = headerOrientation != -1 ? headerOrientation : this->headerOrientation();
     auto index = indexOfHeaderItem(playerName,orientation);
@@ -180,10 +175,8 @@ void DartsMultiPointDataModel::clearData()
     auto bottomRight = createIndex(rowCount() - 1,columnCount() - 1);
     _columns = 0;
     _rows = 0;
-
     _horizontalHeaderData.clear();
     _verticalHeaderData.clear();
-
     emit dataChanged(createIndex(0,0),bottomRight);
 }
 

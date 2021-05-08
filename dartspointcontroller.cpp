@@ -1,6 +1,6 @@
-#include "pointdartscontroller.h"
+#include "dartspointcontroller.h"
 
-void PointDartsController ::start()
+void DartsPointController ::start()
 {
     if(_currentStatus != ControllerState::Initialized &&
             _currentStatus != ControllerState::Stopped)
@@ -12,23 +12,22 @@ void PointDartsController ::start()
     sendCurrentTurnValues();
 }
 
-void PointDartsController::stop()
+void DartsPointController::stop()
 {
     setCurrentStatus(ControllerState::Stopped);
     emit controllerIsStopped();
 }
 
-void PointDartsController::handleAndProcessUserInput(const QByteArray& json)
+void DartsPointController::handleAndProcessUserInput(const QByteArray& json)
 {
     auto jsonObject = QJsonDocument::fromJson(json).object();
-    auto point = jsonObject.value("Point").toInt();
-    auto modKeyCode = jsonObject.value("ModKeyCode").toInt();
+    auto point = jsonObject.value("point").toInt();
+    auto modKeyCode = jsonObject.value("modKeyCode").toInt();
     // Check for status
     if(isBusy()) return;
     // Calculate score
     auto score = scoreCalculator()->calculateScoreFromDartsPoint(point,modKeyCode);
     auto setIndex = indexController()->setIndex();
-    auto currentScore = scoreController()->userScore(setIndex);;
     auto accumulatedScore = scoreController()->calculateAccumulatedScoreCandidate(setIndex,score);
     // Evaluate input according to point domain and aggregated sum domain
     auto domain = scoreEvaluator()->validateInput(accumulatedScore,modKeyCode,point);
@@ -36,16 +35,16 @@ void PointDartsController::handleAndProcessUserInput(const QByteArray& json)
      * - Check domain value
      * - Add or nullify point
      */
-    processDomain(domain,score,point,modKeyCode,currentScore,accumulatedScore);
+    processDomain(domain,score,point,modKeyCode);
 }
 
-void PointDartsController::handleRequestForCurrentTournamentMetaData()
+void DartsPointController::handleRequestForCurrentTournamentMetaData()
 {
     auto tournament = this->tournament();
     emit sendCurrentTournamentId(tournament);
 }
 
-void PointDartsController::assembleSingleAttemptDartsPoints()
+void DartsPointController::assembleSingleAttemptDartsPoints()
 {
     auto count = scoreController()->playersCount();
     QJsonObject jsonObject;
@@ -64,43 +63,39 @@ void PointDartsController::assembleSingleAttemptDartsPoints()
     emit sendSingleAttemptDartsPoints(jsonString);
 }
 
-void PointDartsController::handleRequestDartsPoints()
+void DartsPointController::handleRequestDartsPoints()
 {
     auto tournamentId = tournament();
     emit requestDartsPoints(tournamentId);
 }
 
-void PointDartsController::handlePointAddedToDataContext(const QByteArray &json)
+void DartsPointController::handlePointAddedToDataContext(const QByteArray &json)
 {
-    auto obj = QJsonDocument::fromJson(json).object();
-    auto score = obj.value("scoreValue").toInt();
-    auto currentPlayerStringId = obj.value("playerId").toString();
+    auto jsonObject = QJsonDocument::fromJson(json).object();
+    auto score = jsonObject.value("scoreValue").toInt();
+    auto currentPlayerStringId = jsonObject.value("playerId").toString();
     auto currentPlayerId = QUuid::fromString(currentPlayerStringId);
     // Subtract score value from current user score
     scoreController()->subtractPlayerScore(currentPlayerId,score);
     // Sync totalturns with the current turn index
     indexController()->syncIndex();
-    auto newJson = QJsonDocument(obj).toJson(QJsonDocument::Compact);
+    jsonObject["scoreValue"] = scoreController()->userScore(currentPlayerId);
+    auto newJson = QJsonDocument(jsonObject).toJson(QJsonDocument::Compact);
     emit pointAddedAndPersisted(newJson);
 }
 
-void PointDartsController::handleRequestPersistCurrentState()
-{
-    emit requestPersistModelState();
-}
-
-ScoreCalculatorInterface *PointDartsController::scoreCalculator() const
+ScoreCalculatorInterface *DartsPointController::scoreCalculator() const
 {
     return _scoreCalculatorService;
 }
 
-PointDartsController *PointDartsController::setScoreCalculator(ScoreCalculatorInterface *service)
+DartsPointController *DartsPointController::setScoreCalculator(ScoreCalculatorInterface *service)
 {
     _scoreCalculatorService = service;
     return this;
 }
 
-void PointDartsController::handleResetTournament()
+void DartsPointController::handleResetTournament()
 {
     _currentStatus = ControllerState::resetState;
     _indexController->reset();
@@ -109,7 +104,7 @@ void PointDartsController::handleResetTournament()
     emit requestResetTournament(tournamentId);
 }
 
-void PointDartsController::sendCurrentTurnValues()
+void DartsPointController::sendCurrentTurnValues()
 {
     auto canUndo = indexController()->canUndo();
     auto canRedo = indexController()->canRedo();
@@ -132,31 +127,31 @@ void PointDartsController::sendCurrentTurnValues()
     emit isReadyAndAwaitsInput(data);
 }
 
-QString PointDartsController::currentActiveUser()
+QString DartsPointController::currentActiveUser()
 {
     auto index = indexController()->setIndex();
     auto playerName = scoreController()->userNameAtIndex(index);
     return playerName;
 }
 
-QUuid PointDartsController::currentActivePlayerId()
+QUuid DartsPointController::currentActivePlayerId()
 {
     auto index = indexController()->setIndex();
     auto playerID = scoreController()->userIdAtIndex(index);
     return playerID;
 }
 
-QUuid PointDartsController::tournament()
+QUuid DartsPointController::tournament()
 {
     return _tournament;
 }
 
-int PointDartsController::status()
+int DartsPointController::status()
 {
     return _currentStatus;
 }
 
-int PointDartsController::lastPlayerIndex()
+int DartsPointController::lastPlayerIndex()
 {
     auto playerCount = scoreController()->playersCount();
     auto lastIndex = playerCount - 1;
@@ -164,7 +159,7 @@ int PointDartsController::lastPlayerIndex()
 }
 
 
-QUuid PointDartsController::undoTurn()
+QUuid DartsPointController::undoTurn()
 {
     if(status() == ControllerState::WinnerDeclared)
         return QUuid();
@@ -180,7 +175,7 @@ QUuid PointDartsController::undoTurn()
     return playerId;
 }
 
-QUuid PointDartsController::redoTurn()
+QUuid DartsPointController::redoTurn()
 {
     setCurrentStatus(ControllerState::RedoState);
     auto activeUser = currentActivePlayerId();
@@ -196,9 +191,8 @@ QUuid PointDartsController::redoTurn()
     return playerId;
 }
 
-void PointDartsController::addPoint(const int& point,
+void DartsPointController::addPoint(const int& point,
                                   const int& score,
-                                  const int& accumulatedScore,
                                   const int& keyCode)
 {
     // Set controller state, unless winner declared
@@ -214,13 +208,12 @@ void PointDartsController::addPoint(const int& point,
     obj["playerId"] = currentPlayerId;
     obj["point"] = point;
     obj["scoreValue"] = score;
-    obj["accumulatedScoreValue"] = accumulatedScore;
     obj["modKeyCode"] = keyCode;
     auto json = QJsonDocument(obj).toJson();
     emit requestAddDartsPoint (json);
 }
 
-void PointDartsController::handleRequestFromUI()
+void DartsPointController::handleRequestFromUI()
 {
     if(status() == ControllerState::Initialized)
     {
@@ -260,14 +253,14 @@ void PointDartsController::handleRequestFromUI()
     }
 }
 
-void PointDartsController::nextTurn()
+void DartsPointController::nextTurn()
 {
     indexController()->next();
     setCurrentStatus(ControllerState::AwaitsInput);
     sendCurrentTurnValues();
 }
 
-void PointDartsController::declareWinner()
+void DartsPointController::declareWinner()
 {
     auto index = indexController()->setIndex();
     auto currentPlayerId = scoreController()->userIdAtIndex(index);
@@ -275,27 +268,26 @@ void PointDartsController::declareWinner()
     setCurrentStatus(ControllerState::WinnerDeclared);
 }
 
-int PointDartsController::currentStatus() const
+int DartsPointController::currentStatus() const
 {
     return _currentStatus;
 }
 
-void PointDartsController::initializeControllerIndexes(const QByteArray& json)
+void DartsPointController::initializeControllerIndexes(const QByteArray& json)
 {
     auto jsonObject = QJsonDocument::fromJson(json).object();
-    auto jsonIndexObject = jsonObject["indexes"].toObject();
-    auto totalTurns = jsonIndexObject["totalTurns"].toInt();
-    auto turns = jsonIndexObject["turns"].toInt();
-    auto roundIndex = jsonIndexObject["roundIndex"].toInt();
-    auto setIndex = jsonIndexObject["setIndex"].toInt();
-    auto attemptIndex = jsonIndexObject["attemptIndex"].toInt();
+    auto totalTurns = jsonObject.value("totalTurns").toInt();
+    auto turns = jsonObject.value("turns").toInt();
+    auto roundIndex = jsonObject.value("roundIndex").toInt();
+    auto setIndex = jsonObject.value("setIndex").toInt();
+    auto attemptIndex = jsonObject.value("attemptIndex").toInt();
     indexController()->setIndexes(totalTurns,turns,
                                   roundIndex,setIndex,
                                   attemptIndex);
     emit requestTournamentAssignedPlayerDetails(tournament());
 }
 
-bool PointDartsController::isBusy()
+bool DartsPointController::isBusy()
 {
     if(status() == Stopped ||
             status() == WinnerDeclared)
@@ -310,91 +302,89 @@ bool PointDartsController::isBusy()
     return false;
 }
 
-void PointDartsController::processDomain(const int& domain,
+void DartsPointController::processDomain(const int& domain,
                                        const int& score,
                                        const int& point,
-                                       const int& modKeyCode,
-                                       const int& currentScore,
-                                       const int& accumulatedScore)
+                                       const int& modKeyCode)
 {
     switch (domain)
     {
         // In case user enters scores above 180
         case OutOfRange : sendCurrentTurnValues();break;
-        case PointDomain : addPoint(point,score,accumulatedScore,modKeyCode);break;
-        case CriticalDomain : addPoint(point,score,accumulatedScore,modKeyCode);break;
+        case PointDomain : addPoint(point,score,modKeyCode);break;
+        case CriticalDomain : addPoint(point,score,modKeyCode);break;
         case TargetDomain : {
             declareWinner();
-            addPoint(point,score,accumulatedScore,modKeyCode);
+            addPoint(point,score,modKeyCode);
             break;
         }
-        case OutsideDomain : addPoint(0,0,currentScore,modKeyCode);break;
+        case OutsideDomain : addPoint(0,0,modKeyCode);break;
     }
 }
 
-ScoreController *PointDartsController::scoreController() const
+ScoreController *DartsPointController::scoreController() const
 {
     return _scoreController;
 }
 
-PointDartsController* PointDartsController::setScoreController(ScoreController* scoreController)
+DartsPointController* DartsPointController::setScoreController(ScoreController* scoreController)
 {
     _scoreController = scoreController;
     return this;
 }
 
 
-IndexControllerInterface *PointDartsController::indexController() const
+IndexControllerInterface *DartsPointController::indexController() const
 {
     return _indexController;
 }
 
-PointDartsController* PointDartsController::setIndexController(IndexControllerInterface *indexController)
+DartsPointController* DartsPointController::setIndexController(IndexControllerInterface *indexController)
 {
     _indexController = indexController;
     return this;
 }
 
-IPointValidator *PointDartsController::scoreEvaluator() const
+IPointValidator *DartsPointController::scoreEvaluator() const
 {
     return _scoreEvaluator;
 }
 
-PointDartsController *PointDartsController::setInputValidator(IPointValidator *scoreEvaluator)
+DartsPointController *DartsPointController::setInputValidator(IPointValidator *scoreEvaluator)
 {
     _scoreEvaluator = scoreEvaluator;
     return this;
 }
 
-void PointDartsController::setCurrentStatus(int currentStatus)
+void DartsPointController::setCurrentStatus(int currentStatus)
 {
     _currentStatus = currentStatus;
 }
 
-PointDartsController *PointDartsController::createInstance(const QUuid &tournament)
+DartsPointController *DartsPointController::createInstance(const QUuid &tournament)
 {
-    return new PointDartsController(tournament);
+    return new DartsPointController(tournament);
 }
 
-FTPLogisticControllerInterface<QString> *PointDartsController::pointLogisticInterface() const
+FTPLogisticControllerInterface<QString> *DartsPointController::pointLogisticInterface() const
 {
     return _pointLogisticInterface;
 }
 
-PointDartsController *PointDartsController::setLogisticInterface(FTPLogisticControllerInterface<QString> *pointLogisticInterface)
+DartsPointController *DartsPointController::setLogisticInterface(FTPLogisticControllerInterface<QString> *pointLogisticInterface)
 {
     _pointLogisticInterface = pointLogisticInterface;
     return this;
 }
 
-void PointDartsController::beginInitialize()
+void DartsPointController::beginInitialize()
 {
     auto tournamentId = tournament();
     emit requestDartsTournamentIndexes(tournamentId);
 }
 
 
-void PointDartsController::undoSuccess(const QByteArray& json)
+void DartsPointController::undoSuccess(const QByteArray& json)
 {
     auto jsonObject = QJsonDocument::fromJson(json).object();
     auto modKeyCode = jsonObject.value("modKeyCode").toInt();
@@ -413,7 +403,7 @@ void PointDartsController::undoSuccess(const QByteArray& json)
     emit pointRemoved(data);
 }
 
-void PointDartsController::redoSuccess(const QByteArray& json)
+void DartsPointController::redoSuccess(const QByteArray& json)
 {
     auto jsonObject = QJsonDocument::fromJson(json).object();
     auto keyCode = jsonObject.value("modKeyCode").toInt();
@@ -434,7 +424,7 @@ void PointDartsController::redoSuccess(const QByteArray& json)
 }
 
 
-void PointDartsController::initializeControllerPlayerDetails(const QByteArray& json)
+void DartsPointController::initializeControllerPlayerDetails(const QByteArray& json)
 {
     auto document = QJsonDocument::fromJson(json);
     auto playerData = document.array();
@@ -449,7 +439,7 @@ void PointDartsController::initializeControllerPlayerDetails(const QByteArray& j
     emit requestTournamentDartsPoints(tournament());
 }
 
-void PointDartsController::initializeControllerDartsPoints(const QByteArray& json)
+void DartsPointController::initializeControllerDartsPoints(const QByteArray& json)
 {
     auto document = QJsonDocument::fromJson(json);
     auto scoreData = document.array();
@@ -465,7 +455,7 @@ void PointDartsController::initializeControllerDartsPoints(const QByteArray& jso
     emit requestTournamentWinnerIdAndName(tournament());
 }
 
-void PointDartsController::initializeControllerWinnerIdAndName(const QByteArray& json)
+void DartsPointController::initializeControllerWinnerIdAndName(const QByteArray& json)
 {
     auto document = QJsonDocument::fromJson(json);
     auto jsonObject = document.object();

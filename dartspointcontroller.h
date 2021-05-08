@@ -28,7 +28,7 @@ typedef IScoreController<QUuid, QString,QVector<int>,QVector<QString>> ScoreCont
 
 using namespace std;
 
-class PointDartsController : public AbstractDartsPointController
+class DartsPointController : public AbstractDartsPointController
 {
     Q_OBJECT
 public:
@@ -63,36 +63,36 @@ public:
         IsProcessingUserInput = 0x46
     };
     // Create instance of LocalFTPController
-    static PointDartsController* createInstance(const QUuid &tournament);
+    static DartsPointController* createInstance(const QUuid &tournament);
     /*
      * Get/set score calculator service
      */
     ScoreCalculatorInterface* scoreCalculator() const;
-    PointDartsController *setScoreCalculator(ScoreCalculatorInterface *service);
+    DartsPointController *setScoreCalculator(ScoreCalculatorInterface *service);
     /*
      * Get/set evaluator service
      */
     IPointValidator *scoreEvaluator() const;
-    PointDartsController *setInputValidator(IPointValidator
+    DartsPointController *setInputValidator(IPointValidator
                                           *scoreEvaluator);
 
     IndexControllerInterface *indexController() const;
-    PointDartsController *setIndexController(IndexControllerInterface *indexController);
+    DartsPointController *setIndexController(IndexControllerInterface *indexController);
 
     ScoreController* scoreController() const;
-    PointDartsController *setScoreController(ScoreController *scoreController);
+    DartsPointController *setScoreController(ScoreController *scoreController);
     /*
      * Point suggestion section
      */
     FTPLogisticControllerInterface<QString> *pointLogisticInterface() const;
-    PointDartsController *setLogisticInterface(FTPLogisticControllerInterface<QString> *pointLogisticInterface);
+    DartsPointController *setLogisticInterface(FTPLogisticControllerInterface<QString> *pointLogisticInterface);
 public slots:
     /*
-     * Handle wake up request
-     *  - Set status to 'InitializedAndReady'
-     *  - Transmit 'ready' response
+     * Recieve darts index values, score values,
+     *  and player values from modelscontext
      */
     void beginInitialize() override;
+    virtual void initializeControllerIndexes(const QByteArray& json) override;
     void initializeControllerPlayerDetails(const QByteArray &json) override;
     void initializeControllerDartsPoints(const QByteArray &json) override;
     void initializeControllerWinnerIdAndName(const QByteArray &json) override;
@@ -136,16 +136,8 @@ public slots:
      *  - Set controller back to its original state
      */
     void handleResetTournament() override;
-    /*
-     * Handle persist controller state
-     */
-    void handleRequestPersistCurrentState() override;
     // Get current status
     int currentStatus() const;
-    /*
-     * Recieve ftp index values, score values, and player values from modelscontext
-     */
-    virtual void initializeControllerIndexes(const QByteArray& json) override;
     /*
      * Undo/redo success
      */
@@ -156,7 +148,7 @@ private:
     /*
      * Private constructor
      */
-    PointDartsController(const QUuid &tournament)
+    DartsPointController(const QUuid &tournament)
     {
         _tournament = tournament;
     }
@@ -166,8 +158,7 @@ private:
     bool isBusy();
     void processDomain(const int& domain, const int &score,
                        const int& point,
-                       const int& modKeyCode, const int &currentScore,
-                       const int& accumulatedScore);
+                       const int& modKeyCode);
     /*
      * Notify UI about controller state, current round index, undo/redo possibility and current user
      */
@@ -183,7 +174,6 @@ private:
      */
     void addPoint(const int &point,
                   const int &score,
-                  const int &accumulatedScore,
                   const int &keyCode);
     /*
      * Index manipulating methods

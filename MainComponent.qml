@@ -80,10 +80,10 @@ Item {
     Component
     {
         id: dartsMultiPointComponent
-
         Page{
             pageTitle : "Darts single attempt"
-            pageContent: DartsMultiPointContent{}
+            pageContent: DartsSingleAttemptContent{}
+            onBackButtonPressed: pageLoader.sourceComponent = tournamentPageComponent
             Component.onCompleted: body.backPushed.connect(backButtonPressed)
         }
     }

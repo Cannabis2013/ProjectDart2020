@@ -84,7 +84,7 @@
         <file>ScoreRectDelegate.qml</file>
         <file>MultiScoreDelegate.qml</file>
         <file>dartssingleattemptscoreboardscripts.js</file>
-        <file>DartsMultiPointContent.qml</file>
+        <file>DartsSingleAttemptContent.qml</file>
         <file>dartsSingleAttemptPointScripts.js</file>
     </qresource>
     <qresource prefix="/pictures">
