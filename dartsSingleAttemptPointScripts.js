@@ -27,7 +27,7 @@ function connectInterface()
     dartsSingleAttemptBody.requestRedo.connect(applicationInterface.handleRedoRequest);
     pointKeyPad.sendInput.connect(handlePointKeyPadInput);
     applicationInterface.controllerAwaitsInput.connect(backendIsReadyAndAwaitsInput);
-    applicationInterface.ftpControllerAddedAndPersistedScore.connect(extractPointScoreFromJson);
+    applicationInterface.dartsControllerAddedAndPersistedScore.connect(extractPointScoreFromJson);
 }
 
 function disConnectInterface()
@@ -52,7 +52,7 @@ function disConnectInterface()
     dartsSingleAttemptBody.requestRedo.disconnect(applicationInterface.handleRedoRequest);
     pointKeyPad.sendInput.disconnect(handlePointKeyPadInput);
     applicationInterface.controllerAwaitsInput.disconnect(backendIsReadyAndAwaitsInput);
-    applicationInterface.ftpControllerAddedAndPersistedScore.disconnect(extractPointScoreFromJson);
+    applicationInterface.dartsControllerAddedAndPersistedScore.disconnect(extractPointScoreFromJson);
 }
 
 function handleFTPTournamentMetaData(data){
@@ -110,7 +110,7 @@ function extractPointScoreFromJson(data)
     var json = JSON.parse(data);
     let playerName = json["playerName"];
     let pointValue = json["point"];
-    let scoreValue = json["scoreValue"];
+    let scoreValue = json["score"];
     multiPointScoreBoard.setData(playerName,pointValue,scoreValue);
     requestStatusFromBackend();
 }

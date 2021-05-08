@@ -336,12 +336,12 @@ void ScoreDartsController::processDomain(const int &domain,
     }
 }
 
-ScoreController *ScoreDartsController::scoreController() const
+IScoreController *ScoreDartsController::scoreController() const
 {
     return _scoreController;
 }
 
-ScoreDartsController* ScoreDartsController::setScoreController(ScoreController* scoreController)
+ScoreDartsController* ScoreDartsController::setScoreController(IScoreController *scoreController)
 {
     _scoreController = scoreController;
     return this;

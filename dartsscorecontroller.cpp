@@ -119,7 +119,7 @@ QUuid DartsScoreController::winnerId() const
     return _winner;
 }
 
-ScoreControllerInterface *DartsScoreController::setWinner(const QUuid &id)
+IScoreController *DartsScoreController::setWinner(const QUuid &id)
 {
     _winner = id;
     return this;

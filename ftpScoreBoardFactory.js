@@ -5,7 +5,7 @@ function buildFtpScoreBoard(displayHint, inputHint, attempts)
     {
         // Build singledimensional scoreboard
         let c = Qt.createComponent("FtpSingleScoreBoard.qml");
-        applicationInterface.ftpControllerAddedAndPersistedScore.connect(FirstToPostScripts.extractScoreFromJson);
+        applicationInterface.dartsControllerAddedAndPersistedScore.connect(FirstToPostScripts.extractScoreFromJson);
         return c;
     }
     else if(displayHint === DataModelContext.multiAttempt)
@@ -21,7 +21,7 @@ function buildMultiDimensionalScoreBoard(inputHint, attempts)
     if(inputHint === TournamentContext.pointMode)
     {
         let c = Qt.createComponent("FtpMultiPointScoreBoard.qml");
-        applicationInterface.ftpControllerAddedAndPersistedScore.connect(FirstToPostScripts.extractPointScoreFromJson);
+        applicationInterface.dartsControllerAddedAndPersistedScore.connect(FirstToPostScripts.extractPointScoreFromJson);
         c.attempts = attempts;
         return c;
     }

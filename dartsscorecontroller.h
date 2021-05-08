@@ -32,11 +32,7 @@ struct Tuple
 };
 
 
-typedef IScoreController<QUuid,
-                         QString,
-                         QVector<int>,
-                         QVector<QString>> ScoreControllerInterface;
-class DartsScoreController : public ScoreControllerInterface
+class DartsScoreController : public IScoreController
 {
 public:
     // Tuple : {UserId, UserName, UserScore}
@@ -61,7 +57,7 @@ public:
     QUuid userIdAtIndex(const int &index) const override;
     int playersCount() const override;
     QUuid winnerId() const override;
-    ScoreControllerInterface *setWinner(const QUuid &id) override;
+    IScoreController *setWinner(const QUuid &id) override;
     QString winnerUserName() const override;
     int initialScore() const override;
     int calculateAccumulatedScoreCandidate(const int& index,

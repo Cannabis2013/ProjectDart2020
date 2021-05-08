@@ -32,6 +32,7 @@ SOURCES += \
     dartspointcontroller.cpp \
     dartspointdbservice.cpp \
     dartsscorecontroller.cpp \
+    dartssingleattemptpointjsonservice.cpp \
     dartstournamentjsonextractor.cpp \
     defaultmodelsservicebuilder.cpp \
     iurlparser.cpp \
@@ -73,6 +74,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     AssembleDartsTournamentsFromJsonArray.h \
+    IDartsSingleAttemptPointJsonService.h \
     abstractdartscontrollerbuilder.h \
     abstractdartspointcontroller.h \
     abstractdartsscorecontroller.h \
@@ -111,6 +113,7 @@ HEADERS += \
     dartspointindexes.h \
     dartsscorejsonassemblerservice.h \
     dartsscoresjsonassemblerservice.h \
+    dartssingleattemptpointjsonservice.h \
     defaultmodelsservicebuilder.h \
     getdeleteplayerindexfromjson.h \
     getordereddartspointmodels.h \

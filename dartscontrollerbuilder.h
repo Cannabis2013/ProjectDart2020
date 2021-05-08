@@ -22,6 +22,7 @@
 #include "abstractdartsscorecontroller.h"
 #include "abstractdartspointcontroller.h"
 #include "iternaryservice.h"
+#include "dartssingleattemptpointjsonservice.h"
 
 class DartsControllerBuilder : public AbstractDartsControllerBuilder
 {

@@ -26,7 +26,6 @@ public:
         auto roundIndex = jsonObject.value("roundIndex").toInt();
         auto modKeyCode = jsonObject.value("modKeyCode").toInt();
         auto setIndex = jsonObject.value("setIndex").toInt();
-        auto score = jsonObject.value("scoreValue").toInt();
         auto model = DartsPointInput::createInstance()
                 ->setId(QUuid::createUuid())
                 ->setTournamentId(tournamentId)
@@ -34,7 +33,6 @@ public:
                 ->setRoundIndex(roundIndex)
                 ->setModKeyCode(modKeyCode)
                 ->setSetIndex(setIndex)
-                ->setPointValue(score)
                 ->setDisplayHint(DisplayHint);
         return model;
     }

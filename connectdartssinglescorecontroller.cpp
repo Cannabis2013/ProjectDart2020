@@ -75,7 +75,7 @@ void ConnectDartsSingleScoreController::service(AbstractDartsScoreController *co
     QObject::connect(modelsService,&AbstractModelsService::scoreAddedToDataContext,
             controller,&AbstractDartsScoreController::handleScoreAddedToDataContext);
     QObject::connect(controller,&AbstractDartsScoreController::scoreAddedSuccess,
-            application,&AbstractApplicationInterface::ftpControllerAddedAndPersistedScore);
+            application,&AbstractApplicationInterface::dartsControllerAddedAndPersistedScore);
     QObject::connect(application,&AbstractApplicationInterface::requestControllerState,
             controller,&AbstractGameController::handleRequestFromUI);
     /*

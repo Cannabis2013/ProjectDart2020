@@ -75,8 +75,8 @@ function connectFtpInterface()
 function disconnectFtpInterface()
 {
     applicationInterface.dartsControllerRemovedSingleAttemptPoint.disconnect(backendRemovedPoint);
-    applicationInterface.ftpControllerAddedAndPersistedScore.disconnect(extractPointScoreFromJson);
-    applicationInterface.ftpControllerAddedAndPersistedScore.disconnect(extractScoreFromJson);
+    applicationInterface.dartsControllerAddedAndPersistedScore.disconnect(extractPointScoreFromJson);
+    applicationInterface.dartsControllerAddedAndPersistedScore.disconnect(extractScoreFromJson);
     applicationInterface.ftpControllerIsReset.disconnect(reinitialize);
     keyPadInterface().sendInput.disconnect(handlePointKeyPadInput);
     gamePageBody.requestUndo.disconnect(applicationInterface.requestUndo);

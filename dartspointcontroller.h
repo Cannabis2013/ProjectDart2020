@@ -3,28 +3,19 @@
 
 // Proprietary QT classes
 #include <quuid.h>
-#include <qvariant.h>
-#include <qjsonobject.h>
-#include <qjsonarray.h>
-#include <QJsonDocument>
 // Custom classes
-#include "abstractgamecontroller.h"
+#include "abstractdartspointcontroller.h"
 #include "ftplogisticcontrollerinterface.h"
 #include "scoreCalculatorInterface.h"
 #include "ipointvalidator.h"
 #include "indexcontrollerinterface.h"
 #include "iscorecontroller.h"
-
+// Json services
+#include "IDartsSingleAttemptPointJsonService.h"
 #define GAME_IS_NOT_IN_PROGRESS "Game is not in progress"
 #define GAME_WINNER_ANNOUNCEMENT(x) QString("Winner with ID: %! is declared winner").arg(x);
 #define INVALID_DOMAIN "Input is not within domain";
 #define UNABLE_TO_ALTER_TURN "Unable to alter turn index";
-
-#include <iostream>
-#include "abstractdartspointcontroller.h"
-
-
-typedef IScoreController<QUuid, QString,QVector<int>,QVector<QString>> ScoreController;
 
 using namespace std;
 
@@ -64,28 +55,18 @@ public:
     };
     // Create instance of LocalFTPController
     static DartsPointController* createInstance(const QUuid &tournament);
-    /*
-     * Get/set score calculator service
-     */
-    ScoreCalculatorInterface* scoreCalculator() const;
-    DartsPointController *setScoreCalculator(ScoreCalculatorInterface *service);
-    /*
-     * Get/set evaluator service
-     */
-    IPointValidator *scoreEvaluator() const;
-    DartsPointController *setInputValidator(IPointValidator
-                                          *scoreEvaluator);
-
-    IndexControllerInterface *indexController() const;
+    // Set service methods
+    DartsPointController *setScoreCalculator(ScoreCalculatorInterface* scoreCalculator);
+    DartsPointController *setInputValidator(IPointValidator* scoreEvaluator);
     DartsPointController *setIndexController(IndexControllerInterface *indexController);
-
-    ScoreController* scoreController() const;
-    DartsPointController *setScoreController(ScoreController *scoreController);
+    DartsPointController *setScoreController(IScoreController *scoreController);
     /*
      * Point suggestion section
      */
     FTPLogisticControllerInterface<QString> *pointLogisticInterface() const;
-    DartsPointController *setLogisticInterface(FTPLogisticControllerInterface<QString> *pointLogisticInterface);
+    DartsPointController* setLogisticInterface(FTPLogisticControllerInterface<QString> *pointLogisticInterface);
+    DartsPointController* setDartsJsonModelsService(IDartsSingleAttemptPointJsonService *dartsJsonModelsService);
+
 public slots:
     /*
      * Recieve darts index values, score values,
@@ -156,7 +137,7 @@ private:
      * Check if controller is busy doing something else
      */
     bool isBusy();
-    void processDomain(const int& domain, const int &score,
+    void processDomain(const int& domain,
                        const int& point,
                        const int& modKeyCode);
     /*
@@ -173,7 +154,6 @@ private:
      * Update datacontext
      */
     void addPoint(const int &point,
-                  const int &score,
                   const int &keyCode);
     /*
      * Index manipulating methods
@@ -184,8 +164,10 @@ private:
     QUuid _tournament = QUuid();
     int _currentStatus = ControllerState::NotInitialized;
     //Services
+    // Json
+    IDartsSingleAttemptPointJsonService* _dartsJsonModelsService;
     // Calculate score
-    ScoreCalculatorInterface* _scoreCalculatorService = nullptr;
+    ScoreCalculatorInterface* _scoreCalculator = nullptr;
     // Generate throwsuggestions
     FTPLogisticControllerInterface<QString> *_pointLogisticInterface = nullptr;
     // Validator service
@@ -193,7 +175,7 @@ private:
     // Index service
     IndexControllerInterface* _indexController = nullptr;
     // Userscore service
-    ScoreController* _scoreController = nullptr;
+    IScoreController* _scoreController = nullptr;
 };
 
 #endif // POINTFTPCONTROLLER_H

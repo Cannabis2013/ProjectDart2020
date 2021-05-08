@@ -23,7 +23,6 @@
 #include "abstractdartsscorecontroller.h"
 
 
-typedef IScoreController<QUuid, QString,QVector<int>,QVector<QString>> ScoreController;
 
 using namespace std;
 
@@ -77,8 +76,8 @@ public:
     IndexControllerInterface *indexController() const;
     ScoreDartsController *setIndexController(IndexControllerInterface *indexController);
 
-    ScoreController* scoreController() const;
-    ScoreDartsController *setScoreController(ScoreController *scoreController);
+    IScoreController* scoreController() const;
+    ScoreDartsController *setScoreController(IScoreController *scoreController);
     /*
      * Point suggestion section
      */
@@ -185,7 +184,7 @@ private:
     // Index service
     IndexControllerInterface* _indexController = nullptr;
     // Userscore service
-    ScoreController* _scoreController = nullptr;
+    IScoreController* _scoreController = nullptr;
 
     // AbstractDartsScoreController interface
 public slots:

@@ -119,7 +119,7 @@ signals:
     void dartsSingleScoreControllerIsInitialized();
     void controllerAwaitsInput(const QByteArray& json);
     void dartsControllerIsReset();
-    void ftpControllerAddedAndPersistedScore(const QByteArray& json);
+    void dartsControllerAddedAndPersistedScore(const QByteArray& json);
     void dartsControllerRemovedSingleAttemptPoint(const QString& json);
     void controllerHasDeclaredAWinner(const QString& json);
     void assembleDartsController(const QByteArray& json,
