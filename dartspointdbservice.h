@@ -7,7 +7,7 @@
 #include <quuid.h>
 #include "iunaryservice.h"
 class DartsPointDbService :
-        public IdartsPointDb<IDartsPointInput>,
+        public IdartsPointDb,
         public AbstractJSONPersistence
 {
 public:

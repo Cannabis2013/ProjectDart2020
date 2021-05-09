@@ -60,7 +60,7 @@ void DartsTournamentJSonDb::fetchModels()
     QJsonObject jsonObject;
     // Extact content from file
     try {
-        jsonObject = readJSONFromFile(_fileName);
+        jsonObject = readJsonObjectFromFile(_fileName);
     } catch (...) {
         return;
     }
@@ -70,5 +70,5 @@ void DartsTournamentJSonDb::fetchModels()
 void DartsTournamentJSonDb::saveState()
 {
     QJsonObject jsonObject = _dartsTournamentAssembler->service(dartsTournaments());
-    writeJSONToFile(jsonObject,_fileName);
+    writeJsonObjectToFile(jsonObject,_fileName);
 }

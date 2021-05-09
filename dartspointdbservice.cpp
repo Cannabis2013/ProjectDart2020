@@ -16,7 +16,7 @@ void DartsPointDbService::fetchModels()
     QJsonObject jsonObject;
     // Extact content from file
     try {
-        jsonObject = readJSONFromFile(_fileName);
+        jsonObject = readJsonObjectFromFile(_fileName);
     } catch (...) {
         return;
     }
@@ -34,7 +34,7 @@ void DartsPointDbService::saveState()
      * Persist 'first to post' tournaments
      */
     modelJson["DartsPoints"] = _dartsPointsJsonAssemblerService->service(_dartsPointModels);
-    writeJSONToFile(modelJson,_fileName);
+    writeJsonObjectToFile(modelJson,_fileName);
 }
 
 void DartsPointDbService::addDartsInputModel(const IDartsPointInput *model)

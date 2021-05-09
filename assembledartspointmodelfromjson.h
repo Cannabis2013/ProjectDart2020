@@ -39,7 +39,7 @@ public:
                 ->setRoundIndex(roundIndex)
                 ->setSetIndex(setIndex)
                 ->setAttempt(attemptIndex)
-                ->setDisplayHint(DisplayHint);
+                ->setHint(DisplayHint);
         return model;
     }
 };

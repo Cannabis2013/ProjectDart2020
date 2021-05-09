@@ -35,6 +35,6 @@ const DartsPointInput *AssembleSingleAttemptPointsFromJson::assembleModelFromJso
             ->setPoint(point)
             ->setScore(score)
             ->setModKeyCode(keyCode)
-            ->setDisplayHint(scoreHint);
+            ->setHint(scoreHint);
     return pointModel;
 }

@@ -34,6 +34,7 @@ SOURCES += \
     dartspointdbservice.cpp \
     dartspointsingleattempt.cpp \
     dartspointsingleattemptdatamodel.cpp \
+    dartsscorejsondb.cpp \
     dartsscoremultiattempt.cpp \
     dartssingleattemptpointjsonservice.cpp \
     dartstournamentjsonextractor.cpp \
@@ -91,6 +92,7 @@ HEADERS += \
     assemblejsonarrayfromdartspoints.h \
     assemblejsonbasictournamentvalues.h \
     assemblejsonbasictournamentvaluesfrommodel.h \
+    assemblejsonbydartsscoremodels.h \
     assemblejsondartstournamentmodels.h \
     assemblejsonfromdartspointindexes.h \
     assemblejsonfromdartspointmodel.h \
@@ -98,6 +100,7 @@ HEADERS += \
     assemblejsonfromdartstournamentmodels.h \
     assemblejsonfromordereddartspointmodels.h \
     assemblejsonfromplayeridandname.h \
+    assemblemultiattemptscoresbyjson.h \
     assembleplayermodelfromjson.h \
     assemblesingleattemptpointsfromjson.h \
     assignplayeridstodartstournamentmodel.h \
@@ -119,6 +122,7 @@ HEADERS += \
     dartspointsingleattempt.h \
     dartspointsingleattemptdatamodel.h \
     dartsscorejsonassemblerservice.h \
+    dartsscorejsondb.h \
     dartsscoremultiattempt.h \
     dartsscoresjsonassemblerservice.h \
     dartssingleattemptpointjsonservice.h \
@@ -132,6 +136,7 @@ HEADERS += \
     idartsmodelsservice.h \
     idartspointdb.h \
     idartspointindexes.h \
+    idartsscoredb.h \
     idartstournamentdb.h \
     imodelsservicebuilder.h \
     ipersistence.h \

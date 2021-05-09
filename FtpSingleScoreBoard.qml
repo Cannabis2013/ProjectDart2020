@@ -33,7 +33,7 @@ ScoreBoard {
             setData(assignedPlayerName,defaultVal);
         }
     }
-    headerOrientation: Qt.Horizontal
+    property int headerOrientation: Qt.Horizontal
     onHeaderOrientationChanged: fTPModel.setHeaderOrientation(headerOrientation)
     // Cell related
     property int cellBorderWidth: 0
@@ -73,5 +73,6 @@ ScoreBoard {
         id: delegate
         text: display
         scoreFontSize: 48
+        cellBorderWidth: fTPBody.cellBorderWidth
     }
 }

@@ -6,8 +6,8 @@ IDartsModelsService *DartsModelsServiceBuilder::buildModelsService() const
     auto dartsTournamentsJsonDb = DartsTournamentJSonDb::createInstance(new AssembleDartsTournamentsFromJsonArray,
                                                                         new AssembleJsonFromDartsTournamentModels);
     auto dartsPointDb = DartsPointDbService::createInstance(new AssembleSingleAttemptPointsFromJson,
-                                                            new AssembleJsonArrayFromDartsPoints)
-;
+                                                            new AssembleJsonArrayFromDartsPoints);
+
     auto dartsModelsService =
             DartsModelsService::createInstance()
             ->setTournamentsDbContext(dartsTournamentsJsonDb)

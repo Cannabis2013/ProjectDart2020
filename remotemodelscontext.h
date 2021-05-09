@@ -70,6 +70,14 @@ public:
     virtual void deletePlayersFromIndexes(const QByteArray& json) override;
     virtual void handleRequestPlayersDetails() override;
     virtual void assembleDartsPointIndexes(const QUuid &tournament) override;
+    void hideDartsPoint(const QUuid &, const QUuid &, const int &, const int &) override;
+    void revealPoint(const QUuid &, const QUuid &, const int &, const int &) override;
+    void hideDartsScore(const QUuid &, const QUuid &, const int &) override;
+    void revealScore(const QUuid &, const QUuid &, const int &) override;
+    void assembleAssignedPlayerEntities(const QUuid &) override;
+    void assembleAssignedPlayerPoints(const QUuid &) override;
+    void assembleDartsTournamentWinnerIdAndName(const QUuid &) override;
+    void assembleAssignedPlayerScores(const QUuid &) override;
 private slots:
     void handleRecievedTournamentsReply();
     void handleAddFTPTournamentReply();
@@ -92,22 +100,6 @@ private:
         Success = 0x2
     };
     NetworkManager* _netMng = new NetworkManager(API_HOST_URL);
-
-    // AbstractModelsContext interface
-public:
-    void hideDartsPoint(const QUuid &, const QUuid &, const int &, const int &) override;
-    void revealPoint(const QUuid &, const QUuid &, const int &, const int &) override;
-    void hideDartsScore(const QUuid &, const QUuid &, const int &) override;
-    void revealScore(const QUuid &, const QUuid &, const int &) override;
-
-    // AbstractModelsService interface
-public:
-    void assembleAssignedPlayerEntities(const QUuid &) override;
-    void assembleAssignedPlayerPoints(const QUuid &) override;
-
-    // AbstractModelsService interface
-public:
-    void assembleDartsTournamentWinnerIdAndName(const QUuid &) override;
 };
 
 

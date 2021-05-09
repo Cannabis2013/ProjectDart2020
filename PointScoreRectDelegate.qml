@@ -1,42 +1,45 @@
 import QtQuick 2.12
 import QtQuick.Layouts 1.3
 import CustomItems 1.0
+import QtGraphicalEffects 1.13
 
 MyRectangle{
-    id: cellBody
+    id: pointScoreRectBody
     clip: true
-
-    readonly property int cellHeight: cellBody.height
-
+    radius: 10
+    readonly property int cellHeight: pointScoreRectBody.height
+    // Point rect properties
     property bool pointDisplayVisible: false
     onPointDisplayVisibleChanged: pointTextRect.visible = pointDisplayVisible
-
     property int pointDisplayWidth: 20
     onPointDisplayWidthChanged: pointTextRect.width = pointDisplayWidth
-
     property int pointDisplayHeight: 20
-    onPointDisplayHeightChanged: pointTextRect.Height = pointDisplayHeight
-
+    onPointDisplayHeightChanged: pointTextRect.height = pointDisplayHeight
+    property color pointRectBackground: "blue"
+    onPointRectBackgroundChanged: pointTextRect.color = pointRectBackground
     property color cellColor: "purple"
-    onCellColorChanged: cellBody.color = cellColor
-
-    property color textColor: "white"
-    onTextColorChanged: scoreText = textColor
-
+    onCellColorChanged: pointScoreRectBody.color = cellColor
+    property color pointRectFontColor: "white"
+    onPointRectFontColorChanged:  pointTextRect.color = textColor
     property int pointFontSize: 16
     onPointFontSizeChanged: pointText.font.pointSize = pointFontSize
-
+    property string point: ""
+    onPointChanged: pointText.text = point
+    // Score rect properties
+    property color scoreRectFontColor: "white"
+    onScoreRectFontColorChanged: scoreTextRect.color = scoreRectFontColor
     property int scoreFontSize: 16
     onScoreFontSizeChanged: scoreText.font.pointSize = scoreFontSize
-
+    property string score: ""
+    onScoreChanged: scoreText.text = score
     property double cellBorderWidth: 0
-    onCellBorderWidthChanged: cellBody.border.width = cellBorderWidth
+    onCellBorderWidthChanged: pointScoreRectBody.border.width = cellBorderWidth
 
     property color cellBorderColor: "black"
-    onCellBorderColorChanged: cellBody.border.color = cellBorderColor
+    onCellBorderColorChanged: pointScoreRectBody.border.color = cellBorderColor
 
-    property int horizontalTextAlignment: Text.AlignHCenter
-    onHorizontalTextAlignmentChanged: scoreText.horizontalAlignment = horizontalTextAlignment
+    property int horizontalScoreTextAlignment: Text.AlignHCenter
+    onHorizontalScoreTextAlignmentChanged:  scoreText.horizontalAlignment = horizontalScoreTextAlignment
 
     property int verticalTextAlignment: Text.AlignVCenter
     onVerticalTextAlignmentChanged: scoreText.verticalAlignment = verticalTextAlignment
@@ -47,13 +50,23 @@ MyRectangle{
     implicitWidth: 25
     implicitHeight: 25
 
-    property string point: ""
-    onPointChanged: pointText.text = point
-    property string score: ""
-    onScoreChanged: scoreText.text = score
+
     property string text: ""
 
     color: cellColor
+
+    layer.enabled: true
+
+    layer.effect: OpacityMask{
+        maskSource: Item {
+            width: pointScoreRectBody.width
+            height: pointScoreRectBody.height
+            Rectangle{
+                anchors.fill: parent
+                radius: pointScoreRectBody.radius
+            }
+        }
+    }
 
     MyRectangle{
         id: scoreTextRect
@@ -65,29 +78,30 @@ MyRectangle{
         Text {
             id: scoreText
             anchors.fill: parent
-            horizontalAlignment: cellBody.horizontalTextAlignment
-            verticalAlignment: cellBody.verticalTextAlignment
-            color: textColor
+            horizontalAlignment: pointScoreRectBody.horizontalScoreTextAlignment
+            verticalAlignment: pointScoreRectBody.verticalTextAlignment
+            color: pointScoreRectBody.scoreRectFontColor
             font.pointSize: scoreFontSize
         }
     }
     MyRectangle{
         id: pointTextRect
-        x: 5
-        y: 5
-        width: cellBody.pointDisplayWidth
-        height:  cellBody.pointDisplayHeight
+        x: 3
+        y: 3
+        width: pointScoreRectBody.pointDisplayWidth
+        height:  pointScoreRectBody.pointDisplayHeight
+        radius: 10
         Layout.alignment: Qt.AlignTop | Qt.AlignHCenter
         clip: true
-        visible: cellBody.pointDisplayVisible
-        color: "blue"
+        visible: pointScoreRectBody.pointDisplayVisible
+        color: pointScoreRectBody.pointRectBackground
         Text {
             id: pointText
             anchors.fill: parent
-            horizontalAlignment: cellBody.horizontalTextAlignment
-            verticalAlignment: cellBody.verticalTextAlignment
-            color: textColor
-            font.pointSize: cellBody.pointFontSize
+            horizontalAlignment: pointScoreRectBody.horizontalScoreTextAlignment
+            verticalAlignment: pointScoreRectBody.verticalTextAlignment
+            color: pointScoreRectBody.pointRectFontColor
+            font.pointSize: pointScoreRectBody.pointFontSize
         }
     }
 }

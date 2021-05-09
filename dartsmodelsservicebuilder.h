@@ -6,6 +6,7 @@
 #include "getordereddartspointmodels.h"
 #include "tournamentjsondb.h"
 #include "dartspointdbservice.h"
+#include "dartsscorejsondb.h"
 #include "assembledartspointindexesbydartspointmodel.h"
 #include "assemblesingleattemptpointsfromjson.h"
 #include "assemblejsonarrayfromdartspoints.h"

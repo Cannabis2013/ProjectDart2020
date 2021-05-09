@@ -54,10 +54,9 @@ public slots:
     void getOrderedDartsPoints(const QUuid &tournamentId) override;
     void assembleDartsTournamentDataFromId(const QUuid& tournamentId) override;
     /*
-     * Darts points methods
+     * Darts single attempt point methods
      */
     void addDartsPoint(const QByteArray& json) override;
-    void addDartsScore(const QByteArray &json) override;
     virtual void assembleDartsPointIndexes(const QUuid &tournament) override;
     void hideDartsPoint(const QUuid& tournamentId,
                             const QUuid& playerId,
@@ -67,6 +66,10 @@ public slots:
                          const QUuid& playerId,
                          const int& roundIndex,
                          const int& attemptIndex) override;
+    /*
+     * Darts multiattempt score methods
+     */
+    void addDartsScore(const QByteArray &json) override;
     void hideDartsScore(const QUuid &tournamentId, const QUuid &playerId, const int &roundIndex) override;
     void revealScore(const QUuid &tournamentId, const QUuid &playerId, const int &roundIndex) override;
     /*
@@ -91,6 +94,10 @@ private:
     IDartsJsonService* _dartsJsonService;
     IDartsModelsService* _dartsModelsService;
     IPlayerModelsService* _playerModelsService;
+
+    // AbstractModelsService interface
+public:
+    void assembleAssignedPlayerScores(const QUuid &) override;
 };
 
 #endif // MODELCONTEXTINTERFACE_H

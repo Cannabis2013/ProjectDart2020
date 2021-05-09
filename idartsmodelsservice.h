@@ -52,12 +52,12 @@ public:
                            const QUuid &player ,
                            const int &round,
                            const int &throwIndex) const = 0;
-    virtual QList<QUuid> dartsPointIds() const  = 0;
-    virtual QList<QUuid> dartsPointIds(const QUuid &tournament) const = 0;
-    virtual QList<QUuid> dartsPointIds(const QUuid &tournament, const int &roundID) const = 0;
-    virtual QList<QUuid> dartsPointIds(const QUuid &tournament, const int &roundID, const int &setID) = 0;
-    virtual QList<QUuid> dartsPointIds(const int &hint,const QUuid &tournament) = 0;
-    virtual QList<QUuid> pointsByPlayerId(const QUuid &tournament, const QUuid &player, const int &hint) const = 0;
+    virtual QVector<QUuid> dartsPointIds() const  = 0;
+    virtual QVector<QUuid> dartsPointIds(const QUuid &tournament) const = 0;
+    virtual QVector<QUuid> dartsPointIds(const QUuid &tournament, const int &roundID) const = 0;
+    virtual QVector<QUuid> dartsPointIds(const QUuid &tournament, const int &roundID, const int &setID) = 0;
+    virtual QVector<QUuid> dartsPointIds(const int &hint,const QUuid &tournament) = 0;
+    virtual QVector<QUuid> pointsByPlayerId(const QUuid &tournament, const QUuid &player, const int &hint) const = 0;
     virtual int dartsPointsCount(const QUuid&,const int &hint) const = 0;
     virtual const IDartsPointInput* setDartsPointHint(const QUuid &point, const int &hint) = 0;
     virtual int dartsPointRoundIndex(const QUuid &) const = 0;
@@ -71,14 +71,13 @@ public:
     virtual void removePointById(const QUuid&) = 0;
     virtual void removeHiddenPoints(const QUuid&) = 0;
     virtual int point(const QUuid&, const QUuid&) const = 0;
-    virtual QList<QUuid> pointModels(const QUuid &player) = 0;
+    virtual QVector<QUuid> pointModels(const QUuid &player) = 0;
     virtual void removePointsByTournamentId(const QUuid &tournament) = 0;
     virtual void removePointModel(const QUuid &playerScore) = 0;
     /*
      * Scores methods
      */
-    virtual const IDartsScoreInput<QUuid> * assembleDartsScoresFromJson(const QByteArray& json) = 0;
-    virtual void addDartsScore(const IDartsScoreInput<QUuid>*) = 0;
+    virtual void addDartsScore(const IDartsScoreInput*) = 0;
     virtual QUuid getDartsScoreId(const QUuid&,
                            const QUuid&,
                            const int&,
@@ -86,12 +85,12 @@ public:
     virtual QUuid getDartsScoreId(const QUuid &tournament,
                            const QUuid &,
                            const int &) const = 0;
-    virtual QList<QUuid> dartsScoreIds() const  = 0;
-    virtual QList<QUuid> dartsScoreIds(const QUuid &tournament) const = 0;
-    virtual QList<QUuid> dartsScoreIds(const QUuid &tournament, const int &roundID) const = 0;
-    virtual QList<QUuid> dartsScoreIds(const QUuid &tournament, const int &roundID, const int &setID) const = 0;
-    virtual QList<QUuid> dartsScoreIds(const int &hint,const QUuid &tournament) const = 0;
-    virtual QList<QUuid> ScoresByPlayerId(const QUuid &tournament, const QUuid &player, const int &hint) const = 0;
+    virtual QVector<QUuid> dartsScoreIds() const  = 0;
+    virtual QVector<QUuid> dartsScoreIds(const QUuid &tournament) const = 0;
+    virtual QVector<QUuid> dartsScoreIds(const QUuid &tournament, const int &roundID) const = 0;
+    virtual QVector<QUuid> dartsScoreIds(const QUuid &tournament, const int &roundID, const int &setID) const = 0;
+    virtual QVector<QUuid> dartsScoreIds(const int &hint,const QUuid &tournament) const = 0;
+    virtual QVector<QUuid> DartsScoresByPlayerId(const QUuid &tournament, const QUuid &player, const int &hint) const = 0;
     virtual int dartsScoresCount(const int &hint) const = 0;
     virtual QUuid setDartsScoreHint(const QUuid &point, const int &hint) = 0;
     virtual int dartsScoreRoundIndex(const QUuid &) const = 0;
@@ -105,7 +104,7 @@ public:
     virtual void removeHiddenScores(const QUuid&) = 0;
     virtual int Score(const QUuid&, const QUuid&) const = 0;
     virtual int Score(const QUuid &player) const = 0;
-    virtual QList<QUuid> ScoreModels(const QUuid &player) const = 0;
+    virtual QVector<QUuid> ScoreModels(const QUuid &player) const = 0;
     virtual void removeScoresByTournamentId(const QUuid &tournament) = 0;
     virtual void removeScoreModel(const QUuid &playerScore) = 0;
     /*

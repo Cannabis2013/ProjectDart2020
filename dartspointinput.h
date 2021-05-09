@@ -68,7 +68,7 @@ public:
     {
         return _hint;
     }
-    DartsPointInput* setDisplayHint(const int &hint) override
+    DartsPointInput* setHint(const int &hint) override
     {
         _hint = hint;
         return this;

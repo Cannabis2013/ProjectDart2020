@@ -14,7 +14,7 @@ void PlayersJsonDb::fetchModels()
 {
     QJsonObject jsonObject;
     try {
-        jsonObject = readJSONFromFile(_fileName);
+        jsonObject = readJsonObjectFromFile(_fileName);
     } catch (...) {
         return;
     }
@@ -26,7 +26,7 @@ void PlayersJsonDb::saveState()
 {
     QJsonObject modelJSON;
     modelJSON["Players"] = _playerModelsAssemblerService->service(playerModels());
-    writeJSONToFile(modelJSON,_fileName);
+    writeJsonObjectToFile(modelJSON,_fileName);
 }
 
 QVector<const IPlayerModel *> PlayersJsonDb::playerModels()

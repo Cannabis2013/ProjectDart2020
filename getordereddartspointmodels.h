@@ -6,17 +6,15 @@
 #include "idartspointdb.h"
 #include <quuid.h>
 
-
-
 class GetOrderedDartsPointsModels :
         public IBinaryService<const QUuid&,
-                              const IdartsPointDb<IDartsPointInput>*,
+                              const IdartsPointDb*,
                               QVector<const IDartsPointInput*>>
 {
     // IBinaryService interface
 public:
     QVector<const IDartsPointInput*> service(const QUuid& tournamentId,
-                                                    const IdartsPointDb<IDartsPointInput>* dbService) override
+                                                    const IdartsPointDb* dbService) override
     {
         auto dartsPointModels = dbService->dartsInputModels();
         QVector<const IDartsPointInput*> orderedDartsPointModels;

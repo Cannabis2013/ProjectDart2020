@@ -3,7 +3,6 @@ import CustomItems 1.0
 
 ScoreRectDelegate {
     id: delegate
-    cellBorderWidth: fTPBody.cellBorderWidth
     cellColor: "transparent"
     onTextChanged: {
         notifyCellPosition(delegate.x,delegate.y);

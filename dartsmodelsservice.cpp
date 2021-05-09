@@ -1,9 +1,5 @@
 #include "dartsmodelsservice.h"
 
-DartsModelsService::~DartsModelsService()
-{
-}
-
 DartsModelsService *DartsModelsService::createInstance()
 {
     return new DartsModelsService();
@@ -16,7 +12,7 @@ DartsModelsService* DartsModelsService::setup()
 
 const IDartsTournament *DartsModelsService::getDartsTournamentModelById(const QUuid &tournamentId) const
 {
-    auto model = getTournamentModelFromId<IDartsTournament>(tournamentId);
+    auto model = getTournamentModelFromId(tournamentId);
     return model;
 }
 
@@ -73,12 +69,12 @@ int DartsModelsService::tournamentsCount() const
 
 QString DartsModelsService::tournamentTitle(const QUuid &tournament) const
 {
-    return getTournamentModelFromId<IDartsTournament>(tournament)->title();
+    return getTournamentModelFromId(tournament)->title();
 }
 
 int DartsModelsService::tournamentAttempts(const QUuid &tournament) const
 {
-    auto model = getTournamentModelFromId<IDartsTournament>(tournament);
+    auto model = getTournamentModelFromId(tournament);
     auto numberOfThrows = model->attempts();
     return numberOfThrows;
 }
@@ -88,7 +84,7 @@ QVector<QUuid> DartsModelsService::tournamentAssignedPlayers(const QUuid &tourna
     QVector<QUuid> assignedPlayers;
     const IDartsTournament* tournamentModel;
     try {
-        tournamentModel = getTournamentModelFromId<IDartsTournament>(tournament);
+        tournamentModel = getTournamentModelFromId(tournament);
     } catch (const char *msg) {
         throw  msg;
     }
@@ -99,54 +95,54 @@ QVector<QUuid> DartsModelsService::tournamentAssignedPlayers(const QUuid &tourna
 
 int DartsModelsService::tournamentGameMode(const QUuid &tournament) const
 {
-    return getTournamentModelFromId<IDartsTournament>(tournament)->gameMode();
+    return getTournamentModelFromId(tournament)->gameMode();
 }
 
 int DartsModelsService::tournamentTerminalKeyCode(const QUuid &tournament) const
 {
-    auto tournamentModel = getTournamentModelFromId<IDartsTournament>(tournament);
+    auto tournamentModel = getTournamentModelFromId(tournament);
     auto conditionKeyCode = tournamentModel->terminalKeyCode();
     return conditionKeyCode;
 }
 
 int DartsModelsService::tournamentKeyPoint(const QUuid &tournament) const
 {
-    auto tournamentModel = getTournamentModelFromId<IDartsTournament>(tournament);
+    auto tournamentModel = getTournamentModelFromId(tournament);
     auto keyPoint = tournamentModel->keyPoint();
     return keyPoint;
 }
 
 int DartsModelsService::tournamentTableViewHint(const QUuid &tournament) const
 {
-    auto tournamentModel = getTournamentModelFromId<IDartsTournament>(tournament);
+    auto tournamentModel = getTournamentModelFromId(tournament);
     auto hint = tournamentModel->displayHint();
     return hint;
 }
 
 int DartsModelsService::tournamentInputMode(const QUuid &tournament) const
 {
-    auto tournamentModel = getTournamentModelFromId<IDartsTournament>(tournament);
+    auto tournamentModel = getTournamentModelFromId(tournament);
     auto inputMode = tournamentModel->inputHint();
     return inputMode;
 }
 
 int DartsModelsService::tournamentStatus(const QUuid &tournament) const
 {
-    auto model = getTournamentModelFromId<IDartsTournament>(tournament);
+    auto model = getTournamentModelFromId(tournament);
     auto status = model->status();
     return status;
 }
 
 QUuid DartsModelsService::tournamentWinnerId(const QUuid &tournament) const
 {
-    auto tournamentModel = getTournamentModelFromId<IDartsTournament>(tournament);
+    auto tournamentModel = getTournamentModelFromId(tournament);
     return tournamentModel->winnerId();
 }
 
 void DartsModelsService::tournamentSetWinnerId(const QUuid &tournament,
                                                const QUuid &winner)
 {
-    auto oldModel = getTournamentModelFromId<IDartsTournament>(tournament);
+    auto oldModel = getTournamentModelFromId(tournament);
     auto newModel = const_cast<IDartsTournament*>(oldModel);
     newModel->setWinnerId(winner);
     auto index = _tournamentsDbContext->indexOfTournament(oldModel);
@@ -155,7 +151,7 @@ void DartsModelsService::tournamentSetWinnerId(const QUuid &tournament,
 
 void DartsModelsService::tournamentAssignPlayer(const QUuid &tournament, const QUuid &player)
 {
-    auto oldModel = getTournamentModelFromId<IDartsTournament>(tournament);
+    auto oldModel = getTournamentModelFromId(tournament);
     auto assignedPlayers = oldModel->assignedPlayerIdentities();
     assignedPlayers.append(player);
     auto newModel = const_cast<IDartsTournament*>(oldModel);
@@ -167,7 +163,7 @@ void DartsModelsService::tournamentAssignPlayer(const QUuid &tournament, const Q
 void DartsModelsService::tournamentAssignPlayers(const QUuid &tournament,
                                                  const QVector<QUuid> &playersIds)
 {
-    auto oldModel = getTournamentModelFromId<IDartsTournament>(tournament);
+    auto oldModel = getTournamentModelFromId(tournament);
     auto newModel = const_cast<IDartsTournament*>(oldModel);
     auto assignedPlayers = newModel->assignedPlayerIdentities();
     assignedPlayers.append(playersIds);
@@ -178,7 +174,7 @@ void DartsModelsService::tournamentAssignPlayers(const QUuid &tournament,
 
 void DartsModelsService::tournamentUnAssignPlayer(const QUuid &tournament, const QUuid &player)
 {
-    auto oldModel = getTournamentModelFromId<IDartsTournament>(tournament);
+    auto oldModel = getTournamentModelFromId(tournament);
     auto assignedPlayers = oldModel->assignedPlayerIdentities();
     assignedPlayers.removeOne(player);
     auto newModel = const_cast<IDartsTournament*>(oldModel);
@@ -187,9 +183,9 @@ void DartsModelsService::tournamentUnAssignPlayer(const QUuid &tournament, const
     _tournamentsDbContext->replaceTournament(index,newModel);
 }
 
-QList<QUuid> DartsModelsService::dartsPointIds() const
+QVector<QUuid> DartsModelsService::dartsPointIds() const
 {
-    QList<QUuid> resultingList;
+    QVector<QUuid> resultingList;
     auto scores = _dartsPointsDb->dartsInputModels();
     for (auto scoreModel : scores) {
         auto scoreID = scoreModel->id();
@@ -198,9 +194,9 @@ QList<QUuid> DartsModelsService::dartsPointIds() const
     return resultingList;
 }
 
-QList<QUuid> DartsModelsService::dartsPointIds(const QUuid &tournament) const
+QVector<QUuid> DartsModelsService::dartsPointIds(const QUuid &tournament) const
 {
-    QList<QUuid> resultingList;
+    QVector<QUuid> resultingList;
     auto scores = _dartsPointsDb->dartsInputModels();
     for (auto scoreModel : scores) {
         auto playerInput = dynamic_cast<const IPlayerInput<QUuid>*>(scoreModel);
@@ -212,10 +208,10 @@ QList<QUuid> DartsModelsService::dartsPointIds(const QUuid &tournament) const
     return resultingList;
 }
 
-QList<QUuid> DartsModelsService::dartsPointIds(const QUuid &tournament,
+QVector<QUuid> DartsModelsService::dartsPointIds(const QUuid &tournament,
                                                      const int &round) const
 {
-    QList<QUuid> resultingList;
+    QVector<QUuid> resultingList;
     auto ftpScoreIds = dartsPointIds(tournament);
     for (auto pointID : ftpScoreIds) {
         auto ftpScore = getPointModelById(pointID);
@@ -226,11 +222,11 @@ QList<QUuid> DartsModelsService::dartsPointIds(const QUuid &tournament,
     return resultingList;
 }
 
-QList<QUuid> DartsModelsService::dartsPointIds(const QUuid &tournament,
+QVector<QUuid> DartsModelsService::dartsPointIds(const QUuid &tournament,
                                                   const int &round,
                                                   const int &set)
 {
-    QList<QUuid> resultingList;
+    QVector<QUuid> resultingList;
     auto p = this->dartsPointIds(tournament,round);
     for (auto scoreModelID : p) {
         auto ftpScore = getPointModelById(scoreModelID);
@@ -242,9 +238,9 @@ QList<QUuid> DartsModelsService::dartsPointIds(const QUuid &tournament,
     return resultingList;
 }
 
-QList<QUuid> DartsModelsService::dartsPointIds(const int &hint, const QUuid &tournament)
+QVector<QUuid> DartsModelsService::dartsPointIds(const int &hint, const QUuid &tournament)
 {
-    QList<QUuid> resultingList;
+    QVector<QUuid> resultingList;
     auto modelIds = this->dartsPointIds(tournament);
     for (auto modelId : modelIds) {
         auto ftpScoreModel = getPointModelById(modelId);
@@ -261,7 +257,7 @@ const IDartsPointInput *DartsModelsService::setDartsPointHint(const QUuid &point
     auto model = getPointModelById(point);
     auto newModel = const_cast<IDartsPointInput*>(model);
     auto index = _dartsPointsDb->indexOfDartsInputModel(model);
-    newModel->setDisplayHint(hint);
+    newModel->setHint(hint);
     _dartsPointsDb->replaceDartsInputModel(index,newModel);
     return newModel;
 }
@@ -339,9 +335,9 @@ int DartsModelsService::pointKeyCode(const QUuid &scoreID) const
     }
 }
 
-QList<QUuid> DartsModelsService::pointModels(const QUuid &player)
+QVector<QUuid> DartsModelsService::pointModels(const QUuid &player)
 {
-    QList<QUuid> resultingList;
+    QVector<QUuid> resultingList;
     auto models = _dartsPointsDb->dartsInputModels();
     for (auto model : models) {
         auto scoreModel = dynamic_cast<const IPlayerInput<QUuid>*>(model);
@@ -366,9 +362,9 @@ void DartsModelsService::removePointsByTournamentId(const QUuid &tournament)
     }
 }
 
-QList<QUuid> DartsModelsService::pointsByPlayerId(const QUuid &tournament, const QUuid &player, const int &hint) const
+QVector<QUuid> DartsModelsService::pointsByPlayerId(const QUuid &tournament, const QUuid &player, const int &hint) const
 {
-    QList<QUuid> resultingList;
+    QVector<QUuid> resultingList;
     auto scoreModelIds = dartsPointIds(tournament);
     for (auto pointID : scoreModelIds) {
         auto model = getPointModelById(pointID);
@@ -398,28 +394,26 @@ void DartsModelsService::removePointById(const QUuid &point)
 QUuid DartsModelsService::getDartsPointId(const QUuid &tournament,
                                                 const QUuid &player,
                                                 const int &round,
-                                                const int &throwIndex,
+                                                const int &attemptIndex,
                                                 const int &hint) const
 {
     auto tournamentScoreModels = dartsPointIds(tournament);
-    for (auto scoreModelID : tournamentScoreModels) {
-        auto model = getPointModelById(scoreModelID);
-        auto scoreModel = dynamic_cast<const IDartsPointInput*>(model);
-        auto modelHint = scoreModel->hint();
-        auto playerID = scoreModel->playerId();
-        auto leg = dartsPointAttemptIndex(scoreModelID);
-        auto roundIndex = scoreModel->roundIndex();
-        if(playerID != player)
+    for (auto pointModelId : tournamentScoreModels) {
+        auto pointModel = getPointModelById(pointModelId);
+        auto modelHint = pointModel->hint();
+        auto playerId = pointModel->playerId();
+        auto attempt = dartsPointAttemptIndex(pointModelId);
+        auto roundIndex = pointModel->roundIndex();
+        if(playerId != player)
             continue;
-        if(leg != throwIndex)
+        if(attempt != attemptIndex)
             continue;
         if(roundIndex != round)
             continue;
         if(hint != modelHint && hint != allHints)
             continue;
-        return scoreModelID;
+        return pointModelId;
     }
-
     throw "Object not found";
 }
 
@@ -445,13 +439,12 @@ QUuid DartsModelsService::getDartsPointId(const QUuid &tournament,
     }
     throw "No model satisfies parameters";
 }
-template<typename TModelInterface>
-const TModelInterface *DartsModelsService::getTournamentModelFromId(const QUuid &id) const
+const IDartsTournament *DartsModelsService::getTournamentModelFromId(const QUuid &id) const
 {
     auto models = _tournamentsDbContext->dartsTournaments();
     for (auto model : models) {
         if(model->id() == id)
-            return dynamic_cast<const TModelInterface*>(model);
+            return model;
     }
 
     throw THROW_OBJECT_WITH_ID_NOT_FOUND(id.toString());
@@ -466,6 +459,24 @@ const IDartsPointInput *DartsModelsService::getPointModelById(const QUuid &id) c
     }
 
     throw THROW_OBJECT_WITH_ID_NOT_FOUND(id.toString());
+}
+
+const IDartsScoreInput *DartsModelsService::getScoreModelById(const QUuid &id) const
+{
+    auto models = _dartsScoreDb->dartsInputModels();
+    for (auto model : models)
+    {
+        if(model->id() == id)
+            return model;
+    }
+
+    throw THROW_OBJECT_WITH_ID_NOT_FOUND(id.toString());
+}
+
+DartsModelsService *DartsModelsService::setDartsScoreDb(IDartsScoreDb *dartsScoreDb)
+{
+    _dartsScoreDb = dartsScoreDb;
+    return this;
 }
 
 void DartsModelsService::removePointModel(const QUuid &point)
@@ -485,7 +496,7 @@ void DartsModelsService::removePointModel(const QUuid &point)
 const IDartsPointIndexes* DartsModelsService::dartsIndexes(const QUuid &tournament) const
 {
     auto orderedModels = _getOrderedDartsPointsModels->service(tournament,_dartsPointsDb);
-    auto model = getTournamentModelFromId<IDartsTournament>(tournament);
+    auto model = getTournamentModelFromId(tournament);
     auto count = dartsPointsCount(tournament,ModelDisplayHint::DisplayHint);
     auto indexes = _assembleDartsPointIndexes->service(orderedModels,model,count);
     return indexes;
@@ -508,14 +519,14 @@ QVector<int> DartsModelsService::dartsPointValuesByTournamentId(const QUuid &tou
     return userScores;
 }
 
-DartsModelsService* DartsModelsService::setTournamentsDbContext(IDartsTournamentDb<IDartsTournament > *tournamentsDbContext)
+DartsModelsService* DartsModelsService::setTournamentsDbContext(IDartsTournamentDb *tournamentsDbContext)
 {
     _tournamentsDbContext = tournamentsDbContext;
     return this;
 }
 
 
-DartsModelsService* DartsModelsService::setDartsPointsDb(IdartsPointDb<IDartsPointInput > *dartsPointsDb)
+DartsModelsService* DartsModelsService::setDartsPointsDb(IdartsPointDb *dartsPointsDb)
 {
     _dartsPointsDb = dartsPointsDb;
     return this;
@@ -575,14 +586,9 @@ int DartsModelsService::point(const QUuid &tournament, const QUuid &player) cons
     return totalScore;
 }
 
-const IDartsScoreInput<QUuid> *DartsModelsService::assembleDartsScoresFromJson(const QByteArray &json)
+void DartsModelsService::addDartsScore(const IDartsScoreInput* pointModel)
 {
-
-}
-
-void DartsModelsService::addDartsScore(const IDartsScoreInput<QUuid> *)
-{
-
+    _dartsScoreDb->addDartsInputModel(pointModel);
 }
 
 QUuid DartsModelsService::getDartsScoreId(const QUuid &tournament,
@@ -590,48 +596,151 @@ QUuid DartsModelsService::getDartsScoreId(const QUuid &tournament,
                                           const int &round,
                                           const int &hint) const
 {
+    auto pointIds = dartsPointIds(tournament);
+    for (auto pointId : pointIds) {
+        auto scoreModel = getScoreModelById(pointId);
+        auto playerID = scoreModel->playerId();
+        if(playerID != player)
+            continue;
+        auto roundIndex = scoreModel->roundIndex();
+        if(roundIndex != round)
+            continue;
+        if(scoreModel->hint() != hint)
+            continue;
+        return pointId;
+    }
+    throw "No model satisfies parameters";
 }
 
 QUuid DartsModelsService::getDartsScoreId(const QUuid &tournament,
                                           const QUuid &player,
                                           const int &round) const
 {
+    auto pointIds = dartsPointIds(tournament);
+    for (auto pointId : pointIds) {
+        auto scoreModel = getScoreModelById(pointId);
+        auto playerID = scoreModel->playerId();
+        if(playerID != player)
+            continue;
+        auto roundIndex = scoreModel->roundIndex();
+        if(roundIndex != round)
+            continue;
+        return pointId;
+    }
+    throw "No model satisfies parameters";
 }
 
-QList<QUuid> DartsModelsService::dartsScoreIds() const
+QVector<QUuid> DartsModelsService::dartsScoreIds() const
 {
+    QVector<QUuid> ids;
+    auto models = _dartsScoreDb->dartsInputModels();
+    for (const auto& model : models) {
+        auto modelId = model->id();
+        ids << modelId;
+    }
+    return ids;
 }
 
-QList<QUuid> DartsModelsService::dartsScoreIds(const QUuid &tournament) const
+QVector<QUuid> DartsModelsService::dartsScoreIds(const QUuid &tournamentId) const
 {
+    QVector<QUuid> ids;
+    auto models = _dartsScoreDb->dartsInputModels();
+    for (const auto& model : models) {
+        auto modelId = model->id();
+        if(model->tournamentId() == tournamentId)
+            ids << modelId;
+    }
+    return ids;
 }
 
-QList<QUuid> DartsModelsService::dartsScoreIds(const QUuid &tournament, const int &roundID) const
+QVector<QUuid> DartsModelsService::dartsScoreIds(const QUuid &tournamentId, const int &roundIndex) const
 {
+    QVector<QUuid> ids;
+    auto models = _dartsScoreDb->dartsInputModels();
+    for (const auto& model : models) {
+        auto modelId = model->id();
+        if(model->tournamentId() != tournamentId)
+            continue;
+        if(model->roundIndex() == roundIndex)
+            ids << modelId;
+    }
+    return ids;
 }
 
-QList<QUuid> DartsModelsService::dartsScoreIds(const QUuid &tournament, const int &roundID, const int &setID) const
+QVector<QUuid> DartsModelsService::dartsScoreIds(const QUuid &tournamentId,
+                                                 const int &roundIndex,
+                                                 const int &setIndex) const
 {
+    QVector<QUuid> ids;
+    auto models = _dartsScoreDb->dartsInputModels();
+    for (const auto& model : models) {
+        auto modelId = model->id();
+        if(model->tournamentId() != tournamentId)
+            continue;
+        if(model->roundIndex() != roundIndex)
+            continue;;
+        if(model->setIndex() == setIndex)
+            ids << modelId;
+    }
+    return ids;
 }
 
-QList<QUuid> DartsModelsService::dartsScoreIds(const int &hint, const QUuid &tournament) const
+QVector<QUuid> DartsModelsService::dartsScoreIds(const int &hint, const QUuid &tournamentId) const
 {
+    QVector<QUuid> ids;
+    auto models = _dartsScoreDb->dartsInputModels();
+    for (const auto& model : models) {
+        auto modelId = model->id();
+        if(model->tournamentId() != tournamentId)
+            continue;
+        if(model->hint() == hint)
+            ids << modelId;
+    }
+    return ids;
 }
 
-QList<QUuid> DartsModelsService::ScoresByPlayerId(const QUuid &tournament, const QUuid &player, const int &hint) const
+QVector<QUuid> DartsModelsService::DartsScoresByPlayerId(const QUuid &tournamentId, const QUuid &playerId, const int &hint) const
 {
+    QVector<QUuid> ids;
+    auto models = _dartsScoreDb->dartsInputModels();
+    for (const auto& model : models) {
+        auto modelId = model->id();
+        if(model->tournamentId() != tournamentId)
+            continue;
+        if(model->playerId() != playerId)
+            continue;
+        if(model->hint() == hint)
+            ids << modelId;
+    }
+    return ids;
 }
 
 int DartsModelsService::dartsScoresCount(const int &hint) const
 {
+    auto count = 0;
+    auto models = _dartsScoreDb->dartsInputModels();
+    for (const auto& model : models) {
+        if(model->hint() == hint)
+            count++;
+    }
+    return count;
 }
 
 QUuid DartsModelsService::setDartsScoreHint(const QUuid &point, const int &hint)
 {
+    auto model = getScoreModelById(point);
+    auto indexOfModel = _dartsScoreDb->indexOfDartsInputModel(model);
+    auto alteredModel = const_cast<IDartsScoreInput*>(model);
+    alteredModel->setHint(hint);
+    _dartsScoreDb->replaceDartsInputModel(indexOfModel,alteredModel);
+    return alteredModel->id();
 }
 
-int DartsModelsService::dartsScoreRoundIndex(const QUuid &) const
+int DartsModelsService::dartsScoreRoundIndex(const QUuid &scoreId) const
 {
+    auto model = getScoreModelById(scoreId);
+    auto roundIndex = model->roundIndex();
+    return roundIndex;
 }
 
 int DartsModelsService::dartsScoreSetIndex(const QUuid &) const
@@ -674,7 +783,7 @@ int DartsModelsService::Score(const QUuid &player) const
 {
 }
 
-QList<QUuid> DartsModelsService::ScoreModels(const QUuid &player) const
+QVector<QUuid> DartsModelsService::ScoreModels(const QUuid &player) const
 {
 }
 

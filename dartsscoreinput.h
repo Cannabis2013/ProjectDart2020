@@ -4,7 +4,7 @@
 #include <quuid.h>
 #include "idartsscoreinput.h"
 
-class DartsScoreInput : public IDartsScoreInput<QUuid>
+class DartsScoreInput : public IDartsScoreInput
 {
 public:
     static DartsScoreInput* createInstance()
@@ -24,7 +24,7 @@ public:
     {
         return _hint;
     }
-    DartsScoreInput *setDisplayHint(const int &hint) override
+    DartsScoreInput *setHint(const int &hint) override
     {
         _hint = hint;
         return this;

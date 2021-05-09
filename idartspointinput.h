@@ -16,8 +16,6 @@ public:
     virtual IDartsPointInput* setScore(const int&) = 0;
     virtual int attempt() const = 0;
     virtual IDartsPointInput* setAttempt(const int &) = 0;
-
-
 };
 
 #endif // IDARTSPOINT_H

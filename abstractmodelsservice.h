@@ -16,12 +16,8 @@ public:
      */
     virtual ~AbstractModelsService() = default;
     /*
-     * Tournament-models context interface..
+     * Darts general methods
      */
-    /*
-     * Handle requests from external context
-     */
-
     virtual void addDartsTournament(const QByteArray& json) = 0;
     virtual void assignPlayersToTournament(const QUuid &tournament,
                                                  const QList<QUuid> &playersID) = 0;
@@ -30,29 +26,31 @@ public:
     virtual void handleRequestTournaments() = 0;
     virtual void handleRequestGameMode(const int &index) = 0;
     virtual void assembleDartsTournamentDataFromId(const QUuid& tournament) = 0;
+    virtual void resetTournament(const QUuid &tournament) = 0;
+    virtual void assembleDartsKeyValues(const QUuid& tournament) = 0;
+    // Darts singleattempt point methods
     virtual void addDartsPoint(const QByteArray& json) = 0;
-    virtual void addDartsScore(const QByteArray& json) = 0;
     virtual void hideDartsPoint(const QUuid&,
-                                    const QUuid&,
-                                    const int &,
-                                    const int &) = 0;
+                                const QUuid&,
+                                const int &,
+                                const int &) = 0;
     virtual void revealPoint(const QUuid &,
-                                    const QUuid &,
-                                    const int &,
-                                    const int &) = 0;
+                             const QUuid &,
+                             const int &,
+                             const int &) = 0;
+    virtual void assembleDartsPointIndexes(const QUuid& tournament) = 0;
+    virtual void assembleAssignedPlayerEntities(const QUuid&) = 0;
+    virtual void assembleAssignedPlayerPoints(const QUuid&) = 0;
+    virtual void assembleDartsTournamentWinnerIdAndName(const QUuid&) = 0;
+    // Darts multiattempt score methods
+    virtual void addDartsScore(const QByteArray& json) = 0;
+    virtual void assembleAssignedPlayerScores(const QUuid&) = 0;
     virtual void hideDartsScore(const QUuid&,
                                     const QUuid&,
                                     const int &) = 0;
     virtual void revealScore(const QUuid &,
                                     const QUuid &,
                                     const int &) = 0;
-    virtual void resetTournament(const QUuid &tournament) = 0;
-    virtual void assembleDartsKeyValues(const QUuid& tournament) = 0;
-    // Initialize controller
-    virtual void assembleDartsPointIndexes(const QUuid& tournament) = 0;
-    virtual void assembleAssignedPlayerEntities(const QUuid&) = 0;
-    virtual void assembleAssignedPlayerPoints(const QUuid&) = 0;
-    virtual void assembleDartsTournamentWinnerIdAndName(const QUuid&) = 0;
     /*
      * Player-models context interface..
      */

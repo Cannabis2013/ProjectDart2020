@@ -2,8 +2,8 @@
 #define IDARTSSCOREINPUT_H
 
 #include "idartsinput.h"
-template<typename TUuid>
-class IDartsScoreInput : public IDartsInput<TUuid>
+#include <quuid.h>
+class IDartsScoreInput : public IDartsInput<QUuid>
 {
 public:
     IDartsScoreInput() {}

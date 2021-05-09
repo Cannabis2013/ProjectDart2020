@@ -1,6 +1,6 @@
 #include "abstractjsonpersistence.h"
 
-void AbstractJSONPersistence::writeJSONToFile(const QJsonObject &json, const QString &fileName)
+void AbstractJSONPersistence::writeJsonObjectToFile(const QJsonObject &json, const QString &fileName)
 {
     QFile file(fileName);
     file.open(QIODevice::WriteOnly);
@@ -9,7 +9,7 @@ void AbstractJSONPersistence::writeJSONToFile(const QJsonObject &json, const QSt
     file.close();
 }
 
-QJsonObject AbstractJSONPersistence::readJSONFromFile(const QString &fileName)
+QJsonObject AbstractJSONPersistence::readJsonObjectFromFile(const QString &fileName)
 {
     QFile file(fileName);
     if(!file.exists())

@@ -33,7 +33,7 @@ public:
                 ->setRoundIndex(roundIndex)
                 ->setSetIndex(setIndex)
                 ->setScore(score)
-                ->setDisplayHint(DisplayHint);
+                ->setHint(DisplayHint);
         return model;
     }
 };

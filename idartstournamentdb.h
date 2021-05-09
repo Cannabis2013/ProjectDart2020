@@ -2,17 +2,17 @@
 #define IDARTSTOURNAMENTDB_H
 
 #include <qvector.h>
+#include "idartstournament.h"
 
-template<typename TModelInterface>
 class IDartsTournamentDb
 {
 public:
-    virtual void addTournament(const TModelInterface* model) = 0;
-    virtual const TModelInterface* dartsTournamentModelFromIndex(const int&) = 0;
-    virtual QVector<const TModelInterface*> dartsTournaments() = 0;
+    virtual void addTournament(const IDartsTournament* model) = 0;
+    virtual const IDartsTournament* dartsTournamentModelFromIndex(const int&) = 0;
+    virtual QVector<const IDartsTournament*> dartsTournaments() = 0;
     virtual void removeDartsTournamentModelByIndex(const int&) = 0;
-    virtual int indexOfTournament(const TModelInterface*) = 0;
-    virtual void replaceTournament(const int&, const TModelInterface*) = 0;
+    virtual int indexOfTournament(const IDartsTournament*) = 0;
+    virtual void replaceTournament(const int&, const IDartsTournament*) = 0;
 };
 
 #endif // IDARTSTOURNAMENTDB_H

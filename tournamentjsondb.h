@@ -9,7 +9,7 @@
 #include "iunaryservice.h"
 
 class DartsTournamentJSonDb :
-        public IDartsTournamentDb<IDartsTournament>,
+        public IDartsTournamentDb,
         public AbstractJSONPersistence
 {
 public:

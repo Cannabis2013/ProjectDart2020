@@ -378,3 +378,8 @@ void RemoteModelsContext::assembleAssignedPlayerPoints(const QUuid &)
 void RemoteModelsContext::assembleDartsTournamentWinnerIdAndName(const QUuid &)
 {
 }
+
+
+void RemoteModelsContext::assembleAssignedPlayerScores(const QUuid &)
+{
+}

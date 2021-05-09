@@ -10,7 +10,7 @@ public:
     IPlayerInput() {}
 
     virtual int hint() const = 0;
-    virtual IPlayerInput* setDisplayHint(const int &hint) = 0;
+    virtual IPlayerInput* setHint(const int &hint) = 0;
     virtual TUuid playerId() const = 0;
     virtual IPlayerInput* setPlayer(const TUuid &id) = 0;
     virtual TUuid tournamentId() const = 0;

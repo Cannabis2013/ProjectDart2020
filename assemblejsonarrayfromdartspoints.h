@@ -2,14 +2,10 @@
 #define DARTSINPUTJSONASSEMBLER_H
 
 #include "iunaryservice.h"
-
 #include <QByteArray>
 #include "imodel.h"
 #include <quuid.h>
-
-#include "dartsscoreinput.h"
 #include "dartspointinput.h"
-
 #include <qjsonobject.h>
 #include <qjsonarray.h>
 

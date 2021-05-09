@@ -10,8 +10,8 @@
 class AbstractJSONPersistence : public IPersistence
 {
 protected:
-    void writeJSONToFile(const QJsonObject &json, const QString &fileName);
-    QJsonObject readJSONFromFile(const QString &fileName);
+    void writeJsonObjectToFile(const QJsonObject &json, const QString &fileName);
+    QJsonObject readJsonObjectFromFile(const QString &fileName);
 };
 
 #endif // ABSTRACTJSONPERSISTENCE_H
