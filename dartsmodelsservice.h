@@ -137,7 +137,7 @@ public:
     void removeHiddenPoints(const QUuid &tournament) override;
 
     int point(const QUuid &tournament,
-              const QUuid &player) const override;
+              const QUuid &playerId) const override;
     QVector<QUuid> pointModels(const QUuid &player) override;
     void removePointsByTournamentId(const QUuid &tournament) override;
     void removePointModel(const QUuid &playerScore) override;
@@ -161,19 +161,17 @@ public:
     int dartsScoresCount(const int &hint) const override;
     QUuid setDartsScoreHint(const QUuid &point, const int &hint) override;
     int dartsScoreRoundIndex(const QUuid &scoreId) const override;
-    int dartsScoreSetIndex(const QUuid &) const override;
-    int ScoreValueFromScoreId(const QUuid &) const override;
-    QUuid tournamentIdFromScoreId(const QUuid &playerScore) const override;
-    QUuid playerIdFromScoreId(const QUuid &playerScore) const override;
-    int ScoreHint(const QUuid &scoreID) const override;
-    int ScoreKeyCode(const QUuid &) const override;
-    void removeScoreById(const QUuid &) override;
-    void removeHiddenScores(const QUuid &) override;
-    int Score(const QUuid &, const QUuid &) const override;
-    int Score(const QUuid &player) const override;
-    QVector<QUuid> ScoreModels(const QUuid &player) const override;
-    void removeScoresByTournamentId(const QUuid &tournament) override;
-    void removeScoreModel(const QUuid &playerScore) override;
+    int dartsScoreSetIndex(const QUuid &scoreId) const override;
+    int ScoreValueFromScoreId(const QUuid &scoreId) const override;
+    QUuid tournamentIdFromScoreId(const QUuid &scoreId) const override;
+    QUuid playerIdFromScoreId(const QUuid &scoreId) const override;
+    int ScoreHint(const QUuid &scoreId) const override;
+    void removeScoreById(const QUuid &scoreId) override;
+    void removeHiddenScores(const QUuid &tournamentId) override;
+    int Score(const QUuid &tournamentId, const QUuid &playerId) const override;
+    QVector<QUuid> ScoreModels(const QUuid &playerId) const override;
+    void removeScoresByTournamentId(const QUuid &tournamentId) override;
+    void removeScoreModel(const QUuid &scoreId) override;
     // Set services method
     DartsModelsService *setTournamentsDbContext(
             IDartsTournamentDb *tournamentsDbContext);

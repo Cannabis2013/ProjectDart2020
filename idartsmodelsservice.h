@@ -99,11 +99,9 @@ public:
     virtual QUuid tournamentIdFromScoreId(const QUuid &playerScore) const = 0;
     virtual QUuid playerIdFromScoreId(const QUuid &playerScore) const = 0;
     virtual int ScoreHint(const QUuid &scoreID) const = 0;
-    virtual int ScoreKeyCode(const QUuid&) const = 0;
     virtual void removeScoreById(const QUuid&) = 0;
     virtual void removeHiddenScores(const QUuid&) = 0;
     virtual int Score(const QUuid&, const QUuid&) const = 0;
-    virtual int Score(const QUuid &player) const = 0;
     virtual QVector<QUuid> ScoreModels(const QUuid &player) const = 0;
     virtual void removeScoresByTournamentId(const QUuid &tournament) = 0;
     virtual void removeScoreModel(const QUuid &playerScore) = 0;

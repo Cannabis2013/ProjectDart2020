@@ -575,10 +575,10 @@ void DartsModelsService::removeHiddenPoints(const QUuid &tournament)
         removePointById(scoreID);
 }
 
-int DartsModelsService::point(const QUuid &tournament, const QUuid &player) const
+int DartsModelsService::point(const QUuid &tournament, const QUuid &playerId) const
 {
     int totalScore = tournamentKeyPoint(tournament);
-    auto playerScoresID = pointsByPlayerId(tournament,player,ModelDisplayHint::DisplayHint);
+    auto playerScoresID = pointsByPlayerId(tournament,playerId,ModelDisplayHint::DisplayHint);
     for (auto scoreID : playerScoresID) {
         auto point = pointValueFromPointId(scoreID);
         totalScore -= point;
@@ -743,56 +743,93 @@ int DartsModelsService::dartsScoreRoundIndex(const QUuid &scoreId) const
     return roundIndex;
 }
 
-int DartsModelsService::dartsScoreSetIndex(const QUuid &) const
+int DartsModelsService::dartsScoreSetIndex(const QUuid &scoreId) const
 {
+    auto model = getScoreModelById(scoreId);
+    auto setIndex = model->setIndex();
+    return setIndex;
 }
 
-int DartsModelsService::ScoreValueFromScoreId(const QUuid &) const
+int DartsModelsService::ScoreValueFromScoreId(const QUuid &scoreId) const
 {
+    auto model = getScoreModelById(scoreId);
+    auto score = model->score();
+    return score;
 }
 
-QUuid DartsModelsService::tournamentIdFromScoreId(const QUuid &playerScore) const
+QUuid DartsModelsService::tournamentIdFromScoreId(const QUuid &scoreId) const
 {
+    auto model =getScoreModelById(scoreId);
+    auto tournamentId = model->tournamentId();
+    return tournamentId;
 }
 
-QUuid DartsModelsService::playerIdFromScoreId(const QUuid &playerScore) const
+QUuid DartsModelsService::playerIdFromScoreId(const QUuid &scoreId) const
 {
+    auto model = getScoreModelById(scoreId);
+    auto playerId = model->playerId();
+    return playerId;
 }
 
-int DartsModelsService::ScoreHint(const QUuid &scoreID) const
+int DartsModelsService::ScoreHint(const QUuid &scoreId) const
 {
+    auto model = getScoreModelById(scoreId);
+    auto hint = model->hint();
+    return hint;
 }
 
-int DartsModelsService::ScoreKeyCode(const QUuid &) const
+void DartsModelsService::removeScoreById(const QUuid &scoreId)
 {
+    auto model = getScoreModelById(scoreId);
+    auto indexOfModel = _dartsScoreDb->indexOfDartsInputModel(model);
+    _dartsScoreDb->removeDartsInputModelByIndex(indexOfModel);
 }
 
-void DartsModelsService::removeScoreById(const QUuid &)
+void DartsModelsService::removeHiddenScores(const QUuid &tournamentId)
 {
+    auto modelIds = dartsScoreIds(ModelDisplayHint::HiddenHint,tournamentId);
+    for (const auto& modelId : modelIds)
+        removeScoreById(modelId);
 }
 
-void DartsModelsService::removeHiddenScores(const QUuid &)
+int DartsModelsService::Score(const QUuid& tournamentId, const QUuid &playerId) const
 {
+    auto modelIds = dartsScoreIds(tournamentId);
+    for (const auto& modelId : modelIds) {
+        auto model = getScoreModelById(modelId);
+        if(model->playerId() == playerId)
+            return model->score();
+    }
+    return -1;
 }
 
-int DartsModelsService::Score(const QUuid &, const QUuid &) const
+QVector<QUuid> DartsModelsService::ScoreModels(const QUuid &playerId) const
 {
+    QVector<QUuid> list;
+    auto models = _dartsScoreDb->dartsInputModels();
+    for (const auto& model : models) {
+        auto scorePlayerId = model->playerId();
+        if(scorePlayerId == playerId)
+            list << model->id();
+    }
+    return list;
 }
 
-int DartsModelsService::Score(const QUuid &player) const
+void DartsModelsService::removeScoresByTournamentId(const QUuid &tournamentId)
 {
+    auto modelIds = dartsScoreIds(tournamentId);
+    for (const auto& modelId : modelIds) {
+        auto model = getScoreModelById(modelId);
+        if(model->tournamentId() == tournamentId)
+            removeScoreById(model->id());
+    }
 }
 
-QVector<QUuid> DartsModelsService::ScoreModels(const QUuid &player) const
+void DartsModelsService::removeScoreModel(const QUuid &scoreId)
 {
-}
-
-void DartsModelsService::removeScoresByTournamentId(const QUuid &tournament)
-{
-}
-
-void DartsModelsService::removeScoreModel(const QUuid &playerScore)
-{
+    auto model =getScoreModelById(scoreId);
+    auto indexOfModel = _dartsScoreDb->indexOfDartsInputModel(model);
+    _dartsScoreDb->removeDartsInputModelByIndex(indexOfModel);
 }
 
 
