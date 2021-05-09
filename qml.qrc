@@ -78,7 +78,7 @@
         <file>TournamentListView.qml</file>
         <file>ScoreKeyPadInterface.qml</file>
         <file>SingleScoreDelegate.qml</file>
-        <file>MultiPointDelegate.qml</file>
+        <file>SingleAttemptCellDelegate.qml</file>
         <file>DartsSingleAttemptPointScoreBoard.qml</file>
         <file>ftpScoreBoardFactory.js</file>
         <file>ScoreRectDelegate.qml</file>

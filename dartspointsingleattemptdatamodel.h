@@ -10,7 +10,7 @@
      *  - The datamodel orientation is based on the axis for which player names are listed
      */
 
-    class DartsMultiPointDataModel : public QAbstractTableModel
+    class DartsPointSingleAttemptDataModel : public QAbstractTableModel
     {
         Q_OBJECT
     public:
@@ -21,7 +21,7 @@
         enum AppendDataMode{SingleAppend = 0x4,
                             MultiAppend = 0x8};
         // Constructor
-        DartsMultiPointDataModel();
+        DartsPointSingleAttemptDataModel();
         // Public properties
         // Fonts properties
         Q_PROPERTY(int scoreFontPointSize READ scoreFontSize WRITE setScoreFontSize NOTIFY fontChanged);
@@ -54,7 +54,7 @@
                                         const int &headerOrientation = -1);
         Q_INVOKABLE void clearData();
         // Header related
-        Q_INVOKABLE void appendHeaderItem(const QVariant &data, const int &headerOrientation = -1);
+        Q_INVOKABLE void appendHeaderItem(const QVariant &data);
         Q_INVOKABLE QString getHeaderData(const int &index, const int &headerOrientation = -1) const;
         Q_INVOKABLE int horizontalHeaderCount() const;
         Q_INVOKABLE int verticalHeaderCount() const;
@@ -116,6 +116,8 @@
         int columnWidthsAt(const int &index) const;
         int headerFontSize() const;
         void setHeaderFontSize(int headerFontSize);
+
+        void setVerticalHeaderStringWidth(double verticalHeaderStringWidth);
 
     signals:
         void fillModeChanged();
@@ -196,6 +198,10 @@
          */
         QStringList _verticalHeaderData;
         QStringList _horizontalHeaderData;
+        /*
+         * Largest vertical header string width
+         */
+        double _verticalHeaderStringWidth = 64;
         /*
          * Column widths
          */

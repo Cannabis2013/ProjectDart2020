@@ -104,7 +104,7 @@ function setViewPosition(x,y)
 
 function appendHeader(header)
 {
-    dartsDataModel.appendHeaderItem(header,headerOrientation);
+    dartsDataModel.appendHeaderItem(header);
     var preferedWidth = dartsDataModel.preferedHeaderItemWidth();
     singleAttemptPointScoreBoard.updateVerticalHeaderWidth(preferedWidth);
 }

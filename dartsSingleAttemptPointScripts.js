@@ -69,17 +69,8 @@ function handleFTPTournamentMetaData(data){
 
 function initializeScoreBoard()
 {
-
     var assignedPlayerNames = dartsSingleAttemptValues.assignedPlayerNames;
     var keyPoint = dartsSingleAttemptValues.keyPoint;
-    /*
-    var count = assignedPlayerNames.length;
-    for(var i = 0;i < count;i++)
-    {
-        var assignedPlayerName = assignedPlayerNames[i];
-        multiPointScoreBoard.setData(assignedPlayerName,keyPoint,0);
-    }
-    */
     multiPointScoreBoard.appendHeaderData(assignedPlayerNames,keyPoint);
 }
 
@@ -117,9 +108,7 @@ function extractPointScoreFromJson(data)
 function reinitialize()
 {
     // reinitialize controller after reset
-    let m = PointScoreBoard.minimumColumnCount;
     multiPointScoreBoard.clearData();
-    multiPointScoreBoard.minimumColumnCount = m;
     initializeScoreBoard();
     requestStatusFromBackend();
 }

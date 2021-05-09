@@ -5,7 +5,7 @@
 #include <QtQuick/QQuickView>
 #include <qqmlcontext.h>
 
-#include "dartsmultipointdatamodel.h"
+#include "dartspointsingleattemptdatamodel.h"
 #include "sftpdatamodel.h"
 #include "dartsmultiscoredatamodel.h"
 #include "ApplicationBuilder.h"
@@ -13,7 +13,7 @@
 void registerCustomTypes()
 {
     qmlRegisterType<SFtpDataModel>("CustomItems",1,0,"SFtpDataModel");
-    qmlRegisterType<DartsMultiPointDataModel>("CustomItems",1,0,"DartsPointDatamodel");
+    qmlRegisterType<DartsPointSingleAttemptDataModel>("CustomItems",1,0,"DartsPointDatamodel");
     qmlRegisterType<DartsMultiScoreDataModel>("CustomItems",1,0,"DartsMultiScoreDataModel");
     qmlRegisterSingletonType(QUrl("qrc:/ThemeContext.qml"),"customDefinitions",1,0,"ThemeContext");
     qmlRegisterSingletonType(QUrl("qrc:/TournamentContext.qml"),"CustomValues",1,0,"TournamentContext");

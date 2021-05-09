@@ -29,11 +29,11 @@ SOURCES += \
     dartsmodelsjsonservice.cpp \
     dartsmodelsservice.cpp \
     dartsmodelsservicebuilder.cpp \
-    dartsmultipointdatamodel.cpp \
     dartsmultiscoredatamodel.cpp \
     dartsplayerscoreservice.cpp \
     dartspointdbservice.cpp \
     dartspointsingleattempt.cpp \
+    dartspointsingleattemptdatamodel.cpp \
     dartsscoremultiattempt.cpp \
     dartssingleattemptpointjsonservice.cpp \
     dartstournamentjsonextractor.cpp \
@@ -112,12 +112,12 @@ HEADERS += \
     dartsmodelsservice.h \
     dartsmodelsservicebuilder.h \
     dartsmodelsservicescollection.h \
-    dartsmultipointdatamodel.h \
     dartsmultiscoredatamodel.h \
     dartsplayerscoreservice.h \
     dartspointdbservice.h \
     dartspointindexes.h \
     dartspointsingleattempt.h \
+    dartspointsingleattemptdatamodel.h \
     dartsscorejsonassemblerservice.h \
     dartsscoremultiattempt.h \
     dartsscoresjsonassemblerservice.h \

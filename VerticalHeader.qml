@@ -15,8 +15,8 @@ Column
     property int fontSize: 12
     onFontSizeChanged: cellBodyText.font.pointSize = body.fontSize
 
-    property color color: "black"
-    onColorChanged: cellBodyText.color = color
+    property color fontColor: "black"
+    onFontColorChanged: cellBodyText.color = fontColor
     property int cellWidth: 125
     onCellWidthChanged: {
         cellBody.width = cellWidth
@@ -66,21 +66,14 @@ Column
             bottomBorderWidth: body.borderWidth
 
             borderColor: body.borderColor
-
             color: backgroundColor
-            
             Text {
                 id: cellBodyText
-
-                color: body.color
-                
+                color: body.fontColor
                 text: "Column text"
-
                 font.pointSize: 12
-                
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                
                 anchors.fill: parent
             }
         }

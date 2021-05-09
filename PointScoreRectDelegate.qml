@@ -55,50 +55,39 @@ MyRectangle{
 
     color: cellColor
 
-    GridLayout{
+    MyRectangle{
+        id: scoreTextRect
+        clip: true
         anchors.fill: parent
-        rows: 2
-        columns: 2
-
-        MyRectangle{
-            id: pointTextRect
-            Layout.row: 0
-            Layout.column: 0
-            Layout.preferredWidth: cellBody.pointDisplayWidth
-            Layout.preferredHeight: cellBody.pointDisplayHeight
-            Layout.alignment: Qt.AlignTop
-            clip: true
-            visible: cellBody.pointDisplayVisible
-            color: "blue"
-            Text {
-                id: pointText
-                anchors.fill: parent
-                horizontalAlignment: cellBody.horizontalTextAlignment
-                verticalAlignment: cellBody.verticalTextAlignment
-                color: textColor
-                font.pointSize: cellBody.pointFontSize
-            }
+        bottomBorderWidth: 1
+        rightBorderWidth: 1
+        color: "green"
+        Text {
+            id: scoreText
+            anchors.fill: parent
+            horizontalAlignment: cellBody.horizontalTextAlignment
+            verticalAlignment: cellBody.verticalTextAlignment
+            color: textColor
+            font.pointSize: scoreFontSize
         }
-        MyRectangle{
-            id: scoreTextRect
-            clip: true
-            Layout.row: 0
-            Layout.column: 1
-            Layout.columnSpan: 2
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            bottomBorderWidth: 1
-            rightBorderWidth: 1
-
-            color: "transparent"
-            Text {
-                id: scoreText
-                anchors.fill: parent
-                horizontalAlignment: cellBody.horizontalTextAlignment
-                verticalAlignment: cellBody.verticalTextAlignment
-                color: textColor
-                font.pointSize: scoreFontSize
-            }
+    }
+    MyRectangle{
+        id: pointTextRect
+        x: 5
+        y: 5
+        width: cellBody.pointDisplayWidth
+        height:  cellBody.pointDisplayHeight
+        Layout.alignment: Qt.AlignTop | Qt.AlignHCenter
+        clip: true
+        visible: cellBody.pointDisplayVisible
+        color: "blue"
+        Text {
+            id: pointText
+            anchors.fill: parent
+            horizontalAlignment: cellBody.horizontalTextAlignment
+            verticalAlignment: cellBody.verticalTextAlignment
+            color: textColor
+            font.pointSize: cellBody.pointFontSize
         }
     }
 }

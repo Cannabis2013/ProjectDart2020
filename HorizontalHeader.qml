@@ -12,8 +12,8 @@ Row
     property color backgroundColor: "transparent"
     onBackgroundColorChanged: cellBody.color = backgroundColor
 
-    property color color: "black"
-    onColorChanged: cellBodyText.color = color
+    property color fontColor: "black"
+    onFontColorChanged: cellBodyText.color = fontColor
 
     property int fontSize: 12
     onFontSizeChanged: cellBodyText.font.pointSize = body.fontSize
@@ -71,14 +71,10 @@ Row
 
             Text {
                 id: cellBodyText
-
-                color: body.color
-
+                color: body.fontColor
                 font.pointSize: body.fontSize
-
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                
                 anchors.fill: parent
             }
         }

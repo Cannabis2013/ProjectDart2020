@@ -17,12 +17,17 @@ ScoreBoard {
     // Row/column related
     onMinimumColumnCountChanged: dartsDataModel.minimumColumnCount = singleAttemptPointScoreBoard.minimumColumnCount
     // Score related
-    property int scoreFontSize: 24
+    property int scoreFontSize: 16
     onScoreFontSizeChanged: {
         dartsDataModel.scoreFontPointSize = singleAttemptPointScoreBoard.scoreFontSize;
         delegate.scoreFontSize = singleAttemptPointScoreBoard.scoreFontSize;
     }
-
+    // Point related
+    property int pointFontSize: 8
+    onPointFontSizeChanged: {
+        delegate.pointFontSize = singleAttemptPointScoreBoard.pointFontSize;
+        dartsDataModel.pointFontPointSize = singleAttemptPointScoreBoard.pointFontSize;
+    }
     onSizeScale: dartsDataModel.scale = s
     // Notify datamodel about the number of attemps
     property int attempts: 3
@@ -37,8 +42,6 @@ ScoreBoard {
 
     property int headerFontSize: 24
     onHeaderFontSizeChanged: dartsDataModel.headerFontSize = singleAttemptPointScoreBoard.headerFontSize
-    headerOrientation: Qt.Vertical
-    onHeaderOrientationChanged: dartsDataModel.setHeaderOrientation(headerOrientation)
     verticalHeaderFillMode: DataModelContext.fixedFill
     horizontalHeaderFillMode: DataModelContext.numericFill
     onVerticalHeaderFillModeChanged: dartsDataModel.verticalFillMode = verticalHeaderFillMode
@@ -49,13 +52,6 @@ ScoreBoard {
     onScoreCellColorChanged: delegate.cellColor = singleAttemptPointScoreBoard.scoreCellColor
     property int cellBorderWidth: 0
     onCellBorderWidthChanged: delegate.borderWidth = cellBorderWidth
-    // Point related
-    property int pointFontSize: 10
-    onPointFontSizeChanged: {
-        delegate.pointFontSize = singleAttemptPointScoreBoard.pointFontSize;
-        dartsDataModel.pointFontPointSize = singleAttemptPointScoreBoard.pointFontSize;
-    }
-
     onNotifyCellPosition: ScoreScripts.setViewPosition(x,y)
 
     modelScale: 1.5
@@ -87,14 +83,12 @@ ScoreBoard {
         headerOrientation: Qt.Vertical
         pointFontPointSize: singleAttemptPointScoreBoard.pointFontSize
         scoreFontPointSize: singleAttemptPointScoreBoard.scoreFontSize
-        horizontalFillMode: singleAttemptPointScoreBoard.horizontalHeaderFillMode
-        verticalFillMode: singleAttemptPointScoreBoard.verticalHeaderFillMode
         appendMode: DataModelContext.multiAttempt
         minimumColumnCount: singleAttemptPointScoreBoard.minimumColumnCount
         scale: singleAttemptPointScoreBoard.modelScale
     }
 
-    cellDelegate: MultiPointDelegate {
+    cellDelegate: SingleAttemptCellDelegate {
         id: delegate
         text: display
         cellBorderWidth: singleAttemptPointScoreBoard.cellBorderWidth

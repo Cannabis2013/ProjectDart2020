@@ -54,6 +54,7 @@ Content {
             onStartButtonClicked: requestStart()
             onResumeButtonClicked: requestStart()
             onPauseButtonClicked: requestStop()
+            onRestartButtonClicked: requestRestart()
             onLeftButtonClicked: DartsSingleAttemptScripts.undoClicked()
             onRightButtonClicked: DartsSingleAttemptScripts.redoClicked()
         }
