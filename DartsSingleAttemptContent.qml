@@ -54,10 +54,10 @@ Content {
             onStartButtonClicked: requestStart()
             onResumeButtonClicked: requestStart()
             onPauseButtonClicked: requestStop()
-            onRightButtonClicked: DartsSingleAttemptScripts.undoClicked()
-            onLeftButtonClicked: DartsSingleAttemptScripts.redoClicked()
+            onLeftButtonClicked: DartsSingleAttemptScripts.undoClicked()
+            onRightButtonClicked: DartsSingleAttemptScripts.redoClicked()
         }
-        DartsMultiPointScoreBoard{
+        DartsSingleAttemptPointScoreBoard{
             id: multiPointScoreBoard
             Layout.fillHeight: true
             Layout.fillWidth: true
@@ -133,10 +133,7 @@ Content {
         }
     ]
     Component.onCompleted: DartsSingleAttemptScripts.initializeComponent()
-    /*
     Component.onDestruction: {
-        GameGeneralScripts.disconnectComponents();
-        FirstToPostScripts.disconnectFtpInterface();
+        DartsSingleAttemptScripts.disConnectInterface();
     }
-    */
 }

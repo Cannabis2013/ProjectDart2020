@@ -7,7 +7,7 @@ ScoreBoard {
     id: singleAttemptPointScoreBoard
     // Data related
     signal setData(string playerName, int point, int score)
-    signal takeData(int row, int column,string playerName)
+    signal takeData(string playerName)
     signal editData(int row, int column,int point,int score)
     onSetData: ScoreScripts.setData(playerName,score,point)
     onTakeData: ScoreScripts.takeData(playerName)

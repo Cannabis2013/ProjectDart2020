@@ -1,167 +1,167 @@
-#include "dartsscorecontroller.h"
+#include "dartsplayerscoreservice.h"
 
 
-DartsScoreController *DartsScoreController::createInstance(const int &initialScore,
+DartsPlayerScoreService *DartsPlayerScoreService::createInstance(const int &initialScore,
                                                        const QUuid &winner)
 {
-    return new DartsScoreController(initialScore,
+    return new DartsPlayerScoreService(initialScore,
                                   winner);
 }
 
-void DartsScoreController::addPlayerEntity(const QUuid& id, const QString& name)
+void DartsPlayerScoreService::addPlayerEntity(const QUuid& id, const QString& name)
 {
     auto tuple = PlayerTuple(id,name,initialScore());
     _playerTuples.append(tuple);
 }
 
 
-void DartsScoreController::subtractPlayerScore(const QUuid& id, const int& score)
+void DartsPlayerScoreService::subtractPlayerScore(const QUuid& id, const int& score)
 {
     auto tuple = tupleAtId(id);
     auto indexOfTuple = indexOf(tuple);
-    auto tupleScore = tuple.third;
+    auto tupleScore = tuple.score;
     auto newTupleScore = tupleScore - score;
-    tuple.third = newTupleScore;
+    tuple.score = newTupleScore;
     replaceTupleAt(indexOfTuple,tuple);
 }
 
-void DartsScoreController::addPlayerScore(const QUuid &id, const int &score)
+void DartsPlayerScoreService::addPlayerScore(const QUuid &id, const int &score)
 {
     auto tuple = tupleAtId(id);
     auto indexOfTuple = indexOf(tuple);
-    auto tupleScore = tuple.third;
+    auto tupleScore = tuple.score;
     auto newTupleScore = tupleScore + score;
-    tuple.third = newTupleScore;
+    tuple.score = newTupleScore;
     replaceTupleAt(indexOfTuple,tuple);
 }
 
-int DartsScoreController::userScore(const int &index) const
+int DartsPlayerScoreService::playerScore(const int &index) const
 {
     auto tuple = tupleAtIndex(index);
-    auto score = tuple.third;
+    auto score = tuple.score;
     return score;
 }
 
-int DartsScoreController::userScore(const QUuid &id) const
+int DartsPlayerScoreService::playerScore(const QUuid &id) const
 {
     auto tuple = tupleAtId(id);
-    auto score = tuple.third;
+    auto score = tuple.score;
     return score;
 }
 
-void DartsScoreController::setUserScoreAtIndex(const int &index, const int &input)
+void DartsPlayerScoreService::setPlayerScoreByIndex(const int &index, const int &input)
 {
     auto tuple = tupleAtIndex(index);
-    tuple.third = input;
+    tuple.score = input;
     replaceTupleAt(index,tuple);
 
 }
 
-void DartsScoreController::setUserScoresFromList(const QVector<int> &list)
+void DartsPlayerScoreService::setPlayerScoresByList(const QVector<int> &list)
 {
     if(list.count() != playersCount())
         throw INCONSISTENCY_EXCEPTION_MESSAGE;
     for (int i = 0; i < playersCount(); ++i) {
         auto tuple = tupleAtIndex(i);
-        tuple.third = list.at(i);
+        tuple.score = list.at(i);
         replaceTupleAt(i,tuple);
     }
 }
 
-void DartsScoreController::setUserScoreAtId(const QUuid &id, const int &input)
+void DartsPlayerScoreService::setPlayerScoreById(const QUuid &id, const int &input)
 {
     auto tuple = tupleAtId(id);
     auto index = indexOf(tuple);
-    tuple.third = input;
+    tuple.score = input;
     replaceTupleAt(index,tuple);
 
 }
 
-QString DartsScoreController::userNameAtIndex(const int &index) const
+QString DartsPlayerScoreService::playerNameByIndex(const int &index) const
 {
     auto tuple = tupleAtIndex(index);
-    auto name = tuple.second;
+    auto name = tuple.name;
     return name;
 }
 
-QString DartsScoreController::userNameFromId(const QUuid &id) const
+QString DartsPlayerScoreService::playerNameById(const QUuid &id) const
 {
     auto tuple = tupleAtId(id);
-    auto name = tuple.second;
+    auto name = tuple.name;
     return name;
 }
 
-QVector<QString> DartsScoreController::userNames() const
+QVector<QString> DartsPlayerScoreService::playerNames() const
 {
     QVector<QString> resultingList;
     for (int i = 0; i < playersCount(); ++i) {
         auto tuple = _playerTuples.at(i);
-        auto userName = tuple.second;
+        auto userName = tuple.name;
         resultingList << userName;
     }
     return resultingList;
 }
 
-QUuid DartsScoreController::userIdAtIndex(const int &index) const
+QUuid DartsPlayerScoreService::playerIdAtIndex(const int &index) const
 {
     auto tuple = tupleAtIndex(index);
-    auto id = tuple.first;
+    auto id = tuple.id;
     return id;
 }
 
-int DartsScoreController::playersCount() const
+int DartsPlayerScoreService::playersCount() const
 {
     return count();
 }
 
-QUuid DartsScoreController::winnerId() const
+QUuid DartsPlayerScoreService::winnerId() const
 {
     return _winner;
 }
 
-IScoreController *DartsScoreController::setWinner(const QUuid &id)
+IPlayerScoreService *DartsPlayerScoreService::setWinner(const QUuid &id)
 {
     _winner = id;
     return this;
 }
 
-QString DartsScoreController::winnerUserName() const
+QString DartsPlayerScoreService::winnerUserName() const
 {
     auto id = winnerId();
-    auto userName = userNameFromId(id);
+    auto userName = playerNameById(id);
     return userName;
 }
 
-int DartsScoreController::initialScore() const
+int DartsPlayerScoreService::initialScore() const
 {
     return _initialScore;
 }
 
-int DartsScoreController::calculateAccumulatedScoreCandidate(const int &index, const int &score) const
+int DartsPlayerScoreService::calculateAccumulatedScoreCandidate(const int &index, const int &score) const
 {
     auto tuple = tupleAtIndex(index);
-    auto s = tuple.third;
+    auto s = tuple.score;
     auto scoreCandidate = s - score;
     return scoreCandidate;
 }
 
-void DartsScoreController::resetScores()
+void DartsPlayerScoreService::resetScores()
 {
     for (int i = 0; i < playersCount(); ++i) {
         auto tuple = tupleAtIndex(i);
-        tuple.third = initialScore();
+        tuple.score = initialScore();
         _playerTuples.replace(i,tuple);
     }
 }
 
-DartsScoreController::DartsScoreController(const int &initialScore,
+DartsPlayerScoreService::DartsPlayerScoreService(const int &initialScore,
                                        const QUuid &winner)
 {
     _initialScore = initialScore;
     _winner = winner;
 }
 
-DartsScoreController::DartsScoreController::PlayerTuples DartsScoreController::assembleScoreTubble(const QVector<QUuid> &userIds, const QVector<QString> &userNames, const QVector<int> &userScores)
+DartsPlayerScoreService::PlayerTuples DartsPlayerScoreService::assembleScoreTubble(const QVector<QUuid> &userIds, const QVector<QString> &userNames, const QVector<int> &userScores)
 {
     // First check for consistency
     auto userIdsCount = userIds.count();
@@ -180,47 +180,48 @@ DartsScoreController::DartsScoreController::PlayerTuples DartsScoreController::a
     return tuples;
 }
 
-DartsScoreController::PlayerTuple DartsScoreController::tupleAtIndex(const int &index) const
+PlayerTuple DartsPlayerScoreService::tupleAtIndex(const int &index) const
 {
     auto tuple = _playerTuples.at(index);
     return tuple;
 }
 
-DartsScoreController::PlayerTuple DartsScoreController::tupleAtId(const QUuid &id) const{
+PlayerTuple DartsPlayerScoreService::tupleAtId(const QUuid &id) const{
     for (int i = 0; i < count(); ++i) {
         auto tuple = _playerTuples.at(i);
-        auto _id = tuple.first;
+        auto _id = tuple.id;
         if(id == _id)
             return tuple;
     }
     return PlayerTuple();
 }
 
-DartsScoreController::PlayerTuple DartsScoreController::tupleAtId(const DartsScoreController::PlayerTuples *_tuples, const QUuid &id)
+PlayerTuple DartsPlayerScoreService::tupleAtId(const PlayerTuples *_tuples, const QUuid &id)
 {
     for (const auto &tuple : *_tuples)
     {
-        auto playerId = tuple.first;
+        auto playerId = tuple.id;
         if(playerId == id)
             return tuple;
     }
     return PlayerTuple();
 }
 
-DartsScoreController::PlayerTuples DartsScoreController::createInitializedTuples()
+DartsPlayerScoreService::PlayerTuples DartsPlayerScoreService::createInitializedTuples()
 {
     PlayerTuples initializedTuples;
-    for (const auto &tuple : _playerTuples)
+    for (const auto &tuple : qAsConst(_playerTuples))
     {
         PlayerTuple t;
-        t.first = tuple.first;
-        t.second = tuple.second;
-        t.third = initialScore();
+        t.id = tuple.id;
+        t.name = tuple.name;
+        t.score = initialScore();
+        initializedTuples << t;
     }
     return initializedTuples;
 }
 
-int DartsScoreController::indexOf(const PlayerTuple &tuple)
+int DartsPlayerScoreService::indexOf(const PlayerTuple &tuple)
 {
     for (int i = 0; i < count(); ++i) {
         auto t = _playerTuples.at(i);
@@ -230,12 +231,12 @@ int DartsScoreController::indexOf(const PlayerTuple &tuple)
     return -1;
 }
 
-void DartsScoreController::replaceTupleAt(const int &index, const PlayerTuple &tuple)
+void DartsPlayerScoreService::replaceTupleAt(const int &index, const PlayerTuple &tuple)
 {
     _playerTuples.replace(index,tuple);
 }
 
-int DartsScoreController::count() const
+int DartsPlayerScoreService::count() const
 {
     return _playerTuples.count();
 }

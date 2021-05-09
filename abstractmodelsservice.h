@@ -86,16 +86,15 @@ signals:
                                const QList<int> &playerScores);
     void scoreAddedToDataContext(const QByteArray& json);
     void scoreNotAddedToDataContext(const QString& msg);
-    void scoreHintUpdated(const QByteArray& json);
+    void hideDartsPointSuccess(const QByteArray&);
+    void revealDartsPointSuccess(const QByteArray&);
+    void hideDartsScoreSuccess(const QByteArray&);
+    void revealDartsScoreSuccess(const QByteArray&);
     void tournamentResetSuccess();
     void tournamentResetFailed();
     void tournamentsDeletedStatus(const bool &status);
-
     void sendTournaments(const QByteArray& json);
-    void dartsPointHiddenSucces(const QByteArray& json);
-    void dartsPointRevealedSucces(const QByteArray& json);
-    void dartsScoreHiddenSucces(const QByteArray& json);
-    void dartsScoreRevealedSucces(const QByteArray& json);
+
     /*
      * Player-models signals
      */
@@ -120,10 +119,6 @@ signals:
     void sendDartsIndexesAndScoreValues(const QByteArray& json);
     void sendDartsTournamentWinnerIdAndName(const QByteArray& json);
     void sendDartsSingleAttemptPoints(const QByteArray& scores);
-    void hideDartsPointSuccess(const QByteArray&);
-    void revealDartsPointSuccess(const QByteArray&);
-    void hideDartsScoreSuccess(const QByteArray&);
-    void revealDartsScoreSuccess(const QByteArray&);
 };
 
 #endif // ABSTRACTMODELCONTEXTINTERFACE_H

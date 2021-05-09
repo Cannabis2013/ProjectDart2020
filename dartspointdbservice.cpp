@@ -1,8 +1,14 @@
 #include "dartspointdbservice.h"
 
-DartsPointDbService *DartsPointDbService::createInstance()
+DartsPointDbService *DartsPointDbService::createInstance(JsonExtractor* extractor,
+                                                         JsonAssembler* assembler)
 {
-    return new DartsPointDbService;
+
+    auto dbService = new DartsPointDbService;
+    dbService->setDartsPointsExtractorService(extractor);
+    dbService->setDartsPointsJsonAssemblerService(assembler);
+    dbService->fetchModels();
+    return dbService;
 }
 
 void DartsPointDbService::fetchModels()
@@ -31,19 +37,19 @@ void DartsPointDbService::saveState()
     writeJSONToFile(modelJson,_fileName);
 }
 
-void DartsPointDbService::addDartsInputModel(const IDartsPointInput<QUuid> *model)
+void DartsPointDbService::addDartsInputModel(const IDartsPointInput *model)
 {
     _dartsPointModels.append(model);
     saveState();
 }
 
-const IDartsPointInput<QUuid> *DartsPointDbService::getDartsInputModelByIndex(const int &index) const
+const IDartsPointInput *DartsPointDbService::getDartsInputModelByIndex(const int &index) const
 {
     auto model = _dartsPointModels.at(index);
     return model;
 }
 
-QVector<const IDartsPointInput<QUuid> *> DartsPointDbService::dartsInputModels() const
+QVector<const IDartsPointInput *> DartsPointDbService::dartsInputModels() const
 {
     return _dartsPointModels;
 }
@@ -54,25 +60,25 @@ void DartsPointDbService::removeDartsInputModelByIndex(const int &index)
     saveState();
 }
 
-int DartsPointDbService::indexOfDartsInputModel(const IDartsPointInput<QUuid> *score)
+int DartsPointDbService::indexOfDartsInputModel(const IDartsPointInput *score)
 {
     auto index = _dartsPointModels.indexOf(score);
     return index;
 }
 
-void DartsPointDbService::replaceDartsInputModel(const int &index, const IDartsPointInput<QUuid> *score)
+void DartsPointDbService::replaceDartsInputModel(const int &index, const IDartsPointInput *score)
 {
     _dartsPointModels.replace(index,score);
     saveState();
 }
 
-DartsPointDbService *DartsPointDbService::setDartsPointsExtractorService(IUnaryService<const QJsonArray &, QVector<const IDartsPointInput<QUuid> *> > *dartsPointsExtractor)
+DartsPointDbService *DartsPointDbService::setDartsPointsExtractorService(JsonExtractor *dartsPointsExtractor)
 {
     _dartsPointsExtractor = dartsPointsExtractor;
     return this;
 }
 
-DartsPointDbService *DartsPointDbService::setDartsPointsJsonAssemblerService(IUnaryService<const QVector<const IDartsPointInput<QUuid> *> &, QJsonArray> *dartsSingleAttemptPointInputAssembler)
+DartsPointDbService *DartsPointDbService::setDartsPointsJsonAssemblerService(JsonAssembler *dartsSingleAttemptPointInputAssembler)
 {
     _dartsPointsJsonAssemblerService = dartsSingleAttemptPointInputAssembler;
     return this;

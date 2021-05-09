@@ -1,79 +1,75 @@
 #ifndef FTPSCORECONTROLLER_H
 #define FTPSCORECONTROLLER_H
 
-#include "iscorecontroller.h"
+#include "iplayerscoreservice.h"
 #include <qlist.h>
 
 #define INCONSISTENCY_EXCEPTION_MESSAGE "User inconsistency!"
 
-template<class T1, class T2, class T3>
-struct Tuple
+struct PlayerTuple
 {
-    Tuple(T1 firstArg, T2 secondArg, T3 thirdArg)
+    PlayerTuple(QUuid _id, QString _name, int _score)
     {
-        first = firstArg;
-        second = secondArg;
-        third = thirdArg;
+        id = _id;
+        name = _name;
+        score = _score;
     }
-    Tuple(){}
+    PlayerTuple(){}
 
-    bool operator==(const Tuple& other){
-        if(other.first != this->first)
+    bool operator==(const PlayerTuple& other){
+        if(other.id != this->id)
             return false;
-        else if(other.second != this->second)
+        else if(other.name != this->name)
             return false;
-        else if(other.third != this->third)
+        else if(other.score != this->score)
             return false;
         return true;
     }
-    T1 first;
-    T2 second;
-    T3 third;
+    QUuid id;
+    QString name;
+    int score;
 };
 
 
-class DartsScoreController : public IScoreController
+class DartsPlayerScoreService : public IPlayerScoreService
 {
 public:
     // Tuple : {UserId, UserName, UserScore}
-    typedef Tuple<QUuid,QString,int> PlayerTuple;
     typedef QList<PlayerTuple> PlayerTuples;
     typedef QPair<QUuid,QString> PlayerPair;
     typedef QList<PlayerPair> PlayerPairs;
-    static DartsScoreController* createInstance(const int& initialScore,
+    static DartsPlayerScoreService* createInstance(const int& initialScore,
                                               const QUuid &winner);
     virtual void addPlayerEntity(const QUuid &id, const QString &name) override;
     virtual void subtractPlayerScore(const QUuid& id, const int &score) override;
     virtual void addPlayerScore(const QUuid& id, const int &score) override;
     // UserScoresControllerInterface interface
-    int userScore(const int &index) const override;
-    int userScore(const QUuid& id) const override;
-    void setUserScoreAtIndex(const int &index, const int &input) override;
-    void setUserScoresFromList(const QVector<int> &list) override;
-    void setUserScoreAtId(const QUuid &id, const int &input) override;
-    QString userNameAtIndex(const int &index) const override;
-    QString userNameFromId(const QUuid &id) const override;
-    QVector<QString> userNames() const override;
-    QUuid userIdAtIndex(const int &index) const override;
+    int playerScore(const int &index) const override;
+    int playerScore(const QUuid& id) const override;
+    void setPlayerScoreByIndex(const int &index, const int &input) override;
+    void setPlayerScoresByList(const QVector<int> &list) override;
+    void setPlayerScoreById(const QUuid &id, const int &input) override;
+    QString playerNameByIndex(const int &index) const override;
+    QString playerNameById(const QUuid &id) const override;
+    QVector<QString> playerNames() const override;
+    QUuid playerIdAtIndex(const int &index) const override;
     int playersCount() const override;
     QUuid winnerId() const override;
-    IScoreController *setWinner(const QUuid &id) override;
+    IPlayerScoreService *setWinner(const QUuid &id) override;
     QString winnerUserName() const override;
     int initialScore() const override;
     int calculateAccumulatedScoreCandidate(const int& index,
-                                              const int& score) const override;
+                                           const int& score) const override;
     void resetScores() override;
 private:
     /*
      * Private constructor
      */
-    DartsScoreController(const int& initialScore,
+    DartsPlayerScoreService(const int& initialScore,
                        const QUuid& winner);
-
     PlayerTuples assembleScoreTubble(const QVector<QUuid>& userIds,
                              const QVector<QString>& userNames,
                              const QVector<int>& userScores);
-
     PlayerTuple tupleAtIndex(const int &index) const;
     PlayerTuple tupleAtId(const QUuid& id) const;
     PlayerTuple tupleAtId(const PlayerTuples* _tuples, const QUuid& id);

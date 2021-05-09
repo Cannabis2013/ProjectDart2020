@@ -9,10 +9,10 @@
 
 class AssembleSingleAttemptPointsFromJson : public IUnaryService<
         const QJsonArray&,
-        QVector<const IDartsPointInput<QUuid>*>>
+        QVector<const IDartsPointInput*>>
 {
 public:
-    QVector<const IDartsPointInput<QUuid> *> service(const QJsonArray &arr) override;
+    QVector<const IDartsPointInput *> service(const QJsonArray &arr) override;
 private:
     const DartsPointInput* assembleModelFromJsonObject(const QJsonObject& JsonObject);
 };

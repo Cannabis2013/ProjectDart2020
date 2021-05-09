@@ -40,8 +40,9 @@ public:
     /*
      * Points related section
      */
-    virtual void addDartsPoint(const IDartsPointInput<QUuid>*) = 0;
-    virtual QVector<const IDartsPointInput<QUuid>*> getDartsPointModelsOrdedByIndexes(const QUuid& tournamentId) const = 0;
+    virtual void addDartsPoint(const IDartsPointInput*) = 0;
+    virtual QVector<const IDartsPointInput*> getDartsPointModelsOrdedByIndexes(const QUuid& tournamentId) const = 0;
+    virtual const IDartsPointInput* getDartsPointModelById(const QUuid& id) const = 0;
     virtual QUuid getDartsPointId(const QUuid &tournament,
                            const QUuid &player ,
                            const int &round,
@@ -58,7 +59,7 @@ public:
     virtual QList<QUuid> dartsPointIds(const int &hint,const QUuid &tournament) = 0;
     virtual QList<QUuid> pointsByPlayerId(const QUuid &tournament, const QUuid &player, const int &hint) const = 0;
     virtual int dartsPointsCount(const QUuid&,const int &hint) const = 0;
-    virtual QUuid setDartsPointHint(const QUuid &point, const int &hint) = 0;
+    virtual const IDartsPointInput* setDartsPointHint(const QUuid &point, const int &hint) = 0;
     virtual int dartsPointRoundIndex(const QUuid &) const = 0;
     virtual int dartsPointSetIndex(const QUuid &) const = 0;
     virtual int dartsPointAttemptIndex(const QUuid &)  const = 0;

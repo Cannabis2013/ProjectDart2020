@@ -2,7 +2,6 @@
 #define ASSEMBLEDARTSTOURNAMENTFROMJSONARRAY_H
 
 #include "iunaryservice.h"
-
 #include <qjsondocument.h>
 #include <qjsonarray.h>
 #include <qjsonobject.h>
@@ -18,6 +17,8 @@ public:
         auto jsonArray = json.value("DartsTournaments").toArray();
         for (const auto& jsonValue : jsonArray) {
             auto jsonObject = jsonValue.toObject();
+            auto stringId = jsonObject.value("id").toString();
+            auto id = QUuid::fromString(stringId);
             auto title = jsonObject.value("title").toString();
             auto gameMode = jsonObject.value("gameMode").toInt();
             auto keyPoint = jsonObject.value("keyPoint").toInt();
@@ -27,21 +28,22 @@ public:
             auto attempts = jsonObject.value("attempts").toInt();
             auto assignedPlayerIdsJsonArray = jsonObject.value("assignedPlayerIds").toArray();
             auto assignedPlayerIds = assembleAssignedPlayerIdsFromJsonArray(assignedPlayerIdsJsonArray);
-            auto model = buildModelFromParameters(title,gameMode,keyPoint,terminalKeyCode,
+            auto model = buildModelFromParameters(id,title,gameMode,keyPoint,terminalKeyCode,
                                                   displayHint,inputHint,attempts,assignedPlayerIds);
             list << model;
         }
         return list;
     }
 private:
-    const IDartsTournament* buildModelFromParameters(const QString &title,
-                                                                    const int &gameMode,
-                                                                    const int &keyPoint,
-                                                                    const int &terminalKeyCode,
-                                                                    const int &displayHint,
-                                                                    const int &inputHint,
-                                                                    const int &attempts,
-                                                                    const QVector<QUuid>& assignedPlayerIds)
+    const IDartsTournament* buildModelFromParameters(const QUuid& id,
+                                                     const QString &title,
+                                                     const int &gameMode,
+                                                     const int &keyPoint,
+                                                     const int &terminalKeyCode,
+                                                     const int &displayHint,
+                                                     const int &inputHint,
+                                                     const int &attempts,
+                                                     const QVector<QUuid>& assignedPlayerIds)
     {
         auto model = DartsTournament::createInstance()
                 ->setTitle(title)
@@ -52,7 +54,7 @@ private:
                 ->setDisplayHint(displayHint)
                 ->setInputMode(inputHint)
                 ->setAssignedPlayerIdentities(assignedPlayerIds)
-                ->setId(QUuid::createUuid());
+                ->setId(id);
         return model;
     }
     const QVector<QUuid> assembleAssignedPlayerIdsFromJsonArray(const QJsonArray& arr)

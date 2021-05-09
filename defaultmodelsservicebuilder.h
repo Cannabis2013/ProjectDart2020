@@ -24,6 +24,7 @@
 #include "assembleplayermodelfromjson.h"
 #include "assignplayeridstodartstournamentmodel.h"
 #include "addplayernametopointjson.h"
+#include "idartsjsonservice.h"
 
 class DefaultModelsServiceBuilder :
         public AbstractModelsServiceBuilder<AbstractModelsService>
@@ -33,7 +34,10 @@ public:
     AbstractModelsService *buildLocalModelsServiceWithJsonDb() override;
     DefaultModelsServiceBuilder* setModelsTournamentServiceBuilder(IModelsServiceBuilder<IDartsModelsService>* builder);
     DefaultModelsServiceBuilder* setPlayerServiceBuilder(IModelsServiceBuilder<IPlayerModelsService> *playerServiceBuilder);
+    DefaultModelsServiceBuilder* setDartsJSonServiceBuilder(IModelsServiceBuilder<IDartsJsonService> *dartsJSonServiceBuilder);
+
 private:
+    IModelsServiceBuilder<IDartsJsonService>* _dartsJSonServiceBuilder;
     IModelsServiceBuilder<IDartsModelsService>* _localDartsTournamentServiceBuilder;
     IModelsServiceBuilder<IPlayerModelsService>* _playerServiceBuilder;
 };

@@ -10,16 +10,16 @@
 
 class GetOrderedDartsPointsModels :
         public IBinaryService<const QUuid&,
-                              const IdartsPointDb<IDartsPointInput<QUuid>>*,
-                              QVector<const IDartsPointInput<QUuid>*>>
+                              const IdartsPointDb<IDartsPointInput>*,
+                              QVector<const IDartsPointInput*>>
 {
     // IBinaryService interface
 public:
-    QVector<const IDartsPointInput<QUuid>*> service(const QUuid& tournamentId,
-                                                    const IdartsPointDb<IDartsPointInput<QUuid>>* dbService) override
+    QVector<const IDartsPointInput*> service(const QUuid& tournamentId,
+                                                    const IdartsPointDb<IDartsPointInput>* dbService) override
     {
         auto dartsPointModels = dbService->dartsInputModels();
-        QVector<const IDartsPointInput<QUuid>*> orderedDartsPointModels;
+        QVector<const IDartsPointInput*> orderedDartsPointModels;
         for (const auto& dartsPointModel : dartsPointModels) {
             auto modelTournamentId = dartsPointModel->tournamentId();
             if(modelTournamentId == tournamentId)
@@ -30,7 +30,7 @@ public:
     }
 private:
     struct CompareCriteria {
-        bool operator()(const IDartsPointInput<QUuid>* _first, const IDartsPointInput<QUuid>* _second)
+        bool operator()(const IDartsPointInput* _first, const IDartsPointInput* _second)
         {
             if(_first->roundIndex() < _second->roundIndex())
                 return true;

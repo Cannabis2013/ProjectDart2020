@@ -1,13 +1,13 @@
-#include "dartsmodelservicebuilder.h"
+#include "dartsmodelsservicebuilder.h"
 
 
-IDartsModelsService *DartsModelServiceBuilder::buildModelsService() const
+IDartsModelsService *DartsModelsServiceBuilder::buildModelsService() const
 {
     auto dartsTournamentsJsonDb = DartsTournamentJSonDb::createInstance(new AssembleDartsTournamentsFromJsonArray,
                                                                         new AssembleJsonFromDartsTournamentModels);
-    auto dartsPointDb = DartsPointDbService::createInstance()
-            ->setDartsPointsExtractorService(new AssembleSingleAttemptPointsFromJson)
-            ->setDartsPointsJsonAssemblerService(new AssembleJsonArrayFromDartsPoints);
+    auto dartsPointDb = DartsPointDbService::createInstance(new AssembleSingleAttemptPointsFromJson,
+                                                            new AssembleJsonArrayFromDartsPoints)
+;
     auto dartsModelsService =
             DartsModelsService::createInstance()
             ->setTournamentsDbContext(dartsTournamentsJsonDb)

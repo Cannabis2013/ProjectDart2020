@@ -4,38 +4,11 @@
 #include <QQmlApplicationEngine>
 #include <QtQuick/QQuickView>
 #include <qqmlcontext.h>
-#include "dartapplication.h"
-#include "dartscontrollerbuilder.h"
-#include "remotemodelscontext.h"
+
 #include "dartsmultipointdatamodel.h"
 #include "sftpdatamodel.h"
 #include "dartsmultiscoredatamodel.h"
-#include "connectdartssingleattemptpointcontroller.h"
-#include "connectdartsscorecontroller.h"
-#include "defaultmodelsservicebuilder.h"
-#include "dartsmodelservicebuilder.h"
-#include "playermodelsservicebuilder.h"
-#include "connectdefaultmodelscontextinterface.h"
-#include "connectcontrollerbuilder.h"
-
-DartApplication* createDartApplication()
-{
-    auto dartsControllerBuilder = DartsControllerBuilder::createInstance()
-            ->setConnectDartsSingleAttemptPointController(new ConnectDartsSingleAttemptPointController)
-            ->setConnectDartsScoreController(new ConnectDartsScoreController);
-    auto modelsServiceBuilder = DefaultModelsServiceBuilder::createInstance()
-            ->setModelsTournamentServiceBuilder(new DartsModelServiceBuilder)
-            ->setPlayerServiceBuilder(new PlayerModelsServiceBuilder);
-    auto _dart =
-            DartApplication::createInstance()->
-            setModelsServiceBuilder(modelsServiceBuilder)->
-            setControllerBuilder(dartsControllerBuilder)->
-            setConnectModelsServiceInterface(new ConnectDefaultModelsContextInterface)
-            ->setConnectControllerBuilder(new ConnectControllerBuilder)
-            /*useThreads()->*/
-            ->setup();
-    return _dart;
-}
+#include "ApplicationBuilder.h"
 
 void registerCustomTypes()
 {
@@ -55,7 +28,7 @@ int main(int argc, char *argv[])
      * Configue DartApplication
      * Instantiate DartApplication
      */
-    auto _dart = createDartApplication();
+    auto _dart = ApplicationBuilder::createLocalDartApplicationWithJsonDb();
     /*
      * Register custom types/singletons
      */

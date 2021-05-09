@@ -2,19 +2,20 @@
 #define IDARTSPOINT_H
 
 #include "idartsinput.h"
+#include <quuid.h>
 
-template <class TUuid>
-class IDartsPointInput : public IDartsInput<TUuid>
+class IDartsPointInput : public IDartsInput<QUuid>
 {
 public:
 
     virtual int modKeyCode() const = 0;
     virtual IDartsPointInput* setModKeyCode(const int&) = 0;
     virtual int point() const = 0;
-    virtual IDartsPointInput* setPointValue(const int&) = 0;
-
+    virtual IDartsPointInput* setPoint(const int&) = 0;
+    virtual int score() const = 0;
+    virtual IDartsPointInput* setScore(const int&) = 0;
     virtual int attempt() const = 0;
-    virtual IDartsPointInput* setAttempt(const int &index) = 0;
+    virtual IDartsPointInput* setAttempt(const int &) = 0;
 
 
 };

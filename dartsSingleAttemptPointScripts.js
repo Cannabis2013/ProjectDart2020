@@ -96,10 +96,9 @@ function recieveDartsSingleAttemptPoints(scores)
     {
         var entity = jsonData[i];
         var playerName = entity["playerName"];
-        var playerScore = entity["playerAccumulatedScore"];
-        var playerPoint = entity["playerPoint"];
-        var keyCode = entity["modKeyCode"];
-        multiPointScoreBoard.setData(playerName,playerScore,playerPoint);
+        var playerScore = entity["score"];
+        var playerPoint = entity["point"];
+        multiPointScoreBoard.setData(playerName,playerPoint,playerScore);
     }
     dartsSingleAttemptBody.requestStatusFromBackend();
 }
@@ -135,9 +134,7 @@ function backendRemovedPoint(data)
 {
     var json = JSON.parse(data);
     let playerName = json["playerName"];
-    let scoreValue = json["playerScore"];
-    let pointValue = json["playerPoint"];
-    alterScore(playerName,scoreValue,pointValue);
+    multiPointScoreBoard.takeData(playerName);
     requestStatusFromBackend();
 }
 

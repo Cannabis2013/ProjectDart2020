@@ -13,10 +13,10 @@
 class AssembleJsonFromDartsTournament :
         public IBinaryService<const IDartsTournament*,
                               const IPlayerModelsService*,
-                              const QByteArray>
+                              QByteArray>
 {
 public:
-    const QByteArray service(const IDartsTournament* dartsTournamentModel,
+    QByteArray service(const IDartsTournament* dartsTournamentModel,
                              const IPlayerModelsService* playerService) override
     {
         QJsonObject obj;

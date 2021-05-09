@@ -9,7 +9,7 @@
 #include "scoreCalculatorInterface.h"
 #include "ipointvalidator.h"
 #include "indexcontrollerinterface.h"
-#include "iscorecontroller.h"
+#include "iplayerscoreservice.h"
 // Json services
 #include "IDartsSingleAttemptPointJsonService.h"
 #define GAME_IS_NOT_IN_PROGRESS "Game is not in progress"
@@ -19,7 +19,7 @@
 
 using namespace std;
 
-class DartsPointController : public AbstractDartsPointController
+class DartsPointSingleAttempt : public AbstractDartsPointController
 {
     Q_OBJECT
 public:
@@ -54,18 +54,18 @@ public:
         IsProcessingUserInput = 0x46
     };
     // Create instance of LocalFTPController
-    static DartsPointController* createInstance(const QUuid &tournament);
+    static DartsPointSingleAttempt* createInstance(const QUuid &tournament);
     // Set service methods
-    DartsPointController *setScoreCalculator(ScoreCalculatorInterface* scoreCalculator);
-    DartsPointController *setInputValidator(IPointValidator* scoreEvaluator);
-    DartsPointController *setIndexController(IndexControllerInterface *indexController);
-    DartsPointController *setScoreController(IScoreController *scoreController);
+    DartsPointSingleAttempt *setScoreCalculator(ScoreCalculatorInterface* scoreCalculator);
+    DartsPointSingleAttempt *setInputValidator(IPointValidator* scoreEvaluator);
+    DartsPointSingleAttempt *setIndexController(IndexControllerInterface *indexController);
+    DartsPointSingleAttempt *setInputController(IPlayerScoreService *scoreController);
     /*
      * Point suggestion section
      */
     FTPLogisticControllerInterface<QString> *pointLogisticInterface() const;
-    DartsPointController* setLogisticInterface(FTPLogisticControllerInterface<QString> *pointLogisticInterface);
-    DartsPointController* setDartsJsonModelsService(IDartsSingleAttemptPointJsonService *dartsJsonModelsService);
+    DartsPointSingleAttempt* setLogisticInterface(FTPLogisticControllerInterface<QString> *pointLogisticInterface);
+    DartsPointSingleAttempt* setDartsJsonModelsService(IDartsSingleAttemptPointJsonService *dartsJsonModelsService);
 
 public slots:
     /*
@@ -103,12 +103,6 @@ public slots:
      * Send current tournament id to external context
      */
     void handleRequestForCurrentTournamentMetaData() override;
-    /*
-     * Handle request for playerscores
-     *
-     * The following methods is called dependently on input hint
-     */
-    void assembleSingleAttemptDartsPoints() override;
     void handleRequestDartsPoints() override;
 
     void handlePointAddedToDataContext(const QByteArray& json) override;
@@ -129,7 +123,7 @@ private:
     /*
      * Private constructor
      */
-    DartsPointController(const QUuid &tournament)
+    DartsPointSingleAttempt(const QUuid &tournament)
     {
         _tournament = tournament;
     }
@@ -138,7 +132,7 @@ private:
      */
     bool isBusy();
     void processDomain(const int& domain,
-                       const int& point,
+                       const int& point, const int &score,
                        const int& modKeyCode);
     /*
      * Notify UI about controller state, current round index, undo/redo possibility and current user
@@ -153,7 +147,7 @@ private:
     /*
      * Update datacontext
      */
-    void addPoint(const int &point,
+    void addPoint(const int &point, const int &score,
                   const int &keyCode);
     /*
      * Index manipulating methods
@@ -175,7 +169,7 @@ private:
     // Index service
     IndexControllerInterface* _indexController = nullptr;
     // Userscore service
-    IScoreController* _scoreController = nullptr;
+    IPlayerScoreService* _scoreController = nullptr;
 };
 
 #endif // POINTFTPCONTROLLER_H

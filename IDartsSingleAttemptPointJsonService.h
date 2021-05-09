@@ -5,7 +5,7 @@
 #include <quuid.h>
 #include <qbytearray.h>
 #include <qvector.h>
-#include <iscorecontroller.h>
+#include <iplayerscoreservice.h>
 
 namespace DartsInputContext {
     struct DartsInputKeyValues
@@ -49,7 +49,6 @@ public:
     virtual QByteArray assembleJsonFromParameters(const QString&, const int&,const int&) const = 0;
     virtual QByteArray assembleJsonFromParameters(const QString&, const int&,const int&, const int&) const = 0;
     virtual const DartsIndexes* assembleDartsIndexesFromJson(const QByteArray&) const = 0;
-    virtual QByteArray assembleJsonDartsPoints(const IScoreController*) const = 0;
     virtual QByteArray assembleJsonDartsPoint(const QString&, const int&, const int&) const = 0;
     virtual QByteArray assembleJsonTurnValues(const bool&, const bool&, const int&, const QString&, const QString&) const = 0;
     virtual QByteArray assembleJsonAddPointValues(const QUuid&,
@@ -58,6 +57,7 @@ public:
                                                   const int&,
                                                   const QUuid&,
                                                   const QUuid&,
+                                                  const int&,
                                                   const int&,
                                                   const int&) const = 0;
     virtual QByteArray assembleJsonWinnerName(const QString&) const = 0;

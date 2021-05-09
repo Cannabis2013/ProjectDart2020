@@ -8,7 +8,7 @@
 #include <quuid.h>
 
 class AssembleDartsPointModelFromJson :
-        public IUnaryService<const QByteArray&,const IDartsPointInput<QUuid>*>
+        public IUnaryService<const QByteArray&,const IDartsPointInput*>
 {
 public:
     enum ModelDisplayHint{
@@ -16,23 +16,29 @@ public:
         DisplayHint = 0x2,
         allHints = 0x3
     };
-    const IDartsPointInput<QUuid>* service(const QByteArray& json) override
+    const IDartsPointInput* service(const QByteArray& json) override
     {
         auto jsonObject = QJsonDocument::fromJson(json).object();
         auto tournamentStringId = jsonObject.value("tournamentId").toString();
         auto tournamentId = QUuid::fromString(tournamentStringId);
         auto currentPlayerStringId = jsonObject.value("playerId").toString();
         auto playerId = QUuid::fromString(currentPlayerStringId);
+        auto point = jsonObject.value("point").toInt();
+        auto score = jsonObject.value("score").toInt();
         auto roundIndex = jsonObject.value("roundIndex").toInt();
         auto modKeyCode = jsonObject.value("modKeyCode").toInt();
         auto setIndex = jsonObject.value("setIndex").toInt();
+        auto attemptIndex = jsonObject.value("attempt").toInt();
         auto model = DartsPointInput::createInstance()
                 ->setId(QUuid::createUuid())
                 ->setTournamentId(tournamentId)
                 ->setPlayer(playerId)
-                ->setRoundIndex(roundIndex)
+                ->setPoint(point)
+                ->setScore(score)
                 ->setModKeyCode(modKeyCode)
+                ->setRoundIndex(roundIndex)
                 ->setSetIndex(setIndex)
+                ->setAttempt(attemptIndex)
                 ->setDisplayHint(DisplayHint);
         return model;
     }

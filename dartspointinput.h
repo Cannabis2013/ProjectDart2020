@@ -5,7 +5,7 @@
 
 #include "idartspointinput.h"
 
-class DartsPointInput : public IDartsPointInput<QUuid>
+class DartsPointInput : public IDartsPointInput
 {
 public:
     QUuid id() const override
@@ -19,11 +19,21 @@ public:
     }
     int point() const override
     {
-        return _pointValue;
+        return _point;
     }
-    DartsPointInput* setPointValue(const int &point) override
+    DartsPointInput* setPoint(const int &point) override
     {
-        _pointValue = point;
+        _point = point;
+        return this;
+    }
+
+    int score() const override
+    {
+        return _score;
+    }
+    DartsPointInput *setScore(const int& score) override
+    {
+        _score = score;
         return this;
     }
 
@@ -109,8 +119,8 @@ public:
     }
 
 private:
-    int _pointValue;
-    int _scoreValue;
+    int _point;
+    int _score;
     int _roundIndex;
     int _setIndex;
     int _attemptIndex;

@@ -12,11 +12,11 @@
 #include "iplayermodel.h"
 
 class AssembleJsonFromOrderedDartsPointModels :
-        public IBinaryService<const QVector<const IDartsPointInput<QUuid>*>&,
+        public IBinaryService<const QVector<const IDartsPointInput*>&,
                               const IPlayerModelsService*,const QByteArray>
 {
 public:
-    const QByteArray service(const QVector<const IDartsPointInput<QUuid>*>& orderedDartsPoints,
+    const QByteArray service(const QVector<const IDartsPointInput*>& orderedDartsPoints,
                              const IPlayerModelsService* playerModelsService) override
     {
         QJsonArray arr;
@@ -24,7 +24,8 @@ public:
             QJsonObject jsonObject;
             jsonObject["playerId"] = dartsPoint->playerId().toString(QUuid::WithoutBraces);
             jsonObject["playerName"] = getPlayerNameFromPlayerId(dartsPoint->playerId(),playerModelsService);
-            jsonObject["playerPoint"] = dartsPoint->point();
+            jsonObject["point"] = dartsPoint->point();
+            jsonObject["score"] = dartsPoint->score();
             jsonObject["modKeyCode"] = dartsPoint->modKeyCode();
             arr << jsonObject;
         }

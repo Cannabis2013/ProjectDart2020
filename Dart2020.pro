@@ -25,13 +25,16 @@ SOURCES += \
     connectdefaultmodelscontextinterface.cpp \
     dartapplication.cpp \
     dartscontrollerbuilder.cpp \
-    dartsmodelservicebuilder.cpp \
+    dartsjsonservicebuilder.cpp \
+    dartsmodelsjsonservice.cpp \
     dartsmodelsservice.cpp \
+    dartsmodelsservicebuilder.cpp \
     dartsmultipointdatamodel.cpp \
     dartsmultiscoredatamodel.cpp \
-    dartspointcontroller.cpp \
+    dartsplayerscoreservice.cpp \
     dartspointdbservice.cpp \
-    dartsscorecontroller.cpp \
+    dartspointsingleattempt.cpp \
+    dartsscoremultiattempt.cpp \
     dartssingleattemptpointjsonservice.cpp \
     dartstournamentjsonextractor.cpp \
     defaultmodelsservicebuilder.cpp \
@@ -46,7 +49,6 @@ SOURCES += \
     playersjsondb.cpp \
     pointlogisticcontroller.cpp \
     remotemodelscontext.cpp \
-    scoredartscontroller.cpp \
     scoreindexcontroller.cpp \
     scorelogisticcontroller.cpp \
     sftpdatamodel.cpp \
@@ -73,6 +75,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    ApplicationBuilder.h \
     AssembleDartsTournamentsFromJsonArray.h \
     IDartsSingleAttemptPointJsonService.h \
     abstractdartscontrollerbuilder.h \
@@ -90,6 +93,7 @@ HEADERS += \
     assemblejsonbasictournamentvaluesfrommodel.h \
     assemblejsondartstournamentmodels.h \
     assemblejsonfromdartspointindexes.h \
+    assemblejsonfromdartspointmodel.h \
     assemblejsonfromdartspoints.h \
     assemblejsonfromdartstournamentmodels.h \
     assemblejsonfromordereddartspointmodels.h \
@@ -103,15 +107,19 @@ HEADERS += \
     connectdartssinglescorecontroller.h \
     connectdefaultmodelscontextinterface.h \
     dartscontrollerbuilder.h \
-    dartsmodelservicebuilder.h \
+    dartsjsonservicebuilder.h \
+    dartsmodelsjsonservice.h \
     dartsmodelsservice.h \
+    dartsmodelsservicebuilder.h \
     dartsmodelsservicescollection.h \
     dartsmultipointdatamodel.h \
     dartsmultiscoredatamodel.h \
-    dartspointcontroller.h \
+    dartsplayerscoreservice.h \
     dartspointdbservice.h \
     dartspointindexes.h \
+    dartspointsingleattempt.h \
     dartsscorejsonassemblerservice.h \
+    dartsscoremultiattempt.h \
     dartsscoresjsonassemblerservice.h \
     dartssingleattemptpointjsonservice.h \
     defaultmodelsservicebuilder.h \
@@ -120,6 +128,7 @@ HEADERS += \
     getplayerindexesfromjson.h \
     gettournamentindexesfromjson.h \
     ibinaryservice.h \
+    idartsjsonservice.h \
     idartsmodelsservice.h \
     idartspointdb.h \
     idartspointindexes.h \
@@ -127,6 +136,7 @@ HEADERS += \
     imodelsservicebuilder.h \
     ipersistence.h \
     iplayermodelsservice.h \
+    iplayerscoreservice.h \
     iternaryservice.h \
     iunaryservice.h \
     jsonarrayfromplayernamesandids.h \
@@ -145,7 +155,6 @@ HEADERS += \
     abstractpersistence.h \
     dartapplication.h \
     dartspointinput.h \
-    dartsscorecontroller.h \
     dartsscoreinput.h \
     dartstournamentjsonextractor.h \
     dartstournamentmodel.h \
@@ -168,7 +177,6 @@ HEADERS += \
     iplayermodel.h \
     ipointvalidator.h \
     iresponseinterface.h \
-    iscorecontroller.h \
     iscoreparameter.h \
     iscorevalidator.h \
     itournament.h \
@@ -190,7 +198,6 @@ HEADERS += \
     replytimeout.h \
     scoreCalculatorInterface.h \
     scorecalculator.h \
-    scoredartscontroller.h \
     scoreindexcontroller.h \
     scorelogisticcontroller.h \
     sftpdatamodel.h \

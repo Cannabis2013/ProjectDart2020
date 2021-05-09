@@ -12,7 +12,7 @@
 #include "assemblejsonfromdartstournamentmodels.h"
 #include "AssembleDartsTournamentsFromJsonArray.h"
 
-class DartsModelServiceBuilder :
+class DartsModelsServiceBuilder :
         public IModelsServiceBuilder<IDartsModelsService>
 {
 

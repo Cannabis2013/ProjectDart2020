@@ -38,7 +38,7 @@ public:
     virtual void next() override
     {
         incrementTurnIndex();
-        if(checkForEndOfLeg())
+        if(isLastAttempt())
         {
             incrementSetIndex();
             resetLegIndex();
@@ -171,7 +171,7 @@ private:
         _turnIndex++;
     }
 
-    int checkForEndOfLeg()
+    int isLastAttempt()
     {
         auto result = _turnIndex % _numberOfAttempts == 0;
         return result;

@@ -2,13 +2,13 @@
 #define SCORESJSONASSEMBLERSERVICE_H
 
 #include "iunaryservice.h"
-#include "iscorecontroller.h"
+#include "iplayerscoreservice.h"
 #include <qjsondocument.h>
 #include <qjsonarray.h>
 #include <qjsonobject.h>
 
 namespace ScoresAssemblerContext{
-    typedef IScoreController<QUuid,
+    typedef IPlayerScoreService<QUuid,
                              QString,QVector<int>,
                              QVector<QString>> ScoreController;
 }
@@ -28,8 +28,8 @@ public:
         QJsonArray playerScoreEntities;
         for (int i = 0; i < count; ++i) {
             QJsonObject obj;
-            auto playerName = scoreService->userNameAtIndex(i);
-            auto score = scoreService->userScore(i);
+            auto playerName = scoreService->playerNameByIndex(i);
+            auto score = scoreService->playerScore(i);
             obj["playerName"] = playerName;
             obj["playerScore"] = score;
             playerScoreEntities.append(obj);

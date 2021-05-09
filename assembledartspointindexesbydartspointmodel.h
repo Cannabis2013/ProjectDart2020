@@ -8,7 +8,7 @@
 #include "dartspointindexes.h"
 
 class AssembleDartsPointIndexesByDartsPointModel : public
-        ITernaryService<const QVector<const IDartsPointInput<QUuid>*>&,
+        ITernaryService<const QVector<const IDartsPointInput*>&,
                        const IDartsTournament*,
                        const int&,
                        const IDartsPointIndexes*>
@@ -19,7 +19,7 @@ public:
         DisplayHint = 0x2,
         allHints = HiddenHint | DisplayHint
     };
-    const IDartsPointIndexes* service(const QVector<const IDartsPointInput<QUuid>*>& orderedModels,
+    const IDartsPointIndexes* service(const QVector<const IDartsPointInput*>& orderedModels,
                                       const IDartsTournament* model,
                                       const int& dartsTournamentPointsCount) override
     {
@@ -28,7 +28,7 @@ public:
         return assembleInitialDartsIndexes();
     }
 private:
-    const IDartsPointIndexes* assembleDartsIndexesByModels(const QVector<const IDartsPointInput<QUuid>*>& orderedModels,
+    const IDartsPointIndexes* assembleDartsIndexesByModels(const QVector<const IDartsPointInput*>& orderedModels,
                                                           const IDartsTournament* model,
                                                           const int& dartsTournamentPointsCount)
     {

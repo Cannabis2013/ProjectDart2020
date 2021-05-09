@@ -291,7 +291,7 @@ void RemoteModelsContext::handleSetScoreHintReply()
     if(responseCode == ResponseCode::Error)
         throw "Error!";
     auto json = QJsonDocument(payLoad).toJson();
-    emit scoreHintUpdated(json);
+    //emit scoreHintUpdated(json);
 }
 
 void RemoteModelsContext::tournamentResetReply()

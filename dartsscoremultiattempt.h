@@ -12,7 +12,7 @@
 #include "scoreCalculatorInterface.h"
 #include "iscorevalidator.h"
 #include "indexcontrollerinterface.h"
-#include "iscorecontroller.h"
+#include "iplayerscoreservice.h"
 
 #define GAME_IS_NOT_IN_PROGRESS "Game is not in progress"
 #define GAME_WINNER_ANNOUNCEMENT(x) QString("Winner with ID: %! is declared winner").arg(x);
@@ -26,7 +26,7 @@
 
 using namespace std;
 
-class ScoreDartsController : public AbstractDartsScoreController
+class DartsScoreMultiAttempt : public AbstractDartsScoreController
 {
     Q_OBJECT
 public:
@@ -61,28 +61,28 @@ public:
         IsProcessingUserInput = 0x46
     };
     // Create instance of LocalFTPController
-    static ScoreDartsController* createInstance(const QUuid &tournament);
+    static DartsScoreMultiAttempt* createInstance(const QUuid &tournament);
     /*
      * Get/set score calculator service
      */
     ScoreCalculatorInterface* scoreCalculator() const;
-    ScoreDartsController *setScoreCalculator(ScoreCalculatorInterface *service);
+    DartsScoreMultiAttempt *setScoreCalculator(ScoreCalculatorInterface *service);
     /*
      * Get/set evaluator service
      */
     IScoreValidator *scoreEvaluator() const;
-    ScoreDartsController *setInputValidator(IScoreValidator *scoreEvaluator);
+    DartsScoreMultiAttempt *setInputValidator(IScoreValidator *scoreEvaluator);
 
     IndexControllerInterface *indexController() const;
-    ScoreDartsController *setIndexController(IndexControllerInterface *indexController);
+    DartsScoreMultiAttempt *setIndexController(IndexControllerInterface *indexController);
 
-    IScoreController* scoreController() const;
-    ScoreDartsController *setScoreController(IScoreController *scoreController);
+    IPlayerScoreService* scoreController() const;
+    DartsScoreMultiAttempt *setScoreController(IPlayerScoreService *scoreController);
     /*
      * Point suggestion section
      */
     FTPLogisticControllerInterface<QString> *pointLogisticInterface() const;
-    ScoreDartsController *setLogisticInterface(FTPLogisticControllerInterface<QString> *pointLogisticInterface);
+    DartsScoreMultiAttempt *setLogisticInterface(FTPLogisticControllerInterface<QString> *pointLogisticInterface);
 public slots:
     /*
      * Handle wake up request
@@ -140,7 +140,7 @@ private:
     /*
      * Private constructor
      */
-    ScoreDartsController(const QUuid &tournament)
+    DartsScoreMultiAttempt(const QUuid &tournament)
     {
         _tournament = tournament;
     }
@@ -184,7 +184,7 @@ private:
     // Index service
     IndexControllerInterface* _indexController = nullptr;
     // Userscore service
-    IScoreController* _scoreController = nullptr;
+    IPlayerScoreService* _scoreController = nullptr;
 
     // AbstractDartsScoreController interface
 public slots:

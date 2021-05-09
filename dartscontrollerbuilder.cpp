@@ -56,13 +56,13 @@ AbstractDartsPointController *DartsControllerBuilder::assembleDartsPointControll
                                                                                  const int &terminalKeyCode,
                                                                                  const int &attempts)
 {
-    AbstractDartsPointController* controller = DartsPointController::createInstance(tournament)
+    AbstractDartsPointController* controller = DartsPointSingleAttempt::createInstance(tournament)
             ->setLogisticInterface(PointLogisticController::createInstance(attempts,
                                                                            terminalKeyCode))
             ->setScoreCalculator(PointScoreCalculator::createInstance())
             ->setInputValidator(PointValidator::createInstance(terminalKeyCode))
             ->setIndexController(PointIndexController::createInstance(attempts))
-            ->setScoreController(DartsScoreController::createInstance(keyPoint,winnerId))
+            ->setInputController(DartsPlayerScoreService::createInstance(keyPoint,winnerId))
             ->setDartsJsonModelsService(new DartsSingleAttemptPointJsonService);
     return controller;
 }
@@ -73,12 +73,12 @@ AbstractDartsScoreController *DartsControllerBuilder::assembleDartsScoreControll
                                                                                  const int &terminalKeyCode,
                                                                                  const int &attempts)
 {
-    AbstractDartsScoreController* controller = ScoreDartsController::createInstance(tournament)
+    AbstractDartsScoreController* controller = DartsScoreMultiAttempt::createInstance(tournament)
             ->setLogisticInterface(ScoreLogisticController::createInstance(attempts,terminalKeyCode))
             ->setScoreCalculator(new ScoreCalculator())
             ->setInputValidator(ScoreValidator::createInstance(terminalKeyCode))
             ->setIndexController(ScoreIndexController::createInstance())
-            ->setScoreController(DartsScoreController::createInstance(keyPoint,
+            ->setScoreController(DartsPlayerScoreService::createInstance(keyPoint,
                                                                     winnerId));
     return controller;
 }

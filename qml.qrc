@@ -79,7 +79,7 @@
         <file>ScoreKeyPadInterface.qml</file>
         <file>SingleScoreDelegate.qml</file>
         <file>MultiPointDelegate.qml</file>
-        <file>DartsMultiPointScoreBoard.qml</file>
+        <file>DartsSingleAttemptPointScoreBoard.qml</file>
         <file>ftpScoreBoardFactory.js</file>
         <file>ScoreRectDelegate.qml</file>
         <file>MultiScoreDelegate.qml</file>

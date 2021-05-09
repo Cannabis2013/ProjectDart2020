@@ -3,8 +3,8 @@
 
 #include "IControllerBuilder.h"
 #include "abstractdartscontroller.h"
-#include "scoredartscontroller.h"
-#include "dartspointcontroller.h"
+#include "dartsscoremultiattempt.h"
+#include "dartspointsingleattempt.h"
 // Include services
 #include "pointlogisticcontroller.h"
 #include "scorelogisticcontroller.h"
@@ -13,7 +13,7 @@
 #include "pointvalidator.h"
 #include "ScoreValidator.h"
 #include "abstractdartscontrollerbuilder.h"
-#include "dartsscorecontroller.h"
+#include "dartsplayerscoreservice.h"
 #include "PointIndexController.h"
 #include "scoreindexcontroller.h"
 #include <qjsondocument.h>

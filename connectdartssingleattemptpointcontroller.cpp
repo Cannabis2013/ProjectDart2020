@@ -100,7 +100,7 @@ AbstractDartsPointController *ConnectDartsSingleAttemptPointController::service(
             controller,&AbstractDartsPointController::undoSuccess);
     QObject::connect(application,&AbstractApplicationInterface::requestRedo,
             controller,&AbstractDartsPointController::redoTurn);
-    QObject::connect(controller,&AbstractDartsPointController::hideDartsPoint,
+    QObject::connect(controller,&AbstractDartsPointController::revealDartsPoint,
             modelsService,&AbstractModelsService::revealPoint);
     QObject::connect(modelsService,&AbstractModelsService::revealDartsPointSuccess,
             controller,&AbstractDartsPointController::redoSuccess);

@@ -17,17 +17,16 @@ public slots:
     virtual void initializeControllerPlayerDetails(const QByteArray&) = 0;
     virtual void initializeControllerDartsPoints(const QByteArray&) = 0;
     virtual void initializeControllerWinnerIdAndName(const QByteArray&) = 0;
-    virtual void assembleSingleAttemptDartsPoints() = 0;
     virtual void handleRequestDartsPoints() = 0;
     virtual void handlePointAddedToDataContext(const QByteArray& json) = 0;
 signals:
     void controllerIsInitialized();
     void controllerIsInitializedAndReady();
     void hideDartsPoint(const QUuid &tournament,
-                             const QUuid &player,
-                             const int &roundIndex,
-                             const int &throwIndex);
-    void revealDartsInputPoint(const QUuid &tournament,
+                        const QUuid &player,
+                        const int &roundIndex,
+                        const int &throwIndex);
+    void revealDartsPoint(const QUuid &tournament,
                                const QUuid &player,
                                const int &roundIndex,
                                const int &throwIndex);

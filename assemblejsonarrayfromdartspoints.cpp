@@ -1,21 +1,21 @@
 #include "assemblejsonarrayfromdartspoints.h"
 
-QJsonArray AssembleJsonArrayFromDartsPoints::service(const QVector<const IDartsPointInput<QUuid> *> &modelsList)
+QJsonArray AssembleJsonArrayFromDartsPoints::service(const QVector<const IDartsPointInput *> &modelsList)
 {
     QJsonArray resultingJsonArray;
     for (const auto& model : modelsList) {
-        auto ftpScoreModel = dynamic_cast<const DartsPointInput*>(model);
-        QJsonObject scoreJSON;
-        scoreJSON["Id"] = ftpScoreModel->id().toString();
-        scoreJSON["Tournament"] = ftpScoreModel->tournament().toString();
-        scoreJSON["PointValue"] = ftpScoreModel->point();
-        scoreJSON["RoundIndex"] = ftpScoreModel->roundIndex();
-        scoreJSON["SetIndex"] = ftpScoreModel->setIndex();
-        scoreJSON["Attempt"] = ftpScoreModel->attempt();
-        scoreJSON["PlayerId"] = ftpScoreModel->playerId().toString();
-        scoreJSON["Hint"] = ftpScoreModel->hint();
-        scoreJSON["KeyCode"] = ftpScoreModel->modKeyCode();
-        resultingJsonArray << scoreJSON;
+        QJsonObject jsonObject;
+        jsonObject["id"] = model->id().toString();
+        jsonObject["tournament"] = model->tournamentId().toString();
+        jsonObject["point"] = model->point();
+        jsonObject["score"] = model->score();
+        jsonObject["roundIndex"] = model->roundIndex();
+        jsonObject["setIndex"] = model->setIndex();
+        jsonObject["attempt"] = model->attempt();
+        jsonObject["playerId"] = model->playerId().toString();
+        jsonObject["hint"] = model->hint();
+        jsonObject["keyCode"] = model->modKeyCode();
+        resultingJsonArray << jsonObject;
     }
     return resultingJsonArray;
 }

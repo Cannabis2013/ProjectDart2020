@@ -7,31 +7,32 @@
 #include <quuid.h>
 #include "iunaryservice.h"
 class DartsPointDbService :
-        public IdartsPointDb<IDartsPointInput<QUuid>>,
+        public IdartsPointDb<IDartsPointInput>,
         public AbstractJSONPersistence
 {
 public:
-    static DartsPointDbService* createInstance();
+    typedef IUnaryService<const QJsonArray &, QVector<const IDartsPointInput *>> JsonExtractor;
+    typedef IUnaryService<const QVector<const IDartsPointInput*>&,QJsonArray> JsonAssembler;
+    static DartsPointDbService* createInstance(JsonExtractor* extractor, JsonAssembler* assembler);
     void fetchModels() override;
     void saveState() override;
-    void addDartsInputModel(const IDartsPointInput<QUuid> *model) override;
-    const IDartsPointInput<QUuid> *getDartsInputModelByIndex(const int &index) const override;
-    QVector<const IDartsPointInput<QUuid> *> dartsInputModels() const override;
+    void addDartsInputModel(const IDartsPointInput *model) override;
+    const IDartsPointInput *getDartsInputModelByIndex(const int &index) const override;
+    QVector<const IDartsPointInput *> dartsInputModels() const override;
     void removeDartsInputModelByIndex(const int &index) override;
-    int indexOfDartsInputModel(const IDartsPointInput<QUuid> *score) override;
-    void replaceDartsInputModel(const int &index, const IDartsPointInput<QUuid> *score) override;
+    int indexOfDartsInputModel(const IDartsPointInput *score) override;
+    void replaceDartsInputModel(const int &index, const IDartsPointInput *score) override;
     // Set service methods
-    DartsPointDbService* setDartsPointsExtractorService(IUnaryService<const QJsonArray &, QVector<const IDartsPointInput<QUuid> *> > *dartsPointsExtractor);
-    DartsPointDbService* setDartsPointsJsonAssemblerService(IUnaryService<const QVector<const IDartsPointInput<QUuid>*>&,
-                                                                  QJsonArray>* dartsSingleAttemptPointInputAssembler);
+    DartsPointDbService* setDartsPointsExtractorService(JsonExtractor *dartsPointsExtractor);
+    DartsPointDbService* setDartsPointsJsonAssemblerService(JsonAssembler* dartsSingleAttemptPointInputAssembler);
 
 private:
     // Services
-    IUnaryService<const QJsonArray&,QVector<const IDartsPointInput<QUuid>*>>* _dartsPointsExtractor;
-    IUnaryService<const QVector<const IDartsPointInput<QUuid>*>&,QJsonArray>* _dartsPointsJsonAssemblerService;
+    JsonExtractor* _dartsPointsExtractor;
+    JsonAssembler* _dartsPointsJsonAssemblerService;
     const QString _fileName = "DartsPoints";
 
-    QVector<const IDartsPointInput<QUuid>*> _dartsPointModels;
+    QVector<const IDartsPointInput*> _dartsPointModels;
 };
 
 #endif // DARTSPOINTDBSERVICE_H
