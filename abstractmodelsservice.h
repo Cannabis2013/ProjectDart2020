@@ -82,6 +82,7 @@ signals:
                                const int &turnIndex,
                                const int &totalTurns ,
                                const QList<int> &playerScores);
+    void pointAddedToDataContext(const QByteArray& json);
     void scoreAddedToDataContext(const QByteArray& json);
     void scoreNotAddedToDataContext(const QString& msg);
     void hideDartsPointSuccess(const QByteArray&);

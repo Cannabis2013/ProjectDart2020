@@ -22,6 +22,8 @@
 #include "assignplayeridstodartstournamentmodel.h"
 #include "addplayernametopointjson.h"
 #include "assemblejsonfromdartspointmodel.h"
+#include "assembledartsscoremodelfromjson.h"
+#include "assemblejsonfromdartsscoremodel.h"
 
 class DartsJsonServiceBuilder :
         public IModelsServiceBuilder<IDartsJsonService>

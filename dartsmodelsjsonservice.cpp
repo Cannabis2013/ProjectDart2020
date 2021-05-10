@@ -1,7 +1,5 @@
 #include "dartsmodelsjsonservice.h"
 
-
-
 DartsModelsJsonService *DartsModelsJsonService::createInstance()
 {
     return new DartsModelsJsonService;
@@ -109,15 +107,15 @@ const IDartsTournament *DartsModelsJsonService::assignPlayerIdsToDartsTournament
     return tournamentModel;
 }
 
-QByteArray DartsModelsJsonService::addPlayerNameToJsonPointModel(const QByteArray &json, const IPlayerModelsService *playerModelsService) const
+QByteArray DartsModelsJsonService::addPlayerNameToJsonInputModel(const QByteArray &json, const IPlayerModelsService *playerModelsService) const
 {
-    auto newJson = _addPlayerNameToJsonPointModel->service(json,playerModelsService);
+    auto newJson = _addPlayerNameToJsonInputModel->service(json,playerModelsService);
     return newJson;
 }
 
 DartsModelsJsonService* DartsModelsJsonService::setAddPlayerNameToJsonPointModel(IBinaryService<const QByteArray &, const IPlayerModelsService *, QByteArray> *addPlayerNameToJsonPointModel)
 {
-    _addPlayerNameToJsonPointModel = addPlayerNameToJsonPointModel;
+    _addPlayerNameToJsonInputModel = addPlayerNameToJsonPointModel;
     return this;
 }
 
@@ -230,8 +228,33 @@ QByteArray DartsModelsJsonService::assembleJsonFromDartsPointModel(const IDartsP
     return json;
 }
 
+const IDartsScoreInput *DartsModelsJsonService::assembleDartsScoreModelFromJson(const QByteArray& json) const
+{
+    auto model = _assembleDartsScoreFromJson->service(json);
+    return model;
+}
+
 DartsModelsJsonService *DartsModelsJsonService::setAssembleJsonFromDartsPointModel(IUnaryService<const IDartsPointInput *, QByteArray> *assembleJsonFromDartsPointModel)
 {
     _assembleJsonFromDartsPointModel = assembleJsonFromDartsPointModel;
     return this;
+}
+
+DartsModelsJsonService *DartsModelsJsonService::setAssembleDartsScoreFromJson(IUnaryService<const QByteArray &, const IDartsScoreInput *> *assembleDartsScoreFromJson)
+{
+    _assembleDartsScoreFromJson = assembleDartsScoreFromJson;
+    return this;
+}
+
+DartsModelsJsonService *DartsModelsJsonService::setAssembleJsonFromDartsScoreModel(IUnaryService<const IDartsScoreInput *, QByteArray> *assembleJsonFromDartsScoreModel)
+{
+    _assembleJsonFromDartsScoreModel = assembleJsonFromDartsScoreModel;
+    return this;
+}
+
+
+QByteArray DartsModelsJsonService::assembleJsonFromDartsScoreModel(const IDartsScoreInput *model) const
+{
+    auto json = _assembleJsonFromDartsScoreModel->service(model);
+    return json;
 }

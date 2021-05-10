@@ -36,10 +36,11 @@ public:
     virtual const IPlayerModel* assemblePlayerModelFromJson(const QByteArray&) const = 0;
     virtual const IDartsTournament* assignPlayerIdsToDartsTournament(const IDartsTournament*,
                                                                      const QVector<QUuid>&) const = 0;
-    virtual QByteArray addPlayerNameToJsonPointModel(const QByteArray&,
+    virtual QByteArray addPlayerNameToJsonInputModel(const QByteArray&,
                                                      const IPlayerModelsService*) const = 0;
     virtual QByteArray assembleJsonFromDartsPointModel(const IDartsPointInput*) const = 0;
-
+    virtual const IDartsScoreInput* assembleDartsScoreModelFromJson(const QByteArray&) const = 0;
+    virtual QByteArray assembleJsonFromDartsScoreModel(const IDartsScoreInput*) const = 0;
 };
 
 #endif // IDARTSMODELSJSONSERVICE_H

@@ -29,8 +29,10 @@ public:
     const IDartsPointInput *assembleDartsPointModelFromJson(const QByteArray &json) const override;
     const IPlayerModel *assemblePlayerModelFromJson(const QByteArray &json) const override;
     const IDartsTournament *assignPlayerIdsToDartsTournament(const IDartsTournament *model, const QVector<QUuid> &playerIds) const override;
-    QByteArray addPlayerNameToJsonPointModel(const QByteArray &json, const IPlayerModelsService *playerModelsService) const override;
+    QByteArray addPlayerNameToJsonInputModel(const QByteArray &json, const IPlayerModelsService *playerModelsService) const override;
     QByteArray assembleJsonFromDartsPointModel(const IDartsPointInput *model) const override;
+    const IDartsScoreInput *assembleDartsScoreModelFromJson(const QByteArray &json) const override;
+    QByteArray assembleJsonFromDartsScoreModel(const IDartsScoreInput *model) const override;
     // Get/set service methods
     DartsModelsJsonService* setAssembleDartsTournamentFromJson(IUnaryService<const QByteArray &, const IDartsTournament *> *assembleDartsTournamentFromJson);
     DartsModelsJsonService* setGetPlayerIndexesFromJson(IUnaryService<const QByteArray &, QVector<int> > *getPlayerIndexesFromJson);
@@ -51,6 +53,8 @@ public:
     DartsModelsJsonService* setAssignPlayerIdsToDartsTournament(IBinaryService<const IDartsTournament *, const QVector<QUuid> &, const IDartsTournament *> *assignPlayerIdsToDartsTournament);
     DartsModelsJsonService* setAddPlayerNameToJsonPointModel(IBinaryService<const QByteArray &, const IPlayerModelsService *, QByteArray> *addPlayerNameToJsonPointModel);
     DartsModelsJsonService* setAssembleJsonFromDartsPointModel(IUnaryService<const IDartsPointInput *, QByteArray> *assembleJsonFromDartsPointModel);
+    DartsModelsJsonService* setAssembleDartsScoreFromJson(IUnaryService<const QByteArray &, const IDartsScoreInput *> *assembleDartsScoreFromJson);
+    DartsModelsJsonService* setAssembleJsonFromDartsScoreModel(IUnaryService<const IDartsScoreInput *, QByteArray> *assembleJsonFromDartsScoreModel);
 
 private:
     IUnaryService<const QByteArray&,
@@ -88,9 +92,10 @@ private:
                            const IDartsTournament*>* _assignPlayerIdsToDartsTournament;
     IBinaryService<const QByteArray&,
                    const IPlayerModelsService*,
-                   QByteArray>* _addPlayerNameToJsonPointModel;
+                   QByteArray>* _addPlayerNameToJsonInputModel;
     IUnaryService<const IDartsPointInput*,QByteArray>* _assembleJsonFromDartsPointModel;
-
+    IUnaryService<const QByteArray&,const IDartsScoreInput*>* _assembleDartsScoreFromJson;
+    IUnaryService<const IDartsScoreInput*,QByteArray>* _assembleJsonFromDartsScoreModel;
 };
 
 #endif // DARTSMODELSJSONSERVICE_H

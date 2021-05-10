@@ -57,8 +57,9 @@ void LocalModelsService::addDartsPoint(const QByteArray &json)
 {
     auto model = _dartsJsonService->assembleDartsPointModelFromJson(json);
     _dartsModelsService->addDartsPoint(model);
-    auto alteredJson = _dartsJsonService->addPlayerNameToJsonPointModel(json,_playerModelsService);
-    emit scoreAddedToDataContext(alteredJson);
+    _dartsModelsService->removeHiddenPoints(model->tournamentId());
+    auto alteredJson = _dartsJsonService->addPlayerNameToJsonInputModel(json,_playerModelsService);
+    emit pointAddedToDataContext(alteredJson);
 }
 
 void LocalModelsService::resetTournament(const QUuid &tournament)
@@ -163,7 +164,6 @@ void LocalModelsService::revealPoint(const QUuid &tournamentId, const QUuid &pla
                                                          attemptIndex);
     auto model = _dartsModelsService->setDartsPointHint(pointId,ModelDisplayHint::DisplayHint);
     auto json = _dartsJsonService->assembleJsonFromDartsPointModel(model);
-    // Implement json response
     emit revealDartsPointSuccess(json);
 }
 
@@ -174,9 +174,9 @@ void LocalModelsService::hideDartsScore(const QUuid& tournamentId,
     auto scoreID = _dartsModelsService->getDartsScoreId(tournamentId,
                                                         playerId,
                                                         roundIndex);
-    _dartsModelsService->setDartsScoreHint(scoreID,ModelDisplayHint::HiddenHint);
-    // Implement json response
-    emit hideDartsScoreSuccess(QByteArray());
+    auto alteredModel =_dartsModelsService->setDartsScoreHint(scoreID,ModelDisplayHint::HiddenHint);
+    auto json = _dartsJsonService->assembleJsonFromDartsScoreModel(alteredModel);
+    emit hideDartsScoreSuccess(json);
 }
 
 void LocalModelsService::revealScore(const QUuid& tournamentId, const QUuid& playerId, const int& roundIndex)
@@ -184,15 +184,20 @@ void LocalModelsService::revealScore(const QUuid& tournamentId, const QUuid& pla
     auto scoreID = _dartsModelsService->getDartsScoreId(tournamentId,
                                                         playerId,
                                                         roundIndex);
-    _dartsModelsService->setDartsScoreHint(scoreID,ModelDisplayHint::DisplayHint);
-    // Implement json response
-    emit revealDartsScoreSuccess(QByteArray());
+    auto alteredModel = _dartsModelsService->setDartsScoreHint(scoreID,ModelDisplayHint::DisplayHint);
+    auto json = _dartsJsonService->assembleJsonFromDartsScoreModel(alteredModel);
+    emit revealDartsScoreSuccess(json);
 }
 
 
 void LocalModelsService::addDartsScore(const QByteArray &json)
 {
     // TODO: Implement
+    auto model = _dartsJsonService->assembleDartsScoreModelFromJson(json);
+    _dartsModelsService->addDartsScore(model);
+    _dartsModelsService->removeHiddenScores(model->tournamentId());
+    auto alteredJson = _dartsJsonService->addPlayerNameToJsonInputModel(json,_playerModelsService);
+    emit scoreAddedToDataContext(alteredJson);
 }
 
 

@@ -78,7 +78,7 @@ AbstractDartsPointController *ConnectDartsSingleAttemptPointController::service(
             controller,&AbstractGameController::handleAndProcessUserInput);
     QObject::connect(controller,&AbstractDartsPointController::requestAddDartsPoint,
             modelsService,&AbstractModelsService::addDartsPoint);
-    QObject::connect(modelsService,&AbstractModelsService::scoreAddedToDataContext,
+    QObject::connect(modelsService,&AbstractModelsService::pointAddedToDataContext,
             controller,&AbstractDartsPointController::handlePointAddedToDataContext);
     QObject::connect(controller,&AbstractDartsPointController::pointAddedAndPersisted,
             application,&AbstractApplicationInterface::dartsControllerAddedAndPersistedScore);

@@ -159,7 +159,7 @@ public:
     QVector<QUuid> dartsScoreIds(const int &hint, const QUuid &tournamentId) const override;
     QVector<QUuid> DartsScoresByPlayerId(const QUuid &tournamentId, const QUuid &playerId, const int &hint) const override;
     int dartsScoresCount(const int &hint) const override;
-    QUuid setDartsScoreHint(const QUuid &point, const int &hint) override;
+    const IDartsScoreInput* setDartsScoreHint(const QUuid &point, const int &hint) override;
     int dartsScoreRoundIndex(const QUuid &scoreId) const override;
     int dartsScoreSetIndex(const QUuid &scoreId) const override;
     int ScoreValueFromScoreId(const QUuid &scoreId) const override;

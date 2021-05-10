@@ -6,7 +6,7 @@
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 
-class AddPlayerNameToJsonPointModel :
+class AddPlayerNameToJsonInputModel :
         public IBinaryService<const QByteArray&,
                               const IPlayerModelsService*,
                               QByteArray>

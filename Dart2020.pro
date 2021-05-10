@@ -89,6 +89,7 @@ HEADERS += \
     assembledartspointindexesbydartspointmodel.h \
     assembledartspointmodelfromjson.h \
     assembledartsscorefromjson.h\
+    assembledartsscoremodelfromjson.h \
     assemblejsonarrayfromdartspoints.h \
     assemblejsonbasictournamentvalues.h \
     assemblejsonbasictournamentvaluesfrommodel.h \
@@ -97,6 +98,7 @@ HEADERS += \
     assemblejsonfromdartspointindexes.h \
     assemblejsonfromdartspointmodel.h \
     assemblejsonfromdartspoints.h \
+    assemblejsonfromdartsscoremodel.h \
     assemblejsonfromdartstournamentmodels.h \
     assemblejsonfromordereddartspointmodels.h \
     assemblejsonfromplayeridandname.h \

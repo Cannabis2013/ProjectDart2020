@@ -1,0 +1,50 @@
+function connectInterface()
+{
+    dartsMultiAttemptBody.requestControllerValues.connect(applicationInterface.assembleDartsTournamentValues);
+    dartsMultiAttemptBody.requestSingleAttemptPoints.connect(
+                applicationInterface.handleRequestForDartsSingleAttemptPoints);
+    applicationInterface.sendAssembledDartsSingleAttemptPoints.connect(
+                recieveDartsSingleAttemptPoints);
+    applicationInterface.dartsControllerIsReset.connect(reinitialize);
+    applicationInterface.dartsSingleAttemptPointControllerIsReady.connect(controllerIsInitializedAndReady);
+    applicationInterface.controllerHasDeclaredAWinner.connect(backendDeclaredAWinner);
+    applicationInterface.controllerIsStopped.connect(backendIsStopped);
+    applicationInterface.dartsSingleAttemptPointControllerIsInitialized.connect(backendIsInitialized);
+    applicationInterface.sendDartsTournamentData.connect(handleFTPTournamentMetaData);
+    dartsMultiAttemptBody.requestStart.connect(applicationInterface.handleRequestStart);
+    dartsMultiAttemptBody.requestStop.connect(applicationInterface.handleRequestStop);
+    dartsMultiAttemptBody.requestRestart.connect(applicationInterface.handleRestartTournament);
+    dartsMultiAttemptBody.sendInput.connect(applicationInterface.handleSingleAttemptPlayerPointInput);
+    dartsMultiAttemptBody.requestStatusFromBackend.connect(applicationInterface.handleControllerStateRequest);
+    applicationInterface.dartsControllerRemovedSingleAttemptPoint.connect(backendRemovedPoint);
+    dartsMultiAttemptBody.requestUndo.connect(applicationInterface.handleUndoRequest);
+    dartsMultiAttemptBody.requestRedo.connect(applicationInterface.handleRedoRequest);
+    pointKeyPad.sendInput.connect(handlePointKeyPadInput);
+    applicationInterface.controllerAwaitsInput.connect(backendIsReadyAndAwaitsInput);
+    applicationInterface.dartsControllerAddedAndPersistedScore.connect(extractPointScoreFromJson);
+}
+
+function disConnectInterface()
+{
+    dartsMultiAttemptBody.requestControllerValues.disconnect(applicationInterface.assembleDartsTournamentValues);
+    dartsMultiAttemptBody.requestSingleAttemptPoints.disconnect(
+                applicationInterface.handleRequestForDartsSingleAttemptPoints);
+    applicationInterface.sendAssembledDartsSingleAttemptPoints.disconnect(
+                recieveDartsSingleAttemptPoints);
+    applicationInterface.dartsSingleAttemptPointControllerIsReady.disconnect(controllerIsInitializedAndReady);
+    applicationInterface.controllerHasDeclaredAWinner.disconnect(backendDeclaredAWinner);
+    applicationInterface.controllerIsStopped.disconnect(backendIsStopped);
+    applicationInterface.dartsSingleAttemptPointControllerIsInitialized.disconnect(backendIsInitialized);
+    applicationInterface.sendDartsTournamentData.disconnect(handleFTPTournamentMetaData);
+    dartsMultiAttemptBody.requestStart.disconnect(applicationInterface.handleRequestStart);
+    dartsMultiAttemptBody.requestStop.disconnect(applicationInterface.handleRequestStop);
+    dartsMultiAttemptBody.requestRestart.disconnect(applicationInterface.handleRestartTournament);
+    dartsMultiAttemptBody.sendInput.disconnect(applicationInterface.handleSingleAttemptPlayerPointInput);
+    dartsMultiAttemptBody.requestStatusFromBackend.disconnect(applicationInterface.handleControllerStateRequest);
+    applicationInterface.dartsControllerRemovedSingleAttemptPoint.disconnect(backendRemovedPoint);
+    dartsMultiAttemptBody.requestUndo.disconnect(applicationInterface.handleUndoRequest);
+    dartsMultiAttemptBody.requestRedo.disconnect(applicationInterface.handleRedoRequest);
+    pointKeyPad.sendInput.disconnect(handlePointKeyPadInput);
+    applicationInterface.controllerAwaitsInput.disconnect(backendIsReadyAndAwaitsInput);
+    applicationInterface.dartsControllerAddedAndPersistedScore.disconnect(extractPointScoreFromJson);
+}

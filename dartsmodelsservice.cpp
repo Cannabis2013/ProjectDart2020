@@ -726,14 +726,14 @@ int DartsModelsService::dartsScoresCount(const int &hint) const
     return count;
 }
 
-QUuid DartsModelsService::setDartsScoreHint(const QUuid &point, const int &hint)
+const IDartsScoreInput *DartsModelsService::setDartsScoreHint(const QUuid &point, const int &hint)
 {
     auto model = getScoreModelById(point);
     auto indexOfModel = _dartsScoreDb->indexOfDartsInputModel(model);
     auto alteredModel = const_cast<IDartsScoreInput*>(model);
     alteredModel->setHint(hint);
     _dartsScoreDb->replaceDartsInputModel(indexOfModel,alteredModel);
-    return alteredModel->id();
+    return alteredModel;
 }
 
 int DartsModelsService::dartsScoreRoundIndex(const QUuid &scoreId) const

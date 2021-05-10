@@ -71,7 +71,7 @@ function initializeScoreBoard()
 {
     var assignedPlayerNames = dartsSingleAttemptValues.assignedPlayerNames;
     var keyPoint = dartsSingleAttemptValues.keyPoint;
-    multiPointScoreBoard.appendHeaderData(assignedPlayerNames,keyPoint);
+    singleAttemptScoreBoard.appendHeaderData(assignedPlayerNames,keyPoint);
 }
 
 function controllerIsInitializedAndReady()
@@ -89,7 +89,7 @@ function recieveDartsSingleAttemptPoints(scores)
         var playerName = entity["playerName"];
         var playerScore = entity["score"];
         var playerPoint = entity["point"];
-        multiPointScoreBoard.setData(playerName,playerPoint,playerScore);
+        singleAttemptScoreBoard.setData(playerName,playerPoint,playerScore);
     }
     dartsSingleAttemptBody.requestStatusFromBackend();
 }
@@ -101,14 +101,14 @@ function extractPointScoreFromJson(data)
     let playerName = json["playerName"];
     let pointValue = json["point"];
     let scoreValue = json["score"];
-    multiPointScoreBoard.setData(playerName,pointValue,scoreValue);
+    singleAttemptScoreBoard.setData(playerName,pointValue,scoreValue);
     requestStatusFromBackend();
 }
 
 function reinitialize()
 {
     // reinitialize controller after reset
-    multiPointScoreBoard.clearData();
+    singleAttemptScoreBoard.clearData();
     initializeScoreBoard();
     requestStatusFromBackend();
 }
@@ -123,7 +123,7 @@ function backendRemovedPoint(data)
 {
     var json = JSON.parse(data);
     let playerName = json["playerName"];
-    multiPointScoreBoard.takeData(playerName);
+    singleAttemptScoreBoard.takeData(playerName);
     requestStatusFromBackend();
 }
 
@@ -137,7 +137,7 @@ function backendIsReadyAndAwaitsInput(data)
     let throwSuggestion = json.targetRow;
     let suggestion = textSourceContainer.throwSuggestLabel + " " + throwSuggestion;
     notificationItemSlot.setThrowSuggestion(suggestion);
-    multiPointTurnController.updateState(currentRoundIndex,
+    singleAttemptTurnController.updateState(currentRoundIndex,
                                             currentPlayerUserName,
                                             canUndo,
                                             canRedo);

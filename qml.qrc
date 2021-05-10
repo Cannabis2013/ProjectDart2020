@@ -50,7 +50,7 @@
         <file>managePageScripts.js</file>
         <file>PageIconItem.qml</file>
         <file>gamePageGeneralScripts.js</file>
-        <file>FtpSingleScoreBoard.qml</file>
+        <file>MultiAttemptScoreBoard.qml</file>
         <file>StartButtonComponent.qml</file>
         <file>KeyPadItem.qml</file>
         <file>InteractiveObject.qml</file>
@@ -87,6 +87,10 @@
         <file>DartsSingleAttemptContent.qml</file>
         <file>dartsSingleAttemptPointScripts.js</file>
         <file>scoreboardscripts.js</file>
+        <file>dartsmultiattempcontent.qml</file>
+        <file>dartsmultiattemptscripts.js</file>
+        <file>multiattemptstatescripts.js</file>
+        <file>multiattemptconnectscripts.js</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>

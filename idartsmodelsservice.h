@@ -92,7 +92,7 @@ public:
     virtual QVector<QUuid> dartsScoreIds(const int &hint,const QUuid &tournament) const = 0;
     virtual QVector<QUuid> DartsScoresByPlayerId(const QUuid &tournament, const QUuid &player, const int &hint) const = 0;
     virtual int dartsScoresCount(const int &hint) const = 0;
-    virtual QUuid setDartsScoreHint(const QUuid &point, const int &hint) = 0;
+    virtual const IDartsScoreInput* setDartsScoreHint(const QUuid &point, const int &hint) = 0;
     virtual int dartsScoreRoundIndex(const QUuid &) const = 0;
     virtual int dartsScoreSetIndex(const QUuid &) const = 0;
     virtual int ScoreValueFromScoreId(const QUuid &) const = 0;
