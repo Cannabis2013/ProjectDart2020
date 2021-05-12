@@ -26,7 +26,7 @@ signals:
     void revealDartsScore(const QUuid &tournament,
                         const QUuid &player,
                         const int &roundIndex);
-    void isReadyAndAwaitsInput(const QString& json);
+    void isReadyAndAwaitsInput(const QByteArray& json);
     void requestDartsTournamentDetails(const QUuid& tournamentId);
     void initializedAndAwaitsInput(const bool& canUndo,
                                    const bool& canRedo,

@@ -11,7 +11,7 @@ function connectInterface()
                 applicationInterface.handleRequestForMultiAttemptScores);
     applicationInterface.sendAssembledMultiAttemptDartsScores.connect(recieveDartsMultiAttemptScores);
     applicationInterface.dartsControllerIsReset.connect(reinitialize);
-    applicationInterface.dartsSingleAttemptPointControllerIsReady.connect(controllerIsInitializedAndReady);
+    applicationInterface.dartsSingleScoreControllerIsInitialized.connect(controllerIsInitializedAndReady);
     applicationInterface.controllerHasDeclaredAWinner.connect(backendDeclaredAWinner);
     applicationInterface.controllerIsStopped.connect(backendIsStopped);
     applicationInterface.dartsSingleAttemptPointControllerIsInitialized.connect(backendIsInitialized);

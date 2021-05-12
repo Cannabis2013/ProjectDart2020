@@ -54,6 +54,8 @@ void ConnectDartsMultiAttemptController::service(AbstractDartsScoreController *c
          */
     QObject::connect(application,&AbstractApplicationInterface::requestStartGame,
             controller,&AbstractGameController::start);
+    QObject::connect(controller,&AbstractDartsScoreController::isReadyAndAwaitsInput,
+                     application,&AbstractApplicationInterface::controllerAwaitsInput);
     QObject::connect(application,&AbstractApplicationInterface::requestStopGame,
             controller,&AbstractGameController::stop);
     /*
