@@ -1,12 +1,16 @@
 import QtQuick 2.12
 import QtQuick.Layouts 1.3
 import CustomItems 1.0
+import QtGraphicalEffects 1.13
 
 MyRectangle{
     id: cellBody
     clip: true
 
     readonly property int cellHeight: cellBody.height
+
+    property int cellBorderRadius: 0
+    onCellBorderRadiusChanged: maskedRect.radius = cellBorderRadius
 
     property color cellColor: "purple"
     onCellColorChanged: cellBody.color = cellColor
@@ -45,6 +49,19 @@ MyRectangle{
     property string text: ""
 
     color: cellColor
+
+    layer.enabled: true
+    layer.effect: OpacityMask{
+        maskSource: Item {
+            width: cellBody.width
+            height: cellBody.height
+            Rectangle{
+                id: maskedRect
+                anchors.fill: parent
+                radius: cellBody.cellBorderRadius
+            }
+        }
+    }
 
     GridLayout{
         anchors.fill: parent

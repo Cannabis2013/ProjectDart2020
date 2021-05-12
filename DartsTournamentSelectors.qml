@@ -21,7 +21,7 @@ Rectangle {
         property var gameModes: ["FirstToPost"]
         property var keyIdentifiers: ["Single","Double", "Tripple"]
         property var keyPoints: ["301","501","701","901"]
-        property var displayHints: ["SingleView","MultiView"]
+        property var displayHints: ["Single column","Multi columns"]
         property var inputModes: ["PointInput","ScoreInput"]
     }
 
@@ -54,13 +54,13 @@ Rectangle {
         DefaultComboBox {
             id: displayHintSelector
             Layout.fillWidth: true
-            labelText: "Select display hint:"
+            labelText: "Display:"
             model: stringModels.displayHints
         }
         DefaultComboBox {
             id: inputModeSelector
             Layout.fillWidth: true
-            labelText: "Select input mode:"
+            labelText: "Keyboard:"
             model: stringModels.inputModes
             onValueChanged: SelectorScripts.setAttempts(val)
         }

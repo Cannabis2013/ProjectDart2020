@@ -2,7 +2,6 @@
 #define APPLICATIONBUILDER_H
 
 #include "connectdartssingleattemptpointcontroller.h"
-#include "connectdartsscorecontroller.h"
 #include "defaultmodelsservicebuilder.h"
 #include "dartsmodelsservicebuilder.h"
 #include "playermodelsservicebuilder.h"
@@ -11,6 +10,7 @@
 #include "dartsjsonservicebuilder.h"
 #include "dartapplication.h"
 #include "dartscontrollerbuilder.h"
+#include "connectdartsmultiattemptcontroller.h"
 
 class ApplicationBuilder
 {
@@ -19,7 +19,7 @@ public:
     {
         auto dartsControllerBuilder = DartsControllerBuilder::createInstance()
                 ->setConnectDartsSingleAttemptPointController(new ConnectDartsSingleAttemptPointController)
-                ->setConnectDartsScoreController(new ConnectDartsScoreController);
+                ->setConnectDartsMultiAttemptScoreController(new ConnectDartsMultiAttemptController);
         auto modelsServiceBuilder = DefaultModelsServiceBuilder::createInstance()
                 ->setModelsTournamentServiceBuilder(new DartsModelsServiceBuilder)
                 ->setPlayerServiceBuilder(new PlayerModelsServiceBuilder)

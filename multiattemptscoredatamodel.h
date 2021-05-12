@@ -5,22 +5,17 @@
 #include <qfontmetrics.h>
 #include "LinkedList.h"
 
-
-namespace SingleFtpDataModel {
-
-}
-
-class SFtpDataModel : public QAbstractTableModel
+class MultiAttemptScoreDataModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
-    SFtpDataModel();
-
     // Public types
     typedef QPair<int,int> scoreModel;
-    enum HeaderFillMode{DynamicNumerics = 0x1,
-                        FixedStrings = 0x2};
-
+    enum HeaderFillMode{
+        DynamicNumerics = 0x1,
+        FixedStrings = 0x2,
+        NoFillMode = 0x3
+    };
     // Constructor
     // Public properties
     // Fonts properties
@@ -50,7 +45,6 @@ public:
     // Header related
     Q_INVOKABLE void appendHeaderItem(const QVariant &data);
     Q_INVOKABLE QString getHeaderData(const int &index) const;
-    Q_INVOKABLE int horizontalHeaderCount() const;
     Q_INVOKABLE int verticalHeaderCount() const;
     Q_INVOKABLE int headerItemCount() const;
     Q_INVOKABLE int preferedHeaderItemWidth() const;
@@ -90,8 +84,8 @@ public:
     // Header non-exposed methods
     int horizontalHeaderFillMode() const;
     void setHorizontalHeaderFillMode(const int &fillMode);
-    QStringList getHorizontalHeaderData() const;
-    void setHorizontalHeaderData(const QList<QString> &horizontalHeaderData);
+    QStringList getVerticalHeaderData() const;
+    void setVerticalHeaderData(const QList<QString> &horizontalHeaderData);
     // Columns and rows non-exposed virtual method implementations
     int rowCount(const QModelIndex &) const override;
     int columnCount(const QModelIndex &) const override;
@@ -120,13 +114,9 @@ protected:
     bool removeRows(int row, int count, const QModelIndex &) override;
     bool removeColumns(int column, int count, const QModelIndex &) override;
 private:
-    // Const member variables
-    const QString preferedFontFamily = "MS Sans Serif";
-    const int preferedPointSize = 12;
-    const int minimumPreferedColumnWidth = 64;
-    const int minimumPreferedRowHeight = 25;
-    void updateColumnWidth(const int &column, const int &data);
     // Data related
+    double rowHeightFromHeaderData(const int& row) const;
+    double rowHeightFromCellDataAt(const int& row) const;
     void updateInitialCellValues();
     void setInitialColumnWidths(const int& count);
     void initializeFieldsHorizontally(const int& startColumn, const int& initialValue = -1);
@@ -138,13 +128,19 @@ private:
     bool isRowEmpty(const int &row);
     bool removeData(const QModelIndex &index);
     int indexOfHeaderItem(const QString &data);
-    void addHorizontalHeaderData(const QString &data);
+    void addVerticalHeaderData(const QString &data);
     /*
      * Font metrics related
      */
     int stringWidth(const QString &string,
                       const QString &family = "",
                       const int &pointSize = -1) const;
+    // Const member variables
+    const QString preferedFontFamily = "MS Sans Serif";
+    const int preferedPointSize = 12;
+    const int minimumPreferedColumnWidth = 64;
+    const int minimumPreferedRowHeight = 25;
+    void updateColumnWidth(const int &column, const int &data);
     // State member variables
     /*
      * Row and column fields
@@ -152,7 +148,7 @@ private:
     int _rows = 0;
     int _columns = 0;
     double _scale = 1.05;
-    int _horizontalFillMode = HeaderFillMode::DynamicNumerics;
+    int _horizontalFillMode = HeaderFillMode::NoFillMode;
     int _attemps = 3;
     int _minimumColumnCount = 0;
     int _minimumRowCount = 0;
@@ -172,13 +168,14 @@ private:
     /*
      * Headerdata
      */
-    QStringList _horizontalHeaderData;
+    QStringList _verticalHeaderData;
+    double greatestVerticalHeaderWidth = 0;
     /*
      * Column widths
      */
     QList<double> _columnWidths;
     /*
-     * Scores and points
+     * Scores
      */
     QList<int> _data;
 };

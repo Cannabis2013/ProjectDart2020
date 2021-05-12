@@ -18,8 +18,8 @@ public slots:
     /*
      * UI request data to populate scoreboard
      */
-    virtual void handleRequestForSingleThrowScoreData() = 0;
     virtual void handleRequestForDartsSingleAttemptPoints() = 0;
+    virtual void handleRequestForMultiAttemptScores()= 0;
     virtual void handleFTPDetails(const QByteArray& json) = 0;
     /*
      * Delete tournament
@@ -82,8 +82,8 @@ signals:
                                      const int &keyPoint,
                                      const int &numberOfThrows,
                                      QList<QUuid> assignedPlayers);
-    void requestMultiAttemptPlayerScores();
     void requestDartsSingleAttemptPoints();
+    void requestDartsMultiAttemptScores();
     void setCurrentActiveTournament(const int &index);
     void sendSingleAttemptPlayerInput(const QByteArray& json);
     void requestStartGame();
@@ -115,12 +115,14 @@ signals:
     // Controller states
     void controllerIsStopped();
     void dartsSingleAttemptPointControllerIsInitialized();
-    void dartsSingleAttemptPointControllerIsReady();
+    void dartsControllerRemovedSingleAttemptPoint(const QString& json);
+    void dartsControllerAddedDartsSingleAttemptPoint(const QByteArray& json);
+    void dartsMultiAttemptScoreControllerIsInitalized();
     void dartsSingleScoreControllerIsInitialized();
+    void dartsSingleAttemptPointControllerIsReady();
+    void dartsControllerAddedDartsMultiAttemptScore(const QByteArray& json);
     void controllerAwaitsInput(const QByteArray& json);
     void dartsControllerIsReset();
-    void dartsControllerAddedAndPersistedScore(const QByteArray& json);
-    void dartsControllerRemovedSingleAttemptPoint(const QString& json);
     void controllerHasDeclaredAWinner(const QString& json);
     void assembleDartsController(const QByteArray& json,
                                AbstractApplicationInterface* applicationsInteface,

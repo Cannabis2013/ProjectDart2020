@@ -9,7 +9,7 @@
 
 #include <qobject.h>
 
-class ConnectDartsSingleScoreController :
+class ConnectDartsMultiAttemptController :
         public ITernaryService<AbstractDartsScoreController*,
                                AbstractApplicationInterface*,
                                AbstractModelsService*,

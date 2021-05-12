@@ -64,7 +64,7 @@ void DartsPointSingleAttempt::handlePointAddedToDataContext(const QByteArray &js
     emit pointAddedAndPersisted(newJson);
 }
 
-DartsPointSingleAttempt *DartsPointSingleAttempt::setScoreCalculator(ScoreCalculatorInterface *scoreCalculator)
+DartsPointSingleAttempt *DartsPointSingleAttempt::setScoreCalculator(IPointCalculatorService *scoreCalculator)
 {
     _scoreCalculator = scoreCalculator;
     return this;
@@ -167,9 +167,14 @@ void DartsPointSingleAttempt::addPoint(const int& point,
         setCurrentStatus(ControllerState::AddScoreState);
     auto winnerId = status() == ControllerState::WinnerDeclared ? currentActivePlayerId() : "";
     auto json = _dartsJsonModelsService->assembleJsonAddPointValues(
-                tournament(),_indexController->roundIndex(),
-                _indexController->setIndex(),_indexController->attempt(),
-                winnerId,currentActivePlayerId(),point,score,keyCode);
+                tournament(),
+                _indexController->roundIndex(),
+                _indexController->setIndex(),
+                _indexController->attempt(),
+                winnerId,currentActivePlayerId(),
+                point,
+                score,
+                keyCode);
     emit requestAddDartsPoint(json);
 }
 
@@ -208,7 +213,7 @@ void DartsPointSingleAttempt::handleRequestFromUI()
     else if(status() == ControllerState::resetState)
     {
         setCurrentStatus(ControllerState::Initialized);
-        emit controllerIsInitialized();
+        emit dartsSingleAttemptControllerIsInitialized();
     }
 }
 
@@ -309,12 +314,12 @@ DartsPointSingleAttempt *DartsPointSingleAttempt::createInstance(const QUuid &to
     return new DartsPointSingleAttempt(tournament);
 }
 
-FTPLogisticControllerInterface<QString> *DartsPointSingleAttempt::pointLogisticInterface() const
+IDartsLogisticsService<QString> *DartsPointSingleAttempt::pointLogisticInterface() const
 {
     return _pointLogisticInterface;
 }
 
-DartsPointSingleAttempt *DartsPointSingleAttempt::setLogisticInterface(FTPLogisticControllerInterface<QString> *pointLogisticInterface)
+DartsPointSingleAttempt *DartsPointSingleAttempt::setLogisticInterface(IDartsLogisticsService<QString> *pointLogisticInterface)
 {
     _pointLogisticInterface = pointLogisticInterface;
     return this;
@@ -381,5 +386,5 @@ void DartsPointSingleAttempt::initializeControllerWinnerIdAndName(const QByteArr
         setCurrentStatus(ControllerState::WinnerDeclared);
     else
         setCurrentStatus(ControllerState::Initialized);
-    emit controllerIsInitialized();
+    emit dartsSingleAttemptControllerIsInitialized();
 }

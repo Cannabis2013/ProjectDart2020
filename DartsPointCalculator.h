@@ -1,9 +1,9 @@
 #ifndef POINTSCORECALCULATOR_H
 #define POINTSCORECALCULATOR_H
 
-#include "scoreCalculatorInterface.h"
+#include "IPointCalculatorService.h"
 
-class PointScoreCalculator : public ScoreCalculatorInterface
+class DartsPointCalculator : public IPointCalculatorService
 {
 public:
     enum KeyMappings{
@@ -16,9 +16,9 @@ public:
 
     // ScoreCalculatorInterface interface
 public:
-    static PointScoreCalculator* createInstance()
+    static DartsPointCalculator* createInstance()
     {
-        return new PointScoreCalculator();
+        return new DartsPointCalculator();
     }
     virtual int calculateScoreFromDartsPoint(const int &point, const int &keyCode) const override
     {

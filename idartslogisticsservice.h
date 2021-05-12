@@ -1,7 +1,7 @@
 #ifndef ILOGISTICMANAGER_H
 #define ILOGISTICMANAGER_H
 template<class TString>
-class FTPLogisticControllerInterface
+class IDartsLogisticsService
 {
 public:
     virtual TString suggestTargetRow(const int &remainingScore, const int &turnIndex) = 0;

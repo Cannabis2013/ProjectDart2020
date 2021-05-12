@@ -20,7 +20,7 @@ public slots:
     virtual void handleRequestDartsPoints() = 0;
     virtual void handlePointAddedToDataContext(const QByteArray& json) = 0;
 signals:
-    void controllerIsInitialized();
+    void dartsSingleAttemptControllerIsInitialized();
     void controllerIsInitializedAndReady();
     void hideDartsPoint(const QUuid &tournament,
                         const QUuid &player,

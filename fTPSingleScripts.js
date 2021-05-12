@@ -8,21 +8,16 @@ function viewContentHeight()
 }
 function setInitialValue(value)
 {
-    fTPModel.setInitialValue(value);
-}
-
-function getHeaderItemCount(orientation){
-    var count = fTPModel.headerItemCount(orientation);
-    return count;
+    multiAttemptScoreDataModel.setInitialValue(value);
 }
 
 function clearTable(){
-    fTPModel.clearData();
+    multiAttemptScoreDataModel.clearData();
 }
 
 function getHeaderItem(index, orientation)
 {
-    var item = fTPModel.getHeaderData(index,orientation);
+    var item = multiAttemptScoreDataModel.getHeaderData(index);
     return item;
 }
 
@@ -34,43 +29,53 @@ function updateScoreBoard()
 function refreshHeaders()
 {
     // Refresh horizontal headers
-    fTPBody.horizontalHeaderModel = fTPModel.columnCount;
-    let columnWidth = fTPBody.width / fTPModel.columnCount;
-    let hDataCount = fTPBody.horizontalHeaderCount;
-    for(var j = 0;j < hDataCount;j++)
+    let verticalHeaderCount = multiAttemptScoreDataModel.verticalHeaderCount();
+    multiAttemptScoreBoardBody.verticalHeaderModel = verticalHeaderCount;
+    for(var j = 0;j < verticalHeaderCount;j++)
     {
-        let hHeaderValue = fTPModel.getHeaderData(j,Qt.Horizontal);
-        fTPBody.setColumnWidth(j,columnWidth);
-        fTPBody.setHorizontalHeaderDataAt(j,hHeaderValue);
+        let h = multiAttemptScoreDataModel.rowHeightAt(j);
+        let value = multiAttemptScoreDataModel.getHeaderData(j);
+        multiAttemptScoreBoardBody.setRowHeight(j,h);
+        multiAttemptScoreBoardBody.setVerticalHeaderDataAt(j,value);
     }
 }
 
 function setViewPosition(x,y)
 {
-    fTPBody.updateViewPosition(x,y);
+    multiAttemptScoreBoardBody.updateViewPosition(x,y);
 }
 
-function appendHeader(header,orientation)
+function appendHeader(header)
 {
-    fTPModel.appendHeaderItem(header,headerOrientation);
-    var preferedWidth = fTPModel.preferedHeaderItemWidth();
-    fTPBody.updateVerticalHeaderWidth(preferedWidth);
+    multiAttemptScoreDataModel.appendHeaderItem(header);
+    var preferedWidth = multiAttemptScoreDataModel.preferedHeaderItemWidth();
+    multiAttemptScoreBoardBody.updateVerticalHeaderWidth(preferedWidth);
 }
 
 function setData(playerName,score){
-    var result = fTPModel.insertData(playerName,score);
+    var result = multiAttemptScoreDataModel.insertData(playerName,score);
     if(!result)
         print("Couldn't add data to model");
 }
 
 function takeData(row,column,playerName){
-    var result = fTPModel.removeLastItem(playerName,headerOrientation);
+    var result = multiAttemptScoreDataModel.removeLastItem(playerName,headerOrientation);
     if(!result)
         print("Couldn't take data");
 }
 
 function editData(row,column,point,score){
-    var result = fTPModel.editData(row,column,point,score);
+    var result = multiAttemptScoreDataModel.editData(row,column,point,score);
     if(!result)
         print("Couldn't edit data");
+}
+
+function setHeaderData(data,defaultVal)
+{
+    for(var i = 0; i < data.length;i++)
+    {
+        var assignedPlayerName = data[i];
+        multiAttemptScoreBoardBody.appendHeader(assignedPlayerName,Qt.Vertical);
+        multiAttemptScoreBoardBody.setData(assignedPlayerName,defaultVal);
+    }
 }

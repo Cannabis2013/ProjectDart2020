@@ -56,7 +56,6 @@ MyRectangle{
     color: cellColor
 
     layer.enabled: true
-
     layer.effect: OpacityMask{
         maskSource: Item {
             width: pointScoreRectBody.width

@@ -95,7 +95,7 @@ Content {
                 script: {
                     singleAttemptTurnController.backendHasDeclaredAWinner();
                     pointKeyPad.enableKeyPad(false);
-                    GameGeneralScripts.setWinnerText();
+                    DartsSingleAttemptScripts.setWinnerText();
                 }
             }
         },
@@ -134,7 +134,5 @@ Content {
         }
     ]
     Component.onCompleted: DartsSingleAttemptScripts.initializeComponent()
-    Component.onDestruction: {
-        DartsSingleAttemptScripts.disConnectInterface();
-    }
+    Component.onDestruction: DartsSingleAttemptScripts.disConnectInterface();
 }

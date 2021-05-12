@@ -42,14 +42,14 @@ void DartApplication::handleSetCurrentTournamentRequest(const int &index)
     emit setCurrentActiveTournament(index);
 }
 
-void DartApplication::handleRequestForSingleThrowScoreData()
-{
-    emit requestMultiAttemptPlayerScores();
-}
-
 void DartApplication::handleRequestForDartsSingleAttemptPoints()
 {
     emit requestDartsSingleAttemptPoints();
+}
+
+void DartApplication::handleRequestForMultiAttemptScores()
+{
+    emit requestDartsMultiAttemptScores();
 }
 
 void DartApplication::handleFTPDetails(const QByteArray& json)

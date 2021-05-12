@@ -3,7 +3,6 @@ import QtQuick.Layouts 1.3
 
 import "dartsmultiattemptscripts.js" as MultiAttemptScripts
 import "multiattemptstatescripts.js" as StateScripts
-import "multiattemptconnectscripts.js" as ConnectScripts
 
 /*
   Gamemodes:
@@ -20,7 +19,7 @@ Content {
         property string winnerLabel: "Winner:"
     }
     signal requestControllerValues
-    signal requestSingleAttemptPoints
+    signal requestMultiAttemptScores
     signal requestStatusFromBackend
     signal requestStart
     signal requestStop
@@ -48,7 +47,7 @@ Content {
         anchors.fill: parent
         flow: GridLayout.TopToBottom
         TurnController{
-            id: multiPointTurnController
+            id: multiAttemptScoreTurnController
             Layout.fillWidth: true
             Layout.minimumHeight: 100
             Layout.maximumHeight: 100
@@ -60,7 +59,7 @@ Content {
             onLeftButtonClicked: DartsSingleAttemptScripts.undoClicked()
             onRightButtonClicked: DartsSingleAttemptScripts.redoClicked()
         }
-        MultiAttemptScoreBoard{
+        MultiAttemptScoreScoreBoard{
             id: multiAttemptScoreBoard
             Layout.fillHeight: true
             Layout.fillWidth: true
@@ -82,7 +81,7 @@ Content {
              height: 5
         }
         ScoreKeyPad{
-            id: pointKeyPad
+            id: scoreKeyPad
             Layout.alignment: Qt.AlignBottom
             Layout.fillHeight: true
             Layout.fillWidth: true
@@ -106,7 +105,7 @@ Content {
         State {
             name: "ready"
             StateChangeScript{
-                script: multiPointTurnController.backendIsReady()
+                script: multiAttemptScoreTurnController.backendIsReady()
             }
         },
         State {
@@ -122,6 +121,6 @@ Content {
             }
         }
     ]
-    Component.onCompleted: ConnectScripts.connectInterface()
-    Component.onDestruction: ConnectScripts.disConnectInterface()
+    Component.onCompleted: MultiAttemptScripts.initializeComponent()
+    Component.onDestruction: MultiAttemptScripts.disconnectInterface()
 }

@@ -88,7 +88,11 @@ QByteArray DartsSingleAttemptPointJsonService::assembleJsonDartsPoint(const QStr
     return json;
 }
 
-QByteArray DartsSingleAttemptPointJsonService::assembleJsonTurnValues(const bool &canUndo, const bool &canRedo, const int &roundIndex, const QString &currentPlayerName, const QString &targetRow) const
+QByteArray DartsSingleAttemptPointJsonService::assembleJsonTurnValues(const bool &canUndo,
+                                                                      const bool &canRedo,
+                                                                      const int &roundIndex,
+                                                                      const QString &currentPlayerName,
+                                                                      const QString &targetRow) const
 {
     QJsonObject jsonObject = {
         {"canUndo", canUndo},

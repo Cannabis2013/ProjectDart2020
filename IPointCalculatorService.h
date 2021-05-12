@@ -1,7 +1,7 @@
 #ifndef SCORECALCULATORINTERFACE_H
 #define SCORECALCULATORINTERFACE_H
 
-class ScoreCalculatorInterface{
+class IPointCalculatorService{
 public:
     virtual int calculateScoreFromDartsPoint(const int &point, const int &keyCode) const= 0;
 };

@@ -41,21 +41,8 @@ void DartsScoreMultiAttempt::handleRequestForCurrentTournamentMetaData()
 
 void DartsScoreMultiAttempt::assembleSingleAttemptDartsScores()
 {
-    auto count = scoreController()->playersCount();
-    QJsonObject jsonObject;
-    QJsonArray playerScoreEntities;
-    for (int i = 0; i < count; ++i) {
-        QJsonObject obj;
-        auto playerName = scoreController()->playerNameByIndex(i);
-        auto score =scoreController()->playerScore(i);
-        obj["playerName"] = playerName;
-        obj["playerScore"] = score;
-        playerScoreEntities.append(obj);
-    };
-    jsonObject["entities"] = playerScoreEntities;
-    auto document = QJsonDocument(jsonObject);
-    auto jsonString = document.toJson(QJsonDocument::Compact);
-    emit sendSingleAttemptDartsScores(jsonString);
+    auto json = _jsonService->assembleJsonDartsMultiAttemptScores(_scoreController);
+    emit sendMultiAttemptDartsScores(json);
 }
 
 void DartsScoreMultiAttempt::handleRequestDartsScores()
@@ -76,17 +63,6 @@ void DartsScoreMultiAttempt::handleScoreAddedToDataContext(const QByteArray &jso
     indexController()->syncIndex();
     auto newJson = QJsonDocument(obj).toJson(QJsonDocument::Compact);
     emit scoreAddedSuccess(newJson);
-}
-
-ScoreCalculatorInterface *DartsScoreMultiAttempt::scoreCalculator() const
-{
-    return _scoreCalculatorService;
-}
-
-DartsScoreMultiAttempt *DartsScoreMultiAttempt::setScoreCalculator(ScoreCalculatorInterface *service)
-{
-    _scoreCalculatorService = service;
-    return this;
 }
 
 void DartsScoreMultiAttempt::handleResetTournament()
@@ -256,6 +232,12 @@ void DartsScoreMultiAttempt::declareWinner()
     setCurrentStatus(ControllerState::WinnerDeclared);
 }
 
+DartsScoreMultiAttempt *DartsScoreMultiAttempt::setJsonService(IDartsMultiAttemptJsonService *jsonService)
+{
+    _jsonService = jsonService;
+    return this;
+}
+
 int DartsScoreMultiAttempt::currentStatus() const
 {
     return _currentStatus;
@@ -273,32 +255,7 @@ void DartsScoreMultiAttempt::initializeControllerIndexes(const QByteArray& json)
     indexController()->setIndexes(totalTurns,turns,
                                   roundIndex,setIndex,
                                   attemptIndex);
-    auto tournamentWinnerStringId = jsonObject.value("tournamentWinnerId").toString();
-    auto tournamentWinnerId = tournamentWinnerStringId != "" ?
-                QUuid::fromString(tournamentWinnerStringId) : QUuid();
-    scoreController()->setWinner(tournamentWinnerId);
-    auto playerData = jsonObject.value("playerEntities").toArray();
-    indexController()->setPlayersCount(playerData.count());
-    for (const auto &jsonVal : playerData) {
-        auto obj = jsonVal.toObject();
-        auto playerStringId = obj["playerId"].toString();
-        auto playerId = QUuid::fromString(playerStringId);
-        auto playerName = obj["playerName"].toString();
-        scoreController()->addPlayerEntity(playerId,playerName);
-    }
-    auto scoreData = jsonObject.value("scoreEntities").toArray();
-    for (const auto &jsonVal : scoreData) {
-        auto obj = jsonVal.toObject();
-        auto playerStringId = obj.value("playerId").toString();
-        auto playerId = QUuid::fromString(playerStringId);
-        auto score = obj.value("score").toInt();
-        scoreController()->subtractPlayerScore(playerId,score);
-    }
-    if(scoreController()->winnerId() != QUuid())
-        setCurrentStatus(ControllerState::WinnerDeclared);
-    else
-        setCurrentStatus(ControllerState::Initialized);
-    emit dartsSingleScoreControllerIsInitialized();
+    emit requestTournamentAssignedPlayerDetails(tournament());
 }
 
 bool DartsScoreMultiAttempt::isBusy()
@@ -380,12 +337,12 @@ DartsScoreMultiAttempt *DartsScoreMultiAttempt::createInstance(const QUuid &tour
     return new DartsScoreMultiAttempt(tournament);
 }
 
-FTPLogisticControllerInterface<QString> *DartsScoreMultiAttempt::pointLogisticInterface() const
+IDartsLogisticsService<QString> *DartsScoreMultiAttempt::pointLogisticInterface() const
 {
     return _pointLogisticInterface;
 }
 
-DartsScoreMultiAttempt *DartsScoreMultiAttempt::setLogisticInterface(FTPLogisticControllerInterface<QString> *pointLogisticInterface)
+DartsScoreMultiAttempt *DartsScoreMultiAttempt::setLogisticInterface(IDartsLogisticsService<QString> *pointLogisticInterface)
 {
     _pointLogisticInterface = pointLogisticInterface;
     return this;
@@ -400,44 +357,51 @@ void DartsScoreMultiAttempt::beginInitialize()
 
 void DartsScoreMultiAttempt::undoSuccess(const QByteArray& json)
 {
-    auto jsonObject = QJsonDocument::fromJson(json).object();
-    auto score = jsonObject.value("scoreValue").toInt();
-    auto playerId = jsonObject.value("playerId").toString();
-    scoreController()->addPlayerScore(playerId,score);
-    auto newScore = scoreController()->playerScore(playerId);
-    auto playerName = scoreController()->playerNameById(playerId);
-    QJsonObject responseJson = {
-        {"playerName",playerName},
-        {"playerScore",newScore}
-    };
-    auto data = QJsonDocument(responseJson).toJson(QJsonDocument::Compact);
+    auto model = _jsonService->assembleExtendedInputModelFromJson(json);
+    scoreController()->addPlayerScore(model->playerId,model->score);
+    auto newScore = scoreController()->playerScore(model->playerId);
+    auto playerName = scoreController()->playerNameById(model->playerId);
+    auto data = _jsonService->assembleJsonDartsScore(playerName,newScore);
     emit scoreRemoved(data);
 }
 
 void DartsScoreMultiAttempt::redoSuccess(const QByteArray& json)
 {
-    auto jsonObject = QJsonDocument::fromJson(json).object();
-    auto score = jsonObject.value("scoreValue").toInt();
-    auto playerId = jsonObject.value("playerId").toString();
-    scoreController()->subtractPlayerScore(playerId,score);
-    auto newScore = scoreController()->playerScore(playerId);
-    auto playerName = scoreController()->playerNameById(playerId);
-    QJsonObject obj = {
-        {"playerName",playerName},
-        {"playerScore",newScore}
-    };
-    auto data = QJsonDocument(obj).toJson(QJsonDocument::Compact);
+    auto model = _jsonService->assembleExtendedInputModelFromJson(json);
+    scoreController()->subtractPlayerScore(model->playerId,model->score);
+    auto newScore = scoreController()->playerScore(model->playerId);
+    auto playerName = scoreController()->playerNameById(model->playerId);
+    auto data = _jsonService->assembleJsonDartsScore(playerName,newScore);
     emit scoreAddedSuccess(data);
 }
 
-void DartsScoreMultiAttempt::initializeControllerPlayerDetails(const QByteArray &)
+void DartsScoreMultiAttempt::initializeControllerPlayerDetails(const QByteArray &json)
 {
+    auto playerStructs = _jsonService->assemblePlayerDetailsStructsFromJson(json);
+    _indexController->setPlayersCount(playerStructs.count());
+    for (const auto &playerStruct : playerStructs)
+        _scoreController->addPlayerEntity(playerStruct->playerId,playerStruct->playerName);
+    emit requestTournamentDartsScores(tournament());
 }
 
-void DartsScoreMultiAttempt::initializeControllerDartsScores(const QByteArray &)
+void DartsScoreMultiAttempt::initializeControllerDartsScores(const QByteArray &json)
 {
+    auto extendedPointStructs = _jsonService->
+            assembleExtendedInputModelsFromJson(json);
+    for (const auto &extendedPointStruct : extendedPointStructs) {
+        _scoreController->subtractPlayerScore(extendedPointStruct->playerId,
+                                              extendedPointStruct->score);
+    }
+    emit requestTournamentWinnerIdAndName(tournament());
 }
 
-void DartsScoreMultiAttempt::initializeControllerWinnerIdAndName(const QByteArray &)
+void DartsScoreMultiAttempt::initializeControllerWinnerIdAndName(const QByteArray &json)
 {
+    auto winnerStruct = _jsonService->assembleWinnerStructFromJson(json);
+    _scoreController->setWinner(winnerStruct->playerId);
+    if(_scoreController->winnerId() != QUuid())
+        setCurrentStatus(ControllerState::WinnerDeclared);
+    else
+        setCurrentStatus(ControllerState::Initialized);
+    emit dartsMultiAttemptScoreControllerIsInitialized();
 }

@@ -7,20 +7,17 @@
 #include <qjsonarray.h>
 #include <QJsonDocument>
 // Custom classes
-#include "abstractgamecontroller.h"
-#include "ftplogisticcontrollerinterface.h"
-#include "scoreCalculatorInterface.h"
+#include "abstractdartsscorecontroller.h"
+#include "idartslogisticsservice.h"
 #include "iscorevalidator.h"
 #include "indexcontrollerinterface.h"
 #include "iplayerscoreservice.h"
-
+#include "idartsmultiattemptjsonservice.h"
+// Definitions
 #define GAME_IS_NOT_IN_PROGRESS "Game is not in progress"
 #define GAME_WINNER_ANNOUNCEMENT(x) QString("Winner with ID: %! is declared winner").arg(x);
 #define INVALID_DOMAIN "Input is not within domain";
 #define UNABLE_TO_ALTER_TURN "Unable to alter turn index";
-
-#include <iostream>
-#include "abstractdartsscorecontroller.h"
 
 
 
@@ -63,11 +60,6 @@ public:
     // Create instance of LocalFTPController
     static DartsScoreMultiAttempt* createInstance(const QUuid &tournament);
     /*
-     * Get/set score calculator service
-     */
-    ScoreCalculatorInterface* scoreCalculator() const;
-    DartsScoreMultiAttempt *setScoreCalculator(ScoreCalculatorInterface *service);
-    /*
      * Get/set evaluator service
      */
     IScoreValidator *scoreEvaluator() const;
@@ -81,8 +73,10 @@ public:
     /*
      * Point suggestion section
      */
-    FTPLogisticControllerInterface<QString> *pointLogisticInterface() const;
-    DartsScoreMultiAttempt *setLogisticInterface(FTPLogisticControllerInterface<QString> *pointLogisticInterface);
+    IDartsLogisticsService<QString> *pointLogisticInterface() const;
+    DartsScoreMultiAttempt* setLogisticInterface(IDartsLogisticsService<QString> *pointLogisticInterface);
+    DartsScoreMultiAttempt* setJsonService(IDartsMultiAttemptJsonService *jsonService);
+
 public slots:
     /*
      * Handle wake up request
@@ -136,6 +130,14 @@ public slots:
      * Recieve ftp index values, score values, and player values from modelscontext
      */
     virtual void initializeControllerIndexes(const QByteArray& json) override;
+    void initializeControllerPlayerDetails(const QByteArray &json) override;
+    void initializeControllerDartsScores(const QByteArray &json) override;
+    void initializeControllerWinnerIdAndName(const QByteArray &json) override;
+    /*
+     * Handle undo/redo response
+     */
+    void undoSuccess(const QByteArray &json) override;
+    void redoSuccess(const QByteArray &json) override;
 private:
     /*
      * Private constructor
@@ -175,27 +177,15 @@ private:
     QUuid _tournament = QUuid();
     int _currentStatus = ControllerState::NotInitialized;
     //Services
-    // Calculate score
-    ScoreCalculatorInterface* _scoreCalculatorService = nullptr;
     // Generate throwsuggestions
-    FTPLogisticControllerInterface<QString> *_pointLogisticInterface = nullptr;
+    IDartsLogisticsService<QString> *_pointLogisticInterface = nullptr;
     // Validator service
     IScoreValidator* _scoreEvaluator = nullptr;
     // Index service
     IndexControllerInterface* _indexController = nullptr;
     // Userscore service
     IPlayerScoreService* _scoreController = nullptr;
-
-    // AbstractDartsScoreController interface
-public slots:
-    void undoSuccess(const QByteArray &json) override;
-    void redoSuccess(const QByteArray &json) override;
-
-    // AbstractDartsScoreController interface
-public slots:
-    void initializeControllerPlayerDetails(const QByteArray &) override;
-    void initializeControllerDartsScores(const QByteArray &) override;
-    void initializeControllerWinnerIdAndName(const QByteArray &) override;
+    IDartsMultiAttemptJsonService* _jsonService;
 };
 
 #endif // FIVEHUNDREDANDONEGAME_H

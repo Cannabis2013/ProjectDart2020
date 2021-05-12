@@ -6,7 +6,8 @@ Content{
     clip: true
 
     signal createTournamentClicked
-    signal dartsPointsControllerInitialized
+    signal dartsSingleAttemptInitialized
+    signal dartsMultiAttemptIsInitialized
     signal manageButtonClicked
     signal requestTournaments
     signal requestDeleteTournaments(var indexes)
@@ -87,13 +88,15 @@ Content{
         body.requestTournaments.connect(applicationInterface.handleTournamentsRequest); // Request initial tournaments
         applicationInterface.sendTournaments.connect(recieveTournaments);
         body.sendClickedTournamentIndex.connect(applicationInterface.handleSetCurrentTournamentRequest);
-        applicationInterface.dartsSingleAttemptPointControllerIsInitialized.connect(dartsPointsControllerInitialized);
+        applicationInterface.dartsSingleAttemptPointControllerIsInitialized.connect(dartsSingleAttemptInitialized);
+        applicationInterface.dartsMultiAttemptScoreControllerIsInitalized.connect(dartsMultiAttemptIsInitialized);
         body.requestTournaments();
     }
     Component.onDestruction: {
         body.requestTournaments.disconnect(applicationInterface.handleTournamentsRequest);
         applicationInterface.sendTournaments.disconnect(recieveTournaments);
         body.sendClickedTournamentIndex.disconnect(applicationInterface.handleSetCurrentTournamentRequest);
-        applicationInterface.dartsSingleAttemptPointControllerIsInitialized.disconnect(dartsPointsControllerInitialized);
+        applicationInterface.dartsSingleAttemptPointControllerIsInitialized.disconnect(dartsSingleAttemptInitialized);
+        applicationInterface.dartsMultiAttemptScoreControllerIsInitalized.disconnect(dartsMultiAttemptIsInitialized);
     }
 }

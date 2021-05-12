@@ -4,6 +4,56 @@ function initializeComponent()
     requestControllerValues();
 }
 
+function connectInterface()
+{
+    dartsMultiAttemptBody.requestControllerValues.connect(applicationInterface.assembleDartsTournamentValues);
+    dartsMultiAttemptBody.requestMultiAttemptScores.connect(
+                applicationInterface.handleRequestForMultiAttemptScores);
+    applicationInterface.sendAssembledMultiAttemptDartsScores.connect(recieveDartsMultiAttemptScores);
+    applicationInterface.dartsControllerIsReset.connect(reinitialize);
+    applicationInterface.dartsSingleAttemptPointControllerIsReady.connect(controllerIsInitializedAndReady);
+    applicationInterface.controllerHasDeclaredAWinner.connect(backendDeclaredAWinner);
+    applicationInterface.controllerIsStopped.connect(backendIsStopped);
+    applicationInterface.dartsSingleAttemptPointControllerIsInitialized.connect(backendIsInitialized);
+    applicationInterface.sendDartsTournamentData.connect(handleFTPTournamentMetaData);
+    dartsMultiAttemptBody.requestStart.connect(applicationInterface.handleRequestStart);
+    dartsMultiAttemptBody.requestStop.connect(applicationInterface.handleRequestStop);
+    dartsMultiAttemptBody.requestRestart.connect(applicationInterface.handleRestartTournament);
+    dartsMultiAttemptBody.sendInput.connect(applicationInterface.handleSingleAttemptPlayerPointInput);
+    dartsMultiAttemptBody.requestStatusFromBackend.connect(applicationInterface.handleControllerStateRequest);
+    applicationInterface.dartsControllerRemovedSingleAttemptPoint.connect(backendRemovedPoint);
+    dartsMultiAttemptBody.requestUndo.connect(applicationInterface.handleUndoRequest);
+    dartsMultiAttemptBody.requestRedo.connect(applicationInterface.handleRedoRequest);
+    scoreKeyPad.sendInput.connect(handlePointKeyPadInput);
+    applicationInterface.controllerAwaitsInput.connect(backendIsReadyAndAwaitsInput);
+    applicationInterface.dartsControllerAddedDartsMultiAttemptScore.connect(extractPointScoreFromJson);
+}
+
+function disconnectInterface()
+{
+    dartsMultiAttemptBody.requestMultiAttemptScores.disconnect(applicationInterface.assembleDartsTournamentValues);
+    dartsMultiAttemptBody.requestMultiAttemptScores.disconnect(
+                applicationInterface.handleRequestForMultiAttemptScores);
+    applicationInterface.sendAssembledMultiAttemptDartsScores.disconnect(
+                recieveDartsMultiAttemptScores);
+    applicationInterface.dartsSingleAttemptPointControllerIsReady.disconnect(controllerIsInitializedAndReady);
+    applicationInterface.controllerHasDeclaredAWinner.disconnect(backendDeclaredAWinner);
+    applicationInterface.controllerIsStopped.disconnect(backendIsStopped);
+    applicationInterface.dartsSingleAttemptPointControllerIsInitialized.disconnect(backendIsInitialized);
+    applicationInterface.sendDartsTournamentData.disconnect(handleFTPTournamentMetaData);
+    dartsMultiAttemptBody.requestStart.disconnect(applicationInterface.handleRequestStart);
+    dartsMultiAttemptBody.requestStop.disconnect(applicationInterface.handleRequestStop);
+    dartsMultiAttemptBody.requestRestart.disconnect(applicationInterface.handleRestartTournament);
+    dartsMultiAttemptBody.sendInput.disconnect(applicationInterface.handleSingleAttemptPlayerPointInput);
+    dartsMultiAttemptBody.requestStatusFromBackend.disconnect(applicationInterface.handleControllerStateRequest);
+    applicationInterface.dartsControllerRemovedSingleAttemptPoint.disconnect(backendRemovedPoint);
+    dartsMultiAttemptBody.requestUndo.disconnect(applicationInterface.handleUndoRequest);
+    dartsMultiAttemptBody.requestRedo.disconnect(applicationInterface.handleRedoRequest);
+    scoreKeyPad.sendInput.disconnect(handlePointKeyPadInput);
+    applicationInterface.controllerAwaitsInput.disconnect(backendIsReadyAndAwaitsInput);
+    applicationInterface.dartsControllerAddedDartsMultiAttemptScore.disconnect(extractPointScoreFromJson);
+}
+
 function handleFTPTournamentMetaData(data){
     var json = JSON.parse(data);
     dartsSingleAttemptValues.title = json["title"];
@@ -12,14 +62,14 @@ function handleFTPTournamentMetaData(data){
     dartsSingleAttemptValues.attempts = json["attempts"];
     dartsSingleAttemptValues.assignedPlayerNames = json["assignedPlayerNames"];
     initializeScoreBoard();
-    requestSingleAttemptPoints();
+    requestMultiAttemptScores();
 }
 
 function initializeScoreBoard()
 {
     var assignedPlayerNames = dartsSingleAttemptValues.assignedPlayerNames;
     var keyPoint = dartsSingleAttemptValues.keyPoint;
-    multiPointScoreBoard.appendHeaderData(assignedPlayerNames,keyPoint);
+    multiAttemptScoreBoard.appendHeaderData(assignedPlayerNames,keyPoint);
 }
 
 function controllerIsInitializedAndReady()
@@ -27,7 +77,7 @@ function controllerIsInitializedAndReady()
     dartsMultiAttemptBody.state = "ready";
 }
 
-function recieveDartsSingleAttemptPoints(scores)
+function recieveDartsMultiAttemptScores(scores)
 {
     var jsonData = JSON.parse(scores);
     var count = jsonData.length;
@@ -83,7 +133,7 @@ function backendIsReadyAndAwaitsInput(data)
     let throwSuggestion = json.targetRow;
     let suggestion = textSourceContainer.throwSuggestLabel + " " + throwSuggestion;
     notificationItemSlot.setThrowSuggestion(suggestion);
-    multiPointTurnController.updateState(currentRoundIndex,
+    multiAttemptScoreTurnController.updateState(currentRoundIndex,
                                          currentPlayerUserName,
                                          canUndo,
                                          canRedo);
@@ -128,4 +178,11 @@ function redoClicked()
 {
     dartsMultiAttemptBody.state = "waitingForInputConfirmation";
     requestRedo();
+}
+
+function setWinnerText()
+{
+    var winnerName = textSourceContainer.winnerLabel + " " +
+            tournamentMetaData.determinedWinner;
+    notificationItemSlot.setCurrentWinner(winnerName);
 }

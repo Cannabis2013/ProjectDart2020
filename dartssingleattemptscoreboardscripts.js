@@ -49,7 +49,7 @@ function refreshHeaders()
     {
         let hHeaderValue = dartsDataModel.getHeaderData(j,Qt.Horizontal);
         let columnWidth = dartsDataModel.columnWidthAt(j);
-        singleAttemptPointScoreBoard.setColumnWidth(j,columnWidth);
+        singleAttemptPointScoreBoard.setHorizontalHeaderWidthAt(j,columnWidth);
         singleAttemptPointScoreBoard.setHorizontalHeaderDataAt(j,hHeaderValue);
     }
     // Refresh vertical headers

@@ -59,7 +59,7 @@ AbstractDartsPointController *DartsControllerBuilder::assembleDartsPointControll
     AbstractDartsPointController* controller = DartsPointSingleAttempt::createInstance(tournament)
             ->setLogisticInterface(PointLogisticController::createInstance(attempts,
                                                                            terminalKeyCode))
-            ->setScoreCalculator(PointScoreCalculator::createInstance())
+            ->setScoreCalculator(DartsPointCalculator::createInstance())
             ->setInputValidator(PointValidator::createInstance(terminalKeyCode))
             ->setIndexController(PointIndexController::createInstance(attempts))
             ->setInputController(DartsPlayerScoreService::createInstance(keyPoint,winnerId))
@@ -75,15 +75,14 @@ AbstractDartsScoreController *DartsControllerBuilder::assembleDartsScoreControll
 {
     AbstractDartsScoreController* controller = DartsScoreMultiAttempt::createInstance(tournament)
             ->setLogisticInterface(ScoreLogisticController::createInstance(attempts,terminalKeyCode))
-            ->setScoreCalculator(new ScoreCalculator())
             ->setInputValidator(ScoreValidator::createInstance(terminalKeyCode))
             ->setIndexController(ScoreIndexController::createInstance())
-            ->setScoreController(DartsPlayerScoreService::createInstance(keyPoint,
-                                                                    winnerId));
+            ->setScoreController(DartsPlayerScoreService::createInstance(keyPoint,winnerId))
+            ->setJsonService(new DartsMultiAttemptJsonService);
     return controller;
 }
 
-DartsControllerBuilder* DartsControllerBuilder::setConnectDartsScoreController(ITernaryService<AbstractDartsScoreController *, AbstractApplicationInterface *, AbstractModelsService *, AbstractDartsScoreController *> *connectDartsScoreController)
+DartsControllerBuilder* DartsControllerBuilder::setConnectDartsMultiAttemptScoreController(ITernaryService<AbstractDartsScoreController *, AbstractApplicationInterface *, AbstractModelsService *, void> *connectDartsScoreController)
 {
     _connectDartsScoreController = connectDartsScoreController;
 }

@@ -25,7 +25,4 @@ public:
                                           const int &point, const int &score, const int &modKeyCode) const override;
     QByteArray assembleJsonWinnerName(const QString &winnerId) const override;
 };
-
-
-
 #endif // DARTSSINGLEATTEMPTPOINTJSONSERVICE_H

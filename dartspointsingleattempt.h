@@ -5,8 +5,8 @@
 #include <quuid.h>
 // Custom classes
 #include "abstractdartspointcontroller.h"
-#include "ftplogisticcontrollerinterface.h"
-#include "scoreCalculatorInterface.h"
+#include "idartslogisticsservice.h"
+#include "IPointCalculatorService.h"
 #include "ipointvalidator.h"
 #include "indexcontrollerinterface.h"
 #include "iplayerscoreservice.h"
@@ -56,15 +56,15 @@ public:
     // Create instance of LocalFTPController
     static DartsPointSingleAttempt* createInstance(const QUuid &tournament);
     // Set service methods
-    DartsPointSingleAttempt *setScoreCalculator(ScoreCalculatorInterface* scoreCalculator);
+    DartsPointSingleAttempt *setScoreCalculator(IPointCalculatorService* scoreCalculator);
     DartsPointSingleAttempt *setInputValidator(IPointValidator* scoreEvaluator);
     DartsPointSingleAttempt *setIndexController(IndexControllerInterface *indexController);
     DartsPointSingleAttempt *setInputController(IPlayerScoreService *scoreController);
     /*
      * Point suggestion section
      */
-    FTPLogisticControllerInterface<QString> *pointLogisticInterface() const;
-    DartsPointSingleAttempt* setLogisticInterface(FTPLogisticControllerInterface<QString> *pointLogisticInterface);
+    IDartsLogisticsService<QString> *pointLogisticInterface() const;
+    DartsPointSingleAttempt* setLogisticInterface(IDartsLogisticsService<QString> *pointLogisticInterface);
     DartsPointSingleAttempt* setDartsJsonModelsService(IDartsSingleAttemptPointJsonService *dartsJsonModelsService);
 
 public slots:
@@ -161,9 +161,9 @@ private:
     // Json
     IDartsSingleAttemptPointJsonService* _dartsJsonModelsService;
     // Calculate score
-    ScoreCalculatorInterface* _scoreCalculator = nullptr;
+    IPointCalculatorService* _scoreCalculator = nullptr;
     // Generate throwsuggestions
-    FTPLogisticControllerInterface<QString> *_pointLogisticInterface = nullptr;
+    IDartsLogisticsService<QString> *_pointLogisticInterface = nullptr;
     // Validator service
     IPointValidator* _scoreEvaluator = nullptr;
     // Index service

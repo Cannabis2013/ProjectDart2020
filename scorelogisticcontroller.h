@@ -1,7 +1,7 @@
 #ifndef SCORELOGISTICCONTROLLER_H
 #define SCORELOGISTICCONTROLLER_H
 
-#include "ftplogisticcontrollerinterface.h"
+#include "idartslogisticsservice.h"
 #include <qstring.h>
 #include <QMultiHash>
 #include <QRandomGenerator>
@@ -11,7 +11,7 @@ struct ScoreModel
     QVector<int> pointValue;
 };
 
-class ScoreLogisticController : public FTPLogisticControllerInterface<QString>
+class ScoreLogisticController : public IDartsLogisticsService<QString>
 {
 
 public:

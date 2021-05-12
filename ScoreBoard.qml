@@ -7,8 +7,8 @@ ScoreBoardInterface{
     id: scoreBoardBody
     color: "transparent"
     signal refreshHeaders()
-    signal setColumnWidth(int j, int w)
-    onSetColumnWidth: horizontalHeader.setColumnWidth(j,w)
+    signal setHorizontalHeaderWidthAt(int j, int w)
+    onSetHorizontalHeaderWidthAt: horizontalHeader.setColumnWidth(j,w)
     signal setRowHeight(int i,int h)
     onSetRowHeight: verticalHeader.setRowHeight(i,h)
     signal requestUpdateCells()
@@ -120,7 +120,6 @@ ScoreBoardInterface{
                 borderWidth: 1
             }
         }
-
         Flickable{
             id: flickableTable
             clip: true

@@ -61,8 +61,8 @@ public slots:
     /*
      * UI request data to populate scoreboard
      */
-    void handleRequestForSingleThrowScoreData() override;
     void handleRequestForDartsSingleAttemptPoints() override;
+    void handleRequestForMultiAttemptScores() override;
     /*
      * Create tournament
      *

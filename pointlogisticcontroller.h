@@ -1,7 +1,7 @@
 #ifndef SCORECONTROLLER_H
 #define SCORECONTROLLER_H
 
-#include "ftplogisticcontrollerinterface.h"
+#include "idartslogisticsservice.h"
 #include <qstring.h>
 #include <QMultiHash>
 #include <QRandomGenerator>
@@ -14,7 +14,7 @@ namespace PointLogisticContext
     };
 }
 
-class PointLogisticController : public FTPLogisticControllerInterface<QString>
+class PointLogisticController : public IDartsLogisticsService<QString>
 {
 
 public:

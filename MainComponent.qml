@@ -50,16 +50,16 @@ Item {
         Page{
             id: tournamentPage
             pageTitle: "Get started.."
-            onBackButtonPressed: pageLoader.sourceComponent = startPageComponent
             pageContent: TournamentPageContent{
                 onCreateTournamentClicked: pageLoader.sourceComponent = createTournamentComponent
                 onManageButtonClicked: pageLoader.sourceComponent = managePageComponent
-                onDartsPointsControllerInitialized: pageLoader.sourceComponent = dartsMultiPointComponent
+                onDartsSingleAttemptInitialized: pageLoader.sourceComponent = dartsSingleAttemptComponent
+                onDartsMultiAttemptIsInitialized: pageLoader.sourceComponent = dartsMultiAttemptComponent
             }
             Component.onCompleted: body.backPushed.connect(backButtonPressed)
+            onBackButtonPressed: pageLoader.sourceComponent = startPageComponent
         }
     }
-
     Component
     {
         id: startPageComponent
@@ -79,12 +79,22 @@ Item {
     }
     Component
     {
-        id: dartsMultiPointComponent
+        id: dartsSingleAttemptComponent
         Page{
             pageTitle : "Darts single attempt"
             pageContent: DartsSingleAttemptContent{}
-            onBackButtonPressed: pageLoader.sourceComponent = tournamentPageComponent
             Component.onCompleted: body.backPushed.connect(backButtonPressed)
+            onBackButtonPressed: pageLoader.sourceComponent = tournamentPageComponent
+        }
+    }
+    Component
+    {
+        id: dartsMultiAttemptComponent
+        Page{
+            pageTitle: "Darts multi attempt"
+            pageContent: DartsMultiAttemptScoreContent{}
+            Component.onCompleted: body.backPushed.connect(backButtonPressed)
+            onBackButtonPressed: pageLoader.sourceComponent = tournamentPageComponent
         }
     }
 

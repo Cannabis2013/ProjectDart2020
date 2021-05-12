@@ -1,14 +1,10 @@
 #ifndef SCORECALCULATOR_H
 #define SCORECALCULATOR_H
 
-#include "scoreCalculatorInterface.h"
+#include "IPointCalculatorService.h"
 
-class ScoreCalculator : public ScoreCalculatorInterface
+class ScoreCalculator : public IPointCalculatorService
 {
-public:
-
-
-    // ScoreCalculatorInterface interface
 public:
     virtual int calculateScoreFromDartsPoint(const int &point, const int &) const override
     {

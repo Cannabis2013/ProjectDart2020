@@ -59,10 +59,8 @@ ScoreBoard {
 
     QtObject{
         id: cellPositionHolder
-
         property int px: -1
         property int py: -1
-
         property int cx: -1
         property int cy: -1
     }

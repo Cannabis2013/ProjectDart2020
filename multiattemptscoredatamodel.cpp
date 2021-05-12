@@ -1,10 +1,6 @@
-#include "sftpdatamodel.h"
+#include "multiattemptscoredatamodel.h"
 
-SFtpDataModel::SFtpDataModel()
-{
-
-}
-int SFtpDataModel::editData(const int &row, const int &column, const int &point, const int &score)
+int MultiAttemptScoreDataModel::editData(const int &row, const int &column, const int &point, const int &score)
 {
     if(row < 0 || row >= rowCount())
         return -1;
@@ -20,17 +16,17 @@ int SFtpDataModel::editData(const int &row, const int &column, const int &point,
     return oldData.toInt();
 }
 
-bool SFtpDataModel::insertData(const QString &playerName,
+bool MultiAttemptScoreDataModel::insertData(const QString &playerName,
                                          const int &score)
 {
     return setPlayerData(playerName,score);;
 }
 
-bool SFtpDataModel::setPlayerData(const QString &playerName,
+bool MultiAttemptScoreDataModel::setPlayerData(const QString &playerName,
                                   const int &score)
 {
     auto indexOfPlayer = indexOfHeaderItem(playerName);
-    auto modelIndex = this->createIndex(0,indexOfPlayer);
+    auto modelIndex = this->createIndex(indexOfPlayer,0);
     if(!modelIndex.isValid())
         return false;
     try {
@@ -42,7 +38,7 @@ bool SFtpDataModel::setPlayerData(const QString &playerName,
     return true;
 }
 
-bool SFtpDataModel::removeLastItem(const QString &playerName)
+bool MultiAttemptScoreDataModel::removeLastItem(const QString &playerName)
 {
     auto column = indexOfHeaderItem(playerName);
     auto row = indexOfLastDecoratedField();
@@ -51,57 +47,52 @@ bool SFtpDataModel::removeLastItem(const QString &playerName)
     return result;
 }
 
-void SFtpDataModel::appendHeaderItem(const QVariant &data)
+void MultiAttemptScoreDataModel::appendHeaderItem(const QVariant &data)
 {
     auto glyphLength = stringWidth(data.toString(),
                                    scoreFontFamily(),
                                    headerFontSize());
-    if(horizontalHeaderCount() >= columnCount())
-        insertColumns(horizontalHeaderCount(),1,QModelIndex());
-    addHorizontalHeaderData(data.toString());
-    auto column = horizontalHeaderCount() - 1;
-    if(glyphLength > columnWidthsAt(column))
-        setColumnWidthAt(column,glyphLength);
+    if(verticalHeaderCount() >= rowCount())
+        insertRows(verticalHeaderCount(),1,QModelIndex());
+    addVerticalHeaderData(data.toString());
+    if(glyphLength > greatestVerticalHeaderWidth)
+        greatestVerticalHeaderWidth = glyphLength;
     emit dataChanged(QModelIndex(),QModelIndex());
 }
 
-void SFtpDataModel::clearData()
+void MultiAttemptScoreDataModel::clearData()
 {
     _data.clear();
     auto bottomRight = createIndex(rowCount() - 1,columnCount() - 1);
     _columns = 0;
     _rows = 0;
-
-    _horizontalHeaderData.clear();
-
+    _verticalHeaderData.clear();
     emit dataChanged(createIndex(0,0),bottomRight);
 }
 
-QString SFtpDataModel::getHeaderData(const int &index) const
+QString MultiAttemptScoreDataModel::getHeaderData(const int &index) const
 {
-    auto value = headerData(index,Qt::Horizontal,Qt::DisplayRole).toString();
+    auto value = headerData(index,Qt::Vertical,Qt::DisplayRole).toString();
     return value;
 }
 
-int SFtpDataModel::headerItemCount() const
+int MultiAttemptScoreDataModel::headerItemCount() const
 {
-    if(horizontalHeaderFillMode() == HeaderFillMode::FixedStrings)
-        return horizontalHeaderCount();
-    else
-        return columnCount();
+    auto count = _verticalHeaderData.count();
+    return count;
 }
 
-int SFtpDataModel::rowCount() const
+int MultiAttemptScoreDataModel::rowCount() const
 {
     return rowCount(QModelIndex());
 }
 
-int SFtpDataModel::columnCount() const
+int MultiAttemptScoreDataModel::columnCount() const
 {
     return columnCount(QModelIndex());
 }
 
-double SFtpDataModel::columnWidthAt(const int &column) const
+double MultiAttemptScoreDataModel::columnWidthAt(const int &column) const
 {
     auto s = scale();
     auto w = columnWidthsAt(column);
@@ -112,99 +103,71 @@ double SFtpDataModel::columnWidthAt(const int &column) const
         return columnWidth;
 }
 
-double SFtpDataModel::rowHeightAt(const int &row) const
+double MultiAttemptScoreDataModel::rowHeightAt(const int &row) const
 {
     if(_data.count() <= 0)
         return 0;
-
-    auto scoreFontMetric = QFontMetrics(QFont(scoreFontFamily(),scoreFontSize()));
-
-    auto resultingGlyphLenght = 0;
-    auto count = columnCount();
-    for (int c = 0; c < count; ++c) {
-        auto columnData = _data.at(row);
-        auto scoreString = QString::number(columnData);
-        auto scoreGlyphHeight = scoreFontMetric.boundingRect(scoreString).height();
-        resultingGlyphLenght = scoreGlyphHeight > resultingGlyphLenght ?
-                    scoreGlyphHeight: resultingGlyphLenght;
-    }
-
-    if(resultingGlyphLenght < minimumPreferedRowHeight)
-        resultingGlyphLenght = minimumPreferedRowHeight;
-
-    return resultingGlyphLenght;
+    auto headerDataGlypHeight = rowHeightFromHeaderData(row);
+    auto cellDataHeight = rowHeightFromCellDataAt(row);
+    auto result = headerDataGlypHeight > cellDataHeight ? headerDataGlypHeight :
+                                                          cellDataHeight;
+    return result;
 }
 
-int SFtpDataModel::horizontalHeaderCount() const
+int MultiAttemptScoreDataModel::verticalHeaderCount() const
 {
-    return _horizontalHeaderData.count();
+    return _verticalHeaderData.count();
 }
 
-int SFtpDataModel::verticalHeaderCount() const
-{
-    return 0;
-}
-
-int SFtpDataModel::rowCount(const QModelIndex &) const
+int MultiAttemptScoreDataModel::rowCount(const QModelIndex &) const
 {
     return _rows;
 }
 
-int SFtpDataModel::columnCount(const QModelIndex &) const
+int MultiAttemptScoreDataModel::columnCount(const QModelIndex &) const
 {
     return _columns;
 }
 
-void SFtpDataModel::setColumnWidthAt(const int &column, const double &w)
+void MultiAttemptScoreDataModel::setColumnWidthAt(const int &column, const double &w)
 {
     _columnWidths.replace(column,w);
 }
 
-int SFtpDataModel::columnWidthsAt(const int &index) const
+int MultiAttemptScoreDataModel::columnWidthsAt(const int &index) const
 {
     auto columnWidth = _columnWidths.at(index);
     return columnWidth;
 }
 
-QVariant SFtpDataModel::data(const QModelIndex &index, int role) const
+QVariant MultiAttemptScoreDataModel::data(const QModelIndex &index, int role) const
 {
     if(!index.isValid() || _data.count() <= 0)
         return QVariant();
     if(role != Qt::DisplayRole)
         return QVariant();
-    auto column = index.column();
-    auto scoreValue = _data.at(column);
+    auto row = index.row();
+    auto scoreValue = _data.at(row);
     auto data = QString::number(scoreValue);
     return scoreValue >= 0 ?
                 QVariant(data) :
                 QVariant("");
 }
 
-QVariant SFtpDataModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant MultiAttemptScoreDataModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     Q_UNUSED(orientation);
     if(role != Qt::DisplayRole)
         return QVariant();
-
-    auto roundIndex = (section - 1)/_attemps + 1;
-
-    if(horizontalHeaderFillMode() == HeaderFillMode::DynamicNumerics)
-        return QVariant(roundIndex);
-    else if(horizontalHeaderFillMode() == HeaderFillMode::FixedStrings &&
-            section < horizontalHeaderCount())
-    {
-        return _horizontalHeaderData.at(section);
-    }
-    else
-        return QVariant();
+    return _verticalHeaderData.at(section);
 }
 
-int SFtpDataModel::numberOfAttemps() const
+int MultiAttemptScoreDataModel::numberOfAttemps() const
 {
     return _attemps;
 }
 
-bool SFtpDataModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool MultiAttemptScoreDataModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     // Get row and column from index
     auto row = index.row();
@@ -227,7 +190,7 @@ bool SFtpDataModel::setData(const QModelIndex &index, const QVariant &value, int
     return true;
 }
 
-bool SFtpDataModel::insertRows(int row, int count, const QModelIndex &)
+bool MultiAttemptScoreDataModel::insertRows(int row, int count, const QModelIndex &)
 {
     auto firstRow = row <= rowCount(QModelIndex()) ? row : rowCount(QModelIndex()) - 1;
     auto lastRow  =  row <= rowCount(QModelIndex()) ? firstRow + count : 2*row + count - firstRow;
@@ -242,7 +205,7 @@ bool SFtpDataModel::insertRows(int row, int count, const QModelIndex &)
     return true;
 }
 
-bool SFtpDataModel::insertColumns(int column, int count, const QModelIndex &)
+bool MultiAttemptScoreDataModel::insertColumns(int column, int count, const QModelIndex &)
 {
     auto firstColumn = column <= columnCount() ? column : columnCount() - 1;
     auto lastColumn  =  column <= columnCount() ? firstColumn + count : 2*column + count - firstColumn;
@@ -256,7 +219,7 @@ bool SFtpDataModel::insertColumns(int column, int count, const QModelIndex &)
     return true;
 }
 
-bool SFtpDataModel::removeRows(int row, int count, const QModelIndex &)
+bool MultiAttemptScoreDataModel::removeRows(int row, int count, const QModelIndex &)
 {
     // Check if input satisfies model constraints
     if(row < 0 || row >= rowCount())
@@ -280,7 +243,7 @@ bool SFtpDataModel::removeRows(int row, int count, const QModelIndex &)
     return true;
 }
 
-bool SFtpDataModel::removeColumns(int column, int count, const QModelIndex &)
+bool MultiAttemptScoreDataModel::removeColumns(int column, int count, const QModelIndex &)
 {
     // Check if input satisfies model constraints
     if(column < 0 || column >= columnCount())
@@ -299,7 +262,7 @@ bool SFtpDataModel::removeColumns(int column, int count, const QModelIndex &)
     return true;
 }
 
-void SFtpDataModel::updateInitialCellValues()
+void MultiAttemptScoreDataModel::updateInitialCellValues()
 {
 
     if(_data.count() < 1)
@@ -309,7 +272,7 @@ void SFtpDataModel::updateInitialCellValues()
         setData(createIndex(0,i),initialValue,Qt::DisplayRole);
 }
 
-void SFtpDataModel::updateColumnWidth(const int& column,const int& data)
+void MultiAttemptScoreDataModel::updateColumnWidth(const int& column,const int& data)
 {
     auto scoreGlypWidth = stringWidth(QString::number(data),
                                       scoreFontFamily(),
@@ -318,7 +281,29 @@ void SFtpDataModel::updateColumnWidth(const int& column,const int& data)
         setColumnWidthAt(column,scoreGlypWidth);
 }
 
-void SFtpDataModel::setInitialColumnWidths(const int &count)
+double MultiAttemptScoreDataModel::rowHeightFromHeaderData(const int &row) const
+{
+
+    auto scoreFontMetric = QFontMetrics(QFont(scoreFontFamily(),headerFontSize()));
+    auto headerData = _verticalHeaderData.at(row);
+    auto headerDataGlyphHeight = scoreFontMetric.boundingRect(headerData).height();
+    if(headerDataGlyphHeight < minimumPreferedRowHeight)
+        return minimumPreferedRowHeight;
+    return headerDataGlyphHeight;
+}
+
+double MultiAttemptScoreDataModel::rowHeightFromCellDataAt(const int &row) const
+{
+    auto scoreFontMetric = QFontMetrics(QFont(scoreFontFamily(),scoreFontSize()));
+    auto columnData = _data.at(row);
+    auto scoreString = QString::number(columnData);
+    auto scoreGlyphHeight = scoreFontMetric.boundingRect(scoreString).height();
+    if(scoreGlyphHeight < minimumPreferedRowHeight)
+        return minimumPreferedRowHeight;
+    return scoreGlyphHeight;
+}
+
+void MultiAttemptScoreDataModel::setInitialColumnWidths(const int &count)
 {
     QList<double> newColumnWidths;
     for (int i = 0; i < count; ++i)
@@ -326,7 +311,7 @@ void SFtpDataModel::setInitialColumnWidths(const int &count)
     _columnWidths << newColumnWidths;
 }
 
-void SFtpDataModel::initializeFieldsHorizontally(const int &startColumn,const int &initialValue)
+void MultiAttemptScoreDataModel::initializeFieldsHorizontally(const int &startColumn,const int &initialValue)
 {
     auto dataCount = _data.count();
     if(startColumn < dataCount)
@@ -338,7 +323,7 @@ void SFtpDataModel::initializeFieldsHorizontally(const int &startColumn,const in
         _data.append(initialValue);
 }
 
-bool SFtpDataModel::isIndexValid(const QModelIndex &index)
+bool MultiAttemptScoreDataModel::isIndexValid(const QModelIndex &index)
 {
     auto row = index.row();
     auto column = index.column();
@@ -349,20 +334,20 @@ bool SFtpDataModel::isIndexValid(const QModelIndex &index)
     return true;
 }
 
-bool SFtpDataModel::isCellDecorated(const QModelIndex &index)
+bool MultiAttemptScoreDataModel::isCellDecorated(const QModelIndex &index)
 {
     return data(index,Qt::DisplayRole) != "-";
 }
 
 
-int SFtpDataModel::indexOfLastDecoratedField()
+int MultiAttemptScoreDataModel::indexOfLastDecoratedField()
 {
     auto lastDecoratedField = _data.count() - 1;
     return lastDecoratedField;
 }
 
 
-bool SFtpDataModel::isRowEmpty(const int &row)
+bool MultiAttemptScoreDataModel::isRowEmpty(const int &row)
 {
     if(row < 0 || row >= rowCount())
         throw std::out_of_range("Index out of range");
@@ -374,7 +359,7 @@ bool SFtpDataModel::isRowEmpty(const int &row)
     return true;
 }
 
-bool SFtpDataModel::removeData(const QModelIndex &index)
+bool MultiAttemptScoreDataModel::removeData(const QModelIndex &index)
 {
     if(!isIndexValid(index))
         return -1;
@@ -390,131 +375,131 @@ bool SFtpDataModel::removeData(const QModelIndex &index)
     return false;
 }
 
-int SFtpDataModel::indexOfHeaderItem(const QString &data)
+int MultiAttemptScoreDataModel::indexOfHeaderItem(const QString &data)
 {
-    auto index = _horizontalHeaderData.indexOf(data);
+    auto index = _verticalHeaderData.indexOf(data);
     return index;
 }
 
-void SFtpDataModel::addHorizontalHeaderData(const QString &data)
+void MultiAttemptScoreDataModel::addVerticalHeaderData(const QString &data)
 {
-    _horizontalHeaderData.append(data);
+    _verticalHeaderData.append(data);
     emit dataChanged(QModelIndex(),QModelIndex());
 }
 
-int SFtpDataModel::stringWidth(const QString &string, const QString &family, const int &pointSize) const
+int MultiAttemptScoreDataModel::stringWidth(const QString &string, const QString &family, const int &pointSize) const
 {
     auto fontMetric = QFontMetrics(QFont(family,pointSize));
     auto r = fontMetric.boundingRect(string).width();
     return r;
 }
 
-int SFtpDataModel::headerFontSize() const
+int MultiAttemptScoreDataModel::headerFontSize() const
 {
     return _headerFontSize;
 }
 
-void SFtpDataModel::setHeaderFontSize(int headerFontSize)
+void MultiAttemptScoreDataModel::setHeaderFontSize(int headerFontSize)
 {
     _headerFontSize = headerFontSize;
 }
 
-QStringList SFtpDataModel::getHorizontalHeaderData() const
+QStringList MultiAttemptScoreDataModel::getVerticalHeaderData() const
 {
-    return _horizontalHeaderData;
+    return _verticalHeaderData;
 }
 
-void SFtpDataModel::setHorizontalHeaderData(const QList<QString> &horizontalHeaderData)
+void MultiAttemptScoreDataModel::setVerticalHeaderData(const QList<QString> &horizontalHeaderData)
 {
-    _horizontalHeaderData = horizontalHeaderData;
+    _verticalHeaderData = horizontalHeaderData;
 }
 
-QString SFtpDataModel::pointFontFamily() const
+QString MultiAttemptScoreDataModel::pointFontFamily() const
 {
     return _pointFontFamily;
 }
 
-void SFtpDataModel::setPointFontFamily(const QString &pointFontFamily)
+void MultiAttemptScoreDataModel::setPointFontFamily(const QString &pointFontFamily)
 {
     _pointFontFamily = pointFontFamily;
 }
 
-QString SFtpDataModel::scoreFontFamily() const
+QString MultiAttemptScoreDataModel::scoreFontFamily() const
 {
     return _scoreFontFamily;
 }
 
-void SFtpDataModel::setScoreFontFamily(const QString &scoreFontFamily)
+void MultiAttemptScoreDataModel::setScoreFontFamily(const QString &scoreFontFamily)
 {
     _scoreFontFamily = scoreFontFamily;
 }
 
-int SFtpDataModel::pointFontSize() const
+int MultiAttemptScoreDataModel::pointFontSize() const
 {
     return _pointFontSize;
 }
 
-void SFtpDataModel::setPointFontSize(int pointFontSize)
+void MultiAttemptScoreDataModel::setPointFontSize(int pointFontSize)
 {
     _pointFontSize = pointFontSize;
 }
 
-int SFtpDataModel::scoreFontSize() const
+int MultiAttemptScoreDataModel::scoreFontSize() const
 {
     return _scoreFontSize;
 }
 
-void SFtpDataModel::setScoreFontSize(int scoreFontSize)
+void MultiAttemptScoreDataModel::setScoreFontSize(int scoreFontSize)
 {
     _scoreFontSize = scoreFontSize;
 }
 
-int SFtpDataModel::initialValue() const
+int MultiAttemptScoreDataModel::initialValue() const
 {
     return _initialValue;
 }
 
-void SFtpDataModel::setInitialValue(int initialValue)
+void MultiAttemptScoreDataModel::setInitialValue(int initialValue)
 {
     _initialValue = initialValue;
     updateInitialCellValues();
 }
 
-int SFtpDataModel::minimumRowCount() const
+int MultiAttemptScoreDataModel::minimumRowCount() const
 {
     return _minimumRowCount;
 }
 
-void SFtpDataModel::setMinimumRowCount(int minimumRowCount)
+void MultiAttemptScoreDataModel::setMinimumRowCount(int minimumRowCount)
 {
     Q_UNUSED(minimumRowCount);
     return;
 }
 
-int SFtpDataModel::minimumColumnCount() const
+int MultiAttemptScoreDataModel::minimumColumnCount() const
 {
     return _minimumColumnCount;
 }
 
-void SFtpDataModel::setMinimumColumnCount(int minimumColumnCount)
+void MultiAttemptScoreDataModel::setMinimumColumnCount(int minimumColumnCount)
 {
     Q_UNUSED(minimumColumnCount);
     return;
 }
 
-int SFtpDataModel::preferedHeaderItemWidth() const
+int MultiAttemptScoreDataModel::preferedHeaderItemWidth() const
 {
-    auto preferedWidth = columnWidthsAt(0);
-    return preferedWidth;
+    auto itemWidth = greatestVerticalHeaderWidth*_scale;
+    return itemWidth;
 }
 
-void SFtpDataModel::setNumberOfAttemps(const int &count)
+void MultiAttemptScoreDataModel::setNumberOfAttemps(const int &count)
 {
     _attemps = count;
     emit dataChanged(QModelIndex(),QModelIndex());
 }
 
-void SFtpDataModel::setColumnCount(const int &count)
+void MultiAttemptScoreDataModel::setColumnCount(const int &count)
 {
     if(count < 0)
         return;
@@ -531,7 +516,7 @@ void SFtpDataModel::setColumnCount(const int &count)
     emit dataChanged(QModelIndex(),QModelIndex());
 }
 
-void SFtpDataModel::setRowCount(const int &count)
+void MultiAttemptScoreDataModel::setRowCount(const int &count)
 {
     if(count < 0)
         return;
@@ -549,22 +534,22 @@ void SFtpDataModel::setRowCount(const int &count)
     emit minimumRowCountChanged();
 }
 
-double SFtpDataModel::scale() const
+double MultiAttemptScoreDataModel::scale() const
 {
     return _scale;
 }
 
-void SFtpDataModel::setScale(double scale)
+void MultiAttemptScoreDataModel::setScale(double scale)
 {
     _scale = scale;
 }
 
-int SFtpDataModel::horizontalHeaderFillMode() const
+int MultiAttemptScoreDataModel::horizontalHeaderFillMode() const
 {
     return _horizontalFillMode;
 }
 
-void SFtpDataModel::setHorizontalHeaderFillMode(const int &fillMode)
+void MultiAttemptScoreDataModel::setHorizontalHeaderFillMode(const int &fillMode)
 {
     _horizontalFillMode = fillMode;
     emit fillModeChanged();

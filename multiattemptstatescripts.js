@@ -1,24 +1,24 @@
 function declareWinner()
 {
-    multiPointTurnController.backendHasDeclaredAWinner();
-    pointKeyPad.enableKeyPad(false);
-    GameGeneralScripts.setWinnerText();
+    multiAttemptScoreTurnController.backendHasDeclaredAWinner();
+    scoreKeyPad.enableKeyPad(false);
+    MultiAttemptScripts.setWinnerText();
 }
 
 function backendIsStopped()
 {
-    multiPointTurnController.backendIsStopped();
-    pointKeyPad.enableKeyPad(false);
+    multiAttemptScoreTurnController.backendIsStopped();
+    scoreKeyPad.enableKeyPad(false);
 }
 
 function backendProcessesInput()
 {
-    multiPointTurnController.backendProcessesInput();
-    pointKeyPad.enableKeyPad(false);
+    multiAttemptScoreTurnController.backendProcessesInput();
+    scoreKeyPad.enableKeyPad(false);
 }
 
 function backendAwaitsInput()
 {
-    multiPointTurnController.backendAwaitsInput();
-    pointKeyPad.enableKeyPad(true);
+    multiAttemptScoreTurnController.backendAwaitsInput();
+    scoreKeyPad.enableKeyPad(true);
 }

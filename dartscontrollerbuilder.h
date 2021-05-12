@@ -8,7 +8,7 @@
 // Include services
 #include "pointlogisticcontroller.h"
 #include "scorelogisticcontroller.h"
-#include "pointScoreCalculator.h"
+#include "DartsPointCalculator.h"
 #include "scorecalculator.h"
 #include "pointvalidator.h"
 #include "ScoreValidator.h"
@@ -23,6 +23,7 @@
 #include "abstractdartspointcontroller.h"
 #include "iternaryservice.h"
 #include "dartssingleattemptpointjsonservice.h"
+#include "dartsmultiattemptjsonservice.h"
 
 class DartsControllerBuilder : public AbstractDartsControllerBuilder
 {
@@ -60,7 +61,7 @@ public:
 
     DartsControllerBuilder *setConnectDartsSingleAttemptPointController(ITernaryService<AbstractDartsPointController *, AbstractApplicationInterface *, AbstractModelsService *, AbstractDartsPointController *> *connectDartsPointController);
 
-    DartsControllerBuilder *setConnectDartsScoreController(ITernaryService<AbstractDartsScoreController *, AbstractApplicationInterface *, AbstractModelsService *, AbstractDartsScoreController *> *connectDartsScoreController);
+    DartsControllerBuilder *setConnectDartsMultiAttemptScoreController(ITernaryService<AbstractDartsScoreController *, AbstractApplicationInterface *, AbstractModelsService *, void> *connectDartsScoreController);
 
 private:
     AbstractDartsPointController* assembleDartsPointController(const QUuid& tournament,
@@ -79,7 +80,7 @@ private:
     ITernaryService<AbstractDartsScoreController*,
                     AbstractApplicationInterface*,
                     AbstractModelsService*,
-                    AbstractDartsScoreController*>* _connectDartsScoreController;
+                    void>* _connectDartsScoreController;
 };
 
 

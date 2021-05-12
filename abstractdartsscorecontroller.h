@@ -43,6 +43,7 @@ signals:
     void requestTournamentWinnerIdAndName( const QUuid& tournamentId);
     void sendSingleAttemptDartsScores(const QByteArray& json);
     void sendMultiAttemptDartsScores(const QByteArray& json);
+    void dartsMultiAttemptScoreControllerIsInitialized();
 };
 
 

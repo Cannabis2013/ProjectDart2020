@@ -26,6 +26,8 @@ AbstractDartsPointController *ConnectDartsSingleAttemptPointController::service(
                      modelsService,&AbstractModelsService::assembleDartsTournamentWinnerIdAndName);
     QObject::connect(modelsService,&AbstractModelsService::sendDartsTournamentWinnerIdAndName,
                      controller,&AbstractDartsPointController::initializeControllerWinnerIdAndName);
+    QObject::connect(controller,&AbstractDartsPointController::dartsSingleAttemptControllerIsInitialized,
+            application,&AbstractApplicationInterface::dartsSingleAttemptPointControllerIsInitialized);
     // Controller requests transmitting single attempt playerpoints
     QObject::connect(application,&AbstractApplicationInterface::requestDartsSingleAttemptPoints,
             controller,&AbstractDartsPointController::handleRequestDartsPoints);
@@ -45,8 +47,6 @@ AbstractDartsPointController *ConnectDartsSingleAttemptPointController::service(
          */
     QObject::connect(controller,&AbstractDartsController::controllerIsStopped,
             application,&AbstractApplicationInterface::controllerIsStopped);
-    QObject::connect(controller,&AbstractDartsPointController::controllerIsInitialized,
-            application,&AbstractApplicationInterface::dartsSingleAttemptPointControllerIsInitialized);
     QObject::connect(controller,&AbstractDartsPointController::controllerIsInitializedAndReady,
                      application,&AbstractApplicationInterface::dartsSingleAttemptPointControllerIsReady);
     QObject::connect(controller,&AbstractDartsController::isReadyAndAwaitsInput,
@@ -81,7 +81,7 @@ AbstractDartsPointController *ConnectDartsSingleAttemptPointController::service(
     QObject::connect(modelsService,&AbstractModelsService::pointAddedToDataContext,
             controller,&AbstractDartsPointController::handlePointAddedToDataContext);
     QObject::connect(controller,&AbstractDartsPointController::pointAddedAndPersisted,
-            application,&AbstractApplicationInterface::dartsControllerAddedAndPersistedScore);
+            application,&AbstractApplicationInterface::dartsControllerAddedDartsSingleAttemptPoint);
     QObject::connect(application,&AbstractApplicationInterface::requestControllerState,
             controller,&AbstractGameController::handleRequestFromUI);
     /*
