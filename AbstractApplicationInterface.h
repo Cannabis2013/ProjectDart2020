@@ -48,7 +48,8 @@ public slots:
      *  - Users enters points to be stored in datacontext
      *  - In return, datacontext, in collaboration with gamecontroller, send current score to UI
      */
-    virtual void handleSingleAttemptPlayerPointInput(const QByteArray& json) = 0;
+    virtual void handleDartsSingleAttemptInput(const QByteArray& json) = 0;
+    virtual void handleDartsMultiAttemptInput(const QByteArray& json) = 0;
     virtual void handleUndoRequest() = 0;
     virtual void handleRedoRequest() = 0;
     virtual void handleControllerStateRequest() = 0;
@@ -85,7 +86,8 @@ signals:
     void requestDartsSingleAttemptPoints();
     void requestDartsMultiAttemptScores();
     void setCurrentActiveTournament(const int &index);
-    void sendSingleAttemptPlayerInput(const QByteArray& json);
+    void sendDartsSingleAttemptPoint(const QByteArray& json);
+    void sendDartsMultiAttemptScore(const QByteArray& json);
     void requestStartGame();
     void requestStopGame();
     void requestTournamentReset();
@@ -118,7 +120,7 @@ signals:
     void dartsControllerRemovedSingleAttemptPoint(const QString& json);
     void dartsControllerAddedDartsSingleAttemptPoint(const QByteArray& json);
     void dartsMultiAttemptScoreControllerIsInitalized();
-    void dartsSingleScoreControllerIsInitialized();
+    void dartsSingleScoreControllerIsInitializedAndReady();
     void dartsSingleAttemptPointControllerIsReady();
     void dartsControllerAddedDartsMultiAttemptScore(const QByteArray& json);
     void controllerAwaitsInput(const QByteArray& json);

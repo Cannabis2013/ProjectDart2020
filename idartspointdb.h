@@ -4,7 +4,7 @@
 #include <qvector.h>
 #include <idartspointinput.h>
 
-class IdartsPointDb
+class IDartsPointDb
 {
 public:
     virtual void addDartsInputModel(const IDartsPointInput* model) = 0;

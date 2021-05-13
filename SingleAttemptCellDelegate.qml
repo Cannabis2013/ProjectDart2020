@@ -1,8 +1,6 @@
 import QtQuick 2.15
 import CustomItems 1.0
 
-import "fTPMultiPointScripts.js" as ScoreScripts
-
 PointScoreRectDelegate {
     id: delegate
     pointDisplayVisible: true

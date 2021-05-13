@@ -92,15 +92,10 @@ int MultiAttemptScoreDataModel::columnCount() const
     return columnCount(QModelIndex());
 }
 
-double MultiAttemptScoreDataModel::columnWidthAt(const int &column) const
+double MultiAttemptScoreDataModel::columnWidthAt(const int &column)
 {
-    auto s = scale();
-    auto w = columnWidthsAt(column);
-    auto columnWidth = s*w;
-    if(columnWidth < minimumPreferedColumnWidth)
-        return minimumPreferedColumnWidth;
-    else
-        return columnWidth;
+    Q_UNUSED(column);
+    return _columnWidth;
 }
 
 double MultiAttemptScoreDataModel::rowHeightAt(const int &row) const
@@ -129,15 +124,9 @@ int MultiAttemptScoreDataModel::columnCount(const QModelIndex &) const
     return _columns;
 }
 
-void MultiAttemptScoreDataModel::setColumnWidthAt(const int &column, const double &w)
+int MultiAttemptScoreDataModel::columnWidth() const
 {
-    _columnWidths.replace(column,w);
-}
-
-int MultiAttemptScoreDataModel::columnWidthsAt(const int &index) const
-{
-    auto columnWidth = _columnWidths.at(index);
-    return columnWidth;
+    return _columnWidth;
 }
 
 QVariant MultiAttemptScoreDataModel::data(const QModelIndex &index, int role) const
@@ -175,17 +164,13 @@ bool MultiAttemptScoreDataModel::setData(const QModelIndex &index, const QVarian
     // Check for correctness
     if(row < 0 || column < 0)
         return false;
-    // Check if columns has to be made
-    if(column >= columnCount())
-        insertColumns(column,1,QModelIndex());
-    // Likewise for rows
     if(row >= rowCount())
         insertRows(row,1,QModelIndex());
     // Set data
     auto data = value.toInt();
-    _data.replace(column,data);
+    _data.replace(row,data);
     // Update column width from column by the size of its data
-    updateColumnWidth(column,data);
+    setColumnWidthByData(data);
     emit dataChanged(index,index,{role});
     return true;
 }
@@ -197,8 +182,8 @@ bool MultiAttemptScoreDataModel::insertRows(int row, int count, const QModelInde
     auto c = row <= rowCount(QModelIndex()) ? count : count + (row - firstRow) - 1;
     beginInsertRows(QModelIndex(),firstRow,lastRow);
     auto columnCount = this->columnCount();
-    for (int i = 0; i < columnCount; ++i)
-        _data.insert(i,-1);
+    for (int i = 0; i < count; ++i)
+        _data.append(-1);
     endInsertRows();
     _rows += c;
     emit dataChanged(createIndex(row,0),createIndex(lastRow,columnCount));
@@ -213,7 +198,6 @@ bool MultiAttemptScoreDataModel::insertColumns(int column, int count, const QMod
 
     beginInsertColumns(QModelIndex(),firstColumn,lastColumn);
     initializeFieldsHorizontally(column);
-    setInitialColumnWidths(count);
     endInsertColumns();
     _columns += c;
     return true;
@@ -272,13 +256,13 @@ void MultiAttemptScoreDataModel::updateInitialCellValues()
         setData(createIndex(0,i),initialValue,Qt::DisplayRole);
 }
 
-void MultiAttemptScoreDataModel::updateColumnWidth(const int& column,const int& data)
+void MultiAttemptScoreDataModel::setColumnWidthByData(const int& data)
 {
     auto scoreGlypWidth = stringWidth(QString::number(data),
                                       scoreFontFamily(),
                                       scoreFontSize());
-    if(scoreGlypWidth > columnWidthsAt(column))
-        setColumnWidthAt(column,scoreGlypWidth);
+    if(scoreGlypWidth > _columnWidth)
+        _columnWidth = scoreGlypWidth;
 }
 
 double MultiAttemptScoreDataModel::rowHeightFromHeaderData(const int &row) const
@@ -301,14 +285,6 @@ double MultiAttemptScoreDataModel::rowHeightFromCellDataAt(const int &row) const
     if(scoreGlyphHeight < minimumPreferedRowHeight)
         return minimumPreferedRowHeight;
     return scoreGlyphHeight;
-}
-
-void MultiAttemptScoreDataModel::setInitialColumnWidths(const int &count)
-{
-    QList<double> newColumnWidths;
-    for (int i = 0; i < count; ++i)
-        newColumnWidths << minimumPreferedColumnWidth;
-    _columnWidths << newColumnWidths;
 }
 
 void MultiAttemptScoreDataModel::initializeFieldsHorizontally(const int &startColumn,const int &initialValue)

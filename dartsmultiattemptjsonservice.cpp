@@ -136,18 +136,16 @@ QByteArray DartsMultiAttemptJsonService::assembleJsonWinnerName(const QString &w
 QByteArray DartsMultiAttemptJsonService::assembleJsonDartsMultiAttemptScores(const IPlayerScoreService *scoreService) const
 {
     auto count = scoreService->playersCount();
-    QJsonObject jsonObject;
     QJsonArray playerScoreEntities;
     for (int i = 0; i < count; ++i) {
         QJsonObject obj;
         auto playerName = scoreService->playerNameByIndex(i);
         auto score = scoreService->playerScore(i);
         obj["playerName"] = playerName;
-        obj["playerScore"] = score;
+        obj["score"] = score;
         playerScoreEntities.append(obj);
     };
-    jsonObject["entities"] = playerScoreEntities;
-    auto document = QJsonDocument(jsonObject);
+    auto document = QJsonDocument(playerScoreEntities);
     auto json = document.toJson(QJsonDocument::Compact);
     return json;
 }

@@ -5,14 +5,23 @@ IDartsModelsService *DartsModelsServiceBuilder::buildModelsService() const
 {
     auto dartsTournamentsJsonDb = DartsTournamentJSonDb::createInstance(new AssembleDartsTournamentsFromJsonArray,
                                                                         new AssembleJsonFromDartsTournamentModels);
-    auto dartsPointDb = DartsPointDbService::createInstance(new AssembleSingleAttemptPointsFromJson,
+    auto dartsPointDb = DartsPointJsonDbService::createInstance(new AssembleSingleAttemptPointsFromJson,
                                                             new AssembleJsonArrayFromDartsPoints);
-
+    auto dartsScoreDb = DartsScoreJsonDb::createInstance(new AssembleMultiAttemptScoresByJson,
+                                                         new AssembleJsonByDartsScoreModels);
     auto dartsModelsService =
             DartsModelsService::createInstance()
             ->setTournamentsDbContext(dartsTournamentsJsonDb)
             ->setDartsPointsDb(dartsPointDb)
+            ->setDartsScoreDb(dartsScoreDb)
             ->setGetOrderedDartsPointsModels(new GetOrderedDartsPointsModels)
-            ->setAssembleDartsPointIndexes(new AssembleDartsPointIndexesByDartsPointModel);
+            ->setAssembleDartsPointIndexes(new GetDartsPointIndexesByDartsPointModel)
+            ->setGetOrderedDartsScoreModels(new GetOrderedDartsScoreModels)
+            ->setGetScoreIndexesByTournamentId(new GetDartsScoreIndexesByModel)
+            ->setCountScoresByTournamentAndHint(new CountScoresByTournamentAndHint)
+            ->setGetScoreModelsByTournamentId(new GetDartsScoreModelsByTournamentId)
+            ->setGetScoreModelsByPlayerId(new GetDartsScoreModelsByPlayerId)
+            ->setGetScoreModelsByRoundIndex(new GetDartsScoreModelsByRoundIndex)
+            ->setDartsScoreModelHintService(new SetDartsModelHint);
     return dartsModelsService;
 }

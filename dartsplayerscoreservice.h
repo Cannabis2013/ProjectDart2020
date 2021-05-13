@@ -41,8 +41,8 @@ public:
     static DartsPlayerScoreService* createInstance(const int& initialScore,
                                               const QUuid &winner);
     virtual void addPlayerEntity(const QUuid &id, const QString &name) override;
-    virtual void subtractPlayerScore(const QUuid& id, const int &score) override;
-    virtual void addPlayerScore(const QUuid& id, const int &score) override;
+    virtual int subtractPlayerScore(const QUuid& id, const int &score) override;
+    virtual int addPlayerScore(const QUuid& id, const int &score) override;
     // UserScoresControllerInterface interface
     int playerScore(const int &index) const override;
     int playerScore(const QUuid& id) const override;

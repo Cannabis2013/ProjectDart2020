@@ -3,8 +3,8 @@
 
 IDartsJsonService *DartsJsonServiceBuilder::buildModelsService() const
 {
-    auto jsonModelsService = DartsModelsJsonService::createInstance()
-            ->setAssembleJsonDartsIndexes(new AssembleJsonFromDartsPointIndexes)
+    auto jsonModelsService = DartsJsonService::createInstance()
+            ->setAssembleJsonDartsPointIndexes(new AssembleJsonFromDartsPointIndexes)
             ->setGetPlayerIndexesFromJson(new GetPlayerIndexesFromJson)
             ->setAssembleJsonFromPlayerNamesAndIds(new JsonArrayFromPlayerNamesAndIds)
             ->setAssembleJsonFromTournamentDartsPoints(new AssembleJsonFromDartsPoints())
@@ -22,6 +22,8 @@ IDartsJsonService *DartsJsonServiceBuilder::buildModelsService() const
             ->setAddPlayerNameToJsonPointModel(new AddPlayerNameToJsonInputModel)
             ->setAssembleJsonFromDartsPointModel(new AssembleJsonFromDartsPointModel)
             ->setAssembleDartsScoreFromJson(new AssembleDartsScoreModelFromJson)
-            ->setAssembleJsonFromDartsScoreModel(new AssembleJsonFromDartsScoreModel);
+            ->setAssembleJsonFromDartsScoreModel(new AssembleJsonFromDartsScoreModel)
+            ->setAssembleJsonFromDartsMultiAttemptScores(new AssembleJsonFromDartsMultiAttemptScores)
+            ->setAssembleJsonByDartsScoreIndexes(new AssembleJsonByDartsScoreIndexes);
     return jsonModelsService;
 }

@@ -7,7 +7,7 @@
 #include <quuid.h>
 #include "dartspointindexes.h"
 
-class AssembleDartsPointIndexesByDartsPointModel : public
+class GetDartsPointIndexesByDartsPointModel : public
         ITernaryService<const QVector<const IDartsPointInput*>&,
                        const IDartsTournament*,
                        const int&,

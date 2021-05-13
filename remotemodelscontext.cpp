@@ -1,7 +1,5 @@
 #include "remotemodelscontext.h"
 
-
-
 RemoteModelsContext::RemoteModelsContext()
 {
     _netMng->setParserService(new UrlParser);
@@ -381,5 +379,9 @@ void RemoteModelsContext::assembleDartsTournamentWinnerIdAndName(const QUuid &)
 
 
 void RemoteModelsContext::assembleAssignedPlayerScores(const QUuid &)
+{
+}
+
+void RemoteModelsContext::assembleDartsScoreIndexes(const QUuid &tournament)
 {
 }

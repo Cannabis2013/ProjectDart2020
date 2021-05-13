@@ -12,17 +12,6 @@ Item {
             pageContent: CreatePlayerContent{}
         }
     }
-
-    Component{
-        id: gamePageComponent
-        Page{
-            onBackButtonPressed: pageLoader.sourceComponent = tournamentPageComponent
-            pageTitle: "Game"
-            pageContent: GamePageContent{}
-            Component.onCompleted: body.backPushed.connect(backButtonPressed)
-        }
-    }
-
     Component{
         id: managePageComponent
         Page{

@@ -1,17 +1,17 @@
-#include "dartspointdbservice.h"
+#include "dartspointjsondbservice.h"
 
-DartsPointDbService *DartsPointDbService::createInstance(JsonExtractor* extractor,
+DartsPointJsonDbService *DartsPointJsonDbService::createInstance(JsonExtractor* extractor,
                                                          JsonAssembler* assembler)
 {
 
-    auto dbService = new DartsPointDbService;
+    auto dbService = new DartsPointJsonDbService;
     dbService->setDartsPointsExtractorService(extractor);
     dbService->setDartsPointsJsonAssemblerService(assembler);
     dbService->fetchModels();
     return dbService;
 }
 
-void DartsPointDbService::fetchModels()
+void DartsPointJsonDbService::fetchModels()
 {
     QJsonObject jsonObject;
     // Extact content from file
@@ -24,7 +24,7 @@ void DartsPointDbService::fetchModels()
     _dartsPointModels << _dartsPointsExtractor->service(dartsPointsJson);
 }
 
-void DartsPointDbService::saveState()
+void DartsPointJsonDbService::saveState()
 {
     /*
      * Persist tournament models
@@ -37,48 +37,48 @@ void DartsPointDbService::saveState()
     writeJsonObjectToFile(modelJson,_fileName);
 }
 
-void DartsPointDbService::addDartsInputModel(const IDartsPointInput *model)
+void DartsPointJsonDbService::addDartsInputModel(const IDartsPointInput *model)
 {
     _dartsPointModels.append(model);
     saveState();
 }
 
-const IDartsPointInput *DartsPointDbService::getDartsInputModelByIndex(const int &index) const
+const IDartsPointInput *DartsPointJsonDbService::getDartsInputModelByIndex(const int &index) const
 {
     auto model = _dartsPointModels.at(index);
     return model;
 }
 
-QVector<const IDartsPointInput *> DartsPointDbService::dartsInputModels() const
+QVector<const IDartsPointInput *> DartsPointJsonDbService::dartsInputModels() const
 {
     return _dartsPointModels;
 }
 
-void DartsPointDbService::removeDartsInputModelByIndex(const int &index)
+void DartsPointJsonDbService::removeDartsInputModelByIndex(const int &index)
 {
     _dartsPointModels.remove(index);
     saveState();
 }
 
-int DartsPointDbService::indexOfDartsInputModel(const IDartsPointInput *score)
+int DartsPointJsonDbService::indexOfDartsInputModel(const IDartsPointInput *score)
 {
     auto index = _dartsPointModels.indexOf(score);
     return index;
 }
 
-void DartsPointDbService::replaceDartsInputModel(const int &index, const IDartsPointInput *score)
+void DartsPointJsonDbService::replaceDartsInputModel(const int &index, const IDartsPointInput *score)
 {
     _dartsPointModels.replace(index,score);
     saveState();
 }
 
-DartsPointDbService *DartsPointDbService::setDartsPointsExtractorService(JsonExtractor *dartsPointsExtractor)
+DartsPointJsonDbService *DartsPointJsonDbService::setDartsPointsExtractorService(JsonExtractor *dartsPointsExtractor)
 {
     _dartsPointsExtractor = dartsPointsExtractor;
     return this;
 }
 
-DartsPointDbService *DartsPointDbService::setDartsPointsJsonAssemblerService(JsonAssembler *dartsSingleAttemptPointInputAssembler)
+DartsPointJsonDbService *DartsPointJsonDbService::setDartsPointsJsonAssemblerService(JsonAssembler *dartsSingleAttemptPointInputAssembler)
 {
     _dartsPointsJsonAssemblerService = dartsSingleAttemptPointInputAssembler;
     return this;

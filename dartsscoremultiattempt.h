@@ -10,7 +10,7 @@
 #include "abstractdartsscorecontroller.h"
 #include "idartslogisticsservice.h"
 #include "iscorevalidator.h"
-#include "indexcontrollerinterface.h"
+#include "idartsmultiattemptindexservice.h"
 #include "iplayerscoreservice.h"
 #include "idartsmultiattemptjsonservice.h"
 // Definitions
@@ -62,13 +62,8 @@ public:
     /*
      * Get/set evaluator service
      */
-    IScoreValidator *scoreEvaluator() const;
     DartsScoreMultiAttempt *setInputValidator(IScoreValidator *scoreEvaluator);
-
-    IndexControllerInterface *indexController() const;
-    DartsScoreMultiAttempt *setIndexController(IndexControllerInterface *indexController);
-
-    IPlayerScoreService* scoreController() const;
+    DartsScoreMultiAttempt *setIndexController(IDartsMultiAttemptIndexService*indexController);
     DartsScoreMultiAttempt *setScoreController(IPlayerScoreService *scoreController);
     /*
      * Point suggestion section
@@ -150,9 +145,7 @@ private:
      * Check if controller is busy doing something else
      */
     bool isBusy();
-    void processDomain(const int& domain, const int &score,
-                       const int &currentScore,
-                       const int& accumulatedScore);
+    void processDomain(const int& domain, const int &score);
     /*
      * Notify UI about controller state, current round index, undo/redo possibility and current user
      */
@@ -166,8 +159,7 @@ private:
     /*
      * Update datacontext
      */
-    void addPoint(const int &score,
-                  const int &accumulatedScore);
+    void addPoint(const int &score);
     /*
      * Index manipulating methods
      */
@@ -182,7 +174,7 @@ private:
     // Validator service
     IScoreValidator* _scoreEvaluator = nullptr;
     // Index service
-    IndexControllerInterface* _indexController = nullptr;
+    IDartsMultiAttemptIndexService* _indexController = nullptr;
     // Userscore service
     IPlayerScoreService* _scoreController = nullptr;
     IDartsMultiAttemptJsonService* _jsonService;

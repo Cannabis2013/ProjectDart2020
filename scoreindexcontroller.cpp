@@ -87,11 +87,6 @@ int ScoreIndexController::setIndex()
     return _setIndex;
 }
 
-int ScoreIndexController::attempt()
-{
-    return _attempt;
-}
-
 void ScoreIndexController::incrementTurnIndex()
 {
     if(_turnIndex == _totalIndex)
@@ -132,11 +127,6 @@ void ScoreIndexController::setRoundIndex(const int &index)
 void ScoreIndexController::setSetIndex(const int &index)
 {
     _setIndex = index;
-}
-
-void ScoreIndexController::setAttempt(const int &)
-{
-    Q_UNIMPLEMENTED();
 }
 
 int ScoreIndexController::numberOfAttempts()

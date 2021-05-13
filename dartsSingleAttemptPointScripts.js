@@ -15,12 +15,11 @@ function connectInterface()
     applicationInterface.dartsSingleAttemptPointControllerIsReady.connect(controllerIsInitializedAndReady);
     applicationInterface.controllerHasDeclaredAWinner.connect(backendDeclaredAWinner);
     applicationInterface.controllerIsStopped.connect(backendIsStopped);
-    applicationInterface.dartsSingleAttemptPointControllerIsInitialized.connect(backendIsInitialized);
     applicationInterface.sendDartsTournamentData.connect(handleDartsMetaData);
     dartsSingleAttemptBody.requestStart.connect(applicationInterface.handleRequestStart);
     dartsSingleAttemptBody.requestStop.connect(applicationInterface.handleRequestStop);
     dartsSingleAttemptBody.requestRestart.connect(applicationInterface.handleRestartTournament);
-    dartsSingleAttemptBody.sendInput.connect(applicationInterface.handleSingleAttemptPlayerPointInput);
+    dartsSingleAttemptBody.sendInput.connect(applicationInterface.handleDartsSingleAttemptInput);
     dartsSingleAttemptBody.requestStatusFromBackend.connect(applicationInterface.handleControllerStateRequest);
     applicationInterface.dartsControllerRemovedSingleAttemptPoint.connect(backendRemovedPoint);
     dartsSingleAttemptBody.requestUndo.connect(applicationInterface.handleUndoRequest);
@@ -40,12 +39,11 @@ function disConnectInterface()
     applicationInterface.dartsSingleAttemptPointControllerIsReady.disconnect(controllerIsInitializedAndReady);
     applicationInterface.controllerHasDeclaredAWinner.disconnect(backendDeclaredAWinner);
     applicationInterface.controllerIsStopped.disconnect(backendIsStopped);
-    applicationInterface.dartsSingleAttemptPointControllerIsInitialized.disconnect(backendIsInitialized);
     applicationInterface.sendDartsTournamentData.disconnect(handleDartsMetaData);
     dartsSingleAttemptBody.requestStart.disconnect(applicationInterface.handleRequestStart);
     dartsSingleAttemptBody.requestStop.disconnect(applicationInterface.handleRequestStop);
     dartsSingleAttemptBody.requestRestart.disconnect(applicationInterface.handleRestartTournament);
-    dartsSingleAttemptBody.sendInput.disconnect(applicationInterface.handleSingleAttemptPlayerPointInput);
+    dartsSingleAttemptBody.sendInput.disconnect(applicationInterface.handleDartsSingleAttemptInput);
     dartsSingleAttemptBody.requestStatusFromBackend.disconnect(applicationInterface.handleControllerStateRequest);
     applicationInterface.dartsControllerRemovedSingleAttemptPoint.disconnect(backendRemovedPoint);
     dartsSingleAttemptBody.requestUndo.disconnect(applicationInterface.handleUndoRequest);
@@ -158,11 +156,6 @@ function backendIsStopped()
 {
     if(dartsSingleAttemptBody.state !== "preRestart")
         dartsSingleAttemptBody.state = "stopped";
-}
-
-function backendIsInitialized()
-{
-    dartsSingleAttemptBody.state = "ready";
 }
 
 function backendDeclaredAWinner(data)

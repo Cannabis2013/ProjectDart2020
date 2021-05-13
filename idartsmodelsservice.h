@@ -7,10 +7,11 @@
 #include "idartspointinput.h"
 #include "idartsscoreinput.h"
 #include "idartspointindexes.h"
+#include "idartsscoreindexes.h"
+
 class IDartsModelsService
 {
 public:
-    virtual ~IDartsModelsService()= default;
     /*
      * Tournament related section
      */
@@ -36,10 +37,10 @@ public:
     virtual void tournamentAssignPlayers(const QUuid &tournament,
                                          const QVector<QUuid> &player) = 0;
     virtual void tournamentUnAssignPlayer(const QUuid &tournament, const QUuid &player) = 0;
-    virtual const IDartsPointIndexes* dartsIndexes(const QUuid &tournament) const = 0;
     /*
      * Points related section
      */
+    virtual const IDartsPointIndexes* dartsPointIndexes(const QUuid &tournament) const = 0;
     virtual void addDartsPoint(const IDartsPointInput*) = 0;
     virtual QVector<const IDartsPointInput*> getDartsPointModelsOrdedByIndexes(const QUuid& tournamentId) const = 0;
     virtual const IDartsPointInput* getDartsPointModelById(const QUuid& id) const = 0;
@@ -53,35 +54,33 @@ public:
                            const int &round,
                            const int &throwIndex) const = 0;
     virtual QVector<QUuid> dartsPointIds() const  = 0;
-    virtual QVector<QUuid> dartsPointIds(const QUuid &tournament) const = 0;
-    virtual QVector<QUuid> dartsPointIds(const QUuid &tournament, const int &roundID) const = 0;
-    virtual QVector<QUuid> dartsPointIds(const QUuid &tournament, const int &roundID, const int &setID) = 0;
-    virtual QVector<QUuid> dartsPointIds(const int &hint,const QUuid &tournament) = 0;
-    virtual QVector<QUuid> pointsByPlayerId(const QUuid &tournament, const QUuid &player, const int &hint) const = 0;
-    virtual int dartsPointsCount(const QUuid&,const int &hint) const = 0;
-    virtual const IDartsPointInput* setDartsPointHint(const QUuid &point, const int &hint) = 0;
+    virtual QVector<QUuid> dartsPointIds(const QUuid&) const = 0;
+    virtual QVector<QUuid> dartsPointIds(const QUuid&, const int&) const = 0;
+    virtual QVector<QUuid> dartsPointIds(const QUuid&, const int&, const int&) = 0;
+    virtual QVector<QUuid> dartsPointIds(const int&,const QUuid&) = 0;
+    virtual QVector<QUuid> pointsByPlayerId(const QUuid&, const QUuid&, const int&) const = 0;
+    virtual int dartsPointsCount(const QUuid&,const int&) const = 0;
+    virtual int dartsScoreCount(const QUuid&,const int&) const = 0;
+    virtual const IDartsPointInput* setDartsPointHint(const QUuid&, const int&) = 0;
     virtual int dartsPointRoundIndex(const QUuid &) const = 0;
     virtual int dartsPointSetIndex(const QUuid &) const = 0;
     virtual int dartsPointAttemptIndex(const QUuid &)  const = 0;
     virtual int pointValueFromPointId(const QUuid &) const = 0;
-    virtual QUuid tournamentIdFromPointId(const QUuid &playerScore) const = 0;
-    virtual QUuid playerIdFromPointId(const QUuid &playerScore) const = 0;
+    virtual QUuid tournamentIdFromPointId(const QUuid&) const = 0;
+    virtual QUuid playerIdFromPointId(const QUuid&) const = 0;
     virtual int pointHint(const QUuid &scoreID) const = 0;
     virtual int pointKeyCode(const QUuid&) const = 0;
     virtual void removePointById(const QUuid&) = 0;
     virtual void removeHiddenPoints(const QUuid&) = 0;
     virtual int point(const QUuid&, const QUuid&) const = 0;
-    virtual QVector<QUuid> pointModels(const QUuid &player) = 0;
-    virtual void removePointsByTournamentId(const QUuid &tournament) = 0;
+    virtual QVector<QUuid> pointModels(const QUuid&) = 0;
+    virtual void removePointsByTournamentId(const QUuid&) = 0;
     virtual void removePointModel(const QUuid &playerScore) = 0;
     /*
      * Scores methods
      */
+    virtual const IDartsScoreIndexes* dartsScoreIndexes(const QUuid&) const = 0;
     virtual void addDartsScore(const IDartsScoreInput*) = 0;
-    virtual QUuid getDartsScoreId(const QUuid&,
-                           const QUuid&,
-                           const int&,
-                           const int&) const = 0;
     virtual QUuid getDartsScoreId(const QUuid &tournament,
                            const QUuid &,
                            const int &) const = 0;
@@ -98,11 +97,11 @@ public:
     virtual int ScoreValueFromScoreId(const QUuid &) const = 0;
     virtual QUuid tournamentIdFromScoreId(const QUuid &playerScore) const = 0;
     virtual QUuid playerIdFromScoreId(const QUuid &playerScore) const = 0;
-    virtual int ScoreHint(const QUuid &scoreID) const = 0;
+    virtual int dartsScoreHint(const QUuid &scoreID) const = 0;
     virtual void removeScoreById(const QUuid&) = 0;
     virtual void removeHiddenScores(const QUuid&) = 0;
-    virtual int Score(const QUuid&, const QUuid&) const = 0;
-    virtual QVector<QUuid> ScoreModels(const QUuid &player) const = 0;
+    virtual int dartsScoreId(const QUuid&, const QUuid&) const = 0;
+    virtual QVector<QUuid> scoreModelsByPlayerId(const QUuid &player) const = 0;
     virtual void removeScoresByTournamentId(const QUuid &tournament) = 0;
     virtual void removeScoreModel(const QUuid &playerScore) = 0;
     /*

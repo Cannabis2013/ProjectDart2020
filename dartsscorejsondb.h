@@ -21,14 +21,13 @@ public:
     void replaceDartsInputModel(const int &index, const IDartsScoreInput *model) override;
     DartsScoreJsonDb* setDartsScoresExtractorService(JsonExtractor *dartsScoresExtractor);
     DartsScoreJsonDb* setDartsScoresJsonAssemblerService(JsonAssembler *dartsScoresJsonAssemblerService);
-
 private:
     void fetchModels() override;
     void saveState() override;
 
     JsonExtractor* _jsonExtractorService;
     JsonAssembler* _jsonAssemblerService;
-    const QString _fileName = "DartsPoints";
+    const QString _fileName = "DartsMultiAttemptScores";
 
     QVector<const IDartsScoreInput*> _dartsScoreModels;
 };

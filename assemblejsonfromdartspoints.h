@@ -6,7 +6,6 @@
 #include <qjsonarray.h>
 #include <qjsonobject.h>
 #include <qvector.h>
-#include <idartspointinput.h>
 #include "idartsmodelsservice.h"
 
 class AssembleJsonFromDartsPoints : public
@@ -15,18 +14,17 @@ class AssembleJsonFromDartsPoints : public
 public:
     QByteArray service(const QUuid& tournamentId,const IDartsModelsService*modelsService) override
     {
-        auto scores = modelsService->dartsPointIds(tournamentId);
-        QJsonArray scoresJsonArray;
-        for (auto i = scores.constBegin(); i != scores.constEnd(); ++i) {
-            auto scoreId = *i;
+        auto dartsPointIds = modelsService->dartsPointIds(tournamentId);
+        QJsonArray pointsJsonArray;
+        for (const auto& dartsPointId : dartsPointIds) {
             QJsonObject playerJsonObject;
-            auto playerId = modelsService->playerIdFromPointId(scoreId);
+            auto playerId = modelsService->playerIdFromPointId(dartsPointId);
             playerJsonObject["playerId"] = playerId.toString(QUuid::WithoutBraces);
-            playerJsonObject["point"] = modelsService->pointValueFromPointId(scoreId);
-            playerJsonObject["modKeyCode"] = modelsService->pointKeyCode(scoreId);
-            scoresJsonArray << playerJsonObject;
+            playerJsonObject["point"] = modelsService->pointValueFromPointId(dartsPointId);
+            playerJsonObject["modKeyCode"] = modelsService->pointKeyCode(dartsPointId);
+            pointsJsonArray << playerJsonObject;
         }
-        auto json = QJsonDocument(scoresJsonArray).toJson();
+        auto json = QJsonDocument(pointsJsonArray).toJson();
         return json;
     }
 };

@@ -18,7 +18,6 @@
         <file>ButtonsComponent.qml</file>
         <file>Page.qml</file>
         <file>CreateTournamentContent.qml</file>
-        <file>GamePageContent.qml</file>
         <file>TurnController.qml</file>
         <file>PointKeyPad.qml</file>
         <file>PointKeyPadFactory.js</file>
@@ -35,9 +34,8 @@
         <file>DefaultPlayerListView.qml</file>
         <file>DefaultTournamentListView.qml</file>
         <file>KeyDataDisplay.qml</file>
-        <file>fTPScripts.js</file>
         <file>KeyPadInterface.qml</file>
-        <file>fTPSingleScripts.js</file>
+        <file>dartsMultiAttemptScripts.js</file>
         <file>ScoreBoardInterface.qml</file>
         <file>LoadingItem.qml</file>
         <file>SpinBoxInputContent.qml</file>
@@ -49,28 +47,23 @@
         <file>ThemeContext.qml</file>
         <file>managePageScripts.js</file>
         <file>PageIconItem.qml</file>
-        <file>gamePageGeneralScripts.js</file>
         <file>MultiAttemptScoreScoreBoard.qml</file>
         <file>StartButtonComponent.qml</file>
         <file>KeyPadItem.qml</file>
         <file>InteractiveObject.qml</file>
         <file>ItemDelegateInterface.qml</file>
-        <file>gamePageFactory.js</file>
         <file>TournamentContext.qml</file>
         <file>NotificationItem.qml</file>
         <file>DataModelContext.qml</file>
-        <file>fTPMultiPointScripts.js</file>
         <file>createTournamentScripts.js</file>
         <file>pointKeyPadScripts.js</file>
         <file>ScoreKeyPad.qml</file>
         <file>scoreKeyPadFactory.js</file>
-        <file>managePageFactory.js</file>
         <file>KeyPadTextView.qml</file>
         <file>KeyPadScoreView.qml</file>
         <file>scoreKeyPadScripts.js</file>
         <file>scoreViewScripts.js</file>
         <file>DefaultTitleComponent.qml</file>
-        <file>FirstToPostMetaData.qml</file>
         <file>DartsTournamentSelectors.qml</file>
         <file>ftpSelectorsScripts.js</file>
         <file>TournamentListViewDelegate.qml</file>

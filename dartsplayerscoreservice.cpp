@@ -15,7 +15,7 @@ void DartsPlayerScoreService::addPlayerEntity(const QUuid& id, const QString& na
 }
 
 
-void DartsPlayerScoreService::subtractPlayerScore(const QUuid& id, const int& score)
+int DartsPlayerScoreService::subtractPlayerScore(const QUuid& id, const int& score)
 {
     auto tuple = tupleAtId(id);
     auto indexOfTuple = indexOf(tuple);
@@ -23,9 +23,10 @@ void DartsPlayerScoreService::subtractPlayerScore(const QUuid& id, const int& sc
     auto newTupleScore = tupleScore - score;
     tuple.score = newTupleScore;
     replaceTupleAt(indexOfTuple,tuple);
+    return newTupleScore;
 }
 
-void DartsPlayerScoreService::addPlayerScore(const QUuid &id, const int &score)
+int DartsPlayerScoreService::addPlayerScore(const QUuid &id, const int &score)
 {
     auto tuple = tupleAtId(id);
     auto indexOfTuple = indexOf(tuple);
@@ -33,6 +34,7 @@ void DartsPlayerScoreService::addPlayerScore(const QUuid &id, const int &score)
     auto newTupleScore = tupleScore + score;
     tuple.score = newTupleScore;
     replaceTupleAt(indexOfTuple,tuple);
+    return newTupleScore;
 }
 
 int DartsPlayerScoreService::playerScore(const int &index) const

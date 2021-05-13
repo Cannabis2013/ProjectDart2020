@@ -1,7 +1,7 @@
 import QtQuick 2.15
 import CustomItems 1.0
 
-import "fTPSingleScripts.js" as ScoreScripts
+import "dartsMultiAttemptScripts.js" as ScoreScripts
 
 ScoreBoard {
     id: multiAttemptScoreBoardBody

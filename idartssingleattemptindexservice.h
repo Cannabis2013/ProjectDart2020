@@ -1,7 +1,7 @@
 #ifndef INDEXCONTROLLERINTERFACE_H
 #define INDEXCONTROLLERINTERFACE_H
 
-class IndexControllerInterface
+class IDartsSingleAttemptIndexService
 {
 public:
     virtual void setIndexes(const int&,

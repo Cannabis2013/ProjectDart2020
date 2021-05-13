@@ -2,9 +2,9 @@
 #define SCOREINDEXCONTROLLER_H
 
 #include <qvector.h>
-#include "indexcontrollerinterface.h"
+#include "idartsmultiattemptindexservice.h"
 
-class ScoreIndexController : public IndexControllerInterface
+class ScoreIndexController : public IDartsMultiAttemptIndexService
 {
 public:
     // Create instance
@@ -13,14 +13,12 @@ public:
     virtual void setIndexes(const int &totalTurns,
                             const int & turnIndex,
                             const int &roundIndex,
-                            const int &setIndex,
-                            const int &attemptIndex) override
+                            const int &setIndex) override
     {
         _totalIndex = totalTurns;
         _turnIndex = turnIndex;
         _roundIndex = roundIndex;
         _setIndex = setIndex;
-        _attemptIndex = attemptIndex;
     }
     virtual void reset() override;
     virtual void next() override;
@@ -41,8 +39,6 @@ public:
     }
     virtual int roundIndex() override;
     virtual int setIndex() override;
-    virtual int attempt() override;
-
 
     void setPlayersCount(const int& playerCount) override;
     int playersCount() override;
@@ -50,7 +46,6 @@ public:
     virtual void setRoundIndex(const int &index) override;
     virtual void setSetIndex(const int &index) override;
 
-    virtual void setAttempt(const int &) override;
     virtual int numberOfAttempts() override;
     virtual void setNumberOfAttempts(const int &) override;
 private:
@@ -62,8 +57,12 @@ private:
     void resetLegIndex();
     int lastPlayerIndex();
 
-    int _turnIndex = 0, _totalIndex  = 0, _roundIndex = 1, _setIndex = 0, _attemptIndex = 0;
-    int _attempt = 0, _playerCount;
+    int _turnIndex = 0;
+    int _totalIndex  = 0;
+    int _roundIndex = 1;
+    int _setIndex = 0;
+    int _attemptIndex = 0;
+    int _playerCount;
 };
 
 #endif // SCOREINDEXCONTROLLER_H

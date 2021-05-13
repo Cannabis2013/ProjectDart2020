@@ -16,7 +16,8 @@ class IDartsJsonService
 public:
     virtual const IDartsTournament* assembleDartsTournamentFromJson(const QByteArray&) const = 0;
     virtual QVector<int> getPlayerIndexesFromJson(const QByteArray&) const = 0;
-    virtual QByteArray assembleJsonDartsIndexes(const IDartsPointIndexes*) const = 0;
+    virtual QByteArray assembleJsonDartsPointIndexes(const IDartsPointIndexes*) const = 0;
+    virtual QByteArray assembleJsonDartsScoreIndexes(const IDartsScoreIndexes*) const = 0;
     virtual QByteArray assembleJsonFromPlayerNamesAndIds(const QVector<QUuid>&, const QVector<QString>&) const = 0;
     virtual QByteArray assembleJsonFromTournamentDartsPoints(const QUuid&,const IDartsModelsService*) const = 0;
     virtual QJsonArray jsonArrayFromDartsScores(const QUuid&, const IDartsModelsService*) const = 0;
@@ -26,8 +27,6 @@ public:
                                                         const IPlayerModelsService*) const = 0;
     virtual QByteArray assembleJsonDartsTournamentModels(const IDartsModelsService*,
                                                          const IPlayerModelsService*) const = 0;
-    virtual QByteArray assembleJsonFromDartsIndexesAndPoints(const IDartsModelsService*,
-                                                             const IPlayerModelsService*) const = 0;
     virtual QByteArray assembleJsonFromPlayerIdAndName(const QUuid&,const QString&) const = 0;
     virtual QByteArray assembleJsonFromDartsTournamentModel(const IDartsTournament*) const = 0;
     virtual QVector<int> getDeleteTournamentIndexesFromJson(const QByteArray&) const = 0;
@@ -41,6 +40,7 @@ public:
     virtual QByteArray assembleJsonFromDartsPointModel(const IDartsPointInput*) const = 0;
     virtual const IDartsScoreInput* assembleDartsScoreModelFromJson(const QByteArray&) const = 0;
     virtual QByteArray assembleJsonFromDartsScoreModel(const IDartsScoreInput*) const = 0;
+    virtual QByteArray assembleJsonFromDartsMultiAttemptScores(const QUuid&,const IDartsModelsService*) const = 0;
 };
 
 #endif // IDARTSMODELSJSONSERVICE_H

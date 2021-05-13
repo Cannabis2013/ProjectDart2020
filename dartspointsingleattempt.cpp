@@ -292,7 +292,7 @@ DartsPointSingleAttempt* DartsPointSingleAttempt::setInputController(IPlayerScor
     return this;
 }
 
-DartsPointSingleAttempt* DartsPointSingleAttempt::setIndexController(IndexControllerInterface *indexController)
+DartsPointSingleAttempt* DartsPointSingleAttempt::setIndexController(IDartsSingleAttemptIndexService *indexController)
 {
     _indexController = indexController;
     return this;

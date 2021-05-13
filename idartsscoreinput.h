@@ -3,7 +3,7 @@
 
 #include "idartsinput.h"
 #include <quuid.h>
-class IDartsScoreInput : public IDartsInput<QUuid>
+class IDartsScoreInput : public IDartsInput
 {
 public:
     IDartsScoreInput() {}

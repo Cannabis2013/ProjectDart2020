@@ -54,7 +54,7 @@ public:
     Q_INVOKABLE int rowCount() const;
     Q_INVOKABLE int columnCount() const;
     // Columns and rows exposed methods
-    Q_INVOKABLE double columnWidthAt(const int &column) const;
+    Q_INVOKABLE double columnWidthAt(const int& column);
     Q_INVOKABLE double rowHeightAt(const int &row) const;
     Q_INVOKABLE int minimumColumnCount() const;
     Q_INVOKABLE void setMinimumColumnCount(int minimumColumnCount);
@@ -89,8 +89,7 @@ public:
     // Columns and rows non-exposed virtual method implementations
     int rowCount(const QModelIndex &) const override;
     int columnCount(const QModelIndex &) const override;
-    void setColumnWidthAt(const int &column,const double &w);
-    int columnWidthsAt(const int &index) const;
+    int columnWidth() const;
     int headerFontSize() const;
     void setHeaderFontSize(int headerFontSize);
 signals:
@@ -118,7 +117,6 @@ private:
     double rowHeightFromHeaderData(const int& row) const;
     double rowHeightFromCellDataAt(const int& row) const;
     void updateInitialCellValues();
-    void setInitialColumnWidths(const int& count);
     void initializeFieldsHorizontally(const int& startColumn, const int& initialValue = -1);
     bool isIndexValid(const QModelIndex& index);
     bool setPlayerData(const QString &playerName,
@@ -138,15 +136,15 @@ private:
     // Const member variables
     const QString preferedFontFamily = "MS Sans Serif";
     const int preferedPointSize = 12;
-    const int minimumPreferedColumnWidth = 64;
+    const int minimumPreferedColumnWidth = 192;
     const int minimumPreferedRowHeight = 25;
-    void updateColumnWidth(const int &column, const int &data);
+    void setColumnWidthByData(const int &data);
     // State member variables
     /*
      * Row and column fields
      */
     int _rows = 0;
-    int _columns = 0;
+    int _columns = 1;
     double _scale = 1.05;
     int _horizontalFillMode = HeaderFillMode::NoFillMode;
     int _attemps = 3;
@@ -173,7 +171,7 @@ private:
     /*
      * Column widths
      */
-    QList<double> _columnWidths;
+    int _columnWidth = minimumPreferedColumnWidth;
     /*
      * Scores
      */

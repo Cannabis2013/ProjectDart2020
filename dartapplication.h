@@ -102,7 +102,8 @@ public slots:
      *  - Users enters points to be stored in datacontext
      *  - In return, datacontext, in collaboration with gamecontroller, send current score to UI
      */
-    void handleSingleAttemptPlayerPointInput(const QByteArray& json) override;
+    void handleDartsSingleAttemptInput(const QByteArray& json) override;
+    void handleDartsMultiAttemptInput(const QByteArray& json) override;
     void handleUndoRequest() override;
     void handleRedoRequest() override;
     void handleControllerStateRequest() override;

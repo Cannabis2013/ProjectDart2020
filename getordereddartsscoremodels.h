@@ -1,23 +1,23 @@
-#ifndef GETORDEREDDARTSPOINTMODELS_H
-#define GETORDEREDDARTSPOINTMODELS_H
+#ifndef GETORDEREDDARTSSCOREMODELS_H
+#define GETORDEREDDARTSSCOREMODELS_H
 
 #include "ibinaryservice.h"
-#include "idartspointinput.h"
-#include "idartspointdb.h"
+#include "idartsscoreinput.h"
+#include "idartsscoredb.h"
 #include <quuid.h>
 
-class GetOrderedDartsPointsModels :
+class GetOrderedDartsScoreModels :
         public IBinaryService<const QUuid&,
-                              const IDartsPointDb*,
-                              QVector<const IDartsPointInput*>>
+                              const IDartsScoreDb*,
+                              QVector<const IDartsScoreInput*>>
 {
     // IBinaryService interface
 public:
-    QVector<const IDartsPointInput*> service(const QUuid& tournamentId,
-                                                    const IDartsPointDb* dbService) override
+    QVector<const IDartsScoreInput*> service(const QUuid& tournamentId,
+                                                    const IDartsScoreDb* dbService) override
     {
         auto dartsPointModels = dbService->dartsInputModels();
-        QVector<const IDartsPointInput*> orderedDartsPointModels;
+        QVector<const IDartsScoreInput*> orderedDartsPointModels;
         for (const auto& dartsPointModel : dartsPointModels) {
             auto modelTournamentId = dartsPointModel->tournamentId();
             if(modelTournamentId == tournamentId)
@@ -28,7 +28,7 @@ public:
     }
 private:
     struct CompareCriteria {
-        bool operator()(const IDartsPointInput* _first, const IDartsPointInput* _second)
+        bool operator()(const IDartsScoreInput* _first, const IDartsScoreInput* _second)
         {
             if(_first->roundIndex() < _second->roundIndex())
                 return true;
@@ -42,4 +42,4 @@ private:
     } compareCriteria;
 };
 
-#endif // GETORDEREDDARTSPOINTMODELS_H
+#endif // GETORDEREDDARTSSCOREMODELS_H

@@ -105,9 +105,14 @@ void DartApplication::handleRequestStop()
     emit requestStopGame();
 }
 
-void DartApplication::handleSingleAttemptPlayerPointInput(const QByteArray& json)
+void DartApplication::handleDartsSingleAttemptInput(const QByteArray& json)
 {
-    emit sendSingleAttemptPlayerInput(json);
+    emit sendDartsSingleAttemptPoint(json);
+}
+
+void DartApplication::handleDartsMultiAttemptInput(const QByteArray &json)
+{
+    emit sendDartsMultiAttemptScore(json);
 }
 
 void DartApplication::handleUndoRequest()

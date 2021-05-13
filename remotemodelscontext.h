@@ -78,6 +78,7 @@ public:
     void assembleAssignedPlayerPoints(const QUuid &) override;
     void assembleDartsTournamentWinnerIdAndName(const QUuid &) override;
     void assembleAssignedPlayerScores(const QUuid &) override;
+    void assembleDartsScoreIndexes(const QUuid &tournament) override;
 private slots:
     void handleRecievedTournamentsReply();
     void handleAddFTPTournamentReply();

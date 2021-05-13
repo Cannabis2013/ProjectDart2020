@@ -24,7 +24,7 @@ Content {
     signal requestStart
     signal requestStop
     signal requestRestart
-    onRequestRestart: DartsSingleAttemptScripts.handleRequestTournamentReset()
+    onRequestRestart: MultiAttemptScripts.handleRequestTournamentReset()
     signal requestUndo
     signal requestRedo
     signal sendInput(string json)
@@ -34,7 +34,7 @@ Content {
       Tournament metadata property
       */
     QtObject{
-        id: dartsSingleAttemptValues
+        id: dartsMultiAttemptValues
         property string title: ""
         property int keyPoint: 501
         property int attempts: 3
@@ -56,8 +56,8 @@ Content {
             onResumeButtonClicked: requestStart()
             onPauseButtonClicked: requestStop()
             onRestartButtonClicked: requestRestart()
-            onLeftButtonClicked: DartsSingleAttemptScripts.undoClicked()
-            onRightButtonClicked: DartsSingleAttemptScripts.redoClicked()
+            onLeftButtonClicked: MultiAttemptScripts.undoClicked()
+            onRightButtonClicked: MultiAttemptScripts.redoClicked()
         }
         MultiAttemptScoreScoreBoard{
             id: multiAttemptScoreBoard

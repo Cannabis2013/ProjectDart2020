@@ -39,6 +39,7 @@ public:
                              const int &,
                              const int &) = 0;
     virtual void assembleDartsPointIndexes(const QUuid& tournament) = 0;
+    virtual void assembleDartsScoreIndexes(const QUuid& tournament) = 0;
     virtual void assembleAssignedPlayerEntities(const QUuid&) = 0;
     virtual void assembleAssignedPlayerPoints(const QUuid&) = 0;
     virtual void assembleDartsTournamentWinnerIdAndName(const QUuid&) = 0;
@@ -113,8 +114,10 @@ signals:
     void tournamentAssembledAndStored(const bool& status);
     // Initialize controller
     void sendDartsPointIndexesAsJson(const QByteArray& json);
+    void sendDartsScoreIndexesAsJson(const QByteArray& json);
     void sendAssignedPlayerIdsAndNamesAsJson(const QByteArray& json);
     void sendTournamentDartsPointsAsJson(const QByteArray& json);
+    void sendTournamentDartsScoresAsJson(const QByteArray& json);
     void sendDartsIndexesAndScoreValues(const QByteArray& json);
     void sendDartsTournamentWinnerIdAndName(const QByteArray& json);
     void sendDartsSingleAttemptPoints(const QByteArray& scores);

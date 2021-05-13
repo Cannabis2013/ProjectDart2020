@@ -9,17 +9,14 @@
 #include <qjsonobject.h>
 #include <qjsonarray.h>
 
-namespace InputAssemblerContext {
-    typedef QVector<const IDartsScoreInput*> modelsList;
-}
-
 class AssembleJsonByDartsScoreModels :
-        public IUnaryService<const QVector<const IDartsScoreInput*>&,QJsonArray>
+        public IUnaryService<const QVector<const IDartsScoreInput*>&,QJsonObject>
 {
 public:
-    QJsonArray service(const QVector<const IDartsScoreInput*>& modelsList) override
+    QJsonObject service(const QVector<const IDartsScoreInput*>& modelsList) override
     {
         QJsonArray resultingJsonArray;
+        QJsonObject jsonObject;
         for (const auto& model : modelsList) {
             QJsonObject jsonObject;
             jsonObject["id"] = model->id().toString();
@@ -31,7 +28,8 @@ public:
             jsonObject["hint"] = model->hint();
             resultingJsonArray << jsonObject;
         }
-        return resultingJsonArray;
+        jsonObject["DartsMultiAttemptScores"] = resultingJsonArray;
+        return jsonObject;
     }
 };
 

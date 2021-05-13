@@ -8,7 +8,7 @@
 #include "idartslogisticsservice.h"
 #include "IPointCalculatorService.h"
 #include "ipointvalidator.h"
-#include "indexcontrollerinterface.h"
+#include "idartssingleattemptindexservice.h"
 #include "iplayerscoreservice.h"
 // Json services
 #include "IDartsSingleAttemptPointJsonService.h"
@@ -58,7 +58,7 @@ public:
     // Set service methods
     DartsPointSingleAttempt *setScoreCalculator(IPointCalculatorService* scoreCalculator);
     DartsPointSingleAttempt *setInputValidator(IPointValidator* scoreEvaluator);
-    DartsPointSingleAttempt *setIndexController(IndexControllerInterface *indexController);
+    DartsPointSingleAttempt *setIndexController(IDartsSingleAttemptIndexService *indexController);
     DartsPointSingleAttempt *setInputController(IPlayerScoreService *scoreController);
     /*
      * Point suggestion section
@@ -167,7 +167,7 @@ private:
     // Validator service
     IPointValidator* _scoreEvaluator = nullptr;
     // Index service
-    IndexControllerInterface* _indexController = nullptr;
+    IDartsSingleAttemptIndexService* _indexController = nullptr;
     // Userscore service
     IPlayerScoreService* _scoreController = nullptr;
 };

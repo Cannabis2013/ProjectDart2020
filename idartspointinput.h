@@ -4,7 +4,7 @@
 #include "idartsinput.h"
 #include <quuid.h>
 
-class IDartsPointInput : public IDartsInput<QUuid>
+class IDartsPointInput : public IDartsInput
 {
 public:
 

@@ -13,8 +13,8 @@ public:
     virtual QString winnerUserName() const = 0;
 
     virtual void addPlayerEntity(const QUuid&,const QString&) = 0;
-    virtual void subtractPlayerScore(const QUuid&, const int&) = 0;
-    virtual void addPlayerScore(const QUuid&, const int&) = 0;
+    virtual int subtractPlayerScore(const QUuid&, const int&) = 0;
+    virtual int addPlayerScore(const QUuid&, const int&) = 0;
 
     virtual int playerScore(const int& index) const = 0;
     virtual int playerScore(const QUuid&) const = 0;

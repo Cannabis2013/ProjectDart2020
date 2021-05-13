@@ -2,9 +2,9 @@
 #define IDARTSINPUT_H
 
 #include "iplayerinput.h"
+#include <quuid.h>
 
-template<typename TUuid>
-class IDartsInput : public IPlayerInput<TUuid>
+class IDartsInput : public IPlayerInput<QUuid>
 {
 public:
     virtual int roundIndex() const = 0;

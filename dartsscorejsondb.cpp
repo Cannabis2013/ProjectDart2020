@@ -1,6 +1,7 @@
 #include "dartsscorejsondb.h"
 
-DartsScoreJsonDb *DartsScoreJsonDb::createInstance(DartsScoreJsonDb::JsonExtractor *extractor, DartsScoreJsonDb::JsonAssembler *assembler)
+DartsScoreJsonDb *DartsScoreJsonDb::createInstance(DartsScoreJsonDb::JsonExtractor *extractor,
+                                                   DartsScoreJsonDb::JsonAssembler *assembler)
 {
     auto dbService = new DartsScoreJsonDb;
     dbService->setDartsScoresExtractorService(extractor);
@@ -12,6 +13,7 @@ DartsScoreJsonDb *DartsScoreJsonDb::createInstance(DartsScoreJsonDb::JsonExtract
 void DartsScoreJsonDb::addDartsInputModel(const IDartsScoreInput *model)
 {
     _dartsScoreModels << model;
+    saveState();
 }
 
 const IDartsScoreInput *DartsScoreJsonDb::getDartsInputModelByIndex(const int &index) const
@@ -28,6 +30,7 @@ QVector<const IDartsScoreInput *> DartsScoreJsonDb::dartsInputModels() const
 void DartsScoreJsonDb::removeDartsInputModelByIndex(const int& index)
 {
     _dartsScoreModels.remove(index);
+    saveState();
 }
 
 int DartsScoreJsonDb::indexOfDartsInputModel(const IDartsScoreInput* model)
@@ -39,6 +42,7 @@ int DartsScoreJsonDb::indexOfDartsInputModel(const IDartsScoreInput* model)
 void DartsScoreJsonDb::replaceDartsInputModel(const int& index, const IDartsScoreInput* model)
 {
     _dartsScoreModels.replace(index,model);
+    saveState();
 }
 
 void DartsScoreJsonDb::fetchModels()

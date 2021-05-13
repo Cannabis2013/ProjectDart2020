@@ -6,14 +6,14 @@
 #include "idartspointinput.h"
 #include <quuid.h>
 #include "iunaryservice.h"
-class DartsPointDbService :
-        public IdartsPointDb,
+class DartsPointJsonDbService :
+        public IDartsPointDb,
         public AbstractJSONPersistence
 {
 public:
     typedef IUnaryService<const QJsonArray &, QVector<const IDartsPointInput *>> JsonExtractor;
     typedef IUnaryService<const QVector<const IDartsPointInput*>&,QJsonArray> JsonAssembler;
-    static DartsPointDbService* createInstance(JsonExtractor* extractor, JsonAssembler* assembler);
+    static DartsPointJsonDbService* createInstance(JsonExtractor* extractor, JsonAssembler* assembler);
     void fetchModels() override;
     void saveState() override;
     void addDartsInputModel(const IDartsPointInput *model) override;
@@ -23,8 +23,8 @@ public:
     int indexOfDartsInputModel(const IDartsPointInput *score) override;
     void replaceDartsInputModel(const int &index, const IDartsPointInput *score) override;
     // Set service methods
-    DartsPointDbService* setDartsPointsExtractorService(JsonExtractor *dartsPointsExtractor);
-    DartsPointDbService* setDartsPointsJsonAssemblerService(JsonAssembler* dartsSingleAttemptPointInputAssembler);
+    DartsPointJsonDbService* setDartsPointsExtractorService(JsonExtractor *dartsPointsExtractor);
+    DartsPointJsonDbService* setDartsPointsJsonAssemblerService(JsonAssembler* dartsSingleAttemptPointInputAssembler);
 
 private:
     // Services

@@ -14,7 +14,7 @@ class AssembleMultiAttemptScoresByJson : public IUnaryService<
 public:
     QVector<const IDartsScoreInput *> service(const QJsonObject &jsonObject) override
     {
-        QJsonArray arr = jsonObject.value("DartsScoreModels").toArray();
+        QJsonArray arr = jsonObject.value("DartsMultiAttemptScores").toArray();
         QVector<const IDartsScoreInput*> list;
         for (const auto& jsonValue : arr) {
             auto jsonObject = jsonValue.toObject();

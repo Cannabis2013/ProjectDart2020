@@ -20,7 +20,7 @@ public:
                              const IDartsModelsService* _dartsModelsService,
                              const IPlayerModelsService* _playerModelsService) override
     {
-        auto indexes = _dartsModelsService->dartsIndexes(tournament);
+        auto indexes = _dartsModelsService->dartsPointIndexes(tournament);
         auto playerIds = _dartsModelsService->tournamentAssignedPlayers(tournament);
         auto playerNames = _playerModelsService->assemblePlayerNamesFromIds(playerIds);
         QJsonObject obj;

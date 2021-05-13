@@ -74,7 +74,7 @@ AbstractDartsPointController *ConnectDartsSingleAttemptPointController::service(
     /*
          * Add point
          */
-    QObject::connect(application,&AbstractApplicationInterface::sendSingleAttemptPlayerInput,
+    QObject::connect(application,&AbstractApplicationInterface::sendDartsSingleAttemptPoint,
             controller,&AbstractGameController::handleAndProcessUserInput);
     QObject::connect(controller,&AbstractDartsPointController::requestAddDartsPoint,
             modelsService,&AbstractModelsService::addDartsPoint);

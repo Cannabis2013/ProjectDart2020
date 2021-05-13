@@ -1,7 +1,7 @@
 #ifndef DARTSJSONSERVICEBUILDER_H
 #define DARTSJSONSERVICEBUILDER_H
 
-#include "dartsmodelsjsonservice.h"
+#include "dartsjsonservice.h"
 #include "imodelsservicebuilder.h"
 
 #include "getplayerindexesfromjson.h"
@@ -24,6 +24,8 @@
 #include "assemblejsonfromdartspointmodel.h"
 #include "assembledartsscoremodelfromjson.h"
 #include "assemblejsonfromdartsscoremodel.h"
+#include "assemblejsonfromdartsmultiattemptscores.h"
+#include "assemblejsonbydartsscoreindexes.h"
 
 class DartsJsonServiceBuilder :
         public IModelsServiceBuilder<IDartsJsonService>

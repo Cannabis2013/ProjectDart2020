@@ -18,7 +18,7 @@ public slots:
     virtual void handleRequestDartsScores() = 0;
     virtual void handleScoreAddedToDataContext(const QByteArray&) = 0;
 signals:
-    void dartsSingleScoreControllerIsInitialized();
+    void controllerIsInitializedAndReady();
     void requestAddDartsScore(const QByteArray& tournament);
     void hideDartsScore(const QUuid &tournament,
                         const QUuid &player,
@@ -43,7 +43,7 @@ signals:
     void requestTournamentWinnerIdAndName( const QUuid& tournamentId);
     void sendSingleAttemptDartsScores(const QByteArray& json);
     void sendMultiAttemptDartsScores(const QByteArray& json);
-    void dartsMultiAttemptScoreControllerIsInitialized();
+    void controllerIsInitialized();
 };
 
 

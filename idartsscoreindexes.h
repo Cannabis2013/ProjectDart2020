@@ -1,7 +1,7 @@
-#ifndef IDARTSINDEXES_H
-#define IDARTSINDEXES_H
+#ifndef IDARTSSCOREINDEXES_H
+#define IDARTSSCOREINDEXES_H
 
-class IDartsPointIndexes
+class IDartsScoreIndexes
 {
 public:
     virtual int totalTurns() const = 0;
@@ -12,7 +12,6 @@ public:
     virtual void setRoundIndex(const int&) = 0;
     virtual int setIndex() const = 0;
     virtual void setSetIndex(const int&) = 0;
-    virtual int attemptIndex() const = 0;
-    virtual void setAttemptIndex(const int&) = 0;
 };
-#endif // IDARTSINDEXES_H
+
+#endif // IDARTSSCOREINDEXES_H

@@ -1,10 +1,10 @@
 #ifndef POINTINDEXCONTROLLER_H
 #define POINTINDEXCONTROLLER_H
 
-#include "indexcontrollerinterface.h"
+#include "idartssingleattemptindexservice.h"
 #include <qlist.h>
 
-class PointIndexController : public IndexControllerInterface
+class PointIndexController : public IDartsSingleAttemptIndexService
 {
     // IndexControllerInterface interface
 public:
