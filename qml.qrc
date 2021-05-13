@@ -35,7 +35,7 @@
         <file>DefaultTournamentListView.qml</file>
         <file>KeyDataDisplay.qml</file>
         <file>KeyPadInterface.qml</file>
-        <file>dartsMultiAttemptScripts.js</file>
+        <file>dartsMultiAttemptScoreBoardScripts.js</file>
         <file>ScoreBoardInterface.qml</file>
         <file>LoadingItem.qml</file>
         <file>SpinBoxInputContent.qml</file>

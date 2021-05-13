@@ -53,6 +53,7 @@ public:
         DisplayHint = 0x2,
         allHints = 0x3
     };
+    typedef IBinaryService<const int&,const IDartsTournamentDb*,const IDartsTournament*> GetTournamentByIndexService;
     typedef QVector<const IDartsScoreInput*> ScoreModels;
     typedef IBinaryService<const QUuid &,
                            const IDartsPointDb*,
@@ -83,18 +84,14 @@ public:
     /*
      * Darts tournament related section
      */
-    const IDartsTournament *getDartsTournamentModelById(const QUuid &tournamentId) const override;
-    QVector<const IDartsTournament *> getDartsTournamentModels() const override;
+    const IDartsTournament *dartsTournamentModelById(const QUuid &tournamentId) const override;
+    const IDartsTournament *dartsTournamentByIndex(const int &index) const override;
+    QVector<const IDartsTournament *> dartsTournamentModels() const override;
     bool removeTournamentsByIndexes(const QVector<int>& indexes) const override;
     QUuid tournamentIdFromIndex(const int &index) const override;
     QVector<QUuid> tournaments() const override;
-    int tournamentsCount() const override;
-    QString tournamentTitle(const QUuid &tournament) const override;
-    int tournamentStatus(const QUuid &tournament) const override;
-    QUuid tournamentWinnerId(const QUuid &tournament) const override;
     void tournamentSetWinnerId(const QUuid &tournament,
                                const QUuid &winner) override;
-    QVector<QUuid> tournamentAssignedPlayers(const QUuid &tournament) const override;
     void tournamentAssignPlayer(const QUuid &tournament,
                                   const QUuid &player) override;
     void tournamentAssignPlayers(const QUuid &tournament,
@@ -102,12 +99,6 @@ public:
     void tournamentUnAssignPlayer(const QUuid &tournament,
                                 const QUuid &player) override;
     QUuid addDartsTournamentToDb(const IDartsTournament *tournament) override;
-    int tournamentAttempts(const QUuid &tournament) const override;
-    int tournamentGameMode(const QUuid &tournament) const override;
-    int tournamentTerminalKeyCode(const QUuid &tournament) const override;
-    int tournamentKeyPoint(const QUuid &tournament) const override;
-    int tournamentTableViewHint(const QUuid &tournament) const override;
-    int tournamentInputMode(const QUuid &tournament) const override;
     const IDartsPointIndexes *dartsPointIndexes(const QUuid &tournament) const override;
     /*
      * Points related section
@@ -190,24 +181,27 @@ public:
     // Set services method
     DartsModelsService *setTournamentsDbContext(
             IDartsTournamentDb *tournamentsDbContext);
-    DartsModelsService *setDartsPointsDb(IDartsPointDb *dartsPointsDb);
     DartsModelsService* setGetOrderedDartsPointsModels(GetOrderedDartsPointService* getOrderedDartsPointsModels);
     DartsModelsService* setAssembleDartsPointIndexes(GetPointIndexesFromDartsTournamentService *getDartsPointIndexes);
-    DartsModelsService* setDartsScoreDb(IDartsScoreDb *dartsScoreDb);
     DartsModelsService* setGetOrderedDartsScoreModels(GetOrderedDartsScoreService *getOrderedDartsScoreModels);
     DartsModelsService* setGetScoreIndexesByTournamentId(GetScoreIndexesByDartsTournamentService *getScoreIndexesByTournamentId);
-    DartsModelsService* setDartsScoresDb(IDartsScoreDb *dartsScoresDb);
     DartsModelsService* setCountScoresByTournamentAndHint(CountScoresByTournamentAndHint *countScoresByTournamentAndHint);
     DartsModelsService* setGetScoreModelsByTournamentId(GetScoreModelsByTournamentId *getScoreModelsByTournamentId);
     DartsModelsService* setGetScoreModelsByPlayerId(GetScoreModelsByPlayerId *getScoreModelsByPlayerId);
     DartsModelsService* setGetScoreModelsByRoundIndex(GetScoreModelsByRoundIndex *getScoreModelsByRoundIndex);
     DartsModelsService* setDartsScoreModelHintService(SetDartsModelHint *setScoreModelHintService);
     DartsModelsService* setGetScoreModelsByHint(GetScoreModelsByHintService *getScoreModelsByHint);
+    // set db service methods
+    DartsModelsService *setDartsPointsDb(IDartsPointDb *dartsPointsDb);
+    DartsModelsService* setDartsScoreDb(IDartsScoreDb *dartsScoreDb);
+    DartsModelsService* setDartsScoresDb(IDartsScoreDb *dartsScoresDb);
+    DartsModelsService* setGetTournamentByIndexService(GetTournamentByIndexService *newGetTournamentByIndexService);
 
 private:
     /*
      * Services
      */
+
     GetOrderedDartsPointService* _getOrderedDartsPointsModels;
     GetOrderedDartsScoreService* _getOrderedDartsScoreModels;
     const IDartsTournament *getTournamentModelFromId(const QUuid &id) const;
@@ -221,16 +215,10 @@ private:
     GetScoreModelsByRoundIndex* _getScoreModelsByRoundIndex;
     GetScoreModelsByHintService* _getScoreModelsByHint;
     SetDartsModelHint* _setScoreModelHintService;
+    GetTournamentByIndexService* _getTournamentByIndexService;
     // Db services
     IDartsTournamentDb* _tournamentsDbContext;
     IDartsPointDb* _dartsPointsDb;
     IDartsScoreDb* _dartsScoresDb;
 };
-
-
-
-
-
-
-
 #endif // TOURNAMENTMODELCONTEXT_H

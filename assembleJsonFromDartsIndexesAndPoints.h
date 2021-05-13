@@ -20,12 +20,12 @@ public:
                              const IDartsModelsService* _dartsModelsService,
                              const IPlayerModelsService* _playerModelsService) override
     {
+        auto model = _dartsModelsService->dartsTournamentModelById(tournament);
         auto indexes = _dartsModelsService->dartsPointIndexes(tournament);
-        auto playerIds = _dartsModelsService->tournamentAssignedPlayers(tournament);
-        auto playerNames = _playerModelsService->assemblePlayerNamesFromIds(playerIds);
+        auto playerNames = _playerModelsService->assemblePlayerNamesFromIds(model->assignedPlayerIdentities());
         QJsonObject obj;
         obj["indexes"] = _assembleJsonDartsIndexes->service(indexes);
-        obj["playerEntities"] = _JsonArrayPlayerNamesAndIds->service(playerIds,playerNames);
+        obj["playerEntities"] = _JsonArrayPlayerNamesAndIds->service(model->assignedPlayerIdentities(),playerNames);
         obj["scoreEntities"] = _JsonArrayDartsPoints->service(tournament,_dartsModelsService);
     }
 };

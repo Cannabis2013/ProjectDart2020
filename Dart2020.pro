@@ -140,6 +140,7 @@ HEADERS += \
     getdartsscoremodelsbyplayerid.h \
     getdartsscoremodelsbyroundindex.h \
     getdartsscoremodelsbytournamentid.h \
+    getdartstournamentbyindexservice.h \
     getdeleteplayerindexfromjson.h \
     getordereddartspointmodels.h \
     getordereddartsscoremodels.h \

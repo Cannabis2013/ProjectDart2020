@@ -15,23 +15,13 @@ public:
     /*
      * Tournament related section
      */
-    virtual QVector<const IDartsTournament*> getDartsTournamentModels() const = 0;
-    virtual const IDartsTournament* getDartsTournamentModelById(const QUuid&) const = 0;
+    virtual const IDartsTournament* dartsTournamentByIndex(const int&) const = 0;
+    virtual QVector<const IDartsTournament*> dartsTournamentModels() const = 0;
+    virtual const IDartsTournament* dartsTournamentModelById(const QUuid&) const = 0;
     virtual QUuid addDartsTournamentToDb(const IDartsTournament*) = 0;
     virtual bool removeTournamentsByIndexes(const QVector<int>& indexes) const = 0;
     virtual QUuid tournamentIdFromIndex(const int &index) const = 0;
     virtual QVector<QUuid> tournaments() const = 0;
-    virtual int tournamentsCount() const = 0;
-    virtual QString tournamentTitle(const QUuid &tournament) const = 0;
-    virtual int tournamentAttempts(const QUuid &tournament) const = 0;
-    virtual QVector<QUuid> tournamentAssignedPlayers(const QUuid &tournament) const = 0;
-    virtual int tournamentGameMode(const QUuid &tournament) const = 0;
-    virtual int tournamentTerminalKeyCode(const QUuid &tournament) const = 0;
-    virtual int tournamentKeyPoint(const QUuid &tournament) const = 0;
-    virtual int tournamentTableViewHint(const QUuid &tournament) const = 0;
-    virtual int tournamentInputMode(const QUuid &tournament) const = 0;
-    virtual int tournamentStatus(const QUuid &tournament) const = 0;
-    virtual QUuid tournamentWinnerId(const QUuid &tournament) const = 0;
     virtual void tournamentSetWinnerId(const QUuid &tournament, const QUuid &winner) = 0;
     virtual void tournamentAssignPlayer(const QUuid &tournament, const QUuid &player) = 0;
     virtual void tournamentAssignPlayers(const QUuid &tournament,

@@ -20,10 +20,10 @@ public:
     void fetchModels() override;
     void saveState() override;
     void addTournament(const IDartsTournament *model) override;
-    const IDartsTournament *dartsTournamentModelFromIndex(const int &) override;
-    QVector<const IDartsTournament *> dartsTournaments() override;
+    const IDartsTournament *dartsTournamentModelFromIndex(const int &) const override;
+    QVector<const IDartsTournament *> dartsTournaments() const override;
     void removeDartsTournamentModelByIndex(const int &index) override;
-    int indexOfTournament(const IDartsTournament *model) override;
+    int indexOfTournament(const IDartsTournament *model) const override;
     void replaceTournament(const int &index, const IDartsTournament *tournament) override;
     // Set service methods
     void setDartsTournamentsExtractor(JsonExtractor* dartsTournamentsExtractor);

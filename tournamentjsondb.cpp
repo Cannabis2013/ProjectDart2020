@@ -7,13 +7,13 @@ void DartsTournamentJSonDb::addTournament(const IDartsTournament *model)
     saveState();
 }
 
-const IDartsTournament *DartsTournamentJSonDb::dartsTournamentModelFromIndex(const int &index)
+const IDartsTournament *DartsTournamentJSonDb::dartsTournamentModelFromIndex(const int &index) const
 {
     auto model = _dartsTournamentModels.at(index);
     return model;
 }
 
-QVector<const IDartsTournament *> DartsTournamentJSonDb::dartsTournaments()
+QVector<const IDartsTournament *> DartsTournamentJSonDb::dartsTournaments() const
 {
     return _dartsTournamentModels;
 }
@@ -24,7 +24,7 @@ void DartsTournamentJSonDb::removeDartsTournamentModelByIndex(const int &index)
     saveState();
 }
 
-int DartsTournamentJSonDb::indexOfTournament(const IDartsTournament *model)
+int DartsTournamentJSonDb::indexOfTournament(const IDartsTournament *model) const
 {
     auto index = _dartsTournamentModels.indexOf(model);
     return index;

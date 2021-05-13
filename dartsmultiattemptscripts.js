@@ -118,7 +118,8 @@ function backendRemovedPoint(data)
 {
     var json = JSON.parse(data);
     let playerName = json["playerName"];
-    multiAttemptScoreBoard.setData(player,score);
+    let score = json["score"];
+    multiAttemptScoreBoard.setData(playerName,score);
     requestStatusFromBackend();
 }
 

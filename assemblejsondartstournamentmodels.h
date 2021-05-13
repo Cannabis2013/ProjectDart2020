@@ -20,7 +20,7 @@ public:
     const QByteArray service(const IDartsModelsService* dartsModelsService,
                              const IPlayerModelsService* playerModelsService) override
     {
-        auto models = dartsModelsService->getDartsTournamentModels();
+        auto models = dartsModelsService->dartsTournamentModels();
         QJsonArray arr = assembleJsonArrayFromModels(models,playerModelsService);
         auto json = QJsonDocument(arr).toJson();
         return json;

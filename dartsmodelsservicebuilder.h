@@ -22,6 +22,7 @@
 #include "getdartsscoremodelsbyroundindex.h"
 #include "getdartsscoremodelsbyhint.h"
 #include "setdartsmodelhint.h"
+#include "getdartstournamentbyindexservice.h"
 
 class DartsModelsServiceBuilder :
         public IModelsServiceBuilder<IDartsModelsService>

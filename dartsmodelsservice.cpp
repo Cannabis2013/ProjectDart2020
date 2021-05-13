@@ -10,9 +10,15 @@ DartsModelsService* DartsModelsService::setup()
     return this;
 }
 
-const IDartsTournament *DartsModelsService::getDartsTournamentModelById(const QUuid &tournamentId) const
+const IDartsTournament *DartsModelsService::dartsTournamentModelById(const QUuid &tournamentId) const
 {
     auto model = getTournamentModelFromId(tournamentId);
+    return model;
+}
+
+const IDartsTournament *DartsModelsService::dartsTournamentByIndex(const int& index) const
+{
+    auto model = _getTournamentByIndexService->service(index,_tournamentsDbContext);
     return model;
 }
 
@@ -58,85 +64,6 @@ QVector<QUuid> DartsModelsService::tournaments() const
     }
 
     return resultingList;
-}
-
-int DartsModelsService::tournamentsCount() const
-{
-    auto tournaments = _tournamentsDbContext->dartsTournaments();
-    auto count = tournaments.count();
-    return count;
-}
-
-QString DartsModelsService::tournamentTitle(const QUuid &tournament) const
-{
-    return getTournamentModelFromId(tournament)->title();
-}
-
-int DartsModelsService::tournamentAttempts(const QUuid &tournament) const
-{
-    auto model = getTournamentModelFromId(tournament);
-    auto numberOfThrows = model->attempts();
-    return numberOfThrows;
-}
-
-QVector<QUuid> DartsModelsService::tournamentAssignedPlayers(const QUuid &tournament) const
-{
-    QVector<QUuid> assignedPlayers;
-    const IDartsTournament* tournamentModel;
-    try {
-        tournamentModel = getTournamentModelFromId(tournament);
-    } catch (const char *msg) {
-        throw  msg;
-    }
-    assignedPlayers = tournamentModel->assignedPlayerIdentities();
-    return assignedPlayers;
-}
-
-
-int DartsModelsService::tournamentGameMode(const QUuid &tournament) const
-{
-    return getTournamentModelFromId(tournament)->gameMode();
-}
-
-int DartsModelsService::tournamentTerminalKeyCode(const QUuid &tournament) const
-{
-    auto tournamentModel = getTournamentModelFromId(tournament);
-    auto conditionKeyCode = tournamentModel->terminalKeyCode();
-    return conditionKeyCode;
-}
-
-int DartsModelsService::tournamentKeyPoint(const QUuid &tournament) const
-{
-    auto tournamentModel = getTournamentModelFromId(tournament);
-    auto keyPoint = tournamentModel->keyPoint();
-    return keyPoint;
-}
-
-int DartsModelsService::tournamentTableViewHint(const QUuid &tournament) const
-{
-    auto tournamentModel = getTournamentModelFromId(tournament);
-    auto hint = tournamentModel->displayHint();
-    return hint;
-}
-
-int DartsModelsService::tournamentInputMode(const QUuid &tournament) const
-{
-    auto tournamentModel = getTournamentModelFromId(tournament);
-    auto inputMode = tournamentModel->inputHint();
-    return inputMode;
-}
-
-int DartsModelsService::tournamentStatus(const QUuid &tournament) const
-{
-    auto model = getTournamentModelFromId(tournament);
-    auto status = model->status();
-    return status;
-}
-
-QUuid DartsModelsService::tournamentWinnerId(const QUuid &tournament) const
-{
-    auto tournamentModel = getTournamentModelFromId(tournament);
-    return tournamentModel->winnerId();
 }
 
 void DartsModelsService::tournamentSetWinnerId(const QUuid &tournament,
@@ -442,7 +369,8 @@ QUuid DartsModelsService::getDartsPointId(const QUuid &tournament,
 const IDartsTournament *DartsModelsService::getTournamentModelFromId(const QUuid &id) const
 {
     auto models = _tournamentsDbContext->dartsTournaments();
-    for (auto model : models) {
+    for (auto model : models)
+    {
         if(model->id() == id)
             return model;
     }
@@ -477,6 +405,12 @@ const IDartsScoreInput *DartsModelsService::getScoreModelById(const QUuid &id) c
     }
 
     throw THROW_OBJECT_WITH_ID_NOT_FOUND(id.toString());
+}
+
+DartsModelsService *DartsModelsService::setGetTournamentByIndexService(GetTournamentByIndexService *newGetTournamentByIndexService)
+{
+    _getTournamentByIndexService = newGetTournamentByIndexService;
+    return this;
 }
 
 DartsModelsService *DartsModelsService::setGetScoreModelsByHint(GetScoreModelsByHintService *getScoreModelsByHint)
@@ -565,7 +499,8 @@ const IDartsPointInput *DartsModelsService::getDartsPointModelById(const QUuid &
 QVector<int> DartsModelsService::dartsPointValuesByTournamentId(const QUuid &tournament) const
 {
     QVector<int> userScores;
-    auto assignedPlayersID = tournamentAssignedPlayers(tournament);
+    auto model = dartsTournamentModelById(tournament);
+    auto assignedPlayersID = model->assignedPlayerIdentities();
     for (auto playerID : assignedPlayersID) {
         auto s = point(tournament,playerID);
         userScores << s;
@@ -631,7 +566,8 @@ void DartsModelsService::removeHiddenPoints(const QUuid &tournament)
 
 int DartsModelsService::point(const QUuid &tournament, const QUuid &playerId) const
 {
-    int totalScore = tournamentKeyPoint(tournament);
+    auto model = dartsTournamentModelById(tournament);
+    int totalScore = model->keyPoint();
     auto playerScoresID = pointsByPlayerId(tournament,playerId,ModelDisplayHint::DisplayHint);
     for (auto scoreID : playerScoresID) {
         auto point = pointValueFromPointId(scoreID);
@@ -860,7 +796,7 @@ void DartsModelsService::removeScoreModel(const QUuid &scoreId)
 }
 
 
-QVector<const IDartsTournament *> DartsModelsService::getDartsTournamentModels() const
+QVector<const IDartsTournament *> DartsModelsService::dartsTournamentModels() const
 {
     auto models = _tournamentsDbContext->dartsTournaments();
     return models;
