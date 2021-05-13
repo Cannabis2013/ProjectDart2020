@@ -33,7 +33,7 @@ public:
     QByteArray assembleJsonFromDartsPointModel(const IDartsPointInput *model) const override;
     const IDartsScoreInput *assembleDartsScoreModelFromJson(const QByteArray &json) const override;
     QByteArray assembleJsonFromDartsScoreModel(const IDartsScoreInput *model) const override;
-    QByteArray assembleJsonFromDartsMultiAttemptScores(const QUuid &tournamentId, const IDartsModelsService *modelsService) const override;
+    QByteArray assembleJsonFromDartsMultiAttemptScores(const QVector<const IDartsScoreInput *> &models) const override;
     // Get/set service methods
     DartsJsonService* setAssembleDartsTournamentFromJson(IUnaryService<const QByteArray &, const IDartsTournament *> *assembleDartsTournamentFromJson);
     DartsJsonService* setGetPlayerIndexesFromJson(IUnaryService<const QByteArray &, QVector<int> > *getPlayerIndexesFromJson);
@@ -55,7 +55,7 @@ public:
     DartsJsonService* setAssembleJsonFromDartsPointModel(IUnaryService<const IDartsPointInput *, QByteArray> *assembleJsonFromDartsPointModel);
     DartsJsonService* setAssembleDartsScoreFromJson(IUnaryService<const QByteArray &, const IDartsScoreInput *> *assembleDartsScoreFromJson);
     DartsJsonService* setAssembleJsonFromDartsScoreModel(IUnaryService<const IDartsScoreInput *, QByteArray> *assembleJsonFromDartsScoreModel);
-    DartsJsonService* setAssembleJsonFromDartsMultiAttemptScores(IBinaryService<const QUuid &, const IDartsModelsService *, QByteArray> *assembleJsonFromDartsMultiAttemptScores);
+    DartsJsonService* setAssembleJsonFromDartsMultiAttemptScores(IUnaryService<const QVector<const IDartsScoreInput *> &, QByteArray> *assembleJsonFromDartsMultiAttemptScores);
 
     DartsJsonService* setAssembleJsonByDartsScoreIndexes(IUnaryService<const IDartsScoreIndexes *, QByteArray> *assembleJsonByDartsScoreIndexes);
 
@@ -70,9 +70,8 @@ private:
     IBinaryService<const QUuid&,
                    const IDartsModelsService*,
                    QByteArray>* _assembleJsonFromTournamentDartsPoints;
-    IBinaryService<const QUuid&,
-                   const IDartsModelsService*,
-                   QByteArray>* _assembleJsonFromDartsMultiAttemptScores;
+    IUnaryService<const QVector<const IDartsScoreInput*>&,
+                                QByteArray>* _assembleJsonFromDartsMultiAttemptScores;
     IBinaryService<const QUuid&,
                    const IDartsModelsService*,
                    QJsonArray>* _jsonArrayFromDartsScores;

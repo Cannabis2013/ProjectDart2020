@@ -22,6 +22,7 @@ IDartsModelsService *DartsModelsServiceBuilder::buildModelsService() const
             ->setGetScoreModelsByTournamentId(new GetDartsScoreModelsByTournamentId)
             ->setGetScoreModelsByPlayerId(new GetDartsScoreModelsByPlayerId)
             ->setGetScoreModelsByRoundIndex(new GetDartsScoreModelsByRoundIndex)
+            ->setGetScoreModelsByHint(new GetDartsScoreModelsByHint)
             ->setDartsScoreModelHintService(new SetDartsModelHint);
     return dartsModelsService;
 }

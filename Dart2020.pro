@@ -136,6 +136,7 @@ HEADERS += \
     defaultmodelsservicebuilder.h \
     getdartspointindexesbydartspointmodel.h \
     getdartsscoreindexesbymodel.h \
+    getdartsscoremodelsbyhint.h \
     getdartsscoremodelsbyplayerid.h \
     getdartsscoremodelsbyroundindex.h \
     getdartsscoremodelsbytournamentid.h \

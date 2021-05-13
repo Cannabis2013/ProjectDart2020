@@ -72,6 +72,7 @@ public:
     typedef IBinaryService<const ScoreModels&,const QUuid&,ScoreModels> GetScoreModelsByTournamentId;
     typedef IBinaryService<const ScoreModels&,const QUuid&,ScoreModels> GetScoreModelsByPlayerId;
     typedef IBinaryService<const ScoreModels&,const int&,ScoreModels> GetScoreModelsByRoundIndex;
+    typedef IBinaryService<const ScoreModels&,const int&,ScoreModels> GetScoreModelsByHintService;
     typedef IBinaryService<const IDartsScoreInput*,const int&,const IDartsScoreInput*> SetDartsModelHint;
     /*
      * Create and setup instance
@@ -159,6 +160,7 @@ public:
     /*
      * Scores methods
      */
+    QVector<const IDartsScoreInput *> dartsScoreModelsByTournamentIdAndHint(const QUuid &tournamentId, const int &hint) const override;
     void addDartsScore(const IDartsScoreInput *pointModel) override;
     QUuid getDartsScoreId(const QUuid &tournamentId,
                           const QUuid &playerId,
@@ -170,7 +172,7 @@ public:
     QVector<QUuid> dartsScoreIds(const int &hint, const QUuid &tournamentId) const override;
     QVector<QUuid> DartsScoresByPlayerId(const QUuid &tournamentId, const QUuid &playerId, const int &hint) const override;
     int dartsScoresCount(const int &hint) const override;
-    const IDartsScoreInput* setDartsScoreHint(const QUuid &point, const int &hint) override;
+    const IDartsScoreInput* setDartsScoreHint(const QUuid &scoreId, const int &hint) override;
     int dartsScoreRoundIndex(const QUuid &scoreId) const override;
     int dartsScoreSetIndex(const QUuid &scoreId) const override;
     int ScoreValueFromScoreId(const QUuid &scoreId) const override;
@@ -200,6 +202,8 @@ public:
     DartsModelsService* setGetScoreModelsByPlayerId(GetScoreModelsByPlayerId *getScoreModelsByPlayerId);
     DartsModelsService* setGetScoreModelsByRoundIndex(GetScoreModelsByRoundIndex *getScoreModelsByRoundIndex);
     DartsModelsService* setDartsScoreModelHintService(SetDartsModelHint *setScoreModelHintService);
+    DartsModelsService* setGetScoreModelsByHint(GetScoreModelsByHintService *getScoreModelsByHint);
+
 private:
     /*
      * Services
@@ -215,12 +219,15 @@ private:
     GetScoreModelsByTournamentId* _getScoreModelsByTournamentId;
     GetScoreModelsByPlayerId* _getScoreModelsByPlayerId;
     GetScoreModelsByRoundIndex* _getScoreModelsByRoundIndex;
+    GetScoreModelsByHintService* _getScoreModelsByHint;
     SetDartsModelHint* _setScoreModelHintService;
     // Db services
     IDartsTournamentDb* _tournamentsDbContext;
     IDartsPointDb* _dartsPointsDb;
     IDartsScoreDb* _dartsScoresDb;
 };
+
+
 
 
 

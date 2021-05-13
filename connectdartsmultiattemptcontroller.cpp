@@ -86,7 +86,7 @@ void ConnectDartsMultiAttemptController::service(AbstractDartsScoreController *c
          * Controller remove has removed scores
          */
     QObject::connect(controller,&AbstractDartsScoreController::scoreRemoved,
-            application,&AbstractApplicationInterface::dartsControllerRemovedSingleAttemptPoint);
+            application,&AbstractApplicationInterface::dartsControllerRemovedMultiAttemptScore);
     /*
          * Undo/redo
          */
@@ -98,7 +98,7 @@ void ConnectDartsMultiAttemptController::service(AbstractDartsScoreController *c
             controller,&AbstractDartsScoreController::undoSuccess);
     QObject::connect(application,&AbstractApplicationInterface::requestRedo,
             controller,&AbstractDartsScoreController::redoTurn);
-    QObject::connect(controller,&AbstractDartsScoreController::hideDartsScore,
+    QObject::connect(controller,&AbstractDartsScoreController::revealDartsScore,
             modelsService,&AbstractModelsService::revealScore);
     QObject::connect(modelsService,&AbstractModelsService::revealDartsScoreSuccess,
             controller,&AbstractDartsScoreController::redoSuccess);

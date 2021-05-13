@@ -40,7 +40,7 @@ public:
     virtual QByteArray assembleJsonFromDartsPointModel(const IDartsPointInput*) const = 0;
     virtual const IDartsScoreInput* assembleDartsScoreModelFromJson(const QByteArray&) const = 0;
     virtual QByteArray assembleJsonFromDartsScoreModel(const IDartsScoreInput*) const = 0;
-    virtual QByteArray assembleJsonFromDartsMultiAttemptScores(const QUuid&,const IDartsModelsService*) const = 0;
+    virtual QByteArray assembleJsonFromDartsMultiAttemptScores(const QVector<const IDartsScoreInput *>&) const = 0;
 };
 
 #endif // IDARTSMODELSJSONSERVICE_H

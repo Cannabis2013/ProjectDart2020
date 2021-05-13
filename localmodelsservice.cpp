@@ -231,7 +231,8 @@ void LocalModelsService::assembleAssignedPlayerPoints(const QUuid& tournamentId)
 
 void LocalModelsService::assembleAssignedPlayerScores(const QUuid &tournamentId)
 {
-    auto json = _dartsJsonService->assembleJsonFromDartsMultiAttemptScores(tournamentId, _dartsModelsService);
+    auto models = _dartsModelsService->dartsScoreModelsByTournamentIdAndHint(tournamentId,ModelDisplayHint::DisplayHint);
+    auto json = _dartsJsonService->assembleJsonFromDartsMultiAttemptScores(models);
     emit sendTournamentDartsScoresAsJson(json);
 }
 

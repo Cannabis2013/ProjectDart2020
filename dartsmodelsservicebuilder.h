@@ -20,6 +20,7 @@
 #include "getdartsscoremodelsbytournamentid.h"
 #include "getdartsscoremodelsbyplayerid.h"
 #include "getdartsscoremodelsbyroundindex.h"
+#include "getdartsscoremodelsbyhint.h"
 #include "setdartsmodelhint.h"
 
 class DartsModelsServiceBuilder :

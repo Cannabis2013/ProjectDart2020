@@ -21,7 +21,7 @@ function connectInterface()
     dartsMultiAttemptBody.requestRestart.connect(applicationInterface.handleRestartTournament);
     dartsMultiAttemptBody.sendInput.connect(applicationInterface.handleDartsMultiAttemptInput);
     dartsMultiAttemptBody.requestStatusFromBackend.connect(applicationInterface.handleControllerStateRequest);
-    applicationInterface.dartsControllerRemovedSingleAttemptPoint.connect(backendRemovedPoint);
+    applicationInterface.dartsControllerRemovedMultiAttemptScore.connect(backendRemovedPoint);
     dartsMultiAttemptBody.requestUndo.connect(applicationInterface.handleUndoRequest);
     dartsMultiAttemptBody.requestRedo.connect(applicationInterface.handleRedoRequest);
     scoreKeyPad.sendInput.connect(handleScoreKeyPadInput);
@@ -45,7 +45,7 @@ function disconnectInterface()
     dartsMultiAttemptBody.requestRestart.disconnect(applicationInterface.handleRestartTournament);
     dartsMultiAttemptBody.sendInput.disconnect(applicationInterface.handleDartsMultiAttemptInput);
     dartsMultiAttemptBody.requestStatusFromBackend.disconnect(applicationInterface.handleControllerStateRequest);
-    applicationInterface.dartsControllerRemovedSingleAttemptPoint.disconnect(backendRemovedPoint);
+    applicationInterface.dartsControllerRemovedMultiAttemptScore.disconnect(backendRemovedPoint);
     dartsMultiAttemptBody.requestUndo.disconnect(applicationInterface.handleUndoRequest);
     dartsMultiAttemptBody.requestRedo.disconnect(applicationInterface.handleRedoRequest);
     scoreKeyPad.sendInput.disconnect(handleScoreKeyPadInput);
@@ -118,7 +118,7 @@ function backendRemovedPoint(data)
 {
     var json = JSON.parse(data);
     let playerName = json["playerName"];
-    multiAttemptScoreBoard.setData(player,point,score,-1);
+    multiAttemptScoreBoard.setData(player,score);
     requestStatusFromBackend();
 }
 

@@ -246,7 +246,7 @@ DartsJsonService *DartsJsonService::setAssembleJsonFromDartsScoreModel(IUnarySer
     return this;
 }
 
-DartsJsonService *DartsJsonService::setAssembleJsonFromDartsMultiAttemptScores(IBinaryService<const QUuid &, const IDartsModelsService *, QByteArray> *assembleJsonFromDartsMultiAttemptScores)
+DartsJsonService *DartsJsonService::setAssembleJsonFromDartsMultiAttemptScores(IUnaryService<const QVector<const IDartsScoreInput*>&,QByteArray> *assembleJsonFromDartsMultiAttemptScores)
 {
     _assembleJsonFromDartsMultiAttemptScores = assembleJsonFromDartsMultiAttemptScores;
     return this;
@@ -266,9 +266,8 @@ QByteArray DartsJsonService::assembleJsonFromDartsScoreModel(const IDartsScoreIn
 }
 
 
-QByteArray DartsJsonService::assembleJsonFromDartsMultiAttemptScores(const QUuid &tournamentId,
-                                                                           const IDartsModelsService *modelsService) const
+QByteArray DartsJsonService::assembleJsonFromDartsMultiAttemptScores(const QVector<const IDartsScoreInput*>& models) const
 {
-    auto json = _assembleJsonFromDartsMultiAttemptScores->service(tournamentId,modelsService);
+    auto json = _assembleJsonFromDartsMultiAttemptScores->service(models);
     return json;
 }

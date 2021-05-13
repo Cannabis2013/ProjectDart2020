@@ -1,7 +1,7 @@
 #ifndef ASSEMBLEJSONFROMDARTSMULTIATTEMPTSCORES_H
 #define ASSEMBLEJSONFROMDARTSMULTIATTEMPTSCORES_H
 
-#include "ibinaryservice.h"
+#include "iunaryservice.h"
 #include "idartsmodelsservice.h"
 #include <qjsondocument.h>
 #include <qjsonarray.h>
@@ -9,20 +9,18 @@
 
 
 class AssembleJsonFromDartsMultiAttemptScores :
-        public IBinaryService<const QUuid&,
-                       const IDartsModelsService*,
-                       QByteArray>
+        public IUnaryService<const QVector<const IDartsScoreInput*>&,
+                             QByteArray>
 {
 public:
-    QByteArray service(const QUuid& tournamentId,const IDartsModelsService* modelsService) override
+    QByteArray service(const QVector<const IDartsScoreInput*>& models) override
     {
-        auto dartsScoreIds = modelsService->dartsScoreIds(tournamentId);
         QJsonArray scoresJsonArray;
-        for (const auto& dartsScoreId : dartsScoreIds) {
+        for (const auto& model : models) {
             QJsonObject dartsScoreJsonObject;
-            auto playerId = modelsService->playerIdFromScoreId(dartsScoreId);
+            auto playerId = model->playerId();
             dartsScoreJsonObject["playerId"] = playerId.toString(QUuid::WithoutBraces);
-            dartsScoreJsonObject["score"] = modelsService->ScoreValueFromScoreId(dartsScoreId);
+            dartsScoreJsonObject["score"] = model->score();
             scoresJsonArray << dartsScoreJsonObject;
         }
         auto json = QJsonDocument(scoresJsonArray).toJson();

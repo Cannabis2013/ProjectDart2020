@@ -105,19 +105,13 @@ signals:
     void requestAssembleFTPTournament();
     void tournamentAssembledAndStored(const bool &status);
     void tournamentCreatedOk();
-    void FtpControllerInitializedAndReady(const bool& canUndo,
-                                       const bool& canRedo,
-                                       const int& roundIndex,
-                                       const int& setIndex,
-                                       const int& attemptIndex,
-                                       const int& score,
-                                       const QString& targetRow);
     void sendAssembledMultiAttemptDartsScores(const QByteArray& json);
     void sendAssembledDartsSingleAttemptPoints(const QByteArray& json);
     // Controller states
     void controllerIsStopped();
     void dartsSingleAttemptPointControllerIsInitialized();
     void dartsControllerRemovedSingleAttemptPoint(const QString& json);
+    void dartsControllerRemovedMultiAttemptScore(const QString& json);
     void dartsControllerAddedDartsSingleAttemptPoint(const QByteArray& json);
     void dartsMultiAttemptScoreControllerIsInitalized();
     void dartsSingleScoreControllerIsInitializedAndReady();
