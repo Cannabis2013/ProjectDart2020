@@ -22,7 +22,7 @@ const IDartsScoreInput *DartsScoreJsonDb::getDartsInputModelByIndex(const int &i
     return model;
 }
 
-QVector<const IDartsScoreInput *> DartsScoreJsonDb::dartsInputModels() const
+QVector<const IDartsScoreInput *> DartsScoreJsonDb::dartsScoreModels() const
 {
     return _dartsScoreModels;
 }

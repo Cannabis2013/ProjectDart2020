@@ -16,7 +16,7 @@ public:
     QVector<const IDartsScoreInput*> service(const QUuid& tournamentId,
                                                     const IDartsScoreDb* dbService) override
     {
-        auto dartsPointModels = dbService->dartsInputModels();
+        auto dartsPointModels = dbService->dartsScoreModels();
         QVector<const IDartsScoreInput*> orderedDartsPointModels;
         for (const auto& dartsPointModel : dartsPointModels) {
             auto modelTournamentId = dartsPointModel->tournamentId();

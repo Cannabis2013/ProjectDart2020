@@ -66,7 +66,7 @@ AbstractDartsPointController *ConnectDartsSingleAttemptPointController::service(
     QObject::connect(application,&AbstractApplicationInterface::requestTournamentReset,
             controller,&AbstractGameController::handleResetTournament);
     QObject::connect(controller,&AbstractGameController::requestResetTournament,
-            modelsService,&AbstractModelsService::resetTournament);
+            modelsService,&AbstractModelsService::resetDartsPointTournament);
     QObject::connect(modelsService,&AbstractModelsService::tournamentResetSuccess,
             controller,&AbstractGameController::isReset);
     QObject::connect(controller,&AbstractDartsController::isReset,

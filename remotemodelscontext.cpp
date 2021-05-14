@@ -68,7 +68,7 @@ void RemoteModelsContext::addDartsPoint(const QByteArray &json)
 
 }
 
-void RemoteModelsContext::resetTournament(const QUuid &tournament)
+void RemoteModelsContext::resetDartsPointTournament(const QUuid &tournament)
 {
     auto tournamentId = tournament.toString(QUuid::WithoutBraces);
     _netMng->sendPostRequest("ResetFtpTournament",QByteArray(),QString(),{{"tournamentId",tournamentId}},this,SLOT(tournamentResetReply()));

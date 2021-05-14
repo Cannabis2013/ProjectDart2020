@@ -46,7 +46,7 @@ public slots:
     void deleteTournaments(const QByteArray &json) override;
     void handleRequestGameMode(const int &index) override;
     void handleRequestTournaments() override;
-    void resetTournament(const QUuid &tournament) override;
+    void resetDartsPointTournament(const QUuid &tournament) override;
     /*
      * Darts tournaments methods
      */

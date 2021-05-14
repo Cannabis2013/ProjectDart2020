@@ -23,6 +23,15 @@
 #include "getdartsscoremodelsbyhint.h"
 #include "setdartsmodelhint.h"
 #include "getdartstournamentbyindexservice.h"
+#include "getdartstournamentbyid.h"
+#include "getdartspointmodelbyid.h"
+#include "dartspointsethintservice.h"
+#include "GetDartsPointByParameters.h"
+#include "getdartspointmodelsbytournamentid.h"
+#include "getdartsscorebyparameters.h"
+#include "getdartsscorebyid.h"
+#include "deletetournamentsbyindexesservice.h"
+
 
 class DartsModelsServiceBuilder :
         public IModelsServiceBuilder<IDartsModelsService>

@@ -14,14 +14,14 @@ class AssembleJsonFromDartsPoints : public
 public:
     QByteArray service(const QUuid& tournamentId,const IDartsModelsService*modelsService) override
     {
-        auto dartsPointIds = modelsService->dartsPointIds(tournamentId);
+        auto dartsPointModels = modelsService->dartsPointModelsByTournamentId(tournamentId);
         QJsonArray pointsJsonArray;
-        for (const auto& dartsPointId : dartsPointIds) {
+        for (const auto& dartsPointModel : dartsPointModels) {
             QJsonObject playerJsonObject;
-            auto playerId = modelsService->playerIdFromPointId(dartsPointId);
+            auto playerId = dartsPointModel->playerId();
             playerJsonObject["playerId"] = playerId.toString(QUuid::WithoutBraces);
-            playerJsonObject["point"] = modelsService->pointValueFromPointId(dartsPointId);
-            playerJsonObject["modKeyCode"] = modelsService->pointKeyCode(dartsPointId);
+            playerJsonObject["point"] = dartsPointModel->point();
+            playerJsonObject["modKeyCode"] = dartsPointModel->modKeyCode();
             pointsJsonArray << playerJsonObject;
         }
         auto json = QJsonDocument(pointsJsonArray).toJson();

@@ -24,6 +24,15 @@ IDartsModelsService *DartsModelsServiceBuilder::buildModelsService() const
             ->setGetScoreModelsByRoundIndex(new GetDartsScoreModelsByRoundIndex)
             ->setGetScoreModelsByHint(new GetDartsScoreModelsByHint)
             ->setDartsScoreModelHintService(new SetDartsModelHint)
-            ->setGetTournamentByIndexService(new GetDartsTournamentByIndexService);
+            ->setGetTournamentByIndexService(new GetDartsTournamentByIndexService)
+            ->setGetDartsTournamentByIdService(new GetDartsTournamentById)
+            ->setGetDartsPointByIdService(new GetDartsPointModelById)
+            ->setGetDartsPointByParametersService(new GetDartsPointByParameters)
+            ->setDartsPointModelHintService(new DartsPointSetHintService)
+            ->setGetDartsPointModelsByTournamentId(new GetDartsPointModelsByTournamentId)
+            ->setGetDartsScoreByParametersService(new GetDartsScoreByParameters)
+            ->setGetDartsScoreByIdService(new GetDartsScoreById)
+            ->setDeleteTournamentsByIndexes(new DeleteTournamentsByIndexesService);
+
     return dartsModelsService;
 }

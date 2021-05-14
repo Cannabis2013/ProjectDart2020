@@ -79,6 +79,7 @@ HEADERS += \
     ApplicationBuilder.h \
     AssembleDartsTournamentsFromJsonArray.h \
     DartsPointCalculator.h \
+    GetDartsPointByParameters.h \
     IDartsSingleAttemptPointJsonService.h \
     IPointCalculatorService.h \
     abstractdartscontrollerbuilder.h \
@@ -125,6 +126,7 @@ HEADERS += \
     dartsplayerscoreservice.h \
     dartspointindexes.h \
     dartspointjsondbservice.h \
+    dartspointsethintservice.h \
     dartspointsingleattempt.h \
     dartspointsingleattemptdatamodel.h \
     dartsscoreindexes.h \
@@ -134,12 +136,18 @@ HEADERS += \
     dartsscoresjsonassemblerservice.h \
     dartssingleattemptpointjsonservice.h \
     defaultmodelsservicebuilder.h \
+    deletetournamentsbyindexesservice.h \
     getdartspointindexesbydartspointmodel.h \
+    getdartspointmodelbyid.h \
+    getdartspointmodelsbytournamentid.h \
+    getdartsscorebyid.h \
+    getdartsscorebyparameters.h \
     getdartsscoreindexesbymodel.h \
     getdartsscoremodelsbyhint.h \
     getdartsscoremodelsbyplayerid.h \
     getdartsscoremodelsbyroundindex.h \
     getdartsscoremodelsbytournamentid.h \
+    getdartstournamentbyid.h \
     getdartstournamentbyindexservice.h \
     getdeleteplayerindexfromjson.h \
     getordereddartspointmodels.h \
@@ -158,6 +166,8 @@ HEADERS += \
     idartsscoreindexes.h \
     idartssingleattemptindexservice.h \
     idartstournamentdb.h \
+    igetdartspointbyparameters.h \
+    igetdartsscorebyparameters.h \
     imodelsservicebuilder.h \
     ipersistence.h \
     iplayermodelsservice.h \

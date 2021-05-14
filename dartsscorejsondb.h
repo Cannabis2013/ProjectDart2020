@@ -15,7 +15,7 @@ public:
     static DartsScoreJsonDb* createInstance(JsonExtractor* extractor, JsonAssembler* assembler);
     void addDartsInputModel(const IDartsScoreInput *model) override;
     const IDartsScoreInput *getDartsInputModelByIndex(const int &index) const override;
-    QVector<const IDartsScoreInput *> dartsInputModels() const override;
+    QVector<const IDartsScoreInput *> dartsScoreModels() const override;
     void removeDartsInputModelByIndex(const int &index) override;
     int indexOfDartsInputModel(const IDartsScoreInput *model) override;
     void replaceDartsInputModel(const int &index, const IDartsScoreInput *model) override;

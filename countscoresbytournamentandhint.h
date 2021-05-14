@@ -11,7 +11,7 @@ class CountScoresByTournamentAndHint :
 public:
     int service(const QUuid& tournamentId,const int& hint, const IDartsScoreDb* dbService) override
     {
-        auto models = dbService->dartsInputModels();
+        auto models = dbService->dartsScoreModels();
         auto count = 0;
         for (const auto& model : models) {
             if(model->tournamentId() != tournamentId)

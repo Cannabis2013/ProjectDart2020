@@ -63,7 +63,7 @@ public:
     virtual void assembleDartsTournamentDataFromId(const QUuid &tournamentId) override;
     virtual void addDartsPoint(const QByteArray& json) override;
     void addDartsScore(const QByteArray &json) override;
-    virtual void resetTournament(const QUuid &tournament) override;
+    virtual void resetDartsPointTournament(const QUuid &tournament) override;
     virtual void assembleDartsKeyValues(const QUuid &tournament) override;
     virtual void createPlayer(const QByteArray& json) override;
     virtual void deletePlayerFromIndex(const QByteArray& json) override;

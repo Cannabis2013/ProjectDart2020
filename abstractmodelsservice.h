@@ -26,7 +26,7 @@ public:
     virtual void handleRequestTournaments() = 0;
     virtual void handleRequestGameMode(const int &index) = 0;
     virtual void assembleDartsTournamentDataFromId(const QUuid& tournament) = 0;
-    virtual void resetTournament(const QUuid &tournament) = 0;
+    virtual void resetDartsPointTournament(const QUuid &tournament) = 0;
     virtual void assembleDartsKeyValues(const QUuid& tournament) = 0;
     // Darts singleattempt point methods
     virtual void addDartsPoint(const QByteArray& json) = 0;
