@@ -101,6 +101,10 @@ private:
         Success = 0x2
     };
     NetworkManager* _netMng = new NetworkManager(API_HOST_URL);
+
+    // AbstractModelsService interface
+public:
+    void resetDartsScoreTournament(const QUuid &tournamentId) override;
 };
 
 

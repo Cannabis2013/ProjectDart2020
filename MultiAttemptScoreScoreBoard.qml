@@ -9,7 +9,7 @@ ScoreBoard {
     // Fonts
     QtObject{
         id: dataValues
-        readonly property int scoreFontSize: 32
+        readonly property int scoreFontSize: 16
         readonly property double sizeScale: 1.2
         readonly property color delegateBackgroundColor: "green"
         readonly property int delegateBorderRadius: 10
@@ -64,7 +64,7 @@ ScoreBoard {
         text: display
         scoreFontSize: dataValues.scoreFontSize
         cellBorderWidth: multiAttemptScoreBoardBody.cellBorderWidth
-        color: dataValues.delegateBackgroundColor
+        cellColor: dataValues.delegateBackgroundColor
         cellBorderRadius: dataValues.delegateBorderRadius
     }
 }

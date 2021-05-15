@@ -64,7 +64,7 @@ void MultiAttemptScoreDataModel::clearData()
 {
     _data.clear();
     auto bottomRight = createIndex(rowCount() - 1,columnCount() - 1);
-    _columns = 0;
+    _columns = 1;
     _rows = 0;
     _verticalHeaderData.clear();
     emit dataChanged(createIndex(0,0),bottomRight);

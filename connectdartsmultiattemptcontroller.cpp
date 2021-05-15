@@ -44,7 +44,7 @@ void ConnectDartsMultiAttemptController::service(AbstractDartsScoreController *c
     QObject::connect(controller,&AbstractDartsController::controllerIsStopped,
             application,&AbstractApplicationInterface::controllerIsStopped);
     QObject::connect(controller,&AbstractDartsScoreController::controllerIsInitializedAndReady,
-            application,&AbstractApplicationInterface::dartsSingleScoreControllerIsInitializedAndReady);
+            application,&AbstractApplicationInterface::dartsMutliAttemptScoreControllerIsReady);
     QObject::connect(controller,&AbstractDartsController::isReadyAndAwaitsInput,
             application,&AbstractApplicationInterface::controllerAwaitsInput);
     QObject::connect(controller,&AbstractDartsController::winnerDeclared,
@@ -64,7 +64,7 @@ void ConnectDartsMultiAttemptController::service(AbstractDartsScoreController *c
     QObject::connect(application,&AbstractApplicationInterface::requestTournamentReset,
             controller,&AbstractGameController::handleResetTournament);
     QObject::connect(controller,&AbstractGameController::requestResetTournament,
-            modelsService,&AbstractModelsService::resetDartsPointTournament);
+            modelsService,&AbstractModelsService::resetDartsScoreTournament);
     QObject::connect(modelsService,&AbstractModelsService::tournamentResetSuccess,
             controller,&AbstractGameController::isReset);
     QObject::connect(controller,&AbstractDartsController::isReset,

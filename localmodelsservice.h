@@ -11,7 +11,7 @@
 #include <QVariantList>
 #include "idartsjsonservice.h"
 
-class   LocalModelsService : public AbstractModelsService
+class LocalModelsService : public AbstractModelsService
 {
 public:
     /*
@@ -47,15 +47,16 @@ public slots:
     void handleRequestGameMode(const int &index) override;
     void handleRequestTournaments() override;
     void resetDartsPointTournament(const QUuid &tournament) override;
+    void resetDartsScoreTournament(const QUuid &tournamentId) override;
     /*
      * Darts tournaments methods
      */
     void addDartsTournament(const QByteArray &json) override;
-    void getOrderedDartsPoints(const QUuid &tournamentId) override;
     void assembleDartsTournamentDataFromId(const QUuid& tournamentId) override;
     /*
      * Darts single attempt point methods
      */
+    void getOrderedDartsPoints(const QUuid &tournamentId) override;
     void addDartsPoint(const QByteArray& json) override;
     virtual void assembleDartsPointIndexes(const QUuid &tournament) override;
     void hideDartsPoint(const QUuid& tournamentId,

@@ -11,7 +11,7 @@ function connectInterface()
                          .connect(applicationInterface.handleRequestForMultiAttemptScores);
     applicationInterface.sendAssembledMultiAttemptDartsScores.connect(recieveDartsMultiAttemptScores);
     applicationInterface.dartsControllerIsReset.connect(reinitialize);
-    applicationInterface.dartsSingleScoreControllerIsInitializedAndReady
+    applicationInterface.dartsMutliAttemptScoreControllerIsReady
                         .connect(controllerIsInitializedAndReady);
     applicationInterface.controllerHasDeclaredAWinner.connect(backendDeclaredAWinner);
     applicationInterface.controllerIsStopped.connect(backendIsStopped);
@@ -36,7 +36,8 @@ function disconnectInterface()
                 applicationInterface.handleRequestForMultiAttemptScores);
     applicationInterface.sendAssembledMultiAttemptDartsScores.disconnect(
                 recieveDartsMultiAttemptScores);
-    applicationInterface.dartsSingleAttemptPointControllerIsReady.disconnect(controllerIsInitializedAndReady);
+    applicationInterface.dartsMutliAttemptScoreControllerIsReady
+                        .disconnect(controllerIsInitializedAndReady);
     applicationInterface.controllerHasDeclaredAWinner.disconnect(backendDeclaredAWinner);
     applicationInterface.controllerIsStopped.disconnect(backendIsStopped);
     applicationInterface.sendDartsTournamentData.disconnect(handleFTPTournamentMetaData);
@@ -102,7 +103,6 @@ function extractScoreFromJson(data)
 
 function reinitialize()
 {
-    // reinitialize controller after reset
     multiAttemptScoreBoard.clearData();
     initializeScoreBoard();
     requestStatusFromBackend();

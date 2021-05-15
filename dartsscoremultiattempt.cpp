@@ -52,6 +52,7 @@ void DartsScoreMultiAttempt::handleRequestDartsScores()
 
 void DartsScoreMultiAttempt::handleScoreAddedToDataContext(const QByteArray &json)
 {
+
     auto obj = QJsonDocument::fromJson(json).object();
     auto score = obj.value("score").toInt();
     auto currentPlayerStringId = obj.value("playerId").toString();

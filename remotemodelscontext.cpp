@@ -343,6 +343,11 @@ void RemoteModelsContext::recieveFtpScores()
     emit sendDartsSingleAttemptPoints(json);
 }
 
+void RemoteModelsContext::resetDartsScoreTournament(const QUuid &tournamentId)
+{
+
+}
+
 
 void RemoteModelsContext::hideDartsPoint(const QUuid &, const QUuid &, const int &, const int &)
 {

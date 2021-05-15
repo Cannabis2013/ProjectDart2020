@@ -67,6 +67,13 @@ void LocalModelsService::resetDartsPointTournament(const QUuid &tournament)
     emit tournamentResetSuccess();
 }
 
+void LocalModelsService::resetDartsScoreTournament(const QUuid &tournamentId)
+{
+    _dartsModelsService->removeScoresByTournamentId(tournamentId);
+    _dartsModelsService->tournamentSetWinnerId(tournamentId,QUuid());
+    emit tournamentResetSuccess();
+}
+
 void LocalModelsService::assembleDartsKeyValues(const QUuid &tournamentId)
 {
     auto model = _dartsModelsService->dartsTournamentModelById(tournamentId);

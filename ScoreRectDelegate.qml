@@ -12,14 +12,11 @@ MyRectangle{
     property int cellBorderRadius: 0
     onCellBorderRadiusChanged: maskedRect.radius = cellBorderRadius
 
-    property color cellColor: "purple"
+    property color cellColor: "black"
     onCellColorChanged: cellBody.color = cellColor
 
     property color textColor: "white"
     onTextColorChanged: scoreText = textColor
-
-    property int pointFontSize: 16
-    onPointFontSizeChanged: pointText.font.pointSize = pointFontSize
 
     property int scoreFontSize: 16
     onScoreFontSizeChanged: scoreText.font.pointSize = scoreFontSize
@@ -29,12 +26,6 @@ MyRectangle{
 
     property color cellBorderColor: "black"
     onCellBorderColorChanged: cellBody.border.color = cellBorderColor
-
-    property int horizontalTextAlignment: Text.AlignHCenter
-    onHorizontalTextAlignmentChanged: scoreText.horizontalAlignment = horizontalTextAlignment
-
-    property int verticalTextAlignment: Text.AlignVCenter
-    onVerticalTextAlignmentChanged: scoreText.verticalAlignment = verticalTextAlignment
 
     bottomBorderWidth: 1
     rightBorderWidth: 1
@@ -82,8 +73,8 @@ MyRectangle{
             Text {
                 id: scoreText
                 anchors.fill: parent
-                horizontalAlignment: cellBody.horizontalTextAlignment
-                verticalAlignment: cellBody.verticalTextAlignment
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
                 color: textColor
                 font.pointSize: scoreFontSize
             }
