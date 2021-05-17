@@ -24,6 +24,9 @@ IDartsJsonService *DartsJsonServiceBuilder::buildModelsService() const
             ->setAssembleDartsScoreFromJson(new AssembleDartsScoreModelFromJson)
             ->setAssembleJsonFromDartsScoreModel(new AssembleJsonFromDartsScoreModel)
             ->setAssembleJsonFromDartsMultiAttemptScores(new AssembleJsonFromDartsMultiAttemptScores)
-            ->setAssembleJsonByDartsScoreIndexes(new AssembleJsonByDartsScoreIndexes);
+            ->setAssembleJsonByDartsScoreIndexes(new AssembleJsonByDartsScoreIndexes)
+            ->setGetPlayerNameById(new GetPlayerNameById)
+            ->setGetWinnerIdByJson(new GetWinnerIdByJson)
+            ->setGetTournamentIdByJson(new GetTournamentIdByJson);
     return jsonModelsService;
 }

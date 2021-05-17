@@ -52,7 +52,11 @@ AbstractDartsPointController *ConnectDartsSingleAttemptPointController::service(
     QObject::connect(controller,&AbstractDartsController::isReadyAndAwaitsInput,
             application,&AbstractApplicationInterface::controllerAwaitsInput);
     QObject::connect(controller,&AbstractDartsController::winnerDeclared,
-            application,&AbstractApplicationInterface::controllerHasDeclaredAWinner);
+            modelsService,&AbstractModelsService::setDartsTournamentWinner);
+    QObject::connect(modelsService,&AbstractModelsService::setDartsTournamentWinnerSucces,
+                     controller,&AbstractDartsPointController::winnerDetermined);
+    QObject::connect(controller,&AbstractDartsPointController::winnerDetermined,
+                     application,&AbstractApplicationInterface::controllerHasDeclaredAWinner);
     /*
          * Start/stop game
          */

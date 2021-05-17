@@ -42,7 +42,7 @@ public:
     void deletePlayerByEmail(const QString &playerEMail)  override;
     QUuid playerIdFromName(const QString &fullName) const override;
     QUuid playerIdFromIndex(const int &index) const override;
-    QString playerNameFromId(const QUuid &id) const override;
+    QString playerNameById(const QUuid &id) const override;
     QString playerMailFromId(const QUuid &id) const override;
     QList<QUuid> players() const override;
     int playersCount() const override;

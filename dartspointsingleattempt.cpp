@@ -165,7 +165,7 @@ void DartsPointSingleAttempt::addPoint(const int& point,
     // Set controller state, unless winner declared
     if(currentStatus() != ControllerState::WinnerDeclared)
         setCurrentStatus(ControllerState::AddScoreState);
-    auto winnerId = status() == ControllerState::WinnerDeclared ? currentActivePlayerId() : "";
+    auto winnerId = status() == ControllerState::WinnerDeclared ? currentActivePlayerId() : QUuid();
     auto json = _dartsJsonModelsService->assembleJsonAddPointValues(
                 tournament(),
                 _indexController->roundIndex(),
@@ -286,7 +286,7 @@ void DartsPointSingleAttempt::processDomain(const int& domain,
     }
 }
 
-DartsPointSingleAttempt* DartsPointSingleAttempt::setInputController(IPlayerScoreService *scoreController)
+DartsPointSingleAttempt* DartsPointSingleAttempt::setInputController(IPlayerPointService *scoreController)
 {
     _scoreController = scoreController;
     return this;

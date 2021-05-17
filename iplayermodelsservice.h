@@ -20,7 +20,7 @@ public:
     virtual void deletePlayerByEmail(const QString &playerEMail) = 0;
     virtual QUuid playerIdFromName(const QString &fullName) const = 0;
     virtual QUuid playerIdFromIndex(const int &index) const = 0;
-    virtual QString playerNameFromId(const QUuid &id) const  = 0;
+    virtual QString playerNameById(const QUuid &id) const  = 0;
     virtual QString playerMailFromId(const QUuid &id) const  = 0;
     virtual QList<QUuid> players() const = 0;
     virtual int playersCount() const = 0;

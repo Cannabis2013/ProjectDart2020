@@ -14,7 +14,7 @@ public slots:
     virtual void initializeControllerPlayerDetails(const QByteArray&) = 0;
     virtual void initializeControllerDartsScores(const QByteArray&) = 0;
     virtual void initializeControllerWinnerIdAndName(const QByteArray&) = 0;
-    virtual void assembleSingleAttemptDartsScores() = 0;
+    virtual void assembleMultiAttemptDartsScores() = 0;
     virtual void handleRequestDartsScores() = 0;
     virtual void handleScoreAddedToDataContext(const QByteArray&) = 0;
 signals:

@@ -26,6 +26,9 @@
 #include "assemblejsonfromdartsscoremodel.h"
 #include "assemblejsonfromdartsmultiattemptscores.h"
 #include "assemblejsonbydartsscoreindexes.h"
+#include "getplayernamebyid.h"
+#include "getwinneridbyjson.h"
+#include "gettournamentidbyjson.h"
 
 class DartsJsonServiceBuilder :
         public IModelsServiceBuilder<IDartsJsonService>

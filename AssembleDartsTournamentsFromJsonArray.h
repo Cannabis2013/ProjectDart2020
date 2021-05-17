@@ -26,10 +26,13 @@ public:
             auto displayHint = jsonObject.value("displayHint").toInt();
             auto inputHint = jsonObject.value("inputHint").toInt();
             auto attempts = jsonObject.value("attempts").toInt();
+            auto winnerStringId = jsonObject.value("winnerId").toString();
+            auto winnerId = QUuid::fromString(winnerStringId);
             auto assignedPlayerIdsJsonArray = jsonObject.value("assignedPlayerIds").toArray();
             auto assignedPlayerIds = assembleAssignedPlayerIdsFromJsonArray(assignedPlayerIdsJsonArray);
             auto model = buildModelFromParameters(id,title,gameMode,keyPoint,terminalKeyCode,
-                                                  displayHint,inputHint,attempts,assignedPlayerIds);
+                                                  displayHint,inputHint,attempts,winnerId,
+                                                  assignedPlayerIds);
             list << model;
         }
         return list;
@@ -43,6 +46,7 @@ private:
                                                      const int &displayHint,
                                                      const int &inputHint,
                                                      const int &attempts,
+                                                     const QUuid& winnerId,
                                                      const QVector<QUuid>& assignedPlayerIds)
     {
         auto model = DartsTournament::createInstance()
@@ -54,6 +58,7 @@ private:
                 ->setDisplayHint(displayHint)
                 ->setInputMode(inputHint)
                 ->setAssignedPlayerIdentities(assignedPlayerIds)
+                ->setWinnerId(winnerId)
                 ->setId(id);
         return model;
     }

@@ -30,7 +30,7 @@ void ConnectDartsMultiAttemptController::service(AbstractDartsScoreController *c
      * UI requests multi attempt playerscores
      */
     QObject::connect(application,&AbstractApplicationInterface::requestDartsMultiAttemptScores,
-            controller,&AbstractDartsScoreController::assembleSingleAttemptDartsScores);
+            controller,&AbstractDartsScoreController::assembleMultiAttemptDartsScores);
     QObject::connect(controller,&AbstractDartsScoreController::sendMultiAttemptDartsScores,
             application,&AbstractApplicationInterface::sendAssembledMultiAttemptDartsScores);
     /*
@@ -48,7 +48,11 @@ void ConnectDartsMultiAttemptController::service(AbstractDartsScoreController *c
     QObject::connect(controller,&AbstractDartsController::isReadyAndAwaitsInput,
             application,&AbstractApplicationInterface::controllerAwaitsInput);
     QObject::connect(controller,&AbstractDartsController::winnerDeclared,
-            application,&AbstractApplicationInterface::controllerHasDeclaredAWinner);
+            modelsService,&AbstractModelsService::setDartsTournamentWinner);
+    QObject::connect(modelsService,&AbstractModelsService::setDartsTournamentWinnerSucces,
+                     controller,&AbstractDartsScoreController::winnerDetermined);
+    QObject::connect(controller,&AbstractDartsScoreController::winnerDetermined,
+                     application,&AbstractApplicationInterface::controllerHasDeclaredAWinner);
     /*
          * Start/stop game
          */

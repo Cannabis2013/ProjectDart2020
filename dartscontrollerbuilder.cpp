@@ -10,7 +10,8 @@ AbstractGameController *DartsControllerBuilder::assembleDartsGameController(cons
                                                                      AbstractModelsService *modelsContext)
 {
     auto jsonObject = QJsonDocument::fromJson(json).object();
-    auto tournamentId = jsonObject.value("tournamentId").toString();
+    auto tournamentStringId = jsonObject.value("tournamentId").toString();
+    auto tournamentId = QUuid::fromString(tournamentStringId);
     auto keyPoint = jsonObject.value("keyPoint").toInt();
     auto attempts = jsonObject.value("attempts").toInt();
     auto terminalKeyCode = jsonObject.value("terminalKeyCode").toInt();
@@ -62,7 +63,7 @@ AbstractDartsPointController *DartsControllerBuilder::assembleDartsPointControll
             ->setScoreCalculator(DartsPointCalculator::createInstance())
             ->setInputValidator(PointValidator::createInstance(terminalKeyCode))
             ->setIndexController(PointIndexController::createInstance(attempts))
-            ->setInputController(DartsPlayerScoreService::createInstance(keyPoint,winnerId))
+            ->setInputController(DartsPlayerPointService::createInstance(keyPoint,winnerId))
             ->setDartsJsonModelsService(new DartsSingleAttemptPointJsonService);
     return controller;
 }

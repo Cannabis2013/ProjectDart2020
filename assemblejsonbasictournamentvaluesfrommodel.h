@@ -21,7 +21,7 @@ public:
     {
         QJsonObject obj;
         obj["title"] = dartsTournamentModel->title();
-        obj["winnerName"] = playerService->playerNameFromId(dartsTournamentModel->winnerId());
+        obj["winnerName"] = playerService->playerNameById(dartsTournamentModel->winnerId());
         obj["gameMode"] = dartsTournamentModel->gameMode();
         obj["attempts"] = dartsTournamentModel->attempts();
         obj["keyPoint"] = dartsTournamentModel->keyPoint();

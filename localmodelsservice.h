@@ -48,6 +48,7 @@ public slots:
     void handleRequestTournaments() override;
     void resetDartsPointTournament(const QUuid &tournament) override;
     void resetDartsScoreTournament(const QUuid &tournamentId) override;
+    void setDartsTournamentWinner(const QByteArray &json) override;
     /*
      * Darts tournaments methods
      */

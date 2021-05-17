@@ -10,20 +10,32 @@ DartsPlayerScoreService *DartsPlayerScoreService::createInstance(const int &init
 
 void DartsPlayerScoreService::addPlayerEntity(const QUuid& id, const QString& name)
 {
-    auto tuple = PlayerTuple(id,name,initialScore());
+    auto tuple = PlayerScoreContext::PlayerTuple(id,name,initialScore());
     _playerTuples.append(tuple);
 }
 
 
-int DartsPlayerScoreService::subtractPlayerScore(const QUuid& id, const int& score)
+int DartsPlayerScoreService::subtractPlayerScoreByModel(const DartsScoresContext::DartsScore *model)
 {
-    auto tuple = tupleAtId(id);
+    auto tuple = tupleAtId(model->playerId);
     auto indexOfTuple = indexOf(tuple);
     auto tupleScore = tuple.score;
-    auto newTupleScore = tupleScore - score;
+    auto newTupleScore = tupleScore - model->score;
     tuple.score = newTupleScore;
     replaceTupleAt(indexOfTuple,tuple);
     return newTupleScore;
+}
+
+void DartsPlayerScoreService::subtractPlayerScoreByModels(const QVector<const DartsScoresContext::DartsScore *>& models)
+{
+    for (const auto& model : models) {
+        auto tuple = tupleAtId(model->playerId);
+        auto indexOfTuple = indexOf(tuple);
+        auto tupleScore = tuple.score;
+        auto newTupleScore = tupleScore - model->score;
+        tuple.score = newTupleScore;
+        replaceTupleAt(indexOfTuple,tuple);
+    }
 }
 
 int DartsPlayerScoreService::addPlayerScore(const QUuid &id, const int &score)
@@ -177,28 +189,28 @@ DartsPlayerScoreService::PlayerTuples DartsPlayerScoreService::assembleScoreTubb
         auto userId = userIds.at(i);
         auto userName = userNames.at(i);
         auto userScore = userScores.at(i);
-        tuples += PlayerTuple(userId,userName,userScore);
+        tuples += PlayerScoreContext::PlayerTuple(userId,userName,userScore);
     }
     return tuples;
 }
 
-PlayerTuple DartsPlayerScoreService::tupleAtIndex(const int &index) const
+PlayerScoreContext::PlayerTuple DartsPlayerScoreService::tupleAtIndex(const int &index) const
 {
     auto tuple = _playerTuples.at(index);
     return tuple;
 }
 
-PlayerTuple DartsPlayerScoreService::tupleAtId(const QUuid &id) const{
+PlayerScoreContext::PlayerTuple DartsPlayerScoreService::tupleAtId(const QUuid &id) const{
     for (int i = 0; i < count(); ++i) {
         auto tuple = _playerTuples.at(i);
         auto _id = tuple.id;
         if(id == _id)
             return tuple;
     }
-    return PlayerTuple();
+    return PlayerScoreContext::PlayerTuple();
 }
 
-PlayerTuple DartsPlayerScoreService::tupleAtId(const PlayerTuples *_tuples, const QUuid &id)
+PlayerScoreContext::PlayerTuple DartsPlayerScoreService::tupleAtId(const PlayerTuples *_tuples, const QUuid &id)
 {
     for (const auto &tuple : *_tuples)
     {
@@ -206,7 +218,7 @@ PlayerTuple DartsPlayerScoreService::tupleAtId(const PlayerTuples *_tuples, cons
         if(playerId == id)
             return tuple;
     }
-    return PlayerTuple();
+    return PlayerScoreContext::PlayerTuple();
 }
 
 DartsPlayerScoreService::PlayerTuples DartsPlayerScoreService::createInitializedTuples()
@@ -214,7 +226,7 @@ DartsPlayerScoreService::PlayerTuples DartsPlayerScoreService::createInitialized
     PlayerTuples initializedTuples;
     for (const auto &tuple : qAsConst(_playerTuples))
     {
-        PlayerTuple t;
+        PlayerScoreContext::PlayerTuple t;
         t.id = tuple.id;
         t.name = tuple.name;
         t.score = initialScore();
@@ -223,7 +235,7 @@ DartsPlayerScoreService::PlayerTuples DartsPlayerScoreService::createInitialized
     return initializedTuples;
 }
 
-int DartsPlayerScoreService::indexOf(const PlayerTuple &tuple)
+int DartsPlayerScoreService::indexOf(const PlayerScoreContext::PlayerTuple &tuple)
 {
     for (int i = 0; i < count(); ++i) {
         auto t = _playerTuples.at(i);
@@ -233,7 +245,7 @@ int DartsPlayerScoreService::indexOf(const PlayerTuple &tuple)
     return -1;
 }
 
-void DartsPlayerScoreService::replaceTupleAt(const int &index, const PlayerTuple &tuple)
+void DartsPlayerScoreService::replaceTupleAt(const int &index, const PlayerScoreContext::PlayerTuple &tuple)
 {
     _playerTuples.replace(index,tuple);
 }

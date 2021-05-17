@@ -9,7 +9,7 @@
 #include "IPointCalculatorService.h"
 #include "ipointvalidator.h"
 #include "idartssingleattemptindexservice.h"
-#include "iplayerscoreservice.h"
+#include "iplayerpointservice.h"
 // Json services
 #include "IDartsSingleAttemptPointJsonService.h"
 #define GAME_IS_NOT_IN_PROGRESS "Game is not in progress"
@@ -59,7 +59,7 @@ public:
     DartsPointSingleAttempt *setScoreCalculator(IPointCalculatorService* scoreCalculator);
     DartsPointSingleAttempt *setInputValidator(IPointValidator* scoreEvaluator);
     DartsPointSingleAttempt *setIndexController(IDartsSingleAttemptIndexService *indexController);
-    DartsPointSingleAttempt *setInputController(IPlayerScoreService *scoreController);
+    DartsPointSingleAttempt *setInputController(IPlayerPointService *scoreController);
     /*
      * Point suggestion section
      */
@@ -169,7 +169,7 @@ private:
     // Index service
     IDartsSingleAttemptIndexService* _indexController = nullptr;
     // Userscore service
-    IPlayerScoreService* _scoreController = nullptr;
+    IPlayerPointService* _scoreController = nullptr;
 };
 
 #endif // POINTFTPCONTROLLER_H

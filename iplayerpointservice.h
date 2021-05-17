@@ -1,21 +1,18 @@
-#ifndef USERSCORESCONTROLLERINTERFACE_H
-#define USERSCORESCONTROLLERINTERFACE_H
+#ifndef IPLAYERPOINTSERVICE_H
+#define IPLAYERPOINTSERVICE_H
 
 #include <quuid.h>
-#include <qpair.h>
-#include <qvector.h>
-#include "dartsScoreModels.h"
+#include "dartspointmodels.h"
 
-class IPlayerScoreService
+class IPlayerPointService
 {
 public:
     virtual QUuid winnerId() const = 0;
-    virtual IPlayerScoreService* setWinner(const QUuid& id) = 0;
+    virtual IPlayerPointService* setWinner(const QUuid& id) = 0;
     virtual QString winnerUserName() const = 0;
 
     virtual void addPlayerEntity(const QUuid&,const QString&) = 0;
-    virtual int subtractPlayerScoreByModel(const DartsScoresContext::DartsScore*) = 0;
-    virtual void subtractPlayerScoreByModels(const QVector<const DartsScoresContext::DartsScore*>&) = 0;
+    virtual int subtractPlayerScore(const QUuid& playerId, const int& score) = 0;
     virtual int addPlayerScore(const QUuid&, const int&) = 0;
 
     virtual int playerScore(const int& index) const = 0;
@@ -35,4 +32,4 @@ public:
     virtual void resetScores() = 0;
 };
 
-#endif // USERSCORESCONTROLLERINTERFACE_H
+#endif // IPLAYERPOINTSERVICE_H

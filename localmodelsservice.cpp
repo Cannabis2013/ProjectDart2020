@@ -74,6 +74,16 @@ void LocalModelsService::resetDartsScoreTournament(const QUuid &tournamentId)
     emit tournamentResetSuccess();
 }
 
+void LocalModelsService::setDartsTournamentWinner(const QByteArray& json)
+{
+    auto winnerId = _dartsJsonService->getWinnerIdByJson(json);
+    auto tournamentId = _dartsJsonService->getTournamentIdByJson(json);
+    _dartsModelsService->tournamentSetWinnerId(tournamentId,winnerId);
+    auto winnerName = _playerModelsService->playerNameById(winnerId);
+    auto responseJson = _dartsJsonService->assembleJsonFromPlayerIdAndName(winnerId,winnerName);
+    emit setDartsTournamentWinnerSucces(responseJson);
+}
+
 void LocalModelsService::assembleDartsKeyValues(const QUuid &tournamentId)
 {
     auto model = _dartsModelsService->dartsTournamentModelById(tournamentId);
@@ -108,7 +118,7 @@ void LocalModelsService::handleRequestPlayersDetails()
     QVariantList list;
     for (int i = 0; i < count; ++i) {
         auto playerId = _playerModelsService->playerIdFromIndex(i);
-        auto playerName = _playerModelsService->playerNameFromId(playerId);
+        auto playerName = _playerModelsService->playerNameById(playerId);
         auto mail = _playerModelsService->playerMailFromId(playerId);
         list += {playerName,mail};
     }
@@ -184,9 +194,11 @@ void LocalModelsService::revealScore(const QUuid& tournamentId, const QUuid& pla
 {
     auto alteredModel = _dartsModelsService->setDartsScoreHint(tournamentId,
                                                                playerId,
-                                                               roundIndex,ModelDisplayHint::DisplayHint);
+                                                               roundIndex,
+                                                               ModelDisplayHint::DisplayHint);
     auto json = _dartsJsonService->assembleJsonFromDartsScoreModel(alteredModel);
-    emit revealDartsScoreSuccess(json);
+    auto alteredJson = _dartsJsonService->addPlayerNameToJsonInputModel(json,_playerModelsService);
+    emit revealDartsScoreSuccess(alteredJson);
 }
 
 
@@ -211,7 +223,7 @@ void LocalModelsService::assembleAssignedPlayerEntities(const QUuid& tournamentI
 void LocalModelsService::assembleDartsTournamentWinnerIdAndName(const QUuid& tournamentId)
 {
     auto model = _dartsModelsService->dartsTournamentModelById(tournamentId);
-    auto winnerName = _playerModelsService->playerNameFromId(model->winnerId());
+    auto winnerName = _playerModelsService->playerNameById(model->winnerId());
     auto json = _dartsJsonService->assembleJsonFromPlayerIdAndName(model->winnerId(),winnerName);
     emit sendDartsTournamentWinnerIdAndName(json);
 }

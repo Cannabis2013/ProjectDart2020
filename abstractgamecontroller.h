@@ -36,7 +36,7 @@ public slots:
     virtual void beginInitialize() = 0;
 signals:
     void sendCurrentTournamentId(const QUuid &tournament);
-    void winnerDetermined(const QUuid &tournament, const QUuid &player);
+    void winnerDetermined(const QByteArray& json);
     void requestUpdateContext(const QUuid &tournamentID,
                               const int &roundIndex,
                               const int &setIndex);
@@ -44,7 +44,7 @@ signals:
     void requestPersistModelState();
     void controllerIsNotInitialized();
     void isReset();
-    void winnerDeclared(const QString& jsons);
+    void winnerDeclared(const QByteArray& json);
     void controllerIsStopped();
 };
 

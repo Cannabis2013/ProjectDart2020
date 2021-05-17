@@ -2,7 +2,6 @@
 #define PROJECTDARTINTERFACE_H
 
 #include <QtCore>
-#include <qthreadpool.h>
 #include <iostream>
 
 #include "itournamentbuilder.h"
@@ -10,6 +9,7 @@
 #include "abstractmodelsservicebuilder.h"
 #include "ibinaryservice.h"
 #include "iternaryservice.h"
+#include "qdebug.h"
 
 using namespace std;
 

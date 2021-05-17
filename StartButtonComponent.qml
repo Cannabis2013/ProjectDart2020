@@ -149,7 +149,7 @@ GridLayout{
         PropertyAnimation on height {
             id: restartButtonAnimation
             from: 0
-            to: restartButton.height
+            to: buttonDimensions.defaultHeight
             duration: 125
         }
     }

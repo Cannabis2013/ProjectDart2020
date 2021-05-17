@@ -22,6 +22,7 @@ void registerCustomTypes()
 
 int main(int argc, char *argv[])
 {
+    cout << "start" << endl;
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
     /*
@@ -29,6 +30,7 @@ int main(int argc, char *argv[])
      * Instantiate DartApplication
      */
     auto _dart = ApplicationBuilder::createLocalDartApplicationWithJsonDb();
+
     /*
      * Register custom types/singletons
      */

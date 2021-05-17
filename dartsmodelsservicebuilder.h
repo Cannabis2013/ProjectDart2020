@@ -32,7 +32,6 @@
 #include "getdartsscorebyid.h"
 #include "deletetournamentsbyindexesservice.h"
 
-
 class DartsModelsServiceBuilder :
         public IModelsServiceBuilder<IDartsModelsService>
 {

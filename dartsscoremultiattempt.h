@@ -2,10 +2,6 @@
 #define FIVEHUNDREDANDONEGAME_H
 // Proprietary QT classes
 #include <quuid.h>
-#include <qvariant.h>
-#include <qjsonobject.h>
-#include <qjsonarray.h>
-#include <QJsonDocument>
 // Custom classes
 #include "abstractdartsscorecontroller.h"
 #include "idartslogisticsservice.h"
@@ -110,7 +106,7 @@ public slots:
      *
      * The following methods is called dependently on input hint
      */
-    void assembleSingleAttemptDartsScores() override;
+    void assembleMultiAttemptDartsScores() override;
     void handleRequestDartsScores() override;
 
     void handleScoreAddedToDataContext(const QByteArray& json) override;

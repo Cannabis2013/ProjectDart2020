@@ -79,6 +79,8 @@ public:
     void assembleDartsTournamentWinnerIdAndName(const QUuid &) override;
     void assembleAssignedPlayerScores(const QUuid &) override;
     void assembleDartsScoreIndexes(const QUuid &tournament) override;
+    void resetDartsScoreTournament(const QUuid &tournamentId) override;
+    void setDartsTournamentWinner(const QByteArray &) override;
 private slots:
     void handleRecievedTournamentsReply();
     void handleAddFTPTournamentReply();
@@ -101,10 +103,6 @@ private:
         Success = 0x2
     };
     NetworkManager* _netMng = new NetworkManager(API_HOST_URL);
-
-    // AbstractModelsService interface
-public:
-    void resetDartsScoreTournament(const QUuid &tournamentId) override;
 };
 
 

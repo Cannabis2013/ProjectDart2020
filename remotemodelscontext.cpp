@@ -348,6 +348,11 @@ void RemoteModelsContext::resetDartsScoreTournament(const QUuid &tournamentId)
 
 }
 
+void RemoteModelsContext::setDartsTournamentWinner(const QByteArray &)
+{
+
+}
+
 
 void RemoteModelsContext::hideDartsPoint(const QUuid &, const QUuid &, const int &, const int &)
 {

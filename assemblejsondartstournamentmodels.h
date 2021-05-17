@@ -42,7 +42,7 @@ private:
         auto assignedPlayerIds = model->assignedPlayerIdentities();
         auto assignedPlayerNames = playerModelsService->assemblePlayerNamesFromIds(assignedPlayerIds);
         auto winnerId = model->winnerId();
-        auto winnerName = playerModelsService->playerNameFromId(winnerId);
+        auto winnerName = playerModelsService->playerNameById(winnerId);
         QJsonObject jsonObject;
         jsonObject["title"] = model->title();
         jsonObject["gameMode"] = model->gameMode();
@@ -53,7 +53,7 @@ private:
         jsonObject["assignedPlayerIds"] = assembleJsonPlayerArray(model->assignedPlayerIdentities());
         jsonObject["assignedPlayerNames"] = assembleJsonByAssignedPlayerNames(assignedPlayerNames);
         jsonObject["winnerId"] = winnerId.toString(QUuid::WithoutBraces);
-        jsonObject["winnerName"] = playerModelsService->playerNameFromId(model->winnerId());
+        jsonObject["winnerName"] = playerModelsService->playerNameById(model->winnerId());
         return jsonObject;
     }
     QJsonArray assembleJsonPlayerArray(const QVector<QUuid>& playerIds)

@@ -1,32 +1,30 @@
 #ifndef ADDPLAYERNAMETOPOINTJSON_H
 #define ADDPLAYERNAMETOPOINTJSON_H
 
-#include "iplayermodelsservice.h"
+#include "idartsscoreinput.h"
 #include "ibinaryservice.h"
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 
 class AddPlayerNameToJsonInputModel :
-        public IBinaryService<const QByteArray&,
-                              const IPlayerModelsService*,
+        public IBinaryService<const IDartsScoreInput*,
+                              const QString&,
                               QByteArray>
 {
-
-
-    // IBinaryService interface
 public:
-    QByteArray service(const QByteArray& json,const IPlayerModelsService* playerService) override
+    QByteArray service(const IDartsScoreInput* dartsScore,const QString& playerName) override
     {
-        auto document = QJsonDocument::fromJson(json);
-        auto jsonObject = document.object();
-        auto playerStringId = jsonObject.value("playerId").toString();
-        auto playerId = QUuid::fromString(playerStringId);
-        auto playerName = playerService->playerNameFromId(playerId);
+        QJsonObject jsonObject;
+        jsonObject["score"] = dartsScore->score();
+        jsonObject["hint"] = dartsScore->hint();
+        jsonObject["playerId"] = dartsScore->playerId().toString(QUuid::WithoutBraces);
         jsonObject["playerName"] = playerName;
-        auto newDocument = QJsonDocument(jsonObject);
-        auto newJSon = newDocument.toJson();
-        return newJSon;
+        jsonObject["roundIndex"] = dartsScore->roundIndex();
+        jsonObject["setIndex"] = dartsScore->setIndex();
+        jsonObject["tournamentId"] = dartsScore->tournamentId().toString(QUuid::WithoutBraces);
+        auto document = QJsonDocument(jsonObject);
+        auto json = document.toJson();
+        return json;
     }
 };
-
 #endif // ADDPLAYERNAMETOPOINTJSON_H

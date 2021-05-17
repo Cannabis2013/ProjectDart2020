@@ -8,7 +8,7 @@
 #include "dartsscoreinput.h"
 
 class AssembleDartsScoreFromJson : public
-        IUnaryService<const QByteArray&,const IDartsScoreInput<QUuid>*>
+        IUnaryService<const QByteArray&,const IDartsScoreInput*>
 {
 public:
     enum ModelDisplayHint{
@@ -16,7 +16,7 @@ public:
         DisplayHint = 0x2,
         allHints = 0x3
     };
-    const IDartsScoreInput<QUuid>* service(const QByteArray& json) override
+    const IDartsScoreInput* service(const QByteArray& json) override
     {
         auto jsonObject = QJsonDocument::fromJson(json).object();
         auto tournamentStringId = jsonObject.value("tournamentId").toString();

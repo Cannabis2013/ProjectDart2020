@@ -29,6 +29,7 @@ public:
     virtual void resetDartsPointTournament(const QUuid &tournament) = 0;
     virtual void resetDartsScoreTournament(const QUuid& tournamentId) = 0;
     virtual void assembleDartsKeyValues(const QUuid& tournament) = 0;
+    virtual void setDartsTournamentWinner(const QByteArray&) = 0;
     // Darts singleattempt point methods
     virtual void addDartsPoint(const QByteArray& json) = 0;
     virtual void hideDartsPoint(const QUuid&,
@@ -95,6 +96,7 @@ signals:
     void tournamentResetFailed();
     void tournamentsDeletedStatus(const bool &status);
     void sendTournaments(const QByteArray& json);
+    void setDartsTournamentWinnerSucces(const QByteArray& json);
 
     /*
      * Player-models signals

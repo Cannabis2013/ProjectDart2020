@@ -6,42 +6,45 @@
 
 #define INCONSISTENCY_EXCEPTION_MESSAGE "User inconsistency!"
 
-struct PlayerTuple
+namespace PlayerScoreContext
 {
-    PlayerTuple(QUuid _id, QString _name, int _score)
+    struct PlayerTuple
     {
-        id = _id;
-        name = _name;
-        score = _score;
-    }
-    PlayerTuple(){}
+        PlayerTuple(QUuid _id, QString _name, int _score)
+        {
+            id = _id;
+            name = _name;
+            score = _score;
+        }
+        PlayerTuple(){}
 
-    bool operator==(const PlayerTuple& other){
-        if(other.id != this->id)
-            return false;
-        else if(other.name != this->name)
-            return false;
-        else if(other.score != this->score)
-            return false;
-        return true;
-    }
-    QUuid id;
-    QString name;
-    int score;
-};
-
+        bool operator==(const PlayerTuple& other){
+            if(other.id != this->id)
+                return false;
+            else if(other.name != this->name)
+                return false;
+            else if(other.score != this->score)
+                return false;
+            return true;
+        }
+        QUuid id;
+        QString name;
+        int score;
+    };
+}
 
 class DartsPlayerScoreService : public IPlayerScoreService
 {
 public:
     // Tuple : {UserId, UserName, UserScore}
-    typedef QList<PlayerTuple> PlayerTuples;
+    typedef QVector<PlayerScoreContext::PlayerTuple> PlayerTuples;
     typedef QPair<QUuid,QString> PlayerPair;
-    typedef QList<PlayerPair> PlayerPairs;
+    typedef QVector<PlayerPair> PlayerPairs;
     static DartsPlayerScoreService* createInstance(const int& initialScore,
                                               const QUuid &winner);
     virtual void addPlayerEntity(const QUuid &id, const QString &name) override;
-    virtual int subtractPlayerScore(const QUuid& id, const int &score) override;
+    virtual int subtractPlayerScoreByModel(const DartsScoresContext::DartsScore* model) override;
+    void subtractPlayerScoreByModels(const QVector<const DartsScoresContext::DartsScore *> &models) override;
     virtual int addPlayerScore(const QUuid& id, const int &score) override;
     // UserScoresControllerInterface interface
     int playerScore(const int &index) const override;
@@ -70,14 +73,13 @@ private:
     PlayerTuples assembleScoreTubble(const QVector<QUuid>& userIds,
                              const QVector<QString>& userNames,
                              const QVector<int>& userScores);
-    PlayerTuple tupleAtIndex(const int &index) const;
-    PlayerTuple tupleAtId(const QUuid& id) const;
-    PlayerTuple tupleAtId(const PlayerTuples* _tuples, const QUuid& id);
+    PlayerScoreContext::PlayerTuple tupleAtIndex(const int &index) const;
+    PlayerScoreContext::PlayerTuple tupleAtId(const QUuid& id) const;
+    PlayerScoreContext::PlayerTuple tupleAtId(const PlayerTuples* _tuples, const QUuid& id);
     PlayerTuples createInitializedTuples();
 
-    int indexOf(const PlayerTuple& tuple);
-
-    void replaceTupleAt(const int &index,const PlayerTuple &tuple);
+    int indexOf(const PlayerScoreContext::PlayerTuple& tuple);
+    void replaceTupleAt(const int &index,const PlayerScoreContext::PlayerTuple &tuple);
     int count() const;
     int _initialScore;
     PlayerTuples _playerTuples;

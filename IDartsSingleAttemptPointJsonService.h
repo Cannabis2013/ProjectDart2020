@@ -6,39 +6,14 @@
 #include <qbytearray.h>
 #include <qvector.h>
 #include <iplayerscoreservice.h>
+#include "dartspointmodels.h"
 
-namespace DartsPointInputContext {
-    struct DartsInputKeyValues
-    {
-        int pointValue;
-        int modKeyCode;
-    };
-    struct DartsInputExtendedValues
-    {
-        int pointValue;
-        int modKeyCode;
-        QUuid playerId;
-    };
-    struct DartsInputPlayerDetails
-    {
-        QUuid playerId;
-        QString playerName;
-    };
-    struct DartsSingleAttemptIndexes
-    {
-        int totalTurns;
-        int turns;
-        int roundIndex;
-        int setIndex;
-        int attemptIndex;
-    };
-}
 
 class IDartsSingleAttemptPointJsonService
 {
 public:
     typedef DartsPointInputContext::DartsInputKeyValues KeyInputValues;
-    typedef DartsPointInputContext::DartsInputExtendedValues ExtendedInputValues;
+    typedef DartsPointInputContext::DartsPointModel ExtendedInputValues;
     typedef DartsPointInputContext::DartsInputPlayerDetails PlayerDetailsStruct;
     typedef DartsPointInputContext::DartsSingleAttemptIndexes DartsIndexes;
     virtual const KeyInputValues* assemblePointStructFromJson(const QByteArray&) const = 0;

@@ -36,7 +36,7 @@ private:
     QString getPlayerNameFromPlayerId(const QUuid& playerId,
                                       const IPlayerModelsService* playerModelsService)
     {
-        auto playerName = playerModelsService->playerNameFromId(playerId);
+        auto playerName = playerModelsService->playerNameById(playerId);
         return playerName;
     }
 };

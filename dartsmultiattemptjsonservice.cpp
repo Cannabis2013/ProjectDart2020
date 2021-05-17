@@ -1,32 +1,32 @@
 #include "dartsmultiattemptjsonservice.h"
 
-const IDartsMultiAttemptJsonService::KeyInputValues *DartsMultiAttemptJsonService::assemblePointStructFromJson(const QByteArray &json) const
+int DartsMultiAttemptJsonService::getScoretByJson(const QByteArray &json) const
 {
-    KeyInputValues* inputValueModel = new KeyInputValues;
     auto jsonObject = QJsonDocument::fromJson(json).object();
-    inputValueModel->score = jsonObject.value("score").toInt();
+    auto inputValueModel = jsonObject.value("score").toInt();
     return inputValueModel;
 }
 
-const IDartsMultiAttemptJsonService::ExtendedInputValues *DartsMultiAttemptJsonService::assembleExtendedInputModelFromJson(const QByteArray &json) const
+const DartsScoresContext::DartsScore *DartsMultiAttemptJsonService::assembleDartsScoreByJson(const QByteArray &json) const
 {
     auto document = QJsonDocument::fromJson(json);
     auto obj = document.object();
-    ExtendedInputValues* extendedValueModel = new ExtendedInputValues;
+    DartsScoresContext::DartsScore* dartsScore = new DartsScoresContext::DartsScore;
     auto playerStringId = obj.value("playerId").toString();
-    extendedValueModel->playerId = QUuid::fromString(playerStringId);
-    extendedValueModel->score = obj.value("score").toInt();
-    return extendedValueModel;
+    dartsScore->playerId = QUuid::fromString(playerStringId);
+    dartsScore->score = obj.value("score").toInt();
+    dartsScore->playerName = obj.value("playerName").toString();
+    return dartsScore;
 }
 
-QVector<const IDartsMultiAttemptJsonService::ExtendedInputValues *> DartsMultiAttemptJsonService::assembleExtendedInputModelsFromJson(const QByteArray &json) const
+QVector<const DartsScoresContext::DartsScore *> DartsMultiAttemptJsonService::assembleDartsScoresByJson(const QByteArray &json) const
 {
     auto document = QJsonDocument::fromJson(json);
     auto scoreData = document.array();
-    QVector<const ExtendedInputValues*> extendedValueModels;
+    QVector<const DartsScoresContext::DartsScore*> extendedValueModels;
     for (const auto &jsonVal : scoreData) {
         auto obj = jsonVal.toObject();
-        ExtendedInputValues* extendedValueModel = new ExtendedInputValues;
+        DartsScoresContext::DartsScore* extendedValueModel = new DartsScoresContext::DartsScore;
         extendedValueModel->score = obj.value("score").toInt();
         auto playerStringId = obj.value("playerId").toString();
         extendedValueModel->playerId = QUuid::fromString(playerStringId);
@@ -125,9 +125,13 @@ QByteArray DartsMultiAttemptJsonService::assembleJsonAddScoreValues(const QUuid 
     return json;
 }
 
-QByteArray DartsMultiAttemptJsonService::assembleJsonWinnerName(const QString &winnerName) const
+QByteArray DartsMultiAttemptJsonService::assembleJsonWinnerName(const QUuid& tournamentId,
+                                                                const QUuid &winnerId) const
 {
-    QJsonObject jsonObject = {{"winner",winnerName}};
+    QJsonObject jsonObject = {
+        {"tournamentId",tournamentId.toString(QUuid::WithoutBraces)},
+        {"winnerId",winnerId.toString(QUuid::WithoutBraces)}
+    };
     auto json = QJsonDocument(jsonObject).toJson(QJsonDocument::Compact);
     return json;
 }

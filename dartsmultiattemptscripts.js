@@ -104,6 +104,7 @@ function extractScoreFromJson(data)
 function reinitialize()
 {
     multiAttemptScoreBoard.clearData();
+    multiAttemptScoreTurnController.backendIsStopped();
     initializeScoreBoard();
     requestStatusFromBackend();
 }
@@ -158,7 +159,7 @@ function backendIsStopped()
 function backendDeclaredAWinner(data)
 {
     var json = JSON.parse(data);
-    tournamentMetaData.determinedWinner = json.winner;
+    dartsMultiAttemptValues.winnerName = json.playerName;
     dartsMultiAttemptBody.state = "winner";
 }
 
@@ -177,6 +178,6 @@ function redoClicked()
 function setWinnerText()
 {
     var winnerName = textSourceContainer.winnerLabel + " " +
-            tournamentMetaData.determinedWinner;
+            dartsMultiAttemptValues.winnerName;
     notificationItemSlot.setCurrentWinner(winnerName);
 }

@@ -34,6 +34,8 @@ public:
     const IDartsScoreInput *assembleDartsScoreModelFromJson(const QByteArray &json) const override;
     QByteArray assembleJsonFromDartsScoreModel(const IDartsScoreInput *model) const override;
     QByteArray assembleJsonFromDartsMultiAttemptScores(const QVector<const IDartsScoreInput *> &models) const override;
+    QUuid getWinnerIdByJson(const QByteArray &json) const override;
+    QUuid getTournamentIdByJson(const QByteArray &json) const override;
     // Get/set service methods
     DartsJsonService* setAssembleDartsTournamentFromJson(IUnaryService<const QByteArray &, const IDartsTournament *> *assembleDartsTournamentFromJson);
     DartsJsonService* setGetPlayerIndexesFromJson(IUnaryService<const QByteArray &, QVector<int> > *getPlayerIndexesFromJson);
@@ -51,13 +53,16 @@ public:
     DartsJsonService* setAssembleDartsPointModelFromJson(IUnaryService<const QByteArray &, const IDartsPointInput *> *assembleDartsPointModelFromJson);
     DartsJsonService* setAssemblePlayerModelFromJson(IUnaryService<const QByteArray &, const IPlayerModel *> *assemblePlayerModelFromJson);
     DartsJsonService* setAssignPlayerIdsToDartsTournament(IBinaryService<const IDartsTournament *, const QVector<QUuid> &, const IDartsTournament *> *assignPlayerIdsToDartsTournament);
-    DartsJsonService* setAddPlayerNameToJsonPointModel(IBinaryService<const QByteArray &, const IPlayerModelsService *, QByteArray> *addPlayerNameToJsonPointModel);
+    DartsJsonService* setAddPlayerNameToJsonPointModel(IBinaryService<const IDartsScoreInput *, const QString &, QByteArray> *addPlayerNameToJsonPointModel);
     DartsJsonService* setAssembleJsonFromDartsPointModel(IUnaryService<const IDartsPointInput *, QByteArray> *assembleJsonFromDartsPointModel);
     DartsJsonService* setAssembleDartsScoreFromJson(IUnaryService<const QByteArray &, const IDartsScoreInput *> *assembleDartsScoreFromJson);
     DartsJsonService* setAssembleJsonFromDartsScoreModel(IUnaryService<const IDartsScoreInput *, QByteArray> *assembleJsonFromDartsScoreModel);
     DartsJsonService* setAssembleJsonFromDartsMultiAttemptScores(IUnaryService<const QVector<const IDartsScoreInput *> &, QByteArray> *assembleJsonFromDartsMultiAttemptScores);
 
     DartsJsonService* setAssembleJsonByDartsScoreIndexes(IUnaryService<const IDartsScoreIndexes *, QByteArray> *assembleJsonByDartsScoreIndexes);
+    DartsJsonService* setGetPlayerNameById(IBinaryService<const QUuid &, const IPlayerModelsService *, QString> *getPlayerNameById);
+    DartsJsonService* setGetWinnerIdByJson(IUnaryService<const QByteArray &, QUuid> *getWinnerIdByJson);
+    DartsJsonService* setGetTournamentIdByJson(IUnaryService<const QByteArray &, QUuid> *getTournamentIdByJson);
 
 private:
     IUnaryService<const QByteArray&,
@@ -92,13 +97,16 @@ private:
     IBinaryService<const IDartsTournament*,
                            const QVector<QUuid>&,
                            const IDartsTournament*>* _assignPlayerIdsToDartsTournament;
-    IBinaryService<const QByteArray&,
-                   const IPlayerModelsService*,
-                   QByteArray>* _addPlayerNameToJsonInputModel;
-    IUnaryService<const IDartsPointInput*,QByteArray>* _assembleJsonFromDartsPointModel;
-    IUnaryService<const QByteArray&,const IDartsScoreInput*>* _assembleDartsScoreFromJson;
+    IBinaryService<const IDartsScoreInput*,
+                   const QString&,
+                   QByteArray>* _assembleJsonByDartsScoreAndPlayerName;
+    IUnaryService<const IDartsPointInput*,QByteArray>* _assembleJsonByDartsPointModel;
+    IUnaryService<const QByteArray&,const IDartsScoreInput*>* _assembleDartsScoreByJson;
     IUnaryService<const IDartsScoreInput*,QByteArray>* _assembleJsonFromDartsScoreModel;
     IUnaryService<const IDartsScoreIndexes*,QByteArray>* _assembleJsonByDartsScoreIndexes;
+    IBinaryService<const QUuid&, const IPlayerModelsService*,QString>* _getPlayerNameById;
+    IUnaryService<const QByteArray&, QUuid>* _getWinnerIdByJson;
+    IUnaryService<const QByteArray&, QUuid>* _getTournamentIdByJson;
 };
 
 #endif // DARTSMODELSJSONSERVICE_H
