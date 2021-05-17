@@ -128,18 +128,19 @@ function backendRemovedPoint(data)
 function backendIsReadyAndAwaitsInput(data)
 {
     var json = JSON.parse(data);
-    let canUndo = json.canUndo;
-    let canRedo = json.canRedo;
-    let currentRoundIndex = json.roundIndex;
-    let currentPlayerUserName = json.currentUserName;
     let throwSuggestion = json.targetRow;
     let suggestion = textSourceContainer.throwSuggestLabel + " " + throwSuggestion;
     notificationItemSlot.setThrowSuggestion(suggestion);
-    singleAttemptTurnController.updateState(currentRoundIndex,
-                                            currentPlayerUserName,
-                                            canUndo,
-                                            canRedo);
+    setTurnControllerValues(json);
     dartsSingleAttemptBody.state = "waitingForInput";
+}
+
+function setTurnControllerValues(json)
+{
+    singleAttemptTurnController.leftButtonEnabled = json.canUndo;
+    singleAttemptTurnController.rightButtonEnabled = json.canRedo;
+    singleAttemptTurnController.currentRoundIndex = json.roundIndex;
+    singleAttemptTurnController.currentPlayer = json.currentUserName;
 }
 
 function handlePointKeyPadInput(value,keyCode){

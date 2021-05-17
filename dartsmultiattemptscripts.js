@@ -105,6 +105,7 @@ function reinitialize()
 {
     multiAttemptScoreBoard.clearData();
     multiAttemptScoreTurnController.backendIsStopped();
+    keyDataDisplay.clear();
     initializeScoreBoard();
     requestStatusFromBackend();
 }
@@ -127,18 +128,18 @@ function backendRemovedPoint(data)
 function backendIsReadyAndAwaitsInput(data)
 {
     var json = JSON.parse(data);
-    let canUndo = json.canUndo;
-    let canRedo = json.canRedo;
-    let currentRoundIndex = json.roundIndex;
-    let currentPlayerUserName = json.currentUserName;
     let throwSuggestion = json.targetRow;
-    let suggestion = textSourceContainer.throwSuggestLabel + " " + throwSuggestion;
-    notificationItemSlot.setThrowSuggestion(suggestion);
-    multiAttemptScoreTurnController.updateState(currentRoundIndex,
-                                         currentPlayerUserName,
-                                         canUndo,
-                                         canRedo);
+    keyDataDisplay.setThrowSuggestion(throwSuggestion);
     dartsMultiAttemptBody.state = "waitingForInput";
+    setTurnControllerValues(json);
+}
+
+function setTurnControllerValues(json)
+{
+    multiAttemptScoreTurnController.leftButtonEnabled = json.canUndo;
+    multiAttemptScoreTurnController.rightButtonEnabled = json.canRedo;
+    multiAttemptScoreTurnController.currentRoundIndex = json.roundIndex;
+    multiAttemptScoreTurnController.currentPlayer = json.currentUserName;
 }
 
 function handleScoreKeyPadInput(value){
@@ -177,7 +178,5 @@ function redoClicked()
 
 function setWinnerText()
 {
-    var winnerName = textSourceContainer.winnerLabel + " " +
-            dartsMultiAttemptValues.winnerName;
-    notificationItemSlot.setCurrentWinner(winnerName);
+    keyDataDisplay.setCurrentWinner(dartsMultiAttemptValues.winnerName);
 }

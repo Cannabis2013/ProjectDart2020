@@ -14,6 +14,7 @@ DartApplication *DartApplication::createInstance()
 
 DartApplication *DartApplication::setup()
 {
+    registerTypes();
     _modelsContext = _modelsServiceBuilder->buildLocalModelsServiceWithJsonDb();
     _connectModelsServiceInterface->service(this,_modelsContext);
     _connectControllerBuilder->service(this,_controllerBuilder,_modelsContext);
@@ -31,6 +32,14 @@ DartApplication *DartApplication::useThreads()
     }
     setUsingThreads(true);
     return this;
+}
+
+void DartApplication::registerTypes()
+{
+    qRegisterMetaType<QByteArray>("QByteArray");
+    qRegisterMetaType<AbstractApplicationInterface*>("AbstractApplicationInterface");
+    qRegisterMetaType<AbstractModelsService*>("AbstractModelsService");
+    qRegisterMetaType<AbstractGameController*>("AbstractGameController");
 }
 
 void DartApplication::handleTournamentsRequest(){

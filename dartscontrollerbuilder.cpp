@@ -86,6 +86,7 @@ AbstractDartsScoreController *DartsControllerBuilder::assembleDartsScoreControll
 DartsControllerBuilder* DartsControllerBuilder::setConnectDartsMultiAttemptScoreController(ITernaryService<AbstractDartsScoreController *, AbstractApplicationInterface *, AbstractModelsService *, void> *connectDartsScoreController)
 {
     _connectDartsScoreController = connectDartsScoreController;
+    return this;
 }
 
 DartsControllerBuilder* DartsControllerBuilder::setConnectDartsSingleAttemptPointController(ITernaryService<AbstractDartsPointController *, AbstractApplicationInterface *, AbstractModelsService *, AbstractDartsPointController *> *connectDartsPointController)

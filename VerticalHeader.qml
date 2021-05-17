@@ -4,13 +4,13 @@ import CustomItems 1.0
 
 Column
 {
-    id: body
+    id: verticalHeaderBody
     signal clearData()
     onClearData: verticalHeaderRepeater.model = 0
     property color backgroundColor: "transparent"
     onBackgroundColorChanged: cellBody.color = backgroundColor
     property int fontSize: 12
-    onFontSizeChanged: cellBodyText.font.pointSize = body.fontSize
+    onFontSizeChanged: cellBodyText.font.pointSize = verticalHeaderBody.fontSize
     property color fontColor: "black"
     onFontColorChanged: cellBodyText.color = fontColor
     property int cellWidth: 125
@@ -50,24 +50,24 @@ Column
     Repeater
     {
         id: verticalHeaderRepeater
-        model: body.model
+        model: verticalHeaderBody.model
 
         MyRectangle {
             id: cellBody
 
-            width: body.width
-            height: body.cellHeight
+            width: verticalHeaderBody.width
+            height: verticalHeaderBody.cellHeight
 
-            rightBorderWidth: body.borderWidth
-            bottomBorderWidth: body.borderWidth
+            rightBorderWidth: verticalHeaderBody.borderWidth
+            bottomBorderWidth: verticalHeaderBody.borderWidth
 
-            borderColor: body.borderColor
+            borderColor: verticalHeaderBody.borderColor
             color: backgroundColor
             Text {
                 id: cellBodyText
-                color: body.fontColor
+                color: verticalHeaderBody.fontColor
                 text: "Column text"
-                font.pointSize: 12
+                font.pointSize: verticalHeaderBody.fontSize
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 anchors.fill: parent

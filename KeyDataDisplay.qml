@@ -4,14 +4,42 @@ import QtQuick.Layouts 1.3
 GridLayout{
     flow: GridLayout.TopToBottom
 
+    QtObject{
+        id: defaultTextLabels
+        property string throwSuggestLabel: "Target row:"
+        property string winnerLabel: "Winner:"
+    }
+
+    signal clear()
+    onClear: {
+        winnerText.text = "";
+        suggestText.text = "";
+    }
+
     function setCurrentWinner(text)
     {
-        winnerText.text = text;
+        if(text !== "")
+        {
+            winnerText.visible = true;
+            winnerText.text = defaultTextLabels.winnerLabel + text;
+        }
+        else
+            winnerText.visible = false;
     }
 
     function setThrowSuggestion(text)
     {
-        suggestText.text = text;
+        if(text !== "")
+        {
+            suggestText.visible = true;
+            suggestText.text = defaultTextLabels.throwSuggestLabel + text;
+        }
+        else
+            suggestText.visible = false;
+    }
+    Rectangle{
+        color: "transparent"
+        Layout.fillHeight: true
     }
 
     Text {
@@ -22,6 +50,7 @@ GridLayout{
         font.pointSize: 16
         Layout.alignment: Qt.AlignBottom
         color: ThemeContext.keyTextDisplayColor
+        visible: false
     }
     Text {
         id: suggestText
@@ -29,10 +58,8 @@ GridLayout{
         Layout.fillHeight: true
         Layout.fillWidth: true
         font.pointSize: 16
-        Layout.alignment: Qt.AlignTop
+        Layout.alignment: Qt.AlignBottom
         color: ThemeContext.keyTextDisplayColor
-    }
-    Rectangle{
-        Layout.fillHeight: true
+        visible: false
     }
 }

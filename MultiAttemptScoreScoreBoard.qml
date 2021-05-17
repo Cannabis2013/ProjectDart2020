@@ -9,10 +9,11 @@ ScoreBoard {
     // Fonts
     QtObject{
         id: dataValues
-        readonly property int scoreFontSize: 16
+        readonly property int scoreFontSize: 32
         readonly property double sizeScale: 1.2
         readonly property color delegateBackgroundColor: "green"
         readonly property int delegateBorderRadius: 10
+        readonly property int headerFontSize: 16
     }
 
     // Data related
@@ -29,6 +30,7 @@ ScoreBoard {
     onHorizontalHeaderFontSizeChanged: multiAttemptScoreDataModel.headerFontSize = multiAttemptScoreBoardBody.horizontalHeaderFontSize
     verticalHeaderVisible: true
     onAppendHeaderData: ScoreScripts.setHeaderData(data,defaultVal)
+    verticalHeaderFontSize: dataValues.headerFontSize
     // Cell related
     property int cellBorderWidth: 0
     onCellBorderWidthChanged: delegate.borderWidth = cellBorderWidth
@@ -58,6 +60,7 @@ ScoreBoard {
         attempts: 1
         scoreFontPointSize: dataValues.scoreFontSize
         scale: dataValues.sizeScale
+        headerFontSize: dataValues.headerFontSize
     }
     cellDelegate: SingleScoreDelegate {
         id: delegate

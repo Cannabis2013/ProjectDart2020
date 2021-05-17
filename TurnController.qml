@@ -3,7 +3,7 @@ import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.5
 
 Item {
-    id: body
+    id: turnControllerBody
     clip: true
     // Buttons
     signal startButtonClicked
@@ -14,28 +14,15 @@ Item {
     signal rightButtonClicked
     // Signal backend states
     signal backendIsReady
-    onBackendIsReady: startButtonComponent.setStartMode()
+    onBackendIsReady: state = "startState"
     signal backendAwaitsInput
-    onBackendAwaitsInput: {
-        startButtonComponent.setRunningMode();
-    }
+    onBackendAwaitsInput: state = "runningState"
     signal backendProcessesInput
-    onBackendProcessesInput: {
-        startButtonComponent.setWaitState();
-        leftButton.enabled = false;
-        rightButton.enabled = false;
-    }
+    onBackendProcessesInput: state = "waitState"
     signal backendIsStopped
-    onBackendIsStopped: {
-        startButtonComponent.setStoppedState();
-        leftButton.enabled = false;
-        rightButton.enabled = false;
-    }
+    onBackendIsStopped: state = "stoppedState"
     signal backendHasDeclaredAWinner()
-    onBackendHasDeclaredAWinner: {
-        startButtonComponent.setRestartMode();
-        updateState(currentRoundIndex,currentPlayer,false,false);
-    }
+    onBackendHasDeclaredAWinner: state = "restartState"
     signal startButtonPressAndHoldClicked
     signal leftButtonPressAndHoldClicked
     signal rightButtonPressAndHoldClicked
@@ -44,23 +31,27 @@ Item {
     onStartButtonEnablePressAndHoldChanged: startButtonComponent.pressAndHoldEnabled = startButtonEnablePressAndHold
 
     property int currentRoundIndex: 0
-    property string currentPlayer: ""
-
     onCurrentRoundIndexChanged: currentRoundLabel.text = currentRoundIndex
+    property string currentPlayer: ""
     onCurrentPlayerChanged: currentPlayerLabel.text = currentPlayer
-
-    function updateState(roundIndex, playerName, undoPossible, redoPossible)
-    {
-        currentRoundIndex  = roundIndex;
-        body.currentPlayer = playerName;
-        leftButton.enabled = undoPossible;
-        rightButton.enabled = redoPossible;
-    }
+    property bool leftButtonEnabled: false
+    onLeftButtonEnabledChanged: leftButton.enabled = leftButtonEnabled
+    property bool rightButtonEnabled: false
+    onRightButtonEnabledChanged: rightButton.enabled = rightButtonEnabled
     QtObject{
         id: textBeholder
         property string currentRoundText: qsTr("Current round: ")
         property string currentPlayerText: qsTr("Current player: ")
     }
+
+    function updateState(roundIndex, playerName, undoPossible, redoPossible)
+    {
+        currentRoundIndex  = roundIndex;
+        turnControllerBody.currentPlayer = playerName;
+        leftButton.enabled = undoPossible;
+        rightButton.enabled = redoPossible;
+    }
+
     GridLayout{
         flow: GridLayout.LeftToRight
         anchors.fill: parent
@@ -68,11 +59,14 @@ Item {
             id: startButtonComponent
             Layout.fillHeight: true
             Layout.preferredWidth: 64
-            onPressAndHoldClicked: startButtonPressAndHoldClicked()
-            onResumeButtonClicked: body.resumeButtonClicked()
-            onPauseButtonClicked: body.pauseButtonClicked()
-            onStartButtonClicked: body.startButtonClicked()
-            onRestartButtonClicked: body.restartButtonClicked()
+            onResumeButtonClicked: turnControllerBody.resumeButtonClicked()
+            onPauseButtonClicked: turnControllerBody.pauseButtonClicked()
+            onStartButtonClicked: turnControllerBody.startButtonClicked()
+            onRestartButtonClicked: {
+                turnControllerBody.restartButtonClicked();
+                turnControllerBody.state = "startState";
+            }
+            onPressAndHoldClicked: turnControllerBody.state = "optionsState";
         }
         PushButton{
             id: leftButton
@@ -101,7 +95,7 @@ Item {
                 color: ThemeContext.navTextDisplayColor
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                text: "" + currentRoundIndex
+                text: currentRoundIndex
                 font.pointSize: 24
                 verticalAlignment: Text.AlignBottom
                 horizontalAlignment: Text.AlignHCenter
@@ -133,4 +127,104 @@ Item {
             enabled: false
         }
     }
+    states: [
+        State {
+            name: "initialState"
+            PropertyChanges {
+                target: startButtonComponent
+                textDescriptionVisible : true
+                startButtonVisible: true
+                startButtonEnabled: false
+            }
+        },
+        State {
+            name: "startState"
+            PropertyChanges {
+                target: startButtonComponent
+                startButtonVisible: true
+                startButtonEnabled: true
+            }
+        },
+        State {
+            name: "runningState"
+            PropertyChanges {
+                target: startButtonComponent
+                textDescriptionVisible: true
+                pauseButtonVisible: true
+            }
+            PropertyChanges {
+                target: leftButton
+                enabled: turnControllerBody.leftButtonEnabled
+            }
+            PropertyChanges {
+                target: rightButton
+                enabled: turnControllerBody.rightButtonEnabled
+            }
+        },
+        State {
+            name: "waitState"
+            PropertyChanges {
+                target: startButtonComponent
+                waitButtonVisible: true
+            }
+            PropertyChanges {
+                target: leftButton
+                enabled: false
+            }
+            PropertyChanges {
+                target: rightButton
+                enabled: false
+            }
+        },
+        State {
+            name: "stoppedState"
+            PropertyChanges {
+                target: startButtonComponent
+                resumeButtonVisible: true
+            }
+            PropertyChanges {
+                target: leftButton
+                enabled: false
+            }
+            PropertyChanges {
+                target: rightButton
+                enabled: false
+            }
+        },
+        State {
+            name: "optionsState"
+            PropertyChanges {
+                target: startButtonComponent
+                textDescriptionVisible: true
+                restartButtonVisible: true
+                startButtonVisible: startButtonVisible
+                pauseButtonVisible: pauseButtonVisible
+                resumeButtonVisible: resumeButtonVisible
+            }
+        },
+        State {
+            name: "restartState"
+            PropertyChanges {
+                target: startButtonComponent
+                restartButtonVisible: true
+            }
+            PropertyChanges {
+                target: currentRoundLabel
+                text: turnControllerBody.currentRoundIndex
+            }
+            PropertyChanges {
+                target: currentPlayerLabel
+                text: turnControllerBody.currentPlayer
+            }
+            PropertyChanges {
+                target: leftButton
+                enabled: false
+            }
+            PropertyChanges {
+                target: rightButton
+                enabled: false
+            }
+        }
+    ]
+    Component.onCompleted: state = "initialState"
 }

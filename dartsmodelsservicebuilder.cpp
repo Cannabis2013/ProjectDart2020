@@ -33,6 +33,5 @@ IDartsModelsService *DartsModelsServiceBuilder::buildModelsService() const
             ->setGetDartsScoreByParametersService(new GetDartsScoreByParameters)
             ->setGetDartsScoreByIdService(new GetDartsScoreById)
             ->setDeleteTournamentsByIndexes(new DeleteTournamentsByIndexesService);
-
     return dartsModelsService;
 }

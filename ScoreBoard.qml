@@ -94,6 +94,7 @@ ScoreBoardInterface{
             interactive: false
             VerticalHeader {
                 id: verticalHeader
+                fontSize: scoreBoardBody.verticalHeaderFontSize
                 anchors.fill: parent
                 backgroundColor: scoreBoardBody.verticalHeaderBackgroundColor
                 fontColor: scoreBoardBody.verticalHeaderFontColor

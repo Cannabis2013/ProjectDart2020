@@ -7,7 +7,6 @@
 #include "AbstractApplicationInterface.h"
 #include "abstractmodelsservice.h"
 
-#include <qobject.h>
 
 class ConnectDartsSingleAttemptPointController :
         public ITernaryService<AbstractDartsPointController*,

@@ -17,20 +17,22 @@ class ApplicationBuilder
 public:
     static DartApplication* createLocalDartApplicationWithJsonDb()
     {
+
         auto dartsControllerBuilder = DartsControllerBuilder::createInstance()
                 ->setConnectDartsSingleAttemptPointController(new ConnectDartsSingleAttemptPointController)
                 ->setConnectDartsMultiAttemptScoreController(new ConnectDartsMultiAttemptController);
+
         auto modelsServiceBuilder = DefaultModelsServiceBuilder::createInstance()
                 ->setModelsTournamentServiceBuilder(new DartsModelsServiceBuilder)
                 ->setPlayerServiceBuilder(new PlayerModelsServiceBuilder)
                 ->setDartsJSonServiceBuilder(new DartsJsonServiceBuilder);
+
         auto _dart =
-                DartApplication::createInstance()->
-                setModelsServiceBuilder(modelsServiceBuilder)->
-                setControllerBuilder(dartsControllerBuilder)->
-                setConnectModelsServiceInterface(new ConnectDefaultModelsContextInterface)
+                DartApplication::createInstance()
+                ->setModelsServiceBuilder(modelsServiceBuilder)
+                ->setControllerBuilder(dartsControllerBuilder)
+                ->setConnectModelsServiceInterface(new ConnectDefaultModelsContextInterface)
                 ->setConnectControllerBuilder(new ConnectControllerBuilder)
-                /*useThreads()->*/
                 ->setup();
         return _dart;
     };

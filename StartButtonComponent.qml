@@ -2,28 +2,33 @@ import QtQuick 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.5
 
-GridLayout{
-    id: body
+    GridLayout{
+    id: startButtonComponentBody
     flow: GridLayout.TopToBottom
+    property bool startButtonVisible: false
+    onStartButtonVisibleChanged: startButton.visible = startButtonVisible
+    property bool leftButtonVisible: false
+    onLeftButtonVisibleChanged: leftButton.visible = leftButtonVisible
+    property bool rightButtonVisible: false
+    onRightButtonVisibleChanged: rightButton.visible = rightButtonVisible
+    property bool pauseButtonVisible: false
+    onPauseButtonVisibleChanged: pauseButton.visible = pauseButtonVisible
+    property bool resumeButtonVisible: false
+    onResumeButtonVisibleChanged: resumeButton.visible = resumeButtonVisible
+    property bool waitButtonVisible: false
+    onWaitButtonVisibleChanged: waitButton.visible = waitButtonVisible
+    property bool restartButtonVisible: false
+    onRestartButtonVisibleChanged: restartButton.visible = restartButtonVisible
+    property bool textDescriptionVisible: false
+    onTextDescriptionVisibleChanged: textDescription.visible = textDescriptionVisible
+    property bool startButtonEnabled: true
+    onStartButtonEnabledChanged: startButton.enabled = startButtonEnabled
     // Button signals
     signal startButtonClicked
     signal pressAndHoldClicked
-    onPressAndHoldClicked: state = "optionsState"
     signal restartButtonClicked
-    onRestartButtonClicked: state = "startState"
     signal pauseButtonClicked
     signal resumeButtonClicked
-    // States
-    signal setStartMode
-    onSetStartMode: state = "startState"
-    signal setRunningMode
-    onSetRunningMode: state = "runningState"
-    signal setRestartMode
-    onSetRestartMode: state = "restartState"
-    signal setWaitState
-    onSetWaitState: state = "waitState"
-    signal setStoppedState
-    onSetStoppedState: state = "stoppedState"
     // Properties
     property bool pressAndHoldEnabled: true
     onPressAndHoldEnabledChanged: {
@@ -49,6 +54,7 @@ GridLayout{
         wrapMode: Text.WordWrap
         verticalTextAlignment: Text.AlignBottom
         horizontalTextAlignment: Text.AlignHCenter
+        visible: startButtonComponentBody.textDescriptionVisible
         onVisibleChanged: {
             visible ? textPlaceHolder.visible = false :
                                                 textPlaceHolder.visible = true;
@@ -80,10 +86,11 @@ GridLayout{
         width: buttonDimensions.defaultWidth
         height: buttonDimensions.defaultHeight
         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-        onClicked: body.startButtonClicked()
-        onPressAndHoldClicked: body.pressAndHoldClicked()
-        enablePressAndHold: body.pressAndHoldEnabled
-        visible: false
+        onClicked: startButtonComponentBody.startButtonClicked()
+        onPressAndHoldClicked: startButtonComponentBody.pressAndHoldClicked()
+        enablePressAndHold: startButtonComponentBody.pressAndHoldEnabled
+        visible: startButtonComponentBody.startButtonVisible
+        enabled: startButtonComponent.startButtonEnabled
     }
     PushButton{
         id: pauseButton
@@ -96,10 +103,10 @@ GridLayout{
         width: buttonDimensions.defaultWidth
         height: buttonDimensions.defaultHeight
         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-        onClicked: body.pauseButtonClicked()
-        onPressAndHoldClicked: body.pressAndHoldClicked()
-        visible: false
-        enablePressAndHold: body.pressAndHoldEnabled
+        onClicked: startButtonComponentBody.pauseButtonClicked()
+        onPressAndHoldClicked: startButtonComponentBody.pressAndHoldClicked()
+        visible: startButtonComponentBody.pauseButtonVisible
+        enablePressAndHold: startButtonComponentBody.pressAndHoldEnabled
     }
     PushButton{
         id: resumeButton
@@ -112,10 +119,10 @@ GridLayout{
         width: buttonDimensions.defaultWidth
         height: buttonDimensions.defaultHeight
         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-        onClicked: body.resumeButtonClicked()
-        enablePressAndHold: body.pressAndHoldEnabled
-        onPressAndHoldClicked: body.pressAndHoldClicked()
-        visible: false
+        onClicked: startButtonComponentBody.resumeButtonClicked()
+        enablePressAndHold: startButtonComponentBody.pressAndHoldEnabled
+        onPressAndHoldClicked: startButtonComponentBody.pressAndHoldClicked()
+        visible: startButtonComponentBody.resumeButtonVisible
     }
     PushButton{
         id: waitButton
@@ -130,7 +137,7 @@ GridLayout{
         enablePressAndHold: false
         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
         enabled: false
-        visible: false
+        visible: startButtonComponentBody.waitButtonVisible
     }
     PushButton{
         id: restartButton
@@ -143,7 +150,7 @@ GridLayout{
         width: buttonDimensions.defaultWidth
         height: buttonDimensions.defaultHeight
         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-        visible: false
+        visible: startButtonComponentBody.restartButtonVisible
         onClicked: restartButtonClicked()
         onVisibleChanged: restartButtonAnimation.restart()
         PropertyAnimation on height {
@@ -153,99 +160,7 @@ GridLayout{
             duration: 125
         }
     }
-
     Rectangle{
         Layout.fillHeight: true
     }
-
-    states: [
-        State {
-            name: "initialState"
-            PropertyChanges {
-                target: textDescription
-                visible : false;
-            }
-            PropertyChanges {
-                target: startButton
-                visible: true
-                enabled: false
-            }
-        },
-        State {
-            name: "startState"
-            PropertyChanges {
-                target: textDescription
-                visible : false;
-            }
-            PropertyChanges {
-                target: startButton
-                visible: true
-            }
-        },
-        State {
-            name: "runningState"
-            PropertyChanges {
-                target: textDescription
-                visible : true;
-            }
-            PropertyChanges {
-                target: pauseButton
-                visible: true
-            }
-        },
-        State {
-            name: "waitState"
-            PropertyChanges {
-                target: waitButton
-                visible: true
-            }
-        },
-        State {
-            name: "stoppedState"
-            PropertyChanges {
-                target: resumeButton
-                visible: true
-            }
-        },
-        State {
-            name: "optionsState"
-            PropertyChanges {
-                target: textDescription
-                visible : false;
-            }
-            PropertyChanges {
-                target: textDescription
-                visible : false;
-            }
-            PropertyChanges {
-                target: startButton
-                visible: visible
-            }
-            PropertyChanges {
-                target: pauseButton
-                visible: visible
-            }
-            PropertyChanges {
-                target: resumeButton
-                visible: visible
-            }
-            PropertyChanges {
-                target: waitButton
-                visible: visible
-            }
-            PropertyChanges {
-                target: restartButton
-                visible: true
-            }
-        },
-        State {
-            name: "restartState"
-            PropertyChanges {
-                target: restartButton
-                visible: true
-                height: buttonDimensions.defaultHeight
-            }
-        }
-    ]
-    Component.onCompleted: state = "initialState"
 }

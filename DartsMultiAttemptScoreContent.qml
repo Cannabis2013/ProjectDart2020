@@ -13,11 +13,6 @@ import "multiattemptstatescripts.js" as StateScripts
   */
 Content {
     id: dartsMultiAttemptBody
-    QtObject{
-        id: textSourceContainer
-        property string throwSuggestLabel: "Target row:"
-        property string winnerLabel: "Winner:"
-    }
     signal requestControllerValues
     signal requestMultiAttemptScores
     signal requestStatusFromBackend
@@ -71,7 +66,7 @@ Content {
         }
 
         KeyDataDisplay{
-            id: notificationItemSlot
+            id: keyDataDisplay
             Layout.fillWidth: true
             Layout.maximumHeight: 40
             visible: status === Loader.Ready

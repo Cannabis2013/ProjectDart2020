@@ -7,7 +7,6 @@
 #include "AbstractApplicationInterface.h"
 #include "abstractmodelsservice.h"
 
-#include <qobject.h>
 
 class ConnectDartsMultiAttemptController :
         public ITernaryService<AbstractDartsScoreController*,
@@ -15,7 +14,6 @@ class ConnectDartsMultiAttemptController :
                                AbstractModelsService*,
                                void>
 {
-    // ITernaryService interface
 public:
     void service(AbstractDartsScoreController* controller, AbstractApplicationInterface* application, AbstractModelsService* modelsService) override;
 };
