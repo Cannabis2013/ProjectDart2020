@@ -7,7 +7,7 @@
 class IGetDartsPointByParameters
 {
 public:
-    virtual const IDartsPointInput* getModelByParameters(const IDartsPointDb*,
+    virtual const DartsModelsContext::IDartsPointInput* getModelByParameters(const IDartsPointDb*,
                                                          const QUuid&,
                                                          const QUuid&,
                                                          const int&,

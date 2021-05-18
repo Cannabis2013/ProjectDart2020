@@ -26,7 +26,7 @@ public:
         auto score = jsonObject.value("score").toInt();
         auto roundIndex = jsonObject.value("roundIndex").toInt();
         auto setIndex = jsonObject.value("setIndex").toInt();
-        auto model = DartsScoreInput::createInstance()
+        auto model = DartsModelsContext::DartsScoreInput::createInstance()
                 ->setId(QUuid::createUuid())
                 ->setTournamentId(tournamentId)
                 ->setPlayer(playerId)

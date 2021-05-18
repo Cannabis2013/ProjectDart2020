@@ -9,12 +9,12 @@
 
 class AssembleSingleAttemptPointsFromJson : public IUnaryService<
         const QJsonArray&,
-        QVector<const IDartsPointInput*>>
+        QVector<const DartsModelsContext::IDartsPointInput*>>
 {
 public:
-    QVector<const IDartsPointInput *> service(const QJsonArray &arr) override;
+    QVector<const DartsModelsContext::IDartsPointInput *> service(const QJsonArray &arr) override;
 private:
-    const DartsPointInput* assembleModelFromJsonObject(const QJsonObject& jsonObject);
+    const DartsModelsContext::DartsPointInput* assembleModelFromJsonObject(const QJsonObject& jsonObject);
 };
 
 #endif // DARTSINPUTJSONEXTRACTOR_H

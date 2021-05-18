@@ -73,7 +73,7 @@ void DartsModelsService::tournamentUnAssignPlayer(const QUuid &tournamentId, con
 }
 
 
-const IDartsPointInput *DartsModelsService::setDartsPointHint(const QUuid &tournamentId,
+const DartsModelsContext::IDartsPointInput *DartsModelsService::setDartsPointHint(const QUuid &tournamentId,
                                                               const QUuid &playerId,
                                                               const int &round,
                                                               const int &attempt,
@@ -250,13 +250,13 @@ const IDartsPointIndexes* DartsModelsService::dartsPointIndexes(const QUuid &tou
     return indexes;
 }
 
-QVector<const IDartsPointInput *> DartsModelsService::dartsPointModelsByTournamentId(const QUuid &tournamentId) const
+QVector<const DartsModelsContext::IDartsPointInput *> DartsModelsService::dartsPointModelsByTournamentId(const QUuid &tournamentId) const
 {
     auto models = _getDartsPointModelsByTournamentId->service(tournamentId,_dartsPointsDb);
     return models;
 }
 
-const IDartsPointInput *DartsModelsService::getDartsPointModelById(const QUuid &pointId) const
+const DartsModelsContext::IDartsPointInput *DartsModelsService::getDartsPointModelById(const QUuid &pointId) const
 {
     auto pointModel = _getDartsPointByIdService->service(pointId,_dartsPointsDb);
     return pointModel;
@@ -300,12 +300,12 @@ int DartsModelsService::dartsPointsCount(const QUuid &tournamentId, const int &h
     return count;
 }
 
-void DartsModelsService::addDartsPoint(const IDartsPointInput *model)
+void DartsModelsService::addDartsPoint(const DartsModelsContext::IDartsPointInput *model)
 {
-    _dartsPointsDb->addDartsInputModel(dynamic_cast<const IDartsPointInput*>(model));
+    _dartsPointsDb->addDartsInputModel(dynamic_cast<const DartsModelsContext::IDartsPointInput*>(model));
 }
 
-QVector<const IDartsPointInput *> DartsModelsService::getDartsPointModelsOrdedByIndexes(const QUuid &tournamentId) const
+QVector<const DartsModelsContext::IDartsPointInput *> DartsModelsService::getDartsPointModelsOrdedByIndexes(const QUuid &tournamentId) const
 {
     auto orderedModels = _getOrderedDartsPointsModels->service(tournamentId,_dartsPointsDb);
     return orderedModels;

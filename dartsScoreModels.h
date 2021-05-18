@@ -4,7 +4,6 @@
 #include <quuid.h>
 
 namespace DartsScoresContext {
-
     struct DartsInputKeyValues
     {
         int score;

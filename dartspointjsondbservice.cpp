@@ -37,19 +37,19 @@ void DartsPointJsonDbService::saveState()
     writeJsonObjectToFile(modelJson,_fileName);
 }
 
-void DartsPointJsonDbService::addDartsInputModel(const IDartsPointInput *model)
+void DartsPointJsonDbService::addDartsInputModel(const DartsModelsContext::IDartsPointInput *model)
 {
     _dartsPointModels.append(model);
     saveState();
 }
 
-const IDartsPointInput *DartsPointJsonDbService::getDartsInputModelByIndex(const int &index) const
+const DartsModelsContext::IDartsPointInput *DartsPointJsonDbService::getDartsInputModelByIndex(const int &index) const
 {
     auto model = _dartsPointModels.at(index);
     return model;
 }
 
-QVector<const IDartsPointInput *> DartsPointJsonDbService::dartsInputModels() const
+QVector<const DartsModelsContext::IDartsPointInput *> DartsPointJsonDbService::dartsInputModels() const
 {
     return _dartsPointModels;
 }
@@ -60,13 +60,13 @@ void DartsPointJsonDbService::removeDartsInputModelByIndex(const int &index)
     saveState();
 }
 
-int DartsPointJsonDbService::indexOfDartsInputModel(const IDartsPointInput *score)
+int DartsPointJsonDbService::indexOfDartsInputModel(const DartsModelsContext::IDartsPointInput *score)
 {
     auto index = _dartsPointModels.indexOf(score);
     return index;
 }
 
-void DartsPointJsonDbService::replaceDartsInputModel(const int &index, const IDartsPointInput *score)
+void DartsPointJsonDbService::replaceDartsInputModel(const int &index, const DartsModelsContext::IDartsPointInput *score)
 {
     _dartsPointModels.replace(index,score);
     saveState();

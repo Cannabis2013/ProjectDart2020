@@ -23,7 +23,6 @@ Item {
     onBackendIsStopped: state = "stoppedState"
     signal backendHasDeclaredAWinner()
     onBackendHasDeclaredAWinner: state = "restartState"
-    signal startButtonPressAndHoldClicked
     signal leftButtonPressAndHoldClicked
     signal rightButtonPressAndHoldClicked
 
@@ -44,14 +43,6 @@ Item {
         property string currentPlayerText: qsTr("Current player: ")
     }
 
-    function updateState(roundIndex, playerName, undoPossible, redoPossible)
-    {
-        currentRoundIndex  = roundIndex;
-        turnControllerBody.currentPlayer = playerName;
-        leftButton.enabled = undoPossible;
-        rightButton.enabled = redoPossible;
-    }
-
     GridLayout{
         flow: GridLayout.LeftToRight
         anchors.fill: parent
@@ -62,10 +53,7 @@ Item {
             onResumeButtonClicked: turnControllerBody.resumeButtonClicked()
             onPauseButtonClicked: turnControllerBody.pauseButtonClicked()
             onStartButtonClicked: turnControllerBody.startButtonClicked()
-            onRestartButtonClicked: {
-                turnControllerBody.restartButtonClicked();
-                turnControllerBody.state = "startState";
-            }
+            onRestartButtonClicked: turnControllerBody.state = "startState";
             onPressAndHoldClicked: turnControllerBody.state = "optionsState";
         }
         PushButton{
@@ -121,7 +109,6 @@ Item {
             imageMargins: 20
             buttonRadius: 45
             hoverEnabled: false
-            onPressAndHoldClicked: rightButtonPressAndHoldClicked()
             onClicked: rightButtonClicked()
             Layout.alignment: Qt.AlignVCenter
             enabled: false
@@ -143,6 +130,9 @@ Item {
                 target: startButtonComponent
                 startButtonVisible: true
                 startButtonEnabled: true
+            }
+            StateChangeScript{
+                script: turnControllerBody.restartButtonClicked()
             }
         },
         State {

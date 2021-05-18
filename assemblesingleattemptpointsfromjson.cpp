@@ -1,8 +1,8 @@
 #include "assemblesingleattemptpointsfromjson.h"
 
-QVector<const IDartsPointInput*> AssembleSingleAttemptPointsFromJson::service(const QJsonArray &arr)
+QVector<const DartsModelsContext::IDartsPointInput*> AssembleSingleAttemptPointsFromJson::service(const QJsonArray &arr)
 {
-    QVector<const IDartsPointInput*> list;
+    QVector<const DartsModelsContext::IDartsPointInput*> list;
     for (const auto& jsonValue : arr) {
         auto jsonObject = jsonValue.toObject();
         auto model = assembleModelFromJsonObject(jsonObject);
@@ -10,7 +10,7 @@ QVector<const IDartsPointInput*> AssembleSingleAttemptPointsFromJson::service(co
     }
     return list;
 }
-const DartsPointInput *AssembleSingleAttemptPointsFromJson::assembleModelFromJsonObject(const QJsonObject &jsonObject)
+const DartsModelsContext::DartsPointInput *AssembleSingleAttemptPointsFromJson::assembleModelFromJsonObject(const QJsonObject &jsonObject)
 {
     auto stringID = jsonObject["id"].toString();
     auto id = QUuid::fromString(stringID);
@@ -25,7 +25,7 @@ const DartsPointInput *AssembleSingleAttemptPointsFromJson::assembleModelFromJso
     auto score = jsonObject.value("score").toInt();
     auto keyCode = jsonObject["keyCode"].toInt();
     auto scoreHint = jsonObject["hint"].toInt();
-    auto pointModel = DartsPointInput::createInstance()
+    auto pointModel = DartsModelsContext::DartsPointInput::createInstance()
             ->setId(id)
             ->setTournament(tournamentId)
             ->setPlayer(playerId)

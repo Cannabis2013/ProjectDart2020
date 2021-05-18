@@ -8,7 +8,7 @@
 #include <quuid.h>
 
 class AssembleDartsPointModelFromJson :
-        public IUnaryService<const QByteArray&,const IDartsPointInput*>
+        public IUnaryService<const QByteArray&,const DartsModelsContext::IDartsPointInput*>
 {
 public:
     enum ModelDisplayHint{
@@ -16,7 +16,7 @@ public:
         DisplayHint = 0x2,
         allHints = 0x3
     };
-    const IDartsPointInput* service(const QByteArray& json) override
+    const DartsModelsContext::IDartsPointInput* service(const QByteArray& json) override
     {
         auto jsonObject = QJsonDocument::fromJson(json).object();
         auto tournamentStringId = jsonObject.value("tournamentId").toString();
@@ -29,7 +29,7 @@ public:
         auto modKeyCode = jsonObject.value("modKeyCode").toInt();
         auto setIndex = jsonObject.value("setIndex").toInt();
         auto attemptIndex = jsonObject.value("attempt").toInt();
-        auto model = DartsPointInput::createInstance()
+        auto model = DartsModelsContext::DartsPointInput::createInstance()
                 ->setId(QUuid::createUuid())
                 ->setTournamentId(tournamentId)
                 ->setPlayer(playerId)

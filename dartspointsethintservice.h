@@ -5,12 +5,12 @@
 #include "idartspointinput.h"
 
 class DartsPointSetHintService :
-        public IBinaryService<const IDartsPointInput*,const int&, const IDartsPointInput*>
+        public IBinaryService<const DartsModelsContext::IDartsPointInput*,const int&, const DartsModelsContext::IDartsPointInput*>
 {
 public:
-    const IDartsPointInput* service(const IDartsPointInput* model, const int& hint) override
+    const DartsModelsContext::IDartsPointInput* service(const DartsModelsContext::IDartsPointInput* model, const int& hint) override
     {
-        auto alteredModel = const_cast<IDartsPointInput*>(model);
+        auto alteredModel = const_cast<DartsModelsContext::IDartsPointInput*>(model);
         alteredModel->setHint(hint);
         return alteredModel;
     }

@@ -12,11 +12,11 @@
 #include "iplayermodel.h"
 
 class AssembleJsonFromOrderedDartsPointModels :
-        public IBinaryService<const QVector<const IDartsPointInput*>&,
+        public IBinaryService<const QVector<const DartsModelsContext::IDartsPointInput*>&,
                               const IPlayerModelsService*,const QByteArray>
 {
 public:
-    const QByteArray service(const QVector<const IDartsPointInput*>& orderedDartsPoints,
+    const QByteArray service(const QVector<const DartsModelsContext::IDartsPointInput*>& orderedDartsPoints,
                              const IPlayerModelsService* playerModelsService) override
     {
         QJsonArray arr;

@@ -11,17 +11,17 @@ class DartsPointJsonDbService :
         public AbstractJSONPersistence
 {
 public:
-    typedef IUnaryService<const QJsonArray &, QVector<const IDartsPointInput *>> JsonExtractor;
-    typedef IUnaryService<const QVector<const IDartsPointInput*>&,QJsonArray> JsonAssembler;
+    typedef IUnaryService<const QJsonArray &, QVector<const DartsModelsContext::IDartsPointInput *>> JsonExtractor;
+    typedef IUnaryService<const QVector<const DartsModelsContext::IDartsPointInput*>&,QJsonArray> JsonAssembler;
     static DartsPointJsonDbService* createInstance(JsonExtractor* extractor, JsonAssembler* assembler);
     void fetchModels() override;
     void saveState() override;
-    void addDartsInputModel(const IDartsPointInput *model) override;
-    const IDartsPointInput *getDartsInputModelByIndex(const int &index) const override;
-    QVector<const IDartsPointInput *> dartsInputModels() const override;
+    void addDartsInputModel(const DartsModelsContext::IDartsPointInput *model) override;
+    const DartsModelsContext::IDartsPointInput *getDartsInputModelByIndex(const int &index) const override;
+    QVector<const DartsModelsContext::IDartsPointInput *> dartsInputModels() const override;
     void removeDartsInputModelByIndex(const int &index) override;
-    int indexOfDartsInputModel(const IDartsPointInput *score) override;
-    void replaceDartsInputModel(const int &index, const IDartsPointInput *score) override;
+    int indexOfDartsInputModel(const DartsModelsContext::IDartsPointInput *score) override;
+    void replaceDartsInputModel(const int &index, const DartsModelsContext::IDartsPointInput *score) override;
     // Set service methods
     DartsPointJsonDbService* setDartsPointsExtractorService(JsonExtractor *dartsPointsExtractor);
     DartsPointJsonDbService* setDartsPointsJsonAssemblerService(JsonAssembler* dartsSingleAttemptPointInputAssembler);
@@ -32,7 +32,7 @@ private:
     JsonAssembler* _dartsPointsJsonAssemblerService;
     const QString _fileName = "DartsPoints";
 
-    QVector<const IDartsPointInput*> _dartsPointModels;
+    QVector<const DartsModelsContext::IDartsPointInput*> _dartsPointModels;
 };
 
 #endif // DARTSPOINTDBSERVICE_H

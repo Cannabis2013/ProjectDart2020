@@ -10,15 +10,15 @@
 #include <qjsonarray.h>
 
 namespace InputAssemblerContext {
-    typedef QVector<const IDartsPointInput*> modelsList;
+    typedef QVector<const DartsModelsContext::IDartsPointInput*> modelsList;
 }
 
 class AssembleJsonArrayFromDartsPoints :
-        public IUnaryService<const QVector<const IDartsPointInput*>&,QJsonArray>
+        public IUnaryService<const QVector<const DartsModelsContext::IDartsPointInput*>&,QJsonArray>
 {
 public:
 
-    QJsonArray service(const QVector<const IDartsPointInput*>& modelsList) override;
+    QJsonArray service(const QVector<const DartsModelsContext::IDartsPointInput*>& modelsList) override;
 };
 
 #endif // DARTSINPUTJSONASSEMBLER_H

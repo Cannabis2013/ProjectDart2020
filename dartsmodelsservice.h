@@ -57,16 +57,16 @@ public:
     };
     typedef IBinaryService<const int&,const IDartsTournamentDb*,const IDartsTournament*> GetTournamentByIndexService;
     typedef IBinaryService<const QUuid&,const IDartsTournamentDb*,const IDartsTournament*> GetDartsTournamentByIdService;
-    typedef IBinaryService<const QUuid&,const IDartsPointDb*, const IDartsPointInput*> GetDartsPointByIdService;
-    typedef QVector<const IDartsPointInput*> PointModels;
+    typedef IBinaryService<const QUuid&,const IDartsPointDb*, const DartsModelsContext::IDartsPointInput*> GetDartsPointByIdService;
+    typedef QVector<const DartsModelsContext::IDartsPointInput*> PointModels;
     typedef QVector<const IDartsScoreInput*> ScoreModels;
     typedef IBinaryService<const QUuid &,
                            const IDartsPointDb*,
-                           QVector<const IDartsPointInput*>> GetOrderedDartsPointService;
+                           QVector<const DartsModelsContext::IDartsPointInput*>> GetOrderedDartsPointService;
     typedef IBinaryService<const QUuid &,
                            const IDartsScoreDb*,
                            QVector<const IDartsScoreInput*>> GetOrderedDartsScoreService;
-    typedef ITernaryService<const QVector<const IDartsPointInput *> &,
+    typedef ITernaryService<const QVector<const DartsModelsContext::IDartsPointInput *> &,
                             const IDartsTournament *,
                             const int &,
                             const IDartsPointIndexes *> GetPointIndexesFromDartsTournamentService;
@@ -80,8 +80,8 @@ public:
     typedef IBinaryService<const ScoreModels&,const int&,ScoreModels> GetScoreModelsByRoundIndex;
     typedef IBinaryService<const ScoreModels&,const int&,ScoreModels> GetScoreModelsByHintService;
     typedef IBinaryService<const IDartsScoreInput*,const int&,const IDartsScoreInput*> SetDartsModelHint;
-    typedef IBinaryService<const IDartsPointInput*,const int&, const IDartsPointInput*> SetDartsPointHint;
-    typedef IBinaryService<const QUuid&,const IDartsPointDb*,QVector<const IDartsPointInput*>> GetDartsPointModelsByTournamentIdService;
+    typedef IBinaryService<const DartsModelsContext::IDartsPointInput*,const int&, const DartsModelsContext::IDartsPointInput*> SetDartsPointHint;
+    typedef IBinaryService<const QUuid&,const IDartsPointDb*,QVector<const DartsModelsContext::IDartsPointInput*>> GetDartsPointModelsByTournamentIdService;
     typedef IBinaryService<const QUuid&,const IDartsScoreDb*,const IDartsScoreInput*> GetDartsScoreById;
     typedef IBinaryService<const QVector<int>&,IDartsTournamentDb*,bool> DeleteTournamentByIndexes;
     /*
@@ -108,12 +108,12 @@ public:
     /*
      * Points related section
      */
-    QVector<const IDartsPointInput *> dartsPointModelsByTournamentId(const QUuid &tournamentId) const override;
-    const IDartsPointInput* getDartsPointModelById(const QUuid& pointId) const override;
-    void addDartsPoint(const IDartsPointInput *model) override;
-    QVector<const IDartsPointInput*> getDartsPointModelsOrdedByIndexes(const QUuid& tournamentId) const override;
+    QVector<const DartsModelsContext::IDartsPointInput *> dartsPointModelsByTournamentId(const QUuid &tournamentId) const override;
+    const DartsModelsContext::IDartsPointInput* getDartsPointModelById(const QUuid& pointId) const override;
+    void addDartsPoint(const DartsModelsContext::IDartsPointInput *model) override;
+    QVector<const DartsModelsContext::IDartsPointInput*> getDartsPointModelsOrdedByIndexes(const QUuid& tournamentId) const override;
     int dartsPointsCount(const QUuid& tournamentId,const int &hint) const override;
-    const IDartsPointInput* setDartsPointHint(const QUuid &tournamentId,
+    const DartsModelsContext::IDartsPointInput* setDartsPointHint(const QUuid &tournamentId,
                                               const QUuid &playerId ,
                                               const int &round,
                                               const int &attempt,

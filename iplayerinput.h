@@ -2,19 +2,16 @@
 #define ISCORE_H
 
 #include "imodel.h"
-
-template<typename TUuid>
-class IPlayerInput : public IModel<TUuid>
+#include <quuid.h>
+class IPlayerInput : public IModel<QUuid>
 {
 public:
-    IPlayerInput() {}
-
     virtual int hint() const = 0;
     virtual IPlayerInput* setHint(const int &hint) = 0;
-    virtual TUuid playerId() const = 0;
-    virtual IPlayerInput* setPlayer(const TUuid &id) = 0;
-    virtual TUuid tournamentId() const = 0;
-    virtual IPlayerInput* setTournamentId(const TUuid&) = 0;
+    virtual QUuid playerId() const = 0;
+    virtual IPlayerInput* setPlayer(const QUuid &id) = 0;
+    virtual QUuid tournamentId() const = 0;
+    virtual IPlayerInput* setTournamentId(const QUuid&) = 0;
 };
 
 #endif // ISCORE_H

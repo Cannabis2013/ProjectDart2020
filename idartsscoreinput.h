@@ -3,7 +3,7 @@
 
 #include "idartsinput.h"
 #include <quuid.h>
-class IDartsScoreInput : public IDartsInput
+class IDartsScoreInput : public DartsModelsContext::IDartsInput
 {
 public:
     IDartsScoreInput() {}

@@ -8,12 +8,12 @@
 #include "iunaryservice.h"
 
 class AssembleJsonFromDartsPointModel :
-        public IUnaryService<const IDartsPointInput*,QByteArray>
+        public IUnaryService<const DartsModelsContext::IDartsPointInput*,QByteArray>
 {
 
     // IUnaryService interface
 public:
-    QByteArray service(const IDartsPointInput* model) override
+    QByteArray service(const DartsModelsContext::IDartsPointInput* model) override
     {
         QJsonObject jsonObject;
         jsonObject["modKeyCode"] = model->modKeyCode();

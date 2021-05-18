@@ -1,6 +1,6 @@
 #include "assemblejsonarrayfromdartspoints.h"
 
-QJsonArray AssembleJsonArrayFromDartsPoints::service(const QVector<const IDartsPointInput *> &modelsList)
+QJsonArray AssembleJsonArrayFromDartsPoints::service(const QVector<const DartsModelsContext::IDartsPointInput *> &modelsList)
 {
     QJsonArray resultingJsonArray;
     for (const auto& model : modelsList) {

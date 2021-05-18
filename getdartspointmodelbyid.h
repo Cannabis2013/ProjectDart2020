@@ -8,10 +8,10 @@
 class GetDartsPointModelById :
         public IBinaryService<const QUuid&,
                               const IDartsPointDb*,
-                              const IDartsPointInput*>
+                              const DartsModelsContext::IDartsPointInput*>
 {
 public:
-    const IDartsPointInput* service(const QUuid& pointId, const IDartsPointDb* dbService) override
+    const DartsModelsContext::IDartsPointInput* service(const QUuid& pointId, const IDartsPointDb* dbService) override
     {
         auto models = dbService->dartsInputModels();
         for (const auto& model : models) {

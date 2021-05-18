@@ -28,14 +28,14 @@ public:
     /*
      * Points related section
      */
-    virtual QVector<const IDartsPointInput*> dartsPointModelsByTournamentId(const QUuid& tournamentId) const = 0;
+    virtual QVector<const DartsModelsContext::IDartsPointInput*> dartsPointModelsByTournamentId(const QUuid& tournamentId) const = 0;
     virtual const IDartsPointIndexes* dartsPointIndexes(const QUuid &tournamentId) const = 0;
-    virtual void addDartsPoint(const IDartsPointInput*) = 0;
-    virtual QVector<const IDartsPointInput*> getDartsPointModelsOrdedByIndexes(const QUuid& tournamentId) const = 0;
-    virtual const IDartsPointInput* getDartsPointModelById(const QUuid& id) const = 0;
+    virtual void addDartsPoint(const DartsModelsContext::IDartsPointInput*) = 0;
+    virtual QVector<const DartsModelsContext::IDartsPointInput*> getDartsPointModelsOrdedByIndexes(const QUuid& tournamentId) const = 0;
+    virtual const DartsModelsContext::IDartsPointInput* getDartsPointModelById(const QUuid& id) const = 0;
     virtual int dartsPointsCount(const QUuid&,const int&) const = 0;
     virtual int dartsScoreCount(const QUuid&,const int&) const = 0;
-    virtual const IDartsPointInput* setDartsPointHint(const QUuid&,const QUuid&,
+    virtual const DartsModelsContext::IDartsPointInput* setDartsPointHint(const QUuid&,const QUuid&,
                                                       const int&,const int&,
                                                       const int&) = 0;
     virtual void removePointById(const QUuid&) = 0;

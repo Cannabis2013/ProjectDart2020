@@ -36,7 +36,7 @@ private:
         auto setIndex = jsonObject["setIndex"].toInt();
         auto score = jsonObject.value("score").toInt();
         auto scoreHint = jsonObject["hint"].toInt();
-        auto pointModel = DartsScoreInput::createInstance()
+        auto pointModel = DartsModelsContext::DartsScoreInput::createInstance()
                 ->setId(id)
                 ->setTournamentId(tournamentId)
                 ->setPlayer(playerId)

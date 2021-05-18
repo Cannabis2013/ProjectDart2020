@@ -7,13 +7,13 @@
 class GetDartsPointModelsByTournamentId :public
         IBinaryService<const QUuid&,
                        const IDartsPointDb*,
-                       QVector<const IDartsPointInput*>>
+                       QVector<const DartsModelsContext::IDartsPointInput*>>
 {
 public:
-    QVector<const IDartsPointInput*> service(const QUuid& tournamentId,
+    QVector<const DartsModelsContext::IDartsPointInput*> service(const QUuid& tournamentId,
                                              const IDartsPointDb* dbService) override
     {
-        QVector<const IDartsPointInput*> list;
+        QVector<const DartsModelsContext::IDartsPointInput*> list;
         auto models = dbService->dartsInputModels();
         for (const auto& model : models) {
             if(model->tournamentId() == tournamentId)
