@@ -30,6 +30,8 @@
  *  - Build and persist data storage class containers by the help of appropriate services
  */
 
+using namespace DartsModelsContext;
+
 class DartsModelsService :
         public IDartsModelsService
 {

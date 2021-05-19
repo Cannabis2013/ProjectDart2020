@@ -46,7 +46,7 @@ public:
      * Scores methods
      */
     virtual QVector<const IDartsScoreInput*> dartsScoreModelsByTournamentIdAndHint(const QUuid&, const int&) const = 0;
-    virtual const IDartsScoreIndexes* dartsScoreIndexes(const QUuid&) const = 0;
+    virtual const DartsModelsContext::IDartsScoreIndexes* dartsScoreIndexes(const QUuid&) const = 0;
     virtual void addDartsScore(const IDartsScoreInput*) = 0;
     virtual int dartsScoresCount(const int &hint) const = 0;
     virtual const IDartsScoreInput* setDartsScoreHint(const QUuid &tournamentId,

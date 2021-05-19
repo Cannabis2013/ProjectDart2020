@@ -80,6 +80,7 @@ HEADERS += \
     ApplicationBuilder.h \
     AssembleDartsTournamentsFromJsonArray.h \
     DartsPointCalculator.h \
+    DartsScoreMultiAttempIndexes.h \
     GetDartsPointByParameters.h \
     IDartsSingleAttemptPointJsonService.h \
     IPointCalculatorService.h \
@@ -90,9 +91,15 @@ HEADERS += \
     abstractmodelsservicebuilder.h \
     addplayernametopointjson.h \
     assembleJsonFromDartsIndexesAndPoints.h \
+    assembledartsindexesbyjson.h \
+    assembledartsplayerbyjson.h \
+    assembledartsplayersbyjson.h \
     assembledartspointmodelfromjson.h \
+    assembledartsscorebyjson.h \
     assembledartsscorefromjson.h\
+    assembledartsscoreindexesbyjson.h \
     assembledartsscoremodelfromjson.h \
+    assembledartsscoresbyjson.h \
     assemblejsonarrayfromdartspoints.h \
     assemblejsonbasictournamentvalues.h \
     assemblejsonbasictournamentvaluesfrommodel.h \
@@ -116,7 +123,6 @@ HEADERS += \
     connectdartssingleattemptpointcontroller.h \
     connectdefaultmodelscontextinterface.h \
     countscoresbytournamentandhint.h \
-    dartsScoreModels.h \
     dartscontrollerbuilder.h \
     dartsjsonservice.h \
     dartsjsonservicebuilder.h \
@@ -125,6 +131,7 @@ HEADERS += \
     dartsmodelsservicescollection.h \
     dartsmultiattemptjsonservice.h \
     dartsmultiscoredatamodel.h \
+    dartsplayer.h \
     dartsplayerpointservice.h \
     dartsplayerscoreservice.h \
     dartspointindexes.h \
@@ -133,6 +140,7 @@ HEADERS += \
     dartspointsethintservice.h \
     dartspointsingleattempt.h \
     dartspointsingleattemptdatamodel.h \
+    dartsscore.h \
     dartsscoreindexes.h \
     dartsscorejsonassemblerservice.h \
     dartsscorejsondb.h \
@@ -141,6 +149,7 @@ HEADERS += \
     dartssingleattemptpointjsonservice.h \
     defaultmodelsservicebuilder.h \
     deletetournamentsbyindexesservice.h \
+    determinecontrollerstatebywinnerid.h \
     getdartspointindexesbydartspointmodel.h \
     getdartspointmodelbyid.h \
     getdartspointmodelsbytournamentid.h \
@@ -165,10 +174,13 @@ HEADERS += \
     idartsjsonservice.h \
     idartslogisticsservice.h \
     idartsmodelsservice.h \
+    idartsmultiattemptindexes.h \
     idartsmultiattemptindexservice.h \
     idartsmultiattemptjsonservice.h \
+    idartsplayer.h \
     idartspointdb.h \
     idartspointindexes.h \
+    idartsscore.h \
     idartsscoredb.h \
     idartsscoreindexes.h \
     idartssingleattemptindexservice.h \
@@ -180,6 +192,7 @@ HEADERS += \
     iplayermodelsservice.h \
     iplayerpointservice.h \
     iplayerscoreservice.h \
+    iscoreindexes.h \
     iternaryservice.h \
     iunaryservice.h \
     jsonarrayfromplayernamesandids.h \

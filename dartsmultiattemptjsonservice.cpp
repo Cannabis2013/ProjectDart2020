@@ -7,61 +7,6 @@ int DartsMultiAttemptJsonService::getScoretByJson(const QByteArray &json) const
     return inputValueModel;
 }
 
-const DartsScoresContext::DartsScore *DartsMultiAttemptJsonService::assembleDartsScoreByJson(const QByteArray &json) const
-{
-    auto document = QJsonDocument::fromJson(json);
-    auto obj = document.object();
-    DartsScoresContext::DartsScore* dartsScore = new DartsScoresContext::DartsScore;
-    auto playerStringId = obj.value("playerId").toString();
-    dartsScore->playerId = QUuid::fromString(playerStringId);
-    dartsScore->score = obj.value("score").toInt();
-    dartsScore->playerName = obj.value("playerName").toString();
-    return dartsScore;
-}
-
-QVector<const DartsScoresContext::DartsScore *> DartsMultiAttemptJsonService::assembleDartsScoresByJson(const QByteArray &json) const
-{
-    auto document = QJsonDocument::fromJson(json);
-    auto scoreData = document.array();
-    QVector<const DartsScoresContext::DartsScore*> extendedValueModels;
-    for (const auto &jsonVal : scoreData) {
-        auto obj = jsonVal.toObject();
-        DartsScoresContext::DartsScore* extendedValueModel = new DartsScoresContext::DartsScore;
-        extendedValueModel->score = obj.value("score").toInt();
-        auto playerStringId = obj.value("playerId").toString();
-        extendedValueModel->playerId = QUuid::fromString(playerStringId);
-        extendedValueModels << extendedValueModel;
-    }
-    return extendedValueModels;
-}
-
-QVector<const IDartsMultiAttemptJsonService::PlayerDetailsStruct *> DartsMultiAttemptJsonService::assemblePlayerDetailsStructsFromJson(const QByteArray &json) const
-{
-    auto document = QJsonDocument::fromJson(json);
-    auto playerDatas = document.array();
-    QVector<const PlayerDetailsStruct*> list;
-    for (const auto &playerDataJsonValue : playerDatas) {
-        auto obj = playerDataJsonValue.toObject();
-        PlayerDetailsStruct* playerDetails = new PlayerDetailsStruct;
-        auto playerStringId = obj["playerId"].toString();
-        playerDetails->playerId = QUuid::fromString(playerStringId);
-        playerDetails->playerName = obj["playerName"].toString();
-        list << playerDetails;
-    }
-    return list;
-}
-
-const IDartsMultiAttemptJsonService::PlayerDetailsStruct *DartsMultiAttemptJsonService::assembleWinnerStructFromJson(const QByteArray &json) const
-{
-    auto document = QJsonDocument::fromJson(json);
-    auto jsonObject = document.object();
-    auto winnerStringId = jsonObject.value("playerId").toString();
-    auto winnerId = QUuid::fromString(winnerStringId);
-    PlayerDetailsStruct* winnerStruct = new PlayerDetailsStruct;
-    winnerStruct->playerId = winnerId;
-    return winnerStruct;
-}
-
 QByteArray DartsMultiAttemptJsonService::assembleJsonFromParameters(const QString &playerName, const int &score) const
 {
     QJsonObject obj = {
@@ -70,17 +15,6 @@ QByteArray DartsMultiAttemptJsonService::assembleJsonFromParameters(const QStrin
     };
     auto json = QJsonDocument(obj).toJson(QJsonDocument::Compact);
     return json;
-}
-
-const IDartsMultiAttemptJsonService::DartsIndexes *DartsMultiAttemptJsonService::assembleDartsIndexesFromJson(const QByteArray &json) const
-{
-    DartsIndexes* indexes = new DartsIndexes;
-    auto jsonObject = QJsonDocument::fromJson(json).object();
-    indexes->totalTurns = jsonObject.value("totalTurns").toInt();
-    indexes->turns = jsonObject.value("turnIndex").toInt();
-    indexes->roundIndex = jsonObject.value("roundIndex").toInt();
-    indexes->setIndex = jsonObject.value("setIndex").toInt();
-    return indexes;
 }
 
 QByteArray DartsMultiAttemptJsonService::assembleJsonDartsScore(const QString &playerName, const int &score) const

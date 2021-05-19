@@ -11,6 +11,8 @@
 #include <qjsonarray.h>
 #include "idartspointinput.h"
 
+using namespace DartsModelsContext;
+
 class IDartsJsonService
 {
 public:

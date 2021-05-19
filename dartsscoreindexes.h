@@ -3,6 +3,8 @@
 
 #include "idartsscoreindexes.h"
 
+using namespace DartsModelsContext;
+
 class DartsScoreIndexes : public IDartsScoreIndexes
 {
 public:

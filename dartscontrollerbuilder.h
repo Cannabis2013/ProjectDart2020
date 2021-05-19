@@ -25,6 +25,12 @@
 #include "dartssingleattemptpointjsonservice.h"
 #include "dartsmultiattemptjsonservice.h"
 #include "dartsplayerpointservice.h"
+#include "assembledartsscorebyjson.h"
+#include "assembledartsscoresbyjson.h"
+#include "assembledartsplayersbyjson.h"
+#include "assembledartsplayerbyjson.h"
+#include "determinecontrollerstatebywinnerid.h"
+#include "assembledartsscoreindexesbyjson.h"
 
 class DartsControllerBuilder : public AbstractDartsControllerBuilder
 {

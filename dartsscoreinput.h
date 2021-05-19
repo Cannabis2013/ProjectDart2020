@@ -1,5 +1,5 @@
-#ifndef DARTSSCORE_H
-#define DARTSSCORE_H
+#ifndef DARTSSCOREINPUT_H
+#define DARTSSCOREINPUT_H
 
 #include <quuid.h>
 #include "idartsscoreinput.h"
@@ -86,4 +86,4 @@ namespace DartsModelsContext {
 }
 
 
-#endif // DARTSSCORE_H
+#endif // DARTSSCOREINPUT_H

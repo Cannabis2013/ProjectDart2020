@@ -74,12 +74,20 @@ AbstractDartsScoreController *DartsControllerBuilder::assembleDartsScoreControll
                                                                                  const int &terminalKeyCode,
                                                                                  const int &attempts)
 {
-    AbstractDartsScoreController* controller = DartsScoreMultiAttempt::createInstance(tournament)
+    using namespace DartsScoreMultiAttemptContext;
+    AbstractDartsScoreController* controller =
+            DartsScoreMultiAttemptContext::DartsScoreMultiAttempt::createInstance(tournament)
             ->setLogisticInterface(ScoreLogisticController::createInstance(attempts,terminalKeyCode))
             ->setInputValidator(ScoreValidator::createInstance(terminalKeyCode))
             ->setIndexController(ScoreIndexController::createInstance())
             ->setScoreController(DartsPlayerScoreService::createInstance(keyPoint,winnerId))
-            ->setJsonService(new DartsMultiAttemptJsonService);
+            ->setJsonService(new DartsMultiAttemptJsonService)
+            ->setAssembleDartsScoreByJsonService(new AssembleDartsScoreByJson)
+            ->setAssembleDartsScoresByJsonService(new AssembleDartsScoresByJson)
+            ->setAssembleDartsPlayersByJson(new AssembleDartsPlayersByJson)
+            ->setAssembleDartsPlayerByJson(new AssembleDartsPlayerByJson)
+            ->setDetermineControllerStateByWinnerId(new DetermineControllerStateByWinnerId)
+            ->setAssembleDartsScoreIndexesByJson(new AssembleDartsScoreIndexesByJson);
     return controller;
 }
 
