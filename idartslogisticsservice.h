@@ -4,7 +4,7 @@ template<class TString>
 class IDartsLogisticsService
 {
 public:
-    virtual TString suggestTargetRow(const int &remainingScore, const int &turnIndex) = 0;
+    virtual TString suggestTargetRow(const int &remainingScore, const int &turnIndex) const = 0;
 };
 
 #endif // ILOGISTICMANAGER_H

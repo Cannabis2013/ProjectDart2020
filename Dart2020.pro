@@ -33,9 +33,11 @@ SOURCES += \
     dartsplayerpointservice.cpp \
     dartsplayerscoreservice.cpp \
     dartspointjsondbservice.cpp \
+    dartspointlogisticcontroller.cpp \
     dartspointsingleattempt.cpp \
     dartspointsingleattemptdatamodel.cpp \
     dartsscorejsondb.cpp \
+    dartsscorelogisticcontroller.cpp \
     dartsscoremultiattempt.cpp \
     dartssingleattemptpointjsonservice.cpp \
     dartstournamentjsonextractor.cpp \
@@ -50,10 +52,8 @@ SOURCES += \
     playermodelsjsonextractor.cpp \
     playermodelsservicebuilder.cpp \
     playersjsondb.cpp \
-    pointlogisticcontroller.cpp \
     remotemodelscontext.cpp \
     scoreindexcontroller.cpp \
-    scorelogisticcontroller.cpp \
     tournamentjsondb.cpp \
     tournamentsjsonassembler.cpp \
     tournamentsjsonassemblerservice.cpp \
@@ -89,6 +89,7 @@ HEADERS += \
     abstractdartsscorecontroller.h \
     abstractmodelsservice.h \
     abstractmodelsservicebuilder.h \
+    addaccumulatedscoretodartsscore.h \
     addplayernametodartsinputmodel.h \
     addwinnernametotournamentjson.h \
     assembleJsonFromDartsIndexesAndPoints.h \
@@ -101,6 +102,7 @@ HEADERS += \
     assembledartsscoreindexesbyjson.h \
     assembledartsscoremodelfromjson.h \
     assembledartsscoresbyjson.h \
+    assembledartsscoreturnvalues.h \
     assemblejsonarrayfromdartspoints.h \
     assemblejsonbasictournamentvalues.h \
     assemblejsonbasictournamentvaluesfrommodel.h \
@@ -135,6 +137,7 @@ HEADERS += \
     dartsplayerscoreservice.h \
     dartspointindexes.h \
     dartspointjsondbservice.h \
+    dartspointlogisticcontroller.h \
     dartspointmodels.h \
     dartspointsethintservice.h \
     dartspointsingleattempt.h \
@@ -143,8 +146,10 @@ HEADERS += \
     dartsscoreindexes.h \
     dartsscorejsonassemblerservice.h \
     dartsscorejsondb.h \
+    dartsscorelogisticcontroller.h \
     dartsscoremultiattempt.h \
     dartsscoresjsonassemblerservice.h \
+    dartsscoreturnvalues.h \
     dartssingleattemptpointjsonservice.h \
     defaultmodelsservicebuilder.h \
     deletetournamentsbyindexesservice.h \
@@ -179,7 +184,6 @@ HEADERS += \
     idartsplayer.h \
     idartspointdb.h \
     idartspointindexes.h \
-    idartsscore.h \
     idartsscoredb.h \
     idartsscoreindexes.h \
     idartssingleattemptindexservice.h \
@@ -246,13 +250,11 @@ HEADERS += \
     playermodelsjsonextractor.h \
     playermodelsservicebuilder.h \
     playersjsondb.h \
-    pointlogisticcontroller.h \
     pointvalidator.h \
     remotemodelscontext.h \
     replytimeout.h \
     scorecalculator.h \
     scoreindexcontroller.h \
-    scorelogisticcontroller.h \
     setdartsmodelhint.h \
     testconfiguration.h \
     tournamentjsondb.h \

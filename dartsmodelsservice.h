@@ -127,12 +127,11 @@ public:
     /*
      * Scores methods
      */
+    const IDartsScoreInput *dartsScoreModel(const QUuid &tournamentId, const QUuid &playerId, const int &roundIndex) const override;
     QVector<const IDartsScoreInput *> dartsScoreModelsByTournamentIdAndHint(const QUuid &tournamentId, const int &hint) const override;
     void addDartsScore(const IDartsScoreInput *pointModel) override;
     int dartsScoresCount(const int &hint) const override;
-    const IDartsScoreInput* setDartsScoreHint(const QUuid &tournamentId,
-                                              const QUuid &playerId,
-                                              const int &roundIndex,
+    const IDartsScoreInput* setDartsScoreHint(const IDartsScoreInput* model,
                                               const int &hint) override;
     void removeScoreById(const QUuid &scoreId) override;
     void removeHiddenScores(const QUuid &tournamentId) override;

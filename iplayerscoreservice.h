@@ -4,9 +4,9 @@
 #include <quuid.h>
 #include <qpair.h>
 #include <qvector.h>
-#include "idartsscore.h"
 
 namespace DartsScoreMultiAttemptContext {
+    template<typename TDartsScore>
     class IPlayerScoreService
     {
     public:
@@ -15,8 +15,8 @@ namespace DartsScoreMultiAttemptContext {
         virtual QString winnerUserName() const = 0;
 
         virtual void addPlayerEntity(const QUuid&,const QString&) = 0;
-        virtual int subtractPlayerScoreByModel(const IDartsScore*) = 0;
-        virtual void subtractPlayerScoreByModels(const QVector<const IDartsScore*>&) = 0;
+        virtual int subtractPlayerScoreByModel(const TDartsScore*) = 0;
+        virtual void subtractPlayerScoreByModels(const QVector<const TDartsScore*>&) = 0;
         virtual int addPlayerScore(const QUuid&, const int&) = 0;
 
         virtual int playerScore(const int& index) const = 0;

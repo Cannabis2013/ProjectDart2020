@@ -241,6 +241,13 @@ void DartsModelsService::removePointModel(const QUuid &point)
     }
 }
 
+const IDartsScoreInput *DartsModelsService::dartsScoreModel(const QUuid& tournamentId, const QUuid& playerId, const int& roundIndex) const
+{
+    auto model = _getDartsScoreByParameters->getModelByParameters(_dartsScoresDb,tournamentId,
+                                                                  playerId,roundIndex);
+    return model;
+}
+
 const IDartsPointIndexes* DartsModelsService::dartsPointIndexes(const QUuid &tournamentId) const
 {
     auto orderedModels = _getOrderedDartsPointsModels->service(tournamentId,_dartsPointsDb);
@@ -334,14 +341,9 @@ int DartsModelsService::dartsScoresCount(const int &hint) const
     return count;
 }
 
-const IDartsScoreInput *DartsModelsService::setDartsScoreHint(const QUuid &tournamentId,
-                                                              const QUuid &playerId,
-                                                              const int &roundIndex,
+const IDartsScoreInput *DartsModelsService::setDartsScoreHint(const IDartsScoreInput *model,
                                                               const int &hint)
 {
-
-    auto model = _getDartsScoreByParameters->getModelByParameters(_dartsScoresDb,tournamentId,
-                                                                  playerId,roundIndex);
     auto indexOfModel = _dartsScoresDb->indexOfDartsInputModel(model);
     auto alteredModel = _setScoreModelHintService->service(model,hint);
     _dartsScoresDb->replaceDartsInputModel(indexOfModel,alteredModel);

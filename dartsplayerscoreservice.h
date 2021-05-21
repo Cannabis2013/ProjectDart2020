@@ -2,6 +2,7 @@
 #define FTPSCORECONTROLLER_H
 
 #include "iplayerscoreservice.h"
+#include "dartsscore.h"
 #include <qlist.h>
 
 #define INCONSISTENCY_EXCEPTION_MESSAGE "User inconsistency!"
@@ -34,7 +35,7 @@ namespace DartsScoreMultiAttemptContext{
         };
     }
 
-    class DartsPlayerScoreService : public IPlayerScoreService
+    class DartsPlayerScoreService : public IPlayerScoreService<DartsScore>
     {
     public:
         // Tuple : {UserId, UserName, UserScore}
@@ -44,8 +45,8 @@ namespace DartsScoreMultiAttemptContext{
         static DartsPlayerScoreService* createInstance(const int& initialScore,
                                                   const QUuid &winner);
         virtual void addPlayerEntity(const QUuid &id, const QString &name) override;
-        virtual int subtractPlayerScoreByModel(const IDartsScore *model) override;
-        void subtractPlayerScoreByModels(const QVector<const DartsScoreMultiAttemptContext::IDartsScore *> &models) override;
+        virtual int subtractPlayerScoreByModel(const DartsScore *model) override;
+        void subtractPlayerScoreByModels(const QVector<const DartsScore *> &models) override;
         virtual int addPlayerScore(const QUuid& id, const int &score) override;
         // UserScoresControllerInterface interface
         int playerScore(const int &index) const override;

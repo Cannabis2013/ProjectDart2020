@@ -10,12 +10,12 @@
 namespace DartsScoreMultiAttemptContext {
     class AssembleDartsScoreByJson : public
             IUnaryService<const QByteArray&,
-                          const IDartsScore*>
+                          const DartsScore*>
     {
     public:
-        const IDartsScore* service(const QByteArray& json) override
+        const DartsScore* service(const QByteArray& json) override
         {
-            return DartsScore::createInstance(json);
+            return DartsScore::fromJson(json);
         }
     };
 };

@@ -6,8 +6,8 @@
 #include "dartsscoremultiattempt.h"
 #include "dartspointsingleattempt.h"
 // Include services
-#include "pointlogisticcontroller.h"
-#include "scorelogisticcontroller.h"
+#include "dartspointlogisticcontroller.h"
+#include "dartsscorelogisticcontroller.h"
 #include "DartsPointCalculator.h"
 #include "scorecalculator.h"
 #include "pointvalidator.h"
@@ -31,6 +31,9 @@
 #include "assembledartsplayerbyjson.h"
 #include "determinecontrollerstatebywinnerid.h"
 #include "assembledartsscoreindexesbyjson.h"
+#include "addaccumulatedscoretodartsscore.h"
+#include "assembledartsscoreturnvalues.h"
+
 
 class DartsControllerBuilder : public AbstractDartsControllerBuilder
 {

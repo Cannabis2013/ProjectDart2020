@@ -1,40 +1,39 @@
 #ifndef DARTSSCORE_H
 #define DARTSSCORE_H
 
-#include "idartsscore.h"
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 
 namespace DartsScoreMultiAttemptContext
 {
-    class DartsScore : public IDartsScore
+    class DartsScore
     {
     public:
         static DartsScore* createInstance()
         {
             return new DartsScore;
         }
-        static DartsScore* createInstance(const QByteArray& json)
+        static DartsScore* fromJson(const QByteArray& json)
         {
             auto document = QJsonDocument::fromJson(json);
             auto jsonObject = document.object();
             return new DartsScore(jsonObject);
         }
 
-        static DartsScore* createInstance(const QJsonObject& jsonObject)
+        static DartsScore* fromJsonObject(const QJsonObject& jsonObject)
         {
             return new DartsScore(jsonObject);
         }
 
-        int score() const override
+        int score() const
         {
             return _score;
         }
-        QUuid playerId() const override
+        QUuid playerId() const
         {
             return _playerId;
         }
-        QString playerName() const override
+        QString playerName() const
         {
             return _playerName;
         }
@@ -50,6 +49,25 @@ namespace DartsScoreMultiAttemptContext
         {
             _score = newScore;
         }
+        virtual QByteArray toJson() const
+        {
+            QJsonObject jsonobject;
+            jsonobject["score"] = _score;
+            jsonobject["playerId"] = _playerId.toString(QUuid::WithoutBraces);
+            jsonobject["playerName"] = _playerName;
+            jsonobject["totalScore"] = _accumulatedScore;
+            auto document = QJsonDocument(jsonobject);
+            auto json = document.toJson();
+            return json;
+        }
+        int accumulatedScore() const
+        {
+            return _accumulatedScore;
+        }
+        void setAccumulatedScore(const int& accumulatedScore)
+        {
+            _accumulatedScore = accumulatedScore;
+        }
     private:
         DartsScore()
         {}
@@ -60,6 +78,7 @@ namespace DartsScoreMultiAttemptContext
             _playerName = jsonObject.value("playerName").toString();
         }
         int _score;
+        int _accumulatedScore;
         QUuid _playerId;
         QString _playerName;
     };

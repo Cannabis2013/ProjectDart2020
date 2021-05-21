@@ -22,8 +22,8 @@ namespace DartsScoreMultiAttemptContext
             auto playerStringId = jsonObject.value("playerId").toString();
             auto playerId = QUuid::fromString(playerStringId);
             auto playerName = jsonObject.value("playerName").toString();
-            auto dartsModel = new DartsPlayer(playerId,playerName);
-            return dartsModel;
+            auto dartsPlayerModel = new DartsPlayer(playerId,playerName);
+            return dartsPlayerModel;
         }
         static const DartsPlayer* fromJsonObject(const QJsonObject& jsonObject)
         {

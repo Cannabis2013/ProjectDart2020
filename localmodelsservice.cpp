@@ -181,20 +181,24 @@ void LocalModelsService::hideDartsScore(const QUuid& tournamentId,
                                         const QUuid& playerId,
                                         const int& roundIndex)
 {
-    auto model =_dartsModelsService->setDartsScoreHint(tournamentId,
-                                                              playerId,
-                                                              roundIndex,
-                                                              ModelDisplayHint::HiddenHint);
+    auto dartsScoreModel = _dartsModelsService->dartsScoreModel(tournamentId,
+                                                                playerId,
+                                                                roundIndex);
+    auto model =_dartsModelsService->setDartsScoreHint(dartsScoreModel,
+                                                       ModelDisplayHint::HiddenHint);
     auto playerName = _playerModelsService->playerNameById(playerId);
     auto playerInputModel = _addPlayerNameToDartsInputModel->service(model,playerName);
     emit hideDartsScoreSuccess(playerInputModel->toJson());
 }
 
-void LocalModelsService::revealScore(const QUuid& tournamentId, const QUuid& playerId, const int& roundIndex)
+void LocalModelsService::revealScore(const QUuid& tournamentId,
+                                     const QUuid& playerId,
+                                     const int& roundIndex)
 {
-    auto alteredModel = _dartsModelsService->setDartsScoreHint(tournamentId,
-                                                               playerId,
-                                                               roundIndex,
+    auto dartsScoreModel = _dartsModelsService->dartsScoreModel(tournamentId,
+                                                                playerId,
+                                                                roundIndex);
+    auto alteredModel = _dartsModelsService->setDartsScoreHint(dartsScoreModel,
                                                                ModelDisplayHint::DisplayHint);
     auto playerName = _playerModelsService->playerNameById(playerId);
     auto playerInputModel = _addPlayerNameToDartsInputModel->service(alteredModel,playerName);

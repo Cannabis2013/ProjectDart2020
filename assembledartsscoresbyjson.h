@@ -10,16 +10,16 @@
 namespace DartsScoreMultiAttemptContext{
     class AssembleDartsScoresByJson : public
             IUnaryService<const QByteArray&,
-                          QVector<const IDartsScore*>>
+                          QVector<const DartsScore*>>
     {
     public:
-        QVector<const IDartsScore*> service(const QByteArray& json) override
+        QVector<const DartsScore*> service(const QByteArray& json) override
         {
             auto document = QJsonDocument::fromJson(json);
             auto scoreData = document.array();
-            QVector<const IDartsScore*> dartsScoreModels;
+            QVector<const DartsScore*> dartsScoreModels;
             for (const auto &jsonVal : scoreData)
-                dartsScoreModels << DartsScore::createInstance(jsonVal.toObject());
+                dartsScoreModels << DartsScore::fromJsonObject(jsonVal.toObject());
             return dartsScoreModels;
         }
     };

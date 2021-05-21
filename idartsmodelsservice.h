@@ -46,13 +46,12 @@ namespace DartsModelsContext {
         /*
          * Scores methods
          */
+        virtual const IDartsScoreInput* dartsScoreModel(const QUuid&, const QUuid&, const int&) const = 0;
         virtual QVector<const IDartsScoreInput*> dartsScoreModelsByTournamentIdAndHint(const QUuid&, const int&) const = 0;
         virtual const DartsModelsContext::IDartsScoreIndexes* dartsScoreIndexes(const QUuid&) const = 0;
         virtual void addDartsScore(const IDartsScoreInput*) = 0;
         virtual int dartsScoresCount(const int &hint) const = 0;
-        virtual const IDartsScoreInput* setDartsScoreHint(const QUuid &tournamentId,
-                                                          const QUuid &playerId,
-                                                          const int &roundIndex,
+        virtual const IDartsScoreInput* setDartsScoreHint(const IDartsScoreInput*,
                                                           const int &hint) = 0;
         virtual void removeScoreById(const QUuid&) = 0;
         virtual void removeHiddenScores(const QUuid&) = 0;

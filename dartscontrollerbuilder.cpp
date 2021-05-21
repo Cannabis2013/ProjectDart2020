@@ -58,7 +58,7 @@ AbstractDartsPointController *DartsControllerBuilder::assembleDartsPointControll
                                                                                  const int &attempts)
 {
     AbstractDartsPointController* controller = DartsPointSingleAttempt::createInstance(tournament)
-            ->setLogisticInterface(PointLogisticController::createInstance(attempts,
+            ->setLogisticInterface(DartsPointLogisticController::createInstance(attempts,
                                                                            terminalKeyCode))
             ->setScoreCalculator(DartsPointCalculator::createInstance())
             ->setInputValidator(PointValidator::createInstance(terminalKeyCode))
@@ -77,7 +77,7 @@ AbstractDartsScoreController *DartsControllerBuilder::assembleDartsScoreControll
     using namespace DartsScoreMultiAttemptContext;
     AbstractDartsScoreController* controller =
             DartsScoreMultiAttemptContext::DartsScoreMultiAttempt::createInstance(tournament)
-            ->setLogisticInterface(ScoreLogisticController::createInstance(attempts,terminalKeyCode))
+            ->setLogisticInterface(DartsScoreLogisticController::createInstance(attempts,terminalKeyCode))
             ->setInputValidator(ScoreValidator::createInstance(terminalKeyCode))
             ->setIndexController(ScoreIndexController::createInstance())
             ->setScoreController(DartsPlayerScoreService::createInstance(keyPoint,winnerId))
@@ -87,7 +87,9 @@ AbstractDartsScoreController *DartsControllerBuilder::assembleDartsScoreControll
             ->setAssembleDartsPlayersByJson(new AssembleDartsPlayersByJson)
             ->setAssembleDartsPlayerByJson(new AssembleDartsPlayerByJson)
             ->setDetermineControllerStateByWinnerId(new DetermineControllerStateByWinnerId)
-            ->setAssembleDartsScoreIndexesByJson(new AssembleDartsScoreIndexesByJson);
+            ->setAssembleDartsScoreIndexesByJson(new AssembleDartsScoreIndexesByJson)
+            ->setAddAccumulatedScoreToModel(new AddAccumulatedScoreToDartsScore)
+            ->setAssembleDartsScoreTurnValues(new AssembleDartsScoreTurnValues);
     return controller;
 }
 

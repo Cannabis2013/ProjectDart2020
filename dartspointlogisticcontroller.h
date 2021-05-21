@@ -14,7 +14,7 @@ namespace PointLogisticContext
     };
 }
 
-class PointLogisticController : public IDartsLogisticsService<QString>
+class DartsPointLogisticController : public IDartsLogisticsService<QString>
 {
 
 public:
@@ -27,10 +27,10 @@ public:
         TrippleModifier = 0x2C
     };
     // Create instance
-    static PointLogisticController* createInstance(const int& attemps,
+    static DartsPointLogisticController* createInstance(const int& attemps,
                                                    const int& lastAttemptKeyCode);
     // FTPLogisticControllerInterface interface
-    virtual QString suggestTargetRow(const int &remainingScore, const int &turnIndex) override;
+    virtual QString suggestTargetRow(const int &remainingScore, const int &turnIndex) const override;
 private:
     bool isEven(const int& integer);
     int terminalDivisor() const;
@@ -48,7 +48,7 @@ private:
     virtual int lastAttemptKeyCode();
     int attempts() const;
     // Private constructor
-    PointLogisticController(const int& attempts, const int& lastAttemptKeyCode);
+    DartsPointLogisticController(const int& attempts, const int& lastAttemptKeyCode);
 
     void constructAndAddSuggestions();
     QString constructThrowSuggestion(const int &remainingScore,

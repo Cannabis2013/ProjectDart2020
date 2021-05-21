@@ -15,7 +15,7 @@ namespace DartsScoreMultiAttemptContext{
     }
 
 
-    int DartsPlayerScoreService::subtractPlayerScoreByModel(const IDartsScore *model)
+    int DartsPlayerScoreService::subtractPlayerScoreByModel(const DartsScore *model)
     {
         auto tuple = tupleAtId(model->playerId());
         auto indexOfTuple = indexOf(tuple);
@@ -26,7 +26,7 @@ namespace DartsScoreMultiAttemptContext{
         return newTupleScore;
     }
 
-    void DartsPlayerScoreService::subtractPlayerScoreByModels(const QVector<const IDartsScore *>& models)
+    void DartsPlayerScoreService::subtractPlayerScoreByModels(const QVector<const DartsScore *>& models)
     {
         for (const auto& model : models) {
             auto tuple = tupleAtId(model->playerId());
@@ -133,7 +133,7 @@ namespace DartsScoreMultiAttemptContext{
         return _winner;
     }
 
-    IPlayerScoreService *DartsPlayerScoreService::setWinner(const QUuid &id)
+    IPlayerScoreService<DartsScore> *DartsPlayerScoreService::setWinner(const QUuid &id)
     {
         _winner = id;
         return this;

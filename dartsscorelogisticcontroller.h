@@ -11,7 +11,7 @@ struct ScoreModel
     QVector<int> pointValue;
 };
 
-class ScoreLogisticController : public IDartsLogisticsService<QString>
+class DartsScoreLogisticController : public IDartsLogisticsService<QString>
 {
 
 public:
@@ -24,10 +24,10 @@ public:
         TrippleModifier = 0x2C
     };
     // Create instance
-    static ScoreLogisticController* createInstance(const int& attemps,
+    static DartsScoreLogisticController* createInstance(const int& attemps,
                                                    const int& lastAttemptKeyCode);
     // FTPLogisticControllerInterface interface
-    virtual QString suggestTargetRow(const int &remainingScore, const int &turnIndex) override;
+    virtual QString suggestTargetRow(const int &remainingScore, const int &turnIndex) const override;
 
 private:
     bool isEven(const int& integer);
@@ -46,7 +46,7 @@ private:
     virtual int lastAttemptKeyCode();
     int attempts() const;
     // Private constructor
-    ScoreLogisticController(const int& attempts, const int& lastAttemptKeyCode);
+    DartsScoreLogisticController(const int& attempts, const int& lastAttemptKeyCode);
 
     void constructAndAddSuggestions();
     QString constructThrowSuggestion(const int &remainingScore,

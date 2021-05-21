@@ -52,12 +52,12 @@ void ScoreIndexController::redo()
     _turnIndex++;
 }
 
-bool ScoreIndexController::canUndo()
+bool ScoreIndexController::canUndo() const
 {
     return turnIndex() > 0;
 }
 
-bool ScoreIndexController::canRedo()
+bool ScoreIndexController::canRedo() const
 {
     return turnIndex() < _totalIndex;
 }
@@ -67,22 +67,22 @@ void ScoreIndexController::syncIndex()
     _totalIndex = _turnIndex;
 }
 
-int ScoreIndexController::turnIndex()
+int ScoreIndexController::turnIndex() const
 {
     return _turnIndex;
 }
 
-int ScoreIndexController::totalIndex()
+int ScoreIndexController::totalIndex() const
 {
     return _totalIndex;
 }
 
-int ScoreIndexController::roundIndex()
+int ScoreIndexController::roundIndex() const
 {
     return _roundIndex;
 }
 
-int ScoreIndexController::setIndex()
+int ScoreIndexController::setIndex() const
 {
     return _setIndex;
 }
@@ -114,7 +114,7 @@ void ScoreIndexController::resetLegIndex()
     _attemptIndex = 0;
 }
 
-int ScoreIndexController::playersCount()
+int ScoreIndexController::playersCount() const
 {
     return _playerCount;
 }
@@ -129,7 +129,7 @@ void ScoreIndexController::setSetIndex(const int &index)
     _setIndex = index;
 }
 
-int ScoreIndexController::numberOfAttempts()
+int ScoreIndexController::numberOfAttempts() const
 {
     return 1;
 }
