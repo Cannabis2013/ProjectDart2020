@@ -15,10 +15,6 @@ void RemoteModelsContext::addDartsTournament(const QByteArray& json)
                              SLOT(handleAddFTPTournamentReply()));
 }
 
-void RemoteModelsContext::assignPlayersToTournament(const QUuid &tournament, const QList<QUuid> &playersID)
-{
-}
-
 void RemoteModelsContext::deleteTournaments(const QByteArray &json)
 {
     _netMng->sendPostRequest("DeleteTournamentsFromIndexes",

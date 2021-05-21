@@ -3,13 +3,15 @@
 
 #include "idartsinput.h"
 #include <quuid.h>
-class IDartsScoreInput : public DartsModelsContext::IDartsInput
-{
-public:
-    IDartsScoreInput() {}
 
-    virtual int score() const = 0;
-    virtual IDartsScoreInput* setScore(const int&) = 0;
-};
+namespace DartsModelsContext {
+    class IDartsScoreInput :
+            public IDartsInput
+    {
+    public:
+        virtual int score() const = 0;
+        virtual IDartsScoreInput* setScore(const int&) = 0;
+    };
+}
 
 #endif // IDARTSSCOREINPUT_H

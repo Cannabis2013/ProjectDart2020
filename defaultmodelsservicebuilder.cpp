@@ -13,7 +13,8 @@ AbstractModelsService *DefaultModelsServiceBuilder::buildLocalModelsServiceWithJ
     auto modelsContext = LocalModelsService::createInstance()
             ->setDartsModelsService(dartsModelsService)
             ->setPlayerModelsService(playerModelsService)
-            ->setDartsJsonService(dartsJsonModelsService);
+            ->setDartsJsonService(dartsJsonModelsService)
+            ->setAddPlayerNameToDartsInputModel(new AddPlayerNameToDartsInputModel);
     return modelsContext;
 }
 

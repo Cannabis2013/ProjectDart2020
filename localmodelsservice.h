@@ -10,6 +10,9 @@
 #include "iplayermodel.h"
 #include <QVariantList>
 #include "idartsjsonservice.h"
+#include "dartsscoreinput.h"
+#include "dartspointinput.h"
+#include "dartstournament.h"
 
 class LocalModelsService : public AbstractModelsService
 {
@@ -34,15 +37,15 @@ public:
     static LocalModelsService* createInstance();
 
     // Set model service methods
-    LocalModelsService *setDartsModelsService(IDartsModelsService *dartsModelsService);
-    LocalModelsService *setPlayerModelsService(IPlayerModelsService *playerModelsContext);
+    LocalModelsService* setDartsModelsService(IDartsModelsService *dartsModelsService);
+    LocalModelsService* setPlayerModelsService(IPlayerModelsService *playerModelsContext);
     LocalModelsService* setDartsJsonService(IDartsJsonService *dartsJsonService);
+    LocalModelsService* setAddPlayerNameToDartsInputModel(IBinaryService<const IPlayerInput *, const QString &, const IPlayerInput *> *newAddPlayerNameToScoreModel);
 
 public slots:
     /*
      * General tournaments methods
      */
-    void assignPlayersToTournament(const QUuid &tournament, const QList<QUuid> &playersID) override;
     void deleteTournaments(const QByteArray &json) override;
     void handleRequestGameMode(const int &index) override;
     void handleRequestTournaments() override;
@@ -98,6 +101,9 @@ private:
     IDartsJsonService* _dartsJsonService;
     IDartsModelsService* _dartsModelsService;
     IPlayerModelsService* _playerModelsService;
+    IBinaryService<const IPlayerInput*,
+                   const QString&,
+                   const IPlayerInput*>* _addPlayerNameToDartsInputModel;
 };
 
 #endif // MODELCONTEXTINTERFACE_H

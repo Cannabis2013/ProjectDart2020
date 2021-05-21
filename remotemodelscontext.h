@@ -55,7 +55,6 @@ public:
     RemoteModelsContext();
     // AbstractModelsContext interface
     virtual void addDartsTournament(const QByteArray& json) override;
-    virtual void assignPlayersToTournament(const QUuid &tournament, const QList<QUuid> &playersID) override;
     virtual void deleteTournaments(const QByteArray& json) override;
     virtual void getOrderedDartsPoints(const QUuid &tournamentId) override;
     virtual void handleRequestTournaments() override;

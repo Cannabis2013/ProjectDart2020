@@ -28,7 +28,7 @@ const DartsModelsContext::DartsPointInput *AssembleSingleAttemptPointsFromJson::
     auto pointModel = DartsModelsContext::DartsPointInput::createInstance()
             ->setId(id)
             ->setTournament(tournamentId)
-            ->setPlayer(playerId)
+            ->setPlayerId(playerId)
             ->setRoundIndex(roundIndex)
             ->setSetIndex(setIndex)
             ->setAttempt(attempt)

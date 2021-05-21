@@ -165,16 +165,16 @@ void DartsPointSingleAttempt::addPoint(const int& point,
     // Set controller state, unless winner declared
     if(currentStatus() != ControllerState::WinnerDeclared)
         setCurrentStatus(ControllerState::AddScoreState);
-    auto winnerId = status() == ControllerState::WinnerDeclared ? currentActivePlayerId() : QUuid();
+    auto winnerId = status() == ControllerState::WinnerDeclared ?
+                currentActivePlayerId() : QUuid();
+    auto playerName = _scoreController->playerNameById(currentActivePlayerId());
     auto json = _dartsJsonModelsService->assembleJsonAddPointValues(
                 tournament(),
                 _indexController->roundIndex(),
                 _indexController->setIndex(),
                 _indexController->attempt(),
                 winnerId,currentActivePlayerId(),
-                point,
-                score,
-                keyCode);
+                point,score,keyCode);
     emit requestAddDartsPoint(json);
 }
 

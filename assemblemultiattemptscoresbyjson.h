@@ -39,7 +39,7 @@ private:
         auto pointModel = DartsModelsContext::DartsScoreInput::createInstance()
                 ->setId(id)
                 ->setTournamentId(tournamentId)
-                ->setPlayer(playerId)
+                ->setPlayerId(playerId)
                 ->setRoundIndex(roundIndex)
                 ->setSetIndex(setIndex)
                 ->setScore(score)

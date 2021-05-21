@@ -17,16 +17,10 @@ namespace DartsScoreMultiAttemptContext{
         {
             auto document = QJsonDocument::fromJson(json);
             auto scoreData = document.array();
-            QVector<const IDartsScore*> extendedValueModels;
-            for (const auto &jsonVal : scoreData) {
-                auto obj = jsonVal.toObject();
-                auto dartsScoreModel = new DartsScore();
-                dartsScoreModel->setScore(obj.value("score").toInt());
-                auto playerStringId = obj.value("playerId").toString();
-                dartsScoreModel->setPlayerId(QUuid::fromString(playerStringId));
-                extendedValueModels << dartsScoreModel;
-            }
-            return extendedValueModels;
+            QVector<const IDartsScore*> dartsScoreModels;
+            for (const auto &jsonVal : scoreData)
+                dartsScoreModels << DartsScore::createInstance(jsonVal.toObject());
+            return dartsScoreModels;
         }
     };
 }

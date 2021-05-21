@@ -89,7 +89,8 @@ HEADERS += \
     abstractdartsscorecontroller.h \
     abstractmodelsservice.h \
     abstractmodelsservicebuilder.h \
-    addplayernametopointjson.h \
+    addplayernametodartsinputmodel.h \
+    addwinnernametotournamentjson.h \
     assembleJsonFromDartsIndexesAndPoints.h \
     assembledartsindexesbyjson.h \
     assembledartsplayerbyjson.h \
@@ -108,9 +109,7 @@ HEADERS += \
     assemblejsondartstournamentmodels.h \
     assemblejsonfromdartsmultiattemptscores.h \
     assemblejsonfromdartspointindexes.h \
-    assemblejsonfromdartspointmodel.h \
     assemblejsonfromdartspoints.h \
-    assemblejsonfromdartsscoremodel.h \
     assemblejsonfromdartstournamentmodels.h \
     assemblejsonfromordereddartspointmodels.h \
     assemblejsonfromplayeridandname.h \
@@ -187,6 +186,7 @@ HEADERS += \
     idartstournamentdb.h \
     igetdartspointbyparameters.h \
     igetdartsscorebyparameters.h \
+    ijsonmodelsservice.h \
     imodelsservicebuilder.h \
     ipersistence.h \
     iplayermodelsservice.h \

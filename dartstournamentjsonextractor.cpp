@@ -3,6 +3,7 @@
 
 QVector<const IModel<QUuid>*> DartsTournamentJsonExtractor::service(const QJsonArray &arr)
 {
+    using namespace DartsModelsContext;
     QVector<const IModel<QUuid>*> dartsTournaments;
     auto tournamentsCount = arr.count();
     for (int i = 0; i < tournamentsCount; ++i) {
@@ -18,12 +19,12 @@ QVector<const IModel<QUuid>*> DartsTournamentJsonExtractor::service(const QJsonA
         auto terminalKeyCode = tournamentJSON["TerminalKeyCode"].toInt();
         auto winnerStringID = tournamentJSON["Winner"].toString();
         auto winnerId = QUuid::fromString(winnerStringID);
-        auto playersJSONArray = tournamentJSON["Players"].toArray();
-        auto playersJSONCount = playersJSONArray.count();
+        auto playersJSONArray = tournamentJSON["assignedPlayerIds"].toArray();
+        auto playersJsonCount = playersJSONArray.count();
         QVector<QUuid> assignedPlayerIds;
-        for (int j = 0; j < playersJSONCount; ++j) {
-            auto assignedPlayerJSON = playersJSONArray[j].toObject();
-            auto stringID = assignedPlayerJSON["ID"].toString();
+        for (int j = 0; j < playersJsonCount; ++j) {
+            auto assignedPlayerJson = playersJSONArray[j].toObject();
+            auto stringID = assignedPlayerJson["Id"].toString();
             auto playerId = QUuid::fromString(stringID);
             assignedPlayerIds << playerId;
         }

@@ -3,7 +3,11 @@
 #include "imodel.h"
 #include <qvector.h>
 #include <quuid.h>
-class ITournament : public IModel<QUuid>
+#include "ijsonmodelsservice.h"
+
+class ITournament :
+        public IModel<QUuid>,
+        public IJsonModelsService<QByteArray>
 {
 public:
     virtual QString title() const = 0;

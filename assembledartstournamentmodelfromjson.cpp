@@ -25,6 +25,7 @@ const IDartsTournament *AssembleDartsTournamentModelFromJson::buildModelFromPara
                                                                                                        const int& inputHint,
                                                                                                        const int& attempts)
 {
+    using namespace DartsModelsContext;
     auto model = DartsTournament::createInstance()
             ->setTitle(title)
             ->setKeyPoint(keyPoint)

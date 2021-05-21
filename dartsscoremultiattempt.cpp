@@ -274,8 +274,7 @@ namespace DartsScoreMultiAttemptContext {
     {
         switch (domain)
         {
-            // In case user enters scores above 180
-        case InputOutOfRange : sendCurrentTurnValues();break;
+            case InputOutOfRange : sendCurrentTurnValues();break;
             case PointDomain : addPoint(score);break;
             case CriticalDomain : addPoint(score);break;
             case TargetDomain : {
@@ -334,7 +333,7 @@ namespace DartsScoreMultiAttemptContext {
 
     void DartsScoreMultiAttempt::undoSuccess(const QByteArray& json)
     {
-        auto dartsScoreModel = _assembleDartsScoreByJsonService->service(json);;
+        auto dartsScoreModel = _assembleDartsScoreByJsonService->service(json);
         _scoreController->addPlayerScore(dartsScoreModel->playerId(),dartsScoreModel->score());
         auto newScore = _scoreController->playerScore(dartsScoreModel->playerId());
         auto data = _jsonService->assembleJsonDartsScore(dartsScoreModel->playerName(),newScore);
@@ -353,10 +352,10 @@ namespace DartsScoreMultiAttemptContext {
 
     void DartsScoreMultiAttempt::initializeControllerPlayerDetails(const QByteArray &json)
     {
-        auto dartsPlayerModel = _assembleDartsPlayersByJson->service(json);
-        _indexController->setPlayersCount(dartsPlayerModel.count());
-        for (const auto &playerStruct : dartsPlayerModel)
-            _scoreController->addPlayerEntity(playerStruct->playerId(),playerStruct->playerName());
+        auto dartsPlayerModesl = _assembleDartsPlayersByJson->service(json);
+        _indexController->setPlayersCount(dartsPlayerModesl.count());
+        for (const auto &dartsPlayerModel : dartsPlayerModesl)
+            _scoreController->addPlayerEntity(dartsPlayerModel->playerId(),dartsPlayerModel->playerName());
         emit requestTournamentDartsScores(tournament());
     }
 
@@ -372,10 +371,8 @@ namespace DartsScoreMultiAttemptContext {
     {
         auto dartsPlayer = _assembleDartsPlayerByJson->service(json);
         _scoreController->setWinner(dartsPlayer->playerId());
-        if(_scoreController->winnerId() != QUuid())
-            setCurrentStatus(ControllerState::WinnerDeclared);
-        else
-            setCurrentStatus(ControllerState::Initialized);
+        auto status = _determineControllerStateByWinnerId->service(dartsPlayer->playerId());
+        setCurrentStatus(status);
         emit controllerIsInitialized();
     }
     DartsScoreMultiAttempt *DartsScoreMultiAttempt::setAssembleDartsPlayersByJson(IUnaryService<const QByteArray &, IDartsPlayers> *newAssembleDartsPlayersByJson)

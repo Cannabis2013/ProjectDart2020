@@ -302,7 +302,7 @@ int DartsModelsService::dartsPointsCount(const QUuid &tournamentId, const int &h
 
 void DartsModelsService::addDartsPoint(const DartsModelsContext::IDartsPointInput *model)
 {
-    _dartsPointsDb->addDartsInputModel(dynamic_cast<const DartsModelsContext::IDartsPointInput*>(model));
+    _dartsPointsDb->addDartsInputModel(model);
 }
 
 QVector<const DartsModelsContext::IDartsPointInput *> DartsModelsService::getDartsPointModelsOrdedByIndexes(const QUuid &tournamentId) const

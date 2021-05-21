@@ -2,11 +2,33 @@
 #define POINT_H
 
 #include "idartspointinput.h"
+#include <qjsondocument.h>
+#include <qjsonobject.h>
 
 namespace DartsModelsContext{
     class DartsPointInput : public DartsModelsContext::IDartsPointInput
     {
     public:
+        static DartsPointInput* createInstance()
+        {
+            return new DartsPointInput();
+        }
+        static DartsPointInput* createInstance(const QByteArray& json,
+                                               const bool& generateId = false)
+        {
+            auto model = new DartsPointInput(json);
+            if(generateId)
+                model->setId(QUuid::createUuid());
+            return model;
+        }
+        static DartsPointInput* createInstance(const QJsonObject& jsonObject,
+                                               const bool& generateId = false)
+        {
+            auto model = new DartsPointInput(jsonObject);
+            if(generateId)
+                model->setId(QUuid::createUuid());
+            return model;
+        }
         QUuid id() const override
         {
             return _id;
@@ -25,7 +47,6 @@ namespace DartsModelsContext{
             _point = point;
             return this;
         }
-
         int score() const override
         {
             return _score;
@@ -38,29 +59,38 @@ namespace DartsModelsContext{
 
         QUuid tournamentId() const override
         {
-            return _tournament;
+            return _tournamentId;
         }
         DartsPointInput* setTournamentId(const QUuid &id) override
         {
-            _tournament = id;
+            _tournamentId = id;
             return this;
         }
         QUuid playerId() const override
         {
-            return _player;
+            return _playerId;
         }
-        DartsPointInput* setPlayer(const QUuid &id) override
+        DartsPointInput* setPlayerId(const QUuid &id) override
         {
-            _player = id;
+            _playerId = id;
+            return this;
+        }
+        QString playerName() const override
+        {
+            return _playerName;
+        }
+        DartsPointInput *setPlayerName(const QString &name) override
+        {
+            _playerName = name;
             return this;
         }
         int attempt() const override
         {
-            return _attemptIndex;
+            return _attempt;
         }
         DartsPointInput* setAttempt(const int &index) override
         {
-            _attemptIndex = index;
+            _attempt = index;
             return this;
         }
         int hint() const override
@@ -75,17 +105,12 @@ namespace DartsModelsContext{
 
         int modKeyCode() const override
         {
-            return _keyCode;
+            return _modKeyCode;
         }
         DartsPointInput* setModKeyCode(const int &key) override
         {
-            _keyCode = key;
+            _modKeyCode = key;
             return this;
-        }
-
-        static DartsPointInput* createInstance()
-        {
-            return new DartsPointInput();
         }
         int setIndex() const override
         {
@@ -96,7 +121,6 @@ namespace DartsModelsContext{
             _setIndex = index;
             return this;
         }
-
         int roundIndex() const override
         {
             return _roundIndex;
@@ -106,40 +130,77 @@ namespace DartsModelsContext{
             _roundIndex = index;
             return this;
         }
-
         QUuid tournament() const
         {
-            return _tournament;
+            return _tournamentId;
         }
         DartsPointInput* setTournament(const QUuid &tournament)
         {
-            _tournament = tournament;
+            _tournamentId = tournament;
             return this;
         }
-
+        QByteArray toJson() const override
+        {
+            QJsonObject jsonObject;
+            jsonObject["point"] = _point;
+            jsonObject["score"] = _score;
+            jsonObject["modKeyCode"] = _point;
+            jsonObject["roundIndex"] = _roundIndex;
+            jsonObject["setIndex"] = _setIndex;
+            jsonObject["attempt"] = _attempt;
+            jsonObject["hint"] = _hint;
+            jsonObject["id"] = _id.toString(QUuid::WithoutBraces);
+            jsonObject["playerId"] = _playerId.toString(QUuid::WithoutBraces);
+            jsonObject["playerName"] = _playerName;
+            jsonObject["tournamentId"] = _tournamentId.toString(QUuid::WithoutBraces);
+            auto document = QJsonDocument(jsonObject);
+            auto json = document.toJson();
+            return json;
+        }
     private:
+        DartsPointInput()
+        {
+        }
+        DartsPointInput(const QByteArray& json)
+        {
+            auto document = QJsonDocument::fromJson(json);
+            auto jsonObject = document.object();
+            _point = jsonObject.value("point").toInt();
+            _modKeyCode = jsonObject.value("modKeyCode").toInt();
+            _score = jsonObject.value("score").toInt();
+            _roundIndex = jsonObject.value("roundIndex").toInt();
+            _setIndex = jsonObject.value("setIndex").toInt();
+            _hint = jsonObject.value("hint").toInt();
+            _playerId = QUuid::fromString(jsonObject.value("playerId").toString());
+            _playerName = jsonObject.value("playerName").toString();
+            _tournamentId = QUuid::fromString(jsonObject.value("tournamentId").toString());
+            _id = QUuid::fromString(jsonObject.value("id").toString(""));
+        }
+        DartsPointInput(const QJsonObject& jsonObject)
+        {
+            _point = jsonObject.value("point").toInt();
+            _modKeyCode = jsonObject.value("modKeyCode").toInt();
+            _score = jsonObject.value("score").toInt();
+            _roundIndex = jsonObject.value("roundIndex").toInt();
+            _setIndex = jsonObject.value("setIndex").toInt();
+            _hint = jsonObject.value("hint").toInt();
+            _playerId = QUuid::fromString(jsonObject.value("playerId").toString());
+            _playerName = jsonObject.value("playerName").toString();
+            _tournamentId = QUuid::fromString(jsonObject.value("tournamentId").toString());
+            _id = QUuid::fromString(jsonObject.value("id").toString(""));
+        }
+
         int _point;
         int _score;
         int _roundIndex;
         int _setIndex;
-        int _attemptIndex;
+        int _attempt;
         int _hint;
-        int _keyCode;
-        QUuid _id, _player, _tournament;
+        int _modKeyCode;
+        QUuid _id;
+        QUuid _playerId;
+        QString _playerName;
+        QUuid _tournamentId;
     };
 };
-
-
 #endif // POINT_H
-
-
-
-
-
-
-
-
-
-
-
-

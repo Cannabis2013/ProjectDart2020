@@ -23,8 +23,9 @@
 #include "assembledartspointmodelfromjson.h"
 #include "assembleplayermodelfromjson.h"
 #include "assignplayeridstodartstournamentmodel.h"
-#include "addplayernametopointjson.h"
+#include "addplayernametodartsinputmodel.h"
 #include "idartsjsonservice.h"
+#include "addplayernametodartsinputmodel.h"
 
 class DefaultModelsServiceBuilder :
         public AbstractModelsServiceBuilder<AbstractModelsService>

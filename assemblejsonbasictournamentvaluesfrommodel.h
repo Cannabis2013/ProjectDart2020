@@ -10,31 +10,24 @@
 #include "iplayermodelsservice.h"
 #include "iplayermodel.h"
 
-class AssembleJsonFromDartsTournament :
-        public IBinaryService<const IDartsTournament*,
-                              const IPlayerModelsService*,
+class AddPlayerNamesToDartsTournamentJson :
+        public IBinaryService<const QByteArray&,
+                              const QVector<QString>&,
                               QByteArray>
 {
 public:
-    QByteArray service(const IDartsTournament* dartsTournamentModel,
-                             const IPlayerModelsService* playerService) override
+    QByteArray service(const QByteArray& json,
+                       const QVector<QString>& playerNames) override
     {
-        QJsonObject obj;
-        obj["title"] = dartsTournamentModel->title();
-        obj["winnerName"] = playerService->playerNameById(dartsTournamentModel->winnerId());
-        obj["gameMode"] = dartsTournamentModel->gameMode();
-        obj["attempts"] = dartsTournamentModel->attempts();
-        obj["keyPoint"] = dartsTournamentModel->keyPoint();
-        obj["displayHint"] = dartsTournamentModel->displayHint();
-        obj["inputHint"] = dartsTournamentModel->inputHint();
-        auto playerIds = dartsTournamentModel->assignedPlayerIdentities();
-        auto assignedPlayerNames = playerService->assemblePlayerNamesFromIds(playerIds);
-        QJsonArray arr;
-        for (const auto &assignedPlayerName : assignedPlayerNames)
-            arr << assignedPlayerName;
-        obj["assignedPlayerNames"] = arr;
-        auto json = QJsonDocument(obj).toJson();
-        return json;
+        auto document = QJsonDocument::fromJson(json);
+        auto jsonObject = document.object();
+        auto arr = jsonObject.value("assignedPlayerIds").toArray();
+        QJsonArray namesArr;
+        for (const auto& playerName : playerNames)
+            namesArr << playerName;
+        jsonObject["assignedPlayerNames"] = namesArr;
+        auto newJSon = QJsonDocument(jsonObject).toJson();
+        return newJSon;
     }
 };
 

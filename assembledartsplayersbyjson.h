@@ -22,9 +22,9 @@ namespace DartsScoreMultiAttemptContext
             for (const auto &playerDataJsonValue : playerDatas) {
                 auto obj = playerDataJsonValue.toObject();
                 DartsPlayer* playerDetails = new DartsPlayer;
-                auto playerStringId = obj["playerId"].toString();
-                playerDetails->playerId() = QUuid::fromString(playerStringId);
-                playerDetails->playerName() = obj["playerName"].toString();
+                auto playerStringId = obj.value("playerId").toString();
+                playerDetails->setPlayerId(QUuid::fromString(playerStringId));
+                playerDetails->setPlayerName(obj.value("playerName").toString());
                 list << playerDetails;
             }
             return list;

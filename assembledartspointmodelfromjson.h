@@ -18,6 +18,7 @@ public:
     };
     const DartsModelsContext::IDartsPointInput* service(const QByteArray& json) override
     {
+        using namespace DartsModelsContext;
         auto jsonObject = QJsonDocument::fromJson(json).object();
         auto tournamentStringId = jsonObject.value("tournamentId").toString();
         auto tournamentId = QUuid::fromString(tournamentStringId);
@@ -29,10 +30,10 @@ public:
         auto modKeyCode = jsonObject.value("modKeyCode").toInt();
         auto setIndex = jsonObject.value("setIndex").toInt();
         auto attemptIndex = jsonObject.value("attempt").toInt();
-        auto model = DartsModelsContext::DartsPointInput::createInstance()
+        auto model = DartsPointInput::createInstance()
                 ->setId(QUuid::createUuid())
                 ->setTournamentId(tournamentId)
-                ->setPlayer(playerId)
+                ->setPlayerId(playerId)
                 ->setPoint(point)
                 ->setScore(score)
                 ->setModKeyCode(modKeyCode)

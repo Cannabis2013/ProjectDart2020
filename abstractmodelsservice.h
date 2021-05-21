@@ -19,8 +19,6 @@ public:
      * Darts general methods
      */
     virtual void addDartsTournament(const QByteArray& json) = 0;
-    virtual void assignPlayersToTournament(const QUuid &tournament,
-                                                 const QList<QUuid> &playersID) = 0;
     virtual void deleteTournaments(const QByteArray& json) = 0;
     virtual void getOrderedDartsPoints(const QUuid &tournament) = 0;
     virtual void handleRequestTournaments() = 0;

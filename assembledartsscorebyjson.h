@@ -15,13 +15,7 @@ namespace DartsScoreMultiAttemptContext {
     public:
         const IDartsScore* service(const QByteArray& json) override
         {
-            auto document = QJsonDocument::fromJson(json);
-            auto obj = document.object();
-            auto dartsScoreModel = new DartsScore();
-            dartsScoreModel->setScore(obj.value("score").toInt());
-            auto playerStringId = obj.value("playerId").toString();
-            dartsScoreModel->setPlayerId(QUuid::fromString(playerStringId));
-            return dartsScoreModel;
+            return DartsScore::createInstance(json);
         }
     };
 };

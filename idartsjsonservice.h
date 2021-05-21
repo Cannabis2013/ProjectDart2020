@@ -25,11 +25,12 @@ public:
     virtual QJsonArray jsonArrayFromDartsScores(const QUuid&, const IDartsModelsService*) const = 0;
     virtual QByteArray assembleJsonOrderedDartsPointModels(const QVector<const DartsModelsContext::IDartsPointInput*>&,
                                                            const IPlayerModelsService*) const = 0;
-    virtual QByteArray assembleJsonDartsTournamentModel(const IDartsTournament*,
-                                                        const IPlayerModelsService*) const = 0;
+    virtual QByteArray addPlayerNamesToDartsTournamentJson(const QByteArray&,
+                                                        const QVector<QString>&) const = 0;
+    virtual QByteArray addWinnerNameToDartsTournamentJson(const QByteArray&,const QString& name) const = 0;
     virtual QByteArray assembleJsonDartsTournamentModels(const IDartsModelsService*,
                                                          const IPlayerModelsService*) const = 0;
-    virtual QByteArray assembleJsonFromPlayerIdAndName(const QUuid&,const QString&) const = 0;
+    virtual QByteArray assembleJsonByPlayerIdAndName(const QUuid&,const QString&) const = 0;
     virtual QByteArray assembleJsonFromDartsTournamentModel(const IDartsTournament*) const = 0;
     virtual QVector<int> getDeleteTournamentIndexesFromJson(const QByteArray&) const = 0;
     virtual int getDeletePlayerIndexFromJson(const QByteArray&) const = 0;
@@ -37,11 +38,6 @@ public:
     virtual const IPlayerModel* assemblePlayerModelFromJson(const QByteArray&) const = 0;
     virtual const IDartsTournament* assignPlayerIdsToDartsTournament(const IDartsTournament*,
                                                                      const QVector<QUuid>&) const = 0;
-    virtual QByteArray addPlayerNameToJsonInputModel(const QByteArray&,
-                                                     const IPlayerModelsService*) const = 0;
-    virtual QByteArray assembleJsonFromDartsPointModel(const DartsModelsContext::IDartsPointInput*) const = 0;
-    virtual const IDartsScoreInput* assembleDartsScoreModelFromJson(const QByteArray&) const = 0;
-    virtual QByteArray assembleJsonFromDartsScoreModel(const IDartsScoreInput*) const = 0;
     virtual QByteArray assembleJsonFromDartsMultiAttemptScores(const QVector<const IDartsScoreInput *>&) const = 0;
     virtual QUuid getWinnerIdByJson(const QByteArray&) const = 0;
     virtual QUuid getTournamentIdByJson(const QByteArray&) const = 0;

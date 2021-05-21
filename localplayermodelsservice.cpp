@@ -14,8 +14,8 @@ QVector<QString> LocalPlayerModelsService::assemblePlayerNamesFromIds(const QVec
 {
     QVector<QString> assignedPlayerNames;
     for (int i = 0; i <ids.count();i++) {
-        auto playerID = ids.at(i);
-        auto playerName = this->playerNameById(playerID);
+        auto playerId = ids.at(i);
+        auto playerName = playerNameById(playerId);
         if(playerName == QString())
         {
             /*
