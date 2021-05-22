@@ -245,8 +245,7 @@ namespace DartsScoreMultiAttemptContext {
     void DartsScoreMultiAttempt::initializeControllerIndexes(const QByteArray& json)
     {
         auto indexes = _assembleDartsScoreIndexesByJson->service(json);
-        _indexController->setIndexes(indexes->totalTurns(),indexes->turns(),
-                                      indexes->roundIndex(),indexes->setIndex());
+        _indexController->setIndexes(indexes);
         emit requestTournamentAssignedPlayerDetails(tournament());
     }
 
@@ -288,7 +287,7 @@ namespace DartsScoreMultiAttemptContext {
         return this;
     }
 
-    DartsScoreMultiAttempt* DartsScoreMultiAttempt::setIndexController(IDartsMultiAttemptIndexService *indexController)
+    DartsScoreMultiAttempt* DartsScoreMultiAttempt::setIndexController(IDartsMultiAttemptIndexService<IDartsMultiAttemptIndexes> *indexController)
     {
         _indexController = indexController;
         return this;

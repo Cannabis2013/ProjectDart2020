@@ -1,15 +1,6 @@
-#include "dartssingleattemptpointjsonservice.h"
+#include "dartspointsingleattemptjsonservice.h"
 
-const IDartsSingleAttemptPointJsonService::KeyInputValues *DartsSingleAttemptPointJsonService::assemblePointStructFromJson(const QByteArray &json) const
-{
-    KeyInputValues* inputValueModel = new KeyInputValues;
-    auto jsonObject = QJsonDocument::fromJson(json).object();
-    inputValueModel->pointValue = jsonObject.value("point").toInt();
-    inputValueModel->modKeyCode = jsonObject.value("modKeyCode").toInt();
-    return inputValueModel;
-}
-
-QVector<const IDartsSingleAttemptPointJsonService::ExtendedInputValues *> DartsSingleAttemptPointJsonService::assembleExtendedInputModelsFromJson(const QByteArray &json) const
+QVector<const IDartsSingleAttemptPointJsonService::ExtendedInputValues *> DartsPointSingleAttemptJsonService::assembleExtendedInputModelsFromJson(const QByteArray &json) const
 {
     auto document = QJsonDocument::fromJson(json);
     auto scoreData = document.array();
@@ -26,7 +17,7 @@ QVector<const IDartsSingleAttemptPointJsonService::ExtendedInputValues *> DartsS
     return extendedValueModels;
 }
 
-QVector<const IDartsSingleAttemptPointJsonService::PlayerDetailsStruct *> DartsSingleAttemptPointJsonService::assemblePlayerDetailsStructsFromJson(const QByteArray& json) const
+QVector<const IDartsSingleAttemptPointJsonService::PlayerDetailsStruct *> DartsPointSingleAttemptJsonService::assemblePlayerDetailsStructsFromJson(const QByteArray& json) const
 {
     auto document = QJsonDocument::fromJson(json);
     auto playerDatas = document.array();
@@ -42,7 +33,7 @@ QVector<const IDartsSingleAttemptPointJsonService::PlayerDetailsStruct *> DartsS
     return list;
 }
 
-const IDartsSingleAttemptPointJsonService::PlayerDetailsStruct *DartsSingleAttemptPointJsonService::assembleWinnerStructFromJson(const QByteArray& json) const
+const IDartsSingleAttemptPointJsonService::PlayerDetailsStruct *DartsPointSingleAttemptJsonService::assembleWinnerStructFromJson(const QByteArray& json) const
 {
     auto document = QJsonDocument::fromJson(json);
     auto jsonObject = document.object();
@@ -53,7 +44,7 @@ const IDartsSingleAttemptPointJsonService::PlayerDetailsStruct *DartsSingleAttem
     return winnerStruct;
 }
 
-QByteArray DartsSingleAttemptPointJsonService::assembleJsonFromParameters(const QString &playerName, const int &pointValue, const int &scoreValue, const int &modKeyCode) const
+QByteArray DartsPointSingleAttemptJsonService::assembleJsonFromParameters(const QString &playerName, const int &pointValue, const int &scoreValue, const int &modKeyCode) const
 {
     QJsonObject obj = {
         {"playerName",playerName},
@@ -65,7 +56,7 @@ QByteArray DartsSingleAttemptPointJsonService::assembleJsonFromParameters(const 
     return json;
 }
 
-const IDartsSingleAttemptPointJsonService::DartsIndexes *DartsSingleAttemptPointJsonService::assembleDartsIndexesFromJson(const QByteArray &json) const
+const IDartsSingleAttemptPointJsonService::DartsIndexes *DartsPointSingleAttemptJsonService::assembleDartsIndexesFromJson(const QByteArray &json) const
 {
     DartsIndexes* indexes = new DartsIndexes;
     auto jsonObject = QJsonDocument::fromJson(json).object();
@@ -77,35 +68,7 @@ const IDartsSingleAttemptPointJsonService::DartsIndexes *DartsSingleAttemptPoint
     return indexes;
 }
 
-QByteArray DartsSingleAttemptPointJsonService::assembleJsonDartsPoint(const QString &playerName, const int &point, const int &score) const
-{
-    QJsonObject jsonObject;
-    jsonObject["playerName"] = playerName;
-    jsonObject["point"] = point;
-    jsonObject["score"] = score;
-    auto document = QJsonDocument(jsonObject);
-    auto json = document.toJson();
-    return json;
-}
-
-QByteArray DartsSingleAttemptPointJsonService::assembleJsonTurnValues(const bool &canUndo,
-                                                                      const bool &canRedo,
-                                                                      const int &roundIndex,
-                                                                      const QString &currentPlayerName,
-                                                                      const QString &targetRow) const
-{
-    QJsonObject jsonObject = {
-        {"canUndo", canUndo},
-        {"canRedo",canRedo},
-        {"roundIndex",roundIndex},
-        {"currentUserName",currentPlayerName},
-        {"targetRow",targetRow}
-    };
-    auto json = QJsonDocument(jsonObject).toJson();
-    return json;
-}
-
-QByteArray DartsSingleAttemptPointJsonService::assembleJsonAddPointValues(const QUuid &tournamentId, const int &roundIndex,
+QByteArray DartsPointSingleAttemptJsonService::assembleJsonAddPointValues(const QUuid &tournamentId, const int &roundIndex,
                                                                           const int &setIndex, const int &attemptIndex,
                                                                           const QUuid &winnerId, const QUuid &playerId,
                                                                           const int &point, const int& score,const int &modKeyCode) const
@@ -124,14 +87,14 @@ QByteArray DartsSingleAttemptPointJsonService::assembleJsonAddPointValues(const 
     return json;
 }
 
-QByteArray DartsSingleAttemptPointJsonService::assembleJsonWinnerName(const QString &winnerName) const
+QByteArray DartsPointSingleAttemptJsonService::assembleJsonWinnerName(const QString &winnerName) const
 {
     QJsonObject jsonObject = {{"winner",winnerName}};
     auto json = QJsonDocument(jsonObject).toJson(QJsonDocument::Compact);
     return json;
 }
 
-const IDartsSingleAttemptPointJsonService::ExtendedInputValues * DartsSingleAttemptPointJsonService::assembleExtendedInputModelFromJson(const QByteArray& json) const
+const IDartsSingleAttemptPointJsonService::ExtendedInputValues * DartsPointSingleAttemptJsonService::assembleExtendedInputModelFromJson(const QByteArray& json) const
 {
     auto document = QJsonDocument::fromJson(json);
     auto obj = document.object();
@@ -143,7 +106,7 @@ const IDartsSingleAttemptPointJsonService::ExtendedInputValues * DartsSingleAtte
     return extendedValueModel;
 }
 
-QByteArray DartsSingleAttemptPointJsonService::assembleJsonFromParameters(const QString &playerName, const int &pointValue, const int &scoreValue) const
+QByteArray DartsPointSingleAttemptJsonService::assembleJsonFromParameters(const QString &playerName, const int &pointValue, const int &scoreValue) const
 {
     QJsonObject obj = {
         {"playerName",playerName},

@@ -36,10 +36,10 @@ SOURCES += \
     dartspointlogisticcontroller.cpp \
     dartspointsingleattempt.cpp \
     dartspointsingleattemptdatamodel.cpp \
+    dartspointsingleattemptjsonservice.cpp \
     dartsscorejsondb.cpp \
     dartsscorelogisticcontroller.cpp \
     dartsscoremultiattempt.cpp \
-    dartssingleattemptpointjsonservice.cpp \
     dartstournamentjsonextractor.cpp \
     defaultmodelsservicebuilder.cpp \
     iurlparser.cpp \
@@ -144,6 +144,7 @@ HEADERS += \
     dartspointsethintservice.h \
     dartspointsingleattempt.h \
     dartspointsingleattemptdatamodel.h \
+    dartspointsingleattemptjsonservice.h \
     dartspointturnvalues.h \
     dartsscore.h \
     dartsscoreindexes.h \
@@ -153,7 +154,6 @@ HEADERS += \
     dartsscoremultiattempt.h \
     dartsscoresjsonassemblerservice.h \
     dartsscoreturnvalues.h \
-    dartssingleattemptpointjsonservice.h \
     defaultmodelsservicebuilder.h \
     deletetournamentsbyindexesservice.h \
     determinecontrollerstatebywinnerid.h \
@@ -199,7 +199,6 @@ HEADERS += \
     iplayermodelsservice.h \
     iplayerpointservice.h \
     iplayerscoreservice.h \
-    iscoreindexes.h \
     iternaryservice.h \
     iunaryservice.h \
     jsonarrayfromplayernamesandids.h \

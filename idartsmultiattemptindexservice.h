@@ -1,13 +1,11 @@
 #ifndef IDARTSMULTIATTEMPTINDEXSERVICE_H
 #define IDARTSMULTIATTEMPTINDEXSERVICE_H
 
+template<typename TIndexes>
 class IDartsMultiAttemptIndexService
 {
 public:
-    virtual void setIndexes(const int&,
-                            const int&,
-                            const int&,
-                            const int&) = 0;
+    virtual void setIndexes(const TIndexes*) = 0;
     virtual void reset() = 0;
     virtual void next() = 0;
 

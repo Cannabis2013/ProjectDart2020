@@ -22,7 +22,7 @@
 #include "abstractdartsscorecontroller.h"
 #include "abstractdartspointcontroller.h"
 #include "iternaryservice.h"
-#include "dartssingleattemptpointjsonservice.h"
+#include "dartspointsingleattemptjsonservice.h"
 #include "dartsmultiattemptjsonservice.h"
 #include "dartsplayerpointservice.h"
 #include "assembledartsscorebyjson.h"

@@ -16,7 +16,6 @@ public:
     typedef DartsPointInputContext::DartsPointModel ExtendedInputValues;
     typedef DartsPointInputContext::DartsInputPlayerDetails PlayerDetailsStruct;
     typedef DartsPointInputContext::DartsSingleAttemptIndexes DartsIndexes;
-    virtual const KeyInputValues* assemblePointStructFromJson(const QByteArray&) const = 0;
     virtual const ExtendedInputValues * assembleExtendedInputModelFromJson(const QByteArray&) const = 0;
     virtual QVector<const ExtendedInputValues*> assembleExtendedInputModelsFromJson(const QByteArray&) const = 0;
     virtual QVector<const PlayerDetailsStruct*> assemblePlayerDetailsStructsFromJson(const QByteArray&) const = 0;
@@ -24,8 +23,6 @@ public:
     virtual QByteArray assembleJsonFromParameters(const QString&, const int&,const int&) const = 0;
     virtual QByteArray assembleJsonFromParameters(const QString&, const int&,const int&, const int&) const = 0;
     virtual const DartsIndexes* assembleDartsIndexesFromJson(const QByteArray&) const = 0;
-    virtual QByteArray assembleJsonDartsPoint(const QString&, const int&, const int&) const = 0;
-    virtual QByteArray assembleJsonTurnValues(const bool&, const bool&, const int&, const QString&, const QString&) const = 0;
     virtual QByteArray assembleJsonAddPointValues(const QUuid&,
                                                   const int&,
                                                   const int&,

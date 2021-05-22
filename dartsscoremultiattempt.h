@@ -63,7 +63,7 @@ namespace DartsScoreMultiAttemptContext
         typedef IPlayerScoreService<DartsScore> PlayerScoreService;
         typedef IDartsMultiAttemptJsonService<PlayerScoreService> MultiAttemptJsonService;
         typedef IBinaryService<const IDartsLogisticsService<QString>*,const int&, QString> LogisticService;
-        typedef ITernaryService<const IDartsMultiAttemptIndexService*,
+        typedef ITernaryService<const IDartsMultiAttemptIndexService<IDartsMultiAttemptIndexes>*,
                                 const IPlayerScoreService<DartsScore>*,
                                 const IDartsLogisticsService<QString>*,
                                 const DartsScoreTurnValues*> DartsScoreTurnValuesBuilderService;
@@ -73,7 +73,7 @@ namespace DartsScoreMultiAttemptContext
          * Get/set evaluator service
          */
         DartsScoreMultiAttempt *setInputValidator(IScoreValidator *scoreEvaluator);
-        DartsScoreMultiAttempt *setIndexController(IDartsMultiAttemptIndexService*indexController);
+        DartsScoreMultiAttempt *setIndexController(IDartsMultiAttemptIndexService<IDartsMultiAttemptIndexes>*indexController);
         DartsScoreMultiAttempt *setScoreController(PlayerScoreService *scoreController);
         /*
          * Point suggestion section
@@ -142,7 +142,7 @@ namespace DartsScoreMultiAttemptContext
         // Get current status
         int currentStatus() const;
         /*
-         * Recieve ftp index values, score values, and player values from modelscontext
+         * Recieve darts index values, score values, and player values from modelscontext
          */
         virtual void initializeControllerIndexes(const QByteArray& json) override;
         void initializeControllerPlayerDetails(const QByteArray &json) override;
@@ -194,7 +194,7 @@ namespace DartsScoreMultiAttemptContext
         // Validator service
         IScoreValidator* _scoreEvaluator = nullptr;
         // Index service
-        IDartsMultiAttemptIndexService* _indexController = nullptr;
+        IDartsMultiAttemptIndexService<IDartsMultiAttemptIndexes>* _indexController = nullptr;
         // Userscore service
         PlayerScoreService* _scoreController = nullptr;
         MultiAttemptJsonService* _jsonService;

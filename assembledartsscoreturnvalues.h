@@ -7,16 +7,18 @@
 #include "iplayerscoreservice.h"
 #include "dartsscore.h"
 #include "idartslogisticsservice.h"
+#include "idartsmultiattemptindexes.h"
 
 namespace DartsScoreMultiAttemptContext{
     class AssembleDartsScoreTurnValues : public
-            ITernaryService<const IDartsMultiAttemptIndexService*,
+            ITernaryService<const IDartsMultiAttemptIndexService<IDartsMultiAttemptIndexes>*,
                            const IPlayerScoreService<DartsScore>*,
                            const IDartsLogisticsService<QString>*,
                            const DartsScoreTurnValues*>
     {
     public:
-        const DartsScoreTurnValues* service(const IDartsMultiAttemptIndexService* indexService,
+        typedef IDartsMultiAttemptIndexService<IDartsMultiAttemptIndexes> IndexService;
+        const DartsScoreTurnValues* service(const IndexService* indexService,
                                             const IPlayerScoreService<DartsScore>* playerScoreService,
                                             const IDartsLogisticsService<QString>* logisticService) override
         {
