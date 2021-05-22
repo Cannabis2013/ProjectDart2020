@@ -53,7 +53,10 @@ Item {
             onResumeButtonClicked: turnControllerBody.resumeButtonClicked()
             onPauseButtonClicked: turnControllerBody.pauseButtonClicked()
             onStartButtonClicked: turnControllerBody.startButtonClicked()
-            onRestartButtonClicked: turnControllerBody.state = "startState";
+            onRestartButtonClicked: {
+                turnControllerBody.state = "startState";
+                turnControllerBody.restartButtonClicked();
+            }
             onPressAndHoldClicked: turnControllerBody.state = "optionsState";
         }
         PushButton{
@@ -130,9 +133,6 @@ Item {
                 target: startButtonComponent
                 startButtonVisible: true
                 startButtonEnabled: true
-            }
-            StateChangeScript{
-                script: turnControllerBody.restartButtonClicked()
             }
         },
         State {

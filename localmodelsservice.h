@@ -62,6 +62,7 @@ public slots:
      */
     void getOrderedDartsPoints(const QUuid &tournamentId) override;
     void addDartsPoint(const QByteArray& json) override;
+    void assembleAssignedPlayerPoints(const QUuid &tournamentId) override;
     virtual void assembleDartsPointIndexes(const QUuid &tournament) override;
     void hideDartsPoint(const QUuid& tournamentId,
                             const QUuid& playerId,
@@ -93,7 +94,6 @@ public slots:
     void deletePlayersFromIndexes(const QByteArray& json) override;
     void handleRequestPlayersDetails() override;
     void assembleAssignedPlayerEntities(const QUuid &tournamentId) override;
-    void assembleAssignedPlayerPoints(const QUuid &tournamentId) override;
     void assembleDartsTournamentWinnerIdAndName(const QUuid &tournamentId) override;
 
 private:

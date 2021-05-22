@@ -115,7 +115,7 @@ void DartsModelsService::removePointById(const QUuid &pointId)
 
 DartsModelsService *DartsModelsService::setGetScoreIndexesByTournamentId(GetScoreIndexesByDartsTournamentService *getScoreIndexesByTournamentId)
 {
-    _getScoreIndexesByTournamentId = getScoreIndexesByTournamentId;
+    _getDartsScoreIndexesByModels = getScoreIndexesByTournamentId;
     return this;
 }
 
@@ -397,7 +397,7 @@ const IDartsScoreIndexes *DartsModelsService::dartsScoreIndexes(const QUuid&tour
     auto count = _countScoresByTournamentAndHint->service(tournamentId,
                                                           ModelDisplayHint::DisplayHint,
                                                           _dartsScoresDb);
-    auto indexes = _getScoreIndexesByTournamentId->service(orderedModels,model,count);
+    auto indexes = _getDartsScoreIndexesByModels->service(orderedModels,model,count);
     return indexes;
 }
 

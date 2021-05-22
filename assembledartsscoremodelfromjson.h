@@ -19,7 +19,7 @@ namespace DartsModelsContext {
         };
         const IDartsScoreInput* service(const QByteArray& json) override
         {
-            return DartsScoreInput::createInstance(json);
+            return DartsScoreInput::fromJson(json);
         }
     };
 }

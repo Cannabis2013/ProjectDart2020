@@ -43,7 +43,7 @@ void LocalModelsService::handleRequestGameMode(const int &index)
 }
 void LocalModelsService::addDartsPoint(const QByteArray &json)
 {
-    auto model = DartsPointInput::createInstance(json,true);
+    auto model = DartsPointInput::fromJson(json,ModelDisplayHint::DisplayHint,true);
     _dartsModelsService->addDartsPoint(model);
     _dartsModelsService->removeHiddenPoints(model->tournamentId());
     auto playerName = _playerModelsService->playerNameById(model->playerId());
@@ -207,7 +207,7 @@ void LocalModelsService::revealScore(const QUuid& tournamentId,
 
 void LocalModelsService::addDartsScore(const QByteArray &json)
 {
-    auto model = DartsScoreInput::createInstance(json);
+    auto model = DartsScoreInput::fromJson(json,ModelDisplayHint::DisplayHint,true);
     _dartsModelsService->addDartsScore(model);
     _dartsModelsService->removeHiddenScores(model->tournamentId());
     auto playerName = _playerModelsService->playerNameById(model->playerId());

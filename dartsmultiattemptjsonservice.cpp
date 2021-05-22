@@ -7,23 +7,6 @@ namespace DartsScoreMultiAttemptContext {
         return inputValueModel;
     }
 
-    QByteArray DartsMultiAttemptJsonService::assembleJsonTurnValues(const bool &canUndo,
-                                                                    const bool &canRedo,
-                                                                    const int &roundIndex,
-                                                                    const QString &currentPlayerName,
-                                                                    const QString &targetRow) const
-    {
-        QJsonObject jsonObject = {
-            {"canUndo", canUndo},
-            {"canRedo",canRedo},
-            {"roundIndex",roundIndex},
-            {"currentUserName",currentPlayerName},
-            {"targetRow",targetRow}
-        };
-        auto json = QJsonDocument(jsonObject).toJson();
-        return json;
-    }
-
     QByteArray DartsMultiAttemptJsonService::assembleJsonAddScoreValues(const QUuid &tournamentId, const int &roundIndex,
                                                                         const int &setIndex,const QUuid &winnerId,
                                                                         const QUuid &playerId,const int& score) const
@@ -49,7 +32,6 @@ namespace DartsScoreMultiAttemptContext {
         auto json = QJsonDocument(jsonObject).toJson(QJsonDocument::Compact);
         return json;
     }
-
 
     QByteArray DartsMultiAttemptJsonService::assembleJsonDartsMultiAttemptScores(const PlayerScoreService *scoreService) const
     {

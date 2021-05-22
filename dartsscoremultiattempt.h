@@ -130,7 +130,9 @@ namespace DartsScoreMultiAttemptContext
          */
         void assembleMultiAttemptDartsScores() override;
         void handleRequestDartsScores() override;
-
+        /*
+         * Models context has persisted score succesfully
+         */
         void handleScoreAddedToDataContext(const QByteArray& json) override;
         /*
          * Reinitialize controller

@@ -55,7 +55,7 @@ public:
     virtual void undo() override
     {
         _turnIndex--;
-        if(attempt() > 0)
+        if(attemptIndex() > 0)
            _attemptIndex--;
         else
         {
@@ -87,11 +87,11 @@ public:
         }
         _turnIndex++;
     }
-    virtual bool canUndo() override
+    virtual bool canUndo() const override
     {
         return turnIndex() > 0;
     }
-    virtual bool canRedo() override
+    virtual bool canRedo() const override
     {
         return turnIndex() < _totalIndex;
     }
@@ -99,7 +99,7 @@ public:
     {
         _totalIndex = _turnIndex;
     }
-    virtual int turnIndex() override
+    virtual int turnIndex() const override
     {
         return _turnIndex;
     }
@@ -107,7 +107,7 @@ public:
     {
         _turnIndex = index;
     }
-    virtual int totalIndex() override
+    virtual int totalIndex() const override
     {
         return _totalIndex;
     }
@@ -115,7 +115,7 @@ public:
     {
         _totalIndex = index;
     }
-    virtual int roundIndex() override
+    virtual int roundIndex() const override
     {
         return _roundIndex;
     }
@@ -123,7 +123,7 @@ public:
     {
         _roundIndex = roundIndex;
     }
-    virtual int setIndex() override
+    virtual int setIndex() const override
     {
         return _setIndex;
     }
@@ -131,7 +131,7 @@ public:
     {
         _setIndex = setIndex;
     }
-    virtual int attempt() override
+    virtual int attemptIndex() const override
     {
         return _attemptIndex;
     }
@@ -140,7 +140,7 @@ public:
     {
         _attemptIndex = index;
     }
-    int numberOfAttempts() override
+    int numberOfAttempts() const override
     {
         return _numberOfAttempts;
     }
@@ -148,7 +148,7 @@ public:
     {
         _numberOfAttempts = numberOfAttempts;
     }
-    virtual int playersCount() override
+    virtual int playersCount() const override
     {
         return _playersCount;
     }

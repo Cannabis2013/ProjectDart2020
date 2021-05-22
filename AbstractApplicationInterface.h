@@ -114,7 +114,7 @@ signals:
     void dartsControllerRemovedMultiAttemptScore(const QString& json);
     void dartsControllerAddedDartsSingleAttemptPoint(const QByteArray& json);
     void dartsMultiAttemptScoreControllerIsInitalized();
-    void dartsMutliAttemptScoreControllerIsReady();
+    void dartsMultiAttemptScoreControllerIsReady();
     void dartsSingleAttemptPointControllerIsReady();
     void dartsControllerAddedDartsMultiAttemptScore(const QByteArray& json);
     void controllerAwaitsInput(const QByteArray& json);

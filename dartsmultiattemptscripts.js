@@ -11,7 +11,7 @@ function connectInterface()
                          .connect(applicationInterface.handleRequestForMultiAttemptScores);
     applicationInterface.sendAssembledMultiAttemptDartsScores.connect(recieveDartsMultiAttemptScores);
     applicationInterface.dartsControllerIsReset.connect(reinitialize);
-    applicationInterface.dartsMutliAttemptScoreControllerIsReady
+    applicationInterface.dartsMultiAttemptScoreControllerIsReady
                         .connect(controllerIsInitializedAndReady);
     applicationInterface.controllerHasDeclaredAWinner.connect(backendDeclaredAWinner);
     applicationInterface.controllerIsStopped.connect(backendIsStopped);
@@ -36,7 +36,7 @@ function disconnectInterface()
                 applicationInterface.handleRequestForMultiAttemptScores);
     applicationInterface.sendAssembledMultiAttemptDartsScores.disconnect(
                 recieveDartsMultiAttemptScores);
-    applicationInterface.dartsMutliAttemptScoreControllerIsReady
+    applicationInterface.dartsMultiAttemptScoreControllerIsReady
                         .disconnect(controllerIsInitializedAndReady);
     applicationInterface.controllerHasDeclaredAWinner.disconnect(backendDeclaredAWinner);
     applicationInterface.controllerIsStopped.disconnect(backendIsStopped);
@@ -96,7 +96,7 @@ function extractScoreFromJson(data)
 {
     var json = JSON.parse(data);
     let playerName = json["playerName"];
-    let scoreValue = json["score"];
+    let scoreValue = json["totalScore"];
     multiAttemptScoreBoard.setData(playerName,scoreValue);
     requestStatusFromBackend();
 }
@@ -120,7 +120,7 @@ function backendRemovedPoint(data)
 {
     var json = JSON.parse(data);
     let playerName = json["playerName"];
-    let score = json["score"];
+    let score = json["totalScore"];
     multiAttemptScoreBoard.setData(playerName,score);
     requestStatusFromBackend();
 }
@@ -139,7 +139,7 @@ function setTurnControllerValues(json)
     multiAttemptScoreTurnController.leftButtonEnabled = json.canUndo;
     multiAttemptScoreTurnController.rightButtonEnabled = json.canRedo;
     multiAttemptScoreTurnController.currentRoundIndex = json.roundIndex;
-    multiAttemptScoreTurnController.currentPlayer = json.currentUserName;
+    multiAttemptScoreTurnController.currentPlayer = json.playerName;
 }
 
 function handleScoreKeyPadInput(value){

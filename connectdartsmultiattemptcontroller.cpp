@@ -44,7 +44,7 @@ void ConnectDartsMultiAttemptController::service(AbstractDartsScoreController *c
     QObject::connect(controller,&AbstractDartsController::controllerIsStopped,
             application,&AbstractApplicationInterface::controllerIsStopped);
     QObject::connect(controller,&AbstractDartsScoreController::controllerIsInitializedAndReady,
-            application,&AbstractApplicationInterface::dartsMutliAttemptScoreControllerIsReady);
+            application,&AbstractApplicationInterface::dartsMultiAttemptScoreControllerIsReady);
     QObject::connect(controller,&AbstractDartsController::isReadyAndAwaitsInput,
             application,&AbstractApplicationInterface::controllerAwaitsInput);
     QObject::connect(controller,&AbstractDartsController::winnerDeclared,

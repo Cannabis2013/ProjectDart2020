@@ -33,6 +33,7 @@
 #include "assembledartsscoreindexesbyjson.h"
 #include "addaccumulatedscoretodartsscore.h"
 #include "assembledartsscoreturnvalues.h"
+#include "buildDartsPointTurnValues.h"
 
 
 class DartsControllerBuilder : public AbstractDartsControllerBuilder

@@ -13,15 +13,18 @@ namespace DartsModelsContext{
         {
             return new DartsPointInput();
         }
-        static DartsPointInput* createInstance(const QByteArray& json,
-                                               const bool& generateId = false)
+        static DartsPointInput* fromJson(const QByteArray& json,
+                                         const int& hint = -1,
+                                         const bool& generateId = false)
         {
             auto model = new DartsPointInput(json);
             if(generateId)
                 model->setId(QUuid::createUuid());
+            if(hint != -1)
+                model->setHint(hint);
             return model;
         }
-        static DartsPointInput* createInstance(const QJsonObject& jsonObject,
+        static DartsPointInput* fromJsonObject(const QJsonObject& jsonObject,
                                                const bool& generateId = false)
         {
             auto model = new DartsPointInput(jsonObject);
@@ -144,7 +147,7 @@ namespace DartsModelsContext{
             QJsonObject jsonObject;
             jsonObject["point"] = _point;
             jsonObject["score"] = _score;
-            jsonObject["modKeyCode"] = _point;
+            jsonObject["modKeyCode"] = _modKeyCode;
             jsonObject["roundIndex"] = _roundIndex;
             jsonObject["setIndex"] = _setIndex;
             jsonObject["attempt"] = _attempt;

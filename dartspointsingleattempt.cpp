@@ -1,5 +1,7 @@
 #include "dartspointsingleattempt.h"
 
+using namespace DartsPointSingleAttemptContext;
+
 void DartsPointSingleAttempt ::start()
 {
     if(_currentStatus != ControllerState::Initialized &&
@@ -20,23 +22,23 @@ void DartsPointSingleAttempt::stop()
 
 void DartsPointSingleAttempt::handleAndProcessUserInput(const QByteArray& json)
 {
-    auto pointStruct = _dartsJsonModelsService->assemblePointStructFromJson(json);
+    auto pointStruct = DartsPoint::fromJson(json);
     // Check for status
     if(isBusy()) return;
     // Calculate score
-    auto score = _scoreCalculator->calculateScoreFromDartsPoint(pointStruct->pointValue,
-                                                                 pointStruct->modKeyCode);
+    auto score = _scoreCalculator->calculateScoreFromDartsPoint(pointStruct->point(),
+                                                                 pointStruct->modKeyCode());
     auto setIndex = _indexController->setIndex();
     auto accumulatedScore = _scoreController->calculateAccumulatedScoreCandidate(setIndex,score);
     // Evaluate input according to point domain and aggregated sum domain
     auto domain = _scoreEvaluator->validateInput(accumulatedScore,
-                                                  pointStruct->modKeyCode,
-                                                  pointStruct->pointValue);
+                                                  pointStruct->modKeyCode(),
+                                                  pointStruct->point());
     /*
      * - Check domain value
      * - Add or nullify point
      */
-    processDomain(domain,pointStruct->pointValue,accumulatedScore,pointStruct->modKeyCode);
+    processDomain(domain,pointStruct->point(),accumulatedScore,pointStruct->modKeyCode());
 }
 
 void DartsPointSingleAttempt::handleRequestForCurrentTournamentMetaData()
@@ -53,15 +55,17 @@ void DartsPointSingleAttempt::handleRequestDartsPoints()
 
 void DartsPointSingleAttempt::handlePointAddedToDataContext(const QByteArray &json)
 {
-    auto pointStruct = _dartsJsonModelsService->assembleExtendedInputModelFromJson(json);
-    auto score = _scoreCalculator->calculateScoreFromDartsPoint(pointStruct->pointValue,pointStruct->modKeyCode);
+    auto dartsPointModel = DartsPoint::fromJson(json);
+    auto score = _scoreCalculator->calculateScoreFromDartsPoint(dartsPointModel->point(),
+                                                                dartsPointModel->modKeyCode());
     // Subtract score value from current user score
-    _scoreController->subtractPlayerScore(pointStruct->playerId,score);
+    _scoreController->subtractPlayerScore(dartsPointModel->playerId(),score);
     // Sync totalturns with the current turn index
     _indexController->syncIndex();
-    auto scoreValue = _scoreController->playerScore(pointStruct->playerId);
-    auto newJson = _dartsJsonModelsService->assembleJsonDartsPoint(currentActiveUser(),pointStruct->pointValue,scoreValue);
-    emit pointAddedAndPersisted(newJson);
+    auto scoreValue = _scoreController->playerScore(dartsPointModel->playerId());
+    dartsPointModel->setPlayerName(currentActiveUser());
+    dartsPointModel->setAccumulatedScore(scoreValue);
+    emit pointAddedAndPersisted(dartsPointModel->toJson());
 }
 
 DartsPointSingleAttempt *DartsPointSingleAttempt::setScoreCalculator(IPointCalculatorService *scoreCalculator)
@@ -81,17 +85,10 @@ void DartsPointSingleAttempt::handleResetTournament()
 
 void DartsPointSingleAttempt::sendCurrentTurnValues()
 {
-    auto canUndo = _indexController->canUndo();
-    auto canRedo = _indexController->canRedo();
-    auto roundIndex = _indexController->roundIndex();
-    auto setIndex = _indexController->setIndex();
-    auto score = _scoreController->playerScore(setIndex);;
-    auto attemptIndex = _indexController->attempt() + 1;
-    QString targetRow = "Logistic controller not injected!";
-    if(_pointLogisticInterface != nullptr)
-        targetRow = pointLogisticInterface()->suggestTargetRow(score,attemptIndex);
-    auto data = _dartsJsonModelsService->assembleJsonTurnValues(canUndo,canRedo,roundIndex,currentActiveUser(),targetRow);
-    emit isReadyAndAwaitsInput(data);
+    auto turnValues = _assembleDartsPointTurnValues->service(_indexController,
+                                                        _scoreController,
+                                                        _pointLogisticInterface);
+    emit isReadyAndAwaitsInput(turnValues->toJson());
 }
 
 QString DartsPointSingleAttempt::currentActiveUser()
@@ -133,7 +130,7 @@ QUuid DartsPointSingleAttempt::undoTurn()
     _currentStatus = ControllerState::UndoState;
     _indexController->undo();
     auto roundIndex = _indexController->roundIndex();
-    auto throwIndex = _indexController->attempt();
+    auto throwIndex = _indexController->attemptIndex();
     emit hideDartsPoint(tournament(),
                         currentActivePlayerId(),
                         roundIndex,
@@ -147,7 +144,7 @@ QUuid DartsPointSingleAttempt::redoTurn()
     setCurrentStatus(ControllerState::RedoState);
     auto activeUser = currentActivePlayerId();
     auto roundIndex = _indexController->roundIndex();
-    auto throwIndex = _indexController->attempt();
+    auto throwIndex = _indexController->attemptIndex();
     _indexController->redo();
     emit revealDartsPoint(tournament(),
                                activeUser,
@@ -172,7 +169,7 @@ void DartsPointSingleAttempt::addPoint(const int& point,
                 tournament(),
                 _indexController->roundIndex(),
                 _indexController->setIndex(),
-                _indexController->attempt(),
+                _indexController->attemptIndex(),
                 winnerId,currentActivePlayerId(),
                 point,score,keyCode);
     emit requestAddDartsPoint(json);
@@ -230,6 +227,12 @@ void DartsPointSingleAttempt::declareWinner()
     auto currentPlayerId = _scoreController->playerIdAtIndex(index);
     _scoreController->setWinner(currentPlayerId);
     setCurrentStatus(ControllerState::WinnerDeclared);
+}
+
+DartsPointSingleAttempt *DartsPointSingleAttempt::setAssembleDartsPointTurnValues(TurnValueBuilderService *newAssembleDartsPointTurnValues)
+{
+    _assembleDartsPointTurnValues = newAssembleDartsPointTurnValues;
+    return this;
 }
 
 DartsPointSingleAttempt* DartsPointSingleAttempt::setDartsJsonModelsService(IDartsSingleAttemptPointJsonService *dartsJsonModelsService)

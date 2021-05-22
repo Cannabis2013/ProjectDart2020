@@ -119,6 +119,7 @@ HEADERS += \
     assembleplayermodelfromjson.h \
     assemblesingleattemptpointsfromjson.h \
     assignplayeridstodartstournamentmodel.h \
+    buildDartsPointTurnValues.h \
     connectcontrollerbuilder.h \
     connectdartsmultiattemptcontroller.h \
     connectdartssingleattemptpointcontroller.h \
@@ -135,6 +136,7 @@ HEADERS += \
     dartsplayer.h \
     dartsplayerpointservice.h \
     dartsplayerscoreservice.h \
+    dartspoint.h \
     dartspointindexes.h \
     dartspointjsondbservice.h \
     dartspointlogisticcontroller.h \
@@ -142,6 +144,7 @@ HEADERS += \
     dartspointsethintservice.h \
     dartspointsingleattempt.h \
     dartspointsingleattemptdatamodel.h \
+    dartspointturnvalues.h \
     dartsscore.h \
     dartsscoreindexes.h \
     dartsscorejsonassemblerservice.h \

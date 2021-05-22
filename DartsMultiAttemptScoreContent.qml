@@ -59,7 +59,6 @@ Content {
             Layout.fillHeight: true
             Layout.fillWidth: true
             Layout.minimumHeight: 160
-
         }
         MyRectangle{
             Layout.fillHeight: true

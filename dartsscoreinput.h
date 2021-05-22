@@ -14,15 +14,18 @@ namespace DartsModelsContext {
         {
             return new DartsScoreInput();
         }
-        static DartsScoreInput* createInstance(const QByteArray& json,
-                                               const bool& generateId = false)
+        static DartsScoreInput* fromJson(const QByteArray& json,
+                                         const int& hint = -1,
+                                         const bool& generateId = false)
         {
             auto model = new DartsScoreInput(json);
             if(generateId)
                 model->setId(QUuid::createUuid());
+            if(hint != -1)
+                model->setHint(hint);
             return model;
         }
-        static DartsScoreInput* createInstance(const QJsonObject& jsonObject,
+        static DartsScoreInput* fromJsonObject(const QJsonObject& jsonObject,
                                                const bool& generateId = false)
         {
             auto model = new DartsScoreInput(jsonObject);

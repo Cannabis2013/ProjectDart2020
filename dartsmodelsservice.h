@@ -179,7 +179,7 @@ private:
     IGetDartsPointByParameters* _getPointModelByParameters;
     // Score services
     GetOrderedDartsScoreService* _getOrderedDartsScoreModels;
-    GetScoreIndexesByDartsTournamentService* _getScoreIndexesByTournamentId;
+    GetScoreIndexesByDartsTournamentService* _getDartsScoreIndexesByModels;
     CountScoresByTournamentAndHint* _countScoresByTournamentAndHint;
     GetScoreModelsByTournamentId* _getScoreModelsByTournamentId;
     GetScoreModelsByPlayerId* _getScoreModelsByPlayerId;

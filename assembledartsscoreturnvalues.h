@@ -33,6 +33,7 @@ namespace DartsScoreMultiAttemptContext{
             model->setCanRedo(canRedo);
             model->setTargetRow(targetRow);
             model->setRoundIndex(roundIndex);
+            model->setSetIndex(setIndex);
             model->setCurrentUserName(currentUserName);
             model->setScore(score);
             return model;

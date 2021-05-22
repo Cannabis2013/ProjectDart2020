@@ -57,6 +57,7 @@ AbstractDartsPointController *DartsControllerBuilder::assembleDartsPointControll
                                                                                  const int &terminalKeyCode,
                                                                                  const int &attempts)
 {
+    using namespace DartsPointSingleAttemptContext;
     AbstractDartsPointController* controller = DartsPointSingleAttempt::createInstance(tournament)
             ->setLogisticInterface(DartsPointLogisticController::createInstance(attempts,
                                                                            terminalKeyCode))
@@ -64,7 +65,8 @@ AbstractDartsPointController *DartsControllerBuilder::assembleDartsPointControll
             ->setInputValidator(PointValidator::createInstance(terminalKeyCode))
             ->setIndexController(PointIndexController::createInstance(attempts))
             ->setInputController(DartsPlayerPointService::createInstance(keyPoint,winnerId))
-            ->setDartsJsonModelsService(new DartsSingleAttemptPointJsonService);
+            ->setDartsJsonModelsService(new DartsSingleAttemptPointJsonService)
+            ->setAssembleDartsPointTurnValues(new BuildDartsPointTurnValues);
     return controller;
 }
 

@@ -40,7 +40,7 @@ private:
         auto turnIndex = dartsTournamentPointsCount;
         auto roundIndex = lastModel->roundIndex();
         auto setIndex = lastModel->setIndex();
-        if(setIndex >= playersCount)
+        if(++setIndex >= playersCount)
         {
             roundIndex++;
             setIndex = 0;
