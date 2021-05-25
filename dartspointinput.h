@@ -6,7 +6,7 @@
 #include <qjsonobject.h>
 
 namespace DartsModelsContext{
-    class DartsPointInput : public DartsModelsContext::IDartsPointInput
+    class DartsPointInput : public IDartsPointInput
     {
     public:
         static DartsPointInput* createInstance()
@@ -17,7 +17,9 @@ namespace DartsModelsContext{
                                          const int& hint = -1,
                                          const bool& generateId = false)
         {
-            auto model = new DartsPointInput(json);
+            auto document = QJsonDocument::fromJson(json);
+            auto jsonObject = document.object();
+            auto model = new DartsPointInput(jsonObject);
             if(generateId)
                 model->setId(QUuid::createUuid());
             if(hint != -1)
@@ -164,21 +166,6 @@ namespace DartsModelsContext{
         DartsPointInput()
         {
         }
-        DartsPointInput(const QByteArray& json)
-        {
-            auto document = QJsonDocument::fromJson(json);
-            auto jsonObject = document.object();
-            _point = jsonObject.value("point").toInt();
-            _modKeyCode = jsonObject.value("modKeyCode").toInt();
-            _score = jsonObject.value("score").toInt();
-            _roundIndex = jsonObject.value("roundIndex").toInt();
-            _setIndex = jsonObject.value("setIndex").toInt();
-            _hint = jsonObject.value("hint").toInt();
-            _playerId = QUuid::fromString(jsonObject.value("playerId").toString());
-            _playerName = jsonObject.value("playerName").toString();
-            _tournamentId = QUuid::fromString(jsonObject.value("tournamentId").toString());
-            _id = QUuid::fromString(jsonObject.value("id").toString(""));
-        }
         DartsPointInput(const QJsonObject& jsonObject)
         {
             _point = jsonObject.value("point").toInt();
@@ -186,6 +173,7 @@ namespace DartsModelsContext{
             _score = jsonObject.value("score").toInt();
             _roundIndex = jsonObject.value("roundIndex").toInt();
             _setIndex = jsonObject.value("setIndex").toInt();
+            _attempt = jsonObject.value("attempt").toInt();
             _hint = jsonObject.value("hint").toInt();
             _playerId = QUuid::fromString(jsonObject.value("playerId").toString());
             _playerName = jsonObject.value("playerName").toString();

@@ -131,7 +131,7 @@ namespace DartsScoreMultiAttemptContext {
         return playerId;
     }
 
-    void DartsScoreMultiAttempt::addPoint(const int& score)
+    void DartsScoreMultiAttempt::addScore(const int& score)
     {
         if(currentStatus() != ControllerState::WinnerDeclared)
             setCurrentStatus(ControllerState::AddScoreState);
@@ -270,14 +270,14 @@ namespace DartsScoreMultiAttemptContext {
         switch (domain)
         {
             case InputOutOfRange : sendCurrentTurnValues();break;
-            case PointDomain : addPoint(score);break;
-            case CriticalDomain : addPoint(score);break;
+            case PointDomain : addScore(score);break;
+            case CriticalDomain : addScore(score);break;
             case TargetDomain : {
                 declareWinner();
-                addPoint(score);
+                addScore(score);
                 break;
             }
-            case OutsideDomain : addPoint(0);break;
+            case OutsideDomain : addScore(0);break;
         }
     }
 

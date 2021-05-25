@@ -1,5 +1,7 @@
 #include "playersjsondb.h"
 
+using namespace DartsModelsContext;
+
 PlayersJsonDb *PlayersJsonDb::createInstance(PlayersJsonDb::JsonExtractor*jsonExtractorService,
                                              PlayersJsonDb::JsonAssembler* jsonAssemblerService)
 {

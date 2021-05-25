@@ -1,45 +1,46 @@
 #ifndef DARTSPOINT_H
 #define DARTSPOINT_H
 
+#include "idartscontrollerpoint.h"
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 
 namespace DartsPointSingleAttemptContext
 {
-    class DartsPoint
+    class DartsControllerPoint : public IDartsControllerPoint<QUuid,QString,QByteArray>
     {
     public:
-        static DartsPoint* createInstance()
+        static DartsControllerPoint* createInstance()
         {
-            return new DartsPoint;
+            return new DartsControllerPoint();
         }
-        static DartsPoint* fromJson(const QByteArray& json)
+        static DartsControllerPoint* fromJson(const QByteArray& json)
         {
             auto document = QJsonDocument::fromJson(json);
             auto jsonObject = document.object();
-            return new DartsPoint(jsonObject);
+            return new DartsControllerPoint(jsonObject);
         }
-        static DartsPoint* fromJsonObject(const QJsonObject& jsonObject)
+        static DartsControllerPoint* fromJsonObject(const QJsonObject& jsonObject)
         {
-            return new DartsPoint(jsonObject);
+            return new DartsControllerPoint(jsonObject);
         }
-        QUuid playerId() const
+        QUuid playerId() const override
         {
             return _playerId;
-        }
-        QString playerName() const
-        {
-            return _playerName;
         }
         void setPlayerId(const QUuid &newPlayerId)
         {
             _playerId = newPlayerId;
         }
+        QString playerName() const override
+        {
+            return _playerName;
+        }
         void setPlayerName(const QString &newPlayerName)
         {
             _playerName = newPlayerName;
         }
-        int accumulatedScore() const
+        int accumulatedScore() const override
         {
             return _accumulatedScore;
         }
@@ -47,7 +48,7 @@ namespace DartsPointSingleAttemptContext
         {
             _accumulatedScore = accumulatedScore;
         }
-        int point() const
+        int point() const override
         {
             return _point;
         }
@@ -55,7 +56,7 @@ namespace DartsPointSingleAttemptContext
         {
             _point = newPoint;
         }
-        int modKeyCode() const
+        int modKeyCode() const override
         {
             return _modKeyCode;
         }
@@ -63,7 +64,7 @@ namespace DartsPointSingleAttemptContext
         {
             _modKeyCode = newModKeyCode;
         }
-        QByteArray toJson() const
+        QByteArray toJson() const override
         {
             QJsonObject jsonobject;
             jsonobject["point"] = _point;
@@ -76,9 +77,9 @@ namespace DartsPointSingleAttemptContext
             return json;
         }
     private:
-        DartsPoint()
+        DartsControllerPoint()
         {}
-        DartsPoint(const QJsonObject& jsonObject)
+        DartsControllerPoint(const QJsonObject& jsonObject)
         {
             _point = jsonObject.value("point").toInt();
             _modKeyCode = jsonObject.value("modKeyCode").toInt();

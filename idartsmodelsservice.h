@@ -13,6 +13,12 @@ namespace DartsModelsContext {
     class IDartsModelsService
     {
     public:
+
+        /*
+         * Public types
+         */
+        typedef IDartsInput PlayerInput;
+        typedef QVector<const IDartsInput*> PlayerInputs;
         /*
          * Tournament related section
          */
@@ -29,29 +35,28 @@ namespace DartsModelsContext {
         /*
          * Points related section
          */
-        virtual QVector<const DartsModelsContext::IDartsPointInput*> dartsPointModelsByTournamentId(const QUuid& tournamentId) const = 0;
+        virtual PlayerInputs dartsPointModelsByTournamentId(const QUuid& tournamentId) const = 0;
         virtual const IDartsPointIndexes* dartsPointIndexes(const QUuid &tournamentId) const = 0;
-        virtual void addDartsPoint(const DartsModelsContext::IDartsPointInput*) = 0;
-        virtual QVector<const DartsModelsContext::IDartsPointInput*> getDartsPointModelsOrdedByIndexes(const QUuid& tournamentId) const = 0;
-        virtual const DartsModelsContext::IDartsPointInput* getDartsPointModelById(const QUuid& id) const = 0;
+        virtual void addDartsPoint(const PlayerInput*) = 0;
+        virtual PlayerInputs getDartsPointModelsOrdedByIndexes(const QUuid& tournamentId) const = 0;
+        virtual const PlayerInput* getDartsPointModelById(const QUuid& id) const = 0;
         virtual int dartsPointsCount(const QUuid&,const int&) const = 0;
         virtual int dartsScoreCount(const QUuid&,const int&) const = 0;
-        virtual const DartsModelsContext::IDartsPointInput* setDartsPointHint(const QUuid&,const QUuid&,
+        virtual const PlayerInput* setDartsPointHint(const QUuid&,const QUuid&,
                                                           const int&,const int&,
                                                           const int&) = 0;
         virtual void removePointById(const QUuid&) = 0;
         virtual void removeHiddenPoints(const QUuid&) = 0;
         virtual void removePointsByTournamentId(const QUuid&) = 0;
-        virtual void removePointModel(const QUuid &playerScore) = 0;
         /*
          * Scores methods
          */
-        virtual const IDartsScoreInput* dartsScoreModel(const QUuid&, const QUuid&, const int&) const = 0;
-        virtual QVector<const IDartsScoreInput*> dartsScoreModelsByTournamentIdAndHint(const QUuid&, const int&) const = 0;
+        virtual const PlayerInput* dartsScoreModel(const QUuid&, const QUuid&, const int&) const = 0;
+        virtual PlayerInputs dartsScoreModelsByTournamentIdAndHint(const QUuid&, const int&) const = 0;
         virtual const DartsModelsContext::IDartsScoreIndexes* dartsScoreIndexes(const QUuid&) const = 0;
         virtual void addDartsScore(const IDartsScoreInput*) = 0;
         virtual int dartsScoresCount(const int &hint) const = 0;
-        virtual const IDartsScoreInput* setDartsScoreHint(const IDartsScoreInput*,
+        virtual const PlayerInput* setDartsScoreHint(const PlayerInput*,
                                                           const int &hint) = 0;
         virtual void removeScoreById(const QUuid&) = 0;
         virtual void removeHiddenScores(const QUuid&) = 0;

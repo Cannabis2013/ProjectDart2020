@@ -103,7 +103,7 @@ signals:
     void sendPlayers(const QVariantList& list);
     void createPlayerResponse(const bool &status);
     void requestAssembleFTPTournament();
-    void tournamentAssembledAndStored(const bool &status);
+    void tournamentAssembledAndStored();
     void tournamentCreatedOk();
     void sendAssembledMultiAttemptDartsScores(const QByteArray& json);
     void sendAssembledDartsSingleAttemptPoints(const QByteArray& json);

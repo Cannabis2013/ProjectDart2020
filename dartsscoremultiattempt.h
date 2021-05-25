@@ -179,7 +179,7 @@ namespace DartsScoreMultiAttemptContext
         /*
          * Update datacontext
          */
-        void addPoint(const int &score);
+        void addScore(const int &score);
         /*
          * Index manipulating methods
          */

@@ -65,8 +65,12 @@ AbstractDartsPointController *DartsControllerBuilder::assembleDartsPointControll
             ->setInputValidator(PointValidator::createInstance(terminalKeyCode))
             ->setIndexController(PointIndexController::createInstance(attempts))
             ->setInputController(DartsPlayerPointService::createInstance(keyPoint,winnerId))
-            ->setDartsJsonModelsService(new DartsPointSingleAttemptJsonService)
-            ->setAssembleDartsPointTurnValues(new BuildDartsPointTurnValues);
+            ->setDartsJsonModelsService(new DartsPointJsonService)
+            ->setAssembleDartsPointTurnValues(new BuildDartsPointTurnValues)
+            ->setDartsPointBuilderService(new DartsControllerPointBuilder)
+            ->setAddPlayerNameToPointService(new AddPlayerNameToControllerPoint)
+            ->setAddPlayerScoreToPointService(new AddPlayerScoreToControllerPoint)
+            ->setBuildDartsIndexesByJson(new BuildDartsSingleAttemptIndexesByJson);
     return controller;
 }
 

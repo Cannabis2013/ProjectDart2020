@@ -7,25 +7,28 @@
 #include <qjsonarray.h>
 #include <qjsonobject.h>
 
-
-class AssembleJsonFromDartsMultiAttemptScores :
-        public IUnaryService<const QVector<const IDartsScoreInput*>&,
-                             QByteArray>
-{
-public:
-    QByteArray service(const QVector<const IDartsScoreInput*>& models) override
+namespace DartsModelsContext {
+    class AssembleJsonFromDartsMultiAttemptScores :
+            public IUnaryService<const QVector<const IDartsInput*>&,
+                                 QByteArray>
     {
-        QJsonArray scoresJsonArray;
-        for (const auto& model : models) {
-            QJsonObject dartsScoreJsonObject;
-            auto playerId = model->playerId();
-            dartsScoreJsonObject["playerId"] = playerId.toString(QUuid::WithoutBraces);
-            dartsScoreJsonObject["score"] = model->score();
-            scoresJsonArray << dartsScoreJsonObject;
+    public:
+        QByteArray service(const QVector<const IDartsInput*>& playerInputs) override
+        {
+            QJsonArray scoresJsonArray;
+            for (const auto& playerInput : playerInputs) {
+                auto dartsScoreInput = dynamic_cast<const IDartsScoreInput*>(playerInput);
+                QJsonObject dartsScoreJsonObject;
+                auto playerId = dartsScoreInput->playerId();
+                dartsScoreJsonObject["playerId"] = playerId.toString(QUuid::WithoutBraces);
+                dartsScoreJsonObject["score"] = dartsScoreInput->score();
+                scoresJsonArray << dartsScoreJsonObject;
+            }
+            auto json = QJsonDocument(scoresJsonArray).toJson();
+            return json;
         }
-        auto json = QJsonDocument(scoresJsonArray).toJson();
-        return json;
-    }
-};
+    };
+}
+
 
 #endif // ASSEMBLEJSONFROMDARTSMULTIATTEMPTSCORES_H

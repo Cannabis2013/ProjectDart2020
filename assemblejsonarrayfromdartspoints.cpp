@@ -1,20 +1,23 @@
 #include "assemblejsonarrayfromdartspoints.h"
 
-QJsonArray AssembleJsonArrayFromDartsPoints::service(const QVector<const DartsModelsContext::IDartsPointInput *> &modelsList)
+using namespace DartsModelsContext;
+
+QJsonArray AssembleJsonArrayFromDartsPoints::service(const ModelsList &modelsList)
 {
     QJsonArray resultingJsonArray;
     for (const auto& model : modelsList) {
+        auto dartsPoint = dynamic_cast<const IDartsPointInput*>(model);
         QJsonObject jsonObject;
-        jsonObject["id"] = model->id().toString();
-        jsonObject["tournament"] = model->tournamentId().toString();
-        jsonObject["point"] = model->point();
-        jsonObject["score"] = model->score();
-        jsonObject["roundIndex"] = model->roundIndex();
-        jsonObject["setIndex"] = model->setIndex();
-        jsonObject["attempt"] = model->attempt();
-        jsonObject["playerId"] = model->playerId().toString();
-        jsonObject["hint"] = model->hint();
-        jsonObject["keyCode"] = model->modKeyCode();
+        jsonObject["id"] = dartsPoint->id().toString();
+        jsonObject["tournament"] = dartsPoint->tournamentId().toString();
+        jsonObject["point"] = dartsPoint->point();
+        jsonObject["score"] = dartsPoint->score();
+        jsonObject["roundIndex"] = dartsPoint->roundIndex();
+        jsonObject["setIndex"] = dartsPoint->setIndex();
+        jsonObject["attempt"] = dartsPoint->attempt();
+        jsonObject["playerId"] = dartsPoint->playerId().toString();
+        jsonObject["hint"] = dartsPoint->hint();
+        jsonObject["keyCode"] = dartsPoint->modKeyCode();
         resultingJsonArray << jsonObject;
     }
     return resultingJsonArray;

@@ -10,17 +10,20 @@
 #include "ipointvalidator.h"
 #include "idartssingleattemptindexservice.h"
 #include "iplayerpointservice.h"
-#include "dartspoint.h"
+#include "dartscontrollerpoint.h"
 #include "iternaryservice.h"
 #include "dartspointturnvalues.h"
+#include "idartssingleattemptindexes.h"
+#include "ibinaryservice.h"
 // Json services
-#include "IDartsSingleAttemptPointJsonService.h"
+#include "idartspointjsonservice.h"
 #define GAME_IS_NOT_IN_PROGRESS "Game is not in progress"
 #define GAME_WINNER_ANNOUNCEMENT(x) QString("Winner with ID: %! is declared winner").arg(x);
 #define INVALID_DOMAIN "Input is not within domain";
 #define UNABLE_TO_ALTER_TURN "Unable to alter turn index";
 
 namespace DartsPointSingleAttemptContext {
+
     class DartsPointSingleAttempt : public AbstractDartsPointController
     {
         Q_OBJECT
@@ -55,8 +58,19 @@ namespace DartsPointSingleAttemptContext {
         enum ControllerResponse{
             IsProcessingUserInput = 0x46
         };
+        // Assemble DartsControllerPoint by json service typedefs
+        typedef IDartsControllerPoint<QUuid,QString,QByteArray> IControllerPoint;
+        typedef IUnaryService<const QByteArray&, const IControllerPoint*> IControllerPointBuilder;
+        // Add playername to DartsControllerPoint model
+        typedef IBinaryService<const QString&, const IControllerPoint*,void> IAddPlayerNameService;
+        // Add player accumulated score to DartsControllerPoint model
+        typedef IBinaryService<const int&, const IControllerPoint*,void> IAddPlayerScoreService;
+        // Build darts indexes by json service
+        typedef IUnaryService<const QByteArray&, const IDartsSingleAttemptIndexes*> IBuildIndexesService;
+        typedef IDartsPointJsonService<IDartsSingleAttemptIndexes> DartsJsonService;
+        typedef IDartsSingleAttemptIndexService<IDartsSingleAttemptIndexes> DartsIndexService;
         typedef IDartsLogisticsService<QString> LogisticService;
-        typedef ITernaryService<const IDartsSingleAttemptIndexService*,
+        typedef ITernaryService<const DartsIndexService*,
                                const IPlayerPointService*,
                                const LogisticService*,
                                DartsPointTurnValues*> TurnValueBuilderService;
@@ -65,17 +79,19 @@ namespace DartsPointSingleAttemptContext {
         // Set service methods
         DartsPointSingleAttempt *setScoreCalculator(IPointCalculatorService* scoreCalculator);
         DartsPointSingleAttempt *setInputValidator(IPointValidator* scoreEvaluator);
-        DartsPointSingleAttempt *setIndexController(IDartsSingleAttemptIndexService *indexController);
+        DartsPointSingleAttempt *setIndexController(DartsIndexService *indexController);
         DartsPointSingleAttempt *setInputController(IPlayerPointService *scoreController);
         /*
          * Point suggestion section
          */
         IDartsLogisticsService<QString> *pointLogisticInterface() const;
         DartsPointSingleAttempt* setLogisticInterface(IDartsLogisticsService<QString> *pointLogisticInterface);
-        DartsPointSingleAttempt* setDartsJsonModelsService(IDartsSingleAttemptPointJsonService *dartsJsonModelsService);
-
+        DartsPointSingleAttempt* setDartsJsonModelsService(DartsJsonService *dartsJsonModelsService);
         DartsPointSingleAttempt* setAssembleDartsPointTurnValues(TurnValueBuilderService *newAssembleDartsPointTurnValues);
-
+        DartsPointSingleAttempt* setDartsPointBuilderService(IControllerPointBuilder *newDartsPointBuilderService);
+        DartsPointSingleAttempt* setAddPlayerNameToPointService(IAddPlayerNameService *newAddPlayerNameToPointService);
+        DartsPointSingleAttempt* setAddPlayerScoreToPointService(IAddPlayerScoreService *newAddPlayerScoreToPointService);
+        DartsPointSingleAttempt* setBuildDartsIndexesByJson(IBuildIndexesService *newBuildDartsIndexesByJson);
     public slots:
         /*
          * Recieve darts index values, score values,
@@ -129,7 +145,6 @@ namespace DartsPointSingleAttemptContext {
          */
         void undoSuccess(const QByteArray &json) override;
         void redoSuccess(const QByteArray &json) override;
-
     private:
         /*
          * Private constructor
@@ -170,8 +185,12 @@ namespace DartsPointSingleAttemptContext {
         int _currentStatus = ControllerState::NotInitialized;
         //Services
         TurnValueBuilderService* _assembleDartsPointTurnValues;
+        IControllerPointBuilder* _controllerPointBuilderService;
+        IAddPlayerNameService* _addPlayerNameToPointService;
+        IAddPlayerScoreService* _addPlayerScoreToPointService;
+        IBuildIndexesService* _buildDartsIndexesByJson;
         // Json
-        IDartsSingleAttemptPointJsonService* _dartsJsonModelsService;
+        DartsJsonService* _dartsJsonModelsService;
         // Calculate score
         IPointCalculatorService* _scoreCalculator = nullptr;
         // Generate throwsuggestions
@@ -179,7 +198,7 @@ namespace DartsPointSingleAttemptContext {
         // Validator service
         IPointValidator* _scoreEvaluator = nullptr;
         // Index service
-        IDartsSingleAttemptIndexService* _indexController = nullptr;
+        DartsIndexService* _indexController = nullptr;
         // Userscore service
         IPlayerPointService* _scoreController = nullptr;
     };

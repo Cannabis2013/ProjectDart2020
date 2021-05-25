@@ -112,7 +112,7 @@ signals:
     void sendPlayers(const QVariantList& list);
     void createPlayerResponse(const bool &status);
     void tournamentModelsStatePersisted();
-    void tournamentAssembledAndStored(const bool& status);
+    void tournamentAssembledAndStored();
     // Initialize controller
     void sendDartsPointIndexesAsJson(const QByteArray& json);
     void sendDartsScoreIndexesAsJson(const QByteArray& json);

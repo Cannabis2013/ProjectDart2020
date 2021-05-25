@@ -98,7 +98,7 @@ function extractPointScoreFromJson(data)
     var json = JSON.parse(data);
     let playerName = json["playerName"];
     let pointValue = json["point"];
-    let scoreValue = json["score"];
+    let scoreValue = json["totalScore"];
     singleAttemptScoreBoard.setData(playerName,pointValue,scoreValue);
     requestStatusFromBackend();
 }
@@ -140,7 +140,7 @@ function setTurnControllerValues(json)
     singleAttemptTurnController.leftButtonEnabled = json.canUndo;
     singleAttemptTurnController.rightButtonEnabled = json.canRedo;
     singleAttemptTurnController.currentRoundIndex = json.roundIndex;
-    singleAttemptTurnController.currentPlayer = json.currentUserName;
+    singleAttemptTurnController.currentPlayer = json.playerName;
 }
 
 function handlePointKeyPadInput(value,keyCode){

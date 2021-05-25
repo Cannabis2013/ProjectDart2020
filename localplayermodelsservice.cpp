@@ -1,5 +1,6 @@
 #include "localplayermodelsservice.h"
 
+using namespace DartsModelsContext;
 QVector<QString> LocalPlayerModelsService::assemblePlayerMailAdressesFromIds(const QVector<QUuid> &ids) const
 {
     QVector<QString> mailAdresses;
@@ -46,7 +47,7 @@ QVector<QUuid> LocalPlayerModelsService::assemblePlayerIds(const QVector<int> &i
     return playersId;
 }
 
-IModelsDbContext *LocalPlayerModelsService::modelDBContext() const
+IPlayerModelsDb *LocalPlayerModelsService::modelDBContext() const
 {
     return _dbContext;
 }
@@ -62,7 +63,7 @@ const QUuid LocalPlayerModelsService::addPlayerModelToDb(const IPlayerModel* mod
     return model->id();
 }
 
-LocalPlayerModelsService* LocalPlayerModelsService::setModelDBContext(IModelsDbContext *context)
+LocalPlayerModelsService* LocalPlayerModelsService::setModelDBContext(IPlayerModelsDb *context)
 {
     _dbContext = context;
     return this;

@@ -24,6 +24,7 @@ SOURCES += \
     connectdefaultmodelscontextinterface.cpp \
     dartapplication.cpp \
     dartscontrollerbuilder.cpp \
+    dartsinputsfilterservice.cpp \
     dartsjsonservice.cpp \
     dartsjsonservicebuilder.cpp \
     dartsmodelsservice.cpp \
@@ -33,15 +34,16 @@ SOURCES += \
     dartsplayerpointservice.cpp \
     dartsplayerscoreservice.cpp \
     dartspointjsondbservice.cpp \
+    dartspointjsonservice.cpp \
     dartspointlogisticcontroller.cpp \
     dartspointsingleattempt.cpp \
     dartspointsingleattemptdatamodel.cpp \
-    dartspointsingleattemptjsonservice.cpp \
     dartsscorejsondb.cpp \
     dartsscorelogisticcontroller.cpp \
     dartsscoremultiattempt.cpp \
     dartstournamentjsonextractor.cpp \
     defaultmodelsservicebuilder.cpp \
+    filterpredicatedefaultbuilder.cpp \
     iurlparser.cpp \
     localmodelsservice.cpp \
     localplayermodelsservice.cpp \
@@ -81,16 +83,17 @@ HEADERS += \
     AssembleDartsTournamentsFromJsonArray.h \
     DartsPointCalculator.h \
     DartsScoreMultiAttempIndexes.h \
-    GetDartsPointByParameters.h \
-    IDartsSingleAttemptPointJsonService.h \
     IPointCalculatorService.h \
     abstractdartscontrollerbuilder.h \
+    abstractdartsfilterpredicate.h \
     abstractdartspointcontroller.h \
     abstractdartsscorecontroller.h \
     abstractmodelsservice.h \
     abstractmodelsservicebuilder.h \
     addaccumulatedscoretodartsscore.h \
+    addplayernametocontrollerpoint.h \
     addplayernametodartsinputmodel.h \
+    addplayerscoretocontrollerpoint.h \
     addwinnernametotournamentjson.h \
     assembleJsonFromDartsIndexesAndPoints.h \
     assembledartsindexesbyjson.h \
@@ -120,12 +123,16 @@ HEADERS += \
     assemblesingleattemptpointsfromjson.h \
     assignplayeridstodartstournamentmodel.h \
     buildDartsPointTurnValues.h \
+    builddartssingleattemptindexesbyjson.h \
+    comparedartspointmodels.h \
     connectcontrollerbuilder.h \
     connectdartsmultiattemptcontroller.h \
     connectdartssingleattemptpointcontroller.h \
     connectdefaultmodelscontextinterface.h \
-    countscoresbytournamentandhint.h \
     dartscontrollerbuilder.h \
+    dartscontrollerpoint.h \
+    dartscontrollerpointbuilder.h \
+    dartsinputsfilterservice.h \
     dartsjsonservice.h \
     dartsjsonservicebuilder.h \
     dartsmodelsservice.h \
@@ -136,48 +143,44 @@ HEADERS += \
     dartsplayer.h \
     dartsplayerpointservice.h \
     dartsplayerscoreservice.h \
-    dartspoint.h \
     dartspointindexes.h \
     dartspointjsondbservice.h \
+    dartspointjsonservice.h \
+    dartspointlessthanpredicate.h \
     dartspointlogisticcontroller.h \
     dartspointmodels.h \
-    dartspointsethintservice.h \
     dartspointsingleattempt.h \
     dartspointsingleattemptdatamodel.h \
-    dartspointsingleattemptjsonservice.h \
     dartspointturnvalues.h \
     dartsscore.h \
     dartsscoreindexes.h \
     dartsscorejsonassemblerservice.h \
     dartsscorejsondb.h \
+    dartsscorelessthanpredicate.h \
     dartsscorelogisticcontroller.h \
     dartsscoremultiattempt.h \
     dartsscoresjsonassemblerservice.h \
     dartsscoreturnvalues.h \
+    dartssingleattemptindexes.h \
     defaultmodelsservicebuilder.h \
     deletetournamentsbyindexesservice.h \
     determinecontrollerstatebywinnerid.h \
+    filterpredicatedefaultbuilder.h \
+    getdartsinputmodelbyid.h \
     getdartspointindexesbydartspointmodel.h \
-    getdartspointmodelbyid.h \
-    getdartspointmodelsbytournamentid.h \
-    getdartsscorebyid.h \
-    getdartsscorebyparameters.h \
     getdartsscoreindexesbymodel.h \
-    getdartsscoremodelsbyhint.h \
-    getdartsscoremodelsbyplayerid.h \
-    getdartsscoremodelsbyroundindex.h \
-    getdartsscoremodelsbytournamentid.h \
     getdartstournamentbyid.h \
     getdartstournamentbyindexservice.h \
     getdeleteplayerindexfromjson.h \
-    getordereddartspointmodels.h \
-    getordereddartsscoremodels.h \
     getplayerindexesfromjson.h \
     getplayernamebyid.h \
     gettournamentidbyjson.h \
     gettournamentindexesfromjson.h \
     getwinneridbyjson.h \
     ibinaryservice.h \
+    icomparison.h \
+    idartscontrollerpoint.h \
+    idartsinputsfilter.h \
     idartsjsonservice.h \
     idartslogisticsservice.h \
     idartsmodelsservice.h \
@@ -187,15 +190,18 @@ HEADERS += \
     idartsplayer.h \
     idartspointdb.h \
     idartspointindexes.h \
+    idartspointjsonservice.h \
     idartsscoredb.h \
     idartsscoreindexes.h \
+    idartssingleattemptindexes.h \
     idartssingleattemptindexservice.h \
     idartstournamentdb.h \
-    igetdartspointbyparameters.h \
-    igetdartsscorebyparameters.h \
+    ifilterpredicatebuilder.h \
     ijsonmodelsservice.h \
+    imodelsdbcontext.h \
     imodelsservicebuilder.h \
     ipersistence.h \
+    iplayermodelsdb.h \
     iplayermodelsservice.h \
     iplayerpointservice.h \
     iplayerscoreservice.h \
@@ -230,7 +236,6 @@ HEADERS += \
     idartstournamentsjsonassemblerservice.h \
     idatacontext.h \
     imodel.h \
-    imodelsdbcontext.h \
     iplayerinput.h \
     iplayerjsonassemblerservice.h \
     iplayerjsonextractorservice.h \
@@ -253,11 +258,15 @@ HEADERS += \
     playermodelsservicebuilder.h \
     playersjsondb.h \
     pointvalidator.h \
+    predicate.h \
     remotemodelscontext.h \
+    removemodelsfromdbcontext.h \
     replytimeout.h \
     scorecalculator.h \
     scoreindexcontroller.h \
+    setdartsinputhintservice.h \
     setdartsmodelhint.h \
+    sortplayerinputsbypredicate.h \
     testconfiguration.h \
     tournamentjsondb.h \
     tournamentsjsonassemblerservice.h \

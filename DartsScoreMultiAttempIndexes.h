@@ -4,7 +4,7 @@
 #include "idartsmultiattemptindexes.h"
 
 namespace DartsScoreMultiAttemptContext {
-    class DartsScoreMultiAttemptIndexes : public
+    class DartsMultiAttemptIndexes : public
             IDartsMultiAttemptIndexes
     {
     public:

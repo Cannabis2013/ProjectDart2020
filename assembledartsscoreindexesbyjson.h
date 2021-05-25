@@ -14,7 +14,7 @@ namespace  DartsScoreMultiAttemptContext{
     public:
         const IDartsMultiAttemptIndexes* service(const QByteArray& json) override
         {
-            DartsScoreMultiAttemptIndexes* indexes = new DartsScoreMultiAttemptIndexes;
+            DartsMultiAttemptIndexes* indexes = new DartsMultiAttemptIndexes;
             auto jsonObject = QJsonDocument::fromJson(json).object();
             indexes->setTotalTurns(jsonObject.value("totalTurns").toInt());
             indexes->setTurns(jsonObject.value("turnIndex").toInt());

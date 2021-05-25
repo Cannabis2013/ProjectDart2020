@@ -8,7 +8,7 @@
 #include "iplayermodel.h"
 #include "idartspointinput.h"
 
-typedef IUnaryService<const QByteArray&,const DartsModelsContext::IDartsPointInput*> AssembleDartsPointService;
+typedef IUnaryService<const QByteArray&,const IDartsInput*> AssembleDartsPointService;
 typedef IUnaryService<const QByteArray&,const IPlayerModel*> AssemblePlayerModelService;
 typedef IBinaryService<const IDartsTournament*,
                        const QVector<QUuid>&,

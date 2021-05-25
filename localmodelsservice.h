@@ -6,7 +6,6 @@
 #include "iunaryservice.h"
 #include "ibinaryservice.h"
 #include "idartsmodelsservice.h"
-#include "dartsmodelsservicescollection.h"
 #include "iplayermodel.h"
 #include <QVariantList>
 #include "idartsjsonservice.h"
@@ -40,7 +39,7 @@ public:
     LocalModelsService* setDartsModelsService(IDartsModelsService *dartsModelsService);
     LocalModelsService* setPlayerModelsService(IPlayerModelsService *playerModelsContext);
     LocalModelsService* setDartsJsonService(IDartsJsonService *dartsJsonService);
-    LocalModelsService* setAddPlayerNameToDartsInputModel(IBinaryService<const IPlayerInput *, const QString &, const IPlayerInput *> *newAddPlayerNameToScoreModel);
+    LocalModelsService* setAddPlayerNameToDartsInputModel(IBinaryService<const IDartsInput *, const QString &, const IDartsInput *> *newAddPlayerNameToScoreModel);
 
 public slots:
     /*
@@ -101,9 +100,9 @@ private:
     IDartsJsonService* _dartsJsonService;
     IDartsModelsService* _dartsModelsService;
     IPlayerModelsService* _playerModelsService;
-    IBinaryService<const IPlayerInput*,
+    IBinaryService<const IDartsInput*,
                    const QString&,
-                   const IPlayerInput*>* _addPlayerNameToDartsInputModel;
+                   const IDartsInput*>* _addPlayerNameToDartsInputModel;
 };
 
 #endif // MODELCONTEXTINTERFACE_H

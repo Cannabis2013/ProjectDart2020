@@ -13,16 +13,17 @@ namespace DartsModelsContext{
             IBinaryService<const QUuid&,const IDartsModelsService*,QByteArray>
     {
     public:
-        QByteArray service(const QUuid& tournamentId,const IDartsModelsService*modelsService) override
+        QByteArray service(const QUuid& tournamentId,const IDartsModelsService* modelsService) override
         {
-            auto dartsPointModels = modelsService->dartsPointModelsByTournamentId(tournamentId);
+            auto dartsPlayerInputs = modelsService->dartsPointModelsByTournamentId(tournamentId);
             QJsonArray pointsJsonArray;
-            for (const auto& dartsPointModel : dartsPointModels) {
+            for (const auto& dartsPlayerInput : dartsPlayerInputs) {
+                auto dartsPoint = dynamic_cast<const IDartsPointInput*>(dartsPlayerInput);
                 QJsonObject playerJsonObject;
-                auto playerId = dartsPointModel->playerId();
+                auto playerId = dartsPlayerInput->playerId();
                 playerJsonObject["playerId"] = playerId.toString(QUuid::WithoutBraces);
-                playerJsonObject["point"] = dartsPointModel->point();
-                playerJsonObject["modKeyCode"] = dartsPointModel->modKeyCode();
+                playerJsonObject["point"] = dartsPoint->point();
+                playerJsonObject["modKeyCode"] = dartsPoint->modKeyCode();
                 pointsJsonArray << playerJsonObject;
             }
             auto json = QJsonDocument(pointsJsonArray).toJson();

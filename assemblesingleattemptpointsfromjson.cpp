@@ -1,8 +1,10 @@
 #include "assemblesingleattemptpointsfromjson.h"
 
-QVector<const DartsModelsContext::IDartsPointInput*> AssembleSingleAttemptPointsFromJson::service(const QJsonArray &arr)
+using namespace DartsModelsContext;
+
+QVector<const IDartsInput *> AssembleSingleAttemptPointsFromJson::service(const QJsonArray &arr)
 {
-    QVector<const DartsModelsContext::IDartsPointInput*> list;
+    QVector<const IDartsInput*> list;
     for (const auto& jsonValue : arr) {
         auto jsonObject = jsonValue.toObject();
         auto model = assembleModelFromJsonObject(jsonObject);

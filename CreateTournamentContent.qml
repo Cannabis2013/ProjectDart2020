@@ -9,7 +9,7 @@ Content {
 
     signal requestPlayers
     signal sendDartsDetails(string json)
-    signal tournamentAssembledAndStored(bool status)
+    signal tournamentAssembledAndStored()
     onTournamentAssembledAndStored: {
         if(status)
         {

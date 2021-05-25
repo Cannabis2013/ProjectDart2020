@@ -10,38 +10,57 @@ namespace DartsModelsContext{
         return dbService;
     }
 
-    void DartsScoreJsonDb::addDartsInputModel(const IDartsScoreInput *model)
+    void DartsScoreJsonDb::addModel(const IDartsInput *model)
     {
-        _dartsScoreModels << model;
+        _dartsScoreModels << dynamic_cast<const IDartsScoreInput*>(model);
         saveState();
     }
 
-    const IDartsScoreInput *DartsScoreJsonDb::getDartsInputModelByIndex(const int &index) const
+    const IDartsScoreInput *DartsScoreJsonDb::modelByIndex(const int &index) const
     {
         auto model = _dartsScoreModels.at(index);
         return model;
     }
 
-    QVector<const IDartsScoreInput *> DartsScoreJsonDb::dartsScoreModels() const
+    QVector<const IDartsInput *> DartsScoreJsonDb::models() const
     {
-        return _dartsScoreModels;
+        QVector<const IDartsInput*> list;
+        for (const auto& model : _dartsScoreModels)
+            list << model;
+        return list;
     }
 
-    void DartsScoreJsonDb::removeDartsInputModelByIndex(const int& index)
+    bool DartsScoreJsonDb::removeModelByIndex(const int& index)
     {
+        if(index >= _dartsScoreModels.count() || index < 0)
+            return false;
         _dartsScoreModels.remove(index);
         saveState();
+        return true;
     }
 
-    int DartsScoreJsonDb::indexOfDartsInputModel(const IDartsScoreInput* model)
+    bool DartsScoreJsonDb::removeModelById(const QUuid &id)
     {
-        auto indexOfModel = _dartsScoreModels.indexOf(model);
+        for (const auto& model : qAsConst(_dartsScoreModels)) {
+            if(model->id() == id)
+            {
+                _dartsScoreModels.removeOne(model);
+                saveState();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    int DartsScoreJsonDb::indexOfModel(const IDartsInput *model)
+    {
+        auto indexOfModel = _dartsScoreModels.indexOf(dynamic_cast<const IDartsScoreInput*>(model));
         return indexOfModel;
     }
 
-    void DartsScoreJsonDb::replaceDartsInputModel(const int& index, const IDartsScoreInput* model)
+    void DartsScoreJsonDb::replaceModel(const int& index, const IDartsInput *model)
     {
-        _dartsScoreModels.replace(index,model);
+        _dartsScoreModels.replace(index,dynamic_cast<const IDartsScoreInput*>(model));
         saveState();
     }
 
@@ -60,6 +79,15 @@ namespace DartsModelsContext{
     {
         auto jsonObject = _jsonAssemblerService->service(_dartsScoreModels);
         writeJsonObjectToFile(jsonObject,_fileName);
+    }
+
+    const IDartsScoreInput *DartsScoreJsonDb::modelById(const QUuid &id) const
+    {
+        for (const auto& model : _dartsScoreModels) {
+            if(model->id() == id)
+                return model;
+        }
+        return nullptr;
     }
 
     DartsScoreJsonDb *DartsScoreJsonDb::setDartsScoresJsonAssemblerService(JsonAssembler *dartsScoresJsonAssemblerService)

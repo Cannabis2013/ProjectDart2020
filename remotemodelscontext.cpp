@@ -129,21 +129,21 @@ void RemoteModelsContext::handleRecievedTournamentsReply()
 void RemoteModelsContext::handleAddFTPTournamentReply()
 {
     if(!_netMng->reply()->isOpen())
-        emit tournamentAssembledAndStored(false);
+        return;
     auto byteData = _netMng->reply()->readAll();
     auto jsonDocument = QJsonDocument::fromJson(byteData);
     auto jsonObject = jsonDocument.object();
     auto responseCode = jsonObject.value("response");
     if(responseCode == ResponseCode::Error)
-        emit tournamentAssembledAndStored(false);
+        return;
     else
-        emit tournamentAssembledAndStored(true);
+        emit tournamentAssembledAndStored();
 }
 
 void RemoteModelsContext::handleDeleteTournamentsReply()
 {
     if(!_netMng->reply()->isOpen())
-        emit tournamentAssembledAndStored(false);
+        return;
     auto byteData = _netMng->reply()->readAll();
     auto jsonDocument = QJsonDocument::fromJson(byteData);
     auto jsonObject = jsonDocument.object();

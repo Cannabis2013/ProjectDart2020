@@ -11,15 +11,18 @@ namespace DartsModelsContext {
             private AbstractJSONPersistence
     {
     public:
-        typedef IUnaryService<const QJsonObject &, QVector<const IDartsScoreInput *>> JsonExtractor;
+        typedef IUnaryService<const QJsonObject &, QVector<const IDartsScoreInput*>> JsonExtractor;
         typedef IUnaryService<const QVector<const IDartsScoreInput*>&,QJsonObject> JsonAssembler;
         static DartsScoreJsonDb* createInstance(JsonExtractor* extractor, JsonAssembler* assembler);
-        void addDartsInputModel(const IDartsScoreInput *model) override;
-        const IDartsScoreInput *getDartsInputModelByIndex(const int &index) const override;
-        QVector<const IDartsScoreInput *> dartsScoreModels() const override;
-        void removeDartsInputModelByIndex(const int &index) override;
-        int indexOfDartsInputModel(const IDartsScoreInput *model) override;
-        void replaceDartsInputModel(const int &index, const IDartsScoreInput *model) override;
+        void addModel(const IDartsInput* model) override;
+        const IDartsScoreInput *modelByIndex(const int &index) const override;
+        const IDartsScoreInput *modelById(const QUuid &id) const override;
+        QVector<const IDartsInput *> models() const override;
+        bool removeModelByIndex(const int &index) override;
+        bool removeModelById(const QUuid &id) override;
+        int indexOfModel(const IDartsInput* model) override;
+        void replaceModel(const int &index, const IDartsInput* model) override;
+        // Json services
         DartsScoreJsonDb* setDartsScoresExtractorService(JsonExtractor *dartsScoresExtractor);
         DartsScoreJsonDb* setDartsScoresJsonAssemblerService(JsonAssembler *dartsScoresJsonAssemblerService);
     private:
@@ -29,7 +32,6 @@ namespace DartsModelsContext {
         JsonExtractor* _jsonExtractorService;
         JsonAssembler* _jsonAssemblerService;
         const QString _fileName = "DartsMultiAttemptScores";
-
         QVector<const IDartsScoreInput*> _dartsScoreModels;
     };
 }

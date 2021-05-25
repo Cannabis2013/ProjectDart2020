@@ -1,5 +1,7 @@
 #include "dartspointjsondbservice.h"
 
+using namespace DartsModelsContext;
+
 DartsPointJsonDbService *DartsPointJsonDbService::createInstance(JsonExtractor* extractor,
                                                          JsonAssembler* assembler)
 {
@@ -37,39 +39,70 @@ void DartsPointJsonDbService::saveState()
     writeJsonObjectToFile(modelJson,_fileName);
 }
 
-void DartsPointJsonDbService::addDartsInputModel(const DartsModelsContext::IDartsPointInput *model)
+void DartsPointJsonDbService::addModel(const IDartsInput *model)
 {
     _dartsPointModels.append(model);
     saveState();
 }
 
-const DartsModelsContext::IDartsPointInput *DartsPointJsonDbService::getDartsInputModelByIndex(const int &index) const
+const IDartsInput *DartsPointJsonDbService::getModelByIndex(const int &index) const
 {
     auto model = _dartsPointModels.at(index);
     return model;
 }
 
-QVector<const DartsModelsContext::IDartsPointInput *> DartsPointJsonDbService::dartsInputModels() const
+QVector<const IDartsInput *> DartsPointJsonDbService::models() const
 {
     return _dartsPointModels;
 }
 
-void DartsPointJsonDbService::removeDartsInputModelByIndex(const int &index)
+bool DartsPointJsonDbService::removeModelByIndex(const int &index)
 {
+    if(index >= _dartsPointModels.count() || index < 0)
+        return false;
     _dartsPointModels.remove(index);
     saveState();
+    return true;
 }
 
-int DartsPointJsonDbService::indexOfDartsInputModel(const DartsModelsContext::IDartsPointInput *score)
+int DartsPointJsonDbService::indexOfModel(const IDartsInput *score)
 {
     auto index = _dartsPointModels.indexOf(score);
     return index;
 }
 
-void DartsPointJsonDbService::replaceDartsInputModel(const int &index, const DartsModelsContext::IDartsPointInput *score)
+void DartsPointJsonDbService::replaceModel(const int &index, const IDartsInput *point)
 {
-    _dartsPointModels.replace(index,score);
+    _dartsPointModels.replace(index,point);
     saveState();
+}
+
+const IDartsInput *DartsPointJsonDbService::modelById(const QUuid &id) const
+{
+    for (const auto& model : _dartsPointModels) {
+        if(model->id() == id)
+            return model;
+    }
+    return nullptr;
+}
+
+const IDartsInput *DartsPointJsonDbService::modelByIndex(const int &index) const
+{
+    auto model = _dartsPointModels.at(index);
+    return model;
+}
+
+bool DartsPointJsonDbService::removeModelById(const QUuid &id)
+{
+    for (const auto& model : _dartsPointModels) {
+        if(model->id() == id)
+        {
+            _dartsPointModels.removeOne(model);
+            saveState();
+            return true;
+        }
+    }
+    return false;
 }
 
 DartsPointJsonDbService *DartsPointJsonDbService::setDartsPointsExtractorService(JsonExtractor *dartsPointsExtractor)
