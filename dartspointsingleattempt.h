@@ -15,6 +15,7 @@
 #include "dartspointturnvalues.h"
 #include "idartssingleattemptindexes.h"
 #include "ibinaryservice.h"
+#include "idartscontrollermodelsservice.h"
 // Json services
 #include "idartspointjsonservice.h"
 #define GAME_IS_NOT_IN_PROGRESS "Game is not in progress"
@@ -61,10 +62,6 @@ namespace DartsPointSingleAttemptContext {
         // Assemble DartsControllerPoint by json service typedefs
         typedef IDartsControllerPoint<QUuid,QString,QByteArray> IControllerPoint;
         typedef IUnaryService<const QByteArray&, const IControllerPoint*> IControllerPointBuilder;
-        // Add playername to DartsControllerPoint model
-        typedef IBinaryService<const QString&, const IControllerPoint*,void> IAddPlayerNameService;
-        // Add player accumulated score to DartsControllerPoint model
-        typedef IBinaryService<const int&, const IControllerPoint*,void> IAddPlayerScoreService;
         // Build darts indexes by json service
         typedef IUnaryService<const QByteArray&, const IDartsSingleAttemptIndexes*> IBuildIndexesService;
         typedef IDartsPointJsonService<IDartsSingleAttemptIndexes> DartsJsonService;
@@ -74,6 +71,7 @@ namespace DartsPointSingleAttemptContext {
                                const IPlayerPointService*,
                                const LogisticService*,
                                DartsPointTurnValues*> TurnValueBuilderService;
+        typedef IDartsControllerModelsService<IDartsControllerPoint<QUuid,QString,QByteArray>,QString> ControllerModelsService;
         // Create instance of LocalFTPController
         static DartsPointSingleAttempt* createInstance(const QUuid &tournament);
         // Set service methods
@@ -89,9 +87,8 @@ namespace DartsPointSingleAttemptContext {
         DartsPointSingleAttempt* setDartsJsonModelsService(DartsJsonService *dartsJsonModelsService);
         DartsPointSingleAttempt* setAssembleDartsPointTurnValues(TurnValueBuilderService *newAssembleDartsPointTurnValues);
         DartsPointSingleAttempt* setDartsPointBuilderService(IControllerPointBuilder *newDartsPointBuilderService);
-        DartsPointSingleAttempt* setAddPlayerNameToPointService(IAddPlayerNameService *newAddPlayerNameToPointService);
-        DartsPointSingleAttempt* setAddPlayerScoreToPointService(IAddPlayerScoreService *newAddPlayerScoreToPointService);
         DartsPointSingleAttempt* setBuildDartsIndexesByJson(IBuildIndexesService *newBuildDartsIndexesByJson);
+        DartsPointSingleAttempt* setControllerModelsService(ControllerModelsService *newControllerModelsService);
     public slots:
         /*
          * Recieve darts index values, score values,
@@ -186,9 +183,8 @@ namespace DartsPointSingleAttemptContext {
         //Services
         TurnValueBuilderService* _assembleDartsPointTurnValues;
         IControllerPointBuilder* _controllerPointBuilderService;
-        IAddPlayerNameService* _addPlayerNameToPointService;
-        IAddPlayerScoreService* _addPlayerScoreToPointService;
         IBuildIndexesService* _buildDartsIndexesByJson;
+        ControllerModelsService* _controllerModelsService;
         // Json
         DartsJsonService* _dartsJsonModelsService;
         // Calculate score

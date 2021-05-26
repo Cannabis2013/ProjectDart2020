@@ -30,7 +30,6 @@ public:
     int getDeletePlayerIndexFromJson(const QByteArray &json) const override;
     const IDartsInput *assembleDartsPointModelFromJson(const QByteArray &json) const override;
     const IPlayerModel *assemblePlayerModelFromJson(const QByteArray &json) const override;
-    const IDartsTournament *assignPlayerIdsToDartsTournament(const IDartsTournament *model, const QVector<QUuid> &playerIds) const override;
     QByteArray assembleJsonFromDartsMultiAttemptScores(const QVector<const IDartsInput *> &models) const override;
     QUuid getWinnerIdByJson(const QByteArray &json) const override;
     QUuid getTournamentIdByJson(const QByteArray &json) const override;

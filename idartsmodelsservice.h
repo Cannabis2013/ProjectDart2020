@@ -28,10 +28,8 @@ namespace DartsModelsContext {
         virtual QUuid addDartsTournamentToDb(const IDartsTournament*) = 0;
         virtual bool removeTournamentsByIndexes(const QVector<int>& indexes) const = 0;
         virtual void tournamentSetWinnerId(const QUuid &tournament, const QUuid &winner) = 0;
-        virtual void tournamentAssignPlayer(const QUuid &tournament, const QUuid &player) = 0;
-        virtual void tournamentAssignPlayers(const QUuid &tournament,
-                                             const QVector<QUuid> &player) = 0;
-        virtual void tournamentUnAssignPlayer(const QUuid &tournament, const QUuid &player) = 0;
+        virtual const IDartsTournament* assignPlayerIdsToDartsTournament(const IDartsTournament*,
+                                                                         const QVector<QUuid>&) const = 0;
         /*
          * Points related section
          */

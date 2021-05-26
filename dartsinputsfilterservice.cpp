@@ -2,53 +2,86 @@
 
 using namespace DartsModelsContext;
 
-DartsInputsFilterService::Models DartsModelsContext::DartsInputsFilterService::filterByTournamentId(const Models &models, const QUuid &id) const
+DartsInputsFilterService::IDartsInputsFilter::Models DartsInputsFilterService::filterByTournamentId(const Models &models,
+                                                                                                    const UniqueId &id) const
 {
-    Models m;
+    Models list;
     for (const auto& model : models) {
         if(model->tournamentId() == id)
-            m << model;
+            list << model;
     }
-    return m;
+    return list;
 }
 
-DartsInputsFilterService::Models DartsModelsContext::DartsInputsFilterService::filterByPlayerId(const Models &models, const QUuid &id) const
+DartsInputsFilterService::Models DartsInputsFilterService::filterByPlayerId(const Models &models,
+                                                                            const UniqueId &tournamentId,
+                                                                            const UniqueId &playerId) const
 {
-    Models m;
-    for (const auto& model : models) {
-        if(model->playerId() == id)
-            m << model;
+    auto tournamentInputModels = filterByTournamentId(models,tournamentId);
+    Models inputModelsByPlayerId;
+    for (const auto& model : tournamentInputModels) {
+        if(model->playerId() == playerId)
+            inputModelsByPlayerId << model;
     }
-    return m;
+    return inputModelsByPlayerId;
 }
 
-DartsInputsFilterService::Models DartsModelsContext::DartsInputsFilterService::filterByInputHint(const Models &models, const int &hint) const
+DartsInputsFilterService::IDartsInputsFilter::Models DartsInputsFilterService::filterByHint(const Models &models,
+                                                                                            const UniqueId &tournamentId,
+                                                                                            const UniqueId &playerId,
+                                                                                            const int &hint) const
 {
-    Models m;
-    for (const auto& model : models) {
+    auto inputModelsByPlayerId = filterByPlayerId(models,tournamentId,playerId);
+    Models playerInputsByHint;
+    for (const auto& model : inputModelsByPlayerId) {
         if(model->hint() == hint)
-            m << model;
+            playerInputsByHint << model;
     }
-    return m;
+    return playerInputsByHint;
+
 }
 
-DartsInputsFilterService::Models DartsModelsContext::DartsInputsFilterService::filterByRoundIndex(const Models &models, const int &roundIndex) const
+DartsInputsFilterService::Models DartsInputsFilterService::filterByRoundIndex(const Models &models,
+                                                                              const UniqueId &tournamentId,
+                                                                              const UniqueId &playerId,
+                                                                              const int &roundIndex) const
 {
-    Models m;
-    for (const auto& model : models) {
+    auto inputModelsByPlayerId = filterByPlayerId(models,tournamentId,playerId);
+    Models playerInputsByRoundIndex;
+    for (const auto& model : inputModelsByPlayerId) {
         if(model->roundIndex() == roundIndex)
-            m << model;
+            playerInputsByRoundIndex << model;
     }
-    return m;
+    return playerInputsByRoundIndex;
 }
 
-DartsInputsFilterService::Models DartsInputsFilterService::filterByAttemptIndex(const Models &models, const int &attemptIndex) const
+DartsInputsFilterService::Models DartsInputsFilterService::filterByAttemptIndex(const Models &models,
+                                                                                const UniqueId &tournamentId,
+                                                                                const UniqueId &playerId,
+                                                                                const int &roundIndex,
+                                                                                const int &hint,
+                                                                                const int &attemptIndex) const
 {
-    Models m;
-    for (const auto& model : models) {
+    auto inputModelsByRoundIndex = filterByRoundIndex(models,tournamentId,playerId,roundIndex);
+    Models inputModelsByAttemptIndex;
+    for (const auto& model : inputModelsByRoundIndex) {
         auto pointModel = dynamic_cast<const IDartsPointInput*>(model);
-        if(pointModel->attempt() == attemptIndex)
-            m << model;
+        if(pointModel->attempt() == attemptIndex && pointModel->hint() == hint)
+            inputModelsByAttemptIndex << model;
     }
-    return m;
+    return inputModelsByAttemptIndex;
+}
+
+
+DartsInputsFilterService::Models DartsModelsContext::DartsInputsFilterService::filterByHint(const Models &models,
+                                                                                            const UniqueId &tournamentId,
+                                                                                            const int &hint) const
+{
+    auto inputModelsByTournamentId = filterByTournamentId(models,tournamentId);
+    Models inputModelsByHint;
+    for (const auto& model : inputModelsByTournamentId) {
+        if(model->hint() == hint)
+            inputModelsByHint << model;
+    }
+    return inputModelsByHint;
 }

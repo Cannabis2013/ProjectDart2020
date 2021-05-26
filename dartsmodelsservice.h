@@ -80,6 +80,7 @@ namespace DartsModelsContext{
         typedef QVector<const PlayerInput*> DartsPlayerInputs;
         typedef IBinaryService<const DartsPlayerInputs&,ModelsDbService*,void> RemoveModelsService;
         typedef IDartsInputsFilter<PlayerInput,QUuid> FilterDartsInputsService;
+        typedef IBinaryService<const IDartsTournament*,const QVector<QUuid>&,const IDartsTournament*> AssignPlayerIdsToTournament;
 
         /*
          * Create and setup instance
@@ -94,12 +95,8 @@ namespace DartsModelsContext{
         bool removeTournamentsByIndexes(const QVector<int>& indexes) const override;
         void tournamentSetWinnerId(const QUuid &tournamentId,
                                    const QUuid &winnerId) override;
-        void tournamentAssignPlayer(const QUuid &tournamentId,
-                                      const QUuid &player) override;
-        void tournamentAssignPlayers(const QUuid &tournamentId,
-                                      const QVector<QUuid> &players) override;
-        void tournamentUnAssignPlayer(const QUuid &tournamentId,
-                                    const QUuid &player) override;
+        const IDartsTournament *assignPlayerIdsToDartsTournament(const IDartsTournament* tournament,
+                                                                 const QVector<QUuid>& playerIds) const override;
         QUuid addDartsTournamentToDb(const IDartsTournament *tournament) override;
         const IDartsPointIndexes *dartsPointIndexes(const QUuid &tournamentId) const override;
         /*
@@ -152,6 +149,8 @@ namespace DartsModelsContext{
         DartsModelsService* setDartsPointLessThanPredicate(Predicate *predicate);
         DartsModelsService* setDartsScoreLessThanPredicate(Predicate *predicate);
         DartsModelsService* setDartsInputsFilterService(FilterDartsInputsService *newFilterDartsInputsService);
+        DartsModelsService* setAssignPlayerIdsToDartsTournament(AssignPlayerIdsToTournament *newAssignPlayerIdsToDartsTournament);
+
     private:
         /*
          * Services
@@ -162,6 +161,7 @@ namespace DartsModelsContext{
         SortDartsInputsByPredicateService* _sortDartsInputModelsByPredicate;
         FilterDartsInputsService* _dartsInputsFilterService;
         GetDartsInputModelByIdService* _getInputModelByIdService;
+        AssignPlayerIdsToTournament* _assignPlayerIdsToDartsTournament;
         // Point services
         GetPointIndexesFromDartsTournamentService* _assembleDartsPointIndexes;
         Predicate* _dartsPointLessThanPredicate;

@@ -25,6 +25,7 @@ IDartsModelsService *DartsModelsServiceBuilder::buildModelsService() const
             ->setRemoveModelsService(new RemoveModelsFromDbContext)
             ->setDartsPointLessThanPredicate(new DartsPointLessThanPredicate)
             ->setDartsScoreLessThanPredicate(new DartsScoreLessThanPredicate)
-            ->setDartsInputsFilterService(new DartsInputsFilterService);
+            ->setDartsInputsFilterService(new DartsInputsFilterService)
+            ->setAssignPlayerIdsToDartsTournament(new AssignPlayerIdsToDartsTournamentModel);
     return dartsModelsService;
 }

@@ -55,8 +55,8 @@ void DartsPointSingleAttempt::handlePointAddedToDataContext(const QByteArray &js
     // Sync totalturns with the current turn index
     _indexController->syncIndex();
     auto scoreValue = _scoreController->playerScore(dartsPointModel->playerId());
-    _addPlayerNameToPointService->service(currentActiveUser(),dartsPointModel);
-    _addPlayerScoreToPointService->service(scoreValue,dartsPointModel);
+    _controllerModelsService->addPlayerNameToModel(dartsPointModel,currentActiveUser());
+    _controllerModelsService->addPlayerScoreToModel(dartsPointModel,scoreValue);
     emit pointAddedAndPersisted(dartsPointModel->toJson());
 }
 
@@ -220,21 +220,15 @@ void DartsPointSingleAttempt::declareWinner()
     setCurrentStatus(ControllerState::WinnerDeclared);
 }
 
+DartsPointSingleAttempt *DartsPointSingleAttempt::setControllerModelsService(ControllerModelsService *newControllerModelsService)
+{
+    _controllerModelsService = newControllerModelsService;
+    return this;
+}
+
 DartsPointSingleAttempt *DartsPointSingleAttempt::setBuildDartsIndexesByJson(IBuildIndexesService *newBuildDartsIndexesByJson)
 {
     _buildDartsIndexesByJson = newBuildDartsIndexesByJson;
-    return this;
-}
-
-DartsPointSingleAttempt *DartsPointSingleAttempt::setAddPlayerScoreToPointService(IAddPlayerScoreService *newAddPlayerScoreToPointService)
-{
-    _addPlayerScoreToPointService = newAddPlayerScoreToPointService;
-    return this;
-}
-
-DartsPointSingleAttempt *DartsPointSingleAttempt::setAddPlayerNameToPointService(IAddPlayerNameService *newAddPlayerNameToPointService)
-{
-    _addPlayerNameToPointService = newAddPlayerNameToPointService;
     return this;
 }
 
@@ -355,8 +349,8 @@ void DartsPointSingleAttempt::undoSuccess(const QByteArray& json)
     _scoreController->addPlayerScore(controllerPoint->playerId(),score);
     auto newScore = _scoreController->playerScore(controllerPoint->playerId());
     auto playerName = _scoreController->playerNameById(controllerPoint->playerId());
-    _addPlayerNameToPointService->service(playerName,controllerPoint);
-    _addPlayerScoreToPointService->service(newScore,controllerPoint);
+    _controllerModelsService->addPlayerNameToModel(controllerPoint,playerName);
+    _controllerModelsService->addPlayerScoreToModel(controllerPoint,newScore);
     emit pointRemoved(controllerPoint->toJson());
 }
 
@@ -367,8 +361,8 @@ void DartsPointSingleAttempt::redoSuccess(const QByteArray& json)
     _scoreController->subtractPlayerScore(controllerPoint->playerId(),score);
     auto newScore = _scoreController->playerScore(controllerPoint->playerId());
     auto playerName = _scoreController->playerNameById(controllerPoint->playerId());
-    _addPlayerNameToPointService->service(playerName,controllerPoint);
-    _addPlayerScoreToPointService->service(newScore,controllerPoint);
+    _controllerModelsService->addPlayerNameToModel(controllerPoint,playerName);
+    _controllerModelsService->addPlayerScoreToModel(controllerPoint,newScore);
     emit pointAddedAndPersisted(controllerPoint->toJson());
 }
 

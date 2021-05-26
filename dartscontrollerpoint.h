@@ -36,7 +36,7 @@ namespace DartsPointSingleAttemptContext
         {
             return _playerName;
         }
-        void setPlayerName(const QString &newPlayerName)
+        void setPlayerName(const QString &newPlayerName) override
         {
             _playerName = newPlayerName;
         }
@@ -44,7 +44,7 @@ namespace DartsPointSingleAttemptContext
         {
             return _accumulatedScore;
         }
-        void setAccumulatedScore(const int& accumulatedScore)
+        void setAccumulatedScore(const int& accumulatedScore) override
         {
             _accumulatedScore = accumulatedScore;
         }

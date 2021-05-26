@@ -24,6 +24,7 @@ SOURCES += \
     connectdefaultmodelscontextinterface.cpp \
     dartapplication.cpp \
     dartscontrollerbuilder.cpp \
+    dartscontrollerpointmodelsservice.cpp \
     dartsinputsfilterservice.cpp \
     dartsjsonservice.cpp \
     dartsjsonservicebuilder.cpp \
@@ -91,9 +92,7 @@ HEADERS += \
     abstractmodelsservice.h \
     abstractmodelsservicebuilder.h \
     addaccumulatedscoretodartsscore.h \
-    addplayernametocontrollerpoint.h \
     addplayernametodartsinputmodel.h \
-    addplayerscoretocontrollerpoint.h \
     addwinnernametotournamentjson.h \
     assembleJsonFromDartsIndexesAndPoints.h \
     assembledartsindexesbyjson.h \
@@ -132,6 +131,7 @@ HEADERS += \
     dartscontrollerbuilder.h \
     dartscontrollerpoint.h \
     dartscontrollerpointbuilder.h \
+    dartscontrollerpointmodelsservice.h \
     dartsinputsfilterservice.h \
     dartsjsonservice.h \
     dartsjsonservicebuilder.h \
@@ -179,6 +179,7 @@ HEADERS += \
     getwinneridbyjson.h \
     ibinaryservice.h \
     icomparison.h \
+    idartscontrollermodelsservice.h \
     idartscontrollerpoint.h \
     idartsinputsfilter.h \
     idartsjsonservice.h \

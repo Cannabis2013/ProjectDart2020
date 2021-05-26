@@ -25,7 +25,7 @@
 #include "dartspointlessthanpredicate.h"
 #include "dartsscorelessthanpredicate.h"
 #include "dartsinputsfilterservice.h"
-
+#include "assignplayeridstodartstournamentmodel.h"
 class DartsModelsServiceBuilder :
         public IModelsServiceBuilder<IDartsModelsService>
 {

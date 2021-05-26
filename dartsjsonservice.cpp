@@ -109,12 +109,6 @@ const IPlayerModel *DartsJsonService::assemblePlayerModelFromJson(const QByteArr
     return model;
 }
 
-const IDartsTournament *DartsJsonService::assignPlayerIdsToDartsTournament(const IDartsTournament *model, const QVector<QUuid> &playerIds) const
-{
-    auto tournamentModel = _assignPlayerIdsToDartsTournament->service(model,playerIds);
-    return tournamentModel;
-}
-
 DartsJsonService* DartsJsonService::setAssignPlayerIdsToDartsTournament(IBinaryService<const IDartsTournament *, const QVector<QUuid> &, const IDartsTournament *> *assignPlayerIdsToDartsTournament)
 {
     _assignPlayerIdsToDartsTournament = assignPlayerIdsToDartsTournament;

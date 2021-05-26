@@ -35,9 +35,8 @@
 #include "assembledartsscoreturnvalues.h"
 #include "buildDartsPointTurnValues.h"
 #include "dartscontrollerpointbuilder.h"
-#include "addplayernametocontrollerpoint.h"
-#include "addplayerscoretocontrollerpoint.h"
 #include "builddartssingleattemptindexesbyjson.h"
+#include "dartscontrollerpointmodelsservice.h"
 
 
 class DartsControllerBuilder : public AbstractDartsControllerBuilder

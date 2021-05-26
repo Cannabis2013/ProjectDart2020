@@ -36,8 +36,6 @@ public:
     virtual int getDeletePlayerIndexFromJson(const QByteArray&) const = 0;
     virtual const IDartsInput* assembleDartsPointModelFromJson(const QByteArray&) const = 0;
     virtual const IPlayerModel* assemblePlayerModelFromJson(const QByteArray&) const = 0;
-    virtual const IDartsTournament* assignPlayerIdsToDartsTournament(const IDartsTournament*,
-                                                                     const QVector<QUuid>&) const = 0;
     virtual QByteArray assembleJsonFromDartsMultiAttemptScores(const QVector<const IDartsInput *>&) const = 0;
     virtual QUuid getWinnerIdByJson(const QByteArray&) const = 0;
     virtual QUuid getTournamentIdByJson(const QByteArray&) const = 0;

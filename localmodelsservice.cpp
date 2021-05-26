@@ -10,7 +10,7 @@ void LocalModelsService::addDartsTournament(const QByteArray& json)
     auto model = DartsTournament::fromJson(json);
     auto indexes = _dartsJsonService->getPlayerIndexesFromJson(json);
     auto playerIds = _playerModelsService->assemblePlayerIds(indexes);
-    auto newModel = _dartsJsonService->assignPlayerIdsToDartsTournament(model,playerIds);
+    auto newModel = _dartsModelsService->assignPlayerIdsToDartsTournament(model,playerIds);
     _dartsModelsService->addDartsTournamentToDb(newModel);
     emit tournamentAssembledAndStored();
 }
