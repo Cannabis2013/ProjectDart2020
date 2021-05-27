@@ -68,7 +68,7 @@ AbstractDartsPointController *DartsControllerBuilder::assembleDartsPointControll
             ->setDartsJsonModelsService(new DartsPointJsonService)
             ->setAssembleDartsPointTurnValues(new BuildDartsPointTurnValues)
             ->setDartsPointBuilderService(new DartsControllerPointBuilder)
-            ->setBuildDartsIndexesByJson(new BuildDartsSingleAttemptIndexesByJson)
+            ->setBuildDartsIndexesByJson(new DartsIndexesBuilderService)
             ->setControllerModelsService(new DartsControllerPointModelsService);
     return controller;
 }

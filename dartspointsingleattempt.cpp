@@ -151,18 +151,14 @@ void DartsPointSingleAttempt::addPoint(const int& point,
                                        const int& score,
                                        const int& keyCode)
 {
-    // Set controller state, unless winner declared
     if(currentStatus() != ControllerState::WinnerDeclared)
         setCurrentStatus(ControllerState::AddScoreState);
-    auto winnerId = status() == ControllerState::WinnerDeclared ?
-                currentActivePlayerId() : QUuid();
     auto pointModel = _pointModelBuilderService->buildControllerPointByValues(point,score,keyCode,
-                                                                              currentActivePlayerId(),
-                                                                              currentActiveUser());
+                                                                              currentActivePlayerId(),currentActiveUser());
+    auto winnerId = _scoreController->winnerId();
+    auto indexes = _dartsIndexesBuilder->buildTurnIndexesByValues(_indexController);
     auto json = _dartsJsonModelsService->assembleJsonAddPointValues(
-                tournament(),
-                indexes,
-                winnerId,pointModel);
+                indexes,winnerId,pointModel);
     emit requestAddDartsPoint(json);
 }
 
@@ -226,7 +222,7 @@ DartsPointSingleAttempt *DartsPointSingleAttempt::setControllerModelsService(Con
     return this;
 }
 
-DartsPointSingleAttempt *DartsPointSingleAttempt::setBuildDartsIndexesByJson(IBuildIndexesByJsonService *newBuildDartsIndexesByJson)
+DartsPointSingleAttempt *DartsPointSingleAttempt::setBuildDartsIndexesByJson(IIndexesBuilderService *newBuildDartsIndexesByJson)
 {
     _dartsIndexesBuilder = newBuildDartsIndexesByJson;
     return this;
@@ -260,21 +256,6 @@ void DartsPointSingleAttempt::initializeControllerIndexes(const QByteArray& json
     auto indexes = _dartsIndexesBuilder->assembleDartsControllerIndexesByJson(json);
     _indexController->setIndexes(indexes);
     emit requestTournamentAssignedPlayerDetails(tournament());
-}
-
-bool DartsPointSingleAttempt::isBusy()
-{
-    if(status() == Stopped ||
-            status() == WinnerDeclared)
-    {
-        emit controllerIsStopped();
-        return true;
-    }
-    else if(status() == ControllerState::AddScoreState)
-    {
-        return true;
-    }
-    return false;
 }
 
 void DartsPointSingleAttempt::processDomain(const int& domain,
@@ -382,9 +363,9 @@ void DartsPointSingleAttempt::initializeControllerDartsPoints(const QByteArray& 
             assembleExtendedInputModelsFromJson(json);
     for (const auto &extendedPointStruct : extendedPointStructs) {
         auto calculatedScore = _scoreCalculator->
-                calculateScoreFromDartsPoint(extendedPointStruct->pointValue,
-                                             extendedPointStruct->modKeyCode);
-        _scoreController->subtractPlayerScore(extendedPointStruct->playerId,
+                calculateScoreFromDartsPoint(extendedPointStruct->point(),
+                                             extendedPointStruct->modKeyCode());
+        _scoreController->subtractPlayerScore(extendedPointStruct->playerId(),
                                               calculatedScore);
     }
     emit requestTournamentWinnerIdAndName(tournament());

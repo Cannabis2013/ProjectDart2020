@@ -35,8 +35,8 @@
 #include "assembledartsscoreturnvalues.h"
 #include "buildDartsPointTurnValues.h"
 #include "dartscontrollerpointbuilder.h"
-#include "builddartssingleattemptindexesbyjson.h"
 #include "dartscontrollerpointmodelsservice.h"
+#include "DartsIndexesBuilderService.h"
 
 
 class DartsControllerBuilder : public AbstractDartsControllerBuilder

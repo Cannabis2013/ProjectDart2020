@@ -82,6 +82,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     ApplicationBuilder.h \
     AssembleDartsTournamentsFromJsonArray.h \
+    DartsIndexesBuilderService.h \
     DartsPointCalculator.h \
     DartsScoreMultiAttempIndexes.h \
     IPointCalculatorService.h \
@@ -95,7 +96,6 @@ HEADERS += \
     addplayernametodartsinputmodel.h \
     addwinnernametotournamentjson.h \
     assembleJsonFromDartsIndexesAndPoints.h \
-    assembledartsindexesbyjson.h \
     assembledartsplayerbyjson.h \
     assembledartsplayersbyjson.h \
     assembledartspointmodelfromjson.h \
@@ -122,7 +122,6 @@ HEADERS += \
     assemblesingleattemptpointsfromjson.h \
     assignplayeridstodartstournamentmodel.h \
     buildDartsPointTurnValues.h \
-    builddartssingleattemptindexesbyjson.h \
     comparedartspointmodels.h \
     connectcontrollerbuilder.h \
     connectdartsmultiattemptcontroller.h \

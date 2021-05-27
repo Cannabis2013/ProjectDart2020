@@ -2,7 +2,9 @@
 #define IDARTSCONTROLLERINDEXMODELBUILDER_H
 
 namespace DartsPointSingleAttemptContext {
-    template<typename TTurnIndexes, typename TControllerIndexService,typename TJsonFormat>
+    template<typename TTurnIndexes,
+             typename TControllerIndexService,
+             typename TJsonFormat>
     class IDartsControllerIndexesModelBuilder
     {
     public:

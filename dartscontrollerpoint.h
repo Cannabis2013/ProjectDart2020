@@ -28,7 +28,7 @@ namespace DartsPointSingleAttemptContext
         {
             return _playerId;
         }
-        void setPlayerId(const QUuid &newPlayerId)
+        void setPlayerId(const QUuid &newPlayerId) override
         {
             _playerId = newPlayerId;
         }
@@ -52,7 +52,7 @@ namespace DartsPointSingleAttemptContext
         {
             return _point;
         }
-        void setPoint(int newPoint)
+        void setPoint(const int& newPoint) override
         {
             _point = newPoint;
         }
@@ -60,7 +60,7 @@ namespace DartsPointSingleAttemptContext
         {
             return _modKeyCode;
         }
-        void setModKeyCode(int newModKeyCode)
+        void setModKeyCode(const int& newModKeyCode) override
         {
             _modKeyCode = newModKeyCode;
         }

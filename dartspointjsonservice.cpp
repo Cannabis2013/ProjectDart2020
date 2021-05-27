@@ -2,18 +2,18 @@
 
 using namespace DartsPointSingleAttemptContext;
 
-QVector<const SingleAttemptJsonService::ExtendedInputValues *> DartsPointJsonService::assembleExtendedInputModelsFromJson(const QByteArray &json) const
+QVector<const SingleAttemptJsonService::PointModel *> DartsPointJsonService::assembleExtendedInputModelsFromJson(const QByteArray &json) const
 {
     auto document = QJsonDocument::fromJson(json);
     auto scoreData = document.array();
-    QVector<const ExtendedInputValues*> extendedValueModels;
+    QVector<const PointModel*> extendedValueModels;
     for (const auto &jsonVal : scoreData) {
         auto obj = jsonVal.toObject();
-        ExtendedInputValues* extendedValueModel = new ExtendedInputValues;
-        extendedValueModel->pointValue = obj.value("point").toInt();
-        extendedValueModel->modKeyCode = obj.value("modKeyCode").toInt();
+        PointModel* extendedValueModel = DartsControllerPoint::createInstance();
+        extendedValueModel->setPoint(obj.value("point").toInt());
+        extendedValueModel->setModKeyCode(obj.value("modKeyCode").toInt());
         auto playerStringId = obj.value("playerId").toString();
-        extendedValueModel->playerId = QUuid::fromString(playerStringId);
+        extendedValueModel->setPlayerId(QUuid::fromString(playerStringId));
         extendedValueModels << extendedValueModel;
     }
     return extendedValueModels;
@@ -46,11 +46,12 @@ const SingleAttemptJsonService::ControllerPlayer *DartsPointJsonService::assembl
     return dartsPlayerModel;
 }
 
-QByteArray DartsPointJsonService::assembleJsonAddPointValues(const QUuid &tournamentId, const DartsIndexes *indexes,
-                                                                          const QUuid &winnerId, const PointModel *model) const
+QByteArray DartsPointJsonService::assembleJsonAddPointValues(const DartsIndexes *indexes,
+                                                             const QUuid &winnerId,
+                                                             const PointModel *model) const
 {
     QJsonObject obj;
-    obj["tournamentId"] = tournamentId.toString(QUuid::WithoutBraces);
+    obj["tournamentId"] = model->tournamentId().toString(QUuid::WithoutBraces);
     obj["roundIndex"] = indexes->roundIndex();
     obj["setIndex"] = indexes->setIndex();
     obj["attempt"] = indexes->attemptIndex();

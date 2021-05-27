@@ -69,7 +69,7 @@ namespace DartsPointSingleAttemptContext {
         typedef IDartsSingleAttemptIndexService<IDartsSingleAttemptIndexes> DartsIndexService;
         typedef IDartsControllerIndexesModelBuilder<IDartsSingleAttemptIndexes,
                                                     DartsIndexService,
-                                                    QByteArray> IBuildIndexesByJsonService;
+                                                    QByteArray> IIndexesBuilderService;
         typedef IDartsPointJsonService<IControllerPoint,IDartsSingleAttemptIndexes> DartsJsonService;
         typedef IDartsControllerPlayer<QUuid,QString> ControllerPlayer;
         typedef IPlayerPointService<ControllerPlayer> PlayerPointService;
@@ -96,7 +96,7 @@ namespace DartsPointSingleAttemptContext {
         DartsPointSingleAttempt* setDartsJsonModelsService(DartsJsonService *dartsJsonModelsService);
         DartsPointSingleAttempt* setAssembleDartsPointTurnValues(TurnValueBuilderService *newAssembleDartsPointTurnValues);
         DartsPointSingleAttempt* setDartsPointBuilderService(ControllerPointBuilder *newDartsPointBuilderService);
-        DartsPointSingleAttempt* setBuildDartsIndexesByJson(IBuildIndexesByJsonService *newBuildDartsIndexesByJson);
+        DartsPointSingleAttempt* setBuildDartsIndexesByJson(IIndexesBuilderService *newBuildDartsIndexesByJson);
         DartsPointSingleAttempt* setControllerModelsService(ControllerModelsService *newControllerModelsService);
     public slots:
         /*
@@ -161,10 +161,6 @@ namespace DartsPointSingleAttemptContext {
         {
             _tournament = tournament;
         }
-        /*
-         * Check if controller is busy doing something else
-         */
-        bool isBusy();
         void processDomain(const int& domain,
                            const int& point, const int &score,
                            const int& modKeyCode);
@@ -194,7 +190,7 @@ namespace DartsPointSingleAttemptContext {
         //Services
         TurnValueBuilderService* _assembleDartsPointTurnValues;
         ControllerPointBuilder* _pointModelBuilderService;
-        IBuildIndexesByJsonService* _dartsIndexesBuilder;
+        IIndexesBuilderService* _dartsIndexesBuilder;
         ControllerModelsService* _controllerModelsService;
         // Json
         DartsJsonService* _dartsJsonModelsService;
