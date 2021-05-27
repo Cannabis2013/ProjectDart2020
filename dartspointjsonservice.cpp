@@ -19,48 +19,46 @@ QVector<const SingleAttemptJsonService::ExtendedInputValues *> DartsPointJsonSer
     return extendedValueModels;
 }
 
-QVector<const SingleAttemptJsonService::PlayerDetailsStruct *> DartsPointJsonService::assemblePlayerDetailsStructsFromJson(const QByteArray& json) const
+QVector<const SingleAttemptJsonService::ControllerPlayer *> DartsPointJsonService::assemblePlayerDetailsStructsFromJson(const QByteArray& json) const
 {
     auto document = QJsonDocument::fromJson(json);
     auto playerDatas = document.array();
-    QVector<const PlayerDetailsStruct*> list;
+    QVector<const ControllerPlayer*> list;
     for (const auto &playerDataJsonValue : playerDatas) {
         auto obj = playerDataJsonValue.toObject();
-        PlayerDetailsStruct* playerDetails = new PlayerDetailsStruct;
+        auto dartsPlayerModel = new DartsControllerPlayer();
         auto playerStringId = obj["playerId"].toString();
-        playerDetails->playerId = QUuid::fromString(playerStringId);
-        playerDetails->playerName = obj["playerName"].toString();
-        list << playerDetails;
+        dartsPlayerModel->setPlayerId(QUuid::fromString(playerStringId));
+        dartsPlayerModel->setPlayerName(obj["playerName"].toString());
+        list << dartsPlayerModel;
     }
     return list;
 }
 
-const SingleAttemptJsonService::PlayerDetailsStruct *DartsPointJsonService::assembleWinnerStructFromJson(const QByteArray& json) const
+const SingleAttemptJsonService::ControllerPlayer *DartsPointJsonService::assembleWinnerStructFromJson(const QByteArray& json) const
 {
     auto document = QJsonDocument::fromJson(json);
     auto jsonObject = document.object();
     auto winnerStringId = jsonObject.value("playerId").toString();
     auto winnerId = QUuid::fromString(winnerStringId);
-    PlayerDetailsStruct* winnerStruct = new PlayerDetailsStruct;
-    winnerStruct->playerId = winnerId;
-    return winnerStruct;
+    auto dartsPlayerModel = new DartsControllerPlayer;
+    dartsPlayerModel->setPlayerId(winnerId);
+    return dartsPlayerModel;
 }
 
-QByteArray DartsPointJsonService::assembleJsonAddPointValues(const QUuid &tournamentId, const int &roundIndex,
-                                                                          const int &setIndex, const int &attemptIndex,
-                                                                          const QUuid &winnerId, const QUuid &playerId,
-                                                                          const int &point, const int& score,const int &modKeyCode) const
+QByteArray DartsPointJsonService::assembleJsonAddPointValues(const QUuid &tournamentId, const DartsIndexes *indexes,
+                                                                          const QUuid &winnerId, const PointModel *model) const
 {
     QJsonObject obj;
     obj["tournamentId"] = tournamentId.toString(QUuid::WithoutBraces);
-    obj["roundIndex"] = roundIndex;
-    obj["setIndex"] = setIndex;
-    obj["attempt"] = attemptIndex;
+    obj["roundIndex"] = indexes->roundIndex();
+    obj["setIndex"] = indexes->setIndex();
+    obj["attempt"] = indexes->attemptIndex();
     obj["winnerId"] = winnerId.toString(QUuid::WithoutBraces);
-    obj["playerId"] = playerId.toString(QUuid::WithoutBraces);
-    obj["point"] = point;
-    obj["score"] = score;
-    obj["modKeyCode"] = modKeyCode;
+    obj["playerId"] = model->playerId().toString(QUuid::WithoutBraces);
+    obj["point"] = model->point();
+    obj["score"] = model->accumulatedScore();
+    obj["modKeyCode"] = model->modKeyCode();
     auto json = QJsonDocument(obj).toJson();
     return json;
 }

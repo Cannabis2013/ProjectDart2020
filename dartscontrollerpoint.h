@@ -76,6 +76,15 @@ namespace DartsPointSingleAttemptContext
             auto json = document.toJson();
             return json;
         }
+        QUuid tournamentId() const override
+        {
+            return _tournamentId;
+        }
+        void setTournamentId(const QUuid &newTournamentId) override
+        {
+            _tournamentId = newTournamentId;
+        }
+
     private:
         DartsControllerPoint()
         {}
@@ -91,6 +100,13 @@ namespace DartsPointSingleAttemptContext
         int _accumulatedScore;
         QUuid _playerId;
         QString _playerName;
+        QUuid _tournamentId;
     };
+
+
+
+
+
+
 }
 #endif // DARTSPOINT_H

@@ -129,6 +129,7 @@ HEADERS += \
     connectdartssingleattemptpointcontroller.h \
     connectdefaultmodelscontextinterface.h \
     dartscontrollerbuilder.h \
+    dartscontrollerplayer.h \
     dartscontrollerpoint.h \
     dartscontrollerpointbuilder.h \
     dartscontrollerpointmodelsservice.h \
@@ -179,8 +180,11 @@ HEADERS += \
     getwinneridbyjson.h \
     ibinaryservice.h \
     icomparison.h \
+    idartscontrollerindexesmodelbuilder.h \
     idartscontrollermodelsservice.h \
+    idartscontrollerplayer.h \
     idartscontrollerpoint.h \
+    idartscontrollerpointbuilder.h \
     idartsinputsfilter.h \
     idartsjsonservice.h \
     idartslogisticsservice.h \

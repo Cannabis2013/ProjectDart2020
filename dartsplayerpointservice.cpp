@@ -1,5 +1,6 @@
 #include "dartsplayerpointservice.h"
 
+using namespace DartsPointSingleAttemptContext;
 
 DartsPlayerPointService *DartsPlayerPointService::createInstance(const int &initialScore, const QUuid &winner)
 {
@@ -12,7 +13,7 @@ QUuid DartsPlayerPointService::winnerId() const
     return _winner;
 }
 
-IPlayerPointService *DartsPlayerPointService::setWinner(const QUuid &id)
+DartsPlayerPointService *DartsPlayerPointService::setWinner(const QUuid &id)
 {
     _winner = id;
     return this;

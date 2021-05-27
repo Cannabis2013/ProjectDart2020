@@ -5,7 +5,9 @@ template<typename TInput, typename TOutput>
 class IUnaryService
 {
 public:
-    virtual TOutput service(TInput) = 0;
+    typedef TInput InputType;
+    typedef TOutput OutputType;
+    virtual OutputType service(InputType) = 0;
 };
 
 #endif // IJSONEXTRACTOR_H

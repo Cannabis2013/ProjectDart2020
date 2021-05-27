@@ -16,11 +16,6 @@ namespace DartsPointInputContext {
         int score;
         QUuid playerId;
     };
-    struct DartsInputPlayerDetails
-    {
-        QUuid playerId;
-        QString playerName;
-    };
     struct DartsSingleAttemptIndexes
     {
         int totalTurns;

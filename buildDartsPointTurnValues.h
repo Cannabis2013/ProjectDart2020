@@ -7,18 +7,20 @@
 #include "iplayerpointservice.h"
 #include "idartslogisticsservice.h"
 #include "idartssingleattemptindexes.h"
+#include "idartscontrollerplayer.h"
 
 namespace DartsPointSingleAttemptContext{
     typedef IDartsSingleAttemptIndexService<IDartsSingleAttemptIndexes> DartsIndexService;
     class BuildDartsPointTurnValues : public
             ITernaryService<const DartsIndexService*,
-                            const IPlayerPointService*,
+                            const IPlayerPointService<IDartsControllerPlayer<QUuid,QString>>*,
                             const IDartsLogisticsService<QString>*,
                             DartsPointTurnValues*>
     {
     public:
+        typedef IPlayerPointService<IDartsControllerPlayer<QUuid,QString>> PlayerPointService;
         DartsPointTurnValues* service(const DartsIndexService* indexService,
-                                      const IPlayerPointService* playerScoreService,
+                                      const PlayerPointService* playerScoreService,
                                       const IDartsLogisticsService<QString>* logisticService) override
         {
             auto model = new DartsPointTurnValues;

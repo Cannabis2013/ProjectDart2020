@@ -4,9 +4,11 @@
 #include <quuid.h>
 #include "dartspointmodels.h"
 
+template<typename TPlayerDetails>
 class IPlayerPointService
 {
 public:
+    typedef TPlayerDetails PlayerDetails;
     virtual QUuid winnerId() const = 0;
     virtual IPlayerPointService* setWinner(const QUuid& id) = 0;
     virtual QString winnerUserName() const = 0;
