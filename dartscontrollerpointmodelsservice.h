@@ -8,12 +8,14 @@
 
 namespace DartsPointSingleAttemptContext {
     class DartsControllerPointModelsService : public
-            IDartsControllerModelsService<IDartsControllerPoint<QUuid,QString,QByteArray>,QString>
+            IDartsControllerModelsService<IDartsControllerPoint<QUuid,QString,QByteArray>,QString,QUuid>
     {
     public:
         typedef IDartsControllerPoint<QUuid,QString,QByteArray> PointModel;
-        const DartsModelInterface *addPlayerNameToModel(const DartsModelInterface *model, const QString &name) const override;
-        const DartsModelInterface *addAccumulatedScoreToModel(const DartsModelInterface *model, const int &score) const override;
+        void addPlayerNameToModel(const DartsModelInterface *model, const QString &name) const override;
+        void addAccumulatedScoreToModel(const DartsModelInterface *model, const int &score) const override;
+        void addTournamentIdToModel(const DartsModelInterface *model, const IdFormat &id) const override;
+        void addPlayerIdToModel(const DartsModelInterface *model, const IdFormat &id) const override;
     };
 }
 

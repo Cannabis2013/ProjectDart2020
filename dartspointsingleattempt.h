@@ -17,8 +17,9 @@
 #include "ibinaryservice.h"
 #include "idartscontrollermodelsservice.h"
 #include "idartscontrollerpointbuilder.h"
-#include "idartscontrollerindexesmodelbuilder.h"
+#include "idartscontrollerindexesbuilder.h"
 #include "idartscontrollerplayer.h"
+#include "idartsplayermodelbuilderservice.h"
 // Json services
 #include "idartspointjsonservice.h"
 #define GAME_IS_NOT_IN_PROGRESS "Game is not in progress"
@@ -68,22 +69,21 @@ namespace DartsPointSingleAttemptContext {
         typedef IDartsControllerpointBuilder<IControllerPoint,QByteArray,QUuid,QString> ControllerPointBuilder;
         // Build darts indexes by json service
         typedef IDartsSingleAttemptIndexService<IDartsSingleAttemptIndexes> DartsIndexService;
-        typedef IDartsControllerIndexesModelBuilder<IDartsSingleAttemptIndexes,
+        typedef IDartsControllerIndexesBuilder<IDartsSingleAttemptIndexes,
                                                     DartsIndexService,
                                                     QByteArray> IIndexesBuilderService;
         typedef IDartsPointJsonService<IControllerPoint,
                                        IDartsSingleAttemptIndexes,
-                                       ControllerPlayer,
-                                       QByteArray> DartsJsonService;
+                                       QByteArray,QUuid> DartsJsonService;
         typedef IPlayerPointService<ControllerPlayer,IControllerPoint> PlayerPointService;
         typedef IDartsLogisticsService<QString> LogisticService;
         typedef ITernaryService<const DartsIndexService*,
                                 const PlayerPointService*,
                                 const LogisticService*,
                                 DartsPointTurnValues*> TurnValueBuilderService;
-        typedef IDartsControllerModelsService<IDartsControllerPoint<QUuid,QString,QByteArray>,QString> ControllerModelsService;
+        typedef IDartsControllerModelsService<IDartsControllerPoint<QUuid,QString,QByteArray>,QString,QUuid> ControllerModelsService;
         typedef IPointCalculatorService<IControllerPoint> ScoreCalculatorService;
-
+        typedef IDartsPlayerModelBuilderService<ControllerPlayer,QByteArray> PlayerModelBuilder;;
         // Create instance of LocalFTPController
         static DartsPointSingleAttempt* createInstance(const QUuid &tournament);
         // Set service methods
@@ -91,9 +91,6 @@ namespace DartsPointSingleAttemptContext {
         DartsPointSingleAttempt *setInputValidator(IPointValidator* scoreEvaluator);
         DartsPointSingleAttempt *setIndexController(DartsIndexService *indexController);
         DartsPointSingleAttempt *setInputController(PlayerPointService *scoreController);
-        /*
-         * Point suggestion section
-         */
         IDartsLogisticsService<QString> *pointLogisticInterface() const;
         DartsPointSingleAttempt* setLogisticInterface(IDartsLogisticsService<QString> *pointLogisticInterface);
         DartsPointSingleAttempt* setDartsJsonModelsService(DartsJsonService *dartsJsonModelsService);
@@ -101,6 +98,7 @@ namespace DartsPointSingleAttemptContext {
         DartsPointSingleAttempt* setDartsPointBuilderService(ControllerPointBuilder *newDartsPointBuilderService);
         DartsPointSingleAttempt* setBuildDartsIndexesByJson(IIndexesBuilderService *newBuildDartsIndexesByJson);
         DartsPointSingleAttempt* setControllerModelsService(ControllerModelsService *newControllerModelsService);
+        DartsPointSingleAttempt* setPlayerModelBuilderService(PlayerModelBuilder *newPlayerModelBuilderService);
     public slots:
         /*
          * Initialize controller with:
@@ -171,8 +169,8 @@ namespace DartsPointSingleAttemptContext {
          * Notify UI about controller state, current round index, undo/redo possibility and current user
          */
         void sendCurrentTurnValues();
-        QString currentActiveUser()  ;
-        QUuid currentActivePlayerId();
+        QString currentUserName()  ;
+        QUuid currentPlayerId();
         QUuid tournament();
         int status();
         void setCurrentStatus(int currentStatus);
@@ -191,12 +189,13 @@ namespace DartsPointSingleAttemptContext {
         QUuid _tournament = QUuid();
         int _currentStatus = ControllerState::NotInitialized;
         //Services
-        TurnValueBuilderService* _assembleDartsPointTurnValues;
+        TurnValueBuilderService* _dartsTurnValuesBuilderService;
         ControllerPointBuilder* _pointModelBuilderService;
-        IIndexesBuilderService* _dartsIndexesBuilder;
+        PlayerModelBuilder* _playerModelBuilderService;
+        IIndexesBuilderService* _dartsIndexesBuilderService;
         ControllerModelsService* _controllerModelsService;
         // Json
-        DartsJsonService* _dartsJsonModelsService;
+        DartsJsonService* _dartsJsonService;
         // Calculate score
         ScoreCalculatorService* _scoreCalculator = nullptr;
         // Generate throwsuggestions

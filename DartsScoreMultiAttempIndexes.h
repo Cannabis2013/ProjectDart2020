@@ -8,11 +8,15 @@ namespace DartsScoreMultiAttemptContext {
             IDartsMultiAttemptIndexes
     {
     public:
+        static DartsMultiAttemptIndexes* createInstance()
+        {
+            return new DartsMultiAttemptIndexes;
+        }
         int totalTurns() const override
         {
             return _totalTurns;
         }
-        int turns() const override
+        int turnIndex() const override
         {
             return _turns;
         }
@@ -29,7 +33,7 @@ namespace DartsScoreMultiAttemptContext {
             _totalTurns = newTotalTurns;
         }
 
-        void setTurns(int newTurns)
+        void setTurnIndex(int newTurns)
         {
             _turns = newTurns;
         }

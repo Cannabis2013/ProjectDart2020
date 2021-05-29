@@ -69,7 +69,8 @@ AbstractDartsPointController *DartsControllerBuilder::assembleDartsPointControll
             ->setAssembleDartsPointTurnValues(new BuildDartsPointTurnValues)
             ->setDartsPointBuilderService(new DartsControllerPointBuilder)
             ->setBuildDartsIndexesByJson(new DartsIndexesBuilderService)
-            ->setControllerModelsService(new DartsControllerPointModelsService);
+            ->setControllerModelsService(new DartsControllerPointModelsService)
+            ->setPlayerModelBuilderService(new DartsPlayerModelBuilderService);
     return controller;
 }
 
@@ -86,15 +87,15 @@ AbstractDartsScoreController *DartsControllerBuilder::assembleDartsScoreControll
             ->setInputValidator(ScoreValidator::createInstance(terminalKeyCode))
             ->setIndexController(ScoreIndexController::createInstance())
             ->setScoreController(DartsPlayerScoreService::createInstance(keyPoint,winnerId))
-            ->setJsonService(new DartsMultiAttemptJsonService)
-            ->setAssembleDartsScoreByJsonService(new AssembleDartsScoreByJson)
-            ->setAssembleDartsScoresByJsonService(new AssembleDartsScoresByJson)
+            ->setJsonService(new DartsScoreJsonBuilderService)
             ->setAssembleDartsPlayersByJson(new AssembleDartsPlayersByJson)
             ->setAssembleDartsPlayerByJson(new AssembleDartsPlayerByJson)
             ->setDetermineControllerStateByWinnerId(new DetermineControllerStateByWinnerId)
-            ->setAssembleDartsScoreIndexesByJson(new AssembleDartsScoreIndexesByJson)
             ->setAddAccumulatedScoreToModel(new AddAccumulatedScoreToDartsScore)
-            ->setAssembleDartsScoreTurnValues(new AssembleDartsScoreTurnValues);
+            ->setAssembleDartsScoreTurnValues(new AssembleDartsScoreTurnValues)
+            ->setGetScoreByPlayerInput(new GetScoreByPlayerInput)
+            ->setDartsScoreBuilderService(new DartsScoreModelsBuilderService)
+            ->setDartsIndexesBuilderService(new DartsScoreIndexesBuilderService);
     return controller;
 }
 

@@ -22,21 +22,21 @@
 #include "abstractdartspointcontroller.h"
 #include "iternaryservice.h"
 #include "dartspointjsonservice.h"
-#include "dartsmultiattemptjsonservice.h"
+#include "dartsscorejsonbuilderservice.h"
 #include "dartsplayerpointservice.h"
-#include "assembledartsscorebyjson.h"
-#include "assembledartsscoresbyjson.h"
 #include "assembledartsplayersbyjson.h"
 #include "assembledartsplayerbyjson.h"
 #include "determinecontrollerstatebywinnerid.h"
-#include "assembledartsscoreindexesbyjson.h"
 #include "addaccumulatedscoretodartsscore.h"
 #include "assembledartsscoreturnvalues.h"
 #include "buildDartsPointTurnValues.h"
 #include "dartscontrollerpointbuilder.h"
 #include "dartscontrollerpointmodelsservice.h"
 #include "DartsIndexesBuilderService.h"
-
+#include "getscorebyplayerinput.h"
+#include "dartsplayermodelbuilderservice.h"
+#include "dartsscoremodelsbuilderservice.h"
+#include "dartsscoreindexesbuilderservice.h"
 
 class DartsControllerBuilder : public AbstractDartsControllerBuilder
 {

@@ -1,12 +1,12 @@
 #ifndef DARTSCONTROLLERINDEXESBUILDER_H
 #define DARTSCONTROLLERINDEXESBUILDER_H
 
-#include "idartscontrollerindexesmodelbuilder.h"
+#include "idartscontrollerindexesbuilder.h"
 #include "dartssingleattemptindexes.h"
 #include "idartssingleattemptindexservice.h"
 namespace DartsPointSingleAttemptContext {
     class DartsIndexesBuilderService : public
-            IDartsControllerIndexesModelBuilder<
+            IDartsControllerIndexesBuilder<
             IDartsSingleAttemptIndexes,
             IDartsSingleAttemptIndexService<IDartsSingleAttemptIndexes>,
             QByteArray>
@@ -16,7 +16,7 @@ namespace DartsPointSingleAttemptContext {
 
         // IDartsControllerIndexesModelBuilder interface
     public:
-        const TurnIndexes *assembleDartsControllerIndexesByJson(const JsonFormat &json) const override
+        const TurnIndexes *buildControllerIndexesByJson(const JsonFormat &json) const override
         {
             auto document = QJsonDocument::fromJson(json);
             auto jsonObject = document.object();
@@ -33,7 +33,7 @@ namespace DartsPointSingleAttemptContext {
                     ->setAttemptIndex(attemptIndex);
             return model;
         }
-        const TurnIndexes *buildTurnIndexesByValues(const ControllerIndexService *indexService) const override
+        const TurnIndexes *buildControllerIndexesByIndexService(const ControllerIndexService *indexService) const override
         {
             auto totalTurns = indexService->totalIndex();
             auto turnIndex = indexService->turnIndex();

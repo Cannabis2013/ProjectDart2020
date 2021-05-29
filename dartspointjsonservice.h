@@ -7,20 +7,16 @@
 #include "dartssingleattemptindexes.h"
 #include "dartscontrollerpoint.h"
 #include "idartspointjsonservice.h"
-#include "dartscontrollerplayer.h"
 
 namespace DartsPointSingleAttemptContext
 {
     typedef IDartsPointJsonService<IDartsControllerPoint<QUuid,QString,QByteArray>,
                                    IDartsSingleAttemptIndexes,
-                                   IDartsControllerPlayer<QUuid,QString>,QByteArray> SingleAttemptJsonService;
+                                   QByteArray,QUuid> SingleAttemptJsonService;
     class DartsPointJsonService :public SingleAttemptJsonService
     {
     public:
-
-        QVector<const PointModel *> buildDartsControllerPointByJson(const QByteArray& json) const override;
-        QVector<const ControllerPlayer *> assemblePlayerDetailsStructsFromJson(const QByteArray& json) const override;
-        const ControllerPlayer *assembleWinnerStructFromJson(const QByteArray& json) const override;
+        QUuid getWinnerIdByJson(const QByteArray& json) const override;
         QByteArray buildJsonByIndexesAndPoint(const DartsIndexes* indexes, const PointModel* model) const override;
         QByteArray assembleJsonWinnerName(const QString &winnerId) const override;
     };

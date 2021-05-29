@@ -8,12 +8,14 @@
 #include "iscorevalidator.h"
 #include "idartsmultiattemptindexservice.h"
 #include "iplayerscoreservice.h"
-#include "idartsmultiattemptjsonservice.h"
+#include "idartsscorejsonbuilderservice.h"
 #include "iunaryservice.h"
 #include "ibinaryservice.h"
-#include "dartsscore.h"
+#include "idartscontrollerscore.h"
 #include "dartsscoreturnvalues.h"
 #include "iternaryservice.h"
+#include "idartsmodelsbuilderservice.h"
+#include "idartscontrollerindexesbuilder.h"
 // Definitions
 #define GAME_IS_NOT_IN_PROGRESS "Game is not in progress"
 #define GAME_WINNER_ANNOUNCEMENT(x) QString("Winner with ID: %! is declared winner").arg(x);
@@ -58,15 +60,20 @@ namespace DartsScoreMultiAttemptContext
         enum ControllerResponse{
             IsProcessingUserInput = 0x46
         };
-        typedef QVector<const DartsScore*> DartsScores;
+        typedef IDartsControllerScore<QUuid,QString,QByteArray> ControllerScore;
+        typedef QVector<const ControllerScore*> DartsScores;
         typedef QVector<const IDartsPlayer*> IDartsPlayers;
-        typedef IPlayerScoreService<DartsScore> PlayerScoreService;
-        typedef IDartsMultiAttemptJsonService<PlayerScoreService> MultiAttemptJsonService;
+        typedef IPlayerScoreService<ControllerScore> PlayerScoreService;
+        typedef IDartsScoreJsonBuilderService<ControllerScore> MultiAttemptJsonService;
         typedef IBinaryService<const IDartsLogisticsService<QString>*,const int&, QString> LogisticService;
         typedef ITernaryService<const IDartsMultiAttemptIndexService<IDartsMultiAttemptIndexes>*,
-                                const IPlayerScoreService<DartsScore>*,
+                                const IPlayerScoreService<ControllerScore>*,
                                 const IDartsLogisticsService<QString>*,
                                 const DartsScoreTurnValues*> DartsScoreTurnValuesBuilderService;
+        typedef IDartsModelsBuilderService<ControllerScore,QByteArray,PlayerScoreService> DartsScoreBuilderService;
+        typedef IDartsMultiAttemptIndexService<IDartsMultiAttemptIndexes> DartsIndexService;
+        typedef IDartsControllerIndexesBuilder<IDartsMultiAttemptIndexes,DartsIndexService,QByteArray> IndexesBuilderService ;
+
         // Create instance of LocalFTPController
         static DartsScoreMultiAttempt* createInstance(const QUuid &tournament);
         /*
@@ -81,14 +88,16 @@ namespace DartsScoreMultiAttemptContext
         IDartsLogisticsService<QString> *pointLogisticInterface() const;
         DartsScoreMultiAttempt* setLogisticInterface(IDartsLogisticsService<QString> *pointLogisticInterface);
         DartsScoreMultiAttempt* setJsonService(MultiAttemptJsonService *jsonService);
-        DartsScoreMultiAttempt* setAssembleDartsScoreByJsonService(IUnaryService<const QByteArray &, const DartsScore *> *newAssembleDartsScoreByJsonService);
-        DartsScoreMultiAttempt* setAssembleDartsScoresByJsonService(IUnaryService<const QByteArray &, DartsScores> *newAssembleDartsScoresByJsonService);
-        DartsScoreMultiAttempt* setAssembleDartsPlayersByJson(IUnaryService<const QByteArray &, IDartsPlayers> *newAssembleDartsPlayersByJson);
-        DartsScoreMultiAttempt* setAssembleDartsPlayerByJson(IUnaryService<const QByteArray &, const IDartsPlayer *> *newAssembleDartsPlayerByJson);
-        DartsScoreMultiAttempt* setDetermineControllerStateByWinnerId(IUnaryService<const QUuid &, int> *newDetermineControllerStateByWinnerId);
-        DartsScoreMultiAttempt* setAssembleDartsScoreIndexesByJson(IUnaryService<const QByteArray &, const IDartsMultiAttemptIndexes*> *newAssembleDartsScoreIndexesByJson);
-        DartsScoreMultiAttempt* setAddAccumulatedScoreToModel(IBinaryService<const DartsScore *, const int&, const DartsScore *> *newAddAccumulatedScoreToModel);
-        DartsScoreMultiAttempt* setAssembleDartsScoreTurnValues(DartsScoreTurnValuesBuilderService *newAssembleDartsScoreTurnValues);
+        DartsScoreMultiAttempt* setAssembleDartsPlayersByJson(IUnaryService<const QByteArray &, IDartsPlayers> *service);
+        DartsScoreMultiAttempt* setAssembleDartsPlayerByJson(IUnaryService<const QByteArray &, const IDartsPlayer *> *service);
+        DartsScoreMultiAttempt* setDetermineControllerStateByWinnerId(IUnaryService<const QUuid &, int> *service);
+        DartsScoreMultiAttempt* setAddAccumulatedScoreToModel(IBinaryService<const ControllerScore *,
+                                                                             const int&,
+                                                                             const ControllerScore *> *service);
+        DartsScoreMultiAttempt* setAssembleDartsScoreTurnValues(DartsScoreTurnValuesBuilderService *service);
+        DartsScoreMultiAttempt* setGetScoreByPlayerInput(IUnaryService<const QByteArray &, int> *service);
+        DartsScoreMultiAttempt* setDartsScoreBuilderService(DartsScoreBuilderService *service);
+        DartsScoreMultiAttempt* setDartsIndexesBuilderService(IndexesBuilderService *newDartsIndexesBuilderService);
 
     public slots:
         /*
@@ -194,18 +203,19 @@ namespace DartsScoreMultiAttemptContext
         // Validator service
         IScoreValidator* _scoreEvaluator = nullptr;
         // Index service
-        IDartsMultiAttemptIndexService<IDartsMultiAttemptIndexes>* _indexController = nullptr;
+        DartsIndexService* _indexController = nullptr;
         // Userscore service
         PlayerScoreService* _scoreController = nullptr;
-        MultiAttemptJsonService* _jsonService;
+        MultiAttemptJsonService* _dartsJsonBuilderService;
+        // Builder services
+        DartsScoreBuilderService* _dartsScoreBuilderService;
+        IndexesBuilderService* _dartsIndexesBuilderService;
         // Json services
-        IUnaryService<const QByteArray&, const DartsScore*>* _assembleDartsScoreByJsonService;
-        IUnaryService<const QByteArray&, DartsScores>* _assembleDartsScoresByJsonService;
+        IUnaryService<const QByteArray&, int>* _getScoreByPlayerInput;
         IUnaryService<const QByteArray&,const IDartsPlayer*>* _assembleDartsPlayerByJson;
         IUnaryService<const QByteArray&, IDartsPlayers>* _assembleDartsPlayersByJson;
         IUnaryService<const QUuid&,int>* _determineControllerStateByWinnerId;
-        IUnaryService<const QByteArray&,const IDartsMultiAttemptIndexes*>* _assembleDartsScoreIndexesByJson;
-        IBinaryService<const DartsScore*, const int&,const DartsScore*>* _addAccumulatedScoreToModel;
+        IBinaryService<const ControllerScore*, const int&,const ControllerScore*>* _addAccumulatedScoreToModel;
         DartsScoreTurnValuesBuilderService* _assembleDartsScoreTurnValues;
     };
 };

@@ -19,8 +19,8 @@ namespace DartsScoreMultiAttemptContext {
         virtual void subtractPlayerScoreByModels(const QVector<const TDartsScore*>&) = 0;
         virtual int addPlayerScore(const QUuid&, const int&) = 0;
 
-        virtual int playerScore(const int& index) const = 0;
-        virtual int playerScore(const QUuid&) const = 0;
+        virtual int playerScoreByIndex(const int& index) const = 0;
+        virtual int playerScoreByIndex(const QUuid&) const = 0;
         virtual void setPlayerScoreByIndex(const int &index, const int &input) = 0;
         virtual void setPlayerScoresByList(const QVector<int>& list) = 0;
         virtual void setPlayerScoreById(const QUuid &id, const int &input) = 0;

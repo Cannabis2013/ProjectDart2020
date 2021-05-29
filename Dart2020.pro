@@ -30,7 +30,6 @@ SOURCES += \
     dartsjsonservicebuilder.cpp \
     dartsmodelsservice.cpp \
     dartsmodelsservicebuilder.cpp \
-    dartsmultiattemptjsonservice.cpp \
     dartsmultiscoredatamodel.cpp \
     dartsplayerpointservice.cpp \
     dartsplayerscoreservice.cpp \
@@ -39,6 +38,8 @@ SOURCES += \
     dartspointlogisticcontroller.cpp \
     dartspointsingleattempt.cpp \
     dartspointsingleattemptdatamodel.cpp \
+    dartsscoreindexesbuilderservice.cpp \
+    dartsscorejsonbuilderservice.cpp \
     dartsscorejsondb.cpp \
     dartsscorelogisticcontroller.cpp \
     dartsscoremultiattempt.cpp \
@@ -99,11 +100,8 @@ HEADERS += \
     assembledartsplayerbyjson.h \
     assembledartsplayersbyjson.h \
     assembledartspointmodelfromjson.h \
-    assembledartsscorebyjson.h \
     assembledartsscorefromjson.h\
-    assembledartsscoreindexesbyjson.h \
     assembledartsscoremodelfromjson.h \
-    assembledartsscoresbyjson.h \
     assembledartsscoreturnvalues.h \
     assemblejsonarrayfromdartspoints.h \
     assemblejsonbasictournamentvalues.h \
@@ -132,15 +130,16 @@ HEADERS += \
     dartscontrollerpoint.h \
     dartscontrollerpointbuilder.h \
     dartscontrollerpointmodelsservice.h \
+    dartscontrollerscore.h \
     dartsinputsfilterservice.h \
     dartsjsonservice.h \
     dartsjsonservicebuilder.h \
     dartsmodelsservice.h \
     dartsmodelsservicebuilder.h \
     dartsmodelsservicescollection.h \
-    dartsmultiattemptjsonservice.h \
     dartsmultiscoredatamodel.h \
     dartsplayer.h \
+    dartsplayermodelbuilderservice.h \
     dartsplayerpointservice.h \
     dartsplayerscoreservice.h \
     dartspointindexes.h \
@@ -151,12 +150,14 @@ HEADERS += \
     dartspointsingleattempt.h \
     dartspointsingleattemptdatamodel.h \
     dartspointturnvalues.h \
-    dartsscore.h \
     dartsscoreindexes.h \
+    dartsscoreindexesbuilderservice.h \
     dartsscorejsonassemblerservice.h \
+    dartsscorejsonbuilderservice.h \
     dartsscorejsondb.h \
     dartsscorelessthanpredicate.h \
     dartsscorelogisticcontroller.h \
+    dartsscoremodelsbuilderservice.h \
     dartsscoremultiattempt.h \
     dartsscoresjsonassemblerservice.h \
     dartsscoreturnvalues.h \
@@ -173,29 +174,33 @@ HEADERS += \
     getdeleteplayerindexfromjson.h \
     getplayerindexesfromjson.h \
     getplayernamebyid.h \
+    getscorebyplayerinput.h \
     gettournamentidbyjson.h \
     gettournamentindexesfromjson.h \
     getwinneridbyjson.h \
     ibinaryservice.h \
     icomparison.h \
-    idartscontrollerindexesmodelbuilder.h \
+    idartscontrollerindexesbuilder.h \
     idartscontrollermodelsservice.h \
     idartscontrollerplayer.h \
     idartscontrollerpoint.h \
     idartscontrollerpointbuilder.h \
+    idartscontrollerscore.h \
     idartsinputsfilter.h \
     idartsjsonservice.h \
     idartslogisticsservice.h \
+    idartsmodelsbuilderservice.h \
     idartsmodelsservice.h \
     idartsmultiattemptindexes.h \
     idartsmultiattemptindexservice.h \
-    idartsmultiattemptjsonservice.h \
     idartsplayer.h \
+    idartsplayermodelbuilderservice.h \
     idartspointdb.h \
     idartspointindexes.h \
     idartspointjsonservice.h \
     idartsscoredb.h \
     idartsscoreindexes.h \
+    idartsscorejsonbuilderservice.h \
     idartssingleattemptindexes.h \
     idartssingleattemptindexservice.h \
     idartstournamentdb.h \

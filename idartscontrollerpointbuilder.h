@@ -1,6 +1,7 @@
 #ifndef ICONTROLLERPOINTBUILDER_H
 #define ICONTROLLERPOINTBUILDER_H
 
+#include <qvector.h>
 
 namespace DartsPointSingleAttemptContext {
     template<typename TModelInterface, typename TJsonFormat, typename  TUuid, typename TString>
@@ -12,12 +13,10 @@ namespace DartsPointSingleAttemptContext {
         typedef TString StringFormat;
         typedef TUuid IdFormat;
         virtual const ModelsInterface* buildControllerPointByJson(const JsonFormat& json) const = 0;
-        virtual const ModelsInterface* buildControllerPointByValues(const int& point,
+        virtual const ModelsInterface* buildControllerPointByInputValues(const int& point,
                                                                     const int& score,
-                                                                    const int& modKeyCode,
-                                                                    const IdFormat& playerId,
-                                                                    const StringFormat& playerName,
-                                                                    const IdFormat& tournamentId) const = 0;
+                                                                    const int& modKeyCode) const = 0;
+        virtual QVector<const ModelsInterface*> buildControllerPointsByJson(const JsonFormat& json) const = 0;
     };
 }
 

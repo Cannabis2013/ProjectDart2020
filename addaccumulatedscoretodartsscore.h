@@ -2,16 +2,19 @@
 #define ADDACCUMULATEDSCORETOMODEL_H
 
 #include "ibinaryservice.h"
-#include "dartsscore.h"
+#include "idartscontrollerscore.h"
+#include <quuid.h>
 namespace DartsScoreMultiAttemptContext {
     class AddAccumulatedScoreToDartsScore :public
-            IBinaryService<const DartsScore*,const int&,const DartsScore*>
+            IBinaryService<const IDartsControllerScore<QUuid,QString,QByteArray>*,const int&,
+                           const IDartsControllerScore<QUuid,QString,QByteArray>*>
     {
     public:
-        const DartsScore* service(const DartsScore* model,
+        typedef IDartsControllerScore<QUuid,QString,QByteArray> ControllerScore;
+        const ControllerScore* service(const ControllerScore* model,
                                    const int& totalScore) override
         {
-            auto mutableModel = const_cast<DartsScore*>(model);
+            auto mutableModel = const_cast<ControllerScore*>(model);
             mutableModel->setAccumulatedScore(totalScore);
             return mutableModel;
         }

@@ -3,6 +3,7 @@
 
 #include <qjsondocument.h>
 #include <qjsonobject.h>
+#include <qjsonarray.h>
 #include "iunaryservice.h"
 #include "dartscontrollerpoint.h"
 #include "idartscontrollerpointbuilder.h"
@@ -30,21 +31,29 @@ namespace DartsPointSingleAttemptContext
             model->setAccumulatedScore(0);
             return model;
         }
-        const ModelsInterface *buildControllerPointByValues(const int &point,
+        const ModelsInterface *buildControllerPointByInputValues(const int &point,
                                                             const int &score,
-                                                            const int &modKeyCode,
-                                                            const IdFormat &playerId,
-                                                            const StringFormat& playerName,
-                                                            const IdFormat& tournamentId) const override
+                                                            const int &modKeyCode) const override
         {
             auto model = DartsControllerPoint::createInstance();
             model->setPoint(point);
             model->setAccumulatedScore(score);
             model->setModKeyCode(modKeyCode);
-            model->setPlayerId(playerId);
-            model->setPlayerName(playerName);
-            model->setTournamentId(tournamentId);
             return model;
+        }
+
+        QVector<const ModelsInterface *> buildControllerPointsByJson(const JsonFormat &json) const override
+        {
+            auto document = QJsonDocument::fromJson(json);
+            auto scoreData = document.array();
+            QVector<const ModelsInterface*> dartsPointModels;
+            for (const auto &jsonVal : scoreData) {
+                auto newDocument = QJsonDocument(jsonVal.toObject());
+                auto newJson = newDocument.toJson();
+                auto dartsPointModel = buildControllerPointByJson(newJson);
+                dartsPointModels << dartsPointModel;
+            }
+            return dartsPointModels;
         }
     };
 }

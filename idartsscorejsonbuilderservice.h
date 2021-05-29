@@ -9,11 +9,11 @@
 
 using namespace DartsScoreMultiAttemptContext;
 
-template<typename TPlayerService>
-class IDartsMultiAttemptJsonService {
+template<typename TDartsInputInterface>
+class IDartsScoreJsonBuilderService {
 public:
-    virtual QByteArray assembleJsonDartsMultiAttemptScores(const TPlayerService*) const = 0;
-    virtual int getScoreByJson(const QByteArray&) const = 0;
+    typedef TDartsInputInterface InputModelInterface;
+    virtual QByteArray buildJsonByDartsScoreModels(const QVector<const InputModelInterface*>& inputModels) const = 0;
     virtual QByteArray assembleJsonAddScoreValues(const QUuid&,
                                                   const int&,
                                                   const int&,

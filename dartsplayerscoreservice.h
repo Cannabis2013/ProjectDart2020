@@ -2,8 +2,8 @@
 #define FTPSCORECONTROLLER_H
 
 #include "iplayerscoreservice.h"
-#include "dartsscore.h"
 #include <qlist.h>
+#include "idartscontrollerscore.h"
 
 #define INCONSISTENCY_EXCEPTION_MESSAGE "User inconsistency!"
 
@@ -35,22 +35,23 @@ namespace DartsScoreMultiAttemptContext{
         };
     }
 
-    class DartsPlayerScoreService : public IPlayerScoreService<DartsScore>
+    class DartsPlayerScoreService : public IPlayerScoreService<IDartsControllerScore<QUuid,QString,QByteArray>>
     {
     public:
         // Tuple : {UserId, UserName, UserScore}
+        typedef IDartsControllerScore<QUuid,QString,QByteArray> ControllerScore;
         typedef QVector<PlayerScoreContext::PlayerTuple> PlayerTuples;
         typedef QPair<QUuid,QString> PlayerPair;
         typedef QVector<PlayerPair> PlayerPairs;
         static DartsPlayerScoreService* createInstance(const int& initialScore,
                                                   const QUuid &winner);
         virtual void addPlayerEntity(const QUuid &id, const QString &name) override;
-        virtual int subtractPlayerScoreByModel(const DartsScore *model) override;
-        void subtractPlayerScoreByModels(const QVector<const DartsScore *> &models) override;
+        virtual int subtractPlayerScoreByModel(const ControllerScore *model) override;
+        void subtractPlayerScoreByModels(const QVector<const ControllerScore *> &models) override;
         virtual int addPlayerScore(const QUuid& id, const int &score) override;
         // UserScoresControllerInterface interface
-        int playerScore(const int &index) const override;
-        int playerScore(const QUuid& id) const override;
+        int playerScoreByIndex(const int &index) const override;
+        int playerScoreByIndex(const QUuid& id) const override;
         void setPlayerScoreByIndex(const int &index, const int &input) override;
         void setPlayerScoresByList(const QVector<int> &list) override;
         void setPlayerScoreById(const QUuid &id, const int &input) override;

@@ -9,10 +9,6 @@ class AbstractDartsPointController : public
         AbstractDartsController
 {
     Q_OBJECT
-public:
-    // Public types
-    typedef QPair<QUuid,QString> Player;
-    typedef QPair<QUuid,int> PlayerScore;
 public slots:
     virtual void initializeControllerPlayerDetails(const QByteArray&) = 0;
     virtual void initializeControllerDartsPoints(const QByteArray&) = 0;

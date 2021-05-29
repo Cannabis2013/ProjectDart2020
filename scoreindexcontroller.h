@@ -17,7 +17,7 @@ namespace DartsScoreMultiAttemptContext
         virtual void setIndexes(const IDartsMultiAttemptIndexes* indexes) override
         {
             _totalIndex = indexes->totalTurns();
-            _turnIndex = indexes->turns();
+            _turnIndex = indexes->turnIndex();
             _roundIndex = indexes->roundIndex();
             _setIndex = indexes->setIndex();
         }

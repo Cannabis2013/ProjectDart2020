@@ -6,7 +6,7 @@ namespace DartsScoreMultiAttemptContext
     {
     public:
         virtual int totalTurns() const = 0;
-        virtual int turns() const = 0;
+        virtual int turnIndex() const = 0;
         virtual int roundIndex() const = 0;
         virtual int setIndex() const = 0;
     };

@@ -3,53 +3,43 @@
 
 #include <qjsondocument.h>
 #include <qjsonobject.h>
+#include "idartscontrollerscore.h"
 
 namespace DartsScoreMultiAttemptContext
 {
-    class DartsScore
+    class DartsControllerScore : public IDartsControllerScore<QUuid,QString,QByteArray>
     {
     public:
-        static DartsScore* createInstance()
+        static DartsControllerScore* createInstance()
         {
-            return new DartsScore;
-        }
-        static DartsScore* fromJson(const QByteArray& json)
-        {
-            auto document = QJsonDocument::fromJson(json);
-            auto jsonObject = document.object();
-            return new DartsScore(jsonObject);
+            return new DartsControllerScore;
         }
 
-        static DartsScore* fromJsonObject(const QJsonObject& jsonObject)
-        {
-            return new DartsScore(jsonObject);
-        }
-
-        int score() const
+        int score() const override
         {
             return _score;
         }
-        QUuid playerId() const
+        QUuid playerId() const override
         {
             return _playerId;
         }
-        QString playerName() const
+        QString playerName() const override
         {
             return _playerName;
         }
-        void setPlayerId(const QUuid &newPlayerId)
+        void setPlayerId(const QUuid &newPlayerId) override
         {
             _playerId = newPlayerId;
         }
-        void setPlayerName(const QString &newPlayerName)
+        void setPlayerName(const QString &newPlayerName) override
         {
             _playerName = newPlayerName;
         }
-        void setScore(int newScore)
+        void setScore(int newScore) override
         {
             _score = newScore;
         }
-        virtual QByteArray toJson() const
+        virtual QByteArray toJson() const override
         {
             QJsonObject jsonobject;
             jsonobject["score"] = _score;
@@ -60,27 +50,28 @@ namespace DartsScoreMultiAttemptContext
             auto json = document.toJson();
             return json;
         }
-        int accumulatedScore() const
+        int accumulatedScore() const override
         {
             return _accumulatedScore;
         }
-        void setAccumulatedScore(const int& accumulatedScore)
+        void setAccumulatedScore(const int& accumulatedScore) override
         {
             _accumulatedScore = accumulatedScore;
         }
-    private:
-        DartsScore()
-        {}
-        DartsScore(const QJsonObject& jsonObject)
+        IdFormat tournamentId() const override
         {
-            _score = jsonObject.value("score").toInt();
-            _playerId = QUuid::fromString(jsonObject.value("playerId").toString());
-            _playerName = jsonObject.value("playerName").toString();
+            return _tournamentId;
         }
+        void setTournamentId(const IdFormat &id) override
+        {
+            _tournamentId = id;
+        }
+    private:
         int _score;
         int _accumulatedScore;
         QUuid _playerId;
         QString _playerName;
+        QUuid _tournamentId;
     };
 };
 

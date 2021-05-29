@@ -8,6 +8,10 @@ namespace DartsPointSingleAttemptContext {
 
         // IDartsControllerPlayer interface
     public:
+        static DartsControllerPlayer* createInstance()
+        {
+            return new DartsControllerPlayer;
+        }
         IdFormat playerId() const override
         {
             return _playerId;

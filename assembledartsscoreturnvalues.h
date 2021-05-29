@@ -5,21 +5,22 @@
 #include "dartsscoreturnvalues.h"
 #include "idartsmultiattemptindexservice.h"
 #include "iplayerscoreservice.h"
-#include "dartsscore.h"
+#include "idartscontrollerscore.h"
 #include "idartslogisticsservice.h"
 #include "idartsmultiattemptindexes.h"
 
 namespace DartsScoreMultiAttemptContext{
     class AssembleDartsScoreTurnValues : public
             ITernaryService<const IDartsMultiAttemptIndexService<IDartsMultiAttemptIndexes>*,
-                           const IPlayerScoreService<DartsScore>*,
+                           const IPlayerScoreService<IDartsControllerScore<QUuid,QString,QByteArray>>*,
                            const IDartsLogisticsService<QString>*,
                            const DartsScoreTurnValues*>
     {
     public:
+        typedef IDartsControllerScore<QUuid,QString,QByteArray> ControllerScore;
         typedef IDartsMultiAttemptIndexService<IDartsMultiAttemptIndexes> IndexService;
         const DartsScoreTurnValues* service(const IndexService* indexService,
-                                            const IPlayerScoreService<DartsScore>* playerScoreService,
+                                            const IPlayerScoreService<ControllerScore>* playerScoreService,
                                             const IDartsLogisticsService<QString>* logisticService) override
         {
             auto canUndo = indexService->canUndo();
@@ -27,7 +28,7 @@ namespace DartsScoreMultiAttemptContext{
             auto roundIndex = indexService->roundIndex();
             auto setIndex = indexService->setIndex();
             auto currentUserName = playerScoreService->playerNameByIndex(setIndex);
-            auto score = playerScoreService->playerScore(setIndex);
+            auto score = playerScoreService->playerScoreByIndex(setIndex);
             auto targetRow = buildTargetRow(logisticService,score);
 
             auto model = new DartsScoreTurnValues();
