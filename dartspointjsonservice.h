@@ -9,19 +9,19 @@
 #include "idartspointjsonservice.h"
 #include "dartscontrollerplayer.h"
 
-
 namespace DartsPointSingleAttemptContext
 {
-    typedef IDartsControllerPoint<QUuid,QString,QByteArray> ControllerPoint;
-    typedef IDartsPointJsonService<ControllerPoint,IDartsSingleAttemptIndexes> SingleAttemptJsonService;
-    class DartsPointJsonService :
-            public SingleAttemptJsonService
+    typedef IDartsPointJsonService<IDartsControllerPoint<QUuid,QString,QByteArray>,
+                                   IDartsSingleAttemptIndexes,
+                                   IDartsControllerPlayer<QUuid,QString>,QByteArray> SingleAttemptJsonService;
+    class DartsPointJsonService :public SingleAttemptJsonService
     {
     public:
-        QVector<const PointModel *> assembleExtendedInputModelsFromJson(const QByteArray& json) const override;
+
+        QVector<const PointModel *> buildDartsControllerPointByJson(const QByteArray& json) const override;
         QVector<const ControllerPlayer *> assemblePlayerDetailsStructsFromJson(const QByteArray& json) const override;
         const ControllerPlayer *assembleWinnerStructFromJson(const QByteArray& json) const override;
-        QByteArray assembleJsonAddPointValues(const DartsIndexes* indexes, const QUuid &winnerId, const PointModel* model) const override;
+        QByteArray buildJsonByIndexesAndPoint(const DartsIndexes* indexes, const PointModel* model) const override;
         QByteArray assembleJsonWinnerName(const QString &winnerId) const override;
     };
 }

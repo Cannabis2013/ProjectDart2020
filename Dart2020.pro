@@ -148,7 +148,6 @@ HEADERS += \
     dartspointjsonservice.h \
     dartspointlessthanpredicate.h \
     dartspointlogisticcontroller.h \
-    dartspointmodels.h \
     dartspointsingleattempt.h \
     dartspointsingleattemptdatamodel.h \
     dartspointturnvalues.h \
@@ -266,7 +265,6 @@ HEADERS += \
     remotemodelscontext.h \
     removemodelsfromdbcontext.h \
     replytimeout.h \
-    scorecalculator.h \
     scoreindexcontroller.h \
     setdartsinputhintservice.h \
     setdartsmodelhint.h \

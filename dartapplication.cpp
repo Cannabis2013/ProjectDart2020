@@ -43,13 +43,11 @@ void DartApplication::registerTypes()
 }
 
 void DartApplication::handleTournamentsRequest(){
-    cout << "requestTournaments" << endl;
     emit requestTournaments();
 }
 
 void DartApplication::handleSetCurrentTournamentRequest(const int &index)
 {
-    cout << "handleSetCurrentTournamentRequest" << endl;
     emit setCurrentActiveTournament(index);
 }
 

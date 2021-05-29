@@ -344,9 +344,9 @@ namespace DartsScoreMultiAttemptContext {
 
     void DartsScoreMultiAttempt::initializeControllerPlayerDetails(const QByteArray &json)
     {
-        auto dartsPlayerModesl = _assembleDartsPlayersByJson->service(json);
-        _indexController->setPlayersCount(dartsPlayerModesl.count());
-        for (const auto &dartsPlayerModel : dartsPlayerModesl)
+        auto dartsPlayerModels = _assembleDartsPlayersByJson->service(json);
+        _indexController->setPlayersCount(dartsPlayerModels.count());
+        for (const auto &dartsPlayerModel : dartsPlayerModels)
             _scoreController->addPlayerEntity(dartsPlayerModel->playerId(),dartsPlayerModel->playerName());
         emit requestTournamentDartsScores(tournament());
     }

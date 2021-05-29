@@ -34,7 +34,8 @@ namespace DartsPointSingleAttemptContext
                                                             const int &score,
                                                             const int &modKeyCode,
                                                             const IdFormat &playerId,
-                                                            const StringFormat& playerName) const override
+                                                            const StringFormat& playerName,
+                                                            const IdFormat& tournamentId) const override
         {
             auto model = DartsControllerPoint::createInstance();
             model->setPoint(point);
@@ -42,6 +43,7 @@ namespace DartsPointSingleAttemptContext
             model->setModKeyCode(modKeyCode);
             model->setPlayerId(playerId);
             model->setPlayerName(playerName);
+            model->setTournamentId(tournamentId);
             return model;
         }
     };

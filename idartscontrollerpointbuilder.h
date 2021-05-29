@@ -16,7 +16,8 @@ namespace DartsPointSingleAttemptContext {
                                                                     const int& score,
                                                                     const int& modKeyCode,
                                                                     const IdFormat& playerId,
-                                                                    const StringFormat& playerName) const = 0;
+                                                                    const StringFormat& playerName,
+                                                                    const IdFormat& tournamentId) const = 0;
     };
 }
 

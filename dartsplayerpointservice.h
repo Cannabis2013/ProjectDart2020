@@ -5,6 +5,7 @@
 #include <qpair.h>
 #include <qvector.h>
 #include <dartscontrollerplayer.h>
+#include "idartscontrollerpoint.h"
 
 #define INCONSISTENCY_EXCEPTION_MESSAGE "User inconsistency!"
 
@@ -35,7 +36,8 @@ namespace PlayerPointContext
     };
 }
 namespace DartsPointSingleAttemptContext {
-    class DartsPlayerPointService : public IPlayerPointService<IDartsControllerPlayer<QUuid,QString>>
+    class DartsPlayerPointService : public
+            IPlayerPointService<IDartsControllerPlayer<QUuid,QString>,IDartsControllerPoint<QUuid,QString,QByteArray>>
     {
         // IPlayerPointService interface
     public:
@@ -43,14 +45,18 @@ namespace DartsPointSingleAttemptContext {
         typedef QVector<PlayerPointContext::PlayerTuple> PlayerTuples;
         typedef QPair<QUuid,QString> PlayerPair;
         typedef QList<PlayerPair> PlayerPairs;
+        typedef IDartsControllerPoint<QUuid,QString,QByteArray> PointModel;
         static DartsPlayerPointService* createInstance(const int& initialScore,
                                                   const QUuid &winner);
+
         QUuid winnerId() const override;
         DartsPlayerPointService *setWinner(const QUuid &id) override;
         QString winnerUserName() const override;
-        void addPlayerEntity(const QUuid &id, const QString &name) override;
-        int subtractPlayerScore(const QUuid &playerId, const int &score) override;
-        int addPlayerScore(const QUuid &id, const int &score) override;
+        void addPlayerEntity(const PlayerModel* model) override;
+        void addPlayerEntitiesByModels(const QVector<const PlayerModel*>& models) override;
+        void subtractPlayerScore(const PointModel* model) override;
+        void subtractPlayerScoresByModels(const QVector<const PointModel*>& models) override;
+        int addPlayerScore(const PointModel* model) override;
         int playerScore(const int &index) const override;
         int playerScore(const QUuid &id) const override;
         void setPlayerScoreByIndex(const int &index, const int &input) override;

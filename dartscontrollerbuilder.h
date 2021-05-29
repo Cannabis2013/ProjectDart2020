@@ -9,7 +9,6 @@
 #include "dartspointlogisticcontroller.h"
 #include "dartsscorelogisticcontroller.h"
 #include "DartsPointCalculator.h"
-#include "scorecalculator.h"
 #include "pointvalidator.h"
 #include "ScoreValidator.h"
 #include "abstractdartscontrollerbuilder.h"

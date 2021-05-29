@@ -10,7 +10,7 @@
 #include "ipointvalidator.h"
 #include "idartssingleattemptindexservice.h"
 #include "iplayerpointservice.h"
-#include "dartscontrollerpoint.h"
+#include "idartscontrollerpoint.h"
 #include "iternaryservice.h"
 #include "dartspointturnvalues.h"
 #include "idartssingleattemptindexes.h"
@@ -62,29 +62,32 @@ namespace DartsPointSingleAttemptContext {
         enum ControllerResponse{
             IsProcessingUserInput = 0x46
         };
-        // Assemble DartsControllerPoint by json service typedefs
+        // Commonly used models typedefinitions
         typedef IDartsControllerPoint<QUuid,QString,QByteArray> IControllerPoint;
+        typedef IDartsControllerPlayer<QUuid,QString> ControllerPlayer;
         typedef IDartsControllerpointBuilder<IControllerPoint,QByteArray,QUuid,QString> ControllerPointBuilder;
         // Build darts indexes by json service
         typedef IDartsSingleAttemptIndexService<IDartsSingleAttemptIndexes> DartsIndexService;
         typedef IDartsControllerIndexesModelBuilder<IDartsSingleAttemptIndexes,
                                                     DartsIndexService,
                                                     QByteArray> IIndexesBuilderService;
-        typedef IDartsPointJsonService<IControllerPoint,IDartsSingleAttemptIndexes> DartsJsonService;
-        typedef IDartsControllerPlayer<QUuid,QString> ControllerPlayer;
-        typedef IPlayerPointService<ControllerPlayer> PlayerPointService;
+        typedef IDartsPointJsonService<IControllerPoint,
+                                       IDartsSingleAttemptIndexes,
+                                       ControllerPlayer,
+                                       QByteArray> DartsJsonService;
+        typedef IPlayerPointService<ControllerPlayer,IControllerPoint> PlayerPointService;
         typedef IDartsLogisticsService<QString> LogisticService;
         typedef ITernaryService<const DartsIndexService*,
                                 const PlayerPointService*,
                                 const LogisticService*,
                                 DartsPointTurnValues*> TurnValueBuilderService;
         typedef IDartsControllerModelsService<IDartsControllerPoint<QUuid,QString,QByteArray>,QString> ControllerModelsService;
-
+        typedef IPointCalculatorService<IControllerPoint> ScoreCalculatorService;
 
         // Create instance of LocalFTPController
         static DartsPointSingleAttempt* createInstance(const QUuid &tournament);
         // Set service methods
-        DartsPointSingleAttempt *setScoreCalculator(IPointCalculatorService* scoreCalculator);
+        DartsPointSingleAttempt *setScoreCalculator(ScoreCalculatorService* scoreCalculator);
         DartsPointSingleAttempt *setInputValidator(IPointValidator* scoreEvaluator);
         DartsPointSingleAttempt *setIndexController(DartsIndexService *indexController);
         DartsPointSingleAttempt *setInputController(PlayerPointService *scoreController);
@@ -195,7 +198,7 @@ namespace DartsPointSingleAttemptContext {
         // Json
         DartsJsonService* _dartsJsonModelsService;
         // Calculate score
-        IPointCalculatorService* _scoreCalculator = nullptr;
+        ScoreCalculatorService* _scoreCalculator = nullptr;
         // Generate throwsuggestions
         LogisticService *_pointLogisticInterface = nullptr;
         // Validator service

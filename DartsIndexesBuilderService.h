@@ -21,7 +21,7 @@ namespace DartsPointSingleAttemptContext {
             auto document = QJsonDocument::fromJson(json);
             auto jsonObject = document.object();
             auto totalTurns = jsonObject.value("totalTurns").toInt();
-            auto turnIndex = jsonObject.value("turns").toInt();
+            auto turnIndex = jsonObject.value("turnIndex").toInt();
             auto roundIndex = jsonObject.value("roundIndex").toInt();
             auto setIndex = jsonObject.value("setIndex").toInt();
             auto attemptIndex = jsonObject.value("attemptIndex").toInt();

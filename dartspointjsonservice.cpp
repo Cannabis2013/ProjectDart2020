@@ -2,7 +2,7 @@
 
 using namespace DartsPointSingleAttemptContext;
 
-QVector<const SingleAttemptJsonService::PointModel *> DartsPointJsonService::assembleExtendedInputModelsFromJson(const QByteArray &json) const
+QVector<const SingleAttemptJsonService::PointModel *> DartsPointJsonService::buildDartsControllerPointByJson(const QByteArray &json) const
 {
     auto document = QJsonDocument::fromJson(json);
     auto scoreData = document.array();
@@ -46,8 +46,7 @@ const SingleAttemptJsonService::ControllerPlayer *DartsPointJsonService::assembl
     return dartsPlayerModel;
 }
 
-QByteArray DartsPointJsonService::assembleJsonAddPointValues(const DartsIndexes *indexes,
-                                                             const QUuid &winnerId,
+QByteArray DartsPointJsonService::buildJsonByIndexesAndPoint(const DartsIndexes *indexes,
                                                              const PointModel *model) const
 {
     QJsonObject obj;
@@ -55,7 +54,6 @@ QByteArray DartsPointJsonService::assembleJsonAddPointValues(const DartsIndexes 
     obj["roundIndex"] = indexes->roundIndex();
     obj["setIndex"] = indexes->setIndex();
     obj["attempt"] = indexes->attemptIndex();
-    obj["winnerId"] = winnerId.toString(QUuid::WithoutBraces);
     obj["playerId"] = model->playerId().toString(QUuid::WithoutBraces);
     obj["point"] = model->point();
     obj["score"] = model->accumulatedScore();

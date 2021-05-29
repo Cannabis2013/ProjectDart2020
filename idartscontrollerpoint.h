@@ -11,6 +11,8 @@ namespace DartsPointSingleAttemptContext
     public:
         virtual int point() const = 0;
         virtual void setPoint(const int& point) = 0;
+        virtual int score() const = 0;
+        virtual void setScore(const int& score) = 0;
         virtual TUuid playerId() const = 0;
         virtual void setPlayerId(const TUuid& id) = 0;
         virtual TString playerName() const = 0;

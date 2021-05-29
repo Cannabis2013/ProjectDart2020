@@ -7,21 +7,24 @@
 #include "qvector.h"
 #include "idartspointindexes.h"
 
-class AssembleJsonFromDartsPointIndexes :
-        public IUnaryService<const IDartsPointIndexes*,QByteArray>
-{
-public:
-    QByteArray service(const IDartsPointIndexes* indexes) override
+namespace DartsModelsContext {
+    class AssembleJsonFromDartsPointIndexes :
+            public IUnaryService<const IDartsPointIndexes*,QByteArray>
     {
-        QJsonObject jsonObject;
-        jsonObject["totalTurns"] = indexes->totalTurns();
-        jsonObject["turnIndex"]  = indexes->turnIndex();
-        jsonObject["roundIndex"] = indexes->roundIndex();
-        jsonObject["setIndex"] = indexes->setIndex();
-        jsonObject["attemptIndex"] = indexes->attemptIndex();
-        auto json = QJsonDocument(jsonObject).toJson();
-        return json;
-    }
-};
+    public:
+        QByteArray service(const IDartsPointIndexes* indexes) override
+        {
+            QJsonObject jsonObject;
+            jsonObject["totalTurns"] = indexes->totalTurns();
+            jsonObject["turnIndex"]  = indexes->turnIndex();
+            jsonObject["roundIndex"] = indexes->roundIndex();
+            jsonObject["setIndex"] = indexes->setIndex();
+            jsonObject["attemptIndex"] = indexes->attemptIndex();
+            auto json = QJsonDocument(jsonObject).toJson();
+            return json;
+        }
+    };
+}
+
 
 #endif // ASSEMBLETOURNAMENTJSONOBJECTFROMDARTSINDEXES_H

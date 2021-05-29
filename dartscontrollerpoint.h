@@ -56,6 +56,14 @@ namespace DartsPointSingleAttemptContext
         {
             _point = newPoint;
         }
+        int score() const override
+        {
+            return _score;
+        }
+        void setScore(const int &score) override
+        {
+            _score = score;
+        }
         int modKeyCode() const override
         {
             return _modKeyCode;
@@ -71,6 +79,7 @@ namespace DartsPointSingleAttemptContext
             jsonobject["modKeyCode"] = _modKeyCode;
             jsonobject["playerId"] = _playerId.toString(QUuid::WithoutBraces);
             jsonobject["playerName"] = _playerName;
+            jsonobject["score"] = _score;
             jsonobject["totalScore"] = _accumulatedScore;
             auto document = QJsonDocument(jsonobject);
             auto json = document.toJson();
@@ -94,9 +103,11 @@ namespace DartsPointSingleAttemptContext
             _modKeyCode = jsonObject.value("modKeyCode").toInt();
             _playerId = QUuid::fromString(jsonObject.value("playerId").toString());
             _playerName = jsonObject.value("playerName").toString();
+            _score = jsonObject.value("score").toInt();
         }
         int _point;
         int _modKeyCode;
+        int _score;
         int _accumulatedScore;
         QUuid _playerId;
         QString _playerName;

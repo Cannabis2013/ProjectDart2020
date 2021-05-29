@@ -47,7 +47,7 @@ namespace DartsPointSingleAttemptContext{
             }
             else
             {
-                incrementLegIndex();
+                incrementAttemptIndex();
             }
         }
         virtual void undo() override
@@ -182,7 +182,7 @@ namespace DartsPointSingleAttemptContext{
         {
             _setIndex++;
         }
-        void incrementLegIndex()
+        void incrementAttemptIndex()
         {
             _attemptIndex++;
         }

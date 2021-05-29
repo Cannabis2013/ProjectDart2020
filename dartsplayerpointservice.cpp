@@ -26,28 +26,41 @@ QString DartsPlayerPointService::winnerUserName() const
     return userName;
 }
 
-void DartsPlayerPointService::addPlayerEntity(const QUuid& id, const QString& name)
+void DartsPlayerPointService::addPlayerEntity(const PlayerModel* model)
 {
-    auto tuple = PlayerPointContext::PlayerTuple(id,name,initialScore());
+    auto tuple = PlayerPointContext::PlayerTuple(model->playerId(),model->playerName(),initialScore());
     _playerTuples.append(tuple);
 }
 
-int DartsPlayerPointService::subtractPlayerScore(const QUuid &playerId, const int &score)
+void DartsPlayerPointService::addPlayerEntitiesByModels(const QVector<const PlayerModel *> &models)
 {
-    auto tuple = tupleAtId(playerId);
+    for (const auto& model : models)
+        addPlayerEntity(model);
+}
+
+void DartsPlayerPointService::subtractPlayerScore(const PointModel *model)
+{
+    auto tuple = tupleAtId(model->playerId());
     auto indexOfTuple = indexOf(tuple);
     auto tupleScore = tuple.score;
+    auto score = model->score();
     auto newTupleScore = tupleScore - score;
     tuple.score = newTupleScore;
     replaceTupleAt(indexOfTuple,tuple);
-    return newTupleScore;
 }
 
-int DartsPlayerPointService::addPlayerScore(const QUuid &id, const int &score)
+void DartsPlayerPointService::subtractPlayerScoresByModels(const QVector<const PointModel *> &models)
 {
-    auto tuple = tupleAtId(id);
+    for (const auto& model : models)
+        subtractPlayerScore(model);
+}
+
+int DartsPlayerPointService::addPlayerScore(const PointModel *model)
+{
+    auto tuple = tupleAtId(model->playerId());
     auto indexOfTuple = indexOf(tuple);
     auto tupleScore = tuple.score;
+    auto score = model->score();
     auto newTupleScore = tupleScore + score;
     tuple.score = newTupleScore;
     replaceTupleAt(indexOfTuple,tuple);

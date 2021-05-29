@@ -2,20 +2,23 @@
 #define IPLAYERPOINTSERVICE_H
 
 #include <quuid.h>
-#include "dartspointmodels.h"
+#include <qvector.h>
 
-template<typename TPlayerDetails>
+template<typename TPlayerDetails, typename TDartsPointModel>
 class IPlayerPointService
 {
 public:
-    typedef TPlayerDetails PlayerDetails;
+    typedef TPlayerDetails PlayerModel;
+    typedef TDartsPointModel PointModel ;
     virtual QUuid winnerId() const = 0;
     virtual IPlayerPointService* setWinner(const QUuid& id) = 0;
     virtual QString winnerUserName() const = 0;
 
-    virtual void addPlayerEntity(const QUuid&,const QString&) = 0;
-    virtual int subtractPlayerScore(const QUuid& playerId, const int& score) = 0;
-    virtual int addPlayerScore(const QUuid&, const int&) = 0;
+    virtual void addPlayerEntity(const PlayerModel* model) = 0;
+    virtual void addPlayerEntitiesByModels(const QVector<const PlayerModel*>& models) = 0;
+    virtual void subtractPlayerScore(const PointModel* model) = 0;
+    virtual void subtractPlayerScoresByModels(const QVector<const PointModel*>& models) = 0;
+    virtual int addPlayerScore(const PointModel* model) = 0;
 
     virtual int playerScore(const int& index) const = 0;
     virtual int playerScore(const QUuid&) const = 0;

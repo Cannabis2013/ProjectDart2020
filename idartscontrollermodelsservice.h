@@ -9,7 +9,7 @@ namespace DartsPointSingleAttemptContext {
         typedef TModelInterface DartsModelInterface;
 
         virtual const DartsModelInterface* addPlayerNameToModel(const DartsModelInterface* model, const TString& name) const = 0;
-        virtual const DartsModelInterface* addPlayerScoreToModel(const DartsModelInterface* model, const int& score) const = 0;
+        virtual const DartsModelInterface* addAccumulatedScoreToModel(const DartsModelInterface* model, const int& score) const = 0;
     };
 }
 

@@ -1,32 +1,23 @@
 #ifndef IDARTSPOINTJSONASSEMBLERSERVICE_H
 #define IDARTSPOINTJSONASSEMBLERSERVICE_H
 
-#include "iunaryservice.h"
-#include <quuid.h>
-#include <qbytearray.h>
 #include <qvector.h>
-#include <iplayerscoreservice.h>
-#include "dartspointmodels.h"
-#include "idartscontrollerplayer.h"
 
 namespace DartsPointSingleAttemptContext{
-    template<typename  TPointModel,typename TIndexes>
+    template<typename  TPointModel,typename TIndexesModel, typename TPlayerModel, typename TJsonFormat>
     class IDartsPointJsonService
     {
     public:
-        typedef DartsPointInputContext::DartsInputKeyValues KeyInputValues;
-        typedef TIndexes DartsIndexes;
+        typedef TIndexesModel DartsIndexes;
         typedef TPointModel PointModel;
-        typedef IDartsControllerPlayer<QUuid,QString> ControllerPlayer;
-        virtual QVector<const TPointModel*> assembleExtendedInputModelsFromJson(const QByteArray&) const = 0;
-        virtual QVector<const ControllerPlayer*> assemblePlayerDetailsStructsFromJson(const QByteArray&) const = 0;
-        virtual const ControllerPlayer* assembleWinnerStructFromJson(const QByteArray&) const = 0;
-        virtual QByteArray assembleJsonAddPointValues(const DartsIndexes*,
-                                                      const QUuid &winnerId,
+        typedef TPlayerModel ControllerPlayer;
+        virtual QVector<const TPointModel*> buildDartsControllerPointByJson(const TJsonFormat&) const = 0;
+        virtual QVector<const ControllerPlayer*> assemblePlayerDetailsStructsFromJson(const TJsonFormat&) const = 0;
+        virtual const ControllerPlayer* assembleWinnerStructFromJson(const TJsonFormat&) const = 0;
+        virtual TJsonFormat buildJsonByIndexesAndPoint(const DartsIndexes*,
                                                       const PointModel* pointModel) const = 0;
-        virtual QByteArray assembleJsonWinnerName(const QString&) const = 0;
+        virtual TJsonFormat assembleJsonWinnerName(const QString&) const = 0;
     };
 }
-
 
 #endif // IDARTSPOINTJSONASSEMBLERSERVICE_H

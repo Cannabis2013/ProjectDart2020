@@ -9,7 +9,7 @@ const DartsControllerPointModelsService::DartsModelInterface *DartsPointSingleAt
     return model;
 }
 
-const DartsControllerPointModelsService::DartsModelInterface *DartsPointSingleAttemptContext::DartsControllerPointModelsService::addPlayerScoreToModel(const DartsModelInterface *model, const int &score) const
+const DartsControllerPointModelsService::DartsModelInterface *DartsPointSingleAttemptContext::DartsControllerPointModelsService::addAccumulatedScoreToModel(const DartsModelInterface *model, const int &score) const
 {
     auto nonConstModel = const_cast<PointModel*>(model);
     nonConstModel->setAccumulatedScore(score);

@@ -13,7 +13,7 @@ namespace DartsPointSingleAttemptContext {
     public:
         typedef IDartsControllerPoint<QUuid,QString,QByteArray> PointModel;
         const DartsModelInterface *addPlayerNameToModel(const DartsModelInterface *model, const QString &name) const override;
-        const DartsModelInterface *addPlayerScoreToModel(const DartsModelInterface *model, const int &score) const override;
+        const DartsModelInterface *addAccumulatedScoreToModel(const DartsModelInterface *model, const int &score) const override;
     };
 }
 
