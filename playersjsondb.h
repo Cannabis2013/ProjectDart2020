@@ -18,7 +18,6 @@
 #include "idartsinputassembler.h"
 #include "idartstournamentsjsonassemblerservice.h"
 #include "iplayerjsonassemblerservice.h"
-#include "idartsinputjsonextractor.h"
 #include "idartstournamentjsonextractorservice.h"
 #include "idartstournamentjsonextractorservice.h"
 #include "iplayerjsonextractorservice.h"

@@ -11,7 +11,7 @@ const IDartsTournament *DartsJsonService::assembleDartsTournamentFromJson(const 
     return model;
 }
 
-QVector<int> DartsJsonService::getPlayerIndexesFromJson(const QByteArray& json) const
+QVector<int> DartsJsonService::getPlayerIndexesByJson(const QByteArray& json) const
 {
     auto indexes = _getPlayerIndexesFromJson->service(json);
     return indexes;

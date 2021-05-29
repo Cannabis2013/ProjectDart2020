@@ -33,10 +33,10 @@
 #include "dartscontrollerpointbuilder.h"
 #include "dartscontrollerpointmodelsservice.h"
 #include "DartsIndexesBuilderService.h"
-#include "getscorebyplayerinput.h"
 #include "dartsplayermodelbuilderservice.h"
 #include "dartsscoremodelsbuilderservice.h"
 #include "dartsscoreindexesbuilderservice.h"
+#include "DartsScoreJsonExtractor.h"
 
 class DartsControllerBuilder : public AbstractDartsControllerBuilder
 {

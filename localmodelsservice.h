@@ -11,7 +11,8 @@
 #include "idartsjsonservice.h"
 #include "dartsscoreinput.h"
 #include "dartspointinput.h"
-#include "dartstournament.h"
+#include "idartstournament.h"
+#include "idartstournamentbuilder.h"
 
 class LocalModelsService : public AbstractModelsService
 {
@@ -30,6 +31,8 @@ public:
         DisplayHint = 0x2,
         allHints = HiddenHint | DisplayHint
     };
+    // Typedefs ;
+    typedef IDartsTournamentBuilder<IDartsTournament,QByteArray> DartsTournamentBuilder;
     /*
      * Create instance
      */
@@ -40,6 +43,7 @@ public:
     LocalModelsService* setPlayerModelsService(IPlayerModelsService *playerModelsContext);
     LocalModelsService* setDartsJsonService(IDartsJsonService *dartsJsonService);
     LocalModelsService* setAddPlayerNameToDartsInputModel(IBinaryService<const IDartsInput *, const QString &, const IDartsInput *> *newAddPlayerNameToScoreModel);
+    LocalModelsService* setDartsTournamentBuilder(DartsTournamentBuilder *newDartsTournamentBuilder);
 
 public slots:
     /*
@@ -96,6 +100,9 @@ public slots:
     void assembleDartsTournamentWinnerIdAndName(const QUuid &tournamentId) override;
 
 private:
+
+    // Builder services
+    DartsTournamentBuilder* _dartsTournamentBuilder;
     // Model services
     IDartsJsonService* _dartsJsonService;
     IDartsModelsService* _dartsModelsService;

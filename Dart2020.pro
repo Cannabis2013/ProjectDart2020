@@ -85,6 +85,7 @@ HEADERS += \
     AssembleDartsTournamentsFromJsonArray.h \
     DartsIndexesBuilderService.h \
     DartsPointCalculator.h \
+    DartsScoreJsonExtractor.h \
     DartsScoreMultiAttempIndexes.h \
     IPointCalculatorService.h \
     abstractdartscontrollerbuilder.h \
@@ -162,6 +163,7 @@ HEADERS += \
     dartsscoresjsonassemblerservice.h \
     dartsscoreturnvalues.h \
     dartssingleattemptindexes.h \
+    dartstournamentbuilder.h \
     defaultmodelsservicebuilder.h \
     deletetournamentsbyindexesservice.h \
     determinecontrollerstatebywinnerid.h \
@@ -174,7 +176,6 @@ HEADERS += \
     getdeleteplayerindexfromjson.h \
     getplayerindexesfromjson.h \
     getplayernamebyid.h \
-    getscorebyplayerinput.h \
     gettournamentidbyjson.h \
     gettournamentindexesfromjson.h \
     getwinneridbyjson.h \
@@ -187,6 +188,7 @@ HEADERS += \
     idartscontrollerpointbuilder.h \
     idartscontrollerscore.h \
     idartsinputsfilter.h \
+    idartsjsonextractor.h \
     idartsjsonservice.h \
     idartslogisticsservice.h \
     idartsmodelsbuilderservice.h \
@@ -204,6 +206,7 @@ HEADERS += \
     idartssingleattemptindexes.h \
     idartssingleattemptindexservice.h \
     idartstournamentdb.h \
+    idartstournamentbuilder.h\
     ifilterpredicatebuilder.h \
     ijsonmodelsservice.h \
     imodelsdbcontext.h \
@@ -236,7 +239,6 @@ HEADERS += \
     dartstournamentmodel.h \
     idartsinput.h \
     idartsinputassembler.h \
-    idartsinputjsonextractor.h \
     idartspointinput.h \
     idartsscoreinput.h \
     idartstournament.h \

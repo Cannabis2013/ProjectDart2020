@@ -93,9 +93,9 @@ AbstractDartsScoreController *DartsControllerBuilder::assembleDartsScoreControll
             ->setDetermineControllerStateByWinnerId(new DetermineControllerStateByWinnerId)
             ->setAddAccumulatedScoreToModel(new AddAccumulatedScoreToDartsScore)
             ->setAssembleDartsScoreTurnValues(new AssembleDartsScoreTurnValues)
-            ->setGetScoreByPlayerInput(new GetScoreByPlayerInput)
             ->setDartsScoreBuilderService(new DartsScoreModelsBuilderService)
-            ->setDartsIndexesBuilderService(new DartsScoreIndexesBuilderService);
+            ->setDartsIndexesBuilderService(new DartsScoreIndexesBuilderService)
+            ->setDartsJsonExtractorService(new DartsScoreJsonExtractor);
     return controller;
 }
 

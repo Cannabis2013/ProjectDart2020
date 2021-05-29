@@ -2,17 +2,13 @@
 
 using namespace DartsScoreMultiAttemptContext;
 
-QByteArray DartsScoreJsonBuilderService::assembleJsonAddScoreValues(const QUuid &tournamentId, const int &roundIndex,
-                                                                    const int &setIndex,const QUuid &winnerId,
-                                                                    const QUuid &playerId,const int& score) const
+QByteArray DartsScoreJsonBuilderService::buildJsonAddScoreValues(const DartsIndexes *indexes, const ModelInterface *model) const
 {
     QJsonObject obj;
-    obj["tournamentId"] = tournamentId.toString(QUuid::WithoutBraces);
-    obj["roundIndex"] = roundIndex;
-    obj["setIndex"] = setIndex;
-    obj["winnerId"] = winnerId.toString(QUuid::WithoutBraces);
-    obj["playerId"] = playerId.toString(QUuid::WithoutBraces);
-    obj["score"] = score;
+    obj["tournamentId"] = model->tournamentId().toString(QUuid::WithoutBraces);
+    obj["roundIndex"] = indexes->roundIndex();
+    obj["setIndex"] = indexes->setIndex();
+    obj["score"] = model->score();
     auto json = QJsonDocument(obj).toJson();
     return json;
 }
@@ -28,7 +24,7 @@ QByteArray DartsScoreJsonBuilderService::assembleJsonWinnerName(const QUuid& tou
     return json;
 }
 
-QByteArray DartsScoreJsonBuilderService::buildJsonByDartsScoreModels(const QVector<const InputModelInterface *> &inputModels) const
+QByteArray DartsScoreJsonBuilderService::buildJsonByDartsScoreModels(const QVector<const ModelInterface *> &inputModels) const
 {
     QJsonArray arr;
     for (const auto& inputModel : inputModels) {
@@ -43,3 +39,4 @@ QByteArray DartsScoreJsonBuilderService::buildJsonByDartsScoreModels(const QVect
     auto json = document.toJson();
     return json;
 }
+

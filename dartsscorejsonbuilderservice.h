@@ -8,20 +8,18 @@
 #include <qjsonarray.h>
 #include "idartscontrollerscore.h"
 #include "iplayerscoreservice.h"
+#include "idartsmultiattemptindexes.h"
 
 namespace DartsScoreMultiAttemptContext
 {
     class DartsScoreJsonBuilderService :
-            public IDartsScoreJsonBuilderService<IDartsControllerScore<QUuid,QString,QByteArray>>
+            public IDartsScoreJsonBuilderService<IDartsControllerScore<QUuid,QString,QByteArray>,
+                                         IDartsMultiAttemptIndexes,QByteArray,QString>
     {
     public:
-        QByteArray assembleJsonAddScoreValues(const QUuid &tournamentId,
-                                              const int &roundIndex, const int &setIndex,
-                                              const QUuid &winnerId, const QUuid &playerId,
-                                              const int &score) const override;
+        QByteArray buildJsonAddScoreValues(const DartsIndexes* indexes, const ModelInterface* model) const override;
         QByteArray assembleJsonWinnerName(const QUuid &tournamentId, const QUuid &winnerId) const override;
-
-        QByteArray buildJsonByDartsScoreModels(const QVector<const InputModelInterface*>& inputModels) const override;
+        QByteArray buildJsonByDartsScoreModels(const QVector<const ModelInterface*>& inputModels) const override;
     };
 }
 

@@ -9,18 +9,16 @@
 
 using namespace DartsScoreMultiAttemptContext;
 
-template<typename TDartsInputInterface>
+template<typename TModelInterface, typename TDartsIndexes, typename TJsonFormat, typename TString>
 class IDartsScoreJsonBuilderService {
 public:
-    typedef TDartsInputInterface InputModelInterface;
-    virtual QByteArray buildJsonByDartsScoreModels(const QVector<const InputModelInterface*>& inputModels) const = 0;
-    virtual QByteArray assembleJsonAddScoreValues(const QUuid&,
-                                                  const int&,
-                                                  const int&,
-                                                  const QUuid&,
-                                                  const QUuid&,
-                                                  const int&) const = 0;
-    virtual QByteArray assembleJsonWinnerName(const QUuid&, const QUuid&) const = 0;
+    typedef TModelInterface ModelInterface;
+    typedef TDartsIndexes DartsIndexes ;
+    typedef TString StringFormat;
+    typedef TJsonFormat JsonFormat;
+    virtual JsonFormat buildJsonByDartsScoreModels(const QVector<const ModelInterface*>& inputModels) const = 0;
+    virtual JsonFormat buildJsonAddScoreValues(const DartsIndexes* indexes, const ModelInterface* dartsModel) const = 0;
+    virtual JsonFormat assembleJsonWinnerName(const QUuid&, const QUuid&) const = 0;
 };
 
 #endif // IDARTSMULTIATTEMPTJSONSERVICE_H

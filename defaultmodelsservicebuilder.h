@@ -26,6 +26,8 @@
 #include "addplayernametodartsinputmodel.h"
 #include "idartsjsonservice.h"
 #include "addplayernametodartsinputmodel.h"
+#include "dartstournamentbuilder.h"
+
 
 class DefaultModelsServiceBuilder :
         public AbstractModelsServiceBuilder<AbstractModelsService>

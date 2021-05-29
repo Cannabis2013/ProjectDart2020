@@ -188,7 +188,7 @@ namespace DartsPointSingleAttemptContext {
         // Member variables
         QUuid _tournament = QUuid();
         int _currentStatus = ControllerState::NotInitialized;
-        //Services
+        // Builder Services
         TurnValueBuilderService* _dartsTurnValuesBuilderService;
         ControllerPointBuilder* _pointModelBuilderService;
         PlayerModelBuilder* _playerModelBuilderService;

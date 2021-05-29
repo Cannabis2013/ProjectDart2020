@@ -17,7 +17,7 @@ class IDartsJsonService
 {
 public:
     virtual const IDartsTournament* assembleDartsTournamentFromJson(const QByteArray&) const = 0;
-    virtual QVector<int> getPlayerIndexesFromJson(const QByteArray&) const = 0;
+    virtual QVector<int> getPlayerIndexesByJson(const QByteArray&) const = 0;
     virtual QByteArray assembleJsonDartsPointIndexes(const IDartsPointIndexes*) const = 0;
     virtual QByteArray assembleJsonDartsScoreIndexes(const IDartsScoreIndexes*) const = 0;
     virtual QByteArray assembleJsonFromPlayerNamesAndIds(const QVector<QUuid>&, const QVector<QString>&) const = 0;

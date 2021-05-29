@@ -17,23 +17,6 @@ namespace DartsModelsContext{
         {
             return new DartsTournament();
         }
-        static DartsTournament* fromJson(const QByteArray& json,
-                                               const bool& generateId = false)
-        {
-            auto document = QJsonDocument::fromJson(json);
-            auto model = new DartsTournament(document.object());
-            if(generateId)
-                model->setId(QUuid::createUuid());
-            return model;
-        }
-        static DartsTournament* fromJsonObject(const QJsonObject& jsonObject,
-                                               const bool& generateId = false)
-        {
-            auto model = new DartsTournament(jsonObject);
-            if(generateId)
-                model->setId(QUuid::createUuid());
-            return model;
-        }
         QUuid id() const override
         {
             return _id;
@@ -162,26 +145,6 @@ namespace DartsModelsContext{
         }
 
     private:
-        DartsTournament(){}
-        DartsTournament(const QJsonObject& jsonObject)
-        {
-            _id = QUuid::fromString(jsonObject.value("id").toString());
-            _title = jsonObject.value("title").toString();
-            _gameMode = jsonObject.value("gameMode").toInt();
-            _keyPoint = jsonObject.value("keyPoint").toInt();
-            _attempts = jsonObject.value("attempts").toInt();
-            _terminalKeyCode = jsonObject.value("terminalKeyCode").toInt();
-            _displayHint = jsonObject.value("displayHint").toInt();
-            _inputHint = jsonObject.value("inputHint").toInt();
-            _status = jsonObject.value("status").toInt();
-            _winnerId = QUuid::fromString(jsonObject.value("winnerId").toString(""));
-            auto arr = jsonObject.value("assignedPlayerIds").toArray();
-            for (const auto& jsonValue : arr) {
-                auto stringId = jsonValue.toString();
-                auto id = QUuid::fromString(stringId);
-                _assignedPlayerIdentities << id;
-            }
-        }
         QString _title;
         int _attempts;
         int _gameMode;

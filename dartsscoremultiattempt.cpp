@@ -22,7 +22,7 @@ void DartsScoreMultiAttempt::stop()
 
 void DartsScoreMultiAttempt::handleAndProcessUserInput(const QByteArray& json)
 {
-    auto score = _getScoreByPlayerInput->service(json);
+    auto score = _dartsJsonExtractorService->getPlayerScoreByJson(json);
     auto setIndex = _indexController->setIndex();
     auto accumulatedScore = _scoreController->calculateAccumulatedScoreCandidate(setIndex,score);
     auto domain = _scoreEvaluator->validateInput(accumulatedScore);
@@ -138,10 +138,12 @@ void DartsScoreMultiAttempt::addScore(const int& score)
 {
     if(currentStatus() != ControllerState::WinnerDeclared)
         setCurrentStatus(ControllerState::AddScoreState);
-
-    auto json = _dartsJsonBuilderService->assembleJsonAddScoreValues(tournament(),_indexController->roundIndex(),
-                                                         _indexController->setIndex(),_scoreController->winnerId(),
-                                                         currentActivePlayerId(),score);
+    auto indexes = _dartsIndexesBuilderService->buildControllerIndexesByIndexService(_indexController);
+    auto scoreModel = _dartsScoreBuilderService->buildModelByValues(score,
+                                                                    currentActivePlayerId(),
+                                                                    currentActiveUser(),
+                                                                    tournament());
+    auto json = _dartsJsonBuilderService->buildJsonAddScoreValues(indexes,scoreModel);
     emit requestAddDartsScore(json);
 }
 
@@ -193,6 +195,12 @@ void DartsScoreMultiAttempt::declareWinner()
     setCurrentStatus(ControllerState::WinnerDeclared);
 }
 
+DartsScoreMultiAttempt *DartsScoreMultiAttempt::setDartsJsonExtractorService(JsonExtractorService *newDartsJsonExtractorService)
+{
+    _dartsJsonExtractorService = newDartsJsonExtractorService;
+    return this;
+}
+
 DartsScoreMultiAttempt *DartsScoreMultiAttempt::setDartsIndexesBuilderService(IndexesBuilderService *newDartsIndexesBuilderService)
 {
     _dartsIndexesBuilderService = newDartsIndexesBuilderService;
@@ -202,12 +210,6 @@ DartsScoreMultiAttempt *DartsScoreMultiAttempt::setDartsIndexesBuilderService(In
 DartsScoreMultiAttempt *DartsScoreMultiAttempt::setDartsScoreBuilderService(DartsScoreBuilderService *service)
 {
     _dartsScoreBuilderService = service;
-    return this;
-}
-
-DartsScoreMultiAttempt *DartsScoreMultiAttempt::setGetScoreByPlayerInput(IUnaryService<const QByteArray &, int> *service)
-{
-    _getScoreByPlayerInput = service;
     return this;
 }
 

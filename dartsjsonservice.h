@@ -14,7 +14,7 @@ class DartsJsonService :
 public:
     static DartsJsonService* createInstance();
     const IDartsTournament *assembleDartsTournamentFromJson(const QByteArray &json) const override;
-    QVector<int> getPlayerIndexesFromJson(const QByteArray &json) const override;
+    QVector<int> getPlayerIndexesByJson(const QByteArray &json) const override;
     QByteArray assembleJsonDartsPointIndexes(const IDartsPointIndexes *indexes) const override;
     QByteArray assembleJsonDartsScoreIndexes(const IDartsScoreIndexes *indexes) const override;
     QByteArray assembleJsonFromPlayerNamesAndIds(const QVector<QUuid> &playerIds, const QVector<QString> &playerNames) const override;

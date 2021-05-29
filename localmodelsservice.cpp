@@ -7,8 +7,8 @@ LocalModelsService *LocalModelsService::createInstance()
 
 void LocalModelsService::addDartsTournament(const QByteArray& json)
 {
-    auto model = DartsTournament::fromJson(json);
-    auto indexes = _dartsJsonService->getPlayerIndexesFromJson(json);
+    auto model = _dartsTournamentBuilder->buildDartsTournamentModelByJson(json);
+    auto indexes = _dartsJsonService->getPlayerIndexesByJson(json);
     auto playerIds = _playerModelsService->assemblePlayerIds(indexes);
     auto newModel = _dartsModelsService->assignPlayerIdsToDartsTournament(model,playerIds);
     _dartsModelsService->addDartsTournamentToDb(newModel);
@@ -102,7 +102,7 @@ void LocalModelsService::deletePlayerFromIndex(const QByteArray &json)
 
 void LocalModelsService::deletePlayersFromIndexes(const QByteArray &json)
 {
-    QVector<int> indexes = _dartsJsonService->getPlayerIndexesFromJson(json);
+    QVector<int> indexes = _dartsJsonService->getPlayerIndexesByJson(json);
     auto status = _playerModelsService->deletePlayersByIndexes(indexes);
     emit playersDeletedStatus(status);
 }
@@ -231,6 +231,12 @@ void LocalModelsService::assembleDartsTournamentWinnerIdAndName(const QUuid& tou
     auto winnerName = _playerModelsService->playerNameById(model->winnerId());
     auto json = _dartsJsonService->assembleJsonByPlayerIdAndName(model->winnerId(),winnerName);
     emit sendDartsTournamentWinnerIdAndName(json);
+}
+
+LocalModelsService *LocalModelsService::setDartsTournamentBuilder(DartsTournamentBuilder *newDartsTournamentBuilder)
+{
+    _dartsTournamentBuilder = newDartsTournamentBuilder;
+    return this;
 }
 
 LocalModelsService *LocalModelsService::setAddPlayerNameToDartsInputModel(

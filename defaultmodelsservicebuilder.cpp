@@ -14,7 +14,8 @@ AbstractModelsService *DefaultModelsServiceBuilder::buildLocalModelsServiceWithJ
             ->setDartsModelsService(dartsModelsService)
             ->setPlayerModelsService(playerModelsService)
             ->setDartsJsonService(dartsJsonModelsService)
-            ->setAddPlayerNameToDartsInputModel(new AddPlayerNameToDartsInputModel);
+            ->setAddPlayerNameToDartsInputModel(new AddPlayerNameToDartsInputModel)
+            ->setDartsTournamentBuilder(new DartsTournamentBuilder);
     return modelsContext;
 }
 

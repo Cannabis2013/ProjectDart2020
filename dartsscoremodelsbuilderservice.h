@@ -7,11 +7,12 @@
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 #include <qjsonarray.h>
-
+#include <quuid.h>
 namespace DartsScoreMultiAttemptContext {
     class DartsScoreModelsBuilderService : public
             IDartsModelsBuilderService<IDartsControllerScore<QUuid,QString,QByteArray>,QByteArray,
-                                       IPlayerScoreService<IDartsControllerScore<QUuid,QString,QByteArray>>>
+                                       IPlayerScoreService<IDartsControllerScore<QUuid,QString,QByteArray>>,
+                                       QUuid,QString>
     {
     public:
         const ModelsInterface *buildModelByJson(const JsonFormat &json) const override
@@ -50,6 +51,21 @@ namespace DartsScoreMultiAttemptContext {
                 scoreModels << scoreModel;
             }
             return scoreModels;
+        }
+
+        // IDartsModelsBuilderService interface
+    public:
+        const ModelsInterface *buildModelByValues(const int &score,
+                                                  const IdFormat &playerId,
+                                                  const StringFormat &playerName,
+                                                  const IdFormat &tournamentId) const override
+        {
+            auto scoreModel = DartsControllerScore::createInstance();
+            scoreModel->setScore(score);
+            scoreModel->setPlayerId(playerId);
+            scoreModel->setPlayerName(playerName);
+            scoreModel->setTournamentId(tournamentId);
+            return scoreModel;
         }
     };
 }
