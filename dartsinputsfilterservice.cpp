@@ -66,7 +66,9 @@ DartsInputsFilterService::Models DartsInputsFilterService::filterByAttemptIndex(
     Models inputModelsByAttemptIndex;
     for (const auto& model : inputModelsByRoundIndex) {
         auto pointModel = dynamic_cast<const IDartsPointInput*>(model);
-        if(pointModel->attempt() == attemptIndex && pointModel->hint() == hint)
+        if(pointModel->attempt() != attemptIndex)
+            continue;
+        if(pointModel->hint() == hint || hint == AllHints)
             inputModelsByAttemptIndex << model;
     }
     return inputModelsByAttemptIndex;
@@ -80,6 +82,17 @@ DartsInputsFilterService::Models DartsModelsContext::DartsInputsFilterService::f
     auto inputModelsByTournamentId = filterByTournamentId(models,tournamentId);
     Models inputModelsByHint;
     for (const auto& model : inputModelsByTournamentId) {
+        if(model->hint() == hint)
+            inputModelsByHint << model;
+    }
+    return inputModelsByHint;
+}
+
+
+DartsInputsFilterService::Models DartsModelsContext::DartsInputsFilterService::filterByHint(const Models &models, const int &hint) const
+{
+    Models inputModelsByHint;
+    for (const auto& model : models) {
         if(model->hint() == hint)
             inputModelsByHint << model;
     }

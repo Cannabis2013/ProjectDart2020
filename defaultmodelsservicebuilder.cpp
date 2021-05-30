@@ -7,13 +7,10 @@ DefaultModelsServiceBuilder *DefaultModelsServiceBuilder::createInstance()
 
 AbstractModelsService *DefaultModelsServiceBuilder::buildLocalModelsServiceWithJsonDb()
 {
-    auto dartsJsonModelsService = _dartsJSonServiceBuilder->buildModelsService();
-    auto dartsModelsService = _localDartsTournamentServiceBuilder->buildModelsService();
-    auto playerModelsService = _playerServiceBuilder->buildModelsService();
     auto modelsContext = LocalModelsService::createInstance()
-            ->setDartsModelsService(dartsModelsService)
-            ->setPlayerModelsService(playerModelsService)
-            ->setDartsJsonService(dartsJsonModelsService)
+            ->setDartsModelsService(_localDartsTournamentServiceBuilder->buildModelsService())
+            ->setPlayerModelsService(_playerServiceBuilder->buildModelsService())
+            ->setDartsJsonService(_dartsJSonServiceBuilder->buildModelsService())
             ->setAddPlayerNameToDartsInputModel(new AddPlayerNameToDartsInputModel)
             ->setDartsTournamentBuilder(new DartsTournamentBuilder);
     return modelsContext;
@@ -35,5 +32,11 @@ DefaultModelsServiceBuilder *DefaultModelsServiceBuilder::setPlayerServiceBuilde
 DefaultModelsServiceBuilder *DefaultModelsServiceBuilder::setDartsJSonServiceBuilder(IModelsServiceBuilder<IDartsJsonService> *dartsJSonServiceBuilder)
 {
     _dartsJSonServiceBuilder = dartsJSonServiceBuilder;
+    return this;
+}
+
+DefaultModelsServiceBuilder *DefaultModelsServiceBuilder::setDartsScoreModelsServiceBuilder(IModelsServiceBuilder<IDartsScoreModelsService> *newDartsScoreModelsServiceBuilder)
+{
+    _dartsScoreModelsServiceBuilder = newDartsScoreModelsServiceBuilder;
     return this;
 }

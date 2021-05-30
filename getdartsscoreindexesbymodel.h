@@ -9,7 +9,7 @@
 
 class GetDartsScoreIndexesByModel : public
         ITernaryService<const QVector<const IDartsInput*>&,
-                       const IDartsTournament*,
+                       const QVector<QUuid>&,
                        const int&,
                        const IDartsScoreIndexes*>
 {
@@ -20,21 +20,20 @@ public:
         allHints = HiddenHint | DisplayHint
     };
     const IDartsScoreIndexes* service(const QVector<const IDartsInput*>& orderedModels,
-                                      const IDartsTournament* model,
+                                      const QVector<QUuid>& assignedPlayerIds,
                                       const int& dartsTournamentPointsCount) override
     {
         if(!orderedModels.isEmpty())
-            return assembleDartsIndexesByModels(orderedModels,model,dartsTournamentPointsCount);
+            return assembleDartsIndexesByModels(orderedModels,assignedPlayerIds,dartsTournamentPointsCount);
         return assembleInitialDartsIndexes();
     }
 private:
     const IDartsScoreIndexes* assembleDartsIndexesByModels(const QVector<const IDartsInput*>& orderedModels,
-                                                          const IDartsTournament* model,
+                                                          const QVector<QUuid>& assignedPlayerIds,
                                                           const int& dartsTournamentPointsCount)
     {
         auto indexes = DartsScoreIndexes::createInstance();
         auto lastModel = dynamic_cast<const IDartsScoreInput*>(orderedModels.last());
-        auto assignedPlayerIds = model->assignedPlayerIdentities();
         auto playersCount = assignedPlayerIds.count();
         auto totalTurns = orderedModels.count();
         auto turnIndex = dartsTournamentPointsCount;

@@ -5,7 +5,8 @@ template<typename TModelsServiceInterface>
 class IModelsServiceBuilder
 {
 public:
-    virtual TModelsServiceInterface* buildModelsService() const = 0;
+    typedef TModelsServiceInterface ServiceInterface;
+    virtual ServiceInterface* buildModelsService() const = 0;
 };
 
 #endif // ITOURNAMENTMODELSSERVICEASSEMBLER_H

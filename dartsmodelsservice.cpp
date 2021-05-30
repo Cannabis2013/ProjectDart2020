@@ -107,14 +107,14 @@ DartsModelsService *DartsModelsService::setRemoveModelsService(RemoveModelsServi
     return this;
 }
 
-DartsModelsService* DartsModelsService::setDartsPointLessThanPredicate(Predicate* predicate)
+DartsModelsService* DartsModelsService::setDartsPointLessThanPredicate(IPredicate* predicate)
 {
     _dartsPointLessThanPredicate = predicate;
     return this;
 }
 
 
-DartsModelsService *DartsModelsService::setDartsScoreLessThanPredicate(Predicate *predicate)
+DartsModelsService *DartsModelsService::setDartsScoreLessThanPredicate(IPredicate *predicate)
 {
     _dartsScoreLessThanPredicate = predicate;
     return this;
@@ -148,16 +148,6 @@ DartsModelsService *DartsModelsService::setGetOrderedDartsScoreModels(SortDartsI
 {
     _sortDartsInputModelsByPredicate = service;
     return this;
-}
-
-const DartsModelsService::PlayerInput *DartsModelsService::dartsScoreModel(const QUuid& tournamentId,
-                                                                           const QUuid& playerId,
-                                                                           const int& roundIndex) const
-{
-    auto scoreInputs = _dartsScoresDb->models();
-    auto scoreModelsByRoundIndex = _dartsInputsFilterService->filterByRoundIndex(scoreInputs,tournamentId,playerId,roundIndex);
-    auto model = scoreModelsByRoundIndex.first();
-    return model;
 }
 
 const IDartsPointIndexes* DartsModelsService::dartsPointIndexes(const QUuid &tournamentId) const
@@ -228,87 +218,11 @@ void DartsModelsService::removeHiddenPoints(const QUuid &tournamentId)
     _removeModelsService->service(dartsPointInputs,_dartsPointsDb);
 }
 
-void DartsModelsService::addDartsScore(const IDartsScoreInput* pointModel)
-{
-    _dartsScoresDb->addModel(pointModel);
-}
-
-int DartsModelsService::dartsScoresCount(const int &hint) const
-{
-    auto count = 0;
-    auto models = _dartsScoresDb->models();
-    for (const auto& model : models) {
-        if(model->hint() == hint)
-            count++;
-    }
-    return count;
-}
-
-void DartsModelsService::setDartsScoreHint(const DartsModelsService::PlayerInput *model,
-                                                                             const int &hint)
-{
-    _setInputHintService->service(model,hint);
-    _dartsScoresDb->saveState();
-}
-
-void DartsModelsService::removeScoreById(const QUuid &scoreId)
-{
-    auto model = _getInputModelByIdService->service(scoreId,_dartsScoresDb);
-    auto indexOfModel = _dartsScoresDb->indexOfModel(model);
-    _dartsScoresDb->removeModelByIndex(indexOfModel);
-}
-
-void DartsModelsService::removeHiddenScores(const QUuid &tournamentId)
-{
-    auto dartsScoreInputs = _dartsInputsFilterService->filterByHint(_dartsPointsDb->models(),tournamentId,HiddenHint);
-    _removeModelsService->service(dartsScoreInputs,_dartsScoresDb);
-}
-
-void DartsModelsService::removeScoresByTournamentId(const QUuid &tournamentId)
-{
-    auto dartsScoreInputs = _dartsScoresDb->models();
-    auto tournamentScoreInputs = _dartsInputsFilterService->filterByTournamentId(dartsScoreInputs,tournamentId);
-    _removeModelsService->service(tournamentScoreInputs,_dartsScoresDb);
-}
-
-void DartsModelsService::removeScoreModel(const QUuid &scoreId)
-{
-    auto model = _getInputModelByIdService->service(scoreId,_dartsScoresDb);
-    auto indexOfModel = _dartsScoresDb->indexOfModel(model);
-    _dartsScoresDb->removeModelByIndex(indexOfModel);
-}
-
-
 QVector<const IDartsTournament *> DartsModelsService::dartsTournamentModels() const
 {
     auto models = _tournamentsDbContext->dartsTournaments();
     return models;
 }
-
-const IDartsScoreIndexes *DartsModelsService::dartsScoreIndexes(const QUuid&tournamentId) const
-{
-    auto dartsScoreInputs = _dartsInputsFilterService->filterByHint(_dartsScoresDb->models(),tournamentId,DisplayHint);
-    auto orderedPlayerInputs = _sortDartsInputModelsByPredicate->service(dartsScoreInputs,_dartsScoreLessThanPredicate);
-    auto model = _getDartsTournamentByIdService->service(tournamentId,_tournamentsDbContext);
-    auto indexes = _getDartsScoreIndexesByModels->service(orderedPlayerInputs,model,dartsScoreInputs.count());
-    return indexes;
-}
-
-
-int DartsModelsService::dartsScoreCount(const QUuid &tournamentId,
-                                        const int &hint) const
-{
-    auto dartsScoreInputs = _dartsInputsFilterService->filterByHint(_dartsScoresDb->models(),tournamentId,hint);
-    return dartsScoreInputs.count();
-}
-
-QVector<const DartsModelsService::PlayerInput *> DartsModelsService::dartsScoreModelsByTournamentIdAndHint(const QUuid &tournamentId,
-                                                                                                           const int& hint) const
-{
-    auto dartsScoreInputs = _dartsInputsFilterService->filterByHint(_dartsScoresDb->models(),tournamentId,hint);
-    return dartsScoreInputs;
-}
-
 
 const IDartsTournament *DartsModelsContext::DartsModelsService::assignPlayerIdsToDartsTournament(const IDartsTournament *tournament, const QVector<QUuid> &playerIds) const
 {

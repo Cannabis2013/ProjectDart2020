@@ -1,7 +1,7 @@
 #ifndef COMPAREDARTSPOINTMODELS_H
 #define COMPAREDARTSPOINTMODELS_H
 
-#include "predicate.h"
+#include "ipredicate.h"
 #include "dartspointinput.h"
 namespace DartsModelsContext {
     class CompareDartsPointModels : public IPredicateBuilder

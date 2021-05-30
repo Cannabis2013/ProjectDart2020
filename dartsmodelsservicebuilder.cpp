@@ -16,7 +16,6 @@ IDartsModelsService *DartsModelsServiceBuilder::buildModelsService() const
             ->setDartsScoreDb(dartsScoreDb)
             ->setAssembleDartsPointIndexes(new GetDartsPointIndexesByDartsPointModel)
             ->setGetOrderedDartsScoreModels(new SortPlayerInputsByPredicate)
-            ->setGetScoreIndexesByTournamentId(new GetDartsScoreIndexesByModel)
             ->setGetTournamentByIndexService(new GetDartsTournamentByIndexService)
             ->setGetDartsTournamentByIdService(new GetDartsTournamentById)
             ->setGetDartsInputModelByIdService(new GetDartsInputModelById)

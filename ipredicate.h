@@ -4,7 +4,7 @@
 #include "idartsinput.h"
 
 namespace DartsModelsContext {
-    struct Predicate{
+    struct IPredicate{
         virtual bool operator()(const IDartsInput*, const IDartsInput*) const = 0;
     };
 }

@@ -14,6 +14,8 @@ namespace DartsModelsContext {
         virtual Models filterByTournamentId(const Models& models, const UniqueId& id) const = 0;
         virtual Models filterByPlayerId(const Models& models, const UniqueId& tournamentId, const UniqueId& playerId) const = 0;
         virtual Models filterByHint(const Models& models,
+                                    const int& hint) const = 0;
+        virtual Models filterByHint(const Models& models,
                                     const UniqueId& tournamentId,
                                     const int& hint) const = 0;
         virtual Models filterByHint(const Models& models,

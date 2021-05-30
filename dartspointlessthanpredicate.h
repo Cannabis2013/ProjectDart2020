@@ -2,10 +2,10 @@
 #define DARTSPOINTLESSTHANPREDICATE_H
 
 #include "dartspointinput.h"
-#include "predicate.h"
+#include "ipredicate.h"
 
 namespace DartsModelsContext {
-    class DartsPointLessThanPredicate : public Predicate
+    class DartsPointLessThanPredicate : public IPredicate
     {
     public:
         bool operator ()(const IDartsInput *_first, const IDartsInput* _second) const override

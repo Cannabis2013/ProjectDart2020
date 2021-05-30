@@ -42,11 +42,13 @@ SOURCES += \
     dartsscorejsonbuilderservice.cpp \
     dartsscorejsondb.cpp \
     dartsscorelogisticcontroller.cpp \
+    dartsscoremodelsservice.cpp \
     dartsscoremultiattempt.cpp \
     dartstournamentjsonextractor.cpp \
     defaultmodelsservicebuilder.cpp \
     filterpredicatedefaultbuilder.cpp \
     iurlparser.cpp \
+    localjsondbdartsscoreservicebuilder.cpp \
     localmodelsservice.cpp \
     localplayermodelsservice.cpp \
     main.cpp \
@@ -158,6 +160,7 @@ HEADERS += \
     dartsscorelessthanpredicate.h \
     dartsscorelogisticcontroller.h \
     dartsscoremodelsbuilderservice.h \
+    dartsscoremodelsservice.h \
     dartsscoremultiattempt.h \
     dartsscoresjsonassemblerservice.h \
     dartsscoreturnvalues.h \
@@ -203,6 +206,7 @@ HEADERS += \
     idartsscoredb.h \
     idartsscoreindexes.h \
     idartsscorejsonbuilderservice.h \
+    idartsscoremodelsservice.h \
     idartssingleattemptindexes.h \
     idartssingleattemptindexservice.h \
     idartstournamentdb.h \
@@ -216,9 +220,11 @@ HEADERS += \
     iplayermodelsservice.h \
     iplayerpointservice.h \
     iplayerscoreservice.h \
+    ipredicate.h \
     iternaryservice.h \
     iunaryservice.h \
     jsonarrayfromplayernamesandids.h \
+    localjsondbdartsscoreservicebuilder.h \
     localmodelsservice.h \
     assembledartstournamentmodelfromjson.h\
     abstractdartscontroller.h \
@@ -268,7 +274,6 @@ HEADERS += \
     playermodelsservicebuilder.h \
     playersjsondb.h \
     pointvalidator.h \
-    predicate.h \
     remotemodelscontext.h \
     removemodelsfromdbcontext.h \
     replytimeout.h \

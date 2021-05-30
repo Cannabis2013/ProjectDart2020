@@ -5,19 +5,19 @@
 #include "idartsscoreinput.h"
 #include "idartsscoredb.h"
 #include <quuid.h>
-#include "predicate.h"
+#include "ipredicate.h"
 
 namespace DartsModelsContext
 {   
     class SortPlayerInputsByPredicate :
             public IBinaryService<QVector<const IDartsInput*>&,
-                                  const Predicate*,
+                                  const IPredicate*,
                                   QVector<const IDartsInput*>>
     {
         // IBinaryService interface
     public:
         QVector<const IDartsInput*> service(QVector<const IDartsInput*>& dartsPointModels,
-                                             const Predicate* predicate) override
+                                             const IPredicate* predicate) override
         {
             std::sort(dartsPointModels.begin(),dartsPointModels.end(),ComparePredicate(predicate));
             return dartsPointModels;
@@ -26,14 +26,14 @@ namespace DartsModelsContext
         class ComparePredicate
         {
         public:
-            ComparePredicate(const Predicate* predicate):
+            ComparePredicate(const IPredicate* predicate):
                 _predicate(predicate){}
             bool operator()(const IDartsInput* _first, const IDartsInput* _second)
             {
                 return _predicate->operator()(_first,_second);
             }
         private:
-            const Predicate* _predicate;
+            const IPredicate* _predicate;
         };
     };
 }

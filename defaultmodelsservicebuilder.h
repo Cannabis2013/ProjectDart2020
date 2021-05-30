@@ -27,6 +27,7 @@
 #include "idartsjsonservice.h"
 #include "addplayernametodartsinputmodel.h"
 #include "dartstournamentbuilder.h"
+#include "idartsscoremodelsservice.h"
 
 
 class DefaultModelsServiceBuilder :
@@ -38,10 +39,12 @@ public:
     DefaultModelsServiceBuilder* setModelsTournamentServiceBuilder(IModelsServiceBuilder<IDartsModelsService>* builder);
     DefaultModelsServiceBuilder* setPlayerServiceBuilder(IModelsServiceBuilder<IPlayerModelsService> *playerServiceBuilder);
     DefaultModelsServiceBuilder* setDartsJSonServiceBuilder(IModelsServiceBuilder<IDartsJsonService> *dartsJSonServiceBuilder);
+    DefaultModelsServiceBuilder* setDartsScoreModelsServiceBuilder(IModelsServiceBuilder<IDartsScoreModelsService> *newDartsScoreModelsServiceBuilder);
 
 private:
     IModelsServiceBuilder<IDartsJsonService>* _dartsJSonServiceBuilder;
     IModelsServiceBuilder<IDartsModelsService>* _localDartsTournamentServiceBuilder;
+    IModelsServiceBuilder<IDartsScoreModelsService>* _dartsScoreModelsServiceBuilder;
     IModelsServiceBuilder<IPlayerModelsService>* _playerServiceBuilder;
 };
 

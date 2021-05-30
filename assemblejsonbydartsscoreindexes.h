@@ -6,20 +6,22 @@
 #include <qjsonobject.h>
 #include "idartsscoreindexes.h"
 
-class AssembleJsonByDartsScoreIndexes :
-        public IUnaryService<const IDartsScoreIndexes*,QByteArray>
-{
-public:
-    QByteArray service(const IDartsScoreIndexes* indexes) override
+namespace DartsModelsContext {
+    class AssembleJsonByDartsScoreIndexes :
+            public IUnaryService<const IDartsScoreIndexes*,QByteArray>
     {
-        QJsonObject jsonObject;
-        jsonObject["totalTurns"] = indexes->totalTurns();
-        jsonObject["turnIndex"]  = indexes->turnIndex();
-        jsonObject["roundIndex"] = indexes->roundIndex();
-        jsonObject["setIndex"] = indexes->setIndex();
-        auto json = QJsonDocument(jsonObject).toJson();
-        return json;
-    }
-};
+    public:
+        QByteArray service(const IDartsScoreIndexes* indexes) override
+        {
+            QJsonObject jsonObject;
+            jsonObject["totalTurns"] = indexes->totalTurns();
+            jsonObject["turnIndex"]  = indexes->turnIndex();
+            jsonObject["roundIndex"] = indexes->roundIndex();
+            jsonObject["setIndex"] = indexes->setIndex();
+            auto json = QJsonDocument(jsonObject).toJson();
+            return json;
+        }
+    };
+}
 
 #endif // ASSEMBLEJSONFROMDARTSSCOREINDEXES_H

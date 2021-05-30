@@ -13,6 +13,7 @@
 #include "dartspointinput.h"
 #include "idartstournament.h"
 #include "idartstournamentbuilder.h"
+#include "idartsscoremodelsservice.h"
 
 class LocalModelsService : public AbstractModelsService
 {
@@ -44,6 +45,8 @@ public:
     LocalModelsService* setDartsJsonService(IDartsJsonService *dartsJsonService);
     LocalModelsService* setAddPlayerNameToDartsInputModel(IBinaryService<const IDartsInput *, const QString &, const IDartsInput *> *newAddPlayerNameToScoreModel);
     LocalModelsService* setDartsTournamentBuilder(DartsTournamentBuilder *newDartsTournamentBuilder);
+
+    LocalModelsService* setDartsScoreInputModelsService(IDartsScoreModelsService *service);
 
 public slots:
     /*
@@ -98,7 +101,6 @@ public slots:
     void handleRequestPlayersDetails() override;
     void assembleAssignedPlayerEntities(const QUuid &tournamentId) override;
     void assembleDartsTournamentWinnerIdAndName(const QUuid &tournamentId) override;
-
 private:
 
     // Builder services
@@ -107,9 +109,11 @@ private:
     IDartsJsonService* _dartsJsonService;
     IDartsModelsService* _dartsModelsService;
     IPlayerModelsService* _playerModelsService;
+    IDartsScoreModelsService* _dartsScoreInputModelsService;
     IBinaryService<const IDartsInput*,
                    const QString&,
                    const IDartsInput*>* _addPlayerNameToDartsInputModel;
+
 };
 
 #endif // MODELCONTEXTINTERFACE_H
