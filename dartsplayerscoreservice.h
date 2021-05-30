@@ -4,6 +4,7 @@
 #include "iplayerscoreservice.h"
 #include <qlist.h>
 #include "idartscontrollerscore.h"
+#include "idartsplayer.h"
 
 #define INCONSISTENCY_EXCEPTION_MESSAGE "User inconsistency!"
 
@@ -35,19 +36,19 @@ namespace DartsScoreMultiAttemptContext{
         };
     }
 
-    class DartsPlayerScoreService : public IPlayerScoreService<IDartsControllerScore<QUuid,QString,QByteArray>>
+    class DartsPlayerScoreService : public IPlayerScoreService<IDartsPlayer<QUuid,QString>,IDartsControllerScore<QUuid,QString,QByteArray>>
     {
     public:
         // Tuple : {UserId, UserName, UserScore}
-        typedef IDartsControllerScore<QUuid,QString,QByteArray> ControllerScore;
         typedef QVector<PlayerScoreContext::PlayerTuple> PlayerTuples;
         typedef QPair<QUuid,QString> PlayerPair;
         typedef QVector<PlayerPair> PlayerPairs;
         static DartsPlayerScoreService* createInstance(const int& initialScore,
                                                   const QUuid &winner);
-        virtual void addPlayerEntity(const QUuid &id, const QString &name) override;
-        virtual int subtractPlayerScoreByModel(const ControllerScore *model) override;
-        void subtractPlayerScoreByModels(const QVector<const ControllerScore *> &models) override;
+        virtual void addPlayerEntity(const PlayerInterface* entity) override;
+        void addPlayerEntities(const QVector<const PlayerInterface *> &entities) override;
+        virtual int subtractPlayerScoreByModel(const DartsScore *model) override;
+        void subtractPlayerScoreByModels(const QVector<const DartsScore*> &models) override;
         virtual int addPlayerScore(const QUuid& id, const int &score) override;
         // UserScoresControllerInterface interface
         int playerScoreByIndex(const int &index) const override;
@@ -61,7 +62,7 @@ namespace DartsScoreMultiAttemptContext{
         QUuid playerIdAtIndex(const int &index) const override;
         int playersCount() const override;
         QUuid winnerId() const override;
-        IPlayerScoreService *setWinner(const QUuid &id) override;
+        DartsPlayerScoreService *setWinner(const QUuid &id) override;
         QString winnerUserName() const override;
         int initialScore() const override;
         int calculateAccumulatedScoreCandidate(const int& index,

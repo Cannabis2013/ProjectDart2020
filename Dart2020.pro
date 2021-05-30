@@ -98,8 +98,6 @@ HEADERS += \
     addplayernametodartsinputmodel.h \
     addwinnernametotournamentjson.h \
     assembleJsonFromDartsIndexesAndPoints.h \
-    assembledartsplayerbyjson.h \
-    assembledartsplayersbyjson.h \
     assembledartspointmodelfromjson.h \
     assembledartsscorefromjson.h\
     assembledartsscoremodelfromjson.h \
@@ -140,6 +138,7 @@ HEADERS += \
     dartsmodelsservicescollection.h \
     dartsmultiscoredatamodel.h \
     dartsplayer.h \
+    dartsplayerbuilderservice.h \
     dartsplayermodelbuilderservice.h \
     dartsplayerpointservice.h \
     dartsplayerscoreservice.h \
@@ -196,6 +195,7 @@ HEADERS += \
     idartsmultiattemptindexes.h \
     idartsmultiattemptindexservice.h \
     idartsplayer.h \
+    idartsplayerbuilderservice.h \
     idartsplayermodelbuilderservice.h \
     idartspointdb.h \
     idartspointindexes.h \

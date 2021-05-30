@@ -33,6 +33,10 @@ namespace DartsModelsContext {
         /*
          * Points related section
          */
+        virtual const PlayerInput* dartsPointModel(const QUuid& tournamentId,
+                                                   const QUuid& playerId,
+                                                   const int& roundIndex,
+                                                   const int& attemptIndex) const = 0;
         virtual PlayerInputs dartsPointModelsByTournamentId(const QUuid& tournamentId) const = 0;
         virtual const IDartsPointIndexes* dartsPointIndexes(const QUuid &tournamentId) const = 0;
         virtual void addDartsPoint(const PlayerInput*) = 0;
@@ -40,21 +44,19 @@ namespace DartsModelsContext {
         virtual const PlayerInput* getDartsPointModelById(const QUuid& id) const = 0;
         virtual int dartsPointsCount(const QUuid&,const int&) const = 0;
         virtual int dartsScoreCount(const QUuid&,const int&) const = 0;
-        virtual const PlayerInput* setDartsPointHint(const QUuid&,const QUuid&,
-                                                          const int&,const int&,
-                                                          const int&) = 0;
+        virtual void setDartsPointHint(const PlayerInput* inputModel,const int& hint) = 0;
         virtual void removePointById(const QUuid&) = 0;
         virtual void removeHiddenPoints(const QUuid&) = 0;
         virtual void removePointsByTournamentId(const QUuid&) = 0;
         /*
          * Scores methods
          */
-        virtual const PlayerInput* dartsScoreModel(const QUuid&, const QUuid&, const int&) const = 0;
+        virtual const PlayerInput* dartsScoreModel(const QUuid& tournamentId, const QUuid& playerId, const int& roundIndex) const = 0;
         virtual PlayerInputs dartsScoreModelsByTournamentIdAndHint(const QUuid&, const int&) const = 0;
         virtual const DartsModelsContext::IDartsScoreIndexes* dartsScoreIndexes(const QUuid&) const = 0;
         virtual void addDartsScore(const IDartsScoreInput*) = 0;
         virtual int dartsScoresCount(const int &hint) const = 0;
-        virtual const PlayerInput* setDartsScoreHint(const PlayerInput*,
+        virtual void setDartsScoreHint(const PlayerInput*,
                                                           const int &hint) = 0;
         virtual void removeScoreById(const QUuid&) = 0;
         virtual void removeHiddenScores(const QUuid&) = 0;

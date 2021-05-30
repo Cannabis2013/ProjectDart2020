@@ -8,10 +8,11 @@
 #include <qjsonobject.h>
 #include <qjsonarray.h>
 #include <quuid.h>
+#include "idartsplayer.h"
 namespace DartsScoreMultiAttemptContext {
     class DartsScoreModelsBuilderService : public
             IDartsModelsBuilderService<IDartsControllerScore<QUuid,QString,QByteArray>,QByteArray,
-                                       IPlayerScoreService<IDartsControllerScore<QUuid,QString,QByteArray>>,
+                                       IPlayerScoreService<IDartsPlayer<QUuid,QString>,IDartsControllerScore<QUuid,QString,QByteArray>>,
                                        QUuid,QString>
     {
     public:

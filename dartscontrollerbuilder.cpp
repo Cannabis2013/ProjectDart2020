@@ -88,14 +88,13 @@ AbstractDartsScoreController *DartsControllerBuilder::assembleDartsScoreControll
             ->setIndexController(ScoreIndexController::createInstance())
             ->setScoreController(DartsPlayerScoreService::createInstance(keyPoint,winnerId))
             ->setJsonService(new DartsScoreJsonBuilderService)
-            ->setAssembleDartsPlayersByJson(new AssembleDartsPlayersByJson)
-            ->setAssembleDartsPlayerByJson(new AssembleDartsPlayerByJson)
             ->setDetermineControllerStateByWinnerId(new DetermineControllerStateByWinnerId)
             ->setAddAccumulatedScoreToModel(new AddAccumulatedScoreToDartsScore)
-            ->setAssembleDartsScoreTurnValues(new AssembleDartsScoreTurnValues)
+            ->setTurnValuesBuilderService(new AssembleDartsScoreTurnValues)
             ->setDartsScoreBuilderService(new DartsScoreModelsBuilderService)
             ->setDartsIndexesBuilderService(new DartsScoreIndexesBuilderService)
-            ->setDartsJsonExtractorService(new DartsScoreJsonExtractor);
+            ->setDartsJsonExtractorService(new DartsScoreJsonExtractor)
+            ->setPlayerBuilderService(new DartsPlayerBuilderService);
     return controller;
 }
 

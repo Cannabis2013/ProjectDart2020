@@ -4,9 +4,10 @@
 #include <qvector.h>
 #include <quuid.h>
 #include "iplayermodel.h"
+#include "ipersistence.h"
 
 namespace DartsModelsContext {
-    class IPlayerModelsDb
+    class IPlayerModelsDb : public IPersistence
     {
     public:
         // Public types

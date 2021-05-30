@@ -120,11 +120,11 @@ QUuid DartsPointSingleAttempt::undoTurn()
     _currentStatus = ControllerState::UndoState;
     _indexController->undo();
     auto roundIndex = _indexController->roundIndex();
-    auto throwIndex = _indexController->attemptIndex();
+    auto attemptIndex = _indexController->attemptIndex();
     emit hideDartsPoint(tournament(),
                         currentPlayerId(),
                         roundIndex,
-                        throwIndex);
+                        attemptIndex);
     auto playerId = currentPlayerId();
     return playerId;
 }

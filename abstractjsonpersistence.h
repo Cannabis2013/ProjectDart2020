@@ -5,9 +5,8 @@
 #include <qjsonobject.h>
 #include <qjsonarray.h>
 #include <qfile.h>
-#include "ipersistence.h"
 
-class AbstractJSONPersistence : public IPersistence
+class AbstractJSONPersistence
 {
 protected:
     void writeJsonObjectToFile(const QJsonObject &json, const QString &fileName);

@@ -6,17 +6,20 @@
 #include <qvector.h>
 
 namespace DartsScoreMultiAttemptContext {
-    template<typename TDartsScore>
+    template<typename TPlayerInterface,typename TDartsScore>
     class IPlayerScoreService
     {
     public:
+        typedef TPlayerInterface PlayerInterface;
+        typedef TDartsScore DartsScore;
         virtual QUuid winnerId() const = 0;
         virtual IPlayerScoreService* setWinner(const QUuid& id) = 0;
         virtual QString winnerUserName() const = 0;
 
-        virtual void addPlayerEntity(const QUuid&,const QString&) = 0;
-        virtual int subtractPlayerScoreByModel(const TDartsScore*) = 0;
-        virtual void subtractPlayerScoreByModels(const QVector<const TDartsScore*>&) = 0;
+        virtual void addPlayerEntity(const PlayerInterface* entity) = 0;
+        virtual void addPlayerEntities(const QVector<const PlayerInterface*>& entities) = 0;
+        virtual int subtractPlayerScoreByModel(const DartsScore*) = 0;
+        virtual void subtractPlayerScoreByModels(const QVector<const DartsScore*>&) = 0;
         virtual int addPlayerScore(const QUuid&, const int&) = 0;
 
         virtual int playerScoreByIndex(const int& index) const = 0;

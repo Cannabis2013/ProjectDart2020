@@ -8,11 +8,12 @@
 #include "idartscontrollerscore.h"
 #include "idartslogisticsservice.h"
 #include "idartsmultiattemptindexes.h"
+#include "idartsplayer.h"
 
 namespace DartsScoreMultiAttemptContext{
     class AssembleDartsScoreTurnValues : public
             ITernaryService<const IDartsMultiAttemptIndexService<IDartsMultiAttemptIndexes>*,
-                           const IPlayerScoreService<IDartsControllerScore<QUuid,QString,QByteArray>>*,
+                           const IPlayerScoreService<IDartsPlayer<QUuid,QString>,IDartsControllerScore<QUuid,QString,QByteArray>>*,
                            const IDartsLogisticsService<QString>*,
                            const DartsScoreTurnValues*>
     {
@@ -20,7 +21,7 @@ namespace DartsScoreMultiAttemptContext{
         typedef IDartsControllerScore<QUuid,QString,QByteArray> ControllerScore;
         typedef IDartsMultiAttemptIndexService<IDartsMultiAttemptIndexes> IndexService;
         const DartsScoreTurnValues* service(const IndexService* indexService,
-                                            const IPlayerScoreService<ControllerScore>* playerScoreService,
+                                            const IPlayerScoreService<IDartsPlayer<QUuid,QString>,ControllerScore>* playerScoreService,
                                             const IDartsLogisticsService<QString>* logisticService) override
         {
             auto canUndo = indexService->canUndo();

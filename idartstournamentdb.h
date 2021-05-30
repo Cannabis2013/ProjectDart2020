@@ -3,8 +3,9 @@
 
 #include <qvector.h>
 #include "idartstournament.h"
+#include "ipersistence.h"
 
-class IDartsTournamentDb
+class IDartsTournamentDb : public IPersistence
 {
 public:
     virtual void addTournament(const IDartsTournament* model) = 0;

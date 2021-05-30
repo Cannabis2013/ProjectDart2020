@@ -24,8 +24,6 @@
 #include "dartspointjsonservice.h"
 #include "dartsscorejsonbuilderservice.h"
 #include "dartsplayerpointservice.h"
-#include "assembledartsplayersbyjson.h"
-#include "assembledartsplayerbyjson.h"
 #include "determinecontrollerstatebywinnerid.h"
 #include "addaccumulatedscoretodartsscore.h"
 #include "assembledartsscoreturnvalues.h"
@@ -37,6 +35,7 @@
 #include "dartsscoremodelsbuilderservice.h"
 #include "dartsscoreindexesbuilderservice.h"
 #include "DartsScoreJsonExtractor.h"
+#include "dartsplayerbuilderservice.h"
 
 class DartsControllerBuilder : public AbstractDartsControllerBuilder
 {

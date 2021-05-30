@@ -4,10 +4,12 @@
 #include <qvector.h>
 #include <idartspointinput.h>
 #include "imodelsdbcontext.h"
+#include "ipersistence.h"
 
 namespace DartsModelsContext
 {
-    class IDartsPointDb : public IModelsDbContext<IDartsInput,QUuid>
+    class IDartsPointDb : public IModelsDbContext<IDartsInput,QUuid>,
+            public IPersistence
     {
     public:
         virtual void addModel(const IDartsInput* model) override = 0;

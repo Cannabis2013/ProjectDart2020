@@ -25,9 +25,9 @@ namespace DartsModelsContext {
         // Json services
         DartsScoreJsonDb* setDartsScoresExtractorService(JsonExtractor *dartsScoresExtractor);
         DartsScoreJsonDb* setDartsScoresJsonAssemblerService(JsonAssembler *dartsScoresJsonAssemblerService);
+        void saveState() override;
     private:
         void fetchModels() override;
-        void saveState() override;
 
         JsonExtractor* _jsonExtractorService;
         JsonAssembler* _jsonAssemblerService;

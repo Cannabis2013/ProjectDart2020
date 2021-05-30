@@ -102,16 +102,16 @@ namespace DartsModelsContext{
         /*
          * Points related section
          */
+        const PlayerInput *dartsPointModel(const QUuid &tournamentId,
+                                           const QUuid &playerId,
+                                           const int &roundIndex,
+                                           const int &attemptIndex) const override;
         QVector<const PlayerInput *> dartsPointModelsByTournamentId(const QUuid &tournamentId) const override;
         const PlayerInput* getDartsPointModelById(const QUuid& pointId) const override;
         void addDartsPoint(const PlayerInput *model) override;
         QVector<const PlayerInput*> getDartsPointModelsOrdedByIndexes(const QUuid& tournamentId) const override;
         int dartsPointsCount(const QUuid& tournamentId,const int &hint) const override;
-        const PlayerInput *setDartsPointHint(const QUuid &tournamentId,
-                                                  const QUuid &playerId ,
-                                                  const int &roundIndex,
-                                                  const int &attempt,
-                                                  const int &hint) override;
+        void setDartsPointHint(const PlayerInput* inputModel,const int &hint) override;
         void removePointById(const QUuid &pointId) override;
         void removeHiddenPoints(const QUuid &tournamentId) override;
         void removePointsByTournamentId(const QUuid &tournamentId) override;
@@ -122,8 +122,7 @@ namespace DartsModelsContext{
         QVector<const PlayerInput *> dartsScoreModelsByTournamentIdAndHint(const QUuid &tournamentId, const int &hint) const override;
         void addDartsScore(const IDartsScoreInput *pointModel) override;
         int dartsScoresCount(const int &hint) const override;
-        const PlayerInput *setDartsScoreHint(const PlayerInput* model,
-                                                  const int &hint) override;
+        void setDartsScoreHint(const PlayerInput* model,const int &hint) override;
         void removeScoreById(const QUuid &scoreId) override;
         void removeHiddenScores(const QUuid &tournamentId) override;
         void removeScoresByTournamentId(const QUuid &tournamentId) override;
@@ -133,14 +132,14 @@ namespace DartsModelsContext{
         // Set services method
         DartsModelsService *setTournamentsDbContext(
                 IDartsTournamentDb *tournamentsDbContext);
-        DartsModelsService* setAssembleDartsPointIndexes(GetPointIndexesFromDartsTournamentService *getDartsPointIndexes);
-        DartsModelsService* setGetOrderedDartsScoreModels(SortDartsInputsByPredicateService *getOrderedDartsScoreModels);
-        DartsModelsService* setGetScoreIndexesByTournamentId(GetScoreIndexesByDartsTournamentService *getScoreIndexesByTournamentId);
-        DartsModelsService* setGetTournamentByIndexService(GetTournamentByIndexService *newGetTournamentByIndexService);
-        DartsModelsService* setGetDartsTournamentByIdService(GetDartsTournamentByIdService *getDartsTournamentByService);
-        DartsModelsService* setDartsPointModelHintService(setInputHintService *dartsPointModelHintService);
-        DartsModelsService* setGetDartsInputModelByIdService(GetDartsInputModelByIdService *getDartsPointByIdService);
-        DartsModelsService* setDeleteTournamentsByIndexes(DeleteTournamentByIndexes *deleteTournamentsByIndexes);
+        DartsModelsService* setAssembleDartsPointIndexes(GetPointIndexesFromDartsTournamentService *service);
+        DartsModelsService* setGetOrderedDartsScoreModels(SortDartsInputsByPredicateService *service);
+        DartsModelsService* setGetScoreIndexesByTournamentId(GetScoreIndexesByDartsTournamentService *service);
+        DartsModelsService* setGetTournamentByIndexService(GetTournamentByIndexService *service);
+        DartsModelsService* setGetDartsTournamentByIdService(GetDartsTournamentByIdService *service);
+        DartsModelsService* setDartsPointModelHintService(setInputHintService *service);
+        DartsModelsService* setGetDartsInputModelByIdService(GetDartsInputModelByIdService *service);
+        DartsModelsService* setDeleteTournamentsByIndexes(DeleteTournamentByIndexes *service);
         // set db service methods
         DartsModelsService* setDartsPointsDb(IDartsPointDb *dartsPointsDb);
         DartsModelsService* setDartsScoreDb(IDartsScoreDb *dartsScoreDb);

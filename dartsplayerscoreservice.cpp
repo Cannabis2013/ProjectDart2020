@@ -5,18 +5,17 @@ using namespace DartsScoreMultiAttemptContext;
 DartsPlayerScoreService *DartsPlayerScoreService::createInstance(const int &initialScore,
                                                        const QUuid &winner)
 {
-    return new DartsPlayerScoreService(initialScore,
-                                  winner);
+    return new DartsPlayerScoreService(initialScore,winner);
 }
 
-void DartsPlayerScoreService::addPlayerEntity(const QUuid& id, const QString& name)
+void DartsPlayerScoreService::addPlayerEntity(const PlayerInterface *entity)
 {
-    auto tuple = PlayerScoreContext::PlayerTuple(id,name,initialScore());
+    auto tuple = PlayerScoreContext::PlayerTuple(entity->playerId(),entity->playerName(),initialScore());
     _playerTuples.append(tuple);
 }
 
 
-int DartsPlayerScoreService::subtractPlayerScoreByModel(const ControllerScore *model)
+int DartsPlayerScoreService::subtractPlayerScoreByModel(const DartsScore *model)
 {
     auto tuple = tupleAtId(model->playerId());
     auto indexOfTuple = indexOf(tuple);
@@ -27,7 +26,7 @@ int DartsPlayerScoreService::subtractPlayerScoreByModel(const ControllerScore *m
     return newTupleScore;
 }
 
-void DartsPlayerScoreService::subtractPlayerScoreByModels(const QVector<const ControllerScore *> &models)
+void DartsPlayerScoreService::subtractPlayerScoreByModels(const QVector<const DartsScore *> &models)
 {
     for (const auto& model : models) {
         auto tuple = tupleAtId(model->playerId());
@@ -134,7 +133,7 @@ QUuid DartsPlayerScoreService::winnerId() const
     return _winner;
 }
 
-IPlayerScoreService<DartsPlayerScoreService::ControllerScore> *DartsPlayerScoreService::setWinner(const QUuid &id)
+DartsPlayerScoreService *DartsPlayerScoreService::setWinner(const QUuid &id)
 {
 
     _winner = id;
@@ -257,3 +256,10 @@ int DartsPlayerScoreService::count() const
     return _playerTuples.count();
 }
 
+
+
+void DartsScoreMultiAttemptContext::DartsPlayerScoreService::addPlayerEntities(const QVector<const PlayerInterface *> &entities)
+{
+    for (const auto& entity : entities)
+        addPlayerEntity(entity);
+}

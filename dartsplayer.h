@@ -7,32 +7,14 @@
 
 namespace DartsScoreMultiAttemptContext
 {
-    class DartsPlayer : public IDartsPlayer
+    class DartsPlayer : public IDartsPlayer<QUuid,QString>
     {
     public:
-        DartsPlayer(const QUuid& id, const QString& name):
-            _playerId(id),_playerName(name)
-        {}
-        DartsPlayer()
-        {}
-        static const DartsPlayer* fromJson(const QByteArray& json)
+        static DartsPlayer* createInstance()
         {
-            auto document = QJsonDocument::fromJson(json);
-            auto jsonObject = document.object();
-            auto playerStringId = jsonObject.value("playerId").toString();
-            auto playerId = QUuid::fromString(playerStringId);
-            auto playerName = jsonObject.value("playerName").toString();
-            auto dartsPlayerModel = new DartsPlayer(playerId,playerName);
-            return dartsPlayerModel;
+            return new DartsPlayer();
         }
-        static const DartsPlayer* fromJsonObject(const QJsonObject& jsonObject)
-        {
-            auto playerStringId = jsonObject.value("playerId").toString();
-            auto playerId = QUuid::fromString(playerStringId);
-            auto playerName = jsonObject.value("playerName").toString();
-            auto dartsModel = new DartsPlayer(playerId,playerName);
-            return dartsModel;
-        }
+
         QUuid playerId() const override
         {
             return _playerId;

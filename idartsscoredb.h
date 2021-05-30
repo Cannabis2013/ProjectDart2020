@@ -4,8 +4,12 @@
 #include <qvector.h>
 #include "idartsscoreinput.h"
 #include "imodelsdbcontext.h"
+#include "ipersistence.h"
+
 namespace DartsModelsContext {
-    class IDartsScoreDb : public IModelsDbContext<IDartsInput,QUuid>
+    class IDartsScoreDb :
+            public IModelsDbContext<IDartsInput,QUuid>,
+            public IPersistence
     {
     public:
         virtual void addModel(const IDartsInput* model) override = 0;

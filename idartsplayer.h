@@ -6,11 +6,14 @@
 
 namespace DartsScoreMultiAttemptContext
 {
+    template<typename TUuid, typename TString>
     class IDartsPlayer : public IJsonModelsService<QByteArray>
     {
     public:
-        virtual QUuid playerId() const = 0;
-        virtual QString playerName() const = 0;
+        typedef TUuid IdFormat;
+        typedef TString StringFormat;
+        virtual IdFormat playerId() const = 0;
+        virtual TString playerName() const = 0;
     };
 }
 
