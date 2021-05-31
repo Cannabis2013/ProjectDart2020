@@ -8,6 +8,8 @@
 #include "ibinaryservice.h"
 #include "ipredicate.h"
 #include "iternaryservice.h"
+#include "idartsmultiattemptindexesbuilder.h"
+
 namespace DartsModelsContext {
     class DartsScoreModelsService : public IDartsScoreModelsService
     {
@@ -31,10 +33,7 @@ namespace DartsModelsContext {
         typedef IBinaryService<PlayerInputs&,
                               const IPredicate*,
                               PlayerInputs> SortDartsInputsByPredicateService;
-        typedef ITernaryService<const QVector<const PlayerInput*>&,
-                                const QVector<QUuid>&,
-                                const int&,
-                                const IDartsScoreIndexes*> GetScoreIndexesByModels;
+        typedef IDartsMultiAttemptIndexesBuilder<IDartsScoreIndexes,PlayerInput> GetScoreIndexesByModels;
         // Create instance
         static DartsScoreModelsService* createInstance();
         // Methods
@@ -47,7 +46,7 @@ namespace DartsModelsContext {
         void removeScoreModel(const QUuid &scoreId) override;
         void setDartsScoreHint(const PlayerInput *model, const int &hint) override;
         const IDartsScoreIndexes *dartsScoreIndexes(const QUuid &tournamentId,
-                                                    const QVector<QUuid>& assignedPlayerIds) const override;
+                                                    const int& assignedPlayersCount) const override;
         int dartsScoreCount(const QUuid &tournamentId, const int &hint) const override;
         DartsScoreModelsService* setDartsInputsFilterService(FilterDartsInputsService *newDartsInputsFilterService);
         DartsScoreModelsService* setRemoveModelsService(RemoveModelsService *newRemoveModelsService);
@@ -56,7 +55,6 @@ namespace DartsModelsContext {
         DartsScoreModelsService* setSortDartsInputModelsByPredicate(SortDartsInputsByPredicateService *newSortDartsInputModelsByPredicate);
         DartsScoreModelsService* setGetDartsScoreIndexesByModels(GetScoreIndexesByModels *newGetDartsScoreIndexesByModels);
         DartsScoreModelsService* setDartsScoreLessThanPredicate(IPredicate *newDartsPointLessThanPredicate);
-
         DartsScoreModelsService* setDbService(IDartsScoreDb *service);
 
     private:

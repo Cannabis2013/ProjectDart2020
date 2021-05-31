@@ -6,12 +6,10 @@
 #include "idartsmodelsservice.h"
 #include <quuid.h>
 #include "dartsscoreindexes.h"
+#include "idartsmultiattemptindexesbuilder.h"
 
 class GetDartsScoreIndexesByModel : public
-        ITernaryService<const QVector<const IDartsInput*>&,
-                       const QVector<QUuid>&,
-                       const int&,
-                       const IDartsScoreIndexes*>
+        IDartsMultiAttemptIndexesBuilder<IDartsScoreIndexes,IDartsInput>
 {
 public:
     enum ModelDisplayHint{
@@ -19,27 +17,24 @@ public:
         DisplayHint = 0x2,
         allHints = HiddenHint | DisplayHint
     };
-    const IDartsScoreIndexes* service(const QVector<const IDartsInput*>& orderedModels,
-                                      const QVector<QUuid>& assignedPlayerIds,
-                                      const int& dartsTournamentPointsCount) override
+    const IDartsScoreIndexes* buildIndexes(const QVector<const IDartsInput*>& orderedModels,
+                                           const int& assignedPlayersCount) const override
     {
         if(!orderedModels.isEmpty())
-            return assembleDartsIndexesByModels(orderedModels,assignedPlayerIds,dartsTournamentPointsCount);
+            return assembleDartsIndexesByModels(orderedModels,assignedPlayersCount);
         return assembleInitialDartsIndexes();
     }
 private:
     const IDartsScoreIndexes* assembleDartsIndexesByModels(const QVector<const IDartsInput*>& orderedModels,
-                                                          const QVector<QUuid>& assignedPlayerIds,
-                                                          const int& dartsTournamentPointsCount)
+                                                           const int& assignedPlayersCount) const
     {
         auto indexes = DartsScoreIndexes::createInstance();
         auto lastModel = dynamic_cast<const IDartsScoreInput*>(orderedModels.last());
-        auto playersCount = assignedPlayerIds.count();
         auto totalTurns = orderedModels.count();
-        auto turnIndex = dartsTournamentPointsCount;
+        auto turnIndex = orderedModels.count();
         auto roundIndex = lastModel->roundIndex();
         auto setIndex = lastModel->setIndex();
-        if(++setIndex >= playersCount)
+        if(++setIndex >= assignedPlayersCount)
         {
             roundIndex++;
             setIndex = 0;
@@ -50,7 +45,7 @@ private:
         indexes->setSetIndex(setIndex);
         return indexes;
     };
-    const IDartsScoreIndexes* assembleInitialDartsIndexes()
+    const IDartsScoreIndexes* assembleInitialDartsIndexes() const
     {
         return DartsScoreIndexes::createInitialInstance();
     }

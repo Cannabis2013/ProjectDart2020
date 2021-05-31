@@ -5,7 +5,7 @@
 #include "idartspointinput.h"
 
 namespace DartsModelsContext {
-    class SetDartsInputHintService :
+    class DartsInputModelHintService :
             public IBinaryService<const IDartsInput*,const int&, const IDartsInput*>
     {
     public:

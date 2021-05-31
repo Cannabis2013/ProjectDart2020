@@ -11,7 +11,7 @@
 #include "dartapplication.h"
 #include "dartscontrollerbuilder.h"
 #include "connectdartsmultiattemptcontroller.h"
-#include "localjsondbdartsscoreservicebuilder.h"
+#include "builddartsscoreservicewithlocaljsondb.h"
 
 class ApplicationBuilder
 {
@@ -26,7 +26,7 @@ public:
         auto modelsServiceBuilder = DefaultModelsServiceBuilder::createInstance()
                 ->setModelsTournamentServiceBuilder(new DartsModelsServiceBuilder)
                 ->setPlayerServiceBuilder(new PlayerModelsServiceBuilder)
-                ->setDartsScoreModelsServiceBuilder(new LocalJsonDbDartsScoreServiceBuilder)
+                ->setDartsScoreModelsServiceBuilder(new BuildDartsScoreServiceWithLocalJsonDb)
                 ->setDartsJSonServiceBuilder(new DartsJsonServiceBuilder);
 
         auto _dart =

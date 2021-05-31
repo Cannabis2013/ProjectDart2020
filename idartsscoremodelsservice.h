@@ -21,7 +21,7 @@ namespace DartsModelsContext {
         virtual void removeScoreModel(const QUuid &scoreId) = 0 ;
         virtual void setDartsScoreHint(const PlayerInput* model,const int &hint) = 0 ;
         virtual const IDartsScoreIndexes *dartsScoreIndexes(const QUuid &tournamentId,
-                                                            const QVector<QUuid>& assignedPlayerIds) const = 0;
+                                                            const int& assignedPlayersCount) const = 0;
         virtual int dartsScoreCount(const QUuid &tournamentId, const int &hint) const = 0;
     };
 }

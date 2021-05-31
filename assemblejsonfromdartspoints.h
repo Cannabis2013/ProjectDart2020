@@ -6,14 +6,15 @@
 #include <qjsonarray.h>
 #include <qjsonobject.h>
 #include <qvector.h>
-#include "idartsmodelsservice.h"
+#include "idartspointmodelsservice.h"
+#include "idartspointinput.h"
 
 namespace DartsModelsContext{
     class AssembleJsonFromDartsPoints : public
-            IBinaryService<const QUuid&,const IDartsModelsService*,QByteArray>
+            IBinaryService<const QUuid&,const IDartsPointModelsService*,QByteArray>
     {
     public:
-        QByteArray service(const QUuid& tournamentId,const IDartsModelsService* modelsService) override
+        QByteArray service(const QUuid& tournamentId,const IDartsPointModelsService* modelsService) override
         {
             auto dartsPlayerInputs = modelsService->dartsPointModelsByTournamentId(tournamentId);
             QJsonArray pointsJsonArray;

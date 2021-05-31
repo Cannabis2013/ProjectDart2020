@@ -1,8 +1,8 @@
-#include "localjsondbdartsscoreservicebuilder.h"
+#include "builddartsscoreservicewithlocaljsondb.h"
 
 using namespace DartsModelsContext;
 
-LocalJsonDbDartsScoreServiceBuilder::ServiceInterface *LocalJsonDbDartsScoreServiceBuilder::buildModelsService() const
+BuildDartsScoreServiceWithLocalJsonDb::ServiceInterface *BuildDartsScoreServiceWithLocalJsonDb::buildModelsService() const
 {
     auto service = DartsScoreModelsService::createInstance()
             ->setGetDartsScoreIndexesByModels(new GetDartsScoreIndexesByModel)
@@ -10,7 +10,7 @@ LocalJsonDbDartsScoreServiceBuilder::ServiceInterface *LocalJsonDbDartsScoreServ
             ->setDartsInputsFilterService(new DartsInputsFilterService)
             ->setRemoveModelsService(new RemoveModelsFromDbContext)
             ->setSortDartsInputModelsByPredicate(new SortPlayerInputsByPredicate)
-            ->setSetInputHintService(new SetDartsInputHintService)
+            ->setSetInputHintService(new DartsInputModelHintService)
             ->setGetInputModelByIdService(new GetDartsInputModelById)
             ->setDbService(new DartsScoreJsonDb);
     return service;

@@ -14,6 +14,7 @@
 #include "idartstournament.h"
 #include "idartstournamentbuilder.h"
 #include "idartsscoremodelsservice.h"
+#include "idartspointmodelsservice.h"
 
 class LocalModelsService : public AbstractModelsService
 {
@@ -109,7 +110,8 @@ private:
     IDartsJsonService* _dartsJsonService;
     IDartsModelsService* _dartsModelsService;
     IPlayerModelsService* _playerModelsService;
-    IDartsScoreModelsService* _dartsScoreInputModelsService;
+    IDartsScoreModelsService* _dartsScoreInputService;
+    IDartsPointModelsService* _dartsPointInputService;
     IBinaryService<const IDartsInput*,
                    const QString&,
                    const IDartsInput*>* _addPlayerNameToDartsInputModel;

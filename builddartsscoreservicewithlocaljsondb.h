@@ -8,10 +8,10 @@
 #include "dartsinputsfilterservice.h"
 #include "removemodelsfromdbcontext.h"
 #include "sortplayerinputsbypredicate.h"
-#include "setdartsinputhintservice.h"
+#include "dartsinputmodelhintservice.h"
 #include "dartsscorejsondb.h"
 #include "getdartsinputmodelbyid.h"
-class LocalJsonDbDartsScoreServiceBuilder : public
+class BuildDartsScoreServiceWithLocalJsonDb : public
         IModelsServiceBuilder<DartsModelsContext::IDartsScoreModelsService>
 {
 public:

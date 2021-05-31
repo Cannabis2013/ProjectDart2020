@@ -57,28 +57,9 @@ namespace DartsModelsContext{
             DisplayHint = 0x2,
             AllHints = 0x3
         };
-        typedef IBinaryService<PlayerInputs&,
-                              const IPredicate*,
-                              PlayerInputs> SortDartsInputsByPredicateService;
-        typedef ITernaryService<const QVector<const PlayerInput *> &,
-                                const IDartsTournament *,
-                                const int &,
-                                const IDartsPointIndexes *> GetPointIndexesFromDartsTournamentService;
-        typedef ITernaryService<const QVector<const PlayerInput*>&,
-                                const IDartsTournament*,
-                                const int&,
-                                const IDartsScoreIndexes*> GetScoreIndexesByDartsTournamentService;
-        typedef IBinaryService<const PlayerInput*,const int&,const PlayerInput*> SetDartsModelHint;
-        typedef IBinaryService<const PlayerInput*,const int&, const PlayerInput*> setInputHintService;
-        typedef IModelsDbContext<PlayerInput,QUuid> ModelsDbService;
-        typedef IBinaryService<const QUuid&,const ModelsDbService*,QVector<const IDartsInput*>> GetDartsInputsByIdService;
         typedef IBinaryService<const QVector<int>&,IDartsTournamentDb*,bool> DeleteTournamentByIndexes;
         typedef IBinaryService<const int&,const IDartsTournamentDb*,const IDartsTournament*> GetTournamentByIndexService;
         typedef IBinaryService<const QUuid&,const IDartsTournamentDb*,const IDartsTournament*> GetDartsTournamentByIdService;
-        typedef IBinaryService<const QUuid&,const ModelsDbService*, const PlayerInput*> GetDartsInputModelByIdService;
-        typedef QVector<const PlayerInput*> DartsPlayerInputs;
-        typedef IBinaryService<const DartsPlayerInputs&,ModelsDbService*,void> RemoveModelsService;
-        typedef IDartsInputsFilter<PlayerInput,QUuid> FilterDartsInputsService;
         typedef IBinaryService<const IDartsTournament*,const QVector<QUuid>&,const IDartsTournament*> AssignPlayerIdsToTournament;
 
         /*
@@ -97,42 +78,16 @@ namespace DartsModelsContext{
         const IDartsTournament *assignPlayerIdsToDartsTournament(const IDartsTournament* tournament,
                                                                  const QVector<QUuid>& playerIds) const override;
         QUuid addDartsTournamentToDb(const IDartsTournament *tournament) override;
-        const IDartsPointIndexes *dartsPointIndexes(const QUuid &tournamentId) const override;
-        /*
-         * Points related section
-         */
-        const PlayerInput *dartsPointModel(const QUuid &tournamentId,
-                                           const QUuid &playerId,
-                                           const int &roundIndex,
-                                           const int &attemptIndex) const override;
-        QVector<const PlayerInput *> dartsPointModelsByTournamentId(const QUuid &tournamentId) const override;
-        const PlayerInput* getDartsPointModelById(const QUuid& pointId) const override;
-        void addDartsPoint(const PlayerInput *model) override;
-        QVector<const PlayerInput*> getDartsPointModelsOrdedByIndexes(const QUuid& tournamentId) const override;
-        int dartsPointsCount(const QUuid& tournamentId,const int &hint) const override;
-        void setDartsPointHint(const PlayerInput* inputModel,const int &hint) override;
-        void removePointById(const QUuid &pointId) override;
-        void removeHiddenPoints(const QUuid &tournamentId) override;
-        void removePointsByTournamentId(const QUuid &tournamentId) override;
         // Set services method
         DartsModelsService *setTournamentsDbContext(
                 IDartsTournamentDb *tournamentsDbContext);
-        DartsModelsService* setAssembleDartsPointIndexes(GetPointIndexesFromDartsTournamentService *service);
-        DartsModelsService* setGetOrderedDartsScoreModels(SortDartsInputsByPredicateService *service);
-        DartsModelsService* setGetScoreIndexesByTournamentId(GetScoreIndexesByDartsTournamentService *service);
         DartsModelsService* setGetTournamentByIndexService(GetTournamentByIndexService *service);
         DartsModelsService* setGetDartsTournamentByIdService(GetDartsTournamentByIdService *service);
-        DartsModelsService* setDartsPointModelHintService(setInputHintService *service);
-        DartsModelsService* setGetDartsInputModelByIdService(GetDartsInputModelByIdService *service);
         DartsModelsService* setDeleteTournamentsByIndexes(DeleteTournamentByIndexes *service);
         // set db service methods
         DartsModelsService* setDartsPointsDb(IDartsPointDb *dartsPointsDb);
         DartsModelsService* setDartsScoreDb(IDartsScoreDb *dartsScoreDb);
         DartsModelsService* setDartsScoresDb(IDartsScoreDb *dartsScoresDb);
-        DartsModelsService* setRemoveModelsService(RemoveModelsService *newRemoveModelsService);
-        DartsModelsService* setDartsPointLessThanPredicate(IPredicate *predicate);
-        DartsModelsService* setDartsScoreLessThanPredicate(IPredicate *predicate);
-        DartsModelsService* setDartsInputsFilterService(FilterDartsInputsService *newFilterDartsInputsService);
         DartsModelsService* setAssignPlayerIdsToDartsTournament(AssignPlayerIdsToTournament *newAssignPlayerIdsToDartsTournament);
 
     private:
@@ -140,18 +95,7 @@ namespace DartsModelsContext{
          * Services
          */
         // General services
-        RemoveModelsService* _removeModelsService;
-        setInputHintService* _setInputHintService;
-        SortDartsInputsByPredicateService* _sortDartsInputModelsByPredicate;
-        FilterDartsInputsService* _dartsInputsFilterService;
-        GetDartsInputModelByIdService* _getInputModelByIdService;
         AssignPlayerIdsToTournament* _assignPlayerIdsToDartsTournament;
-        // Point services
-        GetPointIndexesFromDartsTournamentService* _assembleDartsPointIndexes;
-        IPredicate* _dartsPointLessThanPredicate;
-        // Score services
-        GetScoreIndexesByDartsTournamentService* _getDartsScoreIndexesByModels;
-        IPredicate* _dartsScoreLessThanPredicate;
         // Tournament services
         GetTournamentByIndexService* _getDartsTournamentByIndexService;
         GetDartsTournamentByIdService* _getDartsTournamentByIdService;

@@ -58,11 +58,11 @@ void DartsScoreModelsService::setDartsScoreHint(const PlayerInput *model, const 
     _dartsScoresDb->saveState();
 }
 
-const IDartsScoreIndexes *DartsScoreModelsService::dartsScoreIndexes(const QUuid &tournamentId, const QVector<QUuid> &assignedPlayerIds) const
+const IDartsScoreIndexes *DartsScoreModelsService::dartsScoreIndexes(const QUuid &tournamentId, const int &assignedPlayersCount) const
 {
     auto dartsScoreInputs = _dartsInputsFilterService->filterByHint(_dartsScoresDb->models(),tournamentId,DisplayHint);
     auto orderedPlayerInputs = _sortDartsInputModelsByPredicate->service(dartsScoreInputs,_dartsScoreLessThanPredicate);
-    auto indexes = _getDartsScoreIndexesByModels->service(orderedPlayerInputs,assignedPlayerIds,dartsScoreInputs.count());
+    auto indexes = _getDartsScoreIndexesByModels->buildIndexes(orderedPlayerInputs,assignedPlayersCount);
     return indexes;
 }
 
