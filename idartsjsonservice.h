@@ -7,6 +7,8 @@
 #include "idartspointindexes.h"
 #include <quuid.h>
 #include "idartsmodelsservice.h"
+#include "idartspointmodelsservice.h"
+#include "idartsscoremodelsservice.h"
 #include "iplayermodelsservice.h"
 #include <qjsonarray.h>
 #include "idartspointinput.h"
@@ -21,8 +23,8 @@ public:
     virtual QByteArray assembleJsonDartsPointIndexes(const IDartsPointIndexes*) const = 0;
     virtual QByteArray assembleJsonDartsScoreIndexes(const IDartsScoreIndexes*) const = 0;
     virtual QByteArray assembleJsonFromPlayerNamesAndIds(const QVector<QUuid>&, const QVector<QString>&) const = 0;
-    virtual QByteArray assembleJsonFromTournamentDartsPoints(const QUuid&,const IDartsModelsService*) const = 0;
-    virtual QJsonArray jsonArrayFromDartsScores(const QUuid&, const IDartsModelsService*) const = 0;
+    virtual QByteArray assembleJsonFromTournamentDartsPoints(const QUuid&,const IDartsPointModelsService*) const = 0;
+    virtual QJsonArray jsonArrayFromDartsScores(const QUuid&, const IDartsScoreModelsService*) const = 0;
     virtual QByteArray assembleJsonOrderedDartsPointModels(const QVector<const IDartsInput*>&,
                                                            const IPlayerModelsService*) const = 0;
     virtual QByteArray addPlayerNamesToDartsTournamentJson(const QByteArray&,

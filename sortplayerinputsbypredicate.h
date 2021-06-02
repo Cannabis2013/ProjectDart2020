@@ -10,16 +10,17 @@
 namespace DartsModelsContext
 {   
     class SortPlayerInputsByPredicate :
-            public IBinaryService<QVector<const IDartsInput*>&,
+            public IBinaryService<const QVector<const IDartsInput*>&,
                                   const IPredicate*,
                                   QVector<const IDartsInput*>>
     {
         // IBinaryService interface
     public:
-        QVector<const IDartsInput*> service(QVector<const IDartsInput*>& dartsPointModels,
+        QVector<const IDartsInput*> service(const QVector<const IDartsInput*>& dartsPointModels,
                                              const IPredicate* predicate) override
         {
-            std::sort(dartsPointModels.begin(),dartsPointModels.end(),ComparePredicate(predicate));
+            QVector<const IDartsInput*> sortedList = dartsPointModels;
+            std::sort(sortedList.begin(),sortedList.end(),ComparePredicate(predicate));
             return dartsPointModels;
         }
     private:

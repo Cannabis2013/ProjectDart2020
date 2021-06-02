@@ -48,6 +48,7 @@ public:
     LocalModelsService* setDartsTournamentBuilder(DartsTournamentBuilder *newDartsTournamentBuilder);
 
     LocalModelsService* setDartsScoreInputModelsService(IDartsScoreModelsService *service);
+    LocalModelsService* setDartsPointInputService(IDartsPointModelsService *newDartsPointInputService);
 
 public slots:
     /*
@@ -70,7 +71,7 @@ public slots:
     void getOrderedDartsPoints(const QUuid &tournamentId) override;
     void addDartsPoint(const QByteArray& json) override;
     void assembleAssignedPlayerPoints(const QUuid &tournamentId) override;
-    virtual void assembleDartsPointIndexes(const QUuid &tournament) override;
+    virtual void assembleDartsPointIndexes(const QUuid &tournamentId) override;
     void hideDartsPoint(const QUuid& tournamentId,
                             const QUuid& playerId,
                             const int& roundIndex,

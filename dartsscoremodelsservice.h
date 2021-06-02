@@ -30,7 +30,7 @@ namespace DartsModelsContext {
         typedef IBinaryService<const DartsPlayerInputs&,ModelsDbService*,void> RemoveModelsService;
         typedef IBinaryService<const QUuid&,const ModelsDbService*, const PlayerInput*> GetDartsInputModelByIdService;
         typedef IBinaryService<const PlayerInput*,const int&, const PlayerInput*> setInputHintService;
-        typedef IBinaryService<PlayerInputs&,
+        typedef IBinaryService<const PlayerInputs&,
                               const IPredicate*,
                               PlayerInputs> SortDartsInputsByPredicateService;
         typedef IDartsMultiAttemptIndexesBuilder<IDartsScoreIndexes,PlayerInput> GetScoreIndexesByModels;

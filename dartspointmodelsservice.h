@@ -24,9 +24,9 @@ namespace DartsModelsContext {
         };
         // Typedefs
         typedef IDartsInputsFilter<PlayerInput,QUuid> FilterDartsInputsService;
-        typedef IBinaryService<PlayerInputs&,
-                              const IPredicate*,
-                              PlayerInputs> SortDartsInputsByPredicateService;
+        typedef IBinaryService<const PlayerInputs&,
+                               const IPredicate*,
+                               PlayerInputs> SortDartsInputsByPredicateService;
         typedef IDartsSingleAttemptIndexesBuilder<IDartsPointIndexes,IDartsInput> IndexesBuilderService;
         typedef IModelsDbContext<PlayerInput,QUuid> ModelsDbService;
         typedef IBinaryService<const QUuid&,const ModelsDbService*, const PlayerInput*> GetDartsInputModelByIdService;
@@ -39,7 +39,7 @@ namespace DartsModelsContext {
 
         const PlayerInput *dartsPointModel(const QUuid &tournamentId, const QUuid &playerId, const int &roundIndex, const int &attemptIndex) const override;
         PlayerInputs dartsPointModelsByTournamentId(const QUuid &tournamentId) const override;
-        const IDartsPointIndexes *dartsPointIndexes(const QUuid &tournamentId,
+        const IDartsPointIndexes *dartsPointIndexes(const QVector<const IDartsInput*>& models,
                                                     const int& assignedPlayersCount) const override;
         void addDartsPoint(const PlayerInput *model) override;
         PlayerInputs getDartsPointModelsOrdedByIndexes(const QUuid &tournamentId) const override;
@@ -49,6 +49,7 @@ namespace DartsModelsContext {
         void removePointById(const QUuid &pointModelId) override;
         void removeHiddenPoints(const QUuid &tournamentId) override;
         void removePointsByTournamentId(const QUuid &tournamentId) override;
+        QVector<const IDartsInput *> sortDartsPointsByIndexes(const QVector<const IDartsInput *> &models) const override;
 
         DartsPointModelsService* setDartsInputsFilterService(FilterDartsInputsService *newDartsInputsFilterService);
         DartsPointModelsService* setSortDartsInputModelsByPredicate(SortDartsInputsByPredicateService *newSortDartsInputModelsByPredicate);

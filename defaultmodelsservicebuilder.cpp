@@ -11,6 +11,8 @@ AbstractModelsService *DefaultModelsServiceBuilder::buildLocalModelsServiceWithJ
             ->setDartsModelsService(_localDartsTournamentServiceBuilder->buildModelsService())
             ->setPlayerModelsService(_playerServiceBuilder->buildModelsService())
             ->setDartsJsonService(_dartsJSonServiceBuilder->buildModelsService())
+            ->setDartsScoreInputModelsService(_dartsScoreModelsServiceBuilder->buildModelsService())
+            ->setDartsPointInputService(_dartsPointModelsServiceBuilder->buildModelsService())
             ->setAddPlayerNameToDartsInputModel(new AddPlayerNameToDartsInputModel)
             ->setDartsTournamentBuilder(new DartsTournamentBuilder);
     return modelsContext;
@@ -38,5 +40,11 @@ DefaultModelsServiceBuilder *DefaultModelsServiceBuilder::setDartsJSonServiceBui
 DefaultModelsServiceBuilder *DefaultModelsServiceBuilder::setDartsScoreModelsServiceBuilder(IModelsServiceBuilder<IDartsScoreModelsService> *newDartsScoreModelsServiceBuilder)
 {
     _dartsScoreModelsServiceBuilder = newDartsScoreModelsServiceBuilder;
+    return this;
+}
+
+DefaultModelsServiceBuilder *DefaultModelsServiceBuilder::setDartsPointModelsServiceBuilder(IModelsServiceBuilder<IDartsPointModelsService> *newDartsPointModelsServiceBuilder)
+{
+    _dartsPointModelsServiceBuilder = newDartsPointModelsServiceBuilder;
     return this;
 }

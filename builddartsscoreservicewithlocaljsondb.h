@@ -11,6 +11,9 @@
 #include "dartsinputmodelhintservice.h"
 #include "dartsscorejsondb.h"
 #include "getdartsinputmodelbyid.h"
+#include "assemblemultiattemptscoresbyjson.h"
+#include "assemblejsonbydartsscoremodels.h"
+
 class BuildDartsScoreServiceWithLocalJsonDb : public
         IModelsServiceBuilder<DartsModelsContext::IDartsScoreModelsService>
 {

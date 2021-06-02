@@ -7,7 +7,7 @@ IDartsJsonService *DartsJsonServiceBuilder::buildModelsService() const
             ->setAssembleJsonDartsPointIndexes(new AssembleJsonFromDartsPointIndexes)
             ->setGetPlayerIndexesFromJson(new GetPlayerIndexesFromJson)
             ->setAssembleJsonFromPlayerNamesAndIds(new JsonArrayFromPlayerNamesAndIds)
-            ->setAssembleJsonFromTournamentDartsPoints(new AssembleJsonFromDartsPoints())
+            ->setAssembleJsonFromTournamentDartsPoints(new AssembleJsonFromDartsPoints)
             ->setAssembleJsonOrderedDartsPointModels(new AssembleJsonFromOrderedDartsPointModels)
             ->setAssembleDartsTournamentFromJson(new AssembleDartsTournamentModelFromJson)
             ->setAssembleJsonDartsTournamentModels(new AssembleJsonDartsTournamentModels)

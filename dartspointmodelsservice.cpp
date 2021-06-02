@@ -1,5 +1,7 @@
 #include "dartspointmodelsservice.h"
 
+using namespace DartsModelsContext;
+
 DartsModelsContext::DartsPointModelsService *DartsModelsContext::DartsPointModelsService::createInstance()
 {
     return new DartsPointModelsService;
@@ -20,14 +22,10 @@ DartsModelsContext::IDartsPointModelsService::PlayerInputs DartsModelsContext::D
     return tournamentInputs;
 }
 
-const DartsModelsContext::IDartsPointIndexes *DartsModelsContext::DartsPointModelsService::dartsPointIndexes(const QUuid &tournamentId,
+const DartsModelsContext::IDartsPointIndexes *DartsModelsContext::DartsPointModelsService::dartsPointIndexes(const QVector<const IDartsInput*>& models,
                                                                                                              const int& assignedPlayersCount) const
 {
-    auto dartsInputs = _dartsPointsDb->models();
-    auto tournamentInputs = _dartsInputsFilterService->filterByTournamentId(dartsInputs,tournamentId);
-    auto orderedModels = _sortDartsInputModelsByPredicate->service(tournamentInputs,_dartsPointLessThanPredicate);
-    auto count = dartsPointsCount(tournamentId,ModelDisplayHint::DisplayHint);
-    auto indexes = _assembleDartsPointIndexes->buildIndexes(orderedModels,assignedPlayersCount,count);
+    auto indexes = _assembleDartsPointIndexes->buildIndexes(models,assignedPlayersCount,models.count());
     return indexes;
 }
 
@@ -82,52 +80,57 @@ void DartsModelsContext::DartsPointModelsService::removePointsByTournamentId(con
     _removeModelsService->service(playerInputs,_dartsPointsDb);
 }
 
-
-namespace DartsModelsContext {
-    DartsPointModelsService *DartsPointModelsService::setDartsInputsFilterService(FilterDartsInputsService *newDartsInputsFilterService)
-    {
-        _dartsInputsFilterService = newDartsInputsFilterService;
-        return this;
-    }
-
-    DartsPointModelsService *DartsPointModelsService::setSortDartsInputModelsByPredicate(SortDartsInputsByPredicateService *newSortDartsInputModelsByPredicate)
-    {
-        _sortDartsInputModelsByPredicate = newSortDartsInputModelsByPredicate;
-        return this;
-    }
-
-    DartsPointModelsService *DartsPointModelsService::setAssembleDartsPointIndexes(IndexesBuilderService *newAssembleDartsPointIndexes)
-    {
-        _assembleDartsPointIndexes = newAssembleDartsPointIndexes;
-        return this;
-    }
-
-    DartsPointModelsService *DartsPointModelsService::setDartsSortingPredicate(IPredicate *newDartsPointLessThanPredicate)
-    {
-        _dartsPointLessThanPredicate = newDartsPointLessThanPredicate;
-        return this;
-    }
-
-    DartsPointModelsService *DartsPointModelsService::setDartsInputHintService(DartsInputHintService *newSetInputHintService)
-    {
-        _setInputHintService = newSetInputHintService;
-        return this;
-    }
-
-    DartsPointModelsService *DartsPointModelsService::setRemoveModelsService(RemoveModelsService *newRemoveModelsService)
-    {
-        _removeModelsService = newRemoveModelsService;
-        return this;
-    }
-
-    DartsPointModelsService *DartsPointModelsService::setGetInputModelByIdService(GetDartsInputModelByIdService *newGetInputModelByIdService)
-    {
-        _getInputModelByIdService = newGetInputModelByIdService;
-        return this;
-    }
-
-    DartsPointModelsService *DartsPointModelsService::setDbService(IDartsPointDb *newDartsPointsDb)
-    {
-        _dartsPointsDb = newDartsPointsDb;
-    }
+DartsPointModelsService *DartsPointModelsService::setDartsInputsFilterService(FilterDartsInputsService *newDartsInputsFilterService)
+{
+    _dartsInputsFilterService = newDartsInputsFilterService;
+    return this;
 }
+
+DartsPointModelsService *DartsPointModelsService::setSortDartsInputModelsByPredicate(SortDartsInputsByPredicateService *newSortDartsInputModelsByPredicate)
+{
+    _sortDartsInputModelsByPredicate = newSortDartsInputModelsByPredicate;
+    return this;
+}
+
+DartsPointModelsService *DartsPointModelsService::setAssembleDartsPointIndexes(IndexesBuilderService *newAssembleDartsPointIndexes)
+{
+    _assembleDartsPointIndexes = newAssembleDartsPointIndexes;
+    return this;
+}
+
+DartsPointModelsService *DartsPointModelsService::setDartsSortingPredicate(IPredicate *newDartsPointLessThanPredicate)
+{
+    _dartsPointLessThanPredicate = newDartsPointLessThanPredicate;
+    return this;
+}
+
+DartsPointModelsService *DartsPointModelsService::setDartsInputHintService(DartsInputHintService *newSetInputHintService)
+{
+    _setInputHintService = newSetInputHintService;
+    return this;
+}
+
+DartsPointModelsService *DartsPointModelsService::setRemoveModelsService(RemoveModelsService *newRemoveModelsService)
+{
+    _removeModelsService = newRemoveModelsService;
+    return this;
+}
+
+DartsPointModelsService *DartsPointModelsService::setGetInputModelByIdService(GetDartsInputModelByIdService *newGetInputModelByIdService)
+{
+    _getInputModelByIdService = newGetInputModelByIdService;
+    return this;
+}
+
+DartsPointModelsService *DartsPointModelsService::setDbService(IDartsPointDb *newDartsPointsDb)
+{
+    _dartsPointsDb = newDartsPointsDb;
+    return this;
+}
+QVector<const IDartsInput *> DartsModelsContext::DartsPointModelsService::sortDartsPointsByIndexes(const QVector<const IDartsInput*>& models) const
+{
+    auto sortedModels = _sortDartsInputModelsByPredicate->service(models,_dartsPointLessThanPredicate);
+    return sortedModels;
+}
+
+

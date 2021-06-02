@@ -14,16 +14,9 @@ IDartsModelsService *DartsModelsServiceBuilder::buildModelsService() const
             ->setTournamentsDbContext(dartsTournamentsJsonDb)
             ->setDartsPointsDb(dartsPointDb)
             ->setDartsScoreDb(dartsScoreDb)
-            ->setGetOrderedDartsScoreModels(new SortPlayerInputsByPredicate)
             ->setGetTournamentByIndexService(new GetDartsTournamentByIndexService)
             ->setGetDartsTournamentByIdService(new GetDartsTournamentById)
-            ->setGetDartsInputModelByIdService(new GetDartsInputModelById)
-            ->setDartsPointModelHintService(new DartsInputModelHintService)
             ->setDeleteTournamentsByIndexes(new DeleteTournamentsByIndexesService)
-            ->setRemoveModelsService(new RemoveModelsFromDbContext)
-            ->setDartsPointLessThanPredicate(new DartsPointLessThanPredicate)
-            ->setDartsScoreLessThanPredicate(new DartsScoreLessThanPredicate)
-            ->setDartsInputsFilterService(new DartsInputsFilterService)
             ->setAssignPlayerIdsToDartsTournament(new AssignPlayerIdsToDartsTournamentModel);
     return dartsModelsService;
 }

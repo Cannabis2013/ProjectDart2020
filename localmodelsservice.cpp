@@ -24,7 +24,7 @@ void LocalModelsService::deleteTournaments(const QByteArray& json)
 
 void LocalModelsService::getOrderedDartsPoints(const QUuid &tournamentId)
 {
-    auto orderedDartsPointModels = _dartsModelsService->getDartsPointModelsOrdedByIndexes(tournamentId);
+    auto orderedDartsPointModels = _dartsPointInputService->getDartsPointModelsOrdedByIndexes(tournamentId);
     auto json = _dartsJsonService->assembleJsonOrderedDartsPointModels(orderedDartsPointModels,_playerModelsService);
     emit sendDartsSingleAttemptPoints(json);
 }
@@ -44,8 +44,8 @@ void LocalModelsService::handleRequestGameMode(const int &index)
 void LocalModelsService::addDartsPoint(const QByteArray &json)
 {
     auto model = DartsPointInput::fromJson(json,DisplayHint,true);
-    _dartsModelsService->addDartsPoint(model);
-    _dartsModelsService->removeHiddenPoints(model->tournamentId());
+    _dartsPointInputService->addDartsPoint(model);
+    _dartsPointInputService->removeHiddenPoints(model->tournamentId());
     auto playerName = _playerModelsService->playerNameById(model->playerId());
     auto alteredModel = _addPlayerNameToDartsInputModel->service(model,playerName);
     emit pointAddedToDataContext(alteredModel->toJson());
@@ -57,7 +57,7 @@ void LocalModelsService::resetDartsPointTournament(const QUuid &tournament)
      * - Remove models associated to the tournament
      * - Reset tournament winner
      */
-    _dartsModelsService->removePointsByTournamentId(tournament);
+    _dartsPointInputService->removePointsByTournamentId(tournament);
     _dartsModelsService->tournamentSetWinnerId(tournament,QUuid());
     emit tournamentResetSuccess();
 }
@@ -133,9 +133,12 @@ LocalModelsService* LocalModelsService::setDartsModelsService(IDartsModelsServic
 }
 
 
-void LocalModelsService::assembleDartsPointIndexes(const QUuid &tournament)
+void LocalModelsService::assembleDartsPointIndexes(const QUuid &tournamentId)
 {
-    auto indexes = _dartsModelsService->dartsPointIndexes(tournament);
+    auto dartsTournamentModel = _dartsModelsService->dartsTournamentModelById(tournamentId);
+    auto assignedPlayersCount = dartsTournamentModel->assignedPlayerIdentities().count();
+    auto models = _dartsPointInputService->dartsPointModelsByTournamentId(tournamentId);
+    auto indexes = _dartsPointInputService->dartsPointIndexes(models,assignedPlayersCount);
     auto json = _dartsJsonService->assembleJsonDartsPointIndexes(indexes);
     emit sendDartsPointIndexesAsJson(json);
 }
@@ -158,8 +161,8 @@ void LocalModelsService::hideDartsPoint(const QUuid& tournamentId,
                                         const int& attemptIndex)
 {
 
-    auto model = _dartsModelsService->dartsPointModel(tournamentId,playerId,roundIndex,attemptIndex);
-    _dartsModelsService->setDartsPointHint(model,HiddenHint);
+    auto model = _dartsPointInputService->dartsPointModel(tournamentId,playerId,roundIndex,attemptIndex);
+    _dartsPointInputService->setDartsPointHint(model,HiddenHint);
     emit hideDartsPointSuccess(model->toJson());
 }
 
@@ -168,8 +171,8 @@ void LocalModelsService::revealPoint(const QUuid &tournamentId,
                                      const int &roundIndex,
                                      const int &attemptIndex)
 {
-    auto model = _dartsModelsService->dartsPointModel(tournamentId,playerId,roundIndex,attemptIndex);
-    _dartsModelsService->setDartsPointHint(model,DisplayHint);
+    auto model = _dartsPointInputService->dartsPointModel(tournamentId,playerId,roundIndex,attemptIndex);
+    _dartsPointInputService->setDartsPointHint(model,DisplayHint);
     auto playerName = _playerModelsService->playerNameById(playerId);
     _addPlayerNameToDartsInputModel->service(model,playerName);
     emit revealDartsPointSuccess(model->toJson());
@@ -229,6 +232,12 @@ void LocalModelsService::assembleDartsTournamentWinnerIdAndName(const QUuid& tou
     emit sendDartsTournamentWinnerIdAndName(json);
 }
 
+LocalModelsService *LocalModelsService::setDartsPointInputService(IDartsPointModelsService *newDartsPointInputService)
+{
+    _dartsPointInputService = newDartsPointInputService;
+    return this;
+}
+
 LocalModelsService *LocalModelsService::setDartsScoreInputModelsService(IDartsScoreModelsService *service)
 {
     _dartsScoreInputService = service;
@@ -258,7 +267,7 @@ LocalModelsService *LocalModelsService::setDartsJsonService(IDartsJsonService *d
 
 void LocalModelsService::assembleAssignedPlayerPoints(const QUuid& tournamentId)
 {
-    auto json = _dartsJsonService->assembleJsonFromTournamentDartsPoints(tournamentId,_dartsModelsService);
+    auto json = _dartsJsonService->assembleJsonFromTournamentDartsPoints(tournamentId,_dartsPointInputService);
     emit sendTournamentDartsPointsAsJson(json);
 }
 

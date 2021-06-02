@@ -12,6 +12,7 @@
 #include "dartscontrollerbuilder.h"
 #include "connectdartsmultiattemptcontroller.h"
 #include "builddartsscoreservicewithlocaljsondb.h"
+#include "builddartspointservicewithlocaljsondb.h"
 
 class ApplicationBuilder
 {
@@ -27,6 +28,7 @@ public:
                 ->setModelsTournamentServiceBuilder(new DartsModelsServiceBuilder)
                 ->setPlayerServiceBuilder(new PlayerModelsServiceBuilder)
                 ->setDartsScoreModelsServiceBuilder(new BuildDartsScoreServiceWithLocalJsonDb)
+                ->setDartsPointModelsServiceBuilder(new BuildDartsPointServiceWithLocalJsonDb)
                 ->setDartsJSonServiceBuilder(new DartsJsonServiceBuilder);
 
         auto _dart =

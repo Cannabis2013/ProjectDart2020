@@ -4,6 +4,9 @@ using namespace DartsModelsContext;
 
 BuildDartsPointServiceWithLocalJsonDb::ServiceInterface *DartsModelsContext::BuildDartsPointServiceWithLocalJsonDb::buildModelsService() const
 {
+    auto dartsPointDb = DartsPointJsonDbService::createInstance(new AssembleSingleAttemptPointsFromJson,
+                                                            new AssembleJsonArrayFromDartsPoints);
+
     auto pointModelsService = DartsPointModelsService::createInstance()
             ->setDartsInputsFilterService(new DartsInputsFilterService)
             ->setAssembleDartsPointIndexes(new DartsSingleAttemptIndexesBuilder)
@@ -12,6 +15,6 @@ BuildDartsPointServiceWithLocalJsonDb::ServiceInterface *DartsModelsContext::Bui
             ->setGetInputModelByIdService(new GetDartsInputModelById)
             ->setRemoveModelsService(new RemoveModelsFromDbContext)
             ->setDartsInputHintService(new DartsInputModelHintService)
-            ->setDbService(new DartsPointJsonDbService);
+            ->setDbService(dartsPointDb);
     return pointModelsService;
 }

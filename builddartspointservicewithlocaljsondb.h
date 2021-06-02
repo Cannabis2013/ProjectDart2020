@@ -11,6 +11,8 @@
 #include "removemodelsfromdbcontext.h"
 #include "dartsinputmodelhintservice.h"
 #include "dartspointjsondbservice.h"
+#include "assemblesingleattemptpointsfromjson.h"
+#include "assemblejsonarrayfromdartspoints.h"
 namespace DartsModelsContext {
     class BuildDartsPointServiceWithLocalJsonDb : public IModelsServiceBuilder<IDartsPointModelsService>
     {
