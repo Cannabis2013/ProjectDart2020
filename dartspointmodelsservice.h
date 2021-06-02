@@ -50,8 +50,8 @@ namespace DartsModelsContext {
         void removePointById(const QUuid &pointModelId) override;
         void removeHiddenPoints(const QUuid &tournamentId) override;
         void removePointsByTournamentId(const QUuid &tournamentId) override;
-        QVector<const IDartsInput *> sortDartsPointsByIndexes(const QVector<const IDartsInput *> &models) const override;
-
+        QVector<const PlayerInput *> sortDartsPointsByIndexes(const QVector<const IPlayerInput *> &models) const override;
+        // Set service methods
         DartsPointModelsService* setDartsInputsFilterService(FilterDartsInputsService *newDartsInputsFilterService);
         DartsPointModelsService* setSortDartsInputModelsByPredicate(SortDartsInputsByPredicateService *newSortDartsInputModelsByPredicate);
         DartsPointModelsService* setAssembleDartsPointIndexes(IndexesBuilderService *newAssembleDartsPointIndexes);

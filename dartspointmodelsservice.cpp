@@ -10,8 +10,7 @@ DartsModelsContext::DartsPointModelsService *DartsModelsContext::DartsPointModel
 const DartsModelsContext::IDartsPointModelsService::PlayerInput *DartsModelsContext::DartsPointModelsService::dartsPointModel(const QUuid &tournamentId, const QUuid &playerId, const int &roundIndex, const int &attemptIndex) const
 {
     auto models = _dartsPointsDb->models();
-    auto pointModelsByAttemptIndex = _dartsInputsFilterService->filterByAttemptIndex(models,tournamentId,playerId,roundIndex,AllHints,attemptIndex);
-    auto firstModel = pointModelsByAttemptIndex.first();
+    auto firstModel = _dartsInputsFilterService->filterByAttemptIndex(models,tournamentId,playerId,roundIndex,AllHints,attemptIndex);
     return firstModel;
 }
 
@@ -128,7 +127,7 @@ DartsPointModelsService *DartsPointModelsService::setDbService(IDartsPointDb *ne
     _dartsPointsDb = newDartsPointsDb;
     return this;
 }
-QVector<const IDartsInput *> DartsModelsContext::DartsPointModelsService::sortDartsPointsByIndexes(const QVector<const IDartsInput*>& models) const
+QVector<const IDartsPointModelsService::PlayerInput *> DartsModelsContext::DartsPointModelsService::sortDartsPointsByIndexes(const QVector<const IPlayerInput*>& models) const
 {
     auto sortedModels = _sortDartsInputModelsByPredicate->service(models,_dartsPointLessThanPredicate);
     return sortedModels;

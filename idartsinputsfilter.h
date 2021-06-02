@@ -9,7 +9,8 @@ namespace DartsModelsContext {
     class IDartsInputsFilter
     {
     public:
-        typedef QVector<const TBaseModel*> Models;
+        typedef TBaseModel Model;
+        typedef QVector<const Model*> Models;
         typedef TUuid UniqueId;
         virtual Models filterByTournamentId(const Models& models, const UniqueId& id) const = 0;
         virtual Models filterByPlayerId(const Models& models, const UniqueId& tournamentId, const UniqueId& playerId) const = 0;
@@ -26,12 +27,12 @@ namespace DartsModelsContext {
                               const UniqueId& tournamentId,
                               const UniqueId& playerId,
                               const int& roundIndex) const = 0;
-        virtual Models filterByAttemptIndex(const Models& models,
-                                            const UniqueId& tournamentId,
-                                            const UniqueId& playerId,
-                                            const int& roundIndex,
-                                            const int &hint,
-                                            const int& attemptIndex) const = 0;
+        virtual const Model* filterByAttemptIndex(const Models& models,
+                                           const UniqueId& tournamentId,
+                                           const UniqueId& playerId,
+                                           const int& roundIndex,
+                                           const int &hint,
+                                           const int& attemptIndex) const = 0;
     };
 }
 

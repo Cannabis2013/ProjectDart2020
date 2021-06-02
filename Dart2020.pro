@@ -221,7 +221,9 @@ HEADERS += \
     idartssingleattemptindexservice.h \
     idartstournamentdb.h \
     idartstournamentbuilder.h\
+    idbservicemanipulator.h \
     ifilterpredicatebuilder.h \
+    igetinputmodelsservice.h \
     ijsonmodelsservice.h \
     imodelsdbcontext.h \
     imodelsservicebuilder.h \

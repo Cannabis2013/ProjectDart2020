@@ -8,12 +8,12 @@
 namespace DartsModelsContext {
     class GetDartsInputModelById :
             public IBinaryService<const QUuid&,
-                                  const IModelsDbContext<IDartsInput,QUuid>*,
-                                  const IDartsInput*>
+                                  const IModelsDbContext<IPlayerInput,QUuid>*,
+                                  const IPlayerInput*>
     {
     public:
-        typedef IModelsDbContext<IDartsInput,QUuid> ModelsDbService;
-        const IDartsInput* service(const QUuid& pointId, const ModelsDbService* dbService) override
+        typedef IModelsDbContext<IPlayerInput,QUuid> ModelsDbService;
+        const IPlayerInput* service(const QUuid& pointId, const ModelsDbService* dbService) override
         {
             auto models = dbService->models();
             for (const auto& model : models) {

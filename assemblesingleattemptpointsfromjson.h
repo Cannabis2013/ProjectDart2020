@@ -10,10 +10,10 @@
 namespace DartsModelsContext {
     class AssembleSingleAttemptPointsFromJson : public IUnaryService<
             const QJsonArray&,
-            QVector<const IDartsInput*>>
+            QVector<const IPlayerInput*>>
     {
     public:
-        QVector<const IDartsInput*> service(const QJsonArray &arr) override;
+        QVector<const IPlayerInput*> service(const QJsonArray &arr) override;
     private:
         const DartsModelsContext::DartsPointInput* assembleModelFromJsonObject(const QJsonObject& jsonObject);
     };

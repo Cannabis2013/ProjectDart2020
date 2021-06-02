@@ -17,6 +17,8 @@
 #include "idartspointmodelsservice.h"
 #include "idartspointdb.h"
 #include "idartsscoredb.h"
+#include "idbservicemanipulator.h"
+#include "igetinputmodelsservice.h"
 
 class LocalModelsService : public AbstractModelsService
 {
@@ -37,25 +39,24 @@ public:
     };
     // Typedefs ;
     typedef IDartsTournamentBuilder<IDartsTournament,QByteArray> DartsTournamentBuilder;
+    typedef IDbServiceManipulator<IModelsDbContext<IDartsInput,QUuid>,QUuid> DbServiceManipulator;
+    typedef IGetInputModelsService<IPlayerInput,QUuid,IModelsDbContext<IPlayerInput,QUuid>> GetInputModelsService;
     /*
      * Create instance
      */
     static LocalModelsService* createInstance();
 
-    // Set model service methods
+    // Set service methods
     LocalModelsService* setDartsModelsService(IDartsModelsService *dartsModelsService);
     LocalModelsService* setPlayerModelsService(IPlayerModelsService *playerModelsContext);
     LocalModelsService* setDartsJsonService(IDartsJsonService *dartsJsonService);
     LocalModelsService* setAddPlayerNameToDartsInputModel(IBinaryService<const IDartsInput *, const QString &, const IDartsInput *> *newAddPlayerNameToScoreModel);
     LocalModelsService* setDartsTournamentBuilder(DartsTournamentBuilder *newDartsTournamentBuilder);
-
     LocalModelsService* setDartsScoreInputModelsService(IDartsScoreModelsService *service);
     LocalModelsService* setDartsPointInputService(IDartsPointModelsService *newDartsPointInputService);
-
-    void setDartsPointInputDb(IDartsPointDb *newDartsPointInputDb);
-
-    void setDartsScoreInputDb(IDartsScoreDb *newDartsScoreInputDb);
-
+    LocalModelsService* setDartsPointInputDb(IDartsPointDb *newDartsPointInputDb);
+    LocalModelsService* setDartsScoreInputDb(IDartsScoreDb *newDartsScoreInputDb);
+    LocalModelsService* setDbManipulatorService(DbServiceManipulator *newDbManipulatorService);
 public slots:
     /*
      * General tournaments methods
@@ -122,10 +123,11 @@ private:
     IBinaryService<const IDartsInput*,
                    const QString&,
                    const IDartsInput*>* _addPlayerNameToDartsInputModel;
+    // Db manipulator services
+    DbServiceManipulator* _dbManipulatorService;
     // Db services
     IDartsPointDb* _dartsPointInputDb;
     IDartsScoreDb* _dartsScoreInputDb;
-
 };
 
 #endif // MODELCONTEXTINTERFACE_H

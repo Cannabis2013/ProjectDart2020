@@ -6,7 +6,7 @@
 
 namespace DartsModelsContext {
     class DartsInputsFilterService : public
-            IDartsInputsFilter<IDartsInput,QUuid>
+            IDartsInputsFilter<IPlayerInput,QUuid>
     {
     public:
         enum ModelDisplayHint{
@@ -21,7 +21,7 @@ namespace DartsModelsContext {
         Models filterByHint(const Models &models, const UniqueId &tournamentId, const int &hint) const override;
         Models filterByHint(const Models &models, const UniqueId &tournamentId, const UniqueId &playerId, const int &hint) const override;
         Models filterByRoundIndex(const Models &models, const UniqueId &tournamentId, const UniqueId &playerId, const int &roundIndex) const override;
-        Models filterByAttemptIndex(const Models &models, const UniqueId &tournamentId, const UniqueId &playerId, const int &roundIndex, const int &hint, const int &attemptIndex) const override;
+        const Model* filterByAttemptIndex(const Models &models, const UniqueId &tournamentId, const UniqueId &playerId, const int &roundIndex, const int &hint, const int &attemptIndex) const override;
     };
 }
 

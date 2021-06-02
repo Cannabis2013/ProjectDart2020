@@ -14,21 +14,21 @@ namespace DartsModelsContext
             public AbstractJSONPersistence
     {
     public:
-        typedef QVector<const IDartsInput*> PlayerInputs;
+        typedef QVector<const IPlayerInput*> PlayerInputs;
         typedef IUnaryService<const QJsonArray &, PlayerInputs> JsonExtractor;
         typedef IUnaryService<const PlayerInputs&,QJsonArray> JsonAssembler;
         static DartsPointJsonDbService* createInstance(JsonExtractor* extractor, JsonAssembler* assembler);
         void fetchModels() override;
         void saveState() override;
-        void addModel(const IDartsInput* model) override;
-        const IDartsInput *getModelByIndex(const int &index) const override;
-        QVector<const IDartsInput*> models() const override;
+        void addModel(const IPlayerInput* model) override;
+        const IPlayerInput *getModelByIndex(const int &index) const override;
+        QVector<const IPlayerInput*> models() const override;
         bool removeModelByIndex(const int &index) override;
         bool removeModelById(const QUuid&id) override;
-        int indexOfModel(const IDartsInput* score) override;
-        void replaceModel(const int &index, const IDartsInput* point) override;
-        const IDartsInput *modelById(const QUuid &id) const override;
-        const IDartsInput *modelByIndex(const int&index) const override;
+        int indexOfModel(const IPlayerInput* score) override;
+        void replaceModel(const int &index, const IPlayerInput* point) override;
+        const IPlayerInput *modelById(const QUuid &id) const override;
+        const IPlayerInput *modelByIndex(const int&index) const override;
         // Set service methods
         DartsPointJsonDbService* setDartsPointsExtractorService(JsonExtractor *dartsPointsExtractor);
         DartsPointJsonDbService* setDartsPointsJsonAssemblerService(JsonAssembler* dartsSingleAttemptPointInputAssembler);

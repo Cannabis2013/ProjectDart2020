@@ -10,7 +10,7 @@
 #include <qjsonarray.h>
 
 namespace DartsModelsContext {
-    typedef QVector<const IDartsInput*> ModelsList;
+    typedef QVector<const IPlayerInput*> ModelsList;
     class AssembleJsonArrayFromDartsPoints :
             public IUnaryService<const ModelsList&,QJsonArray>
     {

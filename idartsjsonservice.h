@@ -25,7 +25,7 @@ public:
     virtual QByteArray assembleJsonFromPlayerNamesAndIds(const QVector<QUuid>&, const QVector<QString>&) const = 0;
     virtual QByteArray assembleJsonFromTournamentDartsPoints(const QUuid&,const IDartsPointModelsService*) const = 0;
     virtual QJsonArray jsonArrayFromDartsScores(const QUuid&, const IDartsScoreModelsService*) const = 0;
-    virtual QByteArray assembleJsonOrderedDartsPointModels(const QVector<const IDartsInput*>&,
+    virtual QByteArray assembleJsonOrderedDartsPointModels(const QVector<const IPlayerInput*>&,
                                                            const IPlayerModelsService*) const = 0;
     virtual QByteArray addPlayerNamesToDartsTournamentJson(const QByteArray&,
                                                         const QVector<QString>&) const = 0;

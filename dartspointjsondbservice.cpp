@@ -3,7 +3,7 @@
 using namespace DartsModelsContext;
 
 DartsPointJsonDbService *DartsPointJsonDbService::createInstance(JsonExtractor* extractor,
-                                                         JsonAssembler* assembler)
+                                                                 JsonAssembler* assembler)
 {
 
     auto dbService = new DartsPointJsonDbService;
@@ -39,19 +39,19 @@ void DartsPointJsonDbService::saveState()
     writeJsonObjectToFile(modelJson,_fileName);
 }
 
-void DartsPointJsonDbService::addModel(const IDartsInput *model)
+void DartsPointJsonDbService::addModel(const IPlayerInput *model)
 {
     _dartsPointModels.append(model);
     saveState();
 }
 
-const IDartsInput *DartsPointJsonDbService::getModelByIndex(const int &index) const
+const IPlayerInput *DartsPointJsonDbService::getModelByIndex(const int &index) const
 {
     auto model = _dartsPointModels.at(index);
     return model;
 }
 
-QVector<const IDartsInput *> DartsPointJsonDbService::models() const
+QVector<const IPlayerInput *> DartsPointJsonDbService::models() const
 {
     return _dartsPointModels;
 }
@@ -65,19 +65,19 @@ bool DartsPointJsonDbService::removeModelByIndex(const int &index)
     return true;
 }
 
-int DartsPointJsonDbService::indexOfModel(const IDartsInput *score)
+int DartsPointJsonDbService::indexOfModel(const IPlayerInput *score)
 {
     auto index = _dartsPointModels.indexOf(score);
     return index;
 }
 
-void DartsPointJsonDbService::replaceModel(const int &index, const IDartsInput *point)
+void DartsPointJsonDbService::replaceModel(const int &index, const IPlayerInput *point)
 {
     _dartsPointModels.replace(index,point);
     saveState();
 }
 
-const IDartsInput *DartsPointJsonDbService::modelById(const QUuid &id) const
+const IPlayerInput *DartsPointJsonDbService::modelById(const QUuid &id) const
 {
     for (const auto& model : _dartsPointModels) {
         if(model->id() == id)
@@ -86,7 +86,7 @@ const IDartsInput *DartsPointJsonDbService::modelById(const QUuid &id) const
     return nullptr;
 }
 
-const IDartsInput *DartsPointJsonDbService::modelByIndex(const int &index) const
+const IPlayerInput *DartsPointJsonDbService::modelByIndex(const int &index) const
 {
     auto model = _dartsPointModels.at(index);
     return model;

@@ -6,12 +6,12 @@
 
 namespace DartsModelsContext {
     class DartsInputModelHintService :
-            public IBinaryService<const IDartsInput*,const int&, const IDartsInput*>
+            public IBinaryService<const IPlayerInput*,const int&, const IPlayerInput*>
     {
     public:
-        const IDartsInput* service(const IDartsInput* model, const int& hint) override
+        const IPlayerInput* service(const IPlayerInput* model, const int& hint) override
         {
-            auto alteredModel = const_cast<IDartsInput*>(model);
+            auto alteredModel = const_cast<IPlayerInput*>(model);
             alteredModel->setHint(hint);
             return alteredModel;
         }

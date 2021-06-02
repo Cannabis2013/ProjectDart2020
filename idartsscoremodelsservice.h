@@ -7,8 +7,8 @@ namespace DartsModelsContext {
     class IDartsScoreModelsService
     {
     public:
-        typedef IDartsInput PlayerInput;
-        typedef QVector<const IDartsInput*> PlayerInputs;
+        typedef IPlayerInput PlayerInput;
+        typedef QVector<const PlayerInput*> PlayerInputs;
         virtual const PlayerInput *dartsScoreModel(const QUuid &tournamentId,
                                                    const QUuid &playerId,
                                                    const int &roundIndex) const = 0;

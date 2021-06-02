@@ -14,14 +14,14 @@ namespace DartsModelsContext {
         typedef IUnaryService<const QJsonObject &, QVector<const IDartsScoreInput*>> JsonExtractor;
         typedef IUnaryService<const QVector<const IDartsScoreInput*>&,QJsonObject> JsonAssembler;
         static DartsScoreJsonDb* createInstance(JsonExtractor* extractor, JsonAssembler* assembler);
-        void addModel(const IDartsInput* model) override;
+        void addModel(const IPlayerInput* model) override;
         const IDartsScoreInput *modelByIndex(const int &index) const override;
         const IDartsScoreInput *modelById(const QUuid &id) const override;
-        QVector<const IDartsInput *> models() const override;
+        QVector<const IPlayerInput *> models() const override;
         bool removeModelByIndex(const int &index) override;
         bool removeModelById(const QUuid &id) override;
-        int indexOfModel(const IDartsInput* model) override;
-        void replaceModel(const int &index, const IDartsInput* model) override;
+        int indexOfModel(const IPlayerInput* model) override;
+        void replaceModel(const int &index, const IPlayerInput* model) override;
         // Json services
         DartsScoreJsonDb* setDartsScoresExtractorService(JsonExtractor *dartsScoresExtractor);
         DartsScoreJsonDb* setDartsScoresJsonAssemblerService(JsonAssembler *dartsScoresJsonAssemblerService);

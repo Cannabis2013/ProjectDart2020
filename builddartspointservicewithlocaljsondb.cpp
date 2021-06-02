@@ -5,7 +5,7 @@ using namespace DartsModelsContext;
 BuildDartsPointServiceWithLocalJsonDb::ServiceInterface *DartsModelsContext::BuildDartsPointServiceWithLocalJsonDb::buildModelsService() const
 {
     auto dartsPointDb = DartsPointJsonDbService::createInstance(new AssembleSingleAttemptPointsFromJson,
-                                                            new AssembleJsonArrayFromDartsPoints);
+                                                                new AssembleJsonArrayFromDartsPoints);
 
     auto pointModelsService = DartsPointModelsService::createInstance()
             ->setDartsInputsFilterService(new DartsInputsFilterService)

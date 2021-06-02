@@ -3,7 +3,7 @@
 using namespace DartsModelsContext;
 
 QJsonArray AssembleJsonArrayFromDartsPoints::service(const ModelsList &modelsList)
-{
+    {
     QJsonArray resultingJsonArray;
     for (const auto& model : modelsList) {
         auto dartsPoint = dynamic_cast<const IDartsPointInput*>(model);
