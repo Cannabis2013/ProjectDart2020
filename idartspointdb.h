@@ -12,6 +12,7 @@ namespace DartsModelsContext
             public IPersistence
     {
     public:
+        // IModelsDbContext interface
         virtual void addModel(const IDartsInput* model) override = 0;
         virtual const IDartsInput* getModelByIndex(const int& index) const = 0;
         virtual QVector<const IDartsInput*> models() const override = 0;
@@ -21,6 +22,9 @@ namespace DartsModelsContext
         virtual void replaceModel(const int&, const IDartsInput*) override = 0;
         virtual const IDartsInput *modelByIndex(const int &) const override = 0;
         virtual const IDartsInput *modelById(const QUuid &) const override = 0;
+        // IPersistence interface
+        virtual void fetchModels() override = 0;
+        virtual void saveState() override = 0;
     };
 }
 

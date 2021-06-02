@@ -19,9 +19,10 @@ namespace DartsModelsContext {
         };
         const IDartsPointIndexes* buildIndexes(const QVector<const IDartsInput*>& orderedModels,
                                                const int& assignedPlayersCount,
+                                               const int& totalInputModelsCount,
                                                const int& numberOfAttempts) const override;
     private:
-        const IDartsPointIndexes* assembleDartsIndexesByModels(const QVector<const IDartsInput*>& orderedModels,
+        const IDartsPointIndexes* assembleDartsIndexesByModels(const QVector<const IDartsInput*>& orderedModels, const int &totalInputModelsCount,
                                                                const int& assignedPlayersCount,
                                                                const int& attempts) const;;
         const IDartsPointIndexes* assembleInitialDartsIndexes() const;

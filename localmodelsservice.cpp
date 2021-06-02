@@ -138,7 +138,8 @@ void LocalModelsService::assembleDartsPointIndexes(const QUuid &tournamentId)
     auto dartsTournamentModel = _dartsModelsService->dartsTournamentModelById(tournamentId);
     auto assignedPlayersCount = dartsTournamentModel->assignedPlayerIdentities().count();
     auto models = _dartsPointInputService->dartsPointModelsByTournamentId(tournamentId);
-    auto indexes = _dartsPointInputService->dartsPointIndexes(models,assignedPlayersCount);
+    auto c = _dartsPointInputService->dartsPointsCount(tournamentId,DisplayHint);
+    auto indexes = _dartsPointInputService->dartsPointIndexes(models,assignedPlayersCount,c);
     auto json = _dartsJsonService->assembleJsonDartsPointIndexes(indexes);
     emit sendDartsPointIndexesAsJson(json);
 }
@@ -183,8 +184,8 @@ void LocalModelsService::hideDartsScore(const QUuid& tournamentId,
                                         const int& roundIndex)
 {
     auto dartsScoreModel = _dartsScoreInputService->dartsScoreModel(tournamentId,
-                                                                          playerId,
-                                                                          roundIndex);
+                                                                    playerId,
+                                                                    roundIndex);
     _dartsScoreInputService->setDartsScoreHint(dartsScoreModel,
                                                        ModelDisplayHint::HiddenHint);
     auto playerName = _playerModelsService->playerNameById(playerId);
@@ -230,6 +231,16 @@ void LocalModelsService::assembleDartsTournamentWinnerIdAndName(const QUuid& tou
     auto winnerName = _playerModelsService->playerNameById(model->winnerId());
     auto json = _dartsJsonService->assembleJsonByPlayerIdAndName(model->winnerId(),winnerName);
     emit sendDartsTournamentWinnerIdAndName(json);
+}
+
+void LocalModelsService::setDartsScoreInputDb(IDartsScoreDb *newDartsScoreInputDb)
+{
+    _dartsScoreInputDb = newDartsScoreInputDb;
+}
+
+void LocalModelsService::setDartsPointInputDb(IDartsPointDb *newDartsPointInputDb)
+{
+    _dartsPointInputDb = newDartsPointInputDb;
 }
 
 LocalModelsService *LocalModelsService::setDartsPointInputService(IDartsPointModelsService *newDartsPointInputService)

@@ -15,6 +15,8 @@
 #include "idartstournamentbuilder.h"
 #include "idartsscoremodelsservice.h"
 #include "idartspointmodelsservice.h"
+#include "idartspointdb.h"
+#include "idartsscoredb.h"
 
 class LocalModelsService : public AbstractModelsService
 {
@@ -49,6 +51,10 @@ public:
 
     LocalModelsService* setDartsScoreInputModelsService(IDartsScoreModelsService *service);
     LocalModelsService* setDartsPointInputService(IDartsPointModelsService *newDartsPointInputService);
+
+    void setDartsPointInputDb(IDartsPointDb *newDartsPointInputDb);
+
+    void setDartsScoreInputDb(IDartsScoreDb *newDartsScoreInputDb);
 
 public slots:
     /*
@@ -116,6 +122,9 @@ private:
     IBinaryService<const IDartsInput*,
                    const QString&,
                    const IDartsInput*>* _addPlayerNameToDartsInputModel;
+    // Db services
+    IDartsPointDb* _dartsPointInputDb;
+    IDartsScoreDb* _dartsScoreInputDb;
 
 };
 

@@ -40,6 +40,7 @@ namespace DartsModelsContext {
         const PlayerInput *dartsPointModel(const QUuid &tournamentId, const QUuid &playerId, const int &roundIndex, const int &attemptIndex) const override;
         PlayerInputs dartsPointModelsByTournamentId(const QUuid &tournamentId) const override;
         const IDartsPointIndexes *dartsPointIndexes(const QVector<const IDartsInput*>& models,
+                                                    const int& totalInputModelsCount,
                                                     const int& assignedPlayersCount) const override;
         void addDartsPoint(const PlayerInput *model) override;
         PlayerInputs getDartsPointModelsOrdedByIndexes(const QUuid &tournamentId) const override;

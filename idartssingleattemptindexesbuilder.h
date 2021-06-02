@@ -9,6 +9,7 @@ namespace DartsModelsContext{
         typedef TInputModelInterface InputModelInterface;
         typedef TIndexesInterface IndexesInterface;
         virtual const IndexesInterface* buildIndexes(const QVector<const InputModelInterface*>& inputModels,
+                                                     const int& totalInputModelsCount,
                                                      const int& assignedPlayerCount,
                                                      const int& numberOfAttempts) const = 0;
     };

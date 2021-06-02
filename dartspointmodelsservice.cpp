@@ -23,9 +23,10 @@ DartsModelsContext::IDartsPointModelsService::PlayerInputs DartsModelsContext::D
 }
 
 const DartsModelsContext::IDartsPointIndexes *DartsModelsContext::DartsPointModelsService::dartsPointIndexes(const QVector<const IDartsInput*>& models,
+                                                                                                             const int& totalInputModelsCount,
                                                                                                              const int& assignedPlayersCount) const
 {
-    auto indexes = _assembleDartsPointIndexes->buildIndexes(models,assignedPlayersCount,models.count());
+    auto indexes = _assembleDartsPointIndexes->buildIndexes(models,assignedPlayersCount,totalInputModelsCount,models.count());
     return indexes;
 }
 
@@ -132,5 +133,3 @@ QVector<const IDartsInput *> DartsModelsContext::DartsPointModelsService::sortDa
     auto sortedModels = _sortDartsInputModelsByPredicate->service(models,_dartsPointLessThanPredicate);
     return sortedModels;
 }
-
-
