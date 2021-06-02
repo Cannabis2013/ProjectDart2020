@@ -16,7 +16,7 @@ namespace DartsModelsContext {
                                                    const int& attemptIndex) const = 0;
         virtual PlayerInputs dartsPointModelsByTournamentId(const QUuid& tournamentId) const = 0;
         virtual QVector<const PlayerInput*> sortDartsPointsByIndexes(const QVector<const PlayerInput*>& models) const = 0;
-        virtual const IDartsPointIndexes* dartsPointIndexes(const QVector<const IDartsInput*>& models,
+        virtual const IDartsPointIndexes* dartsPointIndexes(const QVector<const PlayerInput*>& models,
                                                             const int& totalInputModelsCount,
                                                             const int& assignedPlayersCount) const = 0;
         virtual void addDartsPoint(const PlayerInput*) = 0;

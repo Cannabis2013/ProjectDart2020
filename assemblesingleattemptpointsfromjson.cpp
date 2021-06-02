@@ -2,9 +2,9 @@
 
 using namespace DartsModelsContext;
 
-QVector<const IPlayerInput *> AssembleSingleAttemptPointsFromJson::service(const QJsonArray &arr)
+QVector<const IModel<QUuid,QByteArray> *> AssembleSingleAttemptPointsFromJson::service(const QJsonArray &arr)
 {
-    QVector<const IPlayerInput*> list;
+    QVector<const IModel<QUuid,QByteArray>*> list;
     for (const auto& jsonValue : arr) {
         auto jsonObject = jsonValue.toObject();
         auto model = assembleModelFromJsonObject(jsonObject);

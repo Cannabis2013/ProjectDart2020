@@ -5,7 +5,7 @@
 #include <quuid.h>
 #include <qstring.h>
 
-class IPlayerModel : public IModel<QUuid>
+class IPlayerModel : public IModel<QUuid,QByteArray>
 {
 public:
     virtual QString playerName() const = 0;

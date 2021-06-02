@@ -12,14 +12,14 @@ namespace DartsModelsContext {
             public IPersistence
     {
     public:
-        virtual void addModel(const IPlayerInput* model) override = 0;
-        virtual const IDartsScoreInput* modelByIndex(const int&) const override = 0;
-        virtual const IDartsScoreInput* modelById(const QUuid&) const override = 0;
-        virtual QVector<const IPlayerInput*> models() const override = 0;
+        virtual void addModel(const Model* model) override = 0;
+        virtual const Model* modelByIndex(const int&) const override = 0;
+        virtual const Model* modelById(const QUuid&) const override = 0;
+        virtual QVector<const Model*> models() const override = 0;
         virtual bool removeModelByIndex(const int&) override = 0;
         virtual bool removeModelById(const QUuid&) override = 0;
-        virtual int indexOfModel(const IPlayerInput*) override = 0;
-        virtual void replaceModel(const int&, const IPlayerInput*) override = 0;
+        virtual int indexOfModel(const Model*) override = 0;
+        virtual void replaceModel(const int&, const Model*) override = 0;
     };
 }
 

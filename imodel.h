@@ -1,8 +1,10 @@
 #ifndef MODELINTERFACE_H
 #define MODELINTERFACE_H
 
-template<class TUuid>
-class IModel
+#include "ijsonmodelsservice.h"
+
+template<class TUuid, typename TjsonFormat>
+class IModel : public IJsonModelsService<TjsonFormat>
 {
 public:
     virtual TUuid id() const = 0;

@@ -14,10 +14,10 @@ namespace JsonExtractorContext {
 }
 
 class DartsTournamentJsonExtractor :
-        public IUnaryService<const QJsonArray&,QVector<const IModel<QUuid>*>>
+        public IUnaryService<const QJsonArray&,QVector<const IModel<QUuid,QByteArray>*>>
 {
 public:
-    QVector<const IModel<QUuid>*> service(const QJsonArray& arr) override;
+    QVector<const IModel<QUuid,QByteArray>*> service(const QJsonArray& arr) override;
 };
 
 #endif // DARTSTOURNAMENTJSONEXTRACTOR_H

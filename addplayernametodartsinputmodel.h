@@ -7,15 +7,16 @@
 #include <qjsonobject.h>
 
 class AddPlayerNameToDartsInputModel :
-        public IBinaryService<const DartsModelsContext::IDartsInput*,
+        public IBinaryService<const IModel<QUuid,QByteArray>*,
                               const QString&,
-                              const DartsModelsContext::IDartsInput*>
+                              const IModel<QUuid,QByteArray>*>
 {
 public:
-    const DartsModelsContext::IDartsInput* service(const DartsModelsContext::IDartsInput* dartsScore,
+    const IModel<QUuid,QByteArray>* service(const IModel<QUuid,QByteArray>* dartsScore,
                                                         const QString& playerName) override
     {
-        auto mutableModel = const_cast<DartsModelsContext::IDartsInput*>(dartsScore);
+        auto inputModel = dynamic_cast<const IPlayerInput*>(dartsScore);
+        auto mutableModel = const_cast<IPlayerInput*>(inputModel);
         mutableModel->setPlayerName(playerName);
         return mutableModel;
     }

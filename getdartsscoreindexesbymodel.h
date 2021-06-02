@@ -9,7 +9,7 @@
 #include "idartsmultiattemptindexesbuilder.h"
 
 class GetDartsScoreIndexesByModel : public
-        IDartsMultiAttemptIndexesBuilder<IDartsScoreIndexes,IPlayerInput>
+        IDartsMultiAttemptIndexesBuilder<IDartsScoreIndexes,IModel<QUuid,QByteArray>>
 {
 public:
     enum ModelDisplayHint{
@@ -17,7 +17,7 @@ public:
         DisplayHint = 0x2,
         allHints = HiddenHint | DisplayHint
     };
-    const IDartsScoreIndexes* buildIndexes(const QVector<const IPlayerInput*>& orderedModels,
+    const IDartsScoreIndexes* buildIndexes(const QVector<const IModel<QUuid,QByteArray>*>& orderedModels,
                                            const int& assignedPlayersCount) const override
     {
         if(!orderedModels.isEmpty())
@@ -25,7 +25,7 @@ public:
         return assembleInitialDartsIndexes();
     }
 private:
-    const IDartsScoreIndexes* assembleDartsIndexesByModels(const QVector<const IPlayerInput*>& orderedModels,
+    const IDartsScoreIndexes* assembleDartsIndexesByModels(const QVector<const IModel<QUuid,QByteArray>*>& orderedModels,
                                                            const int& assignedPlayersCount) const
     {
         auto indexes = DartsScoreIndexes::createInstance();

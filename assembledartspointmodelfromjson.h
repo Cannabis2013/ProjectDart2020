@@ -9,7 +9,7 @@
 
 namespace DartsModelsContext{
     class AssembleDartsPointModelFromJson :
-            public IUnaryService<const QByteArray&,const IDartsInput*>
+            public IUnaryService<const QByteArray&,const IModel<QUuid,QByteArray>*>
     {
     public:
         enum ModelDisplayHint{
@@ -17,7 +17,7 @@ namespace DartsModelsContext{
             DisplayHint = 0x2,
             allHints = 0x3
         };
-        const IDartsInput* service(const QByteArray& json) override
+        const IModel<QUuid,QByteArray>* service(const QByteArray& json) override
         {
             using namespace DartsModelsContext;
             auto jsonObject = QJsonDocument::fromJson(json).object();

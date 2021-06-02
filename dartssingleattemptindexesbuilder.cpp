@@ -1,7 +1,7 @@
 #include "dartssingleattemptindexesbuilder.h"
 using namespace DartsModelsContext;
 
-const IDartsPointIndexes *DartsSingleAttemptIndexesBuilder::buildIndexes(const QVector<const IDartsInput *> &orderedModels,
+const IDartsPointIndexes *DartsSingleAttemptIndexesBuilder::buildIndexes(const QVector<const IModel<QUuid,QByteArray> *> &orderedModels,
                                                                          const int &assignedPlayersCount, const int &totalInputModelsCount,
                                                                          const int &numberOfAttempts) const
 {
@@ -10,7 +10,7 @@ const IDartsPointIndexes *DartsSingleAttemptIndexesBuilder::buildIndexes(const Q
     return assembleInitialDartsIndexes();
 }
 
-const IDartsPointIndexes *DartsSingleAttemptIndexesBuilder::assembleDartsIndexesByModels(const QVector<const IDartsInput *> &orderedModels,
+const IDartsPointIndexes *DartsSingleAttemptIndexesBuilder::assembleDartsIndexesByModels(const QVector<const IModel<QUuid,QByteArray> *> &orderedModels,
                                                                                          const int& totalInputModelsCount,
                                                                                          const int &assignedPlayersCount,
                                                                                          const int &attempts) const

@@ -6,14 +6,15 @@
 
 namespace DartsModelsContext {
     class DartsInputModelHintService :
-            public IBinaryService<const IPlayerInput*,const int&, const IPlayerInput*>
+            public IBinaryService<const IModel<QUuid,QByteArray>*,const int&, const IModel<QUuid,QByteArray>*>
     {
     public:
-        const IPlayerInput* service(const IPlayerInput* model, const int& hint) override
+        const IModel<QUuid,QByteArray>* service(const IModel<QUuid,QByteArray>* model, const int& hint) override
         {
-            auto alteredModel = const_cast<IPlayerInput*>(model);
-            alteredModel->setHint(hint);
-            return alteredModel;
+            auto inputModel = dynamic_cast<const IPlayerInput*>(model);
+            auto mutableModel = const_cast<IPlayerInput*>(inputModel);
+            mutableModel->setHint(hint);
+            return mutableModel;
         }
     };
 }

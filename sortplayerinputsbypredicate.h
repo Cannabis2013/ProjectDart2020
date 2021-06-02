@@ -10,16 +10,16 @@
 namespace DartsModelsContext
 {   
     class SortPlayerInputsByPredicate :
-            public IBinaryService<const QVector<const IPlayerInput*>&,
+            public IBinaryService<const QVector<const IModel<QUuid,QByteArray>*>&,
                                   const IPredicate*,
-                                  QVector<const IPlayerInput*>>
+                                  QVector<const IModel<QUuid,QByteArray>*>>
     {
         // IBinaryService interface
     public:
-        QVector<const IPlayerInput*> service(const QVector<const IPlayerInput*>& dartsPointModels,
+        QVector<const IModel<QUuid,QByteArray>*> service(const QVector<const IModel<QUuid,QByteArray>*>& dartsPointModels,
                                              const IPredicate* predicate) override
         {
-            QVector<const IPlayerInput*> sortedList = dartsPointModels;
+            QVector<const IModel<QUuid,QByteArray>*> sortedList = dartsPointModels;
             std::sort(sortedList.begin(),sortedList.end(),ComparePredicate(predicate));
             return dartsPointModels;
         }
@@ -29,7 +29,7 @@ namespace DartsModelsContext
         public:
             ComparePredicate(const IPredicate* predicate):
                 _predicate(predicate){}
-            bool operator()(const IDartsInput* _first, const IDartsInput* _second)
+            bool operator()(const IModel<QUuid,QByteArray>* _first, const IModel<QUuid,QByteArray>* _second)
             {
                 return _predicate->operator()(_first,_second);
             }

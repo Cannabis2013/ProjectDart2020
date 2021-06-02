@@ -6,8 +6,7 @@
 #include "ijsonmodelsservice.h"
 
 class ITournament :
-        public IModel<QUuid>,
-        public IJsonModelsService<QByteArray>
+        public IModel<QUuid,QByteArray>
 {
 public:
     virtual QString title() const = 0;

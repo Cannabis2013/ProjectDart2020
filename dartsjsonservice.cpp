@@ -47,7 +47,7 @@ QJsonArray DartsJsonService::jsonArrayFromDartsScores(const QUuid &tournamentId,
     return jsonArray;
 }
 
-QByteArray DartsJsonService::assembleJsonOrderedDartsPointModels(const QVector<const IPlayerInput *> &pointModels,
+QByteArray DartsJsonService::assembleJsonOrderedDartsPointModels(const QVector<const IModel<QUuid,QByteArray> *> &pointModels,
                                                                  const IPlayerModelsService *playerModelsService) const
 {
     auto json = _assembleJsonOrderedDartsPointModels->service(pointModels,playerModelsService);
@@ -97,7 +97,7 @@ int DartsJsonService::getDeletePlayerIndexFromJson(const QByteArray &json) const
     return index;
 }
 
-const IDartsInput *DartsJsonService::assembleDartsPointModelFromJson(const QByteArray &json) const
+const IModel<QUuid,QByteArray> *DartsJsonService::assembleDartsPointModelFromJson(const QByteArray &json) const
 {
     auto model = _assembleDartsPointModelFromJson->service(json);
     return model;
@@ -121,7 +121,7 @@ DartsJsonService* DartsJsonService::setAssemblePlayerModelFromJson(IUnaryService
     return this;
 }
 
-DartsJsonService* DartsJsonService::setAssembleDartsPointModelFromJson(IUnaryService<const QByteArray &, const IDartsInput *> *assembleDartsPointModelFromJson)
+DartsJsonService* DartsJsonService::setAssembleDartsPointModelFromJson(IUnaryService<const QByteArray &, const IModel<QUuid,QByteArray> *> *assembleDartsPointModelFromJson)
 {
     _assembleDartsPointModelFromJson = assembleDartsPointModelFromJson;
     return this;
@@ -163,7 +163,7 @@ DartsJsonService* DartsJsonService::setAddPlayerNamesToTournamentJson(IBinarySer
     return this;
 }
 
-DartsJsonService* DartsJsonService::setAssembleJsonOrderedDartsPointModels(IBinaryService<const QVector<const IPlayerInput *> &, const IPlayerModelsService *, const QByteArray> *assembleJsonOrderedDartsPointModels)
+DartsJsonService* DartsJsonService::setAssembleJsonOrderedDartsPointModels(IBinaryService<const QVector<const IModel<QUuid,QByteArray> *> &, const IPlayerModelsService *, const QByteArray> *assembleJsonOrderedDartsPointModels)
 {
     _assembleJsonOrderedDartsPointModels = assembleJsonOrderedDartsPointModels;
     return this;
@@ -205,7 +205,7 @@ DartsJsonService* DartsJsonService::setAssembleDartsTournamentFromJson(IUnarySer
     return this;
 }
 
-DartsJsonService *DartsJsonService::setAssembleJsonFromDartsMultiAttemptScores(IUnaryService<const QVector<const IDartsInput*>&,QByteArray> *assembleJsonFromDartsMultiAttemptScores)
+DartsJsonService *DartsJsonService::setAssembleJsonFromDartsMultiAttemptScores(IUnaryService<const QVector<const IModel<QUuid,QByteArray>*>&,QByteArray> *assembleJsonFromDartsMultiAttemptScores)
 {
     _assembleJsonFromDartsMultiAttemptScores = assembleJsonFromDartsMultiAttemptScores;
     return this;
@@ -241,7 +241,7 @@ DartsJsonService *DartsJsonService::setAddWinnerNameToDartsTournamentJson(IBinar
     return this;
 }
 
-QByteArray DartsJsonService::assembleJsonFromDartsMultiAttemptScores(const QVector<const IDartsInput *> &models) const
+QByteArray DartsJsonService::assembleJsonFromDartsMultiAttemptScores(const QVector<const IModel<QUuid,QByteArray> *> &models) const
 {
     auto json = _assembleJsonFromDartsMultiAttemptScores->service(models);
     return json;

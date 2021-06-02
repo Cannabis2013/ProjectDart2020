@@ -10,7 +10,7 @@ namespace DartsModelsContext{
         return dbService;
     }
 
-    void DartsScoreJsonDb::addModel(const IPlayerInput *model)
+    void DartsScoreJsonDb::addModel(const IModel<QUuid,QByteArray> *model)
     {
         _dartsScoreModels << dynamic_cast<const IDartsScoreInput*>(model);
         saveState();
@@ -22,9 +22,9 @@ namespace DartsModelsContext{
         return model;
     }
 
-    QVector<const IPlayerInput *> DartsScoreJsonDb::models() const
+    QVector<const IModel<QUuid,QByteArray> *> DartsScoreJsonDb::models() const
     {
-        QVector<const IPlayerInput*> list;
+        QVector<const IModel<QUuid,QByteArray>*> list;
         for (const auto& model : _dartsScoreModels)
             list << model;
         return list;
@@ -52,13 +52,13 @@ namespace DartsModelsContext{
         return false;
     }
 
-    int DartsScoreJsonDb::indexOfModel(const IPlayerInput *model)
+    int DartsScoreJsonDb::indexOfModel(const IModel<QUuid,QByteArray> *model)
     {
         auto indexOfModel = _dartsScoreModels.indexOf(dynamic_cast<const IDartsScoreInput*>(model));
         return indexOfModel;
     }
 
-    void DartsScoreJsonDb::replaceModel(const int& index, const IPlayerInput *model)
+    void DartsScoreJsonDb::replaceModel(const int& index, const IModel<QUuid,QByteArray> *model)
     {
         _dartsScoreModels.replace(index,dynamic_cast<const IDartsScoreInput*>(model));
         saveState();

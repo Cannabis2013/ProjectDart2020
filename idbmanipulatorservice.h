@@ -2,7 +2,7 @@
 #define IDBSERVICEMANIPULATOR_H
 
 template <typename TDbServiceInterface, typename TUuid>
-class IDbServiceManipulator
+class IDbManipulatorService
 {
 public:
     typedef TDbServiceInterface DbServiceInterface;

@@ -30,6 +30,7 @@ SOURCES += \
     dartsinputsfilterservice.cpp \
     dartsjsonservice.cpp \
     dartsjsonservicebuilder.cpp \
+    dartsmanipulatorservice.cpp \
     dartsmodelsservice.cpp \
     dartsmodelsservicebuilder.cpp \
     dartsmultiscoredatamodel.cpp \
@@ -141,6 +142,7 @@ HEADERS += \
     dartsinputsfilterservice.h \
     dartsjsonservice.h \
     dartsjsonservicebuilder.h \
+    dartsmanipulatorservice.h \
     dartsmodelsservice.h \
     dartsmodelsservicebuilder.h \
     dartsmodelsservicescollection.h \
@@ -221,7 +223,7 @@ HEADERS += \
     idartssingleattemptindexservice.h \
     idartstournamentdb.h \
     idartstournamentbuilder.h\
-    idbservicemanipulator.h \
+    idbmanipulatorservice.h \
     ifilterpredicatebuilder.h \
     igetinputmodelsservice.h \
     ijsonmodelsservice.h \

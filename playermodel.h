@@ -57,10 +57,15 @@ public:
     {
         return new PlayerModel;
     }
+    virtual QByteArray toJson() const override
+    {
+        return QByteArray();
+    };
 private:
     QUuid _id;
     QString _userName, _email;
     int _role, _type;
+
 };
 
 #endif // PLAYER_H

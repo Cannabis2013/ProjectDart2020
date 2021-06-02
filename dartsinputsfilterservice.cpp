@@ -7,7 +7,8 @@ DartsInputsFilterService::IDartsInputsFilter::Models DartsInputsFilterService::f
 {
     Models list;
     for (const auto& model : models) {
-        if(model->tournamentId() == id)
+        auto inputModel = dynamic_cast<const IPlayerInput*>(model);
+        if(inputModel->tournamentId() == id)
             list << model;
     }
     return list;
@@ -20,7 +21,8 @@ DartsInputsFilterService::Models DartsInputsFilterService::filterByPlayerId(cons
     auto tournamentInputModels = filterByTournamentId(models,tournamentId);
     Models inputModelsByPlayerId;
     for (const auto& model : tournamentInputModels) {
-        if(model->playerId() == playerId)
+        auto inputModel = dynamic_cast<const IPlayerInput*>(model);
+        if(inputModel->playerId() == playerId)
             inputModelsByPlayerId << model;
     }
     return inputModelsByPlayerId;
@@ -34,7 +36,8 @@ DartsInputsFilterService::IDartsInputsFilter::Models DartsInputsFilterService::f
     auto inputModelsByPlayerId = filterByPlayerId(models,tournamentId,playerId);
     Models playerInputsByHint;
     for (const auto& model : inputModelsByPlayerId) {
-        if(model->hint() == hint)
+        auto inputModel = dynamic_cast<const IPlayerInput*>(model);
+        if(inputModel->hint() == hint)
             playerInputsByHint << model;
     }
     return playerInputsByHint;
@@ -82,7 +85,8 @@ DartsInputsFilterService::Models DartsModelsContext::DartsInputsFilterService::f
     auto inputModelsByTournamentId = filterByTournamentId(models,tournamentId);
     Models inputModelsByHint;
     for (const auto& model : inputModelsByTournamentId) {
-        if(model->hint() == hint)
+        auto inputModel = dynamic_cast<const IPlayerInput*>(model);
+        if(inputModel->hint() == hint)
             inputModelsByHint << model;
     }
     return inputModelsByHint;
@@ -93,7 +97,8 @@ DartsInputsFilterService::Models DartsModelsContext::DartsInputsFilterService::f
 {
     Models inputModelsByHint;
     for (const auto& model : models) {
-        if(model->hint() == hint)
+        auto inputModel = dynamic_cast<const IPlayerInput*>(model);
+        if(inputModel->hint() == hint)
             inputModelsByHint << model;
     }
     return inputModelsByHint;

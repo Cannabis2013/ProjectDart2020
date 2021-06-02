@@ -6,18 +6,18 @@
 #include "imodelsdbcontext.h"
 
 namespace DartsModelsContext {
-    typedef IModelsDbContext<IPlayerInput,QUuid> ModelsDbService;
-    typedef IBinaryService<const QVector<const IPlayerInput*>&,ModelsDbService*,void> IRemoveModelsService;
+    typedef IModelsDbContext<IModel<QUuid,QByteArray>,QUuid> ModelsDbService;
+    typedef IBinaryService<const QVector<const IModel<QUuid,QByteArray>*>&,ModelsDbService*,void> IRemoveModelsService;
     class RemoveModelsFromDbContext : public IRemoveModelsService
     {
     public:
-        void service(const QVector<const IPlayerInput*>& models,ModelsDbService* dbContext) override
+        void service(const QVector<const IModel<QUuid,QByteArray>*>& models,ModelsDbService* dbContext) override
         {
             auto modelIds = createIdsByModels(models);
             removeModelsByIds(modelIds,dbContext);
         }
     private:
-        QVector<QUuid> createIdsByModels(const QVector<const IPlayerInput*>& models)
+        QVector<QUuid> createIdsByModels(const QVector<const IModel<QUuid,QByteArray>*>& models)
         {
             QVector<QUuid> modelIds;
             for (const auto& model : models)

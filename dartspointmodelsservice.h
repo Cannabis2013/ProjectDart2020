@@ -23,11 +23,11 @@ namespace DartsModelsContext {
             AllHints = 0x3
         };
         // Typedefs
-        typedef IDartsInputsFilter<PlayerInput,QUuid> FilterDartsInputsService;
+        typedef IDartsInputsFilter<IPlayerInput,QUuid> FilterDartsInputsService;
         typedef IBinaryService<const PlayerInputs&,
                                const IPredicate*,
                                PlayerInputs> SortDartsInputsByPredicateService;
-        typedef IDartsSingleAttemptIndexesBuilder<IDartsPointIndexes,IDartsInput> IndexesBuilderService;
+        typedef IDartsSingleAttemptIndexesBuilder<IDartsPointIndexes,PlayerInput> IndexesBuilderService;
         typedef IModelsDbContext<PlayerInput,QUuid> ModelsDbService;
         typedef IBinaryService<const QUuid&,const ModelsDbService*, const PlayerInput*> GetDartsInputModelByIdService;
         typedef IBinaryService<const PlayerInput*,const int&, const PlayerInput*> DartsInputHintService;
@@ -39,7 +39,7 @@ namespace DartsModelsContext {
 
         const PlayerInput *dartsPointModel(const QUuid &tournamentId, const QUuid &playerId, const int &roundIndex, const int &attemptIndex) const override;
         PlayerInputs dartsPointModelsByTournamentId(const QUuid &tournamentId) const override;
-        const IDartsPointIndexes *dartsPointIndexes(const QVector<const IDartsInput*>& models,
+        const IDartsPointIndexes *dartsPointIndexes(const QVector<const PlayerInput*>& models,
                                                     const int& totalInputModelsCount,
                                                     const int& assignedPlayersCount) const override;
         void addDartsPoint(const PlayerInput *model) override;
@@ -50,7 +50,7 @@ namespace DartsModelsContext {
         void removePointById(const QUuid &pointModelId) override;
         void removeHiddenPoints(const QUuid &tournamentId) override;
         void removePointsByTournamentId(const QUuid &tournamentId) override;
-        QVector<const PlayerInput *> sortDartsPointsByIndexes(const QVector<const IPlayerInput *> &models) const override;
+        QVector<const PlayerInput *> sortDartsPointsByIndexes(const QVector<const PlayerInput *> &models) const override;
         // Set service methods
         DartsPointModelsService* setDartsInputsFilterService(FilterDartsInputsService *newDartsInputsFilterService);
         DartsPointModelsService* setSortDartsInputModelsByPredicate(SortDartsInputsByPredicateService *newSortDartsInputModelsByPredicate);

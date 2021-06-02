@@ -8,14 +8,15 @@ namespace DartsModelsContext {
     class IModelsDbContext
     {
     public:
+        typedef TModel Model;
         virtual void addModel(const TModel*) = 0;
-        virtual const TModel* modelByIndex(const int&) const = 0;
-        virtual const TModel* modelById(const TUuid&) const = 0;
-        virtual QVector<const TModel*> models() const = 0;
+        virtual const Model* modelByIndex(const int&) const = 0;
+        virtual const Model* modelById(const TUuid&) const = 0;
+        virtual QVector<const Model*> models() const = 0;
         virtual bool removeModelByIndex(const int&) = 0;
         virtual bool removeModelById(const TUuid&) = 0;
-        virtual int indexOfModel(const TModel*) = 0;
-        virtual void replaceModel(const int&, const TModel*) = 0;
+        virtual int indexOfModel(const Model*) = 0;
+        virtual void replaceModel(const int&, const Model*) = 0;
     };
 }
 

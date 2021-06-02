@@ -9,11 +9,11 @@
 
 namespace DartsModelsContext {
     class AssembleJsonFromDartsMultiAttemptScores :
-            public IUnaryService<const QVector<const IDartsInput*>&,
+            public IUnaryService<const QVector<const IModel<QUuid,QByteArray>*>&,
                                  QByteArray>
     {
     public:
-        QByteArray service(const QVector<const IDartsInput*>& playerInputs) override
+        QByteArray service(const QVector<const IModel<QUuid,QByteArray>*>& playerInputs) override
         {
             QJsonArray scoresJsonArray;
             for (const auto& playerInput : playerInputs) {

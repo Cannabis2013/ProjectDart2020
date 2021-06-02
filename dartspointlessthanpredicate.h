@@ -8,7 +8,7 @@ namespace DartsModelsContext {
     class DartsPointLessThanPredicate : public IPredicate
     {
     public:
-        bool operator ()(const IDartsInput *_first, const IDartsInput* _second) const override
+        bool operator ()(const IModel<QUuid,QByteArray> *_first, const IModel<QUuid,QByteArray>* _second) const override
         {
             auto firstModel = dynamic_cast<const IDartsPointInput*>(_first);
             auto secondModel = dynamic_cast<const IDartsPointInput*>(_second);

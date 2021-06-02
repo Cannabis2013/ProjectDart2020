@@ -232,6 +232,12 @@ void LocalModelsService::assembleDartsTournamentWinnerIdAndName(const QUuid& tou
     emit sendDartsTournamentWinnerIdAndName(json);
 }
 
+LocalModelsService *LocalModelsService::setGetInputModelsService(GetInputModelsService *newGetInputModelsService)
+{
+    _getInputModelsService = newGetInputModelsService;
+    return this;
+}
+
 LocalModelsService *LocalModelsService::setDbManipulatorService(DbServiceManipulator *newDbManipulatorService)
 {
     _dbManipulatorService = newDbManipulatorService;
@@ -269,9 +275,9 @@ LocalModelsService *LocalModelsService::setDartsTournamentBuilder(DartsTournamen
 }
 
 LocalModelsService *LocalModelsService::setAddPlayerNameToDartsInputModel(
-        IBinaryService<const IDartsInput*,
+        IBinaryService<const IModel<QUuid,QByteArray>*,
                        const QString &,
-                       const IDartsInput*> *newAddPlayerNameToScoreModel)
+                       const IModel<QUuid,QByteArray>*> *newAddPlayerNameToScoreModel)
 {
     _addPlayerNameToDartsInputModel = newAddPlayerNameToScoreModel;
     return this;

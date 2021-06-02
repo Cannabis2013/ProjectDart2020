@@ -7,7 +7,10 @@ DartsModelsContext::DartsPointModelsService *DartsModelsContext::DartsPointModel
     return new DartsPointModelsService;
 }
 
-const DartsModelsContext::IDartsPointModelsService::PlayerInput *DartsModelsContext::DartsPointModelsService::dartsPointModel(const QUuid &tournamentId, const QUuid &playerId, const int &roundIndex, const int &attemptIndex) const
+const DartsModelsContext::IDartsPointModelsService::PlayerInput *DartsModelsContext::DartsPointModelsService::dartsPointModel(const QUuid &tournamentId,
+                                                                                                                              const QUuid &playerId,
+                                                                                                                              const int &roundIndex,
+                                                                                                                              const int &attemptIndex) const
 {
     auto models = _dartsPointsDb->models();
     auto firstModel = _dartsInputsFilterService->filterByAttemptIndex(models,tournamentId,playerId,roundIndex,AllHints,attemptIndex);
@@ -21,7 +24,7 @@ DartsModelsContext::IDartsPointModelsService::PlayerInputs DartsModelsContext::D
     return tournamentInputs;
 }
 
-const DartsModelsContext::IDartsPointIndexes *DartsModelsContext::DartsPointModelsService::dartsPointIndexes(const QVector<const IDartsInput*>& models,
+const DartsModelsContext::IDartsPointIndexes *DartsModelsContext::DartsPointModelsService::dartsPointIndexes(const QVector<const PlayerInput*>& models,
                                                                                                              const int& totalInputModelsCount,
                                                                                                              const int& assignedPlayersCount) const
 {
@@ -127,7 +130,7 @@ DartsPointModelsService *DartsPointModelsService::setDbService(IDartsPointDb *ne
     _dartsPointsDb = newDartsPointsDb;
     return this;
 }
-QVector<const IDartsPointModelsService::PlayerInput *> DartsModelsContext::DartsPointModelsService::sortDartsPointsByIndexes(const QVector<const IPlayerInput*>& models) const
+QVector<const IDartsPointModelsService::PlayerInput *> DartsModelsContext::DartsPointModelsService::sortDartsPointsByIndexes(const PlayerInputs& models) const
 {
     auto sortedModels = _sortDartsInputModelsByPredicate->service(models,_dartsPointLessThanPredicate);
     return sortedModels;

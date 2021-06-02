@@ -5,7 +5,7 @@
 
 namespace DartsModelsContext {
     struct IPredicate{
-        virtual bool operator()(const IDartsInput*, const IDartsInput*) const = 0;
+        virtual bool operator()(const IModel<QUuid,QByteArray>*, const IModel<QUuid,QByteArray>*) const = 0;
     };
 }
 

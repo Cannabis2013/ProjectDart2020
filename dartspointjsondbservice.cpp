@@ -39,19 +39,19 @@ void DartsPointJsonDbService::saveState()
     writeJsonObjectToFile(modelJson,_fileName);
 }
 
-void DartsPointJsonDbService::addModel(const IPlayerInput *model)
+void DartsPointJsonDbService::addModel(const IModel<QUuid,QByteArray> *model)
 {
     _dartsPointModels.append(model);
     saveState();
 }
 
-const IPlayerInput *DartsPointJsonDbService::getModelByIndex(const int &index) const
+const IModel<QUuid,QByteArray> *DartsPointJsonDbService::getModelByIndex(const int &index) const
 {
     auto model = _dartsPointModels.at(index);
     return model;
 }
 
-QVector<const IPlayerInput *> DartsPointJsonDbService::models() const
+QVector<const IModel<QUuid,QByteArray> *> DartsPointJsonDbService::models() const
 {
     return _dartsPointModels;
 }
@@ -65,19 +65,19 @@ bool DartsPointJsonDbService::removeModelByIndex(const int &index)
     return true;
 }
 
-int DartsPointJsonDbService::indexOfModel(const IPlayerInput *score)
+int DartsPointJsonDbService::indexOfModel(const IModel<QUuid,QByteArray> *score)
 {
     auto index = _dartsPointModels.indexOf(score);
     return index;
 }
 
-void DartsPointJsonDbService::replaceModel(const int &index, const IPlayerInput *point)
+void DartsPointJsonDbService::replaceModel(const int &index, const IModel<QUuid,QByteArray> *point)
 {
     _dartsPointModels.replace(index,point);
     saveState();
 }
 
-const IPlayerInput *DartsPointJsonDbService::modelById(const QUuid &id) const
+const IModel<QUuid,QByteArray> *DartsPointJsonDbService::modelById(const QUuid &id) const
 {
     for (const auto& model : _dartsPointModels) {
         if(model->id() == id)
@@ -86,7 +86,7 @@ const IPlayerInput *DartsPointJsonDbService::modelById(const QUuid &id) const
     return nullptr;
 }
 
-const IPlayerInput *DartsPointJsonDbService::modelByIndex(const int &index) const
+const IModel<QUuid,QByteArray> *DartsPointJsonDbService::modelByIndex(const int &index) const
 {
     auto model = _dartsPointModels.at(index);
     return model;

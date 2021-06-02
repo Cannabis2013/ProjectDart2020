@@ -6,7 +6,7 @@
 
 namespace DartsModelsContext {
     class DartsInputsFilterService : public
-            IDartsInputsFilter<IPlayerInput,QUuid>
+            IDartsInputsFilter<IModel<QUuid,QByteArray>,QUuid>
     {
     public:
         enum ModelDisplayHint{

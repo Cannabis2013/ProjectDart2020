@@ -29,7 +29,7 @@ namespace DartsModelsContext {
     {
     public:
         // Public types
-        typedef QVector<const IModel<QUuid>*> modelsList;
+        typedef QVector<const IModel<QUuid,QByteArray>*> modelsList;
         enum GameModes {
             FirstToPost = 0x1,
             RoundLimit =0x2,
