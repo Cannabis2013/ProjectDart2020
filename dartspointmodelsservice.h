@@ -11,7 +11,7 @@
 #include "idartssingleattemptindexesbuilder.h"
 
 namespace DartsModelsContext {
-    class DartsPointModelsService : public IDartsPointModelsService
+    class DartsPointModelsService : public IDartsPointModelsService<IDartsPointDb>
     {
     public:
         /*
@@ -24,11 +24,12 @@ namespace DartsModelsContext {
         };
         // Typedefs
         typedef IDartsInputsFilter<IPlayerInput,QUuid> FilterDartsInputsService;
+        typedef IPredicate<IPlayerInput> Predicate;
         typedef IBinaryService<const PlayerInputs&,
-                               const IPredicate*,
+                               const Predicate*,
                                PlayerInputs> SortDartsInputsByPredicateService;
         typedef IDartsSingleAttemptIndexesBuilder<IDartsPointIndexes,PlayerInput> IndexesBuilderService;
-        typedef IModelsDbContext<PlayerInput,QUuid> ModelsDbService;
+        typedef IModelsDbContext<PlayerInput> ModelsDbService;
         typedef IBinaryService<const QUuid&,const ModelsDbService*, const PlayerInput*> GetDartsInputModelByIdService;
         typedef IBinaryService<const PlayerInput*,const int&, const PlayerInput*> DartsInputHintService;
         typedef IBinaryService<const PlayerInputs&,ModelsDbService*,void> RemoveModelsService;
@@ -37,25 +38,22 @@ namespace DartsModelsContext {
         static DartsPointModelsService* createInstance();
         // Methods
 
-        const PlayerInput *dartsPointModel(const QUuid &tournamentId, const QUuid &playerId, const int &roundIndex, const int &attemptIndex) const override;
-        PlayerInputs dartsPointModelsByTournamentId(const QUuid &tournamentId) const override;
+        const PlayerInput *dartsPointModel(const QUuid &tournamentId,
+                                           const QUuid &playerId,
+                                           const int &roundIndex,
+                                           const int &attemptIndex,
+                                           const IDartsPointDb* dbService) const override;
         const IDartsPointIndexes *dartsPointIndexes(const QVector<const PlayerInput*>& models,
                                                     const int& totalInputModelsCount,
                                                     const int& assignedPlayersCount) const override;
-        void addDartsPoint(const PlayerInput *model) override;
-        PlayerInputs getDartsPointModelsOrdedByIndexes(const QUuid &tournamentId) const override;
-        const PlayerInput *getDartsPointModelById(const QUuid &id) const override;
-        int dartsPointsCount(const QUuid &tournamentId, const int &hint) const override;
-        void setDartsPointHint(const PlayerInput *inputModel, const int &hint) override;
-        void removePointById(const QUuid &pointModelId) override;
-        void removeHiddenPoints(const QUuid &tournamentId) override;
-        void removePointsByTournamentId(const QUuid &tournamentId) override;
+        int dartsPointsCount(const QUuid &tournamentId, const int &hint, const IDartsPointDb* dbService) const override;
+        void setDartsPointHint(const PlayerInput *inputModel, const int &hint, IDartsPointDb *dbService) override;
         QVector<const PlayerInput *> sortDartsPointsByIndexes(const QVector<const PlayerInput *> &models) const override;
         // Set service methods
         DartsPointModelsService* setDartsInputsFilterService(FilterDartsInputsService *newDartsInputsFilterService);
         DartsPointModelsService* setSortDartsInputModelsByPredicate(SortDartsInputsByPredicateService *newSortDartsInputModelsByPredicate);
         DartsPointModelsService* setAssembleDartsPointIndexes(IndexesBuilderService *newAssembleDartsPointIndexes);
-        DartsPointModelsService* setDartsSortingPredicate(IPredicate *newDartsPointLessThanPredicate);
+        DartsPointModelsService* setDartsSortingPredicate(Predicate *newDartsPointLessThanPredicate);
         DartsPointModelsService* setDartsInputHintService(DartsInputHintService *newSetInputHintService);
         DartsPointModelsService* setRemoveModelsService(RemoveModelsService *newRemoveModelsService);
         DartsPointModelsService* setGetInputModelByIdService(GetDartsInputModelByIdService *newGetInputModelByIdService);
@@ -67,9 +65,8 @@ namespace DartsModelsContext {
         GetDartsInputModelByIdService* _getInputModelByIdService;
         IndexesBuilderService* _assembleDartsPointIndexes;
         SortDartsInputsByPredicateService* _sortDartsInputModelsByPredicate;
-        IPredicate* _dartsPointLessThanPredicate;
+        Predicate* _dartsPointLessThanPredicate;
         FilterDartsInputsService* _dartsInputsFilterService;
-        IDartsPointDb* _dartsPointsDb;
     };
 }
 

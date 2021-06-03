@@ -26,12 +26,13 @@ namespace DartsModelsContext {
         };
         typedef IDartsInputsFilter<PlayerInput,QUuid> FilterDartsInputsService;
         typedef QVector<const PlayerInput*> DartsPlayerInputs;
-        typedef IModelsDbContext<PlayerInput,QUuid> ModelsDbService;
+        typedef IModelsDbContext<PlayerInput> ModelsDbService;
         typedef IBinaryService<const DartsPlayerInputs&,ModelsDbService*,void> RemoveModelsService;
         typedef IBinaryService<const QUuid&,const ModelsDbService*, const PlayerInput*> GetDartsInputModelByIdService;
         typedef IBinaryService<const PlayerInput*,const int&, const PlayerInput*> setInputHintService;
+        typedef IPredicate<IPlayerInput> Predicate;
         typedef IBinaryService<const PlayerInputs&,
-                              const IPredicate*,
+                              const Predicate*,
                               PlayerInputs> SortDartsInputsByPredicateService;
         typedef IDartsMultiAttemptIndexesBuilder<IDartsScoreIndexes,PlayerInput> GetScoreIndexesByModels;
         // Create instance
@@ -54,11 +55,11 @@ namespace DartsModelsContext {
         DartsScoreModelsService* setSetInputHintService(setInputHintService *newSetInputHintService);
         DartsScoreModelsService* setSortDartsInputModelsByPredicate(SortDartsInputsByPredicateService *newSortDartsInputModelsByPredicate);
         DartsScoreModelsService* setGetDartsScoreIndexesByModels(GetScoreIndexesByModels *newGetDartsScoreIndexesByModels);
-        DartsScoreModelsService* setDartsScoreLessThanPredicate(IPredicate *newDartsPointLessThanPredicate);
+        DartsScoreModelsService* setDartsScoreLessThanPredicate(Predicate *newDartsPointLessThanPredicate);
         DartsScoreModelsService* setDbService(IDartsScoreDb *service);
 
     private:
-        IPredicate* _dartsScoreLessThanPredicate;
+        Predicate* _dartsScoreLessThanPredicate;
         SortDartsInputsByPredicateService* _sortDartsInputModelsByPredicate;
         GetScoreIndexesByModels* _getDartsScoreIndexesByModels;
         setInputHintService* _setInputHintService;

@@ -1,25 +1,26 @@
 #ifndef JSONARRAYFROMDARTSPOINTS_H
 #define JSONARRAYFROMDARTSPOINTS_H
 
-#include "ibinaryservice.h"
+#include "iunaryservice.h"
 #include <qjsondocument.h>
 #include <qjsonarray.h>
 #include <qjsonobject.h>
 #include <qvector.h>
 #include "idartspointmodelsservice.h"
 #include "idartspointinput.h"
+#include "idartspointdb.h"
 
 namespace DartsModelsContext{
     class AssembleJsonFromDartsPoints : public
-            IBinaryService<const QUuid&,const IDartsPointModelsService*,QByteArray>
+            IUnaryService<const QVector<const IPlayerInput*>&,QByteArray>
     {
     public:
-        QByteArray service(const QUuid& tournamentId,const IDartsPointModelsService* modelsService) override
+        typedef IDartsPointModelsService<IDartsPointDb> PointModelsService ;
+        QByteArray service(const QVector<const IPlayerInput*>& models) override
         {
-            auto dartsPlayerInputs = modelsService->dartsPointModelsByTournamentId(tournamentId);
             QJsonArray pointsJsonArray;
-            for (const auto& dartsPlayerInput : dartsPlayerInputs) {
-                auto dartsPoint = dynamic_cast<const IDartsPointInput*>(dartsPlayerInput);
+            for (const auto& model : models) {
+                auto dartsPoint = dynamic_cast<const IDartsPointInput*>(model);
                 QJsonObject playerJsonObject;
                 auto playerId = dartsPoint->playerId();
                 playerJsonObject["playerId"] = playerId.toString(QUuid::WithoutBraces);

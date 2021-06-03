@@ -5,10 +5,11 @@
 #include "ipredicate.h"
 
 namespace DartsModelsContext {
-    class DartsPointLessThanPredicate : public IPredicate
+    class SortDartsPointInputsByIndexes : public IPredicate<IPlayerInput>
     {
     public:
-        bool operator ()(const IModel<QUuid,QByteArray> *_first, const IModel<QUuid,QByteArray>* _second) const override
+        typedef IPredicate<IPlayerInput> Predicate;
+        bool operator ()(const IPlayerInput *_first, const IPlayerInput* _second) const override
         {
             auto firstModel = dynamic_cast<const IDartsPointInput*>(_first);
             auto secondModel = dynamic_cast<const IDartsPointInput*>(_second);

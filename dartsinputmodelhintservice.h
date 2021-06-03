@@ -6,10 +6,10 @@
 
 namespace DartsModelsContext {
     class DartsInputModelHintService :
-            public IBinaryService<const IModel<QUuid,QByteArray>*,const int&, const IModel<QUuid,QByteArray>*>
+            public IBinaryService<const IPlayerInput*,const int&, const IPlayerInput*>
     {
     public:
-        const IModel<QUuid,QByteArray>* service(const IModel<QUuid,QByteArray>* model, const int& hint) override
+        const IPlayerInput* service(const IPlayerInput* model, const int& hint) override
         {
             auto inputModel = dynamic_cast<const IPlayerInput*>(model);
             auto mutableModel = const_cast<IPlayerInput*>(inputModel);

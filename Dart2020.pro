@@ -30,7 +30,6 @@ SOURCES += \
     dartsinputsfilterservice.cpp \
     dartsjsonservice.cpp \
     dartsjsonservicebuilder.cpp \
-    dartsmanipulatorservice.cpp \
     dartsmodelsservice.cpp \
     dartsmodelsservicebuilder.cpp \
     dartsmultiscoredatamodel.cpp \
@@ -50,8 +49,10 @@ SOURCES += \
     dartsscoremultiattempt.cpp \
     dartssingleattemptindexesbuilder.cpp \
     dartstournamentjsonextractor.cpp \
+    defaultdbmanipulatorservice.cpp \
     defaultmodelsservicebuilder.cpp \
     filterpredicatedefaultbuilder.cpp \
+    getinputmodelsservice.cpp \
     iurlparser.cpp \
     localmodelsservice.cpp \
     localplayermodelsservice.cpp \
@@ -142,7 +143,6 @@ HEADERS += \
     dartsinputsfilterservice.h \
     dartsjsonservice.h \
     dartsjsonservicebuilder.h \
-    dartsmanipulatorservice.h \
     dartsmodelsservice.h \
     dartsmodelsservicebuilder.h \
     dartsmodelsservicescollection.h \
@@ -155,7 +155,6 @@ HEADERS += \
     dartspointindexes.h \
     dartspointjsondbservice.h \
     dartspointjsonservice.h \
-    dartspointlessthanpredicate.h \
     dartspointlogisticcontroller.h \
     dartspointmodelsservice.h \
     dartspointsingleattempt.h \
@@ -176,6 +175,7 @@ HEADERS += \
     dartssingleattemptindexes.h \
     dartssingleattemptindexesbuilder.h \
     dartstournamentbuilder.h \
+    defaultdbmanipulatorservice.h \
     defaultmodelsservicebuilder.h \
     deletetournamentsbyindexesservice.h \
     determinecontrollerstatebywinnerid.h \
@@ -185,6 +185,7 @@ HEADERS += \
     getdartstournamentbyid.h \
     getdartstournamentbyindexservice.h \
     getdeleteplayerindexfromjson.h \
+    getinputmodelsservice.h \
     getplayerindexesfromjson.h \
     getplayernamebyid.h \
     gettournamentidbyjson.h \
@@ -223,13 +224,14 @@ HEADERS += \
     idartssingleattemptindexservice.h \
     idartstournamentdb.h \
     idartstournamentbuilder.h\
-    idbmanipulatorservice.h \
     ifilterpredicatebuilder.h \
     igetinputmodelsservice.h \
     ijsonmodelsservice.h \
     imodelsdbcontext.h \
     imodelsservicebuilder.h \
+    inputmodelssortservice.h \
     ipersistence.h \
+    iplayerinputsdbmanipulatorservice.h \
     iplayermodelsdb.h \
     iplayermodelsservice.h \
     iplayerpointservice.h \
@@ -288,11 +290,10 @@ HEADERS += \
     playersjsondb.h \
     pointvalidator.h \
     remotemodelscontext.h \
-    removemodelsfromdbcontext.h \
     replytimeout.h \
     scoreindexcontroller.h \
     setdartsmodelhint.h \
-    sortplayerinputsbypredicate.h \
+    sortdartspointinputsbyindexes.h \
     testconfiguration.h \
     tournamentjsondb.h \
     tournamentsjsonassemblerservice.h \

@@ -29,7 +29,17 @@
 #include "dartstournamentbuilder.h"
 #include "idartsscoremodelsservice.h"
 #include "idartspointmodelsservice.h"
-
+#include "AssembleDartsTournamentsFromJsonArray.h"
+#include "assemblesingleattemptpointsfromjson.h"
+#include "dartspointjsondbservice.h"
+#include "dartsscorejsondb.h"
+#include "assemblejsonarrayfromdartspoints.h"
+#include "assemblemultiattemptscoresbyjson.h"
+#include "assemblejsonbydartsscoremodels.h"
+#include "getinputmodelsservice.h"
+#include "defaultdbmanipulatorservice.h"
+#include "inputmodelssortservice.h"
+#include "sortdartspointinputsbyindexes.h"
 class DefaultModelsServiceBuilder :
         public AbstractModelsServiceBuilder<AbstractModelsService>
 {
@@ -40,13 +50,13 @@ public:
     DefaultModelsServiceBuilder* setPlayerServiceBuilder(IModelsServiceBuilder<IPlayerModelsService> *playerServiceBuilder);
     DefaultModelsServiceBuilder* setDartsJSonServiceBuilder(IModelsServiceBuilder<IDartsJsonService> *dartsJSonServiceBuilder);
     DefaultModelsServiceBuilder* setDartsScoreModelsServiceBuilder(IModelsServiceBuilder<IDartsScoreModelsService> *newDartsScoreModelsServiceBuilder);
-    DefaultModelsServiceBuilder* setDartsPointModelsServiceBuilder(IModelsServiceBuilder<IDartsPointModelsService> *newDartsPointModelsServiceBuilder);
+    DefaultModelsServiceBuilder* setDartsPointModelsServiceBuilder(IModelsServiceBuilder<IDartsPointModelsService<IDartsPointDb>> *newDartsPointModelsServiceBuilder);
 
 private:
     IModelsServiceBuilder<IDartsJsonService>* _dartsJSonServiceBuilder;
     IModelsServiceBuilder<IDartsModelsService>* _localDartsTournamentServiceBuilder;
     IModelsServiceBuilder<IDartsScoreModelsService>* _dartsScoreModelsServiceBuilder;
-    IModelsServiceBuilder<IDartsPointModelsService>* _dartsPointModelsServiceBuilder;
+    IModelsServiceBuilder<IDartsPointModelsService<IDartsPointDb>>* _dartsPointModelsServiceBuilder;
     IModelsServiceBuilder<IPlayerModelsService>* _playerServiceBuilder;
 };
 

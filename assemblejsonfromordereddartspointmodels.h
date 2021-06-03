@@ -13,11 +13,11 @@
 
 namespace DartsModelsContext {
     class AssembleJsonFromOrderedDartsPointModels :
-            public IBinaryService<const QVector<const IModel<QUuid,QByteArray>*>&,
+            public IBinaryService<const QVector<const IPlayerInput*>&,
                                   const IPlayerModelsService*,const QByteArray>
     {
     public:
-        const QByteArray service(const QVector<const IModel<QUuid,QByteArray>*>& orderedDartsPoints,
+        const QByteArray service(const QVector<const IPlayerInput*>& orderedDartsPoints,
                                  const IPlayerModelsService* playerModelsService) override
         {
             QJsonArray arr;

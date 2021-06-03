@@ -108,7 +108,7 @@ DartsScoreModelsService *DartsScoreModelsService::setGetDartsScoreIndexesByModel
     return this;
 }
 
-DartsScoreModelsService *DartsScoreModelsService::setDartsScoreLessThanPredicate(IPredicate *newDartsPointLessThanPredicate)
+DartsScoreModelsService *DartsScoreModelsService::setDartsScoreLessThanPredicate(Predicate *newDartsPointLessThanPredicate)
 {
     _dartsScoreLessThanPredicate = newDartsPointLessThanPredicate;
     return this;

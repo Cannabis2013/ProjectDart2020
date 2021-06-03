@@ -39,19 +39,19 @@ void DartsPointJsonDbService::saveState()
     writeJsonObjectToFile(modelJson,_fileName);
 }
 
-void DartsPointJsonDbService::addModel(const IModel<QUuid,QByteArray> *model)
+void DartsPointJsonDbService::addModel(const Model *model)
 {
     _dartsPointModels.append(model);
     saveState();
 }
 
-const IModel<QUuid,QByteArray> *DartsPointJsonDbService::getModelByIndex(const int &index) const
+const DartsPointJsonDbService::Model *DartsPointJsonDbService::getModelByIndex(const int &index) const
 {
     auto model = _dartsPointModels.at(index);
     return model;
 }
 
-QVector<const IModel<QUuid,QByteArray> *> DartsPointJsonDbService::models() const
+QVector<const DartsPointJsonDbService::Model *> DartsPointJsonDbService::models() const
 {
     return _dartsPointModels;
 }
@@ -65,44 +65,22 @@ bool DartsPointJsonDbService::removeModelByIndex(const int &index)
     return true;
 }
 
-int DartsPointJsonDbService::indexOfModel(const IModel<QUuid,QByteArray> *score)
+int DartsPointJsonDbService::indexOfModel(const Model *score)
 {
     auto index = _dartsPointModels.indexOf(score);
     return index;
 }
 
-void DartsPointJsonDbService::replaceModel(const int &index, const IModel<QUuid,QByteArray> *point)
+void DartsPointJsonDbService::replaceModel(const int &index, const Model *point)
 {
     _dartsPointModels.replace(index,point);
     saveState();
 }
 
-const IModel<QUuid,QByteArray> *DartsPointJsonDbService::modelById(const QUuid &id) const
-{
-    for (const auto& model : _dartsPointModels) {
-        if(model->id() == id)
-            return model;
-    }
-    return nullptr;
-}
-
-const IModel<QUuid,QByteArray> *DartsPointJsonDbService::modelByIndex(const int &index) const
+const DartsPointJsonDbService::Model *DartsPointJsonDbService::modelByIndex(const int &index) const
 {
     auto model = _dartsPointModels.at(index);
     return model;
-}
-
-bool DartsPointJsonDbService::removeModelById(const QUuid &id)
-{
-    for (const auto& model : _dartsPointModels) {
-        if(model->id() == id)
-        {
-            _dartsPointModels.removeOne(model);
-            saveState();
-            return true;
-        }
-    }
-    return false;
 }
 
 DartsPointJsonDbService *DartsPointJsonDbService::setDartsPointsExtractorService(JsonExtractor *dartsPointsExtractor)

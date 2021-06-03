@@ -7,6 +7,10 @@ DefaultModelsServiceBuilder *DefaultModelsServiceBuilder::createInstance()
 
 AbstractModelsService *DefaultModelsServiceBuilder::buildLocalModelsServiceWithJsonDb()
 {
+    auto dartsPointDb = DartsPointJsonDbService::createInstance(new AssembleSingleAttemptPointsFromJson,
+                                                            new AssembleJsonArrayFromDartsPoints);
+    auto dartsScoreDb = DartsScoreJsonDb::createInstance(new AssembleMultiAttemptScoresByJson,
+                                                         new AssembleJsonByDartsScoreModels);
     auto modelsContext = LocalModelsService::createInstance()
             ->setDartsModelsService(_localDartsTournamentServiceBuilder->buildModelsService())
             ->setPlayerModelsService(_playerServiceBuilder->buildModelsService())
@@ -14,7 +18,13 @@ AbstractModelsService *DefaultModelsServiceBuilder::buildLocalModelsServiceWithJ
             ->setDartsScoreInputModelsService(_dartsScoreModelsServiceBuilder->buildModelsService())
             ->setDartsPointInputService(_dartsPointModelsServiceBuilder->buildModelsService())
             ->setAddPlayerNameToDartsInputModel(new AddPlayerNameToDartsInputModel)
-            ->setDartsTournamentBuilder(new DartsTournamentBuilder);
+            ->setDartsTournamentBuilder(new DartsTournamentBuilder)
+            ->setDartsPointInputDb(dartsPointDb)
+            ->setDartsScoreInputDb(dartsScoreDb)
+            ->setGetInputModelsService(new GetInputModelsService)
+            ->setDbManipulatorService(new DefaultDbManipulatorService)
+            ->setInputModelsSortService(new InputModelsSortService)
+            ->setSortPointInputsByIndexes(new SortDartsPointInputsByIndexes);
     return modelsContext;
 }
 
@@ -43,7 +53,7 @@ DefaultModelsServiceBuilder *DefaultModelsServiceBuilder::setDartsScoreModelsSer
     return this;
 }
 
-DefaultModelsServiceBuilder *DefaultModelsServiceBuilder::setDartsPointModelsServiceBuilder(IModelsServiceBuilder<IDartsPointModelsService> *newDartsPointModelsServiceBuilder)
+DefaultModelsServiceBuilder *DefaultModelsServiceBuilder::setDartsPointModelsServiceBuilder(IModelsServiceBuilder<IDartsPointModelsService<IDartsPointDb>> *newDartsPointModelsServiceBuilder)
 {
     _dartsPointModelsServiceBuilder = newDartsPointModelsServiceBuilder;
     return this;

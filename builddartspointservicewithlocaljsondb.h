@@ -5,16 +5,16 @@
 #include "dartspointmodelsservice.h"
 #include "dartsinputsfilterservice.h"
 #include "dartssingleattemptindexesbuilder.h"
-#include "sortplayerinputsbypredicate.h"
-#include "dartspointlessthanpredicate.h"
+#include "inputmodelssortservice.h"
+#include "sortdartspointinputsbyindexes.h"
 #include "getdartsinputmodelbyid.h"
-#include "removemodelsfromdbcontext.h"
 #include "dartsinputmodelhintservice.h"
 #include "dartspointjsondbservice.h"
 #include "assemblesingleattemptpointsfromjson.h"
 #include "assemblejsonarrayfromdartspoints.h"
+#include "idartspointdb.h"
 namespace DartsModelsContext {
-    class BuildDartsPointServiceWithLocalJsonDb : public IModelsServiceBuilder<IDartsPointModelsService>
+    class BuildDartsPointServiceWithLocalJsonDb : public IModelsServiceBuilder<IDartsPointModelsService<IDartsPointDb>>
     {
     public:
         ServiceInterface *buildModelsService() const override;

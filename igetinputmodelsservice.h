@@ -11,6 +11,7 @@ public:
     typedef TDbServiceInterface DbServiceInterface;
     typedef TUuid IdFormat;
     typedef QVector<const InputModel*> InputModels;
+    // Pure methods
     virtual InputModels inputModelsByTournamentId(const IdFormat& tournamentId,
                                                   const DbServiceInterface* dbService) const = 0;
     virtual InputModels inputModelsByHint(const IdFormat& tournamentId, const int& hint,

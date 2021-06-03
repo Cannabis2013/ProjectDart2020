@@ -9,7 +9,7 @@
 #include "idartssingleattemptindexesbuilder.h"
 
 namespace DartsModelsContext {
-    class DartsSingleAttemptIndexesBuilder : public IDartsSingleAttemptIndexesBuilder<IDartsPointIndexes, IModel<QUuid,QByteArray>>
+    class DartsSingleAttemptIndexesBuilder : public IDartsSingleAttemptIndexesBuilder<IDartsPointIndexes, IPlayerInput>
     {
     public:
         enum ModelDisplayHint{
@@ -17,12 +17,12 @@ namespace DartsModelsContext {
             DisplayHint = 0x2,
             allHints = HiddenHint | DisplayHint
         };
-        const IDartsPointIndexes* buildIndexes(const QVector<const IModel<QUuid,QByteArray>*>& orderedModels,
+        const IDartsPointIndexes* buildIndexes(const QVector<const IPlayerInput*>& orderedModels,
                                                const int& assignedPlayersCount,
                                                const int& totalInputModelsCount,
                                                const int& numberOfAttempts) const override;
     private:
-        const IDartsPointIndexes* assembleDartsIndexesByModels(const QVector<const IModel<QUuid,QByteArray>*>& orderedModels, const int &totalInputModelsCount,
+        const IDartsPointIndexes* assembleDartsIndexesByModels(const QVector<const IPlayerInput*>& orderedModels, const int &totalInputModelsCount,
                                                                const int& assignedPlayersCount,
                                                                const int& attempts) const;;
         const IDartsPointIndexes* assembleInitialDartsIndexes() const;

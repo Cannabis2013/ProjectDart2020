@@ -4,8 +4,10 @@
 #include "idartsinput.h"
 
 namespace DartsModelsContext {
+    template<typename TModelInterface>
     struct IPredicate{
-        virtual bool operator()(const IModel<QUuid,QByteArray>*, const IModel<QUuid,QByteArray>*) const = 0;
+        typedef TModelInterface ModelInterface;
+        virtual bool operator()(const ModelInterface*, const ModelInterface*) const = 0;
     };
 }
 

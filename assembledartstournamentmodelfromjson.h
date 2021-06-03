@@ -23,7 +23,6 @@ private:
                                                                     const int &displayHint,
                                                                     const int &inputHint,
                                                                     const int &attempts);
-    QVector<QUuid> assembleListOfQuuidsFromJsonArray(const QJsonArray& arr);
 };
 
 #endif // BUILDDARTSTOURNAMENTMODELFROMJSON_H

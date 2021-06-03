@@ -12,6 +12,7 @@
 #include "iplayermodelsservice.h"
 #include <qjsonarray.h>
 #include "idartspointinput.h"
+#include "idartspointdb.h"
 
 using namespace DartsModelsContext;
 
@@ -23,9 +24,9 @@ public:
     virtual QByteArray assembleJsonDartsPointIndexes(const IDartsPointIndexes*) const = 0;
     virtual QByteArray assembleJsonDartsScoreIndexes(const IDartsScoreIndexes*) const = 0;
     virtual QByteArray assembleJsonFromPlayerNamesAndIds(const QVector<QUuid>&, const QVector<QString>&) const = 0;
-    virtual QByteArray assembleJsonFromTournamentDartsPoints(const QUuid&,const IDartsPointModelsService*) const = 0;
+    virtual QByteArray assembleJsonFromTournamentDartsPoints(const QVector<const IPlayerInput*>& models) const = 0;
     virtual QJsonArray jsonArrayFromDartsScores(const QUuid&, const IDartsScoreModelsService*) const = 0;
-    virtual QByteArray assembleJsonOrderedDartsPointModels(const QVector<const IModel<QUuid,QByteArray>*>&,
+    virtual QByteArray assembleJsonOrderedDartsPointModels(const QVector<const IPlayerInput*>&,
                                                            const IPlayerModelsService*) const = 0;
     virtual QByteArray addPlayerNamesToDartsTournamentJson(const QByteArray&,
                                                         const QVector<QString>&) const = 0;
@@ -38,7 +39,7 @@ public:
     virtual int getDeletePlayerIndexFromJson(const QByteArray&) const = 0;
     virtual const IModel<QUuid,QByteArray>* assembleDartsPointModelFromJson(const QByteArray&) const = 0;
     virtual const IPlayerModel* assemblePlayerModelFromJson(const QByteArray&) const = 0;
-    virtual QByteArray assembleJsonFromDartsMultiAttemptScores(const QVector<const IModel<QUuid,QByteArray> *>&) const = 0;
+    virtual QByteArray assembleJsonFromDartsMultiAttemptScores(const QVector<const IPlayerInput *>&) const = 0;
     virtual QUuid getWinnerIdByJson(const QByteArray&) const = 0;
     virtual QUuid getTournamentIdByJson(const QByteArray&) const = 0;
 };

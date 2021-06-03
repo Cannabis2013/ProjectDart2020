@@ -10,7 +10,7 @@ namespace DartsModelsContext{
         return dbService;
     }
 
-    void DartsScoreJsonDb::addModel(const IModel<QUuid,QByteArray> *model)
+    void DartsScoreJsonDb::addModel(const Model *model)
     {
         _dartsScoreModels << dynamic_cast<const IDartsScoreInput*>(model);
         saveState();
@@ -22,9 +22,9 @@ namespace DartsModelsContext{
         return model;
     }
 
-    QVector<const IModel<QUuid,QByteArray> *> DartsScoreJsonDb::models() const
+    QVector<const DartsScoreJsonDb::Model *> DartsScoreJsonDb::models() const
     {
-        QVector<const IModel<QUuid,QByteArray>*> list;
+        QVector<const Model*> list;
         for (const auto& model : _dartsScoreModels)
             list << model;
         return list;
@@ -39,26 +39,13 @@ namespace DartsModelsContext{
         return true;
     }
 
-    bool DartsScoreJsonDb::removeModelById(const QUuid &id)
-    {
-        for (const auto& model : qAsConst(_dartsScoreModels)) {
-            if(model->id() == id)
-            {
-                _dartsScoreModels.removeOne(model);
-                saveState();
-                return true;
-            }
-        }
-        return false;
-    }
-
-    int DartsScoreJsonDb::indexOfModel(const IModel<QUuid,QByteArray> *model)
+    int DartsScoreJsonDb::indexOfModel(const Model *model)
     {
         auto indexOfModel = _dartsScoreModels.indexOf(dynamic_cast<const IDartsScoreInput*>(model));
         return indexOfModel;
     }
 
-    void DartsScoreJsonDb::replaceModel(const int& index, const IModel<QUuid,QByteArray> *model)
+    void DartsScoreJsonDb::replaceModel(const int& index, const Model *model)
     {
         _dartsScoreModels.replace(index,dynamic_cast<const IDartsScoreInput*>(model));
         saveState();
@@ -79,15 +66,6 @@ namespace DartsModelsContext{
     {
         auto jsonObject = _jsonAssemblerService->service(_dartsScoreModels);
         writeJsonObjectToFile(jsonObject,_fileName);
-    }
-
-    const IDartsScoreInput *DartsScoreJsonDb::modelById(const QUuid &id) const
-    {
-        for (const auto& model : _dartsScoreModels) {
-            if(model->id() == id)
-                return model;
-        }
-        return nullptr;
     }
 
     DartsScoreJsonDb *DartsScoreJsonDb::setDartsScoresJsonAssemblerService(JsonAssembler *dartsScoresJsonAssemblerService)

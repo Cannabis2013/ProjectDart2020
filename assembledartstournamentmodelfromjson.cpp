@@ -37,11 +37,3 @@ const IDartsTournament *AssembleDartsTournamentModelFromJson::buildModelFromPara
             ->setId(QUuid::createUuid());
     return model;
 }
-
-QVector<QUuid> AssembleDartsTournamentModelFromJson::assembleListOfQuuidsFromJsonArray(const QJsonArray &arr)
-{
-    QVector<int> list;
-    for (const auto& jsonValue : arr) {
-        list << jsonValue.toInt();
-    }
-}
