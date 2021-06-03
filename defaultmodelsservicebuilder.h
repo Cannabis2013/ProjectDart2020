@@ -45,17 +45,18 @@ class DefaultModelsServiceBuilder :
 {
 public:
     static DefaultModelsServiceBuilder* createInstance();
+    typedef IDartsScoreModelsService<IDartsScoreDb> ScoreModelsService;
     AbstractModelsService *buildLocalModelsServiceWithJsonDb() override;
     DefaultModelsServiceBuilder* setModelsTournamentServiceBuilder(IModelsServiceBuilder<IDartsModelsService>* builder);
     DefaultModelsServiceBuilder* setPlayerServiceBuilder(IModelsServiceBuilder<IPlayerModelsService> *playerServiceBuilder);
     DefaultModelsServiceBuilder* setDartsJSonServiceBuilder(IModelsServiceBuilder<IDartsJsonService> *dartsJSonServiceBuilder);
-    DefaultModelsServiceBuilder* setDartsScoreModelsServiceBuilder(IModelsServiceBuilder<IDartsScoreModelsService> *newDartsScoreModelsServiceBuilder);
+    DefaultModelsServiceBuilder* setDartsScoreModelsServiceBuilder(IModelsServiceBuilder<ScoreModelsService> *newDartsScoreModelsServiceBuilder);
     DefaultModelsServiceBuilder* setDartsPointModelsServiceBuilder(IModelsServiceBuilder<IDartsPointModelsService<IDartsPointDb>> *newDartsPointModelsServiceBuilder);
 
 private:
     IModelsServiceBuilder<IDartsJsonService>* _dartsJSonServiceBuilder;
     IModelsServiceBuilder<IDartsModelsService>* _localDartsTournamentServiceBuilder;
-    IModelsServiceBuilder<IDartsScoreModelsService>* _dartsScoreModelsServiceBuilder;
+    IModelsServiceBuilder<ScoreModelsService>* _dartsScoreModelsServiceBuilder;
     IModelsServiceBuilder<IDartsPointModelsService<IDartsPointDb>>* _dartsPointModelsServiceBuilder;
     IModelsServiceBuilder<IPlayerModelsService>* _playerServiceBuilder;
 };

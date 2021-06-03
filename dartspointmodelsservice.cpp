@@ -8,9 +8,9 @@ DartsModelsContext::DartsPointModelsService *DartsModelsContext::DartsPointModel
 }
 
 const DartsPointModelsService::PlayerInput *DartsModelsContext::DartsPointModelsService::dartsPointModel(const QUuid &tournamentId,
-                                                                                                        const QUuid &playerId,
-                                                                                                        const int &roundIndex,
-                                                                                                        const int &attemptIndex,
+                                                                                                         const QUuid &playerId,
+                                                                                                         const int &roundIndex,
+                                                                                                         const int &attemptIndex,
                                                                                                          const IDartsPointDb* dbService) const
 {
     auto models = dbService->models();
@@ -44,21 +44,9 @@ DartsPointModelsService *DartsPointModelsService::setDartsInputsFilterService(Fi
     return this;
 }
 
-DartsPointModelsService *DartsPointModelsService::setSortDartsInputModelsByPredicate(SortDartsInputsByPredicateService *newSortDartsInputModelsByPredicate)
-{
-    _sortDartsInputModelsByPredicate = newSortDartsInputModelsByPredicate;
-    return this;
-}
-
 DartsPointModelsService *DartsPointModelsService::setAssembleDartsPointIndexes(IndexesBuilderService *newAssembleDartsPointIndexes)
 {
     _assembleDartsPointIndexes = newAssembleDartsPointIndexes;
-    return this;
-}
-
-DartsPointModelsService *DartsPointModelsService::setDartsSortingPredicate(Predicate *newDartsPointLessThanPredicate)
-{
-    _dartsPointLessThanPredicate = newDartsPointLessThanPredicate;
     return this;
 }
 
@@ -78,9 +66,4 @@ DartsPointModelsService *DartsPointModelsService::setGetInputModelByIdService(Ge
 {
     _getInputModelByIdService = newGetInputModelByIdService;
     return this;
-}
-QVector<const DartsPointModelsService::PlayerInput *> DartsModelsContext::DartsPointModelsService::sortDartsPointsByIndexes(const PlayerInputs& models) const
-{
-    auto sortedModels = _sortDartsInputModelsByPredicate->service(models,_dartsPointLessThanPredicate);
-    return sortedModels;
 }

@@ -13,6 +13,7 @@
 #include <qjsonarray.h>
 #include "idartspointinput.h"
 #include "idartspointdb.h"
+#include "idartsscoredb.h"
 
 using namespace DartsModelsContext;
 
@@ -25,7 +26,7 @@ public:
     virtual QByteArray assembleJsonDartsScoreIndexes(const IDartsScoreIndexes*) const = 0;
     virtual QByteArray assembleJsonFromPlayerNamesAndIds(const QVector<QUuid>&, const QVector<QString>&) const = 0;
     virtual QByteArray assembleJsonFromTournamentDartsPoints(const QVector<const IPlayerInput*>& models) const = 0;
-    virtual QJsonArray jsonArrayFromDartsScores(const QUuid&, const IDartsScoreModelsService*) const = 0;
+    virtual QJsonArray jsonArrayFromDartsScores(const QUuid&, const IDartsScoreModelsService<IDartsScoreDb>*) const = 0;
     virtual QByteArray assembleJsonOrderedDartsPointModels(const QVector<const IPlayerInput*>&,
                                                            const IPlayerModelsService*) const = 0;
     virtual QByteArray addPlayerNamesToDartsTournamentJson(const QByteArray&,

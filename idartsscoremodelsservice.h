@@ -4,26 +4,22 @@
 #include "idartsscoreinput.h"
 #include "idartsscoreindexes.h"
 namespace DartsModelsContext {
+    template<typename TDbModelsService>
     class IDartsScoreModelsService
     {
     public:
+        typedef TDbModelsService DbModelsService;
         typedef IPlayerInput PlayerInput;
         typedef QVector<const PlayerInput*> PlayerInputs;
-        virtual const PlayerInput *dartsScoreModel(const QUuid &tournamentId,
-                                                   const QUuid &playerId,
-                                                   const int &roundIndex) const = 0;
-        virtual QVector<const PlayerInput *> dartsScoreModelsByTournamentIdAndHint(const QUuid &tournamentId,
-                                                                                   const int &hint) const = 0;
-        virtual void addDartsScore(const IDartsScoreInput *pointModel) = 0 ;
-        virtual void removeHiddenScores(const QUuid &tournamentId) = 0 ;
-        virtual void removeScoreById(const QUuid &scoreId) = 0 ;
-        virtual void removeScoresByTournamentId(const QUuid &tournamentId) = 0 ;
-        virtual void removeScoreModel(const QUuid &scoreId) = 0 ;
-        virtual void setDartsScoreHint(const PlayerInput* model,const int &hint) = 0 ;
+        virtual const PlayerInput* dartsScoreModel(const QUuid& tournamentId,
+                                                   const QUuid& playerId,
+                                                   const int& roundIndex,
+                                                   const DbModelsService* dbService) const = 0;
+        virtual void setDartsScoreHint(const PlayerInput* model,const int &hint, DbModelsService* dbService) = 0 ;
         virtual const IDartsScoreIndexes *dartsScoreIndexes(const QUuid &tournamentId,
-                                                            const int& assignedPlayersCount) const = 0;
-        virtual int dartsScoreCount(const QUuid &tournamentId, const int &hint) const = 0;
-    };
+                                                            const int& assignedPlayersCount,
+                                                            const DbModelsService* dbService) const = 0;
+        };
 }
 
 #endif // IDARTSSCOREMODELSSERVICE_H

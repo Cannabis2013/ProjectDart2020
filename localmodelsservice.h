@@ -47,6 +47,7 @@ public:
     typedef IBinaryService<const PlayerInputs&,
                            const Predicate*,
                            PlayerInputs> SortDartsInputsByPredicateService;
+    typedef IDartsScoreModelsService<IDartsScoreDb> DartsScoreModelsService;
     /*
      * Create instance
      */
@@ -58,7 +59,7 @@ public:
     LocalModelsService* setDartsJsonService(IDartsJsonService *dartsJsonService);
     LocalModelsService* setAddPlayerNameToDartsInputModel(IBinaryService<const IModel<QUuid,QByteArray> *, const QString &, const IModel<QUuid,QByteArray> *> *newAddPlayerNameToScoreModel);
     LocalModelsService* setDartsTournamentBuilder(DartsTournamentBuilder *newDartsTournamentBuilder);
-    LocalModelsService* setDartsScoreInputModelsService(IDartsScoreModelsService *service);
+    LocalModelsService* setDartsScoreInputModelsService(DartsScoreModelsService *service);
     LocalModelsService* setDartsPointInputService(IDartsPointModelsService<IDartsPointDb> *newDartsPointInputService);
     LocalModelsService* setDartsPointInputDb(IDartsPointDb *newDartsPointInputDb);
     LocalModelsService* setDartsScoreInputDb(IDartsScoreDb *newDartsScoreInputDb);
@@ -129,7 +130,7 @@ private:
     IDartsJsonService* _dartsJsonService;
     IDartsModelsService* _dartsModelsService;
     IPlayerModelsService* _playerModelsService;
-    IDartsScoreModelsService* _dartsScoreInputService;
+    DartsScoreModelsService* _dartsScoreInputService;
     IDartsPointModelsService<IDartsPointDb>* _dartsPointInputService;
     IBinaryService<const IModel<QUuid,QByteArray>*,
                    const QString&,

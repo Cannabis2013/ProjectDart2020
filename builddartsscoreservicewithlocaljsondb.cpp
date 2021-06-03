@@ -11,8 +11,6 @@ BuildDartsScoreServiceWithLocalJsonDb::ServiceInterface *BuildDartsScoreServiceW
             ->setDartsScoreLessThanPredicate(new DartsScoreLessThanPredicate)
             ->setDartsInputsFilterService(new DartsInputsFilterService)
             ->setSortDartsInputModelsByPredicate(new InputModelsSortService)
-            ->setSetInputHintService(new DartsInputModelHintService)
-            ->setGetInputModelByIdService(new GetDartsInputModelById)
-            ->setDbService(dartsScoreDb);
+            ->setSetInputHintService(new DartsInputModelHintService);
     return service;
 }

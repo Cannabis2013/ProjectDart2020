@@ -12,6 +12,7 @@ class DartsJsonService :
 
     // IDartsModelsJsonService interface
 public:
+    typedef IDartsScoreModelsService<IDartsScoreDb> ScoreModelsService;
     static DartsJsonService* createInstance();
     const IDartsTournament *assembleDartsTournamentFromJson(const QByteArray &json) const override;
     QVector<int> getPlayerIndexesByJson(const QByteArray &json) const override;
@@ -19,7 +20,7 @@ public:
     QByteArray assembleJsonDartsScoreIndexes(const IDartsScoreIndexes *indexes) const override;
     QByteArray assembleJsonFromPlayerNamesAndIds(const QVector<QUuid> &playerIds, const QVector<QString> &playerNames) const override;
     QByteArray assembleJsonFromTournamentDartsPoints(const QVector<const IPlayerInput *> &models) const override;
-    QJsonArray jsonArrayFromDartsScores(const QUuid &tournamentId, const IDartsScoreModelsService *dartsModelsService) const override;
+    QJsonArray jsonArrayFromDartsScores(const QUuid &tournamentId, const ScoreModelsService *dartsModelsService) const override;
     QByteArray assembleJsonOrderedDartsPointModels(const QVector<const IPlayerInput *> &pointModels, const IPlayerModelsService *playerModelsService) const override;
     QByteArray addPlayerNamesToDartsTournamentJson(const QByteArray& json, const QVector<QString>& names) const override;
     QByteArray addWinnerNameToDartsTournamentJson(const QByteArray&json, const QString& name) const override;
@@ -39,7 +40,7 @@ public:
     DartsJsonService* setAssembleJsonDartsPointIndexes(IUnaryService<const IDartsPointIndexes *, QByteArray> *assembleJsonDartsIndexes);
     DartsJsonService* setAssembleJsonFromPlayerNamesAndIds(IBinaryService<const QVector<QUuid> &, const QVector<QString> &, QByteArray> *assembleJsonFromPlayerNamesAndIds);
     DartsJsonService* setAssembleJsonFromTournamentDartsPoints(IUnaryService<const QVector<const IPlayerInput *> &, QByteArray> *service);
-    DartsJsonService* setJsonArrayFromDartsScores(IBinaryService<const QUuid &, const IDartsScoreModelsService *, QJsonArray> *jsonArrayFromDartsScores);
+    DartsJsonService* setJsonArrayFromDartsScores(IBinaryService<const QUuid &, const ScoreModelsService *, QJsonArray> *jsonArrayFromDartsScores);
     DartsJsonService* setAssembleJsonOrderedDartsPointModels(IBinaryService<const QVector<const IPlayerInput *> &, const IPlayerModelsService *, const QByteArray> *assembleJsonOrderedDartsPointModels);
     DartsJsonService* setAddPlayerNamesToTournamentJson(IBinaryService<const QByteArray &, const QVector<QString> &, QByteArray> *assembleJsonDartsTournamentModel);
     DartsJsonService* setAssembleJsonDartsTournamentModels(IBinaryService<const IDartsModelsService *, const IPlayerModelsService *, const QByteArray> *assembleJsonDartsTournamentModels);
@@ -70,7 +71,7 @@ private:
     IUnaryService<const QVector<const IPlayerInput*>&,
                                 QByteArray>* _assembleJsonFromDartsMultiAttemptScores;
     IBinaryService<const QUuid&,
-                   const IDartsScoreModelsService*,
+                   const ScoreModelsService*,
                    QJsonArray>* _jsonArrayFromDartsScores;
     IBinaryService<const QVector<const IPlayerInput*>&,
                    const IPlayerModelsService*,const QByteArray>* _assembleJsonOrderedDartsPointModels;

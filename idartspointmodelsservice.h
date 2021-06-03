@@ -17,7 +17,6 @@ namespace DartsModelsContext {
                                                    const int& roundIndex,
                                                    const int& attemptIndex,
                                                    const DbServiceInterface* dbService) const = 0;
-        virtual QVector<const PlayerInput*> sortDartsPointsByIndexes(const QVector<const PlayerInput*>& models) const = 0;
         virtual const IDartsPointIndexes* dartsPointIndexes(const QVector<const PlayerInput*>& models,
                                                             const int& totalInputModelsCount,
                                                             const int& assignedPlayersCount) const = 0;

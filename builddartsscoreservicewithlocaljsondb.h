@@ -13,11 +13,13 @@
 #include "assemblemultiattemptscoresbyjson.h"
 #include "assemblejsonbydartsscoremodels.h"
 
-class BuildDartsScoreServiceWithLocalJsonDb : public
-        IModelsServiceBuilder<DartsModelsContext::IDartsScoreModelsService>
-{
-public:
-    ServiceInterface *buildModelsService() const override;
-};
+namespace DartsModelsContext {
+    class BuildDartsScoreServiceWithLocalJsonDb : public
+            IModelsServiceBuilder<IDartsScoreModelsService<IDartsScoreDb>>
+    {
+    public:
+        ServiceInterface *buildModelsService() const override;
+    };
+}
 
 #endif // LOCALJSONDBDARTSSCORESERVICEBUILDER_H

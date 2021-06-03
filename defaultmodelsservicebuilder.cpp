@@ -47,7 +47,7 @@ DefaultModelsServiceBuilder *DefaultModelsServiceBuilder::setDartsJSonServiceBui
     return this;
 }
 
-DefaultModelsServiceBuilder *DefaultModelsServiceBuilder::setDartsScoreModelsServiceBuilder(IModelsServiceBuilder<IDartsScoreModelsService> *newDartsScoreModelsServiceBuilder)
+DefaultModelsServiceBuilder *DefaultModelsServiceBuilder::setDartsScoreModelsServiceBuilder(IModelsServiceBuilder<ScoreModelsService> *newDartsScoreModelsServiceBuilder)
 {
     _dartsScoreModelsServiceBuilder = newDartsScoreModelsServiceBuilder;
     return this;

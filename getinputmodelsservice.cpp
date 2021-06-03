@@ -6,10 +6,10 @@ GetInputModelsService::InputModels DartsModelsContext::GetInputModelsService::in
                                                                                                         const DbServiceInterface *dbService) const
 {
     QVector<const IPlayerInput*> list;
-    auto models = dbService->models();
+    const auto& models = dbService->models();
     for (const auto& model : models) {
         if(model->tournamentId() == tournamentId)
-            models << model;
+            list << model;
     }
     return list;
 }

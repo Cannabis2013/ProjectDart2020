@@ -9,9 +9,10 @@
 #include "ipredicate.h"
 #include "iternaryservice.h"
 #include "idartsmultiattemptindexesbuilder.h"
+#include "idartsscoredb.h"
 
 namespace DartsModelsContext {
-    class DartsScoreModelsService : public IDartsScoreModelsService
+    class DartsScoreModelsService : public IDartsScoreModelsService<IDartsScoreDb>
     {
     public:
         /*
@@ -26,9 +27,6 @@ namespace DartsModelsContext {
         };
         typedef IDartsInputsFilter<PlayerInput,QUuid> FilterDartsInputsService;
         typedef QVector<const PlayerInput*> DartsPlayerInputs;
-        typedef IModelsDbContext<PlayerInput> ModelsDbService;
-        typedef IBinaryService<const DartsPlayerInputs&,ModelsDbService*,void> RemoveModelsService;
-        typedef IBinaryService<const QUuid&,const ModelsDbService*, const PlayerInput*> GetDartsInputModelByIdService;
         typedef IBinaryService<const PlayerInput*,const int&, const PlayerInput*> setInputHintService;
         typedef IPredicate<IPlayerInput> Predicate;
         typedef IBinaryService<const PlayerInputs&,
@@ -38,35 +36,24 @@ namespace DartsModelsContext {
         // Create instance
         static DartsScoreModelsService* createInstance();
         // Methods
-        const PlayerInput *dartsScoreModel(const QUuid &tournamentId, const QUuid &playerId, const int &roundIndex) const override;
-        QVector<const PlayerInput *> dartsScoreModelsByTournamentIdAndHint(const QUuid &tournamentId, const int &hint) const override;
-        void addDartsScore(const IDartsScoreInput *scoreModel) override;
-        void removeHiddenScores(const QUuid &tournamentId) override;
-        void removeScoreById(const QUuid &scoreId) override;
-        void removeScoresByTournamentId(const QUuid &tournamentId) override;
-        void removeScoreModel(const QUuid &scoreId) override;
-        void setDartsScoreHint(const PlayerInput *model, const int &hint) override;
+        virtual const PlayerInput *dartsScoreModel(const QUuid &tournamentId, const QUuid &playerId, const int &roundIndex, const DbModelsService *dbService) const override;
+        void setDartsScoreHint(const PlayerInput *model, const int &hint, DbModelsService* dbService) override;
         const IDartsScoreIndexes *dartsScoreIndexes(const QUuid &tournamentId,
-                                                    const int& assignedPlayersCount) const override;
-        int dartsScoreCount(const QUuid &tournamentId, const int &hint) const override;
+                                                    const int& assignedPlayersCount,
+                                                    const DbModelsService* dbService) const override;
         DartsScoreModelsService* setDartsInputsFilterService(FilterDartsInputsService *newDartsInputsFilterService);
-        DartsScoreModelsService* setRemoveModelsService(RemoveModelsService *newRemoveModelsService);
-        DartsScoreModelsService* setGetInputModelByIdService(GetDartsInputModelByIdService *newGetInputModelByIdService);
         DartsScoreModelsService* setSetInputHintService(setInputHintService *newSetInputHintService);
         DartsScoreModelsService* setSortDartsInputModelsByPredicate(SortDartsInputsByPredicateService *newSortDartsInputModelsByPredicate);
         DartsScoreModelsService* setGetDartsScoreIndexesByModels(GetScoreIndexesByModels *newGetDartsScoreIndexesByModels);
         DartsScoreModelsService* setDartsScoreLessThanPredicate(Predicate *newDartsPointLessThanPredicate);
-        DartsScoreModelsService* setDbService(IDartsScoreDb *service);
 
     private:
         Predicate* _dartsScoreLessThanPredicate;
         SortDartsInputsByPredicateService* _sortDartsInputModelsByPredicate;
         GetScoreIndexesByModels* _getDartsScoreIndexesByModels;
         setInputHintService* _setInputHintService;
-        GetDartsInputModelByIdService* _getInputModelByIdService;
-        RemoveModelsService* _removeModelsService;
         FilterDartsInputsService* _dartsInputsFilterService;
-        IDartsScoreDb* _dartsScoresDb;
+
     };
 }
 

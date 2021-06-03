@@ -24,10 +24,6 @@ namespace DartsModelsContext {
         };
         // Typedefs
         typedef IDartsInputsFilter<IPlayerInput,QUuid> FilterDartsInputsService;
-        typedef IPredicate<IPlayerInput> Predicate;
-        typedef IBinaryService<const PlayerInputs&,
-                               const Predicate*,
-                               PlayerInputs> SortDartsInputsByPredicateService;
         typedef IDartsSingleAttemptIndexesBuilder<IDartsPointIndexes,PlayerInput> IndexesBuilderService;
         typedef IModelsDbContext<PlayerInput> ModelsDbService;
         typedef IBinaryService<const QUuid&,const ModelsDbService*, const PlayerInput*> GetDartsInputModelByIdService;
@@ -48,12 +44,9 @@ namespace DartsModelsContext {
                                                     const int& assignedPlayersCount) const override;
         int dartsPointsCount(const QUuid &tournamentId, const int &hint, const IDartsPointDb* dbService) const override;
         void setDartsPointHint(const PlayerInput *inputModel, const int &hint, IDartsPointDb *dbService) override;
-        QVector<const PlayerInput *> sortDartsPointsByIndexes(const QVector<const PlayerInput *> &models) const override;
         // Set service methods
         DartsPointModelsService* setDartsInputsFilterService(FilterDartsInputsService *newDartsInputsFilterService);
-        DartsPointModelsService* setSortDartsInputModelsByPredicate(SortDartsInputsByPredicateService *newSortDartsInputModelsByPredicate);
         DartsPointModelsService* setAssembleDartsPointIndexes(IndexesBuilderService *newAssembleDartsPointIndexes);
-        DartsPointModelsService* setDartsSortingPredicate(Predicate *newDartsPointLessThanPredicate);
         DartsPointModelsService* setDartsInputHintService(DartsInputHintService *newSetInputHintService);
         DartsPointModelsService* setRemoveModelsService(RemoveModelsService *newRemoveModelsService);
         DartsPointModelsService* setGetInputModelByIdService(GetDartsInputModelByIdService *newGetInputModelByIdService);
@@ -64,8 +57,6 @@ namespace DartsModelsContext {
         DartsInputHintService* _setInputHintService;
         GetDartsInputModelByIdService* _getInputModelByIdService;
         IndexesBuilderService* _assembleDartsPointIndexes;
-        SortDartsInputsByPredicateService* _sortDartsInputModelsByPredicate;
-        Predicate* _dartsPointLessThanPredicate;
         FilterDartsInputsService* _dartsInputsFilterService;
     };
 }

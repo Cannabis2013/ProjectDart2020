@@ -11,10 +11,6 @@ namespace DartsModelsContext {
                                    IModelsDbContext<IPlayerInput>,QUuid>
     {
     public:
-
-
-        // IGetInputModelsService interface
-    public:
         InputModels inputModelsByTournamentId(const IdFormat &tournamentId, const DbServiceInterface *dbService) const override;
         InputModels inputModelsByHint(const IdFormat &tournamentId, const int &hint, const DbServiceInterface *dbService) const override;
     };
