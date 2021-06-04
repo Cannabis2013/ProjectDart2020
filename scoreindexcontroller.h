@@ -14,13 +14,7 @@ namespace DartsScoreMultiAttemptContext
         // Create instance
         static ScoreIndexController* createInstance();
         // IndexControllerInterface interface
-        virtual void setIndexes(const IDartsMultiAttemptIndexes* indexes) override
-        {
-            _totalIndex = indexes->totalTurns();
-            _turnIndex = indexes->turnIndex();
-            _roundIndex = indexes->roundIndex();
-            _setIndex = indexes->setIndex();
-        }
+        virtual void setIndexes(const IDartsMultiAttemptIndexes* indexes) override;
         virtual void reset() override;
         virtual void next() override;
         virtual void undo() override;
@@ -29,15 +23,9 @@ namespace DartsScoreMultiAttemptContext
         virtual bool canRedo() const override;
         virtual void syncIndex() override;
         virtual int turnIndex() const override;
-        virtual void setTurnIndex(const int &index) override
-        {
-            _turnIndex = index;
-        }
+        virtual void setTurnIndex(const int &index) override;
         virtual int totalIndex() const override;
-        virtual void setTotalIndex(const int &index) override
-        {
-            _totalIndex = index;
-        }
+        virtual void setTotalIndex(const int &index) override;
         virtual int roundIndex() const override;
         virtual int setIndex() const override;
 

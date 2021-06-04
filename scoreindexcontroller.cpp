@@ -7,6 +7,14 @@ ScoreIndexController *ScoreIndexController::createInstance()
     return new ScoreIndexController();
 }
 
+void ScoreIndexController::setIndexes(const IDartsMultiAttemptIndexes *indexes)
+{
+    _totalIndex = indexes->totalTurns();
+    _turnIndex = indexes->turnIndex();
+    _roundIndex = indexes->roundIndex();
+    _setIndex = indexes->setIndex();
+}
+
 void ScoreIndexController::reset()
 {
     _totalIndex = 0;
@@ -74,9 +82,19 @@ int ScoreIndexController::turnIndex() const
     return _turnIndex;
 }
 
+void ScoreIndexController::setTurnIndex(const int &index)
+{
+    _turnIndex = index;
+}
+
 int ScoreIndexController::totalIndex() const
 {
     return _totalIndex;
+}
+
+void ScoreIndexController::setTotalIndex(const int &index)
+{
+    _totalIndex = index;
 }
 
 int ScoreIndexController::roundIndex() const

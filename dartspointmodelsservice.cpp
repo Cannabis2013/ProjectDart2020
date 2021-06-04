@@ -26,12 +26,6 @@ const DartsModelsContext::IDartsPointIndexes *DartsModelsContext::DartsPointMode
     return indexes;
 }
 
-int DartsModelsContext::DartsPointModelsService::dartsPointsCount(const QUuid& tournamentId, const int& hint, const IDartsPointDb *dbService) const
-{
-    auto pointInputs = _dartsInputsFilterService->filterByHint(dbService->models(),tournamentId,hint);
-    return pointInputs.count();
-}
-
 void DartsModelsContext::DartsPointModelsService::setDartsPointHint(const PlayerInput *inputModel, const int &hint, IDartsPointDb* dbService)
 {
     _setInputHintService->service(inputModel,hint);
@@ -53,17 +47,5 @@ DartsPointModelsService *DartsPointModelsService::setAssembleDartsPointIndexes(I
 DartsPointModelsService *DartsPointModelsService::setDartsInputHintService(DartsInputHintService *newSetInputHintService)
 {
     _setInputHintService = newSetInputHintService;
-    return this;
-}
-
-DartsPointModelsService *DartsPointModelsService::setRemoveModelsService(RemoveModelsService *newRemoveModelsService)
-{
-    _removeModelsService = newRemoveModelsService;
-    return this;
-}
-
-DartsPointModelsService *DartsPointModelsService::setGetInputModelByIdService(GetDartsInputModelByIdService *newGetInputModelByIdService)
-{
-    _getInputModelByIdService = newGetInputModelByIdService;
     return this;
 }

@@ -26,9 +26,7 @@ namespace DartsModelsContext {
         typedef IDartsInputsFilter<IPlayerInput,QUuid> FilterDartsInputsService;
         typedef IDartsSingleAttemptIndexesBuilder<IDartsPointIndexes,PlayerInput> IndexesBuilderService;
         typedef IModelsDbContext<PlayerInput> ModelsDbService;
-        typedef IBinaryService<const QUuid&,const ModelsDbService*, const PlayerInput*> GetDartsInputModelByIdService;
         typedef IBinaryService<const PlayerInput*,const int&, const PlayerInput*> DartsInputHintService;
-        typedef IBinaryService<const PlayerInputs&,ModelsDbService*,void> RemoveModelsService;
 
         // Create instance
         static DartsPointModelsService* createInstance();
@@ -42,20 +40,15 @@ namespace DartsModelsContext {
         const IDartsPointIndexes *dartsPointIndexes(const QVector<const PlayerInput*>& models,
                                                     const int& totalInputModelsCount,
                                                     const int& assignedPlayersCount) const override;
-        int dartsPointsCount(const QUuid &tournamentId, const int &hint, const IDartsPointDb* dbService) const override;
         void setDartsPointHint(const PlayerInput *inputModel, const int &hint, IDartsPointDb *dbService) override;
         // Set service methods
         DartsPointModelsService* setDartsInputsFilterService(FilterDartsInputsService *newDartsInputsFilterService);
         DartsPointModelsService* setAssembleDartsPointIndexes(IndexesBuilderService *newAssembleDartsPointIndexes);
         DartsPointModelsService* setDartsInputHintService(DartsInputHintService *newSetInputHintService);
-        DartsPointModelsService* setRemoveModelsService(RemoveModelsService *newRemoveModelsService);
-        DartsPointModelsService* setGetInputModelByIdService(GetDartsInputModelByIdService *newGetInputModelByIdService);
         DartsPointModelsService* setDbService(IDartsPointDb *newDartsPointsDb);
 
     private:
-        RemoveModelsService* _removeModelsService;
         DartsInputHintService* _setInputHintService;
-        GetDartsInputModelByIdService* _getInputModelByIdService;
         IndexesBuilderService* _assembleDartsPointIndexes;
         FilterDartsInputsService* _dartsInputsFilterService;
     };

@@ -41,6 +41,7 @@ SOURCES += \
     dartspointmodelsservice.cpp \
     dartspointsingleattempt.cpp \
     dartspointsingleattemptdatamodel.cpp \
+    dartspointsjsonservice.cpp \
     dartsscoreindexesbuilderservice.cpp \
     dartsscorejsonbuilderservice.cpp \
     dartsscorejsondb.cpp \
@@ -159,6 +160,7 @@ HEADERS += \
     dartspointmodelsservice.h \
     dartspointsingleattempt.h \
     dartspointsingleattemptdatamodel.h \
+    dartspointsjsonservice.h \
     dartspointturnvalues.h \
     dartsscoreindexes.h \
     dartsscoreindexesbuilderservice.h \
@@ -180,7 +182,6 @@ HEADERS += \
     deletetournamentsbyindexesservice.h \
     determinecontrollerstatebywinnerid.h \
     filterpredicatedefaultbuilder.h \
-    getdartsinputmodelbyid.h \
     getdartsscoreindexesbymodel.h \
     getdartstournamentbyid.h \
     getdartstournamentbyindexservice.h \
@@ -215,6 +216,7 @@ HEADERS += \
     idartspointindexes.h \
     idartspointjsonservice.h \
     idartspointmodelsservice.h \
+    idartspointsjsonservice.h \
     idartsscoredb.h \
     idartsscoreindexes.h \
     idartsscorejsonbuilderservice.h \
@@ -226,9 +228,11 @@ HEADERS += \
     idartstournamentbuilder.h\
     ifilterpredicatebuilder.h \
     igetinputmodelsservice.h \
+    iinputmodelscountservice.h \
     ijsonmodelsservice.h \
     imodelsdbcontext.h \
     imodelsservicebuilder.h \
+    inputmodelscountservice.h \
     inputmodelssortservice.h \
     ipersistence.h \
     iplayerinputsdbmanipulatorservice.h \

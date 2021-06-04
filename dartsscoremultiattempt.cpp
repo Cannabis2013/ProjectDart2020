@@ -349,6 +349,7 @@ void DartsScoreMultiAttempt::redoSuccess(const QByteArray& json)
 void DartsScoreMultiAttempt::initializeControllerPlayerDetails(const QByteArray &json)
 {
     auto dartsPlayerModels = _playerBuilderService->buildPlayerModelsByJson(json);
+    _indexController->setPlayersCount(dartsPlayerModels.count());
     _scoreController->addPlayerEntities(dartsPlayerModels);
     emit requestTournamentDartsScores(tournament());
 }

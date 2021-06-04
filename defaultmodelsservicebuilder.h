@@ -40,6 +40,7 @@
 #include "defaultdbmanipulatorservice.h"
 #include "inputmodelssortservice.h"
 #include "sortdartspointinputsbyindexes.h"
+#include "inputmodelscountservice.h"
 class DefaultModelsServiceBuilder :
         public AbstractModelsServiceBuilder<AbstractModelsService>
 {

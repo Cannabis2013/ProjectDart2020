@@ -20,8 +20,6 @@ namespace DartsModelsContext {
         virtual const IDartsPointIndexes* dartsPointIndexes(const QVector<const PlayerInput*>& models,
                                                             const int& totalInputModelsCount,
                                                             const int& assignedPlayersCount) const = 0;
-        virtual int dartsPointsCount(const QUuid&,const int&,
-                                     const DbServiceInterface* dbService) const = 0;
         virtual void setDartsPointHint(const PlayerInput* inputModel,const int& hint,
                                        DbServiceInterface* dbService) = 0;
     };

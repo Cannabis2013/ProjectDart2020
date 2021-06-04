@@ -24,7 +24,8 @@ AbstractModelsService *DefaultModelsServiceBuilder::buildLocalModelsServiceWithJ
             ->setGetInputModelsService(new GetInputModelsService)
             ->setDbManipulatorService(new DefaultDbManipulatorService)
             ->setInputModelsSortService(new InputModelsSortService)
-            ->setSortPointInputsByIndexes(new SortDartsPointInputsByIndexes);
+            ->setSortPointInputsByIndexes(new SortDartsPointInputsByIndexes)
+            ->setInputModelsScountervice(new InputModelsCountService);
     return modelsContext;
 }
 

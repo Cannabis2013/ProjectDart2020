@@ -36,8 +36,7 @@ DartsInputsFilterService::IDartsInputsFilter::Models DartsInputsFilterService::f
     auto inputModelsByPlayerId = filterByPlayerId(models,tournamentId,playerId);
     Models playerInputsByHint;
     for (const auto& model : inputModelsByPlayerId) {
-        auto inputModel = dynamic_cast<const IPlayerInput*>(model);
-        if(inputModel->hint() == hint)
+        if(model->hint() == hint)
             playerInputsByHint << model;
     }
     return playerInputsByHint;
@@ -52,8 +51,8 @@ DartsInputsFilterService::Models DartsInputsFilterService::filterByRoundIndex(co
     auto inputModelsByPlayerId = filterByPlayerId(models,tournamentId,playerId);
     Models playerInputsByRoundIndex;
     for (const auto& model : inputModelsByPlayerId) {
-        auto pointModel = dynamic_cast<const IDartsPointInput*>(model);
-        if(pointModel->roundIndex() == roundIndex)
+        auto dartsInput = dynamic_cast<const IDartsInput*>(model);
+        if(dartsInput->roundIndex() == roundIndex)
             playerInputsByRoundIndex << model;
     }
     return playerInputsByRoundIndex;
@@ -85,8 +84,7 @@ DartsInputsFilterService::Models DartsModelsContext::DartsInputsFilterService::f
     auto inputModelsByTournamentId = filterByTournamentId(models,tournamentId);
     Models inputModelsByHint;
     for (const auto& model : inputModelsByTournamentId) {
-        auto inputModel = dynamic_cast<const IPlayerInput*>(model);
-        if(inputModel->hint() == hint)
+        if(model->hint() == hint)
             inputModelsByHint << model;
     }
     return inputModelsByHint;
@@ -97,8 +95,7 @@ DartsInputsFilterService::Models DartsModelsContext::DartsInputsFilterService::f
 {
     Models inputModelsByHint;
     for (const auto& model : models) {
-        auto inputModel = dynamic_cast<const IPlayerInput*>(model);
-        if(inputModel->hint() == hint)
+        if(model->hint() == hint)
             inputModelsByHint << model;
     }
     return inputModelsByHint;

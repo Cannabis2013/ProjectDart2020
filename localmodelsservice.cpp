@@ -142,8 +142,8 @@ void LocalModelsService::assembleDartsPointIndexes(const QUuid &tournamentId)
     auto dartsTournamentModel = _dartsModelsService->dartsTournamentModelById(tournamentId);
     auto assignedPlayers = dartsTournamentModel->assignedPlayerIdentities();
     auto models = _getInputModelsService->inputModelsByTournamentId(tournamentId,_dartsPointInputDb);
-    auto allModels = _getInputModelsService->inputModelsByHint(tournamentId,allHints,_dartsPointInputDb);
-    auto indexes = _dartsPointInputService->dartsPointIndexes(models,allModels.count(),assignedPlayers.count());
+    auto allModelsCount = _inputModelsScountervice->countInputModelsByTournamentId(tournamentId,_dartsPointInputDb);
+    auto indexes = _dartsPointInputService->dartsPointIndexes(models,allModelsCount,assignedPlayers.count());
     auto json = _dartsJsonService->assembleJsonDartsPointIndexes(indexes);
     emit sendDartsPointIndexesAsJson(json);
 }
@@ -239,6 +239,18 @@ void LocalModelsService::assembleDartsTournamentWinnerIdAndName(const QUuid& tou
     emit sendDartsTournamentWinnerIdAndName(json);
 }
 
+LocalModelsService *LocalModelsService::setPointModelsJsonService(PointModelsJsonService *newPointModelsJsonService)
+{
+    pointModelsJsonService = newPointModelsJsonService;
+    return this;
+}
+
+LocalModelsService *LocalModelsService::setInputModelsScountervice(InputModelsCountService *newInputModelsScountervice)
+{
+    _inputModelsScountervice = newInputModelsScountervice;
+    return this;
+}
+
 LocalModelsService *LocalModelsService::setSortPointInputsByIndexes(Predicate *newSortPointInputsByIndexes)
 {
     _sortPointInputsByIndexes = newSortPointInputsByIndexes;
@@ -293,12 +305,11 @@ LocalModelsService *LocalModelsService::setDartsTournamentBuilder(DartsTournamen
     return this;
 }
 
-LocalModelsService *LocalModelsService::setAddPlayerNameToDartsInputModel(
-        IBinaryService<const IModel<QUuid,QByteArray>*,
+LocalModelsService *LocalModelsService::setAddPlayerNameToDartsInputModel(IBinaryService<const IModel<QUuid,QByteArray>*,
                        const QString &,
-                       const IModel<QUuid,QByteArray>*> *newAddPlayerNameToScoreModel)
+                       const IModel<QUuid,QByteArray>*> *service)
 {
-    _addPlayerNameToDartsInputModel = newAddPlayerNameToScoreModel;
+    _addPlayerNameToDartsInputModel = service;
     return this;
 }
 

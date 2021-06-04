@@ -9,6 +9,8 @@ QByteArray DartsScoreJsonBuilderService::buildJsonAddScoreValues(const DartsInde
     obj["roundIndex"] = indexes->roundIndex();
     obj["setIndex"] = indexes->setIndex();
     obj["score"] = model->score();
+    obj["playerId"] = model->playerId().toString(QUuid::WithoutBraces);
+    obj["playerName"] = model->playerName();
     auto json = QJsonDocument(obj).toJson();
     return json;
 }

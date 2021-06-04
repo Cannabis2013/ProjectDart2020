@@ -4,7 +4,7 @@
 #include "iplayerinput.h"
 
 namespace DartsModelsContext{
-    class IDartsInput : public IPlayerInput
+    class   IDartsInput : public IPlayerInput
     {
     public:
         virtual int roundIndex() const = 0;
