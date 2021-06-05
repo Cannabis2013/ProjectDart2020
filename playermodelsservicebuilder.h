@@ -9,11 +9,14 @@
 #include "iplayermodel.h"
 #include <quuid.h>
 
-class PlayerModelsServiceBuilder :
-        public IModelsServiceBuilder<IPlayerModelsService>
-{
-public:
-    IPlayerModelsService *buildModelsService() const override;
-};
+namespace DartsModelsContext {
+    class PlayerModelsServiceBuilder :
+            public IModelsServiceBuilder<IPlayerModelsService>
+    {
+    public:
+        IPlayerModelsService *buildModelsService() const override;
+    };
+}
+
 
 #endif // PLAYERMODELSSERVICEBUILDER_H

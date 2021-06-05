@@ -2,6 +2,11 @@
 
 using namespace DartsModelsContext;
 
+DartsPointsJsonService *DartsPointsJsonService::createInstance()
+{
+    return new DartsPointsJsonService;
+}
+
 DartsPointsJsonService::JsonFormat DartsModelsContext::DartsPointsJsonService::assembleJsonDartsPointIndexes(const IndexesInterface *indexes) const
 {
     auto json = _assembleJsonDartsPointIndexes->service(indexes);
@@ -36,5 +41,11 @@ DartsPointsJsonService *DartsPointsJsonService::setAssembleJsonDartsPointIndexes
 DartsPointsJsonService *DartsPointsJsonService::setAssembleJsonOrderedDartsPointModels(IBinaryService<const QVector<const IPlayerInput *> &, const IPlayerModelsService *, const QByteArray> *newAssembleJsonOrderedDartsPointModels)
 {
     _assembleJsonOrderedDartsPointModels = newAssembleJsonOrderedDartsPointModels;
+    return this;
+}
+
+DartsPointsJsonService *DartsPointsJsonService::setAssembleJsonFromTournamentDartsPoints(IUnaryService<const QVector<const IPlayerInput *> &, QByteArray> *newAssembleJsonFromTournamentDartsPoints)
+{
+    _assembleJsonFromTournamentDartsPoints = newAssembleJsonFromTournamentDartsPoints;
     return this;
 }

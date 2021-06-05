@@ -24,18 +24,24 @@
 #include "assembledartsscoremodelfromjson.h"
 #include "assemblejsonfromdartsmultiattemptscores.h"
 #include "assemblejsonbydartsscoreindexes.h"
-#include "getplayernamebyid.h"
 #include "getwinneridbyjson.h"
 #include "gettournamentidbyjson.h"
 #include "addwinnernametotournamentjson.h"
+#include "idartsjsonservicebuilder.h"
+#include "dartspointsjsonservice.h"
+#include "dartsscorejsonservice.h"
 
-class DartsJsonServiceBuilder :
-        public IModelsServiceBuilder<IDartsJsonService>
-{
+namespace DartsModelsContext {
+    class DartsJsonServiceBuilder :
+            public IDartsJsonServiceBuilder
+    {
 
-    // IModelsServiceBuilder interface
-public:
-    IDartsJsonService *buildModelsService() const override;
-};
+        // IDartsJsonServiceBuilder interface
+    public:
+        virtual IDartsJsonService *buildDartsJsonService() const override;
+        virtual PointsJsonService *buildDartsPointsJsonService() const override;
+        virtual ScoreJsonService *buildDartsScoreJsonService() const override;
+    };
+}
 
 #endif // DARTSJSONSERVICEBUILDER_H

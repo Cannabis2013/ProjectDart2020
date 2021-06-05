@@ -3,10 +3,7 @@
 
 #include "abstractmodelsservicebuilder.h"
 #include "abstractmodelsservice.h"
-#include "imodelsservicebuilder.h"
 #include "localmodelsservice.h"
-#include "iplayermodelsservice.h"
-#include "iplayermodel.h"
 #include "getplayerindexesfromjson.h"
 #include "assemblejsonfromdartspointindexes.h"
 #include "jsonarrayfromplayernamesandids.h"
@@ -15,7 +12,6 @@
 #include "assembledartstournamentmodelfromjson.h"
 #include "assemblejsonbasictournamentvaluesfrommodel.h"
 #include "assemblejsondartstournamentmodels.h"
-#include "ibinaryservice.h"
 #include "assemblejsonfromplayeridandname.h"
 #include "assemblejsonbasictournamentvalues.h"
 #include "gettournamentindexesfromjson.h"
@@ -24,11 +20,8 @@
 #include "assembleplayermodelfromjson.h"
 #include "assignplayeridstodartstournamentmodel.h"
 #include "addplayernametodartsinputmodel.h"
-#include "idartsjsonservice.h"
 #include "addplayernametodartsinputmodel.h"
 #include "dartstournamentbuilder.h"
-#include "idartsscoremodelsservice.h"
-#include "idartspointmodelsservice.h"
 #include "AssembleDartsTournamentsFromJsonArray.h"
 #include "assemblesingleattemptpointsfromjson.h"
 #include "dartspointjsondbservice.h"
@@ -41,25 +34,32 @@
 #include "inputmodelssortservice.h"
 #include "sortdartspointinputsbyindexes.h"
 #include "inputmodelscountservice.h"
-class DefaultModelsServiceBuilder :
-        public AbstractModelsServiceBuilder<AbstractModelsService>
-{
-public:
-    static DefaultModelsServiceBuilder* createInstance();
-    typedef IDartsScoreModelsService<IDartsScoreDb> ScoreModelsService;
-    AbstractModelsService *buildLocalModelsServiceWithJsonDb() override;
-    DefaultModelsServiceBuilder* setModelsTournamentServiceBuilder(IModelsServiceBuilder<IDartsModelsService>* builder);
-    DefaultModelsServiceBuilder* setPlayerServiceBuilder(IModelsServiceBuilder<IPlayerModelsService> *playerServiceBuilder);
-    DefaultModelsServiceBuilder* setDartsJSonServiceBuilder(IModelsServiceBuilder<IDartsJsonService> *dartsJSonServiceBuilder);
-    DefaultModelsServiceBuilder* setDartsScoreModelsServiceBuilder(IModelsServiceBuilder<ScoreModelsService> *newDartsScoreModelsServiceBuilder);
-    DefaultModelsServiceBuilder* setDartsPointModelsServiceBuilder(IModelsServiceBuilder<IDartsPointModelsService<IDartsPointDb>> *newDartsPointModelsServiceBuilder);
+#include "dartspointsjsonservice.h"
+#include "dartsjsonservicebuilder.h"
+#include "playerjsonservicebuilder.h"
+#include "dartsmodelsservicebuilder.h"
+#include "playermodelsservicebuilder.h"
+#include "builddartspointservicewithlocaljsondb.h"
+#include "builddartsscoreservicewithlocaljsondb.h"
 
-private:
-    IModelsServiceBuilder<IDartsJsonService>* _dartsJSonServiceBuilder;
-    IModelsServiceBuilder<IDartsModelsService>* _localDartsTournamentServiceBuilder;
-    IModelsServiceBuilder<ScoreModelsService>* _dartsScoreModelsServiceBuilder;
-    IModelsServiceBuilder<IDartsPointModelsService<IDartsPointDb>>* _dartsPointModelsServiceBuilder;
-    IModelsServiceBuilder<IPlayerModelsService>* _playerServiceBuilder;
-};
+namespace DartsModelsContext {
+    class DefaultModelsServiceBuilder :
+            public AbstractModelsServiceBuilder<AbstractModelsService>
+    {
+    public:
+        static DefaultModelsServiceBuilder* createInstance();
+        typedef IDartsScoreModelsService<IDartsScoreDb> ScoreModelsService;
+        typedef IPlayerModelsJsonService<IPlayerModel,QUuid,QString,QByteArray> PlayerModelsJsonService;
+        AbstractModelsService *buildLocalModelsServiceWithJsonDb() override;
+    private:
+        IDartsJsonServiceBuilder* _dartsJsonServiceBuilder = new DartsJsonServiceBuilder;
+        IModelsServiceBuilder<PlayerModelsJsonService>* _playerJsonServiceBuilder  = new PlayerJsonServiceBuilder;
+        IModelsServiceBuilder<IDartsModelsService>* _localDartsTournamentServiceBuilder = new DartsModelsServiceBuilder;
+        IModelsServiceBuilder<ScoreModelsService>* _dartsScoreModelsServiceBuilder = new BuildDartsScoreServiceWithLocalJsonDb;
+        IModelsServiceBuilder<IDartsPointModelsService<IDartsPointDb>>* _dartsPointModelsServiceBuilder = new BuildDartsPointServiceWithLocalJsonDb;
+        IModelsServiceBuilder<IPlayerModelsService>* _playerServiceBuilder = new PlayerModelsServiceBuilder;
+    };
+}
+
 
 #endif // DEFAULTMODELSSERVICEBUILDER_H

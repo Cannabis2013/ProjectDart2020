@@ -42,8 +42,8 @@ Item {
             pageContent: TournamentPageContent{
                 onCreateTournamentClicked: pageLoader.sourceComponent = createTournamentComponent
                 onManageButtonClicked: pageLoader.sourceComponent = managePageComponent
-                onDartsSingleAttemptInitialized: pageLoader.sourceComponent = dartsSingleAttemptComponent
-                onDartsMultiAttemptIsInitialized: pageLoader.sourceComponent = dartsMultiAttemptComponent
+                onDartsPointSingleAttemptInitialized: pageLoader.sourceComponent = dartsSingleAttemptComponent
+                onDartsScoreMultiAttemptIsInitialized: pageLoader.sourceComponent = dartsMultiAttemptComponent
             }
             Component.onCompleted: body.backPushed.connect(backButtonPressed)
             onBackButtonPressed: pageLoader.sourceComponent = startPageComponent

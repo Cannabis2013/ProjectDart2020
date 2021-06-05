@@ -1,5 +1,6 @@
 #include "playermodelsjsonassembler.h"
 
+using namespace DartsModelsContext;
 
 PlayerModelsJsonAssembler *PlayerModelsJsonAssembler::createInstance()
 {

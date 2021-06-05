@@ -26,6 +26,7 @@ SOURCES += \
     connectdefaultmodelscontextinterface.cpp \
     dartapplication.cpp \
     dartscontrollerbuilder.cpp \
+    dartscontrollerentity.cpp \
     dartscontrollerpointmodelsservice.cpp \
     dartsinputsfilterservice.cpp \
     dartsjsonservice.cpp \
@@ -45,6 +46,7 @@ SOURCES += \
     dartsscoreindexesbuilderservice.cpp \
     dartsscorejsonbuilderservice.cpp \
     dartsscorejsondb.cpp \
+    dartsscorejsonservice.cpp \
     dartsscorelogisticcontroller.cpp \
     dartsscoremodelsservice.cpp \
     dartsscoremultiattempt.cpp \
@@ -60,8 +62,10 @@ SOURCES += \
     main.cpp \
     multiattemptscoredatamodel.cpp \
     networkmanager.cpp \
+    playerjsonservicebuilder.cpp \
     playermodelsjsonassembler.cpp \
     playermodelsjsonextractor.cpp \
+    playermodelsjsonservice.cpp \
     playermodelsservicebuilder.cpp \
     playersjsondb.cpp \
     remotemodelscontext.cpp \
@@ -91,6 +95,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     ApplicationBuilder.h \
     AssembleDartsTournamentsFromJsonArray.h \
+    BuildDartsControllerEntity.h \
     DartsIndexesBuilderService.h \
     DartsPointCalculator.h \
     DartsScoreJsonExtractor.h \
@@ -135,6 +140,7 @@ HEADERS += \
     connectdartssingleattemptpointcontroller.h \
     connectdefaultmodelscontextinterface.h \
     dartscontrollerbuilder.h \
+    dartscontrollerentity.h \
     dartscontrollerplayer.h \
     dartscontrollerpoint.h \
     dartscontrollerpointbuilder.h \
@@ -167,6 +173,7 @@ HEADERS += \
     dartsscorejsonassemblerservice.h \
     dartsscorejsonbuilderservice.h \
     dartsscorejsondb.h \
+    dartsscorejsonservice.h \
     dartsscorelessthanpredicate.h \
     dartsscorelogisticcontroller.h \
     dartsscoremodelsbuilderservice.h \
@@ -188,12 +195,12 @@ HEADERS += \
     getdeleteplayerindexfromjson.h \
     getinputmodelsservice.h \
     getplayerindexesfromjson.h \
-    getplayernamebyid.h \
     gettournamentidbyjson.h \
     gettournamentindexesfromjson.h \
     getwinneridbyjson.h \
     ibinaryservice.h \
     icomparison.h \
+    idartscontrollerentity.h \
     idartscontrollerindexesbuilder.h \
     idartscontrollermodelsservice.h \
     idartscontrollerplayer.h \
@@ -203,6 +210,7 @@ HEADERS += \
     idartsinputsfilter.h \
     idartsjsonextractor.h \
     idartsjsonservice.h \
+    idartsjsonservicebuilder.h \
     idartslogisticsservice.h \
     idartsmodelsbuilderservice.h \
     idartsmodelsservice.h \
@@ -220,6 +228,7 @@ HEADERS += \
     idartsscoredb.h \
     idartsscoreindexes.h \
     idartsscorejsonbuilderservice.h \
+    idartsscorejsonservice.h \
     idartsscoremodelsservice.h \
     idartssingleattemptindexes.h \
     idartssingleattemptindexesbuilder.h \
@@ -237,6 +246,7 @@ HEADERS += \
     ipersistence.h \
     iplayerinputsdbmanipulatorservice.h \
     iplayermodelsdb.h \
+    iplayermodelsjsonservice.h \
     iplayermodelsservice.h \
     iplayerpointservice.h \
     iplayerscoreservice.h \
@@ -287,9 +297,11 @@ HEADERS += \
     localplayermodelsservice.h \
     multiattemptscoredatamodel.h \
     networkmanager.h \
+    playerjsonservicebuilder.h \
     playermodel.h \
     playermodelsjsonassembler.h \
     playermodelsjsonextractor.h \
+    playermodelsjsonservice.h \
     playermodelsservicebuilder.h \
     playersjsondb.h \
     pointvalidator.h \

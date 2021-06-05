@@ -1,29 +1,34 @@
 #include "dartsjsonservicebuilder.h"
 
+using namespace DartsModelsContext;
 
-IDartsJsonService *DartsJsonServiceBuilder::buildModelsService() const
+DartsModelsContext::IDartsJsonService *DartsModelsContext::DartsJsonServiceBuilder::buildDartsJsonService() const
 {
-    auto jsonModelsService = DartsJsonService::createInstance()
-            ->setAssembleJsonDartsPointIndexes(new AssembleJsonFromDartsPointIndexes)
-            ->setGetPlayerIndexesFromJson(new GetPlayerIndexesFromJson)
-            ->setAssembleJsonFromPlayerNamesAndIds(new JsonArrayFromPlayerNamesAndIds)
-            ->setAssembleJsonFromTournamentDartsPoints(new AssembleJsonFromDartsPoints)
-            ->setAssembleJsonOrderedDartsPointModels(new AssembleJsonFromOrderedDartsPointModels)
+    auto service = DartsJsonService::createInstance()
             ->setAssembleDartsTournamentFromJson(new AssembleDartsTournamentModelFromJson)
             ->setAssembleJsonDartsTournamentModels(new AssembleJsonDartsTournamentModels)
-            ->setAssembleJsonFromPlayerIdAndName(new AssembleJsonFromPlayerNameAndId)
             ->setAssembleJSonFromDartsTournamentModel(new AssembleJsonBasicTournamentValues)
             ->setGetDeleteTournamentIndexesFromJson(new GetTournamentIndexesFromJson)
-            ->setGetDeletePlayerIndexFromJson(new GetDeletePlayerIndexFromJson)
-            ->setAssembleDartsPointModelFromJson(new AssembleDartsPointModelFromJson)
-            ->setAssemblePlayerModelFromJson(new AssemblePlayerModelFromJson)
             ->setAssignPlayerIdsToDartsTournament(new AssignPlayerIdsToDartsTournamentModel)
             ->setAddPlayerNamesToTournamentJson(new AddPlayerNamesToDartsTournamentJson)
-            ->setAssembleJsonFromDartsMultiAttemptScores(new AssembleJsonFromDartsMultiAttemptScores)
-            ->setAssembleJsonByDartsScoreIndexes(new AssembleJsonByDartsScoreIndexes)
-            ->setGetPlayerNameById(new GetPlayerNameById)
-            ->setGetWinnerIdByJson(new GetWinnerIdByJson)
             ->setGetTournamentIdByJson(new GetTournamentIdByJson)
             ->setAddWinnerNameToDartsTournamentJson(new AddWinnerNameToTournamentJson);
-    return jsonModelsService;
+    return service;
+}
+
+DartsJsonServiceBuilder::PointsJsonService *DartsModelsContext::DartsJsonServiceBuilder::buildDartsPointsJsonService() const
+{
+    auto service = DartsPointsJsonService::createInstance()
+            ->setAssembleJsonDartsPointIndexes(new AssembleJsonFromDartsPointIndexes)
+            ->setAssembleJsonFromTournamentDartsPoints(new AssembleJsonFromDartsPoints)
+            ->setAssembleJsonOrderedDartsPointModels(new AssembleJsonFromOrderedDartsPointModels);
+    return service;
+}
+
+IDartsJsonServiceBuilder::ScoreJsonService *DartsJsonServiceBuilder::buildDartsScoreJsonService() const
+{
+    auto service = DartsScoreJsonService::createInstance()
+            ->setAssembleJsonFromDartsMultiAttemptScores(new AssembleJsonFromDartsMultiAttemptScores)
+            ->setAssembleJsonByDartsScoreIndexes(new AssembleJsonByDartsScoreIndexes);
+    return service;
 }
