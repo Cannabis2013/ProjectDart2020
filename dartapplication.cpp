@@ -3,7 +3,7 @@
 
 DartApplication::~DartApplication()
 {
-    delete _modelsContext;
+    delete _modelsService;
     delete _gameController;
 }
 
@@ -15,16 +15,17 @@ DartApplication *DartApplication::createInstance()
 DartApplication *DartApplication::setup()
 {
     registerTypes();
-    _modelsContext = _modelsServiceBuilder->buildLocalModelsServiceWithJsonDb();
-    _connectModelsServiceInterface->service(this,_modelsContext);
-    _connectControllerBuilder->service(this,_controllerBuilder,_modelsContext);
+    _modelsService = _modelsServiceBuilder->buildLocalModelsServiceWithJsonDb();
+    _connectTournamentGameModeService->service(_modelsService,_tournamentGameModeService);
+    _connectModelsServiceInterface->service(this,_modelsService);
+    _connectControllerBuilder->service(this,_controllerBuilder,_modelsService);
     return this;
 }
 
 DartApplication *DartApplication::useThreads()
 {
     try {
-        _modelsContext->moveToThread(_modelsContextInterfaceThread);
+        _modelsService->moveToThread(_modelsContextInterfaceThread);
         startModelsContextInterfaceThread();
     }  catch (...) {
         // Implement some error functionality here
@@ -152,7 +153,7 @@ void DartApplication::assembleDartsTournamentValues()
 
 void DartApplication::assembleAndConfigureControllerBuilder(const QByteArray& json)
 {
-    emit assembleDartsController(json,this,_modelsContext);
+    emit assembleDartsController(json,this,_modelsService);
 }
 
 void DartApplication::setGameController(AbstractGameController *controller)
@@ -203,6 +204,18 @@ void DartApplication::setUsingThreads(bool usingThreads)
 AbstractDartsControllerBuilder *DartApplication::controllerBuilder()
 {
     return _controllerBuilder;
+}
+
+DartApplication *DartApplication::setConnectTournamentGameModeService(IBinaryService<AbstractModelsService *, AbstractTournamentGameModeService *, void> *newConnectTournamentGameModeService)
+{
+    _connectTournamentGameModeService = newConnectTournamentGameModeService;
+    return this;
+}
+
+DartApplication *DartApplication::setDetermineTournamentGameMode(AbstractTournamentGameModeService *newDetermineTournamentGameMode)
+{
+    _tournamentGameModeService = newDetermineTournamentGameMode;
+    return this;
 }
 
 DartApplication *DartApplication::setConnectControllerBuilder(ITernaryService<AbstractApplicationInterface *, AbstractDartsControllerBuilder *, AbstractModelsService *, void> *connectControllerBuilder)

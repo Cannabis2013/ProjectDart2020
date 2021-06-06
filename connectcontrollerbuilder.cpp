@@ -4,13 +4,7 @@ void ConnectControllerBuilder::service(AbstractApplicationInterface *application
                                        AbstractDartsControllerBuilder *controllerBuilder,
                                        AbstractModelsService *modelsService)
 {
-    QObject::connect(application,&AbstractApplicationInterface::setCurrentActiveTournament,
-            modelsService,&AbstractModelsService::handleRequestGameMode);
-    QObject::connect(modelsService,&AbstractModelsService::requestAssembleTournament,
-            controllerBuilder,&AbstractDartsControllerBuilder::determineTournamentGameMode);
-    QObject::connect(controllerBuilder,&AbstractDartsControllerBuilder::requestDartsDetails,
-            modelsService,&AbstractModelsService::assembleDartsKeyValues);
-    QObject::connect(modelsService,&AbstractModelsService::sendTournamentFtpDetails,
+    QObject::connect(modelsService,&AbstractModelsService::sendTournamentDartsDetails,
             application,&AbstractApplicationInterface::assembleAndConfigureControllerBuilder);
     QObject::connect(application,&AbstractApplicationInterface::assembleDartsController,
             controllerBuilder,&AbstractDartsControllerBuilder::assembleDartsGameController);

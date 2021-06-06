@@ -1,49 +1,24 @@
 #ifndef GAMEBUILDER_H
 #define GAMEBUILDER_H
 
-#include "IControllerBuilder.h"
-#include "abstractdartscontroller.h"
 #include "dartsscoremultiattempt.h"
-#include "dartspointsingleattempt.h"
 // Include services
-#include "dartspointlogisticcontroller.h"
-#include "dartsscorelogisticcontroller.h"
-#include "DartsPointCalculator.h"
-#include "pointvalidator.h"
-#include "ScoreValidator.h"
 #include "abstractdartscontrollerbuilder.h"
-#include "dartsplayerscoreservice.h"
-#include "PointIndexController.h"
-#include "scoreindexcontroller.h"
-#include <qjsondocument.h>
-#include <qjsonobject.h>
-#include <qjsonarray.h>
+#include "dartsscoremodelsbuilderservice.h"
 #include "abstractdartsscorecontroller.h"
 #include "abstractdartspointcontroller.h"
 #include "iternaryservice.h"
-#include "dartspointjsonservice.h"
-#include "dartsscorejsonbuilderservice.h"
-#include "dartsplayerpointservice.h"
-#include "determinecontrollerstatebywinnerid.h"
-#include "addaccumulatedscoretodartsscore.h"
-#include "assembledartsscoreturnvalues.h"
-#include "buildDartsPointTurnValues.h"
-#include "dartscontrollerpointbuilder.h"
-#include "dartscontrollerpointmodelsservice.h"
-#include "DartsIndexesBuilderService.h"
 #include "dartsplayermodelbuilderservice.h"
-#include "dartsscoremodelsbuilderservice.h"
-#include "dartsscoreindexesbuilderservice.h"
-#include "DartsScoreJsonExtractor.h"
-#include "dartsplayerbuilderservice.h"
 #include "idartscontrollerentity.h"
 #include "BuildDartsControllerEntity.h"
+#include "ibuildcontrollerservice.h"
 
 namespace DartsBuilderContext {
     class DartsControllerBuilder : public AbstractDartsControllerBuilder
     {
         // IControllerBuilder interface
     public:
+        // Public types
         enum GameModes {
             FirstToPost = 0x1,
             RoundBased =0x2,
@@ -67,6 +42,21 @@ namespace DartsBuilderContext {
         };
 
         typedef IDartsControllerEntity<QUuid,QString> ControllerEntity;
+        typedef IUnaryService<const QByteArray&,
+        const ControllerEntity*> ControllerEntityBuilder;
+        typedef ITernaryService<AbstractDartsPointController*,
+                                AbstractApplicationInterface*,
+                                AbstractModelsService*,
+                                AbstractDartsPointController*> ConnectSingleAttempPointController;
+        typedef ITernaryService<AbstractDartsScoreController*,
+                                AbstractApplicationInterface*,
+                                AbstractModelsService*,
+                                void> ConnectMultiAttemptScoreController;
+        typedef IBuildControllerService<AbstractDartsPointController*,
+                                        const ControllerEntity*> BuildSingleAttemptPointController;
+        typedef IBuildControllerService<AbstractDartsScoreController*,
+                                        const ControllerEntity*> BuildMultiAttemptScoreController;
+
 
         static DartsControllerBuilder *createInstance();
 
@@ -76,22 +66,17 @@ namespace DartsBuilderContext {
         virtual void determineTournamentGameMode(const QUuid &tournament,
                                                  const int &gameMode) override;
 
-        DartsControllerBuilder *setConnectDartsSingleAttemptPointController(ITernaryService<AbstractDartsPointController *, AbstractApplicationInterface *, AbstractModelsService *, AbstractDartsPointController *> *connectDartsPointController);
-
+        DartsControllerBuilder *setConnectDartsSingleAttemptPointController(ConnectSingleAttempPointController *connectDartsPointController);
         DartsControllerBuilder *setConnectDartsMultiAttemptScoreController(ITernaryService<AbstractDartsScoreController *, AbstractApplicationInterface *, AbstractModelsService *, void> *connectDartsScoreController);
-
+        DartsControllerBuilder *setBuildEntityByJson(ControllerEntityBuilder *newBuildEntityByJson);
+        DartsControllerBuilder * setBuildSingleAttemptPointController(BuildSingleAttemptPointController *newBuildSingleAttemptPointController);
+        DartsControllerBuilder * setBuildMultiAttemptScoreController(BuildMultiAttemptScoreController *newBuildMultiAttemptScoreController);
     private:
-        AbstractDartsPointController* assembleDartsPointController(const ControllerEntity* entity);
-        AbstractDartsScoreController* assembleDartsScoreController(const ControllerEntity* entity);
-        ITernaryService<AbstractDartsPointController*,
-                        AbstractApplicationInterface*,AbstractModelsService*,
-                        AbstractDartsPointController*>* _connectDartsSingleAttemptPointController;
-        ITernaryService<AbstractDartsScoreController*,
-                        AbstractApplicationInterface*,
-                        AbstractModelsService*,
-                        void>* _connectDartsScoreController;
-        IUnaryService<const QByteArray&,
-                      const ControllerEntity*>* _buildEntityByJson = BuildDartsControllerEntity::createInstance();
+        BuildSingleAttemptPointController* _buildSingleAttemptPointController;
+        BuildMultiAttemptScoreController* _buildMultiAttemptScoreController;
+        ConnectSingleAttempPointController* _connectDartsSingleAttemptPointController;
+        ConnectMultiAttemptScoreController* _connectDartsScoreController;
+        ControllerEntityBuilder* _buildEntityByJson;
     };
 }
 

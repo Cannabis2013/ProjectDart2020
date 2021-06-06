@@ -10,6 +10,7 @@
 #include "ibinaryservice.h"
 #include "iternaryservice.h"
 #include "qdebug.h"
+#include "abstracttournamentgamemodeservice.h"
 
 using namespace std;
 
@@ -50,7 +51,10 @@ public:
 
     DartApplication *setConnectModelsServiceInterface(IBinaryService<AbstractApplicationInterface *, AbstractModelsService *, void> *connectModelsServiceInterface);
 
-    DartApplication* setConnectControllerBuilder(ITernaryService<AbstractApplicationInterface *, AbstractDartsControllerBuilder *, AbstractModelsService *, void> *connectControllerBuilder);
+    DartApplication *setConnectControllerBuilder(ITernaryService<AbstractApplicationInterface *, AbstractDartsControllerBuilder *, AbstractModelsService *, void> *connectControllerBuilder);
+    DartApplication *setDetermineTournamentGameMode(AbstractTournamentGameModeService *newDetermineTournamentGameMode);
+
+    DartApplication *setConnectTournamentGameModeService(IBinaryService<AbstractModelsService *, AbstractTournamentGameModeService *, void> *newConnectTournamentGameModeService);
 
 public slots:
     // Get tournaments
@@ -133,12 +137,14 @@ private:
     QThread* _modelsContextInterfaceThread = new QThread();
     QThread *_gameControllerThread = new QThread();
     AbstractDartsControllerBuilder *_controllerBuilder;
-    AbstractModelsService* _modelsContext;
+    AbstractModelsService* _modelsService;
     AbstractGameController *_gameController = nullptr;
     AbstractModelsServiceBuilder<AbstractModelsService>* _modelsServiceBuilder;
+    AbstractTournamentGameModeService* _tournamentGameModeService;
     /*
      * Connect-services
      */
+    IBinaryService<AbstractModelsService*,AbstractTournamentGameModeService*,void>* _connectTournamentGameModeService;
     IBinaryService<AbstractApplicationInterface*,
                    AbstractModelsService*,
                    void>* _connectModelsServiceInterface;

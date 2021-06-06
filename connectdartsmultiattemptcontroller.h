@@ -15,7 +15,9 @@ class ConnectDartsMultiAttemptController :
                                void>
 {
 public:
-    void service(AbstractDartsScoreController* controller, AbstractApplicationInterface* application, AbstractModelsService* modelsService) override;
+    void service(AbstractDartsScoreController* controller,
+                 AbstractApplicationInterface* application,
+                 AbstractModelsService* modelsService) override;
 };
 
 #endif // CONNECTDARTSSINGLESCORECONTROLLER_H

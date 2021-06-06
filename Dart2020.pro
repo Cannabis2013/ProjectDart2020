@@ -20,6 +20,8 @@ SOURCES += \
     assemblesingleattemptpointsfromjson.cpp \
     builddartspointservicewithlocaljsondb.cpp \
     builddartsscoreservicewithlocaljsondb.cpp \
+    buildmultiattemptscorecontroller.cpp \
+    buildsingleattemptpointcontroller.cpp \
     connectcontrollerbuilder.cpp \
     connectdartsmultiattemptcontroller.cpp \
     connectdartssingleattemptpointcontroller.cpp \
@@ -107,6 +109,7 @@ HEADERS += \
     abstractdartsscorecontroller.h \
     abstractmodelsservice.h \
     abstractmodelsservicebuilder.h \
+    abstracttournamentgamemodeservice.h \
     addaccumulatedscoretodartsscore.h \
     addplayernametodartsinputmodel.h \
     addwinnernametotournamentjson.h \
@@ -134,11 +137,14 @@ HEADERS += \
     buildDartsPointTurnValues.h \
     builddartspointservicewithlocaljsondb.h \
     builddartsscoreservicewithlocaljsondb.h \
+    buildmultiattemptscorecontroller.h \
+    buildsingleattemptpointcontroller.h \
     comparedartspointmodels.h \
     connectcontrollerbuilder.h \
     connectdartsmultiattemptcontroller.h \
     connectdartssingleattemptpointcontroller.h \
     connectdefaultmodelscontextinterface.h \
+    connecttournamentgamemodeservice.h \
     dartscontrollerbuilder.h \
     dartscontrollerentity.h \
     dartscontrollerplayer.h \
@@ -188,6 +194,7 @@ HEADERS += \
     defaultmodelsservicebuilder.h \
     deletetournamentsbyindexesservice.h \
     determinecontrollerstatebywinnerid.h \
+    determinetournamentgamemode.h \
     filterpredicatedefaultbuilder.h \
     getdartsscoreindexesbymodel.h \
     getdartstournamentbyid.h \
@@ -199,6 +206,7 @@ HEADERS += \
     gettournamentindexesfromjson.h \
     getwinneridbyjson.h \
     ibinaryservice.h \
+    ibuildcontrollerservice.h \
     icomparison.h \
     idartscontrollerentity.h \
     idartscontrollerindexesbuilder.h \

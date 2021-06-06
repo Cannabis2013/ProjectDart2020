@@ -12,7 +12,7 @@ class ConnectDefaultModelsContextInterface :
         void>
 {
 public:
-    void service(AbstractApplicationInterface*application, AbstractModelsService*modelsContext) override;
+    void service(AbstractApplicationInterface*application, AbstractModelsService*modelsService) override;
 private:
     void registerTypes();
 };

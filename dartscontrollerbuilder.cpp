@@ -15,16 +15,14 @@ AbstractGameController *DartsControllerBuilder::assembleDartsGameController(cons
     auto inputHint = entity->inputHint();
     if(inputHint == InputModes::PointMode)
     {
-        AbstractDartsPointController* controller = nullptr;
-        controller = assembleDartsPointController(entity);
+        AbstractDartsPointController* controller = _buildSingleAttemptPointController->buildSingleAttemptPointController(entity);
         _connectDartsSingleAttemptPointController->service(controller,applicationInterface,modelsContext);
         emit sendController(controller);
         return controller;
     }
     else if(inputHint == InputModes::ScoreMode)
     {
-        AbstractDartsScoreController* controller = nullptr;
-        controller = assembleDartsScoreController(entity);
+        AbstractDartsScoreController* controller = _buildMultiAttemptScoreController->buildSingleAttemptPointController(entity);
         _connectDartsScoreController->service(controller,applicationInterface,modelsContext);
         emit sendController(controller);
         return controller;
@@ -39,45 +37,22 @@ void DartsControllerBuilder::determineTournamentGameMode(const QUuid &tournament
         emit requestDartsDetails(tournament);
 }
 
-AbstractDartsPointController *DartsControllerBuilder::assembleDartsPointController(const ControllerEntity *entity)
+DartsControllerBuilder *DartsControllerBuilder::setBuildMultiAttemptScoreController(BuildMultiAttemptScoreController *newBuildMultiAttemptScoreController)
 {
-    using namespace DartsPointSingleAttemptContext;
-    AbstractDartsPointController* controller = DartsPointSingleAttempt::createInstance(entity->tournamentId())
-            ->setLogisticInterface(DartsPointLogisticController::createInstance(entity->attempts(),
-                                                                                entity->terminalKeyCode()))
-            ->setScoreCalculator(DartsPointCalculator::createInstance())
-            ->setInputValidator(PointValidator::createInstance(entity->terminalKeyCode()))
-            ->setIndexController(PointIndexController::createInstance(entity->attempts()))
-            ->setInputController(DartsPlayerPointService::createInstance(entity->keyPoint(),entity->winnerId()))
-            ->setDartsJsonModelsService(new DartsPointJsonService)
-            ->setAssembleDartsPointTurnValues(new BuildDartsPointTurnValues)
-            ->setDartsPointBuilderService(new DartsControllerPointBuilder)
-            ->setBuildDartsIndexesByJson(new DartsIndexesBuilderService)
-            ->setControllerModelsService(new DartsControllerPointModelsService)
-            ->setPlayerModelBuilderService(new DartsPlayerModelBuilderService);
-    return controller;
+    _buildMultiAttemptScoreController = newBuildMultiAttemptScoreController;
+    return this;
 }
 
-AbstractDartsScoreController *DartsControllerBuilder::assembleDartsScoreController(const ControllerEntity *entity)
+DartsControllerBuilder *DartsControllerBuilder::setBuildSingleAttemptPointController(BuildSingleAttemptPointController *newBuildSingleAttemptPointController)
 {
-    using namespace DartsScoreMultiAttemptContext;
-    AbstractDartsScoreController* controller =
-            DartsScoreMultiAttemptContext::DartsScoreMultiAttempt::createInstance(entity->tournamentId())
-            ->setLogisticInterface(DartsScoreLogisticController::createInstance(entity->attempts(),
-                                                                                entity->terminalKeyCode()))
-            ->setInputValidator(ScoreValidator::createInstance(entity->terminalKeyCode()))
-            ->setIndexController(ScoreIndexController::createInstance())
-            ->setScoreController(DartsPlayerScoreService::createInstance(entity->keyPoint(),
-                                                                         entity->winnerId()))
-            ->setJsonService(new DartsScoreJsonBuilderService)
-            ->setDetermineControllerStateByWinnerId(new DetermineControllerStateByWinnerId)
-            ->setAddAccumulatedScoreToModel(new AddAccumulatedScoreToDartsScore)
-            ->setTurnValuesBuilderService(new AssembleDartsScoreTurnValues)
-            ->setDartsScoreBuilderService(new DartsScoreModelsBuilderService)
-            ->setDartsIndexesBuilderService(new DartsScoreIndexesBuilderService)
-            ->setDartsJsonExtractorService(new DartsScoreJsonExtractor)
-            ->setPlayerBuilderService(new DartsPlayerBuilderService);
-    return controller;
+    _buildSingleAttemptPointController = newBuildSingleAttemptPointController;
+    return this;
+}
+
+DartsControllerBuilder *DartsControllerBuilder::setBuildEntityByJson(ControllerEntityBuilder *newBuildEntityByJson)
+{
+    _buildEntityByJson = newBuildEntityByJson;
+    return this;
 }
 
 DartsControllerBuilder* DartsControllerBuilder::setConnectDartsMultiAttemptScoreController(ITernaryService<AbstractDartsScoreController *, AbstractApplicationInterface *, AbstractModelsService *, void> *connectDartsScoreController)
@@ -86,7 +61,7 @@ DartsControllerBuilder* DartsControllerBuilder::setConnectDartsMultiAttemptScore
     return this;
 }
 
-DartsControllerBuilder* DartsControllerBuilder::setConnectDartsSingleAttemptPointController(ITernaryService<AbstractDartsPointController *, AbstractApplicationInterface *, AbstractModelsService *, AbstractDartsPointController *> *connectDartsPointController)
+DartsControllerBuilder* DartsControllerBuilder::setConnectDartsSingleAttemptPointController(ConnectSingleAttempPointController *connectDartsPointController)
 {
     _connectDartsSingleAttemptPointController = connectDartsPointController;
     return this;

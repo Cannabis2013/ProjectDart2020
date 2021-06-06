@@ -1,59 +1,63 @@
 #include "connectdefaultmodelscontextinterface.h"
 
 void ConnectDefaultModelsContextInterface::service(AbstractApplicationInterface *application,
-                                                                     AbstractModelsService* modelsContext)
+                                                   AbstractModelsService* modelsService)
 {
-
+    /*
+     * Request tournament gamemode
+     */
+    QObject::connect(application,&AbstractApplicationInterface::setCurrentActiveTournament,
+            modelsService,&AbstractModelsService::handleRequestGameMode);
     /*
      * Get all tournaments
      */
     QObject::connect(application,&AbstractApplicationInterface::requestTournaments,
-            modelsContext,&AbstractModelsService::handleRequestTournaments);
-    QObject::connect(modelsContext,&AbstractModelsService::sendTournament,
+            modelsService,&AbstractModelsService::handleRequestTournaments);
+    QObject::connect(modelsService,&AbstractModelsService::sendTournament,
             application,&AbstractApplicationInterface::sendRequestedTournament);
-    QObject::connect(modelsContext,&AbstractModelsService::sendTournaments,
+    QObject::connect(modelsService,&AbstractModelsService::sendTournaments,
             application,&AbstractApplicationInterface::sendTournaments);
     /*
      * Get all players
      */
     QObject::connect(application,&AbstractApplicationInterface::requestPlayers,
-            modelsContext,&AbstractModelsService::handleRequestPlayersDetails);
-    QObject::connect(modelsContext,&AbstractModelsService::sendPlayers,
+            modelsService,&AbstractModelsService::handleRequestPlayersDetails);
+    QObject::connect(modelsService,&AbstractModelsService::sendPlayers,
             application,&AbstractApplicationInterface::sendPlayers);
     /*
      * Create tournament
      */
     QObject::connect(application,&AbstractApplicationInterface::sendDartsDetails,
-            modelsContext,&AbstractModelsService::addDartsTournament);
-    QObject::connect(modelsContext,&AbstractModelsService::tournamentAssembledAndStored,
+            modelsService,&AbstractModelsService::addDartsTournament);
+    QObject::connect(modelsService,&AbstractModelsService::tournamentAssembledAndStored,
             application,&AbstractApplicationInterface::tournamentAssembledAndStored);
     /*
      * Create player
      */
     QObject::connect(application,&AbstractApplicationInterface::requestCreatePlayer,
-            modelsContext,&AbstractModelsService::createPlayer);
-    QObject::connect(modelsContext,&AbstractModelsService::createPlayerResponse,
+            modelsService,&AbstractModelsService::createPlayer);
+    QObject::connect(modelsService,&AbstractModelsService::createPlayerResponse,
             application,&AbstractApplicationInterface::createPlayerResponse);
     /*
      * Delete tournament
      */
     QObject::connect(application,&AbstractApplicationInterface::requestDeleteTournaments,
-            modelsContext,&AbstractModelsService::deleteTournaments);
-    QObject::connect(modelsContext,&AbstractModelsService::tournamentsDeletedStatus,
+            modelsService,&AbstractModelsService::deleteTournaments);
+    QObject::connect(modelsService,&AbstractModelsService::tournamentsDeletedStatus,
             application,&AbstractApplicationInterface::tournamentsDeletedSuccess);
     /*
      * Delete player{s}
      */
     QObject::connect(application,&AbstractApplicationInterface::requestDeletePlayer,
-            modelsContext,&AbstractModelsService::deletePlayerFromIndex);
+            modelsService,&AbstractModelsService::deletePlayerFromIndex);
     QObject::connect(application,&AbstractApplicationInterface::requestDeletePlayers,
-            modelsContext,&AbstractModelsService::deletePlayersFromIndexes);
-    QObject::connect(modelsContext,&AbstractModelsService::playersDeletedStatus,
+            modelsService,&AbstractModelsService::deletePlayersFromIndexes);
+    QObject::connect(modelsService,&AbstractModelsService::playersDeletedStatus,
             application,&AbstractApplicationInterface::playersDeletedStatus);
     /*
      * Send tournament meta information
      */
-    QObject::connect(modelsContext,&AbstractModelsService::sendTournamentMeta,
+    QObject::connect(modelsService,&AbstractModelsService::sendTournamentMeta,
             application,&AbstractApplicationInterface::sendDartsTournamentData);
 }
 
