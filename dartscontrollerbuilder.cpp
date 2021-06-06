@@ -31,12 +31,6 @@ AbstractGameController *DartsControllerBuilder::assembleDartsGameController(cons
         throw "Invalid inputmode";
 }
 
-void DartsControllerBuilder::determineTournamentGameMode(const QUuid &tournament, const int &gameMode)
-{
-    if(gameMode == GameModes::FirstToPost)
-        emit requestDartsDetails(tournament);
-}
-
 DartsControllerBuilder *DartsControllerBuilder::setBuildMultiAttemptScoreController(BuildMultiAttemptScoreController *newBuildMultiAttemptScoreController)
 {
     _buildMultiAttemptScoreController = newBuildMultiAttemptScoreController;

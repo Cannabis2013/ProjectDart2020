@@ -20,8 +20,6 @@ signals:
     void sendController(AbstractGameController* controller);
 
 public slots:
-    virtual void determineTournamentGameMode(const QUuid& tournament,
-                                       const int &gameMode) = 0;
     virtual AbstractGameController* assembleDartsGameController(const QByteArray&,
                                                               AbstractApplicationInterface*,
                                                               AbstractModelsService*) = 0;

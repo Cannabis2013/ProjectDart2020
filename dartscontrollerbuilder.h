@@ -63,9 +63,6 @@ namespace DartsBuilderContext {
         AbstractGameController *assembleDartsGameController(const QByteArray& json,
                                                             AbstractApplicationInterface* applicationInterface,
                                                             AbstractModelsService* modelsContext) override;
-        virtual void determineTournamentGameMode(const QUuid &tournament,
-                                                 const int &gameMode) override;
-
         DartsControllerBuilder *setConnectDartsSingleAttemptPointController(ConnectSingleAttempPointController *connectDartsPointController);
         DartsControllerBuilder *setConnectDartsMultiAttemptScoreController(ITernaryService<AbstractDartsScoreController *, AbstractApplicationInterface *, AbstractModelsService *, void> *connectDartsScoreController);
         DartsControllerBuilder *setBuildEntityByJson(ControllerEntityBuilder *newBuildEntityByJson);
