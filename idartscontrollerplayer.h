@@ -1,7 +1,7 @@
 #ifndef IDARTSCONTROLLERPLAYER_H
 #define IDARTSCONTROLLERPLAYER_H
 
-namespace DartsPointSingleAttemptContext {
+namespace DartsPointControllerContext {
     template<typename TUuid, typename TString>
     class IDartsControllerPlayer
     {

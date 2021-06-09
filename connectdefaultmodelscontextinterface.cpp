@@ -1,7 +1,7 @@
 #include "connectdefaultmodelscontextinterface.h"
 
-void ConnectDefaultModelsContextInterface::service(AbstractApplicationInterface *application,
-                                                   AbstractModelsService* modelsService)
+void ConnectDefaultModelsContextInterface::connectModelsInterface(AbstractApplicationInterface *application,
+                                                                  AbstractModelsService* modelsService)
 {
     /*
      * Request tournament gamemode

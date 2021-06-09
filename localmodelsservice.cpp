@@ -89,7 +89,7 @@ void LocalModelsService::assembleDartsKeyValues(const QUuid &tournamentId)
 {
     auto model = _dartsModelsService->dartsTournamentModelById(tournamentId);
     auto json = _dartsJsonService->assembleJsonFromDartsTournamentModel(model);
-    emit sendTournamentDartsDetails(json);
+    emit sendDartsDetails(json,model->inputHint());
 }
 
 void LocalModelsService::createPlayer(const QByteArray &json)

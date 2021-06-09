@@ -1,12 +1,5 @@
 #include "dartapplication.h"
 
-
-DartApplication::~DartApplication()
-{
-    delete _modelsService;
-    delete _gameController;
-}
-
 DartApplication *DartApplication::createInstance()
 {
     return new DartApplication();
@@ -16,9 +9,12 @@ DartApplication *DartApplication::setup()
 {
     registerTypes();
     _modelsService = _modelsServiceBuilder->buildLocalModelsServiceWithJsonDb();
-    _connectTournamentGameModeService->service(_modelsService,_tournamentGameModeService);
-    _connectModelsServiceInterface->service(this,_modelsService);
-    _connectControllerBuilder->service(this,_controllerBuilder,_modelsService);
+    _connectRouteByGameMode->service(_modelsService,_routeByGameMode);
+    _connectModelsServiceInterface->connectModelsInterface(this,_modelsService);
+    _connectRouteByDisplayHint->connectServices(_routeByDisplayHint,this);
+    _connectRouteByInputHint->connectServices(_modelsService,_routeByInputHint);
+    _connectDartsScoreBuilder->connectServices(_routeByInputHint,_dartsScoreBuilder,_routeByDisplayHint);
+    _connectDartsPointBuilder->connectServices(_routeByInputHint,_dartsPointBuilder,_routeByDisplayHint);
     return this;
 }
 
@@ -41,6 +37,7 @@ void DartApplication::registerTypes()
     qRegisterMetaType<AbstractApplicationInterface*>("AbstractApplicationInterface");
     qRegisterMetaType<AbstractModelsService*>("AbstractModelsService");
     qRegisterMetaType<AbstractGameController*>("AbstractGameController");
+    qRegisterMetaType<AbstractDartsController*>("AbstractDartsController");
 }
 
 void DartApplication::handleTournamentsRequest(){
@@ -151,15 +148,19 @@ void DartApplication::assembleDartsTournamentValues()
     emit requestCurrentTournamentId();
 }
 
-void DartApplication::assembleAndConfigureControllerBuilder(const QByteArray& json)
-{
-    emit assembleDartsController(json,this,_modelsService);
-}
-
-void DartApplication::setGameController(AbstractGameController *controller)
+void DartApplication::setDartsPointSingleAttempt(AbstractDartsController *controller)
 {
     delete _gameController;
     _gameController = controller;
+    _connectDartsPointController->connectController(controller,this,_modelsService);
+    emit requestWakeUp();
+}
+
+void DartApplication::setDartsScoreMultiAttempt(AbstractDartsController *controller)
+{
+    delete _gameController;
+    _gameController = controller;
+    _connectDartsScoreController->connectController(controller,this,_modelsService);
     emit requestWakeUp();
 }
 
@@ -203,28 +204,82 @@ void DartApplication::setUsingThreads(bool usingThreads)
 
 AbstractDartsControllerBuilder *DartApplication::controllerBuilder()
 {
-    return _controllerBuilder;
+    return _dartsPointBuilder;
 }
 
-DartApplication *DartApplication::setConnectTournamentGameModeService(IBinaryService<AbstractModelsService *, AbstractTournamentGameModeService *, void> *newConnectTournamentGameModeService)
+DartApplication *DartApplication::setRouteByInputHint(AbstractRouteByInputHint *newRouteByInputHint)
 {
-    _connectTournamentGameModeService = newConnectTournamentGameModeService;
+    _routeByInputHint = newRouteByInputHint;
     return this;
 }
 
-DartApplication *DartApplication::setDetermineTournamentGameMode(AbstractTournamentGameModeService *newDetermineTournamentGameMode)
+DartApplication *DartApplication::setConnectRouteByInputHint(IConnectRouteByInputHint *newConnectRouteByInputHint)
 {
-    _tournamentGameModeService = newDetermineTournamentGameMode;
+    _connectRouteByInputHint = newConnectRouteByInputHint;
     return this;
 }
 
-DartApplication *DartApplication::setConnectControllerBuilder(ITernaryService<AbstractApplicationInterface *, AbstractDartsControllerBuilder *, AbstractModelsService *, void> *connectControllerBuilder)
+DartApplication *DartApplication::setConnectRouteByDisplayHint(IConnectRouteByDisplayHint *newConnectRouteByDisplayHint)
 {
-    _connectControllerBuilder = connectControllerBuilder;
+    _connectRouteByDisplayHint = newConnectRouteByDisplayHint;
     return this;
 }
 
-DartApplication* DartApplication::setConnectModelsServiceInterface(IBinaryService<AbstractApplicationInterface *, AbstractModelsService *, void> *connectModelsServiceInterface)
+DartApplication *DartApplication::setRouteByDisplayHint(AbstractRouteByDisplayHint *newRouteByDisplayHint)
+{
+    _routeByDisplayHint = newRouteByDisplayHint;
+    return this;
+}
+
+DartApplication *DartApplication::setConnectDartsScoreController(IConnectDartsScoreController *newConnectDartsScoreController)
+{
+    _connectDartsScoreController = newConnectDartsScoreController;
+    return this;
+}
+
+DartApplication *DartApplication::setConnectDartsPointController(IConnectDartsPointController *newConnectDartsPointController)
+{
+    _connectDartsPointController = newConnectDartsPointController;
+    return this;
+}
+
+DartApplication *DartApplication::setConnectToDartsScoreBuilder(IConnectRouteToDartsBuilder *newConnectToDartsScoreBuilder)
+{
+    _connectDartsScoreBuilder = newConnectToDartsScoreBuilder;
+    return this;
+}
+
+DartApplication *DartApplication::setConnectToDartsPountBuilder(IConnectRouteToDartsBuilder *newConnectToDartsPountBuilder)
+{
+    _connectDartsPointBuilder = newConnectToDartsPountBuilder;
+    return this;
+}
+
+DartApplication *DartApplication::setDartsScoreBuilder(AbstractDartsControllerBuilder *service)
+{
+    _dartsScoreBuilder = service;
+    return this;
+}
+
+DartApplication *DartApplication::setDartsScoreControllerBuilder(AbstractDartsControllerBuilder *service)
+{
+    _dartsScoreBuilder = service;
+    return this;
+}
+
+DartApplication *DartApplication::setConnectRouteByGameMode(ConnectRouteByGameMode *newConnectTournamentGameModeService)
+{
+    _connectRouteByGameMode = newConnectTournamentGameModeService;
+    return this;
+}
+
+DartApplication *DartApplication::setDetermineTournamentGameMode(AbstractRouteByGameMode *newDetermineTournamentGameMode)
+{
+    _routeByGameMode = newDetermineTournamentGameMode;
+    return this;
+}
+
+DartApplication* DartApplication::setConnectModelsServiceInterface(IConnectModelsInterface *connectModelsServiceInterface)
 {
     _connectModelsServiceInterface = connectModelsServiceInterface;
     return this;
@@ -236,8 +291,8 @@ DartApplication* DartApplication::setModelsServiceBuilder(AbstractModelsServiceB
     return this;
 }
 
-DartApplication *DartApplication::setControllerBuilder(ControllerBuilderInterface *builder)
+DartApplication *DartApplication::setDartsPointBuilderService(ControllerBuilderInterface *builder)
 {
-    _controllerBuilder = dynamic_cast<AbstractDartsControllerBuilder*>(builder);
+    _dartsPointBuilder = dynamic_cast<AbstractDartsControllerBuilder*>(builder);
     return this;
 }

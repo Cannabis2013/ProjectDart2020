@@ -58,8 +58,8 @@ Content {
             onLeftButtonClicked: DartsSingleAttemptScripts.undoClicked()
             onRightButtonClicked: DartsSingleAttemptScripts.redoClicked()
         }
-        DartsSingleAttemptPointScoreBoard{
-            id: singleAttemptScoreBoard
+        DartsPointScoreBoard{
+            id: pointScoreBoard
             Layout.fillHeight: true
             Layout.fillWidth: true
             Layout.minimumHeight: 160
@@ -73,7 +73,6 @@ Content {
             id: notificationItemSlot
             Layout.fillWidth: true
             Layout.maximumHeight: 40
-            visible: status === Loader.Ready
         }
         Rectangle{
              color: "transparent"

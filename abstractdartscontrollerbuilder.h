@@ -3,12 +3,10 @@
 
 #include "IControllerBuilder.h"
 #include <quuid.h>
-#include "abstractgamecontroller.h"
+#include "abstractdartscontroller.h"
 #include "AbstractApplicationInterface.h"
 
 typedef IControllerBuilder<AbstractGameController,
-                           AbstractModelsService,
-                           AbstractApplicationInterface,
                            QByteArray> ControllerBuilderInterface;
 
 class AbstractDartsControllerBuilder : public QObject,
@@ -17,12 +15,10 @@ class AbstractDartsControllerBuilder : public QObject,
     Q_OBJECT
 signals:
     void requestDartsDetails(const QUuid &tournament);
-    void sendController(AbstractGameController* controller);
+    void sendController(AbstractDartsController* controller,const int &displayHint);
 
 public slots:
-    virtual AbstractGameController* assembleDartsGameController(const QByteArray&,
-                                                              AbstractApplicationInterface*,
-                                                              AbstractModelsService*) = 0;
+    virtual AbstractGameController* buildDartsController(const QByteArray& json) = 0;
 };
 
 #endif // ABSTRACTCONTROLLERBUILDER_H

@@ -35,7 +35,7 @@ namespace PlayerPointContext
         int score;
     };
 }
-namespace DartsPointSingleAttemptContext {
+namespace DartsPointControllerContext {
     class DartsPlayerPointService : public
             IPlayerPointService<IDartsControllerPlayer<QUuid,QString>,IDartsControllerPoint<QUuid,QString,QByteArray>>
     {

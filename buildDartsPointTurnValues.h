@@ -10,7 +10,7 @@
 #include "idartscontrollerplayer.h"
 #include "idartscontrollerpoint.h"
 
-namespace DartsPointSingleAttemptContext{
+namespace DartsPointControllerContext{
     typedef IDartsSingleAttemptIndexService<IDartsSingleAttemptIndexes> DartsIndexService;
     class BuildDartsPointTurnValues : public
             ITernaryService<const DartsIndexService*,

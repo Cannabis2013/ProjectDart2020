@@ -5,7 +5,7 @@
 #include "idartscontrollerpoint.h"
 #include "quuid.h"
 
-namespace DartsPointSingleAttemptContext {
+namespace DartsPointControllerContext {
     class DartsPointCalculator : public IPointCalculatorService<IDartsControllerPoint<QUuid,QString,QByteArray>>
     {
     public:

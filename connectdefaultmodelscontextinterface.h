@@ -1,18 +1,14 @@
 #ifndef CONNECTDEFAULTMODELSCONTEXTINTERFACE_H
 #define CONNECTDEFAULTMODELSCONTEXTINTERFACE_H
 
-#include "ibinaryservice.h"
-#include "AbstractApplicationInterface.h"
-#include "abstractmodelsservice.h"
+#include "iconnectmodelsinterface.h"
 #include "qobject.h"
 
-class ConnectDefaultModelsContextInterface :
-        public IBinaryService<AbstractApplicationInterface*,
-        AbstractModelsService*,
-        void>
+class ConnectDefaultModelsContextInterface : public
+        IConnectModelsInterface
 {
 public:
-    void service(AbstractApplicationInterface*application, AbstractModelsService*modelsService) override;
+    void connectModelsInterface(AbstractApplicationInterface*application, AbstractModelsService*modelsService) override;
 private:
     void registerTypes();
 };

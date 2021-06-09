@@ -74,7 +74,7 @@ ScoreBoard {
         return dartsDataModel.rowHeightAt(row);
     }
 
-    model: DartsPointDatamodel {
+    model: DartsSingleAttemptDatamodel {
         id: dartsDataModel
         onDataChanged: ScoreScripts.updateScoreBoard();
         attempts: singleAttemptPointScoreBoard.attempts

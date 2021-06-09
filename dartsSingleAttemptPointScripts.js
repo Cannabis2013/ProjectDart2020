@@ -69,7 +69,7 @@ function initializeScoreBoard()
 {
     var assignedPlayerNames = dartsSingleAttemptValues.assignedPlayerNames;
     var keyPoint = dartsSingleAttemptValues.keyPoint;
-    singleAttemptScoreBoard.appendHeaderData(assignedPlayerNames,keyPoint);
+    pointScoreBoard.appendHeaderData(assignedPlayerNames,keyPoint);
 }
 
 function controllerIsInitializedAndReady()
@@ -87,7 +87,7 @@ function recieveDartsSingleAttemptPoints(scores)
         var playerName = entity["playerName"];
         var playerScore = entity["score"];
         var playerPoint = entity["point"];
-        singleAttemptScoreBoard.setData(playerName,playerPoint,playerScore);
+        pointScoreBoard.setData(playerName,playerPoint,playerScore);
     }
     dartsSingleAttemptBody.requestStatusFromBackend();
 }
@@ -99,14 +99,14 @@ function extractPointScoreFromJson(data)
     let playerName = json["playerName"];
     let pointValue = json["point"];
     let scoreValue = json["totalScore"];
-    singleAttemptScoreBoard.setData(playerName,pointValue,scoreValue);
+    pointScoreBoard.setData(playerName,pointValue,scoreValue);
     requestStatusFromBackend();
 }
 
 function reinitialize()
 {
     // reinitialize controller after reset
-    singleAttemptScoreBoard.clearData();
+    pointScoreBoard.clearData();
     initializeScoreBoard();
     requestStatusFromBackend();
 }
@@ -121,7 +121,7 @@ function backendRemovedPoint(data)
 {
     var json = JSON.parse(data);
     let playerName = json["playerName"];
-    singleAttemptScoreBoard.takeData(playerName);
+    pointScoreBoard.takeData(playerName);
     requestStatusFromBackend();
 }
 

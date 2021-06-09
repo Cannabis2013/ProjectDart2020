@@ -1,9 +1,9 @@
 #ifndef DETERMINETOURNAMENTGAMEMODE_H
 #define DETERMINETOURNAMENTGAMEMODE_H
 
-#include "abstracttournamentgamemodeservice.h"
+#include "abstractroutebygamemode.h"
 
-class DetermineTournamentGameMode : public AbstractTournamentGameModeService
+class RouteByTournamentGameMode : public AbstractRouteByGameMode
 {
     Q_OBJECT
 public slots:

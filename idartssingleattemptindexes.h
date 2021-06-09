@@ -1,7 +1,7 @@
 #ifndef IDARTSSINGLEATTEMPTINDEXES_H
 #define IDARTSSINGLEATTEMPTINDEXES_H
 
-namespace DartsPointSingleAttemptContext
+namespace DartsPointControllerContext
 {
     class IDartsSingleAttemptIndexes
     {

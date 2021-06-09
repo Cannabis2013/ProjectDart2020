@@ -1,6 +1,6 @@
 #include "dartsplayerpointservice.h"
 
-using namespace DartsPointSingleAttemptContext;
+using namespace DartsPointControllerContext;
 
 DartsPlayerPointService *DartsPlayerPointService::createInstance(const int &initialScore, const QUuid &winner)
 {

@@ -1,14 +1,14 @@
 #include "dartscontrollerpointmodelsservice.h"
 
-using namespace DartsPointSingleAttemptContext;
+using namespace DartsPointControllerContext;
 
-void DartsPointSingleAttemptContext::DartsControllerPointModelsService::addPlayerNameToModel(const DartsModelInterface *model, const QString &name) const
+void DartsPointControllerContext::DartsControllerPointModelsService::addPlayerNameToModel(const DartsModelInterface *model, const QString &name) const
 {
     auto nonConstModel = const_cast<PointModel*>(model);
     nonConstModel->setPlayerName(name);
 }
 
-void DartsPointSingleAttemptContext::DartsControllerPointModelsService::addAccumulatedScoreToModel(const DartsModelInterface *model, const int &score) const
+void DartsPointControllerContext::DartsControllerPointModelsService::addAccumulatedScoreToModel(const DartsModelInterface *model, const int &score) const
 {
     auto nonConstModel = const_cast<PointModel*>(model);
     nonConstModel->setAccumulatedScore(score);

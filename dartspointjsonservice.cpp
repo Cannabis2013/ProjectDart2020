@@ -1,6 +1,6 @@
 #include "dartspointjsonservice.h"
 
-using namespace DartsPointSingleAttemptContext;
+using namespace DartsPointControllerContext;
 
 QUuid DartsPointJsonService::getWinnerIdByJson(const QByteArray& json) const
 {

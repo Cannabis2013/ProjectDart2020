@@ -13,6 +13,7 @@ namespace DartsBuilderContext {
         virtual int attempts() const = 0;
         virtual int terminalKeyCode() const = 0;
         virtual int inputHint() const = 0;
+        virtual int displayHint() const = 0;
         virtual IdFormat winnerId() const = 0;
     };
 }

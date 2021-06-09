@@ -6,7 +6,7 @@
 #include <QJsonDocument>
 #include <qjsonobject.h>
 #include <qjsonarray.h>
-namespace DartsPointSingleAttemptContext {
+namespace DartsPointControllerContext {
     class DartsPlayerModelBuilderService : public
             IDartsPlayerModelBuilderService<IDartsControllerPlayer<QUuid,QString>,QByteArray>
     {

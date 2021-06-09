@@ -6,7 +6,7 @@
 #include <qstring.h>
 #include <quuid.h>
 
-namespace DartsPointSingleAttemptContext {
+namespace DartsPointControllerContext {
     class DartsControllerPointModelsService : public
             IDartsControllerModelsService<IDartsControllerPoint<QUuid,QString,QByteArray>,QString,QUuid>
     {

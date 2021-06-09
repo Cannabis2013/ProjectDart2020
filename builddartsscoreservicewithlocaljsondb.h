@@ -8,7 +8,6 @@
 #include "dartsinputsfilterservice.h"
 #include "inputmodelssortservice.h"
 #include "dartsinputmodelhintservice.h"
-#include "dartsscorejsondb.h"
 #include "assemblemultiattemptscoresbyjson.h"
 #include "assemblejsonbydartsscoremodels.h"
 

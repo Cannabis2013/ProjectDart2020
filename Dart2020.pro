@@ -22,12 +22,10 @@ SOURCES += \
     builddartsscoreservicewithlocaljsondb.cpp \
     buildmultiattemptscorecontroller.cpp \
     buildsingleattemptpointcontroller.cpp \
-    connectcontrollerbuilder.cpp \
     connectdartsmultiattemptcontroller.cpp \
     connectdartssingleattemptpointcontroller.cpp \
     connectdefaultmodelscontextinterface.cpp \
     dartapplication.cpp \
-    dartscontrollerbuilder.cpp \
     dartscontrollerentity.cpp \
     dartscontrollerpointmodelsservice.cpp \
     dartsinputsfilterservice.cpp \
@@ -38,13 +36,16 @@ SOURCES += \
     dartsmultiscoredatamodel.cpp \
     dartsplayerpointservice.cpp \
     dartsplayerscoreservice.cpp \
+    dartspointbuilderservice.cpp \
     dartspointjsondbservice.cpp \
     dartspointjsonservice.cpp \
     dartspointlogisticcontroller.cpp \
     dartspointmodelsservice.cpp \
+    dartspointmultiattempt.cpp \
     dartspointsingleattempt.cpp \
     dartspointsingleattemptdatamodel.cpp \
     dartspointsjsonservice.cpp \
+    dartsscorebuilderservice.cpp \
     dartsscoreindexesbuilderservice.cpp \
     dartsscorejsonbuilderservice.cpp \
     dartsscorejsondb.cpp \
@@ -71,6 +72,9 @@ SOURCES += \
     playermodelsservicebuilder.cpp \
     playersjsondb.cpp \
     remotemodelscontext.cpp \
+    routedartsbydisplayhint.cpp \
+    routedartsbyinputhint.cpp \
+    routerequestbytournamentid.cpp \
     scoreindexcontroller.cpp \
     tournamentjsondb.cpp \
     tournamentsjsonassembler.cpp \
@@ -98,10 +102,12 @@ HEADERS += \
     ApplicationBuilder.h \
     AssembleDartsTournamentsFromJsonArray.h \
     BuildDartsControllerEntity.h \
+    ConnectRouteToDartsScoreBuilder.h \
     DartsIndexesBuilderService.h \
     DartsPointCalculator.h \
     DartsScoreJsonExtractor.h \
     DartsScoreMultiAttempIndexes.h \
+    IConnect.h \
     IPointCalculatorService.h \
     abstractdartscontrollerbuilder.h \
     abstractdartsfilterpredicate.h \
@@ -109,7 +115,9 @@ HEADERS += \
     abstractdartsscorecontroller.h \
     abstractmodelsservice.h \
     abstractmodelsservicebuilder.h \
-    abstracttournamentgamemodeservice.h \
+    abstractroutebydisplayhint.h \
+    abstractroutebygamemode.h \
+    abstractroutebyinputhint.h \
     addaccumulatedscoretodartsscore.h \
     addplayernametodartsinputmodel.h \
     addwinnernametotournamentjson.h \
@@ -140,12 +148,13 @@ HEADERS += \
     buildmultiattemptscorecontroller.h \
     buildsingleattemptpointcontroller.h \
     comparedartspointmodels.h \
-    connectcontrollerbuilder.h \
     connectdartsmultiattemptcontroller.h \
+    connectdartspointbuilder.h \
     connectdartssingleattemptpointcontroller.h \
     connectdefaultmodelscontextinterface.h \
-    connecttournamentgamemodeservice.h \
-    dartscontrollerbuilder.h \
+    connectroutebydisplayhint.h \
+    connectroutebygamemode.h \
+    connectroutebyinputhint.h \
     dartscontrollerentity.h \
     dartscontrollerplayer.h \
     dartscontrollerpoint.h \
@@ -165,15 +174,18 @@ HEADERS += \
     dartsplayermodelbuilderservice.h \
     dartsplayerpointservice.h \
     dartsplayerscoreservice.h \
+    dartspointbuilderservice.h \
     dartspointindexes.h \
     dartspointjsondbservice.h \
     dartspointjsonservice.h \
     dartspointlogisticcontroller.h \
     dartspointmodelsservice.h \
+    dartspointmultiattempt.h \
     dartspointsingleattempt.h \
     dartspointsingleattemptdatamodel.h \
     dartspointsjsonservice.h \
     dartspointturnvalues.h \
+    dartsscorebuilderservice.h \
     dartsscoreindexes.h \
     dartsscoreindexesbuilderservice.h \
     dartsscorejsonassemblerservice.h \
@@ -194,7 +206,6 @@ HEADERS += \
     defaultmodelsservicebuilder.h \
     deletetournamentsbyindexesservice.h \
     determinecontrollerstatebywinnerid.h \
-    determinetournamentgamemode.h \
     filterpredicatedefaultbuilder.h \
     getdartsscoreindexesbymodel.h \
     getdartstournamentbyid.h \
@@ -208,6 +219,13 @@ HEADERS += \
     ibinaryservice.h \
     ibuildcontrollerservice.h \
     icomparison.h \
+    iconnectdartspointcontroller.h \
+    iconnectdartsscorecontroller.h \
+    iconnectmodelsinterface.h \
+    iconnectroutebydisplayhint.h \
+    iconnectroutebyinputhint.h \
+    iconnectroutetoapplication.h \
+    iconnectroutetodartsbuilder.h \
     idartscontrollerentity.h \
     idartscontrollerindexesbuilder.h \
     idartscontrollermodelsservice.h \
@@ -315,6 +333,10 @@ HEADERS += \
     pointvalidator.h \
     remotemodelscontext.h \
     replytimeout.h \
+    routebytournamentgamemode.h \
+    routedartsbydisplayhint.h \
+    routedartsbyinputhint.h \
+    routerequestbytournamentid.h \
     scoreindexcontroller.h \
     setdartsmodelhint.h \
     sortdartspointinputsbyindexes.h \

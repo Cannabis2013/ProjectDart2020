@@ -26,6 +26,7 @@ namespace DartsBuilderContext {
             entity->setTerminalKeyCode(jsonObject.value("terminalKeyCode").toInt());
             entity->setInputHint(jsonObject.value("inputHint").toInt());
             entity->setWinnerId(QUuid(jsonObject.value("winnerId").toString()));
+            entity->setDisplayHint(jsonObject.value("displayHint").toInt());
             return entity;
         }
     };

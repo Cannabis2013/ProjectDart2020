@@ -13,8 +13,8 @@
 void registerCustomTypes()
 {
     qmlRegisterType<MultiAttemptScoreDataModel>("CustomItems",1,0,"MultiAttemptScoreDataModel");
-    qmlRegisterType<DartsPointSingleAttemptDataModel>("CustomItems",1,0,"DartsPointDatamodel");
-    qmlRegisterType<DartsMultiScoreDataModel>("CustomItems",1,0,"DartsMultiScoreDataModel");
+    qmlRegisterType<DartsPointSingleAttemptDataModel>("CustomItems",1,0,"DartsSingleAttemptDatamodel");
+    qmlRegisterType<DartsMultiScoreDataModel>("CustomItems",1,0,"DartsMultiAttemptDataModel");
     qmlRegisterSingletonType(QUrl("qrc:/ThemeContext.qml"),"customDefinitions",1,0,"ThemeContext");
     qmlRegisterSingletonType(QUrl("qrc:/TournamentContext.qml"),"CustomValues",1,0,"TournamentContext");
     qmlRegisterSingletonType(QUrl("qrc:/DataModelContext.qml"),"CustomValues",1,0,"DataModelContext");

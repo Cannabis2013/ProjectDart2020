@@ -3,7 +3,7 @@
 
 #include <qobject.h>
 #include <quuid.h>
-class AbstractTournamentGameModeService : public QObject
+class AbstractRouteByGameMode : public QObject
 {
     Q_OBJECT
 public slots:

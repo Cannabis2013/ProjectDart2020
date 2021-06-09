@@ -10,7 +10,17 @@
 #include "ibinaryservice.h"
 #include "iternaryservice.h"
 #include "qdebug.h"
-#include "abstracttournamentgamemodeservice.h"
+#include "abstractroutebygamemode.h"
+#include "abstractdartsscorecontroller.h"
+#include "abstractdartspointcontroller.h"
+#include "abstractroutebyinputhint.h"
+#include "abstractroutebydisplayhint.h"
+#include "iconnectroutetodartsbuilder.h"
+#include "iconnectdartspointcontroller.h"
+#include "iconnectdartsscorecontroller.h"
+#include "iconnectmodelsinterface.h"
+#include "iconnectroutebyinputhint.h"
+#include "iconnectroutebydisplayhint.h"
 
 using namespace std;
 
@@ -21,18 +31,10 @@ class DartApplication : public AbstractApplicationInterface
 {
     Q_OBJECT
 public:
-
     /*
-     * Should be located in an eventual 'ModelsContextBuilder'
-     * enum ContextMode {
-        LocalContext = 0x7,
-        RemoteContext = 0x8
-    };
+     * Public types
      */
-    /*
-     * Destructor
-     */
-    ~DartApplication() override;
+    typedef IBinaryService<AbstractModelsService*,AbstractRouteByGameMode*,void> ConnectRouteByGameMode;
     /*
      * Create and setup instance
      */
@@ -44,17 +46,24 @@ public:
      * Get/set GameControllerBuilder
      */
     AbstractDartsControllerBuilder* controllerBuilder();
-    DartApplication *setControllerBuilder(ControllerBuilderInterface *builder);
+    DartApplication *setDartsPointBuilderService(ControllerBuilderInterface *builder);
 
     DartApplication *setModelsServiceBuilder(
             AbstractModelsServiceBuilder<AbstractModelsService> *modelsServiceBuilder);
-
-    DartApplication *setConnectModelsServiceInterface(IBinaryService<AbstractApplicationInterface *, AbstractModelsService *, void> *connectModelsServiceInterface);
-
-    DartApplication *setConnectControllerBuilder(ITernaryService<AbstractApplicationInterface *, AbstractDartsControllerBuilder *, AbstractModelsService *, void> *connectControllerBuilder);
-    DartApplication *setDetermineTournamentGameMode(AbstractTournamentGameModeService *newDetermineTournamentGameMode);
-
-    DartApplication *setConnectTournamentGameModeService(IBinaryService<AbstractModelsService *, AbstractTournamentGameModeService *, void> *newConnectTournamentGameModeService);
+    // Set services methods
+    DartApplication *setConnectModelsServiceInterface(IConnectModelsInterface *connectModelsServiceInterface);
+    DartApplication *setDetermineTournamentGameMode(AbstractRouteByGameMode *newDetermineTournamentGameMode);
+    DartApplication *setConnectRouteByGameMode(ConnectRouteByGameMode *newConnectTournamentGameModeService);
+    DartApplication *setDartsScoreControllerBuilder(AbstractDartsControllerBuilder *service);
+    DartApplication *setDartsScoreBuilder(AbstractDartsControllerBuilder *service);
+    DartApplication *setConnectToDartsPountBuilder(IConnectRouteToDartsBuilder *newConnectToDartsPountBuilder);
+    DartApplication *setConnectToDartsScoreBuilder(IConnectRouteToDartsBuilder *newConnectToDartsScoreBuilder);
+    DartApplication *setConnectDartsPointController(IConnectDartsPointController *newConnectDartsPointController);
+    DartApplication *setConnectDartsScoreController(IConnectDartsScoreController *newConnectDartsScoreController);
+    DartApplication *setRouteByInputHint(AbstractRouteByInputHint *newRouteByInputHint);
+    DartApplication *setRouteByDisplayHint(AbstractRouteByDisplayHint *newRouteByDisplayHint);
+    DartApplication *setConnectRouteByDisplayHint(IConnectRouteByDisplayHint *newConnectRouteByDisplayHint);
+    DartApplication *setConnectRouteByInputHint(IConnectRouteByInputHint *newConnectRouteByInputHint);
 
 public slots:
     // Get tournaments
@@ -70,14 +79,6 @@ public slots:
     void handleRequestForMultiAttemptScores() override;
     /*
      * Create tournament
-     *
-     *  Data array allocates memmory locations in the following order:
-     *   - [0] = Gamemode
-     *   - [1] = Keypoint
-     *   - [2] = KeyCode (win condition)
-     *   - [3] = TableViewHint
-     *   - [4] = InputMode
-     *   - [5] = Number of throws
      */
     void handleFTPDetails(const QByteArray &json) override;
     /*
@@ -116,9 +117,11 @@ public slots:
      * Handle request for tournament meta information
      */
     void assembleDartsTournamentValues() override;
-
-    void assembleAndConfigureControllerBuilder(const QByteArray &json) override;
-    void setGameController(AbstractGameController* controller) override;
+    /*
+     * Set game controller methods
+     */
+    void setDartsPointSingleAttempt(AbstractDartsController *controller) override;
+    void setDartsScoreMultiAttempt(AbstractDartsController *controller) override;
 private:
     DartApplication();
     // Clear controller..
@@ -136,21 +139,37 @@ private:
     bool _usingThreads;
     QThread* _modelsContextInterfaceThread = new QThread();
     QThread *_gameControllerThread = new QThread();
-    AbstractDartsControllerBuilder *_controllerBuilder;
+    AbstractDartsController* _dartsController;
     AbstractModelsService* _modelsService;
     AbstractGameController *_gameController = nullptr;
-    AbstractModelsServiceBuilder<AbstractModelsService>* _modelsServiceBuilder;
-    AbstractTournamentGameModeService* _tournamentGameModeService;
     /*
-     * Connect-services
+     * Builders
      */
-    IBinaryService<AbstractModelsService*,AbstractTournamentGameModeService*,void>* _connectTournamentGameModeService;
-    IBinaryService<AbstractApplicationInterface*,
-                   AbstractModelsService*,
-                   void>* _connectModelsServiceInterface;
-    ITernaryService<AbstractApplicationInterface*,
-                    AbstractDartsControllerBuilder*,
-                    AbstractModelsService*,void>* _connectControllerBuilder;
+    AbstractDartsControllerBuilder *_dartsPointBuilder;
+    AbstractDartsControllerBuilder *_dartsScoreBuilder;
+
+    AbstractModelsServiceBuilder<AbstractModelsService>* _modelsServiceBuilder;
+    /*
+     * Route services
+     */
+    AbstractRouteByGameMode* _routeByGameMode;
+    AbstractRouteByInputHint* _routeByInputHint;
+    AbstractRouteByDisplayHint* _routeByDisplayHint;
+
+    /*
+     * Connect route services
+     */
+    IConnectRouteToDartsBuilder *_connectDartsPointBuilder;
+    IConnectRouteToDartsBuilder *_connectDartsScoreBuilder;
+    /*
+     * Connect darts controller services
+     */
+    IConnectRouteByInputHint* _connectRouteByInputHint;
+    IConnectRouteByDisplayHint* _connectRouteByDisplayHint;
+    IConnectDartsPointController* _connectDartsPointController;
+    IConnectDartsScoreController* _connectDartsScoreController;
+    ConnectRouteByGameMode* _connectRouteByGameMode;
+    IConnectModelsInterface* _connectModelsServiceInterface;
 };
 
 #endif // PROJECTDARTINTERFACE_H

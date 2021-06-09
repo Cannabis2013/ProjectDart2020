@@ -47,7 +47,7 @@
         <file>ThemeContext.qml</file>
         <file>managePageScripts.js</file>
         <file>PageIconItem.qml</file>
-        <file>MultiAttemptScoreScoreBoard.qml</file>
+        <file>ScoreScoreBoard.qml</file>
         <file>StartButtonComponent.qml</file>
         <file>KeyPadItem.qml</file>
         <file>InteractiveObject.qml</file>
@@ -71,7 +71,7 @@
         <file>ScoreKeyPadInterface.qml</file>
         <file>SingleScoreDelegate.qml</file>
         <file>SingleAttemptCellDelegate.qml</file>
-        <file>DartsSingleAttemptPointScoreBoard.qml</file>
+        <file>DartsPointScoreBoard.qml</file>
         <file>ftpScoreBoardFactory.js</file>
         <file>ScoreRectDelegate.qml</file>
         <file>MultiScoreDelegate.qml</file>

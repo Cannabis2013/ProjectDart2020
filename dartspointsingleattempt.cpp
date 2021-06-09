@@ -1,6 +1,6 @@
 #include "dartspointsingleattempt.h"
 
-using namespace DartsPointSingleAttemptContext;
+using namespace DartsPointControllerContext;
 
 void DartsPointSingleAttempt ::start()
 {

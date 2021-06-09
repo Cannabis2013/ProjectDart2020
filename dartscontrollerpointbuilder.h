@@ -8,7 +8,7 @@
 #include "dartscontrollerpoint.h"
 #include "idartscontrollerpointbuilder.h"
 
-namespace DartsPointSingleAttemptContext
+namespace DartsPointControllerContext
 {
     typedef IDartsControllerPoint<QUuid,QString,QByteArray> IControllerPoint;
     class DartsControllerPointBuilder : public IDartsControllerpointBuilder<IControllerPoint,QByteArray,QUuid,QString>

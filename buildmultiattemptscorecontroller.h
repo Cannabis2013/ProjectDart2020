@@ -17,12 +17,15 @@
 #include "DartsScoreJsonExtractor.h"
 #include "dartsplayerbuilderservice.h"
 
-class BuildMultiAttemptScoreController : public
-        IBuildControllerService<AbstractDartsScoreController*,
-                                const DartsBuilderContext::IDartsControllerEntity<QUuid,QString>*>
-{
-public:
-    ControllerInterface buildSingleAttemptPointController(ControllerDetails details) const override;
-};
+
+namespace DartsBuilderContext {
+    class BuildMultiAttemptScoreController : public
+            IBuildControllerService<AbstractDartsScoreController*,
+                                    const DartsBuilderContext::IDartsControllerEntity<QUuid,QString>*>
+    {
+    public:
+        ControllerInterface buildSingleAttemptPointController(ControllerDetails details) const override;
+    };
+}
 
 #endif // BUILDMULTIATTEMPTSCORECONTROLLER_H

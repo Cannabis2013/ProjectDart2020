@@ -100,7 +100,7 @@ signals:
      * Player-models signals
      */
     void sendPlayersID(const QList<QUuid> &playersID);
-    void sendTournamentDartsDetails(const QByteArray& json);
+    void sendDartsDetails(const QByteArray& json, const int &inputHint);
     void sendProcessedTournamentMetaData(const QString &title,
                                          const int &gameMode,
                                          const int &keyPoint,

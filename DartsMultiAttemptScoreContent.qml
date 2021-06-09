@@ -54,7 +54,7 @@ Content {
             onLeftButtonClicked: MultiAttemptScripts.undoClicked()
             onRightButtonClicked: MultiAttemptScripts.redoClicked()
         }
-        MultiAttemptScoreScoreBoard{
+        ScoreScoreBoard{
             id: multiAttemptScoreBoard
             Layout.fillHeight: true
             Layout.fillWidth: true
@@ -68,7 +68,6 @@ Content {
             id: keyDataDisplay
             Layout.fillWidth: true
             Layout.maximumHeight: 40
-            visible: status === Loader.Ready
         }
         Rectangle{
              color: "transparent"

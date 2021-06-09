@@ -3,7 +3,7 @@
 
 #include "idartscontrollerplayer.h"
 #include <quuid.h>
-namespace DartsPointSingleAttemptContext {
+namespace DartsPointControllerContext {
     class DartsControllerPlayer : public IDartsControllerPlayer<QUuid,QString> {
 
         // IDartsControllerPlayer interface

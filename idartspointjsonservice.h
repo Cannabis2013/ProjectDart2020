@@ -3,7 +3,7 @@
 
 #include <qvector.h>
 
-namespace DartsPointSingleAttemptContext{
+namespace DartsPointControllerContext{
     template<typename  TPointModel,typename TIndexesModel, typename TJsonFormat, typename TUuid>
     class IDartsPointJsonService
     {

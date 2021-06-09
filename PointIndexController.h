@@ -5,7 +5,7 @@
 #include <qlist.h>
 #include "idartssingleattemptindexes.h"
 
-namespace DartsPointSingleAttemptContext{
+namespace DartsPointControllerContext{
     class PointIndexController : public IDartsSingleAttemptIndexService<IDartsSingleAttemptIndexes>
     {
         // IndexControllerInterface interface

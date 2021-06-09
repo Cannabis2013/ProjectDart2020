@@ -4,7 +4,7 @@
 #include <qobject.h>
 #include <quuid.h>
 #include "abstractmodelsservice.h"
-#include "abstractgamecontroller.h"
+#include "abstractdartscontroller.h"
 #include "iresponseinterface.h"
 class AbstractApplicationInterface : public QObject
 {
@@ -57,8 +57,8 @@ public slots:
      * Handle request for tournament meta information
      */
     virtual void assembleDartsTournamentValues() = 0;
-    virtual void assembleAndConfigureControllerBuilder(const QByteArray &json) = 0;
-    virtual void setGameController(AbstractGameController* controller) = 0;
+    virtual void setDartsPointSingleAttempt(AbstractDartsController* controller) = 0;
+    virtual void setDartsScoreMultiAttempt(AbstractDartsController* controller) = 0;
 signals:
     /*
      * ApplicationInterface interface

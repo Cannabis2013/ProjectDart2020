@@ -24,10 +24,10 @@ ScoreBoard {
     onSetData: ScoreScripts.setData(playerName,score)
     onTakeData: ScoreScripts.takeData(row,column,playerName)
     onEditData: ScoreScripts.editData(row,column,point,score)
-    onClearData: multiAttemptScoreDataModel.clearData();
+    onClearData: multiAttemptDataModel.clearData();
     // Header related
     horizontalHeaderFontSize: 16
-    onHorizontalHeaderFontSizeChanged: multiAttemptScoreDataModel.headerFontSize = multiAttemptScoreBoardBody.horizontalHeaderFontSize
+    onHorizontalHeaderFontSizeChanged: multiAttemptDataModel.headerFontSize = multiAttemptScoreBoardBody.horizontalHeaderFontSize
     verticalHeaderVisible: true
     onAppendHeaderData: ScoreScripts.setHeaderData(data,defaultVal)
     verticalHeaderFontSize: dataValues.headerFontSize
@@ -46,16 +46,16 @@ ScoreBoard {
     }
 
     columnWidthProvider: function(column){
-        return multiAttemptScoreDataModel.columnWidthAt(column);
+        return multiAttemptDataModel.columnWidthAt(column);
     }
 
     rowHeightProvider: function(row)
     {
-        return multiAttemptScoreDataModel.rowHeightAt(row);
+        return multiAttemptDataModel.rowHeightAt(row);
     }
 
-    model: MultiAttemptScoreDataModel{
-        id: multiAttemptScoreDataModel
+    model: DartsMultiAttemptDataModel{
+        id: multiAttemptDataModel
         onDataChanged: ScoreScripts.updateScoreBoard();
         attempts: 1
         scoreFontPointSize: dataValues.scoreFontSize

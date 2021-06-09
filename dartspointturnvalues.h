@@ -5,7 +5,7 @@
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 
-namespace DartsPointSingleAttemptContext {
+namespace DartsPointControllerContext {
     class DartsPointTurnValues
     {
     public:

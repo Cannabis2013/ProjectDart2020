@@ -219,7 +219,7 @@ void RemoteModelsContext::handleRequestFtpDetailsReply()
     auto payLoad = jsonObject.value("payLoad").toObject();
     auto ftpDetails = payLoad.value("ftpDetails").toObject();
     auto json = QJsonDocument(ftpDetails).toJson();
-    emit sendTournamentDartsDetails(json);
+    emit sendDartsDetails(json,0);
 }
 
 void RemoteModelsContext::handleFtpIndexesAndScores()

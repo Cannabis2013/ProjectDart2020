@@ -20,6 +20,8 @@ namespace DartsBuilderContext {
         void setInputHint(int newInputHint);
         virtual IdFormat winnerId() const override;
         void setWinnerId(const IdFormat &newWinnerId);
+        int displayHint() const override;
+        void setDisplayHint(const int hint);
     private:
         IdFormat _tournamentId;
         IdFormat _winnerId;
@@ -27,6 +29,7 @@ namespace DartsBuilderContext {
         int _attempt;
         int _terminalKeyCode;
         int _inputHint;
+        int _displayHint;
     };
 }
 

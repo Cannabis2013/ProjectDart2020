@@ -3,7 +3,7 @@ using namespace DartsBuilderContext;
 
 BuildSingleAttemptPointController::ControllerInterface DartsBuilderContext::BuildSingleAttemptPointController::buildSingleAttemptPointController(ControllerDetails details) const
 {
-    using namespace DartsPointSingleAttemptContext;
+    using namespace DartsPointControllerContext;
     AbstractDartsPointController* controller = DartsPointSingleAttempt::createInstance(details->tournamentId())
             ->setLogisticInterface(DartsPointLogisticController::createInstance(details->attempts(),
                                                                                 details->terminalKeyCode()))

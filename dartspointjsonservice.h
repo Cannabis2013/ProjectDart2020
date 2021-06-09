@@ -9,7 +9,7 @@
 #include "idartspointjsonservice.h"
 
 
-namespace DartsPointSingleAttemptContext
+namespace DartsPointControllerContext
 {
     typedef IDartsPointJsonService<IDartsControllerPoint<QUuid,QString,QByteArray>,
                                    IDartsSingleAttemptIndexes,

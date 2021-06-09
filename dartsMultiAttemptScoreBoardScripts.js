@@ -8,16 +8,16 @@ function viewContentHeight()
 }
 function setInitialValue(value)
 {
-    multiAttemptScoreDataModel.setInitialValue(value);
+    multiAttemptDataModel.setInitialValue(value);
 }
 
 function clearTable(){
-    multiAttemptScoreDataModel.clearData();
+    multiAttemptDataModel.clearData();
 }
 
 function getHeaderItem(index, orientation)
 {
-    var item = multiAttemptScoreDataModel.getHeaderData(index);
+    var item = multiAttemptDataModel.getHeaderData(index);
     return item;
 }
 
@@ -29,12 +29,12 @@ function updateScoreBoard()
 function refreshHeaders()
 {
     // Refresh horizontal headers
-    let verticalHeaderCount = multiAttemptScoreDataModel.verticalHeaderCount();
+    let verticalHeaderCount = multiAttemptDataModel.verticalHeaderCount();
     multiAttemptScoreBoardBody.verticalHeaderModel = verticalHeaderCount;
     for(var j = 0;j < verticalHeaderCount;j++)
     {
-        let h = multiAttemptScoreDataModel.rowHeightAt(j);
-        let value = multiAttemptScoreDataModel.getHeaderData(j);
+        let h = multiAttemptDataModel.rowHeightAt(j);
+        let value = multiAttemptDataModel.getHeaderData(j);
         multiAttemptScoreBoardBody.setRowHeight(j,h);
         multiAttemptScoreBoardBody.setVerticalHeaderDataAt(j,value);
     }
@@ -47,25 +47,25 @@ function setViewPosition(x,y)
 
 function appendHeader(header)
 {
-    multiAttemptScoreDataModel.appendHeaderItem(header);
-    var preferedWidth = multiAttemptScoreDataModel.preferedHeaderItemWidth();
+    multiAttemptDataModel.appendHeaderItem(header);
+    var preferedWidth = multiAttemptDataModel.preferedHeaderItemWidth();
     multiAttemptScoreBoardBody.updateVerticalHeaderWidth(preferedWidth);
 }
 
 function setData(playerName,score){
-    var result = multiAttemptScoreDataModel.insertData(playerName,score);
+    var result = multiAttemptDataModel.insertData(playerName,score);
     if(!result)
         print("Couldn't add data to model");
 }
 
 function takeData(row,column,playerName){
-    var result = multiAttemptScoreDataModel.removeLastItem(playerName,headerOrientation);
+    var result = multiAttemptDataModel.removeLastItem(playerName,headerOrientation);
     if(!result)
         print("Couldn't take data");
 }
 
 function editData(row,column,point,score){
-    var result = multiAttemptScoreDataModel.editData(row,column,point,score);
+    var result = multiAttemptDataModel.editData(row,column,point,score);
     if(!result)
         print("Couldn't edit data");
 }

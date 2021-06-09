@@ -61,3 +61,13 @@ void DartsControllerEntity::setWinnerId(const IdFormat &newWinnerId)
 {
     _winnerId = newWinnerId;
 }
+
+int DartsControllerEntity::displayHint() const
+{
+    return _displayHint;
+}
+
+void DartsControllerEntity::setDisplayHint(const int hint)
+{
+    _displayHint = hint;
+}

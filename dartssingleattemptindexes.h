@@ -6,7 +6,7 @@
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 
-namespace DartsPointSingleAttemptContext
+namespace DartsPointControllerContext
 {
     class DartsSingleAttemptIndexes :
             public IDartsSingleAttemptIndexes

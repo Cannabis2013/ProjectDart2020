@@ -1,109 +1,110 @@
 #include "connectdartsmultiattemptcontroller.h"
 
-void ConnectDartsMultiAttemptController::service(AbstractDartsScoreController *controller, AbstractApplicationInterface *application, AbstractModelsService *modelsService)
+void ConnectDartsMultiAttemptController::connectController(AbstractDartsController *controller, AbstractApplicationInterface *application, AbstractModelsService *modelsService)
 {
+    auto dartsScorecontroller = dynamic_cast<AbstractDartsScoreController*>(controller);
     // Send tournament metadata
     QObject::connect(application,&AbstractApplicationInterface::requestCurrentTournamentId,
-            controller,&AbstractDartsScoreController::handleRequestForCurrentTournamentMetaData);
-    QObject::connect(controller,&AbstractDartsScoreController::sendCurrentTournamentId,
+            dartsScorecontroller,&AbstractDartsScoreController::handleRequestForCurrentTournamentMetaData);
+    QObject::connect(dartsScorecontroller,&AbstractDartsScoreController::sendCurrentTournamentId,
             modelsService,&AbstractModelsService::assembleDartsTournamentDataFromId);
     // Controller requests indexes and playerscores
-    QObject::connect(controller,&AbstractDartsScoreController::requestDartsTournamentIndexes,
+    QObject::connect(dartsScorecontroller,&AbstractDartsScoreController::requestDartsTournamentIndexes,
             modelsService,&AbstractModelsService::assembleDartsScoreIndexes);
     QObject::connect(modelsService,&AbstractModelsService::sendDartsScoreIndexesAsJson,
-            controller,&AbstractDartsController::initializeControllerIndexes);
-    QObject::connect(controller,&AbstractDartsScoreController::requestTournamentAssignedPlayerDetails,
+            dartsScorecontroller,&AbstractDartsController::initializeControllerIndexes);
+    QObject::connect(dartsScorecontroller,&AbstractDartsScoreController::requestTournamentAssignedPlayerDetails,
                      modelsService,&AbstractModelsService::assembleAssignedPlayerEntities);
     QObject::connect(modelsService,&AbstractModelsService::sendAssignedPlayerIdsAndNamesAsJson,
-                     controller,&AbstractDartsScoreController::initializeControllerPlayerDetails);
-    QObject::connect(controller,&AbstractDartsScoreController::requestTournamentDartsScores,
+                     dartsScorecontroller,&AbstractDartsScoreController::initializeControllerPlayerDetails);
+    QObject::connect(dartsScorecontroller,&AbstractDartsScoreController::requestTournamentDartsScores,
                      modelsService,&AbstractModelsService::assembleAssignedPlayerScores);
     QObject::connect(modelsService,&AbstractModelsService::sendTournamentDartsScoresAsJson,
-                     controller,&AbstractDartsScoreController::initializeControllerDartsScores);
-    QObject::connect(controller,&AbstractDartsScoreController::requestTournamentWinnerIdAndName,
+                     dartsScorecontroller,&AbstractDartsScoreController::initializeControllerDartsScores);
+    QObject::connect(dartsScorecontroller,&AbstractDartsScoreController::requestTournamentWinnerIdAndName,
                      modelsService,&AbstractModelsService::assembleDartsTournamentWinnerIdAndName);
     QObject::connect(modelsService,&AbstractModelsService::sendDartsTournamentWinnerIdAndName,
-                     controller,&AbstractDartsScoreController::initializeControllerWinnerIdAndName);
-    QObject::connect(controller,&AbstractDartsScoreController::controllerIsInitialized,
+                     dartsScorecontroller,&AbstractDartsScoreController::initializeControllerWinnerIdAndName);
+    QObject::connect(dartsScorecontroller,&AbstractDartsScoreController::controllerIsInitialized,
                      application,&AbstractApplicationInterface::dartsMultiAttemptScoreControllerIsInitalized);
     /*
      * UI requests multi attempt playerscores
      */
     QObject::connect(application,&AbstractApplicationInterface::requestDartsMultiAttemptScores,
-            controller,&AbstractDartsScoreController::assembleMultiAttemptDartsScores);
-    QObject::connect(controller,&AbstractDartsScoreController::sendMultiAttemptDartsScores,
+            dartsScorecontroller,&AbstractDartsScoreController::assembleMultiAttemptDartsScores);
+    QObject::connect(dartsScorecontroller,&AbstractDartsScoreController::sendMultiAttemptDartsScores,
             application,&AbstractApplicationInterface::sendAssembledMultiAttemptDartsScores);
     /*
          * Wake up controller
          */
     QObject::connect(application,&AbstractApplicationInterface::requestWakeUp,
-            controller,&AbstractGameController::beginInitialize);
+            dartsScorecontroller,&AbstractGameController::beginInitialize);
     /*
          * Controller needs to inform external context about its state
          */
-    QObject::connect(controller,&AbstractDartsController::controllerIsStopped,
+    QObject::connect(dartsScorecontroller,&AbstractDartsController::controllerIsStopped,
             application,&AbstractApplicationInterface::controllerIsStopped);
-    QObject::connect(controller,&AbstractDartsScoreController::controllerIsInitializedAndReady,
+    QObject::connect(dartsScorecontroller,&AbstractDartsScoreController::controllerIsInitializedAndReady,
             application,&AbstractApplicationInterface::dartsMultiAttemptScoreControllerIsReady);
-    QObject::connect(controller,&AbstractDartsController::isReadyAndAwaitsInput,
+    QObject::connect(dartsScorecontroller,&AbstractDartsController::isReadyAndAwaitsInput,
             application,&AbstractApplicationInterface::controllerAwaitsInput);
-    QObject::connect(controller,&AbstractDartsController::winnerDeclared,
+    QObject::connect(dartsScorecontroller,&AbstractDartsController::winnerDeclared,
             modelsService,&AbstractModelsService::setDartsTournamentWinner);
     QObject::connect(modelsService,&AbstractModelsService::setDartsTournamentWinnerSucces,
-                     controller,&AbstractDartsScoreController::winnerDetermined);
-    QObject::connect(controller,&AbstractDartsScoreController::winnerDetermined,
+                     dartsScorecontroller,&AbstractDartsScoreController::winnerDetermined);
+    QObject::connect(dartsScorecontroller,&AbstractDartsScoreController::winnerDetermined,
                      application,&AbstractApplicationInterface::controllerHasDeclaredAWinner);
     /*
          * Start/stop game
          */
     QObject::connect(application,&AbstractApplicationInterface::requestStartGame,
-            controller,&AbstractGameController::start);
-    QObject::connect(controller,&AbstractDartsScoreController::isReadyAndAwaitsInput,
+            dartsScorecontroller,&AbstractGameController::start);
+    QObject::connect(dartsScorecontroller,&AbstractDartsScoreController::isReadyAndAwaitsInput,
                      application,&AbstractApplicationInterface::controllerAwaitsInput);
     QObject::connect(application,&AbstractApplicationInterface::requestStopGame,
-            controller,&AbstractGameController::stop);
+            dartsScorecontroller,&AbstractGameController::stop);
     /*
          * Reset tournament
          */
     QObject::connect(application,&AbstractApplicationInterface::requestTournamentReset,
-            controller,&AbstractGameController::handleResetTournament);
-    QObject::connect(controller,&AbstractGameController::requestResetTournament,
+            dartsScorecontroller,&AbstractGameController::handleResetTournament);
+    QObject::connect(dartsScorecontroller,&AbstractGameController::requestResetTournament,
             modelsService,&AbstractModelsService::resetDartsScoreTournament);
     QObject::connect(modelsService,&AbstractModelsService::tournamentResetSuccess,
-            controller,&AbstractGameController::isReset);
-    QObject::connect(controller,&AbstractDartsController::isReset,
+            dartsScorecontroller,&AbstractGameController::isReset);
+    QObject::connect(dartsScorecontroller,&AbstractDartsController::isReset,
             application,&AbstractApplicationInterface::dartsControllerIsReset);
     /*
          * Add point
          */
     QObject::connect(application,&AbstractApplicationInterface::sendDartsMultiAttemptScore,
-            controller,&AbstractDartsScoreController::handleAndProcessUserInput);
-    QObject::connect(controller,&AbstractDartsScoreController::requestAddDartsScore,
+            dartsScorecontroller,&AbstractDartsScoreController::handleAndProcessUserInput);
+    QObject::connect(dartsScorecontroller,&AbstractDartsScoreController::requestAddDartsScore,
             modelsService,&AbstractModelsService::addDartsScore);
     QObject::connect(modelsService,&AbstractModelsService::scoreAddedToDataContext,
-            controller,&AbstractDartsScoreController::handleScoreAddedToDataContext);
-    QObject::connect(controller,&AbstractDartsScoreController::scoreAddedSuccess,
+            dartsScorecontroller,&AbstractDartsScoreController::handleScoreAddedToDataContext);
+    QObject::connect(dartsScorecontroller,&AbstractDartsScoreController::scoreAddedSuccess,
             application,&AbstractApplicationInterface::dartsControllerAddedDartsMultiAttemptScore);
     QObject::connect(application,&AbstractApplicationInterface::requestControllerState,
-            controller,&AbstractGameController::handleRequestFromUI);
+            dartsScorecontroller,&AbstractGameController::handleRequestFromUI);
     /*
          * Controller remove has removed scores
          */
-    QObject::connect(controller,&AbstractDartsScoreController::scoreRemoved,
+    QObject::connect(dartsScorecontroller,&AbstractDartsScoreController::scoreRemoved,
             application,&AbstractApplicationInterface::dartsControllerRemovedMultiAttemptScore);
     /*
          * Undo/redo
          */
     QObject::connect(application,&AbstractApplicationInterface::requestUndo,
-            controller,&AbstractDartsScoreController::undoTurn);
-    QObject::connect(controller,&AbstractDartsScoreController::hideDartsScore,
+            dartsScorecontroller,&AbstractDartsScoreController::undoTurn);
+    QObject::connect(dartsScorecontroller,&AbstractDartsScoreController::hideDartsScore,
             modelsService,&AbstractModelsService::hideDartsScore);
     QObject::connect(modelsService,&AbstractModelsService::hideDartsScoreSuccess,
-            controller,&AbstractDartsScoreController::undoSuccess);
+            dartsScorecontroller,&AbstractDartsScoreController::undoSuccess);
     QObject::connect(application,&AbstractApplicationInterface::requestRedo,
-            controller,&AbstractDartsScoreController::redoTurn);
-    QObject::connect(controller,&AbstractDartsScoreController::revealDartsScore,
+            dartsScorecontroller,&AbstractDartsScoreController::redoTurn);
+    QObject::connect(dartsScorecontroller,&AbstractDartsScoreController::revealDartsScore,
             modelsService,&AbstractModelsService::revealScore);
     QObject::connect(modelsService,&AbstractModelsService::revealDartsScoreSuccess,
-            controller,&AbstractDartsScoreController::redoSuccess);
+            dartsScorecontroller,&AbstractDartsScoreController::redoSuccess);
 }

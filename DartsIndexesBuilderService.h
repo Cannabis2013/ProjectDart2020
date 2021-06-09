@@ -4,7 +4,7 @@
 #include "idartscontrollerindexesbuilder.h"
 #include "dartssingleattemptindexes.h"
 #include "idartssingleattemptindexservice.h"
-namespace DartsPointSingleAttemptContext {
+namespace DartsPointControllerContext {
     class DartsIndexesBuilderService : public
             IDartsControllerIndexesBuilder<
             IDartsSingleAttemptIndexes,
