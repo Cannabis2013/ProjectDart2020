@@ -26,7 +26,7 @@ namespace DartsModelsContext {
         virtual QByteArray assembleJsonDartsTournamentModels(const IDartsModelsService*,
                                                              const IPlayerModelsService*) const = 0;
         virtual QUuid getTournamentIdByJson(const QByteArray&) const = 0;
-        virtual QByteArray assembleJsonFromDartsTournamentModel(const IDartsTournament*) const = 0;
+        virtual QByteArray assembleJsonByDartsTournamentModel(const IDartsTournament*) const = 0;
         virtual QByteArray addPlayerNamesToDartsTournamentJson(const QByteArray&,
                                                             const QVector<QString>&) const = 0;
     };

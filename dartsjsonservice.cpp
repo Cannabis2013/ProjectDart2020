@@ -32,7 +32,7 @@ QByteArray DartsJsonService::assembleJsonDartsTournamentModels(const IDartsModel
     return json;
 }
 
-QByteArray DartsJsonService::assembleJsonFromDartsTournamentModel(const IDartsTournament *model) const
+QByteArray DartsJsonService::assembleJsonByDartsTournamentModel(const IDartsTournament *model) const
 {
     auto json = _assembleJsonFromDartsTournamentModel->service(model);
     return json;

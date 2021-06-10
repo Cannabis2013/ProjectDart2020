@@ -21,6 +21,7 @@ public:
         obj["terminalKeyCode"] = model->terminalKeyCode();
         obj["inputHint"] = model->inputHint();
         obj["winnerId"] = model->winnerId().toString(QUuid::WithoutBraces);
+        obj["displayHint"] = model->displayHint();
         auto json = QJsonDocument(obj).toJson();
         return json;
     }

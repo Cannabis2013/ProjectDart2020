@@ -41,7 +41,6 @@ SOURCES += \
     dartspointjsonservice.cpp \
     dartspointlogisticcontroller.cpp \
     dartspointmodelsservice.cpp \
-    dartspointmultiattempt.cpp \
     dartspointsingleattempt.cpp \
     dartspointsingleattemptdatamodel.cpp \
     dartspointsjsonservice.cpp \
@@ -74,7 +73,6 @@ SOURCES += \
     remotemodelscontext.cpp \
     routedartsbydisplayhint.cpp \
     routedartsbyinputhint.cpp \
-    routerequestbytournamentid.cpp \
     scoreindexcontroller.cpp \
     tournamentjsondb.cpp \
     tournamentsjsonassembler.cpp \
@@ -180,7 +178,6 @@ HEADERS += \
     dartspointjsonservice.h \
     dartspointlogisticcontroller.h \
     dartspointmodelsservice.h \
-    dartspointmultiattempt.h \
     dartspointsingleattempt.h \
     dartspointsingleattemptdatamodel.h \
     dartspointsjsonservice.h \
@@ -336,7 +333,6 @@ HEADERS += \
     routebytournamentgamemode.h \
     routedartsbydisplayhint.h \
     routedartsbyinputhint.h \
-    routerequestbytournamentid.h \
     scoreindexcontroller.h \
     setdartsmodelhint.h \
     sortdartspointinputsbyindexes.h \

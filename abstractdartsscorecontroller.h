@@ -11,9 +11,7 @@ public:
     typedef QPair<QUuid,QString> Player;
     typedef QPair<QUuid,int> PlayerScore;
 public slots:
-    virtual void initializeControllerPlayerDetails(const QByteArray&) = 0;
     virtual void initializeControllerDartsScores(const QByteArray&) = 0;
-    virtual void initializeControllerWinnerIdAndName(const QByteArray&) = 0;
     virtual void assembleMultiAttemptDartsScores() = 0;
     virtual void handleRequestDartsScores() = 0;
     virtual void handleScoreAddedToDataContext(const QByteArray&) = 0;

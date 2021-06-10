@@ -27,7 +27,7 @@
 #define INVALID_DOMAIN "Input is not within domain";
 #define UNABLE_TO_ALTER_TURN "Unable to alter turn index";
 
-namespace DartsPointSingleAttemptContext {
+namespace DartsPointControllerContext {
 
     class DartsPointSingleAttempt : public AbstractDartsPointController
     {

@@ -13,6 +13,8 @@ class AbstractDartsController : public AbstractGameController
     Q_OBJECT
 public slots:
     virtual void initializeControllerIndexes(const QByteArray&) = 0;
+    virtual void initializeControllerPlayerDetails(const QByteArray&) = 0;
+    virtual void initializeControllerWinnerIdAndName(const QByteArray&) = 0;
     virtual void undoSuccess(const QByteArray&) = 0;
     virtual void redoSuccess(const QByteArray&) = 0;
 signals:

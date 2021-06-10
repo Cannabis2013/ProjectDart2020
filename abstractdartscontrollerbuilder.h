@@ -13,12 +13,12 @@ class AbstractDartsControllerBuilder : public QObject,
         public ControllerBuilderInterface
 {
     Q_OBJECT
-signals:
-    void requestDartsDetails(const QUuid &tournament);
-    void sendController(AbstractDartsController* controller,const int &displayHint);
 
 public slots:
     virtual AbstractGameController* buildDartsController(const QByteArray& json) = 0;
+signals:
+    void requestDartsDetails(const QUuid &tournament);
+    void sendController(AbstractDartsController* controller,const int &displayHint);
 };
 
 #endif // ABSTRACTCONTROLLERBUILDER_H

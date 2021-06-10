@@ -109,7 +109,7 @@ signals:
     void sendAssembledDartsSingleAttemptPoints(const QByteArray& json);
     // Controller states
     void controllerIsStopped();
-    void dartsSingleAttemptPointControllerIsInitialized();
+    void dartsPointMultiColumnsInitialized();
     void dartsControllerRemovedSingleAttemptPoint(const QString& json);
     void dartsControllerRemovedMultiAttemptScore(const QString& json);
     void dartsControllerAddedDartsSingleAttemptPoint(const QByteArray& json);

@@ -21,8 +21,8 @@ namespace DartsBuilderContext {
             auto jsonObject = document.object();
             auto entity = new DartsControllerEntity;
             entity->setTournamentId(QUuid(jsonObject.value("tournamentId").toString()));
-            entity->setAttempt(jsonObject.value("attempt").toInt());
-            entity->setKeyPoint(jsonObject.value("terminalKeyCode").toInt());
+            entity->setAttempt(jsonObject.value("attempts").toInt());
+            entity->setKeyPoint(jsonObject.value("keyPoint").toInt());
             entity->setTerminalKeyCode(jsonObject.value("terminalKeyCode").toInt());
             entity->setInputHint(jsonObject.value("inputHint").toInt());
             entity->setWinnerId(QUuid(jsonObject.value("winnerId").toString()));

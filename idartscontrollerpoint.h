@@ -3,7 +3,7 @@
 
 #include "ijsonmodelsservice.h"
 
-namespace DartsPointSingleAttemptContext
+namespace DartsPointControllerContext
 {
     template<typename TUuid, typename TString, typename TJsonFormat>
     class IDartsControllerPoint : public IJsonModelsService<TJsonFormat>

@@ -26,7 +26,7 @@ void ConnectDartsSingleAttemptPointController::connectController(AbstractDartsCo
     QObject::connect(modelsService,&AbstractModelsService::sendDartsTournamentWinnerIdAndName,
                      dartsPointController,&AbstractDartsPointController::initializeControllerWinnerIdAndName);
     QObject::connect(dartsPointController,&AbstractDartsPointController::dartsSingleAttemptControllerIsInitialized,
-            application,&AbstractApplicationInterface::dartsSingleAttemptPointControllerIsInitialized);
+            application,&AbstractApplicationInterface::dartsPointMultiColumnsInitialized);
     // Controller requests transmitting single attempt playerpoints
     QObject::connect(application,&AbstractApplicationInterface::requestDartsSingleAttemptPoints,
             dartsPointController,&AbstractDartsPointController::handleRequestDartsPoints);

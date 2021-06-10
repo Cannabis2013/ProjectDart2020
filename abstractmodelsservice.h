@@ -95,12 +95,11 @@ signals:
     void tournamentsDeletedStatus(const bool &status);
     void sendTournaments(const QByteArray& json);
     void setDartsTournamentWinnerSucces(const QByteArray& json);
-
+    void sendDartsDetails(const QByteArray& json, const int &inputHint);
     /*
      * Player-models signals
      */
     void sendPlayersID(const QList<QUuid> &playersID);
-    void sendDartsDetails(const QByteArray& json, const int &inputHint);
     void sendProcessedTournamentMetaData(const QString &title,
                                          const int &gameMode,
                                          const int &keyPoint,

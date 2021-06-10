@@ -88,7 +88,7 @@ void LocalModelsService::setDartsTournamentWinner(const QByteArray& json)
 void LocalModelsService::assembleDartsKeyValues(const QUuid &tournamentId)
 {
     auto model = _dartsModelsService->dartsTournamentModelById(tournamentId);
-    auto json = _dartsJsonService->assembleJsonFromDartsTournamentModel(model);
+    auto json = _dartsJsonService->assembleJsonByDartsTournamentModel(model);
     emit sendDartsDetails(json,model->inputHint());
 }
 

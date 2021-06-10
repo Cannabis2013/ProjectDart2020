@@ -7,8 +7,8 @@ class RouteDartsByInputHint : public AbstractRouteByInputHint
 {
 public:
     enum AbstractRouteByInputHint{
-        PointHint = 0x4,
-        ScoreHint = 0x8
+        PointHint = 0x5,
+        ScoreHint = 0x6
     };
 public slots:
     void processTournamentDetails(const QByteArray &json, const int &inputHint) override;

@@ -17,7 +17,7 @@ namespace DartsModelsContext {
         QByteArray addPlayerNamesToDartsTournamentJson(const QByteArray& json, const QVector<QString>& names) const override;
         QByteArray addWinnerNameToDartsTournamentJson(const QByteArray&json, const QString& name) const override;
         QByteArray assembleJsonDartsTournamentModels(const IDartsModelsService *dartsModelsService, const IPlayerModelsService *iplayerModelsService) const override;
-        QByteArray assembleJsonFromDartsTournamentModel(const IDartsTournament *model) const override;
+        QByteArray assembleJsonByDartsTournamentModel(const IDartsTournament *model) const override;
         QVector<int> getDeleteTournamentIndexesFromJson(const QByteArray &json) const override;
         QUuid getTournamentIdByJson(const QByteArray &json) const override;
         // Get/set service methods

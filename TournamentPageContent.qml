@@ -88,7 +88,7 @@ Content{
         body.requestTournaments.connect(applicationInterface.handleTournamentsRequest); // Request initial tournaments
         applicationInterface.sendTournaments.connect(recieveTournaments);
         body.sendClickedTournamentIndex.connect(applicationInterface.handleSetCurrentTournamentRequest);
-        applicationInterface.dartsSingleAttemptPointControllerIsInitialized.connect(dartsPointSingleAttemptInitialized);
+        applicationInterface.dartsPointMultiColumnsInitialized.connect(dartsPointSingleAttemptInitialized);
         applicationInterface.dartsMultiAttemptScoreControllerIsInitalized.connect(dartsScoreMultiAttemptIsInitialized);
         body.requestTournaments();
     }
@@ -96,7 +96,7 @@ Content{
         body.requestTournaments.disconnect(applicationInterface.handleTournamentsRequest);
         applicationInterface.sendTournaments.disconnect(recieveTournaments);
         body.sendClickedTournamentIndex.disconnect(applicationInterface.handleSetCurrentTournamentRequest);
-        applicationInterface.dartsSingleAttemptPointControllerIsInitialized.disconnect(dartsPointSingleAttemptInitialized);
+        applicationInterface.dartsPointSingleAttemptInitialized.disconnect(dartsPointSingleAttemptInitialized);
         applicationInterface.dartsMultiAttemptScoreControllerIsInitalized.disconnect(dartsScoreMultiAttemptIsInitialized);
     }
 }
