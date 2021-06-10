@@ -8,7 +8,7 @@
 class IConnectDartsScoreController
 {
 public:
-    virtual void connectController(AbstractDartsController* controller,
+    virtual void connectController(AbstractGameController*& controller,
                                    AbstractApplicationInterface* application,
                                    AbstractModelsService* modelsService) = 0;
 };

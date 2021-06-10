@@ -3,10 +3,10 @@
 
 #include "iconnectdartsscorecontroller.h"
 
-class ConnectDartsMultiAttemptController : public IConnectDartsScoreController
+class ConnectDartsScoreController : public IConnectDartsScoreController
 {
 public:
-    void connectController(AbstractDartsController* controller,
+    void connectController(AbstractGameController*& controller,
                            AbstractApplicationInterface* application,
                            AbstractModelsService* modelsService) override;
 };

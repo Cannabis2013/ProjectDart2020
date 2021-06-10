@@ -11,10 +11,10 @@ DartApplication *DartApplication::setup()
     _modelsService = _modelsServiceBuilder->buildLocalModelsServiceWithJsonDb();
     _connectRouteByGameMode->service(_modelsService,_routeByGameMode);
     _connectModelsServiceInterface->connectModelsInterface(this,_modelsService);
-    _connectRouteByDisplayHint->connectServices(_routeByDisplayHint,this);
     _connectRouteByInputHint->connectServices(_modelsService,_routeByInputHint);
-    _connectDartsScoreBuilder->connectServices(_routeByInputHint,_dartsScoreBuilder,_routeByDisplayHint);
     _connectDartsPointBuilder->connectServices(_routeByInputHint,_dartsPointBuilder,_routeByDisplayHint);
+    _connectDartsScoreBuilder->connectServices(_routeByInputHint,_dartsScoreBuilder,_routeByDisplayHint);
+    _connectRouteByDisplayHint->connectServices(_routeByDisplayHint,this);
     return this;
 }
 
@@ -160,7 +160,7 @@ void DartApplication::setDartsScoreMultiAttempt(AbstractDartsController *control
 {
     delete _gameController;
     _gameController = controller;
-    _connectDartsScoreController->connectController(controller,this,_modelsService);
+    _connectDartsScoreController->connectController(_gameController,this,_modelsService);
     emit requestWakeUp();
 }
 

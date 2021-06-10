@@ -22,7 +22,7 @@ SOURCES += \
     builddartsscoreservicewithlocaljsondb.cpp \
     buildmultiattemptscorecontroller.cpp \
     buildsingleattemptpointcontroller.cpp \
-    connectdartsmultiattemptcontroller.cpp \
+    connectdartsscorecontroller.cpp \
     connectdartssingleattemptpointcontroller.cpp \
     connectdefaultmodelscontextinterface.cpp \
     dartapplication.cpp \
@@ -146,8 +146,8 @@ HEADERS += \
     buildmultiattemptscorecontroller.h \
     buildsingleattemptpointcontroller.h \
     comparedartspointmodels.h \
-    connectdartsmultiattemptcontroller.h \
     connectdartspointbuilder.h \
+    connectdartsscorecontroller.h \
     connectdartssingleattemptpointcontroller.h \
     connectdefaultmodelscontextinterface.h \
     connectroutebydisplayhint.h \

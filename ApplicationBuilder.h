@@ -2,7 +2,7 @@
 #define APPLICATIONBUILDER_H
 
 #include "connectdartssingleattemptpointcontroller.h"
-#include "connectdartsmultiattemptcontroller.h"
+#include "connectdartsscorecontroller.h"
 #include "connectdefaultmodelscontextinterface.h"
 #include "defaultmodelsservicebuilder.h"
 #include "dartapplication.h"
@@ -15,7 +15,7 @@
 #include "connectroutebygamemode.h"
 #include "connectdartspointbuilder.h"
 #include "ConnectRouteToDartsScoreBuilder.h"
-#include "connectdartsmultiattemptcontroller.h"
+#include "connectdartsscorecontroller.h"
 #include "connectdartssingleattemptpointcontroller.h"
 #include "routedartsbyinputhint.h"
 #include "routedartsbydisplayhint.h"
@@ -45,7 +45,7 @@ public:
                 ->setConnectToDartsPountBuilder(new ConnectDartsPointBuilder)
                 ->setConnectToDartsScoreBuilder(new ConnectRouteToDartsScoreBuilder)
                 ->setConnectDartsPointController(new ConnectDartsSingleAttemptPointController)
-                ->setConnectDartsScoreController(new ConnectDartsMultiAttemptController)
+                ->setConnectDartsScoreController(new ConnectDartsScoreController)
                 ->setRouteByInputHint(new RouteDartsByInputHint)
                 ->setRouteByDisplayHint(new RouteDartsByDisplayHint)
                 ->setConnectRouteByInputHint(new ConnectRouteByInputHint)

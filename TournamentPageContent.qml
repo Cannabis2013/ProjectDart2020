@@ -96,7 +96,7 @@ Content{
         body.requestTournaments.disconnect(applicationInterface.handleTournamentsRequest);
         applicationInterface.sendTournaments.disconnect(recieveTournaments);
         body.sendClickedTournamentIndex.disconnect(applicationInterface.handleSetCurrentTournamentRequest);
-        applicationInterface.dartsPointSingleAttemptInitialized.disconnect(dartsPointSingleAttemptInitialized);
+        applicationInterface.dartsPointMultiColumnsInitialized.disconnect(dartsPointSingleAttemptInitialized);
         applicationInterface.dartsMultiAttemptScoreControllerIsInitalized.disconnect(dartsScoreMultiAttemptIsInitialized);
     }
 }

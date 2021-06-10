@@ -64,7 +64,6 @@ public:
     DartApplication *setRouteByDisplayHint(AbstractRouteByDisplayHint *newRouteByDisplayHint);
     DartApplication *setConnectRouteByDisplayHint(IConnectRouteByDisplayHint *newConnectRouteByDisplayHint);
     DartApplication *setConnectRouteByInputHint(IConnectRouteByInputHint *newConnectRouteByInputHint);
-
 public slots:
     // Get tournaments
     void handleTournamentsRequest() override;

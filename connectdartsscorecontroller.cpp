@@ -1,8 +1,8 @@
-#include "connectdartsmultiattemptcontroller.h"
+#include "connectdartsscorecontroller.h"
 
-void ConnectDartsMultiAttemptController::connectController(AbstractDartsController *controller, AbstractApplicationInterface *application, AbstractModelsService *modelsService)
+void ConnectDartsScoreController::connectController(AbstractGameController *&controller, AbstractApplicationInterface *application, AbstractModelsService *modelsService)
 {
-    auto dartsScorecontroller = dynamic_cast<AbstractDartsScoreController*>(controller);
+    auto dartsScorecontroller = static_cast<AbstractDartsScoreController*>(controller);
     // Send tournament metadata
     QObject::connect(application,&AbstractApplicationInterface::requestCurrentTournamentId,
             dartsScorecontroller,&AbstractDartsScoreController::handleRequestForCurrentTournamentMetaData);
