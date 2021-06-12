@@ -1,8 +1,8 @@
-#include "connectdartssingleattemptpointcontroller.h"
+#include "connectdartspointcontroller.h"
 
-void ConnectDartsSingleAttemptPointController::connectController(AbstractDartsController *controller,
+void ConnectDartsPointController::connectController(AbstractDartsController *controller,
                                                                  AbstractApplicationInterface *application,
-                                                                 AbstractModelsService *modelsService)
+                                                                 AbstractModelsService *modelsService, AbstractRouteDartsByDisplayHint *routeService)
 {
     auto dartsPointController = static_cast<AbstractDartsPointController*>(controller);
     // Send tournament metadata
@@ -27,8 +27,8 @@ void ConnectDartsSingleAttemptPointController::connectController(AbstractDartsCo
                      modelsService,&AbstractModelsService::assembleDartsTournamentWinnerIdAndName);
     QObject::connect(modelsService,&AbstractModelsService::sendDartsTournamentWinnerIdAndName,
                      dartsPointController,&AbstractDartsPointController::initializeControllerWinnerIdAndName);
-    QObject::connect(dartsPointController,&AbstractDartsPointController::dartsSingleAttemptControllerIsInitialized,
-            application,&AbstractApplicationInterface::dartsPointMultiColumnsInitialized);
+    QObject::connect(dartsPointController,&AbstractDartsPointController::controllerInitialized,
+            routeService,&AbstractRouteDartsByDisplayHint::determineRouteByDisplayHint);
     // Controller requests transmitting single attempt playerpoints
     QObject::connect(application,&AbstractApplicationInterface::requestDartsSingleAttemptPoints,
             dartsPointController,&AbstractDartsPointController::handleRequestDartsPoints);
@@ -48,7 +48,7 @@ void ConnectDartsSingleAttemptPointController::connectController(AbstractDartsCo
          */
     QObject::connect(dartsPointController,&AbstractDartsController::controllerIsStopped,
             application,&AbstractApplicationInterface::controllerIsStopped);
-    QObject::connect(dartsPointController,&AbstractDartsPointController::controllerIsInitializedAndReady,
+    QObject::connect(dartsPointController,&AbstractDartsPointController::controllerInitializedAndReady,
                      application,&AbstractApplicationInterface::dartsSingleAttemptPointControllerIsReady);
     QObject::connect(dartsPointController,&AbstractDartsController::isReadyAndAwaitsInput,
             application,&AbstractApplicationInterface::controllerAwaitsInput);

@@ -5,7 +5,7 @@
 #include <qjsonobject.h>
 #include "idartscontrollerscore.h"
 
-namespace DartsScoreMultiAttemptContext
+namespace DartsScoreControllerContext
 {
     class DartsControllerScore : public IDartsControllerScore<QUuid,QString,QByteArray>
     {

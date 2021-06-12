@@ -5,7 +5,7 @@
 #include "idartsmultiattemptindexservice.h"
 #include "idartsmultiattemptindexes.h"
 
-namespace DartsScoreMultiAttemptContext
+namespace DartsScoreControllerContext
 {
     class ScoreIndexController : public
             IDartsMultiAttemptIndexService<IDartsMultiAttemptIndexes>

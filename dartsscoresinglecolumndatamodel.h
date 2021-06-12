@@ -5,7 +5,7 @@
 #include <qfontmetrics.h>
 #include "LinkedList.h"
 
-class MultiAttemptScoreDataModel : public QAbstractTableModel
+class DartsScoreSingleColumnDataModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:

@@ -164,7 +164,7 @@ void DartsPointSingleAttempt::handleRequestFromUI()
 {
     if(status() == ControllerState::Initialized)
     {
-        emit controllerIsInitializedAndReady();
+        emit controllerInitializedAndReady();
     }
     else if(status() == ControllerState::AddScoreState)
     {
@@ -189,7 +189,7 @@ void DartsPointSingleAttempt::handleRequestFromUI()
     else if(status() == ControllerState::resetState)
     {
         setCurrentStatus(ControllerState::Initialized);
-        emit dartsSingleAttemptControllerIsInitialized();
+        emit controllerInitializedAndReady();
     }
 }
 
@@ -206,6 +206,17 @@ void DartsPointSingleAttempt::declareWinner()
     auto currentPlayerId = _scoreController->playerIdAtIndex(index);
     _scoreController->setWinner(currentPlayerId);
     setCurrentStatus(ControllerState::WinnerDeclared);
+}
+
+int DartsPointSingleAttempt::displayHint()
+{
+    return _displayHint;
+}
+
+DartsPointSingleAttempt *DartsPointSingleAttempt::setDisplayHint(const int &hint)
+{
+    _displayHint = hint;
+    return this;
 }
 
 DartsPointSingleAttempt *DartsPointSingleAttempt::setPlayerModelBuilderService(PlayerModelBuilder *newPlayerModelBuilderService)
@@ -370,5 +381,5 @@ void DartsPointSingleAttempt::initializeControllerWinnerIdAndName(const QByteArr
         setCurrentStatus(ControllerState::WinnerDeclared);
     else
         setCurrentStatus(ControllerState::Initialized);
-    emit dartsSingleAttemptControllerIsInitialized();
+    emit controllerInitialized(_displayHint);
 }

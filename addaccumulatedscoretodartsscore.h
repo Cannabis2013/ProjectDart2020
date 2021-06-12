@@ -4,7 +4,7 @@
 #include "ibinaryservice.h"
 #include "idartscontrollerscore.h"
 #include <quuid.h>
-namespace DartsScoreMultiAttemptContext {
+namespace DartsScoreControllerContext {
     class AddAccumulatedScoreToDartsScore :public
             IBinaryService<const IDartsControllerScore<QUuid,QString,QByteArray>*,const int&,
                            const IDartsControllerScore<QUuid,QString,QByteArray>*>

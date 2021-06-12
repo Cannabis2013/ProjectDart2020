@@ -3,7 +3,7 @@
 
 #include "idartsmultiattemptindexes.h"
 
-namespace DartsScoreMultiAttemptContext {
+namespace DartsScoreControllerContext {
     class DartsMultiAttemptIndexes : public
             IDartsMultiAttemptIndexes
     {

@@ -2,7 +2,7 @@
 #define BUILDDARTSSCORECONTROLLER_H
 
 
-#include "dartsscoremultiattempt.h"
+#include "dartsscorecontroller.h"
 // Include services
 #include "abstractdartscontrollerbuilder.h"
 #include "dartsscoremodelsbuilderservice.h"
@@ -34,9 +34,9 @@ namespace DartsBuilderContext {
 
         AbstractGameController *buildDartsController(const QByteArray& json) override;
         DartsScoreBuilderService *setBuildEntityByJson(ControllerEntityBuilder *newBuildEntityByJson);
-        DartsScoreBuilderService *setBuildMultiAttemptScoreController(BuildMultiAttemptScoreController *service);
+        DartsScoreBuilderService *setBuildScoreControllerService(BuildMultiAttemptScoreController *service);
     private:
-        BuildMultiAttemptScoreController* _buildMultiAttemptScoreController;
+        BuildMultiAttemptScoreController* _buildScoreControllerService;
         ControllerEntityBuilder* _buildEntityByJson;
     };
 }

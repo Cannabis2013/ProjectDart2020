@@ -1,7 +1,7 @@
 #ifndef GAMEBUILDER_H
 #define GAMEBUILDER_H
 
-#include "dartsscoremultiattempt.h"
+#include "dartsscorecontroller.h"
 // Include services
 #include "abstractdartscontrollerbuilder.h"
 #include "dartsscoremodelsbuilderservice.h"

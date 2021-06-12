@@ -86,6 +86,11 @@ namespace DartsPointControllerContext {
         typedef IDartsPlayerModelBuilderService<ControllerPlayer,QByteArray> PlayerModelBuilder;;
         // Create instance of LocalFTPController
         static DartsPointSingleAttempt* createInstance(const QUuid &tournament);
+        /*
+         * Get/Set display hint
+         */
+        int displayHint();
+        DartsPointSingleAttempt* setDisplayHint(const int &hint);
         // Set service methods
         DartsPointSingleAttempt *setScoreCalculator(ScoreCalculatorService* scoreCalculator);
         DartsPointSingleAttempt *setInputValidator(IPointValidator* scoreEvaluator);
@@ -99,6 +104,7 @@ namespace DartsPointControllerContext {
         DartsPointSingleAttempt* setBuildDartsIndexesByJson(IIndexesBuilderService *newBuildDartsIndexesByJson);
         DartsPointSingleAttempt* setControllerModelsService(ControllerModelsService *newControllerModelsService);
         DartsPointSingleAttempt* setPlayerModelBuilderService(PlayerModelBuilder *newPlayerModelBuilderService);
+
     public slots:
         /*
          * Initialize controller with:
@@ -186,6 +192,7 @@ namespace DartsPointControllerContext {
         void nextTurn();
         void declareWinner();
         // Member variables
+        int _displayHint;
         QUuid _tournament = QUuid();
         int _currentStatus = ControllerState::NotInitialized;
         // Builder Services

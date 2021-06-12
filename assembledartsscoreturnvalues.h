@@ -10,7 +10,7 @@
 #include "idartsmultiattemptindexes.h"
 #include "idartsplayer.h"
 
-namespace DartsScoreMultiAttemptContext{
+namespace DartsScoreControllerContext{
     class AssembleDartsScoreTurnValues : public
             ITernaryService<const IDartsMultiAttemptIndexService<IDartsMultiAttemptIndexes>*,
                            const IPlayerScoreService<IDartsPlayer<QUuid,QString>,IDartsControllerScore<QUuid,QString,QByteArray>>*,

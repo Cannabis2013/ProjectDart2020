@@ -3,14 +3,14 @@
 
 #include "abstractroutebyinputhint.h"
 #include "abstractdartscontrollerbuilder.h"
-#include "abstractroutebydisplayhint.h"
+#include "AbstractApplicationInterface.h"
 
 class IConnectRouteToDartsBuilder
 {
 public:
     virtual void connectServices(AbstractRouteByInputHint *routeByInputHint,
                                  AbstractDartsControllerBuilder *builderService,
-                                 AbstractRouteByDisplayHint* routeByDisplayHint) = 0;
+                                 AbstractApplicationInterface* applicationService) = 0;
 };
 
 

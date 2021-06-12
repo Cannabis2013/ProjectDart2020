@@ -1,11 +1,11 @@
 #ifndef APPLICATIONBUILDER_H
 #define APPLICATIONBUILDER_H
 
-#include "connectdartssingleattemptpointcontroller.h"
+#include "dartapplication.h"
+#include "connectdartspointcontroller.h"
 #include "connectdartsscorecontroller.h"
 #include "connectdefaultmodelscontextinterface.h"
 #include "defaultmodelsservicebuilder.h"
-#include "dartapplication.h"
 #include "dartspointbuilderservice.h"
 #include "dartsscorebuilderservice.h"
 #include "BuildDartsControllerEntity.h"
@@ -16,11 +16,12 @@
 #include "connectdartspointbuilder.h"
 #include "ConnectRouteToDartsScoreBuilder.h"
 #include "connectdartsscorecontroller.h"
-#include "connectdartssingleattemptpointcontroller.h"
+#include "connectdartspointcontroller.h"
 #include "routedartsbyinputhint.h"
-#include "routedartsbydisplayhint.h"
+#include "routedartspointbydisplayhint.h"
 #include "connectroutebyinputhint.h"
-#include "connectroutebydisplayhint.h"
+#include "connectdartspointroute.h"
+#include "connectdartsscoreroute.h"
 
 class ApplicationBuilder
 {
@@ -33,7 +34,7 @@ public:
                 ->setBuildSingleAttemptPointController(new DartsBuilderContext::BuildSingleAttemptPointController);
         auto dartsScoreBuilderService = DartsBuilderContext::DartsScoreBuilderService::createInstance()
                 ->setBuildEntityByJson(DartsBuilderContext::BuildDartsControllerEntity::createInstance())
-                ->setBuildMultiAttemptScoreController(new DartsBuilderContext::BuildMultiAttemptScoreController);
+                ->setBuildScoreControllerService(new DartsBuilderContext::BuildMultiAttemptScoreController);
         auto _dart =
                 DartApplication::createInstance()
                 ->setModelsServiceBuilder(DefaultModelsServiceBuilder::createInstance())
@@ -44,12 +45,13 @@ public:
                 ->setConnectRouteByGameMode(new ConnectRouteByGameMode)
                 ->setConnectToDartsPountBuilder(new ConnectDartsPointBuilder)
                 ->setConnectToDartsScoreBuilder(new ConnectRouteToDartsScoreBuilder)
-                ->setConnectDartsPointController(new ConnectDartsSingleAttemptPointController)
+                ->setConnectDartsPointController(new ConnectDartsPointController)
                 ->setConnectDartsScoreController(new ConnectDartsScoreController)
                 ->setRouteByInputHint(new RouteDartsByInputHint)
-                ->setRouteByDisplayHint(new RouteDartsByDisplayHint)
+                ->setRouteByDisplayHint(new RouteDartsPointByDisplayHint)
                 ->setConnectRouteByInputHint(new ConnectRouteByInputHint)
-                ->setConnectRouteByDisplayHint(new ConnectRouteByDisplayHint)
+                ->setConnectDartsPointRoute(new ConnectDartsPointRoute)
+                ->setConnectDartsScoreRoute(new ConnectDartsScoreRoute)
                 ->setup();
         return _dart;
     };

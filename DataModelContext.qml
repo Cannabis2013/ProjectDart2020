@@ -7,7 +7,7 @@ QtObject {
     readonly property int fixedFill: 0x2
     readonly property int noFill: 0x3
     // Tablehint values
-    readonly property int singleAttempt: 0x4
-    readonly property int multiAttempt: 0x8
+    readonly property int singleColumn: 0x4
+    readonly property int multiColumn: 0x8
 
 }

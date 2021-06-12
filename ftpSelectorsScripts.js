@@ -12,9 +12,9 @@ function convertKeyModifierToHex(key){
 function convertHintToHex(hint){
     var hints = stringModels.displayHints;
     if(hint === hints[0])
-        return DataModelContext.singleAttempt;
+        return DataModelContext.singleColumn;
     else if(hint === hints[1])
-        return DataModelContext.multiAttempt;
+        return DataModelContext.multiColumn;
     else
         return -1;
 }

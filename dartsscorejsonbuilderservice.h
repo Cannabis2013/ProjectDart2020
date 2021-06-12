@@ -10,7 +10,7 @@
 #include "iplayerscoreservice.h"
 #include "idartsmultiattemptindexes.h"
 
-namespace DartsScoreMultiAttemptContext
+namespace DartsScoreControllerContext
 {
     class DartsScoreJsonBuilderService :
             public IDartsScoreJsonBuilderService<IDartsControllerScore<QUuid,QString,QByteArray>,

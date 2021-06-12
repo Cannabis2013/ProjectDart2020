@@ -7,7 +7,7 @@
 #include "idartsplayer.h"
 #include "idartsmultiattemptindexes.h"
 
-using namespace DartsScoreMultiAttemptContext;
+using namespace DartsScoreControllerContext;
 
 template<typename TModelInterface, typename TDartsIndexes, typename TJsonFormat, typename TString>
 class IDartsScoreJsonBuilderService {

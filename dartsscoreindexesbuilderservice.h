@@ -8,7 +8,7 @@
 #include <qjsondocument.h>
 #include <QJsonObject>
 
-namespace DartsScoreMultiAttemptContext {
+namespace DartsScoreControllerContext {
     class DartsScoreIndexesBuilderService : public
             IDartsControllerIndexesBuilder<IDartsMultiAttemptIndexes,IDartsMultiAttemptIndexService<IDartsMultiAttemptIndexes>,QByteArray>
     {

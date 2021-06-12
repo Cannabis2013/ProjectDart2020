@@ -54,7 +54,7 @@ ScoreBoard {
         return multiAttemptDataModel.rowHeightAt(row);
     }
 
-    model: DartsMultiAttemptDataModel{
+    model: DartsScoreSingleColumnDataModel{
         id: multiAttemptDataModel
         onDataChanged: ScoreScripts.updateScoreBoard();
         attempts: 1

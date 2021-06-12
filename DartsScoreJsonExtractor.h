@@ -6,7 +6,7 @@
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 
-namespace DartsScoreMultiAttemptContext {
+namespace DartsScoreControllerContext {
     class DartsScoreJsonExtractor : public IDartsJsonExtractor<QByteArray,QString>
     {
     public:

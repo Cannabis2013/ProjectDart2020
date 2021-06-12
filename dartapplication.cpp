@@ -9,12 +9,19 @@ DartApplication *DartApplication::setup()
 {
     registerTypes();
     _modelsService = _modelsServiceBuilder->buildLocalModelsServiceWithJsonDb();
-    _connectRouteByGameMode->service(_modelsService,_routeByGameMode);
+    _connectRouteByGameMode->service(_modelsService,_routeTournamentByGameMode);
     _connectModelsServiceInterface->connectModelsInterface(this,_modelsService);
-    _connectRouteByInputHint->connectServices(_modelsService,_routeByInputHint);
-    _connectDartsPointBuilder->connectServices(_routeByInputHint,_dartsPointBuilder,_routeByDisplayHint);
-    _connectDartsScoreBuilder->connectServices(_routeByInputHint,_dartsScoreBuilder,_routeByDisplayHint);
-    _connectRouteByDisplayHint->connectServices(_routeByDisplayHint,this);
+    _connectRouteByInputHint->connectServices(_modelsService,_routeDartsControllerByInputHint);
+    /*
+     * Connect darts builder services
+     */
+    _connectDartsPointBuilder->connectServices(_routeDartsControllerByInputHint,_dartsPointBuilder,this);
+    _connectDartsScoreBuilder->connectServices(_routeDartsControllerByInputHint,_dartsScoreBuilder,this);
+    /*
+     * Connect route from the point where controllers are initialized the route interface
+     */
+    _connectDartsPointRoute->connectServices(_routeDartsControllerByDisplayHint,this);
+    _connectDartsScoreRoute->connectServices(_routeDartsControllerByDisplayHint,this);
     return this;
 }
 
@@ -148,19 +155,19 @@ void DartApplication::assembleDartsTournamentValues()
     emit requestCurrentTournamentId();
 }
 
-void DartApplication::setDartsPointSingleAttempt(AbstractDartsController *controller)
+void DartApplication::setDartsPointController(AbstractDartsController *controller)
 {
     delete _gameController;
     _gameController = controller;
-    _connectDartsPointController->connectController(controller,this,_modelsService);
+    _connectDartsPointController->connectController(controller,this,_modelsService,_routeDartsControllerByDisplayHint);
     emit requestWakeUp();
 }
 
-void DartApplication::setDartsScoreMultiAttempt(AbstractDartsController *controller)
+void DartApplication::setDartsScoreController(AbstractDartsController *controller)
 {
     delete _gameController;
     _gameController = controller;
-    _connectDartsScoreController->connectController(_gameController,this,_modelsService);
+    _connectDartsScoreController->connectController(controller,this,_modelsService,_routeDartsControllerByDisplayHint);
     emit requestWakeUp();
 }
 
@@ -207,9 +214,27 @@ AbstractDartsControllerBuilder *DartApplication::controllerBuilder()
     return _dartsPointBuilder;
 }
 
+DartApplication *DartApplication::setConnectDartsScoreRoute(IConnectRouteByDisplayHint *newConnectDartsScoreRoute)
+{
+    _connectDartsScoreRoute = newConnectDartsScoreRoute;
+    return this;
+}
+
+DartApplication *DartApplication::setConnectDartsPointRoute(IConnectRouteByDisplayHint *newConnectDartsPointRoute)
+{
+    _connectDartsPointRoute = newConnectDartsPointRoute;
+    return this;
+}
+
+DartApplication *DartApplication::setRouteDartsControllerByDisplayHint(AbstractRouteDartsByDisplayHint *service)
+{
+    _routeDartsControllerByDisplayHint = service;
+    return this;
+}
+
 DartApplication *DartApplication::setRouteByInputHint(AbstractRouteByInputHint *newRouteByInputHint)
 {
-    _routeByInputHint = newRouteByInputHint;
+    _routeDartsControllerByInputHint = newRouteByInputHint;
     return this;
 }
 
@@ -219,15 +244,9 @@ DartApplication *DartApplication::setConnectRouteByInputHint(IConnectRouteByInpu
     return this;
 }
 
-DartApplication *DartApplication::setConnectRouteByDisplayHint(IConnectRouteByDisplayHint *newConnectRouteByDisplayHint)
+DartApplication *DartApplication::setRouteByDisplayHint(AbstractRouteDartsByDisplayHint *newRouteByDisplayHint)
 {
-    _connectRouteByDisplayHint = newConnectRouteByDisplayHint;
-    return this;
-}
-
-DartApplication *DartApplication::setRouteByDisplayHint(AbstractRouteByDisplayHint *newRouteByDisplayHint)
-{
-    _routeByDisplayHint = newRouteByDisplayHint;
+    _routeDartsControllerByDisplayHint = newRouteByDisplayHint;
     return this;
 }
 
@@ -275,7 +294,7 @@ DartApplication *DartApplication::setConnectRouteByGameMode(ConnectRouteByGameMo
 
 DartApplication *DartApplication::setDetermineTournamentGameMode(AbstractRouteByGameMode *newDetermineTournamentGameMode)
 {
-    _routeByGameMode = newDetermineTournamentGameMode;
+    _routeTournamentByGameMode = newDetermineTournamentGameMode;
     return this;
 }
 

@@ -1,6 +1,6 @@
-#include "multiattemptscoredatamodel.h"
+#include "dartsscoresinglecolumndatamodel.h"
 
-int MultiAttemptScoreDataModel::editData(const int &row, const int &column, const int &point, const int &score)
+int DartsScoreSingleColumnDataModel::editData(const int &row, const int &column, const int &point, const int &score)
 {
     if(row < 0 || row >= rowCount())
         return -1;
@@ -16,13 +16,13 @@ int MultiAttemptScoreDataModel::editData(const int &row, const int &column, cons
     return oldData.toInt();
 }
 
-bool MultiAttemptScoreDataModel::insertData(const QString &playerName,
+bool DartsScoreSingleColumnDataModel::insertData(const QString &playerName,
                                          const int &score)
 {
     return setPlayerData(playerName,score);;
 }
 
-bool MultiAttemptScoreDataModel::setPlayerData(const QString &playerName,
+bool DartsScoreSingleColumnDataModel::setPlayerData(const QString &playerName,
                                   const int &score)
 {
     auto indexOfPlayer = indexOfHeaderItem(playerName);
@@ -38,7 +38,7 @@ bool MultiAttemptScoreDataModel::setPlayerData(const QString &playerName,
     return true;
 }
 
-bool MultiAttemptScoreDataModel::removeLastItem(const QString &playerName)
+bool DartsScoreSingleColumnDataModel::removeLastItem(const QString &playerName)
 {
     auto column = indexOfHeaderItem(playerName);
     auto row = indexOfLastDecoratedField();
@@ -47,7 +47,7 @@ bool MultiAttemptScoreDataModel::removeLastItem(const QString &playerName)
     return result;
 }
 
-void MultiAttemptScoreDataModel::appendHeaderItem(const QVariant &data)
+void DartsScoreSingleColumnDataModel::appendHeaderItem(const QVariant &data)
 {
     auto glyphLength = stringWidth(data.toString(),
                                    scoreFontFamily(),
@@ -60,7 +60,7 @@ void MultiAttemptScoreDataModel::appendHeaderItem(const QVariant &data)
     emit dataChanged(QModelIndex(),QModelIndex());
 }
 
-void MultiAttemptScoreDataModel::clearData()
+void DartsScoreSingleColumnDataModel::clearData()
 {
     _data.clear();
     auto bottomRight = createIndex(rowCount() - 1,columnCount() - 1);
@@ -70,35 +70,35 @@ void MultiAttemptScoreDataModel::clearData()
     emit dataChanged(createIndex(0,0),bottomRight);
 }
 
-QString MultiAttemptScoreDataModel::getHeaderData(const int &index) const
+QString DartsScoreSingleColumnDataModel::getHeaderData(const int &index) const
 {
     auto value = headerData(index,Qt::Vertical,Qt::DisplayRole).toString();
     return value;
 }
 
-int MultiAttemptScoreDataModel::headerItemCount() const
+int DartsScoreSingleColumnDataModel::headerItemCount() const
 {
     auto count = _verticalHeaderData.count();
     return count;
 }
 
-int MultiAttemptScoreDataModel::rowCount() const
+int DartsScoreSingleColumnDataModel::rowCount() const
 {
     return rowCount(QModelIndex());
 }
 
-int MultiAttemptScoreDataModel::columnCount() const
+int DartsScoreSingleColumnDataModel::columnCount() const
 {
     return columnCount(QModelIndex());
 }
 
-double MultiAttemptScoreDataModel::columnWidthAt(const int &column)
+double DartsScoreSingleColumnDataModel::columnWidthAt(const int &column)
 {
     Q_UNUSED(column);
     return _columnWidth;
 }
 
-double MultiAttemptScoreDataModel::rowHeightAt(const int &row) const
+double DartsScoreSingleColumnDataModel::rowHeightAt(const int &row) const
 {
     if(_data.count() <= 0)
         return 0;
@@ -109,27 +109,27 @@ double MultiAttemptScoreDataModel::rowHeightAt(const int &row) const
     return result;
 }
 
-int MultiAttemptScoreDataModel::verticalHeaderCount() const
+int DartsScoreSingleColumnDataModel::verticalHeaderCount() const
 {
     return _verticalHeaderData.count();
 }
 
-int MultiAttemptScoreDataModel::rowCount(const QModelIndex &) const
+int DartsScoreSingleColumnDataModel::rowCount(const QModelIndex &) const
 {
     return _rows;
 }
 
-int MultiAttemptScoreDataModel::columnCount(const QModelIndex &) const
+int DartsScoreSingleColumnDataModel::columnCount(const QModelIndex &) const
 {
     return _columns;
 }
 
-int MultiAttemptScoreDataModel::columnWidth() const
+int DartsScoreSingleColumnDataModel::columnWidth() const
 {
     return _columnWidth;
 }
 
-QVariant MultiAttemptScoreDataModel::data(const QModelIndex &index, int role) const
+QVariant DartsScoreSingleColumnDataModel::data(const QModelIndex &index, int role) const
 {
     if(!index.isValid() || _data.count() <= 0)
         return QVariant();
@@ -143,7 +143,7 @@ QVariant MultiAttemptScoreDataModel::data(const QModelIndex &index, int role) co
                 QVariant("");
 }
 
-QVariant MultiAttemptScoreDataModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant DartsScoreSingleColumnDataModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     Q_UNUSED(orientation);
     if(role != Qt::DisplayRole)
@@ -151,12 +151,12 @@ QVariant MultiAttemptScoreDataModel::headerData(int section, Qt::Orientation ori
     return _verticalHeaderData.at(section);
 }
 
-int MultiAttemptScoreDataModel::numberOfAttemps() const
+int DartsScoreSingleColumnDataModel::numberOfAttemps() const
 {
     return _attemps;
 }
 
-bool MultiAttemptScoreDataModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool DartsScoreSingleColumnDataModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     // Get row and column from index
     auto row = index.row();
@@ -175,7 +175,7 @@ bool MultiAttemptScoreDataModel::setData(const QModelIndex &index, const QVarian
     return true;
 }
 
-bool MultiAttemptScoreDataModel::insertRows(int row, int count, const QModelIndex &)
+bool DartsScoreSingleColumnDataModel::insertRows(int row, int count, const QModelIndex &)
 {
     auto firstRow = row <= rowCount(QModelIndex()) ? row : rowCount(QModelIndex()) - 1;
     auto lastRow  =  row <= rowCount(QModelIndex()) ? firstRow + count : 2*row + count - firstRow;
@@ -190,7 +190,7 @@ bool MultiAttemptScoreDataModel::insertRows(int row, int count, const QModelInde
     return true;
 }
 
-bool MultiAttemptScoreDataModel::insertColumns(int column, int count, const QModelIndex &)
+bool DartsScoreSingleColumnDataModel::insertColumns(int column, int count, const QModelIndex &)
 {
     auto firstColumn = column <= columnCount() ? column : columnCount() - 1;
     auto lastColumn  =  column <= columnCount() ? firstColumn + count : 2*column + count - firstColumn;
@@ -203,7 +203,7 @@ bool MultiAttemptScoreDataModel::insertColumns(int column, int count, const QMod
     return true;
 }
 
-bool MultiAttemptScoreDataModel::removeRows(int row, int count, const QModelIndex &)
+bool DartsScoreSingleColumnDataModel::removeRows(int row, int count, const QModelIndex &)
 {
     // Check if input satisfies model constraints
     if(row < 0 || row >= rowCount())
@@ -227,7 +227,7 @@ bool MultiAttemptScoreDataModel::removeRows(int row, int count, const QModelInde
     return true;
 }
 
-bool MultiAttemptScoreDataModel::removeColumns(int column, int count, const QModelIndex &)
+bool DartsScoreSingleColumnDataModel::removeColumns(int column, int count, const QModelIndex &)
 {
     // Check if input satisfies model constraints
     if(column < 0 || column >= columnCount())
@@ -246,7 +246,7 @@ bool MultiAttemptScoreDataModel::removeColumns(int column, int count, const QMod
     return true;
 }
 
-void MultiAttemptScoreDataModel::updateInitialCellValues()
+void DartsScoreSingleColumnDataModel::updateInitialCellValues()
 {
 
     if(_data.count() < 1)
@@ -256,7 +256,7 @@ void MultiAttemptScoreDataModel::updateInitialCellValues()
         setData(createIndex(0,i),initialValue,Qt::DisplayRole);
 }
 
-void MultiAttemptScoreDataModel::setColumnWidthByData(const int& data)
+void DartsScoreSingleColumnDataModel::setColumnWidthByData(const int& data)
 {
     auto scoreGlypWidth = stringWidth(QString::number(data),
                                       scoreFontFamily(),
@@ -265,7 +265,7 @@ void MultiAttemptScoreDataModel::setColumnWidthByData(const int& data)
         _columnWidth = scoreGlypWidth;
 }
 
-double MultiAttemptScoreDataModel::rowHeightFromHeaderData(const int &row) const
+double DartsScoreSingleColumnDataModel::rowHeightFromHeaderData(const int &row) const
 {
 
     auto scoreFontMetric = QFontMetrics(QFont(scoreFontFamily(),headerFontSize()));
@@ -276,7 +276,7 @@ double MultiAttemptScoreDataModel::rowHeightFromHeaderData(const int &row) const
     return headerDataGlyphHeight;
 }
 
-double MultiAttemptScoreDataModel::rowHeightFromCellDataAt(const int &row) const
+double DartsScoreSingleColumnDataModel::rowHeightFromCellDataAt(const int &row) const
 {
     auto scoreFontMetric = QFontMetrics(QFont(scoreFontFamily(),scoreFontSize()));
     auto columnData = _data.at(row);
@@ -287,7 +287,7 @@ double MultiAttemptScoreDataModel::rowHeightFromCellDataAt(const int &row) const
     return scoreGlyphHeight;
 }
 
-void MultiAttemptScoreDataModel::initializeFieldsHorizontally(const int &startColumn,const int &initialValue)
+void DartsScoreSingleColumnDataModel::initializeFieldsHorizontally(const int &startColumn,const int &initialValue)
 {
     auto dataCount = _data.count();
     if(startColumn < dataCount)
@@ -299,7 +299,7 @@ void MultiAttemptScoreDataModel::initializeFieldsHorizontally(const int &startCo
         _data.append(initialValue);
 }
 
-bool MultiAttemptScoreDataModel::isIndexValid(const QModelIndex &index)
+bool DartsScoreSingleColumnDataModel::isIndexValid(const QModelIndex &index)
 {
     auto row = index.row();
     auto column = index.column();
@@ -310,20 +310,20 @@ bool MultiAttemptScoreDataModel::isIndexValid(const QModelIndex &index)
     return true;
 }
 
-bool MultiAttemptScoreDataModel::isCellDecorated(const QModelIndex &index)
+bool DartsScoreSingleColumnDataModel::isCellDecorated(const QModelIndex &index)
 {
     return data(index,Qt::DisplayRole) != "-";
 }
 
 
-int MultiAttemptScoreDataModel::indexOfLastDecoratedField()
+int DartsScoreSingleColumnDataModel::indexOfLastDecoratedField()
 {
     auto lastDecoratedField = _data.count() - 1;
     return lastDecoratedField;
 }
 
 
-bool MultiAttemptScoreDataModel::isRowEmpty(const int &row)
+bool DartsScoreSingleColumnDataModel::isRowEmpty(const int &row)
 {
     if(row < 0 || row >= rowCount())
         throw std::out_of_range("Index out of range");
@@ -335,7 +335,7 @@ bool MultiAttemptScoreDataModel::isRowEmpty(const int &row)
     return true;
 }
 
-bool MultiAttemptScoreDataModel::removeData(const QModelIndex &index)
+bool DartsScoreSingleColumnDataModel::removeData(const QModelIndex &index)
 {
     if(!isIndexValid(index))
         return -1;
@@ -351,131 +351,131 @@ bool MultiAttemptScoreDataModel::removeData(const QModelIndex &index)
     return false;
 }
 
-int MultiAttemptScoreDataModel::indexOfHeaderItem(const QString &data)
+int DartsScoreSingleColumnDataModel::indexOfHeaderItem(const QString &data)
 {
     auto index = _verticalHeaderData.indexOf(data);
     return index;
 }
 
-void MultiAttemptScoreDataModel::addVerticalHeaderData(const QString &data)
+void DartsScoreSingleColumnDataModel::addVerticalHeaderData(const QString &data)
 {
     _verticalHeaderData.append(data);
     emit dataChanged(QModelIndex(),QModelIndex());
 }
 
-int MultiAttemptScoreDataModel::stringWidth(const QString &string, const QString &family, const int &pointSize) const
+int DartsScoreSingleColumnDataModel::stringWidth(const QString &string, const QString &family, const int &pointSize) const
 {
     auto fontMetric = QFontMetrics(QFont(family,pointSize));
     auto r = fontMetric.boundingRect(string).width();
     return r;
 }
 
-int MultiAttemptScoreDataModel::headerFontSize() const
+int DartsScoreSingleColumnDataModel::headerFontSize() const
 {
     return _headerFontSize;
 }
 
-void MultiAttemptScoreDataModel::setHeaderFontSize(int headerFontSize)
+void DartsScoreSingleColumnDataModel::setHeaderFontSize(int headerFontSize)
 {
     _headerFontSize = headerFontSize;
 }
 
-QStringList MultiAttemptScoreDataModel::getVerticalHeaderData() const
+QStringList DartsScoreSingleColumnDataModel::getVerticalHeaderData() const
 {
     return _verticalHeaderData;
 }
 
-void MultiAttemptScoreDataModel::setVerticalHeaderData(const QList<QString> &horizontalHeaderData)
+void DartsScoreSingleColumnDataModel::setVerticalHeaderData(const QList<QString> &horizontalHeaderData)
 {
     _verticalHeaderData = horizontalHeaderData;
 }
 
-QString MultiAttemptScoreDataModel::pointFontFamily() const
+QString DartsScoreSingleColumnDataModel::pointFontFamily() const
 {
     return _pointFontFamily;
 }
 
-void MultiAttemptScoreDataModel::setPointFontFamily(const QString &pointFontFamily)
+void DartsScoreSingleColumnDataModel::setPointFontFamily(const QString &pointFontFamily)
 {
     _pointFontFamily = pointFontFamily;
 }
 
-QString MultiAttemptScoreDataModel::scoreFontFamily() const
+QString DartsScoreSingleColumnDataModel::scoreFontFamily() const
 {
     return _scoreFontFamily;
 }
 
-void MultiAttemptScoreDataModel::setScoreFontFamily(const QString &scoreFontFamily)
+void DartsScoreSingleColumnDataModel::setScoreFontFamily(const QString &scoreFontFamily)
 {
     _scoreFontFamily = scoreFontFamily;
 }
 
-int MultiAttemptScoreDataModel::pointFontSize() const
+int DartsScoreSingleColumnDataModel::pointFontSize() const
 {
     return _pointFontSize;
 }
 
-void MultiAttemptScoreDataModel::setPointFontSize(int pointFontSize)
+void DartsScoreSingleColumnDataModel::setPointFontSize(int pointFontSize)
 {
     _pointFontSize = pointFontSize;
 }
 
-int MultiAttemptScoreDataModel::scoreFontSize() const
+int DartsScoreSingleColumnDataModel::scoreFontSize() const
 {
     return _scoreFontSize;
 }
 
-void MultiAttemptScoreDataModel::setScoreFontSize(int scoreFontSize)
+void DartsScoreSingleColumnDataModel::setScoreFontSize(int scoreFontSize)
 {
     _scoreFontSize = scoreFontSize;
 }
 
-int MultiAttemptScoreDataModel::initialValue() const
+int DartsScoreSingleColumnDataModel::initialValue() const
 {
     return _initialValue;
 }
 
-void MultiAttemptScoreDataModel::setInitialValue(int initialValue)
+void DartsScoreSingleColumnDataModel::setInitialValue(int initialValue)
 {
     _initialValue = initialValue;
     updateInitialCellValues();
 }
 
-int MultiAttemptScoreDataModel::minimumRowCount() const
+int DartsScoreSingleColumnDataModel::minimumRowCount() const
 {
     return _minimumRowCount;
 }
 
-void MultiAttemptScoreDataModel::setMinimumRowCount(int minimumRowCount)
+void DartsScoreSingleColumnDataModel::setMinimumRowCount(int minimumRowCount)
 {
     Q_UNUSED(minimumRowCount);
     return;
 }
 
-int MultiAttemptScoreDataModel::minimumColumnCount() const
+int DartsScoreSingleColumnDataModel::minimumColumnCount() const
 {
     return _minimumColumnCount;
 }
 
-void MultiAttemptScoreDataModel::setMinimumColumnCount(int minimumColumnCount)
+void DartsScoreSingleColumnDataModel::setMinimumColumnCount(int minimumColumnCount)
 {
     Q_UNUSED(minimumColumnCount);
     return;
 }
 
-int MultiAttemptScoreDataModel::preferedHeaderItemWidth() const
+int DartsScoreSingleColumnDataModel::preferedHeaderItemWidth() const
 {
     auto itemWidth = greatestVerticalHeaderWidth*_scale;
     return itemWidth;
 }
 
-void MultiAttemptScoreDataModel::setNumberOfAttemps(const int &count)
+void DartsScoreSingleColumnDataModel::setNumberOfAttemps(const int &count)
 {
     _attemps = count;
     emit dataChanged(QModelIndex(),QModelIndex());
 }
 
-void MultiAttemptScoreDataModel::setColumnCount(const int &count)
+void DartsScoreSingleColumnDataModel::setColumnCount(const int &count)
 {
     if(count < 0)
         return;
@@ -492,7 +492,7 @@ void MultiAttemptScoreDataModel::setColumnCount(const int &count)
     emit dataChanged(QModelIndex(),QModelIndex());
 }
 
-void MultiAttemptScoreDataModel::setRowCount(const int &count)
+void DartsScoreSingleColumnDataModel::setRowCount(const int &count)
 {
     if(count < 0)
         return;
@@ -510,22 +510,22 @@ void MultiAttemptScoreDataModel::setRowCount(const int &count)
     emit minimumRowCountChanged();
 }
 
-double MultiAttemptScoreDataModel::scale() const
+double DartsScoreSingleColumnDataModel::scale() const
 {
     return _scale;
 }
 
-void MultiAttemptScoreDataModel::setScale(double scale)
+void DartsScoreSingleColumnDataModel::setScale(double scale)
 {
     _scale = scale;
 }
 
-int MultiAttemptScoreDataModel::horizontalHeaderFillMode() const
+int DartsScoreSingleColumnDataModel::horizontalHeaderFillMode() const
 {
     return _horizontalFillMode;
 }
 
-void MultiAttemptScoreDataModel::setHorizontalHeaderFillMode(const int &fillMode)
+void DartsScoreSingleColumnDataModel::setHorizontalHeaderFillMode(const int &fillMode)
 {
     _horizontalFillMode = fillMode;
     emit fillModeChanged();

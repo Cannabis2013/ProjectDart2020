@@ -13,12 +13,12 @@ public:
     }
     void connectServices(AbstractRouteByInputHint *routeByInputHint,
                          AbstractDartsControllerBuilder *builderService,
-                         AbstractRouteByDisplayHint* routeByDisplayHint) override
+                         AbstractApplicationInterface* applicationService) override
     {
         QObject::connect(routeByInputHint,&AbstractRouteByInputHint::requestBuildDartsScoreController,
                          builderService,&AbstractDartsControllerBuilder::buildDartsController);
         QObject::connect(builderService,&AbstractDartsControllerBuilder::sendController,
-                         routeByDisplayHint,&AbstractRouteByDisplayHint::processDartsController);
+                         applicationService,&AbstractApplicationInterface::setDartsScoreController);
     }
 };
 

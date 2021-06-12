@@ -1,8 +1,8 @@
 #include "dartsscoreindexesbuilderservice.h"
 
-using namespace DartsScoreMultiAttemptContext;
+using namespace DartsScoreControllerContext;
 
-const DartsScoreIndexesBuilderService::TurnIndexes *DartsScoreMultiAttemptContext::DartsScoreIndexesBuilderService::buildControllerIndexesByJson(const JsonFormat &json) const
+const DartsScoreIndexesBuilderService::TurnIndexes *DartsScoreControllerContext::DartsScoreIndexesBuilderService::buildControllerIndexesByJson(const JsonFormat &json) const
 {
     auto indexes = DartsMultiAttemptIndexes::createInstance();
     auto jsonObject = QJsonDocument::fromJson(json).object();
@@ -13,7 +13,7 @@ const DartsScoreIndexesBuilderService::TurnIndexes *DartsScoreMultiAttemptContex
     return indexes;
 }
 
-const DartsScoreIndexesBuilderService::TurnIndexes *DartsScoreMultiAttemptContext::DartsScoreIndexesBuilderService::buildControllerIndexesByIndexService(const ControllerIndexService *service) const
+const DartsScoreIndexesBuilderService::TurnIndexes *DartsScoreControllerContext::DartsScoreIndexesBuilderService::buildControllerIndexesByIndexService(const ControllerIndexService *service) const
 {
     auto indexes = DartsMultiAttemptIndexes::createInstance();
     indexes->setTotalTurns(service->totalIndex());

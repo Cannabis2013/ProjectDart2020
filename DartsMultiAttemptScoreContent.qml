@@ -4,13 +4,6 @@ import QtQuick.Layouts 1.3
 import "dartsmultiattemptscripts.js" as MultiAttemptScripts
 import "multiattemptstatescripts.js" as StateScripts
 
-/*
-  Gamemodes:
-    FirstToPost = 0x1,
-    RoundLimit =0x2,
-    Circular = 0x3,
-    Cricket = 0xAA
-  */
 Content {
     id: dartsMultiAttemptBody
     signal requestControllerValues

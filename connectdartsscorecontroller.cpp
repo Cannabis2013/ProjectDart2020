@@ -1,8 +1,8 @@
 #include "connectdartsscorecontroller.h"
 
-void ConnectDartsScoreController::connectController(AbstractGameController *&controller, AbstractApplicationInterface *application, AbstractModelsService *modelsService)
+void ConnectDartsScoreController::connectController(AbstractGameController *controller, AbstractApplicationInterface *application, AbstractModelsService *modelsService, AbstractRouteDartsByDisplayHint *routeService)
 {
-    auto dartsScorecontroller = static_cast<AbstractDartsScoreController*>(controller);
+    auto dartsScorecontroller = dynamic_cast<AbstractDartsScoreController*>(controller);
     // Send tournament metadata
     QObject::connect(application,&AbstractApplicationInterface::requestCurrentTournamentId,
             dartsScorecontroller,&AbstractDartsScoreController::handleRequestForCurrentTournamentMetaData);
@@ -25,8 +25,8 @@ void ConnectDartsScoreController::connectController(AbstractGameController *&con
                      modelsService,&AbstractModelsService::assembleDartsTournamentWinnerIdAndName);
     QObject::connect(modelsService,&AbstractModelsService::sendDartsTournamentWinnerIdAndName,
                      dartsScorecontroller,&AbstractDartsScoreController::initializeControllerWinnerIdAndName);
-    QObject::connect(dartsScorecontroller,&AbstractDartsScoreController::controllerIsInitialized,
-                     application,&AbstractApplicationInterface::dartsMultiAttemptScoreControllerIsInitalized);
+    QObject::connect(dartsScorecontroller,&AbstractDartsScoreController::controllerInitialized,
+                     routeService,&AbstractRouteDartsByDisplayHint::determineRouteByDisplayHint);
     /*
      * UI requests multi attempt playerscores
      */
@@ -44,7 +44,7 @@ void ConnectDartsScoreController::connectController(AbstractGameController *&con
          */
     QObject::connect(dartsScorecontroller,&AbstractDartsController::controllerIsStopped,
             application,&AbstractApplicationInterface::controllerIsStopped);
-    QObject::connect(dartsScorecontroller,&AbstractDartsScoreController::controllerIsInitializedAndReady,
+    QObject::connect(dartsScorecontroller,&AbstractDartsScoreController::controllerInitializedAndReady,
             application,&AbstractApplicationInterface::dartsMultiAttemptScoreControllerIsReady);
     QObject::connect(dartsScorecontroller,&AbstractDartsController::isReadyAndAwaitsInput,
             application,&AbstractApplicationInterface::controllerAwaitsInput);

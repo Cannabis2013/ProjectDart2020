@@ -8,7 +8,7 @@
 
 #define INCONSISTENCY_EXCEPTION_MESSAGE "User inconsistency!"
 
-namespace DartsScoreMultiAttemptContext{
+namespace DartsScoreControllerContext{
     namespace PlayerScoreContext
     {
         struct PlayerTuple

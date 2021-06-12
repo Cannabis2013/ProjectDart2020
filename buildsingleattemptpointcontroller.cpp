@@ -1,7 +1,7 @@
 #include "buildsingleattemptpointcontroller.h"
 using namespace DartsBuilderContext;
 
-BuildSingleAttemptPointController::ControllerInterface DartsBuilderContext::BuildSingleAttemptPointController::buildSingleAttemptPointController(ControllerDetails details) const
+BuildSingleAttemptPointController::ControllerInterface DartsBuilderContext::BuildSingleAttemptPointController::buildController(ControllerDetails details) const
 {
     using namespace DartsPointControllerContext;
     AbstractDartsPointController* controller = DartsPointSingleAttempt::createInstance(details->tournamentId())
@@ -16,6 +16,7 @@ BuildSingleAttemptPointController::ControllerInterface DartsBuilderContext::Buil
             ->setDartsPointBuilderService(new DartsControllerPointBuilder)
             ->setBuildDartsIndexesByJson(new DartsIndexesBuilderService)
             ->setControllerModelsService(new DartsControllerPointModelsService)
-            ->setPlayerModelBuilderService(new DartsPlayerModelBuilderService);
+            ->setPlayerModelBuilderService(new DartsPlayerModelBuilderService)
+            ->setDisplayHint(details->displayHint());
     return controller;
 }

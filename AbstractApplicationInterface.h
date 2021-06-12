@@ -57,8 +57,8 @@ public slots:
      * Handle request for tournament meta information
      */
     virtual void assembleDartsTournamentValues() = 0;
-    virtual void setDartsPointSingleAttempt(AbstractDartsController* controller) = 0;
-    virtual void setDartsScoreMultiAttempt(AbstractDartsController* controller) = 0;
+    virtual void setDartsPointController(AbstractDartsController* controller) = 0;
+    virtual void setDartsScoreController(AbstractDartsController* controller) = 0;
 signals:
     /*
      * ApplicationInterface interface
@@ -110,10 +110,12 @@ signals:
     // Controller states
     void controllerIsStopped();
     void dartsPointMultiColumnsInitialized();
+    void dartsPointSingleColumnInitialized();
+    void dartsScoreSingleColumnInitialized();
+    void dartsScoreMultiColumnInitialized();
     void dartsControllerRemovedSingleAttemptPoint(const QString& json);
     void dartsControllerRemovedMultiAttemptScore(const QString& json);
     void dartsControllerAddedDartsSingleAttemptPoint(const QByteArray& json);
-    void dartsMultiAttemptScoreControllerIsInitalized();
     void dartsMultiAttemptScoreControllerIsReady();
     void dartsSingleAttemptPointControllerIsReady();
     void dartsControllerAddedDartsMultiAttemptScore(const QByteArray& json);

@@ -9,7 +9,7 @@ public:
     typedef TControllerInterface ControllerInterface;
     typedef TControllerDetails ControllerDetails;
 
-    virtual ControllerInterface buildSingleAttemptPointController(ControllerDetails details) const = 0;
+    virtual ControllerInterface buildController(ControllerDetails details) const = 0;
 
 };
 

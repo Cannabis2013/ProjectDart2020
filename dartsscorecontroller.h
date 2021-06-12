@@ -26,9 +26,9 @@
 
 using namespace std;
 
-namespace DartsScoreMultiAttemptContext
+namespace DartsScoreControllerContext
 {
-    class DartsScoreMultiAttempt : public AbstractDartsScoreController
+    class DartsScoreController : public AbstractDartsScoreController
     {
         Q_OBJECT
     public:
@@ -80,31 +80,38 @@ namespace DartsScoreMultiAttemptContext
         typedef IDartsJsonExtractor<QByteArray,QString> JsonExtractorService;
         typedef IDartsPlayerBuilderService<DartsPlayer,QByteArray> PlayerBuilderService;
         // Create instance of LocalFTPController
-        static DartsScoreMultiAttempt* createInstance(const QUuid &tournament);
+        static DartsScoreController* createInstance(const QUuid &tournament);
         /*
          * Get/set evaluator service
          */
-        DartsScoreMultiAttempt *setInputValidator(IScoreValidator *scoreEvaluator);
-        DartsScoreMultiAttempt *setIndexController(IDartsMultiAttemptIndexService<IDartsMultiAttemptIndexes>*indexController);
-        DartsScoreMultiAttempt *setScoreController(PlayerScoreService *scoreController);
+        DartsScoreController *setInputValidator(IScoreValidator *scoreEvaluator);
+        DartsScoreController *setIndexController(IDartsMultiAttemptIndexService<IDartsMultiAttemptIndexes>*indexController);
+        DartsScoreController *setScoreController(PlayerScoreService *scoreController);
         /*
          * Point suggestion section
          */
         IDartsLogisticsService<QString> *pointLogisticInterface() const;
-        DartsScoreMultiAttempt* setLogisticInterface(IDartsLogisticsService<QString> *pointLogisticInterface);
-        DartsScoreMultiAttempt* setJsonService(MultiAttemptJsonService *jsonService);
-        DartsScoreMultiAttempt* setAssembleDartsPlayersByJson(IUnaryService<const QByteArray &, DartsPlayers> *service);
-        DartsScoreMultiAttempt* setAssembleDartsPlayerByJson(IUnaryService<const QByteArray &, const DartsPlayer *> *service);
-        DartsScoreMultiAttempt* setDetermineControllerStateByWinnerId(IUnaryService<const QUuid &, int> *service);
-        DartsScoreMultiAttempt* setAddAccumulatedScoreToModel(IBinaryService<const ControllerScore *,
+        /*
+         * Display hint
+         */
+        int displayHint() const;
+        DartsScoreController* setDisplayHint(const int &hint);
+        /*
+         * Set services methods
+         */
+        DartsScoreController* setLogisticInterface(IDartsLogisticsService<QString> *pointLogisticInterface);
+        DartsScoreController* setJsonService(MultiAttemptJsonService *jsonService);
+        DartsScoreController* setAssembleDartsPlayersByJson(IUnaryService<const QByteArray &, DartsPlayers> *service);
+        DartsScoreController* setAssembleDartsPlayerByJson(IUnaryService<const QByteArray &, const DartsPlayer *> *service);
+        DartsScoreController* setDetermineControllerStateByWinnerId(IUnaryService<const QUuid &, int> *service);
+        DartsScoreController* setAddAccumulatedScoreToModel(IBinaryService<const ControllerScore *,
                                                                              const int&,
                                                                              const ControllerScore *> *service);
-        DartsScoreMultiAttempt* setTurnValuesBuilderService(DartsScoreTurnValuesBuilderService *service);
-        DartsScoreMultiAttempt* setDartsScoreBuilderService(DartsScoreBuilderService *service);
-        DartsScoreMultiAttempt* setDartsIndexesBuilderService(IndexesBuilderService *service);
-        DartsScoreMultiAttempt* setDartsJsonExtractorService(JsonExtractorService *service);
-        DartsScoreMultiAttempt* setPlayerBuilderService(PlayerBuilderService *service);
-
+        DartsScoreController* setTurnValuesBuilderService(DartsScoreTurnValuesBuilderService *service);
+        DartsScoreController* setDartsScoreBuilderService(DartsScoreBuilderService *service);
+        DartsScoreController* setDartsIndexesBuilderService(IndexesBuilderService *service);
+        DartsScoreController* setDartsJsonExtractorService(JsonExtractorService *service);
+        DartsScoreController* setPlayerBuilderService(PlayerBuilderService *service);
     public slots:
         /*
          * Handle wake up request
@@ -172,7 +179,7 @@ namespace DartsScoreMultiAttemptContext
         /*
          * Private constructor
          */
-        DartsScoreMultiAttempt(const QUuid &tournament)
+        DartsScoreController(const QUuid &tournament)
         {
             _tournament = tournament;
         }
@@ -201,6 +208,7 @@ namespace DartsScoreMultiAttemptContext
         void nextTurn();
         void declareWinner();
         // Member variables
+        int _displayHint;
         QUuid _tournament = QUuid();
         int _currentStatus = ControllerState::NotInitialized;
         //Services

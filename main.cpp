@@ -6,13 +6,13 @@
 #include <qqmlcontext.h>
 
 #include "dartspointsingleattemptdatamodel.h"
-#include "multiattemptscoredatamodel.h"
+#include "dartsscoresinglecolumndatamodel.h"
 #include "dartsmultiscoredatamodel.h"
 #include "ApplicationBuilder.h"
 
 void registerCustomTypes()
 {
-    qmlRegisterType<MultiAttemptScoreDataModel>("CustomItems",1,0,"MultiAttemptScoreDataModel");
+    qmlRegisterType<DartsScoreSingleColumnDataModel>("CustomItems",1,0,"DartsScoreSingleColumnDataModel");
     qmlRegisterType<DartsPointSingleAttemptDataModel>("CustomItems",1,0,"DartsSingleAttemptDatamodel");
     qmlRegisterType<DartsMultiScoreDataModel>("CustomItems",1,0,"DartsMultiAttemptDataModel");
     qmlRegisterSingletonType(QUrl("qrc:/ThemeContext.qml"),"customDefinitions",1,0,"ThemeContext");

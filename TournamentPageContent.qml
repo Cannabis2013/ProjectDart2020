@@ -89,7 +89,7 @@ Content{
         applicationInterface.sendTournaments.connect(recieveTournaments);
         body.sendClickedTournamentIndex.connect(applicationInterface.handleSetCurrentTournamentRequest);
         applicationInterface.dartsPointMultiColumnsInitialized.connect(dartsPointSingleAttemptInitialized);
-        applicationInterface.dartsMultiAttemptScoreControllerIsInitalized.connect(dartsScoreMultiAttemptIsInitialized);
+        applicationInterface.dartsScoreSingleColumnInitialized.connect(dartsScoreMultiAttemptIsInitialized);
         body.requestTournaments();
     }
     Component.onDestruction: {
@@ -97,6 +97,6 @@ Content{
         applicationInterface.sendTournaments.disconnect(recieveTournaments);
         body.sendClickedTournamentIndex.disconnect(applicationInterface.handleSetCurrentTournamentRequest);
         applicationInterface.dartsPointMultiColumnsInitialized.disconnect(dartsPointSingleAttemptInitialized);
-        applicationInterface.dartsMultiAttemptScoreControllerIsInitalized.disconnect(dartsScoreMultiAttemptIsInitialized);
+        applicationInterface.dartsScoreSingleColumnInitialized.disconnect(dartsScoreMultiAttemptIsInitialized);
     }
 }

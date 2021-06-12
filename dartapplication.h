@@ -14,7 +14,7 @@
 #include "abstractdartsscorecontroller.h"
 #include "abstractdartspointcontroller.h"
 #include "abstractroutebyinputhint.h"
-#include "abstractroutebydisplayhint.h"
+#include "abstractroutedartsbydisplayhint.h"
 #include "iconnectroutetodartsbuilder.h"
 #include "iconnectdartspointcontroller.h"
 #include "iconnectdartsscorecontroller.h"
@@ -61,9 +61,12 @@ public:
     DartApplication *setConnectDartsPointController(IConnectDartsPointController *newConnectDartsPointController);
     DartApplication *setConnectDartsScoreController(IConnectDartsScoreController *newConnectDartsScoreController);
     DartApplication *setRouteByInputHint(AbstractRouteByInputHint *newRouteByInputHint);
-    DartApplication *setRouteByDisplayHint(AbstractRouteByDisplayHint *newRouteByDisplayHint);
-    DartApplication *setConnectRouteByDisplayHint(IConnectRouteByDisplayHint *newConnectRouteByDisplayHint);
+    DartApplication *setRouteByDisplayHint(AbstractRouteDartsByDisplayHint *newRouteByDisplayHint);
     DartApplication *setConnectRouteByInputHint(IConnectRouteByInputHint *newConnectRouteByInputHint);
+    DartApplication *setRouteDartsControllerByDisplayHint(AbstractRouteDartsByDisplayHint *service);
+    DartApplication *setConnectDartsPointRoute(IConnectRouteByDisplayHint *newConnectDartsPointRoute);
+    DartApplication *setConnectDartsScoreRoute(IConnectRouteByDisplayHint *newConnectDartsScoreRoute);
+
 public slots:
     // Get tournaments
     void handleTournamentsRequest() override;
@@ -119,8 +122,8 @@ public slots:
     /*
      * Set game controller methods
      */
-    void setDartsPointSingleAttempt(AbstractDartsController *controller) override;
-    void setDartsScoreMultiAttempt(AbstractDartsController *controller) override;
+    void setDartsPointController(AbstractDartsController *controller) override;
+    void setDartsScoreController(AbstractDartsController *controller) override;
 private:
     DartApplication();
     // Clear controller..
@@ -151,23 +154,24 @@ private:
     /*
      * Route services
      */
-    AbstractRouteByGameMode* _routeByGameMode;
-    AbstractRouteByInputHint* _routeByInputHint;
-    AbstractRouteByDisplayHint* _routeByDisplayHint;
+    AbstractRouteByGameMode* _routeTournamentByGameMode;
+    AbstractRouteByInputHint* _routeDartsControllerByInputHint;
+    AbstractRouteDartsByDisplayHint* _routeDartsControllerByDisplayHint;
 
     /*
      * Connect route services
      */
-    IConnectRouteToDartsBuilder *_connectDartsPointBuilder;
-    IConnectRouteToDartsBuilder *_connectDartsScoreBuilder;
+    ConnectRouteByGameMode* _connectRouteByGameMode;
+    IConnectRouteByInputHint* _connectRouteByInputHint;
+    IConnectRouteByDisplayHint* _connectDartsPointRoute;
+    IConnectRouteByDisplayHint* _connectDartsScoreRoute;
     /*
      * Connect darts controller services
      */
-    IConnectRouteByInputHint* _connectRouteByInputHint;
-    IConnectRouteByDisplayHint* _connectRouteByDisplayHint;
+    IConnectRouteToDartsBuilder *_connectDartsPointBuilder;
+    IConnectRouteToDartsBuilder *_connectDartsScoreBuilder;
     IConnectDartsPointController* _connectDartsPointController;
     IConnectDartsScoreController* _connectDartsScoreController;
-    ConnectRouteByGameMode* _connectRouteByGameMode;
     IConnectModelsInterface* _connectModelsServiceInterface;
 };
 

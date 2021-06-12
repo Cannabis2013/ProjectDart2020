@@ -1,6 +1,6 @@
 #ifndef IDARTSMULTIATTEMPTINDEXES_H
 #define IDARTSMULTIATTEMPTINDEXES_H
-namespace DartsScoreMultiAttemptContext
+namespace DartsScoreControllerContext
 {
     class IDartsMultiAttemptIndexes
     {

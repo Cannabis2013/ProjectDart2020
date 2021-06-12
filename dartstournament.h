@@ -135,10 +135,10 @@ namespace DartsModelsContext{
             obj["displayHint"] = _displayHint;
             obj["inputHint"] = _inputHint;
             obj["winnerId"] = _winnerId.toString(QUuid::WithoutBraces);
+            obj["terminalKeyCode"] = _terminalKeyCode;
             QJsonArray arr;
-            for (const auto& assignedPlayerId : _assignedPlayerIdentities) {
+            for (const auto& assignedPlayerId : _assignedPlayerIdentities)
                 arr << assignedPlayerId.toString(QUuid::WithoutBraces);
-            }
             obj["assignedPlayerIds"] = arr;
             auto json = QJsonDocument(obj).toJson();
             return json;

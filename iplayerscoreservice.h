@@ -5,7 +5,7 @@
 #include <qpair.h>
 #include <qvector.h>
 
-namespace DartsScoreMultiAttemptContext {
+namespace DartsScoreControllerContext {
     template<typename TPlayerInterface,typename TDartsScore>
     class IPlayerScoreService
     {

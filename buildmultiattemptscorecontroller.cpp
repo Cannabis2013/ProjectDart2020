@@ -2,11 +2,11 @@
 
 using namespace DartsBuilderContext;
 
-BuildMultiAttemptScoreController::ControllerInterface BuildMultiAttemptScoreController::buildSingleAttemptPointController(ControllerDetails details) const
+BuildMultiAttemptScoreController::ControllerInterface BuildMultiAttemptScoreController::buildController(ControllerDetails details) const
 {
-    using namespace DartsScoreMultiAttemptContext;
+    using namespace DartsScoreControllerContext;
     AbstractDartsScoreController* controller =
-            DartsScoreMultiAttemptContext::DartsScoreMultiAttempt::createInstance(details->tournamentId())
+            DartsScoreControllerContext::DartsScoreController::createInstance(details->tournamentId())
             ->setLogisticInterface(DartsScoreLogisticController::createInstance(details->attempts(),
                                                                                 details->terminalKeyCode()))
             ->setInputValidator(ScoreValidator::createInstance(details->terminalKeyCode()))
@@ -20,6 +20,7 @@ BuildMultiAttemptScoreController::ControllerInterface BuildMultiAttemptScoreCont
             ->setDartsScoreBuilderService(new DartsScoreModelsBuilderService)
             ->setDartsIndexesBuilderService(new DartsScoreIndexesBuilderService)
             ->setDartsJsonExtractorService(new DartsScoreJsonExtractor)
-            ->setPlayerBuilderService(new DartsPlayerBuilderService);
+            ->setPlayerBuilderService(new DartsPlayerBuilderService)
+            ->setDisplayHint(details->displayHint());
     return controller;
 }

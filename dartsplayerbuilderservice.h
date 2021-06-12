@@ -7,7 +7,7 @@
 #include <qjsonobject.h>
 #include <qjsonarray.h>
 
-namespace DartsScoreMultiAttemptContext {
+namespace DartsScoreControllerContext {
     class DartsPlayerBuilderService : public
             IDartsPlayerBuilderService<IDartsPlayer<QUuid,QString>,QByteArray>
     {

@@ -1,7 +1,7 @@
 #ifndef IDARTSCONTROLLERSCORE_H
 #define IDARTSCONTROLLERSCORE_H
 
-namespace DartsScoreMultiAttemptContext {
+namespace DartsScoreControllerContext {
     template<typename TUuid, typename TString, typename TJsonFormat>
     class IDartsControllerScore
     {

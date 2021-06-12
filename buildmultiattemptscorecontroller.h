@@ -2,7 +2,7 @@
 #define BUILDMULTIATTEMPTSCORECONTROLLER_H
 
 #include "ibuildcontrollerservice.h"
-#include "dartsscoremultiattempt.h"
+#include "dartsscorecontroller.h"
 #include "idartscontrollerentity.h"
 #include "dartsscorelogisticcontroller.h"
 #include "ScoreValidator.h"
@@ -24,7 +24,7 @@ namespace DartsBuilderContext {
                                     const DartsBuilderContext::IDartsControllerEntity<QUuid,QString>*>
     {
     public:
-        ControllerInterface buildSingleAttemptPointController(ControllerDetails details) const override;
+        ControllerInterface buildController(ControllerDetails details) const override;
     };
 }
 

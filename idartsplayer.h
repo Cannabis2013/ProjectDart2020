@@ -4,7 +4,7 @@
 #include <quuid.h>
 #include "ijsonmodelsservice.h"
 
-namespace DartsScoreMultiAttemptContext
+namespace DartsScoreControllerContext
 {
     template<typename TUuid, typename TString>
     class IDartsPlayer : public IJsonModelsService<QByteArray>

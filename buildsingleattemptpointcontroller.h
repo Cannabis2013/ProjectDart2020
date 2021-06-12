@@ -22,7 +22,7 @@ namespace DartsBuilderContext {
                                                const IDartsControllerEntity<QUuid,QString>*>
     {
     public:
-        ControllerInterface buildSingleAttemptPointController(ControllerDetails details) const override;
+        ControllerInterface buildController(ControllerDetails details) const override;
     };
 }
 

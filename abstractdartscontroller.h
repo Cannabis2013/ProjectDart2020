@@ -27,7 +27,9 @@ signals:
                                    const int& attemptIndex,
                                    const int& score,
                                    const QString& targetRow);
+    void controllerInitializedAndReady();
     void requestDartsTournamentIndexes(const QUuid &tournament);
+    void controllerInitialized(const int &displayHint);
 };
 
 #endif // FTPCONTROLLER_H

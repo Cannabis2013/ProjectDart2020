@@ -9,7 +9,7 @@
 #include <qjsonarray.h>
 #include <quuid.h>
 #include "idartsplayer.h"
-namespace DartsScoreMultiAttemptContext {
+namespace DartsScoreControllerContext {
     class DartsScoreModelsBuilderService : public
             IDartsModelsBuilderService<IDartsControllerScore<QUuid,QString,QByteArray>,QByteArray,
                                        IPlayerScoreService<IDartsPlayer<QUuid,QString>,IDartsControllerScore<QUuid,QString,QByteArray>>,

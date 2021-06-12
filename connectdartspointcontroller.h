@@ -3,13 +3,14 @@
 
 #include "iconnectdartspointcontroller.h"
 
-class ConnectDartsSingleAttemptPointController :
+class ConnectDartsPointController :
         public IConnectDartsPointController
 {
 public:
     void connectController(AbstractDartsController* controller,
                            AbstractApplicationInterface* application,
-                           AbstractModelsService* modelsService) override;
+                           AbstractModelsService* modelsService,
+                           AbstractRouteDartsByDisplayHint* routeService) override;
 };
 
 #endif // CONNECTDARTSPOINTCONTROLLER_H

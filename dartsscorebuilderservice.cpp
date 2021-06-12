@@ -11,15 +11,15 @@ DartsScoreBuilderService *DartsBuilderContext::DartsScoreBuilderService::createI
 AbstractGameController *DartsScoreBuilderService::buildDartsController(const QByteArray &json)
 {
     auto entity = _buildEntityByJson->service(json);
-    AbstractDartsScoreController* controller = _buildMultiAttemptScoreController->buildSingleAttemptPointController(entity);
+    AbstractDartsScoreController* controller = _buildScoreControllerService->buildController(entity);
     emit sendController(controller,entity->displayHint());
     return controller;
 }
 
 
-DartsScoreBuilderService *DartsScoreBuilderService::setBuildMultiAttemptScoreController(BuildMultiAttemptScoreController *service)
+DartsScoreBuilderService *DartsScoreBuilderService::setBuildScoreControllerService(BuildMultiAttemptScoreController *service)
 {
-    _buildMultiAttemptScoreController = service;
+    _buildScoreControllerService = service;
     return this;
 }
 

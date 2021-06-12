@@ -1,6 +1,6 @@
 #include "scoreindexcontroller.h"
 
-using namespace DartsScoreMultiAttemptContext;
+using namespace DartsScoreControllerContext;
 
 ScoreIndexController *ScoreIndexController::createInstance()
 {

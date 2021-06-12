@@ -6,9 +6,10 @@
 class ConnectDartsScoreController : public IConnectDartsScoreController
 {
 public:
-    void connectController(AbstractGameController*& controller,
+    void connectController(AbstractGameController *controller,
                            AbstractApplicationInterface* application,
-                           AbstractModelsService* modelsService) override;
+                           AbstractModelsService* modelsService,
+                           AbstractRouteDartsByDisplayHint* routeService) override;
 };
 
 #endif // CONNECTDARTSSINGLESCORECONTROLLER_H

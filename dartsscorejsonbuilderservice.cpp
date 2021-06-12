@@ -1,6 +1,6 @@
 #include "dartsscorejsonbuilderservice.h"
 
-using namespace DartsScoreMultiAttemptContext;
+using namespace DartsScoreControllerContext;
 
 QByteArray DartsScoreJsonBuilderService::buildJsonAddScoreValues(const DartsIndexes *indexes, const ModelInterface *model) const
 {

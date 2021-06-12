@@ -3,7 +3,7 @@
 
 #include <qvector.h>
 
-namespace DartsScoreMultiAttemptContext {
+namespace DartsScoreControllerContext {
     template<typename TModelsInterface,
              typename TJsonFormat,
              typename TScoreModelsService,

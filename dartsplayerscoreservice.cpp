@@ -1,6 +1,6 @@
 #include "dartsplayerscoreservice.h"
 
-using namespace DartsScoreMultiAttemptContext;
+using namespace DartsScoreControllerContext;
 
 DartsPlayerScoreService *DartsPlayerScoreService::createInstance(const int &initialScore,
                                                        const QUuid &winner)
@@ -258,7 +258,7 @@ int DartsPlayerScoreService::count() const
 
 
 
-void DartsScoreMultiAttemptContext::DartsPlayerScoreService::addPlayerEntities(const QVector<const PlayerInterface *> &entities)
+void DartsScoreControllerContext::DartsPlayerScoreService::addPlayerEntities(const QVector<const PlayerInterface *> &entities)
 {
     for (const auto& entity : entities)
         addPlayerEntity(entity);

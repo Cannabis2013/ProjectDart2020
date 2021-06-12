@@ -10,7 +10,7 @@ DartsPointBuilderService* DartsPointBuilderService::createInstance()
 AbstractGameController *DartsPointBuilderService::buildDartsController(const QByteArray &json)
 {
     auto entity = _buildEntityByJson->service(json);
-    AbstractDartsPointController* controller = _buildControllerService->buildSingleAttemptPointController(entity);
+    AbstractDartsPointController* controller = _buildControllerService->buildController(entity);
     emit sendController(controller,entity->displayHint());
     return controller;
 }
