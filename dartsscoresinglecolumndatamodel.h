@@ -3,14 +3,12 @@
 
 #include <QAbstractTableModel>
 #include <qfontmetrics.h>
-#include "LinkedList.h"
 
 class DartsScoreSingleColumnDataModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
     // Public types
-    typedef QPair<int,int> scoreModel;
     enum HeaderFillMode{
         DynamicNumerics = 0x1,
         FixedStrings = 0x2,
@@ -34,12 +32,11 @@ public:
     Q_PROPERTY(int minimumRowCount READ minimumRowCount WRITE setMinimumRowCount NOTIFY minimumRowCountChanged);
     // Data properties
     Q_PROPERTY(int initialValue READ initialValue WRITE setInitialValue NOTIFY initialValueChanged);
-    Q_PROPERTY(int attempts READ numberOfAttemps WRITE setNumberOfAttemps NOTIFY numberOfThrowsChanged);
     // public exposed methods
     // Data related
     Q_INVOKABLE bool insertData(const QString &playerName,
                                 const int &score);
-    Q_INVOKABLE int editData(const int &row, const int &column, const int &point, const int &score);
+    Q_INVOKABLE int editData(const int &row, const int &column, const int &score);
     Q_INVOKABLE bool removeLastItem(const QString &playerName);
     Q_INVOKABLE void clearData();
     // Header related
@@ -67,8 +64,6 @@ public:
      *  - Header orientation
      *  - Number of row/column increment
      */
-    Q_INVOKABLE int numberOfAttemps() const;
-    Q_INVOKABLE void setNumberOfAttemps(const int &count);
     // Public non-exposed methods
     // Font non-exposed methods
     double scale() const;
@@ -95,7 +90,6 @@ public:
 signals:
     void fillModeChanged();
     void columnWidthScaleChanged();
-    void numberOfThrowsChanged();
     void columnCountChanged();
     void minimumColumnCountChanged();
     void minimumRowCountChanged();
@@ -147,7 +141,6 @@ private:
     int _columns = 1;
     double _scale = 1.05;
     int _horizontalFillMode = HeaderFillMode::NoFillMode;
-    int _attemps = 3;
     int _minimumColumnCount = 0;
     int _minimumRowCount = 0;
     int _initialValue = -1;
@@ -175,7 +168,7 @@ private:
     /*
      * Scores
      */
-    QList<int> _data;
+    QVector<int> _data;
 };
 
 #endif // HORIZONTALFTPSINGLEDATAMODEL_H

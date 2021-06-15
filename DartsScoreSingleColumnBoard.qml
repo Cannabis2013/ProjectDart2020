@@ -1,10 +1,10 @@
 import QtQuick 2.15
 import CustomItems 1.0
 
-import "dartsMultiAttemptScoreBoardScripts.js" as ScoreScripts
+import "dartsscorescoreboardscripts.js" as ScoreScripts
 
 ScoreBoard {
-    id: multiAttemptScoreBoardBody
+    id: scoreSingleColumnBody
     onWidthChanged: ScoreScripts.updateScoreBoard()
     // Fonts
     QtObject{
@@ -27,7 +27,7 @@ ScoreBoard {
     onClearData: multiAttemptDataModel.clearData();
     // Header related
     horizontalHeaderFontSize: 16
-    onHorizontalHeaderFontSizeChanged: multiAttemptDataModel.headerFontSize = multiAttemptScoreBoardBody.horizontalHeaderFontSize
+    onHorizontalHeaderFontSizeChanged: multiAttemptDataModel.headerFontSize = scoreSingleColumnBody.horizontalHeaderFontSize
     verticalHeaderVisible: true
     onAppendHeaderData: ScoreScripts.setHeaderData(data,defaultVal)
     verticalHeaderFontSize: dataValues.headerFontSize
@@ -57,16 +57,15 @@ ScoreBoard {
     model: DartsScoreSingleColumnDataModel{
         id: multiAttemptDataModel
         onDataChanged: ScoreScripts.updateScoreBoard();
-        attempts: 1
         scoreFontPointSize: dataValues.scoreFontSize
         scale: dataValues.sizeScale
         headerFontSize: dataValues.headerFontSize
     }
-    cellDelegate: SingleScoreDelegate {
+    cellDelegate: ScoreInputDelegate {
         id: delegate
         text: display
         scoreFontSize: dataValues.scoreFontSize
-        cellBorderWidth: multiAttemptScoreBoardBody.cellBorderWidth
+        cellBorderWidth: scoreSingleColumnBody.cellBorderWidth
         cellColor: dataValues.delegateBackgroundColor
         cellBorderRadius: dataValues.delegateBorderRadius
     }

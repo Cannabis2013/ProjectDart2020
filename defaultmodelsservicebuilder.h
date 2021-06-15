@@ -23,7 +23,7 @@
 #include "addplayernametodartsinputmodel.h"
 #include "dartstournamentbuilder.h"
 #include "AssembleDartsTournamentsFromJsonArray.h"
-#include "assemblesingleattemptpointsfromjson.h"
+#include "assembledartspointsfromjson.h"
 #include "dartspointjsondbservice.h"
 #include "dartsscorejsondb.h"
 #include "assemblejsonarrayfromdartspoints.h"

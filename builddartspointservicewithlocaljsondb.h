@@ -9,7 +9,7 @@
 #include "sortdartspointinputsbyindexes.h"
 #include "dartsinputmodelhintservice.h"
 #include "dartspointjsondbservice.h"
-#include "assemblesingleattemptpointsfromjson.h"
+#include "assembledartspointsfromjson.h"
 #include "assemblejsonarrayfromdartspoints.h"
 #include "idartspointdb.h"
 namespace DartsModelsContext {

@@ -1,15 +1,15 @@
-#ifndef CONNECTROUTETODARTSSCOREBUILDER_H
-#define CONNECTROUTETODARTSSCOREBUILDER_H
+#ifndef CONNECTDARTSSCOREBUILDER_H
+#define CONNECTDARTSSCOREBUILDER_H
 
 #include "iconnectroutetodartsbuilder.h"
 
 
-class ConnectRouteToDartsScoreBuilder : public IConnectRouteToDartsBuilder
+class ConnectDartsScoreBuilder : public IConnectRouteToDartsBuilder
 {
 public:
-    static ConnectRouteToDartsScoreBuilder* createInstance()
+    static ConnectDartsScoreBuilder* createInstance()
     {
-        return new ConnectRouteToDartsScoreBuilder;
+        return new ConnectDartsScoreBuilder;
     }
     void connectServices(AbstractRouteByInputHint *routeByInputHint,
                          AbstractDartsControllerBuilder *builderService,

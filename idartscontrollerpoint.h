@@ -17,8 +17,8 @@ namespace DartsPointControllerContext
         virtual void setPlayerId(const TUuid& id) = 0;
         virtual TString playerName() const = 0;
         virtual void setPlayerName(const TString& name) = 0;
-        virtual int accumulatedScore() const = 0;
-        virtual void setAccumulatedScore(const int& score) = 0;
+        virtual int totalScore() const = 0;
+        virtual void setTotalScore(const int& score) = 0;
         virtual TUuid tournamentId() const = 0;
         virtual void setTournamentId(const TUuid& id) = 0;
         virtual int modKeyCode() const = 0;

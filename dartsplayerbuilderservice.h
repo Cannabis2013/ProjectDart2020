@@ -18,8 +18,8 @@ namespace DartsScoreControllerContext {
             auto obj = document.object();
             auto playerModel = DartsPlayer::createInstance();
             auto playerStringId = obj["playerId"].toString();
-            playerModel->playerId() = QUuid::fromString(playerStringId);
-            playerModel->playerName() = obj["playerName"].toString();
+            playerModel->setPlayerId(QUuid::fromString(playerStringId));
+            playerModel->setPlayerName(obj["playerName"].toString());
             return playerModel;
         }
         QVector<const PlayerInterface *> buildPlayerModelsByJson(const JsonFormat &json) override

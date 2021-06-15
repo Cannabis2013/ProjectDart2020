@@ -8,7 +8,7 @@
 #include "qjsonobject.h"
 
 namespace DartsModelsContext {
-    class AssembleSingleAttemptPointsFromJson : public IUnaryService<
+    class AssembleDartsPointsFromJson : public IUnaryService<
             const QJsonArray&,
             QVector<const IPlayerInput*>>
     {

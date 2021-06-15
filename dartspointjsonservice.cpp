@@ -28,7 +28,8 @@ QByteArray DartsPointJsonService::buildJsonByIndexesAndPoint(const DartsIndexes 
     obj["attempt"] = indexes->attemptIndex();
     obj["playerId"] = model->playerId().toString(QUuid::WithoutBraces);
     obj["point"] = model->point();
-    obj["score"] = model->accumulatedScore();
+    obj["score"] = model->score();
+    obj["totalScore"] = model->totalScore();
     obj["modKeyCode"] = model->modKeyCode();
     auto json = QJsonDocument(obj).toJson();
     return json;

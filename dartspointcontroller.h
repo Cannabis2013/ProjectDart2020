@@ -29,7 +29,7 @@
 
 namespace DartsPointControllerContext {
 
-    class DartsPointSingleAttempt : public AbstractDartsPointController
+    class DartsPointController : public AbstractDartsPointController
     {
         Q_OBJECT
     public:
@@ -85,26 +85,25 @@ namespace DartsPointControllerContext {
         typedef IPointCalculatorService<IControllerPoint> ScoreCalculatorService;
         typedef IDartsPlayerModelBuilderService<ControllerPlayer,QByteArray> PlayerModelBuilder;;
         // Create instance of LocalFTPController
-        static DartsPointSingleAttempt* createInstance(const QUuid &tournament);
+        static DartsPointController* createInstance(const QUuid &tournament);
         /*
          * Get/Set display hint
          */
         int displayHint();
-        DartsPointSingleAttempt* setDisplayHint(const int &hint);
+        DartsPointController* setDisplayHint(const int &hint);
         // Set service methods
-        DartsPointSingleAttempt *setScoreCalculator(ScoreCalculatorService* scoreCalculator);
-        DartsPointSingleAttempt *setInputValidator(IPointValidator* scoreEvaluator);
-        DartsPointSingleAttempt *setIndexController(DartsIndexService *indexController);
-        DartsPointSingleAttempt *setInputController(PlayerPointService *scoreController);
+        DartsPointController *setScoreCalculator(ScoreCalculatorService* scoreCalculator);
+        DartsPointController *setInputValidator(IPointValidator* scoreEvaluator);
+        DartsPointController *setIndexController(DartsIndexService *indexController);
+        DartsPointController *setInputController(PlayerPointService *scoreController);
         IDartsLogisticsService<QString> *pointLogisticInterface() const;
-        DartsPointSingleAttempt* setLogisticInterface(IDartsLogisticsService<QString> *pointLogisticInterface);
-        DartsPointSingleAttempt* setDartsJsonModelsService(DartsJsonService *dartsJsonModelsService);
-        DartsPointSingleAttempt* setAssembleDartsPointTurnValues(TurnValueBuilderService *newAssembleDartsPointTurnValues);
-        DartsPointSingleAttempt* setDartsPointBuilderService(ControllerPointBuilder *newDartsPointBuilderService);
-        DartsPointSingleAttempt* setBuildDartsIndexesByJson(IIndexesBuilderService *newBuildDartsIndexesByJson);
-        DartsPointSingleAttempt* setControllerModelsService(ControllerModelsService *newControllerModelsService);
-        DartsPointSingleAttempt* setPlayerModelBuilderService(PlayerModelBuilder *newPlayerModelBuilderService);
-
+        DartsPointController* setLogisticInterface(IDartsLogisticsService<QString> *pointLogisticInterface);
+        DartsPointController* setDartsJsonModelsService(DartsJsonService *dartsJsonModelsService);
+        DartsPointController* setAssembleDartsPointTurnValues(TurnValueBuilderService *newAssembleDartsPointTurnValues);
+        DartsPointController* setDartsPointBuilderService(ControllerPointBuilder *newDartsPointBuilderService);
+        DartsPointController* setBuildDartsIndexesByJson(IIndexesBuilderService *newBuildDartsIndexesByJson);
+        DartsPointController* setControllerModelsService(ControllerModelsService *newControllerModelsService);
+        DartsPointController* setPlayerModelBuilderService(PlayerModelBuilder *newPlayerModelBuilderService);
     public slots:
         /*
          * Initialize controller with:
@@ -164,7 +163,7 @@ namespace DartsPointControllerContext {
         /*
          * Private constructor
          */
-        DartsPointSingleAttempt(const QUuid &tournament)
+        DartsPointController(const QUuid &tournament)
         {
             _tournament = tournament;
         }

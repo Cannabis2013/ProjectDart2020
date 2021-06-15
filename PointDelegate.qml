@@ -4,10 +4,10 @@ import CustomItems 1.0
 import QtGraphicalEffects 1.13
 
 MyRectangle{
-    id: pointScoreRectBody
+    id: pointDelegateBody
     clip: true
     radius: 10
-    readonly property int cellHeight: pointScoreRectBody.height
+    readonly property int cellHeight: pointDelegateBody.height
     // Point rect properties
     property bool pointDisplayVisible: false
     onPointDisplayVisibleChanged: pointTextRect.visible = pointDisplayVisible
@@ -18,7 +18,7 @@ MyRectangle{
     property color pointRectBackground: "blue"
     onPointRectBackgroundChanged: pointTextRect.color = pointRectBackground
     property color cellColor: "purple"
-    onCellColorChanged: pointScoreRectBody.color = cellColor
+    onCellColorChanged: pointDelegateBody.color = cellColor
     property color pointRectFontColor: "white"
     onPointRectFontColorChanged:  pointTextRect.color = textColor
     property int pointFontSize: 16
@@ -33,10 +33,10 @@ MyRectangle{
     property string score: ""
     onScoreChanged: scoreText.text = score
     property double cellBorderWidth: 0
-    onCellBorderWidthChanged: pointScoreRectBody.border.width = cellBorderWidth
+    onCellBorderWidthChanged: pointDelegateBody.border.width = cellBorderWidth
 
     property color cellBorderColor: "black"
-    onCellBorderColorChanged: pointScoreRectBody.border.color = cellBorderColor
+    onCellBorderColorChanged: pointDelegateBody.border.color = cellBorderColor
 
     property int horizontalScoreTextAlignment: Text.AlignHCenter
     onHorizontalScoreTextAlignmentChanged:  scoreText.horizontalAlignment = horizontalScoreTextAlignment
@@ -50,7 +50,6 @@ MyRectangle{
     implicitWidth: 25
     implicitHeight: 25
 
-
     property string text: ""
 
     color: cellColor
@@ -58,11 +57,11 @@ MyRectangle{
     layer.enabled: true
     layer.effect: OpacityMask{
         maskSource: Item {
-            width: pointScoreRectBody.width
-            height: pointScoreRectBody.height
+            width: pointDelegateBody.width
+            height: pointDelegateBody.height
             Rectangle{
                 anchors.fill: parent
-                radius: pointScoreRectBody.radius
+                radius: pointDelegateBody.radius
             }
         }
     }
@@ -77,9 +76,9 @@ MyRectangle{
         Text {
             id: scoreText
             anchors.fill: parent
-            horizontalAlignment: pointScoreRectBody.horizontalScoreTextAlignment
-            verticalAlignment: pointScoreRectBody.verticalTextAlignment
-            color: pointScoreRectBody.scoreRectFontColor
+            horizontalAlignment: pointDelegateBody.horizontalScoreTextAlignment
+            verticalAlignment: pointDelegateBody.verticalTextAlignment
+            color: pointDelegateBody.scoreRectFontColor
             font.pointSize: scoreFontSize
         }
     }
@@ -87,20 +86,20 @@ MyRectangle{
         id: pointTextRect
         x: 3
         y: 3
-        width: pointScoreRectBody.pointDisplayWidth
-        height:  pointScoreRectBody.pointDisplayHeight
+        width: pointDelegateBody.pointDisplayWidth
+        height:  pointDelegateBody.pointDisplayHeight
         radius: 10
         Layout.alignment: Qt.AlignTop | Qt.AlignHCenter
         clip: true
-        visible: pointScoreRectBody.pointDisplayVisible
-        color: pointScoreRectBody.pointRectBackground
+        visible: pointDelegateBody.pointDisplayVisible
+        color: pointDelegateBody.pointRectBackground
         Text {
             id: pointText
             anchors.fill: parent
-            horizontalAlignment: pointScoreRectBody.horizontalScoreTextAlignment
-            verticalAlignment: pointScoreRectBody.verticalTextAlignment
-            color: pointScoreRectBody.pointRectFontColor
-            font.pointSize: pointScoreRectBody.pointFontSize
+            horizontalAlignment: pointDelegateBody.horizontalScoreTextAlignment
+            verticalAlignment: pointDelegateBody.verticalTextAlignment
+            color: pointDelegateBody.pointRectFontColor
+            font.pointSize: pointDelegateBody.pointFontSize
         }
     }
 }

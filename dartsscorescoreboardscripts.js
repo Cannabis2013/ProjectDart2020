@@ -30,26 +30,26 @@ function refreshHeaders()
 {
     // Refresh horizontal headers
     let verticalHeaderCount = multiAttemptDataModel.verticalHeaderCount();
-    multiAttemptScoreBoardBody.verticalHeaderModel = verticalHeaderCount;
+    scoreSingleColumnBody.verticalHeaderModel = verticalHeaderCount;
     for(var j = 0;j < verticalHeaderCount;j++)
     {
         let h = multiAttemptDataModel.rowHeightAt(j);
         let value = multiAttemptDataModel.getHeaderData(j);
-        multiAttemptScoreBoardBody.setRowHeight(j,h);
-        multiAttemptScoreBoardBody.setVerticalHeaderDataAt(j,value);
+        scoreSingleColumnBody.setRowHeight(j,h);
+        scoreSingleColumnBody.setVerticalHeaderDataAt(j,value);
     }
 }
 
 function setViewPosition(x,y)
 {
-    multiAttemptScoreBoardBody.updateViewPosition(x,y);
+    scoreSingleColumnBody.updateViewPosition(x,y);
 }
 
 function appendHeader(header)
 {
     multiAttemptDataModel.appendHeaderItem(header);
     var preferedWidth = multiAttemptDataModel.preferedHeaderItemWidth();
-    multiAttemptScoreBoardBody.updateVerticalHeaderWidth(preferedWidth);
+    scoreSingleColumnBody.updateVerticalHeaderWidth(preferedWidth);
 }
 
 function setData(playerName,score){
@@ -75,7 +75,7 @@ function setHeaderData(data,defaultVal)
     for(var i = 0; i < data.length;i++)
     {
         var assignedPlayerName = data[i];
-        multiAttemptScoreBoardBody.appendHeader(assignedPlayerName,Qt.Vertical);
-        multiAttemptScoreBoardBody.setData(assignedPlayerName,defaultVal);
+        scoreSingleColumnBody.appendHeader(assignedPlayerName,Qt.Vertical);
+        scoreSingleColumnBody.setData(assignedPlayerName,defaultVal);
     }
 }

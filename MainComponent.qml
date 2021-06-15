@@ -42,8 +42,9 @@ Item {
             pageContent: TournamentPageContent{
                 onCreateTournamentClicked: pageLoader.sourceComponent = createTournamentComponent
                 onManageButtonClicked: pageLoader.sourceComponent = managePageComponent
-                onDartsPointSingleAttemptInitialized: pageLoader.sourceComponent = dartsSingleAttemptComponent
-                onDartsScoreMultiAttemptIsInitialized: pageLoader.sourceComponent = dartsMultiAttemptComponent
+                onDartsPointMultiColumnInitialized: pageLoader.sourceComponent = dartsPointMultiColumn
+                onDartsScoreSingleColumnInitialized: pageLoader.sourceComponent = dartsScoreSingleColumn
+                onDartsPointSingleColumnInitialized: pageLoader.sourceComponent = dartsPointSingleColumn
             }
             Component.onCompleted: body.backPushed.connect(backButtonPressed)
             onBackButtonPressed: pageLoader.sourceComponent = startPageComponent
@@ -66,22 +67,34 @@ Item {
             }
         }
     }
+
     Component
     {
-        id: dartsSingleAttemptComponent
+        id: dartsPointSingleColumn
+        Page{
+            pageTitle: "Darts multi attempt"
+            pageContent: DartsPointSingleColumnContent{}
+            Component.onCompleted: body.backPushed.connect(backButtonPressed)
+            onBackButtonPressed: pageLoader.sourceComponent = tournamentPageComponent
+        }
+    }
+
+    Component
+    {
+        id: dartsPointMultiColumn
         Page{
             pageTitle : "Darts single attempt"
-            pageContent: DartsSingleAttemptContent{}
+            pageContent: DartsPointMultiColumnContent{}
             Component.onCompleted: body.backPushed.connect(backButtonPressed)
             onBackButtonPressed: pageLoader.sourceComponent = tournamentPageComponent
         }
     }
     Component
     {
-        id: dartsMultiAttemptComponent
+        id: dartsScoreSingleColumn
         Page{
             pageTitle: "Darts multi attempt"
-            pageContent: DartsMultiAttemptScoreContent{}
+            pageContent: DartsScoreSingleColumnContent{}
             Component.onCompleted: body.backPushed.connect(backButtonPressed)
             onBackButtonPressed: pageLoader.sourceComponent = tournamentPageComponent
         }

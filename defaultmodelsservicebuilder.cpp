@@ -9,7 +9,7 @@ DefaultModelsServiceBuilder *DefaultModelsServiceBuilder::createInstance()
 
 AbstractModelsService *DefaultModelsServiceBuilder::buildLocalModelsServiceWithJsonDb()
 {
-    auto dartsPointDb = DartsPointJsonDbService::createInstance(new AssembleSingleAttemptPointsFromJson,
+    auto dartsPointDb = DartsPointJsonDbService::createInstance(new AssembleDartsPointsFromJson,
                                                             new AssembleJsonArrayFromDartsPoints);
     auto dartsScoreDb = DartsScoreJsonDb::createInstance(new AssembleMultiAttemptScoresByJson,
                                                          new AssembleJsonByDartsScoreModels);

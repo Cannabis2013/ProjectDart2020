@@ -3,7 +3,7 @@
 
 #include "abstractroutedartsbydisplayhint.h"
 
-class RouteDartsPointByDisplayHint : public AbstractRouteDartsByDisplayHint
+class RouteByDisplayHint : public AbstractRouteDartsByDisplayHint
 {
 public:
     /*
@@ -14,7 +14,8 @@ public:
         MultiColumn = 0x8
     };
 public slots:
-    void determineRouteByDisplayHint(const int &hint) override;
+    void determineDartsPointRouteByDisplayHint(const int &displayHint) override;
+    void determineDartsScoreRouteByDisplayHint(const int &displayHint) override;
 };
 
 #endif // ROUTEBYINPUTHINT_H

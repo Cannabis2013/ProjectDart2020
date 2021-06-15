@@ -5,16 +5,18 @@
 #include <QtQuick/QQuickView>
 #include <qqmlcontext.h>
 
-#include "dartspointsingleattemptdatamodel.h"
+#include "dartspointmulticolumndatamodel.h"
 #include "dartsscoresinglecolumndatamodel.h"
 #include "dartsmultiscoredatamodel.h"
-#include "ApplicationBuilder.h"
+#include "dartspointdatamodelinjector.h"
+#include "dartapplication.h"
 
 void registerCustomTypes()
 {
     qmlRegisterType<DartsScoreSingleColumnDataModel>("CustomItems",1,0,"DartsScoreSingleColumnDataModel");
-    qmlRegisterType<DartsPointSingleAttemptDataModel>("CustomItems",1,0,"DartsSingleAttemptDatamodel");
+    qmlRegisterType<DartsPointMultiColumnDataModel>("CustomItems",1,0,"DartsPointMultiColumnDataModel");
     qmlRegisterType<DartsMultiScoreDataModel>("CustomItems",1,0,"DartsMultiAttemptDataModel");
+    qmlRegisterType<DartsDataModelsContext::DartsPointDataModelInjector>("CustomItems",1,0,"DartsPointSingleColumnDataModel");
     qmlRegisterSingletonType(QUrl("qrc:/ThemeContext.qml"),"customDefinitions",1,0,"ThemeContext");
     qmlRegisterSingletonType(QUrl("qrc:/TournamentContext.qml"),"CustomValues",1,0,"TournamentContext");
     qmlRegisterSingletonType(QUrl("qrc:/DataModelContext.qml"),"CustomValues",1,0,"DataModelContext");
@@ -29,8 +31,7 @@ int main(int argc, char *argv[])
      * Configue DartApplication
      * Instantiate DartApplication
      */
-    auto _dart = ApplicationBuilder::createLocalDartApplicationWithJsonDb();
-
+    auto _dart = DartApplication::createAndSetupInstance();
     /*
      * Register custom types/singletons
      */

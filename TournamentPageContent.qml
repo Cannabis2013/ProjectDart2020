@@ -6,8 +6,9 @@ Content{
     clip: true
 
     signal createTournamentClicked
-    signal dartsPointSingleAttemptInitialized
-    signal dartsScoreMultiAttemptIsInitialized
+    signal dartsPointSingleColumnInitialized
+    signal dartsPointMultiColumnInitialized
+    signal dartsScoreSingleColumnInitialized
     signal manageButtonClicked
     signal requestTournaments
     signal requestDeleteTournaments(var indexes)
@@ -88,15 +89,17 @@ Content{
         body.requestTournaments.connect(applicationInterface.handleTournamentsRequest); // Request initial tournaments
         applicationInterface.sendTournaments.connect(recieveTournaments);
         body.sendClickedTournamentIndex.connect(applicationInterface.handleSetCurrentTournamentRequest);
-        applicationInterface.dartsPointMultiColumnsInitialized.connect(dartsPointSingleAttemptInitialized);
-        applicationInterface.dartsScoreSingleColumnInitialized.connect(dartsScoreMultiAttemptIsInitialized);
+        applicationInterface.dartsPointMultiColumnsInitialized.connect(dartsPointMultiColumnInitialized);
+        applicationInterface.dartsScoreSingleColumnInitialized.connect(dartsScoreSingleColumnInitialized);
+        applicationInterface.dartsPointSingleColumnInitialized.connect(dartsPointSingleColumnInitialized);
         body.requestTournaments();
     }
     Component.onDestruction: {
         body.requestTournaments.disconnect(applicationInterface.handleTournamentsRequest);
         applicationInterface.sendTournaments.disconnect(recieveTournaments);
         body.sendClickedTournamentIndex.disconnect(applicationInterface.handleSetCurrentTournamentRequest);
-        applicationInterface.dartsPointMultiColumnsInitialized.disconnect(dartsPointSingleAttemptInitialized);
-        applicationInterface.dartsScoreSingleColumnInitialized.disconnect(dartsScoreMultiAttemptIsInitialized);
+        applicationInterface.dartsPointMultiColumnsInitialized.disconnect(dartsPointMultiColumnInitialized);
+        applicationInterface.dartsScoreSingleColumnInitialized.disconnect(dartsScoreSingleColumnInitialized);
+        applicationInterface.dartsPointSingleColumnInitialized.disconnect(dartsPointSingleColumnInitialized);
     }
 }

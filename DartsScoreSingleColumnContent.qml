@@ -1,29 +1,18 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 
-import "dartsSingleAttemptPointScripts.js" as DartsSingleAttemptScripts
+import "dartsscoremulticolumnscripts.js" as MultiAttemptScripts
+import "multiattemptstatescripts.js" as StateScripts
 
-/*
-  Gamemodes:
-    FirstToPost = 0x1,
-    RoundLimit =0x2,
-    Circular = 0x3,
-    Cricket = 0xAA
-  */
 Content {
-    id: dartsSingleAttemptBody
-    QtObject{
-        id: textSourceContainer
-        property string throwSuggestLabel: "Target row:"
-        property string winnerLabel: "Winner:"
-    }
+    id: dartsScoreSingleColumnBody
     signal requestControllerValues
-    signal requestSingleAttemptPoints
+    signal requestMultiAttemptScores
     signal requestStatusFromBackend
     signal requestStart
     signal requestStop
     signal requestRestart
-    onRequestRestart: DartsSingleAttemptScripts.handleRequestTournamentReset()
+    onRequestRestart: MultiAttemptScripts.handleRequestTournamentReset()
     signal requestUndo
     signal requestRedo
     signal sendInput(string json)
@@ -33,7 +22,7 @@ Content {
       Tournament metadata property
       */
     QtObject{
-        id: dartsSingleAttemptValues
+        id: dartsMultiAttemptValues
         property string title: ""
         property int keyPoint: 501
         property int attempts: 3
@@ -46,7 +35,7 @@ Content {
         anchors.fill: parent
         flow: GridLayout.TopToBottom
         TurnController{
-            id: singleAttemptTurnController
+            id: multiAttemptScoreTurnController
             Layout.fillWidth: true
             Layout.minimumHeight: 100
             Layout.maximumHeight: 100
@@ -55,22 +44,21 @@ Content {
             onResumeButtonClicked: requestStart()
             onPauseButtonClicked: requestStop()
             onRestartButtonClicked: requestRestart()
-            onLeftButtonClicked: DartsSingleAttemptScripts.undoClicked()
-            onRightButtonClicked: DartsSingleAttemptScripts.redoClicked()
+            onLeftButtonClicked: MultiAttemptScripts.undoClicked()
+            onRightButtonClicked: MultiAttemptScripts.redoClicked()
         }
-        DartsPointScoreBoard{
-            id: pointScoreBoard
+        DartsScoreSingleColumnBoard{
+            id: multiAttemptScoreBoard
             Layout.fillHeight: true
             Layout.fillWidth: true
             Layout.minimumHeight: 160
-
         }
         MyRectangle{
             Layout.fillHeight: true
         }
 
         KeyDataDisplay{
-            id: notificationItemSlot
+            id: keyDataDisplay
             Layout.fillWidth: true
             Layout.maximumHeight: 40
         }
@@ -78,8 +66,8 @@ Content {
              color: "transparent"
              height: 5
         }
-        PointKeyPad{
-            id: pointKeyPad
+        ScoreKeyPad{
+            id: scoreKeyPad
             Layout.alignment: Qt.AlignBottom
             Layout.fillHeight: true
             Layout.fillWidth: true
@@ -91,47 +79,34 @@ Content {
         State {
             name: "winner"
             StateChangeScript{
-                script: {
-                    singleAttemptTurnController.backendHasDeclaredAWinner();
-                    pointKeyPad.enableKeyPad(false);
-                    DartsSingleAttemptScripts.setWinnerText();
-                }
+                script: StateScripts.declareWinner()
             }
         },
         State {
             name: "stopped"
             StateChangeScript{
-                script: {
-                    singleAttemptTurnController.backendIsStopped();
-                    pointKeyPad.enableKeyPad(false);
-                }
+                script: StateScripts.backendIsStopped()
             }
         },
         State {
             name: "ready"
             StateChangeScript{
-                script: singleAttemptTurnController.backendIsReady()
+                script: multiAttemptScoreTurnController.backendIsReady()
             }
         },
         State {
             name: "waitingForInputConfirmation"
             StateChangeScript{
-                script: {
-                    singleAttemptTurnController.backendProcessesInput();
-                    pointKeyPad.enableKeyPad(false);
-                }
+                script: StateScripts.backendProcessesInput()
             }
         },
         State {
             name: "waitingForInput"
             StateChangeScript{
-                script: {
-                    singleAttemptTurnController.backendAwaitsInput();
-                    pointKeyPad.enableKeyPad(true);
-                }
+                script: StateScripts.backendAwaitsInput()
             }
         }
     ]
-    Component.onCompleted: DartsSingleAttemptScripts.initializeComponent()
-    Component.onDestruction: DartsSingleAttemptScripts.disConnectInterface();
+    Component.onCompleted: MultiAttemptScripts.initializeComponent()
+    Component.onDestruction: MultiAttemptScripts.disconnectInterface()
 }

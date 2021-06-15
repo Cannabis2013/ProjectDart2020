@@ -5,7 +5,7 @@
 #include "idartscontrollerentity.h"
 #include <quuid.h>
 #include "dartspointlogisticcontroller.h"
-#include <dartspointsingleattempt.h>
+#include <dartspointcontroller.h>
 #include "DartsPointCalculator.h"
 #include "pointvalidator.h"
 #include "PointIndexController.h"

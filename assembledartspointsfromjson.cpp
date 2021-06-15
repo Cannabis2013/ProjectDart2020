@@ -1,8 +1,8 @@
-#include "assemblesingleattemptpointsfromjson.h"
+#include "assembledartspointsfromjson.h"
 
 using namespace DartsModelsContext;
 
-QVector<const IPlayerInput *> AssembleSingleAttemptPointsFromJson::service(const QJsonArray &arr)
+QVector<const IPlayerInput *> AssembleDartsPointsFromJson::service(const QJsonArray &arr)
 {
     QVector<const IPlayerInput*> list;
     for (const auto& jsonValue : arr) {
@@ -12,7 +12,7 @@ QVector<const IPlayerInput *> AssembleSingleAttemptPointsFromJson::service(const
     }
     return list;
 }
-const DartsModelsContext::DartsPointInput *AssembleSingleAttemptPointsFromJson::assembleModelFromJsonObject(const QJsonObject &jsonObject)
+const DartsModelsContext::DartsPointInput *AssembleDartsPointsFromJson::assembleModelFromJsonObject(const QJsonObject &jsonObject)
 {
     auto stringID = jsonObject["id"].toString();
     auto id = QUuid::fromString(stringID);

@@ -7,7 +7,7 @@
 #include "dartspointjsondbservice.h"
 #include "dartsscorejsondb.h"
 #include "dartssingleattemptindexesbuilder.h"
-#include "assemblesingleattemptpointsfromjson.h"
+#include "assembledartspointsfromjson.h"
 #include "assemblejsonarrayfromdartspoints.h"
 #include "assemblejsonfromdartstournamentmodels.h"
 #include "AssembleDartsTournamentsFromJsonArray.h"

@@ -44,7 +44,7 @@ GridLayout{
 
     Text {
         id: winnerText
-        text: qsTr(textSourceContainer.winnerLabel)
+        text: qsTr(defaultTextLabels.winnerLabel)
         Layout.fillHeight: true
         Layout.fillWidth: true
         font.pointSize: 16
@@ -54,7 +54,7 @@ GridLayout{
     }
     Text {
         id: suggestText
-        text: qsTr(textSourceContainer.throwSuggestLabel)
+        text: qsTr(defaultTextLabels.throwSuggestLabel)
         Layout.fillHeight: true
         Layout.fillWidth: true
         font.pointSize: 16

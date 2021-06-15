@@ -1,18 +1,18 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 
-import "dartsmultiattemptscripts.js" as MultiAttemptScripts
-import "multiattemptstatescripts.js" as StateScripts
+import "dartspointsinglecolumnscripts.js" as PointSingleColumnScripts
+import "pointsinglecolumnstatescripts.js" as PointStateScripts
 
 Content {
-    id: dartsMultiAttemptBody
+    id: dartsPointSingleColumnBody
     signal requestControllerValues
     signal requestMultiAttemptScores
     signal requestStatusFromBackend
     signal requestStart
     signal requestStop
     signal requestRestart
-    onRequestRestart: MultiAttemptScripts.handleRequestTournamentReset()
+    onRequestRestart: PointSingleColumnScripts.handleRequestTournamentReset()
     signal requestUndo
     signal requestRedo
     signal sendInput(string json)
@@ -22,7 +22,7 @@ Content {
       Tournament metadata property
       */
     QtObject{
-        id: dartsMultiAttemptValues
+        id: dartsPointSingleColumnMetaValues
         property string title: ""
         property int keyPoint: 501
         property int attempts: 3
@@ -35,7 +35,7 @@ Content {
         anchors.fill: parent
         flow: GridLayout.TopToBottom
         TurnController{
-            id: multiAttemptScoreTurnController
+            id: pointSingleColumnTurnController
             Layout.fillWidth: true
             Layout.minimumHeight: 100
             Layout.maximumHeight: 100
@@ -44,11 +44,11 @@ Content {
             onResumeButtonClicked: requestStart()
             onPauseButtonClicked: requestStop()
             onRestartButtonClicked: requestRestart()
-            onLeftButtonClicked: MultiAttemptScripts.undoClicked()
-            onRightButtonClicked: MultiAttemptScripts.redoClicked()
+            onLeftButtonClicked: PointSingleColumnScripts.undoClicked()
+            onRightButtonClicked: PointSingleColumnScripts.redoClicked()
         }
-        ScoreScoreBoard{
-            id: multiAttemptScoreBoard
+        DartsPointSingleColumnBoard{
+            id: singleColumnPointBoard
             Layout.fillHeight: true
             Layout.fillWidth: true
             Layout.minimumHeight: 160
@@ -66,8 +66,8 @@ Content {
              color: "transparent"
              height: 5
         }
-        ScoreKeyPad{
-            id: scoreKeyPad
+        PointKeyPad{
+            id: pointKeyPad
             Layout.alignment: Qt.AlignBottom
             Layout.fillHeight: true
             Layout.fillWidth: true
@@ -79,34 +79,34 @@ Content {
         State {
             name: "winner"
             StateChangeScript{
-                script: StateScripts.declareWinner()
+                script: PointStateScripts.declareWinner()
             }
         },
         State {
             name: "stopped"
             StateChangeScript{
-                script: StateScripts.backendIsStopped()
+                script: PointStateScripts.backendIsStopped()
             }
         },
         State {
             name: "ready"
             StateChangeScript{
-                script: multiAttemptScoreTurnController.backendIsReady()
+                script: pointSingleColumnTurnController.backendIsReady()
             }
         },
         State {
             name: "waitingForInputConfirmation"
             StateChangeScript{
-                script: StateScripts.backendProcessesInput()
+                script: PointStateScripts.backendProcessesInput()
             }
         },
         State {
             name: "waitingForInput"
             StateChangeScript{
-                script: StateScripts.backendAwaitsInput()
+                script: PointStateScripts.backendAwaitsInput()
             }
         }
     ]
-    Component.onCompleted: MultiAttemptScripts.initializeComponent()
-    Component.onDestruction: MultiAttemptScripts.disconnectInterface()
+    Component.onCompleted: PointSingleColumnScripts.initializeComponent()
+    Component.onDestruction: PointSingleColumnScripts.disconnectInterface()
 }

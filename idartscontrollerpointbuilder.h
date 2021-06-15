@@ -14,8 +14,8 @@ namespace DartsPointControllerContext {
         typedef TUuid IdFormat;
         virtual const ModelsInterface* buildControllerPointByJson(const JsonFormat& json) const = 0;
         virtual const ModelsInterface* buildControllerPointByInputValues(const int& point,
-                                                                    const int& score,
-                                                                    const int& modKeyCode) const = 0;
+                                                                         const int& score,
+                                                                         const int& modKeyCode) const = 0;
         virtual QVector<const ModelsInterface*> buildControllerPointsByJson(const JsonFormat& json) const = 0;
     };
 }

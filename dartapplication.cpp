@@ -5,6 +5,13 @@ DartApplication *DartApplication::createInstance()
     return new DartApplication();
 }
 
+DartApplication *DartApplication::createAndSetupInstance()
+{
+    auto app = new DartApplication;
+    app->setup();
+    return app;
+}
+
 DartApplication *DartApplication::setup()
 {
     registerTypes();
@@ -20,8 +27,7 @@ DartApplication *DartApplication::setup()
     /*
      * Connect route from the point where controllers are initialized the route interface
      */
-    _connectDartsPointRoute->connectServices(_routeDartsControllerByDisplayHint,this);
-    _connectDartsScoreRoute->connectServices(_routeDartsControllerByDisplayHint,this);
+    _connectRouteByDisplayHint->connectServices(_routeDartsControllerByDisplayHint,this);
     return this;
 }
 
@@ -68,7 +74,6 @@ void DartApplication::handleRequestForMultiAttemptScores()
 
 void DartApplication::handleFTPDetails(const QByteArray& json)
 {
-    cout << "sendtournaments" << endl;
     emit sendDartsDetails(json);
 }
 
@@ -120,22 +125,22 @@ void DartApplication::handleRequestStop()
     emit requestStopGame();
 }
 
-void DartApplication::handleDartsSingleAttemptInput(const QByteArray& json)
+void DartApplication::handleDartsPointInput(const QByteArray& json)
 {
-    emit sendDartsSingleAttemptPoint(json);
+    emit sendDartsPoint(json);
 }
 
-void DartApplication::handleDartsMultiAttemptInput(const QByteArray &json)
+void DartApplication::handleDartsScoreInput(const QByteArray &json)
 {
-    emit sendDartsMultiAttemptScore(json);
+    emit sendDartsScore(json);
 }
 
-void DartApplication::handleUndoRequest()
+void DartApplication::handleDartsUndoRequest()
 {
     emit requestUndo();
 }
 
-void DartApplication::handleRedoRequest()
+void DartApplication::handleDartsRedoRequest()
 {
     emit requestRedo();
 }
@@ -173,6 +178,14 @@ void DartApplication::setDartsScoreController(AbstractDartsController *controlle
 
 DartApplication::DartApplication()
 {
+    auto dartsPointBuilderService = DartsBuilderContext::DartsPointBuilderService::createInstance()
+            ->setBuildEntityByJson(DartsBuilderContext::BuildDartsControllerEntity::createInstance())
+            ->setBuildSingleAttemptPointController(new DartsBuilderContext::BuildSingleAttemptPointController);
+    auto dartsScoreBuilderService = DartsBuilderContext::DartsScoreBuilderService::createInstance()
+            ->setBuildEntityByJson(DartsBuilderContext::BuildDartsControllerEntity::createInstance())
+            ->setBuildScoreControllerService(new DartsBuilderContext::BuildMultiAttemptScoreController);
+    _dartsPointBuilder = dartsPointBuilderService;
+    _dartsScoreBuilder = dartsScoreBuilderService;
 }
 
 void DartApplication::clearGameController()
@@ -212,96 +225,6 @@ void DartApplication::setUsingThreads(bool usingThreads)
 AbstractDartsControllerBuilder *DartApplication::controllerBuilder()
 {
     return _dartsPointBuilder;
-}
-
-DartApplication *DartApplication::setConnectDartsScoreRoute(IConnectRouteByDisplayHint *newConnectDartsScoreRoute)
-{
-    _connectDartsScoreRoute = newConnectDartsScoreRoute;
-    return this;
-}
-
-DartApplication *DartApplication::setConnectDartsPointRoute(IConnectRouteByDisplayHint *newConnectDartsPointRoute)
-{
-    _connectDartsPointRoute = newConnectDartsPointRoute;
-    return this;
-}
-
-DartApplication *DartApplication::setRouteDartsControllerByDisplayHint(AbstractRouteDartsByDisplayHint *service)
-{
-    _routeDartsControllerByDisplayHint = service;
-    return this;
-}
-
-DartApplication *DartApplication::setRouteByInputHint(AbstractRouteByInputHint *newRouteByInputHint)
-{
-    _routeDartsControllerByInputHint = newRouteByInputHint;
-    return this;
-}
-
-DartApplication *DartApplication::setConnectRouteByInputHint(IConnectRouteByInputHint *newConnectRouteByInputHint)
-{
-    _connectRouteByInputHint = newConnectRouteByInputHint;
-    return this;
-}
-
-DartApplication *DartApplication::setRouteByDisplayHint(AbstractRouteDartsByDisplayHint *newRouteByDisplayHint)
-{
-    _routeDartsControllerByDisplayHint = newRouteByDisplayHint;
-    return this;
-}
-
-DartApplication *DartApplication::setConnectDartsScoreController(IConnectDartsScoreController *newConnectDartsScoreController)
-{
-    _connectDartsScoreController = newConnectDartsScoreController;
-    return this;
-}
-
-DartApplication *DartApplication::setConnectDartsPointController(IConnectDartsPointController *newConnectDartsPointController)
-{
-    _connectDartsPointController = newConnectDartsPointController;
-    return this;
-}
-
-DartApplication *DartApplication::setConnectToDartsScoreBuilder(IConnectRouteToDartsBuilder *newConnectToDartsScoreBuilder)
-{
-    _connectDartsScoreBuilder = newConnectToDartsScoreBuilder;
-    return this;
-}
-
-DartApplication *DartApplication::setConnectToDartsPountBuilder(IConnectRouteToDartsBuilder *newConnectToDartsPountBuilder)
-{
-    _connectDartsPointBuilder = newConnectToDartsPountBuilder;
-    return this;
-}
-
-DartApplication *DartApplication::setDartsScoreBuilder(AbstractDartsControllerBuilder *service)
-{
-    _dartsScoreBuilder = service;
-    return this;
-}
-
-DartApplication *DartApplication::setDartsScoreControllerBuilder(AbstractDartsControllerBuilder *service)
-{
-    _dartsScoreBuilder = service;
-    return this;
-}
-
-DartApplication *DartApplication::setConnectRouteByGameMode(ConnectRouteByGameMode *newConnectTournamentGameModeService)
-{
-    _connectRouteByGameMode = newConnectTournamentGameModeService;
-    return this;
-}
-
-DartApplication *DartApplication::setDetermineTournamentGameMode(AbstractRouteByGameMode *newDetermineTournamentGameMode)
-{
-    _routeTournamentByGameMode = newDetermineTournamentGameMode;
-    return this;
-}
-
-DartApplication* DartApplication::setConnectModelsServiceInterface(IConnectModelsInterface *connectModelsServiceInterface)
-{
-    _connectModelsServiceInterface = connectModelsServiceInterface;
-    return this;
 }
 
 DartApplication* DartApplication::setModelsServiceBuilder(AbstractModelsServiceBuilder<AbstractModelsService> *modelsServiceBuilder)

@@ -1,7 +1,7 @@
 import QtQuick 2.15
 import CustomItems 1.0
 
-import "dartssingleattemptscoreboardscripts.js" as ScoreScripts
+import "dartspointscoreboardscripts.js" as ScoreScripts
 
 ScoreBoard {
     id: singleAttemptPointScoreBoard
@@ -74,7 +74,7 @@ ScoreBoard {
         return dartsDataModel.rowHeightAt(row);
     }
 
-    model: DartsSingleAttemptDatamodel {
+    model: DartsPointMultiColumnDataModel {
         id: dartsDataModel
         onDataChanged: ScoreScripts.updateScoreBoard();
         attempts: singleAttemptPointScoreBoard.attempts

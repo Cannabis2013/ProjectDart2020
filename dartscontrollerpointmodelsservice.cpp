@@ -11,7 +11,7 @@ void DartsPointControllerContext::DartsControllerPointModelsService::addPlayerNa
 void DartsPointControllerContext::DartsControllerPointModelsService::addAccumulatedScoreToModel(const DartsModelInterface *model, const int &score) const
 {
     auto nonConstModel = const_cast<PointModel*>(model);
-    nonConstModel->setAccumulatedScore(score);
+    nonConstModel->setTotalScore(score);
 }
 
 void DartsControllerPointModelsService::addTournamentIdToModel(const DartsModelInterface *model, const IdFormat &id) const

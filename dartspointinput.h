@@ -162,6 +162,7 @@ namespace DartsModelsContext{
             auto json = document.toJson();
             return json;
         }
+
     private:
         DartsPointInput()
         {
@@ -171,6 +172,7 @@ namespace DartsModelsContext{
             _point = jsonObject.value("point").toInt();
             _modKeyCode = jsonObject.value("modKeyCode").toInt();
             _score = jsonObject.value("score").toInt();
+
             _roundIndex = jsonObject.value("roundIndex").toInt();
             _setIndex = jsonObject.value("setIndex").toInt();
             _attempt = jsonObject.value("attempt").toInt();

@@ -4,7 +4,7 @@ using namespace DartsBuilderContext;
 BuildSingleAttemptPointController::ControllerInterface DartsBuilderContext::BuildSingleAttemptPointController::buildController(ControllerDetails details) const
 {
     using namespace DartsPointControllerContext;
-    AbstractDartsPointController* controller = DartsPointSingleAttempt::createInstance(details->tournamentId())
+    AbstractDartsPointController* controller = DartsPointController::createInstance(details->tournamentId())
             ->setLogisticInterface(DartsPointLogisticController::createInstance(details->attempts(),
                                                                                 details->terminalKeyCode()))
             ->setScoreCalculator(DartsPointCalculator::createInstance())
