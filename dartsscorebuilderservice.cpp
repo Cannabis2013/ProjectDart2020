@@ -11,16 +11,9 @@ DartsScoreBuilderService *DartsBuilderContext::DartsScoreBuilderService::createI
 AbstractGameController *DartsScoreBuilderService::buildDartsController(const QByteArray &json)
 {
     auto entity = _buildEntityByJson->service(json);
-    AbstractDartsScoreController* controller = _buildScoreControllerService->buildController(entity);
+    AbstractDartsScoreController* controller = DefaultDartsScoreController::createInstance(entity);
     emit sendController(controller,entity->displayHint());
     return controller;
-}
-
-
-DartsScoreBuilderService *DartsScoreBuilderService::setBuildScoreControllerService(BuildMultiAttemptScoreController *service)
-{
-    _buildScoreControllerService = service;
-    return this;
 }
 
 DartsScoreBuilderService *DartsScoreBuilderService::setBuildEntityByJson(ControllerEntityBuilder *newBuildEntityByJson)

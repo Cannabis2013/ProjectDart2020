@@ -113,11 +113,5 @@ namespace DartsPointControllerContext
         QString _playerName;
         QUuid _tournamentId;
     };
-
-
-
-
-
-
 }
 #endif // DARTSPOINT_H

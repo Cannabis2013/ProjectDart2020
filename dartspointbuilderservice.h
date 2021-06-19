@@ -1,37 +1,66 @@
-#ifndef GAMEBUILDER_H
-#define GAMEBUILDER_H
+#ifndef DARTSCONTROLLERPOINTBUILDER_H
+#define DARTSCONTROLLERPOINTBUILDER_H
 
-#include "dartsscorecontroller.h"
-// Include services
-#include "abstractdartscontrollerbuilder.h"
-#include "dartsscoremodelsbuilderservice.h"
-#include "abstractdartsscorecontroller.h"
-#include "abstractdartspointcontroller.h"
-#include "iternaryservice.h"
-#include "dartsplayermodelbuilderservice.h"
-#include "idartscontrollerentity.h"
-#include "BuildDartsControllerEntity.h"
-#include "ibuildcontrollerservice.h"
+#include <qjsondocument.h>
+#include <qjsonobject.h>
+#include <qjsonarray.h>
+#include "iunaryservice.h"
+#include "dartscontrollerpoint.h"
+#include "idartscontrollerpointbuilder.h"
 
-namespace DartsBuilderContext {
-    class DartsPointBuilderService : public AbstractDartsControllerBuilder
+namespace DartsPointControllerContext
+{
+    typedef IDartsControllerPoint<QUuid,QString,QByteArray> IControllerPoint;
+    class DartsPointBuilderService : public
+            IDartsControllerpointBuilder<IControllerPoint,QByteArray,QUuid,QString>
     {
-        // IControllerBuilder interface
+        // IDartsControllerpointBuilder interface
     public:
-        // Public types
-        typedef IDartsControllerEntity<QUuid,QString> ControllerEntity;
-        typedef IUnaryService<const QByteArray&,
-                              const ControllerEntity*> ControllerEntityBuilder;
-        typedef IBuildControllerService<AbstractDartsPointController*,
-                                        const ControllerEntity*> BuildPointController;
-        static DartsPointBuilderService *createInstance();
-        AbstractGameController *buildDartsController(const QByteArray& json) override;
-        DartsPointBuilderService *setBuildEntityByJson(ControllerEntityBuilder *newBuildEntityByJson);
-        DartsPointBuilderService * setBuildSingleAttemptPointController(BuildPointController *service);
-    private:
-        BuildPointController* _buildControllerService;
-        ControllerEntityBuilder* _buildEntityByJson;
+        const ModelsInterface *buildControllerPointByJson(const JsonFormat &json) const override
+        {
+            auto document = QJsonDocument::fromJson(json);
+            auto jsonObject = document.object();
+            auto point = jsonObject.value("point").toInt();
+            auto score = jsonObject.value("score").toInt();
+            auto totalScore = jsonObject.value("totalScore").toInt();
+            auto modKeyCode = jsonObject.value("modKeyCode").toInt();
+            auto playerId = QUuid::fromString(jsonObject.value("playerId").toString());
+            auto playerName = jsonObject.value("playerName").toString();
+            auto model = DartsControllerPoint::createInstance();
+            model->setScore(score);
+            model->setTotalScore(totalScore);
+            model->setPoint(point);
+            model->setModKeyCode(modKeyCode);
+            model->setPlayerId(playerId);
+            model->setPlayerName(playerName);
+            model->setTotalScore(0);
+            return model;
+        }
+        const ModelsInterface *buildControllerPointByInputValues(const int &point,
+                                                                 const int &score,
+                                                                 const int &modKeyCode) const override
+        {
+            auto model = DartsControllerPoint::createInstance();
+            model->setPoint(point);
+            model->setScore(score);
+            model->setModKeyCode(modKeyCode);
+            return model;
+        }
+
+        QVector<const ModelsInterface *> buildControllerPointsByJson(const JsonFormat &json) const override
+        {
+            auto document = QJsonDocument::fromJson(json);
+            auto scoreData = document.array();
+            QVector<const ModelsInterface*> dartsPointModels;
+            for (const auto &jsonVal : scoreData) {
+                auto newDocument = QJsonDocument(jsonVal.toObject());
+                auto newJson = newDocument.toJson();
+                auto dartsPointModel = buildControllerPointByJson(newJson);
+                dartsPointModels << dartsPointModel;
+            }
+            return dartsPointModels;
+        }
     };
 }
 
-#endif // GAMEBUILDER_H
+#endif // DARTSCONTROLLERPOINTBUILDER_H

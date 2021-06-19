@@ -29,13 +29,12 @@ void LocalModelsService::getOrderedDartsPoints(const QUuid &tournamentId)
     auto models = _getInputModelsService->inputModelsByTournamentId(tournamentId,_dartsPointInputDb);
     auto orderedDartsPointModels = _inputModelsSortService->service(models,_sortPointInputsByIndexes);
     auto json = _dartsPointsJsonService->assembleJsonOrderedDartsPointModels(orderedDartsPointModels,_playerModelsService);
-    emit sendDartsSingleAttemptPoints(json);
+    emit sendOrderedDartsPoints(json);
 }
 
 void LocalModelsService::handleRequestTournaments()
 {
-    auto json = _dartsJsonService->assembleJsonDartsTournamentModels(_dartsModelsService,
-                                                                     _playerModelsService);
+    auto json = _dartsJsonService->assembleJsonDartsTournamentModels(_dartsModelsService,_playerModelsService);
     emit sendTournaments(json);
 }
 

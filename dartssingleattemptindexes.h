@@ -1,7 +1,7 @@
 #ifndef DARTSSINGLEATTEMPTINDEXES_H
 #define DARTSSINGLEATTEMPTINDEXES_H
 
-#include "idartssingleattemptindexes.h"
+#include "idartspointcontrollerindexes.h"
 #include "qbytearray.h"
 #include <qjsondocument.h>
 #include <qjsonobject.h>
@@ -9,7 +9,7 @@
 namespace DartsPointControllerContext
 {
     class DartsSingleAttemptIndexes :
-            public IDartsSingleAttemptIndexes
+            public IDartsPointControllerIndexes
     {
     public:
         static DartsSingleAttemptIndexes* createInstance()

@@ -1,9 +1,9 @@
-#ifndef IDARTSSINGLEATTEMPTINDEXES_H
-#define IDARTSSINGLEATTEMPTINDEXES_H
+#ifndef IDARTSPOINTCONTROLLERINDEXES_H
+#define IDARTSPOINTCONTROLLERINDEXES_H
 
 namespace DartsPointControllerContext
 {
-    class IDartsSingleAttemptIndexes
+    class IDartsPointControllerIndexes
     {
     public:
         virtual int totalTurns() const = 0;

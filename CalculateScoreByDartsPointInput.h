@@ -1,12 +1,12 @@
-#ifndef POINTSCORECALCULATOR_H
-#define POINTSCORECALCULATOR_H
+#ifndef CALCULATESCOREBYDARTSPOINTINPUT_H
+#define CALCULATESCOREBYDARTSPOINTINPUT_H
 
 #include "IPointCalculatorService.h"
 #include "idartscontrollerpoint.h"
 #include "quuid.h"
 
 namespace DartsPointControllerContext {
-    class DartsPointCalculator : public IPointCalculatorService<IDartsControllerPoint<QUuid,QString,QByteArray>>
+    class CalculateScoreByDartsPointInput : public IPointCalculatorService<IDartsControllerPoint<QUuid,QString,QByteArray>>
     {
     public:
         enum KeyMappings{
@@ -19,9 +19,9 @@ namespace DartsPointControllerContext {
 
         // ScoreCalculatorInterface interface
     public:
-        static DartsPointCalculator* createInstance()
+        static CalculateScoreByDartsPointInput* createInstance()
         {
-            return new DartsPointCalculator();
+            return new CalculateScoreByDartsPointInput();
         }
         virtual const ModelsInterface* calculateScoreFromDartsPoint(const ModelsInterface* model) const override
         {

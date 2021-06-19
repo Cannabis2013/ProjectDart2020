@@ -3,7 +3,7 @@
 
 
 template<typename TIndexes>
-class IDartsSingleAttemptIndexService
+class IDartsPointIndexService
 {
 public:
     virtual void setIndexes(const TIndexes*) = 0;

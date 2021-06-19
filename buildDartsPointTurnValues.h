@@ -1,32 +1,26 @@
 #ifndef BUILDDARTSPOINTTURNVALUES_H
 #define BUILDDARTSPOINTTURNVALUES_H
 
-#include "iternaryservice.h"
+#include "ibuilddartspointturnvalues.h"
 #include "dartspointturnvalues.h"
-#include "idartssingleattemptindexservice.h"
+#include "idartspointindexservice.h"
 #include "iplayerpointservice.h"
 #include "idartslogisticsservice.h"
-#include "idartssingleattemptindexes.h"
+#include "idartspointcontrollerindexes.h"
 #include "idartscontrollerplayer.h"
 #include "idartscontrollerpoint.h"
 
 namespace DartsPointControllerContext{
-    typedef IDartsSingleAttemptIndexService<IDartsSingleAttemptIndexes> DartsIndexService;
-    class BuildDartsPointTurnValues : public
-            ITernaryService<const DartsIndexService*,
-                            const IPlayerPointService<IDartsControllerPlayer<QUuid,QString>,
-                                                      IDartsControllerPoint<QUuid,QString,
-                                                      QByteArray>>*,
-                            const IDartsLogisticsService<QString>*,
-                            DartsPointTurnValues*>
+    typedef IDartsPointIndexService<IDartsPointControllerIndexes> DartsIndexService;
+    class BuildDartsPointTurnValues : public IBuildDartsPointTurnValues
     {
     public:
         typedef IPlayerPointService<IDartsControllerPlayer<QUuid,QString>,
                                     IDartsControllerPoint<QUuid,QString,
         QByteArray>> PlayerPointService;
-        DartsPointTurnValues* service(const DartsIndexService* indexService,
+        DartsPointTurnValues* buildTurnValues(const DartsIndexService* indexService,
                                       const PlayerPointService* playerScoreService,
-                                      const IDartsLogisticsService<QString>* logisticService) override
+                                      const IDartsLogisticsService<QString>* logisticService) const override
         {
             auto model = new DartsPointTurnValues;
             model->setCanUndo(indexService->canUndo());
@@ -41,7 +35,7 @@ namespace DartsPointControllerContext{
     private:
         QString buildTargetRow(const int& remainingScore,
                                const int& attemptIndex,
-                               const IDartsLogisticsService<QString>* logisticService)
+                               const IDartsLogisticsService<QString>* logisticService) const
         {
             if(logisticService == nullptr)
                 return "Logistic service not injected";

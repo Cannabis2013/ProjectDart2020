@@ -178,12 +178,10 @@ void DartApplication::setDartsScoreController(AbstractDartsController *controlle
 
 DartApplication::DartApplication()
 {
-    auto dartsPointBuilderService = DartsBuilderContext::DartsPointBuilderService::createInstance()
-            ->setBuildEntityByJson(DartsBuilderContext::BuildDartsControllerEntity::createInstance())
-            ->setBuildSingleAttemptPointController(new DartsBuilderContext::BuildSingleAttemptPointController);
+    auto dartsPointBuilderService = DartsBuilderContext::DartsPointControllerBuilder::createInstance()
+            ->setBuildEntityByJson(DartsBuilderContext::BuildDartsControllerEntity::createInstance());
     auto dartsScoreBuilderService = DartsBuilderContext::DartsScoreBuilderService::createInstance()
-            ->setBuildEntityByJson(DartsBuilderContext::BuildDartsControllerEntity::createInstance())
-            ->setBuildScoreControllerService(new DartsBuilderContext::BuildMultiAttemptScoreController);
+            ->setBuildEntityByJson(DartsBuilderContext::BuildDartsControllerEntity::createInstance());
     _dartsPointBuilder = dartsPointBuilderService;
     _dartsScoreBuilder = dartsScoreBuilderService;
 }

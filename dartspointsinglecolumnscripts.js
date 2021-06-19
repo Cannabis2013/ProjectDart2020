@@ -6,6 +6,7 @@ function initializeComponent()
 
 function connectInterface()
 {
+    // Initializing ui values
     dartsPointSingleColumnBody.requestControllerValues.connect(applicationInterface.assembleDartsTournamentValues);
     dartsPointSingleColumnBody.requestMultiAttemptScores
                          .connect(applicationInterface.handleRequestForDartsSingleAttemptPoints);
@@ -13,19 +14,19 @@ function connectInterface()
     applicationInterface.dartsControllerIsReset.connect(reinitialize);
     applicationInterface.dartsPointControllerIsReady
                         .connect(controllerIsInitializedAndReady);
+    applicationInterface.controllerAwaitsInput.connect(backendIsReadyAndAwaitsInput);
     applicationInterface.controllerHasDeclaredAWinner.connect(backendDeclaredAWinner);
     applicationInterface.controllerIsStopped.connect(backendIsStopped);
     applicationInterface.sendDartsTournamentData.connect(handleDartsTournamentMetaData);
+    dartsPointSingleColumnBody.requestStatusFromBackend.connect(applicationInterface.handleControllerStateRequest);
     dartsPointSingleColumnBody.requestStart.connect(applicationInterface.handleRequestStart);
     dartsPointSingleColumnBody.requestStop.connect(applicationInterface.handleRequestStop);
-    dartsPointSingleColumnBody.requestRestart.connect(applicationInterface.handleRestartTournament);
-    dartsPointSingleColumnBody.sendInput.connect(applicationInterface.handleDartsPointInput);
-    dartsPointSingleColumnBody.requestStatusFromBackend.connect(applicationInterface.handleControllerStateRequest);
-    applicationInterface.dartsControllerRemovedScore.connect(backendRemovedPoint);
     dartsPointSingleColumnBody.requestUndo.connect(applicationInterface.handleDartsUndoRequest);
     dartsPointSingleColumnBody.requestRedo.connect(applicationInterface.handleDartsRedoRequest);
+    dartsPointSingleColumnBody.requestRestart.connect(applicationInterface.handleRestartTournament);
+    dartsPointSingleColumnBody.sendInput.connect(applicationInterface.handleDartsPointInput);
+    applicationInterface.dartsControllerRemovedPoint.connect(backendRemovedPoint);
     pointKeyPad.sendInput.connect(handleScoreKeyPadInput);
-    applicationInterface.controllerAwaitsInput.connect(backendIsReadyAndAwaitsInput);
     applicationInterface.addedDartsPoint.connect(extractPointFromJson);
 }
 

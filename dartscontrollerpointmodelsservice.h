@@ -1,5 +1,5 @@
-#ifndef DARTSPOINTMODELSSERVICE_H
-#define DARTSPOINTMODELSSERVICE_H
+#ifndef DARTSCONTROLLERPOINTMODELSSERVICE_H
+#define DARTSCONTROLLERPOINTMODELSSERVICE_H
 
 #include "idartscontrollermodelsservice.h"
 #include "idartscontrollerpoint.h"

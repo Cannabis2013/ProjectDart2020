@@ -80,38 +80,11 @@ namespace DartsScoreControllerContext
         typedef IDartsJsonExtractor<QByteArray,QString> JsonExtractorService;
         typedef IDartsPlayerBuilderService<DartsPlayer,QByteArray> PlayerBuilderService;
         // Create instance of LocalFTPController
-        static DartsScoreController* createInstance(const QUuid &tournament);
-        /*
-         * Get/set evaluator service
-         */
-        DartsScoreController *setInputValidator(IScoreValidator *scoreEvaluator);
-        DartsScoreController *setIndexController(IDartsMultiAttemptIndexService<IDartsMultiAttemptIndexes>*indexController);
-        DartsScoreController *setScoreController(PlayerScoreService *scoreController);
+        static DartsScoreController* createInstance(const QUuid &tournament, const int &displayHint);
         /*
          * Point suggestion section
          */
         IDartsLogisticsService<QString> *pointLogisticInterface() const;
-        /*
-         * Display hint
-         */
-        int displayHint() const;
-        DartsScoreController* setDisplayHint(const int &hint);
-        /*
-         * Set services methods
-         */
-        DartsScoreController* setLogisticInterface(IDartsLogisticsService<QString> *pointLogisticInterface);
-        DartsScoreController* setJsonService(MultiAttemptJsonService *jsonService);
-        DartsScoreController* setAssembleDartsPlayersByJson(IUnaryService<const QByteArray &, DartsPlayers> *service);
-        DartsScoreController* setAssembleDartsPlayerByJson(IUnaryService<const QByteArray &, const DartsPlayer *> *service);
-        DartsScoreController* setDetermineControllerStateByWinnerId(IUnaryService<const QUuid &, int> *service);
-        DartsScoreController* setAddAccumulatedScoreToModel(IBinaryService<const ControllerScore *,
-                                                                             const int&,
-                                                                             const ControllerScore *> *service);
-        DartsScoreController* setTurnValuesBuilderService(DartsScoreTurnValuesBuilderService *service);
-        DartsScoreController* setDartsScoreBuilderService(DartsScoreBuilderService *service);
-        DartsScoreController* setDartsIndexesBuilderService(IndexesBuilderService *service);
-        DartsScoreController* setDartsJsonExtractorService(JsonExtractorService *service);
-        DartsScoreController* setPlayerBuilderService(PlayerBuilderService *service);
     public slots:
         /*
          * Handle wake up request
@@ -175,14 +148,31 @@ namespace DartsScoreControllerContext
          */
         void undoSuccess(const QByteArray &json) override;
         void redoSuccess(const QByteArray &json) override;
-    private:
+    protected:
         /*
-         * Private constructor
+         * Protected constructor
          */
-        DartsScoreController(const QUuid &tournament)
-        {
-            _tournament = tournament;
-        }
+        DartsScoreController(const QUuid &tournament, const int &displayHint);
+        //Services
+        // Generate throwsuggestions
+        IDartsLogisticsService<QString> *_scoreLogisticInterface = nullptr;
+        // Validator service
+        IScoreValidator* _inputEvaluator = nullptr;
+        // Index service
+        DartsIndexService* _indexService = nullptr;
+        // Userscore service
+        PlayerScoreService* _scoreController = nullptr;
+        MultiAttemptJsonService* _dartsJsonBuilderService;
+        // Builder services
+        DartsScoreBuilderService* _dartsScoreBuilderService;
+        IndexesBuilderService* _dartsIndexesBuilderService;
+        PlayerBuilderService* _playerBuilderService;
+        // Json services
+        JsonExtractorService* _dartsJsonExtractorService;
+        IUnaryService<const QUuid&,int>* _determineControllerStateByWinnerId;
+        IBinaryService<const ControllerScore*, const int&,const ControllerScore*>* _addAccumulatedScoreToModel;
+        DartsScoreTurnValuesBuilderService* _turnValuesBuilderService;
+    private:
         /*
          * Check if controller is busy doing something else
          */
@@ -211,25 +201,6 @@ namespace DartsScoreControllerContext
         int _displayHint;
         QUuid _tournament = QUuid();
         int _currentStatus = ControllerState::NotInitialized;
-        //Services
-        // Generate throwsuggestions
-        IDartsLogisticsService<QString> *_scoreLogisticInterface = nullptr;
-        // Validator service
-        IScoreValidator* _scoreEvaluator = nullptr;
-        // Index service
-        DartsIndexService* _indexController = nullptr;
-        // Userscore service
-        PlayerScoreService* _scoreController = nullptr;
-        MultiAttemptJsonService* _dartsJsonBuilderService;
-        // Builder services
-        DartsScoreBuilderService* _dartsScoreBuilderService;
-        IndexesBuilderService* _dartsIndexesBuilderService;
-        PlayerBuilderService* _playerBuilderService;
-        // Json services
-        JsonExtractorService* _dartsJsonExtractorService;
-        IUnaryService<const QUuid&,int>* _determineControllerStateByWinnerId;
-        IBinaryService<const ControllerScore*, const int&,const ControllerScore*>* _addAccumulatedScoreToModel;
-        DartsScoreTurnValuesBuilderService* _turnValuesBuilderService;
     };
 };
 

@@ -3,12 +3,12 @@
 
 #include "idartscontrollerindexesbuilder.h"
 #include "dartssingleattemptindexes.h"
-#include "idartssingleattemptindexservice.h"
+#include "idartspointindexservice.h"
 namespace DartsPointControllerContext {
     class DartsIndexesBuilderService : public
             IDartsControllerIndexesBuilder<
-            IDartsSingleAttemptIndexes,
-            IDartsSingleAttemptIndexService<IDartsSingleAttemptIndexes>,
+            IDartsPointControllerIndexes,
+            IDartsPointIndexService<IDartsPointControllerIndexes>,
             QByteArray>
     {
     public:

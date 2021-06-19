@@ -35,11 +35,11 @@ void ConnectDartsPointController::connectController(AbstractDartsController *con
     // Controller requests transmitting single attempt playerpoints
     QObject::connect(application,&AbstractApplicationInterface::requestDartsSingleAttemptPoints,
             dartsPointController,&AbstractDartsPointController::handleRequestDartsPoints);
-    QObject::connect(dartsPointController,&AbstractDartsPointController::requestDartsPoints,
+    QObject::connect(dartsPointController,&AbstractDartsPointController::requestDartsPointsOrderedByIndexes,
             modelsService,&AbstractModelsService::getOrderedDartsPoints);
-    QObject::connect(modelsService,&AbstractModelsService::sendDartsSingleAttemptPoints,
-            dartsPointController,&AbstractDartsPointController::sendDartsSingleAttemptPoints);
-    QObject::connect(dartsPointController,&AbstractDartsPointController::sendDartsSingleAttemptPoints,
+    QObject::connect(modelsService,&AbstractModelsService::sendOrderedDartsPoints,
+            dartsPointController,&AbstractDartsPointController::sendDartsPoints);
+    QObject::connect(dartsPointController,&AbstractDartsPointController::sendDartsPoints,
             application,&AbstractApplicationInterface::sendDartsPoints);
     /*
          * Wake up controller

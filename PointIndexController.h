@@ -1,12 +1,12 @@
 #ifndef POINTINDEXCONTROLLER_H
 #define POINTINDEXCONTROLLER_H
 
-#include "idartssingleattemptindexservice.h"
+#include "idartspointindexservice.h"
 #include <qlist.h>
-#include "idartssingleattemptindexes.h"
+#include "idartspointcontrollerindexes.h"
 
 namespace DartsPointControllerContext{
-    class PointIndexController : public IDartsSingleAttemptIndexService<IDartsSingleAttemptIndexes>
+    class PointIndexController : public IDartsPointIndexService<IDartsPointControllerIndexes>
     {
         // IndexControllerInterface interface
     public:
@@ -15,7 +15,7 @@ namespace DartsPointControllerContext{
             return new PointIndexController(attemptCount);
         }
 
-        virtual void setIndexes(const IDartsSingleAttemptIndexes* indexes) override
+        virtual void setIndexes(const IDartsPointControllerIndexes* indexes) override
         {
             _totalIndex = indexes->totalTurns();
             _turnIndex = indexes->turnIndex();

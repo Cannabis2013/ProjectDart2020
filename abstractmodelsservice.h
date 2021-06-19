@@ -120,7 +120,7 @@ signals:
     void sendTournamentDartsScoresAsJson(const QByteArray& json);
     void sendDartsIndexesAndScoreValues(const QByteArray& json);
     void sendDartsTournamentWinnerIdAndName(const QByteArray& json);
-    void sendDartsSingleAttemptPoints(const QByteArray& scores);
+    void sendOrderedDartsPoints(const QByteArray& scores);
 };
 
 #endif // ABSTRACTMODELCONTEXTINTERFACE_H

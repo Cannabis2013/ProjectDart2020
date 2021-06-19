@@ -74,7 +74,7 @@ namespace DartsPointControllerContext {
             _playerName = newPlayerName;
         }
 
-        QByteArray toJson()
+        QByteArray toJson() const
         {
             QJsonObject jsonObject;
             jsonObject["roundIndex"] = _roundIndex;

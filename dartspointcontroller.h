@@ -8,20 +8,26 @@
 #include "idartslogisticsservice.h"
 #include "IPointCalculatorService.h"
 #include "ipointvalidator.h"
-#include "idartssingleattemptindexservice.h"
+#include "idartspointindexservice.h"
 #include "iplayerpointservice.h"
 #include "idartscontrollerpoint.h"
-#include "iternaryservice.h"
 #include "dartspointturnvalues.h"
-#include "idartssingleattemptindexes.h"
-#include "ibinaryservice.h"
+#include "idartspointcontrollerindexes.h"
 #include "idartscontrollermodelsservice.h"
 #include "idartscontrollerpointbuilder.h"
 #include "idartscontrollerindexesbuilder.h"
 #include "idartscontrollerplayer.h"
 #include "idartsplayermodelbuilderservice.h"
+#include "ibuilddartspointturnvalues.h"
+#include "icombinejsonbytearrayservice.h"
+/*
+ * Services
+ */
+#include "iaddtotalscoretodartsinputs.h"
 // Json services
-#include "idartspointjsonservice.h"
+#include "idartscontrollerjsonservice.h"
+#include "igetordereddartspointsbyjson.h"
+#include "idartsinputstojson.h"
 #define GAME_IS_NOT_IN_PROGRESS "Game is not in progress"
 #define GAME_WINNER_ANNOUNCEMENT(x) QString("Winner with ID: %! is declared winner").arg(x);
 #define INVALID_DOMAIN "Input is not within domain";
@@ -40,11 +46,6 @@ namespace DartsPointControllerContext {
             OutsideDomain = 0x03,
             TargetDomain = 0x4,
             OutOfRange = 0x5
-        };
-        enum ModelDisplayHint{
-            HiddenHint = 0x1,
-            DisplayHint = 0x2,
-            allHints = 0x3
         };
         enum ControllerState {
             GameBusy = 0x11, // Game is idle but in progress
@@ -68,42 +69,20 @@ namespace DartsPointControllerContext {
         typedef IDartsControllerPlayer<QUuid,QString> ControllerPlayer;
         typedef IDartsControllerpointBuilder<IControllerPoint,QByteArray,QUuid,QString> ControllerPointBuilder;
         // Build darts indexes by json service
-        typedef IDartsSingleAttemptIndexService<IDartsSingleAttemptIndexes> DartsIndexService;
-        typedef IDartsControllerIndexesBuilder<IDartsSingleAttemptIndexes,
+        typedef IDartsPointIndexService<IDartsPointControllerIndexes> DartsIndexService;
+        typedef IDartsControllerIndexesBuilder<IDartsPointControllerIndexes,
                                                     DartsIndexService,
                                                     QByteArray> IIndexesBuilderService;
-        typedef IDartsPointJsonService<IControllerPoint,
-                                       IDartsSingleAttemptIndexes,
+        typedef IDartscontrollerJsonService<IControllerPoint,
+                                       IDartsPointControllerIndexes,
                                        QByteArray,QUuid> DartsJsonService;
         typedef IPlayerPointService<ControllerPlayer,IControllerPoint> PlayerPointService;
         typedef IDartsLogisticsService<QString> LogisticService;
-        typedef ITernaryService<const DartsIndexService*,
-                                const PlayerPointService*,
-                                const LogisticService*,
-                                DartsPointTurnValues*> TurnValueBuilderService;
+        typedef IBuildDartsPointTurnValues TurnValueBuilderService;
         typedef IDartsControllerModelsService<IDartsControllerPoint<QUuid,QString,QByteArray>,QString,QUuid> ControllerModelsService;
         typedef IPointCalculatorService<IControllerPoint> ScoreCalculatorService;
-        typedef IDartsPlayerModelBuilderService<ControllerPlayer,QByteArray> PlayerModelBuilder;;
-        // Create instance of LocalFTPController
-        static DartsPointController* createInstance(const QUuid &tournament);
-        /*
-         * Get/Set display hint
-         */
-        int displayHint();
-        DartsPointController* setDisplayHint(const int &hint);
-        // Set service methods
-        DartsPointController *setScoreCalculator(ScoreCalculatorService* scoreCalculator);
-        DartsPointController *setInputValidator(IPointValidator* scoreEvaluator);
-        DartsPointController *setIndexController(DartsIndexService *indexController);
-        DartsPointController *setInputController(PlayerPointService *scoreController);
-        IDartsLogisticsService<QString> *pointLogisticInterface() const;
-        DartsPointController* setLogisticInterface(IDartsLogisticsService<QString> *pointLogisticInterface);
-        DartsPointController* setDartsJsonModelsService(DartsJsonService *dartsJsonModelsService);
-        DartsPointController* setAssembleDartsPointTurnValues(TurnValueBuilderService *newAssembleDartsPointTurnValues);
-        DartsPointController* setDartsPointBuilderService(ControllerPointBuilder *newDartsPointBuilderService);
-        DartsPointController* setBuildDartsIndexesByJson(IIndexesBuilderService *newBuildDartsIndexesByJson);
-        DartsPointController* setControllerModelsService(ControllerModelsService *newControllerModelsService);
-        DartsPointController* setPlayerModelBuilderService(PlayerModelBuilder *newPlayerModelBuilderService);
+        typedef IDartsPlayerModelBuilderService<ControllerPlayer,QByteArray> PlayerModelBuilder;
+        typedef IDartsInputsToJson<IControllerPoint,QByteArray> DartsInputsToJsonService;
     public slots:
         /*
          * Initialize controller with:
@@ -143,6 +122,7 @@ namespace DartsPointControllerContext {
          */
         void handleRequestForCurrentTournamentMetaData() override;
         void handleRequestDartsPoints() override;
+        void handleOrderedDartsPoint(const QByteArray &json) override;
         /*
          * Models context succesfully persisted point
          */
@@ -159,14 +139,42 @@ namespace DartsPointControllerContext {
          */
         void undoSuccess(const QByteArray &json) override;
         void redoSuccess(const QByteArray &json) override;
-    private:
+    protected:
         /*
-         * Private constructor
+         * Protected constructor
          */
-        DartsPointController(const QUuid &tournament)
-        {
-            _tournament = tournament;
-        }
+        DartsPointController(const QUuid &tournament, const int &displayHint);
+        // Services
+        // Builder Services
+        TurnValueBuilderService* _dartsTurnValuesBuilderService;
+        ControllerPointBuilder* _pointModelBuilderService;
+        PlayerModelBuilder* _playerModelBuilderService;
+        IIndexesBuilderService* _dartsIndexesBuilderService;
+        ControllerModelsService* _controllerModelsService;
+        /*
+         * Model manipulating services
+         */
+        IAddTotalScoreToDartsInputs *_addTotalScoresServices;
+        // Json
+        DartsInputsToJsonService * _dartsPointsToJson;
+        DartsJsonService* _dartsJsonService;
+        IGetOrderedDartsPointByJson *_getOrderedDartsPointsByJson;
+        ICombineJsonByteArray *_combineDartsIndexesAndDartsPoint;
+
+        // Calculate score
+        ScoreCalculatorService* _calculateScoreByPointInput = nullptr;
+        // Generate throwsuggestions
+        LogisticService *_pointLogisticInterface = nullptr;
+        // Validator service
+        IPointValidator* _inputEvaluator = nullptr;
+        // Index service
+        DartsIndexService* _indexController = nullptr;
+        // Userscore service
+        PlayerPointService* _playerPointsService = nullptr;
+    private:
+        void updatePlayerPointModel(const IControllerPoint *pointModel);
+        QByteArray createJson(const IDartsPointControllerIndexes* indexes, const IControllerPoint *pointModel);
+        void setStateIfNoWinnerDetermined();
         void processDomain(const int& domain,
                            const int& point, const int &score,
                            const int& modKeyCode);
@@ -194,26 +202,6 @@ namespace DartsPointControllerContext {
         int _displayHint;
         QUuid _tournament = QUuid();
         int _currentStatus = ControllerState::NotInitialized;
-        // Builder Services
-        TurnValueBuilderService* _dartsTurnValuesBuilderService;
-        ControllerPointBuilder* _pointModelBuilderService;
-        PlayerModelBuilder* _playerModelBuilderService;
-        IIndexesBuilderService* _dartsIndexesBuilderService;
-        ControllerModelsService* _controllerModelsService;
-        // Json
-        DartsJsonService* _dartsJsonService;
-        // Calculate score
-        ScoreCalculatorService* _scoreCalculator = nullptr;
-        // Generate throwsuggestions
-        LogisticService *_pointLogisticInterface = nullptr;
-        // Validator service
-        IPointValidator* _scoreEvaluator = nullptr;
-        // Index service
-        DartsIndexService* _indexController = nullptr;
-        // Userscore service
-        PlayerPointService* _scoreController = nullptr;
     };
 }
-
-
 #endif // POINTFTPCONTROLLER_H
