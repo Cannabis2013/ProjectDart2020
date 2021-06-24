@@ -1,58 +1,32 @@
 function initializeComponent()
 {
     connectInterface();
-    requestControllerValues();
+    applicationInterface.assembleDartsTournamentValues();
 }
 
 function connectInterface()
 {
     // Initializing ui values
-    dartsPointSingleColumnBody.requestControllerValues.connect(applicationInterface.assembleDartsTournamentValues);
-    dartsPointSingleColumnBody.requestMultiAttemptScores
-                         .connect(applicationInterface.handleRequestForDartsSingleAttemptPoints);
-    applicationInterface.sendDartsPoints.connect(recieveDartsPoints);
-    applicationInterface.dartsControllerIsReset.connect(reinitialize);
-    applicationInterface.dartsPointControllerIsReady
-                        .connect(controllerIsInitializedAndReady);
-    applicationInterface.controllerAwaitsInput.connect(backendIsReadyAndAwaitsInput);
-    applicationInterface.controllerHasDeclaredAWinner.connect(backendDeclaredAWinner);
-    applicationInterface.controllerIsStopped.connect(backendIsStopped);
     applicationInterface.sendDartsTournamentData.connect(handleDartsTournamentMetaData);
-    dartsPointSingleColumnBody.requestStatusFromBackend.connect(applicationInterface.handleControllerStateRequest);
-    dartsPointSingleColumnBody.requestStart.connect(applicationInterface.handleRequestStart);
-    dartsPointSingleColumnBody.requestStop.connect(applicationInterface.handleRequestStop);
-    dartsPointSingleColumnBody.requestUndo.connect(applicationInterface.handleDartsUndoRequest);
-    dartsPointSingleColumnBody.requestRedo.connect(applicationInterface.handleDartsRedoRequest);
-    dartsPointSingleColumnBody.requestRestart.connect(applicationInterface.handleRestartTournament);
-    dartsPointSingleColumnBody.sendInput.connect(applicationInterface.handleDartsPointInput);
+    applicationInterface.sendOrderedDartsPoints.connect(recievePoints);
+    applicationInterface.dartsPointControllerIsReady.connect(backendIsReady);
+    applicationInterface.controllerAwaitsInput.connect(backendIsReadyAndAwaitsInput);
+    applicationInterface.dartsControllerIsReset.connect(reinitialize);
+    applicationInterface.controllerHasDeclaredAWinner.connect(backendDeclaredAWinner);
     applicationInterface.dartsControllerRemovedPoint.connect(backendRemovedPoint);
-    pointKeyPad.sendInput.connect(handleScoreKeyPadInput);
-    applicationInterface.addedDartsPoint.connect(extractPointFromJson);
+    applicationInterface.addedDartsPoint.connect(handleBackendPersistedInput);
 }
 
 function disconnectInterface()
 {
-    dartsPointSingleColumnBody.requestMultiAttemptScores.disconnect(applicationInterface.assembleDartsTournamentValues);
-    dartsPointSingleColumnBody.requestMultiAttemptScores.disconnect(
-                applicationInterface.handleRequestForDartsSingleAttemptPoints);
-    applicationInterface.sendDartsPoints.disconnect(
-                recieveDartsPoints);
-    applicationInterface.dartsScoreControllerIsReady
-                        .disconnect(controllerIsInitializedAndReady);
-    applicationInterface.controllerHasDeclaredAWinner.disconnect(backendDeclaredAWinner);
-    applicationInterface.controllerIsStopped.disconnect(backendIsStopped);
     applicationInterface.sendDartsTournamentData.disconnect(handleDartsTournamentMetaData);
-    dartsPointSingleColumnBody.requestStart.disconnect(applicationInterface.handleRequestStart);
-    dartsPointSingleColumnBody.requestStop.disconnect(applicationInterface.handleRequestStop);
-    dartsPointSingleColumnBody.requestRestart.disconnect(applicationInterface.handleRestartTournament);
-    dartsPointSingleColumnBody.sendInput.disconnect(applicationInterface.handleDartsPointInput);
-    dartsPointSingleColumnBody.requestStatusFromBackend.disconnect(applicationInterface.handleControllerStateRequest);
-    applicationInterface.dartsControllerRemovedScore.disconnect(backendRemovedPoint);
-    dartsPointSingleColumnBody.requestUndo.disconnect(applicationInterface.handleDartsUndoRequest);
-    dartsPointSingleColumnBody.requestRedo.disconnect(applicationInterface.handleDartsRedoRequest);
-    pointKeyPad.sendInput.disconnect(handleScoreKeyPadInput);
+    applicationInterface.sendOrderedDartsPoints.disconnect(recievePoints);
+    applicationInterface.dartsPointControllerIsReady.disconnect(backendIsReady);
     applicationInterface.controllerAwaitsInput.disconnect(backendIsReadyAndAwaitsInput);
-    applicationInterface.addedDartsScore.disconnect(extractPointFromJson);
+    applicationInterface.dartsControllerIsReset.disconnect(reinitialize);
+    applicationInterface.controllerHasDeclaredAWinner.disconnect(backendDeclaredAWinner);
+    applicationInterface.dartsControllerRemovedPoint.disconnect(backendRemovedPoint);
+    applicationInterface.addedDartsPoint.disconnect(handleBackendPersistedInput);
 }
 
 function handleDartsTournamentMetaData(data){
@@ -63,7 +37,7 @@ function handleDartsTournamentMetaData(data){
     dartsPointSingleColumnMetaValues.attempts = json["attempts"];
     dartsPointSingleColumnMetaValues.assignedPlayerNames = json["assignedPlayerNames"];
     initializeScoreBoard();
-    requestMultiAttemptScores();
+    applicationInterface.requestOrderedDartsInputs();
 }
 
 function initializeScoreBoard()
@@ -73,12 +47,7 @@ function initializeScoreBoard()
     singleColumnPointBoard.appendHeaderData(assignedPlayerNames,keyPoint);
 }
 
-function controllerIsInitializedAndReady()
-{
-    dartsPointSingleColumnBody.state = "ready";
-}
-
-function recieveDartsPoints(points)
+function recievePoints(points)
 {
     var jsonData = JSON.parse(points);
     var count = jsonData.length;
@@ -90,18 +59,35 @@ function recieveDartsPoints(points)
         var totalScore = entity["totalScore"];
         singleColumnPointBoard.setData(playerName,playerPoint,totalScore);
     }
-    dartsPointSingleColumnBody.requestStatusFromBackend();
+    applicationInterface.requestControllerState();
+}
+
+function backendIsReady()
+{
+    dartsPointSingleColumnBody.state = "ready";
 }
 
 // When backend has evaluated and persisted player input
-function extractPointFromJson(data)
+function handleBackendPersistedInput(data)
 {
     var json = JSON.parse(data);
+    updatePointBoard(json);
+    setThrowSuggestion(json);
+    setTurnControllerValues(json);
+    dartsPointSingleColumnBody.state = "waitingForInput";
+}
+
+function updatePointBoard(json)
+{
     let playerName = json["playerName"];
     let playerPoint = json["point"];
     let totalScore = json["totalScore"];
     singleColumnPointBoard.setData(playerName,playerPoint,totalScore);
-    requestStatusFromBackend();
+}
+
+function setThrowSuggestion(json)
+{
+    keyDataDisplay.setThrowSuggestion(json.targetRow);
 }
 
 function reinitialize()
@@ -110,7 +96,7 @@ function reinitialize()
     pointSingleColumnTurnController.backendIsStopped();
     keyDataDisplay.clear();
     initializeScoreBoard();
-    requestStatusFromBackend();
+    dartsPointSingleColumnBody.state = "ready";
 }
 
 function handleRequestTournamentReset()
@@ -122,28 +108,17 @@ function handleRequestTournamentReset()
 function backendRemovedPoint(data)
 {
     var json = JSON.parse(data);
-    let playerName = json["playerName"];
-    let playerPoint = json["point"];
-    let score = json["totalScore"];
-    singleColumnPointBoard.setData(playerName,playerPoint,score);
-    requestStatusFromBackend();
-}
-
-function backendIsReadyAndAwaitsInput(data)
-{
-    var json = JSON.parse(data);
-    let throwSuggestion = json.targetRow;
-    keyDataDisplay.setThrowSuggestion(throwSuggestion);
-    dartsPointSingleColumnBody.state = "waitingForInput";
     setTurnControllerValues(json);
+    updatePointBoard(json);
+    dartsPointSingleColumnBody.state = "waitingForInput";
 }
 
 function setTurnControllerValues(json)
 {
-    pointSingleColumnTurnController.leftButtonEnabled = json.canUndo;
-    pointSingleColumnTurnController.rightButtonEnabled = json.canRedo;
-    pointSingleColumnTurnController.currentRoundIndex = json.roundIndex;
-    pointSingleColumnTurnController.currentPlayer = json.playerName;
+    pointSingleColumnTurnController.leftButtonEnabled = json["canUndo"];
+    pointSingleColumnTurnController.rightButtonEnabled = json["canRedo"];
+    pointSingleColumnTurnController.currentRoundIndex = json["roundIndex"];
+    pointSingleColumnTurnController.currentPlayer = json["currentPlayerName"];
 }
 
 function handleScoreKeyPadInput(input, keyCode){
@@ -153,7 +128,7 @@ function handleScoreKeyPadInput(input, keyCode){
         modKeyCode : keyCode
     };
     var json = JSON.stringify(obj);
-    dartsPointSingleColumnBody.sendInput(json);
+    applicationInterface.sendDartsPoint(json);
 }
 
 function backendIsStopped()
@@ -169,16 +144,25 @@ function backendDeclaredAWinner(data)
     dartsPointSingleColumnBody.state = "winner";
 }
 
+function backendIsReadyAndAwaitsInput(data)
+{
+    var json = JSON.parse(data);
+    setThrowSuggestion(json);
+    setTurnControllerValues(json);
+    dartsPointSingleColumnBody.state = "waitingForInput";
+}
+
 function undoClicked()
 {
     dartsPointSingleColumnBody.state = "waitingForInputConfirmation";
     requestUndo();
+    applicationInterface.requestUndo();
 }
 
 function redoClicked()
 {
     dartsPointSingleColumnBody.state = "waitingForInputConfirmation";
-    requestRedo();
+    applicationInterface.requestRedo();
 }
 
 function setWinnerText()

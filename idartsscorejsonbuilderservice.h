@@ -5,7 +5,7 @@
 #include <qbytearray.h>
 #include <qvector.h>
 #include "idartsplayer.h"
-#include "idartsmultiattemptindexes.h"
+#include "idartsscorecontrollerindexes.h"
 
 using namespace DartsScoreControllerContext;
 
@@ -16,10 +16,9 @@ public:
     typedef TDartsIndexes DartsIndexes ;
     typedef TString StringFormat;
     typedef TJsonFormat JsonFormat;
-    virtual JsonFormat buildJsonByDartsScoreModels(const QVector<const ModelInterface*>& inputModels) const = 0;
-    virtual JsonFormat buildJsonAddScoreValues(const DartsIndexes* indexes, const ModelInterface* dartsModel) const = 0;
-    virtual JsonFormat convertDartsModelToJson(const ModelInterface* dartsModel) const = 0;
-    virtual JsonFormat assembleJsonWinnerName(const QUuid&, const QUuid&) const = 0;
+    virtual JsonFormat createJsonByDartsScoreModels(const QVector<const ModelInterface*>& inputModels) const = 0;
+    virtual JsonFormat createJsonByDartsScore(const ModelInterface* dartsModel) const = 0;
+    virtual JsonFormat createJsonByIds(const QUuid&, const QUuid&) const = 0;
 };
 
 #endif // IDARTSMULTIATTEMPTJSONSERVICE_H

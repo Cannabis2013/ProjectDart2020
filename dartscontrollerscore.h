@@ -50,11 +50,11 @@ namespace DartsScoreControllerContext
             auto json = document.toJson();
             return json;
         }
-        int accumulatedScore() const override
+        int totalScore() const override
         {
             return _accumulatedScore;
         }
-        void setAccumulatedScore(const int& accumulatedScore) override
+        void setTotalScore(const int& accumulatedScore) override
         {
             _accumulatedScore = accumulatedScore;
         }

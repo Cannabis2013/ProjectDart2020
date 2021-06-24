@@ -1,8 +1,8 @@
-#ifndef IJSONMODELCONVERSION_H
-#define IJSONMODELCONVERSION_H
+#ifndef IJSON_H
+#define IJSON_H
 
 template<typename TJsonFormat>
-class IJsonModelsService
+class IJson
 {
 public:
     virtual TJsonFormat toJson() const = 0;

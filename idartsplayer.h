@@ -2,12 +2,12 @@
 #define IDARTSPLAYER_H
 
 #include <quuid.h>
-#include "ijsonmodelsservice.h"
+#include "ijson.h"
 
 namespace DartsScoreControllerContext
 {
     template<typename TUuid, typename TString>
-    class IDartsPlayer : public IJsonModelsService<QByteArray>
+    class IDartsPlayer : public IJson<QByteArray>
     {
     public:
         typedef TUuid IdFormat;

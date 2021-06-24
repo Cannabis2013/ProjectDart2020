@@ -22,7 +22,7 @@ DartsPlayerPointService *DartsPlayerPointService::setWinner(const QUuid &id)
 QString DartsPlayerPointService::winnerUserName() const
 {
     auto id = winnerId();
-    auto userName = playerNameById(id);
+    auto userName = playerName(id);
     return userName;
 }
 
@@ -38,15 +38,16 @@ void DartsPlayerPointService::addPlayerEntitiesByModels(const QVector<const Play
         addPlayerEntity(model);
 }
 
-void DartsPlayerPointService::subtractPlayerScore(const PointModel *model)
+int DartsPlayerPointService::subtractPlayerScore(const PointModel *model)
 {
     auto tuple = tupleAtId(model->playerId());
     auto indexOfTuple = indexOf(tuple);
     auto tupleScore = tuple.score;
     auto score = model->score();
-    auto newTupleScore = tupleScore - score;
-    tuple.score = newTupleScore;
+    auto newScore = tupleScore - score;
+    tuple.score = newScore;
     replaceTupleAt(indexOfTuple,tuple);
+    return newScore;
 }
 
 void DartsPlayerPointService::subtractPlayerScoresByModels(const QVector<const PointModel *> &models)
@@ -107,14 +108,14 @@ void DartsPlayerPointService::setPlayerScoreById(const QUuid &id, const int &inp
     replaceTupleAt(index,tuple);
 }
 
-QString DartsPlayerPointService::playerNameByIndex(const int &index) const
+QString DartsPlayerPointService::playerName(const int &index) const
 {
     auto tuple = tupleAtIndex(index);
     auto name = tuple.name;
     return name;
 }
 
-QString DartsPlayerPointService::playerNameById(const QUuid &id) const
+QString DartsPlayerPointService::playerName(const QUuid &id) const
 {
     auto tuple = tupleAtId(id);
     auto name = tuple.name;
@@ -152,14 +153,15 @@ int DartsPlayerPointService::initialScore() const
 int DartsPlayerPointService::calculateAccumulatedScoreCandidate(const int &index, const int &score) const
 {
     auto tuple = tupleAtIndex(index);
-    auto s = tuple.score;
-    auto scoreCandidate = s - score;
+    auto tupleScore = tuple.score;
+    auto scoreCandidate = tupleScore - score;
     return scoreCandidate;
 }
 
 void DartsPlayerPointService::resetScores()
 {
-
+    for (auto &tuple : _playerTuples)
+        tuple.score = _initialScore;
 }
 
 DartsPlayerPointService::DartsPlayerPointService(const int &initialScore, const QUuid &winner)

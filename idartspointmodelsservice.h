@@ -12,7 +12,7 @@ namespace DartsModelsContext {
         typedef TDbService DbServiceInterface;
         typedef IPlayerInput PlayerInput;
         typedef QVector<const PlayerInput*> PlayerInputs;
-        virtual const PlayerInput* dartsPointModel(const QUuid& tournamentId,
+        virtual const PlayerInput *dartsPointModel(const QUuid& tournamentId,
                                                    const QUuid& playerId,
                                                    const int& roundIndex,
                                                    const int& attemptIndex,

@@ -32,14 +32,6 @@ namespace DartsPointControllerContext
         {
             _playerId = newPlayerId;
         }
-        QString playerName() const override
-        {
-            return _playerName;
-        }
-        void setPlayerName(const QString &newPlayerName) override
-        {
-            _playerName = newPlayerName;
-        }
         int totalScore() const override
         {
             return _accumulatedScore;
@@ -78,22 +70,12 @@ namespace DartsPointControllerContext
             jsonobject["point"] = _point;
             jsonobject["modKeyCode"] = _modKeyCode;
             jsonobject["playerId"] = _playerId.toString(QUuid::WithoutBraces);
-            jsonobject["playerName"] = _playerName;
             jsonobject["score"] = _score;
             jsonobject["totalScore"] = _accumulatedScore;
             auto document = QJsonDocument(jsonobject);
             auto json = document.toJson();
             return json;
         }
-        QUuid tournamentId() const override
-        {
-            return _tournamentId;
-        }
-        void setTournamentId(const QUuid &newTournamentId) override
-        {
-            _tournamentId = newTournamentId;
-        }
-
     private:
         DartsControllerPoint()
         {}
@@ -102,7 +84,6 @@ namespace DartsPointControllerContext
             _point = jsonObject.value("point").toInt();
             _modKeyCode = jsonObject.value("modKeyCode").toInt();
             _playerId = QUuid::fromString(jsonObject.value("playerId").toString());
-            _playerName = jsonObject.value("playerName").toString();
             _score = jsonObject.value("score").toInt();
         }
         int _point;
@@ -110,8 +91,6 @@ namespace DartsPointControllerContext
         int _score;
         int _accumulatedScore;
         QUuid _playerId;
-        QString _playerName;
-        QUuid _tournamentId;
     };
 }
 #endif // DARTSPOINT_H

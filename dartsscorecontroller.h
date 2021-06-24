@@ -1,12 +1,12 @@
-#ifndef FIVEHUNDREDANDONEGAME_H
-#define FIVEHUNDREDANDONEGAME_H
+#ifndef DARTSSCORECONTROLLER_H
+#define DARTSSCORECONTROLLER_H
 // Proprietary QT classes
 #include <quuid.h>
 // Custom classes
 #include "abstractdartsscorecontroller.h"
 #include "idartslogisticsservice.h"
 #include "iscorevalidator.h"
-#include "idartsmultiattemptindexservice.h"
+#include "idartsscoreindexservice.h"
 #include "iplayerscoreservice.h"
 #include "idartsscorejsonbuilderservice.h"
 #include "iunaryservice.h"
@@ -16,8 +16,12 @@
 #include "iternaryservice.h"
 #include "idartsmodelsbuilderservice.h"
 #include "idartscontrollerindexesbuilder.h"
-#include "idartsjsonextractor.h"
+#include "ijsonbuilder.h"
 #include "idartsplayerbuilderservice.h"
+#include "icombinejsonbytearrayservice.h"
+#include "ibuilddartsscorecontrollervalues.h"
+#include "iaddscoretodartsscoremodel.h"
+#include "ijsonextractor.h"
 // Definitions
 #define GAME_IS_NOT_IN_PROGRESS "Game is not in progress"
 #define GAME_WINNER_ANNOUNCEMENT(x) QString("Winner with ID: %! is declared winner").arg(x);
@@ -67,18 +71,16 @@ namespace DartsScoreControllerContext
         typedef IDartsPlayer<QUuid,QString> DartsPlayer;
         typedef QVector<const DartsPlayer*> DartsPlayers;
         typedef IPlayerScoreService<DartsPlayer,ControllerScore> PlayerScoreService;
-        typedef IDartsScoreJsonBuilderService<ControllerScore,IDartsMultiAttemptIndexes,QByteArray,QString> MultiAttemptJsonService;
+        typedef IDartsScoreControllerIndexes<QByteArray> ControllerIndexes;
+        typedef IDartsScoreJsonBuilderService<ControllerScore,ControllerIndexes,QByteArray,QString> DartsScoreJsonService;
         typedef IBinaryService<const IDartsLogisticsService<QString>*,const int&, QString> LogisticService;
-        typedef ITernaryService<const IDartsMultiAttemptIndexService<IDartsMultiAttemptIndexes>*,
-                                const PlayerScoreService*,
-                                const IDartsLogisticsService<QString>*,
-                                const DartsScoreTurnValues*> DartsScoreTurnValuesBuilderService;
         typedef IDartsModelsBuilderService<ControllerScore,QByteArray,PlayerScoreService,
                                            QUuid,QString> DartsScoreBuilderService;
-        typedef IDartsMultiAttemptIndexService<IDartsMultiAttemptIndexes> DartsIndexService;
-        typedef IDartsControllerIndexesBuilder<IDartsMultiAttemptIndexes,DartsIndexService,QByteArray> IndexesBuilderService;
-        typedef IDartsJsonExtractor<QByteArray,QString> JsonExtractorService;
-        typedef IDartsPlayerBuilderService<DartsPlayer,QByteArray> PlayerBuilderService;
+        typedef IDartsScoreIndexService<ControllerIndexes> DartsIndexService;
+        typedef IDartsControllerIndexesBuilder<ControllerIndexes,DartsIndexService,QByteArray> IndexesBuilderService;
+        typedef IJsonBuilder<QByteArray,QUuid,QString> JsonBuilderService;
+        typedef IDartsPlayerBuilderService<DartsPlayer,QUuid,QString,QByteArray> PlayerBuilderService;
+        typedef IJsonExtractor<QByteArray,QUuid,QString> JsonExtractorService;
         // Create instance of LocalFTPController
         static DartsScoreController* createInstance(const QUuid &tournament, const int &displayHint);
         /*
@@ -92,6 +94,13 @@ namespace DartsScoreControllerContext
          *  - Transmit 'ready' response
          */
         void beginInitialize() override;
+        /*
+         * Recieve darts index values, score values, and player values from modelscontext
+         */
+        virtual void initializeControllerIndexes(const QByteArray& json) override;
+        void initializeControllerPlayerDetails(const QByteArray &json) override;
+        void initializeControllerDartsScores(const QByteArray &json) override;
+        void initializeControllerWinnerIdAndName(const QByteArray &json) override;
         /*
          * Start/stop/undo/redo
          */
@@ -123,7 +132,7 @@ namespace DartsScoreControllerContext
          *
          * The following methods is called dependently on input hint
          */
-        void assembleMultiAttemptDartsScores() override;
+        void assembleOrderedDartsScores() override;
         void handleRequestDartsScores() override;
         /*
          * Models context has persisted score succesfully
@@ -136,13 +145,6 @@ namespace DartsScoreControllerContext
         void handleResetTournament() override;
         // Get current status
         int currentStatus() const;
-        /*
-         * Recieve darts index values, score values, and player values from modelscontext
-         */
-        virtual void initializeControllerIndexes(const QByteArray& json) override;
-        void initializeControllerPlayerDetails(const QByteArray &json) override;
-        void initializeControllerDartsScores(const QByteArray &json) override;
-        void initializeControllerWinnerIdAndName(const QByteArray &json) override;
         /*
          * Handle undo/redo response
          */
@@ -161,18 +163,24 @@ namespace DartsScoreControllerContext
         // Index service
         DartsIndexService* _indexService = nullptr;
         // Userscore service
-        PlayerScoreService* _scoreController = nullptr;
-        MultiAttemptJsonService* _dartsJsonBuilderService;
+        PlayerScoreService* _inputService = nullptr;
+        DartsScoreJsonService* _dartsJsonBuilderService;
         // Builder services
-        DartsScoreBuilderService* _dartsScoreBuilderService;
+        DartsScoreBuilderService* _dartsScoreBuilder;
         IndexesBuilderService* _dartsIndexesBuilderService;
         PlayerBuilderService* _playerBuilderService;
-        // Json services
-        JsonExtractorService* _dartsJsonExtractorService;
         IUnaryService<const QUuid&,int>* _determineControllerStateByWinnerId;
-        IBinaryService<const ControllerScore*, const int&,const ControllerScore*>* _addAccumulatedScoreToModel;
-        DartsScoreTurnValuesBuilderService* _turnValuesBuilderService;
+        IAddScoreToDartsScoreModel* _addTotalScoreToModel;
+        IBuildDartsScoreControllerValues* _turnValuesBuilder;
+        ICombineJsonByteArray* _jsonMergeService;
+        // Json services
+        JsonBuilderService *_dartsJsonService;
+        JsonExtractorService *_extractJson;
     private:
+        void sendWinnerJson();
+        void subtractAndAddScoreToModel(const ControllerScore *scoreModel);
+        QByteArray createJsonResponse(const ControllerScore* scoreModel, const DartsScoreTurnValues* turnValues);
+        QByteArray createJsonResponse(const ControllerScore* scoreModel, const ControllerIndexes* indexes, const DartsPlayer *playerModel);
         /*
          * Check if controller is busy doing something else
          */
@@ -182,8 +190,8 @@ namespace DartsScoreControllerContext
          * Notify UI about controller state, current round index, undo/redo possibility and current user
          */
         void sendCurrentTurnValues();
-        QString currentActiveUser()  ;
-        QUuid currentActivePlayerId();
+        QString currentPlayerName()  ;
+        QUuid currentPlayerId();
         QUuid tournament();
         int status();
         void setCurrentStatus(int currentStatus);
@@ -199,8 +207,8 @@ namespace DartsScoreControllerContext
         void declareWinner();
         // Member variables
         int _displayHint;
-        QUuid _tournament = QUuid();
-        int _currentStatus = ControllerState::NotInitialized;
+        QUuid _tournamentId = QUuid();
+        int _status = ControllerState::NotInitialized;
     };
 };
 

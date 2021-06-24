@@ -11,7 +11,7 @@ class AbstractDartsPointController : public
     Q_OBJECT
 public slots:
     virtual void initializeControllerDartsPoints(const QByteArray&) = 0;
-    virtual void handleRequestDartsPoints() = 0;
+    virtual void handleRequestOrderedDartsPoints() = 0;
     virtual void handlePointAddedToDataContext(const QByteArray& json) = 0;
     virtual void handleOrderedDartsPoint(const QByteArray &json) = 0;
 signals:
@@ -36,9 +36,9 @@ signals:
     void requestTournamentAssignedPlayerDetails(const QUuid& tournamentId);
     void requestTournamentDartsPoints(const QUuid& tournamentId);
     void requestAddDartsPoint(const QByteArray& json);
-    void pointAddedAndPersisted(const QByteArray& json);
+    void dartsPointPersisted(const QByteArray& json);
     void pointRemoved(const QString& json);
-    void sendDartsPoints(const QByteArray& json);
+    void sendOrderedDartsPoints(const QByteArray& json);
     void requestTournamentWinnerIdAndName( const QUuid& tournamentId);
 };
 

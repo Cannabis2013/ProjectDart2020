@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 
-import "dartsscoremulticolumnscripts.js" as MultiAttemptScripts
+import "dartsscoresinglecolumnscripts.js" as MultiAttemptScripts
 import "multiattemptstatescripts.js" as StateScripts
 
 Content {
@@ -22,7 +22,7 @@ Content {
       Tournament metadata property
       */
     QtObject{
-        id: dartsMultiAttemptValues
+        id: dartsMetaValues
         property string title: ""
         property int keyPoint: 501
         property int attempts: 3
@@ -35,20 +35,20 @@ Content {
         anchors.fill: parent
         flow: GridLayout.TopToBottom
         TurnController{
-            id: multiAttemptScoreTurnController
+            id: singleColumnScoreTurnController
             Layout.fillWidth: true
             Layout.minimumHeight: 100
             Layout.maximumHeight: 100
             Layout.alignment: Qt.AlignHCenter
-            onStartButtonClicked: requestStart()
-            onResumeButtonClicked: requestStart()
-            onPauseButtonClicked: requestStop()
-            onRestartButtonClicked: requestRestart()
+            onStartButtonClicked: applicationInterface.requestStartGame()
+            onResumeButtonClicked: applicationInterface.requestStartGame()
+            onPauseButtonClicked: applicationInterface.requestStopGame()
+            onRestartButtonClicked: applicationInterface.requestTournamentReset()
             onLeftButtonClicked: MultiAttemptScripts.undoClicked()
             onRightButtonClicked: MultiAttemptScripts.redoClicked()
         }
         DartsScoreSingleColumnBoard{
-            id: multiAttemptScoreBoard
+            id: singleColumnScoreBoard
             Layout.fillHeight: true
             Layout.fillWidth: true
             Layout.minimumHeight: 160
@@ -91,7 +91,7 @@ Content {
         State {
             name: "ready"
             StateChangeScript{
-                script: multiAttemptScoreTurnController.backendIsReady()
+                script: singleColumnScoreTurnController.backendIsReady()
             }
         },
         State {

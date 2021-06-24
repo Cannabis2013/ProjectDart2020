@@ -8,11 +8,11 @@
 #include <qjsonarray.h>
 namespace DartsPointControllerContext {
     class DartsPlayerModelBuilderService : public
-            IDartsPlayerModelBuilderService<IDartsControllerPlayer<QUuid,QString>,QByteArray>
+            IDartsPlayerModelBuilderService<IDartsControllerPlayer<QUuid,QString,QByteArray>,QString,QUuid,QByteArray>
     {
     public:
-        typedef IDartsControllerPlayer<QUuid,QString> ControllerPlayer;
-        QVector<const ModelsInterface *> buildPlayerModelsByJson(const JsonFormat &json) const override
+        typedef IDartsControllerPlayer<QUuid,QString,QByteArray> ControllerPlayer;
+        QVector<const ModelsInterface *> createPlayerModelsByJson(const JsonFormat &json) const override
         {
             auto document = QJsonDocument::fromJson(json);
             auto playerDatas = document.array();
@@ -26,6 +26,13 @@ namespace DartsPointControllerContext {
                 list << dartsPlayerModel;
             }
             return list;
+        }
+        const ModelsInterface *createPlayerModelByValues(const IdFormat &id, const StringFormat &name) const override
+        {
+            auto playerModel = DartsControllerPlayer::createInstance();
+            playerModel->setPlayerId(id);
+            playerModel->setPlayerName(name);
+            return playerModel;
         }
     };
 }

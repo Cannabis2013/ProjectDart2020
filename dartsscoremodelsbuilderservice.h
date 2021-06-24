@@ -16,7 +16,7 @@ namespace DartsScoreControllerContext {
                                        QUuid,QString>
     {
     public:
-        const ModelsInterface *buildModelByJson(const JsonFormat &json) const override
+        const ModelsInterface *createScoreModel(const JsonFormat &json) const override
         {
             auto document = QJsonDocument::fromJson(json);
             auto jsonObject = document.object();
@@ -27,7 +27,7 @@ namespace DartsScoreControllerContext {
             model->setTournamentId(QUuid(jsonObject.value("tournamentId").toString()));
             return model;
         }
-        QVector<const ModelsInterface *> buildModelsByJson(const JsonFormat &json) const override
+        QVector<const ModelsInterface *> createScoreModels(const JsonFormat &json) const override
         {
             auto document = QJsonDocument::fromJson(json);
             auto jsonArray = document.array();
@@ -35,12 +35,12 @@ namespace DartsScoreControllerContext {
             for (const auto& jsonValue : jsonArray) {
                 auto newDocument = QJsonDocument(jsonValue.toObject());
                 auto newJson = newDocument.toJson();
-                auto scoreModel = buildModelByJson(newJson);
+                auto scoreModel = createScoreModel(newJson);
                 scoreModels << scoreModel;
             }
             return scoreModels;
         }
-        QVector<const ModelsInterface *> buildModelsByModelsService(const ScoreModelsService *service) const override
+        QVector<const ModelsInterface *> createScoreModels(const ScoreModelsService *service) const override
         {
             QVector<const ModelsInterface*> scoreModels;
             auto count = service->playersCount();
@@ -48,24 +48,15 @@ namespace DartsScoreControllerContext {
                 auto scoreModel = DartsControllerScore::createInstance();
                 scoreModel->setPlayerId(service->playerIdAtIndex(i));
                 scoreModel->setPlayerName(service->playerNameByIndex(i));
-                scoreModel->setScore(service->playerScoreByIndex(i));
+                scoreModel->setTotalScore(service->playerScoreByIndex(i));
                 scoreModels << scoreModel;
             }
             return scoreModels;
         }
-
-        // IDartsModelsBuilderService interface
-    public:
-        const ModelsInterface *buildModelByValues(const int &score,
-                                                  const IdFormat &playerId,
-                                                  const StringFormat &playerName,
-                                                  const IdFormat &tournamentId) const override
+        const ModelsInterface *createScoreModel(const int &score) const override
         {
             auto scoreModel = DartsControllerScore::createInstance();
             scoreModel->setScore(score);
-            scoreModel->setPlayerId(playerId);
-            scoreModel->setPlayerName(playerName);
-            scoreModel->setTournamentId(tournamentId);
             return scoreModel;
         }
     };

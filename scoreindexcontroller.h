@@ -2,19 +2,19 @@
 #define SCOREINDEXCONTROLLER_H
 
 #include <qvector.h>
-#include "idartsmultiattemptindexservice.h"
-#include "idartsmultiattemptindexes.h"
+#include "idartsscoreindexservice.h"
+#include "idartsscorecontrollerindexes.h"
 
 namespace DartsScoreControllerContext
 {
     class ScoreIndexController : public
-            IDartsMultiAttemptIndexService<IDartsMultiAttemptIndexes>
+            IDartsScoreIndexService<IDartsScoreControllerIndexes<QByteArray>>
     {
     public:
         // Create instance
         static ScoreIndexController* createInstance();
         // IndexControllerInterface interface
-        virtual void setIndexes(const IDartsMultiAttemptIndexes* indexes) override;
+        virtual void setIndexes(const IDartsScoreControllerIndexes<QByteArray>* indexes) override;
         virtual void reset() override;
         virtual void next() override;
         virtual void undo() override;

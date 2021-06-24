@@ -70,7 +70,7 @@ Content {
         }
 
         KeyDataDisplay{
-            id: notificationItemSlot
+            id: keyDataDisplay
             Layout.fillWidth: true
             Layout.maximumHeight: 40
         }
@@ -133,5 +133,5 @@ Content {
         }
     ]
     Component.onCompleted: DartsPointMultiColumnScripts.initializeComponent()
-    Component.onDestruction: DartsPointMultiColumnScripts.disConnectInterface();
+    Component.onDestruction: DartsPointMultiColumnScripts.disconnectInterface();
 }

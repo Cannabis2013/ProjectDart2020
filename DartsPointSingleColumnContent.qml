@@ -7,7 +7,7 @@ import "pointsinglecolumnstatescripts.js" as PointStateScripts
 Content {
     id: dartsPointSingleColumnBody
     signal requestControllerValues
-    signal requestMultiAttemptScores
+    signal requestOrderedDartsInputs
     signal requestStatusFromBackend
     signal requestStart
     signal requestStop
@@ -41,11 +41,11 @@ Content {
             Layout.maximumHeight: 100
             Layout.alignment: Qt.AlignHCenter
             onStartButtonClicked: requestStart()
-            onResumeButtonClicked: requestStart()
-            onPauseButtonClicked: requestStop()
-            onRestartButtonClicked: requestRestart()
-            onLeftButtonClicked: PointSingleColumnScripts.undoClicked()
-            onRightButtonClicked: PointSingleColumnScripts.redoClicked()
+            onResumeButtonClicked: applicationInterface.requestStartGame()
+            onPauseButtonClicked: applicationInterface.requestStopGame()
+            onRestartButtonClicked: applicationInterface.requestTournamentReset()
+            onLeftButtonClicked: applicationInterface.requestUndo()
+            onRightButtonClicked: applicationInterface.requestRedo()
         }
         DartsPointSingleColumnBoard{
             id: singleColumnPointBoard
@@ -73,6 +73,7 @@ Content {
             Layout.fillWidth: true
             Layout.maximumHeight: 384
             Layout.minimumHeight: 128
+            onSendInput: PointSingleColumnScripts.handleScoreKeyPadInput(value,keyCode)
         }
     }
     states: [

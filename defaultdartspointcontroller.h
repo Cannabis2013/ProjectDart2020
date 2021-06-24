@@ -15,9 +15,12 @@
 #include "dartsplayermodelbuilderservice.h"
 #include "dartscontrollerpointmodelsservice.h"
 #include "getordereddartspointsbyjson.h"
-#include "addtotalscoretodartsinputs.h"
+#include "addtotalscoretodartsinputsjson.h"
+#include "addplayernamestodartspointsjson.h"
 #include "dartspointinputstojson.h"
-#include "CombineDartsIndexesAndDartsPointJson.h"
+#include "jsonmergebybytearrayservice.h"
+#include "addtotalscoretodartspoint.h"
+
 
 namespace DartsBuilderContext {
     class DefaultDartsPointController : public DartsPointControllerContext::DartsPointController
@@ -29,19 +32,21 @@ namespace DartsBuilderContext {
             using namespace DartsPointControllerContext;
             auto controller = new DefaultDartsPointController(details->tournamentId(),details->displayHint());
             controller->_inputEvaluator = PointValidator::createInstance(details->terminalKeyCode());
-            controller->_indexController = PointIndexController::createInstance(details->attempts());
-            controller->_playerPointsService = DartsPlayerPointService::createInstance(details->keyPoint(),details->winnerId());
+            controller->_indexService = PointIndexController::createInstance(details->attempts());
+            controller->_inputService = DartsPlayerPointService::createInstance(details->keyPoint(),details->winnerId());
             controller->_dartsJsonService = new DartsPointJsonService;
-            controller->_dartsTurnValuesBuilderService = new BuildDartsPointTurnValues;
-            controller->_pointModelBuilderService = new DartsPointBuilderService;
+            controller->_turnValuesBuilder = new BuildDartsPointTurnValues;
+            controller->_pointModelBuilder = new DartsPointBuilderService;
             controller->_dartsIndexesBuilderService = new DartsIndexesBuilderService;
             controller->_controllerModelsService = new DartsControllerPointModelsService;
-            controller->_playerModelBuilderService = new DartsPlayerModelBuilderService;
+            controller->_playerModelBuilder = new DartsPlayerModelBuilderService;
             controller->_getOrderedDartsPointsByJson = new GetOrderedDartsPointsByJson;
-            controller->_addTotalScoresServices = new AddTotalScoreToDartsInputs;
+            controller->_addTotalScoresToDartsModelsJson = new AddTotalScoreToDartsInputsJson;
             controller->_dartsPointsToJson = new DartsPointInputsToJson;
             controller->_calculateScoreByPointInput = new CalculateScoreByDartsPointInput;
-            controller->_combineDartsIndexesAndDartsPoint = new CombineDartsIndexesAndDartsPointJson;
+            controller->_combineJsonService = new JsonMergeByByteArrayService;
+            controller->_addPlayerNamesToDartsModelsJson = new AddPlayerNamestoDartsPointsJson;
+            controller->_addTotalScoreToPointModel = new AddTotalScoreToDartsPoint;
             return controller;
         }
     private:

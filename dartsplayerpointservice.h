@@ -37,7 +37,7 @@ namespace PlayerPointContext
 }
 namespace DartsPointControllerContext {
     class DartsPlayerPointService : public
-            IPlayerPointService<IDartsControllerPlayer<QUuid,QString>,IDartsControllerPoint<QUuid,QString,QByteArray>>
+            IPlayerPointService<IDartsControllerPlayer<QUuid,QString,QByteArray>,IDartsControllerPoint<QUuid,QString,QByteArray>>
     {
         // IPlayerPointService interface
     public:
@@ -54,7 +54,7 @@ namespace DartsPointControllerContext {
         QString winnerUserName() const override;
         void addPlayerEntity(const PlayerModel* model) override;
         void addPlayerEntitiesByModels(const QVector<const PlayerModel*>& models) override;
-        void subtractPlayerScore(const PointModel* model) override;
+        int subtractPlayerScore(const PointModel* model) override;
         void subtractPlayerScoresByModels(const QVector<const PointModel*>& models) override;
         int addPlayerScore(const PointModel* model) override;
         int playerScore(const int &index) const override;
@@ -62,8 +62,8 @@ namespace DartsPointControllerContext {
         void setPlayerScoreByIndex(const int &index, const int &input) override;
         void setPlayerScoresByList(const QVector<int> &list) override;
         void setPlayerScoreById(const QUuid &id, const int &input) override;
-        QString playerNameByIndex(const int &index) const override;
-        QString playerNameById(const QUuid &id) const override;
+        QString playerName(const int &index) const override;
+        QString playerName(const QUuid &id) const override;
         QVector<QString> playerNames() const override;
         QUuid playerIdAtIndex(const int &index) const override;
         int playersCount() const override;

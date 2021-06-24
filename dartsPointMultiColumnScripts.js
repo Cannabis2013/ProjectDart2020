@@ -1,18 +1,15 @@
 function initializeComponent()
 {
     connectInterface();
-    requestControllerValues();
+    applicationInterface.assembleDartsTournamentValues();
 }
 
 function connectInterface()
 {
-    dartsPointMultiColumnBody.requestControllerValues.connect(applicationInterface.assembleDartsTournamentValues);
-    dartsPointMultiColumnBody.requestSingleAttemptPoints.connect(
-                applicationInterface.handleRequestForDartsSingleAttemptPoints);
-    applicationInterface.sendDartsPoints.connect(
-                recieveDartsSingleAttemptPoints);
+    applicationInterface.sendOrderedDartsPoints.connect(recievePoints);
     applicationInterface.dartsControllerIsReset.connect(reinitialize);
-    applicationInterface.dartsPointControllerIsReady.connect(controllerIsInitializedAndReady);
+    applicationInterface.dartsPointControllerIsReady.connect(backendInitializedAndReady);
+    applicationInterface.controllerAwaitsInput.connect(backendIsReadyAndAwaitsInput);
     applicationInterface.controllerHasDeclaredAWinner.connect(backendDeclaredAWinner);
     applicationInterface.controllerIsStopped.connect(backendIsStopped);
     applicationInterface.sendDartsTournamentData.connect(handleDartsMetaData);
@@ -25,18 +22,14 @@ function connectInterface()
     dartsPointMultiColumnBody.requestUndo.connect(applicationInterface.handleDartsUndoRequest);
     dartsPointMultiColumnBody.requestRedo.connect(applicationInterface.handleDartsRedoRequest);
     pointKeyPad.sendInput.connect(handlePointKeyPadInput);
-    applicationInterface.controllerAwaitsInput.connect(backendIsReadyAndAwaitsInput);
-    applicationInterface.addedDartsPoint.connect(extractPointScoreFromJson);
+    applicationInterface.addedDartsPoint.connect(backendPersistedInput);
 }
 
-function disConnectInterface()
+function disconnectInterface()
 {
-    dartsPointMultiColumnBody.requestControllerValues.disconnect(applicationInterface.assembleDartsTournamentValues);
-    dartsPointMultiColumnBody.requestSingleAttemptPoints.disconnect(
-                applicationInterface.handleRequestForDartsSingleAttemptPoints);
-    applicationInterface.sendDartsPoints.disconnect(
-                recieveDartsSingleAttemptPoints);
-    applicationInterface.dartsSingleAttemptPointControllerIsReady.disconnect(controllerIsInitializedAndReady);
+    applicationInterface.sendOrderedDartsPoints.disconnect(
+                recievePoints);
+    applicationInterface.dartsPointControllerIsReady.disconnect(backendInitializedAndReady);
     applicationInterface.controllerHasDeclaredAWinner.disconnect(backendDeclaredAWinner);
     applicationInterface.controllerIsStopped.disconnect(backendIsStopped);
     applicationInterface.sendDartsTournamentData.disconnect(handleDartsMetaData);
@@ -50,7 +43,7 @@ function disConnectInterface()
     dartsPointMultiColumnBody.requestRedo.disconnect(applicationInterface.handleDartsRedoRequest);
     pointKeyPad.sendInput.disconnect(handlePointKeyPadInput);
     applicationInterface.controllerAwaitsInput.disconnect(backendIsReadyAndAwaitsInput);
-    applicationInterface.addedDartsPoint.disconnect(extractPointScoreFromJson);
+    applicationInterface.addedDartsPoint.disconnect(backendPersistedInput);
 }
 
 function handleDartsMetaData(data){
@@ -62,7 +55,7 @@ function handleDartsMetaData(data){
     dartsSingleAttemptValues.assignedPlayerNames = json["assignedPlayerNames"];
 
     initializeScoreBoard();
-    requestSingleAttemptPoints();
+    applicationInterface.requestOrderedDartsInputs();
 }
 
 function initializeScoreBoard()
@@ -72,12 +65,12 @@ function initializeScoreBoard()
     pointScoreBoard.appendHeaderData(assignedPlayerNames,keyPoint);
 }
 
-function controllerIsInitializedAndReady()
+function backendInitializedAndReady()
 {
     dartsPointMultiColumnBody.state = "ready";
 }
 
-function recieveDartsSingleAttemptPoints(scores)
+function recievePoints(scores)
 {
     var jsonData = JSON.parse(scores);
     var count = jsonData.length;
@@ -85,22 +78,34 @@ function recieveDartsSingleAttemptPoints(scores)
     {
         var entity = jsonData[i];
         var playerName = entity["playerName"];
-        var playerScore = entity["score"];
-        var playerPoint = entity["point"];
+        var playerPoint = entity["score"];
+        var playerScore = entity["totalScore"];
         pointScoreBoard.setData(playerName,playerPoint,playerScore);
     }
-    dartsPointMultiColumnBody.requestStatusFromBackend();
+    applicationInterface.requestControllerState();
 }
 
 // When backend has evaluated and persisted player input
-function extractPointScoreFromJson(data)
+function backendPersistedInput(data)
 {
     var json = JSON.parse(data);
+    updatePointBoard(json);
+    setThrowSuggestion(json);
+    setTurnControllerValues(json);
+    dartsPointMultiColumnBody.state = "waitingForInput";
+}
+
+function updatePointBoard(json)
+{
     let playerName = json["playerName"];
-    let pointValue = json["point"];
+    let pointValue = json["score"];
     let scoreValue = json["totalScore"];
     pointScoreBoard.setData(playerName,pointValue,scoreValue);
-    requestStatusFromBackend();
+}
+
+function setThrowSuggestion(json)
+{
+    keyDataDisplay.setThrowSuggestion(json.targetRow);
 }
 
 function reinitialize()
@@ -122,7 +127,8 @@ function backendRemovedPoint(data)
     var json = JSON.parse(data);
     let playerName = json["playerName"];
     pointScoreBoard.takeData(playerName);
-    requestStatusFromBackend();
+    setTurnControllerValues(json);
+    dartsPointMultiColumnBody.state = "waitingForInput";
 }
 
 function backendIsReadyAndAwaitsInput(data)
@@ -130,17 +136,17 @@ function backendIsReadyAndAwaitsInput(data)
     var json = JSON.parse(data);
     let throwSuggestion = json.targetRow;
     let suggestion = textSourceContainer.throwSuggestLabel + " " + throwSuggestion;
-    notificationItemSlot.setThrowSuggestion(suggestion);
+    keyDataDisplay.setThrowSuggestion(suggestion);
     setTurnControllerValues(json);
     dartsPointMultiColumnBody.state = "waitingForInput";
 }
 
 function setTurnControllerValues(json)
 {
-    singleColumnTurnController.leftButtonEnabled = json.canUndo;
-    singleColumnTurnController.rightButtonEnabled = json.canRedo;
-    singleColumnTurnController.currentRoundIndex = json.roundIndex;
-    singleColumnTurnController.currentPlayer = json.playerName;
+    singleColumnTurnController.leftButtonEnabled = json["canUndo"];
+    singleColumnTurnController.rightButtonEnabled = json["canRedo"];
+    singleColumnTurnController.currentRoundIndex = json["roundIndex"];
+    singleColumnTurnController.currentPlayer = json["currentPlayerName"];
 }
 
 function handlePointKeyPadInput(value,keyCode){
@@ -182,5 +188,5 @@ function setWinnerText()
 {
     var winnerName = textSourceContainer.winnerLabel + " " +
             tournamentMetaData.determinedWinner;
-    notificationItemSlot.item.setCurrentWinner(winnerName);
+    keyDataDisplay.item.setCurrentWinner(winnerName);
 }

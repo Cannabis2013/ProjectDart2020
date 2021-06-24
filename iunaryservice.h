@@ -1,5 +1,5 @@
-#ifndef IJSONEXTRACTOR_H
-#define IJSONEXTRACTOR_H
+#ifndef IUNARYSERVICE_H
+#define IUNARYSERVICE_H
 
 template<typename TInput, typename TOutput>
 class IUnaryService

@@ -12,7 +12,7 @@ public:
     typedef QPair<QUuid,int> PlayerScore;
 public slots:
     virtual void initializeControllerDartsScores(const QByteArray&) = 0;
-    virtual void assembleMultiAttemptDartsScores() = 0;
+    virtual void assembleOrderedDartsScores() = 0;
     virtual void handleRequestDartsScores() = 0;
     virtual void handleScoreAddedToDataContext(const QByteArray&) = 0;
 signals:
@@ -24,7 +24,6 @@ signals:
     void revealDartsScore(const QUuid &tournament,
                         const QUuid &player,
                         const int &roundIndex);
-    void isReadyAndAwaitsInput(const QByteArray& json);
     void requestDartsTournamentDetails(const QUuid& tournamentId);
     void initializedAndAwaitsInput(const bool& canUndo,
                                    const bool& canRedo,

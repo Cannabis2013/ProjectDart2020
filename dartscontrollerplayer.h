@@ -3,8 +3,10 @@
 
 #include "idartscontrollerplayer.h"
 #include <quuid.h>
+#include <qjsondocument.h>
+#include <qjsonobject.h>
 namespace DartsPointControllerContext {
-    class DartsControllerPlayer : public IDartsControllerPlayer<QUuid,QString> {
+    class DartsControllerPlayer : public IDartsControllerPlayer<QUuid,QString,QByteArray> {
 
         // IDartsControllerPlayer interface
     public:
@@ -29,7 +31,15 @@ namespace DartsPointControllerContext {
         {
             _playerName = newPlayerName;
         }
-
+        JsonFormat toJson() const override
+        {
+            QJsonObject jsonObject;
+            jsonObject["playerId"] = _playerId.toString(QUuid::WithoutBraces);
+            jsonObject["playerName"] = _playerName;
+            auto document = QJsonDocument(jsonObject);
+            auto json = document.toJson();
+            return json;
+        }
     private:
         IdFormat _playerId;
         StringFormat _playerName;

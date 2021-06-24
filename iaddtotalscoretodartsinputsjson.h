@@ -1,5 +1,5 @@
-#ifndef IADDTOTALSCORETODARTSPOINTS_H
-#define IADDTOTALSCORETODARTSPOINTS_H
+#ifndef IADDTOTALSCORETODARTSINPUTSJSON_H
+#define IADDTOTALSCORETODARTSINPUTSJSON_H
 
 #include "idartscontrollerpoint.h"
 #include "idartscontrollerplayer.h"
@@ -7,12 +7,14 @@
 #include <quuid.h>
 
 namespace DartsPointControllerContext {
-    class IAddTotalScoreToDartsInputs
+    template<typename TJsonFormat>
+    class IAddTotalScoreToDartsInputsJson
     {
     public:
+        typedef TJsonFormat JsonFormat;
         typedef IDartsControllerPoint<QUuid,QString,QByteArray> InputModel;
         typedef QVector<const InputModel *> InputModels;
-        virtual void addTotalScoreToInputs(const InputModels &inputs, const int &initialPoint) const = 0;
+        virtual void addTotalScoreToInputs(JsonFormat &json, const int &initialPoint) const = 0;
     };
 }
 

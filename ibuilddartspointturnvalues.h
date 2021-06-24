@@ -8,19 +8,33 @@
 #include "idartscontrollerplayer.h"
 #include "idartscontrollerpoint.h"
 #include "idartspointcontrollerindexes.h"
+#include "ibuildcontrollerturnvalues.h"
 
-class IBuildDartsPointTurnValues
-{
-public:
-    typedef DartsPointControllerContext::IDartsControllerPoint<QUuid,QString,QByteArray> IControllerPoint;
-    typedef DartsPointControllerContext::IDartsControllerPlayer<QUuid,QString> ControllerPlayer;
-    typedef IPlayerPointService<ControllerPlayer,IControllerPoint> PlayerPointService;
-    typedef DartsPointControllerContext::DartsPointTurnValues TurnValuesModel;
-    typedef DartsPointControllerContext::IDartsPointControllerIndexes DartsIndexes;
-    typedef IDartsPointIndexService<DartsIndexes> DartsIndexService;
-    virtual const TurnValuesModel* buildTurnValues(const DartsIndexService* indexService,
-                                                   const PlayerPointService* playerScoreService,
-                                                   const IDartsLogisticsService<QString>* logisticService) const = 0;
-};
+
+namespace DartsPointControllerContext {
+    namespace BuildTurnValuesContext {
+        typedef IDartsControllerPoint<QUuid,QString,QByteArray> IControllerPoint;
+        typedef IDartsControllerPlayer<QUuid,QString,QByteArray> ControllerPlayer;
+        typedef IPlayerPointService<ControllerPlayer,IControllerPoint> PlayerPointService;
+        typedef DartsPointTurnValues TurnValuesModel;
+        typedef IDartsPointControllerIndexes<QByteArray> DartsIndexes;
+        typedef IDartsPointIndexService<DartsIndexes> DartsIndexService;
+        typedef IDartsLogisticsService<QString> LogisticService;
+    }
+    class IBuildDartsPointTurnValues : public
+            IBuildControllerTurnValues<BuildTurnValuesContext::TurnValuesModel,
+                                       BuildTurnValuesContext::DartsIndexService,
+                                       BuildTurnValuesContext::PlayerPointService,
+                                       BuildTurnValuesContext::LogisticService>
+    {
+
+        // IBuildControllerTurnValues interface
+    public:
+        virtual const Model *createTurnValues(const IndexService *indexService,
+                                                       const InputService *playerScoreService,
+                                                       const LogisticService *logisticService) const = 0;
+    };
+}
+
 
 #endif // IBUILDTURNVALUES_H

@@ -1,8 +1,8 @@
-#ifndef IDARTSMULTIATTEMPTINDEXSERVICE_H
-#define IDARTSMULTIATTEMPTINDEXSERVICE_H
+#ifndef IDARTSSCOREINDEXSERVICE_H
+#define IDARTSSCOREINDEXSERVICE_H
 
 template<typename TIndexes>
-class IDartsMultiAttemptIndexService
+class IDartsScoreIndexService
 {
 public:
     virtual void setIndexes(const TIndexes*) = 0;

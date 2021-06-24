@@ -12,10 +12,12 @@
 #include "dartsscoreindexesbuilderservice.h"
 #include "scoreindexcontroller.h"
 #include "determinecontrollerstatebywinnerid.h"
-#include "addaccumulatedscoretodartsscore.h"
-#include "assembledartsscoreturnvalues.h"
-#include "DartsScoreJsonExtractor.h"
+#include "addtotalscoretodartsscoremodel.h"
+#include "builddartsscoreturnvalues.h"
+#include "JsonBuilder.h"
 #include "dartsplayerbuilderservice.h"
+#include "jsonmergebybytearrayservice.h"
+#include "dartsjsonextractor.h"
 
 class DefaultDartsScoreController : public DartsScoreController
 {
@@ -29,16 +31,18 @@ public:
                                                                                            details->terminalKeyCode());
         controller->_inputEvaluator = ScoreValidator::createInstance(details->terminalKeyCode());
         controller->_indexService = ScoreIndexController::createInstance();
-        controller->_scoreController = DartsPlayerScoreService::createInstance(details->keyPoint(),
+        controller->_inputService = DartsPlayerScoreService::createInstance(details->keyPoint(),
                                                                                details->winnerId());
         controller->_dartsJsonBuilderService = new DartsScoreJsonBuilderService;
         controller->_determineControllerStateByWinnerId = new DetermineControllerStateByWinnerId;
-        controller->_addAccumulatedScoreToModel = new AddAccumulatedScoreToDartsScore;
-        controller->_turnValuesBuilderService = new AssembleDartsScoreTurnValues;
-        controller->_dartsScoreBuilderService = new DartsScoreModelsBuilderService;
+        controller->_addTotalScoreToModel = new AddTotalScoreToDartsScoreModel;
+        controller->_turnValuesBuilder = new buildDartsScoreTurnValues;
+        controller->_dartsScoreBuilder = new DartsScoreModelsBuilderService;
         controller->_dartsIndexesBuilderService = new DartsScoreIndexesBuilderService;
-        controller->_dartsJsonExtractorService = new DartsScoreJsonExtractor;
+        controller->_dartsJsonService = new JsonBuilder;
         controller->_playerBuilderService = new DartsPlayerBuilderService;
+        controller->_jsonMergeService = new JsonMergeByByteArrayService;
+        controller->_extractJson = new DartsJsonExtractor;
         return controller;
     }
 private:

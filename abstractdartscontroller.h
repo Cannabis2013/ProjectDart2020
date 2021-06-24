@@ -18,7 +18,7 @@ public slots:
     virtual void undoSuccess(const QByteArray&) = 0;
     virtual void redoSuccess(const QByteArray&) = 0;
 signals:
-    void isReadyAndAwaitsInput(const QByteArray& json);
+    void awaitsInput(const QByteArray& json);
     void requestDartsTournamentDetails(const QUuid& tournamentId);
     void initializedAndAwaitsInput(const bool& canUndo,
                                    const bool& canRedo,

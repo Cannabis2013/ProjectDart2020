@@ -9,7 +9,7 @@
 
 namespace DartsScoreControllerContext {
     class DartsPlayerBuilderService : public
-            IDartsPlayerBuilderService<IDartsPlayer<QUuid,QString>,QByteArray>
+            IDartsPlayerBuilderService<IDartsPlayer<QUuid,QString>,QUuid,QString,QByteArray>
     {
     public:
         const PlayerInterface *buildPlayerModelByJson(const JsonFormat &json) const override
@@ -36,6 +36,13 @@ namespace DartsScoreControllerContext {
                 playerModels << playerModel ;
             }
             return playerModels;
+        }
+        const PlayerInterface *createPlayerModelByValues(const IdFormat &id, const StringFormat &name) const override
+        {
+            auto playerModel = DartsPlayer::createInstance();
+            playerModel->setPlayerId(id);
+            playerModel->setPlayerName(name);
+            return playerModel;
         }
     };
 }

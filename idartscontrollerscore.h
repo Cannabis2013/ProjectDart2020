@@ -16,8 +16,8 @@ namespace DartsScoreControllerContext {
         virtual void setPlayerName(const StringFormat &newPlayerName) = 0;
         virtual void setScore(int newScore) = 0;
         virtual JsonFormat toJson() const = 0;
-        virtual int accumulatedScore() const = 0;
-        virtual void setAccumulatedScore(const int& accumulatedScore) = 0;
+        virtual int totalScore() const = 0;
+        virtual void setTotalScore(const int& totalScore) = 0;
         virtual IdFormat tournamentId() const = 0;
         virtual void setTournamentId(const IdFormat& id) = 0;
     };

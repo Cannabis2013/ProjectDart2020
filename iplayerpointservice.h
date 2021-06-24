@@ -16,8 +16,8 @@ public:
 
     virtual void addPlayerEntity(const PlayerModel* model) = 0;
     virtual void addPlayerEntitiesByModels(const QVector<const PlayerModel*>& models) = 0;
-    virtual void subtractPlayerScore(const PointModel* model) = 0;
     virtual void subtractPlayerScoresByModels(const QVector<const PointModel*>& models) = 0;
+    virtual int subtractPlayerScore(const PointModel* model) = 0;
     virtual int addPlayerScore(const PointModel* model) = 0;
 
     virtual int playerScore(const int& index) const = 0;
@@ -26,8 +26,8 @@ public:
     virtual void setPlayerScoresByList(const QVector<int>& list) = 0;
     virtual void setPlayerScoreById(const QUuid &id, const int &input) = 0;
 
-    virtual QString playerNameByIndex(const int &index) const = 0;
-    virtual QString playerNameById(const QUuid& id) const = 0;
+    virtual QString playerName(const int &index) const = 0;
+    virtual QString playerName(const QUuid& id) const = 0;
     virtual QVector<QString> playerNames() const = 0;
     virtual QUuid playerIdAtIndex(const int &index) const = 0;
 

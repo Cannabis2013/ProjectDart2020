@@ -1,15 +1,15 @@
-#ifndef COMBINEDARTSINDEXESANDDARTSPOINTJSON_H
-#define COMBINEDARTSINDEXESANDDARTSPOINTJSON_H
+#ifndef JSONMERGEBYBYTEARRAYSERVICE_H
+#define JSONMERGEBYBYTEARRAYSERVICE_H
 
 #include "icombinejsonbytearrayservice.h"
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 #include <qjsonarray.h>
 
-class CombineDartsIndexesAndDartsPointJson : public ICombineJsonByteArray
+class JsonMergeByByteArrayService : public ICombineJsonByteArray
 {
 public:
-    QByteArray combineJson(const QByteArray &json1, const QByteArray &json2) const override
+    void addToJson(QByteArray &json1, const QByteArray &json2) const override
     {
         auto document1 = QJsonDocument::fromJson(json1);
         auto document2 = QJsonDocument::fromJson(json2);
@@ -19,8 +19,7 @@ public:
         combine(combinedJsonObject,jsonObject1);
         combine(combinedJsonObject,jsonObject2);
         auto document = QJsonDocument(combinedJsonObject);
-        auto json = document.toJson();
-        return json;
+        json1 = document.toJson();
     }
 
 private:

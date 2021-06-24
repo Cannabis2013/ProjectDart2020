@@ -14,7 +14,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    addtotalscoretodartsinputs.cpp \
+    addtotalscoretodartsinputsjson.cpp \
     assembledartspointsfromjson.cpp \
     assembledartstournamentmodelfromjson.cpp\
     abstractjsonpersistence.cpp \
@@ -103,13 +103,12 @@ HEADERS += \
     AssembleDartsTournamentsFromJsonArray.h \
     BuildDartsControllerEntity.h \
     CalculateScoreByDartsPointInput.h \
-    CombineDartsIndexesAndDartsPointJson.h \
     ConnectDartsScoreBuilder.h \
     DartsIndexesBuilderService.h \
-    DartsScoreJsonExtractor.h \
     DartsScoreMultiAttempIndexes.h \
     IConnect.h \
     IPointCalculatorService.h \
+    JsonBuilder.h \
     abstractdartscontrollerbuilder.h \
     abstractdartsfilterpredicate.h \
     abstractdartspointcontroller.h \
@@ -119,16 +118,17 @@ HEADERS += \
     abstractroutebygamemode.h \
     abstractroutebyinputhint.h \
     abstractroutedartsbydisplayhint.h \
-    addaccumulatedscoretodartsscore.h \
+    addplayernamestodartspointsjson.h \
     addplayernametodartsinputmodel.h \
-    addtotalscoretodartsinputs.h \
+    addtotalscoretodartsinputsjson.h \
+    addtotalscoretodartspoint.h \
+    addtotalscoretodartsscoremodel.h \
     addwinnernametotournamentjson.h \
     assembleJsonFromDartsIndexesAndPoints.h \
     assembledartspointmodelfromjson.h \
     assembledartspointsfromjson.h \
     assembledartsscorefromjson.h\
     assembledartsscoremodelfromjson.h \
-    assembledartsscoreturnvalues.h \
     assemblejsonarrayfromdartspoints.h \
     assemblejsonbasictournamentvalues.h \
     assemblejsonbasictournamentvaluesfrommodel.h \
@@ -147,6 +147,7 @@ HEADERS += \
     buildDartsPointTurnValues.h \
     builddartspointservicewithlocaljsondb.h \
     builddartsscoreservicewithlocaljsondb.h \
+    builddartsscoreturnvalues.h \
     comparedartspointmodels.h \
     connectdartspointbuilder.h \
     connectdartspointcontroller.h \
@@ -157,6 +158,7 @@ HEADERS += \
     connectroutebyinputhint.h \
     convertpointtojson.h \
     dartscontrollerentity.h \
+    dartscontrollerindexes.h \
     dartscontrollerplayer.h \
     dartscontrollerpoint.h \
     dartscontrollerpointmodelsservice.h \
@@ -165,6 +167,7 @@ HEADERS += \
     dartsdatamodelpointbuilder.h \
     dartsinputmodelhintservice.h \
     dartsinputsfilterservice.h \
+    dartsjsonextractor.h \
     dartsjsonservice.h \
     dartsjsonservicebuilder.h \
     dartsmodelsservice.h \
@@ -205,7 +208,6 @@ HEADERS += \
     dartsscoresinglecolumndatamodel.h \
     dartsscoresjsonassemblerservice.h \
     dartsscoreturnvalues.h \
-    dartssingleattemptindexes.h \
     dartssingleattemptindexesbuilder.h \
     dartstournamentbuilder.h \
     defaultdartspointcontroller.h \
@@ -225,9 +227,15 @@ HEADERS += \
     gettournamentidbyjson.h \
     gettournamentindexesfromjson.h \
     getwinneridbyjson.h \
-    iaddtotalscoretodartsinputs.h \
+    iaddplayernamestojsonentity.h \
+    iaddscoretodartsscoremodel.h \
+    iaddtomodel.h \
+    iaddtotalscoretodartsinputsjson.h \
+    iaddtotalscoretodartspoint.h \
     ibinaryservice.h \
+    ibuildcontrollerturnvalues.h \
     ibuilddartspointturnvalues.h \
+    ibuilddartsscorecontrollervalues.h \
     icombinejsonbytearrayservice.h \
     icombinejsonservice.h \
     icomparison.h \
@@ -250,15 +258,12 @@ HEADERS += \
     idartsdatamodelpointbuilder.h \
     idartsinputsfilter.h \
     idartsinputstojson.h \
-    idartsjsonextractor.h \
     idartsjsonservice.h \
     idartsjsonservicebuilder.h \
     idartslogisticsservice.h \
     idartsmodelsbuilderservice.h \
     idartsmodelsservice.h \
-    idartsmultiattemptindexes.h \
     idartsmultiattemptindexesbuilder.h \
-    idartsmultiattemptindexservice.h \
     idartsplayer.h \
     idartsplayerbuilderservice.h \
     idartsplayermodelbuilderservice.h \
@@ -268,8 +273,10 @@ HEADERS += \
     idartspointindexservice.h \
     idartspointmodelsservice.h \
     idartspointsjsonservice.h \
+    idartsscorecontrollerindexes.h \
     idartsscoredb.h \
     idartsscoreindexes.h \
+    idartsscoreindexservice.h \
     idartsscorejsonbuilderservice.h \
     idartsscorejsonservice.h \
     idartsscoremodelsservice.h \
@@ -281,7 +288,9 @@ HEADERS += \
     igetinputmodelsservice.h \
     igetordereddartspointsbyjson.h \
     iinputmodelscountservice.h \
-    ijsonmodelsservice.h \
+    ijson.h \
+    ijsonbuilder.h \
+    ijsonextractor.h \
     imodelsdbcontext.h \
     imodelsservicebuilder.h \
     inputmodelscountservice.h \
@@ -297,6 +306,7 @@ HEADERS += \
     iternaryservice.h \
     iunaryservice.h \
     jsonarrayfromplayernamesandids.h \
+    jsonmergebybytearrayservice.h \
     localmodelsservice.h \
     assembledartstournamentmodelfromjson.h\
     abstractdartscontroller.h \

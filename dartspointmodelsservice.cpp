@@ -26,7 +26,9 @@ const DartsModelsContext::IDartsPointIndexes *DartsModelsContext::DartsPointMode
     return indexes;
 }
 
-void DartsModelsContext::DartsPointModelsService::setDartsPointHint(const PlayerInput *inputModel, const int &hint, IDartsPointDb* dbService)
+void DartsModelsContext::DartsPointModelsService::setDartsPointHint(const PlayerInput *inputModel,
+                                                                    const int &hint,
+                                                                    IDartsPointDb* dbService)
 {
     _setInputHintService->service(inputModel,hint);
     dbService->saveState();

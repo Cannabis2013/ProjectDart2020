@@ -6,16 +6,17 @@
 #include "idartspointcontrollerindexes.h"
 
 namespace DartsPointControllerContext{
-    class PointIndexController : public IDartsPointIndexService<IDartsPointControllerIndexes>
+    class PointIndexController : public IDartsPointIndexService<IDartsPointControllerIndexes<QByteArray>>
     {
         // IndexControllerInterface interface
     public:
+        typedef IDartsPointControllerIndexes<QByteArray> DartsIndexes;
         static PointIndexController* createInstance(const int &attemptCount)
         {
             return new PointIndexController(attemptCount);
         }
 
-        virtual void setIndexes(const IDartsPointControllerIndexes* indexes) override
+        virtual void setIndexes(const DartsIndexes* indexes) override
         {
             _totalIndex = indexes->totalTurns();
             _turnIndex = indexes->turnIndex();

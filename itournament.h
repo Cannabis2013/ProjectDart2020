@@ -3,7 +3,7 @@
 #include "imodel.h"
 #include <qvector.h>
 #include <quuid.h>
-#include "ijsonmodelsservice.h"
+#include "ijson.h"
 
 class ITournament :
         public IModel<QUuid,QByteArray>

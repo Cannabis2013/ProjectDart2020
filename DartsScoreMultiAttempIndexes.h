@@ -1,11 +1,14 @@
 #ifndef DARTSSCOREMULTIATTEMPINDEXES_H
 #define DARTSSCOREMULTIATTEMPINDEXES_H
 
-#include "idartsmultiattemptindexes.h"
+#include "idartsscorecontrollerindexes.h"
+#include <qbytearray.h>
+#include <qjsondocument.h>
+#include <qjsonobject.h>
 
 namespace DartsScoreControllerContext {
     class DartsMultiAttemptIndexes : public
-            IDartsMultiAttemptIndexes
+            IDartsScoreControllerIndexes<QByteArray>
     {
     public:
         static DartsMultiAttemptIndexes* createInstance()
@@ -18,7 +21,7 @@ namespace DartsScoreControllerContext {
         }
         int turnIndex() const override
         {
-            return _turns;
+            return _turnIndex;
         }
         int roundIndex() const override
         {
@@ -35,7 +38,7 @@ namespace DartsScoreControllerContext {
 
         void setTurnIndex(int newTurns)
         {
-            _turns = newTurns;
+            _turnIndex = newTurns;
         }
 
         void setRoundIndex(int newRoundIndex)
@@ -48,9 +51,19 @@ namespace DartsScoreControllerContext {
             _setIndex = newSetIndex;
         }
 
+        virtual JsonFormat toJson() const override
+        {
+            QJsonObject obj;
+            obj["totalTurns"] = _totalTurns;
+            obj["turnIndex"] = _turnIndex;
+            obj["roundIndex"] = _roundIndex;
+            obj["setIndex"] = setIndex();
+            auto json = QJsonDocument(obj).toJson();
+            return json;
+        }
     private:
         int _totalTurns;
-        int _turns;
+        int _turnIndex;
         int _roundIndex;
         int _setIndex;
     };

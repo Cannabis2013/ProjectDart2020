@@ -11,25 +11,27 @@
 #include "idartscontrollerpoint.h"
 
 namespace DartsPointControllerContext{
-    typedef IDartsPointIndexService<IDartsPointControllerIndexes> DartsIndexService;
+    typedef IDartsPointControllerIndexes<QByteArray> DartsIndexes;
+    typedef IDartsPointIndexService<DartsIndexes> DartsIndexService;
     class BuildDartsPointTurnValues : public IBuildDartsPointTurnValues
     {
     public:
-        typedef IPlayerPointService<IDartsControllerPlayer<QUuid,QString>,
+        typedef IPlayerPointService<IDartsControllerPlayer<QUuid,QString,QByteArray>,
                                     IDartsControllerPoint<QUuid,QString,
         QByteArray>> PlayerPointService;
-        DartsPointTurnValues* buildTurnValues(const DartsIndexService* indexService,
+        DartsPointTurnValues* createTurnValues(const DartsIndexService* indexService,
                                       const PlayerPointService* playerScoreService,
                                       const IDartsLogisticsService<QString>* logisticService) const override
         {
             auto model = new DartsPointTurnValues;
+            auto playerScore = playerScoreService->playerScore(indexService->setIndex());
             model->setCanUndo(indexService->canUndo());
             model->setCanRedo(indexService->canRedo());
             model->setRoundIndex(indexService->roundIndex());
             model->setSetIndex(indexService->setIndex());
             model->setAttemptIndex(indexService->attemptIndex());
-            model->setTargetRow(buildTargetRow(model->getScore(),model->getAttemptIndex(),logisticService));
-            model->setPlayerName(playerScoreService->playerNameByIndex(model->getSetIndex()));
+            model->setTargetRow(buildTargetRow(playerScore,model->getAttemptIndex(),logisticService));
+            model->setPlayerName(playerScoreService->playerName(model->getSetIndex()));
             return model;
         }
     private:

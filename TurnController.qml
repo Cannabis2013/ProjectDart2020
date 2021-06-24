@@ -2,6 +2,8 @@ import QtQuick 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.5
 
+import "turnControllerScripts.js" as TurnControllerScripts
+
 Item {
     id: turnControllerBody
     clip: true
@@ -13,6 +15,8 @@ Item {
     signal leftButtonClicked
     signal rightButtonClicked
     // Signal backend states
+    signal backendIsReset
+    onBackendIsReset: state = "initialState"
     signal backendIsReady
     onBackendIsReady: state = "startState"
     signal backendAwaitsInput
@@ -29,14 +33,15 @@ Item {
     property bool startButtonEnablePressAndHold : true
     onStartButtonEnablePressAndHoldChanged: startButtonComponent.pressAndHoldEnabled = startButtonEnablePressAndHold
 
-    property int currentRoundIndex: 0
+    property string currentRoundIndex: "Current round"
     onCurrentRoundIndexChanged: currentRoundLabel.text = currentRoundIndex
-    property string currentPlayer: ""
+    property string currentPlayer: "Current player"
     onCurrentPlayerChanged: currentPlayerLabel.text = currentPlayer
     property bool leftButtonEnabled: false
     onLeftButtonEnabledChanged: leftButton.enabled = leftButtonEnabled
     property bool rightButtonEnabled: false
     onRightButtonEnabledChanged: rightButton.enabled = rightButtonEnabled
+
     QtObject{
         id: textBeholder
         property string currentRoundText: qsTr("Current round: ")
@@ -53,10 +58,7 @@ Item {
             onResumeButtonClicked: turnControllerBody.resumeButtonClicked()
             onPauseButtonClicked: turnControllerBody.pauseButtonClicked()
             onStartButtonClicked: turnControllerBody.startButtonClicked()
-            onRestartButtonClicked: {
-                turnControllerBody.state = "startState";
-                turnControllerBody.restartButtonClicked();
-            }
+            onRestartButtonClicked: TurnControllerScripts.setRestart()
             onPressAndHoldClicked: turnControllerBody.state = "optionsState";
         }
         PushButton{
@@ -125,6 +127,9 @@ Item {
                 textDescriptionVisible : true
                 startButtonVisible: true
                 startButtonEnabled: false
+            }
+            StateChangeScript{
+                script: TurnControllerScripts.clearLabels()
             }
         },
         State {

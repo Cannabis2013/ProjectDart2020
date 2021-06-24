@@ -1,5 +1,5 @@
-#ifndef DARTSSINGLEATTEMPTINDEXES_H
-#define DARTSSINGLEATTEMPTINDEXES_H
+#ifndef DARTSCONTROLLERINDEXES_H
+#define DARTSCONTROLLERINDEXES_H
 
 #include "idartspointcontrollerindexes.h"
 #include "qbytearray.h"
@@ -8,19 +8,19 @@
 
 namespace DartsPointControllerContext
 {
-    class DartsSingleAttemptIndexes :
-            public IDartsPointControllerIndexes
+    class DartsControllerIndexes :
+            public IDartsPointControllerIndexes<QByteArray>
     {
     public:
-        static DartsSingleAttemptIndexes* createInstance()
+        static DartsControllerIndexes* createInstance()
         {
-            return new DartsSingleAttemptIndexes();
+            return new DartsControllerIndexes();
         }
         int totalTurns() const override
         {
             return _totalTurns;
         }
-        DartsSingleAttemptIndexes* setTotalTurns(const int& totalTurns)
+        DartsControllerIndexes* setTotalTurns(const int& totalTurns)
         {
             _totalTurns = totalTurns;
             return this;
@@ -29,7 +29,7 @@ namespace DartsPointControllerContext
         {
             return _turnIndex;
         }
-        DartsSingleAttemptIndexes* setTurnIndex(const int& turnIndex)
+        DartsControllerIndexes* setTurnIndex(const int& turnIndex)
         {
             _turnIndex = turnIndex;
             return this;
@@ -38,7 +38,7 @@ namespace DartsPointControllerContext
         {
             return _roundIndex;
         }
-        DartsSingleAttemptIndexes* setRoundIndex(const int& roundIndex)
+        DartsControllerIndexes* setRoundIndex(const int& roundIndex)
         {
             _roundIndex = roundIndex;
             return this;
@@ -47,7 +47,7 @@ namespace DartsPointControllerContext
         {
             return _setIndex;
         }
-        DartsSingleAttemptIndexes* setSetIndex(const int& setIndex)
+        DartsControllerIndexes* setSetIndex(const int& setIndex)
         {
             _setIndex = setIndex;
             return this;
@@ -56,13 +56,25 @@ namespace DartsPointControllerContext
         {
             return _attemptIndex;
         }
-        DartsSingleAttemptIndexes* setAttemptIndex(const int& attemptIndex)
+        DartsControllerIndexes* setAttemptIndex(const int& attemptIndex)
         {
             _attemptIndex = attemptIndex;
             return this;
         }
+
+        JsonFormat toJson() const override
+        {
+            QJsonObject obj;
+            obj["totalTurns"] = _totalTurns;
+            obj["turnIndex"] = _turnIndex;
+            obj["roundIndex"] = _roundIndex;
+            obj["setIndex"] = setIndex();
+            obj["attempt"] = _attemptIndex;
+            auto json = QJsonDocument(obj).toJson();
+            return json;
+        }
     private:
-        DartsSingleAttemptIndexes(){}
+        DartsControllerIndexes(){}
         int _totalTurns;
         int _turnIndex;
         int _roundIndex;

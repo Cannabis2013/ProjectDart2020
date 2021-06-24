@@ -29,7 +29,7 @@ namespace DartsModelsContext {
 
         JsonExtractor* _jsonExtractorService;
         JsonAssembler* _jsonAssemblerService;
-        const QString _fileName = "DartsMultiAttemptScores";
+        const QString _fileName = "DartsScores";
         QVector<const IDartsScoreInput*> _dartsScoreModels;
     };
 }

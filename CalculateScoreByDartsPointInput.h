@@ -16,33 +16,28 @@ namespace DartsPointControllerContext {
             BullModifier,
             BullsEyeModifier
         };
-
-        // ScoreCalculatorInterface interface
-    public:
         static CalculateScoreByDartsPointInput* createInstance()
         {
             return new CalculateScoreByDartsPointInput();
         }
-        virtual const ModelsInterface* calculateScoreFromDartsPoint(const ModelsInterface* model) const override
+        virtual void addScoreValueToDartsPointModel(const ModelsInterface* model) const override
         {
             // Initialize pointmultiplier
             auto keyCode = model->modKeyCode();
             auto point = model->point();
             auto pointMultiplier = keyCode == KeyMappings::TrippleModifier ? 3 :
-                                    keyCode == KeyMappings::DoubleModifier ? 2 :
-                                    keyCode == KeyMappings::SingleModifer ? 1 : 0;
+                                   keyCode == KeyMappings::DoubleModifier ? 2 :
+                                   keyCode == KeyMappings::SingleModifer ? 1 : 0;
             // Calculate point
             auto score = point*pointMultiplier;
             auto mutableModel = const_cast<ModelsInterface*>(model);
             mutableModel->setScore(score);
-            // Return the calculated score
-            return mutableModel;
         }
-        void addCalculatedScoreToDartsPoints(const QVector<const ModelsInterface *> &models) const override
+        void addScoreValuesToDartsPointModels(const QVector<const ModelsInterface *> &models) const override
         {
             QVector<const ModelsInterface*> list;
             for (const auto& model : models)
-                calculateScoreFromDartsPoint(model);
+                addScoreValueToDartsPointModel(model);
         }
     };
 }

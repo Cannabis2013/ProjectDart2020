@@ -2,7 +2,7 @@
 
 using namespace DartsPointControllerContext;
 
-QUuid DartsPointJsonService::getWinnerIdByJson(const QByteArray& json) const
+DartsPointJsonService::IdFormat DartsPointJsonService::getWinnerIdByJson(const JsonFormat &json) const
 {
     auto document = QJsonDocument::fromJson(json);
     auto jsonObject = document.object();
@@ -11,17 +11,9 @@ QUuid DartsPointJsonService::getWinnerIdByJson(const QByteArray& json) const
     return winnerId;
 }
 
-QByteArray DartsPointJsonService::assembleJsonWinnerName(const QString &winnerName) const
-{
-    QJsonObject jsonObject = {{"winner",winnerName}};
-    auto json = QJsonDocument(jsonObject).toJson();
-    return json;
-}
-
-QByteArray DartsPointJsonService::convertDartsModelToJson(const PointModel *model) const
+DartsPointJsonService::JsonFormat DartsPointJsonService::createJsonByDartsPoint(const PointModel *model) const
 {
     QJsonObject obj;
-    obj["tournamentId"] = model->tournamentId().toString(QUuid::WithoutBraces);
     obj["playerId"] = model->playerId().toString(QUuid::WithoutBraces);
     obj["point"] = model->point();
     obj["score"] = model->score();
@@ -31,12 +23,17 @@ QByteArray DartsPointJsonService::convertDartsModelToJson(const PointModel *mode
     return json;
 }
 
-QByteArray DartsPointJsonService::convertDartsIndexesToJson(const DartsIndexes *indexes) const
+DartsPointJsonService::JsonFormat DartsPointJsonService::createJsonByWinnerName(const QString &winnerName) const
 {
-    QJsonObject obj;
-    obj["roundIndex"] = indexes->roundIndex();
-    obj["setIndex"] = indexes->setIndex();
-    obj["attempt"] = indexes->attemptIndex();
-    auto json = QJsonDocument(obj).toJson();
+    QJsonObject jsonObject = {{"winner",winnerName}};
+    auto json = QJsonDocument(jsonObject).toJson();
     return json;
 }
+
+DartsPointJsonService::JsonFormat DartsPointJsonService::createJsonByTournamentId(const IdFormat &tournamentId) const
+{
+    QJsonObject jsonObject = {{"tournamentId",tournamentId.toString(QUuid::WithoutBraces)}};
+    auto json = QJsonDocument(jsonObject).toJson();
+    return json;
+}
+

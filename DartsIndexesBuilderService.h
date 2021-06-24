@@ -2,13 +2,13 @@
 #define DARTSCONTROLLERINDEXESBUILDER_H
 
 #include "idartscontrollerindexesbuilder.h"
-#include "dartssingleattemptindexes.h"
+#include "dartscontrollerindexes.h"
 #include "idartspointindexservice.h"
 namespace DartsPointControllerContext {
     class DartsIndexesBuilderService : public
             IDartsControllerIndexesBuilder<
-            IDartsPointControllerIndexes,
-            IDartsPointIndexService<IDartsPointControllerIndexes>,
+            IDartsPointControllerIndexes<QByteArray>,
+            IDartsPointIndexService<IDartsPointControllerIndexes<QByteArray>>,
             QByteArray>
     {
     public:
@@ -25,7 +25,7 @@ namespace DartsPointControllerContext {
             auto roundIndex = jsonObject.value("roundIndex").toInt();
             auto setIndex = jsonObject.value("setIndex").toInt();
             auto attemptIndex = jsonObject.value("attemptIndex").toInt();
-            auto model = DartsSingleAttemptIndexes::createInstance()
+            auto model = DartsControllerIndexes::createInstance()
                     ->setTotalTurns(totalTurns)
                     ->setTurnIndex(turnIndex)
                     ->setRoundIndex(roundIndex)
@@ -40,7 +40,7 @@ namespace DartsPointControllerContext {
             auto roundIndex = indexService->roundIndex();
             auto setIndex = indexService->setIndex();
             auto attemptIndex = indexService->attemptIndex();
-            auto model = DartsSingleAttemptIndexes::createInstance()
+            auto model = DartsControllerIndexes::createInstance()
                     ->setTotalTurns(totalTurns)
                     ->setTurnIndex(turnIndex)
                     ->setRoundIndex(roundIndex)

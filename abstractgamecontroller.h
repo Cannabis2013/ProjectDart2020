@@ -43,7 +43,7 @@ signals:
     void requestResetTournament(const QUuid &tournament);
     void requestPersistModelState();
     void controllerIsNotInitialized();
-    void isReset();
+    void resetSucces();
     void winnerDeclared(const QByteArray& json);
     void controllerIsStopped();
 };

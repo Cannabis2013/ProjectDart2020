@@ -16,7 +16,7 @@ namespace DartsPointControllerContext
     {
         // IDartsControllerpointBuilder interface
     public:
-        const ModelsInterface *buildControllerPointByJson(const JsonFormat &json) const override
+        const ModelsInterface *createPointModel(const JsonFormat &json) const override
         {
             auto document = QJsonDocument::fromJson(json);
             auto jsonObject = document.object();
@@ -32,13 +32,25 @@ namespace DartsPointControllerContext
             model->setPoint(point);
             model->setModKeyCode(modKeyCode);
             model->setPlayerId(playerId);
-            model->setPlayerName(playerName);
             model->setTotalScore(0);
             return model;
         }
-        const ModelsInterface *buildControllerPointByInputValues(const int &point,
-                                                                 const int &score,
-                                                                 const int &modKeyCode) const override
+        QVector<const ModelsInterface *> createPointsByJson(const JsonFormat &json) const override
+        {
+            auto document = QJsonDocument::fromJson(json);
+            auto scoreData = document.array();
+            QVector<const ModelsInterface*> dartsPointModels;
+            for (const auto &jsonVal : scoreData) {
+                auto newDocument = QJsonDocument(jsonVal.toObject());
+                auto newJson = newDocument.toJson();
+                auto dartsPointModel = createPointModel(newJson);
+                dartsPointModels << dartsPointModel;
+            }
+            return dartsPointModels;
+        }
+        const ModelsInterface *createPointModel(const int &point,
+                                                        const int &score,
+                                                        const int &modKeyCode) const override
         {
             auto model = DartsControllerPoint::createInstance();
             model->setPoint(point);
@@ -47,18 +59,15 @@ namespace DartsPointControllerContext
             return model;
         }
 
-        QVector<const ModelsInterface *> buildControllerPointsByJson(const JsonFormat &json) const override
+        const ModelsInterface *createPointModelWithTotalScoreByModel(const ModelsInterface* m,const int &totalScore) const override
         {
-            auto document = QJsonDocument::fromJson(json);
-            auto scoreData = document.array();
-            QVector<const ModelsInterface*> dartsPointModels;
-            for (const auto &jsonVal : scoreData) {
-                auto newDocument = QJsonDocument(jsonVal.toObject());
-                auto newJson = newDocument.toJson();
-                auto dartsPointModel = buildControllerPointByJson(newJson);
-                dartsPointModels << dartsPointModel;
-            }
-            return dartsPointModels;
+            auto model = DartsControllerPoint::createInstance();
+            model->setPoint(m->point());
+            model->setScore(m->score());
+            model->setModKeyCode(m->modKeyCode());
+            model->setTotalScore(totalScore);
+            model->setPlayerId(m->playerId());
+            return model;
         }
     };
 }

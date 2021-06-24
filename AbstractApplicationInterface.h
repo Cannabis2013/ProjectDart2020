@@ -82,8 +82,8 @@ signals:
                                      const int &keyPoint,
                                      const int &numberOfThrows,
                                      QList<QUuid> assignedPlayers);
-    void requestDartsSingleAttemptPoints();
-    void requestDartsMultiAttemptScores();
+    void requestOrderedDartsInputs();
+    void requestDartsScores();
     void setCurrentActiveTournament(const int &index);
     void sendDartsPoint(const QByteArray& json);
     void sendDartsScore(const QByteArray& json);
@@ -104,8 +104,8 @@ signals:
     void requestAssembleFTPTournament();
     void tournamentAssembledAndStored();
     void tournamentCreatedOk();
-    void sendDartsScores(const QByteArray& json);
-    void sendDartsPoints(const QByteArray& json);
+    void sendOrderedDartsScores(const QByteArray& json);
+    void sendOrderedDartsPoints(const QByteArray& json);
     // Controller states
     void controllerIsStopped();
     void dartsPointMultiColumnsInitialized();

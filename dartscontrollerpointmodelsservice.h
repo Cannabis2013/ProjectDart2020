@@ -12,9 +12,7 @@ namespace DartsPointControllerContext {
     {
     public:
         typedef IDartsControllerPoint<QUuid,QString,QByteArray> PointModel;
-        void addPlayerNameToModel(const DartsModelInterface *model, const QString &name) const override;
         void addAccumulatedScoreToModel(const DartsModelInterface *model, const int &score) const override;
-        void addTournamentIdToModel(const DartsModelInterface *model, const IdFormat &id) const override;
         void addPlayerIdToModel(const DartsModelInterface *model, const IdFormat &id) const override;
     };
 }

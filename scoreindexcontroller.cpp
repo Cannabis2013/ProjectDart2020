@@ -7,7 +7,7 @@ ScoreIndexController *ScoreIndexController::createInstance()
     return new ScoreIndexController();
 }
 
-void ScoreIndexController::setIndexes(const IDartsMultiAttemptIndexes *indexes)
+void ScoreIndexController::setIndexes(const IDartsScoreControllerIndexes<QByteArray> *indexes)
 {
     _totalIndex = indexes->totalTurns();
     _turnIndex = indexes->turnIndex();

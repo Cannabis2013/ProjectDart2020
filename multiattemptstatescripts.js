@@ -1,24 +1,24 @@
 function declareWinner()
 {
-    multiAttemptScoreTurnController.backendHasDeclaredAWinner();
+    singleColumnScoreTurnController.backendHasDeclaredAWinner();
     scoreKeyPad.enableKeyPad(false);
     MultiAttemptScripts.setWinnerText();
 }
 
 function backendIsStopped()
 {
-    multiAttemptScoreTurnController.backendIsStopped();
+    singleColumnScoreTurnController.backendIsStopped();
     scoreKeyPad.enableKeyPad(false);
 }
 
 function backendProcessesInput()
 {
-    multiAttemptScoreTurnController.backendProcessesInput();
+    singleColumnScoreTurnController.backendProcessesInput();
     scoreKeyPad.enableKeyPad(false);
 }
 
 function backendAwaitsInput()
 {
-    multiAttemptScoreTurnController.backendAwaitsInput();
+    singleColumnScoreTurnController.backendAwaitsInput();
     scoreKeyPad.enableKeyPad(true);
 }

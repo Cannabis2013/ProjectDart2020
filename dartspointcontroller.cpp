@@ -1,107 +1,84 @@
-#include "dartspointcontroller.h"
+﻿#include "dartspointcontroller.h"
 
 using namespace DartsPointControllerContext;
 
 void DartsPointController ::start()
 {
-    if(_currentStatus != ControllerState::Initialized &&
-            _currentStatus != ControllerState::Stopped)
-    {
-        emit controllerIsNotInitialized();
-        return;
-    }
-    setCurrentStatus(ControllerState::AwaitsInput);
     sendCurrentTurnValues();
 }
 
 void DartsPointController::stop()
 {
-    setCurrentStatus(ControllerState::Stopped);
-    emit controllerIsStopped();
+    // No implementation necessary since this is handled by external frontend
 }
 
 void DartsPointController::handleAndProcessUserInput(const QByteArray& json)
 {
-    auto dartsPointModel = _pointModelBuilderService->buildControllerPointByJson(json);
-    auto dartsPointModelWithScore = _calculateScoreByPointInput->calculateScoreFromDartsPoint(dartsPointModel);
-    auto setIndex = _indexController->setIndex();
-    auto accumulatedScore = _playerPointsService->calculateAccumulatedScoreCandidate(setIndex,dartsPointModelWithScore->score());
+    auto dartsPointModel = _pointModelBuilder->createPointModel(json);
+    _calculateScoreByPointInput->addScoreValueToDartsPointModel(dartsPointModel);
+    auto setIndex = _indexService->setIndex();
+    auto accumulatedScore = _inputService->calculateAccumulatedScoreCandidate(setIndex,dartsPointModel->score());
     auto domain = _inputEvaluator->validateInput(accumulatedScore,
                                                   dartsPointModel->modKeyCode(),
                                                   dartsPointModel->point());
-    processDomain(domain,dartsPointModel->point(),dartsPointModelWithScore->score(),dartsPointModel->modKeyCode());
+    processDomain(domain,dartsPointModel->point(),dartsPointModel->score(),dartsPointModel->modKeyCode());
 }
 
 void DartsPointController::handleRequestForCurrentTournamentMetaData()
 {
-    auto tournament = this->tournament();
+    auto tournament = _tournament;
     emit sendCurrentTournamentId(tournament);
 }
 
-void DartsPointController::handleRequestDartsPoints()
+void DartsPointController::handleRequestOrderedDartsPoints()
 {
-    auto tournamentId = tournament();
+    auto tournamentId = _tournament;
     emit requestDartsPointsOrderedByIndexes(tournamentId);
 }
 
 void DartsPointController::handlePointAddedToDataContext(const QByteArray &json)
 {
-    auto dartsPointModel = _pointModelBuilderService->buildControllerPointByJson(json);
-    auto dartsPointModelWithScore = _calculateScoreByPointInput->calculateScoreFromDartsPoint(dartsPointModel);
-    // Subtract score value from current user score
-    _playerPointsService->subtractPlayerScore(dartsPointModelWithScore);
-    // Sync totalturns with the current turn index
-    _indexController->syncIndex();
-    auto scoreValue = _playerPointsService->playerScore(dartsPointModel->playerId());
-    _controllerModelsService->addPlayerNameToModel(dartsPointModel,currentUserName());
-    _controllerModelsService->addAccumulatedScoreToModel(dartsPointModel,scoreValue);
-    emit pointAddedAndPersisted(dartsPointModel->toJson());
+    auto pointModel = _pointModelBuilder->createPointModel(json);
+    subtractAndAddScoreValuesToModel(pointModel);
+    auto playerModel = _playerModelBuilder->createPlayerModelByValues(pointModel->playerId(),currentPlayerName());
+    nextTurn();
+    auto turnValues = _turnValuesBuilder->createTurnValues(_indexService,_inputService,_stringSuggestionService);
+    auto jsonResponse = createResponseAsJson(pointModel,playerModel,turnValues);
+    emit dartsPointPersisted(jsonResponse);
 }
 
 void DartsPointController::handleResetTournament()
 {
-    _currentStatus = ControllerState::resetState;
-    _indexController->reset();
-    _playerPointsService->resetScores();
-    auto tournamentId = tournament();
+    _indexService->reset();
+    _inputService->resetScores();
+    auto tournamentId = _tournament;
     emit requestResetTournament(tournamentId);
 }
 
 void DartsPointController::sendCurrentTurnValues()
 {
-    auto turnValues = _dartsTurnValuesBuilderService->buildTurnValues(_indexController,
-                                                                      _playerPointsService,
-                                                                      _pointLogisticInterface);
-    emit isReadyAndAwaitsInput(turnValues->toJson());
+    auto turnValues = _turnValuesBuilder->createTurnValues(_indexService,_inputService,
+                                                           _stringSuggestionService);
+    emit awaitsInput(turnValues->toJson());
 }
 
-QString DartsPointController::currentUserName()
+QString DartsPointController::currentPlayerName()
 {
-    auto index = _indexController->setIndex();
-    auto playerName = _playerPointsService->playerNameByIndex(index);
+    auto index = _indexService->setIndex();
+    auto playerName = _inputService->playerName(index);
     return playerName;
 }
 
 QUuid DartsPointController::currentPlayerId()
 {
-    auto index = _indexController->setIndex();
-    auto playerID = _playerPointsService->playerIdAtIndex(index);
+    auto index = _indexService->setIndex();
+    auto playerID = _inputService->playerIdAtIndex(index);
     return playerID;
-}
-
-QUuid DartsPointController::tournament()
-{
-    return _tournament;
-}
-
-int DartsPointController::status()
-{
-    return _currentStatus;
 }
 
 int DartsPointController::lastPlayerIndex()
 {
-    auto playerCount = _playerPointsService->playersCount();
+    auto playerCount = _inputService->playersCount();
     auto lastIndex = playerCount - 1;
     return lastIndex;
 }
@@ -109,107 +86,72 @@ int DartsPointController::lastPlayerIndex()
 
 QUuid DartsPointController::undoTurn()
 {
-    if(status() == ControllerState::WinnerDeclared)
+    if(_status == ControllerState::WinnerDeclared)
         return QUuid();
-    _currentStatus = ControllerState::UndoState;
-    _indexController->undo();
-    auto roundIndex = _indexController->roundIndex();
-    auto attemptIndex = _indexController->attemptIndex();
-    emit hideDartsPoint(tournament(),currentPlayerId(),roundIndex,attemptIndex);
+    _indexService->undo();
+    auto roundIndex = _indexService->roundIndex();
+    auto attemptIndex = _indexService->attemptIndex();
+    emit hideDartsPoint(_tournament,currentPlayerId(),roundIndex,attemptIndex);
     return currentPlayerId();
 }
 
 QUuid DartsPointController::redoTurn()
 {
-    setCurrentStatus(ControllerState::RedoState);
     auto activeUser = currentPlayerId();
-    auto roundIndex = _indexController->roundIndex();
-    auto attemptIndex = _indexController->attemptIndex();
-    _indexController->redo();
-    emit revealDartsPoint(tournament(),activeUser,roundIndex,attemptIndex);
-    auto index = _indexController->setIndex();
-    return _playerPointsService->playerIdAtIndex(index);
+    auto roundIndex = _indexService->roundIndex();
+    auto attemptIndex = _indexService->attemptIndex();
+    emit revealDartsPoint(_tournament,activeUser,roundIndex,attemptIndex);
+    auto index = _indexService->setIndex();
+    return _inputService->playerIdAtIndex(index);
 }
 
 void DartsPointController::addPoint(const int& point,
                                     const int &score,
                                     const int& keyCode)
 {
-    setStateIfNoWinnerDetermined();
-    auto pointModel = _pointModelBuilderService->buildControllerPointByInputValues(point,score,keyCode);
-    updatePlayerPointModel(pointModel);
-    auto indexes = _dartsIndexesBuilderService->buildControllerIndexesByIndexService(_indexController);
-    auto json = createJson(indexes,pointModel);
+    auto pointModel = _pointModelBuilder->createPointModel(point,score,keyCode);
+    auto playerModel = _playerModelBuilder->createPlayerModelByValues(currentPlayerId(),currentPlayerName());
+    updatePlayerPointModel(pointModel, currentPlayerId());
+    auto indexes = _dartsIndexesBuilderService->buildControllerIndexesByIndexService(_indexService);
+    auto json = createResponseAsJson(indexes,playerModel,pointModel);
     emit requestAddDartsPoint(json);
 }
 
 void DartsPointController::handleRequestFromUI()
 {
-    if(status() == ControllerState::Initialized)
-    {
+    if(_status == ControllerState::WinnerDeclared)
+        sendWinnerJson();
+    else
         emit controllerInitializedAndReady();
-    }
-    else if(status() == ControllerState::AddScoreState)
-    {
-        nextTurn();
-    }
-    else if(status() == ControllerState::UndoState)
-    {
-        setCurrentStatus(ControllerState::AwaitsInput);
-        sendCurrentTurnValues();
-    }
-    else if(status() == ControllerState::RedoState)
-    {
-        setCurrentStatus(ControllerState::AwaitsInput);
-        sendCurrentTurnValues();
-
-    }
-    else if(status() == ControllerState::WinnerDeclared)
-    {
-        auto winnerName = _playerPointsService->winnerUserName();
-        auto json = _dartsJsonService->assembleJsonWinnerName(winnerName);
-        emit winnerDeclared(json);
-    }
-    else if(status() == ControllerState::resetState)
-    {
-        setCurrentStatus(ControllerState::Initialized);
-        emit controllerInitializedAndReady();
-    }
 }
 
 void DartsPointController::nextTurn()
 {
-    _indexController->next();
-    setCurrentStatus(ControllerState::AwaitsInput);
-    sendCurrentTurnValues();
+    _indexService->syncIndex();
+    _indexService->next();
 }
 
 void DartsPointController::declareWinner()
 {
-    auto index = _indexController->setIndex();
-    auto currentPlayerId = _playerPointsService->playerIdAtIndex(index);
-    _playerPointsService->setWinner(currentPlayerId);
+    auto index = _indexService->setIndex();
+    auto currentPlayerId = _inputService->playerIdAtIndex(index);
+    _inputService->setWinner(currentPlayerId);
     setCurrentStatus(ControllerState::WinnerDeclared);
 }
 
 void DartsPointController::handleOrderedDartsPoint(const QByteArray &json)
 {
-    auto models = _getOrderedDartsPointsByJson->getOrderedDartsPointsFromJson(json);
-    _addTotalScoresServices->addTotalScoreToInputs(models,_playerPointsService->initialScore());
-    auto inputModelsJson = _dartsPointsToJson->toJson(models);
-    emit sendDartsPoints(inputModelsJson);
-}
-
-int DartsPointController::currentStatus() const
-{
-    return _currentStatus;
+    QByteArray jsonResponse = json;
+    _addTotalScoresToDartsModelsJson->addTotalScoreToInputs(jsonResponse,_inputService->initialScore());
+    _addPlayerNamesToDartsModelsJson->addPlayerNamesToJson(jsonResponse,_inputService);
+    emit sendOrderedDartsPoints(jsonResponse);
 }
 
 void DartsPointController::initializeControllerIndexes(const QByteArray& json)
 {
     auto indexes = _dartsIndexesBuilderService->buildControllerIndexesByJson(json);
-    _indexController->setIndexes(indexes);
-    emit requestTournamentAssignedPlayerDetails(tournament());
+    _indexService->setIndexes(indexes);
+    emit requestTournamentAssignedPlayerDetails(_tournament);
 }
 
 void DartsPointController::processDomain(const int& domain,
@@ -234,37 +176,44 @@ void DartsPointController::processDomain(const int& domain,
 
 void DartsPointController::setCurrentStatus(int currentStatus)
 {
-    _currentStatus = currentStatus;
+    _status = currentStatus;
 }
 
 void DartsPointController::beginInitialize()
 {
-    auto tournamentId = tournament();
+    auto tournamentId = _tournament;
     emit requestDartsTournamentIndexes(tournamentId);
 }
 
 void DartsPointController::undoSuccess(const QByteArray& json)
 {
-    auto dartsPointModel = _pointModelBuilderService->buildControllerPointByJson(json);
-    auto dartsPointModelWithScore = _calculateScoreByPointInput->calculateScoreFromDartsPoint(dartsPointModel);
-    _playerPointsService->addPlayerScore(dartsPointModelWithScore);
-    auto newScore = _playerPointsService->playerScore(dartsPointModel->playerId());
-    auto playerName = _playerPointsService->playerNameById(dartsPointModel->playerId());
-    _controllerModelsService->addPlayerNameToModel(dartsPointModel,playerName);
-    _controllerModelsService->addAccumulatedScoreToModel(dartsPointModel,newScore);
-    emit pointRemoved(dartsPointModel->toJson());
+    auto dartsPointModel = _pointModelBuilder->createPointModel(json);
+    _calculateScoreByPointInput->addScoreValueToDartsPointModel(dartsPointModel);
+    _inputService->addPlayerScore(dartsPointModel);
+    auto newScore = _inputService->playerScore(dartsPointModel->playerId());
+    dartsPointModel = _pointModelBuilder->createPointModelWithTotalScoreByModel(dartsPointModel,newScore);
+    auto playerName = _inputService->playerName(dartsPointModel->playerId());
+    auto playerModel = _playerModelBuilder->createPlayerModelByValues(dartsPointModel->playerId(),playerName);
+    auto turnValues = _turnValuesBuilder->createTurnValues(_indexService,_inputService,
+                                                                      _stringSuggestionService);
+    auto response = createResponseAsJson(dartsPointModel,playerModel,turnValues);
+    emit pointRemoved(response);
 }
 
 void DartsPointController::redoSuccess(const QByteArray& json)
 {
-    auto dartsPointModel = _pointModelBuilderService->buildControllerPointByJson(json);
-    auto dartsPointModelWithScore = _calculateScoreByPointInput->calculateScoreFromDartsPoint(dartsPointModel);
-    _playerPointsService->subtractPlayerScore(dartsPointModelWithScore);
-    auto newScore = _playerPointsService->playerScore(dartsPointModelWithScore->playerId());
-    auto playerName = _playerPointsService->playerNameById(dartsPointModelWithScore->playerId());
-    _controllerModelsService->addPlayerNameToModel(dartsPointModelWithScore,playerName);
-    _controllerModelsService->addAccumulatedScoreToModel(dartsPointModelWithScore,newScore);
-    emit pointAddedAndPersisted(dartsPointModelWithScore->toJson());
+    auto pointModel = _pointModelBuilder->createPointModel(json);
+    _calculateScoreByPointInput->addScoreValueToDartsPointModel(pointModel);
+    _inputService->subtractPlayerScore(pointModel);
+    auto newScore = _inputService->playerScore(pointModel->playerId());
+    pointModel = _pointModelBuilder->createPointModelWithTotalScoreByModel(pointModel,newScore);
+    auto playerName = _inputService->playerName(pointModel->playerId());
+    auto playerModel = _playerModelBuilder->createPlayerModelByValues(pointModel->playerId(),playerName);
+    _indexService->redo();
+    auto turnControllerValues = _turnValuesBuilder->createTurnValues(_indexService,_inputService,
+                                                                                _stringSuggestionService);
+    auto jsonResponse = createResponseAsJson(pointModel,playerModel,turnControllerValues);
+    emit dartsPointPersisted(jsonResponse);
 }
 
 DartsPointController::DartsPointController(const QUuid &tournament, const int &displayHint)
@@ -273,51 +222,73 @@ DartsPointController::DartsPointController(const QUuid &tournament, const int &d
     _displayHint = displayHint;
 }
 
-void DartsPointController::updatePlayerPointModel(const IControllerPoint *pointModel)
+void DartsPointController::subtractAndAddScoreValuesToModel(const IControllerPoint *pointModel)
 {
-    _controllerModelsService->addPlayerIdToModel(pointModel,currentPlayerId());
-    _controllerModelsService->addPlayerNameToModel(pointModel,currentUserName());
-    _controllerModelsService->addTournamentIdToModel(pointModel,tournament());
+    _calculateScoreByPointInput->addScoreValueToDartsPointModel(pointModel);
+    auto totalScoreValue = _inputService->subtractPlayerScore(pointModel);
+    _addTotalScoreToPointModel->add(pointModel,totalScoreValue);
 }
 
-QByteArray DartsPointController::createJson(const IDartsPointControllerIndexes *indexes, const IControllerPoint *pointModel)
+void DartsPointController::sendWinnerJson()
 {
-    auto indexesJson = _dartsJsonService->convertDartsIndexesToJson(indexes);
-    auto pointModelJson = _dartsJsonService->convertDartsModelToJson(pointModel);
-    auto json = _combineDartsIndexesAndDartsPoint->combineJson(indexesJson,pointModelJson);
+    auto winnerName = _inputService->winnerUserName();
+    auto json = _dartsJsonService->createJsonByWinnerName(winnerName);
+    emit winnerDeclared(json);
+}
+
+void DartsPointController::updatePlayerPointModel(const IControllerPoint *pointModel, const int &score)
+{
+    _controllerModelsService->addAccumulatedScoreToModel(pointModel,score);
+}
+
+QByteArray DartsPointController::createResponseAsJson(const IControllerPoint *pointModel,
+                                                      const ControllerPlayer* playerModel,
+                                                      const DartsPointTurnValues *turnValues)
+{
+    QByteArray json;
+    _combineJsonService->addToJson(json,pointModel->toJson());
+    _combineJsonService->addToJson(json,playerModel->toJson());
+    _combineJsonService->addToJson(json,turnValues->toJson());
     return json;
 }
 
-void DartsPointController::setStateIfNoWinnerDetermined()
+void DartsPointController::updatePlayerPointModel(const IControllerPoint *pointModel, const QUuid &playerId)
 {
-    if(currentStatus() != ControllerState::WinnerDeclared)
-        setCurrentStatus(ControllerState::AddScoreState);
+    _controllerModelsService->addPlayerIdToModel(pointModel,playerId);
 }
 
+QByteArray DartsPointController::createResponseAsJson(const DartsIndexes *indexes,
+                                                      const ControllerPlayer *playerModel,
+                                                      const IControllerPoint *pointModel)
+{
+    auto tournamentJson = _dartsJsonService->createJsonByTournamentId(_tournament);
+    QByteArray json;
+    _combineJsonService->addToJson(json,indexes->toJson());
+    _combineJsonService->addToJson(json,playerModel->toJson());
+    _combineJsonService->addToJson(json,pointModel->toJson());
+    _combineJsonService->addToJson(json,tournamentJson);
+    return json;
+}
 
 void DartsPointController::initializeControllerPlayerDetails(const QByteArray& json)
 {
-    auto playerModels = _playerModelBuilderService->buildPlayerModelsByJson(json);
-    _indexController->setPlayersCount(playerModels.count());
-    _playerPointsService->addPlayerEntitiesByModels(playerModels);
-    emit requestTournamentDartsPoints(tournament());
+    auto playerModels = _playerModelBuilder->createPlayerModelsByJson(json);
+    _indexService->setPlayersCount(playerModels.count());
+    _inputService->addPlayerEntitiesByModels(playerModels);
+    emit requestTournamentDartsPoints(_tournament);
 }
 
 void DartsPointController::initializeControllerDartsPoints(const QByteArray& json)
 {
-    auto points = _pointModelBuilderService->buildControllerPointsByJson(json);
-    _calculateScoreByPointInput->addCalculatedScoreToDartsPoints(points);
-    _playerPointsService->subtractPlayerScoresByModels(points);
-    emit requestTournamentWinnerIdAndName(tournament());
+    auto points = _pointModelBuilder->createPointsByJson(json);
+    _calculateScoreByPointInput->addScoreValuesToDartsPointModels(points);
+    _inputService->subtractPlayerScoresByModels(points);
+    emit requestTournamentWinnerIdAndName(_tournament);
 }
 
 void DartsPointController::initializeControllerWinnerIdAndName(const QByteArray& json)
 {
     auto winnerId = _dartsJsonService->getWinnerIdByJson(json);
-    _playerPointsService->setWinner(winnerId);
-    if(_playerPointsService->winnerId() != QUuid())
-        setCurrentStatus(ControllerState::WinnerDeclared);
-    else
-        setCurrentStatus(ControllerState::Initialized);
+    _inputService->setWinner(winnerId);
     emit controllerInitialized(_displayHint);
 }

@@ -49,14 +49,6 @@ namespace DartsPointControllerContext {
         {
             _attemptIndex = newAttemptIndex;
         }
-        int getScore() const
-        {
-            return _score;
-        }
-        void setScore(int newScore)
-        {
-            _score = newScore;
-        }
         const QString &getTargetRow() const
         {
             return _targetRow;
@@ -80,10 +72,9 @@ namespace DartsPointControllerContext {
             jsonObject["roundIndex"] = _roundIndex;
             jsonObject["setIndex"] = _setIndex;
             jsonObject["attemptIndex"] = _attemptIndex;
-            jsonObject["score"] = _score;
             jsonObject["canUndo"] = _canUndo;
             jsonObject["canRedo"] = _canRedo;
-            jsonObject["playerName"] = _playerName;
+            jsonObject["currentPlayerName"] = _playerName;
             jsonObject["targetRow"] = _targetRow;
             auto document = QJsonDocument(jsonObject);
             auto json = document.toJson();
@@ -95,7 +86,6 @@ namespace DartsPointControllerContext {
        int _roundIndex;
        int _setIndex;
        int _attemptIndex;
-       int _score;
        QString _targetRow;
        QString _playerName;
     };

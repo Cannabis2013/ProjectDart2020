@@ -64,12 +64,12 @@ void DartApplication::handleSetCurrentTournamentRequest(const int &index)
 
 void DartApplication::handleRequestForDartsSingleAttemptPoints()
 {
-    emit requestDartsSingleAttemptPoints();
+    emit requestOrderedDartsInputs();
 }
 
 void DartApplication::handleRequestForMultiAttemptScores()
 {
-    emit requestDartsMultiAttemptScores();
+    emit requestDartsScores();
 }
 
 void DartApplication::handleFTPDetails(const QByteArray& json)

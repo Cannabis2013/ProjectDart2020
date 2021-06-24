@@ -9,7 +9,6 @@ namespace DartsScoreControllerContext {
     class DartsScoreTurnValues
     {
     public:
-
         int roundIndex() const
         {
             return _roundIndex;
@@ -50,14 +49,6 @@ namespace DartsScoreControllerContext {
         {
             _canRedo = newCanRedo;
         }
-        const QString &currentUserName() const
-        {
-            return _currentUserName;
-        }
-        void setCurrentUserName(const QString &newCurrentUserName)
-        {
-            _currentUserName = newCurrentUserName;
-        }
         const QString &targetRow() const
         {
             return _targetRow;
@@ -66,7 +57,6 @@ namespace DartsScoreControllerContext {
         {
             _targetRow = newTargetRow;
         }
-
         QByteArray toJson() const
         {
             QJsonObject jsonObject;
@@ -75,21 +65,28 @@ namespace DartsScoreControllerContext {
             jsonObject["score"] = _score;
             jsonObject["canUndo"] = _canUndo;
             jsonObject["canRedo"] = _canRedo;
-            jsonObject["playerName"] = _currentUserName;
             jsonObject["targetRow"] = _targetRow;
+            jsonObject["currentPlayerName"] = _playerName;
             auto document = QJsonDocument(jsonObject);
             auto json = document.toJson();
             return json;
         }
-
+        const QString &playerName() const
+        {
+            return _playerName;
+        }
+        void setPlayerName(const QString &newPlayerName)
+        {
+            _playerName = newPlayerName;
+        }
     private:
         int _roundIndex;
         int _setIndex;
         int _score;
         bool _canUndo;
         bool _canRedo;
-        QString _currentUserName;
         QString _targetRow;
+        QString _playerName;
     };
 }
 

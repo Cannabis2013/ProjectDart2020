@@ -80,7 +80,7 @@
         <file>dartsPointMultiColumnScripts.js</file>
         <file>scoreboardscripts.js</file>
         <file>DartsScoreSingleColumnContent.qml</file>
-        <file>dartsscoremulticolumnscripts.js</file>
+        <file>dartsscoresinglecolumnscripts.js</file>
         <file>multiattemptstatescripts.js</file>
         <file>DartsPointSingleColumnContent.qml</file>
         <file>DartsPointSingleColumnBoard.qml</file>
@@ -88,6 +88,7 @@
         <file>dartspointsinglecolumnscripts.js</file>
         <file>pointsinglecolumnstatescripts.js</file>
         <file>PointInputDelegate.qml</file>
+        <file>turnControllerScripts.js</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>
