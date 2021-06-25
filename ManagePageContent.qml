@@ -61,7 +61,7 @@ Content {
     }
     Component.onCompleted: {
         ManageScripts.connectInterface();
-        requestPlayers();
+        applicationInterface.requestPlayers();
     }
     Component.onDestruction: {
         ManageScripts.disconnectInterface();

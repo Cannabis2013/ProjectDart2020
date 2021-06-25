@@ -56,7 +56,7 @@ function deletePlayersAccepted(){
         indexes : indexes
     }
     var json = JSON.stringify(obj);
-    applicationInterface.handleDeletePlayersRequest(json);
+    applicationInterface.requestDeletePlayers(json);
 }
 function recievePlayersDeletedStatusFromBackend(status)
 {
@@ -64,7 +64,7 @@ function recievePlayersDeletedStatusFromBackend(status)
     {
         playersListView.clear();
         tournamentListView.clear();
-        requestPlayers();
+        applicationInterface.requestPlayers();
     }
 }
 /*
@@ -88,7 +88,7 @@ function deleteTournamentsAccepted()
 {
     var obj = {Indexes : tournamentListView.currentIndexes()};
     var json = JSON.stringify(obj);
-    applicationInterface.handleDeleteTournamentsRequest(json);
+    applicationInterface.requestDeleteTournaments(json);
 }
 function handleDeleteTournamentsSuccess(status)
 {
@@ -117,7 +117,7 @@ function recievePlayers(players)
 function updatePlayerListView()
 {
     playersListView.clear();
-    requestPlayers();
+    applicationInterface.requestPlayers();
 }
 /*
   Update tournament listview
@@ -163,8 +163,6 @@ function translateGameModeFromHex(gameMode)
   Connect/disconnect interface
   */
 function connectInterface(){
-    body.requestDeletePlayers.connect(applicationInterface.handleDeletePlayersRequest);
-    body.requestPlayers.connect(applicationInterface.requestPlayerDetails); // Request initial/continous players
     applicationInterface.sendPlayers.connect(recievePlayers); // Recieve initial players
     body.requestTournaments.connect(applicationInterface.handleTournamentsRequest); // Request initial tournaments
     applicationInterface.sendTournaments.connect(recieveTournaments);
@@ -172,11 +170,9 @@ function connectInterface(){
     applicationInterface.tournamentsDeletedSuccess.connect(handleDeleteTournamentsSuccess);
 }
 function disconnectInterface(){
-    body.requestPlayers.disconnect(applicationInterface.requestPlayerDetails); // Request initial/continous players
     applicationInterface.sendPlayers.disconnect(recievePlayers); // Recieve initial players
     body.requestTournaments.disconnect(applicationInterface.handleTournamentsRequest); // Request initial tournaments
     applicationInterface.sendTournaments.disconnect(recieveTournaments);
     applicationInterface.playersDeletedStatus.disconnect(recievePlayersDeletedStatusFromBackend);
     applicationInterface.tournamentsDeletedSuccess.disconnect(handleDeleteTournamentsSuccess);
-
 }

@@ -12,7 +12,7 @@ public:
     typedef TDartsPointModel PointModel ;
     virtual QUuid winnerId() const = 0;
     virtual IPlayerPointService* setWinner(const QUuid& id) = 0;
-    virtual QString winnerUserName() const = 0;
+    virtual QString winnerName() const = 0;
 
     virtual void addPlayerEntity(const PlayerModel* model) = 0;
     virtual void addPlayerEntitiesByModels(const QVector<const PlayerModel*>& models) = 0;

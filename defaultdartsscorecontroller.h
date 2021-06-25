@@ -14,10 +14,10 @@
 #include "determinecontrollerstatebywinnerid.h"
 #include "addtotalscoretodartsscoremodel.h"
 #include "builddartsscoreturnvalues.h"
-#include "JsonBuilder.h"
+#include "DefaultQtJsonBuilder.h"
 #include "dartsplayerbuilderservice.h"
 #include "jsonmergebybytearrayservice.h"
-#include "dartsjsonextractor.h"
+#include "defaultqtjsonextractor.h"
 
 class DefaultDartsScoreController : public DartsScoreController
 {
@@ -39,10 +39,10 @@ public:
         controller->_turnValuesBuilder = new buildDartsScoreTurnValues;
         controller->_dartsScoreBuilder = new DartsScoreModelsBuilderService;
         controller->_dartsIndexesBuilderService = new DartsScoreIndexesBuilderService;
-        controller->_dartsJsonService = new JsonBuilder;
         controller->_playerBuilderService = new DartsPlayerBuilderService;
         controller->_jsonMergeService = new JsonMergeByByteArrayService;
-        controller->_extractJson = new DartsJsonExtractor;
+        controller->_dartsJsonBuilder = new DefaultQtJsonBuilder;
+        controller->_extractJson = new DefaultQtJsonExtractor;
         return controller;
     }
 private:

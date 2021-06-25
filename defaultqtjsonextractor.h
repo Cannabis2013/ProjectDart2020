@@ -1,13 +1,13 @@
-#ifndef DARTSJSONEXTRACTOR_H
-#define DARTSJSONEXTRACTOR_H
+#ifndef DEFAULTQTJSONEXTRACTOR_H
+#define DEFAULTQTJSONEXTRACTOR_H
 
-#include "ijsonextractor.h"
+#include "iqtjsonextractor.h"
 #include <qbytearray.h>
 #include <quuid.h>
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 
-class DartsJsonExtractor : public IJsonExtractor<QByteArray,QUuid,QString>
+class DefaultQtJsonExtractor : public IQtJsonExtractor
 {
 public:
 
@@ -28,6 +28,16 @@ public:
         auto value = jsonObject.value(key);
         auto numericValue = value.toInt();
         return numericValue;
+    }
+    virtual Id getIdValueByKey(const Json &json, const String &key) const override
+    {
+        auto jsonObject = createObject(json);
+        auto value = jsonObject.value(key);
+        if(!value.isString())
+            return QString();
+        auto stringValue = value.toString();
+        auto idValue = QUuid(stringValue);
+        return idValue;
     }
 private:
     QJsonObject createObject(const QByteArray &json) const

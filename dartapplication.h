@@ -60,44 +60,11 @@ public slots:
     /*
      * UI request data to populate scoreboard
      */
-    void handleRequestForDartsSingleAttemptPoints() override;
-    void handleRequestForMultiAttemptScores() override;
     /*
      * Create tournament
      */
-    void handleFTPDetails(const QByteArray &json) override;
-    /*
-     * Delete tournament
-     */
-    void handleDeleteTournamentsRequest(const QByteArray &json) override;
-    /*
-     * UI requests to create/delete player from datacontext
-     */
-    void handleCreatePlayer(const QByteArray &json) override;
-    void handleDeletePlayer(const QByteArray &json) override;
-    void handleDeletePlayersRequest(const QByteArray &json) override;
-    /*
-     * UI requests playerdetails from datacontext
-     */
-    void requestPlayerDetails() override;
+    void handleDartsDetails(const QByteArray &json) override;
     void handleSendGameModesRequest() const override;
-    /*
-     *  - Start/stop tournament
-     *  - Reset and restart tournament
-     */
-    void handleRequestStart() override;
-    void handleRequestStop() override;
-    void handleRestartTournament() override;
-    /*
-     * Handle UI user input
-     *  - Users enters points to be stored in datacontext
-     *  - In return, datacontext, in collaboration with gamecontroller, send current score to UI
-     */
-    void handleDartsPointInput(const QByteArray& json) override;
-    void handleDartsScoreInput(const QByteArray& json) override;
-    void handleDartsUndoRequest() override;
-    void handleDartsRedoRequest() override;
-    void handleControllerStateRequest() override;
     /*
      * Handle request for tournament meta information
      */
@@ -142,7 +109,6 @@ private:
     AbstractRouteByGameMode* _routeTournamentByGameMode = new RouteByTournamentGameMode;
     AbstractRouteByInputHint* _routeDartsControllerByInputHint = new RouteDartsByInputHint;
     AbstractRouteDartsByDisplayHint* _routeDartsControllerByDisplayHint = new RouteByDisplayHint;
-
     /*
      * Connect route services
      */

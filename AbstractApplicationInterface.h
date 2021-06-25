@@ -18,40 +18,9 @@ public slots:
     /*
      * UI request data to populate scoreboard
      */
-    virtual void handleRequestForDartsSingleAttemptPoints() = 0;
-    virtual void handleRequestForMultiAttemptScores()= 0;
-    virtual void handleFTPDetails(const QByteArray& json) = 0;
-    /*
-     * Delete tournament
-     */
-    virtual void handleDeleteTournamentsRequest(const QByteArray& json) = 0;
-    /*
-     * UI requests to create/delete player from datacontext
-     */
-    virtual void handleCreatePlayer(const QByteArray& json) = 0;
-    virtual void handleDeletePlayer(const QByteArray& json) = 0;
-    virtual void handleDeletePlayersRequest(const QByteArray& json) = 0;
-    /*
-     * UI requests playerdetails from datacontext
-     */
-    virtual void requestPlayerDetails() = 0;
+    virtual void handleDartsDetails(const QByteArray& json) = 0;
+
     virtual void handleSendGameModesRequest() const = 0;
-    /*
-     *  - Start/stop tournament
-     *  - Reset and restart tournament
-     */
-    virtual void handleRequestStart() = 0;
-    virtual void handleRequestStop() = 0;
-    virtual void handleRestartTournament() = 0;
-    /*
-     * Handle UI user input
-     *  - Users enters points to be stored in datacontext
-     */
-    virtual void handleDartsPointInput(const QByteArray& json) = 0;
-    virtual void handleDartsScoreInput(const QByteArray& json) = 0;
-    virtual void handleDartsUndoRequest() = 0;
-    virtual void handleDartsRedoRequest() = 0;
-    virtual void handleControllerStateRequest() = 0;
     /*
      * Handle request for tournament meta information
      */

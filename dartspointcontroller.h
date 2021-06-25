@@ -17,7 +17,7 @@
 #include "iaddplayernamestojsonentity.h"
 #include "idartsplayermodelbuilderservice.h"
 #include "ibuilddartspointturnvalues.h"
-#include "icombinejsonbytearrayservice.h"
+#include "ibytearrayjsonmerger.h"
 #include "idartslogisticsservice.h"
 #include "IPointCalculatorService.h"
 #include "ipointvalidator.h"
@@ -27,8 +27,10 @@
 #include "idartscontrollerpointbuilder.h"
 #include "idartspointindexservice.h"
 #include "iaddtotalscoretodartspoint.h"
-
+#include "idartsmetadata.h"
 // Json services
+#include "iqtjsonbuilder.h"
+#include "iqtjsonextractor.h"
 #include "idartscontrollerjsonservice.h"
 #include "igetordereddartspointsbyjson.h"
 #include "idartsinputstojson.h"
@@ -55,9 +57,6 @@ namespace DartsPointControllerContext {
         };
         enum ControllerState {
             WinnerDeclared = 0x15
-        };
-        enum ControllerResponse{
-            IsProcessingUserInput = 0x46
         };
         // Commonly used models typedefinitions
         typedef IDartsControllerPoint<QUuid,QString,QByteArray> IControllerPoint;
@@ -136,22 +135,24 @@ namespace DartsPointControllerContext {
         /*
          * Protected constructor
          */
-        DartsPointController(const QUuid &tournament, const int &displayHint);
         // Services
         // Builder Services
         TurnValueBuilderService* _turnValuesBuilder;
         ControllerPointBuilder* _pointModelBuilder;
         PlayerModelBuilder* _playerModelBuilder;
-        IIndexesBuilderService* _dartsIndexesBuilderService;
-        ControllerModelsService* _controllerModelsService;
+        IIndexesBuilderService* _dartsIndexesBuilder;
+        ControllerModelsService* _controllerModels;
+        // Meta information
+        IDartsMetaData *_metaData;
         // Model manipulating services
         IAddTotalScoreToDartsPoint *_addTotalScoreToPointModel;
         // Json
+        IQtJsonBuilder *_jsonBuilder;
+        IQtJsonExtractor *_jsonExtractor;
+        IGetOrderedDartsPointByJson *_getOrderedDartsPointsByJson;
         AddTotalScoresToJsonEntities *_addTotalScoresToDartsModelsJson;
         DartsInputsToJsonService * _dartsPointsToJson;
-        DartsJsonService* _dartsJsonService;
-        IGetOrderedDartsPointByJson *_getOrderedDartsPointsByJson;
-        ICombineJsonByteArray *_combineJsonService;
+        IByteArrayJsonMerger *_jsonMerger;
         AddPlayerNamesToJsonEntities *_addPlayerNamesToDartsModelsJson;
         // Calculate score
         ScoreCalculatorService* _calculateScoreByPointInput = nullptr;
@@ -164,12 +165,14 @@ namespace DartsPointControllerContext {
         // Userscore service
         PlayerPointService* _inputService = nullptr;
     private:
+        void assembleAndSendTurnValues(const QByteArray &json);
         void subtractAndAddScoreValuesToModel(const IControllerPoint *pointModel);
         void sendWinnerJson();
         void updatePlayerPointModel(const IControllerPoint *pointModel, const int &score);
         void updatePlayerPointModel(const IControllerPoint *pointModel, const QUuid &playerId);
-        QByteArray createResponseAsJson(const IControllerPoint* pointModel, const ControllerPlayer *playerModel, const DartsPointTurnValues* turnValues);
-        QByteArray createResponseAsJson(const DartsIndexes* indexes,
+        QByteArray createJsonResponse(const QUuid &winnerId, const QString &winnerName);
+        QByteArray createJsonResponse(const IControllerPoint* pointModel, const ControllerPlayer *playerModel, const DartsPointTurnValues* turnValues);
+        QByteArray createJsonResponse(const DartsIndexes* indexes,
                                         const ControllerPlayer*playerModel,
                                         const IControllerPoint *pointModel);
         void processDomain(const int& domain,
@@ -181,7 +184,6 @@ namespace DartsPointControllerContext {
         void sendCurrentTurnValues();
         QString currentPlayerName()  ;
         QUuid currentPlayerId();
-        void setCurrentStatus(int currentStatus);
         int lastPlayerIndex();
         /*
          * Update datacontext
@@ -193,10 +195,6 @@ namespace DartsPointControllerContext {
          */
         void nextTurn();
         void declareWinner();
-        // Member variables
-        int _displayHint;
-        QUuid _tournament = QUuid();
-        int _status = 0x0;
     };
 }
 #endif // POINTFTPCONTROLLER_H

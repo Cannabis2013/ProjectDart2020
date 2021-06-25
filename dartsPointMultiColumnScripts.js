@@ -13,35 +13,18 @@ function connectInterface()
     applicationInterface.controllerHasDeclaredAWinner.connect(backendDeclaredAWinner);
     applicationInterface.controllerIsStopped.connect(backendIsStopped);
     applicationInterface.sendDartsTournamentData.connect(handleDartsMetaData);
-    dartsPointMultiColumnBody.requestStart.connect(applicationInterface.handleRequestStart);
-    dartsPointMultiColumnBody.requestStop.connect(applicationInterface.handleRequestStop);
-    dartsPointMultiColumnBody.requestRestart.connect(applicationInterface.handleRestartTournament);
-    dartsPointMultiColumnBody.sendInput.connect(applicationInterface.handleDartsPointInput);
-    dartsPointMultiColumnBody.requestStatusFromBackend.connect(applicationInterface.handleControllerStateRequest);
     applicationInterface.dartsControllerRemovedPoint.connect(backendRemovedPoint);
-    dartsPointMultiColumnBody.requestUndo.connect(applicationInterface.handleDartsUndoRequest);
-    dartsPointMultiColumnBody.requestRedo.connect(applicationInterface.handleDartsRedoRequest);
-    pointKeyPad.sendInput.connect(handlePointKeyPadInput);
     applicationInterface.addedDartsPoint.connect(backendPersistedInput);
 }
 
 function disconnectInterface()
 {
-    applicationInterface.sendOrderedDartsPoints.disconnect(
-                recievePoints);
+    applicationInterface.sendOrderedDartsPoints.disconnect(recievePoints);
     applicationInterface.dartsPointControllerIsReady.disconnect(backendInitializedAndReady);
     applicationInterface.controllerHasDeclaredAWinner.disconnect(backendDeclaredAWinner);
     applicationInterface.controllerIsStopped.disconnect(backendIsStopped);
     applicationInterface.sendDartsTournamentData.disconnect(handleDartsMetaData);
-    dartsPointMultiColumnBody.requestStart.disconnect(applicationInterface.handleRequestStart);
-    dartsPointMultiColumnBody.requestStop.disconnect(applicationInterface.handleRequestStop);
-    dartsPointMultiColumnBody.requestRestart.disconnect(applicationInterface.handleRestartTournament);
-    dartsPointMultiColumnBody.sendInput.disconnect(applicationInterface.handleDartsPointInput);
-    dartsPointMultiColumnBody.requestStatusFromBackend.disconnect(applicationInterface.handleControllerStateRequest);
     applicationInterface.dartsControllerRemovedPoint.disconnect(backendRemovedPoint);
-    dartsPointMultiColumnBody.requestUndo.disconnect(applicationInterface.handleDartsUndoRequest);
-    dartsPointMultiColumnBody.requestRedo.disconnect(applicationInterface.handleDartsRedoRequest);
-    pointKeyPad.sendInput.disconnect(handlePointKeyPadInput);
     applicationInterface.controllerAwaitsInput.disconnect(backendIsReadyAndAwaitsInput);
     applicationInterface.addedDartsPoint.disconnect(backendPersistedInput);
 }
@@ -120,6 +103,7 @@ function handleRequestTournamentReset()
 {
     if(dartsPointMultiColumnBody.state === "ready")
         dartsPointMultiColumnBody.state = "stopped";
+    applicationInterface.requestTournamentReset();
 }
 
 function backendRemovedPoint(data)
@@ -156,7 +140,7 @@ function handlePointKeyPadInput(value,keyCode){
         modKeyCode : keyCode
     };
     var json = JSON.stringify(obj);
-    dartsPointMultiColumnBody.sendInput(json);
+    applicationInterface.sendDartsPoint(json);
 }
 
 function backendIsStopped()

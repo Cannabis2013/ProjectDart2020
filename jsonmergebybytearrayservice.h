@@ -1,15 +1,15 @@
 #ifndef JSONMERGEBYBYTEARRAYSERVICE_H
 #define JSONMERGEBYBYTEARRAYSERVICE_H
 
-#include "icombinejsonbytearrayservice.h"
+#include "ibytearrayjsonmerger.h"
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 #include <qjsonarray.h>
 
-class JsonMergeByByteArrayService : public ICombineJsonByteArray
+class JsonMergeByByteArrayService : public IByteArrayJsonMerger
 {
 public:
-    void addToJson(QByteArray &json1, const QByteArray &json2) const override
+    void mergeIntoJson(QByteArray &json1, const QByteArray &json2) const override
     {
         auto document1 = QJsonDocument::fromJson(json1);
         auto document2 = QJsonDocument::fromJson(json2);

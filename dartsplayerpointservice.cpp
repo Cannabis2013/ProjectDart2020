@@ -19,7 +19,7 @@ DartsPlayerPointService *DartsPlayerPointService::setWinner(const QUuid &id)
     return this;
 }
 
-QString DartsPlayerPointService::winnerUserName() const
+QString DartsPlayerPointService::winnerName() const
 {
     auto id = winnerId();
     auto userName = playerName(id);

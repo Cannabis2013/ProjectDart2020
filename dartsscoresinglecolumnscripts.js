@@ -8,6 +8,7 @@ function connectInterface()
 {
     applicationInterface.sendDartsTournamentData.connect(handleTournamentMetaData);
     applicationInterface.sendOrderedDartsScores.connect(recieveDartsScores);
+    applicationInterface.dartsScoreControllerIsReady.connect(backendIsReady);
     applicationInterface.controllerAwaitsInput.connect(backendIsReadyAndAwaitsInput);
     applicationInterface.controllerHasDeclaredAWinner.connect(backendDeclaredAWinner);
     applicationInterface.controllerIsStopped.connect(backendIsStopped);
@@ -21,6 +22,7 @@ function disconnectInterface()
 {
     applicationInterface.sendDartsTournamentData.disconnect(handleTournamentMetaData);
     applicationInterface.sendOrderedDartsScores.disconnect(recieveDartsScores);
+    applicationInterface.dartsScoreControllerIsReady.disconnect(backendIsReady);
     applicationInterface.controllerAwaitsInput.connect(backendIsReadyAndAwaitsInput);
     applicationInterface.controllerHasDeclaredAWinner.disconnect(backendDeclaredAWinner);
     applicationInterface.controllerIsStopped.disconnect(backendIsStopped);
@@ -47,7 +49,7 @@ function initializeScoreBoard()
     singleColumnScoreBoard.appendHeaderData(assignedPlayerNames,keyPoint);
 }
 
-function controllerIsInitializedAndReady()
+function controllerIsReady()
 {
     dartsScoreSingleColumnBody.state = "ready";
 }
@@ -95,6 +97,7 @@ function handleRequestTournamentReset()
 {
     if(dartsScoreSingleColumnBody.state === "ready")
         dartsScoreSingleColumnBody.state = "stopped";
+    applicationInterface.requestTournamentReset();
 }
 
 function backendRemovedPoint(data)
@@ -168,5 +171,5 @@ function backendIsReadyAndAwaitsInput(data)
 
 function backendIsReady()
 {
-    dartsPointSingleColumnBody.state = "ready";
+    dartsScoreSingleColumnBody.state = "ready";
 }

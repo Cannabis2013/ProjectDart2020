@@ -62,39 +62,9 @@ void DartApplication::handleSetCurrentTournamentRequest(const int &index)
     emit setCurrentActiveTournament(index);
 }
 
-void DartApplication::handleRequestForDartsSingleAttemptPoints()
-{
-    emit requestOrderedDartsInputs();
-}
-
-void DartApplication::handleRequestForMultiAttemptScores()
-{
-    emit requestDartsScores();
-}
-
-void DartApplication::handleFTPDetails(const QByteArray& json)
+void DartApplication::handleDartsDetails(const QByteArray& json)
 {
     emit sendDartsDetails(json);
-}
-
-void DartApplication::handleCreatePlayer(const QByteArray &json)
-{
-    emit requestCreatePlayer(json);
-}
-
-void DartApplication::handleDeletePlayer(const QByteArray& json)
-{
-    emit requestDeletePlayer(json);
-}
-
-void DartApplication::handleDeletePlayersRequest(const QByteArray& json)
-{
-    emit requestDeletePlayers(json);
-}
-
-void DartApplication::requestPlayerDetails()
-{
-    emit requestPlayers();
 }
 
 void DartApplication::handleSendGameModesRequest() const
@@ -108,51 +78,6 @@ void DartApplication::handleSendGameModesRequest() const
     resultingList << first << second << third;
 
     emit sendGameModes(resultingList);
-}
-
-void DartApplication::handleRestartTournament()
-{
-    emit requestTournamentReset();
-}
-
-void DartApplication::handleRequestStart()
-{
-    emit requestStartGame();
-}
-
-void DartApplication::handleRequestStop()
-{
-    emit requestStopGame();
-}
-
-void DartApplication::handleDartsPointInput(const QByteArray& json)
-{
-    emit sendDartsPoint(json);
-}
-
-void DartApplication::handleDartsScoreInput(const QByteArray &json)
-{
-    emit sendDartsScore(json);
-}
-
-void DartApplication::handleDartsUndoRequest()
-{
-    emit requestUndo();
-}
-
-void DartApplication::handleDartsRedoRequest()
-{
-    emit requestRedo();
-}
-
-void DartApplication::handleControllerStateRequest()
-{
-    emit requestControllerState();
-}
-
-void DartApplication::handleDeleteTournamentsRequest(const QByteArray& json)
-{
-    emit requestDeleteTournaments(json);
 }
 
 void DartApplication::assembleDartsTournamentValues()

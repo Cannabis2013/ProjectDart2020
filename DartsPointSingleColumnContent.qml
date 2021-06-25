@@ -40,10 +40,10 @@ Content {
             Layout.minimumHeight: 100
             Layout.maximumHeight: 100
             Layout.alignment: Qt.AlignHCenter
-            onStartButtonClicked: requestStart()
+            onStartButtonClicked: applicationInterface.requestStartGame()
             onResumeButtonClicked: applicationInterface.requestStartGame()
             onPauseButtonClicked: applicationInterface.requestStopGame()
-            onRestartButtonClicked: applicationInterface.requestTournamentReset()
+            onRestartButtonClicked: PointSingleColumnScripts.handleRequestTournamentReset()
             onLeftButtonClicked: applicationInterface.requestUndo()
             onRightButtonClicked: applicationInterface.requestRedo()
         }

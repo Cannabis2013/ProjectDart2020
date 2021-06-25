@@ -141,7 +141,7 @@ private slots:
         QJsonArray arr = {0,1};
         obj["PlayerIndexes"] = arr;
         auto json = QJsonDocument(obj).toJson();
-        _app->handleFTPDetails(json);
+        _app->handleDartsDetails(json);
         auto firstArgument = waitAndReturnFirstSignal(spy,DEFAULT_WAIT_TIME);
         auto inferedArgument = firstArgument.toBool();
         QVERIFY(inferedArgument);

@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 
-import "dartsscoresinglecolumnscripts.js" as MultiAttemptScripts
+import "dartsscoresinglecolumnscripts.js" as DartsScoresScripts
 import "multiattemptstatescripts.js" as StateScripts
 
 Content {
@@ -12,7 +12,7 @@ Content {
     signal requestStart
     signal requestStop
     signal requestRestart
-    onRequestRestart: MultiAttemptScripts.handleRequestTournamentReset()
+    onRequestRestart: DartsScoresScripts.handleRequestTournamentReset()
     signal requestUndo
     signal requestRedo
     signal sendInput(string json)
@@ -43,9 +43,9 @@ Content {
             onStartButtonClicked: applicationInterface.requestStartGame()
             onResumeButtonClicked: applicationInterface.requestStartGame()
             onPauseButtonClicked: applicationInterface.requestStopGame()
-            onRestartButtonClicked: applicationInterface.requestTournamentReset()
-            onLeftButtonClicked: MultiAttemptScripts.undoClicked()
-            onRightButtonClicked: MultiAttemptScripts.redoClicked()
+            onRestartButtonClicked: DartsScoresScripts.handleRequestTournamentReset()
+            onLeftButtonClicked: DartsScoresScripts.undoClicked()
+            onRightButtonClicked: DartsScoresScripts.redoClicked()
         }
         DartsScoreSingleColumnBoard{
             id: singleColumnScoreBoard
@@ -107,6 +107,6 @@ Content {
             }
         }
     ]
-    Component.onCompleted: MultiAttemptScripts.initializeComponent()
-    Component.onDestruction: MultiAttemptScripts.disconnectInterface()
+    Component.onCompleted: DartsScoresScripts.initializeComponent()
+    Component.onDestruction: DartsScoresScripts.disconnectInterface()
 }

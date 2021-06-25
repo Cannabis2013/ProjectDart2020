@@ -40,7 +40,6 @@ SOURCES += \
     dartspointcontrollerbuilder.cpp \
     dartspointinputstojson.cpp \
     dartspointjsondbservice.cpp \
-    dartspointjsonservice.cpp \
     dartspointlogisticcontroller.cpp \
     dartspointmodelsservice.cpp \
     dartspointmulticolumndatamodel.cpp \
@@ -106,9 +105,9 @@ HEADERS += \
     ConnectDartsScoreBuilder.h \
     DartsIndexesBuilderService.h \
     DartsScoreMultiAttempIndexes.h \
+    DefaultQtJsonBuilder.h \
     IConnect.h \
     IPointCalculatorService.h \
-    JsonBuilder.h \
     abstractdartscontrollerbuilder.h \
     abstractdartsfilterpredicate.h \
     abstractdartspointcontroller.h \
@@ -167,9 +166,9 @@ HEADERS += \
     dartsdatamodelpointbuilder.h \
     dartsinputmodelhintservice.h \
     dartsinputsfilterservice.h \
-    dartsjsonextractor.h \
     dartsjsonservice.h \
     dartsjsonservicebuilder.h \
+    dartsmetadataservice.h \
     dartsmodelsservice.h \
     dartsmodelsservicebuilder.h \
     dartsmodelsservicescollection.h \
@@ -186,7 +185,6 @@ HEADERS += \
     dartspointindexes.h \
     dartspointinputstojson.h \
     dartspointjsondbservice.h \
-    dartspointjsonservice.h \
     dartspointlogisticcontroller.h \
     dartspointmodelsservice.h \
     dartspointmulticolumndatamodel.h \
@@ -214,6 +212,7 @@ HEADERS += \
     defaultdartsscorecontroller.h \
     defaultdbmanipulatorservice.h \
     defaultmodelsservicebuilder.h \
+    defaultqtjsonextractor.h \
     deletetournamentsbyindexesservice.h \
     determinecontrollerstatebywinnerid.h \
     filterpredicatedefaultbuilder.h \
@@ -236,8 +235,7 @@ HEADERS += \
     ibuildcontrollerturnvalues.h \
     ibuilddartspointturnvalues.h \
     ibuilddartsscorecontrollervalues.h \
-    icombinejsonbytearrayservice.h \
-    icombinejsonservice.h \
+    ibytearrayjsonmerger.h \
     icomparison.h \
     iconnectdartspointcontroller.h \
     iconnectdartsscorecontroller.h \
@@ -261,6 +259,7 @@ HEADERS += \
     idartsjsonservice.h \
     idartsjsonservicebuilder.h \
     idartslogisticsservice.h \
+    idartsmetadata.h \
     idartsmodelsbuilderservice.h \
     idartsmodelsservice.h \
     idartsmultiattemptindexesbuilder.h \
@@ -291,6 +290,7 @@ HEADERS += \
     ijson.h \
     ijsonbuilder.h \
     ijsonextractor.h \
+    imergejson.h \
     imodelsdbcontext.h \
     imodelsservicebuilder.h \
     inputmodelscountservice.h \
@@ -303,6 +303,8 @@ HEADERS += \
     iplayerpointservice.h \
     iplayerscoreservice.h \
     ipredicate.h \
+    iqtjsonbuilder.h \
+    iqtjsonextractor.h \
     iternaryservice.h \
     iunaryservice.h \
     jsonarrayfromplayernamesandids.h \

@@ -103,6 +103,7 @@ function handleRequestTournamentReset()
 {
     if(dartsPointSingleColumnBody.state === "ready")
         dartsPointSingleColumnBody.state = "stopped";
+    applicationInterface.requestTournamentReset();
 }
 
 function backendRemovedPoint(data)

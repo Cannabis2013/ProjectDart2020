@@ -51,19 +51,18 @@ Content {
             Layout.minimumHeight: 100
             Layout.maximumHeight: 100
             Layout.alignment: Qt.AlignHCenter
-            onStartButtonClicked: requestStart()
-            onResumeButtonClicked: requestStart()
-            onPauseButtonClicked: requestStop()
-            onRestartButtonClicked: requestRestart()
-            onLeftButtonClicked: DartsPointMultiColumnScripts.undoClicked()
-            onRightButtonClicked: DartsPointMultiColumnScripts.redoClicked()
+            onStartButtonClicked: applicationInterface.requestStartGame()
+            onResumeButtonClicked: applicationInterface.requestStartGame()
+            onPauseButtonClicked: applicationInterface.requestStopGame()
+            onRestartButtonClicked: DartsPointMultiColumnScripts.handleRequestTournamentReset()
+            onLeftButtonClicked: applicationInterface.requestUndo()
+            onRightButtonClicked: applicationInterface.requestRedo()
         }
         DartsPointScoreBoard{
             id: pointScoreBoard
             Layout.fillHeight: true
             Layout.fillWidth: true
             Layout.minimumHeight: 160
-
         }
         MyRectangle{
             Layout.fillHeight: true
@@ -85,6 +84,7 @@ Content {
             Layout.fillWidth: true
             Layout.maximumHeight: 384
             Layout.minimumHeight: 128
+            onSendInput: DartsPointMultiColumnScripts.handlePointKeyPadInput(value,keyCode)
         }
     }
     states: [

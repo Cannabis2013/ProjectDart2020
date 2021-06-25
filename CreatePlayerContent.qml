@@ -78,17 +78,15 @@ Content
                 var json = JSON.stringify(obj);
                 buttonOneEnabled = false;
                 buttonTwoEnabled = false;
-                body.sendPlayerDetails(json);
+                applicationInterface.requestCreatePlayer(json);
             }
         }
     }
 
     Component.onCompleted: {
-        body.sendPlayerDetails.connect(applicationInterface.handleCreatePlayer);
         applicationInterface.createPlayerResponse.connect(body.handleCreatePlayerResponse);
     }
     Component.onDestruction: {
-        body.sendPlayerDetails.disconnect(applicationInterface.handleCreatePlayer);
         applicationInterface.createPlayerResponse.disconnect(body.handleCreatePlayerResponse);
     }
 }
