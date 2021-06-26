@@ -189,7 +189,7 @@ DartsScoreController *DartsScoreController::createInstance(const QUuid &tourname
     return new DartsScoreController(tournament,displayHint);
 }
 
-IDartsLogisticsService<QString> *DartsScoreController::pointLogisticInterface() const
+IDartsInputSuggestion<QString> *DartsScoreController::pointLogisticInterface() const
 {
     return _scoreLogisticInterface;
 }

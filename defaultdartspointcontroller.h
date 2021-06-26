@@ -22,7 +22,7 @@
 #include "DefaultQtJsonBuilder.h"
 #include "defaultqtjsonextractor.h"
 #include "dartsmetadataservice.h"
-
+#include "dartspointstringsuggestion.h"
 
 namespace DartsBuilderContext {
     class DefaultDartsPointController : public DartsPointControllerContext::DartsPointController
@@ -53,6 +53,7 @@ namespace DartsBuilderContext {
             controller->_jsonBuilder = new DefaultQtJsonBuilder;
             controller->_jsonExtractor = new DefaultQtJsonExtractor;
             controller->_metaData = DartsMetaDataService::createInstance(tournamentId,displayHint);
+            controller->_stringSuggestionService = DartsPointStringSuggestion::createInstance(details->attempts());
             return controller;
         }
     };

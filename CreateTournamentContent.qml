@@ -99,15 +99,13 @@ Content {
         Component.onCompleted: {
             createBody.sendDartsDetails.connect(applicationInterface.handleDartsDetails); // Tournament request
             applicationInterface.tournamentAssembledAndStored.connect(createBody.tournamentAssembledAndStored);
-            createBody.requestPlayers.connect(applicationInterface.requestPlayerDetails); // Request initial/continous players
             applicationInterface.sendPlayers.connect(CreateScripts.recievePlayers); // Recieve initial players
             CreateScripts.setupSelectors();
-            requestUpdate();
+            applicationInterface.requestPlayers();
         }
         Component.onDestruction: {
             createBody.sendDartsDetails.disconnect(applicationInterface.handleDartsDetails);
             applicationInterface.tournamentAssembledAndStored.disconnect(createBody.tournamentAssembledAndStored);
-            createBody.requestPlayers.disconnect(applicationInterface.requestPlayerDetails);
             applicationInterface.sendPlayers.disconnect(CreateScripts.recievePlayers);
         }
     }

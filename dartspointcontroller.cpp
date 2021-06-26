@@ -9,7 +9,7 @@ void DartsPointController ::start()
 
 void DartsPointController::stop()
 {
-    // No implementation necessary since this is handled by external frontend
+    emit controllerIsStopped();
 }
 
 void DartsPointController::handleAndProcessUserInput(const QByteArray& json)

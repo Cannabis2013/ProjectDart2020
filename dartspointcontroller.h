@@ -18,7 +18,7 @@
 #include "idartsplayermodelbuilderservice.h"
 #include "ibuilddartspointturnvalues.h"
 #include "ibytearrayjsonmerger.h"
-#include "idartslogisticsservice.h"
+#include "idartsinputsuggestion.h"
 #include "IPointCalculatorService.h"
 #include "ipointvalidator.h"
 #include "iplayerpointservice.h"
@@ -68,7 +68,7 @@ namespace DartsPointControllerContext {
         typedef IDartsControllerIndexesBuilder<DartsIndexes,DartsIndexService,QByteArray> IIndexesBuilderService;
         typedef IDartscontrollerJsonService<IControllerPoint,DartsIndexes,QByteArray,QUuid> DartsJsonService;
         typedef IPlayerPointService<ControllerPlayer,IControllerPoint> PlayerPointService;
-        typedef IDartsLogisticsService<QString> LogisticService;
+        typedef IDartsInputSuggestion<QString> LogisticService;
         typedef IBuildDartsPointTurnValues TurnValueBuilderService;
         typedef IDartsControllerModelsService<IDartsControllerPoint<QUuid,QString,QByteArray>,QString,QUuid> ControllerModelsService;
         typedef IPointCalculatorService<IControllerPoint> ScoreCalculatorService;

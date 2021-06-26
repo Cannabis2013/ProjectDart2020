@@ -5,7 +5,7 @@ import QtQuick.Controls 2.5
     GridLayout{
     id: startButtonComponentBody
     flow: GridLayout.TopToBottom
-    property bool startButtonVisible: false
+    property bool startButtonVisible: true
     onStartButtonVisibleChanged: startButton.visible = startButtonVisible
     property bool leftButtonVisible: false
     onLeftButtonVisibleChanged: leftButton.visible = leftButtonVisible
@@ -19,9 +19,9 @@ import QtQuick.Controls 2.5
     onWaitButtonVisibleChanged: waitButton.visible = waitButtonVisible
     property bool restartButtonVisible: false
     onRestartButtonVisibleChanged: restartButton.visible = restartButtonVisible
-    property bool textDescriptionVisible: false
+    property bool textDescriptionVisible: true
     onTextDescriptionVisibleChanged: textDescription.visible = textDescriptionVisible
-    property bool startButtonEnabled: true
+    property bool startButtonEnabled: enabled
     onStartButtonEnabledChanged: startButton.enabled = startButtonEnabled
     // Button signals
     signal startButtonClicked
@@ -91,6 +91,7 @@ import QtQuick.Controls 2.5
         enablePressAndHold: startButtonComponentBody.pressAndHoldEnabled
         visible: startButtonComponentBody.startButtonVisible
         enabled: startButtonComponent.startButtonEnabled
+        onEnabledChanged: print(startButtonEnabled)
     }
     PushButton{
         id: pauseButton

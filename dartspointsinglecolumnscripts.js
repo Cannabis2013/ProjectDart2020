@@ -10,6 +10,7 @@ function connectInterface()
     applicationInterface.sendDartsTournamentData.connect(handleDartsTournamentMetaData);
     applicationInterface.sendOrderedDartsPoints.connect(recievePoints);
     applicationInterface.dartsPointControllerIsReady.connect(backendIsReady);
+    applicationInterface.controllerIsStopped.connect(backendIsStopped);
     applicationInterface.controllerAwaitsInput.connect(backendIsReadyAndAwaitsInput);
     applicationInterface.dartsControllerIsReset.connect(reinitialize);
     applicationInterface.controllerHasDeclaredAWinner.connect(backendDeclaredAWinner);
@@ -22,6 +23,7 @@ function disconnectInterface()
     applicationInterface.sendDartsTournamentData.disconnect(handleDartsTournamentMetaData);
     applicationInterface.sendOrderedDartsPoints.disconnect(recievePoints);
     applicationInterface.dartsPointControllerIsReady.disconnect(backendIsReady);
+    applicationInterface.controllerIsStopped.connect(backendIsStopped);
     applicationInterface.controllerAwaitsInput.disconnect(backendIsReadyAndAwaitsInput);
     applicationInterface.dartsControllerIsReset.disconnect(reinitialize);
     applicationInterface.controllerHasDeclaredAWinner.disconnect(backendDeclaredAWinner);
@@ -164,6 +166,12 @@ function redoClicked()
 {
     dartsPointSingleColumnBody.state = "waitingForInputConfirmation";
     applicationInterface.requestRedo();
+}
+
+function pauseClicked()
+{
+    dartsPointSingleColumnBody.state = "stopped";
+    applicationInterface.requestStopGame();
 }
 
 function setWinnerText()

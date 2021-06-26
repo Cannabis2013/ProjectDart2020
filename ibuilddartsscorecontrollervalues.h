@@ -6,7 +6,7 @@
 #include "idartsscoreindexservice.h"
 #include "iplayerscoreservice.h"
 #include "idartscontrollerscore.h"
-#include "idartslogisticsservice.h"
+#include "idartsinputsuggestion.h"
 #include "idartsscorecontrollerindexes.h"
 #include "idartsplayer.h"
 
@@ -18,7 +18,7 @@ namespace DartsScoreControllerContext
         typedef IDartsControllerScore<QUuid,QString,QByteArray> ScoreModel;
         typedef IDartsScoreIndexService<IDartsScoreControllerIndexes<QByteArray>> IndexService;
         typedef IPlayerScoreService<DartsPlayer,ScoreModel> PlayerInputService;
-        typedef IDartsLogisticsService<QString> LogisticService;
+        typedef IDartsInputSuggestion<QString> LogisticService;
     }
     class IBuildDartsScoreControllerValues : public
             IBuildControllerTurnValues<DartsScoreTurnValues,

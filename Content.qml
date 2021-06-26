@@ -34,10 +34,4 @@ Rectangle {
             height = minimumHeight;
         notifyHeightChange(height);
     }
-
-    Component.onCompleted: {
-    }
-
-    Component.onDestruction: {
-    }
 }

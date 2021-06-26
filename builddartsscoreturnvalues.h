@@ -11,7 +11,7 @@ namespace DartsScoreControllerContext{
         typedef IDartsScoreIndexService<IDartsScoreControllerIndexes<QByteArray>> IndexService;
         const DartsScoreTurnValues* createTurnValues(const IndexService* indexService,
                                             const IPlayerScoreService<IDartsPlayer<QUuid,QString>,ControllerScore>* playerScoreService,
-                                            const IDartsLogisticsService<QString>* logisticService) const override
+                                            const IDartsInputSuggestion<QString>* logisticService) const override
         {
             auto canUndo = indexService->canUndo();
             auto canRedo = indexService->canRedo();
@@ -31,7 +31,7 @@ namespace DartsScoreControllerContext{
             return model;
         }
     private:
-        QString createRowSuggestionByScore(const IDartsLogisticsService<QString>* logisticService,
+        QString createRowSuggestionByScore(const IDartsInputSuggestion<QString>* logisticService,
                                const int& score) const
         {
             if(logisticService == nullptr)

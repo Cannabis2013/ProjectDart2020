@@ -56,7 +56,8 @@ Item {
             Layout.fillHeight: true
             Layout.preferredWidth: 64
             onResumeButtonClicked: turnControllerBody.resumeButtonClicked()
-            onPauseButtonClicked: turnControllerBody.pauseButtonClicked()
+            onPauseButtonClicked: turnControllerBody.pauseButtonClicked();
+
             onStartButtonClicked: turnControllerBody.startButtonClicked()
             onRestartButtonClicked: TurnControllerScripts.setRestart()
             onPressAndHoldClicked: turnControllerBody.state = "optionsState";
@@ -136,6 +137,7 @@ Item {
             name: "startState"
             PropertyChanges {
                 target: startButtonComponent
+                textDescriptionVisible: false
                 startButtonVisible: true
                 startButtonEnabled: true
             }
@@ -146,6 +148,7 @@ Item {
                 target: startButtonComponent
                 textDescriptionVisible: true
                 pauseButtonVisible: true
+                startButtonVisible : false
             }
             PropertyChanges {
                 target: leftButton
@@ -176,6 +179,8 @@ Item {
             PropertyChanges {
                 target: startButtonComponent
                 resumeButtonVisible: true
+                pauseButtonVisible : false
+                startButtonVisible : false
             }
             PropertyChanges {
                 target: leftButton
@@ -221,5 +226,4 @@ Item {
             }
         }
     ]
-    Component.onCompleted: state = "initialState"
 }

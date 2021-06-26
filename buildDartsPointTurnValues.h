@@ -5,7 +5,7 @@
 #include "dartspointturnvalues.h"
 #include "idartspointindexservice.h"
 #include "iplayerpointservice.h"
-#include "idartslogisticsservice.h"
+#include "idartsinputsuggestion.h"
 #include "idartspointcontrollerindexes.h"
 #include "idartscontrollerplayer.h"
 #include "idartscontrollerpoint.h"
@@ -21,7 +21,7 @@ namespace DartsPointControllerContext{
         QByteArray>> PlayerPointService;
         DartsPointTurnValues* createTurnValues(const DartsIndexService* indexService,
                                       const PlayerPointService* playerScoreService,
-                                      const IDartsLogisticsService<QString>* logisticService) const override
+                                      const IDartsInputSuggestion<QString>* logisticService) const override
         {
             auto model = new DartsPointTurnValues;
             auto playerScore = playerScoreService->playerScore(indexService->setIndex());
@@ -37,7 +37,7 @@ namespace DartsPointControllerContext{
     private:
         QString buildTargetRow(const int& remainingScore,
                                const int& attemptIndex,
-                               const IDartsLogisticsService<QString>* logisticService) const
+                               const IDartsInputSuggestion<QString>* logisticService) const
         {
             if(logisticService == nullptr)
                 return "Logistic service not injected";

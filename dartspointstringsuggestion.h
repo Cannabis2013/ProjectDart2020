@@ -1,17 +1,21 @@
-#ifndef SCORELOGISTICCONTROLLER_H
-#define SCORELOGISTICCONTROLLER_H
+#ifndef DARTSPOINTSTRINGSUGGESTION_H
+#define DARTSPOINTSTRINGSUGGESTION_H
 
-#include "idartslogisticsservice.h"
+#include "idartsinputsuggestion.h"
 #include <qstring.h>
 #include <QMultiHash>
 #include <QRandomGenerator>
-struct ScoreModel
-{
-    QVector<char> multiplier;
-    QVector<int> pointValue;
-};
 
-class DartsScoreLogisticController : public IDartsLogisticsService<QString>
+namespace PointLogisticContext
+{
+    struct ScoreModel
+    {
+        QVector<char> multiplier;
+        QVector<int> pointValue;
+    };
+}
+
+class DartsPointStringSuggestion : public IDartsInputSuggestion<QString>
 {
 
 public:
@@ -24,11 +28,10 @@ public:
         TrippleModifier = 0x2C
     };
     // Create instance
-    static DartsScoreLogisticController* createInstance(const int& attemps,
-                                                   const int& lastAttemptKeyCode);
+    static DartsPointStringSuggestion* createInstance(const int& attemps,
+                                                      const int& lastAttemptKeyCode = DoubleModifier);
     // FTPLogisticControllerInterface interface
     virtual QString suggestTargetRow(const int &remainingScore, const int &turnIndex) const override;
-
 private:
     bool isEven(const int& integer);
     int terminalDivisor() const;
@@ -46,45 +49,45 @@ private:
     virtual int lastAttemptKeyCode();
     int attempts() const;
     // Private constructor
-    DartsScoreLogisticController(const int& attempts, const int& lastAttemptKeyCode);
+    DartsPointStringSuggestion(const int& attempts, const int& lastAttemptKeyCode);
 
     void constructAndAddSuggestions();
     QString constructThrowSuggestion(const int &remainingScore,
                                      const int &turnIndex);
     bool pointSuggestion(const int &remainingScore,
                          const int &turnIndex,
-                         ScoreModel *scoreObject);
+                         PointLogisticContext::ScoreModel *scoreObject);
 
     bool evaluateConstraints(const int &remainingScore,
                              const int &turnIndex,
                              const int &totalTurns);
     bool isWithinTerminalThreshold(const int &remainingScore,
                                    const int &turnIndex,
-                                   ScoreModel *scoreObject);
+                                   PointLogisticContext::ScoreModel *scoreObject);
     bool isDivisor(int base, int div);
-    bool determineRouteByThresholdDiff(const int &remainingScore, const int &turnIndex, ScoreModel *s);
-    bool determineRouteByDiff(const int &remainingScore, const int &turnIndex, ScoreModel *scoreObject);
+    bool determineRouteByThresholdDiff(const int &remainingScore, const int &turnIndex, PointLogisticContext::ScoreModel *s);
+    bool determineRouteByDiff(const int &remainingScore, const int &turnIndex, PointLogisticContext::ScoreModel *scoreObject);
     bool findGreatestPointsWithinThreshold(const int &remainingScore,
                                              const int &turnIndex,
                                              const int &threshold,
                                              const int &divisor,
-                                             ScoreModel *s);
+                                             PointLogisticContext::ScoreModel *s);
     bool findGreatestPointsWithinTerminalThreshold(const int &remainingScore,
                                          const int &turnIndex,
                                          const int &threshold,
-                                         ScoreModel *s);
+                                         PointLogisticContext::ScoreModel *s);
     bool findGreatestOddDivisibleByThree(const int &remainingScore,
                                          const int &turnIndex,
-                                         ScoreModel* s);
+                                         PointLogisticContext::ScoreModel* s);
     void updateScoreObject(char stringIdentifier,
                            int value,
                            int index,
-                           ScoreModel *s);
+                           PointLogisticContext::ScoreModel *s);
     bool writeToScoreObject(const int &remainingScore,
                             const int &points,
                             const int &divisor,
-                            const int &turnIndex, ScoreModel *s);
-    QString toString(ScoreModel *s);
+                            const int &turnIndex, PointLogisticContext::ScoreModel *s);
+    QString toString(PointLogisticContext::ScoreModel *s);
 
     const int _attempts;
     const int _lastAttemptKeyCode;
@@ -113,5 +116,5 @@ private:
 
     QList<QMultiHash<int,QString>> _throwSuggestions;
 };
+#endif // SCORECONTROLLER_H
 
-#endif // SCORELOGISTICCONTROLLER_H

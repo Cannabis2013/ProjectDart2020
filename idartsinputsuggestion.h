@@ -1,7 +1,7 @@
-#ifndef ILOGISTICMANAGER_H
-#define ILOGISTICMANAGER_H
+#ifndef IDARTSINPUTSUGGESTION_H
+#define IDARTSINPUTSUGGESTION_H
 template<class TString>
-class IDartsLogisticsService
+class IDartsInputSuggestion
 {
 public:
     virtual TString suggestTargetRow(const int &remainingScore, const int &turnIndex) const = 0;

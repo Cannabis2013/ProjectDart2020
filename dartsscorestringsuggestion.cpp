@@ -1,6 +1,6 @@
-#include "dartsscorelogisticcontroller.h"
+#include "dartsscorestringsuggestion.h"
 
-DartsScoreLogisticController::DartsScoreLogisticController(const int &attempts, const int &lastAttemptKeyCode):
+DartsScoreStringSuggestion::DartsScoreStringSuggestion(const int &attempts, const int &lastAttemptKeyCode):
     _attempts(attempts),_lastAttemptKeyCode(lastAttemptKeyCode)
 {
     if(_lastAttemptKeyCode == KeyMappings::SingleModifer)
@@ -20,7 +20,7 @@ DartsScoreLogisticController::DartsScoreLogisticController(const int &attempts, 
     constructAndAddSuggestions();
 }
 
-void DartsScoreLogisticController::constructAndAddSuggestions()
+void DartsScoreStringSuggestion::constructAndAddSuggestions()
 {
     for (int turnIndex = 1; turnIndex <= attempts(); ++turnIndex) {
         auto remainingTurns = attempts() - turnIndex;
@@ -37,7 +37,7 @@ void DartsScoreLogisticController::constructAndAddSuggestions()
     }
 }
 
-QString DartsScoreLogisticController::constructThrowSuggestion(const int &remainingScore,
+QString DartsScoreStringSuggestion::constructThrowSuggestion(const int &remainingScore,
                                                           const int &turnIndex)
 {
     auto score = new ScoreModel();
@@ -61,7 +61,7 @@ QString DartsScoreLogisticController::constructThrowSuggestion(const int &remain
     return QString();
 }
 
-bool DartsScoreLogisticController::pointSuggestion(const int &remainingScore,
+bool DartsScoreStringSuggestion::pointSuggestion(const int &remainingScore,
                                               const int &turnIndex,
                                               ScoreModel *scoreObject)
 {
@@ -95,7 +95,7 @@ bool DartsScoreLogisticController::pointSuggestion(const int &remainingScore,
 
 }
 
-bool DartsScoreLogisticController::evaluateConstraints(const int &remainingScore,
+bool DartsScoreStringSuggestion::evaluateConstraints(const int &remainingScore,
                                                   const int &turnIndex,
                                                   const int &totalTurns)
 {
@@ -120,7 +120,7 @@ bool DartsScoreLogisticController::evaluateConstraints(const int &remainingScore
         return true;
 }
 
-bool DartsScoreLogisticController::isWithinTerminalThreshold(const int &remainingScore,
+bool DartsScoreStringSuggestion::isWithinTerminalThreshold(const int &remainingScore,
                                                         const int &turnIndex,
                                                         ScoreModel *scoreObject)
 {
@@ -155,7 +155,7 @@ bool DartsScoreLogisticController::isWithinTerminalThreshold(const int &remainin
     return false;
 }
 
-bool DartsScoreLogisticController::isDivisor(int base, int div)
+bool DartsScoreStringSuggestion::isDivisor(int base, int div)
 {
     if(base == 0 || div == 0)
         throw new std::domain_error("One of operands zero");
@@ -163,7 +163,7 @@ bool DartsScoreLogisticController::isDivisor(int base, int div)
     return base % div == 0;
 }
 
-bool DartsScoreLogisticController::determineRouteByThresholdDiff(const int &remainingScore,
+bool DartsScoreStringSuggestion::determineRouteByThresholdDiff(const int &remainingScore,
                                                             const int &turnIndex,
                                                             ScoreModel *s)
 {
@@ -195,7 +195,7 @@ bool DartsScoreLogisticController::determineRouteByThresholdDiff(const int &rema
     return false;
 }
 
-bool DartsScoreLogisticController::determineRouteByDiff(const int &remainingScore,
+bool DartsScoreStringSuggestion::determineRouteByDiff(const int &remainingScore,
                                                    const int &turnIndex,
                                                    ScoreModel *scoreObject)
 {
@@ -210,7 +210,7 @@ bool DartsScoreLogisticController::determineRouteByDiff(const int &remainingScor
     return false;
 }
 
-bool DartsScoreLogisticController::findGreatestPointsWithinThreshold(const int &remainingScore,
+bool DartsScoreStringSuggestion::findGreatestPointsWithinThreshold(const int &remainingScore,
                                                                            const int &turnIndex,
                                                                            const int &threshold,
                                                                            const int &divisor,
@@ -226,7 +226,7 @@ bool DartsScoreLogisticController::findGreatestPointsWithinThreshold(const int &
     return false;
 }
 
-bool DartsScoreLogisticController::findGreatestPointsWithinTerminalThreshold(const int &remainingScore,
+bool DartsScoreStringSuggestion::findGreatestPointsWithinTerminalThreshold(const int &remainingScore,
                                                               const int &turnIndex,
                                                               const int &threshold,
                                                               ScoreModel *s)
@@ -244,7 +244,7 @@ bool DartsScoreLogisticController::findGreatestPointsWithinTerminalThreshold(con
     return false;
 }
 
-bool DartsScoreLogisticController::findGreatestOddDivisibleByThree(const int &remainingScore, const int &turnIndex, ScoreModel *s)
+bool DartsScoreStringSuggestion::findGreatestOddDivisibleByThree(const int &remainingScore, const int &turnIndex, ScoreModel *s)
 {
     for (int points = trippleMaxValue(); points > 0; points -= trippleDivisor()) {
         auto endScore = remainingScore - points;
@@ -254,7 +254,7 @@ bool DartsScoreLogisticController::findGreatestOddDivisibleByThree(const int &re
     return false;
 }
 
-void DartsScoreLogisticController::updateScoreObject(char stringIdentifier, int value, int index, ScoreModel *s)
+void DartsScoreStringSuggestion::updateScoreObject(char stringIdentifier, int value, int index, ScoreModel *s)
 {
     if(value < 0)
         throw new std::out_of_range("Value out of bounds");
@@ -263,7 +263,7 @@ void DartsScoreLogisticController::updateScoreObject(char stringIdentifier, int 
     s->pointValue[index - 1] = value;
 }
 
-bool DartsScoreLogisticController::writeToScoreObject(const int &remainingScore,
+bool DartsScoreStringSuggestion::writeToScoreObject(const int &remainingScore,
                                                  const int &points,
                                                  const int &divisor,
                                                  const int &turnIndex, ScoreModel *s)
@@ -282,7 +282,7 @@ bool DartsScoreLogisticController::writeToScoreObject(const int &remainingScore,
     }
 }
 
-QString DartsScoreLogisticController::toString(ScoreModel *s)
+QString DartsScoreStringSuggestion::toString(ScoreModel *s)
 {
     QString result;
     for (int i = 0; i < attempts(); ++i) {
@@ -294,72 +294,72 @@ QString DartsScoreLogisticController::toString(ScoreModel *s)
     return result;
 }
 
-int DartsScoreLogisticController::terminalThreshold() const
+int DartsScoreStringSuggestion::terminalThreshold() const
 {
     return _terminalThreshold;
 }
 
-int DartsScoreLogisticController::terminalDivisor() const
+int DartsScoreStringSuggestion::terminalDivisor() const
 {
     return _terminalDivisor;
 }
 
-int DartsScoreLogisticController::singleDivisor() const
+int DartsScoreStringSuggestion::singleDivisor() const
 {
     return _singleDivisor;
 }
 
-int DartsScoreLogisticController::doubleDivisor() const
+int DartsScoreStringSuggestion::doubleDivisor() const
 {
     return _doubleDivisor;
 }
 
-int DartsScoreLogisticController::trippleDivisor() const
+int DartsScoreStringSuggestion::trippleDivisor() const
 {
     return _trippleDivisor;
 }
 
-int DartsScoreLogisticController::upperThresholdValue() const
+int DartsScoreStringSuggestion::upperThresholdValue() const
 {
     return _upperThresholdValue;
 }
 
-int DartsScoreLogisticController::bull() const
+int DartsScoreStringSuggestion::bull() const
 {
     return _bull;
 }
 
-int DartsScoreLogisticController::bullsEye() const
+int DartsScoreStringSuggestion::bullsEye() const
 {
     return _bullsEye;
 }
 
-int DartsScoreLogisticController::singleMaxValue() const
+int DartsScoreStringSuggestion::singleMaxValue() const
 {
     return _singleMaxValue;
 }
 
-int DartsScoreLogisticController::doubleMaxValue() const
+int DartsScoreStringSuggestion::doubleMaxValue() const
 {
     return _doubleMaxValue;
 }
 
-int DartsScoreLogisticController::trippleMaxValue() const
+int DartsScoreStringSuggestion::trippleMaxValue() const
 {
     return _trippleMaxValue;
 }
 
-int DartsScoreLogisticController::attempts() const
+int DartsScoreStringSuggestion::attempts() const
 {
     return _attempts;
 }
 
-DartsScoreLogisticController *DartsScoreLogisticController::createInstance(const int &attemps, const int &lastAttemptKeyCode)
+DartsScoreStringSuggestion *DartsScoreStringSuggestion::createInstance(const int &attemps, const int &lastAttemptKeyCode)
 {
-    return new DartsScoreLogisticController(attemps,lastAttemptKeyCode);
+    return new DartsScoreStringSuggestion(attemps,lastAttemptKeyCode);
 }
 
-QString DartsScoreLogisticController::suggestTargetRow(const int &remainingScore, const int &turnIndex) const
+QString DartsScoreStringSuggestion::suggestTargetRow(const int &remainingScore, const int &turnIndex) const
 {
     Q_UNUSED(turnIndex);
     if(remainingScore > 180 || remainingScore < terminalDivisor())
@@ -373,13 +373,13 @@ QString DartsScoreLogisticController::suggestTargetRow(const int &remainingScore
     return suggestion;
 }
 
-bool DartsScoreLogisticController::isEven(const int &integer)
+bool DartsScoreStringSuggestion::isEven(const int &integer)
 {
     auto result = integer % 2 == 0;
     return result;
 }
 
-int DartsScoreLogisticController::lastAttemptKeyCode()
+int DartsScoreStringSuggestion::lastAttemptKeyCode()
 {
     return _lastAttemptKeyCode;
 }

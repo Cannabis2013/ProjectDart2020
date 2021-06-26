@@ -40,20 +40,20 @@ SOURCES += \
     dartspointcontrollerbuilder.cpp \
     dartspointinputstojson.cpp \
     dartspointjsondbservice.cpp \
-    dartspointlogisticcontroller.cpp \
     dartspointmodelsservice.cpp \
     dartspointmulticolumndatamodel.cpp \
     dartspointsinglecolumndatamodel.cpp \
     dartspointsjsonservice.cpp \
+    dartspointstringsuggestion.cpp \
     dartsscorebuilderservice.cpp \
     dartsscorecontroller.cpp \
     dartsscoreindexesbuilderservice.cpp \
     dartsscorejsonbuilderservice.cpp \
     dartsscorejsondb.cpp \
     dartsscorejsonservice.cpp \
-    dartsscorelogisticcontroller.cpp \
     dartsscoremodelsservice.cpp \
     dartsscoresinglecolumndatamodel.cpp \
+    dartsscorestringsuggestion.cpp \
     dartssingleattemptindexesbuilder.cpp \
     dartstournamentjsonextractor.cpp \
     defaultdbmanipulatorservice.cpp \
@@ -185,11 +185,11 @@ HEADERS += \
     dartspointindexes.h \
     dartspointinputstojson.h \
     dartspointjsondbservice.h \
-    dartspointlogisticcontroller.h \
     dartspointmodelsservice.h \
     dartspointmulticolumndatamodel.h \
     dartspointsinglecolumndatamodel.h \
     dartspointsjsonservice.h \
+    dartspointstringsuggestion.h \
     dartspointturnvalues.h \
     dartsscorebuilderservice.h \
     dartsscorecontroller.h \
@@ -200,11 +200,11 @@ HEADERS += \
     dartsscorejsondb.h \
     dartsscorejsonservice.h \
     dartsscorelessthanpredicate.h \
-    dartsscorelogisticcontroller.h \
     dartsscoremodelsbuilderservice.h \
     dartsscoremodelsservice.h \
     dartsscoresinglecolumndatamodel.h \
     dartsscoresjsonassemblerservice.h \
+    dartsscorestringsuggestion.h \
     dartsscoreturnvalues.h \
     dartssingleattemptindexesbuilder.h \
     dartstournamentbuilder.h \
@@ -256,9 +256,9 @@ HEADERS += \
     idartsdatamodelpointbuilder.h \
     idartsinputsfilter.h \
     idartsinputstojson.h \
+    idartsinputsuggestion.h \
     idartsjsonservice.h \
     idartsjsonservicebuilder.h \
-    idartslogisticsservice.h \
     idartsmetadata.h \
     idartsmodelsbuilderservice.h \
     idartsmodelsservice.h \

@@ -3,7 +3,7 @@
 
 #include "idartspointindexservice.h"
 #include "iplayerpointservice.h"
-#include "idartslogisticsservice.h"
+#include "idartsinputsuggestion.h"
 #include "dartspointturnvalues.h"
 #include "idartscontrollerplayer.h"
 #include "idartscontrollerpoint.h"
@@ -19,7 +19,7 @@ namespace DartsPointControllerContext {
         typedef DartsPointTurnValues TurnValuesModel;
         typedef IDartsPointControllerIndexes<QByteArray> DartsIndexes;
         typedef IDartsPointIndexService<DartsIndexes> DartsIndexService;
-        typedef IDartsLogisticsService<QString> LogisticService;
+        typedef IDartsInputSuggestion<QString> LogisticService;
     }
     class IBuildDartsPointTurnValues : public
             IBuildControllerTurnValues<BuildTurnValuesContext::TurnValuesModel,

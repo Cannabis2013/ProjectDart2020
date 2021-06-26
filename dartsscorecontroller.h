@@ -4,7 +4,7 @@
 #include <quuid.h>
 // Custom classes
 #include "abstractdartsscorecontroller.h"
-#include "idartslogisticsservice.h"
+#include "idartsinputsuggestion.h"
 #include "iscorevalidator.h"
 #include "idartsscoreindexservice.h"
 #include "iplayerscoreservice.h"
@@ -59,7 +59,7 @@ namespace DartsScoreControllerContext
         typedef IPlayerScoreService<DartsPlayer,ControllerScore> PlayerScoreService;
         typedef IDartsScoreControllerIndexes<QByteArray> ControllerIndexes;
         typedef IDartsScoreJsonBuilderService<ControllerScore,ControllerIndexes,QByteArray,QString> DartsScoreJsonService;
-        typedef IBinaryService<const IDartsLogisticsService<QString>*,const int&, QString> LogisticService;
+        typedef IBinaryService<const IDartsInputSuggestion<QString>*,const int&, QString> LogisticService;
         typedef IDartsModelsBuilderService<ControllerScore,QByteArray,PlayerScoreService,
                                            QUuid,QString> DartsScoreBuilderService;
         typedef IDartsScoreIndexService<ControllerIndexes> DartsIndexService;
@@ -70,7 +70,7 @@ namespace DartsScoreControllerContext
         /*
          * Point suggestion section
          */
-        IDartsLogisticsService<QString> *pointLogisticInterface() const;
+        IDartsInputSuggestion<QString> *pointLogisticInterface() const;
     public slots:
         /*
          * Handle wake up request
@@ -141,7 +141,7 @@ namespace DartsScoreControllerContext
         DartsScoreController(const QUuid &tournament, const int &displayHint);
         //Services
         // Generate throwsuggestions
-        IDartsLogisticsService<QString> *_scoreLogisticInterface = nullptr;
+        IDartsInputSuggestion<QString> *_scoreLogisticInterface = nullptr;
         // Validator service
         IScoreValidator* _inputEvaluator = nullptr;
         // Index service
