@@ -24,7 +24,6 @@ void registerCustomTypes()
 
 int main(int argc, char *argv[])
 {
-    cout << "start" << endl;
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
     /*

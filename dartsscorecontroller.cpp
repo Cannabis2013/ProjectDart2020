@@ -255,21 +255,17 @@ void DartsScoreController::subtractAndAddScoreToModel(const ControllerScore *sco
 
 QByteArray DartsScoreController::createJsonResponse(const QUuid &winnerId,const QString &winnerName)
 {
-    QByteArray json;
-    auto winnerIdJson = _dartsJsonBuilder->createJsonByKey(winnerId,"winnerId");
-    auto winnerNameJson = _dartsJsonBuilder->createJsonByKey(winnerName,"winnerName");
-    auto tournamentJson = _dartsJsonBuilder->createJsonByKey(_tournamentId,"tournamentId");
-    _jsonMergeService->mergeIntoJson(json,winnerIdJson);
-    _jsonMergeService->mergeIntoJson(json,winnerNameJson);
-    _jsonMergeService->mergeIntoJson(json,tournamentJson);
+
+    auto json = _jsonMergeService->createJsonFromList({_dartsJsonBuilder->createJson(winnerId,"winnerId"),
+                                                       _dartsJsonBuilder->createJson(winnerName,"winnerName"),
+                                                       _dartsJsonBuilder->createJson(_tournamentId,"tournamentId")});
     return json;
 }
 
-QByteArray DartsScoreController::createJsonResponse(const ControllerScore *scoreModel, const DartsScoreTurnValues *turnValues)
+QByteArray DartsScoreController::createJsonResponse(const ControllerScore *scoreModel,
+                                                    const DartsScoreTurnValues *turnValues)
 {
-    QByteArray jsonResponse;
-    _jsonMergeService->mergeIntoJson(jsonResponse,scoreModel->toJson());
-    _jsonMergeService->mergeIntoJson(jsonResponse,turnValues->toJson());
+    auto jsonResponse = _jsonMergeService->createJsonFromList({scoreModel->toJson(),turnValues->toJson()});
     return jsonResponse;
 }
 
@@ -277,12 +273,8 @@ QByteArray DartsScoreController::createJsonResponse(const ControllerScore *score
                                                     const ControllerIndexes *indexes,
                                                     const DartsPlayer* playerModel)
 {
-    auto tournamentJson = _dartsJsonBuilder->createJsonByKey(_tournamentId,"tournamentId");
-    QByteArray json;
-    _jsonMergeService->mergeIntoJson(json,scoreModel->toJson());
-    _jsonMergeService->mergeIntoJson(json,indexes->toJson());
-    _jsonMergeService->mergeIntoJson(json,playerModel->toJson());
-    _jsonMergeService->mergeIntoJson(json,tournamentJson);
+    QByteArray json = _jsonMergeService->createJsonFromList({_dartsJsonBuilder->createJson(_tournamentId,"tournamentId"),
+                                                             scoreModel->toJson(),indexes->toJson(),playerModel->toJson()});
     return json;
 }
 

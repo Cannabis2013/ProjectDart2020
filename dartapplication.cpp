@@ -7,15 +7,21 @@ DartApplication *DartApplication::createInstance()
 
 DartApplication *DartApplication::createAndSetupInstance()
 {
-    auto app = new DartApplication;
-    app->setup();
+    auto app = DartApplication::createInstance()
+            ->createModelsService()
+            ->connectServices();
     return app;
 }
 
-DartApplication *DartApplication::setup()
+DartApplication *DartApplication::createModelsService()
 {
     registerTypes();
-    _modelsService = _modelsServiceBuilder->buildLocalModelsServiceWithJsonDb();
+    _modelsService = _modelsServiceBuilder->createLocalModelsServiceWithJsonDb();
+    return this;
+}
+
+DartApplication *DartApplication::connectServices()
+{
     _connectRouteByGameMode->service(_modelsService,_routeTournamentByGameMode);
     _connectModelsServiceInterface->connectModelsInterface(this,_modelsService);
     _connectRouteByInputHint->connectServices(_modelsService,_routeDartsControllerByInputHint);
@@ -25,7 +31,7 @@ DartApplication *DartApplication::setup()
     _connectDartsPointBuilder->connectServices(_routeDartsControllerByInputHint,_dartsPointBuilder,this);
     _connectDartsScoreBuilder->connectServices(_routeDartsControllerByInputHint,_dartsScoreBuilder,this);
     /*
-     * Connect route from the point where controllers are initialized the route interface
+     * Connect route from the point where controllers are initialized to the route interface
      */
     _connectRouteByDisplayHint->connectServices(_routeDartsControllerByDisplayHint,this);
     return this;

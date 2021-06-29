@@ -15,10 +15,10 @@ Item {
     signal leftButtonClicked
     signal rightButtonClicked
     // Signal backend states
-    signal backendIsReset
-    onBackendIsReset: state = "initialState"
-    signal backendIsReady
-    onBackendIsReady: state = "startState"
+    signal reset
+    onReset: state = "initialState"
+    signal ready
+    onReady: state = "startState"
     signal backendAwaitsInput
     onBackendAwaitsInput: state = "runningState"
     signal backendProcessesInput
@@ -33,9 +33,9 @@ Item {
     property bool startButtonEnablePressAndHold : true
     onStartButtonEnablePressAndHoldChanged: startButtonComponent.pressAndHoldEnabled = startButtonEnablePressAndHold
 
-    property string currentRoundIndex: "Current round"
+    property string currentRoundIndex: initialTextBoxValues.roundText
     onCurrentRoundIndexChanged: currentRoundLabel.text = currentRoundIndex
-    property string currentPlayer: "Current player"
+    property string currentPlayer: initialTextBoxValues.playerText
     onCurrentPlayerChanged: currentPlayerLabel.text = currentPlayer
     property bool leftButtonEnabled: false
     onLeftButtonEnabledChanged: leftButton.enabled = leftButtonEnabled
@@ -48,6 +48,12 @@ Item {
         property string currentPlayerText: qsTr("Current player: ")
     }
 
+    QtObject{
+        id: initialTextBoxValues
+        readonly property string roundText: "Current round"
+        readonly property string playerText: "Current player"
+    }
+
     GridLayout{
         flow: GridLayout.LeftToRight
         anchors.fill: parent
@@ -57,7 +63,6 @@ Item {
             Layout.preferredWidth: 64
             onResumeButtonClicked: turnControllerBody.resumeButtonClicked()
             onPauseButtonClicked: turnControllerBody.pauseButtonClicked();
-
             onStartButtonClicked: turnControllerBody.startButtonClicked()
             onRestartButtonClicked: TurnControllerScripts.setRestart()
             onPressAndHoldClicked: turnControllerBody.state = "optionsState";
@@ -146,9 +151,9 @@ Item {
             name: "runningState"
             PropertyChanges {
                 target: startButtonComponent
-                textDescriptionVisible: true
-                pauseButtonVisible: true
                 startButtonVisible : false
+                pauseButtonVisible: true
+                textDescriptionVisible: true
             }
             PropertyChanges {
                 target: leftButton
@@ -181,6 +186,7 @@ Item {
                 resumeButtonVisible: true
                 pauseButtonVisible : false
                 startButtonVisible : false
+                textDescriptionVisible : true
             }
             PropertyChanges {
                 target: leftButton
@@ -195,7 +201,7 @@ Item {
             name: "optionsState"
             PropertyChanges {
                 target: startButtonComponent
-                textDescriptionVisible: true
+                textDescriptionVisible: false
                 restartButtonVisible: true
                 startButtonVisible: startButtonVisible
                 pauseButtonVisible: pauseButtonVisible

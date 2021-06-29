@@ -1,11 +1,14 @@
 #ifndef IMERGEJSON_H
 #define IMERGEJSON_H
+#include <qvector.h>
+
 
 template<typename TJsonFormat>
 class IMergeJson
 {
 public:
-    virtual void mergeIntoJson(TJsonFormat &json1, const TJsonFormat &json2) const = 0;
+    typedef TJsonFormat Json;
+    virtual Json createJsonFromList(const QVector<Json> &json2) const = 0;
 };
 
 #endif // ICOMBINEJSONSERVICE_H

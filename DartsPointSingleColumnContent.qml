@@ -92,7 +92,7 @@ Content {
         State {
             name: "ready"
             StateChangeScript{
-                script: pointSingleColumnTurnController.backendIsReady()
+                script: pointSingleColumnTurnController.ready()
             }
         },
         State {

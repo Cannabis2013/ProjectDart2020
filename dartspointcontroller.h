@@ -1,8 +1,8 @@
 #ifndef DARTSPOINTSINGLEATTEMPT_H
 #define DARTSPOINTSINGLEATTEMPT_H
-
 // Proprietary QT classes
 #include <quuid.h>
+#include <qscopedpointer.h>
 // Custom classes
 #include "abstractdartspointcontroller.h"
 // Models
@@ -10,6 +10,7 @@
 #include "dartspointturnvalues.h"
 #include "idartspointcontrollerindexes.h"
 #include "idartscontrollerplayer.h"
+#
 /*
  * Services
  */

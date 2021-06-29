@@ -87,13 +87,13 @@ function backendPersistedInput(data)
 function reinitialize()
 {
     singleColumnScoreBoard.clearData();
-    singleColumnScoreTurnController.backendIsReset();
+    singleColumnScoreTurnController.reset();
     keyDataDisplay.clear();
     initializeScoreBoard();
     dartsScoreSingleColumnBody.state = "ready";
 }
 
-function handleRequestTournamentReset()
+function resetTournament()
 {
     if(dartsScoreSingleColumnBody.state === "ready")
         dartsScoreSingleColumnBody.state = "stopped";

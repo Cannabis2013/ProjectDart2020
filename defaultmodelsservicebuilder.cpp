@@ -7,7 +7,7 @@ DefaultModelsServiceBuilder *DefaultModelsServiceBuilder::createInstance()
     return new DefaultModelsServiceBuilder();
 }
 
-AbstractModelsService *DefaultModelsServiceBuilder::buildLocalModelsServiceWithJsonDb()
+AbstractModelsService *DefaultModelsServiceBuilder::createLocalModelsServiceWithJsonDb()
 {
     auto dartsPointDb = DartsPointJsonDbService::createInstance(new AssembleDartsPointsFromJson,
                                                             new AssembleJsonArrayFromDartsPoints);

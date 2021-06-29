@@ -5,7 +5,9 @@ import QtQuick.Controls 2.5
     GridLayout{
     id: startButtonComponentBody
     flow: GridLayout.TopToBottom
-    property bool startButtonVisible: true
+    property int descriptionFontSize: 12
+    onDescriptionFontSizeChanged: textDescription.fontSize = descriptionFontSize
+    property bool startButtonVisible: false
     onStartButtonVisibleChanged: startButton.visible = startButtonVisible
     property bool leftButtonVisible: false
     onLeftButtonVisibleChanged: leftButton.visible = leftButtonVisible
@@ -19,9 +21,9 @@ import QtQuick.Controls 2.5
     onWaitButtonVisibleChanged: waitButton.visible = waitButtonVisible
     property bool restartButtonVisible: false
     onRestartButtonVisibleChanged: restartButton.visible = restartButtonVisible
-    property bool textDescriptionVisible: true
+    property bool textDescriptionVisible: false
     onTextDescriptionVisibleChanged: textDescription.visible = textDescriptionVisible
-    property bool startButtonEnabled: enabled
+    property bool startButtonEnabled: false
     onStartButtonEnabledChanged: startButton.enabled = startButtonEnabled
     // Button signals
     signal startButtonClicked
@@ -42,37 +44,32 @@ import QtQuick.Controls 2.5
         property int defaultHeight: 24
         property int defaultWidth: 64
     }
-
-    MyLabel{
-        id: textDescription
-        Layout.alignment: Qt.AlignTop
-        text: qsTr("Hold for options")
-        fontColor: "white"
-        fontSize: 4
-        width: buttonDimensions.defaultWidth
-        Layout.fillHeight: true
-        wrapMode: Text.WordWrap
-        verticalTextAlignment: Text.AlignBottom
-        horizontalTextAlignment: Text.AlignHCenter
-        visible: startButtonComponentBody.textDescriptionVisible
-        onVisibleChanged: {
-            visible ? textPlaceHolder.visible = false :
-                                                textPlaceHolder.visible = true;
-            textDescriptionAnimation.restart();
-        }
-
-        PropertyAnimation on height {
-            id: textDescriptionAnimation
-            from: 0
-            to: restartButton.height
-            duration: 125
-        }
-    }
     Rectangle{
         id: textPlaceHolder
         color: "transparent"
+        clip: true
         Layout.fillHeight: true
-        visible: false
+        Layout.fillWidth: true
+        Layout.alignment: Qt.AlignTop
+        MyLabel{
+            id: textDescription
+            text: qsTr("Hold for options")
+            fontColor: "white"
+            fontSize: startButtonComponentBody.descriptionFontSize
+            width: textPlaceHolder.width
+            height: textPlaceHolder.height
+            wrapMode: Text.WordWrap
+            verticalTextAlignment: Text.AlignBottom
+            horizontalTextAlignment: Text.AlignHCenter
+            visible: startButtonComponentBody.textDescriptionVisible
+            onVisibleChanged: textDescriptionAnimation.restart()
+            PropertyAnimation on height {
+                id: textDescriptionAnimation
+                from: 0
+                to: textPlaceHolder.height
+                duration: 125
+            }
+        }
     }
 
     PushButton{
@@ -91,7 +88,6 @@ import QtQuick.Controls 2.5
         enablePressAndHold: startButtonComponentBody.pressAndHoldEnabled
         visible: startButtonComponentBody.startButtonVisible
         enabled: startButtonComponent.startButtonEnabled
-        onEnabledChanged: print(startButtonEnabled)
     }
     PushButton{
         id: pauseButton

@@ -7,7 +7,7 @@
 class IByteArrayJsonMerger : public IMergeJson<QByteArray>
 {
 public:
-    virtual void mergeIntoJson(QByteArray &json1, const QByteArray &json2) const = 0;
+    virtual Json createJsonFromList(const QVector<Json> &json2) const = 0;
 };
 
 #endif // ICOMBINEJSONBYTEARRAYSERVICE_H

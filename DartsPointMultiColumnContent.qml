@@ -110,7 +110,7 @@ Content {
         State {
             name: "ready"
             StateChangeScript{
-                script: singleColumnTurnController.backendIsReady()
+                script: singleColumnTurnController.ready()
             }
         },
         State {

@@ -9,7 +9,7 @@
 class DefaultQtJsonBuilder : public IQtJsonBuilder
 {
 public:
-    virtual JsonFormat createJsonByKey(const Id &id, const String &key) const override
+    virtual JsonFormat createJson(const Id &id, const String &key) const override
     {
         QJsonObject obj;
         obj[key] = id.toString(QUuid::WithoutBraces);
@@ -17,7 +17,7 @@ public:
         auto json = document.toJson();
         return json;
     }
-    virtual JsonFormat createJsonByKey(const String &string, const String &key) const override
+    virtual JsonFormat createJson(const String &string, const String &key) const override
     {
         QJsonObject obj;
         obj[key] = string;

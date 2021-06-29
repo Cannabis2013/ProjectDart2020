@@ -4,7 +4,7 @@
 #include "dartsscorecontroller.h"
 #include "idartscontrollerentity.h"
 #include <quuid.h>
-#include "dartsscorestringsuggestion.h"
+#include "dartssingleattemptinputrowsuggestion.h"
 #include "ScoreValidator.h"
 #include "dartsplayerscoreservice.h"
 #include "dartsscorejsonbuilderservice.h"
@@ -18,7 +18,7 @@
 #include "dartsplayerbuilderservice.h"
 #include "jsonmergebybytearrayservice.h"
 #include "defaultqtjsonextractor.h"
-#include "dartsscorestringsuggestion.h"
+#include "dartssingleattemptinputrowsuggestion.h"
 
 class DefaultDartsScoreController : public DartsScoreController
 {
@@ -28,8 +28,7 @@ public:
     {
         using namespace DartsScoreControllerContext;
         auto controller = new DefaultDartsScoreController(details->tournamentId(),details->displayHint());
-        controller->_scoreLogisticInterface = DartsScoreStringSuggestion::createInstance(details->attempts(),
-                                                                                         details->terminalKeyCode());
+        controller->_scoreLogisticInterface = DartsSingleAttemptInputRowSuggestion::createInstance();
         controller->_inputEvaluator = ScoreValidator::createInstance(details->terminalKeyCode());
         controller->_indexService = ScoreIndexController::createInstance();
         controller->_inputService = DartsPlayerScoreService::createInstance(details->keyPoint(),
@@ -44,8 +43,6 @@ public:
         controller->_jsonMergeService = new JsonMergeByByteArrayService;
         controller->_dartsJsonBuilder = new DefaultQtJsonBuilder;
         controller->_extractJson = new DefaultQtJsonExtractor;
-        controller->_scoreLogisticInterface =
-                DartsScoreStringSuggestion::createInstance(3,details->terminalKeyCode());
         return controller;
     }
 private:

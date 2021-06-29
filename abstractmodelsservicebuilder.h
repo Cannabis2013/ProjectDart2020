@@ -5,7 +5,7 @@ template<typename TModelsServiceInterface>
 class AbstractModelsServiceBuilder
 {
 public:
-    virtual TModelsServiceInterface* buildLocalModelsServiceWithJsonDb() = 0;
+    virtual TModelsServiceInterface* createLocalModelsServiceWithJsonDb() = 0;
 };
 
 #endif // ABSTRACTMODELSBUILDER_H

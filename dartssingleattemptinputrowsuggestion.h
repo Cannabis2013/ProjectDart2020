@@ -11,7 +11,7 @@ struct ScoreModel
     QVector<int> pointValue;
 };
 
-class DartsScoreStringSuggestion : public IDartsInputSuggestion<QString>
+class DartsSingleAttemptInputRowSuggestion : public IDartsInputSuggestion<QString>
 {
 public:
     /*
@@ -23,16 +23,14 @@ public:
         TrippleModifier = 0x2C
     };
     // Create instance
-    static DartsScoreStringSuggestion* createInstance(const int& attemps,
-                                                      const int& lastAttemptKeyCode = DoubleModifier);
+    static DartsSingleAttemptInputRowSuggestion* createInstance();
     // FTPLogisticControllerInterface interface
     virtual QString suggestTargetRow(const int &remainingScore, const int &turnIndex) const override;
 
 private:
-    bool isEven(const int& integer);
-    int terminalDivisor() const;
-    int terminalThreshold() const;
-    // Const values
+    // Private constructor
+    DartsSingleAttemptInputRowSuggestion();
+    // Const methods
     int trippleMaxValue() const;
     int doubleMaxValue() const;
     int singleMaxValue() const;
@@ -42,10 +40,11 @@ private:
     int trippleDivisor() const;
     int doubleDivisor() const;
     int singleDivisor() const;
+    bool isEven(const int& integer);
+    int terminalDivisor() const;
+    int terminalThreshold() const;
     virtual int lastAttemptKeyCode();
     int attempts() const;
-    // Private constructor
-    DartsScoreStringSuggestion(const int& attempts, const int& lastAttemptKeyCode);
     // Construct and append suggestion to list
     void constructAndAddSuggestions();
     QString constructThrowSuggestion(const int &remainingScore,
@@ -85,8 +84,8 @@ private:
                             const int &turnIndex, ScoreModel *s);
     QString toString(ScoreModel *s);
 
-    const int _attempts;
-    const int _lastAttemptKeyCode;
+    const int _attempts = 3;
+    const int _lastAttemptKeyCode = DoubleModifier;
 
     const int _singleDivisor = 1;
     const int _doubleDivisor = 2;
@@ -104,8 +103,8 @@ private:
     const int _doubleMaxValue = 40;
     const int _trippleMaxValue = 60;
 
-    int _terminalDivisor;
-    int _terminalThreshold;
+    const int _terminalDivisor = 2;
+    const int _terminalThreshold = 40;
 
     const char identifiers[3] = {'S','D','T'};
 

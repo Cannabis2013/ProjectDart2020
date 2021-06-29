@@ -43,7 +43,7 @@ Content {
             onStartButtonClicked: applicationInterface.requestStartGame()
             onResumeButtonClicked: applicationInterface.requestStartGame()
             onPauseButtonClicked: applicationInterface.requestStopGame()
-            onRestartButtonClicked: DartsScoresScripts.handleRequestTournamentReset()
+            onRestartButtonClicked: DartsScoresScripts.resetTournament()
             onLeftButtonClicked: DartsScoresScripts.undoClicked()
             onRightButtonClicked: DartsScoresScripts.redoClicked()
         }
@@ -91,7 +91,7 @@ Content {
         State {
             name: "ready"
             StateChangeScript{
-                script: singleColumnScoreTurnController.backendIsReady()
+                script: singleColumnScoreTurnController.ready()
             }
         },
         State {

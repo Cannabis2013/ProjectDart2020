@@ -50,7 +50,7 @@ namespace DartsModelsContext {
         static DefaultModelsServiceBuilder* createInstance();
         typedef IDartsScoreModelsService<IDartsScoreDb> ScoreModelsService;
         typedef IPlayerModelsJsonService<IPlayerModel,QUuid,QString,QByteArray> PlayerModelsJsonService;
-        AbstractModelsService *buildLocalModelsServiceWithJsonDb() override;
+        AbstractModelsService *createLocalModelsServiceWithJsonDb() override;
     private:
         IDartsJsonServiceBuilder* _dartsJsonServiceBuilder = new DartsJsonServiceBuilder;
         IModelsServiceBuilder<PlayerModelsJsonService>* _playerJsonServiceBuilder  = new PlayerJsonServiceBuilder;

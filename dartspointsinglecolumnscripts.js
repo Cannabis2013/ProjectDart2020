@@ -95,7 +95,7 @@ function setThrowSuggestion(json)
 function reinitialize()
 {
     singleColumnPointBoard.clearData();
-    pointSingleColumnTurnController.backendIsStopped();
+    pointSingleColumnTurnController.reset();
     keyDataDisplay.clear();
     initializeScoreBoard();
     dartsPointSingleColumnBody.state = "ready";

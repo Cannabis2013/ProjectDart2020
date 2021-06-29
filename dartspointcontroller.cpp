@@ -176,16 +176,16 @@ void DartsPointController::beginInitialize()
 
 void DartsPointController::undoSuccess(const QByteArray& json)
 {
-    auto dartsPointModel = _pointModelBuilder->createPointModel(json);
-    _calculateScoreByPointInput->addScoreValueToDartsPointModel(dartsPointModel);
-    _inputService->addPlayerScore(dartsPointModel);
+    QScopedPointer<const IControllerPoint> dartsPointModel(_pointModelBuilder->createPointModel(json));
+    _calculateScoreByPointInput->addScoreValueToDartsPointModel(dartsPointModel.get());
+    _inputService->addPlayerScore(dartsPointModel.get());
     auto newScore = _inputService->playerScore(dartsPointModel->playerId());
-    dartsPointModel = _pointModelBuilder->createPointModelWithTotalScoreByModel(dartsPointModel,newScore);
+    QScopedPointer<const IControllerPoint> alteredDartsPointModel( _pointModelBuilder->createPointModelWithTotalScoreByModel(dartsPointModel.get(),newScore));
     auto playerName = _inputService->playerName(dartsPointModel->playerId());
-    auto playerModel = _playerModelBuilder->createPlayerModelByValues(dartsPointModel->playerId(),playerName);
-    auto turnValues = _turnValuesBuilder->createTurnValues(_indexService,_inputService,
-                                                                      _stringSuggestionService);
-    auto response = createJsonResponse(dartsPointModel,playerModel,turnValues);
+    QScopedPointer<const ControllerPlayer> playerModel(_playerModelBuilder->createPlayerModelByValues(dartsPointModel->playerId(),playerName));
+    QScopedPointer<const DartsPointTurnValues> turnValues(_turnValuesBuilder->createTurnValues(_indexService,_inputService,
+                                                          _stringSuggestionService));
+    auto response = createJsonResponse(alteredDartsPointModel.get(),playerModel.get(),turnValues.get());
     emit pointRemoved(response);
 }
 
@@ -207,12 +207,12 @@ void DartsPointController::redoSuccess(const QByteArray& json)
 
 void DartsPointController::assembleAndSendTurnValues(const QByteArray &json)
 {
-    auto pointModel = _pointModelBuilder->createPointModel(json);
-    subtractAndAddScoreValuesToModel(pointModel);
-    auto playerModel = _playerModelBuilder->createPlayerModelByValues(pointModel->playerId(),currentPlayerName());
+    QScopedPointer<const IControllerPoint> pointModel(_pointModelBuilder->createPointModel(json));
+    subtractAndAddScoreValuesToModel(pointModel.get());
+    QScopedPointer<const ControllerPlayer> playerModel(_playerModelBuilder->createPlayerModelByValues(pointModel->playerId(),currentPlayerName()));
     nextTurn();
-    auto turnValues = _turnValuesBuilder->createTurnValues(_indexService,_inputService,_stringSuggestionService);
-    auto jsonResponse = createJsonResponse(pointModel,playerModel,turnValues);
+    QScopedPointer<const DartsPointTurnValues> turnValues(_turnValuesBuilder->createTurnValues(_indexService,_inputService,_stringSuggestionService));
+    auto jsonResponse = createJsonResponse(pointModel.get(),playerModel.get(),turnValues.get());
     emit dartsPointPersisted(jsonResponse);
 }
 
@@ -240,11 +240,9 @@ QByteArray DartsPointController::createJsonResponse(const IControllerPoint *poin
                                                       const ControllerPlayer* playerModel,
                                                       const DartsPointTurnValues *turnValues)
 {
-    QByteArray json;
-    _jsonMerger->mergeIntoJson(json,pointModel->toJson());
-    _jsonMerger->mergeIntoJson(json,playerModel->toJson());
-    _jsonMerger->mergeIntoJson(json,turnValues->toJson());
-    return json;
+    auto jsonResponse = _jsonMerger->createJsonFromList({pointModel->toJson(),playerModel->toJson(),
+                                                         turnValues->toJson()});
+    return jsonResponse;
 }
 
 void DartsPointController::updatePlayerPointModel(const IControllerPoint *pointModel, const QUuid &playerId)
@@ -254,13 +252,9 @@ void DartsPointController::updatePlayerPointModel(const IControllerPoint *pointM
 
 QByteArray DartsPointController::createJsonResponse(const QUuid &winnerId, const QString &winnerName)
 {
-    QByteArray jsonResponse;
-    auto winnerNameAsJson = _jsonBuilder->createJsonByKey(winnerName,"winnerName");
-    auto winnerIdAsJson = _jsonBuilder->createJsonByKey(winnerId,"winnerId");
-    auto tournamentIdAsJson = _jsonBuilder->createJsonByKey(_metaData->tournamentId(),"tournamentId");
-    _jsonMerger->mergeIntoJson(jsonResponse,winnerNameAsJson);
-    _jsonMerger->mergeIntoJson(jsonResponse,winnerIdAsJson);
-    _jsonMerger->mergeIntoJson(jsonResponse,tournamentIdAsJson);
+    auto jsonResponse = _jsonMerger->createJsonFromList({_jsonBuilder->createJson(winnerName,"winnerName"),
+                                                         _jsonBuilder->createJson(winnerId,"winnerId"),
+                                                         _jsonBuilder->createJson(_metaData->tournamentId(),"tournamentId")});
     return jsonResponse;
 }
 
@@ -268,12 +262,8 @@ QByteArray DartsPointController::createJsonResponse(const DartsIndexes *indexes,
                                                       const ControllerPlayer *playerModel,
                                                       const IControllerPoint *pointModel)
 {
-    auto tournamentJson = _jsonBuilder->createJsonByKey(_metaData->tournamentId(),"tournamentId");
-    QByteArray json;
-    _jsonMerger->mergeIntoJson(json,indexes->toJson());
-    _jsonMerger->mergeIntoJson(json,playerModel->toJson());
-    _jsonMerger->mergeIntoJson(json,pointModel->toJson());
-    _jsonMerger->mergeIntoJson(json,tournamentJson);
+    auto json = _jsonMerger->createJsonFromList({_jsonBuilder->createJson(_metaData->tournamentId(),"tournamentId"),
+                                                 indexes->toJson(),playerModel->toJson(),pointModel->toJson()});
     return json;
 }
 

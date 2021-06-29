@@ -39,9 +39,10 @@ public:
      */
     static DartApplication* createInstance();
     static DartApplication* createAndSetupInstance();
-    DartApplication *setup();
-    DartApplication *useThreads();
     void registerTypes();
+    DartApplication *createModelsService();
+    DartApplication *connectServices();
+    DartApplication *useThreads();
     /*
      * Get/set GameControllerBuilder
      */

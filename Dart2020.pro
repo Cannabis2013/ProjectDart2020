@@ -53,8 +53,8 @@ SOURCES += \
     dartsscorejsonservice.cpp \
     dartsscoremodelsservice.cpp \
     dartsscoresinglecolumndatamodel.cpp \
-    dartsscorestringsuggestion.cpp \
     dartssingleattemptindexesbuilder.cpp \
+    dartssingleattemptinputrowsuggestion.cpp \
     dartstournamentjsonextractor.cpp \
     defaultdbmanipulatorservice.cpp \
     defaultmodelsservicebuilder.cpp \
@@ -204,9 +204,9 @@ HEADERS += \
     dartsscoremodelsservice.h \
     dartsscoresinglecolumndatamodel.h \
     dartsscoresjsonassemblerservice.h \
-    dartsscorestringsuggestion.h \
     dartsscoreturnvalues.h \
     dartssingleattemptindexesbuilder.h \
+    dartssingleattemptinputrowsuggestion.h \
     dartstournamentbuilder.h \
     defaultdartspointcontroller.h \
     defaultdartsscorecontroller.h \

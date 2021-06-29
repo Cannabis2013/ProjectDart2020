@@ -9,7 +9,16 @@
 class JsonMergeByByteArrayService : public IByteArrayJsonMerger
 {
 public:
-    void mergeIntoJson(QByteArray &json1, const QByteArray &json2) const override
+    Json createJsonFromList(const QVector<Json> &json2) const override
+    {
+        Json resultingJson;
+        for (const auto &json : json2)
+            resultingJson = mergeJson(resultingJson,json);
+        return resultingJson;
+    }
+
+private:
+    Json mergeJson(const Json &json1, const Json &json2) const
     {
         auto document1 = QJsonDocument::fromJson(json1);
         auto document2 = QJsonDocument::fromJson(json2);
@@ -18,11 +27,10 @@ public:
         QJsonObject combinedJsonObject;
         combine(combinedJsonObject,jsonObject1);
         combine(combinedJsonObject,jsonObject2);
-        auto document = QJsonDocument(combinedJsonObject);
-        json1 = document.toJson();
+        auto newDocument = QJsonDocument(combinedJsonObject);
+        auto json = newDocument.toJson();
+        return json;
     }
-
-private:
     void combine(QJsonObject &object, QJsonObject &addend) const
     {
         auto keys = addend.keys();
