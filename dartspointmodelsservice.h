@@ -3,7 +3,7 @@
 
 #include "idartspointmodelsservice.h"
 #include <qvector.h>
-#include "idartspointdb.h"
+#include "idartsinputdb.h"
 #include "idartsinputsfilter.h"
 #include "ipredicate.h"
 #include "ibinaryservice.h"
@@ -11,7 +11,7 @@
 #include "idartssingleattemptindexesbuilder.h"
 
 namespace DartsModelsContext {
-    class DartsPointModelsService : public IDartsPointModelsService<IDartsPointDb>
+    class DartsPointModelsService : public IDartsPointModelsService<IDartsInputDb>
     {
     public:
         /*
@@ -36,16 +36,16 @@ namespace DartsModelsContext {
                                            const QUuid &playerId,
                                            const int &roundIndex,
                                            const int &attemptIndex,
-                                           const IDartsPointDb* dbService) const override;
+                                           const IDartsInputDb* dbService) const override;
         const IDartsPointIndexes *dartsPointIndexes(const QVector<const PlayerInput*>& models,
                                                     const int& totalInputModelsCount,
                                                     const int& assignedPlayersCount) const override;
-        void setDartsPointHint(const PlayerInput *inputModel, const int &hint, IDartsPointDb *dbService) override;
+        void setDartsPointHint(const PlayerInput *inputModel, const int &hint, IDartsInputDb *dbService) override;
         // Set service methods
         DartsPointModelsService* setDartsInputsFilterService(FilterDartsInputsService *newDartsInputsFilterService);
         DartsPointModelsService* setAssembleDartsPointIndexes(IndexesBuilderService *newAssembleDartsPointIndexes);
         DartsPointModelsService* setDartsInputHintService(DartsInputHintService *newSetInputHintService);
-        DartsPointModelsService* setDbService(IDartsPointDb *newDartsPointsDb);
+        DartsPointModelsService* setDbService(IDartsInputDb *newDartsPointsDb);
 
     private:
         DartsInputHintService* _setInputHintService;

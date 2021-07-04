@@ -80,7 +80,7 @@ function requestDeleteTournamentPopUp()
     if(count > 0)
     {
         let obj = createConfirmPopUp('ConfirmPageContent.qml',
-                                                      applicationWindow);
+                                     applicationWindow);
         obj.acceptClicked.connect(deleteTournamentsAccepted);
     }
 }
@@ -101,13 +101,15 @@ function handleDeleteTournamentsSuccess(status)
 /*
   Add player to listview
   */
-function recievePlayers(players)
+function recievePlayers(data)
 {
-    for(var i=0;i < players.length;i += 2)
+    var j = JSON.parse(data);
+    for(var i=0;i < j.length;i++)
     {
-        var playerName = players[i];
-        var email = players[i+1];
-        playersListView.addItemModel({"type" : "player","username" : playerName, "mail" : email})
+        var obj = j[i];
+        var playerName = obj["playerName"];
+        var email = obj["playerMail"];
+        playersListView.addItemModel({"type" : "player","username" : playerName, "mail" : email});
     }
     requestTournaments();
 }

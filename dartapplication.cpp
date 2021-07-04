@@ -8,15 +8,18 @@ DartApplication *DartApplication::createInstance()
 DartApplication *DartApplication::createAndSetupInstance()
 {
     auto app = DartApplication::createInstance()
-            ->createModelsService()
+            ->createDartsBuilders()
             ->connectServices();
     return app;
 }
 
-DartApplication *DartApplication::createModelsService()
+DartApplication *DartApplication::createDartsBuilders()
 {
-    registerTypes();
-    _modelsService = _modelsServiceBuilder->createLocalModelsServiceWithJsonDb();
+    using namespace DartsBuilderContext;
+    _dartsPointBuilder = DartsPointControllerBuilder::createInstance()
+            ->setBuildEntityByJson(BuildDartsControllerEntity::createInstance());
+    _dartsScoreBuilder = DartsScoreBuilderService::createInstance()
+            ->setBuildEntityByJson(BuildDartsControllerEntity::createInstance());
     return this;
 }
 
@@ -109,12 +112,8 @@ void DartApplication::setDartsScoreController(AbstractDartsController *controlle
 
 DartApplication::DartApplication()
 {
-    auto dartsPointBuilderService = DartsBuilderContext::DartsPointControllerBuilder::createInstance()
-            ->setBuildEntityByJson(DartsBuilderContext::BuildDartsControllerEntity::createInstance());
-    auto dartsScoreBuilderService = DartsBuilderContext::DartsScoreBuilderService::createInstance()
-            ->setBuildEntityByJson(DartsBuilderContext::BuildDartsControllerEntity::createInstance());
-    _dartsPointBuilder = dartsPointBuilderService;
-    _dartsScoreBuilder = dartsScoreBuilderService;
+    // Register custom classes
+    registerTypes();
 }
 
 void DartApplication::clearGameController()
@@ -154,12 +153,6 @@ void DartApplication::setUsingThreads(bool usingThreads)
 AbstractDartsControllerBuilder *DartApplication::controllerBuilder()
 {
     return _dartsPointBuilder;
-}
-
-DartApplication* DartApplication::setModelsServiceBuilder(AbstractModelsServiceBuilder<AbstractModelsService> *modelsServiceBuilder)
-{
-    _modelsServiceBuilder = modelsServiceBuilder;
-    return this;
 }
 
 DartApplication *DartApplication::setDartsPointBuilderService(ControllerBuilderInterface *builder)

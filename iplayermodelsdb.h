@@ -5,21 +5,11 @@
 #include <quuid.h>
 #include "iplayermodel.h"
 #include "ipersistence.h"
+#include "imodelsdbcontext.h"
 
-namespace DartsModelsContext {
-    class IPlayerModelsDb : public IPersistence
-    {
-    public:
-        // Public types
-        virtual void addPlayerModel(const IPlayerModel*) = 0;
-        virtual const IPlayerModel* playerModel(const int&) = 0;
-        virtual QVector<const IPlayerModel*> playerModels() = 0;
-        virtual void removePlayerModel(const QUuid&) = 0;
-        virtual void removePlayerModel(const int&) = 0;
-        virtual int indexOfPlayerModel(const IPlayerModel*) = 0;
-        virtual void replacePlayerModel(const int&, const IPlayerModel*) = 0;
-    };
-}
-
+class IPlayerModelsDb :
+        public IModelsDbContext<DartsModelsContext::IPlayerModel>,
+        public IPersistence
+{};
 
 #endif // IMODELDBCONTEXT_H

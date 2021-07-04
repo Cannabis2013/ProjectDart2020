@@ -5,25 +5,38 @@
 #include "iplayermodelsservice.h"
 #include "iunaryservice.h"
 #include "ibinaryservice.h"
-#include "idartsmodelsservice.h"
+#include "idartstournamentsdbmanipulator.h"
 #include "iplayermodel.h"
 #include <QVariantList>
-#include "idartsjsonservice.h"
+#include "idartsjsonmanipulator.h"
+#include "igetdatafromjson.h"
 #include "dartsscoreinput.h"
 #include "dartspointinput.h"
 #include "idartstournament.h"
 #include "idartstournamentbuilder.h"
 #include "idartsscoremodelsservice.h"
 #include "idartspointmodelsservice.h"
-#include "idartspointdb.h"
-#include "idartsscoredb.h"
+#include "idartsinputdb.h"
 #include "iplayerinputsdbmanipulatorservice.h"
 #include "igetinputmodelsservice.h"
 #include "ipredicate.h"
 #include "iinputmodelscountservice.h"
 #include "idartspointsjsonservice.h"
 #include "idartsscorejsonservice.h"
-#include "iplayermodelsjsonservice.h"
+#include "idartstournamentdb.h"
+#include "igetdartsplayerdatafromdb.h"
+#include "igetdatafromplayermodels.h"
+#include "iplayermodelsdb.h"
+#include "idartsmodelmanipulator.h"
+#include "idartstournamentjsonbuilder.h"
+#include "igetdartstournamentfromdb.h"
+#include "igetdartstournamentfromdb.h"
+#include "idartsplayerjsonbuilder.h"
+#include "igetdartstournamentdatafromjson.h"
+#include "idartsplayermodelbuilder.h"
+#include "idartsplayerdbmanipulator.h"
+#include "igetdatafromdartstournament.h"
+
 namespace DartsModelsContext {
     class LocalModelsService : public AbstractModelsService
     {
@@ -43,47 +56,23 @@ namespace DartsModelsContext {
             allHints = HiddenHint | DisplayHint
         };
         // Typedefs ;
-        typedef IDartsTournamentBuilder<IDartsTournament,QByteArray> DartsTournamentBuilder;
+        typedef IDartsTournamentBuilder<IDartsTournament,QByteArray> TournamentBuilder;
         typedef IModelsDbContext<IPlayerInput> DbService;
         typedef IPlayerInputsDbManipulatorService<IPlayerInput,DbService,QUuid> DbServiceManipulator;
-        typedef IGetInputModelsService<IPlayerInput,DbService,QUuid> GetInputModelsService;
+        typedef IGetInputModelsService<IPlayerInput,DbService,QUuid> IGetInputModels;
         typedef IPredicate<IPlayerInput> Predicate;
         typedef QVector<const IPlayerInput*> PlayerInputs; ;
         typedef IBinaryService<const PlayerInputs&,
                                const Predicate*,
                                PlayerInputs> SortDartsInputsByPredicateService;
-        typedef IDartsScoreModelsService<IDartsScoreDb> DartsScoreModelsService;
-        typedef IInputModelsCountService<DbService,QUuid> InputModelsCountService;
-        typedef IDartsPointsJsonService<IPlayerInput,IPlayerModelsService,IDartsPointIndexes,QByteArray> PointModelsJsonService;
+        typedef IDartsScoreModelsService<IDartsInputDb> ScoreModelsService;
+        typedef IInputModelsCountService<DbService,QUuid> CountInputModels;
+        typedef IDartsPointsJsonService<IPlayerInput,IDartsPointIndexes,QByteArray> PointModelsJsonService;
         typedef IDartsScoreJsonService<IPlayerInput,IDartsScoreIndexes,QByteArray> ScoreModelsJsonService;
-        typedef IPlayerModelsJsonService<IPlayerModel,QUuid,QString,QByteArray> PlayerModelsJsonService;
         /*
          * Create instance
          */
         static LocalModelsService* createInstance();
-
-        // Set service methods
-        LocalModelsService* setDartsModelsService(IDartsModelsService *dartsModelsService);
-        LocalModelsService* setPlayerModelsService(IPlayerModelsService *playerModelsContext);
-        LocalModelsService* setDartsJsonService(IDartsJsonService *dartsJsonService);
-        LocalModelsService* setAddPlayerNameToDartsInputModel(IBinaryService<const IModel<QUuid,QByteArray> *,
-                                                              const QString &,
-                                                              const IModel<QUuid,QByteArray> *> *service);
-        LocalModelsService* setDartsTournamentBuilder(DartsTournamentBuilder *newDartsTournamentBuilder);
-        LocalModelsService* setDartsScoreInputModelsService(DartsScoreModelsService *service);
-        LocalModelsService* setDartsPointInputService(IDartsPointModelsService<IDartsPointDb> *newDartsPointInputService);
-        LocalModelsService* setDartsPointInputDb(IDartsPointDb *newDartsPointInputDb);
-        LocalModelsService* setDartsScoreInputDb(IDartsScoreDb *newDartsScoreInputDb);
-        LocalModelsService* setDbManipulatorService(DbServiceManipulator *newDbManipulatorService);
-        LocalModelsService* setGetInputModelsService(GetInputModelsService *newGetInputModelsService);
-        LocalModelsService* setInputModelsSortService(SortDartsInputsByPredicateService *newSortInputModelsService);
-        LocalModelsService* setSortPointInputsByIndexes(Predicate *newSortPointInputsByIndexes);
-        LocalModelsService* setInputModelsScountervice(InputModelsCountService *newInputModelsScountervice);
-        LocalModelsService* setPointModelsJsonService(PointModelsJsonService *newPointModelsJsonService);
-        LocalModelsService* setDartsScoresJsonService(ScoreModelsJsonService *newDartsScoresJsonService);
-        LocalModelsService* setDartsPointsJsonService(PointModelsJsonService *newDartsPointsJsonService);
-        LocalModelsService* setPlayerModelsJsonService(PlayerModelsJsonService *newPlayerModelsJsonService);
-
     public slots:
         /*
          * General tournaments methods
@@ -118,7 +107,7 @@ namespace DartsModelsContext {
          * Darts multiattempt score methods
          */
         void assembleAssignedPlayerScores(const QUuid &tournamentId) override;
-        void assembleDartsScoreIndexes(const QUuid &tournament) override;
+        void assembleDartsScoreIndexes(const QUuid &tournamentId) override;
         void addDartsScore(const QByteArray &json) override;
         void hideDartsScore(const QUuid &tournamentId, const QUuid &playerId, const int &roundIndex) override;
         void revealScore(const QUuid &tournamentId, const QUuid &playerId, const int &roundIndex) override;
@@ -137,31 +126,46 @@ namespace DartsModelsContext {
         void handleRequestPlayersDetails() override;
         void assembleAssignedPlayerEntities(const QUuid &tournamentId) override;
         void assembleDartsTournamentWinnerIdAndName(const QUuid &tournamentId) override;
-    private:
-
+    protected:
         // Builder services
-        DartsTournamentBuilder* _dartsTournamentBuilder;
+        TournamentBuilder* _dartsTournamentBuilder;
         // services
-        IDartsJsonService* _dartsJsonService;
+        IDartsJsonManipulator* _dartsJsonManipulator;
+        // Tournament services
+        IDartsModelManipulator *_dartsModelManipulator;
+        IDartsTournamentJsonBuilder *_createJsonFromDartsTournamentModels;
+        IGetDartsTournamentFromDb *_getDartsTournamentByDb;
+        IGetDataFromDartsTournament<ITournament> *_getDataFromDartsTournament;
+        // Input services
         PointModelsJsonService* _dartsPointsJsonService;
         ScoreModelsJsonService* _dartsScoresJsonService;
-        PlayerModelsJsonService* _playerModelsJsonService;
+        IDartsPointModelsService<IDartsInputDb>* _dartsPointInputService;
         SortDartsInputsByPredicateService* _inputModelsSortService;
-        IDartsModelsService* _dartsModelsService;
-        IPlayerModelsService* _playerModelsService;
-        DartsScoreModelsService* _dartsScoreInputService;
-        IDartsPointModelsService<IDartsPointDb>* _dartsPointInputService;
+        ScoreModelsService* _dartsScoreInputService;
+        IGetInputModels* _getInputModelsService;
+        CountInputModels* _inputModelsScountervice;
+        Predicate* _sortPointInputsByIndexes;
         IBinaryService<const IModel<QUuid,QByteArray>*,
                        const QString&,
                        const IModel<QUuid,QByteArray>*>* _addPlayerNameToDartsInputModel;
-        GetInputModelsService* _getInputModelsService;
-        Predicate* _sortPointInputsByIndexes;
-        InputModelsCountService* _inputModelsScountervice;
+        // Player related services
+        IDartsPlayerModelBuilder *_playerModelBuilder;
+        IGetDataFromPlayerModels *_getDataFromPlayerModels;
+        IGetDartsPlayerDataFromDb * _getDartsPlayerDataFromDb;
+        IDartsPlayerJsonBuilder *_dartsPlayerJsonBuilder;
+        IDartsPlayerDbManipulator *_playerDbManipulator;
+        // Json
+        IGetDartsTournamentDataFromJson *_getDartsTournamentDataFromJson;
         // Db manipulator services
+        IDartsTournamentsDbManipulator* _tournamentDbManipulator;
         DbServiceManipulator* _dbManipulatorService;
         // Db services
-        IDartsPointDb* _dartsPointInputDb;
-        IDartsScoreDb* _dartsScoreInputDb;
+        IGetDataFromPlayerModels *_playerListService;
+        // Db contexts
+        IDartsInputDb* _dartsPointInputDb;
+        IDartsInputDb* _dartsScoreInputDb;
+        IDartsTournamentDb *_dartsTournamentDb;
+        IPlayerModelsDb *_dartsPlayerDb;
     };
 }
 

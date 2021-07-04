@@ -68,7 +68,7 @@ signals:
     void playersDeletedStatus(const bool &status);
     void tournamentsDeletedSuccess(const bool &status);
     void sendTournaments(const QByteArray& json);
-    void sendPlayers(const QVariantList& list);
+    void sendPlayers(const QByteArray& json);
     void createPlayerResponse(const bool &status);
     void requestAssembleFTPTournament();
     void tournamentAssembledAndStored();

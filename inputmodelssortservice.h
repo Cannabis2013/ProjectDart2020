@@ -3,7 +3,7 @@
 
 #include "ibinaryservice.h"
 #include "idartsscoreinput.h"
-#include "idartsscoredb.h"
+#include "idartsinputdb.h"
 #include <quuid.h>
 #include "ipredicate.h"
 

@@ -15,7 +15,7 @@ namespace DartsModelsContext{
             IUnaryService<const QVector<const IPlayerInput*>&,QByteArray>
     {
     public:
-        typedef IDartsPointModelsService<IDartsPointDb> PointModelsService ;
+        typedef IDartsPointModelsService<IDartsInputDb> PointModelsService ;
         QByteArray service(const QVector<const IPlayerInput*>& models) override
         {
             QJsonArray pointsJsonArray;

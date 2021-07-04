@@ -11,7 +11,7 @@ const DartsPointModelsService::PlayerInput *DartsModelsContext::DartsPointModels
                                                                                                          const QUuid &playerId,
                                                                                                          const int &roundIndex,
                                                                                                          const int &attemptIndex,
-                                                                                                         const IDartsPointDb* dbService) const
+                                                                                                         const IDartsInputDb* dbService) const
 {
     auto models = dbService->models();
     auto firstModel = _dartsInputsFilterService->filterByAttemptIndex(models,tournamentId,playerId,roundIndex,AllHints,attemptIndex);
@@ -28,7 +28,7 @@ const DartsModelsContext::IDartsPointIndexes *DartsModelsContext::DartsPointMode
 
 void DartsModelsContext::DartsPointModelsService::setDartsPointHint(const PlayerInput *inputModel,
                                                                     const int &hint,
-                                                                    IDartsPointDb* dbService)
+                                                                    IDartsInputDb* dbService)
 {
     _setInputHintService->service(inputModel,hint);
     dbService->saveState();

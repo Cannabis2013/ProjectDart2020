@@ -14,7 +14,9 @@ namespace DartsModelsContext {
                                 const int &hint,
                                 DbServiceInterface *dbService) const override;
         void removeModelById(const IdFormat &id,DbServiceInterface* dbService) const override;
-        void removeModelsByTournamentId(const ModelInterfaces &models, const IdFormat &tournamentId, DbServiceInterface *dbService) const override;
+        void removeModelsByTournamentId(const ModelInterfaces &models,
+                                        const IdFormat &tournamentId,
+                                        DbServiceInterface *dbService) const override;
     };
 }
 

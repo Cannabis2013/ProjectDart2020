@@ -3,34 +3,20 @@
 
 #include "idartspointsjsonservice.h"
 #include "iplayerinput.h"
-#include "imodelsdbcontext.h"
-#include "iplayermodelsservice.h"
 #include "idartspointindexes.h"
-#include "iunaryservice.h"
-#include "ibinaryservice.h"
+#include <qjsondocument.h>
+#include <qjsonobject.h>
+#include <qjsonarray.h>
+#include "idartspointinput.h"
 
 namespace DartsModelsContext {
     class DartsPointsJsonService : public
-            IDartsPointsJsonService<IPlayerInput,IPlayerModelsService,IDartsPointIndexes,QByteArray>
+            IDartsPointsJsonService<IPlayerInput,IDartsPointIndexes,QByteArray>
     {
     public:
         static DartsPointsJsonService* createInstance();
-        virtual JsonFormat assembleJsonDartsPointIndexes(const IndexesInterface *indexes) const override;
-        virtual JsonFormat assembleJsonOrderedDartsPointModels(const QVector<const ModelInterface *> &, const PlayerModelsInterface *) const override;
-        virtual JsonFormat assembleJsonFromTournamentDartsPoints(const QVector<const ModelInterface *> &models) const override;
-        virtual const ModelInterface *assembleDartsPointModelFromJson(const JsonFormat &) const override;
-        // Set service methods
-        DartsPointsJsonService* setAssembleJsonDartsPointIndexes(IUnaryService<const IDartsPointIndexes *, QByteArray> *newAssembleJsonDartsPointIndexes);
-        DartsPointsJsonService* setAssembleJsonOrderedDartsPointModels(IBinaryService<const QVector<const IPlayerInput *> &, const IPlayerModelsService *, const QByteArray> *newAssembleJsonOrderedDartsPointModels);
-        DartsPointsJsonService* setAssembleJsonFromTournamentDartsPoints(IUnaryService<const QVector<const IPlayerInput *> &, QByteArray> *newAssembleJsonFromTournamentDartsPoints);
-
-    private:
-        IUnaryService<const IDartsPointIndexes*,QByteArray>* _assembleJsonDartsPointIndexes;
-        IBinaryService<const QVector<const IPlayerInput*>&,
-                       const IPlayerModelsService*,const QByteArray>* _assembleJsonOrderedDartsPointModels;
-        IUnaryService<const QVector<const IPlayerInput*>&,
-                       QByteArray>* _assembleJsonFromTournamentDartsPoints;
-        IUnaryService<const QByteArray&,const IPlayerInput*>* _assembleDartsPointModelFromJson;
+        virtual JsonFormat createJson(const IndexesInterface *indexes) const override;
+        virtual JsonFormat createJson(const QVector<const ModelInterface *> &models) const override;
     };
 }
 

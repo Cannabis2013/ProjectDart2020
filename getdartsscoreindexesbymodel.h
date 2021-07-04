@@ -3,7 +3,7 @@
 
 #include "iternaryservice.h"
 #include "idartspointinput.h"
-#include "idartsmodelsservice.h"
+#include "idartstournamentsdbmanipulator.h"
 #include <quuid.h>
 #include "dartsscoreindexes.h"
 #include "idartsmultiattemptindexesbuilder.h"

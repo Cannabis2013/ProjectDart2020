@@ -2,17 +2,17 @@
 #define DARTSSCOREMODELSSERVICE_H
 
 #include "idartsscoremodelsservice.h"
-#include "idartsscoredb.h"
+#include "idartsinputdb.h"
 #include <qvector.h>
 #include "idartsinputsfilter.h"
 #include "ibinaryservice.h"
 #include "ipredicate.h"
 #include "iternaryservice.h"
 #include "idartsmultiattemptindexesbuilder.h"
-#include "idartsscoredb.h"
+#include "idartsinputdb.h"
 
 namespace DartsModelsContext {
-    class DartsScoreModelsService : public IDartsScoreModelsService<IDartsScoreDb>
+    class DartsScoreModelsService : public IDartsScoreModelsService<IDartsInputDb>
     {
     public:
         /*

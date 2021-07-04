@@ -8,7 +8,7 @@
 #include "connectdartspointcontroller.h"
 #include "connectdartsscorecontroller.h"
 #include "connectdefaultmodelscontextinterface.h"
-#include "defaultmodelsservicebuilder.h"
+#include "localmodelsservicewithjsondb.h"
 #include "dartspointcontrollerbuilder.h"
 #include "dartsscorebuilderservice.h"
 #include "BuildDartsControllerEntity.h"
@@ -40,7 +40,7 @@ public:
     static DartApplication* createInstance();
     static DartApplication* createAndSetupInstance();
     void registerTypes();
-    DartApplication *createModelsService();
+    DartApplication *createDartsBuilders();
     DartApplication *connectServices();
     DartApplication *useThreads();
     /*
@@ -48,9 +48,6 @@ public:
      */
     AbstractDartsControllerBuilder* controllerBuilder();
     DartApplication *setDartsPointBuilderService(ControllerBuilderInterface *builder);
-
-    DartApplication *setModelsServiceBuilder(
-            AbstractModelsServiceBuilder<AbstractModelsService> *modelsServiceBuilder);
 public slots:
     // Get tournaments
     void handleTournamentsRequest() override;
@@ -95,15 +92,13 @@ private:
     bool _usingThreads;
     QThread* _modelsContextInterfaceThread = new QThread();
     QThread *_gameControllerThread = new QThread();
-    AbstractDartsController* _dartsController;
-    AbstractModelsService* _modelsService;
+    AbstractModelsService* _modelsService = new LocalModelsServiceWithJsonDb;
     AbstractGameController *_gameController = nullptr;
     /*
      * Builders
      */
     AbstractDartsControllerBuilder *_dartsPointBuilder;
     AbstractDartsControllerBuilder *_dartsScoreBuilder;
-    AbstractModelsServiceBuilder<AbstractModelsService>* _modelsServiceBuilder = DefaultModelsServiceBuilder::createInstance();
     /*
      * Route services
      */

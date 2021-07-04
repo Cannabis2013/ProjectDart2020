@@ -5,7 +5,7 @@
 #include <qjsondocument.h>
 #include <qjsonarray.h>
 #include <qjsonobject.h>
-#include "idartsmodelsservice.h"
+#include "idartstournamentsdbmanipulator.h"
 #include "iplayermodelsservice.h"
 #include "iplayermodel.h"
 

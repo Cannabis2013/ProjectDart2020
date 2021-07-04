@@ -23,7 +23,7 @@ void DartsModelsContext::DefaultDbManipulatorService::removeModelById(const IdFo
         auto model = models.at(i);
         if(model->id() == id)
         {
-            dbService->removeModelByIndex(i);
+            dbService->remove(i);
             return;
         }
     }

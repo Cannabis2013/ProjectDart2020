@@ -9,7 +9,7 @@ class IDartsTournamentBuilder
 public:
     typedef TModelInterface ModelInterface;
     typedef TJsonFormat  JsonFormat;
-    virtual const ModelInterface* buildDartsTournamentModelByJson(const JsonFormat& json) = 0;
+    virtual const ModelInterface* createTournament(const JsonFormat& json) = 0;
 };
 
 #endif // IDATAMODELBUILDER_H

@@ -8,13 +8,15 @@ function stateChanged()
     buttonsComponent.buttonTwoEnabled = status;
 }
 
-function recievePlayers(players)
+function recievePlayers(data)
 {
-    for(var i=0;i < players.length;i += 2)
+    var j = JSON.parse(data);
+    for(var i=0;i < j.length;i++)
     {
-        var playerName = players[i];
-        var email = players[i+1];
-        playersListView.addItemModel({"type" : "player","username" : playerName, "mail" : email})
+        var obj = j[i];
+        var playerName = obj["playerName"];
+        var email = obj["playerMail"];
+        playersListView.addItemModel({"type" : "player","username" : playerName, "mail" : email});
     }
 }
 
@@ -59,7 +61,7 @@ function assembleDartsTournament()
         terminalKeyCode : selectorComponent().conditionKeyCode,
         displayHint : selectorComponent().displayHint,
         inputHint : selectorComponent().inputMode,
-        playerIndexes : indexes
+        indexes : indexes
     };
     var json = JSON.stringify(obj);
     // Send values

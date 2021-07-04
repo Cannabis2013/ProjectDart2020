@@ -13,8 +13,10 @@ public:
     virtual ITournament* setTitle(const QString &string) = 0;
 
     virtual QVector<QUuid> assignedPlayerIdentities() const = 0;
-    virtual ITournament* assignPlayerIdentity(const QUuid &identity) = 0;
     virtual ITournament* setAssignedPlayerIdentities(const QVector<QUuid> &playerIdentities) = 0;
+
+    virtual QVector<QString> assignedPlayerNames() const = 0;
+    virtual ITournament* setAssignedPlayerNames(const QVector<QString> &names) = 0;
 
     virtual int gameMode() const = 0;
     virtual ITournament* setGameMode(const int &val) = 0;

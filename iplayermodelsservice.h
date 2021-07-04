@@ -3,30 +3,27 @@
 
 #include <quuid.h>
 #include "ipersistence.h"
-#include <iplayermodel.h>
 
-namespace DartsModelsContext {
-    class IPlayerModelsService
-    {
-    public:
-        virtual ~IPlayerModelsService()=default;
-        virtual const QUuid addPlayerModelToDb(const IPlayerModel*) = 0;
-        virtual bool deletePlayer(const int &index) = 0;
-        virtual bool deletePlayersByIndexes(const QVector<int>& indexes) = 0;
-        virtual QVector<QString> assemblePlayerMailAdressesFromIds(const QVector<QUuid> &ids) const = 0;
-        virtual QVector<QString> assemblePlayerNamesFromIds(const QVector<QUuid> &ids) const = 0;
-        virtual QVector<QUuid> assemblePlayerIds(const QVector<int> &indexes) const = 0;
-        virtual void deletePlayerByUserName(const QString &firstName)  = 0;
-        virtual void deletePlayerByID(const QUuid &player)  = 0;
-        virtual void deletePlayerByEmail(const QString &playerEMail) = 0;
-        virtual QUuid playerIdFromName(const QString &fullName) const = 0;
-        virtual QUuid playerIdFromIndex(const int &index) const = 0;
-        virtual QString playerNameById(const QUuid &id) const  = 0;
-        virtual QString playerMailFromId(const QUuid &id) const  = 0;
-        virtual QList<QUuid> players() const = 0;
-        virtual int playersCount() const = 0;
-    };
-}
+template<typename TPlayerModel, typename TSTring, typename TUuid>
+class IPlayerModelsService
+{
+public:
+    typedef TPlayerModel PlayerModel;
+    typedef TSTring String ;
+    typedef TUuid Id;
+    // Manipulate db methods
+    virtual const Id addPlayerModelToDb(const PlayerModel* playerModel) = 0;
+    virtual bool deletePlayer(const int &index) = 0;
+    virtual bool deletePlayersByIndexes(const QVector<int>& indexes) = 0;
+    // Retrieve data methods
+    virtual const PlayerModel *playerModelByIndex(const int &index) const = 0;
+    virtual Id playerIdFromIndex(const int &index) const = 0;
+    virtual QList<Id> playerIds() const = 0;
+    virtual int playersCount() const = 0;
+    // Assemble methods
+    virtual QVector<String> assemblePlayerNamesFromIds(const QVector<Id> &ids) const = 0;
+    virtual QVector<Id> assemblePlayerIds(const QVector<int> &indexes) const = 0;
+};
 
 
 #endif // ABSTRACTPLAYERMODELSCONTEXT_H

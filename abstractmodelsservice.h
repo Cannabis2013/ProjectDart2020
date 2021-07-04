@@ -108,7 +108,7 @@ signals:
                                          const QString &winner,
                                          const QStringList &assignedPlayerNames);
     void playersDeletedStatus(const bool &status);
-    void sendPlayers(const QVariantList& list);
+    void sendPlayers(const QByteArray& json);
     void createPlayerResponse(const bool &status);
     void tournamentModelsStatePersisted();
     void tournamentAssembledAndStored();

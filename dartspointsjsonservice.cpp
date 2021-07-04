@@ -7,45 +7,30 @@ DartsPointsJsonService *DartsPointsJsonService::createInstance()
     return new DartsPointsJsonService;
 }
 
-DartsPointsJsonService::JsonFormat DartsModelsContext::DartsPointsJsonService::assembleJsonDartsPointIndexes(const IndexesInterface *indexes) const
+DartsPointsJsonService::JsonFormat DartsModelsContext::DartsPointsJsonService::createJson(const IndexesInterface *indexes) const
 {
-    auto json = _assembleJsonDartsPointIndexes->service(indexes);
+    QJsonObject jsonObject;
+    jsonObject["totalTurns"] = indexes->totalTurns();
+    jsonObject["turnIndex"]  = indexes->turnIndex();
+    jsonObject["roundIndex"] = indexes->roundIndex();
+    jsonObject["setIndex"] = indexes->setIndex();
+    jsonObject["attemptIndex"] = indexes->attemptIndex();
+    auto json = QJsonDocument(jsonObject).toJson();
     return json;
 }
 
-DartsPointsJsonService::JsonFormat DartsModelsContext::DartsPointsJsonService::assembleJsonOrderedDartsPointModels(const QVector<const ModelInterface *> &pointModels,
-                                                                                                                   const PlayerModelsInterface *service) const
+DartsPointsJsonService::JsonFormat DartsModelsContext::DartsPointsJsonService::createJson(const QVector<const ModelInterface *> &models) const
 {
-    auto json = _assembleJsonOrderedDartsPointModels->service(pointModels,service);
+    QJsonArray pointsJsonArray;
+    for (const auto& model : models) {
+        auto dartsPoint = dynamic_cast<const IDartsPointInput*>(model);
+        QJsonObject playerJsonObject;
+        auto playerId = dartsPoint->playerId();
+        playerJsonObject["playerId"] = playerId.toString(QUuid::WithoutBraces);
+        playerJsonObject["point"] = dartsPoint->point();
+        playerJsonObject["modKeyCode"] = dartsPoint->modKeyCode();
+        pointsJsonArray << playerJsonObject;
+    }
+    auto json = QJsonDocument(pointsJsonArray).toJson();
     return json;
-}
-
-DartsPointsJsonService::JsonFormat DartsModelsContext::DartsPointsJsonService::assembleJsonFromTournamentDartsPoints(const QVector<const ModelInterface *> &models) const
-{
-    auto json = _assembleJsonFromTournamentDartsPoints->service(models);
-    return json;
-}
-
-const DartsPointsJsonService::ModelInterface *DartsModelsContext::DartsPointsJsonService::assembleDartsPointModelFromJson(const JsonFormat &json) const
-{
-    auto model = _assembleDartsPointModelFromJson->service(json);
-    return model;
-}
-
-DartsPointsJsonService *DartsPointsJsonService::setAssembleJsonDartsPointIndexes(IUnaryService<const IDartsPointIndexes *, QByteArray> *newAssembleJsonDartsPointIndexes)
-{
-    _assembleJsonDartsPointIndexes = newAssembleJsonDartsPointIndexes;
-    return this;
-}
-
-DartsPointsJsonService *DartsPointsJsonService::setAssembleJsonOrderedDartsPointModels(IBinaryService<const QVector<const IPlayerInput *> &, const IPlayerModelsService *, const QByteArray> *newAssembleJsonOrderedDartsPointModels)
-{
-    _assembleJsonOrderedDartsPointModels = newAssembleJsonOrderedDartsPointModels;
-    return this;
-}
-
-DartsPointsJsonService *DartsPointsJsonService::setAssembleJsonFromTournamentDartsPoints(IUnaryService<const QVector<const IPlayerInput *> &, QByteArray> *newAssembleJsonFromTournamentDartsPoints)
-{
-    _assembleJsonFromTournamentDartsPoints = newAssembleJsonFromTournamentDartsPoints;
-    return this;
 }

@@ -90,9 +90,15 @@ namespace DartsModelsContext{
             _assignedPlayerIdentities = playerIdentities;
             return this;
         }
-        DartsTournament* assignPlayerIdentity(const QUuid &identity) override
+
+        virtual QVector<QString> assignedPlayerNames() const override
         {
-            _assignedPlayerIdentities.append(identity);
+            return _assignedPlayerNames;
+        }
+
+        virtual ITournament *setAssignedPlayerNames(const QVector<QString> &names) override
+        {
+            _assignedPlayerNames = names;
             return this;
         }
 
@@ -136,14 +142,17 @@ namespace DartsModelsContext{
             obj["inputHint"] = _inputHint;
             obj["winnerId"] = _winnerId.toString(QUuid::WithoutBraces);
             obj["terminalKeyCode"] = _terminalKeyCode;
-            QJsonArray arr;
+            QJsonArray arr1;
             for (const auto& assignedPlayerId : _assignedPlayerIdentities)
-                arr << assignedPlayerId.toString(QUuid::WithoutBraces);
-            obj["assignedPlayerIds"] = arr;
+                arr1 << assignedPlayerId.toString(QUuid::WithoutBraces);
+            obj["assignedPlayerIds"] = arr1;
+            QJsonArray arr2;
+            for (const auto &assignedPlayerName : _assignedPlayerNames)
+                arr2 << assignedPlayerName;
+            obj["assignedPlayerNames"] = arr2;
             auto json = QJsonDocument(obj).toJson();
             return json;
         }
-
     private:
         QString _title;
         int _attempts;
@@ -156,6 +165,7 @@ namespace DartsModelsContext{
         QUuid _id;
         QUuid _winnerId;
         QVector<QUuid> _assignedPlayerIdentities;
+        QVector<QString> _assignedPlayerNames;
     };
 }
 

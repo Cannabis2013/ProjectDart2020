@@ -173,7 +173,8 @@ void RemoteModelsContext::handleRequestPlayersReply()
         auto mail = obj.value("mail").toString();
         list += {name,mail};
     }
-    emit sendPlayers(list);
+    // NOTE: Not implemted
+    emit sendPlayers(QByteArray());
 }
 
 void RemoteModelsContext::handleCreatePlayerResponse()
