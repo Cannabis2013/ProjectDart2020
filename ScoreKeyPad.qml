@@ -55,5 +55,5 @@ ScoreKeyPadInterface {
             onClicked: Scripts.handleSubmitpadClicked()
         }
     }
-    Component.onCompleted: Scripts.assembleKeyPad()
+    Component.onCompleted: Scripts.createKeyPad()
 }

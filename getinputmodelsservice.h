@@ -6,13 +6,11 @@
 #include "imodelsdbcontext.h"
 
 namespace DartsModelsContext {
-    class GetInputModelsService : public
-            IGetInputModelsService<IPlayerInput,
-                                   IModelsDbContext<IPlayerInput>,QUuid>
+    class GetInputModelsService : public IGetInputModelsService
     {
     public:
-        InputModels inputModelsByTournamentId(const IdFormat &tournamentId, const DbServiceInterface *dbService) const override;
-        InputModels inputModelsByHint(const IdFormat &tournamentId, const int &hint, const DbServiceInterface *dbService) const override;
+        QVector<const IPlayerInput*> inputModels(const QUuid &tournamentId, const IDartsInputDb *dbService) const override;
+        QVector<const IPlayerInput*> inputModels(const QUuid &tournamentId, const int &hint, const IDartsInputDb *dbService) const override;
     };
 }
 

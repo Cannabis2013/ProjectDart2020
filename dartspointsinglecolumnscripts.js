@@ -1,7 +1,7 @@
 function initializeComponent()
 {
     connectInterface();
-    applicationInterface.assembleDartsTournamentValues();
+    applicationInterface.createDartsTournamentValues();
 }
 
 function connectInterface()

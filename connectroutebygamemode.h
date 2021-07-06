@@ -15,7 +15,7 @@ public:
         QObject::connect(modelsService,&AbstractModelsService::requestAssembleTournament,
                 gameModeService,&AbstractRouteByGameMode::handleTournamentGameMode);
         QObject::connect(gameModeService,&AbstractRouteByGameMode::requestDartsDetails,
-                modelsService,&AbstractModelsService::assembleDartsKeyValues);
+                modelsService,&AbstractModelsService::createDartsKeyValues);
     }
 };
 

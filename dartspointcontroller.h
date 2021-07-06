@@ -166,7 +166,7 @@ namespace DartsPointControllerContext {
         // Userscore service
         PlayerPointService* _inputService = nullptr;
     private:
-        void assembleAndSendTurnValues(const QByteArray &json);
+        void createAndSendTurnValues(const QByteArray &json);
         void subtractAndAddScoreValuesToModel(const IControllerPoint *pointModel);
         void sendWinnerJson();
         void updatePlayerPointModel(const IControllerPoint *pointModel, const int &score);

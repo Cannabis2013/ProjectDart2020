@@ -2,20 +2,17 @@
 #define IGETINPUTMODELSSERVICE_H
 
 #include <qvector.h>
+#include "iplayerinput.h"
+#include "idartsinputdb.h"
 
-template <typename TInputModelInterface,typename TDbServiceInterface, typename TUuid>
 class IGetInputModelsService
 {
 public:
-    typedef TInputModelInterface InputModel;
-    typedef TDbServiceInterface DbServiceInterface;
-    typedef TUuid IdFormat;
-    typedef QVector<const InputModel*> InputModels;
     // Pure methods
-    virtual InputModels inputModelsByTournamentId(const IdFormat& tournamentId,
-                                                  const DbServiceInterface* dbService) const = 0;
-    virtual InputModels inputModelsByHint(const IdFormat& tournamentId, const int& hint,
-                                          const DbServiceInterface* dbService) const = 0;
+    virtual QVector<const IPlayerInput*> inputModels(const QUuid& tournamentId,
+                                    const IDartsInputDb *dbService) const = 0;
+    virtual QVector<const IPlayerInput*> inputModels(const QUuid& tournamentId, const int& hint,
+                                    const IDartsInputDb *dbService) const = 0;
 
 };
 

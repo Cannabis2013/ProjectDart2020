@@ -74,7 +74,7 @@ namespace DartsScoreControllerContext{
          */
         DartsPlayerScoreService(const int& initialScore,
                            const QUuid& winner);
-        PlayerTuples assembleScoreTubble(const QVector<QUuid>& userIds,
+        PlayerTuples createScoreTubble(const QVector<QUuid>& userIds,
                                  const QVector<QString>& userNames,
                                  const QVector<int>& userScores);
         PlayerScoreContext::PlayerTuple tupleAtIndex(const int &index) const;

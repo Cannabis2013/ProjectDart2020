@@ -39,7 +39,7 @@ void DartsPointController::handlePointAddedToDataContext(const QByteArray &json)
     if(_metaData->status() == WinnerDeclared)
         sendWinnerJson();
     else
-        assembleAndSendTurnValues(json);
+        createAndSendTurnValues(json);
 }
 
 void DartsPointController::handleResetTournament()
@@ -205,7 +205,7 @@ void DartsPointController::redoSuccess(const QByteArray& json)
     emit dartsPointPersisted(jsonResponse);
 }
 
-void DartsPointController::assembleAndSendTurnValues(const QByteArray &json)
+void DartsPointController::createAndSendTurnValues(const QByteArray &json)
 {
     QScopedPointer<const IControllerPoint> pointModel(_pointModelBuilder->createPointModel(json));
     subtractAndAddScoreValuesToModel(pointModel.get());

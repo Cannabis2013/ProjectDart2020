@@ -12,7 +12,7 @@ public:
     typedef QPair<QUuid,int> PlayerScore;
 public slots:
     virtual void initializeControllerDartsScores(const QByteArray&) = 0;
-    virtual void assembleOrderedDartsScores() = 0;
+    virtual void createOrderedDartsScores() = 0;
     virtual void handleRequestDartsScores() = 0;
     virtual void handleScoreAddedToDataContext(const QByteArray&) = 0;
 signals:

@@ -3,9 +3,8 @@
 
 #include "idartsscoreindexes.h"
 
-using namespace DartsModelsContext;
 
-class DartsScoreIndexes : public IDartsScoreIndexes
+class DartsScoreIndexes : public DartsModelsContext::IDartsScoreIndexes
 {
 public:
     static DartsScoreIndexes* createInstance()

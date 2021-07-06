@@ -79,6 +79,6 @@ KeyPadInterface {
         }
     }
     Component.onCompleted: {
-        PointKeyPadScripts.assembleKeyPad();
+        PointKeyPadScripts.createKeyPad();
     }
 }

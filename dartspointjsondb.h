@@ -3,10 +3,10 @@
 
 #include "dartsinputjsondb.h"
 #include "createdartspointsfromjson.h"
-#include "createjsonfromdartspoints.h"
+#include "dartsdbcreatejsonfrompoints.h"
 
 
-namespace DartsModelsContext
+namespace DartsDbContext
 {
     class DartsPointJsonDb : public DartsInputJsonDb
     {
@@ -15,7 +15,7 @@ namespace DartsModelsContext
             DartsInputJsonDb("DartsPointModels")
         {
             _createInputModelsFromJson = new CreateDartsPointsFromJson;
-            _createJsonFromInputModels = new CreateJsonFromDartsPoints;
+            _createJsonFromInputModels = new DartsDbCreatejsonFromPoints;
             fetchModels();
         }
     };

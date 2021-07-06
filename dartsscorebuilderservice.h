@@ -29,7 +29,7 @@ namespace DartsBuilderContext {
         };
         typedef IDartsControllerEntity<QUuid,QString> ControllerEntity;
         typedef IUnaryService<const QByteArray&,
-        const ControllerEntity*> ControllerEntityBuilder;
+                              const ControllerEntity*> ControllerEntityBuilder;
         static DartsScoreBuilderService *createInstance();
 
         AbstractGameController *buildDartsController(const QByteArray& json) override;

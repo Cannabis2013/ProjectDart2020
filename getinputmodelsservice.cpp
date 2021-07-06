@@ -2,8 +2,7 @@
 
 using namespace DartsModelsContext;
 
-GetInputModelsService::InputModels DartsModelsContext::GetInputModelsService::inputModelsByTournamentId(const IdFormat &tournamentId,
-                                                                                                        const DbServiceInterface *dbService) const
+QVector<const IPlayerInput *> GetInputModelsService::inputModels(const QUuid &tournamentId, const IDartsInputDb *dbService) const
 {
     QVector<const IPlayerInput*> list;
     const auto& models = dbService->models();
@@ -14,12 +13,10 @@ GetInputModelsService::InputModels DartsModelsContext::GetInputModelsService::in
     return list;
 }
 
-GetInputModelsService::InputModels DartsModelsContext::GetInputModelsService::inputModelsByHint(const IdFormat &tournamentId,
-                                                                                                const int &hint,
-                                                                                                const DbServiceInterface *dbService) const
+QVector<const IPlayerInput *> GetInputModelsService::inputModels(const QUuid &tournamentId, const int &hint, const IDartsInputDb *dbService) const
 {
     QVector<const IPlayerInput*> list;
-    auto models = inputModelsByTournamentId(tournamentId,dbService);
+    auto models = inputModels(tournamentId,dbService);
     for (const auto& model : models){
         if(model->hint() == hint)
             list << model;

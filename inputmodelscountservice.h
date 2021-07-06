@@ -2,20 +2,29 @@
 #define INPUTMODELSCOUNTSERVICE_H
 
 #include "imodelsdbcontext.h"
-#include "iinputmodelscountservice.h"
+#include "icountinputmodels.h"
 #include <iplayerinput.h>
 
 namespace DartsModelsContext {
     class InputModelsCountService : public
-            IInputModelsCountService<IModelsDbContext<IPlayerInput>,QUuid>
+            ICountInputModels
     {
     public:
-        virtual int countInputModelsByTournamentId(const IdFormat &tournamentId, const ModelsService *service) const override
+        virtual int count(const QUuid &tournamentId, const IDartsInputDb *dbService) const override
         {
-            int count = 0;
-            for (const auto& model : service->models())
-                count = model->tournamentId() == tournamentId ? ++count : count;
-            return count;
+            auto models = getInputModels(tournamentId,dbService);
+            return models.count();
+        }
+    private:
+        QVector<const IPlayerInput*> getInputModels(const QUuid &tournamentId, const IDartsInputDb *dbService) const
+        {
+            auto models = dbService->models();
+            QVector<const IPlayerInput*> tournamentInputs;
+            for (const auto &model : models) {
+                if(model->tournamentId() == tournamentId)
+                    models << model;
+            }
+            return models;
         }
     };
 }

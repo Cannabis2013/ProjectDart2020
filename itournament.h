@@ -12,7 +12,7 @@ public:
     virtual QString title() const = 0;
     virtual ITournament* setTitle(const QString &string) = 0;
 
-    virtual QVector<QUuid> assignedPlayerIdentities() const = 0;
+    virtual QVector<QUuid> assignedPlayerIds() const = 0;
     virtual ITournament* setAssignedPlayerIdentities(const QVector<QUuid> &playerIdentities) = 0;
 
     virtual QVector<QString> assignedPlayerNames() const = 0;

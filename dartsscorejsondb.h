@@ -5,7 +5,7 @@
 #include "createjsonfromdartsscoremodels.h"
 #include "createdartsscoremodelsfromjson.h"
 
-namespace DartsModelsContext {
+namespace DartsDbContext {
     class DartsScoreJsonDb : public DartsInputJsonDb
     {
     public:

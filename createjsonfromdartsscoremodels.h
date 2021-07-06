@@ -10,7 +10,7 @@
 #include <qjsonarray.h>
 #include "icreatejsonfrominputs.h"
 
-namespace DartsModelsContext {
+namespace DartsDbContext {
     class CreateJsonFromDartsScoreModels :
             public ICreateJsonFromInputs
     {
@@ -31,7 +31,7 @@ namespace DartsModelsContext {
         }
         QJsonObject createJsonObject(const IPlayerInput* m) const
         {
-            auto model = dynamic_cast<const IDartsScoreInput*>(m);
+            auto model = dynamic_cast<const DartsModelsContext::IDartsScoreInput*>(m);
             QJsonObject jsonObject;
             jsonObject["id"] = model->id().toString();
             jsonObject["tournament"] = model->tournamentId().toString();

@@ -8,7 +8,7 @@
 #include "connectdartspointcontroller.h"
 #include "connectdartsscorecontroller.h"
 #include "connectdefaultmodelscontextinterface.h"
-#include "localmodelsservicewithjsondb.h"
+#include "jsondartsmodelsservice.h"
 #include "dartspointcontrollerbuilder.h"
 #include "dartsscorebuilderservice.h"
 #include "BuildDartsControllerEntity.h"
@@ -66,7 +66,7 @@ public slots:
     /*
      * Handle request for tournament meta information
      */
-    void assembleDartsTournamentValues() override;
+    void createDartsTournamentValues() override;
     /*
      * Set game controller methods
      */
@@ -92,7 +92,7 @@ private:
     bool _usingThreads;
     QThread* _modelsContextInterfaceThread = new QThread();
     QThread *_gameControllerThread = new QThread();
-    AbstractModelsService* _modelsService = new LocalModelsServiceWithJsonDb;
+    AbstractModelsService* _modelsService = new JsonDartsModelsService;
     AbstractGameController *_gameController = nullptr;
     /*
      * Builders

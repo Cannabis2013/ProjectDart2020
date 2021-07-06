@@ -8,7 +8,7 @@
 #include <qjsonarray.h>
 #include "qjsonobject.h"
 #include "dartspointinput.h"
-namespace DartsModelsContext {
+namespace DartsDbContext {
     class CreateDartsPointsFromJson : public ICreateInputModelsFromJson
     {
     public:

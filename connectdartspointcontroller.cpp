@@ -9,22 +9,22 @@ void ConnectDartsPointController::connectController(AbstractDartsController *con
     QObject::connect(application,&AbstractApplicationInterface::requestCurrentTournamentId,
             dartsPointController,&AbstractDartsPointController::handleRequestForCurrentTournamentMetaData);
     QObject::connect(dartsPointController,&AbstractDartsPointController::sendCurrentTournamentId,
-            modelsService,&AbstractModelsService::assembleDartsTournamentDataFromId);
+            modelsService,&AbstractModelsService::createDartsTournamentDataFromId);
     // Controller requests indexes and playerscores
     QObject::connect(dartsPointController,&AbstractDartsPointController::requestDartsTournamentIndexes,
-            modelsService,&AbstractModelsService::assembleDartsPointIndexes);
+            modelsService,&AbstractModelsService::createDartsPointIndexes);
     QObject::connect(modelsService,&AbstractModelsService::sendDartsPointIndexesAsJson,
             dartsPointController,&AbstractDartsController::initializeControllerIndexes);
     QObject::connect(dartsPointController,&AbstractDartsPointController::requestTournamentAssignedPlayerDetails,
-                     modelsService,&AbstractModelsService::assembleAssignedPlayerEntities);
+                     modelsService,&AbstractModelsService::createAssignedPlayerEntities);
     QObject::connect(modelsService,&AbstractModelsService::sendAssignedPlayerIdsAndNamesAsJson,
                      dartsPointController,&AbstractDartsPointController::initializeControllerPlayerDetails);
     QObject::connect(dartsPointController,&AbstractDartsPointController::requestTournamentDartsPoints,
-                     modelsService,&AbstractModelsService::assembleAssignedPlayerPoints);
+                     modelsService,&AbstractModelsService::createAssignedPlayerPoints);
     QObject::connect(modelsService,&AbstractModelsService::sendTournamentDartsPointsAsJson,
                      dartsPointController,&AbstractDartsPointController::initializeControllerDartsPoints);
     QObject::connect(dartsPointController,&AbstractDartsPointController::requestTournamentWinnerIdAndName,
-                     modelsService,&AbstractModelsService::assembleDartsTournamentWinnerIdAndName);
+                     modelsService,&AbstractModelsService::createDartsTournamentWinnerIdAndName);
     QObject::connect(modelsService,&AbstractModelsService::sendDartsTournamentWinnerIdAndName,
                      dartsPointController,&AbstractDartsPointController::initializeControllerWinnerIdAndName);
     /*

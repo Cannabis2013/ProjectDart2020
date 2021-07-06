@@ -22,6 +22,6 @@ public:
                   const QVector<QPair<QString, QString> > &queryElements) override;
 
 private:
-    QString assembleStringQuery(const QVector<QPair<QString,QString>>& queries);
+    QString createStringQuery(const QVector<QPair<QString,QString>>& queries);
 };
 #endif // MYPARSER_H

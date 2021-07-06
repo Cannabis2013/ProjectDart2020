@@ -2,24 +2,8 @@
 
 using namespace DartsModelsContext;
 
-DartsPointsJsonService *DartsPointsJsonService::createInstance()
-{
-    return new DartsPointsJsonService;
-}
 
-DartsPointsJsonService::JsonFormat DartsModelsContext::DartsPointsJsonService::createJson(const IndexesInterface *indexes) const
-{
-    QJsonObject jsonObject;
-    jsonObject["totalTurns"] = indexes->totalTurns();
-    jsonObject["turnIndex"]  = indexes->turnIndex();
-    jsonObject["roundIndex"] = indexes->roundIndex();
-    jsonObject["setIndex"] = indexes->setIndex();
-    jsonObject["attemptIndex"] = indexes->attemptIndex();
-    auto json = QJsonDocument(jsonObject).toJson();
-    return json;
-}
-
-DartsPointsJsonService::JsonFormat DartsModelsContext::DartsPointsJsonService::createJson(const QVector<const ModelInterface *> &models) const
+QByteArray DartsModelsCreateJsonFromPoints::createJson(const QVector<const IPlayerInput *> &models) const
 {
     QJsonArray pointsJsonArray;
     for (const auto& model : models) {
@@ -34,3 +18,4 @@ DartsPointsJsonService::JsonFormat DartsModelsContext::DartsPointsJsonService::c
     auto json = QJsonDocument(pointsJsonArray).toJson();
     return json;
 }
+

@@ -21,8 +21,8 @@ public:
     virtual QList<Id> playerIds() const = 0;
     virtual int playersCount() const = 0;
     // Assemble methods
-    virtual QVector<String> assemblePlayerNamesFromIds(const QVector<Id> &ids) const = 0;
-    virtual QVector<Id> assemblePlayerIds(const QVector<int> &indexes) const = 0;
+    virtual QVector<String> createPlayerNamesFromIds(const QVector<Id> &ids) const = 0;
+    virtual QVector<Id> createPlayerIds(const QVector<int> &indexes) const = 0;
 };
 
 

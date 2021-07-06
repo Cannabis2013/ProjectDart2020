@@ -5,7 +5,7 @@
 #include "iplayerinput.h"
 #include <qvector.h>
 
-namespace DartsModelsContext {
+namespace DartsDbContext {
     class ICreateInputModelsFromJson : public ICreateFromJson<QVector<const IPlayerInput*>>
     {
     public:

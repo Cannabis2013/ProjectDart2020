@@ -81,7 +81,7 @@ namespace DartsModelsContext{
             return this;
         }
 
-        QVector<QUuid> assignedPlayerIdentities() const override
+        QVector<QUuid> assignedPlayerIds() const override
         {
             return _assignedPlayerIdentities;
         }

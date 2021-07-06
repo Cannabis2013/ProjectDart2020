@@ -1,5 +1,5 @@
 #include "dartsinputjsondb.h"
-namespace DartsModelsContext{
+namespace DartsDbContext{
     DartsInputJsonDb::DartsInputJsonDb(const QString &fileName):
         _fileName(fileName)
     {
@@ -7,7 +7,7 @@ namespace DartsModelsContext{
 
     void DartsInputJsonDb::add(const Model *model)
     {
-        _dartsScoreModels << dynamic_cast<const IDartsScoreInput*>(model);
+        _dartsScoreModels << model;
         saveState();
     }
 
@@ -36,13 +36,13 @@ namespace DartsModelsContext{
 
     int DartsInputJsonDb::indexOf(const Model *model) const
     {
-        auto indexOfModel = _dartsScoreModels.indexOf(dynamic_cast<const IDartsScoreInput*>(model));
+        auto indexOfModel = _dartsScoreModels.indexOf(model);
         return indexOfModel;
     }
 
     void DartsInputJsonDb::replace(const int& index, const Model *model)
     {
-        _dartsScoreModels.replace(index,dynamic_cast<const IDartsScoreInput*>(model));
+        _dartsScoreModels.replace(index,model);
         saveState();
     }
 

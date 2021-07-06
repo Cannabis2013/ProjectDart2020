@@ -23,10 +23,10 @@ public:
     virtual void getOrderedDartsPoints(const QUuid &tournament) = 0;
     virtual void handleRequestTournaments() = 0;
     virtual void handleRequestGameMode(const int &index) = 0;
-    virtual void assembleDartsTournamentDataFromId(const QUuid& tournament) = 0;
+    virtual void createDartsTournamentDataFromId(const QUuid& tournament) = 0;
     virtual void resetDartsPointTournament(const QUuid &tournament) = 0;
     virtual void resetDartsScoreTournament(const QUuid& tournamentId) = 0;
-    virtual void assembleDartsKeyValues(const QUuid& tournament) = 0;
+    virtual void createDartsKeyValues(const QUuid& tournament) = 0;
     virtual void setDartsTournamentWinner(const QByteArray&) = 0;
     // Darts singleattempt point methods
     virtual void addDartsPoint(const QByteArray& json) = 0;
@@ -38,14 +38,14 @@ public:
                              const QUuid &,
                              const int &,
                              const int &) = 0;
-    virtual void assembleDartsPointIndexes(const QUuid& tournament) = 0;
-    virtual void assembleDartsScoreIndexes(const QUuid& tournament) = 0;
-    virtual void assembleAssignedPlayerEntities(const QUuid&) = 0;
-    virtual void assembleAssignedPlayerPoints(const QUuid&) = 0;
-    virtual void assembleDartsTournamentWinnerIdAndName(const QUuid&) = 0;
+    virtual void createDartsPointIndexes(const QUuid& tournament) = 0;
+    virtual void createDartsScoreIndexes(const QUuid& tournament) = 0;
+    virtual void createAssignedPlayerEntities(const QUuid&) = 0;
+    virtual void createAssignedPlayerPoints(const QUuid&) = 0;
+    virtual void createDartsTournamentWinnerIdAndName(const QUuid&) = 0;
     // Darts multiattempt score methods
     virtual void addDartsScore(const QByteArray& json) = 0;
-    virtual void assembleAssignedPlayerScores(const QUuid&) = 0;
+    virtual void createAssignedPlayerScores(const QUuid&) = 0;
     virtual void hideDartsScore(const QUuid&,
                                     const QUuid&,
                                     const int &) = 0;

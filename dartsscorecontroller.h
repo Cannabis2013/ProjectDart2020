@@ -108,7 +108,7 @@ namespace DartsScoreControllerContext
          *
          * The following methods is called dependently on input hint
          */
-        void assembleOrderedDartsScores() override;
+        void createOrderedDartsScores() override;
         void handleRequestDartsScores() override;
         /*
          * Handle status request from UI
@@ -161,8 +161,8 @@ namespace DartsScoreControllerContext
         IQtJsonBuilder *_dartsJsonBuilder;
         IQtJsonExtractor *_extractJson;
     private:
-        void assembleAndSendTurnValues(const QByteArray &json);
-        void assembleAndSendWinnerValues();
+        void createAndSendTurnValues(const QByteArray &json);
+        void createAndSendWinnerValues();
         void subtractAndAddScoreToModel(const ControllerScore *scoreModel);
         QByteArray createJsonResponse(const QUuid &winnerId, const QString &winnerName);
         QByteArray createJsonResponse(const ControllerScore* scoreModel, const DartsScoreTurnValues* turnValues);

@@ -46,7 +46,7 @@ void RemoteModelsContext::handleRequestGameMode(const int &index)
                             SLOT(handleRequestGameModeReply()));
 }
 
-void RemoteModelsContext::assembleDartsTournamentDataFromId(const QUuid &tournamentId)
+void RemoteModelsContext::createDartsTournamentDataFromId(const QUuid &tournamentId)
 {
     auto formattedTournamentId  = tournamentId.toString(QUuid::WithoutBraces);
     _netMng->sendGetRequest("GetFtpTournamentMeta",
@@ -70,7 +70,7 @@ void RemoteModelsContext::resetDartsPointTournament(const QUuid &tournament)
     _netMng->sendPostRequest("ResetFtpTournament",QByteArray(),QString(),{{"tournamentId",tournamentId}},this,SLOT(tournamentResetReply()));
 }
 
-void RemoteModelsContext::assembleDartsKeyValues(const QUuid &tournament)
+void RemoteModelsContext::createDartsKeyValues(const QUuid &tournament)
 {
     _netMng->sendGetRequest("GetFtpDetails",
                             QString(),{{"tournamentId",tournament.toString(QUuid::WithoutBraces)}},this,
@@ -104,7 +104,7 @@ void RemoteModelsContext::handleRequestPlayersDetails()
                             SLOT(handleRequestPlayersReply()));
 }
 
-void RemoteModelsContext::assembleDartsPointIndexes(const QUuid &tournament)
+void RemoteModelsContext::createDartsPointIndexes(const QUuid &tournament)
 {
     auto tournamentId = tournament.toString(QUuid::WithoutBraces);
     _netMng->sendGetRequest("GetFtpIndexesAndScores",
@@ -372,23 +372,23 @@ void RemoteModelsContext::addDartsScore(const QByteArray &json)
 }
 
 
-void RemoteModelsContext::assembleAssignedPlayerEntities(const QUuid &)
+void RemoteModelsContext::createAssignedPlayerEntities(const QUuid &)
 {
 }
 
-void RemoteModelsContext::assembleAssignedPlayerPoints(const QUuid &)
+void RemoteModelsContext::createAssignedPlayerPoints(const QUuid &)
 {
 }
 
-void RemoteModelsContext::assembleDartsTournamentWinnerIdAndName(const QUuid &)
+void RemoteModelsContext::createDartsTournamentWinnerIdAndName(const QUuid &)
 {
 }
 
 
-void RemoteModelsContext::assembleAssignedPlayerScores(const QUuid &)
+void RemoteModelsContext::createAssignedPlayerScores(const QUuid &)
 {
 }
 
-void RemoteModelsContext::assembleDartsScoreIndexes(const QUuid &tournament)
+void RemoteModelsContext::createDartsScoreIndexes(const QUuid &tournament)
 {
 }

@@ -1,5 +1,5 @@
-#ifndef ASSEMBLEMULTIATTEMPTSCOREBYJSON_H
-#define ASSEMBLEMULTIATTEMPTSCOREBYJSON_H
+#ifndef CREATEDARTSSCOREMODELSFROMJSON_H
+#define CREATEDARTSSCOREMODELSFROMJSON_H
 
 #include "icreateinputmodelsfromjson.h"
 #include "dartsscoreinput.h"
@@ -8,7 +8,7 @@
 #include <qjsonarray.h>
 #include "qjsonobject.h"
 
-namespace DartsModelsContext {
+namespace DartsDbContext {
     class CreateDartsScoreModelsFromjson : public ICreateInputModelsFromJson
     {
     public:
@@ -19,7 +19,7 @@ namespace DartsModelsContext {
             QVector<const IPlayerInput*> list;
             for (const auto& jsonValue : arr) {
                 auto jsonObject = jsonValue.toObject();
-                auto model = assembleModelFromJsonObject(jsonObject);
+                auto model = createModelFromJsonObject(jsonObject);
                 list << model;
             }
             return list;
@@ -31,7 +31,7 @@ namespace DartsModelsContext {
             auto obj = document.object();
             return obj;
         }
-        const IDartsScoreInput* assembleModelFromJsonObject(const QJsonObject& jsonObject) const
+        const DartsModelsContext::IDartsScoreInput* createModelFromJsonObject(const QJsonObject& jsonObject) const
         {
             auto stringID = jsonObject["id"].toString();
             auto id = QUuid::fromString(stringID);

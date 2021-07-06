@@ -1,6 +1,6 @@
 #include "createdartspointsfromjson.h"
 
-using namespace DartsModelsContext;
+using namespace DartsDbContext;
 
 QVector<const IPlayerInput*> CreateDartsPointsFromJson::create(const QByteArray &json) const
 {

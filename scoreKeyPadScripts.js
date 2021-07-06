@@ -2,19 +2,19 @@
 /*
   Setup keypad
   */
-function assembleKeyPad()
+function createKeyPad()
 {
     /*
       Various hotkeys
       */
-    assembleHotPadItems();
+    createHotPadItems();
     /*
       Numberpads
         - Digits from 0 to 9
       */
-    assembleNumberPadItems();
+    createNumberPadItems();
 }
-function assembleHotPadItems()
+function createHotPadItems()
 {
     var leftLabels = [26,41,45];
     var rightLabels = [60,85,100];
@@ -50,7 +50,7 @@ function assembleHotPadItems()
     }
 }
 
-function assembleNumberPadItems()
+function createNumberPadItems()
 {
     var initialNumberPadRow = 1;
     var initialColumn = 3;

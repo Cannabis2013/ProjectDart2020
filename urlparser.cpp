@@ -16,7 +16,7 @@ QUrl UrlParser::parseUrl(const QString &baseUrl,
      */
     QString hostUrl = baseUrl;
     QString urlMethod = method;
-    auto stringQuery = assembleStringQuery(queryElements);
+    auto stringQuery = createStringQuery(queryElements);
 
     if(hostUrl.at(hostUrl.length() - 1) != '/')
         hostUrl.append('/');
@@ -40,7 +40,7 @@ QUrl UrlParser::parseUrl(const QString &baseUrl,
     return QUrl(hostUrl);
 }
 
-QString UrlParser::assembleStringQuery(const QVector<QPair<QString, QString> > &queries)
+QString UrlParser::createStringQuery(const QVector<QPair<QString, QString> > &queries)
 {
     if(queries.isEmpty())
         return QString();

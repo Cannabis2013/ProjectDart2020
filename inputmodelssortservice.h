@@ -1,28 +1,24 @@
 #ifndef GETORDEREDDARTSSCOREMODELS_H
 #define GETORDEREDDARTSSCOREMODELS_H
 
-#include "ibinaryservice.h"
+#include "isortinputmodels.h"
 #include "idartsscoreinput.h"
 #include "idartsinputdb.h"
 #include <quuid.h>
 #include "ipredicate.h"
 
 namespace DartsModelsContext
-{   
-    class InputModelsSortService :
-            public IBinaryService<const QVector<const IPlayerInput*>&,
-                                  const IPredicate<IPlayerInput>*,
-                                  QVector<const IPlayerInput*>>
+{
+    class InputModelsSortService : public ISortInputModels
     {
         // IBinaryService interface
     public:
         typedef IPredicate<IPlayerInput> Predicate;
-        QVector<const IPlayerInput*> service(const QVector<const IPlayerInput*>& dartsPointModels,
-                                             const Predicate* predicate) override
+        QVector<const IPlayerInput *> sort(const QVector<const IPlayerInput *> &unsortedInputs, const IPredicate<IPlayerInput> *predicate) const override
         {
-            QVector<const IPlayerInput*> sortedList = dartsPointModels;
+            QVector<const IPlayerInput*> sortedList = unsortedInputs;
             std::sort(sortedList.begin(),sortedList.end(),ComparePredicate(predicate));
-            return dartsPointModels;
+            return sortedList;
         }
     private:
         class ComparePredicate

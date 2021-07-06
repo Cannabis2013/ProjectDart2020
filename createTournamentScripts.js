@@ -43,10 +43,10 @@ function acceptAndAdd(){
     var gameModeString = gameModeSelector.currentValue;
     var gameMode = gameModeToHex(gameModeString);
     if(gameMode === 0x1)
-        assembleDartsTournament();
+        createDartsTournament();
 }
 
-function assembleDartsTournament()
+function createDartsTournament()
 {
     var indexes = playersListView.currentIndexes();
     if(indexes.length <= 0)

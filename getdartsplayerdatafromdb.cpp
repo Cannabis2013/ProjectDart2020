@@ -19,8 +19,12 @@ const GetDartsPlayerDataFromDb::PlayerModel *GetDartsPlayerDataFromDb::playerMod
 
 const GetDartsPlayerDataFromDb::String GetDartsPlayerDataFromDb::playerName(const Id &playerId, const DbService *dbService) const
 {
-    auto playerModel = this->playerModel(playerId,dbService);
-    return playerModel->playerName();
+    try {
+        auto playerModel = this->playerModel(playerId,dbService);
+        return playerModel->playerName();
+    }  catch (...) {
+        return "";
+    }
 }
 
 const QVector<GetDartsPlayerDataFromDb::String> GetDartsPlayerDataFromDb::playerNames(const QVector<Id> &playerIds, const DbService *dbService) const

@@ -21,7 +21,7 @@ function isModifiersPressed()
     return doubleChecked || trippleChecked;
 }
 
-function assembleKeyPad()
+function createKeyPad()
 {
     var columnCount = keyPadLayout.columns;
     var rowCount = keyPadLayout.rows;

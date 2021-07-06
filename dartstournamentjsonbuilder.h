@@ -26,7 +26,7 @@ namespace DartsModelsContext {
         {
             QJsonObject obj;
             auto dartsTournament = dynamic_cast<const IDartsTournament*>(tournament);
-            obj["id"] = dartsTournament->id().toString(QUuid::WithoutBraces);
+            obj["tournamentId"] = dartsTournament->id().toString(QUuid::WithoutBraces);
             obj["title"] = dartsTournament->title();
             obj["gameMode"] = dartsTournament->gameMode();
             obj["attempts"] = dartsTournament->attempts();
@@ -35,7 +35,7 @@ namespace DartsModelsContext {
             obj["inputHint"] = dartsTournament->inputHint();
             obj["winnerId"] = dartsTournament->winnerId().toString(QUuid::WithoutBraces);
             obj["terminalKeyCode"] = dartsTournament->terminalKeyCode();
-            obj["assignedPlayerIds"] = createArray(dartsTournament->assignedPlayerIdentities());
+            obj["assignedPlayerIds"] = createArray(dartsTournament->assignedPlayerIds());
             obj["assignedPlayerNames"] = createArray(dartsTournament->assignedPlayerNames());
             return obj;
         }

@@ -24,7 +24,7 @@ public slots:
     /*
      * Handle request for tournament meta information
      */
-    virtual void assembleDartsTournamentValues() = 0;
+    virtual void createDartsTournamentValues() = 0;
     virtual void setDartsPointController(AbstractDartsController* controller) = 0;
     virtual void setDartsScoreController(AbstractDartsController* controller) = 0;
 signals:
@@ -90,7 +90,7 @@ signals:
     void controllerAwaitsInput(const QByteArray& json);
     void dartsControllerIsReset();
     void controllerHasDeclaredAWinner(const QString& json);
-    void assembleDartsController(const QByteArray& json,
+    void createDartsController(const QByteArray& json,
                                AbstractApplicationInterface* applicationsInteface,
                                AbstractModelsService* modelsContextInterface);
 };

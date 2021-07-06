@@ -1,24 +1,18 @@
 #ifndef DARTSPOINTSJSONSERVICE_H
 #define DARTSPOINTSJSONSERVICE_H
 
-#include "idartspointsjsonservice.h"
-#include "iplayerinput.h"
-#include "idartspointindexes.h"
+#include "idartsmodelscreatejsonfrompoints.h"
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 #include <qjsonarray.h>
 #include "idartspointinput.h"
 
 namespace DartsModelsContext {
-    class DartsPointsJsonService : public
-            IDartsPointsJsonService<IPlayerInput,IDartsPointIndexes,QByteArray>
+    class DartsModelsCreateJsonFromPoints : public IDartsModelsCreateJsonFromPoints
     {
     public:
-        static DartsPointsJsonService* createInstance();
-        virtual JsonFormat createJson(const IndexesInterface *indexes) const override;
-        virtual JsonFormat createJson(const QVector<const ModelInterface *> &models) const override;
+        virtual QByteArray createJson(const QVector<const IPlayerInput*> &models) const override;
     };
 }
-
 
 #endif // DARTSPOINTSJSONSERVICE_H

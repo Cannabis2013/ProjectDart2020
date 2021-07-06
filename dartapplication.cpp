@@ -89,7 +89,7 @@ void DartApplication::handleSendGameModesRequest() const
     emit sendGameModes(resultingList);
 }
 
-void DartApplication::assembleDartsTournamentValues()
+void DartApplication::createDartsTournamentValues()
 {
     emit requestCurrentTournamentId();
 }

@@ -6,7 +6,8 @@
 #include "icreateinputmodelsfromjson.h"
 #include "icreatejsonfrominputs.h"
 
-namespace DartsModelsContext {
+
+namespace DartsDbContext {
     class DartsInputJsonDb :
             public IDartsInputDb,
             private JSONPersistence

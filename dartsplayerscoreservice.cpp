@@ -176,7 +176,7 @@ DartsPlayerScoreService::DartsPlayerScoreService(const int &initialScore,
     _winner = winner;
 }
 
-DartsPlayerScoreService::PlayerTuples DartsPlayerScoreService::assembleScoreTubble(const QVector<QUuid> &userIds, const QVector<QString> &userNames, const QVector<int> &userScores)
+DartsPlayerScoreService::PlayerTuples DartsPlayerScoreService::createScoreTubble(const QVector<QUuid> &userIds, const QVector<QString> &userNames, const QVector<int> &userScores)
 {
     // First check for consistency
     auto userIdsCount = userIds.count();
