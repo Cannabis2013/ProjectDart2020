@@ -4,13 +4,23 @@ import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.13
 
+import "tournamentListViewScripts.js" as TournamentListViewScripts
+
 Rectangle{
     id: listComponentBody
     color: "transparent"
     clip: true
     // Signals
+    signal addItem(var item)
+    onAddItem: TournamentListViewScripts.addItemModel(item)
+    signal removeItems(var indexes)
+    onRemoveItems: TournamentListViewScripts.removeItemModels(indexes)
     signal itemClicked(int index)
     signal itemSelected(int index)
+    signal unSelectAllItems()
+    onUnSelectAllItems: TournamentListViewScripts.unSelectAll()
+    signal clear()
+    onClear: listModel.clear()
     signal requestUpdate
     // Properties
     property double hoveredSizeScale: 0.90
@@ -87,47 +97,8 @@ Rectangle{
     property url itemImageUrl: ""
     onItemImageUrlChanged: listItem.logoUrl = itemImageUrl
 
-    function clear(){
-        listModel.clear();
-    }
-    function currentIndexes()
-    {
-        var cIndexes = [];
-        var j = 0;
-        for(var i = 0;i < listView.count;i++)
-        {
-            var item = listView.itemAtIndex(i);
-            var itemState = item.state;
-            if(itemState === "checked")
-                cIndexes[j++] = i;
-        }
-        return cIndexes;
-    }
+    readonly property var currentIndexes: TournamentListViewScripts.currentIndexes()
 
-    function unSelectAllItems()
-    {
-        for(var i = 0;i < listView.count;i++)
-        {
-            var item = listView.itemAtIndex(i);
-            var itemState = item.state;
-            if(itemState === "checked")
-                item.state = "";
-        }
-    }
-
-    function addItemModel(itemModel)
-    {
-        listModel.append(itemModel);
-    }
-
-    function removeItemModels(indexes)
-    {
-        var length = indexes.length;
-        for(var i = 0;i < length;i++){
-            var index = indexes[i];
-            listModel.remove(index);
-        }
-    }
     layer.enabled: true
 
     layer.effect: OpacityMask{
@@ -141,7 +112,6 @@ Rectangle{
             }
         }
     }
-
     Rectangle{
         id: backgroundRect
         anchors.fill: parent

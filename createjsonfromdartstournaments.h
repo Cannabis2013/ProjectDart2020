@@ -23,11 +23,21 @@ private:
             arr << createJsonObjectByModel(model);
         return arr;
     }
-    QJsonObject createJsonObjectByModel(const ITournament* model) const
+    QJsonObject createJsonObjectByModel(const ITournament* tournamentModel) const
     {
-        auto json = model->toJson();
-        auto document = QJsonDocument::fromJson(json);
-        auto obj = document.object();
+        auto model = dynamic_cast<const IDartsTournament*>(tournamentModel);
+        QJsonObject obj;
+        obj["id"] = model->id().toString(QUuid::WithoutBraces);
+        obj["title"] = model->title();
+        obj["gameMode"] = model->gameMode();
+        obj["attempts"] = model->attempts();
+        obj["keyPoint"] = model->keyPoint();
+        obj["displayHint"] = model->displayHint();
+        obj["inputHint"] = model->inputHint();
+        obj["winnerId"] = model->winnerId().toString(QUuid::WithoutBraces);
+        obj["terminalKeyCode"] = model->terminalKeyCode();
+        obj["assignedPlayerIds"] = createJsonArrayFromPlayerIds(tournamentModel);
+        obj["assignedPlayerNames"] = createJsonArrayFromPlayerNames(tournamentModel);
         return obj;
     }
     QJsonObject createJsonObject(const QJsonArray &arr) const
@@ -41,6 +51,20 @@ private:
         auto document = QJsonDocument(obj);
         auto json = document.toJson();
         return json;
+    }
+    QJsonArray createJsonArrayFromPlayerIds(const ITournament *model) const
+    {
+        QJsonArray arr;
+        for (const auto& assignedPlayerId : model->assignedPlayerIds())
+            arr << assignedPlayerId.toString(QUuid::WithoutBraces);
+        return arr;
+    }
+    QJsonArray createJsonArrayFromPlayerNames(const ITournament *model) const
+    {
+        QJsonArray arr;
+        for (const auto& assignedPlayerName : model->assignedPlayerNames())
+            arr << assignedPlayerName;
+        return arr;
     }
 };
 #endif // ASSEMBLEJSONFROMDARTSTOURNAMENTMODELS_H

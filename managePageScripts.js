@@ -32,7 +32,6 @@ function createConfirmPopUp(fileName, parentID)
     return instantiatedObject;
 }
 
-
 /*
   Delete player
     - Request delete player popup
@@ -58,6 +57,7 @@ function deletePlayersAccepted(){
     var json = JSON.stringify(obj);
     applicationInterface.requestDeletePlayers(json);
 }
+
 function recievePlayersDeletedStatusFromBackend(status)
 {
     if(status)
@@ -67,15 +67,10 @@ function recievePlayersDeletedStatusFromBackend(status)
         applicationInterface.requestPlayers();
     }
 }
-/*
-  Request removal of tournaments
-    - Handle request delete tournament popup
-    - Handle delete tournament accept
-    - Handle delete tournament reply from backend
-  */
+
 function requestDeleteTournamentPopUp()
 {
-    let selectedIndexes = tournamentListView.currentIndexes();
+    let selectedIndexes = tournamentListView.currentIndexes;
     let count = selectedIndexes.length;
     if(count > 0)
     {
@@ -84,12 +79,16 @@ function requestDeleteTournamentPopUp()
         obj.acceptClicked.connect(deleteTournamentsAccepted);
     }
 }
+
 function deleteTournamentsAccepted()
 {
-    var obj = {Indexes : tournamentListView.currentIndexes()};
+    var obj = {
+        indexes : tournamentListView.currentIndexes
+    };
     var json = JSON.stringify(obj);
     applicationInterface.requestDeleteTournaments(json);
 }
+
 function handleDeleteTournamentsSuccess(status)
 {
     if(status)
@@ -121,16 +120,13 @@ function updatePlayerListView()
     playersListView.clear();
     applicationInterface.requestPlayers();
 }
-/*
-  Update tournament listview
-  */
+
 function updateTournamentListView()
 {
     tournamentListView.clear();
     requestTournaments();
 }
 
-// Recieve tournament data
 function recieveTournaments(json)
 {
     var jsonTournaments= JSON.parse(json);
@@ -143,7 +139,7 @@ function recieveTournaments(json)
         var winnerName = jsonTournament["winnerName"];
         var assignedPlayerNames = jsonTournament["assignedPlayerNames"];
         var assignedPlayersCount = assignedPlayerNames.length;
-        tournamentListView.addItemModel(
+        tournamentListView.addItem(
                     {
                         "type" : "tournament",
                         "gameMode" : translateGameModeFromHex(gameMode),
@@ -161,9 +157,6 @@ function translateGameModeFromHex(gameMode)
         return "First to post"
 }
 
-/*
-  Connect/disconnect interface
-  */
 function connectInterface(){
     applicationInterface.sendPlayers.connect(recievePlayers); // Recieve initial players
     body.requestTournaments.connect(applicationInterface.handleTournamentsRequest); // Request initial tournaments

@@ -8,7 +8,7 @@ namespace DartsModelsContext {
     class DartsTournamentBuilder : public IDartsTournamentBuilder<IDartsTournament,QByteArray>
     {
     public:
-        const ModelInterface *createTournament(const JsonFormat &json) override
+        const ModelInterface *create(const JsonFormat &json) override
         {
             auto document = QJsonDocument::fromJson(json);
             auto jsonObject = document.object();

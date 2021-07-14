@@ -143,7 +143,7 @@ function backendIsStopped()
 function backendDeclaredAWinner(data)
 {
     var json = JSON.parse(data);
-    dartsPointSingleColumnMetaValues.winnerName = json.playerName;
+    dartsPointSingleColumnMetaValues.winnerName = json.winnerName;
     dartsPointSingleColumnBody.state = "winner";
 }
 

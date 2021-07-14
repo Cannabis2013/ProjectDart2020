@@ -89,6 +89,9 @@
         <file>pointsinglecolumnstatescripts.js</file>
         <file>PointInputDelegate.qml</file>
         <file>turnControllerScripts.js</file>
+        <file>tournamentPageScripts.js</file>
+        <file>TournamentPageListView.qml</file>
+        <file>tournamentListViewScripts.js</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>

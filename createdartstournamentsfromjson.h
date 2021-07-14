@@ -56,9 +56,12 @@ private:
         dartsTournamentModel->setInputMode(jsonObject.value("inputHint").toInt());
         dartsTournamentModel->setStatus(jsonObject.value("status").toInt());
         dartsTournamentModel->setWinnerId(QUuid(jsonObject.value("winnerId").toString("")));
-        auto arr = jsonObject.value("assignedPlayerIds").toArray();
-        auto assignedPlayerIds = buildPlayerIdsByJsonArray(arr);
+        auto arr1 = jsonObject.value("assignedPlayerIds").toArray();
+        auto assignedPlayerIds = buildPlayerIdsByJsonArray(arr1);
         dartsTournamentModel->setAssignedPlayerIdentities(assignedPlayerIds);
+        auto arr2 = jsonObject.value("assignedPlayerNames").toArray();
+        auto playerNames = createPlayerNamesFromJsonArray(arr2);
+        dartsTournamentModel->setAssignedPlayerNames(playerNames);
         return dartsTournamentModel;
     }
     QVector<QUuid> buildPlayerIdsByJsonArray(const QJsonArray& arr) const
@@ -70,6 +73,13 @@ private:
             assignedPlayerIds << id;
         }
         return assignedPlayerIds;
+    }
+    QVector<QString> createPlayerNamesFromJsonArray(const QJsonArray & arr) const
+    {
+        QVector<QString> playerNames;
+        for (const auto &jsonValue : arr)
+            playerNames << jsonValue.toString();
+        return playerNames;
     }
 };
 

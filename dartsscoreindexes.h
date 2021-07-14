@@ -4,7 +4,7 @@
 #include "idartsscoreindexes.h"
 
 
-class DartsScoreIndexes : public DartsModelsContext::IDartsScoreIndexes
+class DartsScoreIndexes : public IDartsScoreIndexes
 {
 public:
     static DartsScoreIndexes* createInstance()

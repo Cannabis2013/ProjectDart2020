@@ -2,7 +2,8 @@
 
 using namespace DartsModelsContext;
 
-const IDartsScoreIndexes *DartsModelsContext::CreateDartsScoreIndexes::createIndexes(const ITournament *tournament, const IGetInputModelsService *getInputsService,
+const IDartsScoreIndexes *DartsModelsContext::CreateDartsScoreIndexes::createIndexes(const ITournament *tournament,
+                                                                                     const IGetInputModelsService *getInputsService,
                                                                                      const ISortInputModels *sortInputsService,
                                                                                      const ICountInputModels *countInputsService,
                                                                                      const IDartsInputDb *dbService) const
@@ -15,7 +16,9 @@ const IDartsScoreIndexes *DartsModelsContext::CreateDartsScoreIndexes::createInd
     return createInitialDartsIndexes();
 }
 
-const IDartsScoreIndexes *CreateDartsScoreIndexes::createDartsIndexesByModels(const ITournament *tournament, const QVector<const IPlayerInput *> &orderedModels, const int &totalModelsCount) const
+const IDartsScoreIndexes *CreateDartsScoreIndexes::createDartsIndexesByModels(const ITournament *tournament,
+                                                                              const QVector<const IPlayerInput *> &orderedModels,
+                                                                              const int &totalModelsCount) const
 {
     auto dartsTournament = dynamic_cast<const IDartsTournament*>(tournament);
     auto playersCount = dartsTournament->assignedPlayerIds().count();

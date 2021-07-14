@@ -22,6 +22,8 @@
 #include "iaddscoretodartsscoremodel.h"
 #include "iqtjsonbuilder.h"
 #include "iqtjsonextractor.h"
+#include "idartsmetadata.h"
+
 // Definitions
 #define GAME_IS_NOT_IN_PROGRESS "Game is not in progress"
 #define GAME_WINNER_ANNOUNCEMENT(x) QString("Winner with ID: %! is declared winner").arg(x);
@@ -66,7 +68,7 @@ namespace DartsScoreControllerContext
         typedef IDartsControllerIndexesBuilder<ControllerIndexes,DartsIndexService,QByteArray> IndexesBuilderService;
         typedef IDartsPlayerBuilderService<DartsPlayer,QUuid,QString,QByteArray> PlayerBuilderService;
         // Create instance of LocalFTPController
-        static DartsScoreController* createInstance(const QUuid &tournament, const int &displayHint);
+        static DartsScoreController* createInstance();
         /*
          * Point suggestion section
          */
@@ -127,18 +129,12 @@ namespace DartsScoreControllerContext
          *  - Set controller back to its original state
          */
         void handleResetTournament() override;
-        // Get current status
-        int currentStatus() const;
         /*
          * Handle undo/redo response
          */
         void undoSuccess(const QByteArray &json) override;
         void redoSuccess(const QByteArray &json) override;
     protected:
-        /*
-         * Protected constructor
-         */
-        DartsScoreController(const QUuid &tournament, const int &displayHint);
         //Services
         // Generate throwsuggestions
         IDartsInputSuggestion<QString> *_scoreLogisticInterface = nullptr;
@@ -160,6 +156,8 @@ namespace DartsScoreControllerContext
         // Json services
         IQtJsonBuilder *_dartsJsonBuilder;
         IQtJsonExtractor *_extractJson;
+        // Meta data service
+        IDartsMetaData *_metaData;
     private:
         void createAndSendTurnValues(const QByteArray &json);
         void createAndSendWinnerValues();
@@ -177,9 +175,6 @@ namespace DartsScoreControllerContext
         void sendCurrentTurnValues();
         QString currentPlayerName()  ;
         QUuid currentPlayerId();
-        QUuid tournament();
-        int status();
-        void setCurrentStatus(int currentStatus);
         int lastPlayerIndex();
         /*
          * Update datacontext
@@ -190,10 +185,6 @@ namespace DartsScoreControllerContext
          */
         void nextTurn();
         void declareWinner();
-        // Member variables
-        int _displayHint;
-        QUuid _tournamentId = QUuid();
-        int _status = 0x0;
     };
 };
 

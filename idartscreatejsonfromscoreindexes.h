@@ -5,10 +5,10 @@
 #include <qbytearray.h>
 #include "icreatejsonfrom.h"
 
-class IDartsCreateJsonFromScoreIndexes : public ICreateJsonFrom<const DartsModelsContext::IDartsScoreIndexes*>
+class IDartsCreateJsonFromScoreIndexes : public ICreateJsonFrom<const IDartsScoreIndexes*>
 {
 public:
-    virtual QByteArray createJson(const DartsModelsContext::IDartsScoreIndexes *indexes) const override = 0;
+    virtual QByteArray createJson(const IDartsScoreIndexes *indexes) const override = 0;
 };
 
 #endif // IDARTSCREATEJSONFROMSCOREINDEXES_H

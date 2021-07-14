@@ -46,7 +46,7 @@ void RemoteModelsContext::handleRequestGameMode(const int &index)
                             SLOT(handleRequestGameModeReply()));
 }
 
-void RemoteModelsContext::createDartsTournamentDataFromId(const QUuid &tournamentId)
+void RemoteModelsContext::createDartsMetaData(const QUuid &tournamentId)
 {
     auto formattedTournamentId  = tournamentId.toString(QUuid::WithoutBraces);
     _netMng->sendGetRequest("GetFtpTournamentMeta",

@@ -9,7 +9,7 @@ namespace DartsPointControllerContext {
     class CalculateScoreByDartsPointInput : public IPointCalculatorService<IDartsControllerPoint<QUuid,QString,QByteArray>>
     {
     public:
-        enum KeyMappings{
+        enum PointKeyCodes{
             SingleModifer = 0x2A,
             DoubleModifier = 0x2B,
             TrippleModifier = 0x2C,
@@ -25,9 +25,9 @@ namespace DartsPointControllerContext {
             // Initialize pointmultiplier
             auto keyCode = model->modKeyCode();
             auto point = model->point();
-            auto pointMultiplier = keyCode == KeyMappings::TrippleModifier ? 3 :
-                                   keyCode == KeyMappings::DoubleModifier ? 2 :
-                                   keyCode == KeyMappings::SingleModifer ? 1 : 0;
+            auto pointMultiplier = keyCode == PointKeyCodes::TrippleModifier ? 3 :
+                                   keyCode == PointKeyCodes::DoubleModifier ? 2 :
+                                   keyCode == PointKeyCodes::SingleModifer ? 1 : 0;
             // Calculate point
             auto score = point*pointMultiplier;
             auto mutableModel = const_cast<ModelsInterface*>(model);

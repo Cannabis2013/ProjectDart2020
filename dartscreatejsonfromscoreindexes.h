@@ -12,7 +12,7 @@ public:
 
     // IDartsCreateJsonFromScoreIndexes interface
 public:
-    virtual QByteArray createJson(const DartsModelsContext::IDartsScoreIndexes *indexes) const override;
+    virtual QByteArray createJson(const IDartsScoreIndexes *indexes) const override;
 };
 
 #endif // DARTSCREATEJSONFROMSCOREINDEXES_H

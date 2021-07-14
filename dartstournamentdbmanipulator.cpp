@@ -11,7 +11,8 @@ DartsTournamentDbManipulator::Id DartsModelsContext::DartsTournamentDbManipulato
 bool DartsModelsContext::DartsTournamentDbManipulator::removeTournamentsByIndexes(const QVector<int> &indexes, DbService *dbService) const
 {
     auto r = true;
-    for (int i = indexes.count(); i >= 0; --i) {
+    auto startIndex = indexes.count() - 1;
+    for (int i = startIndex; i >= 0; --i) {
         auto index = indexes.at(i);
         r = dbService->remove(index) ? r : false;
     }

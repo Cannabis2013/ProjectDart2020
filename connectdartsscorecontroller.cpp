@@ -7,7 +7,7 @@ void ConnectDartsScoreController::connectController(AbstractGameController *cont
     QObject::connect(application,&AbstractApplicationInterface::requestCurrentTournamentId,
             dartsScorecontroller,&AbstractDartsScoreController::handleRequestForCurrentTournamentMetaData);
     QObject::connect(dartsScorecontroller,&AbstractDartsScoreController::sendCurrentTournamentId,
-            modelsService,&AbstractModelsService::createDartsTournamentDataFromId);
+            modelsService,&AbstractModelsService::createDartsMetaData);
     // Controller requests indexes and playerscores
     QObject::connect(dartsScorecontroller,&AbstractDartsScoreController::requestDartsTournamentIndexes,
             modelsService,&AbstractModelsService::createDartsScoreIndexes);

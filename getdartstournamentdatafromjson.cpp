@@ -1,23 +1,16 @@
 #include "getdartstournamentdatafromjson.h"
 
-int GetDartsTournamentDataFromjson::numeric(const Json &json, const String &key) const
+GetDartsTournamentDataFromjson::Id GetDartsTournamentDataFromjson::tournamentIdFromJson(const Json &json) const
 {
     auto obj = createJsonObject(json);
-    auto numeric = obj.value(key).toInt();
-    return numeric;
+    auto stringId = obj.value("tournamentId").toString();
+    return QUuid::fromString(stringId);
 }
 
-QVector<GetDartsTournamentDataFromjson::Numeric> GetDartsTournamentDataFromjson::numerics(const Json &json, const String &key) const
+GetDartsTournamentDataFromjson::Id GetDartsTournamentDataFromjson::winnerIdFromJson(const Json &json) const
 {
     auto obj = createJsonObject(json);
-    auto arr = obj.value(key).toArray();
-    return createNumericsFromJsonArray(arr);
-}
-
-GetDartsTournamentDataFromjson::Id GetDartsTournamentDataFromjson::id(const Json &json, const String &key) const
-{
-    auto obj = createJsonObject(json);
-    auto stringId = obj.value(key).toString();
+    auto stringId = obj.value("winnerId").toString();
     return QUuid::fromString(stringId);
 }
 
@@ -26,12 +19,4 @@ QJsonObject GetDartsTournamentDataFromjson::createJsonObject(const QByteArray &j
     auto document = QJsonDocument::fromJson(json);
     auto obj = document.object();
     return obj;
-}
-
-QVector<GetDartsTournamentDataFromjson::Numeric> GetDartsTournamentDataFromjson::createNumericsFromJsonArray(const QJsonArray &arr) const
-{
-    QVector<Numeric> values;
-    for (const auto &jsonValue : arr)
-        values << jsonValue.toInt();
-    return values;
 }

@@ -45,7 +45,7 @@ namespace DartsDbContext {
         QJsonObject createJsonObject(const QJsonArray &arr) const
         {
             QJsonObject jsonObject;
-            jsonObject["DartsMultiAttemptScores"] = arr;
+            jsonObject["DartsScoreModels"] = arr;
             return jsonObject;
         }
 

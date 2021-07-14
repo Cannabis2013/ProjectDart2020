@@ -2,17 +2,16 @@
 #define ITOURNAMENTMODELMANIPULATOR_H
 
 #include <qvector.h>
+#include <quuid.h>
+#include <qstring.h>
 
-template<typename TTournament, typename TUuid, typename TString>
+template<typename TTournament, typename TDbService,typename TUuid = QUuid, typename TString = QString>
 class ITournamentModelManipulator
 {
 public:
-    typedef TTournament Tournament;
-    typedef TUuid Id;
-    typedef TString String;
-    virtual void addPlayerIds(const Tournament *tournament, const QVector<Id> &playerIds) const = 0;
-    virtual void addPlayerNames(const Tournament *tournament, const QVector<String> &playerNames) const = 0;
-    virtual void setWinnerId(const Tournament *tournament, const Id &winnerId) const = 0;
+    virtual void addPlayerIds(const TTournament *tournament, const QVector<TUuid> &playerIds, TDbService *dbService) const = 0;
+    virtual void addPlayerNames(const TTournament *tournament, const QVector<TString> &playerNames, TDbService *dbService) const = 0;
+    virtual void setWinnerId(const TTournament *tournament, const TUuid &winnerId, TDbService *dbService) const = 0;
 };
 
 #endif // ITOURNAMENTMODELMANIPULATOR_H

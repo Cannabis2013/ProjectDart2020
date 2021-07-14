@@ -14,7 +14,7 @@
 #include "dartsplayermodelbuilderservice.h"
 #include "dartscontrollerpointmodelsservice.h"
 #include "getordereddartspointsbyjson.h"
-#include "addtotalscoretodartsinputsjson.h"
+#include "addtotalscoretodartspointsjson.h"
 #include "addplayernamestodartspointsjson.h"
 #include "dartspointinputstojson.h"
 #include "jsonmergebybytearrayservice.h"
@@ -23,6 +23,8 @@
 #include "defaultqtjsonextractor.h"
 #include "dartsmetadataservice.h"
 #include "dartspointstringsuggestion.h"
+
+#include <determinecontrollerstatebywinnerid.h>
 
 namespace DartsBuilderContext {
     class DefaultDartsPointController : public DartsPointControllerContext::DartsPointController
@@ -44,7 +46,7 @@ namespace DartsBuilderContext {
             controller->_controllerModels = new DartsControllerPointModelsService;
             controller->_playerModelBuilder = new DartsPlayerModelBuilderService;
             controller->_getOrderedDartsPointsByJson = new GetOrderedDartsPointsByJson;
-            controller->_addTotalScoresToDartsModelsJson = new AddTotalScoreToDartsInputsJson;
+            controller->_addTotalScoresToDartsModelsJson = new AddTotalScoreToDartsPointsJson;
             controller->_dartsPointsToJson = new DartsPointInputsToJson;
             controller->_calculateScoreByPointInput = new CalculateScoreByDartsPointInput;
             controller->_jsonMerger = new JsonMergeByByteArrayService;
@@ -54,6 +56,7 @@ namespace DartsBuilderContext {
             controller->_jsonExtractor = new DefaultQtJsonExtractor;
             controller->_metaData = DartsMetaDataService::createInstance(tournamentId,displayHint);
             controller->_stringSuggestionService = DartsPointStringSuggestion::createInstance(details->attempts());
+            controller->_determineControllerStateByWinnerId = new DartsControllerContext::DetermineControllerStateByWinnerId;
             return controller;
         }
     };

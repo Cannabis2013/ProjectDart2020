@@ -9,7 +9,7 @@ void ConnectDartsPointController::connectController(AbstractDartsController *con
     QObject::connect(application,&AbstractApplicationInterface::requestCurrentTournamentId,
             dartsPointController,&AbstractDartsPointController::handleRequestForCurrentTournamentMetaData);
     QObject::connect(dartsPointController,&AbstractDartsPointController::sendCurrentTournamentId,
-            modelsService,&AbstractModelsService::createDartsTournamentDataFromId);
+            modelsService,&AbstractModelsService::createDartsMetaData);
     // Controller requests indexes and playerscores
     QObject::connect(dartsPointController,&AbstractDartsPointController::requestDartsTournamentIndexes,
             modelsService,&AbstractModelsService::createDartsPointIndexes);
@@ -34,7 +34,7 @@ void ConnectDartsPointController::connectController(AbstractDartsController *con
             routeService,&AbstractRouteDartsByDisplayHint::determineDartsPointRouteByDisplayHint);
     // Controller requests transmitting single attempt playerpoints
     QObject::connect(application,&AbstractApplicationInterface::requestOrderedDartsInputs,
-            dartsPointController,&AbstractDartsPointController::handleRequestOrderedDartsPoints);
+            dartsPointController,&AbstractDartsPointController::requestOrderedDartsPoints);
     QObject::connect(dartsPointController,&AbstractDartsPointController::requestDartsPointsOrderedByIndexes,
             modelsService,&AbstractModelsService::getOrderedDartsPoints);
     QObject::connect(modelsService,&AbstractModelsService::sendOrderedDartsPoints,

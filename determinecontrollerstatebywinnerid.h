@@ -4,7 +4,7 @@
 #include "iunaryservice.h"
 #include <quuid.h>
 
-namespace DartsScoreControllerContext {
+namespace DartsControllerContext {
     class DetermineControllerStateByWinnerId : public
             IUnaryService<const QUuid&,int>
     {

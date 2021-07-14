@@ -12,7 +12,7 @@ const QJsonArray CreateDartsPointsFromJson::createArray(const QByteArray &json) 
 {
     auto document = QJsonDocument::fromJson(json);
     auto obj = document.object();
-    return obj.value("players").toArray();
+    return obj.value("DartsPointInputs").toArray();
 }
 
 QVector<const IPlayerInput *> CreateDartsPointsFromJson::createInputsFromJsonArray(const QJsonArray &arr) const

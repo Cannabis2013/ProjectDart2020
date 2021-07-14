@@ -23,7 +23,7 @@ public:
     virtual void getOrderedDartsPoints(const QUuid &tournament) = 0;
     virtual void handleRequestTournaments() = 0;
     virtual void handleRequestGameMode(const int &index) = 0;
-    virtual void createDartsTournamentDataFromId(const QUuid& tournament) = 0;
+    virtual void createDartsMetaData(const QUuid& tournament) = 0;
     virtual void resetDartsPointTournament(const QUuid &tournament) = 0;
     virtual void resetDartsScoreTournament(const QUuid& tournamentId) = 0;
     virtual void createDartsKeyValues(const QUuid& tournament) = 0;

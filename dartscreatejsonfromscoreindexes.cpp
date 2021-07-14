@@ -1,6 +1,6 @@
 #include "dartscreatejsonfromscoreindexes.h"
 
-QByteArray DartsCreateJsonFromScoreIndexes::createJson(const DartsModelsContext::IDartsScoreIndexes *indexes) const
+QByteArray DartsCreateJsonFromScoreIndexes::createJson(const IDartsScoreIndexes *indexes) const
 {
     QJsonObject jsonObject;
     jsonObject["totalTurns"] = indexes->totalTurns();

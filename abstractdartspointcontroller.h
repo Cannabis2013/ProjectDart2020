@@ -11,7 +11,7 @@ class AbstractDartsPointController : public
     Q_OBJECT
 public slots:
     virtual void initializeControllerDartsPoints(const QByteArray&) = 0;
-    virtual void handleRequestOrderedDartsPoints() = 0;
+    virtual void requestOrderedDartsPoints() = 0;
     virtual void handlePointAddedToDataContext(const QByteArray& json) = 0;
     virtual void handleOrderedDartsPoint(const QByteArray &json) = 0;
 signals:

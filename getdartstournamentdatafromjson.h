@@ -10,12 +10,10 @@
 class GetDartsTournamentDataFromjson : public IGetDartsTournamentDataFromJson
 {
 public:
-    virtual int numeric(const Json &json, const String &key) const override;
-    virtual QVector<Numeric> numerics(const Json &json, const String &key) const override;
-    virtual Id id(const Json &json, const String &key) const override;
+    virtual Id tournamentIdFromJson(const Json &json) const override;
+    virtual Id winnerIdFromJson(const Json &json) const override;
 private:
     QJsonObject createJsonObject(const QByteArray &json) const;
-    QVector<Numeric> createNumericsFromJsonArray(const QJsonArray &arr) const;
 };
 
 #endif // GETDARTSTOURNAMENTDATAFROMJSON_H

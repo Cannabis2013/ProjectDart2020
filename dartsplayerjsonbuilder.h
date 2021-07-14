@@ -27,8 +27,8 @@ public:
     virtual Json createJson(const Id &playerId, const String &playerName) const override
     {
         QJsonObject obj;
-        obj["playerId"] = playerId.toString(QUuid::WithoutBraces);
-        obj["playerName"] = playerName;
+        obj["winnerId"] = playerId.toString(QUuid::WithoutBraces);
+        obj["winnerName"] = playerName;
         return createByteArray(obj);
     }
 

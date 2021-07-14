@@ -3,6 +3,7 @@
 // Proprietary QT classes
 #include <quuid.h>
 #include <qscopedpointer.h>
+#include <iunaryservice.h>
 // Custom classes
 #include "abstractdartspointcontroller.h"
 // Models
@@ -101,7 +102,7 @@ namespace DartsPointControllerContext {
          *  - Handle request for dartspoints ordered by indexes
          */
         void handleRequestForCurrentTournamentMetaData() override;
-        void handleRequestOrderedDartsPoints() override;
+        void requestOrderedDartsPoints() override;
         void handleOrderedDartsPoint(const QByteArray &json) override;
         /*
          * Start/stop/undo/redo
@@ -133,9 +134,6 @@ namespace DartsPointControllerContext {
         void undoSuccess(const QByteArray &json) override;
         void redoSuccess(const QByteArray &json) override;
     protected:
-        /*
-         * Protected constructor
-         */
         // Services
         // Builder Services
         TurnValueBuilderService* _turnValuesBuilder;
@@ -165,6 +163,8 @@ namespace DartsPointControllerContext {
         DartsIndexService* _indexService = nullptr;
         // Userscore service
         PlayerPointService* _inputService = nullptr;
+        // Deterministic state services
+        IUnaryService<const QUuid&,int>* _determineControllerStateByWinnerId;
     private:
         void createAndSendTurnValues(const QByteArray &json);
         void subtractAndAddScoreValuesToModel(const IControllerPoint *pointModel);

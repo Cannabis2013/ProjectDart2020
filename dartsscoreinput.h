@@ -1,10 +1,7 @@
 #ifndef DARTSSCOREINPUT_H
 #define DARTSSCOREINPUT_H
 
-#include <quuid.h>
 #include "idartsscoreinput.h"
-#include <qjsondocument.h>
-#include <qjsonobject.h>
 
 namespace DartsModelsContext {
     class DartsScoreInput : public IDartsScoreInput
@@ -13,25 +10,6 @@ namespace DartsModelsContext {
         static DartsScoreInput* createInstance()
         {
             return new DartsScoreInput();
-        }
-        static DartsScoreInput* fromJson(const QByteArray& json,
-                                         const int& hint = -1,
-                                         const bool& generateId = false)
-        {
-            auto model = new DartsScoreInput(json);
-            if(generateId)
-                model->setId(QUuid::createUuid());
-            if(hint != -1)
-                model->setHint(hint);
-            return model;
-        }
-        static DartsScoreInput* fromJsonObject(const QJsonObject& jsonObject,
-                                               const bool& generateId = false)
-        {
-            auto model = new DartsScoreInput(jsonObject);
-            if(generateId)
-                model->setId(QUuid::createUuid());
-            return model;
         }
         QUuid id() const override
         {
@@ -105,49 +83,8 @@ namespace DartsModelsContext {
             _score = score;
             return this;
         }
-        QByteArray toJson() const override
-        {
-            QJsonObject jsonObject;
-            jsonObject["score"] = _score;
-            jsonObject["roundIndex"] = _roundIndex;
-            jsonObject["setIndex"] = _setIndex;
-            jsonObject["hint"] = _hint;
-            jsonObject["id"] = _id.toString(QUuid::WithoutBraces);
-            jsonObject["playerId"] = _playerId.toString(QUuid::WithoutBraces);
-            jsonObject["playerName"] = _playerName;
-            jsonObject["tournamentId"] = _tournamentId.toString(QUuid::WithoutBraces);
-            auto document = QJsonDocument(jsonObject);
-            auto json = document.toJson();
-            return json;
-        }
     private:
-        DartsScoreInput()
-        {
-        }
-        DartsScoreInput(const QByteArray& json)
-        {
-            auto document = QJsonDocument::fromJson(json);
-            auto jsonObject = document.object();
-            _score = jsonObject.value("score").toInt();
-            _roundIndex = jsonObject.value("roundIndex").toInt();
-            _setIndex = jsonObject.value("setIndex").toInt();
-            _hint = jsonObject.value("hint").toInt();
-            _playerId = QUuid::fromString(jsonObject.value("playerId").toString());
-            _playerName = jsonObject.value("playerName").toString();
-            _tournamentId = QUuid::fromString(jsonObject.value("tournamentId").toString());
-            _id = QUuid::fromString(jsonObject.value("id").toString(""));
-        }
-        DartsScoreInput(const QJsonObject& jsonObject)
-        {
-            _score = jsonObject.value("score").toInt();
-            _roundIndex = jsonObject.value("roundIndex").toInt();
-            _setIndex = jsonObject.value("setIndex").toInt();
-            _hint = jsonObject.value("hint").toInt();
-            _playerId = QUuid::fromString(jsonObject.value("playerId").toString());
-            _playerName = jsonObject.value("playerName").toString();
-            _tournamentId = QUuid::fromString(jsonObject.value("tournamentId").toString());
-            _id = QUuid::fromString(jsonObject.value("id").toString(""));
-        }
+        DartsScoreInput(){}
         int _score;
         int _roundIndex;
         int _setIndex;

@@ -22,9 +22,9 @@ namespace DartsModelsContext {
             QVector<const IPlayerInput*> tournamentInputs;
             for (const auto &model : models) {
                 if(model->tournamentId() == tournamentId)
-                    models << model;
+                    tournamentInputs << model;
             }
-            return models;
+            return tournamentInputs;
         }
     };
 }

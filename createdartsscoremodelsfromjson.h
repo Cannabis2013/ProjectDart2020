@@ -15,7 +15,7 @@ namespace DartsDbContext {
         virtual QVector<const IPlayerInput *> create(const QByteArray &json) const override
         {
             auto jsonObject = createJsonobject(json);
-            QJsonArray arr = jsonObject.value("DartsScores").toArray();
+            QJsonArray arr = jsonObject.value("DartsScoreModels").toArray();
             QVector<const IPlayerInput*> list;
             for (const auto& jsonValue : arr) {
                 auto jsonObject = jsonValue.toObject();

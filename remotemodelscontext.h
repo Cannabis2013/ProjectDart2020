@@ -59,7 +59,7 @@ public:
     virtual void getOrderedDartsPoints(const QUuid &tournamentId) override;
     virtual void handleRequestTournaments() override;
     virtual void handleRequestGameMode(const int &index) override;
-    virtual void createDartsTournamentDataFromId(const QUuid &tournamentId) override;
+    virtual void createDartsMetaData(const QUuid &tournamentId) override;
     virtual void addDartsPoint(const QByteArray& json) override;
     void addDartsScore(const QByteArray &json) override;
     virtual void resetDartsPointTournament(const QUuid &tournament) override;

@@ -29,7 +29,7 @@ void DartsPointController::handleRequestForCurrentTournamentMetaData()
     emit sendCurrentTournamentId(_metaData->tournamentId());
 }
 
-void DartsPointController::handleRequestOrderedDartsPoints()
+void DartsPointController::requestOrderedDartsPoints()
 {
     emit requestDartsPointsOrderedByIndexes(_metaData->tournamentId());
 }
@@ -286,6 +286,8 @@ void DartsPointController::initializeControllerDartsPoints(const QByteArray& jso
 void DartsPointController::initializeControllerWinnerIdAndName(const QByteArray& json)
 {
     auto winnerId = _jsonExtractor->getIdValueByKey(json,"winnerId");
+    auto status = _determineControllerStateByWinnerId->service(winnerId);
+    _metaData->setStatus(status);
     _inputService->setWinner(winnerId);
     emit controllerInitialized(_metaData->displayHint());
 }

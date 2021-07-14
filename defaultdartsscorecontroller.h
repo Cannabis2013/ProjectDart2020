@@ -19,6 +19,7 @@
 #include "jsonmergebybytearrayservice.h"
 #include "defaultqtjsonextractor.h"
 #include "dartssingleattemptinputrowsuggestion.h"
+#include "dartsmetadataservice.h"
 
 class DefaultDartsScoreController : public DartsScoreController
 {
@@ -27,14 +28,14 @@ public:
     static DefaultDartsScoreController *createInstance(const ControllerEntity *details)
     {
         using namespace DartsScoreControllerContext;
-        auto controller = new DefaultDartsScoreController(details->tournamentId(),details->displayHint());
+        auto controller = new DefaultDartsScoreController();
         controller->_scoreLogisticInterface = DartsSingleAttemptInputRowSuggestion::createInstance();
         controller->_inputEvaluator = ScoreValidator::createInstance(details->terminalKeyCode());
         controller->_indexService = ScoreIndexController::createInstance();
         controller->_inputService = DartsPlayerScoreService::createInstance(details->keyPoint(),
                                                                                details->winnerId());
         controller->_dartsJsonBuilderService = new DartsScoreJsonBuilderService;
-        controller->_determineControllerStateByWinnerId = new DetermineControllerStateByWinnerId;
+        controller->_determineControllerStateByWinnerId = new DartsControllerContext::DetermineControllerStateByWinnerId;
         controller->_addTotalScoreToModel = new AddTotalScoreToDartsScoreModel;
         controller->_turnValuesBuilder = new buildDartsScoreTurnValues;
         controller->_dartsScoreBuilder = new DartsScoreModelsBuilderService;
@@ -43,12 +44,9 @@ public:
         controller->_jsonMergeService = new JsonMergeByByteArrayService;
         controller->_dartsJsonBuilder = new DefaultQtJsonBuilder;
         controller->_extractJson = new DefaultQtJsonExtractor;
+        controller->_metaData = DartsMetaDataService::createInstance(details->tournamentId(),details->displayHint());
         return controller;
     }
-private:
-    DefaultDartsScoreController(const QUuid &tournamentId, const int &displayHint):
-        DartsScoreController(tournamentId,displayHint)
-    {}
 };
 
 #endif // DEFAULTDARTSSCORECONTROLLER_H

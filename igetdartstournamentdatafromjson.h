@@ -1,10 +1,10 @@
 #ifndef IGETDARTSTOURNAMENTDATAFROMJSON_H
 #define IGETDARTSTOURNAMENTDATAFROMJSON_H
 
-#include "igetdatafromjson.h"
+#include "igetdartsdatafromjson.h"
 #include "quuid.h"
 
-class IGetDartsTournamentDataFromJson : public IGetDataFromJson<QByteArray, QUuid,QString,int>
+class IGetDartsTournamentDataFromJson : public IGetDartsDataFromJson<QByteArray, QUuid,QString,int>
 {};
 
 #endif // IDEFAULTPLAYERJSONEXTRACTOR_H

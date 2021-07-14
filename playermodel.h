@@ -58,10 +58,6 @@ namespace DartsModelsContext {
         {
             return new PlayerModel;
         }
-        virtual QByteArray toJson() const override
-        {
-            return QByteArray();
-        };
     private:
         QUuid _id;
         QString _userName, _email;

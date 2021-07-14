@@ -4,12 +4,12 @@
 #include "idartsscoreinput.h"
 #include <quuid.h>
 #include "dartsscoreindexes.h"
-#include "icreatedartsindexes.h"
+#include "idartscreateindexes.h"
 #include "idartstournament.h"
 #include "sortdartsscoreinputsbyindexes.h"
 
 namespace DartsModelsContext {
-    class CreateDartsScoreIndexes : public ICreateDartsIndexes<IDartsScoreIndexes>
+    class CreateDartsScoreIndexes : public IDartsCreateIndexes<IDartsScoreIndexes>
     {
     public:
         enum ModelDisplayHint{

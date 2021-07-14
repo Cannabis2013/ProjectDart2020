@@ -27,7 +27,6 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
     /*
-     * Configue DartApplication
      * Instantiate DartApplication
      */
     auto _dart = DartApplication::createAndSetupInstance();
@@ -36,7 +35,11 @@ int main(int argc, char *argv[])
      */
     registerCustomTypes();
     QQmlApplicationEngine engine;
-    engine.rootContext()->setContextProperty("applicationInterface",_dart);
+
+    QQmlContext::PropertyPair p;
+    p.name = "applicationInterface";
+    p.value = QVariant::fromValue<AbstractApplicationInterface*>(_dart);
+    engine.rootContext()->setContextProperties({p});
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {

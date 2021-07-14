@@ -130,29 +130,6 @@ namespace DartsModelsContext{
             _inputHint = inputMode;
             return this;
         }
-        QByteArray toJson() const override
-        {
-            QJsonObject obj;
-            obj["id"] = _id.toString(QUuid::WithoutBraces);
-            obj["title"] = _title;
-            obj["gameMode"] = _gameMode;
-            obj["attempts"] = _attempts;
-            obj["keyPoint"] = _keyPoint;
-            obj["displayHint"] = _displayHint;
-            obj["inputHint"] = _inputHint;
-            obj["winnerId"] = _winnerId.toString(QUuid::WithoutBraces);
-            obj["terminalKeyCode"] = _terminalKeyCode;
-            QJsonArray arr1;
-            for (const auto& assignedPlayerId : _assignedPlayerIdentities)
-                arr1 << assignedPlayerId.toString(QUuid::WithoutBraces);
-            obj["assignedPlayerIds"] = arr1;
-            QJsonArray arr2;
-            for (const auto &assignedPlayerName : _assignedPlayerNames)
-                arr2 << assignedPlayerName;
-            obj["assignedPlayerNames"] = arr2;
-            auto json = QJsonDocument(obj).toJson();
-            return json;
-        }
     private:
         QString _title;
         int _attempts;

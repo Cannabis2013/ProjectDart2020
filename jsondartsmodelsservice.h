@@ -1,15 +1,14 @@
 #ifndef JSONDARTSMODELSSERVICE_H
 #define JSONDARTSMODELSSERVICE_H
 
-#include "localdartsmodelsservice.h"
+#include "dartsmodelsservice.h"
 // Genereic models includes
-#include "defaultdbmanipulatorservice.h"
+#include "removeinputsfromdb.h"
 // Input models includes
 #include "dartspointjsondb.h"
 #include "dartsinputjsondb.h"
-#include "addplayernametodartsinputmodel.h"
-#include "dartsscoremodelmanipulator.h"
-#include "dartspointmodelsservice.h"
+#include "dartsscoresethint.h"
+#include "dartspointsethint.h"
 #include "getinputmodelsservice.h"
 #include "inputmodelssortservice.h"
 #include "sortdartspointinputsbyindexes.h"
@@ -22,8 +21,13 @@
 #include "createdartsscoreindexes.h"
 #include "getdartsscorefromdb.h"
 #include "getdartspointfromdb.h"
+#include "dartscreatepointindexes.h"
+#include "createjsonfromdartspointindexes.h"
+#include "dartsscoresethint.h"
+#include "dartscreatejsonfromdartspoint.h"
+#include "dartscreatejsonfromdartsscore.h"
 // Player models includes
-#include "getdartsplayerdatafromdb.h"
+#include "getdartsplayermodelsfromdb.h"
 #include "dartsplayerjsonbuilder.h"
 #include "dartsplayermodelbuilder.h"
 #include "playermodelsjsondb.h"
@@ -41,44 +45,25 @@
 #include "dartsmodelmanipulator.h"
 #include "getdatafromdartstournament.h"
 #include "dartscreatejsonfromscoreindexes.h"
+#include "dartscreatejsonmetadata.h"
+#include "dartscreatepointmodel.h"
+#include "dartscreatescoremodel.h"
+// Db utilities
+#include "dbgetindexesfromjson.h"
 
-class JsonDartsModelsService : public DartsModelsContext::LocalDartsModelsService
+class JsonDartsModelsService : public DartsModelsContext::DartsModelsService
 {
 public:
-    JsonDartsModelsService()
-    {
-        using namespace DartsModelsContext;
-        _tournamentDbManipulator = new DartsTournamentDbManipulator;
-        _addToDartsTournament = new AddDetailsToTournamentJson;
-        _dartsScoreInputService = new DartsScoreModelManipulator;
-        _dartsPointInputService = new DartsPointModelsService;
-        _addPlayerNameToDartsInputModel = new AddPlayerNameToDartsInputModel;
-        _dartsTournamentBuilder = new DartsTournamentBuilder;
-        _dartsPointsDb = new DartsDbContext::DartsPointJsonDb;
-        _dartsScoresDb = new DartsDbContext::DartsScoreJsonDb;
-        _dartsTournamentDb = new DartsTournamentsJsonDb;
-        _getInputsFromDb = new GetInputModelsService;
-        _dbManipulatorService = new DefaultDbManipulatorService;
-        _sortInputs = new InputModelsSortService;
-        _sortPointInputsByIndexes = new SortDartsPointInputsByIndexes;
-        _countInputs = new InputModelsCountService;
-        _dartsPointsJsonService = new DartsModelsCreateJsonFromPoints;
-        _createJsonFromScoreModels = new DartsCreateJsonFromScores;
-        _getDartsPlayerData = new GetDartsPlayerDataFromDb;
-        _dartsPlayerJsonBuilder = new DartsPlayerJsonBuilder;
-        _getTournament = new GetDartsTournamentFromDb;
-        _createJsonFromDartsTournamentModels = new DartsTournamentJsonBuilder;
-        _playerModelBuilder = new DartsPlayerModelBuilder;
-        _dartsPlayersDb = new PlayerModelsLocalJsonDb;
-        _getDartsTournamentDataFromJson = new GetDartsTournamentDataFromjson;
-        _dartsModelManipulator = new DartsModelManipulator;
-        _getDataFromPlayerModels = new GetDataFromPlayerModels;
-        _getDataFromDartsTournament = new GetDataFromDartsTournament;
-        _createIndexesFromScoreModels = new CreateDartsScoreIndexes;
-        _createJsonfromScoreIndexes = new DartsCreateJsonFromScoreIndexes;
-        _getScoreFromDb = new GetDartsScoreFromDb;
-        _getPointFromDb = new GetDartsPointFromDb;
-    }
+    JsonDartsModelsService();
+private:
+    void setPlayerRelatedServices();
+    void setModelUtilityServices();
+    void setTournamentServices();
+    void setScoreInputServices();
+    void setPointInputServices();
+    void setInputDbUtilityServices();
+    void setModelsServices();
+    void setUtilitiyServices();
 };
 
 #endif // DARTSMODELSSERVICEWITHJSONDB_H

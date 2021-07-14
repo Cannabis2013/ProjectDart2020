@@ -7,8 +7,8 @@
 #include "idartspointindexes.h"
 #include <quuid.h>
 #include "idartstournamentsdbmanipulator.h"
-#include "idartspointmodelmanipulator.h"
-#include "idartsscoremodelmanipulator.h"
+#include "idartspointsethint.h"
+#include "idartsscoresethint.h"
 #include "iplayermodelsservice.h"
 #include <qjsonarray.h>
 #include "idartspointinput.h"
