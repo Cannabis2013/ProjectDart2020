@@ -1,12 +1,12 @@
-#ifndef DARTSMODELMANIPULATOR_H
-#define DARTSMODELMANIPULATOR_H
+#ifndef ADDPLAYERDETAILSTOTOURNAMENT_H
+#define ADDPLAYERDETAILSTOTOURNAMENT_H
 
-#include "idartsmodelmanipulator.h"
+#include "iaddplayerdetailstotournament.h"
 
-class DartsModelManipulator : public IDartsModelManipulator
+class AddPlayerDetailsToTournament : public IAddPlayerDetailsToTournament
 {
 public:
-    virtual void addPlayerIds(const ITournament *tournament,
+    virtual void add(const ITournament *tournament,
                               const QVector<QUuid> &playerIds,
                               IDartsTournamentDb *dbService = nullptr) const override
     {
@@ -14,7 +14,7 @@ public:
         nonConstTournament->setAssignedPlayerIdentities(playerIds);
         persistInDb(dbService);
     }
-    virtual void addPlayerNames(const ITournament *tournament,
+    virtual void add(const ITournament *tournament,
                                 const QVector<QString> &playerNames,
                                 IDartsTournamentDb *dbService = nullptr) const override
     {
@@ -22,7 +22,7 @@ public:
         nonConstTournament->setAssignedPlayerNames(playerNames);
         persistInDb(dbService);
     }
-    virtual void setWinnerId(const ITournament *tournament,
+    virtual void add(const ITournament *tournament,
                              const QUuid &winnerId,
                              IDartsTournamentDb *dbService = nullptr) const override
     {

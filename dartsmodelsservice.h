@@ -7,11 +7,12 @@
 #include "dartsutilityservices.h"
 
 namespace DartsModelsContext {
-    class DartsModelsService : public AbstractModelsService,
-                               public DartsTournamentServices,
-                               public DartsInputServices,
-                               public PlayerModelsServices,
-                               public DartsUtilityServices
+    class DartsModelsService :
+            public AbstractModelsService,
+            public DartsTournamentServices,
+            public DartsInputServices,
+            public PlayerModelsServices,
+            public DartsUtilityServices
     {
     public:
         //Public types
@@ -56,13 +57,9 @@ namespace DartsModelsContext {
         void addDartsScore(const QByteArray &json) override;
         void hideDartsScore(const QUuid &tournamentId, const QUuid &playerId, const int &roundIndex) override;
         void revealScore(const QUuid &tournamentId, const QUuid &playerId, const int &roundIndex) override;
-        /*
-         * Send tournament values
-         */
+        // Send tournament values
         void createDartsKeyValues(const QUuid& tournament) override;
-        /*
-         * Player models context related methods
-         */
+        // Player models context related methods
         void createPlayer(const QByteArray &json) override;
         void deletePlayerFromIndex(const QByteArray& json) override;
         void deletePlayersFromIndexes(const QByteArray& json) override;
@@ -77,7 +74,7 @@ namespace DartsModelsContext {
         QByteArray createTournamentWinnerJson(const QUuid &winnerId);
         void setTournamentWinnerId(const QUuid &tournamentId, const QUuid &winnerId,
                                    const IGetDartsTournamentFromDb *getTournament,
-                                   IDartsModelManipulator *dbManipulator) const;
+                                   IAddPlayerDetailsToTournament *dbManipulator) const;
         const IPlayerInput *createAndAddInput(const QByteArray &json, const IDartsCreateInput *createService, IDartsInputDb *dbService);
         void removeHiddenInputs(const QUuid &tournamentId, IDartsInputDb *dbService);
     };

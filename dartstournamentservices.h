@@ -2,7 +2,7 @@
 #define DARTSTOURNAMENTSERVICES_H
 
 #include <idartscreatejsonmetadata.h>
-#include <idartsmodelmanipulator.h>
+#include <iaddplayerdetailstotournament.h>
 #include <idartstournamentbuilder.h>
 #include <idartstournamentjsonbuilder.h>
 #include <idartstournamentnumberofattempts.h>
@@ -14,8 +14,8 @@ class DartsTournamentServices
 {
 public:
     typedef IDartsTournamentBuilder<IDartsTournament,QByteArray> TournamentBuilder;
-    IDartsModelManipulator *dartsModelManipulator() const;
-    void setDartsModelManipulator(IDartsModelManipulator *newDartsModelManipulator);
+    IAddPlayerDetailsToTournament *addToTournamentModel() const;
+    void setAddToTournamentModel(IAddPlayerDetailsToTournament *newDartsModelManipulator);
     IDartsTournamentJsonBuilder *createJsonFromDartsTournamentModels() const;
     void setCreateJsonFromDartsTournamentModels(IDartsTournamentJsonBuilder *service);
     IGetDartsTournamentFromDb *getTournament() const;
@@ -24,8 +24,8 @@ public:
     void setGetDataFromDartsTournament(IGetDataFromDartsTournament<ITournament> *newGetDataFromDartsTournament);
     IDartsTournamentNumberOfAttempts *getNumberOfAttempts() const;
     void setGetNumberOfAttempts(IDartsTournamentNumberOfAttempts *newGetNumberOfAttempts);
-    IDartsTournamentsDbManipulator *tournamentDbManipulator() const;
-    void setTournamentDbManipulator(IDartsTournamentsDbManipulator *newTournamentDbManipulator);
+    IRemoveTournamentsFromDb *tournamentDbManipulator() const;
+    void setTournamentDbManipulator(IRemoveTournamentsFromDb *newTournamentDbManipulator);
     IDartsTournamentDb *dartsTournamentDb() const;
     void setDartsTournamentDb(IDartsTournamentDb *newDartsTournamentDb);
     IDartsTournamentJsonBuilder *dartsTournamentCreateJson() const;
@@ -38,14 +38,13 @@ public:
     void setGetDartsTournamentDataFromJson(IGetDartsTournamentDataFromJson *newGetDartsTournamentDataFromJson);
     IDartsCreateJsonMetaData *createJsonMetaData() const;
     void setCreateJsonMetaData(IDartsCreateJsonMetaData *newCreateJsonMetaData);
-
 private:
-    IDartsTournamentsDbManipulator* _tournamentDbManipulator;
+    IRemoveTournamentsFromDb* _removeTournamentsByIndexes;
     IDartsTournamentDb *_dartsTournamentDb;
     IGetDartsTournamentDataFromJson *_getDartsTournamentDataFromJson;
     TournamentBuilder* _createDartsTournament;
     IAddDetailsToTournamentJson* _dartsTournamentJsonAddDetails;
-    IDartsModelManipulator *_dartsModelManipulator;
+    IAddPlayerDetailsToTournament *_dartsModelManipulator;
     IDartsTournamentJsonBuilder *_dartsTournamentCreateJson;
     IGetDartsTournamentFromDb *_getTournament;
     IGetDataFromDartsTournament<ITournament> *_getDataFromDartsTournament;

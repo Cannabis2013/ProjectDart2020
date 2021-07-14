@@ -2,13 +2,6 @@
 #define DARTSPOINTSETHINT_H
 
 #include "idartspointsethint.h"
-#include <qvector.h>
-#include "idartsinputdb.h"
-#include "idartsinputsfilter.h"
-#include "ipredicate.h"
-#include "ibinaryservice.h"
-#include "iternaryservice.h"
-#include "idartscreateindexes.h"
 
 namespace DartsModelsContext {
     class DartsPointSetHint : public IDartsPointSetHint

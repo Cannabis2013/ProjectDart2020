@@ -33,7 +33,6 @@ SOURCES += \
     dartsdbcreatejsonfrompoints.cpp \
     dartsinputjsondb.cpp \
     dartsinputservices.cpp \
-    dartsinputsfilterservice.cpp \
     dartsmodelsservice.cpp \
     dartsmultiscoredatamodel.cpp \
     dartsplayermodeldbmanipulator.cpp \
@@ -54,7 +53,6 @@ SOURCES += \
     dartsscoresethint.cpp \
     dartsscoresinglecolumndatamodel.cpp \
     dartssingleattemptinputrowsuggestion.cpp \
-    dartstournamentdbmanipulator.cpp \
     dartstournamentservices.cpp \
     dartsutilityservices.cpp \
     getdartsplayermodelsfromdb.cpp \
@@ -71,6 +69,7 @@ SOURCES += \
     playermodelsservices.cpp \
     remotemodelscontext.cpp \
     removeinputsfromdb.cpp \
+    removetournamentsfromdb.cpp \
     routebydisplayhint.cpp \
     routedartsbyinputhint.cpp \
     scoreindexcontroller.cpp \
@@ -104,7 +103,6 @@ HEADERS += \
     IConnect.h \
     IPointCalculatorService.h \
     abstractdartscontrollerbuilder.h \
-    abstractdartsfilterpredicate.h \
     abstractdartspointcontroller.h \
     abstractdartsscorecontroller.h \
     abstractmodelsservice.h \
@@ -112,6 +110,7 @@ HEADERS += \
     abstractroutebyinputhint.h \
     abstractroutedartsbydisplayhint.h \
     adddetailstotournamentjson.h \
+    addplayerdetailstotournament.h \
     addplayernamestodartspointsjson.h \
     addtotalscoretodartspoint.h \
     addtotalscoretodartspointsjson.h \
@@ -156,9 +155,7 @@ HEADERS += \
     dartsdbcreatejsonfrompoints.h \
     dartsinputjsondb.h \
     dartsinputservices.h \
-    dartsinputsfilterservice.h \
     dartsmetadataservice.h \
-    dartsmodelmanipulator.h \
     dartsmodelsservice.h \
     dartsmodelsservicescollection.h \
     dartsmultiscoredatamodel.h \
@@ -196,7 +193,6 @@ HEADERS += \
     dartsscoreturnvalues.h \
     dartssingleattemptinputrowsuggestion.h \
     dartstournamentbuilder.h \
-    dartstournamentdbmanipulator.h \
     dartstournamentjsonbuilder.h \
     dartstournamentnumberofattempts.h \
     dartstournamentservices.h \
@@ -217,6 +213,8 @@ HEADERS += \
     getinputmodelsservice.h \
     getordereddartspointsbyjson.h \
     iadddetailstotournamentjson.h \
+    iaddplayerdetailstomodel.h \
+    iaddplayerdetailstotournament.h \
     iaddplayernamestojsonentity.h \
     iaddscoretodartsscoremodel.h \
     iaddtomodel.h \
@@ -262,11 +260,9 @@ HEADERS += \
     idartscreatejsonmetadata.h \
     idartsdatamodelpointbuilder.h \
     idartsinputdb.h \
-    idartsinputsfilter.h \
     idartsinputstojson.h \
     idartsinputsuggestion.h \
     idartsmetadata.h \
-    idartsmodelmanipulator.h \
     idartsmodelsbuilderservice.h \
     idartsmodelscreatejsonfrompoints.h \
     idartsplayer.h \
@@ -288,7 +284,6 @@ HEADERS += \
     idartstournamentbuilder.h\
     idartstournamentjsonbuilder.h \
     idartstournamentnumberofattempts.h \
-    idartstournamentsdbmanipulator.h \
     idatamodelpoint.h \
     idbgetindexesutility.h \
     igetdartsdatafromjson.h \
@@ -326,11 +321,11 @@ HEADERS += \
     iqtjsonextractor.h \
     iremovedartsinputsfromdb.h \
     iremovefromdb.h \
+    iremovemodelsfromdb.h \
+    iremovetournamentsfromdb.h \
     isortinputmodels.h \
     iternaryservice.h \
-    itournamentdbservice.h \
     itournamentjsonbuilder.h \
-    itournamentmodelmanipulator.h \
     iunaryservice.h \
     jsonarrayfromplayernamesandids.h \
     jsondartsmodelsservice.h \
@@ -374,6 +369,7 @@ HEADERS += \
     pointvalidator.h \
     remotemodelscontext.h \
     removeinputsfromdb.h \
+    removetournamentsfromdb.h \
     replytimeout.h \
     routebydisplayhint.h \
     routebytournamentgamemode.h \

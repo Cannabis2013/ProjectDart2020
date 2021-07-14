@@ -1,11 +1,11 @@
 #include "dartstournamentservices.h"
 
-IDartsModelManipulator *DartsTournamentServices::dartsModelManipulator() const
+IAddPlayerDetailsToTournament *DartsTournamentServices::addToTournamentModel() const
 {
     return _dartsModelManipulator;
 }
 
-void DartsTournamentServices::setDartsModelManipulator(IDartsModelManipulator *newDartsModelManipulator)
+void DartsTournamentServices::setAddToTournamentModel(IAddPlayerDetailsToTournament *newDartsModelManipulator)
 {
     _dartsModelManipulator = newDartsModelManipulator;
 }
@@ -50,14 +50,14 @@ void DartsTournamentServices::setGetNumberOfAttempts(IDartsTournamentNumberOfAtt
     _getNumberOfAttempts = newGetNumberOfAttempts;
 }
 
-IDartsTournamentsDbManipulator *DartsTournamentServices::tournamentDbManipulator() const
+IRemoveTournamentsFromDb *DartsTournamentServices::tournamentDbManipulator() const
 {
-    return _tournamentDbManipulator;
+    return _removeTournamentsByIndexes;
 }
 
-void DartsTournamentServices::setTournamentDbManipulator(IDartsTournamentsDbManipulator *newTournamentDbManipulator)
+void DartsTournamentServices::setTournamentDbManipulator(IRemoveTournamentsFromDb *newTournamentDbManipulator)
 {
-    _tournamentDbManipulator = newTournamentDbManipulator;
+    _removeTournamentsByIndexes = newTournamentDbManipulator;
 }
 
 IDartsTournamentDb *DartsTournamentServices::dartsTournamentDb() const

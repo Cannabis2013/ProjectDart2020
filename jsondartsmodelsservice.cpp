@@ -21,12 +21,12 @@ void JsonDartsModelsService::setPlayerRelatedServices()
 }
 void JsonDartsModelsService::setModelUtilityServices()
 {
-    setDartsModelManipulator(new DartsModelManipulator);
+    setAddToTournamentModel(new AddPlayerDetailsToTournament);
 }
 void JsonDartsModelsService::setTournamentServices()
 {
     setGetTournament(new GetDartsTournamentFromDb);
-    setTournamentDbManipulator(new DartsTournamentDbManipulator);
+    setTournamentDbManipulator(new RemoveTournamentsFromDb);
     setDartsTournamentCreateJson(new DartsTournamentJsonBuilder);
     setDartsTournamentJsonAddDetails(new AddDetailsToTournamentJson);
     setCreateDartsTournament(new DartsTournamentBuilder);

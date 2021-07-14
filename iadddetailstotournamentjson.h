@@ -6,7 +6,7 @@
 #include <qvector.h>
 #include "idartspointindexes.h"
 #include <quuid.h>
-#include "idartstournamentsdbmanipulator.h"
+#include "iremovetournamentsfromdb.h"
 #include "idartspointsethint.h"
 #include "idartsscoresethint.h"
 #include "iplayermodelsservice.h"
