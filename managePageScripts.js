@@ -11,8 +11,13 @@ function createPopUp(parentID, id,fileName,x, y, width, height)
      };
     var createPlayerPopUp = component.createObject(parentID, properties);
     if(createPlayerPopUp === null)
-        print("Something went very wrong. Call the police if necessary.");
+        printNullObjectErrorMessage();
     return createPlayerPopUp;
+}
+
+function printNullObjectErrorMessage()
+{
+    print("Something went very wrong. Call the police if necessary.");
 }
 
 function createConfirmPopUp(fileName, parentID)
@@ -28,7 +33,7 @@ function createConfirmPopUp(fileName, parentID)
      };
     var instantiatedObject = component.createObject(parentID, properties);
     if(instantiatedObject === null)
-        print("Something went very wrong. Call the police if necessary.");
+        printNullObjectErrorMessage();
     return instantiatedObject;
 }
 
@@ -94,7 +99,7 @@ function handleDeleteTournamentsSuccess(status)
     if(status)
     {
         tournamentListView.clear();
-        requestTournaments();
+        applicationInterface.requestTournaments();
     }
 }
 /*
@@ -110,7 +115,7 @@ function recievePlayers(data)
         var email = obj["playerMail"];
         playersListView.addItemModel({"type" : "player","username" : playerName, "mail" : email});
     }
-    requestTournaments();
+    applicationInterface.requestTournaments();
 }
 /*
   Update player listview
@@ -124,7 +129,7 @@ function updatePlayerListView()
 function updateTournamentListView()
 {
     tournamentListView.clear();
-    requestTournaments();
+    applicationInterface.requestTournaments();
 }
 
 function recieveTournaments(json)
@@ -159,14 +164,12 @@ function translateGameModeFromHex(gameMode)
 
 function connectInterface(){
     applicationInterface.sendPlayers.connect(recievePlayers); // Recieve initial players
-    body.requestTournaments.connect(applicationInterface.handleTournamentsRequest); // Request initial tournaments
     applicationInterface.sendTournaments.connect(recieveTournaments);
     applicationInterface.playersDeletedStatus.connect(recievePlayersDeletedStatusFromBackend);
     applicationInterface.tournamentsDeletedSuccess.connect(handleDeleteTournamentsSuccess);
 }
 function disconnectInterface(){
     applicationInterface.sendPlayers.disconnect(recievePlayers); // Recieve initial players
-    body.requestTournaments.disconnect(applicationInterface.handleTournamentsRequest); // Request initial tournaments
     applicationInterface.sendTournaments.disconnect(recieveTournaments);
     applicationInterface.playersDeletedStatus.disconnect(recievePlayersDeletedStatusFromBackend);
     applicationInterface.tournamentsDeletedSuccess.disconnect(handleDeleteTournamentsSuccess);

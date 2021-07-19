@@ -95,16 +95,13 @@ Content {
             onButtonOneClicked: requestQuit()
             onButtonTwoClicked: CreateScripts.acceptAndAdd()
         }
-
         Component.onCompleted: {
-            createBody.sendDartsDetails.connect(applicationInterface.handleDartsDetails); // Tournament request
             applicationInterface.tournamentAssembledAndStored.connect(createBody.tournamentAssembledAndStored);
             applicationInterface.sendPlayers.connect(CreateScripts.recievePlayers); // Recieve initial players
             CreateScripts.setupSelectors();
             applicationInterface.requestPlayers();
         }
         Component.onDestruction: {
-            createBody.sendDartsDetails.disconnect(applicationInterface.handleDartsDetails);
             applicationInterface.tournamentAssembledAndStored.disconnect(createBody.tournamentAssembledAndStored);
             applicationInterface.sendPlayers.disconnect(CreateScripts.recievePlayers);
         }

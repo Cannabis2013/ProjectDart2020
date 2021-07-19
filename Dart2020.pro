@@ -134,7 +134,10 @@ HEADERS += \
     createjsonfromdartsscoremodels.h \
     createjsonfromdartstournaments.h \
     createjsonfromplayermodels.h \
+    createplayermodels.h \
     createplayersfromjson.h \
+    createtournamentwinnerjson.h \
+    dartapplicationservices.h \
     dartscontrollerentity.h \
     dartscontrollerindexes.h \
     dartscontrollerplayer.h \
@@ -212,6 +215,7 @@ HEADERS += \
     getdatafromplayermodels.h \
     getinputmodelsservice.h \
     getordereddartspointsbyjson.h \
+    gettournamentwinner.h \
     iadddetailstotournamentjson.h \
     iaddplayerdetailstomodel.h \
     iaddplayerdetailstotournament.h \
@@ -230,6 +234,7 @@ HEADERS += \
     iconnectdartsscorecontroller.h \
     iconnectmodelsinterface.h \
     iconnectroutebydisplayhint.h \
+    iconnectroutebygamemode.h \
     iconnectroutebyinputhint.h \
     iconnectroutetoapplication.h \
     iconnectroutetodartsbuilder.h \
@@ -243,7 +248,9 @@ HEADERS += \
     icreatejsonfromdartstournaments.h \
     icreatejsonfrominputs.h \
     icreatejsonfromplayermodels.h \
+    icreateplayermodels.h \
     icreateplayersfromjson.h \
+    icreatetournamentwinnerjson.h \
     idartscontrollerentity.h \
     idartscontrollerindexesbuilder.h \
     idartscontrollerjsonservice.h \
@@ -300,6 +307,7 @@ HEADERS += \
     igetpointinputfromdb.h \
     igetscoreinputfromdb.h \
     igettournamentfromdb.h \
+    igettournamentwinner.h \
     ijson.h \
     ijsonbuilder.h \
     ijsonextractor.h \
@@ -323,6 +331,7 @@ HEADERS += \
     iremovefromdb.h \
     iremovemodelsfromdb.h \
     iremovetournamentsfromdb.h \
+    isettournamentwinnerid.h \
     isortinputmodels.h \
     iternaryservice.h \
     itournamentjsonbuilder.h \
@@ -361,11 +370,13 @@ HEADERS += \
     itournamentbuilder.h \
     itournamentparameter.h \
     iurlparser.h \
+    localdartapplication.h \
     networkmanager.h \
     playermodel.h \
     playermodelsjsondb.h \
     playermodelslocaljsondb.h \
     playermodelsservices.h \
+    pointcontrollerserviceprovider.h \
     pointvalidator.h \
     remotemodelscontext.h \
     removeinputsfromdb.h \
@@ -376,6 +387,7 @@ HEADERS += \
     routedartsbyinputhint.h \
     scoreindexcontroller.h \
     setdartsmodelhint.h \
+    settournamentwinnerid.h \
     sortdartspointinputsbyindexes.h \
     sortdartsscoreinputsbyindexes.h \
     testconfiguration.h \

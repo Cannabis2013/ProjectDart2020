@@ -67,14 +67,7 @@ namespace DartsModelsContext {
         void createAssignedPlayerEntities(const QUuid &tournamentId) override;
         void createDartsTournamentWinnerIdAndName(const QUuid &tournamentId) override;
     private:
-        const IPlayerModel *getTournamentWinnerModel(const QUuid &tournamentId);
         void removeInputs(const QUuid &tournamentId, IDartsInputDb *dbService);
-        QVector<const IPlayerModel*> createPlayerModelsFromJson(const QByteArray &json);
-        void addPlayerIdsAndNAmesToTournament(const ITournament *model, const QVector<const IPlayerModel *> &playerModels);
-        QByteArray createTournamentWinnerJson(const QUuid &winnerId);
-        void setTournamentWinnerId(const QUuid &tournamentId, const QUuid &winnerId,
-                                   const IGetDartsTournamentFromDb *getTournament,
-                                   IAddPlayerDetailsToTournament *dbManipulator) const;
         const IPlayerInput *createAndAddInput(const QByteArray &json, const IDartsCreateInput *createService, IDartsInputDb *dbService);
         void removeHiddenInputs(const QUuid &tournamentId, IDartsInputDb *dbService);
     };

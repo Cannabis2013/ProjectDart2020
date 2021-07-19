@@ -1,6 +1,6 @@
 #include "connectdefaultmodelscontextinterface.h"
 
-void ConnectDefaultModelsContextInterface::connectModelsInterface(AbstractApplicationInterface *application,
+void ConnectDefaultModelsContextInterface::connect(AbstractApplicationInterface *application,
                                                                   AbstractModelsService* modelsService)
 {
     /*

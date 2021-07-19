@@ -9,6 +9,9 @@
 #include <igetdartstournamentdatafromjson.h>
 #include <igetdartstournamentfromdb.h>
 #include <igetdatafromdartstournament.h>
+#include "igettournamentwinner.h"
+#include "isettournamentwinnerid.h"
+#include "icreatetournamentwinnerjson.h"
 
 class DartsTournamentServices
 {
@@ -38,6 +41,15 @@ public:
     void setGetDartsTournamentDataFromJson(IGetDartsTournamentDataFromJson *newGetDartsTournamentDataFromJson);
     IDartsCreateJsonMetaData *createJsonMetaData() const;
     void setCreateJsonMetaData(IDartsCreateJsonMetaData *newCreateJsonMetaData);
+    IGetTournamentWinner *getTournamenWinnerModel() const;
+    void setGetTournamenWinnerModel(IGetTournamentWinner *newGetTournamenWinnerModel);
+
+    ISetTournamentWinnerId *setTournamentWinnerId() const;
+    void setSetTournamentWinnerId(ISetTournamentWinnerId *newSetTournamentWinnerId);
+
+    ICreateTournamentWinnerJson *createTournamentWinnerJson() const;
+    void setCreateTournamentWinnerJson(ICreateTournamentWinnerJson *newCreateTournamentWinnerJson);
+
 private:
     IRemoveTournamentsFromDb* _removeTournamentsByIndexes;
     IDartsTournamentDb *_dartsTournamentDb;
@@ -50,6 +62,9 @@ private:
     IGetDataFromDartsTournament<ITournament> *_getDataFromDartsTournament;
     IDartsTournamentNumberOfAttempts *_getNumberOfAttempts;
     IDartsCreateJsonMetaData *_createJsonMetaData;
+    IGetTournamentWinner *_getTournamenWinnerModel;
+    ISetTournamentWinnerId *_setTournamentWinnerId;
+    ICreateTournamentWinnerJson *_createTournamentWinnerJson;
 };
 
 #endif // DARTSTOURNAMENTSERVICESPROVIDER_H

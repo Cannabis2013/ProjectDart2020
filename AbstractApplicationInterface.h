@@ -6,24 +6,13 @@
 #include "abstractmodelsservice.h"
 #include "abstractdartscontroller.h"
 #include "iresponseinterface.h"
+
 class AbstractApplicationInterface : public QObject
 {
     Q_OBJECT
 public slots:
-    virtual void handleTournamentsRequest() = 0;
-    /*
-     * Set current tournament
-     */
-    virtual void handleSetCurrentTournamentRequest(const int &index) = 0;
-    /*
-     * UI request data to populate scoreboard
-     */
-    virtual void handleDartsDetails(const QByteArray& json) = 0;
-
     virtual void handleSendGameModesRequest() const = 0;
-    /*
-     * Handle request for tournament meta information
-     */
+    // Handle request for tournament meta information
     virtual void createDartsTournamentValues() = 0;
     virtual void setDartsPointController(AbstractDartsController* controller) = 0;
     virtual void setDartsScoreController(AbstractDartsController* controller) = 0;
@@ -32,9 +21,6 @@ signals:
      * ApplicationInterface interface
      */
     void requestWakeUp();
-    void requestCreatePlayer(const QByteArray &json);
-    void requestDeletePlayer(const QByteArray& json);
-    void requestDeletePlayers(const QByteArray& json);
     void requestDeleteTournaments(const QByteArray& json);
     void requestTournaments();
     void requestPlayers();
@@ -46,7 +32,6 @@ signals:
                                  const int &playersCount);
     void sendDartsDetails(const QByteArray& json);
     void sendGameModes(const QStringList &modes) const;
-    void stateChanged();
     void sendInitialControllerValues(const QUuid &tournament,
                                      const int &keyPoint,
                                      const int &numberOfThrows,
@@ -63,19 +48,22 @@ signals:
     void requestUndo();
     void requestRedo();
     void requestCurrentTournamentId();
-    void sendDartsTournamentData(const QByteArray& json);
     void removeScore(const QString &player);
-    void playersDeletedStatus(const bool &status);
+    void sendDartsTournamentData(const QByteArray& json);
     void tournamentsDeletedSuccess(const bool &status);
     void sendTournaments(const QByteArray& json);
     void sendPlayers(const QByteArray& json);
-    void createPlayerResponse(const bool &status);
-    void requestAssembleFTPTournament();
     void tournamentAssembledAndStored();
     void tournamentCreatedOk();
     void sendOrderedDartsScores(const QByteArray& json);
     void sendOrderedDartsPoints(const QByteArray& json);
-    // Controller states
+    // Player signals
+    void requestCreatePlayer(const QByteArray &json);
+    void requestDeletePlayer(const QByteArray& json);
+    void requestDeletePlayers(const QByteArray& json);
+    void createPlayerResponse(const bool &status);
+    void playersDeletedStatus(const bool &status);
+    // Controller signals
     void controllerIsStopped();
     void dartsPointMultiColumnsInitialized();
     void dartsPointSingleColumnInitialized();

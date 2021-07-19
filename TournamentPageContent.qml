@@ -11,9 +11,6 @@ Content{
     signal dartsPointMultiColumnInitialized
     signal dartsScoreSingleColumnInitialized
     signal manageButtonClicked
-    signal requestTournaments
-    signal requestDeleteTournaments(var indexes)
-    signal sendClickedTournamentIndex(int index)
     QtObject{
         id: currentValues
         property int currentIndex: -1
@@ -29,7 +26,7 @@ Content{
            id: tournamentListView
            Layout.fillHeight: true
            Layout.fillWidth: true
-           onItemClicked: sendClickedTournamentIndex(index)
+           onItemClicked: applicationInterface.setCurrentActiveTournament(index)
        }
        GridLayout{
            flow: GridLayout.LeftToRight

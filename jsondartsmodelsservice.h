@@ -25,6 +25,7 @@
 #include "dartsscoresethint.h"
 #include "dartscreatejsonfromdartspoint.h"
 #include "dartscreatejsonfromdartsscore.h"
+#include "createplayermodels.h"
 // Player models includes
 #include "getdartsplayermodelsfromdb.h"
 #include "dartsplayerjsonbuilder.h"
@@ -47,6 +48,8 @@
 #include "dartscreatejsonmetadata.h"
 #include "dartscreatepointmodel.h"
 #include "dartscreatescoremodel.h"
+#include "gettournamentwinner.h"
+#include "settournamentwinnerid.h"
 // Db utilities
 #include "dbgetindexesfromjson.h"
 

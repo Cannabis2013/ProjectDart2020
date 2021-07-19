@@ -17,6 +17,9 @@ namespace DartsModelsContext {
                     IDartsInputDb *dbService) const override;
         void remove(const QUuid &id,
                     IDartsInputDb* dbService) const override;
+    private:
+        void removeModel(const IPlayerInput *inputModel, const int &hint, IDartsInputDb *dbService) const;
+        bool removeModel(const IPlayerInput *inputModel, const QUuid &id, IDartsInputDb *dbService) const;
     };
 }
 
