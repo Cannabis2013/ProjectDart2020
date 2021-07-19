@@ -7,8 +7,8 @@
 class IConnectModelsInterface
 {
 public:
-    virtual void connectModelsInterface(AbstractApplicationInterface* application,
-                                        AbstractModelsService* modelsService) = 0;
+    virtual void connect(AbstractApplicationInterface* application,
+                         AbstractModelsService* modelsService) = 0;
 };
 
 #endif // ICONNECTMODELSINTERFACE_H

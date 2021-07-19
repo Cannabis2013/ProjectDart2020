@@ -9,7 +9,7 @@
 #include "dartsscoresinglecolumndatamodel.h"
 #include "dartsmultiscoredatamodel.h"
 #include "dartspointdatamodelinjector.h"
-#include "dartapplication.h"
+#include "localdartapplication.h"
 
 void registerCustomTypes()
 {
@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
     /*
      * Instantiate DartApplication
      */
-    auto _dart = DartApplication::createAndSetupInstance();
+    auto _dart = LocalDartApplication::createAndSetupInstance();
     /*
      * Register custom types/singletons
      */

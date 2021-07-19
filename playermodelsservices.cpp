@@ -1,14 +1,14 @@
 #include "playermodelsservices.h"
 
 
-IDartsPlayerModelBuilder *PlayerModelsServices::playerModelBuilder() const
+IDartsPlayerModelBuilder *PlayerModelsServices::createPlayerModel() const
 {
-    return _playerModelBuilder;
+    return _createPlayerModel;
 }
 
-void PlayerModelsServices::setPlayerModelBuilder(IDartsPlayerModelBuilder *newPlayerModelBuilder)
+void PlayerModelsServices::setCreatePlayerModel(IDartsPlayerModelBuilder *newPlayerModelBuilder)
 {
-    _playerModelBuilder = newPlayerModelBuilder;
+    _createPlayerModel = newPlayerModelBuilder;
 }
 
 IGetDataFromPlayerModels *PlayerModelsServices::getDataFromPlayerModels() const
@@ -21,7 +21,7 @@ void PlayerModelsServices::setGetDataFromPlayerModels(IGetDataFromPlayerModels *
     _getDataFromPlayerModels = newGetDataFromPlayerModels;
 }
 
-IDartsPlayerJsonBuilder *PlayerModelsServices::dartsPlayerJsonBuilder() const
+IDartsPlayerJsonBuilder *PlayerModelsServices::dartsPlayerCreateJson() const
 {
     return _dartsPlayerJsonBuilder;
 }
@@ -59,4 +59,14 @@ IGetDartsPlayerModelsFromDb *PlayerModelsServices::getPlayerModelsFromDb() const
 void PlayerModelsServices::setGetPlayerModelsFromDb(IGetDartsPlayerModelsFromDb *newGetDartsPlayerModelsFromDb)
 {
     _getPlayerModelsFromDb = newGetDartsPlayerModelsFromDb;
+}
+
+ICreatePlayerModels *PlayerModelsServices::createPlayerModels() const
+{
+    return _createPlayerModels;
+}
+
+void PlayerModelsServices::setCreatePlayerModels(ICreatePlayerModels *newCreatePlayerModels)
+{
+    _createPlayerModels = newCreatePlayerModels;
 }

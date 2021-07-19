@@ -8,7 +8,7 @@ class ConnectDefaultModelsContextInterface : public
         IConnectModelsInterface
 {
 public:
-    void connectModelsInterface(AbstractApplicationInterface*application, AbstractModelsService*modelsService) override;
+    void connect(AbstractApplicationInterface*application, AbstractModelsService*modelsService) override;
 private:
     void registerTypes();
 };

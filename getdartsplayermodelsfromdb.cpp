@@ -15,7 +15,7 @@ const GetDartsPlayerModelsFromDb::PlayerModel *GetDartsPlayerModelsFromDb::playe
         if(model->id() == id)
             return model;
     }
-    throw "Model not found";
+    return nullptr;
 }
 
 QVector<const GetDartsPlayerModelsFromDb::PlayerModel *> GetDartsPlayerModelsFromDb::playerModels(const QVector<int> &indexes,

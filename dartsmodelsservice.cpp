@@ -5,8 +5,8 @@ using namespace DartsModelsContext;
 void DartsModelsService::addDartsTournament(const QByteArray& json)
 {
     auto model = createDartsTournament()->create(json);
-    auto playerModels = createPlayerModelsFromJson(json);
-    addPlayerIdsAndNAmesToTournament(model,playerModels);
+    auto playerModels = createPlayerModels()->createPlayerModels(json,dbGetIndexesFromjson(),getPlayerModelsFromDb(),dartsPlayersDb());
+    addToTournamentModel()->add(model,playerModels,dartsTournamentDb());
     dartsTournamentDb()->add(model);
     emit tournamentAssembledAndStored();
 }
@@ -20,7 +20,7 @@ void DartsModelsService::deleteTournaments(const QByteArray& json)
 
 void DartsModelsService::getOrderedDartsPoints(const QUuid &tournamentId)
 {
-    auto models = getInputsFromDb()->inputModels(tournamentId,dartsPointsDb());
+    auto models = getInputsFromDb()->inputModels(tournamentId,DisplayHint,dartsPointsDb());
     auto orderedDartsPointModels = sortInputs()->sort(models,sortPointInputsByIndexes());
     auto json = dartsPointsJsonService()->createJson(orderedDartsPointModels);
     emit sendOrderedDartsPoints(json);
@@ -65,8 +65,8 @@ void DartsModelsService::setDartsTournamentWinner(const QByteArray& json)
 {
     auto tournamentId = getDartsTournamentDataFromJson()->tournamentIdFromJson(json);
     auto winnerId = getDartsTournamentDataFromJson()->winnerIdFromJson(json);
-    setTournamentWinnerId(tournamentId,winnerId,getTournament(),addToTournamentModel());
-    auto responseJson = createTournamentWinnerJson(winnerId);
+    setTournamentWinnerId()->setTournamentWinner(tournamentId,winnerId,getTournament(),addToTournamentModel(),dartsTournamentDb());
+    auto responseJson = createTournamentWinnerJson()->createJson(winnerId,getPlayerModelsFromDb(),dartsPlayerCreateJson(),dartsPlayersDb());
     emit setDartsTournamentWinnerSucces(responseJson);
 }
 
@@ -80,7 +80,7 @@ void DartsModelsService::createDartsKeyValues(const QUuid &tournamentId)
 
 void DartsModelsService::createPlayer(const QByteArray &json)
 {
-    auto playerModel = playerModelBuilder()->createPlayerModel(json);
+    auto playerModel = createPlayerModel()->createPlayerModel(json);
     dartsPlayersDb()->add(playerModel);
     emit createPlayerResponse(true);
 }
@@ -102,7 +102,7 @@ void DartsModelsService::deletePlayersFromIndexes(const QByteArray &json)
 void DartsModelsService::handleRequestPlayersDetails()
 {
     auto playerModels = dartsPlayersDb()->models();
-    auto json = dartsPlayerJsonBuilder()->createJson(playerModels);
+    auto json = dartsPlayerCreateJson()->createJson(playerModels);
     emit sendPlayers(json);
 }
 
@@ -171,64 +171,25 @@ void DartsModelsService::createAssignedPlayerEntities(const QUuid& tournamentId)
 {
     // Get playernames
     auto model = getTournament()->tournament(tournamentId,dartsTournamentDb());
-    auto json = dartsPlayerJsonBuilder()->createJson(model->assignedPlayerIds(),model->assignedPlayerNames());
+    auto json = dartsPlayerCreateJson()->createJson(model->assignedPlayerIds(),model->assignedPlayerNames());
     emit sendAssignedPlayerIdsAndNamesAsJson(json);
 }
 
 void DartsModelsService::createDartsTournamentWinnerIdAndName(const QUuid& tournamentId)
 {
-    auto player = getTournamentWinnerModel(tournamentId);
-    auto json = dartsPlayerJsonBuilder()->createJson(player->id(),player->playerName());
+    auto playerModel = getTournamenWinnerModel()->getWinnerModel(tournamentId,getTournament(),getPlayerModelsFromDb(),dartsTournamentDb(),dartsPlayersDb());
+    auto json = dartsPlayerCreateJson()->createJson(playerModel);
     emit sendDartsTournamentWinnerIdAndName(json);
-}
-
-const IPlayerModel *DartsModelsService::getTournamentWinnerModel(const QUuid &tournamentId)
-{
-    auto dartsTournamentModel = getTournament()->tournament(tournamentId,dartsTournamentDb());
-    auto player = getPlayerModelsFromDb()->playerModel(dartsTournamentModel->winnerId(),dartsPlayersDb());
-    return player;
 }
 
 void DartsModelsService::removeInputs(const QUuid &tournamentId, IDartsInputDb *dbService)
 {
-    auto tournamentInputModels = dbService->models();
-    removeInputsFromDb()->remove(tournamentInputModels,tournamentId,dbService);
+    removeInputsFromDb()->remove(dbService->models(),tournamentId,dbService);
 }
 
-QVector<const IPlayerModel *> DartsModelsService::createPlayerModelsFromJson(const QByteArray &json)
+const IPlayerInput* DartsModelsService::createAndAddInput(const QByteArray &json, const IDartsCreateInput *createModel, IDartsInputDb *dbService)
 {
-    auto playerIndexes = dbGetIndexesFromjson()->dbIndexesFromJson(json);
-    auto playerModels = getPlayerModelsFromDb()->playerModels(playerIndexes,dartsPlayersDb());
-    return playerModels;
-}
-
-void DartsModelsService::addPlayerIdsAndNAmesToTournament(const ITournament *model,
-                                                          const QVector<const IPlayerModel*> &playerModels)
-{
-    auto playerIds = getDataFromPlayerModels()->createPlayerIds(playerModels);
-    auto playerNames = getDataFromPlayerModels()->createPlayerNames(playerModels);
-    addToTournamentModel()->add(model,playerIds);
-    addToTournamentModel()->add(model,playerNames);
-}
-
-QByteArray DartsModelsService::createTournamentWinnerJson(const QUuid &winnerId)
-{
-    auto playerModel = getPlayerModelsFromDb()->playerModel(winnerId,dartsPlayersDb());
-    auto responseJson = dartsPlayerJsonBuilder()->createJson(winnerId,playerModel->playerName());
-    return responseJson;
-}
-
-void DartsModelsService::setTournamentWinnerId(const QUuid &tournamentId, const QUuid &winnerId,
-                                               const IGetDartsTournamentFromDb *getTournament,
-                                               IAddPlayerDetailsToTournament *dbManipulator) const
-{
-    auto dartsTournamentModel = getTournament->tournament(tournamentId,dartsTournamentDb());
-    dbManipulator->add(dartsTournamentModel,winnerId,dartsTournamentDb());
-}
-
-const IPlayerInput* DartsModelsService::createAndAddInput(const QByteArray &json, const IDartsCreateInput *createService, IDartsInputDb *dbService)
-{
-    auto model = createService->create(json);
+    auto model = createModel->create(json);
     dbService->add(model);
     return model;
 }
@@ -241,7 +202,7 @@ void DartsModelsService::removeHiddenInputs(const QUuid &tournamentId, IDartsInp
 
 void DartsModelsService::createAssignedPlayerPoints(const QUuid& tournamentId)
 {
-    auto models = getInputsFromDb()->inputModels(tournamentId,dartsPointsDb());
+    auto models = getInputsFromDb()->inputModels(tournamentId,DisplayHint,dartsPointsDb());
     auto json = dartsPointsJsonService()->createJson(models);
     emit sendTournamentDartsPointsAsJson(json);
 }

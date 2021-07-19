@@ -15,9 +15,10 @@ void JsonDartsModelsService::setPlayerRelatedServices()
 {
     setGetPlayerModelsFromDb(new GetDartsPlayerModelsFromDb);
     setDartsPlayerJsonBuilder(new DartsPlayerJsonBuilder);
-    setPlayerModelBuilder(new DartsPlayerModelBuilder);
+    setCreatePlayerModel(new DartsPlayerModelBuilder);
     setDartsPlayersDb(new PlayerModelsLocalJsonDb);
     setGetDataFromPlayerModels(new GetDataFromPlayerModels);
+    setCreatePlayerModels(new CreatePlayerModels);
 }
 void JsonDartsModelsService::setModelUtilityServices()
 {
@@ -33,6 +34,8 @@ void JsonDartsModelsService::setTournamentServices()
     setDartsTournamentDb(new DartsTournamentsJsonDb);
     setGetDataFromDartsTournament(new GetDataFromDartsTournament);
     setGetDartsTournamentDataFromJson(new GetDartsTournamentDataFromjson);
+    setGetTournamenWinnerModel(new GetTournamentWinner);
+    setSetTournamentWinnerId(new SetTournamentWinnerId);
 }
 void JsonDartsModelsService::setScoreInputServices()
 {

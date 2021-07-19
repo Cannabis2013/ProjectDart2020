@@ -10,10 +10,10 @@ class DartsPlayerJsonBuilder : public IDartsPlayerJsonBuilder
 {
     // ICreateJsonFromPlayerCredentials interface
 public:
-    virtual Json createJson(const QVector<Id> &playerIds, const QVector<String> &playerNames) const override
+    virtual QByteArray createJson(const QVector<QUuid> &playerIds, const QVector<QString> &playerNames) const override
     {
         if(playerIds.count() != playerNames.count())
-            return Json();
+            return QByteArray();
         QJsonArray arr;
         for (int i = 0, j = 0; i < playerIds.count() || j < playerNames.count(); ++i,++j) {
             QJsonObject obj;
@@ -24,15 +24,17 @@ public:
         return createByteArray(arr);
 
     }
-    virtual Json createJson(const Id &playerId, const String &playerName) const override
+    virtual QByteArray createJson(const DartsModelsContext::IPlayerModel *playerModel) const override
     {
+        auto winnerId = playerModel != nullptr ? playerModel->id() : QUuid();
+        auto playerName = playerModel != nullptr ? playerModel->playerName() : "";
         QJsonObject obj;
-        obj["winnerId"] = playerId.toString(QUuid::WithoutBraces);
+        obj["winnerId"] = winnerId.toString(QUuid::WithoutBraces);
         obj["winnerName"] = playerName;
         return createByteArray(obj);
     }
 
-    virtual Json createJson(const QVector<const Player *> &playerModels) const override
+    virtual QByteArray createJson(const QVector<const DartsModelsContext::IPlayerModel *> &playerModels) const override
     {
         QJsonArray arr;
         for (const auto &player : playerModels)
@@ -41,7 +43,7 @@ public:
     }
 
 private:
-    QJsonObject createJsonObjectFromPlayerModel(const Player *playerModel) const
+    QJsonObject createJsonObjectFromPlayerModel(const DartsModelsContext::IPlayerModel *playerModel) const
     {
         QJsonObject obj;
         obj["playerId"] = playerModel->id().toString(QUuid::WithoutBraces);

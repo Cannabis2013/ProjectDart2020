@@ -5,10 +5,6 @@ Content {
     id: body
     signal requestCreatePlayerPage
     signal requestCreateTournamentPage
-    signal requestPlayers
-    signal requestDeletePlayers(var indexes)
-    signal requestTournaments
-    signal requestDeleteTournaments(var indexes)
     GridLayout{
         id: mainLayout
         anchors.fill: parent

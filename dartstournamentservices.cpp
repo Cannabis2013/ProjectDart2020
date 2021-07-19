@@ -119,3 +119,33 @@ void DartsTournamentServices::setCreateJsonMetaData(IDartsCreateJsonMetaData *ne
 {
     _createJsonMetaData = newCreateJsonMetaData;
 }
+
+IGetTournamentWinner *DartsTournamentServices::getTournamenWinnerModel() const
+{
+    return _getTournamenWinnerModel;
+}
+
+void DartsTournamentServices::setGetTournamenWinnerModel(IGetTournamentWinner *newGetTournamenWinnerModel)
+{
+    _getTournamenWinnerModel = newGetTournamenWinnerModel;
+}
+
+ISetTournamentWinnerId *DartsTournamentServices::setTournamentWinnerId() const
+{
+    return _setTournamentWinnerId;
+}
+
+void DartsTournamentServices::setSetTournamentWinnerId(ISetTournamentWinnerId *newSetTournamentWinnerId)
+{
+    _setTournamentWinnerId = newSetTournamentWinnerId;
+}
+
+ICreateTournamentWinnerJson *DartsTournamentServices::createTournamentWinnerJson() const
+{
+    return _createTournamentWinnerJson;
+}
+
+void DartsTournamentServices::setCreateTournamentWinnerJson(ICreateTournamentWinnerJson *newCreateTournamentWinnerJson)
+{
+    _createTournamentWinnerJson = newCreateTournamentWinnerJson;
+}
