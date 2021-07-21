@@ -6,7 +6,7 @@
 #include "ijson.h"
 
 class ITournament :
-        public IModel<QUuid,QByteArray>
+        public IModel<QUuid>
 {
 public:
     virtual QString title() const = 0;

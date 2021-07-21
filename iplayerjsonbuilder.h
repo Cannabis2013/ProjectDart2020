@@ -7,8 +7,12 @@ template<typename TPlayerModel,typename TUuid, typename TString, typename TJson>
 class IPlayerJsonBuilder
 {
 public:
-    virtual TJson createJson(const QVector<TUuid> &playerIds, const QVector<TString> &playerNames) const = 0;
-    virtual TJson createJson(const TPlayerModel *playerModel) const = 0;
-    virtual TJson createJson(const QVector<const TPlayerModel*> &playerModels) const = 0;
+    typedef TPlayerModel PlayerModel;
+    typedef TUuid Id;
+    typedef TString String;
+    typedef TJson Json;
+    virtual Json createJson(const QVector<Id> &playerIds, const QVector<String> &playerNames) const = 0;
+    virtual Json createJson(const PlayerModel *playerModel) const = 0;
+    virtual Json createJson(const QVector<const PlayerModel*> &playerModels) const = 0;
 };
 #endif // ICREATEJSONFROMPLAYERCREDENTIALS_H

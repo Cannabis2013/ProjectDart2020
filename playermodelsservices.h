@@ -1,12 +1,12 @@
 #ifndef PLAYERMODELSSERVICES_H
 #define PLAYERMODELSSERVICES_H
 
-#include <idartsplayerdbmanipulator.h>
 #include <idartsplayerjsonbuilder.h>
 #include <idartsplayermodelbuilder.h>
 #include <igetdartsplayermodelsfromdb.h>
 #include <igetdatafromplayermodels.h>
 #include "icreateplayermodels.h"
+#include "idbservice.h"
 
 class PlayerModelsServices
 {
@@ -17,10 +17,8 @@ public:
     void setGetDataFromPlayerModels(IGetDataFromPlayerModels *newGetDataFromPlayerModels);
     IDartsPlayerJsonBuilder *dartsPlayerCreateJson() const;
     void setDartsPlayerJsonBuilder(IDartsPlayerJsonBuilder *newDartsPlayerJsonBuilder);
-    IDartsPlayerDbManipulator *playerDbManipulator() const;
-    void setPlayerDbManipulator(IDartsPlayerDbManipulator *newPlayerDbManipulator);
-    IPlayerModelsDb *dartsPlayersDb() const;
-    void setDartsPlayersDb(IPlayerModelsDb *newDartsPlayersDb);
+    IDbService *dartsPlayersDb() const;
+    void setDartsPlayersDb(IDbService *newDartsPlayersDb);
     IGetDartsPlayerModelsFromDb *getPlayerModelsFromDb() const;
     void setGetPlayerModelsFromDb(IGetDartsPlayerModelsFromDb *newGetDartsPlayerModelsFromDb);
     ICreatePlayerModels *createPlayerModels() const;
@@ -32,8 +30,7 @@ private:
     IGetDataFromPlayerModels *_getDataFromPlayerModels;
     IGetDartsPlayerModelsFromDb * _getPlayerModelsFromDb;
     IDartsPlayerJsonBuilder *_dartsPlayerJsonBuilder;
-    IDartsPlayerDbManipulator *_playerDbManipulator;
-    IPlayerModelsDb *_dartsPlayersDb;
+    IDbService *_dartsPlayersDb;
 };
 
 #endif // PLAYERMODELSSERVICES_H

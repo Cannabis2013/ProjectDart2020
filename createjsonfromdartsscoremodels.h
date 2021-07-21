@@ -15,23 +15,23 @@ namespace DartsDbContext {
             public ICreateJsonFromInputs
     {
     public:
-        virtual QByteArray createJson(const QVector<const IPlayerInput *> &models) const override
+        virtual QByteArray createJson(const QVector<const IModel<QUuid> *> &models) const override
         {
             auto arr = createJsonArray(models);
             auto obj = createJsonObject(arr);
             return createByteArray(obj);
         }
     private:
-        QJsonArray createJsonArray(const QVector<const IPlayerInput *> &models) const
+        QJsonArray createJsonArray(const QVector<const IModel<QUuid> *> &models) const
         {
             QJsonArray arr;
             for (const auto& m : models)
                 arr << createJsonObject(m);
             return arr;
         }
-        QJsonObject createJsonObject(const IPlayerInput* m) const
+        QJsonObject createJsonObject(const IModel<QUuid>* m) const
         {
-            auto model = dynamic_cast<const DartsModelsContext::IDartsScoreInput*>(m);
+            auto model = dynamic_cast<const ModelsContext::IDartsScoreInput*>(m);
             QJsonObject jsonObject;
             jsonObject["id"] = model->id().toString();
             jsonObject["tournament"] = model->tournamentId().toString();

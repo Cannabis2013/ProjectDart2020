@@ -3,16 +3,42 @@
 
 #include "icreateplayermodels.h"
 
+#include <qjsondocument.h>
+#include <qjsonobject.h>
+#include <qjsonarray.h>
+
 class CreatePlayerModels : public ICreatePlayerModels
 {
 public:
-    virtual QVector<const DartsModelsContext::IPlayerModel *> createPlayerModels(const QByteArray &json, const IDbGetIndexesUtility *getIndexes,
-                                                                                 const IGetDartsPlayerModelsFromDb *getPlayerModels,
-                                                                                 const IPlayerModelsDb *dbService) const override
+    virtual QVector<const IModel<QUuid> *> createPlayerModels(const QByteArray &json,
+                                                              const IGetDartsPlayerModelsFromDb *getPlayerModels,
+                                                              const IDbService *dbService) const override
     {
-        auto playerIndexes = getIndexes->dbIndexesFromJson(json);
+        auto playerIndexes = createIndexesFromJson(json);
         auto playerModels = getPlayerModels->playerModels(playerIndexes,dbService);
         return playerModels;
+    }
+private:
+    QVector<int> createIndexesFromJson(const QByteArray &json) const
+    {
+        auto obj = createJsonObject(json);
+        auto jsonValue = obj.value("indexes");
+        auto arr = jsonValue.toArray();
+        auto indexes = createIndexesFromArray(arr);
+        return indexes;
+    }
+    QJsonObject createJsonObject(const QByteArray &json) const
+    {
+        auto document = QJsonDocument::fromJson(json);
+        auto obj = document.object();
+        return obj;
+    }
+    QVector<int> createIndexesFromArray(const QJsonArray &arr) const
+    {
+        QVector<int> indexes;
+        for (const auto &jsonValue : arr)
+            indexes << jsonValue.toInt();
+        return indexes;
     }
 };
 

@@ -1,9 +1,9 @@
 #ifndef ROUTEBYINPUTHINT_H
 #define ROUTEBYINPUTHINT_H
 
-#include "abstractroutedartsbydisplayhint.h"
+#include "abstractroutebydisplayhint.h"
 
-class RouteByDisplayHint : public AbstractRouteDartsByDisplayHint
+class RouteByDisplayHint : public AbstractRouteByDisplayHint
 {
 public:
     /*

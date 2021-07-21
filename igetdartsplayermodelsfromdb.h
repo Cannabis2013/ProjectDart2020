@@ -2,9 +2,10 @@
 #define IGETDARTSPLAYERMODELSFROMDB_H
 
 #include "igetplayermodelsfromdb.h"
-#include "iplayermodel.h"
-#include "iplayermodelsdb.h"
+#include "imodel.h"
+#include "idbservice.h"
 
-class IGetDartsPlayerModelsFromDb : public IGetPlayerModelsFromDb<DartsModelsContext::IPlayerModel,QUuid,QString,IPlayerModelsDb>
+class IGetDartsPlayerModelsFromDb :
+        public IGetPlayerModelsFromDb<IModel<QUuid>,QUuid,QString,IDbService>
 {};
 #endif // IGETDARTSPLAYERDATAFROMDB_H

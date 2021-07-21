@@ -6,7 +6,7 @@
 #include <qjsonobject.h>
 #include <qjsonarray.h>
 
-namespace DartsModelsContext {
+namespace ModelsContext {
     class DartsTournamentJsonBuilder : public IDartsTournamentJsonBuilder
     {
     public:

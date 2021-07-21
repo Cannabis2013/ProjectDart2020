@@ -6,7 +6,7 @@
 #include <qjsonobject.h>
 #include "playermodel.h"
 
-namespace DartsModelsContext {
+namespace ModelsContext {
     class DartsPlayerModelBuilder : public IDartsPlayerModelBuilder
     {
     public:

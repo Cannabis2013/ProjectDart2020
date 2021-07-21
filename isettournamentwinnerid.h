@@ -10,6 +10,6 @@ public:
     virtual void setTournamentWinner(const QUuid &tournamentId, const QUuid &winnerId,
                                      const IGetDartsTournamentFromDb *getTournament,
                                      IAddPlayerDetailsToTournament *addToTournament,
-                                     IDartsTournamentDb *dbService) const = 0;
+                                     IDbService *dbService) const = 0;
 };
 #endif // ISETTOURNAMENTWINNERID_H

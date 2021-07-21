@@ -15,7 +15,8 @@ void DartApplication::setDartsPointController(AbstractDartsController *controlle
 {
     delete _gameController;
     _gameController = controller;
-    _connectDartsPointController->connectController(controller,this,_modelsService,_routeDartsControllerByDisplayHint);
+    connectServices()->connectDartsPointController()->connectController(controller,this,_modelsService,
+                                                                        routeServices()->routeByDisplayHint());
     emit requestWakeUp();
 }
 
@@ -23,7 +24,9 @@ void DartApplication::setDartsScoreController(AbstractDartsController *controlle
 {
     delete _gameController;
     _gameController = controller;
-    _connectDartsScoreController->connectController(controller,this,_modelsService,_routeDartsControllerByDisplayHint);
+
+    connectServices()->connectDartsScoreController()->connectController(controller,this,_modelsService,
+                                                                        routeServices()->routeByDisplayHint());
     emit requestWakeUp();
 }
 
@@ -32,9 +35,4 @@ void DartApplication::clearGameController()
     _gameController->disconnect();
     delete _gameController;
     _gameController = nullptr;
-}
-
-AbstractGameController *DartApplication::gameController() const
-{
-    return _gameController;
 }

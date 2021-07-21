@@ -3,22 +3,22 @@
 
 #include "iaddplayerdetailstomodel.h"
 #include "idartstournament.h"
-#include "idartstournamentdb.h"
+#include "idbservice.h"
 #include "iplayermodel.h"
 
-class IAddPlayerDetailsToTournament : public IAddPlayerDetailsToModel<ITournament,DartsModelsContext::IPlayerModel,IDartsTournamentDb>
+class IAddPlayerDetailsToTournament : public IAddPlayerDetailsToModel<IModel<QUuid>,IModel<QUuid>,IDbService>
 {
 public:
-    virtual void add(const ITournament *tournament,const QVector<QUuid> &playerIds,
-                     IDartsTournamentDb *dbService = nullptr) const override = 0;
-    virtual void add(const ITournament *tournament,
+    virtual void add(const IModel<QUuid> *tournament,const QVector<QUuid> &playerIds,
+                     IDbService *dbService = nullptr) const override = 0;
+    virtual void add(const IModel<QUuid> *tournament,
                      const QVector<QString> &playerNames,
-                     IDartsTournamentDb *dbService = nullptr) const override = 0;
-    virtual void add(const ITournament *tournament,
+                     IDbService *dbService = nullptr) const override = 0;
+    virtual void add(const IModel<QUuid> *tournament,
                      const QUuid &winnerId,
-                     IDartsTournamentDb *dbService= nullptr) const override = 0;
-    virtual void add(const ITournament *tournament, const QVector<const DartsModelsContext::IPlayerModel *> &playerModels,
-                     IDartsTournamentDb *dbService) const override = 0;
+                     IDbService *dbService= nullptr) const override = 0;
+    virtual void add(const IModel<QUuid> *tournament, const QVector<const IModel<QUuid>*> &playerModels,
+                     IDbService *dbService) const override = 0;
 };
 
 #endif // IDARTSMODELMANIPULATOR_H

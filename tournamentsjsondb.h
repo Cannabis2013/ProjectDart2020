@@ -1,8 +1,7 @@
 #ifndef TOURNAMENTSJSONDB_H
 #define TOURNAMENTSJSONDB_H
 
-#include "idartstournamentdb.h"
-
+#include "idbservice.h"
 #include "idartstournament.h"
 #include <quuid.h>
 #include "jsonpersistence.h"
@@ -11,17 +10,17 @@
 
 
 class TournamentsJsonDb :
-        public IDartsTournamentDb,
+        public IDbService,
         public JSONPersistence
 {
 public:
     TournamentsJsonDb(const QString &fileName);
-    virtual void add(const Model *model) override;
-    virtual const Model *model(const int &index) const override;
-    virtual QVector<const Model *> models() const override;
+    virtual void add(const IModel<QUuid> *model) override;
+    virtual const IModel<QUuid> *model(const int &index) const override;
+    virtual QVector<const IModel<QUuid>*> models() const override;
     virtual bool remove(const int &index) override;
-    virtual int indexOf(const Model *model) const override;
-    virtual void replace(const int &index, const Model *model) override;
+    virtual int indexOf(const IModel<QUuid> *model) const override;
+    virtual void replace(const int &index, const IModel<QUuid> *model) override;
     // IPersistence interface
     virtual void fetchModels() override;
     virtual void saveState() override;
@@ -32,7 +31,7 @@ protected:
     ICreateJsonFromDartsTournaments* _createJsonFromModels;
 private:
     const QString _fileName = "DartsTournaments";
-    QVector<const ITournament*> _dartsTournamentModels;
+    QVector<const IModel<QUuid>*> _dartsTournamentModels;
 };
 
 #endif // DARTSTOURNAMENTJSONDB_H

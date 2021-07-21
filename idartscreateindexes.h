@@ -9,15 +9,15 @@
 #include "isortinputmodels.h"
 #include "icountinputmodels.h"
 #include "igetinputmodelsservice.h"
-#include "idartsinputdb.h"
+#include "idbservice.h"
 template<typename TIndexes>
 class IDartsCreateIndexes{
 public:
-    virtual const TIndexes* createIndexes(const ITournament *tournament,
+    virtual const TIndexes* createIndexes(const IModel<QUuid> *tournament,
                                           const IGetInputModelsService *getInputsService,
                                           const ISortInputModels *sortInputsService,
                                           const ICountInputModels *countInputsService,
-                                          const IDartsInputDb *dbService) const = 0;
+                                          const IDbService *dbService) const = 0;
 };
 
 #endif // IDARTSINDEXESBUILDER_H

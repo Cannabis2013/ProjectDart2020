@@ -8,7 +8,7 @@
 #include "idartstournament.h"
 #include "sortdartsscoreinputsbyindexes.h"
 
-namespace DartsModelsContext {
+namespace ModelsContext {
     class CreateDartsScoreIndexes : public IDartsCreateIndexes<IDartsScoreIndexes>
     {
     public:
@@ -17,15 +17,15 @@ namespace DartsModelsContext {
             DisplayHint = 0x2,
             allHints = HiddenHint | DisplayHint
         };
-        virtual const IDartsScoreIndexes *createIndexes(const ITournament *tournament,
+        virtual const IDartsScoreIndexes *createIndexes(const IModel<QUuid> *tournament,
                                                         const IGetInputModelsService *getInputsService,
                                                         const ISortInputModels *sortInputsService,
                                                         const ICountInputModels *countInputsService,
-                                                        const IDartsInputDb *dbService) const override;
+                                                        const IDbService *dbService) const override;
 
     private:
-        const IDartsScoreIndexes *createDartsIndexesByModels(const ITournament* tournament,
-                                                             const QVector<const IPlayerInput*>& orderedModels,
+        const IDartsScoreIndexes *createDartsIndexesByModels(const IModel<QUuid> *tournament,
+                                                             const QVector<const IModel<QUuid> *> &orderedModels,
                                                              const int&  totalModelsCount) const;;
         const IDartsScoreIndexes* createInitialDartsIndexes() const;
     };

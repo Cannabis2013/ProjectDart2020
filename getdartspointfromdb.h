@@ -6,9 +6,9 @@
 class GetDartsPointFromDb : public IGetDartsPointFromDb
 {
 public:
-    virtual const IPlayerInput *get(const QUuid &tournamentId, const QUuid &playerId,
+    virtual const IModel<QUuid> *get(const QUuid &tournamentId, const QUuid &playerId,
                                     const int &roundIndex, const int &attemptIndex,
-                                    const IDartsInputDb *dbService) const override
+                                    const IDbService *dbService) const override
     {
         auto models = dbService->models();
         for (const auto &model : models) {
@@ -18,10 +18,10 @@ public:
         throw "Model not found";
     }
 private:
-    bool match(const IPlayerInput* model,const QUuid &tournamentId, const QUuid &playerId,
+    bool match(const IModel<QUuid>* model,const QUuid &tournamentId, const QUuid &playerId,
                const int &roundIndex, const int &attemptIndex) const
     {
-        auto dartsPointModel = dynamic_cast<const DartsModelsContext::IDartsPointInput*>(model);
+        auto dartsPointModel = dynamic_cast<const ModelsContext::IDartsPointInput*>(model);
         if(dartsPointModel->tournamentId() != tournamentId)
             return false;
         else if(dartsPointModel->playerId() != playerId)

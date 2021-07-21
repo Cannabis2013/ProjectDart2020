@@ -5,10 +5,10 @@
 #include "iplayermodel.h"
 #include <qvector.h>
 
-class ICreateJsonFromPlayerModels : public ICreateJsonFrom<QVector<const DartsModelsContext::IPlayerModel*>>
+class ICreateJsonFromPlayerModels : public ICreateJsonFrom<QVector<const IModel<QUuid>*>>
 {
 public:
-    virtual QByteArray createJson(QVector<const DartsModelsContext::IPlayerModel*> models) const override = 0;
+    virtual QByteArray createJson(QVector<const IModel<QUuid>*> models) const override = 0;
 };
 
 

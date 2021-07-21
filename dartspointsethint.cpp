@@ -1,12 +1,13 @@
 #include "dartspointsethint.h"
 
-using namespace DartsModelsContext;
+using namespace ModelsContext;
 
-void DartsModelsContext::DartsPointSetHint::setDartsPointHint(const IPlayerInput *inputModel,
+void ModelsContext::DartsPointSetHint::setDartsPointHint(const IModel<QUuid> *inputModel,
                                                                     const int &hint,
-                                                                    IDartsInputDb *dbService)
+                                                                    IDbService *dbService)
 {
-    auto nonConstModel = const_cast<IPlayerInput*>(inputModel);
+    auto inferedModel = dynamic_cast<const IPlayerInput*>(inputModel);
+    auto nonConstModel = const_cast<IPlayerInput*>(inferedModel);
     nonConstModel->setHint(hint);
     dbService->saveState();
 }

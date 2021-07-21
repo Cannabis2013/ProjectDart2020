@@ -15,11 +15,13 @@ void RemoteModelsContext::addDartsTournament(const QByteArray& json)
                              SLOT(handleAddFTPTournamentReply()));
 }
 
-void RemoteModelsContext::deleteTournaments(const QByteArray &json)
+void RemoteModelsContext::deleteTournaments(const QVector<int> &indexes)
 {
+    /*
     _netMng->sendPostRequest("DeleteTournamentsFromIndexes",
-                             json,QString(),{},this,
+                             indexes,QString(),{},this,
                              SLOT(handleDeleteTournamentsReply()));
+    */
 }
 
 void RemoteModelsContext::getOrderedDartsPoints(const QUuid &tournamentId)
@@ -84,15 +86,13 @@ void RemoteModelsContext::createPlayer(const QByteArray &json)
                              SLOT(handleCreatePlayerResponse()));
 }
 
-void RemoteModelsContext::deletePlayerFromIndex(const QByteArray &json)
+void RemoteModelsContext::deletePlayersFromIndexes(const QVector<int> &indexes)
 {
-}
-
-void RemoteModelsContext::deletePlayersFromIndexes(const QByteArray &json)
-{
+    /*
     _netMng->sendPostRequest("DeletePlayers",
-                             json,QString(),{},this,
+                             indexes,QString(),{},this,
                              SLOT(deletePlayersReply()));
+    */
 }
 
 void RemoteModelsContext::handleRequestPlayersDetails()

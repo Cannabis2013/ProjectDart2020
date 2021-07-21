@@ -22,19 +22,23 @@ public:
             arr << obj;
         }
         return createByteArray(arr);
-
     }
-    virtual QByteArray createJson(const DartsModelsContext::IPlayerModel *playerModel) const override
+
+    virtual QByteArray createJson(const IModel<QUuid> *model) const override
     {
-        auto winnerId = playerModel != nullptr ? playerModel->id() : QUuid();
-        auto playerName = playerModel != nullptr ? playerModel->playerName() : "";
-        QJsonObject obj;
-        obj["winnerId"] = winnerId.toString(QUuid::WithoutBraces);
-        obj["winnerName"] = playerName;
+        QJsonObject obj = {{"winnerId",""},{"winnerId",""}};
+        if(model != nullptr)
+        {
+            auto playerModel = dynamic_cast<const ModelsContext::IPlayerModel*>(model);
+            auto winnerId = playerModel->id();
+            auto playerName = playerModel->playerName();
+            obj["winnerId"] = winnerId.toString(QUuid::WithoutBraces);
+            obj["winnerName"] = playerName;
+        }
         return createByteArray(obj);
     }
 
-    virtual QByteArray createJson(const QVector<const DartsModelsContext::IPlayerModel *> &playerModels) const override
+    virtual QByteArray createJson(const QVector<const IModel<QUuid>*> &playerModels) const override
     {
         QJsonArray arr;
         for (const auto &player : playerModels)
@@ -43,8 +47,9 @@ public:
     }
 
 private:
-    QJsonObject createJsonObjectFromPlayerModel(const DartsModelsContext::IPlayerModel *playerModel) const
+    QJsonObject createJsonObjectFromPlayerModel(const IModel<QUuid> *model) const
     {
+        auto playerModel = dynamic_cast<const ModelsContext::IPlayerModel*>(model);
         QJsonObject obj;
         obj["playerId"] = playerModel->id().toString(QUuid::WithoutBraces);
         obj["playerName"] = playerModel->playerName();

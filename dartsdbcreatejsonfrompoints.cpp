@@ -2,14 +2,14 @@
 
 using namespace DartsDbContext;
 
-QByteArray DartsDbCreatejsonFromPoints::createJson(const QVector<const IPlayerInput *> &models) const
+QByteArray DartsDbCreatejsonFromPoints::createJson(const QVector<const IModel<QUuid> *> &models) const
 {
     QJsonArray arr = createJsonArray(models);
     return createByteArray(arr);
 
 }
 
-QJsonArray DartsDbCreatejsonFromPoints::createJsonArray(const QVector<const IPlayerInput *> &models) const
+QJsonArray DartsDbCreatejsonFromPoints::createJsonArray(const QVector<const IModel<QUuid> *> &models) const
 {
     QJsonArray arr;
     for (const auto& model : models)
@@ -17,9 +17,9 @@ QJsonArray DartsDbCreatejsonFromPoints::createJsonArray(const QVector<const IPla
     return arr;
 }
 
-QJsonObject DartsDbCreatejsonFromPoints::createJsonObject(const IPlayerInput *model) const
+QJsonObject DartsDbCreatejsonFromPoints::createJsonObject(const IModel<QUuid> *model) const
 {
-    using namespace DartsModelsContext;
+    using namespace ModelsContext;
     auto dartsPointModel = dynamic_cast<const IDartsPointInput*>(model);
     QJsonObject jsonObject;
     jsonObject["id"] = dartsPointModel->id().toString();

@@ -1,11 +1,11 @@
 #include "dartscreatepointindexes.h"
-using namespace DartsModelsContext;
+using namespace ModelsContext;
 
-const IDartsPointIndexes *DartsCreatePointIndexes::createIndexes(const ITournament *tournament,
+const IDartsPointIndexes *DartsCreatePointIndexes::createIndexes(const IModel<QUuid> *tournament,
                                                                  const IGetInputModelsService *getInputsService,
                                                                  const ISortInputModels *sortInputsService,
                                                                  const ICountInputModels *countInputsService,
-                                                                 const IDartsInputDb *dbService) const
+                                                                 const IDbService *dbService) const
 {
     auto models = getInputsService->inputModels(tournament->id(),DisplayHint,dbService);
     auto orderedModels = sortInputsService->sort(models,new SortDartsPointInputsByIndexes);
@@ -15,8 +15,8 @@ const IDartsPointIndexes *DartsCreatePointIndexes::createIndexes(const ITourname
     return createInitialDartsIndexes();
 }
 
-const IDartsPointIndexes *DartsCreatePointIndexes::createDartsIndexesByModels(const ITournament* tournament,
-                                                                              const QVector<const IPlayerInput *> &orderedModels,
+const IDartsPointIndexes *DartsCreatePointIndexes::createDartsIndexesByModels(const IModel<QUuid> *tournament,
+                                                                              const QVector<const IModel<QUuid> *> &orderedModels,
                                                                               const int& totalInputModelsCount) const
 {
     auto dartsTournament = dynamic_cast<const IDartsTournament*>(tournament);

@@ -6,9 +6,6 @@ template<typename TDbModelsService>
 class IDartsScoreSetHint
 {
 public:
-    typedef TDbModelsService DbModelsService;
-    typedef IPlayerInput PlayerInput;
-    typedef QVector<const PlayerInput*> PlayerInputs;
-    virtual void setDartsScoreHint(const PlayerInput* model,const int &hint, DbModelsService* dbService) = 0 ;
+    virtual void setDartsScoreHint(const IModel<QUuid>* model,const int &hint, TDbModelsService* dbService) = 0 ;
 };
 #endif // IDARTSSCOREMODELSSERVICE_H

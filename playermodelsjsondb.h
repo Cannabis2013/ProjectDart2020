@@ -2,20 +2,20 @@
 #define PLAYERMODELSJSONDB_H
 
 #include <quuid.h>
-#include "iplayermodelsdb.h"
+#include "idbservice.h"
 #include "abstractpersistence.h"
 #include "jsonpersistence.h"
 #include "playermodel.h"
 #include "icreateplayersfromjson.h"
 #include "icreatejsonfromplayermodels.h"
-namespace DartsModelsContext {
+namespace ModelsContext {
     class PlayerModelsJsonDb :
-            public IPlayerModelsDb,
+            public IDbService,
             public JSONPersistence
     {
     public:
         // Public types
-        typedef QVector<const IModel<QUuid,QByteArray>*> modelsList;
+        typedef QVector<const IModel<QUuid>*> modelsList;
         enum GameModes {
             FirstToPost = 0x1,
             RoundLimit =0x2,
@@ -25,12 +25,12 @@ namespace DartsModelsContext {
         PlayerModelsJsonDb(const QString &fileName):
             _fileName(fileName)
         {}
-        virtual void add(const IPlayerModel *player) override;
-        virtual const IPlayerModel *model(const int &index) const override;
-        virtual QVector<const IPlayerModel *> models() const override;
+        virtual void add(const IModel<QUuid> *player) override;
+        virtual const IModel<QUuid> *model(const int &index) const override;
+        virtual QVector<const IModel<QUuid>*> models() const override;
         virtual bool remove(const int &index) override;
-        virtual int indexOf(const IPlayerModel *player) const override;
-        virtual void replace(const int &index, const IPlayerModel *player) override;
+        virtual int indexOf(const IModel<QUuid> *player) const override;
+        virtual void replace(const int &index, const IModel<QUuid> *player) override;
     protected:
         void fetchModels() override;
         void saveState() override;
@@ -38,7 +38,7 @@ namespace DartsModelsContext {
         ICreateJsonFromPlayerModels *_createJsonFromModels;
     private:
         const QString _fileName = "playerModels";
-        QVector<const IPlayerModel*> _playerModels;
+        QVector<const IModel<QUuid>*> _playerModels;
     };
 }
 

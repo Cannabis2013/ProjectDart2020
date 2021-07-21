@@ -2,12 +2,12 @@
 #define IDARTSPOINTSETHINT_H
 
 #include "iplayerinput.h"
-#include "idartsinputdb.h"
+#include "idbservice.h"
 
 class IDartsPointSetHint
 {
 public:
-    virtual void setDartsPointHint(const IPlayerInput* inputModel,const int& hint,IDartsInputDb* dbService) = 0;
+    virtual void setDartsPointHint(const IModel<QUuid>* inputModel,const int& hint,IDbService* dbService) = 0;
 };
 
 #endif // IDARTSPOINTMODELSSERVICE_H

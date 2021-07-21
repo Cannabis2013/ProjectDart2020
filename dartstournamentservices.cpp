@@ -2,12 +2,12 @@
 
 IAddPlayerDetailsToTournament *DartsTournamentServices::addToTournamentModel() const
 {
-    return _dartsModelManipulator;
+    return _addPlayerDetails;
 }
 
 void DartsTournamentServices::setAddToTournamentModel(IAddPlayerDetailsToTournament *newDartsModelManipulator)
 {
-    _dartsModelManipulator = newDartsModelManipulator;
+    _addPlayerDetails = newDartsModelManipulator;
 }
 
 IDartsTournamentJsonBuilder *DartsTournamentServices::createJsonFromDartsTournamentModels() const
@@ -30,12 +30,12 @@ void DartsTournamentServices::setGetTournament(IGetDartsTournamentFromDb *newGet
     _getTournament = newGetTournament;
 }
 
-IGetDataFromDartsTournament<ITournament> *DartsTournamentServices::getDataFromDartsTournament() const
+IGetDataFromDartsTournament<IModel<QUuid>> *DartsTournamentServices::getDataFromDartsTournament() const
 {
     return _getDataFromDartsTournament;
 }
 
-void DartsTournamentServices::setGetDataFromDartsTournament(IGetDataFromDartsTournament<ITournament> *newGetDataFromDartsTournament)
+void DartsTournamentServices::setGetDataFromDartsTournament(IGetDataFromDartsTournament<IModel<QUuid>> *newGetDataFromDartsTournament)
 {
     _getDataFromDartsTournament = newGetDataFromDartsTournament;
 }
@@ -50,24 +50,14 @@ void DartsTournamentServices::setGetNumberOfAttempts(IDartsTournamentNumberOfAtt
     _getNumberOfAttempts = newGetNumberOfAttempts;
 }
 
-IRemoveTournamentsFromDb *DartsTournamentServices::tournamentDbManipulator() const
+IDbService *DartsTournamentServices::dartsTournamentDb() const
 {
-    return _removeTournamentsByIndexes;
+    return _dartsTournamentsDb;
 }
 
-void DartsTournamentServices::setTournamentDbManipulator(IRemoveTournamentsFromDb *newTournamentDbManipulator)
+void DartsTournamentServices::setDartsTournamentDb(IDbService *newDartsTournamentDb)
 {
-    _removeTournamentsByIndexes = newTournamentDbManipulator;
-}
-
-IDartsTournamentDb *DartsTournamentServices::dartsTournamentDb() const
-{
-    return _dartsTournamentDb;
-}
-
-void DartsTournamentServices::setDartsTournamentDb(IDartsTournamentDb *newDartsTournamentDb)
-{
-    _dartsTournamentDb = newDartsTournamentDb;
+    _dartsTournamentsDb = newDartsTournamentDb;
 }
 
 IDartsTournamentJsonBuilder *DartsTournamentServices::dartsTournamentCreateJson() const

@@ -6,10 +6,10 @@
 #include <qvector.h>
 
 namespace DartsDbContext {
-    class ICreateInputModelsFromJson : public ICreateFromJson<QVector<const IPlayerInput*>>
+    class ICreateInputModelsFromJson : public ICreateFromJson<QVector<const IModel<QUuid>*>>
     {
     public:
-        virtual QVector<const IPlayerInput*>  create(const QByteArray &json) const override = 0;
+        virtual QVector<const IModel<QUuid>*>  create(const QByteArray &json) const override = 0;
     };
 }
 

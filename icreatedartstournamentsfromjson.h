@@ -3,10 +3,10 @@
 
 #include "itournament.h"
 #include "icreatefromjson.h"
-class ICreateDartsTournamentModelsFromJson : public ICreateFromJson<QVector<const ITournament*>>
+class ICreateDartsTournamentModelsFromJson : public ICreateFromJson<QVector<const IModel<QUuid>*>>
 {
 public:
-    virtual QVector<const ITournament*> create(const QByteArray &json) const override = 0;
+    virtual QVector<const IModel<QUuid>*> create(const QByteArray &json) const override = 0;
 };
 
 #endif // ICREATEDARTSTOURNAMENTFROMJSON_H

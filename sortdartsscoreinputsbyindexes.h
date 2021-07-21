@@ -4,12 +4,12 @@
 #include "dartsscoreinput.h"
 #include "ipredicate.h"
 
-namespace DartsModelsContext {
-    class SortDartsScoreInputsByIndexes : public IPredicate<IPlayerInput>
+namespace ModelsContext {
+    class SortDartsScoreInputsByIndexes : public IPredicate<IModel<QUuid>>
     {
     public:
         typedef IPredicate<IPlayerInput> Predicate;
-        bool operator ()(const IPlayerInput *_first, const IPlayerInput* _second) const override
+        bool operator ()(const IModel<QUuid> *_first, const IModel<QUuid>* _second) const override
         {
             auto firstModel = dynamic_cast<const IDartsScoreInput*>(_first);
             auto secondModel = dynamic_cast<const IDartsScoreInput*>(_second);

@@ -8,8 +8,8 @@
 class ISortInputModels
 {
 public:
-    virtual QVector<const IPlayerInput*> sort(const QVector<const IPlayerInput*>& unsortedInputs,
-                                              const IPredicate<IPlayerInput> *predicate) const = 0;
+    virtual QVector<const IModel<QUuid>*> sort(const QVector<const IModel<QUuid>*>& unsortedInputs,
+                                              const IPredicate<IModel<QUuid>> *predicate) const = 0;
 };
 
 #endif // ISORTINPUTMODELS_H

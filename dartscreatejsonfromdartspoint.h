@@ -6,12 +6,12 @@
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 
-class DartsCreateJsonFromPointModel : public IDartsCreateJsonFromModel<IPlayerInput>
+class DartsCreateJsonFromPointModel : public IDartsCreateJsonFromModel<IModel<QUuid>>
 {
 public:
-    virtual QByteArray createJson(const IPlayerInput *inputModel) const override
+    virtual QByteArray createJson(const IModel<QUuid> *inputModel) const override
     {
-        auto model = dynamic_cast<const DartsModelsContext::IDartsPointInput*>(inputModel);
+        auto model = dynamic_cast<const ModelsContext::IDartsPointInput*>(inputModel);
         QJsonObject jsonObject;
         jsonObject["point"] = model->point();
         jsonObject["score"] = model->score();

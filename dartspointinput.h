@@ -1,7 +1,7 @@
 #ifndef POINT_H
 #define POINT_H
 #include "idartspointinput.h"
-namespace DartsModelsContext{
+namespace ModelsContext{
     class DartsPointInput : public IDartsPointInput
     {
     public:

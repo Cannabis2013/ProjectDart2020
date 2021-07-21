@@ -3,16 +3,16 @@
 
 #include "igetpointinputfromdb.h"
 #include "iplayerinput.h"
-#include "idartsinputdb.h"
+#include "idbservice.h"
 
-class IGetDartsPointFromDb : public IGetPointInputFromDb<IPlayerInput,QUuid,IDartsInputDb>
+class IGetDartsPointFromDb : public IGetPointInputFromDb<IModel<QUuid>,QUuid,IDbService>
 {
 public:
-    virtual const IPlayerInput *get(const QUuid &tournamentId,
+    virtual const IModel<QUuid> *get(const QUuid &tournamentId,
                                     const QUuid &playerId,
                                     const int &roundIndex,
                                     const int &attemptIndex,
-                                    const IDartsInputDb *dbService) const override = 0;
+                                    const IDbService *dbService) const override = 0;
 };
 
 #endif // IGETDARTSPOINTFROMDB_H

@@ -1,38 +1,41 @@
 #include "removeinputsfromdb.h"
 
-void DartsModelsContext::RemoveInputsFromDb::remove(const QVector<const IPlayerInput*> &models,
-                                                    const int &hint,IDartsInputDb *dbService) const
+void ModelsContext::RemoveInputsFromDb::remove(const QVector<const IModel<QUuid> *> &models,
+                                               const int &hint, IDbService *dbService) const
 {
     for (const auto model : qAsConst(models))
         removeModel(model,hint,dbService);
 }
 
 
-void DartsModelsContext::RemoveInputsFromDb::remove(const QUuid &id, IDartsInputDb *dbService) const
+void ModelsContext::RemoveInputsFromDb::remove(const QUuid &id, IDbService *dbService) const
 {
     auto models = dbService->models();
     for (const auto &model : models)
         removeModel(model,id,dbService);
 }
 
-void DartsModelsContext::RemoveInputsFromDb::remove(const QVector<const IPlayerInput*> &models,const QUuid &tournamentId,
-                                                    IDartsInputDb *dbService) const
+void ModelsContext::RemoveInputsFromDb::remove(const QVector<const IModel<QUuid> *> &models,
+                                               const QUuid &tournamentId,
+                                               IDbService *dbService) const
 {
     for (const auto& model : models) {
-        if(model->tournamentId() == tournamentId)
+        auto inputModel = dynamic_cast<const IPlayerInput*>(model);
+        if(inputModel->tournamentId() == tournamentId)
             remove(model->id(),dbService);
     }
 }
 
-void DartsModelsContext::RemoveInputsFromDb::removeModel(const IPlayerInput *inputModel,const int &hint,
-                                                         IDartsInputDb *dbService) const
+void ModelsContext::RemoveInputsFromDb::removeModel(const IModel<QUuid> *model,const int &hint,
+                                                    IDbService *dbService) const
 {
+    auto inputModel = dynamic_cast<const IPlayerInput*>(model);
     if(inputModel->hint() == hint)
         remove(inputModel->id(),dbService);
 }
 
-bool DartsModelsContext::RemoveInputsFromDb::removeModel(const IPlayerInput *inputModel,
-                                                         const QUuid &id, IDartsInputDb *dbService) const
+bool ModelsContext::RemoveInputsFromDb::removeModel(const IModel<QUuid> *inputModel,const QUuid &id,
+                                                    IDbService *dbService) const
 {
     if(inputModel->id() == id)
         return dbService->remove(dbService->indexOf(inputModel));

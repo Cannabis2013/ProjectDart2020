@@ -5,6 +5,6 @@
 #include "quuid.h"
 #include "iplayermodel.h"
 
-class IGetDataFromPlayerModels : public IPlayerModelListService<DartsModelsContext::IPlayerModel,QUuid,QString>
+class IGetDataFromPlayerModels : public IPlayerModelListService<ModelsContext::IPlayerModel,QUuid,QString>
 {};
 #endif // IDARTSPLAYERLISTSERVICE_H

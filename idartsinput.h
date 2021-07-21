@@ -3,7 +3,7 @@
 
 #include "iplayerinput.h"
 
-namespace DartsModelsContext{
+namespace ModelsContext{
     class   IDartsInput : public IPlayerInput
     {
     public:

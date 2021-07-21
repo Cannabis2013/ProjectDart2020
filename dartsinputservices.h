@@ -24,8 +24,8 @@
 class DartsInputServices
 {
 public:
-    typedef IPredicate<IPlayerInput> Predicate;
-    typedef IDartsScoreSetHint<IDartsInputDb> ScoreModelsService;
+    typedef IPredicate<IModel<QUuid>> Predicate;
+    typedef IDartsScoreSetHint<IDbService> ScoreModelsService;
     typedef IModelsDbContext<IPlayerInput> DbService;
     IDartsModelsCreateJsonFromPoints *dartsPointsJsonService() const;
     void setDartsPointsJsonService(IDartsModelsCreateJsonFromPoints *newDartsPointsJsonService);
@@ -53,18 +53,18 @@ public:
     void setCreateJsonFromPointIndexes(ICreateJsonfromDartsPointIndexes *newCreateJsonFromPointIndexes);
     IDartsCreateJsonFromScoreIndexes *createJsonfromScoreIndexes() const;
     void setCreateJsonfromScoreIndexes(IDartsCreateJsonFromScoreIndexes *newCreateJsonfromScoreIndexes);
-    IDartsInputDb *dartsPointsDb() const;
-    void setDartsPointsDb(IDartsInputDb *newDartsPointsDb);
-    IDartsInputDb *dartsScoresDb() const;
-    void setDartsScoresDb(IDartsInputDb *newDartsScoresDb);
+    IDbService *dartsPointsDb() const;
+    void setDartsPointsDb(IDbService *newDartsPointsDb);
+    IDbService *dartsScoresDb() const;
+    void setDartsScoresDb(IDbService *newDartsScoresDb);
     IDartsCreateInput *createScoreModel() const;
     void setCreateScoreModel(IDartsCreateInput *newCreateScoreModel);
     IDartsCreateInput *createPointModel() const;
     void setCreatePointModel(IDartsCreateInput *newCreatePointModel);
-    IDartsCreateJsonFromModel<IPlayerInput> *createJsonFromDartsPoint() const;
-    void setCreateJsonFromDartsPoint(IDartsCreateJsonFromModel<IPlayerInput> *newCreateJsonFromDartsPoint);
-    IDartsCreateJsonFromModel<IPlayerInput> *createJsonFromDartsScore() const;
-    void setCreateJsonFromDartsScore(IDartsCreateJsonFromModel<IPlayerInput> *newCreateJsonFromDartsScore);
+    IDartsCreateJsonFromModel<IModel<QUuid> > *createJsonFromDartsPoint() const;
+    void setCreateJsonFromDartsPoint(IDartsCreateJsonFromModel<IModel<QUuid> > *newCreateJsonFromDartsPoint);
+    IDartsCreateJsonFromModel<IModel<QUuid> > *createJsonFromDartsScore() const;
+    void setCreateJsonFromDartsScore(IDartsCreateJsonFromModel<IModel<QUuid> > *newCreateJsonFromDartsScore);
     IRemoveDartsInputsFromDb *removeInputsFromDb() const;
     void setRemoveInputsFromDb(IRemoveDartsInputsFromDb *newDbManipulatorService);
     IDartsCreateIndexes<IDartsScoreIndexes> *createIndexesFromScoreModels() const;
@@ -88,12 +88,12 @@ private:
     IRemoveDartsInputsFromDb* _removeDartsInputsFromDb;
     IDartsCreateInput *_createPointModel;
     IDartsCreateInput *_createScoreModel;
-    IDartsCreateJsonFromModel<IPlayerInput> *_createJsonFromDartsPoint;
-    IDartsCreateJsonFromModel<IPlayerInput> *_createJsonFromDartsScore;
+    IDartsCreateJsonFromModel<IModel<QUuid>> *_createJsonFromDartsPoint;
+    IDartsCreateJsonFromModel<IModel<QUuid>> *_createJsonFromDartsScore;
     IDartsCreateIndexes<IDartsScoreIndexes> *_createIndexesFromScoreModels;
     IDartsCreateIndexes<IDartsPointIndexes> *_createIndexesFromPointModels;
-    IDartsInputDb *_dartsPointsDb;
-    IDartsInputDb *_dartsScoresDb;
+    IDbService *_dartsPointsDb;
+    IDbService *_dartsScoresDb;
 };
 
 #endif // DARTSINPUTSERVICES_H

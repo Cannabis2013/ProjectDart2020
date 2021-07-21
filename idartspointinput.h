@@ -3,9 +3,9 @@
 
 #include "idartsinput.h"
 
-namespace DartsModelsContext
+namespace ModelsContext
 {
-    class IDartsPointInput : public DartsModelsContext::IDartsInput
+    class IDartsPointInput : public ModelsContext::IDartsInput
     {
     public:
 

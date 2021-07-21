@@ -3,12 +3,12 @@
 
 #include "idartspointsethint.h"
 
-namespace DartsModelsContext {
+namespace ModelsContext {
     class DartsPointSetHint : public IDartsPointSetHint
     {
     public:
-        void setDartsPointHint(const IPlayerInput *inputModel, const int &hint,
-                               IDartsInputDb *dbService) override;
+        void setDartsPointHint(const IModel<QUuid> *inputModel, const int &hint,
+                               IDbService *dbService) override;
     };
 }
 

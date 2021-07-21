@@ -12,12 +12,12 @@ namespace DartsDbContext {
     class CreateDartsPointsFromJson : public ICreateInputModelsFromJson
     {
     public:
-        virtual QVector<const IPlayerInput *> create(const QByteArray &json) const override;
+        virtual QVector<const IModel<QUuid> *> create(const QByteArray &json) const override;
     private:
         const QJsonArray createArray(const QByteArray &json) const;
-        QVector<const IPlayerInput*> createInputsFromJsonArray(const QJsonArray &arr) const;
+        QVector<const IModel<QUuid> *> createInputsFromJsonArray(const QJsonArray &arr) const;
         const IPlayerInput *createInputFromJsonValue(const QJsonValue &jsonValue) const;
-        const DartsModelsContext::DartsPointInput* createModelFromJsonObject(const QJsonObject& jsonObject) const;
+        const ModelsContext::DartsPointInput* createModelFromJsonObject(const QJsonObject& jsonObject) const;
 
     };
 }

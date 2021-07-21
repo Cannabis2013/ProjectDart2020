@@ -18,7 +18,7 @@ public:
     {
         auto document = QJsonDocument::fromJson(json);
         auto jsonObject = document.object();
-        auto model = DartsModelsContext::DartsPointInput::createInstance();
+        auto model = ModelsContext::DartsPointInput::createInstance();
         model->setPoint(jsonObject.value("point").toInt());
         model->setModKeyCode(jsonObject.value("modKeyCode").toInt());
         model->setScore(jsonObject.value("score").toInt());

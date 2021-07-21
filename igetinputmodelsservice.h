@@ -3,16 +3,16 @@
 
 #include <qvector.h>
 #include "iplayerinput.h"
-#include "idartsinputdb.h"
+#include "idbservice.h"
 
 class IGetInputModelsService
 {
 public:
     // Pure methods
-    virtual QVector<const IPlayerInput*> inputModels(const QUuid& tournamentId,
-                                    const IDartsInputDb *dbService) const = 0;
-    virtual QVector<const IPlayerInput*> inputModels(const QUuid& tournamentId, const int& hint,
-                                    const IDartsInputDb *dbService) const = 0;
+    virtual QVector<const IModel<QUuid>*> inputModels(const QUuid& tournamentId,
+                                    const IDbService *dbService) const = 0;
+    virtual QVector<const IModel<QUuid>*> inputModels(const QUuid& tournamentId, const int& hint,
+                                    const IDbService *dbService) const = 0;
 
 };
 

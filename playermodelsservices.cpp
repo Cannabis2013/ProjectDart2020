@@ -31,22 +31,12 @@ void PlayerModelsServices::setDartsPlayerJsonBuilder(IDartsPlayerJsonBuilder *ne
     _dartsPlayerJsonBuilder = newDartsPlayerJsonBuilder;
 }
 
-IDartsPlayerDbManipulator *PlayerModelsServices::playerDbManipulator() const
-{
-    return _playerDbManipulator;
-}
-
-void PlayerModelsServices::setPlayerDbManipulator(IDartsPlayerDbManipulator *newPlayerDbManipulator)
-{
-    _playerDbManipulator = newPlayerDbManipulator;
-}
-
-IPlayerModelsDb *PlayerModelsServices::dartsPlayersDb() const
+IDbService *PlayerModelsServices::dartsPlayersDb() const
 {
     return _dartsPlayersDb;
 }
 
-void PlayerModelsServices::setDartsPlayersDb(IPlayerModelsDb *newDartsPlayersDb)
+void PlayerModelsServices::setDartsPlayersDb(IDbService *newDartsPlayersDb)
 {
     _dartsPlayersDb = newDartsPlayersDb;
 }

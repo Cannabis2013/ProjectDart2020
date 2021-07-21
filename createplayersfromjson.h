@@ -10,7 +10,7 @@
 class CreatePlayersFromJson : public ICreatePlayersFromJson
 {
 public:
-    virtual QVector<const DartsModelsContext::IPlayerModel*> create(const QByteArray &json) const override;
+    virtual QVector<const IModel<QUuid>*> create(const QByteArray &json) const override;
 private:
     QJsonArray createArray(const QByteArray &json) const;
 };

@@ -7,7 +7,7 @@ template<typename TDbService>
 class IRemoveModelsFromDb
 {
 public:
-    virtual bool removeTournamentsByIndexes(const QVector<int>& indexes, TDbService *dbService) const = 0;
+    virtual bool remove(const QVector<int>& indexes, TDbService *dbService) const = 0;
 };
 
 #endif // ITOURNAMENTDBSERVICE_H

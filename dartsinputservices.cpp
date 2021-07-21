@@ -103,19 +103,19 @@ void DartsInputServices::setCreateJsonfromScoreIndexes(IDartsCreateJsonFromScore
 {
     _createJsonfromScoreIndexes = newCreateJsonfromScoreIndexes;
 }
-IDartsInputDb *DartsInputServices::dartsPointsDb() const
+IDbService *DartsInputServices::dartsPointsDb() const
 {
     return _dartsPointsDb;
 }
-void DartsInputServices::setDartsPointsDb(IDartsInputDb *newDartsPointsDb)
+void DartsInputServices::setDartsPointsDb(IDbService *newDartsPointsDb)
 {
     _dartsPointsDb = newDartsPointsDb;
 }
-IDartsInputDb *DartsInputServices::dartsScoresDb() const
+IDbService *DartsInputServices::dartsScoresDb() const
 {
     return _dartsScoresDb;
 }
-void DartsInputServices::setDartsScoresDb(IDartsInputDb *newDartsScoresDb)
+void DartsInputServices::setDartsScoresDb(IDbService *newDartsScoresDb)
 {
     _dartsScoresDb = newDartsScoresDb;
 }
@@ -140,22 +140,22 @@ void DartsInputServices::setCreatePointModel(IDartsCreateInput *newCreatePointMo
     _createPointModel = newCreatePointModel;
 }
 
-IDartsCreateJsonFromModel<IPlayerInput> *DartsInputServices::createJsonFromDartsPoint() const
+IDartsCreateJsonFromModel<IModel<QUuid>> *DartsInputServices::createJsonFromDartsPoint() const
 {
     return _createJsonFromDartsPoint;
 }
 
-void DartsInputServices::setCreateJsonFromDartsPoint(IDartsCreateJsonFromModel<IPlayerInput> *newCreateJsonFromDartsPoint)
+void DartsInputServices::setCreateJsonFromDartsPoint(IDartsCreateJsonFromModel<IModel<QUuid>> *newCreateJsonFromDartsPoint)
 {
     _createJsonFromDartsPoint = newCreateJsonFromDartsPoint;
 }
 
-IDartsCreateJsonFromModel<IPlayerInput> *DartsInputServices::createJsonFromDartsScore() const
+IDartsCreateJsonFromModel<IModel<QUuid>> *DartsInputServices::createJsonFromDartsScore() const
 {
     return _createJsonFromDartsScore;
 }
 
-void DartsInputServices::setCreateJsonFromDartsScore(IDartsCreateJsonFromModel<IPlayerInput> *newCreateJsonFromDartsScore)
+void DartsInputServices::setCreateJsonFromDartsScore(IDartsCreateJsonFromModel<IModel<QUuid>> *newCreateJsonFromDartsScore)
 {
     _createJsonFromDartsScore = newCreateJsonFromDartsScore;
 }

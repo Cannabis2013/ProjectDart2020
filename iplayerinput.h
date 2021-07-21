@@ -5,7 +5,7 @@
 #include <quuid.h>
 
 class IPlayerInput :
-        public IModel<QUuid,QByteArray>
+        public IModel<QUuid>
 {
 public:
     virtual int hint() const = 0;

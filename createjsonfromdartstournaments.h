@@ -9,21 +9,21 @@ class CreateJsonFromDartsTournaments :
         public ICreateJsonFromDartsTournaments
 {
 public:
-    virtual QByteArray createJson(const QVector<const ITournament*> &models) const override
+    virtual QByteArray createJson(const QVector<const IModel<QUuid>*> &models) const override
     {
         QJsonArray arr = createJsonArray(models);
         QJsonObject obj = createJsonObject(arr);
         return createJsonByteArray(obj);
     }
 private:
-    QJsonArray createJsonArray(const QVector<const ITournament *> &models) const
+    QJsonArray createJsonArray(const QVector<const IModel<QUuid> *> &models) const
     {
         QJsonArray arr;
         for (const auto& model : models)
             arr << createJsonObjectByModel(model);
         return arr;
     }
-    QJsonObject createJsonObjectByModel(const ITournament* tournamentModel) const
+    QJsonObject createJsonObjectByModel(const IModel<QUuid>* tournamentModel) const
     {
         auto model = dynamic_cast<const IDartsTournament*>(tournamentModel);
         QJsonObject obj;
@@ -52,17 +52,19 @@ private:
         auto json = document.toJson();
         return json;
     }
-    QJsonArray createJsonArrayFromPlayerIds(const ITournament *model) const
+    QJsonArray createJsonArrayFromPlayerIds(const IModel<QUuid> *model) const
     {
+        auto tournamentModel = dynamic_cast<const ITournament*>(model);
         QJsonArray arr;
-        for (const auto& assignedPlayerId : model->assignedPlayerIds())
+        for (const auto& assignedPlayerId : tournamentModel->assignedPlayerIds())
             arr << assignedPlayerId.toString(QUuid::WithoutBraces);
         return arr;
     }
-    QJsonArray createJsonArrayFromPlayerNames(const ITournament *model) const
+    QJsonArray createJsonArrayFromPlayerNames(const IModel<QUuid> *model) const
     {
+        auto tournamentModel = dynamic_cast<const ITournament*>(model);
         QJsonArray arr;
-        for (const auto& assignedPlayerName : model->assignedPlayerNames())
+        for (const auto& assignedPlayerName : tournamentModel->assignedPlayerNames())
             arr << assignedPlayerName;
         return arr;
     }

@@ -1,7 +1,7 @@
 #ifndef MODELINTERFACE_H
 #define MODELINTERFACE_H
 
-template<class TUuid, typename TjsonFormat>
+template<class TUuid>
 class IModel
 {
 public:

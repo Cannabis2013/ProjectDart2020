@@ -1,25 +1,24 @@
 #ifndef REMOVEINPUTSFROMDB_H
 #define REMOVEINPUTSFROMDB_H
 
-#include "iremovedartsinputsfromdb.h"
-#include "idartsinputdb.h"
 #include "iplayerinput.h"
+#include "iremovedartsinputsfromdb.h"
 
-namespace DartsModelsContext {
+namespace ModelsContext {
     class RemoveInputsFromDb : public IRemoveDartsInputsFromDb
     {
     public:
-        void remove(const QVector<const IPlayerInput*> &models,
+        void remove(const QVector<const IModel<QUuid>*> &models,
                     const int &hint,
-                    IDartsInputDb *dbService) const override;
-        void remove(const QVector<const IPlayerInput*> &models,
+                    IDbService *dbService) const override;
+        void remove(const QVector<const IModel<QUuid>*> &models,
                     const QUuid &tournamentId,
-                    IDartsInputDb *dbService) const override;
+                    IDbService *dbService) const override;
         void remove(const QUuid &id,
-                    IDartsInputDb* dbService) const override;
+                    IDbService* dbService) const override;
     private:
-        void removeModel(const IPlayerInput *inputModel, const int &hint, IDartsInputDb *dbService) const;
-        bool removeModel(const IPlayerInput *inputModel, const QUuid &id, IDartsInputDb *dbService) const;
+        void removeModel(const IModel<QUuid> *model, const int &hint, IDbService *dbService) const;
+        bool removeModel(const IModel<QUuid> *inputModel, const QUuid &id, IDbService *dbService) const;
     };
 }
 

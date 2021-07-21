@@ -1,6 +1,6 @@
-#include "jsondartsmodelsservice.h"
-using namespace DartsModelsContext;
-JsonDartsModelsService::JsonDartsModelsService()
+#include "jsonmodelsservice.h"
+using namespace ModelsContext;
+JsonModelsService::JsonModelsService()
 {
     setTournamentServices();
     setScoreInputServices();
@@ -9,9 +9,8 @@ JsonDartsModelsService::JsonDartsModelsService()
     setPlayerRelatedServices();
     setModelUtilityServices();
     setModelsServices();
-    setUtilitiyServices();
 }
-void JsonDartsModelsService::setPlayerRelatedServices()
+void JsonModelsService::setPlayerRelatedServices()
 {
     setGetPlayerModelsFromDb(new GetDartsPlayerModelsFromDb);
     setDartsPlayerJsonBuilder(new DartsPlayerJsonBuilder);
@@ -20,24 +19,23 @@ void JsonDartsModelsService::setPlayerRelatedServices()
     setGetDataFromPlayerModels(new GetDataFromPlayerModels);
     setCreatePlayerModels(new CreatePlayerModels);
 }
-void JsonDartsModelsService::setModelUtilityServices()
+void JsonModelsService::setModelUtilityServices()
 {
     setAddToTournamentModel(new AddPlayerDetailsToTournament);
 }
-void JsonDartsModelsService::setTournamentServices()
+void JsonModelsService::setTournamentServices()
 {
     setGetTournament(new GetDartsTournamentFromDb);
-    setTournamentDbManipulator(new RemoveTournamentsFromDb);
     setDartsTournamentCreateJson(new DartsTournamentJsonBuilder);
     setDartsTournamentJsonAddDetails(new AddDetailsToTournamentJson);
-    setCreateDartsTournament(new DartsTournamentBuilder);
+    setCreateDartsTournament(new CreateDartsTournamentFromJson);
     setDartsTournamentDb(new DartsTournamentsJsonDb);
     setGetDataFromDartsTournament(new GetDataFromDartsTournament);
     setGetDartsTournamentDataFromJson(new GetDartsTournamentDataFromjson);
     setGetTournamenWinnerModel(new GetTournamentWinner);
     setSetTournamentWinnerId(new SetTournamentWinnerId);
 }
-void JsonDartsModelsService::setScoreInputServices()
+void JsonModelsService::setScoreInputServices()
 {
     using namespace DartsDbContext;
     setDartsScoresDb(new DartsScoreJsonDb);
@@ -49,7 +47,7 @@ void JsonDartsModelsService::setScoreInputServices()
     setCreateScoreModel(new DartsCreateScoreModel);
     setCreateJsonFromDartsScore(new DartsCreateJsonFromScoreModel);
 }
-void JsonDartsModelsService::setPointInputServices()
+void JsonModelsService::setPointInputServices()
 {
     using namespace DartsDbContext;
     setDartsPointsDb(new DartsPointJsonDb);
@@ -62,20 +60,16 @@ void JsonDartsModelsService::setPointInputServices()
     setCreatePointModel(new DartsCreatePointModel);
     setCreateJsonFromDartsPoint(new DartsCreateJsonFromPointModel);
 }
-void JsonDartsModelsService::setInputDbUtilityServices()
+void JsonModelsService::setInputDbUtilityServices()
 {
     setGetInputsFromDb(new GetInputModelsService);
     setSortInputs(new InputModelsSortService);
     setCountInputs(new InputModelsCountService);
     setRemoveInputsFromDb(new RemoveInputsFromDb);
+    setRemoveModelsFromDb(new RemoveModelsFromDb);
 }
 
-void JsonDartsModelsService::setModelsServices()
+void JsonModelsService::setModelsServices()
 {
     setCreateJsonMetaData(new DartsCreateJsonMetaData);
-}
-
-void JsonDartsModelsService::setUtilitiyServices()
-{
-    setDbGetIndexesFromjson(new DbGetIndexesFromJson);
 }

@@ -5,10 +5,10 @@
 #include "iplayerinput.h"
 
 class IDartsModelsCreateJsonFromPoints :
-        public ICreateJsonFrom<const QVector<const IPlayerInput*>&>
+        public ICreateJsonFrom<const QVector<const IModel<QUuid>*>&>
 {
 public:
-    virtual QByteArray createJson(const QVector<const IPlayerInput*> &models) const override = 0;
+    virtual QByteArray createJson(const QVector<const IModel<QUuid>*> &models) const override = 0;
 };
 
 #endif // IDARTSPOINTJSONBUILDER_H

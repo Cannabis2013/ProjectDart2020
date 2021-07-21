@@ -10,29 +10,19 @@ class AbstractGameController : public QObject
     Q_OBJECT
 public slots:
     virtual void initializeControllerIndexes(const QByteArray&) = 0;
-    /*
-     * Start/stop game
-     */
+    // Start/stop game
     virtual void start() = 0;
     virtual void stop() = 0 ;
-    /*
-     * Recieve and evaluate UI input
-     */
+    // Recieve and evaluate UI input
     virtual void handleAndProcessUserInput(const QByteArray& json) = 0;
-    /*
-     * Handle requests from UI
-     */
+    // Handle requests from UI
     virtual void handleRequestFromUI() = 0;
-    /*
-     * Undo/redo turn
-     */
+    // Undo/redo turn
     virtual QUuid undoTurn() = 0;
     virtual QUuid redoTurn() = 0;
     virtual void handleRequestForCurrentTournamentMetaData() = 0;
     virtual void handleResetTournament() = 0;
-    /*
-     * Set initial state
-     */
+    // Set initial state
     virtual void beginInitialize() = 0;
 signals:
     void sendCurrentTournamentId(const QUuid &tournament);

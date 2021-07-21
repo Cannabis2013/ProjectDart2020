@@ -1,11 +1,13 @@
 #include "dartsscoresethint.h"
 
-using namespace DartsModelsContext;
+using namespace ModelsContext;
 
 
-void DartsScoreSetHint::setDartsScoreHint(const PlayerInput *model, const int &hint, DbModelsService *dbService)
+void DartsScoreSetHint::setDartsScoreHint(const IModel<QUuid> *model, const int &hint,
+                                          IDbService *dbService)
 {
-    auto nonConstModel = const_cast<PlayerInput*>(model);
+    auto inferedModel = dynamic_cast<const IPlayerInput*>(model);
+    auto nonConstModel = const_cast<IPlayerInput*>(inferedModel);
     nonConstModel->setHint(hint);
     dbService->saveState();
 }

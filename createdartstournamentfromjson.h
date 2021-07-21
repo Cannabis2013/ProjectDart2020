@@ -1,17 +1,28 @@
-#ifndef DARTSTOURNAMENTBUILDER_H
-#define DARTSTOURNAMENTBUILDER_H
+#ifndef CREATEDARTSTOURNAMENTFROMJSON_H
+#define CREATEDARTSTOURNAMENTFROMJSON_H
 
-#include "idartstournamentbuilder.h"
+#include "icreatemodelfromstring.h"
 #include "dartstournament.h"
 
-namespace DartsModelsContext {
-    class DartsTournamentBuilder : public IDartsTournamentBuilder<IDartsTournament,QByteArray>
+namespace ModelsContext {
+    class CreateDartsTournamentFromJson : public ICreateModelFromString<IDartsTournament,QByteArray>
     {
     public:
-        const ModelInterface *create(const JsonFormat &json) override
+        const IDartsTournament *create(const QByteArray &json) override
+        {
+            auto jsonObject = createJsonObject(json);
+            auto tournamentModel = createModelFromJsonObject(jsonObject);
+            return tournamentModel;
+        }
+    private:
+        QJsonObject createJsonObject(const QByteArray &json)
         {
             auto document = QJsonDocument::fromJson(json);
             auto jsonObject = document.object();
+            return jsonObject;
+        }
+        const IDartsTournament *createModelFromJsonObject(const QJsonObject &jsonObject)
+        {
             auto dartsTournamentModel = DartsTournament::createInstance();
             dartsTournamentModel->setTitle(jsonObject.value("title").toString());
             dartsTournamentModel->setGameMode(jsonObject.value("gameMode").toInt());

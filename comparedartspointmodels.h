@@ -3,7 +3,7 @@
 
 #include "ipredicate.h"
 #include "dartspointinput.h"
-namespace DartsModelsContext {
+namespace ModelsContext {
     class CompareDartsPointModels : public IPredicateBuilder
     {
     public:

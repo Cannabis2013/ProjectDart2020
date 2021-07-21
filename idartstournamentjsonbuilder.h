@@ -3,6 +3,6 @@
 
 #include "itournamentjsonbuilder.h"
 #include "idartstournament.h"
-class IDartsTournamentJsonBuilder : public ITournamentJsonBuilder<ITournament,QByteArray>
+class IDartsTournamentJsonBuilder : public ITournamentJsonBuilder<IModel<QUuid>,QByteArray>
 {};
 #endif // ICREATEJSONFROMDARTSTOURNAMENT_H

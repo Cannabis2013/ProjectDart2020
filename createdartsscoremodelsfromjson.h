@@ -12,11 +12,11 @@ namespace DartsDbContext {
     class CreateDartsScoreModelsFromjson : public ICreateInputModelsFromJson
     {
     public:
-        virtual QVector<const IPlayerInput *> create(const QByteArray &json) const override
+        virtual QVector<const IModel<QUuid> *> create(const QByteArray &json) const override
         {
             auto jsonObject = createJsonobject(json);
             QJsonArray arr = jsonObject.value("DartsScoreModels").toArray();
-            QVector<const IPlayerInput*> list;
+            QVector<const IModel<QUuid>*> list;
             for (const auto& jsonValue : arr) {
                 auto jsonObject = jsonValue.toObject();
                 auto model = createModelFromJsonObject(jsonObject);
@@ -31,7 +31,7 @@ namespace DartsDbContext {
             auto obj = document.object();
             return obj;
         }
-        const DartsModelsContext::IDartsScoreInput* createModelFromJsonObject(const QJsonObject& jsonObject) const
+        const ModelsContext::IDartsScoreInput* createModelFromJsonObject(const QJsonObject& jsonObject) const
         {
             auto stringID = jsonObject["id"].toString();
             auto id = QUuid::fromString(stringID);
@@ -43,7 +43,7 @@ namespace DartsDbContext {
             auto setIndex = jsonObject["setIndex"].toInt();
             auto score = jsonObject.value("score").toInt();
             auto scoreHint = jsonObject["hint"].toInt();
-            auto pointModel = DartsModelsContext::DartsScoreInput::createInstance()
+            auto pointModel = ModelsContext::DartsScoreInput::createInstance()
                     ->setId(id)
                     ->setTournamentId(tournamentId)
                     ->setPlayerId(playerId)

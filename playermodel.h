@@ -5,7 +5,7 @@
 
 #include "iplayermodel.h"
 
-namespace DartsModelsContext {
+namespace ModelsContext {
     class PlayerModel : public IPlayerModel
     {
         // IPlayerModel interface

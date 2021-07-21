@@ -13,7 +13,7 @@ class CreateDartsTournamentsFromJson :
         public ICreateDartsTournamentModelsFromJson
 {
 public:
-    virtual QVector<const ITournament *> create(const QByteArray &json) const override
+    virtual QVector<const IModel<QUuid> *> create(const QByteArray &json) const override
     {
         auto obj = createJsonobject(json);
         return createModels(obj);
@@ -24,14 +24,14 @@ private:
         auto document = QJsonDocument::fromJson(json);
         return document.object();;
     }
-    QVector<const ITournament *> createModels(const QJsonObject &obj) const
+    QVector<const IModel<QUuid>*> createModels(const QJsonObject &obj) const
     {
         auto arr = createJsonArray(obj);
         return createModels(arr);
     }
-    const QVector<const ITournament*> createModels(const QJsonArray &arr) const
+    const QVector<const IModel<QUuid>*> createModels(const QJsonArray &arr) const
     {
-        QVector<const ITournament*> list;
+        QVector<const IModel<QUuid>*> list;
         for (const auto& jsonValue : arr)
             list << createModel(jsonValue);
         return list;
@@ -43,7 +43,7 @@ private:
     }
     const IDartsTournament* createModel(const QJsonValue& jsonValue) const
     {
-        using namespace DartsModelsContext;
+        using namespace ModelsContext;
         auto jsonObject = jsonValue.toObject();
         auto dartsTournamentModel = DartsTournament::createInstance();
         dartsTournamentModel->setId(QUuid(jsonObject.value("id").toString()));

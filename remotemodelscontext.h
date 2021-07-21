@@ -55,7 +55,7 @@ public:
     RemoteModelsContext();
     // AbstractModelsContext interface
     virtual void addDartsTournament(const QByteArray& json) override;
-    virtual void deleteTournaments(const QByteArray& json) override;
+    virtual void deleteTournaments(const QVector<int>& indexes) override;
     virtual void getOrderedDartsPoints(const QUuid &tournamentId) override;
     virtual void handleRequestTournaments() override;
     virtual void handleRequestGameMode(const int &index) override;
@@ -65,8 +65,7 @@ public:
     virtual void resetDartsPointTournament(const QUuid &tournament) override;
     virtual void createDartsKeyValues(const QUuid &tournament) override;
     virtual void createPlayer(const QByteArray& json) override;
-    virtual void deletePlayerFromIndex(const QByteArray& json) override;
-    virtual void deletePlayersFromIndexes(const QByteArray& json) override;
+    virtual void deletePlayersFromIndexes(const QVector<int> &indexes) override;
     virtual void handleRequestPlayersDetails() override;
     virtual void createDartsPointIndexes(const QUuid &tournament) override;
     void hideDartsPoint(const QUuid &, const QUuid &, const int &, const int &) override;

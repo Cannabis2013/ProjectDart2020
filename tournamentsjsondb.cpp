@@ -20,19 +20,19 @@ TournamentsJsonDb::TournamentsJsonDb(const QString &fileName):
 {
 }
 
-void TournamentsJsonDb::add(const Model *model)
+void TournamentsJsonDb::add(const IModel<QUuid> *model)
 {
     _dartsTournamentModels.append(model);
     saveState();
 }
 
-const TournamentsJsonDb::Model *TournamentsJsonDb::model(const int &index) const
+const IModel<QUuid> *TournamentsJsonDb::model(const int &index) const
 {
     auto model = _dartsTournamentModels.at(index);
     return model;
 }
 
-QVector<const TournamentsJsonDb::Model *> TournamentsJsonDb::models() const
+QVector<const IModel<QUuid> *> TournamentsJsonDb::models() const
 {
     return _dartsTournamentModels;
 }
@@ -44,13 +44,13 @@ bool TournamentsJsonDb::remove(const int &index)
     return true;
 }
 
-int TournamentsJsonDb::indexOf(const Model *model) const
+int TournamentsJsonDb::indexOf(const IModel<QUuid> *model) const
 {
     auto index = _dartsTournamentModels.indexOf(model);
     return index;
 }
 
-void TournamentsJsonDb::replace(const int &index, const Model *model)
+void TournamentsJsonDb::replace(const int &index, const IModel<QUuid> *model)
 {
     _dartsTournamentModels.replace(index,model);
     saveState();

@@ -1,13 +1,13 @@
-#ifndef DARTSMODELSSERVICE_H
-#define DARTSMODELSSERVICE_H
+#ifndef LOCALMODELSSERVICE_H
+#define LOCALMODELSSERVICE_H
 #include "abstractmodelsservice.h"
 #include "dartsinputservices.h"
 #include "dartstournamentservices.h"
 #include "playermodelsservices.h"
 #include "dartsutilityservices.h"
 
-namespace DartsModelsContext {
-    class DartsModelsService :
+namespace ModelsContext {
+    class LocalModelsService :
             public AbstractModelsService,
             public DartsTournamentServices,
             public DartsInputServices,
@@ -29,7 +29,7 @@ namespace DartsModelsContext {
         };
     public slots:
         //General tournaments methods
-        void deleteTournaments(const QByteArray &json) override;
+        void deleteTournaments(const QVector<int> &indexes) override;
         void handleRequestGameMode(const int &index) override;
         void handleRequestTournaments() override;
         void resetDartsPointTournament(const QUuid &tournamentId) override;
@@ -43,14 +43,10 @@ namespace DartsModelsContext {
         void addDartsPoint(const QByteArray& json) override;
         void createAssignedPlayerPoints(const QUuid &tournamentId) override;
         virtual void createDartsPointIndexes(const QUuid &tournamentId) override;
-        void hideDartsPoint(const QUuid& tournamentId,
-                                const QUuid& playerId,
-                                const int& roundIndex,
-                                const int& attemptIndex) override;
-        void revealPoint(const QUuid& tournamentId,
-                             const QUuid& playerId,
-                             const int& roundIndex,
-                             const int& attemptIndex) override;
+        void hideDartsPoint(const QUuid& tournamentId,const QUuid& playerId,
+                            const int& roundIndex,const int& attemptIndex) override;
+        void revealPoint(const QUuid& tournamentId,const QUuid& playerId,
+                         const int& roundIndex,const int& attemptIndex) override;
         //Darts multiattempt score methods
         void createAssignedPlayerScores(const QUuid &tournamentId) override;
         void createDartsScoreIndexes(const QUuid &tournamentId) override;
@@ -61,15 +57,14 @@ namespace DartsModelsContext {
         void createDartsKeyValues(const QUuid& tournament) override;
         // Player models context related methods
         void createPlayer(const QByteArray &json) override;
-        void deletePlayerFromIndex(const QByteArray& json) override;
-        void deletePlayersFromIndexes(const QByteArray& json) override;
+        void deletePlayersFromIndexes(const QVector<int> &indexes) override;
         void handleRequestPlayersDetails() override;
         void createAssignedPlayerEntities(const QUuid &tournamentId) override;
         void createDartsTournamentWinnerIdAndName(const QUuid &tournamentId) override;
     private:
-        void removeInputs(const QUuid &tournamentId, IDartsInputDb *dbService);
-        const IPlayerInput *createAndAddInput(const QByteArray &json, const IDartsCreateInput *createService, IDartsInputDb *dbService);
-        void removeHiddenInputs(const QUuid &tournamentId, IDartsInputDb *dbService);
+        void removeInputs(const QUuid &tournamentId, IDbService *dbService);
+        const IPlayerInput *createAndAddInput(const QByteArray &json, const IDartsCreateInput *createService, IDbService *dbService);
+        void removeHiddenInputs(const QUuid &tournamentId, IDbService *dbService);
     };
 }
-#endif // MODELCONTEXTINTERFACE_H
+#endif // LOCALMODELSSERVICE_H

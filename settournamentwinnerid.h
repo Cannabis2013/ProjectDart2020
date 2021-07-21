@@ -9,11 +9,10 @@ public:
                                      const QUuid &winnerId,
                                      const IGetDartsTournamentFromDb *getTournament,
                                      IAddPlayerDetailsToTournament *addToTournament,
-                                     IDartsTournamentDb *dbService) const override
+                                     IDbService *dbService) const override
     {
         auto dartsTournamentModel = getTournament->tournament(tournamentId,dbService);
         addToTournament->add(dartsTournamentModel,winnerId,dbService);
-
     }
 };
 

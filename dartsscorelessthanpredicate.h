@@ -4,7 +4,7 @@
 #include "dartsscoreinput.h"
 #include "ipredicate.h"
 
-namespace DartsModelsContext {
+namespace ModelsContext {
     class DartsScoreLessThanPredicate : public IPredicate<IPlayerInput>
     {
     public:

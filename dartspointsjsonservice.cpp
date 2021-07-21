@@ -1,9 +1,9 @@
 #include "dartspointsjsonservice.h"
 
-using namespace DartsModelsContext;
+using namespace ModelsContext;
 
 
-QByteArray DartsModelsCreateJsonFromPoints::createJson(const QVector<const IPlayerInput *> &models) const
+QByteArray DartsModelsCreateJsonFromPoints::createJson(const QVector<const IModel<QUuid> *> &models) const
 {
     QJsonArray pointsJsonArray;
     for (const auto& model : models) {

@@ -6,6 +6,6 @@
 #include <qbytearray.h>
 #include "iplayermodel.h"
 
-class IDartsPlayerJsonBuilder : public IPlayerJsonBuilder<DartsModelsContext::IPlayerModel,QUuid,QString, QByteArray>
+class IDartsPlayerJsonBuilder : public IPlayerJsonBuilder<IModel<QUuid>,QUuid,QString, QByteArray>
 {};
 #endif // ICREATEJSONFROMDARTSPLAYERCREDENTIALS_H

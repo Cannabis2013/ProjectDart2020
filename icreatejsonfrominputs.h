@@ -5,10 +5,10 @@
 #include "iplayerinput.h"
 #include <qvector.h>
 
-class ICreateJsonFromInputs : public ICreateJsonFrom<const QVector<const IPlayerInput*>&,QByteArray>
+class ICreateJsonFromInputs : public ICreateJsonFrom<const QVector<const IModel<QUuid>*>&,QByteArray>
 {
 public:
-    virtual QByteArray createJson(const QVector<const IPlayerInput*>& model) const override = 0;
+    virtual QByteArray createJson(const QVector<const IModel<QUuid>*>& model) const override = 0;
 };
 
 #endif // ICREATEJSONFROMDARTSINPUT_H

@@ -7,10 +7,12 @@
 #include "abstractdartscontroller.h"
 #include "iresponseinterface.h"
 
-class AbstractApplicationInterface : public QObject
+class AbstractApplicationInterface :
+        public QObject
 {
     Q_OBJECT
 public slots:
+    // Pure virtual slots
     virtual void handleSendGameModesRequest() const = 0;
     // Handle request for tournament meta information
     virtual void createDartsTournamentValues() = 0;
@@ -21,7 +23,7 @@ signals:
      * ApplicationInterface interface
      */
     void requestWakeUp();
-    void requestDeleteTournaments(const QByteArray& json);
+    void requestDeleteTournaments(const QVector<int>& indexes);
     void requestTournaments();
     void requestPlayers();
     void sendAssignedPlayerIndexes(const QVariantList &indexes,
@@ -39,10 +41,6 @@ signals:
     void requestOrderedDartsInputs();
     void requestDartsScores();
     void setCurrentActiveTournament(const int &index);
-    void sendDartsPoint(const QByteArray& json);
-    void sendDartsScore(const QByteArray& json);
-    void requestStartGame();
-    void requestStopGame();
     void requestTournamentReset();
     void requestControllerState();
     void requestUndo();
@@ -59,11 +57,14 @@ signals:
     void sendOrderedDartsPoints(const QByteArray& json);
     // Player signals
     void requestCreatePlayer(const QByteArray &json);
-    void requestDeletePlayer(const QByteArray& json);
-    void requestDeletePlayers(const QByteArray& json);
+    void requestDeletePlayers(const QVector<int> &indexes);
     void createPlayerResponse(const bool &status);
     void playersDeletedStatus(const bool &status);
     // Controller signals
+    void sendDartsPoint(const QByteArray& json);
+    void sendDartsScore(const QByteArray& json);
+    void requestStartGame();
+    void requestStopGame();
     void controllerIsStopped();
     void dartsPointMultiColumnsInitialized();
     void dartsPointSingleColumnInitialized();

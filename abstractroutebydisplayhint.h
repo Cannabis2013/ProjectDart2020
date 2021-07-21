@@ -4,7 +4,7 @@
 #include "abstractdartscontroller.h"
 #include "AbstractApplicationInterface.h"
 
-class AbstractRouteDartsByDisplayHint : public QObject
+class AbstractRouteByDisplayHint : public QObject
 {
     Q_OBJECT
 public slots:

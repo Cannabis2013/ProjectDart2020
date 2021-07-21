@@ -8,15 +8,14 @@
 #include <qjsonobject.h>
 #include <qjsonarray.h>
 
-namespace DartsModelsContext {
-    class DartsCreateJsonFromScores : public
-            IDartsCreateJsonFromScores
+namespace ModelsContext {
+    class DartsCreateJsonFromScores : public IDartsCreateJsonFromScores
     {
     public:
-        QByteArray createJson(const QVector<const IPlayerInput*> &) const override;
+        QByteArray createJson(const QVector<const IModel<QUuid>*> &) const override;
     private:
-        QJsonArray createJsonArray(const QVector<const IPlayerInput*> &models) const;
-        QJsonObject createJsonObject(const IPlayerInput* model) const;
+        QJsonArray createJsonArray(const QVector<const IModel<QUuid>*> &models) const;
+        QJsonObject createJsonObject(const IModel<QUuid>* model) const;
         QByteArray createByteArray(const QJsonArray &arr) const;
     };
 }

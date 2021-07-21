@@ -1,12 +1,12 @@
 #include "createdartsscoreindexes.h"
 
-using namespace DartsModelsContext;
+using namespace ModelsContext;
 
-const IDartsScoreIndexes *DartsModelsContext::CreateDartsScoreIndexes::createIndexes(const ITournament *tournament,
-                                                                                     const IGetInputModelsService *getInputsService,
-                                                                                     const ISortInputModels *sortInputsService,
-                                                                                     const ICountInputModels *countInputsService,
-                                                                                     const IDartsInputDb *dbService) const
+const IDartsScoreIndexes *ModelsContext::CreateDartsScoreIndexes::createIndexes(const IModel<QUuid> *tournament,
+                                                                                const IGetInputModelsService *getInputsService,
+                                                                                const ISortInputModels *sortInputsService,
+                                                                                const ICountInputModels *countInputsService,
+                                                                                const IDbService *dbService) const
 {
     auto models = getInputsService->inputModels(tournament->id(),DisplayHint,dbService);
     auto orderedModels = sortInputsService->sort(models,new SortDartsScoreInputsByIndexes);
@@ -16,8 +16,8 @@ const IDartsScoreIndexes *DartsModelsContext::CreateDartsScoreIndexes::createInd
     return createInitialDartsIndexes();
 }
 
-const IDartsScoreIndexes *CreateDartsScoreIndexes::createDartsIndexesByModels(const ITournament *tournament,
-                                                                              const QVector<const IPlayerInput *> &orderedModels,
+const IDartsScoreIndexes *CreateDartsScoreIndexes::createDartsIndexesByModels(const IModel<QUuid> *tournament,
+                                                                              const QVector<const IModel<QUuid> *> &orderedModels,
                                                                               const int &totalModelsCount) const
 {
     auto dartsTournament = dynamic_cast<const IDartsTournament*>(tournament);

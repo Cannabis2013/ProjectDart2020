@@ -3,7 +3,7 @@
 
 #include "idartspointindexes.h"
 
-namespace DartsModelsContext{
+namespace ModelsContext{
     class DartsPointIndexes : public IDartsPointIndexes
     {
     public:

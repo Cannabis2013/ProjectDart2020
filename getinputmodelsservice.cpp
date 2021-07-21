@@ -1,18 +1,18 @@
 #include "getinputmodelsservice.h"
 
-using namespace DartsModelsContext;
+using namespace ModelsContext;
 
-QVector<const IPlayerInput *> GetInputModelsService::inputModels(const QUuid &tournamentId,
-                                                                 const IDartsInputDb *dbService) const
+QVector<const IModel<QUuid>*> GetInputModelsService::inputModels(const QUuid &tournamentId,
+                                                                 const IDbService *dbService) const
 {
     const auto& models = dbService->models();
     auto tournamentInputs = getModels(tournamentId,models);
     return tournamentInputs;
 }
 
-QVector<const IPlayerInput *> GetInputModelsService::inputModels(const QUuid &tournamentId,
+QVector<const IModel<QUuid>*> GetInputModelsService::inputModels(const QUuid &tournamentId,
                                                                  const int &hint,
-                                                                 const IDartsInputDb *dbService) const
+                                                                 const IDbService *dbService) const
 {
     auto models = inputModels(tournamentId,dbService);
     auto tournamentInputs = getModels(tournamentId,models);
@@ -20,23 +20,25 @@ QVector<const IPlayerInput *> GetInputModelsService::inputModels(const QUuid &to
     return inputsByHint;
 }
 
-QVector<const IPlayerInput *> GetInputModelsService::getModels(const QUuid &tournamentId,
-                                                               const QVector<const IPlayerInput *> &models) const
+QVector<const IModel<QUuid>*> GetInputModelsService::getModels(const QUuid &tournamentId,
+                                                               const QVector<const IModel<QUuid>*> &models) const
 {
-    QVector<const IPlayerInput*> list;
+    QVector<const IModel<QUuid>*> list;
     for (const auto& model : models) {
-        if(model->tournamentId() == tournamentId)
+        auto inputModel = dynamic_cast<const IPlayerInput*>(model);
+        if(inputModel->tournamentId() == tournamentId)
             list << model;
     }
     return list;
 }
 
-QVector<const IPlayerInput *> GetInputModelsService::getModels(const int &hint,
-                                                               const QVector<const IPlayerInput*> &models) const
+QVector<const IModel<QUuid>*> GetInputModelsService::getModels(const int &hint,
+                                                               const QVector<const IModel<QUuid>*> &models) const
 {
-    QVector<const IPlayerInput*> list;
+    QVector<const IModel<QUuid>*> list;
     for (const auto& model : models) {
-        if(model->hint() == hint)
+        auto inputModel = dynamic_cast<const IPlayerInput*>(model);
+        if(inputModel->hint() == hint)
             list << model;
     }
     return list;

@@ -2,7 +2,7 @@
 
 using namespace DartsDbContext;
 
-QVector<const IPlayerInput*> CreateDartsPointsFromJson::create(const QByteArray &json) const
+QVector<const IModel<QUuid> *> CreateDartsPointsFromJson::create(const QByteArray &json) const
 {
     auto arr = createArray(json);
     return createInputsFromJsonArray(arr);
@@ -15,9 +15,9 @@ const QJsonArray CreateDartsPointsFromJson::createArray(const QByteArray &json) 
     return obj.value("DartsPointInputs").toArray();
 }
 
-QVector<const IPlayerInput *> CreateDartsPointsFromJson::createInputsFromJsonArray(const QJsonArray &arr) const
+QVector<const IModel<QUuid>*> CreateDartsPointsFromJson::createInputsFromJsonArray(const QJsonArray &arr) const
 {
-    QVector<const IPlayerInput*> list;
+    QVector<const IModel<QUuid>*> list;
     for (const auto& jsonValue : arr)
         list << createInputFromJsonValue(jsonValue);
     return list;
@@ -29,7 +29,7 @@ const IPlayerInput *CreateDartsPointsFromJson::createInputFromJsonValue(const QJ
     return  createModelFromJsonObject(jsonObject);
 }
 
-const DartsModelsContext::DartsPointInput *CreateDartsPointsFromJson::createModelFromJsonObject(const QJsonObject &jsonObject) const
+const ModelsContext::DartsPointInput *CreateDartsPointsFromJson::createModelFromJsonObject(const QJsonObject &jsonObject) const
 {
     auto stringID = jsonObject["id"].toString();
     auto id = QUuid::fromString(stringID);
@@ -44,7 +44,7 @@ const DartsModelsContext::DartsPointInput *CreateDartsPointsFromJson::createMode
     auto score = jsonObject.value("score").toInt();
     auto keyCode = jsonObject["keyCode"].toInt();
     auto scoreHint = jsonObject["hint"].toInt();
-    auto pointModel = DartsModelsContext::DartsPointInput::createInstance()
+    auto pointModel = ModelsContext::DartsPointInput::createInstance()
             ->setId(id)
             ->setTournament(tournamentId)
             ->setPlayerId(playerId)

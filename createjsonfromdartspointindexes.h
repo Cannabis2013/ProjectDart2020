@@ -5,7 +5,7 @@
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 #include <qjsonarray.h>
-namespace DartsModelsContext {
+namespace ModelsContext {
     class CreateJsonFromDartsPointIndexes : public ICreateJsonfromDartsPointIndexes
     {
     public:

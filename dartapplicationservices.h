@@ -3,35 +3,32 @@
 
 #include <abstractdartscontrollerbuilder.h>
 #include <abstractroutebyinputhint.h>
-#include <abstractroutedartsbydisplayhint.h>
-#include <iconnectdartspointcontroller.h>
-#include <iconnectdartsscorecontroller.h>
-#include <iconnectmodelsinterface.h>
-#include <iconnectroutebydisplayhint.h>
-#include <iconnectroutebyinputhint.h>
-#include <iconnectroutetodartsbuilder.h>
-#include "iconnectroutebygamemode.h"
+#include <abstractroutebydisplayhint.h>
+#include <iconnectcontroller.h>
+#include "iconnectservicesprovider.h"
+#include "irouteservicesprovider.h"
 
 class DartApplicationServices
 {
+public:
+    AbstractModelsService *modelsService() const;
+    AbstractGameController *gameController() const;
+    AbstractDartsControllerBuilder *createDartsPointController() const;
+    AbstractDartsControllerBuilder *createDartsScoreController() const;
+    IConnectServicesProvider *connectServices() const;
+    IRouteServicesProvider *routeServices() const;
 protected:
+    // Models services
+    AbstractModelsService* _modelsService;
+    // Controller service
+    AbstractGameController *_gameController = nullptr;
     // Builders
-    AbstractDartsControllerBuilder *_dartsPointBuilder;
-    AbstractDartsControllerBuilder *_dartsScoreBuilder;
-    // Route services
-    AbstractRouteByGameMode* _routeTournamentByGameMode;
-    AbstractRouteByInputHint* _routeDartsControllerByInputHint;
-    AbstractRouteDartsByDisplayHint* _routeDartsControllerByDisplayHint;
-    // Connect route services
-    IConnectRouteByGameMode *_connectRouteByGameMode;
-    IConnectRouteByInputHint *_connectRouteByInputHint;
-    IConnectRouteByDisplayHint *_connectRouteByDisplayHint;
+    AbstractDartsControllerBuilder *_createDartsPointController;
+    AbstractDartsControllerBuilder *_createDartsScoreController;
     // Connect darts controller services
-    IConnectRouteToDartsBuilder *_connectDartsPointBuilder;
-    IConnectRouteToDartsBuilder *_connectDartsScoreBuilder;
-    IConnectDartsPointController* _connectDartsPointController;
-    IConnectDartsScoreController* _connectDartsScoreController;
-    IConnectModelsInterface* _connectModelsServiceInterface;
+    IConnectServicesProvider *_connectServices;
+    IRouteServicesProvider *_routeServices;
+
 };
 
 #endif // DARTAPPLICATIONSERVICES_H

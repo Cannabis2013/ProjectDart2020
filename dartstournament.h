@@ -9,7 +9,7 @@
 #include <qjsonobject.h>
 #include <qjsonarray.h>
 
-namespace DartsModelsContext{
+namespace ModelsContext{
     class DartsTournament : public IDartsTournament
     {
     public:

@@ -4,7 +4,7 @@
 #include "idartsinput.h"
 #include <quuid.h>
 
-namespace DartsModelsContext {
+namespace ModelsContext {
     class IDartsScoreInput :
             public IDartsInput
     {

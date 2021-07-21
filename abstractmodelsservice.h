@@ -19,7 +19,7 @@ public:
      * Darts general methods
      */
     virtual void addDartsTournament(const QByteArray& json) = 0;
-    virtual void deleteTournaments(const QByteArray& json) = 0;
+    virtual void deleteTournaments(const QVector<int>& indexes) = 0;
     virtual void getOrderedDartsPoints(const QUuid &tournament) = 0;
     virtual void handleRequestTournaments() = 0;
     virtual void handleRequestGameMode(const int &index) = 0;
@@ -56,8 +56,7 @@ public:
      * Player-models context interface..
      */
     virtual void createPlayer(const QByteArray &json) = 0;
-    virtual void deletePlayerFromIndex(const QByteArray& json)= 0;
-    virtual void deletePlayersFromIndexes(const QByteArray& json)= 0;
+    virtual void deletePlayersFromIndexes(const QVector<int>& indexes)= 0;
     virtual void handleRequestPlayersDetails() = 0;
 
 signals:

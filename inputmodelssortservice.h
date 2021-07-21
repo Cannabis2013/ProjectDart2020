@@ -3,20 +3,21 @@
 
 #include "isortinputmodels.h"
 #include "idartsscoreinput.h"
-#include "idartsinputdb.h"
+#include "idbservice.h"
 #include <quuid.h>
 #include "ipredicate.h"
 
-namespace DartsModelsContext
+namespace ModelsContext
 {
     class InputModelsSortService : public ISortInputModels
     {
         // IBinaryService interface
     public:
-        typedef IPredicate<IPlayerInput> Predicate;
-        QVector<const IPlayerInput *> sort(const QVector<const IPlayerInput *> &unsortedInputs, const IPredicate<IPlayerInput> *predicate) const override
+        typedef IPredicate<IModel<QUuid>> Predicate;
+        QVector<const IModel<QUuid>*> sort(const QVector<const IModel<QUuid>*> &unsortedInputs,
+                                           const IPredicate<IModel<QUuid>> *predicate) const override
         {
-            QVector<const IPlayerInput*> sortedList = unsortedInputs;
+            QVector<const IModel<QUuid>*> sortedList = unsortedInputs;
             std::sort(sortedList.begin(),sortedList.end(),ComparePredicate(predicate));
             return sortedList;
         }
@@ -26,7 +27,7 @@ namespace DartsModelsContext
         public:
             ComparePredicate(const Predicate* predicate):
                 _predicate(predicate){}
-            bool operator()(const IPlayerInput* _first, const IPlayerInput* _second)
+            bool operator()(const IModel<QUuid>* _first, const IModel<QUuid>* _second)
             {
                 return _predicate->operator()(_first,_second);
             }

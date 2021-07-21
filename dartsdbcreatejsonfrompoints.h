@@ -13,10 +13,10 @@ namespace DartsDbContext {
     class DartsDbCreatejsonFromPoints : public ICreateJsonFromInputs
     {
     public:
-        virtual QByteArray createJson(const QVector<const IPlayerInput*> &models) const override;
+        virtual QByteArray createJson(const QVector<const IModel<QUuid>*> &models) const override;
     private:
-        QJsonArray createJsonArray(const QVector<const IPlayerInput*> &models) const;
-        QJsonObject createJsonObject(const IPlayerInput* model) const;
+        QJsonArray createJsonArray(const QVector<const IModel<QUuid>*> &models) const;
+        QJsonObject createJsonObject(const IModel<QUuid>* model) const;
         QByteArray createByteArray(const QJsonArray &arr) const;
         const QString _key = "DartsPointInputs";
     };

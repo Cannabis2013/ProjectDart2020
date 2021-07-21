@@ -1,8 +1,8 @@
 #include "connectdartspointcontroller.h"
 
-void ConnectDartsPointController::connectController(AbstractDartsController *controller,
-                                                                 AbstractApplicationInterface *application,
-                                                                 AbstractModelsService *modelsService, AbstractRouteDartsByDisplayHint *routeService)
+void ConnectDartsPointController::connectController(AbstractGameController *controller,
+                                                    AbstractApplicationInterface *application,
+                                                    AbstractModelsService *modelsService, AbstractRouteByDisplayHint *routeService)
 {
     auto dartsPointController = static_cast<AbstractDartsPointController*>(controller);
     // Send tournament metadata
@@ -31,7 +31,7 @@ void ConnectDartsPointController::connectController(AbstractDartsController *con
      * Route by displayhint
      */
     QObject::connect(dartsPointController,&AbstractDartsPointController::controllerInitialized,
-            routeService,&AbstractRouteDartsByDisplayHint::determineDartsPointRouteByDisplayHint);
+            routeService,&AbstractRouteByDisplayHint::determineDartsPointRouteByDisplayHint);
     // Controller requests transmitting single attempt playerpoints
     QObject::connect(application,&AbstractApplicationInterface::requestOrderedDartsInputs,
             dartsPointController,&AbstractDartsPointController::requestOrderedDartsPoints);

@@ -1,14 +1,14 @@
 #include "dartscreatejsonfromscores.h"
 
-using namespace DartsModelsContext;
+using namespace ModelsContext;
 
-QByteArray DartsCreateJsonFromScores::createJson(const QVector<const IPlayerInput*> &models) const
+QByteArray DartsCreateJsonFromScores::createJson(const QVector<const IModel<QUuid> *> &models) const
 {
     auto arr = createJsonArray(models);
     return createByteArray(arr);
 }
 
-QJsonArray DartsCreateJsonFromScores::createJsonArray(const QVector<const IPlayerInput *> &models) const
+QJsonArray DartsCreateJsonFromScores::createJsonArray(const QVector<const IModel<QUuid> *> &models) const
 {
     QJsonArray arr;
     for (const auto& model : models)
@@ -16,7 +16,7 @@ QJsonArray DartsCreateJsonFromScores::createJsonArray(const QVector<const IPlaye
     return arr;
 }
 
-QJsonObject DartsCreateJsonFromScores::createJsonObject(const IPlayerInput *model) const
+QJsonObject DartsCreateJsonFromScores::createJsonObject(const IModel<QUuid> *model) const
 {
     auto dartsScoreInput = dynamic_cast<const IDartsScoreInput*>(model);
     QJsonObject dartsScoreJsonObject;

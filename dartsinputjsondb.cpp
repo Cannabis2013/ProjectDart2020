@@ -5,21 +5,21 @@ namespace DartsDbContext{
     {
     }
 
-    void DartsInputJsonDb::add(const Model *model)
+    void DartsInputJsonDb::add(const IModel<QUuid> *model)
     {
         _dartsScoreModels << model;
         saveState();
     }
 
-    const IPlayerInput *DartsInputJsonDb::model(const int &index) const
+    const IModel<QUuid> *DartsInputJsonDb::model(const int &index) const
     {
         auto model = _dartsScoreModels.at(index);
         return model;
     }
 
-    QVector<const DartsInputJsonDb::Model *> DartsInputJsonDb::models() const
+    QVector<const IModel<QUuid> *> DartsInputJsonDb::models() const
     {
-        QVector<const Model*> list;
+        QVector<const IModel<QUuid>*> list;
         for (const auto& model : _dartsScoreModels)
             list << model;
         return list;
@@ -34,13 +34,13 @@ namespace DartsDbContext{
         return true;
     }
 
-    int DartsInputJsonDb::indexOf(const Model *model) const
+    int DartsInputJsonDb::indexOf(const IModel<QUuid> *model) const
     {
         auto indexOfModel = _dartsScoreModels.indexOf(model);
         return indexOfModel;
     }
 
-    void DartsInputJsonDb::replace(const int& index, const Model *model)
+    void DartsInputJsonDb::replace(const int& index, const IModel<QUuid> *model)
     {
         _dartsScoreModels.replace(index,model);
         saveState();

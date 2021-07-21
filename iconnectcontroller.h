@@ -4,15 +4,15 @@
 #include "abstractdartspointcontroller.h"
 #include "AbstractApplicationInterface.h"
 #include "abstractmodelsservice.h"
-#include "abstractroutedartsbydisplayhint.h"
+#include "abstractroutebydisplayhint.h"
 
-class IConnectDartsPointController
+class IConnectController
 {
 public:
-    virtual void connectController(AbstractDartsController* controller,
+    virtual void connectController(AbstractGameController* controller,
                                    AbstractApplicationInterface* application,
                                    AbstractModelsService* modelsService,
-                                   AbstractRouteDartsByDisplayHint* routeService) = 0;
+                                   AbstractRouteByDisplayHint* routeService) = 0;
 };
 
 #endif // ICONNECTDARTSPOINTCONTROLLER_H

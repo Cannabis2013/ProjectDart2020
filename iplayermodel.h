@@ -4,8 +4,8 @@
 #include "imodel.h"
 #include <quuid.h>
 #include <qstring.h>
-namespace DartsModelsContext {
-    class IPlayerModel : public IModel<QUuid,QByteArray>
+namespace ModelsContext {
+    class IPlayerModel : public IModel<QUuid>
     {
     public:
         virtual QString playerName() const = 0;

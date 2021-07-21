@@ -1,13 +1,13 @@
 #ifndef ICONNECTROUTEBYDISPLAYHINT_H
 #define ICONNECTROUTEBYDISPLAYHINT_H
 
-#include "abstractroutedartsbydisplayhint.h"
+#include "abstractroutebydisplayhint.h"
 #include "AbstractApplicationInterface.h"
 
 class IConnectRouteByDisplayHint
 {
 public:
-    virtual void connectServices(AbstractRouteDartsByDisplayHint* routeService,
+    virtual void connectServices(AbstractRouteByDisplayHint* routeService,
                                  AbstractApplicationInterface* applicationService) = 0;
 
 };

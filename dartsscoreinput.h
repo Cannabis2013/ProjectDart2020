@@ -3,7 +3,7 @@
 
 #include "idartsscoreinput.h"
 
-namespace DartsModelsContext {
+namespace ModelsContext {
     class DartsScoreInput : public IDartsScoreInput
     {
     public:

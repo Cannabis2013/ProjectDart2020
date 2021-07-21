@@ -4,7 +4,7 @@
 #include "ibinaryservice.h"
 #include "idartsscoreinput.h"
 
-namespace DartsModelsContext
+namespace ModelsContext
 {
     class SetDartsModelHint :
             public IBinaryService<const IDartsInput*,const int&,const IDartsInput*>

@@ -6,7 +6,7 @@
 class ConnectRouteByDisplayHint : public IConnectRouteByDisplayHint
 {
 public:
-    void connectServices(AbstractRouteDartsByDisplayHint *routeService,
+    void connectServices(AbstractRouteByDisplayHint *routeService,
                          AbstractApplicationInterface *applicationService) override
     {
         connectPointControllers(routeService,applicationService);
@@ -14,20 +14,20 @@ public:
     }
 
 private:
-    void connectPointControllers(AbstractRouteDartsByDisplayHint *routeService,
+    void connectPointControllers(AbstractRouteByDisplayHint *routeService,
                                  AbstractApplicationInterface *applicationService)
     {
-        QObject::connect(routeService,&AbstractRouteDartsByDisplayHint::dartsPointSingleColumnInitialized,
+        QObject::connect(routeService,&AbstractRouteByDisplayHint::dartsPointSingleColumnInitialized,
                          applicationService,&AbstractApplicationInterface::dartsPointSingleColumnInitialized);
-        QObject::connect(routeService,&AbstractRouteDartsByDisplayHint::dartsPointMultiColumnInitialized,
+        QObject::connect(routeService,&AbstractRouteByDisplayHint::dartsPointMultiColumnInitialized,
                          applicationService,&AbstractApplicationInterface::dartsPointMultiColumnsInitialized);
     }
-    void connectScoreControllers(AbstractRouteDartsByDisplayHint *routeService,
+    void connectScoreControllers(AbstractRouteByDisplayHint *routeService,
                                  AbstractApplicationInterface *applicationService)
     {
-        QObject::connect(routeService,&AbstractRouteDartsByDisplayHint::dartsScoreSingleColumnInitialized,
+        QObject::connect(routeService,&AbstractRouteByDisplayHint::dartsScoreSingleColumnInitialized,
                          applicationService,&AbstractApplicationInterface::dartsScoreSingleColumnInitialized);
-        QObject::connect(routeService,&AbstractRouteDartsByDisplayHint::dartsScoreMultiColumnInitialized,
+        QObject::connect(routeService,&AbstractRouteByDisplayHint::dartsScoreMultiColumnInitialized,
                          applicationService,&AbstractApplicationInterface::dartsScoreMultiColumnInitialized);
     }
 };

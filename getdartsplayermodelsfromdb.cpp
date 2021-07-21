@@ -1,7 +1,7 @@
 #include "getdartsplayermodelsfromdb.h"
 
 const GetDartsPlayerModelsFromDb::PlayerModel *GetDartsPlayerModelsFromDb::playerModel(const int &index,
-                                                                                const DbService *dbService) const
+                                                                                       const DbService *dbService) const
 {
     auto model = dbService->model(index);
     return model;

@@ -5,13 +5,13 @@
 #include "createjsonfromplayermodels.h"
 #include "createplayersfromjson.h"
 
-class PlayerModelsLocalJsonDb : public DartsModelsContext::PlayerModelsJsonDb
+class PlayerModelsLocalJsonDb : public ModelsContext::PlayerModelsJsonDb
 {
 public:
     PlayerModelsLocalJsonDb():
-        DartsModelsContext::PlayerModelsJsonDb("Players")
+        ModelsContext::PlayerModelsJsonDb("Players")
     {
-        using namespace DartsModelsContext;
+        using namespace ModelsContext;
         _createJsonFromModels = new CreateJsonFromPlayerModels;
         _createPlayerModels = new CreatePlayersFromJson;
         fetchModels();

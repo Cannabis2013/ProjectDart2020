@@ -1,9 +1,9 @@
-#ifndef JSONDARTSMODELSSERVICE_H
-#define JSONDARTSMODELSSERVICE_H
-
-#include "dartsmodelsservice.h"
+#ifndef JSONMODELSSERVICE_H
+#define JSONMODELSSERVICE_H
+#include "localmodelsservice.h"
 // Genereic models includes
 #include "removeinputsfromdb.h"
+#include "removemodelsfromdb.h"
 // Input models includes
 #include "dartspointjsondb.h"
 #include "dartsinputjsondb.h"
@@ -34,10 +34,10 @@
 #include "playermodelslocaljsondb.h"
 #include "getdatafromplayermodels.h"
 // Tournament models includes
-#include "removetournamentsfromdb.h"
+#include "removemodelsfromdb.h"
 #include "adddetailstotournamentjson.h"
 #include "tournamentsjsondb.h"
-#include "dartstournamentbuilder.h"
+#include "createdartstournamentfromjson.h"
 #include "dartstournamentjsonbuilder.h"
 #include "dartstournamentsjsondb.h"
 #include "getdartstournamentfromdb.h"
@@ -50,13 +50,11 @@
 #include "dartscreatescoremodel.h"
 #include "gettournamentwinner.h"
 #include "settournamentwinnerid.h"
-// Db utilities
-#include "dbgetindexesfromjson.h"
 
-class JsonDartsModelsService : public DartsModelsContext::DartsModelsService
+class JsonModelsService : public ModelsContext::LocalModelsService
 {
 public:
-    JsonDartsModelsService();
+    JsonModelsService();
 private:
     void setPlayerRelatedServices();
     void setModelUtilityServices();
@@ -65,7 +63,6 @@ private:
     void setPointInputServices();
     void setInputDbUtilityServices();
     void setModelsServices();
-    void setUtilitiyServices();
 };
 
 #endif // DARTSMODELSSERVICEWITHJSONDB_H

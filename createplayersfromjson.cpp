@@ -1,9 +1,9 @@
 #include "createplayersfromjson.h"
 
-QVector<const DartsModelsContext::IPlayerModel*> CreatePlayersFromJson::create(const QByteArray &json) const
+QVector<const IModel<QUuid> *> CreatePlayersFromJson::create(const QByteArray &json) const
 {
     auto arr = createArray(json);
-    QVector<const DartsModelsContext::IPlayerModel*> playerModels;
+    QVector<const IModel<QUuid>*> playerModels;
     for (auto i = arr.begin();i != arr.end();i++) {
         auto JSONValue = *i;
         auto jsonObject = JSONValue.toObject();
@@ -11,7 +11,7 @@ QVector<const DartsModelsContext::IPlayerModel*> CreatePlayersFromJson::create(c
         auto playerId = QUuid::fromString(stringID);
         auto playerName = jsonObject.value("UserName").toString();
         auto mail = jsonObject.value("Mail").toString();
-        auto model = DartsModelsContext::PlayerModel::createInstance()
+        auto model = ModelsContext::PlayerModel::createInstance()
                 ->setId(playerId)
                 ->setUserName(playerName)
                 ->setEmail(mail);

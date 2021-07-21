@@ -1,6 +1,6 @@
 #include "connectdartsscorecontroller.h"
 
-void ConnectDartsScoreController::connectController(AbstractGameController *controller, AbstractApplicationInterface *application, AbstractModelsService *modelsService, AbstractRouteDartsByDisplayHint *routeService)
+void ConnectDartsScoreController::connectController(AbstractGameController *controller, AbstractApplicationInterface *application, AbstractModelsService *modelsService, AbstractRouteByDisplayHint *routeService)
 {
     auto dartsScorecontroller = dynamic_cast<AbstractDartsScoreController*>(controller);
     // Send tournament metadata
@@ -26,7 +26,7 @@ void ConnectDartsScoreController::connectController(AbstractGameController *cont
     QObject::connect(modelsService,&AbstractModelsService::sendDartsTournamentWinnerIdAndName,
                      dartsScorecontroller,&AbstractDartsScoreController::initializeControllerWinnerIdAndName);
     QObject::connect(dartsScorecontroller,&AbstractDartsScoreController::controllerInitialized,
-                     routeService,&AbstractRouteDartsByDisplayHint::determineDartsScoreRouteByDisplayHint);
+                     routeService,&AbstractRouteByDisplayHint::determineDartsScoreRouteByDisplayHint);
     /*
      * UI requests multi attempt playerscores
      */

@@ -4,7 +4,7 @@
 #include "iplayermodelbuilder.h"
 #include "iplayermodel.h"
 
-class IDartsPlayerModelBuilder : public IPlayerModelBuilder<DartsModelsContext::IPlayerModel,QByteArray>
+class IDartsPlayerModelBuilder : public IPlayerModelBuilder<ModelsContext::IPlayerModel,QByteArray>
 {};
 
 #endif // IDEFAULTPLAYERMODELBUILDER_H

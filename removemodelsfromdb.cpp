@@ -1,8 +1,8 @@
-#include "removetournamentsfromdb.h"
+#include "removemodelsfromdb.h"
 
-using namespace DartsModelsContext;
+using namespace ModelsContext;
 
-bool DartsModelsContext::RemoveTournamentsFromDb::removeTournamentsByIndexes(const QVector<int> &indexes, IDartsTournamentDb *dbService) const
+bool ModelsContext::RemoveModelsFromDb::remove(const QVector<int> &indexes, IDbService *dbService) const
 {
     auto r = true;
     auto startIndex = indexes.count() - 1;

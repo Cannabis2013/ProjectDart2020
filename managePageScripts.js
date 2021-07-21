@@ -56,11 +56,7 @@ function requestDeletePlayerPopUp()
 }
 function deletePlayersAccepted(){
     var indexes = playersListView.currentIndexes();
-    var obj = {
-        indexes : indexes
-    }
-    var json = JSON.stringify(obj);
-    applicationInterface.requestDeletePlayers(json);
+    applicationInterface.requestDeletePlayers(indexes);
 }
 
 function recievePlayersDeletedStatusFromBackend(status)
@@ -87,11 +83,8 @@ function requestDeleteTournamentPopUp()
 
 function deleteTournamentsAccepted()
 {
-    var obj = {
-        indexes : tournamentListView.currentIndexes
-    };
-    var json = JSON.stringify(obj);
-    applicationInterface.requestDeleteTournaments(json);
+    var inexes = tournamentListView.currentIndexes;
+    applicationInterface.requestDeleteTournaments(indexes);
 }
 
 function handleDeleteTournamentsSuccess(status)

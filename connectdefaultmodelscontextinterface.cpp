@@ -48,8 +48,6 @@ void ConnectDefaultModelsContextInterface::connect(AbstractApplicationInterface 
     /*
      * Delete player{s}
      */
-    QObject::connect(application,&AbstractApplicationInterface::requestDeletePlayer,
-            modelsService,&AbstractModelsService::deletePlayerFromIndex);
     QObject::connect(application,&AbstractApplicationInterface::requestDeletePlayers,
             modelsService,&AbstractModelsService::deletePlayersFromIndexes);
     QObject::connect(modelsService,&AbstractModelsService::playersDeletedStatus,

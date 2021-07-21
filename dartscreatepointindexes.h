@@ -6,7 +6,7 @@
 #include "idartstournament.h"
 #include "sortdartspointinputsbyindexes.h"
 
-namespace DartsModelsContext {
+namespace ModelsContext {
     class DartsCreatePointIndexes : public IDartsCreateIndexes<IDartsPointIndexes>
     {
     public:
@@ -15,13 +15,13 @@ namespace DartsModelsContext {
             DisplayHint = 0x2,
             allHints = HiddenHint | DisplayHint
         };
-        virtual const IDartsPointIndexes *createIndexes(const ITournament *tournament,
+        virtual const IDartsPointIndexes *createIndexes(const IModel<QUuid> *tournament,
                                                         const IGetInputModelsService *getInputsService,
                                                         const ISortInputModels *sortInputsService,
                                                         const ICountInputModels *countInputsService,
-                                                        const IDartsInputDb *dbService) const override;
+                                                        const IDbService *dbService) const override;
     private:
-        const IDartsPointIndexes* createDartsIndexesByModels(const ITournament *tournament, const QVector<const IPlayerInput*>& orderedModels, const int &totalInputModelsCount) const;;
+        const IDartsPointIndexes* createDartsIndexesByModels(const IModel<QUuid> *tournament, const QVector<const IModel<QUuid> *> &orderedModels, const int &totalInputModelsCount) const;;
         const IDartsPointIndexes* createInitialDartsIndexes() const;
     };
 }

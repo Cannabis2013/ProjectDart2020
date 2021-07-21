@@ -18,7 +18,7 @@ public:
         };
         auto document = QJsonDocument::fromJson(json);
         auto jsonObject = document.object();
-        auto model = DartsModelsContext::DartsScoreInput::createInstance();
+        auto model = ModelsContext::DartsScoreInput::createInstance();
         model->setScore(jsonObject.value("score").toInt());
         model->setRoundIndex(jsonObject.value("roundIndex").toInt());
         model->setSetIndex(jsonObject.value("setIndex").toInt());

@@ -1,6 +1,6 @@
 #include "playermodelsjsondb.h"
 
-using namespace DartsModelsContext;
+using namespace ModelsContext;
 
 void PlayerModelsJsonDb::fetchModels()
 {
@@ -16,12 +16,12 @@ void PlayerModelsJsonDb::saveState()
     writeJsonObjectToFile(_createJsonFromModels->createJson(_playerModels),_fileName);
 }
 
-QVector<const IPlayerModel *> PlayerModelsJsonDb::models() const
+QVector<const IModel<QUuid> *> PlayerModelsJsonDb::models() const
 {
     return _playerModels;
 }
 
-void PlayerModelsJsonDb::add(const IPlayerModel *player)
+void PlayerModelsJsonDb::add(const IModel<QUuid> *player)
 {
     _playerModels.append(player);
     saveState();
@@ -34,19 +34,19 @@ bool PlayerModelsJsonDb::remove(const int &index)
     return true;
 }
 
-int PlayerModelsJsonDb::indexOf(const IPlayerModel *player) const
+int PlayerModelsJsonDb::indexOf(const IModel<QUuid> *player) const
 {
     auto index = _playerModels.indexOf(player);
     return index;
 }
 
-void PlayerModelsJsonDb::replace(const int &index, const IPlayerModel *player)
+void PlayerModelsJsonDb::replace(const int &index, const IModel<QUuid> *player)
 {
     _playerModels.replace(index,player);
     saveState();
 }
 
-const IPlayerModel *PlayerModelsJsonDb::model(const int &index) const
+const IModel<QUuid> *PlayerModelsJsonDb::model(const int &index) const
 {
     auto count = _playerModels.count();
     if(index >= count)

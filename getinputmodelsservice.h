@@ -5,15 +5,17 @@
 #include "iplayerinput.h"
 #include "imodelsdbcontext.h"
 
-namespace DartsModelsContext {
+namespace ModelsContext {
     class GetInputModelsService : public IGetInputModelsService
     {
     public:
-        QVector<const IPlayerInput*> inputModels(const QUuid &tournamentId, const IDartsInputDb *dbService) const override;
-        QVector<const IPlayerInput*> inputModels(const QUuid &tournamentId, const int &hint, const IDartsInputDb *dbService) const override;
+        QVector<const IModel<QUuid> *> inputModels(const QUuid &tournamentId,
+                                                 const IDbService *dbService) const override;
+        QVector<const IModel<QUuid>*> inputModels(const QUuid &tournamentId, const int &hint,
+                                                 const IDbService *dbService) const override;
     private:
-        QVector<const IPlayerInput*> getModels(const QUuid &tournamentId, const QVector<const IPlayerInput *> &models) const;
-        QVector<const IPlayerInput*> getModels(const int &hint, const QVector<const IPlayerInput *> &models) const;
+        QVector<const IModel<QUuid>*> getModels(const QUuid &tournamentId, const QVector<const IModel<QUuid> *> &models) const;
+        QVector<const IModel<QUuid>*> getModels(const int &hint, const QVector<const IModel<QUuid> *> &models) const;
     };
 }
 

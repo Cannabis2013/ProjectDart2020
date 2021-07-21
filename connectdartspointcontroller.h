@@ -1,16 +1,16 @@
 #ifndef CONNECTDARTSPOINTCONTROLLER_H
 #define CONNECTDARTSPOINTCONTROLLER_H
 
-#include "iconnectdartspointcontroller.h"
+#include "iconnectcontroller.h"
 
 class ConnectDartsPointController :
-        public IConnectDartsPointController
+        public IConnectController
 {
 public:
-    void connectController(AbstractDartsController* controller,
+    void connectController(AbstractGameController* controller,
                            AbstractApplicationInterface* application,
                            AbstractModelsService* modelsService,
-                           AbstractRouteDartsByDisplayHint* routeService) override;
+                           AbstractRouteByDisplayHint* routeService) override;
 };
 
 #endif // CONNECTDARTSPOINTCONTROLLER_H
