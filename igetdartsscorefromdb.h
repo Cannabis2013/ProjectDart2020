@@ -3,14 +3,14 @@
 
 #include "igetscoreinputfromdb.h"
 #include "iplayerinput.h"
-#include "idbservice.h"
+#include "imodelsdbcontext.h"
 
-class IGetDartsScoreFromDb : public IGetScoreInputFromDb<IModel<QUuid>,QUuid,IDbService>
+class IGetDartsScoreFromDb : public IGetScoreInputFromDb<IModel<QUuid>,QUuid,IModelsDbContext>
 {
 public:
     virtual const IModel<QUuid> *get(const QUuid &tournamentId,
                                      const QUuid &playerId,const int &roundIndex,
-                                     const IDbService *dbService) const override = 0;
+                                     const IModelsDbContext *dbService) const override = 0;
 };
 
 #endif // IGETDARTSSCOREFROMDB_H

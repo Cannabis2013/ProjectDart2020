@@ -10,15 +10,15 @@ namespace ModelsContext {
     public:
         void remove(const QVector<const IModel<QUuid>*> &models,
                     const int &hint,
-                    IDbService *dbService) const override;
+                    IModelsDbContext *dbService) const override;
         void remove(const QVector<const IModel<QUuid>*> &models,
                     const QUuid &tournamentId,
-                    IDbService *dbService) const override;
+                    IModelsDbContext *dbService) const override;
         void remove(const QUuid &id,
-                    IDbService* dbService) const override;
+                    IModelsDbContext* dbService) const override;
     private:
-        void removeModel(const IModel<QUuid> *model, const int &hint, IDbService *dbService) const;
-        bool removeModel(const IModel<QUuid> *inputModel, const QUuid &id, IDbService *dbService) const;
+        void removeModel(const IModel<QUuid> *model, const int &hint, IModelsDbContext *dbService) const;
+        bool removeModel(const IModel<QUuid> *inputModel, const QUuid &id, IModelsDbContext *dbService) const;
     };
 }
 

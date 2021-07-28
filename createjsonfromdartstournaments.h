@@ -4,9 +4,9 @@
 #include <qjsondocument.h>
 #include <qjsonarray.h>
 #include <qjsonobject.h>
-#include "icreatejsonfromdartstournaments.h"
+#include "icreatejsonfrommodels.h"
 class CreateJsonFromDartsTournaments :
-        public ICreateJsonFromDartsTournaments
+        public ICreateJsonFromModels
 {
 public:
     virtual QByteArray createJson(const QVector<const IModel<QUuid>*> &models) const override
@@ -25,7 +25,7 @@ private:
     }
     QJsonObject createJsonObjectByModel(const IModel<QUuid>* tournamentModel) const
     {
-        auto model = dynamic_cast<const IDartsTournament*>(tournamentModel);
+        auto model = dynamic_cast<const AbstractDartsTournament*>(tournamentModel);
         QJsonObject obj;
         obj["id"] = model->id().toString(QUuid::WithoutBraces);
         obj["title"] = model->title();
@@ -35,6 +35,7 @@ private:
         obj["displayHint"] = model->displayHint();
         obj["inputHint"] = model->inputHint();
         obj["winnerId"] = model->winnerId().toString(QUuid::WithoutBraces);
+        obj["winnerName"] = model->winnerName();
         obj["terminalKeyCode"] = model->terminalKeyCode();
         obj["assignedPlayerIds"] = createJsonArrayFromPlayerIds(tournamentModel);
         obj["assignedPlayerNames"] = createJsonArrayFromPlayerNames(tournamentModel);

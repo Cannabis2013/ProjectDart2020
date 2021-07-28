@@ -5,7 +5,7 @@
 
 #include "iplayermodel.h"
 
-namespace ModelsContext {
+namespace PlayersContext {
     class PlayerModel : public IPlayerModel
     {
         // IPlayerModel interface

@@ -8,13 +8,13 @@
 #include <quuid.h>
 #include "imodel.h"
 #include "iplayermodel.h"
-#include "icreatejsonfromplayermodels.h"
+#include "icreatejsonfrommodels.h"
 
-namespace ModelsContext {
-    class CreateJsonFromPlayerModels : public ICreateJsonFromPlayerModels
+namespace PlayersContext {
+    class CreateJsonFromPlayerModels : public ICreateJsonFromModels
     {
     public:
-        virtual QByteArray createJson(QVector<const IModel<QUuid>*> models) const override;
+        virtual QByteArray createJson(const QVector<const IModel<QUuid>*>& models) const override;
     private:
         QJsonArray createJsonArray(QVector<const IModel<QUuid>*> models) const;
         QJsonObject createJsonObject(const IModel<QUuid> *model) const;

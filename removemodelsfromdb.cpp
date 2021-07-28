@@ -2,7 +2,7 @@
 
 using namespace ModelsContext;
 
-bool ModelsContext::RemoveModelsFromDb::remove(const QVector<int> &indexes, IDbService *dbService) const
+bool ModelsContext::RemoveModelsFromDb::remove(const QVector<int> &indexes, IModelsDbContext *dbService) const
 {
     auto r = true;
     auto startIndex = indexes.count() - 1;

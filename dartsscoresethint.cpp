@@ -4,7 +4,7 @@ using namespace ModelsContext;
 
 
 void DartsScoreSetHint::setDartsScoreHint(const IModel<QUuid> *model, const int &hint,
-                                          IDbService *dbService)
+                                          IModelsDbContext *dbService)
 {
     auto inferedModel = dynamic_cast<const IPlayerInput*>(model);
     auto nonConstModel = const_cast<IPlayerInput*>(inferedModel);

@@ -6,10 +6,10 @@
 class ConnectRouteByInputHint : public IConnectRouteByInputHint
 {
 public:
-    void connectServices(AbstractModelsService* modelsService,
+    void connectServices(AbstractDartsModelsContext* modelsService,
                  AbstractRouteByInputHint* routeByInputHint) override
     {
-        QObject::connect(modelsService,&AbstractModelsService::sendDartsDetails,
+        QObject::connect(modelsService,&AbstractDartsModelsContext::sendDartsDetails,
                          routeByInputHint,&AbstractRouteByInputHint::processTournamentDetails);
     }
 };

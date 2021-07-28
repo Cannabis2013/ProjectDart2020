@@ -8,7 +8,7 @@ namespace ModelsContext {
     {
     public:
         virtual const IModel<QUuid> *get(const QUuid &tournamentId, const QUuid &playerId,
-                                        const int &roundIndex, const IDbService *dbService) const override;
+                                        const int &roundIndex, const IModelsDbContext *dbService) const override;
     private:
         const IModel<QUuid> *getModelThatMatchesParameters(const QVector<const IModel<QUuid> *> &models,
                                                              const QUuid &tournamentId, const QUuid &playerId,

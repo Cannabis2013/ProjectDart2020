@@ -5,7 +5,7 @@
 #include <quuid.h>
 #include "dartsscoreindexes.h"
 #include "idartscreateindexes.h"
-#include "idartstournament.h"
+#include "abstractdartstournament.h"
 #include "sortdartsscoreinputsbyindexes.h"
 
 namespace ModelsContext {
@@ -21,7 +21,7 @@ namespace ModelsContext {
                                                         const IGetInputModelsService *getInputsService,
                                                         const ISortInputModels *sortInputsService,
                                                         const ICountInputModels *countInputsService,
-                                                        const IDbService *dbService) const override;
+                                                        const IModelsDbContext *dbService) const override;
 
     private:
         const IDartsScoreIndexes *createDartsIndexesByModels(const IModel<QUuid> *tournament,

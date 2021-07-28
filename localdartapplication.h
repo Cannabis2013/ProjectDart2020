@@ -8,6 +8,7 @@
 #include <dartsscorebuilderservice.h>
 #include "routeservicesprovider.h"
 #include "connectservicesprovider.h"
+#include "localplayerscontext.h"
 
 class LocalDartApplication : public DartApplication
 {
@@ -19,7 +20,9 @@ public:
         // Connect service provider
         _connectServices = new ConnectServicesProvider;
         // Darts models service
-        _modelsService = new JsonModelsService;
+        _dartsModelsContext = new JsonModelsService;
+        // Player models context
+        _playerModelsContext = new LocalPlayersContext;
     }
 
     static LocalDartApplication *createInstance()

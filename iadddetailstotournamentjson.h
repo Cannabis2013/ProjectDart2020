@@ -2,7 +2,7 @@
 #define IADDDETAILSTOTOURNAMENTJSON_H
 
 #include <qbytearray.h>
-#include <idartstournament.h>
+#include <abstractdartstournament.h>
 #include <qvector.h>
 #include "idartspointindexes.h"
 #include <quuid.h>
@@ -10,7 +10,7 @@
 #include "idartsscoresethint.h"
 #include <qjsonarray.h>
 #include "idartspointinput.h"
-#include "idbservice.h"
+#include "imodelsdbcontext.h"
 #include "idartstournamentsdb.h"
 
 class IAddDetailsToTournamentJson

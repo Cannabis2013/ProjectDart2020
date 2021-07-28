@@ -2,9 +2,9 @@
 #define IGETDARTSTOURNAMENTFROMDB_H
 
 #include "igettournamentfromdb.h"
-#include "idbservice.h"
+#include "imodelsdbcontext.h"
 
-class IGetDartsTournamentFromDb : public IGetTournamentFromDb<IModel<QUuid>,QUuid,IDbService>
+class IGetDartsTournamentFromDb : public IGetTournamentFromDb<IModel<QUuid>,QUuid,IModelsDbContext>
 {};
 
 #endif // IGETDARTSTOURNAMENTDATA_H

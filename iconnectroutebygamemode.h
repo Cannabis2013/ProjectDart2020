@@ -2,11 +2,11 @@
 #define ICONNECTROUTEBYGAMEMODE_H
 
 #include <abstractroutebygamemode.h>
-#include "abstractmodelsservice.h"
+#include "abstractdartsmodelscontext.h"
 class IConnectRouteByGameMode
 {
 public:
-    virtual void connect(AbstractModelsService *modelsService,
+    virtual void connect(AbstractDartsModelsContext *modelsService,
                          AbstractRouteByGameMode *routeByGameMode) const = 0;
 };
 

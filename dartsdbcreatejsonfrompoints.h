@@ -1,7 +1,7 @@
 #ifndef DARTSDBCREATEJSONFROMPOINTS_H
 #define DARTSDBCREATEJSONFROMPOINTS_H
 
-#include "icreatejsonfrominputs.h"
+#include "icreatejsonfrommodels.h"
 #include <quuid.h>
 #include "dartspointinput.h"
 #include <qjsondocument.h>
@@ -10,7 +10,7 @@
 
 namespace DartsDbContext {
     typedef QVector<const IPlayerInput*> ModelsList;
-    class DartsDbCreatejsonFromPoints : public ICreateJsonFromInputs
+    class DartsDbCreatejsonFromPoints : public ICreateJsonFromModels
     {
     public:
         virtual QByteArray createJson(const QVector<const IModel<QUuid>*> &models) const override;

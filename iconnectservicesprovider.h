@@ -5,7 +5,8 @@
 #include "iconnectroutebyinputhint.h"
 #include "iconnectroutebydisplayhint.h"
 #include "iconnectroutetodartsbuilder.h"
-#include "iconnectmodelsinterface.h"
+#include "iconnectdartsmodelscontext.h"
+#include "iconnectplayermodelscontext.h"
 #include "iconnectcontroller.h"
 
 class IConnectServicesProvider
@@ -16,9 +17,10 @@ public:
     virtual IConnectRouteByDisplayHint *connectRouteByDisplayHint() const = 0;
     virtual IConnectRouteToDartsBuilder *connectDartsPointBuilder() const = 0;
     virtual IConnectRouteToDartsBuilder *connectDartsScoreBuilder() const = 0;
-    virtual IConnectModelsInterface *connectModelsServiceInterface() const = 0;
+    virtual IConnectDartsModelsContext *connectDartsModelsContext() const = 0;
     virtual IConnectController *connectDartsPointController() const = 0;
     virtual IConnectController *connectDartsScoreController() const = 0;
+    virtual IConnectPlayerModelsContext *connectPlayersContext() const = 0;
 };
 
 #endif // CONNECTSERVICEPROVIDER_H

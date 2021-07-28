@@ -2,20 +2,20 @@
 #define DARTSSCORESETHINT_H
 
 #include "idartsscoresethint.h"
-#include "idbservice.h"
+#include "imodelsdbcontext.h"
 #include "ibinaryservice.h"
 #include "ipredicate.h"
 #include "iternaryservice.h"
 #include "idartscreateindexes.h"
-#include "idbservice.h"
+#include "imodelsdbcontext.h"
 #include "dartsscoreindexes.h"
 
 namespace ModelsContext {
-    class DartsScoreSetHint : public IDartsScoreSetHint<IDbService>
+    class DartsScoreSetHint : public IDartsScoreSetHint<IModelsDbContext>
     {
     public:
         void setDartsScoreHint(const IModel<QUuid> *model, const int &hint,
-                               IDbService* dbService) override;
+                               IModelsDbContext* dbService) override;
     };
 }
 

@@ -9,7 +9,7 @@
 #include "isortinputmodels.h"
 #include "icountinputmodels.h"
 #include "igetinputmodelsservice.h"
-#include "idbservice.h"
+#include "imodelsdbcontext.h"
 template<typename TIndexes>
 class IDartsCreateIndexes{
 public:
@@ -17,7 +17,7 @@ public:
                                           const IGetInputModelsService *getInputsService,
                                           const ISortInputModels *sortInputsService,
                                           const ICountInputModels *countInputsService,
-                                          const IDbService *dbService) const = 0;
+                                          const IModelsDbContext *dbService) const = 0;
 };
 
 #endif // IDARTSINDEXESBUILDER_H

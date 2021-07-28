@@ -1,29 +1,29 @@
 #include "connectdartsscorecontroller.h"
 
-void ConnectDartsScoreController::connectController(AbstractGameController *controller, AbstractApplicationInterface *application, AbstractModelsService *modelsService, AbstractRouteByDisplayHint *routeService)
+void ConnectDartsScoreController::connectController(AbstractGameController *controller, AbstractApplicationInterface *application, AbstractDartsModelsContext *modelsService, AbstractRouteByDisplayHint *routeService)
 {
     auto dartsScorecontroller = dynamic_cast<AbstractDartsScoreController*>(controller);
     // Send tournament metadata
     QObject::connect(application,&AbstractApplicationInterface::requestCurrentTournamentId,
             dartsScorecontroller,&AbstractDartsScoreController::handleRequestForCurrentTournamentMetaData);
     QObject::connect(dartsScorecontroller,&AbstractDartsScoreController::sendCurrentTournamentId,
-            modelsService,&AbstractModelsService::createDartsMetaData);
+            modelsService,&AbstractDartsModelsContext::createDartsMetaData);
     // Controller requests indexes and playerscores
     QObject::connect(dartsScorecontroller,&AbstractDartsScoreController::requestDartsTournamentIndexes,
-            modelsService,&AbstractModelsService::createDartsScoreIndexes);
-    QObject::connect(modelsService,&AbstractModelsService::sendDartsScoreIndexesAsJson,
+            modelsService,&AbstractDartsModelsContext::createDartsScoreIndexes);
+    QObject::connect(modelsService,&AbstractDartsModelsContext::sendDartsScoreIndexesAsJson,
             dartsScorecontroller,&AbstractDartsController::initializeControllerIndexes);
     QObject::connect(dartsScorecontroller,&AbstractDartsScoreController::requestTournamentAssignedPlayerDetails,
-                     modelsService,&AbstractModelsService::createAssignedPlayerEntities);
-    QObject::connect(modelsService,&AbstractModelsService::sendAssignedPlayerIdsAndNamesAsJson,
+                     modelsService,&AbstractDartsModelsContext::createAssignedPlayerEntities);
+    QObject::connect(modelsService,&AbstractDartsModelsContext::sendAssignedPlayerIdsAndNamesAsJson,
                      dartsScorecontroller,&AbstractDartsScoreController::initializeControllerPlayerDetails);
     QObject::connect(dartsScorecontroller,&AbstractDartsScoreController::requestTournamentDartsScores,
-                     modelsService,&AbstractModelsService::createAssignedPlayerScores);
-    QObject::connect(modelsService,&AbstractModelsService::sendTournamentDartsScoresAsJson,
+                     modelsService,&AbstractDartsModelsContext::createAssignedPlayerScores);
+    QObject::connect(modelsService,&AbstractDartsModelsContext::sendTournamentDartsScoresAsJson,
                      dartsScorecontroller,&AbstractDartsScoreController::initializeControllerDartsScores);
     QObject::connect(dartsScorecontroller,&AbstractDartsScoreController::requestTournamentWinnerIdAndName,
-                     modelsService,&AbstractModelsService::createDartsTournamentWinnerIdAndName);
-    QObject::connect(modelsService,&AbstractModelsService::sendDartsTournamentWinnerIdAndName,
+                     modelsService,&AbstractDartsModelsContext::createDartsTournamentWinnerIdAndName);
+    QObject::connect(modelsService,&AbstractDartsModelsContext::sendDartsTournamentWinnerIdAndName,
                      dartsScorecontroller,&AbstractDartsScoreController::initializeControllerWinnerIdAndName);
     QObject::connect(dartsScorecontroller,&AbstractDartsScoreController::controllerInitialized,
                      routeService,&AbstractRouteByDisplayHint::determineDartsScoreRouteByDisplayHint);
@@ -49,8 +49,8 @@ void ConnectDartsScoreController::connectController(AbstractGameController *cont
     QObject::connect(dartsScorecontroller,&AbstractDartsController::awaitsInput,
             application,&AbstractApplicationInterface::controllerAwaitsInput);
     QObject::connect(dartsScorecontroller,&AbstractDartsController::winnerDeclared,
-            modelsService,&AbstractModelsService::setDartsTournamentWinner);
-    QObject::connect(modelsService,&AbstractModelsService::setDartsTournamentWinnerSucces,
+            modelsService,&AbstractDartsModelsContext::setDartsTournamentWinner);
+    QObject::connect(modelsService,&AbstractDartsModelsContext::setDartsTournamentWinnerSucces,
                      dartsScorecontroller,&AbstractDartsScoreController::winnerDetermined);
     QObject::connect(dartsScorecontroller,&AbstractDartsScoreController::winnerDetermined,
                      application,&AbstractApplicationInterface::controllerHasDeclaredAWinner);
@@ -69,8 +69,8 @@ void ConnectDartsScoreController::connectController(AbstractGameController *cont
     QObject::connect(application,&AbstractApplicationInterface::requestTournamentReset,
             dartsScorecontroller,&AbstractGameController::handleResetTournament);
     QObject::connect(dartsScorecontroller,&AbstractGameController::requestResetTournament,
-            modelsService,&AbstractModelsService::resetDartsScoreTournament);
-    QObject::connect(modelsService,&AbstractModelsService::tournamentResetSuccess,
+            modelsService,&AbstractDartsModelsContext::resetDartsScoreTournament);
+    QObject::connect(modelsService,&AbstractDartsModelsContext::tournamentResetSuccess,
             dartsScorecontroller,&AbstractGameController::resetSucces);
     QObject::connect(dartsScorecontroller,&AbstractDartsController::resetSucces,
             application,&AbstractApplicationInterface::dartsControllerIsReset);
@@ -80,8 +80,8 @@ void ConnectDartsScoreController::connectController(AbstractGameController *cont
     QObject::connect(application,&AbstractApplicationInterface::sendDartsScore,
             dartsScorecontroller,&AbstractDartsScoreController::handleAndProcessUserInput);
     QObject::connect(dartsScorecontroller,&AbstractDartsScoreController::requestAddDartsScore,
-            modelsService,&AbstractModelsService::addDartsScore);
-    QObject::connect(modelsService,&AbstractModelsService::scoreAddedToDataContext,
+            modelsService,&AbstractDartsModelsContext::addDartsScore);
+    QObject::connect(modelsService,&AbstractDartsModelsContext::scoreAddedToDataContext,
             dartsScorecontroller,&AbstractDartsScoreController::handleScoreAddedToDataContext);
     QObject::connect(dartsScorecontroller,&AbstractDartsScoreController::scoreAddedSuccess,
             application,&AbstractApplicationInterface::addedDartsScore);
@@ -98,13 +98,13 @@ void ConnectDartsScoreController::connectController(AbstractGameController *cont
     QObject::connect(application,&AbstractApplicationInterface::requestUndo,
             dartsScorecontroller,&AbstractDartsScoreController::undoTurn);
     QObject::connect(dartsScorecontroller,&AbstractDartsScoreController::hideDartsScore,
-            modelsService,&AbstractModelsService::hideDartsScore);
-    QObject::connect(modelsService,&AbstractModelsService::hideDartsScoreSuccess,
+            modelsService,&AbstractDartsModelsContext::hideDartsScore);
+    QObject::connect(modelsService,&AbstractDartsModelsContext::hideDartsScoreSuccess,
             dartsScorecontroller,&AbstractDartsScoreController::undoSuccess);
     QObject::connect(application,&AbstractApplicationInterface::requestRedo,
             dartsScorecontroller,&AbstractDartsScoreController::redoTurn);
     QObject::connect(dartsScorecontroller,&AbstractDartsScoreController::revealDartsScore,
-            modelsService,&AbstractModelsService::revealScore);
-    QObject::connect(modelsService,&AbstractModelsService::revealDartsScoreSuccess,
+            modelsService,&AbstractDartsModelsContext::revealScore);
+    QObject::connect(modelsService,&AbstractDartsModelsContext::revealDartsScoreSuccess,
             dartsScorecontroller,&AbstractDartsScoreController::redoSuccess);
 }

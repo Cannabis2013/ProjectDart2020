@@ -3,7 +3,7 @@
 
 #include "isortinputmodels.h"
 #include "idartsscoreinput.h"
-#include "idbservice.h"
+#include "imodelsdbcontext.h"
 #include <quuid.h>
 #include "ipredicate.h"
 

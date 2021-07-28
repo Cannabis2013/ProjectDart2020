@@ -3,7 +3,7 @@
 
 #include "abstractdartspointcontroller.h"
 #include "AbstractApplicationInterface.h"
-#include "abstractmodelsservice.h"
+#include "abstractdartsmodelscontext.h"
 #include "abstractroutebydisplayhint.h"
 
 class IConnectController
@@ -11,7 +11,7 @@ class IConnectController
 public:
     virtual void connectController(AbstractGameController* controller,
                                    AbstractApplicationInterface* application,
-                                   AbstractModelsService* modelsService,
+                                   AbstractDartsModelsContext* modelsService,
                                    AbstractRouteByDisplayHint* routeService) = 0;
 };
 

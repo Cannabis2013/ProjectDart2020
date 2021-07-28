@@ -10,13 +10,13 @@ class GetTournamentWinner : public IGetTournamentWinner
 public:
     virtual const IModel<QUuid> *getWinnerModel(const QUuid &tournamentId,
                                                 const IGetDartsTournamentFromDb *getTournament,
-                                                const IGetDartsPlayerModelsFromDb *getPlayerModel,
-                                                const IDbService *tournamentDb,
-                                                const IDbService *playersDb) const override
+                                                const IGetPlayersFromDb *getPlayerModel,
+                                                const IModelsDbContext *tournamentDb,
+                                                const IModelsDbContext *playersDb) const override
     {
         auto model = getTournament->tournament(tournamentId,tournamentDb);
         auto dartsTournamentModel = dynamic_cast<const ITournament*>(model);
-        auto playerModel = getPlayerModel->playerModel(dartsTournamentModel->winnerId(),playersDb);
+        auto playerModel = getPlayerModel->model(dartsTournamentModel->winnerId(),playersDb);
         return playerModel;
     }
 };

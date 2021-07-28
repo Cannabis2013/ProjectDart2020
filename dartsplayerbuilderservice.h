@@ -12,17 +12,17 @@ namespace DartsScoreControllerContext {
             IDartsPlayerBuilderService<IDartsPlayer<QUuid,QString>,QUuid,QString,QByteArray>
     {
     public:
-        const PlayerInterface *buildPlayerModelByJson(const JsonFormat &json) const override
+        const PlayerInterface *createModel(const JsonFormat &json) const override
         {
             auto document = QJsonDocument::fromJson(json);
             auto obj = document.object();
             auto playerModel = DartsPlayer::createInstance();
-            auto playerStringId = obj["playerId"].toString();
+            auto playerStringId = obj["winnerId"].toString();
             playerModel->setPlayerId(QUuid::fromString(playerStringId));
-            playerModel->setPlayerName(obj["playerName"].toString());
+            playerModel->setPlayerName(obj["winnerName"].toString());
             return playerModel;
         }
-        QVector<const PlayerInterface *> buildPlayerModelsByJson(const JsonFormat &json) override
+        QVector<const PlayerInterface *> createModels(const JsonFormat &json) override
         {
             auto document = QJsonDocument::fromJson(json);
             auto playerDatas = document.array();

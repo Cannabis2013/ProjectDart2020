@@ -103,19 +103,19 @@ void DartsInputServices::setCreateJsonfromScoreIndexes(IDartsCreateJsonFromScore
 {
     _createJsonfromScoreIndexes = newCreateJsonfromScoreIndexes;
 }
-IDbService *DartsInputServices::dartsPointsDb() const
+IModelsDbContext *DartsInputServices::dartsPointsDb() const
 {
     return _dartsPointsDb;
 }
-void DartsInputServices::setDartsPointsDb(IDbService *newDartsPointsDb)
+void DartsInputServices::setDartsPointsDb(IModelsDbContext *newDartsPointsDb)
 {
     _dartsPointsDb = newDartsPointsDb;
 }
-IDbService *DartsInputServices::dartsScoresDb() const
+IModelsDbContext *DartsInputServices::dartsScoresDb() const
 {
     return _dartsScoresDb;
 }
-void DartsInputServices::setDartsScoresDb(IDbService *newDartsScoresDb)
+void DartsInputServices::setDartsScoresDb(IModelsDbContext *newDartsScoresDb)
 {
     _dartsScoresDb = newDartsScoresDb;
 }
@@ -180,7 +180,7 @@ void DartsInputServices::setCreateIndexesFromScoreModels(IDartsCreateIndexes<IDa
     _createIndexesFromScoreModels = newCreateIndexesFromScoreModels;
 }
 
-IDartsCreateIndexes<IDartsPointIndexes> *DartsInputServices::createIndexesFromPointModels() const
+IDartsCreateIndexes<IDartsPointIndexes> *DartsInputServices::createIndexesFromPoints() const
 {
     return _createIndexesFromPointModels;
 }

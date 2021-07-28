@@ -253,7 +253,7 @@ QByteArray DartsScoreController::createJsonResponse(const ControllerScore *score
 
 void DartsScoreController::initializeControllerPlayerDetails(const QByteArray &json)
 {
-    auto dartsPlayerModels = _playerBuilderService->buildPlayerModelsByJson(json);
+    auto dartsPlayerModels = _playerBuilderService->createModels(json);
     _indexService->setPlayersCount(dartsPlayerModels.count());
     _inputService->addPlayerEntities(dartsPlayerModels);
     emit requestTournamentDartsScores(_metaData->tournamentId());
@@ -268,7 +268,7 @@ void DartsScoreController::initializeControllerDartsScores(const QByteArray &jso
 
 void DartsScoreController::initializeControllerWinnerIdAndName(const QByteArray &json)
 {
-    auto dartsPlayer = _playerBuilderService->buildPlayerModelByJson(json);
+    auto dartsPlayer = _playerBuilderService->createModel(json);
     _inputService->setWinner(dartsPlayer->playerId());
     auto status = _determineControllerStateByWinnerId->service(dartsPlayer->playerId());
     _metaData->setStatus(status);

@@ -8,7 +8,7 @@ namespace ModelsContext {
     {
     public:
         void setDartsPointHint(const IModel<QUuid> *inputModel, const int &hint,
-                               IDbService *dbService) override;
+                               IModelsDbContext *dbService) override;
     };
 }
 

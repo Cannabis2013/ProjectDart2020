@@ -26,5 +26,8 @@ public:
 
     virtual QUuid winnerId() const = 0;
     virtual ITournament* setWinnerId(const QUuid &val) = 0;
+
+    virtual QString winnerName() const = 0;
+    virtual ITournament *setWinnerName(const QString &name) = 0;
 };
 #endif // ITOURNAMENT_H

@@ -1,7 +1,7 @@
 #ifndef CREATEDARTSPOINTSFROMJSON_H
 #define CREATEDARTSPOINTSFROMJSON_H
 
-#include "icreateinputmodelsfromjson.h"
+#include "icreatemodelsfromjson.h"
 #include <qjsondocument.h>
 #include <qjsonvalue.h>
 #include <qjsonvalue.h>
@@ -9,7 +9,7 @@
 #include "qjsonobject.h"
 #include "dartspointinput.h"
 namespace DartsDbContext {
-    class CreateDartsPointsFromJson : public ICreateInputModelsFromJson
+    class CreateDartsPointsFromJson : public ICreateModelsFromJson
     {
     public:
         virtual QVector<const IModel<QUuid> *> create(const QByteArray &json) const override;

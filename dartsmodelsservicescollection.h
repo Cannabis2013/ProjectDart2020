@@ -4,14 +4,14 @@
 #include "iunaryservice.h"
 #include "ibinaryservice.h"
 #include <quuid.h>
-#include "idartstournament.h"
+#include "abstractdartstournament.h"
 #include "iplayermodel.h"
 #include "idartspointinput.h"
 
 typedef IUnaryService<const QByteArray&,const IDartsInput*> AssembleDartsPointService;
 typedef IUnaryService<const QByteArray&,const IPlayerModel*> AssemblePlayerModelService;
-typedef IBinaryService<const IDartsTournament*,
+typedef IBinaryService<const AbstractDartsTournament*,
                        const QVector<QUuid>&,
-                       const IDartsTournament*> AssignPlayerIdsService;
+                       const AbstractDartsTournament*> AssignPlayerIdsService;
 
 #endif // DARTSMODELSSERVICESCOLLECTION_H

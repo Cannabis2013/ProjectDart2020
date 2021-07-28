@@ -25,7 +25,7 @@ namespace ModelsContext {
         QJsonObject createJsonobject(const Tournament *tournament) const
         {
             QJsonObject obj;
-            auto dartsTournament = dynamic_cast<const IDartsTournament*>(tournament);
+            auto dartsTournament = dynamic_cast<const AbstractDartsTournament*>(tournament);
             obj["tournamentId"] = dartsTournament->id().toString(QUuid::WithoutBraces);
             obj["title"] = dartsTournament->title();
             obj["gameMode"] = dartsTournament->gameMode();
@@ -34,6 +34,7 @@ namespace ModelsContext {
             obj["displayHint"] = dartsTournament->displayHint();
             obj["inputHint"] = dartsTournament->inputHint();
             obj["winnerId"] = dartsTournament->winnerId().toString(QUuid::WithoutBraces);
+            obj["winnerName"] = dartsTournament->winnerName();
             obj["terminalKeyCode"] = dartsTournament->terminalKeyCode();
             obj["assignedPlayerIds"] = createArray(dartsTournament->assignedPlayerIds());
             obj["assignedPlayerNames"] = createArray(dartsTournament->assignedPlayerNames());

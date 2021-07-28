@@ -1,10 +1,5 @@
 #include "dartsinputjsondb.h"
 namespace DartsDbContext{
-    DartsInputJsonDb::DartsInputJsonDb(const QString &fileName):
-        _fileName(fileName)
-    {
-    }
-
     void DartsInputJsonDb::add(const IModel<QUuid> *model)
     {
         _dartsScoreModels << model;
@@ -49,7 +44,7 @@ namespace DartsDbContext{
     void DartsInputJsonDb::fetchModels()
     {
         try {
-            _dartsScoreModels << _createInputModelsFromJson->create(readJsonObjectFromFile(_fileName));
+            _dartsScoreModels << createModelsFromJson()->create(readJsonFromFile()->read());
         }  catch (const char *msg) {
             return;
         }
@@ -57,6 +52,7 @@ namespace DartsDbContext{
 
     void DartsInputJsonDb::saveState()
     {
-        writeJsonObjectToFile(_createJsonFromInputModels->createJson(_dartsScoreModels),_fileName);
+        auto json = createJsonFromModels()->createJson(_dartsScoreModels);
+        writeJsonToFile()->write(json);
     }
 }

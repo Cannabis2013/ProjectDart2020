@@ -6,7 +6,7 @@ const IDartsScoreIndexes *ModelsContext::CreateDartsScoreIndexes::createIndexes(
                                                                                 const IGetInputModelsService *getInputsService,
                                                                                 const ISortInputModels *sortInputsService,
                                                                                 const ICountInputModels *countInputsService,
-                                                                                const IDbService *dbService) const
+                                                                                const IModelsDbContext *dbService) const
 {
     auto models = getInputsService->inputModels(tournament->id(),DisplayHint,dbService);
     auto orderedModels = sortInputsService->sort(models,new SortDartsScoreInputsByIndexes);
@@ -20,7 +20,7 @@ const IDartsScoreIndexes *CreateDartsScoreIndexes::createDartsIndexesByModels(co
                                                                               const QVector<const IModel<QUuid> *> &orderedModels,
                                                                               const int &totalModelsCount) const
 {
-    auto dartsTournament = dynamic_cast<const IDartsTournament*>(tournament);
+    auto dartsTournament = dynamic_cast<const AbstractDartsTournament*>(tournament);
     auto playersCount = dartsTournament->assignedPlayerIds().count();
     auto indexes = DartsScoreIndexes::createInstance();
     auto lastModel = dynamic_cast<const IDartsScoreInput*>(orderedModels.last());

@@ -2,15 +2,15 @@
 #define IREMOVEDARTSINPUTSFROMDB_H
 
 #include "iremovefromdb.h"
-#include "idbservice.h"
-class IRemoveDartsInputsFromDb : public IRemoveFromDb<IModel<QUuid>,IDbService, QUuid>
+#include "imodelsdbcontext.h"
+class IRemoveDartsInputsFromDb : public IRemoveFromDb<IModel<QUuid>,IModelsDbContext, QUuid>
 {
 public:
-    virtual void remove(const QUuid &id, IDbService *dbService) const override = 0;
+    virtual void remove(const QUuid &id, IModelsDbContext *dbService) const override = 0;
     virtual void remove(const QVector<const IModel<QUuid>*> &models, const QUuid &tournamentId,
-                        IDbService *dbService) const override = 0;
+                        IModelsDbContext *dbService) const override = 0;
     virtual void remove(const QVector<const IModel<QUuid>*> &models, const int &hint,
-                        IDbService *dbService) const override = 0;
+                        IModelsDbContext *dbService) const override = 0;
 };
 
 

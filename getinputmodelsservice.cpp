@@ -3,7 +3,7 @@
 using namespace ModelsContext;
 
 QVector<const IModel<QUuid>*> GetInputModelsService::inputModels(const QUuid &tournamentId,
-                                                                 const IDbService *dbService) const
+                                                                 const IModelsDbContext *dbService) const
 {
     const auto& models = dbService->models();
     auto tournamentInputs = getModels(tournamentId,models);
@@ -12,7 +12,7 @@ QVector<const IModel<QUuid>*> GetInputModelsService::inputModels(const QUuid &to
 
 QVector<const IModel<QUuid>*> GetInputModelsService::inputModels(const QUuid &tournamentId,
                                                                  const int &hint,
-                                                                 const IDbService *dbService) const
+                                                                 const IModelsDbContext *dbService) const
 {
     auto models = inputModels(tournamentId,dbService);
     auto tournamentInputs = getModels(tournamentId,models);

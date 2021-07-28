@@ -10,12 +10,12 @@ void DartsUtilityServices::setDbGetIndexesFromjson(IDbGetIndexesUtility *newDbGe
     _dbGetIndexesFromjson = newDbGetIndexesFromjson;
 }
 
-IRemoveModelsFromDb<IDbService> *DartsUtilityServices::removeModelsFromDb() const
+IRemoveModelsFromDb<IModelsDbContext> *DartsUtilityServices::removeModelsFromDb() const
 {
     return _removeModelsFromDb;
 }
 
-void DartsUtilityServices::setRemoveModelsFromDb(IRemoveModelsFromDb<IDbService> *newRemoveModelFromDb)
+void DartsUtilityServices::setRemoveModelsFromDb(IRemoveModelsFromDb<IModelsDbContext> *newRemoveModelFromDb)
 {
     _removeModelsFromDb = newRemoveModelFromDb;
 }

@@ -8,7 +8,7 @@ class AddPlayerDetailsToTournament : public IAddPlayerDetailsToTournament
 public:
     virtual void add(const IModel<QUuid> *model,
                      const QVector<QUuid> &playerIds,
-                     IDbService *dbService = nullptr) const override
+                     IModelsDbContext *dbService = nullptr) const override
     {
         auto tournamentModel = dynamic_cast<const ITournament*>(model);
         auto nonConstTournament = const_cast<ITournament*>(tournamentModel);
@@ -17,7 +17,7 @@ public:
     }
     virtual void add(const IModel<QUuid> *model,
                      const QVector<QString> &playerNames,
-                     IDbService *dbService = nullptr) const override
+                     IModelsDbContext *dbService = nullptr) const override
     {
         auto tournamentModel = dynamic_cast<const ITournament*>(model);
         auto nonConstTournament = const_cast<ITournament*>(tournamentModel);
@@ -25,17 +25,19 @@ public:
         persistInDb(dbService);
     }
     virtual void add(const IModel<QUuid> *model,
-                    const QUuid &winnerId,
-                    IDbService *dbService = nullptr) const override
+                     const QUuid &winnerId, const QString &winnerName,
+                     IModelsDbContext *dbService = nullptr) const override
     {
         auto tournamentModel = dynamic_cast<const ITournament*>(model);
         auto nonConstTournament = const_cast<ITournament*>(tournamentModel);
         nonConstTournament->setWinnerId(winnerId);
+        nonConstTournament->setWinnerName(winnerName);
         persistInDb(dbService);
     }
+
     virtual void add(const IModel<QUuid> *model,
                      const QVector<const IModel<QUuid>*> &playerModels,
-                     IDbService *dbService) const override
+                     IModelsDbContext *dbService) const override
     {
         auto tournamentModel = dynamic_cast<const ITournament*>(model);
         auto nonConstTournament = const_cast<ITournament*>(tournamentModel);
@@ -44,7 +46,7 @@ public:
         dbService->saveState();
     }
 private:
-    void persistInDb(IDbService *dbService) const
+    void persistInDb(IModelsDbContext *dbService) const
     {
         if(dbService != nullptr)
             dbService->saveState();
@@ -54,7 +56,7 @@ private:
         QVector<QUuid> playerIds;
         for (const auto &model : models)
         {
-            auto playerModel = dynamic_cast<const ModelsContext::IPlayerModel*>(model);
+            auto playerModel = dynamic_cast<const PlayersContext::IPlayerModel*>(model);
             playerIds << playerModel->id();
         }
         return playerIds;
@@ -64,7 +66,7 @@ private:
         QVector<QString> playerNames;
         for (const auto &model : models)
         {
-            auto playerModel = dynamic_cast<const ModelsContext::IPlayerModel*>(model);
+            auto playerModel = dynamic_cast<const PlayersContext::IPlayerModel*>(model);
             playerNames << playerModel->playerName();
         }
         return playerNames;

@@ -11,18 +11,18 @@ public:
     {
         qRegisterMetaType<QByteArray>("QByteArray");
         qRegisterMetaType<AbstractApplicationInterface*>("AbstractApplicationInterface");
-        qRegisterMetaType<AbstractModelsService*>("AbstractModelsService");
+        qRegisterMetaType<AbstractDartsModelsContext*>("AbstractModelsService");
         qRegisterMetaType<AbstractGameController*>("AbstractGameController");
         qRegisterMetaType<AbstractDartsController*>("AbstractDartsController");
     }
     void connectServices(DartApplication *application,
                          const IRouteServicesProvider *routeProvider,
-                         const IConnectServicesProvider * connectProvider)
+                         const IConnectServicesProvider *connectProvider)
     {
 
         connectProvider->connectRouteByGameMode()->connect(application->modelsService(),
                                                            routeProvider->routeByGameMode());
-        connectProvider->connectModelsServiceInterface()->connect(application,application->modelsService());
+        connectProvider->connectDartsModelsContext()->connect(application,application->modelsService());
         connectProvider->connectRouteByInputHint()->connectServices(application->modelsService(),
                                                                     routeProvider->routeByInputHint());
         // Connect darts builder services
@@ -34,6 +34,8 @@ public:
         // Connect route from the point where controllers are initialized to the route interface
         connectProvider->connectRouteByDisplayHint()->connectServices(routeProvider->routeByDisplayHint(),
                                                                       application);
+        // Connect players context with application
+        connectProvider->connectPlayersContext()->connectServices(application,application->playerModelsContext());
     }
 };
 

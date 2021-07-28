@@ -1,13 +1,13 @@
 #ifndef ICONNECTROUTEBYINPUTHINT_H
 #define ICONNECTROUTEBYINPUTHINT_H
 
-#include "abstractmodelsservice.h"
+#include "abstractdartsmodelscontext.h"
 #include "abstractroutebyinputhint.h"
 
 class IConnectRouteByInputHint
 {
 public:
-    virtual void connectServices(AbstractModelsService* modelsService,
+    virtual void connectServices(AbstractDartsModelsContext* modelsService,
                                  AbstractRouteByInputHint* routeByInputHint) = 0;
 
 };

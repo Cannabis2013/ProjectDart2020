@@ -1,52 +1,42 @@
 #include "playermodelsservices.h"
 
 
-IDartsPlayerModelBuilder *PlayerModelsServices::createPlayerModel() const
+ICreatePlayerFromJson *PlayerModelsServices::createPlayerModel() const
 {
     return _createPlayerModel;
 }
 
-void PlayerModelsServices::setCreatePlayerModel(IDartsPlayerModelBuilder *newPlayerModelBuilder)
+void PlayerModelsServices::setCreatePlayerModel(ICreatePlayerFromJson *newPlayerModelBuilder)
 {
     _createPlayerModel = newPlayerModelBuilder;
 }
 
-IGetDataFromPlayerModels *PlayerModelsServices::getDataFromPlayerModels() const
+ICreateJsonFromPlayers *PlayerModelsServices::dartsPlayerCreateJson() const
 {
-    return _getDataFromPlayerModels;
+    return _jsonBuilder;
 }
 
-void PlayerModelsServices::setGetDataFromPlayerModels(IGetDataFromPlayerModels *newGetDataFromPlayerModels)
+void PlayerModelsServices::setDartsPlayerJsonBuilder(ICreateJsonFromPlayers *newDartsPlayerJsonBuilder)
 {
-    _getDataFromPlayerModels = newGetDataFromPlayerModels;
+    _jsonBuilder = newDartsPlayerJsonBuilder;
 }
 
-IDartsPlayerJsonBuilder *PlayerModelsServices::dartsPlayerCreateJson() const
+IModelsDbContext *PlayerModelsServices::modelsDbContext() const
 {
-    return _dartsPlayerJsonBuilder;
+    return _dbContext;
 }
 
-void PlayerModelsServices::setDartsPlayerJsonBuilder(IDartsPlayerJsonBuilder *newDartsPlayerJsonBuilder)
+void PlayerModelsServices::setModelsDbContext(IModelsDbContext *newDartsPlayersDb)
 {
-    _dartsPlayerJsonBuilder = newDartsPlayerJsonBuilder;
+    _dbContext = newDartsPlayersDb;
 }
 
-IDbService *PlayerModelsServices::dartsPlayersDb() const
-{
-    return _dartsPlayersDb;
-}
-
-void PlayerModelsServices::setDartsPlayersDb(IDbService *newDartsPlayersDb)
-{
-    _dartsPlayersDb = newDartsPlayersDb;
-}
-
-IGetDartsPlayerModelsFromDb *PlayerModelsServices::getPlayerModelsFromDb() const
+IGetPlayersFromDb *PlayerModelsServices::getPlayerModelsFromDb() const
 {
     return _getPlayerModelsFromDb;
 }
 
-void PlayerModelsServices::setGetPlayerModelsFromDb(IGetDartsPlayerModelsFromDb *newGetDartsPlayerModelsFromDb)
+void PlayerModelsServices::setGetPlayerModelsFromDb(IGetPlayersFromDb *newGetDartsPlayerModelsFromDb)
 {
     _getPlayerModelsFromDb = newGetDartsPlayerModelsFromDb;
 }

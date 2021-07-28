@@ -8,7 +8,7 @@ class GetDartsPointFromDb : public IGetDartsPointFromDb
 public:
     virtual const IModel<QUuid> *get(const QUuid &tournamentId, const QUuid &playerId,
                                     const int &roundIndex, const int &attemptIndex,
-                                    const IDbService *dbService) const override
+                                    const IModelsDbContext *dbService) const override
     {
         auto models = dbService->models();
         for (const auto &model : models) {

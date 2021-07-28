@@ -2,14 +2,14 @@
 #define REMOVEMODELSFROMDB_H
 
 #include "iremovemodelsfromdb.h"
-#include "idbservice.h"
+#include "imodelsdbcontext.h"
 
 namespace ModelsContext{
     class RemoveModelsFromDb :
-            public IRemoveModelsFromDb<IDbService>
+            public IRemoveModelsFromDb<IModelsDbContext>
     {
     public:
-        virtual bool remove(const QVector<int> &indexes, IDbService *dbService) const override;
+        virtual bool remove(const QVector<int> &indexes, IModelsDbContext *dbService) const override;
     };
 }
 #endif // TOURNAMENTMODELCONTEXT_H

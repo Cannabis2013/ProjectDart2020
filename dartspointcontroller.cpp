@@ -258,12 +258,15 @@ QByteArray DartsPointController::createJsonResponse(const QUuid &winnerId, const
     return jsonResponse;
 }
 
-QByteArray DartsPointController::createJsonResponse(const DartsIndexes *indexes,
-                                                      const ControllerPlayer *playerModel,
-                                                      const IControllerPoint *pointModel)
+QByteArray DartsPointController::createJsonResponse(const DartsIndexes *indexes,const ControllerPlayer *playerModel,const IControllerPoint *pointModel)
 {
-    auto json = _jsonMerger->createJsonFromList({_jsonBuilder->createJson(_metaData->tournamentId(),"tournamentId"),
-                                                 indexes->toJson(),playerModel->toJson(),pointModel->toJson()});
+    auto json = _jsonMerger->createJsonFromList(
+                {
+                    _jsonBuilder->createJson(_metaData->tournamentId(),"tournamentId"),
+                    indexes->toJson(),
+                    playerModel->toJson(),
+                    pointModel->toJson()
+                });
     return json;
 }
 

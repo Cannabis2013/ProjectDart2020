@@ -1,20 +1,20 @@
 #ifndef CONNECTDETERMINEGAMEMODE_H
 #define CONNECTDETERMINEGAMEMODE_H
 
-#include "abstractmodelsservice.h"
+#include "abstractdartsmodelscontext.h"
 #include "abstractroutebygamemode.h"
 #include "iconnectroutebygamemode.h"
 
 class ConnectRouteByGameMode : public IConnectRouteByGameMode
 {
 public:
-    void connect(AbstractModelsService* modelsService,
+    void connect(AbstractDartsModelsContext* modelsService,
                  AbstractRouteByGameMode* gameModeService) const override
     {
-        QObject::connect(modelsService,&AbstractModelsService::requestAssembleTournament,
+        QObject::connect(modelsService,&AbstractDartsModelsContext::requestAssembleTournament,
                 gameModeService,&AbstractRouteByGameMode::handleTournamentGameMode);
         QObject::connect(gameModeService,&AbstractRouteByGameMode::requestDartsDetails,
-                modelsService,&AbstractModelsService::createDartsKeyValues);
+                modelsService,&AbstractDartsModelsContext::createDartsKeyValues);
     }
 };
 

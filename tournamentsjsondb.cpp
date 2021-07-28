@@ -2,56 +2,46 @@
 
 void TournamentsJsonDb::fetchModels()
 {
-    try {
-        _dartsTournamentModels << _createModelsFromJson->create(readJsonObjectFromFile(_fileName));
-    } catch (...) {
-        return;
-    }
+    _models = createModelsFromJson()->create(readJsonFromFile()->read());
 }
 
 void TournamentsJsonDb::saveState()
 {
-    writeJsonObjectToFile(_createJsonFromModels->createJson(_dartsTournamentModels),_fileName);
-}
-
-
-TournamentsJsonDb::TournamentsJsonDb(const QString &fileName):
-    _fileName(fileName)
-{
+    writeJsonToFile()->write(createJsonFromModels()->createJson(_models));
 }
 
 void TournamentsJsonDb::add(const IModel<QUuid> *model)
 {
-    _dartsTournamentModels.append(model);
+    _models.append(model);
     saveState();
 }
 
 const IModel<QUuid> *TournamentsJsonDb::model(const int &index) const
 {
-    auto model = _dartsTournamentModels.at(index);
+    auto model = _models.at(index);
     return model;
 }
 
 QVector<const IModel<QUuid> *> TournamentsJsonDb::models() const
 {
-    return _dartsTournamentModels;
+    return _models;
 }
 
 bool TournamentsJsonDb::remove(const int &index)
 {
-    _dartsTournamentModels.removeAt(index);
+    _models.removeAt(index);
     saveState();
     return true;
 }
 
 int TournamentsJsonDb::indexOf(const IModel<QUuid> *model) const
 {
-    auto index = _dartsTournamentModels.indexOf(model);
+    auto index = _models.indexOf(model);
     return index;
 }
 
 void TournamentsJsonDb::replace(const int &index, const IModel<QUuid> *model)
 {
-    _dartsTournamentModels.replace(index,model);
+    _models.replace(index,model);
     saveState();
 }

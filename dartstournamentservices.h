@@ -6,17 +6,16 @@
 #include <icreatemodelfromstring.h>
 #include <idartstournamentjsonbuilder.h>
 #include <idartstournamentnumberofattempts.h>
-#include <igetdartstournamentdatafromjson.h>
+#include <iextractwinnerinfo.h>
 #include <igetdartstournamentfromdb.h>
 #include <igetdatafromdartstournament.h>
 #include "igettournamentwinner.h"
-#include "isettournamentwinnerid.h"
 #include "icreatetournamentwinnerjson.h"
-
+#include "icreatejsonfromtournamentdetails.h"
 class DartsTournamentServices
 {
 public:
-    typedef ICreateModelFromString<IDartsTournament,QByteArray> TournamentBuilder;
+    typedef ICreateModelFromString<AbstractDartsTournament,QByteArray> TournamentBuilder;
     IAddPlayerDetailsToTournament *addToTournamentModel() const;
     void setAddToTournamentModel(IAddPlayerDetailsToTournament *newDartsModelManipulator);
     IDartsTournamentJsonBuilder *createJsonFromDartsTournamentModels() const;
@@ -27,27 +26,28 @@ public:
     void setGetDataFromDartsTournament(IGetDataFromDartsTournament<IModel<QUuid> > *newGetDataFromDartsTournament);
     IDartsTournamentNumberOfAttempts *getNumberOfAttempts() const;
     void setGetNumberOfAttempts(IDartsTournamentNumberOfAttempts *newGetNumberOfAttempts);
-    IDbService *dartsTournamentDb() const;
-    void setDartsTournamentDb(IDbService *newDartsTournamentDb);
+    IModelsDbContext *dartsTournamentDb() const;
+    void setDartsTournamentDb(IModelsDbContext *newDartsTournamentDb);
     IDartsTournamentJsonBuilder *dartsTournamentCreateJson() const;
     void setDartsTournamentCreateJson(IDartsTournamentJsonBuilder *newDartsTournamentCreateJson);
     IAddDetailsToTournamentJson *dartsTournamentJsonAddDetails() const;
     void setDartsTournamentJsonAddDetails(IAddDetailsToTournamentJson *newDartsTournamentJsonAddDetails);
     TournamentBuilder *createDartsTournament() const;
     void setCreateDartsTournament(TournamentBuilder *newCreateDartsTournament);
-    IGetDartsTournamentDataFromJson *getDartsTournamentDataFromJson() const;
-    void setGetDartsTournamentDataFromJson(IGetDartsTournamentDataFromJson *newGetDartsTournamentDataFromJson);
+    IExtractWinnerInfo *extractWinnerInfoFromJson() const;
+    void setGetDartsTournamentDataFromJson(IExtractWinnerInfo *newGetDartsTournamentDataFromJson);
     IDartsCreateJsonMetaData *createJsonMetaData() const;
     void setCreateJsonMetaData(IDartsCreateJsonMetaData *newCreateJsonMetaData);
     IGetTournamentWinner *getTournamenWinnerModel() const;
     void setGetTournamenWinnerModel(IGetTournamentWinner *newGetTournamenWinnerModel);
-    ISetTournamentWinnerId *setTournamentWinnerId() const;
-    void setSetTournamentWinnerId(ISetTournamentWinnerId *newSetTournamentWinnerId);
     ICreateTournamentWinnerJson *createTournamentWinnerJson() const;
     void setCreateTournamentWinnerJson(ICreateTournamentWinnerJson *newCreateTournamentWinnerJson);
+    ICreateJsonFromTournamentDetails *createJsonFromDetails() const;
+    void setCreateJsonFromDetails(ICreateJsonFromTournamentDetails *newCreateJsonFromDetails);
+
 private:
-    IDbService *_dartsTournamentsDb;
-    IGetDartsTournamentDataFromJson *_getDartsTournamentDataFromJson;
+    IModelsDbContext *_dartsTournamentsDb;
+    IExtractWinnerInfo *_getDartsTournamentDataFromJson;
     TournamentBuilder* _createDartsTournament;
     IAddDetailsToTournamentJson* _dartsTournamentJsonAddDetails;
     IAddPlayerDetailsToTournament *_addPlayerDetails;
@@ -57,8 +57,8 @@ private:
     IDartsTournamentNumberOfAttempts *_getNumberOfAttempts;
     IDartsCreateJsonMetaData *_createJsonMetaData;
     IGetTournamentWinner *_getTournamenWinnerModel;
-    ISetTournamentWinnerId *_setTournamentWinnerId;
     ICreateTournamentWinnerJson *_createTournamentWinnerJson;
+    ICreateJsonFromTournamentDetails *_createJsonFromDetails;
 };
 
 #endif // DARTSTOURNAMENTSERVICESPROVIDER_H

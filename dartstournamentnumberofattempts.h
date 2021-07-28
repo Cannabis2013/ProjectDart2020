@@ -2,13 +2,13 @@
 #define DARTSTOURNAMENTNUMBEROFATTEMPTS_H
 
 #include "idartstournamentnumberofattempts.h"
-#include "idartstournament.h"
+#include "abstractdartstournament.h"
 class DartsTournamentNumberOfAttempts : public IDartsTournamentNumberOfAttempts
 {
 public:
     virtual int numberOfAttempts(const ITournament *tournament) const override
     {
-        auto dartsTournament = dynamic_cast<const IDartsTournament*>(tournament);
+        auto dartsTournament = dynamic_cast<const AbstractDartsTournament*>(tournament);
         return dartsTournament->attempts();
     }
 };

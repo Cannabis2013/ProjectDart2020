@@ -4,18 +4,23 @@
 #include "dartsinputjsondb.h"
 #include "createjsonfromdartsscoremodels.h"
 #include "createdartsscoremodelsfromjson.h"
+#include "writebytearray.h"
+#include "readbytearray.h"
 
 namespace DartsDbContext {
     class DartsScoreJsonDb : public DartsInputJsonDb
     {
     public:
-        DartsScoreJsonDb():
-            DartsInputJsonDb("DartsScoreModels")
+        DartsScoreJsonDb()
         {
-            _createJsonFromInputModels = new CreateJsonFromDartsScoreModels;
-            _createInputModelsFromJson = new CreateDartsScoreModelsFromjson;
+            setCreateJsonFromModels(new CreateJsonFromDartsScoreModels);
+            setCreateModelsFromJson(new CreateDartsScoreModelsFromjson);
+            setWriteJsonToFile(new WriteByteArray(_fileName));
+            setReadJsonFromFile(new ReadByteArray(_fileName));
             fetchModels();
         }
+    private:
+        const QString _fileName = "DartsScoreModels";
     };
 }
 

@@ -50,12 +50,12 @@ void DartsTournamentServices::setGetNumberOfAttempts(IDartsTournamentNumberOfAtt
     _getNumberOfAttempts = newGetNumberOfAttempts;
 }
 
-IDbService *DartsTournamentServices::dartsTournamentDb() const
+IModelsDbContext *DartsTournamentServices::dartsTournamentDb() const
 {
     return _dartsTournamentsDb;
 }
 
-void DartsTournamentServices::setDartsTournamentDb(IDbService *newDartsTournamentDb)
+void DartsTournamentServices::setDartsTournamentDb(IModelsDbContext *newDartsTournamentDb)
 {
     _dartsTournamentsDb = newDartsTournamentDb;
 }
@@ -90,12 +90,12 @@ void DartsTournamentServices::setCreateDartsTournament(TournamentBuilder *newCre
     _createDartsTournament = newCreateDartsTournament;
 }
 
-IGetDartsTournamentDataFromJson *DartsTournamentServices::getDartsTournamentDataFromJson() const
+IExtractWinnerInfo *DartsTournamentServices::extractWinnerInfoFromJson() const
 {
     return _getDartsTournamentDataFromJson;
 }
 
-void DartsTournamentServices::setGetDartsTournamentDataFromJson(IGetDartsTournamentDataFromJson *newGetDartsTournamentDataFromJson)
+void DartsTournamentServices::setGetDartsTournamentDataFromJson(IExtractWinnerInfo *newGetDartsTournamentDataFromJson)
 {
     _getDartsTournamentDataFromJson = newGetDartsTournamentDataFromJson;
 }
@@ -120,16 +120,6 @@ void DartsTournamentServices::setGetTournamenWinnerModel(IGetTournamentWinner *n
     _getTournamenWinnerModel = newGetTournamenWinnerModel;
 }
 
-ISetTournamentWinnerId *DartsTournamentServices::setTournamentWinnerId() const
-{
-    return _setTournamentWinnerId;
-}
-
-void DartsTournamentServices::setSetTournamentWinnerId(ISetTournamentWinnerId *newSetTournamentWinnerId)
-{
-    _setTournamentWinnerId = newSetTournamentWinnerId;
-}
-
 ICreateTournamentWinnerJson *DartsTournamentServices::createTournamentWinnerJson() const
 {
     return _createTournamentWinnerJson;
@@ -138,4 +128,14 @@ ICreateTournamentWinnerJson *DartsTournamentServices::createTournamentWinnerJson
 void DartsTournamentServices::setCreateTournamentWinnerJson(ICreateTournamentWinnerJson *newCreateTournamentWinnerJson)
 {
     _createTournamentWinnerJson = newCreateTournamentWinnerJson;
+}
+
+ICreateJsonFromTournamentDetails *DartsTournamentServices::createJsonFromDetails() const
+{
+    return _createJsonFromDetails;
+}
+
+void DartsTournamentServices::setCreateJsonFromDetails(ICreateJsonFromTournamentDetails *newCreateJsonFromDetails)
+{
+    _createJsonFromDetails = newCreateJsonFromDetails;
 }

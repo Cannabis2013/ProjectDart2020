@@ -83,7 +83,7 @@ function requestDeleteTournamentPopUp()
 
 function deleteTournamentsAccepted()
 {
-    var inexes = tournamentListView.currentIndexes;
+    var indexes = tournamentListView.currentIndexes;
     applicationInterface.requestDeleteTournaments(indexes);
 }
 

@@ -4,7 +4,7 @@
 #include "imodel.h"
 #include <quuid.h>
 #include <qstring.h>
-namespace ModelsContext {
+namespace PlayersContext {
     class IPlayerModel : public IModel<QUuid>
     {
     public:

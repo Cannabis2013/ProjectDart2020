@@ -1,7 +1,7 @@
 #include "createplayersfromjson.h"
-
 QVector<const IModel<QUuid> *> CreatePlayersFromJson::create(const QByteArray &json) const
 {
+    using namespace PlayersContext;
     auto arr = createArray(json);
     QVector<const IModel<QUuid>*> playerModels;
     for (auto i = arr.begin();i != arr.end();i++) {
@@ -11,7 +11,7 @@ QVector<const IModel<QUuid> *> CreatePlayersFromJson::create(const QByteArray &j
         auto playerId = QUuid::fromString(stringID);
         auto playerName = jsonObject.value("UserName").toString();
         auto mail = jsonObject.value("Mail").toString();
-        auto model = ModelsContext::PlayerModel::createInstance()
+        auto model = PlayerModel::createInstance()
                 ->setId(playerId)
                 ->setUserName(playerName)
                 ->setEmail(mail);

@@ -3,7 +3,7 @@
 
 #include <qobject.h>
 #include <quuid.h>
-#include "abstractmodelsservice.h"
+#include "abstractdartsmodelscontext.h"
 #include "abstractdartscontroller.h"
 #include "iresponseinterface.h"
 
@@ -11,11 +11,11 @@ class AbstractApplicationInterface :
         public QObject
 {
     Q_OBJECT
+public:
+    Q_INVOKABLE virtual void createDartsTournamentFromJson(const QByteArray &json) = 0;
 public slots:
     // Pure virtual slots
     virtual void handleSendGameModesRequest() const = 0;
-    // Handle request for tournament meta information
-    virtual void createDartsTournamentValues() = 0;
     virtual void setDartsPointController(AbstractDartsController* controller) = 0;
     virtual void setDartsScoreController(AbstractDartsController* controller) = 0;
 signals:
@@ -81,7 +81,7 @@ signals:
     void controllerHasDeclaredAWinner(const QString& json);
     void createDartsController(const QByteArray& json,
                                AbstractApplicationInterface* applicationsInteface,
-                               AbstractModelsService* modelsContextInterface);
+                               AbstractDartsModelsContext* modelsContextInterface);
 };
 
 #endif // APPLICATIONINTERFACE_H

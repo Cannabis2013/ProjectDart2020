@@ -103,7 +103,6 @@ ScoreBoardInterface{
                 visible: scoreBoardBody.verticalHeaderVisible
             }
         }
-
         Flickable{
             id: flickableHHeader
             clip: true

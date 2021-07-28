@@ -1,14 +1,14 @@
 #include "removeinputsfromdb.h"
 
 void ModelsContext::RemoveInputsFromDb::remove(const QVector<const IModel<QUuid> *> &models,
-                                               const int &hint, IDbService *dbService) const
+                                               const int &hint, IModelsDbContext *dbService) const
 {
     for (const auto model : qAsConst(models))
         removeModel(model,hint,dbService);
 }
 
 
-void ModelsContext::RemoveInputsFromDb::remove(const QUuid &id, IDbService *dbService) const
+void ModelsContext::RemoveInputsFromDb::remove(const QUuid &id, IModelsDbContext *dbService) const
 {
     auto models = dbService->models();
     for (const auto &model : models)
@@ -17,7 +17,7 @@ void ModelsContext::RemoveInputsFromDb::remove(const QUuid &id, IDbService *dbSe
 
 void ModelsContext::RemoveInputsFromDb::remove(const QVector<const IModel<QUuid> *> &models,
                                                const QUuid &tournamentId,
-                                               IDbService *dbService) const
+                                               IModelsDbContext *dbService) const
 {
     for (const auto& model : models) {
         auto inputModel = dynamic_cast<const IPlayerInput*>(model);
@@ -27,7 +27,7 @@ void ModelsContext::RemoveInputsFromDb::remove(const QVector<const IModel<QUuid>
 }
 
 void ModelsContext::RemoveInputsFromDb::removeModel(const IModel<QUuid> *model,const int &hint,
-                                                    IDbService *dbService) const
+                                                    IModelsDbContext *dbService) const
 {
     auto inputModel = dynamic_cast<const IPlayerInput*>(model);
     if(inputModel->hint() == hint)
@@ -35,7 +35,7 @@ void ModelsContext::RemoveInputsFromDb::removeModel(const IModel<QUuid> *model,c
 }
 
 bool ModelsContext::RemoveInputsFromDb::removeModel(const IModel<QUuid> *inputModel,const QUuid &id,
-                                                    IDbService *dbService) const
+                                                    IModelsDbContext *dbService) const
 {
     if(inputModel->id() == id)
         return dbService->remove(dbService->indexOf(inputModel));

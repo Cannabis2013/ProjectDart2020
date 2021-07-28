@@ -1,36 +1,32 @@
 #ifndef PLAYERMODELSSERVICES_H
 #define PLAYERMODELSSERVICES_H
 
-#include <idartsplayerjsonbuilder.h>
-#include <idartsplayermodelbuilder.h>
-#include <igetdartsplayermodelsfromdb.h>
-#include <igetdatafromplayermodels.h>
+#include <icreatejsonfromplayers.h>
+#include <icreateplayerfromjson.h>
+#include <igetplayerfromdb.h>
 #include "icreateplayermodels.h"
-#include "idbservice.h"
+#include "imodelsdbcontext.h"
 
 class PlayerModelsServices
 {
 public:
-    IDartsPlayerModelBuilder *createPlayerModel() const;
-    void setCreatePlayerModel(IDartsPlayerModelBuilder *newPlayerModelBuilder);
-    IGetDataFromPlayerModels *getDataFromPlayerModels() const;
-    void setGetDataFromPlayerModels(IGetDataFromPlayerModels *newGetDataFromPlayerModels);
-    IDartsPlayerJsonBuilder *dartsPlayerCreateJson() const;
-    void setDartsPlayerJsonBuilder(IDartsPlayerJsonBuilder *newDartsPlayerJsonBuilder);
-    IDbService *dartsPlayersDb() const;
-    void setDartsPlayersDb(IDbService *newDartsPlayersDb);
-    IGetDartsPlayerModelsFromDb *getPlayerModelsFromDb() const;
-    void setGetPlayerModelsFromDb(IGetDartsPlayerModelsFromDb *newGetDartsPlayerModelsFromDb);
+    ICreatePlayerFromJson *createPlayerModel() const;
+    void setCreatePlayerModel(ICreatePlayerFromJson *newPlayerModelBuilder);
+    ICreateJsonFromPlayers *dartsPlayerCreateJson() const;
+    void setDartsPlayerJsonBuilder(ICreateJsonFromPlayers *newDartsPlayerJsonBuilder);
+    IModelsDbContext *modelsDbContext() const;
+    void setModelsDbContext(IModelsDbContext *newDartsPlayersDb);
+    IGetPlayersFromDb *getPlayerModelsFromDb() const;
+    void setGetPlayerModelsFromDb(IGetPlayersFromDb *newGetDartsPlayerModelsFromDb);
     ICreatePlayerModels *createPlayerModels() const;
     void setCreatePlayerModels(ICreatePlayerModels *newCreatePlayerModels);
 
 private:
-    IDartsPlayerModelBuilder *_createPlayerModel;
+    ICreatePlayerFromJson *_createPlayerModel;
     ICreatePlayerModels *_createPlayerModels;
-    IGetDataFromPlayerModels *_getDataFromPlayerModels;
-    IGetDartsPlayerModelsFromDb * _getPlayerModelsFromDb;
-    IDartsPlayerJsonBuilder *_dartsPlayerJsonBuilder;
-    IDbService *_dartsPlayersDb;
+    IGetPlayersFromDb * _getPlayerModelsFromDb;
+    ICreateJsonFromPlayers *_jsonBuilder;
+    IModelsDbContext *_dbContext;
 };
 
 #endif // PLAYERMODELSSERVICES_H

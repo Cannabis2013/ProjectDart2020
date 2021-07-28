@@ -4,9 +4,9 @@
 #include <quuid.h>
 #include <qstring.h>
 #include <qlist.h>
-#include "idartstournament.h"
+#include "abstractdartstournament.h"
 
-class DartsTournamentModel : public IDartsTournament
+class DartsTournamentModel : public AbstractDartsTournament
 {
     // IModel interface
 public:
@@ -70,7 +70,7 @@ public:
     {
         return _winner;
     }
-    IDartsTournament* setWinnerId(const QUuid &val) override
+    AbstractDartsTournament* setWinnerId(const QUuid &val) override
     {
         _winner = val;
         return this;

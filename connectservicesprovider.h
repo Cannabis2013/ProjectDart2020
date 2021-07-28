@@ -5,12 +5,14 @@
 
 #include <ConnectDartsScoreBuilder.h>
 #include <connectdartspointbuilder.h>
-#include <connectdefaultmodelscontextinterface.h>
+#include <connectdartsmodelscontext.h>
 #include <connectroutebydisplayhint.h>
 #include <connectroutebygamemode.h>
 #include <connectroutebyinputhint.h>
+#include <connectplayerscontext.h>
 #include "connectdartspointcontroller.h"
 #include "connectdartsscorecontroller.h"
+#include "connectplayerscontext.h"
 class ConnectServicesProvider : public IConnectServicesProvider
 {
 public:
@@ -34,11 +36,14 @@ public:
     {
         return _connectDartsScoreBuilder;
     }
-    virtual IConnectModelsInterface *connectModelsServiceInterface() const override
+    virtual IConnectDartsModelsContext *connectDartsModelsContext() const override
     {
         return _connectModelsServiceInterface;
     }
-
+    virtual IConnectPlayerModelsContext *connectPlayersContext() const override
+    {
+        return _connectPlayersContext;
+    }
     virtual IConnectController *connectDartsPointController() const override
     {
         return _connectDartsPointController;
@@ -56,7 +61,9 @@ private:
     ConnectDartsPointBuilder *_connectDartsPointBuilder = new ConnectDartsPointBuilder;
     ConnectDartsScoreBuilder *_connectDartsScoreBuilder = new ConnectDartsScoreBuilder;
     // Connect models interface
-    ConnectDefaultModelsContextInterface *_connectModelsServiceInterface = new ConnectDefaultModelsContextInterface;
+    ConnectDartsModelsContext *_connectModelsServiceInterface = new ConnectDartsModelsContext;
+    // Connect player models interface
+    ConnectPlayersContext *_connectPlayersContext = new ConnectPlayersContext;
     // Connect controller services
     IConnectController *_connectDartsPointController = new ConnectDartsPointController;
     IConnectController *_connectDartsScoreController = new ConnectDartsScoreController;

@@ -2,10 +2,10 @@
 #define IDARTSTOURNAMENTSDB_H
 
 #include <qvector.h>
-#include "imodelsdbcontext.h"
+#include "idbcontext.h"
 #include "itournament.h"
 
-class IDartsTournamentsDb :public IModelsDbContext<ITournament>
+class IDartsTournamentsDb :public IDbContext<ITournament>
 {
 public:
     virtual void add(const ITournament *tournamentModel) override = 0;

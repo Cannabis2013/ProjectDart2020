@@ -1,8 +1,8 @@
 #include "dartapplicationservices.h"
 
-AbstractModelsService *DartApplicationServices::modelsService() const
+AbstractDartsModelsContext *DartApplicationServices::modelsService() const
 {
-    return _modelsService;
+    return _dartsModelsContext;
 }
 
 AbstractGameController *DartApplicationServices::gameController() const
@@ -28,4 +28,14 @@ IConnectServicesProvider *DartApplicationServices::connectServices() const
 IRouteServicesProvider *DartApplicationServices::routeServices() const
 {
     return _routeServices;
+}
+
+IPlayerModelsContext *DartApplicationServices::playerModelsContext() const
+{
+    return _playerModelsContext;
+}
+
+void DartApplicationServices::setPlayerModelsContext(IPlayerModelsContext *newPlayerModelsContext)
+{
+    _playerModelsContext = newPlayerModelsContext;
 }

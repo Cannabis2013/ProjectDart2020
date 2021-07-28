@@ -6,18 +6,8 @@ JsonModelsService::JsonModelsService()
     setScoreInputServices();
     setPointInputServices();
     setInputDbUtilityServices();
-    setPlayerRelatedServices();
     setModelUtilityServices();
     setModelsServices();
-}
-void JsonModelsService::setPlayerRelatedServices()
-{
-    setGetPlayerModelsFromDb(new GetDartsPlayerModelsFromDb);
-    setDartsPlayerJsonBuilder(new DartsPlayerJsonBuilder);
-    setCreatePlayerModel(new DartsPlayerModelBuilder);
-    setDartsPlayersDb(new PlayerModelsLocalJsonDb);
-    setGetDataFromPlayerModels(new GetDataFromPlayerModels);
-    setCreatePlayerModels(new CreatePlayerModels);
 }
 void JsonModelsService::setModelUtilityServices()
 {
@@ -31,9 +21,9 @@ void JsonModelsService::setTournamentServices()
     setCreateDartsTournament(new CreateDartsTournamentFromJson);
     setDartsTournamentDb(new DartsTournamentsJsonDb);
     setGetDataFromDartsTournament(new GetDataFromDartsTournament);
-    setGetDartsTournamentDataFromJson(new GetDartsTournamentDataFromjson);
+    setGetDartsTournamentDataFromJson(new ExtractWinnerInfoFromJson);
     setGetTournamenWinnerModel(new GetTournamentWinner);
-    setSetTournamentWinnerId(new SetTournamentWinnerId);
+    setCreateJsonFromDetails(new CreateJsonFromTournamentDetails);
 }
 void JsonModelsService::setScoreInputServices()
 {

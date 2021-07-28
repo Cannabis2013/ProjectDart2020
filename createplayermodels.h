@@ -11,11 +11,11 @@ class CreatePlayerModels : public ICreatePlayerModels
 {
 public:
     virtual QVector<const IModel<QUuid> *> createPlayerModels(const QByteArray &json,
-                                                              const IGetDartsPlayerModelsFromDb *getPlayerModels,
-                                                              const IDbService *dbService) const override
+                                                              const IGetPlayersFromDb *getPlayerModels,
+                                                              const IModelsDbContext *dbService) const override
     {
         auto playerIndexes = createIndexesFromJson(json);
-        auto playerModels = getPlayerModels->playerModels(playerIndexes,dbService);
+        auto playerModels = getPlayerModels->models(playerIndexes,dbService);
         return playerModels;
     }
 private:

@@ -3,7 +3,7 @@
 
 #include "idartscreateindexes.h"
 #include "dartspointindexes.h"
-#include "idartstournament.h"
+#include "abstractdartstournament.h"
 #include "sortdartspointinputsbyindexes.h"
 
 namespace ModelsContext {
@@ -19,7 +19,7 @@ namespace ModelsContext {
                                                         const IGetInputModelsService *getInputsService,
                                                         const ISortInputModels *sortInputsService,
                                                         const ICountInputModels *countInputsService,
-                                                        const IDbService *dbService) const override;
+                                                        const IModelsDbContext *dbService) const override;
     private:
         const IDartsPointIndexes* createDartsIndexesByModels(const IModel<QUuid> *tournament, const QVector<const IModel<QUuid> *> &orderedModels, const int &totalInputModelsCount) const;;
         const IDartsPointIndexes* createInitialDartsIndexes() const;

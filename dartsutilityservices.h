@@ -3,19 +3,19 @@
 
 #include "idbgetindexesutility.h"
 #include "iremovemodelsfromdb.h"
-#include "idbservice.h"
+#include "imodelsdbcontext.h"
 
 class DartsUtilityServices
 {
 public:
     IDbGetIndexesUtility *dbGetIndexesFromjson() const;
     void setDbGetIndexesFromjson(IDbGetIndexesUtility *newDbGetIndexesFromjson);
-    IRemoveModelsFromDb<IDbService> *removeModelsFromDb() const;
-    void setRemoveModelsFromDb(IRemoveModelsFromDb<IDbService> *newRemoveModelFromDb);
+    IRemoveModelsFromDb<IModelsDbContext> *removeModelsFromDb() const;
+    void setRemoveModelsFromDb(IRemoveModelsFromDb<IModelsDbContext> *newRemoveModelFromDb);
 
 private:
     IDbGetIndexesUtility *_dbGetIndexesFromjson;
-    IRemoveModelsFromDb<IDbService> *_removeModelsFromDb;
+    IRemoveModelsFromDb<IModelsDbContext> *_removeModelsFromDb;
 };
 
 #endif // DARTSUTILITYSERVICES_H

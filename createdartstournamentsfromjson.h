@@ -7,10 +7,10 @@
 #include <qjsonarray.h>
 #include <qjsonobject.h>
 #include "dartstournament.h"
-#include "icreatedartstournamentsfromjson.h"
+#include "icreatemodelsfromjson.h"
 
 class CreateDartsTournamentsFromJson :
-        public ICreateDartsTournamentModelsFromJson
+        public ICreateModelsFromJson
 {
 public:
     virtual QVector<const IModel<QUuid> *> create(const QByteArray &json) const override
@@ -41,7 +41,7 @@ private:
         auto arr = obj.value("DartsTournaments").toArray();
         return arr;
     }
-    const IDartsTournament* createModel(const QJsonValue& jsonValue) const
+    const AbstractDartsTournament* createModel(const QJsonValue& jsonValue) const
     {
         using namespace ModelsContext;
         auto jsonObject = jsonValue.toObject();
@@ -56,6 +56,7 @@ private:
         dartsTournamentModel->setInputMode(jsonObject.value("inputHint").toInt());
         dartsTournamentModel->setStatus(jsonObject.value("status").toInt());
         dartsTournamentModel->setWinnerId(QUuid(jsonObject.value("winnerId").toString("")));
+        dartsTournamentModel->setWinnerName(jsonObject.value("winnerName").toString(""));
         auto arr1 = jsonObject.value("assignedPlayerIds").toArray();
         auto assignedPlayerIds = buildPlayerIdsByJsonArray(arr1);
         dartsTournamentModel->setAssignedPlayerIdentities(assignedPlayerIds);

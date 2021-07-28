@@ -4,36 +4,19 @@
 #include <quuid.h>
 #include <qstring.h>
 #include <qlist.h>
-#include "idartstournament.h"
+#include "abstractdartstournament.h"
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 #include <qjsonarray.h>
 
 namespace ModelsContext{
-    class DartsTournament : public IDartsTournament
+
+    class DartsTournament : public AbstractDartsTournament
     {
     public:
         static DartsTournament * createInstance()
         {
             return new DartsTournament();
-        }
-        QUuid id() const override
-        {
-            return _id;
-        }
-        DartsTournament* setId(const QUuid &val) override
-        {
-            _id = val;
-            return this;
-        }
-        QString title() const override
-        {
-            return _title;
-        }
-        DartsTournament* setTitle(const QString &string) override
-        {
-            _title = string;
-            return this;
         }
         int attempts() const override
         {
@@ -44,15 +27,6 @@ namespace ModelsContext{
             _attempts = val;
             return this;
         }
-        int gameMode() const override
-        {
-            return _gameMode;
-        }
-        DartsTournament* setGameMode(const int &val) override
-        {
-            _gameMode = val;
-            return this;
-        }
         int keyPoint() const override
         {
             return _keyPoint;
@@ -60,45 +34,6 @@ namespace ModelsContext{
         DartsTournament* setKeyPoint(const int &val) override
         {
             _keyPoint = val;
-            return this;
-        }
-        int status() const override
-        {
-            return _status;
-        }
-        DartsTournament* setStatus(const bool &status) override
-        {
-            _status = status;
-            return this;
-        }
-        QUuid winnerId() const override
-        {
-            return _winnerId;
-        }
-        DartsTournament* setWinnerId(const QUuid &val) override
-        {
-            _winnerId = val;
-            return this;
-        }
-
-        QVector<QUuid> assignedPlayerIds() const override
-        {
-            return _assignedPlayerIdentities;
-        }
-        DartsTournament* setAssignedPlayerIdentities(const QVector<QUuid> &playerIdentities) override
-        {
-            _assignedPlayerIdentities = playerIdentities;
-            return this;
-        }
-
-        virtual QVector<QString> assignedPlayerNames() const override
-        {
-            return _assignedPlayerNames;
-        }
-
-        virtual ITournament *setAssignedPlayerNames(const QVector<QString> &names) override
-        {
-            _assignedPlayerNames = names;
             return this;
         }
 
@@ -131,18 +66,11 @@ namespace ModelsContext{
             return this;
         }
     private:
-        QString _title;
         int _attempts;
-        int _gameMode;
         int _keyPoint;
-        int _status;
         int _terminalKeyCode;
         int _displayHint;
         int _inputHint;
-        QUuid _id;
-        QUuid _winnerId;
-        QVector<QUuid> _assignedPlayerIdentities;
-        QVector<QString> _assignedPlayerNames;
     };
 }
 

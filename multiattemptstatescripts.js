@@ -2,7 +2,7 @@ function declareWinner()
 {
     singleColumnScoreTurnController.backendHasDeclaredAWinner();
     scoreKeyPad.enableKeyPad(false);
-    MultiAttemptScripts.setWinnerText();
+    DartsScoresScripts.setWinnerText();
 }
 
 function backendIsStopped()

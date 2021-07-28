@@ -8,25 +8,16 @@ class DartsCreateJsonMetaData : public IDartsCreateJsonMetaData
 {
 public:
     virtual QByteArray createJsonDartsMetaData(const IModel<QUuid> *model,
-                                               const IGetDartsPlayerModelsFromDb *getPlayerData,
-                                               const IAddDetailsToTournamentJson *jsonManipulator,
-                                               const IDartsTournamentJsonBuilder *jsonBuilder,
-                                               const IDbService *playersDb) const override
+                                               const IDartsTournamentJsonBuilder *jsonBuilder) const override
     {
-        auto tournamentModel = dynamic_cast<const ITournament*>(model);
-        auto playerNames = tournamentModel->assignedPlayerNames();
-        auto winnerPlayerModel = getPlayerData->playerModel(tournamentModel->winnerId(),playersDb);
-        auto winnerName = getWinnerNameFromModel(winnerPlayerModel);
         auto json = jsonBuilder->createJson(model);
-        json = jsonManipulator->addPlayerNames(json,playerNames);
-        json = jsonManipulator->addWinnerName(json,winnerName);
         return json;
     }
 private:
     QString getWinnerNameFromModel(const IModel<QUuid> *model) const
     {
         if(model != nullptr)
-            return dynamic_cast<const ModelsContext::IPlayerModel*>(model)->playerName();
+            return dynamic_cast<const PlayersContext::IPlayerModel*>(model)->playerName();
         else
             return "";
     }

@@ -8,11 +8,11 @@
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 #include <qjsonarray.h>
-#include "icreatejsonfrominputs.h"
+#include "icreatejsonfrommodels.h"
 
 namespace DartsDbContext {
     class CreateJsonFromDartsScoreModels :
-            public ICreateJsonFromInputs
+            public ICreateJsonFromModels
     {
     public:
         virtual QByteArray createJson(const QVector<const IModel<QUuid> *> &models) const override

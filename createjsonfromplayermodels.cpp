@@ -1,8 +1,8 @@
 #include "createjsonfromplayermodels.h"
 
-using namespace ModelsContext;
+using namespace PlayersContext;
 
-QByteArray CreateJsonFromPlayerModels::createJson(QVector<const IModel<QUuid> *> models) const
+QByteArray CreateJsonFromPlayerModels::createJson(const QVector<const IModel<QUuid> *> &models) const
 {
     QJsonArray arr = createJsonArray(models);
     return createByteArray(arr);

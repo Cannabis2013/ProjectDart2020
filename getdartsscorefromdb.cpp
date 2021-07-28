@@ -5,7 +5,7 @@ using namespace ModelsContext;
 const IModel<QUuid> *GetDartsScoreFromDb::get(const QUuid &tournamentId,
                                              const QUuid &playerId,
                                              const int &roundIndex,
-                                             const IDbService *dbService) const
+                                             const IModelsDbContext *dbService) const
 {
     auto models = dbService->models();
     auto model = getModelThatMatchesParameters(models,tournamentId,playerId,roundIndex);
