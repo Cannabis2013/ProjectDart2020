@@ -1,19 +1,19 @@
 function updateViewPosition(x,y)
 {
-    flickableTable.contentX = x;
-    flickableTable.contentY = y;
+    scoreBoardTableView.contentX = x;
+    scoreBoardTableView.contentY = y;
 }
 
 function updateContentDimensions(h,w)
 {
-    flickableVHeader.contentHeight = h;
-    flickableTable.contentHeight = h;
-    flickableTable.contentWidth = w;
-    flickableHHeader.contentWidth = w;
+    scoreBoardVHeader.contentHeight = h;
+    scoreBoardTableView.contentHeight = h;
+    scoreBoardTableView.contentWidth = w;
+    scoreBoardHHeader.contentWidth = w;
 }
 
 function updateVerticalHeaderWidth(w)
 {
-    flickableVHeader.Layout.minimumWidth = w;
-    verticalHeader.width = w;
+    scoreBoardVHeader.Layout.minimumWidth = w;
+    scoreBoardVHeader.width = w;
 }

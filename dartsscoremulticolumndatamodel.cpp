@@ -1,11 +1,11 @@
-#include "dartsmultiscoredatamodel.h"
+#include "dartsscoremulticolumndatamodel.h"
 
-DartsMultiScoreDataModel::DartsMultiScoreDataModel()
+DartsScoreMultiColumnDataModel::DartsScoreMultiColumnDataModel()
 {
-    connect(this,&DartsMultiScoreDataModel::initialValueChanged,this,&DartsMultiScoreDataModel::updateInitialCellValues);
+    connect(this,&DartsScoreMultiColumnDataModel::initialValueChanged,this,&DartsScoreMultiColumnDataModel::updateInitialCellValues);
 }
 
-int DartsMultiScoreDataModel::editData(const int &row, const int &column, const int &score)
+int DartsScoreMultiColumnDataModel::editData(const int &row, const int &column, const int &score)
 {
     if(row < 0 || row >= rowCount())
         return -1;
@@ -21,90 +21,60 @@ int DartsMultiScoreDataModel::editData(const int &row, const int &column, const 
     return oldData.toInt();
 }
 
-bool DartsMultiScoreDataModel::insertData(const QString &playerName,
-                                          const int &score)
+bool DartsScoreMultiColumnDataModel::insertData(const QString &playerName, const int &score)
 {
     if(appendMode() == AppendDataMode::SingleAppend)
         return setPlayerData(playerName,score,headerOrientation());
     else
         return appendPlayerData(playerName,score,headerOrientation());
-
     return false;
 }
 
-bool DartsMultiScoreDataModel::setPlayerData(const QString &playerName,
-                                 const int &score,
-                                 const int &headerOrientation)
+bool DartsScoreMultiColumnDataModel::setPlayerData(const QString &playerName, const int &score,const int &headerOrientation)
 {
     auto orientation = headerOrientation != -1 ? headerOrientation : this->headerOrientation();
     auto indexOfPlayer = indexOfHeaderItem(playerName,orientation);
-    if(orientation == Qt::Horizontal)
-    {
-        auto modelIndex = this->createIndex(0,indexOfPlayer);
-
-        if(!modelIndex.isValid())
-            return false;
-        try {
-            setData(modelIndex,score,Qt::DisplayRole);
-        } catch (std::out_of_range *e) {
-            printf("%s\n",e->what());
-            return false;
-        }
-    }
-    else if(orientation == Qt::Vertical)
-    {
-        auto modelIndex = this->createIndex(indexOfPlayer,0);
-        if(!modelIndex.isValid())
-            return false;
-        try {
-            setData(modelIndex,score,Qt::DisplayRole);
-        } catch (std::out_of_range *e) {
-            printf("%s\n",e->what());
-            return false;
-        }
+    QModelIndex modelIndex = createIndexFromIndex(indexOfPlayer,orientation);
+    if(!modelIndex.isValid())
+        return false;
+    try {
+        setData(modelIndex,score,Qt::DisplayRole);
+    } catch (std::out_of_range *e) {
+        printf("%s\n",e->what());
+        return false;
     }
     return true;
 }
 
-bool DartsMultiScoreDataModel::appendPlayerData(const QString &playerName,
-                                const int &score,
-                                const int &headerOrientation)
+bool DartsScoreMultiColumnDataModel::appendPlayerData(const QString &playerName, const int &score,const int &headerOrientation)
 {
     auto orientation = headerOrientation != -1 ? headerOrientation : this->headerOrientation();
     auto index = indexOfHeaderItem(playerName,orientation);
+    QModelIndex modelIndex;
     if(orientation == Qt::Horizontal)
     {
         auto row = index < columnCount() ? rowCount(index) : 0;
-        auto modelIndex = this->createIndex(row,index);
-
-        if(!modelIndex.isValid())
-            return false;
-        try {
-            setData(modelIndex,score,Qt::DisplayRole);
-        } catch (std::out_of_range *e) {
-            printf("%s\n",e->what());
-            return false;
-        }
+        modelIndex = this->createIndex(row,index);
     }
     else if(orientation == Qt::Vertical)
     {
         auto rowCount = _data.count();
         auto column = index < rowCount ?
                     indexOfLastDecoratedCell(index,orientation) + 1 : 0;
-        auto modelIndex = this->createIndex(index,column);
-        if(!modelIndex.isValid())
-            return false;
-        try {
-            setData(modelIndex,score,Qt::DisplayRole);
-        } catch (std::out_of_range *e) {
-            printf("%s\n",e->what());
-            return false;
-        }
+        modelIndex = this->createIndex(index,column);
+    }
+    if(!modelIndex.isValid())
+        return false;
+    try {
+        setData(modelIndex,score,Qt::DisplayRole);
+    } catch (std::out_of_range *e) {
+        printf("%s\n",e->what());
+        return false;
     }
     return true;
 }
 
-bool DartsMultiScoreDataModel::removeLastItem(const QString &playerName, const int &headerOrientation)
+bool DartsScoreMultiColumnDataModel::removeLastItem(const QString &playerName, const int &headerOrientation)
 {
     auto orientation = headerOrientation != -1 ? headerOrientation : this->headerOrientation();
     if(orientation == Qt::Horizontal)
@@ -125,7 +95,7 @@ bool DartsMultiScoreDataModel::removeLastItem(const QString &playerName, const i
     }
 }
 
-void DartsMultiScoreDataModel::appendHeaderItem(const QVariant &data,
+void DartsScoreMultiColumnDataModel::appendHeaderItem(const QVariant &data,
                                             const int &headerOrientation)
 {
     auto orientation = headerOrientation != -1 ?
@@ -154,7 +124,7 @@ void DartsMultiScoreDataModel::appendHeaderItem(const QVariant &data,
     }
 }
 
-void DartsMultiScoreDataModel::clearData()
+void DartsScoreMultiColumnDataModel::clearData()
 {
     _data.clear();
     auto bottomRight = createIndex(rowCount() - 1,columnCount() - 1);
@@ -167,7 +137,7 @@ void DartsMultiScoreDataModel::clearData()
     emit dataChanged(createIndex(0,0),bottomRight);
 }
 
-QString DartsMultiScoreDataModel::getHeaderData(const int &index, const int &headerOrientation) const
+QString DartsScoreMultiColumnDataModel::getHeaderData(const int &index, const int &headerOrientation) const
 {
     auto orientation = headerOrientation != -1 ? headerOrientation :
                                                  this->headerOrientation();
@@ -175,7 +145,7 @@ QString DartsMultiScoreDataModel::getHeaderData(const int &index, const int &hea
     return value;
 }
 
-int DartsMultiScoreDataModel::headerItemCount(const int &headerOrientation) const
+int DartsScoreMultiColumnDataModel::headerItemCount(const int &headerOrientation) const
 {
     auto orientation = headerOrientation != -1 ?
                 headerOrientation : this->headerOrientation();
@@ -195,17 +165,17 @@ int DartsMultiScoreDataModel::headerItemCount(const int &headerOrientation) cons
     }
 }
 
-int DartsMultiScoreDataModel::rowCount() const
+int DartsScoreMultiColumnDataModel::rowCount() const
 {
     return rowCount(QModelIndex());
 }
 
-int DartsMultiScoreDataModel::columnCount() const
+int DartsScoreMultiColumnDataModel::columnCount() const
 {
     return columnCount(QModelIndex());
 }
 
-double DartsMultiScoreDataModel::columnWidthAt(const int &column) const
+double DartsScoreMultiColumnDataModel::columnWidthAt(const int &column) const
 {
     auto s = scale();
     auto w = columnWidthsAt(column);
@@ -216,7 +186,7 @@ double DartsMultiScoreDataModel::columnWidthAt(const int &column) const
         return columnWidth;
 }
 
-double DartsMultiScoreDataModel::rowHeightAt(const int &row) const
+double DartsScoreMultiColumnDataModel::rowHeightAt(const int &row) const
 {
     if(_data.count() <= 0)
         return 0;
@@ -252,38 +222,38 @@ double DartsMultiScoreDataModel::rowHeightAt(const int &row) const
     return resultingGlyphLenght;
 }
 
-int DartsMultiScoreDataModel::horizontalHeaderCount() const
+int DartsScoreMultiColumnDataModel::horizontalHeaderCount() const
 {
     return _horizontalHeaderData.count();
 }
 
-int DartsMultiScoreDataModel::verticalHeaderCount() const
+int DartsScoreMultiColumnDataModel::verticalHeaderCount() const
 {
     return _verticalHeaderData.count();
 }
 
-int DartsMultiScoreDataModel::rowCount(const QModelIndex &) const
+int DartsScoreMultiColumnDataModel::rowCount(const QModelIndex &) const
 {
     return _rows;
 }
 
-int DartsMultiScoreDataModel::columnCount(const QModelIndex &) const
+int DartsScoreMultiColumnDataModel::columnCount(const QModelIndex &) const
 {
     return _columns;
 }
 
-void DartsMultiScoreDataModel::setColumnWidthAt(const int &column, const double &w)
+void DartsScoreMultiColumnDataModel::setColumnWidthAt(const int &column, const double &w)
 {
     _columnWidths.replace(column,w);
 }
 
-int DartsMultiScoreDataModel::columnWidthsAt(const int &index) const
+int DartsScoreMultiColumnDataModel::columnWidthsAt(const int &index) const
 {
     auto columnWidth = _columnWidths.at(index);
     return columnWidth;
 }
 
-QVariant DartsMultiScoreDataModel::data(const QModelIndex &index, int role) const
+QVariant DartsScoreMultiColumnDataModel::data(const QModelIndex &index, int role) const
 {
     if(!index.isValid() || _data.count() <= 0)
         return QVariant();
@@ -302,7 +272,7 @@ QVariant DartsMultiScoreDataModel::data(const QModelIndex &index, int role) cons
                 QVariant("");
 }
 
-QVariant DartsMultiScoreDataModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant DartsScoreMultiColumnDataModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if(role != Qt::DisplayRole)
         return QVariant();
@@ -344,12 +314,12 @@ QVariant DartsMultiScoreDataModel::headerData(int section, Qt::Orientation orien
     return QVariant();
 }
 
-int DartsMultiScoreDataModel::numberOfAttemps() const
+int DartsScoreMultiColumnDataModel::numberOfAttemps() const
 {
     return _attemps;
 }
 
-bool DartsMultiScoreDataModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool DartsScoreMultiColumnDataModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     auto row = index.row();
     auto column = index.column();
@@ -385,7 +355,7 @@ bool DartsMultiScoreDataModel::setData(const QModelIndex &index, const QVariant 
     return true;
 }
 
-bool DartsMultiScoreDataModel::insertRows(int row, int count, const QModelIndex &)
+bool DartsScoreMultiColumnDataModel::insertRows(int row, int count, const QModelIndex &)
 {
     auto firstRow = row <= rowCount(QModelIndex()) ? row : rowCount(QModelIndex()) - 1;
     auto lastRow  =  row <= rowCount(QModelIndex()) ? firstRow + count : 2*row + count - firstRow;
@@ -414,7 +384,7 @@ bool DartsMultiScoreDataModel::insertRows(int row, int count, const QModelIndex 
     return true;
 }
 
-bool DartsMultiScoreDataModel::insertColumns(int column, int count, const QModelIndex &)
+bool DartsScoreMultiColumnDataModel::insertColumns(int column, int count, const QModelIndex &)
 {
     auto firstColumn = column <= columnCount() ? column : columnCount() - 1;
     auto lastColumn  =  column <= columnCount() ? firstColumn + count : 2*column + count - firstColumn;
@@ -446,7 +416,7 @@ bool DartsMultiScoreDataModel::insertColumns(int column, int count, const QModel
     return true;
 }
 
-bool DartsMultiScoreDataModel::removeRows(int row, int count, const QModelIndex &)
+bool DartsScoreMultiColumnDataModel::removeRows(int row, int count, const QModelIndex &)
 {
     // Check if input satisfies model constraints
     if(row < 0 || row >= rowCount())
@@ -465,18 +435,15 @@ bool DartsMultiScoreDataModel::removeRows(int row, int count, const QModelIndex 
         // Remove corresponding header rows
         _verticalHeaderData.removeAt(i);
     }
-
     endRemoveRows();
-
     _rows -= count;
-
     // Notify model and surrounding state that data has changed
     emit dataChanged(topLeftIndex,bottomRightIndex,{Qt::DisplayRole});
 
     return true;
 }
 
-bool DartsMultiScoreDataModel::removeColumns(int column, int count, const QModelIndex &)
+bool DartsScoreMultiColumnDataModel::removeColumns(int column, int count, const QModelIndex &)
 {
     // Check if input satisfies model constraints
     if(column < 0 || column >= columnCount())
@@ -500,7 +467,7 @@ bool DartsMultiScoreDataModel::removeColumns(int column, int count, const QModel
     return true;
 }
 
-void DartsMultiScoreDataModel::updateInitialCellValues()
+void DartsScoreMultiColumnDataModel::updateInitialCellValues()
 {
 
     if(_data.count() < 1)
@@ -523,13 +490,23 @@ void DartsMultiScoreDataModel::updateInitialCellValues()
     }
 }
 
-bool DartsMultiScoreDataModel::isCellDecorated(const QModelIndex &index)
+QModelIndex DartsScoreMultiColumnDataModel::createIndexFromIndex(const int &index, const int &orientation) const
+{
+    QModelIndex modelIndex;
+    if(orientation == Qt::Horizontal)
+        modelIndex = this->createIndex(0,index);
+    else if(orientation == Qt::Vertical)
+        modelIndex = this->createIndex(index,0);
+    return modelIndex;
+}
+
+bool DartsScoreMultiColumnDataModel::isCellDecorated(const QModelIndex &index)
 {
     return data(index,Qt::DisplayRole) != "-";
 }
 
 
-int DartsMultiScoreDataModel::indexOfLastDecoratedCell(const int &index,const int &orientation)
+int DartsScoreMultiColumnDataModel::indexOfLastDecoratedCell(const int &index,const int &orientation)
 {
     if(orientation == Qt::Vertical)
     {
@@ -561,7 +538,7 @@ int DartsMultiScoreDataModel::indexOfLastDecoratedCell(const int &index,const in
     }
 }
 
-int DartsMultiScoreDataModel::rowCount(const int &column)
+int DartsScoreMultiColumnDataModel::rowCount(const int &column)
 {
     for (int row = 0; row < _data.count(); ++row) {
         auto scoreAtRow = _data.at(row);
@@ -573,7 +550,7 @@ int DartsMultiScoreDataModel::rowCount(const int &column)
     return rowCount();
 }
 
-bool DartsMultiScoreDataModel::isColumnEmpty(const int &col)
+bool DartsScoreMultiColumnDataModel::isColumnEmpty(const int &col)
 {
     if(col < 0 || col >= columnCount())
         throw std::out_of_range("Index out of range");
@@ -585,7 +562,7 @@ bool DartsMultiScoreDataModel::isColumnEmpty(const int &col)
     return true;
 }
 
-bool DartsMultiScoreDataModel::isRowEmpty(const int &row)
+bool DartsScoreMultiColumnDataModel::isRowEmpty(const int &row)
 {
     if(row < 0 || row >= rowCount())
         throw std::out_of_range("Index out of range");
@@ -598,7 +575,7 @@ bool DartsMultiScoreDataModel::isRowEmpty(const int &row)
     return true;
 }
 
-int DartsMultiScoreDataModel::removeData(const QModelIndex &index)
+int DartsScoreMultiColumnDataModel::removeData(const QModelIndex &index)
 {
     if(!index.isValid())
         return -1;
@@ -631,7 +608,7 @@ int DartsMultiScoreDataModel::removeData(const QModelIndex &index)
     return data;
 }
 
-int DartsMultiScoreDataModel::indexOfHeaderItem(const QString &data, const int &orientation)
+int DartsScoreMultiColumnDataModel::indexOfHeaderItem(const QString &data, const int &orientation)
 {
     if(orientation == Qt::Vertical)
     {
@@ -645,110 +622,110 @@ int DartsMultiScoreDataModel::indexOfHeaderItem(const QString &data, const int &
     }
 }
 
-int DartsMultiScoreDataModel::stringWidth(const QString &string, const QString &family, const int &pointSize) const
+int DartsScoreMultiColumnDataModel::stringWidth(const QString &string, const QString &family, const int &pointSize) const
 {
     auto fontMetric = QFontMetrics(QFont(family,pointSize));
     auto r = fontMetric.boundingRect(string).width();
     return r;
 }
 
-int DartsMultiScoreDataModel::headerFontSize() const
+int DartsScoreMultiColumnDataModel::headerFontSize() const
 {
     return _headerFontSize;
 }
 
-void DartsMultiScoreDataModel::setHeaderFontSize(int headerFontSize)
+void DartsScoreMultiColumnDataModel::setHeaderFontSize(int headerFontSize)
 {
     _headerFontSize = headerFontSize;
 }
 
-QStringList DartsMultiScoreDataModel::getHorizontalHeaderData() const
+QStringList DartsScoreMultiColumnDataModel::getHorizontalHeaderData() const
 {
     return _horizontalHeaderData;
 }
 
-void DartsMultiScoreDataModel::setHorizontalHeaderData(const QList<QString> &horizontalHeaderData)
+void DartsScoreMultiColumnDataModel::setHorizontalHeaderData(const QList<QString> &horizontalHeaderData)
 {
     _horizontalHeaderData = horizontalHeaderData;
 }
 
-QStringList DartsMultiScoreDataModel::getVerticalHeaderData() const
+QStringList DartsScoreMultiColumnDataModel::getVerticalHeaderData() const
 {
     return _verticalHeaderData;
 }
 
-void DartsMultiScoreDataModel::setVerticalHeaderData(const QList<QString> &verticalHeaderData)
+void DartsScoreMultiColumnDataModel::setVerticalHeaderData(const QList<QString> &verticalHeaderData)
 {
     _verticalHeaderData = verticalHeaderData;
 }
 
-int DartsMultiScoreDataModel::appendMode() const
+int DartsScoreMultiColumnDataModel::appendMode() const
 {
     return _appendMode;
 }
 
-void DartsMultiScoreDataModel::setAppendMode(int appendMode)
+void DartsScoreMultiColumnDataModel::setAppendMode(int appendMode)
 {
     _appendMode = appendMode;
 }
 
-QString DartsMultiScoreDataModel::pointFontFamily() const
+QString DartsScoreMultiColumnDataModel::pointFontFamily() const
 {
     return _pointFontFamily;
 }
 
-void DartsMultiScoreDataModel::setPointFontFamily(const QString &pointFontFamily)
+void DartsScoreMultiColumnDataModel::setPointFontFamily(const QString &pointFontFamily)
 {
     _pointFontFamily = pointFontFamily;
 }
 
-QString DartsMultiScoreDataModel::scoreFontFamily() const
+QString DartsScoreMultiColumnDataModel::scoreFontFamily() const
 {
     return _scoreFontFamily;
 }
 
-void DartsMultiScoreDataModel::setScoreFontFamily(const QString &scoreFontFamily)
+void DartsScoreMultiColumnDataModel::setScoreFontFamily(const QString &scoreFontFamily)
 {
     _scoreFontFamily = scoreFontFamily;
 }
 
-int DartsMultiScoreDataModel::pointFontSize() const
+int DartsScoreMultiColumnDataModel::pointFontSize() const
 {
     return _pointFontSize;
 }
 
-void DartsMultiScoreDataModel::setPointFontSize(int pointFontSize)
+void DartsScoreMultiColumnDataModel::setPointFontSize(int pointFontSize)
 {
     _pointFontSize = pointFontSize;
 }
 
-int DartsMultiScoreDataModel::scoreFontSize() const
+int DartsScoreMultiColumnDataModel::scoreFontSize() const
 {
     return _scoreFontSize;
 }
 
-void DartsMultiScoreDataModel::setScoreFontSize(int scoreFontSize)
+void DartsScoreMultiColumnDataModel::setScoreFontSize(int scoreFontSize)
 {
     _scoreFontSize = scoreFontSize;
 }
 
-int DartsMultiScoreDataModel::initialValue() const
+int DartsScoreMultiColumnDataModel::initialValue() const
 {
     return _initialValue;
 }
 
-void DartsMultiScoreDataModel::setInitialValue(int initialValue)
+void DartsScoreMultiColumnDataModel::setInitialValue(int initialValue)
 {
     _initialValue = initialValue;
     emit initialValueChanged();
 }
 
-int DartsMultiScoreDataModel::minimumRowCount() const
+int DartsScoreMultiColumnDataModel::minimumRowCount() const
 {
     return _minimumRowCount;
 }
 
-void DartsMultiScoreDataModel::setMinimumRowCount(int minimumRowCount)
+void DartsScoreMultiColumnDataModel::setMinimumRowCount(int minimumRowCount)
 {
     if(appendMode() == AppendDataMode::SingleAppend)
         return;
@@ -758,12 +735,12 @@ void DartsMultiScoreDataModel::setMinimumRowCount(int minimumRowCount)
         setRowCount(minimumRowCount);
 }
 
-int DartsMultiScoreDataModel::minimumColumnCount() const
+int DartsScoreMultiColumnDataModel::minimumColumnCount() const
 {
     return _minimumColumnCount;
 }
 
-void DartsMultiScoreDataModel::setMinimumColumnCount(int minimumColumnCount)
+void DartsScoreMultiColumnDataModel::setMinimumColumnCount(int minimumColumnCount)
 {
     if(appendMode() == AppendDataMode::SingleAppend)
         return;
@@ -774,29 +751,29 @@ void DartsMultiScoreDataModel::setMinimumColumnCount(int minimumColumnCount)
     emit minimumColumnCountChanged();
 }
 
-int DartsMultiScoreDataModel::headerOrientation() const
+int DartsScoreMultiColumnDataModel::headerOrientation() const
 {
     return _headerOrientation;
 }
 
-void DartsMultiScoreDataModel::setHeaderOrientation(int headerOrientation)
+void DartsScoreMultiColumnDataModel::setHeaderOrientation(int headerOrientation)
 {
     _headerOrientation = headerOrientation;
 }
 
-int DartsMultiScoreDataModel::preferedHeaderItemWidth() const
+int DartsScoreMultiColumnDataModel::preferedHeaderItemWidth() const
 {
     auto preferedWidth = columnWidthsAt(0);
     return preferedWidth;
 }
 
-void DartsMultiScoreDataModel::setNumberOfAttemps(const int &count)
+void DartsScoreMultiColumnDataModel::setNumberOfAttemps(const int &count)
 {
     _attemps = count;
     emit dataChanged(QModelIndex(),QModelIndex());
 }
 
-void DartsMultiScoreDataModel::setColumnCount(const int &count)
+void DartsScoreMultiColumnDataModel::setColumnCount(const int &count)
 {
     if(count < 0)
         return;
@@ -813,7 +790,7 @@ void DartsMultiScoreDataModel::setColumnCount(const int &count)
     }
 }
 
-void DartsMultiScoreDataModel::setRowCount(const int &count)
+void DartsScoreMultiColumnDataModel::setRowCount(const int &count)
 {
     if(count < 0)
         return;
@@ -831,33 +808,33 @@ void DartsMultiScoreDataModel::setRowCount(const int &count)
     emit minimumRowCountChanged();
 }
 
-double DartsMultiScoreDataModel::scale() const
+double DartsScoreMultiColumnDataModel::scale() const
 {
     return _scale;
 }
 
-void DartsMultiScoreDataModel::setScale(double scale)
+void DartsScoreMultiColumnDataModel::setScale(double scale)
 {
     _scale = scale;
 }
 
-int DartsMultiScoreDataModel::horizontalHeaderFillMode() const
+int DartsScoreMultiColumnDataModel::horizontalHeaderFillMode() const
 {
     return _horizontalFillMode;
 }
 
-int DartsMultiScoreDataModel::verticalHeaderFillMode() const
+int DartsScoreMultiColumnDataModel::verticalHeaderFillMode() const
 {
     return _verticalFillMode;
 }
 
-void DartsMultiScoreDataModel::setHorizontalHeaderFillMode(const int &fillMode)
+void DartsScoreMultiColumnDataModel::setHorizontalHeaderFillMode(const int &fillMode)
 {
     _horizontalFillMode = fillMode;
     emit fillModeChanged();
 }
 
-void DartsMultiScoreDataModel::setVerticalHeaderFillMode(const int &fillMode)
+void DartsScoreMultiColumnDataModel::setVerticalHeaderFillMode(const int &fillMode)
 {
     _verticalFillMode = fillMode;
     emit fillModeChanged();

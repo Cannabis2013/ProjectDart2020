@@ -26,11 +26,8 @@ ScoreBoard {
     onEditData: ScoreScripts.editData(row,column,point,score)
     onClearData: multiAttemptDataModel.clearData();
     // Header related
-    horizontalHeaderFontSize: 16
-    onHorizontalHeaderFontSizeChanged: multiAttemptDataModel.headerFontSize = scoreSingleColumnBody.horizontalHeaderFontSize
     verticalHeaderVisible: true
     onAppendHeaderData: ScoreScripts.setHeaderData(data,defaultVal)
-    verticalHeaderFontSize: dataValues.headerFontSize
     // Cell related
     property int cellBorderWidth: 0
     onCellBorderWidthChanged: delegate.borderWidth = cellBorderWidth

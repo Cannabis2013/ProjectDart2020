@@ -176,7 +176,7 @@ Rectangle{
 
                 title: tournamentTitle
                 description: "Playercount: " + playersCount + " | Gamemode: " + gameMode;
-                x: parent.width / 2 - width / 2
+                x: parent.width / 2 - listItem.width / 2
             }
         }
     }

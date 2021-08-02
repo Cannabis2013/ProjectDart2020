@@ -58,7 +58,7 @@ Content {
             onLeftButtonClicked: applicationInterface.requestUndo()
             onRightButtonClicked: applicationInterface.requestRedo()
         }
-        DartsPointScoreBoard{
+        DartsPointMultiColumnBoard{
             id: pointScoreBoard
             Layout.fillHeight: true
             Layout.fillWidth: true

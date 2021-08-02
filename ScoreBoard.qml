@@ -8,52 +8,38 @@ ScoreBoardInterface{
     color: "transparent"
     signal refreshHeaders()
     signal setHorizontalHeaderWidthAt(int j, int w)
-    onSetHorizontalHeaderWidthAt: horizontalHeader.setColumnWidth(j,w)
+    onSetHorizontalHeaderWidthAt: scoreBoardHHeader.setColumnWidth(j,w)
     signal setRowHeight(int i,int h)
-    onSetRowHeight: verticalHeader.setRowHeight(i,h)
+    onSetRowHeight: scoreBoardVHeader.setRowHeight(i,h)
     signal requestUpdateCells()
-    onRequestUpdateCells: tableView.forceLayout()
+    onRequestUpdateCells: scoreBoardTableView.forceLayout()
     signal notifyCellPosition(int x, int y)
     // Row/column related
     property int minimumColumnCount: 1
     // Horizontal header properties and signals
     signal setHorizontalHeaderDataAt(int j, var val)
-    onSetHorizontalHeaderDataAt: horizontalHeader.setData(j,val)
+    onSetHorizontalHeaderDataAt: scoreBoardHHeader.setData(j,val)
     signal setHorizontalHeaderModel(int m)
-    onSetHorizontalHeaderModel: horizontalHeader.model = m
-    onSetVerticalHeaderModel: verticalHeader.model = m
-    property color horizontalHeaderFontColor: "white"
-    onHorizontalHeaderFontColorChanged: horizontalHeader.fontColor = horizontalHeaderFontColor
-    property color horizontalHeaderBackgroundColor: "transparent"
-    onHorizontalHeaderBackgroundColorChanged: horizontalHeader.backgroundColor = horizontalHeaderBackgroundColor
+    onSetHorizontalHeaderModel: scoreBoardHHeader.model = m
     property bool horizontalHeaderVisible: true
-    onHorizontalHeaderVisibleChanged: flickableHHeader.visible = horizontalHeaderVisible
+    onHorizontalHeaderVisibleChanged: scoreBoardHHeader.visible = horizontalHeaderVisible
     property int horizontalHeaderHeight: 20
-    onHorizontalHeaderHeightChanged: horizontalHeader.height = horizontalHeaderHeight
-    property int horizontalHeaderFontSize: 12
-    onHorizontalHeaderFontSizeChanged: horizontalHeader.fontSize = horizontalHeaderFontSize
-    property int horizontalHeaderFillMode: 0x1
-    readonly property int horizontalHeaderCount: horizontalHeader.dataCount()
-    property int horizontalHeaderModel: horizontalHeader.model
-    onHorizontalHeaderModelChanged: horizontalHeader.model = horizontalHeaderModel
+    onHorizontalHeaderHeightChanged: scoreBoardHHeader.height = horizontalHeaderHeight
+    readonly property int horizontalHeaderCount: scoreBoardHHeader.dataCount
+    property int horizontalHeaderModel: scoreBoardHHeader.model
+    onHorizontalHeaderModelChanged: scoreBoardHHeader.model = horizontalHeaderModel
     // Vertical header properties and signals
-    signal setVerticalHeaderDataAt(int i, var val)
-    onSetVerticalHeaderDataAt: verticalHeader.setData(i,val)
     signal setVerticalHeaderModel(int m)
-    property color verticalHeaderFontColor: "white"
-    onVerticalHeaderFontColorChanged: verticalHeader.fontColor = verticalHeaderFontColor
-    property color verticalHeaderBackgroundColor: "transparent"
-    onVerticalHeaderBackgroundColorChanged: verticalHeader.backgroundColor = verticalHeaderBackgroundColor
+    onSetVerticalHeaderModel: scoreBoardVHeader.model = m
+    signal setVerticalHeaderDataAt(int i, var val)
+    onSetVerticalHeaderDataAt: scoreBoardVHeader.setData(i,val)
     property bool verticalHeaderVisible: true
-    onVerticalHeaderVisibleChanged: flickableVHeader.visible = verticalHeaderVisible
+    onVerticalHeaderVisibleChanged: scoreBoardVHeader.visible = verticalHeaderVisible
     property bool staticVerticalHeaderWidth: false
     property int verticalHeaderWidth: 25
-    onVerticalHeaderWidthChanged: verticalHeader.width = verticalHeaderWidth
-    property int verticalHeaderFillMode: 0x2
-    property int verticalHeaderFontSize: 12
-    onVerticalHeaderFontSizeChanged: verticalHeader.fontSize = verticalHeaderFontSize
-    property int verticalHeaderModel: verticalHeader.model
-    onVerticalHeaderModelChanged: verticalHeader.model = verticalHeaderModel
+    onVerticalHeaderWidthChanged: scoreBoardVHeader.width = verticalHeaderWidth
+    property int verticalHeaderModel: scoreBoardVHeader.model
+    onVerticalHeaderModelChanged: scoreBoardVHeader.model = verticalHeaderModel
     // Table view related
     signal updateViewPosition(int x,int y)
     onUpdateViewPosition: ScoreBoardScripts.updateViewPosition(x,y)
@@ -61,20 +47,20 @@ ScoreBoardInterface{
     signal updateContentDimensions(int h, int w)
     onUpdateContentDimensions: ScoreBoardScripts.updateContentDimensions(h,w)
     // Model property
-    property QtObject model: tableView.model
-    onModelChanged: tableView.model = model
+    property QtObject model: scoreBoardTableView.model
+    onModelChanged: scoreBoardTableView.model = model
     // Cell delegate
     property Component cellDelegate: Rectangle{}
-    onCellDelegateChanged: tableView.delegate = cellDelegate
+    onCellDelegateChanged: scoreBoardTableView.cellDelegate = cellDelegate
     // Update vertical header width
     signal updateVerticalHeaderWidth(int w)
     onUpdateVerticalHeaderWidth: ScoreBoardScripts.updateVerticalHeaderWidth(w)
     // Update column widths from datamodel
     property var columnWidthProvider: function(){}
-    onColumnWidthProviderChanged: tableView.columnWidthProvider = columnWidthProvider
+    onColumnWidthProviderChanged: scoreBoardTableView.columnWidthProvider = columnWidthProvider
     // Update row height from datamodel
     property var rowHeightProvider: function(){}
-    onRowHeightProviderChanged: tableView.rowHeightProvider = rowHeightProvider
+    onRowHeightProviderChanged: scoreBoardTableView.rowHeightProvider = rowHeightProvider
     // Data model visualization related
     property double modelScale: 1
     GridLayout
@@ -85,58 +71,27 @@ ScoreBoardInterface{
         columns: 2
         rowSpacing: 0
         columnSpacing: 0
-        Flickable{
-            id: flickableVHeader
-            clip: true
+        ScoreBoardVHeader {
+            id: scoreBoardVHeader
+            Layout.column: 0
             Layout.fillHeight: true
             Layout.row: 1
-            Layout.column: 0
-            interactive: false
-            VerticalHeader {
-                id: verticalHeader
-                fontSize: scoreBoardBody.verticalHeaderFontSize
-                anchors.fill: parent
-                backgroundColor: scoreBoardBody.verticalHeaderBackgroundColor
-                fontColor: scoreBoardBody.verticalHeaderFontColor
-                borderWidth: 1
-                Layout.alignment: Qt.AlignTop
-                visible: scoreBoardBody.verticalHeaderVisible
-            }
         }
-        Flickable{
-            id: flickableHHeader
-            clip: true
+        ScoreBoardHHeader {
+            id: scoreBoardHHeader
+            Layout.column: 1
             Layout.fillWidth: true
             Layout.minimumHeight: 45
-            contentHeight: 45
             Layout.row: 0
-            Layout.column: 1
-            interactive: false
-            HorizontalHeader {
-                id: horizontalHeader
-                anchors.fill: flickableHHeader.contentItem
-                backgroundColor: scoreBoardBody.horizontalHeaderBackgroundColor
-                fontColor: scoreBoardBody.horizontalHeaderFontColor
-                borderWidth: 1
-            }
         }
-        Flickable{
-            id: flickableTable
-            clip: true
+        ScoreBoardTableView {
+            id: scoreBoardTableView
             Layout.row: 1
             Layout.column: 1
             Layout.fillWidth: true
             Layout.fillHeight: true
-            boundsMovement: Flickable.StopAtBounds
-            onContentXChanged: flickableHHeader.contentX = contentX
-            onContentYChanged: flickableVHeader.contentY = contentY
-
-            TableView {
-                id: tableView
-                interactive: false
-                clip: true
-                anchors.fill: parent
-            }
+            onContentXChanged: scoreBoardHHeader.contentX = contentX
+            onContentYChanged: scoreBoardVHeader.contentY = contentY
         }
     }
 }

@@ -35,7 +35,6 @@ SOURCES += \
     dartsinputjsondb.cpp \
     dartsinputservices.cpp \
     dartsmodelsservice.cpp \
-    dartsmultiscoredatamodel.cpp \
     dartsplayerpointservice.cpp \
     dartsplayerscoreservice.cpp \
     dartspointcontroller.cpp \
@@ -50,6 +49,7 @@ SOURCES += \
     dartsscorecontroller.cpp \
     dartsscoreindexesbuilderservice.cpp \
     dartsscorejsonbuilderservice.cpp \
+    dartsscoremulticolumndatamodel.cpp \
     dartsscoresethint.cpp \
     dartsscoresinglecolumndatamodel.cpp \
     dartssingleattemptinputrowsuggestion.cpp \
@@ -162,25 +162,26 @@ HEADERS += \
     dartsdatamodelpointbuilder.h \
     dartsdbcreatejsonfrompoints.h \
     dartsdbcreatejsonfrompoints.h \
+    dartshorizontalheadercontext.h \
     dartsinputjsondb.h \
     dartsinputservices.h \
     dartsmetadataservice.h \
     dartsmodelsservice.h \
     dartsmodelsservicescollection.h \
-    dartsmultiscoredatamodel.h \
     dartsplayer.h \
     dartsplayerbuilderservice.h \
     dartsplayermodelbuilderservice.h \
     dartsplayerpointservice.h \
     dartsplayerscoreservice.h \
     dartspointbuilderservice.h \
+    dartspointcellstylistics.h \
     dartspointcontroller.h \
     dartspointcontrollerbuilder.h \
-    dartspointdatamodelinjector.h \
     dartspointindexes.h \
     dartspointinputstojson.h \
     dartspointjsondb.h \
     dartspointmulticolumndatamodel.h \
+    dartspointmulticolumnservices.h \
     dartspointsethint.h \
     dartspointsinglecolumndatamodel.h \
     dartspointsjsonservice.h \
@@ -194,20 +195,27 @@ HEADERS += \
     dartsscorejsondb.h \
     dartsscorelessthanpredicate.h \
     dartsscoremodelsbuilderservice.h \
+    dartsscoremulticolumndatamodel.h \
     dartsscoresethint.h \
     dartsscoresinglecolumndatamodel.h \
     dartsscoreturnvalues.h \
     dartssingleattemptinputrowsuggestion.h \
+    dartstableheaderstylistics.h \
     dartstournamentjsonbuilder.h \
     dartstournamentnumberofattempts.h \
     dartstournamentservices.h \
     dartstournamentsjsondb.h \
     dartsutilityservices.h \
+    defaultdartscellcontext.h \
     defaultdartspointcontroller.h \
     defaultdartsscorecontroller.h \
+    defaultdartstabledimensions.h \
+    defaultpointmulticolumnmodel.h \
+    defaultpointsinglecolumnmodel.h \
     defaultqtjsonextractor.h \
     determinecontrollerstatebywinnerid.h \
     extractwinnerinfofromjson.h \
+    fontmetriccontext.h \
     getdartspointfromdb.h \
     getdartsscorefromdb.h \
     getdartstournamentfromdb.h \
@@ -293,11 +301,14 @@ HEADERS += \
     idartstournamentnumberofattempts.h \
     idartstournamentsdb.h \
     idatamodelpoint.h \
+    idatamodeltablecellsizes.h \
+    idatamodeltabledimensions.h \
     idbcontext.h \
     idbgetindexesutility.h \
     iextractwinnerinfo.h \
     ifilereader.h \
     ifilewriter.h \
+    ifontmetriccontext.h \
     igetdartspointfromdb.h \
     igetdartsscorefromdb.h \
     igetdartstournamentfromdb.h \
@@ -317,6 +328,7 @@ HEADERS += \
     imodelsdbcontext.h \
     inputmodelscountservice.h \
     inputmodelssortservice.h \
+    inumerictableheadercontext.h \
     iplayermodelscontext.h \
     iplayerpointservice.h \
     iplayerscoreservice.h \
@@ -328,6 +340,9 @@ HEADERS += \
     iremovemodelsfromdb.h \
     irouteservicesprovider.h \
     isortinputmodels.h \
+    itablecellstylistics.h \
+    itableheadercontext.h \
+    itableheaderstylistics.h \
     iternaryservice.h \
     itournamentjsonbuilder.h \
     iunaryservice.h \
@@ -392,6 +407,7 @@ HEADERS += \
     tournamentsjsondb.h \
     urlparser.h \
     testeventloop.h \
+    verticalstringifiedheadercontext.h \
     writebytearray.h
 
 DISTFILES += \

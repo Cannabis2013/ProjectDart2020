@@ -5,19 +5,19 @@
 #include <QtQuick/QQuickView>
 #include <qqmlcontext.h>
 
-#include "dartspointmulticolumndatamodel.h"
+#include "defaultpointmulticolumnmodel.h"
 #include "dartsscoresinglecolumndatamodel.h"
-#include "dartsmultiscoredatamodel.h"
-#include "dartspointdatamodelinjector.h"
+#include "dartsscoremulticolumndatamodel.h"
+#include "defaultpointsinglecolumnmodel.h"
 #include "localdartapplication.h"
 
 #include "connectservices.h"
 void registerCustomTypes()
 {
     qmlRegisterType<DartsScoreSingleColumnDataModel>("CustomItems",1,0,"DartsScoreSingleColumnDataModel");
-    qmlRegisterType<DartsPointMultiColumnDataModel>("CustomItems",1,0,"DartsPointMultiColumnDataModel");
-    qmlRegisterType<DartsMultiScoreDataModel>("CustomItems",1,0,"DartsMultiAttemptDataModel");
-    qmlRegisterType<DartsDataModelsContext::DartsPointDataModelInjector>("CustomItems",1,0,"DartsPointSingleColumnDataModel");
+    qmlRegisterType<DartsScoreMultiColumnDataModel>("CustomItems",1,0,"DartsMultiAttemptDataModel");
+    qmlRegisterType<DefaultPointMultiColumnModel>("CustomItems",1,0,"DartsPointMultiColumnDataModel");
+    qmlRegisterType<DartsDataModelsContext::DefaultPointSingleColumnModel>("CustomItems",1,0,"DartsPointSingleColumnDataModel");
     qmlRegisterSingletonType(QUrl("qrc:/ThemeContext.qml"),"customDefinitions",1,0,"ThemeContext");
     qmlRegisterSingletonType(QUrl("qrc:/TournamentContext.qml"),"CustomValues",1,0,"TournamentContext");
     qmlRegisterSingletonType(QUrl("qrc:/DataModelContext.qml"),"CustomValues",1,0,"DataModelContext");

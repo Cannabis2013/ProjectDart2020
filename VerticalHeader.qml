@@ -36,12 +36,10 @@ Column
     {
         return verticalHeaderRepeater.count;
     }
-
     function setData(i, value)
     {
         verticalHeaderRepeater.itemAt(i).children[4].text = value;
     }
-
     function setRowHeight(r,h)
     {
         verticalHeaderRepeater.itemAt(r).height = h;

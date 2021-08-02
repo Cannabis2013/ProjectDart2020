@@ -16,26 +16,25 @@ ScoreBoard {
         readonly property int delegateBorderRadius: 10
         readonly property int headerFontSize: 16
     }
+    DartsPointSingleColumnDataModel{
+
+    }
 
     // Data related
     signal setData(string playerName, int point, int score)
+    onSetData: PointSingleColumnBoardScripts.setData(playerName,point,score)
     signal takeData(int row, int column,string playerName)
     // Manipulate state such as: add score, takescore, edit score
-    onSetData: PointSingleColumnBoardScripts.setData(playerName,point,score)
     onTakeData: PointSingleColumnBoardScripts.takeData(row,column,playerName)
     onClearData: datamodel.clearData();
     // Header related
-    horizontalHeaderFontSize: 16
-    onHorizontalHeaderFontSizeChanged: multiAttemptDataModel.headerFontSize = scoreBoardBody.horizontalHeaderFontSize
     verticalHeaderVisible: true
     onAppendHeaderData: PointSingleColumnBoardScripts.setHeaderData(data,defaultVal)
-    verticalHeaderFontSize: dataValues.headerFontSize
     // Cell related
     property int cellBorderWidth: 0
     onCellBorderWidthChanged: delegate.borderWidth = cellBorderWidth
     onNotifyCellPosition: PointSingleColumnBoardScripts.setViewPosition(x,y)
     onAppendHeader: PointSingleColumnBoardScripts.appendHeader(header)
-
     QtObject{
         id: cellPositionHolder
         property int px: -1
@@ -43,16 +42,13 @@ ScoreBoard {
         property int cx: -1
         property int cy: -1
     }
-
     columnWidthProvider: function(column){
         return datamodel.columnWidthAt(column);
     }
-
     rowHeightProvider: function(row)
     {
         return datamodel.rowHeightAt(row);
     }
-
     model: DartsPointSingleColumnDataModel{
         id: datamodel
         onDataChanged: PointSingleColumnBoardScripts.updateScoreBoard();
@@ -67,6 +63,6 @@ ScoreBoard {
         pointFontSize: dataValues.pointFontSize
         radius: dataValues.delegateBorderRadius
         scoreFontSize: dataValues.scoreFontSize
-        text: display
+        text : display
     }
 }

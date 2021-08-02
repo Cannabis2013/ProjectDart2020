@@ -1,5 +1,5 @@
-#ifndef DARTSMULTISCOREDATAMODEL_H
-#define DARTSMULTISCOREDATAMODEL_H
+#ifndef DARTSSCOREMULTICOLUMNDATAMODEL_H
+#define DARTSSCOREMULTICOLUMNDATAMODEL_H
 
 #include <QAbstractTableModel>
 #include <qfontmetrics.h>
@@ -10,7 +10,7 @@
  *  - The datamodel orientation is based on the axis for which player names are listed
  */
 
-class DartsMultiScoreDataModel : public QAbstractTableModel
+class DartsScoreMultiColumnDataModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
@@ -20,7 +20,7 @@ public:
     enum AppendDataMode{SingleAppend = 0x4,
                         MultiAppend = 0x8};
     // Constructor
-    DartsMultiScoreDataModel();
+    DartsScoreMultiColumnDataModel();
     // Public properties
     // Fonts properties
     Q_PROPERTY(int scoreFontPointSize READ scoreFontSize WRITE setScoreFontSize NOTIFY fontChanged);
@@ -138,6 +138,7 @@ protected:
 private slots:
     void updateInitialCellValues();
 private:
+    QModelIndex createIndexFromIndex(const int &index, const int &orientation) const;
     // Data related
     bool setPlayerData(const QString &playerName,
                        const int &score,

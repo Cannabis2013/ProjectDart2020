@@ -71,7 +71,7 @@
         <file>ScoreKeyPadInterface.qml</file>
         <file>ScoreInputDelegate.qml</file>
         <file>SingleAttemptCellDelegate.qml</file>
-        <file>DartsPointScoreBoard.qml</file>
+        <file>DartsPointMultiColumnBoard.qml</file>
         <file>ftpScoreBoardFactory.js</file>
         <file>ScoreRectDelegate.qml</file>
         <file>MultiScoreDelegate.qml</file>
@@ -92,6 +92,10 @@
         <file>tournamentPageScripts.js</file>
         <file>TournamentPageListView.qml</file>
         <file>tournamentListViewScripts.js</file>
+        <file>ScoreBoardHHeader.qml</file>
+        <file>ScoreBoardVHeader.qml</file>
+        <file>ScoreBoardTableView.qml</file>
+        <file>horizontalHeaderScripts.js</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>

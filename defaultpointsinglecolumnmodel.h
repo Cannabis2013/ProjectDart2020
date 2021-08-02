@@ -1,15 +1,15 @@
-#ifndef DARTSPOINTDATAMODELINJECTOR_H
-#define DARTSPOINTDATAMODELINJECTOR_H
+#ifndef DEFAULTPOINTSINGLECOLUMNMODEL_H
+#define DEFAULTPOINTSINGLECOLUMNMODEL_H
 
 #include "dartspointsinglecolumndatamodel.h"
 #include "dartsdatamodelpointbuilder.h"
 #include "convertpointtojson.h"
 
 namespace DartsDataModelsContext {
-    class DartsPointDataModelInjector : public DartsPointSingleColumnDataModel
+    class DefaultPointSingleColumnModel : public DartsPointSingleColumnDataModel
     {
     public:
-        DartsPointDataModelInjector()
+        DefaultPointSingleColumnModel()
         {
             _pointModelBuilderService = new dartsdatamodelpointbuilder;
             _convertPointToJsonService = new ConvertPointToJson;
