@@ -41,10 +41,12 @@ SOURCES += \
     dartspointcontrollerbuilder.cpp \
     dartspointinputstojson.cpp \
     dartspointmulticolumndatamodel.cpp \
+    dartspointmulticolumnservices.cpp \
     dartspointsethint.cpp \
     dartspointsinglecolumndatamodel.cpp \
     dartspointsjsonservice.cpp \
     dartspointstringsuggestion.cpp \
+    dartsroundindexbyattempt.cpp \
     dartsscorebuilderservice.cpp \
     dartsscorecontroller.cpp \
     dartsscoreindexesbuilderservice.cpp \
@@ -75,6 +77,7 @@ SOURCES += \
     tournamentsjsondb.cpp \
     tst_Dart2020.cpp \
     urlparser.cpp \
+    verticalstringlabels.cpp
 
 RESOURCES += qml.qrc
 
@@ -187,6 +190,7 @@ HEADERS += \
     dartspointsjsonservice.h \
     dartspointstringsuggestion.h \
     dartspointturnvalues.h \
+    dartsroundindexbyattempt.h \
     dartsscorebuilderservice.h \
     dartsscorecontroller.h \
     dartsscoreindexes.h \
@@ -200,6 +204,15 @@ HEADERS += \
     dartsscoresinglecolumndatamodel.h \
     dartsscoreturnvalues.h \
     dartssingleattemptinputrowsuggestion.h \
+    dartstablecellcontext.h \
+    dartstablecreatecolumnindices.h \
+    dartstablecreatecolumns.h \
+    dartstablecreatejson.h \
+    dartstablecreaterowindices.h \
+    dartstabledatacontext.h \
+    dartstabledatamanipulator.h \
+    dartstabledimensions.h \
+    dartstablefillservice.h \
     dartstableheaderstylistics.h \
     dartstournamentjsonbuilder.h \
     dartstournamentnumberofattempts.h \
@@ -209,7 +222,6 @@ HEADERS += \
     defaultdartscellcontext.h \
     defaultdartspointcontroller.h \
     defaultdartsscorecontroller.h \
-    defaultdartstabledimensions.h \
     defaultpointmulticolumnmodel.h \
     defaultpointsinglecolumnmodel.h \
     defaultqtjsonextractor.h \
@@ -302,7 +314,6 @@ HEADERS += \
     idartstournamentsdb.h \
     idatamodelpoint.h \
     idatamodeltablecellsizes.h \
-    idatamodeltabledimensions.h \
     idbcontext.h \
     idbgetindexesutility.h \
     iextractwinnerinfo.h \
@@ -321,6 +332,7 @@ HEADERS += \
     igetscoreinputfromdb.h \
     igettournamentfromdb.h \
     igettournamentwinner.h \
+    iheaderlabels.h \
     ijson.h \
     ijsonbuilder.h \
     ijsonextractor.h \
@@ -340,9 +352,16 @@ HEADERS += \
     iremovemodelsfromdb.h \
     irouteservicesprovider.h \
     isortinputmodels.h \
+    itablecellcontext.h \
     itablecellstylistics.h \
+    itablecontext.h \
+    itablecreatevariant.h \
+    itabledatacontext.h \
+    itabledatamanipulator.h \
+    itablefillcells.h \
     itableheadercontext.h \
     itableheaderstylistics.h \
+    itableindicevalues.h \
     iternaryservice.h \
     itournamentjsonbuilder.h \
     iunaryservice.h \
@@ -353,7 +372,6 @@ HEADERS += \
     AbstractApplicationInterface.h \
     IControllerBuilder.h \
     IScoreBuilder.h \
-    LinkedList.h \
     PointIndexController.h \
     ScoreValidator.h \
     abstractcricketcontroller.h \
@@ -379,6 +397,7 @@ HEADERS += \
     itournamentparameter.h \
     iurlparser.h \
     jsonplayersdbcontext.h \
+    linkedlist.h \
     localdartapplication.h \
     localplayerscontext.h \
     localplayersdbcontext.h \
@@ -391,6 +410,7 @@ HEADERS += \
     pointcontrollerserviceprovider.h \
     pointvalidator.h \
     readbytearray.h \
+    registerqmltypes.h \
     removeinputsfromdb.h \
     removemodelsfromdb.h \
     replytimeout.h \
@@ -408,6 +428,7 @@ HEADERS += \
     urlparser.h \
     testeventloop.h \
     verticalstringifiedheadercontext.h \
+    verticalstringlabels.h \
     writebytearray.h
 
 DISTFILES += \

@@ -4,83 +4,54 @@
 #include <itablecellstylistics.h>
 #include <itableheadercontext.h>
 #include <idatamodeltablecellsizes.h>
-#include <idatamodeltabledimensions.h>
+#include <itablecontext.h>
+#include <qvariant.h>
 #include "itableheaderstylistics.h"
 #include "ifontmetriccontext.h"
 #include "inumerictableheadercontext.h"
+#include "itablecellcontext.h"
+#include "itablefillcells.h"
+#include "linkedlist.h"
+#include "itableindicevalues.h"
+#include "itabledatamanipulator.h"
+#include "itabledatacontext.h"
+#include "itablecreatevariant.h"
 
 class DartsPointMultiColumnServices
 {
 public:
-    ITableCellStylistics<QString> *fontContext() const
-    {
-        return _fontContext;
-    }
-    void setFontContext(ITableCellStylistics<QString> *newFontStylistics)
-    {
-        _fontContext = newFontStylistics;
-    }
-    IDataModelTableCellSizes *tableCellContext() const
-    {
-        return _tableCellContext;
-    }
-    void setTableCellContext(IDataModelTableCellSizes *newTableColumnRowSizes)
-    {
-        _tableCellContext = newTableColumnRowSizes;
-    }
-    IDataModelTableDimensions *tableContext() const
-    {
-        return _tableContext;
-    }
-    void setTableContext(IDataModelTableDimensions *newTableDimensions)
-    {
-        _tableContext = newTableDimensions;
-    }
-    ITableHeaderContext<QString> *verticalHeaderContext() const
-    {
-        return _verticalHeaderContext;
-    }
-    void setVerticalHeaderContext(ITableHeaderContext<QString> *newHeaderContext)
-    {
-        _verticalHeaderContext = newHeaderContext;
-    }
+    typedef QPair<int,int> PointInputModel;
+    typedef LinkedList<PointInputModel> PointInputModels;
+    typedef QVector<PointInputModels> DataRows;
+    ITableContext *tableContext() const;
+    void setTableContext(ITableContext *newTableDimensions);
+    ITableCellContext<QPair<int, int> > *cellContext() const;
+    void setTableCellContext(ITableCellContext<QPair<int, int> > *newCellValueContext);
+    ITableFillCells<DataRows, PointInputModel> *createRows() const;
+    void setCreateRows(ITableFillCells<DataRows, PointInputModel> *newFillCellsContext);
+    ITableFillCells<DataRows, PointInputModel> *createColumns() const;
+    void setCreateColumns(ITableFillCells<DataRows, PointInputModel> *newCreateColumns);
+    ITableIndiceValues *createRowsIndices() const;
+    void setCreateRowsIndices(ITableIndiceValues *newCreateRowsIndices);
+    ITableDataManipulator<DataRows> *tableDataManipulator() const;
+    void setTableDataManipulator(ITableDataManipulator<DataRows> *newTableDataManipulator);
+    ITableDataContext<PointInputModel, QModelIndex> *dataContext() const;
+    void setDataContext(ITableDataContext<PointInputModel, QModelIndex> *newDataContext);
+    ITableIndiceValues *createColumnIndiceValues() const;
+    void setCreateColumnIndiceValues(ITableIndiceValues *newCreateColumnIndiceValues);
+    ITableCreateVariant<PointInputModel> *createJsonFromModel() const;
+    void setCreateJsonFromModel(ITableCreateVariant<PointInputModel> *newCreateJsonFromModel);
 
-    ITableHeaderStylistics<QString> *headerStylistics() const
-    {
-        return _headerStylistics;
-    }
-    void setHeaderStylistics(ITableHeaderStylistics<QString> *newHeaderStylistics)
-    {
-        _headerStylistics = newHeaderStylistics;
-    }
-
-    IFontMetricContext<QString> *fontMetricContext() const
-    {
-        return _fontMetricContext;
-    }
-    void setFontMetricContext(IFontMetricContext<QString> *context)
-    {
-        _fontMetricContext = context;
-    }
-
-    INumericTableHeaderContext<QString> *horizontalHeaderContext() const
-    {
-        return _horizontalHeaderContext;
-    }
-    void setHorizontalHeaderContext(INumericTableHeaderContext<QString> *context)
-    {
-        _horizontalHeaderContext = context;
-    }
 private:
-    // Header services
-    ITableCellStylistics<QString> *_fontContext;
-    ITableHeaderStylistics<QString> *_headerStylistics;
-    ITableHeaderContext<QString> *_verticalHeaderContext;
-    INumericTableHeaderContext<QString> *_horizontalHeaderContext;
     // Cell services
-    IDataModelTableCellSizes *_tableCellContext;
-    IDataModelTableDimensions *_tableContext;
-    // Font utility services
-    IFontMetricContext<QString> *_fontMetricContext;
+    ITableContext *_tableContext;
+    ITableCellContext<PointInputModel> *_cellContext;
+    ITableFillCells<DataRows,PointInputModel> *_createRows;
+    ITableFillCells<DataRows,PointInputModel> *_createColumns;
+    ITableIndiceValues *_createRowIndiceValues;
+    ITableIndiceValues *_createColumnIndiceValues;
+    ITableDataManipulator<DataRows> *_tableDataManipulator;
+    ITableDataContext<PointInputModel,QModelIndex> *_dataContext;
+    ITableCreateVariant<PointInputModel> *_createJsonFromModel;
 };
 #endif // DATAMODELSERVICES_H

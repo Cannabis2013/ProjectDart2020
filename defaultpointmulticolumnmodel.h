@@ -2,22 +2,28 @@
 #define DEFAULTPOINTMULTICOLUMNMODEL_H
 
 #include "dartspointmulticolumndatamodel.h"
-
-#include "dartspointcellstylistics.h"
-#include "defaultdartscellcontext.h"
-#include "defaultdartstabledimensions.h"
-#include "verticalstringifiedheadercontext.h"
-#include "dartstableheaderstylistics.h"
+#include "dartstabledimensions.h"
+#include "dartstablecellcontext.h"
+#include "dartstablefillservice.h"
+#include "dartstablecreatecolumnindices.h"
+#include "dartstablecreaterowindices.h"
+#include "dartstabledatacontext.h"
+#include "dartstablecreatecolumns.h"
+#include "dartstablecreatejson.h"
 
 class DefaultPointMultiColumnModel : public DartsPointMultiColumnDataModel
 {
 public:
     DefaultPointMultiColumnModel()
     {
-        setFontContext(new DartsPointCellStylistics);
-        setTableCellContext(new DefaultDartsCellContext);
-        setTableContext(new DefaultDartsTableDimensions);
-        setVerticalHeaderContext(new VerticalStringifiedHeaderContext);
+        setTableContext(new DartsTableDimensions);
+        setTableCellContext(new DartsTableCellContext);
+        setCreateRows(new DartsTableCreateRows);
+        setCreateColumns(new DartsTableCreateColumns);
+        setCreateColumnIndiceValues(new DartsTableCreateColumnIndices);
+        setCreateRowsIndices(new DartsTableCreateRowIndices);
+        setDataContext(new DartsTableDataContext);
+        setCreateJsonFromModel(new DartsTableCreateJson);
     }
 };
 

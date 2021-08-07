@@ -3,25 +3,11 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QtQuick/QQuickView>
+#include <localdartapplication.h>
 #include <qqmlcontext.h>
-
-#include "defaultpointmulticolumnmodel.h"
-#include "dartsscoresinglecolumndatamodel.h"
-#include "dartsscoremulticolumndatamodel.h"
-#include "defaultpointsinglecolumnmodel.h"
-#include "localdartapplication.h"
+#include "registerqmltypes.h"
 
 #include "connectservices.h"
-void registerCustomTypes()
-{
-    qmlRegisterType<DartsScoreSingleColumnDataModel>("CustomItems",1,0,"DartsScoreSingleColumnDataModel");
-    qmlRegisterType<DartsScoreMultiColumnDataModel>("CustomItems",1,0,"DartsMultiAttemptDataModel");
-    qmlRegisterType<DefaultPointMultiColumnModel>("CustomItems",1,0,"DartsPointMultiColumnDataModel");
-    qmlRegisterType<DartsDataModelsContext::DefaultPointSingleColumnModel>("CustomItems",1,0,"DartsPointSingleColumnDataModel");
-    qmlRegisterSingletonType(QUrl("qrc:/ThemeContext.qml"),"customDefinitions",1,0,"ThemeContext");
-    qmlRegisterSingletonType(QUrl("qrc:/TournamentContext.qml"),"CustomValues",1,0,"TournamentContext");
-    qmlRegisterSingletonType(QUrl("qrc:/DataModelContext.qml"),"CustomValues",1,0,"DataModelContext");
-}
 
 int main(int argc, char *argv[])
 {
@@ -32,9 +18,9 @@ int main(int argc, char *argv[])
     std::unique_ptr<ConnectServices> connectServices(new ConnectServices);
     connectServices->connectServices(_dart,_dart->routeServices(),_dart->connectServices());
     // Register custom types/singletons
-    registerCustomTypes();
+    RegisterQmlTypes::registerCustomTypes();
+    RegisterQmlTypes::registerCustomSingletons();
     QQmlApplicationEngine engine;
-
     QQmlContext::PropertyPair p;
     p.name = "applicationInterface";
     p.value = QVariant::fromValue<AbstractApplicationInterface*>(_dart);

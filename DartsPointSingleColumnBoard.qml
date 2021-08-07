@@ -16,10 +16,6 @@ ScoreBoard {
         readonly property int delegateBorderRadius: 10
         readonly property int headerFontSize: 16
     }
-    DartsPointSingleColumnDataModel{
-
-    }
-
     // Data related
     signal setData(string playerName, int point, int score)
     onSetData: PointSingleColumnBoardScripts.setData(playerName,point,score)
@@ -34,7 +30,7 @@ ScoreBoard {
     property int cellBorderWidth: 0
     onCellBorderWidthChanged: delegate.borderWidth = cellBorderWidth
     onNotifyCellPosition: PointSingleColumnBoardScripts.setViewPosition(x,y)
-    onAppendHeader: PointSingleColumnBoardScripts.appendHeader(header)
+    onAppendHeader: PointSingleColumnBoardScripts.appendHeader(data)
     QtObject{
         id: cellPositionHolder
         property int px: -1
@@ -64,5 +60,13 @@ ScoreBoard {
         radius: dataValues.delegateBorderRadius
         scoreFontSize: dataValues.scoreFontSize
         text : display
+        onTextChanged: convertInputFromJson(text)
+        function convertInputFromJson(json)
+        {
+            var j = JSON.parse(json);
+            var b = j.stringify;
+            point = j["point"];
+            score = j["score"];
+        }
     }
 }

@@ -30,37 +30,45 @@ function updateScoreBoard()
 {
     updateContentDimensions();
     refreshHeaders();
-    singleAttemptPointScoreBoard.requestUpdateCells();
+    multiColumnPointBoard.requestUpdateCells();
 }
 
 function updateContentDimensions()
 {
     var tHeight = calculateHeight();
     var tWidth = calculateWidth();
-    singleAttemptPointScoreBoard.updateContentDimensions(tHeight,tWidth);
+    multiColumnPointBoard.updateContentDimensions(tHeight,tWidth);
 }
 
 function refreshHeaders()
 {
-    // Refresh horizontal headers
-    singleAttemptPointScoreBoard.horizontalHeaderModel = dartsDataModel.columnCount;
-    let hDataCount = singleAttemptPointScoreBoard.horizontalHeaderCount;
-    for(var j = 0;j < hDataCount;j++)
+    refreshHorizontalHeader();
+    refreshVerticalHeader();
+}
+
+function refreshHorizontalHeader()
+{
+    let count = dartsDataModel.columnCount;
+    multiColumnPointBoard.horizontalHeaderModel = count;
+    for(var i = 0; i < count;i++)
     {
-        let hHeaderValue = dartsDataModel.getHeaderData(j,Qt.Horizontal);
-        let columnWidth = dartsDataModel.columnWidthAt(j);
-        singleAttemptPointScoreBoard.setHorizontalHeaderWidthAt(j,columnWidth);
-        singleAttemptPointScoreBoard.setHorizontalHeaderDataAt(j,hHeaderValue);
+        let hHeaderValue = horizontalHeaderModel.roundByAttempt(i);
+        let columnWidth = 128;
+        multiColumnPointBoard.setHorizontalHeaderWidthAt(i,columnWidth);
+        multiColumnPointBoard.setHorizontalHeaderDataAt(i,hHeaderValue);
     }
-    // Refresh vertical headers
-    let headerCount = dartsDataModel.headerItemCount(Qt.Vertical);
-    singleAttemptPointScoreBoard.verticalHeaderModel = headerCount;
+}
+
+function refreshVerticalHeader()
+{
+    let headerCount = verticalHeaderModel.count();
+    multiColumnPointBoard.verticalHeaderModel = headerCount;
     for(var i = 0;i < headerCount;i++)
     {
-        let vHeaderValue = dartsDataModel.getHeaderData(i,Qt.Vertical);
-        let rowHeight = dartsDataModel.rowHeightAt(i);
-        singleAttemptPointScoreBoard.setRowHeight(i,rowHeight);
-        singleAttemptPointScoreBoard.setVerticalHeaderDataAt(i,vHeaderValue);
+        let vHeaderValue = verticalHeaderModel.item(i);
+        let rowHeight = 64;
+        multiColumnPointBoard.setRowHeight(i,rowHeight);
+        multiColumnPointBoard.setVerticalHeaderDataAt(i,vHeaderValue);
     }
 }
 
@@ -79,7 +87,7 @@ function totalColumnsWidth()
     var columnCount = dartsDataModel.columnCount;
     var result = 0;
     for(var c = 0;c < columnCount;c++){
-        var w = dartsDataModel.columnWidthAt(c);
+        var w = 128;
         result += w;
     }
     return result;
@@ -91,7 +99,7 @@ function totalHeaderHeight()
     var totalHeight = 0;
     for(var r = 0;r < rowCount;r++)
     {
-        var h = dartsDataModel.rowHeightAt(r);
+        var h = 64;
         totalHeight += h;
     }
     return totalHeight;
@@ -99,18 +107,19 @@ function totalHeaderHeight()
 
 function setViewPosition(x,y)
 {
-    singleAttemptPointScoreBoard.updateViewPosition(x,y);
+    multiColumnPointBoard.updateViewPosition(x,y);
 }
 
 function appendHeader(header)
 {
-    dartsDataModel.appendHeaderItem(header);
-    var preferedWidth = dartsDataModel.preferedHeaderItemWidth();
-    singleAttemptPointScoreBoard.updateVerticalHeaderWidth(preferedWidth);
+    verticalHeaderModel.appendItem(header);
+    var preferedWidth = 128;
+    multiColumnPointBoard.updateVerticalHeaderWidth(preferedWidth);
 }
 
 function setData(playerName,score,point){
-    var result = dartsDataModel.insertData(playerName,point,score);
+    let indexOf = verticalHeaderModel.indexOf(playerName);
+    var result = dartsDataModel.insertData(indexOf,point,score);
     if(!result)
         print("Couldn't add data to model");
 }
@@ -132,7 +141,26 @@ function addHeaderData(data,defaultVal)
     for(var i = 0; i < data.length;i++)
     {
         var assignedPlayerName = data[i];
-        singleAttemptPointScoreBoard.appendHeader(assignedPlayerName);
-        singleAttemptPointScoreBoard.setData(assignedPlayerName,0,defaultVal);
+        appendHeader(assignedPlayerName);
+        multiColumnPointBoard.setData(assignedPlayerName,0,defaultVal);
     }
+}
+
+function clearAll()
+{
+    dartsDataModel.clearData();
+    verticalHeaderModel.clear();
+}
+
+function handleTextChanged(text,ref)
+{
+    notifyCellPosition(ref.x,ref.y);
+    convertInputFromJson(text,ref);
+}
+
+function convertInputFromJson(json,ref)
+{
+    var j = JSON.parse(json);
+    ref.point = j["point"];
+    ref.score = j["score"];
 }

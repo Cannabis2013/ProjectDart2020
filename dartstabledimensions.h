@@ -1,9 +1,9 @@
-#ifndef DEFAULTDARTSTABLEDIMENSIONS_H
-#define DEFAULTDARTSTABLEDIMENSIONS_H
+#ifndef DARTSTABLEDIMENSIONS_H
+#define DARTSTABLEDIMENSIONS_H
 
 
-#include "idatamodeltabledimensions.h"
-class DefaultDartsTableDimensions : public IDataModelTableDimensions
+#include "itablecontext.h"
+class DartsTableDimensions : public ITableContext
 {
 public:
     int rows() const override

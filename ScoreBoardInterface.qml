@@ -4,7 +4,7 @@ Rectangle {
     clip: true
     signal clearData()
     signal minimumRowCount(int count)
-    signal appendHeader(string header)
-    signal sizeScale(double s)
+    signal appendHeader(var data)
     signal appendHeaderData(var data,int defaultVal)
+    signal sizeScale(double s)
 }

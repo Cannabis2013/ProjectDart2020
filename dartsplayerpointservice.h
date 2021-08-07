@@ -53,7 +53,7 @@ namespace DartsPointControllerContext {
         DartsPlayerPointService *setWinner(const QUuid &id) override;
         QString winnerName() const override;
         void addPlayerEntity(const PlayerModel* model) override;
-        void addPlayerEntitiesByModels(const QVector<const PlayerModel*>& models) override;
+        void addPlayerEntities(const QVector<const PlayerModel*>& models) override;
         int subtractPlayerScore(const PointModel* model) override;
         void subtractPlayerScoresByModels(const QVector<const PointModel*>& models) override;
         int addPlayerScore(const PointModel* model) override;

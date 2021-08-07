@@ -1,7 +1,7 @@
-#ifndef IDATAMODELTABLEDIMENSIONS_H
-#define IDATAMODELTABLEDIMENSIONS_H
+#ifndef ITABLECONTEXT_H
+#define ITABLECONTEXT_H
 
-class IDataModelTableDimensions
+class ITableContext
 {
 public:
     virtual int rows() const = 0;
@@ -17,6 +17,4 @@ public:
     virtual int minimumRowCount() const = 0;
     virtual void setMinimumRowCount(const int &minimum) = 0;
 };
-
-
 #endif // IDATAMODELTABLEDIMENSIONS_H

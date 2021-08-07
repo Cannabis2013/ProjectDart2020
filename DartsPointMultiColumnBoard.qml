@@ -4,7 +4,7 @@ import CustomItems 1.0
 import "dartspointscoreboardscripts.js" as ScoreScripts
 
 ScoreBoard {
-    id: singleAttemptPointScoreBoard
+    id: multiColumnPointBoard
     // Data related
     signal setData(string playerName, int point, int score)
     onSetData: ScoreScripts.setData(playerName,score,point)
@@ -12,65 +12,52 @@ ScoreBoard {
     signal editData(int row, int column,int point,int score)
     onTakeData: ScoreScripts.takeData(playerName)
     onEditData: ScoreScripts.editData(row,column,point,score)
-    onClearData: dartsDataModel.clearData();
-
-    // Row/column related
-    onMinimumColumnCountChanged: dartsDataModel.minimumColumnCount = singleAttemptPointScoreBoard.minimumColumnCount
-    onSizeScale: dartsDataModel.scale = s
-    // Notify datamodel about the number of attemps
-    property int attempts: 3
-    onAttemptsChanged: dartsDataModel.attempts = attempts;
-
-    onMinimumRowCount: dartsDataModel.setMinimumRowCount(count);
-
+    onClearData: ScoreScripts.clearAll()
     // Header related
-    verticalHeaderVisible: true
     onAppendHeaderData: ScoreScripts.addHeaderData(data,defaultVal)
-
-    property int headerFontSize: 24
-    onHeaderFontSizeChanged: dartsDataModel.headerFontSize = singleAttemptPointScoreBoard.headerFontSize
-    onAppendHeader: ScoreScripts.appendHeader(header)
     // Cell related
     property color scoreCellColor: "transparent"
-    onScoreCellColorChanged: delegate.cellColor = singleAttemptPointScoreBoard.scoreCellColor
+    onScoreCellColorChanged: cellDelegate.cellColor = multiColumnPointBoard.scoreCellColor
     property int cellBorderWidth: 0
-    onCellBorderWidthChanged: delegate.borderWidth = cellBorderWidth
+    onCellBorderWidthChanged: cellDelegate.borderWidth = cellBorderWidth
     onNotifyCellPosition: ScoreScripts.setViewPosition(x,y)
+
+    property int attempts : 3
+    onAttemptsChanged: horizontalHeaderModel.numberOfAttempts = attempts
 
     modelScale: 1.5
     onModelScaleChanged: dartsDataModel.scale = modelScale
 
-    QtObject{
-        id: cellPositionHolder
-        property int px: -1
-        property int py: -1
-        property int cx: -1
-        property int cy: -1
+    StringHeaderModel{
+        id: verticalHeaderModel
+        onDataChanged: ScoreScripts.refreshHeaders()
+    }
+
+    RoundHeaderLabelByAttempt{
+        id: horizontalHeaderModel
+        numberOfAttempts : attempts
     }
 
     columnWidthProvider: function(column){
-        return dartsDataModel.columnWidthAt(column);
+        return 128;
     }
 
-    rowHeightProvider: function(row)
-    {
-        return dartsDataModel.rowHeightAt(row);
+    rowHeightProvider: function(row){
+        return 64;
     }
 
     model: DartsPointMultiColumnDataModel {
         id: dartsDataModel
         onDataChanged: ScoreScripts.updateScoreBoard();
-        attempts: singleAttemptPointScoreBoard.attempts
-        minimumColumnCount: singleAttemptPointScoreBoard.minimumColumnCount
-        scale: singleAttemptPointScoreBoard.modelScale
+        minimumColumnCount: 4
     }
-
     cellDelegate: SingleAttemptCellDelegate {
-        id: delegate
+        id: boardDelegate
         text: display
-        cellBorderWidth: singleAttemptPointScoreBoard.cellBorderWidth
-        cellColor: singleAttemptPointScoreBoard.scoreCellColor
-        scoreFontSize: singleAttemptPointScoreBoard.scoreFontSize
-        pointFontSize: singleAttemptPointScoreBoard.pointFontSize
+        cellBorderWidth: multiColumnPointBoard.cellBorderWidth
+        cellColor: multiColumnPointBoard.scoreCellColor
+        scoreFontSize: 14
+        pointFontSize: 10
+        onTextChanged: ScoreScripts.handleTextChanged(text,boardDelegate)
     }
 }

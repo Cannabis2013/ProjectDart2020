@@ -5,41 +5,9 @@ DartsPointMultiColumnDataModel::DartsPointMultiColumnDataModel()
     connect(this,&DartsPointMultiColumnDataModel::initialValueChanged,this,&DartsPointMultiColumnDataModel::updateInitialCellValues);
 }
 
-QVariant DartsPointMultiColumnDataModel::getData(const int &row, const int &column, const int &mode)
+bool DartsPointMultiColumnDataModel::insertData(const int &indexOfPlayer,const int &point,const int &score)
 {
-    if(row >= rowCount() || column >= columnCount())
-        return -1;
-    auto columnsData = _data.at(row);
-    auto columnData = columnsData.at(column);
-    auto pointValue = columnData.first;
-    auto scoreValue = columnData.second;
-    auto result = mode == 0x1 ? pointValue : scoreValue;
-    if(result == -1)
-        return "-";
-    else
-        return result;
-}
-
-int DartsPointMultiColumnDataModel::editData(const int &row, const int &column,
-                                               const int &point, const int &score)
-{
-    if(row < 0 || row >= rowCount())
-        return -1;
-    else if(column < 0 || column >= columnCount())
-        return -1;
-    auto index = createIndex(row,column);
-    if(!isCellDecorated(index))
-        return -1;
-    auto oldData = this->data(index,Qt::DisplayRole);
-    auto newData = PointInputModel(point,score);
-    if(!setData(index,QVariant::fromValue<PointInputModel>((newData)),Qt::DisplayRole))
-        return -1;
-    return oldData.toInt();
-}
-
-bool DartsPointMultiColumnDataModel::insertData(const QString &playerName,const int &point,const int &score)
-{
-    auto modelIndex = createIndexFromPlayerName(playerName);
+    auto modelIndex = createIndexFromPlayerName(indexOfPlayer);
     try {
         setData(modelIndex,QVariant::fromValue<PointInputModel>(PointInputModel(point,score)),Qt::DisplayRole);
     } catch (std::out_of_range *e) {
@@ -49,9 +17,8 @@ bool DartsPointMultiColumnDataModel::insertData(const QString &playerName,const 
     return true;
 }
 
-bool DartsPointMultiColumnDataModel::setPlayerData(const QString &playerName, const int &point, const int &score)
+bool DartsPointMultiColumnDataModel::setPlayerData(const int &indexOfPlayer, const int &point, const int &score)
 {
-    auto indexOfPlayer =  verticalHeaderContext()->headerData().indexOf(playerName);
     auto scorePair = PointInputModel(point,score);
     auto modelIndex = this->createIndex(indexOfPlayer,0);
     if(!modelIndex.isValid())
@@ -65,46 +32,21 @@ bool DartsPointMultiColumnDataModel::setPlayerData(const QString &playerName, co
     return true;
 }
 
-bool DartsPointMultiColumnDataModel::removeLastItem(const QString &playerName)
+bool DartsPointMultiColumnDataModel::removeLastItem(const int &indexOfPlayer)
 {
-    auto row = verticalHeaderContext()->headerData().indexOf(playerName);
-    auto column = indexOfLastDecoratedCell(row);
-    auto index = createIndex(row,column);
-    auto result = removeData(index) != PointInputModel(-1,-1);
+    auto column = indexOfLastDecoratedCell(indexOfPlayer);
+    auto index = createIndex(indexOfPlayer,column);
+    auto result = removeData(index);
     return result;
-}
-
-void DartsPointMultiColumnDataModel::appendHeaderItem(const QVariant &data)
-{
-    auto glyphLength = fontMetricContext()->stringWidth(data.toString(),fontContext()->scoreFontFamily(),headerFontSize());
-    if(verticalHeaderContext()->count() >= rowCount())
-        insertRows(verticalHeaderContext()->count(),1,QModelIndex());
-    else
-        emit dataChanged(QModelIndex(),QModelIndex());
-    verticalHeaderContext()->addHeaderItem(data.toString());
-    if(glyphLength > _verticalHeaderStringWidth)
-        setVerticalHeaderStringWidth(glyphLength);
 }
 
 void DartsPointMultiColumnDataModel::clearData()
 {
-    _data.clear();
+    dataContext()->clear();
     auto bottomRight = createIndex(rowCount() - 1,columnCount() - 1);
     tableContext()->setColumns(minimumColumnCount());
     tableContext()->setRows(0);
-    verticalHeaderContext()->clear();
     emit dataChanged(createIndex(0,0),bottomRight);
-}
-
-QString DartsPointMultiColumnDataModel::getHeaderData(const int &index, const int &orientation) const
-{
-    auto value = headerData(index,static_cast<Qt::Orientation>(orientation),Qt::DisplayRole).toString();
-    return value;
-}
-
-int DartsPointMultiColumnDataModel::headerItemCount() const
-{
-    return verticalHeaderContext()->count();
 }
 
 int DartsPointMultiColumnDataModel::rowCount() const
@@ -117,58 +59,6 @@ int DartsPointMultiColumnDataModel::columnCount() const
     return columnCount(QModelIndex());
 }
 
-double DartsPointMultiColumnDataModel::columnWidthAt(const int &column) const
-{
-    auto s = fontMetricContext()->scale();
-    auto w = columnWidthsAt(column);
-    auto columnWidth = s*w;
-    if(columnWidth < tableCellContext()->minimumPreferedColumnWidth())
-        return tableCellContext()->minimumPreferedColumnWidth();
-    else
-        return columnWidth;
-}
-
-double DartsPointMultiColumnDataModel::rowHeightAt(const int &row) const
-{
-    if(_data.count() <= 0)
-        return 0;
-    QString headerString;
-    if(verticalHeaderContext()->count() <= row)
-        return tableCellContext()->minimumPreferedRowHeight();
-    else
-        headerString = verticalHeaderContext()->headerData().at(row);
-    auto resultingGlyphLenght =  fontMetricContext()->stringHeight(headerString,fontContext()->scoreFontFamily(),fontContext()->scoreFontSize());
-    auto count = columnCount();
-    for (int c = 0; c < count; ++c) {
-        auto columnsData = _data.at(row);
-        auto columnsDataCount = columnsData.count();
-        if(columnsDataCount != columnCount())
-            return 0;
-        auto columnData = columnsData.at(c);
-        auto point = columnData.first;
-        auto score = columnData.second;
-        auto pointString = QString::number(point);
-        auto scoreString = QString::number(score);
-        auto scoreGlyphHeight = fontMetricContext()->stringHeight(scoreString,fontContext()->scoreFontFamily(),fontContext()->scoreFontSize());
-        auto pointGlyphHeight = fontMetricContext()->stringHeight(pointString,fontContext()->pointFontFamily(),fontContext()->pointFontSize());;
-        auto totalGlypHeight = scoreGlyphHeight + pointGlyphHeight;
-        resultingGlyphLenght = totalGlypHeight > resultingGlyphLenght ? totalGlypHeight : resultingGlyphLenght;
-    }
-    if(resultingGlyphLenght < tableCellContext()->minimumPreferedRowHeight())
-        resultingGlyphLenght = tableCellContext()->minimumPreferedRowHeight();
-    return resultingGlyphLenght;
-}
-
-int DartsPointMultiColumnDataModel::horizontalHeaderCount() const
-{
-    return tableContext()->columns();
-}
-
-int DartsPointMultiColumnDataModel::verticalHeaderCount() const
-{
-    return verticalHeaderContext()->headerData().count();
-}
-
 int DartsPointMultiColumnDataModel::rowCount(const QModelIndex &) const
 {
     return tableContext()->rows();
@@ -179,52 +69,12 @@ int DartsPointMultiColumnDataModel::columnCount(const QModelIndex &) const
     return tableContext()->columns();
 }
 
-void DartsPointMultiColumnDataModel::setColumnWidthAt(const int &column, const double &w)
+QVariant DartsPointMultiColumnDataModel::data(const QModelIndex &index, int) const
 {
-    _columnWidths.replace(column,w);
-}
-
-int DartsPointMultiColumnDataModel::columnWidthsAt(const int &index) const
-{
-    auto columnWidth = _columnWidths.at(index);
-    return columnWidth;
-}
-
-QVariant DartsPointMultiColumnDataModel::data(const QModelIndex &index, int role) const
-{
-    if(!index.isValid() || _data.count() <= 0)
+    if(!index.isValid() || dataContext()->rowCount() <= 0)
         return QVariant();
-    auto row = index.row();
-    auto column = index.column();
-    auto pairs = _data.at(row);
-    if(index.column() >= pairs.count())
-        return QVariant();
-    if(role != Qt::DisplayRole)
-        return QVariant();
-    auto pair = pairs.at(column);
-    auto pointValue = pair.first;
-    auto scoreValue = pair.second;
-    auto data = QString::number(pointValue) + " " + QString::number(scoreValue);
-    return scoreValue >= 0 ?
-                QVariant(data) :
-                QVariant("");
-}
-
-QVariant DartsPointMultiColumnDataModel::headerData(int section, Qt::Orientation orientation, int role) const
-{
-    if(role != Qt::DisplayRole)
-        return QVariant();
-    if(orientation == Qt::Horizontal)
-        return horizontalHeaderContext()->headerDataAt(section);
-    else if(section < verticalHeaderCount())
-        return verticalHeaderContext()->headerData().at(section);
-    else
-        return QVariant();
-}
-
-int DartsPointMultiColumnDataModel::numberOfAttemps() const
-{
-    return horizontalHeaderContext()->attemptsPerRound();
+    auto dataItem = dataContext()->item(index);
+    return createJsonFromModel()->create(dataItem);
 }
 
 bool DartsPointMultiColumnDataModel::setData(const QModelIndex &index, const QVariant &value, int role)
@@ -233,11 +83,9 @@ bool DartsPointMultiColumnDataModel::setData(const QModelIndex &index, const QVa
     if(index.row() < 0 || index.column() < 0)
         return false;
     // Create rows and columns if necessary
-    createRowsAndColumns(index,numberOfAttemps());
+    createRowsAndColumns(index);
     // add value
-    auto model = addValue(index,value);
-    // Update corresponding column width
-    updateColumnWidth(index,model);
+    addValue(index,value);
     // Notify external context
     emit dataChanged(index,index,{role});
     return true;
@@ -245,54 +93,30 @@ bool DartsPointMultiColumnDataModel::setData(const QModelIndex &index, const QVa
 
 bool DartsPointMultiColumnDataModel::insertRows(int row, int count, const QModelIndex &)
 {
-    auto firstRow = row <= rowCount(QModelIndex()) ? row : rowCount(QModelIndex()) - 1;
-    auto lastRow  =  row <= rowCount(QModelIndex()) ? firstRow + count : 2*row + count - firstRow;
-    auto c = row <= rowCount(QModelIndex()) ? count : count + (row - firstRow) - 1;
-    beginInsertRows(QModelIndex(),firstRow,lastRow);
-    for (int i = 0; i < c; ++i) {
-        auto initializedDataRow = [this]
-        {
-            LinkedList<PointInputModel> resultingList;
-            auto count = columnCount(QModelIndex(QModelIndex()));
-            for (int i = 0; i < count; ++i)
-                resultingList << PointInputModel(-1,-1);
-            return resultingList;
-        }();
-        _data.insert(row,initializedDataRow);
-    }
+    // Create indices
+    auto indices = createRowsIndices()->createIndiceValues(row,rowCount(),count);
+    // Create and fill with default values
+    beginInsertRows(QModelIndex(),indices.first,indices.last);
+    createRows()->fill(row,indices.count,columnCount(),dataContext()->rows(),cellContext()->defaultValues());
     endInsertRows();
-    tableContext()->incrementRows(c);
-    emit dataChanged(createIndex(row,0),createIndex(lastRow,columnCount()));
+    // Update tablecontext
+    tableContext()->incrementRows(indices.count);
+    // Notify external context
+    emit dataChanged(createIndex(row,0),createIndex(indices.last,columnCount()));
     return true;
 }
 
 bool DartsPointMultiColumnDataModel::insertColumns(int column, int count, const QModelIndex &)
 {
-    auto firstColumn = column <= columnCount() ? column : columnCount() - 1;
-    auto lastColumn  =  column <= columnCount() ? firstColumn + count : 2*column + count - firstColumn;
-    auto c = column <= columnCount() ? count : count + (column - firstColumn) - 1;
-
-    beginInsertColumns(QModelIndex(),firstColumn,lastColumn);
-    for (int i = 0;i<_data.count();i++) {
-        auto columnsData = _data.at(i);
-        LinkedList<PointInputModel> columnsDataIndice;
-        for (int i = 0; i < c; ++i)
-            columnsDataIndice << PointInputModel(-1,-1);
-        columnsData.insert(column,columnsDataIndice);
-        _data.replace(i,columnsData);
-    }
-    QList<double> newColumnWidths;
-    for (int i = 0; i < c; ++i)
-        newColumnWidths << tableCellContext()->minimumPreferedColumnWidth();
-
-    for (int i = 0; i < newColumnWidths.count(); ++i) {
-        auto columnWidth = newColumnWidths.at(i);
-        _columnWidths.insert(column,columnWidth);
-    }
+    auto indices = createColumnIndiceValues()->createIndiceValues(column,columnCount(),count);
+    // Create and fill with default values
+    beginInsertColumns(QModelIndex(),indices.first,indices.last);
+    createColumns()->fill(column,count,rowCount(),dataContext()->rows(),cellContext()->defaultValues());
     endInsertColumns();
-    tableContext()->incrementColumns(c);
-    emit dataChanged(createIndex(0,firstColumn),
-                     createIndex(verticalHeaderContext()->count(),lastColumn));
+    // Update tablecontext
+    tableContext()->incrementColumns(indices.count);
+    // Notify external context
+    emit dataChanged(createIndex(0,indices.first),createIndex(0,indices.last));
     return true;
 }
 
@@ -304,13 +128,9 @@ bool DartsPointMultiColumnDataModel::removeRows(int row, int count, const QModel
     // Create bounding indexes
     auto topLeftIndex = createIndex(row,0);
     auto bottomRightIndex = createIndex(row + count,columnCount() - 1);
-    // Begin remove rows
+    // Remove rows
     beginRemoveRows(QModelIndex(),row,row + count);
-    for (int i = row; i < row + count; ++i)
-    {
-        _data.removeAt(i);
-        verticalHeaderContext()->removeHeaderDataAt(i);
-    }
+    tableDataManipulator()->removeRows(dataContext()->rows(),row,count);
     endRemoveRows();
     tableContext()->decrementRows(count);
     // Notify model and surrounding state that data has changed
@@ -323,16 +143,9 @@ bool DartsPointMultiColumnDataModel::removeColumns(int column, int count, const 
     // Check if input satisfies model constraints
     if(column < 0 || column >= columnCount())
         return false;
-    // Begin remove columns
-    auto limit = column + count;
+    // Remove columns
     beginRemoveColumns(QModelIndex(),column,column + count);
-
-    for (int i = 0; i < _data.count(); ++i) {
-        auto row = _data.at(i);
-        for (int j = column; j < limit; ++j)
-            row.removeAt(j);
-        _data.replace(i,row);
-    }
+    tableDataManipulator()->removeColumns(dataContext()->rows(),column,count);
     tableContext()->decrementColumns(count);
     endRemoveColumns();
     emit dataChanged(QModelIndex(),QModelIndex());
@@ -342,41 +155,35 @@ bool DartsPointMultiColumnDataModel::removeColumns(int column, int count, const 
 
 void DartsPointMultiColumnDataModel::updateInitialCellValues()
 {
-
-    if(_data.count() < 1)
-        return;
-    auto initialValue = this->initialValue();
     for (int rowIndex = 0; rowIndex < rowCount(); ++rowIndex)
-        setData(createIndex(rowIndex,0),initialValue,Qt::DisplayRole);
+        setData(createIndex(rowIndex,0),cellContext()->initialValue(),Qt::DisplayRole);
 }
 
-QModelIndex DartsPointMultiColumnDataModel::createIndexFromPlayerName(const QString &playerName) const
+void DartsPointMultiColumnDataModel::replaceValue(const QModelIndex &index,
+                                                  const PointInputModel &model,
+                                                  DataRows &data)
 {
-    auto index = verticalHeaderContext()->headerData().indexOf(playerName);
-    auto rowCount = _data.count();
-    auto column = index < rowCount ?
-                indexOfLastDecoratedCell(index) + 1 : 0;
-    return this->createIndex(index,column);
+    auto rowData = data.at(index.row());
+    auto initialPair = model;
+    rowData.replace(index.column(),initialPair);
+    dataContext()->replaceRow(index.row(),rowData);
+}
+
+QModelIndex DartsPointMultiColumnDataModel::createIndexFromPlayerName(const int &indexOfplayer) const
+{
+    auto rowCount = dataContext()->rowCount();
+    auto column = indexOfplayer < rowCount ?
+                indexOfLastDecoratedCell(indexOfplayer) + 1 : 0;
+    return this->createIndex(indexOfplayer,column);
 }
 
 DartsPointMultiColumnDataModel::PointInputModel DartsPointMultiColumnDataModel::addValue(const QModelIndex &index, const QVariant &value)
 {
-    auto pairs = _data.at(index.row());
+    auto rowData = dataContext()->rowAt(index.row());
     auto newPair = value.value<PointInputModel>();
-    pairs.replace(index.column(),newPair);
-    _data.replace(index.row(),pairs);
+    rowData.replace(index.column(),newPair);
+    dataContext()->replaceRow(index.row(),rowData);
     return newPair;
-}
-
-void DartsPointMultiColumnDataModel::updateColumnWidth(const QModelIndex &index, const PointInputModel &model)
-{
-    auto pointGlypWidth = fontMetricContext()->stringWidth(QString::number(model.first),fontContext()->pointFontFamily(),
-                                                       fontContext()->pointFontSize());
-    auto scoreGlypWidth = fontMetricContext()->stringWidth(QString::number(model.second),fontContext()->scoreFontFamily(),
-                                                       fontContext()->scoreFontSize());
-    int totalGlyphWidth = pointGlypWidth + scoreGlypWidth;
-    if(totalGlyphWidth > columnWidthsAt(index.column()))
-        setColumnWidthAt(index.column(),totalGlyphWidth);
 }
 
 void DartsPointMultiColumnDataModel::createRowsAndColumns(const QModelIndex &index, const int &delta)
@@ -394,14 +201,12 @@ bool DartsPointMultiColumnDataModel::isCellDecorated(const QModelIndex &index)
 
 int DartsPointMultiColumnDataModel::indexOfLastDecoratedCell(const int &index) const
 {
-    if(index >= _data.count() || index < 0)
+    if(index >= dataContext()->rowCount() || index < 0)
         return -1;
-    auto columnsData = _data.at(index);
-
+    auto rowData = dataContext()->rowAt(index);
     for (int col = 0; col < columnCount(QModelIndex()); ++col) {
-        auto columnData = columnsData.at(col);
+        auto columnData = rowData.at(col);
         auto point = columnData.first;
-
         if(point == -1)
             return col - 1;
     }
@@ -410,8 +215,8 @@ int DartsPointMultiColumnDataModel::indexOfLastDecoratedCell(const int &index) c
 
 int DartsPointMultiColumnDataModel::rowCount(const int &column)
 {
-    for (int row = 0; row < _data.count(); ++row) {
-        auto scoreModels = _data.at(row);
+    for (int row = 0; row < dataContext()->rowCount(); ++row) {
+        auto scoreModels = dataContext()->rowAt(column);
         auto scoreModel = scoreModels.at(column);
         auto point = scoreModel.first;
         auto scoreModelsCount = scoreModels.count();
@@ -426,7 +231,7 @@ bool DartsPointMultiColumnDataModel::isColumnEmpty(const int &col)
     if(col < 0 || col >= columnCount())
         throw std::out_of_range("Index out of range");
 
-    for (auto pairsRow : qAsConst(_data)) {
+    for (auto pairsRow : qAsConst(dataContext()->rows())) {
         auto pair = pairsRow.at(col);
         auto point = pair.first;
         if(point != -1)
@@ -439,9 +244,9 @@ bool DartsPointMultiColumnDataModel::isRowEmpty(const int &row)
 {
     if(row < 0 || row >= rowCount())
         throw std::out_of_range("Index out of range");
-    auto columnsData = _data.at(row);
-    for (int i = 0; i < columnsData.count(); ++i) {
-        auto columnData = columnsData.at(i);
+    auto rowData = dataContext()->rowAt(row);
+    for (int i = 0; i < rowData.count(); ++i) {
+        auto columnData = rowData.at(i);
         auto point = columnData.first;
         if(point != -1)
             return false;
@@ -449,59 +254,20 @@ bool DartsPointMultiColumnDataModel::isRowEmpty(const int &row)
     return true;
 }
 
-QPair<int, int> DartsPointMultiColumnDataModel::removeData(const QModelIndex &index)
+bool DartsPointMultiColumnDataModel::removeData(const QModelIndex &index)
 {
     if(!index.isValid())
-        return PointInputModel(-1,-1);
-    auto row = index.row();
-    auto column = index.column();
-    auto rowData = _data.at(row);
-    auto columnData = rowData.at(column);
-    auto initialPair = PointInputModel(-1,-1);
-    rowData.replace(column,initialPair);
-    _data.replace(row,rowData);
-    if(isColumnEmpty(column) && column > minimumColumnCount())
-    {
-        removeColumns(column,1,QModelIndex());
-        return columnData;
-    }
-    emit dataChanged(createIndex(row,column),createIndex(row,column));
-    return columnData;
+        return false;
+    replaceValue(index,cellContext()->defaultValues(),dataContext()->rows());
+    if(isColumnEmpty(index.column()) && index.column() > minimumColumnCount())
+        removeColumns(index.column(),1,QModelIndex());
+    emit dataChanged(createIndex(index.row(),index.column()),createIndex(index.row(),index.column()));
+    return true;
 }
 
-void DartsPointMultiColumnDataModel::setVerticalHeaderStringWidth(double verticalHeaderStringWidth)
+void DartsPointMultiColumnDataModel::setInitialValue(int newInitialValue)
 {
-    _verticalHeaderStringWidth = verticalHeaderStringWidth;
-}
-
-int DartsPointMultiColumnDataModel::headerFontSize() const
-{
-    return headerStylistics()->fontSize();
-}
-
-void DartsPointMultiColumnDataModel::setHeaderFontSize(int headerFontSize)
-{
-    headerStylistics()->setFontSize(headerFontSize);
-}
-
-QVector<QString> DartsPointMultiColumnDataModel::getVerticalHeaderData() const
-{
-    return verticalHeaderContext()->headerData();
-}
-
-void DartsPointMultiColumnDataModel::setVerticalHeaderData(const QVector<QString> &verticalHeaderData)
-{
-    verticalHeaderContext()->setHeaderData(verticalHeaderData);
-}
-
-int DartsPointMultiColumnDataModel::initialValue() const
-{
-    return horizontalHeaderContext()->initialValue();
-}
-
-void DartsPointMultiColumnDataModel::setInitialValue(int initialValue)
-{
-    horizontalHeaderContext()->setInitialValue(initialValue);
+    cellContext()->setInitialValue(newInitialValue);
     emit initialValueChanged();
 }
 
@@ -533,29 +299,6 @@ void DartsPointMultiColumnDataModel::setMinimumColumnCount(int minimumColumnCoun
     emit minimumColumnCountChanged();
 }
 
-int DartsPointMultiColumnDataModel::preferedHeaderItemWidth() const
-{
-    auto scale = fontMetricContext()->scale();
-    auto preferedWidth =  _verticalHeaderStringWidth*scale;
-    return preferedWidth;
-}
-
-void DartsPointMultiColumnDataModel::setNumberOfAttemps(const int &count)
-{
-    horizontalHeaderContext()->setAttemptsPerRound(count);
-    emit dataChanged(QModelIndex(),QModelIndex());
-}
-
-double DartsPointMultiColumnDataModel::scale() const
-{
-    return fontMetricContext()->scale();
-}
-
-void DartsPointMultiColumnDataModel::setScale(const double &scale)
-{
-    fontMetricContext()->setScale(scale);
-}
-
 void DartsPointMultiColumnDataModel::setColumnCount(const int &count)
 {
     if(count < 0)
@@ -580,7 +323,6 @@ void DartsPointMultiColumnDataModel::setRowCount(const int &count)
     {
         auto deltaR = count - rowCount();
         insertRows(rowCount(),deltaR,QModelIndex());
-
     }
     else
     {

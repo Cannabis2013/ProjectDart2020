@@ -15,7 +15,7 @@ public:
     virtual QString winnerName() const = 0;
 
     virtual void addPlayerEntity(const PlayerModel* model) = 0;
-    virtual void addPlayerEntitiesByModels(const QVector<const PlayerModel*>& models) = 0;
+    virtual void addPlayerEntities(const QVector<const PlayerModel*>& models) = 0;
     virtual void subtractPlayerScoresByModels(const QVector<const PointModel*>& models) = 0;
     virtual int subtractPlayerScore(const PointModel* model) = 0;
     virtual int addPlayerScore(const PointModel* model) = 0;

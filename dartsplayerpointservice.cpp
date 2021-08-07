@@ -32,7 +32,7 @@ void DartsPlayerPointService::addPlayerEntity(const PlayerModel* model)
     _playerTuples.append(tuple);
 }
 
-void DartsPlayerPointService::addPlayerEntitiesByModels(const QVector<const PlayerModel *> &models)
+void DartsPlayerPointService::addPlayerEntities(const QVector<const PlayerModel *> &models)
 {
     for (const auto& model : models)
         addPlayerEntity(model);

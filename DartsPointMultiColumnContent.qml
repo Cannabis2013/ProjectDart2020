@@ -58,6 +58,10 @@ Content {
             onLeftButtonClicked: applicationInterface.requestUndo()
             onRightButtonClicked: applicationInterface.requestRedo()
         }
+        // TODO: Move position bindings from the component to the Loader.
+        //       Check all uses of 'parent' inside the root element of the component.
+        //       Rename all outer uses of the id "pointScoreBoard" to "loader_pointScoreBoard.item".
+
         DartsPointMultiColumnBoard{
             id: pointScoreBoard
             Layout.fillHeight: true
@@ -133,5 +137,5 @@ Content {
         }
     ]
     Component.onCompleted: DartsPointMultiColumnScripts.initializeComponent()
-    Component.onDestruction: DartsPointMultiColumnScripts.disconnectInterface();
+    Component.onDestruction: DartsPointMultiColumnScripts.disconnectInterface()
 }

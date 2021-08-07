@@ -32,7 +32,7 @@ ScoreBoard {
     property int cellBorderWidth: 0
     onCellBorderWidthChanged: delegate.borderWidth = cellBorderWidth
     onNotifyCellPosition: ScoreScripts.setViewPosition(x,y)
-    onAppendHeader: ScoreScripts.appendHeader(header)
+    onAppendHeader: ScoreScripts.appendHeader(data)
 
     QtObject{
         id: cellPositionHolder

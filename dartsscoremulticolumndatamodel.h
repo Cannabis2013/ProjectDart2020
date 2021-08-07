@@ -3,8 +3,8 @@
 
 #include <QAbstractTableModel>
 #include <qfontmetrics.h>
-#include "LinkedList.h"
-
+#include "linkedlist.h"
+#include <qqml.h>
 /*
  * Orientation:
  *  - The datamodel orientation is based on the axis for which player names are listed

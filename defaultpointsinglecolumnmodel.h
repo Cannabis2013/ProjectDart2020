@@ -4,6 +4,8 @@
 #include "dartspointsinglecolumndatamodel.h"
 #include "dartsdatamodelpointbuilder.h"
 #include "convertpointtojson.h"
+#include <qqml.h>
+
 
 namespace DartsDataModelsContext {
     class DefaultPointSingleColumnModel : public DartsPointSingleColumnDataModel

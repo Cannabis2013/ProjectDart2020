@@ -3,6 +3,7 @@
 
 #include <QAbstractTableModel>
 #include <qfontmetrics.h>
+#include <qqml.h>
 
 class DartsScoreSingleColumnDataModel : public QAbstractTableModel
 {

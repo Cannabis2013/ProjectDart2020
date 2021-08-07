@@ -274,7 +274,7 @@ void DartsPointController::initializeControllerPlayerDetails(const QByteArray& j
 {
     auto playerModels = _playerModelBuilder->createPlayerModelsByJson(json);
     _indexService->setPlayersCount(playerModels.count());
-    _inputService->addPlayerEntitiesByModels(playerModels);
+    _inputService->addPlayerEntities(playerModels);
     emit requestTournamentDartsPoints(_metaData->tournamentId());
 }
 
