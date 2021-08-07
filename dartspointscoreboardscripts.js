@@ -124,8 +124,9 @@ function setData(playerName,score,point){
         print("Couldn't add data to model");
 }
 
-function takeData(playerName,){
-    var result = dartsDataModel.removeLastItem(playerName,-1);
+function takeData(playerName){
+    var indexOf = verticalHeaderModel.indexOf(playerName);
+    var result = dartsDataModel.removeLastItem(indexOf);
     if(!result)
         print("Couldn't take data");
 }
