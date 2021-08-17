@@ -11,65 +11,50 @@ function setInitialValue(value)
     dartsDataModel.setInitialValue(value);
 }
 
-function getHeaderItemCount(orientation){
-    var count = dartsDataModel.headerItemCount(orientation);
-    return count;
-}
-
 function clearTable(){
     dartsDataModel.clearData();
 }
 
-function getHeaderItem(index, orientation)
-{
-    var item = dartsDataModel.getHeaderData(index,orientation);
-    return item;
-}
-
-function updateScoreBoard()
-{
-    updateContentDimensions();
-    refreshHeaders();
-    multiColumnPointBoard.requestUpdateCells();
-}
-
-function updateContentDimensions()
-{
-    var tHeight = calculateHeight();
-    var tWidth = calculateWidth();
-    multiColumnPointBoard.updateContentDimensions(tHeight,tWidth);
-}
-
 function refreshHeaders()
 {
+    // Refresh h/v headers
     refreshHorizontalHeader();
     refreshVerticalHeader();
+    // Update flickable content to align table to header sections
+    updateContentDimensions();
 }
 
 function refreshHorizontalHeader()
 {
     let count = dartsDataModel.columnCount;
-    multiColumnPointBoard.horizontalHeaderModel = count;
+    pmcBoard.horizontalHeaderModel = count;
     for(var i = 0; i < count;i++)
     {
         let hHeaderValue = horizontalHeaderModel.roundByAttempt(i);
-        let columnWidth = 128;
-        multiColumnPointBoard.setHorizontalHeaderWidthAt(i,columnWidth);
-        multiColumnPointBoard.setHorizontalHeaderDataAt(i,hHeaderValue);
+        let columnWidth = tableColumnWidths.columnWidthAt(i);
+        pmcBoard.setHorizontalHeaderWidthAt(i,columnWidth);
+        pmcBoard.setHorizontalHeaderDataAt(i,hHeaderValue);
     }
 }
 
 function refreshVerticalHeader()
 {
     let headerCount = verticalHeaderModel.count();
-    multiColumnPointBoard.verticalHeaderModel = headerCount;
-    for(var i = 0;i < headerCount;i++)
+    pmcBoard.verticalHeaderModel = headerCount;
+    for(var row = 0;row < headerCount;row++)
     {
-        let vHeaderValue = verticalHeaderModel.item(i);
-        let rowHeight = 64;
-        multiColumnPointBoard.setRowHeight(i,rowHeight);
-        multiColumnPointBoard.setVerticalHeaderDataAt(i,vHeaderValue);
+        let vHeaderValue = verticalHeaderModel.item(row);
+        let rowHeight = tableHeightProvider.rowHeightAt(row);
+        pmcBoard.setVerticalHeaderHeightAt(row,rowHeight);
+        pmcBoard.setVerticalHeaderDataAt(row,vHeaderValue);
     }
+}
+
+function updateContentDimensions()
+{
+    var tHeight = calculateHeight();
+    var tWidth = calculateWidth();
+    pmcBoard.updateContentDimensions(tHeight,tWidth);
 }
 
 function calculateHeight()
@@ -80,6 +65,13 @@ function calculateHeight()
 function calculateWidth()
 {
     return totalColumnsWidth();
+}
+
+function updateScoreBoard()
+{
+    updateContentDimensions();
+    refreshHeaders();
+    pmcBoard.requestUpdateCells();
 }
 
 function totalColumnsWidth()
@@ -99,7 +91,7 @@ function totalHeaderHeight()
     var totalHeight = 0;
     for(var r = 0;r < rowCount;r++)
     {
-        var h = 64;
+        var h = 96;
         totalHeight += h;
     }
     return totalHeight;
@@ -107,44 +99,32 @@ function totalHeaderHeight()
 
 function setViewPosition(x,y)
 {
-    multiColumnPointBoard.updateViewPosition(x,y);
-}
-
-function appendHeader(header)
-{
-    verticalHeaderModel.appendItem(header);
-    var preferedWidth = 128;
-    multiColumnPointBoard.updateVerticalHeaderWidth(preferedWidth);
+    pmcBoard.updateViewPosition(x,y);
 }
 
 function setData(playerName,score,point){
     let indexOf = verticalHeaderModel.indexOf(playerName);
     var result = dartsDataModel.insertData(indexOf,point,score);
+    updateWidths(indexOf);
     if(!result)
         print("Couldn't add data to model");
 }
 
 function takeData(playerName){
     var indexOf = verticalHeaderModel.indexOf(playerName);
+    updateWidths(indexOf);
     var result = dartsDataModel.removeLastItem(indexOf);
     if(!result)
         print("Couldn't take data");
 }
 
-function editData(row,column,score){
-    var result = dartsDataModel.editData(row,column,score);
-    if(!result)
-        print("Couldn't edit data");
-}
-
-function addHeaderData(data,defaultVal)
+function updateWidths(indexOfPlayer)
 {
-    for(var i = 0; i < data.length;i++)
-    {
-        var assignedPlayerName = data[i];
-        appendHeader(assignedPlayerName);
-        multiColumnPointBoard.setData(assignedPlayerName,0,defaultVal);
-    }
+    var column = dartsDataModel.lastDecoratedColumn(indexOfPlayer);
+    var data = dartsDataModel.data(column);
+    var gw = fontsMetric.width(data,tableFonts.pointFontFamily,tableFonts.pointFontSize,
+                               tableFonts.scoreFontFamily,tableFonts.scoreFontSize);
+    tableColumnWidths.updateColumnWidth(column,gw);
 }
 
 function clearAll()
@@ -164,4 +144,17 @@ function convertInputFromJson(json,ref)
     var j = JSON.parse(json);
     ref.point = j["point"];
     ref.score = j["score"];
+}
+
+function columnWidthAt(column)
+{
+    var w = tableColumnWidths.columnWidthAt(column);
+    setHorizontalHeaderWidthAt(column,w);
+    return w;
+}
+function rowHeightAt(row)
+{
+    var h = tableHeightProvider.rowHeightAt(row);
+    setVerticalHeaderHeightAt(row,h);
+    return h;
 }

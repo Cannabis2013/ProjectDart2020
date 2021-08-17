@@ -174,3 +174,4 @@ function setWinnerText()
             tournamentMetaData.determinedWinner;
     keyDataDisplay.item.setCurrentWinner(winnerName);
 }
+

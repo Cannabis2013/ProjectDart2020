@@ -6,26 +6,21 @@
 #include "linkedlist.h"
 #include <qpair.h>
 
-namespace FillRowNameSpace {
-    typedef QPair<int,int> PointInput;
-    typedef LinkedList<PointInput> PointInputs;
-    typedef QVector<PointInputs> RowOfPointInputs;
-}
-class DartsTableCreateRows : public ITableFillCells<FillRowNameSpace::RowOfPointInputs,FillRowNameSpace::PointInput>
+class DartsTableCreateRows : public ITableFillCells<
+        QVector<LinkedList<QPair<int,int>>>,QPair<int,int>>
 {
 public:
     // Public types
-    typedef QPair<int,int> PointInput;
-    typedef LinkedList<PointInput> PointInputs;
-    typedef QVector<PointInputs> RowOfPointInputs;
+    typedef QPair<int,int> DataItem;
+    typedef LinkedList<DataItem> Row;
+    typedef QVector<Row> Rows;
     virtual void fill(const int &row, const int &rows, const int &columns,
-                      RowOfPointInputs &list,
-                      const PointInput &defaultValue) const override
+                      Rows &list,const DataItem &defaultValue) const override
     {
         for (int i = 0; i < rows; ++i) {
             auto initializedDataRow = [=]
             {
-                PointInputs resultingList;
+                Row resultingList;
                 for (int i = 0; i < columns; ++i)
                     resultingList << defaultValue;
                 return resultingList;
@@ -34,7 +29,4 @@ public:
         }
     }
 };
-
-
-
 #endif // DARTSTABLEFILLSERVICE_H

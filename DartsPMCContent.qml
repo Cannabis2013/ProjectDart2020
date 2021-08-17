@@ -62,7 +62,7 @@ Content {
         //       Check all uses of 'parent' inside the root element of the component.
         //       Rename all outer uses of the id "pointScoreBoard" to "loader_pointScoreBoard.item".
 
-        DartsPointMultiColumnBoard{
+        DartsPMCBoard{
             id: pointScoreBoard
             Layout.fillHeight: true
             Layout.fillWidth: true

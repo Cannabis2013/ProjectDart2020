@@ -16,7 +16,7 @@ public:
     Q_INVOKABLE void appendItem(const QString &item) override;
     Q_INVOKABLE void appendItems(const QVector<QString> &items) override;
     Q_INVOKABLE void removeItem(const int &index) override;
-    Q_INVOKABLE void clear();
+    Q_INVOKABLE void clear() override;
     Q_INVOKABLE int indexOf(const QString &item) const override;
     Q_INVOKABLE int count() const override;
     Q_INVOKABLE QString item(const int &index) const override;

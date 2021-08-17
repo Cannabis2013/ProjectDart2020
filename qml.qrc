@@ -71,12 +71,12 @@
         <file>ScoreKeyPadInterface.qml</file>
         <file>ScoreInputDelegate.qml</file>
         <file>SingleAttemptCellDelegate.qml</file>
-        <file>DartsPointMultiColumnBoard.qml</file>
+        <file>DartsPMCBoard.qml</file>
         <file>ftpScoreBoardFactory.js</file>
         <file>ScoreRectDelegate.qml</file>
         <file>MultiScoreDelegate.qml</file>
-        <file>dartspointscoreboardscripts.js</file>
-        <file>DartsPointMultiColumnContent.qml</file>
+        <file>dartspmcboardscripts.js</file>
+        <file>DartsPMCContent.qml</file>
         <file>dartsPointMultiColumnScripts.js</file>
         <file>scoreboardscripts.js</file>
         <file>DartsScoreSingleColumnContent.qml</file>
@@ -96,6 +96,7 @@
         <file>ScoreBoardVHeader.qml</file>
         <file>ScoreBoardTableView.qml</file>
         <file>horizontalHeaderScripts.js</file>
+        <file>dartspmcheaderscripts.js</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>

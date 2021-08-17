@@ -84,7 +84,7 @@ Item {
         id: dartsPointMultiColumn
         Page{
             pageTitle : "Darts single attempt"
-            pageContent: DartsPointMultiColumnContent{}
+            pageContent: DartsPMCContent{}
             Component.onCompleted: body.backPushed.connect(backButtonPressed)
             onBackButtonPressed: pageLoader.sourceComponent = tournamentPageComponent
         }

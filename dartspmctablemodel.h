@@ -1,7 +1,7 @@
-#ifndef DEFAULTPOINTMULTICOLUMNMODEL_H
-#define DEFAULTPOINTMULTICOLUMNMODEL_H
+#ifndef DARTSPMCTABLEMODEL_H
+#define DARTSPMCTABLEMODEL_H
 
-#include "dartspointmulticolumndatamodel.h"
+#include "dartsmctablemodel.h"
 #include "dartstabledimensions.h"
 #include "dartstablecellcontext.h"
 #include "dartstablefillservice.h"
@@ -9,12 +9,13 @@
 #include "dartstablecreaterowindices.h"
 #include "dartstabledatacontext.h"
 #include "dartstablecreatecolumns.h"
-#include "dartstablecreatejson.h"
+#include "createqmljson.h"
+#include "createqmlvariants.h"
 
-class DefaultPointMultiColumnModel : public DartsPointMultiColumnDataModel
+class DartsPMCTableModel : public DartsMCTableModel
 {
 public:
-    DefaultPointMultiColumnModel()
+    DartsPMCTableModel()
     {
         setTableContext(new DartsTableDimensions);
         setTableCellContext(new DartsTableCellContext);
@@ -23,7 +24,8 @@ public:
         setCreateColumnIndiceValues(new DartsTableCreateColumnIndices);
         setCreateRowsIndices(new DartsTableCreateRowIndices);
         setDataContext(new DartsTableDataContext);
-        setCreateJsonFromModel(new DartsTableCreateJson);
+        setQMLJsonContext(new CreateQMLJson);
+        setQMLVariantsContext(new CreateQMLVariants);
     }
 };
 

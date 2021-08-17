@@ -6,37 +6,28 @@ import "scoreboardscripts.js" as ScoreBoardScripts
 ScoreBoardInterface{
     id: scoreBoardBody
     color: "transparent"
-    signal refreshHeaders()
-    signal setHorizontalHeaderWidthAt(int j, int w)
-    onSetHorizontalHeaderWidthAt: scoreBoardHHeader.setColumnWidth(j,w)
-    signal setRowHeight(int i,int h)
-    onSetRowHeight: scoreBoardVHeader.setRowHeight(i,h)
     signal requestUpdateCells()
     onRequestUpdateCells: scoreBoardTableView.forceLayout()
     signal notifyCellPosition(int x, int y)
     // Row/column related
     property int minimumColumnCount: 1
     // Horizontal header properties and signals
-    signal setHorizontalHeaderDataAt(int j, var val)
+    signal setVerticalHeaderHeightAt(int i,int h)
+    onSetVerticalHeaderHeightAt: scoreBoardVHeader.setRowHeight(i,h)
+    signal setHorizontalHeaderWidthAt(int j, int w)
+    onSetHorizontalHeaderWidthAt: scoreBoardHHeader.setColumnWidth(j,w)
     onSetHorizontalHeaderDataAt: scoreBoardHHeader.setData(j,val)
-    signal setHorizontalHeaderModel(int m)
     onSetHorizontalHeaderModel: scoreBoardHHeader.model = m
-    property bool horizontalHeaderVisible: true
     onHorizontalHeaderVisibleChanged: scoreBoardHHeader.visible = horizontalHeaderVisible
-    property int horizontalHeaderHeight: 20
-    onHorizontalHeaderHeightChanged: scoreBoardHHeader.height = horizontalHeaderHeight
+    readonly property int horizontalHeaderHeight: scoreBoardHHeader.height
+    readonly property int verticalHeaderWidth: scoreBoardVHeader.width
     readonly property int horizontalHeaderCount: scoreBoardHHeader.dataCount
     property int horizontalHeaderModel: scoreBoardHHeader.model
     onHorizontalHeaderModelChanged: scoreBoardHHeader.model = horizontalHeaderModel
     // Vertical header properties and signals
-    signal setVerticalHeaderModel(int m)
     onSetVerticalHeaderModel: scoreBoardVHeader.model = m
-    signal setVerticalHeaderDataAt(int i, var val)
     onSetVerticalHeaderDataAt: scoreBoardVHeader.setData(i,val)
-    property bool verticalHeaderVisible: true
     onVerticalHeaderVisibleChanged: scoreBoardVHeader.visible = verticalHeaderVisible
-    property bool staticVerticalHeaderWidth: false
-    property int verticalHeaderWidth: 25
     onVerticalHeaderWidthChanged: scoreBoardVHeader.width = verticalHeaderWidth
     property int verticalHeaderModel: scoreBoardVHeader.model
     onVerticalHeaderModelChanged: scoreBoardVHeader.model = verticalHeaderModel

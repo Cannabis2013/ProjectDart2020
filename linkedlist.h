@@ -2,7 +2,7 @@
 #define LINKEDLIST_H
 
 #include <iostream>
-
+#include <qobject.h>
 #define STANDARD_RANGE_EXCEPTION "Index out of range"
 
 using namespace std;
@@ -188,7 +188,7 @@ public:
             throw e;
         }
         auto o = nodeAtIndex->getObj();
-        return o;
+        return *o;
     }
 
     void replace(const int &i, T o)

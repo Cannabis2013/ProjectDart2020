@@ -7,16 +7,15 @@
 #include <qqml.h>
 
 
-namespace DartsDataModelsContext {
-    class DefaultPointSingleColumnModel : public DartsPointSingleColumnDataModel
+class DefaultPointSingleColumnModel : public DartsDataModelsContext::DartsPointSingleColumnDataModel
+{
+public:
+    DefaultPointSingleColumnModel()
     {
-    public:
-        DefaultPointSingleColumnModel()
-        {
-            _pointModelBuilderService = new dartsdatamodelpointbuilder;
-            _convertPointToJsonService = new ConvertPointToJson;
-        }
-    };
-}
+        using namespace DartsDataModelsContext;
+        _pointModelBuilderService = new dartsdatamodelpointbuilder;
+        _convertPointToJsonService = new ConvertPointToJson;
+    }
+};
 
 #endif // DARTSPOINTDATAMODELINJECTOR_H

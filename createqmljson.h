@@ -1,16 +1,16 @@
-#ifndef DARTSTABLECREATEJSON_H
-#define DARTSTABLECREATEJSON_H
+#ifndef CREATEQMLJSON_H
+#define CREATEQMLJSON_H
 
-#include "itablecreatevariant.h"
 #include <qjsondocument.h>
 #include <qjsonobject.h>
+#include "iqmldatabuilder.h"
 
-class DartsTableCreateJson : public ITableCreateVariant<QPair<int,int>>
+class CreateQMLJson : public IQMLDataBuilder<QPair<int,int>,QVariant>
 {
     // ITableCreateVariant interface
 public:
     typedef QPair<int,int> PointInput;
-    virtual QVariant create(const PointInput &model) const override
+    virtual QVariant createData(const PointInput &model) const override
     {
         auto json = toJson(model);
         return QVariant(json);

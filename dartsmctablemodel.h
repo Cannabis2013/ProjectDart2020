@@ -1,45 +1,45 @@
-#ifndef CUSTOMTABLEMODEL_H
-#define CUSTOMTABLEMODEL_H
+#ifndef DARTSMCTABLEMODEL_H
+#define DARTSMCTABLEMODEL_H
 
 #include <QAbstractTableModel>
 #include "linkedlist.h"
 #include "itablecontext.h"
-#include "dartspointmulticolumnservices.h"
+#include "dartspmcservices.h"
 
-class DartsPointMultiColumnDataModel :
+/*
+ * A method is described as 'exposed' if it's reacheable from any QML context
+ */
+
+class DartsMCTableModel :
         public QAbstractTableModel,
-        protected DartsPointMultiColumnServices
+        protected DartsPMCServices
 {
     Q_OBJECT
 public:
     // Constructor
-    DartsPointMultiColumnDataModel();
+    DartsMCTableModel();
     // Public properties
     // Fonts properties
     // Columns and rows properties
-    Q_PROPERTY(int initalValue WRITE setInitialValue NOTIFY initialValueChanged);
+    Q_PROPERTY(int initalValue READ initialValue WRITE setInitialValue NOTIFY initialValueChanged);
     Q_PROPERTY(int columnCount READ columnCount WRITE setColumnCount NOTIFY columnCountChanged);
     Q_PROPERTY(int minimumColumnCount READ minimumColumnCount WRITE setMinimumColumnCount NOTIFY minimumColumnCountChanged);
     // public exposed methods
-    // Data related
-    Q_INVOKABLE bool insertData(const int &indexOfPlayer,
-                                const int &point,
-                                const int &score);
+    Q_INVOKABLE bool insertData(const int &indexOfPlayer, const int &point, const int &score);
     Q_INVOKABLE bool removeLastItem(const int &indexOfPlayer);
     Q_INVOKABLE void clearData();
-    // Header related
     Q_INVOKABLE void setColumnCount(const int &count);
-    // Rows and columns related
     Q_INVOKABLE int columnCount() const;
-    // Columns and rows exposed methods
     Q_INVOKABLE int minimumColumnCount() const;
     Q_INVOKABLE void setMinimumColumnCount(int minimumColumnCount);
+    Q_INVOKABLE QVariantList columnData(const int &column) const;
+    Q_INVOKABLE QVariantList rowData(const int &row) const;
+    Q_INVOKABLE int lastDecoratedColumn(const int &indexOfPlayer) const;
     // Public non-exposed methods
-    // Header non-exposed methods
-    // Columns and rows non-exposed virtual method implementations
     int rowCount(const QModelIndex &) const override;
     int columnCount(const QModelIndex &) const override;
     void setInitialValue(int newInitialValue);
+    int initialValue() const;
 signals:
     void columnCountChanged();
     void minimumColumnCountChanged();
@@ -57,9 +57,9 @@ private slots:
 private:
     // Assistance methods
     void createColumnsIfNecessary(const int &column);
-    void replaceValue(const QModelIndex &index, const PointInputModel &model, DataRows &data);
+    void replaceValue(const QModelIndex &index, const TableData &model, Rows &data);
     QModelIndex createIndexFromPlayerName(const int &indexOfplayer) const;
-    PointInputModel addValue(const QModelIndex &index, const QVariant &value);
+    TableData addValue(const QModelIndex &index, const QVariant &value);
     void createRowsAndColumns(const QModelIndex &index, const int &delta = 1);
     int indexOfLastDecoratedCell(const int &row) const;
     // Scores and points
