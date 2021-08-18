@@ -121,7 +121,7 @@ function takeData(playerName){
 function updateWidths(indexOfPlayer)
 {
     var column = dartsDataModel.lastDecoratedColumn(indexOfPlayer);
-    var data = dartsDataModel.data(column);
+    var data = dartsDataModel.columnData(column);
     var gw = fontsMetric.width(data,tableFonts.pointFontFamily,tableFonts.pointFontSize,
                                tableFonts.scoreFontFamily,tableFonts.scoreFontSize);
     tableColumnWidths.updateColumnWidth(column,gw);

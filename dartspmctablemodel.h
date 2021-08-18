@@ -1,18 +1,21 @@
 #ifndef DARTSPMCTABLEMODEL_H
 #define DARTSPMCTABLEMODEL_H
 
-#include "dartsmctablemodel.h"
+#include "dartstablemodel.h"
 #include "dartstabledimensions.h"
 #include "dartstablecellcontext.h"
 #include "dartstablefillservice.h"
 #include "dartstablecreatecolumnindices.h"
 #include "dartstablecreaterowindices.h"
-#include "dartstabledatacontext.h"
+#include "dartspmcdatacontext.h"
 #include "dartstablecreatecolumns.h"
 #include "createqmljson.h"
 #include "createqmlvariants.h"
+#include "dartsdatacontextitemutility.h"
+#include "dartspmccolumnindexbuilder.h"
+#include "dartspmcsectionutility.h"
 
-class DartsPMCTableModel : public DartsMCTableModel
+class DartsPMCTableModel : public DartsTableModel
 {
 public:
     DartsPMCTableModel()
@@ -23,9 +26,12 @@ public:
         setCreateColumns(new DartsTableCreateColumns);
         setCreateColumnIndiceValues(new DartsTableCreateColumnIndices);
         setCreateRowsIndices(new DartsTableCreateRowIndices);
-        setDataContext(new DartsTableDataContext);
-        setQMLJsonContext(new CreateQMLJson);
+        setDataContext(new DartsPMCDataContext);
+        setTableItemBuilder(new CreateQMLJson);
         setQMLVariantsContext(new CreateQMLVariants);
+        setGetDataFromDataContext(new DartsDataContextItemUtility);
+        setcolumnIndexBuilder(new DartsPMCColumnIndexBuilder);
+        setSectionUtitity(new DartsPMCSectionUtility);
     }
 };
 

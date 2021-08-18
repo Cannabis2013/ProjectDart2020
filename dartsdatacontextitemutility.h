@@ -1,8 +1,8 @@
-#ifndef GETDATAFROMDATACONTEXT_H
-#define GETDATAFROMDATACONTEXT_H
+#ifndef DARTSDATACONTEXTITEMUTILITY_H
+#define DARTSDATACONTEXTITEMUTILITY_H
 
 #include "igetdatafromdatacontext.h"
-#include "itabledatacontext.h"
+#include "idartstabledatacontext.h"
 #include "linkedlist.h"
 #include <QModelIndex>
 namespace GetDataContext {
@@ -11,9 +11,8 @@ namespace GetDataContext {
     typedef QVector<Row> Rows;
 }
 
-class GetDataFromDataContext :
-        public IGetDataFromDataContext<GetDataContext::RowItem,
-                                       ITableDataContext<GetDataContext::RowItem,QModelIndex>>
+class DartsDataContextItemUtility :
+        public IGetDataFromDataContext<GetDataContext::RowItem,IDartsTableDataContext>
 {
     typedef QVector<Item> Items;
     typedef QPair<int,int> RowItem;

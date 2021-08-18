@@ -9,7 +9,6 @@
  * Orientation:
  *  - The datamodel orientation is based on the axis for which player names are listed
  */
-
 class DartsSMCTableModel : public QAbstractTableModel
 {
     Q_OBJECT
@@ -112,8 +111,7 @@ public:
     void setColumnWidthAt(const int &column,const double &w);
     int columnWidthsAt(const int &index) const;
     int headerFontSize() const;
-    void setHeaderFontSize(int headerFontSize);
-
+    void setHeaderFontSize(const int &headerFontSize);
 signals:
     void fillModeChanged();
     void columnWidthScaleChanged();

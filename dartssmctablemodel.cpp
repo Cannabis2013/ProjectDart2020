@@ -634,7 +634,7 @@ int DartsSMCTableModel::headerFontSize() const
     return _headerFontSize;
 }
 
-void DartsSMCTableModel::setHeaderFontSize(int headerFontSize)
+void DartsSMCTableModel::setHeaderFontSize(const int &headerFontSize)
 {
     _headerFontSize = headerFontSize;
 }

@@ -9,10 +9,10 @@
 namespace TableDataContext {
     typedef QPair<int,int> PointInput;
     typedef LinkedList<PointInput> PointInputs;
-    typedef  QVector<PointInputs> DataRows;
+    typedef  QVector<PointInputs> Rows;
 }
 
-class DartsTableDataManipulator : public ITableDataManipulator<TableDataContext::DataRows>
+class DartsTableDataManipulator : public ITableDataManipulator<TableDataContext::Rows>
 {
 public:
     typedef QPair<int,int> PointInput;

@@ -8,7 +8,7 @@ class CreateQMLVariants : public IQMLDataBuilder<QVector<QPair<int,int>>,QVarian
 {
 public:
     typedef QPair<int,int> PointInput;
-    virtual QVariantList createData(const QVector<PointInput> &d) const override
+    virtual QVariantList createItem(const QVector<PointInput> &d) const override
     {
         QVariantList list;
         for (int i = 0;i < d.count();i++) {

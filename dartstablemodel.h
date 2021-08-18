@@ -1,23 +1,23 @@
-#ifndef DARTSMCTABLEMODEL_H
-#define DARTSMCTABLEMODEL_H
+#ifndef DARTSTABLEMODEL_H
+#define DARTSTABLEMODEL_H
 
 #include <QAbstractTableModel>
 #include "linkedlist.h"
 #include "itablecontext.h"
-#include "dartspmcservices.h"
+#include "dartstableservices.h"
 
 /*
  * A method is described as 'exposed' if it's reacheable from any QML context
  */
 
-class DartsMCTableModel :
+class DartsTableModel :
         public QAbstractTableModel,
-        protected DartsPMCServices
+        protected DartsTableServices
 {
     Q_OBJECT
 public:
     // Constructor
-    DartsMCTableModel();
+    DartsTableModel();
     // Public properties
     // Fonts properties
     // Columns and rows properties
@@ -29,8 +29,6 @@ public:
     Q_INVOKABLE bool removeLastItem(const int &indexOfPlayer);
     Q_INVOKABLE void clearData();
     Q_INVOKABLE void setColumnCount(const int &count);
-    Q_INVOKABLE int columnCount() const;
-    Q_INVOKABLE int minimumColumnCount() const;
     Q_INVOKABLE void setMinimumColumnCount(int minimumColumnCount);
     Q_INVOKABLE QVariantList columnData(const int &column) const;
     Q_INVOKABLE QVariantList rowData(const int &row) const;
@@ -55,13 +53,13 @@ protected:
 private slots:
     void updateInitialCellValues();
 private:
+    int columnCount() const;
+    int minimumColumnCount() const;
     // Assistance methods
     void createColumnsIfNecessary(const int &column);
-    void replaceValue(const QModelIndex &index, const TableData &model, Rows &data);
-    QModelIndex createIndexFromPlayerName(const int &indexOfplayer) const;
-    TableData addValue(const QModelIndex &index, const QVariant &value);
+    void replaceValue(const QModelIndex &index, const TableItem &model, Rows &data);
+    TableItem addValue(const QModelIndex &index, const QVariant &value);
     void createRowsAndColumns(const QModelIndex &index, const int &delta = 1);
-    int indexOfLastDecoratedCell(const int &row) const;
     // Scores and points
     bool removeData(const QModelIndex &index);
 };

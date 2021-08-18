@@ -6,7 +6,7 @@ template<typename T, typename U>
 class IQMLDataBuilder
 {
 public:
-    virtual U createData(const T &d) const = 0;
+    virtual U createItem(const T &d) const = 0;
 };
 
 #endif // IQMLDATABUILDER_H

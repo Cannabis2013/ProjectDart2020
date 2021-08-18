@@ -10,7 +10,7 @@ class CreateQMLJson : public IQMLDataBuilder<QPair<int,int>,QVariant>
     // ITableCreateVariant interface
 public:
     typedef QPair<int,int> PointInput;
-    virtual QVariant createData(const PointInput &model) const override
+    virtual QVariant createItem(const PointInput &model) const override
     {
         auto json = toJson(model);
         return QVariant(json);
