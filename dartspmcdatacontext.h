@@ -8,10 +8,8 @@
 
 class DartsPMCDataContext : public IDartsTableDataContext
 {
-    typedef QPair<int,int> RowItem;
-    typedef LinkedList<RowItem> Row;
-    typedef QVector<Row> Rows;
 public:
+    virtual void addItem(const Index &index, const Item &item) override;
     virtual Rows data() const override;
     virtual Rows &rows() override;
     virtual void replaceItem(const Index &index, const Item &model) override;

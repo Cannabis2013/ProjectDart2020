@@ -1,10 +1,10 @@
 #include "dartstableservices.h"
 
-ITableContext *DartsTableServices::tableContext() const
+ITableSectionContext *DartsTableServices::tableSections() const
 {
     return _tableContext;
 }
-void DartsTableServices::setTableContext(ITableContext *newTableDimensions)
+void DartsTableServices::setTableSections(ITableSectionContext *newTableDimensions)
 {
     _tableContext = newTableDimensions;
 }
@@ -32,11 +32,11 @@ void DartsTableServices::setCreateRowsIndices(ITableIndiceValues *newCreateRowsI
 {
     _createRowIndiceValues = newCreateRowsIndices;
 }
-ITableDataManipulator<DartsTableServices::Rows> *DartsTableServices::tableDataManipulator() const
+ITableSectionManipulator<DartsTableServices::Rows> *DartsTableServices::sectionManipulator() const
 {
     return _tableDataManipulator;
 }
-void DartsTableServices::setTableDataManipulator(ITableDataManipulator<Rows> *newTableDataManipulator)
+void DartsTableServices::setSectionManipulator(ITableSectionManipulator<Rows> *newTableDataManipulator)
 {
     _tableDataManipulator = newTableDataManipulator;
 }

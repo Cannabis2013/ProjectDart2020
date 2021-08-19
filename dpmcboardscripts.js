@@ -27,26 +27,26 @@ function refreshHeaders()
 function refreshHorizontalHeader()
 {
     let count = dartsDataModel.columnCount;
-    pmcBoard.horizontalHeaderModel = count;
+    dPMCBoard.horizontalHeaderModel = count;
     for(var i = 0; i < count;i++)
     {
         let hHeaderValue = horizontalHeaderModel.roundByAttempt(i);
-        let columnWidth = tableColumnWidths.columnWidthAt(i);
-        pmcBoard.setHorizontalHeaderWidthAt(i,columnWidth);
-        pmcBoard.setHorizontalHeaderDataAt(i,hHeaderValue);
+        let columnWidth = tableWidthProvider.columnWidthAt(i);
+        dPMCBoard.setHorizontalHeaderWidthAt(i,columnWidth);
+        dPMCBoard.setHorizontalHeaderDataAt(i,hHeaderValue);
     }
 }
 
 function refreshVerticalHeader()
 {
     let headerCount = verticalHeaderModel.count();
-    pmcBoard.verticalHeaderModel = headerCount;
+    dPMCBoard.verticalHeaderModel = headerCount;
     for(var row = 0;row < headerCount;row++)
     {
         let vHeaderValue = verticalHeaderModel.item(row);
         let rowHeight = tableHeightProvider.rowHeightAt(row);
-        pmcBoard.setVerticalHeaderHeightAt(row,rowHeight);
-        pmcBoard.setVerticalHeaderDataAt(row,vHeaderValue);
+        dPMCBoard.setVerticalHeaderHeightAt(row,rowHeight);
+        dPMCBoard.setVerticalHeaderDataAt(row,vHeaderValue);
     }
 }
 
@@ -54,7 +54,7 @@ function updateContentDimensions()
 {
     var tHeight = calculateHeight();
     var tWidth = calculateWidth();
-    pmcBoard.updateContentDimensions(tHeight,tWidth);
+    dPMCBoard.updateContentDimensions(tHeight,tWidth);
 }
 
 function calculateHeight()
@@ -71,7 +71,7 @@ function updateScoreBoard()
 {
     updateContentDimensions();
     refreshHeaders();
-    pmcBoard.requestUpdateCells();
+    dPMCBoard.requestUpdateCells();
 }
 
 function totalColumnsWidth()
@@ -79,7 +79,7 @@ function totalColumnsWidth()
     var columnCount = dartsDataModel.columnCount;
     var result = 0;
     for(var c = 0;c < columnCount;c++){
-        var w = 128;
+        var w = tableWidthProvider.columnWidthAt(c);
         result += w;
     }
     return result;
@@ -91,7 +91,7 @@ function totalHeaderHeight()
     var totalHeight = 0;
     for(var r = 0;r < rowCount;r++)
     {
-        var h = 96;
+        var h = tableHeightProvider.rowHeightAt(r);
         totalHeight += h;
     }
     return totalHeight;
@@ -99,15 +99,16 @@ function totalHeaderHeight()
 
 function setViewPosition(x,y)
 {
-    pmcBoard.updateViewPosition(x,y);
+    dPMCBoard.updateViewPosition(x,y);
 }
 
 function setData(playerName,score,point){
     let indexOf = verticalHeaderModel.indexOf(playerName);
     var result = dartsDataModel.insertData(indexOf,point,score);
-    updateWidths(indexOf);
     if(!result)
         print("Couldn't add data to model");
+    else
+        updateWidths(indexOf);
 }
 
 function takeData(playerName){
@@ -122,9 +123,9 @@ function updateWidths(indexOfPlayer)
 {
     var column = dartsDataModel.lastDecoratedColumn(indexOfPlayer);
     var data = dartsDataModel.columnData(column);
-    var gw = fontsMetric.width(data,tableFonts.pointFontFamily,tableFonts.pointFontSize,
-                               tableFonts.scoreFontFamily,tableFonts.scoreFontSize);
-    tableColumnWidths.updateColumnWidth(column,gw);
+    var gw = fontsMetric.width(data,dpmcTableFonts.pointFontFamily,dpmcTableFonts.pointFontSize,
+                               dpmcTableFonts.scoreFontFamily,dpmcTableFonts.scoreFontSize);
+    tableWidthProvider.updateColumnWidth(column,gw);
 }
 
 function clearAll()
@@ -144,17 +145,4 @@ function convertInputFromJson(json,ref)
     var j = JSON.parse(json);
     ref.point = j["point"];
     ref.score = j["score"];
-}
-
-function columnWidthAt(column)
-{
-    var w = tableColumnWidths.columnWidthAt(column);
-    setHorizontalHeaderWidthAt(column,w);
-    return w;
-}
-function rowHeightAt(row)
-{
-    var h = tableHeightProvider.rowHeightAt(row);
-    setVerticalHeaderHeightAt(row,h);
-    return h;
 }

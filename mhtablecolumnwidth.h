@@ -7,6 +7,7 @@ class MHTableColumnWidth : public QObject
 {
     Q_OBJECT
 public:
+    Q_PROPERTY(double scale READ scale WRITE setScale NOTIFY scaleChanged);
     Q_PROPERTY(int minimumColumnWidth READ minimumColumnWidth WRITE setMinimumColumnWidth NOTIFY minimumColumnWidthChanged);
     Q_INVOKABLE void updateColumnWidth(const int &column, const int &width)
     {
@@ -18,11 +19,19 @@ public:
     {
         if(column < 0 || column >= _columnWidths.count())
             return _minimumWidth;
-        return _columnWidths.at(column);
+        return widthAt(column);
     }
 signals:
     void minimumColumnWidthChanged();
+    void scaleChanged();
 private:
+    int widthAt(const int &column) const
+    {
+        auto ws = _columnWidths.at(column)*scale();
+        if(ws < _minimumWidth)
+            ws = _minimumWidth*scale();
+        return ws;
+    }
     bool invalidColumn(const int &column) const
     {
         return column > indexOfLastColumn();
@@ -50,8 +59,19 @@ private:
     {
         _columnWidths.replace(column,width);
     }
+    double scale() const
+    {
+        return _scale;
+    }
+    void setScale(double newScale)
+    {
+        if (_scale == newScale)
+        return;
+        _scale = newScale;
+        emit scaleChanged();
+    }
     QVector<int> _columnWidths;
-    int _minimumWidth = 64;
+    int _minimumWidth = 0;
+    double _scale;
 };
-
 #endif // MHTABLECOLUMNWIDTHS_H

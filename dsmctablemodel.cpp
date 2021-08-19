@@ -1,11 +1,11 @@
-#include "dartssmctablemodel.h"
+#include "dsmctablemodel.h"
 
-DartsSMCTableModel::DartsSMCTableModel()
+DSMCTableModel::DSMCTableModel()
 {
-    connect(this,&DartsSMCTableModel::initialValueChanged,this,&DartsSMCTableModel::updateInitialCellValues);
+    connect(this,&DSMCTableModel::initialValueChanged,this,&DSMCTableModel::updateInitialCellValues);
 }
 
-int DartsSMCTableModel::editData(const int &row, const int &column, const int &score)
+int DSMCTableModel::editData(const int &row, const int &column, const int &score)
 {
     if(row < 0 || row >= rowCount())
         return -1;
@@ -21,7 +21,7 @@ int DartsSMCTableModel::editData(const int &row, const int &column, const int &s
     return oldData.toInt();
 }
 
-bool DartsSMCTableModel::insertData(const QString &playerName, const int &score)
+bool DSMCTableModel::insertData(const QString &playerName, const int &score)
 {
     if(appendMode() == AppendDataMode::SingleAppend)
         return setPlayerData(playerName,score,headerOrientation());
@@ -30,7 +30,7 @@ bool DartsSMCTableModel::insertData(const QString &playerName, const int &score)
     return false;
 }
 
-bool DartsSMCTableModel::setPlayerData(const QString &playerName, const int &score,const int &headerOrientation)
+bool DSMCTableModel::setPlayerData(const QString &playerName, const int &score,const int &headerOrientation)
 {
     auto orientation = headerOrientation != -1 ? headerOrientation : this->headerOrientation();
     auto indexOfPlayer = indexOfHeaderItem(playerName,orientation);
@@ -46,7 +46,7 @@ bool DartsSMCTableModel::setPlayerData(const QString &playerName, const int &sco
     return true;
 }
 
-bool DartsSMCTableModel::appendPlayerData(const QString &playerName, const int &score,const int &headerOrientation)
+bool DSMCTableModel::appendPlayerData(const QString &playerName, const int &score,const int &headerOrientation)
 {
     auto orientation = headerOrientation != -1 ? headerOrientation : this->headerOrientation();
     auto index = indexOfHeaderItem(playerName,orientation);
@@ -74,7 +74,7 @@ bool DartsSMCTableModel::appendPlayerData(const QString &playerName, const int &
     return true;
 }
 
-bool DartsSMCTableModel::removeLastItem(const QString &playerName, const int &headerOrientation)
+bool DSMCTableModel::removeLastItem(const QString &playerName, const int &headerOrientation)
 {
     auto orientation = headerOrientation != -1 ? headerOrientation : this->headerOrientation();
     if(orientation == Qt::Horizontal)
@@ -95,7 +95,7 @@ bool DartsSMCTableModel::removeLastItem(const QString &playerName, const int &he
     }
 }
 
-void DartsSMCTableModel::appendHeaderItem(const QVariant &data,
+void DSMCTableModel::appendHeaderItem(const QVariant &data,
                                             const int &headerOrientation)
 {
     auto orientation = headerOrientation != -1 ?
@@ -124,7 +124,7 @@ void DartsSMCTableModel::appendHeaderItem(const QVariant &data,
     }
 }
 
-void DartsSMCTableModel::clearData()
+void DSMCTableModel::clearData()
 {
     _data.clear();
     auto bottomRight = createIndex(rowCount() - 1,columnCount() - 1);
@@ -137,7 +137,7 @@ void DartsSMCTableModel::clearData()
     emit dataChanged(createIndex(0,0),bottomRight);
 }
 
-QString DartsSMCTableModel::getHeaderData(const int &index, const int &headerOrientation) const
+QString DSMCTableModel::getHeaderData(const int &index, const int &headerOrientation) const
 {
     auto orientation = headerOrientation != -1 ? headerOrientation :
                                                  this->headerOrientation();
@@ -145,7 +145,7 @@ QString DartsSMCTableModel::getHeaderData(const int &index, const int &headerOri
     return value;
 }
 
-int DartsSMCTableModel::headerItemCount(const int &headerOrientation) const
+int DSMCTableModel::headerItemCount(const int &headerOrientation) const
 {
     auto orientation = headerOrientation != -1 ?
                 headerOrientation : this->headerOrientation();
@@ -165,17 +165,17 @@ int DartsSMCTableModel::headerItemCount(const int &headerOrientation) const
     }
 }
 
-int DartsSMCTableModel::rowCount() const
+int DSMCTableModel::rowCount() const
 {
     return rowCount(QModelIndex());
 }
 
-int DartsSMCTableModel::columnCount() const
+int DSMCTableModel::columnCount() const
 {
     return columnCount(QModelIndex());
 }
 
-double DartsSMCTableModel::columnWidthAt(const int &column) const
+double DSMCTableModel::columnWidthAt(const int &column) const
 {
     auto s = scale();
     auto w = columnWidthsAt(column);
@@ -186,7 +186,7 @@ double DartsSMCTableModel::columnWidthAt(const int &column) const
         return columnWidth;
 }
 
-double DartsSMCTableModel::rowHeightAt(const int &row) const
+double DSMCTableModel::rowHeightAt(const int &row) const
 {
     if(_data.count() <= 0)
         return 0;
@@ -222,38 +222,38 @@ double DartsSMCTableModel::rowHeightAt(const int &row) const
     return resultingGlyphLenght;
 }
 
-int DartsSMCTableModel::horizontalHeaderCount() const
+int DSMCTableModel::horizontalHeaderCount() const
 {
     return _horizontalHeaderData.count();
 }
 
-int DartsSMCTableModel::verticalHeaderCount() const
+int DSMCTableModel::verticalHeaderCount() const
 {
     return _verticalHeaderData.count();
 }
 
-int DartsSMCTableModel::rowCount(const QModelIndex &) const
+int DSMCTableModel::rowCount(const QModelIndex &) const
 {
     return _rows;
 }
 
-int DartsSMCTableModel::columnCount(const QModelIndex &) const
+int DSMCTableModel::columnCount(const QModelIndex &) const
 {
     return _columns;
 }
 
-void DartsSMCTableModel::setColumnWidthAt(const int &column, const double &w)
+void DSMCTableModel::setColumnWidthAt(const int &column, const double &w)
 {
     _columnWidths.replace(column,w);
 }
 
-int DartsSMCTableModel::columnWidthsAt(const int &index) const
+int DSMCTableModel::columnWidthsAt(const int &index) const
 {
     auto columnWidth = _columnWidths.at(index);
     return columnWidth;
 }
 
-QVariant DartsSMCTableModel::data(const QModelIndex &index, int role) const
+QVariant DSMCTableModel::data(const QModelIndex &index, int role) const
 {
     if(!index.isValid() || _data.count() <= 0)
         return QVariant();
@@ -272,7 +272,7 @@ QVariant DartsSMCTableModel::data(const QModelIndex &index, int role) const
                 QVariant("");
 }
 
-QVariant DartsSMCTableModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant DSMCTableModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if(role != Qt::DisplayRole)
         return QVariant();
@@ -314,12 +314,12 @@ QVariant DartsSMCTableModel::headerData(int section, Qt::Orientation orientation
     return QVariant();
 }
 
-int DartsSMCTableModel::numberOfAttemps() const
+int DSMCTableModel::numberOfAttemps() const
 {
     return _attemps;
 }
 
-bool DartsSMCTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool DSMCTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     auto row = index.row();
     auto column = index.column();
@@ -355,7 +355,7 @@ bool DartsSMCTableModel::setData(const QModelIndex &index, const QVariant &value
     return true;
 }
 
-bool DartsSMCTableModel::insertRows(int row, int count, const QModelIndex &)
+bool DSMCTableModel::insertRows(int row, int count, const QModelIndex &)
 {
     auto firstRow = row <= rowCount(QModelIndex()) ? row : rowCount(QModelIndex()) - 1;
     auto lastRow  =  row <= rowCount(QModelIndex()) ? firstRow + count : 2*row + count - firstRow;
@@ -384,7 +384,7 @@ bool DartsSMCTableModel::insertRows(int row, int count, const QModelIndex &)
     return true;
 }
 
-bool DartsSMCTableModel::insertColumns(int column, int count, const QModelIndex &)
+bool DSMCTableModel::insertColumns(int column, int count, const QModelIndex &)
 {
     auto firstColumn = column <= columnCount() ? column : columnCount() - 1;
     auto lastColumn  =  column <= columnCount() ? firstColumn + count : 2*column + count - firstColumn;
@@ -416,7 +416,7 @@ bool DartsSMCTableModel::insertColumns(int column, int count, const QModelIndex 
     return true;
 }
 
-bool DartsSMCTableModel::removeRows(int row, int count, const QModelIndex &)
+bool DSMCTableModel::removeRows(int row, int count, const QModelIndex &)
 {
     // Check if input satisfies model constraints
     if(row < 0 || row >= rowCount())
@@ -443,7 +443,7 @@ bool DartsSMCTableModel::removeRows(int row, int count, const QModelIndex &)
     return true;
 }
 
-bool DartsSMCTableModel::removeColumns(int column, int count, const QModelIndex &)
+bool DSMCTableModel::removeColumns(int column, int count, const QModelIndex &)
 {
     // Check if input satisfies model constraints
     if(column < 0 || column >= columnCount())
@@ -467,7 +467,7 @@ bool DartsSMCTableModel::removeColumns(int column, int count, const QModelIndex 
     return true;
 }
 
-void DartsSMCTableModel::updateInitialCellValues()
+void DSMCTableModel::updateInitialCellValues()
 {
 
     if(_data.count() < 1)
@@ -490,7 +490,7 @@ void DartsSMCTableModel::updateInitialCellValues()
     }
 }
 
-QModelIndex DartsSMCTableModel::createIndexFromIndex(const int &index, const int &orientation) const
+QModelIndex DSMCTableModel::createIndexFromIndex(const int &index, const int &orientation) const
 {
     QModelIndex modelIndex;
     if(orientation == Qt::Horizontal)
@@ -500,13 +500,13 @@ QModelIndex DartsSMCTableModel::createIndexFromIndex(const int &index, const int
     return modelIndex;
 }
 
-bool DartsSMCTableModel::isCellDecorated(const QModelIndex &index)
+bool DSMCTableModel::isCellDecorated(const QModelIndex &index)
 {
     return data(index,Qt::DisplayRole) != "-";
 }
 
 
-int DartsSMCTableModel::indexOfLastDecoratedCell(const int &index,const int &orientation)
+int DSMCTableModel::indexOfLastDecoratedCell(const int &index,const int &orientation)
 {
     if(orientation == Qt::Vertical)
     {
@@ -538,7 +538,7 @@ int DartsSMCTableModel::indexOfLastDecoratedCell(const int &index,const int &ori
     }
 }
 
-int DartsSMCTableModel::rowCount(const int &column)
+int DSMCTableModel::rowCount(const int &column)
 {
     for (int row = 0; row < _data.count(); ++row) {
         auto scoreAtRow = _data.at(row);
@@ -550,7 +550,7 @@ int DartsSMCTableModel::rowCount(const int &column)
     return rowCount();
 }
 
-bool DartsSMCTableModel::isColumnEmpty(const int &col)
+bool DSMCTableModel::isColumnEmpty(const int &col)
 {
     if(col < 0 || col >= columnCount())
         throw std::out_of_range("Index out of range");
@@ -562,7 +562,7 @@ bool DartsSMCTableModel::isColumnEmpty(const int &col)
     return true;
 }
 
-bool DartsSMCTableModel::isRowEmpty(const int &row)
+bool DSMCTableModel::isRowEmpty(const int &row)
 {
     if(row < 0 || row >= rowCount())
         throw std::out_of_range("Index out of range");
@@ -575,7 +575,7 @@ bool DartsSMCTableModel::isRowEmpty(const int &row)
     return true;
 }
 
-int DartsSMCTableModel::removeData(const QModelIndex &index)
+int DSMCTableModel::removeData(const QModelIndex &index)
 {
     if(!index.isValid())
         return -1;
@@ -608,7 +608,7 @@ int DartsSMCTableModel::removeData(const QModelIndex &index)
     return data;
 }
 
-int DartsSMCTableModel::indexOfHeaderItem(const QString &data, const int &orientation)
+int DSMCTableModel::indexOfHeaderItem(const QString &data, const int &orientation)
 {
     if(orientation == Qt::Vertical)
     {
@@ -622,110 +622,110 @@ int DartsSMCTableModel::indexOfHeaderItem(const QString &data, const int &orient
     }
 }
 
-int DartsSMCTableModel::stringWidth(const QString &string, const QString &family, const int &pointSize) const
+int DSMCTableModel::stringWidth(const QString &string, const QString &family, const int &pointSize) const
 {
     auto fontMetric = QFontMetrics(QFont(family,pointSize));
     auto r = fontMetric.boundingRect(string).width();
     return r;
 }
 
-int DartsSMCTableModel::headerFontSize() const
+int DSMCTableModel::headerFontSize() const
 {
     return _headerFontSize;
 }
 
-void DartsSMCTableModel::setHeaderFontSize(const int &headerFontSize)
+void DSMCTableModel::setHeaderFontSize(const int &headerFontSize)
 {
     _headerFontSize = headerFontSize;
 }
 
-QStringList DartsSMCTableModel::getHorizontalHeaderData() const
+QStringList DSMCTableModel::getHorizontalHeaderData() const
 {
     return _horizontalHeaderData;
 }
 
-void DartsSMCTableModel::setHorizontalHeaderData(const QList<QString> &horizontalHeaderData)
+void DSMCTableModel::setHorizontalHeaderData(const QList<QString> &horizontalHeaderData)
 {
     _horizontalHeaderData = horizontalHeaderData;
 }
 
-QStringList DartsSMCTableModel::getVerticalHeaderData() const
+QStringList DSMCTableModel::getVerticalHeaderData() const
 {
     return _verticalHeaderData;
 }
 
-void DartsSMCTableModel::setVerticalHeaderData(const QList<QString> &verticalHeaderData)
+void DSMCTableModel::setVerticalHeaderData(const QList<QString> &verticalHeaderData)
 {
     _verticalHeaderData = verticalHeaderData;
 }
 
-int DartsSMCTableModel::appendMode() const
+int DSMCTableModel::appendMode() const
 {
     return _appendMode;
 }
 
-void DartsSMCTableModel::setAppendMode(int appendMode)
+void DSMCTableModel::setAppendMode(int appendMode)
 {
     _appendMode = appendMode;
 }
 
-QString DartsSMCTableModel::pointFontFamily() const
+QString DSMCTableModel::pointFontFamily() const
 {
     return _pointFontFamily;
 }
 
-void DartsSMCTableModel::setPointFontFamily(const QString &pointFontFamily)
+void DSMCTableModel::setPointFontFamily(const QString &pointFontFamily)
 {
     _pointFontFamily = pointFontFamily;
 }
 
-QString DartsSMCTableModel::scoreFontFamily() const
+QString DSMCTableModel::scoreFontFamily() const
 {
     return _scoreFontFamily;
 }
 
-void DartsSMCTableModel::setScoreFontFamily(const QString &scoreFontFamily)
+void DSMCTableModel::setScoreFontFamily(const QString &scoreFontFamily)
 {
     _scoreFontFamily = scoreFontFamily;
 }
 
-int DartsSMCTableModel::pointFontSize() const
+int DSMCTableModel::pointFontSize() const
 {
     return _pointFontSize;
 }
 
-void DartsSMCTableModel::setPointFontSize(int pointFontSize)
+void DSMCTableModel::setPointFontSize(int pointFontSize)
 {
     _pointFontSize = pointFontSize;
 }
 
-int DartsSMCTableModel::scoreFontSize() const
+int DSMCTableModel::scoreFontSize() const
 {
     return _scoreFontSize;
 }
 
-void DartsSMCTableModel::setScoreFontSize(int scoreFontSize)
+void DSMCTableModel::setScoreFontSize(int scoreFontSize)
 {
     _scoreFontSize = scoreFontSize;
 }
 
-int DartsSMCTableModel::initialValue() const
+int DSMCTableModel::initialValue() const
 {
     return _initialValue;
 }
 
-void DartsSMCTableModel::setInitialValue(int initialValue)
+void DSMCTableModel::setInitialValue(int initialValue)
 {
     _initialValue = initialValue;
     emit initialValueChanged();
 }
 
-int DartsSMCTableModel::minimumRowCount() const
+int DSMCTableModel::minimumRowCount() const
 {
     return _minimumRowCount;
 }
 
-void DartsSMCTableModel::setMinimumRowCount(int minimumRowCount)
+void DSMCTableModel::setMinimumRowCount(int minimumRowCount)
 {
     if(appendMode() == AppendDataMode::SingleAppend)
         return;
@@ -735,12 +735,12 @@ void DartsSMCTableModel::setMinimumRowCount(int minimumRowCount)
         setRowCount(minimumRowCount);
 }
 
-int DartsSMCTableModel::minimumColumnCount() const
+int DSMCTableModel::minimumColumnCount() const
 {
     return _minimumColumnCount;
 }
 
-void DartsSMCTableModel::setMinimumColumnCount(int minimumColumnCount)
+void DSMCTableModel::setMinimumColumnCount(int minimumColumnCount)
 {
     if(appendMode() == AppendDataMode::SingleAppend)
         return;
@@ -751,29 +751,29 @@ void DartsSMCTableModel::setMinimumColumnCount(int minimumColumnCount)
     emit minimumColumnCountChanged();
 }
 
-int DartsSMCTableModel::headerOrientation() const
+int DSMCTableModel::headerOrientation() const
 {
     return _headerOrientation;
 }
 
-void DartsSMCTableModel::setHeaderOrientation(int headerOrientation)
+void DSMCTableModel::setHeaderOrientation(int headerOrientation)
 {
     _headerOrientation = headerOrientation;
 }
 
-int DartsSMCTableModel::preferedHeaderItemWidth() const
+int DSMCTableModel::preferedHeaderItemWidth() const
 {
     auto preferedWidth = columnWidthsAt(0);
     return preferedWidth;
 }
 
-void DartsSMCTableModel::setNumberOfAttemps(const int &count)
+void DSMCTableModel::setNumberOfAttemps(const int &count)
 {
     _attemps = count;
     emit dataChanged(QModelIndex(),QModelIndex());
 }
 
-void DartsSMCTableModel::setColumnCount(const int &count)
+void DSMCTableModel::setColumnCount(const int &count)
 {
     if(count < 0)
         return;
@@ -790,7 +790,7 @@ void DartsSMCTableModel::setColumnCount(const int &count)
     }
 }
 
-void DartsSMCTableModel::setRowCount(const int &count)
+void DSMCTableModel::setRowCount(const int &count)
 {
     if(count < 0)
         return;
@@ -808,33 +808,33 @@ void DartsSMCTableModel::setRowCount(const int &count)
     emit minimumRowCountChanged();
 }
 
-double DartsSMCTableModel::scale() const
+double DSMCTableModel::scale() const
 {
     return _scale;
 }
 
-void DartsSMCTableModel::setScale(double scale)
+void DSMCTableModel::setScale(double scale)
 {
     _scale = scale;
 }
 
-int DartsSMCTableModel::horizontalHeaderFillMode() const
+int DSMCTableModel::horizontalHeaderFillMode() const
 {
     return _horizontalFillMode;
 }
 
-int DartsSMCTableModel::verticalHeaderFillMode() const
+int DSMCTableModel::verticalHeaderFillMode() const
 {
     return _verticalFillMode;
 }
 
-void DartsSMCTableModel::setHorizontalHeaderFillMode(const int &fillMode)
+void DSMCTableModel::setHorizontalHeaderFillMode(const int &fillMode)
 {
     _horizontalFillMode = fillMode;
     emit fillModeChanged();
 }
 
-void DartsSMCTableModel::setVerticalHeaderFillMode(const int &fillMode)
+void DSMCTableModel::setVerticalHeaderFillMode(const int &fillMode)
 {
     _verticalFillMode = fillMode;
     emit fillModeChanged();

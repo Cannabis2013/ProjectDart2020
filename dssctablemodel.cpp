@@ -1,6 +1,6 @@
-#include "dartsscoresinglecolumndatamodel.h"
+#include "dssctablemodel.h"
 
-int DartsScoreSingleColumnDataModel::editData(const int &row, const int &column, const int &score)
+int DSSCTableModel::editData(const int &row, const int &column, const int &score)
 {
     if(row < 0 || row >= rowCount())
         return -1;
@@ -16,13 +16,13 @@ int DartsScoreSingleColumnDataModel::editData(const int &row, const int &column,
     return oldData.toInt();
 }
 
-bool DartsScoreSingleColumnDataModel::insertData(const QString &playerName,
+bool DSSCTableModel::insertData(const QString &playerName,
                                          const int &score)
 {
     return setPlayerData(playerName,score);;
 }
 
-bool DartsScoreSingleColumnDataModel::setPlayerData(const QString &playerName,
+bool DSSCTableModel::setPlayerData(const QString &playerName,
                                   const int &score)
 {
     auto indexOfPlayer = indexOfHeaderItem(playerName);
@@ -38,7 +38,7 @@ bool DartsScoreSingleColumnDataModel::setPlayerData(const QString &playerName,
     return true;
 }
 
-bool DartsScoreSingleColumnDataModel::removeLastItem(const QString &playerName)
+bool DSSCTableModel::removeLastItem(const QString &playerName)
 {
     auto column = indexOfHeaderItem(playerName);
     auto row = indexOfLastDecoratedField();
@@ -47,7 +47,7 @@ bool DartsScoreSingleColumnDataModel::removeLastItem(const QString &playerName)
     return result;
 }
 
-void DartsScoreSingleColumnDataModel::appendHeaderItem(const QVariant &data)
+void DSSCTableModel::appendHeaderItem(const QVariant &data)
 {
     auto glyphLength = stringWidth(data.toString(),
                                    scoreFontFamily(),
@@ -60,7 +60,7 @@ void DartsScoreSingleColumnDataModel::appendHeaderItem(const QVariant &data)
     emit dataChanged(QModelIndex(),QModelIndex());
 }
 
-void DartsScoreSingleColumnDataModel::clearData()
+void DSSCTableModel::clearData()
 {
     _data.clear();
     auto bottomRight = createIndex(rowCount() - 1,columnCount() - 1);
@@ -70,35 +70,35 @@ void DartsScoreSingleColumnDataModel::clearData()
     emit dataChanged(createIndex(0,0),bottomRight);
 }
 
-QString DartsScoreSingleColumnDataModel::getHeaderData(const int &index) const
+QString DSSCTableModel::getHeaderData(const int &index) const
 {
     auto value = headerData(index,Qt::Vertical,Qt::DisplayRole).toString();
     return value;
 }
 
-int DartsScoreSingleColumnDataModel::headerItemCount() const
+int DSSCTableModel::headerItemCount() const
 {
     auto count = _verticalHeaderData.count();
     return count;
 }
 
-int DartsScoreSingleColumnDataModel::rowCount() const
+int DSSCTableModel::rowCount() const
 {
     return rowCount(QModelIndex());
 }
 
-int DartsScoreSingleColumnDataModel::columnCount() const
+int DSSCTableModel::columnCount() const
 {
     return columnCount(QModelIndex());
 }
 
-double DartsScoreSingleColumnDataModel::columnWidthAt(const int &column)
+double DSSCTableModel::columnWidthAt(const int &column)
 {
     Q_UNUSED(column);
     return _columnWidth;
 }
 
-double DartsScoreSingleColumnDataModel::rowHeightAt(const int &row) const
+double DSSCTableModel::rowHeightAt(const int &row) const
 {
     if(_data.count() <= 0)
         return 0;
@@ -109,27 +109,27 @@ double DartsScoreSingleColumnDataModel::rowHeightAt(const int &row) const
     return result;
 }
 
-int DartsScoreSingleColumnDataModel::verticalHeaderCount() const
+int DSSCTableModel::verticalHeaderCount() const
 {
     return _verticalHeaderData.count();
 }
 
-int DartsScoreSingleColumnDataModel::rowCount(const QModelIndex &) const
+int DSSCTableModel::rowCount(const QModelIndex &) const
 {
     return _rows;
 }
 
-int DartsScoreSingleColumnDataModel::columnCount(const QModelIndex &) const
+int DSSCTableModel::columnCount(const QModelIndex &) const
 {
     return _columns;
 }
 
-int DartsScoreSingleColumnDataModel::columnWidth() const
+int DSSCTableModel::columnWidth() const
 {
     return _columnWidth;
 }
 
-QVariant DartsScoreSingleColumnDataModel::data(const QModelIndex &index, int role) const
+QVariant DSSCTableModel::data(const QModelIndex &index, int role) const
 {
     if(!index.isValid() || _data.count() <= 0)
         return QVariant();
@@ -143,7 +143,7 @@ QVariant DartsScoreSingleColumnDataModel::data(const QModelIndex &index, int rol
                 QVariant("");
 }
 
-QVariant DartsScoreSingleColumnDataModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant DSSCTableModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     Q_UNUSED(orientation);
     if(role != Qt::DisplayRole)
@@ -151,7 +151,7 @@ QVariant DartsScoreSingleColumnDataModel::headerData(int section, Qt::Orientatio
     return _verticalHeaderData.at(section);
 }
 
-bool DartsScoreSingleColumnDataModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool DSSCTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     // Get row and column from index
     auto row = index.row();
@@ -170,7 +170,7 @@ bool DartsScoreSingleColumnDataModel::setData(const QModelIndex &index, const QV
     return true;
 }
 
-bool DartsScoreSingleColumnDataModel::insertRows(int row, int count, const QModelIndex &)
+bool DSSCTableModel::insertRows(int row, int count, const QModelIndex &)
 {
     auto firstRow = row <= rowCount(QModelIndex()) ? row : rowCount(QModelIndex()) - 1;
     auto lastRow  =  row <= rowCount(QModelIndex()) ? firstRow + count : 2*row + count - firstRow;
@@ -185,7 +185,7 @@ bool DartsScoreSingleColumnDataModel::insertRows(int row, int count, const QMode
     return true;
 }
 
-bool DartsScoreSingleColumnDataModel::insertColumns(int column, int count, const QModelIndex &)
+bool DSSCTableModel::insertColumns(int column, int count, const QModelIndex &)
 {
     auto firstColumn = column <= columnCount() ? column : columnCount() - 1;
     auto lastColumn  =  column <= columnCount() ? firstColumn + count : 2*column + count - firstColumn;
@@ -198,7 +198,7 @@ bool DartsScoreSingleColumnDataModel::insertColumns(int column, int count, const
     return true;
 }
 
-bool DartsScoreSingleColumnDataModel::removeRows(int row, int count, const QModelIndex &)
+bool DSSCTableModel::removeRows(int row, int count, const QModelIndex &)
 {
     // Check if input satisfies model constraints
     if(row < 0 || row >= rowCount())
@@ -222,7 +222,7 @@ bool DartsScoreSingleColumnDataModel::removeRows(int row, int count, const QMode
     return true;
 }
 
-bool DartsScoreSingleColumnDataModel::removeColumns(int column, int count, const QModelIndex &)
+bool DSSCTableModel::removeColumns(int column, int count, const QModelIndex &)
 {
     // Check if input satisfies model constraints
     if(column < 0 || column >= columnCount())
@@ -241,7 +241,7 @@ bool DartsScoreSingleColumnDataModel::removeColumns(int column, int count, const
     return true;
 }
 
-void DartsScoreSingleColumnDataModel::updateInitialCellValues()
+void DSSCTableModel::updateInitialCellValues()
 {
 
     if(_data.count() < 1)
@@ -251,7 +251,7 @@ void DartsScoreSingleColumnDataModel::updateInitialCellValues()
         setData(createIndex(0,i),initialValue,Qt::DisplayRole);
 }
 
-void DartsScoreSingleColumnDataModel::setColumnWidthByData(const int& data)
+void DSSCTableModel::setColumnWidthByData(const int& data)
 {
     auto scoreGlypWidth = stringWidth(QString::number(data),
                                       scoreFontFamily(),
@@ -260,7 +260,7 @@ void DartsScoreSingleColumnDataModel::setColumnWidthByData(const int& data)
         _columnWidth = scoreGlypWidth;
 }
 
-double DartsScoreSingleColumnDataModel::rowHeightFromHeaderData(const int &row) const
+double DSSCTableModel::rowHeightFromHeaderData(const int &row) const
 {
 
     auto scoreFontMetric = QFontMetrics(QFont(scoreFontFamily(),headerFontSize()));
@@ -271,7 +271,7 @@ double DartsScoreSingleColumnDataModel::rowHeightFromHeaderData(const int &row) 
     return headerDataGlyphHeight;
 }
 
-double DartsScoreSingleColumnDataModel::rowHeightFromCellDataAt(const int &row) const
+double DSSCTableModel::rowHeightFromCellDataAt(const int &row) const
 {
     auto scoreFontMetric = QFontMetrics(QFont(scoreFontFamily(),scoreFontSize()));
     auto columnData = _data.at(row);
@@ -282,7 +282,7 @@ double DartsScoreSingleColumnDataModel::rowHeightFromCellDataAt(const int &row) 
     return scoreGlyphHeight;
 }
 
-void DartsScoreSingleColumnDataModel::initializeFieldsHorizontally(const int &startColumn,const int &initialValue)
+void DSSCTableModel::initializeFieldsHorizontally(const int &startColumn,const int &initialValue)
 {
     auto dataCount = _data.count();
     if(startColumn < dataCount)
@@ -294,7 +294,7 @@ void DartsScoreSingleColumnDataModel::initializeFieldsHorizontally(const int &st
         _data.append(initialValue);
 }
 
-bool DartsScoreSingleColumnDataModel::isIndexValid(const QModelIndex &index)
+bool DSSCTableModel::isIndexValid(const QModelIndex &index)
 {
     auto row = index.row();
     auto column = index.column();
@@ -305,20 +305,20 @@ bool DartsScoreSingleColumnDataModel::isIndexValid(const QModelIndex &index)
     return true;
 }
 
-bool DartsScoreSingleColumnDataModel::isCellDecorated(const QModelIndex &index)
+bool DSSCTableModel::isCellDecorated(const QModelIndex &index)
 {
     return data(index,Qt::DisplayRole) != "-";
 }
 
 
-int DartsScoreSingleColumnDataModel::indexOfLastDecoratedField()
+int DSSCTableModel::indexOfLastDecoratedField()
 {
     auto lastDecoratedField = _data.count() - 1;
     return lastDecoratedField;
 }
 
 
-bool DartsScoreSingleColumnDataModel::isRowEmpty(const int &row)
+bool DSSCTableModel::isRowEmpty(const int &row)
 {
     if(row < 0 || row >= rowCount())
         throw std::out_of_range("Index out of range");
@@ -330,7 +330,7 @@ bool DartsScoreSingleColumnDataModel::isRowEmpty(const int &row)
     return true;
 }
 
-bool DartsScoreSingleColumnDataModel::removeData(const QModelIndex &index)
+bool DSSCTableModel::removeData(const QModelIndex &index)
 {
     if(!isIndexValid(index))
         return -1;
@@ -346,125 +346,125 @@ bool DartsScoreSingleColumnDataModel::removeData(const QModelIndex &index)
     return false;
 }
 
-int DartsScoreSingleColumnDataModel::indexOfHeaderItem(const QString &data)
+int DSSCTableModel::indexOfHeaderItem(const QString &data)
 {
     auto index = _verticalHeaderData.indexOf(data);
     return index;
 }
 
-void DartsScoreSingleColumnDataModel::addVerticalHeaderData(const QString &data)
+void DSSCTableModel::addVerticalHeaderData(const QString &data)
 {
     _verticalHeaderData.append(data);
     emit dataChanged(QModelIndex(),QModelIndex());
 }
 
-int DartsScoreSingleColumnDataModel::stringWidth(const QString &string, const QString &family, const int &pointSize) const
+int DSSCTableModel::stringWidth(const QString &string, const QString &family, const int &pointSize) const
 {
     auto fontMetric = QFontMetrics(QFont(family,pointSize));
     auto r = fontMetric.boundingRect(string).width();
     return r;
 }
 
-int DartsScoreSingleColumnDataModel::headerFontSize() const
+int DSSCTableModel::headerFontSize() const
 {
     return _headerFontSize;
 }
 
-void DartsScoreSingleColumnDataModel::setHeaderFontSize(int headerFontSize)
+void DSSCTableModel::setHeaderFontSize(int headerFontSize)
 {
     _headerFontSize = headerFontSize;
 }
 
-QStringList DartsScoreSingleColumnDataModel::getVerticalHeaderData() const
+QStringList DSSCTableModel::getVerticalHeaderData() const
 {
     return _verticalHeaderData;
 }
 
-void DartsScoreSingleColumnDataModel::setVerticalHeaderData(const QList<QString> &horizontalHeaderData)
+void DSSCTableModel::setVerticalHeaderData(const QList<QString> &horizontalHeaderData)
 {
     _verticalHeaderData = horizontalHeaderData;
 }
 
-QString DartsScoreSingleColumnDataModel::pointFontFamily() const
+QString DSSCTableModel::pointFontFamily() const
 {
     return _pointFontFamily;
 }
 
-void DartsScoreSingleColumnDataModel::setPointFontFamily(const QString &pointFontFamily)
+void DSSCTableModel::setPointFontFamily(const QString &pointFontFamily)
 {
     _pointFontFamily = pointFontFamily;
 }
 
-QString DartsScoreSingleColumnDataModel::scoreFontFamily() const
+QString DSSCTableModel::scoreFontFamily() const
 {
     return _scoreFontFamily;
 }
 
-void DartsScoreSingleColumnDataModel::setScoreFontFamily(const QString &scoreFontFamily)
+void DSSCTableModel::setScoreFontFamily(const QString &scoreFontFamily)
 {
     _scoreFontFamily = scoreFontFamily;
 }
 
-int DartsScoreSingleColumnDataModel::pointFontSize() const
+int DSSCTableModel::pointFontSize() const
 {
     return _pointFontSize;
 }
 
-void DartsScoreSingleColumnDataModel::setPointFontSize(int pointFontSize)
+void DSSCTableModel::setPointFontSize(int pointFontSize)
 {
     _pointFontSize = pointFontSize;
 }
 
-int DartsScoreSingleColumnDataModel::scoreFontSize() const
+int DSSCTableModel::scoreFontSize() const
 {
     return _scoreFontSize;
 }
 
-void DartsScoreSingleColumnDataModel::setScoreFontSize(int scoreFontSize)
+void DSSCTableModel::setScoreFontSize(int scoreFontSize)
 {
     _scoreFontSize = scoreFontSize;
 }
 
-int DartsScoreSingleColumnDataModel::initialValue() const
+int DSSCTableModel::initialValue() const
 {
     return _initialValue;
 }
 
-void DartsScoreSingleColumnDataModel::setInitialValue(int initialValue)
+void DSSCTableModel::setInitialValue(int initialValue)
 {
     _initialValue = initialValue;
     updateInitialCellValues();
 }
 
-int DartsScoreSingleColumnDataModel::minimumRowCount() const
+int DSSCTableModel::minimumRowCount() const
 {
     return _minimumRowCount;
 }
 
-void DartsScoreSingleColumnDataModel::setMinimumRowCount(int minimumRowCount)
+void DSSCTableModel::setMinimumRowCount(int minimumRowCount)
 {
     Q_UNUSED(minimumRowCount);
     return;
 }
 
-int DartsScoreSingleColumnDataModel::minimumColumnCount() const
+int DSSCTableModel::minimumColumnCount() const
 {
     return _minimumColumnCount;
 }
 
-void DartsScoreSingleColumnDataModel::setMinimumColumnCount(int minimumColumnCount)
+void DSSCTableModel::setMinimumColumnCount(int minimumColumnCount)
 {
     Q_UNUSED(minimumColumnCount);
     return;
 }
 
-int DartsScoreSingleColumnDataModel::preferedHeaderItemWidth() const
+int DSSCTableModel::preferedHeaderItemWidth() const
 {
     auto itemWidth = greatestVerticalHeaderWidth*_scale;
     return itemWidth;
 }
 
-void DartsScoreSingleColumnDataModel::setColumnCount(const int &count)
+void DSSCTableModel::setColumnCount(const int &count)
 {
     if(count < 0)
         return;
@@ -481,7 +481,7 @@ void DartsScoreSingleColumnDataModel::setColumnCount(const int &count)
     emit dataChanged(QModelIndex(),QModelIndex());
 }
 
-void DartsScoreSingleColumnDataModel::setRowCount(const int &count)
+void DSSCTableModel::setRowCount(const int &count)
 {
     if(count < 0)
         return;
@@ -499,22 +499,22 @@ void DartsScoreSingleColumnDataModel::setRowCount(const int &count)
     emit minimumRowCountChanged();
 }
 
-double DartsScoreSingleColumnDataModel::scale() const
+double DSSCTableModel::scale() const
 {
     return _scale;
 }
 
-void DartsScoreSingleColumnDataModel::setScale(double scale)
+void DSSCTableModel::setScale(double scale)
 {
     _scale = scale;
 }
 
-int DartsScoreSingleColumnDataModel::horizontalHeaderFillMode() const
+int DSSCTableModel::horizontalHeaderFillMode() const
 {
     return _horizontalFillMode;
 }
 
-void DartsScoreSingleColumnDataModel::setHorizontalHeaderFillMode(const int &fillMode)
+void DSSCTableModel::setHorizontalHeaderFillMode(const int &fillMode)
 {
     _horizontalFillMode = fillMode;
     emit fillModeChanged();

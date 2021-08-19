@@ -53,7 +53,7 @@ ScoreBoardInterface{
     property var rowHeightProvider: function(){}
     onRowHeightProviderChanged: scoreBoardTableView.rowHeightProvider = rowHeightProvider
     // Data model visualization related
-    property double modelScale: 1
+    property double fontScale: 1
     GridLayout
     {
         id: mainLayout

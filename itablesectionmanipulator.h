@@ -1,8 +1,8 @@
-#ifndef ITABLEDATAMANIPULATOR_H
-#define ITABLEDATAMANIPULATOR_H
+#ifndef ITABLESECTIONMANIPULATOR_H
+#define ITABLESECTIONMANIPULATOR_H
 
 template<typename T>
-class ITableDataManipulator
+class ITableSectionManipulator
 {
 public:
     virtual void removeRows(T &data, const int &row, const int &count) const = 0;

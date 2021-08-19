@@ -1,9 +1,10 @@
-#ifndef ITABLECONTEXT_H
-#define ITABLECONTEXT_H
+#ifndef ITABLESECTIONCONTEXT_H
+#define ITABLESECTIONCONTEXT_H
 
-class ITableContext
+class ITableSectionContext
 {
 public:
+    virtual void reset() = 0;
     virtual int rows() const = 0;
     virtual void setRows(const int &rows) = 0;
     virtual void incrementRows(const int &inc) = 0;

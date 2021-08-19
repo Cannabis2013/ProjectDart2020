@@ -2,8 +2,8 @@
 #define DARTSTABLEDIMENSIONS_H
 
 
-#include "itablecontext.h"
-class DartsTableDimensions : public ITableContext
+#include "itablesectioncontext.h"
+class DartsTableDimensions : public ITableSectionContext
 {
 public:
     int rows() const override
@@ -54,10 +54,15 @@ public:
     {
         _columns -= dec;
     }
+    virtual void reset() override
+    {
+        _rows = 0;
+        _columns = _minimumColumnCount;
+    }
 private:
     int _rows = 0;
     int _columns = 0;
-    int _minimumColumnCount = 4;
+    int _minimumColumnCount = 0;
     int _minimumRowCount = 0;
 };
 

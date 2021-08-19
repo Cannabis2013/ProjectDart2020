@@ -1,5 +1,5 @@
-#ifndef APPLICATIONINTERFACE_H
-#define APPLICATIONINTERFACE_H
+#ifndef ABSTRACTAPPLICATIONINTERFACE_H
+#define ABSTRACTAPPLICATIONINTERFACE_H
 
 #include <qobject.h>
 #include <quuid.h>
@@ -84,4 +84,4 @@ signals:
                                AbstractDartsModelsContext* modelsContextInterface);
 };
 
-#endif // APPLICATIONINTERFACE_H
+#endif // ABSTRACTAPPLICATIONINTERFACE_H

@@ -23,21 +23,21 @@ public:
         QString _family;
         int _pointSize;
     };
-    int greatestHeight(const QVariantList &data, const FontConfig &pConf, const FontConfig &sConf,const int &scale)
+    int greatestHeight(const QVariantList &data, const FontConfig &pConf, const FontConfig &sConf)
     {
-        return calcHeight(data,pConf,sConf,scale);
+        return calcHeight(data,pConf,sConf);
 
     }
-    int greatestHeight(const QString &string, const FontConfig &hConf, const int &scale)
+    int greatestHeight(const QString &string, const FontConfig &hConf)
     {
-        return calcHeight(string,hConf,scale);
+        return calcHeight(string,hConf);
     }
 private:
-    int combinedHeight(const QVariantMap &map, const FontConfig &pConf, const FontConfig &sConf,const int &scale)
+    int combinedHeight(const QVariantMap &map, const FontConfig &pConf, const FontConfig &sConf)
     {
         auto p = createPair(map);
-        auto pw = calcHeight(p.first,pConf,scale);
-        auto sw = calcHeight(p.second,sConf,scale);
+        auto pw = calcHeight(p.first,pConf);
+        auto sw = calcHeight(p.second,sConf);
         auto sum = pw + sw;
         return sum;
     }
@@ -47,22 +47,21 @@ private:
         auto s = map.value("score").toInt();
         return QPair<QString,QString>(QString::number(p),QString::number(s));
     }
-    int calcHeight(const QVariantList &data, const FontConfig &pConf, const FontConfig &sConf, const int &scale)
+    int calcHeight(const QVariantList &data, const FontConfig &pConf, const FontConfig &sConf)
     {
         int t = 0;
         for (const auto &d : data)
         {
-            auto sum = combinedHeight(d.toMap(),pConf,sConf,scale);
+            auto sum = combinedHeight(d.toMap(),pConf,sConf);
             t = findGreatest(t,sum);
         }
         return t;
     }
-    int calcHeight(const QString &string, const FontConfig &fontConf, const int &scale)
+    int calcHeight(const QString &string, const FontConfig &fontConf)
     {
         auto f = QFont(fontConf.family(),fontConf.pointSize());
         auto m = QFontMetrics(f);
-        auto w = m.boundingRect(string).height();
-        return w*scale;
+        return m.boundingRect(string).height();
     }
     int findGreatest(const int &x, const int &y) const
     {

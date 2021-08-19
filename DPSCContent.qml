@@ -47,7 +47,7 @@ Content {
             onLeftButtonClicked: applicationInterface.requestUndo()
             onRightButtonClicked: applicationInterface.requestRedo()
         }
-        DartsPointSingleColumnBoard{
+        DPSCBoard{
             id: singleColumnPointBoard
             Layout.fillHeight: true
             Layout.fillWidth: true

@@ -9,7 +9,7 @@
 #include "irouteservicesprovider.h"
 #include "iplayermodelscontext.h"
 
-class DartApplicationServices
+class DartApplicationServices : public AbstractApplicationInterface
 {
 public:
     AbstractDartsModelsContext *modelsService() const;
@@ -20,7 +20,6 @@ public:
     IRouteServicesProvider *routeServices() const;
     IPlayerModelsContext *playerModelsContext() const;
     void setPlayerModelsContext(IPlayerModelsContext *newPlayerModelsContext);
-
 protected:
     // Darts models context
     AbstractDartsModelsContext* _dartsModelsContext;
@@ -35,7 +34,6 @@ protected:
     IConnectServicesProvider *_connectServices;
     // Route services
     IRouteServicesProvider *_routeServices;
-
 };
 
 #endif // DARTAPPLICATIONSERVICES_H

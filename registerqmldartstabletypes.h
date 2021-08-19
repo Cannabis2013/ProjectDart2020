@@ -1,10 +1,10 @@
 #ifndef REGISTERQMLDARTSTABLETYPES_H
 #define REGISTERQMLDARTSTABLETYPES_H
 
-#include <dartssmctablemodel.h>
-#include <dartsscoresinglecolumndatamodel.h>
-#include <dartspmctablemodel.h>
-#include <defaultpointsinglecolumnmodel.h>
+#include <dsmctablemodel.h>
+#include <dssctablemodel.h>
+#include <dpmctablemodel.h>
+#include <dpsctablemodel.h>
 #include "verticalstringlabels.h"
 #include "dartsroundindexbyattempt.h"
 #include <QQmlApplicationEngine>
@@ -14,10 +14,10 @@ class RegisterQMLDartsTableTypes
 public:
     static void registerTableDataModels()
     {
-        qmlRegisterType<DartsScoreSingleColumnDataModel>("CustomItems",1,0,"DartsScoreSingleColumnDataModel");
-        qmlRegisterType<DartsSMCTableModel>("CustomItems",1,0,"DartsMultiAttemptDataModel");
-        qmlRegisterType<DartsPMCTableModel>("CustomItems",1,0,"DartsPMCTableModel");
-        qmlRegisterType<DefaultPointSingleColumnModel>("CustomItems",1,0,"DartsPointSingleColumnDataModel");
+        qmlRegisterType<DSSCTableModel>("CustomItems",1,0,"DSSCTableModel");
+        qmlRegisterType<DSMCTableModel>("CustomItems",1,0,"DSMCTableModel");
+        qmlRegisterType<DPMCTableModel>("CustomItems",1,0,"DPMCTableModel");
+        qmlRegisterType<DPSCTableModel>("CustomItems",1,0,"DartsPSCTableModel");
     }
     static void registerTableHeaderModels()
     {

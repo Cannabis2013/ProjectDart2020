@@ -23,21 +23,21 @@ public:
         QString _family;
         int _pointSize;
     };
-    int greatestWidth(const QVariantList &data, const FontConfig &pConf, const FontConfig &sConf,const int &scale)
+    int greatestWidth(const QVariantList &data, const FontConfig &pConf, const FontConfig &sConf)
     {
-        return calcWidth(data,pConf,sConf,scale);
+        return calcWidth(data,pConf,sConf);
 
     }
-    int greatestWidth(const QString &string, const FontConfig &hConf, const int &scale)
+    int greatestWidth(const QString &string, const FontConfig &hConf)
     {
-        return calcWidth(string,hConf,scale);
+        return calcWidth(string,hConf);
     }
 private:
-    int combinedWidth(const QVariantMap &map, const FontConfig &pConf, const FontConfig &sConf,const int &scale)
+    int combinedWidth(const QVariantMap &map, const FontConfig &pConf, const FontConfig &sConf)
     {
         auto p = createPair(map);
-        auto pw = calcWidth(p.first,pConf,scale);
-        auto sw = calcWidth(p.second,sConf,scale);
+        auto pw = calcWidth(p.first,pConf);
+        auto sw = calcWidth(p.second,sConf);
         auto sum = pw + sw;
         return sum;
     }
@@ -47,12 +47,12 @@ private:
         auto s = map.value("score").toInt();
         return QPair<QString,QString>(QString::number(p),QString::number(s));
     }
-    int calcWidth(const QVariantList &data, const FontConfig &pConf, const FontConfig &sConf, const int &scale)
+    int calcWidth(const QVariantList &data, const FontConfig &pConf, const FontConfig &sConf)
     {
         int t = 0;
         for (const auto &d : data)
         {
-            auto sum = combinedWidth(d.toMap(),pConf,sConf,scale);
+            auto sum = combinedWidth(d.toMap(),pConf,sConf);
             t = findGreatest(t,sum);
         }
         return t;
@@ -61,12 +61,11 @@ private:
     {
         return y > x ? y : x;
     }
-    int calcWidth(const QString &string, const FontConfig &fontConf, const int &scale)
+    int calcWidth(const QString &string, const FontConfig &fontConf)
     {
         auto f = QFont(fontConf.family(),fontConf.pointSize());
         auto m = QFontMetrics(f);
-        auto w = m.boundingRect(string).width();
-        return w*scale;
+        return m.boundingRect(string).width();
     }
 };
 #endif // GREATESTWIDTH_H

@@ -1,7 +1,6 @@
-#ifndef PROJECTDARTINTERFACE_H
-#define PROJECTDARTINTERFACE_H
+#ifndef DARTAPPLICATION_H
+#define DARTAPPLICATION_H
 
-#include <AbstractApplicationInterface.h>
 #include <dartapplicationservices.h>
 #include <QFuture>
 #include <qfuturewatcher.h>
@@ -10,9 +9,7 @@
 #define printVariable(var) #var
 #define STATUS_ERROR -1
 
-class DartApplication :
-        public AbstractApplicationInterface,
-        public DartApplicationServices
+class DartApplication : public DartApplicationServices
 {
     Q_OBJECT
 public:
@@ -33,4 +30,4 @@ private:
     // Clear controller..
     void clearGameController();
 };
-#endif // PROJECTDARTINTERFACE_H
+#endif // DARTAPPLICATION_H

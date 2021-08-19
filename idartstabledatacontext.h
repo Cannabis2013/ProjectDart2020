@@ -11,6 +11,7 @@ public:
     typedef QPair<int,int> Item;
     typedef LinkedList<Item> Row;
     typedef QVector<Row> Rows;
+    virtual void addItem(const Index &index, const Item &item) = 0;
     virtual Rows data() const = 0;
     virtual Rows &rows() = 0;
     virtual int rowCount() const = 0;

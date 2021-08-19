@@ -1,5 +1,5 @@
-#ifndef DARTSSMCTABLEMODEL_H
-#define DARTSSMCTABLEMODEL_H
+#ifndef DSMCTABLEMODEL_H
+#define DSMCTABLEMODEL_H
 
 #include <QAbstractTableModel>
 #include <qfontmetrics.h>
@@ -9,7 +9,7 @@
  * Orientation:
  *  - The datamodel orientation is based on the axis for which player names are listed
  */
-class DartsSMCTableModel : public QAbstractTableModel
+class DSMCTableModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
@@ -19,7 +19,7 @@ public:
     enum AppendDataMode{SingleAppend = 0x4,
                         MultiAppend = 0x8};
     // Constructor
-    DartsSMCTableModel();
+    DSMCTableModel();
     // Public properties
     // Fonts properties
     Q_PROPERTY(int scoreFontPointSize READ scoreFontSize WRITE setScoreFontSize NOTIFY fontChanged);

@@ -27,8 +27,7 @@ private:
         auto rowData = data.at(indexOf);
         for (int col = 0; col < columnCount; ++col) {
             auto columnData = rowData.at(col);
-            auto point = columnData.first;
-            if(point == -1)
+            if(columnData.first == -1)
                 return col;
         }
         return columnCount;

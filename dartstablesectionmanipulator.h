@@ -1,7 +1,7 @@
-#ifndef DARTSTABLEDATAMANIPULATOR_H
-#define DARTSTABLEDATAMANIPULATOR_H
+#ifndef DARTSTABLESECTIONMANIPULATOR_H
+#define DARTSTABLESECTIONMANIPULATOR_H
 
-#include "itabledatamanipulator.h"
+#include "itablesectionmanipulator.h"
 #include <qvector.h>
 #include "linkedlist.h"
 #include <qpair.h>
@@ -12,7 +12,7 @@ namespace TableDataContext {
     typedef  QVector<PointInputs> Rows;
 }
 
-class DartsTableDataManipulator : public ITableDataManipulator<TableDataContext::Rows>
+class DartsTableSectionManipulator : public ITableSectionManipulator<TableDataContext::Rows>
 {
 public:
     typedef QPair<int,int> PointInput;

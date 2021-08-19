@@ -47,7 +47,7 @@
         <file>ThemeContext.qml</file>
         <file>managePageScripts.js</file>
         <file>PageIconItem.qml</file>
-        <file>DartsScoreSingleColumnBoard.qml</file>
+        <file>DSSCBoard.qml</file>
         <file>StartButtonComponent.qml</file>
         <file>KeyPadItem.qml</file>
         <file>InteractiveObject.qml</file>
@@ -71,23 +71,22 @@
         <file>ScoreKeyPadInterface.qml</file>
         <file>ScoreInputDelegate.qml</file>
         <file>SingleAttemptCellDelegate.qml</file>
-        <file>DartsPMCBoard.qml</file>
+        <file>DPMCBoard.qml</file>
         <file>ftpScoreBoardFactory.js</file>
         <file>ScoreRectDelegate.qml</file>
         <file>MultiScoreDelegate.qml</file>
-        <file>dartspmcboardscripts.js</file>
-        <file>DartsPMCContent.qml</file>
+        <file>dpmcboardscripts.js</file>
+        <file>DPMCContent.qml</file>
         <file>dartsPointMultiColumnScripts.js</file>
         <file>scoreboardscripts.js</file>
-        <file>DartsScoreSingleColumnContent.qml</file>
+        <file>DSSCContent.qml</file>
         <file>dartsscoresinglecolumnscripts.js</file>
         <file>multiattemptstatescripts.js</file>
-        <file>DartsPointSingleColumnContent.qml</file>
-        <file>DartsPointSingleColumnBoard.qml</file>
-        <file>dartspointsinglecolumnboardscripts.js</file>
+        <file>DPSCContent.qml</file>
+        <file>DPSCBoard.qml</file>
+        <file>dpscboardscripts.js</file>
         <file>dartspointsinglecolumnscripts.js</file>
         <file>pointsinglecolumnstatescripts.js</file>
-        <file>PointInputDelegate.qml</file>
         <file>turnControllerScripts.js</file>
         <file>tournamentPageScripts.js</file>
         <file>TournamentPageListView.qml</file>
@@ -96,7 +95,7 @@
         <file>ScoreBoardVHeader.qml</file>
         <file>ScoreBoardTableView.qml</file>
         <file>horizontalHeaderScripts.js</file>
-        <file>dartspmcheaderscripts.js</file>
+        <file>dpmcheaderscripts.js</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>

@@ -1,11 +1,11 @@
-#ifndef HORIZONTALFTPSINGLEDATAMODEL_H
-#define HORIZONTALFTPSINGLEDATAMODEL_H
+#ifndef DSSCTABLEMODEL_H
+#define DSSCTABLEMODEL_H
 
 #include <QAbstractTableModel>
 #include <qfontmetrics.h>
 #include <qqml.h>
 
-class DartsScoreSingleColumnDataModel : public QAbstractTableModel
+class DSSCTableModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:

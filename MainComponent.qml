@@ -73,7 +73,7 @@ Item {
         id: dartsPointSingleColumn
         Page{
             pageTitle: "Darts multi attempt"
-            pageContent: DartsPointSingleColumnContent{}
+            pageContent: DPSCContent{}
             Component.onCompleted: body.backPushed.connect(backButtonPressed)
             onBackButtonPressed: pageLoader.sourceComponent = tournamentPageComponent
         }
@@ -84,7 +84,7 @@ Item {
         id: dartsPointMultiColumn
         Page{
             pageTitle : "Darts single attempt"
-            pageContent: DartsPMCContent{}
+            pageContent: DPMCContent{}
             Component.onCompleted: body.backPushed.connect(backButtonPressed)
             onBackButtonPressed: pageLoader.sourceComponent = tournamentPageComponent
         }
@@ -94,7 +94,7 @@ Item {
         id: dartsScoreSingleColumn
         Page{
             pageTitle: "Darts multi attempt"
-            pageContent: DartsScoreSingleColumnContent{}
+            pageContent: DSSCContent{}
             Component.onCompleted: body.backPushed.connect(backButtonPressed)
             onBackButtonPressed: pageLoader.sourceComponent = tournamentPageComponent
         }

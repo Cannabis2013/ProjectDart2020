@@ -1,5 +1,12 @@
 #include "dartspmcdatacontext.h"
 
+void DartsPMCDataContext::addItem(const Index &index, const Item &item)
+{
+    auto r = _data.at(index.row());
+    r.insert(index.column(),item);
+    _data.replace(index.row(),r);
+}
+
 DartsPMCDataContext::Rows DartsPMCDataContext::data() const
 {
     return _data;

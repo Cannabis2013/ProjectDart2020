@@ -8,6 +8,7 @@ class MHTablerowHeight : public QObject
 {
     Q_OBJECT
 public:
+    Q_PROPERTY(double scale READ scale WRITE setScale NOTIFY scaleChanged)
     Q_PROPERTY(int minimumRowHeight READ minimumRowHeight WRITE setMinimumRowHeight NOTIFY minimumRowHeightChanged)
     Q_INVOKABLE void updateRowHeight(const int &row, const int &height)
     {
@@ -19,14 +20,30 @@ public:
     {
         if(invalidRow(row))
             return -1;
-        auto h = _rowHeights.at(row);
-        if(h < minimumRowHeight())
-            return minimumRowHeight();
-        return h;
+        return heightAt(row);
+    }
+    double scale() const
+    {
+        return _scale;
+    }
+    void setScale(double newScale)
+    {
+        _scale = newScale;
+        emit scaleChanged();
     }
 signals:
     void minimumRowHeightChanged();
+    void scaleChanged();
+
 private:
+    int heightAt(const int &row) const
+    {
+        auto h = _rowHeights.at(row);
+        auto hs = h*scale();
+        if(h < minimumRowHeight())
+            hs = minimumRowHeight()*scale();
+        return hs;
+    }
     int minimumRowHeight() const
     {
         return _minimumRowHeight;
@@ -57,8 +74,8 @@ private:
     {
         _rowHeights.replace(row,height);
     }
-
     QVector<int> _rowHeights;
     int _minimumRowHeight = 32;
+    double _scale;
 };
 #endif // MHTABLEROWHEIGHT_H

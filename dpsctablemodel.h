@@ -1,5 +1,5 @@
-#ifndef DARTSPMCTABLEMODEL_H
-#define DARTSPMCTABLEMODEL_H
+#ifndef DPSCTABLEMODEL_H
+#define DPSCTABLEMODEL_H
 
 #include "dartstablemodel.h"
 #include "dartstabledimensions.h"
@@ -9,30 +9,31 @@
 #include "dartstablecreaterowindices.h"
 #include "dartspmcdatacontext.h"
 #include "dartstablecreatecolumns.h"
-#include "createqmljson.h"
+#include "createjsonfromdp.h"
 #include "createqmlvariants.h"
 #include "dartsdatacontextitemutility.h"
-#include "dartspmccolumnindexbuilder.h"
+#include "dartspscIndexBuilder.h"
 #include "dartspmcsectionutility.h"
+#include <dartstablesectionmanipulator.h>
 
-class DartsPMCTableModel : public DartsTableModel
+class DPSCTableModel : public DartsTableModel
 {
 public:
-    DartsPMCTableModel()
+    DPSCTableModel()
     {
-        setTableContext(new DartsTableDimensions);
+        setTableSections(new DartsTableDimensions);
         setTableCellContext(new DartsTableCellContext);
         setCreateRows(new DartsTableCreateRows);
         setCreateColumns(new DartsTableCreateColumns);
         setCreateColumnIndiceValues(new DartsTableCreateColumnIndices);
         setCreateRowsIndices(new DartsTableCreateRowIndices);
         setDataContext(new DartsPMCDataContext);
-        setTableItemBuilder(new CreateQMLJson);
+        setTableItemBuilder(new CreateJsonFromDP);
         setQMLVariantsContext(new CreateQMLVariants);
         setGetDataFromDataContext(new DartsDataContextItemUtility);
-        setcolumnIndexBuilder(new DartsPMCColumnIndexBuilder);
+        setcolumnIndexBuilder(new DartsPSCIndexBuilder);
         setSectionUtitity(new DartsPMCSectionUtility);
+        setSectionManipulator(new DartsTableSectionManipulator); // Practically useless as there is no need to remove sections
     }
 };
-
-#endif // DEFAULTPOINTMULTICOLUMNMODEL_H
+#endif // DPSCTABLEMODEL_H

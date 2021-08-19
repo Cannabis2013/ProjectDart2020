@@ -1,18 +1,29 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 
-import "dartsscoresinglecolumnscripts.js" as DartsScoresScripts
-import "multiattemptstatescripts.js" as StateScripts
+import "dartsPointMultiColumnScripts.js" as DartsPointMultiColumnScripts
 
+/*
+  Gamemodes:
+    FirstToPost = 0x1,
+    RoundLimit =0x2,
+    Circular = 0x3,
+    Cricket = 0xAA
+  */
 Content {
-    id: dartsScoreSingleColumnBody
+    id: dartsPointMultiColumnBody
+    QtObject{
+        id: textSourceContainer
+        property string throwSuggestLabel: "Target row:"
+        property string winnerLabel: "Winner:"
+    }
     signal requestControllerValues
-    signal requestMultiAttemptScores
+    signal requestSingleAttemptPoints
     signal requestStatusFromBackend
     signal requestStart
     signal requestStop
     signal requestRestart
-    onRequestRestart: DartsScoresScripts.handleRequestTournamentReset()
+    onRequestRestart: DartsPointMultiColumnScripts.handleRequestTournamentReset()
     signal requestUndo
     signal requestRedo
     signal sendInput(string json)
@@ -22,7 +33,7 @@ Content {
       Tournament metadata property
       */
     QtObject{
-        id: dartsMetaValues
+        id: dartsSingleAttemptValues
         property string title: ""
         property int keyPoint: 501
         property int attempts: 3
@@ -35,7 +46,7 @@ Content {
         anchors.fill: parent
         flow: GridLayout.TopToBottom
         TurnController{
-            id: singleColumnScoreTurnController
+            id: singleColumnTurnController
             Layout.fillWidth: true
             Layout.minimumHeight: 100
             Layout.maximumHeight: 100
@@ -43,12 +54,12 @@ Content {
             onStartButtonClicked: applicationInterface.requestStartGame()
             onResumeButtonClicked: applicationInterface.requestStartGame()
             onPauseButtonClicked: applicationInterface.requestStopGame()
-            onRestartButtonClicked: DartsScoresScripts.resetTournament()
-            onLeftButtonClicked: DartsScoresScripts.undoClicked()
-            onRightButtonClicked: DartsScoresScripts.redoClicked()
+            onRestartButtonClicked: DartsPointMultiColumnScripts.handleRequestTournamentReset()
+            onLeftButtonClicked: applicationInterface.requestUndo()
+            onRightButtonClicked: applicationInterface.requestRedo()
         }
-        DartsScoreSingleColumnBoard{
-            id: singleColumnScoreBoard
+        DPMCBoard{
+            id: pointScoreBoard
             Layout.fillHeight: true
             Layout.fillWidth: true
             Layout.minimumHeight: 160
@@ -66,47 +77,61 @@ Content {
              color: "transparent"
              height: 5
         }
-        ScoreKeyPad{
-            id: scoreKeyPad
+        PointKeyPad{
+            id: pointKeyPad
             Layout.alignment: Qt.AlignBottom
             Layout.fillHeight: true
             Layout.fillWidth: true
             Layout.maximumHeight: 384
             Layout.minimumHeight: 128
+            onSendInput: DartsPointMultiColumnScripts.handlePointKeyPadInput(value,keyCode)
         }
     }
     states: [
         State {
             name: "winner"
             StateChangeScript{
-                script: StateScripts.declareWinner()
+                script: {
+                    singleColumnTurnController.backendHasDeclaredAWinner();
+                    pointKeyPad.enableKeyPad(false);
+                    DartsPointMultiColumnScripts.setWinnerText();
+                }
             }
         },
         State {
             name: "stopped"
             StateChangeScript{
-                script: StateScripts.backendIsStopped()
+                script: {
+                    singleColumnTurnController.backendIsStopped();
+                    pointKeyPad.enableKeyPad(false);
+                }
             }
         },
         State {
             name: "ready"
             StateChangeScript{
-                script: singleColumnScoreTurnController.ready()
+                script: singleColumnTurnController.ready()
             }
         },
         State {
             name: "waitingForInputConfirmation"
             StateChangeScript{
-                script: StateScripts.backendProcessesInput()
+                script: {
+                    singleColumnTurnController.backendProcessesInput();
+                    pointKeyPad.enableKeyPad(false);
+                }
             }
         },
         State {
             name: "waitingForInput"
             StateChangeScript{
-                script: StateScripts.backendAwaitsInput()
+                script: {
+                    singleColumnTurnController.backendAwaitsInput();
+                    pointKeyPad.enableKeyPad(true);
+                }
             }
         }
     ]
-    Component.onCompleted: DartsScoresScripts.initializeComponent()
-    Component.onDestruction: DartsScoresScripts.disconnectInterface()
+    Component.onCompleted: DartsPointMultiColumnScripts.initializeComponent()
+    Component.onDestruction: DartsPointMultiColumnScripts.disconnectInterface()
 }

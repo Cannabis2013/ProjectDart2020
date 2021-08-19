@@ -51,7 +51,7 @@ ScoreBoard {
         return multiAttemptDataModel.rowHeightAt(row);
     }
 
-    model: DartsScoreSingleColumnDataModel{
+    model: DSMCTableModel{
         id: multiAttemptDataModel
         onDataChanged: ScoreScripts.updateScoreBoard();
         scoreFontPointSize: dataValues.scoreFontSize

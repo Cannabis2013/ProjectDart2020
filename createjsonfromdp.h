@@ -1,11 +1,11 @@
-#ifndef CREATEQMLJSON_H
-#define CREATEQMLJSON_H
+#ifndef CREATEJSONFROMDP_H
+#define CREATEJSONFROMDP_H
 
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 #include "iqmldatabuilder.h"
 
-class CreateQMLJson : public IQMLDataBuilder<QPair<int,int>,QVariant>
+class CreateJsonFromDP : public IQMLDataBuilder<QPair<int,int>,QVariant>
 {
     // ITableCreateVariant interface
 public:
