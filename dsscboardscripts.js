@@ -24,7 +24,7 @@ function updateScoreBoard()
 function refreshVerticalHeader()
 {
     let verticalHeaderCount = verticalHeaderModel.count();
-    singleColumnPointBoard.verticalHeaderModel = verticalHeaderCount;
+    scoreBoardBody.verticalHeaderModel = verticalHeaderCount;
     for(var j = 0;j < verticalHeaderCount;j++)
     {
         let h = tableHeightProvider.rowHeightAt(j);
@@ -36,7 +36,7 @@ function refreshVerticalHeader()
 
 function setViewPosition(x,y)
 {
-    singleColumnPointBoard.updateViewPosition(x,y);
+    scoreBoardBody.updateViewPosition(x,y);
 }
 
 function appendHeader(header)
@@ -55,26 +55,24 @@ function updateVerticalHeaderWidth(w)
         scoreBoardBody.updateVerticalHeaderWidth(w);
 }
 
-function setData(playerName,point ,score){
+function setData(playerName,score){
     let indexOf = verticalHeaderModel.indexOf(playerName);
-    var result = dataModel.insertData(indexOf,point,score);
-    if(!result)
-        print("Couldn't add data to model");
-    else
+    var result = dataModel.insertData(indexOf,score);
+    if(result)
         updateWidths(indexOf);
 }
 
 function takeData(row,column,playerName){
-    var result = dataModel.removeLastItem(playerName,headerOrientation);
-    if(!result)
-        print("Couldn't take data");
+    let indexOf = verticalHeaderModel.indexOf(playerName);
+    var result = dataModel.removeLastItem(indexOf,headerOrientation);
+    if(result)
+        updateWidths(indexOf);
 }
 
 function updateWidths(indexOfPlayer)
 {
     var data = dataModel.columnData(0);
-    var gw = fontsMetric.width(data,tableFonts.pointFontFamily,tableFonts.pointFontSize,
-                               tableFonts.scoreFontFamily,tableFonts.scoreFontSize);
+    var gw = fontsMetric.width(data,tableFonts.scoreFontFamily,tableFonts.scoreFontSize);
     tableWidthProvider.updateColumnWidth(0,gw);
 }
 
@@ -83,8 +81,8 @@ function setHeaderData(data,defaultVal)
     for(var i = 0; i < data.length;i++)
     {
         var assignedPlayerName = data[i];
-        singleColumnPointBoard.appendHeader(assignedPlayerName,Qt.Vertical);
-        singleColumnPointBoard.setData(assignedPlayerName,0,defaultVal);
+        scoreBoardBody.appendHeader(assignedPlayerName,Qt.Vertical);
+        scoreBoardBody.setData(assignedPlayerName,defaultVal);
     }
 }
 

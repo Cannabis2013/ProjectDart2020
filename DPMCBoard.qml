@@ -16,27 +16,11 @@ ScoreBoard {
     // Header related
     onAppendHeaderData: HeaderScripts.addHeaderData(data,defaultVal)
     // Cell related
-    property color scoreCellColor: "transparent"
-    onScoreCellColorChanged: cellDelegate.cellColor = dPMCBoard.scoreCellColor
-    property int cellBorderWidth: 0
-    onCellBorderWidthChanged: cellDelegate.borderWidth = cellBorderWidth
     onNotifyCellPosition: ScoreScripts.setViewPosition(x,y)
     property int attempts : 3
     onAttemptsChanged: horizontalHeaderModel.numberOfAttempts = attempts
-    QtObject
-    {
-        id: dpmcTableFonts
-        property string headerFontFamily: "MS Sans Serif"
-        property int headerFontSize: 16
-        property string scoreFontFamily: "MS Sans Serif"
-        property int scoreFontSize: 14
-        property string pointFontFamily: "MS Sans Serif"
-        property int pointFontSize: 10
-    }
-    TableSectionMetrics
-    {
-        id: fontsMetric
-    }
+    readonly property QtObject dpmcTableFonts : DpmcTableFonts{}
+    TableSectionMetrics{id: fontsMetric}
     DartsTableWidths
     {
         id: tableWidthProvider
@@ -64,13 +48,9 @@ ScoreBoard {
         onDataChanged: ScoreScripts.updateScoreBoard();
         minimumColumnCount: 4
     }
-    cellDelegate: SingleAttemptCellDelegate {
+    cellDelegate: DPMCBoardDelegate {
         id: boardDelegate
         text: display
-        cellBorderWidth: dPMCBoard.cellBorderWidth
-        cellColor: dPMCBoard.scoreCellColor
-        scoreFontSize: 14
-        pointFontSize: 10
         onTextChanged: ScoreScripts.handleTextChanged(text,boardDelegate)
     }
 }

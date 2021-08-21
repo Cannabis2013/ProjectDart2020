@@ -1,30 +1,16 @@
 import QtQuick 2.15
 import CustomItems 1.0
-
-import "dartsscorescoreboardscripts.js" as ScoreScripts
-
+import DartsTableUtils 1.0
+import "dsscboardscripts.js" as ScoreScripts
 ScoreBoard {
-    id: scoreSingleColumnBody
+    id: scoreBoardBody
     onWidthChanged: ScoreScripts.updateScoreBoard()
-    // Fonts
-    QtObject{
-        id: dataValues
-        readonly property int scoreFontSize: 32
-        readonly property double sizeScale: 1.2
-        readonly property color delegateBackgroundColor: "green"
-        readonly property int delegateBorderRadius: 10
-        readonly property int headerFontSize: 16
-    }
-
     // Data related
     signal setData(string playerName, int score)
     signal takeData(int row, int column,string playerName)
-    signal editData(int row, int column,int score)
-    // Manipulate state such as: add score, takescore, edit score
     onSetData: ScoreScripts.setData(playerName,score)
     onTakeData: ScoreScripts.takeData(row,column,playerName)
-    onEditData: ScoreScripts.editData(row,column,point,score)
-    onClearData: multiAttemptDataModel.clearData();
+    onClearData: ScoreScripts.clearTable();
     // Header related
     verticalHeaderVisible: true
     onAppendHeaderData: ScoreScripts.setHeaderData(data,defaultVal)
@@ -33,37 +19,52 @@ ScoreBoard {
     onCellBorderWidthChanged: delegate.borderWidth = cellBorderWidth
     onNotifyCellPosition: ScoreScripts.setViewPosition(x,y)
     onAppendHeader: ScoreScripts.appendHeader(data)
-
-    QtObject{
-        id: cellPositionHolder
-        property int px: -1
-        property int py: -1
-        property int cx: -1
-        property int cy: -1
+    QtObject
+    {
+        id: tableFonts
+        property string headerFontFamily: "MS Sans Serif"
+        property int headerFontSize: 16
+        property string scoreFontFamily: "MS Sans Serif"
+        property int scoreFontSize: 32
     }
-
+    TableSectionMetrics
+    {
+        id: fontsMetric
+    }
+    DartsTableWidths
+    {
+        id: tableWidthProvider
+        minimumColumnWidth: 64
+        scale: 1.05
+    }
+    DartsTableHeights
+    {
+        id: tableHeightProvider
+        minimumRowHeight: 72
+        scale: 1.05
+    }
+    StringHeaderModel{
+        id: verticalHeaderModel
+        onDataChanged: ScoreScripts.refreshVerticalHeader()
+    }
     columnWidthProvider: function(column){
-        return multiAttemptDataModel.columnWidthAt(column);
+        return tableWidthProvider.columnWidthAt(column);
     }
-
     rowHeightProvider: function(row)
     {
-        return multiAttemptDataModel.rowHeightAt(row);
+        return tableHeightProvider.rowHeightAt(row);
     }
-
-    model: DSMCTableModel{
-        id: multiAttemptDataModel
+    model: DSSCTableModel{
+        id: dataModel
         onDataChanged: ScoreScripts.updateScoreBoard();
-        scoreFontPointSize: dataValues.scoreFontSize
-        scale: dataValues.sizeScale
-        headerFontSize: dataValues.headerFontSize
     }
-    cellDelegate: ScoreInputDelegate {
+    cellDelegate: ScoreRectDelegate {
         id: delegate
         text: display
-        scoreFontSize: dataValues.scoreFontSize
-        cellBorderWidth: scoreSingleColumnBody.cellBorderWidth
-        cellColor: dataValues.delegateBackgroundColor
-        cellBorderRadius: dataValues.delegateBorderRadius
+        onTextChanged: ScoreScripts.setDelegateText(text,delegate)
+        scoreFontSize: tableFonts.scoreFontSize
+        cellBorderWidth: scoreBoardBody.cellBorderWidth
+        cellColor: "green"
+        cellBorderRadius: 10
     }
 }

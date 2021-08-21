@@ -137,10 +137,10 @@ function clearAll()
 function handleTextChanged(text,ref)
 {
     notifyCellPosition(ref.x,ref.y);
-    convertInputFromJson(text,ref);
+    setDelegateText(text,ref);
 }
 
-function convertInputFromJson(json,ref)
+function setDelegateText(json,ref)
 {
     var j = JSON.parse(json);
     ref.point = j["point"];

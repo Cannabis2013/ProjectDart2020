@@ -1,7 +1,6 @@
 #ifndef REGISTERQMLDARTSTABLETYPES_H
 #define REGISTERQMLDARTSTABLETYPES_H
 
-#include <dsmctablemodel.h>
 #include <dssctablemodel.h>
 #include <dpmctablemodel.h>
 #include <dpsctablemodel.h>
@@ -15,7 +14,6 @@ public:
     static void registerTableDataModels()
     {
         qmlRegisterType<DSSCTableModel>("CustomItems",1,0,"DSSCTableModel");
-        qmlRegisterType<DSMCTableModel>("CustomItems",1,0,"DSMCTableModel");
         qmlRegisterType<DPMCTableModel>("CustomItems",1,0,"DPMCTableModel");
         qmlRegisterType<DPSCTableModel>("CustomItems",1,0,"DartsPSCTableModel");
     }

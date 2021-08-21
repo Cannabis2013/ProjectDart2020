@@ -6,41 +6,29 @@ import QtGraphicalEffects 1.13
 MyRectangle{
     id: cellBody
     clip: true
-
     readonly property int cellHeight: cellBody.height
-
     property int cellBorderRadius: 0
     onCellBorderRadiusChanged: maskedRect.radius = cellBorderRadius
-
     property color cellColor: "black"
     onCellColorChanged: cellBody.color = cellColor
-
     property color textColor: "white"
     onTextColorChanged: scoreText = textColor
-
     property int scoreFontSize: 16
     onScoreFontSizeChanged: scoreText.font.pointSize = scoreFontSize
-
     property double cellBorderWidth: 0
     onCellBorderWidthChanged: cellBody.border.width = cellBorderWidth
-
     property color cellBorderColor: "black"
     onCellBorderColorChanged: cellBody.border.color = cellBorderColor
-
     bottomBorderWidth: 1
     rightBorderWidth: 1
-
     implicitWidth: 25
     implicitHeight: 25
-
     property string point: ""
     onPointChanged: pointText.text = point
     property string score: ""
     onScoreChanged: scoreText.text = score
     property string text: ""
-
     color: cellColor
-
     layer.enabled: true
     layer.effect: OpacityMask{
         maskSource: Item {
@@ -53,7 +41,6 @@ MyRectangle{
             }
         }
     }
-
     GridLayout{
         anchors.fill: parent
         rows: 2
@@ -68,15 +55,14 @@ MyRectangle{
             Layout.fillHeight: true
             bottomBorderWidth: 1
             rightBorderWidth: 1
-
-            color: "transparent"
             Text {
                 id: scoreText
                 anchors.fill: parent
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                color: textColor
+                font.family: "MS Sans Serif"
                 font.pointSize: scoreFontSize
+                color: textColor
             }
         }
     }

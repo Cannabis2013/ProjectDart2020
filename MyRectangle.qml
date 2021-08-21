@@ -6,6 +6,7 @@ import QtQuick.Controls 2.12
 Rectangle{
     id: myRectangleBody
 
+    color: "transparent"
     property int borderWidth: 0
 
     onBorderWidthChanged: {
@@ -42,9 +43,6 @@ Rectangle{
     onRightBorderColorChanged: rightBorder.color = rightBorderColor
     onBottomBorderColorChanged: bottomBorder.color = bottomBorderColor
     onLeftBorderColorChanged: leftBorder.color = leftBorderColor
-
-    color: "transparent"
-
     Rectangle{
         id: topBorder
 

@@ -1,52 +1,24 @@
 import QtQuick 2.0
 import CustomItems 1.0
 import DartsTableUtils 1.0
-
-import "dpscboardscripts.js" as DPSCBoardScripts
-
+import "dpscboardscripts.js" as ScoreBoardScripts
 ScoreBoard {
     id: scoreBoardBody
-    onWidthChanged: DPSCBoardScripts.updateScoreBoard()
-    // Fonts
-    QtObject{
-        id: dataValues
-        readonly property int scoreFontSize: 32
-        readonly property int pointFontSize : 16
-        readonly property double sizeScale: 1.2
-        readonly property color delegateBackgroundColor: "green"
-        readonly property int delegateBorderRadius: 10
-        readonly property int headerFontSize: 16
-    }
+    onWidthChanged: ScoreBoardScripts.updateScoreBoard()
     // Data related
     signal setData(string playerName, int point, int score)
-    onSetData: DPSCBoardScripts.setData(playerName,point,score)
+    onSetData: ScoreBoardScripts.setData(playerName,point,score)
     signal takeData(int row, int column,string playerName)
     // Manipulate state such as: add score, takescore, edit score
-    onTakeData: DPSCBoardScripts.takeData(row,column,playerName)
-    onClearData:  DPSCBoardScripts.clearTable()
+    onTakeData: ScoreBoardScripts.takeData(row,column,playerName)
+    onClearData:  ScoreBoardScripts.clearTable()
     // Header related
-    verticalHeaderVisible: true
-    onAppendHeaderData: DPSCBoardScripts.setHeaderData(data,defaultVal)
+    onAppendHeaderData: ScoreBoardScripts.setHeaderData(data,defaultVal)
+    onAppendHeader: ScoreBoardScripts.appendHeader(data)
     // Cell related
-    property int cellBorderWidth: 0
-    onCellBorderWidthChanged: delegate.borderWidth = cellBorderWidth
-    onNotifyCellPosition: DPSCBoardScripts.setViewPosition(x,y)
-    onAppendHeader: DPSCBoardScripts.appendHeader(data)
-
-    QtObject
-    {
-        id: tableFonts
-        property string headerFontFamily: "MS Sans Serif"
-        property int headerFontSize: 16
-        property string scoreFontFamily: "MS Sans Serif"
-        property int scoreFontSize: 32
-        property string pointFontFamily: "MS Sans Serif"
-        property int pointFontSize: 16
-    }
-    TableSectionMetrics
-    {
-        id: fontsMetric
-    }
+    onNotifyCellPosition: ScoreBoardScripts.setViewPosition(x,y)
+    readonly property DSSCBoardFonts tableFonts: DSSCBoardFonts{}
+    TableSectionMetrics{id: fontsMetric}
     DartsTableWidths
     {
         id: tableWidthProvider
@@ -61,7 +33,7 @@ ScoreBoard {
     }
     StringHeaderModel{
         id: verticalHeaderModel
-        onDataChanged: DPSCBoardScripts.refreshVerticalHeader()
+        onDataChanged: ScoreBoardScripts.refreshVerticalHeader()
     }
     columnWidthProvider: function(column){
         return tableWidthProvider.columnWidthAt(column);
@@ -72,24 +44,13 @@ ScoreBoard {
     }
     model: DartsPSCTableModel{
         id: dataModel
-        onDataChanged: DPSCBoardScripts.updateScoreBoard();
+        onDataChanged: ScoreBoardScripts.updateScoreBoard();
         minimumColumnCount: 1
     }
-    cellDelegate: PointDelegate {
+    cellDelegate: DPSCBoardDelegate {
         id: delegate
-        cellBorderWidth: scoreBoardBody.cellBorderWidth
-        cellColor: "green"
-        pointFontSize: dataValues.pointFontSize
-        radius: dataValues.delegateBorderRadius
-        scoreFontSize: dataValues.scoreFontSize
-        text : display
-        onTextChanged: convertInputFromJson(text)
-        function convertInputFromJson(json)
-        {
-            var j = JSON.parse(json);
-            var b = j.stringify;
-            point = j["point"];
-            score = j["score"];
-        }
+        scoreFontSize: tableFonts.scoreFontSize
+        text: display
+        onTextChanged: ScoreBoardScripts.setDelegateText(text,delegate)
     }
 }

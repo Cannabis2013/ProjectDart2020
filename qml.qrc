@@ -35,7 +35,7 @@
         <file>DefaultTournamentListView.qml</file>
         <file>KeyDataDisplay.qml</file>
         <file>KeyPadInterface.qml</file>
-        <file>dartsscorescoreboardscripts.js</file>
+        <file>dsscboardscripts.js</file>
         <file>ScoreBoardInterface.qml</file>
         <file>LoadingItem.qml</file>
         <file>SpinBoxInputContent.qml</file>
@@ -69,8 +69,7 @@
         <file>TournamentListViewDelegate.qml</file>
         <file>TournamentListView.qml</file>
         <file>ScoreKeyPadInterface.qml</file>
-        <file>ScoreInputDelegate.qml</file>
-        <file>SingleAttemptCellDelegate.qml</file>
+        <file>DPMCBoardDelegate.qml</file>
         <file>DPMCBoard.qml</file>
         <file>ftpScoreBoardFactory.js</file>
         <file>ScoreRectDelegate.qml</file>
@@ -96,6 +95,10 @@
         <file>ScoreBoardTableView.qml</file>
         <file>horizontalHeaderScripts.js</file>
         <file>dpmcheaderscripts.js</file>
+        <file>DSSCBoardFonts.qml</file>
+        <file>DpmcTableFonts.qml</file>
+        <file>DPSCBoardDelegate.qml</file>
+        <file>DPSCMetaValues.qml</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>

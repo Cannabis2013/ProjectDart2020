@@ -5,4 +5,8 @@ PointDelegate {
     id: delegate
     pointDisplayVisible: true
     pointDisplayWidth: 20
+    cellColor: "transparent"
+    cellBorderWidth: 0
+    scoreFontSize: 14
+    pointFontSize: 10
 }

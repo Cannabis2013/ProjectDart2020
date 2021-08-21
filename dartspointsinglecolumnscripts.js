@@ -33,19 +33,19 @@ function disconnectInterface()
 
 function handleDartsTournamentMetaData(data){
     var json = JSON.parse(data);
-    dartsPointSingleColumnMetaValues.title = json["title"];
-    dartsPointSingleColumnMetaValues.winnerName= json["winnerName"];
-    dartsPointSingleColumnMetaValues.keyPoint = json["keyPoint"];
-    dartsPointSingleColumnMetaValues.attempts = json["attempts"];
-    dartsPointSingleColumnMetaValues.assignedPlayerNames = json["assignedPlayerNames"];
+    dpscMetaValues.title = json["title"];
+    dpscMetaValues.winnerName= json["winnerName"];
+    dpscMetaValues.keyPoint = json["keyPoint"];
+    dpscMetaValues.attempts = json["attempts"];
+    dpscMetaValues.assignedPlayerNames = json["assignedPlayerNames"];
     initializeScoreBoard();
     applicationInterface.requestOrderedDartsInputs();
 }
 
 function initializeScoreBoard()
 {
-    var assignedPlayerNames = dartsPointSingleColumnMetaValues.assignedPlayerNames;
-    var keyPoint = dartsPointSingleColumnMetaValues.keyPoint;
+    var assignedPlayerNames = dpscMetaValues.assignedPlayerNames;
+    var keyPoint = dpscMetaValues.keyPoint;
     singleColumnPointBoard.appendHeaderData(assignedPlayerNames,keyPoint);
 }
 
@@ -66,7 +66,7 @@ function recievePoints(points)
 
 function backendIsReady()
 {
-    dartsPointSingleColumnBody.state = "ready";
+    dpscBody.state = "ready";
 }
 
 // When backend has evaluated and persisted player input
@@ -76,7 +76,7 @@ function handleBackendPersistedInput(data)
     updatePointBoard(json);
     setThrowSuggestion(json);
     setTurnControllerValues(json);
-    dartsPointSingleColumnBody.state = "waitingForInput";
+    dpscBody.state = "waitingForInput";
 }
 
 function updatePointBoard(json)
@@ -98,13 +98,13 @@ function reinitialize()
     pointSingleColumnTurnController.reset();
     keyDataDisplay.clear();
     initializeScoreBoard();
-    dartsPointSingleColumnBody.state = "ready";
+    dpscBody.state = "ready";
 }
 
 function handleRequestTournamentReset()
 {
-    if(dartsPointSingleColumnBody.state === "ready")
-        dartsPointSingleColumnBody.state = "stopped";
+    if(dpscBody.state === "ready")
+        dpscBody.state = "stopped";
     applicationInterface.requestTournamentReset();
 }
 
@@ -113,7 +113,7 @@ function backendRemovedPoint(data)
     var json = JSON.parse(data);
     setTurnControllerValues(json);
     updatePointBoard(json);
-    dartsPointSingleColumnBody.state = "waitingForInput";
+    dpscBody.state = "waitingForInput";
 }
 
 function setTurnControllerValues(json)
@@ -125,7 +125,7 @@ function setTurnControllerValues(json)
 }
 
 function handleScoreKeyPadInput(input, keyCode){
-    dartsPointSingleColumnBody.state = "waitingForInputConfirmation";
+    dpscBody.state = "waitingForInputConfirmation";
     var obj = {
         point : input,
         modKeyCode : keyCode
@@ -136,15 +136,15 @@ function handleScoreKeyPadInput(input, keyCode){
 
 function backendIsStopped()
 {
-    if(dartsPointSingleColumnBody.state !== "preRestart")
-        dartsPointSingleColumnBody.state = "stopped";
+    if(dpscBody.state !== "preRestart")
+        dpscBody.state = "stopped";
 }
 
 function backendDeclaredAWinner(data)
 {
     var json = JSON.parse(data);
-    dartsPointSingleColumnMetaValues.winnerName = json.winnerName;
-    dartsPointSingleColumnBody.state = "winner";
+    dpscMetaValues.winnerName = json.winnerName;
+    dpscBody.state = "winner";
 }
 
 function backendIsReadyAndAwaitsInput(data)
@@ -152,29 +152,29 @@ function backendIsReadyAndAwaitsInput(data)
     var json = JSON.parse(data);
     setThrowSuggestion(json);
     setTurnControllerValues(json);
-    dartsPointSingleColumnBody.state = "waitingForInput";
+    dpscBody.state = "waitingForInput";
 }
 
 function undoClicked()
 {
-    dartsPointSingleColumnBody.state = "waitingForInputConfirmation";
+    dpscBody.state = "waitingForInputConfirmation";
     requestUndo();
     applicationInterface.requestUndo();
 }
 
 function redoClicked()
 {
-    dartsPointSingleColumnBody.state = "waitingForInputConfirmation";
+    dpscBody.state = "waitingForInputConfirmation";
     applicationInterface.requestRedo();
 }
 
 function pauseClicked()
 {
-    dartsPointSingleColumnBody.state = "stopped";
+    dpscBody.state = "stopped";
     applicationInterface.requestStopGame();
 }
 
 function setWinnerText()
 {
-    keyDataDisplay.setCurrentWinner(dartsPointSingleColumnMetaValues.winnerName);
+    keyDataDisplay.setCurrentWinner(dpscMetaValues.winnerName);
 }

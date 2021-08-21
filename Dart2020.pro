@@ -54,8 +54,6 @@ SOURCES += \
     dartstableservices.cpp \
     dartstournamentservices.cpp \
     dartsutilityservices.cpp \
-    dsmctablemodel.cpp \
-    dssctablemodel.cpp \
     extractwinnerinfofromjson.cpp \
     getdartsscorefromdb.cpp \
     getinputmodelsservice.cpp \
@@ -223,7 +221,6 @@ HEADERS += \
     determinecontrollerstatebywinnerid.h \
     dpmctablemodel.h \
     dpsctablemodel.h \
-    dsmctablemodel.h \
     dssctablemodel.h \
     extractwinnerinfofromjson.h \
     getdartspointfromdb.h \

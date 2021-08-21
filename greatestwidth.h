@@ -28,6 +28,11 @@ public:
         return calcWidth(data,pConf,sConf);
 
     }
+    int greatestWidth(const QVariantList &data, const FontConfig &conf)
+    {
+        return calcWidth(data,conf);
+
+    }
     int greatestWidth(const QString &string, const FontConfig &hConf)
     {
         return calcWidth(string,hConf);
@@ -53,6 +58,18 @@ private:
         for (const auto &d : data)
         {
             auto sum = combinedWidth(d.toMap(),pConf,sConf);
+            t = findGreatest(t,sum);
+        }
+        return t;
+    }
+    int calcWidth(const QVariantList &data, const FontConfig &conf)
+    {
+        int t = 0;
+        for (const auto &d : data)
+        {
+            auto map = d.toMap();
+            auto mapValue = map.value("score");
+            auto sum = calcWidth(mapValue.toString(),conf);
             t = findGreatest(t,sum);
         }
         return t;

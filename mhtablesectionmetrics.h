@@ -17,10 +17,16 @@ public:
         return gw.greatestWidth(data,GreatestWidth::FontConfig(pFamily,pSize),
                                 GreatestWidth::FontConfig(sFamily,sSize));
     }
-    Q_INVOKABLE int width(const QString &string, const QString &hFamily, const int &hSize) const
+    Q_INVOKABLE int width(const QVariantList &data,
+                          const QString &family, const int &pointSize) const
     {
         GreatestWidth gw;
-        return gw.greatestWidth(string,GreatestWidth::FontConfig(hFamily,hSize));
+        return gw.greatestWidth(data,GreatestWidth::FontConfig(family,pointSize));
+    }
+    Q_INVOKABLE int width(const QString &string, const QString &family, const int &size) const
+    {
+        GreatestWidth gw;
+        return gw.greatestWidth(string,GreatestWidth::FontConfig(family,size));
     }
     Q_INVOKABLE int height(const QVariantList &data,
                            const QString &pFamily, const int &pSize,
