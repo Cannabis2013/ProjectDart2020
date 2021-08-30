@@ -3,7 +3,7 @@
 
 #include <qvector.h>
 
-namespace DartsPointControllerContext {
+namespace DPCContext {
     template<typename TModelsInterface, typename TString, typename TUuid,typename TJsonFormat>
     class IDartsPlayerModelBuilderService
     {

@@ -10,6 +10,7 @@ public:
     virtual void setStatus(const int &status) = 0;
     virtual QUuid tournamentId() const = 0;
     virtual int displayHint() const = 0;
+    virtual int initialScore() const = 0;
 };
 
 #endif // IDARTSMETADATASERVICE_H

@@ -1,19 +1,18 @@
 #ifndef DARTSSCOREMULTIATTEMPINDEXES_H
 #define DARTSSCOREMULTIATTEMPINDEXES_H
 
-#include "idartsscorecontrollerindexes.h"
+#include "idscindexes.h"
 #include <qbytearray.h>
 #include <qjsondocument.h>
 #include <qjsonobject.h>
-
-namespace DartsScoreControllerContext {
-    class DartsMultiAttemptIndexes : public
-            IDartsScoreControllerIndexes<QByteArray>
+// Darts Multiple Attempts(DMA) indexes
+namespace DSCContext {
+    class DMAIndexes : public IDSCIndexes
     {
     public:
-        static DartsMultiAttemptIndexes* createInstance()
+        static DMAIndexes *createInstance()
         {
-            return new DartsMultiAttemptIndexes;
+            return new DMAIndexes;
         }
         int totalTurns() const override
         {
@@ -51,7 +50,7 @@ namespace DartsScoreControllerContext {
             _setIndex = newSetIndex;
         }
 
-        virtual JsonFormat toJson() const override
+        virtual QByteArray toJson() const override
         {
             QJsonObject obj;
             obj["totalTurns"] = _totalTurns;

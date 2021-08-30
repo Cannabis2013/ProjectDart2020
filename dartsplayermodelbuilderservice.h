@@ -1,40 +1,58 @@
 #ifndef PLAYERMODELBUILDERSERVICE_H
 #define PLAYERMODELBUILDERSERVICE_H
 
-#include "dartscontrollerplayer.h"
 #include "idartsplayermodelbuilderservice.h"
 #include <QJsonDocument>
 #include <qjsonobject.h>
 #include <qjsonarray.h>
-namespace DartsPointControllerContext {
+#include <dcplayer.h>
+
+namespace DPCContext {
     class DartsPlayerModelBuilderService : public
-            IDartsPlayerModelBuilderService<IDartsControllerPlayer<QUuid,QString,QByteArray>,QString,QUuid,QByteArray>
+            IDartsPlayerModelBuilderService<DCContext::IDCPlayer,QString,QUuid,QByteArray>
     {
     public:
-        typedef IDartsControllerPlayer<QUuid,QString,QByteArray> ControllerPlayer;
         QVector<const ModelsInterface *> createPlayerModelsByJson(const JsonFormat &json) const override
         {
-            auto document = QJsonDocument::fromJson(json);
-            auto playerDatas = document.array();
-            QVector<const ControllerPlayer*> list;
-            for (const auto &playerDataJsonValue : playerDatas) {
+            using namespace DCContext;
+            auto arr = toJsonArray(json);
+            QVector<const IDCPlayer*> list;
+            for (const auto &playerDataJsonValue : arr) {
                 auto obj = playerDataJsonValue.toObject();
-                auto dartsPlayerModel = DartsControllerPlayer::createInstance();
                 auto playerStringId = obj["playerId"].toString();
-                dartsPlayerModel->setPlayerId(QUuid::fromString(playerStringId));
-                dartsPlayerModel->setPlayerName(obj["playerName"].toString());
-                list << dartsPlayerModel;
+                auto playerId = QUuid::fromString(playerStringId);
+                auto playerName = obj["playerName"].toString();
+                list << new DCPlayer(playerId,playerName);
             }
             return list;
         }
         const ModelsInterface *createPlayerModelByValues(const IdFormat &id, const StringFormat &name) const override
         {
-            auto playerModel = DartsControllerPlayer::createInstance();
-            playerModel->setPlayerId(id);
-            playerModel->setPlayerName(name);
-            return playerModel;
+            return new DCContext::DCPlayer(id,name);
+        }
+    private:
+        QJsonArray toJsonArray(const QByteArray &json) const
+        {
+            auto document = QJsonDocument::fromJson(json);
+            return document.array();
+        }
+        QVector<const DCContext::IDCPlayer*> createModels(const QJsonArray &arr) const
+        {
+            using namespace DCContext;
+            QVector<const IDCPlayer*> list;
+            for (const auto &jsonValue : arr)
+                list << createModel(jsonValue);
+            return list;
+        }
+        const DCContext::DCPlayer *createModel(const QJsonValue &jsonValue) const
+        {
+            using namespace DCContext;
+            auto obj = jsonValue.toObject();
+            auto playerStringId = obj["playerId"].toString();
+            auto playerId = QUuid::fromString(playerStringId);
+            auto playerName = obj["playerName"].toString();
+            return new DCPlayer(playerId,playerName);
         }
     };
 }
-
 #endif // PLAYERMODELBUILDERSERVICE_H

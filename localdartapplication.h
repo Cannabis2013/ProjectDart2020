@@ -2,8 +2,8 @@
 #define LOCALDARTAPPLICATION_H
 
 #include "dartapplication.h"
-
 #include "jsonmodelsservice.h"
+#include "createDCMetaInfo.h"
 #include <dartspointcontrollerbuilder.h>
 #include <dartsscorebuilderservice.h>
 #include "routeservicesprovider.h"
@@ -24,7 +24,6 @@ public:
         // Player models context
         _playerModelsContext = new LocalPlayersContext;
     }
-
     static LocalDartApplication *createInstance()
     {
         return new LocalDartApplication();
@@ -41,9 +40,9 @@ public:
     {
         using namespace DartsBuilderContext;
         _createDartsPointController = DartsPointControllerBuilder::createInstance()
-                ->setBuildEntityByJson(BuildDartsControllerEntity::createInstance());
+                ->setDCMetaInfoCreator(new createDCMetaInfo);
         _createDartsScoreController = DartsScoreBuilderService::createInstance()
-                ->setBuildEntityByJson(BuildDartsControllerEntity::createInstance());
+                ->setBuildEntityByJson(new createDCMetaInfo);
         return this;
     }
 };

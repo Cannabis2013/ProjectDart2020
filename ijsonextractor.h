@@ -5,12 +5,9 @@ template<typename TJson, typename TUuid, typename TString>
 class IJsonExtractor
 {
 public:
-    typedef TString String;
-    typedef TUuid Id;
-    typedef TJson Json;
-    virtual Id getIdValueByKey(const Json &json, const String &key) const = 0;
-    virtual String getStringValueByKey(const Json& json, const String &key) const = 0;
-    virtual int getIntegerValueByKey(const Json& json, const String &key) const = 0;
+    virtual TUuid getIdValueByKey(const TJson &json, const TString &key) const = 0;
+    virtual TString getStringValueByKey(const TJson& json, const TString &key) const = 0;
+    virtual int getIntegerValueByKey(const TJson& json, const TString &key) const = 0;
 };
 
 #endif // IJSONEXTRACTOR_H

@@ -9,14 +9,14 @@ DartsPointControllerBuilder* DartsPointControllerBuilder::createInstance()
 
 AbstractGameController *DartsPointControllerBuilder::buildDartsController(const QByteArray &json)
 {
-    auto entity = _buildEntityByJson->service(json);
-    AbstractDartsPointController* controller = DefaultDartsPointController::createInstance(entity);
+    auto entity = _createDCMetaInfo->service(json);
+    AbstractDartsPointController* controller = DefaultDPController::createInstance(entity);
     emit sendController(controller,entity->displayHint());
     return controller;
 }
 
-DartsPointControllerBuilder *DartsPointControllerBuilder::setBuildEntityByJson(ControllerEntityBuilder *newBuildEntityByJson)
+DartsPointControllerBuilder *DartsPointControllerBuilder::setDCMetaInfoCreator(ICreateDCMetaInfo *newBuildEntityByJson)
 {
-    _buildEntityByJson = newBuildEntityByJson;
+    _createDCMetaInfo = newBuildEntityByJson;
     return this;
 }

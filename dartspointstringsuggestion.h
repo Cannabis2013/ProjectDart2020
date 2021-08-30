@@ -15,7 +15,7 @@ namespace PointLogisticContext
     };
 }
 
-class DartsPointStringSuggestion : public IDartsInputSuggestion<QString>
+class DartsPointStringSuggestion : public IDartsInputSuggestion
 {
 
 public:

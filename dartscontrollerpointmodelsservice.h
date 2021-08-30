@@ -2,16 +2,15 @@
 #define DARTSCONTROLLERPOINTMODELSSERVICE_H
 
 #include "idartscontrollermodelsservice.h"
-#include "idartscontrollerpoint.h"
+#include "idpcmodel.h"
 #include <qstring.h>
 #include <quuid.h>
 
-namespace DartsPointControllerContext {
+namespace DPCContext {
     class DartsControllerPointModelsService : public
-            IDartsControllerModelsService<IDartsControllerPoint<QUuid,QString,QByteArray>,QString,QUuid>
+            IDartsControllerModelsService<IDPCModel,QString,QUuid>
     {
     public:
-        typedef IDartsControllerPoint<QUuid,QString,QByteArray> PointModel;
         void addAccumulatedScoreToModel(const DartsModelInterface *model, const int &score) const override;
         void addPlayerIdToModel(const DartsModelInterface *model, const IdFormat &id) const override;
     };

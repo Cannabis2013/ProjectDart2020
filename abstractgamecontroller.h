@@ -18,8 +18,8 @@ public slots:
     // Handle requests from UI
     virtual void handleRequestFromUI() = 0;
     // Undo/redo turn
-    virtual QUuid undoTurn() = 0;
-    virtual QUuid redoTurn() = 0;
+    virtual void undoTurn() = 0;
+    virtual void redoTurn() = 0;
     virtual void handleRequestForCurrentTournamentMetaData() = 0;
     virtual void handleResetTournament() = 0;
     // Set initial state

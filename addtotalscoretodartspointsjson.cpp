@@ -1,17 +1,16 @@
 #include "addtotalscoretodartspointsjson.h"
 
-using namespace DartsPointControllerContext;
+using namespace DPCContext;
 
-void AddTotalScoreToDartsPointsJson::addTotalScoreToInputs(JsonFormat &json,const int &initialPoint) const
+void AddTotalScoreToDartsPointsJson::addTotalScoreToInputs(QByteArray &json, const int &initialPoint) const
 {
-    auto arr = createArray(json);
-    auto playerIds = buildListOfPlayerIds(arr);
-    for (const auto &playerId : playerIds)
-        addTotalScoresToJsonArray(arr,playerId,initialPoint);
-    json = createJsonByArray(arr);
+    auto arr = toArray(json);
+    auto playerIds = createPlayerIds(arr);
+    addTotalScoresToJsonArray(arr,playerIds,initialPoint);
+    json = toByteArray(arr);
 }
 
-QJsonArray AddTotalScoreToDartsPointsJson::createArray(const QByteArray &json) const
+QJsonArray AddTotalScoreToDartsPointsJson::toArray(const QByteArray &json) const
 {
     auto document = QJsonDocument::fromJson(json);
     if(document.isArray())
@@ -20,7 +19,7 @@ QJsonArray AddTotalScoreToDartsPointsJson::createArray(const QByteArray &json) c
         return QJsonArray();
 }
 
-QVector<QUuid> DartsPointControllerContext::AddTotalScoreToDartsPointsJson::buildListOfPlayerIds(const QJsonArray &arr) const
+QVector<QUuid> DPCContext::AddTotalScoreToDartsPointsJson::createPlayerIds(const QJsonArray &arr) const
 {
     QVector<QUuid> playerIds;
     for (const auto &jsonVal : arr) {
@@ -32,7 +31,14 @@ QVector<QUuid> DartsPointControllerContext::AddTotalScoreToDartsPointsJson::buil
     return playerIds;
 }
 
-void AddTotalScoreToDartsPointsJson::addTotalScoresToJsonArray(QJsonArray &arr, const QUuid &playerId, const int &initialPoint) const
+void AddTotalScoreToDartsPointsJson::addTotalScoresToJsonArray(QJsonArray &arr, const QVector<QUuid> &playerIds,
+                                                               const int &initialPoint) const
+{
+    for (const auto &playerId : playerIds)
+        addTotalScoreToPlayerJson(arr,playerId,initialPoint);
+}
+
+void AddTotalScoreToDartsPointsJson::addTotalScoreToPlayerJson(QJsonArray &arr, const QUuid &playerId, const int &initialPoint) const
 {
     auto tempTotalScore = initialPoint;
     for (int i = 0; i < arr.count(); ++i) {
@@ -51,7 +57,7 @@ void AddTotalScoreToDartsPointsJson::addTotalScoresToJsonArray(QJsonArray &arr, 
     }
 }
 
-AddTotalScoreToDartsPointsJson::JsonFormat AddTotalScoreToDartsPointsJson::createJsonByArray(const QJsonArray &arr) const
+QByteArray AddTotalScoreToDartsPointsJson::toByteArray(const QJsonArray &arr) const
 {
     auto document = QJsonDocument(arr);
     auto json = document.toJson();

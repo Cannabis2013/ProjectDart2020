@@ -3,14 +3,14 @@
 
 #include "idartspointindexservice.h"
 #include <qlist.h>
-#include "idartspointcontrollerindexes.h"
+#include "idpcindexes.h"
 
-namespace DartsPointControllerContext{
-    class PointIndexController : public IDartsPointIndexService<IDartsPointControllerIndexes<QByteArray>>
+namespace DPCContext{
+    class PointIndexController : public IDartsPointIndexService
     {
         // IndexControllerInterface interface
     public:
-        typedef IDartsPointControllerIndexes<QByteArray> DartsIndexes;
+        typedef IDPCIndexes DartsIndexes;
         static PointIndexController* createInstance(const int &attemptCount)
         {
             return new PointIndexController(attemptCount);

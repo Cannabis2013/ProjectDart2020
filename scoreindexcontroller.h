@@ -2,19 +2,18 @@
 #define SCOREINDEXCONTROLLER_H
 
 #include <qvector.h>
-#include "idartsscoreindexservice.h"
-#include "idartsscorecontrollerindexes.h"
+#include "idsindexservice.h"
+#include "idscindexes.h"
 
-namespace DartsScoreControllerContext
+namespace DSCContext
 {
-    class ScoreIndexController : public
-            IDartsScoreIndexService<IDartsScoreControllerIndexes<QByteArray>>
+    class ScoreIndexController : public IDSIndexService
     {
     public:
         // Create instance
         static ScoreIndexController* createInstance();
         // IndexControllerInterface interface
-        virtual void setIndexes(const IDartsScoreControllerIndexes<QByteArray>* indexes) override;
+        virtual void setIndexes(const IDSCIndexes* indexes) override;
         virtual void reset() override;
         virtual void next() override;
         virtual void undo() override;

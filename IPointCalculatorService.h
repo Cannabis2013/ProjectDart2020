@@ -7,8 +7,8 @@ template<typename TModelsInterface>
 class IPointCalculatorService{
 public:
     typedef TModelsInterface ModelsInterface;
-    virtual void addScoreValueToDartsPointModel(const ModelsInterface* model) const= 0;
-    virtual void addScoreValuesToDartsPointModels(const QVector<const ModelsInterface*>& models) const = 0;
+    virtual int calculateScore(const ModelsInterface* model) const= 0;
+    virtual void addScoreValuesToDartsPointModels(const QVector<ModelsInterface*>& models) const = 0;
 };
 
 #endif // SCORECALCULATORINTERFACE_H

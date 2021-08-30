@@ -6,10 +6,10 @@
 class DartsMetaDataService : public IDartsMetaData
 {
 public:
-
-    static DartsMetaDataService *createInstance(const QUuid &tournamentId,const int &displayHint)
+    static DartsMetaDataService *createInstance(const QUuid &tournamentId, const int &displayHint,
+                                                const int &initialScore = 510)
     {
-        return new DartsMetaDataService(tournamentId, displayHint);
+        return new DartsMetaDataService(tournamentId, displayHint, initialScore);
     }
     virtual int status() const override
     {
@@ -27,15 +27,20 @@ public:
     {
         return _displayHint;
     }
+    virtual int initialScore() const override
+    {
+        return _initialScore;
+    }
 private:
-    DartsMetaDataService(const QUuid &tournamentId,const int &displayHint)
+    DartsMetaDataService(const QUuid &tournamentId,const int &displayHint, const int &initialScore)
     {
         _tournamentId = tournamentId;
         _displayHint = displayHint;
+        _initialScore = initialScore;
     }
     QUuid _tournamentId;
     int _displayHint;
     int _status;
+    int _initialScore;
 };
-
 #endif // DARTSMETADATASERVICE_H

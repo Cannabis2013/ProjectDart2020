@@ -5,7 +5,7 @@
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 
-namespace DartsPointControllerContext {
+namespace DPCContext {
     class DartsPointTurnValues
     {
     public:
@@ -65,7 +65,6 @@ namespace DartsPointControllerContext {
         {
             _playerName = newPlayerName;
         }
-
         QByteArray toJson() const
         {
             QJsonObject jsonObject;

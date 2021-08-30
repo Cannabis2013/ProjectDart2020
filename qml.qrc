@@ -23,7 +23,7 @@
         <file>PointKeyPadFactory.js</file>
         <file>Content.qml</file>
         <file>CRUDButton.qml</file>
-        <file>PointDelegate.qml</file>
+        <file>ScoreBoardDelegate.qml</file>
         <file>LabelComponent.qml</file>
         <file>ListViewDelegate.qml</file>
         <file>DecoratedItem.qml</file>
@@ -72,7 +72,6 @@
         <file>DPMCBoardDelegate.qml</file>
         <file>DPMCBoard.qml</file>
         <file>ftpScoreBoardFactory.js</file>
-        <file>ScoreRectDelegate.qml</file>
         <file>MultiScoreDelegate.qml</file>
         <file>dpmcboardscripts.js</file>
         <file>DPMCContent.qml</file>
@@ -99,6 +98,8 @@
         <file>DpmcTableFonts.qml</file>
         <file>DPSCBoardDelegate.qml</file>
         <file>DPSCMetaValues.qml</file>
+        <file>DSSCTableFonts.qml</file>
+        <file>DSSCDelegate.qml</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>

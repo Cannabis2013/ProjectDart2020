@@ -17,6 +17,7 @@
 
 using namespace std;
 
+
 class NetworkManager : public QObject
 {
     Q_OBJECT
@@ -90,3 +91,4 @@ private:
 };
 
 #endif // HTTPINTERFACE_H
+

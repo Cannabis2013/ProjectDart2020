@@ -1,7 +1,7 @@
 #ifndef IDARTSCONTROLLERPOINTSERVICE_H
 #define IDARTSCONTROLLERPOINTSERVICE_H
 
-namespace DartsPointControllerContext {
+namespace DPCContext {
     template<typename TModelInterface, typename TString, typename TUuid>
     class IDartsControllerModelsService
     {

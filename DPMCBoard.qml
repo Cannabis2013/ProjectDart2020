@@ -1,38 +1,23 @@
 import QtQuick 2.15
 import CustomItems 1.0
 import DartsTableUtils 1.0
-
 import "dpmcheaderscripts.js" as HeaderScripts
 import "dpmcboardscripts.js" as ScoreScripts
-
 ScoreBoard {
     id: dPMCBoard
-    // Data related
     signal setData(string playerName, int point, int score)
     onSetData: ScoreScripts.setData(playerName,score,point)
     signal takeData(string playerName)
     onTakeData: ScoreScripts.takeData(playerName)
     onClearData: ScoreScripts.clearAll()
-    // Header related
     onAppendHeaderData: HeaderScripts.addHeaderData(data,defaultVal)
-    // Cell related
     onNotifyCellPosition: ScoreScripts.setViewPosition(x,y)
     property int attempts : 3
     onAttemptsChanged: horizontalHeaderModel.numberOfAttempts = attempts
     readonly property QtObject dpmcTableFonts : DpmcTableFonts{}
     TableSectionMetrics{id: fontsMetric}
-    DartsTableWidths
-    {
-        id: tableWidthProvider
-        minimumColumnWidth: 64
-        scale: 1.05
-    }
-    DartsTableHeights
-    {
-        id: tableHeightProvider
-        minimumRowHeight: 72
-        scale: 1.05
-    }
+    DartsTableWidths{id: tableWidthProvider}
+    DartsTableHeights{id: tableHeightProvider}
     StringHeaderModel{
         id: verticalHeaderModel
         onDataChanged: ScoreScripts.refreshHeaders()

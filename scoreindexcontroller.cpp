@@ -1,13 +1,13 @@
 #include "scoreindexcontroller.h"
 
-using namespace DartsScoreControllerContext;
+using namespace DSCContext;
 
 ScoreIndexController *ScoreIndexController::createInstance()
 {
     return new ScoreIndexController();
 }
 
-void ScoreIndexController::setIndexes(const IDartsScoreControllerIndexes<QByteArray> *indexes)
+void ScoreIndexController::setIndexes(const IDSCIndexes *indexes)
 {
     _totalIndex = indexes->totalTurns();
     _turnIndex = indexes->turnIndex();

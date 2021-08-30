@@ -11,7 +11,7 @@ struct ScoreModel
     QVector<int> pointValue;
 };
 
-class DartsSingleAttemptInputRowSuggestion : public IDartsInputSuggestion<QString>
+class DartsSingleAttemptInputRowSuggestion : public IDartsInputSuggestion
 {
 public:
     /*

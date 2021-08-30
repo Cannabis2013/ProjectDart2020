@@ -1,15 +1,15 @@
 #include "dartscontrollerpointmodelsservice.h"
 
-using namespace DartsPointControllerContext;
+using namespace DPCContext;
 
-void DartsPointControllerContext::DartsControllerPointModelsService::addAccumulatedScoreToModel(const DartsModelInterface *model, const int &score) const
+void DPCContext::DartsControllerPointModelsService::addAccumulatedScoreToModel(const DartsModelInterface *model, const int &score) const
 {
-    auto nonConstModel = const_cast<PointModel*>(model);
+    auto nonConstModel = const_cast<IDPCModel*>(model);
     nonConstModel->setTotalScore(score);
 }
 
 void DartsControllerPointModelsService::addPlayerIdToModel(const DartsModelInterface *model, const IdFormat &id) const
 {
-    auto nonConstModel = const_cast<PointModel*>(model);
+    auto nonConstModel = const_cast<IDPCModel*>(model);
     nonConstModel->setPlayerId(id);
 }

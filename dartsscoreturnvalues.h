@@ -5,7 +5,7 @@
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 
-namespace DartsScoreControllerContext {
+namespace DSCContext {
     class DartsScoreTurnValues
     {
     public:

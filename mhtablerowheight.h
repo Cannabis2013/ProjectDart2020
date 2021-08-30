@@ -75,7 +75,7 @@ private:
         _rowHeights.replace(row,height);
     }
     QVector<int> _rowHeights;
-    int _minimumRowHeight = 32;
-    double _scale;
+    int _minimumRowHeight = 72;
+    double _scale = 1.05;
 };
 #endif // MHTABLEROWHEIGHT_H

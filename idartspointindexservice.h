@@ -1,12 +1,12 @@
 #ifndef INDEXCONTROLLERINTERFACE_H
 #define INDEXCONTROLLERINTERFACE_H
 
+#include <idpcindexes.h>
 
-template<typename TIndexes>
 class IDartsPointIndexService
 {
 public:
-    virtual void setIndexes(const TIndexes*) = 0;
+    virtual void setIndexes(const DPCContext::IDPCIndexes* indexes) = 0;
     virtual void reset() = 0;
     virtual void next() = 0;
 

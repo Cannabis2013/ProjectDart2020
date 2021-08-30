@@ -3,7 +3,7 @@
 
 #include "iaddtotalscoretodartspoint.h"
 
-namespace DartsPointControllerContext {
+namespace DPCContext {
     class AddTotalScoreToDartsPoint : public IAddTotalScoreToDartsPoint
     {
     public:

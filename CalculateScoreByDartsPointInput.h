@@ -2,11 +2,11 @@
 #define CALCULATESCOREBYDARTSPOINTINPUT_H
 
 #include "IPointCalculatorService.h"
-#include "idartscontrollerpoint.h"
+#include "idpcmodel.h"
 #include "quuid.h"
 
-namespace DartsPointControllerContext {
-    class CalculateScoreByDartsPointInput : public IPointCalculatorService<IDartsControllerPoint<QUuid,QString,QByteArray>>
+namespace DPCContext {
+    class CalculateScoreByDartsPointInput : public IPointCalculatorService<IDPCModel>
     {
     public:
         enum PointKeyCodes{
@@ -20,24 +20,28 @@ namespace DartsPointControllerContext {
         {
             return new CalculateScoreByDartsPointInput();
         }
-        virtual void addScoreValueToDartsPointModel(const ModelsInterface* model) const override
+        virtual int calculateScore(const ModelsInterface* model) const override
         {
-            // Initialize pointmultiplier
-            auto keyCode = model->modKeyCode();
-            auto point = model->point();
-            auto pointMultiplier = keyCode == PointKeyCodes::TrippleModifier ? 3 :
-                                   keyCode == PointKeyCodes::DoubleModifier ? 2 :
-                                   keyCode == PointKeyCodes::SingleModifer ? 1 : 0;
-            // Calculate point
-            auto score = point*pointMultiplier;
-            auto mutableModel = const_cast<ModelsInterface*>(model);
-            mutableModel->setScore(score);
+            auto pointMultiplier = createPointMultiplier(model->modKeyCode());
+            return calculateScore(model->point(),pointMultiplier);
         }
-        void addScoreValuesToDartsPointModels(const QVector<const ModelsInterface *> &models) const override
+        void addScoreValuesToDartsPointModels(const QVector<ModelsInterface *> &models) const override
         {
             QVector<const ModelsInterface*> list;
             for (const auto& model : models)
-                addScoreValueToDartsPointModel(model);
+                calculateScore(model);
+        }
+    private:
+        int createPointMultiplier(const int &code) const
+        {
+            auto pointMultiplier = code == PointKeyCodes::TrippleModifier ? 3 :
+                                   code == PointKeyCodes::DoubleModifier ? 2 :
+                                   code == PointKeyCodes::SingleModifer ? 1 : 0;
+            return pointMultiplier;
+        }
+        int calculateScore(const int &point, const int &multiplier) const
+        {
+            return point*multiplier;
         }
     };
 }

@@ -2,18 +2,18 @@
 #define BUILDDARTSSCORECONTROLLER_H
 
 
-#include "dartsscorecontroller.h"
+#include "dscontroller.h"
 // Include services
 #include "abstractdartscontrollerbuilder.h"
-#include "dartsscoremodelsbuilderservice.h"
+#include "dartsscoremodelsbuilder.h"
 #include "abstractdartsscorecontroller.h"
 #include "abstractdartspointcontroller.h"
 #include "iternaryservice.h"
 #include "dartsplayermodelbuilderservice.h"
-#include "idartscontrollerentity.h"
-#include "BuildDartsControllerEntity.h"
-#include "idartscontrollerentity.h"
-#include "defaultdartsscorecontroller.h"
+#include "idcmetainfo.h"
+#include "icreatedcmetainfo.h"
+#include "idcmetainfo.h"
+#include "defaultdscontroller.h"
 
 
 namespace DartsBuilderContext {
@@ -27,15 +27,12 @@ namespace DartsBuilderContext {
             SingleColumn = 0x4,
             MultiColumn = 0x8
         };
-        typedef IDartsControllerEntity<QUuid,QString> ControllerEntity;
-        typedef IUnaryService<const QByteArray&,
-                              const ControllerEntity*> ControllerEntityBuilder;
         static DartsScoreBuilderService *createInstance();
 
         AbstractGameController *buildDartsController(const QByteArray& json) override;
-        DartsScoreBuilderService *setBuildEntityByJson(ControllerEntityBuilder *newBuildEntityByJson);
+        DartsScoreBuilderService *setBuildEntityByJson(ICreateDCMetaInfo *newBuildEntityByJson);
     private:
-        ControllerEntityBuilder* _buildEntityByJson;
+        ICreateDCMetaInfo* _buildEntityByJson;
     };
 }
 

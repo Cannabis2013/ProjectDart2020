@@ -1,50 +1,57 @@
 #ifndef DARTSPLAYERBUILDERSERVICE_H
 #define DARTSPLAYERBUILDERSERVICE_H
 
-#include "idartsplayerbuilderservice.h"
-#include "dartsplayer.h"
+#include "idscmodelbuilder.h"
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 #include <qjsonarray.h>
+#include <dcplayer.h>
 
-namespace DartsScoreControllerContext {
-    class DartsPlayerBuilderService : public
-            IDartsPlayerBuilderService<IDartsPlayer<QUuid,QString>,QUuid,QString,QByteArray>
+namespace DSCContext {
+    class DartsPlayerBuilderService : public IDSCModelBuilder<DCContext::IDCPlayer,QUuid,QString,QByteArray>
     {
     public:
-        const PlayerInterface *createModel(const JsonFormat &json) const override
+        const Model *createModel(const Json &json) const override
         {
-            auto document = QJsonDocument::fromJson(json);
-            auto obj = document.object();
-            auto playerModel = DartsPlayer::createInstance();
-            auto playerStringId = obj["winnerId"].toString();
-            playerModel->setPlayerId(QUuid::fromString(playerStringId));
-            playerModel->setPlayerName(obj["winnerName"].toString());
-            return playerModel;
+            return toPlayerModel(toJsonObject(json));
         }
-        QVector<const PlayerInterface *> createModels(const JsonFormat &json) override
+        QVector<const Model *> createModels(const Json &json) override
         {
-            auto document = QJsonDocument::fromJson(json);
-            auto playerDatas = document.array();
-            QVector<const PlayerInterface*> playerModels;
-            for (const auto &playerDataJsonValue : playerDatas) {
-                auto obj = playerDataJsonValue.toObject();
-                auto playerModel = DartsPlayer::createInstance();
-                auto playerStringId = obj.value("playerId").toString();
-                playerModel ->setPlayerId(QUuid::fromString(playerStringId));
-                playerModel ->setPlayerName(obj.value("playerName").toString());
-                playerModels << playerModel ;
-            }
+            QVector<const Model*> playerModels;
+            for (const auto &jsonValue : toJsonArray(json))
+                playerModels << toPlayerModel(jsonValue);
             return playerModels;
         }
-        const PlayerInterface *createPlayerModelByValues(const IdFormat &id, const StringFormat &name) const override
+        const Model *createModel(const Id &id, const String &name) const override
         {
-            auto playerModel = DartsPlayer::createInstance();
-            playerModel->setPlayerId(id);
-            playerModel->setPlayerName(name);
-            return playerModel;
+            return new DCContext::DCPlayer(id,name);
+        }
+    private:
+        const DCContext::IDCPlayer *toPlayerModel(const QJsonValue &jsonValue) const
+        {
+            auto obj = jsonValue.toObject();
+            auto playerStringId = obj.value("playerId").toString();
+            auto playerId = QUuid::fromString(playerStringId);
+            auto playerName = obj.value("playerName").toString();
+            return new DCContext::DCPlayer(playerId,playerName);
+        }
+        const DCContext::IDCPlayer *toPlayerModel(const QJsonObject &obj) const
+        {
+            auto playerStringId = obj.value("playerId").toString();
+            auto playerId = QUuid::fromString(playerStringId);
+            auto playerName = obj.value("playerName").toString();
+            return new DCContext::DCPlayer(playerId,playerName);
+        }
+        QJsonArray toJsonArray(const QByteArray &json) const
+        {
+            auto document = QJsonDocument::fromJson(json);
+            return document.array();
+        }
+        QJsonObject toJsonObject(const QByteArray &json) const
+        {
+            auto document = QJsonDocument::fromJson(json);
+            return document.object();
         }
     };
 }
-
 #endif // DARTSPLAYERBUILDERSERVICE_H

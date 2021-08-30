@@ -71,7 +71,7 @@ private:
         emit scaleChanged();
     }
     QVector<int> _columnWidths;
-    int _minimumWidth = 0;
-    double _scale;
+    int _minimumWidth = 64;
+    double _scale = 1.05;
 };
 #endif // MHTABLECOLUMNWIDTHS_H
