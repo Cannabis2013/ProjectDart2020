@@ -69,11 +69,4 @@ private:
     const int _terminalKeyCode;
     const int _bullsEye = 50;
 };
-
-
-
-
-
-
-
 #endif // POINTVALIDATOR_H

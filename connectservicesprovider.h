@@ -3,15 +3,13 @@
 
 #include "iconnectservicesprovider.h"
 
-#include <ConnectDartsScoreBuilder.h>
-#include <connectdartspointbuilder.h>
+#include <ConnectDCBuilder.h>
 #include <connectdartsmodelscontext.h>
 #include <connectroutebydisplayhint.h>
 #include <connectroutebygamemode.h>
 #include <connectroutebyinputhint.h>
 #include <connectplayerscontext.h>
-#include "connectdartspointcontroller.h"
-#include "connectdartsscorecontroller.h"
+#include "connectdartscontroller.h"
 #include "connectplayerscontext.h"
 class ConnectServicesProvider : public IConnectServicesProvider
 {
@@ -28,11 +26,7 @@ public:
     {
         return _connectRouteByDisplayHint;
     }
-    virtual IConnectRouteToDartsBuilder *connectDartsPointBuilder() const override
-    {
-        return _connectDartsPointBuilder;
-    }
-    virtual IConnectRouteToDartsBuilder *connectDartsScoreBuilder() const override
+    virtual IConnectRouteToDartsBuilder *connectDCBuilder() const override
     {
         return _connectDartsScoreBuilder;
     }
@@ -44,13 +38,9 @@ public:
     {
         return _connectPlayersContext;
     }
-    virtual IConnectController *connectDartsPointController() const override
+    virtual IConnectController *connectDartsController() const override
     {
-        return _connectDartsPointController;
-    }
-    virtual IConnectController *connectDartsScoreController() const override
-    {
-        return _connectDartsScoreController;
+        return _connectDartsController;
     }
 private:
     // Connect route services
@@ -58,15 +48,13 @@ private:
     ConnectRouteByInputHint *_connectRouteByInputHint = new ConnectRouteByInputHint;
     ConnectRouteByDisplayHint *_connectRouteByDisplayHint = new ConnectRouteByDisplayHint;
     // Connect darts controller builder services
-    ConnectDartsPointBuilder *_connectDartsPointBuilder = new ConnectDartsPointBuilder;
-    ConnectDartsScoreBuilder *_connectDartsScoreBuilder = new ConnectDartsScoreBuilder;
+    ConnectDCBuilder *_connectDartsScoreBuilder = new ConnectDCBuilder;
     // Connect models interface
     ConnectDartsModelsContext *_connectModelsServiceInterface = new ConnectDartsModelsContext;
     // Connect player models interface
     ConnectPlayersContext *_connectPlayersContext = new ConnectPlayersContext;
     // Connect controller services
-    IConnectController *_connectDartsPointController = new ConnectDartsPointController;
-    IConnectController *_connectDartsScoreController = new ConnectDartsScoreController;
+    IConnectController *_connectDartsController = new ConnectDartsController;
 };
 
 #endif // CONNECTSERVICESPROVIDER_H

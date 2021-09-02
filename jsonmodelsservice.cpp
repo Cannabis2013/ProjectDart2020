@@ -3,7 +3,6 @@ using namespace ModelsContext;
 JsonModelsService::JsonModelsService()
 {
     setTournamentServices();
-    setScoreInputServices();
     setPointInputServices();
     setInputDbUtilityServices();
     setModelUtilityServices();
@@ -25,22 +24,10 @@ void JsonModelsService::setTournamentServices()
     setGetTournamenWinnerModel(new GetTournamentWinner);
     setCreateJsonFromDetails(new CreateJsonFromTournamentDetails);
 }
-void JsonModelsService::setScoreInputServices()
-{
-    using namespace DartsDbContext;
-    setDartsScoresDb(new DartsScoreJsonDb);
-    setGetScoreFromDb(new GetDartsScoreFromDb);
-    setDartsScoreSetHint(new DartsScoreSetHint);
-    setCreateIndexesFromScoreModels(new CreateDartsScoreIndexes);
-    setCreateJsonFromScoreModels(new DartsCreateJsonFromScores);
-    setCreateJsonfromScoreIndexes(new DartsCreateJsonFromScoreIndexes);
-    setCreateScoreModel(new DartsCreateScoreModel);
-    setCreateJsonFromDartsScore(new DartsCreateJsonFromScoreModel);
-}
 void JsonModelsService::setPointInputServices()
 {
     using namespace DartsDbContext;
-    setDartsPointsDb(new DartsPointJsonDb);
+    setInputsDb(new DartsInputsJsonDb);
     setGetPointFromDb(new GetDartsPointFromDb);
     setDartsPointSetHint(new DartsPointSetHint);
     setCreateIndexesFromPointModels(new DartsCreatePointIndexes);

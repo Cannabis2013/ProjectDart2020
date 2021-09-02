@@ -3,7 +3,7 @@
 
 #include "idcscoresservice.h"
 #include "idcgetplayerscore.h"
-#include "idpccalcscorecandidate.h"
+#include "idccalcscorecandidate.h"
 
 class DPScoresServices
 {
@@ -24,18 +24,18 @@ public:
     {
         _getPlayerScore = newGetPlayerScore;
     }
-    IDPCCalcScoreCandidate *subTractScore() const
+    IDCCalcScoreCandidate *subTractScore() const
     {
         return _getScoreCandidate;
     }
-    void setSubTractScore(IDPCCalcScoreCandidate *newSubTractScore)
+    void setSubTractScore(IDCCalcScoreCandidate *newSubTractScore)
     {
         _getScoreCandidate = newSubTractScore;
     }
 private:
     IDCScoresService *_scoresService;
     IDCGetPlayerScore *_getPlayerScore;
-    IDPCCalcScoreCandidate *_getScoreCandidate;
+    IDCCalcScoreCandidate *_getScoreCandidate;
 };
 
 

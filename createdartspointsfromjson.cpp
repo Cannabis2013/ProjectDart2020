@@ -4,11 +4,11 @@ using namespace DartsDbContext;
 
 QVector<const IModel<QUuid> *> CreateDartsPointsFromJson::create(const QByteArray &json) const
 {
-    auto arr = createArray(json);
+    auto arr = toJsonArray(json);
     return createInputsFromJsonArray(arr);
 }
 
-const QJsonArray CreateDartsPointsFromJson::createArray(const QByteArray &json) const
+const QJsonArray CreateDartsPointsFromJson::toJsonArray(const QByteArray &json) const
 {
     auto document = QJsonDocument::fromJson(json);
     auto obj = document.object();
@@ -19,41 +19,28 @@ QVector<const IModel<QUuid>*> CreateDartsPointsFromJson::createInputsFromJsonArr
 {
     QVector<const IModel<QUuid>*> list;
     for (const auto& jsonValue : arr)
-        list << createInputFromJsonValue(jsonValue);
+        list << toInputModel(jsonValue.toObject());
     return list;
 }
 
-const IPlayerInput *CreateDartsPointsFromJson::createInputFromJsonValue(const QJsonValue &jsonValue) const
+const ModelsContext::IDartsInput *CreateDartsPointsFromJson::toInputModel(const QJsonObject &jsonObject) const
 {
-    auto jsonObject = jsonValue.toObject();
-    return  createModelFromJsonObject(jsonObject);
+    auto pointModel = new ModelsContext::DartsInput;
+    pointModel->setId(toId(jsonObject,"id"));
+    pointModel->setTournament(toId(jsonObject,"tournament"));
+    pointModel->setPlayerId(toId(jsonObject,"playerId"));
+    pointModel->setRoundIndex(jsonObject["roundIndex"].toInt());
+    pointModel->setSetIndex(jsonObject["setIndex"].toInt());
+    pointModel->setAttempt(jsonObject["attempt"].toInt());
+    pointModel->setPoint(jsonObject["point"].toInt());
+    pointModel->setScore(jsonObject.value("score").toInt());
+    pointModel->setModKeyCode(jsonObject["keyCode"].toInt());
+    pointModel->setHint(jsonObject["hint"].toInt());
+    return pointModel;
 }
 
-const ModelsContext::DartsPointInput *CreateDartsPointsFromJson::createModelFromJsonObject(const QJsonObject &jsonObject) const
+QUuid CreateDartsPointsFromJson::toId(const QJsonObject &obj, const QString &key) const
 {
-    auto stringID = jsonObject["id"].toString();
-    auto id = QUuid::fromString(stringID);
-    auto tournament = jsonObject["tournament"].toString();
-    auto tournamentId = QUuid::fromString(tournament);
-    auto playerStringID = jsonObject["playerId"].toString();
-    auto playerId = QUuid::fromString(playerStringID);
-    auto roundIndex = jsonObject["roundIndex"].toInt();
-    auto setIndex = jsonObject["setIndex"].toInt();
-    auto attempt = jsonObject["attempt"].toInt();
-    auto point = jsonObject["point"].toInt();
-    auto score = jsonObject.value("score").toInt();
-    auto keyCode = jsonObject["keyCode"].toInt();
-    auto scoreHint = jsonObject["hint"].toInt();
-    auto pointModel = ModelsContext::DartsPointInput::createInstance()
-            ->setId(id)
-            ->setTournament(tournamentId)
-            ->setPlayerId(playerId)
-            ->setRoundIndex(roundIndex)
-            ->setSetIndex(setIndex)
-            ->setAttempt(attempt)
-            ->setPoint(point)
-            ->setScore(score)
-            ->setModKeyCode(keyCode)
-            ->setHint(scoreHint);
-    return pointModel;
+    auto id = obj[key].toString();
+    return QUuid::fromString(id);
 }

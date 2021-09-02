@@ -4,9 +4,9 @@
 class IPointValidator
 {
 public:
-    virtual int validateInput(const int &,
-                              const int &,
-                              const int &) const = 0;
+    virtual int validateInput(const int &currentScore,
+                              const int &keyCode = -1,
+                              const int &input = -1) const = 0;
 };
 
 

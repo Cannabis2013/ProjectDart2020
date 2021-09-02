@@ -3,26 +3,26 @@
 
 #include "iunaryservice.h"
 #include "idartsplayermodelbuilderservice.h"
-#include "icreatedpcturnvalues.h"
+#include "icreatedcturnvalues.h"
 #include "idartsinputsuggestion.h"
 #include "IPointCalculatorService.h"
 #include "ipointvalidator.h"
 #include "idartscontrollermodelsservice.h"
-#include "idscindexesbuilder.h"
+#include "idcindexesbuilder.h"
 #include "idcmodelcreator.h"
-#include "idartspointindexservice.h"
+#include "idcindexservice.h"
 #include "iaddtotalscoretodartspoint.h"
 #include "idartsmetadata.h"
 #include <idpcindexesbuilder.h>
-#include <idpcmodelcreator.h>
+#include <idcmodelcreator.h>
 #include "idcwinnerservice.h"
 
 class DPCServicesProvider
 {
 public:
-    typedef DPCContext::ICreateDPCTurnValues TurnValueBuilderService;
-    typedef DPCContext::IDartsControllerModelsService<DPCContext::IDPCModel,QString,QUuid> ControllerModelsService;
-    typedef IPointCalculatorService<DPCContext::IDPCModel> ScoreCalculatorService;
+    typedef DPCContext::ICreateDCTurnValues TurnValueBuilderService;
+    typedef DPCContext::IDartsControllerModelsService<DCContext::IDCModel,QString,QUuid> ControllerModelsService;
+    typedef IPointCalculatorService<DCContext::IDCModel> ScoreCalculatorService;
     typedef DPCContext::IDartsPlayerModelBuilderService<DCContext::IDCPlayer,QString,QUuid,QByteArray> PlayerModelBuilder;
     IDCWinnerService *winnerService() const
     {
@@ -36,9 +36,9 @@ protected:
     // Services
     // Builder Services
     TurnValueBuilderService* _turnValuesBuilder;
-    IDPCModelCreator* _pointModelBuilder;
+    IDCModelCreator* _pointModelBuilder;
     PlayerModelBuilder* _playerModelBuilder;
-    IDPCIndexesBuilder* _dartsIndexesBuilder;
+    IDCIndexesBuilder* _dartsIndexesBuilder;
     ControllerModelsService* _controllerModels;
     // Meta information
     IDartsMetaData *_metaData;
@@ -51,7 +51,7 @@ protected:
     // Validator service
     IPointValidator* _inputEvaluator = nullptr;
     // Index service
-    IDartsPointIndexService* _indexService = nullptr;
+    IDCIndexService* _indexService = nullptr;
     // Deterministic state services
     IUnaryService<const QUuid&,int>* _determineControllerStateByWinnerId;
     IDCWinnerService *_winnerService;

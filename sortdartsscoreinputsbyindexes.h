@@ -1,7 +1,7 @@
 #ifndef SORTDARTSSCOREINPUTSBYINDEXES_H
 #define SORTDARTSSCOREINPUTSBYINDEXES_H
 
-#include "dartsscoreinput.h"
+#include "idartsinput.h"
 #include "ipredicate.h"
 
 namespace ModelsContext {
@@ -11,8 +11,8 @@ namespace ModelsContext {
         typedef IPredicate<IPlayerInput> Predicate;
         bool operator ()(const IModel<QUuid> *_first, const IModel<QUuid>* _second) const override
         {
-            auto firstModel = dynamic_cast<const IDartsScoreInput*>(_first);
-            auto secondModel = dynamic_cast<const IDartsScoreInput*>(_second);
+            auto firstModel = dynamic_cast<const IDartsInput*>(_first);
+            auto secondModel = dynamic_cast<const IDartsInput*>(_second);
             if(firstModel->roundIndex() < secondModel->roundIndex())
                 return true;
             else if(secondModel->roundIndex() >= secondModel->roundIndex())

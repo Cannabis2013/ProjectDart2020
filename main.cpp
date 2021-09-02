@@ -5,7 +5,7 @@
 #include <QtQuick/QQuickView>
 #include <qqmlcontext.h>
 #include <registerqmldartstabletypes.h>
-#include "createandsetupapplication.h"
+#include "applicationbuilder.h"
 #include "registerqmlsingletons.h"
 #include "registerqmltableutils.h"
 
@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
     // Create and setup dart application backend
-    CreateAndSetupApplication appCreator(engine,app);
+    ApplicationBuilder appCreator(engine,app);
     // Register custom types
     registerTypes();
     // Setup QML UI interface

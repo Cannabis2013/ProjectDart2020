@@ -1,7 +1,7 @@
 #ifndef ICONNECTDARTSPOINTCONTROLLER_H
 #define ICONNECTDARTSPOINTCONTROLLER_H
 
-#include "abstractdartspointcontroller.h"
+#include "abstractgamecontroller.h"
 #include "AbstractApplicationInterface.h"
 #include "abstractdartsmodelscontext.h"
 #include "abstractroutebydisplayhint.h"

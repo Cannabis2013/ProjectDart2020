@@ -2,7 +2,7 @@
 #define GETORDEREDDARTSSCOREMODELS_H
 
 #include "isortinputmodels.h"
-#include "idartsscoreinput.h"
+#include "idartsinput.h"
 #include "imodelsdbcontext.h"
 #include <quuid.h>
 #include "ipredicate.h"

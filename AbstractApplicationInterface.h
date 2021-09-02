@@ -16,8 +16,7 @@ public:
 public slots:
     // Pure virtual slots
     virtual void handleSendGameModesRequest() const = 0;
-    virtual void setDartsPointController(AbstractDartsController* controller) = 0;
-    virtual void setDartsScoreController(AbstractDartsController* controller) = 0;
+    virtual void setDartsController(AbstractDartsController* controller) = 0;
 signals:
     /*
      * ApplicationInterface interface

@@ -10,12 +10,12 @@ AbstractGameController *DartApplicationServices::gameController() const
     return _gameController;
 }
 
-AbstractDartsControllerBuilder *DartApplicationServices::createDartsPointController() const
+AbstractDCBuilder *DartApplicationServices::createDartsPointController() const
 {
     return _createDartsPointController;
 }
 
-AbstractDartsControllerBuilder *DartApplicationServices::createDartsScoreController() const
+AbstractDCBuilder *DartApplicationServices::createDartsScoreController() const
 {
     return _createDartsScoreController;
 }

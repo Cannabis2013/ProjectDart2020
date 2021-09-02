@@ -4,8 +4,7 @@
 #include "dartapplication.h"
 #include "jsonmodelsservice.h"
 #include "createDCMetaInfo.h"
-#include <dartspointcontrollerbuilder.h>
-#include <dartsscorebuilderservice.h>
+#include <dcbuilder.h>
 #include "routeservicesprovider.h"
 #include "connectservicesprovider.h"
 #include "localplayerscontext.h"
@@ -38,10 +37,7 @@ public:
 
     LocalDartApplication *createDartsBuilders()
     {
-        using namespace DartsBuilderContext;
-        _createDartsPointController = DartsPointControllerBuilder::createInstance()
-                ->setDCMetaInfoCreator(new createDCMetaInfo);
-        _createDartsScoreController = DartsScoreBuilderService::createInstance()
+        _createDartsScoreController = DCBuilder::createInstance()
                 ->setBuildEntityByJson(new createDCMetaInfo);
         return this;
     }

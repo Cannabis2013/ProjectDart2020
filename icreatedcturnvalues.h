@@ -1,14 +1,17 @@
 #ifndef ICREATEDCTURNVALUES_H
 #define ICREATEDCTURNVALUES_H
 
-template<typename TModel,typename TIndexesService,
-         typename TInputService, typename TLogisticService>
+#include "idcindexservice.h"
+#include "idcscoresservice.h"
+#include "idartsinputsuggestion.h"
+#include "dcturnvalues.h"
+#include <dcturnvalues.h>
+
 class ICreateDCTurnValues
 {
 public:
-    virtual TModel createTurnValues(TIndexesService indexService,
-                                    TInputService playerScoreService,
-                                    TLogisticService logisticService) const = 0;
+    virtual const  DCContext::DCTurnValues *createTurnValues(const IDCIndexService *indexService,
+                                                             IDCScoresService *scoresService,
+                                                             const IDartsInputSuggestion *logisticService = nullptr) const = 0;
 };
-
-#endif // IBUILDCONTROLLERTURNVALUES_H
+#endif // IBUILDTURNVALUES_H

@@ -1,7 +1,7 @@
 #ifndef IDCCREATESCORETUPLES_H
 #define IDCCREATESCORETUPLES_H
 
-#include <dptuple.h>
+#include <dctuple.h>
 #include <idartsmetadata.h>
 #include <idcplayer.h>
 #include <qvector.h>

@@ -15,11 +15,9 @@ public:
     virtual IConnectRouteByGameMode *connectRouteByGameMode() const = 0;
     virtual IConnectRouteByInputHint *connectRouteByInputHint() const = 0;
     virtual IConnectRouteByDisplayHint *connectRouteByDisplayHint() const = 0;
-    virtual IConnectRouteToDartsBuilder *connectDartsPointBuilder() const = 0;
-    virtual IConnectRouteToDartsBuilder *connectDartsScoreBuilder() const = 0;
+    virtual IConnectRouteToDartsBuilder *connectDCBuilder() const = 0;
     virtual IConnectDartsModelsContext *connectDartsModelsContext() const = 0;
-    virtual IConnectController *connectDartsPointController() const = 0;
-    virtual IConnectController *connectDartsScoreController() const = 0;
+    virtual IConnectController *connectDartsController() const = 0;
     virtual IConnectPlayerModelsContext *connectPlayersContext() const = 0;
 };
 

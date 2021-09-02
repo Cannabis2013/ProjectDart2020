@@ -5,7 +5,7 @@
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 #include <qjsonarray.h>
-#include "idartspointinput.h"
+#include "idartsinput.h"
 
 namespace ModelsContext {
     class DartsModelsCreateJsonFromPoints : public IDartsModelsCreateJsonFromPoints

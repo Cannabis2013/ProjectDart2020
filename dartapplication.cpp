@@ -14,20 +14,11 @@ void DartApplication::handleSendGameModesRequest() const
     emit sendGameModes(resultingList);
 }
 
-void DartApplication::setDartsPointController(AbstractDartsController *controller)
+void DartApplication::setDartsController(AbstractDartsController *controller)
 {
     delete _gameController;
     _gameController = controller;
-    connectServices()->connectDartsPointController()->connectController(controller,this,_dartsModelsContext,
-                                                                        routeServices()->routeByDisplayHint());
-    emit requestWakeUp();
-}
-
-void DartApplication::setDartsScoreController(AbstractDartsController *controller)
-{
-    delete _gameController;
-    _gameController = controller;
-    connectServices()->connectDartsScoreController()
+    connectServices()->connectDartsController()
             ->connectController(controller,this,_dartsModelsContext,routeServices()->routeByDisplayHint());
     emit requestWakeUp();
 }

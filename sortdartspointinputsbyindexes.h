@@ -1,7 +1,7 @@
 #ifndef DARTSPOINTLESSTHANPREDICATE_H
 #define DARTSPOINTLESSTHANPREDICATE_H
 
-#include "dartspointinput.h"
+#include "dartsinput.h"
 #include "ipredicate.h"
 
 namespace ModelsContext {
@@ -10,8 +10,8 @@ namespace ModelsContext {
     public:
         bool operator ()(const IModel<QUuid> *_first, const IModel<QUuid>* _second) const override
         {
-            auto firstModel = dynamic_cast<const IDartsPointInput*>(_first);
-            auto secondModel = dynamic_cast<const IDartsPointInput*>(_second);
+            auto firstModel = dynamic_cast<const IDartsInput*>(_first);
+            auto secondModel = dynamic_cast<const IDartsInput*>(_second);
             if(firstModel->roundIndex() < secondModel->roundIndex())
                 return true;
             else if(secondModel->roundIndex() >= secondModel->roundIndex())

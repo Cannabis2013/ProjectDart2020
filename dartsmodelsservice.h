@@ -23,31 +23,25 @@ namespace ModelsContext {
     public slots:
         //General tournaments methods
         void deleteTournaments(const QVector<int> &indexes) override;
-        void handleRequestGameMode(const int &index) override;
-        void handleRequestTournaments() override;
+        void getGameMode(const int &index) override;
+        void getTournaments() override;
         void resetDartsPointTournament(const QUuid &tournamentId) override;
-        void resetDartsScoreTournament(const QUuid &tournamentId) override;
         void setDartsTournamentWinner(const QByteArray &json) override;
         //Darts tournaments methods
         void addDartsTournament(const QByteArray &json, const QVector<const IModel<QUuid> *> &playerModels) override;
         void createDartsMetaData(const QUuid& tournamentId) override;
-        void createAssignedPlayerEntities(const QUuid &tournamentId) override;
-        void createDartsTournamentWinnerIdAndName(const QUuid &tournamentId) override;
+        void getPlayerDetails(const QUuid &tournamentId) override;
+        void getTournamentWinnerDetails(const QUuid &tournamentId) override;
         //Darts point methods
-        void getOrderedDartsPoints(const QUuid &tournamentId) override;
-        void addDartsPoint(const QByteArray& json) override;
-        void createAssignedPlayerPoints(const QUuid &tournamentId) override;
-        virtual void createDartsPointIndexes(const QUuid &tournamentId) override;
-        void hideDartsPoint(const QUuid& tournamentId,const QUuid& playerId,
+        void getOrderedInputs(const QUuid &tournamentId) override;
+        void addInput(const QByteArray& json) override;
+        void getPlayerInputs(const QUuid &tournamentId) override;
+        virtual void createIndexes(const QUuid &tournamentId) override;
+        void hideInput(const QUuid& tournamentId,const QUuid& playerId,
                             const int& roundIndex,const int& attemptIndex) override;
-        void revealPoint(const QUuid& tournamentId,const QUuid& playerId,
+        void revealInput(const QUuid& tournamentId,const QUuid& playerId,
                          const int& roundIndex,const int& attemptIndex) override;
         //Darts multiattempt score methods
-        void createAssignedPlayerScores(const QUuid &tournamentId) override;
-        void createDartsScoreIndexes(const QUuid &tournamentId) override;
-        void addDartsScore(const QByteArray &json) override;
-        void hideDartsScore(const QUuid &tournamentId, const QUuid &playerId, const int &roundIndex) override;
-        void revealScore(const QUuid &tournamentId, const QUuid &playerId, const int &roundIndex) override;
         // Send tournament values
         void createDartsKeyValues(const QUuid& tournament) override;
     };

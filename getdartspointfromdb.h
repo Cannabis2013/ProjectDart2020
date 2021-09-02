@@ -2,7 +2,7 @@
 #define GETDARTSPOINTFROMDB_H
 
 #include "igetdartspointfromdb.h"
-#include "idartspointinput.h"
+#include "idartsinput.h"
 class GetDartsPointFromDb : public IGetDartsPointFromDb
 {
 public:
@@ -21,7 +21,7 @@ private:
     bool match(const IModel<QUuid>* model,const QUuid &tournamentId, const QUuid &playerId,
                const int &roundIndex, const int &attemptIndex) const
     {
-        auto dartsPointModel = dynamic_cast<const ModelsContext::IDartsPointInput*>(model);
+        auto dartsPointModel = dynamic_cast<const ModelsContext::IDartsInput*>(model);
         if(dartsPointModel->tournamentId() != tournamentId)
             return false;
         else if(dartsPointModel->playerId() != playerId)

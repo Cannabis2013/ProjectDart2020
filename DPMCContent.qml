@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 
-import "dartsPointMultiColumnScripts.js" as DartsPointMultiColumnScripts
+import "dpmcscripts.js" as DartsPointMultiColumnScripts
 
 /*
   Gamemodes:
@@ -33,7 +33,7 @@ Content {
       Tournament metadata property
       */
     QtObject{
-        id: dartsSingleAttemptValues
+        id: metaValues
         property string title: ""
         property int keyPoint: 501
         property int attempts: 3

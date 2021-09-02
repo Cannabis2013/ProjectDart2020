@@ -2,7 +2,7 @@
 #define SETDARTSSCOREMODELHINT_H
 
 #include "ibinaryservice.h"
-#include "idartsscoreinput.h"
+#include "idartsinput.h"
 
 namespace ModelsContext
 {

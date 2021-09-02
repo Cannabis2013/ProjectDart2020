@@ -75,16 +75,16 @@
         <file>MultiScoreDelegate.qml</file>
         <file>dpmcboardscripts.js</file>
         <file>DPMCContent.qml</file>
-        <file>dartsPointMultiColumnScripts.js</file>
+        <file>dpmcscripts.js</file>
         <file>scoreboardscripts.js</file>
         <file>DSSCContent.qml</file>
-        <file>dartsscoresinglecolumnscripts.js</file>
-        <file>multiattemptstatescripts.js</file>
+        <file>dsscscripts.js</file>
+        <file>dsscstatescripts.js</file>
         <file>DPSCContent.qml</file>
         <file>DPSCBoard.qml</file>
         <file>dpscboardscripts.js</file>
-        <file>dartspointsinglecolumnscripts.js</file>
-        <file>pointsinglecolumnstatescripts.js</file>
+        <file>dpscscripts.js</file>
+        <file>dpscstatescripts.js</file>
         <file>turnControllerScripts.js</file>
         <file>tournamentPageScripts.js</file>
         <file>TournamentPageListView.qml</file>

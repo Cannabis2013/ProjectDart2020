@@ -3,11 +3,12 @@
 
 #include "iconnectroutebyinputhint.h"
 
+
 class ConnectRouteByInputHint : public IConnectRouteByInputHint
 {
 public:
     void connectServices(AbstractDartsModelsContext* modelsService,
-                 AbstractRouteByInputHint* routeByInputHint) override
+                         AbstractRouteByInputHint* routeByInputHint) override
     {
         QObject::connect(modelsService,&AbstractDartsModelsContext::sendDartsDetails,
                          routeByInputHint,&AbstractRouteByInputHint::processTournamentDetails);

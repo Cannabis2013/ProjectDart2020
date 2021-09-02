@@ -1,7 +1,5 @@
 #include "addtotalscoretodartspointsjson.h"
 
-using namespace DPCContext;
-
 void AddTotalScoreToDartsPointsJson::addTotalScoreToInputs(QByteArray &json, const int &initialPoint) const
 {
     auto arr = toArray(json);
@@ -19,7 +17,7 @@ QJsonArray AddTotalScoreToDartsPointsJson::toArray(const QByteArray &json) const
         return QJsonArray();
 }
 
-QVector<QUuid> DPCContext::AddTotalScoreToDartsPointsJson::createPlayerIds(const QJsonArray &arr) const
+QVector<QUuid> AddTotalScoreToDartsPointsJson::createPlayerIds(const QJsonArray &arr) const
 {
     QVector<QUuid> playerIds;
     for (const auto &jsonVal : arr) {

@@ -4,7 +4,7 @@
 
 #include <qvector.h>
 #include "idartspointindexes.h"
-#include "idartspointinput.h"
+#include "idartsinput.h"
 #include "itournament.h"
 #include "isortinputmodels.h"
 #include "icountinputmodels.h"

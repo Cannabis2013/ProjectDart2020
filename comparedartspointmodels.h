@@ -2,15 +2,15 @@
 #define COMPAREDARTSPOINTMODELS_H
 
 #include "ipredicate.h"
-#include "dartspointinput.h"
+#include "dartsinput.h"
 namespace ModelsContext {
     class CompareDartsPointModels : public IPredicateBuilder
     {
     public:
         bool operator ()(const IDartsInput *_first, const IDartsInput *_second) const override
         {
-            auto firstModel = dynamic_cast<const IDartsPointInput*>(_first);
-            auto secondModel = dynamic_cast<const IDartsPointInput*>(_second);
+            auto firstModel = dynamic_cast<const IDartsInput*>(_first);
+            auto secondModel = dynamic_cast<const IDartsInput*>(_second);
             if(firstModel->roundIndex() < secondModel->roundIndex())
                 return true;
             else if(secondModel->roundIndex() >= secondModel->roundIndex())

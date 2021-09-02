@@ -1,14 +1,13 @@
 #ifndef DCINDEXES_H
 #define DCINDEXES_H
 
-#include "idpcindexes.h"
-#include "qbytearray.h"
+#include <idcindexes.h>
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 
-namespace DPCContext
+namespace DCContext
 {
-    class DCIndexes : public IDPCIndexes
+    class DCIndexes : public DCContext::IDCIndexes
     {
     public:
         static DCIndexes* createInstance()
@@ -60,18 +59,6 @@ namespace DPCContext
             _attemptIndex = attemptIndex;
             return this;
         }
-
-        QByteArray toJson() const override
-        {
-            QJsonObject obj;
-            obj["totalTurns"] = _totalTurns;
-            obj["turnIndex"] = _turnIndex;
-            obj["roundIndex"] = _roundIndex;
-            obj["setIndex"] = setIndex();
-            obj["attempt"] = _attemptIndex;
-            auto json = QJsonDocument(obj).toJson();
-            return json;
-        }
     private:
         DCIndexes(){}
         int _totalTurns;
@@ -81,5 +68,4 @@ namespace DPCContext
         int _attemptIndex;
     };
 }
-
 #endif // DARTSSINGLEATTEMPTINDEXES_H

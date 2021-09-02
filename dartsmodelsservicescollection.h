@@ -6,7 +6,7 @@
 #include <quuid.h>
 #include "abstractdartstournament.h"
 #include "iplayermodel.h"
-#include "idartspointinput.h"
+#include "idartsinput.h"
 
 typedef IUnaryService<const QByteArray&,const IDartsInput*> AssembleDartsPointService;
 typedef IUnaryService<const QByteArray&,const IPlayerModel*> AssemblePlayerModelService;

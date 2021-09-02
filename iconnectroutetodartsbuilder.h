@@ -2,14 +2,14 @@
 #define ICONNECTROUTE_H
 
 #include "abstractroutebyinputhint.h"
-#include "abstractdartscontrollerbuilder.h"
+#include "abstractdcbuilder.h"
 #include "AbstractApplicationInterface.h"
 
 class IConnectRouteToDartsBuilder
 {
 public:
     virtual void connectServices(AbstractRouteByInputHint *routeByInputHint,
-                                 AbstractDartsControllerBuilder *builderService,
+                                 AbstractDCBuilder *builderService,
                                  AbstractApplicationInterface* applicationService) = 0;
 };
 

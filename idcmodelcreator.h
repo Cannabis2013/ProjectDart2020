@@ -1,14 +1,15 @@
 #ifndef IDCMODELCREATOR_H
 #define IDCMODELCREATOR_H
 
-#include <qvector.h>
+#include <idcmodel.h>
+#include "idcscoresservice.h"
 
-template<typename TModel, typename TJson, typename  TUuid, typename TString>
 class IDCModelCreator
 {
 public:
-    virtual TModel* createModel(const TJson& json) const = 0;
-    virtual TModel* createModel(const int& point, const int& score, const int& modKeyCode) const = 0;
-    virtual QVector<TModel*> createModels(const TJson& json) const = 0;
+    virtual DCContext::IDCModel *createModel(const QByteArray &json) const = 0;
+    virtual DCContext::IDCModel *createModel(const int &score, const int &point = 0, const int &modKeyCode = -1) const = 0;
+    virtual QVector<DCContext::IDCModel*> createModels(IDCScoresService *scoresService) const = 0;
+    virtual QVector<DCContext::IDCModel*> createModels(const QByteArray &json) const = 0;
 };
-#endif // ICONTROLLERPOINTBUILDER_H
+#endif // IDPCMODELCREATOR_H

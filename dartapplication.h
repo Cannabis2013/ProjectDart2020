@@ -20,8 +20,7 @@ public:
 public slots:
     void handleSendGameModesRequest() const override;
     //Set game controller methods
-    void setDartsPointController(AbstractDartsController *controller) override;
-    void setDartsScoreController(AbstractDartsController *controller) override;
+    void setDartsController(AbstractDartsController *controller) override;
 private:
     // Run asynchronously tasks
     using Func = std::function<void()>;

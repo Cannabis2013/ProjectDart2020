@@ -6,7 +6,7 @@
 class DCScoresService : public IDCScoresService
 {
 public:
-    virtual const DartsPlayerTuples &tuples() override
+    virtual DartsPlayerTuples &tuples() override
     {
         return _tuples;
     }

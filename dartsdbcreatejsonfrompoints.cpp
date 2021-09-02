@@ -20,7 +20,7 @@ QJsonArray DartsDbCreatejsonFromPoints::createJsonArray(const QVector<const IMod
 QJsonObject DartsDbCreatejsonFromPoints::createJsonObject(const IModel<QUuid> *model) const
 {
     using namespace ModelsContext;
-    auto dartsPointModel = dynamic_cast<const IDartsPointInput*>(model);
+    auto dartsPointModel = dynamic_cast<const IDartsInput*>(model);
     QJsonObject jsonObject;
     jsonObject["id"] = dartsPointModel->id().toString();
     jsonObject["tournament"] = dartsPointModel->tournamentId().toString();

@@ -4,7 +4,7 @@
 #include "idartscreateinput.h"
 #include <qjsondocument.h>
 #include <qjsonobject.h>
-#include "dartspointinput.h"
+#include "dartsinput.h"
 
 class DartsCreatePointModel : public IDartsCreateInput
 {
@@ -18,7 +18,7 @@ public:
     {
         auto document = QJsonDocument::fromJson(json);
         auto jsonObject = document.object();
-        auto model = ModelsContext::DartsPointInput::createInstance();
+        auto model = new ModelsContext::DartsInput;
         model->setPoint(jsonObject.value("point").toInt());
         model->setModKeyCode(jsonObject.value("modKeyCode").toInt());
         model->setScore(jsonObject.value("score").toInt());

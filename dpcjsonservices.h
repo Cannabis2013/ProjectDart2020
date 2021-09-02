@@ -1,11 +1,11 @@
 #ifndef DPCJSONSERVICES_H
 #define DPCJSONSERVICES_H
 
-#include <iaddplayernamestojsonentity.h>
+#include <iaddplayernamestojson.h>
 #include <iaddtotalscoretodartsinputsjson.h>
-#include <ibytearrayjsonmerger.h>
+#include <idccreatejsonresponse.h>
 #include <icreatejsonfromdcplayer.h>
-#include <icreatejsonfromdpcpoint.h>
+#include <icreatejsonfromdcpoint.h>
 #include <idartsinputstojson.h>
 #include <igenericjsonbuilder.h>
 #include <imhjsonextractor.h>
@@ -13,7 +13,7 @@
 class DPCJsonServices
 {
 public:
-    typedef IDartsInputsToJson<DPCContext::IDPCModel,QByteArray> DartsInputsToJsonService;
+    typedef IDartsInputsToJson<DCContext::IDCModel,QByteArray> DartsInputsToJsonService;
     IGenericJsonBuilder *jsonBuilder() const
     {
         return _jsonBuilder;
@@ -46,19 +46,19 @@ public:
     {
         _dartsPointsToJson = newDartsPointsToJson;
     }
-    IByteArrayJsonMerger *jsonMerger() const
+    IDCCreateJsonResponse *jsonMerger() const
     {
         return _jsonMerger;
     }
-    void setJsonMerger(IByteArrayJsonMerger *newJsonMerger)
+    void setJsonMerger(IDCCreateJsonResponse *newJsonMerger)
     {
         _jsonMerger = newJsonMerger;
     }
-    IAddPlayerNamesToJsonEntity *addPlayerNamesToDartsModelsJson() const
+    IAddPlayerNamesToJson *addPlayerNamesToDartsModelsJson() const
     {
         return _addPlayerNamesToDartsModelsJson;
     }
-    void setAddPlayerNamesToDartsModelsJson(IAddPlayerNamesToJsonEntity *newAddPlayerNamesToDartsModelsJson)
+    void setAddPlayerNamesToDartsModelsJson(IAddPlayerNamesToJson *newAddPlayerNamesToDartsModelsJson)
     {
         _addPlayerNamesToDartsModelsJson = newAddPlayerNamesToDartsModelsJson;
     }
@@ -70,11 +70,11 @@ public:
     {
         _createJsonFromPlayer = newCreateJsonFromPlayer;
     }
-    ICreateJsonFromDPCPoint *createJsonFromPoint() const
+    ICreateJsonFromDCPoint *createJsonFromPoint() const
     {
         return _createJsonFromPoint;
     }
-    void setCreateJsonFromPoint(ICreateJsonFromDPCPoint *newCreateJsonFromPoint)
+    void setCreateJsonFromPoint(ICreateJsonFromDCPoint *newCreateJsonFromPoint)
     {
         _createJsonFromPoint = newCreateJsonFromPoint;
     }
@@ -83,9 +83,9 @@ private:
     IMHJsonExtractor *_jsonExtractor;
     DPCContext::IAddTotalScoreToDartsInputsJson *_addTotalScoresToDartsModelsJson;
     DartsInputsToJsonService * _dartsPointsToJson;
-    IByteArrayJsonMerger *_jsonMerger;
-    IAddPlayerNamesToJsonEntity *_addPlayerNamesToDartsModelsJson;
+    IDCCreateJsonResponse *_jsonMerger;
+    IAddPlayerNamesToJson *_addPlayerNamesToDartsModelsJson;
     ICreateJsonFromDCPlayer *_createJsonFromPlayer;
-    ICreateJsonFromDPCPoint *_createJsonFromPoint;
+    ICreateJsonFromDCPoint *_createJsonFromPoint;
 };
 #endif // DPCJSONSERVICES_H

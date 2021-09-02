@@ -1,16 +1,16 @@
 #ifndef DSCVALUESBUILDER_H
 #define DSCVALUESBUILDER_H
 
-#include "icreatedscturnvalues.h"
+#include <icreatedcturnvalues.h>
+#include "dcturnvalues.h"
 
 namespace DSCContext{
-    class DSCValuesBuilder : public ICreateDSCTurnValues
+    class DSCValuesBuilder : public ICreateDCTurnValues
     {
     public:
-        typedef IDSCModel ControllerScore;
-        const DartsScoreTurnValues* createTurnValues(const IDSIndexService* indexService,
-                                                     IDCScoresService* scoresService,
-                                                     const IDartsInputSuggestion* logisticService) const override
+        const DCContext::DCTurnValues* createTurnValues(const IDCIndexService* indexService,
+                                                        IDCScoresService* scoresService,
+                                                        const IDartsInputSuggestion* logisticService) const override
         {
             auto canUndo = indexService->canUndo();
             auto canRedo = indexService->canRedo();
@@ -20,13 +20,12 @@ namespace DSCContext{
             auto playerName = tuples.at(setIndex).name;
             auto score = tuples.at(setIndex).totalScore;
             auto targetRow = createRowSuggestionByScore(logisticService,score);
-            auto model = new DartsScoreTurnValues();
+            auto model = new DCContext::DCTurnValues;
             model->setCanUndo(canUndo);
             model->setCanRedo(canRedo);
             model->setTargetRow(targetRow);
             model->setRoundIndex(roundIndex);
             model->setSetIndex(setIndex);
-            model->setScore(score);
             model->setPlayerName(playerName);
             return model;
         }

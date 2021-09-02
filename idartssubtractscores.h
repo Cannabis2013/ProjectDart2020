@@ -1,14 +1,15 @@
-#ifndef IDARTSSUBTRACTSCORES_H
-#define IDARTSSUBTRACTSCORES_H
+#ifndef IDCCALCSCORE_H
+#define IDCCALCSCORE_H
 
 #include <idcscoresservice.h>
-#include <idscmodel.h>
+#include "idcmodel.h"
+#include "dctuple.h"
 
-class IDartsSubtractScore
+class IDCCreateCandidateTuples
 {
 public:
-    virtual int subtractPlayerScore(const DSCContext::IDSCModel *model, IDCScoresService *scoresService) = 0;
-    virtual void subtractPlayerScore(const QVector<DSCContext::IDSCModel*> &models, IDCScoresService *scoresService) = 0;
+    virtual DCContext::DCPTuple getCandidate(const DCContext::IDCModel *model, IDCScoresService *scoresService) = 0;
+    virtual QVector<DCContext::DCPTuple> getTupleCandidates(const QVector<DCContext::IDCModel*> &models, IDCScoresService *scoresService) = 0;
 };
 
 #endif // IDARTSSUBTRACTSCORES_H

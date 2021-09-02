@@ -1,8 +1,8 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 
-import "dartsscoresinglecolumnscripts.js" as DartsScoresScripts
-import "multiattemptstatescripts.js" as StateScripts
+import "dsscscripts.js" as DartsScoresScripts
+import "dsscstatescripts.js" as StateScripts
 
 Content {
     id: dartsScoreSingleColumnBody

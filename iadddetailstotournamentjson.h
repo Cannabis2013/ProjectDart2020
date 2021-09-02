@@ -7,9 +7,9 @@
 #include "idartspointindexes.h"
 #include <quuid.h>
 #include "idartspointsethint.h"
-#include "idartsscoresethint.h"
+#include "isetmodelhint.h"
 #include <qjsonarray.h>
-#include "idartspointinput.h"
+#include "idartsinput.h"
 #include "imodelsdbcontext.h"
 #include "idartstournamentsdb.h"
 

@@ -24,6 +24,9 @@ public slots:
     virtual void handleResetTournament() = 0;
     // Set initial state
     virtual void beginInitialize() = 0;
+    // Player details
+    virtual void initializePlayerDetails(const QByteArray&) = 0;
+    virtual void initializeWinnerDetails(const QByteArray&) = 0;
 signals:
     void sendCurrentTournamentId(const QUuid &tournament);
     void winnerDetermined(const QByteArray& json);

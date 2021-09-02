@@ -2,7 +2,7 @@
 #define DARTSCREATEJSONFROMDARTSPOINT_H
 
 #include "idartscreatejsonfrommodel.h"
-#include "idartspointinput.h"
+#include "idartsinput.h"
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 
@@ -11,7 +11,7 @@ class DartsCreateJsonFromPointModel : public IDartsCreateJsonFromModel<IModel<QU
 public:
     virtual QByteArray createJson(const IModel<QUuid> *inputModel) const override
     {
-        auto model = dynamic_cast<const ModelsContext::IDartsPointInput*>(inputModel);
+        auto model = dynamic_cast<const ModelsContext::IDartsInput*>(inputModel);
         QJsonObject jsonObject;
         jsonObject["point"] = model->point();
         jsonObject["score"] = model->score();

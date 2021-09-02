@@ -1,9 +1,9 @@
 #ifndef SCOREVALIDATOR_H
 #define SCOREVALIDATOR_H
 
-#include "iscorevalidator.h"
+#include "pointvalidator.h"
 
-class ScoreValidator : public IScoreValidator
+class ScoreValidator : public IPointValidator
 {
 public:
     enum InputDomains {
@@ -26,7 +26,7 @@ public:
         return new ScoreValidator(terminalKeyCode);
     }
     // InputValidatorInterface interface
-    virtual int validateInput(const int &currentScore) const override
+    virtual int validateInput(const int &currentScore, const int &, const int &) const override
     {
         int minimumAllowedScore = 2;
         if(terminalKeyCode() == KeyMappings::SingleModifer)

@@ -22,7 +22,7 @@ const IDartsPointIndexes *DartsCreatePointIndexes::createDartsIndexesByModels(co
     auto dartsTournament = dynamic_cast<const AbstractDartsTournament*>(tournament);
     auto playersCount = dartsTournament->assignedPlayerIds().count();
     auto indexes = DartsPointIndexes::createInstance();
-    auto lastModel = dynamic_cast<const IDartsPointInput*>(orderedModels.last());
+    auto lastModel = dynamic_cast<const IDartsInput*>(orderedModels.last());
     auto totalTurns = totalInputModelsCount;
     auto turnIndex = orderedModels.count();
     auto roundIndex = lastModel->roundIndex();

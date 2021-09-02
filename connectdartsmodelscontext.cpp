@@ -7,12 +7,12 @@ void ConnectDartsModelsContext::connect(AbstractApplicationInterface *applicatio
      * Request tournament gamemode
      */
     QObject::connect(application,&AbstractApplicationInterface::setCurrentActiveTournament,
-            modelsService,&AbstractDartsModelsContext::handleRequestGameMode);
+            modelsService,&AbstractDartsModelsContext::getGameMode);
     /*
      * Get all tournaments
      */
     QObject::connect(application,&AbstractApplicationInterface::requestTournaments,
-            modelsService,&AbstractDartsModelsContext::handleRequestTournaments);
+            modelsService,&AbstractDartsModelsContext::getTournaments);
     QObject::connect(modelsService,&AbstractDartsModelsContext::sendTournament,
             application,&AbstractApplicationInterface::sendRequestedTournament);
     QObject::connect(modelsService,&AbstractDartsModelsContext::sendTournaments,

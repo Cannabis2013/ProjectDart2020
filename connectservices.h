@@ -27,10 +27,8 @@ public:
                                                                     routeProvider->routeByInputHint());
         // Connect darts builder services
 
-        connectProvider->connectDartsPointBuilder()->connectServices(routeProvider->routeByInputHint(),
-                                                                     application->createDartsPointController(),application);
-        connectProvider->connectDartsScoreBuilder()->connectServices(routeProvider->routeByInputHint(),
-                                                                     application->createDartsScoreController(),application);
+        connectProvider->connectDCBuilder()->connectServices(routeProvider->routeByInputHint(),
+                                                             application->createDartsScoreController(),application);
         // Connect route from the point where controllers are initialized to the route interface
         connectProvider->connectRouteByDisplayHint()->connectServices(routeProvider->routeByDisplayHint(),
                                                                       application);

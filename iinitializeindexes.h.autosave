@@ -1,0 +1,10 @@
+#ifndef IINITIALIZEINDEXES_H
+#define IINITIALIZEINDEXES_H
+
+class IInitializeIndexes
+{
+public:
+    virtual void initialize(DSCContext::IDSCIndexes)
+};
+
+#endif // IINITIALIZEINDEXES_H

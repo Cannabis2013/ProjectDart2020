@@ -5,26 +5,19 @@
 #include "removeinputsfromdb.h"
 #include "removemodelsfromdb.h"
 // Input models includes
-#include "dartspointjsondb.h"
+#include "dartsinputsjsondb.h"
 #include "dartsinputjsondb.h"
-#include "dartsscoresethint.h"
 #include "dartspointsethint.h"
 #include "getinputmodelsservice.h"
 #include "inputmodelssortservice.h"
 #include "sortdartspointinputsbyindexes.h"
 #include "inputmodelscountservice.h"
 #include "dartspointsjsonservice.h"
-#include "dartscreatejsonfromscores.h"
-#include "dartspointjsondb.h"
-#include "dartsscorejsondb.h"
-#include "createdartsscoreindexes.h"
-#include "getdartsscorefromdb.h"
+#include "dartsinputsjsondb.h"
 #include "getdartspointfromdb.h"
 #include "dartscreatepointindexes.h"
 #include "createjsonfromdartspointindexes.h"
-#include "dartsscoresethint.h"
 #include "dartscreatejsonfromdartspoint.h"
-#include "dartscreatejsonfromdartsscore.h"
 #include "createplayermodels.h"
 // Player models includes
 #include "getplayersfromdb.h"
@@ -43,10 +36,8 @@
 #include "extractwinnerinfofromjson.h"
 #include "addplayerdetailstotournament.h"
 #include "getdatafromdartstournament.h"
-#include "dartscreatejsonfromscoreindexes.h"
 #include "dartscreatejsonmetadata.h"
 #include "dartscreatepointmodel.h"
-#include "dartscreatescoremodel.h"
 #include "gettournamentwinner.h"
 #include "createjsonfromtournamentdetails.h"
 
@@ -57,7 +48,6 @@ public:
 private:
     void setModelUtilityServices();
     void setTournamentServices();
-    void setScoreInputServices();
     void setPointInputServices();
     void setInputDbUtilityServices();
     void setModelsServices();
