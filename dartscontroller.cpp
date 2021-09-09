@@ -195,7 +195,7 @@ void DartsController::createAndSendWinnerValues()
 
 void DartsController::initializePlayerDetails(const QByteArray &json)
 {
-    auto dartsPlayerModels = playerBuilder()->createModels(json);
+    auto dartsPlayerModels = createPlayersFromJson()->createModels(json,playerKeys(),playerBuilder());
     auto tuples = createScoreTuples()->createTuples(dartsPlayerModels,metaData());
     scoresService()->scoreModels().append(tuples);
     emit requestScores(metaData()->tournamentId());
@@ -211,9 +211,9 @@ void DartsController::initializeScores(const QByteArray &json)
 
 void DartsController::initializeWinnerDetails(const QByteArray &json)
 {
-    auto dartsPlayer = playerBuilder()->createModel(json);
-    winnerService()->setWinner(dartsPlayer->playerId(),dartsPlayer->playerName());
-    auto status = determineControllerStateByWinnerId()->service(dartsPlayer->playerId());
+    auto winnerModel = winnerModelFromJson()->toWinnerModel(json,winnerKeys(),playerBuilder());
+    winnerService()->setWinner(winnerModel->playerId(),winnerModel->playerName());
+    auto status = determineControllerStateByWinnerId()->service(winnerModel->playerId());
     metaData()->setStatus(status);
     emit initialized(metaData()->inputHint(),metaData()->displayHint());
 }

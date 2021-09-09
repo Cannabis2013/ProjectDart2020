@@ -11,7 +11,7 @@ struct ScoreModel
     QVector<int> pointValue;
 };
 
-class DartsSingleAttemptInputRowSuggestion : public IDartsInputSuggestion
+class DSCInputSuggestion : public IDartsInputSuggestion
 {
 public:
     /*
@@ -23,13 +23,10 @@ public:
         TrippleModifier = 0x2C
     };
     // Create instance
-    static DartsSingleAttemptInputRowSuggestion* createInstance();
     // FTPLogisticControllerInterface interface
     virtual QString suggestTargetRow(const int &remainingScore, const int &turnIndex) const override;
 
 private:
-    // Private constructor
-    DartsSingleAttemptInputRowSuggestion();
     // Const methods
     int trippleMaxValue() const;
     int doubleMaxValue() const;

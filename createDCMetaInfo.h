@@ -9,7 +9,7 @@
 class createDCMetaInfo : public ICreateDCMetaInfo
 {
 public:
-    virtual const DartsBuilderContext::IDCMetaInfo* service(const QByteArray &input) const override
+    virtual const DCBuilding::IDCMetaInfo* service(const QByteArray &input) const override
     {
         auto jsonObject = createJsonObject(input);
         return createMetaInfo(jsonObject);
@@ -20,13 +20,13 @@ private:
         auto document = QJsonDocument::fromJson(byteArray);
         return document.object();
     }
-    const DartsBuilderContext::DCMeta *createMetaInfo(const QJsonObject &jsonObject) const
+    const DCBuilding::DCMeta *createMetaInfo(const QJsonObject &jsonObject) const
     {
-        auto metaInfo = new DartsBuilderContext::DCMeta;
+        auto metaInfo = new DCBuilding::DCMeta;
         initializeMetaInfo(metaInfo,jsonObject);
         return metaInfo;
     }
-    void initializeMetaInfo(DartsBuilderContext::DCMeta *metaInfo, const QJsonObject &jsonObject) const
+    void initializeMetaInfo(DCBuilding::DCMeta *metaInfo, const QJsonObject &jsonObject) const
     {
         metaInfo->setTournamentId(QUuid(jsonObject.value("tournamentId").toString()));
         metaInfo->setAttempt(jsonObject.value("attempts").toInt());

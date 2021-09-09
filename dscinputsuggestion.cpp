@@ -1,11 +1,6 @@
-#include "dartssingleattemptinputrowsuggestion.h"
+#include "dscinputsuggestion.h"
 
-DartsSingleAttemptInputRowSuggestion::DartsSingleAttemptInputRowSuggestion()
-{
-    constructAndAddSuggestions();
-}
-
-void DartsSingleAttemptInputRowSuggestion::constructAndAddSuggestions()
+void DSCInputSuggestion::constructAndAddSuggestions()
 {
     for (int turnIndex = 1; turnIndex <= attempts(); ++turnIndex) {
         auto remainingTurns = attempts() - turnIndex;
@@ -22,7 +17,7 @@ void DartsSingleAttemptInputRowSuggestion::constructAndAddSuggestions()
     }
 }
 
-QString DartsSingleAttemptInputRowSuggestion::constructThrowSuggestion(const int &remainingScore,
+QString DSCInputSuggestion::constructThrowSuggestion(const int &remainingScore,
                                                           const int &turnIndex)
 {
     auto score = new ScoreModel();
@@ -46,7 +41,7 @@ QString DartsSingleAttemptInputRowSuggestion::constructThrowSuggestion(const int
     return QString();
 }
 
-bool DartsSingleAttemptInputRowSuggestion::pointSuggestion(const int &remainingScore,
+bool DSCInputSuggestion::pointSuggestion(const int &remainingScore,
                                               const int &turnIndex,
                                               ScoreModel *scoreObject)
 {
@@ -80,7 +75,7 @@ bool DartsSingleAttemptInputRowSuggestion::pointSuggestion(const int &remainingS
 
 }
 
-bool DartsSingleAttemptInputRowSuggestion::evaluateConstraints(const int &remainingScore,
+bool DSCInputSuggestion::evaluateConstraints(const int &remainingScore,
                                                   const int &turnIndex,
                                                   const int &totalTurns)
 {
@@ -105,7 +100,7 @@ bool DartsSingleAttemptInputRowSuggestion::evaluateConstraints(const int &remain
         return true;
 }
 
-bool DartsSingleAttemptInputRowSuggestion::isWithinTerminalThreshold(const int &remainingScore,
+bool DSCInputSuggestion::isWithinTerminalThreshold(const int &remainingScore,
                                                         const int &turnIndex,
                                                         ScoreModel *scoreObject)
 {
@@ -140,7 +135,7 @@ bool DartsSingleAttemptInputRowSuggestion::isWithinTerminalThreshold(const int &
     return false;
 }
 
-bool DartsSingleAttemptInputRowSuggestion::isDivisor(int base, int div)
+bool DSCInputSuggestion::isDivisor(int base, int div)
 {
     if(base == 0 || div == 0)
         throw new std::domain_error("One of operands zero");
@@ -148,7 +143,7 @@ bool DartsSingleAttemptInputRowSuggestion::isDivisor(int base, int div)
     return base % div == 0;
 }
 
-bool DartsSingleAttemptInputRowSuggestion::determineRouteByThresholdDiff(const int &remainingScore,
+bool DSCInputSuggestion::determineRouteByThresholdDiff(const int &remainingScore,
                                                             const int &turnIndex,
                                                             ScoreModel *s)
 {
@@ -180,7 +175,7 @@ bool DartsSingleAttemptInputRowSuggestion::determineRouteByThresholdDiff(const i
     return false;
 }
 
-bool DartsSingleAttemptInputRowSuggestion::determineRouteByDiff(const int &remainingScore,
+bool DSCInputSuggestion::determineRouteByDiff(const int &remainingScore,
                                                    const int &turnIndex,
                                                    ScoreModel *scoreObject)
 {
@@ -195,7 +190,7 @@ bool DartsSingleAttemptInputRowSuggestion::determineRouteByDiff(const int &remai
     return false;
 }
 
-bool DartsSingleAttemptInputRowSuggestion::findGreatestPointsWithinThreshold(const int &remainingScore,
+bool DSCInputSuggestion::findGreatestPointsWithinThreshold(const int &remainingScore,
                                                                            const int &turnIndex,
                                                                            const int &threshold,
                                                                            const int &divisor,
@@ -211,7 +206,7 @@ bool DartsSingleAttemptInputRowSuggestion::findGreatestPointsWithinThreshold(con
     return false;
 }
 
-bool DartsSingleAttemptInputRowSuggestion::findGreatestPointsWithinTerminalThreshold(const int &remainingScore,
+bool DSCInputSuggestion::findGreatestPointsWithinTerminalThreshold(const int &remainingScore,
                                                               const int &turnIndex,
                                                               const int &threshold,
                                                               ScoreModel *s)
@@ -229,7 +224,7 @@ bool DartsSingleAttemptInputRowSuggestion::findGreatestPointsWithinTerminalThres
     return false;
 }
 
-bool DartsSingleAttemptInputRowSuggestion::findGreatestOddDivisibleByThree(const int &remainingScore, const int &turnIndex, ScoreModel *s)
+bool DSCInputSuggestion::findGreatestOddDivisibleByThree(const int &remainingScore, const int &turnIndex, ScoreModel *s)
 {
     for (int points = trippleMaxValue(); points > 0; points -= trippleDivisor()) {
         auto endScore = remainingScore - points;
@@ -239,7 +234,7 @@ bool DartsSingleAttemptInputRowSuggestion::findGreatestOddDivisibleByThree(const
     return false;
 }
 
-void DartsSingleAttemptInputRowSuggestion::updateScoreObject(char stringIdentifier, int value, int index, ScoreModel *s)
+void DSCInputSuggestion::updateScoreObject(char stringIdentifier, int value, int index, ScoreModel *s)
 {
     if(value < 0)
         throw new std::out_of_range("Value out of bounds");
@@ -248,7 +243,7 @@ void DartsSingleAttemptInputRowSuggestion::updateScoreObject(char stringIdentifi
     s->pointValue[index - 1] = value;
 }
 
-bool DartsSingleAttemptInputRowSuggestion::writeToScoreObject(const int &remainingScore,
+bool DSCInputSuggestion::writeToScoreObject(const int &remainingScore,
                                                  const int &points,
                                                  const int &divisor,
                                                  const int &turnIndex, ScoreModel *s)
@@ -267,7 +262,7 @@ bool DartsSingleAttemptInputRowSuggestion::writeToScoreObject(const int &remaini
     }
 }
 
-QString DartsSingleAttemptInputRowSuggestion::toString(ScoreModel *s)
+QString DSCInputSuggestion::toString(ScoreModel *s)
 {
     QString result;
     for (int i = 0; i < attempts(); ++i) {
@@ -279,72 +274,67 @@ QString DartsSingleAttemptInputRowSuggestion::toString(ScoreModel *s)
     return result;
 }
 
-int DartsSingleAttemptInputRowSuggestion::terminalThreshold() const
+int DSCInputSuggestion::terminalThreshold() const
 {
     return _terminalThreshold;
 }
 
-int DartsSingleAttemptInputRowSuggestion::terminalDivisor() const
+int DSCInputSuggestion::terminalDivisor() const
 {
     return _terminalDivisor;
 }
 
-int DartsSingleAttemptInputRowSuggestion::singleDivisor() const
+int DSCInputSuggestion::singleDivisor() const
 {
     return _singleDivisor;
 }
 
-int DartsSingleAttemptInputRowSuggestion::doubleDivisor() const
+int DSCInputSuggestion::doubleDivisor() const
 {
     return _doubleDivisor;
 }
 
-int DartsSingleAttemptInputRowSuggestion::trippleDivisor() const
+int DSCInputSuggestion::trippleDivisor() const
 {
     return _trippleDivisor;
 }
 
-int DartsSingleAttemptInputRowSuggestion::upperThresholdValue() const
+int DSCInputSuggestion::upperThresholdValue() const
 {
     return _upperThresholdValue;
 }
 
-int DartsSingleAttemptInputRowSuggestion::bull() const
+int DSCInputSuggestion::bull() const
 {
     return _bull;
 }
 
-int DartsSingleAttemptInputRowSuggestion::bullsEye() const
+int DSCInputSuggestion::bullsEye() const
 {
     return _bullsEye;
 }
 
-int DartsSingleAttemptInputRowSuggestion::singleMaxValue() const
+int DSCInputSuggestion::singleMaxValue() const
 {
     return _singleMaxValue;
 }
 
-int DartsSingleAttemptInputRowSuggestion::doubleMaxValue() const
+int DSCInputSuggestion::doubleMaxValue() const
 {
     return _doubleMaxValue;
 }
 
-int DartsSingleAttemptInputRowSuggestion::trippleMaxValue() const
+int DSCInputSuggestion::trippleMaxValue() const
 {
     return _trippleMaxValue;
 }
 
-int DartsSingleAttemptInputRowSuggestion::attempts() const
+int DSCInputSuggestion::attempts() const
 {
     return _attempts;
 }
 
-DartsSingleAttemptInputRowSuggestion *DartsSingleAttemptInputRowSuggestion::createInstance()
-{
-    return new DartsSingleAttemptInputRowSuggestion();
-}
-
-QString DartsSingleAttemptInputRowSuggestion::suggestTargetRow(const int &remainingScore, const int &turnIndex) const
+QString DSCInputSuggestion::suggestTargetRow(const int &remainingScore, const int &turnIndex) const
 {
     Q_UNUSED(turnIndex);
     if(remainingScore > 180 || remainingScore < terminalDivisor())
@@ -358,13 +348,13 @@ QString DartsSingleAttemptInputRowSuggestion::suggestTargetRow(const int &remain
     return suggestion;
 }
 
-bool DartsSingleAttemptInputRowSuggestion::isEven(const int &integer)
+bool DSCInputSuggestion::isEven(const int &integer)
 {
     auto result = integer % 2 == 0;
     return result;
 }
 
-int DartsSingleAttemptInputRowSuggestion::lastAttemptKeyCode()
+int DSCInputSuggestion::lastAttemptKeyCode()
 {
     return _lastAttemptKeyCode;
 }

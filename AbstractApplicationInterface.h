@@ -15,7 +15,7 @@ public:
     Q_INVOKABLE virtual void addDartsTournaments(const QByteArray &json) = 0;
 public slots:
     // Pure virtual slots
-    virtual void handleSendGameModesRequest() const = 0;
+    virtual void handleSendGameModesRequest() = 0;
     virtual void setDartsController(AbstractDartsController* controller) = 0;
 signals:
     /*
@@ -32,7 +32,7 @@ signals:
                                  const int &gameMode,
                                  const int &playersCount);
     void sendDartsDetails(const QByteArray& json);
-    void sendGameModes(const QStringList &modes) const;
+    void sendGameModes(const QStringList &modes);
     void sendInitialControllerValues(const QUuid &tournament, const int &keyPoint,
                                      const int &numberOfThrows, QList<QUuid> assignedPlayers);
     void requestOrderedDartsInputs();

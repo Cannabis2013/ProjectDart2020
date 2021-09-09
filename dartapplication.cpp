@@ -8,7 +8,7 @@ void DartApplication::addDartsTournaments(const QByteArray &json)
     },future);
 }
 
-void DartApplication::handleSendGameModesRequest() const
+void DartApplication::handleSendGameModesRequest()
 {
     QStringList resultingList = {"FirstToPost","RoundLimit","Circular"};
     emit sendGameModes(resultingList);

@@ -14,7 +14,10 @@
 #include <jsonvaluesextractor.h>
 #include <quuid.h>
 #include <dcgetplayername.h>
-#include "dartssingleattemptinputrowsuggestion.h"
+#include <dcwinnerkeys.h>
+#include <dccreateplayersfromjson.h>
+#include <dcplayerkeys.h>
+#include "dscinputsuggestion.h"
 #include "ScoreValidator.h"
 #include "dcwinnerservice.h"
 #include "dscinputtojson.h"
@@ -25,7 +28,7 @@
 #include "genericjsonbuilder.h"
 #include "dcplayerbuilder.h"
 #include "jsonmerger.h"
-#include "dartssingleattemptinputrowsuggestion.h"
+#include "dscinputsuggestion.h"
 #include "dartsmetadataservice.h"
 #include "dcscoresservice.h"
 #include "dcupdatetuples.h"
@@ -37,14 +40,15 @@
 #include "dscindexestojson.h"
 #include "dcjsonresponsebuilder.h"
 #include "dcindexiterator.h"
+#include "dcgetwinnermodelfromjson.h"
 class DSController : public DartsController
 {
 public:
-    DSController(const DartsBuilderContext::IDCMetaInfo *meta)
+    DSController(const DCBuilding::IDCMetaInfo *meta)
     {
-        setScoreLogisticInterface(DartsSingleAttemptInputRowSuggestion::createInstance());
-        setInputEvaluator(ScoreValidator::createInstance(meta->terminalKeyCode()));
-        setIndexService(new DCIndexController(meta->attempts()));
+        setScoreLogisticInterface(new DSCInputSuggestion);
+        setInputEvaluator(new ScoreValidator(meta));
+        setIndexService(new DCIndexController(meta));
         setWinnerService(new DCWinnerService());
         setTurnValuesBuilder(new DSCContext::DSCValuesBuilder);
         setInputModelBuilder(new DSCCreateInputModels);
@@ -57,25 +61,31 @@ public:
         setScoresService(new DCScoresService);
         setAddScoreService(new DCAddScore);
         setGetTotalScoreService(new DCGetScoreCand);
-        setReplaceTuples(new DCUpdateTuples);
-        setInitializeIndexes(new DCInitializeIndexes);
         setCreateScoreTuples(new DCCreateScoreTuples);
         setTurnValuesToJsonService(new DCTurnValuesToJson);
-        setGetScoreFromInput(new GetScoreFromDSCInput);
-        setIndexesToJsonService(new DSCIndexesToJson);
-        setCreateJsonFromPlayer(new CreateJsonFromDCPlayer);
         setResponseBuilderService(new DCJsonResponseBuilder);
+        // Json services
         setJsonExtractor(new JsonValuesExtractor);
+        // Input services
+        setGetScoreFromInput(new GetScoreFromDSCInput);
         // Player score services
         setSubtractScore(new DCSubtractScore);
+        setReplaceTuples(new DCUpdateTuples);
         // Player services
         setPlayerService(new DCPlayerService(indexService(),scoresService()));
         setGetPlayerName(new DCGetPlayerName);
+        setWinnerModelFromJson(new DCGetWInnerModelsFromJson);
+        setCreateJsonFromPlayer(new CreateJsonFromDCPlayer);
+        setCreatePlayersFromJson(new DCCreatePlayersFromJson);
+        setWinnerKeys(new DCWinnerKeys);
+        setPlayerKeys(new DCPlayerKeys);
         // Index services
+        setInitializeIndexes(new DCInitializeIndexes);
         setIndexIterator(new DCIndexIterator);
         setResetIndexes(new DCResetIndexes);
         setUndoIndex(new DCIndexUndo);
         setRedoIndex(new DCIndexRedo);
+        setIndexesToJsonService(new DSCIndexesToJson);
     }
 };
 #endif // DEFAULTDARTSSCORECONTROLLER_H

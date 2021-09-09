@@ -2,6 +2,7 @@
 #define SCOREVALIDATOR_H
 
 #include "pointvalidator.h"
+#include "idcmetainfo.h"
 
 class ScoreValidator : public IDartsInputValidator
 {
@@ -20,11 +21,8 @@ public:
         BullModifier,
         BullsEyeModifier
     };
-    // Create instance
-    static ScoreValidator* createInstance(const int &terminalKeyCode)
-    {
-        return new ScoreValidator(terminalKeyCode);
-    }
+    ScoreValidator(const DCBuilding::IDCMetaInfo *meta):
+        _terminalKeyCode(meta->terminalKeyCode()){}
     // InputValidatorInterface interface
     virtual int validateInput(const int &currentScore, const int &, const int &) const override
     {
@@ -57,8 +55,6 @@ public:
         return _maxAllowedInput;
     }
 private:
-    ScoreValidator(const int &terminalKeyCode):
-        _terminalKeyCode(terminalKeyCode){}
     const int _terminalKeyCode;
     const int _maxAllowedInput = 180;
 };

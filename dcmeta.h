@@ -4,7 +4,7 @@
 #include "idcmetainfo.h"
 #include <quuid.h>
 
-namespace DartsBuilderContext {
+namespace DCBuilding {
     class DCMeta : public IDCMetaInfo
     {
     public:

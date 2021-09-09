@@ -6,7 +6,7 @@
 class ICreateDCMetaInfo
 {
 public:
-    virtual const DartsBuilderContext::IDCMetaInfo* service(const QByteArray &json) const = 0;
+    virtual const DCBuilding::IDCMetaInfo* service(const QByteArray &json) const = 0;
 };
 
 

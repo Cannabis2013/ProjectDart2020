@@ -5,9 +5,9 @@ void DCIndexController::syncIndex()
     _totalIndex = _turnIndex;
 }
 
-DCIndexController::DCIndexController(const int &numberOfAttempts)
+DCIndexController::DCIndexController(const DCBuilding::IDCMetaInfo *meta)
 {
-    _numberOfAttempts = numberOfAttempts;
+    _numberOfAttempts = meta->attempts();
 }
 
 int DCIndexController::turnIndex() const

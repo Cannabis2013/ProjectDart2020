@@ -1,5 +1,5 @@
-#ifndef DARTSPOINTSTRINGSUGGESTION_H
-#define DARTSPOINTSTRINGSUGGESTION_H
+#ifndef DPCINPUTSUGGESTION_H
+#define DPCINPUTSUGGESTION_H
 
 #include "idartsinputsuggestion.h"
 #include <qstring.h>
@@ -15,7 +15,7 @@ namespace PointLogisticContext
     };
 }
 
-class DartsPointStringSuggestion : public IDartsInputSuggestion
+class DPCInputSuggestion : public IDartsInputSuggestion
 {
 
 public:
@@ -28,7 +28,7 @@ public:
         TrippleModifier = 0x2C
     };
     // Create instance
-    static DartsPointStringSuggestion* createInstance(const int& attemps,
+    static DPCInputSuggestion* createInstance(const int& attemps,
                                                       const int& lastAttemptKeyCode = DoubleModifier);
     // FTPLogisticControllerInterface interface
     virtual QString suggestTargetRow(const int &remainingScore, const int &turnIndex) const override;
@@ -49,7 +49,7 @@ private:
     virtual int lastAttemptKeyCode();
     int attempts() const;
     // Private constructor
-    DartsPointStringSuggestion(const int& attempts, const int& lastAttemptKeyCode);
+    DPCInputSuggestion(const int& attempts, const int& lastAttemptKeyCode);
 
     void constructAndAddSuggestions();
     QString constructThrowSuggestion(const int &remainingScore,

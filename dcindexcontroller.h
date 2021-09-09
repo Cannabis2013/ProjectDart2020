@@ -2,11 +2,12 @@
 #define DCINDEXCONTROLLER_H
 
 #include <idcindexservice.h>
+#include "idcmetainfo.h"
 
 class DCIndexController : public IDCIndexService
 {
 public:
-    DCIndexController(const int &numberOfAttempts);
+    DCIndexController(const DCBuilding::IDCMetaInfo *meta);
     virtual int turnIndex() const override;
     virtual void setTurnIndex(const int &index) override;
     virtual int totalIndex() const override;

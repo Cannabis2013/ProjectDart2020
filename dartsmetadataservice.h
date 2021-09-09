@@ -6,7 +6,7 @@
 class DCMetaInfo : public IDartsMetaData
 {
 public:
-    DCMetaInfo(const DartsBuilderContext::IDCMetaInfo *details)
+    DCMetaInfo(const DCBuilding::IDCMetaInfo *details)
     {
         _inputHint = details->inputHint();
         _tournamentId = details->tournamentId();

@@ -18,7 +18,7 @@ public:
     // Public interface
     void addDartsTournaments(const QByteArray &json) override;
 public slots:
-    void handleSendGameModesRequest() const override;
+    void handleSendGameModesRequest() override;
     //Set game controller methods
     void setDartsController(AbstractDartsController *controller) override;
 private:

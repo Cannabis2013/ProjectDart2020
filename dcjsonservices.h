@@ -4,6 +4,7 @@
 #include <idcinputstojson.h>
 #include <iaddtotalscoretodartsinputsjson.h>
 #include <iaddplayernamestojson.h>
+#include <ijsonkeyplayer.h>
 #include "icreatejsonfromdcplayer.h"
 #include "idccreatejsonresponse.h"
 #include "idcindexestojson.h"

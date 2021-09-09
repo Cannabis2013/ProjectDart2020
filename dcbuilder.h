@@ -6,7 +6,6 @@
 #include "abstractdcbuilder.h"
 #include "dsccreateinputmodels.h"
 #include "iternaryservice.h"
-#include "dartsplayermodelbuilderservice.h"
 #include "idcmetainfo.h"
 #include "icreatedcmetainfo.h"
 #include "idcmetainfo.h"
@@ -31,9 +30,9 @@ public:
     };
     virtual void createController(const QByteArray &json) override;
 private:
-    AbstractDartsController *createDC(const DartsBuilderContext::IDCMetaInfo *meta);
-    AbstractDartsController *createDPC(const DartsBuilderContext::IDCMetaInfo *meta);
-    AbstractDartsController *createDSC(const DartsBuilderContext::IDCMetaInfo *meta);
+    AbstractDartsController *createDC(const DCBuilding::IDCMetaInfo *meta);
+    AbstractDartsController *createDPC(const DCBuilding::IDCMetaInfo *meta);
+    AbstractDartsController *createDSC(const DCBuilding::IDCMetaInfo *meta);
     ICreateDCMetaInfo* _createMeta = new createDCMetaInfo;
 
 };

@@ -1,28 +1,28 @@
 #include "dcmeta.h"
 
-using namespace DartsBuilderContext;
+using namespace DCBuilding;
 
-DCMeta::IdFormat DartsBuilderContext::DCMeta::tournamentId() const
+DCMeta::IdFormat DCBuilding::DCMeta::tournamentId() const
 {
     return _tournamentId;
 }
 
-int DartsBuilderContext::DCMeta::keyPoint() const
+int DCBuilding::DCMeta::keyPoint() const
 {
     return _keyPoint;
 }
 
-int DartsBuilderContext::DCMeta::attempts() const
+int DCBuilding::DCMeta::attempts() const
 {
     return _attempt;
 }
 
-int DartsBuilderContext::DCMeta::terminalKeyCode() const
+int DCBuilding::DCMeta::terminalKeyCode() const
 {
     return _terminalKeyCode;
 }
 
-int DartsBuilderContext::DCMeta::inputHint() const
+int DCBuilding::DCMeta::inputHint() const
 {
     return _inputHint;
 }
