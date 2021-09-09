@@ -15,7 +15,7 @@
 #include "dartspscIndexBuilder.h"
 #include "dartspmcsectionutility.h"
 #include <dartstablesectionmanipulator.h>
-
+// DartsSingleColumnTableModel
 class DSSCTableModel : public DartsTableModel
 {
    public:

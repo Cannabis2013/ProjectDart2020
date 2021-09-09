@@ -14,7 +14,7 @@ namespace PlayersContext {
     class CreateJsonFromPlayerModels : public ICreateJsonFromModels
     {
     public:
-        virtual QByteArray createJson(const QVector<const IModel<QUuid>*>& models) const override;
+        virtual QByteArray toJson(const QVector<const IModel<QUuid>*>& models) const override;
     private:
         QJsonArray createJsonArray(QVector<const IModel<QUuid>*> models) const;
         QJsonObject createJsonObject(const IModel<QUuid> *model) const;

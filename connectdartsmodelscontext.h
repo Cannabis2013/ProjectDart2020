@@ -8,8 +8,13 @@ class ConnectDartsModelsContext : public
         IConnectDartsModelsContext
 {
 public:
-    void connect(AbstractApplicationInterface*application, AbstractDartsModelsContext*modelsService) override;
+    void connect(AbstractApplicationInterface*application,
+                 AbstractDartsModelsContext*modelsService,
+                 AbstractDCBuilder *dcBuilder) override;
 private:
+    void connectDeleteTournamentInterface(AbstractApplicationInterface*application,
+                                          AbstractDartsModelsContext*modelsService);
+    void connectToDCBuilder(AbstractDartsModelsContext*modelsService, AbstractDCBuilder *dcBuilder);
     void registerTypes();
 };
 

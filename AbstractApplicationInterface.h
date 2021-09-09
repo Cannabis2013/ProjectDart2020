@@ -12,7 +12,7 @@ class AbstractApplicationInterface :
 {
     Q_OBJECT
 public:
-    Q_INVOKABLE virtual void createDartsTournamentFromJson(const QByteArray &json) = 0;
+    Q_INVOKABLE virtual void addDartsTournaments(const QByteArray &json) = 0;
 public slots:
     // Pure virtual slots
     virtual void handleSendGameModesRequest() const = 0;
@@ -33,10 +33,8 @@ signals:
                                  const int &playersCount);
     void sendDartsDetails(const QByteArray& json);
     void sendGameModes(const QStringList &modes) const;
-    void sendInitialControllerValues(const QUuid &tournament,
-                                     const int &keyPoint,
-                                     const int &numberOfThrows,
-                                     QList<QUuid> assignedPlayers);
+    void sendInitialControllerValues(const QUuid &tournament, const int &keyPoint,
+                                     const int &numberOfThrows, QList<QUuid> assignedPlayers);
     void requestOrderedDartsInputs();
     void requestDartsScores();
     void setCurrentActiveTournament(const int &index);
@@ -52,16 +50,15 @@ signals:
     void sendPlayers(const QByteArray& json);
     void tournamentAssembledAndStored();
     void tournamentCreatedOk();
-    void sendOrderedDartsScores(const QByteArray& json);
-    void sendOrderedDartsPoints(const QByteArray& json);
+    void sendDartsScores(const QByteArray& json);
+    void sendOrderedDartsInputs(const QByteArray& json);
     // Player signals
     void requestCreatePlayer(const QByteArray &json);
     void requestDeletePlayers(const QVector<int> &indexes);
     void createPlayerResponse(const bool &status);
     void playersDeletedStatus(const bool &status);
     // Controller signals
-    void sendDartsPoint(const QByteArray& json);
-    void sendDartsScore(const QByteArray& json);
+    void addUserInput(const QByteArray& json);
     void requestStartGame();
     void requestStopGame();
     void controllerIsStopped();
@@ -70,11 +67,9 @@ signals:
     void dartsScoreSingleColumnInitialized();
     void dartsScoreMultiColumnInitialized();
     void dartsControllerRemovedPoint(const QString& json);
-    void dartsControllerRemovedScore(const QString& json);
-    void addedDartsPoint(const QByteArray& json);
-    void dartsScoreControllerIsReady();
-    void dartsPointControllerIsReady();
-    void addedDartsScore(const QByteArray& json);
+    void dartsInputRemoveSucces(const QString& json);
+    void dartsControllerIsReady();
+    void addedInput(const QByteArray& json);
     void controllerAwaitsInput(const QByteArray& json);
     void dartsControllerIsReset();
     void controllerHasDeclaredAWinner(const QString& json);

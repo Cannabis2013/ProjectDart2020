@@ -7,7 +7,6 @@
 #include <connectdartsmodelscontext.h>
 #include <connectroutebydisplayhint.h>
 #include <connectroutebygamemode.h>
-#include <connectroutebyinputhint.h>
 #include <connectplayerscontext.h>
 #include "connectdartscontroller.h"
 #include "connectplayerscontext.h"
@@ -18,17 +17,13 @@ public:
     {
         return _connectRouteByGameMode;
     }
-    virtual IConnectRouteByInputHint *connectRouteByInputHint() const override
-    {
-        return _connectRouteByInputHint;
-    }
     virtual IConnectRouteByDisplayHint *connectRouteByDisplayHint() const override
     {
         return _connectRouteByDisplayHint;
     }
-    virtual IConnectRouteToDartsBuilder *connectDCBuilder() const override
+    virtual IConnectDCBuilder *connectDCBuilder() const override
     {
-        return _connectDartsScoreBuilder;
+        return _connectDCBuilder;
     }
     virtual IConnectDartsModelsContext *connectDartsModelsContext() const override
     {
@@ -45,10 +40,9 @@ public:
 private:
     // Connect route services
     ConnectRouteByGameMode *_connectRouteByGameMode = new ConnectRouteByGameMode;
-    ConnectRouteByInputHint *_connectRouteByInputHint = new ConnectRouteByInputHint;
     ConnectRouteByDisplayHint *_connectRouteByDisplayHint = new ConnectRouteByDisplayHint;
     // Connect darts controller builder services
-    ConnectDCBuilder *_connectDartsScoreBuilder = new ConnectDCBuilder;
+    ConnectDCBuilder *_connectDCBuilder = new ConnectDCBuilder;
     // Connect models interface
     ConnectDartsModelsContext *_connectModelsServiceInterface = new ConnectDartsModelsContext;
     // Connect player models interface

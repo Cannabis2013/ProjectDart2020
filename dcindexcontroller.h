@@ -6,44 +6,27 @@
 class DCIndexController : public IDCIndexService
 {
 public:
-    virtual void reset() override;
-    virtual void next() override;
-    virtual void undo() override;
-    virtual void redo() override;
-    virtual bool canUndo() const override;
-    virtual bool canRedo() const override;
-    virtual void syncIndex() override;
+    DCIndexController(const int &numberOfAttempts);
     virtual int turnIndex() const override;
     virtual void setTurnIndex(const int &index) override;
     virtual int totalIndex() const override;
     virtual void setTotalIndex(const int &index) override;
     virtual int roundIndex() const override;
+    virtual void setRoundIndex(const int &index) override;
     virtual int setIndex() const override;
+    virtual void setSetIndex(const int &index) override;
     virtual int attemptIndex() const override;
     virtual void setAttemptIndex(const int &index) override;
-    void setPlayersCount(const int& playerCount) override;
-    int playersCount()const override;
-
-    virtual void setRoundIndex(const int &index) override;
-    virtual void setSetIndex(const int &index) override;
-
+    virtual void syncIndex() override;
     virtual int numberOfAttempts() const override;
     virtual void setNumberOfAttempts(const int &) override;
 private:
-    // Private methods
-    void incrementTurnIndex();
-    void incrementRoundIndex();
-    void incrementSetIndex();
-    void resetSetIndex();
-    void resetLegIndex();
-    int lastPlayerIndex();
     int _turnIndex = 0;
     int _totalIndex  = 0;
     int _roundIndex = 1;
     int _setIndex = 0;
     int _attemptIndex = 0;
     int _playerCount;
+    int _numberOfAttempts;
 };
-
-
 #endif // SCOREINDEXCONTROLLER_H

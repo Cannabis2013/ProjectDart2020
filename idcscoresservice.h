@@ -4,13 +4,13 @@
 #include <idartsmetadata.h>
 #include <idcplayer.h>
 #include <quuid.h>
-#include "dctuple.h"
+#include "dcscoremodel.h"
 #include "iscoresservice.h"
 
-class IDCScoresService : public IScoresService<const DCContext::IDCPlayer*, DCContext::DCPTuple,IDartsMetaData>
+class IDCScoresService : public IScoresService<const DCContext::IDCPlayer*, DCContext::DCScoreModel,IDartsMetaData>
 {
 public:
-    virtual DartsPlayerTuples &tuples() = 0;
+    virtual DartsScoreModels &scoreModels() = 0;
     virtual void resetTuples(const IDartsMetaData *metaService) = 0;
 };
 #endif // IDARTSSCORES_H

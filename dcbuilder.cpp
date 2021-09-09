@@ -1,28 +1,28 @@
 #include "dcbuilder.h"
 
-using namespace DartsBuilderContext;
-
-DCBuilder *DCBuilder::createInstance()
+void DCBuilder::createController(const QByteArray &json)
 {
-    return new DCBuilder;
+    auto meta = _createMeta->service(json);
+    auto controller = createDC(meta);
+    emit sendController(controller);
 }
 
-void DCBuilder::buildScoreBasedController(const QByteArray &json)
+AbstractDartsController *DCBuilder::createDC(const DartsBuilderContext::IDCMetaInfo *meta)
 {
-    auto entity = _buildEntityByJson->service(json);
-    auto controller = new DPController(entity);
-    emit sendController(controller,entity->displayHint());
+    if(meta->inputHint() == PointHint)
+        return createDPC(meta);
+    else if(meta->inputHint() == ScoreHint)
+        return createDSC(meta);
+    else
+        throw "Illegal input hint";
 }
 
-void DCBuilder::buildPointBasedController(const QByteArray &json)
+AbstractDartsController *DCBuilder::createDPC(const DartsBuilderContext::IDCMetaInfo *meta)
 {
-    auto entity = _buildEntityByJson->service(json);
-    auto controller = new DSController(entity);
-    emit sendController(controller,entity->displayHint());
+    return new DPController(meta);
 }
 
-DCBuilder *DCBuilder::setBuildEntityByJson(ICreateDCMetaInfo *newBuildEntityByJson)
+AbstractDartsController *DCBuilder::createDSC(const DartsBuilderContext::IDCMetaInfo *meta)
 {
-    _buildEntityByJson = newBuildEntityByJson;
-    return this;
+    return new DSController(meta);
 }

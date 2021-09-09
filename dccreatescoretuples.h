@@ -4,17 +4,17 @@
 class DCCreateScoreTuples : public IDCCreateScoreTuples
 {
 public:
-    virtual QVector<DCContext::DCPTuple> createTuples(const PlayerModels &models, const IDartsMetaData *dartsMeta) override
+    virtual QVector<DCContext::DCScoreModel> createTuples(const PlayerModels &models, const IDartsMetaData *dartsMeta) override
     {
-        QVector<DCContext::DCPTuple> tuples;
+        QVector<DCContext::DCScoreModel> tuples;
         for (const auto &model : models)
             tuples << createTuple(model,dartsMeta->initialScore());
         return tuples;
     }
 private:
-    DCContext::DCPTuple createTuple(const DCContext::IDCPlayer *playerModel, const int &initialScore) const
+    DCContext::DCScoreModel createTuple(const DCContext::IDCPlayer *playerModel, const int &initialScore) const
     {
-        DCContext::DCPTuple tuple;
+        DCContext::DCScoreModel tuple;
         tuple.id = playerModel->playerId();
         tuple.name = playerModel->playerName();
         tuple.totalScore = initialScore;

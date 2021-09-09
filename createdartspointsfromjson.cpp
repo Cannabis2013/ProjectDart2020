@@ -12,7 +12,7 @@ const QJsonArray CreateDartsPointsFromJson::toJsonArray(const QByteArray &json) 
 {
     auto document = QJsonDocument::fromJson(json);
     auto obj = document.object();
-    return obj.value("DartsPointInputs").toArray();
+    return obj.value("DartsInputModels").toArray();
 }
 
 QVector<const IModel<QUuid>*> CreateDartsPointsFromJson::createInputsFromJsonArray(const QJsonArray &arr) const
@@ -31,7 +31,7 @@ const ModelsContext::IDartsInput *CreateDartsPointsFromJson::toInputModel(const 
     pointModel->setPlayerId(toId(jsonObject,"playerId"));
     pointModel->setRoundIndex(jsonObject["roundIndex"].toInt());
     pointModel->setSetIndex(jsonObject["setIndex"].toInt());
-    pointModel->setAttempt(jsonObject["attempt"].toInt());
+    pointModel->setAttempt(jsonObject["attemptIndex"].toInt());
     pointModel->setPoint(jsonObject["point"].toInt());
     pointModel->setScore(jsonObject.value("score").toInt());
     pointModel->setModKeyCode(jsonObject["keyCode"].toInt());

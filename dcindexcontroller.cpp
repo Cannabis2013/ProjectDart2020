@@ -1,65 +1,13 @@
 #include "dcindexcontroller.h"
 
-void DCIndexController::reset()
-{
-    _totalIndex = 0;
-    _turnIndex = 0;
-    _roundIndex = 1;
-    _setIndex = 0;
-    _attemptIndex = 0;
-}
-
-void DCIndexController::next()
-{
-    incrementTurnIndex();
-    incrementSetIndex();
-    if(setIndex() >= playersCount()){
-        incrementRoundIndex();
-        resetSetIndex();
-    }
-}
-
-void DCIndexController::undo()
-{
-    if(!canUndo())
-        return;
-    _turnIndex--;
-    if(_setIndex == 0)
-    {
-        _setIndex = lastPlayerIndex();
-        _roundIndex--;
-    }
-    else
-    {
-        _setIndex--;
-    }
-}
-
-void DCIndexController::redo()
-{
-    if(_setIndex == lastPlayerIndex())
-    {
-        _setIndex = 0;
-        _roundIndex++;
-    }
-    else
-        _setIndex++;
-    _turnIndex++;
-}
-
-bool DCIndexController::canUndo() const
-{
-    return turnIndex() > 0;
-}
-
-bool DCIndexController::canRedo() const
-{
-    return turnIndex() < _totalIndex;
-}
-
 void DCIndexController::syncIndex()
 {
     _totalIndex = _turnIndex;
+}
+
+DCIndexController::DCIndexController(const int &numberOfAttempts)
+{
+    _numberOfAttempts = numberOfAttempts;
 }
 
 int DCIndexController::turnIndex() const
@@ -102,38 +50,6 @@ void DCIndexController::setAttemptIndex(const int &index)
     _attemptIndex = index;
 }
 
-void DCIndexController::incrementTurnIndex()
-{
-    if(_turnIndex == _totalIndex)
-        _totalIndex++;
-    _turnIndex++;
-}
-
-void DCIndexController::incrementRoundIndex()
-{
-    _roundIndex++;
-}
-
-void DCIndexController::incrementSetIndex()
-{
-    _setIndex++;
-}
-
-void DCIndexController::resetSetIndex()
-{
-    _setIndex = 0;
-}
-
-void DCIndexController::resetLegIndex()
-{
-    _attemptIndex = 0;
-}
-
-int DCIndexController::playersCount() const
-{
-    return _playerCount;
-}
-
 void DCIndexController::setRoundIndex(const int &index)
 {
     _roundIndex = index;
@@ -146,19 +62,10 @@ void DCIndexController::setSetIndex(const int &index)
 
 int DCIndexController::numberOfAttempts() const
 {
-    return 1;
+    return _numberOfAttempts;
 }
 
-void DCIndexController::setNumberOfAttempts(const int &)
+void DCIndexController::setNumberOfAttempts(const int &value)
 {
-}
-
-int DCIndexController::lastPlayerIndex()
-{
-    return playersCount() -1;
-}
-
-void DCIndexController::setPlayersCount(const int &playerCount)
-{
-    _playerCount = playerCount;
+    _numberOfAttempts = value;
 }

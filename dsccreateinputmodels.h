@@ -10,32 +10,24 @@
 class DSCCreateInputModels : public IDCModelCreator
 {
 public:
-    DCContext::IDCModel *createModel(const QByteArray &json) const override
+    DCContext::IDCModel *createModel(const QByteArray &json, const IJsonValuesExtractor *extractor) const override
     {
-        return toScoreModel(toJsonObject(json));
-    }
-    DCContext::IDCModel *createModel(const int &score, const int &point, const int &modKeyCode) const override
-    {
-        auto scoreModel = DCContext::DCModel::createInstance();
-        scoreModel->setScore(score);
-        scoreModel->setPoint(point);
-        scoreModel->setModKeyCode(modKeyCode);
-        return scoreModel;
+        return toModel(toJsonObject(json),extractor);
     }
     QVector<DCContext::IDCModel*> createModels(IDCScoresService *scoresService) const override
     {
         QVector<DCContext::IDCModel*> scoreModels;
-        for (const auto &model : scoresService->tuples())
-            scoreModels << toScoreModel(model);
+        for (const auto &model : scoresService->scoreModels())
+            scoreModels << toModel(model);
         return scoreModels;
     }
-    virtual QVector<DCContext::IDCModel *> createModels(const QByteArray &json) const override
+    virtual QVector<DCContext::IDCModel *> createModels(const QByteArray &json, const IJsonValuesExtractor *extractor) const override
     {
         auto arr = toJsonArray(json);
-        return toScoreModels(arr);
+        return toModels(arr,extractor);
     }
 private:
-    DCContext::IDCModel *toScoreModel(const DCContext::DCPTuple &model) const
+    DCContext::IDCModel *toModel(const DCContext::DCScoreModel &model) const
     {
         auto scoreModel = DCContext::DCModel::createInstance();
         scoreModel->setPlayerId(model.id);
@@ -43,13 +35,13 @@ private:
         scoreModel->setTotalScore(model.totalScore);
         return scoreModel;
     }
-    DCContext::IDCModel *toScoreModel(const QJsonObject &obj) const
+    DCContext::IDCModel *toModel(const QJsonObject &obj, const IJsonValuesExtractor *extractor) const
     {
         auto scoreModel = DCContext::DCModel::createInstance();
-        scoreModel->setPlayerId(QUuid(obj.value("playerId").toString()));
-        scoreModel->setPlayerName(obj.value("playerName").toString());
-        scoreModel->setScore(obj.value("score").toInt());
-        scoreModel->setTournamentId(QUuid(obj.value("tournamentId").toString()));
+        scoreModel->setPlayerId(extractor->toId(obj,"playerId"));
+        scoreModel->setPlayerName(extractor->toString(obj,"playerName"));
+        scoreModel->setScore(extractor->toInt(obj,"score"));
+        scoreModel->setTournamentId(extractor->toId(obj,"tournamentId"));
         return scoreModel;
     }
     QJsonArray toJsonArray(const QByteArray &json) const
@@ -57,11 +49,11 @@ private:
         auto document = QJsonDocument::fromJson(json);
         return document.array();
     }
-    QVector<DCContext::IDCModel*> toScoreModels(const QJsonArray &arr) const
+    QVector<DCContext::IDCModel*> toModels(const QJsonArray &arr, const IJsonValuesExtractor *extractor) const
     {
         QVector<DCContext::IDCModel*> scoreModels;
         for (const auto& jsonValue : arr)
-            scoreModels << toScoreModel(jsonValue.toObject());
+            scoreModels << toModel(jsonValue.toObject(),extractor);
         return scoreModels;
     }
     QJsonObject toJsonObject(const QByteArray &json) const

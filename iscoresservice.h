@@ -8,9 +8,9 @@ template<typename TPlayerModel, typename TTuple, typename MetaInfoService>
 class IScoresService
 {
 public:
-    typedef QVector<TTuple> DartsPlayerTuples;
+    typedef QVector<TTuple> DartsScoreModels;
     typedef QVector<TPlayerModel> PlayerModels;
-    virtual const DartsPlayerTuples &tuples() = 0;
+    virtual const DartsScoreModels &scoreModels() = 0;
 };
 
 #endif // ISCORESSERVICE_H

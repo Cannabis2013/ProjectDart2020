@@ -2,7 +2,7 @@
 #define CREATEDCENTITY_H
 
 #include "icreatedcmetainfo.h"
-#include "dcmetainfo.h"
+#include "dcmeta.h"
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 
@@ -20,13 +20,13 @@ private:
         auto document = QJsonDocument::fromJson(byteArray);
         return document.object();
     }
-    const DartsBuilderContext::DCMetaInfo *createMetaInfo(const QJsonObject &jsonObject) const
+    const DartsBuilderContext::DCMeta *createMetaInfo(const QJsonObject &jsonObject) const
     {
-        auto metaInfo = new DartsBuilderContext::DCMetaInfo;
+        auto metaInfo = new DartsBuilderContext::DCMeta;
         initializeMetaInfo(metaInfo,jsonObject);
         return metaInfo;
     }
-    void initializeMetaInfo(DartsBuilderContext::DCMetaInfo *metaInfo, const QJsonObject &jsonObject) const
+    void initializeMetaInfo(DartsBuilderContext::DCMeta *metaInfo, const QJsonObject &jsonObject) const
     {
         metaInfo->setTournamentId(QUuid(jsonObject.value("tournamentId").toString()));
         metaInfo->setAttempt(jsonObject.value("attempts").toInt());

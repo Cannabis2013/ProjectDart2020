@@ -1,17 +1,17 @@
 #include "dartsinputservices.h"
-IDartsModelsCreateJsonFromPoints *DartsInputServices::dartsPointsJsonService() const
+IDartsModelsCreateJsonFromPoints *DartsInputServices::inputsToJSon() const
 {
-    return _dartsPointsJsonService;
+    return _inputsToJson;
 }
-void DartsInputServices::setDartsPointsJsonService(IDartsModelsCreateJsonFromPoints *newDartsPointsJsonService)
+void DartsInputServices::setInputsToJsonService(IDartsModelsCreateJsonFromPoints *newDartsPointsJsonService)
 {
-    _dartsPointsJsonService = newDartsPointsJsonService;
+    _inputsToJson = newDartsPointsJsonService;
 }
-IDartsPointSetHint *DartsInputServices::dartsPointSetHint() const
+IDartsInputSetHint *DartsInputServices::dartsPointSetHint() const
 {
     return _dartsPointSetHint;
 }
-void DartsInputServices::setDartsPointSetHint(IDartsPointSetHint *newDartsPointSetHint)
+void DartsInputServices::setDartsPointSetHint(IDartsInputSetHint *newDartsPointSetHint)
 {
     _dartsPointSetHint = newDartsPointSetHint;
 }
@@ -39,75 +39,67 @@ void DartsInputServices::setCountInputs(ICountInputModels *newCountInputs)
 {
     _countInputs = newCountInputs;
 }
-DartsInputServices::Predicate *DartsInputServices::sortPointInputsByIndexes() const
+DartsInputServices::Predicate *DartsInputServices::sortInputsByIndexes() const
 {
     return _sortPointInputsByIndexes;
 }
-void DartsInputServices::setSortPointInputsByIndexes(Predicate *newSortPointInputsByIndexes)
+void DartsInputServices::setSortInputsByIndexes(Predicate *newSortPointInputsByIndexes)
 {
     _sortPointInputsByIndexes = newSortPointInputsByIndexes;
 }
-IGetDartsPointFromDb *DartsInputServices::getPointFromDb() const
+IGetDartsPointFromDb *DartsInputServices::getInputFromDb() const
 {
-    return _getPointFromDb;
+    return _getInputFromDb;
 }
-void DartsInputServices::setGetPointFromDb(IGetDartsPointFromDb *newGetPointFromDb)
+void DartsInputServices::setGetInputFromDb(IGetDartsPointFromDb *newGetPointFromDb)
 {
-    _getPointFromDb = newGetPointFromDb;
+    _getInputFromDb = newGetPointFromDb;
 }
-ICreateJsonfromDartsPointIndexes *DartsInputServices::createJsonFromPointIndexes() const
+IDartsIndexesToJson *DartsInputServices::indexesToJson() const
 {
-    return _createJsonFromPointIndexes;
+    return _indexesToJson;
 }
-void DartsInputServices::setCreateJsonFromPointIndexes(ICreateJsonfromDartsPointIndexes *newCreateJsonFromPointIndexes)
+void DartsInputServices::setIndexesToJsonService(IDartsIndexesToJson *newCreateJsonFromPointIndexes)
 {
-    _createJsonFromPointIndexes = newCreateJsonFromPointIndexes;
+    _indexesToJson = newCreateJsonFromPointIndexes;
 }
 IModelsDbContext *DartsInputServices::inputsDb() const
 {
     return _inputsDb;
 }
-void DartsInputServices::setInputsDb(IModelsDbContext *dbService)
+void DartsInputServices::setInputsDbService(IModelsDbContext *dbService)
 {
     _inputsDb = dbService;
 }
-
-IDartsCreateInput *DartsInputServices::createPointModel() const
+IDartsCreateInput *DartsInputServices::createInputModel() const
 {
     return _createPointModel;
 }
-
 void DartsInputServices::setCreatePointModel(IDartsCreateInput *newCreatePointModel)
 {
     _createPointModel = newCreatePointModel;
 }
-
-IDartsCreateJsonFromModel<IModel<QUuid>> *DartsInputServices::createJsonFromDartsPoint() const
+IDartsCreateJsonFromModel<IModel<QUuid>> *DartsInputServices::inputToJson() const
 {
-    return _createJsonFromDartsPoint;
+    return _createJsonFromInputs;
 }
-
-void DartsInputServices::setCreateJsonFromDartsPoint(IDartsCreateJsonFromModel<IModel<QUuid>> *newCreateJsonFromDartsPoint)
+void DartsInputServices::setInputToJsonService(IDartsCreateJsonFromModel<IModel<QUuid>> *newCreateJsonFromDartsPoint)
 {
-    _createJsonFromDartsPoint = newCreateJsonFromDartsPoint;
+    _createJsonFromInputs = newCreateJsonFromDartsPoint;
 }
-
 IRemoveDartsInputsFromDb *DartsInputServices::removeInputsFromDb() const
 {
     return _removeDartsInputsFromDb;
 }
-
 void DartsInputServices::setRemoveInputsFromDb(IRemoveDartsInputsFromDb *newDbManipulatorService)
 {
     _removeDartsInputsFromDb = newDbManipulatorService;
 }
-
-IDartsCreateIndexes<IDartsPointIndexes> *DartsInputServices::createControllerIndexes() const
+IDartsCreateIndexes<IDartsPointIndexes> *DartsInputServices::indexesBuilder() const
 {
-    return _createIndexesFromPointModels;
+    return _createIndexesFromInputs;
 }
-
-void DartsInputServices::setCreateIndexesFromPointModels(IDartsCreateIndexes<IDartsPointIndexes> *newCreateIndexesFromPointModels)
+void DartsInputServices::setIndexesBuilder(IDartsCreateIndexes<IDartsPointIndexes> *newCreateIndexesFromPointModels)
 {
-    _createIndexesFromPointModels = newCreateIndexesFromPointModels;
+    _createIndexesFromInputs = newCreateIndexesFromPointModels;
 }

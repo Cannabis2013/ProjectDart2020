@@ -1,11 +1,10 @@
 #ifndef POINTVALIDATOR_H
 #define POINTVALIDATOR_H
 
-#include "ipointvalidator.h"
+#include "idartsinputvalidator.h"
 
-class PointValidator : public IPointValidator
+class PointValidator : public IDartsInputValidator
 {
-    // ScoreEvaluatorInterface interface
 public:
     enum InputDomains {
         PointDomain = 0x01,

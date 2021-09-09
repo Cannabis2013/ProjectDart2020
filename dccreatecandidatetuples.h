@@ -6,28 +6,42 @@
 class DCCreateCandidateTuples : public IDCCreateCandidateTuples
 {
 public:
-    virtual DCContext::DCPTuple getCandidate(const DCContext::IDCModel *model, IDCScoresService *scoresService) override
+    virtual DCContext::DCScoreModel getCandidate(const DCContext::IDCModel *model, IDCScoresService *scoresService) override
     {
-        auto tuples = scoresService->tuples();
+        auto tuples = scoresService->scoreModels();
         auto tuple = this->tuple(model->playerId(),tuples);
         auto newScore = subtractScore(tuple.totalScore,model->score());
         return toTuple(tuple,newScore);
     }
-    virtual QVector<DCContext::DCPTuple> getTupleCandidates(const QVector<DCContext::IDCModel *> &models, IDCScoresService *scoresService) override
+    virtual QVector<DCContext::DCScoreModel> getTupleCandidates(const QVector<DCContext::IDCModel *> &models, IDCScoresService *scoresService) override
     {
-        QVector<DCContext::DCPTuple> candidates;
-        for (const auto &model : models)
-            candidates << getCandidate(model,scoresService);
-        return candidates;
+        auto scoreModels = scoresService->scoreModels();
+        for (auto &model : scoreModels)
+        {
+            auto initialScore = model.totalScore;
+            auto playerScore = sum(model.id,models);
+            auto result = subtractScore(initialScore,playerScore);
+            model.totalScore = result;
+        }
+        return scoreModels;
     }
 private:
-    DCContext::DCPTuple tuple(const QUuid &id, const QVector<DCContext::DCPTuple>& tuples) const
+    int sum(const QUuid &id, const QVector<DCContext::IDCModel*> &models) const
+    {
+        auto s = 0;
+        for (const auto &model : models) {
+            if(model->playerId() == id)
+                s += model->score();
+        }
+        return s;
+    }
+    DCContext::DCScoreModel tuple(const QUuid &id, const QVector<DCContext::DCScoreModel>& tuples) const
     {
         for (const auto &tuple : tuples) {
             if(tuple.id == id)
                 return tuple;
         }
-        return DCContext::DCPTuple();
+        return DCContext::DCScoreModel();
     }
     int subtractScore(const int &score, const int &sub) const
     {
@@ -35,9 +49,9 @@ private:
             return score;
         return score - sub;
     }
-    const DCContext::DCPTuple toTuple(const DCContext::DCPTuple t, const int &newScore) const
+    const DCContext::DCScoreModel toTuple(const DCContext::DCScoreModel t, const int &newScore) const
     {
-        return DCContext::DCPTuple(t.id,t.name,newScore);
+        return DCContext::DCScoreModel(t.id,t.name,newScore);
     }
 };
 #endif // DPCSUBTRACTPLAYERSCORE_H

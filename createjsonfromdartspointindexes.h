@@ -1,15 +1,15 @@
 #ifndef CREATEJSONFROMDARTSPOINTINDEXES_H
 #define CREATEJSONFROMDARTSPOINTINDEXES_H
 
-#include "icreatejsonfromdartspointindexes.h"
+#include "idartsindexestojson.h"
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 #include <qjsonarray.h>
 namespace ModelsContext {
-    class CreateJsonFromDartsPointIndexes : public ICreateJsonfromDartsPointIndexes
+    class CreateJsonFromDartsPointIndexes : public IDartsIndexesToJson
     {
     public:
-        virtual QByteArray createJson(const IDartsPointIndexes *indexes) const override
+        virtual QByteArray toJson(const IDartsPointIndexes *indexes) const override
         {
             QJsonObject jsonObject;
             jsonObject["totalTurns"] = indexes->totalTurns();

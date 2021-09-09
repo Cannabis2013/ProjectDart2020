@@ -16,8 +16,8 @@ public:
                                                     const IDartsInputSuggestion* logisticService = nullptr) const override
     {
         auto model = new DCContext::DCTurnValues();
-        model->setCanUndo(indexService->canUndo());
-        model->setCanRedo(indexService->canRedo());
+        model->setCanUndo(canUndo(indexService));
+        model->setCanRedo(canRedo(indexService));
         model->setRoundIndex(indexService->roundIndex());
         model->setSetIndex(indexService->setIndex());
         model->setAttemptIndex(indexService->attemptIndex());
@@ -39,15 +39,23 @@ private:
     }
     int getPlayerScore(const IDCIndexService *indexService, IDCScoresService *scoresService) const
     {
-        auto models = scoresService->tuples();
+        auto models = scoresService->scoreModels();
         auto model = models.at(indexService->setIndex());
         return model.totalScore;
     }
     QString getPlayerName(const IDCIndexService *indexService, IDCScoresService *scoresService) const
     {
-        auto models = scoresService->tuples();
+        auto models = scoresService->scoreModels();
         auto model = models.at(indexService->setIndex());
         return model.name;
+    }
+    bool canUndo(const IDCIndexService *indexService) const
+    {
+        return indexService->turnIndex() > 0;
+    }
+    bool canRedo(const IDCIndexService *indexService) const
+    {
+        return indexService->turnIndex() < indexService->totalIndex();
     }
 };
 #endif // BUILDDARTSPOINTTURNVALUES_H

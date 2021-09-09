@@ -1,33 +1,24 @@
 #ifndef DCJSONSERVICES_H
 #define DCJSONSERVICES_H
-
 #include <idcturnvaluestojson.h>
-#include <idcmodeltojson.h>
-#include <igenericjsonbuilder.h>
-#include <ijsontodcinputmodel.h>
+#include <idcinputstojson.h>
 #include <iaddtotalscoretodartsinputsjson.h>
+#include <iaddplayernamestojson.h>
 #include "icreatejsonfromdcplayer.h"
+#include "idccreatejsonresponse.h"
 #include "idcindexestojson.h"
-
+#include "ijsonvaluesextractor.h"
 class IAddPlayerNamesToJson;
 class DCJsonServices
 {
 public:
-    IDCModelToJson *createJsonFromDSModels() const
+    IDCInputsToJson *inputsToJson() const
     {
         return _jsonModelBuilderService;
     }
-    void setJsonModelBuilderService(IDCModelToJson *newJsonModelBuilderService)
+    void setInputsToJsonService(IDCInputsToJson *newJsonModelBuilderService)
     {
         _jsonModelBuilderService = newJsonModelBuilderService;
-    }
-    IGenericJsonBuilder *jsonGenericBuilder() const
-    {
-        return _jsonGenericBuilder;
-    }
-    void setJsonGenericBuilder(IGenericJsonBuilder *newJsonBuilderService)
-    {
-        _jsonGenericBuilder = newJsonBuilderService;
     }
     ICreateJsonFromDCPlayer *createJsonFromPlayer() const
     {
@@ -41,23 +32,15 @@ public:
     {
         return _turnValuesToJson;
     }
-    void setTurnValuesToJson(IDCTurnValuesToJson *newTurnValuesToJson)
+    void setTurnValuesToJsonService(IDCTurnValuesToJson *newTurnValuesToJson)
     {
         _turnValuesToJson = newTurnValuesToJson;
-    }
-    IJsonToDCInputModel *jsonToInputModel() const
-    {
-        return _jsonToInputModel;
-    }
-    void setJsonToInputModel(IJsonToDCInputModel *newJsonToInputModel)
-    {
-        _jsonToInputModel = newJsonToInputModel;
     }
     IDCIndexesToJson *indexesToJson() const
     {
         return _indexesToJson;
     }
-    void setIndexesToJson(IDCIndexesToJson *newIndexesToJson)
+    void setIndexesToJsonService(IDCIndexesToJson *newIndexesToJson)
     {
         _indexesToJson = newIndexesToJson;
     }
@@ -79,15 +62,30 @@ public:
     {
         _addPlayerNamesToJson = newAddPlayerNamesToJson;
     }
-
+    IDCJsonResponseBuilder *responseBuilder() const
+    {
+        return _responseBuilder;
+    }
+    void setResponseBuilderService(IDCJsonResponseBuilder *newResponseBuilder)
+    {
+        _responseBuilder = newResponseBuilder;
+    }
+    IJsonValuesExtractor *jsonExtractor() const
+    {
+        return _jsonExtractor;
+    }
+    void setJsonExtractor(IJsonValuesExtractor *newJsonExtractor)
+    {
+        _jsonExtractor = newJsonExtractor;
+    }
 private:
-    IDCModelToJson *_jsonModelBuilderService;
-    IGenericJsonBuilder *_jsonGenericBuilder;
+    IDCInputsToJson *_jsonModelBuilderService;
     ICreateJsonFromDCPlayer *_createJsonFromPlayer;
     IDCTurnValuesToJson *_turnValuesToJson;
-    IJsonToDCInputModel *_jsonToInputModel;
     IDCIndexesToJson *_indexesToJson;
     IAddTotalScoreToDartsInputsJson *_addTotalScoresToJson;
     IAddPlayerNamesToJson *_addPlayerNamesToJson;
+    IDCJsonResponseBuilder *_responseBuilder;
+    IJsonValuesExtractor *_jsonExtractor;
 };
 #endif // DSJSONSERVICES_H

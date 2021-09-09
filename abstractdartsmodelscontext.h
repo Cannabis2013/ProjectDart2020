@@ -35,8 +35,7 @@ signals:
     void sendTournament(const QString &title, const int &gameMode, const int &playersCount);
     void sendTournamentMeta(const QByteArray& json);
     void requestAssembleTournament(const QUuid &tournament, const int &gameMode);
-    void pointAddedToDataContext(const QByteArray& json);
-    void scoreAddedToDataContext(const QByteArray& json);
+    void inputModelAdded(const QByteArray& json);
     void scoreNotAddedToDataContext(const QString& msg);
     void hideInputSuccess(const QByteArray&);
     void revealInputSuccess(const QByteArray&);
@@ -45,7 +44,7 @@ signals:
     void tournamentsDeletedStatus(const bool &status);
     void sendTournaments(const QByteArray& json);
     void setDartsTournamentWinnerSucces(const QByteArray& json);
-    void sendDartsDetails(const QByteArray& json, const int &inputHint);
+    void sendDartsDetails(const QByteArray& json);
     void tournamentModelsStatePersisted();
     void tournamentCreatedAndPersisted();
     void sendIndexesAsJson(const QByteArray& json);

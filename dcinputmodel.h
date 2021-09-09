@@ -7,17 +7,29 @@ namespace DCContext {
     class DCInputModel : public IDCInputModel
     {
     public:
-        virtual int point() const override
+        int point() const override
         {
             return _point;
         }
-        virtual int modKeyCode() const override
+        void setPoint(const int &value)
+        {
+            _point = value;
+        }
+        int modKeyCode() const override
         {
             return _modKeyCode;
         }
-        virtual int score() const override
+        void setModKeyCode(const int &value)
+        {
+            _modKeyCode = value;
+        }
+        int score() const override
         {
             return _score;
+        }
+        void setScore(const int &value)
+        {
+            _score = value;
         }
     private:
         int _point, _modKeyCode, _score;

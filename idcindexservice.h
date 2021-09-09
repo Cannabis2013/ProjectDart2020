@@ -4,17 +4,7 @@
 class IDCIndexService
 {
 public:
-    virtual void reset() = 0;
-    virtual void next() = 0;
-
-    virtual void undo() = 0;
-    virtual void redo() = 0;
-
-    virtual bool canUndo() const = 0;
-    virtual bool canRedo() const = 0;
-
     virtual void syncIndex() = 0;
-
     virtual int turnIndex() const = 0;
     virtual void setTurnIndex(const int&) = 0;
     virtual int totalIndex() const = 0;
@@ -27,8 +17,6 @@ public:
     virtual void setAttemptIndex(const int &attemptIndex) = 0;
     virtual int numberOfAttempts() const = 0;
     virtual void setNumberOfAttempts(const int&) = 0;
-    virtual int playersCount() const = 0;
-    virtual void setPlayersCount(const int&) = 0;
 };
 
 #endif // INDEXCONTROLLERINTERFACE_H

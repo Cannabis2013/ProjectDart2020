@@ -10,14 +10,15 @@ public slots:
     virtual void initializeControllerIndexes(const QByteArray&) = 0;
     virtual void undoSuccess(const QByteArray&) = 0;
     virtual void redoSuccess(const QByteArray&) = 0;
-    virtual void initializeDartsScores(const QByteArray&) = 0;
-    virtual void createOrderedDartsScores() = 0;
-    virtual void handleRequestDartsScores() = 0;
-    virtual void handleScoreAddedToDataContext(const QByteArray&) = 0;
+    virtual void initializeScores(const QByteArray&) = 0;
+    virtual void createDartsScores() = 0;
+    virtual void getOrderedInputsWithTotalScores() = 0;
+    virtual void handleUserInputAdded(const QByteArray&) = 0;
+    virtual void handleOrderedInputs(const QByteArray &json) = 0;
 signals:
     void awaitsInput(const QByteArray& json);
     void requestDartsTournamentIndexes(const QUuid &tournament);
-    void controllerInitialized(const int &displayHint);
+    void initialized(const int &inputHint,const int &displayHint);
     void controllerInitializedAndReady();
     void requestAddDartsScore(const QByteArray& tournament);
     void hideInput(const QUuid &tournament,
@@ -36,13 +37,13 @@ signals:
                                    const int& attemptIndex,
                                    const int& score,
                                    const QString& targetRow);
-    void requestDartsScores(const QUuid &tournament);
     void scoreAddedSuccess(const QByteArray& json);
     void scoreRemoved(const QString& json);
     void requestTournamentAssignedPlayerDetails(const QUuid& tournamentId);
-    void requestTournamentDartsScores(const QUuid& tournamentId);
-    void requestTournamentWinnerIdAndName( const QUuid& tournamentId);
+    void requestScores(const QUuid& tournamentId);
+    void requestWinnerDetails( const QUuid& tournamentId);
     void sendDartsScores(const QByteArray& json);
-
+    void requestOrderedInputs(const QUuid &tournament);
+    void sendOrderedInputs(const QByteArray &json);
 };
-#endif // FTPCONTROLLER_H
+#endif

@@ -30,16 +30,6 @@ void DartsTournamentServices::setGetTournament(IGetDartsTournamentFromDb *newGet
     _getTournament = newGetTournament;
 }
 
-IGetDataFromDartsTournament<IModel<QUuid>> *DartsTournamentServices::getDataFromDartsTournament() const
-{
-    return _getDataFromDartsTournament;
-}
-
-void DartsTournamentServices::setGetDataFromDartsTournament(IGetDataFromDartsTournament<IModel<QUuid>> *newGetDataFromDartsTournament)
-{
-    _getDataFromDartsTournament = newGetDataFromDartsTournament;
-}
-
 IDartsTournamentNumberOfAttempts *DartsTournamentServices::getNumberOfAttempts() const
 {
     return _getNumberOfAttempts;

@@ -19,7 +19,6 @@ void JsonModelsService::setTournamentServices()
     setDartsTournamentJsonAddDetails(new AddDetailsToTournamentJson);
     setCreateDartsTournament(new CreateDartsTournamentFromJson);
     setDartsTournamentDb(new DartsTournamentsJsonDb);
-    setGetDataFromDartsTournament(new GetDataFromDartsTournament);
     setGetDartsTournamentDataFromJson(new ExtractWinnerInfoFromJson);
     setGetTournamenWinnerModel(new GetTournamentWinner);
     setCreateJsonFromDetails(new CreateJsonFromTournamentDetails);
@@ -27,15 +26,15 @@ void JsonModelsService::setTournamentServices()
 void JsonModelsService::setPointInputServices()
 {
     using namespace DartsDbContext;
-    setInputsDb(new DartsInputsJsonDb);
-    setGetPointFromDb(new GetDartsPointFromDb);
+    setInputsDbService(new DartsInputsJsonDb);
+    setGetInputFromDb(new GetDartsPointFromDb);
     setDartsPointSetHint(new DartsPointSetHint);
-    setCreateIndexesFromPointModels(new DartsCreatePointIndexes);
-    setSortPointInputsByIndexes(new SortDartsPointInputsByIndexes);
-    setDartsPointsJsonService(new DartsModelsCreateJsonFromPoints);
-    setCreateJsonFromPointIndexes(new CreateJsonFromDartsPointIndexes);
-    setCreatePointModel(new DartsCreatePointModel);
-    setCreateJsonFromDartsPoint(new DartsCreateJsonFromPointModel);
+    setIndexesBuilder(new DartsCreateIndexes);
+    setSortInputsByIndexes(new SortDartsPointInputsByIndexes);
+    setInputsToJsonService(new DartsModelsCreateJsonFromPoints);
+    setIndexesToJsonService(new CreateJsonFromDartsPointIndexes);
+    setCreatePointModel(new DartsCreateInputModel);
+    setInputToJsonService(new DartsCreateJsonFromPointModel);
 }
 void JsonModelsService::setInputDbUtilityServices()
 {

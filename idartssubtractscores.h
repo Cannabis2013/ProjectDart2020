@@ -3,13 +3,13 @@
 
 #include <idcscoresservice.h>
 #include "idcmodel.h"
-#include "dctuple.h"
+#include "dcscoremodel.h"
 
 class IDCCreateCandidateTuples
 {
 public:
-    virtual DCContext::DCPTuple getCandidate(const DCContext::IDCModel *model, IDCScoresService *scoresService) = 0;
-    virtual QVector<DCContext::DCPTuple> getTupleCandidates(const QVector<DCContext::IDCModel*> &models, IDCScoresService *scoresService) = 0;
+    virtual DCContext::DCScoreModel getCandidate(const DCContext::IDCModel *model, IDCScoresService *scoresService) = 0;
+    virtual QVector<DCContext::DCScoreModel> getTupleCandidates(const QVector<DCContext::IDCModel*> &models, IDCScoresService *scoresService) = 0;
 };
 
 #endif // IDARTSSUBTRACTSCORES_H

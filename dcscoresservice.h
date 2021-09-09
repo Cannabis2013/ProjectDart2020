@@ -6,7 +6,7 @@
 class DCScoresService : public IDCScoresService
 {
 public:
-    virtual DartsPlayerTuples &tuples() override
+    virtual DartsScoreModels &scoreModels() override
     {
         return _tuples;
     }
@@ -15,15 +15,15 @@ public:
         setInitialValues(_tuples,metaService->initialScore());
     }
 private:
-    void setInitialValues(const DartsPlayerTuples &tuples, const int &value) const
+    void setInitialValues(const DartsScoreModels &tuples, const int &value) const
     {
         for (auto tuple : tuples)
             tuple.totalScore = value;
     }
-    DCContext::DCPTuple createTuple(const QString &name, const QUuid &id, const int &score) const
+    DCContext::DCScoreModel createTuple(const QString &name, const QUuid &id, const int &score) const
     {
-        return DCContext::DCPTuple(id,name,score);
+        return DCContext::DCScoreModel(id,name,score);
     }
-    DartsPlayerTuples _tuples;
+    DartsScoreModels _tuples;
 };
 #endif // DARTSSCORES_H

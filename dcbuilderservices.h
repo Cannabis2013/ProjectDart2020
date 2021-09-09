@@ -12,11 +12,11 @@ class DCBuilderServices
 public:
     IDCModelCreator *inputModelBuilder() const
     {
-        return _scoreModelBuilder;
+        return _inputModelBuilder;
     }
     void setInputModelBuilder(IDCModelCreator *newDartsScoreBuilder)
     {
-        _scoreModelBuilder = newDartsScoreBuilder;
+        _inputModelBuilder = newDartsScoreBuilder;
     }
 
     IDCIndexesBuilder *indexesBuilder() const
@@ -55,7 +55,7 @@ public:
         _turnValuesBuilder = newTurnValuesBuilder;
     }
 private:
-    IDCModelCreator* _scoreModelBuilder;
+    IDCModelCreator* _inputModelBuilder;
     IDCIndexesBuilder* _dartsIndexesBuilderService;
     IDCPlayerModelBuilder* _playerBuilderService;
     IUnaryService<const QUuid&,int>* _determineControllerStateByWinnerId;

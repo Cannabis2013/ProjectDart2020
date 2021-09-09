@@ -31,14 +31,13 @@ public:
     static LocalDartApplication *createAndSetupInstance()
     {
         auto app = LocalDartApplication::createInstance()
-                ->createDartsBuilders();
+                ->createDCBuilder();
         return app;
     }
 
-    LocalDartApplication *createDartsBuilders()
+    LocalDartApplication *createDCBuilder()
     {
-        _createDartsScoreController = DCBuilder::createInstance()
-                ->setBuildEntityByJson(new createDCMetaInfo);
+        _dcBuilder = new DCBuilder();
         return this;
     }
 };

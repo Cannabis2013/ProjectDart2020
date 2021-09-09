@@ -16,16 +16,15 @@ public:
     // Public types
     typedef QVector<const IModel<QUuid>*> Models;
     // Public interface
-    void createDartsTournamentFromJson(const QByteArray &json) override;
+    void addDartsTournaments(const QByteArray &json) override;
 public slots:
     void handleSendGameModesRequest() const override;
     //Set game controller methods
     void setDartsController(AbstractDartsController *controller) override;
 private:
     // Run asynchronously tasks
-    using Func = std::function<void()>;
     template<typename T>
-    void runAsync(Func funct, const QFuture<T> &future);
+    void runAsync(std::function<void()> funct, const QFuture<T> &future);
     // Clear controller..
     void clearGameController();
 };

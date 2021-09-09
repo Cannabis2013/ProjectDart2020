@@ -9,9 +9,8 @@ class AbstractDCBuilder : public QObject
 {
     Q_OBJECT
 public slots:
-    virtual void buildPointBasedController(const QByteArray& json) = 0;
-    virtual void buildScoreBasedController(const QByteArray& json) = 0;
+    virtual void createController(const QByteArray &json) = 0;
 signals:
-    void sendController(AbstractDartsController* controller,const int &displayHint);
+    void sendController(AbstractDartsController* controller);
 };
 #endif // ABSTRACTDCBUILDER_H

@@ -2,8 +2,10 @@
 #define DARTSCONTROLLER_H
 
 #include <dcbuilderservices.h>
-#include <dscscoreservices.h>
+#include <dcindexservices.h>
+#include <dcscoreservices.h>
 #include <quuid.h>
+#include "DCPlayerServices.h"
 #include "abstractdartscontroller.h"
 #include "dcbasicservices.h"
 #include "dcjsonservices.h"
@@ -12,7 +14,9 @@ class DartsController : public AbstractDartsController,
                         protected DCBasicServices,
                         protected DCBuilderServices,
                         protected DCJsonServices,
-                        protected DSCScoreServices
+                        protected DCScoreServices,
+                        protected DCPlayerServices,
+                        protected DCIndexServices
 {
     Q_OBJECT
 public:
@@ -32,40 +36,33 @@ public:
     enum ControllerState {
         WinnerDeclared = 0x15
     };
-    static DartsController* createInstance();
 public slots:
     void beginInitialize() override;
-    virtual void initializeControllerIndexes(const QByteArray& json) override;
+    void initializeControllerIndexes(const QByteArray& json) override;
     void initializePlayerDetails(const QByteArray &json) override;
-    void initializeDartsScores(const QByteArray &json) override;
+    void initializeScores(const QByteArray &json) override;
     void initializeWinnerDetails(const QByteArray &json) override;
+    void handleOrderedInputs(const QByteArray &json) override;
     void start() override;
     void stop() override;
     void undoTurn() override;
     void redoTurn() override;
     void handleRequestForCurrentTournamentMetaData() override;
-    void createOrderedDartsScores() override;
-    void handleRequestDartsScores() override;
+    void createDartsScores() override;
+    void getOrderedInputsWithTotalScores() override;
     void handleRequestFromUI() override;
-    void handleAndProcessUserInput(const QByteArray &json) override;
-    void handleScoreAddedToDataContext(const QByteArray& json) override;
+    void handleUserInput(const QByteArray &json) override;
+    void handleUserInputAdded(const QByteArray& json) override;
     void handleResetTournament() override;
     void undoSuccess(const QByteArray &json) override;
     void redoSuccess(const QByteArray &json) override;
 private:
     void updateTotalScore(const QByteArray &json);
     void createAndSendWinnerValues();
-    QByteArray createJsonResponse(const QUuid &winnerId, const QString &winnerName);
-    QByteArray createJsonResponse(DCContext::IDCModel *inputModel,
-                                  const DCContext::DCTurnValues* turnValues);
-    QByteArray createJsonResponse(DCContext::IDCModel *inputModel, const DCContext::IDCIndexes *indexes,
-                                  const DCContext::IDCPlayer *playerModel);
-    void processDomain(const int& domain, const int &score);
+    void processDomain(const int& domain, DCContext::IDCModel *inputModel);
     void sendCurrentTurnValues();
-    QString currentPlayerName()  ;
-    QUuid currentPlayerId();
     int lastPlayerIndex();
-    void addScore(const int &score);
+    void addInput(DCContext::IDCModel *inputModel);
     void nextTurn();
     void declareWinner();
 };

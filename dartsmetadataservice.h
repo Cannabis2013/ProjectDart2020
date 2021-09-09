@@ -1,16 +1,17 @@
-#ifndef DARTSMETADATASERVICE_H
-#define DARTSMETADATASERVICE_H
-
+#ifndef DCMETAINFO_H
+#define DCMETAINFO_H
 #include "idartsmetadata.h"
 
-class DartsMetaDataService : public IDartsMetaData
+#include <idcmetainfo.h>
+class DCMetaInfo : public IDartsMetaData
 {
 public:
-    DartsMetaDataService(const QUuid &tournamentId,const int &displayHint, const int &initialScore)
+    DCMetaInfo(const DartsBuilderContext::IDCMetaInfo *details)
     {
-        _tournamentId = tournamentId;
-        _displayHint = displayHint;
-        _initialScore = initialScore;
+        _inputHint = details->inputHint();
+        _tournamentId = details->tournamentId();
+        _displayHint =  details->displayHint();
+        _initialScore = details->keyPoint();
     }
     virtual int status() const override
     {
@@ -32,9 +33,14 @@ public:
     {
         return _initialScore;
     }
+    virtual int inputHint() const override
+    {
+        return _inputHint;
+    }
 private:
     QUuid _tournamentId;
     int _displayHint;
+    int _inputHint;
     int _status;
     int _initialScore;
 };

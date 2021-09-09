@@ -10,7 +10,7 @@ QString DCWinnerService::winnerName() const
     return _winnerName;
 }
 
-void *DCWinnerService::setWinner(const QUuid &id, const QString &name)
+void DCWinnerService::setWinner(const QUuid &id, const QString &name)
 {
     _winnerId = id;
     _winnerName = name;

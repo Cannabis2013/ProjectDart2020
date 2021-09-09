@@ -15,7 +15,7 @@
 #include "dartspointsjsonservice.h"
 #include "dartsinputsjsondb.h"
 #include "getdartspointfromdb.h"
-#include "dartscreatepointindexes.h"
+#include "dartscreateindexes.h"
 #include "createjsonfromdartspointindexes.h"
 #include "dartscreatejsonfromdartspoint.h"
 #include "createplayermodels.h"
@@ -35,13 +35,12 @@
 #include "getdartstournamentfromdb.h"
 #include "extractwinnerinfofromjson.h"
 #include "addplayerdetailstotournament.h"
-#include "getdatafromdartstournament.h"
 #include "dartscreatejsonmetadata.h"
-#include "dartscreatepointmodel.h"
+#include "dartscreateinputmodel.h"
 #include "gettournamentwinner.h"
 #include "createjsonfromtournamentdetails.h"
 
-class JsonModelsService : public ModelsContext::DartsModelsService
+class JsonModelsService : public DartsModelsService
 {
 public:
     JsonModelsService();

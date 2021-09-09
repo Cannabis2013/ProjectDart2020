@@ -1,56 +1,47 @@
 #ifndef DPCCREATEINPUTMODELS_H
 #define DPCCREATEINPUTMODELS_H
 
-#include <qjsondocument.h>
-#include <qjsonobject.h>
 #include <qjsonarray.h>
 #include "dcmodel.h"
 #include "idcmodelcreator.h"
 
+
 class DPCCreateInputModels : public IDCModelCreator
 {
 public:
-    DCContext::IDCModel *createModel(const QByteArray &json) const override
+    DCContext::IDCModel *createModel(const QByteArray &json, const IJsonValuesExtractor *extractor) const override
     {
         auto jsonObject = toJsonObject(json);
-        return toModel(jsonObject);
+        return toModel(jsonObject,extractor);
     }
-    QVector<DCContext::IDCModel*> createModels(const QByteArray &json) const override
+    QVector<DCContext::IDCModel*> createModels(const QByteArray &json, const IJsonValuesExtractor *extractor) const override
     {
         QVector<DCContext::IDCModel*> dartsPointModels;
         for (const auto &jsonVal : toJsonArray(json))
-            dartsPointModels << createModel(toByteArray(jsonVal));
+            dartsPointModels << createModel(toByteArray(jsonVal),extractor);
         return dartsPointModels;
-    }
-    DCContext::IDCModel *createModel(const int &point, const int &score, const int &modKeyCode) const override
-    {
-        auto model = DCContext::DCModel::createInstance();
-        model->setPoint(point);
-        model->setScore(score);
-        model->setModKeyCode(modKeyCode);
-        return model;
     }
     virtual QVector<DCContext::IDCModel *> createModels(IDCScoresService *scoresService) const override
     {
         QVector<DCContext::IDCModel*> models;
-        for (const auto &tuple : scoresService->tuples())
+        for (const auto &tuple : scoresService->scoreModels())
             models << toModel(tuple);
         return models;
     }
 private:
-    DCContext::DCModel *toModel(const QJsonObject &jsonObject) const
+    DCContext::DCModel *toModel(const QJsonObject &jsonObject, const IJsonValuesExtractor *extractor) const
     {
         auto model = DCContext::DCModel::createInstance();
-        model->setScore(jsonObject.value("score").toInt());
-        model->setPoint(jsonObject.value("point").toInt());
-        model->setTotalScore(jsonObject.value("totalScore").toInt());
-        model->setModKeyCode( jsonObject.value("modKeyCode").toInt());
-        model->setPlayerId(toId(jsonObject,"playerId"));
-        model->setPlayerName(jsonObject.value("playerName").toString());
+        model->setScore(extractor->toInt(jsonObject,"score"));
+        model->setPoint(extractor->toInt(jsonObject,"point"));
+        model->setModKeyCode(extractor->toInt(jsonObject,"modKeyCode"));
+        model->setTotalScore(extractor->toInt(jsonObject,"totalScore"));
+        model->setPlayerId(extractor->toId(jsonObject,"playerId"));
+        model->setPlayerName(extractor->toString(jsonObject,"playerName"));
         model->setTotalScore(0);
         return model;
     }
-    DCContext::DCModel *toModel(const DCContext::DCPTuple &tuple) const
+    DCContext::DCModel *toModel(const DCContext::DCScoreModel &tuple) const
     {
         auto inputModel = DCContext::DCModel::createInstance();
         inputModel->setPlayerId(tuple.id);
@@ -73,10 +64,6 @@ private:
         auto document = QJsonDocument(jsonValue.toObject());
         return document.toJson();
     }
-    QUuid toId(const QJsonObject &obj, const QString &key) const
-    {
-        auto stringId = obj[key].toString();
-        return QUuid::fromString(stringId);
-    }
+
 };
 #endif // DARTSCONTROLLERPOINTBUILDER_H

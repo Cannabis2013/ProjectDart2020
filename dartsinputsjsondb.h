@@ -3,7 +3,7 @@
 
 #include "dartsinputjsondb.h"
 #include "createdartspointsfromjson.h"
-#include "dartsdbcreatejsonfrompoints.h"
+#include "dartsdbcreatejsonfrominputs.h"
 #include "writebytearray.h"
 #include "readbytearray.h"
 
@@ -15,13 +15,13 @@ namespace DartsDbContext
         DartsInputsJsonDb()
         {
             setCreateModelsFromJson(new CreateDartsPointsFromJson);
-            setCreateJsonFromModels(new DartsDbCreatejsonFromPoints);
+            setCreateJsonFromModels(new DartsDbCreatejsonFromInputs);
             setReadJsonFromFile(new ReadByteArray(_fileName));
             setWriteJsonToFile(new WriteByteArray(_fileName));
             fetchModels();
         }
     private:
-        const QString _fileName = "DartsPointModels";
+        const QString _fileName = "DartsInputModels";
     };
 }
 

@@ -12,6 +12,7 @@ public:
         service->setSetIndex(indexes->setIndex());
         service->setAttemptIndex(indexes->attemptIndex());
         service->setTurnIndex(indexes->turnIndex());
+        service->setTotalIndex(indexes->totalTurns());
     }
 };
 

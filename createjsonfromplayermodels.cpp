@@ -2,7 +2,7 @@
 
 using namespace PlayersContext;
 
-QByteArray CreateJsonFromPlayerModels::createJson(const QVector<const IModel<QUuid> *> &models) const
+QByteArray CreateJsonFromPlayerModels::toJson(const QVector<const IModel<QUuid> *> &models) const
 {
     QJsonArray arr = createJsonArray(models);
     return createByteArray(arr);

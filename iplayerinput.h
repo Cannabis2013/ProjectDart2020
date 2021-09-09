@@ -4,8 +4,7 @@
 #include "imodel.h"
 #include <quuid.h>
 
-class IPlayerInput :
-        public IModel<QUuid>
+class IPlayerInput : public IModel<QUuid>
 {
 public:
     virtual int hint() const = 0;

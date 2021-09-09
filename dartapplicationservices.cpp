@@ -10,14 +10,9 @@ AbstractGameController *DartApplicationServices::gameController() const
     return _gameController;
 }
 
-AbstractDCBuilder *DartApplicationServices::createDartsPointController() const
+AbstractDCBuilder *DartApplicationServices::dcBuilder() const
 {
-    return _createDartsPointController;
-}
-
-AbstractDCBuilder *DartApplicationServices::createDartsScoreController() const
-{
-    return _createDartsScoreController;
+    return _dcBuilder;
 }
 
 IConnectServicesProvider *DartApplicationServices::connectServices() const

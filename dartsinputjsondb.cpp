@@ -52,7 +52,7 @@ namespace DartsDbContext{
 
     void DartsInputJsonDb::saveState()
     {
-        auto json = createJsonFromModels()->createJson(_dartsScoreModels);
+        auto json = createJsonFromModels()->toJson(_dartsScoreModels);
         writeJsonToFile()->write(json);
     }
 }

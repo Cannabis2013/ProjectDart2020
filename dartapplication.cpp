@@ -1,6 +1,6 @@
 #include "dartapplication.h"
 
-void DartApplication::createDartsTournamentFromJson(const QByteArray &json)
+void DartApplication::addDartsTournaments(const QByteArray &json)
 {
     auto future = playerModelsContext()->playerModels(json);
     runAsync<Models>([=](){
@@ -31,7 +31,7 @@ void DartApplication::clearGameController()
 }
 
 template<typename T>
-void DartApplication::runAsync(Func funct, const QFuture<T> &future)
+void DartApplication::runAsync(std::function<void ()> funct, const QFuture<T> &future)
 {
     auto watcher = new QFutureWatcher<T>();
     connect(watcher,&QFutureWatcherBase::finished, [=](){

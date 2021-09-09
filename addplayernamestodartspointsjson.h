@@ -24,12 +24,12 @@ private:
         for (const auto &j : arr) {
             auto obj = j.toObject();
             auto playerId = QUuid(obj.value("playerId").toString());
-            obj["playerName"] = getPlayerName(playerId,scoresService->tuples());
+            obj["playerName"] = getPlayerName(playerId,scoresService->scoreModels());
             newArr << obj;
         }
         return newArr;
     }
-    QString getPlayerName(const QUuid &id, const QVector<DCContext::DCPTuple> &tuples) const
+    QString getPlayerName(const QUuid &id, const QVector<DCContext::DCScoreModel> &tuples) const
     {
         for (const auto &tuple : tuples) {
             if(tuple.id == id)

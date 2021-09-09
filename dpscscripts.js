@@ -6,29 +6,28 @@ function initializeComponent()
 
 function connectInterface()
 {
-    // Initializing ui values
     applicationInterface.sendDartsTournamentData.connect(handleDartsTournamentMetaData);
-    applicationInterface.sendOrderedDartsPoints.connect(recievePoints);
-    applicationInterface.dartsPointControllerIsReady.connect(backendIsReady);
+    applicationInterface.sendOrderedDartsInputs.connect(recievePoints);
+    applicationInterface.dartsControllerIsReady.connect(backendIsReady);
     applicationInterface.controllerIsStopped.connect(backendIsStopped);
     applicationInterface.controllerAwaitsInput.connect(backendIsReadyAndAwaitsInput);
     applicationInterface.dartsControllerIsReset.connect(reinitialize);
     applicationInterface.controllerHasDeclaredAWinner.connect(backendDeclaredAWinner);
-    applicationInterface.dartsControllerRemovedPoint.connect(backendRemovedPoint);
-    applicationInterface.addedDartsPoint.connect(handleBackendPersistedInput);
+    applicationInterface.dartsInputRemoveSucces.connect(backendRemovedPoint);
+    applicationInterface.addedInput.connect(addInput);
 }
 
 function disconnectInterface()
 {
     applicationInterface.sendDartsTournamentData.disconnect(handleDartsTournamentMetaData);
-    applicationInterface.sendOrderedDartsPoints.disconnect(recievePoints);
-    applicationInterface.dartsPointControllerIsReady.disconnect(backendIsReady);
+    applicationInterface.sendOrderedDartsInputs.disconnect(recievePoints);
+    applicationInterface.dartsControllerIsReady.disconnect(backendIsReady);
     applicationInterface.controllerIsStopped.connect(backendIsStopped);
     applicationInterface.controllerAwaitsInput.disconnect(backendIsReadyAndAwaitsInput);
     applicationInterface.dartsControllerIsReset.disconnect(reinitialize);
     applicationInterface.controllerHasDeclaredAWinner.disconnect(backendDeclaredAWinner);
-    applicationInterface.dartsControllerRemovedPoint.disconnect(backendRemovedPoint);
-    applicationInterface.addedDartsPoint.disconnect(handleBackendPersistedInput);
+    applicationInterface.dartsInputRemoveSucces.disconnect(backendRemovedPoint);
+    applicationInterface.addedInput.disconnect(addInput);
 }
 
 function handleDartsTournamentMetaData(data){
@@ -70,7 +69,7 @@ function backendIsReady()
 }
 
 // When backend has evaluated and persisted player input
-function handleBackendPersistedInput(data)
+function addInput(data)
 {
     var json = JSON.parse(data);
     updatePointBoard(json);
@@ -131,7 +130,7 @@ function handleScoreKeyPadInput(input, keyCode){
         modKeyCode : keyCode
     };
     var json = JSON.stringify(obj);
-    applicationInterface.sendDartsPoint(json);
+    applicationInterface.addUserInput(json);
 }
 
 function backendIsStopped()

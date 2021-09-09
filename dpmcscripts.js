@@ -8,25 +8,25 @@ function connectInterface()
 {
     applicationInterface.sendOrderedDartsPoints.connect(recievePoints);
     applicationInterface.dartsControllerIsReset.connect(reinitialize);
-    applicationInterface.dartsPointControllerIsReady.connect(backendInitializedAndReady);
+    applicationInterface.dartsControllerIsReady.connect(backendInitializedAndReady);
     applicationInterface.controllerAwaitsInput.connect(backendIsReadyAndAwaitsInput);
     applicationInterface.controllerHasDeclaredAWinner.connect(backendDeclaredAWinner);
     applicationInterface.controllerIsStopped.connect(backendIsStopped);
     applicationInterface.sendDartsTournamentData.connect(handleDartsMetaData);
     applicationInterface.dartsControllerRemovedPoint.connect(backendRemovedPoint);
-    applicationInterface.addedDartsPoint.connect(backendPersistedInput);
+    applicationInterface.addedInput.connect(backendPersistedInput);
 }
 
 function disconnectInterface()
 {
     applicationInterface.sendOrderedDartsPoints.disconnect(recievePoints);
-    applicationInterface.dartsPointControllerIsReady.disconnect(backendInitializedAndReady);
+    applicationInterface.dartsControllerIsReady.disconnect(backendInitializedAndReady);
     applicationInterface.controllerHasDeclaredAWinner.disconnect(backendDeclaredAWinner);
     applicationInterface.controllerIsStopped.disconnect(backendIsStopped);
     applicationInterface.sendDartsTournamentData.disconnect(handleDartsMetaData);
     applicationInterface.dartsControllerRemovedPoint.disconnect(backendRemovedPoint);
     applicationInterface.controllerAwaitsInput.disconnect(backendIsReadyAndAwaitsInput);
-    applicationInterface.addedDartsPoint.disconnect(backendPersistedInput);
+    applicationInterface.addedInput.disconnect(backendPersistedInput);
 }
 
 function handleDartsMetaData(data){
@@ -144,7 +144,7 @@ function handlePointKeyPadInput(value,keyCode){
         modKeyCode : keyCode
     };
     var json = JSON.stringify(obj);
-    applicationInterface.sendDartsPoint(json);
+    applicationInterface.addUserInput(json);
 }
 
 function backendIsStopped()

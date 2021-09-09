@@ -8,8 +8,7 @@ class AbstractRouteByDisplayHint : public QObject
 {
     Q_OBJECT
 public slots:
-    virtual void determineDartsPointRouteByDisplayHint(const int & displayHint) = 0;
-    virtual void determineDartsScoreRouteByDisplayHint(const int & displayHint) = 0;
+    virtual void routeByHints(const int &inputHint,const int & displayHint) = 0;
 signals:
     void dartsPointSingleColumnInitialized();
     void dartsPointMultiColumnInitialized();

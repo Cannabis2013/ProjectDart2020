@@ -3,16 +3,15 @@
 
 #include "idartsinputsuggestion.h"
 #include "idcwinnerservice.h"
-#include "idcmodeltojson.h"
+#include "idcinputstojson.h"
 #include "iunaryservice.h"
 #include "ibinaryservice.h"
 #include "iternaryservice.h"
 #include "idcindexesbuilder.h"
 #include "idcplayermodelbuilder.h"
-#include "igenericjsonbuilder.h"
 #include "idartsmetadata.h"
 #include <idcindexservice.h>
-#include <ipointvalidator.h>
+#include <idartsinputvalidator.h>
 #include "idcinitializeindexes.h"
 class DCBasicServices
 {
@@ -35,19 +34,35 @@ public:
     {
         _winnerService = newWinnerService;
     }
-protected:
-    //Services
-    // Generate throwsuggestions
-    IDartsInputSuggestion *_scoreLogisticInterface = nullptr;
-    // Validator service
-    IPointValidator* _inputEvaluator = nullptr;
-    // Index service
-    IDCIndexService* _indexService = nullptr;
-    // Userscore service
-    IDCWinnerService* _winnerService = nullptr;
-    // Meta data service
-    IDartsMetaData *_metaData;
+    IDartsMetaData *metaData() const
+    {
+        return _metaData;
+    }
+    void setMetaData(IDartsMetaData *newMetaData)
+    {
+        _metaData = newMetaData;
+    }
+    IDartsInputValidator *inputEvaluator() const
+    {
+        return _inputEvaluator;
+    }
+    void setInputEvaluator(IDartsInputValidator *newInputEvaluator)
+    {
+        _inputEvaluator = newInputEvaluator;
+    }
+    IDartsInputSuggestion *scoreLogisticInterface() const
+    {
+        return _scoreLogisticInterface;
+    }
+    void setScoreLogisticInterface(IDartsInputSuggestion *newScoreLogisticInterface)
+    {
+        _scoreLogisticInterface = newScoreLogisticInterface;
+    }
 private:
+    IDartsInputSuggestion *_scoreLogisticInterface = nullptr;
+    IDCWinnerService *_winnerService = nullptr;
+    IDartsInputValidator* _inputEvaluator = nullptr;
+    IDartsMetaData *_metaData;
     IDCInitializeIndexes *_initializeIndexes;
 };
 #endif // DSCSERVICESPROVIDER_H

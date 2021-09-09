@@ -2,7 +2,6 @@
 #define DARTAPPLICATIONSERVICES_H
 
 #include <abstractdcbuilder.h>
-#include <abstractroutebyinputhint.h>
 #include <abstractroutebydisplayhint.h>
 #include <iconnectcontroller.h>
 #include "iconnectservicesprovider.h"
@@ -14,8 +13,7 @@ class DartApplicationServices : public AbstractApplicationInterface
 public:
     AbstractDartsModelsContext *modelsService() const;
     AbstractGameController *gameController() const;
-    AbstractDCBuilder *createDartsPointController() const;
-    AbstractDCBuilder *createDartsScoreController() const;
+    AbstractDCBuilder *dcBuilder() const;
     IConnectServicesProvider *connectServices() const;
     IRouteServicesProvider *routeServices() const;
     IPlayerModelsContext *playerModelsContext() const;
@@ -29,7 +27,7 @@ protected:
     AbstractGameController *_gameController = nullptr;
     // Builders
     AbstractDCBuilder *_createDartsPointController;
-    AbstractDCBuilder *_createDartsScoreController;
+    AbstractDCBuilder *_dcBuilder;
     // Connect darts controller services
     IConnectServicesProvider *_connectServices;
     // Route services

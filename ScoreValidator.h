@@ -3,7 +3,7 @@
 
 #include "pointvalidator.h"
 
-class ScoreValidator : public IPointValidator
+class ScoreValidator : public IDartsInputValidator
 {
 public:
     enum InputDomains {

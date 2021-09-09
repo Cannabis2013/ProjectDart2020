@@ -20,15 +20,10 @@ public:
                          const IConnectServicesProvider *connectProvider)
     {
 
-        connectProvider->connectRouteByGameMode()->connect(application->modelsService(),
-                                                           routeProvider->routeByGameMode());
-        connectProvider->connectDartsModelsContext()->connect(application,application->modelsService());
-        connectProvider->connectRouteByInputHint()->connectServices(application->modelsService(),
-                                                                    routeProvider->routeByInputHint());
+        connectProvider->connectRouteByGameMode()->connect(application->modelsService(),routeProvider->routeByGameMode());
+        connectProvider->connectDartsModelsContext()->connect(application,application->modelsService(),application->dcBuilder());
         // Connect darts builder services
-
-        connectProvider->connectDCBuilder()->connectServices(routeProvider->routeByInputHint(),
-                                                             application->createDartsScoreController(),application);
+        connectProvider->connectDCBuilder()->connectServices(application->dcBuilder(),application);
         // Connect route from the point where controllers are initialized to the route interface
         connectProvider->connectRouteByDisplayHint()->connectServices(routeProvider->routeByDisplayHint(),
                                                                       application);

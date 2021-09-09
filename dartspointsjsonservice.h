@@ -11,7 +11,7 @@ namespace ModelsContext {
     class DartsModelsCreateJsonFromPoints : public IDartsModelsCreateJsonFromPoints
     {
     public:
-        virtual QByteArray createJson(const QVector<const IModel<QUuid>*> &models) const override;
+        virtual QByteArray toJson(const QVector<const IModel<QUuid>*> &models) const override;
     };
 }
 

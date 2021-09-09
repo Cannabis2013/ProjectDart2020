@@ -7,27 +7,27 @@ function initializeComponent()
 function connectInterface()
 {
     applicationInterface.sendDartsTournamentData.connect(handleTournamentMetaData);
-    applicationInterface.sendOrderedDartsScores.connect(recieveDartsScores);
-    applicationInterface.dartsScoreControllerIsReady.connect(backendIsReady);
+    applicationInterface.sendDartsScores.connect(recieveDartsScores);
+    applicationInterface.dartsControllerIsReady.connect(backendIsReady);
     applicationInterface.controllerAwaitsInput.connect(backendIsReadyAndAwaitsInput);
     applicationInterface.controllerHasDeclaredAWinner.connect(backendDeclaredAWinner);
     applicationInterface.controllerIsStopped.connect(backendIsStopped);
-    applicationInterface.addedDartsScore.connect(backendPersistedInput);
+    applicationInterface.addedInput.connect(backendPersistedInput);
     scoreKeyPad.sendInput.connect(handleScoreKeyPadInput);
     applicationInterface.dartsControllerIsReset.connect(reinitialize);
-    applicationInterface.dartsControllerRemovedScore.connect(backendRemovedPoint);
+    applicationInterface.dartsInputRemoveSucces.connect(backendRemovedPoint);
 }
 
 function disconnectInterface()
 {
     applicationInterface.sendDartsTournamentData.disconnect(handleTournamentMetaData);
-    applicationInterface.sendOrderedDartsScores.disconnect(recieveDartsScores);
-    applicationInterface.dartsScoreControllerIsReady.disconnect(backendIsReady);
+    applicationInterface.sendDartsScores.disconnect(recieveDartsScores);
+    applicationInterface.dartsControllerIsReady.disconnect(backendIsReady);
     applicationInterface.controllerAwaitsInput.connect(backendIsReadyAndAwaitsInput);
     applicationInterface.controllerHasDeclaredAWinner.disconnect(backendDeclaredAWinner);
     applicationInterface.controllerIsStopped.disconnect(backendIsStopped);
-    applicationInterface.addedDartsScore.disconnect(backendPersistedInput);
-    applicationInterface.dartsControllerRemovedScore.disconnect(backendRemovedPoint);
+    applicationInterface.addedInput.disconnect(backendPersistedInput);
+    applicationInterface.dartsInputRemoveSucces.disconnect(backendRemovedPoint);
     scoreKeyPad.sendInput.disconnect(handleScoreKeyPadInput);
 }
 
@@ -128,7 +128,7 @@ function handleScoreKeyPadInput(value){
         score : value
     };
     var json = JSON.stringify(obj);
-    applicationInterface.sendDartsScore(json);
+    applicationInterface.addUserInput(json);
 }
 
 function backendIsStopped()

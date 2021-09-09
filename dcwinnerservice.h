@@ -9,7 +9,7 @@ class DCWinnerService : public IDCWinnerService
 public:
     QUuid winnerId() const override;
     QString winnerName() const override;
-    void *setWinner(const QUuid &id, const QString &name) override;
+    void setWinner(const QUuid &id, const QString &name) override;
 private:
     QUuid _winnerId;
     QString _winnerName;

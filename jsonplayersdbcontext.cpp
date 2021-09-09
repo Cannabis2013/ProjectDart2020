@@ -13,7 +13,7 @@ void JsonPlayersDbContext::fetchModels()
 
 void JsonPlayersDbContext::saveState()
 {
-    writeJsonToFile()->write(createJsonFromModels()->createJson(_playerModels));
+    writeJsonToFile()->write(createJsonFromModels()->toJson(_playerModels));
 }
 
 QVector<const IModel<QUuid> *> JsonPlayersDbContext::models() const

@@ -1,15 +1,17 @@
 #ifndef DARTSPOINTSETHINT_H
 #define DARTSPOINTSETHINT_H
-
-#include "idartspointsethint.h"
-
-namespace ModelsContext {
-    class DartsPointSetHint : public IDartsPointSetHint
+#include "idartsinputsethint.h"
+class DartsPointSetHint : public IDartsInputSetHint
+{
+public:
+    void setDartsPointHint(const IModel<QUuid> *inputModel, const int &hint,
+                           IModelsDbContext *dbService) override
     {
-    public:
-        void setDartsPointHint(const IModel<QUuid> *inputModel, const int &hint,
-                               IModelsDbContext *dbService) override;
-    };
-}
+        auto inferedModel = dynamic_cast<const IPlayerInput*>(inputModel);
+        auto nonConstModel = const_cast<IPlayerInput*>(inferedModel);
+        nonConstModel->setHint(hint);
+        dbService->saveState();
+    }
+};
 
 #endif // DARTSPOINTMODELSSERVICE_H

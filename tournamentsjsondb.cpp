@@ -7,7 +7,7 @@ void TournamentsJsonDb::fetchModels()
 
 void TournamentsJsonDb::saveState()
 {
-    writeJsonToFile()->write(createJsonFromModels()->createJson(_models));
+    writeJsonToFile()->write(createJsonFromModels()->toJson(_models));
 }
 
 void TournamentsJsonDb::add(const IModel<QUuid> *model)

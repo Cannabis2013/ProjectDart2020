@@ -9,7 +9,7 @@ class CreateJsonFromDartsTournaments :
         public ICreateJsonFromModels
 {
 public:
-    virtual QByteArray createJson(const QVector<const IModel<QUuid>*> &models) const override
+    virtual QByteArray toJson(const QVector<const IModel<QUuid>*> &models) const override
     {
         QJsonArray arr = createJsonArray(models);
         QJsonObject obj = createJsonObject(arr);

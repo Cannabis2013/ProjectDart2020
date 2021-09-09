@@ -6,7 +6,7 @@
 class IDCWinnerService
 {
 public:
-    virtual void *setWinner(const QUuid& id, const QString &name) = 0;
+    virtual void setWinner(const QUuid& id, const QString &name) = 0;
     virtual QUuid winnerId() const = 0;
     virtual QString winnerName() const = 0;
 };
