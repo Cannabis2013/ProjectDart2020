@@ -4,18 +4,10 @@ import QtQuick.Layouts 1.3
 Content
 {
     id: body
-    
     signal sendPlayerDetails(string json)
-
-    function handleCreatePlayerResponse(status)
+    function handleError(msg)
     {
-        if(status)
-            requestQuit();
-        else
-        {
-            buttonOneEnabled = true;
-            buttonTwoEnabled = true;
-        }
+        buttonOneEnabled = buttonTwoEnabled = true;
     }
     
     function evaluateInputs(){
@@ -84,9 +76,11 @@ Content
     }
 
     Component.onCompleted: {
-        applicationInterface.createPlayerResponse.connect(body.handleCreatePlayerResponse);
+        applicationInterface.playerAddedSucces.connect(body.requestQuit);
+        applicationInterface.playerAddedError.connect(body.handleError);
     }
     Component.onDestruction: {
-        applicationInterface.createPlayerResponse.disconnect(body.handleCreatePlayerResponse);
+        applicationInterface.playerAddedSucces.disconnect(body.requestQuit);
+        applicationInterface.playerAddedError.disconnect(body.handleError);
     }
 }

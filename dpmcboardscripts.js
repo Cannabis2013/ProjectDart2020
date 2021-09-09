@@ -27,26 +27,26 @@ function refreshHeaders()
 function refreshHorizontalHeader()
 {
     let count = dartsDataModel.columnCount;
-    dPMCBoard.horizontalHeaderModel = count;
+    dpmcBoard.horizontalHeaderModel = count;
     for(var i = 0; i < count;i++)
     {
         let hHeaderValue = horizontalHeaderModel.roundByAttempt(i);
         let columnWidth = tableWidthProvider.columnWidthAt(i);
-        dPMCBoard.setHorizontalHeaderWidthAt(i,columnWidth);
-        dPMCBoard.setHorizontalHeaderDataAt(i,hHeaderValue);
+        dpmcBoard.setHorizontalHeaderWidthAt(i,columnWidth);
+        dpmcBoard.setHorizontalHeaderDataAt(i,hHeaderValue);
     }
 }
 
 function refreshVerticalHeader()
 {
     let headerCount = verticalHeaderModel.count();
-    dPMCBoard.verticalHeaderModel = headerCount;
+    dpmcBoard.verticalHeaderModel = headerCount;
     for(var row = 0;row < headerCount;row++)
     {
         let vHeaderValue = verticalHeaderModel.item(row);
         let rowHeight = tableHeightProvider.rowHeightAt(row);
-        dPMCBoard.setVerticalHeaderHeightAt(row,rowHeight);
-        dPMCBoard.setVerticalHeaderDataAt(row,vHeaderValue);
+        dpmcBoard.setVerticalHeaderHeightAt(row,rowHeight);
+        dpmcBoard.setVerticalHeaderDataAt(row,vHeaderValue);
     }
 }
 
@@ -54,7 +54,7 @@ function updateContentDimensions()
 {
     var tHeight = calculateHeight();
     var tWidth = calculateWidth();
-    dPMCBoard.updateContentDimensions(tHeight,tWidth);
+    dpmcBoard.updateContentDimensions(tHeight,tWidth);
 }
 
 function calculateHeight()
@@ -71,7 +71,7 @@ function updateScoreBoard()
 {
     updateContentDimensions();
     refreshHeaders();
-    dPMCBoard.requestUpdateCells();
+    dpmcBoard.requestUpdateCells();
 }
 
 function totalColumnsWidth()
@@ -99,7 +99,7 @@ function totalHeaderHeight()
 
 function setViewPosition(x,y)
 {
-    dPMCBoard.updateViewPosition(x,y);
+    dpmcBoard.updateViewPosition(x,y);
 }
 
 function setData(playerName,score,point){

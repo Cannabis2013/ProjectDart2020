@@ -55,7 +55,8 @@ signals:
     // Player signals
     void requestCreatePlayer(const QByteArray &json);
     void requestDeletePlayers(const QVector<int> &indexes);
-    void createPlayerResponse(const bool &status);
+    void playerAddedSucces();
+    void playerAddedError(const QString &msg);
     void playersDeletedStatus(const bool &status);
     // Controller signals
     void addUserInput(const QByteArray& json);

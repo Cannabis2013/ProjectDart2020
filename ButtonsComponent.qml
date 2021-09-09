@@ -37,7 +37,7 @@ Rectangle{
     property int buttonWidth: 80
     onButtonWidthChanged: {
         buttonOne.width = buttonWidth
-        buttontwo.width = buttonWidth
+        buttonTwo.width = buttonWidth
     }
 
     Layout.alignment: Qt.AlignTop | Qt.AlignHCenter

@@ -6,6 +6,7 @@
 #include <igetplayerfromdb.h>
 #include "icreateplayermodels.h"
 #include "imodelsdbcontext.h"
+#include <iremovemodelsfromdb.h>
 
 class PlayerModelsServices
 {
@@ -20,13 +21,15 @@ public:
     void setGetPlayerModelsFromDb(IGetPlayersFromDb *newGetDartsPlayerModelsFromDb);
     ICreatePlayerModels *createPlayerModels() const;
     void setCreatePlayerModels(ICreatePlayerModels *newCreatePlayerModels);
-
+    IRemoveModelsFromDb<IModelsDbContext> *removeFromDb() const;
+    void setRemoveFromDb(IRemoveModelsFromDb<IModelsDbContext> *newRemoveFromDb);
 private:
     ICreatePlayerFromJson *_createPlayerModel;
     ICreatePlayerModels *_createPlayerModels;
     IGetPlayersFromDb * _getPlayerModelsFromDb;
     ICreateJsonFromPlayers *_jsonBuilder;
     IModelsDbContext *_dbContext;
+    IRemoveModelsFromDb<IModelsDbContext> *_removeFromDb;
 };
 
 #endif // PLAYERMODELSSERVICES_H

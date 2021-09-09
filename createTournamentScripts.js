@@ -65,5 +65,5 @@ function createDartsTournament()
     };
     var json = JSON.stringify(obj);
     // Send values
-    applicationInterface.createDartsTournamentFromJson(json);
+    applicationInterface.addDartsTournaments(json);
 }

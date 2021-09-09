@@ -50,3 +50,13 @@ void PlayerModelsServices::setCreatePlayerModels(ICreatePlayerModels *newCreateP
 {
     _createPlayerModels = newCreatePlayerModels;
 }
+
+IRemoveModelsFromDb<IModelsDbContext> *PlayerModelsServices::removeFromDb() const
+{
+    return _removeFromDb;
+}
+
+void PlayerModelsServices::setRemoveFromDb(IRemoveModelsFromDb<IModelsDbContext> *newRemoveFromDb)
+{
+    _removeFromDb = newRemoveFromDb;
+}

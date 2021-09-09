@@ -7,6 +7,8 @@
 #include "createplayermodels.h"
 #include "getplayersfromdb.h"
 #include "createjsonfromplayers.h"
+
+#include <removemodelsfromdb.h>
 class LocalPlayersContext : public PlayerModelsContext
 {
 public:
@@ -18,6 +20,7 @@ public:
         setCreatePlayerModels(new CreatePlayerModels);
         setGetPlayerModelsFromDb(new GetPlayersFromDb);
         setDartsPlayerJsonBuilder(new CreateJsonFromPlayers);
+        setRemoveFromDb(new RemoveModelsFromDb);
     }
 };
 

@@ -6,30 +6,31 @@ function initializeComponent()
 
 function connectInterface()
 {
-    applicationInterface.sendOrderedDartsPoints.connect(recievePoints);
-    applicationInterface.dartsControllerIsReset.connect(reinitialize);
+    applicationInterface.sendDartsTournamentData.connect(handleMetaData);
+    applicationInterface.sendOrderedDartsInputs.connect(recievePoints);
     applicationInterface.dartsControllerIsReady.connect(backendInitializedAndReady);
-    applicationInterface.controllerAwaitsInput.connect(backendIsReadyAndAwaitsInput);
-    applicationInterface.controllerHasDeclaredAWinner.connect(backendDeclaredAWinner);
     applicationInterface.controllerIsStopped.connect(backendIsStopped);
-    applicationInterface.sendDartsTournamentData.connect(handleDartsMetaData);
-    applicationInterface.dartsControllerRemovedPoint.connect(backendRemovedPoint);
+    applicationInterface.controllerAwaitsInput.connect(backendIsReadyAndAwaitsInput);
+    applicationInterface.dartsControllerIsReset.connect(reinitialize);
+    applicationInterface.controllerHasDeclaredAWinner.connect(backendDeclaredAWinner);
+    applicationInterface.dartsInputRemoveSucces.connect(backendRemovedPoint);
     applicationInterface.addedInput.connect(backendPersistedInput);
 }
 
 function disconnectInterface()
 {
-    applicationInterface.sendOrderedDartsPoints.disconnect(recievePoints);
+    applicationInterface.sendDartsTournamentData.disconnect(handleMetaData);
+    applicationInterface.sendOrderedDartsInputs.disconnect(recievePoints);
     applicationInterface.dartsControllerIsReady.disconnect(backendInitializedAndReady);
-    applicationInterface.controllerHasDeclaredAWinner.disconnect(backendDeclaredAWinner);
     applicationInterface.controllerIsStopped.disconnect(backendIsStopped);
-    applicationInterface.sendDartsTournamentData.disconnect(handleDartsMetaData);
-    applicationInterface.dartsControllerRemovedPoint.disconnect(backendRemovedPoint);
     applicationInterface.controllerAwaitsInput.disconnect(backendIsReadyAndAwaitsInput);
+    applicationInterface.dartsControllerIsReset.disconnect(reinitialize);
+    applicationInterface.controllerHasDeclaredAWinner.disconnect(backendDeclaredAWinner);
+    applicationInterface.dartsInputRemoveSucces.disconnect(backendRemovedPoint);
     applicationInterface.addedInput.disconnect(backendPersistedInput);
 }
 
-function handleDartsMetaData(data){
+function handleMetaData(data){
     var json = JSON.parse(data);
     initializeMetaValues(json);
     initializeScoreBoard();
@@ -99,6 +100,7 @@ function reinitialize()
 {
     // reinitialize controller after reset
     pointScoreBoard.clearData();
+    keyDataDisplay.clear();
     initializeScoreBoard();
     requestStatusFromBackend();
 }
@@ -122,9 +124,7 @@ function backendRemovedPoint(data)
 function backendIsReadyAndAwaitsInput(data)
 {
     var json = JSON.parse(data);
-    let throwSuggestion = json.targetRow;
-    let suggestion = textSourceContainer.throwSuggestLabel + " " + throwSuggestion;
-    keyDataDisplay.setThrowSuggestion(suggestion);
+    keyDataDisplay.setThrowSuggestion(json.targetRow);
     setTurnControllerValues(json);
     dartsPointMultiColumnBody.state = "waitingForInput";
 }
@@ -156,7 +156,7 @@ function backendIsStopped()
 function backendDeclaredAWinner(data)
 {
     var json = JSON.parse(data);
-    tournamentMetaData.determinedWinner = json.winner;
+    metaValues.winnerName = json.winnerName;
     dartsPointMultiColumnBody.state = "winner";
 }
 
@@ -174,8 +174,5 @@ function redoClicked()
 
 function setWinnerText()
 {
-    var winnerName = textSourceContainer.winnerLabel + " " +
-            tournamentMetaData.determinedWinner;
-    keyDataDisplay.item.setCurrentWinner(winnerName);
+    keyDataDisplay.setCurrentWinner(metaValues.winnerName);
 }
-

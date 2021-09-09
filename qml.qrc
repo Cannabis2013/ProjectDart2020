@@ -97,7 +97,7 @@
         <file>DSSCBoardFonts.qml</file>
         <file>DpmcTableFonts.qml</file>
         <file>DPSCBoardDelegate.qml</file>
-        <file>DPSCMetaValues.qml</file>
+        <file>DartsMetaValues.qml</file>
         <file>DSSCTableFonts.qml</file>
         <file>DSSCDelegate.qml</file>
     </qresource>

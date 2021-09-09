@@ -16,7 +16,7 @@ Content {
     signal sendInput(string json)
     signal setupGame
     signal requestPersistState
-    readonly property QtObject dpscMetaValues: DPSCMetaValues{}
+    readonly property QtObject metaValues: DartsMetaValues{}
     GridLayout{
         id: bodyLayout
         anchors.fill: parent

@@ -1,14 +1,15 @@
 #include "playermodelscontext.h"
 
-bool PlayerModelsContext::createPlayer(const QByteArray &json)
+void PlayerModelsContext::createPlayer(const QByteArray &json)
 {
     auto playerModel = createPlayerModel()->createPlayerModel(json);
     try {
         modelsDbContext()->add(playerModel);
     }  catch (...) {
-        return false;
+        emit playerAddedError("");
+        return;
     }
-    return true;
+    emit playerAddedSucces();
 }
 
 void PlayerModelsContext::deletePlayersFromIndexes(const QVector<int> &indexes)
@@ -34,12 +35,6 @@ QFuture<IPlayerModelsContext::Models> PlayerModelsContext::playerModels(const QB
     return QtConcurrent::run(createModels);
 }
 
-IRemoveModelsFromDb<IModelsDbContext> *PlayerModelsContext::removeFromDb() const
-{
-    return _removeFromDb;
-}
 
-void PlayerModelsContext::setRemoveFromDb(IRemoveModelsFromDb<IModelsDbContext> *newRemoveFromDb)
-{
-    _removeFromDb = newRemoveFromDb;
-}
+
+

@@ -12,7 +12,7 @@ public:
     {
         QFile file(_fileName);
         if(!file.exists())
-            throw "File not found";
+            return QByteArray();
         file.open(QIODevice::ReadOnly);
         QDataStream in(&file);
         QByteArray obj;

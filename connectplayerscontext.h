@@ -9,8 +9,10 @@ public:
     {
         QObject::connect(application,&AbstractApplicationInterface::requestCreatePlayer,
                 playersContext,&IPlayerModelsContext::createPlayer);
-        QObject::connect(playersContext,&IPlayerModelsContext::createPlayerResponse,
-                application,&AbstractApplicationInterface::createPlayerResponse);
+        QObject::connect(playersContext,&IPlayerModelsContext::playerAddedSucces,
+                application,&AbstractApplicationInterface::playerAddedSucces);
+        QObject::connect(playersContext,&IPlayerModelsContext::playerAddedError,
+                application,&AbstractApplicationInterface::playerAddedError);
         QObject::connect(application,&AbstractApplicationInterface::requestPlayers,
                 playersContext,&IPlayerModelsContext::handleRequestPlayersDetails);
         QObject::connect(playersContext,&IPlayerModelsContext::sendPlayers,

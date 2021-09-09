@@ -54,7 +54,6 @@ SOURCES += \
     playermodelscontext.cpp \
     playermodelsservices.cpp \
     removeinputsfromdb.cpp \
-    removemodelsfromdb.cpp \
     routebydisplayhint.cpp \
     tournamentsjsondb.cpp \
     tst_Dart2020.cpp \

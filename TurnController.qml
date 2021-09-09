@@ -25,7 +25,7 @@ Item {
     onBackendProcessesInput: state = "waitState"
     signal backendIsStopped
     onBackendIsStopped: state = "stoppedState"
-    signal backendHasDeclaredAWinner()
+    signal backendHasDeclaredAWinner
     onBackendHasDeclaredAWinner: state = "restartState"
     signal leftButtonPressAndHoldClicked
     signal rightButtonPressAndHoldClicked

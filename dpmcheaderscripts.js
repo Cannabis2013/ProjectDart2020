@@ -4,7 +4,7 @@ function addHeaderData(data,defaultVal)
     {
         var assignedPlayerName = data[i];
         appendHeader(assignedPlayerName);
-        dPMCBoard.setData(assignedPlayerName,0,defaultVal);
+        dpmcBoard.setData(assignedPlayerName,0,defaultVal);
     }
 }
 function appendHeader(header)
@@ -19,7 +19,7 @@ function appendHeader(header)
 
 function updateSections(hWidth)
 {
-    var w = dPMCBoard.verticalHeaderWidth;
+    var w = dpmcBoard.verticalHeaderWidth;
     if(hWidth > w)
-        dPMCBoard.updateVerticalHeaderWidth(hWidth);
+        dpmcBoard.updateVerticalHeaderWidth(hWidth);
 }

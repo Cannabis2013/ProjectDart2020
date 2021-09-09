@@ -1,22 +1,8 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
-
 import "dpmcscripts.js" as DartsPointMultiColumnScripts
-
-/*
-  Gamemodes:
-    FirstToPost = 0x1,
-    RoundLimit =0x2,
-    Circular = 0x3,
-    Cricket = 0xAA
-  */
 Content {
     id: dartsPointMultiColumnBody
-    QtObject{
-        id: textSourceContainer
-        property string throwSuggestLabel: "Target row:"
-        property string winnerLabel: "Winner:"
-    }
     signal requestControllerValues
     signal requestSingleAttemptPoints
     signal requestStatusFromBackend
@@ -29,18 +15,7 @@ Content {
     signal sendInput(string json)
     signal setupGame
     signal requestPersistState
-    /*
-      Tournament metadata property
-      */
-    QtObject{
-        id: metaValues
-        property string title: ""
-        property int keyPoint: 501
-        property int attempts: 3
-        property string winnerName: ""
-        property var assignedPlayerNames: []
-    }
-
+    readonly property QtObject metaValues: DartsMetaValues{}
     GridLayout{
         id: bodyLayout
         anchors.fill: parent

@@ -80,13 +80,10 @@ Rectangle{
     onHoveredItemTextColorChanged: listItem.hoveredItemTextColor = hoveredItemTextColor
     property color itemBackgroundColor: "transparent"
     onItemBackgroundColorChanged: listItem.itemBackgroundColor = itemBackgroundColor
-
     property color itemImageBackgroundColor: "transparent"
     onItemImageBackgroundColorChanged: listItem.imageBackgroundColor = itemImageBackgroundColor
-
     property url itemImageUrl: ""
     onItemImageUrlChanged: listItem.logoUrl = itemImageUrl
-
     function clear(){
         listModel.clear();
     }
@@ -103,7 +100,6 @@ Rectangle{
         }
         return cIndexes;
     }
-
     function unSelectAllItems()
     {
         for(var i = 0;i < listView.count;i++)
@@ -114,12 +110,10 @@ Rectangle{
                 item.state = "";
         }
     }
-
     function addItemModel(itemModel)
     {
         listModel.append(itemModel);
     }
-
     function removeItemModels(indexes)
     {
         var length = indexes.length;
@@ -129,7 +123,6 @@ Rectangle{
         }
     }
     layer.enabled: true
-
     layer.effect: OpacityMask{
         maskSource: Item {
             width: listComponentBody.width
@@ -141,14 +134,12 @@ Rectangle{
             }
         }
     }
-
     Rectangle{
         id: backgroundRect
         anchors.fill: parent
         color: listComponentBody.backgroundColor
         opacity: 0.1
     }
-
     GridLayout
     {
         id: bodyLayout
@@ -182,7 +173,6 @@ Rectangle{
             }
             delegate: ListViewDelegate{
                 id: listItem
-
                 onClicked: itemClicked(index)
                 onCheckedChanged: itemSelected(index)
                 hoveredSizeScale: 0.99
@@ -204,20 +194,8 @@ Rectangle{
                 imageBackgroundColor: listComponentBody.itemImageBackgroundColor
                 descriptionBackgroundColor: listComponentBody.itemDescriptionBackgroundColor
 
-                title: {
-                    if(type == "player")
-                        return username;
-                    else if(type == "tournament")
-                    {
-                        return tournamentTitle;
-                    }
-                }
-                description: {
-                    if(type == "player")
-                        return "Mail: " + mail;
-                    else
-                        "Playercount: " + playersCount;
-                }
+                title: username
+                description: "Mail: " + mail
                 x: parent.width / 2 - width / 2
             }
         }

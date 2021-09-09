@@ -4,7 +4,7 @@ import DartsTableUtils 1.0
 import "dpmcheaderscripts.js" as HeaderScripts
 import "dpmcboardscripts.js" as ScoreScripts
 ScoreBoard {
-    id: dPMCBoard
+    id: dpmcBoard
     signal setData(string playerName, int point, int score)
     onSetData: ScoreScripts.setData(playerName,score,point)
     signal takeData(string playerName)

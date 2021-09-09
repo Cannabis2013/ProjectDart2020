@@ -6,8 +6,8 @@ GridLayout{
 
     QtObject{
         id: defaultTextLabels
-        property string throwSuggestLabel: "Target row:"
-        property string winnerLabel: "Winner:"
+        property string throwSuggestLabel: "Target row: "
+        property string winnerLabel: "Winner: "
     }
 
     signal clear()

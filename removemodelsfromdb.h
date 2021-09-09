@@ -4,12 +4,19 @@
 #include "iremovemodelsfromdb.h"
 #include "imodelsdbcontext.h"
 
-namespace ModelsContext{
-    class RemoveModelsFromDb :
-            public IRemoveModelsFromDb<IModelsDbContext>
+class RemoveModelsFromDb :
+        public IRemoveModelsFromDb<IModelsDbContext>
+{
+public:
+    virtual bool remove(const QVector<int> &indexes, IModelsDbContext *dbService) const override
     {
-    public:
-        virtual bool remove(const QVector<int> &indexes, IModelsDbContext *dbService) const override;
-    };
-}
+        auto r = true;
+        auto startIndex = indexes.count() - 1;
+        for (int i = startIndex; i >= 0; --i) {
+            auto index = indexes.at(i);
+            r = dbService->remove(index) ? r : false;
+        }
+        return r;
+    }
+};
 #endif // TOURNAMENTMODELCONTEXT_H

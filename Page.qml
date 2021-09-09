@@ -53,7 +53,7 @@ Rectangle {
     onPageTitleChanged: pageTitleComponent.text = pageTitle
 
     property url pageIconUrl: "qrc:/pictures/Ressources/dartpic.png"
-    onPageIconUrlChanged: pageIcon.source = pageIconUrl
+    onPageIconUrlChanged: pageIconUrl.source = pageIconUrl
 
     Rectangle{
         id: backgroundRect

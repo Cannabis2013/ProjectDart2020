@@ -14,7 +14,7 @@ public:
     typedef QVector<const IModel<QUuid>*> Models;
     virtual QFuture<Models> playerModels(const QByteArray &json) const = 0;
 public slots:
-    virtual bool createPlayer(const QByteArray &json) = 0;
+    virtual void createPlayer(const QByteArray &json) = 0;
     virtual void deletePlayersFromIndexes(const QVector<int> &indexes) = 0;
     virtual void handleRequestPlayersDetails() = 0;
 
@@ -22,7 +22,8 @@ signals:
     void sendPlayersID(const QVector<QUuid> &playersID);
     void playersDeletedStatus(const bool &status);
     void sendPlayers(const QByteArray& json);
-    void createPlayerResponse(const bool &status);
+    void playerAddedSucces();
+    void playerAddedError(const QString &msg);
 };
 
 #endif // IPLAYERMODELSCONTEXT_H

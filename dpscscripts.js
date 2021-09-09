@@ -6,7 +6,7 @@ function initializeComponent()
 
 function connectInterface()
 {
-    applicationInterface.sendDartsTournamentData.connect(handleDartsTournamentMetaData);
+    applicationInterface.sendDartsTournamentData.connect(handleMetaData);
     applicationInterface.sendOrderedDartsInputs.connect(recievePoints);
     applicationInterface.dartsControllerIsReady.connect(backendIsReady);
     applicationInterface.controllerIsStopped.connect(backendIsStopped);
@@ -19,7 +19,7 @@ function connectInterface()
 
 function disconnectInterface()
 {
-    applicationInterface.sendDartsTournamentData.disconnect(handleDartsTournamentMetaData);
+    applicationInterface.sendDartsTournamentData.disconnect(handleMetaData);
     applicationInterface.sendOrderedDartsInputs.disconnect(recievePoints);
     applicationInterface.dartsControllerIsReady.disconnect(backendIsReady);
     applicationInterface.controllerIsStopped.connect(backendIsStopped);
@@ -30,21 +30,21 @@ function disconnectInterface()
     applicationInterface.addedInput.disconnect(addInput);
 }
 
-function handleDartsTournamentMetaData(data){
+function handleMetaData(data){
     var json = JSON.parse(data);
-    dpscMetaValues.title = json["title"];
-    dpscMetaValues.winnerName= json["winnerName"];
-    dpscMetaValues.keyPoint = json["keyPoint"];
-    dpscMetaValues.attempts = json["attempts"];
-    dpscMetaValues.assignedPlayerNames = json["assignedPlayerNames"];
+    metaValues.title = json["title"];
+    metaValues.winnerName= json["winnerName"];
+    metaValues.keyPoint = json["keyPoint"];
+    metaValues.attempts = json["attempts"];
+    metaValues.assignedPlayerNames = json["assignedPlayerNames"];
     initializeScoreBoard();
     applicationInterface.requestOrderedDartsInputs();
 }
 
 function initializeScoreBoard()
 {
-    var assignedPlayerNames = dpscMetaValues.assignedPlayerNames;
-    var keyPoint = dpscMetaValues.keyPoint;
+    var assignedPlayerNames = metaValues.assignedPlayerNames;
+    var keyPoint = metaValues.keyPoint;
     singleColumnPointBoard.appendHeaderData(assignedPlayerNames,keyPoint);
 }
 
@@ -142,7 +142,7 @@ function backendIsStopped()
 function backendDeclaredAWinner(data)
 {
     var json = JSON.parse(data);
-    dpscMetaValues.winnerName = json.winnerName;
+    metaValues.winnerName = json.winnerName;
     dpscBody.state = "winner";
 }
 
@@ -175,5 +175,5 @@ function pauseClicked()
 
 function setWinnerText()
 {
-    keyDataDisplay.setCurrentWinner(dpscMetaValues.winnerName);
+    keyDataDisplay.setCurrentWinner(metaValues.winnerName);
 }
