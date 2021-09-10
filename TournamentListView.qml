@@ -150,30 +150,11 @@ Rectangle{
             model: ListModel {
                 id: listModel
             }
-            delegate: TournamentListViewDelegate{
+            delegate: MHViewDelegate{
                 id: listItem
-
+                logoUrl: listComponentBody.itemImageUrl
                 onClicked: itemClicked(index)
                 onCheckedChanged: itemSelected(index)
-                hoveredSizeScale: 0.99
-                titleFontSize: listComponentBody.itemTitleFontSize
-                titleFontColor: listComponentBody.itemTitleTextColor
-                descriptionFontSize: listComponentBody.itemDescriptionFontSize
-                descriptionFontColor: listComponentBody.itemDescriptionFontColor
-                isCheckable: allowCheckState
-                hoveredColor: listComponentBody.itemHoveredColor
-                selectedColor: listComponentBody.itemSelectedBackgroundColor
-                selectedTextColor: listComponentBody.itemSelectedtextColor
-                height: listComponentBody.itemHeight
-                width: listComponentBody.itemWidth
-                backgroundColor: listComponentBody.itemBackgroundColor
-                radius: listComponentBody.itemRoundedCorners
-                logoUrl: listComponentBody.itemImageUrl
-                noDelayPressSelect: listComponentBody.instantSelectEnabled
-                labelBackgroundColor: listComponentBody.itemTitleBackgroundColor
-                imageBackgroundColor: listComponentBody.itemImageBackgroundColor
-                descriptionBackgroundColor: listComponentBody.itemDescriptionBackgroundColor
-
                 title: tournamentTitle
                 description: "Playercount: " + playersCount + " | Gamemode: " + gameMode;
                 x: parent.width / 2 - listItem.width / 2

@@ -12,18 +12,17 @@ Rectangle{
         else
             imageIcon.width = 0;
     }
-
     property string text: ""
     onTextChanged: labelTitle.text = text
     property color backgroundColor: "transparent"
     onBackgroundColorChanged: backgroundRect.color = backgroundColor
-    property double backOpacity: 1
+    property double backOpacity: 0.3
     onBackOpacityChanged: backgroundRect.opacity = backOpacity
-    property color fontColor: "black"
+    property color fontColor: "white"
     onFontColorChanged: labelTitle.fontColor = fontColor
     property int horizontalLabelAlignment: Qt.AlignHCenter
     onHorizontalLabelAlignmentChanged: labelTitle.horizontalTextAlignment = horizontalLabelAlignment
-    property int fontSize: 20
+    property int fontSize: 16
     onFontSizeChanged: labelTitle.fontSize = fontSize
     Rectangle{
         id: backgroundRect

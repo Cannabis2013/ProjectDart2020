@@ -1,6 +1,6 @@
 function stateChanged()
 {
-    var selectedIndexes = playersListView.currentIndexes();
+    var selectedIndexes = playersListView.currentIndexes;
     var selectedIndexesLength = selectedIndexes.length;
     var tournamentTitle = titleEdit.currentValue;
     var tournamentTitleLength = tournamentTitle.length;
@@ -48,7 +48,7 @@ function acceptAndAdd(){
 
 function createDartsTournament()
 {
-    var indexes = playersListView.currentIndexes();
+    var indexes = playersListView.currentIndexes;
     if(indexes.length <= 0)
         return;
     buttonsComponent.buttonTwoEnabled = false;

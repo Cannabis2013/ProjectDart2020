@@ -37,15 +37,9 @@ function createConfirmPopUp(fileName, parentID)
     return instantiatedObject;
 }
 
-/*
-  Delete player
-    - Request delete player popup
-    - Handle delete player accept
-    - Handle delete player reply from backend
-  */
 function requestDeletePlayerPopUp()
 {
-    let selectedIndex = playersListView.currentIndexes();
+    let selectedIndex = playersListView.currentIndexes;
     let count = selectedIndex.length;
     if(count > 0)
     {
@@ -55,7 +49,7 @@ function requestDeletePlayerPopUp()
     }
 }
 function deletePlayersAccepted(){
-    var indexes = playersListView.currentIndexes();
+    var indexes = playersListView.currentIndexes;
     applicationInterface.requestDeletePlayers(indexes);
 }
 
@@ -106,7 +100,7 @@ function recievePlayers(data)
         var obj = j[i];
         var playerName = obj["playerName"];
         var email = obj["playerMail"];
-        playersListView.addItemModel({"type" : "player","username" : playerName, "mail" : email});
+        playersListView.addItem({"type" : "player","username" : playerName, "mail" : email});
     }
     applicationInterface.requestTournaments();
 }

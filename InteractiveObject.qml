@@ -2,15 +2,12 @@ import QtQuick 2.0
 
 Item {
     id: body
-
     signal clickEvent
     signal hoverEvent(bool sustained)
     signal pressAndHoldEvent
     signal pressedEvent(bool sustained)
-
     property bool enablePressAndHoldEvent: false
     property bool enableHoverEvent: true
-
     QtObject{
         id: internalEventHandler
         function handlePressEvent()
@@ -27,7 +24,6 @@ Item {
 
         property bool isPressed: false
     }
-
     MouseArea
     {
         id: buttonMouseArea
@@ -37,12 +33,10 @@ Item {
         onHoveredChanged: {
             body.hoverEvent(containsMouse);
         }
-
         onPressAndHold: {
             if(body.enablePressAndHoldEvent)
                 body.pressAndHoldEvent();
         }
-
         onPressedChanged: {
             body.pressedEvent(internalEventHandler.handlePressEvent());
         }
