@@ -27,7 +27,6 @@ private:
     int _roundIndex = 1;
     int _setIndex = 0;
     int _attemptIndex = 0;
-    int _playerCount;
     int _numberOfAttempts;
 };
 #endif // SCOREINDEXCONTROLLER_H

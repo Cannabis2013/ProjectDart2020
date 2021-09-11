@@ -35,7 +35,6 @@ Content {
             id: tournamentListView
             Layout.fillHeight: true
             Layout.fillWidth: true
-            titleTextColor: ThemeContext.manTournamentListViewLabelColor
             onRequestUpdate: ManageScripts.updateTournamentListView()
         }
         GridLayout{

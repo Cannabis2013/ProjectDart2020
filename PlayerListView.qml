@@ -6,44 +6,16 @@ import QtGraphicalEffects 1.13
 
 import "playerListViewScripts.js" as PLVScripts
 
-Rectangle{
+ItemListView{
     id: listComponentBody
-    color: "transparent"
-    clip: true
-    signal itemClicked(int index)
-    signal itemSelected(int index)
-    signal requestUpdate
-    signal unSelectAll()
     onUnSelectAll: PLVScripts.unSelectAll()
-    signal addItem(var item)
     onAddItem: PLVScripts.addItemModel(item)
-    signal removeItems(var indexes)
     onRemoveItems: PLVScripts.removeItemModels(indexes)
+    onClear: listModel.clear()
     // Properties
     property string componentTitle: "Title"
     onComponentTitleChanged: labelTitle.text = componentTitle
-    function clear(){
-        listModel.clear();
-    }
     readonly property var currentIndexes: PLVScripts.currentIndexes()
-
-    layer.enabled: true
-    layer.effect: OpacityMask{
-        maskSource: Item {
-            width: listComponentBody.width
-            height: listComponentBody.height
-            Rectangle{
-                anchors.fill: parent
-                radius: listComponentBody.radius
-            }
-        }
-    }
-    Rectangle{
-        id: backgroundRect
-        anchors.fill: parent
-        color: "gray"
-        opacity: 0.1
-    }
     GridLayout
     {
         id: bodyLayout
@@ -54,7 +26,6 @@ Rectangle{
             id: labelTitle
             Layout.minimumHeight: 40
             Layout.fillWidth: true
-            imageUrl: listComponentBody.titleImageUrl
             backgroundColor: "lightgray"
         }
         Rectangle{
@@ -71,7 +42,7 @@ Rectangle{
             model: ListModel {
                 id: listModel
             }
-            delegate: MHViewDelegate {
+            delegate: PlayerViewDelegate {
                 id: listItem
                 onClicked: itemClicked(index)
                 onCheckedChanged: itemSelected(index)

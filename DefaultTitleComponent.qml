@@ -18,8 +18,6 @@ Rectangle{
     onBackgroundColorChanged: backgroundRect.color = backgroundColor
     property double backOpacity: 0.3
     onBackOpacityChanged: backgroundRect.opacity = backOpacity
-    property color fontColor: "white"
-    onFontColorChanged: labelTitle.fontColor = fontColor
     property int horizontalLabelAlignment: Qt.AlignHCenter
     onHorizontalLabelAlignmentChanged: labelTitle.horizontalTextAlignment = horizontalLabelAlignment
     property int fontSize: 16
@@ -64,7 +62,7 @@ Rectangle{
                 Layout.fillHeight: true
                 fontSize: defaultTitleComponentBody.fontSize
                 backgroundColor: "transparent"
-                fontColor: defaultTitleComponentBody.fontColor
+                fontColor: ThemeContext.manTournamentListViewLabelColor
                 text: defaultTitleComponentBody.text
                 horizontalTextAlignment: defaultTitleComponentBody.horizontalLabelAlignment
             }

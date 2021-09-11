@@ -102,7 +102,9 @@
         <file>listViewDelegateScripts.js</file>
         <file>ViewDelegate.qml</file>
         <file>playerListViewScripts.js</file>
-        <file>MHViewDelegate.qml</file>
+        <file>PlayerViewDelegate.qml</file>
+        <file>TournamentViewDelegate.qml</file>
+        <file>ItemListView.qml</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>

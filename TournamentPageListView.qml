@@ -5,10 +5,6 @@ import "tournamentPageScripts.js" as Scripts
 
 DefaultTournamentListView {
     id: tournamentListView
-    allowMultipleSelections: false
-    allowCheckState: false
-    instantSelectEnabled: true
-    itemTitleTextColor: ThemeContext.tournamentListViewTextColor
-    itemDescriptionFontColor: ThemeContext.tournamentListViewTextColor
-    titleTextColor: ThemeContext.tournamentListViewTextColor
+    enableCheck: false
+    instantCheck: true
 }

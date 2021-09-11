@@ -16,7 +16,7 @@ function recievePlayers(data)
         var obj = j[i];
         var playerName = obj["playerName"];
         var email = obj["playerMail"];
-        playersListView.addItemModel({"type" : "player","username" : playerName, "mail" : email});
+        playersListView.addItem({"type" : "player","username" : playerName, "mail" : email});
     }
 }
 
