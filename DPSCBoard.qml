@@ -23,7 +23,7 @@ ScoreBoard {
     {
         id: tableWidthProvider
         minimumColumnWidth: 64
-        scale: 1.05
+        scale: 1.25
     }
     DartsTableHeights
     {

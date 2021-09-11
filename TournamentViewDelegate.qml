@@ -7,9 +7,9 @@ import QtGraphicalEffects 1.13
 ListViewDelegate{
     id: listItem
     titleFontColor: "white"
-    titleFontSize: 12
+    titleFontSize: 16
     descriptionFontColor: "white"
-    descriptionFontSize: 8
+    descriptionFontSize: 10
     isCheckable: true
     hoveredColor: "lightblue"
     height: 60

@@ -95,8 +95,7 @@ function reinitialize()
 
 function resetTournament()
 {
-    if(dartsScoreSingleColumnBody.state === "ready")
-        dartsScoreSingleColumnBody.state = "stopped";
+    dartsScoreSingleColumnBody.state = "stopped";
     applicationInterface.requestTournamentReset();
 }
 

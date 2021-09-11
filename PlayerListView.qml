@@ -26,7 +26,6 @@ ItemListView{
             id: labelTitle
             Layout.minimumHeight: 40
             Layout.fillWidth: true
-            backgroundColor: "lightgray"
         }
         Rectangle{
             color: "transparent"

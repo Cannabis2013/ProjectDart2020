@@ -14,13 +14,13 @@ Rectangle{
     }
     property string text: ""
     onTextChanged: labelTitle.text = text
-    property color backgroundColor: "transparent"
+    property color backgroundColor: "lightgray"
     onBackgroundColorChanged: backgroundRect.color = backgroundColor
     property double backOpacity: 0.3
     onBackOpacityChanged: backgroundRect.opacity = backOpacity
-    property int horizontalLabelAlignment: Qt.AlignHCenter
+    property int horizontalLabelAlignment: Qt.AlignLeft
     onHorizontalLabelAlignmentChanged: labelTitle.horizontalTextAlignment = horizontalLabelAlignment
-    property int fontSize: 16
+    property int fontSize: 24
     onFontSizeChanged: labelTitle.fontSize = fontSize
     Rectangle{
         id: backgroundRect
@@ -28,14 +28,12 @@ Rectangle{
         color: defaultTitleComponentBody.backgroundColor
         opacity: defaultTitleComponentBody.backOpacity
     }
-
     GridLayout{
         flow: GridLayout.TopToBottom
         anchors.fill: parent
         Rectangle{
             id: upperSpacer
             color: "transparent"
-            Layout.fillWidth: true
             height: 0
         }
         GridLayout{
@@ -81,7 +79,6 @@ Rectangle{
         Rectangle{
             id: lowerSpacer
             color: "transparent"
-            Layout.fillWidth: true
             height: 0
         }
     }

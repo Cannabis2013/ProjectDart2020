@@ -2,9 +2,7 @@ import QtQuick 2.15
 
 InteractiveObject {
     id: body
-
     clip: true
-
     property string text: ""
     onTextChanged: buttonText.text = qsTr(text);
 
@@ -16,7 +14,6 @@ InteractiveObject {
 
     property color hoveredColor: "#04F72D"
     property color hoveredTextColor: textColor
-
 
     property color backgroundColor: "transparent"
     onBackgroundColorChanged: buttonRect.color = backgroundColor

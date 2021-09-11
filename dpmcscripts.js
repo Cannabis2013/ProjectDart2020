@@ -107,8 +107,7 @@ function reinitialize()
 
 function handleRequestTournamentReset()
 {
-    if(dartsPointMultiColumnBody.state === "ready")
-        dartsPointMultiColumnBody.state = "stopped";
+    dartsPointMultiColumnBody.state = "stopped";
     applicationInterface.requestTournamentReset();
 }
 

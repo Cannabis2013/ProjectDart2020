@@ -42,11 +42,17 @@ function setViewPosition(x,y)
 function appendHeader(header)
 {
     verticalHeaderModel.appendItem(header);
-    var preferedWidth = fontsMetric.width(header,tableFonts.headerFontFamily,tableFonts.headerFontSize);
-    var preferedHeight = fontsMetric.height(header,tableFonts.headerFontFamily,tableFonts.headerFontSize);
+    var headerWidth = fontsMetric.width(header,tableFonts.headerFontFamily,tableFonts.headerFontSize);
+    var headerHeight = fontsMetric.height(header,tableFonts.headerFontFamily,tableFonts.headerFontSize);
     var i = verticalHeaderModel.indexOf(header);
-    tableHeightProvider.updateRowHeight(i,preferedHeight);
-    updateVerticalHeaderWidth(preferedWidth);
+    tableHeightProvider.updateRowHeight(i,headerHeight);
+    var scaledWidth = scaleWidth(headerWidth);
+    updateVerticalHeaderWidth(scaledWidth);
+}
+
+function scaleWidth(w)
+{
+    return w*1.25;
 }
 
 function updateVerticalHeaderWidth(w)

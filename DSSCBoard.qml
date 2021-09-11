@@ -17,8 +17,13 @@ ScoreBoard {
     onAppendHeader: ScoreScripts.appendHeader(data)
     readonly property DSSCTableFonts tableFonts: DSSCTableFonts{}
     readonly property TableSectionMetrics fontsMetric: TableSectionMetrics{}
-    DartsTableWidths{id: tableWidthProvider}
-    DartsTableHeights{id: tableHeightProvider}
+    DartsTableWidths{
+        id: tableWidthProvider
+        scale: 1.25
+    }
+    DartsTableHeights{
+        id: tableHeightProvider
+    }
     StringHeaderModel{
         id: verticalHeaderModel
         onDataChanged: ScoreScripts.refreshVerticalHeader()

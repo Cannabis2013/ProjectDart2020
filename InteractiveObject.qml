@@ -12,8 +12,7 @@ Item {
         id: internalEventHandler
         function handlePressEvent()
         {
-            var p = isPressed;
-            if(p)
+            if(isPressed)
             {
                 isPressed = false;
                 return false;
@@ -21,7 +20,6 @@ Item {
             isPressed = true;
             return true;
         }
-
         property bool isPressed: false
     }
     MouseArea

@@ -5,7 +5,6 @@ import QtQuick.Layouts 1.3
 
 Rectangle{
     id: labelComponentBody
-
     clip: true
     property color fontColor: "black"
     onFontColorChanged: labelTitle.color = fontColor
@@ -16,9 +15,10 @@ Rectangle{
     color: backgroundColor
     property string text: "List label"
     onTextChanged: labelTitle.text = text;
-    property int horizontalTextAlignment: Qt.AlignHCenter
+    property int horizontalTextAlignment: Qt.AlignLeft
     Label{
         id: labelTitle
+        anchors.fill: parent
         color: labelComponentBody.fontColor
         text: labelComponentBody.text
         font.pointSize: labelComponentBody.fontSize

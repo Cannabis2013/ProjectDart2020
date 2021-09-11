@@ -64,9 +64,7 @@ Rectangle {
     GridLayout{
         id: bodyLayout
         anchors.fill: parent
-
         rowSpacing: 10
-
         anchors.leftMargin: 20
         anchors.topMargin: 20
         anchors.rightMargin: 20
@@ -119,7 +117,6 @@ Rectangle {
                 fontColor: "white"
             }
         }
-
         MyRectangle
         {
             id: upperLayoutSpacer
@@ -127,7 +124,6 @@ Rectangle {
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignTop
         }
-
         Flickable{
             id: contentFlickable
             clip: true

@@ -102,8 +102,7 @@ function reinitialize()
 
 function handleRequestTournamentReset()
 {
-    if(dpscBody.state === "ready")
-        dpscBody.state = "stopped";
+    dpscBody.state = "stopped";
     applicationInterface.requestTournamentReset();
 }
 
