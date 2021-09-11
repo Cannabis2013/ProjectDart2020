@@ -1,3 +1,16 @@
+function connectInterface(){
+    applicationInterface.sendPlayers.connect(recievePlayers);
+    applicationInterface.sendTournaments.connect(recieveTournaments);
+    applicationInterface.playersDeletedStatus.connect(recievePlayersDeletedStatusFromBackend);
+    applicationInterface.tournamentsDeletedSuccess.connect(handleDeleteTournamentsSuccess);
+}
+function disconnectInterface(){
+    applicationInterface.sendPlayers.disconnect(recievePlayers);
+    applicationInterface.sendTournaments.disconnect(recieveTournaments);
+    applicationInterface.playersDeletedStatus.disconnect(recievePlayersDeletedStatusFromBackend);
+    applicationInterface.tournamentsDeletedSuccess.disconnect(handleDeleteTournamentsSuccess);
+}
+
 function createPopUp(parentID, id,fileName,x, y, width, height)
 {
     var component = Qt.createComponent(fileName);
@@ -147,17 +160,4 @@ function translateGameModeFromHex(gameMode)
 {
     if(gameMode === TournamentContext.darts)
         return "First to post"
-}
-
-function connectInterface(){
-    applicationInterface.sendPlayers.connect(recievePlayers); // Recieve initial players
-    applicationInterface.sendTournaments.connect(recieveTournaments);
-    applicationInterface.playersDeletedStatus.connect(recievePlayersDeletedStatusFromBackend);
-    applicationInterface.tournamentsDeletedSuccess.connect(handleDeleteTournamentsSuccess);
-}
-function disconnectInterface(){
-    applicationInterface.sendPlayers.disconnect(recievePlayers); // Recieve initial players
-    applicationInterface.sendTournaments.disconnect(recieveTournaments);
-    applicationInterface.playersDeletedStatus.disconnect(recievePlayersDeletedStatusFromBackend);
-    applicationInterface.tournamentsDeletedSuccess.disconnect(handleDeleteTournamentsSuccess);
 }

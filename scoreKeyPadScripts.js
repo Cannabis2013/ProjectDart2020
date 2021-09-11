@@ -25,28 +25,28 @@ function createHotPadItems()
         let keyLabel = leftLabels[i - 1];
         let hotKeyPad = ComponentFactory.createHotKeyButton(keyPadLayout,keyLabel,i,0);
         hotKeyPad.clickedAndSendText.connect(keyPadBody.internalHotKeyClicked);
-        keyPadBody.enableKeyPad.connect(hotKeyPad.setEnabled);
+        keyPadBody.enableKeyPad.connect(hotKeyPad.enableButton);
     }
     for(var j = 1;j<= 3;j++)
     {
         let keyLabel = rightLabels[j - 1];
         let hotKeyPad = ComponentFactory.createHotKeyButton(keyPadLayout,keyLabel,j,4);
         hotKeyPad.clickedAndSendText.connect(keyPadBody.internalHotKeyClicked);
-        keyPadBody.enableKeyPad.connect(hotKeyPad.setEnabled);
+        keyPadBody.enableKeyPad.connect(hotKeyPad.enableButton);
     }
     for(var k = 0;k <=1;k++)
     {
         let keyLabel = upperLeftLabels[k];
         let hotKeyPad = ComponentFactory.createHotKeyButton(keyPadLayout,keyLabel,0,k);
         hotKeyPad.clickedAndSendText.connect(keyPadBody.internalHotKeyClicked);
-        keyPadBody.enableKeyPad.connect(hotKeyPad.setEnabled);
+        keyPadBody.enableKeyPad.connect(hotKeyPad.enableButton);
     }
     for(var l = 3;l <=4;l++)
     {
         let keyLabel = upperRightLabels[l -3];
         let hotKeyPad = ComponentFactory.createHotKeyButton(keyPadLayout,keyLabel,0,l);
         hotKeyPad.clickedAndSendText.connect(keyPadBody.internalHotKeyClicked);
-        keyPadBody.enableKeyPad.connect(hotKeyPad.setEnabled);
+        keyPadBody.enableKeyPad.connect(hotKeyPad.enableButton);
     }
 }
 
@@ -59,7 +59,7 @@ function createNumberPadItems()
         for(var k = 1;k <= 3;k++){
             let numberKey = ComponentFactory.createNumberButton(keyPadLayout,keyText++,j,k);
             numberKey.clickedAndSendText.connect(keyPadBody.internalKeyClicked);
-            keyPadBody.enableKeyPad.connect(numberKey.setEnabled);
+            keyPadBody.enableKeyPad.connect(numberKey.enableButton);
         }
         initialColumn = 3;
     }
@@ -68,7 +68,7 @@ function createNumberPadItems()
       */
     let numberKey = ComponentFactory.createNumberButton(keyPadLayout,0,4,2);
     numberKey.clickedAndSendText.connect(keyPadBody.internalKeyClicked);
-    keyPadBody.enableKeyPad.connect(numberKey.setEnabled);
+    keyPadBody.enableKeyPad.connect(numberKey.enableButton);
 }
 
 function handleNumberPadClicked(value)

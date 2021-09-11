@@ -29,7 +29,7 @@ public:
     };
     // Create instance
     static DPCInputSuggestion* createInstance(const int& attemps,
-                                                      const int& lastAttemptKeyCode = DoubleModifier);
+                                              const int& lastAttemptKeyCode = DoubleModifier);
     // FTPLogisticControllerInterface interface
     virtual QString suggestTargetRow(const int &remainingScore, const int &turnIndex) const override;
 private:

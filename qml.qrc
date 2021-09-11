@@ -105,6 +105,7 @@
         <file>PlayerViewDelegate.qml</file>
         <file>TournamentViewDelegate.qml</file>
         <file>ItemListView.qml</file>
+        <file>pushbuttonScripts.js</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/pngfuel.com.png</file>

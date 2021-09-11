@@ -1,5 +1,5 @@
 import QtQuick 2.15
-
+import "pushbuttonScripts.js" as PBScripts
 InteractiveObject {
     id: body
     clip: true
@@ -50,68 +50,24 @@ InteractiveObject {
     property int imageRotation: 0
     onImageRotationChanged: imageDecorator.rotation = imageRotation
 
-    onClickEvent: {
-        body.clicked();
-        body.clickedAndSendText(text);
-    }
-    onPressedEvent: {
-        if(sustained)
-            body.state = "pressed";
-        else
-            body.state = checked ? "checked" : "";
-    }
-    onPressAndHoldEvent: {
-        body.pressAndHoldClicked()
-    }
-    onHoverEvent: {
-        if(!body.hoverEnabled)
-            return;
-        else if(checked)
-            return;
-        if(sustained)
-        {
-            body.state = "hovered";
-            body.hoveredChanged(true);
-        }
-        else
-        {
-            body.state = "";
-            body.hoveredChanged(false);
-        }
-    }
+    onClickEvent: PBScripts.onClicked(text)
+    onPressedEvent: PBScripts.onPressed(sustained)
+    onPressAndHoldEvent: body.pressAndHoldClicked()
+    onHoverEvent: PBScripts.onHover(sustained)
 
     signal clicked
     signal pressAndHoldClicked
 
+    signal enableButton(bool e)
+    onEnableButton: enabled = e
+
+
     signal hoveredChanged(bool status)
 
-    onClicked: handleClick()
+    onClicked: PBScripts.handleClick()
 
     signal clickedAndSendText(string txt)
     signal checkStateChanged(bool check)
-
-    property Rectangle buttonBody: buttonRect
-
-    function setEnabled(enable)
-    {
-        enabled = enable;
-    }
-
-    function handleClick()
-    {
-        if(isCheckable)
-        {
-            if(!checked){
-                state = "checked";
-            }
-            else
-            {
-                state = "";
-            }
-            buttonRect.scale = checked ? checkedScale : 1
-            body.checkStateChanged(checked);
-        }
-    }
 
     Rectangle
     {
@@ -122,24 +78,18 @@ InteractiveObject {
     }
     Image{
         id: imageDecorator
-
         anchors.fill: parent
         anchors.margins: body.imageMargins
-
         rotation: body.imageRotation
     }
 
     Text {
         id: buttonText
-
         font.pointSize: fontSize
-
         color: body.textColor
         text: qsTr(body.text)
-
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-
         anchors.centerIn: parent
     }
     states: [
