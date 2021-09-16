@@ -9,14 +9,13 @@
 class IAddPlayerDetailsToTournament : public IAddPlayerDetailsToModel<IModel<QUuid>,IModel<QUuid>,IModelsDbContext>
 {
 public:
-    virtual void add(const IModel<QUuid> *tournament,const QVector<QUuid> &playerIds,
+    virtual void add(const IModel<QUuid> *tournament, const QVector<QUuid> &playerIds,
                      IModelsDbContext *dbService = nullptr) const override = 0;
-    virtual void add(const IModel<QUuid> *tournament,
-                     const QVector<QString> &playerNames,
+    virtual void add(const IModel<QUuid> *tournament, const QVector<QString> &playerNames,
                      IModelsDbContext *dbService = nullptr) const override = 0;
-    virtual void add(const IModel<QUuid> *tournament,
-                     const QUuid &winnerId, const QString &winnerName,
-                     IModelsDbContext *dbService= nullptr) const override = 0;    virtual void add(const IModel<QUuid> *tournament, const QVector<const IModel<QUuid>*> &playerModels,
+    virtual void add(const IModel<QUuid> *tournament, const QUuid &winnerId, const QString &winnerName,
+                     IModelsDbContext *dbService= nullptr) const override = 0;
+    virtual void add(const IModel<QUuid> *tournament, const QVector<const IModel<QUuid>*> &playerModels,
                      IModelsDbContext *dbService) const override = 0;
 };
 

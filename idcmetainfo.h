@@ -3,7 +3,6 @@
 
 #include <quuid.h>
 
-
 namespace DCBuilding {
     class IDCMetaInfo
     {
@@ -19,5 +18,4 @@ namespace DCBuilding {
         virtual IdFormat winnerId() const = 0;
     };
 }
-
 #endif // IDARTSCONTROLLERDETAILS_H

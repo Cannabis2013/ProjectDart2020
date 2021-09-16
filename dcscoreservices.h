@@ -7,78 +7,33 @@
 #include "idcgetscorecand.h"
 #include "idccreatescoretuples.h"
 #include <idcgetscore.h>
-#include <idcupdatetuples.h>
+#include <idcupdatescoremodels.h>
 #include "idcsubtractscore.h"
+#include "idcresetscorescoremodels.h"
 
 class DCScoreServices
 {
 public:
-    IDCScoresService *scoresService() const
-    {
-        return _scoresService;
-    }
-    void setScoresService(IDCScoresService *newScoresService)
-    {
-        _scoresService = newScoresService;
-    }
-    IDCCreateCandidateTuples *createCandidatesTuple() const
-    {
-        return _createCandidateTuples;
-    }
-    void setCreateCandidateTuples(IDCCreateCandidateTuples *newSubtractService)
-    {
-        _createCandidateTuples = newSubtractService;
-    }
-    IDCAddScore *addScoreService() const
-    {
-        return _addScoreService;
-    }
-    void setAddScoreService(IDCAddScore *newAddScoreService)
-    {
-        _addScoreService = newAddScoreService;
-    }
+    IDCScoresService *scoresService() const;
+    void setScoresService(IDCScoresService *newScoresService);
+    IDCCreateCandidateTuples *createCandidatesTuple() const;
+    void setCreateCandidateTuples(IDCCreateCandidateTuples *newSubtractService);
+    IDCAddScore *addScoreService() const;
+    void setAddScoreService(IDCAddScore *newAddScoreService);
 
-    IDCGetScoreCand *getTotalScore() const
-    {
-        return _calculateCandidateScore;
-    }
-    void setGetTotalScoreService(IDCGetScoreCand *newCandidateService)
-    {
-        _calculateCandidateScore = newCandidateService;
-    }
-    IDCCreateScoreTuples *createScoreTuples() const
-    {
-        return _createScoreTuples;
-    }
-    void setCreateScoreTuples(IDCCreateScoreTuples *newCreateScoreTuples)
-    {
-        _createScoreTuples = newCreateScoreTuples;
-    }
-    IDCgetScore *getScoreFromInput() const
-    {
-        return _calculateScore;
-    }
-    void setGetScoreFromInput(IDCgetScore *newCalculateScore)
-    {
-        _calculateScore = newCalculateScore;
-    }
-    IDCUpdateTuples *updateScoreTuples() const
-    {
-        return _replaceTuples;
-    }
-    void setReplaceTuples(IDCUpdateTuples *newReplaceTuples)
-    {
-        _replaceTuples = newReplaceTuples;
-    }
+    IDCGetScoreCand *getTotalScore() const;
+    void setGetTotalScoreService(IDCGetScoreCand *newCandidateService);
+    IDCCreateScoreTuples *createScoreTuples() const;
+    void setCreateScoreTuples(IDCCreateScoreTuples *newCreateScoreTuples);
+    IDCgetScore *getScoreFromInput() const;
+    void setGetScoreFromInput(IDCgetScore *newCalculateScore);
+    IDCUpdateScoreModels *updateScoreTuples() const;
+    void setReplaceScoreModels(IDCUpdateScoreModels *newReplaceTuples);
 
-    IDCSubtractScore *subtractScore() const
-    {
-        return _subtractScore;
-    }
-    void setSubtractScore(IDCSubtractScore *newSubtractScore)
-    {
-        _subtractScore = newSubtractScore;
-    }
+    IDCSubtractScore *subtractScore() const;
+    void setSubtractScore(IDCSubtractScore *newSubtractScore);
+    IDCResetScoreScoreModels *resetScoreModels() const;
+    void setResetScoreModels(IDCResetScoreScoreModels *newResetScoreModels);
 private:
     IDCScoresService *_scoresService;
     IDCCreateScoreTuples *_createScoreTuples;
@@ -86,7 +41,8 @@ private:
     IDCAddScore *_addScoreService;
     IDCGetScoreCand *_calculateCandidateScore;
     IDCgetScore *_calculateScore;
-    IDCUpdateTuples *_replaceTuples;
+    IDCUpdateScoreModels *_replaceTuples;
     IDCSubtractScore *_subtractScore;
+    IDCResetScoreScoreModels *_resetScoreModels;
 };
 #endif // DSCSCORESERVICESPROVIDER_H

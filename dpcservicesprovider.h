@@ -4,13 +4,13 @@
 #include "iunaryservice.h"
 #include "idartsplayermodelbuilderservice.h"
 #include "icreatedcturnvalues.h"
-#include "idartsinputsuggestion.h"
+#include "idartsinputsuggestions.h"
 #include "idartsinputvalidator.h"
 #include "idartscontrollermodelsservice.h"
 #include "idcindexesbuilder.h"
 #include "idcmodelcreator.h"
 #include "idcindexservice.h"
-#include "idartsmetadata.h"
+#include "idcmetadata.h"
 #include <idcmodelcreator.h>
 #include "idcwinnerservice.h"
 
@@ -33,10 +33,10 @@ protected:
     PlayerModelBuilder* _playerModelBuilder;
     IDCIndexesBuilder* _dartsIndexesBuilder;
     // Meta information
-    IDartsMetaData *_metaData;
+    IDCMetaData *_metaData;
     // Model manipulating services
     // Generate throwsuggestions
-    IDartsInputSuggestion *_stringSuggestionService = nullptr;
+    IDartsInputSuggestions *_stringSuggestionService = nullptr;
     // Validator service
     IDartsInputValidator* _inputEvaluator = nullptr;
     // Index service

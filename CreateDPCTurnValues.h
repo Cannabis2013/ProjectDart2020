@@ -4,7 +4,7 @@
 #include "icreatedcturnvalues.h"
 #include "dcturnvalues.h"
 #include "idcindexservice.h"
-#include "idartsinputsuggestion.h"
+#include "idartsinputsuggestions.h"
 #include "idcplayer.h"
 #include "idcmodel.h"
 
@@ -13,7 +13,7 @@ class CreateDPCTurnValues : public ICreateDCTurnValues
 public:
     const DCContext::DCTurnValues* createTurnValues(const IDCIndexService *indexService,
                                                     IDCScoresService* scoresService,
-                                                    const IDartsInputSuggestion* logisticService = nullptr) const override
+                                                    const IDartsInputSuggestions* logisticService = nullptr) const override
     {
         auto model = new DCContext::DCTurnValues();
         model->setCanUndo(canUndo(indexService));
@@ -28,7 +28,7 @@ public:
 private:
     QString createTargetRow(const IDCIndexService *indexService,
                            IDCScoresService *scoresService,
-                           const IDartsInputSuggestion* logisticService) const
+                           const IDartsInputSuggestions* logisticService) const
     {
         if(logisticService == nullptr)
             return "Logistic service not injected";

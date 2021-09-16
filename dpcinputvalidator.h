@@ -1,9 +1,9 @@
-#ifndef POINTVALIDATOR_H
-#define POINTVALIDATOR_H
+#ifndef DPCINPUTVALIDATOR_H
+#define DPCINPUTVALIDATOR_H
 
 #include "idartsinputvalidator.h"
 
-class PointValidator : public IDartsInputValidator
+class DPCInputValidator : public IDartsInputValidator
 {
 public:
     enum InputDomains {
@@ -20,9 +20,9 @@ public:
         BullModifier,
         BullsEyeModifier
     };
-    static PointValidator* createInstance(const int& terminalKeyCode)
+    static DPCInputValidator* createInstance(const int& terminalKeyCode)
     {
-        return new PointValidator(terminalKeyCode);
+        return new DPCInputValidator(terminalKeyCode);
     }
     virtual int validateInput(const int &currentScore,
                               const int &keyCode,
@@ -54,7 +54,7 @@ public:
     }
 
 private:
-    PointValidator(const int& terminalCondition):
+    DPCInputValidator(const int& terminalCondition):
         _terminalKeyCode(terminalCondition){}
     int terminalKeyCode() const
     {

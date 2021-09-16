@@ -4,7 +4,7 @@
 class DCCreateScoreTuples : public IDCCreateScoreTuples
 {
 public:
-    virtual QVector<DCContext::DCScoreModel> createTuples(const PlayerModels &models, const IDartsMetaData *dartsMeta) override
+    virtual QVector<DCContext::DCScoreModel> createTuples(const PlayerModels &models, const IDCMetaData *dartsMeta) override
     {
         QVector<DCContext::DCScoreModel> tuples;
         for (const auto &model : models)

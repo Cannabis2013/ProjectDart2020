@@ -1,6 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
-import "ftpSelectorsScripts.js" as SelectorScripts
+import "dartsSelectorsScripts.js" as SelectorScripts
 
 Rectangle {
     id: ftpSelectorsBody

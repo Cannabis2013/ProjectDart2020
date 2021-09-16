@@ -1,9 +1,9 @@
-#ifndef IDARTSINPUTSUGGESTION_H
-#define IDARTSINPUTSUGGESTION_H
+#ifndef IDARTSINPUTSUGGESTIONS_H
+#define IDARTSINPUTSUGGESTIONS_H
 
 #include <qstring.h>
 
-class IDartsInputSuggestion
+class IDartsInputSuggestions
 {
 public:
     virtual QString suggestTargetRow(const int &remainingScore, const int &turnIndex) const = 0;

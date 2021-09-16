@@ -1,13 +1,12 @@
-#ifndef DCINDEXCONTROLLER_H
-#define DCINDEXCONTROLLER_H
+#ifndef DSCINDEXCONTROLLER_H
+#define DSCINDEXCONTROLLER_H
 
 #include <idcindexservice.h>
 #include "idcmetainfo.h"
 
-class DCIndexController : public IDCIndexService
+class DSCIndexController : public IDCIndexService
 {
 public:
-    DCIndexController(const DCBuilding::IDCMetaInfo *meta);
     virtual int turnIndex() const override;
     virtual void setTurnIndex(const int &index) override;
     virtual int totalIndex() const override;
@@ -20,13 +19,13 @@ public:
     virtual void setAttemptIndex(const int &index) override;
     virtual void syncIndex() override;
     virtual int numberOfAttempts() const override;
-    virtual void setNumberOfAttempts(const int &) override;
 private:
     int _turnIndex = 0;
     int _totalIndex  = 0;
     int _roundIndex = 1;
     int _setIndex = 0;
     int _attemptIndex = 0;
-    int _numberOfAttempts;
+    const int _numberOfAttempts = 1;
 };
-#endif // SCOREINDEXCONTROLLER_H
+
+#endif // DSCINDEXCONTROLLER_H

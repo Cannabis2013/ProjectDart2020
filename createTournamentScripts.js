@@ -31,12 +31,12 @@ function setupSelectors(){
     var value = gameModeSelector.currentValue;
     var mode = gameModeToHex(value);
     if(mode === TournamentContext.darts)
-        selectorLoader.sourceComponent = createFTPSelectors();
+        selectorLoader.sourceComponent = createDartsSelectors();
 }
 
-function createFTPSelectors(){
-    var ftpSelectors = Qt.createComponent("DartsTournamentSelectors.qml");
-    return ftpSelectors;
+function createDartsSelectors(){
+    var dartsSelectors = Qt.createComponent("DartsTournamentSelectors.qml");
+    return dartsSelectors;
 }
 
 function acceptAndAdd(){

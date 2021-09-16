@@ -4,12 +4,11 @@
 #include <qvector.h>
 
 
-template<typename TPlayerModel, typename TTuple, typename MetaInfoService>
+template<typename TTuple>
 class IScoresService
 {
 public:
     typedef QVector<TTuple> DartsScoreModels;
-    typedef QVector<TPlayerModel> PlayerModels;
     virtual const DartsScoreModels &scoreModels() = 0;
 };
 

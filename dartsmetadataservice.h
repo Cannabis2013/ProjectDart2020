@@ -1,9 +1,9 @@
 #ifndef DCMETAINFO_H
 #define DCMETAINFO_H
-#include "idartsmetadata.h"
+#include "idcmetadata.h"
 
 #include <idcmetainfo.h>
-class DCMetaInfo : public IDartsMetaData
+class DCMetaInfo : public IDCMetaData
 {
 public:
     DCMetaInfo(const DCBuilding::IDCMetaInfo *details)

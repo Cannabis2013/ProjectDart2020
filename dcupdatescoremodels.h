@@ -1,9 +1,9 @@
-#ifndef DCUPDATETUPLES_H
-#define DCUPDATETUPLES_H
+#ifndef DCUPDATESCOREMODELS_H
+#define DCUPDATESCOREMODELS_H
 
-#include "idcupdatetuples.h"
+#include "idcupdatescoremodels.h"
 
-class DCUpdateTuples : public IDCUpdateTuples
+class DCUpdateScoreModels : public IDCUpdateScoreModels
 {
 public:
     virtual void update(const QVector<DCContext::DCScoreModel> &tuples, IDCScoresService *scoresService) const override

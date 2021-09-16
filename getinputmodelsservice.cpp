@@ -1,7 +1,5 @@
 #include "getinputmodelsservice.h"
 
-using namespace ModelsContext;
-
 QVector<const IModel<QUuid>*> GetInputModelsService::inputModels(const QUuid &tournamentId,
                                                                  const IModelsDbContext *dbService) const
 {

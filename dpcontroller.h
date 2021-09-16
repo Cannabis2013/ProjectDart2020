@@ -2,7 +2,7 @@
 #define DPCONTROLLER_H
 #include "idcmetainfo.h"
 #include "getscorefromdpcinput.h"
-#include "pointvalidator.h"
+#include "dpcinputvalidator.h"
 #include "CreateDPCTurnValues.h"
 #include "dpccreateinputmodels.h"
 #include "dcindexesbuilder.h"
@@ -12,19 +12,19 @@
 #include "jsonmerger.h"
 #include "genericjsonbuilder.h"
 #include "dartsmetadataservice.h"
-#include "dpcinputsuggestion.h"
+#include "dcinputsuggestions.h"
 #include "determinecontrollerstatebywinnerid.h"
 #include "dcscoresservice.h"
 #include "dccreatecandidatetuples.h"
 #include "dcinitializeindexservice.h"
 #include <dcwinnerservice.h>
 #include <dartscontroller.h>
-#include <pointvalidator.h>
-#include <dcindexcontroller.h>
+#include <dpcinputvalidator.h>
+#include <dpcindexcontroller.h>
 #include <dcplayerbuilder.h>
 #include <dcaddscore.h>
 #include <dccreatescoretuples.h>
-#include <dcupdatetuples.h>
+#include <dcupdatescoremodels.h>
 #include <dpcinputstojson.h>
 #include <dcturnvaluestojson.h>
 #include <dcgetscorecand.h>
@@ -42,13 +42,16 @@
 #include "dcgetwinnermodelfromjson.h"
 #include "dccreateplayersfromjson.h"
 #include "dcplayerkeys.h"
+#include "dpcconstructrow.h"
+#include "dclogisticdb.h"
+#include "dcresetscoremodels.h"
 class DPController : public DartsController
 {
 public:
     DPController(const DCBuilding::IDCMetaInfo *meta)
     {
-        setInputEvaluator(PointValidator::createInstance(meta->terminalKeyCode()));
-        setIndexService(new DCIndexController(meta));
+        setInputEvaluator(DPCInputValidator::createInstance(meta->terminalKeyCode()));
+        setIndexService(new DPCIndexController(meta));
         setResetIndexes(new DCResetIndexes);
         setInitializeIndexes(new DCInitializeIndexes);
         setTurnValuesBuilder(new CreateDPCTurnValues);
@@ -60,7 +63,8 @@ public:
         setAddTotalScoresToJson(new AddTotalScoreToDartsPointsJson);
         setAddPlayerNamesToJson(new AddPlayerNamestoDartsPointsJson);
         setMetaData(new DCMetaInfo(meta));
-        setScoreLogisticInterface(DPCInputSuggestion::createInstance(meta->attempts()));
+        setScoreLogisticInterface(DCInputSuggestions::createInstance(DPCConstructRow::createInstance(meta),
+                                                                     DCLogisticDb::createInstance()));
         setDetermineControllerStateByWinnerId(new DetermineControllerStateByWinnerId);
         setGetTotalScoreService(new DCGetScoreCand);
         // Json services
@@ -69,8 +73,9 @@ public:
         setResponseBuilderService(new DCJsonResponseBuilder);
         setIndexesToJsonService(new DPCIndexesToJson);
         // Score tuple services
+        setResetScoreModels(new DCResetScoreModels);
         setCreateScoreTuples(new DCCreateScoreTuples);
-        setReplaceTuples(new DCUpdateTuples);
+        setReplaceScoreModels(new DCUpdateScoreModels);
         setSubtractScore(new DCSubtractScore);
         //setCreateJsonFromPoint(new DPCPointToJson);
         setScoresService(new DCScoresService);

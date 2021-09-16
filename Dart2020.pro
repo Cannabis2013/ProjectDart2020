@@ -18,6 +18,7 @@ SOURCES += \
     addtotalscoretodartspointsjson.cpp \
     connectdartscontroller.cpp \
     connectdartsmodelscontext.cpp \
+    constructtargetrow.cpp \
     createdartspointsfromjson.cpp \
     createjsonfromplayermodels.cpp \
     createplayersfromjson.cpp \
@@ -30,18 +31,21 @@ SOURCES += \
     dartsinputjsondb.cpp \
     dartsinputservices.cpp \
     dartsmodelsservice.cpp \
+    dartsmodelsservices.cpp \
     dartspmcdatacontext.cpp \
     dartspointsjsonservice.cpp \
     dartsroundindexbyattempt.cpp \
     dartstablemodel.cpp \
     dartstableservices.cpp \
-    dartstournamentservices.cpp \
+    dartstournamentjsonservices.cpp \
     dartsutilityservices.cpp \
     dcbuilder.cpp \
-    dcindexcontroller.cpp \
+    dcinputsuggestions.cpp \
     dcmeta.cpp \
+    dcscoreservices.cpp \
     dcwinnerservice.cpp \
-    dpcinputsuggestion.cpp \
+    dpcindexcontroller.cpp \
+    dscindexcontroller.cpp \
     dscinputsuggestion.cpp \
     extractwinnerinfofromjson.cpp \
     getinputmodelsservice.cpp \
@@ -96,9 +100,9 @@ HEADERS += \
     connectplayerscontext.h \
     connectservices.h \
     connectservicesprovider.h \
+    constructtargetrow.h \
     createDCMetaInfo.h \
     createdartstournamentfromjson.h \
-    createjsonfromdartspointindexes.h \
     comparedartspointmodels.h \
     connectroutebydisplayhint.h \
     connectroutebygamemode.h \
@@ -115,22 +119,31 @@ HEADERS += \
     createplayersfromjson.h \
     createqmlvariants.h \
     dartapplicationservices.h \
+    dartsattempts.h \
+    dartsboundaries.h \
+    dartsconstructservices.h \
     dartscontroller.h \
     dartscontrollerpointmodelsservice.h \
     dartscreateindexes.h \
     dartscreateinputmodel.h \
     dartscreatejsonfromdartspoint.h \
     dartscreatejsonmetadata.h \
+    dartscreateterminaldivisor.h \
+    dartscreateterminalthreshold.h \
     dartsdatacontextitemutility.h \
     dartsdatamodelpoint.h \
     dartsdbcreatejsonfrominputs.h \
     dartsdbcreatejsonfrominputs.h \
+    dartsdivisors.h \
+    dartsfieldvalues.h \
     dartsinput.h \
+    dartsinputindexestojson.h \
     dartsinputjsondb.h \
     dartsinputservices.h \
     dartsinputsjsondb.h \
     dartsmetadataservice.h \
     dartsmodelsservice.h \
+    dartsmodelsservices.h \
     dartsmodelsservicescollection.h \
     dartspmccolumnindexbuilder.h \
     dartspmcdatacontext.h \
@@ -149,9 +162,12 @@ HEADERS += \
     dartstablemodel.h \
     dartstablesectionmanipulator.h \
     dartstableservices.h \
+    dartsterminaldivisor.h \
+    dartsthreshold.h \
+    dartstournamentextractor.h \
     dartstournamentjsonbuilder.h \
+    dartstournamentjsonservices.h \
     dartstournamentnumberofattempts.h \
-    dartstournamentservices.h \
     dartstournamentsjsondb.h \
     dartsutilityservices.h \
     dcaddscore.h \
@@ -164,7 +180,6 @@ HEADERS += \
     dcgetplayername.h \
     dcgetscorecand.h \
     dcgetwinnermodelfromjson.h \
-    dcindexcontroller.h \
     dcindexes.h \
     dcindexesbuilder.h \
     dcindexiterator.h \
@@ -173,8 +188,10 @@ HEADERS += \
     dcindexundo.h \
     dcinitializeindexservice.h \
     dcinputmodel.h \
+    dcinputsuggestions.h \
     dcjsonresponsebuilder.h \
     dcjsonservices.h \
+    dclogisticdb.h \
     dcmeta.h \
     dcmodel.h \
     dcplayer.h \
@@ -182,30 +199,35 @@ HEADERS += \
     dcplayerkeys.h \
     dcplayerservice.h \
     dcresetindexes.h \
+    dcresetscoremodels.h \
     dcscoremodel.h \
     dcscoreservices.h \
     dcscoresservice.h \
     dcsubtractscore.h \
     dcturnvalues.h \
     dcturnvaluestojson.h \
-    dcupdatetuples.h \
+    dcupdatescoremodels.h \
     dcwinnerkeys.h \
     dcwinnerservice.h \
     defaultdartscellcontext.h \
     determinecontrollerstatebywinnerid.h \
+    dpcconstructrow.h \
     dpccreateinputmodels.h \
+    dpcindexcontroller.h \
     dpcindexestojson.h \
     dpcinputstojson.h \
-    dpcinputsuggestion.h \
+    dpcinputvalidator.h \
     dpcontroller.h \
     dpcservicesprovider.h \
     dpmctablemodel.h \
     dpscoresservices.h \
     dpsctablemodel.h \
     dsccreateinputmodels.h \
+    dscindexcontroller.h \
     dscindexestojson.h \
     dscinputsuggestion.h \
     dscinputtojson.h \
+    dscinputvalidator.h \
     dscontroller.h \
     dscvaluesbuilder.h \
     dssctablemodel.h \
@@ -248,30 +270,37 @@ HEADERS += \
     icreatejsonfromplayers.h \
     icreatejsonfromtournamentdetails.h \
     icreatemodel.h \
-    icreatemodelfromstring.h \
     icreatemodelsfromjson.h \
     icreateplayerfromjson.h \
     icreateplayermodels.h \
     icreateplayersfromjson.h \
     icreatetournamentwinnerjson.h \
+    idartsattemptvalues.h \
+    idartsboundaries.h \
+    idartsconstructrow.h \
     idartscontrollerjsonservice.h \
     idartscontrollermodelsservice.h \
     idartscreateindexes.h \
     idartscreateinput.h \
     idartscreatejsonfrommodel.h \
     idartscreatejsonmetadata.h \
+    idartscreateterminalthreshold.h \
+    idartsdivisorvalues.h \
+    idartsfieldvalues.h \
     idartsindexestojson.h \
+    idartsinputmodelstojson.h \
     idartsinputsethint.h \
     idartsinputstojson.h \
-    idartsinputsuggestion.h \
+    idartsinputsuggestions.h \
     idartsinputvalidator.h \
-    idartsmetadata.h \
-    idartsmodelscreatejsonfrompoints.h \
     idartsplayermodelbuilderservice.h \
     idartspointindexes.h \
     idartssubtractscores.h \
     idartstabledatacontext.h \
     idartstablesectionutility.h \
+    idartsterminaldivisor.h \
+    idartsthresholdvalues.h \
+    idartstournamentextractor.h \
     idartstournamentjsonbuilder.h \
     idartstournamentnumberofattempts.h \
     idartstournamentsdb.h \
@@ -297,6 +326,8 @@ HEADERS += \
     idcinitializeindexes.h \
     idcinputmodel.h \
     idcinputstojson.h \
+    idclogisticdb.h \
+    idcmetadata.h \
     idcmetainfo.h \
     idcmodel.h \
     idcmodelcreator.h \
@@ -304,11 +335,12 @@ HEADERS += \
     idcplayermodelbuilder.h \
     idcplayerservice.h \
     idcresetindexes.h \
+    idcresetscorescoremodels.h \
     idcscoresservice.h \
     idcsubtractscore.h \
     idcturnvaluestojson.h \
     idcundoindex.h \
-    idcupdatetuples.h \
+    idcupdatescoremodels.h \
     idcwinnerservice.h \
     iextractwinnerinfo.h \
     ifilereader.h \
@@ -328,6 +360,7 @@ HEADERS += \
     ijsonbuilder.h \
     ijsonextractor.h \
     ijsonkeyplayer.h \
+    ijsontodartstournamentmodel.h \
     ijsonvaluesextractor.h \
     imergejson.h \
     imodelsdbcontext.h \
@@ -359,7 +392,6 @@ HEADERS += \
     abstractdartscontroller.h \
     AbstractApplicationInterface.h \
     IScoreBuilder.h \
-    ScoreValidator.h \
     abstractcricketcontroller.h \
     abstractgamecontroller.h \
     abstractpersistence.h \
@@ -391,7 +423,6 @@ HEADERS += \
     playermodel.h \
     playermodelscontext.h \
     playermodelsservices.h \
-    pointvalidator.h \
     readbytearray.h \
     registerqmldartstabletypes.h \
     registerqmlsingletons.h \

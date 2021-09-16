@@ -17,12 +17,12 @@
 #include <dcwinnerkeys.h>
 #include <dccreateplayersfromjson.h>
 #include <dcplayerkeys.h>
+#include <dscindexcontroller.h>
 #include "dscinputsuggestion.h"
-#include "ScoreValidator.h"
+#include "dscinputvalidator.h"
 #include "dcwinnerservice.h"
 #include "dscinputtojson.h"
 #include "dsccreateinputmodels.h"
-#include "dcindexcontroller.h"
 #include "determinecontrollerstatebywinnerid.h"
 #include "dscvaluesbuilder.h"
 #include "genericjsonbuilder.h"
@@ -31,7 +31,7 @@
 #include "dscinputsuggestion.h"
 #include "dartsmetadataservice.h"
 #include "dcscoresservice.h"
-#include "dcupdatetuples.h"
+#include "dcupdatescoremodels.h"
 #include "dccreatecandidatetuples.h"
 #include "dcaddscore.h"
 #include "dcgetscorecand.h"
@@ -41,14 +41,14 @@
 #include "dcjsonresponsebuilder.h"
 #include "dcindexiterator.h"
 #include "dcgetwinnermodelfromjson.h"
+#include "dcresetscoremodels.h"
 class DSController : public DartsController
 {
 public:
     DSController(const DCBuilding::IDCMetaInfo *meta)
     {
-        setScoreLogisticInterface(new DSCInputSuggestion);
-        setInputEvaluator(new ScoreValidator(meta));
-        setIndexService(new DCIndexController(meta));
+        setInputEvaluator(new DSCInputValidator(meta));
+        setIndexService(new DSCIndexController);
         setWinnerService(new DCWinnerService());
         setTurnValuesBuilder(new DSCContext::DSCValuesBuilder);
         setInputModelBuilder(new DSCCreateInputModels);
@@ -70,7 +70,8 @@ public:
         setGetScoreFromInput(new GetScoreFromDSCInput);
         // Player score services
         setSubtractScore(new DCSubtractScore);
-        setReplaceTuples(new DCUpdateTuples);
+        setReplaceScoreModels(new DCUpdateScoreModels);
+        setResetScoreModels(new DCResetScoreModels);
         // Player services
         setPlayerService(new DCPlayerService(indexService(),scoresService()));
         setGetPlayerName(new DCGetPlayerName);

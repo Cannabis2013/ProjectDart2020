@@ -16,7 +16,7 @@
 #include "dartsinputsjsondb.h"
 #include "getdartspointfromdb.h"
 #include "dartscreateindexes.h"
-#include "createjsonfromdartspointindexes.h"
+#include "dartsinputindexestojson.h"
 #include "dartscreatejsonfromdartspoint.h"
 #include "createplayermodels.h"
 // Player models includes
@@ -26,6 +26,7 @@
 #include "jsonplayersdbcontext.h"
 #include "localplayersdbcontext.h"
 // Tournament models includes
+#include "dartstournamentextractor.h"
 #include "removemodelsfromdb.h"
 #include "adddetailstotournamentjson.h"
 #include "tournamentsjsondb.h"

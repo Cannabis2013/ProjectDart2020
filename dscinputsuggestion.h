@@ -1,7 +1,7 @@
 #ifndef DARTSSCORESTRINGSUGGESTION_H
 #define DARTSSCORESTRINGSUGGESTION_H
 
-#include "idartsinputsuggestion.h"
+#include "idartsinputsuggestions.h"
 #include <qstring.h>
 #include <QMultiHash>
 #include <QRandomGenerator>
@@ -11,7 +11,7 @@ struct ScoreModel
     QVector<int> pointValue;
 };
 
-class DSCInputSuggestion : public IDartsInputSuggestion
+class DSCInputSuggestion : public IDartsInputSuggestions
 {
 public:
     /*
@@ -22,10 +22,7 @@ public:
         DoubleModifier = 0x2B,
         TrippleModifier = 0x2C
     };
-    // Create instance
-    // FTPLogisticControllerInterface interface
     virtual QString suggestTargetRow(const int &remainingScore, const int &turnIndex) const override;
-
 private:
     // Const methods
     int trippleMaxValue() const;
@@ -104,8 +101,6 @@ private:
     const int _terminalThreshold = 40;
 
     const char identifiers[3] = {'S','D','T'};
-
-
     QList<QMultiHash<int,QString>> _throwSuggestions;
 };
 

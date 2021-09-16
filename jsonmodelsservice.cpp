@@ -1,5 +1,4 @@
 #include "jsonmodelsservice.h"
-using namespace ModelsContext;
 JsonModelsService::JsonModelsService()
 {
     setTournamentServices();
@@ -19,9 +18,10 @@ void JsonModelsService::setTournamentServices()
     setDartsTournamentJsonAddDetails(new AddDetailsToTournamentJson);
     setCreateDartsTournament(new CreateDartsTournamentFromJson);
     setDartsTournamentDb(new DartsTournamentsJsonDb);
-    setGetDartsTournamentDataFromJson(new ExtractWinnerInfoFromJson);
+    setExtractWinnerInfoService(new ExtractWinnerInfoFromJson);
     setGetTournamenWinnerModel(new GetTournamentWinner);
     setCreateJsonFromDetails(new CreateJsonFromTournamentDetails);
+    setTournamentExtractor(new DartsTournamentExtractor);
 }
 void JsonModelsService::setPointInputServices()
 {
@@ -31,8 +31,8 @@ void JsonModelsService::setPointInputServices()
     setDartsPointSetHint(new DartsPointSetHint);
     setIndexesBuilder(new DartsCreateIndexes);
     setSortInputsByIndexes(new SortDartsPointInputsByIndexes);
-    setInputsToJsonService(new DartsModelsCreateJsonFromPoints);
-    setIndexesToJsonService(new CreateJsonFromDartsPointIndexes);
+    setInputsToJsonService(new DartsInputModelsToJson);
+    setIndexesToJsonService(new DartsInputIndexesToJson);
     setCreatePointModel(new DartsCreateInputModel);
     setInputToJsonService(new DartsCreateJsonFromPointModel);
 }

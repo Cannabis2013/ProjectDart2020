@@ -1,7 +1,7 @@
 #include "dartsmodelsservice.h"
 void DartsModelsService::addDartsTournament(const QByteArray& json,const QVector<const IModel<QUuid>*> &playerModels)
 {
-    auto model = createDartsTournament()->create(json);
+    auto model = createDartsTournament()->create(json,tournamentExtractor());
     addToTournamentModel()->add(model,playerModels,dartsTournamentDb());
     dartsTournamentDb()->add(model);
     emit tournamentCreatedAndPersisted();

@@ -1,10 +1,10 @@
-#ifndef SCOREVALIDATOR_H
-#define SCOREVALIDATOR_H
+#ifndef DSCINPUTVALIDATOR_H
+#define DSCINPUTVALIDATOR_H
 
-#include "pointvalidator.h"
+#include "dpcinputvalidator.h"
 #include "idcmetainfo.h"
 
-class ScoreValidator : public IDartsInputValidator
+class DSCInputValidator : public IDartsInputValidator
 {
 public:
     enum InputDomains {
@@ -21,7 +21,7 @@ public:
         BullModifier,
         BullsEyeModifier
     };
-    ScoreValidator(const DCBuilding::IDCMetaInfo *meta):
+    DSCInputValidator(const DCBuilding::IDCMetaInfo *meta):
         _terminalKeyCode(meta->terminalKeyCode()){}
     // InputValidatorInterface interface
     virtual int validateInput(const int &currentScore, const int &, const int &) const override
@@ -44,7 +44,7 @@ public:
         else
             return OutsideDomain;
     }
-
+private:
     int terminalKeyCode() const
     {
         return _terminalKeyCode;
@@ -54,7 +54,6 @@ public:
     {
         return _maxAllowedInput;
     }
-private:
     const int _terminalKeyCode;
     const int _maxAllowedInput = 180;
 };

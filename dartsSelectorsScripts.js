@@ -58,15 +58,6 @@ function initializeComponents(){
 
 function setAttempts(value)
 {
-    var mode = convertInputStringToHex(value);
-    if(mode === TournamentContext.scoreMode)
-    {
-        attemptSelector.contentValue = 1;
-        attemptSelector.enabled = false;
-    }
-    else if(mode === TournamentContext.pointMode)
-    {
-        attemptSelector.contentValue = defaultStateValues.defaultNumberOfThrows;
-        attemptSelector.enabled = true;
-    }
+    attemptSelector.contentValue = defaultStateValues.defaultNumberOfThrows;
+    attemptSelector.enabled = true;
 }

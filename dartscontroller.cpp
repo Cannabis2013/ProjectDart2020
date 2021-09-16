@@ -51,9 +51,8 @@ void DartsController::handleUserInputAdded(const QByteArray &json)
 void DartsController::handleResetTournament()
 {
     resetIndexes()->reset(indexService());
-    scoresService()->resetTuples(metaData());
-    auto tournamentId = metaData()->tournamentId();
-    emit requestResetTournament(tournamentId);
+    resetScoreModels()->reset(scoresService(),metaData());
+    emit requestResetTournament(metaData()->tournamentId());
 }
 
 void DartsController::sendCurrentTurnValues()

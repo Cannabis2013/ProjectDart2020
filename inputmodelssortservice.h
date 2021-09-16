@@ -7,35 +7,30 @@
 #include <quuid.h>
 #include "ipredicate.h"
 
-namespace ModelsContext
+class InputModelsSortService : public ISortInputModels
 {
-    class InputModelsSortService : public ISortInputModels
+    // IBinaryService interface
+public:
+    typedef IPredicate<IModel<QUuid>> Predicate;
+    QVector<const IModel<QUuid>*> sort(const QVector<const IModel<QUuid>*> &unsortedInputs,
+                                       const IPredicate<IModel<QUuid>> *predicate) const override
     {
-        // IBinaryService interface
+        QVector<const IModel<QUuid>*> sortedList = unsortedInputs;
+        std::sort(sortedList.begin(),sortedList.end(),ComparePredicate(predicate));
+        return sortedList;
+    }
+private:
+    class ComparePredicate
+    {
     public:
-        typedef IPredicate<IModel<QUuid>> Predicate;
-        QVector<const IModel<QUuid>*> sort(const QVector<const IModel<QUuid>*> &unsortedInputs,
-                                           const IPredicate<IModel<QUuid>> *predicate) const override
+        ComparePredicate(const Predicate* predicate):
+            _predicate(predicate){}
+        bool operator()(const IModel<QUuid>* _first, const IModel<QUuid>* _second)
         {
-            QVector<const IModel<QUuid>*> sortedList = unsortedInputs;
-            std::sort(sortedList.begin(),sortedList.end(),ComparePredicate(predicate));
-            return sortedList;
+            return _predicate->operator()(_first,_second);
         }
     private:
-        class ComparePredicate
-        {
-        public:
-            ComparePredicate(const Predicate* predicate):
-                _predicate(predicate){}
-            bool operator()(const IModel<QUuid>* _first, const IModel<QUuid>* _second)
-            {
-                return _predicate->operator()(_first,_second);
-            }
-        private:
-            const Predicate* _predicate;
-        };
+        const Predicate* _predicate;
     };
-}
-
-
+};
 #endif // GETORDEREDDARTSSCOREMODELS_H

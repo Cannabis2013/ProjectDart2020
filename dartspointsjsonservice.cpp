@@ -1,10 +1,8 @@
 #include "dartspointsjsonservice.h"
 
-using namespace ModelsContext;
-
-
-QByteArray DartsModelsCreateJsonFromPoints::toJson(const QVector<const IModel<QUuid> *> &models) const
+QByteArray DartsInputModelsToJson::toJson(const QVector<const IModel<QUuid> *> &models) const
 {
+    using namespace ModelsContext;
     QJsonArray pointsJsonArray;
     for (const auto& model : models) {
         auto inputModel = dynamic_cast<const IDartsInput*>(model);

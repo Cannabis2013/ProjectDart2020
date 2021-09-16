@@ -65,7 +65,7 @@
         <file>scoreViewScripts.js</file>
         <file>DefaultTitleComponent.qml</file>
         <file>DartsTournamentSelectors.qml</file>
-        <file>ftpSelectorsScripts.js</file>
+        <file>dartsSelectorsScripts.js</file>
         <file>TournamentListView.qml</file>
         <file>ScoreKeyPadInterface.qml</file>
         <file>DPMCBoardDelegate.qml</file>

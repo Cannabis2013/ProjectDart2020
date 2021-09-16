@@ -1,9 +1,9 @@
 #include "dartsinputservices.h"
-IDartsModelsCreateJsonFromPoints *DartsInputServices::inputsToJSon() const
+IDartsInputModelsToJson *DartsInputServices::inputsToJSon() const
 {
     return _inputsToJson;
 }
-void DartsInputServices::setInputsToJsonService(IDartsModelsCreateJsonFromPoints *newDartsPointsJsonService)
+void DartsInputServices::setInputsToJsonService(IDartsInputModelsToJson *newDartsPointsJsonService)
 {
     _inputsToJson = newDartsPointsJsonService;
 }

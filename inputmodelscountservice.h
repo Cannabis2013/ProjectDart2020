@@ -5,29 +5,26 @@
 #include "icountinputmodels.h"
 #include <iplayerinput.h>
 
-namespace ModelsContext {
-    class InputModelsCountService : public
-            ICountInputModels
+class InputModelsCountService : public
+        ICountInputModels
+{
+public:
+    virtual int count(const QUuid &tournamentId, const IModelsDbContext *dbService) const override
     {
-    public:
-        virtual int count(const QUuid &tournamentId, const IModelsDbContext *dbService) const override
-        {
-            auto models = getInputModels(tournamentId,dbService);
-            return models.count();
+        auto models = getInputModels(tournamentId,dbService);
+        return models.count();
+    }
+private:
+    QVector<const IModel<QUuid>*> getInputModels(const QUuid &tournamentId, const IModelsDbContext *dbService) const
+    {
+        auto models = dbService->models();
+        QVector<const IModel<QUuid>*> tournamentInputs;
+        for (const auto &model : models) {
+            auto inputModel = dynamic_cast<const IPlayerInput*>(model);
+            if(inputModel->tournamentId() == tournamentId)
+                tournamentInputs << model;
         }
-    private:
-        QVector<const IModel<QUuid>*> getInputModels(const QUuid &tournamentId, const IModelsDbContext *dbService) const
-        {
-            auto models = dbService->models();
-            QVector<const IModel<QUuid>*> tournamentInputs;
-            for (const auto &model : models) {
-                auto inputModel = dynamic_cast<const IPlayerInput*>(model);
-                if(inputModel->tournamentId() == tournamentId)
-                    tournamentInputs << model;
-            }
-            return tournamentInputs;
-        }
-    };
-}
-
+        return tournamentInputs;
+    }
+};
 #endif // INPUTMODELSCOUNTSERVICE_H

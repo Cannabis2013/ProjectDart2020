@@ -4,7 +4,7 @@
 #include <icountinputmodels.h>
 #include <idartsindexestojson.h>
 #include <idartscreateindexes.h>
-#include <idartsmodelscreatejsonfrompoints.h>
+#include <idartsinputmodelstojson.h>
 #include <idartspointindexes.h>
 #include <idartsinputsethint.h>
 #include <isetmodelhint.h>
@@ -22,8 +22,8 @@ class DartsInputServices
 public:
     typedef IPredicate<IModel<QUuid>> Predicate;
     typedef IDbContext<IPlayerInput> DbService;
-    IDartsModelsCreateJsonFromPoints *inputsToJSon() const;
-    void setInputsToJsonService(IDartsModelsCreateJsonFromPoints *newDartsPointsJsonService);
+    IDartsInputModelsToJson *inputsToJSon() const;
+    void setInputsToJsonService(IDartsInputModelsToJson *newDartsPointsJsonService);
     IDartsInputSetHint *dartsPointSetHint() const;
     void setDartsPointSetHint(IDartsInputSetHint *newDartsPointSetHint);
     ISortInputModels *sortInputs() const;
@@ -49,7 +49,7 @@ public:
     IDartsCreateIndexes<IDartsPointIndexes> *indexesBuilder() const;
     void setIndexesBuilder(IDartsCreateIndexes<IDartsPointIndexes> *newCreateIndexesFromPointModels);
 private:
-    IDartsModelsCreateJsonFromPoints* _inputsToJson;
+    IDartsInputModelsToJson* _inputsToJson;
     IDartsInputSetHint *_dartsPointSetHint;
     ISortInputModels* _sortInputs;
     IGetInputModelsService* _getInputsFromDb;

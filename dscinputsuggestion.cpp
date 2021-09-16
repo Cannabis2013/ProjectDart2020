@@ -12,7 +12,6 @@ void DSCInputSuggestion::constructAndAddSuggestions()
             if(firstSuggestion != QString())
                 suggestions.insert(i,firstSuggestion);
         }
-
         _throwSuggestions.append(suggestions);
     }
 }

@@ -8,7 +8,8 @@ UserInputContent{
     id: comboBoxComponentBody
     property var stringModel: ["Item one", "Item two", "Item three"]
     onStringModelChanged: comboBox.model = stringModel
-    onSetValue: currentIndex = value
+    onSetValue: currentIndex = stringModel.indexOf(value)
+
     property color popupBackgroundColor: "white"
     onPopupBackgroundColorChanged: popupItem.color = popupBackgroundColor
     property int borderRadius: 0

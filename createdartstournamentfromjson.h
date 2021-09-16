@@ -1,38 +1,40 @@
 #ifndef CREATEDARTSTOURNAMENTFROMJSON_H
 #define CREATEDARTSTOURNAMENTFROMJSON_H
 
-#include "icreatemodelfromstring.h"
+#include "ijsontodartstournamentmodel.h"
 #include "dartstournament.h"
 
-class CreateDartsTournamentFromJson : public ICreateModelFromString<AbstractDartsTournament,QByteArray>
+class CreateDartsTournamentFromJson : public IJsonToDartsTournamentModel
 {
 public:
-    const AbstractDartsTournament *create(const QByteArray &json) override
+    const AbstractDartsTournament *create(const QByteArray &json,
+                                          const IDartsTournamentExtractor *extractor) const override
     {
         auto jsonObject = createJsonObject(json);
-        auto tournamentModel = createModelFromJsonObject(jsonObject);
+        auto tournamentModel = createModelFromJsonObject(jsonObject,extractor);
         return tournamentModel;
     }
 private:
-    QJsonObject createJsonObject(const QByteArray &json)
+    QJsonObject createJsonObject(const QByteArray &json) const
     {
         auto document = QJsonDocument::fromJson(json);
         auto jsonObject = document.object();
         return jsonObject;
     }
-    const AbstractDartsTournament *createModelFromJsonObject(const QJsonObject &jsonObject)
+    const AbstractDartsTournament *createModelFromJsonObject(const QJsonObject &obj,
+                                                             const IDartsTournamentExtractor *extractor) const
     {
         auto dartsTournamentModel = ModelsContext::DartsTournament::createInstance();
-        dartsTournamentModel->setTitle(jsonObject.value("title").toString());
-        dartsTournamentModel->setGameMode(jsonObject.value("gameMode").toInt());
-        dartsTournamentModel->setKeyPoint(jsonObject.value("keyPoint").toInt());
-        dartsTournamentModel->setAttempts(jsonObject.value("attempts").toInt());
-        dartsTournamentModel->setTerminalKeyCode(jsonObject.value("terminalKeyCode").toInt());
-        dartsTournamentModel->setDisplayHint(jsonObject.value("displayHint").toInt());
-        dartsTournamentModel->setInputMode(jsonObject.value("inputHint").toInt());
-        dartsTournamentModel->setStatus(jsonObject.value("status").toInt());
-        dartsTournamentModel->setWinnerId(QUuid(jsonObject.value("winnerId").toString("")));
-        dartsTournamentModel->setWinnerName(jsonObject.value("winnerName").toString(""));
+        dartsTournamentModel->setTitle(extractor->title(obj));
+        dartsTournamentModel->setGameMode(extractor->gameMode(obj));
+        dartsTournamentModel->setKeyPoint(extractor->keyPoint(obj));
+        dartsTournamentModel->setAttempts(extractor->attempts(obj));
+        dartsTournamentModel->setTerminalKeyCode(extractor->terminalKeyCode(obj));
+        dartsTournamentModel->setDisplayHint(extractor->displayHint(obj));
+        dartsTournamentModel->setInputMode(extractor->inputHint(obj));
+        dartsTournamentModel->setStatus(extractor->status(obj));
+        dartsTournamentModel->setWinnerId(extractor->winnerId(obj));
+        dartsTournamentModel->setWinnerName(extractor->winnerName(obj));
         dartsTournamentModel->setId(QUuid::createUuid());
         return dartsTournamentModel;
     }

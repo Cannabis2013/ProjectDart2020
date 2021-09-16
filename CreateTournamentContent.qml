@@ -97,7 +97,7 @@ Content {
         }
         Component.onCompleted: {
             applicationInterface.tournamentAssembledAndStored.connect(createBody.tournamentAssembledAndStored);
-            applicationInterface.sendPlayers.connect(CreateScripts.recievePlayers); // Recieve initial players
+            applicationInterface.sendPlayers.connect(CreateScripts.recievePlayers);
             CreateScripts.setupSelectors();
             applicationInterface.requestPlayers();
         }

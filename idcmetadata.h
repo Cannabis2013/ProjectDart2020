@@ -1,9 +1,9 @@
-#ifndef IDARTSMETADATA_H
-#define IDARTSMETADATA_H
+#ifndef IDCMETADATA_H
+#define IDCMETADATA_H
 
 #include <quuid.h>
 
-class IDartsMetaData
+class IDCMetaData
 {
 public:
     virtual int status() const = 0;

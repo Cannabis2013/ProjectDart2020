@@ -2,15 +2,17 @@
 #define LOCALMODELSSERVICE_H
 #include "abstractdartsmodelscontext.h"
 #include "dartsinputservices.h"
-#include "dartstournamentservices.h"
+#include "dartsmodelsservices.h"
 #include "playermodelsservices.h"
 #include "dartsutilityservices.h"
+#include "dartstournamentjsonservices.h"
 
 class DartsModelsService :
         public AbstractDartsModelsContext,
-        public DartsTournamentServices,
-        public DartsInputServices,
-        public DartsUtilityServices
+        protected DartsModelsServices,
+        protected DartsTournamentJsonServices,
+        protected DartsInputServices,
+        protected DartsUtilityServices
 {
 public:
     //Public types

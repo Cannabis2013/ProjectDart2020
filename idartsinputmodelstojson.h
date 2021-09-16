@@ -1,10 +1,10 @@
-#ifndef IDARTSMODELSCREATEJSONFROMPOINTS_H
-#define IDARTSMODELSCREATEJSONFROMPOINTS_H
+#ifndef IDARTSINPUTMODELSTOJSON_H
+#define IDARTSINPUTMODELSTOJSON_H
 
 #include "itojson.h"
 #include "iplayerinput.h"
 
-class IDartsModelsCreateJsonFromPoints :
+class IDartsInputModelsToJson :
         public IToJson<const QVector<const IModel<QUuid>*>&>
 {
 public:

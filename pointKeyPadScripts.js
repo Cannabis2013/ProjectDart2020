@@ -33,7 +33,7 @@ function createKeyPad()
     // Modifiers
     for(var r = 0;r < 2 ;r++){
         var selectorKey = ComponentFactory.createModifier(keyPadLayout,strings[r],0,r);
-        keyPadBody.enableKeyPad.connect(selectorKey.setEnabled);
+        keyPadBody.enableKeyPad.connect(selectorKey.enableButton);
         if(selectorKey.text === "D")
         {
             selectorKey.checkStateChanged.connect(handleDoubleKeyPressed);
@@ -53,7 +53,7 @@ function createKeyPad()
         for(var j = initialColumn;j < columnCount && keyText < 21;j++){
             var numberKey = ComponentFactory.createNumberButton(keyPadLayout,keyText++,i,j);
             numberKey.clickedAndSendText.connect(keyPadBody.internalKeyClicked);
-            keyPadBody.enableKeyPad.connect(numberKey.setEnabled);
+            keyPadBody.enableKeyPad.connect(numberKey.enableButton);
         }
         initialColumn = 0;
     }

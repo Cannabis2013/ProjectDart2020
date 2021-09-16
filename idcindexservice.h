@@ -16,7 +16,6 @@ public:
     virtual int attemptIndex() const = 0;
     virtual void setAttemptIndex(const int &attemptIndex) = 0;
     virtual int numberOfAttempts() const = 0;
-    virtual void setNumberOfAttempts(const int&) = 0;
 };
 
 #endif // INDEXCONTROLLERINTERFACE_H
