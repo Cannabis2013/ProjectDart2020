@@ -28,7 +28,7 @@ const IDartsPointIndexes *DartsCreateIndexes::createDartsIndexesByModels(const I
     auto roundIndex = lastModel->roundIndex();
     auto attemptIndex = lastModel->attempt();
     auto setIndex = lastModel->setIndex();
-    if(++attemptIndex % dartsTournament->attempts() == 0)
+    if(++attemptIndex % 3 == 0)
     {
         attemptIndex = 0;
         setIndex++;

@@ -29,9 +29,7 @@ private:
     void initializeMetaInfo(DCBuilding::DCMeta *metaInfo, const QJsonObject &jsonObject) const
     {
         metaInfo->setTournamentId(QUuid(jsonObject.value("tournamentId").toString()));
-        metaInfo->setAttempt(jsonObject.value("attempts").toInt());
         metaInfo->setKeyPoint(jsonObject.value("keyPoint").toInt());
-        metaInfo->setTerminalKeyCode(jsonObject.value("terminalKeyCode").toInt());
         metaInfo->setInputHint(jsonObject.value("inputHint").toInt());
         metaInfo->setWinnerId(QUuid(jsonObject.value("winnerId").toString()));
         metaInfo->setDisplayHint(jsonObject.value("displayHint").toInt());

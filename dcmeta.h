@@ -12,10 +12,6 @@ namespace DCBuilding {
         void setTournamentId(const IdFormat &newTournamentId);
         virtual int keyPoint() const override;
         void setKeyPoint(int newKeyPoint);
-        virtual int attempts() const override;
-        void setAttempt(int newAttempt);
-        virtual int terminalKeyCode() const override;
-        void setTerminalKeyCode(int newTerminalKeyCode);
         virtual int inputHint() const override;
         void setInputHint(int newInputHint);
         virtual IdFormat winnerId() const override;

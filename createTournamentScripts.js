@@ -56,9 +56,7 @@ function createDartsTournament()
     var obj = {
         title : titleEdit.currentValue,
         gameMode : gameMode,
-        attempts : selectorComponent().attempts,
         keyPoint : selectorComponent().keyPoint,
-        terminalKeyCode : selectorComponent().conditionKeyCode,
         displayHint : selectorComponent().displayHint,
         inputHint : selectorComponent().inputMode,
         indexes : indexes

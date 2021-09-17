@@ -8,12 +8,8 @@
 class DartsCreateTerminalThreshold : public IDartsCreateTerminalThreshold
 {
 public:
-    DartsCreateTerminalThreshold(const DCBuilding::IDCMetaInfo *meta, const IDartsBoundaries *boundaries)
+    DartsCreateTerminalThreshold(const IDartsBoundaries *boundaries)
     {
-        if(meta->terminalKeyCode() == KeyMappings::SingleModifer)
-            _threshold = boundaries->singleMaxValue();
-        else if(meta->terminalKeyCode() == KeyMappings::TrippleModifier)
-            _threshold = boundaries->trippleMaxValue();
         _threshold = boundaries->doubleMaxValue();
     }
     int threshold() const override

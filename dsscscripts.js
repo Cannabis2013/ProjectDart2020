@@ -36,7 +36,6 @@ function handleTournamentMetaData(data){
     dartsMetaValues.title = json["title"];
     dartsMetaValues.winnerName= json["winnerName"];
     dartsMetaValues.keyPoint = json["keyPoint"];
-    dartsMetaValues.attempts = json["attempts"];
     dartsMetaValues.assignedPlayerNames = json["assignedPlayerNames"];
     initializeScoreBoard();
     applicationInterface.requestDartsScores();

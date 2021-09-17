@@ -35,21 +35,11 @@ Rectangle {
         anchors.fill: parent
         flow : GridLayout.TopToBottom
         rowSpacing: 3
-        DefaultSpinBox {
-            id: attemptSelector
-            Layout.fillWidth: true
-        }
         DefaultComboBox {
             id: keyPointSelector
             Layout.fillWidth: true
             model: stringModels.keyPoints
             labelText: "Keypoint:"
-        }
-        DefaultComboBox {
-            id: winConditionSelector
-            Layout.fillWidth: true
-            labelText: "Finish with:"
-            model: stringModels.keyIdentifiers
         }
         DefaultComboBox {
             id: displayHintSelector

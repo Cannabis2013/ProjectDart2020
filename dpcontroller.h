@@ -42,7 +42,7 @@
 #include "dcgetwinnermodelfromjson.h"
 #include "dccreateplayersfromjson.h"
 #include "dcplayerkeys.h"
-#include "dpcconstructrow.h"
+#include "dcconstructrow.h"
 #include "dclogisticdb.h"
 #include "dcresetscoremodels.h"
 class DPController : public DartsController
@@ -50,8 +50,8 @@ class DPController : public DartsController
 public:
     DPController(const DCBuilding::IDCMetaInfo *meta)
     {
-        setInputEvaluator(DPCInputValidator::createInstance(meta->terminalKeyCode()));
-        setIndexService(new DPCIndexController(meta));
+        setInputEvaluator(DPCInputValidator::createInstance());
+        setIndexService(new DPCIndexController);
         setResetIndexes(new DCResetIndexes);
         setInitializeIndexes(new DCInitializeIndexes);
         setTurnValuesBuilder(new CreateDPCTurnValues);
@@ -63,7 +63,7 @@ public:
         setAddTotalScoresToJson(new AddTotalScoreToDartsPointsJson);
         setAddPlayerNamesToJson(new AddPlayerNamestoDartsPointsJson);
         setMetaData(new DCMetaInfo(meta));
-        setScoreLogisticInterface(DCInputSuggestions::createInstance(DPCConstructRow::createInstance(meta),
+        setScoreLogisticInterface(DCInputSuggestions::createInstance(DCConstructRow::createInstance(meta),
                                                                      DCLogisticDb::createInstance()));
         setDetermineControllerStateByWinnerId(new DetermineControllerStateByWinnerId);
         setGetTotalScoreService(new DCGetScoreCand);

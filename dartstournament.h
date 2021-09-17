@@ -18,34 +18,18 @@ namespace ModelsContext{
         {
             return new DartsTournament();
         }
-        int attempts() const override
-        {
-            return _attempts;
-        }
-        DartsTournament* setAttempts(const int &val) override
-        {
-            _attempts = val;
-            return this;
-        }
+
         int keyPoint() const override
         {
             return _keyPoint;
         }
+
         DartsTournament* setKeyPoint(const int &val) override
         {
             _keyPoint = val;
             return this;
         }
 
-        int terminalKeyCode() const override
-        {
-            return _terminalKeyCode;
-        }
-        DartsTournament* setTerminalKeyCode(const int &keyCode) override
-        {
-            _terminalKeyCode = keyCode;
-            return this;
-        }
         int displayHint() const override
         {
             return _displayHint;
@@ -66,13 +50,10 @@ namespace ModelsContext{
             return this;
         }
     private:
-        int _attempts;
         int _keyPoint;
         int _terminalKeyCode;
         int _displayHint;
         int _inputHint;
     };
 }
-
-
 #endif // TOURNAMENT_H

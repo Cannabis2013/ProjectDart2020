@@ -35,7 +35,6 @@ function handleMetaData(data){
     metaValues.title = json["title"];
     metaValues.winnerName= json["winnerName"];
     metaValues.keyPoint = json["keyPoint"];
-    metaValues.attempts = json["attempts"];
     metaValues.assignedPlayerNames = json["assignedPlayerNames"];
     initializeScoreBoard();
     applicationInterface.requestOrderedDartsInputs();

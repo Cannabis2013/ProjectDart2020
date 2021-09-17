@@ -25,17 +25,9 @@ public:
     {
         return obj.value("winnerName").toString();
     }
-    virtual int attempts(const QJsonObject &obj) const override
-    {
-        return obj.value("attempts").toInt();
-    }
     virtual int keyPoint(const QJsonObject &obj) const override
     {
         return obj.value("keyPoint").toInt();
-    }
-    virtual int terminalKeyCode(const QJsonObject &obj) const override
-    {
-        return obj.value("terminalKeyCode").toInt();
     }
     virtual int displayHint(const QJsonObject &obj) const override
     {

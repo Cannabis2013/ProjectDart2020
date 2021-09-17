@@ -119,7 +119,6 @@ HEADERS += \
     createplayersfromjson.h \
     createqmlvariants.h \
     dartapplicationservices.h \
-    dartsattempts.h \
     dartsboundaries.h \
     dartsconstructservices.h \
     dartscontroller.h \
@@ -174,6 +173,7 @@ HEADERS += \
     dcbasicservices.h \
     dcbuilder.h \
     dcbuilderservices.h \
+    dcconstructrow.h \
     dccreatecandidatetuples.h \
     dccreateplayersfromjson.h \
     dccreatescoretuples.h \
@@ -211,7 +211,6 @@ HEADERS += \
     dcwinnerservice.h \
     defaultdartscellcontext.h \
     determinecontrollerstatebywinnerid.h \
-    dpcconstructrow.h \
     dpccreateinputmodels.h \
     dpcindexcontroller.h \
     dpcindexestojson.h \
@@ -275,7 +274,6 @@ HEADERS += \
     icreateplayermodels.h \
     icreateplayersfromjson.h \
     icreatetournamentwinnerjson.h \
-    idartsattemptvalues.h \
     idartsboundaries.h \
     idartsconstructrow.h \
     idartscontrollerjsonservice.h \

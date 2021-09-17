@@ -1,10 +1,5 @@
 #include "dpcindexcontroller.h"
 
-DPCIndexController::DPCIndexController(const DCBuilding::IDCMetaInfo *meta)
-{
-    _numberOfAttempts = meta->attempts();
-}
-
 void DPCIndexController::syncIndex()
 {
     _totalIndex = _turnIndex;
@@ -62,5 +57,10 @@ void DPCIndexController::setSetIndex(const int &index)
 
 int DPCIndexController::numberOfAttempts() const
 {
-    return _numberOfAttempts;
+    return _attempts;
+}
+
+int DPCIndexController::attempts() const
+{
+    return _attempts;
 }

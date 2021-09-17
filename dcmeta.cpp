@@ -12,16 +12,6 @@ int DCBuilding::DCMeta::keyPoint() const
     return _keyPoint;
 }
 
-int DCBuilding::DCMeta::attempts() const
-{
-    return _attempt;
-}
-
-int DCBuilding::DCMeta::terminalKeyCode() const
-{
-    return _terminalKeyCode;
-}
-
 int DCBuilding::DCMeta::inputHint() const
 {
     return _inputHint;
@@ -35,16 +25,6 @@ void DCMeta::setTournamentId(const IdFormat &newTournamentId)
 void DCMeta::setKeyPoint(int newKeyPoint)
 {
     _keyPoint = newKeyPoint;
-}
-
-void DCMeta::setAttempt(int newAttempt)
-{
-    _attempt = newAttempt;
-}
-
-void DCMeta::setTerminalKeyCode(int newTerminalKeyCode)
-{
-    _terminalKeyCode = newTerminalKeyCode;
 }
 
 void DCMeta::setInputHint(int newInputHint)

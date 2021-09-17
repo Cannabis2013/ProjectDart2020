@@ -1,10 +1,15 @@
 #include "constructtargetrow.h"
 
+ConstructTargetRow *ConstructTargetRow::createInstance()
+{
+    return new ConstructTargetRow;
+}
+
 IDartsConstructRow::AllTargetRows ConstructTargetRow::constructRows() const
 {
     AllTargetRows allTargetRows;
-    for (int turnIndex = 1; turnIndex <= attempts()->attempts(); ++turnIndex) {
-        auto remainingTurns = attempts()->attempts() - turnIndex;
+    for (int turnIndex = 1; turnIndex <= attempts(); ++turnIndex) {
+        auto remainingTurns = attempts() - turnIndex;
         auto currentPointLimit = remainingTurns*boundaries()->trippleMaxValue() + fieldValues()->bullsEye();
         auto suggestions = new TargetRows;
         for (int i = divisors()->doubleDivisor(); i <= currentPointLimit; ++i) {
@@ -21,11 +26,11 @@ QString ConstructTargetRow::constructRow(const int &remainingScore, const int &t
 {
     auto score = new IDartsConstructRow::ScoreModel();
 
-    score->multiplier = QVector<char>(attempts()->attempts(),'\0');
-    score->pointValue = QVector<int>(attempts()->attempts(),0);
+    score->multiplier = QVector<char>(attempts(),'\0');
+    score->pointValue = QVector<int>(attempts(),0);
     bool hasADeterminedPath;
     try {
-        hasADeterminedPath = pointSuggestion(remainingScore,turnIndex,score);
+        hasADeterminedPath = suggestion(remainingScore,turnIndex,score);
     } catch (std::exception *e) {
         return QString();
     }
@@ -37,10 +42,10 @@ QString ConstructTargetRow::constructRow(const int &remainingScore, const int &t
     return QString();
 }
 
-bool ConstructTargetRow::pointSuggestion(const int &remainingScore, const int &turnIndex,
+bool ConstructTargetRow::suggestion(const int &remainingScore, const int &turnIndex,
                                          ScoreModel *scoreObject) const
 {
-    auto totalTurns = attempts()->attempts();
+    auto totalTurns = attempts();
     /*
      * Evaluate constrains
      */
@@ -54,7 +59,7 @@ bool ConstructTargetRow::pointSuggestion(const int &remainingScore, const int &t
      */
     if(remainingScore <= thresholds()->terminalThreshold())
         return isWithinTerminalThreshold(remainingScore,turnIndex,scoreObject);
-    else if(turnIndex == attempts()->attempts() && remainingScore != fieldValues()->bullsEye())
+    else if(turnIndex == attempts() && remainingScore != fieldValues()->bullsEye())
         return false;
     /*
      * This is the pathfinding state where the algorithm tries to determine, if exists, the route.
@@ -117,7 +122,7 @@ bool ConstructTargetRow::isWithinTerminalThreshold(const int &remainingScore, co
                 newScore -= i;
                 try {
                     updateScoreObject('S',i,turnIndex,scoreObject);
-                    return pointSuggestion(newScore,turnIndex + 1,scoreObject);
+                    return suggestion(newScore,turnIndex + 1,scoreObject);
                 }  catch (const char *e) {
                     throw e;
                 }
@@ -240,7 +245,7 @@ bool ConstructTargetRow::writeToScoreObject(const int &remainingScore, const int
         if(newScore == 0)
             return true;
         else
-            return pointSuggestion(newScore,turnIndex + 1,s);
+            return suggestion(newScore,turnIndex + 1,s);
     }  catch (const char *e) {
         throw e;
     }
@@ -255,10 +260,15 @@ bool ConstructTargetRow::isEven(const int &integer) const
 QString ConstructTargetRow::toString(IDartsConstructRow::ScoreModel *s) const
 {
     QString result;
-    for (int i = 0; i < attempts()->attempts(); ++i) {
+    for (int i = 0; i < attempts(); ++i) {
         auto identifier = s->multiplier.at(i);
         auto pVal = s->pointValue.at(i);
         result += identifier == '\0' ? "" : identifier + QString::number(pVal) + " ";
     }
     return result;
+}
+
+int ConstructTargetRow::attempts() const
+{
+    return _attempts;
 }

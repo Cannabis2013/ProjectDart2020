@@ -20,9 +20,9 @@ public:
         BullModifier,
         BullsEyeModifier
     };
-    static DPCInputValidator* createInstance(const int& terminalKeyCode)
+    static DPCInputValidator* createInstance()
     {
-        return new DPCInputValidator(terminalKeyCode);
+        return new DPCInputValidator;
     }
     virtual int validateInput(const int &currentScore,
                               const int &keyCode,
@@ -54,8 +54,6 @@ public:
     }
 
 private:
-    DPCInputValidator(const int& terminalCondition):
-        _terminalKeyCode(terminalCondition){}
     int terminalKeyCode() const
     {
         return _terminalKeyCode;
@@ -65,7 +63,7 @@ private:
         return _maxAllowedInput;
     }
     const int _maxAllowedInput = 180;
-    const int _terminalKeyCode;
+    const int _terminalKeyCode = DoubleModifier;
     const int _bullsEye = 50;
 };
 #endif // POINTVALIDATOR_H

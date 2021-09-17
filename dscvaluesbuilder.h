@@ -33,7 +33,7 @@ namespace DSCContext{
         {
             if(logisticService == nullptr)
                 return "Logistic controller not injected";
-            auto targetRow = logisticService->suggestTargetRow(score,1);
+            auto targetRow = logisticService->suggestTargetRow(score,0);
             return targetRow;
         }
         bool canUndo(const IDCIndexService *indexService) const

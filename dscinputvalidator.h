@@ -21,8 +21,6 @@ public:
         BullModifier,
         BullsEyeModifier
     };
-    DSCInputValidator(const DCBuilding::IDCMetaInfo *meta):
-        _terminalKeyCode(meta->terminalKeyCode()){}
     // InputValidatorInterface interface
     virtual int validateInput(const int &currentScore, const int &, const int &) const override
     {
@@ -54,7 +52,7 @@ private:
     {
         return _maxAllowedInput;
     }
-    const int _terminalKeyCode;
+    const int _terminalKeyCode = DoubleModifier;
     const int _maxAllowedInput = 180;
 };
 #endif // SCOREVALIDATOR_H

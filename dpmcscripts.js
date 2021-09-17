@@ -42,7 +42,6 @@ function initializeMetaValues(json)
     metaValues.title = json["title"];
     metaValues.winnerName= json["winnerName"];
     metaValues.keyPoint = json["keyPoint"];
-    metaValues.attempts = json["attempts"];
     metaValues.assignedPlayerNames = json["assignedPlayerNames"];
 }
 

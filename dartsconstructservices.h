@@ -1,6 +1,5 @@
 #ifndef DARTSCONSTRUCTSERVICES_H
 #define DARTSCONSTRUCTSERVICES_H
-#include <idartsattemptvalues.h>
 #include "idartsfieldvalues.h"
 #include "idartsthresholdvalues.h"
 #include "idartsboundaries.h"
@@ -9,15 +8,6 @@
 class DartsConstructServices
 {
 public:
-    IDartsAttemptValues *attempts() const
-    {
-        return _attemptValues;
-    }
-    void setAttemptsService(IDartsAttemptValues *service)
-    {
-        _attemptValues = service;
-    }
-
     IDartsBoundaries *boundaries() const
     {
         return _boundaries;
@@ -61,7 +51,6 @@ public:
         _terminalDivisor = newTerminalDivisor;
     }
 private:
-    IDartsAttemptValues *_attemptValues;
     IDartsBoundaries *_boundaries;
     IDartsFieldValues *_fieldValues;
     IDartsThresholdValues *_threshold;

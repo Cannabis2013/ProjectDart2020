@@ -28,8 +28,6 @@ private:
         dartsTournamentModel->setTitle(extractor->title(obj));
         dartsTournamentModel->setGameMode(extractor->gameMode(obj));
         dartsTournamentModel->setKeyPoint(extractor->keyPoint(obj));
-        dartsTournamentModel->setAttempts(extractor->attempts(obj));
-        dartsTournamentModel->setTerminalKeyCode(extractor->terminalKeyCode(obj));
         dartsTournamentModel->setDisplayHint(extractor->displayHint(obj));
         dartsTournamentModel->setInputMode(extractor->inputHint(obj));
         dartsTournamentModel->setStatus(extractor->status(obj));

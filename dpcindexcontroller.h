@@ -7,7 +7,6 @@
 class DPCIndexController : public IDCIndexService
 {
 public:
-    DPCIndexController(const DCBuilding::IDCMetaInfo *meta);
     virtual int turnIndex() const override;
     virtual void setTurnIndex(const int &index) override;
     virtual int totalIndex() const override;
@@ -20,12 +19,14 @@ public:
     virtual void setAttemptIndex(const int &index) override;
     virtual void syncIndex() override;
     virtual int numberOfAttempts() const override;
+    int attempts() const;
+
 private:
     int _turnIndex = 0;
     int _totalIndex  = 0;
     int _roundIndex = 1;
     int _setIndex = 0;
     int _attemptIndex = 0;
-    int _numberOfAttempts;
+    const int _attempts = 3;
 };
 #endif // SCOREINDEXCONTROLLER_H

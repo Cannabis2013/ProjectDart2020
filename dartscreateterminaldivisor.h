@@ -12,12 +12,8 @@ public:
         DoubleModifier = 0x2B,
         TrippleModifier = 0x2C
     };
-    DartsCreateTerminalDivisor(const DCBuilding::IDCMetaInfo *meta, const IDartsDivisorValues *divisorValues)
+    DartsCreateTerminalDivisor(const IDartsDivisorValues *divisorValues)
     {
-        if(meta->terminalKeyCode() == KeyMappings::SingleModifer)
-            _divisor = divisorValues->singleDivisor();
-        else if(meta->terminalKeyCode() == KeyMappings::TrippleModifier)
-            _divisor = divisorValues->trippleDivisor();
         _divisor = divisorValues->doubleDivisor();
     }
     int divisor() const

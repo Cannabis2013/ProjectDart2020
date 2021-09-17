@@ -30,13 +30,11 @@ private:
         obj["id"] = model->id().toString(QUuid::WithoutBraces);
         obj["title"] = model->title();
         obj["gameMode"] = model->gameMode();
-        obj["attempts"] = model->attempts();
         obj["keyPoint"] = model->keyPoint();
         obj["displayHint"] = model->displayHint();
         obj["inputHint"] = model->inputHint();
         obj["winnerId"] = model->winnerId().toString(QUuid::WithoutBraces);
         obj["winnerName"] = model->winnerName();
-        obj["terminalKeyCode"] = model->terminalKeyCode();
         obj["assignedPlayerIds"] = createJsonArrayFromPlayerIds(tournamentModel);
         obj["assignedPlayerNames"] = createJsonArrayFromPlayerNames(tournamentModel);
         return obj;

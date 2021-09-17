@@ -50,8 +50,6 @@ private:
         dartsTournamentModel->setTitle(jsonObject.value("title").toString());
         dartsTournamentModel->setGameMode(jsonObject.value("gameMode").toInt());
         dartsTournamentModel->setKeyPoint(jsonObject.value("keyPoint").toInt());
-        dartsTournamentModel->setAttempts(jsonObject.value("attempts").toInt());
-        dartsTournamentModel->setTerminalKeyCode(jsonObject.value("terminalKeyCode").toInt());
         dartsTournamentModel->setDisplayHint(jsonObject.value("displayHint").toInt());
         dartsTournamentModel->setInputMode(jsonObject.value("inputHint").toInt());
         dartsTournamentModel->setStatus(jsonObject.value("status").toInt());
