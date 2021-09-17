@@ -1,9 +1,9 @@
-#ifndef IDARTSCONSTRUCTTARGETROW_H
-#define IDARTSCONSTRUCTTARGETROW_H
+#ifndef IDARTSCREATEFINISHES_H
+#define IDARTSCREATEFINISHES_H
 
 #include <qvector.h>
 
-class IDartsConstructRow
+class IDartsCreateFinishes
 {
 public:
     struct ScoreModel
@@ -15,5 +15,4 @@ public:
     typedef QVector<const TargetRows*> AllTargetRows;
     virtual AllTargetRows constructRows() const = 0;
 };
-
 #endif // IDARTSCONSTRUCTTARGETROW_H

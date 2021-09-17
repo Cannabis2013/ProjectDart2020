@@ -1,7 +1,7 @@
 #ifndef DARTSSCORESTRINGSUGGESTION_H
 #define DARTSSCORESTRINGSUGGESTION_H
 
-#include "idartsinputsuggestions.h"
+#include "idartsinputfinishes.h"
 #include <qstring.h>
 #include <QMultiHash>
 #include <QRandomGenerator>
@@ -11,7 +11,7 @@ struct ScoreModel
     QVector<int> pointValue;
 };
 
-class DSCInputSuggestion : public IDartsInputSuggestions
+class DSCInputSuggestion : public IDartsInputFinishes
 {
 public:
     /*

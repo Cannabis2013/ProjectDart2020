@@ -1,7 +1,7 @@
-#ifndef DCCONSTRUCTROW_H
-#define DCCONSTRUCTROW_H
+#ifndef DCCREATEFINISHES_H
+#define DCCREATEFINISHES_H
 
-#include "constructtargetrow.h"
+#include "dartscreatefinishes.h"
 #include "idcmetainfo.h"
 #include "dartsboundaries.h"
 #include "dartsfieldvalues.h"
@@ -10,21 +10,25 @@
 #include "dartscreateterminalthreshold.h"
 #include "dartsdivisors.h"
 #include "dartsterminaldivisor.h"
-class DCConstructRow : public ConstructTargetRow
+#include "dartsmodidentifiers.h"
+#include "dartsdefaultattempts.h"
+class DCCreateFinishes : public DartsCreateFinishes
 {
 public:
-    static DCConstructRow *createInstance(const DCBuilding::IDCMetaInfo *meta)
+    static DCCreateFinishes *createInstance()
     {
-        return new DCConstructRow(meta);
+        return new DCCreateFinishes();
     }
 private:
-    DCConstructRow(const DCBuilding::IDCMetaInfo *meta)
+    DCCreateFinishes()
     {
         setBoundariesService(new DartsBoundaries);
         setFieldValuesService(new DartsFieldValues);
         setDivisorsService(new DartsDivisors);
         setThresholdsService(new DartsThresholds(DartsCreateTerminalThreshold(new DartsBoundaries)));
-        setTerminalDivisor(new DartsTerminalDivisor(DartsCreateTerminalDivisor(new DartsDivisors)));
+        setTerminalDivisorService(new DartsTerminalDivisor(DartsCreateTerminalDivisor(new DartsDivisors)));
+        setIdentifiersService(new DartsModIdentifiers);
+        setAttemptsService(new DartsDefaultAttempts);
     }
 };
 #endif // DPCCONSTRUCTROW_H

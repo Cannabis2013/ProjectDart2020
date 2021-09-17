@@ -1,9 +1,9 @@
-#ifndef IDCLOGISTICDB_H
-#define IDCLOGISTICDB_H
+#ifndef IDARTSFINISHESDB_H
+#define IDARTSFINISHESDB_H
 
 #include <QMultiHash>
 #include "idbcontext.h"
-class IDCLogisticDb : public IDbContext<QMultiHash<int,QString>>
+class IDartsFinishesDb : public IDbContext<QMultiHash<int,QString>>
 {
 public:
     typedef QMultiHash<int,QString> TargetRows;

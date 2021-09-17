@@ -1,6 +1,6 @@
 #include "dartspointsjsonservice.h"
 
-QByteArray DartsInputModelsToJson::toJson(const QVector<const IModel<QUuid> *> &models) const
+QByteArray DartsInputModelsToJson::ctoJson(const QVector<const IModel<QUuid> *> &models) const
 {
     using namespace ModelsContext;
     QJsonArray pointsJsonArray;

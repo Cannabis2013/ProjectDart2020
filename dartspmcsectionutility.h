@@ -17,5 +17,4 @@ public:
         return true;
     }
 };
-
 #endif // DARTSTABLESECTIONUTILITY_H

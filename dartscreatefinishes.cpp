@@ -1,15 +1,15 @@
-#include "constructtargetrow.h"
+#include "dartscreatefinishes.h"
 
-ConstructTargetRow *ConstructTargetRow::createInstance()
+DartsCreateFinishes *DartsCreateFinishes::createInstance()
 {
-    return new ConstructTargetRow;
+    return new DartsCreateFinishes;
 }
 
-IDartsConstructRow::AllTargetRows ConstructTargetRow::constructRows() const
+IDartsCreateFinishes::AllTargetRows DartsCreateFinishes::constructRows() const
 {
     AllTargetRows allTargetRows;
-    for (int turnIndex = 1; turnIndex <= attempts(); ++turnIndex) {
-        auto remainingTurns = attempts() - turnIndex;
+    for (int turnIndex = 1; turnIndex <= attemptsService()->attempts(); ++turnIndex) {
+        auto remainingTurns = attemptsService()->attempts() - turnIndex;
         auto currentPointLimit = remainingTurns*boundaries()->trippleMaxValue() + fieldValues()->bullsEye();
         auto suggestions = new TargetRows;
         for (int i = divisors()->doubleDivisor(); i <= currentPointLimit; ++i) {
@@ -22,12 +22,12 @@ IDartsConstructRow::AllTargetRows ConstructTargetRow::constructRows() const
     return allTargetRows;
 }
 
-QString ConstructTargetRow::constructRow(const int &remainingScore, const int &turnIndex) const
+QString DartsCreateFinishes::constructRow(const int &remainingScore, const int &turnIndex) const
 {
-    auto score = new IDartsConstructRow::ScoreModel();
+    auto score = new IDartsCreateFinishes::ScoreModel();
 
-    score->multiplier = QVector<char>(attempts(),'\0');
-    score->pointValue = QVector<int>(attempts(),0);
+    score->multiplier = QVector<char>(attemptsService()->attempts(),'\0');
+    score->pointValue = QVector<int>(attemptsService()->attempts(),0);
     bool hasADeterminedPath;
     try {
         hasADeterminedPath = suggestion(remainingScore,turnIndex,score);
@@ -42,14 +42,13 @@ QString ConstructTargetRow::constructRow(const int &remainingScore, const int &t
     return QString();
 }
 
-bool ConstructTargetRow::suggestion(const int &remainingScore, const int &turnIndex,
+bool DartsCreateFinishes::suggestion(const int &remainingScore, const int &turnIndex,
                                          ScoreModel *scoreObject) const
 {
-    auto totalTurns = attempts();
     /*
      * Evaluate constrains
      */
-    if(!evaluateConstraints(remainingScore,turnIndex,totalTurns))
+    if(!evaluateConstraints(remainingScore,turnIndex,attemptsService()->attempts()))
         return false;
     /*
      * The terminal state
@@ -59,7 +58,7 @@ bool ConstructTargetRow::suggestion(const int &remainingScore, const int &turnIn
      */
     if(remainingScore <= thresholds()->terminalThreshold())
         return isWithinTerminalThreshold(remainingScore,turnIndex,scoreObject);
-    else if(turnIndex == attempts() && remainingScore != fieldValues()->bullsEye())
+    else if(turnIndex == attemptsService()->attempts() && remainingScore != fieldValues()->bullsEye())
         return false;
     /*
      * This is the pathfinding state where the algorithm tries to determine, if exists, the route.
@@ -74,7 +73,7 @@ bool ConstructTargetRow::suggestion(const int &remainingScore, const int &turnIn
         return determineRouteByDiff(remainingScore,turnIndex,scoreObject);
 }
 
-bool ConstructTargetRow::evaluateConstraints(const int &remainingScore, const int &turnIndex,
+bool DartsCreateFinishes::evaluateConstraints(const int &remainingScore, const int &turnIndex,
                                              const int &totalTurns) const
 {
     /*
@@ -98,7 +97,7 @@ bool ConstructTargetRow::evaluateConstraints(const int &remainingScore, const in
         return true;
 }
 
-bool ConstructTargetRow::isWithinTerminalThreshold(const int &remainingScore, const int &turnIndex,
+bool DartsCreateFinishes::isWithinTerminalThreshold(const int &remainingScore, const int &turnIndex,
                                                    ScoreModel *scoreObject) const
 {
     auto newScore = remainingScore;
@@ -106,7 +105,7 @@ bool ConstructTargetRow::isWithinTerminalThreshold(const int &remainingScore, co
     {
         auto turnScore = remainingScore/terminalDivisor()->divisor();
         try {
-            auto identifier = identifiers[terminalDivisor()->divisor() - 1];
+            auto identifier = identifiers()->identifierByDivisor(terminalDivisor()->divisor());
             updateScoreObject(identifier,turnScore,turnIndex,scoreObject);
             return true;
         } catch (std::out_of_range *e) {
@@ -132,14 +131,14 @@ bool ConstructTargetRow::isWithinTerminalThreshold(const int &remainingScore, co
     return false;
 }
 
-bool ConstructTargetRow::isDivisor(int base, int div) const
+bool DartsCreateFinishes::isDivisor(int base, int div) const
 {
     if(base == 0 || div == 0)
         throw new std::domain_error("One of operands zero");
     return base % div == 0;
 }
 
-bool ConstructTargetRow::determineRouteByThresholdDiff(const int &remainingScore, const int &turnIndex, ScoreModel *s) const
+bool DartsCreateFinishes::determineRouteByThresholdDiff(const int &remainingScore, const int &turnIndex, ScoreModel *s) const
 {
     auto thresholdDiff = remainingScore - thresholds()->upperThresholdValue();
     if(thresholdDiff == 0) // If the remaining score is spot on 110
@@ -169,7 +168,7 @@ bool ConstructTargetRow::determineRouteByThresholdDiff(const int &remainingScore
     return false;
 }
 
-bool ConstructTargetRow::determineRouteByDiff(const int &remainingScore, const int &turnIndex,
+bool DartsCreateFinishes::determineRouteByDiff(const int &remainingScore, const int &turnIndex,
                                               ScoreModel *scoreObject) const
 {
     auto diff = remainingScore - thresholds()->terminalThreshold();
@@ -183,9 +182,9 @@ bool ConstructTargetRow::determineRouteByDiff(const int &remainingScore, const i
     return false;
 }
 
-bool ConstructTargetRow::findGreatestPointsWithinThreshold(const int &remainingScore, const int &turnIndex,
+bool DartsCreateFinishes::findGreatestPointsWithinThreshold(const int &remainingScore, const int &turnIndex,
                                                            const int &threshold, const int &divisor,
-                                                           IDartsConstructRow::ScoreModel *s) const
+                                                           IDartsCreateFinishes::ScoreModel *s) const
 {
     for (int points = threshold; points > 0; points -= divisor) {
         auto endScore = remainingScore - points;
@@ -197,9 +196,9 @@ bool ConstructTargetRow::findGreatestPointsWithinThreshold(const int &remainingS
     return false;
 }
 
-bool ConstructTargetRow::findGreatestPointsWithinTerminalThreshold(const int &remainingScore, const int &turnIndex,
+bool DartsCreateFinishes::findGreatestPointsWithinTerminalThreshold(const int &remainingScore, const int &turnIndex,
                                                                    const int &threshold,
-                                                                   IDartsConstructRow::ScoreModel *s) const
+                                                                   IDartsCreateFinishes::ScoreModel *s) const
 {
     for (int points = threshold; points > 0; points--) {
         auto endScore = remainingScore - points;
@@ -214,8 +213,8 @@ bool ConstructTargetRow::findGreatestPointsWithinTerminalThreshold(const int &re
     return false;
 }
 
-bool ConstructTargetRow::findGreatestOddDivisibleByThree(const int &remainingScore, const int &turnIndex,
-                                                         IDartsConstructRow::ScoreModel *s) const
+bool DartsCreateFinishes::findGreatestOddDivisibleByThree(const int &remainingScore, const int &turnIndex,
+                                                         IDartsCreateFinishes::ScoreModel *s) const
 {
     for (int points = boundaries()->trippleMaxValue(); points > 0; points -= divisors()->trippleDivisor()) {
         auto endScore = remainingScore - points;
@@ -225,8 +224,8 @@ bool ConstructTargetRow::findGreatestOddDivisibleByThree(const int &remainingSco
     return false;
 }
 
-void ConstructTargetRow::updateScoreObject(char stringIdentifier, int value, int index,
-                                           IDartsConstructRow::ScoreModel *s) const
+void DartsCreateFinishes::updateScoreObject(char stringIdentifier, int value, int index,
+                                           IDartsCreateFinishes::ScoreModel *s) const
 {
     if(value < 0)
         throw new std::out_of_range("Value out of bounds");
@@ -234,12 +233,12 @@ void ConstructTargetRow::updateScoreObject(char stringIdentifier, int value, int
     s->pointValue[index - 1] = value;
 }
 
-bool ConstructTargetRow::writeToScoreObject(const int &remainingScore, const int &points, const int &divisor,
-                                            const int &turnIndex, IDartsConstructRow::ScoreModel *s) const
+bool DartsCreateFinishes::writeToScoreObject(const int &remainingScore, const int &points, const int &divisor,
+                                            const int &turnIndex, IDartsCreateFinishes::ScoreModel *s) const
 {
     auto newScore = remainingScore - points;
     auto turnScore = points/divisor;
-    auto identifier = identifiers[divisor - 1];
+    auto identifier = identifiers()->identifierByDivisor(divisor);
     try {
         updateScoreObject(identifier,turnScore,turnIndex,s);
         if(newScore == 0)
@@ -251,24 +250,19 @@ bool ConstructTargetRow::writeToScoreObject(const int &remainingScore, const int
     }
 }
 
-bool ConstructTargetRow::isEven(const int &integer) const
+bool DartsCreateFinishes::isEven(const int &integer) const
 {
     auto result = integer % 2 == 0;
     return result;
 }
 
-QString ConstructTargetRow::toString(IDartsConstructRow::ScoreModel *s) const
+QString DartsCreateFinishes::toString(IDartsCreateFinishes::ScoreModel *s) const
 {
     QString result;
-    for (int i = 0; i < attempts(); ++i) {
+    for (int i = 0; i < attemptsService()->attempts(); ++i) {
         auto identifier = s->multiplier.at(i);
         auto pVal = s->pointValue.at(i);
         result += identifier == '\0' ? "" : identifier + QString::number(pVal) + " ";
     }
     return result;
-}
-
-int ConstructTargetRow::attempts() const
-{
-    return _attempts;
 }

@@ -12,7 +12,7 @@
 #include "jsonmerger.h"
 #include "genericjsonbuilder.h"
 #include "dartsmetadataservice.h"
-#include "dcinputsuggestions.h"
+#include "dcinputfinishes.h"
 #include "determinecontrollerstatebywinnerid.h"
 #include "dcscoresservice.h"
 #include "dccreatecandidatetuples.h"
@@ -42,7 +42,7 @@
 #include "dcgetwinnermodelfromjson.h"
 #include "dccreateplayersfromjson.h"
 #include "dcplayerkeys.h"
-#include "dcconstructrow.h"
+#include "dccreatefinishes.h"
 #include "dclogisticdb.h"
 #include "dcresetscoremodels.h"
 class DPController : public DartsController
@@ -52,19 +52,15 @@ public:
     {
         setInputEvaluator(DPCInputValidator::createInstance());
         setIndexService(new DPCIndexController);
-        setResetIndexes(new DCResetIndexes);
-        setInitializeIndexes(new DCInitializeIndexes);
         setTurnValuesBuilder(new CreateDPCTurnValues);
         setInputModelBuilder(new DPCCreateInputModels);
         setIndexesBuilder(new DCIndexesBuilder);
-        setPlayerBuilderService(new DCPlayerBuilder);
         setGetScoreFromInput(new GetScoreFromDPCInput);
         setAddScoreService(new DCAddScore);
         setAddTotalScoresToJson(new AddTotalScoreToDartsPointsJson);
         setAddPlayerNamesToJson(new AddPlayerNamestoDartsPointsJson);
         setMetaData(new DCMetaInfo(meta));
-        setScoreLogisticInterface(DCInputSuggestions::createInstance(DCConstructRow::createInstance(meta),
-                                                                     DCLogisticDb::createInstance()));
+        setScoreLogisticInterface(DCInputFinishes::createInstance(DCCreateFinishes::createInstance(), DCLogisticDb::createInstance()));
         setDetermineControllerStateByWinnerId(new DetermineControllerStateByWinnerId);
         setGetTotalScoreService(new DCGetScoreCand);
         // Json services
@@ -77,12 +73,12 @@ public:
         setCreateScoreTuples(new DCCreateScoreTuples);
         setReplaceScoreModels(new DCUpdateScoreModels);
         setSubtractScore(new DCSubtractScore);
-        //setCreateJsonFromPoint(new DPCPointToJson);
         setScoresService(new DCScoresService);
         setCreateCandidateTuples(new DCCreateCandidateTuples);
         setWinnerService(new DCWinnerService);
         setJsonExtractor(new JsonValuesExtractor);
         // Player services
+        setPlayerBuilderService(new DCPlayerBuilder);
         setPlayerService(new DCPlayerService(indexService(),scoresService()));
         setGetPlayerName(new DCGetPlayerName);
         setWinnerModelFromJson(new DCGetWInnerModelsFromJson);
@@ -90,6 +86,8 @@ public:
         setWinnerKeys(new DCWinnerKeys);
         setPlayerKeys(new DCPlayerKeys);
         // Index services
+        setResetIndexes(new DCResetIndexes);
+        setInitializeIndexes(new DCInitializeIndexes);
         setIndexIterator(new DCIndexIterator);
         setUndoIndex(new DCIndexUndo);
         setRedoIndex(new DCIndexRedo);

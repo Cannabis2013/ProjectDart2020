@@ -1,8 +1,8 @@
 #ifndef DCLOGISTICDB_H
 #define DCLOGISTICDB_H
 
-#include "idclogisticdb.h"
-class DCLogisticDb : public IDCLogisticDb
+#include "idartsfinishesdb.h"
+class DCLogisticDb : public IDartsFinishesDb
 {
 public:
     static DCLogisticDb *createInstance()

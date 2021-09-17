@@ -10,7 +10,7 @@ namespace DSCContext{
     public:
         const DCContext::DCTurnValues* createTurnValues(const IDCIndexService* indexService,
                                                         IDCScoresService* scoresService,
-                                                        const IDartsInputSuggestions* logisticService) const override
+                                                        const IDartsInputFinishes* logisticService) const override
         {
             auto roundIndex = indexService->roundIndex();
             auto setIndex = indexService->setIndex();
@@ -28,7 +28,7 @@ namespace DSCContext{
             return model;
         }
     private:
-        QString createRowSuggestionByScore(const IDartsInputSuggestions* logisticService,
+        QString createRowSuggestionByScore(const IDartsInputFinishes* logisticService,
                                            const int& score) const
         {
             if(logisticService == nullptr)

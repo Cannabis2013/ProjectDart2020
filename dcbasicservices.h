@@ -1,7 +1,7 @@
 #ifndef DCBASICSERVICES_H
 #define DCBASICSERVICES_H
 
-#include "idartsinputsuggestions.h"
+#include "idartsinputfinishes.h"
 #include "idcwinnerservice.h"
 #include "idcinputstojson.h"
 #include "iunaryservice.h"
@@ -50,16 +50,16 @@ public:
     {
         _inputEvaluator = newInputEvaluator;
     }
-    IDartsInputSuggestions *scoreLogisticInterface() const
+    IDartsInputFinishes *scoreLogisticInterface() const
     {
         return _scoreLogisticInterface;
     }
-    void setScoreLogisticInterface(IDartsInputSuggestions *newScoreLogisticInterface)
+    void setScoreLogisticInterface(IDartsInputFinishes *newScoreLogisticInterface)
     {
         _scoreLogisticInterface = newScoreLogisticInterface;
     }
 private:
-    IDartsInputSuggestions *_scoreLogisticInterface = nullptr;
+    IDartsInputFinishes *_scoreLogisticInterface = nullptr;
     IDCWinnerService *_winnerService = nullptr;
     IDartsInputValidator* _inputEvaluator = nullptr;
     IDCMetaData *_metaData;

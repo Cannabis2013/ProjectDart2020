@@ -5,6 +5,8 @@
 #include "idartsboundaries.h"
 #include "idartsdivisorvalues.h"
 #include "idartsterminaldivisor.h"
+#include "idartsmodidentifiers.h"
+#include "idartsattemptsservice.h"
 class DartsConstructServices
 {
 public:
@@ -46,9 +48,25 @@ public:
     {
         return _terminalDivisor;
     }
-    void setTerminalDivisor(IDartsterminalDivisor *newTerminalDivisor)
+    void setTerminalDivisorService(IDartsterminalDivisor *newTerminalDivisor)
     {
         _terminalDivisor = newTerminalDivisor;
+    }
+    IDartsModIdentifiers *identifiers() const
+    {
+        return _identifiers;
+    }
+    void setIdentifiersService(IDartsModIdentifiers *newIdentifiers)
+    {
+        _identifiers = newIdentifiers;
+    }
+    IDartsAttemptsService *attemptsService() const
+    {
+        return _attempts;
+    }
+    void setAttemptsService(IDartsAttemptsService *newAttempts)
+    {
+        _attempts = newAttempts;
     }
 private:
     IDartsBoundaries *_boundaries;
@@ -56,5 +74,7 @@ private:
     IDartsThresholdValues *_threshold;
     IDartsDivisorValues *_divisors;
     IDartsterminalDivisor *_terminalDivisor;
+    IDartsModIdentifiers *_identifiers;
+    IDartsAttemptsService *_attempts;
 };
 #endif // DARTSCONSTRUCTSERVICES_H

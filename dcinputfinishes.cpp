@@ -1,11 +1,11 @@
-#include "dcinputsuggestions.h"
+#include "dcinputfinishes.h"
 
-DCInputSuggestions *DCInputSuggestions::createInstance(IDartsConstructRow *constructRows, IDCLogisticDb *dbContext)
+DCInputFinishes *DCInputFinishes::createInstance(IDartsCreateFinishes *constructRows, IDartsFinishesDb *dbContext)
 {
-    return new DCInputSuggestions(constructRows,dbContext);
+    return new DCInputFinishes(constructRows,dbContext);
 }
 
-DCInputSuggestions::DCInputSuggestions(IDartsConstructRow *constructRows, IDCLogisticDb *dbContext):
+DCInputFinishes::DCInputFinishes(IDartsCreateFinishes *constructRows, IDartsFinishesDb *dbContext):
     _dbContext(dbContext),
     _constructRow(constructRows)
 {
@@ -13,7 +13,7 @@ DCInputSuggestions::DCInputSuggestions(IDartsConstructRow *constructRows, IDCLog
     this->dbContext()->add(allTargetRows);
 }
 
-QString DCInputSuggestions::suggestTargetRow(const int &remainingScore, const int &turnIndex) const
+QString DCInputFinishes::suggestTargetRow(const int &remainingScore, const int &turnIndex) const
 {
     if(turnIndex < 0 || turnIndex > 2)
         return QString();
@@ -22,17 +22,17 @@ QString DCInputSuggestions::suggestTargetRow(const int &remainingScore, const in
     return getTargetRow(turnIndex,remainingScore);
 }
 
-IDCLogisticDb *DCInputSuggestions::dbContext() const
+IDartsFinishesDb *DCInputFinishes::dbContext() const
 {
     return _dbContext;
 }
 
-void DCInputSuggestions::setDbContext(IDCLogisticDb *service)
+void DCInputFinishes::setDbContext(IDartsFinishesDb *service)
 {
     _dbContext = service;
 }
 
-QString DCInputSuggestions::getTargetRow(const int &turnIndex, const int &remainingScore) const
+QString DCInputFinishes::getTargetRow(const int &turnIndex, const int &remainingScore) const
 {
     auto i = turnIndex;
     try {
@@ -48,12 +48,12 @@ QString DCInputSuggestions::getTargetRow(const int &turnIndex, const int &remain
     }
 }
 
-IDartsConstructRow *DCInputSuggestions::constructTargetRows() const
+IDartsCreateFinishes *DCInputFinishes::constructTargetRows() const
 {
     return _constructRow;
 }
 
-void DCInputSuggestions::setConstructRow(IDartsConstructRow *newConstructRow)
+void DCInputFinishes::setConstructRow(IDartsCreateFinishes *newConstructRow)
 {
     _constructRow = newConstructRow;
 }

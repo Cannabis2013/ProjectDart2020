@@ -4,7 +4,7 @@
 #include "iunaryservice.h"
 #include "idartsplayermodelbuilderservice.h"
 #include "icreatedcturnvalues.h"
-#include "idartsinputsuggestions.h"
+#include "idartsinputfinishes.h"
 #include "idartsinputvalidator.h"
 #include "idartscontrollermodelsservice.h"
 #include "idcindexesbuilder.h"
@@ -36,7 +36,7 @@ protected:
     IDCMetaData *_metaData;
     // Model manipulating services
     // Generate throwsuggestions
-    IDartsInputSuggestions *_stringSuggestionService = nullptr;
+    IDartsInputFinishes *_stringSuggestionService = nullptr;
     // Validator service
     IDartsInputValidator* _inputEvaluator = nullptr;
     // Index service

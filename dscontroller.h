@@ -42,9 +42,9 @@
 #include "dcindexiterator.h"
 #include "dcgetwinnermodelfromjson.h"
 #include "dcresetscoremodels.h"
-#include "dcconstructrow.h"
+#include "dccreatefinishes.h"
 #include "dclogisticdb.h"
-#include "dcinputsuggestions.h"
+#include "dcinputfinishes.h"
 class DSController : public DartsController
 {
 public:
@@ -67,7 +67,7 @@ public:
         setCreateScoreTuples(new DCCreateScoreTuples);
         setTurnValuesToJsonService(new DCTurnValuesToJson);
         setResponseBuilderService(new DCJsonResponseBuilder);
-        setScoreLogisticInterface(DCInputSuggestions::createInstance(DCConstructRow::createInstance(meta),
+        setScoreLogisticInterface(DCInputFinishes::createInstance(DCCreateFinishes::createInstance(),
                                                                      DCLogisticDb::createInstance()));
         // Json services
         setJsonExtractor(new JsonValuesExtractor);
