@@ -8,26 +8,8 @@
 #include "applicationbuilder.h"
 #include "registerqmlsingletons.h"
 #include "registerqmltableutils.h"
-
-void registerTypes()
-{
-    RegisterQMLDartsTableTypes::registerTableDataModels();
-    RegisterQMLDartsTableTypes::registerTableHeaderModels();
-    RegisterQmlSingleTons::registerCustomSingletons();
-    RegisterQMLTableUtilities::registerTableSectionUtils();
-}
-
-void setupQMLContext(QQmlApplicationEngine &engine, QGuiApplication &app)
-{
-    const QUrl url(QStringLiteral("qrc:/main.qml"));
-    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
-                     &app, [url](QObject *obj, const QUrl &objUrl) {
-        if (!obj && url == objUrl)
-            QCoreApplication::exit(-1);
-    }, Qt::QueuedConnection);
-    // Load main.qml
-    engine.load(url);
-}
+#include "setupqmlcontext.h"
+#include "registercustomtypes.h"
 
 int main(int argc, char *argv[])
 {
@@ -37,9 +19,9 @@ int main(int argc, char *argv[])
     // Create and setup dart application backend
     ApplicationBuilder appCreator(engine,app);
     // Register custom types
-    registerTypes();
+    RegisterCustomTypes::registerTypes();
     // Setup QML UI interface
-    setupQMLContext(engine,app);
+    SetupQMLContext::setup(engine,app);
     // Start main event loop
     return app.exec();
 }

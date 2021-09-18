@@ -426,6 +426,7 @@ HEADERS += \
     playermodelscontext.h \
     playermodelsservices.h \
     readbytearray.h \
+    registercustomtypes.h \
     registerqmldartstabletypes.h \
     registerqmlsingletons.h \
     registerqmltableutils.h \
@@ -436,6 +437,7 @@ HEADERS += \
     routebytournamentgamemode.h \
     routeservicesprovider.h \
     setdartsmodelhint.h \
+    setupqmlcontext.h \
     sortdartspointinputsbyindexes.h \
     testconfiguration.h \
     tournament.h \
