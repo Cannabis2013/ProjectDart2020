@@ -84,7 +84,7 @@ void ConnectDartsController::connectController(AbstractGameController *controlle
     QObject::connect(application,&AbstractApplicationInterface::requestTournamentReset,
             dartscontroller,&AbstractGameController::handleResetTournament);
     QObject::connect(dartscontroller,&AbstractGameController::requestResetTournament,
-            modelsService,&AbstractDartsModelsContext::resetDartsPointTournament);
+            modelsService,&AbstractDartsModelsContext::resetTournament);
     QObject::connect(modelsService,&AbstractDartsModelsContext::tournamentResetSuccess,
             dartscontroller,&AbstractGameController::resetSucces);
     QObject::connect(dartscontroller,&AbstractDartsController::resetSucces,

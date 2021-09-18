@@ -15,7 +15,7 @@ public:
         qRegisterMetaType<AbstractGameController*>("AbstractGameController");
         qRegisterMetaType<AbstractDartsController*>("AbstractDartsController");
     }
-    void connectServices(DartApplication *application,
+    void connect(DartApplication *application,
                          const IRouteServicesProvider *routeProvider,
                          const IConnectServicesProvider *connectProvider)
     {

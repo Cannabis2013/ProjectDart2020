@@ -13,7 +13,9 @@
 
 int main(int argc, char *argv[])
 {
+    // Configure for devices that supports hidp resolutions
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    // Declare types that deals with main event loop and qml context
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
     // Create and setup dart application backend

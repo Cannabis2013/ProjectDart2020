@@ -7,7 +7,7 @@ void DartsInputServices::setInputsToJsonService(IDartsInputModelsToJson *newDart
 {
     _inputsToJson = newDartsPointsJsonService;
 }
-IDartsInputSetHint *DartsInputServices::dartsPointSetHint() const
+IDartsInputSetHint *DartsInputServices::dartsPointInputHint() const
 {
     return _dartsPointSetHint;
 }

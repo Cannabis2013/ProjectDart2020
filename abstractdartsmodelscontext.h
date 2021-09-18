@@ -16,7 +16,7 @@ public:
     virtual void getTournaments() = 0;
     virtual void getGameMode(const int &index) = 0;
     virtual void createDartsMetaData(const QUuid& tournament) = 0;
-    virtual void resetDartsPointTournament(const QUuid &tournament) = 0;
+    virtual void resetTournament(const QUuid &tournament) = 0;
     virtual void createDartsKeyValues(const QUuid& tournament) = 0;
     virtual void setDartsTournamentWinner(const QByteArray& json) = 0;
     virtual void addInput(const QByteArray& json) = 0;

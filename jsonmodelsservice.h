@@ -1,6 +1,6 @@
 #ifndef JSONMODELSSERVICE_H
 #define JSONMODELSSERVICE_H
-#include "dartsmodelsservice.h"
+#include "dartsmodelscontext.h"
 // Genereic models includes
 #include "removeinputsfromdb.h"
 #include "removemodelsfromdb.h"
@@ -41,7 +41,7 @@
 #include "gettournamentwinner.h"
 #include "createjsonfromtournamentdetails.h"
 
-class JsonModelsService : public DartsModelsService
+class JsonModelsService : public DartsModelsContext
 {
 public:
     JsonModelsService();
