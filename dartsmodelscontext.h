@@ -1,5 +1,6 @@
-#ifndef LOCALMODELSSERVICE_H
-#define LOCALMODELSSERVICE_H
+#ifndef DARTSMODELSCONTEXT_H
+#define DARTSMODELSCONTEXT_H
+
 #include "abstractdartsmodelscontext.h"
 #include "dartsinputservices.h"
 #include "dartsmodelsservices.h"
@@ -7,7 +8,7 @@
 #include "dartsutilityservices.h"
 #include "dartstournamentjsonservices.h"
 
-class DartsModelsService :
+class DartsModelsContext :
         public AbstractDartsModelsContext,
         protected DartsModelsServices,
         protected DartsTournamentJsonServices,
@@ -26,7 +27,7 @@ public slots:
     void deleteTournaments(const QVector<int> &indexes) override;
     void getGameMode(const int &index) override;
     void getTournaments() override;
-    void resetDartsPointTournament(const QUuid &tournamentId) override;
+    void resetTournament(const QUuid &tournamentId) override;
     void setDartsTournamentWinner(const QByteArray &json) override;
     //Darts tournaments methods
     void addDartsTournament(const QByteArray &json, const QVector<const IModel<QUuid> *> &playerModels) override;

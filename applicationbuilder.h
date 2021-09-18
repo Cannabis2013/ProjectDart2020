@@ -16,7 +16,7 @@ public:
         connectMainApplication();
         createContextProperties();
         addToQMLRootContext(engine);
-        connectInterface(engine,app);
+        connectDeleteOnQuit(engine,app);
     }
 private:
     void createApplications()
@@ -26,9 +26,9 @@ private:
     void connectMainApplication()
     {
         QScopedPointer<ConnectServices> connectServices(new ConnectServices);
-        connectServices->connectServices(_mainApp,_mainApp->routeServices(),_mainApp->connectServices());
+        connectServices->connect(_mainApp,_mainApp->routeServices(),_mainApp->connectServices());
     }
-    void connectInterface(QQmlApplicationEngine &engine, QGuiApplication &app)
+    void connectDeleteOnQuit(QQmlApplicationEngine &engine, QGuiApplication &app)
     {
         QObject::connect(&engine,&QQmlApplicationEngine::quit,&app,[=]{
             delete _mainApp;

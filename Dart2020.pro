@@ -30,7 +30,7 @@ SOURCES += \
     dartsdbcreatejsonfrominputs.cpp \
     dartsinputjsondb.cpp \
     dartsinputservices.cpp \
-    dartsmodelsservice.cpp \
+    dartsmodelscontext.cpp \
     dartsmodelsservices.cpp \
     dartspmcdatacontext.cpp \
     dartspointsjsonservice.cpp \
@@ -142,7 +142,7 @@ HEADERS += \
     dartsinputservices.h \
     dartsinputsjsondb.h \
     dartsmetadataservice.h \
-    dartsmodelsservice.h \
+    dartsmodelscontext.h \
     dartsmodelsservices.h \
     dartsmodelsservicescollection.h \
     dartsmodidentifiers.h \

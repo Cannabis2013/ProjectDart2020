@@ -4,7 +4,7 @@
 class DartsPointSetHint : public IDartsInputSetHint
 {
 public:
-    void setDartsPointHint(const IModel<QUuid> *inputModel, const int &hint,
+    void setHint(const IModel<QUuid> *inputModel, const int &hint,
                            IModelsDbContext *dbService) override
     {
         auto inferedModel = dynamic_cast<const IPlayerInput*>(inputModel);

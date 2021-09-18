@@ -7,7 +7,7 @@
 class IDartsInputSetHint
 {
 public:
-    virtual void setDartsPointHint(const IModel<QUuid>* inputModel,const int& hint,IModelsDbContext* dbService) = 0;
+    virtual void setHint(const IModel<QUuid>* inputModel,const int& hint,IModelsDbContext* dbService) = 0;
 };
 
 #endif // IDARTSPOINTMODELSSERVICE_H

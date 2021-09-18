@@ -24,7 +24,7 @@ public:
     typedef IDbContext<IPlayerInput> DbService;
     IDartsInputModelsToJson *inputsToJSon() const;
     void setInputsToJsonService(IDartsInputModelsToJson *newDartsPointsJsonService);
-    IDartsInputSetHint *dartsPointSetHint() const;
+    IDartsInputSetHint *dartsPointInputHint() const;
     void setDartsPointSetHint(IDartsInputSetHint *newDartsPointSetHint);
     ISortInputModels *sortInputs() const;
     void setSortInputs(ISortInputModels *newSortInputs);
