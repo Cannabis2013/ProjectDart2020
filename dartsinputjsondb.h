@@ -1,7 +1,7 @@
 #ifndef DARTSINPUTJSONDB_H
 #define DARTSINPUTJSONDB_H
 
-#include "imodelsdbcontext.h"
+#include "ModelsContext/imodelsdbcontext.h"
 #include "modelsdbjsonservices.h"
 #include "modelsdbioservices.h"
 

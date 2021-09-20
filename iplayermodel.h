@@ -1,7 +1,7 @@
 #ifndef IMODEL_H
 #define IMODEL_H
 
-#include "imodel.h"
+#include "ModelsContext/imodel.h"
 #include <quuid.h>
 #include <qstring.h>
 namespace PlayersContext {

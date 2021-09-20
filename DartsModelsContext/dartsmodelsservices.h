@@ -5,7 +5,6 @@
 #include "iaddplayerdetailstotournament.h"
 #include "ijsontodartstournamentmodel.h"
 #include "idartstournamentjsonbuilder.h"
-#include "idartstournamentnumberofattempts.h"
 #include "iextractwinnerinfo.h"
 #include "igetdartstournamentfromdb.h"
 #include "igettournamentwinner.h"
@@ -18,8 +17,6 @@ public:
     void setAddToTournamentModel(IAddPlayerDetailsToTournament *newDartsModelManipulator);
     IGetDartsTournamentFromDb *getTournament() const;
     void setGetTournament(IGetDartsTournamentFromDb *newGetTournament);
-    IDartsTournamentNumberOfAttempts *getNumberOfAttempts() const;
-    void setGetNumberOfAttempts(IDartsTournamentNumberOfAttempts *newGetNumberOfAttempts);
     IModelsDbContext *dartsTournamentDb() const;
     void setDartsTournamentDb(IModelsDbContext *newDartsTournamentDb);
     IGetTournamentWinner *getTournamenWinnerModel() const;
@@ -28,7 +25,6 @@ private:
     IModelsDbContext *_dartsTournamentsDb;
     IAddPlayerDetailsToTournament *_addPlayerDetails;
     IGetDartsTournamentFromDb *_getTournament;
-    IDartsTournamentNumberOfAttempts *_getNumberOfAttempts;
     IGetTournamentWinner *_getTournamenWinnerModel;
 };
 

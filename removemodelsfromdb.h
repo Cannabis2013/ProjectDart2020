@@ -2,7 +2,7 @@
 #define REMOVEMODELSFROMDB_H
 
 #include "iremovemodelsfromdb.h"
-#include "imodelsdbcontext.h"
+#include "ModelsContext/imodelsdbcontext.h"
 
 class RemoveModelsFromDb :
         public IRemoveModelsFromDb<IModelsDbContext>

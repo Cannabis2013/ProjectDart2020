@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QUuid>
-#include <imodel.h>
+#include "ModelsContext/imodel.h"
 
 class AbstractDartsModelsContext : public QObject
 {

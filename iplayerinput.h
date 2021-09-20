@@ -1,7 +1,7 @@
 #ifndef ISCORE_H
 #define ISCORE_H
 
-#include "imodel.h"
+#include "ModelsContext/imodel.h"
 #include <quuid.h>
 
 class IPlayerInput : public IModel<QUuid>

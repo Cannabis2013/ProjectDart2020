@@ -9,7 +9,7 @@
 #include "isortinputmodels.h"
 #include "icountinputmodels.h"
 #include "igetinputmodelsservice.h"
-#include "imodelsdbcontext.h"
+#include "ModelsContext/imodelsdbcontext.h"
 template<typename TIndexes>
 class IDartsCreateIndexes{
 public:

@@ -2,7 +2,7 @@
 #define IDARTSINPUTSETHINT_H
 
 #include "iplayerinput.h"
-#include "imodelsdbcontext.h"
+#include "ModelsContext/imodelsdbcontext.h"
 
 class IDartsInputSetHint
 {

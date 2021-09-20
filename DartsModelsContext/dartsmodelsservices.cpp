@@ -20,16 +20,6 @@ void DartsModelsServices::setGetTournament(IGetDartsTournamentFromDb *newGetTour
     _getTournament = newGetTournament;
 }
 
-IDartsTournamentNumberOfAttempts *DartsModelsServices::getNumberOfAttempts() const
-{
-    return _getNumberOfAttempts;
-}
-
-void DartsModelsServices::setGetNumberOfAttempts(IDartsTournamentNumberOfAttempts *newGetNumberOfAttempts)
-{
-    _getNumberOfAttempts = newGetNumberOfAttempts;
-}
-
 IModelsDbContext *DartsModelsServices::dartsTournamentDb() const
 {
     return _dartsTournamentsDb;

@@ -3,7 +3,7 @@
 
 #include "iaddplayerdetailstomodel.h"
 #include "abstractdartstournament.h"
-#include "imodelsdbcontext.h"
+#include "ModelsContext/imodelsdbcontext.h"
 #include "iplayermodel.h"
 
 class IAddPlayerDetailsToTournament : public IAddPlayerDetailsToModel<IModel<QUuid>,IModel<QUuid>,IModelsDbContext>

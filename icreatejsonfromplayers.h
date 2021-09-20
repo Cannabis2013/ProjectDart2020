@@ -3,7 +3,7 @@
 
 #include <qbytearray.h>
 #include <quuid.h>
-#include "imodel.h"
+#include "ModelsContext/imodel.h"
 
 class ICreateJsonFromPlayers
 {

@@ -1,7 +1,7 @@
 #ifndef GETTOURNAMENTWINNER_H
 #define GETTOURNAMENTWINNER_H
 
-#include "igettournamentwinner.h"
+#include "DartsModelsContext/igettournamentwinner.h"
 #include "itournament.h"
 
 class GetTournamentWinner : public IGetTournamentWinner

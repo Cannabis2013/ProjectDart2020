@@ -1,6 +1,6 @@
 #ifndef ITOURNAMENT_H
 #define ITOURNAMENT_H
-#include "imodel.h"
+#include "ModelsContext/imodel.h"
 #include <qvector.h>
 #include <quuid.h>
 #include "ijson.h"

@@ -3,7 +3,7 @@
 
 #include "isortinputmodels.h"
 #include "idartsinput.h"
-#include "imodelsdbcontext.h"
+#include "ModelsContext/imodelsdbcontext.h"
 #include <quuid.h>
 #include "ipredicate.h"
 

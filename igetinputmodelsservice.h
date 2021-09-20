@@ -3,7 +3,7 @@
 
 #include <qvector.h>
 #include "iplayerinput.h"
-#include "imodelsdbcontext.h"
+#include "ModelsContext/imodelsdbcontext.h"
 
 class IGetInputModelsService
 {

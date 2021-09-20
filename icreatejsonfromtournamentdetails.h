@@ -1,7 +1,7 @@
 #ifndef ICREATEJSONFROMTOURNAMENTDETAILS_H
 #define ICREATEJSONFROMTOURNAMENTDETAILS_H
 
-#include "imodel.h"
+#include "ModelsContext/imodel.h"
 #include <quuid.h>
 #include <qbytearray.h>
 class ICreateJsonFromTournamentDetails

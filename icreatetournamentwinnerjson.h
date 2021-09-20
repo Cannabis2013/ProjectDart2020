@@ -3,7 +3,7 @@
 
 #include <icreatejsonfromplayers.h>
 #include <igetplayerfromdb.h>
-#include "imodelsdbcontext.h"
+#include "ModelsContext/imodelsdbcontext.h"
 
 class ICreateTournamentWinnerJson
 {

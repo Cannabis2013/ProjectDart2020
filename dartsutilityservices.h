@@ -3,7 +3,7 @@
 
 #include "idbgetindexesutility.h"
 #include "iremovemodelsfromdb.h"
-#include "imodelsdbcontext.h"
+#include "ModelsContext/imodelsdbcontext.h"
 
 class DartsUtilityServices
 {

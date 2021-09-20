@@ -10,7 +10,7 @@
 #include "isetmodelhint.h"
 #include <qjsonarray.h>
 #include "idartsinput.h"
-#include "imodelsdbcontext.h"
+#include "ModelsContext/imodelsdbcontext.h"
 #include "idartstournamentsdb.h"
 
 class IAddDetailsToTournamentJson

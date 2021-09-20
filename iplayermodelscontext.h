@@ -2,7 +2,7 @@
 #define IPLAYERMODELSCONTEXT_H
 
 #include <qobject.h>
-#include "imodel.h"
+#include "ModelsContext/imodel.h"
 #include <quuid.h>
 #include <qvector.h>
 #include <qfuture.h>

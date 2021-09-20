@@ -1,10 +1,10 @@
 #ifndef IDARTSCREATEJSONMETADATA_H
 #define IDARTSCREATEJSONMETADATA_H
 
-#include "igetdartstournamentfromdb.h"
+#include "DartsModelsContext/igetdartstournamentfromdb.h"
 #include "idartstournamentsdb.h"
 #include "iadddetailstotournamentjson.h"
-#include "imodelsdbcontext.h"
+#include "ModelsContext/imodelsdbcontext.h"
 #include "dartstournamentjsonbuilder.h"
 
 class IDartsCreateJsonMetaData

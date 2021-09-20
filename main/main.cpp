@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
     // Register custom types
     RegisterCustomTypes::registerTypes();
     // Setup QML UI interface
-    SetupQMLContext::setup(engine,app);
+    SetupQMLContext::setup(engine,app,QStringLiteral("qrc:/qml/main.qml"));
     // Start main event loop
     return app.exec();
 }

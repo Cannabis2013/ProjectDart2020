@@ -1,7 +1,7 @@
 #ifndef TOURNAMENTSJSONDB_H
 #define TOURNAMENTSJSONDB_H
 
-#include "imodelsdbcontext.h"
+#include "ModelsContext/imodelsdbcontext.h"
 #include "abstractdartstournament.h"
 #include "modelsdbioservices.h"
 #include "modelsdbjsonservices.h"

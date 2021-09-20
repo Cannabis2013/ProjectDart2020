@@ -1,8 +1,8 @@
 #ifndef IGETTOURNAMENTWINNER_H
 #define IGETTOURNAMENTWINNER_H
 
-#include "imodelsdbcontext.h"
-#include "imodelsdbcontext.h"
+#include "ModelsContext/imodelsdbcontext.h"
+#include "ModelsContext/imodelsdbcontext.h"
 #include "igetdartstournamentfromdb.h"
 #include "igetplayerfromdb.h"
 

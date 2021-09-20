@@ -30,8 +30,8 @@ SOURCES += \
     dartsdbcreatejsonfrominputs.cpp \
     dartsinputjsondb.cpp \
     dartsinputservices.cpp \
-    dartsmodelscontext.cpp \
-    dartsmodelsservices.cpp \
+    DartsModelsContext/dartsmodelscontext.cpp \
+    DartsModelsContext/dartsmodelsservices.cpp \
     dartspmcdatacontext.cpp \
     dartspointsjsonservice.cpp \
     dartsroundindexbyattempt.cpp \
@@ -53,7 +53,7 @@ SOURCES += \
     iurlparser.cpp \
     jsonmodelsservice.cpp \
     jsonplayersdbcontext.cpp \
-    main.cpp \
+    main/main.cpp \
     networkmanager.cpp \
     playermodelscontext.cpp \
     playermodelsservices.cpp \
@@ -142,8 +142,8 @@ HEADERS += \
     dartsinputservices.h \
     dartsinputsjsondb.h \
     dartsmetadataservice.h \
-    dartsmodelscontext.h \
-    dartsmodelsservices.h \
+    DartsModelsContext/dartsmodelscontext.h \
+    DartsModelsContext/dartsmodelsservices.h \
     dartsmodelsservicescollection.h \
     dartsmodidentifiers.h \
     dartspmccolumnindexbuilder.h \
@@ -168,7 +168,6 @@ HEADERS += \
     dartstournamentextractor.h \
     dartstournamentjsonbuilder.h \
     dartstournamentjsonservices.h \
-    dartstournamentnumberofattempts.h \
     dartstournamentsjsondb.h \
     dartsutilityservices.h \
     dcaddscore.h \
@@ -245,7 +244,7 @@ HEADERS += \
     greatestwidth.h \
     iadddetailstotournamentjson.h \
     iaddplayerdetailstomodel.h \
-    iaddplayerdetailstotournament.h \
+    DartsModelsContext/iaddplayerdetailstotournament.h \
     iaddplayernamestojson.h \
     iaddtomodel.h \
     iaddtotalscoretodartsinputsjson.h \
@@ -305,7 +304,6 @@ HEADERS += \
     idartsthresholdvalues.h \
     idartstournamentextractor.h \
     idartstournamentjsonbuilder.h \
-    idartstournamentnumberofattempts.h \
     idartstournamentsdb.h \
     idatamodelpoint.h \
     idatamodeltablecellsizes.h \
@@ -348,7 +346,7 @@ HEADERS += \
     ifilereader.h \
     ifilewriter.h \
     igetdartspointfromdb.h \
-    igetdartstournamentfromdb.h \
+    DartsModelsContext/igetdartstournamentfromdb.h \
     igetdatafromdatacontext.h \
     igetinputmodelsservice.h \
     igetmodelsfromdb.h \
@@ -356,7 +354,7 @@ HEADERS += \
     igetpointinputfromdb.h \
     igetscoreinputfromdb.h \
     igettournamentfromdb.h \
-    igettournamentwinner.h \
+    DartsModelsContext/igettournamentwinner.h \
     iheaderlabels.h \
     ijson.h \
     ijsonbuilder.h \
@@ -365,7 +363,7 @@ HEADERS += \
     ijsontodartstournamentmodel.h \
     ijsonvaluesextractor.h \
     imergejson.h \
-    imodelsdbcontext.h \
+    ModelsContext/imodelsdbcontext.h \
     inputmodelscountservice.h \
     inputmodelssortservice.h \
     iplayermodelscontext.h \
@@ -401,7 +399,7 @@ HEADERS += \
     dartstournamentmodel.h \
     idartsinput.h \
     idatacontext.h \
-    imodel.h \
+    ModelsContext/imodel.h \
     iplayerinput.h \
     iplayermodel.h \
     iresponseinterface.h \

@@ -2,7 +2,7 @@
 #define ICOUNTINPUTMODELS_H
 
 #include <quuid.h>
-#include "imodelsdbcontext.h"
+#include "ModelsContext/imodelsdbcontext.h"
 
 class ICountInputModels
 {

@@ -2,7 +2,7 @@
 #define IGETDARTSTOURNAMENTFROMDB_H
 
 #include "igettournamentfromdb.h"
-#include "imodelsdbcontext.h"
+#include "ModelsContext/imodelsdbcontext.h"
 
 class IGetDartsTournamentFromDb : public IGetTournamentFromDb<IModel<QUuid>,QUuid,IModelsDbContext>
 {};

@@ -3,7 +3,7 @@
 
 #include "igetpointinputfromdb.h"
 #include "iplayerinput.h"
-#include "imodelsdbcontext.h"
+#include "ModelsContext/imodelsdbcontext.h"
 
 class IGetDartsPointFromDb : public IGetPointInputFromDb<IModel<QUuid>,QUuid,IModelsDbContext>
 {

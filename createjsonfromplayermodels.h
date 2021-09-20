@@ -6,7 +6,7 @@
 #include <qjsonarray.h>
 #include <QJsonObject>
 #include <quuid.h>
-#include "imodel.h"
+#include "ModelsContext/imodel.h"
 #include "iplayermodel.h"
 #include "icreatejsonfrommodels.h"
 

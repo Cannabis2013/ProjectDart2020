@@ -9,9 +9,9 @@
 class SetupQMLContext
 {
 public:
-    static void setup(QQmlApplicationEngine &engine, QGuiApplication &app)
+    static void setup(QQmlApplicationEngine &engine, QGuiApplication &app, const QString &path)
     {
-        const QUrl url(QStringLiteral("qrc:/main.qml"));
+        const QUrl url(path);
         QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                          &app, [url](QObject *obj, const QUrl &objUrl) {
             if (!obj && url == objUrl)

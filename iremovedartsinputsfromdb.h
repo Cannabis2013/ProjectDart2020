@@ -2,7 +2,7 @@
 #define IREMOVEDARTSINPUTSFROMDB_H
 
 #include "iremovefromdb.h"
-#include "imodelsdbcontext.h"
+#include "ModelsContext/imodelsdbcontext.h"
 class IRemoveDartsInputsFromDb : public IRemoveFromDb<IModel<QUuid>,IModelsDbContext, QUuid>
 {
 public:

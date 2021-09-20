@@ -2,7 +2,7 @@
 #define JSONPLAYERSDBCONTEXT_H
 
 #include <quuid.h>
-#include "imodelsdbcontext.h"
+#include "ModelsContext/imodelsdbcontext.h"
 #include "playermodel.h"
 #include "modelsdbjsonservices.h"
 #include "modelsdbioservices.h"

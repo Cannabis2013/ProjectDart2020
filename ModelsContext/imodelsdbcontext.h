@@ -16,6 +16,4 @@ public:
     virtual int indexOf(const IModel<QUuid> *inputModel) const override = 0;
     virtual void replace(const int &index, const IModel<QUuid> *inputModel) override = 0;
 };
-
-
 #endif // IDARTSSCOREDB_H
