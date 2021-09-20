@@ -9,17 +9,15 @@ ScoreKeyPadInterface {
     onEnableKeyPad: {
         clearPad.enabled = enable;
         submitPad.enabled = enable;
+        scoreView.clearView();
     }
-
     onInternalHotKeyClicked: sendInput(value)
-    onInternalKeyClicked: Scripts.handleNumberPadClicked(value);
-
+    onInternalKeyClicked: Scripts.handleNumberPadClicked(value)
     QtObject{
         id: submitPadTextValues
         readonly property string noScoreEnted: "Bust"
         readonly property string scoreEnted: "Submit"
     }
-
     GridLayout{
         id: keyPadLayout
         anchors.fill: parent
@@ -27,7 +25,6 @@ ScoreKeyPadInterface {
         columnSpacing: 1
         rows: 5
         columns: 5
-
         KeyPadScoreView {
             id: scoreView
             Layout.fillHeight: true

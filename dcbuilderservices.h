@@ -4,8 +4,9 @@
 #include <icreatedcturnvalues.h>
 #include <idcplayermodelbuilder.h>
 #include <idcindexesbuilder.h>
-#include <iunaryservice.h>
 #include <idcmodelcreator.h>
+
+#include <DartsController/idartsdeterminestatusbyid.h>
 
 class DCBuilderServices
 {
@@ -18,7 +19,6 @@ public:
     {
         _inputModelBuilder = newDartsScoreBuilder;
     }
-
     IDCIndexesBuilder *indexesBuilder() const
     {
         return _dartsIndexesBuilderService;
@@ -27,7 +27,6 @@ public:
     {
         _dartsIndexesBuilderService = newDartsIndexesBuilderService;
     }
-
     IDCPlayerModelBuilder *playerBuilder() const
     {
         return _playerBuilderService;
@@ -36,16 +35,6 @@ public:
     {
         _playerBuilderService = newPlayerBuilderService;
     }
-
-    IUnaryService<const QUuid &, int> *determineControllerStateByWinnerId() const
-    {
-        return _determineControllerStateByWinnerId;
-    }
-    void setDetermineControllerStateByWinnerId(IUnaryService<const QUuid &, int> *newDetermineControllerStateByWinnerId)
-    {
-        _determineControllerStateByWinnerId = newDetermineControllerStateByWinnerId;
-    }
-
     ICreateDCTurnValues *turnValuesBuilder() const
     {
         return _turnValuesBuilder;
@@ -54,11 +43,19 @@ public:
     {
         _turnValuesBuilder = newTurnValuesBuilder;
     }
+    IDartsDetermineStatusById *determineStatusById() const
+    {
+        return _determineStatusById;
+    }
+    void setDetermineStatusById(IDartsDetermineStatusById *newDetermineStatusById)
+    {
+        _determineStatusById = newDetermineStatusById;
+    }
 private:
     IDCModelCreator* _inputModelBuilder;
     IDCIndexesBuilder* _dartsIndexesBuilderService;
     IDCPlayerModelBuilder* _playerBuilderService;
-    IUnaryService<const QUuid&,int>* _determineControllerStateByWinnerId;
+    IDartsDetermineStatusById* _determineStatusById;
     ICreateDCTurnValues* _turnValuesBuilder;
 };
 #endif // DCMODELBUILDERSERVICES_H

@@ -1,47 +1,20 @@
 #ifndef DCMETAINFO_H
 #define DCMETAINFO_H
-#include "idcmetadata.h"
+#include "idcinitialscore.h"
 
 #include <idcmetainfo.h>
-class DCMetaInfo : public IDCMetaData
+class DCMetaInfo : public IDCInitialScore
 {
 public:
-    DCMetaInfo(const DCBuilding::IDCMetaInfo *details)
+    DCMetaInfo(const int &value)
     {
-        _inputHint = details->inputHint();
-        _tournamentId = details->tournamentId();
-        _displayHint =  details->displayHint();
-        _initialScore = details->keyPoint();
+        _initialScore = value;
     }
-    virtual int status() const override
-    {
-        return _status;
-    }
-    virtual void setStatus(const int &status) override
-    {
-        _status = status;
-    }
-    virtual QUuid tournamentId() const override
-    {
-        return _tournamentId;
-    }
-    virtual int displayHint() const override
-    {
-        return _displayHint;
-    }
-    virtual int initialScore() const override
+    virtual int score() const override
     {
         return _initialScore;
     }
-    virtual int inputHint() const override
-    {
-        return _inputHint;
-    }
 private:
-    QUuid _tournamentId;
-    int _displayHint;
-    int _inputHint;
-    int _status;
     int _initialScore;
 };
 #endif // DARTSMETADATASERVICE_H

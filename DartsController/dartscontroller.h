@@ -10,8 +10,10 @@
 #include "dcbasicservices.h"
 #include "dcjsonservices.h"
 #include "jsonmerger.h"
+#include "DartsMetaCollection/dcmetaservices.h"
 class DartsController : public AbstractDartsController,
                         protected DCBasicServices,
+                        protected DCMetaServices,
                         protected DCBuilderServices,
                         protected DCJsonServices,
                         protected DCScoreServices,
@@ -32,9 +34,6 @@ public:
         HiddenHint = 0x1,
         DisplayHint = 0x2,
         allHints = 0x3
-    };
-    enum ControllerState {
-        WinnerDeclared = 0x15
     };
 public slots:
     void beginInitialize() override;

@@ -4,10 +4,10 @@
 class DCResetScoreModels : public IDCResetScoreScoreModels
 {
 public:
-    virtual void reset(IDCScoresService *scoresService, const IDCMetaData *metaService) const override
+    virtual void reset(IDCScoresService *scoresService, const IDCInitialScore *metaService) const override
     {
         auto models = scoresService->scoreModels();
-        initializeModels(models,metaService->initialScore());
+        initializeModels(models,metaService->score());
         replaceModels(models,scoresService);
     }
 private:

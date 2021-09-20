@@ -2,14 +2,11 @@
 #define ADDDETAILSTOTOURNAMENTJSON_H
 
 #include "iadddetailstotournamentjson.h"
-#include "iunaryservice.h"
-#include "ibinaryservice.h"
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 #include <qjsonarray.h>
 
-class AddDetailsToTournamentJson :
-        public IAddDetailsToTournamentJson
+class AddDetailsToTournamentJson : public IAddDetailsToTournamentJson
 {
 public:
     QByteArray addPlayerNames(const QByteArray& json, const QVector<QString>& names) const override;

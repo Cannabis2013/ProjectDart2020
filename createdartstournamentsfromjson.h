@@ -1,7 +1,7 @@
 #ifndef CREATEDARTSTOURNAMENTSFROMJSON_H
 #define CREATEDARTSTOURNAMENTSFROMJSON_H
 
-#include "iunaryservice.h"
+
 #include <qjsondocument.h>
 #include <qjsondocument.h>
 #include <qjsonarray.h>

@@ -1,6 +1,6 @@
 #ifndef DSCONTROLLER_H
 #define DSCONTROLLER_H
-#include "dartscontroller.h"
+#include "DartsController/dartscontroller.h"
 #include "idcmetainfo.h"
 #include <createjsonfromdcplayer.h>
 #include <dccreatescoretuples.h>
@@ -23,7 +23,7 @@
 #include "dcwinnerservice.h"
 #include "dscinputtojson.h"
 #include "dsccreateinputmodels.h"
-#include "determinecontrollerstatebywinnerid.h"
+#include "determinestatusbyid.h"
 #include "dscvaluesbuilder.h"
 #include "genericjsonbuilder.h"
 #include "dcplayerbuilder.h"
@@ -45,6 +45,8 @@
 #include "dccreatefinishes.h"
 #include "dclogisticdb.h"
 #include "dcinputfinishes.h"
+#include <DartsController/dartsstatuscodes.h>
+#include <DartsController/dcmetastatus.h>
 class DSController : public DartsController
 {
 public:
@@ -59,7 +61,7 @@ public:
         setCreateCandidateTuples(new DCCreateCandidateTuples);
         setPlayerBuilderService(new DCPlayerBuilder);
         setMetaData(new DCMetaInfo(meta));
-        setDetermineControllerStateByWinnerId(new DetermineControllerStateByWinnerId);
+        setDetermineStatusById(new DetermineStatusById);
         setInputsToJsonService(new DSCInputToJson);
         setScoresService(new DCScoresService);
         setAddScoreService(new DCAddScore);
@@ -67,8 +69,10 @@ public:
         setCreateScoreTuples(new DCCreateScoreTuples);
         setTurnValuesToJsonService(new DCTurnValuesToJson);
         setResponseBuilderService(new DCJsonResponseBuilder);
-        setScoreLogisticInterface(DCInputFinishes::createInstance(DCCreateFinishes::createInstance(),
-                                                                     DCLogisticDb::createInstance()));
+        setSuggestFinishes(DCInputFinishes::createInstance(DCCreateFinishes::createInstance(), DCLogisticDb::createInstance()));
+        // Meta services
+        setMetaStatus(new DCMetaStatus);
+        setStatusCodes(new DCStatusCodes);
         // Json services
         setJsonExtractor(new JsonValuesExtractor);
         // Input services

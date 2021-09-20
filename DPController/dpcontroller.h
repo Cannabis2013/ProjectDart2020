@@ -13,12 +13,12 @@
 #include "genericjsonbuilder.h"
 #include "dartsmetadataservice.h"
 #include "dcinputfinishes.h"
-#include "determinecontrollerstatebywinnerid.h"
+#include "determinestatusbyid.h"
 #include "dcscoresservice.h"
 #include "dccreatecandidatetuples.h"
 #include "dcinitializeindexservice.h"
 #include <dcwinnerservice.h>
-#include <dartscontroller.h>
+#include "DartsController/dartscontroller.h"
 #include <dpcinputvalidator.h>
 #include <dpcindexcontroller.h>
 #include <dcplayerbuilder.h>
@@ -45,6 +45,8 @@
 #include "dccreatefinishes.h"
 #include "dclogisticdb.h"
 #include "dcresetscoremodels.h"
+#include "DartsController/dcmetastatus.h"
+#include "DartsController/dartsstatuscodes.h"
 class DPController : public DartsController
 {
 public:
@@ -60,9 +62,12 @@ public:
         setAddTotalScoresToJson(new AddTotalScoreToDartsPointsJson);
         setAddPlayerNamesToJson(new AddPlayerNamestoDartsPointsJson);
         setMetaData(new DCMetaInfo(meta));
-        setScoreLogisticInterface(DCInputFinishes::createInstance(DCCreateFinishes::createInstance(), DCLogisticDb::createInstance()));
-        setDetermineControllerStateByWinnerId(new DetermineControllerStateByWinnerId);
+        setSuggestFinishes(DCInputFinishes::createInstance(DCCreateFinishes::createInstance(), DCLogisticDb::createInstance()));
+        setDetermineStatusById(new DetermineStatusById);
         setGetTotalScoreService(new DCGetScoreCand);
+        // Meta services
+        setMetaStatus(new DCMetaStatus);
+        setStatusCodes(new DCStatusCodes);
         // Json services
         setInputsToJsonService(new DPCInputsToJson);
         setTurnValuesToJsonService(new DCTurnValuesToJson);

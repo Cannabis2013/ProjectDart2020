@@ -1,15 +1,11 @@
 #ifndef DCBASICSERVICES_H
 #define DCBASICSERVICES_H
-
 #include "idartsinputfinishes.h"
 #include "idcwinnerservice.h"
 #include "idcinputstojson.h"
-#include "iunaryservice.h"
-#include "ibinaryservice.h"
-#include "iternaryservice.h"
 #include "idcindexesbuilder.h"
 #include "idcplayermodelbuilder.h"
-#include "idcmetadata.h"
+#include "idcinitialscore.h"
 #include <idcindexservice.h>
 #include <idartsinputvalidator.h>
 #include "idcinitializeindexes.h"
@@ -22,47 +18,38 @@ public:
     {
         return _initializeIndexes;
     }
-    void setInitializeIndexes(IDCInitializeIndexes *newInitializeIndexes)
+    void setInitializeIndexes(IDCInitializeIndexes *service)
     {
-        _initializeIndexes = newInitializeIndexes;
+        _initializeIndexes = service;
     }
     IDCWinnerService *winnerService() const
     {
         return _winnerService;
     }
-    void setWinnerService(IDCWinnerService *newWinnerService)
+    void setWinnerService(IDCWinnerService *service)
     {
-        _winnerService = newWinnerService;
-    }
-    IDCMetaData *metaData() const
-    {
-        return _metaData;
-    }
-    void setMetaData(IDCMetaData *newMetaData)
-    {
-        _metaData = newMetaData;
+        _winnerService = service;
     }
     IDartsInputValidator *inputEvaluator() const
     {
         return _inputEvaluator;
     }
-    void setInputEvaluator(IDartsInputValidator *newInputEvaluator)
+    void setInputEvaluator(IDartsInputValidator *service)
     {
-        _inputEvaluator = newInputEvaluator;
+        _inputEvaluator = service;
     }
-    IDartsInputFinishes *scoreLogisticInterface() const
+    IDartsInputFinishes *suggestFinishes() const
     {
-        return _scoreLogisticInterface;
+        return _suggestFinishes;
     }
-    void setScoreLogisticInterface(IDartsInputFinishes *newScoreLogisticInterface)
+    void setSuggestFinishes(IDartsInputFinishes *service)
     {
-        _scoreLogisticInterface = newScoreLogisticInterface;
+        _suggestFinishes = service;
     }
 private:
-    IDartsInputFinishes *_scoreLogisticInterface = nullptr;
-    IDCWinnerService *_winnerService = nullptr;
+    IDartsInputFinishes *_suggestFinishes = nullptr;
     IDartsInputValidator* _inputEvaluator = nullptr;
-    IDCMetaData *_metaData;
+    IDCWinnerService *_winnerService = nullptr;
     IDCInitializeIndexes *_initializeIndexes;
 };
 #endif // DSCSERVICESPROVIDER_H

@@ -1,7 +1,7 @@
 #ifndef IDCINPUTSTOJSON_H
 #define IDCINPUTSTOJSON_H
 
-#include "iunaryservice.h"
+
 #include "idcmodel.h"
 #include <qbytearray.h>
 #include <qvector.h>

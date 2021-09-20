@@ -1,52 +1,42 @@
-
 /*
   Setup keypad
   */
 function createKeyPad()
 {
-    /*
-      Various hotkeys
-      */
+    // Create hotkeys
     createHotPadItems();
-    /*
-      Numberpads
-        - Digits from 0 to 9
-      */
+    // Create digits from 0 to 9
     createNumberPadItems();
 }
 function createHotPadItems()
 {
-    var leftLabels = [26,41,45];
-    var rightLabels = [60,85,100];
-    var upperLeftLabels = [25,50];
-    var upperRightLabels = [170,180];
-    for(var i = 1;i<= 3;i++)
+    createColumn(1,3,0,[26,41,45]);
+    createColumn(1,3,4,[60,85,100]);
+    createRow(0,1,0,[25,50]);
+    createRow(3,4,0,[170,180]);
+}
+
+function createColumn(startRow, endRow, column, labels)
+{
+    for(var i = startRow;i<= endRow;i++)
     {
-        let keyLabel = leftLabels[i - 1];
-        let hotKeyPad = ComponentFactory.createHotKeyButton(keyPadLayout,keyLabel,i,0);
+        let keyLabel = labels[i - startRow];
+        let hotKeyPad = ComponentFactory.createHotKeyButton(keyPadLayout,keyLabel,i,column);
         hotKeyPad.clickedAndSendText.connect(keyPadBody.internalHotKeyClicked);
         keyPadBody.enableKeyPad.connect(hotKeyPad.enableButton);
+        keyPadBody.enableHotPads.connect(hotKeyPad.enableButton);
     }
-    for(var j = 1;j<= 3;j++)
+}
+
+function createRow(startColumn, endColumn, row, labels)
+{
+    for(var i = startColumn;i<= endColumn;i++)
     {
-        let keyLabel = rightLabels[j - 1];
-        let hotKeyPad = ComponentFactory.createHotKeyButton(keyPadLayout,keyLabel,j,4);
+        let keyLabel = labels[i - startColumn];
+        let hotKeyPad = ComponentFactory.createHotKeyButton(keyPadLayout,keyLabel,row,i);
         hotKeyPad.clickedAndSendText.connect(keyPadBody.internalHotKeyClicked);
         keyPadBody.enableKeyPad.connect(hotKeyPad.enableButton);
-    }
-    for(var k = 0;k <=1;k++)
-    {
-        let keyLabel = upperLeftLabels[k];
-        let hotKeyPad = ComponentFactory.createHotKeyButton(keyPadLayout,keyLabel,0,k);
-        hotKeyPad.clickedAndSendText.connect(keyPadBody.internalHotKeyClicked);
-        keyPadBody.enableKeyPad.connect(hotKeyPad.enableButton);
-    }
-    for(var l = 3;l <=4;l++)
-    {
-        let keyLabel = upperRightLabels[l -3];
-        let hotKeyPad = ComponentFactory.createHotKeyButton(keyPadLayout,keyLabel,0,l);
-        hotKeyPad.clickedAndSendText.connect(keyPadBody.internalHotKeyClicked);
-        keyPadBody.enableKeyPad.connect(hotKeyPad.enableButton);
+        keyPadBody.enableHotPads.connect(hotKeyPad.enableButton);
     }
 }
 
@@ -95,10 +85,24 @@ function handleClearPadClicked()
 
 function handleScoreViewValueChanged(text)
 {
+    updateSubmitPad(text);
+    updateHotPads(text);
+}
+
+function updateSubmitPad(text)
+{
     if(text.length > 0)
         submitPad.text = submitPadTextValues.scoreEnted;
     else
         submitPad.text = submitPadTextValues.noScoreEnted;
+}
+
+function updateHotPads(text)
+{
+    if(text.length > 0)
+        keyPadBody.enableHotPads(false);
+    else
+        keyPadBody.enableHotPads(true);
 }
 
 function handleSubmitpadClicked()

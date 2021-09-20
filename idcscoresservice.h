@@ -1,7 +1,7 @@
 #ifndef IDSCSCORESSERVICE_H
 #define IDSCSCORESSERVICE_H
 
-#include <idcmetadata.h>
+#include <idcinitialscore.h>
 #include <idcplayer.h>
 #include <quuid.h>
 #include "dcscoremodel.h"

@@ -1,16 +1,16 @@
 #ifndef BUILDDARTSSCORECONTROLLER_H
 #define BUILDDARTSSCORECONTROLLER_H
 
-#include "dartscontroller.h"
+#include "DartsController/dartscontroller.h"
 // Include services
 #include "abstractdcbuilder.h"
 #include "dsccreateinputmodels.h"
-#include "iternaryservice.h"
+
 #include "idcmetainfo.h"
 #include "icreatedcmetainfo.h"
 #include "idcmetainfo.h"
 #include "dscontroller.h"
-#include "dpcontroller.h"
+#include "DPController/dpcontroller.h"
 
 #include <createDCMetaInfo.h>
 
