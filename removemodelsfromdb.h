@@ -1,7 +1,7 @@
 #ifndef REMOVEMODELSFROMDB_H
 #define REMOVEMODELSFROMDB_H
 
-#include "iremovemodelsfromdb.h"
+#include "ModelsContext/iremovemodelsfromdb.h"
 #include "ModelsContext/imodelsdbcontext.h"
 
 class RemoveModelsFromDb :

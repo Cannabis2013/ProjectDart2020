@@ -2,15 +2,15 @@
 #define IDCINPUTSTOJSON_H
 
 
-#include "idcmodel.h"
+#include "DCInputsSLA/idcinputmodel.h"
 #include <qbytearray.h>
 #include <qvector.h>
 #include "idcplayer.h"
 
 class IDCInputsToJson {
 public:
-    virtual QByteArray createJson(const QVector<DCContext::IDCModel*>& inputModels) const = 0;
-    virtual QByteArray createJson(DCContext::IDCModel* dartsModel) const = 0;
+    virtual QByteArray createJson(const QVector<DCContext::IDCInputModel*>& inputModels) const = 0;
+    virtual QByteArray createJson(DCContext::IDCInputModel* dartsModel) const = 0;
 };
 
 #endif // IDARTSMULTIATTEMPTJSONSERVICE_H

@@ -1,7 +1,7 @@
 #ifndef ADDDETAILSTOTOURNAMENTJSON_H
 #define ADDDETAILSTOTOURNAMENTJSON_H
 
-#include "iadddetailstotournamentjson.h"
+#include "DartsTournamentJsonServices/iadddetailstotournamentjson.h"
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 #include <qjsonarray.h>

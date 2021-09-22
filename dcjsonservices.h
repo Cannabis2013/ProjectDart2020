@@ -7,28 +7,12 @@
 #include <ijsonkeyplayer.h>
 #include "icreatejsonfromdcplayer.h"
 #include "idccreatejsonresponse.h"
-#include "idcindexestojson.h"
+#include "DCIndexSLA/idcindexestojson.h"
 #include "ijsonvaluesextractor.h"
 class IAddPlayerNamesToJson;
 class DCJsonServices
 {
 public:
-    IDCInputsToJson *inputsToJson() const
-    {
-        return _jsonModelBuilderService;
-    }
-    void setInputsToJsonService(IDCInputsToJson *newJsonModelBuilderService)
-    {
-        _jsonModelBuilderService = newJsonModelBuilderService;
-    }
-    ICreateJsonFromDCPlayer *createJsonFromPlayer() const
-    {
-        return _createJsonFromPlayer;
-    }
-    void setCreateJsonFromPlayer(ICreateJsonFromDCPlayer *newCreateJsonFromPlayer)
-    {
-        _createJsonFromPlayer = newCreateJsonFromPlayer;
-    }
     IDCTurnValuesToJson *turnValuesToJson() const
     {
         return _turnValuesToJson;
@@ -37,24 +21,6 @@ public:
     {
         _turnValuesToJson = newTurnValuesToJson;
     }
-    IDCIndexesToJson *indexesToJson() const
-    {
-        return _indexesToJson;
-    }
-    void setIndexesToJsonService(IDCIndexesToJson *newIndexesToJson)
-    {
-        _indexesToJson = newIndexesToJson;
-    }
-
-    IAddTotalScoreToDartsInputsJson *addTotalScoresToJson() const
-    {
-        return _addTotalScoresToJson;
-    }
-    void setAddTotalScoresToJson(IAddTotalScoreToDartsInputsJson *newAddTotalScoresToJson)
-    {
-        _addTotalScoresToJson = newAddTotalScoresToJson;
-    }
-
     IAddPlayerNamesToJson *addPlayerNamesToJson() const
     {
         return _addPlayerNamesToJson;
@@ -80,13 +46,11 @@ public:
         _jsonExtractor = newJsonExtractor;
     }
 private:
-    IDCInputsToJson *_jsonModelBuilderService;
-    ICreateJsonFromDCPlayer *_createJsonFromPlayer;
-    IDCTurnValuesToJson *_turnValuesToJson;
-    IDCIndexesToJson *_indexesToJson;
-    IAddTotalScoreToDartsInputsJson *_addTotalScoresToJson;
+
+
     IAddPlayerNamesToJson *_addPlayerNamesToJson;
-    IDCJsonResponseBuilder *_responseBuilder;
+    IDCTurnValuesToJson *_turnValuesToJson;
     IJsonValuesExtractor *_jsonExtractor;
+    IDCJsonResponseBuilder *_responseBuilder;
 };
 #endif // DSJSONSERVICES_H

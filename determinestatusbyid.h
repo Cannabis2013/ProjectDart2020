@@ -1,7 +1,7 @@
 #ifndef DETERMINESTATUSBYID_H
 #define DETERMINESTATUSBYID_H
 
-#include <DartsController/idartsdeterminestatusbyid.h>
+#include "DCServices/idartsdeterminestatusbyid.h"
 
 class DetermineStatusById : public IDartsDetermineStatusById
 {

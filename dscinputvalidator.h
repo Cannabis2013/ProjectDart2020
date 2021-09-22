@@ -1,7 +1,7 @@
 #ifndef DSCINPUTVALIDATOR_H
 #define DSCINPUTVALIDATOR_H
 
-#include "dpcinputvalidator.h"
+#include "DPCServices/dpcinputvalidator.h"
 #include "idcmetainfo.h"
 
 class DSCInputValidator : public IDartsInputValidator

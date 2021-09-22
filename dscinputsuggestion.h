@@ -1,7 +1,7 @@
 #ifndef DARTSSCORESTRINGSUGGESTION_H
 #define DARTSSCORESTRINGSUGGESTION_H
 
-#include "idartsinputfinishes.h"
+#include "DCInputsSLA/idartsinputfinishes.h"
 #include <qstring.h>
 #include <QMultiHash>
 #include <QRandomGenerator>

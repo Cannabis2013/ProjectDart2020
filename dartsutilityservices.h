@@ -2,7 +2,7 @@
 #define DARTSUTILITYSERVICES_H
 
 #include "idbgetindexesutility.h"
-#include "iremovemodelsfromdb.h"
+#include "ModelsContext/iremovemodelsfromdb.h"
 #include "ModelsContext/imodelsdbcontext.h"
 
 class DartsUtilityServices

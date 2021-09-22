@@ -1,23 +1,25 @@
 #ifndef DARTSCONTROLLER_H
 #define DARTSCONTROLLER_H
 
-#include <dcbuilderservices.h>
-#include <dcindexservices.h>
-#include <dcscoreservices.h>
+#include <dcturnvaluesservices.h>
+#include "DCIndexSLA/dcindexservices.h"
+#include "dcscoreservices.h"
 #include <quuid.h>
 #include "DCPlayerServices.h"
 #include "abstractdartscontroller.h"
-#include "dcbasicservices.h"
+#include "DCServices/dcbasicservices.h"
 #include "dcjsonservices.h"
 #include "jsonmerger.h"
-#include "DartsMetaCollection/dcmetaservices.h"
+#include "DCServices/dcmetaservices.h"
+#include "DCServices/dcinputsservices.h"
 class DartsController : public AbstractDartsController,
                         protected DCBasicServices,
                         protected DCMetaServices,
-                        protected DCBuilderServices,
+                        protected DCTurnvaluesServices,
                         protected DCJsonServices,
                         protected DCScoreServices,
                         protected DCPlayerServices,
+                        protected DCInputsServices,
                         protected DCIndexServices
 {
     Q_OBJECT
@@ -29,11 +31,6 @@ public:
         OutsideDomain = 0x03,
         TargetDomain = 0x4,
         InputOutOfRange = 0x5
-    };
-    enum ModelDisplayHint{
-        HiddenHint = 0x1,
-        DisplayHint = 0x2,
-        allHints = 0x3
     };
 public slots:
     void beginInitialize() override;
@@ -58,10 +55,10 @@ public slots:
 private:
     void updateTotalScore(const QByteArray &json);
     void createAndSendWinnerValues();
-    void processDomain(const int& domain, DCContext::IDCModel *inputModel);
+    void processDomain(const int& domain, DCContext::IDCInputModel *inputModel);
     void sendCurrentTurnValues();
     int lastPlayerIndex();
-    void addInput(DCContext::IDCModel *inputModel);
+    void addInput(DCContext::IDCInputModel *inputModel);
     void nextTurn();
     void declareWinner();
 };

@@ -1,6 +1,6 @@
 #ifndef DSCINDEXESTOJSON_H
 #define DSCINDEXESTOJSON_H
-#include "idcindexestojson.h"
+#include "DCIndexSLA/idcindexestojson.h"
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 class DSCIndexesToJson : public IDCIndexesToJson

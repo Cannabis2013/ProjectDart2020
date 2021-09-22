@@ -1,7 +1,7 @@
 #ifndef CREATEJSONFROMTOURNAMENTDETAILS_H
 #define CREATEJSONFROMTOURNAMENTDETAILS_H
 
-#include "icreatejsonfromtournamentdetails.h"
+#include "DartsTournamentJsonServices/icreatejsonfromtournamentdetails.h"
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 #include <qjsonarray.h>

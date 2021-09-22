@@ -1,6 +1,6 @@
 #ifndef IDCGETPLAYERNAME_H
 #define IDCGETPLAYERNAME_H
-#include <idcscoresservice.h>
+#include "idcscoresservice.h"
 class IDCGetPlayerName
 {
 public:

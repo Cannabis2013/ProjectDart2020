@@ -1,6 +1,6 @@
 #ifndef DPCINDEXITERATOR_H
 #define DPCINDEXITERATOR_H
-#include "idcindexiterator.h"
+#include "DCIndexSLA/idcindexiterator.h"
 class DCIndexIterator : public IDCIndexIterator
 {
 public:

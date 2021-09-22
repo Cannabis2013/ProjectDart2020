@@ -1,6 +1,6 @@
 #ifndef DARTSPOINTSETHINT_H
 #define DARTSPOINTSETHINT_H
-#include "idartsinputsethint.h"
+#include "DCInputsSLA/idartsinputsethint.h"
 class DartsPointSetHint : public IDartsInputSetHint
 {
 public:

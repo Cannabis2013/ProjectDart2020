@@ -1,6 +1,6 @@
 #ifndef DCINDEXREDO_H
 #define DCINDEXREDO_H
-#include "idcindexredo.h"
+#include "DCIndexSLA/idcindexredo.h"
 class DCIndexRedo : public IDCIndexRedo
 {
 public:

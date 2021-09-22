@@ -1,14 +1,14 @@
 #ifndef DARTSTOURNAMENTJSONSERVICES_H
 #define DARTSTOURNAMENTJSONSERVICES_H
 
-#include "idartstournamentextractor.h"
-#include <iadddetailstotournamentjson.h>
-#include <icreatejsonfromtournamentdetails.h>
-#include <icreatetournamentwinnerjson.h>
-#include <idartscreatejsonmetadata.h>
-#include <idartstournamentjsonbuilder.h>
-#include <iextractwinnerinfo.h>
-#include <ijsontodartstournamentmodel.h>
+#include "DartsTournamentJsonServices/idartstournamentextractor.h"
+#include "DartsTournamentJsonServices/iadddetailstotournamentjson.h"
+#include "DartsTournamentJsonServices/icreatejsonfromtournamentdetails.h"
+#include "DartsTournamentJsonServices/icreatetournamentwinnerjson.h"
+#include "DartsTournamentJsonServices/idartscreatejsonmetadata.h"
+#include "DartsTournamentJsonServices/idartstournamentjsonbuilder.h"
+#include "DartsTournamentJsonServices/iextractwinnerinfo.h"
+#include "DartsTournamentJsonServices/ijsontodartstournamentmodel.h"
 
 class DartsTournamentJsonServices
 {

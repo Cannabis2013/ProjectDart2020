@@ -1,9 +1,9 @@
 #ifndef IDCGETSCORE_H
 #define IDCGETSCORE_H
-#include "idcmodel.h"
+#include "DCInputsSLA/idcinputmodel.h"
 class IDCgetScore
 {
 public:
-    virtual int getScore(const DCContext::IDCModel *inputModel) const = 0;
+    virtual int getScore(const DCContext::IDCInputModel *inputModel) const = 0;
 };
 #endif // IDCCALCULATESCORE_H

@@ -12,7 +12,7 @@ void DartsController::stop()
 
 void DartsController::handleUserInput(const QByteArray& json)
 {
-    auto inputModel = inputModelBuilder()->createModel(json,jsonExtractor());
+    auto inputModel = createInputModel()->createModel(json,jsonExtractor());
     auto scoreCandidate = getScoreFromInput()->getScore(inputModel);
     inputModel->setScore(scoreCandidate);
     auto setIndex = indexService()->setIndex();
@@ -23,21 +23,21 @@ void DartsController::handleUserInput(const QByteArray& json)
 
 void DartsController::handleRequestForCurrentTournamentMetaData()
 {
-    auto tournament = metaData()->tournamentId();
+    auto tournament = tournamentId()->id();
     emit sendCurrentTournamentId(tournament);
 }
 
 void DartsController::createDartsScores()
 {
-    auto dartsScoreModels = inputModelBuilder()->createModels(scoresService());
+
+    auto dartsScoreModels = createInputModels()->createModels(scoresService(),createInputModel());
     auto json = inputsToJson()->createJson(dartsScoreModels);
     emit sendDartsScores(json);
 }
 
 void DartsController::getOrderedInputsWithTotalScores()
 {
-    auto tournamentId = metaData()->tournamentId();
-    emit requestOrderedInputs(tournamentId);
+    emit requestOrderedInputs(tournamentId()->id());
 }
 
 void DartsController::handleUserInputAdded(const QByteArray &json)
@@ -51,9 +51,9 @@ void DartsController::handleUserInputAdded(const QByteArray &json)
 void DartsController::handleResetTournament()
 {
     resetIndexes()->reset(indexService());
-    resetScoreModels()->reset(scoresService(),metaData());
+    resetScoreModels()->reset(scoresService(),initialScore()->score());
     metaStatus()->set(statusCodes()->initialized());
-    emit requestResetTournament(metaData()->tournamentId());
+    emit requestResetTournament(tournamentId()->id());
 }
 
 void DartsController::sendCurrentTurnValues()
@@ -75,7 +75,7 @@ void DartsController::undoTurn()
     auto roundIndex = indexService()->roundIndex();
     auto attemptIndex = indexService()->attemptIndex();
     auto currentPlayerId = playerService()->currentPlayerId();
-    emit hideInput(metaData()->tournamentId(),currentPlayerId,roundIndex,attemptIndex);
+    emit hideInput(tournamentId()->id(),currentPlayerId,roundIndex,attemptIndex);
 }
 
 void DartsController::redoTurn()
@@ -83,16 +83,16 @@ void DartsController::redoTurn()
     auto activeUser = playerService()->currentPlayerId();
     auto roundIndex = indexService()->roundIndex();
     auto attemptIndex = indexService()->attemptIndex();
-    emit revealInput(metaData()->tournamentId(), activeUser, roundIndex,attemptIndex);
+    emit revealInput(tournamentId()->id(), activeUser, roundIndex,attemptIndex);
 }
 
-void DartsController::addInput(DCContext::IDCModel *inputModel)
+void DartsController::addInput(DCContext::IDCInputModel *inputModel)
 {
     auto indexes = indexesBuilder()->createIndexes(indexService());
-    inputModel->setTournamentId(metaData()->tournamentId());
+    inputModel->setTournamentId(tournamentId()->id());
     inputModel->setPlayerId(playerService()->currentPlayerId());
     inputModel->setPlayerName(playerService()->currentPlayerName());
-    auto json = responseBuilder()->createJsonResponse(inputModel,metaData()->tournamentId(), inputsToJson(),indexes,indexesToJson());
+    auto json = responseBuilder()->createJsonResponse(inputModel,tournamentId()->id(), inputsToJson(),indexes,indexesToJson());
     emit requestAddDartsScore(json);
 }
 
@@ -122,10 +122,10 @@ void DartsController::initializeControllerIndexes(const QByteArray& json)
 {
     auto indexes = indexesBuilder()->createIndexes(json);
     initializeIndexes()->initialize(indexes,indexService());
-    emit requestTournamentAssignedPlayerDetails(metaData()->tournamentId());
+    emit requestTournamentAssignedPlayerDetails(tournamentId()->id());
 }
 
-void DartsController::processDomain(const int &domain, DCContext::IDCModel *inputModel)
+void DartsController::processDomain(const int &domain, DCContext::IDCInputModel *inputModel)
 {
     switch (domain)
     {
@@ -147,12 +147,12 @@ void DartsController::processDomain(const int &domain, DCContext::IDCModel *inpu
 
 void DartsController::beginInitialize()
 {
-    emit requestDartsTournamentIndexes(metaData()->tournamentId());
+    emit requestDartsTournamentIndexes(tournamentId()->id());
 }
 
 void DartsController::undoSuccess(const QByteArray& json)
 {
-    QScopedPointer<DCContext::IDCModel> inputModel(inputModelBuilder()->createModel(json,jsonExtractor()));
+    QScopedPointer<DCContext::IDCInputModel> inputModel(createInputModel()->createModel(json,jsonExtractor()));
     auto tuple = addScoreService()->addPlayerScore(inputModel.get(), scoresService());
     inputModel->setPlayerName(getPlayerName()->playerName(inputModel->playerId(),scoresService()));
     inputModel->setTotalScore(tuple.totalScore);
@@ -163,7 +163,7 @@ void DartsController::undoSuccess(const QByteArray& json)
 
 void DartsController::redoSuccess(const QByteArray& json)
 {
-    QScopedPointer<DCContext::IDCModel> inputModel(inputModelBuilder()->createModel(json,jsonExtractor()));
+    QScopedPointer<DCContext::IDCInputModel> inputModel(createInputModel()->createModel(json,jsonExtractor()));
     inputModel->setPlayerName(getPlayerName()->playerName(inputModel->playerId(),scoresService()));
     auto candidateTuple = subtractScore()->subtractScore(inputModel.get(),scoresService());
     inputModel->setTotalScore(candidateTuple.totalScore);
@@ -175,7 +175,7 @@ void DartsController::redoSuccess(const QByteArray& json)
 
 void DartsController::updateTotalScore(const QByteArray &json)
 {
-    QScopedPointer<DCContext::IDCModel> inputModel(inputModelBuilder()->createModel(json,jsonExtractor()));
+    QScopedPointer<DCContext::IDCInputModel> inputModel(createInputModel()->createModel(json,jsonExtractor()));
     auto candidateTuple = createCandidatesTuple()->getCandidate(inputModel.get(),scoresService());
     scoresService()->scoreModels().replace(indexService()->setIndex(),candidateTuple);
     inputModel->setTotalScore(candidateTuple.totalScore);
@@ -189,24 +189,24 @@ void DartsController::createAndSendWinnerValues()
 {
     auto winnerName = winnerService()->winnerName();
     auto winnerId = winnerService()->winnerId();
-    auto json = responseBuilder()->createJsonResponse(winnerId,winnerName,metaData()->tournamentId());
+    auto json = responseBuilder()->createJsonResponse(winnerId,winnerName,tournamentId()->id());
     emit winnerDeclared(json);
 }
 
 void DartsController::initializePlayerDetails(const QByteArray &json)
 {
     auto dartsPlayerModels = createPlayersFromJson()->createModels(json,playerKeys(),playerBuilder());
-    auto tuples = createScoreTuples()->createTuples(dartsPlayerModels,metaData());
+    auto tuples = createScoreTuples()->createTuples(dartsPlayerModels,initialScore()->score());
     scoresService()->scoreModels().append(tuples);
-    emit requestScores(metaData()->tournamentId());
+    emit requestScores(tournamentId()->id());
 }
 
 void DartsController::initializeScores(const QByteArray &json)
 {
-    auto dartsScores = inputModelBuilder()->createModels(json,jsonExtractor());
+    auto dartsScores = createInputModels()->createModels(json,jsonExtractor(),createInputModel());
     auto candidatesTuples = createCandidatesTuple()->getTupleCandidates(dartsScores,scoresService());
     updateScoreTuples()->update(candidatesTuples,scoresService());
-    emit requestWinnerDetails(metaData()->tournamentId());
+    emit requestWinnerDetails(tournamentId()->id());
 }
 
 void DartsController::initializeWinnerDetails(const QByteArray &json)
@@ -215,13 +215,13 @@ void DartsController::initializeWinnerDetails(const QByteArray &json)
     winnerService()->setWinner(winnerModel->playerId(),winnerModel->playerName());
     auto status = determineStatusById()->status(winnerModel->playerId(),statusCodes());
     metaStatus()->set(status);
-    emit initialized(metaData()->inputHint(),metaData()->displayHint());
+    emit initialized(inputHint()->hint(),displayHint()->hint());
 }
 
 void DartsController::handleOrderedInputs(const QByteArray &json)
 {
     auto modifiedJson = json;
-    addTotalScoresToJson()->addTotalScoreToInputs(modifiedJson,metaData()->score());
+    addTotalScoresToJson()->addTotalScoreToInputs(modifiedJson,initialScore()->score());
     addPlayerNamesToJson()->addPlayerNamesToJson(modifiedJson,scoresService());
     emit sendOrderedInputs(modifiedJson);
 }

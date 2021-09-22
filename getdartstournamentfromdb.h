@@ -1,7 +1,7 @@
 #ifndef GETDARTSTOURNAMENTFROMDB_H
 #define GETDARTSTOURNAMENTFROMDB_H
 
-#include "DartsModelsContext/igetdartstournamentfromdb.h"
+#include "DTMCServices/igetdartstournamentfromdb.h"
 
 class GetDartsTournamentFromDb : public IGetDartsTournamentFromDb
 {

@@ -2,8 +2,8 @@
 #define DCINDEXESBUILDER_H
 
 #include "dcindexes.h"
-#include "idcindexservice.h"
-#include <idcindexesbuilder.h>
+#include "DCIndexSLA/idcindexservice.h"
+#include "DCIndexSLA/idcindexesbuilder.h"
 
 class DCIndexesBuilder : public IDCIndexesBuilder
 {

@@ -6,10 +6,11 @@
 class DCAddScore : public IDCAddScore
 {
 public:
-    virtual DCContext::DCScoreModel addPlayerScore(const DCContext::IDCModel *model, IDCScoresService *scoresService) const override
+    virtual DCContext::DCScoreModel addPlayerScore(const DCContext::IDCInputModel *model, IDCScoresService *scoresService) const override
     {
-        auto tuple = getTupleFromScoresService(model->playerId(),scoresService);
-        auto indexOfTuple = indexOf(tuple,scoresService);
+        auto scoreModels = scoresService->scoreModels();
+        auto tuple = getTupleFromScoresService(model->playerId(),scoreModels);
+        auto indexOfTuple = indexOf(tuple,scoreModels);
         updateTuple(tuple,sum(tuple.totalScore,model->score()));
         scoresService->scoreModels().replace(indexOfTuple, tuple);
         return tuple;
@@ -21,23 +22,21 @@ private:
             throw "Invalid score";
         tuple.totalScore = score;
     }
-    DCContext::DCScoreModel getTupleFromScoresService(const QUuid& id, IDCScoresService *scoresService) const
+    DCContext::DCScoreModel getTupleFromScoresService(const QUuid& id, const IDCScoresService::DartsScoreModels &scoreModels) const
     {
-        auto tuples = scoresService->scoreModels();
-        for (int i = 0; i < tuples.count(); ++i) {
-            auto tuple = tuples.at(i);
-            auto _id = tuple.id;
+        for (int i = 0; i < scoreModels.count(); ++i) {
+            auto scoreModel = scoreModels.at(i);
+            auto _id = scoreModel.id;
             if(id == _id)
-                return tuple;
+                return scoreModel;
         }
         return DCContext::DCScoreModel();
     }
-    int indexOf(const DCContext::DCScoreModel& tuple, IDCScoresService *scoresService) const
+    int indexOf(const DCContext::DCScoreModel& scoreModel, const IDCScoresService::DartsScoreModels &scoreModels) const
     {
-        auto tuples = scoresService->scoreModels();
-        for (int i = 0; i < tuples.count(); ++i) {
-            auto t = tuples.at(i);
-            if(t == tuple)
+        for (int i = 0; i < scoreModels.count(); ++i) {
+            auto t = scoreModels.at(i);
+            if(t == scoreModel)
                 return i;
         }
         return -1;

@@ -1,7 +1,7 @@
 #ifndef DCMETASTATUS_H
 #define DCMETASTATUS_H
 
-#include "DartsMetaCollection/idcmetastatus.h"
+#include "DCServices/idcmetastatus.h"
 class DCMetaStatus : public IDCMetaStatus
 {
 public:

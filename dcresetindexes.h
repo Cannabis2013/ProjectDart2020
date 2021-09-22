@@ -1,6 +1,6 @@
 #ifndef DCRESETINDEXES_H
 #define DCRESETINDEXES_H
-#include "idcresetindexes.h"
+#include "DCIndexSLA/idcresetindexes.h"
 class DCResetIndexes : public IDCResetIndexes
 {
 public:

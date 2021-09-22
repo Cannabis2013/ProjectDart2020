@@ -1,7 +1,7 @@
 #ifndef DARTSTOURNAMENTEXTRACTOR_H
 #define DARTSTOURNAMENTEXTRACTOR_H
 
-#include "idartstournamentextractor.h"
+#include "DartsTournamentJsonServices/idartstournamentextractor.h"
 class DartsTournamentExtractor : public IDartsTournamentExtractor
 {
 public:

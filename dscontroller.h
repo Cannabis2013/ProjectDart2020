@@ -22,14 +22,13 @@
 #include "dscinputvalidator.h"
 #include "dcwinnerservice.h"
 #include "dscinputtojson.h"
-#include "dsccreateinputmodels.h"
+#include "dsccreateinputmodel.h"
 #include "determinestatusbyid.h"
 #include "dscvaluesbuilder.h"
 #include "genericjsonbuilder.h"
 #include "dcplayerbuilder.h"
 #include "jsonmerger.h"
 #include "dscinputsuggestion.h"
-#include "dartsmetadataservice.h"
 #include "dcscoresservice.h"
 #include "dcupdatescoremodels.h"
 #include "dccreatecandidatetuples.h"
@@ -45,8 +44,12 @@
 #include "dccreatefinishes.h"
 #include "dclogisticdb.h"
 #include "dcinputfinishes.h"
-#include <DartsController/dartsstatuscodes.h>
-#include <DartsController/dcmetastatus.h>
+#include "DartsController/dartsstatuscodes.h"
+#include "DartsController/dcmetastatus.h"
+#include "DartsController/dchint.h"
+#include "DartsController/dcinitialscore.h"
+#include "DartsController/dctournamentid.h"
+#include "DartsController/dccreateinputmodels.h"
 class DSController : public DartsController
 {
 public:
@@ -56,11 +59,10 @@ public:
         setIndexService(new DSCIndexController);
         setWinnerService(new DCWinnerService());
         setTurnValuesBuilder(new DSCContext::DSCValuesBuilder);
-        setInputModelBuilder(new DSCCreateInputModels);
+        setCreateInputModelService(new DSCCreateInputModel);
         setIndexesBuilder(new DCIndexesBuilder);
         setCreateCandidateTuples(new DCCreateCandidateTuples);
         setPlayerBuilderService(new DCPlayerBuilder);
-        setMetaData(new DCMetaInfo(meta));
         setDetermineStatusById(new DetermineStatusById);
         setInputsToJsonService(new DSCInputToJson);
         setScoresService(new DCScoresService);
@@ -73,10 +75,15 @@ public:
         // Meta services
         setMetaStatus(new DCMetaStatus);
         setStatusCodes(new DCStatusCodes);
+        setDisplayHint(DCHint::createInstance(meta->displayHint()));
+        setInputHint(DCHint::createInstance(meta->inputHint()));
+        setTournamentId(DCTournamentId::createInstance(meta->tournamentId()));
+        setInitialScore(DCInitialScore::createInstance(meta->keyPoint()));
         // Json services
         setJsonExtractor(new JsonValuesExtractor);
         // Input services
         setGetScoreFromInput(new GetScoreFromDSCInput);
+        setCreateInputModels(new DCCreateInputModels);
         // Player score services
         setSubtractScore(new DCSubtractScore);
         setReplaceScoreModels(new DCUpdateScoreModels);

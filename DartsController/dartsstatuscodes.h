@@ -1,7 +1,7 @@
 #ifndef DARTSSTATUSCODES_H
 #define DARTSSTATUSCODES_H
 
-#include "DartsMetaCollection/idartsstatuscodes.h"
+#include "DCServices/idartsstatuscodes.h"
 class DCStatusCodes : public IDartsStatusCodes
 {
 public:

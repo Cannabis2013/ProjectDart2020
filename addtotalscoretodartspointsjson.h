@@ -2,7 +2,7 @@
 #define ADDTOTALSCORETODARTSPOINTSJSON_H
 
 #include "iaddtotalscoretodartsinputsjson.h"
-#include "idcmodel.h"
+#include "DCInputsSLA/idcinputmodel.h"
 #include <qvector.h>
 #include <qjsondocument.h>
 #include <qjsonobject.h>

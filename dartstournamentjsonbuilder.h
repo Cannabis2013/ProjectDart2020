@@ -1,7 +1,7 @@
 #ifndef DARTSTOURNAMENTJSONBUILDER_H
 #define DARTSTOURNAMENTJSONBUILDER_H
 
-#include "idartstournamentjsonbuilder.h"
+#include "DartsTournamentJsonServices/idartstournamentjsonbuilder.h"
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 #include <qjsonarray.h>

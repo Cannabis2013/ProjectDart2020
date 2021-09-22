@@ -1,7 +1,7 @@
 #ifndef CREATEDARTSTOURNAMENTFROMJSON_H
 #define CREATEDARTSTOURNAMENTFROMJSON_H
 
-#include "ijsontodartstournamentmodel.h"
+#include "DartsTournamentJsonServices/ijsontodartstournamentmodel.h"
 #include "dartstournament.h"
 
 class CreateDartsTournamentFromJson : public IJsonToDartsTournamentModel

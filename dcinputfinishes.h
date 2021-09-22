@@ -1,8 +1,8 @@
 #ifndef DCINPUTFINISHES_H
 #define DCINPUTFINISHES_H
 
-#include "idartsinputfinishes.h"
-#include <idcmetainfo.h>
+#include "DCInputsSLA/idartsinputfinishes.h"
+#include "idcmetainfo.h"
 #include <qstring.h>
 #include "idartscreatefinishes.h"
 #include "idartsfinishesdb.h"

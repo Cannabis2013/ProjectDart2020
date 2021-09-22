@@ -1,9 +1,9 @@
 #ifndef IADDPLAYERNAMESTOJSON_H
 #define IADDPLAYERNAMESTOJSON_H
 
-#include "idcmodel.h"
+#include "DCInputsSLA/idcinputmodel.h"
 #include <qvector.h>
-#include "idcmodel.h"
+#include "DCInputsSLA/idcinputmodel.h"
 #include "idcplayer.h"
 #include "idcscoresservice.h"
 class IAddPlayerNamesToJson

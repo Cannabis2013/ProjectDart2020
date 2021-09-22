@@ -7,25 +7,25 @@
 class DSCInputToJson : public IDCInputsToJson
 {
 public:
-    QByteArray createJson(DCContext::IDCModel* model) const override
+    QByteArray createJson(DCContext::IDCInputModel* model) const override
     {
         QJsonObject obj = toObject(model);
         return toByteArray(obj);
     }
-    QByteArray createJson(const QVector<DCContext::IDCModel*>& inputModels) const override
+    QByteArray createJson(const QVector<DCContext::IDCInputModel*>& inputModels) const override
     {
         QJsonArray arr = toArray(inputModels);
         return toByteArray(arr);
     }
 private:
-    QJsonArray toArray(const QVector<DCContext::IDCModel*> &inputModels) const
+    QJsonArray toArray(const QVector<DCContext::IDCInputModel*> &inputModels) const
     {
         QJsonArray arr;
         for (const auto& inputModel : inputModels)
             arr << toObject(inputModel);
         return arr;
     }
-    QJsonObject toObject(const DCContext::IDCModel *model) const
+    QJsonObject toObject(const DCContext::IDCInputModel *model) const
     {
         QJsonObject obj;
         obj["tournamentId"] = model->tournamentId().toString(QUuid::WithoutBraces);

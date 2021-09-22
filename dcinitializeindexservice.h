@@ -1,7 +1,7 @@
 #ifndef DCINITIALIZEINDEXSERVICE_H
 #define DCINITIALIZEINDEXSERVICE_H
 
-#include "idcinitializeindexes.h"
+#include "DCIndexSLA/idcinitializeindexes.h"
 
 class DCInitializeIndexes : public IDCInitializeIndexes
 {

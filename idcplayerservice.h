@@ -2,7 +2,7 @@
 #define IDCPLAYERSERVICE_H
 
 #include "idcscoresservice.h"
-#include "idcindexservice.h"
+#include "DCIndexSLA/idcindexservice.h"
 
 class IDCPlayerService
 {

@@ -13,7 +13,7 @@ public:
                                                GenericJsonBuilder::createJson(winnerName,"winnerName"),
                                                GenericJsonBuilder::createJson(tournamentId,"tournamentId")});
     }
-    QByteArray createJsonResponse(DCContext::IDCModel *inputModel,
+    QByteArray createJsonResponse(DCContext::IDCInputModel *inputModel,
                                   const DCContext::DCTurnValues* turnValues,
                                   const IDCInputsToJson *inputToJson,
                                   const IDCTurnValuesToJson *turnValuesToJson) override
@@ -22,7 +22,7 @@ public:
                      inputToJson->createJson(inputModel),
                      turnValuesToJson->create(turnValues)});
     }
-    QByteArray createJsonResponse(DCContext::IDCModel *inputModel,
+    QByteArray createJsonResponse(DCContext::IDCInputModel *inputModel,
                                   const QUuid &tournamentId,
                                   const IDCInputsToJson *inputToJson,
                                   const DCContext::IDCIndexes *indexes,

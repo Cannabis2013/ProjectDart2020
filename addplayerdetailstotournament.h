@@ -1,7 +1,7 @@
 #ifndef ADDPLAYERDETAILSTOTOURNAMENT_H
 #define ADDPLAYERDETAILSTOTOURNAMENT_H
 
-#include "DartsModelsContext/iaddplayerdetailstotournament.h"
+#include "DTMCServices/iaddplayerdetailstotournament.h"
 
 class AddPlayerDetailsToTournament : public IAddPlayerDetailsToTournament
 {

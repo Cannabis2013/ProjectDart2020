@@ -1,7 +1,7 @@
 #ifndef DARTSCREATEJSONMETADATA_H
 #define DARTSCREATEJSONMETADATA_H
 
-#include "idartscreatejsonmetadata.h"
+#include "DartsTournamentJsonServices/idartscreatejsonmetadata.h"
 #include "iplayermodel.h"
 
 class DartsCreateJsonMetaData : public IDartsCreateJsonMetaData

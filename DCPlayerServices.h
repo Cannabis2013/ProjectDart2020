@@ -4,6 +4,7 @@
 #include <idcgetplayername.h>
 #include <idcgetwinnermodelfromjson.h>
 #include <idcplayerservice.h>
+#include "icreatejsonfromdcplayer.h"
 #include "idccreateplayersfromjson.h"
 
 class DCPlayerServices
@@ -59,6 +60,22 @@ public:
     {
         _defaultPlayerKeys = newDefaultPlayerKeys;
     }
+    IDCPlayerModelBuilder *playerBuilder() const
+    {
+        return _playerBuilderService;
+    }
+    void setPlayerBuilderService(IDCPlayerModelBuilder *newPlayerBuilderService)
+    {
+        _playerBuilderService = newPlayerBuilderService;
+    }
+    ICreateJsonFromDCPlayer *createJsonFromPlayer() const
+    {
+        return _createJsonFromPlayer;
+    }
+    void setCreateJsonFromPlayer(ICreateJsonFromDCPlayer *newCreateJsonFromPlayer)
+    {
+        _createJsonFromPlayer = newCreateJsonFromPlayer;
+    }
 private:
     IDCGetWinnerModelFromJson *_winnerModelFromJson;
     IDCPlayerService *_playerService;
@@ -66,5 +83,7 @@ private:
     IDCCreatePlayersFromJson *_createPlayersFromJson;
     IJsonKeysPlayer *_winnerKeys;
     IJsonKeysPlayer *_defaultPlayerKeys;
+    IDCPlayerModelBuilder* _playerBuilderService;
+    ICreateJsonFromDCPlayer *_createJsonFromPlayer;
 };
 #endif // DCPLAYERSERVICES_H

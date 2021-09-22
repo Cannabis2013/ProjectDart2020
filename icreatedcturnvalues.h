@@ -1,9 +1,9 @@
 #ifndef ICREATEDCTURNVALUES_H
 #define ICREATEDCTURNVALUES_H
 
-#include "idcindexservice.h"
+#include "DCIndexSLA/idcindexservice.h"
 #include "idcscoresservice.h"
-#include "idartsinputfinishes.h"
+#include "DCInputsSLA/idartsinputfinishes.h"
 #include "dcturnvalues.h"
 #include <dcturnvalues.h>
 

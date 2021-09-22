@@ -1,7 +1,7 @@
 #ifndef DCINDEXUNDO_H
 #define DCINDEXUNDO_H
 
-#include "idcundoindex.h"
+#include "DCIndexSLA/idcundoindex.h"
 class DCIndexUndo : public IDCUndoIndex
 {
 public:

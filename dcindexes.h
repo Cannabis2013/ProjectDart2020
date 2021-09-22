@@ -1,7 +1,7 @@
 #ifndef DCINDEXES_H
 #define DCINDEXES_H
 
-#include <idcindexes.h>
+#include "DCIndexSLA/idcindexes.h"
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 

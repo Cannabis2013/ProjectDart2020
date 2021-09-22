@@ -1,7 +1,7 @@
 #ifndef EXTRACTWINNERINFOFROMJSON_H
 #define EXTRACTWINNERINFOFROMJSON_H
 
-#include "iextractwinnerinfo.h"
+#include "DartsTournamentJsonServices/iextractwinnerinfo.h"
 
 #include <qjsondocument.h>
 #include <qjsonobject.h>

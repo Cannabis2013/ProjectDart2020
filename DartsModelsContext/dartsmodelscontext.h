@@ -3,14 +3,14 @@
 
 #include "abstractdartsmodelscontext.h"
 #include "dartsinputservices.h"
-#include "DartsModelsContext/dartsmodelsservices.h"
+#include "DTMCServices/dartstournamentmodelsservices.h"
 #include "playermodelsservices.h"
 #include "dartsutilityservices.h"
 #include "dartstournamentjsonservices.h"
 
 class DartsModelsContext :
         public AbstractDartsModelsContext,
-        protected DartsModelsServices,
+        protected DartsTournamentModelsServices,
         protected DartsTournamentJsonServices,
         protected DartsInputServices,
         protected DartsUtilityServices
