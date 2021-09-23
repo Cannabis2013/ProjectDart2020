@@ -6,7 +6,7 @@
 #include <qvector.h>
 #include "idartspointindexes.h"
 #include <quuid.h>
-#include "DCInputsSLA/idartsinputsethint.h"
+#include "DCInputSLAs/idartsinputsethint.h"
 #include "isetmodelhint.h"
 #include <qjsonarray.h>
 #include "idartsinput.h"

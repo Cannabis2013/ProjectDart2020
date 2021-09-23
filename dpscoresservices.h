@@ -1,7 +1,7 @@
 #ifndef DPSCORESSERVICES_H
 #define DPSCORESSERVICES_H
 
-#include "idcscoresservice.h"
+#include "DCScoresSLAs/idcscoresservice.h"
 #include "idcgetplayerscore.h"
 #include "idccalcscorecandidate.h"
 

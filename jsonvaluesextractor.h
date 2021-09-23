@@ -1,7 +1,7 @@
 #ifndef JSONVALUESEXTRACTOR_H
 #define JSONVALUESEXTRACTOR_H
 
-#include "ijsonvaluesextractor.h"
+#include "DCJsonSLAs/ijsonvaluesextractor.h"
 class JsonValuesExtractor : public IJsonValuesExtractor
 {
 public:

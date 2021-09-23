@@ -1,7 +1,7 @@
 #ifndef DPCINPUTSTOJSON_H
 #define DPCINPUTSTOJSON_H
 
-#include "idcinputstojson.h"
+#include "DCInputSLAs/idcinputstojson.h"
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 #include <qjsonarray.h>

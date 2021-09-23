@@ -1,47 +1,47 @@
 #ifndef DPCONTROLLER_H
 #define DPCONTROLLER_H
 #include "idcmetainfo.h"
-#include "dcindexesbuilder.h"
+#include "DCIndexServices/dcindexesbuilder.h"
 #include "dartscontrollerpointmodelsservice.h"
-#include "addtotalscoretodartspointsjson.h"
-#include "addplayernamestodartspointsjson.h"
+#include "DCJsonServices/addtotalscoretodartsinputsasjson.h"
+#include "DCJsonServices/addplayernamestodartsinputsasjson.h"
 #include "jsonmerger.h"
 #include "genericjsonbuilder.h"
-#include "dcinputfinishes.h"
-#include "determinestatusbyid.h"
-#include "dcscoresservice.h"
-#include "dccreatecandidatetuples.h"
-#include "dcinitializeindexservice.h"
-#include <dcwinnerservice.h>
+#include "DCFinishesServices/dcinputfinishes.h"
+#include "DCMetaServices/determinestatusbyid.h"
+#include "DCScoresServices/dcscoresservice.h"
+#include "dccreatecandidatemodels.h"
+#include "DCIndexServices/dcinitializeindexservice.h"
+#include "DCMetaServices/dcwinnerservice.h"
 #include "DartsController/dartscontroller.h"
-#include <dcplayerbuilder.h>
-#include <dcaddscore.h>
-#include <dccreatescoretuples.h>
-#include <dcupdatescoremodels.h>
-#include <dcturnvaluestojson.h>
-#include <dcgetscorecand.h>
+#include "DCPlayerServices/dcplayerbuilder.h"
+#include "DCPlayerServices/dcplayerservice.h"
+#include "DCScoresServices/dcaddscore.h"
+#include "DCScoresServices/dccreatescoremodels.h"
+#include "DCScoresServices/dcupdatescoremodels.h"
+#include "DCTurnValuesServices/dcturnvaluestojson.h"
+#include "DCScoresServices/dcgetscorecand.h"
 #include <dcjsonresponsebuilder.h>
-#include <dcplayerservice.h>
-#include <dcindexiterator.h>
-#include <dcindexredo.h>
-#include <dcwinnerkeys.h>
+#include "DCIndexServices/dcindexiterator.h"
+#include "DCIndexServices/dcindexredo.h"
+#include "DCPlayerServices/dcwinnerkeys.h"
 #include "jsonvaluesextractor.h"
-#include "dcsubtractscore.h"
-#include "dcresetindexes.h"
-#include "dcindexundo.h"
-#include "dcgetplayername.h"
-#include "dcgetwinnermodelfromjson.h"
-#include "dccreateplayersfromjson.h"
-#include "dcplayerkeys.h"
-#include "dccreatefinishes.h"
-#include "dclogisticdb.h"
-#include "dcresetscoremodels.h"
-#include "DartsController/dcmetastatus.h"
-#include "DartsController/dartsstatuscodes.h"
-#include "DartsController/dccreateinputmodels.h"
-#include "DartsController/dchint.h"
-#include "DartsController/dcinitialscore.h"
-#include "DartsController/dctournamentid.h"
+#include "DCScoresServices/dcsubtractscore.h"
+#include "DCIndexServices/dcresetindexes.h"
+#include "DCIndexServices/dcindexundo.h"
+#include "DCPlayerServices/dcgetplayername.h"
+#include "DCPlayerServices/dcgetwinnermodelfromjson.h"
+#include "DCPlayerServices/dccreateplayersfromjson.h"
+#include "DCPlayerServices/dcplayerkeys.h"
+#include "DCFinishesServices/dccreatefinishes.h"
+#include "DCFinishesServices/dclogisticdb.h"
+#include "DCScoresServices/dcresetscoremodels.h"
+#include "DCMetaServices/dcmetastatus.h"
+#include "DCMetaServices//dartsstatuscodes.h"
+#include "DCInputServices/dccreateinputmodels.h"
+#include "DCMetaServices/dchint.h"
+#include "DCMetaServices/dcinitialscore.h"
+#include "DCMetaServices/dctournamentid.h"
 #include "DPCServices/dpcinputvalidator.h"
 #include "DPCServices/dpcindexcontroller.h"
 #include "DPCServices/CreateDPCTurnValues.h"
@@ -50,6 +50,7 @@
 #include "DPCServices/dpcinputstojson.h"
 #include "DPCServices/dpcinputstojson.h"
 #include "DPCServices/dpcindexestojson.h"
+#include "DCInputServices/dcinputjsonkeys.h"
 
 class DPController : public DartsController
 {
@@ -63,8 +64,8 @@ public:
         setIndexesBuilder(new DCIndexesBuilder);
         setGetScoreFromInput(new GetScoreFromDPCInput);
         setAddScoreService(new DCAddScore);
-        setAddTotalScoresToJson(new AddTotalScoreToDartsPointsJson);
-        setAddPlayerNamesToJson(new AddPlayerNamestoDartsPointsJson);
+        setAddTotalScoresToJson(new AddTotalScoreToDartsInputsAsJson);
+        setAddPlayerNamesToJson(new AddPlayerNamestoDartsInputsAsJson);
         setSuggestFinishes(DCInputFinishes::createInstance(DCCreateFinishes::createInstance(), DCLogisticDb::createInstance()));
         setDetermineStatusById(new DetermineStatusById);
         setGetTotalScoreService(new DCGetScoreCand);
@@ -82,15 +83,16 @@ public:
         setIndexesToJsonService(new DPCIndexesToJson);
         // Score tuple services
         setResetScoreModels(new DCResetScoreModels);
-        setCreateScoreTuples(new DCCreateScoreTuples);
-        setReplaceScoreModels(new DCUpdateScoreModels);
+        setCreateScoreModelsService(new DCCreateScoreModels);
+        setUpdateScoreModels(new DCUpdateScoreModels);
         setSubtractScore(new DCSubtractScore);
         setScoresService(new DCScoresService);
-        setCreateCandidateTuples(new DCCreateCandidateTuples);
+        setCreateCandidateTuples(new DCCreateCandidateModels);
         setWinnerService(new DCWinnerService);
         setJsonExtractor(new JsonValuesExtractor);
         // Input services
         setCreateInputModels(new DCCreateInputModels);
+        setInputKeys(new DCInputJsonKeys);
         // Player services
         setPlayerBuilderService(new DCPlayerBuilder);
         setPlayerService(new DCPlayerService(indexService(),scoresService()));

@@ -11,5 +11,4 @@ public:
         return 3;
     }
 };
-
 #endif // DARTSDEFAULTATTEMPTS_H

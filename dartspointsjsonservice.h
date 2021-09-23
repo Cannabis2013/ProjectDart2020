@@ -1,7 +1,7 @@
 #ifndef DARTSMODELSJSONTOINPUTMODELS_H
 #define DARTSMODELSJSONTOINPUTMODELS_H
 
-#include "DCInputsSLA/idartsinputmodelstojson.h"
+#include "DCInputSLAs/idartsinputmodelstojson.h"
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 #include <qjsonarray.h>

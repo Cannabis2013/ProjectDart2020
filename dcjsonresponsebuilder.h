@@ -1,6 +1,6 @@
 #ifndef DCJSONRESPONSEBUILDER_H
 #define DCJSONRESPONSEBUILDER_H
-#include "idccreatejsonresponse.h"
+#include "DCJsonSLAs/idccreatejsonresponse.h"
 #include "jsonmerger.h"
 class DCJsonResponseBuilder : public IDCJsonResponseBuilder
 {

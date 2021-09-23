@@ -1,7 +1,7 @@
 #ifndef DPCINPUTVALIDATOR_H
 #define DPCINPUTVALIDATOR_H
 
-#include "DCInputsSLA/idartsinputvalidator.h"
+#include "DCInputSLAs/idartsinputvalidator.h"
 
 class DPCInputValidator : public IDartsInputValidator
 {

@@ -1,7 +1,7 @@
 #ifndef DCPLAYER_H
 #define DCPLAYER_H
 
-#include <idcplayer.h>
+#include "DCPlayerSLAs/idcplayer.h"
 
 namespace DCContext{
     class DCPlayer : public IDCPlayer

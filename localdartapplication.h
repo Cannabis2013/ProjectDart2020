@@ -4,7 +4,7 @@
 #include "dartapplication.h"
 #include "jsonmodelsservice.h"
 #include "createDCMetaInfo.h"
-#include <dcbuilder.h>
+#include <createdartscontroller.h>
 #include "routeservicesprovider.h"
 #include "connectservicesprovider.h"
 #include "localplayerscontext.h"
@@ -37,7 +37,7 @@ public:
 
     LocalDartApplication *createDCBuilder()
     {
-        _dcBuilder = new DCBuilder();
+        _dcBuilder = new CreateDartsController();
         return this;
     }
 };

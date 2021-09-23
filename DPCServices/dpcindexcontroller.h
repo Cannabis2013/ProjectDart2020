@@ -1,7 +1,7 @@
 #ifndef DPCINDEXCONTROLLER_H
 #define DPCINDEXCONTROLLER_H
 
-#include "DCIndexSLA/idcindexservice.h"
+#include "DCIndexSLAs/idcindexservice.h"
 #include "idcmetainfo.h"
 
 class DPCIndexController : public IDCIndexService

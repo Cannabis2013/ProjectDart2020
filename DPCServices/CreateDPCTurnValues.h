@@ -1,12 +1,12 @@
 #ifndef CREATEDPCTURNVALUES_H
 #define CREATEDPCTURNVALUES_H
 
-#include "icreatedcturnvalues.h"
-#include "dcturnvalues.h"
-#include "DCIndexSLA/idcindexservice.h"
-#include "DCInputsSLA/idartsinputfinishes.h"
-#include "idcplayer.h"
-#include "DCInputsSLA/idcinputmodel.h"
+#include "DCTurnValuesSLAs/icreatedcturnvalues.h"
+#include "DCTurnValuesServices/dcturnvalues.h"
+#include "DCIndexSLAs/idcindexservice.h"
+#include "DCFinishesSLAs/idartsinputfinishes.h"
+#include "DCPlayerSLAs/idcplayer.h"
+#include "DCInputSLAs/idcinputmodel.h"
 
 class CreateDPCTurnValues : public ICreateDCTurnValues
 {
