@@ -1,11 +1,11 @@
 #ifndef DCTURNVALUESSERVICES_H
 #define DCTURNVALUESSERVICES_H
 
-#include "DCTurnValuesSLAs/idcturnvaluestojson.h"
-#include "DCTurnValuesSLAs/icreatedcturnvalues.h"
-#include "DCPlayerSLAs/idcplayermodelbuilder.h"
-#include "DCIndexSLAs/idcindexesbuilder.h"
-#include "DCInputSLAs/idccreateinputmodel.h"
+#include "DartsController/DCTurnValuesSLAs/idcturnvaluestojson.h"
+#include "DartsController/DCTurnValuesSLAs/icreatedcturnvalues.h"
+#include "DartsController/DCPlayerSLAs/idcplayermodelbuilder.h"
+#include "DartsController/DCIndexSLAs/idcindexesbuilder.h"
+#include "DartsController/DCInputSLAs/idccreateinputmodel.h"
 
 class DCTurnvaluesServices
 {

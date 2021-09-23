@@ -1,7 +1,7 @@
 #ifndef DARTSMODIDENTIFIERS_H
 #define DARTSMODIDENTIFIERS_H
 
-#include "DCFinishesSLAs/idartsmodidentifiers.h"
+#include "DartsController/DCFinishesSLAs/idartsmodidentifiers.h"
 class DartsModIdentifiers : public IDartsModIdentifiers
 {
 public:

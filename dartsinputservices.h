@@ -4,13 +4,13 @@
 #include <icountinputmodels.h>
 #include <idartsindexestojson.h>
 #include <idartscreateindexes.h>
-#include "DCInputSLAs/idartsinputmodelstojson.h"
+#include "DartsController/DCInputSLAs/idartsinputmodelstojson.h"
 #include "idartspointindexes.h"
-#include "DCInputSLAs/idartsinputsethint.h"
+#include "DartsController/DCInputSLAs/idartsinputsethint.h"
 #include "isetmodelhint.h"
 #include "igetdartspointfromdb.h"
 #include "igetinputmodelsservice.h"
-#include "DCInputSLAs/iremovedartsinputsfromdb.h"
+#include "DartsController/DCInputSLAs/iremovedartsinputsfromdb.h"
 #include "isortinputmodels.h"
 #include "idartscreateinput.h"
 #include "idartscreatejsonfrommodel.h"

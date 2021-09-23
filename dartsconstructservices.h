@@ -1,11 +1,11 @@
 #ifndef DARTSCONSTRUCTSERVICES_H
 #define DARTSCONSTRUCTSERVICES_H
 #include "idartsfieldvalues.h"
-#include "DCFinishesSLAs/idartsthresholdvalues.h"
+#include "DartsController/DCFinishesSLAs/idartsthresholdvalues.h"
 #include "idartsboundaries.h"
 #include "idartsdivisorvalues.h"
-#include "DCFinishesSLAs/idartsterminaldivisor.h"
-#include "DCFinishesSLAs/idartsmodidentifiers.h"
+#include "DartsController/DCFinishesSLAs/idartsterminaldivisor.h"
+#include "DartsController/DCFinishesSLAs/idartsmodidentifiers.h"
 #include "idartsattemptsservice.h"
 class DartsConstructServices
 {

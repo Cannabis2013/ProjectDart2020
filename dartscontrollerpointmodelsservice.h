@@ -2,7 +2,7 @@
 #define DARTSCONTROLLERPOINTMODELSSERVICE_H
 
 #include "idartscontrollermodelsservice.h"
-#include "DCInputSLAs/idcinputmodel.h"
+#include "DartsController/DCInputSLAs/idcinputmodel.h"
 #include <qstring.h>
 #include <quuid.h>
 

@@ -2,7 +2,7 @@
 #define REMOVEINPUTSFROMDB_H
 
 #include "iplayerinput.h"
-#include "DCInputSLAs/iremovedartsinputsfromdb.h"
+#include "DartsController/DCInputSLAs/iremovedartsinputsfromdb.h"
 
 class RemoveInputsFromDb : public IRemoveDartsInputsFromDb
 {

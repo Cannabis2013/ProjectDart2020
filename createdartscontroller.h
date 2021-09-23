@@ -1,15 +1,15 @@
 #ifndef CREATEDARTSCONTROLLER_H
 #define CREATEDARTSCONTROLLER_H
 
-#include "DartsController/dartscontroller.h"
+#include "DartsController/Controller/dartscontroller.h"
 // Include services
 #include "abstractdcbuilder.h"
-#include "DSCServices/dsccreateinputmodel.h"
+#include "DartsController/DSCServices/dsccreateinputmodel.h"
 #include "idcmetainfo.h"
 #include "icreatedcmetainfo.h"
 #include "idcmetainfo.h"
 #include "dscontroller.h"
-#include "DPController/dpcontroller.h"
+#include "DartsController/DPController/dpcontroller.h"
 
 #include "createDCMetaInfo.h"
 

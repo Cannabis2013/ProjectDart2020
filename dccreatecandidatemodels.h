@@ -1,7 +1,7 @@
 #ifndef DCCREATECANDIDATEMODELS_H
 #define DCCREATECANDIDATEMODELS_H
 
-#include "DCScoresSLAs/idccreatecandidatemodels.h"
+#include "DartsController/DCScoresSLAs/idccreatecandidatemodels.h"
 
 class DCCreateCandidateModels : public IDCCreateCandidateModels
 {
