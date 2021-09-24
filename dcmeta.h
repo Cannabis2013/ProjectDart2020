@@ -22,8 +22,6 @@ namespace DCBuilding {
         IdFormat _tournamentId;
         IdFormat _winnerId;
         int _keyPoint;
-        int _attempt;
-        int _terminalKeyCode;
         int _inputHint;
         int _displayHint;
     };

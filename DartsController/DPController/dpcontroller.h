@@ -21,7 +21,7 @@
 #include "DartsController/DCScoresServices/dcupdatescoremodels.h"
 #include "DartsController/DCTurnValuesServices/dcturnvaluestojson.h"
 #include "DartsController/DCScoresServices/dcgetscorecand.h"
-#include <dcjsonresponsebuilder.h>
+#include "DartsController/DCJsonServices/dcjsonresponsebuilder.h"
 #include "DartsController/DCIndexServices/dcindexiterator.h"
 #include "DartsController/DCIndexServices/dcindexredo.h"
 #include "DartsController/DCPlayerServices/dcwinnerkeys.h"
@@ -51,13 +51,13 @@
 #include "DartsController/DPCServices/dpcinputstojson.h"
 #include "DartsController/DPCServices/dpcindexestojson.h"
 #include "DartsController/DCInputServices/dcinputjsonkeys.h"
+#include "DartsController/DCInputServices/DCInputKeyCodes.h"
 
 class DPController : public DartsController
 {
 public:
     DPController(const DCBuilding::IDCMetaInfo *meta)
     {
-        setInputEvaluator(DPCInputValidator::createInstance());
         setIndexService(new DPCIndexController);
         setTurnValuesBuilder(new CreateDPCTurnValues);
         setCreateInputModelService(new DPCCreateInputModel);
@@ -93,6 +93,8 @@ public:
         // Input services
         setCreateInputModels(new DCCreateInputModels);
         setInputKeys(new DCInputJsonKeys);
+        setInputKeyCodes(new DCInputKeyCodes);
+        setInputEvaluator(DPCInputValidator::createInstance());
         // Player services
         setPlayerBuilderService(new DCPlayerBuilder);
         setPlayerService(new DCPlayerService(indexService(),scoresService()));

@@ -1,7 +1,7 @@
 #ifndef ICREATEJSONFROMDARTSTOURNAMENT_H
 #define ICREATEJSONFROMDARTSTOURNAMENT_H
 #include "itojson.h"
-#include "itournament.h"
+#include "DartTournamentsContext/DTCModelsSLAs/itournament.h"
 class ICreateJsonFromDartsTournaments : public IToJson<const QVector<const IModel<QUuid>*>&>
 {
 public:

@@ -25,7 +25,7 @@ private:
     }
     void connectMainApplication()
     {
-        QScopedPointer<ConnectServices> connectServices(new ConnectServices);
+        QScopedPointer<ConnectServices> connectServices(ConnectServices::createInstance());
         connectServices->connect(_mainApp,_mainApp->routeServices(),_mainApp->connectServices());
     }
     void connectDeleteOnQuit(QQmlApplicationEngine &engine, QGuiApplication &app)

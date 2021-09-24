@@ -1,7 +1,7 @@
 #ifndef IPLAYERINPUTCOMPARISON_H
 #define IPLAYERINPUTCOMPARISON_H
 
-#include "idartsinput.h"
+#include "DartsModelsContext/DMCInputSLAs/idartsinput.h"
 
 template<typename TModelInterface>
 struct IPredicate{

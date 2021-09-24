@@ -14,24 +14,14 @@ public:
         TargetDomain = 0x4,
         InputOutOfRange = 0x5
     };
-    enum KeyMappings{
-        SingleModifer = 0x2A,
-        DoubleModifier = 0x2B,
-        TrippleModifier = 0x2C,
-        BullModifier,
-        BullsEyeModifier
-    };
-    // InputValidatorInterface interface
-    virtual int validateInput(const int &currentScore, const int &, const int &) const override
+    static DSCInputValidator *createInstance()
     {
-        int minimumAllowedScore = 2;
-        if(terminalKeyCode() == KeyMappings::SingleModifer)
-            minimumAllowedScore = 1;
-        else if(terminalKeyCode() == KeyMappings::DoubleModifier)
-            minimumAllowedScore = 2;
-        else
-            minimumAllowedScore = 3;
-
+        return new DSCInputValidator();
+    }
+    virtual int validateInput(const int &currentScore,
+                              const IDCInputKeyCodes *,
+                              const int &, const int &) const override
+    {
         if(currentScore > maxAllowedInput())
             return PointDomain;
         else if(currentScore <= maxAllowedInput() &&
@@ -43,16 +33,11 @@ public:
             return OutsideDomain;
     }
 private:
-    int terminalKeyCode() const
-    {
-        return _terminalKeyCode;
-    }
-
     int maxAllowedInput() const
     {
         return _maxAllowedInput;
     }
-    const int _terminalKeyCode = DoubleModifier;
     const int _maxAllowedInput = 180;
+    const int minimumAllowedScore = 2;
 };
 #endif // SCOREVALIDATOR_H

@@ -5,7 +5,7 @@
 #include <ifilewriter.h>
 
 
-class ModelsDbIOServices
+class ModelsDbIOSLAs
 {
 public:
     IFileWriter<QByteArray> *writeJsonToFile() const

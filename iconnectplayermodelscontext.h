@@ -1,7 +1,7 @@
 #ifndef ICONNECTPLAYERMODELSCONTEXT_H
 #define ICONNECTPLAYERMODELSCONTEXT_H
 #include "AbstractApplicationInterface.h"
-#include "iplayermodelscontext.h"
+#include "PlayerModelsContext/SLAs/iplayermodelscontext.h"
 class IConnectPlayerModelsContext
 {
 public:

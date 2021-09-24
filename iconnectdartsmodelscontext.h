@@ -1,7 +1,7 @@
 #ifndef ICONNECTDARTSMODELSCONTEXT_H
 #define ICONNECTDARTSMODELSCONTEXT_H
 
-#include "abstractdartsmodelscontext.h"
+#include "DartsModelsContext/abstractdartsmodelscontext.h"
 #include "AbstractApplicationInterface.h"
 
 #include <abstractdcbuilder.h>

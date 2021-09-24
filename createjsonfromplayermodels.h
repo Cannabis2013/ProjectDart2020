@@ -6,8 +6,8 @@
 #include <qjsonarray.h>
 #include <QJsonObject>
 #include <quuid.h>
-#include "ModelsContext/imodel.h"
-#include "iplayermodel.h"
+#include "ModelsContext/MCModelsSLAs/imodel.h"
+#include "PlayerModelsContext/SLAs/iplayermodel.h"
 #include "icreatejsonfrommodels.h"
 
 namespace PlayersContext {

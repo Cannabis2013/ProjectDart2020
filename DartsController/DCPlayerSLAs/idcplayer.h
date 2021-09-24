@@ -2,7 +2,6 @@
 #define IDCPLAYER_H
 
 #include <quuid.h>
-#include "ijson.h"
 
 namespace DCContext
 {

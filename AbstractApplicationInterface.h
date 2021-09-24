@@ -3,8 +3,8 @@
 
 #include <qobject.h>
 #include <quuid.h>
-#include "abstractdartsmodelscontext.h"
-#include "abstractdartscontroller.h"
+#include "DartsModelsContext/abstractdartsmodelscontext.h"
+#include "DartsController/ControllerSLA/abstractdartscontroller.h"
 #include "iresponseinterface.h"
 
 class AbstractApplicationInterface :

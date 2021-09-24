@@ -6,7 +6,6 @@
 #include "dartsboundaries.h"
 #include "dartsfieldvalues.h"
 #include "dartsthreshold.h"
-#include "dartscreateterminaldivisor.h"
 #include "dartscreateterminalthreshold.h"
 #include "dartsdivisors.h"
 #include "dartsterminaldivisor.h"
@@ -26,7 +25,7 @@ private:
         setFieldValuesService(new DartsFieldValues);
         setDivisorsService(new DartsDivisors);
         setThresholdsService(new DartsThresholds(DartsCreateTerminalThreshold(new DartsBoundaries)));
-        setTerminalDivisorService(new DartsTerminalDivisor(DartsCreateTerminalDivisor(new DartsDivisors)));
+        setTerminalDivisorService(new DartsTerminalDivisor);
         setIdentifiersService(new DartsModIdentifiers);
         setAttemptsService(new DartsDefaultAttempts);
     }

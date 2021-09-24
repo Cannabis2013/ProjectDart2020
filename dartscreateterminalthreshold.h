@@ -1,7 +1,7 @@
 #ifndef DARTSCREATETERMINALTHRESHOLD_H
 #define DARTSCREATETERMINALTHRESHOLD_H
 
-#include "idartsboundaries.h"
+#include "DartsController/DCFinishesSLAs/idartsboundaries.h"
 #include <idartscreateterminalthreshold.h>
 #include "idcmetainfo.h"
 
@@ -17,11 +17,6 @@ public:
         return _threshold;
     }
 private:
-    enum KeyMappings{
-        SingleModifer = 0x2A,
-        DoubleModifier = 0x2B,
-        TrippleModifier = 0x2C
-    };
     int _threshold;
 };
 #endif // DARTSGETTERMINALTHRESHOLD_H

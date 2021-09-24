@@ -1,7 +1,7 @@
 #ifndef ABSTRACTROUTEBYDISPLAYHINT_H
 #define ABSTRACTROUTEBYDISPLAYHINT_H
 
-#include "abstractdartscontroller.h"
+#include "DartsController/ControllerSLA/abstractdartscontroller.h"
 #include "AbstractApplicationInterface.h"
 
 class AbstractRouteByDisplayHint : public QObject

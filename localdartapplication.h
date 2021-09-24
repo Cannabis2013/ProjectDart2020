@@ -7,7 +7,7 @@
 #include <createdartscontroller.h>
 #include "routeservicesprovider.h"
 #include "connectservicesprovider.h"
-#include "localplayerscontext.h"
+#include "PlayerModelsContext/localplayerscontext.h"
 
 class LocalDartApplication : public DartApplication
 {

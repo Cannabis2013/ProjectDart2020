@@ -2,7 +2,7 @@
 #define CONNECTDARTSCONTROLLER_H
 
 #include "iconnectcontroller.h"
-#include "abstractdartscontroller.h"
+#include "DartsController/ControllerSLA/abstractdartscontroller.h"
 
 class ConnectDartsController : public IConnectController
 {

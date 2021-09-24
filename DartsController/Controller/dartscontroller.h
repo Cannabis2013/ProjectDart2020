@@ -6,7 +6,7 @@
 #include "DartsController/DCScoresSLAs/dcscoreservices.h"
 #include <quuid.h>
 #include "DartsController/DCPlayerSLAs/DCPlayerServices.h"
-#include "abstractdartscontroller.h"
+#include "DartsController/ControllerSLA/abstractdartscontroller.h"
 #include "DartsController/DCJsonSLAs/dcjsonservices.h"
 #include "jsonmerger.h"
 #include "DartsController/DCMetaSLAs/dcmetaservices.h"
@@ -61,5 +61,4 @@ private:
     void nextTurn();
     void declareWinner();
 };
-
 #endif // FIVEHUNDREDANDONEGAME_H

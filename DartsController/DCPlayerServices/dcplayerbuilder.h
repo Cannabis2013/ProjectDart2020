@@ -2,7 +2,7 @@
 #define DCPLAYERBUILDER_H
 
 #include "DartsController/DCPlayerSLAs/idcplayermodelbuilder.h"
-#include <dcplayer.h>
+#include "DartsController/DCPlayerServices/dcplayer.h"
 
 class DCPlayerBuilder : public IDCPlayerModelBuilder
 {

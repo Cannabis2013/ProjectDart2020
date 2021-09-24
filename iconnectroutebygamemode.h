@@ -2,7 +2,7 @@
 #define ICONNECTROUTEBYGAMEMODE_H
 
 #include <abstractroutebygamemode.h>
-#include "abstractdartsmodelscontext.h"
+#include "DartsModelsContext/abstractdartsmodelscontext.h"
 class IConnectRouteByGameMode
 {
 public:

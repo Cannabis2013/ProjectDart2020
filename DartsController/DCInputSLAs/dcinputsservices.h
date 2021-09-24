@@ -8,6 +8,8 @@
 #include "DartsController/DCJsonSLAs/iaddtotalscoretodartsinputsjson.h"
 #include "DartsController/DCInputSLAs/idccreateinputmodels.h"
 #include "DartsController/DCInputSLAs/idcinputjsonkeys.h"
+#include "IDCInputKeyCodes.h"
+
 class DCInputsServices
 {
 public:
@@ -59,6 +61,14 @@ public:
     {
         _inputKeys = newInputKeys;
     }
+    IDCInputKeyCodes *inputKeyCodes() const
+    {
+        return _inputKeyCodes;
+    }
+    void setInputKeyCodes(IDCInputKeyCodes *newKeyCodes)
+    {
+        _inputKeyCodes = newKeyCodes;
+    }
 private:
     IDartsInputFinishes *_suggestFinishes = nullptr;
     IDartsInputValidator* _inputEvaluator = nullptr;
@@ -66,5 +76,6 @@ private:
     IDCInputsToJson *_jsonModelBuilderService;
     IDCCreateInputModels *_createInputModels;
     IDCInputJsonKeys *_inputKeys;
+    IDCInputKeyCodes *_inputKeyCodes;
 };
 #endif // DCINPUTSSERVICES_H

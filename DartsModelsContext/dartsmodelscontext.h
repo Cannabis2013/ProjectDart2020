@@ -1,19 +1,19 @@
 #ifndef DARTSMODELSCONTEXT_H
 #define DARTSMODELSCONTEXT_H
 
-#include "abstractdartsmodelscontext.h"
-#include "dartsinputservices.h"
-#include "DTMCServices/dartstournamentmodelsservices.h"
-#include "playermodelsservices.h"
-#include "dartsutilityservices.h"
-#include "dartstournamentjsonservices.h"
+#include "DartsModelsContext/abstractdartsmodelscontext.h"
+#include "DartsModelsContext/DMCInputSLAs/dmcinputslas.h"
+#include "DartsModelsContext/DMCTournamentSLAs/dartstournamentslas.h"
+#include "PlayerModelsContext/SLAs/playermodelsslas.h"
+#include "DartsModelsContext/DMCUtilsSLAs/dmcutilsslas.h"
+#include "DartsModelsContext/DMCIndexesSLAs/dartsindexesslas.h"
 
 class DartsModelsContext :
         public AbstractDartsModelsContext,
-        protected DartsTournamentModelsServices,
-        protected DartsTournamentJsonServices,
-        protected DartsInputServices,
-        protected DartsUtilityServices
+        protected DartsTournamentSLAs,
+        protected DMCInputSLAs,
+        protected DartsIndexesSLAs,
+        protected DMCUtilsSLAs
 {
 public:
     //Public types
@@ -43,7 +43,6 @@ public slots:
                    const int& roundIndex, const int& attemptIndex) override;
     void revealInput(const QUuid& tournamentId,const QUuid& playerId,
                      const int& roundIndex,const int& attemptIndex) override;
-    //Darts multiattempt score methods
     // Send tournament values
     void createDartsKeyValues(const QUuid& tournament) override;
 };

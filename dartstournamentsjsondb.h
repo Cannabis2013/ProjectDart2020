@@ -1,7 +1,7 @@
 #ifndef DARTSTOURNAMENTSJSONDB_H
 #define DARTSTOURNAMENTSJSONDB_H
 
-#include "tournamentsjsondb.h"
+#include "DartTournamentsContext/DTCDbServices/tournamentsjsondb.h"
 #include "createjsonfromdartstournaments.h"
 #include "createdartstournamentsfromjson.h"
 #include "writebytearray.h"

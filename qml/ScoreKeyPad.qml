@@ -11,7 +11,7 @@ ScoreKeyPadInterface {
         submitPad.enabled = enable;
         scoreView.clearView();
     }
-    onInternalHotKeyClicked: sendInput(value)
+    onInternalHotKeyClicked: sendInput(value,0x2B)
     onInternalKeyClicked: Scripts.handleNumberPadClicked(value)
     QtObject{
         id: submitPadTextValues

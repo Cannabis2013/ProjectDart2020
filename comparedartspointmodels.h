@@ -2,7 +2,7 @@
 #define COMPAREDARTSPOINTMODELS_H
 
 #include "ipredicate.h"
-#include "dartsinput.h"
+#include "DartsModelsContext/DMCInputServices/dartsinput.h"
 namespace ModelsContext {
     class CompareDartsPointModels : public IPredicateBuilder
     {

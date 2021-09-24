@@ -8,7 +8,7 @@
 #include "idcmetainfo.h"
 #include "icreatedcmetainfo.h"
 #include "idcmetainfo.h"
-#include "dscontroller.h"
+#include "DartsController/DartsScoreController/dscontroller.h"
 #include "DartsController/DPController/dpcontroller.h"
 
 #include "createDCMetaInfo.h"

@@ -6,7 +6,7 @@
 #include <qjsonvalue.h>
 #include <qjsonarray.h>
 #include <qjsonobject.h>
-#include "playermodel.h"
+#include "PlayerModelsContext/Services/playermodel.h"
 
 class CreatePlayersFromJson : public ICreateModelsFromJson
 {

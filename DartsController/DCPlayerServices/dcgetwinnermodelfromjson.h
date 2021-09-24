@@ -4,7 +4,7 @@
 #include "DartsController/DCPlayerSLAs/idcgetwinnermodelfromjson.h"
 #include <qjsondocument.h>
 #include <qjsonobject.h>
-#include <dcplayer.h>
+#include "DartsController/DCPlayerServices/dcplayer.h"
 class DCGetWInnerModelsFromJson : public IDCGetWinnerModelFromJson
 {
 public:

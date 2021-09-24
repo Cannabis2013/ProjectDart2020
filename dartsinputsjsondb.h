@@ -1,7 +1,7 @@
 #ifndef DARTSINPUTSJSONDB_H
 #define DARTSINPUTSJSONDB_H
 
-#include "dartsinputjsondb.h"
+#include "DartsModelsContext/DMCInputServices/dmcinputjsondb.h"
 #include "createdartspointsfromjson.h"
 #include "dartsdbcreatejsonfrominputs.h"
 #include "writebytearray.h"
@@ -9,7 +9,7 @@
 
 namespace DartsDbContext
 {
-    class DartsInputsJsonDb : public DartsInputJsonDb
+    class DartsInputsJsonDb : public DMCInputJsonDb
     {
     public:
         DartsInputsJsonDb()

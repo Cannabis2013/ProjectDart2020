@@ -4,13 +4,12 @@
 #include <quuid.h>
 #include <qstring.h>
 #include <qlist.h>
-#include "abstractdartstournament.h"
+#include "DartsModelsContext/DMCTournamentSLAs/abstractdartstournament.h"
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 #include <qjsonarray.h>
 
 namespace ModelsContext{
-
     class DartsTournament : public AbstractDartsTournament
     {
     public:
@@ -51,7 +50,6 @@ namespace ModelsContext{
         }
     private:
         int _keyPoint;
-        int _terminalKeyCode;
         int _displayHint;
         int _inputHint;
     };

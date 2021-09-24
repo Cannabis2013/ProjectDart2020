@@ -4,7 +4,7 @@
 #include <quuid.h>
 #include <qstring.h>
 #include <qlist.h>
-#include "abstractdartstournament.h"
+#include "DartsModelsContext/DMCTournamentSLAs/abstractdartstournament.h"
 
 class DartsTournamentModel : public AbstractDartsTournament
 {

@@ -27,21 +27,21 @@ void JsonModelsService::setPointInputServices()
 {
     using namespace DartsDbContext;
     setInputsDbService(new DartsInputsJsonDb);
-    setGetInputFromDb(new GetDartsPointFromDb);
-    setDartsPointSetHint(new DartsPointSetHint);
-    setIndexesBuilder(new DartsCreateIndexes);
+    setGetInputFromDb(new DMCGetInputFromDb);
+    setDartsPointSetHint(new DMCSetInputHint);
+    setIndexesBuilder(new DMCCreateIndexes);
     setSortInputsByIndexes(new SortDartsPointInputsByIndexes);
-    setInputsToJsonService(new DartsInputModelsToJson);
-    setIndexesToJsonService(new DartsInputIndexesToJson);
-    setCreatePointModel(new DartsCreateInputModel);
-    setInputToJsonService(new DartsCreateJsonFromPointModel);
+    setInputsToJsonService(new DMCInputsToJson);
+    setIndexesToJsonService(new DMCIndexesToJson);
+    setCreatePointModel(new DMCCreateInput);
+    setInputToJsonService(new DMCInputToJson);
 }
 void JsonModelsService::setInputDbUtilityServices()
 {
-    setGetInputsFromDb(new GetInputModelsService);
-    setSortInputs(new InputModelsSortService);
-    setCountInputs(new InputModelsCountService);
-    setRemoveInputsFromDb(new RemoveInputsFromDb);
+    setGetInputsFromDb(new DMCGetInputModels);
+    setSortInputs(new DMCSortInputs);
+    setCountInputs(new DMCCountInputs);
+    setRemoveInputsFromDb(new DMCRemoveInputsFromDb);
     setRemoveModelsFromDb(new RemoveModelsFromDb);
 }
 

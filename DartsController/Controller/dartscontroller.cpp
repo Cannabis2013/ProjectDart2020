@@ -17,7 +17,7 @@ void DartsController::handleUserInput(const QByteArray& json)
     inputModel->setScore(scoreCandidate);
     auto setIndex = indexService()->setIndex();
     auto accumulatedScore = getTotalScore()->scoreCandidate(setIndex,scoreCandidate,scoresService());
-    auto domain = inputEvaluator()->validateInput(accumulatedScore,inputModel->modKeyCode(),inputModel->point());
+    auto domain = inputEvaluator()->validateInput(accumulatedScore,inputKeyCodes(),inputModel->modKeyCode(),inputModel->point());
     processDomain(domain,inputModel);
 }
 

@@ -1,7 +1,7 @@
 #ifndef CONNECTDETERMINEGAMEMODE_H
 #define CONNECTDETERMINEGAMEMODE_H
 
-#include "abstractdartsmodelscontext.h"
+#include "DartsModelsContext/abstractdartsmodelscontext.h"
 #include "abstractroutebygamemode.h"
 #include "iconnectroutebygamemode.h"
 

@@ -1,11 +1,11 @@
 #ifndef CREATEJSONFROMTOURNAMENTDETAILS_H
 #define CREATEJSONFROMTOURNAMENTDETAILS_H
 
-#include "DartsTournamentJsonServices/icreatejsonfromtournamentdetails.h"
+#include "DartsModelsContext/DMCTournamentSLAs/icreatejsonfromtournamentdetails.h"
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 #include <qjsonarray.h>
-#include "abstractdartstournament.h"
+#include "DartsModelsContext/DMCTournamentSLAs/abstractdartstournament.h"
 
 class CreateJsonFromTournamentDetails : public ICreateJsonFromTournamentDetails
 {

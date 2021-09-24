@@ -3,7 +3,7 @@
 
 #include "abstractgamecontroller.h"
 #include "AbstractApplicationInterface.h"
-#include "abstractdartsmodelscontext.h"
+#include "DartsModelsContext/abstractdartsmodelscontext.h"
 #include "abstractroutebydisplayhint.h"
 
 class IConnectController

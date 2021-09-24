@@ -14,8 +14,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    DTMCServices/dartstournamentmodelsservices.cpp \
-    adddetailstotournamentjson.cpp \
+    DartsModelsContext/DMCInputSLAs/dmcinputslas.cpp \
+    DartsModelsContext/DMCTournamentSLAs/dartstournamentslas.cpp \
+    DartsModelsContext/DMCTournamentServices/adddetailstotournamentjson.cpp \
     DartsController/DCJsonServices/addtotalscoretodartsinputsasjson.cpp \
     connectdartscontroller.cpp \
     connectdartsmodelscontext.cpp \
@@ -28,38 +29,30 @@ SOURCES += \
     DartsController/Controller/dartscontroller.cpp \
     dartscontrollerpointmodelsservice.cpp \
     DartsController/DCFinishesServices/dartscreatefinishes.cpp \
-    dartscreateindexes.cpp \
     dartsdbcreatejsonfrominputs.cpp \
-    dartsinputjsondb.cpp \
-    dartsinputservices.cpp \
     DartsModelsContext/dartsmodelscontext.cpp \
     dartspmcdatacontext.cpp \
-    dartspointsjsonservice.cpp \
     dartsroundindexbyattempt.cpp \
     dartstablemodel.cpp \
     dartstableservices.cpp \
-    dartstournamentjsonservices.cpp \
-    dartsutilityservices.cpp \
     DartsController/DCFinishesServices/dcinputfinishes.cpp \
     dcmeta.cpp \
     DartsController/DCScoresSLAs/dcscoreservices.cpp \
     DartsController/DCMetaServices/dcwinnerservice.cpp \
     DartsController/DPCServices/dpcindexcontroller.cpp \
     DartsController/DSCServices/dscindexcontroller.cpp \
-    DartsController/DSCServices/dscinputsuggestion.cpp \
-    extractwinnerinfofromjson.cpp \
-    getinputmodelsservice.cpp \
-    getplayersfromdb.cpp \
+    DartsModelsContext/DMCTournamentServices/extractwinnerinfofromjson.cpp \
+    DartsModelsContext/DMCInputServices/dmcinputjsondb.cpp \
+    PlayerModelsContext/Services/getplayersfromdb.cpp \
     iurlparser.cpp \
     jsonmodelsservice.cpp \
-    jsonplayersdbcontext.cpp \
+    PlayerModelsContext/DbServices/jsonplayersdbcontext.cpp \
     main/main.cpp \
     networkmanager.cpp \
-    playermodelscontext.cpp \
-    playermodelsservices.cpp \
-    removeinputsfromdb.cpp \
+    PlayerModelsContext/playermodelscontext.cpp \
+    PlayerModelsContext/SLAs/playermodelsslas.cpp \
     routebydisplayhint.cpp \
-    tournamentsjsondb.cpp \
+    DartTournamentsContext/DTCDbServices/tournamentsjsondb.cpp \
     tst_Dart2020.cpp \
     urlparser.cpp \
     verticalstringlabels.cpp
@@ -68,6 +61,7 @@ RESOURCES += qml.qrc
 
 TRANSLATIONS += \
                 Dart2020_da_DK.ts
+
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -82,8 +76,16 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     ConnectDCBuilder.h \
+    DartsModelsContext/DMCIndexesSLAs/dartsindexesslas.h \
+    DartsModelsContext/DMCIndexesSLAs/idartsindexes.h \
+    DartsModelsContext/DMCIndexesServices/dartsindexes.h \
+    DartsModelsContext/DMCInputSLAs/dmcinputslas.h \
+    DartsModelsContext/DMCInputSLAs/igetdartsinputfromdb.h \
+    DartsModelsContext/DMCTournamentSLAs/dartstournamentslas.h \
+    DartsController/DCInputSLAs/IDCInputKeyCodes.h \
     DartsController/DCInputSLAs/idccreateinputmodels.h \
     DartsController/DCInputSLAs/idcinputjsonkeys.h \
+    DartsController/DCInputServices/DCInputKeyCodes.h \
     DartsController/DCScoresSLAs/idccreatecandidatemodels.h \
     DartsController/DCScoresSLAs/idcgetscore.h \
     DartsController/DCInputSLAs/dcinputsservices.h \
@@ -102,15 +104,14 @@ HEADERS += \
     DartsController/DCMetaSLAs/idcmetastatus.h \
     DartsController/DCMetaSLAs/dcmetaservices.h \
     DartsController/DCMetaSLAs/idctournamentid.h \
-    DTMCServices/dartstournamentmodelsservices.h \
-    IConnect.h \
-    abstractdartsmodelscontext.h \
-    abstractdartstournament.h \
+    ModelsContext/MCDbSLAs/iremovemodelfromdb.h \
+    DartsModelsContext/abstractdartsmodelscontext.h \
+    DartsModelsContext/DMCTournamentSLAs/abstractdartstournament.h \
     abstractdcbuilder.h \
     abstractroutebydisplayhint.h \
     abstractroutebygamemode.h \
-    adddetailstotournamentjson.h \
-    addplayerdetailstotournament.h \
+    DartsModelsContext/DMCTournamentServices/adddetailstotournamentjson.h \
+    DartsModelsContext/DMCTournamentServices/addplayerdetailstotournament.h \
     DartsController/DCJsonServices/addplayernamestodartsinputsasjson.h \
     DartsController/DCJsonServices/addtotalscoretodartsinputsasjson.h \
     applicationbuilder.h \
@@ -121,7 +122,7 @@ HEADERS += \
     connectservicesprovider.h \
     createDCMetaInfo.h \
     createdartscontroller.h \
-    createdartstournamentfromjson.h \
+    DartsModelsContext/DMCTournamentServices/createdartstournamentfromjson.h \
     comparedartspointmodels.h \
     connectroutebydisplayhint.h \
     connectroutebygamemode.h \
@@ -131,44 +132,34 @@ HEADERS += \
     DartsController/DCPlayerServices/createjsonfromdcplayer.h \
     createjsonfromdp.h \
     createjsonfromplayermodels.h \
-    createjsonfromplayers.h \
+    PlayerModelsContext/Services/createjsonfromplayers.h \
     createjsonfromtournamentdetails.h \
-    createplayerfromjson.h \
-    createplayermodels.h \
+    PlayerModelsContext/Services/createplayerfromjson.h \
+    PlayerModelsContext/Services/createplayermodels.h \
     createplayersfromjson.h \
     createqmlvariants.h \
     dartapplicationservices.h \
-    dartsboundaries.h \
+    DartsController/DCFinishesServices/dartsboundaries.h \
     dartsconstructservices.h \
     DartsController/Controller/dartscontroller.h \
     dartscontrollerpointmodelsservice.h \
     DartsController/DCFinishesServices/dartscreatefinishes.h \
-    dartscreateindexes.h \
-    dartscreateinputmodel.h \
-    dartscreatejsonfromdartspoint.h \
-    dartscreatejsonmetadata.h \
-    dartscreateterminaldivisor.h \
+    DartsModelsContext/DMCTournamentServices/dartscreatejsonmetadata.h \
     dartscreateterminalthreshold.h \
     dartsdatacontextitemutility.h \
     dartsdatamodelpoint.h \
     dartsdbcreatejsonfrominputs.h \
     dartsdbcreatejsonfrominputs.h \
     dartsdefaultattempts.h \
-    dartsdivisors.h \
-    dartsfieldvalues.h \
-    dartsinput.h \
-    dartsinputindexestojson.h \
-    dartsinputjsondb.h \
-    dartsinputservices.h \
+    DartsController/DCFinishesServices/dartsdivisors.h \
+    DartsController/DCFinishesServices/dartsfieldvalues.h \
+    DartsModelsContext/DMCInputServices/dartsinput.h \
     dartsinputsjsondb.h \
     DartsModelsContext/dartsmodelscontext.h \
     dartsmodidentifiers.h \
     dartspmccolumnindexbuilder.h \
     dartspmcdatacontext.h \
     dartspmcsectionutility.h \
-    dartspointindexes.h \
-    dartspointsethint.h \
-    dartspointsjsonservice.h \
     dartspscIndexBuilder.h \
     dartsroundindexbyattempt.h \
     dartstablecellcontext.h \
@@ -182,11 +173,9 @@ HEADERS += \
     dartstableservices.h \
     DartsController/DCFinishesServices/dartsterminaldivisor.h \
     DartsController/DCFinishesServices/dartsthreshold.h \
-    dartstournamentextractor.h \
-    dartstournamentjsonbuilder.h \
-    dartstournamentjsonservices.h \
+    DartsModelsContext/DMCTournamentServices/dartstournamentextractor.h \
+    DartsModelsContext/DMCTournamentServices/dartstournamentjsonbuilder.h \
     dartstournamentsjsondb.h \
-    dartsutilityservices.h \
     DartsController/DCScoresServices/dcaddscore.h \
     DartsController/DCFinishesServices/dccreatefinishes.h \
     dccreatecandidatemodels.h \
@@ -205,11 +194,11 @@ HEADERS += \
     DartsController/DCMetaServices/dcinitialscore.h \
     DartsController/DCFinishesServices/dcinputfinishes.h \
     DartsController/DCInputServices/dcinputmodel.h \
-    dcjsonresponsebuilder.h \
+    DartsController/DCJsonServices/dcjsonresponsebuilder.h \
     DartsController/DCJsonSLAs/dcjsonservices.h \
     DartsController/DCFinishesServices/dclogisticdb.h \
     dcmeta.h \
-    dcplayer.h \
+    DartsController/DCPlayerServices/dcplayer.h \
     DartsController/DCPlayerServices/dcplayerbuilder.h \
     DartsController/DCPlayerServices/dcplayerkeys.h \
     DartsController/DCPlayerServices/dcplayerservice.h \
@@ -232,34 +221,42 @@ HEADERS += \
     DartsController/DPCServices/dpcinputstojson.h \
     DartsController/DPCServices/dpcinputvalidator.h \
     DartsController/DPController/dpcontroller.h \
+    DartsModelsContext/DMCInputServices/dmcinputstojson.h \
+    DartsModelsContext/DMCInputServices/dmccountinputs.h \
+    DartsModelsContext/DMCInputServices/dmccreateinput.h \
+    DartsModelsContext/DMCInputServices/dmcgetinputfromdb.h \
+    DartsModelsContext/DMCInputServices/dmcgetinputmodels.h \
+    DartsModelsContext/DMCInputServices/dmcinputjsondb.h \
+    DartsModelsContext/DMCInputServices/dmcinputtojson.h \
+    DartsModelsContext/DMCInputServices/dmcremoveinputsfromdb.h \
+    DartsModelsContext/DMCInputServices/dmcsetinputhint.h \
+    DartsModelsContext/DMCInputServices/dmcsortinputs.h \
+    DartsModelsContext/DMCIndexesServices/dmccreateindexes.h \
+    DartsModelsContext/DMCIndexesServices/dmcindexestojson.h \
+    DartsModelsContext/DMCUtilsSLAs/dmcutilsslas.h \
     dpmctablemodel.h \
-    dpscoresservices.h \
     dpsctablemodel.h \
     DartsController/DSCServices/dsccreateinputmodel.h \
     DartsController/DSCServices/dscindexcontroller.h \
     DartsController/DSCServices/dscindexestojson.h \
-    DartsController/DSCServices/dscinputsuggestion.h \
     DartsController/DSCServices/dscinputtojson.h \
     DartsController/DSCServices/dscinputvalidator.h \
-    dscontroller.h \
+    DartsController/DartsScoreController/dscontroller.h \
     DartsController/DSCServices/dscvaluesbuilder.h \
     dssctablemodel.h \
-    extractwinnerinfofromjson.h \
+    DartsModelsContext/DMCTournamentServices/extractwinnerinfofromjson.h \
     genericjsonbuilder.h \
-    getdartspointfromdb.h \
-    getdartstournamentfromdb.h \
-    getinputmodelsservice.h \
-    getplayersfromdb.h \
+    DartsModelsContext/DMCTournamentServices/getdartstournamentfromdb.h \
+    PlayerModelsContext/Services/getplayersfromdb.h \
     DartsController/DPCServices/getscorefromdpcinput.h \
     DartsController/DSCServices/getscorefromdscinput.h \
-    gettournamentwinner.h \
+    DartsModelsContext/DMCTournamentServices/gettournamentwinner.h \
     greatestheight.h \
     greatestwidth.h \
-    DartsTournamentJsonServices/iadddetailstotournamentjson.h \
+    DartsModelsContext/DMCTournamentSLAs/iadddetailstotournamentjson.h \
     iaddplayerdetailstomodel.h \
-    DTMCServices/iaddplayerdetailstotournament.h \
+    DartsModelsContext/DMCTournamentServices/addplayerdetailstotournament.h \
     DartsController/DCJsonSLAs/iaddplayernamestojson.h \
-    iaddtomodel.h \
     DartsController/DCJsonSLAs/iaddtotalscoretodartsinputsjson.h \
     icomparison.h \
     iconnectcontroller.h \
@@ -270,7 +267,7 @@ HEADERS += \
     iconnectroutebygamemode.h \
     iconnectroutetoapplication.h \
     iconnectservicesprovider.h \
-    icountinputmodels.h \
+    DartsModelsContext/DMCInputSLAs/icountinputmodels.h \
     icreatedartstournamentsfromjson.h \
     icreatedcmetainfo.h \
     DartsController/DCTurnValuesSLAs/icreatedcturnvalues.h \
@@ -279,47 +276,43 @@ HEADERS += \
     DartsController/DCPlayerSLAs/icreatejsonfromdcplayer.h \
     icreatejsonfrommodels.h \
     icreatejsonfromplayermodels.h \
-    icreatejsonfromplayers.h \
-    DartsTournamentJsonServices/icreatejsonfromtournamentdetails.h \
+    PlayerModelsContext/SLAs/icreatejsonfromplayers.h \
+    DartsModelsContext/DMCTournamentSLAs/icreatejsonfromtournamentdetails.h \
     icreatemodel.h \
     icreatemodelsfromjson.h \
-    icreateplayerfromjson.h \
-    icreateplayermodels.h \
+    PlayerModelsContext/SLAs/icreateplayerfromjson.h \
+    PlayerModelsContext/SLAs/icreateplayermodels.h \
     icreateplayersfromjson.h \
-    DartsTournamentJsonServices/icreatetournamentwinnerjson.h \
     idartsattemptsservice.h \
-    idartsboundaries.h \
+    DartsController/DCFinishesSLAs/idartsboundaries.h \
     idartscontrollerjsonservice.h \
     idartscontrollermodelsservice.h \
     DartsController/DCFinishesSLAs/idartscreatefinishes.h \
-    idartscreateindexes.h \
-    idartscreateinput.h \
-    idartscreatejsonfrommodel.h \
-    DartsTournamentJsonServices/idartscreatejsonmetadata.h \
+    DartsModelsContext/DMCIndexesSLAs/idartscreateindexes.h \
+    DartsModelsContext/DMCInputSLAs/idartscreateinput.h \
+    DartsModelsContext/DMCInputSLAs/idartscreatejsonfrommodel.h \
+    DartsModelsContext/DMCTournamentSLAs/idartscreatejsonmetadata.h \
     idartscreateterminalthreshold.h \
-    idartsdivisorvalues.h \
-    idartsfieldvalues.h \
+    DartsController/DCFinishesSLAs/idartsdivisorvalues.h \
+    DartsController/DCFinishesSLAs/idartsfieldvalues.h \
     DartsController/DCFinishesSLAs/idartsfinishesdb.h \
-    idartsindexestojson.h \
+    DartsModelsContext/DMCIndexesSLAs/idartsindexestojson.h \
     DartsController/DCFinishesSLAs/idartsinputfinishes.h \
-    DartsController/DCInputSLAs/idartsinputmodelstojson.h \
-    DartsController/DCInputSLAs/idartsinputsethint.h \
+    DartsModelsContext//DMCInputSLAs/idartsinputmodelstojson.h \
+    DartsModelsContext/DMCInputSLAs/idartsinputsethint.h \
     DartsController/DCInputSLAs/idartsinputstojson.h \
     DartsController/DCInputSLAs/idartsinputvalidator.h \
     DartsController/DCFinishesSLAs/idartsmodidentifiers.h \
     idartsplayermodelbuilderservice.h \
-    idartspointindexes.h \
     idartstabledatacontext.h \
     idartstablesectionutility.h \
     DartsController/DCFinishesSLAs/idartsterminaldivisor.h \
     DartsController/DCFinishesSLAs/idartsthresholdvalues.h \
-    DartsTournamentJsonServices/idartstournamentextractor.h \
-    DartsTournamentJsonServices/idartstournamentjsonbuilder.h \
-    idartstournamentsdb.h \
+    DartsModelsContext/DMCTournamentSLAs/idartstournamentextractor.h \
+    DartsModelsContext/DMCTournamentSLAs/idartstournamentjsonbuilder.h \
     idatamodelpoint.h \
     idatamodeltablecellsizes.h \
     idbcontext.h \
-    idbgetindexesutility.h \
     DartsController/DCScoresSLAs/idcaddscore.h \
     DartsController/DCInputSLAs/idccreateinputmodel.h \
     DartsController/DCJsonSLAs/idccreatejsonresponse.h \
@@ -352,39 +345,30 @@ HEADERS += \
     DartsController/DCIndexSLAs/idcundoindex.h \
     DartsController/DCScoresSLAs/idcupdatescoremodels.h \
     DartsController/DCMetaSLAs/idcwinnerservice.h \
-    DartsTournamentJsonServices/iextractwinnerinfo.h \
+    DartsModelsContext/DMCTournamentSLAs/iextractwinnerinfo.h \
     ifilereader.h \
     ifilewriter.h \
-    igetdartspointfromdb.h \
-    DTMCServices/igetdartstournamentfromdb.h \
+    DartsModelsContext/DMCTournamentSLAs/igetdartstournamentfromdb.h \
     igetdatafromdatacontext.h \
-    igetinputmodelsservice.h \
+    DartsModelsContext/DMCInputSLAs/igetinputmodelsservice.h \
     igetmodelsfromdb.h \
-    igetplayerfromdb.h \
+    PlayerModelsContext/SLAs/igetplayerfromdb.h \
     igetpointinputfromdb.h \
     igetscoreinputfromdb.h \
     igettournamentfromdb.h \
-    DTMCServices/igettournamentwinner.h \
+    DartsModelsContext/DMCTournamentSLAs/igettournamentwinner.h \
     iheaderlabels.h \
-    ijson.h \
-    ijsonbuilder.h \
-    ijsonextractor.h \
-    DartsTournamentJsonServices/ijsontodartstournamentmodel.h \
+    DartsModelsContext/DMCTournamentSLAs/ijsontodartstournamentmodel.h \
     DartsController/DCJsonSLAs/ijsonvaluesextractor.h \
-    imergejson.h \
-    ModelsContext/imodelsdbcontext.h \
-    inputmodelscountservice.h \
-    inputmodelssortservice.h \
-    iplayermodelscontext.h \
+    ModelsContext/MCDbSLAs/imodelsdbcontext.h \
+    PlayerModelsContext/SLAs/iplayermodelscontext.h \
     ipredicate.h \
     iqmldatabuilder.h \
-    DartsController/DCInputSLAs/iremovedartsinputsfromdb.h \
-    DartsModelsContext/iremovefromdb.h \
-    ModelsContext/iremovemodelsfromdb.h \
+    DartsModelsContext/DMCInputSLAs/iremovedartsinputsfromdb.h \
+    ModelsContext/MCDbSLAs/iremovemodelsfromdb.h \
     irouteservicesprovider.h \
     DartsController/DCScoresSLAs/iscoresservice.h \
-    isetmodelhint.h \
-    isortinputmodels.h \
+    DartsModelsContext/DMCInputSLAs/isortinputmodels.h \
     itablecellcontext.h \
     itablecolumnindexbuilder.h \
     itablefillcells.h \
@@ -395,44 +379,42 @@ HEADERS += \
     itournamentjsonbuilder.h \
     jsonmerger.h \
     jsonmodelsservice.h \
-    abstractdartscontroller.h \
+    DartsController/ControllerSLA/abstractdartscontroller.h \
     AbstractApplicationInterface.h \
     abstractcricketcontroller.h \
     abstractgamecontroller.h \
     abstractpersistence.h \
     dartapplication.h \
     dartstournamentmodel.h \
-    idartsinput.h \
+    DartsModelsContext/DMCInputSLAs/idartsinput.h \
     idatacontext.h \
-    ModelsContext/imodel.h \
-    iplayerinput.h \
-    iplayermodel.h \
+    ModelsContext/MCModelsSLAs/imodel.h \
+    DartsModelsContext/DMCInputSLAs/iplayerinput.h \
+    PlayerModelsContext/SLAs/iplayermodel.h \
     iresponseinterface.h \
-    itournament.h \
-    itournamentbuilder.h \
+    DartTournamentsContext/DTCModelsSLAs/itournament.h \
     itournamentparameter.h \
     iurlparser.h \
-    jsonplayersdbcontext.h \
+    PlayerModelsContext/DbServices/jsonplayersdbcontext.h \
     jsonvaluesextractor.h \
     linkedlist.h \
     localdartapplication.h \
-    localplayerscontext.h \
-    localplayersdbcontext.h \
+    PlayerModelsContext/localplayerscontext.h \
+    PlayerModelsContext/DbServices/localplayersdbcontext.h \
     mhtablecolumnwidth.h \
     mhtablerowheight.h \
     mhtablesectionmetrics.h \
     modelsdbioservices.h \
-    modelsdbjsonservices.h \
+    modelsdbjsonslas.h \
     networkmanager.h \
-    playermodel.h \
-    playermodelscontext.h \
-    playermodelsservices.h \
+    PlayerModelsContext/Services/playermodel.h \
+    PlayerModelsContext/playermodelscontext.h \
+    PlayerModelsContext/SLAs/playermodelsslas.h \
     readbytearray.h \
     registercustomtypes.h \
     registerqmldartstabletypes.h \
     registerqmlsingletons.h \
     registerqmltableutils.h \
-    removeinputsfromdb.h \
     removemodelsfromdb.h \
     replytimeout.h \
     routebydisplayhint.h \
@@ -441,8 +423,8 @@ HEADERS += \
     setupqmlcontext.h \
     sortdartspointinputsbyindexes.h \
     testconfiguration.h \
-    tournament.h \
-    tournamentsjsondb.h \
+    DartTournamentsContext/DTCModelsServices/tournament.h \
+    DartTournamentsContext/DTCDbServices/tournamentsjsondb.h \
     urlparser.h \
     testeventloop.h \
     verticalstringlabels.h \

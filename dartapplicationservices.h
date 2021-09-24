@@ -6,7 +6,7 @@
 #include <iconnectcontroller.h>
 #include "iconnectservicesprovider.h"
 #include "irouteservicesprovider.h"
-#include "iplayermodelscontext.h"
+#include "PlayerModelsContext/SLAs/iplayermodelscontext.h"
 
 class DartApplicationServices : public AbstractApplicationInterface
 {

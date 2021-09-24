@@ -2,7 +2,7 @@
 #define ICREATEJSONFROMPLAYERMODELS_H
 
 #include "itojson.h"
-#include "iplayermodel.h"
+#include "PlayerModelsContext/SLAs/iplayermodel.h"
 #include <qvector.h>
 
 class ICreateJsonFromPlayerModels : public IToJson<QVector<const IModel<QUuid>*>>
