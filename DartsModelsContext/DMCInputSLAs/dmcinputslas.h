@@ -19,7 +19,7 @@
 class DMCInputSLAs
 {
 public:
-    typedef IPredicate<IModel<QUuid>> Predicate;
+    typedef IModelPredicate<IModel<QUuid>> Predicate;
     typedef IDbContext<IPlayerInput> DbService;
     IDartsInputModelsToJson *inputsToJSon() const;
     void setInputsToJsonService(IDartsInputModelsToJson *newDartsPointsJsonService);

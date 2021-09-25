@@ -2,7 +2,7 @@
 #define DSCINPUTVALIDATOR_H
 
 #include "DartsController/DPCServices/dpcinputvalidator.h"
-#include "idcmetainfo.h"
+#include "DartsControllerBuilder/DCBMetaSLAs/idcmetainfo.h"
 
 class DSCInputValidator : public IDartsInputValidator
 {

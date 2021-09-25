@@ -2,9 +2,9 @@
 #define DARTSPOINTLESSTHANPREDICATE_H
 
 #include "DartsModelsContext/DMCInputServices/dartsinput.h"
-#include "ipredicate.h"
+#include "ModelsContext/MCPredicateSLAs/imodelpredicate.h"
 
-class SortDartsPointInputsByIndexes : public IPredicate<IModel<QUuid>>
+class SortDartsPointInputsByIndexes : public IModelPredicate<IModel<QUuid>>
 {
 public:
     bool operator ()(const IModel<QUuid> *_first, const IModel<QUuid>* _second) const override

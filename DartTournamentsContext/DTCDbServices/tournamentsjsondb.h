@@ -4,7 +4,7 @@
 #include "ModelsContext/MCDbSLAs/imodelsdbcontext.h"
 #include "DartsModelsContext/DMCTournamentSLAs/abstractdartstournament.h"
 #include "modelsdbioservices.h"
-#include "modelsdbjsonslas.h"
+#include "ModelsContext/MCJsonSLAs/modelsdbjsonslas.h"
 
 class TournamentsJsonDb :
         public IModelsDbContext,
@@ -12,6 +12,8 @@ class TournamentsJsonDb :
         public ModelsDbIOSLAs
 {
 public:
+    TournamentsJsonDb(const QString &fileName):
+        _fileName(fileName){}
     virtual void add(const IModel<QUuid> *model) override;
     virtual const IModel<QUuid> *model(const int &index) const override;
     virtual QVector<const IModel<QUuid>*> models() const override;
@@ -20,8 +22,9 @@ public:
     virtual void replace(const int &index, const IModel<QUuid> *model) override;
     virtual void fetchModels() override;
     virtual void saveState() override;
+protected:
+    const QString _fileName;
 private:
-    const QString _fileName = "DartsTournaments";
     QVector<const IModel<QUuid>*> _models;
 };
 

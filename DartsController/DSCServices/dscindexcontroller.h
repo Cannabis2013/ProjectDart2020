@@ -2,7 +2,7 @@
 #define DSCINDEXCONTROLLER_H
 
 #include "DartsController/DCIndexSLAs/idcindexservice.h"
-#include "idcmetainfo.h"
+#include "DartsControllerBuilder/DCBMetaSLAs/idcmetainfo.h"
 
 class DSCIndexController : public IDCIndexService
 {

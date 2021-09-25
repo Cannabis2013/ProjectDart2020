@@ -1,8 +1,11 @@
 #ifndef IDARTSTOURNAMENTJSONBUILDER_H
 #define IDARTSTOURNAMENTJSONBUILDER_H
 
-#include "itournamentjsonbuilder.h"
 #include "DartsModelsContext/DMCTournamentSLAs/abstractdartstournament.h"
-class IDartsTournamentJsonBuilder : public ITournamentJsonBuilder<IModel<QUuid>,QByteArray>
-{};
+class IDartsTournamentJsonBuilder
+{
+public:
+    virtual QByteArray createJson(const QVector<const IModel<QUuid> *> &tournaments) const = 0;
+    virtual QByteArray createJson(const IModel<QUuid> *tournament) const  = 0;
+};
 #endif // ICREATEJSONFROMDARTSTOURNAMENT_H

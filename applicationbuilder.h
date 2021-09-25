@@ -4,8 +4,8 @@
 #include <QQmlApplicationEngine>
 #include <qguiapplication.h>
 #include <qqmlcontext.h>
-#include "localdartapplication.h"
-#include "connectservices.h"
+#include "DartApplication/Services/localdartapplication.h"
+#include "DartApplication/ConnectServices/connectservices.h"
 
 class ApplicationBuilder
 {

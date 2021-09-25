@@ -1,7 +1,7 @@
 #ifndef DSCONTROLLER_H
 #define DSCONTROLLER_H
 #include "DartsController/Controller/dartscontroller.h"
-#include "idcmetainfo.h"
+#include "DartsControllerBuilder/DCBMetaSLAs/idcmetainfo.h"
 #include "DartsController/DCPlayerServices/createjsonfromdcplayer.h"
 #include "DartsController/DCScoresServices/dccreatescoremodels.h"
 #include "DartsController/DCIndexServices/dcindexesbuilder.h"
@@ -29,7 +29,7 @@
 #include "jsonmerger.h"
 #include "DartsController/DCScoresServices/dcscoresservice.h"
 #include "DartsController/DCScoresServices/dcupdatescoremodels.h"
-#include "dccreatecandidatemodels.h"
+#include "DartsController/DCScoresServices/dccreatecandidatemodels.h"
 #include "DartsController/DCScoresServices/dcaddscore.h"
 #include "DartsController/DCScoresServices/dcgetscorecand.h"
 #include "DartsController/DCIndexServices/dcinitializeindexservice.h"

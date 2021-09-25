@@ -1,7 +1,7 @@
 #ifndef FTPCONTROLLER_H
 #define FTPCONTROLLER_H
 
-#include "abstractgamecontroller.h"
+#include "DartControllerContext/SLAs/abstractgamecontroller.h"
 
 class AbstractDartsController : public AbstractGameController
 {

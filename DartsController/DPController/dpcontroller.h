@@ -1,6 +1,6 @@
 #ifndef DPCONTROLLER_H
 #define DPCONTROLLER_H
-#include "idcmetainfo.h"
+#include "DartsControllerBuilder/DCBMetaSLAs/idcmetainfo.h"
 #include "DartsController/DCIndexServices/dcindexesbuilder.h"
 #include "dartscontrollerpointmodelsservice.h"
 #include "DartsController/DCJsonServices/addtotalscoretodartsinputsasjson.h"
@@ -10,7 +10,7 @@
 #include "DartsController/DCFinishesServices/dcinputfinishes.h"
 #include "DartsController/DCMetaServices/determinestatusbyid.h"
 #include "DartsController/DCScoresServices/dcscoresservice.h"
-#include "dccreatecandidatemodels.h"
+#include "DartsController/DCScoresServices/dccreatecandidatemodels.h"
 #include "DartsController/DCIndexServices/dcinitializeindexservice.h"
 #include "DartsController/DCMetaServices/dcwinnerservice.h"
 #include "DartsController/Controller/dartscontroller.h"

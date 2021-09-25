@@ -4,7 +4,7 @@
 #include <quuid.h>
 #include "ModelsContext/MCDbSLAs/imodelsdbcontext.h"
 #include "PlayerModelsContext/Services/playermodel.h"
-#include "modelsdbjsonslas.h"
+#include "ModelsContext/MCJsonSLAs/modelsdbjsonslas.h"
 #include "modelsdbioservices.h"
 
 namespace PlayersContext {

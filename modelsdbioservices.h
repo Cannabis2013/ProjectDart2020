@@ -1,9 +1,8 @@
 #ifndef MODELSDBIOSERVICES_H
 #define MODELSDBIOSERVICES_H
 
-#include <ifilereader.h>
-#include <ifilewriter.h>
-
+#include "FileOperationsContext/SLAs/ifilereader.h"
+#include "FileOperationsContext/SLAs/ifilewriter.h"
 
 class ModelsDbIOSLAs
 {

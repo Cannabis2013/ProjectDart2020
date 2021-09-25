@@ -1,7 +1,7 @@
 #ifndef CREATEDARTSPOINTSFROMJSON_H
 #define CREATEDARTSPOINTSFROMJSON_H
 
-#include "icreatemodelsfromjson.h"
+#include "ModelsContext/MCJsonSLAs/icreatemodelsfromjson.h"
 #include <qjsondocument.h>
 #include <qjsonvalue.h>
 #include <qjsonvalue.h>
@@ -20,6 +20,4 @@ namespace DartsDbContext {
         QUuid toId(const QJsonObject &obj, const QString &key) const;
     };
 }
-
-
 #endif // DARTSINPUTJSONEXTRACTOR_H

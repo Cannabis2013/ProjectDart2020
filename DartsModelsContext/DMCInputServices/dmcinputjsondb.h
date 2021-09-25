@@ -2,7 +2,7 @@
 #define DMCINPUTJSONDB_H
 
 #include "ModelsContext/MCDbSLAs/imodelsdbcontext.h"
-#include "modelsdbjsonslas.h"
+#include "ModelsContext/MCJsonSLAs/modelsdbjsonslas.h"
 #include "modelsdbioservices.h"
 
 namespace DartsDbContext {

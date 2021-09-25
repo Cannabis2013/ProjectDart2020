@@ -1,7 +1,7 @@
 #ifndef DARTSDBCREATEJSONFROMINPUTS_H
 #define DARTSDBCREATEJSONFROMINPUTS_H
 
-#include "icreatejsonfrommodels.h"
+#include "ModelsContext/MCJsonSLAs/icreatejsonfrommodels.h"
 #include <quuid.h>
 #include "DartsModelsContext/DMCInputServices/dartsinput.h"
 #include <qjsondocument.h>

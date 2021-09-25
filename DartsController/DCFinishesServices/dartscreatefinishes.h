@@ -3,13 +3,13 @@
 
 #include <QMultiHash>
 #include <qvector.h>
-#include "dartsconstructservices.h"
+#include "DartsController/DCFinishesSLAs/dartsconstructslas.h"
 #include "DartsController/DCFinishesSLAs/idartsfinishesdb.h"
 #include "DartsController/DCFinishesSLAs/idartscreatefinishes.h"
 
 class DartsCreateFinishes:
         public IDartsCreateFinishes,
-        protected DartsConstructServices
+        protected DartsConstructSLAs
 {
 public:
     static DartsCreateFinishes *createInstance();

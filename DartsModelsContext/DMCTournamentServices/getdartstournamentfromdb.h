@@ -6,14 +6,14 @@
 class GetDartsTournamentFromDb : public IGetDartsTournamentFromDb
 {
 public:
-    virtual const Tournament *tournament(const Id &tournamentId, const DbService *dbService) const override
+    virtual const IModel<QUuid> *tournament(const QUuid &tournamentId, const IModelsDbContext *dbService) const override
     {
         auto models = dbService->models();
         auto model = getModelById(models,tournamentId);
         return model;
     }
 private:
-    const Tournament *getModelById(const QVector<const Tournament*> &models,const Id &tournamentId) const
+    const IModel<QUuid> *getModelById(const QVector<const IModel<QUuid>*> &models,const QUuid &tournamentId) const
     {
         for (const auto &model : models) {
             if(model->id() == tournamentId)

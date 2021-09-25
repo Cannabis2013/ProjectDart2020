@@ -2,11 +2,11 @@
 #define DCINPUTFINISHES_H
 
 #include "DartsController/DCFinishesSLAs/idartsinputfinishes.h"
-#include "idcmetainfo.h"
+#include "DartsControllerBuilder/DCBMetaSLAs/idcmetainfo.h"
 #include <qstring.h>
 #include "DartsController/DCFinishesSLAs/idartscreatefinishes.h"
 #include "DartsController/DCFinishesSLAs/idartsfinishesdb.h"
-#include "idcmetainfo.h"
+#include "DartsControllerBuilder/DCBMetaSLAs/idcmetainfo.h"
 #include "DartsController/DCFinishesSLAs/idartscreatefinishes.h"
 class DCInputFinishes : public IDartsInputFinishes
 {

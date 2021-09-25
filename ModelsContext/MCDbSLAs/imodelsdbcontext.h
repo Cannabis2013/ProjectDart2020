@@ -2,7 +2,7 @@
 #define IMODELSDBCONTEXT_H
 
 #include <qvector.h>
-#include "idbcontext.h"
+#include "ModelsContext/MCDbSLAs/idbcontext.h"
 #include "ModelsContext/MCModelsSLAs/imodel.h"
 #include <quuid.h>
 

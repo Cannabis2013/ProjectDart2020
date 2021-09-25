@@ -1,7 +1,7 @@
 #ifndef CREATEPLAYERSFROMJSON_H
 #define CREATEPLAYERSFROMJSON_H
 
-#include "icreatemodelsfromjson.h"
+#include "ModelsContext/MCJsonSLAs/icreatemodelsfromjson.h"
 #include <qjsondocument.h>
 #include <qjsonvalue.h>
 #include <qjsonarray.h>

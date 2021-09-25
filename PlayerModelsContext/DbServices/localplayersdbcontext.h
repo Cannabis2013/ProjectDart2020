@@ -2,10 +2,10 @@
 #define LOCALPLAYERSDBCONTEXT_H
 
 #include "jsonplayersdbcontext.h"
-#include "createjsonfromplayermodels.h"
+#include "PlayerModelsContext/SLAs/createjsonfromplayermodels.h"
 #include "createplayersfromjson.h"
-#include "writebytearray.h"
-#include "readbytearray.h"
+#include "FileOperationsContext/Services/writebytearray.h"
+#include "FileOperationsContext/Services/readbytearray.h"
 
 class LocalPlayersDbContext : public PlayersContext::JsonPlayersDbContext
 {

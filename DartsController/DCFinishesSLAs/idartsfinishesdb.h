@@ -2,7 +2,7 @@
 #define IDARTSFINISHESDB_H
 
 #include <QMultiHash>
-#include "idbcontext.h"
+#include "ModelsContext/MCDbSLAs/idbcontext.h"
 class IDartsFinishesDb : public IDbContext<QMultiHash<int,QString>>
 {
 public:

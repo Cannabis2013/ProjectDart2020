@@ -9,19 +9,19 @@
 class DartsTournamentJsonBuilder : public IDartsTournamentJsonBuilder
 {
 public:
-    virtual Json createJson(const QVector<const Tournament *> &tournaments) const override
+    virtual QByteArray createJson(const QVector<const IModel<QUuid> *> &tournaments) const override
     {
         QJsonArray arr;
         for (const auto &tournament : tournaments)
             arr << createJsonobject(tournament);
         return createJsonByteArray(arr);
     }
-    virtual Json createJson(const Tournament *tournament) const override
+    virtual QByteArray createJson(const IModel<QUuid> *tournament) const override
     {
         return createJsonByteArray(createJsonobject(tournament));
     }
 private:
-    QJsonObject createJsonobject(const Tournament *tournament) const
+    QJsonObject createJsonobject(const IModel<QUuid> *tournament) const
     {
         QJsonObject obj;
         auto dartsTournament = dynamic_cast<const AbstractDartsTournament*>(tournament);
@@ -64,6 +64,4 @@ private:
         return arr;
     }
 };
-
-
 #endif // CREATEJSONFROMDARTSTOURNAMENTMODELS_H
