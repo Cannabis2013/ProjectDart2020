@@ -13,7 +13,7 @@ public:
         auto newScore = subtractScore(tuple.totalScore,model->score());
         return toTuple(tuple,newScore);
     }
-    virtual QVector<DCContext::DCScoreModel> getTupleCandidates(const QVector<DCContext::IDCInputModel *> &models, IDCScoresService *scoresService) override
+    virtual QVector<DCContext::DCScoreModel> getScoreCandidates(const QVector<DCContext::IDCInputModel *> &models, IDCScoresService *scoresService) override
     {
         auto scoreModels = scoresService->scoreModels();
         for (auto &model : scoreModels)

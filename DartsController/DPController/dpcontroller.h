@@ -21,7 +21,6 @@
 #include "DartsController/DCScoresServices/dcupdatescoremodels.h"
 #include "DartsController/DCTurnValuesServices/dcturnvaluestojson.h"
 #include "DartsController/DCScoresServices/dcgetscorecand.h"
-#include "DartsController/DCJsonServices/dcjsonresponsebuilder.h"
 #include "DartsController/DCIndexServices/dcindexiterator.h"
 #include "DartsController/DCIndexServices/dcindexredo.h"
 #include "DartsController/DCPlayerServices/dcwinnerkeys.h"
@@ -52,6 +51,9 @@
 #include "DartsController/DPCServices/dpcindexestojson.h"
 #include "DartsController/DCInputServices/dcinputjsonkeys.h"
 #include "DartsController/DCInputServices/DCInputKeyCodes.h"
+#include "DartsController/DCJsonServices/dccreatebytearray.h"
+#include "DartsController/DCJsonServices/dccreateemptyjsonobject.h"
+#include "DartsController/DCJsonServices/dcresponsejsonkeys.h"
 
 class DPController : public DartsController
 {
@@ -79,9 +81,11 @@ public:
         // Json services
         setInputsToJsonService(new DPCInputsToJson);
         setTurnValuesToJsonService(new DCTurnValuesToJson);
-        setResponseBuilderService(new DCJsonResponseBuilder);
         setIndexesToJsonService(new DPCIndexesToJson);
-        // Score tuple services
+        setCreateByteArray(new DCCreateByteArray);
+        setCreateEmptyJsonObject(new DCCreateEmptyJsonObject);
+        setResponseKeys(new DCResponseJsonKeys);
+        // Scoremodels services
         setResetScoreModels(new DCResetScoreModels);
         setCreateScoreModelsService(new DCCreateScoreModels);
         setUpdateScoreModels(new DCUpdateScoreModels);

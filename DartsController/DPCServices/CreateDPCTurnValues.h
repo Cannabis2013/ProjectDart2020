@@ -11,7 +11,7 @@
 class CreateDPCTurnValues : public ICreateDCTurnValues
 {
 public:
-    const DCContext::DCTurnValues* createTurnValues(const IDCIndexService *indexService,
+    const DCContext::DCTurnValues* turnValues(const IDCIndexService *indexService,
                                                     IDCScoresService* scoresService,
                                                     const IDartsInputFinishes* logisticService = nullptr) const override
     {

@@ -8,9 +8,9 @@
 class DCTurnValuesToJson : public IDCTurnValuesToJson
 {
 public:
-    virtual QByteArray create(const DCContext::DCTurnValues *turnValues) const override
+    virtual QJsonObject create(const DCContext::DCTurnValues *turnValues) const override
     {
-        return toByteArray(toObject(turnValues));
+        return toObject(turnValues);
     }
 private:
     QJsonObject toObject(const DCContext::DCTurnValues *turnValues) const
@@ -24,11 +24,6 @@ private:
         obj["targetRow"] = turnValues->getTargetRow();
         obj["currentPlayerName"] = turnValues->getCurrentPlayerName();
         return obj;
-    }
-    QByteArray toByteArray(const QJsonObject &obj) const
-    {
-        auto document = QJsonDocument(obj);
-        return document.toJson();
     }
 };
 #endif // DCTURNVALUESTOJSON_H

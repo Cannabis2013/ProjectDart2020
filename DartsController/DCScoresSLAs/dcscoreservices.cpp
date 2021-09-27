@@ -10,7 +10,7 @@ void DCScoreServices::setScoresService(IDCScoresService *newScoresService)
     _scoresService = newScoresService;
 }
 
-IDCCreateCandidateModels *DCScoreServices::createCandidatesTuple() const
+IDCCreateCandidateModels *DCScoreServices::createCandidatesScore() const
 {
     return _createCandidateTuples;
 }
@@ -40,7 +40,7 @@ void DCScoreServices::setGetTotalScoreService(IDCGetScoreCand *newCandidateServi
     _calculateCandidateScore = newCandidateService;
 }
 
-IDCCreateScoreTuples *DCScoreServices::createScoreTuples() const
+IDCCreateScoreTuples *DCScoreServices::createScores() const
 {
     return _createScoreTuples;
 }

@@ -16,13 +16,13 @@ class DCScoreServices
 public:
     IDCScoresService *scoresService() const;
     void setScoresService(IDCScoresService *newScoresService);
-    IDCCreateCandidateModels *createCandidatesTuple() const;
+    IDCCreateCandidateModels *createCandidatesScore() const;
     void setCreateCandidateTuples(IDCCreateCandidateModels *newSubtractService);
     IDCAddScore *addScoreService() const;
     void setAddScoreService(IDCAddScore *newAddScoreService);
     IDCGetScoreCand *getTotalScore() const;
     void setGetTotalScoreService(IDCGetScoreCand *newCandidateService);
-    IDCCreateScoreTuples *createScoreTuples() const;
+    IDCCreateScoreTuples *createScores() const;
     void setCreateScoreModelsService(IDCCreateScoreTuples *newCreateScoreTuples);
     IDCGetScore *getScoreFromInput() const;
     void setGetScoreFromInput(IDCGetScore *newCalculateScore);

@@ -9,7 +9,7 @@
 class ICreateDCTurnValues
 {
 public:
-    virtual const  DCContext::DCTurnValues *createTurnValues(const IDCIndexService *indexService,
+    virtual const  DCContext::DCTurnValues *turnValues(const IDCIndexService *indexService,
                                                              IDCScoresService *scoresService,
                                                              const IDartsInputFinishes *logisticService = nullptr) const = 0;
 };

@@ -4,9 +4,11 @@
 #include "DartsController/DCJsonSLAs/iaddtotalscoretodartsinputsjson.h"
 #include "DartsController/DCJsonSLAs/iaddplayernamestojson.h"
 #include "DartsController/DCPlayerSLAs/icreatejsonfromdcplayer.h"
-#include "DartsController/DCJsonSLAs/idccreatejsonresponse.h"
 #include "DartsController/DCIndexSLAs/idcindexestojson.h"
 #include "DartsController/DCJsonSLAs/ijsonvaluesextractor.h"
+#include "icreatejsonobject.h"
+#include "idccreatebytearray.h"
+#include "idcresponsejsonkeys.h"
 class IAddPlayerNamesToJson;
 class DCJsonServices
 {
@@ -18,14 +20,6 @@ public:
     void setAddPlayerNamesToJson(IAddPlayerNamesToJson *newAddPlayerNamesToJson)
     {
         _addPlayerNamesToJson = newAddPlayerNamesToJson;
-    }
-    IDCJsonResponseBuilder *responseBuilder() const
-    {
-        return _responseBuilder;
-    }
-    void setResponseBuilderService(IDCJsonResponseBuilder *newResponseBuilder)
-    {
-        _responseBuilder = newResponseBuilder;
     }
     IJsonValuesExtractor *jsonExtractor() const
     {
@@ -43,10 +37,36 @@ public:
     {
         _addTotalScoresToJson = newAddTotalScoresToJson;
     }
+    IDCCreateByteArray *createByteArray() const
+    {
+        return _createByteArray;
+    }
+    void setCreateByteArray(IDCCreateByteArray *newCreateByteArray)
+    {
+        _createByteArray = newCreateByteArray;
+    }
+    ICreateJsonObject *createEmptyJsonObject() const
+    {
+        return _createEmptyJsonObject;
+    }
+    void setCreateEmptyJsonObject(ICreateJsonObject *service)
+    {
+        _createEmptyJsonObject = service;
+    }
+    IDCResponseJsonKeys *responseKeys() const
+    {
+        return _responseKeys;
+    }
+    void setResponseKeys(IDCResponseJsonKeys *newResponseKeys)
+    {
+        _responseKeys = newResponseKeys;
+    }
 private:
     IAddPlayerNamesToJson *_addPlayerNamesToJson;
     IAddTotalScoreToDartsInputsJson *_addTotalScoresToJson;
     IJsonValuesExtractor *_jsonExtractor;
-    IDCJsonResponseBuilder *_responseBuilder;
+    IDCCreateByteArray *_createByteArray;
+    ICreateJsonObject *_createEmptyJsonObject;
+    IDCResponseJsonKeys *_responseKeys;
 };
 #endif // DSJSONSERVICES_H

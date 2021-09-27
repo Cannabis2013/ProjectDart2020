@@ -9,7 +9,7 @@ class IDCCreateCandidateModels
 {
 public:
     virtual DCContext::DCScoreModel getCandidate(const DCContext::IDCInputModel *model, IDCScoresService *scoresService) = 0;
-    virtual QVector<DCContext::DCScoreModel> getTupleCandidates(const QVector<DCContext::IDCInputModel*> &models, IDCScoresService *scoresService) = 0;
+    virtual QVector<DCContext::DCScoreModel> getScoreCandidates(const QVector<DCContext::IDCInputModel*> &models, IDCScoresService *scoresService) = 0;
 };
 
 #endif // IDARTSSUBTRACTSCORES_H

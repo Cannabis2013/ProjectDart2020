@@ -10,7 +10,7 @@
 class DCTurnvaluesServices
 {
 public:
-    ICreateDCTurnValues *turnValuesBuilder() const
+    ICreateDCTurnValues *createTurnValues() const
     {
         return _turnValuesBuilder;
     }

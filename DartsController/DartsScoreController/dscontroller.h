@@ -35,7 +35,6 @@
 #include "DartsController/DCIndexServices/dcinitializeindexservice.h"
 #include "DartsController/DSCServices/getscorefromdscinput.h"
 #include "DartsController/DSCServices/dscindexestojson.h"
-#include "DartsController/DCJsonServices/dcjsonresponsebuilder.h"
 #include "DartsController/DCIndexServices/dcindexiterator.h"
 #include "DartsController/DCPlayerServices/dcgetwinnermodelfromjson.h"
 #include "DartsController/DCScoresServices/dcresetscoremodels.h"
@@ -50,6 +49,9 @@
 #include "DartsController/DCInputServices/dccreateinputmodels.h"
 #include "DartsController/DCInputServices/dcinputjsonkeys.h"
 #include <DartsController/DCInputServices/DCInputKeyCodes.h>
+#include <DartsController/DCJsonServices/dccreatebytearray.h>
+#include <DartsController/DCJsonServices/dccreateemptyjsonobject.h>
+#include "DartsController/DCJsonServices/dcresponsejsonkeys.h"
 class DSController : public DartsController
 {
 public:
@@ -67,8 +69,6 @@ public:
         setAddScoreService(new DCAddScore);
         setGetTotalScoreService(new DCGetScoreCand);
         setCreateScoreModelsService(new DCCreateScoreModels);
-        setTurnValuesToJsonService(new DCTurnValuesToJson);
-        setResponseBuilderService(new DCJsonResponseBuilder);
         setSuggestFinishes(DCInputFinishes::createInstance(DCCreateFinishes::createInstance(), DCLogisticDb::createInstance()));
         // Meta services
         setMetaStatus(new DCMetaStatus);
@@ -78,7 +78,11 @@ public:
         setTournamentId(DCTournamentId::createInstance(meta->tournamentId()));
         setInitialScore(DCInitialScore::createInstance(meta->keyPoint()));
         // Json services
+        setTurnValuesToJsonService(new DCTurnValuesToJson);
         setJsonExtractor(new JsonValuesExtractor);
+        setCreateByteArray(new DCCreateByteArray);
+        setCreateEmptyJsonObject(new DCCreateEmptyJsonObject);
+        setResponseKeys(new DCResponseJsonKeys);
         // Input services
         setInputsToJsonService(new DSCInputToJson);
         setGetScoreFromInput(new GetScoreFromDSCInput);

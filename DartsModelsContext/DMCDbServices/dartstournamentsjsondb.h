@@ -10,7 +10,7 @@ class DartsTournamentsJsonDb : public TournamentsJsonDb
 {
 public:
     DartsTournamentsJsonDb():
-        TournamentsJsonDb("DartsTournaments")
+        TournamentsJsonDb("DartsTournamentModels")
     {
         setServices();
         fetchModels();

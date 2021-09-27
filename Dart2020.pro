@@ -75,6 +75,12 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     DartApplication/ConnectBuilderServices/ConnectDCBuilder.h \
+    DartsController/DCJsonSLAs/icreatejsonobject.h \
+    DartsController/DCJsonSLAs/idccreatebytearray.h \
+    DartsController/DCJsonSLAs/idcresponsejsonkeys.h \
+    DartsController/DCJsonServices/dccreatebytearray.h \
+    DartsController/DCJsonServices/dccreateemptyjsonobject.h \
+    DartsController/DCJsonServices/dcresponsejsonkeys.h \
     DartsModelsContext/DMCIndexesSLAs/dartsindexesslas.h \
     DartsModelsContext/DMCIndexesSLAs/idartsindexes.h \
     DartsModelsContext/DMCIndexesServices/dartsindexes.h \
@@ -193,7 +199,6 @@ HEADERS += \
     DartsController/DCMetaServices/dcinitialscore.h \
     DartsController/DCFinishesServices/dcinputfinishes.h \
     DartsController/DCInputServices/dcinputmodel.h \
-    DartsController/DCJsonServices/dcjsonresponsebuilder.h \
     DartsController/DCJsonSLAs/dcjsonservices.h \
     DartsController/DCFinishesServices/dclogisticdb.h \
     DartsControllerBuilder/DCBMetaServices/dcmeta.h \
@@ -308,7 +313,6 @@ HEADERS += \
     ModelsContext/MCDbSLAs/idbcontext.h \
     DartsController/DCScoresSLAs/idcaddscore.h \
     DartsController/DCInputSLAs/idccreateinputmodel.h \
-    DartsController/DCJsonSLAs/idccreatejsonresponse.h \
     DartsController/DCPlayerSLAs/idccreateplayersfromjson.h \
     DartsController/DCScoresSLAs/idccreatescoretuples.h \
     DartsController/DCPlayerSLAs/idcgetplayername.h \

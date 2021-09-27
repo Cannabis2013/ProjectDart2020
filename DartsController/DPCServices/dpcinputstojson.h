@@ -8,43 +8,33 @@
 class DPCInputsToJson : public IDCInputsToJson
 {
 public:
-    QByteArray createJson(DCContext::IDCInputModel* model) const override
+    QJsonObject createJson(DCContext::IDCInputModel* model, const IDCInputJsonKeys *inputKeys) const override
     {
-        return toByteArray(toObject(model));
+        return toObject(model,inputKeys);
     }
-    QByteArray createJson(const QVector<DCContext::IDCInputModel*>& inputModels) const override
+    QJsonArray createJson(const QVector<DCContext::IDCInputModel*>& inputModels, const IDCInputJsonKeys *inputKeys) const override
     {
-        return toByteArray(toArray(inputModels));
+        return toArray(inputModels,inputKeys);
     }
 private:
-    QJsonArray toArray(const QVector<DCContext::IDCInputModel*> &inputModels) const
+    QJsonArray toArray(const QVector<DCContext::IDCInputModel*> &inputModels, const IDCInputJsonKeys *inputKeys) const
     {
         QJsonArray arr;
         for (const auto& inputModel : inputModels)
-            arr << toObject(inputModel);
+            arr << toObject(inputModel,inputKeys);
         return arr;
     }
-    QJsonObject toObject(const DCContext::IDCInputModel *model) const
+    QJsonObject toObject(const DCContext::IDCInputModel *model, const IDCInputJsonKeys *inputKeys) const
     {
         QJsonObject obj;
-        obj["tournamentId"] = model->tournamentId().toString(QUuid::WithoutBraces);
-        obj["point"] = model->point();
-        obj["modKeyCode"] = model->modKeyCode();
-        obj["score"] = model->score();
-        obj["playerId"] = model->playerId().toString(QUuid::WithoutBraces);
-        obj["playerName"] = model->playerName();
-        obj["totalScore"] = model->totalScore();
+        obj[inputKeys->tournamentId()] = model->tournamentId().toString(QUuid::WithoutBraces);
+        obj[inputKeys->point()] = model->point();
+        obj[inputKeys->modKeyCode()] = model->modKeyCode();
+        obj[inputKeys->score()] = model->score();
+        obj[inputKeys->playerId()] = model->playerId().toString(QUuid::WithoutBraces);
+        obj[inputKeys->playerName()] = model->playerName();
+        obj[inputKeys->totalScore()] = model->totalScore();
         return obj;
-    }
-    QByteArray toByteArray(const QJsonObject &obj) const
-    {
-        auto document = QJsonDocument(obj);
-        return document.toJson();
-    }
-    QByteArray toByteArray(const QJsonArray &arr) const
-    {
-        auto document = QJsonDocument(arr);
-        return document.toJson();
     }
 };
 

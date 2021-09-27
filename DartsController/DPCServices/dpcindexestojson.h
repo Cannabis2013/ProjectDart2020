@@ -6,9 +6,9 @@
 class DPCIndexesToJson : public IDCIndexesToJson
 {
 public:
-    virtual QByteArray toJson(const DCContext::IDCIndexes *indexes) const override
+    virtual QJsonObject toJson(const DCContext::IDCIndexes *indexes) const override
     {
-        return toByteArray(toJsonobject(indexes));
+        return toJsonobject(indexes);
     }
 private:
     QJsonObject toJsonobject(const DCContext::IDCIndexes *indexes) const
@@ -20,10 +20,6 @@ private:
         obj["setIndex"] = indexes->setIndex();
         obj["attemptIndex"] = indexes->attemptIndex();
         return obj;
-    }
-    QByteArray toByteArray(const QJsonObject &obj) const
-    {
-        return QJsonDocument(obj).toJson();
     }
 };
 #endif // DPCINDEXESTOJSON_H
