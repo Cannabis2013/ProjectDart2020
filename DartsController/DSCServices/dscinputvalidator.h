@@ -4,33 +4,22 @@
 #include "DartsController/DPCServices/dpcinputvalidator.h"
 #include "DartsControllerBuilder/DCBMetaSLAs/idcmetainfo.h"
 
-class DSCInputValidator : public IDartsInputValidator
+class DSCInputValidator : public AbstractEvaluateDCInput
 {
 public:
-    enum InputDomains {
-        PointDomain = 0x01,
-        CriticalDomain = 0x02,
-        OutsideDomain = 0x03,
-        TargetDomain = 0x4,
-        InputOutOfRange = 0x5
-    };
     static DSCInputValidator *createInstance()
     {
         return new DSCInputValidator();
     }
-    virtual int validateInput(const int &currentScore,
-                              const IDCInputKeyCodes *,
-                              const int &, const int &) const override
+    virtual void validateInput(const int &currentScore,
+                              const IDCInputKeyCodes *, DCContext::IDCInputModel *input) override
     {
-        if(currentScore > maxAllowedInput())
-            return PointDomain;
-        else if(currentScore <= maxAllowedInput() &&
-                currentScore >= minimumAllowedScore)
-            return CriticalDomain;
+        if(currentScore >= minimumAllowedScore)
+            emit playerHitPointDomain(input);
         else if(currentScore == 0)
-            return TargetDomain;
+            emit playerHitTargetDomain(input);
         else
-            return OutsideDomain;
+            emit playerOutOfRange(input);
     }
 private:
     int maxAllowedInput() const

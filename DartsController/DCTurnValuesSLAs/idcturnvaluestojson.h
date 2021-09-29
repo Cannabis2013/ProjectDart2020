@@ -8,7 +8,7 @@
 class IDCTurnValuesToJson
 {
 public:
-    virtual QJsonObject create(const DCContext::DCTurnValues *turnValues) const = 0;
+    virtual void setJsonValues(QJsonObject &obj, const DCContext::DCTurnValues *turnValues) const = 0;
 };
 
 #endif // IDCJSONVALUESBUILDER_H

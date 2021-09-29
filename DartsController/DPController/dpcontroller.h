@@ -2,11 +2,8 @@
 #define DPCONTROLLER_H
 #include "DartsControllerBuilder/DCBMetaSLAs/idcmetainfo.h"
 #include "DartsController/DCIndexServices/dcindexesbuilder.h"
-#include "dartscontrollerpointmodelsservice.h"
 #include "DartsController/DCJsonServices/addtotalscoretodartsinputsasjson.h"
 #include "DartsController/DCJsonServices/addplayernamestodartsinputsasjson.h"
-#include "jsonmerger.h"
-#include "genericjsonbuilder.h"
 #include "DartsController/DCFinishesServices/dcinputfinishes.h"
 #include "DartsController/DCMetaServices/determinestatusbyid.h"
 #include "DartsController/DCScoresServices/dcscoresservice.h"
@@ -28,7 +25,6 @@
 #include "DartsController/DCScoresServices/dcsubtractscore.h"
 #include "DartsController/DCIndexServices/dcresetindexes.h"
 #include "DartsController/DCIndexServices/dcindexundo.h"
-#include "DartsController/DCPlayerServices/dcgetplayername.h"
 #include "DartsController/DCPlayerServices/dcgetwinnermodelfromjson.h"
 #include "DartsController/DCPlayerServices/dccreateplayersfromjson.h"
 #include "DartsController/DCPlayerServices/dcplayerkeys.h"
@@ -53,8 +49,6 @@
 #include "DartsController/DCInputServices/DCInputKeyCodes.h"
 #include "DartsController/DCJsonServices/dccreatebytearray.h"
 #include "DartsController/DCJsonServices/dccreateemptyjsonobject.h"
-#include "DartsController/DCJsonServices/dcresponsejsonkeys.h"
-
 class DPController : public DartsController
 {
 public:
@@ -84,7 +78,6 @@ public:
         setIndexesToJsonService(new DPCIndexesToJson);
         setCreateByteArray(new DCCreateByteArray);
         setCreateEmptyJsonObject(new DCCreateEmptyJsonObject);
-        setResponseKeys(new DCResponseJsonKeys);
         // Scoremodels services
         setResetScoreModels(new DCResetScoreModels);
         setCreateScoreModelsService(new DCCreateScoreModels);
@@ -102,7 +95,6 @@ public:
         // Player services
         setPlayerBuilderService(new DCPlayerBuilder);
         setPlayerService(new DCPlayerService(indexService(),scoresService()));
-        setGetPlayerName(new DCGetPlayerName);
         setWinnerModelFromJson(new DCGetWInnerModelsFromJson);
         setCreatePlayersFromJson(new DCCreatePlayersFromJson);
         setWinnerKeys(new DCWinnerKeys);

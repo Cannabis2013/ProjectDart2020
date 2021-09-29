@@ -2,7 +2,7 @@
 #define DCINPUTSSERVICES_H
 
 #include "DartsController/DCFinishesSLAs/idartsinputfinishes.h"
-#include "DartsController/DCInputSLAs/idartsinputvalidator.h"
+#include "DartsController/DCInputSLAs/abstractevaluatedcinput.h"
 #include "DartsController/DCInputSLAs/idccreateinputmodel.h"
 #include "DartsController/DCInputSLAs/idcinputstojson.h"
 #include "DartsController/DCJsonSLAs/iaddtotalscoretodartsinputsjson.h"
@@ -13,11 +13,11 @@
 class DCInputsServices
 {
 public:
-    IDartsInputValidator *inputEvaluator() const
+    AbstractEvaluateDCInput *inputEvaluator() const
     {
         return _inputEvaluator;
     }
-    void setInputEvaluator(IDartsInputValidator *service)
+    void setInputEvaluator(AbstractEvaluateDCInput *service)
     {
         _inputEvaluator = service;
     }
@@ -71,7 +71,7 @@ public:
     }
 private:
     IDartsInputFinishes *_suggestFinishes = nullptr;
-    IDartsInputValidator* _inputEvaluator = nullptr;
+    AbstractEvaluateDCInput *_inputEvaluator = nullptr;
     IDCCreateInputModel* _inputModelBuilder;
     IDCInputsToJson *_jsonModelBuilderService;
     IDCCreateInputModels *_createInputModels;

@@ -26,7 +26,7 @@ private:
     {
         for (int i = 0; i < scoreModels.count(); ++i) {
             auto scoreModel = scoreModels.at(i);
-            auto _id = scoreModel.id;
+            auto _id = scoreModel.playerId;
             if(id == _id)
                 return scoreModel;
         }

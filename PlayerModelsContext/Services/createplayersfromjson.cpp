@@ -1,4 +1,4 @@
-#include "createplayersfromjson.h"
+#include "PlayerModelsContext/Services/createplayersfromjson.h"
 QVector<const IModel<QUuid> *> CreatePlayersFromJson::create(const QByteArray &json) const
 {
     using namespace PlayersContext;

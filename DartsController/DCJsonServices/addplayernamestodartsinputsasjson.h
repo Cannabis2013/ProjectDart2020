@@ -30,11 +30,11 @@ private:
         }
         return newArr;
     }
-    QString getPlayerName(const QUuid &id, const QVector<DCContext::DCScoreModel> &tuples) const
+    QString getPlayerName(const QUuid &id, const QVector<DCContext::DCScoreModel> &scoreModels) const
     {
-        for (const auto &tuple : tuples) {
-            if(tuple.id == id)
-                return tuple.name;
+        for (const auto &scoreModel : scoreModels) {
+            if(scoreModel.playerId == id)
+                return scoreModel.playerName;
         }
         return QString();
     }

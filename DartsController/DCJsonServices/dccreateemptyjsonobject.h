@@ -6,9 +6,13 @@
 class DCCreateEmptyJsonObject : public ICreateJsonObject
 {
 public:
-    virtual QJsonObject jsonObject() const override
+    virtual QJsonObject emptyJsonObject() const override
     {
         return QJsonObject();
+    }
+    virtual QJsonArray emptyJsonArray() const override
+    {
+        return QJsonArray();
     }
 };
 

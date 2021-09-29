@@ -15,7 +15,7 @@ namespace DSCContext{
             auto roundIndex = indexService->roundIndex();
             auto setIndex = indexService->setIndex();
             auto tuples = scoresService->scoreModels();
-            auto playerName = tuples.at(setIndex).name;
+            auto playerName = tuples.at(setIndex).playerName;
             auto score = tuples.at(setIndex).totalScore;
             auto targetRow = createRowSuggestionByScore(logisticService,score);
             auto model = new DCContext::DCTurnValues;

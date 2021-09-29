@@ -8,22 +8,22 @@ namespace DCContext {
     {
         DCScoreModel(QUuid _id, QString _name, int _score)
         {
-            id = _id;
-            name = _name;
+            playerId = _id;
+            playerName = _name;
             totalScore = _score;
         }
         DCScoreModel(){}
         bool operator==(const DCScoreModel& other){
-            if(other.id != this->id)
+            if(other.playerId != this->playerId)
                 return false;
-            else if(other.name != this->name)
+            else if(other.playerName != this->playerName)
                 return false;
             else if(other.totalScore != this->totalScore)
                 return false;
             return true;
         }
-        QUuid id;
-        QString name;
+        QUuid playerId;
+        QString playerName;
         int totalScore;
     };
 }

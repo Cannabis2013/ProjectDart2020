@@ -2,8 +2,8 @@
 #define LOCALPLAYERSDBCONTEXT_H
 
 #include "jsonplayersdbcontext.h"
-#include "PlayerModelsContext/SLAs/createjsonfromplayermodels.h"
-#include "createplayersfromjson.h"
+#include "PlayerModelsContext/Services/createjsonfromplayermodels.h"
+#include "PlayerModelsContext/Services/createplayersfromjson.h"
 #include "FileOperationsContext/Services/writebytearray.h"
 #include "FileOperationsContext/Services/readbytearray.h"
 
@@ -25,5 +25,4 @@ private:
     }
     const QString _fileName = "PlayerModels";
 };
-
 #endif // PLAYERMODELSLOCALJSONDB_H

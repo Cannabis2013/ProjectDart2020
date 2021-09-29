@@ -1,7 +1,6 @@
 #ifndef DCPLAYERSERVICES_H
 #define DCPLAYERSERVICES_H
 
-#include "DartsController/DCPlayerSLAs/idcgetplayername.h"
 #include "DartsController/DCPlayerSLAs/idcgetwinnermodelfromjson.h"
 #include "DartsController/DCPlayerSLAs/idcplayerservice.h"
 #include "DartsController/DCPlayerSLAs/icreatejsonfromdcplayer.h"
@@ -17,14 +16,6 @@ public:
     void setPlayerService(IDCPlayerService *service)
     {
         _playerService = service;
-    }
-    IDCGetPlayerName *getPlayerName() const
-    {
-        return _getPlayerName;
-    }
-    void setGetPlayerName(IDCGetPlayerName *newGetPlayerName)
-    {
-        _getPlayerName = newGetPlayerName;
     }
     IDCGetWinnerModelFromJson *winnerModelFromJson() const
     {
@@ -79,7 +70,6 @@ public:
 private:
     IDCGetWinnerModelFromJson *_winnerModelFromJson;
     IDCPlayerService *_playerService;
-    IDCGetPlayerName *_getPlayerName;
     IDCCreatePlayersFromJson *_createPlayersFromJson;
     IDCPlayerKeys *_winnerKeys;
     IDCPlayerKeys *_defaultPlayerKeys;

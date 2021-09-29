@@ -16,8 +16,7 @@ public:
     };
     virtual const IPlayerInput *create(const QByteArray &json) const override
     {
-        auto document = QJsonDocument::fromJson(json);
-        auto jsonObject = document.object();
+        auto jsonObject = toObject(json);
         auto model = new ModelsContext::DartsInput;
         model->setPoint(jsonObject.value("point").toInt());
         model->setModKeyCode(jsonObject.value("modKeyCode").toInt());
@@ -31,6 +30,12 @@ public:
         model->setHint(DisplayHint);
         model->setId(QUuid::createUuid());
         return model;
+    }
+private:
+    QJsonObject toObject(const QByteArray &bytes) const
+    {
+        auto document = QJsonDocument::fromJson(bytes);
+        return document.object();
     }
 };
 

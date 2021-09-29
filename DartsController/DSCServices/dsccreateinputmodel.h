@@ -27,8 +27,8 @@ public:
     virtual DCContext::IDCInputModel *createModel(const DCContext::DCScoreModel &scoreModel) const override
     {
         auto inputModel = DCContext::DCInputModel::createInstance();
-        inputModel->setPlayerId(scoreModel.id);
-        inputModel->setPlayerName(scoreModel.name);
+        inputModel->setPlayerId(scoreModel.playerId);
+        inputModel->setPlayerName(scoreModel.playerName);
         inputModel->setTotalScore(scoreModel.totalScore);
         return inputModel;
     }
@@ -36,8 +36,8 @@ private:
     DCContext::IDCInputModel *toModel(const DCContext::DCScoreModel &model) const
     {
         auto scoreModel = DCContext::DCInputModel::createInstance();
-        scoreModel->setPlayerId(model.id);
-        scoreModel->setPlayerName(model.name);
+        scoreModel->setPlayerId(model.playerId);
+        scoreModel->setPlayerName(model.playerName);
         scoreModel->setTotalScore(model.totalScore);
         return scoreModel;
     }

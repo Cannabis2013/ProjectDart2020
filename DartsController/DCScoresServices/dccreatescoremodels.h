@@ -15,8 +15,8 @@ private:
     DCContext::DCScoreModel createTuple(const DCContext::IDCPlayer *playerModel, const int &initialScore) const
     {
         DCContext::DCScoreModel tuple;
-        tuple.id = playerModel->playerId();
-        tuple.name = playerModel->playerName();
+        tuple.playerId = playerModel->playerId();
+        tuple.playerName = playerModel->playerName();
         tuple.totalScore = initialScore;
         return tuple;
     }

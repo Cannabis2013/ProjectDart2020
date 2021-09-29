@@ -9,9 +9,9 @@ public:
     virtual DCContext::DCScoreModel getCandidate(const DCContext::IDCInputModel *model, IDCScoresService *scoresService) override
     {
         auto tuples = scoresService->scoreModels();
-        auto tuple = this->tuple(model->playerId(),tuples);
+        auto tuple = this->scoreModel(model->playerId(),tuples);
         auto newScore = subtractScore(tuple.totalScore,model->score());
-        return toTuple(tuple,newScore);
+        return toModel(tuple,newScore);
     }
     virtual QVector<DCContext::DCScoreModel> getScoreCandidates(const QVector<DCContext::IDCInputModel *> &models, IDCScoresService *scoresService) override
     {
@@ -19,7 +19,7 @@ public:
         for (auto &model : scoreModels)
         {
             auto initialScore = model.totalScore;
-            auto playerScore = sum(model.id,models);
+            auto playerScore = sum(model.playerId,models);
             auto result = subtractScore(initialScore,playerScore);
             model.totalScore = result;
         }
@@ -35,11 +35,11 @@ private:
         }
         return s;
     }
-    DCContext::DCScoreModel tuple(const QUuid &id, const QVector<DCContext::DCScoreModel>& tuples) const
+    DCContext::DCScoreModel scoreModel(const QUuid &id, const QVector<DCContext::DCScoreModel>& tuples) const
     {
-        for (const auto &tuple : tuples) {
-            if(tuple.id == id)
-                return tuple;
+        for (const auto &scoreModel : tuples) {
+            if(scoreModel.playerId == id)
+                return scoreModel;
         }
         return DCContext::DCScoreModel();
     }
@@ -49,9 +49,9 @@ private:
             return score;
         return score - sub;
     }
-    const DCContext::DCScoreModel toTuple(const DCContext::DCScoreModel t, const int &newScore) const
+    const DCContext::DCScoreModel toModel(const DCContext::DCScoreModel t, const int &newScore) const
     {
-        return DCContext::DCScoreModel(t.id,t.name,newScore);
+        return DCContext::DCScoreModel(t.playerId,t.playerName,newScore);
     }
 };
 #endif // DPCSUBTRACTPLAYERSCORE_H

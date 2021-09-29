@@ -34,8 +34,8 @@ private:
     DCContext::DCInputModel *toModel(const DCContext::DCScoreModel &tuple) const
     {
         auto inputModel = DCContext::DCInputModel::createInstance();
-        inputModel->setPlayerId(tuple.id);
-        inputModel->setPlayerName(tuple.name);
+        inputModel->setPlayerId(tuple.playerId);
+        inputModel->setPlayerName(tuple.playerName);
         inputModel->setTotalScore(tuple.totalScore);
         return inputModel;
     }

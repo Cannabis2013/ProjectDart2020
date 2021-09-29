@@ -13,7 +13,6 @@
 #include "DartsController/DCIndexServices/dcindexundo.h"
 #include <jsonvaluesextractor.h>
 #include <quuid.h>
-#include "DartsController/DCPlayerServices/dcgetplayername.h"
 #include "DartsController/DCPlayerServices/dcwinnerkeys.h"
 #include "DartsController/DCPlayerServices/dccreateplayersfromjson.h"
 #include "DartsController/DCPlayerServices/dcplayerkeys.h"
@@ -24,9 +23,7 @@
 #include "DartsController/DSCServices/dsccreateinputmodel.h"
 #include "DartsController/DCMetaServices/determinestatusbyid.h"
 #include "DartsController/DSCServices/dscvaluesbuilder.h"
-#include "genericjsonbuilder.h"
 #include "DartsController/DCPlayerServices/dcplayerbuilder.h"
-#include "jsonmerger.h"
 #include "DartsController/DCScoresServices/dcscoresservice.h"
 #include "DartsController/DCScoresServices/dcupdatescoremodels.h"
 #include "DartsController/DCScoresServices/dccreatecandidatemodels.h"
@@ -51,7 +48,6 @@
 #include <DartsController/DCInputServices/DCInputKeyCodes.h>
 #include <DartsController/DCJsonServices/dccreatebytearray.h>
 #include <DartsController/DCJsonServices/dccreateemptyjsonobject.h>
-#include "DartsController/DCJsonServices/dcresponsejsonkeys.h"
 class DSController : public DartsController
 {
 public:
@@ -82,7 +78,6 @@ public:
         setJsonExtractor(new JsonValuesExtractor);
         setCreateByteArray(new DCCreateByteArray);
         setCreateEmptyJsonObject(new DCCreateEmptyJsonObject);
-        setResponseKeys(new DCResponseJsonKeys);
         // Input services
         setInputsToJsonService(new DSCInputToJson);
         setGetScoreFromInput(new GetScoreFromDSCInput);
@@ -96,7 +91,6 @@ public:
         setResetScoreModels(new DCResetScoreModels);
         // Player services
         setPlayerService(new DCPlayerService(indexService(),scoresService()));
-        setGetPlayerName(new DCGetPlayerName);
         setWinnerModelFromJson(new DCGetWInnerModelsFromJson);
         setCreateJsonFromPlayer(new CreateJsonFromDCPlayer);
         setCreatePlayersFromJson(new DCCreatePlayersFromJson);

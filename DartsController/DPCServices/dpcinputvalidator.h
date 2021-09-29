@@ -1,37 +1,29 @@
 #ifndef DPCINPUTVALIDATOR_H
 #define DPCINPUTVALIDATOR_H
 
-#include "DartsController/DCInputSLAs/idartsinputvalidator.h"
+#include "DartsController/DCInputSLAs/abstractevaluatedcinput.h"
 
-class DPCInputValidator : public IDartsInputValidator
+class DPCInputValidator : public AbstractEvaluateDCInput
 {
+    Q_OBJECT
 public:
-    enum InputDomains {
-        PointDomain = 0x01,
-        CriticalDomain = 0x02,
-        OutsideDomain = 0x03,
-        TargetDomain = 0x4,
-        InputOutOfRange = 0x5
-    };
     static DPCInputValidator* createInstance()
     {
         return new DPCInputValidator;
     }
-    virtual int validateInput(const int &currentScore,
-                              const IDCInputKeyCodes *keyCodes,
-                              const int &keyCode,
-                              const int &input) const override
+    virtual void validateInput(const int &currentScore, const IDCInputKeyCodes *keyCodes, DCContext::IDCInputModel *input) override
     {
-        if(currentScore > maxAllowedInput())
-            return PointDomain;
-        else if(currentScore <= maxAllowedInput() &&
-                currentScore >= minimumAllowedScore)
-            return CriticalDomain;
-        else if(currentScore == 0 && (keyCode == keyCodes->doubleModifier() ||
-                                      input == bullsEye()))
-            return TargetDomain;
+        if(currentScore >= minimumAllowedScore)
+            emit playerHitPointDomain(input);
+        else if(currentScore == 0)
+        {
+            if(input->modKeyCode() == keyCodes->doubleModifier() || input->score() == bullsEye())
+                emit playerHitTargetDomain(input);
+            else
+                emit playerOutOfRange(input);
+        }
         else
-            return OutsideDomain;
+            emit playerOutOfRange(input);
     }
     int bullsEye() const
     {

@@ -12,8 +12,8 @@
 
 class IDCInputsToJson {
 public:
-    virtual QJsonArray createJson(const QVector<DCContext::IDCInputModel*>& inputModels, const IDCInputJsonKeys *inputKeys) const = 0;
-    virtual QJsonObject createJson(DCContext::IDCInputModel* inputModel, const IDCInputJsonKeys *inputKeys) const = 0;
+    virtual void setJsonValues(QJsonObject &obj, DCContext::IDCInputModel* inputModel, const IDCInputJsonKeys *inputKeys) const = 0;
+    virtual void setJsonValues(QJsonArray &arr, const QVector<DCContext::IDCInputModel*>& inputModels, const IDCInputJsonKeys *inputKeys) const = 0;
 };
 
 #endif // IDARTSMULTIATTEMPTJSONSERVICE_H

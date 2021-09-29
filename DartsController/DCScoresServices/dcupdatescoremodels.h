@@ -6,24 +6,24 @@
 class DCUpdateScoreModels : public IDCUpdateScoreModels
 {
 public:
-    virtual void update(const QVector<DCContext::DCScoreModel> &tuples, IDCScoresService *scoresService) const override
+    virtual void update(const QVector<DCContext::DCScoreModel> &scoreModels, IDCScoresService *scoresService) const override
     {
-        updateTuples(tuples,scoresService);
+        updateModels(scoreModels,scoresService);
     }
 private:
-    void updateTuples(const QVector<DCContext::DCScoreModel> &tuples, IDCScoresService *scoresService) const
+    void updateModels(const QVector<DCContext::DCScoreModel> &tuples, IDCScoresService *scoresService) const
     {
-        for (const auto &tuple : tuples)
-            updateTuple(tuple.id,tuple.totalScore,scoresService);
+        for (const auto &scoreModel : tuples)
+            updateTuple(scoreModel.playerId,scoreModel.totalScore,scoresService);
     }
     void updateTuple(const QUuid &id, const int &totalScore,IDCScoresService *scoresService) const
     {
         for (int i = 0; i < scoresService->scoreModels().count(); ++i) {
-            auto tuple = scoresService->scoreModels().at(i);
-            auto tId = tuple.id;
+            auto scoreModel = scoresService->scoreModels().at(i);
+            auto tId = scoreModel.playerId;
             if(tId == id)
-                tuple.totalScore = totalScore;
-            scoresService->scoreModels().replace(i,tuple);
+                scoreModel.totalScore = totalScore;
+            scoresService->scoreModels().replace(i,scoreModel);
         }
     }
 };

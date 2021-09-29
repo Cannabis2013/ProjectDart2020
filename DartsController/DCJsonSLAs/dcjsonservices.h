@@ -8,7 +8,6 @@
 #include "DartsController/DCJsonSLAs/ijsonvaluesextractor.h"
 #include "icreatejsonobject.h"
 #include "idccreatebytearray.h"
-#include "idcresponsejsonkeys.h"
 class IAddPlayerNamesToJson;
 class DCJsonServices
 {
@@ -53,20 +52,11 @@ public:
     {
         _createEmptyJsonObject = service;
     }
-    IDCResponseJsonKeys *responseKeys() const
-    {
-        return _responseKeys;
-    }
-    void setResponseKeys(IDCResponseJsonKeys *newResponseKeys)
-    {
-        _responseKeys = newResponseKeys;
-    }
 private:
     IAddPlayerNamesToJson *_addPlayerNamesToJson;
     IAddTotalScoreToDartsInputsJson *_addTotalScoresToJson;
     IJsonValuesExtractor *_jsonExtractor;
     IDCCreateByteArray *_createByteArray;
     ICreateJsonObject *_createEmptyJsonObject;
-    IDCResponseJsonKeys *_responseKeys;
 };
 #endif // DSJSONSERVICES_H

@@ -11,12 +11,12 @@ public:
     QString currentPlayerName() const override
     {
         auto setIndex = _indexService->setIndex();
-        return _scoresService->scoreModels().at(setIndex).name;
+        return _scoresService->scoreModels().at(setIndex).playerName;
     }
     QUuid currentPlayerId() const override
     {
         auto setIndex = _indexService->setIndex();
-        return _scoresService->scoreModels().at(setIndex).id;
+        return _scoresService->scoreModels().at(setIndex).playerId;
     }
 private:
     IDCIndexService *_indexService;

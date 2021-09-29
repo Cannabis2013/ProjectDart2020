@@ -7,27 +7,21 @@ class DCSubtractScore : public IDCSubtractScore
 public:
     virtual DCContext::DCScoreModel subtractScore(const DCContext::IDCInputModel *model, IDCScoresService *scoresService) const override
     {
-        auto tuple = getTupleFromScoresService(model->playerId(),scoresService);
-        auto indexOfTuple = indexOf(tuple,scoresService);
-        updateTuple(tuple,subtract(tuple.totalScore, model->score()));
-        scoresService->scoreModels().replace(indexOfTuple, tuple);
-        return tuple;
+        auto scoreModel = getTupleFromScoresService(model->playerId(),scoresService);
+        auto indexOfTuple = indexOf(scoreModel,scoresService);
+        scoreModel.totalScore = subtract(scoreModel.totalScore, model->score());
+        scoresService->scoreModels().replace(indexOfTuple, scoreModel);
+        return scoreModel;
     }
 private:
-    void updateTuple(DCContext::DCScoreModel &tuple, const int &score) const
-    {
-        if(score < 0)
-            throw "Invalid score";
-        tuple.totalScore = score;
-    }
     DCContext::DCScoreModel getTupleFromScoresService(const QUuid& id, IDCScoresService *scoresService) const
     {
-        auto tuples = scoresService->scoreModels();
-        for (int i = 0; i < tuples.count(); ++i) {
-            auto tuple = tuples.at(i);
-            auto _id = tuple.id;
+        auto scoreModels = scoresService->scoreModels();
+        for (int i = 0; i < scoreModels.count(); ++i) {
+            auto scoreModel = scoreModels.at(i);
+            auto _id = scoreModel.playerId;
             if(id == _id)
-                return tuple;
+                return scoreModel;
         }
         return DCContext::DCScoreModel();
     }
@@ -46,5 +40,4 @@ private:
         return score - candidate;
     }
 };
-
 #endif // DCSUBTRACTSCORE_H

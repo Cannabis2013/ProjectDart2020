@@ -47,7 +47,7 @@ private:
     {
         auto models = scoresService->scoreModels();
         auto model = models.at(indexService->setIndex());
-        return model.name;
+        return model.playerName;
     }
     bool canUndo(const IDCIndexService *indexService) const
     {

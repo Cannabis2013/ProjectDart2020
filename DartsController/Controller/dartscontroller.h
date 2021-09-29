@@ -8,7 +8,6 @@
 #include "DartsController/DCPlayerSLAs/DCPlayerServices.h"
 #include "DartsController/ControllerSLA/abstractdartscontroller.h"
 #include "DartsController/DCJsonSLAs/dcjsonservices.h"
-#include "jsonmerger.h"
 #include "DartsController/DCMetaSLAs/dcmetaservices.h"
 #include "DartsController/DCInputSLAs/dcinputsservices.h"
 
@@ -22,15 +21,6 @@ class DartsController : public AbstractDartsController,
                         protected DCIndexServices
 {
     Q_OBJECT
-public:
-    // Public types
-    enum InputDomains {
-        PointDomain = 0x01,
-        CriticalDomain = 0x02,
-        OutsideDomain = 0x03,
-        TargetDomain = 0x4,
-        InputOutOfRange = 0x5
-    };
 public slots:
     void beginInitialize() override;
     void initializeControllerIndexes(const QByteArray& json) override;
@@ -51,14 +41,16 @@ public slots:
     void handleResetTournament() override;
     void undoSuccess(const QByteArray &json) override;
     void redoSuccess(const QByteArray &json) override;
+private slots:
+    void persistInput(DCContext::IDCInputModel *inputModel);
+    void nullifyAndPersistInput(DCContext::IDCInputModel *input);
+    void declareWinnerAndPersistInput(DCContext::IDCInputModel *inputModel);
 private:
+    void connectInputEvaluator();
     void updateTotalScore(const QByteArray &json);
     void createAndSendWinnerValues();
-    void processDomain(const int& domain, DCContext::IDCInputModel *inputModel);
     void sendCurrentTurnValues();
     int lastPlayerIndex();
-    void addInput(DCContext::IDCInputModel *inputModel);
     void nextTurn();
-    void declareWinner();
 };
 #endif // FIVEHUNDREDANDONEGAME_H

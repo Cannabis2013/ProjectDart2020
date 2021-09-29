@@ -11,8 +11,8 @@ ExtractWinnerInfoFromJson::DataModel ExtractWinnerInfoFromJson::createDataModelF
 {
     DataModel data;
     data.tournamentId = QUuid::fromString(obj.value("tournamentId").toString());;
-    data.winnerId = QUuid::fromString(obj.value("winnerId").toString());
-    data.winnerName = obj.value("winnerName").toString("");
+    data.winnerId = QUuid::fromString(obj.value("playerId").toString());
+    data.winnerName = obj.value("playerName").toString("");
     return data;
 }
 
