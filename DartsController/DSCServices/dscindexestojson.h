@@ -6,12 +6,12 @@
 class DSCIndexesToJson : public IDCIndexesToJson
 {
 public:
-    virtual void toJson(QJsonObject &obj,const DCContext::IDCIndexes *indexes) const override
+    virtual void toJson(QJsonObject &obj,const DCContext::IDCIndexes *indexes, const IDCIndexesJsonKeys *keys) const override
     {
-        obj["totalTurns"] = indexes->totalTurns();
-        obj["turnIndex"] = indexes->turnIndex();
-        obj["roundIndex"] = indexes->roundIndex();
-        obj["setIndex"] = indexes->setIndex();
+        obj[keys->totalTurns()] = indexes->totalTurns();
+        obj[keys->turnIndex()] = indexes->turnIndex();
+        obj[keys->roundIndex()] = indexes->roundIndex();
+        obj[keys->setIndex()] = indexes->setIndex();
     }
 };
 #endif // DSCINDEXESTOJSON_H

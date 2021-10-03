@@ -49,6 +49,8 @@
 #include "DartsController/DCInputServices/DCInputKeyCodes.h"
 #include "DartsController/DCJsonServices/dccreatebytearray.h"
 #include "DartsController/DCJsonServices/dccreateemptyjsonobject.h"
+#include "DartsController/DCTurnValuesServices/dcturnvaljsonkeys.h"
+#include "DartsModelsContext/DMCIndexesServices/dindexesjsonkeys.h"
 class DPController : public DartsController
 {
 public:
@@ -105,6 +107,9 @@ public:
         setIndexIterator(new DCIndexIterator);
         setUndoIndex(new DCIndexUndo);
         setRedoIndex(new DCIndexRedo);
+        setIndexKeys(new DCIndexesJsonKeys);
+        // TurnValues services
+        setTurnValKeys(new DCTurnValJsonKeys);
     }
 };
 #endif // DEFAULTDARTSPOINTCONTROLLER_H

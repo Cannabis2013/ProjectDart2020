@@ -79,9 +79,13 @@ HEADERS += \
     DartsController/DCJsonSLAs/idccreatebytearray.h \
     DartsController/DCJsonServices/dccreatebytearray.h \
     DartsController/DCJsonServices/dccreateemptyjsonobject.h \
+    DartsController/DCTurnValuesSLAs/iDCTurnValJsonKeys.h \
+    DartsController/DCTurnValuesServices/dcturnvaljsonkeys.h \
+    DartsModelsContext/DMCIndexesSLAs/IDCIndexesJsonKeys.h \
     DartsModelsContext/DMCIndexesSLAs/dartsindexesslas.h \
     DartsModelsContext/DMCIndexesSLAs/idartsindexes.h \
     DartsModelsContext/DMCIndexesServices/dartsindexes.h \
+    DartsModelsContext/DMCIndexesServices/dindexesjsonkeys.h \
     DartsModelsContext/DMCInputSLAs/dmcinputslas.h \
     DartsModelsContext/DMCInputSLAs/igetdartsinputfromdb.h \
     DartsModelsContext/DMCTournamentSLAs/dartstournamentslas.h \

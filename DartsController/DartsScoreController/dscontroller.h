@@ -45,9 +45,11 @@
 #include "DartsController/DCMetaServices/dctournamentid.h"
 #include "DartsController/DCInputServices/dccreateinputmodels.h"
 #include "DartsController/DCInputServices/dcinputjsonkeys.h"
-#include <DartsController/DCInputServices/DCInputKeyCodes.h>
-#include <DartsController/DCJsonServices/dccreatebytearray.h>
-#include <DartsController/DCJsonServices/dccreateemptyjsonobject.h>
+#include "DartsController/DCInputServices/DCInputKeyCodes.h"
+#include "DartsController/DCJsonServices/dccreatebytearray.h"
+#include "DartsController/DCJsonServices/dccreateemptyjsonobject.h"
+#include "DartsController/DCTurnValuesServices/dcturnvaljsonkeys.h"
+#include "DartsModelsContext/DMCIndexesServices/dindexesjsonkeys.h"
 class DSController : public DartsController
 {
 public:
@@ -103,6 +105,9 @@ public:
         setUndoIndex(new DCIndexUndo);
         setRedoIndex(new DCIndexRedo);
         setIndexesToJsonService(new DSCIndexesToJson);
+        setIndexKeys(new DCIndexesJsonKeys);
+        // Turnvalues services
+        setTurnValKeys(new DCTurnValJsonKeys);
     }
 };
 #endif // DEFAULTDARTSSCORECONTROLLER_H

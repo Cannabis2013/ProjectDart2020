@@ -60,7 +60,7 @@ void DartsController::sendCurrentTurnValues()
 {
     auto model = createTurnValues()->turnValues(indexService(),scoresService(),suggestFinishes());
     auto obj = createEmptyJsonObject()->emptyJsonObject();
-    turnValuesToJson()->setJsonValues(obj,model);
+    turnValuesToJson()->setJsonValues(obj,model,turnValKeys());
     emit awaitsInput(createByteArray()->byteArray(obj));
 }
 
@@ -93,7 +93,7 @@ void DartsController::persistInput(DCContext::IDCInputModel *inputModel)
     auto indexes = indexesBuilder()->createIndexes(indexService());
     auto jsonObject = createEmptyJsonObject()->emptyJsonObject();
     inputsToJson()->setJsonValues(jsonObject,inputModel,inputKeys());
-    indexesToJson()->toJson(jsonObject,indexes);
+    indexesToJson()->toJson(jsonObject,indexes,indexKeys());
     emit requestAddDartsScore(createByteArray()->byteArray(jsonObject));
 }
 
@@ -151,7 +151,7 @@ void DartsController::undoSuccess(const QByteArray& json)
     inputModel->setTotalScore(scoreModel.totalScore);
     auto jsonObject = createEmptyJsonObject()->emptyJsonObject();
     inputsToJson()->setJsonValues(jsonObject,inputModel.get(),inputKeys());
-    turnValuesToJson()->setJsonValues(jsonObject,turnValues.get());
+    turnValuesToJson()->setJsonValues(jsonObject,turnValues.get(),turnValKeys());
     emit scoreRemoved(createByteArray()->byteArray(jsonObject));
 }
 
@@ -164,7 +164,7 @@ void DartsController::redoSuccess(const QByteArray& json)
     QScopedPointer turnValues(createTurnValues()->turnValues(indexService(),scoresService(),suggestFinishes()));
     auto jsonObject = createEmptyJsonObject()->emptyJsonObject();
     inputsToJson()->setJsonValues(jsonObject,inputModel.get(),inputKeys());
-    turnValuesToJson()->setJsonValues(jsonObject, turnValues.get());
+    turnValuesToJson()->setJsonValues(jsonObject, turnValues.get(),turnValKeys());
     emit scoreAddedSuccess(createByteArray()->byteArray(jsonObject));
 }
 
@@ -178,7 +178,7 @@ void DartsController::updateTotalScore(const QByteArray &json)
     QScopedPointer turnValues(createTurnValues()->turnValues(indexService(),scoresService(),suggestFinishes()));
     auto jsonObject= createEmptyJsonObject()->emptyJsonObject();
     inputsToJson()->setJsonValues(jsonObject,inputModel.get(),inputKeys());
-    turnValuesToJson()->setJsonValues(jsonObject,turnValues.get());
+    turnValuesToJson()->setJsonValues(jsonObject,turnValues.get(),turnValKeys());
     emit scoreAddedSuccess(createByteArray()->byteArray(jsonObject));
 }
 
