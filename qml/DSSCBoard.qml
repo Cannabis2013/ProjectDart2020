@@ -29,7 +29,7 @@ ScoreBoard {
         onDataChanged: ScoreScripts.refreshVerticalHeader()
     }
     columnWidthProvider: function(column){
-        return tableWidthProvider.columnWidthAt(column);
+        return tableDisplayWidth;
     }
     rowHeightProvider: function(row)
     {
@@ -41,7 +41,11 @@ ScoreBoard {
     }
     cellDelegate: DSSCDelegate {
         id: delegate
-        scoreFontSize: tableFonts.scoreFontSize
-        onTextChanged: ScoreScripts.setDelegateText(text,delegate)
+        g: {
+            print(index);
+            return display;
+        }
+
+        onGChanged: ScoreScripts.setDelegateText(g,delegate)
     }
 }

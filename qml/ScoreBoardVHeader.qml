@@ -23,10 +23,7 @@ Flickable{
     onModelChanged: verticalHeader.model = model
     VerticalHeader {
         id: verticalHeader
-        fontSize: 16
         anchors.fill: parent
-        backgroundColor: "transparent"
-        fontColor: "white"
         borderWidth: 1
         Layout.alignment: Qt.AlignTop
         visible: scoreBoardBody.verticalHeaderVisible

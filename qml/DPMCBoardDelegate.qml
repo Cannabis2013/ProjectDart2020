@@ -3,10 +3,14 @@ import CustomItems 1.0
 
 ScoreBoardDelegate {
     id: delegate
-    pointDisplayVisible: true
-    pointDisplayWidth: 20
     cellColor: "transparent"
     cellBorderWidth: 0
-    scoreFontSize: 14
-    pointFontSize: 10
+    cellBorderRadius: 10
+    property string point: ""
+    onPointChanged: pointTextRect.text = point
+    DPMCPointRect {
+        id: pointTextRect
+        x: 3
+        y: 3
+    }
 }

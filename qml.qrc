@@ -106,6 +106,8 @@
         <file>qml/UserInputContent.qml</file>
         <file>qml/VerticalHeader.qml</file>
         <file>qml/ViewDelegate.qml</file>
+        <file>qml/BoardDelegateContentRect.qml</file>
+        <file>qml/DPMCPointRect.qml</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/dartpic.jpg</file>

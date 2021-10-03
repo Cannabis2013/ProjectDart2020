@@ -29,7 +29,6 @@ Content {
         property string winnerName: ""
         property var assignedPlayerNames: []
     }
-
     GridLayout{
         id: bodyLayout
         anchors.fill: parent
@@ -37,8 +36,8 @@ Content {
         TurnController{
             id: singleColumnScoreTurnController
             Layout.fillWidth: true
-            Layout.minimumHeight: 100
-            Layout.maximumHeight: 100
+            Layout.minimumHeight: 72
+            Layout.maximumHeight: 72
             Layout.alignment: Qt.AlignHCenter
             onStartButtonClicked: applicationInterface.requestStartGame()
             onResumeButtonClicked: applicationInterface.requestStartGame()
@@ -49,14 +48,15 @@ Content {
         }
         DSSCBoard{
             id: singleColumnScoreBoard
-            Layout.fillHeight: true
             Layout.fillWidth: true
-            Layout.minimumHeight: 160
+            Layout.minimumHeight: 200
+            Layout.maximumHeight: 200
         }
+        /*
         MyRectangle{
             Layout.fillHeight: true
         }
-
+        */
         KeyDataDisplay{
             id: keyDataDisplay
             Layout.fillWidth: true
@@ -71,8 +71,8 @@ Content {
             Layout.alignment: Qt.AlignBottom
             Layout.fillHeight: true
             Layout.fillWidth: true
-            Layout.maximumHeight: 384
-            Layout.minimumHeight: 128
+            //Layout.maximumHeight: 384
+            //Layout.minimumHeight: 128
         }
     }
     states: [

@@ -4,9 +4,7 @@ import DartsTableUtils 1.0
 import "dsscboardscripts.js" as ScoreScripts
 ScoreBoardDelegate {
     id: delegate
-    text: display
     cellBorderWidth: 0
     cellColor: "green"
-    cellBorderRadius: 10
-
+    cellBorderRadius: 20
 }

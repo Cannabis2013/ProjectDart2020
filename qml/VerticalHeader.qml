@@ -7,12 +7,6 @@ Column
     id: verticalHeaderBody
     signal clearData()
     onClearData: verticalHeaderRepeater.model = 0
-    property color backgroundColor: "transparent"
-    onBackgroundColorChanged: cellBody.color = backgroundColor
-    property int fontSize: 12
-    onFontSizeChanged: cellBodyText.font.pointSize = verticalHeaderBody.fontSize
-    property color fontColor: "black"
-    onFontColorChanged: cellBodyText.color = fontColor
     property int cellWidth: 125
     onCellWidthChanged: {
         cellBody.width = cellWidth
@@ -60,12 +54,12 @@ Column
             bottomBorderWidth: verticalHeaderBody.borderWidth
 
             borderColor: verticalHeaderBody.borderColor
-            color: backgroundColor
+            color: "transparent"
             Text {
                 id: cellBodyText
-                color: verticalHeaderBody.fontColor
+                color: "white"
                 text: "Column text"
-                font.pointSize: verticalHeaderBody.fontSize
+                font.pointSize: 16
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 anchors.fill: parent

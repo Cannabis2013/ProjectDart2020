@@ -32,11 +32,13 @@ ScoreBoardInterface{
     property int verticalHeaderModel: scoreBoardVHeader.model
     onVerticalHeaderModelChanged: scoreBoardVHeader.model = verticalHeaderModel
     // Table view related
+    // Move focus to last updated cell when data has changed
     signal updateViewPosition(int x,int y)
     onUpdateViewPosition: ScoreBoardScripts.updateViewPosition(x,y)
-    // Move focus to last updated cell when data has changed
     signal updateContentDimensions(int h, int w)
     onUpdateContentDimensions: ScoreBoardScripts.updateContentDimensions(h,w)
+    signal updateContentHeight(int h)
+    onUpdateContentHeight: scoreBoardTableView.contentHeight = h
     // Model property
     property QtObject model: scoreBoardTableView.model
     onModelChanged: scoreBoardTableView.model = model
@@ -54,6 +56,8 @@ ScoreBoardInterface{
     onRowHeightProviderChanged: scoreBoardTableView.rowHeightProvider = rowHeightProvider
     // Data model visualization related
     property double fontScale: 1
+    readonly property int tableDisplayWidth: scoreBoardTableView.width
+
     GridLayout
     {
         id: mainLayout

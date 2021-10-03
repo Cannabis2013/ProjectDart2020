@@ -19,6 +19,7 @@ function clearTable(){
 function updateScoreBoard()
 {
     refreshVerticalHeader();
+    updateContentHeight();
 }
 
 function refreshVerticalHeader()
@@ -32,6 +33,21 @@ function refreshVerticalHeader()
         scoreBoardBody.setVerticalHeaderHeightAt(j,h);
         scoreBoardBody.setVerticalHeaderDataAt(j,value);
     }
+}
+
+function updateContentHeight()
+{
+    var h = calculateTotalHeight();
+    scoreBoardBody.updateContentHeight(h);
+}
+
+function calculateTotalHeight()
+{
+    var count = dataModel.rowCount();
+    var total = 0;
+    for(var i = 0;i < count;i++)
+        total += tableHeightProvider.rowHeightAt(i);
+    return total;
 }
 
 function setViewPosition(x,y)
