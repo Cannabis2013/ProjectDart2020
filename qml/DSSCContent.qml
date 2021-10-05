@@ -18,16 +18,8 @@ Content {
     signal sendInput(string json)
     signal setupGame
     signal requestPersistState
-    /*
-      Tournament metadata property
-      */
-    QtObject{
+    DartsMetaValues{
         id: dartsMetaValues
-        property string title: ""
-        property int keyPoint: 501
-        property int attempts: 3
-        property string winnerName: ""
-        property var assignedPlayerNames: []
     }
     GridLayout{
         id: bodyLayout

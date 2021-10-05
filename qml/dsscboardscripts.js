@@ -18,21 +18,7 @@ function clearTable(){
 
 function updateScoreBoard()
 {
-    refreshVerticalHeader();
     updateContentHeight();
-}
-
-function refreshVerticalHeader()
-{
-    let verticalHeaderCount = verticalHeaderModel.count();
-    scoreBoardBody.verticalHeaderModel = verticalHeaderCount;
-    for(var j = 0;j < verticalHeaderCount;j++)
-    {
-        let h = tableHeightProvider.rowHeightAt(j);
-        let value = verticalHeaderModel.item(j);
-        scoreBoardBody.setVerticalHeaderHeightAt(j,h);
-        scoreBoardBody.setVerticalHeaderDataAt(j,value);
-    }
 }
 
 function updateContentHeight()

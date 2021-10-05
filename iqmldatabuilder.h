@@ -1,7 +1,6 @@
 #ifndef IQMLDATABUILDER_H
 #define IQMLDATABUILDER_H
 
-#include <qvector.h>
 template<typename T, typename U>
 class IQMLDataBuilder
 {

@@ -47,9 +47,9 @@ ScoreBoard {
         onDataChanged: ScoreBoardScripts.updateScoreBoard();
         minimumColumnCount: 1
     }
-    cellDelegate: DPSCBoardDelegate {
+    cellDelegate: ScoreBoardDelegate {
         id: delegate
-        g: display
-        onGChanged: ScoreBoardScripts.setDelegateText(g,delegate)
+        text: display
+        onTextChanged: ScoreBoardScripts.setDelegateText(text,delegate)
     }
 }

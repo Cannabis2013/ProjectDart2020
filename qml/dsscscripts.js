@@ -108,7 +108,7 @@ function backendRemovedPoint(data)
 
 function setSuggestedTargetRow(json)
 {
-    let throwSuggestion = json["targetRow"];
+    let throwSuggestion = json["suggestedFinish"];
     keyDataDisplay.setThrowSuggestion(throwSuggestion);
 }
 

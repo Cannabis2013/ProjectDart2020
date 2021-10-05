@@ -127,22 +127,18 @@ Rectangle {
         Flickable{
             id: contentFlickable
             clip: true
-
             function setContentWidth(w)
             {
                 contentWidth = w;
             }
-
             function setContentHeight(h)
             {
                 contentHeight = h;
             }
-
             Layout.fillHeight: true
             Layout.fillWidth: true
             Layout.maximumWidth: defaultPageContentWidth
             Layout.alignment: Qt.AlignHCenter
-
             Content{
                 id: itemPlaceHolder
             }

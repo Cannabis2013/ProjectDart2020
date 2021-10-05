@@ -7,7 +7,6 @@
 
 class CreateJsonFromDP : public IQMLDataBuilder<QPair<int,int>,QVariant>
 {
-    // ITableCreateVariant interface
 public:
     typedef QPair<int,int> PointInput;
     virtual QVariant createItem(const PointInput &model) const override

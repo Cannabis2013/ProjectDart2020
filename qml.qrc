@@ -48,12 +48,10 @@
         <file>qml/DPMCContent.qml</file>
         <file>qml/DpmcTableFonts.qml</file>
         <file>qml/DPSCBoard.qml</file>
-        <file>qml/DPSCBoardDelegate.qml</file>
         <file>qml/DPSCContent.qml</file>
         <file>qml/DSSCBoard.qml</file>
         <file>qml/DSSCBoardFonts.qml</file>
         <file>qml/DSSCContent.qml</file>
-        <file>qml/DSSCDelegate.qml</file>
         <file>qml/DSSCTableFonts.qml</file>
         <file>qml/HorizontalHeader.qml</file>
         <file>qml/InteractiveObject.qml</file>
@@ -108,6 +106,8 @@
         <file>qml/ViewDelegate.qml</file>
         <file>qml/BoardDelegateContentRect.qml</file>
         <file>qml/DPMCPointRect.qml</file>
+        <file>qml/BoxedRect.qml</file>
+        <file>qml/DSCScoreBoard.qml</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/dartpic.jpg</file>

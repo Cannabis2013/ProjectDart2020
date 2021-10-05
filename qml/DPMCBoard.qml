@@ -35,7 +35,7 @@ ScoreBoard {
     }
     cellDelegate: DPMCBoardDelegate {
         id: boardDelegate
-        g: display
-        onGChanged: ScoreScripts.handleTextChanged(g,boardDelegate)
+        text: display
+        onTextChanged: ScoreScripts.handleTextChanged(text,boardDelegate)
     }
 }

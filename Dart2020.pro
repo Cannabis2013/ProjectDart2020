@@ -151,6 +151,7 @@ HEADERS += \
     DartsController/DCFinishesServices/dartscreatefinishes.h \
     DartsModelsContext/DMCTournamentServices/dartscreatejsonmetadata.h \
     DartsController/DCFinishesServices/dartscreateterminalthreshold.h \
+    createscorevaluefromdi.h \
     dartsdatacontextitemutility.h \
     dartsdatamodelpoint.h \
     dartsdbcreatejsonfrominputs.h \

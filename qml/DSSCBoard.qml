@@ -2,7 +2,7 @@ import QtQuick 2.15
 import CustomItems 1.0
 import DartsTableUtils 1.0
 import "dsscboardscripts.js" as ScoreScripts
-ScoreBoard {
+DSCScoreBoard {
     id: scoreBoardBody
     onWidthChanged: ScoreScripts.updateScoreBoard()
     signal setData(string playerName, int score)
@@ -26,7 +26,6 @@ ScoreBoard {
     }
     StringHeaderModel{
         id: verticalHeaderModel
-        onDataChanged: ScoreScripts.refreshVerticalHeader()
     }
     columnWidthProvider: function(column){
         return tableDisplayWidth;
@@ -39,13 +38,9 @@ ScoreBoard {
         id: dataModel
         onDataChanged: ScoreScripts.updateScoreBoard();
     }
-    cellDelegate: DSSCDelegate {
+    cellDelegate: BoardDelegateContentRect {
         id: delegate
-        g: {
-            print(index);
-            return display;
-        }
-
-        onGChanged: ScoreScripts.setDelegateText(g,delegate)
+        playerName: verticalHeaderModel.item(index)
+        score: display
     }
 }

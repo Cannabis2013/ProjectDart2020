@@ -2,10 +2,8 @@ import QtQuick 2.15
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
 
-
 Rectangle{
     id: myRectangleBody
-
     color: "transparent"
     property int borderWidth: 0
 
@@ -15,15 +13,13 @@ Rectangle{
         bottomBorder.height = borderWidth
         leftBorder.width = borderWidth
     }
-
     property int topBorderWidth: 0
-    property int rightBorderWidth: 0
-    property int bottomBorderWidth: 0
-    property int leftBorderWidth: 0
-
     onTopBorderWidthChanged: topBorder.height = topBorderWidth
+    property int rightBorderWidth: 0
     onRightBorderWidthChanged: rightBorder.width = rightBorderWidth
+    property int bottomBorderWidth: 0
     onBottomBorderWidthChanged: bottomBorder.height= bottomBorderWidth
+    property int leftBorderWidth: 0
     onLeftBorderWidthChanged: leftBorder.width = leftBorderWidth
 
     property color borderColor: "black"
