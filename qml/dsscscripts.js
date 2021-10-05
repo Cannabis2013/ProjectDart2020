@@ -12,7 +12,7 @@ function connectInterface()
     applicationInterface.controllerAwaitsInput.connect(backendIsReadyAndAwaitsInput);
     applicationInterface.controllerHasDeclaredAWinner.connect(backendDeclaredAWinner);
     applicationInterface.controllerIsStopped.connect(backendIsStopped);
-    applicationInterface.addedInput.connect(backendPersistedInput);
+    applicationInterface.addedInput.connect(inputAdded);
     scoreKeyPad.sendInput.connect(handleScoreKeyPadInput);
     applicationInterface.dartsControllerIsReset.connect(reinitialize);
     applicationInterface.dartsInputRemoveSucces.connect(backendRemovedPoint);
@@ -26,7 +26,7 @@ function disconnectInterface()
     applicationInterface.controllerAwaitsInput.connect(backendIsReadyAndAwaitsInput);
     applicationInterface.controllerHasDeclaredAWinner.disconnect(backendDeclaredAWinner);
     applicationInterface.controllerIsStopped.disconnect(backendIsStopped);
-    applicationInterface.addedInput.disconnect(backendPersistedInput);
+    applicationInterface.addedInput.disconnect(inputAdded);
     applicationInterface.dartsInputRemoveSucces.disconnect(backendRemovedPoint);
     scoreKeyPad.sendInput.disconnect(handleScoreKeyPadInput);
 }
@@ -73,14 +73,13 @@ function addToScoreBoard(json)
     singleColumnScoreBoard.setData(playerName,playerScore);
 }
 
-// When backend has evaluated and persisted player input
-function backendPersistedInput(data)
+function inputAdded(data)
 {
     var json = JSON.parse(data);
     addToScoreBoard(json);
     setSuggestedTargetRow(json);
     setTurnControllerValues(json);
-    dartsScoreSingleColumnBody.state = "waitingForInput";
+    applicationInterface.requestControllerState();
 }
 
 function reinitialize()

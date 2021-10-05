@@ -1,8 +1,8 @@
 #ifndef DCMETASTATUS_H
 #define DCMETASTATUS_H
 
-#include "DartsController/DCMetaSLAs/idcmetastatus.h"
-class DCMetaStatus : public IDCMetaStatus
+#include "DartsController/DCMetaSLAs/idcstatus.h"
+class DCMetaStatus : public IDCStatus
 {
 public:
     int get() const override

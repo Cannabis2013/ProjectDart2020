@@ -6,9 +6,10 @@ class DCStatusCodes : public IDartsStatusCodes
 {
 public:
     enum ControllerState {
-        Initialized = 0x0,
-        Running = 0x2,
-        WinnerDeclared = 0x4
+        Initialized,
+        Running,
+        WinnerDeclared,
+        AwaitsInput
     };
     virtual int initialized() const override
     {
@@ -21,6 +22,10 @@ public:
     virtual int winnerFound() const override
     {
         return WinnerDeclared;
+    }
+    virtual int awaitsInput() const override
+    {
+        return AwaitsInput;
     }
 };
 #endif // DARTSSTATUSCODES_H

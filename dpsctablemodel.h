@@ -14,6 +14,7 @@
 #include "dartsdatacontextitemutility.h"
 #include "dartspscIndexBuilder.h"
 #include "dartspmcsectionutility.h"
+#include <createscorevaluefromdi.h>
 #include <dartstablesectionmanipulator.h>
 
 class DPSCTableModel : public DartsTableModel
@@ -28,7 +29,7 @@ public:
         setCreateColumnIndiceValues(new DartsTableCreateColumnIndices);
         setCreateRowsIndices(new DartsTableCreateRowIndices);
         setDataContext(new DartsPMCDataContext);
-        setTableItemBuilder(new CreateJsonFromDP);
+        setTableItemBuilder(new CreateScoreValueFromDI);
         setQMLVariantsContext(new CreateQMLVariants);
         setGetDataFromDataContext(new DartsDataContextItemUtility);
         setcolumnIndexBuilder(new DartsPSCIndexBuilder);

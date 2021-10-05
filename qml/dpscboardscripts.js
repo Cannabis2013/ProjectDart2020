@@ -18,20 +18,22 @@ function clearTable(){
 
 function updateScoreBoard()
 {
-    refreshVerticalHeader();
+    updateContentHeight();
 }
 
-function refreshVerticalHeader()
+function updateContentHeight()
 {
-    let verticalHeaderCount = verticalHeaderModel.count();
-    singleColumnPointBoard.verticalHeaderModel = verticalHeaderCount;
-    for(var j = 0;j < verticalHeaderCount;j++)
-    {
-        let h = tableHeightProvider.rowHeightAt(j);
-        let value = verticalHeaderModel.item(j);
-        scoreBoardBody.setVerticalHeaderHeightAt(j,h);
-        scoreBoardBody.setVerticalHeaderDataAt(j,value);
-    }
+    var h = calculateTotalHeight();
+    scoreBoardBody.updateContentHeight(h);
+}
+
+function calculateTotalHeight()
+{
+    var count = dataModel.rowCount();
+    var total = 0;
+    for(var i = 0;i < count;i++)
+        total += 64;
+    return total;
 }
 
 function setViewPosition(x,y)

@@ -79,6 +79,7 @@ HEADERS += \
     DartsController/DCJsonSLAs/idccreatebytearray.h \
     DartsController/DCJsonServices/dccreatebytearray.h \
     DartsController/DCJsonServices/dccreateemptyjsonobject.h \
+    DartsController/DCMetaSLAs/idcstatus.h \
     DartsController/DCTurnValuesSLAs/iDCTurnValJsonKeys.h \
     DartsController/DCTurnValuesServices/dcturnvaljsonkeys.h \
     DartsModelsContext/DMCIndexesSLAs/IDCIndexesJsonKeys.h \
@@ -108,7 +109,6 @@ HEADERS += \
     DartsController/DCMetaSLAs/idartsdeterminestatusbyid.h \
     DartsController/DCMetaSLAs/idartsstatuscodes.h \
     DartsController/DCMetaSLAs/idchint.h \
-    DartsController/DCMetaSLAs/idcmetastatus.h \
     DartsController/DCMetaSLAs/dcmetaservices.h \
     DartsController/DCMetaSLAs/idctournamentid.h \
     ModelsContext/MCDbSLAs/iremovemodelfromdb.h \

@@ -9,11 +9,11 @@ BoxedRect{
     property string playerName: ""
     onPlayerNameChanged: playerNameText.text = playerName
     property string score: ""
-    onScoreChanged: scoreText.text = text
+    onScoreChanged: scoreText.text = score
     color: "green"
+    radius: 10
     bottomBorderWidth: 1
     topBorderWidth: 1
-    anchors.fill: parent
     paddingLeft: 2
     contentRect: Item{
         GridLayout{
@@ -42,7 +42,7 @@ BoxedRect{
                 verticalAlignment: Qt.AlignVCenter
                 color: "white"
                 font.pointSize: 28
-                text: scoreTextRect.text
+                text: scoreTextRect.score
             }
         }
     }

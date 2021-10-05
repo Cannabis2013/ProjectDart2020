@@ -6,6 +6,7 @@ class IDartsStatusCodes
 public:
     virtual int initialized() const = 0;
     virtual int running() const = 0;
+    virtual int awaitsInput() const = 0;
     virtual int winnerFound() const = 0;
 };
 #endif // IDCSTATUSCODES_H

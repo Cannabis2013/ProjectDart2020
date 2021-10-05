@@ -6,6 +6,7 @@ import "scoreboardscripts.js" as ScoreBoardScripts
 ScoreBoardInterface{
     id: scoreBoardBody
     color: "transparent"
+    height: ScoreBoardScripts.calculateHeight()
     signal requestUpdateCells()
     onRequestUpdateCells: scoreBoardTableView.forceLayout()
     signal notifyCellPosition(int x, int y)

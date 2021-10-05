@@ -69,7 +69,7 @@ public:
         setCreateScoreModelsService(new DCCreateScoreModels);
         setSuggestFinishes(DCInputFinishes::createInstance(DCCreateFinishes::createInstance(), DCLogisticDb::createInstance()));
         // Meta services
-        setMetaStatus(new DCMetaStatus);
+        setControllerStatus(new DCMetaStatus);
         setStatusCodes(new DCStatusCodes);
         setDisplayHint(DCHint::createInstance(meta->displayHint()));
         setInputHint(DCHint::createInstance(meta->inputHint()));

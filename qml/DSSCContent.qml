@@ -41,30 +41,19 @@ Content {
         DSSCBoard{
             id: singleColumnScoreBoard
             Layout.fillWidth: true
-            Layout.minimumHeight: 200
-            Layout.maximumHeight: 200
+            Layout.minimumWidth: dartsScoreSingleColumnBody.width*0.75
+            Layout.maximumWidth: dartsScoreSingleColumnBody.width*0.75
+            Layout.alignment: Qt.AlignHCenter
         }
-        /*
-        MyRectangle{
-            Layout.fillHeight: true
-        }
-        */
         KeyDataDisplay{
             id: keyDataDisplay
             Layout.fillWidth: true
-            Layout.maximumHeight: 40
-        }
-        Rectangle{
-             color: "transparent"
-             height: 5
         }
         ScoreKeyPad{
             id: scoreKeyPad
             Layout.alignment: Qt.AlignBottom
             Layout.fillHeight: true
             Layout.fillWidth: true
-            //Layout.maximumHeight: 384
-            //Layout.minimumHeight: 128
         }
     }
     states: [

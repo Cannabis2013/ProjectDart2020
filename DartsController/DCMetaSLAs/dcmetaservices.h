@@ -1,6 +1,6 @@
 #ifndef DCMETASERVICES_H
 #define DCMETASERVICES_H
-#include "DartsController/DCMetaSLAs/idcmetastatus.h"
+#include "DartsController/DCMetaSLAs/idcstatus.h"
 #include "DartsController/DCMetaSLAs/idartsstatuscodes.h"
 #include "DartsController/DCMetaSLAs/idchint.h"
 #include "DartsController/DCMetaSLAs/idctournamentid.h"
@@ -10,13 +10,13 @@
 class DCMetaServices
 {
 public:
-    IDCMetaStatus *metaStatus() const
+    IDCStatus *controllerStatus() const
     {
-        return _metaStatus;
+        return _controllerStatus;
     }
-    void setMetaStatus(IDCMetaStatus *service)
+    void setControllerStatus(IDCStatus *service)
     {
-        _metaStatus = service;
+        _controllerStatus = service;
     }
     IDartsStatusCodes *statusCodes() const
     {
@@ -77,7 +77,7 @@ public:
         _determineStatusById = newDetermineStatusById;
     }
 private:
-    IDCMetaStatus *_metaStatus;
+    IDCStatus *_controllerStatus;
     IDartsStatusCodes *_statusCodes;
     IDCTournamentId *_tournamentId;
     IDCHint *_inputHint;

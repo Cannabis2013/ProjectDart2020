@@ -32,7 +32,7 @@ function calculateTotalHeight()
     var count = dataModel.rowCount();
     var total = 0;
     for(var i = 0;i < count;i++)
-        total += tableHeightProvider.rowHeightAt(i);
+        total += 64;
     return total;
 }
 

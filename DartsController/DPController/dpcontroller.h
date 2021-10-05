@@ -68,7 +68,7 @@ public:
         setDetermineStatusById(new DetermineStatusById);
         setGetTotalScoreService(new DCGetScoreCand);
         // Meta services
-        setMetaStatus(new DCMetaStatus);
+        setControllerStatus(new DCMetaStatus);
         setStatusCodes(new DCStatusCodes);
         setDisplayHint(DCHint::createInstance(meta->displayHint()));
         setInputHint(DCHint::createInstance(meta->inputHint()));

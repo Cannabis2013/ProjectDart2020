@@ -1,7 +1,7 @@
-#ifndef IDCMETASTATUS_H
-#define IDCMETASTATUS_H
+#ifndef IDCSTATUS_H
+#define IDCSTATUS_H
 
-class IDCMetaStatus
+class IDCStatus
 {
 public:
     virtual int get() const = 0;

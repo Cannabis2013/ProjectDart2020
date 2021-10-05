@@ -87,7 +87,7 @@ function updatePointBoard(json)
 
 function setThrowSuggestion(json)
 {
-    keyDataDisplay.setThrowSuggestion(json.targetRow);
+    keyDataDisplay.setThrowSuggestion(json["suggestedFinish"]);
 }
 
 function reinitialize()

@@ -4,6 +4,7 @@ import DartsTableUtils 1.0
 import "dsscboardscripts.js" as ScoreScripts
 DSCScoreBoard {
     id: scoreBoardBody
+    height: 128
     onWidthChanged: ScoreScripts.updateScoreBoard()
     signal setData(string playerName, int score)
     signal takeData(int row, int column,string playerName)
@@ -32,7 +33,7 @@ DSCScoreBoard {
     }
     rowHeightProvider: function(row)
     {
-        return tableHeightProvider.rowHeightAt(row);
+        return 64;
     }
     model: DSSCTableModel{
         id: dataModel

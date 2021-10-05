@@ -19,6 +19,7 @@ signals:
     void awaitsInput(const QByteArray& json);
     void requestDartsTournamentIndexes(const QUuid &tournament);
     void initialized(const int &inputHint,const int &displayHint);
+    void controllerAwaitsInput();
     void controllerInitializedAndReady();
     void requestAddDartsScore(const QByteArray& tournament);
     void hideInput(const QUuid &tournament,

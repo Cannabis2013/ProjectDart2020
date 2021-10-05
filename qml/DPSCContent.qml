@@ -36,30 +36,20 @@ Content {
         }
         DPSCBoard{
             id: singleColumnPointBoard
-            Layout.fillHeight: true
             Layout.fillWidth: true
-            Layout.minimumHeight: 160
+            Layout.minimumWidth: dpscBody.width*0.75
+            Layout.maximumWidth: dpscBody.width*0.75
+            Layout.alignment: Qt.AlignHCenter
         }
-        MyRectangle{
-            Layout.fillHeight: true
-        }
-
         KeyDataDisplay{
             id: keyDataDisplay
             Layout.fillWidth: true
-            Layout.maximumHeight: 40
-        }
-        Rectangle{
-             color: "transparent"
-             height: 5
         }
         PointKeyPad{
             id: pointKeyPad
             Layout.alignment: Qt.AlignBottom
             Layout.fillHeight: true
             Layout.fillWidth: true
-            Layout.maximumHeight: 384
-            Layout.minimumHeight: 128
             onSendInput: PointSingleColumnScripts.handleScoreKeyPadInput(value,keyCode)
         }
     }

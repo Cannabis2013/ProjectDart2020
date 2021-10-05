@@ -2,8 +2,9 @@ import QtQuick 2.0
 import CustomItems 1.0
 import DartsTableUtils 1.0
 import "dpscboardscripts.js" as ScoreBoardScripts
-ScoreBoard {
+DSCScoreBoard {
     id: scoreBoardBody
+    height: 128
     onWidthChanged: ScoreBoardScripts.updateScoreBoard()
     // Data related
     signal setData(string playerName, int point, int score)
@@ -33,23 +34,22 @@ ScoreBoard {
     }
     StringHeaderModel{
         id: verticalHeaderModel
-        onDataChanged: ScoreBoardScripts.refreshVerticalHeader()
     }
     columnWidthProvider: function(column){
         return tableDisplayWidth;
     }
     rowHeightProvider: function(row)
     {
-        return tableHeightProvider.rowHeightAt(row);
+        return 64;
     }
     model: DartsPSCTableModel{
         id: dataModel
         onDataChanged: ScoreBoardScripts.updateScoreBoard();
         minimumColumnCount: 1
     }
-    cellDelegate: ScoreBoardDelegate {
+    cellDelegate: BoardDelegateContentRect {
         id: delegate
-        text: display
-        onTextChanged: ScoreBoardScripts.setDelegateText(text,delegate)
+        playerName: verticalHeaderModel.item(index)
+        score: display
     }
 }

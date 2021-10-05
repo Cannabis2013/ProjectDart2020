@@ -44,13 +44,14 @@ public slots:
 private slots:
     void persistInput(DCContext::IDCInputModel *inputModel);
     void nullifyAndPersistInput(DCContext::IDCInputModel *input);
-    void declareWinnerAndPersistInput(DCContext::IDCInputModel *inputModel);
+    void declareWinner(DCContext::IDCInputModel *input);
 private:
+    QByteArray assembleJsonResponse(DCContext::IDCInputModel *input, const DCContext::DCTurnValues *turnValues);
+    QByteArray assembleJsonResponse(DCContext::IDCInputModel *input, const DCContext::IDCIndexes *indexes);
     void connectInputEvaluator();
-    void updateTotalScore(const QByteArray &json);
+    void updateTotalScore(DCContext::IDCInputModel *input);
     void createAndSendWinnerValues();
     void sendCurrentTurnValues();
     int lastPlayerIndex();
-    void nextTurn();
 };
 #endif // FIVEHUNDREDANDONEGAME_H
