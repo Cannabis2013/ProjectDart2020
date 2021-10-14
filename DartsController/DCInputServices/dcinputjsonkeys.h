@@ -30,10 +30,6 @@ public:
     {
         return "totalScore";
     }
-    virtual QString tournamentId() const override
-    {
-        return "tournamentId";
-    }
 };
 
 #endif // DCINPUTJSONKEYS_H

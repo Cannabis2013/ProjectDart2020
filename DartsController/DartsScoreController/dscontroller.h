@@ -11,7 +11,6 @@
 #include "DartsController/DCScoresServices/dcsubtractscore.h"
 #include "DartsController/DCTurnValuesServices/dcturnvaluestojson.h"
 #include "DartsController/DCIndexServices/dcindexundo.h"
-#include <jsonvaluesextractor.h>
 #include <quuid.h>
 #include "DartsController/DCPlayerServices/dcwinnerkeys.h"
 #include "DartsController/DCPlayerServices/dccreateplayersfromjson.h"
@@ -49,7 +48,9 @@
 #include "DartsController/DCJsonServices/dccreatebytearray.h"
 #include "DartsController/DCJsonServices/dccreateemptyjsonobject.h"
 #include "DartsController/DCTurnValuesServices/dcturnvaljsonkeys.h"
-#include "DartsModelsContext/DMCIndexesServices/dindexesjsonkeys.h"
+#include "DartsController/DCInputStatsServices/dcaveragecalc.h"
+#include "DartsController/DCInputStatsServices/dcinputstatsavgkeys.h"
+#include "DartsController/DCIndexServices/dcindexesjsonkeys.h"
 class DSController : public DartsController
 {
 public:
@@ -77,16 +78,18 @@ public:
         setInitialScore(DCInitialScore::createInstance(meta->keyPoint()));
         // Json services
         setTurnValuesToJsonService(new DCTurnValuesToJson);
-        setJsonExtractor(new JsonValuesExtractor);
         setCreateByteArray(new DCCreateByteArray);
         setCreateEmptyJsonObject(new DCCreateEmptyJsonObject);
         // Input services
-        setInputsToJsonService(new DSCInputToJson);
+        setInputJsonContext(new DSCInputToJson);
         setGetScoreFromInput(new GetScoreFromDSCInput);
         setCreateInputModels(new DCCreateInputModels);
         setInputKeys(new DCInputJsonKeys);
         setInputKeyCodes(new DCInputKeyCodes);
         setInputEvaluator(DSCInputValidator::createInstance());
+        // Input statistics services
+        setCalcInputAvg(new DCAverageCalc);
+        setInputAvgKeys(new DCInputStatsAvgKeys);
         // Player score services
         setSubtractScore(new DCSubtractScore);
         setUpdateScoreModels(new DCUpdateScoreModels);

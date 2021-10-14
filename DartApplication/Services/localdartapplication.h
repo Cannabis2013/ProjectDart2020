@@ -27,14 +27,12 @@ public:
     {
         return new LocalDartApplication();
     }
-
     static LocalDartApplication *createAndSetupInstance()
     {
         auto app = LocalDartApplication::createInstance()
                 ->createDCBuilder();
         return app;
     }
-
     LocalDartApplication *createDCBuilder()
     {
         _dcBuilder = new CreateDartsController();

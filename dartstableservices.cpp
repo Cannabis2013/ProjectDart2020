@@ -4,57 +4,57 @@ ITableSectionContext *DartsTableServices::tableSections() const
 {
     return _tableContext;
 }
-void DartsTableServices::setTableSections(ITableSectionContext *newTableDimensions)
+void DartsTableServices::setTableSections(ITableSectionContext *service)
 {
-    _tableContext = newTableDimensions;
+    _tableContext = service;
 }
 ITableCellContext<QPair<int, int> > *DartsTableServices::cellContext() const
 {
     return _cellContext;
 }
-void DartsTableServices::setTableCellContext(ITableCellContext<QPair<int, int> > *newCellValueContext)
+void DartsTableServices::setTableCellContext(ITableCellContext<QPair<int, int> > *service)
 {
-    _cellContext = newCellValueContext;
+    _cellContext = service;
 }
 ITableFillCells<DartsTableServices::Rows, DartsTableServices::TableItem> *DartsTableServices::createRows() const
 {
     return _createRows;
 }
-void DartsTableServices::setCreateRows(ITableFillCells<Rows, TableItem> *newFillCellsContext)
+void DartsTableServices::setCreateRows(ITableFillCells<Rows, TableItem> *service)
 {
-    _createRows = newFillCellsContext;
+    _createRows = service;
 }
 ITableIndiceValues *DartsTableServices::createRowsIndices() const
 {
     return _createRowIndiceValues;
 }
-void DartsTableServices::setCreateRowsIndices(ITableIndiceValues *newCreateRowsIndices)
+void DartsTableServices::setCreateRowsIndices(ITableIndiceValues *service)
 {
-    _createRowIndiceValues = newCreateRowsIndices;
+    _createRowIndiceValues = service;
 }
 ITableSectionManipulator<DartsTableServices::Rows> *DartsTableServices::sectionManipulator() const
 {
     return _tableDataManipulator;
 }
-void DartsTableServices::setSectionManipulator(ITableSectionManipulator<Rows> *newTableDataManipulator)
+void DartsTableServices::setSectionManipulator(ITableSectionManipulator<Rows> *service)
 {
-    _tableDataManipulator = newTableDataManipulator;
+    _tableDataManipulator = service;
 }
 IDartsTableDataContext *DartsTableServices::dataContext() const
 {
     return _dataContext;
 }
-void DartsTableServices::setDataContext(IDartsTableDataContext *newDataContext)
+void DartsTableServices::setDataContext(IDartsTableDataContext *service)
 {
-    _dataContext = newDataContext;
+    _dataContext = service;
 }
 ITableIndiceValues *DartsTableServices::createColumnIndiceValues() const
 {
     return _createColumnIndiceValues;
 }
-void DartsTableServices::setCreateColumnIndiceValues(ITableIndiceValues *newCreateColumnIndiceValues)
+void DartsTableServices::setCreateColumnIndiceValues(ITableIndiceValues *service)
 {
-    _createColumnIndiceValues = newCreateColumnIndiceValues;
+    _createColumnIndiceValues = service;
 }
 
 IQMLDataBuilder<DartsTableServices::Column, QVariantList> *DartsTableServices::QMLVariantsContext() const
@@ -62,9 +62,9 @@ IQMLDataBuilder<DartsTableServices::Column, QVariantList> *DartsTableServices::Q
     return _QMLDataContext;
 }
 
-void DartsTableServices::setQMLVariantsContext(IQMLDataBuilder<Column, QVariantList> *newQMLDataContext)
+void DartsTableServices::setQMLVariantsContext(IQMLDataBuilder<Column, QVariantList> *service)
 {
-    _QMLDataContext = newQMLDataContext;
+    _QMLDataContext = service;
 }
 
 IQMLDataBuilder<DartsTableServices::TableItem, QVariant> *DartsTableServices::tableItemBuilder() const
@@ -72,9 +72,9 @@ IQMLDataBuilder<DartsTableServices::TableItem, QVariant> *DartsTableServices::ta
     return _qmlJsonContext;
 }
 
-void DartsTableServices::setTableItemBuilder(IQMLDataBuilder<TableItem, QVariant> *newCreateJsonFromModel)
+void DartsTableServices::setTableItemBuilder(IQMLDataBuilder<TableItem, QVariant> *service)
 {
-    _qmlJsonContext = newCreateJsonFromModel;
+    _qmlJsonContext = service;
 }
 
 IGetDataFromDataContext<DartsTableServices::TableItem, IDartsTableDataContext> *DartsTableServices::getDataFromDataContext() const
@@ -82,9 +82,9 @@ IGetDataFromDataContext<DartsTableServices::TableItem, IDartsTableDataContext> *
     return _getDataFromDataContext;
 }
 
-void DartsTableServices::setGetDataFromDataContext(IGetDataFromDataContext<TableItem, IDartsTableDataContext> *newGetDataFromDataContext)
+void DartsTableServices::setGetDataFromDataContext(IGetDataFromDataContext<TableItem, IDartsTableDataContext> *service)
 {
-    _getDataFromDataContext = newGetDataFromDataContext;
+    _getDataFromDataContext = service;
 }
 
 ITableColumnIndexBuilder *DartsTableServices::columnIndexBuilder() const
@@ -92,9 +92,9 @@ ITableColumnIndexBuilder *DartsTableServices::columnIndexBuilder() const
     return _columnIndexBuilder;
 }
 
-void DartsTableServices::setcolumnIndexBuilder(ITableColumnIndexBuilder *newTableColumnIndexBuilder)
+void DartsTableServices::setcolumnIndexBuilder(ITableColumnIndexBuilder *service)
 {
-    _columnIndexBuilder = newTableColumnIndexBuilder;
+    _columnIndexBuilder = service;
 }
 
 IDartsTableSectionUtility *DartsTableServices::sectionUtility() const
@@ -102,16 +102,16 @@ IDartsTableSectionUtility *DartsTableServices::sectionUtility() const
     return _sectionUtitity;
 }
 
-void DartsTableServices::setSectionUtitity(IDartsTableSectionUtility *newSectionUtitity)
+void DartsTableServices::setSectionUtitity(IDartsTableSectionUtility *service)
 {
-    _sectionUtitity = newSectionUtitity;
+    _sectionUtitity = service;
 }
 
 ITableFillCells<DartsTableServices::Rows, DartsTableServices::TableItem> *DartsTableServices::createColumns() const
 {
     return _createColumns;
 }
-void DartsTableServices::setCreateColumns(ITableFillCells<Rows, TableItem> *newCreateColumns)
+void DartsTableServices::setCreateColumns(ITableFillCells<Rows, TableItem> *service)
 {
-    _createColumns = newCreateColumns;
+    _createColumns = service;
 }

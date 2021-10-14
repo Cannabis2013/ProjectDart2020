@@ -16,12 +16,10 @@ namespace DCContext
         virtual void setPlayerId(const QUuid& id) = 0;
         virtual QString playerName() const = 0;
         virtual void setPlayerName(const QString &name) = 0;
-        virtual int totalScore() const = 0;
+        virtual int remainingScore() const = 0;
         virtual void setTotalScore(const int& score) = 0;
         virtual int modKeyCode() const = 0;
         virtual void setModKeyCode(const int& keyCode) = 0;
-        virtual QUuid tournamentId() const = 0;
-        virtual void setTournamentId(const QUuid& id) = 0;
     };
 }
 #endif // IDARTSCONTROLLERPOINT_H

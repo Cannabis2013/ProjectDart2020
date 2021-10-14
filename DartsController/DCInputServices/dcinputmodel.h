@@ -30,13 +30,13 @@ namespace DCContext
         {
             _playerName = name;
         }
-        int totalScore() const override
+        int remainingScore() const override
         {
-            return _accumulatedScore;
+            return _totalScore;
         }
         void setTotalScore(const int& accumulatedScore) override
         {
-            _accumulatedScore = accumulatedScore;
+            _totalScore = accumulatedScore;
         }
         int point() const override
         {
@@ -62,20 +62,12 @@ namespace DCContext
         {
             _modKeyCode = newModKeyCode;
         }
-        virtual QUuid tournamentId() const override
-        {
-            return _tournamentId;
-        }
-        virtual void setTournamentId(const QUuid &id) override
-        {
-            _tournamentId = id;
-        }
     private:
-        int _point;
+        int _point = 0;
         int _modKeyCode;
-        int _score;
-        int _accumulatedScore;
-        QUuid _playerId, _tournamentId;
+        int _score = 0;
+        int _totalScore = 0;
+        QUuid _playerId;
         QString _playerName;
     };
 }

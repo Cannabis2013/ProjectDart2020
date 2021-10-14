@@ -11,8 +11,8 @@ public:
     {
         return new DSCInputValidator();
     }
-    virtual void validateInput(const int &currentScore,
-                              const IDCInputKeyCodes *, DCContext::IDCInputModel *input) override
+    virtual void validateInput(const int &currentScore,  const IDCInputKeyCodes *, DCContext::IDCInputModel *input,
+                               IDCPlayerAllowancesContext *) override
     {
         if(currentScore >= minimumAllowedScore)
             emit playerHitPointDomain(input);

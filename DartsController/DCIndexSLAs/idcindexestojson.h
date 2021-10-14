@@ -2,7 +2,7 @@
 #define IDCINDEXESTOJSON_H
 #include <qbytearray.h>
 #include <qjsonobject.h>
-#include "DartsModelsContext/DMCIndexesSLAs/IDCIndexesJsonKeys.h"
+#include "DartsController/DCIndexSLAs/IDCIndexesJsonKeys.h"
 #include "idcindexes.h"
 class IDCIndexesToJson
 {

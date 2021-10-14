@@ -13,7 +13,8 @@ public slots:
     virtual void initializeScores(const QByteArray&) = 0;
     virtual void createDartsScores() = 0;
     virtual void getOrderedInputsWithTotalScores() = 0;
-    virtual void handleUserInputAdded(const QByteArray&) = 0;
+    virtual void handleUserInputAdded(const QByteArray& json) = 0;
+    virtual void handleIndexesUpdated(const QByteArray& json) = 0;
     virtual void handleOrderedInputs(const QByteArray &json) = 0;
 signals:
     void awaitsInput(const QByteArray& json);
@@ -31,6 +32,7 @@ signals:
                         const int &roundIndex,
                           const int &attemptIndex);
     void requestDartsTournamentDetails(const QUuid& tournamentId);
+    void sendCurrentIndexes(const QByteArray &json);
     void initializedAndAwaitsInput(const bool& canUndo,
                                    const bool& canRedo,
                                    const int& roundIndex,

@@ -20,31 +20,31 @@ public:
     typedef QVector<Row> Rows;
     typedef QVector<TableItem> Column;
     ITableSectionContext *tableSections() const;
-    void setTableSections(ITableSectionContext *newTableDimensions);
+    void setTableSections(ITableSectionContext *service);
     ITableCellContext<QPair<int, int> > *cellContext() const;
-    void setTableCellContext(ITableCellContext<QPair<int, int> > *newCellValueContext);
+    void setTableCellContext(ITableCellContext<QPair<int, int> > *service);
     ITableFillCells<Rows, TableItem> *createRows() const;
-    void setCreateRows(ITableFillCells<Rows, TableItem> *newFillCellsContext);
+    void setCreateRows(ITableFillCells<Rows, TableItem> *service);
     ITableFillCells<Rows, TableItem> *createColumns() const;
-    void setCreateColumns(ITableFillCells<Rows, TableItem> *newCreateColumns);
+    void setCreateColumns(ITableFillCells<Rows, TableItem> *service);
     ITableIndiceValues *createRowsIndices() const;
-    void setCreateRowsIndices(ITableIndiceValues *newCreateRowsIndices);
+    void setCreateRowsIndices(ITableIndiceValues *service);
     ITableSectionManipulator<Rows> *sectionManipulator() const;
-    void setSectionManipulator(ITableSectionManipulator<Rows> *newTableDataManipulator);
+    void setSectionManipulator(ITableSectionManipulator<Rows> *service);
     IDartsTableDataContext *dataContext() const;
-    void setDataContext(IDartsTableDataContext *newDataContext);
+    void setDataContext(IDartsTableDataContext *service);
     ITableIndiceValues *createColumnIndiceValues() const;
-    void setCreateColumnIndiceValues(ITableIndiceValues *newCreateColumnIndiceValues);
+    void setCreateColumnIndiceValues(ITableIndiceValues *service);
     IQMLDataBuilder<Column, QVariantList> *QMLVariantsContext() const;
-    void setQMLVariantsContext(IQMLDataBuilder<Column, QVariantList> *newQMLDataContext);
+    void setQMLVariantsContext(IQMLDataBuilder<Column, QVariantList> *service);
     IQMLDataBuilder<TableItem, QVariant> *tableItemBuilder() const;
-    void setTableItemBuilder(IQMLDataBuilder<TableItem, QVariant> *newCreateJsonFromModel);
+    void setTableItemBuilder(IQMLDataBuilder<TableItem, QVariant> *service);
     IGetDataFromDataContext<TableItem, IDartsTableDataContext> *getDataFromDataContext() const;
-    void setGetDataFromDataContext(IGetDataFromDataContext<TableItem, IDartsTableDataContext> *newGetDataFromDataContext);
+    void setGetDataFromDataContext(IGetDataFromDataContext<TableItem, IDartsTableDataContext> *service);
     ITableColumnIndexBuilder *columnIndexBuilder() const;
-    void setcolumnIndexBuilder(ITableColumnIndexBuilder *newTableColumnIndexBuilder);
+    void setcolumnIndexBuilder(ITableColumnIndexBuilder *service);
     IDartsTableSectionUtility *sectionUtility() const;
-    void setSectionUtitity(IDartsTableSectionUtility *newSectionUtitity);
+    void setSectionUtitity(IDartsTableSectionUtility *service);
 
 private:
     // Cell services

@@ -10,7 +10,7 @@ class AbstractDartsModelsContext : public QObject
     Q_OBJECT
 public:
     virtual ~AbstractDartsModelsContext() = default;
-    virtual void addDartsTournament(const QByteArray& json, const QVector<const IModel<QUuid> *> &playerModels) = 0;
+    virtual void addDartsTournament(const QByteArray& json, const QVector<IModel<QUuid> *> &playerModels) = 0;
     virtual void deleteTournaments(const QVector<int>& indexes) = 0;
     virtual void getOrderedInputs(const QUuid &tournament) = 0;
     virtual void getTournaments() = 0;
@@ -20,11 +20,12 @@ public:
     virtual void createDartsKeyValues(const QUuid& tournament) = 0;
     virtual void setDartsTournamentWinner(const QByteArray& json) = 0;
     virtual void addInput(const QByteArray& json) = 0;
+    virtual void updateTournamentIndexes(const QByteArray &json) = 0;
     virtual void hideInput(const QUuid& tournamentId,const QUuid& playerId,
                            const int &roundIndex,const int& attemptIndex) = 0;
     virtual void revealInput(const QUuid& tournamentId,const QUuid& playerId,
                              const int& roundIndex,const int& attemptIndex) = 0;
-    virtual void createIndexes(const QUuid& tournament) = 0;
+    virtual void getIndexes(const QUuid& tournament) = 0;
     virtual void getPlayerDetails(const QUuid &tournamentId) = 0;
     virtual void getPlayerInputs(const QUuid &tournamentId) = 0;
     virtual void getTournamentWinnerDetails(const QUuid &tournamentId) = 0;
@@ -36,6 +37,7 @@ signals:
     void sendTournamentMeta(const QByteArray& json);
     void requestAssembleTournament(const QUuid &tournament, const int &gameMode);
     void inputModelAdded(const QByteArray& json);
+    void tournamentIndexesUpdated(const QByteArray &json);
     void scoreNotAddedToDataContext(const QString& msg);
     void hideInputSuccess(const QByteArray&);
     void revealInputSuccess(const QByteArray&);
@@ -47,7 +49,7 @@ signals:
     void sendDartsDetails(const QByteArray& json);
     void tournamentModelsStatePersisted();
     void tournamentCreatedAndPersisted();
-    void sendIndexesAsJson(const QByteArray& json);
+    void sendIndexes(const QByteArray& json);
     void sendAssignedPlayerDetails(const QByteArray& json);
     void sendInputs(const QByteArray& json);
     void sendDartsIndexesAndScoreValues(const QByteArray& json);

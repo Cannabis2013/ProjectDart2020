@@ -7,25 +7,29 @@
 class ModelsDbIOSLAs
 {
 public:
+    typedef  IFileReader<QByteArray> FileReaderInterface;
+    typedef IFileWriter<QByteArray> FileWriteInterface;
     IFileWriter<QByteArray> *writeJsonToFile() const
     {
         return _writeJsonToFile;
     }
-    void setWriteJsonToFile(IFileWriter<QByteArray> *newWriteJsonToFile)
+    ModelsDbIOSLAs *setWriteJsonToFile(IFileWriter<QByteArray> *service)
     {
-        _writeJsonToFile = newWriteJsonToFile;
+        _writeJsonToFile = service;
+        return this;
     }
     IFileReader<QByteArray> *readJsonFromFile() const
     {
         return _readJsonFromFile;
     }
-    void setReadJsonFromFile(IFileReader<QByteArray> *newReadJsonFromFile)
+    ModelsDbIOSLAs *setReadJsonFromFile(IFileReader<QByteArray> *service)
     {
-        _readJsonFromFile = newReadJsonFromFile;
+        _readJsonFromFile = service;
+        return this;
     }
 private:
-    IFileWriter<QByteArray> *_writeJsonToFile;
-    IFileReader<QByteArray> *_readJsonFromFile;
+    FileWriteInterface *_writeJsonToFile;
+    FileReaderInterface *_readJsonFromFile;
 };
 
 #endif // MODELSDBIOSERVICES_H

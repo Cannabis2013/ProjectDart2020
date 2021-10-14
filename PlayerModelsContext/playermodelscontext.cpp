@@ -2,9 +2,10 @@
 
 void PlayerModelsContext::createPlayer(const QByteArray &json)
 {
-    auto playerModel = createPlayerModel()->createPlayerModel(json);
+    auto playerModel = playerBuilder()->createPlayer(json);
     try {
-        modelsDbContext()->add(playerModel);
+        dbContext()->add(playerModel);
+        dbContext()->saveChanges(jsonBuilder());
     }  catch (...) {
         emit playerAddedError("");
         return;
@@ -14,25 +15,36 @@ void PlayerModelsContext::createPlayer(const QByteArray &json)
 
 void PlayerModelsContext::deletePlayersFromIndexes(const QVector<int> &indexes)
 {
-    auto status = removeFromDb()->remove(indexes,modelsDbContext());
-    emit playersDeletedStatus(status);
+    dbContext()->remove(indexes)->saveChanges(jsonBuilder());
+    emit playersDeletedStatus(true);
 }
 
 void PlayerModelsContext::handleRequestPlayersDetails()
 {
-    auto playerModels = modelsDbContext()->models();
-    auto json = dartsPlayerCreateJson()->createJson(playerModels);
+    auto playerModels = dbContext()->models();
+    auto json = jsonBuilder()->toJson(playerModels);
     emit sendPlayers(json);
 }
 
 QFuture<IPlayerModelsContext::Models> PlayerModelsContext::playerModels(const QByteArray &json) const
 {
-    auto createModels = [=]()
+    return QtConcurrent::run([=]()
     {
-        auto models = createPlayerModels()->createPlayerModels(json,getPlayerModelsFromDb(),modelsDbContext());
+        auto indexes = getIndexesFromJson(json);
+        auto models = getPlayerModelsFromDb()->models(indexes,dbContext());
         return models;
-    };
-    return QtConcurrent::run(createModels);
+
+    });
+}
+
+QVector<int> PlayerModelsContext::getIndexesFromJson(const QByteArray &json) const
+{
+    QVector<int> indexes;
+    auto obj = QJsonDocument::fromJson(json).object();
+    auto arr = obj.value("playerIndexes").toArray();
+    for (const auto &jsonValue : arr)
+        indexes << jsonValue.toInt();
+    return indexes;
 }
 
 

@@ -7,7 +7,7 @@
 class DCPlayerBuilder : public IDCPlayerModelBuilder
 {
 public:
-    const DCContext::IDCPlayer *createModel(const QUuid &id, const QString &name) const override
+    DCContext::IDCPlayer *createModel(const QUuid &id, const QString &name) const override
     {
         return new DCContext::DCPlayer(id,name);
     }

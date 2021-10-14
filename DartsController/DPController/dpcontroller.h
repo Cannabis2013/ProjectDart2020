@@ -21,7 +21,6 @@
 #include "DartsController/DCIndexServices/dcindexiterator.h"
 #include "DartsController/DCIndexServices/dcindexredo.h"
 #include "DartsController/DCPlayerServices/dcwinnerkeys.h"
-#include "jsonvaluesextractor.h"
 #include "DartsController/DCScoresServices/dcsubtractscore.h"
 #include "DartsController/DCIndexServices/dcresetindexes.h"
 #include "DartsController/DCIndexServices/dcindexundo.h"
@@ -50,7 +49,12 @@
 #include "DartsController/DCJsonServices/dccreatebytearray.h"
 #include "DartsController/DCJsonServices/dccreateemptyjsonobject.h"
 #include "DartsController/DCTurnValuesServices/dcturnvaljsonkeys.h"
-#include "DartsModelsContext/DMCIndexesServices/dindexesjsonkeys.h"
+#include "DartsController/DCInputStatsServices/dcaveragecalc.h"
+#include "DartsController/DCInputStatsServices/dcinputstatsavgkeys.h"
+#include "DartsController/DCIndexServices/dcindexesjsonkeys.h"
+
+#include "DartsController/DCPlayerServices/DPCPlayerAllowancesContext.h"
+
 class DPController : public DartsController
 {
 public:
@@ -59,14 +63,13 @@ public:
         setIndexService(new DPCIndexController);
         setTurnValuesBuilder(new CreateDPCTurnValues);
         setCreateInputModelService(new DPCCreateInputModel);
-        setIndexesBuilder(new DCIndexesBuilder);
-        setGetScoreFromInput(new GetScoreFromDPCInput);
-        setAddScoreService(new DCAddScore);
         setAddTotalScoresToJson(new AddTotalScoreToDartsInputsAsJson);
-        setAddPlayerNamesToJson(new AddPlayerNamestoDartsInputsAsJson);
         setSuggestFinishes(DCInputFinishes::createInstance(DCCreateFinishes::createInstance(), DCLogisticDb::createInstance()));
         setDetermineStatusById(new DetermineStatusById);
         setGetTotalScoreService(new DCGetScoreCand);
+        // Player services
+        setPlayerAllowanceContext(new DPCPlayerAllowancesContext);
+        setAddPlayerNamesToJson(new AddPlayerNamestoDartsInputsAsJson);
         // Meta services
         setControllerStatus(new DCMetaStatus);
         setStatusCodes(new DCStatusCodes);
@@ -75,7 +78,7 @@ public:
         setTournamentId(DCTournamentId::createInstance(meta->tournamentId()));
         setInitialScore(DCInitialScore::createInstance(meta->keyPoint()));
         // Json services
-        setInputsToJsonService(new DPCInputsToJson);
+        setInputJsonContext(new DPCInputsToJson);
         setTurnValuesToJsonService(new DCTurnValuesToJson);
         setIndexesToJsonService(new DPCIndexesToJson);
         setCreateByteArray(new DCCreateByteArray);
@@ -88,12 +91,16 @@ public:
         setScoresService(new DCScoresService);
         setCreateCandidateTuples(new DCCreateCandidateModels);
         setWinnerService(new DCWinnerService);
-        setJsonExtractor(new JsonValuesExtractor);
+        setAddScoreService(new DCAddScore);
         // Input services
         setCreateInputModels(new DCCreateInputModels);
         setInputKeys(new DCInputJsonKeys);
         setInputKeyCodes(new DCInputKeyCodes);
         setInputEvaluator(DPCInputValidator::createInstance());
+        setGetScoreFromInput(new GetScoreFromDPCInput);
+        // Input statistics services
+        setCalcInputAvg(new DCAverageCalc);
+        setInputAvgKeys(new DCInputStatsAvgKeys);
         // Player services
         setPlayerBuilderService(new DCPlayerBuilder);
         setPlayerService(new DCPlayerService(indexService(),scoresService()));
@@ -108,6 +115,7 @@ public:
         setUndoIndex(new DCIndexUndo);
         setRedoIndex(new DCIndexRedo);
         setIndexKeys(new DCIndexesJsonKeys);
+        setIndexesBuilder(new DCIndexesBuilder);
         // TurnValues services
         setTurnValKeys(new DCTurnValJsonKeys);
     }

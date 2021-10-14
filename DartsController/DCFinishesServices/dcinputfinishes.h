@@ -16,7 +16,7 @@ public:
     IDartsFinishesDb *dbContext() const;
     void setDbContext(IDartsFinishesDb *service);
     IDartsCreateFinishes *constructTargetRows() const;
-    void setConstructRow(IDartsCreateFinishes *newConstructRow);
+    void setConstructRow(IDartsCreateFinishes *service);
 private:
     DCInputFinishes(IDartsCreateFinishes *constructRows, IDartsFinishesDb *dbContext);
     QString getTargetRow(const int &turnIndex, const int &remainingScore) const;

@@ -2,14 +2,14 @@
 #define ISORTINPUTMODELS_H
 
 #include <qvector.h>
-#include "DartsModelsContext/DMCInputSLAs/iplayerinput.h"
+#include "DartsModelsContext/InputsDbSLAs/iplayerinput.h"
 #include "ModelsContext/MCPredicateSLAs/imodelpredicate.h"
 
 class ISortInputModels
 {
 public:
-    virtual QVector<const IModel<QUuid>*> sort(const QVector<const IModel<QUuid>*>& unsortedInputs,
-                                              const IModelPredicate<IModel<QUuid>> *predicate) const = 0;
+    virtual QVector<IModel<QUuid>*> sort(const QVector<IModel<QUuid>*>& unsortedInputs,
+                                         const IModelPredicate *predicate) const = 0;
 };
 
 #endif // ISORTINPUTMODELS_H

@@ -5,8 +5,7 @@
 class WriteByteArray : public IFileWriter<QByteArray>
 {
 public:
-    WriteByteArray(const QString &fileName): _fileName(fileName){}
-    void write(const QByteArray &byteArray) const
+    void write(const QByteArray &byteArray) const override
     {
         QFile file(_fileName);
         if(!file.open(QIODevice::WriteOnly))
@@ -15,8 +14,12 @@ public:
         out << byteArray;
         file.close();
     }
+    virtual void setFileName(const QString &fileName) override
+    {
+        _fileName = fileName;
+    }
 private:
-    const QString _fileName;
+    QString _fileName;
 };
 
 #endif // BYTESFILEWRITER_H

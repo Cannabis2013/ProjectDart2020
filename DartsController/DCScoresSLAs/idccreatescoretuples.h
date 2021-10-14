@@ -9,7 +9,7 @@
 class IDCCreateScoreTuples
 {
 public:
-    typedef QVector<const DCContext::IDCPlayer*> PlayerModels;
+    typedef QVector<DCContext::IDCPlayer*> PlayerModels;
     virtual QVector<DCContext::DCScoreModel> createScoreModels(const PlayerModels& models, const int &initialScore) = 0;
 };
 #endif // IDCCREATESCORETUPLES_H

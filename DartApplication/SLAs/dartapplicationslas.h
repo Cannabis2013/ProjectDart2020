@@ -17,7 +17,7 @@ public:
     IConnectServicesProvider *connectServices() const;
     IRouteServicesProvider *routeServices() const;
     IPlayerModelsContext *playerModelsContext() const;
-    void setPlayerModelsContext(IPlayerModelsContext *newPlayerModelsContext);
+    void setPlayerModelsContext(IPlayerModelsContext *service);
 protected:
     // Darts models context
     AbstractDartsModelsContext* _dartsModelsContext;

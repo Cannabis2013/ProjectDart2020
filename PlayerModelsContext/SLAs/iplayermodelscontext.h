@@ -11,7 +11,7 @@ class IPlayerModelsContext : public QObject
 {
     Q_OBJECT
 public:
-    typedef QVector<const IModel<QUuid>*> Models;
+    typedef QVector<IModel<QUuid>*> Models;
     virtual QFuture<Models> playerModels(const QByteArray &json) const = 0;
 public slots:
     virtual void createPlayer(const QByteArray &json) = 0;

@@ -1,19 +1,18 @@
 #ifndef DSCINPUTTOJSON_H
 #define DSCINPUTTOJSON_H
-#include "DartsController/DCInputSLAs/idcinputstojson.h"
+#include "DartsController/DCInputSLAs/idcinputjsoncontext.h"
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 #include <qjsonarray.h>
-class DSCInputToJson : public IDCInputsToJson
+class DSCInputToJson : public IDCInputJsonContext
 {
 public:
     void setJsonValues(QJsonObject &obj, DCContext::IDCInputModel* model, const IDCInputJsonKeys *inputKeys) const override
     {
-        obj[inputKeys->tournamentId()] = model->tournamentId().toString(QUuid::WithoutBraces);
         obj[inputKeys->score()] = model->score();
         obj[inputKeys->playerId()] = model->playerId().toString(QUuid::WithoutBraces);
         obj[inputKeys->playerName()] = model->playerName();
-        obj[inputKeys->totalScore()] = model->totalScore();
+        obj[inputKeys->totalScore()] = model->remainingScore();
     }
     void setJsonValues(QJsonArray &arr, const QVector<DCContext::IDCInputModel*>& inputModels, const IDCInputJsonKeys *inputKeys) const override
     {

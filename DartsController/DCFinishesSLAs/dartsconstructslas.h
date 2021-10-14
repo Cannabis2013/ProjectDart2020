@@ -14,18 +14,18 @@ public:
     {
         return _boundaries;
     }
-    void setBoundariesService(IDartsBoundaries *newBoundaries)
+    void setBoundariesService(IDartsBoundaries *service)
     {
-        _boundaries = newBoundaries;
+        _boundaries = service;
     }
 
     IDartsFieldValues *fieldValues() const
     {
         return _fieldValues;
     }
-    void setFieldValuesService(IDartsFieldValues *newFieldValues)
+    void setFieldValuesService(IDartsFieldValues *service)
     {
-        _fieldValues = newFieldValues;
+        _fieldValues = service;
     }
 
     IDartsThresholdValues *thresholds() const
@@ -48,25 +48,25 @@ public:
     {
         return _terminalDivisor;
     }
-    void setTerminalDivisorService(IDartsterminalDivisor *newTerminalDivisor)
+    void setTerminalDivisorService(IDartsterminalDivisor *service)
     {
-        _terminalDivisor = newTerminalDivisor;
+        _terminalDivisor = service;
     }
     IDartsModIdentifiers *identifiers() const
     {
         return _identifiers;
     }
-    void setIdentifiersService(IDartsModIdentifiers *newIdentifiers)
+    void setIdentifiersService(IDartsModIdentifiers *service)
     {
-        _identifiers = newIdentifiers;
+        _identifiers = service;
     }
     IDartsAttemptsService *attemptsService() const
     {
         return _attempts;
     }
-    void setAttemptsService(IDartsAttemptsService *newAttempts)
+    void setAttemptsService(IDartsAttemptsService *service)
     {
-        _attempts = newAttempts;
+        _attempts = service;
     }
 private:
     IDartsBoundaries *_boundaries;

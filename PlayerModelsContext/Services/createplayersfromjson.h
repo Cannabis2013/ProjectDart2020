@@ -1,19 +1,21 @@
 #ifndef CREATEPLAYERSFROMJSON_H
 #define CREATEPLAYERSFROMJSON_H
 
-#include "ModelsContext/MCJsonSLAs/icreatemodelsfromjson.h"
 #include <qjsondocument.h>
 #include <qjsonvalue.h>
 #include <qjsonarray.h>
 #include <qjsonobject.h>
+#include "PlayerModelsContext/DbSLAs/iplayercontextmodelbuilder.h"
 #include "PlayerModelsContext/Services/playermodel.h"
 
-class CreatePlayersFromJson : public ICreateModelsFromJson
+class CreatePlayersFromJson : public IPlayerContextModelBuilder
 {
 public:
-    virtual QVector<const IModel<QUuid>*> create(const QByteArray &json) const override;
+    QVector<IModel<QUuid>*> createPlayers(const QByteArray &json) const override;
+    IModel<QUuid> *createPlayer(const QByteArray &json) const override;
 private:
-    QJsonArray createArray(const QByteArray &json) const;
+    PlayersContext::PlayerModel *toModel(const QJsonObject &obj) const;
+    QJsonObject toJsonObject(const QByteArray &json) const;
+    QJsonArray toJsonArray(const QByteArray &json) const;
 };
-
 #endif // PLAYERMODELJSONEXTRACTOR_H

@@ -12,7 +12,6 @@ public:
     virtual QString point() const = 0;
     virtual QString score() const = 0;
     virtual QString totalScore() const = 0;
-    virtual QString tournamentId() const = 0;
 };
 
 #endif // IDCINPUTJSONKEYS_H

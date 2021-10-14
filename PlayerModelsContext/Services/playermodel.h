@@ -3,7 +3,7 @@
 
 #include <quuid.h>
 
-#include "PlayerModelsContext/SLAs/iplayermodel.h"
+#include "PlayerModelsContext/DbSLAs/iplayermodel.h"
 
 namespace PlayersContext {
     class PlayerModel : public IPlayerModel

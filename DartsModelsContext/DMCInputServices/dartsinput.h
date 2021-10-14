@@ -1,6 +1,6 @@
 #ifndef DARTSINPUT_H
 #define DARTSINPUT_H
-#include "DartsModelsContext/DMCInputSLAs/idartsinput.h"
+#include "DartsModelsContext/InputsDbSLAs/idartsinput.h"
 namespace ModelsContext{
     class DartsInput : public IDartsInput
     {

@@ -53,7 +53,7 @@ IDartsCreateFinishes *DCInputFinishes::constructTargetRows() const
     return _constructRow;
 }
 
-void DCInputFinishes::setConstructRow(IDartsCreateFinishes *newConstructRow)
+void DCInputFinishes::setConstructRow(IDartsCreateFinishes *service)
 {
-    _constructRow = newConstructRow;
+    _constructRow = service;
 }

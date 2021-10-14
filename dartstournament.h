@@ -4,7 +4,7 @@
 #include <quuid.h>
 #include <qstring.h>
 #include <qlist.h>
-#include "DartsModelsContext/DMCTournamentSLAs/abstractdartstournament.h"
+#include "DartsModelsContext/TournamentsSLAs/abstractdartstournament.h"
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 #include <qjsonarray.h>

@@ -3,42 +3,29 @@
 
 #include "DartsModelsContext/Services/dartsmodelscontext.h"
 // Genereic models includes
-#include "DartsModelsContext/DMCInputServices/dmcremoveinputsfromdb.h"
-#include "removemodelsfromdb.h"
+#include "DartsModelsContext/DMCInputServices/removedartsinputsfromdb.h"
+#include "FileOperationsContext/Services/readbytearray.h"
+#include "FileOperationsContext/Services/writebytearray.h"
 // Input models includes
-#include "DartsModelsContext/DMCInputServices/dartsinputsjsondb.h"
-#include "DartsModelsContext/DMCInputServices/dmcsetinputhint.h"
-#include "DartsModelsContext/DMCInputServices/dmcgetinputmodels.h"
-#include "DartsModelsContext/DMCInputServices/dmcsortinputs.h"
-#include "sortdartspointinputsbyindexes.h"
-#include "DartsModelsContext/DMCInputServices/dmccountinputs.h"
-#include "DartsModelsContext/DMCInputServices/dmcinputstojson.h"
-#include "DartsModelsContext/DMCInputServices/dmcgetinputfromdb.h"
-#include "DartsModelsContext/DMCIndexesServices/dmccreateindexes.h"
-#include "DartsModelsContext/DMCIndexesServices/dmcindexestojson.h"
-#include "DartsModelsContext/DMCInputServices/dmcinputtojson.h"
-#include "PlayerModelsContext/Services/createplayermodels.h"
-// Player models includes
-#include "PlayerModelsContext/Services/getplayersfromdb.h"
-#include "createjsonfromplayers.h"
-#include "PlayerModelsContext/Services/createplayerfromjson.h"
-#include "PlayerModelsContext/DbServices/jsonplayersdbcontext.h"
-#include "PlayerModelsContext/DbServices/localplayersdbcontext.h"
+#include "DartsModelsContext/DMCInputServices/getdartsinputmodels.h"
+#include "DartsModelsContext/DMCInputServices/sortdartsinputs.h"
+#include "DartsModelsContext/DMCInputServices/sortdartsinputsbyindexes.h"
+#include "DartsModelsContext/DMCInputServices/countdartsinputs.h"
+#include "DartsModelsContext/DMCInputServices/getdartsinputfromdb.h"
+#include "DartsModelsContext/DMCInputServices/dartsinputbuilder.h"
+#include "DartsModelsContext/DMCInputServices/dartsinputsdbcontext.h"
+#include "dartsinputjsonbuilder.h"
+// Tournament indexes includes
+#include "DartsModelsContext/IndexesDbServices/removedartsindexes.h"
+#include "DartsModelsContext/IndexesDbServices/dartsindexesdbcontext.h"
+#include "DartsModelsContext/IndexesServices/updatedartsindexes.h"
 // Tournament models includes
-#include "DartsModelsContext/DMCTournamentServices/dartstournamentextractor.h"
-#include "removemodelsfromdb.h"
-#include "DartsModelsContext/DMCTournamentServices/adddetailstotournamentjson.h"
-#include "DartTournamentsContext/DTCDbServices/tournamentsjsondb.h"
-#include "DartsModelsContext/DMCTournamentServices/createdartstournamentfromjson.h"
-#include "DartsModelsContext/DMCTournamentServices/dartstournamentjsonbuilder.h"
-#include "DartsModelsContext/DMCDbServices/dartstournamentsjsondb.h"
+#include "DartsModelsContext//TournamentsDbServices/dartsdbcontext.h"
 #include "DartsModelsContext/DMCTournamentServices/getdartstournamentfromdb.h"
 #include "DartsModelsContext/DMCTournamentServices/extractwinnerinfofromjson.h"
-#include "DartsModelsContext/DMCTournamentServices/addplayerdetailstotournament.h"
-#include "DartsModelsContext/DMCTournamentServices/dartscreatejsonmetadata.h"
-#include "DartsModelsContext/DMCInputServices/dmccreateinput.h"
-#include "DartsModelsContext/DMCTournamentServices/gettournamentwinner.h"
-#include "DartsModelsContext/DMCTournamentServices/createjsonfromtournamentdetails.h"
+#include "DartsModelsContext/DMCTournamentServices/setdartsplayerdetails.h"
+#include <DartsModelsContext/TournamentsDbServices/dartstournamentjsonbuilder.h>
+#include <DartsModelsContext/DMCTournamentServices/dartstournamentbuilder.h>
 
 class DartsJsonModelsContext : public DartsModelsContext
 {
@@ -47,9 +34,10 @@ public:
 private:
     void setModelUtilityServices();
     void setTournamentServices();
-    void setPointInputServices();
+    void setIndexesServices();
+    void setInputServices();
     void setInputDbUtilityServices();
-    void setModelsServices();
+    void fetchTournamentDb();
 };
 
 #endif // DARTSMODELSSERVICEWITHJSONDB_H

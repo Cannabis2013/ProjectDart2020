@@ -59,7 +59,7 @@ function createDartsTournament()
         keyPoint : selectorComponent().keyPoint,
         displayHint : selectorComponent().displayHint,
         inputHint : selectorComponent().inputMode,
-        indexes : indexes
+        playerIndexes : indexes
     };
     var json = JSON.stringify(obj);
     // Send values

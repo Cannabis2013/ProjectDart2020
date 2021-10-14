@@ -1,6 +1,6 @@
 #include "DartsModelsContext/DMCTournamentServices/extractwinnerinfofromjson.h"
 
-ExtractWinnerInfoFromJson::DataModel ExtractWinnerInfoFromJson::createWinnerDataModel(const QByteArray &json) const
+ExtractWinnerInfoFromJson::DataModel ExtractWinnerInfoFromJson::create(const QByteArray &json) const
 {
     auto obj = createJsonObject(json);
     auto data = createDataModelFromObject(obj);

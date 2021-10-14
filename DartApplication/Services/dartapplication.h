@@ -14,7 +14,7 @@ class DartApplication : public DartApplicationSLAs
     Q_OBJECT
 public:
     // Public types
-    typedef QVector<const IModel<QUuid>*> Models;
+    typedef QVector<IModel<QUuid>*> Models;
     // Public interface
     void addDartsTournaments(const QByteArray &json) override;
 public slots:

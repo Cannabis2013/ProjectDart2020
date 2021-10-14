@@ -5,6 +5,7 @@ namespace DCContext {
     class IDCIndexes
     {
     public:
+        virtual ~IDCIndexes() = default;
         virtual int totalTurns() const = 0;
         virtual int turnIndex() const = 0;
         virtual int roundIndex() const = 0;

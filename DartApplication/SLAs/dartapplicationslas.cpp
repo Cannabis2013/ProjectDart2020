@@ -30,7 +30,7 @@ IPlayerModelsContext *DartApplicationSLAs::playerModelsContext() const
     return _playerModelsContext;
 }
 
-void DartApplicationSLAs::setPlayerModelsContext(IPlayerModelsContext *newPlayerModelsContext)
+void DartApplicationSLAs::setPlayerModelsContext(IPlayerModelsContext *service)
 {
-    _playerModelsContext = newPlayerModelsContext;
+    _playerModelsContext = service;
 }

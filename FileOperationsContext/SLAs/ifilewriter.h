@@ -8,5 +8,6 @@ class IFileWriter
 {
 public:
     virtual void write(const TDataFormat &data) const = 0;
+    virtual void setFileName(const QString &fileName) = 0;
 };
 #endif // IFILEWRITER_H

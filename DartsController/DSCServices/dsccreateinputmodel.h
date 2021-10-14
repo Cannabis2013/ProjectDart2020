@@ -14,16 +14,6 @@ public:
     {
         return toModel(toJsonObject(json), jsonKeys);
     }
-    DCContext::IDCInputModel *createModel(const QByteArray &json, const IDCInputJsonKeys *jsonKeys,
-                                          const QUuid &tournamentId,const QUuid &playerId, const QString &playerName) const override
-    {
-        auto jsonObject = toJsonObject(json);
-        auto model = toModel(jsonObject,jsonKeys);
-        model->setTournamentId(tournamentId);
-        model->setPlayerId(playerId);
-        model->setPlayerName(playerName);
-        return model;
-    }
     virtual DCContext::IDCInputModel *createModel(const DCContext::DCScoreModel &scoreModel) const override
     {
         auto inputModel = DCContext::DCInputModel::createInstance();
@@ -47,7 +37,7 @@ private:
         scoreModel->setPlayerId(toId(obj.value(jsonKeys->playerId()).toString()));
         scoreModel->setPlayerName(obj.value(jsonKeys->playerName()).toString());
         scoreModel->setScore(obj.value(jsonKeys->score()).toInt());
-        scoreModel->setTournamentId(toId(obj.value(jsonKeys->tournamentId()).toString()));
+        scoreModel->setTotalScore(obj.value(jsonKeys->totalScore()).toInt());
         return scoreModel;
     }
     QJsonObject toJsonObject(const QByteArray &json) const

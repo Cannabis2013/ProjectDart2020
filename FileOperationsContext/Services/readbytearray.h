@@ -6,9 +6,7 @@
 class ReadByteArray : public IFileReader<QByteArray>
 {
 public:
-    ReadByteArray(const QString &fileName):
-        _fileName(fileName){}
-    virtual QByteArray read() const
+    QByteArray read() const override
     {
         QFile file(_fileName);
         if(!file.exists())
@@ -19,8 +17,12 @@ public:
         in >> obj;
         return obj;
     }
+    void setFileName(const QString &fileName) override
+    {
+        _fileName = fileName;
+    }
 private:
-    const QString _fileName;
+    QString _fileName;
 };
 
 #endif // READBYTEARRAY_H

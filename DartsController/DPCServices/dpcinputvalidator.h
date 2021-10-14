@@ -11,8 +11,19 @@ public:
     {
         return new DPCInputValidator;
     }
-    virtual void validateInput(const int &currentScore, const IDCInputKeyCodes *keyCodes, DCContext::IDCInputModel *input) override
+    virtual void validateInput(const int &currentScore, const IDCInputKeyCodes *keyCodes,
+                               DCContext::IDCInputModel *input, IDCPlayerAllowancesContext *allowancesContext) override
     {
+        if(!allowancesContext->isAllowedEntrance(input->playerId()))
+        {
+            if(input->modKeyCode() == keyCodes->doubleModifier())
+                allowancesContext->playerIsIn(input->playerId());
+            else
+            {
+                emit playerOutOfRange(input);
+                return;
+            }
+        }
         if(currentScore >= minimumAllowedScore)
             emit playerHitPointDomain(input);
         else if(currentScore == 0)

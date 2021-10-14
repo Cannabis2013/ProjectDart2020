@@ -1,26 +1,41 @@
 #include "PlayerModelsContext/Services/createplayersfromjson.h"
-QVector<const IModel<QUuid> *> CreatePlayersFromJson::create(const QByteArray &json) const
+QVector<IModel<QUuid> *> CreatePlayersFromJson::createPlayers(const QByteArray &json) const
 {
-    using namespace PlayersContext;
-    auto arr = createArray(json);
-    QVector<const IModel<QUuid>*> playerModels;
+    auto arr = toJsonArray(json);
+    QVector<IModel<QUuid>*> playerModels;
     for (auto i = arr.begin();i != arr.end();i++) {
         auto JSONValue = *i;
-        auto jsonObject = JSONValue.toObject();
-        auto stringID = jsonObject.value("Id").toString();
-        auto playerId = QUuid::fromString(stringID);
-        auto playerName = jsonObject.value("UserName").toString();
-        auto mail = jsonObject.value("Mail").toString();
-        auto model = PlayerModel::createInstance()
-                ->setId(playerId)
-                ->setUserName(playerName)
-                ->setEmail(mail);
-        playerModels.append(model);
+        auto obj = JSONValue.toObject();
+        playerModels.append(toModel(obj));
     }
     return playerModels;
 }
 
-QJsonArray CreatePlayersFromJson::createArray(const QByteArray &json) const
+IModel<QUuid> *CreatePlayersFromJson::createPlayer(const QByteArray &json) const
+{
+    auto obj = toJsonObject(json);
+    return toModel(obj);
+}
+
+PlayersContext::PlayerModel *CreatePlayersFromJson::toModel(const QJsonObject &obj) const
+{
+    auto stringID = obj.value("playerId").toString();
+    auto playerId = QUuid::fromString(stringID);
+    auto playerName = obj.value("playerName").toString();
+    auto mail = obj.value("playerMail").toString();
+    auto model = PlayersContext::PlayerModel::createInstance()
+            ->setId(playerId)
+            ->setUserName(playerName)
+            ->setEmail(mail);
+    return model;
+}
+
+QJsonObject CreatePlayersFromJson::toJsonObject(const QByteArray &json) const
+{
+    return QJsonDocument::fromJson(json).object();
+}
+
+QJsonArray CreatePlayersFromJson::toJsonArray(const QByteArray &json) const
 {
     auto document = QJsonDocument::fromJson(json);
     auto arr = document.array();

@@ -12,7 +12,7 @@ public:
         QVector<int> pointValue;
     };
     typedef QMultiHash<int,QString> TargetRows;
-    typedef QVector<const TargetRows*> AllTargetRows;
+    typedef QVector<TargetRows*> AllTargetRows;
     virtual AllTargetRows constructRows() const = 0;
 };
 #endif // IDARTSCONSTRUCTTARGETROW_H

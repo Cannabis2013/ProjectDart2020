@@ -9,9 +9,8 @@ class DCCreatePlayersFromJson : public IDCCreatePlayersFromJson
 {
     // IDCCreatePlayerModelsFromJson interface
 public:
-    virtual QVector<const DCContext::IDCPlayer *> createModels(const QByteArray &json,
-                                                               const IDCPlayerKeys *jsonKeys,
-                                                               const IDCPlayerModelBuilder *playerBuilder) const override
+    virtual QVector<DCContext::IDCPlayer *> createModels(const QByteArray &json, const IDCPlayerKeys *jsonKeys,
+                                                         const IDCPlayerModelBuilder *playerBuilder) const override
     {
         auto arr = toJsonArray(json);
         return toPlayerModels(arr,jsonKeys,playerBuilder);
@@ -28,18 +27,17 @@ private:
             return QJsonObject();
         return val.toObject();
     }
-    const QVector<const DCContext::IDCPlayer*> toPlayerModels(const QJsonArray &arr,
-                                                        const IDCPlayerKeys *jsonKeys,
-                                                        const IDCPlayerModelBuilder *playerBuilder) const
+    const QVector<DCContext::IDCPlayer*> toPlayerModels(const QJsonArray &arr, const IDCPlayerKeys *jsonKeys,
+                                                              const IDCPlayerModelBuilder *playerBuilder) const
     {
-        QVector<const DCContext::IDCPlayer*> models;
+        QVector<DCContext::IDCPlayer*> models;
         for (const auto &val : arr)
             models << toPlayerModel(toJsonObject(val),jsonKeys,playerBuilder);
         return models;
     }
-    const DCContext::IDCPlayer *toPlayerModel(const QJsonObject &obj,
-                                              const IDCPlayerKeys *jsonKeys,
-                                              const IDCPlayerModelBuilder *playerBuilder) const
+    DCContext::IDCPlayer *toPlayerModel(const QJsonObject &obj,
+                                        const IDCPlayerKeys *jsonKeys,
+                                        const IDCPlayerModelBuilder *playerBuilder) const
     {
         auto playerId = toId(obj.value(jsonKeys->playerId()));
         auto playerName = toString(obj.value(jsonKeys->playerName()));

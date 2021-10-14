@@ -10,6 +10,7 @@ class IFileReader
 {
 public:
     virtual TDataFormat read() const = 0;
+    virtual void setFileName(const QString &fileName) = 0;
 };
 
 #endif // IFILEREADER_H

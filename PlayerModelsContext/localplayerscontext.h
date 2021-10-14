@@ -2,25 +2,29 @@
 #define LOCALPLAYERSCONTEXT_H
 
 #include "PlayerModelsContext/playermodelscontext.h"
-#include "PlayerModelsContext/DbServices/localplayersdbcontext.h"
-#include "PlayerModelsContext/Services/createplayerfromjson.h"
-#include "PlayerModelsContext/Services/createplayermodels.h"
 #include "PlayerModelsContext/Services/getplayersfromdb.h"
-#include "createjsonfromplayers.h"
+#include "PlayerModelsContext/DbServices/playersdbcontext.h"
+#include "FileOperationsContext/Services/readbytearray.h"
+#include "FileOperationsContext/Services/writebytearray.h"
+#include "PlayerModelsContext/Services/createjsonfromplayermodels.h"
+#include "PlayerModelsContext/Services/createplayersfromjson.h"
 
-#include <removemodelsfromdb.h>
 class LocalPlayersContext : public PlayerModelsContext
 {
 public:
     LocalPlayersContext()
     {
-        using namespace PlayersContext;
-        setModelsDbContext(new LocalPlayersDbContext);
-        setCreatePlayerModel(new CreatePlayerFromJson);
-        setCreatePlayerModels(new CreatePlayerModels);
-        setGetPlayerModelsFromDb(new GetPlayersFromDb);
-        setDartsPlayerJsonBuilder(new CreateJsonFromPlayers);
-        setRemoveFromDb(new RemoveModelsFromDb);
+        setServices();
+        dbContext()->fetchModels(playerBuilder());
     }
+private:
+    void setServices()
+    {
+        setDbContext(new PlayersDbContext(new ReadByteArray(_dbFileName),new WriteByteArray(_dbFileName)));
+        setGetPlayerModelsFromDb(new GetPlayersFromDb);
+        setJsonBuilder(new CreateJsonFromPlayerModels);
+        setPlayerBuilder(new CreatePlayersFromJson);
+    }
+    const QString _dbFileName = "PlayerModels";
 };
 #endif // LOCALPLAYERSCONTEXT_H

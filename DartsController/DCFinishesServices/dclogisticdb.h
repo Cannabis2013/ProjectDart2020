@@ -9,50 +9,41 @@ public:
     {
         return new DCLogisticDb;
     }
-    void add(const TargetRows *targetRows) override
+    DCLogisticDb *add(TargetRows *targetRows) override
     {
         _allTargetRows.append(targetRows);
+        return this;
     }
-    void add(const QVector<const TargetRows*> multipleTargetRows) override
+    DCLogisticDb *add(const QVector<TargetRows*> multipleTargetRows) override
     {
         for (const auto &targetRows : multipleTargetRows)
             _allTargetRows.append(targetRows);
+        return this;
     }
-    const TargetRows *model(const int &index) const override
+    TargetRows *model(const int &index) const override
     {
         return _allTargetRows.at(index);
     }
-    QVector<const TargetRows *> models() const override
+    QVector<TargetRows *> models() const override
     {
         return _allTargetRows;
     }
-    bool remove(const int &index) override
+    DCLogisticDb *remove(const int &index) override
     {
-        try {
-            _allTargetRows.remove(index);
-        }  catch (...) {
-            return false;
-        }
-        return true;
+        _allTargetRows.remove(index);
+        return this;
     }
-    int indexOf(const TargetRows *targetRows) const override
+    int indexOf(TargetRows *targetRows) const override
     {
         return _allTargetRows.indexOf(targetRows);
     }
-    void replace(const int &index, const TargetRows *targetRows) override
+    DCLogisticDb *replace(const int &index, TargetRows *targetRows) override
     {
         _allTargetRows.replace(index,targetRows);
-    }
-    void fetchModels() override
-    {
-        Q_UNIMPLEMENTED();
-    }
-    void saveState() override
-    {
-        Q_UNIMPLEMENTED();
+        return this;
     }
 private:
-    QVector<const TargetRows*> _allTargetRows;
+    QVector<TargetRows*> _allTargetRows;
 };
 
 #endif // DARTSLOGISTICSDB_H

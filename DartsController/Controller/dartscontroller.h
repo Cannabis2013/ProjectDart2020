@@ -1,24 +1,28 @@
 #ifndef DARTSCONTROLLER_H
 #define DARTSCONTROLLER_H
 
-#include "DartsController/DCTurnValuesSLAs/dcturnvaluesservices.h"
-#include "DartsController/DCIndexSLAs/dcindexservices.h"
-#include "DartsController/DCScoresSLAs/dcscoreservices.h"
+#include "DartsController/DCTurnValuesSLAs/dcturnvaluesslas.h"
+#include "DartsController/DCIndexSLAs/dcindexslas.h"
+#include "DartsController/DCScoresSLAs/dcscoreslas.h"
 #include <quuid.h>
-#include "DartsController/DCPlayerSLAs/DCPlayerServices.h"
+#include "DartsController/DCPlayerSLAs/DCPlayerSLAs.h"
 #include "DartsController/ControllerSLA/abstractdartscontroller.h"
-#include "DartsController/DCJsonSLAs/dcjsonservices.h"
-#include "DartsController/DCMetaSLAs/dcmetaservices.h"
-#include "DartsController/DCInputSLAs/dcinputsservices.h"
+#include "DartsController/DCJsonSLAs/dcjsonslas.h"
+#include "DartsController/DCMetaSLAs/dcmetaslas.h"
+#include "DartsController/DCInputSLAs/dcinputsslas.h"
+#include "DartsController/DCInputStatsSLAs/DCInputStatsSLAs.h"
+
+#define TOURNAMENT_ID_JSON_KEY "tournamentId"
 
 class DartsController : public AbstractDartsController,
-                        protected DCMetaServices,
-                        protected DCTurnvaluesServices,
-                        protected DCJsonServices,
-                        protected DCScoreServices,
-                        protected DCPlayerServices,
-                        protected DCInputsServices,
-                        protected DCIndexServices
+                        protected DCMetaSLAs,
+                        protected DCTurnvaluesSLAs,
+                        protected DCJsonSLAs,
+                        protected DCScoreSLAs,
+                        protected DCPlayerSLAs,
+                        protected DCInputsSLAs,
+                        protected DCIndexSLAs,
+                        protected DCInputStatsSLAs
 {
     Q_OBJECT
 public slots:
@@ -38,6 +42,7 @@ public slots:
     void handleRequestFromUI() override;
     void handleUserInput(const QByteArray &json) override;
     void handleUserInputAdded(const QByteArray& json) override;
+    virtual void handleIndexesUpdated(const QByteArray &json) override;
     void handleResetTournament() override;
     void undoSuccess(const QByteArray &json) override;
     void redoSuccess(const QByteArray &json) override;
@@ -46,12 +51,12 @@ private slots:
     void nullifyAndPersistInput(DCContext::IDCInputModel *input);
     void declareWinner(DCContext::IDCInputModel *input);
 private:
-    QByteArray assembleJsonResponse(DCContext::IDCInputModel *input, const DCContext::DCTurnValues *turnValues);
+    QByteArray assembleJsonResponse(DCContext::IDCInputModel *input, const DCContext::DCTurnValues *turnValues, const int &average);
     QByteArray assembleJsonResponse(DCContext::IDCInputModel *input, const DCContext::IDCIndexes *indexes);
+    QByteArray assembleJsonResponse(const DCContext::IDCIndexes *indexes);
     void connectInputEvaluator();
     void updateTotalScore(DCContext::IDCInputModel *input);
     void createAndSendWinnerValues();
     void sendCurrentTurnValues();
-    int lastPlayerIndex();
 };
 #endif // FIVEHUNDREDANDONEGAME_H

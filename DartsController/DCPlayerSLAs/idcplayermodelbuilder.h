@@ -6,7 +6,7 @@
 class IDCPlayerModelBuilder
 {
 public:
-    virtual const DCContext::IDCPlayer* createModel(const QUuid &id, const QString &stringValue) const = 0;
+    virtual DCContext::IDCPlayer* createModel(const QUuid &id, const QString &stringValue) const = 0;
 };
 
 #endif // IDARTSPLAYERBUILDERSERVICE_H
