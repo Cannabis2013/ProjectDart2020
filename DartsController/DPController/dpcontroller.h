@@ -38,7 +38,7 @@
 #include "DartsController/DPCServices/dpcinputvalidator.h"
 #include "DartsController/DPCServices/dpcindexcontroller.h"
 #include "DartsController/DPCServices/CreateDPCTurnValues.h"
-#include "DartsController/DPCServices/dpccreateinputmodel.h"
+#include "DartsController/DPCServices/dpcinputbuilder.h"
 #include "DartsController/DPCServices/getscorefromdpcinput.h"
 #include "DartsController/DPCServices/dpcinputstojson.h"
 #include "DartsController/DPCServices/dpcinputstojson.h"
@@ -60,7 +60,7 @@ public:
     {
         setIndexService(new DPCIndexController);
         setTurnValuesBuilder(new CreateDPCTurnValues);
-        setCreateInputModelService(new DPCCreateInputModel);
+        setCreateInputModelService(new DPCInputBuilder);
         setAddTotalScoresToJson(new AddTotalScoreToDartsInputsAsJson);
         setSuggestFinishes(DCInputFinishes::createInstance(DCCreateFinishes::createInstance(), DCLogisticDb::createInstance()));
         setDetermineStatusById(new DetermineStatusById);

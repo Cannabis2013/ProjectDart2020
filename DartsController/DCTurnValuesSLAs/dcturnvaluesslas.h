@@ -5,7 +5,7 @@
 #include "DartsController/DCTurnValuesSLAs/icreatedcturnvalues.h"
 #include "DartsController/DCPlayerSLAs/idcplayermodelbuilder.h"
 #include "DartsController/DCIndexSLAs/idcindexesbuilder.h"
-#include "DartsController/DCInputSLAs/idccreateinputmodel.h"
+#include "DartsController/DCInputSLAs/idcinputbuilder.h"
 #include "iDCTurnValJsonKeys.h"
 
 class DCTurnvaluesSLAs

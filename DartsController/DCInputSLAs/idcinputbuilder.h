@@ -1,9 +1,9 @@
-#ifndef IDCCREATEINPUTMODEL_H
-#define IDCCREATEINPUTMODEL_H
+#ifndef IDCINPUTBUILDER_H
+#define IDCINPUTBUILDER_H
 
 #include "DartsController/DCInputSLAs/idcinputmodel.h"
 #include "DartsController/DCScoresSLAs/idcscoresservice.h"
-class IDCCreateInputModel
+class IDCInputBuilder
 {
 public:
     virtual DCContext::IDCInputModel *createModel(const QByteArray &json) const = 0;

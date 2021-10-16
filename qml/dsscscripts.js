@@ -7,7 +7,7 @@ function initializeComponent()
 function connectInterface()
 {
     applicationInterface.sendDartsTournamentData.connect(handleTournamentMetaData);
-    applicationInterface.sendDartsScores.connect(recieveDartsScores);
+    applicationInterface.sendDartsScores.connect(recieveScores);
     applicationInterface.dartsControllerIsReady.connect(backendIsReady);
     applicationInterface.controllerAwaitsInput.connect(backendIsReadyAndAwaitsInput);
     applicationInterface.controllerHasDeclaredAWinner.connect(backendDeclaredAWinner);
@@ -21,7 +21,7 @@ function connectInterface()
 function disconnectInterface()
 {
     applicationInterface.sendDartsTournamentData.disconnect(handleTournamentMetaData);
-    applicationInterface.sendDartsScores.disconnect(recieveDartsScores);
+    applicationInterface.sendDartsScores.disconnect(recieveScores);
     applicationInterface.dartsControllerIsReady.disconnect(backendIsReady);
     applicationInterface.controllerAwaitsInput.connect(backendIsReadyAndAwaitsInput);
     applicationInterface.controllerHasDeclaredAWinner.disconnect(backendDeclaredAWinner);
@@ -66,7 +66,7 @@ function controllerIsReady()
     dartsScoreSingleColumnBody.state = "ready";
 }
 
-function recieveDartsScores(scores)
+function recieveScores(scores)
 {
     var json = JSON.parse(scores);
     addDartsScoresToScoreBoard(json);

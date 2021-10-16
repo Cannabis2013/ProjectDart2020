@@ -34,33 +34,30 @@ Item {
     onStartButtonEnablePressAndHoldChanged: startButtonComponent.pressAndHoldEnabled = startButtonEnablePressAndHold
 
     property string currentRoundIndex: initialTextBoxValues.roundText
-    onCurrentRoundIndexChanged: currentRoundLabel.text = currentRoundIndex
+    onCurrentRoundIndexChanged: turnControllerView.currentRoundIndex = currentRoundIndex
     property string currentPlayer: initialTextBoxValues.playerText
-    onCurrentPlayerChanged: currentPlayerLabel.text = currentPlayer
+    onCurrentPlayerChanged: turnControllerView.currentPlayer = currentPlayer
     property bool leftButtonEnabled: false
     onLeftButtonEnabledChanged: leftButton.enabled = leftButtonEnabled
     property bool rightButtonEnabled: false
     onRightButtonEnabledChanged: rightButton.enabled = rightButtonEnabled
-
     QtObject{
         id: textBeholder
         property string currentRoundText: qsTr("Current round: ")
         property string currentPlayerText: qsTr("Current player: ")
     }
-
     QtObject{
         id: initialTextBoxValues
         readonly property string roundText: "Current round"
         readonly property string playerText: "Current player"
     }
-
     GridLayout{
         flow: GridLayout.LeftToRight
         anchors.fill: parent
         StartButtonComponent {
             id: startButtonComponent
             Layout.fillHeight: true
-            Layout.preferredWidth: 64
+            width: 64
             onResumeButtonClicked: turnControllerBody.resumeButtonClicked()
             onPauseButtonClicked: turnControllerBody.pauseButtonClicked();
             onStartButtonClicked: turnControllerBody.startButtonClicked()
@@ -82,34 +79,10 @@ Item {
             Layout.alignment: Qt.AlignVCenter
             enabled: false;
         }
-
-        GridLayout{
-            Layout.fillWidth: true
+        DartsTurnControllerView {
+            id: turnControllerView
             Layout.fillHeight: true
-
-            flow: GridLayout.TopToBottom
-
-            Label{
-                id: currentRoundLabel
-                color: ThemeContext.navTextDisplayColor
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                text: currentRoundIndex
-                font.pointSize: 24
-                verticalAlignment: Text.AlignBottom
-                horizontalAlignment: Text.AlignHCenter
-            }
-
-            Label{
-                id: currentPlayerLabel
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                color: "white"
-                text: currentPlayer
-                font.pointSize: 24
-                verticalAlignment: Text.AlignTop
-                horizontalAlignment: Text.AlignHCenter
-            }
+            Layout.fillWidth: true
         }
         PushButton{
             id: rightButton
@@ -206,6 +179,15 @@ Item {
                 startButtonVisible: startButtonVisible
                 pauseButtonVisible: pauseButtonVisible
                 resumeButtonVisible: resumeButtonVisible
+                startButtonEnabled: true
+            }
+            PropertyChanges {
+                target: leftButton
+                enabled: leftButton.enabled
+            }
+            PropertyChanges {
+                target: rightButton
+                enabled: rightButton.enabled
             }
         },
         State {

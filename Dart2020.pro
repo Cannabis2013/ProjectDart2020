@@ -68,7 +68,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     DartApplication/ConnectBuilderServices/ConnectDCBuilder.h \
-    DartsController/DCInputSLAs/idcinputjsoncontext.h \
+    DartsController/DCInputSLAs/idcinputbuilder.h \
+    DartsController/DCInputSLAs/idcsetinputjsonvalues.h \
     DartsController/DCMetaSLAs/idcmetajsonbuilder.h \
     DartsController/DCMetaServices/dcmetajsonbuilder.h \
     DartsController/DCMetaServices/dcsettournamentid.h \
@@ -76,6 +77,8 @@ HEADERS += \
     DartsController/DCPlayerSLAs/idcplayerjsonbuilder.h \
     DartsController/DCPlayerServices/DPCPlayerAllowancesContext.h \
     DartsController/DCPlayerServices/dcplayerjsonbuilder.h \
+    DartsController/DPCServices/dpcinputbuilder.h \
+    DartsController/DSCServices/dscinputbuilder.h \
     DartsControllerBuilder/Services/dcbuilder.h \
     DartsModelsContext/DMCInputSLAs/dartsinputslas.h \
     DartsModelsContext/DMCInputServices/countdartsinputs.h \
@@ -147,7 +150,6 @@ HEADERS += \
     DartsController/DCScoresSLAs/idccreatecandidatemodels.h \
     DartsController/DCScoresSLAs/idcgetscore.h \
     DartsController/DPCServices/CreateDPCTurnValues.h \
-    DartsController/DPCServices/dpccreateinputmodel.h \
     DartsController/DCMetaServices/dchint.h \
     DartsController/DCMetaServices/dctournamentid.h \
     DartsController/DCMetaServices/dartsstatuscodes.h \
@@ -262,7 +264,6 @@ HEADERS += \
     DartsController/DPController/dpcontroller.h \
     dpmctablemodel.h \
     dpsctablemodel.h \
-    DartsController/DSCServices/dsccreateinputmodel.h \
     DartsController/DSCServices/dscindexcontroller.h \
     DartsController/DSCServices/dscindexestojson.h \
     DartsController/DSCServices/dscinputtojson.h \
@@ -309,7 +310,6 @@ HEADERS += \
     idatamodeltablecellsizes.h \
     ModelsContext/MCDbSLAs/idbcontext.h \
     DartsController/DCScoresSLAs/idcaddscore.h \
-    DartsController/DCInputSLAs/idccreateinputmodel.h \
     DartsController/DCPlayerSLAs/idccreateplayersfromjson.h \
     DartsController/DCScoresSLAs/idccreatescoretuples.h \
     DartsController/DCPlayerSLAs/idcgetplayerscore.h \

@@ -19,7 +19,7 @@
 #include "DartsController/DSCServices/dscinputvalidator.h"
 #include "DartsController/DCMetaServices/dcwinnerservice.h"
 #include "DartsController/DSCServices/dscinputtojson.h"
-#include "DartsController/DSCServices/dsccreateinputmodel.h"
+#include "DartsController/DSCServices/dscinputbuilder.h"
 #include "DartsController/DCMetaServices/determinestatusbyid.h"
 #include "DartsController/DSCServices/dscvaluesbuilder.h"
 #include "DartsController/DCPlayerServices/dcplayerbuilder.h"
@@ -58,7 +58,7 @@ public:
         setIndexService(new DSCIndexController);
         setWinnerService(new DCWinnerService());
         setTurnValuesBuilder(new DSCContext::DSCValuesBuilder);
-        setCreateInputModelService(new DSCCreateInputModel);
+        setCreateInputModelService(new DSCInputBuilder);
         setIndexesBuilder(new DCIndexesBuilder);
         setCreateCandidateTuples(new DCCreateCandidateModels);
         setPlayerBuilderService(new DCPlayerBuilder);

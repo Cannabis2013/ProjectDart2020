@@ -7,27 +7,27 @@ function initializeComponent()
 function connectInterface()
 {
     applicationInterface.sendDartsTournamentData.connect(handleMetaData);
-    applicationInterface.sendOrderedDartsInputs.connect(recievePoints);
+    applicationInterface.sendDartsScores.connect(recieveScores);
     applicationInterface.dartsControllerIsReady.connect(backendIsReady);
     applicationInterface.controllerIsStopped.connect(backendIsStopped);
     applicationInterface.controllerAwaitsInput.connect(backendIsReadyAndAwaitsInput);
+    applicationInterface.addedInput.connect(backendAddedInput);
+    applicationInterface.dartsInputRemoveSucces.connect(backendRemovedPoint);
     applicationInterface.dartsControllerIsReset.connect(reinitialize);
     applicationInterface.controllerHasDeclaredAWinner.connect(backendDeclaredAWinner);
-    applicationInterface.dartsInputRemoveSucces.connect(backendRemovedPoint);
-    applicationInterface.addedInput.connect(addInput);
 }
 
 function disconnectInterface()
 {
     applicationInterface.sendDartsTournamentData.disconnect(handleMetaData);
-    applicationInterface.sendOrderedDartsInputs.disconnect(recievePoints);
+    applicationInterface.sendDartsScores.disconnect(recieveScores);
     applicationInterface.dartsControllerIsReady.disconnect(backendIsReady);
     applicationInterface.controllerIsStopped.connect(backendIsStopped);
     applicationInterface.controllerAwaitsInput.disconnect(backendIsReadyAndAwaitsInput);
     applicationInterface.dartsControllerIsReset.disconnect(reinitialize);
     applicationInterface.controllerHasDeclaredAWinner.disconnect(backendDeclaredAWinner);
     applicationInterface.dartsInputRemoveSucces.disconnect(backendRemovedPoint);
-    applicationInterface.addedInput.disconnect(addInput);
+    applicationInterface.addedInput.disconnect(backendAddedInput);
 }
 
 function handleMetaData(data){
@@ -35,9 +35,22 @@ function handleMetaData(data){
     metaValues.title = json["title"];
     metaValues.winnerName= json["winnerName"];
     metaValues.keyPoint = json["keyPoint"];
-    metaValues.assignedPlayerNames = json["assignedPlayerNames"];
+    metaValues.assignedPlayerNames = getPlayerNames(json["assignedPlayerDetails"]);
     initializeScoreBoard();
-    applicationInterface.requestOrderedDartsInputs();
+    applicationInterface.requestDartsScores();
+}
+
+function getPlayerNames(playerDetails)
+{
+    let playerNames = [];
+    let count = playerDetails.length;
+    for(var i = 0;i < count;i++)
+    {
+        let playerDetail = playerDetails[i];
+        let playerName = playerDetail["playerName"];
+        playerNames.push(playerName);
+    }
+    return playerNames;
 }
 
 function initializeScoreBoard()
@@ -47,19 +60,25 @@ function initializeScoreBoard()
     singleColumnPointBoard.appendHeaderData(assignedPlayerNames,keyPoint);
 }
 
-function recievePoints(points)
+function recieveScores(scores)
 {
-    var jsonData = JSON.parse(points);
-    var count = jsonData.length;
-    for(var i = 0;i < count;++i)
-    {
-        var entity = jsonData[i];
-        var playerName = entity["playerName"];
-        var playerPoint = entity["point"];
-        var totalScore = entity["totalScore"];
-        singleColumnPointBoard.setData(playerName,playerPoint,totalScore);
-    }
+    var json = JSON.parse(scores);
+    addDartsScoresToScoreBoard(json);
     applicationInterface.requestControllerState();
+}
+
+function addDartsScoresToScoreBoard(json)
+{
+    for(var i = 0;i < json.length;++i)
+        addToScoreBoard(json[i]);
+}
+
+function addToScoreBoard(json)
+{
+    var playerName = json["inputPlayerName"];
+    var playerPoint = json["point"];
+    var playerScore = json["totalScore"];
+    singleColumnPointBoard.setData(playerName,playerPoint,playerScore);
 }
 
 function backendIsReady()
@@ -68,7 +87,7 @@ function backendIsReady()
 }
 
 // When backend has evaluated and persisted player input
-function addInput(data)
+function backendAddedInput(data)
 {
     var json = JSON.parse(data);
     updatePointBoard(json);
@@ -79,7 +98,7 @@ function addInput(data)
 
 function updatePointBoard(json)
 {
-    let playerName = json["playerName"];
+    let playerName = json["inputPlayerName"];
     let playerPoint = json["point"];
     let totalScore = json["totalScore"];
     singleColumnPointBoard.setData(playerName,playerPoint,totalScore);

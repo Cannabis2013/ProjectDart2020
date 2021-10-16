@@ -33,7 +33,7 @@ QJsonObject DartsInputJsonBuilder::toJsonObject(IModel<QUuid> *model) const
     jsonObject["inputPlayerId"] = dartsPointModel->playerId().toString(QUuid::WithoutBraces);
     jsonObject["inputPlayerName"] = dartsPointModel->playerName();
     jsonObject["hint"] = dartsPointModel->hint();
-    jsonObject["keyCode"] = dartsPointModel->modKeyCode();
+    jsonObject["modKeyCode"] = dartsPointModel->modKeyCode();
     return jsonObject;
 }
 QByteArray DartsInputJsonBuilder::toByteArray(const QJsonArray &arr) const

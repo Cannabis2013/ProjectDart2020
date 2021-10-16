@@ -4,7 +4,7 @@
 #include "DartsController/Controller/dartscontroller.h"
 // Include services
 #include "DartsControllerBuilder/SLAs/abstractdcbuilder.h"
-#include "DartsController/DSCServices/dsccreateinputmodel.h"
+#include "DartsController/DSCServices/dscinputbuilder.h"
 #include "DartsControllerBuilder/DCBMetaSLAs/idcmetainfo.h"
 #include "DartsControllerBuilder/DCBMetaSLAs/icreatedcmetainfo.h"
 #include "DartsControllerBuilder/DCBMetaSLAs/idcmetainfo.h"

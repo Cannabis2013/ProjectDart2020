@@ -37,7 +37,7 @@ ModelsContext::IDartsInput *DartsInputBuilder::toInputModel(const QJsonObject &j
     pointModel->setAttempt(jsonObject["attemptIndex"].toInt());
     pointModel->setPoint(jsonObject["point"].toInt());
     pointModel->setScore(jsonObject.value("score").toInt());
-    pointModel->setModKeyCode(jsonObject["keyCode"].toInt());
+    pointModel->setModKeyCode(jsonObject["modKeyCode"].toInt());
     pointModel->setHint(jsonObject["hint"].toInt(DisplayHint));
     return pointModel;
 }

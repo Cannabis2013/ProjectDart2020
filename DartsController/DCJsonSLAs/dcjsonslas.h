@@ -1,6 +1,6 @@
 #ifndef DCJSONSLAS_H
 #define DCJSONSLAS_H
-#include "DartsController/DCInputSLAs/idcinputjsoncontext.h"
+#include "DartsController/DCInputSLAs/idcsetinputjsonvalues.h"
 #include "DartsController/DCJsonSLAs/iaddtotalscoretodartsinputsjson.h"
 #include "DartsController/DCJsonSLAs/iaddplayernamestojson.h"
 #include "DartsController/DCPlayerSLAs/idcplayerjsonbuilder.h"

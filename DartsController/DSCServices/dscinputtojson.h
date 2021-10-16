@@ -1,10 +1,10 @@
 #ifndef DSCINPUTTOJSON_H
 #define DSCINPUTTOJSON_H
-#include "DartsController/DCInputSLAs/idcinputjsoncontext.h"
+#include "DartsController/DCInputSLAs/idcsetinputjsonvalues.h"
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 #include <qjsonarray.h>
-class DSCInputToJson : public IDCInputJsonContext
+class DSCInputToJson : public IDCSetInputJsonValues
 {
 public:
     void setValues(QJsonObject &obj, DCContext::IDCInputModel* model) const override

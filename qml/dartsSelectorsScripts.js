@@ -28,13 +28,6 @@ function convertInputStringToHex(inputMode)
         return TournamentContext.scoreMode;
 }
 
-function conditionKeyCode()
-{
-    var keyString = winConditionSelector.currentValue;
-    var keyCode = convertKeyModifierToHex(keyString);
-    return keyCode;
-}
-
 function tableViewHintFromString()
 {
     var hintString = displayHintSelector.currentValue;
