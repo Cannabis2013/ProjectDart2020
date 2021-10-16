@@ -6,32 +6,32 @@ function initializeComponent()
 
 function connectInterface()
 {
-    applicationInterface.sendDartsTournamentData.connect(handleTournamentMetaData);
+    applicationInterface.sendDartsTournamentData.connect(handleMetaData);
     applicationInterface.sendDartsScores.connect(recieveScores);
     applicationInterface.dartsControllerIsReady.connect(backendIsReady);
+    applicationInterface.controllerIsStopped.connect(backendIsStopped);
     applicationInterface.controllerAwaitsInput.connect(backendIsReadyAndAwaitsInput);
     applicationInterface.controllerHasDeclaredAWinner.connect(backendDeclaredAWinner);
-    applicationInterface.controllerIsStopped.connect(backendIsStopped);
-    applicationInterface.addedInput.connect(inputAdded);
-    scoreKeyPad.sendInput.connect(handleScoreKeyPadInput);
-    applicationInterface.dartsControllerIsReset.connect(reinitialize);
+    applicationInterface.addedInput.connect(backendAddedInput);
     applicationInterface.dartsInputRemoveSucces.connect(backendRemovedPoint);
+    applicationInterface.dartsControllerIsReset.connect(reinitialize);
+    scoreKeyPad.sendInput.connect(handleScoreKeyPadInput);
 }
 
 function disconnectInterface()
 {
-    applicationInterface.sendDartsTournamentData.disconnect(handleTournamentMetaData);
+    applicationInterface.sendDartsTournamentData.disconnect(handleMetaData);
     applicationInterface.sendDartsScores.disconnect(recieveScores);
     applicationInterface.dartsControllerIsReady.disconnect(backendIsReady);
     applicationInterface.controllerAwaitsInput.connect(backendIsReadyAndAwaitsInput);
     applicationInterface.controllerHasDeclaredAWinner.disconnect(backendDeclaredAWinner);
     applicationInterface.controllerIsStopped.disconnect(backendIsStopped);
-    applicationInterface.addedInput.disconnect(inputAdded);
+    applicationInterface.addedInput.disconnect(backendAddedInput);
     applicationInterface.dartsInputRemoveSucces.disconnect(backendRemovedPoint);
     scoreKeyPad.sendInput.disconnect(handleScoreKeyPadInput);
 }
 
-function handleTournamentMetaData(data){
+function handleMetaData(data){
     var json = JSON.parse(data);
     dartsMetaValues.title = json["title"];
     dartsMetaValues.winnerName= json["winnerName"];
@@ -86,7 +86,7 @@ function addToScoreBoard(json)
     singleColumnScoreBoard.setData(playerName,playerScore);
 }
 
-function inputAdded(data)
+function backendAddedInput(data)
 {
     var json = JSON.parse(data);
     addToScoreBoard(json);
@@ -150,7 +150,7 @@ function backendIsStopped()
 function backendDeclaredAWinner(data)
 {
     var json = JSON.parse(data);
-    dartsMetaValues.winnerName = json["playerName"];
+    dartsMetaValues.winnerName = json["winnerName"];
     dartsScoreSingleColumnBody.state = "winner";
 }
 

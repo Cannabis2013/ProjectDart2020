@@ -6,14 +6,14 @@
 class DCCreateCandidateModels : public IDCCreateCandidateModels
 {
 public:
-    virtual DCContext::DCScoreModel getCandidate(const DCContext::IDCInputModel *model, IDCScoresService *scoresService) override
+    virtual DCContext::DCScoreModel getCandidate(const IDCInput *model, IDCScoresService *scoresService) override
     {
         auto tuples = scoresService->scoreModels();
         auto tuple = this->scoreModel(model->playerId(),tuples);
         auto newScore = subtractScore(tuple.totalScore,model->score());
         return toModel(tuple,newScore);
     }
-    virtual QVector<DCContext::DCScoreModel> getScoreCandidates(const QVector<DCContext::IDCInputModel *> &models, IDCScoresService *scoresService) override
+    virtual QVector<DCContext::DCScoreModel> getScoreCandidates(const QVector<IDCInput *> &models, IDCScoresService *scoresService) override
     {
         auto scoreModels = scoresService->scoreModels();
         for (auto &model : scoreModels)
@@ -26,7 +26,7 @@ public:
         return scoreModels;
     }
 private:
-    int sum(const QUuid &id, const QVector<DCContext::IDCInputModel*> &models) const
+    int sum(const QUuid &id, const QVector<IDCInput*> &models) const
     {
         auto s = 0;
         for (const auto &model : models) {

@@ -68,12 +68,14 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     DartApplication/ConnectBuilderServices/ConnectDCBuilder.h \
+    DartsController/DCInputSLAs/idcinput.h \
     DartsController/DCInputSLAs/idcinputbuilder.h \
     DartsController/DCInputSLAs/idcsetinputjsonvalues.h \
+    DartsController/DCInputServices/dcinput.h \
     DartsController/DCMetaSLAs/idcmetajsonbuilder.h \
     DartsController/DCMetaServices/dcmetajsonbuilder.h \
     DartsController/DCMetaServices/dcsettournamentid.h \
-    DartsController/DCPlayerSLAs/IDCPlayerAllowancesContext.h \
+    DartsController/DCPlayerSLAs/IDCPlayerApproval.h \
     DartsController/DCPlayerSLAs/idcplayerjsonbuilder.h \
     DartsController/DCPlayerServices/DPCPlayerAllowancesContext.h \
     DartsController/DCPlayerServices/dcplayerjsonbuilder.h \
@@ -238,7 +240,6 @@ HEADERS += \
     DartsController/DCIndexServices/dcinitializeindexservice.h \
     DartsController/DCMetaServices/dcinitialscore.h \
     DartsController/DCFinishesServices/dcinputfinishes.h \
-    DartsController/DCInputServices/dcinputmodel.h \
     DartsController/DCFinishesServices/dclogisticdb.h \
     DartsControllerBuilder/DCBMetaServices/dcmeta.h \
     DartsController/DCPlayerServices/dcplayer.h \
@@ -323,7 +324,6 @@ HEADERS += \
     DartsController/DCIndexSLAs/idcindexservice.h \
     DartsController/DCIndexSLAs/idcinitializeindexes.h \
     DartsController/DCMetaSLAs/idcinitialscore.h \
-    DartsController/DCInputSLAs/idcinputmodel.h \
     DartsControllerBuilder/DCBMetaSLAs/idcmetainfo.h \
     DartsController/DCPlayerSLAs/idcplayer.h \
     DartsController/DCPlayerSLAs/idcplayermodelbuilder.h \

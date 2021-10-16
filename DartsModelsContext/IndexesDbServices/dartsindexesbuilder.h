@@ -13,6 +13,7 @@ public:
     virtual IDartsIndexes *buildIndexes(const QUuid &tournamentId) const override
     {
         auto model = new DartsIndexes;
+        model->setId(QUuid::createUuid());
         model->setTournamentId(tournamentId);
         model->setRoundIndex(1);
         return model;
@@ -44,6 +45,7 @@ private:
     DartsIndexes *toModel(const QJsonObject &obj) const
     {
         auto model = new DartsIndexes;
+        model->setId(QUuid::fromString(obj.value("id").toString()));
         model->setTournamentId(QUuid::fromString(obj.value("tournamentId").toString()));
         model->setTotalTurns(obj.value("totalTurns").toInt());
         model->setTurnIndex(obj.value("turnIndex").toInt());

@@ -6,7 +6,7 @@
 class DCAddScore : public IDCAddScore
 {
 public:
-    virtual DCContext::DCScoreModel addPlayerScore(const DCContext::IDCInputModel *model, IDCScoresService *scoresService) const override
+    virtual DCContext::DCScoreModel addPlayerScore(const IDCInput *model, IDCScoresService *scoresService) const override
     {
         auto scoreModels = scoresService->scoreModels();
         auto tuple = getTupleFromScoresService(model->playerId(),scoreModels);

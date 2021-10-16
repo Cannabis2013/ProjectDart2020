@@ -5,7 +5,7 @@
 #include "DartsController/DCPlayerSLAs/idcplayerservice.h"
 #include "DartsController/DCPlayerSLAs/idcplayerjsonbuilder.h"
 #include "DartsController/DCPlayerSLAs/idccreateplayersfromjson.h"
-#include "IDCPlayerAllowancesContext.h"
+#include "IDCPlayerApproval.h"
 
 class DCPlayerSLAs
 {
@@ -68,11 +68,11 @@ public:
     {
         _createJsonFromPlayer = service;
     }
-    IDCPlayerAllowancesContext *playerAllowanceContext() const
+    IDCPlayerApproval *playerAllowanceContext() const
     {
         return _playerAllowanceContext;
     }
-    void setPlayerAllowanceContext(IDCPlayerAllowancesContext *newPlayerAllowanceContext)
+    void setPlayerAllowanceContext(IDCPlayerApproval *newPlayerAllowanceContext)
     {
         _playerAllowanceContext = newPlayerAllowanceContext;
     }
@@ -84,7 +84,7 @@ private:
     IDCPlayerKeys *_defaultPlayerKeys;
     IDCPlayerModelBuilder* _playerBuilderService;
     IDCPlayerJsonBuilder *_createJsonFromPlayer;
-    IDCPlayerAllowancesContext *_playerAllowanceContext = nullptr;
+    IDCPlayerApproval *_playerAllowanceContext = nullptr;
 };
 
 

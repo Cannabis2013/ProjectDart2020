@@ -11,10 +11,10 @@ function connectInterface()
     applicationInterface.dartsControllerIsReady.connect(backendIsReady);
     applicationInterface.controllerIsStopped.connect(backendIsStopped);
     applicationInterface.controllerAwaitsInput.connect(backendIsReadyAndAwaitsInput);
+    applicationInterface.controllerHasDeclaredAWinner.connect(backendDeclaredAWinner);
     applicationInterface.addedInput.connect(backendAddedInput);
     applicationInterface.dartsInputRemoveSucces.connect(backendRemovedPoint);
     applicationInterface.dartsControllerIsReset.connect(reinitialize);
-    applicationInterface.controllerHasDeclaredAWinner.connect(backendDeclaredAWinner);
 }
 
 function disconnectInterface()
@@ -93,7 +93,7 @@ function backendAddedInput(data)
     updatePointBoard(json);
     setThrowSuggestion(json);
     setTurnControllerValues(json);
-    dpscBody.state = "waitingForInput";
+    applicationInterface.requestControllerState();
 }
 
 function updatePointBoard(json)
@@ -159,7 +159,7 @@ function backendIsStopped()
 function backendDeclaredAWinner(data)
 {
     var json = JSON.parse(data);
-    metaValues.winnerName = json.playerName;
+    metaValues.winnerName = json["winnerName"];
     dpscBody.state = "winner";
 }
 

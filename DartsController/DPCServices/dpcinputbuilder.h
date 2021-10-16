@@ -2,41 +2,41 @@
 #define DPCINPUTBUILDER_H
 
 #include <qjsonarray.h>
-#include "DartsController/DCInputServices/dcinputmodel.h"
+#include "DartsController/DCInputServices/dcinput.h"
 #include "DartsController/DCInputSLAs/idcinputbuilder.h"
 
 
 class DPCInputBuilder : public IDCInputBuilder
 {
 public:
-    DCContext::IDCInputModel *createModel(const QByteArray &json) const override
+    IDCInput *createModel(const QByteArray &json) const override
     {
         auto jsonObject = toJsonObject(json);
         return toModel(jsonObject);
     }
-    virtual DCContext::IDCInputModel *createModel(const DCContext::DCScoreModel &scoreModel) const override
+    virtual IDCInput *createModel(const DCContext::DCScoreModel &scoreModel) const override
     {
         return toModel(scoreModel);
     }
-    virtual QVector<DCContext::IDCInputModel *> createModels(IDCScoresService *scoresService) const override
+    virtual QVector<IDCInput *> createModels(IDCScoresService *scoresService) const override
     {
-        QVector<DCContext::IDCInputModel *> models;
+        QVector<IDCInput *> models;
         for (const auto &model : scoresService->scoreModels())
             models << toModel(model);
         return models;
     }
-    virtual QVector<DCContext::IDCInputModel *> createModels(const QByteArray &json) const override
+    virtual QVector<IDCInput *> createModels(const QByteArray &json) const override
     {
-        QVector<DCContext::IDCInputModel *> models;
+        QVector<IDCInput *> models;
         auto arr = toJsonArray(json);
         for (const auto &jsonVal : arr)
             models << toModel(jsonVal.toObject());
         return models;
     }
 private:
-    DCContext::DCInputModel *toModel(const QJsonObject &obj) const
+    DCInput *toModel(const QJsonObject &obj) const
     {
-        auto input = DCContext::DCInputModel::createInstance();
+        auto input = DCInput::createInstance();
         input->setPlayerId(toId(obj.value("inputPlayerId").toString()));
         input->setPlayerName(obj.value("inputPlayerName").toString());
         input->setScore(obj.value("score").toInt());
@@ -45,9 +45,9 @@ private:
         input->setModKeyCode(obj.value("modKeyCode").toInt());
         return input;
     }
-    DCContext::DCInputModel *toModel(const DCContext::DCScoreModel &scoreModel) const
+    DCInput *toModel(const DCContext::DCScoreModel &scoreModel) const
     {
-        auto inputModel = DCContext::DCInputModel::createInstance();
+        auto inputModel = DCInput::createInstance();
         inputModel->setPlayerId(scoreModel.playerId);
         inputModel->setPlayerName(scoreModel.playerName);
         inputModel->setTotalScore(scoreModel.totalScore);

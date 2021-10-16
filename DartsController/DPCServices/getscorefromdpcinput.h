@@ -14,7 +14,7 @@ public:
         BullModifier,
         BullsEyeModifier
     };
-    virtual int getScore(const DCContext::IDCInputModel *inputModel) const override
+    virtual int getScore(const IDCInput *inputModel) const override
     {
         auto multiplier = createPointMultiplier(inputModel->modKeyCode());
         return calculateScore(inputModel->point(),multiplier);

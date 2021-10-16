@@ -47,15 +47,15 @@ public slots:
     void undoSuccess(const QByteArray &json) override;
     void redoSuccess(const QByteArray &json) override;
 private slots:
-    void persistInput(DCContext::IDCInputModel *inputModel);
-    void nullifyAndPersistInput(DCContext::IDCInputModel *input);
-    void declareWinner(DCContext::IDCInputModel *input);
+    void persistInput(IDCInput *inputModel);
+    void nullifyAndPersistInput(IDCInput *input);
+    void declareWinner(IDCInput *input);
 private:
-    QByteArray assembleJsonResponse(DCContext::IDCInputModel *input, const DCContext::DCTurnValues *turnValues, const int &average);
-    QByteArray assembleJsonResponse(DCContext::IDCInputModel *input, const DCContext::IDCIndexes *indexes);
+    QByteArray assembleJsonResponse(IDCInput *input, const DCContext::DCTurnValues *turnValues, const int &average);
+    QByteArray assembleJsonResponse(IDCInput *input, const DCContext::IDCIndexes *indexes);
     QByteArray assembleJsonResponse(const DCContext::IDCIndexes *indexes);
     void connectInputEvaluator();
-    void updateTotalScore(DCContext::IDCInputModel *input);
+    void updateTotalScore(IDCInput *input);
     void createAndSendWinnerValues();
     void sendCurrentTurnValues();
 };

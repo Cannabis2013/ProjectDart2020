@@ -7,7 +7,7 @@
 class DCAverageCalc : public IDCAverageCalc
 {
 public:
-    virtual double average(DCContext::IDCInputModel *input, const IDCIndexService *indexService,
+    virtual double average(IDCInput *input, const IDCIndexService *indexService,
                            const IDCInitialScore *initialService) const override
     {
 

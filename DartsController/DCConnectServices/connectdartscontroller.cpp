@@ -55,8 +55,6 @@ void ConnectDartsController::connectController(AbstractGameController *controlle
             application,&AbstractApplicationInterface::controllerIsStopped);
     QObject::connect(dartscontroller,&AbstractDartsController::controllerInitializedAndReady,
             application,&AbstractApplicationInterface::dartsControllerIsReady);
-    QObject::connect(dartscontroller,&AbstractDartsController::awaitsInput,
-            application,&AbstractApplicationInterface::controllerAwaitsInput);
     QObject::connect(dartscontroller,&AbstractDartsController::winnerDeclared,
             modelsContext,&AbstractDartsModelsContext::setDartsTournamentWinner);
     QObject::connect(modelsContext,&AbstractDartsModelsContext::setDartsTournamentWinnerSucces,

@@ -11,22 +11,22 @@ public:
     {
         return new DPCInputValidator;
     }
-    virtual void validateInput(const int &currentScore, const IDCInputKeyCodes *keyCodes,
-                               DCContext::IDCInputModel *input, IDCPlayerAllowancesContext *allowancesContext) override
+    virtual void validateInput(const int &remainingScore, const IDCInputKeyCodes *keyCodes,
+                               IDCInput *input, IDCPlayerApproval *approvalContext) override
     {
-        if(!allowancesContext->isAllowedEntrance(input->playerId()))
+        if(!approvalContext->isAllowedEntrance(input->playerId()))
         {
             if(input->modKeyCode() == keyCodes->doubleModifier())
-                allowancesContext->playerIsIn(input->playerId());
+                approvalContext->playerIsIn(input->playerId());
             else
             {
                 emit playerOutOfRange(input);
                 return;
             }
         }
-        if(currentScore >= minimumAllowedScore)
+        if(remainingScore >= minimumAllowedScore)
             emit playerHitPointDomain(input);
-        else if(currentScore == 0)
+        else if(remainingScore == 0)
         {
             if(input->modKeyCode() == keyCodes->doubleModifier() || input->score() == bullsEye())
                 emit playerHitTargetDomain(input);

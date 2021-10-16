@@ -1,9 +1,9 @@
-#ifndef IDCPLAYERALLOWANCESCONTEXT_H
-#define IDCPLAYERALLOWANCESCONTEXT_H
+#ifndef IDCPLAYERAPPROVAL_H
+#define IDCPLAYERAPPROVAL_H
 #include "idcplayer.h"
 #include <quuid.h>
 #include <qvector.h>
-class IDCPlayerAllowancesContext
+class IDCPlayerApproval
 {
 public:
     struct PlayerObject
@@ -16,4 +16,4 @@ public:
     virtual void playerIsIn(const QUuid &playerId) = 0;
     virtual void reset() = 0;
 };
-#endif // IDCPLAYERALLOWANCESCONTEXT_H
+#endif // IDCPLAYERAPPROVAL_H

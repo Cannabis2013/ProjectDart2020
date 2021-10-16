@@ -5,7 +5,7 @@
 class GetScoreFromDSCInput : public IDCGetScore
 {
 public:
-    virtual int getScore(const DCContext::IDCInputModel *inputModel) const override
+    virtual int getScore(const IDCInput *inputModel) const override
     {
         return inputModel->score();
     }

@@ -6,7 +6,7 @@
 #include "DartsController/DCIndexSLAs/idcindexservice.h"
 #include "DartsController/DCFinishesSLAs/idartsinputfinishes.h"
 #include "DartsController/DCPlayerSLAs/idcplayer.h"
-#include "DartsController/DCInputSLAs/idcinputmodel.h"
+#include "DartsController/DCInputSLAs/idcinput.h"
 
 class CreateDPCTurnValues : public ICreateDCTurnValues
 {

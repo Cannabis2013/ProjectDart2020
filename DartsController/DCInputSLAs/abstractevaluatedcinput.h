@@ -3,20 +3,20 @@
 
 #include "IDCInputKeyCodes.h"
 #include <qobject.h>
-#include "idcinputmodel.h"
-#include "idcinputmodel.h"
-#include "DartsController/DCPlayerSLAs/IDCPlayerAllowancesContext.h"
+#include "idcinput.h"
+#include "idcinput.h"
+#include "DartsController/DCPlayerSLAs/IDCPlayerApproval.h"
 class AbstractEvaluateDCInput : public QObject
 {
     Q_OBJECT
 public:
     virtual void validateInput(const int &currentScore, const IDCInputKeyCodes *keyCodes,
-                               DCContext::IDCInputModel *input, IDCPlayerAllowancesContext *allowancesContext) = 0;
+                               IDCInput *input, IDCPlayerApproval *allowancesContext) = 0;
 signals:
-    void playerNotAllowedEntrance(DCContext::IDCInputModel *input);
-    void playerHitPointDomain(DCContext::IDCInputModel *input);
-    void playerHitTargetDomain(DCContext::IDCInputModel *input);
-    void playerOutOfRange(DCContext::IDCInputModel *input);
+    void playerNotAllowedEntrance(IDCInput *input);
+    void playerHitPointDomain(IDCInput *input);
+    void playerHitTargetDomain(IDCInput *input);
+    void playerOutOfRange(IDCInput *input);
 };
 
 

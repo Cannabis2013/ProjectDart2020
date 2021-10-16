@@ -7,14 +7,14 @@
 class DSCInputToJson : public IDCSetInputJsonValues
 {
 public:
-    void setValues(QJsonObject &obj, DCContext::IDCInputModel* model) const override
+    void setValues(QJsonObject &obj, IDCInput* model) const override
     {
         obj["score"] = model->score();
         obj["inputPlayerId"] = model->playerId().toString(QUuid::WithoutBraces);
         obj["inputPlayerName"] = model->playerName();
         obj["totalScore"] = model->remainingScore();
     }
-    void setValues(QJsonArray &arr, const QVector<DCContext::IDCInputModel*>& inputModels) const override
+    void setValues(QJsonArray &arr, const QVector<IDCInput*>& inputModels) const override
     {
         for (const auto& inputModel : inputModels)
         {

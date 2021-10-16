@@ -30,6 +30,7 @@ private:
     {
         auto indexesModel = dynamic_cast<IDartsIndexes*>(model);
         QJsonObject obj;
+        obj["id"] = model->id().toString(QUuid::WithoutBraces);
         obj["tournamentId"] = indexesModel->tournamentId().toString(QUuid::WithoutBraces);
         obj["totalTurns"] = indexesModel->totalTurns();
         obj["turnIndex"] = indexesModel->turnIndex();

@@ -89,7 +89,7 @@ void DartsController::redoTurn()
     emit revealInput(jsonResponse);
 }
 
-void DartsController::persistInput(DCContext::IDCInputModel *inputModel)
+void DartsController::persistInput(IDCInput *inputModel)
 {
     QScopedPointer indexes(indexesBuilder()->createIndexes(indexService()));
     auto jsonResponse = assembleJsonResponse(inputModel,indexes.get());
@@ -106,7 +106,7 @@ void DartsController::handleRequestFromUI()
         emit controllerInitializedAndReady();
 }
 
-void DartsController::declareWinner(IDCInputModel *input)
+void DartsController::declareWinner(IDCInput *input)
 {
     winnerService()->setWinner(input->playerId(), input->playerName());
     controllerStatus()->set(statusCodes()->winnerFound());
@@ -115,22 +115,22 @@ void DartsController::declareWinner(IDCInputModel *input)
     emit requestAddDartsScore(jsonResponse);
 }
 
-QByteArray DartsController::assembleJsonResponse(DCContext::IDCInputModel *input,
+QByteArray DartsController::assembleJsonResponse(IDCInput *input,
                                                  const DCContext::DCTurnValues *turnValues,
                                                  const int &average)
 {
     auto jsonObject= createEmptyJsonObject()->emptyJsonObject();
-    setMetaJsonValues()->setValues(jsonObject,tournamentId(),playerService());
+    setMetaJsonValues()->setValues(jsonObject,tournamentId(),playerService(),winnerService());
     setJsonInputValues()->setValues(jsonObject,input);
     jsonObject[inputAvgKeys()->average()] = average;
     turnValuesToJson()->setJsonValues(jsonObject,turnValues,turnValKeys());
     return createByteArray()->byteArray(jsonObject);
 }
 
-QByteArray DartsController::assembleJsonResponse(DCContext::IDCInputModel *input, const DCContext::IDCIndexes *indexes)
+QByteArray DartsController::assembleJsonResponse(IDCInput *input, const DCContext::IDCIndexes *indexes)
 {
     auto jsonObject = createEmptyJsonObject()->emptyJsonObject();
-    setMetaJsonValues()->setValues(jsonObject,tournamentId(),playerService());
+    setMetaJsonValues()->setValues(jsonObject,tournamentId(),playerService(),winnerService());
     setJsonInputValues()->setValues(jsonObject,input);
     setIndexesJsonValues()->setValues(jsonObject,indexes,indexKeys());
     return createByteArray()->byteArray(jsonObject);
@@ -139,7 +139,7 @@ QByteArray DartsController::assembleJsonResponse(DCContext::IDCInputModel *input
 QByteArray DartsController::assembleJsonResponse(const DCContext::IDCIndexes *indexes)
 {
     auto jsonObject = createEmptyJsonObject()->emptyJsonObject();
-    setMetaJsonValues()->setValues(jsonObject,tournamentId(),playerService());
+    setMetaJsonValues()->setValues(jsonObject,tournamentId(),playerService(),winnerService());
     setIndexesJsonValues()->setValues(jsonObject,indexes,indexKeys());
     return createByteArray()->byteArray(jsonObject);
 }
@@ -183,7 +183,7 @@ void DartsController::undoSuccess(const QByteArray& json)
 
 void DartsController::redoSuccess(const QByteArray& json)
 {
-    QScopedPointer<DCContext::IDCInputModel> inputModel(createInputModel()->createModel(json));
+    QScopedPointer<IDCInput> inputModel(createInputModel()->createModel(json));
     auto candidateScore = subtractScore()->subtractScore(inputModel.get(),scoresService());
     inputModel->setTotalScore(candidateScore.totalScore);
     indexRedo()->redo(indexService(),scoresService());
@@ -194,14 +194,14 @@ void DartsController::redoSuccess(const QByteArray& json)
     emit scoreAddedSuccess(createByteArray()->byteArray(jsonObject));
 }
 
-void DartsController::updateTotalScore(IDCInputModel *input)
+void DartsController::updateTotalScore(IDCInput *input)
 {
     auto candidateScore = createCandidatesScore()->getCandidate(input,scoresService());
     scoresService()->scoreModels().replace(indexService()->setIndex(),candidateScore);
     input->setTotalScore(candidateScore.totalScore);
 }
 
-void DartsController::nullifyAndPersistInput(DCContext::IDCInputModel *input)
+void DartsController::nullifyAndPersistInput(IDCInput *input)
 {
     input->setScore(0);
     persistInput(input);
@@ -210,9 +210,7 @@ void DartsController::nullifyAndPersistInput(DCContext::IDCInputModel *input)
 void DartsController::createAndSendWinnerValues()
 {
     auto jsonObject = createEmptyJsonObject()->emptyJsonObject();
-    jsonObject["playerId"] = winnerService()->winnerId().toString(QUuid::WithoutBraces);
-    jsonObject["playerId"] = winnerService()->winnerName();
-    jsonObject[TOURNAMENT_ID_JSON_KEY] = tournamentId()->id().toString(QUuid::WithoutBraces);
+    setMetaJsonValues()->setValues(jsonObject,tournamentId(),playerService(),winnerService());
     emit winnerDeclared(createByteArray()->byteArray(jsonObject));
 }
 

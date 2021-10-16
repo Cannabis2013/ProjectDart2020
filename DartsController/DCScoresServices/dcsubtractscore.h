@@ -5,7 +5,7 @@
 class DCSubtractScore : public IDCSubtractScore
 {
 public:
-    virtual DCContext::DCScoreModel subtractScore(const DCContext::IDCInputModel *model, IDCScoresService *scoresService) const override
+    virtual DCContext::DCScoreModel subtractScore(const IDCInput *model, IDCScoresService *scoresService) const override
     {
         auto scoreModel = getTupleFromScoresService(model->playerId(),scoresService);
         auto indexOfTuple = indexOf(scoreModel,scoresService);
