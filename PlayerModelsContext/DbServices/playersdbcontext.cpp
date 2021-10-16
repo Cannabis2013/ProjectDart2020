@@ -2,6 +2,8 @@
 
 PlayersDbContext::PlayersDbContext(FileReaderInterface *fileReader, FileWriteInterface *fileWriter)
 {
+    fileReader->setFileName(_fileName);
+    fileWriter->setFileName(_fileName);
     setReadJsonFromFile(fileReader);
     setWriteJsonToFile(fileWriter);
 }

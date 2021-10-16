@@ -142,8 +142,8 @@ function recieveTournaments(json)
         var gameMode = jsonTournament["gameMode"];
         var title = jsonTournament["title"];
         var winnerName = jsonTournament["winnerName"];
-        var assignedPlayerNames = jsonTournament["assignedPlayerNames"];
-        var assignedPlayersCount = assignedPlayerNames.length;
+        var assignedPlayerDetails = jsonTournament["assignedPlayerDetails"];
+        var assignedPlayersCount = assignedPlayerDetails.length;
         tournamentListView.addItem(
                     {
                         "type" : "tournament",

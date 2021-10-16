@@ -19,8 +19,7 @@ IModel<QUuid> *CreatePlayersFromJson::createPlayer(const QByteArray &json) const
 
 PlayersContext::PlayerModel *CreatePlayersFromJson::toModel(const QJsonObject &obj) const
 {
-    auto stringID = obj.value("playerId").toString();
-    auto playerId = QUuid::fromString(stringID);
+    auto playerId = toId(obj.value("playerId").toString());
     auto playerName = obj.value("playerName").toString();
     auto mail = obj.value("playerMail").toString();
     auto model = PlayersContext::PlayerModel::createInstance()
@@ -40,4 +39,12 @@ QJsonArray CreatePlayersFromJson::toJsonArray(const QByteArray &json) const
     auto document = QJsonDocument::fromJson(json);
     auto arr = document.array();
     return arr;
+}
+
+QUuid CreatePlayersFromJson::toId(const QString &stringId) const
+{
+    auto id = QUuid::fromString(stringId);
+    if(id == QUuid())
+        return QUuid::createUuid();
+    return id;
 }

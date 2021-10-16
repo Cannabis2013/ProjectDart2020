@@ -4,10 +4,9 @@ void PlayerModelsContext::createPlayer(const QByteArray &json)
 {
     auto playerModel = playerBuilder()->createPlayer(json);
     try {
-        dbContext()->add(playerModel);
-        dbContext()->saveChanges(jsonBuilder());
-    }  catch (...) {
-        emit playerAddedError("");
+        dbContext()->add(playerModel)->saveChanges(jsonBuilder());
+    }  catch (const char *msg) {
+        emit playerAddedError("Error persisting player. Err msg: " + QString::fromStdString(msg));
         return;
     }
     emit playerAddedSucces();

@@ -7,6 +7,7 @@
 #include "DartsController/DCMetaSLAs/idcinitialscore.h"
 #include "DartsController/DCMetaSLAs/idcwinnerservice.h"
 #include "DartsController/DCMetaSLAs/idartsdeterminestatusbyid.h"
+#include "idcmetajsonbuilder.h"
 class DCMetaSLAs
 {
 public:
@@ -76,7 +77,17 @@ public:
     {
         _determineStatusById = service;
     }
+    IDCMetaJsonBuilder *setMetaJsonValues() const
+    {
+        return _setMetaJsonValues;
+    }
+
+    void setSetMetaJsonValues(IDCMetaJsonBuilder *service)
+    {
+        _setMetaJsonValues = service;
+    }
 private:
+    IDCMetaJsonBuilder *_setMetaJsonValues;
     IDCStatus *_controllerStatus;
     IDartsStatusCodes *_statusCodes;
     IDCTournamentId *_tournamentId;

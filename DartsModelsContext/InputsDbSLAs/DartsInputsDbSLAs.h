@@ -33,11 +33,11 @@ public:
     {
         _getInputFromDb = newGetInputFromDb;
     }
-    IDartsInputBuilder *inputModelBuilder() const
+    IDartsInputBuilder *inputBuilder() const
     {
         return _inputModelBuilder;
     }
-    void setInputModelBuilder(IDartsInputBuilder *service)
+    void setInputBuilder(IDartsInputBuilder *service)
     {
         _inputModelBuilder = service;
     }

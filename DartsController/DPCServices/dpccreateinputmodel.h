@@ -9,39 +9,63 @@
 class DPCCreateInputModel : public IDCCreateInputModel
 {
 public:
-    DCContext::IDCInputModel *createModel(const QByteArray &json, const IDCInputJsonKeys *jsonKeys) const override
+    DCContext::IDCInputModel *createModel(const QByteArray &json) const override
     {
         auto jsonObject = toJsonObject(json);
-        return toModel(jsonObject,jsonKeys);
+        return toModel(jsonObject);
     }
     virtual DCContext::IDCInputModel *createModel(const DCContext::DCScoreModel &scoreModel) const override
     {
         return toModel(scoreModel);
     }
-private:
-    DCContext::DCInputModel *toModel(const QJsonObject &jsonObject, const IDCInputJsonKeys *jsonKeys) const
+    virtual QVector<DCContext::IDCInputModel *> createModels(IDCScoresService *scoresService) const override
     {
-        auto model = DCContext::DCInputModel::createInstance();
-        model->setScore(jsonObject.value(jsonKeys->score()).toInt());
-        model->setPoint(jsonObject.value(jsonKeys->point()).toInt());
-        model->setModKeyCode(jsonObject.value(jsonKeys->modKeyCode()).toInt());
-        model->setTotalScore(jsonObject.value(jsonKeys->totalScore()).toInt());
-        model->setPlayerId(toId(jsonObject.value(jsonKeys->playerId()).toString()));
-        model->setPlayerName(jsonObject.value(jsonKeys->playerName()).toString());
-        return model;
+        QVector<DCContext::IDCInputModel *> models;
+        for (const auto &model : scoresService->scoreModels())
+            models << toModel(model);
+        return models;
     }
-    DCContext::DCInputModel *toModel(const DCContext::DCScoreModel &tuple) const
+    virtual QVector<DCContext::IDCInputModel *> createModels(const QByteArray &json) const override
+    {
+        QVector<DCContext::IDCInputModel *> models;
+        auto arr = toJsonArray(json);
+        for (const auto &jsonVal : arr)
+            models << toModel(jsonVal.toObject());
+        return models;
+    }
+private:
+    DCContext::DCInputModel *toModel(const QJsonObject &obj) const
+    {
+        auto input = DCContext::DCInputModel::createInstance();
+        input->setPlayerId(toId(obj.value("playerId").toString()));
+        input->setPlayerName(obj.value("playerName").toString());
+        input->setScore(obj.value("score").toInt());
+        input->setTotalScore(obj.value("totalScore").toInt());
+        input->setPoint(obj.value("point").toInt());
+        input->setModKeyCode(obj.value("modKeyCode").toInt());
+        return input;
+    }
+    DCContext::DCInputModel *toModel(const DCContext::DCScoreModel &scoreModel) const
     {
         auto inputModel = DCContext::DCInputModel::createInstance();
-        inputModel->setPlayerId(tuple.playerId);
-        inputModel->setPlayerName(tuple.playerName);
-        inputModel->setTotalScore(tuple.totalScore);
+        inputModel->setPlayerId(scoreModel.playerId);
+        inputModel->setPlayerName(scoreModel.playerName);
+        inputModel->setTotalScore(scoreModel.totalScore);
         return inputModel;
     }
     QJsonObject toJsonObject(const QByteArray &json) const
     {
         auto document = QJsonDocument::fromJson(json);
+        if(!document.isObject())
+            throw "JSON NOT OBJECT";
         return document.object();
+    }
+    QJsonArray toJsonArray(const QByteArray &json) const
+    {
+        auto document = QJsonDocument::fromJson(json);
+        if(!document.isArray())
+            throw "JSON NOT ARRAY";
+        return document.array();
     }
     QByteArray toByteArray(const QJsonValue &jsonValue) const
     {

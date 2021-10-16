@@ -32,7 +32,6 @@
 #include "DartsController/DCScoresServices/dcresetscoremodels.h"
 #include "DartsController/DCMetaServices/dcmetastatus.h"
 #include "DartsController/DCMetaServices//dartsstatuscodes.h"
-#include "DartsController/DCInputServices/dccreateinputmodels.h"
 #include "DartsController/DCMetaServices/dchint.h"
 #include "DartsController/DCMetaServices/dcinitialscore.h"
 #include "DartsController/DCMetaServices/dctournamentid.h"
@@ -44,7 +43,6 @@
 #include "DartsController/DPCServices/dpcinputstojson.h"
 #include "DartsController/DPCServices/dpcinputstojson.h"
 #include "DartsController/DPCServices/dpcindexestojson.h"
-#include "DartsController/DCInputServices/dcinputjsonkeys.h"
 #include "DartsController/DCInputServices/DCInputKeyCodes.h"
 #include "DartsController/DCJsonServices/dccreatebytearray.h"
 #include "DartsController/DCJsonServices/dccreateemptyjsonobject.h"
@@ -52,8 +50,8 @@
 #include "DartsController/DCInputStatsServices/dcaveragecalc.h"
 #include "DartsController/DCInputStatsServices/dcinputstatsavgkeys.h"
 #include "DartsController/DCIndexServices/dcindexesjsonkeys.h"
-
 #include "DartsController/DCPlayerServices/DPCPlayerAllowancesContext.h"
+#include "DartsController/DCMetaServices/dcmetajsonbuilder.h"
 
 class DPController : public DartsController
 {
@@ -77,6 +75,7 @@ public:
         setInputHint(DCHint::createInstance(meta->inputHint()));
         setTournamentId(DCTournamentId::createInstance(meta->tournamentId()));
         setInitialScore(DCInitialScore::createInstance(meta->keyPoint()));
+        setSetMetaJsonValues(new DCMetaJsonBuilder);
         // Json services
         setInputJsonContext(new DPCInputsToJson);
         setTurnValuesToJsonService(new DCTurnValuesToJson);
@@ -93,8 +92,6 @@ public:
         setWinnerService(new DCWinnerService);
         setAddScoreService(new DCAddScore);
         // Input services
-        setCreateInputModels(new DCCreateInputModels);
-        setInputKeys(new DCInputJsonKeys);
         setInputKeyCodes(new DCInputKeyCodes);
         setInputEvaluator(DPCInputValidator::createInstance());
         setGetScoreFromInput(new GetScoreFromDPCInput);

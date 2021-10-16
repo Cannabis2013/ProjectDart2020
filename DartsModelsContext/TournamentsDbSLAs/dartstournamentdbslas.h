@@ -25,7 +25,7 @@ public:
     {
         _tournamentJsonBuilder = service;
     }
-    IDartsDbContext *tournamentDb() const
+    IDartsDbContext *tournamentsDbContext() const
     {
         return _dartsTournamentsDb;
     }

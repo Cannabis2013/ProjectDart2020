@@ -7,6 +7,6 @@
 class IDCIndexesToJson
 {
 public:
-    virtual void toJson(QJsonObject &obj, const DCContext::IDCIndexes *indexes, const IDCIndexesJsonKeys *keys) const = 0;
+    virtual void setValues(QJsonObject &obj, const DCContext::IDCIndexes *indexes, const IDCIndexesJsonKeys *keys) const = 0;
 };
 #endif // IDCINDEXESTOJSON_H

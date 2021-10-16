@@ -55,9 +55,3 @@ function initializeComponents(){
     displayHintSelector.currentIndex = defaultStateValues.defaultTableHintIndex;
     inputModeSelector.currentIndex = defaultStateValues.defaultInputModeIndex;
 }
-
-function setAttempts(value)
-{
-    attemptSelector.contentValue = defaultStateValues.defaultNumberOfThrows;
-    attemptSelector.enabled = true;
-}

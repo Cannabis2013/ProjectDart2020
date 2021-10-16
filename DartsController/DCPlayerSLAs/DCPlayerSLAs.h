@@ -3,7 +3,7 @@
 
 #include "DartsController/DCPlayerSLAs/idcgetwinnermodelfromjson.h"
 #include "DartsController/DCPlayerSLAs/idcplayerservice.h"
-#include "DartsController/DCPlayerSLAs/icreatejsonfromdcplayer.h"
+#include "DartsController/DCPlayerSLAs/idcplayerjsonbuilder.h"
 #include "DartsController/DCPlayerSLAs/idccreateplayersfromjson.h"
 #include "IDCPlayerAllowancesContext.h"
 
@@ -60,11 +60,11 @@ public:
     {
         _playerBuilderService = service;
     }
-    ICreateJsonFromDCPlayer *createJsonFromPlayer() const
+    IDCPlayerJsonBuilder *createJsonFromPlayer() const
     {
         return _createJsonFromPlayer;
     }
-    void setCreateJsonFromPlayer(ICreateJsonFromDCPlayer *service)
+    void setCreateJsonFromPlayer(IDCPlayerJsonBuilder *service)
     {
         _createJsonFromPlayer = service;
     }
@@ -83,7 +83,7 @@ private:
     IDCPlayerKeys *_winnerKeys;
     IDCPlayerKeys *_defaultPlayerKeys;
     IDCPlayerModelBuilder* _playerBuilderService;
-    ICreateJsonFromDCPlayer *_createJsonFromPlayer;
+    IDCPlayerJsonBuilder *_createJsonFromPlayer;
     IDCPlayerAllowancesContext *_playerAllowanceContext = nullptr;
 };
 

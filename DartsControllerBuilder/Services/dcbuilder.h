@@ -1,5 +1,5 @@
-#ifndef CREATEDARTSCONTROLLER_H
-#define CREATEDARTSCONTROLLER_H
+#ifndef DCBUILDER_H
+#define DCBUILDER_H
 
 #include "DartsController/Controller/dartscontroller.h"
 // Include services
@@ -12,7 +12,7 @@
 #include "DartsController/DPController/dpcontroller.h"
 #include "DartsControllerBuilder/DCBMetaServices/createDCMetaInfo.h"
 
-class CreateDartsController : public AbstractDCBuilder
+class DCBuilder : public AbstractDCBuilder
 {
     // IControllerBuilder interface
 public:

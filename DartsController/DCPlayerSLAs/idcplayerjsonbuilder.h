@@ -1,10 +1,10 @@
-#ifndef ICREATEJSONFROMDCPLAYER_H
-#define ICREATEJSONFROMDCPLAYER_H
+#ifndef IDCPLAYERJSONBUILDER_H
+#define IDCPLAYERJSONBUILDER_H
 
 #include "qbytearray.h"
 #include "DartsController/DCPlayerSLAs/idcplayer.h"
 
-class ICreateJsonFromDCPlayer
+class IDCPlayerJsonBuilder
 {
 public:
     virtual QByteArray createJson(const DCContext::IDCPlayer *playerModel) const = 0;

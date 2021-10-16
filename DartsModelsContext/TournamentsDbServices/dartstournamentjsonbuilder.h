@@ -17,8 +17,7 @@ public:
     virtual QByteArray tournamentsjson(const QVector<IModel<QUuid>*> &models) const override
     {
         QJsonArray arr = toJsonArray(models);
-        QJsonObject obj = toJsonObject(arr);
-        return toByteArray(obj);
+        return toByteArray(arr);
     }
     virtual QByteArray assignedPlayersJson(IModel<QUuid> *model) const override
     {
@@ -40,7 +39,7 @@ private:
     QJsonObject toJsonObject(AbstractDartsTournament* model) const
     {
         QJsonObject obj;
-        obj["id"] = model->id().toString(QUuid::WithoutBraces);
+        obj["tournamentId"] = model->id().toString(QUuid::WithoutBraces);
         obj["title"] = model->title();
         obj["gameMode"] = model->gameMode();
         obj["keyPoint"] = model->keyPoint();
@@ -49,12 +48,6 @@ private:
         obj["winnerId"] = model->winnerId().toString(QUuid::WithoutBraces);
         obj["winnerName"] = model->winnerName();
         obj["assignedPlayerDetails"] = createJsonArrayFromPlayerDetails(model);
-        return obj;
-    }
-    QJsonObject toJsonObject(const QJsonArray &arr) const
-    {
-        QJsonObject obj;
-        obj["DartsTournaments"] = arr;
         return obj;
     }
     QByteArray toByteArray(const QJsonObject &obj) const

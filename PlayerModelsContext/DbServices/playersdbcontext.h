@@ -24,6 +24,7 @@ public:
     void fetchModels(const IPlayerContextModelBuilder *modelBuilder) override;
     void saveChanges(const IPlayerContextJsonBuilder *jsonBuilder) override;
 private:
+    const QString _fileName = "PlayerModels";
     QVector<IModel<QUuid>*> _playerModels;
 };
 #endif // LOCALTOURNAMENTMODELDB_H

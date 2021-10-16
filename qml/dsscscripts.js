@@ -36,9 +36,22 @@ function handleTournamentMetaData(data){
     dartsMetaValues.title = json["title"];
     dartsMetaValues.winnerName= json["winnerName"];
     dartsMetaValues.keyPoint = json["keyPoint"];
-    dartsMetaValues.assignedPlayerNames = json["assignedPlayerNames"];
+    dartsMetaValues.assignedPlayerNames = getPlayerNames(json["assignedPlayerDetails"]);
     initializeScoreBoard();
     applicationInterface.requestDartsScores();
+}
+
+function getPlayerNames(playerDetails)
+{
+    let playerNames = [];
+    let count = playerDetails.length;
+    for(var i = 0;i < count;i++)
+    {
+        let playerDetail = playerDetails[i];
+        let playerName = playerDetail["playerName"];
+        playerNames.push(playerName);
+    }
+    return playerNames;
 }
 
 function initializeScoreBoard()
@@ -68,7 +81,7 @@ function addDartsScoresToScoreBoard(json)
 
 function addToScoreBoard(json)
 {
-    var playerName = json["playerName"];
+    var playerName = json["inputPlayerName"];
     var playerScore = json["totalScore"];
     singleColumnScoreBoard.setData(playerName,playerScore);
 }

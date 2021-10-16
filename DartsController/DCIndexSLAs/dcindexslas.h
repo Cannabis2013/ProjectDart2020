@@ -70,7 +70,7 @@ public:
     {
         _dartsIndexesBuilderService = service;
     }
-    IDCIndexesToJson *indexesToJson() const
+    IDCIndexesToJson *setIndexesJsonValues() const
     {
         return _indexesToJson;
     }

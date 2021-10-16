@@ -52,7 +52,6 @@ Rectangle {
             Layout.fillWidth: true
             labelText: "Keyboard:"
             model: stringModels.inputModes
-            onValueChanged: SelectorScripts.setAttempts(val)
         }
         Rectangle{
             color: "transparent"

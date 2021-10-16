@@ -3,10 +3,11 @@
 DartsJsonModelsContext::DartsJsonModelsContext()
 {
     setTournamentServices();
+    setIndexesServices();
     setInputServices();
     setInputDbUtilityServices();
     setModelUtilityServices();
-    fetchTournamentDb();
+    fetchAll();
 }
 void DartsJsonModelsContext::setModelUtilityServices()
 {
@@ -19,20 +20,24 @@ void DartsJsonModelsContext::setTournamentServices()
     setTournamentJsonBuilder(new DartsTournamentJsonBuilder);
     setTournamentBuilder(new DartsTournamentBuilder);
     setWinnerInfoBuilder(new ExtractWinnerInfoFromJson);
+    setMetaModelBuilder(new DartsMetaModelBuilder);
 }
 
 void DartsJsonModelsContext::setIndexesServices()
 {
-    setRemoveIndexes(new RemoveDartsIndexes);
     setIndexesDbContext(new DartsIndexesDbContext(new ReadByteArray, new WriteByteArray));
+    setIndexesBuilder(new DartsIndexesBuilder);
+    setIndexesJsonBuilder(new DartsIndexesJsonBuilder);
+    setRemoveIndexes(new RemoveDartsIndexes);
     setUpdateIndexes(new UpdateDartsIndexes);
+    setGetIndexesModel(new GetDartsIndexesModel);
 }
 void DartsJsonModelsContext::setInputServices()
 {
     setInputsDbContext(new DartsInputsDbContext(new ReadByteArray, new WriteByteArray));
     setGetInputFromDb(new GetDartsInputFromDb);
     setSortInputsByIndexes(new SortDartsInputsByIndexes);
-    setInputModelBuilder(new DartsInputBuilder);
+    setInputBuilder(new DartsInputBuilder);
     setInputJsonBuilder(new DartsInputJsonBuilder);
 }
 void DartsJsonModelsContext::setInputDbUtilityServices()
@@ -43,7 +48,9 @@ void DartsJsonModelsContext::setInputDbUtilityServices()
     setRemoveInputsFromDb(new RemoveDartsInputsFromDb);
 }
 
-void DartsJsonModelsContext::fetchTournamentDb()
+void DartsJsonModelsContext::fetchAll()
 {
-    tournamentDb()->fetchModels(tournamentBuilder());
+    tournamentsDbContext()->fetchModels(tournamentBuilder());
+    inputsDb()->fetchModels(inputBuilder());
+    indexesDbContext()->fetchModels(indexesBuilder());
 }

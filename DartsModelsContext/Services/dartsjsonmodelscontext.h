@@ -6,6 +6,7 @@
 #include "DartsModelsContext/DMCInputServices/removedartsinputsfromdb.h"
 #include "FileOperationsContext/Services/readbytearray.h"
 #include "FileOperationsContext/Services/writebytearray.h"
+#include "DartsModelsContext/DMCTournamentServices/dartsmetamodelbuilder.h"
 // Input models includes
 #include "DartsModelsContext/DMCInputServices/getdartsinputmodels.h"
 #include "DartsModelsContext/DMCInputServices/sortdartsinputs.h"
@@ -19,6 +20,9 @@
 #include "DartsModelsContext/IndexesDbServices/removedartsindexes.h"
 #include "DartsModelsContext/IndexesDbServices/dartsindexesdbcontext.h"
 #include "DartsModelsContext/IndexesServices/updatedartsindexes.h"
+#include "DartsModelsContext/IndexesServices/dartsindexesjsonbuilder.h"
+#include "DartsModelsContext/IndexesDbServices/dartsindexesbuilder.h"
+#include "DartsModelsContext/IndexesDbServices/getdartsindexesmodel.h"
 // Tournament models includes
 #include "DartsModelsContext//TournamentsDbServices/dartsdbcontext.h"
 #include "DartsModelsContext/DMCTournamentServices/getdartstournamentfromdb.h"
@@ -37,7 +41,7 @@ private:
     void setIndexesServices();
     void setInputServices();
     void setInputDbUtilityServices();
-    void fetchTournamentDb();
+    void fetchAll();
 };
 
 #endif // DARTSMODELSSERVICEWITHJSONDB_H

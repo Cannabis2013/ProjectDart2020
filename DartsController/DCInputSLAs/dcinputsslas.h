@@ -6,8 +6,6 @@
 #include "DartsController/DCInputSLAs/idccreateinputmodel.h"
 #include "DartsController/DCInputSLAs/idcinputjsoncontext.h"
 #include "DartsController/DCJsonSLAs/iaddtotalscoretodartsinputsjson.h"
-#include "DartsController/DCInputSLAs/idccreateinputmodels.h"
-#include "DartsController/DCInputSLAs/idcinputjsonkeys.h"
 #include "IDCInputKeyCodes.h"
 
 class DCInputsSLAs
@@ -37,29 +35,13 @@ public:
     {
         _inputModelBuilder = service;
     }
-    IDCInputJsonContext *inputJsonContext() const
+    IDCInputJsonContext *setJsonInputValues() const
     {
         return _jsonModelBuilderService;
     }
     void setInputJsonContext(IDCInputJsonContext *service)
     {
         _jsonModelBuilderService = service;
-    }
-    IDCCreateInputModels *createInputModels() const
-    {
-        return _createInputModels;
-    }
-    void setCreateInputModels(IDCCreateInputModels *service)
-    {
-        _createInputModels = service;
-    }
-    IDCInputJsonKeys *inputKeys() const
-    {
-        return _inputKeys;
-    }
-    void setInputKeys(IDCInputJsonKeys *service)
-    {
-        _inputKeys = service;
     }
     IDCInputKeyCodes *inputKeyCodes() const
     {
@@ -74,8 +56,6 @@ private:
     AbstractEvaluateDCInput *_inputEvaluator = nullptr;
     IDCCreateInputModel* _inputModelBuilder;
     IDCInputJsonContext *_jsonModelBuilderService;
-    IDCCreateInputModels *_createInputModels;
-    IDCInputJsonKeys *_inputKeys;
     IDCInputKeyCodes *_inputKeyCodes;
 };
 #endif // DCINPUTSSLAS_H

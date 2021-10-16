@@ -10,6 +10,7 @@
 #include <QJsonDocument>
 #include <qjsonobject.h>
 #include "DartsModelsContext/IndexesSLAs/dartsindexesslas.h"
+#include "DartsModelsContext/IndexesDbSLAs/idartsindexes.h"
 
 class DartsModelsContext :
         public AbstractDartsModelsContext,
@@ -45,10 +46,8 @@ public slots:
     virtual void updateTournamentIndexes(const QByteArray &json) override;
     void getPlayerInputs(const QUuid &tournamentId) override;
     virtual void getIndexes(const QUuid &tournamentId) override;
-    void hideInput(const QUuid& tournamentId,const QUuid& playerId,
-                   const int& roundIndex, const int& attemptIndex) override;
-    void revealInput(const QUuid& tournamentId,const QUuid& playerId,
-                     const int& roundIndex,const int& attemptIndex) override;
+    void hideInput(const QByteArray &json) override;
+    void revealInput(const QByteArray &json) override;
     void createDartsKeyValues(const QUuid& tournament) override;
 };
 #endif // LOCALMODELSSERVICE_H

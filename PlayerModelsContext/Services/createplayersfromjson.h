@@ -17,5 +17,6 @@ private:
     PlayersContext::PlayerModel *toModel(const QJsonObject &obj) const;
     QJsonObject toJsonObject(const QByteArray &json) const;
     QJsonArray toJsonArray(const QByteArray &json) const;
+    QUuid toId(const QString &stringId) const;
 };
 #endif // PLAYERMODELJSONEXTRACTOR_H

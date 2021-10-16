@@ -10,6 +10,7 @@ class AbstractDartsModelsContext : public QObject
     Q_OBJECT
 public:
     virtual ~AbstractDartsModelsContext() = default;
+public slots:
     virtual void addDartsTournament(const QByteArray& json, const QVector<IModel<QUuid> *> &playerModels) = 0;
     virtual void deleteTournaments(const QVector<int>& indexes) = 0;
     virtual void getOrderedInputs(const QUuid &tournament) = 0;
@@ -21,10 +22,8 @@ public:
     virtual void setDartsTournamentWinner(const QByteArray& json) = 0;
     virtual void addInput(const QByteArray& json) = 0;
     virtual void updateTournamentIndexes(const QByteArray &json) = 0;
-    virtual void hideInput(const QUuid& tournamentId,const QUuid& playerId,
-                           const int &roundIndex,const int& attemptIndex) = 0;
-    virtual void revealInput(const QUuid& tournamentId,const QUuid& playerId,
-                             const int& roundIndex,const int& attemptIndex) = 0;
+    virtual void hideInput(const QByteArray &json) = 0;
+    virtual void revealInput(const QByteArray &json) = 0;
     virtual void getIndexes(const QUuid& tournament) = 0;
     virtual void getPlayerDetails(const QUuid &tournamentId) = 0;
     virtual void getPlayerInputs(const QUuid &tournamentId) = 0;

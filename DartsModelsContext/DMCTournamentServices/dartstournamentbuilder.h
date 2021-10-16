@@ -11,43 +11,52 @@
 class DartsTournamentBuilder : public IDartsTournamentBuilder
 {
 public:
-    virtual IModel<QUuid> *createTournament(const QByteArray &json) const override
+    virtual IModel<QUuid> *buildTournament(const QByteArray &json) const override
     {
-        auto obj = toJsonobject(json);
+        QJsonObject obj;
+        try {
+            obj = toJsonobject(json);
+        }  catch (const char *msg) {
+            return nullptr;
+        }
         return toModel(obj);
     }
     virtual QVector<IModel<QUuid> *> createTournaments(const QByteArray &json) const override
     {
-        auto obj = toJsonobject(json);
-        return createModels(obj);
+        QJsonArray arr;
+        try {
+            arr = toJsonArray(json);
+        }  catch (const char *msg) {
+            return QVector<IModel<QUuid>*>();
+        }
+        return toModels(arr);
     }
 private:
     QJsonObject toJsonobject(const QByteArray &json) const
     {
         auto document = QJsonDocument::fromJson(json);
+        if(!document.isObject())
+            throw "ERROR! NOT OBJECT!";
         return document.object();;
     }
-    QVector<IModel<QUuid>*> createModels(const QJsonObject &obj) const
+    const QJsonArray toJsonArray(const QByteArray &json) const
     {
-        auto arr = createJsonArray(obj);
-        return createModels(arr);
+        auto document = QJsonDocument::fromJson(json);
+        if(!document.isArray())
+            throw "ERROR! NOT ARRAY!";
+        return document.array();
     }
-    const QVector<IModel<QUuid>*> createModels(const QJsonArray &arr) const
+    const QVector<IModel<QUuid>*> toModels(const QJsonArray &arr) const
     {
         QVector<IModel<QUuid>*> list;
         for (const auto& jsonValue : arr)
             list << toModel(jsonValue.toObject());
         return list;
     }
-    const QJsonArray createJsonArray(const QJsonObject &obj) const
-    {
-        auto arr = obj.value("DartsTournaments").toArray();
-        return arr;
-    }
     AbstractDartsTournament* toModel(const QJsonObject& obj) const
     {
         auto dartsTournamentModel = ModelsContext::DartsTournament::createInstance();
-        dartsTournamentModel->setId(QUuid(obj.value("id").toString(QUuid::createUuid().toString(QUuid::WithoutBraces))));
+        dartsTournamentModel->setId(QUuid(obj.value("tournamentId").toString(QUuid::createUuid().toString(QUuid::WithoutBraces))));
         dartsTournamentModel->setTitle(obj.value("title").toString());
         dartsTournamentModel->setGameMode(obj.value("gameMode").toInt());
         dartsTournamentModel->setKeyPoint(obj.value("keyPoint").toInt());
@@ -63,7 +72,7 @@ private:
     {
         QVector<QUuid> playerIds;
         QVector<QString> playerNames;
-        auto arr = obj.value("playerDetails").toArray();
+        auto arr = obj.value("assignedPlayerDetails").toArray();
         for (const auto &jsonvalue : arr) {
             auto jsonObject = jsonvalue.toObject();
             playerIds << QUuid::fromString(jsonObject.value("playerId").toString());

@@ -28,10 +28,10 @@ QVector<IModel<QUuid>*> DartsInputBuilder::createInputsFromJsonArray(const QJson
 ModelsContext::IDartsInput *DartsInputBuilder::toInputModel(const QJsonObject &jsonObject) const
 {
     auto pointModel = new ModelsContext::DartsInput;
-    pointModel->setId(toId(jsonObject,"id"));
+    pointModel->setId(jsonObject.value("id").toString(QUuid::createUuid().toString(QUuid::WithoutBraces)));
     pointModel->setTournament(toId(jsonObject,"tournamentId"));
-    pointModel->setPlayerId(toId(jsonObject,"playerId"));
-    pointModel->setPlayerName(jsonObject.value("playerName").toString());
+    pointModel->setPlayerId(toId(jsonObject,"inputPlayerId"));
+    pointModel->setPlayerName(jsonObject.value("inputPlayerName").toString());
     pointModel->setRoundIndex(jsonObject["roundIndex"].toInt());
     pointModel->setSetIndex(jsonObject["setIndex"].toInt());
     pointModel->setAttempt(jsonObject["attemptIndex"].toInt());
@@ -44,7 +44,7 @@ ModelsContext::IDartsInput *DartsInputBuilder::toInputModel(const QJsonObject &j
 
 QUuid DartsInputBuilder::toId(const QJsonObject &obj, const QString &key) const
 {
-    auto id = obj[key].toString();
+    auto id = obj.value(key).toString();
     return QUuid::fromString(id);
 }
 

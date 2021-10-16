@@ -24,14 +24,14 @@ QJsonObject DartsInputJsonBuilder::toJsonObject(IModel<QUuid> *model) const
     auto dartsPointModel = dynamic_cast<const IDartsInput*>(model);
     QJsonObject jsonObject;
     jsonObject["id"] = dartsPointModel->id().toString(QUuid::WithoutBraces);
-    jsonObject["tournament"] = dartsPointModel->tournamentId().toString(QUuid::WithoutBraces);
+    jsonObject["tournamentId"] = dartsPointModel->tournamentId().toString(QUuid::WithoutBraces);
     jsonObject["point"] = dartsPointModel->point();
     jsonObject["score"] = dartsPointModel->score();
     jsonObject["roundIndex"] = dartsPointModel->roundIndex();
     jsonObject["setIndex"] = dartsPointModel->setIndex();
     jsonObject["attemptIndex"] = dartsPointModel->attempt();
-    jsonObject["playerId"] = dartsPointModel->playerId().toString(QUuid::WithoutBraces);
-    jsonObject["playerName"] = dartsPointModel->playerName();
+    jsonObject["inputPlayerId"] = dartsPointModel->playerId().toString(QUuid::WithoutBraces);
+    jsonObject["inputPlayerName"] = dartsPointModel->playerName();
     jsonObject["hint"] = dartsPointModel->hint();
     jsonObject["keyCode"] = dartsPointModel->modKeyCode();
     return jsonObject;

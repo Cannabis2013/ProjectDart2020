@@ -2,6 +2,7 @@
 #define REMOVEDARTSINDEXES_H
 
 #include "DartsModelsContext/IndexesDbSLAs/iremovedartsindexes.h"
+#include "dartsindexes.h"
 
 class RemoveDartsIndexes : public IRemoveDartsIndexes
 {

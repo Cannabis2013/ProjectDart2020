@@ -1,10 +1,10 @@
 #include "addtotalscoretodartsinputsasjson.h"
 
-void AddTotalScoreToDartsInputsAsJson::addTotalScoreToInputs(QByteArray &json, const int &initialPoint, const IDCInputJsonKeys *inputKeys) const
+void AddTotalScoreToDartsInputsAsJson::addTotalScoreToInputs(QByteArray &json, const int &initialPoint) const
 {
     auto arr = toArray(json);
-    auto playerIds = createPlayerIds(arr,inputKeys);
-    addTotalScoresToJsonArray(arr,playerIds,initialPoint,inputKeys);
+    auto playerIds = createPlayerIds(arr);
+    addTotalScoresToJsonArray(arr,playerIds,initialPoint);
     json = toByteArray(arr);
 }
 
@@ -17,12 +17,12 @@ QJsonArray AddTotalScoreToDartsInputsAsJson::toArray(const QByteArray &json) con
         return QJsonArray();
 }
 
-QVector<QUuid> AddTotalScoreToDartsInputsAsJson::createPlayerIds(const QJsonArray &arr, const IDCInputJsonKeys *inputKeys) const
+QVector<QUuid> AddTotalScoreToDartsInputsAsJson::createPlayerIds(const QJsonArray &arr) const
 {
     QVector<QUuid> playerIds;
     for (const auto &jsonVal : arr) {
         auto jsonObject = jsonVal.toObject();
-        auto playerId = QUuid(jsonObject.value(inputKeys->playerId()).toString());
+        auto playerId = QUuid(jsonObject.value("playerId").toString());
         if(!playerIds.contains(playerId))
             playerIds << playerId;
     }
@@ -30,27 +30,26 @@ QVector<QUuid> AddTotalScoreToDartsInputsAsJson::createPlayerIds(const QJsonArra
 }
 
 void AddTotalScoreToDartsInputsAsJson::addTotalScoresToJsonArray(QJsonArray &arr, const QVector<QUuid> &playerIds,
-                                                               const int &initialPoint, const IDCInputJsonKeys *inputKeys) const
+                                                               const int &initialPoint) const
 {
     for (const auto &playerId : playerIds)
-        addTotalScoreToPlayerJson(arr,playerId,initialPoint, inputKeys);
+        addTotalScoreToPlayerJson(arr,playerId,initialPoint);
 }
 
-void AddTotalScoreToDartsInputsAsJson::addTotalScoreToPlayerJson(QJsonArray &arr, const QUuid &playerId, const int &initialPoint,
-                                                               const IDCInputJsonKeys *inputKeys) const
+void AddTotalScoreToDartsInputsAsJson::addTotalScoreToPlayerJson(QJsonArray &arr, const QUuid &playerId, const int &initialPoint) const
 {
     auto tempTotalScore = initialPoint;
     for (int i = 0; i < arr.count(); ++i) {
         auto jsonValue = arr.at(i);
         auto jsonObject = jsonValue.toObject();
-        auto pId = QUuid(jsonObject.value(inputKeys->playerId()).toString());
+        auto pId = QUuid(jsonObject.value("playerId").toString());
         if(pId == playerId)
         {
-            auto point = jsonObject.value(inputKeys->point()).toInt();
-            auto modKeyCode = jsonObject.value(inputKeys->modKeyCode()).toInt();
+            auto point = jsonObject.value("point").toInt();
+            auto modKeyCode = jsonObject.value("modKeyCode").toInt();
             auto score = calculateScore(point,modKeyCode);
             tempTotalScore -= score;
-            jsonObject[inputKeys->totalScore()] = tempTotalScore;
+            jsonObject["totalScore"] = tempTotalScore;
             arr.replace(i,jsonObject);
         }
     }

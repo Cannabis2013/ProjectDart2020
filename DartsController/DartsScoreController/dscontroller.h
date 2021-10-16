@@ -2,7 +2,7 @@
 #define DSCONTROLLER_H
 #include "DartsController/Controller/dartscontroller.h"
 #include "DartsControllerBuilder/DCBMetaSLAs/idcmetainfo.h"
-#include "DartsController/DCPlayerServices/createjsonfromdcplayer.h"
+#include "DartsController/DCPlayerServices/dcplayerjsonbuilder.h"
 #include "DartsController/DCScoresServices/dccreatescoremodels.h"
 #include "DartsController/DCIndexServices/dcindexesbuilder.h"
 #include "DartsController/DCIndexServices/dcindexredo.h"
@@ -42,8 +42,6 @@
 #include "DartsController/DCMetaServices/dchint.h"
 #include "DartsController/DCMetaServices/dcinitialscore.h"
 #include "DartsController/DCMetaServices/dctournamentid.h"
-#include "DartsController/DCInputServices/dccreateinputmodels.h"
-#include "DartsController/DCInputServices/dcinputjsonkeys.h"
 #include "DartsController/DCInputServices/DCInputKeyCodes.h"
 #include "DartsController/DCJsonServices/dccreatebytearray.h"
 #include "DartsController/DCJsonServices/dccreateemptyjsonobject.h"
@@ -51,6 +49,7 @@
 #include "DartsController/DCInputStatsServices/dcaveragecalc.h"
 #include "DartsController/DCInputStatsServices/dcinputstatsavgkeys.h"
 #include "DartsController/DCIndexServices/dcindexesjsonkeys.h"
+#include "DartsController/DCMetaServices/dcmetajsonbuilder.h"
 class DSController : public DartsController
 {
 public:
@@ -76,6 +75,7 @@ public:
         setInputHint(DCHint::createInstance(meta->inputHint()));
         setTournamentId(DCTournamentId::createInstance(meta->tournamentId()));
         setInitialScore(DCInitialScore::createInstance(meta->keyPoint()));
+        setSetMetaJsonValues(new DCMetaJsonBuilder);
         // Json services
         setTurnValuesToJsonService(new DCTurnValuesToJson);
         setCreateByteArray(new DCCreateByteArray);
@@ -83,8 +83,6 @@ public:
         // Input services
         setInputJsonContext(new DSCInputToJson);
         setGetScoreFromInput(new GetScoreFromDSCInput);
-        setCreateInputModels(new DCCreateInputModels);
-        setInputKeys(new DCInputJsonKeys);
         setInputKeyCodes(new DCInputKeyCodes);
         setInputEvaluator(DSCInputValidator::createInstance());
         // Input statistics services
@@ -97,7 +95,7 @@ public:
         // Player services
         setPlayerService(new DCPlayerService(indexService(),scoresService()));
         setWinnerModelFromJson(new DCGetWInnerModelsFromJson);
-        setCreateJsonFromPlayer(new CreateJsonFromDCPlayer);
+        setCreateJsonFromPlayer(new DCPlayerJsonBuilder);
         setCreatePlayersFromJson(new DCCreatePlayersFromJson);
         setWinnerKeys(new DCWinnerKeys);
         setPlayerKeys(new DCPlayerKeys);

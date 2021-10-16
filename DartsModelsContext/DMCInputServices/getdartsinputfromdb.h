@@ -6,14 +6,14 @@
 class GetDartsInputFromDb : public IGetDartsInputFromDb
 {
 public:
-    virtual IModel<QUuid> *get(const QUuid &tournamentId, const QUuid &playerId,
-                               const int &roundIndex, const int &attemptIndex,
-                               const IModelsDbContext *dbService) const override
+    virtual ModelsContext::IDartsInput *get(const QUuid &tournamentId, const QUuid &playerId,
+                                            const int &roundIndex, const int &attemptIndex,
+                                            const IModelsDbContext *dbService) const override
     {
         auto models = dbService->models();
         for (const auto &model : models) {
             if(match(model,tournamentId,playerId,roundIndex,attemptIndex))
-                return model;
+                return dynamic_cast<ModelsContext::IDartsInput*>(model);
         }
         throw "Model not found";
     }

@@ -1,11 +1,11 @@
-#ifndef CREATEJSONFROMDCPLAYER_H
-#define CREATEJSONFROMDCPLAYER_H
+#ifndef DCPLAYERJSONBUILDER_H
+#define DCPLAYERJSONBUILDER_H
 
-#include "DartsController/DCPlayerSLAs/icreatejsonfromdcplayer.h"
+#include "DartsController/DCPlayerSLAs/idcplayerjsonbuilder.h"
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 
-class CreateJsonFromDCPlayer : public ICreateJsonFromDCPlayer
+class DCPlayerJsonBuilder : public IDCPlayerJsonBuilder
 {
 public:
     virtual QByteArray createJson(const DCContext::IDCPlayer *playerModel) const override
@@ -27,4 +27,4 @@ private:
         return document.toJson();
     }
 };
-#endif // CREATEJSONFROMDCPLAYER_H
+#endif // DCPLAYERJSONBUILDER_H

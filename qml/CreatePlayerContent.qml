@@ -7,7 +7,10 @@ Content
     signal sendPlayerDetails(string json)
     function handleError(msg)
     {
-        buttonOneEnabled = buttonTwoEnabled = true;
+        print(msg);
+        errTextBox.text = msg;
+        endStateButtons.buttonOneEnabled = true;
+        endStateButtons.buttonTwoEnabled = true;
     }
     
     function evaluateInputs(){
@@ -39,6 +42,13 @@ Content
             Layout.fillHeight: true
             Layout.fillWidth: true
             bottomBorderWidth: 1
+        }
+
+        Text {
+            id: errTextBox
+            height: 128
+            Layout.fillWidth: true
+            color: "yellow"
         }
         
         ButtonsComponent{

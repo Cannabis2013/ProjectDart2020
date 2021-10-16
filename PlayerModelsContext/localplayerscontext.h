@@ -20,7 +20,7 @@ public:
 private:
     void setServices()
     {
-        setDbContext(new PlayersDbContext(new ReadByteArray(_dbFileName),new WriteByteArray(_dbFileName)));
+        setDbContext(new PlayersDbContext(new ReadByteArray,new WriteByteArray));
         setGetPlayerModelsFromDb(new GetPlayersFromDb);
         setJsonBuilder(new CreateJsonFromPlayerModels);
         setPlayerBuilder(new CreatePlayersFromJson);

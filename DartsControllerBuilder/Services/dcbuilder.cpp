@@ -1,13 +1,13 @@
-#include "createdartscontroller.h"
+#include "dcbuilder.h"
 
-void CreateDartsController::createController(const QByteArray &json)
+void DCBuilder::createController(const QByteArray &json)
 {
     auto meta = _createMeta->service(json);
     auto controller = createDC(meta);
     emit sendController(controller);
 }
 
-AbstractDartsController *CreateDartsController::createDC(const DCBuilding::IDCMetaInfo *meta)
+AbstractDartsController *DCBuilder::createDC(const DCBuilding::IDCMetaInfo *meta)
 {
     if(meta->inputHint() == PointHint)
         return createDPC(meta);
@@ -17,12 +17,12 @@ AbstractDartsController *CreateDartsController::createDC(const DCBuilding::IDCMe
         throw "Illegal input hint";
 }
 
-AbstractDartsController *CreateDartsController::createDPC(const DCBuilding::IDCMetaInfo *meta)
+AbstractDartsController *DCBuilder::createDPC(const DCBuilding::IDCMetaInfo *meta)
 {
     return new DPController(meta);
 }
 
-AbstractDartsController *CreateDartsController::createDSC(const DCBuilding::IDCMetaInfo *meta)
+AbstractDartsController *DCBuilder::createDSC(const DCBuilding::IDCMetaInfo *meta)
 {
     return new DSController(meta);
 }

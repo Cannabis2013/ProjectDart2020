@@ -23,14 +23,8 @@ signals:
     void controllerAwaitsInput();
     void controllerInitializedAndReady();
     void requestAddDartsScore(const QByteArray& tournament);
-    void hideInput(const QUuid &tournament,
-                        const QUuid &player,
-                        const int &roundIndex,
-                        const int &attemptIndex);
-    void revealInput(const QUuid &tournament,
-                        const QUuid &player,
-                        const int &roundIndex,
-                          const int &attemptIndex);
+    void hideInput(const QByteArray &json);
+    void revealInput(const QByteArray &json);
     void requestDartsTournamentDetails(const QUuid& tournamentId);
     void sendCurrentIndexes(const QByteArray &json);
     void initializedAndAwaitsInput(const bool& canUndo,

@@ -3,13 +3,14 @@
 
 #include "DartsModelsContext/InputsDbSLAs/iplayerinput.h"
 #include "ModelsContext/MCDbSLAs/imodelsdbcontext.h"
+#include "idartsinput.h"
 
 class IGetDartsInputFromDb
 {
 public:
-    virtual IModel<QUuid> *get(const QUuid &tournamentId, const QUuid &playerId,
-                                    const int &roundIndex, const int &attemptIndex,
-                                    const IModelsDbContext *dbService) const = 0;
+    virtual ModelsContext::IDartsInput *get(const QUuid &tournamentId, const QUuid &playerId,
+                                            const int &roundIndex, const int &attemptIndex,
+                                            const IModelsDbContext *dbService) const = 0;
 };
 
 #endif // IGETDARTSINPUTFROMDB_H
