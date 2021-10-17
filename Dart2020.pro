@@ -14,6 +14,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    DartsController/DPController/dpcontroller.cpp \
     DartsControllerBuilder/Services/dcbuilder.cpp \
     DartsModelsContext/DMCInputServices/dartsinputbuilder.cpp \
     DartsModelsContext/TournamentsDbServices/dartsdbcontext.cpp \
@@ -92,16 +93,22 @@ HEADERS += \
     DartsModelsContext/DMCInputServices/sortdartsinputsbyindexes.h \
     DartsModelsContext/DMCTournamentServices/GetDartsTournamentIds.h \
     DartsModelsContext/DMCTournamentServices/dartsmetamodelbuilder.h \
+    DartsModelsContext/DMCTournamentServices/resetdartstournament.h \
     DartsModelsContext/IndexesDbSLAs/iremovedartsindexes.h \
     DartsModelsContext/IndexesDbServices/dartsindexesbuilder.h \
     DartsModelsContext/IndexesDbServices/getdartsindexesmodel.h \
     DartsModelsContext/IndexesDbServices/removedartsindexes.h \
     DartsModelsContext/IndexesSLAs/dartsindexesslas.h \
+    DartsModelsContext/IndexesSLAs/iresetdartsindexes.h \
     DartsModelsContext/IndexesSLAs/iupdatedartsindexes.h \
     DartsModelsContext/IndexesServices/dartsindexesjsonbuilder.h \
+    DartsModelsContext/IndexesServices/resetdartsindexes.h \
     DartsModelsContext/IndexesServices/updatedartsindexes.h \
+    DartsModelsContext/TournamentsDbSLAs/idartsbuilder.h \
+    DartsModelsContext/TournamentsDbSLAs/igetdartstournament.h \
     DartsModelsContext/TournamentsSLAs/idartsmetamodelbuilder.h \
     DartsModelsContext/TournamentsSLAs/igettournamentids.h \
+    DartsModelsContext/TournamentsSLAs/iresetdartstournament.h \
     DartsModelsContext/TournamentsSLAs/isettournamentplayerdetails.h \
     DartsModelsContext/TournamentsSLAs/iwinnerinfobuilder.h \
     DartsModelsContext/DMCTournamentServices/dartstournamentbuilder.h \
@@ -111,7 +118,6 @@ HEADERS += \
     DartsModelsContext/IndexesDbSLAs/igetdartsindexesmodel.h \
     DartsModelsContext/InputsDbSLAs/idartsinputbuilder.h \
     DartsModelsContext/InputsDbSLAs/idartsinputjsonbuilder.h \
-    DartsModelsContext/TournamentsDbSLAs/idartstournamentbuilder.h \
     DartsModelsContext/TournamentsDbSLAs/itournamentjsonbuilder.h \
     DartsModelsContext/TournamentsDbServices/dartsdbcontext.h \
     DartTournamentsContext/DTCModelsServices/abstracttournament.h \
@@ -121,9 +127,7 @@ HEADERS += \
     DartsController/DCInputSLAs/dcinputsslas.h \
     DartsController/DCInputStatsSLAs/DCInputStatsSLAs.h \
     DartsController/DCInputStatsSLAs/idcaveragecalc.h \
-    DartsController/DCInputStatsSLAs/idcinputavgjsonkeys.h \
     DartsController/DCInputStatsServices/dcaveragecalc.h \
-    DartsController/DCInputStatsServices/dcinputstatsavgkeys.h \
     DartsController/DCJsonSLAs/dcjsonslas.h \
     DartsController/DCJsonSLAs/icreatejsonobject.h \
     DartsController/DCJsonSLAs/idccreatebytearray.h \
@@ -339,7 +343,6 @@ HEADERS += \
     DartsController/DCMetaSLAs/idcwinnerservice.h \
     FileOperationsContext/SLAs/ifilereader.h \
     FileOperationsContext/SLAs/ifilewriter.h \
-    DartsModelsContext/TournamentsDbSLAs/igetdartstournamentfromdb.h \
     igetdatafromdatacontext.h \
     DartsModelsContext/InputsDbSLAs/igetinputmodelsservice.h \
     PlayerModelsContext/DbSLAs/igetplayerfromdb.h \

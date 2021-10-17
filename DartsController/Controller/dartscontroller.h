@@ -51,7 +51,8 @@ private slots:
     void nullifyAndPersistInput(IDCInput *input);
     void declareWinner(IDCInput *input);
 private:
-    QByteArray assembleJsonResponse(IDCInput *input, const DCContext::DCTurnValues *turnValues, const int &average);
+    QByteArray assembleJsonResponse(IDCInput *input, const DCContext::DCTurnValues *turnValues);
+    QByteArray assembleJsonResponse(IDCInput *input, const DCContext::IDCIndexes *indexes, const int &average);
     QByteArray assembleJsonResponse(IDCInput *input, const DCContext::IDCIndexes *indexes);
     QByteArray assembleJsonResponse(const DCContext::IDCIndexes *indexes);
     void connectInputEvaluator();

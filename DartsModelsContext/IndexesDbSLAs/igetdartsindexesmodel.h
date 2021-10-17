@@ -8,6 +8,6 @@
 class IGetDartsIndexesModel
 {
 public:
-    virtual IModel<QUuid> *indexesModel(const QUuid &tournamentId, const IModelsDbContext *dbContext) const = 0;
+    virtual IModel<QUuid> *indexes(const QUuid &tournamentId, const IModelsDbContext *dbContext) const = 0;
 };
 #endif // IGETDARTSINDEXES_H

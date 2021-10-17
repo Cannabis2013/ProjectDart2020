@@ -2,49 +2,49 @@
 #define DARTSTOURNAMENTDBJSONSLAS_H
 
 #include "DartsModelsContext/TournamentsDbSLAs/itournamentjsonbuilder.h"
-#include "DartsModelsContext/TournamentsDbSLAs/idartstournamentbuilder.h"
+#include "DartsModelsContext/TournamentsDbSLAs/idartsbuilder.h"
 #include "IDartsDbContext.h"
-#include "igetdartstournamentfromdb.h"
+#include "igetdartstournament.h"
 
 class DartsTournamentDbSLAs
 {
 public:
-    IDartsTournamentBuilder *tournamentBuilder() const
+    IDartsBuilder *tournamentBuilder() const
     {
         return _tournamentBuilder;
     }
-    void setTournamentBuilder(IDartsTournamentBuilder *service)
+    void setTournamentBuilder(IDartsBuilder *service)
     {
         _tournamentBuilder = service;
     }
-    ITournamentJsonBuilder *tournamentJsonBuilder() const
+    IDartsJsonBuilder *tournamentJsonBuilder() const
     {
         return _tournamentJsonBuilder;
     }
-    void setTournamentJsonBuilder(ITournamentJsonBuilder *service)
+    void setTournamentJsonBuilder(IDartsJsonBuilder *service)
     {
         _tournamentJsonBuilder = service;
     }
-    IDartsDbContext *tournamentsDbContext() const
+    IDartsDbContext *dartsDbContext() const
     {
-        return _dartsTournamentsDb;
+        return _dartsDb;
     }
-    void setTournamentsDbContext(IDartsDbContext *service)
+    void setDartsDbContext(IDartsDbContext *service)
     {
-        _dartsTournamentsDb = service;
+        _dartsDb = service;
     }
-    IGetDartsTournamentFromDb *getTournament() const
+    IGetDartsTournament *getTournament() const
     {
         return _getTournament;
     }
-    void setGetTournament(IGetDartsTournamentFromDb *service)
+    void setGetTournament(IGetDartsTournament *service)
     {
         _getTournament = service;
     }
 private:
-    IGetDartsTournamentFromDb *_getTournament;
-    IDartsDbContext *_dartsTournamentsDb;
-    IDartsTournamentBuilder *_tournamentBuilder;
-    ITournamentJsonBuilder *_tournamentJsonBuilder;
+    IGetDartsTournament *_getTournament;
+    IDartsDbContext *_dartsDb;
+    IDartsBuilder *_tournamentBuilder;
+    IDartsJsonBuilder *_tournamentJsonBuilder;
 };
 #endif // MODELSDBJSONSLAS_H

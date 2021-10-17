@@ -48,7 +48,6 @@
 #include "DartsController/DCJsonServices/dccreateemptyjsonobject.h"
 #include "DartsController/DCTurnValuesServices/dcturnvaljsonkeys.h"
 #include "DartsController/DCInputStatsServices/dcaveragecalc.h"
-#include "DartsController/DCInputStatsServices/dcinputstatsavgkeys.h"
 #include "DartsController/DCIndexServices/dcindexesjsonkeys.h"
 #include "DartsController/DCPlayerServices/DPCPlayerAllowancesContext.h"
 #include "DartsController/DCMetaServices/dcmetajsonbuilder.h"
@@ -56,65 +55,17 @@
 class DPController : public DartsController
 {
 public:
-    DPController(const DCBuilding::IDCMetaInfo *meta)
-    {
-        setIndexService(new DPCIndexController);
-        setTurnValuesBuilder(new CreateDPCTurnValues);
-        setCreateInputModelService(new DPCInputBuilder);
-        setAddTotalScoresToJson(new AddTotalScoreToDartsInputsAsJson);
-        setSuggestFinishes(DCInputFinishes::createInstance(DCCreateFinishes::createInstance(), DCLogisticDb::createInstance()));
-        setDetermineStatusById(new DetermineStatusById);
-        setGetTotalScoreService(new DCGetScoreCand);
-        // Player services
-        setPlayerAllowanceContext(new DPCPlayerAllowancesContext);
-        setAddPlayerNamesToJson(new AddPlayerNamestoDartsInputsAsJson);
-        // Meta services
-        setControllerStatus(new DCMetaStatus);
-        setStatusCodes(new DCStatusCodes);
-        setDisplayHint(DCHint::createInstance(meta->displayHint()));
-        setInputHint(DCHint::createInstance(meta->inputHint()));
-        setTournamentId(DCTournamentId::createInstance(meta->tournamentId()));
-        setInitialScore(DCInitialScore::createInstance(meta->keyPoint()));
-        setSetMetaJsonValues(new DCMetaJsonBuilder);
-        // Json services
-        setInputJsonContext(new DPCInputsToJson);
-        setTurnValuesToJsonService(new DCTurnValuesToJson);
-        setIndexesToJsonService(new DPCIndexesToJson);
-        setCreateByteArray(new DCCreateByteArray);
-        setCreateEmptyJsonObject(new DCCreateEmptyJsonObject);
-        // Scoremodels services
-        setResetScoreModels(new DCResetScoreModels);
-        setCreateScoreModelsService(new DCCreateScoreModels);
-        setUpdateScoreModels(new DCUpdateScoreModels);
-        setSubtractScore(new DCSubtractScore);
-        setScoresService(new DCScoresService);
-        setCreateCandidateTuples(new DCCreateCandidateModels);
-        setWinnerService(new DCWinnerService);
-        setAddScoreService(new DCAddScore);
-        // Input services
-        setInputKeyCodes(new DCInputKeyCodes);
-        setInputEvaluator(DPCInputValidator::createInstance());
-        setGetScoreFromInput(new GetScoreFromDPCInput);
-        // Input statistics services
-        setCalcInputAvg(new DCAverageCalc);
-        setInputAvgKeys(new DCInputStatsAvgKeys);
-        // Player services
-        setPlayerBuilderService(new DCPlayerBuilder);
-        setPlayerService(new DCPlayerService(indexService(),scoresService()));
-        setWinnerModelFromJson(new DCGetWInnerModelsFromJson);
-        setCreatePlayersFromJson(new DCCreatePlayersFromJson);
-        setWinnerKeys(new DCWinnerKeys);
-        setPlayerKeys(new DCPlayerKeys);
-        // Index services
-        setResetIndexes(new DCResetIndexes);
-        setInitializeIndexes(new DCInitializeIndexes);
-        setIndexIterator(new DCIndexIterator);
-        setUndoIndex(new DCIndexUndo);
-        setRedoIndex(new DCIndexRedo);
-        setIndexKeys(new DCIndexesJsonKeys);
-        setIndexesBuilder(new DCIndexesBuilder);
-        // TurnValues services
-        setTurnValKeys(new DCTurnValJsonKeys);
-    }
+    DPController(const DCBuilding::IDCMetaInfo *meta);
+private:
+    void setMetaServices();
+    void setScoresServices();
+    void setJsonServices();
+    void setStatisticsServices();
+    void setFinishesServices();
+    void setPlayerServices();
+    void setInputServices();
+    void setIndexServices();
+    void setTurnValuesServices();
+    const DCBuilding::IDCMetaInfo *const _metaInfo;
 };
 #endif // DEFAULTDARTSPOINTCONTROLLER_H

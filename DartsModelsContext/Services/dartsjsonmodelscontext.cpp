@@ -15,7 +15,8 @@ void DartsJsonModelsContext::setModelUtilityServices()
 }
 void DartsJsonModelsContext::setTournamentServices()
 {
-    setTournamentsDbContext(new DartsDbContext(new ReadByteArray, new WriteByteArray));
+    setDartsDbContext(new DartsDbContext(new ReadByteArray, new WriteByteArray));
+    setResetTournament(new ResetDartsTournament);
     setGetTournament(new GetDartsTournamentFromDb);
     setTournamentJsonBuilder(new DartsTournamentJsonBuilder);
     setTournamentBuilder(new DartsTournamentBuilder);
@@ -31,6 +32,7 @@ void DartsJsonModelsContext::setIndexesServices()
     setRemoveIndexes(new RemoveDartsIndexes);
     setUpdateIndexes(new UpdateDartsIndexes);
     setGetIndexesModel(new GetDartsIndexesModel);
+    setResetIndexes(new ResetDartsIndexes);
 }
 void DartsJsonModelsContext::setInputServices()
 {
@@ -50,7 +52,7 @@ void DartsJsonModelsContext::setInputDbUtilityServices()
 
 void DartsJsonModelsContext::fetchAll()
 {
-    tournamentsDbContext()->fetchModels(tournamentBuilder());
+    dartsDbContext()->fetchModels(tournamentBuilder());
     inputsDb()->fetchModels(inputBuilder());
     indexesDbContext()->fetchModels(indexesBuilder());
 }

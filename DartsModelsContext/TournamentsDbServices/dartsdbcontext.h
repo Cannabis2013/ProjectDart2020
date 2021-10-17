@@ -18,8 +18,8 @@ public:
     virtual IDartsDbContext *remove(const QVector<int> &indexes) override;
     virtual int indexOf(IModel<QUuid> *model) const override;
     virtual DartsDbContext *replace(const int &index, IModel<QUuid> *model) override;
-    virtual void fetchModels(const IDartsTournamentBuilder *modelBuilder) override;
-    virtual void saveChanges(const ITournamentJsonBuilder *jsonBuilder) override;
+    virtual void fetchModels(const IDartsBuilder *modelBuilder) override;
+    virtual void saveChanges(const IDartsJsonBuilder *jsonBuilder) override;
 private:
     const QString _fileName = "DartsTournamentModels";
     QVector<IModel<QUuid>*> _models;

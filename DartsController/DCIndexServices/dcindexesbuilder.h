@@ -8,7 +8,7 @@
 class DCIndexesBuilder : public IDCIndexesBuilder
 {
 public:
-    const DCContext::DCIndexes *createIndexes(const QByteArray &json) const override
+    const DCContext::DCIndexes *buildIndexes(const QByteArray &json) const override
     {
         auto document = QJsonDocument::fromJson(json);
         auto jsonObject = document.object();
@@ -25,7 +25,7 @@ public:
                 ->setAttemptIndex(attemptIndex);
         return model;
     }
-    const DCContext::DCIndexes *createIndexes(const IDCIndexService *indexService) const override
+    const DCContext::DCIndexes *buildIndexes(const IDCIndexService *indexService) const override
     {
         auto totalTurns = indexService->totalIndex();
         auto turnIndex = indexService->turnIndex();

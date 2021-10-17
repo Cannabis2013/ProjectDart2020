@@ -6,7 +6,7 @@
 class GetDartsIndexesModel : public IGetDartsIndexesModel
 {
 public:
-    virtual IModel<QUuid> *indexesModel(const QUuid &tournamentId, const IModelsDbContext *dbContext) const override
+    virtual IModel<QUuid> *indexes(const QUuid &tournamentId, const IModelsDbContext *dbContext) const override
     {
         auto models = dbContext->models();
         for (const auto &model : models) {

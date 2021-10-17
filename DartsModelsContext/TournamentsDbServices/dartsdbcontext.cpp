@@ -1,11 +1,11 @@
 #include "DartsModelsContext/TournamentsDbServices/dartsdbcontext.h"
 
-void DartsDbContext::fetchModels(const IDartsTournamentBuilder *modelBuilder)
+void DartsDbContext::fetchModels(const IDartsBuilder *modelBuilder)
 {
     _models = modelBuilder->createTournaments(readJsonFromFile()->read());
 }
 
-void DartsDbContext::saveChanges(const ITournamentJsonBuilder *jsonBuilder)
+void DartsDbContext::saveChanges(const IDartsJsonBuilder *jsonBuilder)
 {
     writeJsonToFile()->write(jsonBuilder->tournamentsjson(_models));
 }

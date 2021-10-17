@@ -6,9 +6,9 @@
 #include <qjsonarray.h>
 #include <qjsonobject.h>
 #include "dartstournament.h"
-#include "DartsModelsContext/TournamentsDbSLAs/idartstournamentbuilder.h"
+#include "DartsModelsContext/TournamentsDbSLAs/idartsbuilder.h"
 
-class DartsTournamentBuilder : public IDartsTournamentBuilder
+class DartsTournamentBuilder : public IDartsBuilder
 {
 public:
     virtual IModel<QUuid> *buildTournament(const QByteArray &json) const override

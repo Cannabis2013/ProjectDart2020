@@ -1,9 +1,9 @@
 #ifndef GETDARTSTOURNAMENTFROMDB_H
 #define GETDARTSTOURNAMENTFROMDB_H
 
-#include "DartsModelsContext/TournamentsDbSLAs/igetdartstournamentfromdb.h"
+#include "DartsModelsContext/TournamentsDbSLAs/igetdartstournament.h"
 
-class GetDartsTournamentFromDb : public IGetDartsTournamentFromDb
+class GetDartsTournamentFromDb : public IGetDartsTournament
 {
 public:
     virtual IModel<QUuid> *tournament(const QUuid &tournamentId, const IModelsDbContext *dbService) const override

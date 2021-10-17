@@ -23,7 +23,9 @@
 #include "DartsModelsContext/IndexesServices/dartsindexesjsonbuilder.h"
 #include "DartsModelsContext/IndexesDbServices/dartsindexesbuilder.h"
 #include "DartsModelsContext/IndexesDbServices/getdartsindexesmodel.h"
+#include "DartsModelsContext/IndexesServices/resetdartsindexes.h"
 // Tournament models includes
+#include "DartsModelsContext/DMCTournamentServices/resetdartstournament.h"
 #include "DartsModelsContext//TournamentsDbServices/dartsdbcontext.h"
 #include "DartsModelsContext/DMCTournamentServices/getdartstournamentfromdb.h"
 #include "DartsModelsContext/DMCTournamentServices/extractwinnerinfofromjson.h"

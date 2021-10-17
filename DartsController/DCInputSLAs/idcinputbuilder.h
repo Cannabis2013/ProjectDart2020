@@ -6,9 +6,9 @@
 class IDCInputBuilder
 {
 public:
-    virtual IDCInput *createModel(const QByteArray &json) const = 0;
-    virtual IDCInput *createModel(const DCContext::DCScoreModel &scoreModel) const = 0;
-    virtual QVector<IDCInput*> createModels(IDCScoresService *scoresService) const = 0;
-    virtual QVector<IDCInput*> createModels(const QByteArray &json) const = 0;
+    virtual IDCInput *buildInput(const QByteArray &json) const = 0;
+    virtual IDCInput *buildInput(const DCContext::DCScoreModel &scoreModel) const = 0;
+    virtual QVector<IDCInput*> buildInputs(IDCScoresService *scoresService) const = 0;
+    virtual QVector<IDCInput*> buildInputs(const QByteArray &json) const = 0;
 };
 #endif // IDPCMODELCREATOR_H

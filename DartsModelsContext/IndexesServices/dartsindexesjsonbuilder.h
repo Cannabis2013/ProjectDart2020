@@ -10,7 +10,7 @@
 class DartsIndexesJsonBuilder : public IDartsIndexesJsonBuilder
 {
 public:
-    virtual QByteArray indexesModelJson(IModel<QUuid> *&model) const override
+    virtual QByteArray indexesJson(IModel<QUuid> *&model) const override
     {
         return toByteArray(toJsonObject(model));
     }

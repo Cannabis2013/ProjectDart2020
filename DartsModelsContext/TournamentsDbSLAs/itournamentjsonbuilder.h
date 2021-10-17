@@ -5,7 +5,7 @@
 #include <qvector.h>
 #include <ModelsContext/MCModelsSLAs/imodel.h>
 
-class ITournamentJsonBuilder
+class IDartsJsonBuilder
 {
 public:
     virtual QByteArray tournamentJson(IModel<QUuid> *model) const = 0;

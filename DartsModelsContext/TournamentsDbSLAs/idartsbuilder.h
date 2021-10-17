@@ -1,10 +1,10 @@
-#ifndef IDARTSTOURNAMENTBUILDER_H
-#define IDARTSTOURNAMENTBUILDER_H
+#ifndef IDARTSBUILDER_H
+#define IDARTSBUILDER_H
 
 #include <qvector.h>
 #include "DartsModelsContext/InputsDbSLAs/iplayerinput.h"
 
-class IDartsTournamentBuilder
+class IDartsBuilder
 {
 public:
     virtual IModel<QUuid> *buildTournament(const QByteArray &json) const = 0;

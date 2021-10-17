@@ -4,6 +4,7 @@
 #include "DartsModelsContext/TournamentsSLAs/iwinnerinfobuilder.h"
 #include "idartsmetamodelbuilder.h"
 #include "igettournamentids.h"
+#include "iresetdartstournament.h"
 class DartsTournamentSLAs
 {
 public:
@@ -39,7 +40,16 @@ public:
     {
         _metaModelBuilder = newMetaModelBuilder;
     }
+    IResetDartsTournament *resetDarts() const
+    {
+        return _resetTournament;
+    }
+    void setResetTournament(IResetDartsTournament *newResetTournament)
+    {
+        _resetTournament = newResetTournament;
+    }
 private:
+    IResetDartsTournament *_resetTournament;
     IDartsMetaModelBuilder *_metaModelBuilder;
     IGetDartsTournamentIds *_getTournamentIds;
     ISetTournamentPlayerDetails *_addPlayerDetails;

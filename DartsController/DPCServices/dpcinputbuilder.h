@@ -9,23 +9,23 @@
 class DPCInputBuilder : public IDCInputBuilder
 {
 public:
-    IDCInput *createModel(const QByteArray &json) const override
+    IDCInput *buildInput(const QByteArray &json) const override
     {
         auto jsonObject = toJsonObject(json);
         return toModel(jsonObject);
     }
-    virtual IDCInput *createModel(const DCContext::DCScoreModel &scoreModel) const override
+    virtual IDCInput *buildInput(const DCContext::DCScoreModel &scoreModel) const override
     {
         return toModel(scoreModel);
     }
-    virtual QVector<IDCInput *> createModels(IDCScoresService *scoresService) const override
+    virtual QVector<IDCInput *> buildInputs(IDCScoresService *scoresService) const override
     {
         QVector<IDCInput *> models;
         for (const auto &model : scoresService->scoreModels())
             models << toModel(model);
         return models;
     }
-    virtual QVector<IDCInput *> createModels(const QByteArray &json) const override
+    virtual QVector<IDCInput *> buildInputs(const QByteArray &json) const override
     {
         QVector<IDCInput *> models;
         auto arr = toJsonArray(json);

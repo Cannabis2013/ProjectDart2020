@@ -27,11 +27,11 @@ public:
     {
         _suggestFinishes = service;
     }
-    IDCInputBuilder *createInputModel() const
+    IDCInputBuilder *inputBuilder() const
     {
         return _inputModelBuilder;
     }
-    void setCreateInputModelService(IDCInputBuilder *service)
+    void setInputBuilder(IDCInputBuilder *service)
     {
         _inputModelBuilder = service;
     }

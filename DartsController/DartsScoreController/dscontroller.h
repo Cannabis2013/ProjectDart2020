@@ -47,7 +47,6 @@
 #include "DartsController/DCJsonServices/dccreateemptyjsonobject.h"
 #include "DartsController/DCTurnValuesServices/dcturnvaljsonkeys.h"
 #include "DartsController/DCInputStatsServices/dcaveragecalc.h"
-#include "DartsController/DCInputStatsServices/dcinputstatsavgkeys.h"
 #include "DartsController/DCIndexServices/dcindexesjsonkeys.h"
 #include "DartsController/DCMetaServices/dcmetajsonbuilder.h"
 class DSController : public DartsController
@@ -58,7 +57,7 @@ public:
         setIndexService(new DSCIndexController);
         setWinnerService(new DCWinnerService());
         setTurnValuesBuilder(new DSCContext::DSCValuesBuilder);
-        setCreateInputModelService(new DSCInputBuilder);
+        setInputBuilder(new DSCInputBuilder);
         setIndexesBuilder(new DCIndexesBuilder);
         setCreateCandidateTuples(new DCCreateCandidateModels);
         setPlayerBuilderService(new DCPlayerBuilder);
@@ -87,7 +86,6 @@ public:
         setInputEvaluator(DSCInputValidator::createInstance());
         // Input statistics services
         setCalcInputAvg(new DCAverageCalc);
-        setInputAvgKeys(new DCInputStatsAvgKeys);
         // Player score services
         setSubtractScore(new DCSubtractScore);
         setUpdateScoreModels(new DCUpdateScoreModels);
