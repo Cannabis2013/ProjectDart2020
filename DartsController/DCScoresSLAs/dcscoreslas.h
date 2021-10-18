@@ -17,7 +17,7 @@ public:
     IDCScoresService *scoresService() const;
     void setScoresService(IDCScoresService *service);
     IDCCreateCandidateModels *createCandidatesScore() const;
-    void setCreateCandidateTuples(IDCCreateCandidateModels *service);
+    void setCreateCandidateScores(IDCCreateCandidateModels *service);
     IDCAddScore *addScoreService() const;
     void setAddScoreService(IDCAddScore *service);
     IDCGetScoreCand *getTotalScore() const;

@@ -29,7 +29,7 @@ private:
         {
             auto capturedText = reg.cap(0); // Ex.: c1c2,,,cn.d1d2
             auto lastCapturedDecimal = capturedText.at(capturedText.count() - 1);
-            auto nextDecimal = stringNumber.at(capturedText.count());
+            auto nextDecimal = getCharAt(stringNumber,capturedText.count());
             auto formattedDec = formatDecimal(lastCapturedDecimal,nextDecimal);
             capturedText.replace(capturedText.count() - 1,1,formattedDec);
             return capturedText.toDouble();
@@ -48,10 +48,17 @@ private:
         }
         return dec;
     }
-    int toShort(const QChar &c) const
+    short toShort(const QChar &c) const
     {
         return c.unicode() - 48;
     }
-
+    QChar getCharAt(const QString &string, const int &pos) const
+    {
+        if(pos >= string.count())
+            return QChar(48);
+        else if(pos < 0)
+            return QChar(48);
+        return string.at(pos);
+    }
 };
 #endif // DCAVERAGECALC_H

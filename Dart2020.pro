@@ -19,6 +19,7 @@ SOURCES += \
     DartsController/DPController/dpcontroller.cpp \
     DartsControllerBuilder/Services/dcbuilder.cpp \
     DartsModelsContext/DMCInputServices/dartsinputbuilder.cpp \
+    DartsModelsContext/DMCTournamentServices/dartwinnermodelbuilder.cpp \
     DartsModelsContext/TournamentsDbServices/dartsdbcontext.cpp \
     DartsController/DCScoresSLAs/dcscoreslas.cpp \
     DartsModelsContext/DMCInputServices/dartsinputsdbcontext.cpp \
@@ -42,7 +43,6 @@ SOURCES += \
     DartsController/DCMetaServices/dcwinnerservice.cpp \
     DartsController/DPCServices/dpcindexcontroller.cpp \
     DartsController/DSCServices/dscindexcontroller.cpp \
-    DartsModelsContext/DMCTournamentServices/extractwinnerinfofromjson.cpp \
     iurlparser.cpp \
     main/main.cpp \
     networkmanager.cpp \
@@ -100,6 +100,7 @@ HEADERS += \
     DartsModelsContext/DMCInputServices/sortdartsinputsbyindexes.h \
     DartsModelsContext/DMCTournamentServices/GetDartsTournamentIds.h \
     DartsModelsContext/DMCTournamentServices/dartsmetamodelbuilder.h \
+    DartsModelsContext/DMCTournamentServices/dartwinnermodelbuilder.h \
     DartsModelsContext/DMCTournamentServices/resetdartstournament.h \
     DartsModelsContext/IndexesDbSLAs/iremovedartsindexes.h \
     DartsModelsContext/IndexesDbServices/dartsindexesbuilder.h \
@@ -266,7 +267,6 @@ HEADERS += \
     DartsController/DartsScoreController/dscontroller.h \
     DartsController/DSCServices/dscvaluesbuilder.h \
     dssctablemodel.h \
-    DartsModelsContext/DMCTournamentServices/extractwinnerinfofromjson.h \
     DartsModelsContext/DMCTournamentServices/getdartstournamentfromdb.h \
     PlayerModelsContext/Services/getplayersfromdb.h \
     DartsController/DPCServices/getscorefromdpcinput.h \
@@ -305,7 +305,6 @@ HEADERS += \
     idatamodeltablecellsizes.h \
     ModelsContext/MCDbSLAs/idbcontext.h \
     DartsController/DCScoresSLAs/idcaddscore.h \
-    DartsController/DCPlayerSLAs/idcgetplayerscore.h \
     DartsController/DCScoresSLAs/idcgetscorecand.h \
     DartsController/DCPlayerSLAs/idcgetwinnermodelfromjson.h \
     DartsController/DCIndexSLAs/idcindexesbuilder.h \

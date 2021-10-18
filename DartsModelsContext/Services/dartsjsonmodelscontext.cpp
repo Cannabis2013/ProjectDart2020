@@ -20,7 +20,7 @@ void DartsJsonModelsContext::setTournamentServices()
     setGetTournament(new GetDartsTournamentFromDb);
     setTournamentJsonBuilder(new DartsTournamentJsonBuilder);
     setTournamentBuilder(new DartsTournamentBuilder);
-    setWinnerInfoBuilder(new ExtractWinnerInfoFromJson);
+    setWinnerInfoBuilder(new DartWinnerModelBuilder);
     setMetaModelBuilder(new DartsMetaModelBuilder);
 }
 

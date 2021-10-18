@@ -3,12 +3,12 @@
 DPController::DPController(const DCBuilding::DCMeta &meta):
     _metaInfo(meta)
 {
-    setMetaServices();
+    setIndexServices();
     setScoresServices();
+    setMetaServices();
     setJsonServices();
     setPlayerServices();
     setInputServices();
-    setIndexServices();
     setStatisticsServices();
     setFinishesServices();
     setTurnValuesServices();
@@ -23,7 +23,7 @@ void DPController::setMetaServices()
     setTournamentId(DCTournamentId::createInstance(_metaInfo.tournamentId));
     setInitialScore(DCInitialScore::createInstance(_metaInfo.keyPoint));
     setSetMetaJsonValues(new DCMetaJsonBuilder);
-    setMetaBuilder(new DCMetaModelBuilder);
+    setMetaBuilder(new DCMetaModelBuilder(indexService(),scoresService()));
 }
 void DPController::setScoresServices()
 {
@@ -33,7 +33,7 @@ void DPController::setScoresServices()
     setUpdateScoreModels(new DCUpdateScoreModels);
     setSubtractScore(new DCSubtractScore);
     setScoresService(new DCScoresService);
-    setCreateCandidateTuples(new DCCreateCandidateModels);
+    setCreateCandidateScores(new DCCreateCandidateModels);
     setWinnerService(new DCWinnerService);
     setAddScoreService(new DCAddScore);
 }

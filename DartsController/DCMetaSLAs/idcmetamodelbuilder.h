@@ -10,7 +10,6 @@ class IDCMetaModelBuilder
 {
 public:
     virtual DCMetaInfo buildMeta(const IDCTournamentId *IdService, const IDCPlayerService *playerService,
-                                 const IDCWinnerService *winnerService, const IDCIndexService *indexContext,
-                                 IDCScoresService *scoresContext) const = 0;
+                                 const IDCWinnerService *winnerService) const = 0;
 };
 #endif // IDCBUILDMETAMODEL_H

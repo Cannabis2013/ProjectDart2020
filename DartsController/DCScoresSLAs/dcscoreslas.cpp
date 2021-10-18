@@ -15,7 +15,7 @@ IDCCreateCandidateModels *DCScoreSLAs::createCandidatesScore() const
     return _createCandidateTuples;
 }
 
-void DCScoreSLAs::setCreateCandidateTuples(IDCCreateCandidateModels *service)
+void DCScoreSLAs::setCreateCandidateScores(IDCCreateCandidateModels *service)
 {
     _createCandidateTuples = service;
 }
