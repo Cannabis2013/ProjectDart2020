@@ -24,8 +24,8 @@ private:
     DartsMetaModel toModel(const QJsonObject &obj) const
     {
         DartsMetaModel meta;
-        meta.playerId = toId(obj.value("playerId"));
-        meta.playerName = obj.value("playerName").toString();
+        meta.playerId = toId(obj.value("currentPlayerId"));
+        meta.playerName = obj.value("currentPlayerName").toString();
         meta.tournamentId = toId(obj.value("tournamentId"));
         return meta;
     }

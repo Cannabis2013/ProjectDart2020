@@ -8,9 +8,8 @@
 class DCGetWInnerModelsFromJson : public IDCGetWinnerModelFromJson
 {
 public:
-    virtual const DCContext::IDCPlayer *toWinnerModel(const QByteArray &json,
-                                                      const IDCPlayerKeys *jsonKeys,
-                                                      const IDCPlayerModelBuilder *playerBuilder) const override
+    virtual DCPlayer toWinnerModel(const QByteArray &json, const IDCPlayerKeys *jsonKeys,
+                                   const IDCPlayerBuilder *playerBuilder) const override
     {
         return toModel(toJsonObject(json),jsonKeys,playerBuilder);
     }
@@ -22,9 +21,8 @@ private:
             return QJsonObject();
         return document.object();
     }
-    const DCContext::IDCPlayer *toModel(const QJsonObject &obj,
-                                        const IDCPlayerKeys *jsonKeys,
-                                        const IDCPlayerModelBuilder *playerBuilder) const
+    DCPlayer toModel(const QJsonObject &obj, const IDCPlayerKeys *jsonKeys,
+                     const IDCPlayerBuilder *playerBuilder) const
     {
         auto playerId = toId(obj.value(jsonKeys->playerId()));
         auto playerName = toString(obj.value(jsonKeys->playerName()));

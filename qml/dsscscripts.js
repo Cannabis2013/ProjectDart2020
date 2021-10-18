@@ -128,7 +128,7 @@ function setTurnControllerValues(json)
 {
     singleColumnScoreTurnController.leftButtonEnabled = json["canUndo"];
     singleColumnScoreTurnController.rightButtonEnabled = json["canRedo"];
-    singleColumnScoreTurnController.currentRoundIndex = json["roundIndex"];
+    singleColumnScoreTurnController.currentRoundIndex = json["currentRoundIndex"];
     singleColumnScoreTurnController.currentPlayer = json["currentPlayerName"];
 }
 
@@ -174,8 +174,8 @@ function setWinnerText()
 function backendIsReadyAndAwaitsInput(data)
 {
     var json = JSON.parse(data);
-    setSuggestedTargetRow(json);
     setTurnControllerValues(json);
+    setSuggestedTargetRow(json);
     dartsScoreSingleColumnBody.state = "waitingForInput";
 }
 

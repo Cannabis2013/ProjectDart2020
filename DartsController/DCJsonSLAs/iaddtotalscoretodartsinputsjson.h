@@ -1,14 +1,14 @@
 #ifndef IADDTOTALSCORETODARTSINPUTSJSON_H
 #define IADDTOTALSCORETODARTSINPUTSJSON_H
 
-#include "DartsController/DCInputSLAs/idcinput.h"
 #include <qvector.h>
 #include <quuid.h>
 
+#include "DartsController/DCInputServices/dcinput.h"
 class IAddTotalScoreToDartsInputsJson
 {
 public:
-    typedef QVector<const IDCInput *> InputModels;
+    typedef QVector<const DCInput> InputModels;
     virtual void addTotalScoreToInputs(QByteArray &json, const int &initialPoint) const = 0;
 };
 #endif // IADDTOTALSCORETODARTSPOINTS_H

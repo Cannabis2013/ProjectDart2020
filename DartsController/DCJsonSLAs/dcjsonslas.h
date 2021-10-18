@@ -1,13 +1,9 @@
 #ifndef DCJSONSLAS_H
 #define DCJSONSLAS_H
-#include "DartsController/DCInputSLAs/idcsetinputjsonvalues.h"
 #include "DartsController/DCJsonSLAs/iaddtotalscoretodartsinputsjson.h"
 #include "DartsController/DCJsonSLAs/iaddplayernamestojson.h"
-#include "DartsController/DCPlayerSLAs/idcplayerjsonbuilder.h"
-#include "DartsController/DCIndexSLAs/idcindexestojson.h"
-#include "icreatejsonobject.h"
-#include "idccreatebytearray.h"
-class IAddPlayerNamesToJson;
+#include "IDCJsonBuilder.h"
+
 class DCJsonSLAs
 {
 public:
@@ -27,26 +23,17 @@ public:
     {
         _addTotalScoresToJson = service;
     }
-    IDCCreateByteArray *createByteArray() const
+    IDCJsonBuilder *jsonBuilder() const
     {
-        return _createByteArray;
+        return _jsonResponseBuilder;
     }
-    void setCreateByteArray(IDCCreateByteArray *service)
+    void setJsonResponseBuilder(IDCJsonBuilder *newJsonResponseBuilder)
     {
-        _createByteArray = service;
-    }
-    ICreateJsonObject *createEmptyJsonObject() const
-    {
-        return _createEmptyJsonObject;
-    }
-    void setCreateEmptyJsonObject(ICreateJsonObject *service)
-    {
-        _createEmptyJsonObject = service;
+        _jsonResponseBuilder = newJsonResponseBuilder;
     }
 private:
+    IDCJsonBuilder *_jsonResponseBuilder;
     IAddPlayerNamesToJson *_addPlayerNamesToJson;
     IAddTotalScoreToDartsInputsJson *_addTotalScoresToJson;
-    IDCCreateByteArray *_createByteArray;
-    ICreateJsonObject *_createEmptyJsonObject;
 };
 #endif // DSJSONSERVICES_H

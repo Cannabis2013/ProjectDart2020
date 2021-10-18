@@ -28,17 +28,6 @@ namespace ModelsContext{
             _keyPoint = val;
             return this;
         }
-
-        int displayHint() const override
-        {
-            return _displayHint;
-        }
-
-        DartsTournament* setDisplayHint(int modelDisplayHint) override
-        {
-            _displayHint = modelDisplayHint;
-            return this;
-        }
         int inputHint() const override
         {
             return _inputHint;
@@ -50,7 +39,6 @@ namespace ModelsContext{
         }
     private:
         int _keyPoint;
-        int _displayHint;
         int _inputHint;
     };
 }

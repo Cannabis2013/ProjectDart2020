@@ -2,24 +2,22 @@
 #define DCINPUTSSLAS_H
 
 #include "DartsController/DCFinishesSLAs/idartsinputfinishes.h"
-#include "DartsController/DCInputSLAs/abstractevaluatedcinput.h"
+#include "DartsController/DCInputSLAs/abstractdcinputevaluator.h"
 #include "DartsController/DCInputSLAs/idcinputbuilder.h"
-#include "DartsController/DCInputSLAs/idcsetinputjsonvalues.h"
 #include "DartsController/DCJsonSLAs/iaddtotalscoretodartsinputsjson.h"
-#include "IDCInputKeyCodes.h"
 
 class DCInputsSLAs
 {
 public:
-    AbstractEvaluateDCInput *inputEvaluator() const
+    AbstractDCInputEvaluator *inputEvaluator() const
     {
         return _inputEvaluator;
     }
-    void setInputEvaluator(AbstractEvaluateDCInput *service)
+    void setInputEvaluator(AbstractDCInputEvaluator *service)
     {
         _inputEvaluator = service;
     }
-    IDartsInputFinishes *suggestFinishes() const
+    IDartsInputFinishes *dartsFinishBuilder() const
     {
         return _suggestFinishes;
     }
@@ -35,27 +33,9 @@ public:
     {
         _inputModelBuilder = service;
     }
-    IDCSetInputJsonValues *setJsonInputValues() const
-    {
-        return _jsonModelBuilderService;
-    }
-    void setInputJsonContext(IDCSetInputJsonValues *service)
-    {
-        _jsonModelBuilderService = service;
-    }
-    IDCInputKeyCodes *inputKeyCodes() const
-    {
-        return _inputKeyCodes;
-    }
-    void setInputKeyCodes(IDCInputKeyCodes *service)
-    {
-        _inputKeyCodes = service;
-    }
 private:
     IDartsInputFinishes *_suggestFinishes = nullptr;
-    AbstractEvaluateDCInput *_inputEvaluator = nullptr;
+    AbstractDCInputEvaluator *_inputEvaluator = nullptr;
     IDCInputBuilder* _inputModelBuilder;
-    IDCSetInputJsonValues *_jsonModelBuilderService;
-    IDCInputKeyCodes *_inputKeyCodes;
 };
 #endif // DCINPUTSSLAS_H

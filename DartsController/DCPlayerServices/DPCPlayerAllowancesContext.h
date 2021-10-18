@@ -7,11 +7,11 @@
 class DPCPlayerAllowancesContext : public IDCPlayerApproval
 {
 public:
-    virtual void appendPlayerId(const QVector<DCContext::IDCPlayer*> &playerModels) override
+    virtual void appendPlayerId(const QVector<DCPlayer> &playerModels) override
     {
         for (const auto &playerModel : playerModels) {
             PlayerObject obj;
-            obj.playerId = playerModel->playerId();
+            obj.playerId = playerModel.id;
             _playerStructs.append(obj);
         }
     }

@@ -3,8 +3,6 @@
 
 #include "DartsController/DCPlayerSLAs/idcgetwinnermodelfromjson.h"
 #include "DartsController/DCPlayerSLAs/idcplayerservice.h"
-#include "DartsController/DCPlayerSLAs/idcplayerjsonbuilder.h"
-#include "DartsController/DCPlayerSLAs/idccreateplayersfromjson.h"
 #include "IDCPlayerApproval.h"
 
 class DCPlayerSLAs
@@ -26,15 +24,6 @@ public:
     {
         _winnerModelFromJson = service;
     }
-    IDCCreatePlayersFromJson *createPlayersFromJson() const
-    {
-        return _createPlayersFromJson;
-    }
-    void setCreatePlayersFromJson(IDCCreatePlayersFromJson *service)
-    {
-        _createPlayersFromJson = service;
-    }
-
     IDCPlayerKeys *winnerKeys() const
     {
         return _winnerKeys;
@@ -52,21 +41,13 @@ public:
     {
         _defaultPlayerKeys = service;
     }
-    IDCPlayerModelBuilder *playerBuilder() const
+    IDCPlayerBuilder *playerBuilder() const
     {
         return _playerBuilderService;
     }
-    void setPlayerBuilderService(IDCPlayerModelBuilder *service)
+    void setPlayerBuilderService(IDCPlayerBuilder *service)
     {
         _playerBuilderService = service;
-    }
-    IDCPlayerJsonBuilder *createJsonFromPlayer() const
-    {
-        return _createJsonFromPlayer;
-    }
-    void setCreateJsonFromPlayer(IDCPlayerJsonBuilder *service)
-    {
-        _createJsonFromPlayer = service;
     }
     IDCPlayerApproval *playerAllowanceContext() const
     {
@@ -79,15 +60,9 @@ public:
 private:
     IDCGetWinnerModelFromJson *_winnerModelFromJson;
     IDCPlayerService *_playerService;
-    IDCCreatePlayersFromJson *_createPlayersFromJson;
     IDCPlayerKeys *_winnerKeys;
     IDCPlayerKeys *_defaultPlayerKeys;
-    IDCPlayerModelBuilder* _playerBuilderService;
-    IDCPlayerJsonBuilder *_createJsonFromPlayer;
+    IDCPlayerBuilder* _playerBuilderService;
     IDCPlayerApproval *_playerAllowanceContext = nullptr;
 };
-
-
-
-
 #endif // DCPLAYERSLAS_H

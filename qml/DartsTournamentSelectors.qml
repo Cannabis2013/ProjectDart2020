@@ -41,12 +41,6 @@ Rectangle {
             labelText: "Keypoint:"
         }
         DefaultComboBox {
-            id: displayHintSelector
-            Layout.fillWidth: true
-            labelText: "Display:"
-            model: stringModels.displayHints
-        }
-        DefaultComboBox {
             id: inputModeSelector
             Layout.fillWidth: true
             labelText: "Keyboard:"

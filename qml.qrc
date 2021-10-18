@@ -69,7 +69,6 @@
         <file>qml/main.qml</file>
         <file>qml/MainComponent.qml</file>
         <file>qml/ManagePageContent.qml</file>
-        <file>qml/MultiScoreDelegate.qml</file>
         <file>qml/MyLabel.qml</file>
         <file>qml/MyRectangle.qml</file>
         <file>qml/NotificationItem.qml</file>

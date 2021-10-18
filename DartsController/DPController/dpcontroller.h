@@ -1,6 +1,5 @@
 #ifndef DPCONTROLLER_H
 #define DPCONTROLLER_H
-#include "DartsControllerBuilder/DCBMetaSLAs/idcmetainfo.h"
 #include "DartsController/DCIndexServices/dcindexesbuilder.h"
 #include "DartsController/DCJsonServices/addtotalscoretodartsinputsasjson.h"
 #include "DartsController/DCJsonServices/addplayernamestodartsinputsasjson.h"
@@ -16,7 +15,6 @@
 #include "DartsController/DCScoresServices/dcaddscore.h"
 #include "DartsController/DCScoresServices/dccreatescoremodels.h"
 #include "DartsController/DCScoresServices/dcupdatescoremodels.h"
-#include "DartsController/DCTurnValuesServices/dcturnvaluestojson.h"
 #include "DartsController/DCScoresServices/dcgetscorecand.h"
 #include "DartsController/DCIndexServices/dcindexiterator.h"
 #include "DartsController/DCIndexServices/dcindexredo.h"
@@ -25,7 +23,6 @@
 #include "DartsController/DCIndexServices/dcresetindexes.h"
 #include "DartsController/DCIndexServices/dcindexundo.h"
 #include "DartsController/DCPlayerServices/dcgetwinnermodelfromjson.h"
-#include "DartsController/DCPlayerServices/dccreateplayersfromjson.h"
 #include "DartsController/DCPlayerServices/dcplayerkeys.h"
 #include "DartsController/DCFinishesServices/dccreatefinishes.h"
 #include "DartsController/DCFinishesServices/dclogisticdb.h"
@@ -35,27 +32,23 @@
 #include "DartsController/DCMetaServices/dchint.h"
 #include "DartsController/DCMetaServices/dcinitialscore.h"
 #include "DartsController/DCMetaServices/dctournamentid.h"
-#include "DartsController/DPCServices/dpcinputvalidator.h"
+#include "DartsController/DPCServices/dpcinputevaluator.h"
 #include "DartsController/DPCServices/dpcindexcontroller.h"
 #include "DartsController/DPCServices/CreateDPCTurnValues.h"
 #include "DartsController/DPCServices/dpcinputbuilder.h"
 #include "DartsController/DPCServices/getscorefromdpcinput.h"
-#include "DartsController/DPCServices/dpcinputstojson.h"
-#include "DartsController/DPCServices/dpcinputstojson.h"
-#include "DartsController/DPCServices/dpcindexestojson.h"
-#include "DartsController/DCInputServices/DCInputKeyCodes.h"
-#include "DartsController/DCJsonServices/dccreatebytearray.h"
-#include "DartsController/DCJsonServices/dccreateemptyjsonobject.h"
-#include "DartsController/DCTurnValuesServices/dcturnvaljsonkeys.h"
 #include "DartsController/DCInputStatsServices/dcaveragecalc.h"
 #include "DartsController/DCIndexServices/dcindexesjsonkeys.h"
 #include "DartsController/DCPlayerServices/DPCPlayerAllowancesContext.h"
 #include "DartsController/DCMetaServices/dcmetajsonbuilder.h"
+#include "DartsControllerBuilder/DCBMetaServices/dcmeta.h"
+#include "DartsController/DCJsonServices/dcjsonbuilder.h"
+#include "DartsController/DCMetaServices/dcmetamodelbuilder.h"
 
 class DPController : public DartsController
 {
 public:
-    DPController(const DCBuilding::IDCMetaInfo *meta);
+    DPController(const DCBuilding::DCMeta &meta);
 private:
     void setMetaServices();
     void setScoresServices();
@@ -66,6 +59,6 @@ private:
     void setInputServices();
     void setIndexServices();
     void setTurnValuesServices();
-    const DCBuilding::IDCMetaInfo *const _metaInfo;
+    const DCBuilding::DCMeta _metaInfo;
 };
 #endif // DEFAULTDARTSPOINTCONTROLLER_H

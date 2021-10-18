@@ -8,37 +8,34 @@
 class DCIndexesBuilder : public IDCIndexesBuilder
 {
 public:
-    const DCContext::DCIndexes *buildIndexes(const QByteArray &json) const override
+    DCIndexes buildIndexes(const QByteArray &json) const override
+    {
+        DCIndexes indexes;
+        auto jsonObject = toJsonObject(json);
+        indexes.totalTurns = jsonObject.value("totalTurns").toInt();
+        indexes.turnIndex = jsonObject.value("turnIndex").toInt();
+        indexes.roundIndex = jsonObject.value("roundIndex").toInt();
+        indexes.setIndex = jsonObject.value("setIndex").toInt();
+        indexes.attemptIndex = jsonObject.value("attemptIndex").toInt();
+        return indexes;
+    }
+    DCIndexes buildIndexes(const IDCIndexService *indexService) const override
+    {
+        DCIndexes indexes;
+        indexes.totalTurns = indexService->totalIndex();
+        indexes.turnIndex = indexService->turnIndex();
+        indexes.roundIndex = indexService->roundIndex();
+        indexes.setIndex = indexService->setIndex();
+        indexes.attemptIndex = indexService->attemptIndex();
+        return indexes;
+    }
+private:
+    QJsonObject toJsonObject(const QByteArray &json) const
     {
         auto document = QJsonDocument::fromJson(json);
-        auto jsonObject = document.object();
-        auto totalTurns = jsonObject.value("totalTurns").toInt();
-        auto turnIndex = jsonObject.value("turnIndex").toInt();
-        auto roundIndex = jsonObject.value("roundIndex").toInt();
-        auto setIndex = jsonObject.value("setIndex").toInt();
-        auto attemptIndex = jsonObject.value("attemptIndex").toInt();
-        auto model = DCContext::DCIndexes::createInstance()
-                ->setTotalTurns(totalTurns)
-                ->setTurnIndex(turnIndex)
-                ->setRoundIndex(roundIndex)
-                ->setSetIndex(setIndex)
-                ->setAttemptIndex(attemptIndex);
-        return model;
-    }
-    const DCContext::DCIndexes *buildIndexes(const IDCIndexService *indexService) const override
-    {
-        auto totalTurns = indexService->totalIndex();
-        auto turnIndex = indexService->turnIndex();
-        auto roundIndex = indexService->roundIndex();
-        auto setIndex = indexService->setIndex();
-        auto attemptIndex = indexService->attemptIndex();
-        auto model = DCContext::DCIndexes::createInstance()
-                ->setTotalTurns(totalTurns)
-                ->setTurnIndex(turnIndex)
-                ->setRoundIndex(roundIndex)
-                ->setSetIndex(setIndex)
-                ->setAttemptIndex(attemptIndex);
-        return model;
+        if(!document.isObject())
+            throw "JSON NOT OBJECT";
+        return document.object();
     }
 };
 

@@ -8,8 +8,6 @@ class AbstractDartsTournament : public AbstractTournament
 public:
     virtual int keyPoint() const = 0;
     virtual AbstractDartsTournament* setKeyPoint(const int &val) = 0;
-    virtual int displayHint() const = 0;
-    virtual AbstractDartsTournament* setDisplayHint(int modelDisplayHint) = 0;
     virtual int inputHint() const = 0;
     virtual AbstractDartsTournament* setInputMode(const int &inputMode) = 0;
 };

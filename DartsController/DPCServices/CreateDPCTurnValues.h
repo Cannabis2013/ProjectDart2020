@@ -5,24 +5,21 @@
 #include "DartsController/DCTurnValuesServices/dcturnvalues.h"
 #include "DartsController/DCIndexSLAs/idcindexservice.h"
 #include "DartsController/DCFinishesSLAs/idartsinputfinishes.h"
-#include "DartsController/DCPlayerSLAs/idcplayer.h"
-#include "DartsController/DCInputSLAs/idcinput.h"
 
 class CreateDPCTurnValues : public ICreateDCTurnValues
 {
 public:
-    const DCContext::DCTurnValues* turnValues(const IDCIndexService *indexService,
-                                                    IDCScoresService* scoresService,
-                                                    const IDartsInputFinishes* logisticService = nullptr) const override
+    DCTurnValues turnValues(const IDCIndexService *indexService, IDCScoresService* scoresService,
+                            const IDartsInputFinishes* logisticService = nullptr) const override
     {
-        auto model = new DCContext::DCTurnValues();
-        model->setCanUndo(canUndo(indexService));
-        model->setCanRedo(canRedo(indexService));
-        model->setRoundIndex(indexService->roundIndex());
-        model->setSetIndex(indexService->setIndex());
-        model->setAttemptIndex(indexService->attemptIndex());
-        model->setTargetRow(createTargetRow(indexService,scoresService,logisticService));
-        model->setPlayerName(getPlayerName(indexService,scoresService));
+        DCTurnValues model;
+        model.canUndo = canUndo(indexService);
+        model.canRedo = canRedo(indexService);
+        model.roundIndex = indexService->roundIndex();
+        model.setIndex = indexService->setIndex();
+        model.attemptIndex = indexService->attemptIndex();
+        model.targetRow = createTargetRow(indexService,scoresService,logisticService);
+        model.playerName = getPlayerName(indexService,scoresService);
         return model;
     }
 private:

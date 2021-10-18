@@ -1,32 +1,25 @@
 #ifndef DSCINPUTVALIDATOR_H
 #define DSCINPUTVALIDATOR_H
 
-#include "DartsController/DPCServices/dpcinputvalidator.h"
-#include "DartsControllerBuilder/DCBMetaSLAs/idcmetainfo.h"
+#include "DartsController/DPCServices/dpcinputevaluator.h"
 
-class DSCInputValidator : public AbstractEvaluateDCInput
+class DSCInputValidator : public AbstractDCInputEvaluator
 {
 public:
     static DSCInputValidator *createInstance()
     {
         return new DSCInputValidator();
     }
-    virtual void validateInput(const int &currentScore,  const IDCInputKeyCodes *, IDCInput *input,
-                               IDCPlayerApproval *) override
+    virtual void evaluateInput(const int &currentScore, DCInput input, IDCPlayerApproval *, AbstractDartsController *controller) override
     {
         if(currentScore >= minimumAllowedScore)
-            emit playerHitPointDomain(input);
+            controller->persistInput(input);
         else if(currentScore == 0)
-            emit playerHitTargetDomain(input);
+            controller->declareWinner(input);
         else
-            emit playerOutOfRange(input);
+            controller->nullifyAndPersistInput(input);
     }
 private:
-    int maxAllowedInput() const
-    {
-        return _maxAllowedInput;
-    }
-    const int _maxAllowedInput = 180;
     const int minimumAllowedScore = 2;
 };
 #endif // SCOREVALIDATOR_H

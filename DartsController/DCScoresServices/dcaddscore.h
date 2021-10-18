@@ -6,12 +6,12 @@
 class DCAddScore : public IDCAddScore
 {
 public:
-    virtual DCContext::DCScoreModel addPlayerScore(const IDCInput *model, IDCScoresService *scoresService) const override
+    virtual DCContext::DCScoreModel addPlayerScore(const DCInput &model, IDCScoresService *scoresService) const override
     {
         auto scoreModels = scoresService->scoreModels();
-        auto tuple = getTupleFromScoresService(model->playerId(),scoreModels);
+        auto tuple = getTupleFromScoresService(model.playerId,scoreModels);
         auto indexOfTuple = indexOf(tuple,scoreModels);
-        updateTuple(tuple,sum(tuple.totalScore,model->score()));
+        updateTuple(tuple,sum(tuple.totalScore,model.score));
         scoresService->scoreModels().replace(indexOfTuple, tuple);
         return tuple;
     }

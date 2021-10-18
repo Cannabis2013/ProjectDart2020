@@ -3,7 +3,7 @@
 void ConnectDartsController::connectController(AbstractGameController *controller,
                                                AbstractApplicationInterface *application,
                                                AbstractDartsModelsContext *modelsContext,
-                                               AbstractRouteByDisplayHint *routeService)
+                                               AbstractRouteByHint *routeService)
 {
     auto dartscontroller = dynamic_cast<AbstractDartsController*>(controller);
     // Send tournament metadata
@@ -41,7 +41,7 @@ void ConnectDartsController::connectController(AbstractGameController *controlle
                      application,&AbstractApplicationInterface::sendOrderedDartsInputs);
     // Controller is initialized
     QObject::connect(dartscontroller,&AbstractDartsController::initialized,
-                     routeService,&AbstractRouteByDisplayHint::routeByHints);
+                     routeService,&AbstractRouteByHint::routeByInputHint);
     // UI requests singleattempt scores
     QObject::connect(application,&AbstractApplicationInterface::requestDartsScores,
             dartscontroller,&AbstractDartsController::createDartsScores);

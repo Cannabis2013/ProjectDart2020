@@ -42,21 +42,15 @@ public slots:
     void handleRequestFromUI() override;
     void handleUserInput(const QByteArray &json) override;
     void handleUserInputAdded(const QByteArray& json) override;
-    virtual void handleIndexesUpdated(const QByteArray &json) override;
+    void handleIndexesUpdated(const QByteArray &json) override;
     void handleResetTournament() override;
     void undoSuccess(const QByteArray &json) override;
     void redoSuccess(const QByteArray &json) override;
-private slots:
-    void persistInput(IDCInput *inputModel);
-    void nullifyAndPersistInput(IDCInput *input);
-    void declareWinner(IDCInput *input);
+    void persistInput(const DCInput &input) override;
+    void nullifyAndPersistInput(DCInput &input) override;
+    void declareWinner(const DCInput &input) override;
 private:
-    QByteArray assembleJsonResponse(IDCInput *input, const DCContext::DCTurnValues *turnValues);
-    QByteArray assembleJsonResponse(IDCInput *input, const DCContext::IDCIndexes *indexes, const int &average);
-    QByteArray assembleJsonResponse(IDCInput *input, const DCContext::IDCIndexes *indexes);
-    QByteArray assembleJsonResponse(const DCContext::IDCIndexes *indexes);
-    void connectInputEvaluator();
-    void updateTotalScore(IDCInput *input);
+    void updateTotalScore(DCInput &input);
     void createAndSendWinnerValues();
     void sendCurrentTurnValues();
 };

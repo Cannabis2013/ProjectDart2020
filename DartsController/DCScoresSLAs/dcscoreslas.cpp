@@ -40,12 +40,12 @@ void DCScoreSLAs::setGetTotalScoreService(IDCGetScoreCand *service)
     _calculateCandidateScore = service;
 }
 
-IDCCreateScoreTuples *DCScoreSLAs::createScores() const
+IDCScoreBuilder *DCScoreSLAs::scoreBuilder() const
 {
     return _createScoreTuples;
 }
 
-void DCScoreSLAs::setCreateScoreModelsService(IDCCreateScoreTuples *service)
+void DCScoreSLAs::setScoreBuilder(IDCScoreBuilder *service)
 {
     _createScoreTuples = service;
 }

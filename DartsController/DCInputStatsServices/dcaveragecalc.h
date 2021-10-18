@@ -8,12 +8,12 @@
 class DCAverageCalc : public IDCAverageCalc
 {
 public:
-    virtual double average(IDCInput *input, const IDCIndexService *indexService,
+    virtual double average(const DCInput &input, const IDCIndexService *indexService,
                            const IDCInitialScore *initialService) const override
     {
 
         auto initialScore = initialService->score();
-        double totalScore =  initialScore - input->remainingScore();
+        double totalScore =  initialScore - input.remainingScore;
         double attempts = indexService->roundIndex() * 3;
         double avg = totalScore / attempts;
         double roundedAverage = round(avg);

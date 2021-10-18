@@ -1,14 +1,19 @@
 #ifndef IDCINPUTBUILDER_H
 #define IDCINPUTBUILDER_H
 
-#include "DartsController/DCInputSLAs/idcinput.h"
 #include "DartsController/DCScoresSLAs/idcscoresservice.h"
+#include "DartsController/DCInputServices/dcinput.h"
+#include "DartsController/DCPlayerSLAs/idcplayerservice.h"
+#include "DartsController/DCScoresSLAs/idcgetscore.h"
 class IDCInputBuilder
 {
 public:
-    virtual IDCInput *buildInput(const QByteArray &json) const = 0;
-    virtual IDCInput *buildInput(const DCContext::DCScoreModel &scoreModel) const = 0;
-    virtual QVector<IDCInput*> buildInputs(IDCScoresService *scoresService) const = 0;
-    virtual QVector<IDCInput*> buildInputs(const QByteArray &json) const = 0;
+    virtual DCInput buildInput(const QByteArray &json) const = 0;
+    virtual DCInput buildInput(const QByteArray &json, const IDCPlayerService *playerContext,
+                               const IDCGetScore *getScoreContext, const IDCIndexService *indexContext,
+                               IDCScoresService *scoresContext) const = 0;
+    virtual DCInput buildInput(const DCContext::DCScoreModel &scoreModel) const = 0;
+    virtual QVector<DCInput> buildInputs(IDCScoresService *scoresService) const = 0;
+    virtual QVector<DCInput> buildInputs(const QByteArray &json) const = 0;
 };
 #endif // IDPCMODELCREATOR_H

@@ -43,7 +43,6 @@ private:
         obj["title"] = model->title();
         obj["gameMode"] = model->gameMode();
         obj["keyPoint"] = model->keyPoint();
-        obj["displayHint"] = model->displayHint();
         obj["inputHint"] = model->inputHint();
         obj["winnerId"] = model->winnerId().toString(QUuid::WithoutBraces);
         obj["winnerName"] = model->winnerName();

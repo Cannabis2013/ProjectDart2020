@@ -2,7 +2,7 @@
 #define ROUTESERVICESPROVIDER_H
 
 #include "DartApplication/RouteSLAs/irouteservicesprovider.h"
-#include "DartApplication/RouteServices/routebydisplayhint.h"
+#include "DartApplication/RouteServices/routebyinputhint.h"
 #include "DartApplication/RouteServices/routebytournamentgamemode.h"
 class RouteServicesProvider : public IRouteServicesProvider
 {
@@ -11,13 +11,13 @@ public:
     {
         return _routeTournamentByGameMode;
     }
-    RouteByDisplayHint *routeByDisplayHint() const override
+    RouteByInputHint *routeByDisplayHint() const override
     {
         return _routeDartsControllerByDisplayHint;
     }
 private:
     RouteByTournamentGameMode *_routeTournamentByGameMode = new RouteByTournamentGameMode;
-    RouteByDisplayHint *_routeDartsControllerByDisplayHint = new RouteByDisplayHint;
+    RouteByInputHint *_routeDartsControllerByDisplayHint = new RouteByInputHint;
 };
 
 #endif // ROUTESERVICESPROVIDER_H

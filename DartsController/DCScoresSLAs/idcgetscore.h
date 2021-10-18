@@ -1,12 +1,11 @@
 #ifndef IDCGETSCORE_H
 #define IDCGETSCORE_H
 
-#include "DartsController/DCInputSLAs/idcinput.h"
-
+#include "DartsController/DCInputServices/dcinput.h"
 class IDCGetScore
 {
 public:
-    virtual int getScore(const IDCInput *inputModel) const = 0;
+    virtual int getScore(const DCInput &input) const = 0;
 
 };
 

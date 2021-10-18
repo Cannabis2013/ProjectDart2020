@@ -1,5 +1,6 @@
 #include "dpcontroller.h"
-DPController::DPController(const DCBuilding::IDCMetaInfo *meta):
+
+DPController::DPController(const DCBuilding::DCMeta &meta):
     _metaInfo(meta)
 {
     setMetaServices();
@@ -17,17 +18,18 @@ void DPController::setMetaServices()
     setDetermineStatusById(new DetermineStatusById);
     setControllerStatus(new DCMetaStatus);
     setStatusCodes(new DCStatusCodes);
-    setDisplayHint(DCHint::createInstance(_metaInfo->displayHint()));
-    setInputHint(DCHint::createInstance(_metaInfo->inputHint()));
-    setTournamentId(DCTournamentId::createInstance(_metaInfo->tournamentId()));
-    setInitialScore(DCInitialScore::createInstance(_metaInfo->keyPoint()));
+    setDisplayHint(DCHint::createInstance(_metaInfo.displayHint));
+    setInputHint(DCHint::createInstance(_metaInfo.inputHint));
+    setTournamentId(DCTournamentId::createInstance(_metaInfo.tournamentId));
+    setInitialScore(DCInitialScore::createInstance(_metaInfo.keyPoint));
     setSetMetaJsonValues(new DCMetaJsonBuilder);
+    setMetaBuilder(new DCMetaModelBuilder);
 }
 void DPController::setScoresServices()
 {
     setGetTotalScoreService(new DCGetScoreCand);
     setResetScoreModels(new DCResetScoreModels);
-    setCreateScoreModelsService(new DCCreateScoreModels);
+    setScoreBuilder(new DCCreateScoreModels);
     setUpdateScoreModels(new DCUpdateScoreModels);
     setSubtractScore(new DCSubtractScore);
     setScoresService(new DCScoresService);
@@ -37,12 +39,8 @@ void DPController::setScoresServices()
 }
 void DPController::setJsonServices()
 {
-    setInputJsonContext(new DPCInputsToJson);
-    setTurnValuesToJsonService(new DCTurnValuesToJson);
-    setIndexesToJsonService(new DPCIndexesToJson);
-    setCreateByteArray(new DCCreateByteArray);
-    setCreateEmptyJsonObject(new DCCreateEmptyJsonObject);
     setAddTotalScoresToJson(new AddTotalScoreToDartsInputsAsJson);
+    setJsonResponseBuilder(new DCJsonBuilder);
 }
 void DPController::setStatisticsServices()
 {
@@ -58,17 +56,15 @@ void DPController::setPlayerServices()
     setPlayerAllowanceContext(new DPCPlayerAllowancesContext);
     setAddPlayerNamesToJson(new AddPlayerNamestoDartsInputsAsJson);
     setPlayerBuilderService(new DCPlayerBuilder);
-    setPlayerService(new DCPlayerService(indexService(),scoresService()));
+    setPlayerService(new DCPlayerService);
     setWinnerModelFromJson(new DCGetWInnerModelsFromJson);
-    setCreatePlayersFromJson(new DCCreatePlayersFromJson);
     setWinnerKeys(new DCWinnerKeys);
     setPlayerKeys(new DCPlayerKeys);
 }
 void DPController::setInputServices()
 {
     setInputBuilder(new DPCInputBuilder);
-    setInputKeyCodes(new DCInputKeyCodes);
-    setInputEvaluator(DPCInputValidator::createInstance());
+    setInputEvaluator(DPCInputEvaluator::createInstance());
     setGetScoreFromInput(new GetScoreFromDPCInput);
 }
 void DPController::setIndexServices()
@@ -84,6 +80,5 @@ void DPController::setIndexServices()
 }
 void DPController::setTurnValuesServices()
 {
-    setTurnValKeys(new DCTurnValJsonKeys);
     setTurnValuesBuilder(new CreateDPCTurnValues);
 }

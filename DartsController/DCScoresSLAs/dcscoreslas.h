@@ -5,7 +5,7 @@
 #include "DartsController/DCScoresSLAs/idccreatecandidatemodels.h"
 #include "DartsController/DCScoresSLAs/idcaddscore.h"
 #include "DartsController/DCScoresSLAs/idcgetscorecand.h"
-#include "DartsController/DCScoresSLAs/idccreatescoretuples.h"
+#include "DartsController/DCScoresSLAs/idcscorebuilder.h"
 #include "DartsController/DCScoresSLAs/idcgetscore.h"
 #include "DartsController/DCScoresSLAs/idcupdatescoremodels.h"
 #include "DartsController/DCScoresSLAs/idcsubtractscore.h"
@@ -22,8 +22,8 @@ public:
     void setAddScoreService(IDCAddScore *service);
     IDCGetScoreCand *getTotalScore() const;
     void setGetTotalScoreService(IDCGetScoreCand *service);
-    IDCCreateScoreTuples *createScores() const;
-    void setCreateScoreModelsService(IDCCreateScoreTuples *service);
+    IDCScoreBuilder *scoreBuilder() const;
+    void setScoreBuilder(IDCScoreBuilder *service);
     IDCGetScore *getScoreFromInput() const;
     void setGetScoreFromInput(IDCGetScore *service);
     IDCUpdateScoreModels *updateScoreModels() const;
@@ -34,7 +34,7 @@ public:
     void setResetScoreModels(IDCResetScoreScoreModels *service);
 private:
     IDCScoresService *_scoresService;
-    IDCCreateScoreTuples *_createScoreTuples;
+    IDCScoreBuilder *_createScoreTuples;
     IDCCreateCandidateModels *_createCandidateTuples;
     IDCAddScore *_addScoreService;
     IDCGetScoreCand *_calculateCandidateScore;

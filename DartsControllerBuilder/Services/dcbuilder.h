@@ -5,9 +5,7 @@
 // Include services
 #include "DartsControllerBuilder/SLAs/abstractdcbuilder.h"
 #include "DartsController/DSCServices/dscinputbuilder.h"
-#include "DartsControllerBuilder/DCBMetaSLAs/idcmetainfo.h"
 #include "DartsControllerBuilder/DCBMetaSLAs/icreatedcmetainfo.h"
-#include "DartsControllerBuilder/DCBMetaSLAs/idcmetainfo.h"
 #include "DartsController/DartsScoreController/dscontroller.h"
 #include "DartsController/DPController/dpcontroller.h"
 #include "DartsControllerBuilder/DCBMetaServices/createDCMetaInfo.h"
@@ -28,9 +26,9 @@ public:
     };
     virtual void createController(const QByteArray &json) override;
 private:
-    AbstractDartsController *createDC(const DCBuilding::IDCMetaInfo *meta);
-    AbstractDartsController *createDPC(const DCBuilding::IDCMetaInfo *meta);
-    AbstractDartsController *createDSC(const DCBuilding::IDCMetaInfo *meta);
+    AbstractDartsController *createDC(const DCBuilding::DCMeta &meta);
+    AbstractDartsController *createDPC(const DCBuilding::DCMeta &meta);
+    AbstractDartsController *createDSC(const DCBuilding::DCMeta &meta);
     ICreateDCMetaInfo* _createMeta = new createDCMetaInfo;
 
 };

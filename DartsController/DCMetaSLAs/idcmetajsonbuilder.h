@@ -9,8 +9,8 @@
 class IDCMetaJsonBuilder
 {
 public:
-    virtual void setValues(QJsonObject &obj, const IDCTournamentId *tournamentId,
-                           const IDCPlayerService *playerService,
-                           const IDCWinnerService *winnerService) const = 0;
+    virtual void setValues(QJsonObject &obj, const IDCTournamentId *tournamentId, const IDCPlayerService *playerService,
+                           const IDCWinnerService *winnerService,const IDCIndexService *indexContext,
+                           IDCScoresService *scoresContext) const = 0;
 };
 #endif // IDCMETAJSONBUILDER_H

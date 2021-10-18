@@ -8,7 +8,6 @@
 #include "DartsController/DCIndexSLAs/idcinitializeindexes.h"
 #include "DartsController/DCIndexSLAs/idcresetindexes.h"
 #include "DartsController/DCIndexSLAs/idcundoindex.h"
-#include "DartsController/DCIndexSLAs/idcindexestojson.h"
 #include "DartsController/DCIndexSLAs/IDCIndexesJsonKeys.h"
 
 class DCIndexSLAs
@@ -70,14 +69,6 @@ public:
     {
         _dartsIndexesBuilderService = service;
     }
-    IDCIndexesToJson *setIndexesJsonValues() const
-    {
-        return _indexesToJson;
-    }
-    void setIndexesToJsonService(IDCIndexesToJson *service)
-    {
-        _indexesToJson = service;
-    }
     IDCIndexesJsonKeys *indexKeys() const
     {
         return _indexKeys;
@@ -95,7 +86,6 @@ private:
     IDCResetIndexes *_resetIndexes;
     IDCInitializeIndexes *_initializeIndexes;
     IDCIndexesBuilder* _dartsIndexesBuilderService;
-    IDCIndexesToJson *_indexesToJson;
     IDCIndexesJsonKeys *_indexKeys;
 };
 #endif // DCINDEXSLAS_H

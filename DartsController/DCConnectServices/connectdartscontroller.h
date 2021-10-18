@@ -10,7 +10,7 @@ public:
     void connectController(AbstractGameController *controller,
                            AbstractApplicationInterface* application,
                            AbstractDartsModelsContext* modelsService,
-                           AbstractRouteByDisplayHint* routeService) override;
+                           AbstractRouteByHint* routeService) override;
 };
 
 #endif // CONNECTDARTSCONTROLLER_H

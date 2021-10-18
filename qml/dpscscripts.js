@@ -136,7 +136,7 @@ function setTurnControllerValues(json)
 {
     pointSingleColumnTurnController.leftButtonEnabled = json["canUndo"];
     pointSingleColumnTurnController.rightButtonEnabled = json["canRedo"];
-    pointSingleColumnTurnController.currentRoundIndex = json["roundIndex"];
+    pointSingleColumnTurnController.currentRoundIndex = json["currentRoundIndex"];
     pointSingleColumnTurnController.currentPlayer = json["currentPlayerName"];
 }
 

@@ -2,6 +2,7 @@
 #define FTPCONTROLLER_H
 
 #include "DartControllerContext/SLAs/abstractgamecontroller.h"
+#include <DartsController/DCInputServices/dcinput.h>
 
 class AbstractDartsController : public AbstractGameController
 {
@@ -16,6 +17,9 @@ public slots:
     virtual void handleUserInputAdded(const QByteArray& json) = 0;
     virtual void handleIndexesUpdated(const QByteArray& json) = 0;
     virtual void handleOrderedInputs(const QByteArray &json) = 0;
+    virtual void persistInput(const DCInput &input) = 0;
+    virtual void nullifyAndPersistInput(DCInput &input) = 0;
+    virtual void declareWinner(const DCInput &input) = 0;
 signals:
     void awaitsInput(const QByteArray& json);
     void requestDartsTournamentIndexes(const QUuid &tournament);

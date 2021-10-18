@@ -1,13 +1,13 @@
 #ifndef ICONNECTROUTEBYDISPLAYHINT_H
 #define ICONNECTROUTEBYDISPLAYHINT_H
 
-#include "DartApplication/RouteSLAs/abstractroutebydisplayhint.h"
+#include "DartApplication/RouteSLAs/abstractroutebyhint.h"
 #include "DartApplication/SLAs/AbstractApplicationInterface.h"
 
 class IConnectRouteByDisplayHint
 {
 public:
-    virtual void connectServices(AbstractRouteByDisplayHint* routeService,
+    virtual void connectServices(AbstractRouteByHint* routeService,
                                  AbstractApplicationInterface* applicationService) = 0;
 
 };

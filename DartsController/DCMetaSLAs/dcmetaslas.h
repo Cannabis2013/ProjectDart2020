@@ -8,6 +8,7 @@
 #include "DartsController/DCMetaSLAs/idcwinnerservice.h"
 #include "DartsController/DCMetaSLAs/idartsdeterminestatusbyid.h"
 #include "idcmetajsonbuilder.h"
+#include "idcmetamodelbuilder.h"
 class DCMetaSLAs
 {
 public:
@@ -86,7 +87,16 @@ public:
     {
         _setMetaJsonValues = service;
     }
+    IDCMetaModelBuilder *metaBuilder() const
+    {
+        return _metaBuilder;
+    }
+    void setMetaBuilder(IDCMetaModelBuilder *service)
+    {
+        _metaBuilder = service;
+    }
 private:
+    IDCMetaModelBuilder *_metaBuilder;
     IDCMetaJsonBuilder *_setMetaJsonValues;
     IDCStatus *_controllerStatus;
     IDartsStatusCodes *_statusCodes;

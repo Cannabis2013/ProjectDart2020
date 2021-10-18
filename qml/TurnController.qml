@@ -198,11 +198,11 @@ Item {
             }
             PropertyChanges {
                 target: currentRoundLabel
-                text: turnControllerBody.currentRoundIndex
+                text: turnControllerView.currentRoundIndex
             }
             PropertyChanges {
                 target: currentPlayerLabel
-                text: turnControllerBody.currentPlayer
+                text: turnControllerView.currentPlayer
             }
             PropertyChanges {
                 target: leftButton

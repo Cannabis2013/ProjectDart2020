@@ -60,7 +60,6 @@ private:
         dartsTournamentModel->setTitle(obj.value("title").toString());
         dartsTournamentModel->setGameMode(obj.value("gameMode").toInt());
         dartsTournamentModel->setKeyPoint(obj.value("keyPoint").toInt());
-        dartsTournamentModel->setDisplayHint(obj.value("displayHint").toInt());
         dartsTournamentModel->setInputMode(obj.value("inputHint").toInt());
         dartsTournamentModel->setStatus(obj.value("status").toInt());
         dartsTournamentModel->setWinnerId(QUuid(obj.value("winnerId").toString("")));

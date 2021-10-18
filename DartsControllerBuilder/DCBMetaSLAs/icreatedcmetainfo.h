@@ -1,11 +1,11 @@
 #ifndef ICREATEDCMETAINFO_H
 #define ICREATEDCMETAINFO_H
 
-#include "DartsControllerBuilder/DCBMetaSLAs/idcmetainfo.h"
+#include "DartsControllerBuilder/DCBMetaServices/dcmeta.h"
 
 class ICreateDCMetaInfo
 {
 public:
-    virtual const DCBuilding::IDCMetaInfo* service(const QByteArray &json) const = 0;
+    virtual DCBuilding::DCMeta service(const QByteArray &json) const = 0;
 };
 #endif // ICREATEDCMETAINFO_H

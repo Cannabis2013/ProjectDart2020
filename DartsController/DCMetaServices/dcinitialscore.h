@@ -3,7 +3,6 @@
 
 #include "DartsController/DCMetaSLAs/idcinitialscore.h"
 
-#include "DartsControllerBuilder/DCBMetaSLAs/idcmetainfo.h"
 class DCInitialScore : public IDCInitialScore
 {
 public:

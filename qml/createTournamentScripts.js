@@ -57,7 +57,6 @@ function createDartsTournament()
         title : titleEdit.currentValue,
         gameMode : gameMode,
         keyPoint : selectorComponent().keyPoint,
-        displayHint : selectorComponent().displayHint,
         inputHint : selectorComponent().inputMode,
         playerIndexes : indexes
     };
