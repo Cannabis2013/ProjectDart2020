@@ -6,8 +6,8 @@ DPSCScoreBoard {
     id: scoreBoardBody
     height: 128
     onWidthChanged: ScoreBoardScripts.updateScoreBoard()
-    signal setData(string playerName, int point, int score)
-    onSetData: ScoreBoardScripts.setData(playerName,point,score)
+    signal setData(string playerName, int point, int score, double average)
+    onSetData: ScoreBoardScripts.setData(playerName,point,score,average)
     signal takeData(int row, int column,string playerName)
     onTakeData: ScoreBoardScripts.takeData(row,column,playerName)
     onClearData:  ScoreBoardScripts.clearTable()
@@ -28,8 +28,11 @@ DPSCScoreBoard {
         minimumRowHeight: 72
         scale: 1.05
     }
-    StringHeaderModel{
-        id: verticalHeaderModel
+    StringsModel{
+        id: playerNamesModel
+    }
+    StringsModel{
+        id: averageValuesModel
     }
     columnWidthProvider: function(column){
         return tableDisplayWidth;
@@ -45,7 +48,9 @@ DPSCScoreBoard {
     }
     cellDelegate: BoardDelegateContentRect {
         id: delegate
-        playerName: verticalHeaderModel.item(index)
+        playerName: playerNamesModel.item(index)
         score: display
+        onScoreChanged: averageValuesModel.item(index)
+        averageValue: averageValuesModel.item(index)
     }
 }

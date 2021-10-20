@@ -75,10 +75,11 @@ function addDartsScoresToScoreBoard(json)
 
 function addToScoreBoard(json)
 {
-    var playerName = json["inputPlayerName"];
-    var playerPoint = json["point"];
-    var playerScore = json["totalScore"];
-    singleColumnPointBoard.setData(playerName,playerPoint,playerScore);
+    let playerName = json["inputPlayerName"];
+    let playerPoint = json["point"];
+    let playerScore = json["totalScore"];
+    let average = json["average"];
+    singleColumnPointBoard.setData(playerName,playerPoint,playerScore,average);
 }
 
 function backendIsReady()
@@ -90,18 +91,10 @@ function backendIsReady()
 function backendAddedInput(data)
 {
     var json = JSON.parse(data);
-    updatePointBoard(json);
+    addToScoreBoard(json);
     setThrowSuggestion(json);
     setTurnControllerValues(json);
     applicationInterface.requestControllerState();
-}
-
-function updatePointBoard(json)
-{
-    let playerName = json["inputPlayerName"];
-    let playerPoint = json["point"];
-    let totalScore = json["totalScore"];
-    singleColumnPointBoard.setData(playerName,playerPoint,totalScore);
 }
 
 function setThrowSuggestion(json)

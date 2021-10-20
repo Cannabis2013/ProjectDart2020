@@ -10,7 +10,7 @@
 #include "DartsController/DCJsonSLAs/dcjsonslas.h"
 #include "DartsController/DCMetaSLAs/dcmetaslas.h"
 #include "DartsController/DCInputSLAs/dcinputsslas.h"
-#include "DartsController/DCInputStatsSLAs/DCInputStatsSLAs.h"
+#include "DartsController/DCInputStatsSLAs/dcinputstatsslas.h"
 
 #define TOURNAMENT_ID_JSON_KEY "tournamentId"
 
@@ -42,7 +42,6 @@ public slots:
     void handleRequestFromUI() override;
     void handleUserInput(const QByteArray &json) override;
     void handleUserInputAdded(const QByteArray& json) override;
-    void handleIndexesUpdated(const QByteArray &json) override;
     void handleResetTournament() override;
     void undoSuccess(const QByteArray &json) override;
     void redoSuccess(const QByteArray &json) override;

@@ -13,7 +13,7 @@ function setInitialValue(value)
 
 function clearTable(){
     dataModel.clearData();
-    verticalHeaderModel.clear();
+    playerNamesModel.clear();
 }
 
 function updateScoreBoard()
@@ -43,13 +43,21 @@ function setViewPosition(x,y)
 
 function appendHeader(header)
 {
-    verticalHeaderModel.appendItem(header);
+    playerNamesModel.appendItem(header);
+    appendStatsItems();
     var headerWidth = fontsMetric.width(header,tableFonts.headerFontFamily,tableFonts.headerFontSize);
     var headerHeight = fontsMetric.height(header,tableFonts.headerFontFamily,tableFonts.headerFontSize);
-    var i = verticalHeaderModel.indexOf(header);
+    var i = playerNamesModel.indexOf(header);
     tableHeightProvider.updateRowHeight(i,headerHeight);
     var scaledWidth = scaleWidth(headerWidth);
     updateVerticalHeaderWidth(scaledWidth);
+}
+
+function appendStatsItems()
+{
+    averageValuesModel.appendItem(0.0);
+    lowerValuesModel.appendItem(0);
+    upperValuesModel.appendItem(0);
 }
 
 function scaleWidth(w)
@@ -63,15 +71,24 @@ function updateVerticalHeaderWidth(w)
         scoreBoardBody.updateVerticalHeaderWidth(w);
 }
 
-function setData(playerName,score){
-    let indexOf = verticalHeaderModel.indexOf(playerName);
-    var result = dataModel.insertData(indexOf,score);
+function setData(playerName,score,average, lowerVal, upperVal){
+    let index = playerNamesModel.indexOf(playerName);
+    updateStatistics(index,average,lowerVal,upperVal);
+    var result = dataModel.insertData(index,score);
     if(result)
-        updateWidths(indexOf);
+        updateWidths(index);
+}
+
+function updateStatistics(index,average,lowerVal,upperVal)
+{
+    if(!isNaN(average))
+        averageValuesModel.setItem(average,index);
+    lowerValuesModel.setItem(lowerVal,index);
+    upperValuesModel.setItem(upperVal,index);
 }
 
 function takeData(row,column,playerName){
-    let indexOf = verticalHeaderModel.indexOf(playerName);
+    let indexOf = playerNamesModel.indexOf(playerName);
     var result = dataModel.removeLastItem(indexOf,headerOrientation);
     if(result)
         updateWidths(indexOf);
@@ -90,7 +107,7 @@ function setHeaderData(data,defaultVal)
     {
         var assignedPlayerName = data[i];
         scoreBoardBody.appendHeader(assignedPlayerName,Qt.Vertical);
-        scoreBoardBody.setData(assignedPlayerName,defaultVal);
+        scoreBoardBody.setData(assignedPlayerName,defaultVal,0.0,0,0);
     }
 }
 
@@ -98,4 +115,14 @@ function setDelegateText(text,ref)
 {
     var j = JSON.parse(text);
     ref.score = j["score"];
+}
+
+function updateDelegate(text,ref,row)
+{
+    ref.averageValue = averageValuesModel.item(row);
+    ref.lowerValue = lowerValuesModel.item(row);
+    ref.upperValue = upperValuesModel.item(row);
+    if(text === undefined)
+        return "text";
+    return text;
 }

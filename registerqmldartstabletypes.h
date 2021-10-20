@@ -4,7 +4,7 @@
 #include <dssctablemodel.h>
 #include <dpmctablemodel.h>
 #include <dpsctablemodel.h>
-#include "verticalstringlabels.h"
+#include "stringlabelsmodel.h"
 #include "dartsroundindexbyattempt.h"
 #include <QQmlApplicationEngine>
 
@@ -19,7 +19,7 @@ public:
     }
     static void registerTableHeaderModels()
     {
-        qmlRegisterType<VerticalStringLabels>("CustomItems",1,0,"StringHeaderModel");
+        qmlRegisterType<StringLabelsModel>("CustomItems",1,0,"StringsModel");
         qmlRegisterType<DartsRoundIndexByAttempt>("CustomItems",1,0,"RoundHeaderLabelByAttempt");
     }
 };

@@ -6,14 +6,12 @@ DPSCScoreBoard {
     id: scoreBoardBody
     height: 128
     onWidthChanged: ScoreScripts.updateScoreBoard()
-    signal setData(string playerName, int score)
+    signal setData(string playerName, int score, double average, int lVal, int uVal)
     signal takeData(int row, int column,string playerName)
-    onSetData: ScoreScripts.setData(playerName,score)
+    onSetData: ScoreScripts.setData(playerName,score,average,lVal,uVal)
     onTakeData: ScoreScripts.takeData(row,column,playerName)
     onClearData: ScoreScripts.clearTable()
     onAppendHeaderData: ScoreScripts.setHeaderData(data,defaultVal)
-    property int cellBorderWidth: 0
-    onCellBorderWidthChanged: delegate.borderWidth = cellBorderWidth
     onNotifyCellPosition: ScoreScripts.setViewPosition(x,y)
     onAppendHeader: ScoreScripts.appendHeader(data)
     readonly property DSSCTableFonts tableFonts: DSSCTableFonts{}
@@ -25,9 +23,19 @@ DPSCScoreBoard {
     DartsTableHeights{
         id: tableHeightProvider
     }
-    StringHeaderModel{
-        id: verticalHeaderModel
+    StringsModel{
+        id: playerNamesModel
     }
+    StringsModel{
+        id: averageValuesModel
+    }
+    StringsModel{
+        id: lowerValuesModel
+    }
+    StringsModel{
+        id: upperValuesModel
+    }
+
     columnWidthProvider: function(column){
         return tableDisplayWidth;
     }
@@ -40,8 +48,8 @@ DPSCScoreBoard {
         onDataChanged: ScoreScripts.updateScoreBoard();
     }
     cellDelegate: BoardDelegateContentRect {
-        id: delegate
-        playerName: verticalHeaderModel.item(index)
-        score: display
+        id: tableDelegate
+        playerName: playerNamesModel.item(row)
+        score: ScoreScripts.updateDelegate(display,this,row);
     }
 }

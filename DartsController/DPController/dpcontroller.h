@@ -37,14 +37,18 @@
 #include "DartsController/DPCServices/CreateDPCTurnValues.h"
 #include "DartsController/DPCServices/dpcinputbuilder.h"
 #include "DartsController/DPCServices/getscorefromdpcinput.h"
-#include "DartsController/DCInputStatsServices/dcaveragecalc.h"
 #include "DartsController/DCIndexServices/dcindexesjsonkeys.h"
 #include "DartsController/DCPlayerServices/DPCPlayerAllowancesContext.h"
 #include "DartsController/DCMetaServices/dcmetajsonbuilder.h"
 #include "DartsControllerBuilder/DCBMetaServices/dcmeta.h"
 #include "DartsController/DCJsonServices/dcjsonbuilder.h"
 #include "DartsController/DCMetaServices/dcmetamodelbuilder.h"
-
+#include "DartsController/DCInputServices/dcinputjsonbuilder.h"
+#include "DartsController/DCIndexServices/dcindexesjsonbuilder.h"
+#include "DartsController/DCMetaServices/DCMetaInfoJsonBuilder.h"
+#include "DartsController/DCTurnValuesServices/DCTurnValuesJsonBuilder.h"
+#include "DartsController/DPCStatsServices/dpcstatsbuilder.h"
+#include "DartsController/DCInputStatsServices/dcstatsjsonbuilder.h"
 class DPController : public DartsController
 {
 public:
@@ -59,6 +63,7 @@ private:
     void setInputServices();
     void setIndexServices();
     void setTurnValuesServices();
+    AbstractDCJsonBuilder *createJsonBuilder();
     const DCBuilding::DCMeta _metaInfo;
 };
 #endif // DEFAULTDARTSPOINTCONTROLLER_H

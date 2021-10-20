@@ -18,7 +18,7 @@ ScoreBoard {
     TableSectionMetrics{id: fontsMetric}
     DartsTableWidths{id: tableWidthProvider}
     DartsTableHeights{id: tableHeightProvider}
-    StringHeaderModel{
+    StringsModel{
         id: verticalHeaderModel
         onDataChanged: ScoreScripts.refreshHeaders()
     }

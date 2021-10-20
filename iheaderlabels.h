@@ -6,6 +6,7 @@ template<typename  T>
 class IHeaderLabels
 {
 public:
+    virtual void setItem(const QString &item, const int &index) = 0;
     virtual void appendItem(const T &item) = 0;
     virtual void appendItems(const QVector<T> &items) = 0;
     virtual void removeItem(const int &index) = 0;

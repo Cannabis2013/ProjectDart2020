@@ -15,7 +15,6 @@ public slots:
     virtual void createDartsScores() = 0;
     virtual void getOrderedInputsWithTotalScores() = 0;
     virtual void handleUserInputAdded(const QByteArray& json) = 0;
-    virtual void handleIndexesUpdated(const QByteArray& json) = 0;
     virtual void handleOrderedInputs(const QByteArray &json) = 0;
     virtual void persistInput(const DCInput &input) = 0;
     virtual void nullifyAndPersistInput(DCInput &input) = 0;

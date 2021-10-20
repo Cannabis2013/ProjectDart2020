@@ -81,9 +81,12 @@ function addDartsScoresToScoreBoard(json)
 
 function addToScoreBoard(json)
 {
-    var playerName = json["inputPlayerName"];
-    var playerScore = json["totalScore"];
-    singleColumnScoreBoard.setData(playerName,playerScore);
+    let playerName = json["inputPlayerName"];
+    let playerScore = json["totalScore"];
+    let average = json["average"];
+    let lowerVal = json["lowerValue"];
+    let upperVal = json["upperValue"];
+    singleColumnScoreBoard.setData(playerName,playerScore,average,lowerVal,upperVal);
 }
 
 function backendAddedInput(data)

@@ -17,6 +17,7 @@ SOURCES += \
     DartApplication/RouteServices/routebyinputhint.cpp \
     DartsController/DCJsonServices/dcjsonbuilder.cpp \
     DartsController/DPController/dpcontroller.cpp \
+    DartsController/DartsScoreController/dscontroller.cpp \
     DartsControllerBuilder/Services/dcbuilder.cpp \
     DartsModelsContext/DMCInputServices/dartsinputbuilder.cpp \
     DartsModelsContext/DMCTournamentServices/dartwinnermodelbuilder.cpp \
@@ -35,8 +36,8 @@ SOURCES += \
     DartsModelsContext/Services/dartsmodelscontext.cpp \
     DartsModelsContext/Services/dartsjsonmodelscontext.cpp \
     dartsinputjsonbuilder.cpp \
-    dartspmcdatacontext.cpp \
     dartsroundindexbyattempt.cpp \
+    dartstabledatacontext.cpp \
     dartstablemodel.cpp \
     dartstableservices.cpp \
     DartsController/DCFinishesServices/dcinputfinishes.cpp \
@@ -47,9 +48,9 @@ SOURCES += \
     main/main.cpp \
     networkmanager.cpp \
     PlayerModelsContext/playermodelscontext.cpp \
+    stringlabelsmodel.cpp \
     tst_Dart2020.cpp \
-    urlparser.cpp \
-    verticalstringlabels.cpp
+    urlparser.cpp
 
 RESOURCES += qml.qrc
 
@@ -71,13 +72,22 @@ HEADERS += \
     DartApplication/ConnectBuilderServices/ConnectDCBuilder.h \
     DartApplication/RouteSLAs/abstractroutebyhint.h \
     DartApplication/RouteServices/routebyinputhint.h \
+    DartsController/DCIndexServices/dcindexesjsonbuilder.h \
     DartsController/DCInputSLAs/abstractdcinputevaluator.h \
     DartsController/DCInputSLAs/idcinputbuilder.h \
     DartsController/DCInputServices/dcinput.h \
-    DartsController/DCJsonSLAs/IDCJsonBuilder.h \
+    DartsController/DCInputStatsSLAs/dcinputstatsslas.h \
+    DartsController/DCInputStatsSLAs/idcstatsbuilder.h \
+    DartsController/DCInputStatsSLAs/dcinputstats.h \
+    DartsController/DCInputStatsServices/dcstatsjsonbuilder.h \
+    DartsController/DPCStatsServices/dpcstatsbuilder.h \
+    DartsController/DCJsonSLAs/AbstractDCJsonBuilder.h \
+    DartsController/DCJsonSLAs/idcmodeljsonbuilder.h \
+    DartsController/DCInputServices/dcinputjsonbuilder.h \
     DartsController/DCJsonServices/dcjsonbuilder.h \
     DartsController/DCMetaSLAs/idcmetajsonbuilder.h \
     DartsController/DCMetaSLAs/idcmetamodelbuilder.h \
+    DartsController/DCMetaServices/DCMetaInfoJsonBuilder.h \
     DartsController/DCMetaServices/dcmetainfo.h \
     DartsController/DCMetaServices/dcmetajsonbuilder.h \
     DartsController/DCMetaServices/dcmetamodelbuilder.h \
@@ -86,9 +96,11 @@ HEADERS += \
     DartsController/DCPlayerSLAs/idcplayerbuilder.h \
     DartsController/DCPlayerServices/DPCPlayerAllowancesContext.h \
     DartsController/DCScoresSLAs/idcscorebuilder.h \
+    DartsController/DCTurnValuesServices/DCTurnValuesJsonBuilder.h \
     DartsController/DPCServices/dpcinputbuilder.h \
     DartsController/DPCServices/dpcinputevaluator.h \
     DartsController/DSCServices/dscinputbuilder.h \
+    DartsController/DSCStatsServices/dscstatsbuilder.h \
     DartsControllerBuilder/Services/dcbuilder.h \
     DartsModelsContext/DMCInputSLAs/dartsinputslas.h \
     DartsModelsContext/DMCInputServices/countdartsinputs.h \
@@ -132,9 +144,6 @@ HEADERS += \
     DartsController/DCIndexSLAs/dcindexslas.h \
     DartsController/DCIndexServices/dcindexesjsonkeys.h \
     DartsController/DCInputSLAs/dcinputsslas.h \
-    DartsController/DCInputStatsSLAs/DCInputStatsSLAs.h \
-    DartsController/DCInputStatsSLAs/idcaveragecalc.h \
-    DartsController/DCInputStatsServices/dcaveragecalc.h \
     DartsController/DCJsonSLAs/dcjsonslas.h \
     DartsController/DCMetaSLAs/dcmetaslas.h \
     DartsController/DCMetaSLAs/idcstatus.h \
@@ -212,7 +221,6 @@ HEADERS += \
     dartsinputjsonbuilder.h \
     dartsinputjsonbuilder.h \
     dartspmccolumnindexbuilder.h \
-    dartspmcdatacontext.h \
     dartspmcsectionutility.h \
     dartspscIndexBuilder.h \
     dartsroundindexbyattempt.h \
@@ -220,6 +228,7 @@ HEADERS += \
     dartstablecreatecolumnindices.h \
     dartstablecreatecolumns.h \
     dartstablecreaterowindices.h \
+    dartstabledatacontext.h \
     dartstabledimensions.h \
     dartstablefillservice.h \
     dartstablemodel.h \
@@ -373,10 +382,10 @@ HEADERS += \
     DartApplication/RouteServices/routebytournamentgamemode.h \
     DartApplication/RouteServices/routeservicesprovider.h \
     setupqmlcontext.h \
+    stringlabelsmodel.h \
     testconfiguration.h \
     urlparser.h \
     testeventloop.h \
-    verticalstringlabels.h \
     FileOperationsContext/Services/writebytearray.h
 
 DISTFILES += \

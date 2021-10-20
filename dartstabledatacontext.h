@@ -1,12 +1,12 @@
-#ifndef DARTSPMCDATACONTEXT_H
-#define DARTSPMCDATACONTEXT_H
+#ifndef DARTSTABLEDATACONTEXT_H
+#define DARTSTABLEDATACONTEXT_H
 
 #include <qpair.h>
 #include "idartstabledatacontext.h"
 #include <qdebug.h>
 #include <QModelIndex>
 
-class DartsPMCDataContext : public IDartsTableDataContext
+class DartsTableDataContext : public IDartsTableDataContext
 {
 public:
     virtual void addItem(const Index &index, const Item &item) override;

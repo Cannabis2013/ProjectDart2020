@@ -12,6 +12,7 @@
 #include "igetdatafromdatacontext.h"
 #include "itablecolumnindexbuilder.h"
 #include "idartstablesectionutility.h"
+
 class DartsTableServices : public QAbstractTableModel
 {
 public:

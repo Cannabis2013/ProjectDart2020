@@ -13,7 +13,7 @@ function setInitialValue(value)
 
 function clearTable(){
     dataModel.clearData();
-    verticalHeaderModel.clear();
+    playerNamesModel.clear();
 }
 
 function updateScoreBoard()
@@ -43,10 +43,11 @@ function setViewPosition(x,y)
 
 function appendHeader(header)
 {
-    verticalHeaderModel.appendItem(header);
+    playerNamesModel.appendItem(header);
+    averageValuesModel.appendItem(0.0);
     var headerWidth = fontsMetric.width(header,tableFonts.headerFontFamily,tableFonts.headerFontSize);
     var headerHeight = fontsMetric.height(header,tableFonts.headerFontFamily,tableFonts.headerFontSize);
-    var i = verticalHeaderModel.indexOf(header);
+    var i = playerNamesModel.indexOf(header);
     tableHeightProvider.updateRowHeight(i,headerHeight);
     var scaledWidth = scaleWidth(headerWidth);
     updateVerticalHeaderWidth(scaledWidth);
@@ -63,8 +64,10 @@ function updateVerticalHeaderWidth(w)
         scoreBoardBody.updateVerticalHeaderWidth(w);
 }
 
-function setData(playerName,point ,score){
-    let indexOf = verticalHeaderModel.indexOf(playerName);
+function setData(playerName,point ,score, average){
+    let indexOf = playerNamesModel.indexOf(playerName);
+    if(!isNaN(average))
+        averageValuesModel.setItem(average,indexOf);
     var result = dataModel.insertData(indexOf,point,score);
     if(!result)
         print("Couldn't add data to model");
@@ -92,7 +95,7 @@ function setHeaderData(data,defaultVal)
     {
         var assignedPlayerName = data[i];
         singleColumnPointBoard.appendHeader(assignedPlayerName,Qt.Vertical);
-        singleColumnPointBoard.setData(assignedPlayerName,0,defaultVal);
+        singleColumnPointBoard.setData(assignedPlayerName,0,defaultVal,0.0);
     }
 }
 

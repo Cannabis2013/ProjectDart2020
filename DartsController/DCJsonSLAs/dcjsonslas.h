@@ -2,7 +2,7 @@
 #define DCJSONSLAS_H
 #include "DartsController/DCJsonSLAs/iaddtotalscoretodartsinputsjson.h"
 #include "DartsController/DCJsonSLAs/iaddplayernamestojson.h"
-#include "IDCJsonBuilder.h"
+#include "AbstractDCJsonBuilder.h"
 
 class DCJsonSLAs
 {
@@ -23,16 +23,16 @@ public:
     {
         _addTotalScoresToJson = service;
     }
-    IDCJsonBuilder *jsonBuilder() const
+    AbstractDCJsonBuilder *jsonBuilder() const
     {
         return _jsonResponseBuilder;
     }
-    void setJsonResponseBuilder(IDCJsonBuilder *newJsonResponseBuilder)
+    void setJsonResponseBuilder(AbstractDCJsonBuilder *newJsonResponseBuilder)
     {
         _jsonResponseBuilder = newJsonResponseBuilder;
     }
 private:
-    IDCJsonBuilder *_jsonResponseBuilder;
+    AbstractDCJsonBuilder *_jsonResponseBuilder;
     IAddPlayerNamesToJson *_addPlayerNamesToJson;
     IAddTotalScoreToDartsInputsJson *_addTotalScoresToJson;
 };

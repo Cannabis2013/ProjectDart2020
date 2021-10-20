@@ -40,11 +40,11 @@ void DPController::setScoresServices()
 void DPController::setJsonServices()
 {
     setAddTotalScoresToJson(new AddTotalScoreToDartsInputsAsJson);
-    setJsonResponseBuilder(new DCJsonBuilder);
+    setJsonResponseBuilder(createJsonBuilder());
 }
 void DPController::setStatisticsServices()
 {
-    setCalcInputAvg(new DCAverageCalc);
+    setStatsBuilder(new DPCStatsBuilder);
 }
 void DPController::setFinishesServices()
 {
@@ -81,4 +81,14 @@ void DPController::setIndexServices()
 void DPController::setTurnValuesServices()
 {
     setTurnValuesBuilder(new CreateDPCTurnValues);
+}
+AbstractDCJsonBuilder *DPController::createJsonBuilder()
+{
+    auto builder = new DCJsonBuilder;
+    builder->setInputJsonBuilder(new DCInputJsonBuilder);
+    builder->setInputStatJsonBuilder(new DCStatsJsonBuilder);
+    builder->setIndexesJsonBuilder(new DCIndexesJsonBuilder);
+    builder->setMetaJsonBuilder(new DCMetaInfoJsonBuilder);
+    builder->setTurnValuesJsonBuilder(new DCTurnValuesJsonBuilder);
+    return builder;
 }

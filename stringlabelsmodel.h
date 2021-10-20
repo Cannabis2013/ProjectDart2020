@@ -1,5 +1,5 @@
-#ifndef VERTICALSTRINGLABELS_H
-#define VERTICALSTRINGLABELS_H
+#ifndef STRINGLABELSMODEL_H
+#define STRINGLABELSMODEL_H
 
 #include <qobject.h>
 #include "iheaderlabels.h"
@@ -7,12 +7,13 @@
 #define OUT_OF_RANGE_MSG "Index out of range";
 #define ITEM_NOT_FOUND_MSG "Item not found";
 
-class VerticalStringLabels :
+class StringLabelsModel :
         public QObject,
         public IHeaderLabels<QString>
 {
     Q_OBJECT
 public:
+    Q_INVOKABLE void setItem(const QString &item, const int &index) override;
     Q_INVOKABLE void appendItem(const QString &item) override;
     Q_INVOKABLE void appendItems(const QVector<QString> &items) override;
     Q_INVOKABLE void removeItem(const int &index) override;

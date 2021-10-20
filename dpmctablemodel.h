@@ -7,7 +7,7 @@
 #include "dartstablefillservice.h"
 #include "dartstablecreatecolumnindices.h"
 #include "dartstablecreaterowindices.h"
-#include "dartspmcdatacontext.h"
+#include "dartstabledatacontext.h"
 #include "dartstablecreatecolumns.h"
 #include "createjsonfromdp.h"
 #include "createqmlvariants.h"
@@ -27,7 +27,7 @@ public:
         setCreateColumns(new DartsTableCreateColumns);
         setCreateColumnIndiceValues(new DartsTableCreateColumnIndices);
         setCreateRowsIndices(new DartsTableCreateRowIndices);
-        setDataContext(new DartsPMCDataContext);
+        setDataContext(new DartsTableDataContext);
         setTableItemBuilder(new CreateJsonFromDP);
         setQMLVariantsContext(new CreateQMLVariants);
         setGetDataFromDataContext(new DartsDataContextItemUtility);

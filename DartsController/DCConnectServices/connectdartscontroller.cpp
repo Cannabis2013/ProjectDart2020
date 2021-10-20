@@ -87,7 +87,7 @@ void ConnectDartsController::connectController(AbstractGameController *controlle
     QObject::connect(dartscontroller,&AbstractDartsController::sendCurrentIndexes,
                      modelsContext,&AbstractDartsModelsContext::updateTournamentIndexes);
     QObject::connect(modelsContext,&AbstractDartsModelsContext::tournamentIndexesUpdated,
-                     dartscontroller,&AbstractDartsController::handleIndexesUpdated);
+                     dartscontroller,&AbstractDartsController::scoreAddedSuccess);
     QObject::connect(dartscontroller,&AbstractDartsController::scoreAddedSuccess,
                      application,&AbstractApplicationInterface::addedInput);
     // External context requests state from controller
