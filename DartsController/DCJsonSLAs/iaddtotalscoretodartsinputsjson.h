@@ -9,6 +9,6 @@ class IAddTotalScoreToDartsInputsJson
 {
 public:
     typedef QVector<const DCInput> InputModels;
-    virtual void addTotalScoreToInputs(QByteArray &json, const int &initialPoint) const = 0;
+    virtual void addRemainingScoreToInputs(QByteArray &json, const int &initialPoint) const = 0;
 };
 #endif // IADDTOTALSCORETODARTSPOINTS_H

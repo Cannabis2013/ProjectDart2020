@@ -11,59 +11,64 @@ class DSCInputBuilder : public IDCInputBuilder
 {
 public:
     virtual DCInput buildInput(const QByteArray &json, const IDCPlayerService *playerContext,
-                               const IDCGetScore *getScoreContext,const IDCIndexService *indexContext,
+                               const IDCGetScore *getScoreContext,const IDCIndexController *indexContext,
                                IDCScoresService *scoresContext) const override
     {
         auto jsonObject = toJsonObject(json);
-        auto input = toModel(jsonObject);
+        auto input = toInput(jsonObject);
         input.playerId = playerContext->currentPlayerId(indexContext,scoresContext);
         input.playerName = playerContext->currentPlayerName(indexContext,scoresContext);
         input.score = getScoreContext->getScore(input);
+        input.remainingScore = scoresContext->scoreModel(input.playerId).remainingScore;
         return input;
     }
-    DCInput buildInput(const QByteArray &json) const override
+    DCInput buildInput(const QByteArray &json, const int &initialScore) const override
     {
-        return toModel(toJsonObject(json));
+        return toInput(toJsonObject(json),initialScore);
     }
-    virtual DCInput buildInput(const DCContext::DCScoreModel &scoreModel) const override
+    virtual DCInput buildInput(const DCScoreModel &scoreModel) const override
     {
         DCInput inputModel;
         inputModel.playerId = scoreModel.playerId;
         inputModel.playerName = scoreModel.playerName;
-        inputModel.remainingScore = scoreModel.totalScore;
+        inputModel.remainingScore = scoreModel.remainingScore;
         return inputModel;
     }
     virtual QVector<DCInput> buildInputs(IDCScoresService *scoresService) const override
     {
-        QVector<DCInput> models;
-        for (const auto &model : scoresService->scoreModels())
-            models << toModel(model);
-        return models;
+        QVector<DCInput> scoreModels;
+        for (const auto &scoreModel : scoresService->scoreModels())
+            scoreModels << toInput(scoreModel);
+        return scoreModels;
     }
     virtual QVector<DCInput> buildInputs(const QByteArray &json) const override
     {
         QVector<DCInput> models;
         auto arr = toJsonArray(json);
         for (const auto &jsonVal : arr)
-            models << toModel(jsonVal.toObject());
+            models << toInput(jsonVal.toObject());
         return models;
     }
 private:
-    DCInput toModel(const DCContext::DCScoreModel &model) const
+    DCInput toInput(const DCScoreModel &scoreModel) const
     {
-        DCInput scoreModel;
-        scoreModel.playerId = model.playerId;
-        scoreModel.playerName = model.playerName;
-        scoreModel.remainingScore = model.totalScore;
-        return scoreModel;
+        DCInput input;
+        input.playerId = scoreModel.playerId;
+        input.playerName = scoreModel.playerName;
+        input.remainingScore = scoreModel.remainingScore;
+        return input;
     }
-    DCInput toModel(const QJsonObject &obj) const
+    DCInput toInput(const QJsonObject &obj, const int &initialScore = -1) const
     {
         DCInput input;
         input.playerId = toId(obj.value("inputPlayerId").toString());
         input.playerName = obj.value("inputPlayerName").toString();
         input.score = obj.value("score").toInt();
         input.remainingScore = obj.value("totalScore").toInt();
+        input.middle = obj.value("middleValue").toDouble(0);
+        input.min = obj.value("currentMinimum").toInt(0);
+        input.max = obj.value("currentMaximum").toInt(0);
+        input.remainingScore = obj.value("remainingScore").toInt(initialScore);
         return input ;
     }
     QJsonObject toJsonObject(const QByteArray &json) const

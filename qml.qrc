@@ -106,8 +106,9 @@
         <file>qml/BoardDelegateContentRect.qml</file>
         <file>qml/DPMCPointRect.qml</file>
         <file>qml/BoxedRect.qml</file>
-        <file>qml/DPSCScoreBoard.qml</file>
+        <file>qml/DartsScoreBoard.qml</file>
         <file>qml/DartsTurnControllerView.qml</file>
+        <file>qml/DartsStatsView.qml</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/dartpic.jpg</file>

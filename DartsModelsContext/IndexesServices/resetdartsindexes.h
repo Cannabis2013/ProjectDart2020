@@ -10,17 +10,17 @@ public:
                                   IDartsIndexesDbContext *dbContext) const
     {
         auto models = dbContext->models();
-        auto indexes = getModelByTournamentId(tournamentId,models);
-        auto indexOf = dbContext->indexOf(indexes);
-        auto initialIndexes = builderContext->buildIndexes(tournamentId);
+        auto index = getModelByTournamentId(tournamentId,models);
+        auto indexOf = dbContext->indexOf(index);
+        auto initialIndexes = builderContext->index(tournamentId);
         dbContext->replace(indexOf,initialIndexes);
         return dbContext;
     };
 private:
-    IDartsIndexes *getModelByTournamentId(const QUuid &tournamentId, const QVector<IModel<QUuid>*> &models) const
+    IDartsIndex *getModelByTournamentId(const QUuid &tournamentId, const QVector<IModel<QUuid>*> &models) const
     {
         for (auto &model : models) {
-            auto indexes = dynamic_cast<IDartsIndexes*>(model);
+            auto indexes = dynamic_cast<IDartsIndex*>(model);
             if(indexes->tournamentId() == tournamentId)
                 return indexes;
         }

@@ -7,6 +7,6 @@ class IDCModelJsonBuilder
 {
 public:
     typedef TModel Model;
-    virtual void json(QJsonObject &obj,const Model &model) const = 0;
+    virtual void setJsonValues(QJsonObject &obj,const Model &model) const = 0;
 };
 #endif // IDCMODELJSONBUILDER_H

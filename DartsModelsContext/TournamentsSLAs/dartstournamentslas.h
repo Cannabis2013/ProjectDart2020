@@ -32,7 +32,7 @@ public:
     {
         _getTournamentIds = newGetTournamentIds;
     }
-    IDartsMetaModelBuilder *metaModelBuilder() const
+    IDartsMetaModelBuilder *dartsMetaBuilder() const
     {
         return _metaModelBuilder;
     }

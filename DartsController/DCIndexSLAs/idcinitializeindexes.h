@@ -1,12 +1,12 @@
 #ifndef IDCINITIALIZEINDEXES_H
 #define IDCINITIALIZEINDEXES_H
 
-#include "DartsController/DCIndexSLAs/idcindexservice.h"
-#include "DartsController/DCIndexServices/dcindexes.h"
+#include "DartsController/DCIndexSLAs/idcindexcontroller.h"
+#include "DartsController/DCIndexServices/dcindex.h"
 
 class IDCInitializeIndexes
 {
 public:
-    virtual void initialize(const DCIndexes &indexes, IDCIndexService *service) const = 0;
+    virtual void initialize(const DCIndex &indexes, IDCIndexController *service) const = 0;
 };
 #endif // IINITIALIZEINDEXES_H

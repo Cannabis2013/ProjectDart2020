@@ -17,8 +17,9 @@ public:
         DisplayHint = 0x2,
         allHints = HiddenHint | DisplayHint
     };
-    virtual IModel<QUuid> *createInput(const QByteArray &json) const override;
-    virtual QVector<IModel<QUuid> *> createInputs(const QByteArray &json) const override;
+    IModel<QUuid> *createInput(const QUuid &tournamentId, const QUuid &playerId, const int &remainingScore) const override;
+    IModel<QUuid> *createInput(const QByteArray &json) const override;
+    QVector<IModel<QUuid> *> createInputs(const QByteArray &json) const override;
 private:
     const QJsonObject toJsonObject(const QByteArray &json) const;
     const QJsonArray toJsonArray(const QByteArray &json) const;

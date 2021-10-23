@@ -1,7 +1,7 @@
 #ifndef GETDARTSINDEXESMODEL_H
 #define GETDARTSINDEXESMODEL_H
 
-#include "DartsModelsContext/IndexesDbServices/dartsindexes.h"
+#include "DartsModelsContext/IndexesDbServices/dartsindex.h"
 #include "DartsModelsContext/IndexesDbSLAs/igetdartsindexesmodel.h"
 class GetDartsIndexesModel : public IGetDartsIndexesModel
 {
@@ -18,7 +18,7 @@ public:
 private:
     bool matchByTournamentId(IModel<QUuid> *model, const QUuid &tournamentId) const
     {
-        return dynamic_cast<DartsIndexes*>(model)->tournamentId() == tournamentId;
+        return dynamic_cast<DartsIndex*>(model)->tournamentId() == tournamentId;
     }
 };
 

@@ -1,10 +1,10 @@
-#ifndef DCINDEXES_H
-#define DCINDEXES_H
+#ifndef DCINDEX_H
+#define DCINDEX_H
 
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 
-struct DCIndexes
+struct DCIndex
 {
     int totalTurns;
     int turnIndex;

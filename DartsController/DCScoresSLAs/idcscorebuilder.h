@@ -9,6 +9,6 @@
 class IDCScoreBuilder
 {
 public:
-    virtual QVector<DCContext::DCScoreModel> buildScores(const QVector<DCPlayer>& models, const int &initialScore) = 0;
+    virtual QVector<DCScoreModel> buildScores(const QVector<DCPlayer>& models, const int &initialScore) = 0;
 };
 #endif // IDCSCOREBUILDER_H

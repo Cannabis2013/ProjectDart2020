@@ -3,7 +3,7 @@
 
 #include "modelsdbioservices.h"
 #include "DartsModelsContext/IndexesDbSLAs/idartsindexesdbcontext.h"
-#include "DartsModelsContext/IndexesDbSLAs/dartsindexesdbslas.h"
+#include "DartsModelsContext/IndexesDbSLAs/dartsindexdbslas.h"
 
 class DartsIndexesDbContext : public IDartsIndexesDbContext,
                               protected ModelsDbIOSLAs
@@ -50,7 +50,7 @@ public:
     }
     virtual void fetchModels(const IDartsIndexesBuilder* modelBuilder)
     {
-        _indexesModels = modelBuilder->indexesModels(readJsonFromFile()->read());
+        _indexesModels = modelBuilder->indexes(readJsonFromFile()->read());
     }
     virtual void saveChanges(const IDartsIndexesJsonBuilder *jsonBuilder)
     {

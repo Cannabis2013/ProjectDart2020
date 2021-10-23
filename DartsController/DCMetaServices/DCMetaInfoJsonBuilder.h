@@ -8,7 +8,7 @@
 class DCMetaInfoJsonBuilder : public IDCModelJsonBuilder<DCMetaInfo>
 {
 public:
-    virtual void json(QJsonObject &obj, const Model &metaInfo) const override
+    virtual void setJsonValues(QJsonObject &obj, const Model &metaInfo) const override
     {
         obj["tournamentId"] = metaInfo.tournamentId.toString(QUuid::WithoutBraces);
         obj["currentPlayerId"] = metaInfo.currentPlayerId.toString(QUuid::WithoutBraces);

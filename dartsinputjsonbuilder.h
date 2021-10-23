@@ -11,12 +11,14 @@
 class DartsInputJsonBuilder : public IDartsInputJsonBuilder
 {
 public:
-    virtual QByteArray dartsInputJson(IModel<QUuid> *model) const override;
+    virtual QByteArray dartsInputJson(IModel<QUuid> *model, const DartsMetaModel &meta) const override;
     QByteArray dartsInputsJson(const QVector<IModel<QUuid>*> &models) const override;
 private:
-    QJsonArray createJsonArray(const QVector<IModel<QUuid>*> &models) const;
+    QJsonArray toJsonArray(const QVector<IModel<QUuid>*> &models) const;
     QJsonObject toJsonObject(IModel<QUuid>* model) const;
+    QJsonObject toDefaultJsonObject(const DartsMetaModel &meta) const;
     QByteArray toByteArray(const QJsonArray &arr) const;
     QByteArray toByteArray(const QJsonObject &obj) const;
+    QString toString(const QUuid &id) const;
 };
 #endif // DARTSINPUTJSONASSEMBLER_H

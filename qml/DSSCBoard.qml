@@ -2,7 +2,7 @@ import QtQuick 2.15
 import CustomItems 1.0
 import DartsTableUtils 1.0
 import "dsscboardscripts.js" as ScoreScripts
-DPSCScoreBoard {
+DartsScoreBoard {
     id: scoreBoardBody
     height: 128
     onWidthChanged: ScoreScripts.updateScoreBoard()
@@ -35,7 +35,6 @@ DPSCScoreBoard {
     StringsModel{
         id: upperValuesModel
     }
-
     columnWidthProvider: function(column){
         return tableDisplayWidth;
     }

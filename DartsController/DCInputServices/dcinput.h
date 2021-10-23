@@ -11,6 +11,10 @@ struct DCInput
     int modKeyCode;
     int score = 0;
     int remainingScore = 0;
+    int remainingScoreCand = 0;
+    double middle = 0;
+    int min = 0;
+    int max = 0;
     QUuid playerId;
     QString playerName;
 };

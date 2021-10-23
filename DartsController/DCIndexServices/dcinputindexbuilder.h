@@ -1,16 +1,16 @@
 #ifndef DCINDEXESBUILDER_H
 #define DCINDEXESBUILDER_H
 
-#include "dcindexes.h"
-#include "DartsController/DCIndexSLAs/idcindexservice.h"
-#include "DartsController/DCIndexSLAs/idcindexesbuilder.h"
+#include "dcindex.h"
+#include "DartsController/DCIndexSLAs/idcindexcontroller.h"
+#include "DartsController/DCIndexSLAs/idcinputindexbuilder.h"
 
-class DCIndexesBuilder : public IDCIndexesBuilder
+class DCInputIndexBuilder : public IDCInputIndexBuilder
 {
 public:
-    DCIndexes buildIndexes(const QByteArray &json) const override
+    DCIndex index(const QByteArray &json) const override
     {
-        DCIndexes indexes;
+        DCIndex indexes;
         auto jsonObject = toJsonObject(json);
         indexes.totalTurns = jsonObject.value("totalTurns").toInt();
         indexes.turnIndex = jsonObject.value("turnIndex").toInt();
@@ -19,9 +19,9 @@ public:
         indexes.attemptIndex = jsonObject.value("attemptIndex").toInt();
         return indexes;
     }
-    DCIndexes buildIndexes(const IDCIndexService *indexService) const override
+    DCIndex index(const IDCIndexController *indexService) const override
     {
-        DCIndexes indexes;
+        DCIndex indexes;
         indexes.totalTurns = indexService->totalIndex();
         indexes.turnIndex = indexService->turnIndex();
         indexes.roundIndex = indexService->roundIndex();

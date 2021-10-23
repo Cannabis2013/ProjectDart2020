@@ -4,20 +4,20 @@
 class DCGetScoreCand : public IDCGetScoreCand
 {
 public:
-    virtual int scoreCandidate(const int &modelIndex, const int &scoreCandidate, IDCScoresService *scoresService) const override
+    virtual int calc(const int &modelIndex, const int &scoreCandidate, IDCScoresService *scoresService) const override
     {
-        auto tuple = getPlayerTupleByIndex(modelIndex,scoresService);
-        return calcCandidate(tuple,scoreCandidate);
+        auto scoreModel = this->scoreModel(modelIndex,scoresService);
+        return calcCandidate(scoreModel,scoreCandidate);
     }
 private:
-    DCContext::DCScoreModel getPlayerTupleByIndex(const int &modelIndex, IDCScoresService *scoresService) const
+    DCScoreModel scoreModel(const int &modelIndex, IDCScoresService *scoresService) const
     {
-        auto tuples = scoresService->scoreModels();
-        return tuples.at(modelIndex);
+        auto scoreModels = scoresService->scoreModels();
+        return scoreModels.at(modelIndex);
     }
-    int calcCandidate(const DCContext::DCScoreModel tuple, const int &scoreCandidate) const
+    int calcCandidate(const DCScoreModel scoreModel, const int &scoreCandidate) const
     {
-        auto score = tuple.totalScore;
+        auto score = scoreModel.remainingScore;
         auto totalScoreCandidate = score - scoreCandidate;
         if(totalScoreCandidate < 0)
             return score;

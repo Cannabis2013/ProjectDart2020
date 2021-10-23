@@ -57,7 +57,6 @@ ScoreBoardInterface{
     // Data model visualization related
     property double fontScale: 1
     readonly property int tableDisplayWidth: scoreBoardTableView.width
-
     GridLayout
     {
         id: mainLayout

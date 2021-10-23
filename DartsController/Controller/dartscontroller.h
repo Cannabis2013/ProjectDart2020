@@ -29,7 +29,7 @@ public slots:
     void beginInitialize() override;
     void initializeControllerIndexes(const QByteArray& json) override;
     void initializePlayerDetails(const QByteArray &json) override;
-    void initializeScores(const QByteArray &json) override;
+    void initializePlayerScores(const QByteArray &json) override;
     void initializeWinnerDetails(const QByteArray &json) override;
     void handleOrderedInputs(const QByteArray &json) override;
     void start() override;
@@ -37,19 +37,18 @@ public slots:
     void undoTurn() override;
     void redoTurn() override;
     void handleRequestForCurrentTournamentMetaData() override;
-    void createDartsScores() override;
+    void createScores() override;
     void getOrderedInputsWithTotalScores() override;
     void handleRequestFromUI() override;
     void handleUserInput(const QByteArray &json) override;
-    void handleUserInputAdded(const QByteArray& json) override;
+    void userInputAdded(const QByteArray& json) override;
     void handleResetTournament() override;
     void undoSuccess(const QByteArray &json) override;
     void redoSuccess(const QByteArray &json) override;
-    void persistInput(const DCInput &input) override;
+    void persistInput(DCInput &input) override;
     void nullifyAndPersistInput(DCInput &input) override;
-    void declareWinner(const DCInput &input) override;
+    void declareWinner(DCInput &input) override;
 private:
-    void updateTotalScore(DCInput &input);
     void createAndSendWinnerValues();
     void sendCurrentTurnValues();
 };

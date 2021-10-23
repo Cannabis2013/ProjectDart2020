@@ -2,12 +2,13 @@
 #define IDARTSINPUTJSONBUILDER_H
 
 #include <quuid.h>
+#include "DartsModelsContext/TournamentModels/dartsmetamodel.h"
 #include "ModelsContext/MCModelsSLAs/imodel.h"
 
 class IDartsInputJsonBuilder
 {
 public:
-    virtual QByteArray dartsInputJson(IModel<QUuid> *model) const = 0;
+    virtual QByteArray dartsInputJson(IModel<QUuid> *model, const DartsMetaModel &meta = DartsMetaModel()) const = 0;
     virtual QByteArray dartsInputsJson(const QVector<IModel<QUuid>*> &models) const = 0;
 };
 #endif // ICREATEJSONFROMDARTSINPUTS_H

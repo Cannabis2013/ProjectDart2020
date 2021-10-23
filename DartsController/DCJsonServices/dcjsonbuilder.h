@@ -6,13 +6,13 @@ class DCJsonBuilder : public AbstractDCJsonBuilder
 {
 public:
     QByteArray json(const DCMetaInfo &metaInfo) const override;
-    QByteArray json(const QVector<DCInput> &inputs) const override;
+    QByteArray json(const QVector<DCScoreModel> &scoreModels, const QVector<DCPlayerStat> &playerStats) const override;
     QByteArray json(const DCInput &input, const DCTurnValues &turnValues, const DCMetaInfo &metaInfo) const override;
     QByteArray json(const DCTurnValues &turnValues, const DCMetaInfo &metaInfo = DCMetaInfo()) const override;
-    QByteArray json(const DCInput &input, const DCTurnValues &turnValues, const DCIndexes &indexes,
-                    const DCInputStat &stats, const DCMetaInfo &metaInfo) const override;
-    QByteArray json(const DCInput &input, const DCIndexes &indexes, const DCMetaInfo &metaInfo) const override;
-    QByteArray json(const DCIndexes &indexes, const DCMetaInfo &metaInfo) const override;
+    QByteArray json(const DCInput &input, const DCTurnValues &turnValues, const DCIndex &indexes, const DCMetaInfo &metaInfo) const override;
+    QByteArray json(const DCInput &input, const DCIndex &indexes, const DCMetaInfo &metaInfo) const override;
+    QByteArray json(const DCIndex &indexes, const DCMetaInfo &metaInfo) const override;
+    QByteArray json(const DCIndex &regIndex, const DCIndex &inputIndex, const DCMetaInfo &metaInfo) const override;
 };
 
 #endif // DCJSONBUILDER_H

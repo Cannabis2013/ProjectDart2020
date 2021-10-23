@@ -1,9 +1,9 @@
-#ifndef DARTSINDEXES_H
-#define DARTSINDEXES_H
+#ifndef DARTSINDEX_H
+#define DARTSINDEX_H
 
-#include "DartsModelsContext/IndexesDbSLAs/idartsindexes.h"
+#include "DartsModelsContext/IndexesDbSLAs/idartsindex.h"
 
-class DartsIndexes : public IDartsIndexes
+class DartsIndex : public IDartsIndex
 {
 public:
     int totalTurns() const override
@@ -50,7 +50,7 @@ public:
     {
         return _id;
     }
-    virtual DartsIndexes *setId(const QUuid &id) override
+    virtual DartsIndex *setId(const QUuid &id) override
     {
         _id = id;
         return this;
@@ -72,4 +72,4 @@ private:
     int _setIndex = 0;
     int _attemptIndex = 0;
 };
-#endif // DARTSINDEXES_H
+#endif // DARTSINDEX_H

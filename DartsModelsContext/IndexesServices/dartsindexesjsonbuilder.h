@@ -1,7 +1,7 @@
 #ifndef DARTSINDEXESJSONBUILDER_H
 #define DARTSINDEXESJSONBUILDER_H
 
-#include "DartsModelsContext/IndexesDbSLAs/idartsindexes.h"
+#include "DartsModelsContext/IndexesDbSLAs/idartsindex.h"
 #include "DartsModelsContext/IndexesDbSLAs/idartsindexesjsonbuilder.h"
 #include <QJsonArray>
 #include <QJsonObject>
@@ -28,7 +28,7 @@ private:
     }
     QJsonObject toJsonObject(IModel<QUuid> *model) const
     {
-        auto indexesModel = dynamic_cast<IDartsIndexes*>(model);
+        auto indexesModel = dynamic_cast<IDartsIndex*>(model);
         QJsonObject obj;
         obj["id"] = model->id().toString(QUuid::WithoutBraces);
         obj["tournamentId"] = indexesModel->tournamentId().toString(QUuid::WithoutBraces);

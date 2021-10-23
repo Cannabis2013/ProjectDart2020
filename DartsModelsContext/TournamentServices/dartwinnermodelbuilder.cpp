@@ -1,4 +1,4 @@
-#include "DartsModelsContext/DMCTournamentServices/dartwinnermodelbuilder.h"
+#include "DartsModelsContext/TournamentServices/dartwinnermodelbuilder.h"
 
 DartWinnerModelBuilder::DataModel DartWinnerModelBuilder::create(const QByteArray &json) const
 {

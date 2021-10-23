@@ -29,7 +29,7 @@ private:
         }
         return newArr;
     }
-    QString getPlayerName(const QUuid &id, const QVector<DCContext::DCScoreModel> &scoreModels) const
+    QString getPlayerName(const QUuid &id, const QVector<DCScoreModel> &scoreModels) const
     {
         for (const auto &scoreModel : scoreModels) {
             if(scoreModel.playerId == id)

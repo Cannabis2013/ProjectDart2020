@@ -9,7 +9,7 @@ class DPCInputBuilder : public IDCInputBuilder
 {
 public:
     virtual DCInput buildInput(const QByteArray &json, const IDCPlayerService *playerContext,
-                               const IDCGetScore *getScoreContext, const IDCIndexService *indexContext,
+                               const IDCGetScore *getScoreContext, const IDCIndexController *indexContext,
                                IDCScoresService *scoresContext) const override
     {
         auto jsonObject = toJsonObject(json);
@@ -19,12 +19,12 @@ public:
         input.score = getScoreContext->getScore(input);
         return input;
     }
-    DCInput buildInput(const QByteArray &json) const override
+    DCInput buildInput(const QByteArray &json, const int &initialScore) const override
     {
         auto jsonObject = toJsonObject(json);
-        return toModel(jsonObject);
+        return toModel(jsonObject,initialScore);
     }
-    virtual DCInput buildInput(const DCContext::DCScoreModel &scoreModel) const override
+    virtual DCInput buildInput(const DCScoreModel &scoreModel) const override
     {
         return toModel(scoreModel);
     }
@@ -44,23 +44,26 @@ public:
         return models;
     }
 private:
-    DCInput toModel(const QJsonObject &obj) const
+    DCInput toModel(const QJsonObject &obj, const int &initialScore = -1) const
     {
         DCInput input;
-        input.playerId = toId(obj.value("inputPlayerId").toString());
-        input.playerName = obj.value("inputPlayerName").toString();
-        input.score = obj.value("score").toInt();
-        input.remainingScore = obj.value("totalScore").toInt();
-        input.point = obj.value("point").toInt();
-        input.modKeyCode = obj.value("modKeyCode").toInt();
+        input.playerId = toId(obj.value("inputPlayerId").toString(""));
+        input.playerName = obj.value("inputPlayerName").toString("");
+        input.score = obj.value("score").toInt(0);
+        input.remainingScore = obj.value("totalScore").toInt(initialScore);
+        input.point = obj.value("point").toInt(0);
+        input.modKeyCode = obj.value("modKeyCode").toInt(0);
+        input.middle = obj.value("middleValue").toDouble(0);
+        input.min = obj.value("currentMinimum").toInt(0);
+        input.max = obj.value("currentMaximum").toInt(0);
         return input;
     }
-    DCInput toModel(const DCContext::DCScoreModel &scoreModel) const
+    DCInput toModel(const DCScoreModel &scoreModel) const
     {
         DCInput input;
         input.playerId = scoreModel.playerId;
         input.playerName = scoreModel.playerName;
-        input.remainingScore = scoreModel.totalScore;
+        input.remainingScore = scoreModel.remainingScore;
         return input;
     }
     QJsonObject toJsonObject(const QByteArray &json) const

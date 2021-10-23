@@ -1,10 +1,10 @@
-#ifndef IDARTSINDEXES_H
-#define IDARTSINDEXES_H
+#ifndef IDARTSINDEX_H
+#define IDARTSINDEX_H
 
 #include "ModelsContext/MCModelsSLAs/imodel.h"
 #include <quuid.h>
 
-class IDartsIndexes : public IModel<QUuid>
+class IDartsIndex : public IModel<QUuid>
 {
 public:
     virtual int totalTurns() const = 0;
@@ -20,4 +20,4 @@ public:
     virtual QUuid tournamentId() const = 0;
     virtual void setTournamentId(const QUuid &id) = 0;
 };
-#endif // IDARTSINDEXES_H
+#endif // IDARTSINDEX_H

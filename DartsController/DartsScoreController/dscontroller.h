@@ -2,11 +2,10 @@
 #define DSCONTROLLER_H
 #include "DartsController/Controller/dartscontroller.h"
 #include "DartsController/DCScoresServices/dccreatescoremodels.h"
-#include "DartsController/DCIndexServices/dcindexesbuilder.h"
+#include "DartsController/DCIndexServices/dcinputindexbuilder.h"
 #include "DartsController/DCIndexServices/dcindexredo.h"
 #include "DartsController/DCPlayerServices/dcplayerservice.h"
 #include "DartsController/DCIndexServices/dcresetindexes.h"
-#include "DartsController/DCScoresServices/dcsubtractscore.h"
 #include "DartsController/DCIndexServices/dcindexundo.h"
 #include <quuid.h>
 #include "DartsController/DCPlayerServices/dcwinnerkeys.h"
@@ -20,8 +19,7 @@
 #include "DartsController/DCPlayerServices/dcplayerbuilder.h"
 #include "DartsController/DCScoresServices/dcscoresservice.h"
 #include "DartsController/DCScoresServices/dcupdatescoremodels.h"
-#include "DartsController/DCScoresServices/dccreatecandidatemodels.h"
-#include "DartsController/DCScoresServices/dcaddscore.h"
+#include "DartsController/DCScoresServices/dcupdateinputdetails.h"
 #include "DartsController/DCScoresServices/dcgetscorecand.h"
 #include "DartsController/DCIndexServices/dcinitializeindexservice.h"
 #include "DartsController/DSCServices/getscorefromdscinput.h"
@@ -42,11 +40,15 @@
 #include "DartsController/DCJsonServices/dcjsonbuilder.h"
 #include "DartsController/DCMetaServices/dcmetamodelbuilder.h"
 #include "DartsController/DCInputServices/dcinputjsonbuilder.h"
-#include "DartsController/DCIndexServices/dcindexesjsonbuilder.h"
+#include "DartsController/DCIndexServices/dcindexjsonbuilder.h"
 #include "DartsController/DCMetaServices/DCMetaInfoJsonBuilder.h"
 #include "DartsController/DCTurnValuesServices/DCTurnValuesJsonBuilder.h"
-#include "DartsController/DSCStatsServices/dscstatsbuilder.h"
-#include "DartsController/DCInputStatsServices/dcstatsjsonbuilder.h"
+#include "DartsController/DSCStatsServices/dscscorestats.h"
+#include "DartsController/DCIndexServices/dscreqindexbuilder.h"
+#include "DartsController/DCScoresServices/dcscorejsonbuilder.h"
+#include "DartsController/DCScoresServices/dcscorejsonbuilder.h"
+#include "DartsController/DCIndexServices/dcplayerstatsjsonbuilder.h"
+#include "DartsController/DCIndexServices/dcreqindexjsonbuilder.h"
 class DSController : public DartsController
 {
 public:

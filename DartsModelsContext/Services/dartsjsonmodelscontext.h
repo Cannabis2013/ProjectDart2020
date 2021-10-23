@@ -6,7 +6,7 @@
 #include "DartsModelsContext/DMCInputServices/removedartsinputsfromdb.h"
 #include "FileOperationsContext/Services/readbytearray.h"
 #include "FileOperationsContext/Services/writebytearray.h"
-#include "DartsModelsContext/DMCTournamentServices/dartsmetamodelbuilder.h"
+#include "DartsModelsContext/TournamentServices/dartsmetamodelbuilder.h"
 // Input models includes
 #include "DartsModelsContext/DMCInputServices/getdartsinputmodels.h"
 #include "DartsModelsContext/DMCInputServices/sortdartsinputs.h"
@@ -21,17 +21,17 @@
 #include "DartsModelsContext/IndexesDbServices/dartsindexesdbcontext.h"
 #include "DartsModelsContext/IndexesServices/updatedartsindexes.h"
 #include "DartsModelsContext/IndexesServices/dartsindexesjsonbuilder.h"
-#include "DartsModelsContext/IndexesDbServices/dartsindexesbuilder.h"
+#include "DartsModelsContext/IndexesDbServices/dartsindexbuilder.h"
 #include "DartsModelsContext/IndexesDbServices/getdartsindexesmodel.h"
 #include "DartsModelsContext/IndexesServices/resetdartsindexes.h"
 // Tournament models includes
-#include "DartsModelsContext/DMCTournamentServices/resetdartstournament.h"
+#include "DartsModelsContext/TournamentServices/resetdartstournament.h"
 #include "DartsModelsContext//TournamentsDbServices/dartsdbcontext.h"
-#include "DartsModelsContext/DMCTournamentServices/getdartstournamentfromdb.h"
-#include "DartsModelsContext/DMCTournamentServices/dartwinnermodelbuilder.h"
-#include "DartsModelsContext/DMCTournamentServices/setdartsplayerdetails.h"
+#include "DartsModelsContext/TournamentServices/getdartstournamentfromdb.h"
+#include "DartsModelsContext/TournamentServices/dartwinnermodelbuilder.h"
+#include "DartsModelsContext/TournamentServices/setdartsplayerdetails.h"
 #include <DartsModelsContext/TournamentsDbServices/dartstournamentjsonbuilder.h>
-#include <DartsModelsContext/DMCTournamentServices/dartstournamentbuilder.h>
+#include <DartsModelsContext/TournamentServices/dartstournamentbuilder.h>
 
 class DartsJsonModelsContext : public DartsModelsContext
 {

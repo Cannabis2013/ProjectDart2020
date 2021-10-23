@@ -4,7 +4,7 @@
 class DCResetIndexes : public IDCResetIndexes
 {
 public:
-    virtual void reset(IDCIndexService *indexService) const override
+    virtual void reset(IDCIndexController *indexService) const override
     {
         indexService->setTotalIndex(0);
         indexService->setTurnIndex(0);

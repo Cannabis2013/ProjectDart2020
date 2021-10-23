@@ -106,17 +106,24 @@ namespace ModelsContext{
             _roundIndex = index;
             return this;
         }
-        QUuid tournament() const
+        int remainingScore() const override
         {
-            return _tournamentId;
+            return _remainingScore;
         }
-        DartsInput* setTournament(const QUuid &tournament)
+        DartsInput *setRemainingScore(const int &score) override
         {
-            _tournamentId = tournament;
+            _remainingScore = score;
             return this;
         }
     private:
-        int _point, _score, _roundIndex, _setIndex, _attempt, _hint, _modKeyCode;
+        int _point;
+        int _score;
+        int _roundIndex;
+        int _setIndex;
+        int _attempt;
+        int _hint;
+        int _modKeyCode;
+        int _remainingScore;
         QUuid _id, _playerId, _tournamentId;
         QString _playerName;
     };

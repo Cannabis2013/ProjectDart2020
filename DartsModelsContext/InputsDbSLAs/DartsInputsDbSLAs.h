@@ -3,7 +3,7 @@
 
 #include "IDartsInputsDbContext.h"
 #include "iremovedartsinputsfromdb.h"
-#include "DartsModelsContext/InputsDbSLAs/igetdartsinputfromdb.h"
+#include "DartsModelsContext/InputsDbSLAs/igetdartsinput.h"
 #include "DartsModelsContext/InputsDbSLAs/igetinputmodelsservice.h"
 
 class DartsInputsDbSLAs
@@ -25,11 +25,11 @@ public:
     {
         _getInputsFromDb = newGetInputsFromDb;
     }
-    IGetDartsInputFromDb *getInputFromDb() const
+    IGetDartsInput *getInputFromDb() const
     {
         return _getInputFromDb;
     }
-    void setGetInputFromDb(IGetDartsInputFromDb *newGetInputFromDb)
+    void setGetInputFromDb(IGetDartsInput *newGetInputFromDb)
     {
         _getInputFromDb = newGetInputFromDb;
     }
@@ -63,6 +63,6 @@ private:
     IDartsInputBuilder *_inputModelBuilder;
     IDartsInputJsonBuilder *_inputJsonBuilder;
     IGetInputModelsService* _getInputsFromDb;
-    IGetDartsInputFromDb *_getInputFromDb;
+    IGetDartsInput *_getInputFromDb;
 };
 #endif // DARTSINPUTSDBSLAS_H

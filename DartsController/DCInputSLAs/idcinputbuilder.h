@@ -8,11 +8,11 @@
 class IDCInputBuilder
 {
 public:
-    virtual DCInput buildInput(const QByteArray &json) const = 0;
+    virtual DCInput buildInput(const QByteArray &json, const int &initialScore = -1) const = 0;
     virtual DCInput buildInput(const QByteArray &json, const IDCPlayerService *playerContext,
-                               const IDCGetScore *getScoreContext, const IDCIndexService *indexContext,
+                               const IDCGetScore *getScoreContext, const IDCIndexController *indexContext,
                                IDCScoresService *scoresContext) const = 0;
-    virtual DCInput buildInput(const DCContext::DCScoreModel &scoreModel) const = 0;
+    virtual DCInput buildInput(const DCScoreModel &scoreModel) const = 0;
     virtual QVector<DCInput> buildInputs(IDCScoresService *scoresService) const = 0;
     virtual QVector<DCInput> buildInputs(const QByteArray &json) const = 0;
 };

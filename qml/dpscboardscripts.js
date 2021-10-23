@@ -64,15 +64,22 @@ function updateVerticalHeaderWidth(w)
         scoreBoardBody.updateVerticalHeaderWidth(w);
 }
 
-function setData(playerName,point ,score, average){
-    let indexOf = playerNamesModel.indexOf(playerName);
-    if(!isNaN(average))
-        averageValuesModel.setItem(average,indexOf);
-    var result = dataModel.insertData(indexOf,point,score);
+function setData(playerName,score,average, lowerVal, upperVal){
+    let index = playerNamesModel.indexOf(playerName);
+    updateStatistics(index,average,lowerVal,upperVal);
+    var result = dataModel.insertData(index,point,score);
     if(!result)
         print("Couldn't add data to model");
     else
-        updateWidths(indexOf);
+        updateWidths(index);
+}
+
+function updateStatistics(index,average,lowerVal,upperVal)
+{
+    if(!isNaN(average))
+        averageValuesModel.setItem(average,index);
+    lowerValuesModel.setItem(lowerVal,index);
+    upperValuesModel.setItem(upperVal,index);
 }
 
 function takeData(row,column,playerName){
@@ -95,7 +102,7 @@ function setHeaderData(data,defaultVal)
     {
         var assignedPlayerName = data[i];
         singleColumnPointBoard.appendHeader(assignedPlayerName,Qt.Vertical);
-        singleColumnPointBoard.setData(assignedPlayerName,0,defaultVal,0.0);
+        singleColumnPointBoard.setData(assignedPlayerName,0,defaultVal,0.0,0,0);
     }
 }
 

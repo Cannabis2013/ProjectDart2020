@@ -9,13 +9,8 @@ class AbstractDCInputEvaluator : public QObject
 {
     Q_OBJECT
 public:
-    virtual void evaluateInput(const int &remainingScore, DCInput input,  IDCPlayerApproval *allowancesContext,
+    virtual void evaluateInput(DCInput input, IDCPlayerApproval *allowancesContext,
                                AbstractDartsController *controller) = 0;
-signals:
-    void playerNotAllowedEntrance(DCInput &input);
-    void playerHitPointDomain(const DCInput &input);
-    void playerHitTargetDomain(const DCInput &input);
-    void playerOutOfRange(DCInput &input);
 };
 
 

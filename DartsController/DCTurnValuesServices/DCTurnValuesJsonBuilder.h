@@ -7,7 +7,7 @@
 class DCTurnValuesJsonBuilder : public IDCModelJsonBuilder<DCTurnValues>
 {
 public:
-    virtual void json(QJsonObject &obj, const Model &turnValues) const override
+    virtual void setJsonValues(QJsonObject &obj, const Model &turnValues) const override
     {
         obj["currentRoundIndex"] = turnValues.roundIndex;
         obj["currentSetIndex"] = turnValues.setIndex;

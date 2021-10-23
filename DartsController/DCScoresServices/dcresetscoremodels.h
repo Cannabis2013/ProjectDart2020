@@ -14,7 +14,7 @@ private:
     void initializeModels(IDCScoresService::DartsScoreModels &models, const int &initialScore) const
     {
         for (auto &model : models)
-            model.totalScore = initialScore;
+            model.remainingScore = initialScore;
     }
     void replaceModels(const IDCScoresService::DartsScoreModels &models, IDCScoresService *scoresService) const
     {

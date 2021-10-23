@@ -1,6 +1,6 @@
 #include "addtotalscoretodartsinputsasjson.h"
 
-void AddTotalScoreToDartsInputsAsJson::addTotalScoreToInputs(QByteArray &json, const int &initialPoint) const
+void AddTotalScoreToDartsInputsAsJson::addRemainingScoreToInputs(QByteArray &json, const int &initialPoint) const
 {
     auto arr = toArray(json);
     auto playerIds = createPlayerIds(arr);

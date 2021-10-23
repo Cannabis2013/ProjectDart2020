@@ -1,9 +1,9 @@
 #ifndef IDCRESETINDEXES_H
 #define IDCRESETINDEXES_H
-#include "DartsController/DCIndexSLAs/idcindexservice.h"
+#include "DartsController/DCIndexSLAs/idcindexcontroller.h"
 class IDCResetIndexes
 {
 public:
-    virtual void reset(IDCIndexService *indexService) const = 0;
+    virtual void reset(IDCIndexController *indexService) const = 0;
 };
 #endif // IDCRESETINDEXES_H

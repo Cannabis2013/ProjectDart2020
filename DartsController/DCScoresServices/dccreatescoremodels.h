@@ -4,21 +4,21 @@
 class DCCreateScoreModels : public IDCScoreBuilder
 {
 public:
-    virtual QVector<DCContext::DCScoreModel> buildScores(const QVector<DCPlayer> &models, const int &initialScore) override
+    virtual QVector<DCScoreModel> buildScores(const QVector<DCPlayer> &models, const int &initialScore) override
     {
-        QVector<DCContext::DCScoreModel> tuples;
+        QVector<DCScoreModel> scoreModels;
         for (const auto &model : models)
-            tuples << toModel(model,initialScore);
-        return tuples;
+            scoreModels << toModel(model,initialScore);
+        return scoreModels;
     }
 private:
-    DCContext::DCScoreModel toModel(const DCPlayer &playerModel, const int &initialScore) const
+    DCScoreModel toModel(const DCPlayer &playerModel, const int &initialScore) const
     {
-        DCContext::DCScoreModel tuple;
-        tuple.playerId = playerModel.id;
-        tuple.playerName = playerModel.name;
-        tuple.totalScore = initialScore;
-        return tuple;
+        DCScoreModel scoreModel;
+        scoreModel.playerId = playerModel.id;
+        scoreModel.playerName = playerModel.name;
+        scoreModel.remainingScore = initialScore;
+        return scoreModel;
     }
 };
 #endif // DCCREATESCORETUPLES_H

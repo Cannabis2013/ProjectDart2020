@@ -11,11 +11,11 @@ BoxedRect{
     property string score: ""
     onScoreChanged: scoreText.text = score
     property string averageValue: ""
-    onAverageValueChanged: averageValueText.text = "Avg: " + averageValue
+    onAverageValueChanged: statsView.averageValue = averageValue
     property string lowerValue: ""
-    onLowerValueChanged: "L: " + lowerValue
+    onLowerValueChanged: statsView.lowerValue = lowerValue
     property string upperValue: ""
-    onUpperValueChanged: "H: " + upperValue
+    onUpperValueChanged: statsView.upperValue = upperValue
     color: "green"
     radius: 10
     bottomBorderWidth: 1
@@ -25,29 +25,24 @@ BoxedRect{
         GridLayout{
             anchors.fill: parent
             rows: 2
-            columns: 5
+            columns: 2
             Text {
                 id: playerNameText
                 Layout.row: 0
                 Layout.column: 0
-                Layout.columnSpan: 4
                 horizontalAlignment: Qt.AlignLeft
-                verticalAlignment: Qt.AlignVCenter
+                verticalAlignment: Qt.AlignBottom
+                Layout.fillWidth: true
+                Layout.fillHeight: true
                 color: "white"
-                font.pointSize: 24
+                font.pointSize: 20
                 text: scoreTextRect.playerName
                 wrapMode: Text.WordWrap
             }
-            Rectangle{
-                Layout.row: 1
-                Layout.column: 3
-                Layout.fillWidth: true
-            }
-
             Text {
                 id: scoreText
                 Layout.row: 0
-                Layout.column: 4
+                Layout.column: 1
                 Layout.rowSpan: 2
                 Layout.minimumWidth: 128
                 Layout.maximumWidth: 128
@@ -57,36 +52,11 @@ BoxedRect{
                 font.pointSize: 32
                 text: scoreTextRect.score
             }
-            Text {
-                id: averageValueText
-                Layout.minimumWidth: 80
-                Layout.maximumWidth: 80
+            DartsStatsView{
+                id: statsView
                 Layout.row: 1
                 Layout.column: 0
-                horizontalAlignment: Qt.AlignLeft
-                color: "white"
-                font.pointSize: 12
-                text: "Avg: " + scoreTextRect.averageValue
-            }
-            Text {
-                id: highestValueText
-                Layout.row: 1
-                Layout.column: 1
-                Layout.minimumWidth: 48
-                Layout.maximumWidth: 48
-                horizontalAlignment: Qt.AlignLeft
-                color: "white"
-                font.pointSize: 12
-                text: "H: " + scoreTextRect.upperValue
-            }
-            Text {
-                id: lowestValueText
-                Layout.row: 1
-                Layout.column: 2
-                horizontalAlignment: Qt.AlignLeft
-                color: "white"
-                font.pointSize: 12
-                text: "L: " + scoreTextRect.lowerValue
+                Layout.fillWidth: true
             }
         }
     }

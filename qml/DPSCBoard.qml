@@ -2,12 +2,12 @@ import QtQuick 2.0
 import CustomItems 1.0
 import DartsTableUtils 1.0
 import "dpscboardscripts.js" as ScoreBoardScripts
-DPSCScoreBoard {
+DartsScoreBoard {
     id: scoreBoardBody
     height: 128
     onWidthChanged: ScoreBoardScripts.updateScoreBoard()
-    signal setData(string playerName, int point, int score, double average)
-    onSetData: ScoreBoardScripts.setData(playerName,point,score,average)
+    signal setData(string playerName, int score, double average, int lVal, int uVal)
+    onSetData: ScoreBoardScripts.setData(playerName,score,average,lVal,uVal)
     signal takeData(int row, int column,string playerName)
     onTakeData: ScoreBoardScripts.takeData(row,column,playerName)
     onClearData:  ScoreBoardScripts.clearTable()
@@ -33,6 +33,12 @@ DPSCScoreBoard {
     }
     StringsModel{
         id: averageValuesModel
+    }
+    StringsModel{
+        id: lowerValuesModel
+    }
+    StringsModel{
+        id: upperValuesModel
     }
     columnWidthProvider: function(column){
         return tableDisplayWidth;

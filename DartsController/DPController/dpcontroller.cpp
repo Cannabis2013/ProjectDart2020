@@ -23,7 +23,7 @@ void DPController::setMetaServices()
     setTournamentId(DCTournamentId::createInstance(_metaInfo.tournamentId));
     setInitialScore(DCInitialScore::createInstance(_metaInfo.keyPoint));
     setSetMetaJsonValues(new DCMetaJsonBuilder);
-    setMetaBuilder(new DCMetaModelBuilder(indexService(),scoresService()));
+    setMetaBuilder(new DCMetaModelBuilder(indexController(),scoreController()));
 }
 void DPController::setScoresServices()
 {
@@ -31,11 +31,9 @@ void DPController::setScoresServices()
     setResetScoreModels(new DCResetScoreModels);
     setScoreBuilder(new DCCreateScoreModels);
     setUpdateScoreModels(new DCUpdateScoreModels);
-    setSubtractScore(new DCSubtractScore);
     setScoresService(new DCScoresService);
-    setCreateCandidateScores(new DCCreateCandidateModels);
-    setWinnerService(new DCWinnerService);
-    setAddScoreService(new DCAddScore);
+    setCreateCandidateScores(new DCUpdateInputDetails);
+    setWinnerService(new DCWinnerService);    
 }
 void DPController::setJsonServices()
 {
@@ -44,7 +42,7 @@ void DPController::setJsonServices()
 }
 void DPController::setStatisticsServices()
 {
-    setStatsBuilder(new DPCStatsBuilder);
+    setStatsBuilder(new DPCScoreStats);
 }
 void DPController::setFinishesServices()
 {
@@ -76,7 +74,7 @@ void DPController::setIndexServices()
     setUndoIndex(new DCIndexUndo);
     setRedoIndex(new DCIndexRedo);
     setIndexKeys(new DCIndexesJsonKeys);
-    setIndexesBuilder(new DCIndexesBuilder);
+    setIndexesBuilder(new DCInputIndexBuilder);
 }
 void DPController::setTurnValuesServices()
 {
@@ -86,8 +84,7 @@ AbstractDCJsonBuilder *DPController::createJsonBuilder()
 {
     auto builder = new DCJsonBuilder;
     builder->setInputJsonBuilder(new DCInputJsonBuilder);
-    builder->setInputStatJsonBuilder(new DCStatsJsonBuilder);
-    builder->setIndexesJsonBuilder(new DCIndexesJsonBuilder);
+    builder->setIndexesJsonBuilder(new DCIndexJsonBuilder);
     builder->setMetaJsonBuilder(new DCMetaInfoJsonBuilder);
     builder->setTurnValuesJsonBuilder(new DCTurnValuesJsonBuilder);
     return builder;

@@ -3,7 +3,6 @@
 
 #include <qvector.h>
 
-
 template<typename TModel>
 class IScoresService
 {

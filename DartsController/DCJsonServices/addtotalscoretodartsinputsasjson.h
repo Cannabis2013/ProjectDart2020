@@ -10,7 +10,7 @@
 class   AddTotalScoreToDartsInputsAsJson : public IAddTotalScoreToDartsInputsJson
 {
 public:
-    void addTotalScoreToInputs(QByteArray &json, const int &initialPoint) const override;
+    void addRemainingScoreToInputs(QByteArray &json, const int &initialPoint) const override;
 private:
     QJsonArray toArray(const QByteArray &json) const;
     QByteArray toByteArray(const QJsonArray &arr) const;

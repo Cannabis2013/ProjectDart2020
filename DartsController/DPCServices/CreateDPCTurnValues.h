@@ -3,13 +3,13 @@
 
 #include "DartsController/DCTurnValuesSLAs/icreatedcturnvalues.h"
 #include "DartsController/DCTurnValuesServices/dcturnvalues.h"
-#include "DartsController/DCIndexSLAs/idcindexservice.h"
+#include "DartsController/DCIndexSLAs/idcindexcontroller.h"
 #include "DartsController/DCFinishesSLAs/idartsinputfinishes.h"
 
 class CreateDPCTurnValues : public ICreateDCTurnValues
 {
 public:
-    DCTurnValues turnValues(const IDCIndexService *indexService, IDCScoresService* scoresService,
+    DCTurnValues turnValues(const IDCIndexController *indexService, IDCScoresService* scoresService,
                             const IDartsInputFinishes* logisticService = nullptr) const override
     {
         DCTurnValues model;
@@ -23,7 +23,7 @@ public:
         return model;
     }
 private:
-    QString createTargetRow(const IDCIndexService *indexService,
+    QString createTargetRow(const IDCIndexController *indexService,
                            IDCScoresService *scoresService,
                            const IDartsInputFinishes* logisticService) const
     {
@@ -34,23 +34,23 @@ private:
         auto targetRow = logisticService->suggestTargetRow(remainingScore,attemptIndex);
         return targetRow;
     }
-    int getPlayerScore(const IDCIndexService *indexService, IDCScoresService *scoresService) const
+    int getPlayerScore(const IDCIndexController *indexService, IDCScoresService *scoresService) const
     {
         auto models = scoresService->scoreModels();
         auto model = models.at(indexService->setIndex());
-        return model.totalScore;
+        return model.remainingScore;
     }
-    QString getPlayerName(const IDCIndexService *indexService, IDCScoresService *scoresService) const
+    QString getPlayerName(const IDCIndexController *indexService, IDCScoresService *scoresService) const
     {
         auto models = scoresService->scoreModels();
         auto model = models.at(indexService->setIndex());
         return model.playerName;
     }
-    bool canUndo(const IDCIndexService *indexService) const
+    bool canUndo(const IDCIndexController *indexService) const
     {
         return indexService->turnIndex() > 0;
     }
-    bool canRedo(const IDCIndexService *indexService) const
+    bool canRedo(const IDCIndexController *indexService) const
     {
         return indexService->turnIndex() < indexService->totalIndex();
     }

@@ -10,7 +10,7 @@ function connectInterface()
     applicationInterface.sendDartsScores.connect(recieveScores);
     applicationInterface.dartsControllerIsReady.connect(backendIsReady);
     applicationInterface.controllerIsStopped.connect(backendIsStopped);
-    applicationInterface.controllerAwaitsInput.connect(backendIsReadyAndAwaitsInput);
+    applicationInterface.controllerSendsTurnValues.connect(backendIsReadyAndAwaitsInput);
     applicationInterface.controllerHasDeclaredAWinner.connect(backendDeclaredAWinner);
     applicationInterface.addedInput.connect(backendAddedInput);
     applicationInterface.dartsInputRemoveSucces.connect(backendRemovedPoint);
@@ -23,7 +23,7 @@ function disconnectInterface()
     applicationInterface.sendDartsTournamentData.disconnect(handleMetaData);
     applicationInterface.sendDartsScores.disconnect(recieveScores);
     applicationInterface.dartsControllerIsReady.disconnect(backendIsReady);
-    applicationInterface.controllerAwaitsInput.connect(backendIsReadyAndAwaitsInput);
+    applicationInterface.controllerSendsTurnValues.connect(backendIsReadyAndAwaitsInput);
     applicationInterface.controllerHasDeclaredAWinner.disconnect(backendDeclaredAWinner);
     applicationInterface.controllerIsStopped.disconnect(backendIsStopped);
     applicationInterface.addedInput.disconnect(backendAddedInput);
@@ -82,11 +82,11 @@ function addDartsScoresToScoreBoard(json)
 function addToScoreBoard(json)
 {
     let playerName = json["inputPlayerName"];
-    let playerScore = json["totalScore"];
-    let average = json["average"];
-    let lowerVal = json["lowerValue"];
-    let upperVal = json["upperValue"];
-    singleColumnScoreBoard.setData(playerName,playerScore,average,lowerVal,upperVal);
+    let playerScore = json["remainingScore"];
+    let middleValue = json["middleValue"];
+    let minimum = json["currentMinimum"];
+    let maximum = json["currentMaximum"];
+    singleColumnScoreBoard.setData(playerName,playerScore,middleValue,minimum,maximum);
 }
 
 function backendAddedInput(data)

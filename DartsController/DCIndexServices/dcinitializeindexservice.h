@@ -6,7 +6,7 @@
 class DCInitializeIndexes : public IDCInitializeIndexes
 {
 public:
-    virtual void initialize(const DCIndexes &indexes, IDCIndexService *service) const override
+    virtual void initialize(const DCIndex &indexes, IDCIndexController *service) const override
     {
         service->setRoundIndex(indexes.roundIndex);
         service->setSetIndex(indexes.setIndex);

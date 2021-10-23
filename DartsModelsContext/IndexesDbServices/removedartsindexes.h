@@ -2,7 +2,7 @@
 #define REMOVEDARTSINDEXES_H
 
 #include "DartsModelsContext/IndexesDbSLAs/iremovedartsindexes.h"
-#include "dartsindexes.h"
+#include "dartsindex.h"
 
 class RemoveDartsIndexes : public IRemoveDartsIndexes
 {
@@ -27,7 +27,7 @@ private:
     }
     bool matchByTournamentId(const IModel<QUuid> *model, const QUuid &tournamentId) const
     {
-        return dynamic_cast<const DartsIndexes*>(model)->tournamentId() == tournamentId;
+        return dynamic_cast<const DartsIndex*>(model)->tournamentId() == tournamentId;
     }
 };
 #endif // REMOVEDARTSINDEXES_H

@@ -5,12 +5,12 @@
 class DCPlayerService : public IDCPlayerService
 {
 public:
-    QString currentPlayerName(const IDCIndexService *indexContext, IDCScoresService *scoresContext) const override
+    QString currentPlayerName(const IDCIndexController *indexContext, IDCScoresService *scoresContext) const override
     {
         auto setIndex = indexContext->setIndex();
         return scoresContext->scoreModels().at(setIndex).playerName;
     }
-    QUuid currentPlayerId(const IDCIndexService *indexContext, IDCScoresService *scoresContext) const override
+    QUuid currentPlayerId(const IDCIndexController *indexContext, IDCScoresService *scoresContext) const override
     {
         auto setIndex = indexContext->setIndex();
         return scoresContext->scoreModels().at(setIndex).playerId;

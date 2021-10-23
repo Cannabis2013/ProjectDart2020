@@ -10,7 +10,7 @@ function connectInterface()
     applicationInterface.sendDartsScores.connect(recieveScores);
     applicationInterface.dartsControllerIsReady.connect(backendIsReady);
     applicationInterface.controllerIsStopped.connect(backendIsStopped);
-    applicationInterface.controllerAwaitsInput.connect(backendIsReadyAndAwaitsInput);
+    applicationInterface.controllerSendsTurnValues.connect(backendIsReadyAndAwaitsInput);
     applicationInterface.controllerHasDeclaredAWinner.connect(backendDeclaredAWinner);
     applicationInterface.addedInput.connect(backendAddedInput);
     applicationInterface.dartsInputRemoveSucces.connect(backendRemovedPoint);
@@ -23,7 +23,7 @@ function disconnectInterface()
     applicationInterface.sendDartsScores.disconnect(recieveScores);
     applicationInterface.dartsControllerIsReady.disconnect(backendIsReady);
     applicationInterface.controllerIsStopped.connect(backendIsStopped);
-    applicationInterface.controllerAwaitsInput.disconnect(backendIsReadyAndAwaitsInput);
+    applicationInterface.controllerSendsTurnValues.disconnect(backendIsReadyAndAwaitsInput);
     applicationInterface.dartsControllerIsReset.disconnect(reinitialize);
     applicationInterface.controllerHasDeclaredAWinner.disconnect(backendDeclaredAWinner);
     applicationInterface.dartsInputRemoveSucces.disconnect(backendRemovedPoint);
@@ -78,8 +78,10 @@ function addToScoreBoard(json)
     let playerName = json["inputPlayerName"];
     let playerPoint = json["point"];
     let playerScore = json["totalScore"];
-    let average = json["average"];
-    singleColumnPointBoard.setData(playerName,playerPoint,playerScore,average);
+    let middleValue = json["middleValue"];
+    let minimum = json["currentMinimum"];
+    let maximum = json["currentMaximum"];
+    singleColumnPointBoard.setData(playerName,playerPoint,playerScore,middleValue,minimum,maximum);
 }
 
 function backendIsReady()

@@ -5,21 +5,21 @@
 #include "DartsModelsContext/DMCInputSLAs/dartsinputslas.h"
 #include "DartsModelsContext/TournamentsSLAs/dartstournamentslas.h"
 #include "DartsModelsContext/InputsDbSLAs/DartsInputsDbSLAs.h"
-#include "DartsModelsContext/IndexesDbSLAs/dartsindexesdbslas.h"
+#include "DartsModelsContext/IndexesDbSLAs/dartsindexdbslas.h"
 #include "DartsModelsContext/TournamentsDbSLAs/dartstournamentdbslas.h"
 #include <QJsonDocument>
 #include <qjsonobject.h>
-#include "DartsModelsContext/IndexesSLAs/dartsindexesslas.h"
-#include "DartsModelsContext/IndexesDbSLAs/idartsindexes.h"
+#include "DartsModelsContext/IndexesSLAs/dartsindexslas.h"
+#include "DartsModelsContext/IndexesDbSLAs/idartsindex.h"
 
 class DartsModelsContext :
         public AbstractDartsModelsContext,
         protected DartsTournamentSLAs,
         protected DartsInputSLAs,
-        protected DartsIndexesSLAs,
-        protected DartsIndexesDbSLAs,
-        protected DartsTournamentDbSLAs,
-        protected DartsInputsDbSLAs
+        protected DartsInputsDbSLAs,
+        protected DartsIndexSLAs,
+        protected DartsIndexDbSLAs,
+        protected DartsTournamentDbSLAs
 {
 public:
     //Public types

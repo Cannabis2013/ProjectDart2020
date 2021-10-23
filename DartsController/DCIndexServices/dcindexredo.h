@@ -4,7 +4,7 @@
 class DCIndexRedo : public IDCIndexRedo
 {
 public:
-    virtual void redo(IDCIndexService *indexService, IDCScoresService *scoresService) const override
+    virtual void redo(IDCIndexController *indexService, IDCScoresService *scoresService) const override
     {
         if(indexService->turnIndex() >= indexService->totalIndex())
             return;
@@ -25,27 +25,27 @@ private:
     {
         return scoresService->scoreModels().count();
     }
-    void incrementTurnIndex(IDCIndexService *indexService) const
+    void incrementTurnIndex(IDCIndexController *indexService) const
     {
         auto tIndex = indexService->turnIndex();
         indexService->setTurnIndex(++tIndex);
     }
-    void incrementTotalTurnIndex(IDCIndexService *indexService) const
+    void incrementTotalTurnIndex(IDCIndexController *indexService) const
     {
         auto tIndex = indexService->totalIndex();
         indexService->setTotalIndex(++tIndex);
     }
-    void incrementSetIndex(IDCIndexService *indexService) const
+    void incrementSetIndex(IDCIndexController *indexService) const
     {
         auto sIndex = indexService->setIndex();
         indexService->setSetIndex(++sIndex);
     }
-    void incrementRoundIndex(IDCIndexService *indexService) const
+    void incrementRoundIndex(IDCIndexController *indexService) const
     {
         auto rIndex = indexService->roundIndex();
         indexService->setRoundIndex(++rIndex);
     }
-    void incrementAttemptIndex(IDCIndexService *indexService) const
+    void incrementAttemptIndex(IDCIndexController *indexService) const
     {
         auto aIndex = indexService->attemptIndex();
         indexService->setAttemptIndex(++aIndex);

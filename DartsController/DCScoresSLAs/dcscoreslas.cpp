@@ -1,6 +1,6 @@
 #include "dcscoreslas.h"
 
-IDCScoresService *DCScoreSLAs::scoresService() const
+IDCScoresService *DCScoreSLAs::scoreController() const
 {
     return _scoresService;
 }
@@ -10,27 +10,17 @@ void DCScoreSLAs::setScoresService(IDCScoresService *service)
     _scoresService = service;
 }
 
-IDCCreateCandidateModels *DCScoreSLAs::createCandidatesScore() const
+IDCUpdateInputDetails *DCScoreSLAs::createCandidatesScore() const
 {
     return _createCandidateTuples;
 }
 
-void DCScoreSLAs::setCreateCandidateScores(IDCCreateCandidateModels *service)
+void DCScoreSLAs::setCreateCandidateScores(IDCUpdateInputDetails *service)
 {
     _createCandidateTuples = service;
 }
 
-IDCAddScore *DCScoreSLAs::addScoreService() const
-{
-    return _addScoreService;
-}
-
-void DCScoreSLAs::setAddScoreService(IDCAddScore *service)
-{
-    _addScoreService = service;
-}
-
-IDCGetScoreCand *DCScoreSLAs::getTotalScore() const
+IDCGetScoreCand *DCScoreSLAs::calcRemainingScoreCand() const
 {
     return _calculateCandidateScore;
 }
@@ -68,16 +58,6 @@ IDCUpdateScoreModels *DCScoreSLAs::updateScoreModels() const
 void DCScoreSLAs::setUpdateScoreModels(IDCUpdateScoreModels *service)
 {
     _replaceTuples = service;
-}
-
-IDCSubtractScore *DCScoreSLAs::subtractScore() const
-{
-    return _subtractScore;
-}
-
-void DCScoreSLAs::setSubtractScore(IDCSubtractScore *service)
-{
-    _subtractScore = service;
 }
 
 IDCResetScoreScoreModels *DCScoreSLAs::resetScoreModels() const

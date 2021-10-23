@@ -11,16 +11,16 @@ public slots:
     virtual void initializeControllerIndexes(const QByteArray&) = 0;
     virtual void undoSuccess(const QByteArray&) = 0;
     virtual void redoSuccess(const QByteArray&) = 0;
-    virtual void initializeScores(const QByteArray&) = 0;
-    virtual void createDartsScores() = 0;
+    virtual void initializePlayerScores(const QByteArray&) = 0;
+    virtual void createScores() = 0;
     virtual void getOrderedInputsWithTotalScores() = 0;
-    virtual void handleUserInputAdded(const QByteArray& json) = 0;
+    virtual void userInputAdded(const QByteArray& json) = 0;
     virtual void handleOrderedInputs(const QByteArray &json) = 0;
-    virtual void persistInput(const DCInput &input) = 0;
+    virtual void persistInput(DCInput &input) = 0;
     virtual void nullifyAndPersistInput(DCInput &input) = 0;
-    virtual void declareWinner(const DCInput &input) = 0;
+    virtual void declareWinner(DCInput &input) = 0;
 signals:
-    void awaitsInput(const QByteArray& json);
+    void sendTurnValues(const QByteArray& json);
     void requestDartsTournamentIndexes(const QUuid &tournament);
     void initialized(const int &inputHint,const int &displayHint);
     void controllerAwaitsInput();

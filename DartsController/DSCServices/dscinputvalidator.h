@@ -10,11 +10,14 @@ public:
     {
         return new DSCInputValidator();
     }
-    virtual void evaluateInput(const int &currentScore, DCInput input, IDCPlayerApproval *, AbstractDartsController *controller) override
+    virtual void evaluateInput(DCInput input, IDCPlayerApproval *, AbstractDartsController *controller) override
     {
-        if(currentScore >= minimumAllowedScore)
+        if(input.remainingScoreCand >= minimumAllowedScore)
+        {
+            input.remainingScore = input.remainingScoreCand;
             controller->persistInput(input);
-        else if(currentScore == 0)
+        }
+        else if(input.remainingScoreCand == 0)
             controller->declareWinner(input);
         else
             controller->nullifyAndPersistInput(input);

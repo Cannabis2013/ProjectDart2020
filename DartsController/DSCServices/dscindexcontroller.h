@@ -1,9 +1,9 @@
 #ifndef DSCINDEXCONTROLLER_H
 #define DSCINDEXCONTROLLER_H
 
-#include "DartsController/DCIndexSLAs/idcindexservice.h"
+#include "DartsController/DCIndexSLAs/idcindexcontroller.h"
 
-class DSCIndexController : public IDCIndexService
+class DSCIndexController : public IDCIndexController
 {
 public:
     virtual int turnIndex() const override;

@@ -8,7 +8,7 @@ class UpdateDartsIndexes : public IUpdateDartsIndexes
 public:
     IDartsIndexesDbContext *update(IModel<QUuid> *model, IDartsIndexesDbContext *dbContext) const override
     {
-        auto indexesRef = dynamic_cast<IDartsIndexes*>(model);
+        auto indexesRef = dynamic_cast<IDartsIndex*>(model);
         auto models = dbContext->models();
         for (int i = 0; i < models.count(); ++i) {
             if(matchByTournamentId(models.at(i),indexesRef->tournamentId()))
@@ -22,7 +22,7 @@ public:
 private:
     bool matchByTournamentId(IModel<QUuid> *model, const QUuid &tournamentId) const
     {
-        return dynamic_cast<IDartsIndexes*>(model)->tournamentId() == tournamentId;
+        return dynamic_cast<IDartsIndex*>(model)->tournamentId() == tournamentId;
     }
 };
 

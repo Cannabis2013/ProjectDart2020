@@ -7,17 +7,17 @@
 class DSCValuesBuilder : public ICreateDCTurnValues
 {
 public:
-    DCTurnValues turnValues(const IDCIndexService* indexService, IDCScoresService* scoresService,
+    DCTurnValues turnValues(const IDCIndexController* indexService, IDCScoresService* scoresService,
                                    const IDartsInputFinishes* logisticService) const override
     {
-        auto tuples = scoresService->scoreModels();
+        auto scoreModels = scoresService->scoreModels();
         DCTurnValues model;
         model.canUndo = canUndo(indexService);
         model.canRedo = canRedo(indexService);
         model.roundIndex = indexService->roundIndex();
         model.setIndex = indexService->setIndex();
-        model.targetRow = createRowSuggestionByScore(logisticService,tuples.at(model.setIndex).totalScore);
-        model.playerName = tuples.at(model.setIndex).playerName;
+        model.targetRow = createRowSuggestionByScore(logisticService,scoreModels.at(model.setIndex).remainingScore);
+        model.playerName = scoreModels.at(model.setIndex).playerName;
         return model;
     }
 private:
@@ -29,11 +29,11 @@ private:
         auto targetRow = logisticService->suggestTargetRow(score,0);
         return targetRow;
     }
-    bool canUndo(const IDCIndexService *indexService) const
+    bool canUndo(const IDCIndexController *indexService) const
     {
         return indexService->turnIndex() > 0;
     }
-    bool canRedo(const IDCIndexService *indexService) const
+    bool canRedo(const IDCIndexController *indexService) const
     {
         return indexService->turnIndex() < indexService->totalIndex();
     }

@@ -7,14 +7,18 @@
 class DCInputJsonBuilder : public IDCModelJsonBuilder<DCInput>
 {
 public:
-    virtual void json(QJsonObject &obj, const Model &input) const override
+    virtual void setJsonValues(QJsonObject &obj, const Model &input) const override
     {
         obj["point"] = input.point;
         obj["modKeyCode"] = input.modKeyCode;
         obj["score"] = input.score;
+        obj["remainingScore"] = input.remainingScore;
         obj["inputPlayerId"] = input.playerId.toString(QUuid::WithoutBraces);
         obj["inputPlayerName"] = input.playerName;
         obj["totalScore"] = input.remainingScore;
+        obj["middleValue"] = input.middle;
+        obj["currentMinimum"] = input.min;
+        obj["currentMaximum"] = input.max;
     }
 };
 

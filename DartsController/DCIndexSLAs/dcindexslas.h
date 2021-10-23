@@ -1,23 +1,22 @@
 #ifndef DCINDEXSLAS_H
 #define DCINDEXSLAS_H
-
-#include "DartsController/DCIndexSLAs/idcindexservice.h"
-#include "DartsController/DCIndexSLAs/idcindexesbuilder.h"
+#include "DartsController/DCIndexSLAs/idcindexcontroller.h"
+#include "DartsController/DCIndexSLAs/idcinputindexbuilder.h"
 #include "DartsController/DCIndexSLAs/idcindexiterator.h"
 #include "DartsController/DCIndexSLAs/idcindexredo.h"
 #include "DartsController/DCIndexSLAs/idcinitializeindexes.h"
 #include "DartsController/DCIndexSLAs/idcresetindexes.h"
 #include "DartsController/DCIndexSLAs/idcundoindex.h"
 #include "DartsController/DCIndexSLAs/IDCIndexesJsonKeys.h"
-
+#include "idcreqinputindexbuilder.h"
 class DCIndexSLAs
 {
 public:
-    IDCIndexService *indexService() const
+    IDCIndexController *indexController() const
     {
         return _indexService;
     }
-    void setIndexService(IDCIndexService *service)
+    void setIndexService(IDCIndexController *service)
     {
         _indexService = service;
     }
@@ -61,13 +60,13 @@ public:
     {
         _initializeIndexes = service;
     }
-    IDCIndexesBuilder *indexesBuilder() const
+    IDCInputIndexBuilder *inputIndexBuilder() const
     {
-        return _dartsIndexesBuilderService;
+        return _inputIndexBuilder;
     }
-    void setIndexesBuilder(IDCIndexesBuilder *service)
+    void setIndexesBuilder(IDCInputIndexBuilder *service)
     {
-        _dartsIndexesBuilderService = service;
+        _inputIndexBuilder = service;
     }
     IDCIndexesJsonKeys *indexKeys() const
     {
@@ -77,15 +76,23 @@ public:
     {
         _indexKeys = service;
     }
-
+    IDCReqInputIndexBuilder *reqIndexBuilder() const
+    {
+        return _reqIndexBuilder;
+    }
+    void setReqIndexBuilder(IDCReqInputIndexBuilder *newReqIndexBuilder)
+    {
+        _reqIndexBuilder = newReqIndexBuilder;
+    }
 private:
-    IDCIndexService* _indexService = nullptr;
+    IDCIndexController* _indexService = nullptr;
     IDCIndexIterator *_indexIterator;
     IDCUndoIndex * _undoIndex;
     IDCIndexRedo *_redoIndex;
     IDCResetIndexes *_resetIndexes;
     IDCInitializeIndexes *_initializeIndexes;
-    IDCIndexesBuilder* _dartsIndexesBuilderService;
+    IDCInputIndexBuilder* _inputIndexBuilder;
+    IDCReqInputIndexBuilder *_reqIndexBuilder;
     IDCIndexesJsonKeys *_indexKeys;
 };
 #endif // DCINDEXSLAS_H

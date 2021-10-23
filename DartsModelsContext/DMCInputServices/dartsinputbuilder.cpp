@@ -1,5 +1,14 @@
 #include "dartsinputbuilder.h"
 
+IModel<QUuid> *DartsInputBuilder::createInput(const QUuid &tournamentId, const QUuid &playerId, const int &remainingScore) const
+{
+    auto inputModel = new ModelsContext::DartsInput;
+    inputModel->setTournamentId(tournamentId);
+    inputModel->setPlayerId(playerId);
+    inputModel->setRemainingScore(remainingScore);
+    return inputModel;
+}
+
 IModel<QUuid> *DartsInputBuilder::createInput(const QByteArray &json) const
 {
     auto jsonObject = toJsonObject(json);
@@ -10,7 +19,6 @@ QVector<IModel<QUuid> *> DartsInputBuilder::createInputs(const QByteArray &json)
     auto arr = toJsonArray(json);
     return createInputsFromJsonArray(arr);
 }
-
 
 const QJsonArray DartsInputBuilder::toJsonArray(const QByteArray &json) const
 {
@@ -25,21 +33,25 @@ QVector<IModel<QUuid>*> DartsInputBuilder::createInputsFromJsonArray(const QJson
     return list;
 }
 
-ModelsContext::IDartsInput *DartsInputBuilder::toInputModel(const QJsonObject &jsonObject) const
+ModelsContext::IDartsInput *DartsInputBuilder::toInputModel(const QJsonObject &obj) const
 {
-    auto pointModel = new ModelsContext::DartsInput;
-    pointModel->setId(jsonObject.value("id").toString(QUuid::createUuid().toString(QUuid::WithoutBraces)));
-    pointModel->setTournament(toId(jsonObject,"tournamentId"));
-    pointModel->setPlayerId(toId(jsonObject,"inputPlayerId"));
-    pointModel->setPlayerName(jsonObject.value("inputPlayerName").toString());
-    pointModel->setRoundIndex(jsonObject["roundIndex"].toInt());
-    pointModel->setSetIndex(jsonObject["setIndex"].toInt());
-    pointModel->setAttempt(jsonObject["attemptIndex"].toInt());
-    pointModel->setPoint(jsonObject["point"].toInt());
-    pointModel->setScore(jsonObject.value("score").toInt());
-    pointModel->setModKeyCode(jsonObject["modKeyCode"].toInt());
-    pointModel->setHint(jsonObject["hint"].toInt(DisplayHint));
-    return pointModel;
+    auto inputModel = new ModelsContext::DartsInput;
+    inputModel->setId(obj.value("id").toString(QUuid::createUuid().toString(QUuid::WithoutBraces)));
+    inputModel->setTournamentId(toId(obj,"tournamentId"));
+    inputModel->setPlayerId(toId(obj,"inputPlayerId"));
+    inputModel->setPlayerName(obj.value("inputPlayerName").toString());
+    inputModel->setRoundIndex(obj["roundIndex"].toInt());
+    inputModel->setSetIndex(obj["setIndex"].toInt());
+    inputModel->setAttempt(obj["iattemptIndex"].toInt());
+    inputModel->setPoint(obj.value("point").toInt());
+    inputModel->setScore(obj.value("score").toInt());
+    inputModel->setModKeyCode(obj["modKeyCode"].toInt());
+    inputModel->setHint(obj.value("hint").toInt(DisplayHint));
+    inputModel->setMiddleValue(obj.value("middleValue").toDouble());
+    inputModel->setCurrentMaximum(obj.value("currentMaximum").toInt());
+    inputModel->setCurrentMinimum(obj.value("currentMinimum").toInt());
+    inputModel->setRemainingScore(obj.value("remainingScore").toInt());
+    return inputModel;
 }
 
 QUuid DartsInputBuilder::toId(const QJsonObject &obj, const QString &key) const

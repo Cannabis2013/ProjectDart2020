@@ -5,7 +5,7 @@
 class DCIndexUndo : public IDCUndoIndex
 {
 public:
-    virtual void undo(IDCIndexService *indexService, IDCScoresService *scoresService) const override
+    virtual void undo(IDCIndexController *indexService, IDCScoresService *scoresService) const override
     {
         if(indexService->turnIndex() <= 0)
             return;
@@ -27,22 +27,22 @@ private:
     {
         return scoresService->scoreModels().count() -1;
     }
-    void decrementTurnIndex(IDCIndexService *indexService) const
+    void decrementTurnIndex(IDCIndexController *indexService) const
     {
         auto tIndex = indexService->turnIndex();
         indexService->setTurnIndex(--tIndex);
     }
-    void decrementRoundIndex(IDCIndexService *indexService) const
+    void decrementRoundIndex(IDCIndexController *indexService) const
     {
         auto rIndex = indexService->roundIndex();
         indexService->setRoundIndex(--rIndex);
     }
-    void decrementSetIndex(IDCIndexService *indexService) const
+    void decrementSetIndex(IDCIndexController *indexService) const
     {
         auto sIndex = indexService->setIndex();
         indexService->setSetIndex(--sIndex);
     }
-    void decrementAttemptIndex(IDCIndexService *indexService) const
+    void decrementAttemptIndex(IDCIndexController *indexService) const
     {
         auto aIndex = indexService->attemptIndex();
         indexService->setAttemptIndex(--aIndex);

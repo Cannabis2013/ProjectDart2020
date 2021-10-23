@@ -66,7 +66,7 @@ signals:
     void dartsInputRemoveSucces(const QString& json);
     void dartsControllerIsReady();
     void addedInput(const QByteArray& json);
-    void controllerAwaitsInput(const QByteArray& json);
+    void controllerSendsTurnValues(const QByteArray& json);
     void dartsControllerIsReset();
     void controllerHasDeclaredAWinner(const QString& json);
     void createDartsController(const QByteArray& json,

@@ -7,7 +7,7 @@ class DCMetaJsonBuilder : public IDCMetaJsonBuilder
 {
 public:
     virtual void setValues(QJsonObject &obj, const IDCTournamentId *tournamentId, const IDCPlayerService *playerService,
-                           const IDCWinnerService *winnerService, const IDCIndexService *indexContext,
+                           const IDCWinnerService *winnerService, const IDCIndexController *indexContext,
                            IDCScoresService *scoresContext) const override
     {
         obj["tournamentId"] = fromId(tournamentId->id());

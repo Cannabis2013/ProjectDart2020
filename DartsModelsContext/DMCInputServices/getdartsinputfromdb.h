@@ -1,34 +1,31 @@
 #ifndef GETDARTSINPUTFROMDB_H
 #define GETDARTSINPUTFROMDB_H
 
-#include "DartsModelsContext/InputsDbSLAs/igetdartsinputfromdb.h"
+#include "DartsModelsContext/InputsDbSLAs/igetdartsinput.h"
 #include "DartsModelsContext/InputsDbSLAs/idartsinput.h"
-class GetDartsInputFromDb : public IGetDartsInputFromDb
+class GetDartsInputFromDb : public IGetDartsInput
 {
 public:
-    virtual ModelsContext::IDartsInput *get(const QUuid &tournamentId, const QUuid &playerId,
-                                            const int &roundIndex, const int &attemptIndex,
-                                            const IModelsDbContext *dbService) const override
+    virtual ModelsContext::IDartsInput *get(const DartsMetaModel &meta, const IDartsIndex *index, const IModelsDbContext *dbService) const override
     {
         auto models = dbService->models();
         for (const auto &model : models) {
-            if(match(model,tournamentId,playerId,roundIndex,attemptIndex))
+            if(match(model,meta,index))
                 return dynamic_cast<ModelsContext::IDartsInput*>(model);
         }
-        throw "Model not found";
+        return nullptr;
     }
 private:
-    bool match(const IModel<QUuid>* model,const QUuid &tournamentId, const QUuid &playerId,
-               const int &roundIndex, const int &attemptIndex) const
+    bool match(const IModel<QUuid>* model, const DartsMetaModel &meta, const IDartsIndex *index) const
     {
-        auto dartsPointModel = dynamic_cast<const ModelsContext::IDartsInput*>(model);
-        if(dartsPointModel->tournamentId() != tournamentId)
+        auto inputModel = dynamic_cast<const ModelsContext::IDartsInput*>(model);
+        if(inputModel->tournamentId() != meta.tournamentId)
             return false;
-        else if(dartsPointModel->playerId() != playerId)
+        else if(inputModel->playerId() != meta.playerId)
             return false;
-        else if(dartsPointModel->roundIndex() != roundIndex)
+        else if(inputModel->roundIndex() != index->roundIndex())
             return false;
-        else if(dartsPointModel->attempt() != attemptIndex)
+        else if(inputModel->attempt() != index->attemptIndex())
             return false;
         else
             return true;

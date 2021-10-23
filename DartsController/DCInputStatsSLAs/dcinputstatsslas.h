@@ -1,18 +1,18 @@
 #ifndef DCINPUTSTATSSLAS_H
 #define DCINPUTSTATSSLAS_H
-#include "idcstatsbuilder.h"
+#include "idcscorestats.h"
 class DCInputStatsSLAs
 {
 public:
-    IDCStatsBuilder *statsBuilder() const
+    IDCScoreStats *statsController() const
     {
         return _statsBuilder;
     }
-    void setStatsBuilder(IDCStatsBuilder *builder)
+    void setStatsBuilder(IDCScoreStats *builder)
     {
         _statsBuilder = builder;
     }
 private:
-    IDCStatsBuilder *_statsBuilder;
+    IDCScoreStats *_statsBuilder;
 };
 #endif // DCINPUTSTATSSLAS_H

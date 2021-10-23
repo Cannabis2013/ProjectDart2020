@@ -6,6 +6,6 @@
 class IDCGetScoreCand
 {
 public:
-    virtual int scoreCandidate(const int &modelIndex, const int &scoreCandidate, IDCScoresService *scoresService) const = 0;
+    virtual int calc(const int &modelIndex, const int &scoreCandidate, IDCScoresService *scoresService) const = 0;
 };
 #endif // IDCWINNERSERVICE_H

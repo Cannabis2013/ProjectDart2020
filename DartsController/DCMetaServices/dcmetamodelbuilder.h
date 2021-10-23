@@ -6,7 +6,7 @@
 class DCMetaModelBuilder : public IDCMetaModelBuilder
 {
 public:
-    DCMetaModelBuilder(IDCIndexService *indexContext, IDCScoresService *scoresContext):
+    DCMetaModelBuilder(IDCIndexController *indexContext, IDCScoresService *scoresContext):
         _indexContext(indexContext),_scoresContext(scoresContext)
     {
         if(_indexContext == nullptr || _scoresContext == nullptr)
@@ -24,7 +24,7 @@ public:
         return metaInfo;
     }
 private:
-    const IDCIndexService *const _indexContext;
+    const IDCIndexController *const _indexContext;
     IDCScoresService *const _scoresContext;
 };
 

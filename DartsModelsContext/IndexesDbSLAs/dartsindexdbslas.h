@@ -1,15 +1,15 @@
-#ifndef DARTSINDEXESDBSLAS_H
-#define DARTSINDEXESDBSLAS_H
+#ifndef DARTSINDEXDBSLAS_H
+#define DARTSINDEXDBSLAS_H
 
 #include "icreatedartsinexesmodels.h"
 #include "idartsindexesdbcontext.h"
 #include "idartsindexesjsonbuilder.h"
 #include "igetdartsindexesmodel.h"
 #include "iremovedartsindexes.h"
-class DartsIndexesDbSLAs
+class DartsIndexDbSLAs
 {
 public:
-    IDartsIndexesBuilder *indexesBuilder() const
+    IDartsIndexesBuilder *indexBuilder() const
     {
         return _indexesBuilder;
     }
@@ -56,4 +56,4 @@ private:
     IDartsIndexesBuilder *_indexesBuilder;
     IDartsIndexesJsonBuilder *_indexesJsonBuilder;
 };
-#endif // DARTSINDEXESDBSLAS_H
+#endif // DARTSINDEXDBSLAS_H

@@ -1,16 +1,18 @@
 #include "dartsinputjsonbuilder.h"
 
-QByteArray DartsInputJsonBuilder::dartsInputJson(IModel<QUuid> *model) const
+QByteArray DartsInputJsonBuilder::dartsInputJson(IModel<QUuid> *model, const DartsMetaModel &meta) const
 {
-    return toByteArray(toJsonObject(model));
+    if(model != nullptr)
+        return toByteArray(toJsonObject(model));
+    return toByteArray(toDefaultJsonObject(meta));
 }
 
 QByteArray DartsInputJsonBuilder::dartsInputsJson(const QVector<IModel<QUuid> *> &models) const
 {
-    return toByteArray(createJsonArray(models));
+    return toByteArray(toJsonArray(models));
 }
 
-QJsonArray DartsInputJsonBuilder::createJsonArray(const QVector<IModel<QUuid> *> &models) const
+QJsonArray DartsInputJsonBuilder::toJsonArray(const QVector<IModel<QUuid> *> &models) const
 {
     QJsonArray arr;
     for (const auto& model : models)
@@ -21,21 +23,35 @@ QJsonArray DartsInputJsonBuilder::createJsonArray(const QVector<IModel<QUuid> *>
 QJsonObject DartsInputJsonBuilder::toJsonObject(IModel<QUuid> *model) const
 {
     using namespace ModelsContext;
-    auto dartsPointModel = dynamic_cast<const IDartsInput*>(model);
-    QJsonObject jsonObject;
-    jsonObject["id"] = dartsPointModel->id().toString(QUuid::WithoutBraces);
-    jsonObject["tournamentId"] = dartsPointModel->tournamentId().toString(QUuid::WithoutBraces);
-    jsonObject["point"] = dartsPointModel->point();
-    jsonObject["score"] = dartsPointModel->score();
-    jsonObject["roundIndex"] = dartsPointModel->roundIndex();
-    jsonObject["setIndex"] = dartsPointModel->setIndex();
-    jsonObject["attemptIndex"] = dartsPointModel->attempt();
-    jsonObject["inputPlayerId"] = dartsPointModel->playerId().toString(QUuid::WithoutBraces);
-    jsonObject["inputPlayerName"] = dartsPointModel->playerName();
-    jsonObject["hint"] = dartsPointModel->hint();
-    jsonObject["modKeyCode"] = dartsPointModel->modKeyCode();
-    return jsonObject;
+    auto inputModel = dynamic_cast<const IDartsInput*>(model);
+    QJsonObject obj;
+    obj["id"] = inputModel->id().toString(QUuid::WithoutBraces);
+    obj["tournamentId"] = inputModel->tournamentId().toString(QUuid::WithoutBraces);
+    obj["point"] = inputModel->point();
+    obj["score"] = inputModel->score();
+    obj["remainingScore"] = inputModel->remainingScore();
+    obj["roundIndex"] = inputModel->roundIndex();
+    obj["setIndex"] = inputModel->setIndex();
+    obj["attemptIndex"] = inputModel->attempt();
+    obj["inputPlayerId"] = inputModel->playerId().toString(QUuid::WithoutBraces);
+    obj["inputPlayerName"] = inputModel->playerName();
+    obj["hint"] = inputModel->hint();
+    obj["modKeyCode"] = inputModel->modKeyCode();
+    obj["middleValue"] = inputModel->middleValue();
+    obj["currentMaximum"] = inputModel->currentMaximum();
+    obj["currentMinimum"] = inputModel->currentMinimum();
+    return obj;
 }
+
+QJsonObject DartsInputJsonBuilder::toDefaultJsonObject(const DartsMetaModel &meta) const
+{
+    QJsonObject obj;
+    obj["tournamentId"] = toString(meta.tournamentId);
+    obj["inputPlayerId"] = toString(meta.playerId);
+    obj["inputPlayerName"] = meta.playerName;
+    return obj;
+}
+
 QByteArray DartsInputJsonBuilder::toByteArray(const QJsonArray &arr) const
 {
     return QJsonDocument(arr).toJson();
@@ -43,4 +59,9 @@ QByteArray DartsInputJsonBuilder::toByteArray(const QJsonArray &arr) const
 QByteArray DartsInputJsonBuilder::toByteArray(const QJsonObject &obj) const
 {
     return QJsonDocument(obj).toJson();
+}
+
+QString DartsInputJsonBuilder::toString(const QUuid &id) const
+{
+    return id.toString(QUuid::WithoutBraces);
 }

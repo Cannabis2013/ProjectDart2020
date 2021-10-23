@@ -1,7 +1,7 @@
 #ifndef INDEXCONTROLLERINTERFACE_H
 #define INDEXCONTROLLERINTERFACE_H
 
-class IDCIndexService
+class IDCIndexController
 {
 public:
     virtual void syncIndex() = 0;

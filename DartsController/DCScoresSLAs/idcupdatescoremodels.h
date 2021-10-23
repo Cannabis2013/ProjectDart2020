@@ -7,6 +7,6 @@
 class IDCUpdateScoreModels
 {
 public:
-    virtual void update(const QVector<DCContext::DCScoreModel> &tuples, IDCScoresService *scoresService) const = 0;
+    virtual void update(const QVector<DCScoreModel> &tuples, IDCScoresService *scoresService) const = 0;
 };
 #endif // IDCREPLACETUPLES_H

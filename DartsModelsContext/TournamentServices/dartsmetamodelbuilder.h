@@ -9,7 +9,7 @@
 class DartsMetaModelBuilder : public IDartsMetaModelBuilder
 {
 public:
-    virtual DartsMetaModel buildMetaModel(const QByteArray &json) const override
+    virtual DartsMetaModel buildMeta(const QByteArray &json) const override
     {
         return toModel(toJsonObject(json));
     }

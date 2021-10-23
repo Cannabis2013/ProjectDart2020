@@ -13,13 +13,13 @@ DSController::DSController(const DCBuilding::DCMeta &meta)
     setRedoIndex(new DCIndexRedo);
     setIndexKeys(new DCIndexesJsonKeys);
     setIndexService(new DSCIndexController);
-    setIndexesBuilder(new DCIndexesBuilder);
+    setIndexesBuilder(new DCInputIndexBuilder);
+    setReqIndexBuilder(new DSCReqIndexBuilder);
     // Scores services
-    setCreateCandidateScores(new DCCreateCandidateModels);
+    setCreateCandidateScores(new DCUpdateInputDetails);
     setGetTotalScoreService(new DCGetScoreCand);
     setScoresService(new DCScoresService);
     setScoreBuilder(new DCCreateScoreModels);
-    setAddScoreService(new DCAddScore);
     // Meta services
     setDetermineStatusById(new DetermineStatusById);
     setControllerStatus(new DCMetaStatus);
@@ -29,7 +29,7 @@ DSController::DSController(const DCBuilding::DCMeta &meta)
     setTournamentId(DCTournamentId::createInstance(meta.tournamentId));
     setInitialScore(DCInitialScore::createInstance(meta.keyPoint));
     setSetMetaJsonValues(new DCMetaJsonBuilder);
-    setMetaBuilder(new DCMetaModelBuilder(indexService(),scoresService()));
+    setMetaBuilder(new DCMetaModelBuilder(indexController(),scoreController()));
     // Json services
     setJsonResponseBuilder(createJsonBuilder());
     // Input services
@@ -37,10 +37,9 @@ DSController::DSController(const DCBuilding::DCMeta &meta)
     setInputEvaluator(DSCInputValidator::createInstance());
     setInputBuilder(new DSCInputBuilder);
     // Input statistics services
-    setStatsBuilder(new DSCStatsBuilder);
+    setStatsBuilder(new DSCScoreStats);
     // Player score services
     setPlayerBuilderService(new DCPlayerBuilder);
-    setSubtractScore(new DCSubtractScore);
     setUpdateScoreModels(new DCUpdateScoreModels);
     setResetScoreModels(new DCResetScoreModels);
     // Player services
@@ -53,9 +52,11 @@ AbstractDCJsonBuilder *DSController::createJsonBuilder()
 {
     auto builder = new DCJsonBuilder;
     builder->setInputJsonBuilder(new DCInputJsonBuilder);
-    builder->setIndexesJsonBuilder(new DCIndexesJsonBuilder);
-    builder->setInputStatJsonBuilder(new DCStatsJsonBuilder);
+    builder->setScoreModelJsonBuilder(new DCScoreJsonBuilder);
+    builder->setIndexesJsonBuilder(new DCIndexJsonBuilder);
+    builder->setReqIndexJsonBuilder(new DCReqIndexJsonBuilder);
     builder->setMetaJsonBuilder(new DCMetaInfoJsonBuilder);
+    builder->setPlayerStatsJsonBuilder(new DCPlayerStatsJsonBuilder);
     builder->setTurnValuesJsonBuilder(new DCTurnValuesJsonBuilder);
     return builder;
 }

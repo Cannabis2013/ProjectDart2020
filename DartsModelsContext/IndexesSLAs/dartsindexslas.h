@@ -1,10 +1,10 @@
-#ifndef DARTSINDEXESSLAS_H
-#define DARTSINDEXESSLAS_H
+#ifndef DARTSINDEXSLAS_H
+#define DARTSINDEXSLAS_H
 
 #include "iresetdartsindexes.h"
 #include "iupdatedartsindexes.h"
 
-class DartsIndexesSLAs
+class DartsIndexSLAs
 {
 public:
     IUpdateDartsIndexes *updateIndexes() const
@@ -27,4 +27,4 @@ private:
     IResetDartsIndexes *_resetIndexes;
     IUpdateDartsIndexes *_updateIndexes;
 };
-#endif // DARTSINDEXESSLAS_H
+#endif // DARTSINDEXSLAS_H

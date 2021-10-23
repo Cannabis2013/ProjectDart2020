@@ -16,7 +16,7 @@ public:
     {
         return new DPCInputEvaluator;
     }
-    virtual void evaluateInput(const int &remainingScore, DCInput input,  IDCPlayerApproval *approvalContext, AbstractDartsController *controller) override
+    virtual void evaluateInput(DCInput input,  IDCPlayerApproval *approvalContext, AbstractDartsController *controller) override
     {
         if(!approvalContext->isAllowedEntrance(input.playerId))
         {
@@ -28,27 +28,14 @@ public:
                 return;
             }
         }
-        if(remainingScore >= minimumAllowedScore)
+        if(input.remainingScoreCand >= minimumAllowedScore)
             controller->persistInput(input);
-        else if(remainingScore == 0)
-        {
-            if(input.modKeyCode == DoubleModifier || input.score == bullsEye())
-                controller->declareWinner(input);
-            else
-                emit playerOutOfRange(input);
-        }
+        else if(input.remainingScoreCand == 0 && (input.modKeyCode == DoubleModifier || input.score == _bullsEye))
+            controller->declareWinner(input);
         else
             controller->nullifyAndPersistInput(input);
     }
-    int bullsEye() const
-    {
-        return _bullsEye;
-    }
 private:
-    int maxAllowedInput() const
-    {
-        return _maxAllowedInput;
-    }
     const int _maxAllowedInput = 180;
     const int _bullsEye = 50;
     const int minimumAllowedScore = 2;

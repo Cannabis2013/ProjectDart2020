@@ -25,7 +25,7 @@ void ConnectDartsController::connectController(AbstractGameController *controlle
     QObject::connect(dartscontroller,&AbstractDartsController::requestScores,
                      modelsContext,&AbstractDartsModelsContext::getPlayerInputs);
     QObject::connect(modelsContext,&AbstractDartsModelsContext::sendInputs,
-                     dartscontroller,&AbstractDartsController::initializeScores);
+                     dartscontroller,&AbstractDartsController::initializePlayerScores);
     QObject::connect(dartscontroller,&AbstractDartsController::requestWinnerDetails,
                      modelsContext,&AbstractDartsModelsContext::getTournamentWinnerDetails);
     QObject::connect(modelsContext,&AbstractDartsModelsContext::sendWinnerDetails,
@@ -44,7 +44,7 @@ void ConnectDartsController::connectController(AbstractGameController *controlle
                      routeService,&AbstractRouteByHint::routeByInputHint);
     // UI requests singleattempt scores
     QObject::connect(application,&AbstractApplicationInterface::requestDartsScores,
-            dartscontroller,&AbstractDartsController::createDartsScores);
+            dartscontroller,&AbstractDartsController::createScores);
     QObject::connect(dartscontroller,&AbstractDartsController::sendDartsScores,
             application,&AbstractApplicationInterface::sendDartsScores);
     // Wake up controller
@@ -64,8 +64,8 @@ void ConnectDartsController::connectController(AbstractGameController *controlle
     // Start/stop game
     QObject::connect(application,&AbstractApplicationInterface::requestStartGame,
                      dartscontroller,&AbstractGameController::start);
-    QObject::connect(dartscontroller,&AbstractDartsController::awaitsInput,
-                     application,&AbstractApplicationInterface::controllerAwaitsInput);
+    QObject::connect(dartscontroller,&AbstractDartsController::sendTurnValues,
+                     application,&AbstractApplicationInterface::controllerSendsTurnValues);
     QObject::connect(application,&AbstractApplicationInterface::requestStopGame,
             dartscontroller,&AbstractGameController::stop);
     // Reset tournament
@@ -83,7 +83,7 @@ void ConnectDartsController::connectController(AbstractGameController *controlle
     QObject::connect(dartscontroller,&AbstractDartsController::requestAddDartsScore,
                      modelsContext,&AbstractDartsModelsContext::addInput);
     QObject::connect(modelsContext,&AbstractDartsModelsContext::inputModelAdded,
-                     dartscontroller,&AbstractDartsController::handleUserInputAdded);
+                     dartscontroller,&AbstractDartsController::userInputAdded);
     QObject::connect(dartscontroller,&AbstractDartsController::sendCurrentIndexes,
                      modelsContext,&AbstractDartsModelsContext::updateTournamentIndexes);
     QObject::connect(modelsContext,&AbstractDartsModelsContext::tournamentIndexesUpdated,
