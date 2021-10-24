@@ -80,6 +80,7 @@ HEADERS += \
     DartsController/DCIndexServices/dcinputindexbuilder.h \
     DartsController/DCIndexServices/dcplayerstatsjsonbuilder.h \
     DartsController/DCIndexServices/dcreqindexjsonbuilder.h \
+    DartsController/DCIndexServices/dpcreqindexbuilder.h \
     DartsController/DCIndexServices/dscreqindexbuilder.h \
     DartsController/DCInputSLAs/abstractdcinputevaluator.h \
     DartsController/DCInputSLAs/idcinputbuilder.h \
@@ -111,6 +112,7 @@ HEADERS += \
     DartsController/DPCServices/dpcinputevaluator.h \
     DartsController/DPCStatsServices/dpcscorestats.h \
     DartsController/DSCServices/dscinputbuilder.h \
+    DartsController/DSCServices/dscinputevaluator.h \
     DartsController/DSCStatsServices/dscscorestats.h \
     DartsControllerBuilder/Services/dcbuilder.h \
     DartsModelsContext/DMCInputSLAs/dartsinputslas.h \
@@ -280,7 +282,6 @@ HEADERS += \
     dpmctablemodel.h \
     dpsctablemodel.h \
     DartsController/DSCServices/dscindexcontroller.h \
-    DartsController/DSCServices/dscinputvalidator.h \
     DartsController/DartsScoreController/dscontroller.h \
     DartsController/DSCServices/dscvaluesbuilder.h \
     dssctablemodel.h \

@@ -44,13 +44,20 @@ function setViewPosition(x,y)
 function appendHeader(header)
 {
     playerNamesModel.appendItem(header);
-    averageValuesModel.appendItem(0.0);
+    appendStatsItems();
     var headerWidth = fontsMetric.width(header,tableFonts.headerFontFamily,tableFonts.headerFontSize);
     var headerHeight = fontsMetric.height(header,tableFonts.headerFontFamily,tableFonts.headerFontSize);
     var i = playerNamesModel.indexOf(header);
     tableHeightProvider.updateRowHeight(i,headerHeight);
     var scaledWidth = scaleWidth(headerWidth);
     updateVerticalHeaderWidth(scaledWidth);
+}
+
+function appendStatsItems()
+{
+    middleValues.appendItem(0.0);
+    minimumValues.appendItem(0);
+    maximumValues.appendItem(0);
 }
 
 function scaleWidth(w)
@@ -67,7 +74,7 @@ function updateVerticalHeaderWidth(w)
 function setData(playerName,score,average, lowerVal, upperVal){
     let index = playerNamesModel.indexOf(playerName);
     updateStatistics(index,average,lowerVal,upperVal);
-    var result = dataModel.insertData(index,point,score);
+    var result = dataModel.insertData(index,score);
     if(!result)
         print("Couldn't add data to model");
     else
@@ -77,9 +84,9 @@ function setData(playerName,score,average, lowerVal, upperVal){
 function updateStatistics(index,average,lowerVal,upperVal)
 {
     if(!isNaN(average))
-        averageValuesModel.setItem(average,index);
-    lowerValuesModel.setItem(lowerVal,index);
-    upperValuesModel.setItem(upperVal,index);
+        middleValues.setItem(average,index);
+    minimumValues.setItem(lowerVal,index);
+    maximumValues.setItem(upperVal,index);
 }
 
 function takeData(row,column,playerName){
@@ -100,9 +107,9 @@ function setHeaderData(data,defaultVal)
 {
     for(var i = 0; i < data.length;i++)
     {
-        var assignedPlayerName = data[i];
-        singleColumnPointBoard.appendHeader(assignedPlayerName,Qt.Vertical);
-        singleColumnPointBoard.setData(assignedPlayerName,0,defaultVal,0.0,0,0);
+        let assignedPlayerName = data[i];
+        singleColumnPointBoard.appendHeader(assignedPlayerName);
+        singleColumnPointBoard.setData(assignedPlayerName,defaultVal,0,0,0);
     }
 }
 
@@ -110,4 +117,14 @@ function setDelegateText(text,ref)
 {
     var j = JSON.parse(text);
     ref.score = j["score"];
+}
+
+function updateDelegate(text,ref,row)
+{
+    ref.averageValue = middleValues.item(row);
+    ref.lowerValue = minimumValues.item(row);
+    ref.upperValue = maximumValues.item(row);
+    if(text === undefined)
+        return "text";
+    return text;
 }

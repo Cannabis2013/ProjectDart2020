@@ -16,8 +16,7 @@ public:
             _playerStats << entity;
         }
     }
-    void updatePlayerStats(DCInput &input, const IDCIndexController *indexService,
-                               const IDCScoresService *, const int &initialScore) override
+    void updatePlayerStats(DCInput &input, const IDCIndexController *indexService, const IDCScoresService *, const int &initialScore) override
     {
         auto stats = getEntityFromId(input.playerId);
         checkAndSetScoreRange(stats,input.score);

@@ -1,14 +1,14 @@
-#ifndef DSCINPUTVALIDATOR_H
-#define DSCINPUTVALIDATOR_H
+#ifndef DSCINPUTEVALUATOR_H
+#define DSCINPUTEVALUATOR_H
 
 #include "DartsController/DPCServices/dpcinputevaluator.h"
 
-class DSCInputValidator : public AbstractDCInputEvaluator
+class DSCInputEvaluator : public AbstractDCInputEvaluator
 {
 public:
-    static DSCInputValidator *createInstance()
+    static DSCInputEvaluator *createInstance()
     {
-        return new DSCInputValidator();
+        return new DSCInputEvaluator();
     }
     virtual void evaluateInput(DCInput input, IDCPlayerApproval *, AbstractDartsController *controller) override
     {

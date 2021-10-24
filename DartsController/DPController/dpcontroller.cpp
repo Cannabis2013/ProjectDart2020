@@ -1,5 +1,4 @@
 #include "dpcontroller.h"
-
 DPController::DPController(const DCBuilding::DCMeta &meta):
     _metaInfo(meta)
 {
@@ -33,7 +32,7 @@ void DPController::setScoresServices()
     setUpdateScoreModels(new DCUpdateScoreModels);
     setScoresService(new DCScoresService);
     setCreateCandidateScores(new DCUpdateInputDetails);
-    setWinnerService(new DCWinnerService);    
+    setWinnerService(new DCWinnerService);
 }
 void DPController::setJsonServices()
 {
@@ -75,6 +74,7 @@ void DPController::setIndexServices()
     setRedoIndex(new DCIndexRedo);
     setIndexKeys(new DCIndexesJsonKeys);
     setIndexesBuilder(new DCInputIndexBuilder);
+    setReqIndexBuilder(new DPCReqIndexBuilder);
 }
 void DPController::setTurnValuesServices()
 {
@@ -87,5 +87,7 @@ AbstractDCJsonBuilder *DPController::createJsonBuilder()
     builder->setIndexesJsonBuilder(new DCIndexJsonBuilder);
     builder->setMetaJsonBuilder(new DCMetaInfoJsonBuilder);
     builder->setTurnValuesJsonBuilder(new DCTurnValuesJsonBuilder);
+    builder->setScoreModelJsonBuilder(new DCScoreJsonBuilder);
+    builder->setPlayerStatsJsonBuilder(new DCPlayerStatsJsonBuilder);
     return builder;
 }

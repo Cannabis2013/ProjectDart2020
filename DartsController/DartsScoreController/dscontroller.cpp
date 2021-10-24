@@ -34,7 +34,7 @@ DSController::DSController(const DCBuilding::DCMeta &meta)
     setJsonResponseBuilder(createJsonBuilder());
     // Input services
     setGetScoreFromInput(new GetScoreFromDSCInput);
-    setInputEvaluator(DSCInputValidator::createInstance());
+    setInputEvaluator(DSCInputEvaluator::createInstance());
     setInputBuilder(new DSCInputBuilder);
     // Input statistics services
     setStatsBuilder(new DSCScoreStats);

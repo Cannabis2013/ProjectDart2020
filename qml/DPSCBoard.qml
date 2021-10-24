@@ -32,13 +32,13 @@ DartsScoreBoard {
         id: playerNamesModel
     }
     StringsModel{
-        id: averageValuesModel
+        id: middleValues
     }
     StringsModel{
-        id: lowerValuesModel
+        id: minimumValues
     }
     StringsModel{
-        id: upperValuesModel
+        id: maximumValues
     }
     columnWidthProvider: function(column){
         return tableDisplayWidth;
@@ -55,8 +55,6 @@ DartsScoreBoard {
     cellDelegate: BoardDelegateContentRect {
         id: delegate
         playerName: playerNamesModel.item(index)
-        score: display
-        onScoreChanged: averageValuesModel.item(index)
-        averageValue: averageValuesModel.item(index)
+        score: ScoreBoardScripts.updateDelegate(display,this,row)
     }
 }

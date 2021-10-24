@@ -21,7 +21,10 @@ public:
         if(!approvalContext->isAllowedEntrance(input.playerId))
         {
             if(input.modKeyCode == DoubleModifier)
+            {
+                input.remainingScore = input.remainingScoreCand;
                 approvalContext->playerIsIn(input.playerId);
+            }
             else
             {
                 controller->nullifyAndPersistInput(input);
@@ -29,7 +32,10 @@ public:
             }
         }
         if(input.remainingScoreCand >= minimumAllowedScore)
+        {
+            input.remainingScore = input.remainingScoreCand;
             controller->persistInput(input);
+        }
         else if(input.remainingScoreCand == 0 && (input.modKeyCode == DoubleModifier || input.score == _bullsEye))
             controller->declareWinner(input);
         else

@@ -77,11 +77,11 @@ function addToScoreBoard(json)
 {
     let playerName = json["inputPlayerName"];
     let playerPoint = json["point"];
-    let playerScore = json["totalScore"];
+    let playerScore = json["remainingScore"];
     let middleValue = json["middleValue"];
     let minimum = json["currentMinimum"];
     let maximum = json["currentMaximum"];
-    singleColumnPointBoard.setData(playerName,playerPoint,playerScore,middleValue,minimum,maximum);
+    singleColumnPointBoard.setData(playerName,playerScore,middleValue,minimum,maximum);
 }
 
 function backendIsReady()
@@ -89,7 +89,6 @@ function backendIsReady()
     dpscBody.state = "ready";
 }
 
-// When backend has evaluated and persisted player input
 function backendAddedInput(data)
 {
     var json = JSON.parse(data);

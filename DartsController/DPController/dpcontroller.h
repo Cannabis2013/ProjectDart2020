@@ -46,6 +46,9 @@
 #include "DartsController/DCMetaServices/DCMetaInfoJsonBuilder.h"
 #include "DartsController/DCTurnValuesServices/DCTurnValuesJsonBuilder.h"
 #include "DartsController/DPCStatsServices/dpcscorestats.h"
+#include "DartsController/DCIndexServices/dpcreqindexbuilder.h"
+#include "DartsController/DCScoresServices/dcscorejsonbuilder.h"
+#include "DartsController/DCIndexServices/dcplayerstatsjsonbuilder.h"
 class DPController : public DartsController
 {
 public:
