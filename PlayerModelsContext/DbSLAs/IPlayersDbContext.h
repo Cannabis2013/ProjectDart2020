@@ -1,8 +1,8 @@
 #ifndef IPLAYERSDBCONTEXT_H
 #define IPLAYERSDBCONTEXT_H
 
-#include "ModelsContext/MCDbSLAs/imodelsdbcontext.h"
-#include "ModelsContext/MCDbSLAs/IDbPersistence.h"
+#include "ModelsContext/DbSLAs/imodelsdbcontext.h"
+#include "ModelsContext/DbSLAs/IDbPersistence.h"
 #include "PlayerModelsContext/DbSLAs/iplayercontextmodelbuilder.h"
 #include "PlayerModelsContext/DbSLAs/iplayercontextjsonbuilder.h"
 

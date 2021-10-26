@@ -8,12 +8,12 @@ DSController::DSController(const DCBuilding::DCMeta &meta)
     // Index services
     setIndexKeys(new DCIndexesJsonKeys);
     setIndexService(new DSCIndexController);
-    setIndexesBuilder(new DCInputIndexBuilder);
+    setIndexBuilder(new DCInputIndexBuilder);
     setReqIndexBuilder(new DSCReqIndexBuilder);
     // Scores services
     setCreateCandidateScores(new DCUpdateInputDetails);
     setGetTotalScoreService(new DCGetScoreCand);
-    setScoresModels(new DCScoresService);
+    setScoresModels(new DCScoreModels);
     setScoreBuilder(new DCCreateScoreModels);
     // Meta services
     setDetermineStatusById(new DetermineStatusById);
@@ -36,15 +36,9 @@ DSController::DSController(const DCBuilding::DCMeta &meta)
     setUpdateMiddleVal(new DSCUpdateMidVal);
     setUpdateScoreRange(new DCUpdateScoreRange);
     setUpdatePlayerStats(new DCUpdatePlayerStat);
-    // Player score services
+    // Player scores services
     setPlayerBuilderService(new DCPlayerBuilder);
     setUpdateScoresService(new DCUpdateScoreModels);
-    setResetScoreModels(new DCResetScoreModels);
-    // Player services
-    setPlayerService(new DCPlayerService);
-    setWinnerModelFromJson(new DCGetWInnerModelsFromJson);
-    setWinnerKeys(new DCWinnerKeys);
-    setPlayerKeys(new DCPlayerKeys);
 }
 AbstractDCJsonBuilder *DSController::createJsonBuilder()
 {

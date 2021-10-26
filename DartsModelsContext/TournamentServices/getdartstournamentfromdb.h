@@ -6,7 +6,7 @@
 class GetDartsTournamentFromDb : public IGetDartsTournament
 {
 public:
-    virtual IModel<QUuid> *tournament(const QUuid &tournamentId, const IModelsDbContext *dbService) const override
+    virtual IModel<QUuid> *get(const QUuid &tournamentId, const IModelsDbContext *dbService) const override
     {
         auto models = dbService->models();
         auto model = getModelById(models,tournamentId);

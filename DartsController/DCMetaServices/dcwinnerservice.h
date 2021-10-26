@@ -7,11 +7,20 @@
 class DCWinnerService : public IDCWinnerService
 {
 public:
-    QUuid winnerId() const override;
-    QString winnerName() const override;
-    void setWinner(const QUuid &id, const QString &name) override;
+    virtual void setWinner(const DCPlayer &winner) override
+    {
+        _winner = winner;
+    }
+    virtual void setWinner(const DCInput &input) override
+    {
+        _winner.id = input.playerId;
+        _winner.name = input.playerName;
+    }
+    virtual DCPlayer &winner() override
+    {
+        return _winner;
+    }
 private:
-    QUuid _winnerId;
-    QString _winnerName;
+    DCPlayer _winner;
 };
 #endif

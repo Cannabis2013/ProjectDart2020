@@ -6,7 +6,7 @@
 class DCMetaJsonBuilder : public IDCMetaJsonBuilder
 {
 public:
-    virtual void setValues(QJsonObject &obj, const IDCTournamentId *tournamentId, const IDCWinnerService *winnerService,
+    virtual void setValues(QJsonObject &obj, const IDCTournamentId *tournamentId, const DCPlayer &winner,
                            const DCIndex &index, IDCScoreModels *scoresContext) const override
     {
         auto playerId = scoresContext->scores().at(index.setIndex).playerId;
@@ -14,8 +14,8 @@ public:
         obj["tournamentId"] = fromId(tournamentId->id());
         obj["playerId"] = fromId(playerId);
         obj["playerName"] = playerName;
-        obj["winnerId"] = fromId(winnerService->winnerId());
-        obj["winnerName"] = winnerService->winnerName();
+        obj["winnerId"] = fromId(winner.id);
+        obj["winnerName"] = winner.name;
     }
 private:
     QString fromId(const QUuid &id) const

@@ -3,8 +3,8 @@
 
 #include <qdebug.h>
 
-#include "DartsController/DCPlayerSLAs/IDCPlayerApproval.h"
-class DPCPlayerAllowancesContext : public IDCPlayerApproval
+#include "DartsController/DCPlayerSLAs/IDCPlayerController.h"
+class DPCPlayerAllowancesContext : public IDCPlayerController
 {
 public:
     virtual void appendPlayerId(const QVector<DCPlayer> &playerModels) override

@@ -1,8 +1,8 @@
 #ifndef ISETTOURNAMENTPLAYERDETAILS_H
 #define ISETTOURNAMENTPLAYERDETAILS_H
 
-#include "DartsModelsContext/TournamentsSLAs/abstractdartstournament.h"
-#include "ModelsContext/MCDbSLAs/imodelsdbcontext.h"
+#include "DartsModelsContext/TournamentModelsSLAs/abstractdartstournament.h"
+#include "ModelsContext/DbSLAs/imodelsdbcontext.h"
 
 class ISetTournamentPlayerDetails
 {

@@ -2,11 +2,11 @@
 #define PLAYERSDBCONTEXT_H
 
 #include <quuid.h>
-#include "ModelsContext/MCDbSLAs/IDbPersistence.h"
+#include "ModelsContext/DbSLAs/IDbPersistence.h"
 #include "PlayerModelsContext/DbSLAs/IPlayersDbContext.h"
-#include "ModelsContext/MCDbSLAs/imodelsdbcontext.h"
+#include "ModelsContext/DbSLAs/imodelsdbcontext.h"
 #include "PlayerModelsContext/Services/playermodel.h"
-#include "modelsdbioservices.h"
+#include "ModelsContext/DbSLAs/modelsdbioservices.h"
 
 class PlayersDbContext :
         public IPlayersDbContext,

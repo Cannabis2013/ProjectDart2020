@@ -28,10 +28,9 @@ void DPController::setMetaServices()
 void DPController::setScoresServices()
 {
     setGetTotalScoreService(new DCGetScoreCand);
-    setResetScoreModels(new DCResetScoreModels);
     setScoreBuilder(new DCCreateScoreModels);
     setUpdateScoresService(new DCUpdateScoreModels);
-    setScoresModels(new DCScoresService);
+    setScoresModels(new DCScoreModels);
     setCreateCandidateScores(new DCUpdateInputDetails);
     setWinnerService(new DCWinnerService);
 }
@@ -54,13 +53,9 @@ void DPController::setFinishesServices()
 }
 void DPController::setPlayerServices()
 {
-    setPlayerAllowanceContext(new DPCPlayerAllowancesContext);
+    setPlayerController(new DPCPlayerAllowancesContext);
     setAddPlayerNamesToJson(new AddPlayerNamestoDartsInputsAsJson);
     setPlayerBuilderService(new DCPlayerBuilder);
-    setPlayerService(new DCPlayerService);
-    setWinnerModelFromJson(new DCGetWInnerModelsFromJson);
-    setWinnerKeys(new DCWinnerKeys);
-    setPlayerKeys(new DCPlayerKeys);
 }
 void DPController::setInputServices()
 {
@@ -72,7 +67,7 @@ void DPController::setIndexServices()
 {
     setIndexService(new DPCIndexController);
     setIndexKeys(new DCIndexesJsonKeys);
-    setIndexesBuilder(new DCInputIndexBuilder);
+    setIndexBuilder(new DCInputIndexBuilder);
     setReqIndexBuilder(new DPCReqIndexBuilder);
 }
 void DPController::setTurnValuesServices()

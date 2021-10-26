@@ -1,10 +1,9 @@
 #ifndef IDCINPUTBUILDER_H
 #define IDCINPUTBUILDER_H
-
 #include "DartsController/DCScoresSLAs/idcscoremodels.h"
 #include "DartsController/DCInputServices/dcinput.h"
-#include "DartsController/DCPlayerSLAs/idcplayerservice.h"
 #include "DartsController/DCScoresSLAs/idcgetscore.h"
+#include "DartsController/DCIndexServices/dcindex.h"
 class IDCInputBuilder
 {
 public:

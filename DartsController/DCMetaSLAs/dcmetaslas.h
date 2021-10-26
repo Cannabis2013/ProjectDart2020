@@ -12,7 +12,7 @@
 class DCMetaSLAs
 {
 public:
-    IDCStatus *controllerStatus() const
+    IDCStatus *status() const
     {
         return _controllerStatus;
     }
@@ -62,7 +62,7 @@ public:
     {
         _initialScore = service;
     }
-    IDCWinnerService *winnerService() const
+    IDCWinnerService *winner() const
     {
         return _winnerService;
     }

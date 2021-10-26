@@ -2,7 +2,7 @@
 #define DARTSMODELSCONTEXT_H
 
 #include "DartsModelsContext/SLAs/abstractdartsmodelscontext.h"
-#include "DartsModelsContext/DMCInputSLAs/dartsinputslas.h"
+#include "DartsModelsContext/InputSLAs/dartsinputslas.h"
 #include "DartsModelsContext/TournamentsSLAs/dartstournamentslas.h"
 #include "DartsModelsContext/InputsDbSLAs/DartsInputsDbSLAs.h"
 #include "DartsModelsContext/TournamentsDbSLAs/dartstournamentdbslas.h"
@@ -36,13 +36,10 @@ public slots:
     //Darts tournaments methods
     void addDartsTournament(const QByteArray &json, const QVector<IModel<QUuid> *> &playerModels) override;
     void createDartsMetaData(const QUuid& tournamentId) override;
-    void getPlayerDetails(const QUuid &tournamentId) override;
-    void getTournamentWinnerDetails(const QUuid &tournamentId) override;
     //Darts point methods
     void getOrderedInputs(const QUuid &tournamentId) override;
     void addInput(const QByteArray& json) override;
-    void getPlayerInputs(const QUuid &tournamentId) override;
-    virtual void getIndexes(const QUuid &tournamentId) override;
+    virtual void createDartsValuesJson(const QUuid &tournamentId) override;
     void hideInput(const QByteArray &json) override;
     void revealInput(const QByteArray &json) override;
     void createDartsKeyValues(const QUuid& tournament) override;

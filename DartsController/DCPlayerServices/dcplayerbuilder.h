@@ -11,17 +11,20 @@
 class DCPlayerBuilder : public IDCPlayerBuilder
 {
 public:
-    DCPlayer createModel(const QUuid &id, const QString &name) const override
+    DCPlayer createPlayer(const DCInput &input) const override
     {
         DCPlayer player;
-        player.id = id;
-        player.name = name;
+        player.id = input.playerId;
+        player.name = input.playerName;
         return player;
     }
     virtual QVector<DCPlayer> createPlayers(const QByteArray &json) const override
     {
-        auto arr = toJsonArray(json);
-        return toModels(arr);
+        return toModels(toJsonArray(json));
+    }
+    virtual DCPlayer createWinner(const QByteArray &json) const override
+    {
+        return toModel(toJsonObject(json));
     }
 private:
     QJsonArray toJsonArray(const QByteArray &json) const
@@ -30,6 +33,13 @@ private:
         if(!document.isArray())
             throw "JSON NOT ARRAY";
         return document.array();
+    }
+    QJsonObject toJsonObject(const QByteArray &json) const
+    {
+        auto document = QJsonDocument::fromJson(json);
+        if(!document.isObject())
+            throw "JSON NOT OBJECT";
+        return document.object();
     }
     QVector<DCPlayer> toModels(const QJsonArray &arr) const
     {
@@ -43,6 +53,13 @@ private:
         DCPlayer player;
         player.id = toId(obj.value("playerId").toString());
         player.name = obj.value("playerName").toString();
+        return player;
+    }
+    DCPlayer toWinnerModel(const QJsonObject &obj) const
+    {
+        DCPlayer player;
+        player.id = toId(obj.value("winnerId").toString(""));
+        player.name = obj.value("winnerName").toString("");
         return player;
     }
     QUuid toId(const QString &string) const

@@ -1,7 +1,7 @@
 #ifndef IDARTSINPUTSDBCONTEXT_H
 #define IDARTSINPUTSDBCONTEXT_H
-#include "ModelsContext/MCDbSLAs/IDbPersistence.h"
-#include "ModelsContext/MCDbSLAs/imodelsdbcontext.h"
+#include "ModelsContext/DbSLAs/IDbPersistence.h"
+#include "ModelsContext/DbSLAs/imodelsdbcontext.h"
 #include "idartsinputbuilder.h"
 #include "idartsinputjsonbuilder.h"
 

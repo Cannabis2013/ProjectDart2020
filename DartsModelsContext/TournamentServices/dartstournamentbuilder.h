@@ -5,7 +5,7 @@
 #include <qjsondocument.h>
 #include <qjsonarray.h>
 #include <qjsonobject.h>
-#include "dartstournament.h"
+#include "DartsModelsContext/TournamentModels/dartstournament.h"
 #include "DartsModelsContext/TournamentsDbSLAs/idartsbuilder.h"
 
 class DartsTournamentBuilder : public IDartsBuilder
@@ -55,7 +55,7 @@ private:
     }
     AbstractDartsTournament* toModel(const QJsonObject& obj) const
     {
-        auto tournament = ModelsContext::DartsTournament::createInstance();
+        auto tournament = DartsTournament::createInstance();
         tournament->setId(toId(obj,"tournamentId"));
         tournament->setTitle(obj.value("title").toString());
         tournament->setGameMode(obj.value("gameMode").toInt());
@@ -72,7 +72,7 @@ private:
         setTournamentPlayerDetails(tournament,obj);
         return tournament;
     }
-    void setTournamentPlayerDetails(ModelsContext::DartsTournament *tournament, const QJsonObject &obj) const
+    void setTournamentPlayerDetails(DartsTournament *tournament, const QJsonObject &obj) const
     {
         QVector<QUuid> playerIds;
         QVector<QString> playerNames;

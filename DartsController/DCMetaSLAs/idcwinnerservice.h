@@ -2,12 +2,13 @@
 #define IDCWINNERSERVICE_H
 
 #include <quuid.h>
-
+#include "DartsController/DCInputServices/dcinput.h"
+#include "DartsController/DCPlayerServices/dcplayer.h"
 class IDCWinnerService
 {
 public:
-    virtual void setWinner(const QUuid& id, const QString &name) = 0;
-    virtual QUuid winnerId() const = 0;
-    virtual QString winnerName() const = 0;
+    virtual void setWinner(const DCPlayer &winner) = 0;
+    virtual void setWinner(const DCInput &input) = 0;
+    virtual DCPlayer &winner() = 0;
 };
 #endif // USERSCORESCONTROLLERINTERFACE_H

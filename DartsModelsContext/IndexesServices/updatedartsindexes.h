@@ -2,7 +2,7 @@
 #define UPDATEDARTSINDEXES_H
 
 #include "DartsModelsContext/IndexesSLAs/iupdatedartsindexes.h"
-#include "DartsModelsContext/TournamentsSLAs/abstractdartstournament.h"
+#include "DartsModelsContext/TournamentModelsSLAs/abstractdartstournament.h"
 
 class UpdateDartsIndexes : public IUpdateDartsIndexes
 {

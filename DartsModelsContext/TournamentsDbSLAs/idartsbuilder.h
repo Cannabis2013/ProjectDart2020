@@ -2,7 +2,7 @@
 #define IDARTSBUILDER_H
 
 #include <qvector.h>
-#include "DartsModelsContext/InputsDbSLAs/iplayerinput.h"
+#include "DartsModelsContext/InputModelsSLAs/iplayerinput.h"
 
 class IDartsBuilder
 {

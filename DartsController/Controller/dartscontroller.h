@@ -26,13 +26,10 @@ class DartsController : public AbstractDartsController,
     Q_OBJECT
 public slots:
     void beginInitialize() override;
-    void initializeControllerIndexes(const QByteArray& json) override;
-    void initializePlayerDetails(const QByteArray &json) override;
-    void initializePlayerScores(const QByteArray &json) override;
-    void initializeWinnerDetails(const QByteArray &json) override;
-    void handleOrderedInputs(const QByteArray &json) override;
+    void initializeDartsValues(const QByteArray &indexJson, const QByteArray &inputsJson,
+                               const QByteArray &playersJson, const QByteArray &winnerJson) override;
     void start() override;
-    void stop() override;
+    void stop() override{}
     void undoTurn() override;
     void redoTurn() override;
     void handleRequestForCurrentTournamentMetaData() override;
@@ -44,8 +41,6 @@ public slots:
     void undoSuccess(const QByteArray &json) override;
     void redoSuccess(const QByteArray &json) override;
     void persistInput(DCInput &input) override;
-    void nullifyAndPersistInput(DCInput &input) override;
-    void declareWinner(DCInput &input) override;
     void userInputAdded(const QByteArray& json) override;
 private:
     void createAndSendWinnerValues();

@@ -3,7 +3,7 @@
 
 #include "IPlayersDbContext.h"
 #include "igetplayerfromdb.h"
-#include "ModelsContext/MCDbSLAs/imodelsdbcontext.h"
+#include "ModelsContext/DbSLAs/imodelsdbcontext.h"
 
 class PlayersDbSLAs
 {

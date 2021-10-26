@@ -1,7 +1,7 @@
 #ifndef IDARTSDBCONTEXT_H
 #define IDARTSDBCONTEXT_H
-#include "ModelsContext/MCDbSLAs/imodelsdbcontext.h"
-#include "ModelsContext/MCDbSLAs/IDbPersistence.h"
+#include "ModelsContext/DbSLAs/imodelsdbcontext.h"
+#include "ModelsContext/DbSLAs/IDbPersistence.h"
 #include "DartsModelsContext/TournamentsDbSLAs/idartsbuilder.h"
 #include "itournamentjsonbuilder.h"
 class IDartsDbContext : public IModelsDbContext,

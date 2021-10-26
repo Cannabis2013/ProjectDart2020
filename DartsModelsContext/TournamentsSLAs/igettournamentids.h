@@ -3,7 +3,7 @@
 
 #include <quuid.h>
 #include <qvector.h>
-#include "ModelsContext/MCDbSLAs/imodelsdbcontext.h"
+#include "ModelsContext/DbSLAs/imodelsdbcontext.h"
 
 class IGetDartsTournamentIds
 {

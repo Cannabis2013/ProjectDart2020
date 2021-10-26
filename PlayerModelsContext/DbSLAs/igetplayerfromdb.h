@@ -2,7 +2,7 @@
 #define IGETPLAYERSFROMDB_H
 
 #include "ModelsContext/MCModelsSLAs/imodel.h"
-#include "ModelsContext/MCDbSLAs/imodelsdbcontext.h"
+#include "ModelsContext/DbSLAs/imodelsdbcontext.h"
 #include "iplayermodel.h"
 
 #include <qvector.h>

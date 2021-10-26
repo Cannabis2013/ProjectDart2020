@@ -1,9 +1,10 @@
 #ifndef DARTSTOURNAMENTJSONBUILDER_H
 #define DARTSTOURNAMENTJSONBUILDER_H
-#include "dartstournament.h"
+
 #include <qjsondocument.h>
 #include <qjsonarray.h>
 #include <qjsonobject.h>
+#include "DartsModelsContext/TournamentModelsSLAs/abstractdartstournament.h"
 #include "DartsModelsContext/TournamentsDbSLAs/itournamentjsonbuilder.h"
 
 class DartsTournamentJsonBuilder : public IDartsJsonBuilder

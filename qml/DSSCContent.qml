@@ -28,8 +28,8 @@ Content {
         TurnController{
             id: singleColumnScoreTurnController
             Layout.fillWidth: true
-            Layout.minimumHeight: 72
-            Layout.maximumHeight: 72
+            Layout.minimumHeight: 80
+            Layout.maximumHeight: 80
             Layout.alignment: Qt.AlignHCenter
             onStartButtonClicked: applicationInterface.requestStartGame()
             onResumeButtonClicked: applicationInterface.requestStartGame()

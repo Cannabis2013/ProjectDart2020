@@ -40,7 +40,7 @@ void DCScoreSLAs::setScoreBuilder(IDCScoreBuilder *service)
     _createScoreModels = service;
 }
 
-IDCGetScore *DCScoreSLAs::getScoreFromInput() const
+IDCGetScore *DCScoreSLAs::scoreCalculator() const
 {
     return _calculateScore;
 }
@@ -60,12 +60,3 @@ void DCScoreSLAs::setUpdateScoresService(IDCUpdateScoreModels *service)
     _replaceTuples = service;
 }
 
-IDCResetScoreScoreModels *DCScoreSLAs::resetScoreModels() const
-{
-    return _resetScoreModels;
-}
-
-void DCScoreSLAs::setResetScoreModels(IDCResetScoreScoreModels *service)
-{
-    _resetScoreModels = service;
-}

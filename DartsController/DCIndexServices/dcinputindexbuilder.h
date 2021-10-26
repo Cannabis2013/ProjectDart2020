@@ -3,9 +3,9 @@
 
 #include "dcindex.h"
 #include "DartsController/DCIndexSLAs/idcindexcontroller.h"
-#include "DartsController/DCIndexSLAs/idcinputindexbuilder.h"
+#include "DartsController/DCIndexSLAs/idcindexbuilder.h"
 
-class DCInputIndexBuilder : public IDCInputIndexBuilder
+class DCInputIndexBuilder : public IDCIndexBuilder
 {
 public:
     DCIndex index(const QByteArray &json) const override

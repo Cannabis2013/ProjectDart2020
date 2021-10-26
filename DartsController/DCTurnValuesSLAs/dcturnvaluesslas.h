@@ -3,7 +3,7 @@
 
 #include "DartsController/DCTurnValuesSLAs/icreatedcturnvalues.h"
 #include "DartsController/DCPlayerSLAs/idcplayerbuilder.h"
-#include "DartsController/DCIndexSLAs/idcinputindexbuilder.h"
+#include "DartsController/DCIndexSLAs/idcindexbuilder.h"
 #include "DartsController/DCInputSLAs/idcinputbuilder.h"
 
 class DCTurnvaluesSLAs

@@ -41,7 +41,7 @@ public:
     {
         _inputModelBuilder = service;
     }
-    IDartsInputJsonBuilder *inputJsonBuilder() const
+    IDartsInputJsonBuilder *inputsJsonBuilder() const
     {
         return _inputJsonBuilder;
     }

@@ -1,7 +1,7 @@
 #ifndef RESETDARTSINDEXES_H
 #define RESETDARTSINDEXES_H
 #include "DartsModelsContext/IndexesSLAs/iresetdartsindexes.h"
-#include "DartsModelsContext/TournamentsSLAs/abstractdartstournament.h"
+#include "DartsModelsContext/TournamentModelsSLAs/abstractdartstournament.h"
 class ResetDartsIndexes: public IResetDartsIndexes
 {
 public:

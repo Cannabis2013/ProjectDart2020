@@ -1,7 +1,7 @@
 #ifndef DCINDEXSLAS_H
 #define DCINDEXSLAS_H
 #include "DartsController/DCIndexSLAs/idcindexcontroller.h"
-#include "DartsController/DCIndexSLAs/idcinputindexbuilder.h"
+#include "DartsController/DCIndexSLAs/idcindexbuilder.h"
 #include "DartsController/DCIndexSLAs/IDCIndexesJsonKeys.h"
 #include "idcreqinputindexbuilder.h"
 class DCIndexSLAs
@@ -15,13 +15,13 @@ public:
     {
         _indexController = service;
     }
-    IDCInputIndexBuilder *indexBuilder() const
+    IDCIndexBuilder *indexBuilder() const
     {
-        return _inputIndexBuilder;
+        return _indexBuilder;
     }
-    void setIndexesBuilder(IDCInputIndexBuilder *service)
+    void setIndexBuilder(IDCIndexBuilder *service)
     {
-        _inputIndexBuilder = service;
+        _indexBuilder = service;
     }
     IDCIndexesJsonKeys *indexKeys() const
     {
@@ -41,7 +41,7 @@ public:
     }
 private:
     IDCIndexController* _indexController = nullptr;
-    IDCInputIndexBuilder* _inputIndexBuilder;
+    IDCIndexBuilder* _indexBuilder;
     IDCReqInputIndexBuilder *_reqIndexBuilder;
     IDCIndexesJsonKeys *_indexKeys;
 };

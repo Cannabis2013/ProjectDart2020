@@ -1,8 +1,6 @@
 #ifndef DPCINPUTVALIDATOR_H
 #define DPCINPUTVALIDATOR_H
-
 #include "DartsController/DCInputSLAs/abstractdcinputevaluator.h"
-
 class DPCInputEvaluator : public AbstractDCInputEvaluator
 {
     Q_OBJECT
@@ -16,18 +14,21 @@ public:
     {
         return new DPCInputEvaluator;
     }
-    virtual void evaluateInput(DCInput input,  IDCPlayerApproval *approvalContext, AbstractDartsController *controller) override
+    virtual void evaluateInput(DCInput input, AbstractDartsController *controller, IDCWinnerService *winnerService,
+                               IDCStatus *controllerStatus, const IDartsStatusCodes *statusCodes,
+                               IDCPlayerController *allowancesContext) override
     {
-        if(!approvalContext->isAllowedEntrance(input.playerId))
+        if(!allowancesContext->isAllowedEntrance(input.playerId))
         {
             if(input.modKeyCode == DoubleModifier)
             {
                 input.remainingScore = input.remainingScoreCand;
-                approvalContext->playerIsIn(input.playerId);
+                allowancesContext->playerIsIn(input.playerId);
             }
             else
             {
-                controller->nullifyAndPersistInput(input);
+                input.score = 0;
+                controller->persistInput(input);
                 return;
             }
         }
@@ -37,9 +38,18 @@ public:
             controller->persistInput(input);
         }
         else if(input.remainingScoreCand == 0 && (input.modKeyCode == DoubleModifier || input.score == _bullsEye))
-            controller->declareWinner(input);
+        {
+            input.remainingScore = 0;
+            winnerService->setWinner(input);
+            controllerStatus->set(statusCodes->winnerFound());
+            controller->persistInput(input);
+        }
         else
-            controller->nullifyAndPersistInput(input);
+        {
+            input.score = 0;
+            controller->persistInput(input);
+            return;
+        }
     }
 private:
     const int _bullsEye = 50;

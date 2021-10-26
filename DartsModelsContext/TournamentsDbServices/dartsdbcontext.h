@@ -1,8 +1,8 @@
 #ifndef DARTSDBCONTEXT_H
 #define DARTSDBCONTEXT_H
 
-#include "DartsModelsContext/TournamentsSLAs/abstractdartstournament.h"
-#include "modelsdbioservices.h"
+#include "DartsModelsContext/TournamentModelsSLAs/abstractdartstournament.h"
+#include "ModelsContext/DbSLAs/modelsdbioservices.h"
 #include "DartsModelsContext/TournamentsDbSLAs/dartstournamentdbslas.h"
 #include "DartsModelsContext/TournamentsDbSLAs/IDartsDbContext.h"
 class DartsDbContext :
