@@ -16,8 +16,8 @@ Rectangle {
         flow: GridLayout.LeftToRight
         Text {
             id: averageValueText
-            Layout.minimumWidth: 80
-            Layout.maximumWidth: 80
+            Layout.minimumWidth: 56
+            Layout.maximumWidth: 56
             horizontalAlignment: Qt.AlignLeft
             color: "white"
             font.pointSize: 12
@@ -25,8 +25,8 @@ Rectangle {
         }
         Text {
             id: lowestValueText
-            Layout.minimumWidth: 48
-            Layout.maximumWidth: 48
+            Layout.minimumWidth: 52
+            Layout.maximumWidth: 52
             horizontalAlignment: Qt.AlignLeft
             color: "white"
             font.pointSize: 12
@@ -34,6 +34,8 @@ Rectangle {
         }
         Text {
             id: highestValueText
+            Layout.minimumWidth: 52
+            Layout.maximumWidth: 52
             horizontalAlignment: Qt.AlignLeft
             color: "white"
             font.pointSize: 12

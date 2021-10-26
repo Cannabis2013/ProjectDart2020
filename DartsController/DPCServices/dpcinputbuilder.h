@@ -8,14 +8,13 @@
 class DPCInputBuilder : public IDCInputBuilder
 {
 public:
-    virtual DCInput buildInput(const QByteArray &json, const IDCPlayerService *playerContext,
-                               const IDCGetScore *getScoreContext, const IDCIndexController *indexContext,
-                               IDCScoresService *scoresContext) const override
+    virtual DCInput buildInput(const QByteArray &json, const IDCGetScore *getScoreContext, const DCIndex &index,
+                               IDCScoreModels *scoresContext) const override
     {
         auto jsonObject = toJsonObject(json);
         auto input = toModel(jsonObject);
-        input.playerId = playerContext->currentPlayerId(indexContext,scoresContext);
-        input.playerName = playerContext->currentPlayerName(indexContext,scoresContext);
+        input.playerId = scoresContext->scores().at(index.setIndex).playerId;
+        input.playerName = scoresContext->scores().at(index.setIndex).playerName;
         input.score = getScoreContext->getScore(input);
         return input;
     }
@@ -28,10 +27,10 @@ public:
     {
         return toModel(scoreModel);
     }
-    virtual QVector<DCInput> buildInputs(IDCScoresService *scoresService) const override
+    virtual QVector<DCInput> buildInputs(IDCScoreModels *scoresService) const override
     {
         QVector<DCInput> models;
-        for (const auto &model : scoresService->scoreModels())
+        for (const auto &model : scoresService->scores())
             models << toModel(model);
         return models;
     }

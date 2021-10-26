@@ -9,7 +9,7 @@
 class AddPlayerNamestoDartsInputsAsJson : public IAddPlayerNamesToJson
 {
 public:
-    void addPlayerNamesToJson(QByteArray &json, IDCScoresService* scoresService) const override
+    void addPlayerNamesToJson(QByteArray &json, IDCScoreModels* scoresService) const override
     {
         auto document = QJsonDocument::fromJson(json);
         auto arr = document.array();
@@ -18,13 +18,13 @@ public:
         json = newDocument.toJson();
     }
 private:
-    QJsonArray createJsonArrayWithPlayerNames(const QJsonArray &arr, IDCScoresService* scoresService) const
+    QJsonArray createJsonArrayWithPlayerNames(const QJsonArray &arr, IDCScoreModels* scoresService) const
     {
         QJsonArray newArr;
         for (const auto &j : arr) {
             auto obj = j.toObject();
             auto playerId = QUuid(obj.value("playerId").toString());
-            obj["playerName"] = getPlayerName(playerId,scoresService->scoreModels());
+            obj["playerName"] = getPlayerName(playerId,scoresService->scores());
             newArr << obj;
         }
         return newArr;

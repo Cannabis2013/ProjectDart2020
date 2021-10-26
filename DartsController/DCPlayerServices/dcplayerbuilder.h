@@ -18,7 +18,7 @@ public:
         player.name = name;
         return player;
     }
-    virtual QVector<DCPlayer> createModels(const QByteArray &json) const override
+    virtual QVector<DCPlayer> createPlayers(const QByteArray &json) const override
     {
         auto arr = toJsonArray(json);
         return toModels(arr);

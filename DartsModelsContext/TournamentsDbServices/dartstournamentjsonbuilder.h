@@ -47,6 +47,11 @@ private:
         obj["winnerId"] = model->winnerId().toString(QUuid::WithoutBraces);
         obj["winnerName"] = model->winnerName();
         obj["assignedPlayerDetails"] = createJsonArrayFromPlayerDetails(model);
+        obj["totalTurns"] = model->totalTurns();
+        obj["turnIndex"] = model->turnIndex();
+        obj["roundIndex"] = model->roundIndex();
+        obj["setIndex"] = model->setIndex();
+        obj["attemptIndex"] = model->attemptIndex();
         return obj;
     }
     QByteArray toByteArray(const QJsonObject &obj) const

@@ -1,30 +1,35 @@
 #ifndef RESETDARTSINDEXES_H
 #define RESETDARTSINDEXES_H
-
 #include "DartsModelsContext/IndexesSLAs/iresetdartsindexes.h"
-
+#include "DartsModelsContext/TournamentsSLAs/abstractdartstournament.h"
 class ResetDartsIndexes: public IResetDartsIndexes
 {
 public:
-    IDartsIndexesDbContext *reset(const QUuid &tournamentId, const IDartsIndexesBuilder *builderContext,
-                                  IDartsIndexesDbContext *dbContext) const
+    IDartsDbContext *reset(const QUuid &id, IDartsDbContext *dbContext) const override
     {
         auto models = dbContext->models();
-        auto index = getModelByTournamentId(tournamentId,models);
-        auto indexOf = dbContext->indexOf(index);
-        auto initialIndexes = builderContext->index(tournamentId);
-        dbContext->replace(indexOf,initialIndexes);
+        auto model = getModelByTournamentId(id,models);
+        if(model != nullptr)
+            resetDartsTournament(dynamic_cast<AbstractDartsTournament*>(model));
         return dbContext;
     };
 private:
-    IDartsIndex *getModelByTournamentId(const QUuid &tournamentId, const QVector<IModel<QUuid>*> &models) const
+    IModel<QUuid>* getModelByTournamentId(const QUuid &id,const QVector<IModel<QUuid>*> &models) const
     {
-        for (auto &model : models) {
-            auto indexes = dynamic_cast<IDartsIndex*>(model);
-            if(indexes->tournamentId() == tournamentId)
-                return indexes;
+        for (const auto &model : models) {
+            auto tournament = dynamic_cast<AbstractDartsTournament*>(model);
+            if(tournament->id() == id)
+                return tournament;
         }
         return nullptr;
+    }
+    void resetDartsTournament(AbstractDartsTournament *tournament) const
+    {
+        tournament->setTotalTurns(0);
+        tournament->setTurnIndex(0);
+        tournament->setRoundIndex(1);
+        tournament->setSetIndex(0);
+        tournament->setAttemptIndex(0);
     }
 };
 #endif // RESETDARTSINDEXES_H

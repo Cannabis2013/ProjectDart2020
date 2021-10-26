@@ -19,9 +19,9 @@ public slots:
     virtual void createDartsMetaData(const QUuid& tournament) = 0;
     virtual void resetTournament(const QUuid &tournament) = 0;
     virtual void createDartsKeyValues(const QUuid& tournament) = 0;
+    virtual void setTournamentIndex(const QByteArray &json) = 0;
     virtual void setDartsTournamentWinner(const QByteArray& json) = 0;
     virtual void addInput(const QByteArray& json) = 0;
-    virtual void updateTournamentIndexes(const QByteArray &json) = 0;
     virtual void hideInput(const QByteArray &json) = 0;
     virtual void revealInput(const QByteArray &json) = 0;
     virtual void getIndexes(const QUuid& tournament) = 0;
@@ -35,9 +35,9 @@ signals:
     void sendTournament(const QString &title, const int &gameMode, const int &playersCount);
     void sendTournamentMeta(const QByteArray& json);
     void requestAssembleTournament(const QUuid &tournament, const int &gameMode);
-    void inputModelAdded(const QByteArray& json);
-    void tournamentIndexesUpdated(const QByteArray &json);
-    void scoreNotAddedToDataContext(const QString& msg);
+    void inputAdded(const QByteArray& json);
+    void inputNotAdded(const QString& msg);
+    void tournamentIndexUpdated(const QByteArray &json);
     void hideInputSuccess(const QByteArray&);
     void revealInputSuccess(const QByteArray&);
     void tournamentResetSuccess();

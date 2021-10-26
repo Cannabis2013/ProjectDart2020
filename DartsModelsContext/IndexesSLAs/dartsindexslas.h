@@ -1,9 +1,8 @@
 #ifndef DARTSINDEXSLAS_H
 #define DARTSINDEXSLAS_H
-
+#include "idartsindexbuilder.h"
 #include "iresetdartsindexes.h"
 #include "iupdatedartsindexes.h"
-
 class DartsIndexSLAs
 {
 public:
@@ -15,7 +14,7 @@ public:
     {
         _updateIndexes = updateService;
     }
-    IResetDartsIndexes *resetIndexes() const
+    IResetDartsIndexes *resetDartsIndexes() const
     {
         return _resetIndexes;
     }
@@ -23,7 +22,16 @@ public:
     {
         _resetIndexes = newResetIndexes;
     }
+    IDartsIndexBuilder *indexBuilder() const
+    {
+        return _indexBuilder;
+    }
+    void setIndexBuilder(IDartsIndexBuilder *newIndexBuilder)
+    {
+        _indexBuilder = newIndexBuilder;
+    }
 private:
+    IDartsIndexBuilder *_indexBuilder;
     IResetDartsIndexes *_resetIndexes;
     IUpdateDartsIndexes *_updateIndexes;
 };

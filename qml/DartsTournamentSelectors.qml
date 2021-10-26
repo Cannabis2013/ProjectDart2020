@@ -21,13 +21,9 @@ Rectangle {
         property var gameModes: ["FirstToPost"]
         property var keyIdentifiers: ["Single","Double", "Tripple"]
         property var keyPoints: ["301","501","701","901"]
-        property var displayHints: ["Single column","Multi columns"]
         property var inputModes: ["PointInput","ScoreInput"]
     }
-
-    readonly property int attempts: attemptSelector.currentValue
     readonly property int keyPoint: keyPointSelector.currentValue
-    readonly property int displayHint: SelectorScripts.tableViewHintFromString()
     readonly property int inputMode: SelectorScripts.inputModeFromString()
 
     GridLayout{

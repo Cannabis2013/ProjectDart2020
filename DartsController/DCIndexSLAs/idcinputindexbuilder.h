@@ -7,6 +7,5 @@ class IDCInputIndexBuilder
 {
 public:
     virtual DCIndex index(const QByteArray& json) const = 0;
-    virtual DCIndex index(const IDCIndexController* indexService) const = 0;
 };
 #endif // IDARTSCONTROLLERINDEXMODELBUILDER_H

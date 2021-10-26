@@ -70,7 +70,7 @@ void ConnectDartsController::connectController(AbstractGameController *controlle
             dartscontroller,&AbstractGameController::stop);
     // Reset tournament
     QObject::connect(application,&AbstractApplicationInterface::requestTournamentReset,
-            dartscontroller,&AbstractGameController::handleResetTournament);
+            dartscontroller,&AbstractGameController::reset);
     QObject::connect(dartscontroller,&AbstractGameController::requestResetTournament,
             modelsContext,&AbstractDartsModelsContext::resetTournament);
     QObject::connect(modelsContext,&AbstractDartsModelsContext::tournamentResetSuccess,
@@ -80,13 +80,13 @@ void ConnectDartsController::connectController(AbstractGameController *controlle
     // Process and persist player input
     QObject::connect(application,&AbstractApplicationInterface::addUserInput,
                      dartscontroller,&AbstractDartsController::handleUserInput);
-    QObject::connect(dartscontroller,&AbstractDartsController::requestAddDartsScore,
+    QObject::connect(dartscontroller,&AbstractDartsController::addInputToDbContext,
                      modelsContext,&AbstractDartsModelsContext::addInput);
-    QObject::connect(modelsContext,&AbstractDartsModelsContext::inputModelAdded,
+    QObject::connect(modelsContext,&AbstractDartsModelsContext::inputAdded,
                      dartscontroller,&AbstractDartsController::userInputAdded);
-    QObject::connect(dartscontroller,&AbstractDartsController::sendCurrentIndexes,
-                     modelsContext,&AbstractDartsModelsContext::updateTournamentIndexes);
-    QObject::connect(modelsContext,&AbstractDartsModelsContext::tournamentIndexesUpdated,
+    QObject::connect(dartscontroller,&AbstractDartsController::updateTournamentIndex,
+                     modelsContext,&AbstractDartsModelsContext::setTournamentIndex);
+    QObject::connect(modelsContext,&AbstractDartsModelsContext::tournamentIndexUpdated,
                      dartscontroller,&AbstractDartsController::scoreAddedSuccess);
     QObject::connect(dartscontroller,&AbstractDartsController::scoreAddedSuccess,
                      application,&AbstractApplicationInterface::addedInput);

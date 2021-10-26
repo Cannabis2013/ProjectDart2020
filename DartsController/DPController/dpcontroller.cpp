@@ -1,4 +1,5 @@
 #include "dpcontroller.h"
+
 DPController::DPController(const DCBuilding::DCMeta &meta):
     _metaInfo(meta)
 {
@@ -22,15 +23,15 @@ void DPController::setMetaServices()
     setTournamentId(DCTournamentId::createInstance(_metaInfo.tournamentId));
     setInitialScore(DCInitialScore::createInstance(_metaInfo.keyPoint));
     setSetMetaJsonValues(new DCMetaJsonBuilder);
-    setMetaBuilder(new DCMetaModelBuilder(indexController(),scoreController()));
+    setMetaBuilder(new DCMetaModelBuilder);
 }
 void DPController::setScoresServices()
 {
     setGetTotalScoreService(new DCGetScoreCand);
     setResetScoreModels(new DCResetScoreModels);
     setScoreBuilder(new DCCreateScoreModels);
-    setUpdateScoreModels(new DCUpdateScoreModels);
-    setScoresService(new DCScoresService);
+    setUpdateScoresService(new DCUpdateScoreModels);
+    setScoresModels(new DCScoresService);
     setCreateCandidateScores(new DCUpdateInputDetails);
     setWinnerService(new DCWinnerService);
 }
@@ -41,7 +42,10 @@ void DPController::setJsonServices()
 }
 void DPController::setStatisticsServices()
 {
-    setStatsBuilder(new DPCScoreStats);
+    setPlayerStatsManager(new DCPlayerStatsManager);
+    setUpdateMiddleVal(new DPCUpdateMidVal);
+    setUpdateScoreRange(new DCUpdateScoreRange);
+    setUpdatePlayerStats(new DCUpdatePlayerStat);
 }
 void DPController::setFinishesServices()
 {
@@ -67,11 +71,6 @@ void DPController::setInputServices()
 void DPController::setIndexServices()
 {
     setIndexService(new DPCIndexController);
-    setResetIndexes(new DCResetIndexes);
-    setInitializeIndexes(new DCInitializeIndexes);
-    setIndexIterator(new DCIndexIterator);
-    setUndoIndex(new DCIndexUndo);
-    setRedoIndex(new DCIndexRedo);
     setIndexKeys(new DCIndexesJsonKeys);
     setIndexesBuilder(new DCInputIndexBuilder);
     setReqIndexBuilder(new DPCReqIndexBuilder);

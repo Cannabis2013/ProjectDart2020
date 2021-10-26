@@ -6,7 +6,7 @@
 #include "DartsController/DCIndexServices/dcindex.h"
 #include "DartsController/DCTurnValuesServices/dcturnvalues.h"
 #include "DartsController/DCScoresServices/dcscoremodel.h"
-#include "DartsController/DCInputStatsSLAs/dcplayerstat.h"
+#include "DartsController/PlayerStatsSLAs/dcplayerstat.h"
 class DCJsonBuilderServices
 {
 public:

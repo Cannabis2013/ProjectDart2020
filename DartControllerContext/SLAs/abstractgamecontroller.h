@@ -19,7 +19,7 @@ public slots:
     virtual void undoTurn() = 0;
     virtual void redoTurn() = 0;
     virtual void handleRequestForCurrentTournamentMetaData() = 0;
-    virtual void handleResetTournament() = 0;
+    virtual void reset() = 0;
     // Set initial state
     virtual void beginInitialize() = 0;
     // Player details

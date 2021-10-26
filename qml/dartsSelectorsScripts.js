@@ -28,13 +28,6 @@ function convertInputStringToHex(inputMode)
         return TournamentContext.scoreMode;
 }
 
-function tableViewHintFromString()
-{
-    var hintString = displayHintSelector.currentValue;
-    var hintCode = convertHintToHex(hintString);
-    return hintCode;
-}
-
 function inputModeFromString()
 {
     var inputString = inputModeSelector.currentValue;

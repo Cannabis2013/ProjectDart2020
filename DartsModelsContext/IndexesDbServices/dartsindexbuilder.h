@@ -3,28 +3,28 @@
 #include <QJsonArray>
 #include <qjsondocument.h>
 #include <qjsonobject.h>
-#include "DartsModelsContext/IndexesDbSLAs/icreatedartsinexesmodels.h"
+#include <ModelsContext/MCModelsSLAs/imodel.h>
+#include <DartsModelsContext/IndexesSLAs/idartsindexbuilder.h>
 #include "DartsModelsContext/IndexesDbServices/dartsindex.h"
-class DartsIndexBuilder : public IDartsIndexesBuilder
+
+class DartsIndexBuilder : public IDartsIndexBuilder
 {
 public:
-    virtual IDartsIndex *index(const QUuid &tournamentId) const override
+    IDartsIndex *index() const override
     {
         auto model = new DartsIndex;
-        model->setId(QUuid::createUuid());
-        model->setTournamentId(tournamentId);
         model->setRoundIndex(1);
         return model;
     }
-    virtual IDartsIndex *index(const QByteArray &json) const override
+    IDartsIndex *index(const QByteArray &json) const override
     {
         return toInputIndexModel(toJsonObject(json));
     }
-    virtual QVector<IModel<QUuid> *> indexes(const QByteArray &json) const override
+    QVector<IDartsIndex *> indexes(const QByteArray &json) const override
     {
         return toModels(toJsonArray(json));
     }
-    virtual IDartsIndex *reqIndex(const QByteArray &json) const override
+    IDartsIndex *reqIndex(const QByteArray &json) const override
     {
         return toReqIndexModel(toJsonObject(json));
     }
@@ -37,9 +37,9 @@ private:
     {
         return QJsonDocument::fromJson(json).array();
     }
-    QVector<IModel<QUuid>*> toModels(const QJsonArray &arr) const
+    QVector<IDartsIndex*> toModels(const QJsonArray &arr) const
     {
-        QVector<IModel<QUuid>*> models;
+        QVector<IDartsIndex*> models;
         for (auto i = arr.begin(); i != arr.end(); ++i)
             models << toInputIndexModel((*i).toObject());
         return models;
@@ -47,8 +47,6 @@ private:
     DartsIndex *toInputIndexModel(const QJsonObject &obj) const
     {
         auto model = new DartsIndex;
-        model->setId(QUuid::fromString(obj.value("id").toString()));
-        model->setTournamentId(QUuid::fromString(obj.value("tournamentId").toString()));
         model->setTotalTurns(obj.value("totalTurns").toInt());
         model->setTurnIndex(obj.value("turnIndex").toInt());
         model->setRoundIndex(obj.value("roundIndex").toInt());
@@ -59,8 +57,6 @@ private:
     DartsIndex *toReqIndexModel(const QJsonObject &obj) const
     {
         auto model = new DartsIndex;
-        model->setId(QUuid::fromString(obj.value("id").toString()));
-        model->setTournamentId(QUuid::fromString(obj.value("tournamentId").toString()));
         model->setTotalTurns(obj.value("reqTotalTurns").toInt());
         model->setTurnIndex(obj.value("reqTurnIndex").toInt());
         model->setRoundIndex(obj.value("reqRoundIndex").toInt());

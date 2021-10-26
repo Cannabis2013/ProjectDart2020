@@ -46,26 +46,7 @@ public:
     {
         _attemptIndex = val;
     }
-    virtual QUuid id() const override
-    {
-        return _id;
-    }
-    virtual DartsIndex *setId(const QUuid &id) override
-    {
-        _id = id;
-        return this;
-    }
-    virtual QUuid tournamentId() const override
-    {
-        return _tournamentId;
-    }
-    virtual void setTournamentId(const QUuid &id) override
-    {
-        _tournamentId = id;
-    }
 private:
-    QUuid _id;
-    QUuid _tournamentId;
     int _totalTurns = 0;
     int _turnIndex = 0;
     int _roundIndex = 0;

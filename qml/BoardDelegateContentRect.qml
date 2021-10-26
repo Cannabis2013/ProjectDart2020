@@ -44,8 +44,8 @@ BoxedRect{
                 Layout.row: 0
                 Layout.column: 1
                 Layout.rowSpan: 2
-                Layout.minimumWidth: 128
-                Layout.maximumWidth: 128
+                Layout.minimumWidth: 96
+                Layout.maximumWidth: 96
                 horizontalAlignment: Qt.AlignHCenter
                 verticalAlignment: Qt.AlignVCenter
                 color: "white"

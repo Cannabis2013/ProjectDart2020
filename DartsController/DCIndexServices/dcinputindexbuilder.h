@@ -19,16 +19,6 @@ public:
         indexes.attemptIndex = jsonObject.value("attemptIndex").toInt();
         return indexes;
     }
-    DCIndex index(const IDCIndexController *indexService) const override
-    {
-        DCIndex indexes;
-        indexes.totalTurns = indexService->totalIndex();
-        indexes.turnIndex = indexService->turnIndex();
-        indexes.roundIndex = indexService->roundIndex();
-        indexes.setIndex = indexService->setIndex();
-        indexes.attemptIndex = indexService->attemptIndex();
-        return indexes;
-    }
 private:
     QJsonObject toJsonObject(const QByteArray &json) const
     {

@@ -4,22 +4,22 @@
 class DCResetScoreModels : public IDCResetScoreScoreModels
 {
 public:
-    virtual void reset(IDCScoresService *scoresService, const int &initialScore) const override
+    virtual void reset(IDCScoreModels *scoresService, const int &initialScore) const override
     {
-        auto models = scoresService->scoreModels();
+        auto models = scoresService->scores();
         initializeModels(models,initialScore);
         replaceModels(models,scoresService);
     }
 private:
-    void initializeModels(IDCScoresService::DartsScoreModels &models, const int &initialScore) const
+    void initializeModels(IDCScoreModels::DartsScoreModels &models, const int &initialScore) const
     {
         for (auto &model : models)
             model.remainingScore = initialScore;
     }
-    void replaceModels(const IDCScoresService::DartsScoreModels &models, IDCScoresService *scoresService) const
+    void replaceModels(const IDCScoreModels::DartsScoreModels &models, IDCScoreModels *scoresService) const
     {
-        scoresService->scoreModels().clear();
-        scoresService->scoreModels().append(models);
+        scoresService->scores().clear();
+        scoresService->scores().append(models);
     }
 };
 #endif // DCRESETSCOREMODELS_H

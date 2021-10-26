@@ -6,11 +6,6 @@ DSController::DSController(const DCBuilding::DCMeta &meta)
     setSuggestFinishes(DCInputFinishes::createInstance(DCCreateFinishes::createInstance(),
                                                        DCLogisticDb::createInstance()));
     // Index services
-    setInitializeIndexes(new DCInitializeIndexes);
-    setIndexIterator(new DCIndexIterator);
-    setResetIndexes(new DCResetIndexes);
-    setUndoIndex(new DCIndexUndo);
-    setRedoIndex(new DCIndexRedo);
     setIndexKeys(new DCIndexesJsonKeys);
     setIndexService(new DSCIndexController);
     setIndexesBuilder(new DCInputIndexBuilder);
@@ -18,7 +13,7 @@ DSController::DSController(const DCBuilding::DCMeta &meta)
     // Scores services
     setCreateCandidateScores(new DCUpdateInputDetails);
     setGetTotalScoreService(new DCGetScoreCand);
-    setScoresService(new DCScoresService);
+    setScoresModels(new DCScoresService);
     setScoreBuilder(new DCCreateScoreModels);
     // Meta services
     setDetermineStatusById(new DetermineStatusById);
@@ -29,7 +24,7 @@ DSController::DSController(const DCBuilding::DCMeta &meta)
     setTournamentId(DCTournamentId::createInstance(meta.tournamentId));
     setInitialScore(DCInitialScore::createInstance(meta.keyPoint));
     setSetMetaJsonValues(new DCMetaJsonBuilder);
-    setMetaBuilder(new DCMetaModelBuilder(indexController(),scoreController()));
+    setMetaBuilder(new DCMetaModelBuilder);
     // Json services
     setJsonResponseBuilder(createJsonBuilder());
     // Input services
@@ -37,10 +32,13 @@ DSController::DSController(const DCBuilding::DCMeta &meta)
     setInputEvaluator(DSCInputEvaluator::createInstance());
     setInputBuilder(new DSCInputBuilder);
     // Input statistics services
-    setStatsBuilder(new DSCScoreStats);
+    setPlayerStatsManager(new DCPlayerStatsManager);
+    setUpdateMiddleVal(new DSCUpdateMidVal);
+    setUpdateScoreRange(new DCUpdateScoreRange);
+    setUpdatePlayerStats(new DCUpdatePlayerStat);
     // Player score services
     setPlayerBuilderService(new DCPlayerBuilder);
-    setUpdateScoreModels(new DCUpdateScoreModels);
+    setUpdateScoresService(new DCUpdateScoreModels);
     setResetScoreModels(new DCResetScoreModels);
     // Player services
     setPlayerService(new DCPlayerService);

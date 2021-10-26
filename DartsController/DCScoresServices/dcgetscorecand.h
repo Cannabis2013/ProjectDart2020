@@ -4,15 +4,15 @@
 class DCGetScoreCand : public IDCGetScoreCand
 {
 public:
-    virtual int calc(const int &modelIndex, const int &scoreCandidate, IDCScoresService *scoresService) const override
+    virtual int calc(const DCIndex &index, const int &scoreCandidate, IDCScoreModels *scoresService) const override
     {
-        auto scoreModel = this->scoreModel(modelIndex,scoresService);
+        auto scoreModel = this->scoreModel(index.setIndex,scoresService);
         return calcCandidate(scoreModel,scoreCandidate);
     }
 private:
-    DCScoreModel scoreModel(const int &modelIndex, IDCScoresService *scoresService) const
+    DCScoreModel scoreModel(const int &modelIndex, IDCScoreModels *scoresService) const
     {
-        auto scoreModels = scoresService->scoreModels();
+        auto scoreModels = scoresService->scores();
         return scoreModels.at(modelIndex);
     }
     int calcCandidate(const DCScoreModel scoreModel, const int &scoreCandidate) const

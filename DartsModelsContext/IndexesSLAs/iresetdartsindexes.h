@@ -1,13 +1,11 @@
 #ifndef IRESETDARTSINDEXES_H
 #define IRESETDARTSINDEXES_H
-
+#include "ModelsContext/MCModelsSLAs/imodel.h"
 #include <quuid.h>
-#include "DartsModelsContext/IndexesDbSLAs/idartsindexesdbcontext.h"
-
+#include "DartsModelsContext/TournamentsDbSLAs/IDartsDbContext.h"
 class IResetDartsIndexes
 {
 public:
-    virtual IDartsIndexesDbContext *reset(const QUuid &tournamentId, const IDartsIndexesBuilder *builderContext,
-                                          IDartsIndexesDbContext *dbContext) const = 0;
+    virtual IDartsDbContext *reset(const QUuid &id, IDartsDbContext *dbContext) const = 0;
 };
 #endif // IRESETDARTSINDEXES_H

@@ -1,12 +1,10 @@
 #ifndef GETDARTSTOURNAMENTIDS_H
 #define GETDARTSTOURNAMENTIDS_H
-
 #include "DartsModelsContext/TournamentsSLAs/igettournamentids.h"
-
-class GetDartsTournamentIds : public IGetDartsTournamentIds
+class GetDartsIds : public IGetDartsTournamentIds
 {
 public:
-    virtual QVector<QUuid> fromIndexes(const QVector<int> &indexes, const IModelsDbContext *dbContext) const override
+    virtual QVector<QUuid> get(const QVector<int> &indexes, const IModelsDbContext *dbContext) const override
     {
         return modelsByIndexes(dbContext->models(),indexes);
     }

@@ -6,10 +6,10 @@
 
 struct DCIndex
 {
-    int totalTurns;
-    int turnIndex;
-    int roundIndex;
-    int setIndex;
-    int attemptIndex;
+    int totalTurns = 0;
+    int turnIndex = 0;
+    int roundIndex = 1;
+    int setIndex = 0;
+    int attemptIndex = 0;
 };
 #endif // DARTSSINGLEATTEMPTINDEXES_H

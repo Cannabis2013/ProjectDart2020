@@ -11,7 +11,7 @@
 class DartsTournamentBuilder : public IDartsBuilder
 {
 public:
-    virtual IModel<QUuid> *buildTournament(const QByteArray &json) const override
+    virtual IModel<QUuid> *createTournament(const QByteArray &json) const override
     {
         QJsonObject obj;
         try {
@@ -55,17 +55,22 @@ private:
     }
     AbstractDartsTournament* toModel(const QJsonObject& obj) const
     {
-        auto dartsTournamentModel = ModelsContext::DartsTournament::createInstance();
-        dartsTournamentModel->setId(QUuid(obj.value("tournamentId").toString(QUuid::createUuid().toString(QUuid::WithoutBraces))));
-        dartsTournamentModel->setTitle(obj.value("title").toString());
-        dartsTournamentModel->setGameMode(obj.value("gameMode").toInt());
-        dartsTournamentModel->setKeyPoint(obj.value("keyPoint").toInt());
-        dartsTournamentModel->setInputMode(obj.value("inputHint").toInt());
-        dartsTournamentModel->setStatus(obj.value("status").toInt());
-        dartsTournamentModel->setWinnerId(QUuid(obj.value("winnerId").toString("")));
-        dartsTournamentModel->setWinnerName(obj.value("winnerName").toString(""));
-        setTournamentPlayerDetails(dartsTournamentModel,obj);
-        return dartsTournamentModel;
+        auto tournament = ModelsContext::DartsTournament::createInstance();
+        tournament->setId(toId(obj,"tournamentId"));
+        tournament->setTitle(obj.value("title").toString());
+        tournament->setGameMode(obj.value("gameMode").toInt());
+        tournament->setKeyPoint(obj.value("keyPoint").toInt());
+        tournament->setInputMode(obj.value("inputHint").toInt());
+        tournament->setStatus(obj.value("status").toInt());
+        tournament->setWinnerId(toId(obj,"winnerId"));
+        tournament->setWinnerName(obj.value("winnerName").toString(""));
+        tournament->setTotalTurns(obj.value("totalTurns").toInt(0));
+        tournament->setTurnIndex(obj.value("turnIndex").toInt(0));
+        tournament->setRoundIndex(obj.value("roundIndex").toInt(1));
+        tournament->setSetIndex(obj.value("setIndex").toInt(0));
+        tournament->setAttemptIndex(obj.value("attemptIndex").toInt(0));
+        setTournamentPlayerDetails(tournament,obj);
+        return tournament;
     }
     void setTournamentPlayerDetails(ModelsContext::DartsTournament *tournament, const QJsonObject &obj) const
     {
@@ -79,6 +84,10 @@ private:
         }
         tournament->setAssignedPlayerIdentities(playerIds);
         tournament->setAssignedPlayerNames(playerNames);
+    }
+    QUuid toId(const QJsonObject &obj, const QString &key, const QString &defaultvalue = "") const
+    {
+        return QUuid::fromString(obj.value(key).toString(defaultvalue));
     }
 };
 #endif // ASSEMBLEDARTSTOURNAMENTFROMJSONARRAY_H

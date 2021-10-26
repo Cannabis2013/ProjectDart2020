@@ -9,50 +9,40 @@
 class CreateDPCTurnValues : public ICreateDCTurnValues
 {
 public:
-    DCTurnValues turnValues(const IDCIndexController *indexService, IDCScoresService* scoresService,
+    DCTurnValues turnValues(const DCIndex &index, IDCScoreModels* scoresService,
                             const IDartsInputFinishes* logisticService = nullptr) const override
     {
         DCTurnValues model;
-        model.canUndo = canUndo(indexService);
-        model.canRedo = canRedo(indexService);
-        model.roundIndex = indexService->roundIndex();
-        model.setIndex = indexService->setIndex();
-        model.attemptIndex = indexService->attemptIndex();
-        model.targetRow = createTargetRow(indexService,scoresService,logisticService);
-        model.playerName = getPlayerName(indexService,scoresService);
+        model.canUndo = index.turnIndex > 0;
+        model.canRedo = index.turnIndex < index.totalTurns;
+        model.roundIndex = index.roundIndex;
+        model.setIndex = index.setIndex;
+        model.attemptIndex = index.attemptIndex;
+        model.targetRow = createTargetRow(index,scoresService,logisticService);
+        model.playerName = getPlayerName(index,scoresService);
         return model;
     }
 private:
-    QString createTargetRow(const IDCIndexController *indexService,
-                           IDCScoresService *scoresService,
+    QString createTargetRow(const DCIndex &index, IDCScoreModels *scoresService,
                            const IDartsInputFinishes* logisticService) const
     {
         if(logisticService == nullptr)
             return "Logistic service not injected";
-        auto remainingScore = getPlayerScore(indexService,scoresService);
-        auto attemptIndex = indexService->attemptIndex();
-        auto targetRow = logisticService->suggestTargetRow(remainingScore,attemptIndex);
+        auto remainingScore = getPlayerScore(index,scoresService);
+        auto targetRow = logisticService->suggestTargetRow(remainingScore,index.attemptIndex);
         return targetRow;
     }
-    int getPlayerScore(const IDCIndexController *indexService, IDCScoresService *scoresService) const
+    int getPlayerScore(const DCIndex &index, IDCScoreModels *scoresService) const
     {
-        auto models = scoresService->scoreModels();
-        auto model = models.at(indexService->setIndex());
+        auto models = scoresService->scores();
+        auto model = models.at(index.setIndex);
         return model.remainingScore;
     }
-    QString getPlayerName(const IDCIndexController *indexService, IDCScoresService *scoresService) const
+    QString getPlayerName(const DCIndex &index, IDCScoreModels *scoresService) const
     {
-        auto models = scoresService->scoreModels();
-        auto model = models.at(indexService->setIndex());
+        auto models = scoresService->scores();
+        auto model = models.at(index.setIndex);
         return model.playerName;
-    }
-    bool canUndo(const IDCIndexController *indexService) const
-    {
-        return indexService->turnIndex() > 0;
-    }
-    bool canRedo(const IDCIndexController *indexService) const
-    {
-        return indexService->turnIndex() < indexService->totalIndex();
     }
 };
 #endif // BUILDDARTSPOINTTURNVALUES_H

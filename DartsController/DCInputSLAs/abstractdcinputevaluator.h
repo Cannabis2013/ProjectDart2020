@@ -1,6 +1,5 @@
 #ifndef ABSTRACTDCINPUTEVALUATOR_H
 #define ABSTRACTDCINPUTEVALUATOR_H
-
 #include <qobject.h>
 #include "DartsController/DCPlayerSLAs/IDCPlayerApproval.h"
 #include "DartsController/DCInputServices/dcinput.h"

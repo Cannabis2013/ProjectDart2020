@@ -25,11 +25,11 @@ signals:
     void initialized(const int &inputHint,const int &displayHint);
     void controllerAwaitsInput();
     void controllerInitializedAndReady();
-    void requestAddDartsScore(const QByteArray& tournament);
+    void addInputToDbContext(const QByteArray& tournament);
+    void updateTournamentIndex(const QByteArray &json);
     void hideInput(const QByteArray &json);
     void revealInput(const QByteArray &json);
     void requestDartsTournamentDetails(const QUuid& tournamentId);
-    void sendCurrentIndexes(const QByteArray &json);
     void initializedAndAwaitsInput(const bool& canUndo,
                                    const bool& canRedo,
                                    const int& roundIndex,

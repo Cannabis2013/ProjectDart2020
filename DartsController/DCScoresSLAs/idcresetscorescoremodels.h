@@ -2,11 +2,11 @@
 #define IDCRESETSCORESCOREMODELS_H
 
 #include "DartsController/DCMetaSLAs/idcinitialscore.h"
-#include "DartsController/DCScoresSLAs/idcscoresservice.h"
+#include "DartsController/DCScoresSLAs/idcscoremodels.h"
 
 class IDCResetScoreScoreModels
 {
 public:
-    virtual void reset(IDCScoresService *scoresService, const int &initialScore) const = 0;
+    virtual void reset(IDCScoreModels *scoresService, const int &initialScore) const = 0;
 };
 #endif // IDCRESETSCORETUPLES_H

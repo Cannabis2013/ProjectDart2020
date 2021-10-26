@@ -8,7 +8,7 @@ class IScoresService
 {
 public:
     typedef QVector<TModel> DartsScoreModels;
-    virtual const DartsScoreModels &scoreModels() = 0;
+    virtual const DartsScoreModels &scores() = 0;
 };
 
 #endif // ISCORESSERVICE_H

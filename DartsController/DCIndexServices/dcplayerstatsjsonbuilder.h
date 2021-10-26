@@ -1,6 +1,6 @@
 #ifndef DCPLAYERSTATSJSONBUILDER_H
 #define DCPLAYERSTATSJSONBUILDER_H
-#include "DartsController/DCInputStatsSLAs/dcplayerstat.h"
+#include "DartsController/PlayerStatsSLAs/dcplayerstat.h"
 #include "DartsController/DCJsonSLAs/idcmodeljsonbuilder.h"
 class DCPlayerStatsJsonBuilder : public IDCModelJsonBuilder<DCPlayerStat>
 {

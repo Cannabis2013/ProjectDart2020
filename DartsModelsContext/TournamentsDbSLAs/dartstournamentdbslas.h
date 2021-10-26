@@ -17,7 +17,7 @@ public:
     {
         _tournamentBuilder = service;
     }
-    IDartsJsonBuilder *tournamentJsonBuilder() const
+    IDartsJsonBuilder *dartsJsonBuilder() const
     {
         return _tournamentJsonBuilder;
     }

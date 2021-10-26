@@ -5,7 +5,6 @@
 #include "DartsModelsContext/DMCInputSLAs/dartsinputslas.h"
 #include "DartsModelsContext/TournamentsSLAs/dartstournamentslas.h"
 #include "DartsModelsContext/InputsDbSLAs/DartsInputsDbSLAs.h"
-#include "DartsModelsContext/IndexesDbSLAs/dartsindexdbslas.h"
 #include "DartsModelsContext/TournamentsDbSLAs/dartstournamentdbslas.h"
 #include <QJsonDocument>
 #include <qjsonobject.h>
@@ -18,7 +17,6 @@ class DartsModelsContext :
         protected DartsInputSLAs,
         protected DartsInputsDbSLAs,
         protected DartsIndexSLAs,
-        protected DartsIndexDbSLAs,
         protected DartsTournamentDbSLAs
 {
 public:
@@ -43,11 +41,11 @@ public slots:
     //Darts point methods
     void getOrderedInputs(const QUuid &tournamentId) override;
     void addInput(const QByteArray& json) override;
-    virtual void updateTournamentIndexes(const QByteArray &json) override;
     void getPlayerInputs(const QUuid &tournamentId) override;
     virtual void getIndexes(const QUuid &tournamentId) override;
     void hideInput(const QByteArray &json) override;
     void revealInput(const QByteArray &json) override;
     void createDartsKeyValues(const QUuid& tournament) override;
+    virtual void setTournamentIndex(const QByteArray &json) override;
 };
 #endif // LOCALMODELSSERVICE_H

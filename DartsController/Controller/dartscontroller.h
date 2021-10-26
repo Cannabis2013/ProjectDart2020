@@ -1,6 +1,5 @@
 #ifndef DARTSCONTROLLER_H
 #define DARTSCONTROLLER_H
-
 #include "DartsController/DCTurnValuesSLAs/dcturnvaluesslas.h"
 #include "DartsController/DCIndexSLAs/dcindexslas.h"
 #include "DartsController/DCScoresSLAs/dcscoreslas.h"
@@ -10,7 +9,7 @@
 #include "DartsController/DCJsonSLAs/dcjsonslas.h"
 #include "DartsController/DCMetaSLAs/dcmetaslas.h"
 #include "DartsController/DCInputSLAs/dcinputsslas.h"
-#include "DartsController/DCInputStatsSLAs/dcinputstatsslas.h"
+#include "DartsController/PlayerStatsSLAs/dcinputstatsslas.h"
 
 #define TOURNAMENT_ID_JSON_KEY "tournamentId"
 
@@ -22,7 +21,7 @@ class DartsController : public AbstractDartsController,
                         protected DCPlayerSLAs,
                         protected DCInputsSLAs,
                         protected DCIndexSLAs,
-                        protected DCInputStatsSLAs
+                        protected PlayerStatsSLAs
 {
     Q_OBJECT
 public slots:
@@ -41,13 +40,13 @@ public slots:
     void getOrderedInputsWithTotalScores() override;
     void handleRequestFromUI() override;
     void handleUserInput(const QByteArray &json) override;
-    void userInputAdded(const QByteArray& json) override;
-    void handleResetTournament() override;
+    void reset() override;
     void undoSuccess(const QByteArray &json) override;
     void redoSuccess(const QByteArray &json) override;
     void persistInput(DCInput &input) override;
     void nullifyAndPersistInput(DCInput &input) override;
     void declareWinner(DCInput &input) override;
+    void userInputAdded(const QByteArray& json) override;
 private:
     void createAndSendWinnerValues();
     void sendCurrentTurnValues();

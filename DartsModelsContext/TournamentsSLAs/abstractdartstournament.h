@@ -2,8 +2,9 @@
 #define FTPTOURNAMENTMODELINTERFACE_H
 
 #include "DartTournamentsContext/DTCModelsServices/abstracttournament.h"
+#include "DartsModelsContext/IndexesDbServices/dartsindex.h"
 
-class AbstractDartsTournament : public AbstractTournament
+class AbstractDartsTournament : public AbstractTournament, public DartsIndex
 {
 public:
     virtual int keyPoint() const = 0;

@@ -1,5 +1,4 @@
 #include "dartsjsonmodelscontext.h"
-
 DartsJsonModelsContext::DartsJsonModelsContext()
 {
     setTournamentServices();
@@ -22,16 +21,13 @@ void DartsJsonModelsContext::setTournamentServices()
     setTournamentBuilder(new DartsTournamentBuilder);
     setWinnerInfoBuilder(new DartWinnerModelBuilder);
     setMetaModelBuilder(new DartsMetaModelBuilder);
+    setGetTournamentIds(new GetDartsIds);
 }
 
 void DartsJsonModelsContext::setIndexesServices()
 {
-    setIndexesDbContext(new DartsIndexesDbContext(new ReadByteArray, new WriteByteArray));
-    setIndexesBuilder(new DartsIndexBuilder);
-    setIndexesJsonBuilder(new DartsIndexesJsonBuilder);
-    setRemoveIndexes(new RemoveDartsIndexes);
+    setIndexBuilder(new DartsIndexBuilder);
     setUpdateIndexes(new UpdateDartsIndexes);
-    setGetIndexesModel(new GetDartsIndexesModel);
     setResetIndexes(new ResetDartsIndexes);
 }
 void DartsJsonModelsContext::setInputServices()
@@ -49,10 +45,8 @@ void DartsJsonModelsContext::setInputDbUtilityServices()
     setCountInputs(new CountDartsInputs);
     setRemoveInputsFromDb(new RemoveDartsInputsFromDb);
 }
-
 void DartsJsonModelsContext::fetchAll()
 {
     dartsDbContext()->fetchModels(tournamentBuilder());
     inputsDb()->fetchModels(inputBuilder());
-    indexesDbContext()->fetchModels(indexBuilder());
 }

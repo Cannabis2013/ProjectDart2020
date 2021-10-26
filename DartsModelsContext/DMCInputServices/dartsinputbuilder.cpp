@@ -42,7 +42,7 @@ ModelsContext::IDartsInput *DartsInputBuilder::toInputModel(const QJsonObject &o
     inputModel->setPlayerName(obj.value("inputPlayerName").toString());
     inputModel->setRoundIndex(obj["roundIndex"].toInt());
     inputModel->setSetIndex(obj["setIndex"].toInt());
-    inputModel->setAttempt(obj["iattemptIndex"].toInt());
+    inputModel->setAttempt(obj["attemptIndex"].toInt());
     inputModel->setPoint(obj.value("point").toInt());
     inputModel->setScore(obj.value("score").toInt());
     inputModel->setModKeyCode(obj["modKeyCode"].toInt());

@@ -49,7 +49,7 @@ public:
     {
         _inputJsonBuilder = service;
     }
-    IRemoveDartsInputsFromDb *removeInputsFromDb() const
+    IRemoveDartsInputsFromDb *removeInputs() const
     {
         return _removeDartsInputsFromDb;
     }

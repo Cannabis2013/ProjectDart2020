@@ -42,7 +42,6 @@ public:
             controller->nullifyAndPersistInput(input);
     }
 private:
-    const int _maxAllowedInput = 180;
     const int _bullsEye = 50;
     const int minimumAllowedScore = 2;
 };

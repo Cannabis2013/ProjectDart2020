@@ -8,6 +8,6 @@
 class IGetDartsTournamentIds
 {
 public:
-    virtual QVector<QUuid> fromIndexes(const QVector<int> &indexes, const IModelsDbContext *dbContext) const = 0;
+    virtual QVector<QUuid> get(const QVector<int> &indexes, const IModelsDbContext *dbContext) const = 0;
 };
 #endif // IGETTOURNAMNETIDS_H
