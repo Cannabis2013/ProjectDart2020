@@ -38,8 +38,8 @@ QJsonObject DartsInputJsonBuilder::toJsonObject(IModel<QUuid> *model) const
     obj["hint"] = inputModel->hint();
     obj["modKeyCode"] = inputModel->modKeyCode();
     obj["middleValue"] = inputModel->middleValue();
-    obj["currentMaximum"] = inputModel->currentMaximum();
-    obj["currentMinimum"] = inputModel->currentMinimum();
+    obj["maximumValue"] = inputModel->currentMaximum();
+    obj["minimumValue"] = inputModel->currentMinimum();
     obj["inGame"] = inputModel->inGame();
     return obj;
 }

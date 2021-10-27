@@ -66,8 +66,8 @@ private:
         input.score = obj.value("score").toInt();
         input.remainingScore = obj.value("totalScore").toInt();
         input.middle = obj.value("middleValue").toDouble(0);
-        input.min = obj.value("currentMinimum").toInt(0);
-        input.max = obj.value("currentMaximum").toInt(0);
+        input.min = obj.value("minimumValue").toInt(0);
+        input.max = obj.value("maximumValue").toInt(0);
         input.remainingScore = obj.value("remainingScore").toInt(initialScore);
         return input ;
     }

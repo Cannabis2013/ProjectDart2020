@@ -38,7 +38,7 @@
 #include "DartsController/DCScoresServices/dcscorejsonbuilder.h"
 #include "DartsController/DCIndexServices/dcplayerstatsjsonbuilder.h"
 #include "DartsController/DCIndexServices/dcreqindexjsonbuilder.h"
-#include "DartsController/PlayerStatsServices/dscupdatemidval.h"
+#include "DartsController/PlayerStatsServices/dsccalcmidval.h"
 #include "DartsController/PlayerStatsServices/dcupdatescorerange.h"
 #include "DartsController/PlayerStatsServices/dcupdateplayerstat.h"
 #include "DartsController/IndexServices/dscindexcontroller.h"

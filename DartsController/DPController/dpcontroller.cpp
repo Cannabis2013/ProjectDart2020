@@ -41,7 +41,7 @@ void DPController::setJsonServices()
 void DPController::setStatisticsServices()
 {
     setPlayerStatsManager(new DCPlayerStatsManager);
-    setUpdateMiddleVal(new DPCUpdateMidVal);
+    setUpdateMiddleVal(new DPCCalcMidVal);
     setUpdateScoreRange(new DCUpdateScoreRange);
     setUpdatePlayerStats(new DCUpdatePlayerStat);
 }

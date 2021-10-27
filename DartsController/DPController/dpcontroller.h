@@ -39,7 +39,7 @@
 #include "DartsController/DCIndexServices/dcplayerstatsjsonbuilder.h"
 #include "DartsController/PlayerStatsServices/dcupdateplayerstat.h"
 #include "DartsController/PlayerStatsServices/dcupdatescorerange.h"
-#include "DartsController/PlayerStatsServices/dpcupdatemidval.h"
+#include "DartsController/PlayerStatsServices/dpccalcmidval.h"
 #include "DartsController/IndexServices/dpcindexcontroller.h"
 #include <DartsController/DCIndexServices/dcreqindexjsonbuilder.h>
 class DPController : public DartsController

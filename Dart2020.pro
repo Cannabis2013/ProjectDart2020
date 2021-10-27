@@ -122,8 +122,8 @@ HEADERS += \
     DartsController/PlayerStatsServices/dcplayerstatsmanager.h \
     DartsController/PlayerStatsServices/dcupdateplayerstat.h \
     DartsController/PlayerStatsServices/dcupdatescorerange.h \
-    DartsController/PlayerStatsServices/dpcupdatemidval.h \
-    DartsController/PlayerStatsServices/dscupdatemidval.h \
+    DartsController/PlayerStatsServices/dpccalcmidval.h \
+    DartsController/PlayerStatsServices/dsccalcmidval.h \
     DartsControllerBuilder/Services/dcbuilder.h \
     DartsModelsContext/InputSLAs/dartsinputslas.h \
     DartsModelsContext/InputServices/countdartsinputs.h \

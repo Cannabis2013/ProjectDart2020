@@ -48,8 +48,8 @@ AbstractDartsInput *DartsInputBuilder::toInputModel(const QJsonObject &obj) cons
     inputModel->setModKeyCode(obj["modKeyCode"].toInt());
     inputModel->setHint(obj.value("hint").toInt(DisplayHint));
     inputModel->setMiddleValue(obj.value("middleValue").toDouble());
-    inputModel->setCurrentMaximum(obj.value("currentMaximum").toInt());
-    inputModel->setCurrentMinimum(obj.value("currentMinimum").toInt());
+    inputModel->setCurrentMaximum(obj.value("maximumValue").toInt());
+    inputModel->setCurrentMinimum(obj.value("minimumValue").toInt());
     inputModel->setRemainingScore(obj.value("remainingScore").toInt());
     inputModel->setInGame(obj.value("inGame").toBool());
     return inputModel;

@@ -6,9 +6,9 @@ DartsScoreBoard {
     id: scoreBoardBody
     height: 128
     onWidthChanged: ScoreScripts.updateScoreBoard()
-    signal setData(string playerName, int score, double average, int lVal, int uVal)
+    signal setData(string playerName,int score,int min,double mid,int max)
     signal takeData(int row, int column,string playerName)
-    onSetData: ScoreScripts.setData(playerName,score,average,lVal,uVal)
+    onSetData: ScoreScripts.setData(playerName,score,min,mid,max)
     onTakeData: ScoreScripts.takeData(row,column,playerName)
     onClearData: ScoreScripts.clearTable()
     onAppendHeaderData: ScoreScripts.setHeaderData(data,defaultVal)

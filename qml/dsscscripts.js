@@ -82,9 +82,9 @@ function addToScoreBoard(json)
     let playerName = json["inputPlayerName"];
     let playerScore = json["remainingScore"];
     let middleValue = json["middleValue"];
-    let minimum = json["currentMinimum"];
-    let maximum = json["currentMaximum"];
-    singleColumnScoreBoard.setData(playerName,playerScore,middleValue,minimum,maximum);
+    let minimum = json["minimumValue"];
+    let maximum = json["maximumValue"];
+    singleColumnScoreBoard.setData(playerName,playerScore,minimum,middleValue,maximum);
 }
 
 function updatePlayerScore(data)

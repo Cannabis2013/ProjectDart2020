@@ -33,7 +33,7 @@ DSController::DSController(const DCBuilding::DCMeta &meta)
     setInputBuilder(new DSCInputBuilder);
     // Input statistics services
     setPlayerStatsManager(new DCPlayerStatsManager);
-    setUpdateMiddleVal(new DSCUpdateMidVal);
+    setUpdateMiddleVal(new DSCCalcMidVal);
     setUpdateScoreRange(new DCUpdateScoreRange);
     setUpdatePlayerStats(new DCUpdatePlayerStat);
     // Player services

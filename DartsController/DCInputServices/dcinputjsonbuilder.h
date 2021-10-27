@@ -1,9 +1,7 @@
 #ifndef DCINPUTJSONBUILDER_H
 #define DCINPUTJSONBUILDER_H
-
 #include "DartsController/DCInputServices/dcinput.h"
 #include "DartsController/DCJsonSLAs/idcmodeljsonbuilder.h"
-
 class DCInputJsonBuilder : public IDCModelJsonBuilder<DCInput>
 {
 public:
@@ -17,8 +15,8 @@ public:
         obj["inputPlayerName"] = input.playerName;
         obj["totalScore"] = input.remainingScore;
         obj["middleValue"] = input.middle;
-        obj["currentMinimum"] = input.min;
-        obj["currentMaximum"] = input.max;
+        obj["minimumValue"] = input.min;
+        obj["maximumValue"] = input.max;
         obj["inGame"] = input.inGame;
     }
 };
