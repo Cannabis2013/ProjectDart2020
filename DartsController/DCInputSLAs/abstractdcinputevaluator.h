@@ -3,7 +3,8 @@
 #include <qobject.h>
 #include <DartsController/DCMetaSLAs/idartsstatuscodes.h>
 #include <DartsController/DCMetaSLAs/idcstatus.h>
-#include <DartsController/DCMetaSLAs/idcwinnerservice.h>
+#include "DartsController/DCMetaSLAs/idcwinnerservice.h"
+#include "DartsController/DCScoresSLAs/idcscoremodels.h"
 #include "DartsController/DCPlayerSLAs/IDCPlayerController.h"
 #include "DartsController/DCInputServices/dcinput.h"
 #include "DartsController/ControllerSLA/abstractdartscontroller.h"

@@ -8,12 +8,11 @@ function connectInterface()
 {
     applicationInterface.sendDartsTournamentData.connect(handleMetaData);
     applicationInterface.sendDartsScores.connect(recieveScores);
-    applicationInterface.dartsControllerIsReady.connect(backendIsReady);
-    applicationInterface.controllerIsStopped.connect(backendIsStopped);
-    applicationInterface.controllerSendsTurnValues.connect(backendIsReadyAndAwaitsInput);
-    applicationInterface.controllerHasDeclaredAWinner.connect(backendDeclaredAWinner);
-    applicationInterface.addedInput.connect(backendAddedInput);
-    applicationInterface.dartsInputRemoveSucces.connect(backendRemovedPoint);
+    applicationInterface.controllerReady.connect(controllerReady);
+    applicationInterface.controllerStopped.connect(backendIsStopped);
+    applicationInterface.winnerFound.connect(winnerFound);
+    applicationInterface.sendDartsScore.connect(updatePlayerScore);
+    applicationInterface.updateDartsTurnValues.connect(updateTurnValues);
     applicationInterface.dartsControllerIsReset.connect(reinitialize);
 }
 
@@ -21,13 +20,12 @@ function disconnectInterface()
 {
     applicationInterface.sendDartsTournamentData.disconnect(handleMetaData);
     applicationInterface.sendDartsScores.disconnect(recieveScores);
-    applicationInterface.dartsControllerIsReady.disconnect(backendIsReady);
-    applicationInterface.controllerIsStopped.connect(backendIsStopped);
-    applicationInterface.controllerSendsTurnValues.disconnect(backendIsReadyAndAwaitsInput);
+    applicationInterface.controllerReady.disconnect(controllerReady);
+    applicationInterface.controllerStopped.connect(backendIsStopped);
+    applicationInterface.updateDartsTurnValues.disconnect(updateTurnValues);
+    applicationInterface.winnerFound.disconnect(winnerFound);
+    applicationInterface.sendDartsScore.disconnect(updatePlayerScore);
     applicationInterface.dartsControllerIsReset.disconnect(reinitialize);
-    applicationInterface.controllerHasDeclaredAWinner.disconnect(backendDeclaredAWinner);
-    applicationInterface.dartsInputRemoveSucces.disconnect(backendRemovedPoint);
-    applicationInterface.addedInput.disconnect(backendAddedInput);
 }
 
 function handleMetaData(data){
@@ -67,10 +65,29 @@ function recieveScores(scores)
     applicationInterface.requestControllerState();
 }
 
+function controllerReady()
+{
+    dpscBody.state = "ready";
+}
+
 function addDartsScoresToScoreBoard(json)
 {
     for(var i = 0;i < json.length;++i)
         addToScoreBoard(json[i]);
+}
+
+function updatePlayerScore(data)
+{
+    var json = JSON.parse(data);
+    addToScoreBoard(json);
+    applicationInterface.dartsNextTurn();
+}
+
+function updateTurnValues(data)
+{
+    setThrowSuggestion(json);
+    setTurnControllerValues(json);
+    applicationInterface.requestControllerState();
 }
 
 function addToScoreBoard(json)
@@ -81,21 +98,8 @@ function addToScoreBoard(json)
     let middleValue = json["middleValue"];
     let minimum = json["currentMinimum"];
     let maximum = json["currentMaximum"];
-    singleColumnPointBoard.setData(playerName,playerScore,middleValue,minimum,maximum);
-}
-
-function backendIsReady()
-{
-    dpscBody.state = "ready";
-}
-
-function backendAddedInput(data)
-{
-    var json = JSON.parse(data);
-    addToScoreBoard(json);
-    setThrowSuggestion(json);
-    setTurnControllerValues(json);
-    applicationInterface.requestControllerState();
+    let inGame = json["inGame"];
+    singleColumnPointBoard.setData(playerName,playerScore,middleValue,minimum,maximum,inGame);
 }
 
 function setThrowSuggestion(json)
@@ -116,14 +120,6 @@ function handleRequestTournamentReset()
 {
     dpscBody.state = "stopped";
     applicationInterface.requestTournamentReset();
-}
-
-function backendRemovedPoint(data)
-{
-    var json = JSON.parse(data);
-    setTurnControllerValues(json);
-    updatePointBoard(json);
-    dpscBody.state = "waitingForInput";
 }
 
 function setTurnControllerValues(json)
@@ -150,14 +146,14 @@ function backendIsStopped()
         dpscBody.state = "stopped";
 }
 
-function backendDeclaredAWinner(data)
+function winnerFound(data)
 {
     var json = JSON.parse(data);
     metaValues.winnerName = json["winnerName"];
     dpscBody.state = "winner";
 }
 
-function backendIsReadyAndAwaitsInput(data)
+function updateTurnValues(data)
 {
     var json = JSON.parse(data);
     setThrowSuggestion(json);

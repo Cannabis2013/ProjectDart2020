@@ -10,9 +10,7 @@
 #include "DartsController/DCMetaSLAs/dcmetaslas.h"
 #include "DartsController/DCInputSLAs/dcinputsslas.h"
 #include "DartsController/PlayerStatsSLAs/dcinputstatsslas.h"
-
 #define TOURNAMENT_ID_JSON_KEY "tournamentId"
-
 class DartsController : public AbstractDartsController,
                         protected DCMetaSLAs,
                         protected DCTurnvaluesSLAs,
@@ -28,22 +26,22 @@ public slots:
     void beginInitialize() override;
     void initializeDartsValues(const QByteArray &indexJson, const QByteArray &inputsJson,
                                const QByteArray &playersJson, const QByteArray &winnerJson) override;
+    virtual void requestStatus() override;
     void start() override;
     void stop() override{}
+    void createIndexJson() override;
     void undoTurn() override;
     void redoTurn() override;
-    void handleRequestForCurrentTournamentMetaData() override;
+    void sendTournamentId() override;
     void createScores() override;
     void getOrderedInputsWithTotalScores() override;
-    void handleRequestFromUI() override;
+    void createJsonResponse() override;
     void handleUserInput(const QByteArray &json) override;
     void reset() override;
-    void undoSuccess(const QByteArray &json) override;
-    void redoSuccess(const QByteArray &json) override;
     void persistInput(DCInput &input) override;
-    void userInputAdded(const QByteArray& json) override;
+    void createScoreJson(const QByteArray& json) override;
+    void createTurnValuesJson() override;
 private:
-    void createAndSendWinnerValues();
-    void sendCurrentTurnValues();
+    void createWinnerJson();
 };
 #endif // FIVEHUNDREDANDONEGAME_H

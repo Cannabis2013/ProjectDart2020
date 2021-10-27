@@ -1,13 +1,11 @@
-#ifndef DPCPLAYERALLOWANCESCONTEXT_H
-#define DPCPLAYERALLOWANCESCONTEXT_H
-
+#ifndef DPCPLAYERCONTROLLER_H
+#define DPCPLAYERCONTROLLER_H
 #include <qdebug.h>
-
 #include "DartsController/DCPlayerSLAs/IDCPlayerController.h"
-class DPCPlayerAllowancesContext : public IDCPlayerController
+class DPCPlayerController : public IDCPlayerController
 {
 public:
-    virtual void appendPlayerId(const QVector<DCPlayer> &playerModels) override
+    void appendPlayerId(const QVector<DCPlayer> &playerModels) override
     {
         for (const auto &playerModel : playerModels) {
             PlayerObject obj;
@@ -15,27 +13,40 @@ public:
             _playerStructs.append(obj);
         }
     }
-    virtual bool isAllowedEntrance(const QUuid &playerId) override
+    bool isIn(const QUuid &playerId) const override
     {
         return getPlayerStructFromId(playerId).in;
     }
-    virtual void playerIsIn(const QUuid &playerId) override
+    bool updatePlayerStatus(const QUuid &playerId, const bool &status) override
     {
         try {
-            getPlayerStructFromId(playerId).in = true;
+            getPlayerStructFromId(playerId).in = status;
         }  catch (...) {
             qDebug() << "Playerstruct not found";
         }
+        return status;
     }
-    virtual void reset() override
+    void reset() override
     {
         for (auto &playerStruct : _playerStructs)
             playerStruct.in = false;
+    }
+    int count() const override
+    {
+        return _playerStructs.count();
     }
 private:
     PlayerObject &getPlayerStructFromId(const QUuid &id)
     {
         for (auto &playerStruct : _playerStructs) {
+            if(playerStruct.playerId == id)
+                return playerStruct;
+        }
+        throw "Playerstruct not found";
+    }
+    const PlayerObject getPlayerStructFromId(const QUuid &id) const
+    {
+        for (const auto &playerStruct : _playerStructs) {
             if(playerStruct.playerId == id)
                 return playerStruct;
         }

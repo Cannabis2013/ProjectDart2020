@@ -56,7 +56,7 @@ private:
     AbstractDartsTournament* toModel(const QJsonObject& obj) const
     {
         auto tournament = DartsTournament::createInstance();
-        tournament->setId(toId(obj,"tournamentId"));
+        tournament->setId(toId(obj,"tournamentId",QUuid::createUuid().toString(QUuid::WithoutBraces)));
         tournament->setTitle(obj.value("title").toString());
         tournament->setGameMode(obj.value("gameMode").toInt());
         tournament->setKeyPoint(obj.value("keyPoint").toInt());

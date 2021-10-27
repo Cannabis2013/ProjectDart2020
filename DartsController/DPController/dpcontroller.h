@@ -21,11 +21,11 @@
 #include "DartsController/DCMetaServices/dcinitialscore.h"
 #include "DartsController/DCMetaServices/dctournamentid.h"
 #include "DartsController/DPCServices/dpcinputevaluator.h"
-#include "DartsController/DPCServices/CreateDPCTurnValues.h"
+#include "DartsController/DPCServices/DPCTurnValuesBuilder.h"
 #include "DartsController/DPCServices/dpcinputbuilder.h"
 #include "DartsController/DPCServices/getscorefromdpcinput.h"
 #include "DartsController/DCIndexServices/dcindexesjsonkeys.h"
-#include "DartsController/DCPlayerServices/DPCPlayerAllowancesContext.h"
+#include "DartsController/DCPlayerServices/dpcplayercontroller.h"
 #include "DartsController/DCMetaServices/dcmetajsonbuilder.h"
 #include "DartsControllerBuilder/DCBMetaServices/dcmeta.h"
 #include "DartsController/DCJsonServices/dcjsonbuilder.h"
@@ -41,6 +41,7 @@
 #include "DartsController/PlayerStatsServices/dcupdatescorerange.h"
 #include "DartsController/PlayerStatsServices/dpcupdatemidval.h"
 #include "DartsController/IndexServices/dpcindexcontroller.h"
+#include <DartsController/DCIndexServices/dcreqindexjsonbuilder.h>
 class DPController : public DartsController
 {
 public:

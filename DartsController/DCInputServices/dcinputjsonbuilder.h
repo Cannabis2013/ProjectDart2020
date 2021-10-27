@@ -19,6 +19,7 @@ public:
         obj["middleValue"] = input.middle;
         obj["currentMinimum"] = input.min;
         obj["currentMaximum"] = input.max;
+        obj["inGame"] = input.inGame;
     }
 };
 

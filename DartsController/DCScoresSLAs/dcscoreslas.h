@@ -4,7 +4,7 @@
 #include "DartsController/DCScoresSLAs/idcupdateinputdetails.h"
 #include "DartsController/DCScoresSLAs/idcgetscorecand.h"
 #include "DartsController/DCScoresSLAs/idcscorebuilder.h"
-#include "DartsController/DCScoresSLAs/idcgetscore.h"
+#include "DartsController/DCScoresSLAs/idccalcscore.h"
 #include "DartsController/DCScoresSLAs/idcupdatescoremodels.h"
 class DCScoreSLAs
 {
@@ -17,8 +17,8 @@ public:
     void setGetTotalScoreService(IDCGetScoreCand *service);
     IDCScoreBuilder *scoresBuilder() const;
     void setScoreBuilder(IDCScoreBuilder *service);
-    IDCGetScore *scoreCalculator() const;
-    void setGetScoreFromInput(IDCGetScore *service);
+    IDCCalcScore *scoreCalculator() const;
+    void setGetScoreFromInput(IDCCalcScore *service);
     IDCUpdateScoreModels *updateScores() const;
     void setUpdateScoresService(IDCUpdateScoreModels *service);
 private:
@@ -26,7 +26,7 @@ private:
     IDCScoreBuilder *_createScoreModels;
     IDCUpdateInputDetails *_createCandidateTuples;
     IDCGetScoreCand *_calculateCandidateScore;
-    IDCGetScore *_calculateScore;
+    IDCCalcScore *_calculateScore;
     IDCUpdateScoreModels *_replaceTuples;
 };
 #endif // DSCSCORESERVICESPROVIDER_H

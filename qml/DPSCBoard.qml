@@ -6,8 +6,9 @@ DartsScoreBoard {
     id: scoreBoardBody
     height: 128
     onWidthChanged: ScoreBoardScripts.updateScoreBoard()
-    signal setData(string playerName, int score, double average, int lVal, int uVal)
-    onSetData: ScoreBoardScripts.setData(playerName,score,average,lVal,uVal)
+    signal itemsEnabled(bool enabled)
+    signal setData(string playerName, int score, double average, int lVal, int uVal, bool inGame)
+    onSetData: ScoreBoardScripts.setData(playerName,score,lVal,average,uVal,inGame)
     signal takeData(int row, int column,string playerName)
     onTakeData: ScoreBoardScripts.takeData(row,column,playerName)
     onClearData:  ScoreBoardScripts.clearTable()
@@ -28,17 +29,9 @@ DartsScoreBoard {
         minimumRowHeight: 72
         scale: 1.05
     }
-    StringsModel{
-        id: playerNamesModel
-    }
-    StringsModel{
-        id: middleValues
-    }
-    StringsModel{
-        id: minimumValues
-    }
-    StringsModel{
-        id: maximumValues
+    PlayerDataModel
+    {
+        id: playerDataModel
     }
     columnWidthProvider: function(column){
         return tableDisplayWidth;
@@ -54,7 +47,7 @@ DartsScoreBoard {
     }
     cellDelegate: BoardDelegateContentRect {
         id: delegate
-        playerName: playerNamesModel.item(index)
+        playerName: playerDataModel.playerName(row)
         score: ScoreBoardScripts.updateDelegate(display,this,row)
     }
 }

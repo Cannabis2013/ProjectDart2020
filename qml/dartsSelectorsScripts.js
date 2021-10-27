@@ -37,7 +37,5 @@ function inputModeFromString()
 
 function initializeComponents(){
     keyPointSelector.currentIndex = defaultStateValues.defaultKeyPointIndex;
-    winConditionSelector.currentIndex = defaultStateValues.defaultWinConditionIndex;
-    displayHintSelector.currentIndex = defaultStateValues.defaultTableHintIndex;
     inputModeSelector.currentIndex = defaultStateValues.defaultInputModeIndex;
 }

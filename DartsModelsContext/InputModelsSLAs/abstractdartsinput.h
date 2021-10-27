@@ -20,5 +20,7 @@ public:
     virtual AbstractDartsInput* setSetIndex(const int &index) = 0;
     virtual int attempt() const = 0;
     virtual AbstractDartsInput* setAttempt(const int &) = 0;
+    virtual bool inGame() const = 0;
+    virtual AbstractDartsInput *setInGame(const bool &value) = 0;
 };
 #endif // ABSTRACTDARTSINPUT_H

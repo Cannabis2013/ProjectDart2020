@@ -1,5 +1,5 @@
-#ifndef DARTSTOURNAMENTJSONBUILDER_H
-#define DARTSTOURNAMENTJSONBUILDER_H
+#ifndef DARTSJSONBUILDER_H
+#define DARTSJSONBUILDER_H
 
 #include <qjsondocument.h>
 #include <qjsonarray.h>
@@ -7,7 +7,7 @@
 #include "DartsModelsContext/TournamentModelsSLAs/abstractdartstournament.h"
 #include "DartsModelsContext/TournamentsDbSLAs/itournamentjsonbuilder.h"
 
-class DartsTournamentJsonBuilder : public IDartsJsonBuilder
+class DartsJsonBuilder : public IDartsJsonBuilder
 {
 public:
     virtual QByteArray tournamentJson(IModel<QUuid> *model) const override

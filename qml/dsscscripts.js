@@ -8,12 +8,11 @@ function connectInterface()
 {
     applicationInterface.sendDartsTournamentData.connect(handleMetaData);
     applicationInterface.sendDartsScores.connect(recieveScores);
-    applicationInterface.dartsControllerIsReady.connect(backendIsReady);
-    applicationInterface.controllerIsStopped.connect(backendIsStopped);
-    applicationInterface.controllerSendsTurnValues.connect(backendIsReadyAndAwaitsInput);
-    applicationInterface.controllerHasDeclaredAWinner.connect(backendDeclaredAWinner);
-    applicationInterface.addedInput.connect(backendAddedInput);
-    applicationInterface.dartsInputRemoveSucces.connect(backendRemovedPoint);
+    applicationInterface.controllerReady.connect(controllerReady);
+    applicationInterface.controllerStopped.connect(backendIsStopped);
+    applicationInterface.winnerFound.connect(winnerFound);
+    applicationInterface.sendDartsScore.connect(updatePlayerScore);
+    applicationInterface.updateDartsTurnValues.connect(updateTurnValues);
     applicationInterface.dartsControllerIsReset.connect(reinitialize);
     scoreKeyPad.sendInput.connect(handleScoreKeyPadInput);
 }
@@ -22,12 +21,11 @@ function disconnectInterface()
 {
     applicationInterface.sendDartsTournamentData.disconnect(handleMetaData);
     applicationInterface.sendDartsScores.disconnect(recieveScores);
-    applicationInterface.dartsControllerIsReady.disconnect(backendIsReady);
-    applicationInterface.controllerSendsTurnValues.connect(backendIsReadyAndAwaitsInput);
-    applicationInterface.controllerHasDeclaredAWinner.disconnect(backendDeclaredAWinner);
-    applicationInterface.controllerIsStopped.disconnect(backendIsStopped);
-    applicationInterface.addedInput.disconnect(backendAddedInput);
-    applicationInterface.dartsInputRemoveSucces.disconnect(backendRemovedPoint);
+    applicationInterface.controllerReady.disconnect(controllerReady);
+    applicationInterface.controllerStopped.disconnect(backendIsStopped);
+    applicationInterface.winnerFound.disconnect(winnerFound);
+    applicationInterface.sendDartsScore.disconnect(updatePlayerScore);
+    applicationInterface.updateDartsTurnValues.connect(updateTurnValues);
     scoreKeyPad.sendInput.disconnect(handleScoreKeyPadInput);
 }
 
@@ -61,16 +59,16 @@ function initializeScoreBoard()
     singleColumnScoreBoard.appendHeaderData(assignedPlayerNames,keyPoint);
 }
 
-function controllerIsReady()
-{
-    dartsScoreSingleColumnBody.state = "ready";
-}
-
 function recieveScores(scores)
 {
     var json = JSON.parse(scores);
     addDartsScoresToScoreBoard(json);
     applicationInterface.requestControllerState();
+}
+
+function controllerReady()
+{
+    dartsScoreSingleColumnBody.state = "ready";
 }
 
 function addDartsScoresToScoreBoard(json)
@@ -89,13 +87,19 @@ function addToScoreBoard(json)
     singleColumnScoreBoard.setData(playerName,playerScore,middleValue,minimum,maximum);
 }
 
-function backendAddedInput(data)
+function updatePlayerScore(data)
 {
     var json = JSON.parse(data);
     addToScoreBoard(json);
-    setSuggestedTargetRow(json);
+    applicationInterface.dartsNextTurn();
+}
+
+function updateTurnValues(data)
+{
+    var json = JSON.parse(data);
     setTurnControllerValues(json);
-    applicationInterface.requestControllerState();
+    setSuggestedTargetRow(json);
+    dartsScoreSingleColumnBody.state = "waitingForInput";
 }
 
 function reinitialize()
@@ -111,14 +115,6 @@ function resetTournament()
 {
     dartsScoreSingleColumnBody.state = "stopped";
     applicationInterface.requestTournamentReset();
-}
-
-function backendRemovedPoint(data)
-{
-    var json = JSON.parse(data);
-    setTurnControllerValues(json);
-    addToScoreBoard(json);
-    dartsScoreSingleColumnBody.state = "waitingForInput";
 }
 
 function setSuggestedTargetRow(json)
@@ -150,7 +146,7 @@ function backendIsStopped()
         dartsScoreSingleColumnBody.state = "stopped";
 }
 
-function backendDeclaredAWinner(data)
+function winnerFound(data)
 {
     var json = JSON.parse(data);
     dartsMetaValues.winnerName = json["winnerName"];
@@ -172,17 +168,4 @@ function redoClicked()
 function setWinnerText()
 {
     keyDataDisplay.setCurrentWinner(dartsMetaValues.winnerName);
-}
-
-function backendIsReadyAndAwaitsInput(data)
-{
-    var json = JSON.parse(data);
-    setTurnControllerValues(json);
-    setSuggestedTargetRow(json);
-    dartsScoreSingleColumnBody.state = "waitingForInput";
-}
-
-function backendIsReady()
-{
-    dartsScoreSingleColumnBody.state = "ready";
 }

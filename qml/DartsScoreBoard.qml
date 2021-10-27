@@ -47,5 +47,6 @@ ScoreBoardInterface{
         Layout.column: 1
         Layout.fillWidth: true
         Layout.fillHeight: true
+
     }
 }

@@ -9,6 +9,7 @@ struct DCTurnValues
 {
    bool canUndo;
    bool canRedo;
+   bool inGame = false;
    int roundIndex;
    int setIndex;
    int attemptIndex;

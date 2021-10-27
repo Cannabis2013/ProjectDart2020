@@ -42,6 +42,7 @@
 #include "DartsController/PlayerStatsServices/dcupdatescorerange.h"
 #include "DartsController/PlayerStatsServices/dcupdateplayerstat.h"
 #include "DartsController/IndexServices/dscindexcontroller.h"
+#include "DartsController/DCPlayerServices/dscplayercontroller.h"
 class DSController : public DartsController
 {
 public:

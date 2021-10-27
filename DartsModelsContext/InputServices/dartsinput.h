@@ -115,6 +115,15 @@ namespace ModelsContext{
             _remainingScore = score;
             return this;
         }
+        bool inGame() const override
+        {
+            return _inGame;
+        }
+        AbstractDartsInput *setInGame(const bool &value) override
+        {
+            _inGame = value;
+            return this;
+        }
     private:
         int _point;
         int _score;
@@ -124,6 +133,7 @@ namespace ModelsContext{
         int _hint;
         int _modKeyCode;
         int _remainingScore;
+        bool _inGame = false;
         QUuid _id, _playerId, _tournamentId;
         QString _playerName;
     };

@@ -1,28 +1,24 @@
 #ifndef ABSTRACTGAMECONTROLLER_H
 #define ABSTRACTGAMECONTROLLER_H
-
 #include <QObject>
 #include <quuid.h>
-
 class AbstractGameController : public QObject
 {
     Q_OBJECT
 public slots:
-    // Start/stop game
     virtual void start() = 0;
     virtual void stop() = 0 ;
-    // Recieve and evaluate UI input
     virtual void handleUserInput(const QByteArray& json) = 0;
-    // Handle requests from UI
-    virtual void handleRequestFromUI() = 0;
-    // Undo/redo turn
+    virtual void createJsonResponse() = 0;
     virtual void undoTurn() = 0;
     virtual void redoTurn() = 0;
-    virtual void handleRequestForCurrentTournamentMetaData() = 0;
+    virtual void createIndexJson() = 0;
+    virtual void sendTournamentId() = 0;
     virtual void reset() = 0;
-    // Set initial state
     virtual void beginInitialize() = 0;
+    virtual void requestStatus() = 0;
 signals:
+    void ready();
     void sendCurrentTournamentId(const QUuid &tournament);
     void winnerDetermined(const QByteArray& json);
     void requestUpdateContext(const QUuid &tournamentID,

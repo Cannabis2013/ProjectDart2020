@@ -45,7 +45,6 @@ SOURCES += \
     main/main.cpp \
     networkmanager.cpp \
     PlayerModelsContext/playermodelscontext.cpp \
-    stringlabelsmodel.cpp \
     tst_Dart2020.cpp \
     urlparser.cpp
 
@@ -83,8 +82,12 @@ HEADERS += \
     DartsController/DCInputSLAs/idcinputbuilder.h \
     DartsController/DCInputServices/dcinput.h \
     DartsController/DCPlayerSLAs/IDCPlayerController.h \
+    DartsController/DCPlayerServices/dpcplayercontroller.h \
+    DartsController/DCPlayerServices/dscplayercontroller.h \
+    DartsController/DCScoresSLAs/idccalcscore.h \
     DartsController/DCScoresSLAs/idcscoremodels.h \
     DartsController/DCScoresServices/dcscoremodels.h \
+    DartsController/DPCServices/DPCTurnValuesBuilder.h \
     DartsController/IndexServices/dpcindexcontroller.h \
     DartsController/IndexServices/dscindexcontroller.h \
     DartsController/PlayerStatsSLAs/dcinputstatsslas.h \
@@ -107,7 +110,6 @@ HEADERS += \
     DartsController/DCMetaServices/dcmetamodelbuilder.h \
     DartsController/DCMetaServices/dcsettournamentid.h \
     DartsController/DCPlayerSLAs/idcplayerbuilder.h \
-    DartsController/DCPlayerServices/DPCPlayerAllowancesContext.h \
     DartsController/DCScoresSLAs/idcscorebuilder.h \
     DartsController/DCScoresSLAs/idcupdateinputdetails.h \
     DartsController/DCScoresServices/dcscorejsonbuilder.h \
@@ -143,15 +145,14 @@ HEADERS += \
     DartsModelsContext/TournamentServices/resetdartstournament.h \
     DartsModelsContext/IndexesDbSLAs/idartsindex.h \
     DartsModelsContext/IndexesDbServices/dartsindex.h \
-    DartsModelsContext/IndexesSLAs/iresetdartsindexes.h \
     DartsModelsContext/IndexesSLAs/iupdatedartsindexes.h \
-    DartsModelsContext/IndexesServices/resetdartsindexes.h \
     DartsModelsContext/IndexesServices/updatedartsindexes.h \
     DartsModelsContext/InputModels/dartsinputstats.h \
     DartsModelsContext/InputModelsSLAs/idartsinputstats.h \
     DartsModelsContext/TournamentsDbSLAs/idartsbuilder.h \
     DartsModelsContext/TournamentsDbSLAs/igetdartstournament.h \
     DartsModelsContext/TournamentModels/dartstournament.h \
+    DartsModelsContext/TournamentsDbServices/dartsjsonbuilder.h \
     DartsModelsContext/TournamentsSLAs/idartsmetamodelbuilder.h \
     DartsModelsContext/TournamentsSLAs/igettournamentids.h \
     DartsModelsContext/TournamentsSLAs/iresetdartstournament.h \
@@ -178,8 +179,6 @@ HEADERS += \
     DartsModelsContext/TournamentsDbSLAs/dartstournamentdbslas.h \
     DartsModelsContext/InputServices/dartsinputsdbcontext.h \
     DartsModelsContext/TournamentsSLAs/dartstournamentslas.h \
-    DartsController/DCScoresSLAs/idcgetscore.h \
-    DartsController/DPCServices/CreateDPCTurnValues.h \
     DartsController/DCMetaServices/dchint.h \
     DartsController/DCMetaServices/dctournamentid.h \
     DartsController/DCMetaServices/dartsstatuscodes.h \
@@ -192,7 +191,6 @@ HEADERS += \
     DartsModelsContext/InputsDbSLAs/DartsInputsDbSLAs.h \
     DartsModelsContext/InputsDbSLAs/IDartsInputsDbContext.h \
     DartsModelsContext/TournamentsDbSLAs/IDartsDbContext.h \
-    DartsModelsContext/TournamentsDbServices/dartstournamentjsonbuilder.h \
     ModelsContext/DbSLAs/IDbPersistence.h \
     DartsModelsContext/SLAs/abstractdartsmodelscontext.h \
     DartsModelsContext/TournamentModelsSLAs/abstractdartstournament.h \
@@ -235,6 +233,7 @@ HEADERS += \
     DartsModelsContext/Services/dartsjsonmodelscontext.h \
     DartsController/DCFinishesServices/dartsmodidentifiers.h \
     DartsModelsContext/InputServices/dartsinputjsonbuilder.h \
+    dartsplayerdatamodel.h \
     dartspmccolumnindexbuilder.h \
     dartspmcsectionutility.h \
     dartspscIndexBuilder.h \
@@ -361,7 +360,6 @@ HEADERS += \
     DartApplication/RouteServices/routebytournamentgamemode.h \
     DartApplication/RouteServices/routeservicesprovider.h \
     setupqmlcontext.h \
-    stringlabelsmodel.h \
     testconfiguration.h \
     urlparser.h \
     testeventloop.h \

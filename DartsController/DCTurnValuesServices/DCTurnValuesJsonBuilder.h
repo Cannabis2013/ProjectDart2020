@@ -16,6 +16,7 @@ public:
         obj["canRedo"] = turnValues.canRedo;
         obj["suggestedFinish"] = turnValues.targetRow;
         obj["currentPlayerName"] = turnValues.playerName;
+        obj["inGame"] = turnValues.inGame;
     }
 };
 

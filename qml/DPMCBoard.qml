@@ -18,10 +18,12 @@ ScoreBoard {
     TableSectionMetrics{id: fontsMetric}
     DartsTableWidths{id: tableWidthProvider}
     DartsTableHeights{id: tableHeightProvider}
+    /*
     StringsModel{
         id: verticalHeaderModel
         onDataChanged: ScoreScripts.refreshHeaders()
     }
+    */
     RoundHeaderLabelByAttempt{
         id: horizontalHeaderModel
         numberOfAttempts : attempts

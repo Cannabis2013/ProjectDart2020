@@ -34,7 +34,6 @@ signals:
     void requestDartsScores();
     void setCurrentActiveTournament(const int &index);
     void requestTournamentReset();
-    void requestControllerState();
     void requestUndo();
     void requestRedo();
     void requestCurrentTournamentId();
@@ -54,21 +53,21 @@ signals:
     void playerAddedError(const QString &msg);
     void playersDeletedStatus(const bool &status);
     // Controller signals
+    void requestControllerState();
     void addUserInput(const QByteArray& json);
     void requestStartGame();
     void requestStopGame();
-    void controllerIsStopped();
+    void dartsNextTurn();
+    void controllerStopped();
+    void controllerReady();
     void dartsPointMultiColumnsInitialized();
     void dartsPointSingleColumnInitialized();
     void dartsScoreSingleColumnInitialized();
     void dartsScoreMultiColumnInitialized();
-    void dartsControllerRemovedPoint(const QString& json);
-    void dartsInputRemoveSucces(const QString& json);
-    void dartsControllerIsReady();
-    void addedInput(const QByteArray& json);
-    void controllerSendsTurnValues(const QByteArray& json);
+    void sendDartsScore(const QByteArray& json);
+    void updateDartsTurnValues(const QByteArray& json);
     void dartsControllerIsReset();
-    void controllerHasDeclaredAWinner(const QString& json);
+    void winnerFound(const QString& json);
     void createDartsController(const QByteArray& json,
                                AbstractApplicationInterface* applicationsInteface,
                                AbstractDartsModelsContext* modelsContextInterface);

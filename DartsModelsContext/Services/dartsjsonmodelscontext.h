@@ -15,13 +15,12 @@
 #include "DartsModelsContext/InputServices/dartsinputjsonbuilder.h"
 #include "DartsModelsContext/IndexesServices/updatedartsindexes.h"
 #include "DartsModelsContext/IndexesDbServices/dartsindexbuilder.h"
-#include "DartsModelsContext/IndexesServices/resetdartsindexes.h"
 #include "DartsModelsContext/TournamentServices/resetdartstournament.h"
 #include "DartsModelsContext//TournamentsDbServices/dartsdbcontext.h"
 #include "DartsModelsContext/TournamentServices/getdartstournamentfromdb.h"
 #include "DartsModelsContext/TournamentServices/dartwinnermodelbuilder.h"
 #include "DartsModelsContext/TournamentServices/setdartsplayerdetails.h"
-#include <DartsModelsContext/TournamentsDbServices/dartstournamentjsonbuilder.h>
+#include <DartsModelsContext/TournamentsDbServices/dartsjsonbuilder.h>
 #include <DartsModelsContext/TournamentServices/dartstournamentbuilder.h>
 #include "DartsModelsContext/TournamentServices/GetDartsTournamentIds.h"
 class DartsJsonModelsContext : public DartsModelsContext

@@ -13,7 +13,8 @@ function setInitialValue(value)
 
 function clearTable(){
     dataModel.clearData();
-    playerNamesModel.clear();
+    playerDataModel.clear();
+    itemsEnabled(false);
 }
 
 function updateScoreBoard()
@@ -43,21 +44,13 @@ function setViewPosition(x,y)
 
 function appendHeader(header)
 {
-    playerNamesModel.appendItem(header);
-    appendStatsItems();
+    playerDataModel.addPlayer(header);
     var headerWidth = fontsMetric.width(header,tableFonts.headerFontFamily,tableFonts.headerFontSize);
     var headerHeight = fontsMetric.height(header,tableFonts.headerFontFamily,tableFonts.headerFontSize);
-    var i = playerNamesModel.indexOf(header);
+    var i = playerDataModel.indexOf(header);
     tableHeightProvider.updateRowHeight(i,headerHeight);
     var scaledWidth = scaleWidth(headerWidth);
     updateVerticalHeaderWidth(scaledWidth);
-}
-
-function appendStatsItems()
-{
-    middleValues.appendItem(0.0);
-    minimumValues.appendItem(0);
-    maximumValues.appendItem(0);
 }
 
 function scaleWidth(w)
@@ -71,9 +64,9 @@ function updateVerticalHeaderWidth(w)
         scoreBoardBody.updateVerticalHeaderWidth(w);
 }
 
-function setData(playerName,score,average, lowerVal, upperVal){
-    let index = playerNamesModel.indexOf(playerName);
-    updateStatistics(index,average,lowerVal,upperVal);
+function setData(playerName,score,min,mid,max,inGame){
+    let index = playerDataModel.indexOf(playerName);
+    updatePlayerDataModel(playerName,min,mid,max,inGame);
     var result = dataModel.insertData(index,score);
     if(!result)
         print("Couldn't add data to model");
@@ -81,12 +74,13 @@ function setData(playerName,score,average, lowerVal, upperVal){
         updateWidths(index);
 }
 
-function updateStatistics(index,average,lowerVal,upperVal)
+function updatePlayerDataModel(playerName,min,mid,max,inGame)
 {
-    if(!isNaN(average))
-        middleValues.setItem(average,index);
-    minimumValues.setItem(lowerVal,index);
-    maximumValues.setItem(upperVal,index);
+    if(!isNaN(mid))
+        playerDataModel.setMid(playerName,mid);
+    playerDataModel.setMin(playerName,min);
+    playerDataModel.setMax(playerName,max);
+    playerDataModel.setInGame(playerName,inGame);
 }
 
 function takeData(row,column,playerName){
@@ -109,7 +103,7 @@ function setHeaderData(data,defaultVal)
     {
         let assignedPlayerName = data[i];
         singleColumnPointBoard.appendHeader(assignedPlayerName);
-        singleColumnPointBoard.setData(assignedPlayerName,defaultVal,0,0,0);
+        singleColumnPointBoard.setData(assignedPlayerName,defaultVal,0,0,0,false);
     }
 }
 
@@ -121,9 +115,10 @@ function setDelegateText(text,ref)
 
 function updateDelegate(text,ref,row)
 {
-    ref.averageValue = middleValues.item(row);
-    ref.lowerValue = minimumValues.item(row);
-    ref.upperValue = maximumValues.item(row);
+    ref.lowerValue = playerDataModel.min(row);
+    ref.averageValue = playerDataModel.mid(row);
+    ref.upperValue = playerDataModel.max(row);
+    ref.itemEnabled = playerDataModel.in(row);
     if(text === undefined)
         return "text";
     return text;

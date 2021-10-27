@@ -6,6 +6,11 @@ import QtGraphicalEffects 1.13
 BoxedRect{
     id: scoreTextRect
     clip: true
+    signal enableItem(bool enable)
+    onEnableItem: itemEnabled = enable
+    property bool itemEnabled: false
+    onItemEnabledChanged: opacity = itemEnabled ?  1 : 0.1
+    opacity: 0.1
     property string playerName: ""
     onPlayerNameChanged: playerNameText.text = playerName
     property string score: ""

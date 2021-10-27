@@ -7,8 +7,8 @@
 class DSCValuesBuilder : public ICreateDCTurnValues
 {
 public:
-    DCTurnValues turnValues(const DCIndex &index, IDCScoreModels* scoresService,
-                            const IDartsInputFinishes* logisticService) const override
+    DCTurnValues turnValues(const DCIndex &index, IDCScoreModels *scoresService,
+                            const IDartsInputFinishes *logisticService = nullptr) const override
     {
         auto scoreModels = scoresService->scores();
         DCTurnValues model;

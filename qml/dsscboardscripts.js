@@ -13,7 +13,7 @@ function setInitialValue(value)
 
 function clearTable(){
     dataModel.clearData();
-    playerNamesModel.clear();
+    playerDataModel.clear();
 }
 
 function updateScoreBoard()
@@ -43,21 +43,13 @@ function setViewPosition(x,y)
 
 function appendHeader(header)
 {
-    playerNamesModel.appendItem(header);
-    appendStatsItems();
+    playerDataModel.addPlayer(header);
     var headerWidth = fontsMetric.width(header,tableFonts.headerFontFamily,tableFonts.headerFontSize);
     var headerHeight = fontsMetric.height(header,tableFonts.headerFontFamily,tableFonts.headerFontSize);
-    var i = playerNamesModel.indexOf(header);
+    var i = playerDataModel.indexOf(header);
     tableHeightProvider.updateRowHeight(i,headerHeight);
     var scaledWidth = scaleWidth(headerWidth);
     updateVerticalHeaderWidth(scaledWidth);
-}
-
-function appendStatsItems()
-{
-    averageValuesModel.appendItem(0.0);
-    lowerValuesModel.appendItem(0);
-    upperValuesModel.appendItem(0);
 }
 
 function scaleWidth(w)
@@ -71,20 +63,20 @@ function updateVerticalHeaderWidth(w)
         scoreBoardBody.updateVerticalHeaderWidth(w);
 }
 
-function setData(playerName,score,average, lowerVal, upperVal){
-    let index = playerNamesModel.indexOf(playerName);
-    updateStatistics(index,average,lowerVal,upperVal);
+function setData(playerName,score,min,mid,max){
+    let index = playerDataModel.indexOf(playerName);
+    updatePlayerDataModel(playerName,min,mid,max);
     var result = dataModel.insertData(index,score);
     if(result)
         updateWidths(index);
 }
 
-function updateStatistics(index,average,lowerVal,upperVal)
+function updatePlayerDataModel(playerName,min,mid,max)
 {
-    if(!isNaN(average))
-        averageValuesModel.setItem(average,index);
-    lowerValuesModel.setItem(lowerVal,index);
-    upperValuesModel.setItem(upperVal,index);
+    if(!isNaN(mid))
+        playerDataModel.setMid(playerName,mid);
+    playerDataModel.setMin(playerName,min);
+    playerDataModel.setMax(playerName,max);
 }
 
 function takeData(row,column,playerName){
@@ -119,9 +111,9 @@ function setDelegateText(text,ref)
 
 function updateDelegate(text,ref,row)
 {
-    ref.averageValue = averageValuesModel.item(row);
-    ref.lowerValue = lowerValuesModel.item(row);
-    ref.upperValue = upperValuesModel.item(row);
+    ref.lowerValue = playerDataModel.min(row);
+    ref.averageValue = playerDataModel.mid(row);
+    ref.upperValue = playerDataModel.max(row);
     if(text === undefined)
         return "text";
     return text;

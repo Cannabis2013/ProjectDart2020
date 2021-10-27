@@ -51,11 +51,11 @@ QByteArray DCJsonBuilder::json(const DCInput &input, const DCIndex &indexes, con
     inputJsonBuilder()->setJsonValues(obj,input);
     return QJsonDocument(obj).toJson();
 }
-QByteArray DCJsonBuilder::json(const DCIndex &inputIndex, const DCMetaInfo &metaInfo) const
+QByteArray DCJsonBuilder::json(const DCIndex &index, const DCMetaInfo &metaInfo) const
 {
     auto obj = QJsonObject();
     metaJsonBuilder()->setJsonValues(obj,metaInfo);
-    inputIndexesBuilder()->setJsonValues(obj,inputIndex);
+    inputIndexesBuilder()->setJsonValues(obj,index);
     return QJsonDocument(obj).toJson();
 }
 
@@ -65,5 +65,13 @@ QByteArray DCJsonBuilder::json(const DCIndex &regIndex, const DCIndex &inputInde
     metaJsonBuilder()->setJsonValues(obj,metaInfo);
     inputIndexesBuilder()->setJsonValues(obj,inputIndex);
     reqIndexJsonBuilder()->setJsonValues(obj,regIndex);
+    return QJsonDocument(obj).toJson();
+}
+
+QByteArray DCJsonBuilder::json(const DCInput &input, const DCMetaInfo &metaInfo) const
+{
+    QJsonObject obj;
+    metaJsonBuilder()->setJsonValues(obj,metaInfo);
+    inputJsonBuilder()->setJsonValues(obj,input);
     return QJsonDocument(obj).toJson();
 }

@@ -16,7 +16,7 @@ public:
         _winner.id = input.playerId;
         _winner.name = input.playerName;
     }
-    virtual DCPlayer &winner() override
+    virtual DCPlayer &get() override
     {
         return _winner;
     }

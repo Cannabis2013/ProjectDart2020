@@ -17,7 +17,7 @@ void DartsJsonModelsContext::setTournamentServices()
     setDartsDbContext(new DartsDbContext(new ReadByteArray, new WriteByteArray));
     setResetTournament(new ResetDartsTournament);
     setGetTournament(new GetDartsTournamentFromDb);
-    setTournamentJsonBuilder(new DartsTournamentJsonBuilder);
+    setTournamentJsonBuilder(new DartsJsonBuilder);
     setTournamentBuilder(new DartsTournamentBuilder);
     setWinnerInfoBuilder(new DartWinnerModelBuilder);
     setMetaModelBuilder(new DartsMetaModelBuilder);
@@ -28,7 +28,6 @@ void DartsJsonModelsContext::setIndexesServices()
 {
     setIndexBuilder(new DartsIndexBuilder);
     setUpdateIndexes(new UpdateDartsIndexes);
-    setResetIndexes(new ResetDartsIndexes);
 }
 void DartsJsonModelsContext::setInputServices()
 {

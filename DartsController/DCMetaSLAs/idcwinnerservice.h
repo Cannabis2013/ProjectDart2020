@@ -9,6 +9,6 @@ class IDCWinnerService
 public:
     virtual void setWinner(const DCPlayer &winner) = 0;
     virtual void setWinner(const DCInput &input) = 0;
-    virtual DCPlayer &winner() = 0;
+    virtual DCPlayer &get() = 0;
 };
 #endif // USERSCORESCONTROLLERINTERFACE_H

@@ -16,14 +16,14 @@ public:
     }
     virtual void evaluateInput(DCInput input, AbstractDartsController *controller, IDCWinnerService *winnerService,
                                IDCStatus *controllerStatus, const IDartsStatusCodes *statusCodes,
-                               IDCPlayerController *allowancesContext) override
+                               IDCPlayerController *playerController) override
     {
-        if(!allowancesContext->isAllowedEntrance(input.playerId))
+        if(!playerController->isIn(input.playerId))
         {
             if(input.modKeyCode == DoubleModifier)
             {
                 input.remainingScore = input.remainingScoreCand;
-                allowancesContext->playerIsIn(input.playerId);
+                input.inGame = playerController->updatePlayerStatus(input.playerId,true);
             }
             else
             {

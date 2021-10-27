@@ -32,7 +32,7 @@ public:
     {
         _getPlayerStat = newGetPlayerStat;
     }
-    IDCUpdateMidVal *updateMiddleValue() const
+    IDCUpdateMidVal *calcMidVal() const
     {
         return _updateMidVal;
     }

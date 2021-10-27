@@ -1,10 +1,10 @@
 #ifndef GETSCOREFROMDPCINPUT_H
 #define GETSCOREFROMDPCINPUT_H
 
-#include "DartsController/DCScoresSLAs/idcgetscore.h"
+#include "DartsController/DCScoresSLAs/idccalcscore.h"
 #include "quuid.h"
 
-class GetScoreFromDPCInput : public IDCGetScore
+class GetScoreFromDPCInput : public IDCCalcScore
 {
 public:
     enum PointKeyCodes{

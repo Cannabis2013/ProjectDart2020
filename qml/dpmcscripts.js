@@ -12,7 +12,7 @@ function connectInterface()
     applicationInterface.controllerIsStopped.connect(backendIsStopped);
     applicationInterface.controllerAwaitsInput.connect(backendIsReadyAndAwaitsInput);
     applicationInterface.dartsControllerIsReset.connect(reinitialize);
-    applicationInterface.controllerHasDeclaredAWinner.connect(backendDeclaredAWinner);
+    applicationInterface.winnerFound.connect(backendDeclaredAWinner);
     applicationInterface.dartsInputRemoveSucces.connect(backendRemovedPoint);
     applicationInterface.addedInput.connect(backendPersistedInput);
 }
@@ -25,7 +25,7 @@ function disconnectInterface()
     applicationInterface.controllerIsStopped.disconnect(backendIsStopped);
     applicationInterface.controllerAwaitsInput.disconnect(backendIsReadyAndAwaitsInput);
     applicationInterface.dartsControllerIsReset.disconnect(reinitialize);
-    applicationInterface.controllerHasDeclaredAWinner.disconnect(backendDeclaredAWinner);
+    applicationInterface.winnerFound.disconnect(backendDeclaredAWinner);
     applicationInterface.dartsInputRemoveSucces.disconnect(backendRemovedPoint);
     applicationInterface.addedInput.disconnect(backendPersistedInput);
 }

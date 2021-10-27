@@ -10,15 +10,16 @@
 class DSCInputBuilder : public IDCInputBuilder
 {
 public:
-    virtual DCInput buildInput(const QByteArray &json, const IDCGetScore *getScoreContext,
-                               const DCIndex &index, IDCScoreModels *scoresContext) const override
+    virtual DCInput buildInput(const QByteArray &json, const IDCPlayerController *playerController,
+                               const IDCCalcScore *getScoreContext,const DCIndex &index, IDCScoreModels *scoreModels) const override
     {
         auto jsonObject = toJsonObject(json);
         auto input = toInput(jsonObject);
-        input.playerId = scoresContext->scores().at(index.setIndex).playerId;
-        input.playerName = scoresContext->scores().at(index.setIndex).playerName;
+        input.playerId = scoreModels->scores().at(index.setIndex).playerId;
+        input.playerName = scoreModels->scores().at(index.setIndex).playerName;
         input.score = getScoreContext->getScore(input);
-        input.remainingScore = scoresContext->score(input.playerId).remainingScore;
+        input.remainingScore = scoreModels->score(input.playerId).remainingScore;
+        input.inGame = playerController->isIn(input.playerId);
         return input;
     }
     DCInput buildInput(const QByteArray &json, const int &initialScore) const override

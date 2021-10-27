@@ -23,18 +23,10 @@ DartsScoreBoard {
     DartsTableHeights{
         id: tableHeightProvider
     }
-    StringsModel{
-        id: playerNamesModel
+    PlayerDataModel{
+        id: playerDataModel
     }
-    StringsModel{
-        id: averageValuesModel
-    }
-    StringsModel{
-        id: lowerValuesModel
-    }
-    StringsModel{
-        id: upperValuesModel
-    }
+
     columnWidthProvider: function(column){
         return tableDisplayWidth;
     }
@@ -48,7 +40,8 @@ DartsScoreBoard {
     }
     cellDelegate: BoardDelegateContentRect {
         id: tableDelegate
-        playerName: playerNamesModel.item(row)
+        itemEnabled: true
+        playerName: playerDataModel.playerName(row)
         score: ScoreScripts.updateDelegate(display,this,row);
     }
 }

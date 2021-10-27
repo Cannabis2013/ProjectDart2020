@@ -4,6 +4,7 @@
 #include "DartsController/DCScoresSLAs/idcscoremodels.h"
 #include "DartsController/DCFinishesSLAs/idartsinputfinishes.h"
 #include "DartsController/DCTurnValuesServices/dcturnvalues.h"
+#include "DartsController/DCPlayerSLAs/IDCPlayerController.h"
 class ICreateDCTurnValues
 {
 public:

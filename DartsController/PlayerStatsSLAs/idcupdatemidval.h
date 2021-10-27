@@ -8,7 +8,6 @@
 class IDCUpdateMidVal
 {
 public:
-    virtual void update(DCInput &input, const DCIndex &index, IDCPlayerStats *playerStatsContext,
-                        const IDCInitialScore *initialScore) const = 0;
+    virtual double middleValue(const DCIndex &index, const int &remainingScore, const IDCInitialScore *initialScore) const = 0;
 };
 #endif // IDCUPDATEMIDVAL_H

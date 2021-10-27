@@ -8,14 +8,16 @@
 class DPCInputBuilder : public IDCInputBuilder
 {
 public:
-    virtual DCInput buildInput(const QByteArray &json, const IDCGetScore *getScoreContext, const DCIndex &index,
-                               IDCScoreModels *scoresContext) const override
+    virtual DCInput buildInput(const QByteArray &json, const IDCPlayerController *playerController,
+                               const IDCCalcScore *calcScoreContext,const DCIndex &index, IDCScoreModels *scoreModels) const override
     {
         auto jsonObject = toJsonObject(json);
         auto input = toModel(jsonObject);
-        input.playerId = scoresContext->scores().at(index.setIndex).playerId;
-        input.playerName = scoresContext->scores().at(index.setIndex).playerName;
-        input.score = getScoreContext->getScore(input);
+        input.playerId = scoreModels->scores().at(index.setIndex).playerId;
+        input.playerName = scoreModels->scores().at(index.setIndex).playerName;
+        input.score = calcScoreContext->getScore(input);
+        input.remainingScore = scoreModels->score(input.playerId).remainingScore;
+        input.inGame = playerController->isIn(input.playerId);
         return input;
     }
     DCInput buildInput(const QByteArray &json, const int &initialScore) const override
@@ -49,12 +51,13 @@ private:
         input.playerId = toId(obj.value("inputPlayerId").toString(""));
         input.playerName = obj.value("inputPlayerName").toString("");
         input.score = obj.value("score").toInt(0);
-        input.remainingScore = obj.value("totalScore").toInt(initialScore);
+        input.remainingScore = obj.value("remainingScore").toInt(initialScore);
         input.point = obj.value("point").toInt(0);
         input.modKeyCode = obj.value("modKeyCode").toInt(0);
         input.middle = obj.value("middleValue").toDouble(0);
         input.min = obj.value("currentMinimum").toInt(0);
         input.max = obj.value("currentMaximum").toInt(0);
+        input.inGame = obj.value("inGame").toBool(false);
         return input;
     }
     DCInput toModel(const DCScoreModel &scoreModel) const

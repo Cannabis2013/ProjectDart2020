@@ -13,6 +13,7 @@ struct DCInput
     int remainingScore = 0;
     int remainingScoreCand = 0;
     double middle = 0;
+    bool inGame = false;
     int min = 0;
     int max = 0;
     QUuid playerId;

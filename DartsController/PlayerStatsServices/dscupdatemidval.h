@@ -4,22 +4,12 @@
 class DSCUpdateMidVal : public IDCUpdateMidVal
 {
 public:
-    virtual void update(DCInput &input, const DCIndex &index, IDCPlayerStats *playerStatsContext,
-                        const IDCInitialScore *initialScore) const override
+    virtual double middleValue(const DCIndex &index, const int &remainingScore, const IDCInitialScore *initialScore) const override
     {
-        auto remainingScore = input.remainingScore;
         auto initial = initialScore->score();
         auto scoresAccumulated = initial - remainingScore;
         auto roundIndex = index.roundIndex;
-        DCPlayerStat *playerStat;
-        try {
-            playerStat = &playerStatsContext->stat(input.playerId);
-        }  catch (...)
-        {
-            return;
-        }
-        playerStat->middle = scoresAccumulated/roundIndex;
-        input.middle = playerStat->middle;
+        return scoresAccumulated/roundIndex;
     }
 };
 #endif // DSCCALCMIDDLEVAL_H

@@ -1,8 +1,8 @@
 #ifndef GETSCOREFROMDSCINPUT_H
 #define GETSCOREFROMDSCINPUT_H
 
-#include "DartsController/DCScoresSLAs/idcgetscore.h"
-class GetScoreFromDSCInput : public IDCGetScore
+#include "DartsController/DCScoresSLAs/idccalcscore.h"
+class GetScoreFromDSCInput : public IDCCalcScore
 {
 public:
     virtual int getScore(const DCInput &inputModel) const override

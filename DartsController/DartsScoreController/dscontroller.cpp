@@ -36,6 +36,8 @@ DSController::DSController(const DCBuilding::DCMeta &meta)
     setUpdateMiddleVal(new DSCUpdateMidVal);
     setUpdateScoreRange(new DCUpdateScoreRange);
     setUpdatePlayerStats(new DCUpdatePlayerStat);
+    // Player services
+    setPlayerController(new DSCPlayerController);
     // Player scores services
     setPlayerBuilderService(new DCPlayerBuilder);
     setUpdateScoresService(new DCUpdateScoreModels);
