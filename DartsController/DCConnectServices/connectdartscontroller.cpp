@@ -47,7 +47,7 @@ void ConnectDartsController::connectController(AbstractGameController *controlle
                      application,&AbstractApplicationInterface::winnerFound);
     // Start/stop game
     QObject::connect(application,&AbstractApplicationInterface::requestStartGame,
-                     dartscontroller,&AbstractGameController::start);
+                     dartscontroller,&AbstractDartsController::createTurnValuesJson);
     QObject::connect(dartscontroller,&AbstractDartsController::sendTurnValues,
                      application,&AbstractApplicationInterface::updateDartsTurnValues);
     QObject::connect(application,&AbstractApplicationInterface::requestStopGame,

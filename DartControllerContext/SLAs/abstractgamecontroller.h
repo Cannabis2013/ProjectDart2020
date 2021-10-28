@@ -6,8 +6,6 @@ class AbstractGameController : public QObject
 {
     Q_OBJECT
 public slots:
-    virtual void start() = 0;
-    virtual void stop() = 0 ;
     virtual void handleUserInput(const QByteArray& json) = 0;
     virtual void createJsonResponse() = 0;
     virtual void undoTurn() = 0;

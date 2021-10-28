@@ -3,14 +3,12 @@
 #include "DartsController/DCTurnValuesSLAs/dcturnvaluesslas.h"
 #include "DartsController/DCIndexSLAs/dcindexslas.h"
 #include "DartsController/DCScoresSLAs/dcscoreslas.h"
-#include <quuid.h>
 #include "DartsController/DCPlayerSLAs/DCPlayerSLAs.h"
 #include "DartsController/ControllerSLA/abstractdartscontroller.h"
 #include "DartsController/DCJsonSLAs/dcjsonslas.h"
 #include "DartsController/DCMetaSLAs/dcmetaslas.h"
 #include "DartsController/DCInputSLAs/dcinputsslas.h"
 #include "DartsController/PlayerStatsSLAs/dcinputstatsslas.h"
-#define TOURNAMENT_ID_JSON_KEY "tournamentId"
 class DartsController : public AbstractDartsController,
                         protected DCMetaSLAs,
                         protected DCTurnvaluesSLAs,
@@ -27,8 +25,6 @@ public slots:
     void initializeDartsValues(const QByteArray &indexJson, const QByteArray &inputsJson,
                                const QByteArray &playersJson, const QByteArray &winnerJson) override;
     virtual void requestStatus() override;
-    void start() override;
-    void stop() override{}
     void createIndexJson() override;
     void undoTurn() override;
     void redoTurn() override;
