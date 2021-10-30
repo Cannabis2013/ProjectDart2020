@@ -55,8 +55,8 @@ private:
         input.point = obj.value("point").toInt(0);
         input.modKeyCode = obj.value("modKeyCode").toInt(0);
         input.middle = obj.value("middleValue").toDouble(0);
-        input.min = obj.value("currentMinimum").toInt(0);
-        input.max = obj.value("currentMaximum").toInt(0);
+        input.min = obj.value("minimumValue").toInt(0);
+        input.max = obj.value("maximumValue").toInt(0);
         input.inGame = obj.value("inGame").toBool(false);
         return input;
     }

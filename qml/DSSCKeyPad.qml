@@ -1,10 +1,10 @@
 import QtQuick 2.12
 import QtQuick.Layouts 1.3
 
-import "scoreKeyPadFactory.js" as ComponentFactory
-import "scoreKeyPadScripts.js" as Scripts
+import "dsscKeyPadFactory.js" as ComponentFactory
+import "dsscKeyPadScripts.js" as Scripts
 
-ScoreKeyPadInterface {
+DSSCKeyPadInterface {
     id: keyPadBody
     onEnableKeyPad: {
         clearPad.enabled = enable;

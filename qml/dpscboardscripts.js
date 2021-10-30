@@ -115,9 +115,9 @@ function setDelegateText(text,ref)
 
 function updateDelegate(text,ref,row)
 {
-    ref.lowerValue = playerDataModel.min(row);
-    ref.averageValue = playerDataModel.mid(row);
-    ref.upperValue = playerDataModel.max(row);
+    ref.minValue = playerDataModel.min(row);
+    ref.midValue = playerDataModel.mid(row);
+    ref.maxValue = playerDataModel.max(row);
     ref.itemEnabled = playerDataModel.in(row);
     if(text === undefined)
         return "text";

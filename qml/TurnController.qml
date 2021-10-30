@@ -48,8 +48,8 @@ Item {
     }
     QtObject{
         id: initialTextBoxValues
-        readonly property string roundText: "Current round"
-        readonly property string playerText: "Current player"
+        readonly property string roundText: "Round"
+        readonly property string playerText: "Player"
     }
     GridLayout{
         flow: GridLayout.LeftToRight
@@ -118,6 +118,15 @@ Item {
                 textDescriptionVisible: false
                 startButtonVisible: true
                 startButtonEnabled: true
+            }
+            PropertyChanges {
+                target: leftButton
+                enabled: false
+
+            }
+            PropertyChanges {
+                target: rightButton
+                enabled: false
             }
         },
         State {

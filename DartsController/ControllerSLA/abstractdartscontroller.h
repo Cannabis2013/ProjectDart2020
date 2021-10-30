@@ -11,7 +11,6 @@ public slots:
     virtual void initializeDartsValues(const QByteArray &indexJson, const QByteArray &inputsJson,
                                        const QByteArray &playersJson, const QByteArray &winnerJson) = 0;
     virtual void createScores() = 0;
-    virtual void getOrderedInputsWithTotalScores() = 0;
     virtual void createScoreJson(const QByteArray& json) = 0;
     virtual void persistInput(DCInput &input) = 0;
     virtual void createTurnValuesJson() = 0;

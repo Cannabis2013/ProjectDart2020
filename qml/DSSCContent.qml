@@ -1,28 +1,13 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
-
 import "dsscscripts.js" as DartsScoresScripts
 import "dsscstatescripts.js" as StateScripts
-
 Content {
-    id: dartsScoreSingleColumnBody
-    signal requestControllerValues
-    signal requestMultiAttemptScores
-    signal requestStatusFromBackend
-    signal requestStart
-    signal requestStop
-    signal requestRestart
-    onRequestRestart: DartsScoresScripts.handleRequestTournamentReset()
-    signal requestUndo
-    signal requestRedo
-    signal sendInput(string json)
-    signal setupGame
-    signal requestPersistState
+    id: dsscContent
     DartsMetaValues{
         id: dartsMetaValues
     }
     GridLayout{
-        id: bodyLayout
         anchors.fill: parent
         flow: GridLayout.TopToBottom
         TurnController{
@@ -41,15 +26,15 @@ Content {
         DSSCBoard{
             id: singleColumnScoreBoard
             Layout.fillWidth: true
-            Layout.minimumWidth: dartsScoreSingleColumnBody.width*0.75
-            Layout.maximumWidth: dartsScoreSingleColumnBody.width*0.75
             Layout.alignment: Qt.AlignHCenter
+            Layout.minimumWidth: dsscContent.width*0.8
+            Layout.maximumWidth: dsscContent.width*0.8
         }
         KeyDataDisplay{
             id: keyDataDisplay
             Layout.fillWidth: true
         }
-        ScoreKeyPad{
+        DSSCKeyPad{
             id: scoreKeyPad
             Layout.alignment: Qt.AlignBottom
             Layout.fillHeight: true

@@ -92,11 +92,11 @@ HEADERS += \
     DartsController/IndexServices/dscindexcontroller.h \
     DartsController/PlayerStatsSLAs/dcinputstatsslas.h \
     DartsController/PlayerStatsSLAs/dcplayerstat.h \
+    DartsController/PlayerStatsSLAs/idccalcmidval.h \
     DartsController/PlayerStatsSLAs/idcgetplayerstat.h \
     DartsController/PlayerStatsSLAs/idcplayerstats.h \
-    DartsController/PlayerStatsSLAs/idcupdatemidval.h \
+    DartsController/PlayerStatsSLAs/idcsetinputstats.h \
     DartsController/PlayerStatsSLAs/idcupdateplayerstat.h \
-    DartsController/PlayerStatsSLAs/idcupdatescorerange.h \
     DartsController/DCJsonSLAs/AbstractDCJsonBuilder.h \
     DartsController/DCJsonSLAs/dcjsonbuilderservices.h \
     DartsController/DCJsonSLAs/idcmodeljsonbuilder.h \
@@ -234,8 +234,6 @@ HEADERS += \
     DartsController/DCFinishesServices/dartsmodidentifiers.h \
     DartsModelsContext/InputServices/dartsinputjsonbuilder.h \
     dartsplayerdatamodel.h \
-    dartspmccolumnindexbuilder.h \
-    dartspmcsectionutility.h \
     dartspscIndexBuilder.h \
     dartsroundindexbyattempt.h \
     dartstablecellcontext.h \
@@ -247,6 +245,7 @@ HEADERS += \
     dartstablefillservice.h \
     dartstablemodel.h \
     dartstablesectionmanipulator.h \
+    dartstablesectionutility.h \
     dartstableservices.h \
     DartsController/DCFinishesServices/dartsterminaldivisor.h \
     DartsController/DCFinishesServices/dartsthreshold.h \
@@ -266,7 +265,6 @@ HEADERS += \
     defaultdartscellcontext.h \
     DartsController/DCMetaServices/determinestatusbyid.h \
     DartsController/DPController/dpcontroller.h \
-    dpmctablemodel.h \
     dpsctablemodel.h \
     DartsController/DartsScoreController/dscontroller.h \
     DartsController/DSCServices/dscvaluesbuilder.h \

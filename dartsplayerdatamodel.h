@@ -8,11 +8,12 @@ class DartsPlayerDataModel : public QObject
 {
     Q_OBJECT
 public:
-    Q_INVOKABLE void addPlayer(const QString &player)
+    Q_INVOKABLE void addPlayer(const QString &playerName)
     {
         Model m;
-        m.playerName = player;
+        m.playerName = playerName;
         _models << m;
+        emit dataChanged(indexOf(playerName));
     }
     Q_INVOKABLE QString playerName(const int &index) const
     {
@@ -22,21 +23,25 @@ public:
     {
         auto m = &model(playerName);
         m->min = value;
+        emit dataChanged(indexOf(playerName));
     }
     Q_INVOKABLE void setMid(const QString &playerName, const double &value)
     {
         auto m = &model(playerName);
         m->mid = value;
+        emit dataChanged(indexOf(playerName));
     }
     Q_INVOKABLE void setMax(const QString &playerName, const int &value)
     {
         auto m = &model(playerName);
         m->max = value;
+        emit dataChanged(indexOf(playerName));
     }
     Q_INVOKABLE void setInGame(const QString &playerName, const bool &value)
     {
         auto m = &model(playerName);
         m->in = value;
+        emit dataChanged(indexOf(playerName));
     }
     Q_INVOKABLE int min(const int &index) const
     {
@@ -72,6 +77,8 @@ public:
             model.in = false;
         }
     }
+signals:
+    void dataChanged(const int &index);
 private:
     struct Model{
         QString playerName;

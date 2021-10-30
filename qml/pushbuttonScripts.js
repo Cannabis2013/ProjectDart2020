@@ -1,6 +1,5 @@
 function onClicked(text) {
     body.clicked();
-    body.clickedAndSendText(text);
 }
 
 function onPressed(sustained)

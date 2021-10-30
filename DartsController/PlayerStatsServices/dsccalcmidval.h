@@ -1,13 +1,12 @@
 #ifndef DSCCALCMIDVAL_H
 #define DSCCALCMIDVAL_H
-#include "DartsController/PlayerStatsSLAs/idcupdatemidval.h"
-class DSCCalcMidVal : public IDCUpdateMidVal
+#include "DartsController/PlayerStatsSLAs/idccalcmidval.h"
+class DSCCalcMidVal : public IDCCalcMidVal
 {
 public:
-    virtual double middleValue(const DCIndex &index, const int &remainingScore, const IDCInitialScore *initialScore) const override
+    virtual double middleValue(const DCIndex &index, const int &remainingScore, const int &initialScore) const override
     {
-        auto initial = initialScore->score();
-        auto scoresAccumulated = initial - remainingScore;
+        auto scoresAccumulated = initialScore - remainingScore;
         auto roundIndex = index.roundIndex;
         auto midVal = (double)scoresAccumulated/roundIndex;
         return toTwoDecimals(midVal);

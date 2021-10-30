@@ -10,7 +10,7 @@ public:
     {
         return new DCInitialScore(value);
     }
-    virtual int score() const override
+    virtual int get() const override
     {
         return _initialScore;
     }

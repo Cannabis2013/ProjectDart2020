@@ -68,7 +68,7 @@ function recieveScores(scores)
 
 function controllerReady()
 {
-    dartsScoreSingleColumnBody.state = "ready";
+    dsscContent.state = "ready";
 }
 
 function addDartsScoresToScoreBoard(json)
@@ -99,7 +99,7 @@ function updateTurnValues(data)
     var json = JSON.parse(data);
     setTurnControllerValues(json);
     setSuggestedTargetRow(json);
-    dartsScoreSingleColumnBody.state = "waitingForInput";
+    dsscContent.state = "waitingForInput";
 }
 
 function reinitialize()
@@ -108,12 +108,12 @@ function reinitialize()
     singleColumnScoreTurnController.reset();
     keyDataDisplay.clear();
     initializeScoreBoard();
-    dartsScoreSingleColumnBody.state = "ready";
+    dsscContent.state = "ready";
 }
 
 function resetTournament()
 {
-    dartsScoreSingleColumnBody.state = "stopped";
+    dsscContent.state = "stopped";
     applicationInterface.requestTournamentReset();
 }
 
@@ -132,7 +132,7 @@ function setTurnControllerValues(json)
 }
 
 function handleScoreKeyPadInput(value){
-    dartsScoreSingleColumnBody.state = "waitingForInputConfirmation";
+    dsscContent.state = "waitingForInputConfirmation";
     var obj = {
         score : value
     };
@@ -142,26 +142,27 @@ function handleScoreKeyPadInput(value){
 
 function backendIsStopped()
 {
-    if(dartsScoreSingleColumnBody.state !== "preRestart")
-        dartsScoreSingleColumnBody.state = "stopped";
+    if(dsscContent.state !== "preRestart")
+        dsscContent.state = "stopped";
 }
 
 function winnerFound(data)
 {
     var json = JSON.parse(data);
     dartsMetaValues.winnerName = json["winnerName"];
-    dartsScoreSingleColumnBody.state = "winner";
+    keyDataDisplay.setThrowSuggestion("");
+    dsscContent.state = "winner";
 }
 
 function undoClicked()
 {
-    dartsScoreSingleColumnBody.state = "waitingForInputConfirmation";
+    dsscContent.state = "waitingForInputConfirmation";
     applicationInterface.requestUndo();
 }
 
 function redoClicked()
 {
-    dartsScoreSingleColumnBody.state = "waitingForInputConfirmation";
+    dsscContent.state = "waitingForInputConfirmation";
     applicationInterface.requestRedo();
 }
 

@@ -1,5 +1,4 @@
 import QtQuick 2.12
-
 Item {
     id: body
     signal backPushed
@@ -24,7 +23,6 @@ Item {
             Component.onCompleted: body.backPushed.connect(backButtonPressed)
         }
     }
-
     Component{
         id: createTournamentComponent
         Page {
@@ -66,7 +64,6 @@ Item {
             }
         }
     }
-
     Component
     {
         id: dartsPointSingleColumn
@@ -87,7 +84,6 @@ Item {
             onBackButtonPressed: pageLoader.sourceComponent = tournamentPageComponent
         }
     }
-
     Loader{
         id: pageLoader
         anchors.fill: parent

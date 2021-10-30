@@ -1,9 +1,9 @@
-#ifndef DARTSPMCSECTIONUTILITY_H
-#define DARTSPMCSECTIONUTILITY_H
+#ifndef DARTSTABLESECTIONUTILITY_H
+#define DARTSTABLESECTIONUTILITY_H
 
 #include "idartstablesectionutility.h"
 
-class DartsPMCSectionUtility : public IDartsTableSectionUtility
+class DartsTableSectionUtility : public IDartsTableSectionUtility
 {
 public:
     virtual bool isSectionEmpty(const int &column, const Rows &data) const override

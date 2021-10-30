@@ -18,13 +18,9 @@ void DartsController::createScores()
 {
     emit sendDartsScores(jsonBuilder()->json(scoreModels()->scores(),playerStats()->stats()));
 }
-void DartsController::getOrderedInputsWithTotalScores()
-{
-    emit requestOrderedInputs(tournamentId()->id());
-}
 void DartsController::createScoreJson(const QByteArray &json)
 {
-    auto input = inputBuilder()->buildInput(json,initialScore()->score());
+    auto input = inputBuilder()->buildInput(json,initialScore()->get());
     updatePlayerStats()->update(input,playerStats());
     playerController()->updatePlayerStatus(input.playerId,input.inGame);
     auto scoreModel = &scoreModels()->score(input.playerId);
@@ -34,7 +30,7 @@ void DartsController::createScoreJson(const QByteArray &json)
 void DartsController::reset()
 {
     indexController()->initialize();
-    scoreModels()->reset(initialScore()->score());
+    scoreModels()->reset(initialScore()->get());
     playerStats()->reset();
     status()->set(statusCodes()->initialized());
     playerController()->reset();
@@ -62,9 +58,8 @@ void DartsController::redoTurn()
 void DartsController::persistInput(DCInput &input)
 {
     auto index = indexController()->index();
-    input.middle = calcMidVal()->middleValue(indexController()->index(),input.remainingScore,initialScore());
-    updateScoreRange()->update(input,playerStats());
-    auto metaInfo = metaBuilder()->buildMeta(tournamentId(),indexController()->index(),scoreModels(),winner()->get());
+    setInputStats()->set(input,playerStats(),calcMidVal(),index,initialScore()->get());
+    auto metaInfo = metaBuilder()->buildMeta(tournamentId(),index,scoreModels(),winner()->get());
     indexController()->next(playerController()->count());
     emit addInputToDbContext(jsonBuilder()->json(input,index,metaInfo));
 }
@@ -83,7 +78,7 @@ void DartsController::initializeDartsValues(const QByteArray& indexJson, const Q
 {
     indexController()->initialize(indexBuilder()->index(indexJson));
     auto players = playerBuilder()->createPlayers(playersJson);
-    scoreModels()->scores().append(scoresBuilder()->createScores(players,initialScore()->score()));
+    scoreModels()->scores().append(scoresBuilder()->createScores(players,initialScore()->get()));
     playerStats()->setPlayers(players);
     playerController()->appendPlayerId(players);
     auto inputs = inputBuilder()->buildInputs(inputsJson);

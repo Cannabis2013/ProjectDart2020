@@ -1,6 +1,3 @@
-/*
-  Setup keypad
-  */
 function createKeyPad()
 {
     // Create hotkeys
@@ -21,8 +18,8 @@ function createColumn(startRow, endRow, column, labels)
     for(var i = startRow;i<= endRow;i++)
     {
         let keyLabel = labels[i - startRow];
-        let hotKeyPad = ComponentFactory.createHotKeyButton(keyPadLayout,keyLabel,i,column);
-        hotKeyPad.clickedAndSendText.connect(keyPadBody.internalHotKeyClicked);
+        let hotKeyPad = ComponentFactory.createHotPad(keyPadLayout,keyLabel,keyLabel,i,column,"green");
+        hotKeyPad.keyPadClicked.connect(keyPadBody.internalHotKeyClicked);
         keyPadBody.enableKeyPad.connect(hotKeyPad.enableButton);
         keyPadBody.enableHotPads.connect(hotKeyPad.enableButton);
     }
@@ -33,8 +30,8 @@ function createRow(startColumn, endColumn, row, labels)
     for(var i = startColumn;i<= endColumn;i++)
     {
         let keyLabel = labels[i - startColumn];
-        let hotKeyPad = ComponentFactory.createHotKeyButton(keyPadLayout,keyLabel,row,i);
-        hotKeyPad.clickedAndSendText.connect(keyPadBody.internalHotKeyClicked);
+        let hotKeyPad = ComponentFactory.createHotPad(keyPadLayout,keyLabel,keyLabel,row,i,"green");
+        hotKeyPad.keyPadClicked.connect(keyPadBody.internalHotKeyClicked);
         keyPadBody.enableKeyPad.connect(hotKeyPad.enableButton);
         keyPadBody.enableHotPads.connect(hotKeyPad.enableButton);
     }
@@ -47,8 +44,9 @@ function createNumberPadItems()
     var keyText = 1;
     for(var j = initialNumberPadRow;j <= 3;j++){
         for(var k = 1;k <= 3;k++){
-            let numberKey = ComponentFactory.createNumberButton(keyPadLayout,keyText++,j,k);
-            numberKey.clickedAndSendText.connect(keyPadBody.internalKeyClicked);
+            let value = keyText++;
+            let numberKey = ComponentFactory.createNumberPad(keyPadLayout,value,value,j,k,"brown");
+            numberKey.keyPadClicked.connect(keyPadBody.internalKeyClicked);
             keyPadBody.enableKeyPad.connect(numberKey.enableButton);
         }
         initialColumn = 3;
@@ -56,8 +54,8 @@ function createNumberPadItems()
     /*
       '0' numberpad
       */
-    let numberKey = ComponentFactory.createNumberButton(keyPadLayout,0,4,2);
-    numberKey.clickedAndSendText.connect(keyPadBody.internalKeyClicked);
+    let numberKey = ComponentFactory.createNumberPad(keyPadLayout,0,0,4,2,"brown");
+    numberKey.keyPadClicked.connect(keyPadBody.internalKeyClicked);
     keyPadBody.enableKeyPad.connect(numberKey.enableButton);
 }
 

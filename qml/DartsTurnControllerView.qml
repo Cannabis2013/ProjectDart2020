@@ -21,7 +21,7 @@ Rectangle{
             Layout.fillWidth: true
             Layout.fillHeight: true
             text: currentRoundIndex
-            font.pointSize: 24
+            font.pointSize: 20
             verticalAlignment: Text.AlignBottom
             horizontalAlignment: Text.AlignHCenter
         }
@@ -31,7 +31,7 @@ Rectangle{
             Layout.fillHeight: true
             color: "white"
             text: currentPlayer
-            font.pointSize: 24
+            font.pointSize: 20
             verticalAlignment: Text.AlignTop
             horizontalAlignment: Text.AlignHCenter
         }

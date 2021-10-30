@@ -78,7 +78,6 @@ namespace ModelsContext{
             _hint = hint;
             return this;
         }
-
         int modKeyCode() const override
         {
             return _modKeyCode;
@@ -124,6 +123,15 @@ namespace ModelsContext{
             _inGame = value;
             return this;
         }
+        bool approved() const override
+        {
+            return _approved;
+        }
+        DartsInput *setApproved(const bool &val) override
+        {
+            _approved = val;
+            return this;
+        }
     private:
         int _point;
         int _score;
@@ -134,6 +142,7 @@ namespace ModelsContext{
         int _modKeyCode;
         int _remainingScore;
         bool _inGame = false;
+        bool _approved;
         QUuid _id, _playerId, _tournamentId;
         QString _playerName;
     };

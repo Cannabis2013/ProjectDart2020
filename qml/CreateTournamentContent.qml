@@ -96,13 +96,13 @@ Content {
             onButtonTwoClicked: CreateScripts.acceptAndAdd()
         }
         Component.onCompleted: {
-            applicationInterface.tournamentAssembledAndStored.connect(createBody.tournamentAssembledAndStored);
+            applicationInterface.tournamentCreatedSuccess.connect(createBody.tournamentAssembledAndStored);
             applicationInterface.sendPlayers.connect(CreateScripts.recievePlayers);
             CreateScripts.setupSelectors();
             applicationInterface.requestPlayers();
         }
         Component.onDestruction: {
-            applicationInterface.tournamentAssembledAndStored.disconnect(createBody.tournamentAssembledAndStored);
+            applicationInterface.tournamentCreatedSuccess.disconnect(createBody.tournamentAssembledAndStored);
             applicationInterface.sendPlayers.disconnect(CreateScripts.recievePlayers);
         }
     }

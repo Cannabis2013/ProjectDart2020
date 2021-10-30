@@ -18,6 +18,7 @@ public:
         obj["minimumValue"] = input.min;
         obj["maximumValue"] = input.max;
         obj["inGame"] = input.inGame;
+        obj["approved"] = input.approved;
     }
 };
 

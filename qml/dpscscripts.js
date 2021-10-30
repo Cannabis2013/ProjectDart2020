@@ -67,7 +67,7 @@ function recieveScores(scores)
 
 function controllerReady()
 {
-    dpscBody.state = "ready";
+    dpscContent.state = "ready";
 }
 
 function addDartsScoresToScoreBoard(json)
@@ -95,16 +95,22 @@ function addToScoreBoard(json)
     let playerName = json["inputPlayerName"];
     let playerPoint = json["point"];
     let playerScore = json["remainingScore"];
+    let minimum = json["minimumValue"];
     let middleValue = json["middleValue"];
-    let minimum = json["currentMinimum"];
-    let maximum = json["currentMaximum"];
+    let maximum = json["maximumValue"];
     let inGame = json["inGame"];
-    singleColumnPointBoard.setData(playerName,playerScore,middleValue,minimum,maximum,inGame);
+    singleColumnPointBoard.setData(playerName,playerScore,minimum,middleValue,maximum,inGame);
 }
 
 function setThrowSuggestion(json)
 {
     keyDataDisplay.setThrowSuggestion(json["suggestedFinish"]);
+}
+
+function resetTournament()
+{
+    dpscContent.state = "stopped";
+    applicationInterface.requestTournamentReset();
 }
 
 function reinitialize()
@@ -113,12 +119,12 @@ function reinitialize()
     pointSingleColumnTurnController.reset();
     keyDataDisplay.clear();
     initializeScoreBoard();
-    dpscBody.state = "ready";
+    dpscContent.state = "ready";
 }
 
 function handleRequestTournamentReset()
 {
-    dpscBody.state = "stopped";
+    dpscContent.state = "stopped";
     applicationInterface.requestTournamentReset();
 }
 
@@ -131,7 +137,7 @@ function setTurnControllerValues(json)
 }
 
 function handleScoreKeyPadInput(input, keyCode){
-    dpscBody.state = "waitingForInputConfirmation";
+    dpscContent.state = "waitingForInputConfirmation";
     var obj = {
         point : input,
         modKeyCode : keyCode
@@ -142,15 +148,15 @@ function handleScoreKeyPadInput(input, keyCode){
 
 function backendIsStopped()
 {
-    if(dpscBody.state !== "preRestart")
-        dpscBody.state = "stopped";
+    if(dpscContent.state !== "preRestart")
+        dpscContent.state = "stopped";
 }
 
 function winnerFound(data)
 {
     var json = JSON.parse(data);
     metaValues.winnerName = json["winnerName"];
-    dpscBody.state = "winner";
+    dpscContent.state = "winner";
 }
 
 function updateTurnValues(data)
@@ -158,25 +164,25 @@ function updateTurnValues(data)
     var json = JSON.parse(data);
     setThrowSuggestion(json);
     setTurnControllerValues(json);
-    dpscBody.state = "waitingForInput";
+    dpscContent.state = "waitingForInput";
 }
 
 function undoClicked()
 {
-    dpscBody.state = "waitingForInputConfirmation";
+    dpscContent.state = "waitingForInputConfirmation";
     requestUndo();
     applicationInterface.requestUndo();
 }
 
 function redoClicked()
 {
-    dpscBody.state = "waitingForInputConfirmation";
+    dpscContent.state = "waitingForInputConfirmation";
     applicationInterface.requestRedo();
 }
 
 function pauseClicked()
 {
-    dpscBody.state = "stopped";
+    dpscContent.state = "stopped";
     applicationInterface.requestStopGame();
 }
 

@@ -24,13 +24,12 @@ public slots:
     void beginInitialize() override;
     void initializeDartsValues(const QByteArray &indexJson, const QByteArray &inputsJson,
                                const QByteArray &playersJson, const QByteArray &winnerJson) override;
-    virtual void requestStatus() override;
+    void requestStatus() override;
     void createIndexJson() override;
     void undoTurn() override;
     void redoTurn() override;
     void sendTournamentId() override;
     void createScores() override;
-    void getOrderedInputsWithTotalScores() override;
     void createJsonResponse() override;
     void handleUserInput(const QByteArray &json) override;
     void reset() override;

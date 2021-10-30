@@ -2,9 +2,6 @@
     <qresource prefix="/">
         <file>qml/createTournamentScripts.js</file>
         <file>qml/dartsSelectorsScripts.js</file>
-        <file>qml/dpmcboardscripts.js</file>
-        <file>qml/dpmcheaderscripts.js</file>
-        <file>qml/dpmcscripts.js</file>
         <file>qml/dpscboardscripts.js</file>
         <file>qml/dpscscripts.js</file>
         <file>qml/dpscstatescripts.js</file>
@@ -16,12 +13,12 @@
         <file>qml/listViewDelegateScripts.js</file>
         <file>qml/managePageScripts.js</file>
         <file>qml/playerListViewScripts.js</file>
-        <file>qml/PointKeyPadFactory.js</file>
-        <file>qml/pointKeyPadScripts.js</file>
+        <file>qml/dpscKeyPadFactory.js</file>
+        <file>qml/dpscKeyPadScripts.js</file>
         <file>qml/pushbuttonScripts.js</file>
         <file>qml/scoreboardscripts.js</file>
-        <file>qml/scoreKeyPadFactory.js</file>
-        <file>qml/scoreKeyPadScripts.js</file>
+        <file>qml/dsscKeyPadFactory.js</file>
+        <file>qml/dsscKeyPadScripts.js</file>
         <file>qml/scoreViewScripts.js</file>
         <file>qml/tournamentListViewScripts.js</file>
         <file>qml/tournamentPageScripts.js</file>
@@ -43,10 +40,6 @@
         <file>qml/DefaultTextInputBox.qml</file>
         <file>qml/DefaultTitleComponent.qml</file>
         <file>qml/DefaultTournamentListView.qml</file>
-        <file>qml/DPMCBoard.qml</file>
-        <file>qml/DPMCBoardDelegate.qml</file>
-        <file>qml/DPMCContent.qml</file>
-        <file>qml/DpmcTableFonts.qml</file>
         <file>qml/DPSCBoard.qml</file>
         <file>qml/DPSCContent.qml</file>
         <file>qml/DSSCBoard.qml</file>
@@ -77,7 +70,7 @@
         <file>qml/PageLabelItem.qml</file>
         <file>qml/PlayerListView.qml</file>
         <file>qml/PlayerViewDelegate.qml</file>
-        <file>qml/PointKeyPad.qml</file>
+        <file>qml/DPSCKeyPad.qml</file>
         <file>qml/PushButton.qml</file>
         <file>qml/ScoreBoard.qml</file>
         <file>qml/ScoreBoardDelegate.qml</file>
@@ -85,8 +78,8 @@
         <file>qml/ScoreBoardInterface.qml</file>
         <file>qml/ScoreBoardTableView.qml</file>
         <file>qml/ScoreBoardVHeader.qml</file>
-        <file>qml/ScoreKeyPad.qml</file>
-        <file>qml/ScoreKeyPadInterface.qml</file>
+        <file>qml/DSSCKeyPad.qml</file>
+        <file>qml/DSSCKeyPadInterface.qml</file>
         <file>qml/SpinBoxInputContent.qml</file>
         <file>qml/StartButtonComponent.qml</file>
         <file>qml/StartMenuButton.qml</file>
@@ -104,11 +97,11 @@
         <file>qml/VerticalHeader.qml</file>
         <file>qml/ViewDelegate.qml</file>
         <file>qml/BoardDelegateContentRect.qml</file>
-        <file>qml/DPMCPointRect.qml</file>
         <file>qml/BoxedRect.qml</file>
         <file>qml/DartsScoreBoard.qml</file>
         <file>qml/DartsTurnControllerView.qml</file>
         <file>qml/DartsStatsView.qml</file>
+        <file>qml/TextRect.qml</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/dartpic.jpg</file>

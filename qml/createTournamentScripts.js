@@ -4,8 +4,7 @@ function stateChanged()
     var selectedIndexesLength = selectedIndexes.length;
     var tournamentTitle = titleEdit.currentValue;
     var tournamentTitleLength = tournamentTitle.length;
-    var status = selectedIndexesLength > 0 && tournamentTitleLength > 0;
-    buttonsComponent.buttonTwoEnabled = status;
+    buttonsComponent.buttonTwoEnabled = tournamentTitleLength > 0 && selectedIndexesLength > 0;
 }
 
 function recievePlayers(data)
@@ -61,6 +60,5 @@ function createDartsTournament()
         playerIndexes : indexes
     };
     var json = JSON.stringify(obj);
-    // Send values
     applicationInterface.addDartsTournaments(json);
 }

@@ -17,8 +17,6 @@ void ConnectDartsController::connectController(AbstractGameController *controlle
     QObject::connect(modelsContext,&AbstractDartsModelsContext::dartsValues,
             dartscontroller,&AbstractDartsController::initializeDartsValues);
     // Request ordered inputs
-    QObject::connect(application,&AbstractApplicationInterface::requestOrderedDartsInputs,
-                     dartscontroller,&AbstractDartsController::getOrderedInputsWithTotalScores);
     QObject::connect(dartscontroller,&AbstractDartsController::requestOrderedInputs,
                      modelsContext,&AbstractDartsModelsContext::getOrderedInputs);
     QObject::connect(modelsContext,&AbstractDartsModelsContext::sendOrderedInputs,

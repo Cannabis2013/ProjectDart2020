@@ -1,54 +1,70 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
-
 MyRectangle {
+    clip: true
     property Item contentRect: Item{}
     onContentRectChanged: {
         layout.children[4] = contentRect;
         contentRect.Layout.fillWidth = true;
         contentRect.Layout.fillHeight = true;
+        contentRect.Layout.column = 1;
+        contentRect.Layout.row = 1;
     }
-
     property int padding: 0
     onPaddingChanged: {
-        leftPadding.width = padding
-        rightPadding.width = padding
-        topPadding.height = padding
-        bottomPadding.height = padding
+        setWidth(leftPadding,padding);
+        setWidth(rightPadding,padding);
+        setHeight(topPadding,padding);
+        setHeight(bottomPadding,padding);
     }
     property int paddingTop: 0
-    onPaddingTopChanged: topPadding.height = paddingTop
+    onPaddingTopChanged: setHeight(topPadding,paddingTop)
     property int paddingLeft: 0
-    onPaddingLeftChanged: leftPadding.width = paddingLeft
+    onPaddingLeftChanged: setWidth(leftPadding,paddingLeft)
     property int paddingRight: 0
-    onPaddingRightChanged: rightPadding.width = paddingRight
+    onPaddingRightChanged: setWidth(rightPadding,paddingRight)
     property int paddingBottom: 0
-    onPaddingBottomChanged: bottomPadding.height = paddingBottom
+    onPaddingBottomChanged: setHeight(bottomPadding,paddingBottom)
+    function setHeight(ref, height)
+    {
+        ref.Layout.minimumHeight = height;
+        ref.Layout.maximumHeight = height;
+    }
+    function setWidth(ref, width)
+    {
+        ref.Layout.minimumWidth = width;
+        ref.Layout.maximumWidth = width;
+    }
+
     GridLayout{
         id: layout
         anchors.fill: parent
         columns: 3
         rows: 3
-        Rectangle
-        {
-            id: leftPadding
-            Layout.column: 0
-            Layout.row: 1
-            width: 0
-        }
         Rectangle{
             id: topPadding
             Layout.column: 0
             Layout.row: 0
             Layout.columnSpan: 3
-            width: 0
+            Layout.minimumHeight: paddingTop
+            Layout.maximumHeight: paddingTop
+        }
+        Rectangle
+        {
+            id: leftPadding
+            Layout.column: 0
+            Layout.row: 1
+            width: paddingLeft
+            Layout.minimumWidth: paddingLeft
+            Layout.maximumWidth: paddingLeft
         }
         Rectangle
         {
             id: rightPadding
             Layout.column: 2
             Layout.row: 1
-            width: 0
+            Layout.minimumWidth: paddingRight
+            Layout.maximumWidth: paddingRight
         }
         Rectangle
         {
@@ -56,11 +72,11 @@ MyRectangle {
             Layout.column: 0
             Layout.row: 2
             Layout.columnSpan: 3
-            width: 0
+            Layout.minimumHeight: paddingBottom
+            Layout.maximumHeight: paddingBottom
         }
         Item{
             id: bodyRect
         }
     }
-
 }

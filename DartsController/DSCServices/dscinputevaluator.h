@@ -16,11 +16,13 @@ public:
     {
         if(input.remainingScoreCand >= minimumAllowedScore)
         {
+            input.approved = true;
             input.remainingScore = input.remainingScoreCand;
             controller->persistInput(input);
         }
         else if(input.remainingScoreCand == 0)
         {
+            input.approved = true;
             input.remainingScore = 0;
             winnerService->setWinner(input);
             controllerStatus->set(statusCodes->winnerFound());

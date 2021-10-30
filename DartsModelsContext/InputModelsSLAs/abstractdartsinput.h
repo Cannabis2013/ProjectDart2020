@@ -22,5 +22,7 @@ public:
     virtual AbstractDartsInput* setAttempt(const int &) = 0;
     virtual bool inGame() const = 0;
     virtual AbstractDartsInput *setInGame(const bool &value) = 0;
+    virtual bool approved() const = 0;
+    virtual AbstractDartsInput *setApproved(const bool &val) = 0;
 };
 #endif // ABSTRACTDARTSINPUT_H

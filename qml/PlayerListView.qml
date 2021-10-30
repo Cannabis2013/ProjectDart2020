@@ -2,7 +2,6 @@ import QtQuick 2.15
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.3
-import QtGraphicalEffects 1.13
 
 import "playerListViewScripts.js" as PLVScripts
 
@@ -12,7 +11,6 @@ ItemListView{
     onAddItem: PLVScripts.addItemModel(item)
     onRemoveItems: PLVScripts.removeItemModels(indexes)
     onClear: listModel.clear()
-    // Properties
     property string componentTitle: "Title"
     onComponentTitleChanged: labelTitle.text = componentTitle
     readonly property var currentIndexes: PLVScripts.currentIndexes()

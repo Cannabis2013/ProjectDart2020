@@ -22,7 +22,7 @@ void ConnectDartsModelsContext::connect(AbstractApplicationInterface *applicatio
      * Create tournament
      */
     QObject::connect(modelsService,&AbstractDartsModelsContext::tournamentCreatedAndPersisted,
-            application,&AbstractApplicationInterface::tournamentAssembledAndStored);
+            application,&AbstractApplicationInterface::tournamentCreatedSuccess);
     /*
      * Delete tournament
      */

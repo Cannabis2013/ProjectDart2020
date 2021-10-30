@@ -9,7 +9,6 @@ Rectangle {
     border.width: 0
     signal backButtonPressed
     onBackButtonPressed: pageBody.destroy()
-    // Notify Page component that content wants to disable backbutton
     signal requestDisableBackButton(bool disable)
     onRequestDisableBackButton: backButtonDisabled = disable
     property bool backButtonVisible: true

@@ -5,68 +5,46 @@ InteractiveObject {
     clip: true
     property string text: ""
     onTextChanged: buttonText.text = qsTr(text);
-
     property double backgroundTransparency: 1
     onBackgroundTransparencyChanged: buttonRect.opacity = backgroundTransparency
-
     property int fontSize: 12
     onFontSizeChanged: buttonText.font.pointSize = fontSize
-
     property color hoveredColor: "#04F72D"
     property color hoveredTextColor: textColor
-
     property color backgroundColor: "transparent"
     onBackgroundColorChanged: buttonRect.color = backgroundColor
-
     property color textColor: "black"
     onTextColorChanged: buttonText.color = textColor
-
     onEnabledChanged: !enabled ? opacity = 0.25 : opacity = 1
-
     property bool hoverEnabled: true
     onHoverEnabledChanged: body.enableHoverEvent = hoverEnabled
-    // Button pressed properties
     property color pressedColor: backgroundColor
     property double pressedScale: 0.90
-    // Checkable properties
     property bool isCheckable: false
     property bool checked: false
     property color checkedBackgroundColor: backgroundColor
     property color checkedTextColor: "black"
     property double checkedScale: 1
-
     property bool enablePressAndHold: false
     onEnablePressAndHoldChanged: body.enablePressAndHoldEvent = enablePressAndHold
-
     property int buttonRadius: 0
     onButtonRadiusChanged: buttonRect.radius = buttonRadius
-
     property url image: ""
     onImageChanged: imageDecorator.source = image
-
     property int imageMargins: 0
     onImageMarginsChanged: imageDecorator.anchors.margins = imageMargins
-
     property int imageRotation: 0
     onImageRotationChanged: imageDecorator.rotation = imageRotation
-
     onClickEvent: PBScripts.onClicked(text)
     onPressedEvent: PBScripts.onPressed(sustained)
     onPressAndHoldEvent: body.pressAndHoldClicked()
     onHoverEvent: PBScripts.onHover(sustained)
-
     signal clicked
+    onClicked: PBScripts.handleClick()
     signal pressAndHoldClicked
-
     signal enableButton(bool e)
     onEnableButton: enabled = e
-
-
     signal hoveredChanged(bool status)
-
-    onClicked: PBScripts.handleClick()
-
-    signal clickedAndSendText(string txt)
     signal checkStateChanged(bool check)
 
     Rectangle

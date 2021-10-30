@@ -69,6 +69,7 @@ private:
         input.min = obj.value("minimumValue").toInt(0);
         input.max = obj.value("maximumValue").toInt(0);
         input.remainingScore = obj.value("remainingScore").toInt(initialScore);
+        input.approved = obj.value("approved").toBool(false);
         return input ;
     }
     QJsonObject toJsonObject(const QByteArray &json) const

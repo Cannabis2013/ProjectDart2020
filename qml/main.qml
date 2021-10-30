@@ -6,7 +6,6 @@ import customDefinitions 1.0
 
 ApplicationWindow {
     id: applicationWindow
-
     readonly property int defaultPageContentWidth: 512
     visible: true
     color: ThemeContext.pageColor
@@ -14,22 +13,16 @@ ApplicationWindow {
     minimumWidth: 400
     width: 480
     height: 640
-
     Screen.orientationUpdateMask:  Qt.LandscapeOrientation |
                                    Qt.PortraitOrientation
-
     title: qsTr("Dart2020")
-
     function destructor(){
-        // Save state and clean up
         Qt.quit();
     }
-
     Item {
         id: keyListener
         anchors.fill: parent
         focus: true
-
         Keys.onPressed: {
             // Only relevant for desktop users
             if(event.key === Qt.Key_Q && event.modifiers & Qt.ControlModifier){
@@ -43,7 +36,6 @@ ApplicationWindow {
             }
         }
     }
-
     MainComponent{
         id: mainPage
         anchors.fill: parent

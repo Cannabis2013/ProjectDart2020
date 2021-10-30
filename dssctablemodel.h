@@ -13,7 +13,7 @@
 #include "createqmlvariants.h"
 #include "dartsdatacontextitemutility.h"
 #include "dartspscIndexBuilder.h"
-#include "dartspmcsectionutility.h"
+#include "dartstablesectionutility.h"
 #include <createscorevaluefromdi.h>
 #include <dartstablesectionmanipulator.h>
 // DartsSingleColumnTableModel
@@ -33,7 +33,7 @@ class DSSCTableModel : public DartsTableModel
         setQMLVariantsContext(new CreateQMLVariants);
         setGetDataFromDataContext(new DartsDataContextItemUtility);
         setcolumnIndexBuilder(new DartsPSCIndexBuilder);
-        setSectionUtitity(new DartsPMCSectionUtility);
+        setSectionUtitity(new DartsTableSectionUtility);
         setSectionManipulator(new DartsTableSectionManipulator); // Practically useless as there is no need to remove sections
     }
 };

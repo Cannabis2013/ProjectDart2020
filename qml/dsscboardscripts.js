@@ -48,19 +48,6 @@ function appendHeader(header)
     var headerHeight = fontsMetric.height(header,tableFonts.headerFontFamily,tableFonts.headerFontSize);
     var i = playerDataModel.indexOf(header);
     tableHeightProvider.updateRowHeight(i,headerHeight);
-    var scaledWidth = scaleWidth(headerWidth);
-    updateVerticalHeaderWidth(scaledWidth);
-}
-
-function scaleWidth(w)
-{
-    return w*1.25;
-}
-
-function updateVerticalHeaderWidth(w)
-{
-    if(w > scoreBoardBody.verticalHeaderWidth)
-        scoreBoardBody.updateVerticalHeaderWidth(w);
 }
 
 function setData(playerName,score,min,mid,max){
@@ -111,9 +98,9 @@ function setDelegateText(text,ref)
 
 function updateDelegate(text,ref,row)
 {
-    ref.lowerValue = playerDataModel.min(row);
-    ref.averageValue = playerDataModel.mid(row);
-    ref.upperValue = playerDataModel.max(row);
+    ref.minValue = playerDataModel.min(row);
+    ref.midValue = playerDataModel.mid(row);
+    ref.maxValue = playerDataModel.max(row);
     if(text === undefined)
         return "text";
     return text;

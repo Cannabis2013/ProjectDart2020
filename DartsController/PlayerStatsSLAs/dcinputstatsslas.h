@@ -1,10 +1,10 @@
 #ifndef DCINPUTSTATSSLAS_H
 #define DCINPUTSTATSSLAS_H
-#include "idcupdatemidval.h"
+#include "idccalcmidval.h"
 #include "idcgetplayerstat.h"
 #include "idcplayerstats.h"
 #include "idcupdateplayerstat.h"
-#include "idcupdatescorerange.h"
+#include "idcsetinputstats.h"
 class PlayerStatsSLAs
 {
 public:
@@ -32,25 +32,25 @@ public:
     {
         _getPlayerStat = newGetPlayerStat;
     }
-    IDCUpdateMidVal *calcMidVal() const
+    IDCCalcMidVal *calcMidVal() const
     {
         return _updateMidVal;
     }
-    void setUpdateMiddleVal(IDCUpdateMidVal *newCalcMiddleVal)
+    void setUpdateMiddleVal(IDCCalcMidVal *newCalcMiddleVal)
     {
         _updateMidVal = newCalcMiddleVal;
     }
-    IDCUpdateScoreRange *updateScoreRange() const
+    IDCSetInputStats *setInputStats() const
     {
-        return _updateScoreRange;
+        return _setInputStats;
     }
-    void setUpdateScoreRange(IDCUpdateScoreRange *service)
+    void setUpdateScoreRange(IDCSetInputStats *service)
     {
-        _updateScoreRange = service;
+        _setInputStats = service;
     }
 private:
-    IDCUpdateMidVal *_updateMidVal;
-    IDCUpdateScoreRange *_updateScoreRange;
+    IDCCalcMidVal *_updateMidVal;
+    IDCSetInputStats *_setInputStats;
     IDCGetPlayerStat *_getPlayerStat;
     IDCUpdatePlayerStat *_updatePlayerStats;
     IDCPlayerStats *_statsBuilder;

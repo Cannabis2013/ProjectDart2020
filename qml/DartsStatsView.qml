@@ -1,48 +1,45 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
-Rectangle {
-    color: "transparent"
+MyRectangle{
     id: statsBody
-    height: 20
     clip: true
-    property string averageValue: ""
-    onAverageValueChanged: averageValueText.text = "Avg: " + averageValue
-    property string lowerValue: ""
-    onLowerValueChanged: lowestValueText.text = "L: " + lowerValue
-    property string upperValue: ""
-    onUpperValueChanged: highestValueText.text = "H: " + upperValue
+    property string minValue: ""
+    onMinValueChanged: minValueText.text = "L: " + minValue
+    property string midValue: ""
+    onMidValueChanged: midValueText.text = "M: " + midValue
+    property string maxValue: ""
+    onMaxValueChanged: maxValueText.text = "H: " + maxValue
+    property int fontSize: 12
+    onFontSizeChanged: {
+        minValueText.font.pointSize = fontSize;
+        midValueText.font.pointSize = fontSize;
+        maxValueText.font.pointSize = fontSize
+    }
+
     GridLayout{
-        anchors.fill: parent
         flow: GridLayout.LeftToRight
         Text {
-            id: averageValueText
-            Layout.minimumWidth: 56
-            Layout.maximumWidth: 56
+            id: minValueText
             horizontalAlignment: Qt.AlignLeft
             color: "white"
-            font.pointSize: 12
-            text: "Avg: " + statsBody.averageValue
+            font.pointSize: 10
+            text: "L: " + statsBody.minValue
         }
         Text {
-            id: lowestValueText
-            Layout.minimumWidth: 52
-            Layout.maximumWidth: 52
+            id: midValueText
             horizontalAlignment: Qt.AlignLeft
             color: "white"
-            font.pointSize: 12
-            text: "L: " + statsBody.lowerValue
+            font.pointSize: 10
+            text: "M: " + statsBody.midValue
         }
         Text {
-            id: highestValueText
-            Layout.minimumWidth: 52
-            Layout.maximumWidth: 52
+            id: maxValueText
             horizontalAlignment: Qt.AlignLeft
             color: "white"
             font.pointSize: 12
-            text: "H: " + statsBody.upperValue
+            text: "H: " + statsBody.maxValue
         }
         Rectangle{
-            color: "transparent"
             Layout.fillWidth: true
         }
     }

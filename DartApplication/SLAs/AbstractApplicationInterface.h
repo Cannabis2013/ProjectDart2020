@@ -30,7 +30,6 @@ signals:
     void sendDartsDetails(const QByteArray& json);
     void sendGameModes(const QStringList &modes);
     void sendInitialControllerValues(const QUuid &tournament, const int &keyPoint, const int &numberOfThrows, QList<QUuid> assignedPlayers);
-    void requestOrderedDartsInputs();
     void requestDartsScores();
     void setCurrentActiveTournament(const int &index);
     void requestTournamentReset();
@@ -42,7 +41,7 @@ signals:
     void tournamentsDeletedSuccess(const bool &status);
     void sendTournaments(const QByteArray& json);
     void sendPlayers(const QByteArray& json);
-    void tournamentAssembledAndStored();
+    void tournamentCreatedSuccess();
     void tournamentCreatedOk();
     void sendDartsScores(const QByteArray& json);
     void sendOrderedDartsInputs(const QByteArray& json);

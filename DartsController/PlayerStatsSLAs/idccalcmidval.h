@@ -1,13 +1,13 @@
-#ifndef IDCUPDATEMIDVAL_H
-#define IDCUPDATEMIDVAL_H
+#ifndef IDCCALCMIDVAL_H
+#define IDCCALCMIDVAL_H
 #include "DartsController/DCIndexSLAs/idcindexcontroller.h"
 #include "DartsController/DCInputServices/dcinput.h"
 #include "DartsController/DCScoresSLAs/idcscoremodels.h"
 #include "DartsController/DCMetaSLAs/idcinitialscore.h"
 #include "idcplayerstats.h"
-class IDCUpdateMidVal
+class IDCCalcMidVal
 {
 public:
-    virtual double middleValue(const DCIndex &index, const int &remainingScore, const IDCInitialScore *initialScore) const = 0;
+    virtual double middleValue(const DCIndex &index, const int &remainingScore, const int &initialScore) const = 0;
 };
 #endif // IDCUPDATEMIDVAL_H

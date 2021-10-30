@@ -6,7 +6,7 @@
 class IDCInitialScore
 {
 public:
-    virtual int score() const = 0;
+    virtual int get() const = 0;
 };
 
 #endif // IDARTSMETADATASERVICE_H

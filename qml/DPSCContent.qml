@@ -3,22 +3,9 @@ import QtQuick.Layouts 1.3
 import "dpscscripts.js" as PointSingleColumnScripts
 import "dpscstatescripts.js" as PointStateScripts
 Content {
-    id: dpscBody
-    signal requestControllerValues
-    signal requestOrderedDartsInputs
-    signal requestStatusFromBackend
-    signal requestStart
-    signal requestStop
-    signal requestRestart
-    onRequestRestart: PointSingleColumnScripts.handleRequestTournamentReset()
-    signal requestUndo
-    signal requestRedo
-    signal sendInput(string json)
-    signal setupGame
-    signal requestPersistState
+    id: dpscContent
     readonly property QtObject metaValues: DartsMetaValues{}
     GridLayout{
-        id: bodyLayout
         anchors.fill: parent
         flow: GridLayout.TopToBottom
         TurnController{
@@ -30,22 +17,22 @@ Content {
             onStartButtonClicked: applicationInterface.requestStartGame()
             onResumeButtonClicked: applicationInterface.requestStartGame()
             onPauseButtonClicked: applicationInterface.requestStopGame()
-            onRestartButtonClicked: PointSingleColumnScripts.handleRequestTournamentReset()
+            onRestartButtonClicked: PointSingleColumnScripts.resetTournament()
             onLeftButtonClicked: applicationInterface.requestUndo()
             onRightButtonClicked: applicationInterface.requestRedo()
         }
         DPSCBoard{
             id: singleColumnPointBoard
             Layout.fillWidth: true
-            Layout.minimumWidth: dpscBody.width*0.75
-            Layout.maximumWidth: dpscBody.width*0.75
+            Layout.minimumWidth: dpscContent.width*0.8
+            Layout.maximumWidth: dpscContent.width*0.8
             Layout.alignment: Qt.AlignHCenter
         }
         KeyDataDisplay{
             id: keyDataDisplay
             Layout.fillWidth: true
         }
-        PointKeyPad{
+        DPSCKeyPad{
             id: pointKeyPad
             Layout.alignment: Qt.AlignBottom
             Layout.fillHeight: true
