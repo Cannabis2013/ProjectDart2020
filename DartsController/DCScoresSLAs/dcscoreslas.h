@@ -1,7 +1,7 @@
 #ifndef DCSCORESLAS_H
 #define DCSCORESLAS_H
 #include "DartsController/DCScoresSLAs/idcscoremodels.h"
-#include "DartsController/DCScoresSLAs/idcupdateinputdetails.h"
+#include "DartsController/DCScoresSLAs/idcupdateplayerscores.h"
 #include "DartsController/DCScoresSLAs/idcgetscorecand.h"
 #include "DartsController/DCScoresSLAs/idcscorebuilder.h"
 #include "DartsController/DCScoresSLAs/idccalcscore.h"
@@ -11,8 +11,8 @@ class DCScoreSLAs
 public:
     IDCScoreModels *scoreModels() const;
     void setScoresModels(IDCScoreModels *service);
-    IDCUpdateInputDetails *updatePlayerScores() const;
-    void setCreateCandidateScores(IDCUpdateInputDetails *service);
+    IDCUpdatePlayerScores *updatePlayerScores() const;
+    void setCreateCandidateScores(IDCUpdatePlayerScores *service);
     IDCGetScoreCand *calcRemainingScoreCand() const;
     void setGetTotalScoreService(IDCGetScoreCand *service);
     IDCScoreBuilder *scoresBuilder() const;
@@ -24,7 +24,7 @@ public:
 private:
     IDCScoreModels *_scoresModels;
     IDCScoreBuilder *_createScoreModels;
-    IDCUpdateInputDetails *_createCandidateTuples;
+    IDCUpdatePlayerScores *_createCandidateTuples;
     IDCGetScoreCand *_calculateCandidateScore;
     IDCCalcScore *_calculateScore;
     IDCUpdateScoreModels *_replaceTuples;

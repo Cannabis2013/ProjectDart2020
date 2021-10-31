@@ -7,33 +7,35 @@ function createKeyPad()
 }
 function createHotPadItems()
 {
-    createColumn(1,3,0,[26,41,45]);
-    createColumn(1,3,4,[60,85,100]);
-    createRow(0,1,0,[25,50]);
-    createRow(3,4,0,[170,180]);
+    createColumn(0,4,0,[50,45,41,26,25]);
+    createColumn(0,4,4,[100,120,150,170,180]);
+    createHotPad(60,60,0,1);
+    createHotPad(85,85,0,3);
+}
+
+function createHotPad(keyLabel,value,row,column)
+{
+    let hotKeyPad = ComponentFactory.createHotPad(keyPadLayout,keyLabel,keyLabel,row,column,"green");
+    hotKeyPad.keyPadClicked.connect(keyPadBody.internalHotKeyClicked);
+    keyPadBody.enableKeyPad.connect(hotKeyPad.enableButton);
+    keyPadBody.enableHotPads.connect(hotKeyPad.enableButton);
 }
 
 function createColumn(startRow, endRow, column, labels)
 {
-    for(var i = startRow;i<= endRow;i++)
+    for(var row = startRow;row<= endRow;row++)
     {
-        let keyLabel = labels[i - startRow];
-        let hotKeyPad = ComponentFactory.createHotPad(keyPadLayout,keyLabel,keyLabel,i,column,"green");
-        hotKeyPad.keyPadClicked.connect(keyPadBody.internalHotKeyClicked);
-        keyPadBody.enableKeyPad.connect(hotKeyPad.enableButton);
-        keyPadBody.enableHotPads.connect(hotKeyPad.enableButton);
+        let keyLabel = labels[row - startRow];
+        createHotPad(keyLabel,keyLabel,row,column);
     }
 }
 
 function createRow(startColumn, endColumn, row, labels)
 {
-    for(var i = startColumn;i<= endColumn;i++)
+    for(var column = startColumn;column<= endColumn;column++)
     {
-        let keyLabel = labels[i - startColumn];
-        let hotKeyPad = ComponentFactory.createHotPad(keyPadLayout,keyLabel,keyLabel,row,i,"green");
-        hotKeyPad.keyPadClicked.connect(keyPadBody.internalHotKeyClicked);
-        keyPadBody.enableKeyPad.connect(hotKeyPad.enableButton);
-        keyPadBody.enableHotPads.connect(hotKeyPad.enableButton);
+        let keyLabel = labels[column - startColumn];
+        createHotPad(keyLabel,keyLabel,row,column);
     }
 }
 

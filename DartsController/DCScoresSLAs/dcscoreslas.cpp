@@ -10,12 +10,12 @@ void DCScoreSLAs::setScoresModels(IDCScoreModels *service)
     _scoresModels = service;
 }
 
-IDCUpdateInputDetails *DCScoreSLAs::updatePlayerScores() const
+IDCUpdatePlayerScores *DCScoreSLAs::updatePlayerScores() const
 {
     return _createCandidateTuples;
 }
 
-void DCScoreSLAs::setCreateCandidateScores(IDCUpdateInputDetails *service)
+void DCScoreSLAs::setCreateCandidateScores(IDCUpdatePlayerScores *service)
 {
     _createCandidateTuples = service;
 }

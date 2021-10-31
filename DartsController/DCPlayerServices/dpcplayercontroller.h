@@ -5,7 +5,7 @@
 class DPCPlayerController : public IDCPlayerController
 {
 public:
-    void appendPlayerId(const QVector<DCPlayer> &playerModels) override
+    void setPlayers(const QVector<DCPlayer> &playerModels) override
     {
         for (const auto &playerModel : playerModels) {
             PlayerObject obj;

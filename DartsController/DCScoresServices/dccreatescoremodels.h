@@ -4,7 +4,7 @@
 class DCCreateScoreModels : public IDCScoreBuilder
 {
 public:
-    virtual QVector<DCScoreModel> createScores(const QVector<DCPlayer> &models, const int &initialScore) override
+    virtual QVector<DCScoreModel> createScores(const QVector<DCPlayer> &models, const int &initialScore) const override
     {
         QVector<DCScoreModel> scoreModels;
         for (const auto &model : models)

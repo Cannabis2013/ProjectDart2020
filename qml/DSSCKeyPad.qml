@@ -1,9 +1,8 @@
 import QtQuick 2.12
 import QtQuick.Layouts 1.3
-
+import QtGraphicalEffects 1.13
 import "dsscKeyPadFactory.js" as ComponentFactory
 import "dsscKeyPadScripts.js" as Scripts
-
 DSSCKeyPadInterface {
     id: keyPadBody
     onEnableKeyPad: {
@@ -17,6 +16,17 @@ DSSCKeyPadInterface {
         id: submitPadTextValues
         readonly property string noScoreEnted: "Bust"
         readonly property string scoreEnted: "Submit"
+    }
+    layer.enabled: true
+    layer.effect: OpacityMask{
+        maskSource: Item {
+            width: keyPadBody.width
+            height: keyPadBody.height
+            Rectangle{
+                anchors.fill: parent
+                radius: 15
+            }
+        }
     }
     GridLayout{
         id: keyPadLayout
@@ -37,7 +47,7 @@ DSSCKeyPadInterface {
         KeyPadItem{
             id: clearPad
             Layout.row: 4
-            Layout.column: 0
+            Layout.column: 1
             text: "Clear"
             backgroundColor: "white"
             textColor: "black"
@@ -46,7 +56,7 @@ DSSCKeyPadInterface {
         KeyPadItem{
             id: submitPad
             Layout.row: 4
-            Layout.column: 4
+            Layout.column: 3
             text: "Bust"
             backgroundColor: "red"
             onClicked: Scripts.handleSubmitpadClicked()

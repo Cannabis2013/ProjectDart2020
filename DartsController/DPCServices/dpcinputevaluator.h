@@ -40,7 +40,7 @@ public:
         else if(input.remainingScoreCand == 0 && (input.modKeyCode == DoubleModifier || input.score == _bullsEye))
         {
             input.remainingScore = 0;
-            winnerService->setWinner(input);
+            winnerService->set(input);
             controllerStatus->set(statusCodes->winnerFound());
             controller->persistInput(input);
         }

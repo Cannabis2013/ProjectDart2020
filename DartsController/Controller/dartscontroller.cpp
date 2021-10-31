@@ -77,19 +77,11 @@ void DartsController::beginInitialize()
 void DartsController::initializeDartsValues(const QByteArray& indexJson, const QByteArray &inputsJson, const QByteArray &playersJson, const QByteArray &winnerJson)
 {
     indexController()->initialize(indexBuilder()->index(indexJson));
-    auto players = playerBuilder()->createPlayers(playersJson);
-    scoreModels()->scores().append(scoresBuilder()->createScores(players,initialScore()->get()));
-    playerStats()->setPlayers(players);
-    playerController()->appendPlayerId(players);
-    auto inputs = inputBuilder()->buildInputs(inputsJson);
-    updatePlayerScores()->update(inputs,scoreModels());
-    updatePlayerStats()->update(inputs,playerStats());
-    winner()->setWinner(playerBuilder()->createWinner(winnerJson));
-    if(winner()->get().id != QUuid())
-        status()->set(statusCodes()->winnerFound());
+    DCInitServices::init(playerBuilder()->createPlayers(playersJson),initialScore(),scoreModels(),scoresBuilder(),playerStats(),playerController());
+    DCInitServices::init(inputBuilder()->buildInputs(inputsJson),updatePlayerScores(),updatePlayerStats(),scoreModels(),playerStats());
+    DCInitServices::init(playerBuilder()->createWinner(winnerJson),winner(),status(),statusCodes());
     emit initialized(inputHint()->hint());
 }
-
 void DartsController::requestStatus()
 {
     if(status()->get() == statusCodes()->winnerFound())

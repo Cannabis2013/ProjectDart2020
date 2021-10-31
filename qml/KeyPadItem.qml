@@ -9,7 +9,7 @@ PushButton {
     Layout.fillWidth: true
     backgroundColor : "black"
     textColor : "white"
-    fontSize : 16
+    fontSize : 24
     buttonRadius : 0
     pressedScale : 0.75
     hoverEnabled: false

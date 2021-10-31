@@ -7,11 +7,11 @@
 class DCWinnerService : public IDCWinnerService
 {
 public:
-    virtual void setWinner(const DCPlayer &winner) override
+    virtual void set(const DCPlayer &winner) override
     {
         _winner = winner;
     }
-    virtual void setWinner(const DCInput &input) override
+    virtual void set(const DCInput &input) override
     {
         _winner.id = input.playerId;
         _winner.name = input.playerName;

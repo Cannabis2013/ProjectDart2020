@@ -24,7 +24,7 @@ public:
         {
             input.approved = true;
             input.remainingScore = 0;
-            winnerService->setWinner(input);
+            winnerService->set(input);
             controllerStatus->set(statusCodes->winnerFound());
             controller->persistInput(input);
         }

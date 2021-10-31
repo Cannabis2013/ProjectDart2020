@@ -9,6 +9,7 @@
 #include "DartsController/DCMetaSLAs/dcmetaslas.h"
 #include "DartsController/DCInputSLAs/dcinputsslas.h"
 #include "DartsController/PlayerStatsSLAs/dcinputstatsslas.h"
+#include <DartsController/InitializeServices/dcinitservices.h>
 class DartsController : public AbstractDartsController,
                         protected DCMetaSLAs,
                         protected DCTurnvaluesSLAs,

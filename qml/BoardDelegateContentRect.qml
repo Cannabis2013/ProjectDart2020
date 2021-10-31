@@ -7,8 +7,8 @@ BoxedRect{
     signal enableItem(bool enable)
     onEnableItem: itemEnabled = enable
     property bool itemEnabled: false
-    onItemEnabledChanged: opacity = itemEnabled ?  1 : 0.1
-    opacity: 0.1
+    onItemEnabledChanged: opacity = itemEnabled ?  1 : 0.7
+    opacity: 0.7
     property string playerName: ""
     onPlayerNameChanged: playerNameText.text = playerName
     property string score: ""
