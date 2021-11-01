@@ -7,7 +7,6 @@ Rectangle {
     signal appendHeader(var data)
     signal appendHeaderData(var data,int defaultVal)
     signal sizeScale(double s)
-    // Header related
     property bool verticalHeaderVisible: true
     property bool horizontalHeaderVisible: true
     signal setHorizontalHeaderModel(int m)

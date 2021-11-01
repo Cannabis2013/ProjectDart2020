@@ -13,7 +13,7 @@ public:
             _playerStructs.append(obj);
         }
     }
-    bool isIn(const QUuid &playerId) const override
+    bool status(const QUuid &playerId) const override
     {
         return getPlayerStructFromId(playerId).in;
     }

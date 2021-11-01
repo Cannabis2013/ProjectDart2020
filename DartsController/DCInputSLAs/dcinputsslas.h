@@ -1,11 +1,8 @@
 #ifndef DCINPUTSSLAS_H
 #define DCINPUTSSLAS_H
-
 #include "DartsController/DCFinishesSLAs/idartsinputfinishes.h"
 #include "DartsController/DCInputSLAs/abstractdcinputevaluator.h"
 #include "DartsController/DCInputSLAs/idcinputbuilder.h"
-#include "DartsController/DCJsonSLAs/iaddtotalscoretodartsinputsjson.h"
-
 class DCInputsSLAs
 {
 public:
@@ -13,9 +10,9 @@ public:
     {
         return _inputEvaluator;
     }
-    void setInputEvaluator(AbstractDCInputEvaluator *service)
+    void setInputEvaluator(AbstractDCInputEvaluator *evaluator)
     {
-        _inputEvaluator = service;
+        _inputEvaluator = evaluator;
     }
     IDartsInputFinishes *dartsFinishBuilder() const
     {

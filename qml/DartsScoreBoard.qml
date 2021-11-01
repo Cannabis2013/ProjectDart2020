@@ -1,8 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Layouts 1.3
-
 import "scoreboardscripts.js" as ScoreBoardScripts
-
 ScoreBoardInterface{
     id: scoreBoardBody
     color: "transparent"

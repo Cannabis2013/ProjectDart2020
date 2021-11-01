@@ -10,9 +10,8 @@ public:
     {
         return new DSCInputEvaluator();
     }
-    virtual void evaluateInput(DCInput input, AbstractDartsController *controller, IDCWinnerService *winnerService,
-                               IDCStatus *controllerStatus, const IDartsStatusCodes *statusCodes,
-                               IDCPlayerController *) override
+    virtual void evaluateInput(DCInput input, IDCMetaInfo *metaInfo, AbstractDartsController *controller,
+                               const IDartsStatusCodes *statusCodes, IDCPlayerController *) override
     {
         if(input.remainingScoreCand >= minimumAllowedScore)
         {
@@ -24,8 +23,9 @@ public:
         {
             input.approved = true;
             input.remainingScore = 0;
-            winnerService->set(input);
-            controllerStatus->set(statusCodes->winnerFound());
+            metaInfo->get().winnerId = input.playerId;
+            metaInfo->get().winnerName = input.playerName;
+            metaInfo->get().status = statusCodes->winnerFound();
             controller->persistInput(input);
         }
         else

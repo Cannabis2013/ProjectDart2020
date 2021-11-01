@@ -1,11 +1,9 @@
 #ifndef DCTURNVALUESSLAS_H
 #define DCTURNVALUESSLAS_H
-
 #include "DartsController/DCTurnValuesSLAs/icreatedcturnvalues.h"
 #include "DartsController/DCPlayerSLAs/idcplayerbuilder.h"
 #include "DartsController/DCIndexSLAs/idcindexbuilder.h"
 #include "DartsController/DCInputSLAs/idcinputbuilder.h"
-
 class DCTurnvaluesSLAs
 {
 public:

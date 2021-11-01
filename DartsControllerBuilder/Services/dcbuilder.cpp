@@ -7,7 +7,7 @@ void DCBuilder::createController(const QByteArray &json)
     emit sendController(controller);
 }
 
-AbstractDartsController *DCBuilder::createDC(const DCBuilding::DCMeta &meta)
+AbstractDartsController *DCBuilder::createDC(const DCBMeta &meta)
 {
     if(meta.inputHint == PointHint)
         return createDPC(meta);
@@ -17,12 +17,12 @@ AbstractDartsController *DCBuilder::createDC(const DCBuilding::DCMeta &meta)
         throw "Illegal input hint";
 }
 
-AbstractDartsController *DCBuilder::createDPC(const DCBuilding::DCMeta &meta)
+AbstractDartsController *DCBuilder::createDPC(const DCBMeta &meta)
 {
     return new DPController(meta);
 }
 
-AbstractDartsController *DCBuilder::createDSC(const DCBuilding::DCMeta &meta)
+AbstractDartsController *DCBuilder::createDSC(const DCBMeta &meta)
 {
     return new DSController(meta);
 }

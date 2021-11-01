@@ -4,7 +4,7 @@
 class DSCReqIndexBuilder : public IDCReqInputIndexBuilder
 {
 public:
-    virtual DCIndex indexes(const DCIndex &index) const override
+    virtual DCIndex index(const DCIndex &index) const override
     {
         DCIndex reqIndex = index;
         reqIndex.roundIndex--;

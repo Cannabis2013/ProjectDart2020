@@ -14,11 +14,10 @@ public:
     {
         return new DPCInputEvaluator;
     }
-    virtual void evaluateInput(DCInput input, AbstractDartsController *controller, IDCWinnerService *winnerService,
-                               IDCStatus *controllerStatus, const IDartsStatusCodes *statusCodes,
-                               IDCPlayerController *playerController) override
+    virtual void evaluateInput(DCInput input, IDCMetaInfo *metaInfo, AbstractDartsController *controller,
+                               const IDartsStatusCodes *statusCodes, IDCPlayerController *playerController) override
     {
-        if(!playerController->isIn(input.playerId))
+        if(!playerController->status(input.playerId))
         {
             if(input.modKeyCode == DoubleModifier)
             {
@@ -40,8 +39,9 @@ public:
         else if(input.remainingScoreCand == 0 && (input.modKeyCode == DoubleModifier || input.score == _bullsEye))
         {
             input.remainingScore = 0;
-            winnerService->set(input);
-            controllerStatus->set(statusCodes->winnerFound());
+            metaInfo->get().winnerId = input.playerId;
+            metaInfo->get().winnerName = input.playerName;
+            metaInfo->get().status = statusCodes->winnerFound();
             controller->persistInput(input);
         }
         else

@@ -5,27 +5,19 @@
 #include "DartsController/DCIndexServices/dcinputindexbuilder.h"
 #include <quuid.h>
 #include "DartsController/DSCServices/dscinputevaluator.h"
-#include "DartsController/DCMetaServices/dcwinnerservice.h"
 #include "DartsController/DSCServices/dscinputbuilder.h"
-#include "DartsController/DCMetaServices/determinestatusbyid.h"
 #include "DartsController/DSCServices/dscvaluesbuilder.h"
 #include "DartsController/DCPlayerServices/dcplayerbuilder.h"
 #include "DartsController/DCScoresServices/dcscoremodels.h"
-#include "DartsController/DCScoresServices/dcupdatescoremodels.h"
 #include "DartsController/DCScoresServices/dcupdateinputdetails.h"
-#include "DartsController/DCScoresServices/dcgetscorecand.h"
 #include "DartsController/DSCServices/getscorefromdscinput.h"
 #include "DartsController/DCFinishesServices/dccreatefinishes.h"
 #include "DartsController/DCFinishesServices/dclogisticdb.h"
 #include "DartsController/DCFinishesServices/dcinputfinishes.h"
 #include "DartsController/DCMetaServices//dartsstatuscodes.h"
-#include "DartsController/DCMetaServices/dcmetastatus.h"
-#include "DartsController/DCMetaServices/dchint.h"
-#include "DartsController/DCMetaServices/dcinitialscore.h"
-#include "DartsController/DCMetaServices/dctournamentid.h"
-#include "DartsController/DCIndexServices/dcindexesjsonkeys.h"
+#include "DartsController/DCMetaServices/dcmetainfo.h"
 #include "DartsController/DCMetaServices/dcmetajsonbuilder.h"
-#include "DartsControllerBuilder/DCBMetaServices/dcmeta.h"
+#include "DartsControllerBuilder/DCBMetaServices/dcbmeta.h"
 #include "DartsController/DCJsonServices/dcjsonbuilder.h"
 #include "DartsController/DCMetaServices/dcmetamodelbuilder.h"
 #include "DartsController/DCInputServices/dcinputjsonbuilder.h"
@@ -46,7 +38,7 @@
 class DSController : public DartsController
 {
 public:
-    DSController(const DCBuilding::DCMeta &meta);
+    DSController(const DCBMeta &meta);
 private:
     AbstractDCJsonBuilder *createJsonBuilder();
 };

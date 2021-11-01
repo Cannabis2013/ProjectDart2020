@@ -26,9 +26,9 @@ public:
     };
     virtual void createController(const QByteArray &json) override;
 private:
-    AbstractDartsController *createDC(const DCBuilding::DCMeta &meta);
-    AbstractDartsController *createDPC(const DCBuilding::DCMeta &meta);
-    AbstractDartsController *createDSC(const DCBuilding::DCMeta &meta);
+    AbstractDartsController *createDC(const DCBMeta &meta);
+    AbstractDartsController *createDPC(const DCBMeta &meta);
+    AbstractDartsController *createDSC(const DCBMeta &meta);
     ICreateDCMetaInfo* _createMeta = new createDCMetaInfo;
 
 };

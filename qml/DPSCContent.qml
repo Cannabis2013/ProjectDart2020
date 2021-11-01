@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
-import "dpscscripts.js" as PointSingleColumnScripts
-import "dpscstatescripts.js" as PointStateScripts
+import "dpscscripts.js" as DPSCScriptss
+import "dpscstatescripts.js" as DPSCStateScripts
 Content {
     id: dpscContent
     readonly property QtObject metaValues: DartsMetaValues{}
@@ -17,13 +17,12 @@ Content {
             onStartButtonClicked: applicationInterface.requestStartGame()
             onResumeButtonClicked: applicationInterface.requestStartGame()
             onPauseButtonClicked: applicationInterface.requestStopGame()
-            onRestartButtonClicked: PointSingleColumnScripts.resetTournament()
+            onRestartButtonClicked: DPSCScriptss.resetTournament()
             onLeftButtonClicked: applicationInterface.requestUndo()
             onRightButtonClicked: applicationInterface.requestRedo()
         }
         DPSCBoard{
-            id: singleColumnPointBoard
-            Layout.fillWidth: true
+            id: dpscScoreBoard
             Layout.minimumWidth: dpscContent.width*0.8
             Layout.maximumWidth: dpscContent.width*0.8
             Layout.alignment: Qt.AlignHCenter
@@ -37,20 +36,20 @@ Content {
             Layout.alignment: Qt.AlignBottom
             Layout.fillHeight: true
             Layout.fillWidth: true
-            onSendInput: PointSingleColumnScripts.handleScoreKeyPadInput(value,keyCode)
+            onSendInput: DPSCScriptss.handleScoreKeyPadInput(value,keyCode)
         }
     }
     states: [
         State {
             name: "winner"
             StateChangeScript{
-                script: PointStateScripts.declareWinner()
+                script: DPSCStateScripts.declareWinner()
             }
         },
         State {
             name: "stopped"
             StateChangeScript{
-                script: PointStateScripts.backendIsStopped()
+                script: DPSCStateScripts.backendIsStopped()
             }
         },
         State {
@@ -62,16 +61,16 @@ Content {
         State {
             name: "waitingForInputConfirmation"
             StateChangeScript{
-                script: PointStateScripts.backendProcessesInput()
+                script: DPSCStateScripts.backendProcessesInput()
             }
         },
         State {
             name: "waitingForInput"
             StateChangeScript{
-                script: PointStateScripts.backendAwaitsInput()
+                script: DPSCStateScripts.backendAwaitsInput()
             }
         }
     ]
-    Component.onCompleted: PointSingleColumnScripts.initializeComponent()
-    Component.onDestruction: PointSingleColumnScripts.disconnectInterface()
+    Component.onCompleted: DPSCScriptss.initializeComponent()
+    Component.onDestruction: DPSCScriptss.disconnectInterface()
 }

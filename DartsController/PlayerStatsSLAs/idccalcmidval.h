@@ -3,7 +3,6 @@
 #include "DartsController/DCIndexSLAs/idcindexcontroller.h"
 #include "DartsController/DCInputServices/dcinput.h"
 #include "DartsController/DCScoresSLAs/idcscoremodels.h"
-#include "DartsController/DCMetaSLAs/idcinitialscore.h"
 #include "idcplayerstats.h"
 class IDCCalcMidVal
 {

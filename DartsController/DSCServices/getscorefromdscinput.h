@@ -1,13 +1,31 @@
 #ifndef GETSCOREFROMDSCINPUT_H
 #define GETSCOREFROMDSCINPUT_H
-
 #include "DartsController/DCScoresSLAs/idccalcscore.h"
 class GetScoreFromDSCInput : public IDCCalcScore
 {
 public:
-    virtual int getScore(const DCInput &inputModel) const override
+    virtual int calculate(const DCInput &inputModel) const override
     {
         return inputModel.score;
+    }
+    virtual int calculate(const DCIndex &index, const int &scoreCandidate, IDCScoreModels *scoresService) const override
+    {
+        auto scoreModel = this->scoreModel(index.setIndex,scoresService);
+        return calcCandidate(scoreModel,scoreCandidate);
+    }
+private:
+    DCScoreModel scoreModel(const int &modelIndex, IDCScoreModels *scoresService) const
+    {
+        auto scoreModels = scoresService->scores();
+        return scoreModels.at(modelIndex);
+    }
+    int calcCandidate(const DCScoreModel scoreModel, const int &scoreCandidate) const
+    {
+        auto score = scoreModel.remainingScore;
+        auto totalScoreCandidate = score - scoreCandidate;
+        if(totalScoreCandidate < 0)
+            return score;
+        return totalScoreCandidate;
     }
 };
 #endif // GETSCOREFROMDSCINPUT_H

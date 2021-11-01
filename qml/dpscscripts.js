@@ -55,7 +55,7 @@ function initializeScoreBoard()
 {
     var assignedPlayerNames = metaValues.assignedPlayerNames;
     var keyPoint = metaValues.keyPoint;
-    singleColumnPointBoard.appendHeaderData(assignedPlayerNames,keyPoint);
+    dpscScoreBoard.appendHeaderData(assignedPlayerNames,keyPoint);
 }
 
 function recieveScores(scores)
@@ -99,7 +99,7 @@ function addToScoreBoard(json)
     let middleValue = json["middleValue"];
     let maximum = json["maximumValue"];
     let inGame = json["inGame"];
-    singleColumnPointBoard.setData(playerName,playerScore,minimum,middleValue,maximum,inGame);
+    dpscScoreBoard.setData(playerName,playerScore,minimum,middleValue,maximum,inGame);
 }
 
 function setThrowSuggestion(json)
@@ -115,7 +115,7 @@ function resetTournament()
 
 function reinitialize()
 {
-    singleColumnPointBoard.clearData();
+    dpscScoreBoard.clearData();
     pointSingleColumnTurnController.reset();
     keyDataDisplay.clear();
     initializeScoreBoard();

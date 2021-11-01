@@ -1,21 +1,15 @@
 #ifndef DCMETAMODELBUILDER_H
 #define DCMETAMODELBUILDER_H
-
 #include "DartsController/DCMetaSLAs/idcmetamodelbuilder.h"
-
 class DCMetaModelBuilder : public IDCMetaModelBuilder
 {
 public:
-    virtual DCMetaInfo buildMeta(const IDCTournamentId *IdService, const DCIndex &index, IDCScoreModels *scoreModels,
-                                 const DCPlayer &winner) const override
+    virtual DCMeta buildMeta(IDCMetaInfo *metaInfo, const DCIndex &index, IDCScoreModels *scoreModels) const override
     {
-        DCMetaInfo metaInfo;
-        metaInfo.tournamentId = IdService->id();
-        metaInfo.currentPlayerId = scoreModels->scores().at(index.setIndex).playerId;
-        metaInfo.currentPlayerName = scoreModels->scores().at(index.setIndex).playerName;
-        metaInfo.winnerId = winner.id;
-        metaInfo.winnerName = winner.name;
-        return metaInfo;
+        auto meta = metaInfo->get();
+        meta.currentPlayerId = scoreModels->scores().at(index.setIndex).playerId;
+        meta.currentPlayerName = scoreModels->scores().at(index.setIndex).playerName;
+        return meta;
     }
 };
 

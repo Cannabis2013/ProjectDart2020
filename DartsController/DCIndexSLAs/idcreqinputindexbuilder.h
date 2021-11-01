@@ -5,6 +5,6 @@
 class IDCReqInputIndexBuilder
 {
 public:
-    virtual DCIndex indexes(const DCIndex &index) const = 0;
+    virtual DCIndex index(const DCIndex &index) const = 0;
 };
 #endif // IDCREQINPUTINDEXBUILDER_H

@@ -1,5 +1,5 @@
 #include "dpcontroller.h"
-DPController::DPController(const DCBuilding::DCMeta &meta):
+DPController::DPController(const DCBMeta &meta):
     _metaInfo(meta)
 {
     setIndexServices();
@@ -14,28 +14,19 @@ DPController::DPController(const DCBuilding::DCMeta &meta):
 }
 void DPController::setMetaServices()
 {
-    setDetermineStatusById(new DetermineStatusById);
-    setControllerStatus(new DCMetaStatus);
     setStatusCodes(new DCStatusCodes);
-    setDisplayHint(DCHint::createInstance(_metaInfo.displayHint));
-    setInputHint(DCHint::createInstance(_metaInfo.inputHint));
-    setTournamentId(DCTournamentId::createInstance(_metaInfo.tournamentId));
-    setInitialScore(DCInitialScore::createInstance(_metaInfo.keyPoint));
+    setMetaInfo(new DCMetaInfo(_metaInfo.tournamentId,_metaInfo.keyPoint,_metaInfo.inputHint));
     setSetMetaJsonValues(new DCMetaJsonBuilder);
     setMetaBuilder(new DCMetaModelBuilder);
 }
 void DPController::setScoresServices()
 {
-    setGetTotalScoreService(new DCGetScoreCand);
     setScoreBuilder(new DCCreateScoreModels);
-    setUpdateScoresService(new DCUpdateScoreModels);
     setScoresModels(new DCScoreModels);
     setCreateCandidateScores(new DCUpdateInputDetails);
-    setWinnerService(new DCWinnerService);
 }
 void DPController::setJsonServices()
 {
-    setAddTotalScoresToJson(new AddTotalScoreToDartsInputsAsJson);
     setJsonResponseBuilder(createJsonBuilder());
 }
 void DPController::setStatisticsServices()
@@ -53,7 +44,6 @@ void DPController::setFinishesServices()
 void DPController::setPlayerServices()
 {
     setPlayerController(new DPCPlayerController);
-    setAddPlayerNamesToJson(new AddPlayerNamestoDartsInputsAsJson);
     setPlayerBuilderService(new DCPlayerBuilder);
 }
 void DPController::setInputServices()
@@ -65,7 +55,6 @@ void DPController::setInputServices()
 void DPController::setIndexServices()
 {
     setIndexService(new DPCIndexController);
-    setIndexKeys(new DCIndexesJsonKeys);
     setIndexBuilder(new DCInputIndexBuilder);
     setReqIndexBuilder(new DPCReqIndexBuilder);
 }

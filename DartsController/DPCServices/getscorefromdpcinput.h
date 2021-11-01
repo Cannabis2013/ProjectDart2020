@@ -14,10 +14,15 @@ public:
         BullModifier,
         BullsEyeModifier
     };
-    virtual int getScore(const DCInput &inputModel) const override
+    virtual int calculate(const DCInput &inputModel) const override
     {
         auto multiplier = createPointMultiplier(inputModel.modKeyCode);
         return calculateScore(inputModel.point,multiplier);
+    }
+    virtual int calculate(const DCIndex &index, const int &scoreCandidate, IDCScoreModels *scoresService) const override
+    {
+        auto scoreModel = this->scoreModel(index.setIndex,scoresService);
+        return calcCandidate(scoreModel,scoreCandidate);
     }
 private:
     int createPointMultiplier(const int &code) const
@@ -30,6 +35,19 @@ private:
     int calculateScore(const int &point, const int &multiplier) const
     {
         return point*multiplier;
+    }
+    DCScoreModel scoreModel(const int &modelIndex, IDCScoreModels *scoresService) const
+    {
+        auto scoreModels = scoresService->scores();
+        return scoreModels.at(modelIndex);
+    }
+    int calcCandidate(const DCScoreModel scoreModel, const int &scoreCandidate) const
+    {
+        auto score = scoreModel.remainingScore;
+        auto totalScoreCandidate = score - scoreCandidate;
+        if(totalScoreCandidate < 0)
+            return score;
+        return totalScoreCandidate;
     }
 };
 

@@ -1,18 +1,18 @@
 #include "dartscontroller.h"
 void DartsController::createIndexJson()
 {
-    auto metaInfo = metaBuilder()->buildMeta(tournamentId(),indexController()->index(),scoreModels(),winner()->get());
-    emit updateTournamentIndex(jsonBuilder()->json(indexController()->index(),metaInfo));
+    auto meta = metaBuilder()->buildMeta(metaInfo(),indexController()->index(),scoreModels());
+    emit updateTournamentIndex(jsonBuilder()->json(indexController()->index(),meta));
 }
 void DartsController::handleUserInput(const QByteArray& json)
 {
     auto input = inputBuilder()->buildInput(json,playerController(),scoreCalculator(),indexController()->index(),scoreModels());
-    input.remainingScoreCand = calcRemainingScoreCand()->calc(indexController()->index(),input.score,scoreModels());
-    inputEvaluator()->evaluateInput(input,this,winner(),status(),statusCodes(),playerController());
+    input.remainingScoreCand = scoreCalculator()->calculate(indexController()->index(),input.score,scoreModels());
+    inputEvaluator()->evaluateInput(input,metaInfo(),this,statusCodes(),playerController());
 }
 void DartsController::sendTournamentId()
 {
-    emit sendCurrentTournamentId(tournamentId()->id());
+    emit sendCurrentTournamentId(metaInfo()->get().tournamentId);
 }
 void DartsController::createScores()
 {
@@ -20,7 +20,7 @@ void DartsController::createScores()
 }
 void DartsController::createScoreJson(const QByteArray &json)
 {
-    auto input = inputBuilder()->buildInput(json,initialScore()->get());
+    auto input = inputBuilder()->buildInput(json,metaInfo()->get().initialRemainingScore);
     updatePlayerStats()->update(input,playerStats());
     playerController()->updatePlayerStatus(input.playerId,input.inGame);
     auto scoreModel = &scoreModels()->score(input.playerId);
@@ -30,11 +30,11 @@ void DartsController::createScoreJson(const QByteArray &json)
 void DartsController::reset()
 {
     indexController()->initialize();
-    scoreModels()->reset(initialScore()->get());
+    scoreModels()->reset(metaInfo()->get().initialRemainingScore);
     playerStats()->reset();
-    status()->set(statusCodes()->initialized());
+    metaInfo()->get().status = statusCodes()->initialized();
     playerController()->reset();
-    emit requestResetTournament(tournamentId()->id());
+    emit requestResetTournament(metaInfo()->get().tournamentId);
 }
 void DartsController::createTurnValuesJson()
 {
@@ -44,53 +44,53 @@ void DartsController::createTurnValuesJson()
 void DartsController::undoTurn()
 {
     auto inputIndex = indexController()->undo(scoreModels()->scores().count());
-    auto metaInfo = metaBuilder()->buildMeta(tournamentId(),indexController()->index(),scoreModels(),winner()->get());
-    auto reqIndex = reqIndexBuilder()->indexes(indexController()->index());
-    emit hideInput(jsonBuilder()->json(reqIndex,inputIndex,metaInfo));
+    auto meta = metaBuilder()->buildMeta(metaInfo(),indexController()->index(),scoreModels());
+    auto reqIndex = reqIndexBuilder()->index(indexController()->index());
+    emit hideInput(jsonBuilder()->json(reqIndex,inputIndex,meta));
 }
 void DartsController::redoTurn()
 {
-    auto metaInfo = metaBuilder()->buildMeta(tournamentId(),indexController()->index(),scoreModels(),winner()->get());
+    auto meta = metaBuilder()->buildMeta(metaInfo(),indexController()->index(),scoreModels());
     auto index = indexController()->index();
     indexController()->redo(playerController()->count());
-    emit revealInput(jsonBuilder()->json(index,metaInfo));
+    emit revealInput(jsonBuilder()->json(index,meta));
 }
 void DartsController::persistInput(DCInput &input)
 {
     auto index = indexController()->index();
-    setInputStats()->set(input,playerStats(),calcMidVal(),index,initialScore()->get());
-    auto metaInfo = metaBuilder()->buildMeta(tournamentId(),index,scoreModels(),winner()->get());
+    setInputStats()->set(input,playerStats(),calcMidVal(),index,metaInfo()->get().initialRemainingScore);
+    auto meta = metaBuilder()->buildMeta(metaInfo(),index,scoreModels());
     indexController()->next(playerController()->count());
-    emit addInputToDbContext(jsonBuilder()->json(input,index,metaInfo));
+    emit addInputToDbContext(jsonBuilder()->json(input,index,meta));
 }
 void DartsController::createJsonResponse()
 {
-    if(status()->get() == statusCodes()->winnerFound())
+    if(metaInfo()->get().status == statusCodes()->winnerFound())
         createWinnerJson();
     else
         createTurnValuesJson();
 }
 void DartsController::beginInitialize()
 {
-    emit sendDartsValues(tournamentId()->id());
+    emit sendDartsValues(metaInfo()->get().tournamentId);
 }
 void DartsController::initializeDartsValues(const QByteArray& indexJson, const QByteArray &inputsJson, const QByteArray &playersJson, const QByteArray &winnerJson)
 {
     indexController()->initialize(indexBuilder()->index(indexJson));
-    DCInitServices::init(playerBuilder()->createPlayers(playersJson),initialScore(),scoreModels(),scoresBuilder(),playerStats(),playerController());
+    DCInitServices::init(playerBuilder()->createPlayers(playersJson),metaInfo()->get(),scoreModels(),scoresBuilder(),playerStats(),playerController());
     DCInitServices::init(inputBuilder()->buildInputs(inputsJson),updatePlayerScores(),updatePlayerStats(),scoreModels(),playerStats());
-    DCInitServices::init(playerBuilder()->createWinner(winnerJson),winner(),status(),statusCodes());
-    emit initialized(inputHint()->hint());
+    DCInitServices::init(playerBuilder()->createWinner(winnerJson),metaInfo()->get(),statusCodes());
+    emit initialized(metaInfo()->get().inputHint);
 }
 void DartsController::requestStatus()
 {
-    if(status()->get() == statusCodes()->winnerFound())
+    if(metaInfo()->get().status == statusCodes()->winnerFound())
         createWinnerJson();
     else
         emit ready();
 }
 void DartsController::createWinnerJson()
 {
-    auto metaInfo = metaBuilder()->buildMeta(tournamentId(),indexController()->index(),scoreModels(),winner()->get());
-    emit winnerDeclared(jsonBuilder()->json(metaInfo));
+    auto meta = metaBuilder()->buildMeta(metaInfo(),indexController()->index(),scoreModels());
+    emit winnerDeclared(jsonBuilder()->json(meta));
 }

@@ -3,7 +3,6 @@
 #include <qvector.h>
 #include "DartsController/DCScoresSLAs/idcscoremodels.h"
 #include "DartsController/DCIndexSLAs/idcindexcontroller.h"
-#include "DartsController/DCMetaSLAs/idcinitialscore.h"
 #include "DartsController/DCInputServices/dcinput.h"
 #include "DartsController/DCPlayerServices/dcplayer.h"
 #include "dcplayerstat.h"

@@ -17,9 +17,9 @@ public:
         auto input = toInput(jsonObject);
         input.playerId = scoreModels->scores().at(index.setIndex).playerId;
         input.playerName = scoreModels->scores().at(index.setIndex).playerName;
-        input.score = getScoreContext->getScore(input);
+        input.score = getScoreContext->calculate(input);
         input.remainingScore = scoreModels->score(input.playerId).remainingScore;
-        input.inGame = playerController->isIn(input.playerId);
+        input.inGame = playerController->status(input.playerId);
         return input;
     }
     DCInput buildInput(const QByteArray &json, const int &initialScore) const override

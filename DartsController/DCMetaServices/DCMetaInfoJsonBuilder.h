@@ -1,11 +1,11 @@
 #ifndef DCMETAINFOJSONBUILDER_H
 #define DCMETAINFOJSONBUILDER_H
 
-#include "dcmetainfo.h"
+#include "dcmeta.h"
 
 #include "DartsController/DCJsonSLAs/idcmodeljsonbuilder.h"
 
-class DCMetaInfoJsonBuilder : public IDCModelJsonBuilder<DCMetaInfo>
+class DCMetaInfoJsonBuilder : public IDCModelJsonBuilder<DCMeta>
 {
 public:
     virtual void setJsonValues(QJsonObject &obj, const Model &metaInfo) const override

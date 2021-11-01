@@ -2,7 +2,6 @@
 #define IDCSCOREBUILDER_H
 
 #include "DartsController/DCScoresServices/dcscoremodel.h"
-#include "DartsController/DCMetaSLAs/idcinitialscore.h"
 #include <qvector.h>
 #include "DartsController/DCPlayerServices/dcplayer.h"
 

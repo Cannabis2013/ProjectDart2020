@@ -1,6 +1,6 @@
 #ifndef DCJSONBUILDERSERVICES_H
 #define DCJSONBUILDERSERVICES_H
-#include "DartsController/DCMetaServices/dcmetainfo.h"
+#include "DartsController/DCMetaServices/dcmeta.h"
 #include "idcmodeljsonbuilder.h"
 #include "DartsController/DCInputServices/dcinput.h"
 #include "DartsController/DCIndexServices/dcindex.h"
@@ -10,11 +10,11 @@
 class DCJsonBuilderServices
 {
 public:
-    IDCModelJsonBuilder<DCMetaInfo> *metaJsonBuilder() const
+    IDCModelJsonBuilder<DCMeta> *metaJsonBuilder() const
     {
         return _metaJsonBuilder;
     }
-    void setMetaJsonBuilder(IDCModelJsonBuilder<DCMetaInfo> *builder)
+    void setMetaJsonBuilder(IDCModelJsonBuilder<DCMeta> *builder)
     {
         _metaJsonBuilder = builder;
     }
@@ -67,7 +67,7 @@ public:
         _playerStatsJsonBuilder = newPlayerStatsJsonBuilder;
     }
 private:
-    IDCModelJsonBuilder<DCMetaInfo> *_metaJsonBuilder;
+    IDCModelJsonBuilder<DCMeta> *_metaJsonBuilder;
     IDCModelJsonBuilder<DCInput> *_inputJsonBuilder;
     IDCModelJsonBuilder<DCIndex> *_inputIndexJsonBuilder;
     IDCModelJsonBuilder<DCIndex> *_reqIndexJsonBuilder;

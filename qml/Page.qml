@@ -1,8 +1,6 @@
 import QtQuick 2.0
-
 import QtQuick.Layouts 1.3
 import QtQuick.Window 2.3
-
 Rectangle {
     id: pageBody
     color: ThemeContext.pageColor
@@ -68,7 +66,6 @@ Rectangle {
         anchors.topMargin: 20
         anchors.rightMargin: 20
         anchors.bottomMargin: 20
-
         flow: GridLayout.TopToBottom
         // Top bar
         GridLayout{

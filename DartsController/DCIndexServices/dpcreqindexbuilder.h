@@ -6,7 +6,7 @@
 class DPCReqIndexBuilder : public IDCReqInputIndexBuilder
 {
 public:
-    virtual DCIndex indexes(const DCIndex &index) const override
+    virtual DCIndex index(const DCIndex &index) const override
     {
         auto reqIndex = index;
         if(reqIndex.attemptIndex > 0)

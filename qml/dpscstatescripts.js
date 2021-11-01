@@ -2,7 +2,7 @@ function declareWinner()
 {
     pointSingleColumnTurnController.backendHasDeclaredAWinner();
     pointKeyPad.enableKeyPad(false);
-    PointSingleColumnScripts.setWinnerText();
+    DPSCScriptss.setWinnerText();
 }
 
 function backendIsStopped()

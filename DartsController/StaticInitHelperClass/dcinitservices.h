@@ -2,23 +2,19 @@
 #define DCINITPLAYERSCORES_H
 
 #include "DartsController/DCPlayerServices/dcplayer.h"
-#include "DartsController/DCMetaSLAs/idcinitialscore.h"
 #include "DartsController/DCPlayerSLAs/IDCPlayerController.h"
 #include "DartsController/DCScoresSLAs/idcscorebuilder.h"
 #include "DartsController/DCScoresSLAs/idcscoremodels.h"
 #include "DartsController/DCScoresSLAs/idcupdateplayerscores.h"
 #include "DartsController/PlayerStatsSLAs/idcplayerstats.h"
 #include "DartsController/DCMetaSLAs/idartsstatuscodes.h"
-#include "DartsController/DCMetaSLAs/idcstatus.h"
-#include "DartsController/DCMetaSLAs/idcwinnerservice.h"
-
+#include "DartsController/DCMetaServices/dcmeta.h"
 class DCInitServices
 {
 public:
-    static void init(const QVector<DCPlayer> &players, const IDCInitialScore *initialScore, IDCScoreModels *scoreModels,
-                      const IDCScoreBuilder *scoreBuilder, IDCPlayerStats *playerStats, IDCPlayerController *playerController)
+    static void init(const QVector<DCPlayer> &players, const DCMeta &meta, IDCScoreModels *scoreModels, const IDCScoreBuilder *scoreBuilder, IDCPlayerStats *playerStats, IDCPlayerController *playerController)
     {
-        auto models = scoreBuilder->createScores(players,initialScore->get());
+        auto models = scoreBuilder->createScores(players,meta.initialRemainingScore);
         scoreModels->scores().append(models);
         playerStats->setPlayers(players);
         playerController->setPlayers(players);
@@ -29,11 +25,12 @@ public:
         updatePlayerScores->update(inputs,scoreModels);
         updatePlayerStats->update(inputs,playerStats);
     }
-    static void init(const DCPlayer &winner, IDCWinnerService *winnerService, IDCStatus *controllerStatus, const IDartsStatusCodes *statusCodes)
+    static void init(const DCPlayer &winner, DCMeta &meta, const IDartsStatusCodes *statusCodes)
     {
-        winnerService->set(winner);
-        if(winnerService->get().id != QUuid())
-            controllerStatus->set(statusCodes->winnerFound());
+        meta.winnerId = winner.id;
+        meta.winnerName = winner.name;
+        if(meta.winnerId != QUuid())
+            meta.status = statusCodes->winnerFound();
     }
 };
 
