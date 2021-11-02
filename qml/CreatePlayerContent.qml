@@ -5,6 +5,7 @@ Content
 {
     id: body
     signal sendPlayerDetails(string json)
+    preferedPageTitle: "Create player"
     function handleError(msg)
     {
         print(msg);

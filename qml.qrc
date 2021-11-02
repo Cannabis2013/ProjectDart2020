@@ -102,6 +102,11 @@
         <file>qml/DartsTurnControllerView.qml</file>
         <file>qml/DartsStatsView.qml</file>
         <file>qml/TextRect.qml</file>
+        <file>qml/PageTopBar.qml</file>
+        <file>qml/pageScripts.js</file>
+        <file>qml/PushButtonInterface.qml</file>
+        <file>qml/PageInterface.qml</file>
+        <file>qml/StartButtonsInterface.qml</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/dartpic.jpg</file>

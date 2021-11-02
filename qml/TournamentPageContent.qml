@@ -11,6 +11,7 @@ Content{
     signal dartsPointMultiColumnInitialized
     signal dartsScoreSingleColumnInitialized
     signal manageButtonClicked
+    preferedPageTitle: "Get started.."
     QtObject{
         id: currentValues
         property int currentIndex: -1

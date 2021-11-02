@@ -6,7 +6,7 @@ import "createTournamentScripts.js" as CreateScripts
 Content {
     id: createBody
     color: "transparent"
-
+    preferedPageTitle: "Create tournament"
     signal requestPlayers
     signal sendDartsDetails(string json)
     signal tournamentAssembledAndStored()
@@ -21,7 +21,6 @@ Content {
             buttonsComponent.buttonTwoEnabled = true;
         }
     }
-
     signal sendCricketDetails
     signal requestGameModes
 

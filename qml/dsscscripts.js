@@ -36,6 +36,7 @@ function handleMetaData(data){
     dartsMetaValues.keyPoint = json["keyPoint"];
     dartsMetaValues.assignedPlayerNames = getPlayerNames(json["assignedPlayerDetails"]);
     initializeScoreBoard();
+    requestChangePageTitle(dartsMetaValues.title);
     applicationInterface.requestDartsScores();
 }
 

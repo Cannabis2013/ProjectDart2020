@@ -20,8 +20,7 @@ public:
         // Connect darts builder services with application
         connectProvider->connectDCBuilder()->connectServices(application->dcBuilder(),application);
         // Connect route from the point where controllers are initialized to the route interface
-        connectProvider->connectRouteByDisplayHint()->connectServices(routeProvider->routeByDisplayHint(),
-                                                                      application);
+        connectProvider->connectRouteByDisplayHint()->connectServices(routeProvider->routeByDisplayHint(),application);
         // Connect players context with application
         connectProvider->connectPlayersContext()->connectServices(application,application->playerModelsContext());
     }

@@ -1,10 +1,10 @@
-#ifndef ICONNECTROUTEBYDISPLAYHINT_H
-#define ICONNECTROUTEBYDISPLAYHINT_H
+#ifndef ICONNECTROUTEBYINPUTHINT_H
+#define ICONNECTROUTEBYINPUTHINT_H
 
 #include "DartApplication/RouteSLAs/abstractroutebyhint.h"
 #include "DartApplication/SLAs/AbstractApplicationInterface.h"
 
-class IConnectRouteByDisplayHint
+class IConnectRouteByInputHint
 {
 public:
     virtual void connectServices(AbstractRouteByHint* routeService,
@@ -12,4 +12,4 @@ public:
 
 };
 
-#endif // ICONNECTROUTEBYDISPLAYHINT_H
+#endif // ICONNECTROUTEBYINPUTHINT_H

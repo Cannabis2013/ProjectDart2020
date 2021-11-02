@@ -4,6 +4,7 @@ import "dsscscripts.js" as DartsScoresScripts
 import "dsscstatescripts.js" as StateScripts
 Content {
     id: dsscContent
+    preferedPageTitle: "Darts 2021"
     DartsMetaValues{
         id: dartsMetaValues
     }

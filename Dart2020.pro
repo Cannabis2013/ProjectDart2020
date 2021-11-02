@@ -14,7 +14,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    DartApplication/RouteServices/routebyinputhint.cpp \
     DartsController/DCJsonServices/dcjsonbuilder.cpp \
     DartsController/DPController/dpcontroller.cpp \
     DartsController/DartsScoreController/dscontroller.cpp \
@@ -64,6 +63,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     DartApplication/ConnectBuilderServices/ConnectDCBuilder.h \
+    DartApplication/ConnectRouteSLAs/iconnectroutebyinputhint.h \
+    DartApplication/ConnectRouteServices/connectroutebyinputhint.h \
     DartApplication/RouteSLAs/abstractroutebyhint.h \
     DartApplication/RouteServices/routebyinputhint.h \
     DartsController/DCIndexSLAs/idcindexbuilder.h \
@@ -201,7 +202,6 @@ HEADERS += \
     DartApplication/ConnectServices/connectservices.h \
     ServicesProviderContext/SPConnectServices/connectservicesprovider.h \
     DartsControllerBuilder/DCBMetaServices/createDCMetaInfo.h \
-    DartApplication/ConnectRouteServices/connectroutebydisplayhint.h \
     DartApplication/ConnectRouteServices/connectroutebygamemode.h \
     createjsonfromdp.h \
     PlayerModelsContext/Services/createjsonfromplayermodels.h \
@@ -264,7 +264,6 @@ HEADERS += \
     DartsModelsContext/DMCConnectSLAs/iconnectdartsmodelscontext.h \
     PlayerModelsContext/PMCConnectSLAs/iconnectplayermodelscontext.h \
     DartApplication/ConnectBuilderSLAs/iconnectdcbuilder.h \
-    DartApplication/ConnectRouteSLAs/iconnectroutebydisplayhint.h \
     DartApplication/ConnectRouteSLAs/iconnectroutebygamemode.h \
     DartApplication/ConnectRouteSLAs/iconnectroutetoapplication.h \
     ServicesProviderContext/SPConnectSLAs//iconnectservicesprovider.h \

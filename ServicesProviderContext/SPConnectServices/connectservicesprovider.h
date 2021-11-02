@@ -5,7 +5,7 @@
 
 #include "DartApplication/ConnectBuilderServices/ConnectDCBuilder.h"
 #include "DartsModelsContext/DMCConnectServices/connectdartsmodelscontext.h"
-#include "DartApplication/ConnectRouteServices/connectroutebydisplayhint.h"
+#include "DartApplication/ConnectRouteServices/connectroutebyinputhint.h"
 #include "DartApplication/ConnectRouteServices/connectroutebygamemode.h"
 #include "PlayerModelsContext/PMCConnectServices/connectplayerscontext.h"
 #include "DartsController/DCConnectServices/connectdartscontroller.h"
@@ -16,7 +16,7 @@ public:
     {
         return _connectRouteByGameMode;
     }
-    virtual IConnectRouteByDisplayHint *connectRouteByDisplayHint() const override
+    virtual IConnectRouteByInputHint *connectRouteByDisplayHint() const override
     {
         return _connectRouteByDisplayHint;
     }
@@ -39,7 +39,7 @@ public:
 private:
     // Connect route services
     ConnectRouteByGameMode *_connectRouteByGameMode = new ConnectRouteByGameMode;
-    ConnectRouteByDisplayHint *_connectRouteByDisplayHint = new ConnectRouteByDisplayHint;
+    ConnectRouteByInputHint *_connectRouteByDisplayHint = new ConnectRouteByInputHint;
     // Connect darts controller builder services
     ConnectDCBuilder *_connectDCBuilder = new ConnectDCBuilder;
     // Connect models interface

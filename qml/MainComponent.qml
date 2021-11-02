@@ -6,7 +6,6 @@ Item {
         id: createPlayerComponent
         Page{
             onBackButtonPressed: pageLoader.sourceComponent = managePageComponent
-            pageTitle: "Create player"
             pageIconUrl: "qrc:/pictures/Ressources/users.png"
             pageContent: CreatePlayerContent{}
         }
@@ -15,7 +14,6 @@ Item {
         id: managePageComponent
         Page{
             onBackButtonPressed: pageLoader.sourceComponent = startPageComponent
-            pageTitle: "Manage"
             pageContent: ManagePageContent{
                 onRequestCreatePlayerPage: pageLoader.sourceComponent = createPlayerComponent
                 onRequestCreateTournamentPage: pageLoader.sourceComponent = createTournamentComponent
@@ -27,7 +25,6 @@ Item {
         id: createTournamentComponent
         Page {
             onBackButtonPressed: pageLoader.sourceComponent = managePageComponent
-            pageTitle: "Create tournament"
             pageContent: CreateTournamentContent{}
             Component.onCompleted: body.backPushed.connect(backButtonPressed)
         }
@@ -36,7 +33,6 @@ Item {
         id: tournamentPageComponent
         Page{
             id: tournamentPage
-            pageTitle: "Get started.."
             pageContent: TournamentPageContent{
                 onCreateTournamentClicked: pageLoader.sourceComponent = createTournamentComponent
                 onManageButtonClicked: pageLoader.sourceComponent = managePageComponent
@@ -54,7 +50,6 @@ Item {
             anchors.fill: parent
             backButtonVisible: false
             backButtonDisabled : true
-            pageTitle: "Welcome"
             pageContent: StartPageContent{
                 onSetupGameClicked: pageLoader.sourceComponent = tournamentPageComponent
                 onManageContentClicked: pageLoader.sourceComponent = managePageComponent
@@ -68,7 +63,6 @@ Item {
     {
         id: dartsPointSingleColumn
         Page{
-            pageTitle: "Darts multi attempt"
             pageContent: DPSCContent{}
             Component.onCompleted: body.backPushed.connect(backButtonPressed)
             onBackButtonPressed: pageLoader.sourceComponent = tournamentPageComponent
@@ -78,7 +72,6 @@ Item {
     {
         id: dartsScoreSingleColumn
         Page{
-            pageTitle: "Darts multi attempt"
             pageContent: DSSCContent{}
             Component.onCompleted: body.backPushed.connect(backButtonPressed)
             onBackButtonPressed: pageLoader.sourceComponent = tournamentPageComponent

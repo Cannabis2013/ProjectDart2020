@@ -2,24 +2,18 @@ import QtQuick 2.15
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.3
-
-
 import "tournamentListViewScripts.js" as TLVScripts
-
 ItemListView{
     id: listComponentBody
+    property bool enableCheck: true
+    property bool instantCheck: true
+    property string componentTitle: "Title"
+    readonly property var currentIndexes: TLVScripts.currentIndexes()
     onAddItem: TLVScripts.addItemModel(item)
     onRemoveItems: TLVScripts.removeItemModels(indexes)
     onUnSelectAll: TLVScripts.unSelectAll()
     onClear: listModel.clear()
-    // Item properties
-    property bool enableCheck: true
-    property bool instantCheck: true
-    // Title properties
-    property string componentTitle: "Title"
     onComponentTitleChanged: labelTitle.text = componentTitle
-    // Get current indexes
-    readonly property var currentIndexes: TLVScripts.currentIndexes()
     GridLayout
     {
         id: bodyLayout

@@ -1,5 +1,4 @@
 import QtQuick 2.0
-
 Item {
     id: body
     signal clickEvent
@@ -38,7 +37,6 @@ Item {
         onPressedChanged: {
             body.pressedEvent(internalEventHandler.handlePressEvent());
         }
-
         onClicked: {
             body.clickEvent();
         }

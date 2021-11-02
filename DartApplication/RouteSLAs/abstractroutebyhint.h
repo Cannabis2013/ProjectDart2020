@@ -10,10 +10,8 @@ class AbstractRouteByHint : public QObject
 public slots:
     virtual void routeByInputHint(const int &inputHint) = 0;
 signals:
-    void dartsPointSingleColumnInitialized();
-    void dartsPointMultiColumnInitialized();
-    void dartsScoreSingleColumnInitialized();
-    void dartsScoreMultiColumnInitialized();
+    void dartsPointInit();
+    void dartsScoreInit();
 
 };
 

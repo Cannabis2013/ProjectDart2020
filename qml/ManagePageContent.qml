@@ -5,6 +5,7 @@ Content {
     id: body
     signal requestCreatePlayerPage
     signal requestCreateTournamentPage
+    preferedPageTitle: "Manage"
     GridLayout{
         id: mainLayout
         anchors.fill: parent

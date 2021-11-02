@@ -1,42 +1,21 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Window 2.3
-Rectangle {
+import "pageScripts.js" as PageScripts
+PageInterface {
     id: pageBody
     color: ThemeContext.pageColor
-    border.width: 0
-    signal backButtonPressed
-    onBackButtonPressed: pageBody.destroy()
-    signal requestDisableBackButton(bool disable)
     onRequestDisableBackButton: backButtonDisabled = disable
-    property bool backButtonVisible: true
-    onBackButtonVisibleChanged: backButton.visible = backButtonVisible
-    property bool backButtonDisabled: false
-    onBackButtonDisabledChanged: backButton.enabled = !backButtonDisabled
-    property Content pageContent: Content{}
-    onPageContentChanged: {
-        contentFlickable.children[0].children[0] = pageContent;
-        pageContent.requestSetPageTitle.connect(handleSetPageTitleRequest);
-        pageContent.requestSetPageIcon.connect(handleSetPageIcon);
-        pageContent.notifyWidthChange.connect(contentFlickable.setContentWidth);
-        pageContent.notifyHeightChange.connect(contentFlickable.setContentHeight);
-        pageContent.requestSetVisible.connect(handleSetVisible);
-        pageContent.requestQuit.connect(backButtonPressed);
-        pageContent.requestDisableBackButton.connect(requestDisableBackButton)
-        pageContent.anchors.fill = contentFlickable.contentItem;
-    }
+    onBackButtonVisibleChanged: pageTopBar.showBackButton = backButtonVisible
+    onBackButtonDisabledChanged: pageTopBar.enableBackButton = !backButtonDisabled
+    onPageContentChanged: PageScripts.setupContent(pageContent)
+    onChangePageTitle: pageTopBar.pageTitle = proposedTitle
     onWidthChanged: {
         contentFlickable.contentWidth = contentFlickable.width;
     }
     onHeightChanged: {
         contentFlickable.contentHeight = contentFlickable.height;
     }
-
-    function handleSetPageTitleRequest(title)
-    {
-        pageTitle = title;
-    }
-
     function handleSetPageIcon(url)
     {
         pageIconUrl = url;
@@ -45,73 +24,25 @@ Rectangle {
     {
         visible = v;
     }
-
-    property string pageTitle: "Page title"
-    onPageTitleChanged: pageTitleComponent.text = pageTitle
-
     property url pageIconUrl: "qrc:/pictures/Ressources/dartpic.png"
     onPageIconUrlChanged: pageIconUrl.source = pageIconUrl
-
     Rectangle{
         id: backgroundRect
         anchors.fill: parent
         color:ThemeContext.pageColor
     }
-
     GridLayout{
         id: bodyLayout
         anchors.fill: parent
         rowSpacing: 10
-        anchors.leftMargin: 20
-        anchors.topMargin: 20
-        anchors.rightMargin: 20
-        anchors.bottomMargin: 20
+        anchors.margins: 20
         flow: GridLayout.TopToBottom
-        // Top bar
-        GridLayout{
-            Layout.fillWidth: true
+
+        PageTopBar {
+            id: pageTopBar
             Layout.fillHeight: true
-            flow: GridLayout.LeftToRight
-            PushButton
-            {
-                id: backButton
-                visible: pageBody.backButtonVisible
-                Layout.preferredWidth: 65
-                Layout.maximumHeight: 30
-                Layout.minimumHeight: 30
-                Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
-                textColor: "white"
-                backgroundColor: ThemeContext.pageBackButtonColor
-                text: "Back"
-                fontSize: 10
-                onClicked: backButtonPressed()
-                buttonRadius: ThemeContext.pageBackButtonRadius
-            }
-            Rectangle
-            {
-                Layout.maximumHeight: 30
-                Layout.minimumHeight: 30
-                width: 5
-                color: "transparent"
-            }
-
-            PageIconItem {
-                Layout.maximumHeight: 30
-                Layout.maximumWidth: 30
-                Layout.minimumHeight: 30
-                Layout.minimumWidth: 30
-            }
-
-            MyLabel{
-                id: pageTitleComponent
-                Layout.fillWidth: true
-                Layout.maximumHeight: 30
-                Layout.minimumHeight: 30
-                fontSize: 20
-                textLeftMargin: 5
-                text: pageBody.pageTitle
-                fontColor: "white"
-            }
+            Layout.fillWidth: true
+            onShowBackButtonChanged: pageBody.backButtonVisible
         }
         MyRectangle
         {

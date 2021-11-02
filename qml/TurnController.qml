@@ -1,9 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.5
-
 import "turnControllerScripts.js" as TurnControllerScripts
-
 Item {
     id: turnControllerBody
     clip: true
@@ -29,10 +27,8 @@ Item {
     onBackendHasDeclaredAWinner: state = "restartState"
     signal leftButtonPressAndHoldClicked
     signal rightButtonPressAndHoldClicked
-
     property bool startButtonEnablePressAndHold : true
     onStartButtonEnablePressAndHoldChanged: startButtonComponent.pressAndHoldEnabled = startButtonEnablePressAndHold
-
     property string currentRoundIndex: initialTextBoxValues.roundText
     onCurrentRoundIndexChanged: turnControllerView.currentRoundIndex = currentRoundIndex
     property string currentPlayer: initialTextBoxValues.playerText
@@ -103,7 +99,6 @@ Item {
             name: "initialState"
             PropertyChanges {
                 target: startButtonComponent
-                textDescriptionVisible : true
                 startButtonVisible: true
                 startButtonEnabled: false
             }
@@ -115,7 +110,6 @@ Item {
             name: "startState"
             PropertyChanges {
                 target: startButtonComponent
-                textDescriptionVisible: false
                 startButtonVisible: true
                 startButtonEnabled: true
             }
@@ -135,7 +129,6 @@ Item {
                 target: startButtonComponent
                 startButtonVisible : false
                 pauseButtonVisible: true
-                textDescriptionVisible: true
             }
             PropertyChanges {
                 target: leftButton
@@ -168,7 +161,6 @@ Item {
                 resumeButtonVisible: true
                 pauseButtonVisible : false
                 startButtonVisible : false
-                textDescriptionVisible : true
             }
             PropertyChanges {
                 target: leftButton
@@ -183,7 +175,6 @@ Item {
             name: "optionsState"
             PropertyChanges {
                 target: startButtonComponent
-                textDescriptionVisible: false
                 restartButtonVisible: true
                 startButtonVisible: startButtonVisible
                 pauseButtonVisible: pauseButtonVisible

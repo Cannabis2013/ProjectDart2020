@@ -1,17 +1,15 @@
 import QtQuick 2.12
 import QtQuick.Layouts 1.3
-
 Content
 {
     id: startPageContentBody
-
+    preferedPageTitle: "Welcome to Dart2020"
     signal setupGameClicked
     signal manageContentClicked
     signal settingsButtonClicked
     signal loginButtonClicked // Experimental
     signal logoutButtonClicked // Experimental
     signal quitButtonClicked
-
     property color labelBackgroundColor: "black"
     onLabelBackgroundColorChanged: {
         titleEdit.labelBackgroundColor = labelBackgroundColor;
@@ -29,7 +27,6 @@ Content
         width: 150
         height: 150
     }
-
     Image {
         id: dartLogo
         source: "qrc:/pictures/Ressources/pngfuel.com.png"
@@ -40,7 +37,6 @@ Content
         width: 130
         height: 130
     }
-
     Image {
         id: tuborgImage
 
@@ -54,14 +50,12 @@ Content
 
         rotation: 25
     }
-
     Rectangle{
         id: backgroundRect
         anchors.fill: parent
         color:ThemeContext.pageColor
         opacity: 0.5
     }
-
     GridLayout {
         id: gridLayout
 
@@ -73,7 +67,6 @@ Content
             height: 192
             color: "transparent"
         }
-
         StartMenuButton
         {
             Layout.alignment: Qt.AlignHCenter
@@ -82,7 +75,6 @@ Content
             backgroundColor: ThemeContext.startPageButtonColor
             hoveredColor: ThemeContext.startPageButtonColor
         }
-
         StartMenuButton {
             Layout.alignment: Qt.AlignHCenter
             text: "Manage tournaments \n and players"
@@ -93,21 +85,11 @@ Content
         StartMenuButton
         {
             Layout.alignment: Qt.AlignHCenter
-            text: "Settings"
-            onClicked: settingsButtonClicked()
-            backgroundColor: ThemeContext.startPageButtonColor
-            hoveredColor: ThemeContext.startPageButtonColor
-        }
-
-        StartMenuButton
-        {
-            Layout.alignment: Qt.AlignHCenter
             text: "Quit"
             onClicked: quitButtonClicked()
             backgroundColor: ThemeContext.startPageButtonColor
             hoveredColor: ThemeContext.startPageButtonColor
         }
-        
         Rectangle
         {
 
@@ -115,7 +97,6 @@ Content
             Layout.fillHeight: true
             border.width: 1
         }
-
     }
     LoginComponent {
 
@@ -125,6 +106,4 @@ Content
         anchors.right: parent.right
         anchors.bottom: parent.bottom
     }
-
-    Component.onCompleted: requestSetPageTitle("Welcome to Dart2020")
 }
