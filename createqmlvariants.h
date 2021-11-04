@@ -1,9 +1,7 @@
 #ifndef CREATEQMLVARIANTS_H
 #define CREATEQMLVARIANTS_H
-
 #include "iqmldatabuilder.h"
 #include <QVariantList>
-
 class CreateQMLVariants : public IQMLDataBuilder<QVector<QPair<int,int>>,QVariantList>
 {
 public:
@@ -21,5 +19,4 @@ public:
         return list;
     }
 };
-
 #endif // QMLCONTEXTDATABUILDER_H

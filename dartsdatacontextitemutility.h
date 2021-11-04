@@ -2,8 +2,8 @@
 #define DARTSDATACONTEXTITEMUTILITY_H
 
 #include "igetdatafromdatacontext.h"
-#include "idartstabledatacontext.h"
-#include "linkedlist.h"
+#include "DartsTableContext/DataContextSLAs/idartstabledatacontext.h"
+#include "DartsTableContext/LinkedList/linkedlist.h"
 #include <QModelIndex>
 namespace GetDataContext {
     typedef QPair<int,int> RowItem;

@@ -21,24 +21,21 @@ StartButtonsInterface {
         anchors.fill: parent
         flow: GridLayout.TopToBottom
         QtObject{
-            id: buttonDimensions
-            property int defaultHeight: 24
+            id: buttonMetrics
+            property int defaultHeight: 20
             property int defaultWidth: 64
-        }
-        Rectangle{
-            Layout.fillHeight: true
+            property int defaultFontSize: 10
         }
         PushButton{
             id: startButton
             text: "Start"
-            height: buttonDimensions.defaultHeight
-            width: buttonDimensions.defaultWidth
+            height: buttonMetrics.defaultHeight
+            width: buttonMetrics.defaultWidth
             textColor: ThemeContext.navStartButtonTextColor
             backgroundColor: ThemeContext.navStartButtonBackgroundColor
             hoveredColor: ThemeContext.navStartButtonHoveredBackgroundColor
             buttonRadius: 6
-            fontSize: 12
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+            fontSize: buttonMetrics.defaultFontSize
             onClicked: startButtonComponentBody.startButtonClicked()
             onPressAndHoldClicked: startButtonComponentBody.pressAndHoldClicked()
             enablePressAndHold: startButtonComponentBody.pressAndHoldEnabled
@@ -48,14 +45,13 @@ StartButtonsInterface {
         PushButton{
             id: pauseButton
             text: "Pause"
-            width: buttonDimensions.defaultWidth
-            height: buttonDimensions.defaultHeight
+            width: buttonMetrics.defaultWidth
+            height: buttonMetrics.defaultHeight
             textColor: ThemeContext.navStartButtonTextColor
             backgroundColor: ThemeContext.navStartButtonBackgroundColor
             hoveredColor: ThemeContext.navStartButtonHoveredBackgroundColor
             buttonRadius: 6
-            fontSize: 12
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+            fontSize: buttonMetrics.defaultFontSize
             onClicked: startButtonComponentBody.pauseButtonClicked()
             onPressAndHoldClicked: startButtonComponentBody.pressAndHoldClicked()
             visible: startButtonComponentBody.pauseButtonVisible
@@ -63,15 +59,14 @@ StartButtonsInterface {
         }
         PushButton{
             id: resumeButton
-            width: buttonDimensions.defaultWidth
-            height: buttonDimensions.defaultHeight
+            width: buttonMetrics.defaultWidth
+            height: buttonMetrics.defaultHeight
             text: "Resume"
             textColor: ThemeContext.navStartButtonTextColor
             backgroundColor: ThemeContext.navStartButtonBackgroundColor
             hoveredColor: ThemeContext.navStartButtonHoveredBackgroundColor
             buttonRadius: 6
-            fontSize: 12
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+            fontSize: buttonMetrics.defaultFontSize
             onClicked: startButtonComponentBody.resumeButtonClicked()
             enablePressAndHold: startButtonComponentBody.pressAndHoldEnabled
             onPressAndHoldClicked: startButtonComponentBody.pressAndHoldClicked()
@@ -84,11 +79,10 @@ StartButtonsInterface {
             backgroundColor: ThemeContext.navStartButtonBackgroundColor
             hoveredColor: ThemeContext.navStartButtonHoveredBackgroundColor
             buttonRadius: 6
-            fontSize: 12
-            width: buttonDimensions.defaultWidth
-            height: buttonDimensions.defaultHeight
+            fontSize: buttonMetrics.defaultFontSize
+            width: buttonMetrics.defaultWidth
+            height: buttonMetrics.defaultHeight
             enablePressAndHold: false
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             enabled: false
             visible: startButtonComponentBody.waitButtonVisible
         }
@@ -99,17 +93,16 @@ StartButtonsInterface {
             backgroundColor: ThemeContext.navQuitButtonBackgroundColor
             hoveredColor: ThemeContext.navQuitButtonHoveredBackgroundColor
             buttonRadius: 6
-            fontSize: 12
-            width: buttonDimensions.defaultWidth
-            height: buttonDimensions.defaultHeight
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+            fontSize: buttonMetrics.defaultFontSize
+            width: buttonMetrics.defaultWidth
+            height: buttonMetrics.defaultHeight
             visible: startButtonComponentBody.restartButtonVisible
             onClicked: restartButtonClicked()
             onVisibleChanged: restartButtonAnimation.restart()
             PropertyAnimation on height {
                 id: restartButtonAnimation
                 from: 0
-                to: buttonDimensions.defaultHeight
+                to: buttonMetrics.defaultHeight
                 duration: 125
             }
         }

@@ -1,7 +1,6 @@
 #ifndef DARTSPLAYERDATAMODEL_H
 #define DARTSPLAYERDATAMODEL_H
 #include <qobject.h>
-#include "iheaderlabels.h"
 #define OUT_OF_RANGE_MSG "Index out of range";
 #define ITEM_NOT_FOUND_MSG "Item not found";
 class DartsPlayerDataModel : public QObject

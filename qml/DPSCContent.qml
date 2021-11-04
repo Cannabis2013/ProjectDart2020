@@ -11,8 +11,8 @@ Content {
         TurnController{
             id: pointSingleColumnTurnController
             Layout.fillWidth: true
-            Layout.minimumHeight: 100
-            Layout.maximumHeight: 100
+            Layout.minimumHeight: 48
+            Layout.maximumHeight: 48
             Layout.alignment: Qt.AlignHCenter
             onStartButtonClicked: applicationInterface.requestStartGame()
             onResumeButtonClicked: applicationInterface.requestStartGame()

@@ -32,7 +32,6 @@ QFuture<IPlayerModelsContext::Models> PlayerModelsContext::playerModels(const QB
         auto indexes = getIndexesFromJson(json);
         auto models = getPlayerModelsFromDb()->models(indexes,dbContext());
         return models;
-
     });
 }
 

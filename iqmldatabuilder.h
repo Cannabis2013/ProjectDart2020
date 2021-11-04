@@ -1,6 +1,5 @@
 #ifndef IQMLDATABUILDER_H
 #define IQMLDATABUILDER_H
-
 template<typename T, typename U>
 class IQMLDataBuilder
 {

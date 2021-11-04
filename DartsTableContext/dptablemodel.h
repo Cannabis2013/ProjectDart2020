@@ -1,40 +1,33 @@
-#ifndef DPSCTABLEMODEL_H
-#define DPSCTABLEMODEL_H
-
+#ifndef DPTABLEMODEL_H
+#define DPTABLEMODEL_H
 #include "dartstablemodel.h"
 #include "dartstabledimensions.h"
 #include "dartstablecellcontext.h"
-#include "dartstablefillservice.h"
+#include "DartsTableContext/TableCellsServices/dartsinitrowvalues.h"
 #include "dartstablecreatecolumnindices.h"
 #include "dartstablecreaterowindices.h"
 #include "dartstabledatacontext.h"
 #include "dartstablecreatecolumns.h"
-#include "createjsonfromdp.h"
 #include "createqmlvariants.h"
 #include "dartsdatacontextitemutility.h"
-#include "dartspscIndexBuilder.h"
 #include "dartstablesectionutility.h"
-#include <createscorevaluefromdi.h>
 #include <dartstablesectionmanipulator.h>
-
-class DPSCTableModel : public DartsTableModel
+class DPTableModel : public DartsTableModel
 {
 public:
-    DPSCTableModel()
+    DPTableModel()
     {
         setTableSections(new DartsTableDimensions);
         setTableCellContext(new DartsTableCellContext);
-        setCreateRows(new DartsTableCreateRows);
+        setCreateRows(new DartsInitRowValues);
         setCreateColumns(new DartsTableCreateColumns);
         setCreateColumnIndiceValues(new DartsTableCreateColumnIndices);
         setCreateRowsIndices(new DartsTableCreateRowIndices);
         setDataContext(new DartsTableDataContext);
-        setTableItemBuilder(new CreateScoreValueFromDI);
         setQMLVariantsContext(new CreateQMLVariants);
         setGetDataFromDataContext(new DartsDataContextItemUtility);
-        setcolumnIndexBuilder(new DartsPSCIndexBuilder);
         setSectionUtitity(new DartsTableSectionUtility);
-        setSectionManipulator(new DartsTableSectionManipulator); // Practically useless as there is no need to remove sections
+        setSectionManipulator(new DartsTableSectionManipulator);
     }
 };
 #endif // DPSCTABLEMODEL_H

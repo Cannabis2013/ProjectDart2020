@@ -1,9 +1,9 @@
 #ifndef REGISTERQMLTABLEUTILS_H
 #define REGISTERQMLTABLEUTILS_H
 
-#include "mhtablesectionmetrics.h"
-#include "mhtablecolumnwidth.h"
-#include "mhtablerowheight.h"
+#include "DartsTableContext/FontMetrics/mhtablesectionmetrics.h"
+#include "DartsTableContext/QMLTableMetrics/mhtablecolumnwidth.h"
+#include "DartsTableContext/QMLTableMetrics/mhtablerowheight.h"
 #include "qqml.h"
 
 class RegisterQMLTableUtilities

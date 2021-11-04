@@ -1,19 +1,15 @@
-#ifndef DARTSTABLESERVICES_H
-#define DARTSTABLESERVICES_H
-
-#include <idatamodeltablecellsizes.h>
-#include <itablesectioncontext.h>
-#include "itablecellcontext.h"
-#include "itablefillcells.h"
+#ifndef DARTSTABLESLAS_H
+#define DARTSTABLESLAS_H
+#include "DartsTableContext/TableSectionsSLAs/itablesectioncontext.h"
+#include "DartsTableContext/TableSectionsSLAs/itablecellcontext.h"
+#include "DartsTableContext/TableSectionsSLAs/itableinitrowvalues.h"
 #include "itableindicevalues.h"
-#include "itablesectionmanipulator.h"
-#include "idartstabledatacontext.h"
+#include "DartsTableContext/TableSectionsSLAs/itablesectionmanipulator.h"
+#include "DartsTableContext/DataContextSLAs/idartstabledatacontext.h"
 #include "iqmldatabuilder.h"
 #include "igetdatafromdatacontext.h"
-#include "itablecolumnindexbuilder.h"
 #include "idartstablesectionutility.h"
-
-class DartsTableServices : public QAbstractTableModel
+class DartsTableSLAs : public QAbstractTableModel
 {
 public:
     typedef QPair<int,int> TableItem;
@@ -24,10 +20,10 @@ public:
     void setTableSections(ITableSectionContext *service);
     ITableCellContext<QPair<int, int> > *cellContext() const;
     void setTableCellContext(ITableCellContext<QPair<int, int> > *service);
-    ITableFillCells<Rows, TableItem> *createRows() const;
-    void setCreateRows(ITableFillCells<Rows, TableItem> *service);
-    ITableFillCells<Rows, TableItem> *createColumns() const;
-    void setCreateColumns(ITableFillCells<Rows, TableItem> *service);
+    ITableInitRowValues<Rows, TableItem> *createRows() const;
+    void setCreateRows(ITableInitRowValues<Rows, TableItem> *service);
+    ITableInitRowValues<Rows, TableItem> *createColumns() const;
+    void setCreateColumns(ITableInitRowValues<Rows, TableItem> *service);
     ITableIndiceValues *createRowsIndices() const;
     void setCreateRowsIndices(ITableIndiceValues *service);
     ITableSectionManipulator<Rows> *sectionManipulator() const;
@@ -38,29 +34,21 @@ public:
     void setCreateColumnIndiceValues(ITableIndiceValues *service);
     IQMLDataBuilder<Column, QVariantList> *QMLVariantsContext() const;
     void setQMLVariantsContext(IQMLDataBuilder<Column, QVariantList> *service);
-    IQMLDataBuilder<TableItem, QVariant> *tableItemBuilder() const;
-    void setTableItemBuilder(IQMLDataBuilder<TableItem, QVariant> *service);
     IGetDataFromDataContext<TableItem, IDartsTableDataContext> *getDataFromDataContext() const;
     void setGetDataFromDataContext(IGetDataFromDataContext<TableItem, IDartsTableDataContext> *service);
-    ITableColumnIndexBuilder *columnIndexBuilder() const;
-    void setcolumnIndexBuilder(ITableColumnIndexBuilder *service);
     IDartsTableSectionUtility *sectionUtility() const;
     void setSectionUtitity(IDartsTableSectionUtility *service);
-
 private:
-    // Cell services
     ITableSectionContext *_tableContext;
     ITableCellContext<TableItem> *_cellContext;
-    ITableFillCells<Rows,TableItem> *_createRows;
-    ITableFillCells<Rows,TableItem> *_createColumns;
+    ITableInitRowValues<Rows,TableItem> *_createRows;
+    ITableInitRowValues<Rows,TableItem> *_createColumns;
     ITableIndiceValues *_createRowIndiceValues;
     ITableIndiceValues *_createColumnIndiceValues;
     ITableSectionManipulator<Rows> *_tableDataManipulator;
     IDartsTableDataContext *_dataContext;
-    IQMLDataBuilder<TableItem,QVariant> *_qmlJsonContext;
     IQMLDataBuilder<Column,QVariantList> *_QMLDataContext;
     IGetDataFromDataContext<TableItem,IDartsTableDataContext> *_getDataFromDataContext;
-    ITableColumnIndexBuilder *_columnIndexBuilder;
     IDartsTableSectionUtility *_sectionUtitity;
 };
 

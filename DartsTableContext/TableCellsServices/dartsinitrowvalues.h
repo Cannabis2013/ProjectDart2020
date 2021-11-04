@@ -1,16 +1,12 @@
-#ifndef DARTSTABLECREATEROWS_H
-#define DARTSTABLECREATEROWS_H
-
-#include "itablefillcells.h"
+#ifndef DARTSINITCELLVAL_H
+#define DARTSINITCELLVAL_H
 #include <qvector.h>
-#include "linkedlist.h"
+#include "DartsTableContext/LinkedList/linkedlist.h"
 #include <qpair.h>
-
-class DartsTableCreateRows : public ITableFillCells<
-        QVector<LinkedList<QPair<int,int>>>,QPair<int,int>>
+#include "DartsTableContext/TableSectionsSLAs/itableinitrowvalues.h"
+class DartsInitRowValues : public ITableInitRowValues<QVector<LinkedList<QPair<int,int>>>,QPair<int,int>>
 {
 public:
-    // Public types
     typedef QPair<int,int> DataItem;
     typedef LinkedList<DataItem> Row;
     typedef QVector<Row> Rows;

@@ -1,9 +1,9 @@
 #ifndef DARTSTABLECREATECOLUMNS_H
 #define DARTSTABLECREATECOLUMNS_H
 
-#include "itablefillcells.h"
+#include "DartsTableContext/TableSectionsSLAs/itableinitrowvalues.h"
 #include <qpair.h>
-#include "linkedlist.h"
+#include "DartsTableContext/LinkedList/linkedlist.h"
 #include <qvector.h>
 
 namespace FillColumnNameSpace {
@@ -12,7 +12,7 @@ namespace FillColumnNameSpace {
     typedef QVector<Row> Rows;
 }
 
-class DartsTableCreateColumns : public ITableFillCells<FillColumnNameSpace::Rows,FillColumnNameSpace::RowItem>
+class DartsTableCreateColumns : public ITableInitRowValues<FillColumnNameSpace::Rows,FillColumnNameSpace::RowItem>
 {
     // ITableFillCells interface
 public:

@@ -5,21 +5,13 @@ DartsTableModel::DartsTableModel()
     connect(this,&DartsTableModel::initialValueChanged,
             this,&DartsTableModel::updateInitialCellValues);
 }
-bool DartsTableModel::insertData(const int &row,const int &point,const int &score)
-{
-    auto column = columnIndexBuilder()->columnOf(row,columnCount(),dataContext());
-    return setData(createIndex(row,column),QVariant::fromValue<TableItem>(TableItem(point,score)));
-}
-
 bool DartsTableModel::insertData(const int &row, const int &score)
 {
-    auto column = columnIndexBuilder()->columnOf(row,columnCount(),dataContext());
-    return setData(createIndex(row,column),QVariant::fromValue<TableItem>(TableItem(0,score)));
+    return setData(createIndex(row,0),QVariant::fromValue<TableItem>(TableItem(0,score)));
 }
 bool DartsTableModel::removeLastItem(const int &row)
 {
-    auto column = lastDecoratedColumn(row);
-    return removeData(createIndex(row,column));
+    return removeData(createIndex(row,0));
 }
 void DartsTableModel::clearData()
 {
@@ -40,8 +32,7 @@ QVariant DartsTableModel::data(const QModelIndex &index, int) const
 {
     if(!index.isValid() || dataContext()->rowCount() <= 0)
         return QVariant();
-    auto dataItem = dataContext()->item(index);
-    return tableItemBuilder()->createItem(dataItem);
+    return dataContext()->item(index).second;
 }
 bool DartsTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
@@ -153,11 +144,6 @@ QVariantList DartsTableModel::rowData(const int &row) const
 {
     auto items = getDataFromDataContext()->itemsAtRow(row,dataContext());
     return QMLVariantsContext()->createItem(items);
-}
-
-int DartsTableModel::lastDecoratedColumn(const int &indexOfPlayer) const
-{
-    return columnIndexBuilder()->columnOf(indexOfPlayer,columnCount(),dataContext()) - 1;
 }
 void DartsTableModel::setColumnCount(const int &count)
 {

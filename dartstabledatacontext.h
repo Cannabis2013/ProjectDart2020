@@ -2,7 +2,7 @@
 #define DARTSTABLEDATACONTEXT_H
 
 #include <qpair.h>
-#include "idartstabledatacontext.h"
+#include "DartsTableContext/DataContextSLAs/idartstabledatacontext.h"
 #include <qdebug.h>
 #include <QModelIndex>
 

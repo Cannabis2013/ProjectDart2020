@@ -22,7 +22,6 @@
         <file>qml/scoreViewScripts.js</file>
         <file>qml/tournamentListViewScripts.js</file>
         <file>qml/tournamentPageScripts.js</file>
-        <file>qml/turnControllerScripts.js</file>
         <file>qml/ButtonsComponent.qml</file>
         <file>qml/ComboBoxComponent.qml</file>
         <file>qml/ConfirmPageContent.qml</file>
@@ -99,7 +98,7 @@
         <file>qml/BoardDelegateContentRect.qml</file>
         <file>qml/BoxedRect.qml</file>
         <file>qml/DartsScoreBoard.qml</file>
-        <file>qml/DartsTurnControllerView.qml</file>
+        <file>qml/ControllerPlayerDisplay.qml</file>
         <file>qml/DartsStatsView.qml</file>
         <file>qml/TextRect.qml</file>
         <file>qml/PageTopBar.qml</file>
@@ -107,6 +106,7 @@
         <file>qml/PushButtonInterface.qml</file>
         <file>qml/PageInterface.qml</file>
         <file>qml/StartButtonsInterface.qml</file>
+        <file>qml/TurnControllerInterface.qml</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/dartpic.jpg</file>

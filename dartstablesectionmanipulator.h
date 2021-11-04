@@ -1,9 +1,9 @@
 #ifndef DARTSTABLESECTIONMANIPULATOR_H
 #define DARTSTABLESECTIONMANIPULATOR_H
 
-#include "itablesectionmanipulator.h"
+#include "DartsTableContext/TableSectionsSLAs/itablesectionmanipulator.h"
 #include <qvector.h>
-#include "linkedlist.h"
+#include "DartsTableContext/LinkedList/linkedlist.h"
 #include <qpair.h>
 
 namespace TableDataContext {

@@ -14,8 +14,9 @@ Content {
         TurnController{
             id: singleColumnScoreTurnController
             Layout.fillWidth: true
-            Layout.minimumHeight: 80
-            Layout.maximumHeight: 80
+            Layout.minimumHeight: 48
+            Layout.maximumHeight: 48
+            Layout.bottomMargin: 12
             Layout.alignment: Qt.AlignHCenter
             onStartButtonClicked: applicationInterface.requestStartGame()
             onResumeButtonClicked: applicationInterface.requestStartGame()
@@ -23,6 +24,7 @@ Content {
             onRestartButtonClicked: DartsScoresScripts.resetTournament()
             onLeftButtonClicked: DartsScoresScripts.undoClicked()
             onRightButtonClicked: DartsScoresScripts.redoClicked()
+            z: 100
         }
         DSSCBoard{
             id: singleColumnScoreBoard

@@ -1,7 +1,7 @@
 #ifndef DARTSTABLECELLCONTEXT_H
 #define DARTSTABLECELLCONTEXT_H
 
-#include "itablecellcontext.h"
+#include "DartsTableContext/TableSectionsSLAs/itablecellcontext.h"
 #include <QDebug>
 class DartsTableCellContext : public ITableCellContext<QPair<int,int>>
 {

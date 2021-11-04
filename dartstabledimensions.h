@@ -2,7 +2,7 @@
 #define DARTSTABLEDIMENSIONS_H
 
 
-#include "itablesectioncontext.h"
+#include "DartsTableContext/TableSectionsSLAs/itablesectioncontext.h"
 class DartsTableDimensions : public ITableSectionContext
 {
 public:
