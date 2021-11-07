@@ -8,6 +8,6 @@ function setupContent(pageContent)
     pageContent.requestChangePageTitle.connect(pageBody.changePageTitle);
     pageContent.requestSetVisible.connect(handleSetVisible);
     pageContent.requestQuit.connect(backButtonPressed);
-    pageContent.requestDisableBackButton.connect(requestDisableBackButton)
+    pageContent.disableBackButton.connect(disableBackButton)
     pageContent.anchors.fill = contentFlickable.contentItem;
 }

@@ -11,55 +11,13 @@ function disconnectInterface(){
     applicationInterface.tournamentsDeletedSuccess.disconnect(handleDeleteTournamentsSuccess);
 }
 
-function createPopUp(parentID, id,fileName,x, y, width, height)
-{
-    var component = Qt.createComponent(fileName);
-    var properties = {
-        "id" : id,
-        "x" : x,
-        "y" : y,
-        "width" : width,
-        "height" : height,
-        "anchors.fill" : parentID
-     };
-    var createPlayerPopUp = component.createObject(parentID, properties);
-    if(createPlayerPopUp === null)
-        printNullObjectErrorMessage();
-    return createPlayerPopUp;
-}
-
-function printNullObjectErrorMessage()
-{
-    print("Something went very wrong. Call the police if necessary.");
-}
-
-function createConfirmPopUp(fileName, parentID)
-{
-    var component = Qt.createComponent(fileName);
-    var properties = {
-        "x" : 0,
-        "y" : 0,
-        "width" : parentID.width,
-        "height" : parentID.height,
-        "anchors.fill" : parentID,
-        "isPopUp" : true
-     };
-    var instantiatedObject = component.createObject(parentID, properties);
-    if(instantiatedObject === null)
-        printNullObjectErrorMessage();
-    return instantiatedObject;
-}
-
 function requestDeletePlayerPopUp()
 {
     let selectedIndex = playersListView.currentIndexes;
     let count = selectedIndex.length;
+    playersListView.unSelectAll();
     if(count > 0)
-    {
-        var obj = createConfirmPopUp('ConfirmPageContent.qml',
-                                                      applicationWindow);
-        obj.acceptClicked.connect(deletePlayersAccepted);
-    }
+        PopupBuilder.createConfirmPopUp(applicationWindow,deletePlayersAccepted);
 }
 function deletePlayersAccepted(){
     var indexes = playersListView.currentIndexes;
@@ -80,12 +38,9 @@ function requestDeleteTournamentPopUp()
 {
     let selectedIndexes = tournamentListView.currentIndexes;
     let count = selectedIndexes.length;
+    tournamentListView.unSelectAll();
     if(count > 0)
-    {
-        let obj = createConfirmPopUp('ConfirmPageContent.qml',
-                                     applicationWindow);
-        obj.acceptClicked.connect(deleteTournamentsAccepted);
-    }
+        PopupBuilder.createConfirmPopUp(applicationWindow,deleteTournamentsAccepted);
 }
 
 function deleteTournamentsAccepted()
@@ -102,9 +57,7 @@ function handleDeleteTournamentsSuccess(status)
         applicationInterface.requestTournaments();
     }
 }
-/*
-  Add player to listview
-  */
+
 function recievePlayers(data)
 {
     var j = JSON.parse(data);
@@ -117,9 +70,7 @@ function recievePlayers(data)
     }
     applicationInterface.requestTournaments();
 }
-/*
-  Update player listview
-  */
+
 function updatePlayerListView()
 {
     playersListView.clear();
@@ -144,17 +95,21 @@ function recieveTournaments(json)
         var winnerName = jsonTournament["winnerName"];
         var assignedPlayerDetails = jsonTournament["assignedPlayerDetails"];
         var assignedPlayersCount = assignedPlayerDetails.length;
-        tournamentListView.addItem(
-                    {
-                        "type" : "tournament",
-                        "gameMode" : translateGameModeFromHex(gameMode),
-                        "tournamentTitle" : title,
-                        "winner" : winnerName,
-                        "playersCount" : assignedPlayersCount
-                    });
+        var item = createTournamentItem(gameMode,title,winnerName,assignedPlayersCount);
+        tournamentListView.addItem(item);
     }
 }
 
+function createTournamentItem(gameMode, title,winner,playersCount)
+{
+    return {
+        "type" : "tournament",
+        "gameMode" : translateGameModeFromHex(gameMode),
+        "tournamentTitle" : title,
+        "winner" : winner,
+        "playersCount" : playersCount
+    };
+}
 
 function translateGameModeFromHex(gameMode)
 {

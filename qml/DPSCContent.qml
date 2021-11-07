@@ -14,12 +14,12 @@ Content {
             Layout.minimumHeight: 48
             Layout.maximumHeight: 48
             Layout.alignment: Qt.AlignHCenter
-            onStartButtonClicked: applicationInterface.requestStartGame()
-            onResumeButtonClicked: applicationInterface.requestStartGame()
-            onPauseButtonClicked: applicationInterface.requestStopGame()
-            onRestartButtonClicked: DPSCScriptss.resetTournament()
-            onLeftButtonClicked: applicationInterface.requestUndo()
-            onRightButtonClicked: applicationInterface.requestRedo()
+            onStart: applicationInterface.requestStartGame()
+            onResume: applicationInterface.requestStartGame()
+            onPause: applicationInterface.requestStopGame()
+            onRestart: DPSCScriptss.resetTournament()
+            onUndo: applicationInterface.dartsUndo()
+            onRedo: applicationInterface.dartsRedo()
         }
         DPSCBoard{
             id: dpscScoreBoard

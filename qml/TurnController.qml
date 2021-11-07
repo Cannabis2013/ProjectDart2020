@@ -10,57 +10,33 @@ TurnControllerInterface {
     onBackendIsStopped: state = "stoppedState"
     onBackendHasDeclaredAWinner: state = "restartState"
     onStartButtonEnablePressAndHoldChanged: startButtonComponent.pressAndHoldEnabled = startButtonEnablePressAndHold
-    onCurrentRoundIndexChanged: playerDisplay.text = createPlayerString()
-    onCurrentPlayerChanged: playerDisplay.text = createPlayerString()
-    onLeftButtonEnabledChanged: leftButton.enabled = leftButtonEnabled
-    onRightButtonEnabledChanged: rightButton.enabled = rightButtonEnabled
+    onCurrentRoundIndexChanged: navView.currentRoundIndex = currentRoundIndex
+    onCurrentPlayerChanged: navView.currentPlayerName = currentPlayer
+    onLeftButtonEnabledChanged: navView.enableUndo(leftButtonEnabled)
+    onRightButtonEnabledChanged: navView.enableRedo(rightButtonEnabled)
     GridLayout{
         flow: GridLayout.LeftToRight
         anchors.fill: parent
-        StartButtonComponent {
+        StartButtonsView {
             id: startButtonComponent
             Layout.fillHeight: true
             Layout.minimumWidth: 64
             Layout.maximumWidth: 64
-            onResumeButtonClicked: turnControllerBody.resumeButtonClicked()
-            onPauseButtonClicked: turnControllerBody.pauseButtonClicked();
-            onStartButtonClicked: turnControllerBody.startButtonClicked()
-            onRestartButtonClicked: turnControllerBody.restartButtonClicked()
-            onPressAndHoldClicked: turnControllerBody.state = "optionsState";
+            onResumeButtonClicked: turnControllerBody.resume()
+            onPauseButtonClicked: turnControllerBody.pause();
+            onStartButtonClicked: turnControllerBody.start()
+            onRestartButtonClicked: turnControllerBody.restart()
         }
-        PushButton{
-            id: leftButton
-            width: 48
-            height: 48
-            image: "qrc:/pictures/Ressources/arrow.png"
-            backgroundColor: ThemeContext.navButtonsBackgroundColor
-            onClicked: leftButtonClicked()
-            onPressAndHoldClicked: leftButtonPressAndHoldClicked()
-            imageRotation: 180
-            imageMargins: 20
-            buttonRadius: 45
-            hoverEnabled: false
-            Layout.alignment: Qt.AlignVCenter
-            enabled: false;
-        }
-        ControllerPlayerDisplay {
-            id: playerDisplay
-            Layout.fillHeight: true
+        ControllerNavView{
+            id: navView
             Layout.fillWidth: true
-            text: "Player (round)"
-        }
-        PushButton{
-            id: rightButton
-            width: 48
-            height: 48
-            image: "qrc:/pictures/Ressources/arrow.png"
-            backgroundColor: ThemeContext.navButtonsBackgroundColor
-            imageMargins: 20
-            buttonRadius: 45
-            hoverEnabled: false
-            onClicked: rightButtonClicked()
+            Layout.minimumHeight: 40
+            Layout.maximumHeight: 40
             Layout.alignment: Qt.AlignVCenter
-            enabled: false
+            Layout.leftMargin: 12
+            Layout.rightMargin: 12
+            onUndoClicked: undo()
+            onRedoClicked: redo()
         }
     }
     states: [
@@ -72,7 +48,7 @@ TurnControllerInterface {
                 startButtonEnabled: false
             }
             StateChangeScript{
-                script: playerDisplay.text = "Player (round)"
+                script: navView.reset()
             }
         },
         State {
@@ -82,14 +58,11 @@ TurnControllerInterface {
                 startButtonVisible: true
                 startButtonEnabled: true
             }
-            PropertyChanges {
-                target: leftButton
-                enabled: false
-
-            }
-            PropertyChanges {
-                target: rightButton
-                enabled: false
+            StateChangeScript{
+                script: {
+                    navView.enableUndo(false);
+                    navView.enableRedo(false);
+                }
             }
         },
         State {
@@ -99,13 +72,11 @@ TurnControllerInterface {
                 startButtonVisible : false
                 pauseButtonVisible: true
             }
-            PropertyChanges {
-                target: leftButton
-                enabled: turnControllerBody.leftButtonEnabled
-            }
-            PropertyChanges {
-                target: rightButton
-                enabled: turnControllerBody.rightButtonEnabled
+            StateChangeScript{
+                script: {
+                    navView.enableUndo(turnControllerBody.leftButtonEnabled);
+                    navView.enableRedo(turnControllerBody.rightButtonEnabled);
+                }
             }
         },
         State {
@@ -114,13 +85,11 @@ TurnControllerInterface {
                 target: startButtonComponent
                 waitButtonVisible: true
             }
-            PropertyChanges {
-                target: leftButton
-                enabled: false
-            }
-            PropertyChanges {
-                target: rightButton
-                enabled: false
+            StateChangeScript{
+                script: {
+                    navView.enableUndo(false);
+                    navView.enableRedo(false);
+                }
             }
         },
         State {
@@ -131,32 +100,11 @@ TurnControllerInterface {
                 pauseButtonVisible : false
                 startButtonVisible : false
             }
-            PropertyChanges {
-                target: leftButton
-                enabled: false
-            }
-            PropertyChanges {
-                target: rightButton
-                enabled: false
-            }
-        },
-        State {
-            name: "optionsState"
-            PropertyChanges {
-                target: startButtonComponent
-                restartButtonVisible: true
-                startButtonVisible: startButtonVisible
-                pauseButtonVisible: pauseButtonVisible
-                resumeButtonVisible: resumeButtonVisible
-                startButtonEnabled: true
-            }
-            PropertyChanges {
-                target: leftButton
-                enabled: leftButton.enabled
-            }
-            PropertyChanges {
-                target: rightButton
-                enabled: rightButton.enabled
+            StateChangeScript{
+                script: {
+                    navView.enableUndo(false);
+                    navView.enableRedo(false);
+                }
             }
         },
         State {
@@ -165,21 +113,11 @@ TurnControllerInterface {
                 target: startButtonComponent
                 restartButtonVisible: true
             }
-            PropertyChanges {
-                target: currentRoundLabel
-                text: playerDisplay.currentRoundIndex
-            }
-            PropertyChanges {
-                target: currentPlayerLabel
-                text: playerDisplay.currentPlayer
-            }
-            PropertyChanges {
-                target: leftButton
-                enabled: false
-            }
-            PropertyChanges {
-                target: rightButton
-                enabled: false
+            StateChangeScript{
+                script: {
+                    navView.enableUndo(false);
+                    navView.enableRedo(false);
+                }
             }
         }
     ]

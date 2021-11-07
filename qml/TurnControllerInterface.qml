@@ -1,14 +1,14 @@
 import QtQuick 2.0
-Item {
-    clip: true
-    signal startButtonClicked
-    signal pauseButtonClicked
-    signal resumeButtonClicked
-    signal restartButtonClicked
-    signal leftButtonClicked
-    signal rightButtonClicked
-    signal leftButtonPressAndHoldClicked
-    signal rightButtonPressAndHoldClicked
+import QtGraphicalEffects 1.13
+Rectangle {
+    id: turnControllerInterface
+    color: "transparent"
+    signal start
+    signal pause
+    signal resume
+    signal restart
+    signal undo
+    signal redo
     property bool startButtonEnablePressAndHold : true
     property string currentRoundIndex: ""
     property string currentPlayer: ""
@@ -20,13 +20,15 @@ Item {
     signal backendProcessesInput
     signal backendIsStopped
     signal backendHasDeclaredAWinner
-    function createPlayerString()
-    {
-        var player = currentPlayer;
-        var round = currentRoundIndex;
-        var string = `${player} (${round})`;
-        if(string !== "")
-            return string;
-        return "Player (round)";
+    layer.enabled: true
+    layer.effect: OpacityMask{
+        maskSource: Item {
+            width: turnControllerInterface.width
+            height: turnControllerInterface.height
+            Rectangle{
+                anchors.fill: parent
+                radius: 10
+            }
+        }
     }
 }

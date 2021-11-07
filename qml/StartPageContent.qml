@@ -72,27 +72,20 @@ Content
             Layout.alignment: Qt.AlignHCenter
             text: "Select tournament \n and play"
             onClicked: setupGameClicked()
-            backgroundColor: ThemeContext.startPageButtonColor
-            hoveredColor: ThemeContext.startPageButtonColor
         }
         StartMenuButton {
             Layout.alignment: Qt.AlignHCenter
             text: "Manage tournaments \n and players"
             onClicked: manageContentClicked()
-            backgroundColor: ThemeContext.startPageButtonColor
-            hoveredColor: ThemeContext.startPageButtonColor
         }
         StartMenuButton
         {
             Layout.alignment: Qt.AlignHCenter
             text: "Quit"
             onClicked: quitButtonClicked()
-            backgroundColor: ThemeContext.startPageButtonColor
-            hoveredColor: ThemeContext.startPageButtonColor
         }
         Rectangle
         {
-
             id: emptyRect
             Layout.fillHeight: true
             border.width: 1

@@ -18,12 +18,12 @@ Content {
             Layout.maximumHeight: 48
             Layout.bottomMargin: 12
             Layout.alignment: Qt.AlignHCenter
-            onStartButtonClicked: applicationInterface.requestStartGame()
-            onResumeButtonClicked: applicationInterface.requestStartGame()
-            onPauseButtonClicked: applicationInterface.requestStopGame()
-            onRestartButtonClicked: DartsScoresScripts.resetTournament()
-            onLeftButtonClicked: DartsScoresScripts.undoClicked()
-            onRightButtonClicked: DartsScoresScripts.redoClicked()
+            onStart: applicationInterface.requestStartGame()
+            onResume: applicationInterface.requestStartGame()
+            onPause: applicationInterface.requestStopGame()
+            onRestart: DartsScoresScripts.resetTournament()
+            onUndo: DartsScoresScripts.undoClicked()
+            onRedo: DartsScoresScripts.redoClicked()
             z: 100
         }
         DSSCBoard{

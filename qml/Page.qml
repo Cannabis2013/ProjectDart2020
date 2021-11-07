@@ -5,17 +5,13 @@ import "pageScripts.js" as PageScripts
 PageInterface {
     id: pageBody
     color: ThemeContext.pageColor
-    onRequestDisableBackButton: backButtonDisabled = disable
+    onDisableBackButton: backButtonDisabled = disable
     onBackButtonVisibleChanged: pageTopBar.showBackButton = backButtonVisible
     onBackButtonDisabledChanged: pageTopBar.enableBackButton = !backButtonDisabled
     onPageContentChanged: PageScripts.setupContent(pageContent)
     onChangePageTitle: pageTopBar.pageTitle = proposedTitle
-    onWidthChanged: {
-        contentFlickable.contentWidth = contentFlickable.width;
-    }
-    onHeightChanged: {
-        contentFlickable.contentHeight = contentFlickable.height;
-    }
+    onWidthChanged: contentFlickable.contentWidth = contentFlickable.width
+    onHeightChanged: contentFlickable.contentHeight = contentFlickable.height
     function handleSetPageIcon(url)
     {
         pageIconUrl = url;

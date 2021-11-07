@@ -1,6 +1,5 @@
 import QtQuick 2.4
 import QtQuick.Layouts 1.3
-
 Rectangle {
     color: "transparent"
     clip: true
@@ -13,7 +12,7 @@ Rectangle {
     signal notifyHeightChange(double h)
     signal requestChangePageTitle(string title)
     signal requestSetPageIcon(url url)
-    signal requestDisableBackButton(bool disable)
+    signal disableBackButton(bool disable)
     property string preferedPageTitle: "Page"
     property bool isPopUp: false
     onIsPopUpChanged: applicationInterface.transmitResponse.disconnect(replyFromBackendRecieved);

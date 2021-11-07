@@ -18,7 +18,7 @@ Rectangle{
             Layout.fillHeight: true
             color: "white"
             text: currentPlayer
-            font.pointSize: 20
+            font.pointSize: 16
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
         }

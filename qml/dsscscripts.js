@@ -158,13 +158,13 @@ function winnerFound(data)
 function undoClicked()
 {
     dsscContent.state = "waitingForInputConfirmation";
-    applicationInterface.requestUndo();
+    applicationInterface.dartsUndo();
 }
 
 function redoClicked()
 {
     dsscContent.state = "waitingForInputConfirmation";
-    applicationInterface.requestRedo();
+    applicationInterface.dartsRedo();
 }
 
 function setWinnerText()

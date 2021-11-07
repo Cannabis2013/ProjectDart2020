@@ -170,14 +170,14 @@ function updateTurnValues(data)
 function undoClicked()
 {
     dpscContent.state = "waitingForInputConfirmation";
-    requestUndo();
-    applicationInterface.requestUndo();
+    dartsUndo();
+    applicationInterface.dartsUndo();
 }
 
 function redoClicked()
 {
     dpscContent.state = "waitingForInputConfirmation";
-    applicationInterface.requestRedo();
+    applicationInterface.dartsRedo();
 }
 
 function pauseClicked()

@@ -35,7 +35,6 @@ MyRectangle {
         ref.Layout.minimumWidth = width;
         ref.Layout.maximumWidth = width;
     }
-
     GridLayout{
         id: layout
         anchors.fill: parent

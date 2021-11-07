@@ -1,8 +1,9 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.5
+import "jsPopUpBuilder.js" as PopupBuilder
 StartButtonsInterface {
-    id: startButtonComponentBody
+    id: startButtons
     onDescriptionFontSizeChanged: textDescription.fontSize = descriptionFontSize
     onStartButtonVisibleChanged: startButton.visible = startButtonVisible
     onLeftButtonVisibleChanged: leftButton.visible = leftButtonVisible
@@ -20,95 +21,88 @@ StartButtonsInterface {
     GridLayout{
         anchors.fill: parent
         flow: GridLayout.TopToBottom
+        rowSpacing: 0
+        columnSpacing: 0
         QtObject{
-            id: buttonMetrics
-            property int defaultHeight: 20
+            id: defaultButtonGeometries
+            property double defaultHeight: 24
             property int defaultWidth: 64
-            property int defaultFontSize: 10
+            property int defaultFontSize: 12
+            property int defaultRadius: 0
         }
         PushButton{
             id: startButton
             text: "Start"
-            height: buttonMetrics.defaultHeight
-            width: buttonMetrics.defaultWidth
+            pressedScale: 1
+            height: defaultButtonGeometries.defaultHeight
+            width: defaultButtonGeometries.defaultWidth
             textColor: ThemeContext.navStartButtonTextColor
             backgroundColor: ThemeContext.navStartButtonBackgroundColor
             hoveredColor: ThemeContext.navStartButtonHoveredBackgroundColor
-            buttonRadius: 6
-            fontSize: buttonMetrics.defaultFontSize
-            onClicked: startButtonComponentBody.startButtonClicked()
-            onPressAndHoldClicked: startButtonComponentBody.pressAndHoldClicked()
-            enablePressAndHold: startButtonComponentBody.pressAndHoldEnabled
-            visible: startButtonComponentBody.startButtonVisible
+            buttonRadius: defaultButtonGeometries.defaultRadius
+            fontSize: defaultButtonGeometries.defaultFontSize
+            onClicked: startButtons.startButtonClicked()
+            visible: startButtons.startButtonVisible
             enabled: startButtonComponent.startButtonEnabled
         }
         PushButton{
             id: pauseButton
             text: "Pause"
-            width: buttonMetrics.defaultWidth
-            height: buttonMetrics.defaultHeight
+            pressedScale: 1
+            width: defaultButtonGeometries.defaultWidth
+            height: defaultButtonGeometries.defaultHeight
             textColor: ThemeContext.navStartButtonTextColor
             backgroundColor: ThemeContext.navStartButtonBackgroundColor
             hoveredColor: ThemeContext.navStartButtonHoveredBackgroundColor
-            buttonRadius: 6
-            fontSize: buttonMetrics.defaultFontSize
-            onClicked: startButtonComponentBody.pauseButtonClicked()
-            onPressAndHoldClicked: startButtonComponentBody.pressAndHoldClicked()
-            visible: startButtonComponentBody.pauseButtonVisible
-            enablePressAndHold: startButtonComponentBody.pressAndHoldEnabled
+            buttonRadius: defaultButtonGeometries.defaultRadius
+            fontSize: defaultButtonGeometries.defaultFontSize
+            onClicked: startButtons.pauseButtonClicked()
+            visible: startButtons.pauseButtonVisible
+            enablePressAndHold: startButtons.pressAndHoldEnabled
         }
         PushButton{
             id: resumeButton
-            width: buttonMetrics.defaultWidth
-            height: buttonMetrics.defaultHeight
             text: "Resume"
+            pressedScale: 1
+            width: defaultButtonGeometries.defaultWidth
+            height: defaultButtonGeometries.defaultHeight
             textColor: ThemeContext.navStartButtonTextColor
             backgroundColor: ThemeContext.navStartButtonBackgroundColor
             hoveredColor: ThemeContext.navStartButtonHoveredBackgroundColor
-            buttonRadius: 6
-            fontSize: buttonMetrics.defaultFontSize
-            onClicked: startButtonComponentBody.resumeButtonClicked()
-            enablePressAndHold: startButtonComponentBody.pressAndHoldEnabled
-            onPressAndHoldClicked: startButtonComponentBody.pressAndHoldClicked()
-            visible: startButtonComponentBody.resumeButtonVisible
+            buttonRadius: defaultButtonGeometries.defaultRadius
+            fontSize: defaultButtonGeometries.defaultFontSize
+            onClicked: startButtons.resumeButtonClicked()
+            visible: startButtons.resumeButtonVisible
         }
         PushButton{
             id: waitButton
             text: "Wait"
+            pressedScale: 1
             textColor: ThemeContext.navStartButtonTextColor
             backgroundColor: ThemeContext.navStartButtonBackgroundColor
             hoveredColor: ThemeContext.navStartButtonHoveredBackgroundColor
-            buttonRadius: 6
-            fontSize: buttonMetrics.defaultFontSize
-            width: buttonMetrics.defaultWidth
-            height: buttonMetrics.defaultHeight
-            enablePressAndHold: false
+            buttonRadius: defaultButtonGeometries.defaultRadius
+            fontSize: defaultButtonGeometries.defaultFontSize
+            width: defaultButtonGeometries.defaultWidth
+            height: defaultButtonGeometries.defaultHeight
             enabled: false
-            visible: startButtonComponentBody.waitButtonVisible
+            visible: startButtons.waitButtonVisible
         }
         PushButton{
             id: restartButton
             text: "Restart"
+            pressedScale: 1
             textColor: ThemeContext.navStartButtonTextColor
             backgroundColor: ThemeContext.navQuitButtonBackgroundColor
-            hoveredColor: ThemeContext.navQuitButtonHoveredBackgroundColor
-            buttonRadius: 6
-            fontSize: buttonMetrics.defaultFontSize
-            width: buttonMetrics.defaultWidth
-            height: buttonMetrics.defaultHeight
-            visible: startButtonComponentBody.restartButtonVisible
-            onClicked: restartButtonClicked()
-            onVisibleChanged: restartButtonAnimation.restart()
-            PropertyAnimation on height {
-                id: restartButtonAnimation
-                from: 0
-                to: buttonMetrics.defaultHeight
-                duration: 125
-            }
+            hoveredColor: ThemeContext.navRestartButtHovColor
+            buttonRadius: defaultButtonGeometries.defaultRadius
+            fontSize: defaultButtonGeometries.defaultFontSize
+            width: defaultButtonGeometries.defaultWidth
+            height: defaultButtonGeometries.defaultHeight
+            onClicked: PopupBuilder.createConfirmPopUp(applicationWindow,restartButtonClicked);
         }
         Rectangle{
             Layout.fillHeight: true
         }
     }
-
 }

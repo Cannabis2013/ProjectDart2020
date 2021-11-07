@@ -78,13 +78,13 @@ void ConnectDartsController::connectController(AbstractGameController *controlle
     QObject::connect(application,&AbstractApplicationInterface::requestControllerState,
                      dartscontroller,&AbstractGameController::requestStatus);
     // Undo/redo
-    QObject::connect(application,&AbstractApplicationInterface::requestUndo,
+    QObject::connect(application,&AbstractApplicationInterface::dartsUndo,
                      dartscontroller,&AbstractDartsController::undoTurn);
     QObject::connect(dartscontroller,&AbstractDartsController::hideInput,
                      modelsContext,&AbstractDartsModelsContext::hideInput);
     QObject::connect(modelsContext,&AbstractDartsModelsContext::hideInputSuccess,
                      dartscontroller,&AbstractDartsController::createScoreJson);
-    QObject::connect(application,&AbstractApplicationInterface::requestRedo,
+    QObject::connect(application,&AbstractApplicationInterface::dartsRedo,
                      dartscontroller,&AbstractDartsController::redoTurn);
     QObject::connect(dartscontroller,&AbstractDartsController::revealInput,
                      modelsContext,&AbstractDartsModelsContext::revealInput);

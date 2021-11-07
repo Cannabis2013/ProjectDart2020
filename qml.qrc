@@ -24,7 +24,7 @@
         <file>qml/tournamentPageScripts.js</file>
         <file>qml/ButtonsComponent.qml</file>
         <file>qml/ComboBoxComponent.qml</file>
-        <file>qml/ConfirmPageContent.qml</file>
+        <file>qml/ConfirmActionPopUp.qml</file>
         <file>qml/Content.qml</file>
         <file>qml/CreatePlayerContent.qml</file>
         <file>qml/CreateTournamentContent.qml</file>
@@ -80,7 +80,7 @@
         <file>qml/DSSCKeyPad.qml</file>
         <file>qml/DSSCKeyPadInterface.qml</file>
         <file>qml/SpinBoxInputContent.qml</file>
-        <file>qml/StartButtonComponent.qml</file>
+        <file>qml/StartButtonsView.qml</file>
         <file>qml/StartMenuButton.qml</file>
         <file>qml/StartPageContent.qml</file>
         <file>qml/TextInputBox.qml</file>
@@ -107,6 +107,10 @@
         <file>qml/PageInterface.qml</file>
         <file>qml/StartButtonsInterface.qml</file>
         <file>qml/TurnControllerInterface.qml</file>
+        <file>qml/ControllerNavView.qml</file>
+        <file>qml/jsPopUpBuilder.js</file>
+        <file>qml/ConfirmActionBack.qml</file>
+        <file>qml/ConfirmActionButtons.qml</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/dartpic.jpg</file>
@@ -120,5 +124,7 @@
         <file>Ressources/skull.png</file>
         <file>Ressources/tuborgclassic.png</file>
         <file>Ressources/users.png</file>
+        <file>Ressources/fck_jersey_logo.png</file>
+        <file>Ressources/s12_1.jpg</file>
     </qresource>
 </RCC>

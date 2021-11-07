@@ -33,8 +33,8 @@ signals:
     void requestDartsScores();
     void setCurrentActiveTournament(const int &index);
     void requestTournamentReset();
-    void requestUndo();
-    void requestRedo();
+    void dartsUndo();
+    void dartsRedo();
     void requestCurrentTournamentId();
     void removeScore(const QString &player);
     void sendDartsTournamentData(const QByteArray& json);
