@@ -15,7 +15,6 @@ DSController::DSController(const DCBMeta &meta)
     // Meta services
     setStatusCodes(new DCStatusCodes);
     setMetaInfo(new DCMetaInfo(meta.tournamentId,meta.keyPoint,meta.inputHint));
-    setSetMetaJsonValues(new DCMetaJsonBuilder);
     setMetaBuilder(new DCMetaModelBuilder);
     // Json services
     setJsonResponseBuilder(createJsonBuilder());

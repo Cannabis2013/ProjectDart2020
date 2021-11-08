@@ -9,10 +9,10 @@
 class IDCInputBuilder
 {
 public:
-    virtual DCInput buildInput(const QByteArray &json, const int &initialScore = -1) const = 0;
-    virtual DCInput buildInput(const QByteArray &json, const IDCPlayerController *playerController,
+    virtual DCInput create(const QByteArray &json, const int &initialScore = -1) const = 0;
+    virtual DCInput create(const QByteArray &json, const IDCPlayerController *playerController,
                                const IDCCalcScore *calcScoreContext,const DCIndex &index, IDCScoreModels *scoreModels) const = 0;
-    virtual DCInput buildInput(const DCScoreModel &scoreModel) const = 0;
+    virtual DCInput create(const DCScoreModel &scoreModel) const = 0;
     virtual QVector<DCInput> buildInputs(IDCScoreModels *scoresService) const = 0;
     virtual QVector<DCInput> buildInputs(const QByteArray &json) const = 0;
 };

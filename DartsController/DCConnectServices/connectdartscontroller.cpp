@@ -12,10 +12,10 @@ void ConnectDartsController::connectController(AbstractGameController *controlle
     QObject::connect(dartscontroller,&AbstractDartsController::sendCurrentTournamentId,
             modelsContext,&AbstractDartsModelsContext::createDartsMetaData);
     // Controller request index, input, player and winner values
-    QObject::connect(dartscontroller,&AbstractDartsController::sendDartsValues,
+    QObject::connect(dartscontroller,&AbstractDartsController::sendInitValues,
             modelsContext,&AbstractDartsModelsContext::createDartsValuesJson);
     QObject::connect(modelsContext,&AbstractDartsModelsContext::dartsValues,
-            dartscontroller,&AbstractDartsController::initializeDartsValues);
+            dartscontroller,&AbstractDartsController::init);
     // Request ordered inputs
     QObject::connect(dartscontroller,&AbstractDartsController::requestOrderedInputs,
                      modelsContext,&AbstractDartsModelsContext::getOrderedInputs);
@@ -31,7 +31,7 @@ void ConnectDartsController::connectController(AbstractGameController *controlle
             application,&AbstractApplicationInterface::sendDartsScores);
     // Wake up controller
     QObject::connect(application,&AbstractApplicationInterface::requestWakeUp,
-            dartscontroller,&AbstractGameController::beginInitialize);
+            dartscontroller,&AbstractGameController::startInit);
     // Controller needs to notify external context about its state
     QObject::connect(dartscontroller,&AbstractDartsController::controllerIsStopped,
             application,&AbstractApplicationInterface::controllerStopped);

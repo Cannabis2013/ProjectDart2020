@@ -16,7 +16,6 @@ void DPController::setMetaServices()
 {
     setStatusCodes(new DCStatusCodes);
     setMetaInfo(new DCMetaInfo(_metaInfo.tournamentId,_metaInfo.keyPoint,_metaInfo.inputHint));
-    setSetMetaJsonValues(new DCMetaJsonBuilder);
     setMetaBuilder(new DCMetaModelBuilder);
 }
 void DPController::setScoresServices()

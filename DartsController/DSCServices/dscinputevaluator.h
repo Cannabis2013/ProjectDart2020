@@ -10,7 +10,7 @@ public:
     {
         return new DSCInputEvaluator();
     }
-    virtual void evaluateInput(DCInput input, IDCMetaInfo *metaInfo, AbstractDartsController *controller,
+    virtual void evaluate(DCInput input, IDCMetaInfo *metaInfo, AbstractDartsController *controller,
                                const IDartsStatusCodes *statusCodes, IDCPlayerController *) override
     {
         if(input.remainingScoreCand >= minimumAllowedScore)

@@ -22,8 +22,8 @@ class DartsController : public AbstractDartsController,
 {
     Q_OBJECT
 public slots:
-    void beginInitialize() override;
-    void initializeDartsValues(const QByteArray &indexJson, const QByteArray &inputsJson,
+    void startInit() override;
+    void init(const QByteArray &indexJson, const QByteArray &inputsJson,
                                const QByteArray &playersJson, const QByteArray &winnerJson) override;
     void requestStatus() override;
     void createIndexJson() override;

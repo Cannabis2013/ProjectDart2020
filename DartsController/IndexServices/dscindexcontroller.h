@@ -4,7 +4,7 @@
 class DSCIndexController : public IDCIndexController
 {
 public:
-    virtual void initialize(const DCIndex &index) override
+    virtual void init(const DCIndex &index) override
     {
         _index = index;
     }

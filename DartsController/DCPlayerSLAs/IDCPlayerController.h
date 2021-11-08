@@ -11,9 +11,9 @@ public:
         QUuid playerId;
         bool in = false;
     };
-    virtual void setPlayers(const QVector<DCPlayer> &playerIds) = 0;
+    virtual void set(const QVector<DCPlayer> &playerIds) = 0;
     virtual bool status(const QUuid &playerId) const = 0;
-    virtual bool updatePlayerStatus(const QUuid &playerId, const bool &status) = 0;
+    virtual bool updateStatus(const QUuid &playerId, const bool &status) = 0;
     virtual int count() const = 0;
     virtual void reset() = 0;
 };

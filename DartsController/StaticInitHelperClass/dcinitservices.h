@@ -17,7 +17,7 @@ public:
         auto models = scoreBuilder->createScores(players,meta.initialRemainingScore);
         scoreModels->scores().append(models);
         playerStats->setPlayers(players);
-        playerController->setPlayers(players);
+        playerController->set(players);
     }
     static void init(const QVector<DCInput> &inputs,const IDCUpdatePlayerScores *updatePlayerScores,const IDCUpdatePlayerStat *updatePlayerStats,
                      IDCScoreModels *scoreModels, IDCPlayerStats *playerStats)

@@ -11,7 +11,7 @@ class AbstractDCInputEvaluator : public QObject
 {
     Q_OBJECT
 public:
-    virtual void evaluateInput(DCInput input, IDCMetaInfo *metaInfo ,AbstractDartsController *controller, const IDartsStatusCodes *statusCodes,
+    virtual void evaluate(DCInput input, IDCMetaInfo *metaInfo ,AbstractDartsController *controller, const IDartsStatusCodes *statusCodes,
                                IDCPlayerController *allowancesContext = nullptr) = 0;
 };
 

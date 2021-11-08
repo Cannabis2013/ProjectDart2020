@@ -14,7 +14,7 @@ public:
     {
         return new DPCInputEvaluator;
     }
-    virtual void evaluateInput(DCInput input, IDCMetaInfo *metaInfo, AbstractDartsController *controller,
+    virtual void evaluate(DCInput input, IDCMetaInfo *metaInfo, AbstractDartsController *controller,
                                const IDartsStatusCodes *statusCodes, IDCPlayerController *playerController) override
     {
         if(!playerController->status(input.playerId))
@@ -22,7 +22,7 @@ public:
             if(input.modKeyCode == DoubleModifier)
             {
                 input.remainingScore = input.remainingScoreCand;
-                input.inGame = playerController->updatePlayerStatus(input.playerId,true);
+                input.inGame = playerController->updateStatus(input.playerId,true);
             }
             else
             {

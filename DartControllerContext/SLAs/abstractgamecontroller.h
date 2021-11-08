@@ -13,7 +13,7 @@ public slots:
     virtual void createIndexJson() = 0;
     virtual void sendTournamentId() = 0;
     virtual void reset() = 0;
-    virtual void beginInitialize() = 0;
+    virtual void startInit() = 0;
     virtual void requestStatus() = 0;
 signals:
     void ready();

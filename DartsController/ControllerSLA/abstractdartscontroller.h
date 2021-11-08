@@ -8,7 +8,7 @@ class AbstractDartsController : public AbstractGameController
 {
     Q_OBJECT
 public slots:
-    virtual void initializeDartsValues(const QByteArray &indexJson, const QByteArray &inputsJson,
+    virtual void init(const QByteArray &indexJson, const QByteArray &inputsJson,
                                        const QByteArray &playersJson, const QByteArray &winnerJson) = 0;
     virtual void createScores() = 0;
     virtual void createScoreJson(const QByteArray& json) = 0;
@@ -16,7 +16,7 @@ public slots:
     virtual void createTurnValuesJson() = 0;
 signals:
     void sendTurnValues(const QByteArray& json);
-    void sendDartsValues(const QUuid &tournament);
+    void sendInitValues(const QUuid &tournament);
     void initialized(const int &inputHint);
     void controllerAwaitsInput();
     void addInputToDbContext(const QByteArray& tournament);

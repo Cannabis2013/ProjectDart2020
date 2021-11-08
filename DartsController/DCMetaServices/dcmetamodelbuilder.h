@@ -4,7 +4,7 @@
 class DCMetaModelBuilder : public IDCMetaModelBuilder
 {
 public:
-    virtual DCMeta buildMeta(IDCMetaInfo *metaInfo, const DCIndex &index, IDCScoreModels *scoreModels) const override
+    virtual DCMeta create(IDCMetaInfo *metaInfo, const DCIndex &index, IDCScoreModels *scoreModels) const override
     {
         auto meta = metaInfo->get();
         meta.currentPlayerId = scoreModels->scores().at(index.setIndex).playerId;

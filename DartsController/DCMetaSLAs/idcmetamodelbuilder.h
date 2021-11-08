@@ -6,6 +6,6 @@
 class IDCMetaModelBuilder
 {
 public:
-    virtual DCMeta buildMeta(IDCMetaInfo *meta, const DCIndex &index, IDCScoreModels *scoreModels) const = 0;
+    virtual DCMeta create(IDCMetaInfo *meta, const DCIndex &index, IDCScoreModels *scoreModels) const = 0;
 };
 #endif // IDCBUILDMETAMODEL_H

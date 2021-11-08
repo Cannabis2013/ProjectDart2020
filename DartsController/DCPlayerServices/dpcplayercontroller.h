@@ -5,7 +5,7 @@
 class DPCPlayerController : public IDCPlayerController
 {
 public:
-    void setPlayers(const QVector<DCPlayer> &playerModels) override
+    void set(const QVector<DCPlayer> &playerModels) override
     {
         for (const auto &playerModel : playerModels) {
             PlayerObject obj;
@@ -17,7 +17,7 @@ public:
     {
         return getPlayerStructFromId(playerId).in;
     }
-    bool updatePlayerStatus(const QUuid &playerId, const bool &status) override
+    bool updateStatus(const QUuid &playerId, const bool &status) override
     {
         try {
             getPlayerStructFromId(playerId).in = status;

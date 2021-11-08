@@ -6,7 +6,7 @@
 class IDCIndexController
 {
 public:
-    virtual void initialize(const DCIndex &index = DCIndex()) = 0;
+    virtual void init(const DCIndex &index = DCIndex()) = 0;
     virtual DCIndex &index() = 0;
     virtual DCIndex &next(const int &playersCount) = 0;
     virtual DCIndex &undo(const int &playerCount) = 0;

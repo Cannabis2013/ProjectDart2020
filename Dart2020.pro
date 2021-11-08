@@ -106,9 +106,7 @@ HEADERS += \
     DartsController/DCJsonSLAs/idcmodeljsonbuilder.h \
     DartsController/DCInputServices/dcinputjsonbuilder.h \
     DartsController/DCJsonServices/dcjsonbuilder.h \
-    DartsController/DCMetaSLAs/idcmetajsonbuilder.h \
     DartsController/DCMetaServices/DCMetaInfoJsonBuilder.h \
-    DartsController/DCMetaServices/dcmetajsonbuilder.h \
     DartsController/DCMetaServices/dcmetamodelbuilder.h \
     DartsController/DCMetaServices/dcsettournamentid.h \
     DartsController/DCPlayerSLAs/idcplayerbuilder.h \

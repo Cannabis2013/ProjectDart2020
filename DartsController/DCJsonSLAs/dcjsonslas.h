@@ -4,7 +4,7 @@
 class DCJsonSLAs
 {
 public:
-    AbstractDCJsonBuilder *jsonBuilder() const
+    AbstractDCJsonBuilder *createJson() const
     {
         return _jsonResponseBuilder;
     }

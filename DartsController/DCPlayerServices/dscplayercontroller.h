@@ -5,9 +5,9 @@ class DSCPlayerController : public IDCPlayerController
 {
     // IDCPlayerController interface
 public:
-    virtual void setPlayers(const QVector<DCPlayer> &players) override {_players = players;}
+    virtual void set(const QVector<DCPlayer> &players) override {_players = players;}
     virtual bool status(const QUuid &) const override {return true;}
-    virtual bool updatePlayerStatus(const QUuid &, const bool &) override{return true;}
+    virtual bool updateStatus(const QUuid &, const bool &) override{return true;}
     virtual int count() const override {return _players.count();}
     virtual void reset() override{}
 private:

@@ -6,7 +6,7 @@
 class DCInputsSLAs
 {
 public:
-    AbstractDCInputEvaluator *inputEvaluator() const
+    AbstractDCInputEvaluator *evaluateInput() const
     {
         return _inputEvaluator;
     }
@@ -22,7 +22,7 @@ public:
     {
         _suggestFinishes = service;
     }
-    IDCInputBuilder *inputBuilder() const
+    IDCInputBuilder *createInput() const
     {
         return _inputModelBuilder;
     }
