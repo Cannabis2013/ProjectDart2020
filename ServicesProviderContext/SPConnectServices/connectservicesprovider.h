@@ -32,7 +32,7 @@ public:
     {
         return _connectPlayersContext;
     }
-    virtual IConnectController *connectDartsController() const override
+    virtual IConnectController *connectDC() const override
     {
         return _connectDartsController;
     }

@@ -8,7 +8,7 @@
 #include "DartApplication/RouteSLAs/irouteservicesprovider.h"
 #include "PlayerModelsContext/SLAs/iplayermodelscontext.h"
 
-class DartApplicationSLAs : public AbstractApplicationInterface
+class DartApplicationSLAs
 {
 public:
     AbstractDartsModelsContext *modelsService() const;

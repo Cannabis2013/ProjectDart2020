@@ -7,7 +7,6 @@ function initialize()
 function connect()
 {
     applicationInterface.sendTournaments.connect(recieveTournaments);
-    applicationInterface.dartsPointMultiColumnsInitialized.connect(dartsPointMultiColumnInitialized);
     applicationInterface.dartsScoreSingleColumnInitialized.connect(dartsScoreSingleColumnInitialized);
     applicationInterface.dartsPointSingleColumnInitialized.connect(dartsPointSingleColumnInitialized);
 }
@@ -15,7 +14,6 @@ function connect()
 function disconnect()
 {
     applicationInterface.sendTournaments.disconnect(recieveTournaments);
-    applicationInterface.dartsPointMultiColumnsInitialized.disconnect(dartsPointMultiColumnInitialized);
     applicationInterface.dartsScoreSingleColumnInitialized.disconnect(dartsScoreSingleColumnInitialized);
     applicationInterface.dartsPointSingleColumnInitialized.disconnect(dartsPointSingleColumnInitialized);
 }

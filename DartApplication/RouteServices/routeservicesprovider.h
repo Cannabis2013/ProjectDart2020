@@ -11,13 +11,13 @@ public:
     {
         return _routeTournamentByGameMode;
     }
-    RouteByInputHint *routeByDisplayHint() const override
+    RouteByInputHint *routeByInputHint() const override
     {
-        return _routeDartsControllerByDisplayHint;
+        return _routeByInputHint;
     }
 private:
     RouteByTournamentGameMode *_routeTournamentByGameMode = new RouteByTournamentGameMode;
-    RouteByInputHint *_routeDartsControllerByDisplayHint = new RouteByInputHint;
+    RouteByInputHint *_routeByInputHint = new RouteByInputHint;
 };
 
 #endif // ROUTESERVICESPROVIDER_H

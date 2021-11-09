@@ -7,7 +7,7 @@
 class ConnectDartsController : public IConnectController
 {
 public:
-    void connectController(AbstractGameController *controller,
+    void connect(AbstractGameController *controller,
                            AbstractApplicationInterface* application,
                            AbstractDartsModelsContext* modelsService,
                            AbstractRouteByHint* routeService) override;

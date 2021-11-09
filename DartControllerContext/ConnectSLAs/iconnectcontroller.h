@@ -9,7 +9,7 @@
 class IConnectController
 {
 public:
-    virtual void connectController(AbstractGameController* controller,
+    virtual void connect(AbstractGameController* controller,
                                    AbstractApplicationInterface* application,
                                    AbstractDartsModelsContext* modelsService,
                                    AbstractRouteByHint* routeService) = 0;

@@ -6,7 +6,7 @@
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 
-class createDCMetaInfo : public ICreateDCMetaInfo
+class CreateDCMetaInfo : public ICreateDCMetaInfo
 {
 public:
     virtual DCBMeta service(const QByteArray &input) const override
@@ -29,7 +29,7 @@ private:
     void initializeMetaInfo(DCBMeta &metaInfo, const QJsonObject &jsonObject) const
     {
         metaInfo.tournamentId = QUuid(jsonObject.value("tournamentId").toString());
-        metaInfo.keyPoint = jsonObject.value("keyPoint").toInt();
+        metaInfo.initialRemainingScore = jsonObject.value("keyPoint").toInt();
         metaInfo.inputHint = jsonObject.value("inputHint").toInt();
         metaInfo.winnerId = QUuid(jsonObject.value("winnerId").toString());
     }

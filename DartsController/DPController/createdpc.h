@@ -1,5 +1,5 @@
-#ifndef DPCONTROLLER_H
-#define DPCONTROLLER_H
+#ifndef CREATEDPC_H
+#define CREATEDPC_H
 #include "DartsController/DCIndexServices/dcinputindexbuilder.h"
 #include "DartsController/DCFinishesServices/dcinputfinishes.h"
 #include "DartsController/DCScoresServices/dcscoremodels.h"
@@ -30,22 +30,13 @@
 #include "DartsController/PlayerStatsServices/dcupdatescorerange.h"
 #include "DartsController/PlayerStatsServices/dpccalcmidval.h"
 #include "DartsController/IndexServices/dpcindexcontroller.h"
-#include <DartsController/DCIndexServices/dcreqindexjsonbuilder.h>
-class DPController : public DartsController
+#include "DartsController/DCIndexServices/dcreqindexjsonbuilder.h"
+#include "DartsControllerBuilder/SLAs/icreatedartscontroller.h"
+class CreateDPC : public ICreateDartsController
 {
 public:
-    DPController(const DCBMeta &meta);
+    virtual AbstractDartsController *create(const DCBMeta &meta) override;
 private:
-    void setMetaServices();
-    void setScoresServices();
-    void setJsonServices();
-    void setStatisticsServices();
-    void setFinishesServices();
-    void setPlayerServices();
-    void setInputServices();
-    void setIndexServices();
-    void setTurnValuesServices();
     AbstractDCJsonBuilder *createJsonBuilder();
-    const DCBMeta _metaInfo;
 };
 #endif // DEFAULTDARTSPOINTCONTROLLER_H

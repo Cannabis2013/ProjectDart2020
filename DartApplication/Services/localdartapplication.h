@@ -4,7 +4,7 @@
 #include "DartApplication/Services/dartapplication.h"
 #include "DartsModelsContext/Services/dartsjsonmodelscontext.h"
 #include "DartsControllerBuilder/DCBMetaServices/createDCMetaInfo.h"
-#include "DartsControllerBuilder/Services/dcbuilder.h"
+#include "DartsControllerBuilder/Services/createdartscontroller.h"
 #include "DartApplication/RouteServices/routeservicesprovider.h"
 #include "ServicesProviderContext/SPConnectServices/connectservicesprovider.h"
 #include "PlayerModelsContext/localplayerscontext.h"
@@ -35,7 +35,7 @@ public:
     }
     LocalDartApplication *createDCBuilder()
     {
-        _dcBuilder = new DCBuilder();
+        _dcBuilder = new CreateDartsController(new CreateDPC,new CreateDSC, new CreateDCMetaInfo);
         return this;
     }
 };

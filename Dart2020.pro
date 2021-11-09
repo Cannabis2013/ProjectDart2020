@@ -15,9 +15,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     DartsController/DCJsonServices/dcjsonbuilder.cpp \
-    DartsController/DPController/dpcontroller.cpp \
-    DartsController/DartsScoreController/dscontroller.cpp \
-    DartsControllerBuilder/Services/dcbuilder.cpp \
+    DartsController/DPController/createdpc.cpp \
+    DartsController/DartsScoreController/createdsc.cpp \
     DartsModelsContext/InputServices/dartsinputbuilder.cpp \
     DartsModelsContext/TournamentServices/dartwinnermodelbuilder.cpp \
     DartsModelsContext/TournamentsDbServices/dartsdbcontext.cpp \
@@ -26,7 +25,6 @@ SOURCES += \
     DartsModelsContext/DMCConnectServices/connectdartsmodelscontext.cpp \
     PlayerModelsContext/DbServices/playersdbcontext.cpp \
     PlayerModelsContext/Services/createplayersfromjson.cpp \
-    DartApplication/Services/dartapplication.cpp \
     DartsController/Controller/dartscontroller.cpp \
     DartApplication/SLAs/dartapplicationslas.cpp \
     DartsController/DCFinishesServices/dartscreatefinishes.cpp \
@@ -91,6 +89,8 @@ HEADERS += \
     DartsController/DCScoresSLAs/idcupdateplayerscores.h \
     DartsController/DCScoresServices/dcscoremodels.h \
     DartsController/DPCServices/DPCTurnValuesBuilder.h \
+    DartsController/DPController/createdpc.h \
+    DartsController/DartsScoreController/createdsc.h \
     DartsController/IndexServices/dpcindexcontroller.h \
     DartsController/IndexServices/dscindexcontroller.h \
     DartsController/StaticInitHelperClass/dcinitservices.h \
@@ -124,7 +124,8 @@ HEADERS += \
     DartsController/PlayerStatsServices/dpccalcmidval.h \
     DartsController/PlayerStatsServices/dsccalcmidval.h \
     DartsControllerBuilder/DCBMetaServices/dcbmeta.h \
-    DartsControllerBuilder/Services/dcbuilder.h \
+    DartsControllerBuilder/SLAs/icreatedartscontroller.h \
+    DartsControllerBuilder/Services/createdartscontroller.h \
     DartsModelsContext/InputSLAs/dartsinputslas.h \
     DartsModelsContext/InputServices/countdartsinputs.h \
     DartsModelsContext/InputServices/dartsinputbuilder.h \
@@ -240,8 +241,6 @@ HEADERS += \
     DartsController/DCPlayerServices/dcplayerbuilder.h \
     DartsController/DCScoresServices//dcscoremodel.h \
     DartsController/DCTurnValuesServices/dcturnvalues.h \
-    DartsController/DPController/dpcontroller.h \
-    DartsController/DartsScoreController/dscontroller.h \
     DartsController/DSCServices/dscvaluesbuilder.h \
     DartsTableContext/dartstableslas.h \
     DartsTableContext/dptablemodel.h \

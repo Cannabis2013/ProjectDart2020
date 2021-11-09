@@ -16,7 +16,7 @@ public:
     virtual IConnectRouteByInputHint *connectRouteByDisplayHint() const = 0;
     virtual IConnectDCBuilder *connectDCBuilder() const = 0;
     virtual IConnectDartsModelsContext *connectDartsModelsContext() const = 0;
-    virtual IConnectController *connectDartsController() const = 0;
+    virtual IConnectController *connectDC() const = 0;
     virtual IConnectPlayerModelsContext *connectPlayersContext() const = 0;
 };
 

@@ -1,5 +1,5 @@
-#ifndef DSCONTROLLER_H
-#define DSCONTROLLER_H
+#ifndef CREATEDSC_H
+#define CREATEDSC_H
 #include "DartsController/Controller/dartscontroller.h"
 #include "DartsController/DCScoresServices/dccreatescoremodels.h"
 #include "DartsController/DCIndexServices/dcinputindexbuilder.h"
@@ -34,10 +34,11 @@
 #include "DartsController/PlayerStatsServices/dcupdateplayerstat.h"
 #include "DartsController/IndexServices/dscindexcontroller.h"
 #include "DartsController/DCPlayerServices/dscplayercontroller.h"
-class DSController : public DartsController
+#include "DartsControllerBuilder/SLAs/icreatedartscontroller.h"
+class CreateDSC : public ICreateDartsController
 {
 public:
-    DSController(const DCBMeta &meta);
+    AbstractDartsController *create(const DCBMeta &meta) override;
 private:
     AbstractDCJsonBuilder *createJsonBuilder();
 };

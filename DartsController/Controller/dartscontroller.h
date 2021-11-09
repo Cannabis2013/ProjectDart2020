@@ -11,14 +11,14 @@
 #include "DartsController/PlayerStatsSLAs/dcinputstatsslas.h"
 #include "DartsController/StaticInitHelperClass/dcinitservices.h"
 class DartsController : public AbstractDartsController,
-                        protected DCMetaSLAs,
-                        protected DCTurnvaluesSLAs,
-                        protected DCJsonSLAs,
-                        protected DCScoreSLAs,
-                        protected DCPlayerSLAs,
-                        protected DCInputsSLAs,
-                        protected DCIndexSLAs,
-                        protected PlayerStatsSLAs
+                        public DCMetaSLAs,
+                        public DCTurnvaluesSLAs,
+                        public DCJsonSLAs,
+                        public DCScoreSLAs,
+                        public DCPlayerSLAs,
+                        public DCInputsSLAs,
+                        public DCIndexSLAs,
+                        public PlayerStatsSLAs
 {
     Q_OBJECT
 public slots:

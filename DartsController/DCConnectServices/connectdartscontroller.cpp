@@ -1,9 +1,9 @@
 #include "DartsController/DCConnectServices/connectdartscontroller.h"
 
-void ConnectDartsController::connectController(AbstractGameController *controller,
-                                               AbstractApplicationInterface *application,
-                                               AbstractDartsModelsContext *modelsContext,
-                                               AbstractRouteByHint *routeService)
+void ConnectDartsController::connect(AbstractGameController *controller,
+                                     AbstractApplicationInterface *application,
+                                     AbstractDartsModelsContext *modelsContext,
+                                     AbstractRouteByHint *routeService)
 {
     auto dartscontroller = dynamic_cast<AbstractDartsController*>(controller);
     // Send tournament metadata

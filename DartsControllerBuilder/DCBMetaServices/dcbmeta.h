@@ -5,7 +5,7 @@ struct DCBMeta
 {
     QUuid tournamentId;
     QUuid winnerId;
-    int keyPoint;
+    int initialRemainingScore;
     int inputHint;
 };
 

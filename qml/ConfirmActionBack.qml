@@ -2,7 +2,7 @@ import QtQuick 2.0
 Rectangle {
     color: "transparent"
     Image{
-        anchors.fill: parent
+        anchors.centerIn: parent
         source: "qrc:/pictures/Ressources/s12_1.jpg"
     }
     Image {
