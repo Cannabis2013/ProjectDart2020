@@ -1,12 +1,11 @@
 #ifndef IDBPERSISTENCE_H
 #define IDBPERSISTENCE_H
-
-template <typename TJsonBuilder, typename TModelBuilder>
+template <typename TJsonBuilder, typename TModelBuilder, typename TResponseFormat>
 class IDbPersistence
 {
 public:
-    virtual void fetchModels(const TModelBuilder *modelBuilder) = 0;
-    virtual void saveChanges(const TJsonBuilder *jsonBuilder) = 0;
+    virtual bool fetchModels(const TModelBuilder *modelBuilder) = 0;
+    virtual TResponseFormat saveChanges(const TJsonBuilder *jsonBuilder) = 0;
 };
 
 #endif // IDBPERSISTENCE_H

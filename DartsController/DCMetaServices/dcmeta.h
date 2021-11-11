@@ -3,7 +3,6 @@
 #include <quuid.h>
 struct DCMeta{
     QUuid tournamentId;
-    int inputHint;
     int initialRemainingScore;
     int status;
     QUuid currentPlayerId;

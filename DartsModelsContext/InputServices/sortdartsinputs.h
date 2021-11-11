@@ -4,7 +4,7 @@
 #include "DartsModelsContext/InputModelsSLAs/abstractdartsinput.h"
 #include "ModelsContext/DbSLAs/imodelsdbcontext.h"
 #include <quuid.h>
-#include "ModelsContext/MCPredicateSLAs/imodelpredicate.h"
+#include "ModelsContext/PredicateSLAs/imodelpredicate.h"
 class SortDartsInputs : public ISortInputModels
 {
 public:

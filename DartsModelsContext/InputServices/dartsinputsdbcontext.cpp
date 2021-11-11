@@ -1,5 +1,6 @@
 #include "DartsModelsContext/InputServices/dartsinputsdbcontext.h"
 
+#include "AsyncUtils/runnable.h"
 DartsInputsDbContext::DartsInputsDbContext(FileReaderInterface *fileReader, FileWriteInterface *fileWriter)
 {
     fileReader->setFileName(_fileName);
@@ -10,6 +11,7 @@ DartsInputsDbContext::DartsInputsDbContext(FileReaderInterface *fileReader, File
 
 DartsInputsDbContext *DartsInputsDbContext::add(IModel<QUuid> *model)
 {
+    QMutexLocker locker(&_mutex);
     _dartsScoreModels << model;
     return this;
 }
@@ -30,6 +32,7 @@ QVector<IModel<QUuid> *> DartsInputsDbContext::models() const
 
 DartsInputsDbContext *DartsInputsDbContext::remove(const int& index)
 {
+    QMutexLocker locker(&_mutex);
     _dartsScoreModels.remove(index);
     return this;
 }
@@ -46,16 +49,17 @@ DartsInputsDbContext *DartsInputsDbContext::replace(const int& index, IModel<QUu
     return this;
 }
 
-void DartsInputsDbContext::fetchModels(const IDartsInputBuilder *modelBuilder)
+bool DartsInputsDbContext::fetchModels(const IDartsInputBuilder *modelBuilder)
 {
-    try {
-        _dartsScoreModels << modelBuilder->createInputs(readJsonFromFile()->read());
-    }  catch (...) {
-        return;
-    }
+    auto future = readJson()->read();
+    Runnable::run([=]{
+        _dartsScoreModels << modelBuilder->createInputs(future.result());
+    },future);
+    return true;
 }
 
-void DartsInputsDbContext::saveChanges(const IDartsInputJsonBuilder *jsonBuilder)
+QFuture<bool> DartsInputsDbContext::saveChanges(const IDartsInputJsonBuilder *jsonBuilder)
 {
-    writeJsonToFile()->write(jsonBuilder->json(_dartsScoreModels));
+    QMutexLocker locker(&_mutex);
+    return saveJson()->save(jsonBuilder->json(_dartsScoreModels));
 }

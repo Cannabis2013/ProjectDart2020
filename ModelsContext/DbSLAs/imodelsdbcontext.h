@@ -2,7 +2,7 @@
 #define IMODELSDBCONTEXT_H
 #include <qvector.h>
 #include "ModelsContext/DbSLAs/idbcontext.h"
-#include "ModelsContext/MCModelsSLAs/imodel.h"
+#include "ModelsContext/ModelsSLAs/imodel.h"
 #include <quuid.h>
 class IModelsDbContext : public IDbContext<IModel<QUuid>>
 {

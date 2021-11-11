@@ -14,6 +14,6 @@ public:
                                const IDCCalcScore *calcScoreContext,const DCIndex &index, IDCScoreModels *scoreModels) const = 0;
     virtual DCInput create(const DCScoreModel &scoreModel) const = 0;
     virtual QVector<DCInput> buildInputs(IDCScoreModels *scoresService) const = 0;
-    virtual QVector<DCInput> buildInputs(const QByteArray &json) const = 0;
+    virtual QVector<DCInput> buildInputs(const QJsonArray &json) const = 0;
 };
 #endif // IDPCMODELCREATOR_H

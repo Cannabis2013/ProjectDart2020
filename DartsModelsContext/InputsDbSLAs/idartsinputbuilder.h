@@ -2,7 +2,7 @@
 #define IDARTSINPUTBUILDER_H
 
 #include <quuid.h>
-#include "ModelsContext/MCModelsSLAs/imodel.h"
+#include "ModelsContext/ModelsSLAs/imodel.h"
 
 class IDartsInputBuilder
 {

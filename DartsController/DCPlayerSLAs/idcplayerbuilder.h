@@ -9,8 +9,8 @@ class IDCPlayerBuilder
 {
 public:
     virtual DCPlayer createPlayer(const DCInput &input) const = 0;
-    virtual DCPlayer createWinner(const QByteArray &json) const = 0;
-    virtual QVector<DCPlayer> createPlayers(const QByteArray &json) const = 0;
+    virtual DCPlayer createWinner(const QJsonObject &obj) const = 0;
+    virtual QVector<DCPlayer> createPlayers(const QJsonArray &obj) const = 0;
 };
 
 #endif // IDARTSPLAYERBUILDERSERVICE_H

@@ -1,13 +1,16 @@
 #include "DartsModelsContext/TournamentsDbServices/dartsdbcontext.h"
-
-void DartsDbContext::fetchModels(const IDartsBuilder *modelBuilder)
+bool DartsDbContext::fetchModels(const IDartsBuilder *modelBuilder)
 {
-    _models = modelBuilder->createTournaments(readJsonFromFile()->read());
+    auto future = readJson()->read();
+    Runnable::run([=]{
+        _models = modelBuilder->createTournaments(future.result());
+    },future);
+    return true;
 }
 
-void DartsDbContext::saveChanges(const IDartsJsonBuilder *jsonBuilder)
+QFuture<bool> DartsDbContext::saveChanges(const IDartsJsonBuilder *jsonBuilder)
 {
-    writeJsonToFile()->write(jsonBuilder->tournamentsjson(_models));
+    return saveJson()->save(jsonBuilder->tournamentsjson(_models));
 }
 
 DartsDbContext::DartsDbContext(FileReaderInterface *fileReader, FileWriteInterface *fileWriter)

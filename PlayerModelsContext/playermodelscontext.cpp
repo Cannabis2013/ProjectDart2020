@@ -25,14 +25,11 @@ void PlayerModelsContext::handleRequestPlayersDetails()
     emit sendPlayers(json);
 }
 
-QFuture<IPlayerModelsContext::Models> PlayerModelsContext::playerModels(const QByteArray &json) const
+AbstractPlayersContext::Models PlayerModelsContext::playerModels(const QByteArray &json) const
 {
-    return QtConcurrent::run([=]()
-    {
-        auto indexes = getIndexesFromJson(json);
-        auto models = getPlayerModelsFromDb()->models(indexes,dbContext());
-        return models;
-    });
+    auto indexes = getIndexesFromJson(json);
+    auto models = getPlayerModelsFromDb()->models(indexes,dbContext());
+    return models;
 }
 
 QVector<int> PlayerModelsContext::getIndexesFromJson(const QByteArray &json) const

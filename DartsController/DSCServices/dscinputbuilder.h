@@ -41,10 +41,9 @@ public:
             scoreModels << toInput(scoreModel);
         return scoreModels;
     }
-    virtual QVector<DCInput> buildInputs(const QByteArray &json) const override
+    virtual QVector<DCInput> buildInputs(const QJsonArray &arr) const override
     {
         QVector<DCInput> models;
-        auto arr = toJsonArray(json);
         for (const auto &jsonVal : arr)
             models << toInput(jsonVal.toObject());
         return models;

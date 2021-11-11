@@ -1,7 +1,7 @@
 #ifndef IPLAYERCONTEXTMODELBUILDER_H
 #define IPLAYERCONTEXTMODELBUILDER_H
 
-#include "ModelsContext/MCModelsSLAs/imodel.h"
+#include "ModelsContext/ModelsSLAs/imodel.h"
 #include <QByteArray>
 #include <quuid.h>
 

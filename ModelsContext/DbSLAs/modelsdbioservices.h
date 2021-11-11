@@ -9,7 +9,7 @@ class ModelsDbIOSLAs
 public:
     typedef  IFileReader<QByteArray> FileReaderInterface;
     typedef IFileWriter<QByteArray> FileWriteInterface;
-    IFileWriter<QByteArray> *writeJsonToFile() const
+    IFileWriter<QByteArray> *saveJson() const
     {
         return _writeJsonToFile;
     }
@@ -18,7 +18,7 @@ public:
         _writeJsonToFile = service;
         return this;
     }
-    IFileReader<QByteArray> *readJsonFromFile() const
+    IFileReader<QByteArray> *readJson() const
     {
         return _readJsonFromFile;
     }

@@ -9,7 +9,9 @@
 #include "DartsController/DCMetaSLAs/dcmetaslas.h"
 #include "DartsController/DCInputSLAs/dcinputsslas.h"
 #include "DartsController/PlayerStatsSLAs/dcinputstatsslas.h"
-#include "DartsController/StaticInitHelperClass/dcinitservices.h"
+#include "DartsController/StaticInitHelperClass/dcinit.h"
+#include "AsyncUtils/runnable.h"
+#include <JsonUtils/jsonextractor.h>
 class DartsController : public AbstractDartsController,
                         public DCMetaSLAs,
                         public DCTurnvaluesSLAs,
@@ -22,9 +24,7 @@ class DartsController : public AbstractDartsController,
 {
     Q_OBJECT
 public slots:
-    void startInit() override;
-    void init(const QByteArray &indexJson, const QByteArray &inputsJson,
-                               const QByteArray &playersJson, const QByteArray &winnerJson) override;
+    void initialize() override;
     void requestStatus() override;
     void createIndexJson() override;
     void undoTurn() override;
@@ -35,9 +35,9 @@ public slots:
     void handleUserInput(const QByteArray &json) override;
     void reset() override;
     void persistInput(DCInput &input) override;
-    void createScoreJson(const QByteArray& json) override;
     void createTurnValuesJson() override;
 private:
+    void updateScoreDetails(const QByteArray& json);
     void createWinnerJson();
 };
 #endif // FIVEHUNDREDANDONEGAME_H

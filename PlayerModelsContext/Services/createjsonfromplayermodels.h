@@ -4,10 +4,10 @@
 #include <qjsondocument.h>
 #include <qjsonarray.h>
 #include <QJsonObject>
-#include "PlayerModelsContext/DbSLAs/iplayercontextjsonbuilder.h"
+#include "PlayerModelsContext/DbSLAs/iplayerjsonbuilder.h"
 #include "PlayerModelsContext/DbSLAs/iplayermodel.h"
 
-class CreateJsonFromPlayerModels : public IPlayerContextJsonBuilder
+class CreateJsonFromPlayerModels : public IPlayerJsonBuilder
 {
 public:
     virtual QByteArray toJson(const QVector<IModel<QUuid>*>& models) const override

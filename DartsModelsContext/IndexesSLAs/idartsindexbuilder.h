@@ -1,7 +1,7 @@
 #ifndef IDARTSINDEXBUILDER_H
 #define IDARTSINDEXBUILDER_H
 #include "DartsModelsContext/IndexesDbSLAs/idartsindex.h"
-#include "ModelsContext/MCModelsSLAs/imodel.h"
+#include "ModelsContext/ModelsSLAs/imodel.h"
 class IDartsIndexBuilder
 {
 public:

@@ -4,9 +4,10 @@
 #include "ModelsContext/DbSLAs/imodelsdbcontext.h"
 #include "idartsinputbuilder.h"
 #include "idartsinputjsonbuilder.h"
+#include <qfuture.h>
 
 class IDartsInputsDbContext : public IModelsDbContext,
-        public IDbPersistence<IDartsInputJsonBuilder,IDartsInputBuilder>
+        public IDbPersistence<IDartsInputJsonBuilder,IDartsInputBuilder,QFuture<bool>>
 {
 public:
     virtual IDartsInputsDbContext *add(IModel<QUuid> *inputModel) = 0;
@@ -15,8 +16,8 @@ public:
     virtual IDartsInputsDbContext *remove(const int &) = 0;
     virtual int indexOf(IModel<QUuid> *model) const = 0;
     virtual IDartsInputsDbContext *replace(const int &index, IModel<QUuid> *model) = 0;
-    virtual void fetchModels(const IDartsInputBuilder *modelBuilder) = 0;
-    virtual void saveChanges(const IDartsInputJsonBuilder *jsonBuilder) = 0;
+    virtual bool fetchModels(const IDartsInputBuilder *modelBuilder) = 0;
+    virtual QFuture<bool> saveChanges(const IDartsInputJsonBuilder *jsonBuilder) = 0;
 };
 
 #endif // IDARTSINPUTSDBCONTEXT_H

@@ -1,5 +1,7 @@
 #include "playersdbcontext.h"
 
+#include "AsyncUtils/runnable.h"
+
 PlayersDbContext::PlayersDbContext(FileReaderInterface *fileReader, FileWriteInterface *fileWriter)
 {
     fileReader->setFileName(_fileName);
@@ -8,18 +10,18 @@ PlayersDbContext::PlayersDbContext(FileReaderInterface *fileReader, FileWriteInt
     setWriteJsonToFile(fileWriter);
 }
 
-void PlayersDbContext::fetchModels(const IPlayerContextModelBuilder *modelBuilder)
+bool PlayersDbContext::fetchModels(const IPlayerContextModelBuilder *modelBuilder)
 {
-    try {
-        _playerModels = modelBuilder->createPlayers(readJsonFromFile()->read());
-    } catch (...) {
-        return;
-    }
+    auto future = readJson()->read();
+    Runnable::run([=]{
+        _playerModels = modelBuilder->createPlayers(future.result());
+    },future);
+    return true;
 }
 
-void PlayersDbContext::saveChanges(const IPlayerContextJsonBuilder *jsonBuilder)
+QFuture<bool> PlayersDbContext::saveChanges(const IPlayerJsonBuilder *jsonBuilder)
 {
-    writeJsonToFile()->write(jsonBuilder->toJson(_playerModels));
+    return saveJson()->save(jsonBuilder->toJson(_playerModels));
 }
 
 QVector<IModel<QUuid> *> PlayersDbContext::models() const

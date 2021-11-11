@@ -21,8 +21,8 @@ public:
     virtual IPlayersDbContext *remove(const QVector<int> &indexes) override;
     virtual int indexOf(IModel<QUuid> *player) const override;
     virtual PlayersDbContext *replace(const int &index, IModel<QUuid> *player) override;
-    void fetchModels(const IPlayerContextModelBuilder *modelBuilder) override;
-    void saveChanges(const IPlayerContextJsonBuilder *jsonBuilder) override;
+    bool fetchModels(const IPlayerContextModelBuilder *modelBuilder) override;
+    QFuture<bool> saveChanges(const IPlayerJsonBuilder *jsonBuilder) override;
 private:
     const QString _fileName = "PlayerModels";
     QVector<IModel<QUuid>*> _playerModels;

@@ -6,11 +6,10 @@
 class DCMetaInfo : public IDCMetaInfo
 {
 public:
-    DCMetaInfo(const QUuid &id, const int &initialRemaining, const int &inputHint)
+    DCMetaInfo(const QUuid &id, const int &initialRemaining)
     {
         _meta.tournamentId = id;
         _meta.initialRemainingScore = initialRemaining;
-        _meta.inputHint = inputHint;
     }
     virtual DCMeta &get() override
     {

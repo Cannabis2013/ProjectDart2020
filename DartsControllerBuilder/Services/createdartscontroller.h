@@ -1,42 +1,28 @@
 #ifndef CREATEDARTSCONTROLLER_H
 #define CREATEDARTSCONTROLLER_H
 #include "DartsController/Controller/dartscontroller.h"
-#include "DartsControllerBuilder/SLAs/abstractdcbuilder.h"
 #include "DartsController/DSCServices/dscinputbuilder.h"
 #include "DartsControllerBuilder/DCBMetaSLAs/icreatedcmetainfo.h"
-#include "DartsController/DartsScoreController/createdsc.h"
+#include "DartsControllerBuilder/SLAs/icreatedartscontroller.h"
+#include "DartsController/DSController/createdsc.h"
 #include "DartsController/DPController/createdpc.h"
-class CreateDartsController : public AbstractDCBuilder
+class CreateDartsController
 {
 public:
-    enum AbstractRouteByInputHint{
-        PointHint = 0x5,
-        ScoreHint = 0x6
-    };
-    CreateDartsController(ICreateDartsController *createDPC, ICreateDartsController *createDSC, ICreateDCMetaInfo *createMeta)
+    AbstractDartsController *createDartsPointController(AbstractDartsContext *modelsContext = nullptr)
     {
-        _createDPC = createDPC;
-        _createDSC = createDSC;
-        _createMeta = createMeta;
+        if(modelsContext != nullptr)
+            return _createDPC->create(modelsContext);
+        throw "Modelscontext not injected";
     }
-    virtual void createController(const QByteArray &json) override
+    AbstractDartsController *createDartsScoreController(AbstractDartsContext *modelsContext = nullptr)
     {
-        auto meta = _createMeta->service(json);
-        auto controller = createDC(meta);
-        emit sendController(controller);
+        if(modelsContext != nullptr)
+            return _createDSC->create(modelsContext);
+        throw "Modelscontext not injected";
     }
 private:
-    AbstractDartsController *createDC(const DCBMeta &meta)
-    {
-        if(meta.inputHint == PointHint)
-            return _createDPC->create(meta);
-        else if(meta.inputHint == ScoreHint)
-            return _createDSC->create(meta);
-        else
-            throw "Illegal input hint";
-    }
-    ICreateDCMetaInfo* _createMeta;
-    ICreateDartsController *_createDPC;
-    ICreateDartsController *_createDSC;
+    ICreateDartsController<AbstractDartsContext> *_createDPC = new CreateDSC;
+    ICreateDartsController<AbstractDartsContext> *_createDSC = new CreateDPC;
 };
 #endif // BUILDDARTSSCORECONTROLLER_H

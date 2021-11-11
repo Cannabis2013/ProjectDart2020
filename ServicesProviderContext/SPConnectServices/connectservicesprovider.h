@@ -16,7 +16,7 @@ public:
     {
         return _connectRouteByGameMode;
     }
-    virtual IConnectRouteByInputHint *connectRouteByDisplayHint() const override
+    virtual IConnectRouteByInputHint *connectRouteByInputHint() const override
     {
         return _connectRouteByDisplayHint;
     }

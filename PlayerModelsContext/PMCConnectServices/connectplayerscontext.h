@@ -5,21 +5,21 @@
 class ConnectPlayersContext : public IConnectPlayerModelsContext
 {
 public:
-    virtual void connectServices(AbstractApplicationInterface *application, IPlayerModelsContext *playersContext) override
+    virtual void connectServices(AbstractApplicationInterface *application, AbstractPlayersContext *playersContext) override
     {
         QObject::connect(application,&AbstractApplicationInterface::requestCreatePlayer,
-                playersContext,&IPlayerModelsContext::createPlayer);
-        QObject::connect(playersContext,&IPlayerModelsContext::playerAddedSucces,
+                playersContext,&AbstractPlayersContext::createPlayer);
+        QObject::connect(playersContext,&AbstractPlayersContext::playerAddedSucces,
                 application,&AbstractApplicationInterface::playerAddedSucces);
-        QObject::connect(playersContext,&IPlayerModelsContext::playerAddedError,
+        QObject::connect(playersContext,&AbstractPlayersContext::playerAddedError,
                 application,&AbstractApplicationInterface::playerAddedError);
         QObject::connect(application,&AbstractApplicationInterface::requestPlayers,
-                playersContext,&IPlayerModelsContext::handleRequestPlayersDetails);
-        QObject::connect(playersContext,&IPlayerModelsContext::sendPlayers,
+                playersContext,&AbstractPlayersContext::handleRequestPlayersDetails);
+        QObject::connect(playersContext,&AbstractPlayersContext::sendPlayers,
                 application,&AbstractApplicationInterface::sendPlayers);
         QObject::connect(application,&AbstractApplicationInterface::requestDeletePlayers,
-                playersContext,&IPlayerModelsContext::deletePlayersFromIndexes);
-        QObject::connect(playersContext,&IPlayerModelsContext::playersDeletedStatus,
+                playersContext,&AbstractPlayersContext::deletePlayersFromIndexes);
+        QObject::connect(playersContext,&AbstractPlayersContext::playersDeletedStatus,
                 application,&AbstractApplicationInterface::playersDeletedStatus);
     }
 };

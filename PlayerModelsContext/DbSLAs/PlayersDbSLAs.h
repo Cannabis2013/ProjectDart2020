@@ -16,11 +16,11 @@ public:
     {
         _dbContext = newDbContext;
     }
-    IPlayerContextJsonBuilder *jsonBuilder() const
+    IPlayerJsonBuilder *jsonBuilder() const
     {
         return _jsonBuilder;
     }
-    void setJsonBuilder(IPlayerContextJsonBuilder *service)
+    void setJsonBuilder(IPlayerJsonBuilder *service)
     {
         _jsonBuilder = service;
     }
@@ -41,7 +41,7 @@ public:
         _getPlayerModelsFromDb = service;
     }
 private:
-    IPlayerContextJsonBuilder *_jsonBuilder;
+    IPlayerJsonBuilder *_jsonBuilder;
     IPlayerContextModelBuilder *_modelBuilder;
     IPlayersDbContext *_dbContext;
     IGetPlayersFromDb * _getPlayerModelsFromDb;

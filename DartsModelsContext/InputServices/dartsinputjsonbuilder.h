@@ -11,8 +11,9 @@
 class DartsInputJsonBuilder : public IDartsInputJsonBuilder
 {
 public:
-    virtual QByteArray json(IModel<QUuid> *model, const DartsMetaModel &meta) const override;
+    QByteArray json(IModel<QUuid> *model, const DartsMetaModel &meta) const override;
     QByteArray json(const QVector<IModel<QUuid>*> &models) const override;
+    virtual QJsonArray jsonArray(const QVector<IModel<QUuid> *> &models) const override;
 private:
     QJsonArray toJsonArray(const QVector<IModel<QUuid>*> &models) const;
     QJsonObject toJsonObject(IModel<QUuid>* model) const;

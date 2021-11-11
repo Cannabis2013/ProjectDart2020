@@ -18,13 +18,13 @@ public:
         player.name = input.playerName;
         return player;
     }
-    virtual QVector<DCPlayer> createPlayers(const QByteArray &json) const override
+    virtual QVector<DCPlayer> createPlayers(const QJsonArray &arr) const override
     {
-        return toModels(toJsonArray(json));
+        return toModels(arr);
     }
-    virtual DCPlayer createWinner(const QByteArray &json) const override
+    virtual DCPlayer createWinner(const QJsonObject &obj) const override
     {
-        return toModel(toJsonObject(json));
+        return toModel(obj);
     }
 private:
     QJsonArray toJsonArray(const QByteArray &json) const

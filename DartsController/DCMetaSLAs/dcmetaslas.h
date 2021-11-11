@@ -14,7 +14,7 @@ public:
     {
         _statusCodes = service;
     }
-    IDCMetaInfo *getMetaInfo() const
+    IDCMetaInfo *metaInfo() const
     {
         return _metaInfo;
     }

@@ -8,15 +8,14 @@
 class DCInputIndexBuilder : public IDCIndexBuilder
 {
 public:
-    DCIndex index(const QByteArray &json) const override
+    DCIndex index(const QJsonObject &obj) const override
     {
         DCIndex indexes;
-        auto jsonObject = toJsonObject(json);
-        indexes.totalTurns = jsonObject.value("totalTurns").toInt();
-        indexes.turnIndex = jsonObject.value("turnIndex").toInt();
-        indexes.roundIndex = jsonObject.value("roundIndex").toInt();
-        indexes.setIndex = jsonObject.value("setIndex").toInt();
-        indexes.attemptIndex = jsonObject.value("attemptIndex").toInt();
+        indexes.totalTurns = obj.value("totalTurns").toInt();
+        indexes.turnIndex = obj.value("turnIndex").toInt();
+        indexes.roundIndex = obj.value("roundIndex").toInt();
+        indexes.setIndex = obj.value("setIndex").toInt();
+        indexes.attemptIndex = obj.value("attemptIndex").toInt();
         return indexes;
     }
 private:

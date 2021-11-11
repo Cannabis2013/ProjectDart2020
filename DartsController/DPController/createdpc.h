@@ -32,11 +32,49 @@
 #include "DartsController/IndexServices/dpcindexcontroller.h"
 #include "DartsController/DCIndexServices/dcreqindexjsonbuilder.h"
 #include "DartsControllerBuilder/SLAs/icreatedartscontroller.h"
-class CreateDPC : public ICreateDartsController
+class CreateDPC : public ICreateDartsController<AbstractDartsContext>
 {
 public:
-    virtual AbstractDartsController *create(const DCBMeta &meta) override;
+    virtual AbstractDartsController *create(AbstractDartsContext *modelsContext) override
+    {
+        auto dc = new DartsController;
+        dc->setStatusCodes(new DCStatusCodes);
+        dc->setMetaBuilder(new DCMetaModelBuilder);
+        dc->setScoreBuilder(new DCCreateScoreModels);
+        dc->setScoresModels(new DCScoreModels);
+        dc->setCreateCandidateScores(new DCUpdateInputDetails);
+        dc->setJsonResponseBuilder(createJsonBuilder());
+        dc->setPlayerStatsManager(new DCPlayerStatsManager);
+        dc->setUpdateMiddleVal(new DPCCalcMidVal);
+        dc->setUpdateScoreRange(new DCUpdateScoreRange);
+        dc->setUpdatePlayerStats(new DCUpdatePlayerStat);
+        dc->setSuggestFinishes(DCInputFinishes::createInstance(DCCreateFinishes::createInstance(),
+                                                               DCLogisticDb::createInstance()));
+        dc->setPlayerController(new DPCPlayerController);
+        dc->setPlayerBuilderService(new DCPlayerBuilder);
+        dc->setInputBuilder(new DPCInputBuilder);
+        dc->setInputEvaluator(DPCInputEvaluator::createInstance());
+        dc->setGetScoreFromInput(new GetScoreFromDPCInput);
+        dc->setIndexService(new DPCIndexController);
+        dc->setIndexBuilder(new DCInputIndexBuilder);
+        dc->setReqIndexBuilder(new DPCReqIndexBuilder);
+        dc->setTurnValuesBuilder(new DPCTurnValuesBuilder);
+        dc->setJsonResponseBuilder(createJsonBuilder());
+        dc->setModelsContext(modelsContext);
+        return dc;
+    }
 private:
-    AbstractDCJsonBuilder *createJsonBuilder();
+    AbstractDCJsonBuilder *createJsonBuilder()
+    {
+        auto builder = new DCJsonBuilder;
+        builder->setInputJsonBuilder(new DCInputJsonBuilder);
+        builder->setIndexesJsonBuilder(new DCIndexJsonBuilder);
+        builder->setMetaJsonBuilder(new DCMetaInfoJsonBuilder);
+        builder->setTurnValuesJsonBuilder(new DCTurnValuesJsonBuilder);
+        builder->setScoreModelJsonBuilder(new DCScoreJsonBuilder);
+        builder->setPlayerStatsJsonBuilder(new DCPlayerStatsJsonBuilder);
+        builder->setReqIndexJsonBuilder(new DCReqIndexJsonBuilder);
+        return builder;
+    }
 };
 #endif // DEFAULTDARTSPOINTCONTROLLER_H

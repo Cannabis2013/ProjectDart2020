@@ -5,6 +5,7 @@
 #include "ModelsContext/DbSLAs/modelsdbioservices.h"
 #include "DartsModelsContext/TournamentsDbSLAs/dartstournamentdbslas.h"
 #include "DartsModelsContext/TournamentsDbSLAs/IDartsDbContext.h"
+#include "AsyncUtils/runnable.h"
 class DartsDbContext :
         public IDartsDbContext,
         public ModelsDbIOSLAs
@@ -18,8 +19,8 @@ public:
     virtual IDartsDbContext *remove(const QVector<int> &indexes) override;
     virtual int indexOf(IModel<QUuid> *model) const override;
     virtual DartsDbContext *replace(const int &index, IModel<QUuid> *model) override;
-    virtual void fetchModels(const IDartsBuilder *modelBuilder) override;
-    virtual void saveChanges(const IDartsJsonBuilder *jsonBuilder) override;
+    virtual bool fetchModels(const IDartsBuilder *modelBuilder) override;
+    virtual QFuture<bool> saveChanges(const IDartsJsonBuilder *jsonBuilder) override;
 private:
     const QString _fileName = "DartsTournamentModels";
     QVector<IModel<QUuid>*> _models;

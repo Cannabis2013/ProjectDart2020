@@ -1,21 +1,22 @@
 #ifndef READBYTEARRAY_H
 #define READBYTEARRAY_H
-
 #include "FileOperationsContext/SLAs/ifilereader.h"
-
+#include <QtConcurrent/QtConcurrent>
 class ReadByteArray : public IFileReader<QByteArray>
 {
 public:
-    QByteArray read() const override
+    QFuture<QByteArray> read() const override
     {
-        QFile file(_fileName);
-        if(!file.exists())
-            return QByteArray();
-        file.open(QIODevice::ReadOnly);
-        QDataStream in(&file);
-        QByteArray obj;
-        in >> obj;
-        return obj;
+        return QtConcurrent::run([=]{
+            QFile file(_fileName);
+            if(!file.exists())
+                return QByteArray();
+            file.open(QIODevice::ReadOnly);
+            QDataStream in(&file);
+            QByteArray obj;
+            in >> obj;
+            return obj;
+        });
     }
     void setFileName(const QString &fileName) override
     {

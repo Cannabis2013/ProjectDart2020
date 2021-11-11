@@ -1,15 +1,18 @@
 #ifndef DARTSJSONBUILDER_H
 #define DARTSJSONBUILDER_H
-
 #include <qjsondocument.h>
 #include <qjsonarray.h>
 #include <qjsonobject.h>
 #include "DartsModelsContext/TournamentModelsSLAs/abstractdartstournament.h"
 #include "DartsModelsContext/TournamentsDbSLAs/itournamentjsonbuilder.h"
-
 class DartsJsonBuilder : public IDartsJsonBuilder
 {
 public:
+public:
+    virtual QJsonObject tournamentJsonObject(IModel<QUuid> *model) const override
+    {
+        return toJsonObject(dynamic_cast<AbstractDartsTournament*>(model));
+    }
     virtual QByteArray tournamentJson(IModel<QUuid> *model) const override
     {
         auto obj = toJsonObject(dynamic_cast<AbstractDartsTournament*>(model));
@@ -20,14 +23,14 @@ public:
         QJsonArray arr = toJsonArray(models);
         return toByteArray(arr);
     }
-    virtual QByteArray assignedPlayersJson(IModel<QUuid> *model) const override
+    virtual QJsonArray assignedPlayersJson(IModel<QUuid> *model) const override
     {
-        return toByteArray(createJsonArrayFromPlayerDetails(model));
+        return createJsonArrayFromPlayerDetails(model);
     }
-    virtual QByteArray winnerDetailsJson(IModel<QUuid> *model) const override
+    virtual QJsonObject winnerDetailsJson(IModel<QUuid> *model) const override
     {
         auto tournament = dynamic_cast<ITournament*>(model);
-        return toByteArray(toJsonObject(tournament->winnerId(),tournament->winnerName()));
+        return toJsonObject(tournament->winnerId(),tournament->winnerName());
     }
 private:
     QJsonArray toJsonArray(const QVector<IModel<QUuid> *> &models) const

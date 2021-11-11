@@ -6,6 +6,6 @@
 class IDCIndexBuilder
 {
 public:
-    virtual DCIndex index(const QByteArray& json) const = 0;
+    virtual DCIndex index(const QJsonObject& obj) const = 0;
 };
 #endif // IDARTSCONTROLLERINDEXMODELBUILDER_H

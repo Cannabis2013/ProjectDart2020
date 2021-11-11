@@ -12,6 +12,11 @@ QByteArray DartsInputJsonBuilder::json(const QVector<IModel<QUuid> *> &models) c
     return toByteArray(toJsonArray(models));
 }
 
+QJsonArray DartsInputJsonBuilder::jsonArray(const QVector<IModel<QUuid> *> &models) const
+{
+    return toJsonArray(models);
+}
+
 QJsonArray DartsInputJsonBuilder::toJsonArray(const QVector<IModel<QUuid> *> &models) const
 {
     QJsonArray arr;
