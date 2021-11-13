@@ -1,43 +1,29 @@
 #ifndef DARTSCONTROLLER_H
 #define DARTSCONTROLLER_H
-#include "DartsController/DCTurnValuesSLAs/dcturnvaluesslas.h"
-#include "DartsController/DCIndexSLAs/dcindexslas.h"
-#include "DartsController/DCScoresSLAs/dcscoreslas.h"
-#include "DartsController/DCPlayerSLAs/DCPlayerSLAs.h"
-#include "DartsController/ControllerSLA/abstractdartscontroller.h"
-#include "DartsController/DCJsonSLAs/dcjsonslas.h"
-#include "DartsController/DCMetaSLAs/dcmetaslas.h"
-#include "DartsController/DCInputSLAs/dcinputsslas.h"
-#include "DartsController/PlayerStatsSLAs/dcinputstatsslas.h"
 #include "DartsController/StaticInitHelperClass/dcinit.h"
 #include "AsyncUtils/runnable.h"
 #include <JsonUtils/jsonextractor.h>
-class DartsController : public AbstractDartsController,
-                        public DCMetaSLAs,
-                        public DCTurnvaluesSLAs,
-                        public DCJsonSLAs,
-                        public DCScoreSLAs,
-                        public DCPlayerSLAs,
-                        public DCInputsSLAs,
-                        public DCIndexSLAs,
-                        public PlayerStatsSLAs
+#include "DartsController/ControllerSLA/controllerslas.h"
+#include "DartsModelsContext/InputModelsSLAs/abstractdartsinput.h"
+class DartsController : public AbstractDartsController, public ControllerSLAs
 {
     Q_OBJECT
+    int initialize(const QUuid &tournamentId, const int &remainingScore) override;
+    virtual QString tournamentId() const override;
+    QByteArray createScores() override;
+    void handleUserInput(const QByteArray &json) override;
 public slots:
-    void initialize() override;
     void requestStatus() override;
     void createIndexJson() override;
     void undoTurn() override;
     void redoTurn() override;
     void sendTournamentId() override;
-    void createScores() override;
     void createJsonResponse() override;
-    void handleUserInput(const QByteArray &json) override;
     void reset() override;
-    void persistInput(DCInput &input) override;
+    void persistInput(AbstractDartsInput *input) override;
     void createTurnValuesJson() override;
 private:
-    void updateScoreDetails(const QByteArray& json);
+    void updateScoreDetails(AbstractDartsInput *input);
     void createWinnerJson();
 };
 #endif // FIVEHUNDREDANDONEGAME_H

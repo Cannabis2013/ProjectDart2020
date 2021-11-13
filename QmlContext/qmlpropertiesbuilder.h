@@ -1,28 +1,32 @@
-#ifndef QMLAPPLICATIONPROPERTIES_H
-#define QMLAPPLICATIONPROPERTIES_H
+#ifndef QMLPROPERTIESBUILDER_H
+#define QMLPROPERTIESBUILDER_H
 #include <qqmlapplicationengine.h>
 #include <qqmlcontext.h>
+#include "PlayerModelsContext/createplayerscontext.h"
 #include "DartsController/DPController/createdpc.h"
 #include "DartsController/DSController/createdsc.h"
 #include "DartsModelsContext/Services/dartscontextbuilder.h"
 #include "DartsControllerBuilder/Services/createdartscontroller.h"
 #include "DartsController/Controller/dartscontroller.h"
-#include "ModelsContext/ModelsContextSLAs/imodelscontextbuilder.h"
-class QmlApplicationProperties
+class QmlPropertiesBuilder
 {
 public:
     typedef QQmlContext::PropertyPair Property;
     typedef QVector<Property> Properties;
-    QmlApplicationProperties()
+    QmlPropertiesBuilder()
     {
-        _dartsContext = _dartsContextBuilder->create();
-        _dpController = _dcBuilder->createDartsPointController(_dartsContext);
-        _dsController = _dcBuilder->createDartsScoreController(_dartsContext);
+        CreatePlayersContext pContextBuilder;
+        _playerContext = pContextBuilder.createLocalContext();
+        DartsContextBuilder dartsBuilder;
+        _dartsContext = dartsBuilder.create()->setPlayerModelsContext(_playerContext);
+        CreateDartsController dcBuilder;
+        _dpController = dcBuilder.createDartsPointController();
+        _dsController = dcBuilder.createDartsScoreController();
     }
     Properties contextProperties() const
     {
         Properties _props;
-        _props << createProperty<AbstractDartsContext>("dartsContext",dynamic_cast<AbstractDartsContext*>(_dartsContext));
+        _props << createProperty<AbstractDartsContext>("dartsContext",_dartsContext);
         _props << createProperty<AbstractDartsController>("dsController",_dsController);
         _props << createProperty<AbstractDartsController>("dpController",_dpController);
         return _props;
@@ -36,10 +40,9 @@ private:
         p.value = QVariant::fromValue<T*>(value);
         return p;
     }
-    CreateDartsController *_dcBuilder = new CreateDartsController;
-    IModelsContextBuilder *_dartsContextBuilder = new DartsContextBuilder;
     AbstractDartsController *_dpController;
     AbstractDartsController *_dsController;
-    AbstractModelsContext *_dartsContext;
+    AbstractPlayersContext *_playerContext;
+    AbstractDartsContext *_dartsContext;
 };
 #endif // QMLAPPLICATIONPROPERTIES_H

@@ -14,7 +14,7 @@ public:
     QVector<IModel<QUuid>*> createPlayers(const QByteArray &json) const override;
     IModel<QUuid> *createPlayer(const QByteArray &json) const override;
 private:
-    PlayersContext::PlayerModel *toModel(const QJsonObject &obj) const;
+    PlayerModel *toModel(const QJsonObject &obj) const;
     QJsonObject toJsonObject(const QByteArray &json) const;
     QJsonArray toJsonArray(const QByteArray &json) const;
     QUuid toId(const QString &stringId) const;

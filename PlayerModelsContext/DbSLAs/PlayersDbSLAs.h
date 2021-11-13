@@ -32,7 +32,7 @@ public:
     {
         _modelBuilder = service;
     }
-    IGetPlayersFromDb *getPlayerModelsFromDb() const
+    IGetPlayersFromDb *getPlayers() const
     {
         return _getPlayerModelsFromDb;
     }

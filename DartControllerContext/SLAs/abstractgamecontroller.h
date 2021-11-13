@@ -17,6 +17,7 @@ public:
             return _modelsContext;
         throw "Modelscontext not set!";
     }
+    Q_INVOKABLE virtual QString tournamentId() const = 0;
 public slots:
     virtual void handleUserInput(const QByteArray& json) = 0;
     virtual void createJsonResponse() = 0;
@@ -25,7 +26,6 @@ public slots:
     virtual void createIndexJson() = 0;
     virtual void sendTournamentId() = 0;
     virtual void reset() = 0;
-    virtual void initialize() = 0;
     virtual void requestStatus() = 0;
 signals:
     void ready();

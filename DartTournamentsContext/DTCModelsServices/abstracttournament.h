@@ -28,18 +28,9 @@ public:
     {
         return _assignedPlayerIdentities;
     }
-    virtual ITournament *setAssignedPlayerIdentities(const QVector<QUuid> &playerIdentities) override
+    virtual ITournament *setAssignedPlayerIds(const QVector<QUuid> &playerIdentities) override
     {
         _assignedPlayerIdentities = playerIdentities;
-        return this;
-    }
-    virtual QVector<QString> assignedPlayerNames() const override
-    {
-        return _assignedPlayerNames;
-    }
-    virtual ITournament *setAssignedPlayerNames(const QVector<QString> &names) override
-    {
-        _assignedPlayerNames = names;
         return this;
     }
     virtual int gameMode() const override
@@ -84,7 +75,6 @@ private:
     QUuid _winnerId;
     QString _winnerName;
     QVector<QUuid> _assignedPlayerIdentities;
-    QVector<QString> _assignedPlayerNames;
     int _status;
     int _gameMode;
 };

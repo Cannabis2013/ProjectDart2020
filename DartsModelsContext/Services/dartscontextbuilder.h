@@ -14,7 +14,7 @@
 #include "DartsModelsContext/InputServices/dartsinputsdbcontext.h"
 #include "DartsModelsContext/InputServices/dartsinputjsonbuilder.h"
 #include "DartsModelsContext/IndexesServices/updatedartsindexes.h"
-#include "DartsModelsContext/IndexesDbServices/dartsindexbuilder.h"
+#include "DartsModelsContext/IndexesDbServices/dcindexbuilder.h"
 #include "DartsModelsContext/TournamentServices/resetdartstournament.h"
 #include "DartsModelsContext//TournamentsDbServices/dartsdbcontext.h"
 #include "DartsModelsContext/TournamentServices/getdartstournamentfromdb.h"
@@ -22,12 +22,11 @@
 #include "DartsModelsContext/TournamentServices/setdartsplayerdetails.h"
 #include "DartsModelsContext/TournamentsDbServices/dartsjsonbuilder.h"
 #include "DartsModelsContext/TournamentServices/dartstournamentbuilder.h"
-#include "ModelsContext/ModelsContextSLAs/imodelscontextbuilder.h"
 #include "DartsModelsContext/TournamentServices/GetDartsTournamentIds.h"
-class DartsContextBuilder : public IModelsContextBuilder
+class DartsContextBuilder
 {
 public:
-    DartsContext *create() const override
+    DartsContext *create() const
     {
         auto modelsContext = new DartsContext;
         modelsContext->setDartsDbContext(new DartsDbContext(new ReadByteArray, new WriteByteArray));
@@ -38,7 +37,6 @@ public:
         modelsContext->setWinnerInfoBuilder(new DartWinnerModelBuilder);
         modelsContext->setMetaModelBuilder(new DartsMetaModelBuilder);
         modelsContext->setGetTournamentIds(new GetDartsIds);
-        modelsContext->setIndexBuilder(new DartsIndexBuilder);
         modelsContext->setUpdateIndexes(new UpdateDartsIndexes);
         modelsContext->setInputsDbContext(new DartsInputsDbContext(new ReadByteArray, new WriteByteArray));
         modelsContext->setGetInputFromDb(new GetDartsInputFromDb);

@@ -1,7 +1,7 @@
 function initializeComponent()
 {
     connectInterface();
-    applicationInterface.requestCurrentTournamentId();
+    getMetaData();
 }
 
 function connectInterface()
@@ -29,14 +29,16 @@ function disconnectInterface()
     scoreKeyPad.sendInput.disconnect(handleScoreKeyPadInput);
 }
 
-function handleMetaData(data){
-    var json = JSON.parse(data);
+function getMetaData(){
+    var id = dsController.tournamentId();
+    var byteArray = dartsContext.tournament(id);
+    var json = JSON.parse(byteArray);
     dartsMetaValues.title = json["title"];
     dartsMetaValues.winnerName= json["winnerName"];
     dartsMetaValues.keyPoint = json["keyPoint"];
     dartsMetaValues.assignedPlayerNames = getPlayerNames(json["assignedPlayerDetails"]);
     initializeScoreBoard();
-    requestChangePageTitle(dartsMetaValues.title);
+    preferedPageTitle = dartsMetaValues.title;
     applicationInterface.requestDartsScores();
 }
 

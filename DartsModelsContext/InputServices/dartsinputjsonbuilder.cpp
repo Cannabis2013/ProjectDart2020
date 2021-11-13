@@ -27,7 +27,6 @@ QJsonArray DartsInputJsonBuilder::toJsonArray(const QVector<IModel<QUuid> *> &mo
 
 QJsonObject DartsInputJsonBuilder::toJsonObject(IModel<QUuid> *model) const
 {
-    using namespace ModelsContext;
     auto inputModel = dynamic_cast<const AbstractDartsInput*>(model);
     QJsonObject obj;
     obj["id"] = inputModel->id().toString(QUuid::WithoutBraces);
@@ -54,7 +53,6 @@ QJsonObject DartsInputJsonBuilder::toDefaultJsonObject(const DartsMetaModel &met
     QJsonObject obj;
     obj["tournamentId"] = toString(meta.tournamentId);
     obj["inputPlayerId"] = toString(meta.playerId);
-    obj["inputPlayerName"] = meta.playerName;
     return obj;
 }
 

@@ -6,6 +6,7 @@
 #include <QMutexLocker>
 #include <qmutex.h>
 #include <qdebug.h>
+#include <QtConcurrent/QtConcurrent>
 class DartsInputsDbContext :
         public IDartsInputsDbContext,
         protected ModelsDbIOSLAs

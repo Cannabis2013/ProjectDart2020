@@ -8,7 +8,6 @@ Content{
     clip: true
     signal createTournamentClicked
     signal dartsPointSingleColumnInitialized
-    signal dartsPointMultiColumnInitialized
     signal dartsScoreSingleColumnInitialized
     signal manageButtonClicked
     preferedPageTitle: "Get started.."
@@ -24,10 +23,10 @@ Content{
        rowSpacing: 4
        flow: GridLayout.TopToBottom
        TournamentPageListView {
-           id: tournamentListView
+           id: dartsListView
            Layout.fillHeight: true
            Layout.fillWidth: true
-           onItemClicked: applicationInterface.setCurrentActiveTournament(index)
+           onItemClicked: Scripts.initializeDarts(index)
        }
        GridLayout{
            flow: GridLayout.LeftToRight
@@ -43,5 +42,4 @@ Content{
        }
     }
     Component.onCompleted: Scripts.initialize()
-    Component.onDestruction: Scripts.disconnect()
 }

@@ -2,7 +2,7 @@
 #define IDCPLAYERCONTROLLER_H
 #include <quuid.h>
 #include <qvector.h>
-#include "DartsController/DCPlayerServices/dcplayer.h"
+#include "PlayerModelsContext/DbSLAs/iplayermodel.h"
 class IDCPlayerController
 {
 public:
@@ -11,7 +11,9 @@ public:
         QUuid playerId;
         bool in = false;
     };
-    virtual void set(const QVector<DCPlayer> &playerIds) = 0;
+    typedef IModel<QUuid> Player;
+    typedef QVector<Player*> Players;
+    virtual void set(const Players &playerIds) = 0;
     virtual bool status(const QUuid &playerId) const = 0;
     virtual bool updateStatus(const QUuid &playerId, const bool &status) = 0;
     virtual int count() const = 0;

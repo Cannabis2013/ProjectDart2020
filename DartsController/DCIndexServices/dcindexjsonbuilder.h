@@ -1,17 +1,17 @@
 #ifndef DCINDEXJSONBUILDER_H
 #define DCINDEXJSONBUILDER_H
-#include "dcindex.h"
 #include "DartsController/DCJsonSLAs/idcmodeljsonbuilder.h"
-class DCIndexJsonBuilder : public IDCModelJsonBuilder<DCIndex>
+#include "DartsModelsContext/IndexesDbSLAs/idartsindex.h"
+class DCIndexJsonBuilder : public IDCModelJsonBuilder<IDartsIndex*>
 {
 public:
-    virtual void setJsonValues(QJsonObject &obj, const Model &indexes) const override
+    virtual void setJsonValues(QJsonObject &obj, Model index) const override
     {
-        obj["totalTurns"] = indexes.totalTurns;
-        obj["turnIndex"] = indexes.turnIndex;
-        obj["roundIndex"] = indexes.roundIndex;
-        obj["setIndex"] = indexes.setIndex;
-        obj["attemptIndex"] = indexes.attemptIndex;
+        obj["totalTurns"] = index->totalTurns();
+        obj["turnIndex"] = index->turnIndex();
+        obj["roundIndex"] = index->roundIndex();
+        obj["setIndex"] = index->setIndex();
+        obj["attemptIndex"] = index->attemptIndex();
     }
 };
 

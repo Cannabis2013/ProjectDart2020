@@ -1,8 +1,6 @@
 #ifndef DCPTUPLE_H
 #define DCPTUPLE_H
-
 #include <quuid.h>
-
 struct DCScoreModel
 {
     DCScoreModel(QUuid _id, QString _name, int _score)

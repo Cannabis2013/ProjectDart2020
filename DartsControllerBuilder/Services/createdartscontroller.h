@@ -3,26 +3,18 @@
 #include "DartsController/Controller/dartscontroller.h"
 #include "DartsController/DSCServices/dscinputbuilder.h"
 #include "DartsControllerBuilder/DCBMetaSLAs/icreatedcmetainfo.h"
-#include "DartsControllerBuilder/SLAs/icreatedartscontroller.h"
 #include "DartsController/DSController/createdsc.h"
 #include "DartsController/DPController/createdpc.h"
 class CreateDartsController
 {
 public:
-    AbstractDartsController *createDartsPointController(AbstractDartsContext *modelsContext = nullptr)
+    AbstractDartsController *createDartsPointController()
     {
-        if(modelsContext != nullptr)
-            return _createDPC->create(modelsContext);
-        throw "Modelscontext not injected";
+        return CreateDSC::create();
     }
-    AbstractDartsController *createDartsScoreController(AbstractDartsContext *modelsContext = nullptr)
+    AbstractDartsController *createDartsScoreController()
     {
-        if(modelsContext != nullptr)
-            return _createDSC->create(modelsContext);
-        throw "Modelscontext not injected";
+        return CreateDPC::create();
     }
-private:
-    ICreateDartsController<AbstractDartsContext> *_createDPC = new CreateDSC;
-    ICreateDartsController<AbstractDartsContext> *_createDSC = new CreateDPC;
 };
 #endif // BUILDDARTSSCORECONTROLLER_H

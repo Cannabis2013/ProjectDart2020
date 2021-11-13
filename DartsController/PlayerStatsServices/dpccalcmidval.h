@@ -6,10 +6,10 @@
 class DPCCalcMidVal : public IDCCalcMidVal
 {
 public:
-    virtual double middleValue(const DCIndex &index, const int &remainingScore, const int &initialScore) const override
+    virtual double middleValue(IDartsIndex *index, const int &remainingScore, const int &initialScore) const override
     {
         auto scoresAccumulated = initialScore - remainingScore;
-        auto divisor = index.roundIndex*3 + index.attemptIndex - 2;
+        auto divisor = index->roundIndex()*3 + index->attemptIndex() - 2;
         auto mid = (double)scoresAccumulated/divisor;
         return toTwoDecimals(mid);
     }

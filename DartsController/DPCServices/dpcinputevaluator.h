@@ -14,39 +14,39 @@ public:
     {
         return new DPCInputEvaluator;
     }
-    virtual void evaluate(DCInput input, IDCMetaInfo *metaInfo, AbstractDartsController *controller,
-                               const IDartsStatusCodes *statusCodes, IDCPlayerController *playerController) override
+    void evaluate(AbstractDartsInput *input, const int &scoreCand, IDCMetaInfo *metaInfo, AbstractDartsController *controller,
+                  const IDartsStatusCodes *statusCodes, IDCPlayerController *playerController) override
     {
-        if(!playerController->status(input.playerId))
+        if(!playerController->status(input->playerId()))
         {
-            if(input.modKeyCode == DoubleModifier)
+            if(input->modKeyCode() == DoubleModifier)
             {
-                input.remainingScore = input.remainingScoreCand;
-                input.inGame = playerController->updateStatus(input.playerId,true);
+                input->setRemainingScore(scoreCand);
+                input->setInGame(playerController->updateStatus(input->playerId(),true));
             }
             else
             {
-                input.score = 0;
+                input->setScore(0);
                 controller->persistInput(input);
                 return;
             }
         }
-        if(input.remainingScoreCand >= minimumAllowedScore)
+        if(scoreCand >= minimumAllowedScore)
         {
-            input.remainingScore = input.remainingScoreCand;
+            input->setRemainingScore(scoreCand);
             controller->persistInput(input);
         }
-        else if(input.remainingScoreCand == 0 && (input.modKeyCode == DoubleModifier || input.score == _bullsEye))
+        else if(scoreCand == 0 && (input->modKeyCode() == DoubleModifier || input->score() == _bullsEye))
         {
-            input.remainingScore = 0;
-            metaInfo->get().winnerId = input.playerId;
-            metaInfo->get().winnerName = input.playerName;
+            input->setRemainingScore(0);
+            metaInfo->get().winnerId = input->playerId();
+            metaInfo->get().winnerName = input->playerName();
             metaInfo->get().status = statusCodes->winnerFound();
             controller->persistInput(input);
         }
         else
         {
-            input.score = 0;
+            input->setScore(0);
             controller->persistInput(input);
             return;
         }

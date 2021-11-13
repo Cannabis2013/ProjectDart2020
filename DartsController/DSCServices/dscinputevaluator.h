@@ -1,8 +1,6 @@
 #ifndef DSCINPUTEVALUATOR_H
 #define DSCINPUTEVALUATOR_H
-
 #include "DartsController/DPCServices/dpcinputevaluator.h"
-
 class DSCInputEvaluator : public AbstractDCInputEvaluator
 {
 public:
@@ -10,31 +8,35 @@ public:
     {
         return new DSCInputEvaluator();
     }
-    virtual void evaluate(DCInput input, IDCMetaInfo *metaInfo, AbstractDartsController *controller,
-                               const IDartsStatusCodes *statusCodes, IDCPlayerController *) override
+    virtual void evaluate(AbstractDartsInput *input, const int &scoreCand, IDCMetaInfo *metaInfo, AbstractDartsController *controller,
+                          const IDartsStatusCodes *statusCodes, IDCPlayerController *) override
     {
-        if(input.remainingScoreCand >= minimumAllowedScore)
+        if(scoreCand >= minimumAllowedScore)
         {
-            input.approved = true;
-            input.remainingScore = input.remainingScoreCand;
+            input->setApproved(true);
+            input->setRemainingScore(scoreCand);
             controller->persistInput(input);
         }
-        else if(input.remainingScoreCand == 0)
+        else if(scoreCand == 0)
         {
-            input.approved = true;
-            input.remainingScore = 0;
-            metaInfo->get().winnerId = input.playerId;
-            metaInfo->get().winnerName = input.playerName;
-            metaInfo->get().status = statusCodes->winnerFound();
+            input->setApproved(true);
+            input->setRemainingScore(0);
+            updateControllerMeta(input,metaInfo,statusCodes);
             controller->persistInput(input);
         }
         else
         {
-            input.score = 0;
+            input->setScore(0);
             controller->persistInput(input);
         }
     }
 private:
+    void updateControllerMeta(AbstractDartsInput *input, IDCMetaInfo *metaInfo, const IDartsStatusCodes *statusCodes) const
+    {
+        metaInfo->get().winnerId = input->playerId();
+        metaInfo->get().winnerName = input->playerName();
+        metaInfo->get().status = statusCodes->winnerFound();
+    }
     const int minimumAllowedScore = 2;
 };
 #endif // SCOREVALIDATOR_H

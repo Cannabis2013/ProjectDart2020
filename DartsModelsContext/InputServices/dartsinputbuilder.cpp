@@ -2,7 +2,7 @@
 
 IModel<QUuid> *DartsInputBuilder::createInput(const QUuid &tournamentId, const QUuid &playerId, const int &remainingScore) const
 {
-    auto inputModel = new ModelsContext::DartsInput;
+    auto inputModel = new DartsInput;
     inputModel->setTournamentId(tournamentId);
     inputModel->setPlayerId(playerId);
     inputModel->setRemainingScore(remainingScore);
@@ -35,7 +35,7 @@ QVector<IModel<QUuid>*> DartsInputBuilder::createInputsFromJsonArray(const QJson
 
 AbstractDartsInput *DartsInputBuilder::toInputModel(const QJsonObject &obj) const
 {
-    auto inputModel = new ModelsContext::DartsInput;
+    auto inputModel = new DartsInput;
     inputModel->setId(obj.value("id").toString(QUuid::createUuid().toString(QUuid::WithoutBraces)));
     inputModel->setTournamentId(toId(obj,"tournamentId"));
     inputModel->setPlayerId(toId(obj,"inputPlayerId"));

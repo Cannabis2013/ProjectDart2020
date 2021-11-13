@@ -1,4 +1,3 @@
-
 function buildFtpScoreBoard(displayHint, inputHint, attempts)
 {
     if(displayHint === DataModelContext.singleAttempt)

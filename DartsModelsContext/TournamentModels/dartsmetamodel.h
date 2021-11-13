@@ -7,7 +7,6 @@
 struct DartsMetaModel
 {
     QUuid playerId;
-    QString playerName;
     QUuid tournamentId;
 };
 

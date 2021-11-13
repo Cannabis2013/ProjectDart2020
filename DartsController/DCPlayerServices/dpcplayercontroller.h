@@ -5,11 +5,12 @@
 class DPCPlayerController : public IDCPlayerController
 {
 public:
-    void set(const QVector<DCPlayer> &playerModels) override
+    void set(const Players &models) override
     {
-        for (const auto &playerModel : playerModels) {
+        for (const auto &model : models) {
+            auto player = dynamic_cast<const IPlayerModel*>(model);
             PlayerObject obj;
-            obj.playerId = playerModel.id;
+            obj.playerId = player->id();
             _playerStructs.append(obj);
         }
     }

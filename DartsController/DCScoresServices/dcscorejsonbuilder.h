@@ -4,10 +4,10 @@
 #include "dcscoremodel.h"
 #include "DartsController/DCJsonSLAs/idcmodeljsonbuilder.h"
 
-class DCScoreJsonBuilder : public IDCModelJsonBuilder<DCScoreModel>
+class DCScoreJsonBuilder : public IDCModelJsonBuilder<const DCScoreModel&>
 {
 public:
-    virtual void setJsonValues(QJsonObject &obj, const Model &model) const override
+    virtual void setJsonValues(QJsonObject &obj, Model model) const override
     {
         obj["inputPlayerId"] = model.playerId.toString(QUuid::WithoutBraces);
         obj["inputPlayerName"] = model.playerName;

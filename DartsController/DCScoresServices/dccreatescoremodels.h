@@ -4,19 +4,20 @@
 class DCCreateScoreModels : public IDCScoreBuilder
 {
 public:
-    virtual QVector<DCScoreModel> createScores(const QVector<DCPlayer> &models, const int &initialScore) const override
+    virtual QVector<DCScoreModel> createScores(const Players &players, const int &initialScore) const override
     {
         QVector<DCScoreModel> scoreModels;
-        for (const auto &model : models)
-            scoreModels << toModel(model,initialScore);
+        for (const auto &player : players)
+            scoreModels << toModel(player,initialScore);
         return scoreModels;
     }
 private:
-    DCScoreModel toModel(const DCPlayer &playerModel, const int &initialScore) const
+    DCScoreModel toModel(const Player *model, const int &initialScore) const
     {
         DCScoreModel scoreModel;
-        scoreModel.playerId = playerModel.id;
-        scoreModel.playerName = playerModel.name;
+        auto playerModel = dynamic_cast<const IPlayerModel*>(model);
+        scoreModel.playerId = playerModel->id();
+        scoreModel.playerName = playerModel->playerName();
         scoreModel.remainingScore = initialScore;
         return scoreModel;
     }

@@ -17,15 +17,15 @@ IModel<QUuid> *CreatePlayersFromJson::createPlayer(const QByteArray &json) const
     return toModel(obj);
 }
 
-PlayersContext::PlayerModel *CreatePlayersFromJson::toModel(const QJsonObject &obj) const
+PlayerModel *CreatePlayersFromJson::toModel(const QJsonObject &obj) const
 {
     auto playerId = toId(obj.value("playerId").toString());
     auto playerName = obj.value("playerName").toString();
     auto mail = obj.value("playerMail").toString();
-    auto model = PlayersContext::PlayerModel::createInstance()
-            ->setId(playerId)
-            ->setUserName(playerName)
-            ->setEmail(mail);
+    auto model = new PlayerModel;
+    model->setId(playerId);
+    model->setUserName(playerName);
+    model->setEmail(mail);
     return model;
 }
 

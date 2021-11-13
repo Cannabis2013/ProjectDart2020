@@ -27,21 +27,22 @@ public:
         allHints = HiddenHint | DisplayHint
     };
     typedef QVector<IModel<QUuid>*> Models;
-    void setPlayerModelsContext(PlayerModelsContext *context) override;
+    QByteArray tournaments() override;
+    QByteArray tournament(const int &index) const override;
+    QByteArray tournament(const QString &id) const override;
+    AbstractDartsInput *input(const QUuid &tournament, const QUuid &player, IDartsIndex *index) const override;
+    QFuture<bool> addInput(const QByteArray& json) override;
+    QFuture<bool> hideInput(const QUuid &tournament, const QUuid &player, IDartsIndex *index) override;
+    QFuture<bool> revealInput(const QUuid &tournament, const QUuid &player, IDartsIndex *index) override;
+    QVector<IModel<QUuid> *> assignedPlayers(const QUuid &tournamentId) const override;
+    QFuture<bool> updateTournamentIndex(const QUuid &tournament, IDartsIndex *index) override;
+    QFuture<bool> resetTournament(const QUuid &tournamentId) override;
 public slots:
     void deleteTournaments(const QVector<int> &indexes) override;
-    void getTournaments() override;
-    QFuture<bool> resetTournament(const QUuid &tournamentId) override;
     void setTournamentWinner(const QByteArray &json) override;
-    void addTournament(const QByteArray &json) override;
+    void addTournament(const QByteArray &json, const QVector<int> &playerIndexes) override;
     QByteArray createDartsMetaData(const QUuid& tournamentId) override;
-    QFuture<QByteArray> addInput(const QByteArray& json) override;
     QByteArray createDartsValuesJson(const QUuid &tournamentId) override;
-    QFuture<QByteArray> hideInput(const QByteArray &json) override;
-    QFuture<QByteArray> revealInput(const QByteArray &json) override;
     QByteArray createDartsKeyValues(const QUuid& tournament) override;
-    QFuture<bool> updateTournamentIndex(const QByteArray &json) override;
-private:
-    AbstractPlayersContext *_playersContext;
 };
 #endif // LOCALMODELSSERVICE_H

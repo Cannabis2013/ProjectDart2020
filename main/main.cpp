@@ -2,6 +2,7 @@
 #ifndef TEST_MODE
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include "QmlContext/qmlpropertiesbuilder.h"
 #include <QtQuick/QQuickView>
 #include <qqmlcontext.h>
 #include "registerqmldartstabletypes.h"
@@ -18,6 +19,8 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     // Register custom types
     RegisterQMLTypes::registerTypes();
+    QmlPropertiesBuilder properties;
+    engine.rootContext()->setContextProperties(properties.contextProperties());
     // Setup QML UI interface
     SetupQMLContext::setup(engine,app,QStringLiteral("qrc:/qml/main.qml"));
     // Start main event loop

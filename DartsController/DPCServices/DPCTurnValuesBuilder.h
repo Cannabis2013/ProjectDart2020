@@ -9,24 +9,24 @@
 class DPCTurnValuesBuilder : public ICreateDCTurnValues
 {
 public:
-    DCTurnValues turnValues(const DCIndex &index, IDCScoreModels *scoresService,
+    DCTurnValues turnValues(IDartsIndex *index, IDCScoreModels *scoresService,
                             const IDartsInputFinishes *logisticService = nullptr) const override
     {
         DCTurnValues model;
-        model.canUndo = index.turnIndex > 0;
-        model.canRedo = index.turnIndex < index.totalTurns;
-        model.roundIndex = index.roundIndex;
-        model.setIndex = index.setIndex;
-        model.attemptIndex = index.attemptIndex;
-        model.targetRow = logisticService->suggestTargetRow(getPlayerScore(index,scoresService),index.attemptIndex);
-        model.playerName = scoresService->scores().at(index.setIndex).playerName;
+        model.canUndo = index->turnIndex() > 0;
+        model.canRedo = index->turnIndex() < index->totalTurns();
+        model.roundIndex = index->roundIndex();
+        model.setIndex = index->setIndex();
+        model.attemptIndex = index->attemptIndex();
+        model.targetRow = logisticService->suggestTargetRow(getPlayerScore(index,scoresService),index->attemptIndex());
+        model.playerName = scoresService->scores().at(index->setIndex()).playerName;
         return model;
     }
 private:
-    int getPlayerScore(const DCIndex &index, IDCScoreModels *scoresService) const
+    int getPlayerScore(IDartsIndex *index, IDCScoreModels *scoresService) const
     {
         auto models = scoresService->scores();
-        auto model = models.at(index.setIndex);
+        auto model = models.at(index->setIndex());
         return model.remainingScore;
     }
 };

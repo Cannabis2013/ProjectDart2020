@@ -5,10 +5,10 @@
 
 #include "DartsController/DCJsonSLAs/idcmodeljsonbuilder.h"
 
-class DCMetaInfoJsonBuilder : public IDCModelJsonBuilder<DCMeta>
+class DCMetaInfoJsonBuilder : public IDCModelJsonBuilder<const DCMeta&>
 {
 public:
-    virtual void setJsonValues(QJsonObject &obj, const Model &metaInfo) const override
+    virtual void setJsonValues(QJsonObject &obj, Model metaInfo) const override
     {
         obj["tournamentId"] = metaInfo.tournamentId.toString(QUuid::WithoutBraces);
         obj["currentPlayerId"] = metaInfo.currentPlayerId.toString(QUuid::WithoutBraces);

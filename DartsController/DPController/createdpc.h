@@ -1,11 +1,9 @@
 #ifndef CREATEDPC_H
 #define CREATEDPC_H
-#include "DartsController/DCIndexServices/dcinputindexbuilder.h"
 #include "DartsController/DCFinishesServices/dcinputfinishes.h"
 #include "DartsController/DCScoresServices/dcscoremodels.h"
 #include "DartsController/DCScoresServices/dcupdateinputdetails.h"
 #include "DartsController/Controller/dartscontroller.h"
-#include "DartsController/DCPlayerServices/dcplayerbuilder.h"
 #include "DartsController/DCScoresServices/dccreatescoremodels.h"
 #include "DartsController/DCFinishesServices/dccreatefinishes.h"
 #include "DartsController/DCFinishesServices/dclogisticdb.h"
@@ -31,41 +29,32 @@
 #include "DartsController/PlayerStatsServices/dpccalcmidval.h"
 #include "DartsController/IndexServices/dpcindexcontroller.h"
 #include "DartsController/DCIndexServices/dcreqindexjsonbuilder.h"
-#include "DartsControllerBuilder/SLAs/icreatedartscontroller.h"
-class CreateDPC : public ICreateDartsController<AbstractDartsContext>
+#include "DartsModelsContext/IndexesDbServices/dcindexbuilder.h"
+class CreateDPC
 {
 public:
-    virtual AbstractDartsController *create(AbstractDartsContext *modelsContext) override
+    static AbstractDartsController *create()
     {
         auto dc = new DartsController;
         dc->setStatusCodes(new DCStatusCodes);
+        dc->setMetaInfo(new DCMetaInfo);
         dc->setMetaBuilder(new DCMetaModelBuilder);
         dc->setScoreBuilder(new DCCreateScoreModels);
         dc->setScoresModels(new DCScoreModels);
         dc->setCreateCandidateScores(new DCUpdateInputDetails);
-        dc->setJsonResponseBuilder(createJsonBuilder());
         dc->setPlayerStatsManager(new DCPlayerStatsManager);
         dc->setUpdateMiddleVal(new DPCCalcMidVal);
         dc->setUpdateScoreRange(new DCUpdateScoreRange);
         dc->setUpdatePlayerStats(new DCUpdatePlayerStat);
-        dc->setSuggestFinishes(DCInputFinishes::createInstance(DCCreateFinishes::createInstance(),
-                                                               DCLogisticDb::createInstance()));
+        dc->setSuggestFinishes(DCInputFinishes::createInstance(DCCreateFinishes::createInstance(),DCLogisticDb::createInstance()));
         dc->setPlayerController(new DPCPlayerController);
-        dc->setPlayerBuilderService(new DCPlayerBuilder);
         dc->setInputBuilder(new DPCInputBuilder);
         dc->setInputEvaluator(DPCInputEvaluator::createInstance());
         dc->setGetScoreFromInput(new GetScoreFromDPCInput);
         dc->setIndexService(new DPCIndexController);
-        dc->setIndexBuilder(new DCInputIndexBuilder);
+        dc->setIndexBuilder(new DCIndexBuilder);
         dc->setReqIndexBuilder(new DPCReqIndexBuilder);
         dc->setTurnValuesBuilder(new DPCTurnValuesBuilder);
-        dc->setJsonResponseBuilder(createJsonBuilder());
-        dc->setModelsContext(modelsContext);
-        return dc;
-    }
-private:
-    AbstractDCJsonBuilder *createJsonBuilder()
-    {
         auto builder = new DCJsonBuilder;
         builder->setInputJsonBuilder(new DCInputJsonBuilder);
         builder->setIndexesJsonBuilder(new DCIndexJsonBuilder);
@@ -74,7 +63,8 @@ private:
         builder->setScoreModelJsonBuilder(new DCScoreJsonBuilder);
         builder->setPlayerStatsJsonBuilder(new DCPlayerStatsJsonBuilder);
         builder->setReqIndexJsonBuilder(new DCReqIndexJsonBuilder);
-        return builder;
+        dc->setJsonResponseBuilder(builder);
+        return dc;
     }
 };
 #endif // DEFAULTDARTSPOINTCONTROLLER_H

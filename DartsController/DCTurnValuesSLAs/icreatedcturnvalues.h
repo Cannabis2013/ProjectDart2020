@@ -8,7 +8,7 @@
 class ICreateDCTurnValues
 {
 public:
-    virtual DCTurnValues turnValues(const DCIndex &index, IDCScoreModels *scoresService,
+    virtual DCTurnValues turnValues(IDartsIndex *index, IDCScoreModels *scoresService,
                                     const IDartsInputFinishes *logisticService = nullptr) const = 0;
 };
 #endif // IBUILDTURNVALUES_H

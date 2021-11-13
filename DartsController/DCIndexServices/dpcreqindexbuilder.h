@@ -1,20 +1,21 @@
 #ifndef DPCREQINDEXBUILDER_H
 #define DPCREQINDEXBUILDER_H
-
 #include "DartsController/DCIndexSLAs/idcreqinputindexbuilder.h"
-
 class DPCReqIndexBuilder : public IDCReqInputIndexBuilder
 {
 public:
-    virtual DCIndex index(const DCIndex &index) const override
+    virtual IDartsIndex *index(IDartsIndex *index, const IDCIndexBuilder *indexBuilder) const override
     {
-        auto reqIndex = index;
-        if(reqIndex.attemptIndex > 0)
-            reqIndex.attemptIndex--;
+        auto attemptIndex = index->attemptIndex();
+        auto roundIndex = index->roundIndex();
+        if(attemptIndex > 0)
+            attemptIndex--;
         else
-            reqIndex.roundIndex--;
+            roundIndex--;
+        auto reqIndex = indexBuilder->index(index);
+        reqIndex->setAttemptIndex(attemptIndex);
+        reqIndex->setRoundIndex(roundIndex);
         return reqIndex;
     }
 };
-
 #endif // DPCREQINDEXBUILDER_H

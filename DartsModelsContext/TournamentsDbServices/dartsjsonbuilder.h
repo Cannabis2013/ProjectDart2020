@@ -30,7 +30,7 @@ public:
     virtual QJsonObject winnerDetailsJson(IModel<QUuid> *model) const override
     {
         auto tournament = dynamic_cast<ITournament*>(model);
-        return toJsonObject(tournament->winnerId(),tournament->winnerName());
+        return toJsonObject(tournament->winnerId());
     }
 private:
     QJsonArray toJsonArray(const QVector<IModel<QUuid> *> &models) const
@@ -76,16 +76,14 @@ private:
         auto tournament = dynamic_cast<ITournament*>(model);
         for (int i = 0; i <tournament->assignedPlayerIds().count() ; ++i) {
             auto id = tournament->assignedPlayerIds().at(i);
-            auto name = tournament->assignedPlayerNames().at(i);
-            arr << toJsonObject(id,name);
+            arr << toJsonObject(id);
         }
         return arr;
     }
-    QJsonObject toJsonObject(const QUuid &id, const QString &name) const
+    QJsonObject toJsonObject(const QUuid &id) const
     {
         QJsonObject obj;
         obj["playerId"] = id.toString(QUuid::WithoutBraces);
-        obj["playerName"] = name;
         return obj;
     }
 };

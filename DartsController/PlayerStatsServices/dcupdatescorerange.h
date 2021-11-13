@@ -4,18 +4,18 @@
 class DCUpdateScoreRange : public IDCSetInputStats
 {
 public:
-    virtual void set(DCInput &input, IDCPlayerStats *statsService, const IDCCalcMidVal *calcMidVal, const DCIndex &index, const int &initialScore) const override
+    virtual void set(AbstractDartsInput *input, IDCPlayerStats *statsService, const IDCCalcMidVal *calcMidVal, IDartsIndex *index, const int &initialScore) const override
     {
         DCPlayerStat *playerStat;
         try {
-            playerStat = &statsService->stat(input.playerId);
+            playerStat = &statsService->stat(input->playerId());
         }  catch (...)
         {
             return;
         }
-        evaulateAndUpdateStats(playerStat,input.score);
+        evaulateAndUpdateStats(playerStat,input->score());
         setInputRangeStats(input,playerStat);
-        input.middle = calcMidVal->middleValue(index,input.remainingScore,initialScore);
+        input->setMiddleValue(calcMidVal->middleValue(index,input->remainingScore(),initialScore));
     }
 private:
     void evaulateAndUpdateStats(DCPlayerStat *playerStat, const int &score) const
@@ -25,11 +25,10 @@ private:
         if(playerStat->max < score)
             playerStat->max = score;
     }
-    void setInputRangeStats(DCInput &input, DCPlayerStat *playerStat) const
+    void setInputRangeStats(AbstractDartsInput *input, DCPlayerStat *playerStat) const
     {
-        input.min = playerStat->min;
-        input.max = playerStat->max;
+        input->setCurrentMinimum(playerStat->min);
+        input->setCurrentMaximum(playerStat->max);
     }
-
 };
 #endif // DCUPDATESCORERANGE_H

@@ -1,7 +1,6 @@
 #ifndef DCINITPLAYERSCORES_H
 #define DCINITPLAYERSCORES_H
 
-#include "DartsController/DCPlayerServices/dcplayer.h"
 #include "DartsController/DCPlayerSLAs/IDCPlayerController.h"
 #include "DartsController/DCScoresSLAs/idcscorebuilder.h"
 #include "DartsController/DCScoresSLAs/idcscoremodels.h"
@@ -12,23 +11,27 @@
 class DCInit
 {
 public:
-    static void init(const QVector<DCPlayer> &players, const DCMeta &meta, IDCScoreModels *scoreModels, const IDCScoreBuilder *scoreBuilder, IDCPlayerStats *playerStats, IDCPlayerController *playerController)
+    typedef  IModel<QUuid> Player;
+    typedef QVector<Player*> Players;
+    static void initPlayerDetails(const Players &players, const DCMeta &meta, IDCScoreModels *scoreModels,
+                     const IDCScoreBuilder *scoreBuilder, IDCPlayerStats *playerStats, IDCPlayerController *playerController)
     {
         auto models = scoreBuilder->createScores(players,meta.initialRemainingScore);
         scoreModels->scores().append(models);
         playerStats->setPlayers(players);
         playerController->set(players);
     }
-    static void init(const QVector<DCInput> &inputs,const IDCUpdatePlayerScores *updatePlayerScores,const IDCUpdatePlayerStat *updatePlayerStats,
+    static void initScores(const QVector<AbstractDartsInput*> &inputs,const IDCUpdatePlayerScores *updatePlayerScores,const IDCUpdatePlayerStat *updatePlayerStats,
                      IDCScoreModels *scoreModels, IDCPlayerStats *playerStats)
     {
         updatePlayerScores->update(inputs,scoreModels);
         updatePlayerStats->update(inputs,playerStats);
     }
-    static void init(const DCPlayer &winner, DCMeta &meta, const IDartsStatusCodes *statusCodes)
+    static void initWinnerDetails(const Player *winner, DCMeta &meta, const IDartsStatusCodes *statusCodes)
     {
-        meta.winnerId = winner.id;
-        meta.winnerName = winner.name;
+        auto player = dynamic_cast<const IPlayerModel*>(winner);
+        meta.winnerId = player->id();
+        meta.winnerName = player->playerName();
         if(meta.winnerId != QUuid())
             meta.status = statusCodes->winnerFound();
     }

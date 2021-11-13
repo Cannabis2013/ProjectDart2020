@@ -6,17 +6,16 @@
 class DCMetaInfo : public IDCMetaInfo
 {
 public:
-    DCMetaInfo(const QUuid &id, const int &initialRemaining)
+    void set(const QUuid &id, const int &initialRemaining) override
     {
         _meta.tournamentId = id;
         _meta.initialRemainingScore = initialRemaining;
     }
-    virtual DCMeta &get() override
+    DCMeta &get() override
     {
         return _meta;
     }
 private:
     DCMeta _meta;
 };
-
 #endif // DCTOURNAMENTID_H

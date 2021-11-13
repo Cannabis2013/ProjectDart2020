@@ -4,10 +4,10 @@
 #include "dcturnvalues.h"
 #include "DartsController/DCJsonSLAs/idcmodeljsonbuilder.h"
 
-class DCTurnValuesJsonBuilder : public IDCModelJsonBuilder<DCTurnValues>
+class DCTurnValuesJsonBuilder : public IDCModelJsonBuilder<const DCTurnValues&>
 {
 public:
-    virtual void setJsonValues(QJsonObject &obj, const Model &turnValues) const override
+    virtual void setJsonValues(QJsonObject &obj, Model turnValues) const override
     {
         obj["currentRoundIndex"] = turnValues.roundIndex;
         obj["currentSetIndex"] = turnValues.setIndex;

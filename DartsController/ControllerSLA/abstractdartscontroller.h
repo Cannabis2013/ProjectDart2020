@@ -1,13 +1,14 @@
 #ifndef ABSTRACTDARTSCONTROLLER_H
 #define ABSTRACTDARTSCONTROLLER_H
 #include "DartControllerContext/SLAs/abstractgamecontroller.h"
-#include <DartsController/DCInputServices/dcinput.h>
 class AbstractDartsController : public AbstractGameController
 {
     Q_OBJECT
+public:
+    Q_INVOKABLE virtual int initialize(const QUuid &tournamentId, const int &remainingScore) = 0;
+    Q_INVOKABLE virtual QByteArray createScores() = 0;
 public slots:
-    virtual void createScores() = 0;
-    virtual void persistInput(DCInput &input) = 0;
+    virtual void persistInput(AbstractDartsInput *input) = 0;
     virtual void createTurnValuesJson() = 0;
 signals:
     void sendTurnValues(const QByteArray& json);

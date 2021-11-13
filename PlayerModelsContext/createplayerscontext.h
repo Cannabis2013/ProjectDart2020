@@ -1,18 +1,18 @@
-#ifndef LOCALPLAYERSCONTEXT_H
-#define LOCALPLAYERSCONTEXT_H
-#include "PlayerModelsContext/playermodelscontext.h"
+#ifndef CREATEPLAYERSCONTEXT_H
+#define CREATEPLAYERSCONTEXT_H
+#include "PlayerModelsContext/playerscontext.h"
 #include "PlayerModelsContext/Services/getplayersfromdb.h"
 #include "PlayerModelsContext/DbServices/playersdbcontext.h"
 #include "FileOperationsContext/Services/readbytearray.h"
 #include "FileOperationsContext/Services/writebytearray.h"
 #include "PlayerModelsContext/Services/createjsonfromplayermodels.h"
 #include "PlayerModelsContext/Services/createplayersfromjson.h"
-class LocalPlayersContext
+class CreatePlayersContext
 {
 public:
-    AbstractPlayersContext *createLocalContext()
+    static AbstractPlayersContext *createLocalContext()
     {
-        auto context = new PlayerModelsContext;
+        auto context = new PlayersContext;
         context->setDbContext(new PlayersDbContext(new ReadByteArray,new WriteByteArray));
         context->setGetPlayerModelsFromDb(new GetPlayersFromDb);
         context->setJsonBuilder(new CreateJsonFromPlayerModels);

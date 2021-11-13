@@ -4,13 +4,13 @@
 class GetScoreFromDSCInput : public IDCCalcScore
 {
 public:
-    virtual int calculate(const DCInput &inputModel) const override
+    virtual int calculate(AbstractDartsInput *inputModel) const override
     {
-        return inputModel.score;
+        return inputModel->score();
     }
-    virtual int calculate(const DCIndex &index, const int &scoreCandidate, IDCScoreModels *scoresService) const override
+    virtual int calculate(IDartsIndex *index, const int &scoreCandidate, IDCScoreModels *scoresService) const override
     {
-        auto scoreModel = this->scoreModel(index.setIndex,scoresService);
+        auto scoreModel = this->scoreModel(index->setIndex(),scoresService);
         return calcCandidate(scoreModel,scoreCandidate);
     }
 private:

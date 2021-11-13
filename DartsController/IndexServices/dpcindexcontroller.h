@@ -4,68 +4,68 @@
 class DPCIndexController : public IDCIndexController
 {
 public:
-    virtual void init(const DCIndex &index) override
+    virtual void init(IDartsIndex *index) override
     {
         _index = index;
     }
-    DCIndex &index() override
+    IDartsIndex *index() override
     {
         return _index;
     }
-    DCIndex &next(const int &playersCount) override
+    IDartsIndex *next(const int &playersCount) override
     {
-        if(_index.turnIndex == _index.totalTurns)
-            _index.totalTurns++;
-        _index.turnIndex++;
-        _index.attemptIndex++;
-        if(_index.attemptIndex >= _attempts)
+        if(_index->turnIndex() == _index->totalTurns())
+            _index->setTotalTurns(_index->totalTurns() + 1);
+        _index->setTurnIndex(_index->turnIndex() + 1);
+        _index->setAttemptIndex(_index->attemptIndex() + 1);
+        if(_index->attemptIndex() >= _attempts)
         {
-            _index.setIndex++;
-            _index.attemptIndex = 0;
+            _index->setSetIndex(_index->setIndex() + 1);
+            _index->setAttemptIndex(0);
         }
-        if(_index.setIndex >= playersCount){
-            _index.roundIndex++;
-            _index.setIndex = 0;
+        if(_index->setIndex() >= playersCount){
+            _index->setRoundIndex(_index->roundIndex() + 1);
+            _index->setSetIndex(0);
         }
         return _index;
     }
-    virtual DCIndex &undo(const int &playerCount) override
+    IDartsIndex *undo(const int &playerCount) override
     {
-        if(_index.turnIndex <= 0)
+        if(_index->turnIndex() <= 0)
             throw "ERROR: CAN'T UNDO!";
-        _index.turnIndex--;
-        _index.attemptIndex--;
-        if(_index.attemptIndex < 0)
+        _index->setTurnIndex(_index->turnIndex() - 1);
+        _index->setAttemptIndex(_index->attemptIndex() - 1);
+        if(_index->attemptIndex() < 0)
         {
-            _index.setIndex--;
-            _index.attemptIndex = _attempts - 1;
+            _index->setSetIndex(_index->setIndex() - 1);
+            _index->setAttemptIndex(_attempts - 1);
         }
-        if(_index.setIndex < 0)
+        if(_index->setIndex() < 0)
         {
-            _index.roundIndex--;
-            _index.setIndex = playerCount - 1;
+            _index->setRoundIndex(_index->roundIndex() - 1);
+            _index->setSetIndex(playerCount - 1);
         }
         return _index;
     }
-    virtual DCIndex &redo(const int &playersCount) override
+    IDartsIndex *redo(const int &playersCount) override
     {
-        if(_index.turnIndex >= _index.totalTurns)
+        if(_index->turnIndex() >= _index->totalTurns())
             throw "ERROR: CAN'T REDO!";
-        _index.turnIndex++;
-        _index.attemptIndex++;
-        if(_index.attemptIndex >= _attempts)
+        _index->setTurnIndex(_index->turnIndex() + 1);
+        _index->setAttemptIndex(_index->attemptIndex() + 1);
+        if(_index->attemptIndex() >= _attempts)
         {
-            _index.setIndex++;
-            _index.attemptIndex = 0;
+            _index->setSetIndex(_index->setIndex() + 1);
+            _index->setAttemptIndex(0);
         }
-        if(_index.setIndex >= playersCount){
-            _index.roundIndex++;
-            _index.setIndex = 0;
+        if(_index->setIndex() >= playersCount){
+            _index->setRoundIndex(_index->roundIndex() + 1);
+            _index->setSetIndex(0);
         }
         return _index;
     }
 private:
-    DCIndex _index;
+    IDartsIndex *_index;
     const int _attempts = 3;
 };
 #endif // DPCINDEXCONTROLLER_H

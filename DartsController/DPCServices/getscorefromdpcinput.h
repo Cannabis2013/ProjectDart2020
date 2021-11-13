@@ -1,9 +1,6 @@
 #ifndef GETSCOREFROMDPCINPUT_H
 #define GETSCOREFROMDPCINPUT_H
-
 #include "DartsController/DCScoresSLAs/idccalcscore.h"
-#include "quuid.h"
-
 class GetScoreFromDPCInput : public IDCCalcScore
 {
 public:
@@ -14,14 +11,14 @@ public:
         BullModifier,
         BullsEyeModifier
     };
-    virtual int calculate(const DCInput &inputModel) const override
+    virtual int calculate(AbstractDartsInput *inputModel) const override
     {
-        auto multiplier = createPointMultiplier(inputModel.modKeyCode);
-        return calculateScore(inputModel.point,multiplier);
+        auto multiplier = createPointMultiplier(inputModel->modKeyCode());
+        return calculateScore(inputModel->point(),multiplier);
     }
-    virtual int calculate(const DCIndex &index, const int &scoreCandidate, IDCScoreModels *scoresService) const override
+    virtual int calculate(IDartsIndex *index, const int &scoreCandidate, IDCScoreModels *scoresService) const override
     {
-        auto scoreModel = this->scoreModel(index.setIndex,scoresService);
+        auto scoreModel = this->scoreModel(index->setIndex(),scoresService);
         return calcCandidate(scoreModel,scoreCandidate);
     }
 private:
@@ -50,6 +47,4 @@ private:
         return totalScoreCandidate;
     }
 };
-
-
 #endif // POINTSCORECALCULATOR_H

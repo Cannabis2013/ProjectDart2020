@@ -1,22 +1,20 @@
 #ifndef DSCVALUESBUILDER_H
 #define DSCVALUESBUILDER_H
-
 #include "DartsController/DCTurnValuesSLAs/icreatedcturnvalues.h"
 #include "DartsController/DCTurnValuesServices/dcturnvalues.h"
-
 class DSCValuesBuilder : public ICreateDCTurnValues
 {
 public:
-    DCTurnValues turnValues(const DCIndex &index, IDCScoreModels *scoresService,
+    DCTurnValues turnValues(IDartsIndex *index, IDCScoreModels *scoresService,
                             const IDartsInputFinishes *logisticService = nullptr) const override
     {
         auto scoreModels = scoresService->scores();
         DCTurnValues model;
-        model.canUndo = index.turnIndex > 0;
-        model.canRedo = index.turnIndex < index.totalTurns;
-        model.roundIndex = index.roundIndex;
-        model.setIndex = index.setIndex;
-        model.attemptIndex = index.attemptIndex;
+        model.canUndo = index->turnIndex() > 0;
+        model.canRedo = index->turnIndex() < index->totalTurns();
+        model.roundIndex = index->roundIndex();
+        model.setIndex = index->setIndex();
+        model.attemptIndex = index->attemptIndex();
         model.targetRow = createRowSuggestionByScore(logisticService,scoreModels.at(model.setIndex).remainingScore);
         model.playerName = scoreModels.at(model.setIndex).playerName;
         return model;

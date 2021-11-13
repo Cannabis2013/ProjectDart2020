@@ -1,13 +1,14 @@
 #ifndef DSCREQINDEXBUILDER_H
 #define DSCREQINDEXBUILDER_H
 #include <DartsController/DCIndexSLAs/idcreqinputindexbuilder.h>
+#include "DartsModelsContext/IndexesDbServices/dartsindex.h"
 class DSCReqIndexBuilder : public IDCReqInputIndexBuilder
 {
 public:
-    virtual DCIndex index(const DCIndex &index) const override
+    virtual IDartsIndex *index(IDartsIndex *index, const IDCIndexBuilder *indexBuilder) const override
     {
-        DCIndex reqIndex = index;
-        reqIndex.roundIndex--;
+        auto reqIndex = indexBuilder->index(index);
+        reqIndex->setRoundIndex(index->roundIndex() - 1);
         return reqIndex;
     }
 };

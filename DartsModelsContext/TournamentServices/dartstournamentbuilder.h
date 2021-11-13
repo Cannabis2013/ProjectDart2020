@@ -82,7 +82,7 @@ private:
             playerIds << QUuid::fromString(jsonObject.value("playerId").toString());
             playerNames << jsonObject.value("playerName").toString();
         }
-        tournament->setAssignedPlayerIdentities(playerIds);
+        tournament->setAssignedPlayerIds(playerIds);
         tournament->setAssignedPlayerNames(playerNames);
     }
     QUuid toId(const QJsonObject &obj, const QString &key, const QString &defaultvalue = "") const

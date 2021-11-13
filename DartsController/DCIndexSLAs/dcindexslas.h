@@ -1,8 +1,8 @@
 #ifndef DCINDEXSLAS_H
 #define DCINDEXSLAS_H
 #include "DartsController/DCIndexSLAs/idcindexcontroller.h"
-#include "DartsController/DCIndexSLAs/idcindexbuilder.h"
 #include "idcreqinputindexbuilder.h"
+#include <DartsModelsContext/IndexesSLAs/idcindexbuilder.h>
 class DCIndexSLAs
 {
 public:
@@ -14,14 +14,6 @@ public:
     {
         _indexController = service;
     }
-    IDCIndexBuilder *indexBuilder() const
-    {
-        return _indexBuilder;
-    }
-    void setIndexBuilder(IDCIndexBuilder *service)
-    {
-        _indexBuilder = service;
-    }
     IDCReqInputIndexBuilder *reqIndexBuilder() const
     {
         return _reqIndexBuilder;
@@ -30,9 +22,17 @@ public:
     {
         _reqIndexBuilder = newReqIndexBuilder;
     }
+    IDCIndexBuilder *indexBuilder() const
+    {
+        return _indexBuilder;
+    }
+    void setIndexBuilder(IDCIndexBuilder *newIndexBuilder)
+    {
+        _indexBuilder = newIndexBuilder;
+    }
 private:
+    IDCIndexBuilder *_indexBuilder;
     IDCIndexController* _indexController = nullptr;
-    IDCIndexBuilder* _indexBuilder;
     IDCReqInputIndexBuilder *_reqIndexBuilder;
 };
 #endif // DCINDEXSLAS_H

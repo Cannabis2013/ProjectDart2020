@@ -6,11 +6,11 @@
 class DCPlayerStatsManager : public IDCPlayerStats
 {
 public:
-    virtual void setPlayers(const QVector<DCPlayer> &players) override
+    virtual void setPlayers(const Players &players) override
     {
         for (const auto &player : players) {
             DCPlayerStat entity;
-            entity.playerId = player.id;
+            entity.playerId = player->id();
             _playerStats << entity;
         }
     }

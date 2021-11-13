@@ -4,16 +4,18 @@
 #include <qjsonarray.h>
 class DCJsonBuilder : public AbstractDCJsonBuilder
 {
+
+    // AbstractDCJsonBuilder interface
 public:
-    QByteArray create(const DCMeta &metaInfo) const override;
-    QByteArray create(const QVector<DCScoreModel> &scoreModels, const QVector<DCPlayerStat> &playerStats) const override;
-    QByteArray create(const DCInput &input, const DCTurnValues &turnValues, const DCMeta &metaInfo) const override;
-    QByteArray create(const DCTurnValues &turnValues, const DCMeta &metaInfo = DCMeta()) const override;
-    QByteArray create(const DCInput &input, const DCTurnValues &turnValues, const DCIndex &indexes, const DCMeta &metaInfo) const override;
-    QByteArray create(const DCInput &input, const DCIndex &indexes, const DCMeta &metaInfo) const override;
-    QByteArray create(const DCIndex &index, const DCMeta &metaInfo) const override;
-    QByteArray create(const DCIndex &regIndex, const DCIndex &inputIndex, const DCMeta &metaInfo) const override;
-    virtual QByteArray create(const DCInput &input, const DCMeta &metaInfo) const override;
+    virtual QByteArray create(const DCMeta &metaInfo) const override;
+    virtual QByteArray create(const QVector<DCScoreModel> &scoreModels, const QVector<DCPlayerStat> &playerStats) const override;
+    virtual QByteArray create(const DCTurnValues &turnValues, const DCMeta &metaInfo) const override;
+    virtual QByteArray create(AbstractDartsInput *input, const DCTurnValues &turnValues, const DCMeta &metaInfo) const override;
+    virtual QByteArray create(AbstractDartsInput *input, const DCTurnValues &turnValues, IDartsIndex *indexe, const DCMeta &metaInfo) const override;
+    virtual QByteArray create(AbstractDartsInput *input, IDartsIndex *index, const DCMeta &metaInfo) const override;
+    virtual QByteArray create(AbstractDartsInput *input, const DCMeta &metaInfo) const override;
+    virtual QByteArray create(IDartsIndex *index, const DCMeta &metaInfo) const override;
+    virtual QByteArray create(IDartsIndex *reqIndex, IDartsIndex *index, const DCMeta &metaInfo) const override;
 };
 
 #endif // DCJSONBUILDER_H

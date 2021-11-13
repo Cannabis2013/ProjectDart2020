@@ -9,7 +9,7 @@ class Runnable
 {
 public:
     template<typename T>
-    static void run(std::function<void()> funct, const QFuture<T> &future)
+    static void runLater(std::function<void()> funct, const QFuture<T> &future)
     {
         auto watcher = new QFutureWatcher<T>();
         QObject::connect(watcher,&QFutureWatcherBase::finished, [=](){

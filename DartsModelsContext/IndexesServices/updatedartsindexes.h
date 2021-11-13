@@ -7,10 +7,10 @@
 class UpdateDartsIndexes : public IUpdateDartsIndexes
 {
 public:
-    IDartsDbContext *update(IDartsIndex *index, const DartsMetaModel &meta, IDartsDbContext *dbContext) const override
+    IDartsDbContext *update(IDartsIndex *index, const QUuid &tournament, IDartsDbContext *dbContext) const override
     {
         for (auto &model : dbContext->models()) {
-            if(matchByTournamentId(model,meta.tournamentId))
+            if(matchByTournamentId(model,tournament))
                 updateTournament(index,model);
         }
         return dbContext;

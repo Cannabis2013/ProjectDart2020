@@ -6,6 +6,6 @@
 class IUpdateDartsIndexes
 {
 public:
-    virtual IDartsDbContext *update(IDartsIndex *model, const DartsMetaModel &meta, IDartsDbContext *dbContext) const = 0;
+    virtual IDartsDbContext *update(IDartsIndex *model, const QUuid &tournament, IDartsDbContext *dbContext) const = 0;
 };
 #endif // IUPDATEDARTSINDEXES_H

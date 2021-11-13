@@ -13,6 +13,10 @@ public:
     {
         return toModel(toJsonObject(json));
     }
+    virtual DartsMetaModel buildMeta(const QUuid &tournament, const QUuid &player) const override
+    {
+        return {.playerId = player,.tournamentId = tournament};
+    }
 private:
     QJsonObject toJsonObject(const QByteArray &json) const
     {
@@ -25,7 +29,6 @@ private:
     {
         DartsMetaModel meta;
         meta.playerId = toId(obj.value("currentPlayerId"));
-        meta.playerName = obj.value("currentPlayerName").toString();
         meta.tournamentId = toId(obj.value("tournamentId"));
         return meta;
     }
@@ -34,5 +37,4 @@ private:
         return QUuid::fromString(value.toString());
     }
 };
-
 #endif // DARTSMETAMODELBUILDER_H

@@ -52,7 +52,7 @@ DartsInputsDbContext *DartsInputsDbContext::replace(const int& index, IModel<QUu
 bool DartsInputsDbContext::fetchModels(const IDartsInputBuilder *modelBuilder)
 {
     auto future = readJson()->read();
-    Runnable::run([=]{
+    Runnable::runLater([=]{
         _dartsScoreModels << modelBuilder->createInputs(future.result());
     },future);
     return true;
@@ -61,5 +61,6 @@ bool DartsInputsDbContext::fetchModels(const IDartsInputBuilder *modelBuilder)
 QFuture<bool> DartsInputsDbContext::saveChanges(const IDartsInputJsonBuilder *jsonBuilder)
 {
     QMutexLocker locker(&_mutex);
-    return saveJson()->save(jsonBuilder->json(_dartsScoreModels));
+    auto json = jsonBuilder->json(_dartsScoreModels);
+    return saveJson()->save(json);
 }

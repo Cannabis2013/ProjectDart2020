@@ -2,10 +2,10 @@
 #define DCPLAYERSTATSJSONBUILDER_H
 #include "DartsController/PlayerStatsSLAs/dcplayerstat.h"
 #include "DartsController/DCJsonSLAs/idcmodeljsonbuilder.h"
-class DCPlayerStatsJsonBuilder : public IDCModelJsonBuilder<DCPlayerStat>
+class DCPlayerStatsJsonBuilder : public IDCModelJsonBuilder<const DCPlayerStat&>
 {
 public:
-    virtual void setJsonValues(QJsonObject &obj, const Model &playerStat) const override
+    virtual void setJsonValues(QJsonObject &obj, Model playerStat) const override
     {
         obj["middleValue"] = playerStat.middle;
         obj["currentMinimum"] = playerStat.min;

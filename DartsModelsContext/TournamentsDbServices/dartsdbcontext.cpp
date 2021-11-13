@@ -2,7 +2,7 @@
 bool DartsDbContext::fetchModels(const IDartsBuilder *modelBuilder)
 {
     auto future = readJson()->read();
-    Runnable::run([=]{
+    Runnable::runLater([=]{
         _models = modelBuilder->createTournaments(future.result());
     },future);
     return true;

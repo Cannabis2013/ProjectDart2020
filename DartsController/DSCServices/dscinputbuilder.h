@@ -1,74 +1,72 @@
 #ifndef DSCINPUTBUILDER_H
 #define DSCINPUTBUILDER_H
-
-#include "DartsController/DCInputServices/dcinput.h"
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 #include <qjsonarray.h>
+#include "DartsModelsContext/InputServices/dartsinput.h"
 #include "DartsController/DCInputSLAs/idcinputbuilder.h"
-
 class DSCInputBuilder : public IDCInputBuilder
 {
 public:
-    virtual DCInput create(const QByteArray &json, const IDCPlayerController *playerController,
-                               const IDCCalcScore *getScoreContext,const DCIndex &index, IDCScoreModels *scoreModels) const override
+    virtual AbstractDartsInput *create(const QByteArray &json, const IDCPlayerController *playerController,
+                                       const IDCCalcScore *getScoreContext,IDartsIndex *index, IDCScoreModels *scoreModels) const override
     {
         auto jsonObject = toJsonObject(json);
         auto input = toInput(jsonObject);
-        input.playerId = scoreModels->scores().at(index.setIndex).playerId;
-        input.playerName = scoreModels->scores().at(index.setIndex).playerName;
-        input.score = getScoreContext->calculate(input);
-        input.remainingScore = scoreModels->score(input.playerId).remainingScore;
-        input.inGame = playerController->status(input.playerId);
+        input->setPlayerId(scoreModels->scores().at(index->setIndex()).playerId);
+        input->setPlayerName(scoreModels->scores().at(index->setIndex()).playerName);
+        input->setScore(getScoreContext->calculate(input));
+        input->setRemainingScore(scoreModels->score(input->playerId()).remainingScore);
+        input->setInGame(playerController->status(input->playerId()));
         return input;
     }
-    DCInput create(const QByteArray &json, const int &initialScore) const override
+    AbstractDartsInput *create(const QByteArray &json, const int &initialScore) const override
     {
         return toInput(toJsonObject(json),initialScore);
     }
-    virtual DCInput create(const DCScoreModel &scoreModel) const override
+    AbstractDartsInput *create(const DCScoreModel &scoreModel) const override
     {
-        DCInput inputModel;
-        inputModel.playerId = scoreModel.playerId;
-        inputModel.playerName = scoreModel.playerName;
-        inputModel.remainingScore = scoreModel.remainingScore;
+        auto inputModel = new DartsInput;
+        inputModel->setPlayerId(scoreModel.playerId);
+        inputModel->setPlayerName(scoreModel.playerName);
+        inputModel->setRemainingScore(scoreModel.remainingScore);
         return inputModel;
     }
-    virtual QVector<DCInput> buildInputs(IDCScoreModels *scoresService) const override
+    virtual QVector<AbstractDartsInput*> buildInputs(IDCScoreModels *scoresService) const override
     {
-        QVector<DCInput> scoreModels;
+        QVector<AbstractDartsInput*> scoreModels;
         for (const auto &scoreModel : scoresService->scores())
             scoreModels << toInput(scoreModel);
         return scoreModels;
     }
-    virtual QVector<DCInput> buildInputs(const QJsonArray &arr) const override
+    virtual QVector<AbstractDartsInput*> buildInputs(const QJsonArray &arr) const override
     {
-        QVector<DCInput> models;
+        QVector<AbstractDartsInput*> models;
         for (const auto &jsonVal : arr)
             models << toInput(jsonVal.toObject());
         return models;
     }
 private:
-    DCInput toInput(const DCScoreModel &scoreModel) const
+    AbstractDartsInput *toInput(const DCScoreModel &scoreModel) const
     {
-        DCInput input;
-        input.playerId = scoreModel.playerId;
-        input.playerName = scoreModel.playerName;
-        input.remainingScore = scoreModel.remainingScore;
+        auto input = new DartsInput;
+        input->setPlayerId(scoreModel.playerId);
+        input->setPlayerName(scoreModel.playerName);
+        input->setRemainingScore(scoreModel.remainingScore);
         return input;
     }
-    DCInput toInput(const QJsonObject &obj, const int &initialScore = -1) const
+    AbstractDartsInput *toInput(const QJsonObject &obj, const int &initialScore = -1) const
     {
-        DCInput input;
-        input.playerId = toId(obj.value("inputPlayerId").toString());
-        input.playerName = obj.value("inputPlayerName").toString();
-        input.score = obj.value("score").toInt();
-        input.remainingScore = obj.value("totalScore").toInt();
-        input.middle = obj.value("middleValue").toDouble(0);
-        input.min = obj.value("minimumValue").toInt(0);
-        input.max = obj.value("maximumValue").toInt(0);
-        input.remainingScore = obj.value("remainingScore").toInt(initialScore);
-        input.approved = obj.value("approved").toBool(false);
+        auto input = new DartsInput;
+        input->setPlayerId(toId(obj.value("inputPlayerId").toString()));
+        input->setPlayerName(obj.value("inputPlayerName").toString());
+        input->setScore(obj.value("score").toInt());
+        input->setRemainingScore(obj.value("totalScore").toInt());
+        input->setMiddleValue(obj.value("middleValue").toDouble(0));
+        input->setCurrentMinimum(obj.value("minimumValue").toInt(0));
+        input->setCurrentMaximum(obj.value("maximumValue").toInt(0));
+        input->setRemainingScore(obj.value("remainingScore").toInt(initialScore));
+        input->setApproved(obj.value("approved").toBool(false));
         return input ;
     }
     QJsonObject toJsonObject(const QByteArray &json) const

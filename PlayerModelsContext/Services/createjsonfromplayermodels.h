@@ -25,7 +25,7 @@ private:
     }
     QJsonObject createJsonObject(const IModel<QUuid> *model) const
     {
-        auto playerModel = dynamic_cast<const PlayersContext::IPlayerModel*>(model);
+        auto playerModel = dynamic_cast<const IPlayerModel*>(model);
         QJsonObject obj;
         obj["Id"] = playerModel->id().toString();
         obj["playerName"] = playerModel->playerName();

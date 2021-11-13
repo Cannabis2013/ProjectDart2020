@@ -1,10 +1,8 @@
 #ifndef IDSCSCORESSERVICE_H
 #define IDSCSCORESSERVICE_H
-
 #include <quuid.h>
+#include <qvector.h>
 #include "DartsController/DCScoresServices/dcscoremodel.h"
-#include "DartsController/DCInputServices/dcinput.h"
-
 class IDCScoreModels
 {
 public:
