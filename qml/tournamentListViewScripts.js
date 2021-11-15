@@ -30,7 +30,7 @@ function addItemModel(itemModel)
 
 function removeItemModels(indexes)
 {
-    var length = indexes.length;
+    let length = indexes.length;
     for(var i = 0;i < length;i++){
         var index = indexes[i];
         listModel.remove(index);

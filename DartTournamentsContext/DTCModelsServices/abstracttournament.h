@@ -1,8 +1,6 @@
 #ifndef ABSTRACTTOURNAMENT_H
 #define ABSTRACTTOURNAMENT_H
-
 #include "DartTournamentsContext/DTCModelsSLAs/itournament.h"
-
 class AbstractTournament : public ITournament
 {
 public:
@@ -22,15 +20,6 @@ public:
     virtual ITournament *setTitle(const QString &string) override
     {
         _title = string;
-        return this;
-    }
-    virtual QVector<QUuid> assignedPlayerIds() const override
-    {
-        return _assignedPlayerIdentities;
-    }
-    virtual ITournament *setAssignedPlayerIds(const QVector<QUuid> &playerIdentities) override
-    {
-        _assignedPlayerIdentities = playerIdentities;
         return this;
     }
     virtual int gameMode() const override
@@ -74,7 +63,6 @@ private:
     QUuid _id;
     QUuid _winnerId;
     QString _winnerName;
-    QVector<QUuid> _assignedPlayerIdentities;
     int _status;
     int _gameMode;
 };

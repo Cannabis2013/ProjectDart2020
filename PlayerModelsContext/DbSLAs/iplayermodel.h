@@ -6,8 +6,8 @@
 class IPlayerModel : public IModel<QUuid>
 {
 public:
-    virtual QString playerName() const = 0;
-    virtual IPlayerModel* setUserName(const QString &name) = 0;
+    virtual QString name() const = 0;
+    virtual IPlayerModel* setName(const QString &name) = 0;
     virtual QString email() const = 0;
     virtual IPlayerModel* setEmail(const QString& email) = 0;
     virtual bool operator==(IPlayerModel* &other) = 0;

@@ -6,6 +6,6 @@ class IDCUpdatePlayerStat
 {
 public:
     virtual void update(const AbstractDartsInput *input, IDCPlayerStats *playerStatsContext) const = 0;
-    virtual void update(const QVector<AbstractDartsInput*> &inputs, IDCPlayerStats *playerStatsContext) const = 0;
+    virtual void update(const QVector<IModel<QUuid>*> &inputs, IDCPlayerStats *playerStatsContext) const = 0;
 };
 #endif // IDCUPDATEPLAYERSTAT_H

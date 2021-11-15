@@ -15,13 +15,11 @@ public:
     typedef QVector<Property> Properties;
     QmlPropertiesBuilder()
     {
-        CreatePlayersContext pContextBuilder;
-        _playerContext = pContextBuilder.createLocalContext();
-        DartsContextBuilder dartsBuilder;
-        _dartsContext = dartsBuilder.create()->setPlayerModelsContext(_playerContext);
+        _playerContext = CreatePlayersContext().createLocalContext();
+        _dartsContext = DartsContextBuilder().create()->setPlayersContext(_playerContext);
         CreateDartsController dcBuilder;
-        _dpController = dcBuilder.createDartsPointController();
-        _dsController = dcBuilder.createDartsScoreController();
+        _dpController = dcBuilder.createDartsPointController()->setModelsContext(_dartsContext);
+        _dsController = dcBuilder.createDartsScoreController()->setModelsContext(_dartsContext);
     }
     Properties contextProperties() const
     {

@@ -17,7 +17,7 @@ private:
         DCScoreModel scoreModel;
         auto playerModel = dynamic_cast<const IPlayerModel*>(model);
         scoreModel.playerId = playerModel->id();
-        scoreModel.playerName = playerModel->playerName();
+        scoreModel.playerName = playerModel->name();
         scoreModel.remainingScore = initialScore;
         return scoreModel;
     }

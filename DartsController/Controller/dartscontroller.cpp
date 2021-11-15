@@ -1,23 +1,11 @@
 #include "dartscontroller.h"
-void DartsController::createIndexJson()
-{
-    auto future = modelsContext()->updateTournamentIndex(metaInfo()->get().tournamentId,indexController()->index());
-    Runnable::runLater([=]{
-        if(future.result())
-            createJsonResponse();
-    },future);
-}
 void DartsController::handleUserInput(const QByteArray& json)
 {
     auto input = createInput()->create(json,playerController(),scoreCalculator(),indexController()->index(),scoreModels());
     auto scoreCand = scoreCalculator()->calculate(indexController()->index(),input->score(),scoreModels());
     evaluateInput()->evaluate(input,scoreCand,metaInfo(),this,statusCodes(),playerController());
 }
-void DartsController::sendTournamentId()
-{
-    emit sendCurrentTournamentId(metaInfo()->get().tournamentId);
-}
-QByteArray DartsController::createScores()
+QByteArray DartsController::getPlayerScores()
 {
     return createJson()->create(scoreModels()->scores(),playerStats()->stats());
 }
@@ -29,15 +17,12 @@ void DartsController::reset()
     metaInfo()->get().status = statusCodes()->initialized();
     playerController()->reset();
     auto future = modelsContext()->resetTournament(metaInfo()->get().tournamentId);
-    Runnable::runLater([=]{
-        if(future.result())
-            emit resetSucces();
-    },future);
+    RunLater::run([=]{if(future.result())emit resetSucces();},future);
 }
-void DartsController::createTurnValuesJson()
+QByteArray DartsController::createTurnValuesJson()
 {
-    auto values = turnValuesBuilder()->turnValues(indexController()->index(),scoreModels(),dartsFinishBuilder());
-    emit sendTurnValues(createJson()->create(values));
+    auto turnValues = turnValuesBuilder()->turnValues(indexController()->index(),scoreModels(),dartsFinishBuilder());
+    return createJson()->create(turnValues);
 }
 void DartsController::updateScoreDetails(AbstractDartsInput *input)
 {
@@ -53,7 +38,7 @@ void DartsController::undoTurn()
     auto meta = createMeta()->create(metaInfo(),indexController()->index(),scoreModels());
     auto reqIndex = reqIndexBuilder()->index(indexController()->index(),indexBuilder());
     auto future = modelsContext()->hideInput(meta.tournamentId,meta.currentPlayerId,inputIndex);
-    Runnable::runLater([=]{
+    RunLater::run([=]{
         auto input = modelsContext()->input(meta.tournamentId,meta.currentPlayerId,reqIndex);
         updateScoreDetails(input);
     },future);
@@ -64,7 +49,7 @@ void DartsController::redoTurn()
     auto index = indexController()->index();
     indexController()->redo(playerController()->count());
     auto future = modelsContext()->revealInput(meta.tournamentId,meta.currentPlayerId,index);
-    Runnable::runLater([=]{
+    RunLater::run([=]{
         if(future.result())
         {
             auto input = modelsContext()->input(meta.tournamentId,meta.currentPlayerId,index);
@@ -72,47 +57,43 @@ void DartsController::redoTurn()
         }
     },future);
 }
-void DartsController::persistInput(AbstractDartsInput *input)
+void DartsController::addInputToModelsContext(AbstractDartsInput *input)
 {
     auto index = indexController()->index();
     setInputStats()->set(input,playerStats(),calcMidVal(),index,metaInfo()->get().initialRemainingScore);
     auto meta = createMeta()->create(metaInfo(),index,scoreModels());
     indexController()->next(playerController()->count());
-    auto json = createJson()->create(input,index,meta);
-    auto future = modelsContext()->addInput(json);
-    Runnable::runLater([=]{
-        auto meta = metaInfo()->get();
-        auto inputVal = modelsContext()->input(meta.tournamentId,meta.currentPlayerId,indexController()->index());
-        updateScoreDetails(inputVal);}
-    ,future);
+    auto addInput = modelsContext()->addInput(meta.tournamentId,input);
+    RunLater::run([=]{
+        auto updateIndex = modelsContext()->updateTournamentIndex(metaInfo()->get().tournamentId,indexController()->index());
+        RunLater::run([=]{
+            auto inputVal = modelsContext()->input(metaInfo()->get().tournamentId,meta.currentPlayerId,indexController()->index());
+            updateScoreDetails(inputVal);
+        },updateIndex);
+    },addInput);
 }
-void DartsController::createJsonResponse()
+int DartsController::initialize(const QUuid &tournamentId)
 {
-    if(metaInfo()->get().status == statusCodes()->winnerFound())
-        createWinnerJson();
-    else
-        createTurnValuesJson();
-}
-int DartsController::initialize(const QUuid &tournamentId, const int &remainingScore)
-{
+    auto tournament = modelsContext()->tournament(tournamentId);
+    DCInit::initTournamentMeta(tournament,metaInfo());
     auto players = modelsContext()->assignedPlayers(tournamentId);
     DCInit::initPlayerDetails(players,metaInfo()->get(),scoreModels(),scoresBuilder(),playerStats(),playerController());
+    auto inputs = modelsContext()->tournamentInputs(tournamentId);
+    DCInit::initScores(inputs,updatePlayerScores(),updatePlayerStats(),scoreModels(),playerStats());
     return statusCodes()->initialized();
 }
-
 QString DartsController::tournamentId() const
 {
     return metaInfo()->get().tournamentId.toString(QUuid::WithBraces);
 }
-void DartsController::requestStatus()
+QByteArray DartsController::getTurnValuesJson()
 {
     if(metaInfo()->get().status == statusCodes()->winnerFound())
-        createWinnerJson();
-    else
-        emit ready();
+        return createWinnerJson();
+    return createTurnValuesJson();
 }
-void DartsController::createWinnerJson()
+QByteArray DartsController::createWinnerJson()
 {
     auto meta = createMeta()->create(metaInfo(),indexController()->index(),scoreModels());
-    emit winnerDeclared(createJson()->create(meta));
+    return createJson()->create(meta);
 }

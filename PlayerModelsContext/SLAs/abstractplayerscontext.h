@@ -11,8 +11,10 @@ public:
     typedef IModel<QUuid> Player;
     typedef QVector<IModel<QUuid>*> Players;
     virtual Player *playerModel(const QUuid &id) const = 0;
+    virtual Player *playerModel(const QString &name) const = 0;
     virtual Players playerModels(const QVector<int> &indexes) const = 0;
     virtual Players playerModels(const QVector<QUuid> &ids) const = 0;
+    virtual Players playerModels(const QVector<QString> &names) const = 0;
     Q_INVOKABLE virtual void createPlayer(const QByteArray &json) = 0;
     Q_INVOKABLE virtual void deletePlayersFromIndexes(const QVector<int> &indexes) = 0;
 public slots:

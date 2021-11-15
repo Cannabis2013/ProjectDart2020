@@ -53,7 +53,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    AsyncUtils/runnable.h \
+    AsyncUtils/runlater.h \
     DartsController/ControllerSLA/controllerslas.h \
     DartsController/DCIndexSLAs/idcindexcontroller.h \
     DartsController/DCIndexSLAs/idcreqinputindexbuilder.h \
@@ -111,6 +111,8 @@ HEADERS += \
     DartsController/StaticInitHelperClass/dcinit.h \
     DartsControllerBuilder/DCBMetaServices/dcbmeta.h \
     DartsControllerBuilder/Services/createdartscontroller.h \
+    DartsModelsContext/DartsPlayersSLAs/itournamentplayers.h \
+    DartsModelsContext/DartsPlayersServices/tournamentplayers.h \
     DartsModelsContext/IndexesDbServices/dcindexbuilder.h \
     DartsModelsContext/IndexesSLAs/idcindexbuilder.h \
     DartsModelsContext/InputSLAs/dartsinputslas.h \
@@ -130,6 +132,8 @@ HEADERS += \
     DartsModelsContext/TournamentModels/dartsmetamodel.h \
     DartsModelsContext/TournamentServices/GetDartsTournamentIds.h \
     DartsModelsContext/TournamentServices/dartsmetamodelbuilder.h \
+    DartsModelsContext/TournamentServices/dartstournamentrepair.h \
+    DartsModelsContext/TournamentServices/dartsverifyconsistency.h \
     DartsModelsContext/TournamentServices/dartwinnermodelbuilder.h \
     DartsModelsContext/TournamentServices/resetdartstournament.h \
     DartsModelsContext/IndexesDbSLAs/idartsindex.h \
@@ -142,7 +146,9 @@ HEADERS += \
     DartsModelsContext/TournamentsDbSLAs/igetdartstournament.h \
     DartsModelsContext/TournamentModels/dartstournament.h \
     DartsModelsContext/TournamentsDbServices/dartsjsonbuilder.h \
+    DartsModelsContext/TournamentsSLAs/idartsconsistency.h \
     DartsModelsContext/TournamentsSLAs/idartsmetamodelbuilder.h \
+    DartsModelsContext/TournamentsSLAs/idartsrepair.h \
     DartsModelsContext/TournamentsSLAs/igettournamentids.h \
     DartsModelsContext/TournamentsSLAs/iresetdartstournament.h \
     DartsModelsContext/TournamentsSLAs/isettournamentplayerdetails.h \
@@ -184,7 +190,6 @@ HEADERS += \
     PlayerModelsContext/DbServices/playersdbcontext.h \
     PlayerModelsContext/DbSLAs/iplayercontextmodelbuilder.h \
     PlayerModelsContext/SLAs/abstractplayerscontext.h \
-    PlayerModelsContext/PMCConnectServices/connectplayerscontext.h \
     PlayerModelsContext/createplayerscontext.h \
     PlayerModelsContext/playerscontext.h \
     QmlContext/qmlpropertiesbuilder.h \

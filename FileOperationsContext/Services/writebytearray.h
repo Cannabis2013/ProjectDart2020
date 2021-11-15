@@ -6,7 +6,7 @@
 class WriteByteArray : public IFileWriter<QByteArray>
 {
 public:
-    QFuture<bool> save(const QByteArray &byteArray) const override
+    QFuture<bool> saveAsync(const QByteArray &byteArray) const override
     {
         return QtConcurrent::run([=]{
             QFile file(_fileName);

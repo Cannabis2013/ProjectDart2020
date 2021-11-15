@@ -1,13 +1,14 @@
 function initializeComponent()
 {
     connectInterface();
-    getMetaData();
+    let metaJson = getMetaData();
+    initMetaData(metaJson);
+    addScores(dsController.getPlayerScores());
+    dsscContent.state = "ready";
 }
 
 function connectInterface()
 {
-    applicationInterface.sendDartsTournamentData.connect(handleMetaData);
-    applicationInterface.sendDartsScores.connect(recieveScores);
     applicationInterface.controllerReady.connect(controllerReady);
     applicationInterface.controllerStopped.connect(backendIsStopped);
     applicationInterface.winnerFound.connect(winnerFound);
@@ -19,8 +20,6 @@ function connectInterface()
 
 function disconnectInterface()
 {
-    applicationInterface.sendDartsTournamentData.disconnect(handleMetaData);
-    applicationInterface.sendDartsScores.disconnect(recieveScores);
     applicationInterface.controllerReady.disconnect(controllerReady);
     applicationInterface.controllerStopped.disconnect(backendIsStopped);
     applicationInterface.winnerFound.disconnect(winnerFound);
@@ -32,14 +31,17 @@ function disconnectInterface()
 function getMetaData(){
     var id = dsController.tournamentId();
     var byteArray = dartsContext.tournament(id);
-    var json = JSON.parse(byteArray);
+    return JSON.parse(byteArray);
+}
+
+function initMetaData(json)
+{
     dartsMetaValues.title = json["title"];
     dartsMetaValues.winnerName= json["winnerName"];
     dartsMetaValues.keyPoint = json["keyPoint"];
     dartsMetaValues.assignedPlayerNames = getPlayerNames(json["assignedPlayerDetails"]);
     initializeScoreBoard();
     preferedPageTitle = dartsMetaValues.title;
-    applicationInterface.requestDartsScores();
 }
 
 function getPlayerNames(playerDetails)
@@ -62,11 +64,10 @@ function initializeScoreBoard()
     singleColumnScoreBoard.appendHeaderData(assignedPlayerNames,keyPoint);
 }
 
-function recieveScores(scores)
+function addScores(scores)
 {
     var json = JSON.parse(scores);
     addDartsScoresToScoreBoard(json);
-    applicationInterface.requestControllerState();
 }
 
 function controllerReady()

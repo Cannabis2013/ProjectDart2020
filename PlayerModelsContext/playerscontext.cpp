@@ -5,11 +5,16 @@ AbstractPlayersContext::Player *PlayersContext::playerModel(const QUuid &id) con
     return getPlayers()->player(id,dbContext());
 }
 
+AbstractPlayersContext::Player *PlayersContext::playerModel(const QString &name) const
+{
+    return getPlayers()->player(name, dbContext());
+}
+
 void PlayersContext::createPlayer(const QByteArray &json)
 {
     auto playerModel = playerBuilder()->createPlayer(json);
     auto future = dbContext()->add(playerModel)->saveChanges(jsonBuilder());
-    Runnable::runLater([=]{
+    RunLater::run([=]{
         if(future.result())
             emit playerAddedSucces();
     },future);
@@ -38,4 +43,9 @@ AbstractPlayersContext::Players PlayersContext::playerModels(const QVector<QUuid
 {
     auto models = getPlayers()->players(ids,dbContext());
     return models;
+}
+
+AbstractPlayersContext::Players PlayersContext::playerModels(const QVector<QString> &names) const
+{
+
 }

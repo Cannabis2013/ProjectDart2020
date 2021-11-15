@@ -15,16 +15,18 @@ public:
     DartsInputsDbContext(FileReaderInterface *fileReader, FileWriteInterface *fileWriter);
     DartsInputsDbContext *add(IModel<QUuid> *model) override;
     IModel<QUuid> *model(const int &index) const override;
+    IModel<QUuid>* model(std::function<bool (IModel<QUuid>*)> predFunct) const override;
     QVector<IModel<QUuid>*> models() const override;
+    virtual QVector<IModel<QUuid>*> models(std::function<bool (IModel<QUuid> *)> predFunct) const override;
     DartsInputsDbContext *remove(const int &index) override;
     int indexOf(IModel<QUuid>* model) const override;
     DartsInputsDbContext *replace(const int &index, IModel<QUuid> *model) override;
 protected:
-    bool fetchModels(const IDartsInputBuilder *modelBuilder) override;
+    bool fetch(const IDartsInputBuilder *modelBuilder) override;
     QFuture<bool> saveChanges(const IDartsInputJsonBuilder *jsonBuilder) override;
 private:
     const QString _fileName = "DartsInputModels";
-    QVector<IModel<QUuid>*> _dartsScoreModels;
+    QVector<IModel<QUuid>*> _models;
     QMutex _mutex;
 };
 #endif // DARTSSCOREDB_H

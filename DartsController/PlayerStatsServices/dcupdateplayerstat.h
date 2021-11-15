@@ -8,15 +8,16 @@ public:
     {
         updatePlayerStat(input,&playerStatsContext->stat(input->playerId()));
     }
-    virtual void update(const QVector<AbstractDartsInput*> &inputs, IDCPlayerStats *playerStatsContext) const override
+    virtual void update(const QVector<IModel<QUuid>*> &models, IDCPlayerStats *playerStatsContext) const override
     {
-        if(inputs.isEmpty())
+        if(models.isEmpty())
             return;
-        auto lastInput = inputs.last();
+        auto lastInput = dynamic_cast<AbstractDartsInput*>(models.last());
         auto lastPlayerId = lastInput->playerId();
         updatePlayerStat(lastInput,&playerStatsContext->stat(lastPlayerId));
-        for (auto i = inputs.count() - 2; i >= 0; --i) {
-            auto input = inputs.at(i);
+        for (auto i = models.count() - 2; i >= 0; --i) {
+            auto model = models.at(i);
+            auto input = dynamic_cast<AbstractDartsInput*>(model);
             auto playerId = input->playerId();
             if(playerId != lastPlayerId)
             {

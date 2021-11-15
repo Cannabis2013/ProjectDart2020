@@ -28,7 +28,7 @@ private:
         auto playerModel = dynamic_cast<const IPlayerModel*>(model);
         QJsonObject obj;
         obj["Id"] = playerModel->id().toString();
-        obj["playerName"] = playerModel->playerName();
+        obj["playerName"] = playerModel->name();
         obj["playerMail"] = playerModel->email();
         return obj;
     }

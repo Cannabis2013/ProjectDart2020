@@ -23,11 +23,11 @@ public:
         _email = email;
         return this;
     }
-    QString playerName() const override
+    QString name() const override
     {
         return _userName;
     }
-    PlayerModel* setUserName(const QString &name) override
+    PlayerModel* setName(const QString &name) override
     {
         _userName = name;
         return this;

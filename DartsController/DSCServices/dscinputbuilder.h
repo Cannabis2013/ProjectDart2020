@@ -11,40 +11,14 @@ public:
     virtual AbstractDartsInput *create(const QByteArray &json, const IDCPlayerController *playerController,
                                        const IDCCalcScore *getScoreContext,IDartsIndex *index, IDCScoreModels *scoreModels) const override
     {
-        auto jsonObject = toJsonObject(json);
-        auto input = toInput(jsonObject);
+        auto input = toInput(toJsonObject(json));
         input->setPlayerId(scoreModels->scores().at(index->setIndex()).playerId);
         input->setPlayerName(scoreModels->scores().at(index->setIndex()).playerName);
         input->setScore(getScoreContext->calculate(input));
         input->setRemainingScore(scoreModels->score(input->playerId()).remainingScore);
         input->setInGame(playerController->status(input->playerId()));
+        addIndex(input,index);
         return input;
-    }
-    AbstractDartsInput *create(const QByteArray &json, const int &initialScore) const override
-    {
-        return toInput(toJsonObject(json),initialScore);
-    }
-    AbstractDartsInput *create(const DCScoreModel &scoreModel) const override
-    {
-        auto inputModel = new DartsInput;
-        inputModel->setPlayerId(scoreModel.playerId);
-        inputModel->setPlayerName(scoreModel.playerName);
-        inputModel->setRemainingScore(scoreModel.remainingScore);
-        return inputModel;
-    }
-    virtual QVector<AbstractDartsInput*> buildInputs(IDCScoreModels *scoresService) const override
-    {
-        QVector<AbstractDartsInput*> scoreModels;
-        for (const auto &scoreModel : scoresService->scores())
-            scoreModels << toInput(scoreModel);
-        return scoreModels;
-    }
-    virtual QVector<AbstractDartsInput*> buildInputs(const QJsonArray &arr) const override
-    {
-        QVector<AbstractDartsInput*> models;
-        for (const auto &jsonVal : arr)
-            models << toInput(jsonVal.toObject());
-        return models;
     }
 private:
     AbstractDartsInput *toInput(const DCScoreModel &scoreModel) const
@@ -86,6 +60,12 @@ private:
     QUuid toId(const QString &stringId) const
     {
         return QUuid::fromString(stringId);
+    }
+    void addIndex(AbstractDartsInput *input, IDartsIndex *index) const
+    {
+        input->setRoundIndex(index->roundIndex());
+        input->setSetIndex(index->setIndex());
+        input->setAttempt(index->attemptIndex());
     }
 };
 #endif // DARTSSCOREBUILDERSERVICE_H

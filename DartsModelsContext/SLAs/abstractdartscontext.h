@@ -7,10 +7,6 @@ class AbstractDartsContext : public AbstractModelsContext
 {
     Q_OBJECT
 public:
-    virtual AbstractDartsInput *input(const QUuid &tournament, const QUuid &player, IDartsIndex *index) const = 0;
-    virtual QFuture<bool> addInput(const QByteArray& json) = 0;
-    virtual QFuture<bool> hideInput(const QUuid &tournament, const QUuid &player, IDartsIndex *index) = 0;
-    virtual QFuture<bool> revealInput(const QUuid &tournament, const QUuid &player, IDartsIndex *index) = 0;
     AbstractPlayersContext *playersContext() const
     {
         return _playersContext;
@@ -20,11 +16,14 @@ public:
         _playersContext = newPlayersContext;
         return this;
     }
-public slots:
-    virtual QByteArray createDartsMetaData(const QUuid& tournament) = 0;
-    virtual QByteArray createDartsKeyValues(const QUuid& tournament) = 0;
+    Q_INVOKABLE virtual QByteArray createDartsMetaData(const QUuid& tournament) = 0;
+    virtual AbstractDartsInput *input(const QUuid &tournament, const QUuid &player, IDartsIndex *index) const = 0;
+    virtual QFuture<bool> addInput(const QUuid &tournamentId, AbstractDartsInput *input) = 0;
+    virtual QFuture<bool> hideInput(const QUuid &tournament, const QUuid &player, IDartsIndex *index) = 0;
+    virtual QFuture<bool> revealInput(const QUuid &tournament, const QUuid &player, IDartsIndex *index) = 0;
+    virtual QVector<IModel<QUuid>*> tournamentInputs(const QUuid &tournamentId) const = 0;
     virtual QFuture<bool> updateTournamentIndex(const QUuid &tournament, IDartsIndex *index) = 0;
-    virtual QByteArray createDartsValuesJson(const QUuid& tournament) = 0;
+public slots:
 signals:
     void setDartsTournamentWinnerSucces(const QByteArray& json);
     void sendDartsDetails(const QByteArray& json);

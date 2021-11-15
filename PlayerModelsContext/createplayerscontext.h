@@ -17,7 +17,7 @@ public:
         context->setGetPlayerModelsFromDb(new GetPlayersFromDb);
         context->setJsonBuilder(new CreateJsonFromPlayerModels);
         context->setPlayerBuilder(new CreatePlayersFromJson);
-        context->dbContext()->fetchModels(context->playerBuilder());
+        context->dbContext()->fetch(context->playerBuilder());
         return context;
     }
 };

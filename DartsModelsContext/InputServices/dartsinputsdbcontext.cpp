@@ -1,6 +1,6 @@
 #include "DartsModelsContext/InputServices/dartsinputsdbcontext.h"
 
-#include "AsyncUtils/runnable.h"
+#include "AsyncUtils/runlater.h"
 DartsInputsDbContext::DartsInputsDbContext(FileReaderInterface *fileReader, FileWriteInterface *fileWriter)
 {
     fileReader->setFileName(_fileName);
@@ -12,48 +12,68 @@ DartsInputsDbContext::DartsInputsDbContext(FileReaderInterface *fileReader, File
 DartsInputsDbContext *DartsInputsDbContext::add(IModel<QUuid> *model)
 {
     QMutexLocker locker(&_mutex);
-    _dartsScoreModels << model;
+    _models << model;
     return this;
 }
 
 IModel<QUuid> *DartsInputsDbContext::model(const int &index) const
 {
-    auto model = _dartsScoreModels.at(index);
+    auto model = _models.at(index);
     return model;
+}
+
+IModel<QUuid> *DartsInputsDbContext::model(std::function<bool (IModel<QUuid> *)> predFunct) const
+{
+    QVector<IModel<QUuid>*> models;
+    for (const auto &model : _models) {
+        if(predFunct(model))
+            return model;
+    }
+    return nullptr;
 }
 
 QVector<IModel<QUuid> *> DartsInputsDbContext::models() const
 {
     QVector<IModel<QUuid>*> list;
-    for (const auto& model : _dartsScoreModels)
+    for (const auto& model : _models)
         list << model;
     return list;
+}
+
+QVector<IModel<QUuid> *> DartsInputsDbContext::models(std::function<bool (IModel<QUuid> *)> predFunct) const
+{
+    QVector<IModel<QUuid>*> models;
+    for (const auto &model : _models) {
+        if(predFunct(model))
+            models << model;
+    }
+    return models;
 }
 
 DartsInputsDbContext *DartsInputsDbContext::remove(const int& index)
 {
     QMutexLocker locker(&_mutex);
-    _dartsScoreModels.remove(index);
+    _models.remove(index);
     return this;
 }
 
 int DartsInputsDbContext::indexOf(IModel<QUuid> *model) const
 {
-    auto indexOfModel = _dartsScoreModels.indexOf(model);
+    auto indexOfModel = _models.indexOf(model);
     return indexOfModel;
 }
 
 DartsInputsDbContext *DartsInputsDbContext::replace(const int& index, IModel<QUuid> *model)
 {
-    _dartsScoreModels.replace(index,model);
+    _models.replace(index,model);
     return this;
 }
 
-bool DartsInputsDbContext::fetchModels(const IDartsInputBuilder *modelBuilder)
+bool DartsInputsDbContext::fetch(const IDartsInputBuilder *modelBuilder)
 {
     auto future = readJson()->read();
-    Runnable::runLater([=]{
-        _dartsScoreModels << modelBuilder->createInputs(future.result());
+    RunLater::run([=]{
+        _models << modelBuilder->createInputs(future.result());
     },future);
     return true;
 }
@@ -61,6 +81,6 @@ bool DartsInputsDbContext::fetchModels(const IDartsInputBuilder *modelBuilder)
 QFuture<bool> DartsInputsDbContext::saveChanges(const IDartsInputJsonBuilder *jsonBuilder)
 {
     QMutexLocker locker(&_mutex);
-    auto json = jsonBuilder->json(_dartsScoreModels);
-    return saveJson()->save(json);
+    auto json = jsonBuilder->json(_models);
+    return saveJson()->saveAsync(json);
 }

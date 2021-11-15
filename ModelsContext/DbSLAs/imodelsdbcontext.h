@@ -7,11 +7,13 @@
 class IModelsDbContext : public IDbContext<IModel<QUuid>>
 {
 public:
-    virtual IModelsDbContext *add(IModel<QUuid> *model) = 0;
-    virtual IModel<QUuid> *model(const int &index) const = 0;
-    virtual QVector<IModel<QUuid>*> models() const = 0;
-    virtual IModelsDbContext *remove(const int &index) = 0;
-    virtual int indexOf(IModel<QUuid> *model) const = 0;
-    virtual IModelsDbContext *replace(const int &index, IModel<QUuid> *model) = 0;
+    virtual IModelsDbContext *add(IModel<QUuid> *model) override  = 0;
+    virtual IModel<QUuid> *model(const int &index) const override = 0;
+    virtual IModel<QUuid>* model(std::function<bool (IModel<QUuid>*)> predFunct) const override = 0;
+    virtual QVector<IModel<QUuid>*> models() const override = 0;
+    virtual QVector<IModel<QUuid>*> models(std::function<bool (IModel<QUuid>*)> predFunct) const override = 0;
+    virtual IModelsDbContext *remove(const int &index) override = 0;
+    virtual int indexOf(IModel<QUuid> *model) const override = 0;
+    virtual IModelsDbContext *replace(const int &index, IModel<QUuid> *model) override = 0;
 };
 #endif // IDARTSSCOREDB_H

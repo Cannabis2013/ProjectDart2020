@@ -4,7 +4,7 @@ template <typename TJsonBuilder, typename TModelBuilder, typename TResponseForma
 class IDbPersistence
 {
 public:
-    virtual bool fetchModels(const TModelBuilder *modelBuilder) = 0;
+    virtual bool fetch(const TModelBuilder *modelBuilder) = 0;
     virtual TResponseFormat saveChanges(const TJsonBuilder *jsonBuilder) = 0;
 };
 

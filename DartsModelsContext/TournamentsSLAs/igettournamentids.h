@@ -1,10 +1,8 @@
 #ifndef IGETDARTSTOURNAMENTIDS_H
 #define IGETDARTSTOURNAMENTIDS_H
-
 #include <quuid.h>
 #include <qvector.h>
 #include "ModelsContext/DbSLAs/imodelsdbcontext.h"
-
 class IGetDartsTournamentIds
 {
 public:

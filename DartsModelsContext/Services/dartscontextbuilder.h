@@ -23,6 +23,7 @@
 #include "DartsModelsContext/TournamentsDbServices/dartsjsonbuilder.h"
 #include "DartsModelsContext/TournamentServices/dartstournamentbuilder.h"
 #include "DartsModelsContext/TournamentServices/GetDartsTournamentIds.h"
+#include "DartsModelsContext/TournamentServices/dartsverifyconsistency.h"
 class DartsContextBuilder
 {
 public:
@@ -47,8 +48,9 @@ public:
         modelsContext->setSortInputs(new SortDartsInputs);
         modelsContext->setCountInputs(new CountDartsInputs);
         modelsContext->setRemoveInputsFromDb(new RemoveDartsInputsFromDb);
-        modelsContext->dartsDbContext()->fetchModels(modelsContext->tournamentBuilder());
-        modelsContext->inputsDb()->fetchModels(modelsContext->inputBuilder());
+        modelsContext->dartsDbContext()->fetch(modelsContext->tournamentBuilder());
+        modelsContext->setVerifyConsistency(new DartsVerifyConsistency);
+        modelsContext->inputsDb()->fetch(modelsContext->inputBuilder());
         return modelsContext;
     }
 };

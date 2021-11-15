@@ -10,7 +10,7 @@
 #include <qjsonobject.h>
 #include "DartsModelsContext/IndexesSLAs/dartsindexslas.h"
 #include "DartsModelsContext/IndexesDbSLAs/idartsindex.h"
-#include "AsyncUtils/runnable.h"
+#include "AsyncUtils/runlater.h"
 #include <JsonUtils/jsonbuilder.h>
 #include "ModelsContext/ModelsSLAs/imodel.h"
 class DartsContext : public AbstractDartsContext,
@@ -30,19 +30,21 @@ public:
     QByteArray tournaments() override;
     QByteArray tournament(const int &index) const override;
     QByteArray tournament(const QString &id) const override;
+    IModel<QUuid> * tournament(const QUuid &id) const override;
+    virtual bool isConsistent(const QUuid &tournamentId) const override;
+    virtual bool tryRepair(const QUuid &tournamentId) const override;
+    QVector<IModel<QUuid> *> tournamentInputs(const QUuid &tournamentId) const override;
     AbstractDartsInput *input(const QUuid &tournament, const QUuid &player, IDartsIndex *index) const override;
-    QFuture<bool> addInput(const QByteArray& json) override;
+    QFuture<bool> addInput(const QUuid &tournamentId, AbstractDartsInput *input) override;
     QFuture<bool> hideInput(const QUuid &tournament, const QUuid &player, IDartsIndex *index) override;
     QFuture<bool> revealInput(const QUuid &tournament, const QUuid &player, IDartsIndex *index) override;
     QVector<IModel<QUuid> *> assignedPlayers(const QUuid &tournamentId) const override;
     QFuture<bool> updateTournamentIndex(const QUuid &tournament, IDartsIndex *index) override;
     QFuture<bool> resetTournament(const QUuid &tournamentId) override;
+    QByteArray createDartsMetaData(const QUuid& tournamentId) override;
 public slots:
     void deleteTournaments(const QVector<int> &indexes) override;
     void setTournamentWinner(const QByteArray &json) override;
     void addTournament(const QByteArray &json, const QVector<int> &playerIndexes) override;
-    QByteArray createDartsMetaData(const QUuid& tournamentId) override;
-    QByteArray createDartsValuesJson(const QUuid &tournamentId) override;
-    QByteArray createDartsKeyValues(const QUuid& tournament) override;
 };
 #endif // LOCALMODELSSERVICE_H

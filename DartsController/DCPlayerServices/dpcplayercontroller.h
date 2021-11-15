@@ -5,6 +5,10 @@
 class DPCPlayerController : public IDCPlayerController
 {
 public:
+    struct PlayerObject{
+        bool in;
+        QUuid playerId;
+    };
     void set(const Players &models) override
     {
         for (const auto &model : models) {

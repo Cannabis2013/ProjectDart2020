@@ -4,9 +4,10 @@
 class DCUpdateInputDetails : public IDCUpdatePlayerScores
 {
 public:
-    void update(const QVector<AbstractDartsInput*> &inputs, IDCScoreModels *scoreController) const override
+    void update(const QVector<IModel<QUuid>*> &models, IDCScoreModels *scoreController) const override
     {
-        for (const auto &input : inputs) {
+        for (const auto &model : models) {
+            auto input = dynamic_cast<AbstractDartsInput*>(model);
             auto scoreModel = &scoreController->score(input->playerId());
             if(input->remainingScore() < scoreModel->remainingScore)
                 scoreModel->remainingScore = input->remainingScore();

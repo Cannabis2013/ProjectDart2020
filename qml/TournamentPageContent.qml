@@ -1,8 +1,6 @@
 import QtQuick 2.4
 import QtQuick.Layouts 1.3
-
 import "tournamentPageScripts.js" as Scripts
-
 Content{
     id: body
     clip: true
@@ -26,7 +24,7 @@ Content{
            id: dartsListView
            Layout.fillHeight: true
            Layout.fillWidth: true
-           onItemClicked: Scripts.initializeDarts(index)
+           onItemClicked: Scripts.processSelection(index)
        }
        GridLayout{
            flow: GridLayout.LeftToRight
@@ -41,5 +39,5 @@ Content{
            }
        }
     }
-    Component.onCompleted: Scripts.initialize()
+    Component.onCompleted: Scripts.init()
 }

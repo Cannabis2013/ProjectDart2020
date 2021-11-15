@@ -19,8 +19,8 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     // Register custom types
     RegisterQMLTypes::registerTypes();
-    QmlPropertiesBuilder properties;
-    engine.rootContext()->setContextProperties(properties.contextProperties());
+    QmlPropertiesBuilder builder;
+    engine.rootContext()->setContextProperties(builder.contextProperties());
     // Setup QML UI interface
     SetupQMLContext::setup(engine,app,QStringLiteral("qrc:/qml/main.qml"));
     // Start main event loop

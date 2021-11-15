@@ -6,11 +6,6 @@
 class IDCPlayerController
 {
 public:
-    struct PlayerObject
-    {
-        QUuid playerId;
-        bool in = false;
-    };
     typedef IModel<QUuid> Player;
     typedef QVector<Player*> Players;
     virtual void set(const Players &playerIds) = 0;

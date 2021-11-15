@@ -1,10 +1,8 @@
 #ifndef PLAYERSDBSLAS_H
 #define PLAYERSDBSLAS_H
-
 #include "IPlayersDbContext.h"
 #include "igetplayerfromdb.h"
 #include "ModelsContext/DbSLAs/imodelsdbcontext.h"
-
 class PlayersDbSLAs
 {
 public:

@@ -24,7 +24,7 @@ PlayerModel *CreatePlayersFromJson::toModel(const QJsonObject &obj) const
     auto mail = obj.value("playerMail").toString();
     auto model = new PlayerModel;
     model->setId(playerId);
-    model->setUserName(playerName);
+    model->setName(playerName);
     model->setEmail(mail);
     return model;
 }

@@ -2,7 +2,9 @@
 #define DARTSTOURNAMENTSLAS_H
 #include "DartsModelsContext/TournamentsSLAs/isettournamentplayerdetails.h"
 #include "DartsModelsContext/TournamentsSLAs/iwinnerinfobuilder.h"
+#include "idartsconsistency.h"
 #include "idartsmetamodelbuilder.h"
+#include "idartsrepair.h"
 #include "igettournamentids.h"
 #include "iresetdartstournament.h"
 class DartsTournamentSLAs
@@ -48,11 +50,30 @@ public:
     {
         _resetTournament = newResetTournament;
     }
+    IDartsConsistency *verifyConsistency() const
+    {
+        return _verifyConsistency;
+    }
+    void setVerifyConsistency(IDartsConsistency *newVerifyConsistency)
+    {
+        _verifyConsistency = newVerifyConsistency;
+    }
+
+    IDartsRepair *tournamentRepair() const
+    {
+        return _tournamentRepair;
+    }
+    void setTournamentRepair(IDartsRepair *newTournamentRepair)
+    {
+        _tournamentRepair = newTournamentRepair;
+    }
 private:
     IResetDartsTournament *_resetTournament;
     IDartsMetaModelBuilder *_metaModelBuilder;
     IGetDartsTournamentIds *_getTournamentIds;
     ISetTournamentPlayerDetails *_addPlayerDetails;
     IWinnerInfoBuilder *_winnerInfoBuilder;
+    IDartsConsistency *_verifyConsistency;
+    IDartsRepair *_tournamentRepair;
 };
 #endif // DARTSTOURNAMENTSERVICESPROVIDER_H

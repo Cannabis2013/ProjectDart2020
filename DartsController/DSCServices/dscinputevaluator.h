@@ -15,19 +15,19 @@ public:
         {
             input->setApproved(true);
             input->setRemainingScore(scoreCand);
-            controller->persistInput(input);
+            controller->addInputToModelsContext(input);
         }
         else if(scoreCand == 0)
         {
             input->setApproved(true);
             input->setRemainingScore(0);
             updateControllerMeta(input,metaInfo,statusCodes);
-            controller->persistInput(input);
+            controller->addInputToModelsContext(input);
         }
         else
         {
             input->setScore(0);
-            controller->persistInput(input);
+            controller->addInputToModelsContext(input);
         }
     }
 private:

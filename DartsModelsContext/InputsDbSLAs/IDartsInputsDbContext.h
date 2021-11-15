@@ -16,7 +16,7 @@ public:
     virtual IDartsInputsDbContext *remove(const int &) = 0;
     virtual int indexOf(IModel<QUuid> *model) const = 0;
     virtual IDartsInputsDbContext *replace(const int &index, IModel<QUuid> *model) = 0;
-    virtual bool fetchModels(const IDartsInputBuilder *modelBuilder) = 0;
+    virtual bool fetch(const IDartsInputBuilder *modelBuilder) = 0;
     virtual QFuture<bool> saveChanges(const IDartsInputJsonBuilder *jsonBuilder) = 0;
 };
 

@@ -1,8 +1,8 @@
 #include "DartsModelsContext/TournamentsDbServices/dartsdbcontext.h"
-bool DartsDbContext::fetchModels(const IDartsBuilder *modelBuilder)
+bool DartsDbContext::fetch(const IDartsBuilder *modelBuilder)
 {
     auto future = readJson()->read();
-    Runnable::runLater([=]{
+    RunLater::run([=]{
         _models = modelBuilder->createTournaments(future.result());
     },future);
     return true;
@@ -10,7 +10,7 @@ bool DartsDbContext::fetchModels(const IDartsBuilder *modelBuilder)
 
 QFuture<bool> DartsDbContext::saveChanges(const IDartsJsonBuilder *jsonBuilder)
 {
-    return saveJson()->save(jsonBuilder->tournamentsjson(_models));
+    return saveJson()->saveAsync(jsonBuilder->tournamentsjson(_models));
 }
 
 DartsDbContext::DartsDbContext(FileReaderInterface *fileReader, FileWriteInterface *fileWriter)
@@ -33,9 +33,28 @@ IModel<QUuid> *DartsDbContext::model(const int &index) const
     return model;
 }
 
+IModel<QUuid> *DartsDbContext::model(std::function<bool (IModel<QUuid> *)> predFunct) const
+{
+    for (const auto &model : _models) {
+        if(predFunct(model))
+            return model;
+    }
+    return nullptr;
+}
+
 QVector<IModel<QUuid> *> DartsDbContext::models() const
 {
     return _models;
+}
+
+QVector<IModel<QUuid> *> DartsDbContext::models(std::function<bool (IModel<QUuid> *)> predFunct) const
+{
+    QVector<IModel<QUuid>*> models;
+    for (const auto &model : _models) {
+        if(predFunct(model))
+            models << model;
+    }
+    return models;
 }
 
 DartsDbContext *DartsDbContext::remove(const int &index)

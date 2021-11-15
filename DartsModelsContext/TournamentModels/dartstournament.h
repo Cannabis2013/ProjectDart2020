@@ -1,6 +1,5 @@
 #ifndef DARTSTOURNAMENT_H
 #define DARTSTOURNAMENT_H
-
 #include <quuid.h>
 #include <qstring.h>
 #include <qlist.h>
@@ -8,7 +7,6 @@
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 #include <qjsonarray.h>
-
 class DartsTournament : public AbstractDartsTournament
 {
 public:
@@ -16,12 +14,10 @@ public:
     {
         return new DartsTournament();
     }
-
-    int keyPoint() const override
+    int initialRemaining() const override
     {
         return _keyPoint;
     }
-
     DartsTournament* setKeyPoint(const int &val) override
     {
         _keyPoint = val;

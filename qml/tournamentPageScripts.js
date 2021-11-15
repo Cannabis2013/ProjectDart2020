@@ -1,4 +1,4 @@
-function initialize()
+function init()
 {
     var byteArray = dartsContext.tournaments();
     var jsonTournaments= JSON.parse(byteArray);
@@ -33,10 +33,24 @@ function toGameMode(gameMode)
         return "First to post"
 }
 
-function initializeDarts(index)
+function processSelection(index)
 {
-    var byteArray = dartsContext.tournament(index);
-    var json = JSON.parse(byteArray);
+    let json = JSON.parse(dartsContext.tournament(index));
+    let isConsistent = dartsContext.isConsistent(json["tournamentId"]);
+    if(!isConsistent)
+        return dartsNotConsistent(index);
+    initDarts(json);
+}
+
+function dartsNotConsistent(index)
+{
+    // Do something in case of inconsistency
+    dartsListView.removeItems([index]);
+    return 0;
+}
+
+function initDarts(json)
+{
     var hint = json["inputHint"];
     if(hint === TournamentContext.pointMode)
         initializeDartsPointController(json);
@@ -48,7 +62,7 @@ function initializeDarts(index)
 }
 function initializeDartsPointController(json)
 {
-    var status = dpController.initialize(json["tournamentId"],json["keyPoint"]);
+    let status = dpController.initialize(json["tournamentId"]);
     if(status === 0)
         body.dartsPointSingleColumnInitialized();
     else
@@ -57,7 +71,7 @@ function initializeDartsPointController(json)
 
 function initializeDartsScoreController(json)
 {
-    var status = dsController.initialize(json["tournamentId"],json["keyPoint"]);
+    let status = dsController.initialize(json["tournamentId"]);
     if(status === 0)
         body.dartsScoreSingleColumnInitialized();
     else

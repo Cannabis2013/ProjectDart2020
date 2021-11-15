@@ -11,8 +11,10 @@ public:
     Q_INVOKABLE virtual QByteArray tournaments() = 0;
     Q_INVOKABLE virtual QByteArray tournament(const int &index) const = 0;
     Q_INVOKABLE virtual QByteArray tournament(const QString &id) const = 0;
+    Q_INVOKABLE virtual bool isConsistent(const QUuid &tournamentId) const = 0;
+    Q_INVOKABLE virtual bool tryRepair(const QUuid &tournamentId) const = 0;
+    virtual IModel<QUuid> *tournament(const QUuid &id) const = 0;
     virtual QVector<IModel<QUuid>*> assignedPlayers(const QUuid &tournamentId) const = 0;
-    virtual AbstractModelsContext *setPlayerModelsContext(AbstractPlayersContext *context) = 0;
     virtual QFuture<bool> resetTournament(const QUuid &tournament) = 0;
 public slots:
     virtual void addTournament(const QByteArray& json, const QVector<int> &playerIndexes) = 0;

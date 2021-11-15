@@ -1,6 +1,5 @@
 #ifndef DCLOGISTICDB_H
 #define DCLOGISTICDB_H
-
 #include "DartsController/DCFinishesSLAs/idartsfinishesdb.h"
 class DCLogisticDb : public IDartsFinishesDb
 {
@@ -11,39 +10,56 @@ public:
     }
     DCLogisticDb *add(TargetRows *targetRows) override
     {
-        _allTargetRows.append(targetRows);
+        _models.append(targetRows);
         return this;
     }
     DCLogisticDb *add(const QVector<TargetRows*> multipleTargetRows) override
     {
         for (const auto &targetRows : multipleTargetRows)
-            _allTargetRows.append(targetRows);
+            _models.append(targetRows);
         return this;
     }
     TargetRows *model(const int &index) const override
     {
-        return _allTargetRows.at(index);
+        return _models.at(index);
+    }
+    TargetRows* model(std::function<bool(TargetRows*)> predFunct) const override
+    {
+        for (const auto &model : _models) {
+            if(predFunct(model))
+                return model;
+        }
+        return nullptr;
     }
     QVector<TargetRows *> models() const override
     {
-        return _allTargetRows;
+        return _models;
+    }
+    QVector<TargetRows*> models(std::function<bool(TargetRows*)> predFunct) const override
+    {
+        QVector<TargetRows*> m;
+        for (const auto &model : _models) {
+            if(predFunct(model))
+                m << model;
+        }
+        return m;
     }
     DCLogisticDb *remove(const int &index) override
     {
-        _allTargetRows.remove(index);
+        _models.remove(index);
         return this;
     }
     int indexOf(TargetRows *targetRows) const override
     {
-        return _allTargetRows.indexOf(targetRows);
+        return _models.indexOf(targetRows);
     }
     DCLogisticDb *replace(const int &index, TargetRows *targetRows) override
     {
-        _allTargetRows.replace(index,targetRows);
+        _models.replace(index,targetRows);
         return this;
     }
 private:
-    QVector<TargetRows*> _allTargetRows;
+    QVector<TargetRows*> _models;
 };
 
 #endif // DARTSLOGISTICSDB_H

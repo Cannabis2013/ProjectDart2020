@@ -27,14 +27,14 @@ public:
             else
             {
                 input->setScore(0);
-                controller->persistInput(input);
+                controller->addInputToModelsContext(input);
                 return;
             }
         }
         if(scoreCand >= minimumAllowedScore)
         {
             input->setRemainingScore(scoreCand);
-            controller->persistInput(input);
+            controller->addInputToModelsContext(input);
         }
         else if(scoreCand == 0 && (input->modKeyCode() == DoubleModifier || input->score() == _bullsEye))
         {
@@ -42,12 +42,12 @@ public:
             metaInfo->get().winnerId = input->playerId();
             metaInfo->get().winnerName = input->playerName();
             metaInfo->get().status = statusCodes->winnerFound();
-            controller->persistInput(input);
+            controller->addInputToModelsContext(input);
         }
         else
         {
             input->setScore(0);
-            controller->persistInput(input);
+            controller->addInputToModelsContext(input);
             return;
         }
     }

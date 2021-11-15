@@ -3,13 +3,13 @@
 #include "ModelsContext/ModelsSLAs/imodel.h"
 #include <qvector.h>
 #include <quuid.h>
-class ITournament : public IModel<QUuid>
+#include "DartsModelsContext/DartsPlayersServices/tournamentplayers.h"
+class ITournament : public IModel<QUuid>,
+                    public TournamentPlayers
 {
 public:
     virtual QString title() const = 0;
     virtual ITournament* setTitle(const QString &string) = 0;
-    virtual QVector<QUuid> assignedPlayerIds() const = 0;
-    virtual ITournament* setAssignedPlayerIds(const QVector<QUuid> &playerIdentities) = 0;
     virtual int gameMode() const = 0;
     virtual ITournament* setGameMode(const int &val) = 0;
     virtual int status() const = 0;

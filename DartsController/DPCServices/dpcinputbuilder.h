@@ -18,30 +18,8 @@ public:
         input->setScore(calcScoreContext->calculate(input));
         input->setRemainingScore(scoreModels->score(input->playerId()).remainingScore);
         input->setInGame(playerController->status(input->playerId()));
+        addIndex(input,index);
         return input;
-    }
-    AbstractDartsInput *create(const QByteArray &json, const int &initialScore) const override
-    {
-        auto jsonObject = toJsonObject(json);
-        return toModel(jsonObject,initialScore);
-    }
-    AbstractDartsInput *create(const DCScoreModel &scoreModel) const override
-    {
-        return toModel(scoreModel);
-    }
-    QVector<AbstractDartsInput *> buildInputs(IDCScoreModels *scoresService) const override
-    {
-        QVector<AbstractDartsInput *> models;
-        for (const auto &model : scoresService->scores())
-            models << toModel(model);
-        return models;
-    }
-    QVector<AbstractDartsInput*> buildInputs(const QJsonArray &arr) const override
-    {
-        QVector<AbstractDartsInput *> models;
-        for (const auto &jsonVal : arr)
-            models << toModel(jsonVal.toObject());
-        return models;
     }
 private:
     AbstractDartsInput * toModel(const QJsonObject &obj, const int &initialScore = -1) const
@@ -89,6 +67,12 @@ private:
     QUuid toId(const QString &stringId) const
     {
         return QUuid::fromString(stringId);
+    }
+    void addIndex(AbstractDartsInput *input, IDartsIndex *index) const
+    {
+        input->setRoundIndex(index->roundIndex());
+        input->setSetIndex(index->setIndex());
+        input->setAttempt(index->attemptIndex());
     }
 };
 #endif // DARTSCONTROLLERPOINTBUILDER_H

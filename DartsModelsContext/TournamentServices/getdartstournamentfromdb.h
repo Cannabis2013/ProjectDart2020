@@ -1,25 +1,17 @@
 #ifndef GETDARTSTOURNAMENTFROMDB_H
 #define GETDARTSTOURNAMENTFROMDB_H
-
 #include "DartsModelsContext/TournamentsDbSLAs/igetdartstournament.h"
-
+#include "DartTournamentsContext/DTCModelsSLAs/itournament.h"
 class GetDartsTournamentFromDb : public IGetDartsTournament
 {
 public:
     virtual IModel<QUuid> *get(const QUuid &tournamentId, const IModelsDbContext *dbService) const override
     {
-        auto models = dbService->models();
-        auto model = getModelById(models,tournamentId);
-        return model;
-    }
-private:
-    IModel<QUuid> *getModelById(const QVector<IModel<QUuid>*> &models,const QUuid &tournamentId) const
-    {
-        for (const auto &model : models) {
-            if(model->id() == tournamentId)
-                return model;
-        }
-        throw "Model not found";
+        return dbService->model([tournamentId](IModel<QUuid> *m){
+                if(m->id() == tournamentId)
+                    return true;
+                return false;
+        });
     }
 };
 

@@ -1,6 +1,6 @@
 #include "playersdbcontext.h"
 
-#include "AsyncUtils/runnable.h"
+#include "AsyncUtils/runlater.h"
 
 PlayersDbContext::PlayersDbContext(FileReaderInterface *fileReader, FileWriteInterface *fileWriter)
 {
@@ -10,65 +10,84 @@ PlayersDbContext::PlayersDbContext(FileReaderInterface *fileReader, FileWriteInt
     setWriteJsonToFile(fileWriter);
 }
 
-bool PlayersDbContext::fetchModels(const IPlayerContextModelBuilder *modelBuilder)
+bool PlayersDbContext::fetch(const IPlayerContextModelBuilder *modelBuilder)
 {
     auto future = readJson()->read();
-    Runnable::runLater([=]{
-        _playerModels = modelBuilder->createPlayers(future.result());
+    RunLater::run([=]{
+        _models = modelBuilder->createPlayers(future.result());
     },future);
     return true;
 }
 
 QFuture<bool> PlayersDbContext::saveChanges(const IPlayerJsonBuilder *jsonBuilder)
 {
-    return saveJson()->save(jsonBuilder->toJson(_playerModels));
+    return saveJson()->saveAsync(jsonBuilder->toJson(_models));
 }
 
 QVector<IModel<QUuid> *> PlayersDbContext::models() const
 {
-    return _playerModels;
+    return _models;
+}
+
+QVector<IModel<QUuid>*> PlayersDbContext::models(std::function<bool(IModel<QUuid>*)> predFunct) const
+{
+    QVector<IModel<QUuid>*> players;
+    for (const auto &model : _models) {
+        if(predFunct(model))
+            players << model;
+    }
+    return players;
 }
 
 PlayersDbContext *PlayersDbContext::add(IModel<QUuid> *player)
 {
-    _playerModels.append(player);
+    _models.append(player);
     return this;
 }
 
 PlayersDbContext *PlayersDbContext::remove(const int &index)
 {
-    _playerModels.remove(index);
+    _models.remove(index);
     return this;
 }
 
 IPlayersDbContext *PlayersDbContext::remove(const QVector<int> &indexes)
 {
     QVector<IModel<QUuid>*> models;
-    for (int i = 0; i < _playerModels.count(); ++i) {
+    for (int i = 0; i < _models.count(); ++i) {
         if(!indexes.contains(i))
-            models << _playerModels.at(i);
+            models << _models.at(i);
     }
-    _playerModels = models;
+    _models = models;
     return this;
 }
 
 int PlayersDbContext::indexOf(IModel<QUuid> *player) const
 {
-    auto index = _playerModels.indexOf(player);
+    auto index = _models.indexOf(player);
     return index;
 }
 
 PlayersDbContext *PlayersDbContext::replace(const int &index, IModel<QUuid> *player)
 {
-    _playerModels.replace(index,player);
+    _models.replace(index,player);
     return this;
 }
 
 IModel<QUuid> *PlayersDbContext::model(const int &index) const
 {
-    auto count = _playerModels.count();
+    auto count = _models.count();
     if(index >= count)
         throw "Index out of range";
-    auto model = _playerModels.at(index);
+    auto model = _models.at(index);
     return model;
+}
+
+IModel<QUuid> *PlayersDbContext::model(std::function<bool (IModel<QUuid> *)> predFunct) const
+{
+    for (const auto model : _models) {
+        if(predFunct(model))
+            return model;
+    }
+    return nullptr;
 }
