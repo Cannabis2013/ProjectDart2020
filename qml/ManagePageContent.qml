@@ -56,11 +56,6 @@ Content {
             }
         }
     }
-    Component.onCompleted: {
-        ManageScripts.connectInterface();
-        applicationInterface.requestPlayers();
-    }
-    Component.onDestruction: {
-        ManageScripts.disconnectInterface();
-    }
+    Component.onCompleted: ManageScripts.init();
+    Component.onDestruction: ManageScripts.disconnectInterface();
 }

@@ -8,8 +8,8 @@ public:
     {
         return new DSCInputEvaluator();
     }
-    virtual void evaluate(AbstractDartsInput *input, const int &scoreCand, IDCMetaInfo *metaInfo, AbstractDartsController *controller,
-                          const IDartsStatusCodes *statusCodes, IDCPlayerController *) override
+    virtual void evaluate(AbstractDartsInput *input, const int &scoreCand, IDCMetaCtx *metaInfo, AbstractDartsController *controller,
+                          const IDartsStatusCodes *statusCodes, IDCPlayerCtx *) override
     {
         if(scoreCand >= minimumAllowedScore)
         {
@@ -31,7 +31,7 @@ public:
         }
     }
 private:
-    void updateControllerMeta(AbstractDartsInput *input, IDCMetaInfo *metaInfo, const IDartsStatusCodes *statusCodes) const
+    void updateControllerMeta(AbstractDartsInput *input, IDCMetaCtx *metaInfo, const IDartsStatusCodes *statusCodes) const
     {
         metaInfo->get().winnerId = input->playerId();
         metaInfo->get().winnerName = input->playerName();

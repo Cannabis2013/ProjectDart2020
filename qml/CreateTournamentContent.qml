@@ -1,46 +1,18 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
-
 import "createTournamentScripts.js" as CreateScripts
-
 Content {
     id: createBody
     color: "transparent"
     preferedPageTitle: "Create tournament"
     signal requestPlayers
     signal sendDartsDetails(string json)
-    signal tournamentAssembledAndStored()
-    onTournamentAssembledAndStored: {
-        if(status)
-        {
-            requestQuit();
-        }
-        else
-        {
-            buttonsComponent.buttonOneEnabled = true;
-            buttonsComponent.buttonTwoEnabled = true;
-        }
-    }
     signal sendCricketDetails
     signal requestGameModes
-
-    minimumHeight: 538
-
-    QtObject{
-        id: sendPlayerState
-        property bool playerSent: false
-        readonly property int updateCount: 2
-    }
-
-    onRequestUpdate: {
-        requestPlayers();
-    }
-
     function selectorComponent()
     {
         return selectorLoader.item;
     }
-
     GridLayout{
         flow: GridLayout.TopToBottom
         anchors.fill: parent
@@ -57,16 +29,13 @@ Content {
             model: ["FirstToPost"]
             onValueChanged: CreateScripts.setupSelectors()
         }
-
         Loader{
             id: selectorLoader
             Layout.fillWidth: true
         }
-
         Rectangle{
             height: 10
         }
-
         DefaultPlayerListView {
             id: playersListView
             Layout.alignment: Qt.AlignHCenter
@@ -74,14 +43,10 @@ Content {
             Layout.fillWidth: true
             onItemSelected: CreateScripts.stateChanged()
         }
-
         MyRectangle{
             Layout.fillWidth: true
             height: 32
         }
-        /*
-          Save button clicked
-          */
         ButtonsComponent {
             id: buttonsComponent
             height: 30
@@ -94,15 +59,7 @@ Content {
             onButtonOneClicked: requestQuit()
             onButtonTwoClicked: CreateScripts.acceptAndAdd()
         }
-        Component.onCompleted: {
-            applicationInterface.tournamentCreatedSuccess.connect(createBody.tournamentAssembledAndStored);
-            applicationInterface.sendPlayers.connect(CreateScripts.recievePlayers);
-            CreateScripts.setupSelectors();
-            applicationInterface.requestPlayers();
-        }
-        Component.onDestruction: {
-            applicationInterface.tournamentCreatedSuccess.disconnect(createBody.tournamentAssembledAndStored);
-            applicationInterface.sendPlayers.disconnect(CreateScripts.recievePlayers);
-        }
+        Component.onCompleted: CreateScripts.init()
+        Component.onDestruction: CreateScripts.disconnect()
     }
 }

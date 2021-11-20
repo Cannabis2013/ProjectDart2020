@@ -1,9 +1,9 @@
 #ifndef DCPLAYERSTATSMANAGER_H
 #define DCPLAYERSTATSMANAGER_H
-#include "DartsController/PlayerStatsSLAs/idcplayerstats.h"
+#include "DartsController/PlayerStatsSLAs/idcstatscontext.h"
 #include <qregexp.h>
 #include <math.h>
-class DCPlayerStatsManager : public IDCPlayerStats
+class DCPlayerStatsManager : public IDCStatsContext
 {
 public:
     virtual void setPlayers(const Players &players) override

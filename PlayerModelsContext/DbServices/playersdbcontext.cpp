@@ -12,10 +12,9 @@ PlayersDbContext::PlayersDbContext(FileReaderInterface *fileReader, FileWriteInt
 
 bool PlayersDbContext::fetch(const IPlayerContextModelBuilder *modelBuilder)
 {
-    auto future = readJson()->read();
-    RunLater::run([=]{
-        _models = modelBuilder->createPlayers(future.result());
-    },future);
+    RunLater::run<QByteArray>(readJson()->read(),[=](const QByteArray &result){
+        _models = modelBuilder->createPlayers(result);
+    });
     return true;
 }
 

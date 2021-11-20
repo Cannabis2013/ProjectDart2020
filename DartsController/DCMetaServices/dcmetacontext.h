@@ -1,15 +1,19 @@
-#ifndef DCMETAINFO_H
-#define DCMETAINFO_H
-#include "DartsController/DCMetaSLAs/idcmetainfo.h"
+#ifndef DCMETACONTEXT_H
+#define DCMETACONTEXT_H
+#include "DartsController/DCMetaSLAs/idcmetactx.h"
 #include "DartsControllerBuilder/DCBMetaServices/dcbmeta.h"
 #include <quuid.h>
-class DCMetaInfo : public IDCMetaInfo
+class DCMetaContext : public IDCMetaCtx
 {
 public:
     void set(const QUuid &id, const int &initialRemaining) override
     {
         _meta.tournamentId = id;
         _meta.initialRemainingScore = initialRemaining;
+    }
+    virtual void set(const int &status) override
+    {
+        _meta.status = status;
     }
     DCMeta &get() override
     {

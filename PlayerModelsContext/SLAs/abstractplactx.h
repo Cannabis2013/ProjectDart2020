@@ -1,10 +1,10 @@
-#ifndef ABSTRACTPLAYERSCONTEXT_H
-#define ABSTRACTPLAYERSCONTEXT_H
+#ifndef ABSTRACTPLACTX_H
+#define ABSTRACTPLACTX_H
 #include <qobject.h>
 #include "ModelsContext/ModelsSLAs/imodel.h"
 #include <quuid.h>
 #include <qvector.h>
-class AbstractPlayersContext : public QObject
+class AbstractPlaCtx : public QObject
 {
     Q_OBJECT
 public:
@@ -15,16 +15,15 @@ public:
     virtual Players playerModels(const QVector<int> &indexes) const = 0;
     virtual Players playerModels(const QVector<QUuid> &ids) const = 0;
     virtual Players playerModels(const QVector<QString> &names) const = 0;
+    Q_INVOKABLE virtual QByteArray playerModels() = 0;
     Q_INVOKABLE virtual void createPlayer(const QByteArray &json) = 0;
-    Q_INVOKABLE virtual void deletePlayersFromIndexes(const QVector<int> &indexes) = 0;
+    Q_INVOKABLE virtual void remove(const QVector<int> &indexes) = 0;
 public slots:
-    virtual void handleRequestPlayersDetails() = 0;
 signals:
     void sendPlayersID(const QVector<QUuid> &playersID);
-    void playersDeletedStatus(const bool &status);
+    void playersDeleted();
     void sendPlayers(const QByteArray& json);
-    void playerAddedSucces();
+    void playerAdded();
     void playerAddedError(const QString &msg);
 };
-
-#endif // ABSTRACTPLAYERSCONTEXT_H
+#endif // ABSTRACTPLACTX_H

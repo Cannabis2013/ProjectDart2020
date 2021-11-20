@@ -24,7 +24,6 @@ IModel<QUuid> *DartsInputsDbContext::model(const int &index) const
 
 IModel<QUuid> *DartsInputsDbContext::model(std::function<bool (IModel<QUuid> *)> predFunct) const
 {
-    QVector<IModel<QUuid>*> models;
     for (const auto &model : _models) {
         if(predFunct(model))
             return model;
@@ -71,10 +70,9 @@ DartsInputsDbContext *DartsInputsDbContext::replace(const int& index, IModel<QUu
 
 bool DartsInputsDbContext::fetch(const IDartsInputBuilder *modelBuilder)
 {
-    auto future = readJson()->read();
-    RunLater::run([=]{
-        _models << modelBuilder->createInputs(future.result());
-    },future);
+    RunLater::run<QByteArray>(readJson()->read(),[=](const QByteArray &result){
+        _models << modelBuilder->createInputs(result);
+    });
     return true;
 }
 

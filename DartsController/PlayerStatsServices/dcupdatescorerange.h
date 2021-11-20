@@ -4,18 +4,27 @@
 class DCUpdateScoreRange : public IDCSetInputStats
 {
 public:
-    virtual void set(AbstractDartsInput *input, IDCPlayerStats *statsService, const IDCCalcMidVal *calcMidVal, IDartsIndex *index, const int &initialScore) const override
+    DCUpdateScoreRange(IDCStatsContext *statsContext, IDCCalcMidVal *calcMidVal,
+                       AbstractDCIdxCtrl *indexCtrl, IDCMetaCtx *metaContext)
+    {
+        setStatsContext(statsContext);
+        setCalcMidVal(calcMidVal);
+        setIndexCtrl(indexCtrl);
+        setMetaContext(metaContext);
+    }
+    virtual void set(AbstractDartsInput *input) const override
     {
         DCPlayerStat *playerStat;
         try {
-            playerStat = &statsService->stat(input->playerId());
+            playerStat = &statsContext()->stat(input->playerId());
         }  catch (...)
         {
             return;
         }
         evaulateAndUpdateStats(playerStat,input->score());
         setInputRangeStats(input,playerStat);
-        input->setMiddleValue(calcMidVal->middleValue(index,input->remainingScore(),initialScore));
+        auto initialRemaining = metaContext()->get().initialRemainingScore;
+        input->setMiddleValue(calcMidVal()->middleValue(indexCtrl()->index(),input->remainingScore(),initialRemaining));
     }
 private:
     void evaulateAndUpdateStats(DCPlayerStat *playerStat, const int &score) const

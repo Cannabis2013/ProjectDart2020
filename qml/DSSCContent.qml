@@ -1,12 +1,12 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
-import "dsscscripts.js" as DartsScoresScripts
+import "dsscscripts.js" as DSSCScripts
 import "dsscstatescripts.js" as StateScripts
 Content {
     id: dsscContent
     preferedPageTitle: "Darts 2021"
     DartsMetaValues{
-        id: dartsMetaValues
+        id: metaValues
     }
     GridLayout{
         anchors.fill: parent
@@ -18,13 +18,12 @@ Content {
             Layout.maximumHeight: 48
             Layout.bottomMargin: 12
             Layout.alignment: Qt.AlignHCenter
-            onStart: applicationInterface.requestStartGame()
-            onResume: applicationInterface.requestStartGame()
-            onPause: applicationInterface.requestStopGame()
-            onRestart: DartsScoresScripts.resetTournament()
-            onUndo: DartsScoresScripts.undoClicked()
-            onRedo: DartsScoresScripts.redoClicked()
-            z: 100
+            onStart: DSSCScripts.startGame()
+            onPause: dsscContent.state = "stopped"
+            onResume: dsscContent.state = "waitingForInput"
+            onRestart: DSSCScripts.resetTournament()
+            onUndo: DSSCScripts.undoClicked()
+            onRedo: DSSCScripts.redoClicked()
         }
         DSSCBoard{
             id: singleColumnScoreBoard
@@ -42,6 +41,7 @@ Content {
             Layout.alignment: Qt.AlignBottom
             Layout.fillHeight: true
             Layout.fillWidth: true
+            onSendInput: DSSCScripts.handleScoreKeyPadInput(value)
         }
     }
     states: [
@@ -76,6 +76,6 @@ Content {
             }
         }
     ]
-    Component.onCompleted: DartsScoresScripts.initializeComponent()
-    Component.onDestruction: DartsScoresScripts.disconnectInterface()
+    Component.onCompleted: DSSCScripts.init()
+    Component.onDestruction: DSSCScripts.disconnectInterface()
 }

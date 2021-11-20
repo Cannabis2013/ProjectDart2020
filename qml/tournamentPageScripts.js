@@ -1,7 +1,20 @@
+function initComponent()
+{
+    connect();
+    init();
+}
+
+function connect()
+{
+    dartsContext.repairCompleted.connect(repairDone);
+}
+function disconnect()
+{
+    dartsContext.repairCompleted.disconnect(repairDone);
+}
 function init()
 {
-    var byteArray = dartsContext.tournaments();
-    var jsonTournaments= JSON.parse(byteArray);
+    var jsonTournaments= JSON.parse(dartsContext.tournaments());
     var jsonLength = jsonTournaments.length;
     for(var i = 0;i < jsonLength;++i)
     {
@@ -36,17 +49,25 @@ function toGameMode(gameMode)
 function processSelection(index)
 {
     let json = JSON.parse(dartsContext.tournament(index));
-    let isConsistent = dartsContext.isConsistent(json["tournamentId"]);
+    let tournamentId = json["tournamentId"];
+    let isConsistent = dartsContext.isConsistent(tournamentId);
     if(!isConsistent)
-        return dartsNotConsistent(index);
-    initDarts(json);
+    {
+        dartsListView.removeItems([index]);
+        dartsContext.tryRepair(tournamentId);
+    }
+    else
+        initDarts(json);
 }
 
-function dartsNotConsistent(index)
+function repairDone(result,byteArray)
 {
-    // Do something in case of inconsistency
-    dartsListView.removeItems([index]);
-    return 0;
+    if(result)
+    {
+        let json = JSON.parse(byteArray);
+        initDarts(json);
+    }
+
 }
 
 function initDarts(json)

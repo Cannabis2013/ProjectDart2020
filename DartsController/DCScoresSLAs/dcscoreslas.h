@@ -1,17 +1,17 @@
 #ifndef DCSCORESLAS_H
 #define DCSCORESLAS_H
-#include "DartsController/DCScoresSLAs/idcscoremodels.h"
+#include "DartsController/DCScoresSLAs/abstractdcscoresctx.h"
 #include "DartsController/DCScoresSLAs/idcupdateplayerscores.h"
 #include "DartsController/DCScoresSLAs/idcscorebuilder.h"
 #include "DartsController/DCScoresSLAs/idccalcscore.h"
 class DCScoreSLAs
 {
 public:
-    IDCScoreModels *scoreModels() const
+    AbstractDCScoresCtx *scoresCtx() const
     {
         return _scoresModels;
     }
-    void setScoresModels(IDCScoreModels *service)
+    void setScoresModels(AbstractDCScoresCtx *service)
     {
         _scoresModels = service;
     }
@@ -40,7 +40,7 @@ public:
         _calculateScore = service;
     }
 private:
-    IDCScoreModels *_scoresModels;
+    AbstractDCScoresCtx *_scoresModels;
     IDCScoreBuilder *_createScoreModels;
     IDCUpdatePlayerScores *_createCandidateTuples;
     IDCCalcScore *_calculateScore;

@@ -1,49 +1,44 @@
-function initializeComponent()
+function init()
 {
     connectInterface();
     let metaJson = getMetaData();
     initMetaData(metaJson);
-    addScores(dsController.getPlayerScores());
-    dsscContent.state = "ready";
+    updateScoresView();
+    setState("ready");
 }
-
+function setState(state)
+{
+    var status = dsController.status();
+    if(status === 0)
+        dsscContent.state = state;
+    else if(status === 2)
+        winnerFound();
+}
 function connectInterface()
 {
-    applicationInterface.controllerReady.connect(controllerReady);
-    applicationInterface.controllerStopped.connect(backendIsStopped);
-    applicationInterface.winnerFound.connect(winnerFound);
-    applicationInterface.sendDartsScore.connect(updatePlayerScore);
-    applicationInterface.updateDartsTurnValues.connect(updateTurnValues);
-    applicationInterface.dartsControllerIsReset.connect(reinitialize);
-    scoreKeyPad.sendInput.connect(handleScoreKeyPadInput);
+    dsController.updatePlayerScore.connect(processScore);
+    dsController.resetSucces.connect(reinitialize);
 }
 
 function disconnectInterface()
 {
-    applicationInterface.controllerReady.disconnect(controllerReady);
-    applicationInterface.controllerStopped.disconnect(backendIsStopped);
-    applicationInterface.winnerFound.disconnect(winnerFound);
-    applicationInterface.sendDartsScore.disconnect(updatePlayerScore);
-    applicationInterface.updateDartsTurnValues.connect(updateTurnValues);
-    scoreKeyPad.sendInput.disconnect(handleScoreKeyPadInput);
+    dsController.updatePlayerScore.disconnect(processScore);
+    dsController.resetSucces.disconnect(reinitialize);
 }
-
 function getMetaData(){
     var id = dsController.tournamentId();
     var byteArray = dartsContext.tournament(id);
     return JSON.parse(byteArray);
 }
-
 function initMetaData(json)
 {
-    dartsMetaValues.title = json["title"];
-    dartsMetaValues.winnerName= json["winnerName"];
-    dartsMetaValues.keyPoint = json["keyPoint"];
-    dartsMetaValues.assignedPlayerNames = getPlayerNames(json["assignedPlayerDetails"]);
+    metaValues.title = json["title"];
+    metaValues.winnerName= json["winnerName"];
+    metaValues.keyPoint = json["keyPoint"];
+    metaValues.assignedPlayerNames = getPlayerNames(json["assignedPlayerDetails"]);
     initializeScoreBoard();
-    preferedPageTitle = dartsMetaValues.title;
+    preferedPageTitle = metaValues.title;
 }
-
 function getPlayerNames(playerDetails)
 {
     let playerNames = [];
@@ -59,20 +54,16 @@ function getPlayerNames(playerDetails)
 
 function initializeScoreBoard()
 {
-    var assignedPlayerNames = dartsMetaValues.assignedPlayerNames;
-    var keyPoint = dartsMetaValues.keyPoint;
+    var assignedPlayerNames = metaValues.assignedPlayerNames;
+    var keyPoint = metaValues.keyPoint;
     singleColumnScoreBoard.appendHeaderData(assignedPlayerNames,keyPoint);
 }
 
-function addScores(scores)
+function updateScoresView()
 {
+    let scores = dsController.getPlayerScores();
     var json = JSON.parse(scores);
     addDartsScoresToScoreBoard(json);
-}
-
-function controllerReady()
-{
-    dsscContent.state = "ready";
 }
 
 function addDartsScoresToScoreBoard(json)
@@ -90,22 +81,28 @@ function addToScoreBoard(json)
     let maximum = json["maximumValue"];
     singleColumnScoreBoard.setData(playerName,playerScore,minimum,middleValue,maximum);
 }
-
-function updatePlayerScore(data)
+function processScore(data)
 {
-    var json = JSON.parse(data);
-    addToScoreBoard(json);
-    applicationInterface.dartsNextTurn();
+    addToScoreBoard(JSON.parse(data));
+    updateTurnValues();
+    setState("waitingForInput");
 }
-
-function updateTurnValues(data)
+function startGame()
 {
-    var json = JSON.parse(data);
+    let status = dsController.status();
+    if(status === 0)
+    {
+        updateTurnValues();
+        dsscContent.state = "waitingForInput";
+    }
+}
+function updateTurnValues()
+{
+    var byteArray = dsController.getTurnValues();
+    var json = JSON.parse(byteArray);
     setTurnControllerValues(json);
-    setSuggestedTargetRow(json);
-    dsscContent.state = "waitingForInput";
+    keyDataDisplay.setThrowSuggestion(json["finishCandidate"]);
 }
-
 function reinitialize()
 {
     singleColumnScoreBoard.clearData();
@@ -114,19 +111,11 @@ function reinitialize()
     initializeScoreBoard();
     dsscContent.state = "ready";
 }
-
 function resetTournament()
 {
     dsscContent.state = "stopped";
-    applicationInterface.requestTournamentReset();
+    dsController.reset();
 }
-
-function setSuggestedTargetRow(json)
-{
-    let throwSuggestion = json["suggestedFinish"];
-    keyDataDisplay.setThrowSuggestion(throwSuggestion);
-}
-
 function setTurnControllerValues(json)
 {
     singleColumnScoreTurnController.leftButtonEnabled = json["canUndo"];
@@ -134,43 +123,38 @@ function setTurnControllerValues(json)
     singleColumnScoreTurnController.currentRoundIndex = json["currentRoundIndex"];
     singleColumnScoreTurnController.currentPlayer = json["currentPlayerName"];
 }
-
 function handleScoreKeyPadInput(value){
     dsscContent.state = "waitingForInputConfirmation";
-    var obj = {
-        score : value
-    };
+    var obj = {score : value};
     var json = JSON.stringify(obj);
-    applicationInterface.addUserInput(json);
+    if(dsController.handleInput(json) === -1)
+        inputNotAdded();
 }
-
+function inputNotAdded()
+{
+    dsscContent.state = "ready";
+}
 function backendIsStopped()
 {
     if(dsscContent.state !== "preRestart")
         dsscContent.state = "stopped";
 }
-
-function winnerFound(data)
+function winnerFound()
 {
-    var json = JSON.parse(data);
-    dartsMetaValues.winnerName = json["winnerName"];
+    var byteArray = dsController.getWinnerJson();
+    var json = JSON.parse(byteArray);
+    keyDataDisplay.setCurrentWinner(json["winnerName"]);
     keyDataDisplay.setThrowSuggestion("");
     dsscContent.state = "winner";
 }
-
 function undoClicked()
 {
     dsscContent.state = "waitingForInputConfirmation";
-    applicationInterface.dartsUndo();
+    dsController.undoTurn();
 }
 
 function redoClicked()
 {
     dsscContent.state = "waitingForInputConfirmation";
-    applicationInterface.dartsRedo();
-}
-
-function setWinnerText()
-{
-    keyDataDisplay.setCurrentWinner(dartsMetaValues.winnerName);
+    dsController.redoTurn();
 }

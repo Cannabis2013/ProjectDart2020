@@ -1,6 +1,6 @@
 #ifndef DARTSJSONMODELSCONTEXT_H
 #define DARTSJSONMODELSCONTEXT_H
-#include "DartsModelsContext/Services/dartscontext.h"
+#include "DartsModelsContext/Services/dartsctx.h"
 #include "DartsModelsContext/InputServices/removedartsinputsfromdb.h"
 #include "FileOperationsContext/Services/readbytearray.h"
 #include "FileOperationsContext/Services/writebytearray.h"
@@ -16,7 +16,7 @@
 #include "DartsModelsContext/IndexesServices/updatedartsindexes.h"
 #include "DartsModelsContext/IndexesDbServices/dcindexbuilder.h"
 #include "DartsModelsContext/TournamentServices/resetdartstournament.h"
-#include "DartsModelsContext//TournamentsDbServices/dartsdbcontext.h"
+#include "DartsModelsContext//TournamentsDbServices/dartsdbctx.h"
 #include "DartsModelsContext/TournamentServices/getdartstournamentfromdb.h"
 #include "DartsModelsContext/TournamentServices/dartwinnermodelbuilder.h"
 #include "DartsModelsContext/TournamentServices/setdartsplayerdetails.h"
@@ -24,34 +24,37 @@
 #include "DartsModelsContext/TournamentServices/dartstournamentbuilder.h"
 #include "DartsModelsContext/TournamentServices/GetDartsTournamentIds.h"
 #include "DartsModelsContext/TournamentServices/dartsverifyconsistency.h"
+#include "DartsModelsContext/TournamentServices/dartstournamentrepair.h"
 class DartsContextBuilder
 {
 public:
-    DartsContext *create() const
+    DartsCtx *create() const
     {
-        auto modelsContext = new DartsContext;
-        modelsContext->setDartsDbContext(new DartsDbContext(new ReadByteArray, new WriteByteArray));
-        modelsContext->setResetTournament(new ResetDartsTournament);
-        modelsContext->setGetTournament(new GetDartsTournamentFromDb);
-        modelsContext->setTournamentJsonBuilder(new DartsJsonBuilder);
-        modelsContext->setTournamentBuilder(new DartsTournamentBuilder);
-        modelsContext->setWinnerInfoBuilder(new DartWinnerModelBuilder);
-        modelsContext->setMetaModelBuilder(new DartsMetaModelBuilder);
-        modelsContext->setGetTournamentIds(new GetDartsIds);
-        modelsContext->setUpdateIndexes(new UpdateDartsIndexes);
-        modelsContext->setInputsDbContext(new DartsInputsDbContext(new ReadByteArray, new WriteByteArray));
-        modelsContext->setGetInputFromDb(new GetDartsInputFromDb);
-        modelsContext->setSortInputsByIndexes(new SortDartsInputsByIndexes);
-        modelsContext->setInputBuilder(new DartsInputBuilder);
-        modelsContext->setInputJsonBuilder(new DartsInputJsonBuilder);
-        modelsContext->setGetInputsFromDb(new GetDartsInputModels);
-        modelsContext->setSortInputs(new SortDartsInputs);
-        modelsContext->setCountInputs(new CountDartsInputs);
-        modelsContext->setRemoveInputsFromDb(new RemoveDartsInputsFromDb);
-        modelsContext->dartsDbContext()->fetch(modelsContext->tournamentBuilder());
-        modelsContext->setVerifyConsistency(new DartsVerifyConsistency);
-        modelsContext->inputsDb()->fetch(modelsContext->inputBuilder());
-        return modelsContext;
+        auto mdsCtx = new DartsCtx;
+        mdsCtx->setDartsDbCtx(new DartsDbCtx(new ReadByteArray, new WriteByteArray));
+        mdsCtx->setSetTournamentPlayerDetails(new SetDartsPlayerDetails);
+        mdsCtx->setResetTournament(new ResetDartsTournament);
+        mdsCtx->setGetTournament(new GetDartsTournamentFromDb);
+        mdsCtx->setTournamentJsonBuilder(new DartsJsonBuilder);
+        mdsCtx->setTournamentBuilder(new DartsTournamentBuilder);
+        mdsCtx->setWinnerInfoBuilder(new DartWinnerModelBuilder);
+        mdsCtx->setMetaModelBuilder(new DartsMetaModelBuilder);
+        mdsCtx->setGetTournamentIds(new GetDartsIds);
+        mdsCtx->setUpdateIndexes(new UpdateDartsIndexes);
+        mdsCtx->setInputsDbContext(new DartsInputsDbContext(new ReadByteArray, new WriteByteArray));
+        mdsCtx->setGetInputFromDb(new GetDartsInputFromDb);
+        mdsCtx->setSortInputsByIndexes(new SortDartsInputsByIndexes);
+        mdsCtx->setInputBuilder(new DartsInputBuilder);
+        mdsCtx->setInputJsonBuilder(new DartsInputJsonBuilder);
+        mdsCtx->setGetInputsFromDb(new GetDartsInputModels);
+        mdsCtx->setSortInputs(new SortDartsInputs);
+        mdsCtx->setCountInputs(new CountDartsInputs);
+        mdsCtx->setRemoveInputsFromDb(new RemoveDartsInputsFromDb);
+        mdsCtx->dartsDbCtx()->fetch(mdsCtx->tournamentBuilder());
+        mdsCtx->setVerifyConsistency(new DartsVerifyConsistency);
+        mdsCtx->setTournamentRepair(new DartsTournamentRepair);
+        mdsCtx->inputsDb()->fetch(mdsCtx->inputBuilder());
+        return mdsCtx;
     }
 };
 #endif // DARTSMODELSSERVICEWITHJSONDB_H

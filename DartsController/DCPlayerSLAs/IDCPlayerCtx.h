@@ -1,9 +1,9 @@
-#ifndef IDCPLAYERCONTROLLER_H
-#define IDCPLAYERCONTROLLER_H
+#ifndef IDCPLAYERCTX_H
+#define IDCPLAYERCTX_H
 #include <quuid.h>
 #include <qvector.h>
 #include "PlayerModelsContext/DbSLAs/iplayermodel.h"
-class IDCPlayerController
+class IDCPlayerCtx
 {
 public:
     typedef IModel<QUuid> Player;

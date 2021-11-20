@@ -8,10 +8,9 @@ public:
     {
         return _id;
     }
-    virtual ITournament *setId(const QUuid &val) override
+    virtual void setId(const QUuid &val) override
     {
         _id = val;
-        return this;
     }
     virtual QString title() const override
     {

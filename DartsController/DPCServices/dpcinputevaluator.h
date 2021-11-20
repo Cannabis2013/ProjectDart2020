@@ -14,15 +14,17 @@ public:
     {
         return new DPCInputEvaluator;
     }
-    void evaluate(AbstractDartsInput *input, const int &scoreCand, IDCMetaInfo *metaInfo, AbstractDartsController *controller,
-                  const IDartsStatusCodes *statusCodes, IDCPlayerController *playerController) override
+    void evaluate(AbstractDartsInput *input, const int &scoreCand, IDCMetaCtx *metaInfo, AbstractDartsController *controller,
+                  const IDartsStatusCodes *statusCodes, IDCPlayerCtx *playerController) override
     {
         if(!playerController->status(input->playerId()))
         {
             if(input->modKeyCode() == DoubleModifier)
             {
                 input->setRemainingScore(scoreCand);
-                input->setInGame(playerController->updateStatus(input->playerId(),true));
+                input->setInGame(true);
+                controller->addInputToModelsContext(input);
+                return;
             }
             else
             {

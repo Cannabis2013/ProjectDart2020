@@ -72,12 +72,15 @@ private:
     }
     void setTournamentPlayerDetails(DartsTournament *tournament, const QJsonObject &obj) const
     {
+        QVector<QUuid> playerIds;
         QVector<QString> playerNames;
         auto arr = obj.value("assignedPlayerDetails").toArray();
         for (const auto &jsonvalue : arr) {
             auto jsonObject = jsonvalue.toObject();
+            playerIds << QUuid::fromString(jsonObject.value("playerId").toString());
             playerNames << jsonObject.value("playerName").toString();
         }
+        tournament->setPlayerIds(playerIds);
         tournament->setPlayerNames(playerNames);
     }
     QUuid toId(const QJsonObject &obj, const QString &key, const QString &defaultvalue = "") const

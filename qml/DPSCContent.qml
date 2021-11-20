@@ -1,6 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
-import "dpscscripts.js" as DPSCScriptss
+import "dpscscripts.js" as DPSCScripts
 import "dpscstatescripts.js" as DPSCStateScripts
 Content {
     id: dpscContent
@@ -14,10 +14,10 @@ Content {
             Layout.minimumHeight: 48
             Layout.maximumHeight: 48
             Layout.alignment: Qt.AlignHCenter
-            onStart: applicationInterface.requestStartGame()
-            onResume: applicationInterface.requestStartGame()
-            onPause: applicationInterface.requestStopGame()
-            onRestart: DPSCScriptss.resetTournament()
+            onStart: DPSCScripts.startGame()
+            onPause: dsscContent.state = "stopped"
+            onResume: dsscContent.state = "waitingForInput"
+            onRestart: DPSCScripts.resetTournament()
             onUndo: applicationInterface.dartsUndo()
             onRedo: applicationInterface.dartsRedo()
         }
@@ -36,7 +36,7 @@ Content {
             Layout.alignment: Qt.AlignBottom
             Layout.fillHeight: true
             Layout.fillWidth: true
-            onSendInput: DPSCScriptss.handleScoreKeyPadInput(value,keyCode)
+            onSendInput: DPSCScripts.handleScoreKeyPadInput(value,keyCode)
         }
     }
     states: [
@@ -71,6 +71,6 @@ Content {
             }
         }
     ]
-    Component.onCompleted: DPSCScriptss.initializeComponent()
-    Component.onDestruction: DPSCScriptss.disconnectInterface()
+    Component.onCompleted: DPSCScripts.init()
+    Component.onDestruction: DPSCScripts.disconnectInterface()
 }

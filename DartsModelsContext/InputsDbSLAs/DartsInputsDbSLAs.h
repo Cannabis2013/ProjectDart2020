@@ -1,11 +1,9 @@
 #ifndef DARTSINPUTSDBSLAS_H
 #define DARTSINPUTSDBSLAS_H
-
 #include "IDartsInputsDbContext.h"
 #include "iremovedartsinputsfromdb.h"
 #include "DartsModelsContext/InputsDbSLAs/igetdartsinput.h"
 #include "DartsModelsContext/InputsDbSLAs/igetinputmodelsservice.h"
-
 class DartsInputsDbSLAs
 {
 public:

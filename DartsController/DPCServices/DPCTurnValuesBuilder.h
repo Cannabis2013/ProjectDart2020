@@ -1,33 +1,32 @@
 #ifndef DPCTURNVALUESBUILDER_H
 #define DPCTURNVALUESBUILDER_H
-
-#include "DartsController/DCTurnValuesSLAs/icreatedcturnvalues.h"
+#include "DartsController/DCTurnValuesSLAs/abstractdcturnvalues.h"
 #include "DartsController/DCTurnValuesServices/dcturnvalues.h"
-#include "DartsController/DCIndexSLAs/idcindexcontroller.h"
+#include "DartsController/DCIndexSLAs/abstractdcidxctrl.h"
 #include "DartsController/DCFinishesSLAs/idartsinputfinishes.h"
-
-class DPCTurnValuesBuilder : public ICreateDCTurnValues
+class DPCTurnValuesBuilder : public AbstractDCTurnValues
 {
 public:
-    DCTurnValues turnValues(IDartsIndex *index, IDCScoreModels *scoresService,
-                            const IDartsInputFinishes *logisticService = nullptr) const override
+    DPCTurnValuesBuilder(AbstractDCIdxCtrl *indexController, AbstractDCScoresCtx *scoresModels,
+                     const IDartsInputFinishes *logisticService = nullptr)
+    {
+        setIndexController(indexController);
+        setScoreModels(scoresModels);
+        setLogisticService(logisticService);
+    }
+    DCTurnValues turnValues() const override
     {
         DCTurnValues model;
+        auto index = indexController()->index();
+        auto scoreModel = scoreModels()->scores().at(index->setIndex());
         model.canUndo = index->turnIndex() > 0;
         model.canRedo = index->turnIndex() < index->totalTurns();
         model.roundIndex = index->roundIndex();
         model.setIndex = index->setIndex();
         model.attemptIndex = index->attemptIndex();
-        model.targetRow = logisticService->suggestTargetRow(getPlayerScore(index,scoresService),index->attemptIndex());
-        model.playerName = scoresService->scores().at(index->setIndex()).playerName;
+        model.targetRow = logisticService()->suggestTargetRow(scoreModel.remainingScore,index->attemptIndex());
+        model.playerName = scoreModel.playerName;
         return model;
-    }
-private:
-    int getPlayerScore(IDartsIndex *index, IDCScoreModels *scoresService) const
-    {
-        auto models = scoresService->scores();
-        auto model = models.at(index->setIndex());
-        return model.remainingScore;
     }
 };
 #endif // BUILDDARTSPOINTTURNVALUES_H

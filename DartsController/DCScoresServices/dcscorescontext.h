@@ -1,9 +1,13 @@
-#ifndef DCSCOREMODELS_H
-#define DCSCOREMODELS_H
-#include "DartsController/DCScoresSLAs/idcscoremodels.h"
-class DCScoreModels : public IDCScoreModels
+#ifndef DCSCORESCONTEXT_H
+#define DCSCORESCONTEXT_H
+#include "DartsController/DCScoresSLAs/abstractdcscoresctx.h"
+class DCScoresContext : public AbstractDCScoresCtx
 {
 public:
+    DCScoresContext(IDCMetaCtx *metaContext)
+    {
+        setMetaContext(metaContext);
+    }
     DartsScoreModels &scores() override
     {
         return _scoreModels;
@@ -16,10 +20,15 @@ public:
         }
         throw "SCOREMODEL NOT FOUND";
     }
-    virtual void reset(const int &defaultScore) override
+    virtual void reset() override
     {
+        auto defaultScore = metaContext()->get().initialRemainingScore;
         for (auto &scoreModel : _scoreModels)
             scoreModel.remainingScore = defaultScore;
+    }
+    virtual DartsScoreModels scores() const override
+    {
+        return _scoreModels;
     }
 private:
     DartsScoreModels _scoreModels;

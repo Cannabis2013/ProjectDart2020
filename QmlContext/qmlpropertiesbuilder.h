@@ -24,9 +24,10 @@ public:
     Properties contextProperties() const
     {
         Properties _props;
-        _props << createProperty<AbstractDartsContext>("dartsContext",_dartsContext);
+        _props << createProperty<AbstractDartsCtx>("dartsContext",_dartsContext);
         _props << createProperty<AbstractDartsController>("dsController",_dsController);
         _props << createProperty<AbstractDartsController>("dpController",_dpController);
+        _props << createProperty<AbstractPlaCtx>("playersContext",_playerContext);
         return _props;
     }
 private:
@@ -40,7 +41,7 @@ private:
     }
     AbstractDartsController *_dpController;
     AbstractDartsController *_dsController;
-    AbstractPlayersContext *_playerContext;
-    AbstractDartsContext *_dartsContext;
+    AbstractPlaCtx *_playerContext;
+    AbstractDartsCtx *_dartsContext;
 };
 #endif // QMLAPPLICATIONPROPERTIES_H

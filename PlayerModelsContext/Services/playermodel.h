@@ -9,10 +9,9 @@ public:
     {
         return _id;
     }
-    PlayerModel* setId(const QUuid &id) override
+    void setId(const QUuid &id) override
     {
         _id = id;
-        return this;
     }
     QString email() const override
     {

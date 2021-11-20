@@ -4,11 +4,11 @@
 class DCUpdatePlayerStat : public IDCUpdatePlayerStat
 {
 public:
-    virtual void update(const AbstractDartsInput *input, IDCPlayerStats *playerStatsContext) const override
+    virtual void update(const AbstractDartsInput *input, IDCStatsContext *playerStatsContext) const override
     {
         updatePlayerStat(input,&playerStatsContext->stat(input->playerId()));
     }
-    virtual void update(const QVector<IModel<QUuid>*> &models, IDCPlayerStats *playerStatsContext) const override
+    virtual void update(const QVector<IModel<QUuid>*> &models, IDCStatsContext *playerStatsContext) const override
     {
         if(models.isEmpty())
             return;

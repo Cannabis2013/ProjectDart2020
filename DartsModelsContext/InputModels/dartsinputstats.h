@@ -29,9 +29,9 @@ public:
         _minimum = min;
     }
 private:
-    double _middleVal;
-    int _minimum;
-    int _maximum;
+    double _middleVal = 0;
+    int _minimum = 0;
+    int _maximum = 0;
 };
 
 #endif // DARTSINPUTSTATS_H

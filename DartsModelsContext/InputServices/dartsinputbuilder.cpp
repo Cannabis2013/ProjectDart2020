@@ -1,28 +1,8 @@
 #include "dartsinputbuilder.h"
-
-IModel<QUuid> *DartsInputBuilder::createInput(const QUuid &tournamentId, const QUuid &playerId, const int &remainingScore) const
-{
-    auto inputModel = new DartsInput;
-    inputModel->setTournamentId(tournamentId);
-    inputModel->setPlayerId(playerId);
-    inputModel->setRemainingScore(remainingScore);
-    return inputModel;
-}
-
-IModel<QUuid> *DartsInputBuilder::createInput(const QByteArray &json) const
-{
-    auto jsonObject = toJsonObject(json);
-    return toInputModel(jsonObject);
-}
 QVector<IModel<QUuid> *> DartsInputBuilder::createInputs(const QByteArray &json) const
 {
-    auto arr = toJsonArray(json);
+    auto arr = QJsonDocument::fromJson(json).array();
     return createInputsFromJsonArray(arr);
-}
-
-const QJsonArray DartsInputBuilder::toJsonArray(const QByteArray &json) const
-{
-    return QJsonDocument::fromJson(json).array();
 }
 
 QVector<IModel<QUuid>*> DartsInputBuilder::createInputsFromJsonArray(const QJsonArray &arr) const
@@ -59,9 +39,4 @@ QUuid DartsInputBuilder::toId(const QJsonObject &obj, const QString &key) const
 {
     auto id = obj.value(key).toString();
     return QUuid::fromString(id);
-}
-
-const QJsonObject DartsInputBuilder::toJsonObject(const QByteArray &json) const
-{
-    return QJsonDocument::fromJson(json).object();
 }

@@ -1,6 +1,5 @@
 #ifndef GETDARTSINPUTFROMDB_H
 #define GETDARTSINPUTFROMDB_H
-
 #include "DartsModelsContext/InputsDbSLAs/igetdartsinput.h"
 #include "DartsModelsContext/InputModelsSLAs/abstractdartsinput.h"
 class GetDartsInputFromDb : public IGetDartsInput

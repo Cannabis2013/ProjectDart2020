@@ -1,18 +1,22 @@
-#ifndef DPCINDEXCONTROLLER_H
-#define DPCINDEXCONTROLLER_H
-#include "DartsController/DCIndexSLAs/idcindexcontroller.h"
-class DPCIndexController : public IDCIndexController
+#ifndef DPCIDXCTRL_H
+#define DPCIDXCTRL_H
+#include "DartsController/DCIndexSLAs/abstractdcindexctrl.h"
+class DPCIndexController : public AbstractDCIndexCtrl
 {
 public:
+    DPCIndexController(IDCIndexBuilder *copyContext)
+    {
+        setCopyContext(copyContext);
+    }
     virtual void init(IDartsIndex *index) override
     {
-        _index = index;
+        _index = copyContext()->index(index);
     }
-    IDartsIndex *index() override
+    IDartsIndex *index() const override
     {
-        return _index;
+        return copyContext()->index(_index);;
     }
-    IDartsIndex *next(const int &playersCount) override
+    IDartsIndex *next() override
     {
         if(_index->turnIndex() == _index->totalTurns())
             _index->setTotalTurns(_index->totalTurns() + 1);
@@ -23,13 +27,13 @@ public:
             _index->setSetIndex(_index->setIndex() + 1);
             _index->setAttemptIndex(0);
         }
-        if(_index->setIndex() >= playersCount){
+        if(_index->setIndex() >= playersCount()){
             _index->setRoundIndex(_index->roundIndex() + 1);
             _index->setSetIndex(0);
         }
         return _index;
     }
-    IDartsIndex *undo(const int &playerCount) override
+    IDartsIndex *undo() override
     {
         if(_index->turnIndex() <= 0)
             throw "ERROR: CAN'T UNDO!";
@@ -43,11 +47,11 @@ public:
         if(_index->setIndex() < 0)
         {
             _index->setRoundIndex(_index->roundIndex() - 1);
-            _index->setSetIndex(playerCount - 1);
+            _index->setSetIndex(playersCount() - 1);
         }
         return _index;
     }
-    IDartsIndex *redo(const int &playersCount) override
+    IDartsIndex *redo() override
     {
         if(_index->turnIndex() >= _index->totalTurns())
             throw "ERROR: CAN'T REDO!";
@@ -58,7 +62,7 @@ public:
             _index->setSetIndex(_index->setIndex() + 1);
             _index->setAttemptIndex(0);
         }
-        if(_index->setIndex() >= playersCount){
+        if(_index->setIndex() >= playersCount()){
             _index->setRoundIndex(_index->roundIndex() + 1);
             _index->setSetIndex(0);
         }
@@ -68,4 +72,4 @@ private:
     IDartsIndex *_index;
     const int _attempts = 3;
 };
-#endif // DPCINDEXCONTROLLER_H
+#endif // DPCIDXCTRL_H

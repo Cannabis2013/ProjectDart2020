@@ -16,7 +16,7 @@ public:
         auto multiplier = createPointMultiplier(inputModel->modKeyCode());
         return calculateScore(inputModel->point(),multiplier);
     }
-    virtual int calculate(IDartsIndex *index, const int &scoreCandidate, IDCScoreModels *scoresService) const override
+    virtual int calculate(IDartsIndex *index, const int &scoreCandidate, AbstractDCScoresCtx *scoresService) const override
     {
         auto scoreModel = this->scoreModel(index->setIndex(),scoresService);
         return calcCandidate(scoreModel,scoreCandidate);
@@ -33,7 +33,7 @@ private:
     {
         return point*multiplier;
     }
-    DCScoreModel scoreModel(const int &modelIndex, IDCScoreModels *scoresService) const
+    DCScoreModel scoreModel(const int &modelIndex, AbstractDCScoresCtx *scoresService) const
     {
         auto scoreModels = scoresService->scores();
         return scoreModels.at(modelIndex);

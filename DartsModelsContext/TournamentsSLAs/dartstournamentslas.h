@@ -4,7 +4,7 @@
 #include "DartsModelsContext/TournamentsSLAs/iwinnerinfobuilder.h"
 #include "idartsconsistency.h"
 #include "idartsmetamodelbuilder.h"
-#include "idartsrepair.h"
+#include "itournamentrepair.h"
 #include "igettournamentids.h"
 #include "iresetdartstournament.h"
 class DartsTournamentSLAs
@@ -59,11 +59,11 @@ public:
         _verifyConsistency = newVerifyConsistency;
     }
 
-    IDartsRepair *tournamentRepair() const
+    ITournamentRepair *tournamentRepair() const
     {
         return _tournamentRepair;
     }
-    void setTournamentRepair(IDartsRepair *newTournamentRepair)
+    void setTournamentRepair(ITournamentRepair *newTournamentRepair)
     {
         _tournamentRepair = newTournamentRepair;
     }
@@ -74,6 +74,6 @@ private:
     ISetTournamentPlayerDetails *_addPlayerDetails;
     IWinnerInfoBuilder *_winnerInfoBuilder;
     IDartsConsistency *_verifyConsistency;
-    IDartsRepair *_tournamentRepair;
+    ITournamentRepair *_tournamentRepair;
 };
 #endif // DARTSTOURNAMENTSERVICESPROVIDER_H

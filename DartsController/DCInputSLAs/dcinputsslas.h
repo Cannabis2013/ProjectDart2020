@@ -2,7 +2,7 @@
 #define DCINPUTSSLAS_H
 #include "DartsController/DCFinishesSLAs/idartsinputfinishes.h"
 #include "DartsController/DCInputSLAs/abstractdcinputevaluator.h"
-#include "DartsController/DCInputSLAs/idcinputbuilder.h"
+#include "DartsController/DCInputSLAs/abstractdcinputbuilder.h"
 class DCInputsSLAs
 {
 public:
@@ -18,21 +18,21 @@ public:
     {
         return _suggestFinishes;
     }
-    void setSuggestFinishes(IDartsInputFinishes *service)
+    void setDartsFinishBuilder(IDartsInputFinishes *service)
     {
         _suggestFinishes = service;
     }
-    IDCInputBuilder *createInput() const
+    AbstractDCInputBuilder *createInput() const
     {
         return _inputModelBuilder;
     }
-    void setInputBuilder(IDCInputBuilder *service)
+    void setInputBuilder(AbstractDCInputBuilder *service)
     {
         _inputModelBuilder = service;
     }
 private:
     IDartsInputFinishes *_suggestFinishes = nullptr;
     AbstractDCInputEvaluator *_inputEvaluator = nullptr;
-    IDCInputBuilder* _inputModelBuilder;
+    AbstractDCInputBuilder* _inputModelBuilder;
 };
 #endif // DCINPUTSSLAS_H

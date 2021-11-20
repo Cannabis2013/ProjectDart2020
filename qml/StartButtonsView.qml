@@ -12,6 +12,7 @@ StartButtonsInterface {
     onResumeButtonVisibleChanged: resumeButton.visible = resumeButtonVisible
     onWaitButtonVisibleChanged: waitButton.visible = waitButtonVisible
     onRestartButtonVisibleChanged: restartButton.visible = restartButtonVisible
+    onRestartButtonEnabledChanged: restartButton.enabled = restartButtonEnabled
     onStartButtonEnabledChanged: startButton.enabled = startButtonEnabled
     onPressAndHoldEnabledChanged: {
         startButton.enablePressAndHold = pressAndHoldEnabled;
@@ -99,7 +100,7 @@ StartButtonsInterface {
             fontSize: defaultButtonGeometries.defaultFontSize
             width: defaultButtonGeometries.defaultWidth
             height: defaultButtonGeometries.defaultHeight
-            onClicked: PopupBuilder.createConfirmPopUp(applicationWindow,restartButtonClicked);
+            onClicked: PopupBuilder.createConfirmPopUp(applicationWindow,undefined,restartButtonClicked);
         }
         Rectangle{
             Layout.fillHeight: true

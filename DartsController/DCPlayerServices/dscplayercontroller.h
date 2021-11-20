@@ -1,7 +1,7 @@
 #ifndef DSCPLAYERCONTROLLER_H
 #define DSCPLAYERCONTROLLER_H
-#include "DartsController/DCPlayerSLAs/IDCPlayerController.h"
-class DSCPlayerController : public IDCPlayerController
+#include "DartsController/DCPlayerSLAs/IDCPlayerCtx.h"
+class DSCPlayerController : public IDCPlayerCtx
 {
 public:
     virtual void set(const Players &players) override {_players = players;}

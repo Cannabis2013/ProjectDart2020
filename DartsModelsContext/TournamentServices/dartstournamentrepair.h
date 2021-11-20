@@ -1,23 +1,23 @@
 #ifndef DARTSTOURNAMENTREPAIR_H
 #define DARTSTOURNAMENTREPAIR_H
 #include "DartTournamentsContext/DTCModelsSLAs/itournament.h"
-#include "DartsModelsContext/InputModelsSLAs/abstractdartsinput.h"
 #include "PlayerModelsContext/DbSLAs/iplayermodel.h"
-#include "DartsModelsContext/TournamentsSLAs/idartsrepair.h"
-class DartsTournamentRepair : public IDartsRepair
+#include "DartsModelsContext/TournamentsSLAs/itournamentrepair.h"
+#include "DartsModelsContext/InputModelsSLAs/iplayerinput.h"
+class DartsTournamentRepair : public ITournamentRepair
 {
 public:
-    virtual bool repair(IModel<QUuid> *tournamentModel, const QVector<IModel<QUuid>*> &inputModels, AbstractPlayersContext *playersContext) const override
+    virtual bool repair(IModel<QUuid> *tournamentModel, const QVector<IModel<QUuid>*> &inputModels, AbstractPlaCtx *playersContext) const override
     {
         auto tournament = dynamic_cast<ITournament*>(tournamentModel);
-        auto playerNames = tournament->playerNames();
-        auto r = repairPlayerByNames(tournament,playerNames,playersContext);
+        auto r = repairTournamentPlayers(tournament,playersContext);
         r = repairInputs(inputModels,playersContext);
         return r;
     }
 private:
-    bool repairPlayerByNames(ITournament *tournament, const QVector<QString> &names, AbstractPlayersContext *playersContext) const
+    bool repairTournamentPlayers(ITournament *tournament, AbstractPlaCtx *playersContext) const
     {
+        auto names = tournament->playerNames();
         auto players = playersContext->playerModels(names);
         if(players.count() != names.count())
             return false;
@@ -32,10 +32,10 @@ private:
         tournament->setPlayerNames(pNames);
         return true;
     }
-    bool repairInputs(const QVector<IModel<QUuid>*> &inputModels, AbstractPlayersContext *playersContext) const
+    bool repairInputs(const QVector<IModel<QUuid>*> &inputModels, AbstractPlaCtx *playersContext) const
     {
         for (auto &model : inputModels) {
-            auto dartsInput = dynamic_cast<AbstractDartsInput*>(model);
+            auto dartsInput = dynamic_cast<IPlayerInput*>(model);
             auto playerId = dartsInput->playerId();
             auto playerName = dartsInput->playerName();
             IPlayerModel *playerModel = dynamic_cast<IPlayerModel*>(playersContext->playerModel(playerId));

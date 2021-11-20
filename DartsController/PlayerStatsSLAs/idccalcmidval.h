@@ -1,8 +1,8 @@
 #ifndef IDCCALCMIDVAL_H
 #define IDCCALCMIDVAL_H
-#include "DartsController/DCIndexSLAs/idcindexcontroller.h"
-#include "DartsController/DCScoresSLAs/idcscoremodels.h"
-#include "idcplayerstats.h"
+#include "DartsController/DCIndexSLAs/abstractdcidxctrl.h"
+#include "DartsController/DCScoresSLAs/abstractdcscoresctx.h"
+#include "idcstatscontext.h"
 class IDCCalcMidVal
 {
 public:

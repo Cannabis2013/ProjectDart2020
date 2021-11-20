@@ -40,7 +40,6 @@ ItemListView{
                 id: listModel
             }
             delegate: TournamentViewDelegate{
-
                 id: listItem
                 noDelayPressSelect: listComponentBody.instantCheck
                 onClicked: itemClicked(index)

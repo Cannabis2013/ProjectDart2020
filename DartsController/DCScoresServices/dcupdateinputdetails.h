@@ -4,7 +4,7 @@
 class DCUpdateInputDetails : public IDCUpdatePlayerScores
 {
 public:
-    void update(const QVector<IModel<QUuid>*> &models, IDCScoreModels *scoreController) const override
+    void update(const QVector<IModel<QUuid>*> &models, AbstractDCScoresCtx *scoreController) const override
     {
         for (const auto &model : models) {
             auto input = dynamic_cast<AbstractDartsInput*>(model);

@@ -8,8 +8,18 @@
 class RunLater
 {
 public:
-    template<typename T>
-    static void run(std::function<void()> funct,const QFuture<T> &future)
+    template<typename T = void>
+    static void run(const QFuture<T> &future,std::function<void(const T&)> funct)
+    {
+        auto watcher = new QFutureWatcher<T>();
+        QObject::connect(watcher,&QFutureWatcherBase::finished, [=](){
+            funct(future.result());
+            delete watcher;
+        });
+        watcher->setFuture(future);
+    }
+    template<typename T = void>
+    static void run(const QFuture<T> &future,std::function<void()> funct)
     {
         auto watcher = new QFutureWatcher<T>();
         QObject::connect(watcher,&QFutureWatcherBase::finished, [=](){
@@ -17,23 +27,6 @@ public:
             delete watcher;
         });
         watcher->setFuture(future);
-    }
-    template<typename T, typename U = T>
-    static void run(std::function<void()> firstFunct, const QFuture<T> &first,
-                    std::function<void()> secondFunct, const QFuture<U> &second)
-    {
-        auto firstWatcher = new QFutureWatcher<T>();
-        auto secondWatcher = new QFutureWatcher<U>();
-        QObject::connect(firstWatcher,&QFutureWatcherBase::finished, [=](){
-            firstFunct();
-            delete firstWatcher;
-        });
-        firstWatcher->setFuture(first);
-        QObject::connect(secondWatcher,&QFutureWatcherBase::finished, [=](){
-            secondFunct();
-            delete secondWatcher;
-        });
-        secondWatcher->setFuture(second);
     }
 };
 #endif // RUNLATER_H

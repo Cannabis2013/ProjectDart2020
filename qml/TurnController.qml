@@ -27,7 +27,7 @@ TurnControllerInterface {
             onStartButtonClicked: turnControllerBody.start()
             onRestartButtonClicked: turnControllerBody.restart()
         }
-        ControllerNavView{
+        NavigationView{
             id: navView
             Layout.fillWidth: true
             Layout.minimumHeight: 40
@@ -46,6 +46,7 @@ TurnControllerInterface {
                 target: startButtonComponent
                 startButtonVisible: true
                 startButtonEnabled: false
+
             }
             StateChangeScript{
                 script: navView.reset()

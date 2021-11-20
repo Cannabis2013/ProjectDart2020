@@ -1,6 +1,5 @@
 #ifndef IDARTSSTATUSCODES_H
 #define IDARTSSTATUSCODES_H
-
 class IDartsStatusCodes
 {
 public:

@@ -25,12 +25,12 @@ public:
     }
     virtual QJsonArray assignedPlayersJson(IModel<QUuid> *model) const override
     {
-        return fromPlayerNames(model);
+        return fromPlayerDetails(model);
     }
     virtual QJsonObject winnerDetailsJson(IModel<QUuid> *model) const override
     {
         auto tournament = dynamic_cast<ITournament*>(model);
-        return toJsonObject(tournament->winnerId());
+        return toJsonObject(tournament->winnerId(),tournament->winnerName());
     }
 private:
     QJsonArray toJsonArray(const QVector<IModel<QUuid> *> &models) const
@@ -50,7 +50,7 @@ private:
         obj["inputHint"] = model->inputHint();
         obj["winnerId"] = model->winnerId().toString(QUuid::WithoutBraces);
         obj["winnerName"] = model->winnerName();
-        obj["assignedPlayerDetails"] = fromPlayerNames(model);
+        obj["assignedPlayerDetails"] = fromPlayerDetails(model);
         obj["totalTurns"] = model->totalTurns();
         obj["turnIndex"] = model->turnIndex();
         obj["roundIndex"] = model->roundIndex();
@@ -70,20 +70,22 @@ private:
         auto json = document.toJson();
         return json;
     }
-    QJsonArray fromPlayerNames(IModel<QUuid> *model) const
+    QJsonArray fromPlayerDetails(IModel<QUuid> *model) const
     {
         QJsonArray arr;
         auto tournament = dynamic_cast<ITournament*>(model);
         for (int i = 0; i <tournament->playerNames().count() ; ++i) {
-            auto id = tournament->playerNames().at(i);
-            arr << toJsonObject(id);
+            auto id = tournament->playerIds().at(i);
+            auto name = tournament->playerNames().at(i);
+            arr << toJsonObject(id,name);
         }
         return arr;
     }
-    QJsonObject toJsonObject(const QUuid &id) const
+    QJsonObject toJsonObject(const QUuid &id, const QString &name) const
     {
         QJsonObject obj;
         obj["playerId"] = id.toString(QUuid::WithoutBraces);
+        obj["playerName"] = name;
         return obj;
     }
 };

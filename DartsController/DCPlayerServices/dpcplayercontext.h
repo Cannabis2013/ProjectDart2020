@@ -1,12 +1,12 @@
-#ifndef DPCPLAYERCONTROLLER_H
-#define DPCPLAYERCONTROLLER_H
+#ifndef DPCPLAYERCONTEXT_H
+#define DPCPLAYERCONTEXT_H
 #include <qdebug.h>
-#include "DartsController/DCPlayerSLAs/IDCPlayerController.h"
-class DPCPlayerController : public IDCPlayerController
+#include "DartsController/DCPlayerSLAs/IDCPlayerCtx.h"
+class DPCPlayerContext : public IDCPlayerCtx
 {
 public:
     struct PlayerObject{
-        bool in;
+        bool in = false;
         QUuid playerId;
     };
     void set(const Players &models) override
@@ -28,6 +28,7 @@ public:
             getPlayerStructFromId(playerId).in = status;
         }  catch (...) {
             qDebug() << "Playerstruct not found";
+            return false;
         }
         return status;
     }
@@ -59,5 +60,4 @@ private:
     }
     QVector<PlayerObject> _playerStructs;
 };
-
 #endif // DCPLAYERENTRANCECONTEXT_H

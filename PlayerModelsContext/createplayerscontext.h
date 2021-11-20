@@ -10,7 +10,7 @@
 class CreatePlayersContext
 {
 public:
-    static AbstractPlayersContext *createLocalContext()
+    static AbstractPlaCtx *createLocalContext()
     {
         auto context = new PlayersContext;
         context->setDbContext(new PlayersDbContext(new ReadByteArray,new WriteByteArray));

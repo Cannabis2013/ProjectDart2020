@@ -1,19 +1,19 @@
 #ifndef DCTURNVALUESSLAS_H
 #define DCTURNVALUESSLAS_H
-#include "DartsController/DCTurnValuesSLAs/icreatedcturnvalues.h"
-#include "DartsController/DCInputSLAs/idcinputbuilder.h"
+#include "DartsController/DCTurnValuesSLAs/abstractdcturnvalues.h"
+#include "DartsController/DCInputSLAs/abstractdcinputbuilder.h"
 class DCTurnvaluesSLAs
 {
 public:
-    ICreateDCTurnValues *turnValuesBuilder() const
+    AbstractDCTurnValues *turnValuesBuilder() const
     {
         return _turnValuesBuilder;
     }
-    void setTurnValuesBuilder(ICreateDCTurnValues *service)
+    void setTurnValuesBuilder(AbstractDCTurnValues *service)
     {
         _turnValuesBuilder = service;
     }
 private:
-    ICreateDCTurnValues* _turnValuesBuilder;
+    AbstractDCTurnValues* _turnValuesBuilder;
 };
 #endif // DCMODELBUILDERSERVICES_H

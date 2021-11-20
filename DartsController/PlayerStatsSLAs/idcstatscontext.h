@@ -1,11 +1,11 @@
-#ifndef IDCPLAYERSTATS_H
-#define IDCPLAYERSTATS_H
+#ifndef IDCSTATSCONTEXT_H
+#define IDCSTATSCONTEXT_H
 #include <qvector.h>
 #include "PlayerModelsContext/DbSLAs/iplayermodel.h"
-#include "DartsController/DCScoresSLAs/idcscoremodels.h"
-#include "DartsController/DCIndexSLAs/idcindexcontroller.h"
+#include "DartsController/DCScoresSLAs/abstractdcscoresctx.h"
+#include "DartsController/DCIndexSLAs/abstractdcidxctrl.h"
 #include "dcplayerstat.h"
-class IDCPlayerStats
+class IDCStatsContext
 {
 public:
     typedef IModel<QUuid> Player;

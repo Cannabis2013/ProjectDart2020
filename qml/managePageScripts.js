@@ -1,66 +1,58 @@
-function connectInterface(){
-    applicationInterface.sendPlayers.connect(recievePlayers);
-    applicationInterface.sendTournaments.connect(recieveTournaments);
-    applicationInterface.playersDeletedStatus.connect(recievePlayersDeletedStatusFromBackend);
-    applicationInterface.tournamentsDeletedSuccess.connect(handleDeleteTournamentsSuccess);
-}
-function disconnectInterface(){
-    applicationInterface.sendPlayers.disconnect(recievePlayers);
-    applicationInterface.sendTournaments.disconnect(recieveTournaments);
-    applicationInterface.playersDeletedStatus.disconnect(recievePlayersDeletedStatusFromBackend);
-    applicationInterface.tournamentsDeletedSuccess.disconnect(handleDeleteTournamentsSuccess);
+function init()
+{
+    connectInterface();
+    updatePlayersView();
+    updateTournamentsView();
 }
 
+function connectInterface(){
+    playersContext.playersDeleted.connect(updatePlayersView);
+    dartsContext.tournamentsDeleted.connect(updateTournamentsView);
+}
+function disconnectInterface(){
+    playersContext.playersDeleted.disconnect(updatePlayersView);
+    dartsContext.tournamentsDeleted.disconnect(updateTournamentsView);
+}
 function requestDeletePlayerPopUp()
 {
     let selectedIndex = playersListView.currentIndexes;
     let count = selectedIndex.length;
     playersListView.unSelectAll();
     if(count > 0)
-        PopupBuilder.createConfirmPopUp(applicationWindow,deletePlayersAccepted);
+        PopupBuilder.createConfirmPopUp(applicationWindow,delPlayCancel,delPlayAccept);
 }
-function deletePlayersAccepted(){
-    var indexes = playersListView.currentIndexes;
-    applicationInterface.requestDeletePlayers(indexes);
-}
-
-function recievePlayersDeletedStatusFromBackend(status)
+function delPlayCancel()
 {
-    if(status)
-    {
-        playersListView.clear();
-        tournamentListView.clear();
-        applicationInterface.requestPlayers();
-    }
+    playersListView.unSelectAll();
 }
 
+function delPlayAccept(){
+    var indexes = playersListView.currentIndexes;
+    playersContext.remove(indexes);
+}
 function requestDeleteTournamentPopUp()
 {
     let selectedIndexes = tournamentListView.currentIndexes;
     let count = selectedIndexes.length;
-    tournamentListView.unSelectAll();
     if(count > 0)
-        PopupBuilder.createConfirmPopUp(applicationWindow,deleteTournamentsAccepted);
+        PopupBuilder.createConfirmPopUp(applicationWindow,deleteTournamentsCancelled,deleteTournamentsAccepted);
 }
-
 function deleteTournamentsAccepted()
 {
-    var indexes = tournamentListView.currentIndexes;
-    applicationInterface.requestDeleteTournaments(indexes);
+    let indexes = tournamentListView.currentIndexes;
+    dartsContext.deleteTournaments(indexes);
 }
 
-function handleDeleteTournamentsSuccess(status)
+function deleteTournamentsCancelled()
 {
-    if(status)
-    {
-        tournamentListView.clear();
-        applicationInterface.requestTournaments();
-    }
+    tournamentListView.unSelectAll();
 }
 
-function recievePlayers(data)
+function updatePlayersView(data)
 {
-    var j = JSON.parse(data);
+    playersListView.clear();
+    var byteArray = playersContext.playerModels();
+    var j = JSON.parse(byteArray);
     for(var i=0;i < j.length;i++)
     {
         var obj = j[i];
@@ -68,38 +60,34 @@ function recievePlayers(data)
         var email = obj["playerMail"];
         playersListView.addItem({"type" : "player","username" : playerName, "mail" : email});
     }
-    applicationInterface.requestTournaments();
 }
-
 function updatePlayerListView()
 {
     playersListView.clear();
     applicationInterface.requestPlayers();
 }
-
 function updateTournamentListView()
 {
     tournamentListView.clear();
     applicationInterface.requestTournaments();
 }
-
-function recieveTournaments(json)
+function updateTournamentsView()
 {
-    var jsonTournaments= JSON.parse(json);
-    var jsonLength = jsonTournaments.length;
-    for(var i = 0;i < jsonLength;++i)
+    tournamentListView.clear();
+    let byteArray = dartsContext.tournaments();
+    var json = JSON.parse(byteArray);
+    for(var i = 0;i < json.length;++i)
     {
-        var jsonTournament = jsonTournaments[i];
-        var gameMode = jsonTournament["gameMode"];
-        var title = jsonTournament["title"];
-        var winnerName = jsonTournament["winnerName"];
-        var assignedPlayerDetails = jsonTournament["assignedPlayerDetails"];
-        var assignedPlayersCount = assignedPlayerDetails.length;
-        var item = createTournamentItem(gameMode,title,winnerName,assignedPlayersCount);
+        let jsonTournament = json[i];
+        let gameMode = jsonTournament["gameMode"];
+        let title = jsonTournament["title"];
+        let winnerName = jsonTournament["winnerName"];
+        let playerDetails = jsonTournament["assignedPlayerDetails"];
+        let playersCount = playerDetails.length;
+        let item = createTournamentItem(gameMode,title,winnerName,playersCount);
         tournamentListView.addItem(item);
     }
 }
-
 function createTournamentItem(gameMode, title,winner,playersCount)
 {
     return {
@@ -110,7 +98,6 @@ function createTournamentItem(gameMode, title,winner,playersCount)
         "playersCount" : playersCount
     };
 }
-
 function translateGameModeFromHex(gameMode)
 {
     if(gameMode === TournamentContext.darts)

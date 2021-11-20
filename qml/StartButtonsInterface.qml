@@ -14,6 +14,7 @@ Item {
     property bool resumeButtonVisible: false
     property bool waitButtonVisible: false
     property bool restartButtonVisible: false
+    property bool restartButtonEnabled: true
     property bool startButtonEnabled: false
     property bool pressAndHoldEnabled: true
 }

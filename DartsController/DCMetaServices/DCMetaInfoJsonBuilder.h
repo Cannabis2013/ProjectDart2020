@@ -1,10 +1,7 @@
 #ifndef DCMETAINFOJSONBUILDER_H
 #define DCMETAINFOJSONBUILDER_H
-
 #include "dcmeta.h"
-
 #include "DartsController/DCJsonSLAs/idcmodeljsonbuilder.h"
-
 class DCMetaInfoJsonBuilder : public IDCModelJsonBuilder<const DCMeta&>
 {
 public:

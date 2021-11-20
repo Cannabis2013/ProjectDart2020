@@ -4,20 +4,42 @@
 #include <qjsonobject.h>
 #include <qjsonarray.h>
 #include "DartsModelsContext/InputServices/dartsinput.h"
-#include "DartsController/DCInputSLAs/idcinputbuilder.h"
-class DSCInputBuilder : public IDCInputBuilder
+#include "DartsController/DCInputSLAs/abstractdcinputbuilder.h"
+class DSCInputBuilder : public AbstractDCInputBuilder
 {
 public:
-    virtual AbstractDartsInput *create(const QByteArray &json, const IDCPlayerController *playerController,
-                                       const IDCCalcScore *getScoreContext,IDartsIndex *index, IDCScoreModels *scoreModels) const override
+    DSCInputBuilder(IDCMetaCtx *metaCtx, IDCCalcScore *scoreCalc, IndexCtrl *indexCtrl,
+                    ScoresCtx *scoresCtx, PlayersCtx *playersCtx)
+    {
+        setMetaCtx(metaCtx);
+        setInputScoreCtx(scoreCalc);
+        setIndexCtrl(indexCtrl);
+        setScoresCtx(scoresCtx);
+        setPlayersCtx(playersCtx);
+    }
+    virtual AbstractDartsInput *create(const QByteArray &json) const override
     {
         auto input = toInput(toJsonObject(json));
-        input->setPlayerId(scoreModels->scores().at(index->setIndex()).playerId);
-        input->setPlayerName(scoreModels->scores().at(index->setIndex()).playerName);
-        input->setScore(getScoreContext->calculate(input));
-        input->setRemainingScore(scoreModels->score(input->playerId()).remainingScore);
-        input->setInGame(playerController->status(input->playerId()));
-        addIndex(input,index);
+        auto setIndex = indexCtrl()->index()->setIndex();
+        input->setId(QUuid::createUuid());
+        input->setTournamentId(metaCtx()->get().tournamentId);
+        input->setPlayerId(scoresCtx()->scores().at(setIndex).playerId);
+        input->setPlayerName(scoresCtx()->scores().at(setIndex).playerName);
+        input->setScore(inputScoreCtx()->calculate(input));
+        input->setRemainingScore(scoresCtx()->score(input->playerId()).remainingScore);
+        input->setInGame(playersContext()->status(input->playerId()));
+        addIndex(input,indexCtrl()->index());
+        return input;
+    }
+    virtual AbstractDartsInput *createDefault() const override
+    {
+        auto input = new DartsInput;
+        auto meta = metaCtx()->get();
+        input->setRemainingScore(meta.initialRemainingScore);
+        input->setRoundIndex(1);
+        input->setTournamentId(meta.tournamentId);
+        input->setPlayerId(meta.currentPlayerId);
+        input->setPlayerName(meta.currentPlayerName);
         return input;
     }
 private:

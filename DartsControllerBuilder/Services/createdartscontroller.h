@@ -10,11 +10,11 @@ class CreateDartsController
 public:
     AbstractDartsController *createDartsPointController()
     {
-        return CreateDSC::create();
+        return CreateDPC::create();
     }
     AbstractDartsController *createDartsScoreController()
     {
-        return CreateDPC::create();
+        return CreateDSC::create();
     }
 };
 #endif // BUILDDARTSSCORECONTROLLER_H

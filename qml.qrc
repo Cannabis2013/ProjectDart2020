@@ -107,10 +107,11 @@
         <file>qml/PageInterface.qml</file>
         <file>qml/StartButtonsInterface.qml</file>
         <file>qml/TurnControllerInterface.qml</file>
-        <file>qml/ControllerNavView.qml</file>
+        <file>qml/NavigationView.qml</file>
         <file>qml/jsPopUpBuilder.js</file>
         <file>qml/ConfirmActionBack.qml</file>
         <file>qml/ConfirmActionButtons.qml</file>
+        <file>qml/createPlayerScripts.js</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/dartpic.jpg</file>

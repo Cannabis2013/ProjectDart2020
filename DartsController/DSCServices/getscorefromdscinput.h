@@ -8,13 +8,13 @@ public:
     {
         return inputModel->score();
     }
-    virtual int calculate(IDartsIndex *index, const int &scoreCandidate, IDCScoreModels *scoresService) const override
+    virtual int calculate(IDartsIndex *index, const int &scoreCandidate, AbstractDCScoresCtx *scoresService) const override
     {
         auto scoreModel = this->scoreModel(index->setIndex(),scoresService);
         return calcCandidate(scoreModel,scoreCandidate);
     }
 private:
-    DCScoreModel scoreModel(const int &modelIndex, IDCScoreModels *scoresService) const
+    DCScoreModel scoreModel(const int &modelIndex, AbstractDCScoresCtx *scoresService) const
     {
         auto scoreModels = scoresService->scores();
         return scoreModels.at(modelIndex);

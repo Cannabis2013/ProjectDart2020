@@ -1,41 +1,53 @@
-function initializeComponent()
+function init()
 {
     connectInterface();
-    applicationInterface.requestCurrentTournamentId();
+    let metaJson = getMetaData();
+    initMetaData(metaJson);
+    updateScoresView();
+    setState("ready");
 }
 
 function connectInterface()
 {
-    applicationInterface.sendDartsTournamentData.connect(handleMetaData);
-    applicationInterface.sendDartsScores.connect(recieveScores);
-    applicationInterface.controllerReady.connect(controllerReady);
-    applicationInterface.controllerStopped.connect(backendIsStopped);
-    applicationInterface.winnerFound.connect(winnerFound);
-    applicationInterface.sendDartsScore.connect(updatePlayerScore);
-    applicationInterface.updateDartsTurnValues.connect(updateTurnValues);
-    applicationInterface.dartsControllerIsReset.connect(reinitialize);
+    dpController.updatePlayerScore.connect(processScore);
+    dpController.resetSucces.connect(reinitialize);
 }
 
 function disconnectInterface()
 {
-    applicationInterface.sendDartsTournamentData.disconnect(handleMetaData);
-    applicationInterface.sendDartsScores.disconnect(recieveScores);
-    applicationInterface.controllerReady.disconnect(controllerReady);
-    applicationInterface.controllerStopped.connect(backendIsStopped);
-    applicationInterface.updateDartsTurnValues.disconnect(updateTurnValues);
-    applicationInterface.winnerFound.disconnect(winnerFound);
-    applicationInterface.sendDartsScore.disconnect(updatePlayerScore);
-    applicationInterface.dartsControllerIsReset.disconnect(reinitialize);
+    dpController.updatePlayerScore.disconnect(processScore);
+    dpController.resetSucces.disconnect(reinitialize);
+}
+function getMetaData(){
+    var id = dpController.tournamentId();
+    var byteArray = dartsContext.tournament(id);
+    return JSON.parse(byteArray);
 }
 
-function handleMetaData(data){
-    var json = JSON.parse(data);
+function initMetaData(json)
+{
     metaValues.title = json["title"];
     metaValues.winnerName= json["winnerName"];
     metaValues.keyPoint = json["keyPoint"];
     metaValues.assignedPlayerNames = getPlayerNames(json["assignedPlayerDetails"]);
     initializeScoreBoard();
-    applicationInterface.requestDartsScores();
+    preferedPageTitle = metaValues.title;
+}
+
+function updateScoresView()
+{
+    let scores = dpController.getPlayerScores();
+    var json = JSON.parse(scores);
+    addDartsScoresToScoreBoard(json);
+}
+
+function setState(state)
+{
+    var status = dpController.status();
+    if(status === 0)
+        dpscContent.state = state;
+    else if(status === 2)
+        setWinnerState();
 }
 
 function getPlayerNames(playerDetails)
@@ -62,7 +74,6 @@ function recieveScores(scores)
 {
     var json = JSON.parse(scores);
     addDartsScoresToScoreBoard(json);
-    applicationInterface.requestControllerState();
 }
 
 function controllerReady()
@@ -76,18 +87,11 @@ function addDartsScoresToScoreBoard(json)
         addToScoreBoard(json[i]);
 }
 
-function updatePlayerScore(data)
+function processScore(json)
 {
-    var json = JSON.parse(data);
-    addToScoreBoard(json);
-    applicationInterface.dartsNextTurn();
-}
-
-function updateTurnValues(data)
-{
-    setThrowSuggestion(json);
-    setTurnControllerValues(json);
-    applicationInterface.requestControllerState();
+    addToScoreBoard(JSON.parse(json));
+    updateTurnValues();
+    setState("waitingForInput");
 }
 
 function addToScoreBoard(json)
@@ -102,17 +106,11 @@ function addToScoreBoard(json)
     dpscScoreBoard.setData(playerName,playerScore,minimum,middleValue,maximum,inGame);
 }
 
-function setThrowSuggestion(json)
-{
-    keyDataDisplay.setThrowSuggestion(json["suggestedFinish"]);
-}
-
 function resetTournament()
 {
     dpscContent.state = "stopped";
-    applicationInterface.requestTournamentReset();
+    dpController.reset();
 }
-
 function reinitialize()
 {
     dpscScoreBoard.clearData();
@@ -122,12 +120,6 @@ function reinitialize()
     dpscContent.state = "ready";
 }
 
-function handleRequestTournamentReset()
-{
-    dpscContent.state = "stopped";
-    applicationInterface.requestTournamentReset();
-}
-
 function setTurnControllerValues(json)
 {
     pointSingleColumnTurnController.leftButtonEnabled = json["canUndo"];
@@ -135,7 +127,6 @@ function setTurnControllerValues(json)
     pointSingleColumnTurnController.currentRoundIndex = json["currentRoundIndex"];
     pointSingleColumnTurnController.currentPlayer = json["currentPlayerName"];
 }
-
 function handleScoreKeyPadInput(input, keyCode){
     dpscContent.state = "waitingForInputConfirmation";
     var obj = {
@@ -143,30 +134,41 @@ function handleScoreKeyPadInput(input, keyCode){
         modKeyCode : keyCode
     };
     var json = JSON.stringify(obj);
-    applicationInterface.addUserInput(json);
+    if(dpController.handleInput(json) === -1)
+        inputNotAdded();
 }
-
+function inputNotAdded()
+{
+    dsscContent.state = "ready";
+}
 function backendIsStopped()
 {
     if(dpscContent.state !== "preRestart")
         dpscContent.state = "stopped";
 }
 
-function winnerFound(data)
+function setWinnerState(data)
 {
     var json = JSON.parse(data);
     metaValues.winnerName = json["winnerName"];
     dpscContent.state = "winner";
 }
-
-function updateTurnValues(data)
+function updateTurnValues()
 {
-    var json = JSON.parse(data);
-    setThrowSuggestion(json);
+    var byteArray = dpController.getTurnValues();
+    var json = JSON.parse(byteArray);
     setTurnControllerValues(json);
-    dpscContent.state = "waitingForInput";
+    keyDataDisplay.setThrowSuggestion(json["finishCandidate"]);
 }
-
+function startGame()
+{
+    let status = dpController.status();
+    if(status === 0)
+    {
+        updateTurnValues();
+        dpscContent.state = "waitingForInput";
+    }
+}
 function undoClicked()
 {
     dpscContent.state = "waitingForInputConfirmation";
@@ -177,13 +179,11 @@ function undoClicked()
 function redoClicked()
 {
     dpscContent.state = "waitingForInputConfirmation";
-    applicationInterface.dartsRedo();
 }
 
 function pauseClicked()
 {
     dpscContent.state = "stopped";
-    applicationInterface.requestStopGame();
 }
 
 function setWinnerText()

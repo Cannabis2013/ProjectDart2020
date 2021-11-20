@@ -1,8 +1,8 @@
 #ifndef DCMETASLAS_H
 #define DCMETASLAS_H
 #include "DartsController/DCMetaSLAs/idartsstatuscodes.h"
-#include "DartsController/DCMetaSLAs/idcmetainfo.h"
-#include "idcmetamodelbuilder.h"
+#include "DartsController/DCMetaSLAs/idcmetactx.h"
+#include "abstractdcmetabuilder.h"
 class DCMetaSLAs
 {
 public:
@@ -14,25 +14,25 @@ public:
     {
         _statusCodes = service;
     }
-    IDCMetaInfo *metaInfo() const
+    IDCMetaCtx *metaContext() const
     {
         return _metaInfo;
     }
-    void setMetaInfo(IDCMetaInfo *service)
+    void setMetaContext(IDCMetaCtx *service)
     {
         _metaInfo = service;
     }
-    IDCMetaModelBuilder *createMeta() const
+    AbstractDCMetaBuilder *createMeta() const
     {
         return _metaBuilder;
     }
-    void setMetaBuilder(IDCMetaModelBuilder *service)
+    void setMetaBuilder(AbstractDCMetaBuilder *service)
     {
         _metaBuilder = service;
     }
 private:
-    IDCMetaModelBuilder *_metaBuilder;
+    AbstractDCMetaBuilder *_metaBuilder;
     IDartsStatusCodes *_statusCodes;
-    IDCMetaInfo *_metaInfo;
+    IDCMetaCtx *_metaInfo;
 };
 #endif // DCMETASLAS_H

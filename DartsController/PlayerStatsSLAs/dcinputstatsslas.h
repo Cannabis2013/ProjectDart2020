@@ -2,17 +2,17 @@
 #define DCINPUTSTATSSLAS_H
 #include "idccalcmidval.h"
 #include "idcgetplayerstat.h"
-#include "idcplayerstats.h"
+#include "idcstatscontext.h"
 #include "idcupdateplayerstat.h"
 #include "idcsetinputstats.h"
 class PlayerStatsSLAs
 {
 public:
-    IDCPlayerStats *playerStats() const
+    IDCStatsContext *statsCtx() const
     {
         return _statsBuilder;
     }
-    void setPlayerStatsManager(IDCPlayerStats *builder)
+    void setPlayerStatsManager(IDCStatsContext *builder)
     {
         _statsBuilder = builder;
     }
@@ -53,6 +53,6 @@ private:
     IDCSetInputStats *_setInputStats;
     IDCGetPlayerStat *_getPlayerStat;
     IDCUpdatePlayerStat *_updatePlayerStats;
-    IDCPlayerStats *_statsBuilder;
+    IDCStatsContext *_statsBuilder;
 };
 #endif // DCINPUTSTATSSLAS_H

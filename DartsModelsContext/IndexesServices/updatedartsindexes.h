@@ -1,9 +1,7 @@
 #ifndef UPDATEDARTSINDEXES_H
 #define UPDATEDARTSINDEXES_H
-
 #include "DartsModelsContext/IndexesSLAs/iupdatedartsindexes.h"
 #include "DartsModelsContext/TournamentModelsSLAs/abstractdartstournament.h"
-
 class UpdateDartsIndexes : public IUpdateDartsIndexes
 {
 public:

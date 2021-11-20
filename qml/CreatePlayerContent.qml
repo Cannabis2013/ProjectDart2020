@@ -1,57 +1,35 @@
 import QtQuick 2.12
 import QtQuick.Layouts 1.3
-
+import "createPlayerScripts.js" as CPScripts
 Content
 {
     id: body
-    signal sendPlayerDetails(string json)
     preferedPageTitle: "Create player"
-    function handleError(msg)
-    {
-        print(msg);
-        errTextBox.text = msg;
-        endStateButtons.buttonOneEnabled = true;
-        endStateButtons.buttonTwoEnabled = true;
-    }
-    
-    function evaluateInputs(){
-        var playerName = userNameEdit.currentValue;
-        
-        if(playerName !== "")
-            endStateButtons.buttonTwoEnabled = true;
-        else
-            endStateButtons.buttonTwoEnabled = false;
-    }
-    
     GridLayout{
         anchors.fill: parent
-        
         flow: GridLayout.TopToBottom
         DefaultTextInputBox{
             id: userNameEdit
             Layout.fillWidth: true
             labelText: "Username*"
-            onCurrentValueChanged: body.evaluateInputs()
+            onCurrentValueChanged: CPScripts.evaluateInputs()
         }
         DefaultTextInputBox{
             id: mailEdit
             Layout.fillWidth: true
             labelText: "Mail adress"
         }
-        
         MyRectangle{
             Layout.fillHeight: true
             Layout.fillWidth: true
             bottomBorderWidth: 1
         }
-
         Text {
             id: errTextBox
             height: 128
             Layout.fillWidth: true
             color: "yellow"
         }
-        
         ButtonsComponent{
             id: endStateButtons
             clip: true
@@ -66,32 +44,7 @@ Content
             buttonsHoveredColor: ThemeContext.plaButtonHoveredBackgroundColor
             buttonTwoEnabled: false
             onButtonOneClicked: requestQuit();
-            onButtonTwoClicked: {
-
-                var playerName = userNameEdit.currentValue;
-                if(playerName === "")
-                    return;
-                var mail = mailEdit.currentValue;
-                if(mail === "")
-                    mail = "defaultsucker@gmail.com";
-                var obj = {
-                    playerName : playerName,
-                    playerMail : mail
-                };
-                var json = JSON.stringify(obj);
-                buttonOneEnabled = false;
-                buttonTwoEnabled = false;
-                applicationInterface.requestCreatePlayer(json);
-            }
+            onButtonTwoClicked: CPScripts.process()
         }
-    }
-
-    Component.onCompleted: {
-        applicationInterface.playerAddedSucces.connect(body.requestQuit);
-        applicationInterface.playerAddedError.connect(body.handleError);
-    }
-    Component.onDestruction: {
-        applicationInterface.playerAddedSucces.disconnect(body.requestQuit);
-        applicationInterface.playerAddedError.disconnect(body.handleError);
     }
 }

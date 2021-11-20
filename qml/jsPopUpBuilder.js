@@ -1,4 +1,13 @@
-function createConfirmPopUp(parentId, acceptSlot)
+function createConfirmPopUp(parentId,cancelSlot, acceptSlot)
+{
+    var obj = createComponent(parentId);
+    if(cancelSlot !== undefined)
+        obj.cancelClicked.connect(cancelSlot);
+    obj.acceptClicked.connect(acceptSlot);
+    return obj;
+}
+
+function createComponent(parentId)
 {
     var component = Qt.createComponent('ConfirmActionPopUp.qml',parentId);
     var properties = {
@@ -8,13 +17,14 @@ function createConfirmPopUp(parentId, acceptSlot)
      };
     var instantiatedObject = component.createObject(parentId,properties);
     if(instantiatedObject === null)
+    {
         printNullObjectErrorMessage();
-    instantiatedObject.acceptClicked.connect(acceptSlot);
+        throw "Something went very wrong. Call the police if necessary.";
+    }
     return instantiatedObject;
 }
 
 function printNullObjectErrorMessage()
 {
     print("Something went very wrong. Call the police if necessary.");
-    throw "Something went very wrong. Call the police if necessary.";
 }
