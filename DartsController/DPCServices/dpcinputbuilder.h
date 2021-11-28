@@ -17,44 +17,34 @@ public:
         setScoresCtx(scoresCtx);
         setPlayersCtx(playersCtx);
     }
-    virtual AbstractDartsInput *create(const QByteArray &json) const override
+    DCIptVals create(const QByteArray &json) const override
     {
         auto jsonObject = toJsonObject(json);
         auto input = toModel(jsonObject);
-        auto setIndex = indexCtrl()->index()->setIndex();
+        auto setIndex = indexCtrl()->index().setIndex;
         auto meta = metaCtx()->get();
-        input->setId(QUuid::createUuid());
-        input->setTournamentId(meta.tournamentId);
-        input->setPlayerId(scoresCtx()->scores().at(setIndex).playerId);
-        input->setPlayerName(scoresCtx()->scores().at(setIndex).playerName);
-        input->setScore(inputScoreCtx()->calculate(input));
-        input->setRemainingScore(scoresCtx()->score(input->playerId()).remainingScore);
-        input->setInGame(false);
+        input.playerId = scoresCtx()->scores().at(setIndex).playerId;
+        input.playerName = scoresCtx()->scores().at(setIndex).playerName;
+        input.score = inputScoreCtx()->calc(input);
+        input.remainingScore = scoresCtx()->score(input.playerId).remainingScore;
+        input.inGame = false;
         addIndex(input,indexCtrl()->index());
         return input;
     }
-    virtual AbstractDartsInput *createDefault() const override
-    {
-        auto input = new DartsInput;
-        auto meta = metaCtx()->get();
-        input->setRemainingScore(meta.initialRemainingScore);
-        input->setRoundIndex(1);
-        return input;
-    }
 private:
-    AbstractDartsInput * toModel(const QJsonObject &obj, const int &initialScore = -1) const
+    DCIptVals toModel(const QJsonObject &obj, const int &initialScore = -1) const
     {
-        AbstractDartsInput * input = new DartsInput();
-        input->setPlayerId(toId(obj.value("inputPlayerId").toString("")));
-        input->setPlayerName(obj.value("inputPlayerName").toString(""));
-        input->setScore(obj.value("score").toInt(0));
-        input->setRemainingScore(obj.value("remainingScore").toInt(initialScore));
-        input->setPoint(obj.value("point").toInt(0));
-        input->setModKeyCode(obj.value("modKeyCode").toInt(0));
-        input->setMiddleValue(obj.value("middleValue").toDouble(0));
-        input->setCurrentMinimum(obj.value("minimumValue").toInt(0));
-        input->setCurrentMaximum(obj.value("maximumValue").toInt(0));
-        input->setInGame(obj.value("inGame").toBool(false));
+        DCIptVals input;
+        input.playerId = toId(obj.value("inputPlayerId").toString(""));
+        input.playerName = obj.value("inputPlayerName").toString("");
+        input.score = obj.value("score").toInt(0);
+        input.remainingScore = obj.value("remainingScore").toInt(initialScore);
+        input.point = obj.value("point").toInt(0);
+        input.modKeyCode = obj.value("modKeyCode").toInt(0);
+        input.mid = obj.value("middleValue").toDouble(0);
+        input.min = obj.value("minimumValue").toInt(0);
+        input.max = obj.value("maximumValue").toInt(0);
+        input.inGame = obj.value("inGame").toBool(false);
         return input;
     }
     AbstractDartsInput *toModel(const DCScoreModel &scoreModel) const
@@ -88,11 +78,11 @@ private:
     {
         return QUuid::fromString(stringId);
     }
-    void addIndex(AbstractDartsInput *input, IDartsIndex *index) const
+    void addIndex(DCIptVals &input, const DCIndex &index) const
     {
-        input->setRoundIndex(index->roundIndex());
-        input->setSetIndex(index->setIndex());
-        input->setAttempt(index->attemptIndex());
+        input.roundIndex = index.roundIndex;
+        input.setIndex = index.setIndex;
+        input.attempt = index.attemptIndex;
     }
 };
 #endif // DARTSCONTROLLERPOINTBUILDER_H

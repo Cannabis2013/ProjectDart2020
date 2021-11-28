@@ -4,17 +4,17 @@
 class GetScoreFromDSCInput : public IDCCalcScore
 {
 public:
-    virtual int calculate(AbstractDartsInput *inputModel) const override
+    virtual int calc(DCIptVals &inputModel) const override
     {
-        return inputModel->score();
+        return inputModel.score;
     }
-    virtual int calculate(IDartsIndex *index, const int &scoreCandidate, AbstractDCScoresCtx *scoresService) const override
+    virtual int calc(const DCIndex &index, const int &scoreCandidate, AbstractDCScoresCtx *scoresService) const override
     {
-        auto scoreModel = this->scoreModel(index->setIndex(),scoresService);
+        auto scoreModel = getScoreModel(index.setIndex,scoresService);
         return calcCandidate(scoreModel,scoreCandidate);
     }
 private:
-    DCScoreModel scoreModel(const int &modelIndex, AbstractDCScoresCtx *scoresService) const
+    DCScoreModel getScoreModel(const int &modelIndex, AbstractDCScoresCtx *scoresService) const
     {
         auto scoreModels = scoresService->scores();
         return scoreModels.at(modelIndex);

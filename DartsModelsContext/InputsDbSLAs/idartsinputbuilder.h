@@ -1,10 +1,24 @@
 #ifndef IDARTSINPUTBUILDER_H
 #define IDARTSINPUTBUILDER_H
-#include <quuid.h>
+#include <qjsonobject.h>
+#include "DartsModelsContext/InputModels/diptvals.h"
+#include "DartsModelsContext/InputModelsSLAs/abstractdartsinput.h"
 #include "ModelsContext/ModelsSLAs/imodel.h"
-class IDartsInputBuilder
+#include "ModelsContext/DbSLAs/icreatemodelsfrom.h"
+template<typename TBaseModel, typename TSuperModel, typename TJsonFormat>
+class IDartsInputBuilder : public ICreateModelsFrom<TJsonFormat,TBaseModel>
 {
 public:
-    virtual QVector<IModel<QUuid> *> createInputs(const QByteArray &json) const = 0;
+    enum ModelDisplayHint{
+        HiddenHint = 0x1,
+        DisplayHint = 0x2,
+        allHints = HiddenHint | DisplayHint
+    };
+    typedef TBaseModel BaseModel;
+    typedef TSuperModel SuperModel;
+    typedef TJsonFormat JsonFormat;
+    virtual SuperModel *create(DIptVals &vals, const QUuid &tournamentId, const bool &genId = true,
+                               const int &hint = DisplayHint) const = 0;
+    virtual QVector<BaseModel *> create(const JsonFormat &json) const override = 0;
 };
 #endif // IDARTSINPUTBUILDER_H

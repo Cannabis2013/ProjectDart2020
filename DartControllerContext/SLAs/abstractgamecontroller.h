@@ -2,7 +2,7 @@
 #define ABSTRACTGAMECONTROLLER_H
 #include <QObject>
 #include <quuid.h>
-#include "DartsModelsContext/SLAs/abstractdartsctx.h"
+#include "DartsModelsContext/SLAs/abstractdtsctx.h"
 class AbstractGameController : public QObject
 {
     Q_OBJECT

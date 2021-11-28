@@ -3,11 +3,9 @@
 #include <qqmlapplicationengine.h>
 #include <qqmlcontext.h>
 #include "PlayerModelsContext/createplayerscontext.h"
-#include "DartsController/DPController/createdpc.h"
-#include "DartsController/DSController/createdsc.h"
-#include "DartsModelsContext/Services/dartscontextbuilder.h"
-#include "DartsControllerBuilder/Services/createdartscontroller.h"
-#include "DartsController/Controller/dartscontroller.h"
+#include "DartsModelsContext/Services/createdartscontext.h"
+#include "DartsControllerBuilder/Services/createdtsctrl.h"
+#include "DartsController/Controller/dartsctrl.h"
 class QmlPropertiesBuilder
 {
 public:
@@ -15,19 +13,19 @@ public:
     typedef QVector<Property> Properties;
     QmlPropertiesBuilder()
     {
-        _playerContext = CreatePlayersContext().createLocalContext();
-        _dartsContext = DartsContextBuilder().create()->setPlayersContext(_playerContext);
-        CreateDartsController dcBuilder;
-        _dpController = dcBuilder.createDartsPointController()->setModelsContext(_dartsContext);
-        _dsController = dcBuilder.createDartsScoreController()->setModelsContext(_dartsContext);
+        _playerContext = CreatePlayersContext().localJson();
+        _dartsContext = CreateDartsContext().localJson(_playerContext);
+        CreateDtsCtrl dcBuilder;
+        _dpController = dcBuilder.pointCtrl()->setModelsContext(_dartsContext);
+        _dsController = dcBuilder.scoreCtrl()->setModelsContext(_dartsContext);
     }
     Properties contextProperties() const
     {
         Properties _props;
-        _props << createProperty<AbstractDartsCtx>("dartsContext",_dartsContext);
-        _props << createProperty<AbstractDartsController>("dsController",_dsController);
-        _props << createProperty<AbstractDartsController>("dpController",_dpController);
-        _props << createProperty<AbstractPlaCtx>("playersContext",_playerContext);
+        _props << createProperty<AbstractDtsCtx>("dartsContext",_dartsContext);
+        _props << createProperty<AbstractDartsCtrl>("dsController",_dsController);
+        _props << createProperty<AbstractDartsCtrl>("dpController",_dpController);
+        _props << createProperty<AbstractPlayersContext>("playersContext",_playerContext);
         return _props;
     }
 private:
@@ -39,9 +37,9 @@ private:
         p.value = QVariant::fromValue<T*>(value);
         return p;
     }
-    AbstractDartsController *_dpController;
-    AbstractDartsController *_dsController;
-    AbstractPlaCtx *_playerContext;
-    AbstractDartsCtx *_dartsContext;
+    AbstractDartsCtrl *_dpController;
+    AbstractDartsCtrl *_dsController;
+    AbstractPlayersContext *_playerContext;
+    AbstractDtsCtx *_dartsContext;
 };
 #endif // QMLAPPLICATIONPROPERTIES_H

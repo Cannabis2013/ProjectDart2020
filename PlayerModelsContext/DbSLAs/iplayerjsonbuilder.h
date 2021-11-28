@@ -1,10 +1,13 @@
 #ifndef IPLAYERJSONBUILDER_H
 #define IPLAYERJSONBUILDER_H
-#include <quuid.h>
-#include "ModelsContext/ModelsSLAs/imodel.h"
-class IPlayerJsonBuilder
+#include "ModelsContext/DbSLAs/icreatedatafrom.h"
+template<typename TBaseModel, typename TJsonFormat>
+class IPlayerJsonBuilder : public ICreateDataFrom<TBaseModel,QByteArray>
 {
 public:
-    virtual QByteArray toJson(const QVector<IModel<QUuid>*>& models) const = 0;
+    typedef TBaseModel BaseModel;
+    typedef TJsonFormat JsonFormat;
+    virtual JsonFormat create(const QVector<BaseModel*>& models) const = 0;
+    virtual JsonFormat create(const QVector<BaseModel*> &models, JsonFormat &json) const override = 0;
 };
 #endif // ICREATEJSONFROMPLAYERMODELS_H

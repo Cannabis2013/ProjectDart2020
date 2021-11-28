@@ -1,28 +1,4 @@
 #include "playersdbcontext.h"
-
-#include "AsyncUtils/runlater.h"
-
-PlayersDbContext::PlayersDbContext(FileReaderInterface *fileReader, FileWriteInterface *fileWriter)
-{
-    fileReader->setFileName(_fileName);
-    fileWriter->setFileName(_fileName);
-    setReadJsonFromFile(fileReader);
-    setWriteJsonToFile(fileWriter);
-}
-
-bool PlayersDbContext::fetch(const IPlayerContextModelBuilder *modelBuilder)
-{
-    RunLater::run<QByteArray>(readJson()->read(),[=](const QByteArray &result){
-        _models = modelBuilder->createPlayers(result);
-    });
-    return true;
-}
-
-QFuture<bool> PlayersDbContext::saveChanges(const IPlayerJsonBuilder *jsonBuilder)
-{
-    return saveJson()->saveAsync(jsonBuilder->toJson(_models));
-}
-
 QVector<IModel<QUuid> *> PlayersDbContext::models() const
 {
     return _models;

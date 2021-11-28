@@ -6,6 +6,6 @@
 class IDCCalcMidVal
 {
 public:
-    virtual double middleValue(IDartsIndex *index, const int &remainingScore, const int &initialScore) const = 0;
+    virtual double middleValue(const DCIndex &index, const int &remainingScore, const int &initialScore) const = 0;
 };
 #endif // IDCUPDATEMIDVAL_H

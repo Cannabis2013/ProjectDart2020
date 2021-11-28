@@ -11,14 +11,14 @@ public:
         BullModifier,
         BullsEyeModifier
     };
-    virtual int calculate(AbstractDartsInput *inputModel) const override
+    virtual int calc(DCIptVals &input) const override
     {
-        auto multiplier = createPointMultiplier(inputModel->modKeyCode());
-        return calculateScore(inputModel->point(),multiplier);
+        auto multiplier = createPointMultiplier(input.modKeyCode);
+        return calculateScore(input.point,multiplier);
     }
-    virtual int calculate(IDartsIndex *index, const int &scoreCandidate, AbstractDCScoresCtx *scoresService) const override
+    virtual int calc(const DCIndex &idx, const int &scoreCandidate, AbstractDCScoresCtx *scoresService) const override
     {
-        auto scoreModel = this->scoreModel(index->setIndex(),scoresService);
+        auto scoreModel = this->scoreModel(idx.setIndex,scoresService);
         return calcCandidate(scoreModel,scoreCandidate);
     }
 private:

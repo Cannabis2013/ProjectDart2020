@@ -2,10 +2,10 @@
 #define UPDATEDARTSINDEXES_H
 #include "DartsModelsContext/IndexesSLAs/iupdatedartsindexes.h"
 #include "DartsModelsContext/TournamentModelsSLAs/abstractdartstournament.h"
-class UpdateDartsIndexes : public IUpdateDartsIndexes
+class UpdateDartsIndexes : public IUpdateDartsIndexes<IModel<QUuid>>
 {
 public:
-    IDartsDbContext *update(IDartsIndex *index, const QUuid &tournament, IDartsDbContext *dbContext) const override
+    IDbContext<BaseModel> *update(IDartsIndex *index, const QUuid &tournament, IDbContext<BaseModel> *dbContext) const override
     {
         for (auto &model : dbContext->models()) {
             if(matchByTournamentId(model,tournament))

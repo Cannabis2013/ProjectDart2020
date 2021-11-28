@@ -13,6 +13,7 @@ public:
     virtual QVector<TargetRows*> models() const = 0;
     virtual QVector<TargetRows*> models(std::function<bool(TargetRows*)> predFunct) const = 0;
     virtual IDartsFinishesDb *remove(const int &index) = 0;
+    IDbContext *remove(const QVector<int> &){return nullptr;}
     virtual int indexOf(TargetRows*) const = 0;
     virtual IDartsFinishesDb *replace(const int &index, TargetRows *model) = 0;
 };

@@ -12,12 +12,11 @@ public:
         return scoreModels;
     }
 private:
-    DCScoreModel toModel(const Player *model, const int &initialScore) const
+    DCScoreModel toModel(const Player *player, const int &initialScore) const
     {
         DCScoreModel scoreModel;
-        auto playerModel = dynamic_cast<const IPlayerModel*>(model);
-        scoreModel.playerId = playerModel->id();
-        scoreModel.playerName = playerModel->name();
+        scoreModel.playerId = player->id();
+        scoreModel.playerName = player->name();
         scoreModel.remainingScore = initialScore;
         return scoreModel;
     }

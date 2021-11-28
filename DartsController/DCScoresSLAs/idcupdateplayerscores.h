@@ -7,6 +7,6 @@
 class IDCUpdatePlayerScores
 {
 public:
-    virtual void update(const QVector<IModel<QUuid>*> &inputs, AbstractDCScoresCtx *scoresService) const = 0;
+    virtual void update(const QVector<DCIptVals> &inputs, AbstractDCScoresCtx *scoresService) const = 0;
 };
 #endif // IDARTSSUBTRACTSCORES_H

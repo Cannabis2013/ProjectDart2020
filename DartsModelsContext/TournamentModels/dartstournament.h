@@ -1,12 +1,6 @@
 #ifndef DARTSTOURNAMENT_H
 #define DARTSTOURNAMENT_H
-#include <quuid.h>
-#include <qstring.h>
-#include <qlist.h>
 #include "DartsModelsContext/TournamentModelsSLAs/abstractdartstournament.h"
-#include <qjsondocument.h>
-#include <qjsonobject.h>
-#include <qjsonarray.h>
 class DartsTournament : public AbstractDartsTournament
 {
 public:

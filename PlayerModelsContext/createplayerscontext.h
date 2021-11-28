@@ -1,24 +1,28 @@
-#ifndef CREATEPLAYERSCONTEXT_H
-#define CREATEPLAYERSCONTEXT_H
+#ifndef CreatePlayersContext_H
+#define CreatePlayersContext_H
 #include "PlayerModelsContext/playerscontext.h"
 #include "PlayerModelsContext/Services/getplayersfromdb.h"
 #include "PlayerModelsContext/DbServices/playersdbcontext.h"
-#include "FileOperationsContext/Services/readbytearray.h"
-#include "FileOperationsContext/Services/writebytearray.h"
-#include "PlayerModelsContext/Services/createjsonfromplayermodels.h"
-#include "PlayerModelsContext/Services/createplayersfromjson.h"
+#include "FileOperationsContext/Services/filejsonio.h"
+#include "PlayerModelsContext/Services/playerjsonbuilder.h"
+#include "PlayerModelsContext/Services/playerbuilder.h"
+#include "ModelsContext/DbServices/persistdbctx.h"
+#include "ModelsContext/DbServices/loadfromstorage.h"
 class CreatePlayersContext
 {
 public:
-    static AbstractPlaCtx *createLocalContext()
+    static PlayersContext *localJson()
     {
-        auto context = new PlayersContext;
-        context->setDbContext(new PlayersDbContext(new ReadByteArray,new WriteByteArray));
-        context->setGetPlayerModelsFromDb(new GetPlayersFromDb);
-        context->setJsonBuilder(new CreateJsonFromPlayerModels);
-        context->setPlayerBuilder(new CreatePlayersFromJson);
-        context->dbContext()->fetch(context->playerBuilder());
-        return context;
+        auto ctx = new PlayersContext;
+        auto ioDevice = new FileJsonIO("Players");
+        ctx->setPersistDbCtx(new SaveToStorage(ioDevice));
+        ctx->setLoadFromStorage(new LoadFromStorage(ioDevice));
+        ctx->setDbContext(new PlayersDbContext);
+        ctx->setGetPlayerModelsFromDb(new GetPlayersFromDb);
+        ctx->setJsonBuilder(new PlayerJsonBuilder);
+        ctx->setPlayerBuilder(new PlayerBuilder);
+        ctx->loadFromStorage()->load(ctx->dbContext(),ctx->playerBuilder());
+        return ctx;
     }
 };
 #endif // LOCALPLAYERSCONTEXT_H

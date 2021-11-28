@@ -6,7 +6,7 @@
 class IDCScoreBuilder
 {
 public:
-    typedef IModel<QUuid> Player;
+    typedef IPlayerModel Player;
     typedef QVector<Player*> Players;
     virtual QVector<DCScoreModel> createScores(const Players &models, const int &initialScore) const = 0;
 };

@@ -15,7 +15,7 @@ public:
     virtual DCMeta create() const override
     {
         auto meta = metaCtx()->get();
-        auto setIndex = idxCtrl()->index()->setIndex();
+        auto setIndex = idxCtrl()->index().setIndex;
         meta.currentPlayerId = scoresContext()->scores().at(setIndex).playerId;
         meta.currentPlayerName = scoresContext()->scores().at(setIndex).playerName;
         return meta;
@@ -23,9 +23,9 @@ public:
     virtual DCMeta winnerMeta() const override
     {
         auto meta = metaCtx()->get();
-        auto index = idxCtrl()->index();
-        meta.winnerId = scoresContext()->scores().at(index->setIndex()).playerId;
-        meta.winnerName = scoresContext()->scores().at(index->setIndex()).playerName;
+        auto setIndex = idxCtrl()->index().setIndex;
+        meta.winnerId = scoresContext()->scores().at(setIndex).playerId;
+        meta.winnerName = scoresContext()->scores().at(setIndex).playerName;
         meta.status = statusCodes()->winnerFound();
         return meta;
     }

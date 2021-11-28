@@ -5,12 +5,13 @@
 #include "DartsController/DCMetaSLAs/idcmetactx.h"
 #include "DartsController/DCScoresSLAs/abstractdcscoresctx.h"
 #include "DartsController/DCPlayerSLAs/IDCPlayerCtx.h"
-#include "DartsController/ControllerSLA/abstractdartscontroller.h"
+#include "DartsController/ControllerSLA/abstractdartsctrl.h"
+#include "dciptvals.h"
 class AbstractDCInputEvaluator : public QObject
 {
     Q_OBJECT
 public:
-    virtual void evaluate(AbstractDartsInput *input, const int &scoreCand,IDCMetaCtx *metaInfo ,AbstractDartsController *controller,
+    virtual void evaluate(DCIptVals &input, const int &scoreCand,IDCMetaCtx *metaInfo ,AbstractDartsCtrl *controller,
                           const IDartsStatusCodes *statusCodes,IDCPlayerCtx *playerController = nullptr) = 0;
 };
 

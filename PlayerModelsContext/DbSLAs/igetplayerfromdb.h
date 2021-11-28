@@ -2,11 +2,12 @@
 #define IGETPLAYERSFROMDB_H
 #include "ModelsContext/ModelsSLAs/imodel.h"
 #include "ModelsContext/DbSLAs/imodelsdbcontext.h"
+#include "iplayermodel.h"
 #include <qvector.h>
 class IGetPlayersFromDb
 {
 public:
-    typedef IModel<QUuid> Player;
+    typedef IPlayerModel Player;
     typedef QVector<Player*> Players;
     virtual Player *player(const QUuid &id, const IModelsDbContext *dbContext) const = 0;
     virtual Player *player(const QString &name, const IModelsDbContext *dbContext) const = 0;

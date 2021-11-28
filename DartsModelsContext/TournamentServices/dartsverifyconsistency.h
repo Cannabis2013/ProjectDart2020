@@ -4,7 +4,7 @@
 class DartsVerifyConsistency : public IDartsConsistency
 {
 public:
-    bool verify(IModel<QUuid> *tournament, const QVector<IModel<QUuid>*> &inputs, const AbstractPlaCtx *playersContext) const override
+    bool verify(IModel<QUuid> *tournament, const QVector<AbstractDartsInput*> &inputs, const AbstractPlayersContext *playersContext) const override
     {
         auto playerIds = dynamic_cast<ITournament*>(tournament)->playerIds();
         auto playerNames = dynamic_cast<ITournament*>(tournament)->playerNames();
@@ -15,7 +15,7 @@ public:
         return pConsistent && iConsistent;
     }
 private:
-    bool verifyPlayers(const QVector<QUuid> &playerIds, const AbstractPlaCtx *playersContext) const
+    bool verifyPlayers(const QVector<QUuid> &playerIds, const AbstractPlayersContext *playersContext) const
     {
         for (const auto &playerId : playerIds) {
             auto player = playersContext->playerModel(playerId);
@@ -24,7 +24,7 @@ private:
         }
         return true;
     }
-    bool verifyPlayers(const QVector<QString> &playerNames, const AbstractPlaCtx *playersContext) const
+    bool verifyPlayers(const QVector<QString> &playerNames, const AbstractPlayersContext *playersContext) const
     {
         for (const auto &playerName : playerNames) {
             auto player = playersContext->playerModel(playerName);
@@ -33,10 +33,9 @@ private:
         }
         return true;
     }
-    bool verifyInputs(const QVector<IModel<QUuid>*> &inputs, const AbstractPlaCtx *playersContext) const
+    bool verifyInputs(const QVector<AbstractDartsInput*> &inputs, const AbstractPlayersContext *playersContext) const
     {
-        for (const auto &model : inputs) {
-            auto input = dynamic_cast<AbstractDartsInput*>(model);
+        for (const auto &input : inputs) {
             auto playerId = input->playerId();
             auto player = playersContext->playerModel(playerId);
             if(player == nullptr)

@@ -12,19 +12,19 @@ public:
         setIndexCtrl(indexCtrl);
         setMetaContext(metaContext);
     }
-    virtual void set(AbstractDartsInput *input) const override
+    virtual void set(DCIptVals &input) const override
     {
         DCPlayerStat *playerStat;
         try {
-            playerStat = &statsContext()->stat(input->playerId());
+            playerStat = &statsContext()->stat(input.playerId);
         }  catch (...)
         {
             return;
         }
-        evaulateAndUpdateStats(playerStat,input->score());
+        evaulateAndUpdateStats(playerStat,input.score);
         setInputRangeStats(input,playerStat);
         auto initialRemaining = metaContext()->get().initialRemainingScore;
-        input->setMiddleValue(calcMidVal()->middleValue(indexCtrl()->index(),input->remainingScore(),initialRemaining));
+        input.mid = calcMidVal()->middleValue(indexCtrl()->index(),input.remainingScore,initialRemaining);
     }
 private:
     void evaulateAndUpdateStats(DCPlayerStat *playerStat, const int &score) const
@@ -34,10 +34,10 @@ private:
         if(playerStat->max < score)
             playerStat->max = score;
     }
-    void setInputRangeStats(AbstractDartsInput *input, DCPlayerStat *playerStat) const
+    void setInputRangeStats(DCIptVals &input, DCPlayerStat *playerStat) const
     {
-        input->setCurrentMinimum(playerStat->min);
-        input->setCurrentMaximum(playerStat->max);
+        input.min = playerStat->min;
+        input.max = playerStat->max;
     }
 };
 #endif // DCUPDATESCORERANGE_H

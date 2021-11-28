@@ -2,14 +2,14 @@
 #define PLAYERSCONTEXT_H
 #include <QtConcurrent/QtConcurrent>
 #include <qjsondocument.h>
-#include "PlayerModelsContext/SLAs/abstractplactx.h"
+#include "PlayerModelsContext/SLAs/abstractplayerscontext.h"
 #include <qjsonobject.h>
 #include "PlayerModelsContext/DbSLAs/PlayersDbSLAs.h"
 #include "AsyncUtils/runlater.h"
-class PlayersContext :
-        public AbstractPlaCtx,
-        public PlayersDbSLAs
+class PlayersContext : public AbstractPlayersContext,
+                       public PlayersDbSLAs
 {
+    Q_OBJECT
 public:
     Player *playerModel(const QUuid &id) const override;
     Player *playerModel(const QString &name) const override;

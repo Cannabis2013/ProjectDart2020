@@ -1,5 +1,6 @@
 #ifndef TESTCONFIGURATION_H
 #define TESTCONFIGURATION_H
+#define LOCAL_TEST_MODE
 
 #ifdef LOCAL_TEST_MODE
 #define TEST_MODE
@@ -7,5 +8,4 @@
 #ifdef REMOTE_TEST_MODE
 #define TEST_MODE
 #endif
-
 #endif // TESTCONFIGURATION_H

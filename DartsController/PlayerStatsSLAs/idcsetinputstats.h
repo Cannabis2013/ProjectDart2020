@@ -3,10 +3,11 @@
 #include "DartsController/PlayerStatsServices/dcplayerstatsmanager.h"
 #include "idccalcmidval.h"
 #include "DartsModelsContext/InputModelsSLAs/abstractdartsinput.h"
+#include "DartsController/DCInputSLAs/dciptvals.h"
 class IDCSetInputStats
 {
 public:
-    virtual void set(AbstractDartsInput *input) const = 0;
+    virtual void set(DCIptVals &input) const = 0;
     IDCStatsContext *statsContext() const
     {
         return _statsContext;

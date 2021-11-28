@@ -4,72 +4,68 @@
 class DSCIndexController : public AbstractDCIdxCtrl
 {
 public:
-    DSCIndexController(IDCIdxBuilder *copyContext)
+    virtual void init(const DCIndex &idx) override
     {
-        setCopyContext(copyContext);
+        _idx = idx;
     }
-    virtual void init(IDartsIndex *index) override
+    DCIndex index() const override
     {
-        _index = copyContext()->index(index);
+        return _idx;
     }
-    IDartsIndex *index() const override
+    DCIndex next() override
     {
-        return copyContext()->index(_index);
-    }
-    IDartsIndex *next() override
-    {
-        if(_index->turnIndex() == _index->totalTurns())
-            _index->setTotalTurns(_index->totalTurns() + 1);
-        _index->setTurnIndex(_index->turnIndex() + 1);
-        _index->setAttemptIndex(_index->attemptIndex() + 1);
-        if(_index->attemptIndex() >= _attempts)
+        if(_idx.turnIndex == _idx.totalTurns)
+            _idx.totalTurns++;
+        _idx.turnIndex++;
+        _idx.attemptIndex++;
+        if(_idx.attemptIndex >= _attempts)
         {
-            _index->setSetIndex(_index->setIndex() + 1);
-            _index->setAttemptIndex(0);
+            _idx.setIndex++;
+            _idx.attemptIndex = 0;
         }
-        if(_index->setIndex() >= playersCount()){
-            _index->setRoundIndex(_index->roundIndex() + 1);
-            _index->setSetIndex(0);
+        if(_idx.setIndex >= playersCount()){
+            _idx.roundIndex++;
+            _idx.setIndex = 0;
         }
-        return copyContext()->index(_index);
+        return _idx;
     }
-    virtual IDartsIndex *undo() override
+    virtual DCIndex undo() override
     {
-        if(_index->turnIndex() <= 0)
+        if(_idx.turnIndex <= 0)
             throw "ERROR: CAN'T UNDO!";
-        _index->setTurnIndex(_index->turnIndex() - 1);
-        _index->setAttemptIndex(_index->attemptIndex() - 1);
-        if(_index->attemptIndex() < 0)
+        _idx.turnIndex--;
+        _idx.attemptIndex--;
+        if(_idx.attemptIndex < 0)
         {
-            _index->setSetIndex(_index->setIndex() - 1);
-            _index->setAttemptIndex(_attempts - 1);
+            _idx.setIndex--;
+            _idx.attemptIndex--;
         }
-        if(_index->setIndex() < 0)
+        if(_idx.setIndex < 0)
         {
-            _index->setRoundIndex(_index->roundIndex() - 1);
-            _index->setSetIndex(playersCount() - 1);
+            _idx.roundIndex--;
+            _idx.setIndex--;
         }
-        return _index;
+        return _idx;
     }
-    virtual IDartsIndex *redo() override
+    virtual DCIndex redo() override
     {
-        if(_index->turnIndex() >= _index->totalTurns())
+        if(_idx.turnIndex >= _idx.totalTurns)
             throw "ERROR: CAN'T REDO!";
-        _index->setTurnIndex(_index->turnIndex() + 1);
-        _index->setAttemptIndex(_index->attemptIndex() + 1);
-        if(_index->attemptIndex() >= _attempts)
+        _idx.turnIndex++;
+        _idx.attemptIndex++;
+        if(_idx.attemptIndex >= _attempts)
         {
-            _index->setSetIndex(_index->setIndex() + 1);
-            _index->setAttemptIndex(0);
+            _idx.setIndex++;
+            _idx.attemptIndex = 0;
         }
-        if(_index->setIndex() >= playersCount()){
-            _index->setRoundIndex(_index->roundIndex() + 1);
-            _index->setSetIndex(0);
+        if(_idx.setIndex >= playersCount()){
+            _idx.roundIndex++;
+            _idx.setIndex = 0;
         }
-        return copyContext()->index(_index);
+        return _idx;
     }
 private:
-    IDartsIndex *_index;
+    DCIndex _idx;
     const int _attempts = 1;
 };
 #endif // DSCINDEXCONTROLLER_H

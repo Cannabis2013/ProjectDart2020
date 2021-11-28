@@ -18,7 +18,7 @@ public:
     Q_INVOKABLE virtual void addTournament(const QByteArray& json, const QVector<int> &playerIndexes) = 0;
     Q_INVOKABLE virtual void setTournamentWinner(const QByteArray& json) = 0;
     virtual ITournament *tournament(const QUuid &id) const = 0;
-    virtual QVector<IModel<QUuid>*> assignedPlayers(const QUuid &tournamentId) const = 0;
+    virtual QVector<IPlayerModel*> players(const QUuid &tournamentId) const = 0;
     virtual QFuture<bool> resetTournament(const QUuid &tournament) = 0;
 signals:
     void tournamentResetSuccess();

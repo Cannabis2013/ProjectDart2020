@@ -22,6 +22,7 @@ QNetworkReply *NetworkManager::sendGetRequest(const QString &method,
 {
     QUrl fullServerUrl = _parserService->parseUrl(_baseUrl,method,urlParameter,stringQuery);
     _tempReply = _netMng->get(QNetworkRequest(fullServerUrl));
+
     if(slot != nullptr)
         connect(_tempReply,SIGNAL(finished()),reciever,slot);
     else
@@ -81,7 +82,6 @@ QNetworkReply *NetworkManager::sendDeleteRequest(const QString &method,
 {
     QUrl fullServerUrl = _parserService->parseUrl(_baseUrl,method,urlParameter,stringQuery);
     _tempReply = _netMng->deleteResource(QNetworkRequest(fullServerUrl));
-
     _responseTimer.start();
 
     if(slot != nullptr)

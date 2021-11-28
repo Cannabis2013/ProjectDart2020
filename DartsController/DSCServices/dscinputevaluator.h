@@ -8,33 +8,33 @@ public:
     {
         return new DSCInputEvaluator();
     }
-    virtual void evaluate(AbstractDartsInput *input, const int &scoreCand, IDCMetaCtx *metaInfo, AbstractDartsController *controller,
+    virtual void evaluate(DCIptVals &input, const int &scoreCand, IDCMetaCtx *metaInfo, AbstractDartsCtrl *controller,
                           const IDartsStatusCodes *statusCodes, IDCPlayerCtx *) override
     {
         if(scoreCand >= minimumAllowedScore)
         {
-            input->setApproved(true);
-            input->setRemainingScore(scoreCand);
+            input.approved = true;
+            input.remainingScore = scoreCand;
             controller->addInputToModelsContext(input);
         }
         else if(scoreCand == 0)
         {
-            input->setApproved(true);
-            input->setRemainingScore(0);
+            input.approved = true;
+            input.remainingScore = 0;
             updateControllerMeta(input,metaInfo,statusCodes);
             controller->addInputToModelsContext(input);
         }
         else
         {
-            input->setScore(0);
+            input.score = 0;
             controller->addInputToModelsContext(input);
         }
     }
 private:
-    void updateControllerMeta(AbstractDartsInput *input, IDCMetaCtx *metaInfo, const IDartsStatusCodes *statusCodes) const
+    void updateControllerMeta(DCIptVals &input, IDCMetaCtx *metaInfo, const IDartsStatusCodes *statusCodes) const
     {
-        metaInfo->get().winnerId = input->playerId();
-        metaInfo->get().winnerName = input->playerName();
+        metaInfo->get().winnerId = input.playerId;
+        metaInfo->get().winnerName = input.playerName;
         metaInfo->get().status = statusCodes->winnerFound();
     }
     const int minimumAllowedScore = 2;

@@ -1,12 +1,13 @@
 #ifndef DCINPUTSSLAS_H
 #define DCINPUTSSLAS_H
-#include "DartsController/DCFinishesSLAs/idartsinputfinishes.h"
+#include "DartsController/DCFinishesSLAs/idcfinishbuilder.h"
 #include "DartsController/DCInputSLAs/abstractdcinputevaluator.h"
 #include "DartsController/DCInputSLAs/abstractdcinputbuilder.h"
+#include "idciptconverter.h"
 class DCInputsSLAs
 {
 public:
-    AbstractDCInputEvaluator *evaluateInput() const
+    AbstractDCInputEvaluator *inputEval() const
     {
         return _inputEvaluator;
     }
@@ -14,11 +15,11 @@ public:
     {
         _inputEvaluator = evaluator;
     }
-    IDartsInputFinishes *dartsFinishBuilder() const
+    IDCFinishBuilder *finishBuilder() const
     {
         return _suggestFinishes;
     }
-    void setDartsFinishBuilder(IDartsInputFinishes *service)
+    void setFinishBuilder(IDCFinishBuilder *service)
     {
         _suggestFinishes = service;
     }
@@ -30,9 +31,18 @@ public:
     {
         _inputModelBuilder = service;
     }
+    IDCIptConverter *iptConverter() const
+    {
+        return _iptConverter;
+    }
+    void setIptConverter(IDCIptConverter *newIptConverter)
+    {
+        _iptConverter = newIptConverter;
+    }
 private:
-    IDartsInputFinishes *_suggestFinishes = nullptr;
+    IDCFinishBuilder *_suggestFinishes = nullptr;
     AbstractDCInputEvaluator *_inputEvaluator = nullptr;
     AbstractDCInputBuilder* _inputModelBuilder;
+    IDCIptConverter *_iptConverter;
 };
 #endif // DCINPUTSSLAS_H

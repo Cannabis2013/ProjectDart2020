@@ -8,14 +8,15 @@
 #include "DartsController/DCScoresSLAs/abstractdcscoresctx.h"
 #include "DartsController/DCScoresSLAs/idccalcscore.h"
 #include "DartsController/DCPlayerSLAs/IDCPlayerCtx.h"
+#include "dciptvals.h"
 class AbstractDCInputBuilder
 {
 public:
     typedef AbstractDCIdxCtrl IndexCtrl;
     typedef AbstractDCScoresCtx ScoresCtx;
     typedef IDCPlayerCtx PlayersCtx;
-    virtual AbstractDartsInput *create(const QByteArray &json) const = 0;
-    virtual AbstractDartsInput *createDefault() const = 0;
+    virtual DCIptVals create(const QByteArray &json) const = 0;
+protected:
     IDCMetaCtx *metaCtx() const
     {
         return _metaContext;

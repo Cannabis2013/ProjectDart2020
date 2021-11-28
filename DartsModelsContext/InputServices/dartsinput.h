@@ -118,17 +118,19 @@ public:
         _approved = val;
     }
 private:
+    QUuid _id;
+    QUuid _tournamentId;
+    int _hint;
     int _point = 0;
     int _score = 0;
     int _roundIndex = 0;
     int _setIndex = 0;
     int _attempt = 0;
-    int _hint;
     int _modKeyCode;
     int _remainingScore;
     bool _inGame = false;
     bool _approved = false;
-    QUuid _id, _playerId, _tournamentId;
+    QUuid _playerId;
     QString _playerName;
 };
 #endif // POINT_H

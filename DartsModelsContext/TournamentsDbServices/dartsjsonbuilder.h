@@ -5,34 +5,28 @@
 #include <qjsonobject.h>
 #include "DartsModelsContext/TournamentModelsSLAs/abstractdartstournament.h"
 #include "DartsModelsContext/TournamentsDbSLAs/itournamentjsonbuilder.h"
-class DartsJsonBuilder : public IDartsJsonBuilder
+class DartsJsonBuilder : public IDartsJsonBuilder<IModel<QUuid>,QByteArray>
 {
 public:
-public:
-    virtual QJsonObject tournamentJsonObject(IModel<QUuid> *model) const override
+    virtual QByteArray create(IModel<QUuid> *model) const override
     {
-        return toJsonObject(dynamic_cast<AbstractDartsTournament*>(model));
+        return toByteArray(toJsonObject(dynamic_cast<AbstractDartsTournament*>(model)));
     }
-    virtual QByteArray tournamentJson(IModel<QUuid> *model) const override
+    virtual QByteArray create(const QVector<Model*> &models) const override
     {
-        auto obj = toJsonObject(dynamic_cast<AbstractDartsTournament*>(model));
-        return toByteArray(obj);
+        return toByteArray(toJsonArray(models));
     }
-    virtual QByteArray tournamentsjson(const QVector<IModel<QUuid>*> &models) const override
+    virtual QByteArray create(const QVector<Model*>& models, QByteArray &byteArray) const override
     {
-        QJsonArray arr = toJsonArray(models);
-        return toByteArray(arr);
-    }
-    virtual QJsonArray assignedPlayersJson(IModel<QUuid> *model) const override
-    {
-        return fromPlayerDetails(model);
-    }
-    virtual QJsonObject winnerDetailsJson(IModel<QUuid> *model) const override
-    {
-        auto tournament = dynamic_cast<ITournament*>(model);
-        return toJsonObject(tournament->winnerId(),tournament->winnerName());
+        auto json = fromByteArray(byteArray);
+        json["TournamentModels"] = toJsonArray(models);
+        return toByteArray(json);
     }
 private:
+    QJsonObject fromByteArray(const QByteArray &byteArray) const
+    {
+        return QJsonDocument::fromJson(byteArray).object();
+    }
     QJsonArray toJsonArray(const QVector<IModel<QUuid> *> &models) const
     {
         QJsonArray arr;

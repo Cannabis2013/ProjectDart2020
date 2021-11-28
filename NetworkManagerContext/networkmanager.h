@@ -40,7 +40,6 @@ public:
     void setParserService(Iparser* t);
     const Iparser *parserService();
 
-
     QNetworkReply* sendGetRequest(const QString &method,
                         const QString &urlParameter,
                         const QVector<Query> stringQuery,

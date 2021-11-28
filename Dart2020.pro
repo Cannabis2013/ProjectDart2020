@@ -14,26 +14,25 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    DartsController/Controller/dartsctrl.cpp \
+    DartsController/DCFinishesServices/dcfinishbuilder.cpp \
     DartsController/DCJsonServices/dcjsonbuilder.cpp \
-    DartsModelsContext/InputServices/dartsinputbuilder.cpp \
-    DartsModelsContext/Services/dartsctx.cpp \
+    DartsModelsContext/InputServices/dartsinputstojson.cpp \
+    DartsModelsContext/InputServices/dartsiptsdbctx.cpp \
+    DartsModelsContext/Services/dartscontext.cpp \
     DartsModelsContext/TournamentServices/dartwinnermodelbuilder.cpp \
-    DartsModelsContext/InputServices/dartsinputsdbcontext.cpp \
-    DartsModelsContext/TournamentsDbServices/dartsdbctx.cpp \
+    DartsModelsContext/TournamentsDbServices/dartsdbcontext.cpp \
     PlayerModelsContext/DbServices/playersdbcontext.cpp \
-    PlayerModelsContext/Services/createplayersfromjson.cpp \
-    DartsController/Controller/dartscontroller.cpp \
     DartsController/DCFinishesServices/dartscreatefinishes.cpp \
-    DartsModelsContext/InputServices/dartsinputjsonbuilder.cpp \
+    PlayerModelsContext/Services/playerbuilder.cpp \
     PlayerModelsContext/playerscontext.cpp \
     dartstabledatacontext.cpp \
     DartsTableContext/dartstablemodel.cpp \
-    DartsController/DCFinishesServices/dcinputfinishes.cpp \
     NetworkManagerContext/iurlparser.cpp \
     DartsTableContext/dartstableslas.cpp \
     main/main.cpp \
     NetworkManagerContext/networkmanager.cpp \
-    tst_Dart2020.cpp \
+    Tests/tst_Dart2020.cpp \
     NetworkManagerContext/urlparser.cpp
 
 RESOURCES += qml.qrc
@@ -54,16 +53,24 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     AsyncUtils/runlater.h \
-    DartsController/ControllerSLA/controllerslas.h \
+    DartsController/Controller/dartsctrl.h \
+    DartsController/ControllerSLA/abstractdartsctrl.h \
+    DartsController/ControllerSLA/ctrlslas.h \
+    DartsController/DCFinishesSLAs/idcfinishbuilder.h \
+    DartsController/DCFinishesServices/dcfinishbuilder.h \
     DartsController/DCIndexSLAs/abstractdcidxctrl.h \
-    DartsController/DCIndexSLAs/abstractdcreqindexbuilder.h \
-    DartsController/DCIndexServices/dcindexjsonbuilder.h \
+    DartsController/DCIndexSLAs/abstractdcreqidxbuilder.h \
+    DartsController/DCIndexSLAs/dcindex.h \
+    DartsController/DCIndexServices/dcidxjsonbuilder.h \
     DartsController/DCIndexServices/dcplayerstatsjsonbuilder.h \
-    DartsController/DCIndexServices/dcreqindexjsonbuilder.h \
+    DartsController/DCIndexServices/dcreqidxjsonbuilder.h \
     DartsController/DCIndexServices/dpcreqindexbuilder.h \
     DartsController/DCIndexServices/dscreqindexbuilder.h \
     DartsController/DCInputSLAs/abstractdcinputbuilder.h \
     DartsController/DCInputSLAs/abstractdcinputevaluator.h \
+    DartsController/DCInputSLAs/dciptvals.h \
+    DartsController/DCInputSLAs/idciptconverter.h \
+    DartsController/DCInputServices/dciptconverter.h \
     DartsController/DCMetaSLAs/abstractdcmetabuilder.h \
     DartsController/DCMetaSLAs/idcmetactx.h \
     DartsController/DCMetaServices/dcmeta.h \
@@ -112,27 +119,33 @@ HEADERS += \
     DartsController/StaticInitHelperClass/dcinit.h \
     DartsController/StaticInitHelperClass/dcresetcontexts.h \
     DartsControllerBuilder/DCBMetaServices/dcbmeta.h \
-    DartsControllerBuilder/Services/createdartscontroller.h \
+    DartsControllerBuilder/Services/createdtsctrl.h \
     DartsModelsContext/DartsPlayersSLAs/itournamentplayers.h \
     DartsModelsContext/DartsPlayersServices/tournamentplayers.h \
-    DartsModelsContext/IndexesDbServices/dcindexbuilder.h \
-    DartsModelsContext/IndexesSLAs/idcidxbuilder.h \
-    DartsModelsContext/InputSLAs/dartsinputslas.h \
+    DartsModelsContext/IndexesDbServices/dcidxconverter.h \
+    DartsModelsContext/IndexesSLAs/idcidxconverter.h \
+    DartsModelsContext/InputModels/diptvals.h \
+    DartsModelsContext/InputSLAs/dartsiptslas.h \
     DartsModelsContext/InputServices/countdartsinputs.h \
     DartsModelsContext/InputServices/dartsinputbuilder.h \
-    DartsModelsContext/InputServices/getdartsinputfromdb.h \
-    DartsModelsContext/InputServices/getdartsinputmodels.h \
-    DartsModelsContext/InputServices/removedartsinputsfromdb.h \
+    DartsModelsContext/InputServices/dartsinputstojson.h \
+    DartsModelsContext/InputServices/dartsiptsdbctx.h \
+    DartsModelsContext/InputServices/getdartsinputs.h \
+    DartsModelsContext/InputServices/removedartsinputs.h \
     DartsModelsContext/InputServices/sortdartsinputs.h \
     DartsModelsContext/InputServices/sortdartsinputsbyindexes.h \
     DartsModelsContext/IndexesSLAs/dartsindexslas.h \
     DartsModelsContext/InputModelsSLAs/abstractdartsinput.h \
-    DartsModelsContext/InputsDbSLAs/igetdartsinput.h \
-    DartsModelsContext/SLAs/abstractdartsctx.h \
-    DartsModelsContext/Services/dartscontextbuilder.h \
-    DartsModelsContext/Services/dartsctx.h \
+    DartsModelsContext/InputsDbSLAs/DartsiptDbSLAs.h \
+    DartsModelsContext/InputsDbSLAs/igetinputs.h \
+    DartsModelsContext/InputsDbSLAs/iremovedartsinputs.h \
+    DartsModelsContext/SLAs/DartsModelsSLAs.h \
+    DartsModelsContext/SLAs/abstractdtsctx.h \
+    DartsModelsContext/Services/createdartscontext.h \
+    DartsModelsContext/Services/dartscontext.h \
     DartsModelsContext/TournamentModels/dartsmetamodel.h \
     DartsModelsContext/TournamentServices/GetDartsTournamentIds.h \
+    DartsModelsContext/TournamentServices/dartsbuilder.h \
     DartsModelsContext/TournamentServices/dartsmetamodelbuilder.h \
     DartsModelsContext/TournamentServices/dartstournamentrepair.h \
     DartsModelsContext/TournamentServices/dartsverifyconsistency.h \
@@ -144,11 +157,13 @@ HEADERS += \
     DartsModelsContext/IndexesServices/updatedartsindexes.h \
     DartsModelsContext/InputModels/dartsinputstats.h \
     DartsModelsContext/InputModelsSLAs/idartsinputstats.h \
+    DartsModelsContext/TournamentsDbSLAs/dartsdbslas.h \
     DartsModelsContext/TournamentsDbSLAs/idartsbuilder.h \
     DartsModelsContext/TournamentsDbSLAs/igetdartstournament.h \
     DartsModelsContext/TournamentModels/dartstournament.h \
-    DartsModelsContext/TournamentsDbServices/dartsdbctx.h \
+    DartsModelsContext/TournamentsDbServices/dartsdbcontext.h \
     DartsModelsContext/TournamentsDbServices/dartsjsonbuilder.h \
+    DartsModelsContext/TournamentsSLAs/dartsslas.h \
     DartsModelsContext/TournamentsSLAs/idartsconsistency.h \
     DartsModelsContext/TournamentsSLAs/idartsmetamodelbuilder.h \
     DartsModelsContext/TournamentsSLAs/igettournamentids.h \
@@ -156,11 +171,9 @@ HEADERS += \
     DartsModelsContext/TournamentsSLAs/isettournamentplayerdetails.h \
     DartsModelsContext/TournamentsSLAs/itournamentrepair.h \
     DartsModelsContext/TournamentsSLAs/iwinnerinfobuilder.h \
-    DartsModelsContext/TournamentServices/dartstournamentbuilder.h \
     DartsModelsContext/TournamentServices/setdartsplayerdetails.h \
     DartsModelsContext/TournamentServices/setdartsplayerdetails.h \
     DartsModelsContext/InputsDbSLAs/idartsinputbuilder.h \
-    DartsModelsContext/InputsDbSLAs/idartsinputjsonbuilder.h \
     DartsModelsContext/TournamentsDbSLAs/itournamentjsonbuilder.h \
     DartTournamentsContext/DTCModelsServices/abstracttournament.h \
     DartsController/DCIndexSLAs/dcindexslas.h \
@@ -170,37 +183,39 @@ HEADERS += \
     DartsController/DCPlayerSLAs/DCPlayerSLAs.h \
     DartsController/DCScoresSLAs/dcscoreslas.h \
     DartsController/DCTurnValuesSLAs/dcturnvaluesslas.h \
-    DartsModelsContext/TournamentsDbSLAs/dartstournamentdbslas.h \
-    DartsModelsContext/InputServices/dartsinputsdbcontext.h \
-    DartsModelsContext/TournamentsSLAs/dartstournamentslas.h \
     DartsController/DCMetaServices/dartsstatuscodes.h \
     DartsController/DCMetaSLAs/idartsstatuscodes.h \
     DartsModelsContext/TournamentsSLAs/idmcaddindexestotournament.h \
-    DartsModelsContext/InputsDbSLAs/DartsInputsDbSLAs.h \
-    DartsModelsContext/InputsDbSLAs/IDartsInputsDbContext.h \
-    DartsModelsContext/TournamentsDbSLAs/IDartsDbContext.h \
     DartsTableContext/TableSectionsSLAs/itableinitrowvalues.h \
     DartsTableContext/TableCellsServices/dartsinitrowvalues.h \
-    JsonUtils/jsonbuilder.h \
+    FileOperationsContext/SLAs/ifiledataio.h \
+    FileOperationsContext/Services/filejsonio.h \
     JsonUtils/jsonextractor.h \
-    ModelsContext/DbSLAs/IDbPersistence.h \
     DartsModelsContext/TournamentModelsSLAs/abstractdartstournament.h \
+    ModelsContext/DbSLAs/abstractloadfromstorage.h \
+    ModelsContext/DbSLAs/icreatedatafrom.h \
+    ModelsContext/DbSLAs/icreatemodelsfrom.h \
+    ModelsContext/DbSLAs/ipersistmemdb.h \
+    ModelsContext/DbServices/loadfromstorage.h \
+    ModelsContext/DbServices/persistdbctx.h \
     ModelsContext/ModelsContextSLAs/abstractmdsctx.h \
     PlayerModelsContext/DbSLAs/IPlayersDbContext.h \
     PlayerModelsContext/DbSLAs/PlayersDbSLAs.h \
+    PlayerModelsContext/DbSLAs/iplayerbuilder.h \
     PlayerModelsContext/DbSLAs/iplayerjsonbuilder.h \
     PlayerModelsContext/DbServices/playersdbcontext.h \
-    PlayerModelsContext/DbSLAs/iplayercontextmodelbuilder.h \
-    PlayerModelsContext/SLAs/abstractplactx.h \
+    PlayerModelsContext/SLAs/abstractplayerscontext.h \
+    PlayerModelsContext/Services/playerbuilder.h \
+    PlayerModelsContext/Services/playerjsonbuilder.h \
     PlayerModelsContext/createplayerscontext.h \
     PlayerModelsContext/playerscontext.h \
     QmlContext/qmlpropertiesbuilder.h \
     DartsControllerBuilder/DCBMetaServices/createDCMetaInfo.h \
-    PlayerModelsContext/Services/createjsonfromplayermodels.h \
-    PlayerModelsContext/Services/createplayersfromjson.h \
+    Tests/SignalSpyManager.h \
+    Tests/TestJsonDartsBuilder.h \
+    Tests/TestJsonPlayerBuilder.h \
     createqmlvariants.h \
     DartsController/DCFinishesServices/dartsboundaries.h \
-    DartsController/Controller/dartscontroller.h \
     DartsController/DCFinishesSLAs/dartsconstructslas.h \
     DartsController/DCFinishesServices/dartscreatefinishes.h \
     DartsController/DCFinishesServices/dartscreateterminalthreshold.h \
@@ -210,7 +225,6 @@ HEADERS += \
     DartsController/DCFinishesServices/dartsfieldvalues.h \
     DartsModelsContext/InputServices/dartsinput.h \
     DartsController/DCFinishesServices/dartsmodidentifiers.h \
-    DartsModelsContext/InputServices/dartsinputjsonbuilder.h \
     DartsTableContext/QMLDartsDataModel/dartsplayerdatamodel.h \
     dartstablecellcontext.h \
     dartstablecreatecolumnindices.h \
@@ -225,7 +239,6 @@ HEADERS += \
     DartsController/DCFinishesServices/dartsthreshold.h \
     DartsController/DCFinishesServices/dccreatefinishes.h \
     DartsController/DCScoresServices/dccreatescoremodels.h \
-    DartsController/DCFinishesServices/dcinputfinishes.h \
     DartsController/DCFinishesServices/dclogisticdb.h \
     DartsController/DCScoresServices//dcscoremodel.h \
     DartsController/DCTurnValuesServices/dcturnvalues.h \
@@ -247,7 +260,6 @@ HEADERS += \
     DartsController/DCFinishesSLAs/idartsdivisorvalues.h \
     DartsController/DCFinishesSLAs/idartsfieldvalues.h \
     DartsController/DCFinishesSLAs/idartsfinishesdb.h \
-    DartsController/DCFinishesSLAs/idartsinputfinishes.h \
     DartsController/DCFinishesSLAs/idartsmodidentifiers.h \
     DartsTableContext/dstablemodel.h \
     DartsTableContext/DataContextSLAs/idartstabledatacontext.h \
@@ -255,21 +267,16 @@ HEADERS += \
     DartsController/DCFinishesSLAs/idartsterminaldivisor.h \
     DartsController/DCFinishesSLAs/idartsthresholdvalues.h \
     ModelsContext/DbSLAs/idbcontext.h \
-    FileOperationsContext/SLAs/ifilereader.h \
-    FileOperationsContext/SLAs/ifilewriter.h \
     igetdatafromdatacontext.h \
-    DartsModelsContext/InputsDbSLAs/igetinputmodelsservice.h \
     PlayerModelsContext/DbSLAs/igetplayerfromdb.h \
     ModelsContext/DbSLAs/imodelsdbcontext.h \
     ModelsContext/PredicateSLAs/imodelpredicate.h \
     iqmldatabuilder.h \
-    DartsModelsContext/InputsDbSLAs/iremovedartsinputsfromdb.h \
     DartsModelsContext/InputSLAs/isortinputmodels.h \
     DartsTableContext/TableSectionsSLAs/itablecellcontext.h \
     itableindicevalues.h \
     DartsTableContext/TableSectionsSLAs/itablesectioncontext.h \
     DartsTableContext/TableSectionsSLAs/itablesectionmanipulator.h \
-    DartsController/ControllerSLA/abstractdartscontroller.h \
     DartControllerContext/SLAs/abstractgamecontroller.h \
     ModelsContext/ModelsSLAs/imodel.h \
     DartsModelsContext/InputModelsSLAs/iplayerinput.h \
@@ -280,10 +287,8 @@ HEADERS += \
     DartsTableContext/QMLTableMetrics/mhtablecolumnwidth.h \
     DartsTableContext/QMLTableMetrics/mhtablerowheight.h \
     DartsTableContext/FontMetrics/mhtablesectionmetrics.h \
-    ModelsContext/DbSLAs/modelsdbioservices.h \
     NetworkManagerContext/networkmanager.h \
     PlayerModelsContext/Services/playermodel.h \
-    FileOperationsContext/Services/readbytearray.h \
     registerqmldartstabletypes.h \
     registerqmlsingletons.h \
     registerqmltableutils.h \
@@ -292,8 +297,7 @@ HEADERS += \
     setupqmlcontext.h \
     testconfiguration.h \
     NetworkManagerContext/urlparser.h \
-    testeventloop.h \
-    FileOperationsContext/Services/writebytearray.h
+    testeventloop.h
 DISTFILES += \
 
 #LIBS += $$PWD/SSL/libssl-1_1-x64.dll

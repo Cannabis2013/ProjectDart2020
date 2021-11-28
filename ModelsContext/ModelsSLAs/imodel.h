@@ -4,8 +4,9 @@ template<class TUuid>
 class IModel
 {
 public:
-    virtual TUuid id() const = 0;
-    virtual void setId(const TUuid &val) = 0;
+    typedef TUuid Id;
+    virtual Id id() const = 0;
+    virtual void setId(const Id &val) = 0;
 };
 
 #endif // MODELINTERFACE_H

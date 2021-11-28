@@ -8,8 +8,8 @@
 class IDCStatsContext
 {
 public:
-    typedef IModel<QUuid> Player;
-    typedef QVector<IModel<QUuid>*> Players;
+    typedef IPlayerModel Player;
+    typedef QVector<Player*> Players;
     virtual void setPlayers(const Players &players) = 0;
     virtual DCPlayerStat &stat(const QUuid &playerId) = 0;
     virtual QVector<DCPlayerStat> &stats() = 0;

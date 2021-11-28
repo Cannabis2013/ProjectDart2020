@@ -31,7 +31,7 @@ public:
     {
         _createScoreModels = service;
     }
-    IDCCalcScore *scoreCalculator() const
+    IDCCalcScore *scoreCalc() const
     {
         return _calculateScore;
     }

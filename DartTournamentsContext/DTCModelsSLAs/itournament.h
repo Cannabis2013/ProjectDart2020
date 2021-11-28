@@ -1,8 +1,6 @@
 #ifndef ITOURNAMENT_H
 #define ITOURNAMENT_H
 #include "ModelsContext/ModelsSLAs/imodel.h"
-#include <qvector.h>
-#include <quuid.h>
 #include "DartsModelsContext/DartsPlayersServices/tournamentplayers.h"
 class ITournament : public IModel<QUuid>,
                     public TournamentPlayers

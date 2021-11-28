@@ -6,7 +6,7 @@
 class IDCPlayerCtx
 {
 public:
-    typedef IModel<QUuid> Player;
+    typedef IPlayerModel Player;
     typedef QVector<Player*> Players;
     virtual void set(const Players &playerIds) = 0;
     virtual bool status(const QUuid &playerId) const = 0;

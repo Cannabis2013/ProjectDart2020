@@ -7,15 +7,14 @@
 class DartsTournamentRepair : public ITournamentRepair
 {
 public:
-    virtual bool repair(IModel<QUuid> *tournamentModel, const QVector<IModel<QUuid>*> &inputModels, AbstractPlaCtx *playersContext) const override
+    virtual bool repair(AbstractDartsTournament *tournament, const QVector<AbstractDartsInput*> &inputs, AbstractPlayersContext *playersContext) const override
     {
-        auto tournament = dynamic_cast<ITournament*>(tournamentModel);
         auto r = repairTournamentPlayers(tournament,playersContext);
-        r = repairInputs(inputModels,playersContext);
+        r = repairInputs(inputs,playersContext);
         return r;
     }
 private:
-    bool repairTournamentPlayers(ITournament *tournament, AbstractPlaCtx *playersContext) const
+    bool repairTournamentPlayers(ITournament *tournament, AbstractPlayersContext *playersContext) const
     {
         auto names = tournament->playerNames();
         auto players = playersContext->playerModels(names);
@@ -32,20 +31,19 @@ private:
         tournament->setPlayerNames(pNames);
         return true;
     }
-    bool repairInputs(const QVector<IModel<QUuid>*> &inputModels, AbstractPlaCtx *playersContext) const
+    bool repairInputs(const QVector<AbstractDartsInput*> &inputs, AbstractPlayersContext *playersContext) const
     {
-        for (auto &model : inputModels) {
-            auto dartsInput = dynamic_cast<IPlayerInput*>(model);
-            auto playerId = dartsInput->playerId();
-            auto playerName = dartsInput->playerName();
+        for (auto &input : inputs) {
+            auto playerId = input->playerId();
+            auto playerName = input->playerName();
             IPlayerModel *playerModel = dynamic_cast<IPlayerModel*>(playersContext->playerModel(playerId));
             if(playerModel != nullptr)
                 continue;
             playerModel = dynamic_cast<IPlayerModel*>(playersContext->playerModel(playerName));
             if(playerModel == nullptr)
                 return false;
-            dartsInput->setPlayerId(playerModel->id());
-            dartsInput->setPlayerName(playerModel->name());
+            input->setPlayerId(playerModel->id());
+            input->setPlayerName(playerModel->name());
         }
         return true;
     }

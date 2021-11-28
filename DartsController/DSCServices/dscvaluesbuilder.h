@@ -6,7 +6,7 @@ class DSCValuesBuilder : public AbstractDCTurnValues
 {
 public:
     DSCValuesBuilder(AbstractDCIdxCtrl *indexController, AbstractDCScoresCtx *scoresModels,
-                     const IDartsInputFinishes *logisticService = nullptr)
+                     const IDCFinishBuilder *logisticService = nullptr)
     {
         setIndexController(indexController);
         setScoreModels(scoresModels);
@@ -17,18 +17,18 @@ public:
         auto scores = scoreModels()->scores();
         DCTurnValues model;
         auto index = indexController()->index();
-        auto scoreModel = scoreModels()->scores().at(index->setIndex());
-        model.canUndo = index->turnIndex() > 0;
-        model.canRedo = index->turnIndex() < index->totalTurns();
-        model.roundIndex = index->roundIndex();
-        model.setIndex = index->setIndex();
-        model.attemptIndex = index->attemptIndex();
+        auto scoreModel = scoreModels()->scores().at(index.setIndex);
+        model.canUndo = index.turnIndex > 0;
+        model.canRedo = index.turnIndex < index.totalTurns;
+        model.roundIndex = index.roundIndex;
+        model.setIndex = index.setIndex;
+        model.attemptIndex = index.attemptIndex;
         model.targetRow = createRowSuggestionByScore(logisticService(),scoreModel.remainingScore);
         model.playerName = scoreModel.playerName;
         return model;
     }
 private:
-    QString createRowSuggestionByScore(const IDartsInputFinishes* logisticService,
+    QString createRowSuggestionByScore(const IDCFinishBuilder* logisticService,
                                        const int& score) const
     {
         if(logisticService == nullptr)

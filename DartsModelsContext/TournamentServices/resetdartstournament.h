@@ -3,10 +3,10 @@
 #include "DartTournamentsContext/DTCModelsSLAs/itournament.h"
 #include "DartsModelsContext/TournamentsSLAs/iresetdartstournament.h"
 #include "DartsModelsContext/TournamentModelsSLAs/abstractdartstournament.h"
-class ResetDartsTournament : public IResetDartsTournament
+class ResetDartsTournament : public IResetDartsTournament<IModel<QUuid>>
 {
 public:
-    virtual IDartsDbContext *reset(const QUuid &tournamentId, IDartsDbContext *dbContext) const override
+    virtual IDbContext<BaseModel> *reset(const QUuid &tournamentId, IDbContext<BaseModel> *dbContext) const override
     {
         auto models = dbContext->models();
         auto dartsTournament = getModelById(tournamentId,models);

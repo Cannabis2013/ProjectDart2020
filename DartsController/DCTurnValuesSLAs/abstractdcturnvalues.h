@@ -2,7 +2,7 @@
 #define ABSTRACTDCTURNVALUES_H
 #include "DartsController/DCIndexSLAs/abstractdcidxctrl.h"
 #include "DartsController/DCScoresSLAs/abstractdcscoresctx.h"
-#include "DartsController/DCFinishesSLAs/idartsinputfinishes.h"
+#include "DartsController/DCFinishesSLAs/idcfinishbuilder.h"
 #include "DartsController/DCTurnValuesServices/dcturnvalues.h"
 class AbstractDCTurnValues
 {
@@ -24,17 +24,17 @@ public:
     {
         _scoreModels = newScoreModels;
     }
-    const IDartsInputFinishes *logisticService() const
+    const IDCFinishBuilder *logisticService() const
     {
         return _logisticService;
     }
-    void setLogisticService(const IDartsInputFinishes *newLogisticService)
+    void setLogisticService(const IDCFinishBuilder *newLogisticService)
     {
         _logisticService = newLogisticService;
     }
 private:
     const AbstractDCIdxCtrl *_indexController;
     const AbstractDCScoresCtx *_scoreModels;
-    const IDartsInputFinishes *_logisticService = nullptr;
+    const IDCFinishBuilder *_logisticService = nullptr;
 };
 #endif // IBUILDTURNVALUES_H

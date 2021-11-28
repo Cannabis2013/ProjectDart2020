@@ -1,23 +1,16 @@
 #ifndef ABSTRACTDCIDXCTRL_H
 #define ABSTRACTDCIDXCTRL_H
 #include "DartsModelsContext/IndexesDbSLAs/idartsindex.h"
-#include "DartsModelsContext/IndexesSLAs/idcidxbuilder.h"
+#include "DartsModelsContext/IndexesSLAs/idcidxconverter.h"
+#include "dcindex.h"
 class AbstractDCIdxCtrl
 {
 public:
-    virtual void init(IDartsIndex *index = nullptr) = 0;
-    virtual IDartsIndex *index() const = 0;
-    virtual IDartsIndex *next() = 0;
-    virtual IDartsIndex *undo() = 0;
-    virtual IDartsIndex *redo() = 0;
-    void setCopyContext(IDCIdxBuilder *copyContext)
-    {
-        _copyContext = copyContext;
-    }
-    IDCIdxBuilder *copyContext() const
-    {
-        return _copyContext;
-    }
+    virtual void init(const DCIndex &index = DCIndex()) = 0;
+    virtual DCIndex index() const = 0;
+    virtual DCIndex next() = 0;
+    virtual DCIndex undo() = 0;
+    virtual DCIndex redo() = 0;
     int playersCount() const
     {
         return _playerCount;
@@ -27,7 +20,6 @@ public:
         _playerCount = newPlayerCount;
     }
 private:
-    IDCIdxBuilder *_copyContext;
     int _playerCount;
 };
 #endif // INDEXCONTROLLERINTERFACE_H

@@ -19,7 +19,7 @@ QByteArray DCJsonBuilder::create(const QVector<DCScoreModel> &scoreModels, const
     }
     return QJsonDocument(arr).toJson();
 }
-QByteArray DCJsonBuilder::create(AbstractDartsInput *input, const DCTurnValues &turnValues, const DCMeta &metaInfo) const
+QByteArray DCJsonBuilder::create(const DCIptVals &input, const DCTurnValues &turnValues, const DCMeta &metaInfo) const
 {
     auto obj = QJsonObject();
     metaJsonBuilder()->setJsonValues(obj,metaInfo);
@@ -34,7 +34,7 @@ QByteArray DCJsonBuilder::create(const DCTurnValues &turnValues, const DCMeta &m
     turnValuesJsonBuilder()->setJsonValues(obj,turnValues);
     return QJsonDocument(obj).toJson();
 }
-QByteArray DCJsonBuilder::create(AbstractDartsInput *input, const DCTurnValues &turnValues, IDartsIndex *index, const DCMeta &metaInfo) const
+QByteArray DCJsonBuilder::create(const DCIptVals &input, const DCTurnValues &turnValues, const DCIndex &index, const DCMeta &metaInfo) const
 {
     auto obj = QJsonObject();
     metaJsonBuilder()->setJsonValues(obj,metaInfo);
@@ -43,7 +43,7 @@ QByteArray DCJsonBuilder::create(AbstractDartsInput *input, const DCTurnValues &
     inputIndexesBuilder()->setJsonValues(obj,index);
     return QJsonDocument(obj).toJson();
 }
-QByteArray DCJsonBuilder::create(AbstractDartsInput *input, IDartsIndex *index, const DCMeta &metaInfo) const
+QByteArray DCJsonBuilder::create(const DCIptVals &input, const DCIndex &index, const DCMeta &metaInfo) const
 {
     auto obj = QJsonObject();
     metaJsonBuilder()->setJsonValues(obj,metaInfo);
@@ -51,7 +51,7 @@ QByteArray DCJsonBuilder::create(AbstractDartsInput *input, IDartsIndex *index, 
     inputJsonBuilder()->setJsonValues(obj,input);
     return QJsonDocument(obj).toJson();
 }
-QByteArray DCJsonBuilder::create(IDartsIndex *index, const DCMeta &metaInfo) const
+QByteArray DCJsonBuilder::create(const DCIndex &index, const DCMeta &metaInfo) const
 {
     auto obj = QJsonObject();
     metaJsonBuilder()->setJsonValues(obj,metaInfo);
@@ -59,7 +59,7 @@ QByteArray DCJsonBuilder::create(IDartsIndex *index, const DCMeta &metaInfo) con
     return QJsonDocument(obj).toJson();
 }
 
-QByteArray DCJsonBuilder::create(IDartsIndex *regIndex, IDartsIndex *inputIndex, const DCMeta &metaInfo) const
+QByteArray DCJsonBuilder::create(const DCIndex &regIndex, const DCIndex &inputIndex, const DCMeta &metaInfo) const
 {
     auto obj = QJsonObject();
     metaJsonBuilder()->setJsonValues(obj,metaInfo);
@@ -68,7 +68,7 @@ QByteArray DCJsonBuilder::create(IDartsIndex *regIndex, IDartsIndex *inputIndex,
     return QJsonDocument(obj).toJson();
 }
 
-QByteArray DCJsonBuilder::create(AbstractDartsInput *input, const DCMeta &metaInfo) const
+QByteArray DCJsonBuilder::create(const DCIptVals &input, const DCMeta &metaInfo) const
 {
     QJsonObject obj;
     metaJsonBuilder()->setJsonValues(obj,metaInfo);

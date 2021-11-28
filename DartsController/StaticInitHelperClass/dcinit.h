@@ -12,16 +12,19 @@
 class DCInit
 {
 public:
-    typedef  IModel<QUuid> Player;
+    typedef IPlayerModel Player;
     typedef QVector<Player*> Players;
-    static void initTournamentMeta(AbstractDartsTournament *tournament, IDCMetaCtx *metaInfo, AbstractDCIdxCtrl *indexController)
+    static void initTournamentMeta(AbstractDartsTournament *tournament,
+                                   IDCMetaCtx *metaInfo,
+                                   AbstractDCIdxCtrl *indexController,
+                                   IDCIdxConverter *idxBuilder)
     {
         auto meta = &metaInfo->get();
         meta->initialRemainingScore = tournament->initialRemaining();
         meta->tournamentId = tournament->id();
         meta->winnerId = tournament->winnerId();
         meta->winnerName = tournament->winnerName();
-        indexController->init(tournament);
+        indexController->init(idxBuilder->convert(tournament));
         auto pCount = tournament->playerIds().count();
         indexController->setPlayerCount(pCount);
     }
@@ -42,7 +45,7 @@ public:
          */
         playerController->set(players);
     }
-    static void initScores(const QVector<IModel<QUuid>*> &inputs,const IDCUpdatePlayerScores *updatePlayerScores,
+    static void initScores(const QVector<DCIptVals> &inputs,const IDCUpdatePlayerScores *updatePlayerScores,
                            const IDCUpdatePlayerStat *updatePlayerStats,AbstractDCScoresCtx *scoreModels,
                            IDCStatsContext *playerStats)
     {

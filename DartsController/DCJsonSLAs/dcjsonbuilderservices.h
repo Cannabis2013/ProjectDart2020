@@ -7,6 +7,8 @@
 #include "DartsController/PlayerStatsSLAs/dcplayerstat.h"
 #include "DartsModelsContext/InputModelsSLAs/abstractdartsinput.h"
 #include "DartsModelsContext/IndexesDbServices/dartsindex.h"
+#include "DartsController/DCInputSLAs/dciptvals.h"
+#include "DartsController/DCIndexSLAs/dcindex.h"
 class DCJsonBuilderServices
 {
 public:
@@ -18,19 +20,19 @@ public:
     {
         _metaJsonBuilder = builder;
     }
-    IDCModelJsonBuilder<AbstractDartsInput*> *inputJsonBuilder() const
+    IDCModelJsonBuilder<DCIptVals> *inputJsonBuilder() const
     {
         return _inputJsonBuilder;
     }
-    void setInputJsonBuilder(IDCModelJsonBuilder<AbstractDartsInput*> *newInputJsonBuilder)
+    void setInputJsonBuilder(IDCModelJsonBuilder<DCIptVals> *newInputJsonBuilder)
     {
         _inputJsonBuilder = newInputJsonBuilder;
     }
-    IDCModelJsonBuilder<IDartsIndex*> *inputIndexesBuilder() const
+    IDCModelJsonBuilder<DCIndex> *inputIndexesBuilder() const
     {
         return _inputIndexJsonBuilder;
     }
-    void setIndexesJsonBuilder(IDCModelJsonBuilder<IDartsIndex*> *newIndexesJsonBuilder)
+    void setIdxJsonBuilder(IDCModelJsonBuilder<DCIndex> *newIndexesJsonBuilder)
     {
         _inputIndexJsonBuilder = newIndexesJsonBuilder;
     }
@@ -42,11 +44,11 @@ public:
     {
         _turnValuesJsonBuilder = newTurnValuesJsonBuilder;
     }
-    IDCModelJsonBuilder<IDartsIndex*> *reqIndexJsonBuilder() const
+    IDCModelJsonBuilder<DCIndex> *reqIndexJsonBuilder() const
     {
         return _reqIndexJsonBuilder;
     }
-    void setReqIndexJsonBuilder(IDCModelJsonBuilder<IDartsIndex*> *newReqIndexJsonBuilder)
+    void setReqIdxJsonBuilder(IDCModelJsonBuilder<DCIndex> *newReqIndexJsonBuilder)
     {
         _reqIndexJsonBuilder = newReqIndexJsonBuilder;
     }
@@ -68,9 +70,9 @@ public:
     }
 private:
     IDCModelJsonBuilder<const DCMeta&> *_metaJsonBuilder;
-    IDCModelJsonBuilder<AbstractDartsInput*> *_inputJsonBuilder;
-    IDCModelJsonBuilder<IDartsIndex *> *_inputIndexJsonBuilder;
-    IDCModelJsonBuilder<IDartsIndex *> *_reqIndexJsonBuilder;
+    IDCModelJsonBuilder<DCIptVals> *_inputJsonBuilder;
+    IDCModelJsonBuilder<DCIndex> *_inputIndexJsonBuilder;
+    IDCModelJsonBuilder<DCIndex> *_reqIndexJsonBuilder;
     IDCModelJsonBuilder<const DCTurnValues&> *_turnValuesJsonBuilder;
     IDCModelJsonBuilder<const DCScoreModel&> *_scoreModelJsonBuilder;
     IDCModelJsonBuilder<const DCPlayerStat&> *_playerStatsJsonBuilder;

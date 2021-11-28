@@ -4,21 +4,20 @@
 class DCUpdatePlayerStat : public IDCUpdatePlayerStat
 {
 public:
-    virtual void update(const AbstractDartsInput *input, IDCStatsContext *playerStatsContext) const override
+    virtual void update(const DCIptVals &input, IDCStatsContext *statsContext) const override
     {
-        updatePlayerStat(input,&playerStatsContext->stat(input->playerId()));
+        updatePlayerStat(input,&statsContext->stat(input.playerId));
     }
-    virtual void update(const QVector<IModel<QUuid>*> &models, IDCStatsContext *playerStatsContext) const override
+    virtual void update(const QVector<DCIptVals> &models, IDCStatsContext *playerStatsContext) const override
     {
         if(models.isEmpty())
             return;
-        auto lastInput = dynamic_cast<AbstractDartsInput*>(models.last());
-        auto lastPlayerId = lastInput->playerId();
+        auto lastInput = models.last();
+        auto lastPlayerId = lastInput.playerId;
         updatePlayerStat(lastInput,&playerStatsContext->stat(lastPlayerId));
         for (auto i = models.count() - 2; i >= 0; --i) {
-            auto model = models.at(i);
-            auto input = dynamic_cast<AbstractDartsInput*>(model);
-            auto playerId = input->playerId();
+            auto input = models.at(i);
+            auto playerId = input.playerId;
             if(playerId != lastPlayerId)
             {
                 updatePlayerStat(input,&playerStatsContext->stat(playerId));
@@ -27,12 +26,11 @@ public:
         }
     }
 private:
-    void updatePlayerStat(const AbstractDartsInput *input, DCPlayerStat *stat) const
+    void updatePlayerStat(const DCIptVals &input, DCPlayerStat *stat) const
     {
-        stat->min = input->currentMinimum();
-        stat->middle = input->middleValue();
-        stat->max = input->currentMaximum();
+        stat->min = input.min;
+        stat->middle = input.mid;
+        stat->max = input.max;
     }
-
 };
 #endif // DCUPDATEPLAYERSTAT_H

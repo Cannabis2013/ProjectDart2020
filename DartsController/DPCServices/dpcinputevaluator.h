@@ -14,41 +14,41 @@ public:
     {
         return new DPCInputEvaluator;
     }
-    void evaluate(AbstractDartsInput *input, const int &scoreCand, IDCMetaCtx *metaInfo, AbstractDartsController *controller,
+    void evaluate(DCIptVals &input, const int &scoreCand, IDCMetaCtx *metaInfo, AbstractDartsCtrl *controller,
                   const IDartsStatusCodes *statusCodes, IDCPlayerCtx *playerController) override
     {
-        if(!playerController->status(input->playerId()))
+        if(!playerController->status(input.playerId))
         {
-            if(input->modKeyCode() == DoubleModifier)
+            if(input.modKeyCode == DoubleModifier)
             {
-                input->setRemainingScore(scoreCand);
-                input->setInGame(true);
+                input.remainingScore = scoreCand;
+                input.inGame = true;
                 controller->addInputToModelsContext(input);
                 return;
             }
             else
             {
-                input->setScore(0);
+                input.score = 0;
                 controller->addInputToModelsContext(input);
                 return;
             }
         }
         if(scoreCand >= minimumAllowedScore)
         {
-            input->setRemainingScore(scoreCand);
+            input.remainingScore = scoreCand;
             controller->addInputToModelsContext(input);
         }
-        else if(scoreCand == 0 && (input->modKeyCode() == DoubleModifier || input->score() == _bullsEye))
+        else if(scoreCand == 0 && (input.modKeyCode == DoubleModifier || input.score == _bullsEye))
         {
-            input->setRemainingScore(0);
-            metaInfo->get().winnerId = input->playerId();
-            metaInfo->get().winnerName = input->playerName();
+            input.remainingScore = 0;
+            metaInfo->get().winnerId = input.playerId;
+            metaInfo->get().winnerName = input.playerName;
             metaInfo->get().status = statusCodes->winnerFound();
             controller->addInputToModelsContext(input);
         }
         else
         {
-            input->setScore(0);
+            input.score = 0;
             controller->addInputToModelsContext(input);
             return;
         }

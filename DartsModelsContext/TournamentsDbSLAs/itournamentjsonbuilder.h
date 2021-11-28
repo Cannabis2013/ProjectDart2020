@@ -3,15 +3,15 @@
 #include <qjsonobject.h>
 #include <quuid.h>
 #include <qvector.h>
+#include "ModelsContext/DbSLAs/icreatedatafrom.h"
 #include "ModelsContext/ModelsSLAs/imodel.h"
-class IDartsJsonBuilder
+template<typename TModel, typename TJsonFormat>
+class IDartsJsonBuilder  : public ICreateDataFrom<IModel<QUuid>,TJsonFormat>
 {
 public:
-    virtual QJsonObject tournamentJsonObject(IModel<QUuid> *model) const = 0;
-    virtual QByteArray tournamentJson(IModel<QUuid> *model) const = 0;
-    virtual QByteArray tournamentsjson(const QVector<IModel<QUuid>*>& models) const = 0;
-    virtual QJsonArray assignedPlayersJson(IModel<QUuid> *model) const = 0;
-    virtual QJsonObject winnerDetailsJson(IModel<QUuid> *model) const = 0;
+    typedef TModel Model;
+    typedef TJsonFormat JsonFormat;
+    virtual JsonFormat create(Model *model) const = 0;
+    virtual JsonFormat create(const QVector<Model*>& models) const = 0;
 };
-
 #endif // ICREATEJSONFROMDARTSINPUT_H
