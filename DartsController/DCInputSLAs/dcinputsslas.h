@@ -27,7 +27,7 @@ public:
     {
         return _inputModelBuilder;
     }
-    void setInputBuilder(AbstractDCInputBuilder *service)
+    void setCreateInput(AbstractDCInputBuilder *service)
     {
         _inputModelBuilder = service;
     }

@@ -13,14 +13,14 @@ public:
     int initialize(const QUuid &tournamentId) override;
     virtual QString tournamentId() const override;
     QByteArray getPlayerScores() const override;
-    int handleInput(const QByteArray &json) override;
-    void addInputToModelsContext(DCIptVals &input) override;
-    void undoTurn() override;
-    void redoTurn() override;
+    QByteArray addInput(const QByteArray &json) override;
+    QByteArray undoTurn() override;
+    QByteArray redoTurn() override;
     QByteArray getTurnValues() const override;
     QByteArray getWinnerJson() const override;
-    void reset() override;
+    bool reset() override;
     virtual int status() const override;
+    QByteArray addInputToModelsContext(DCIptVals &input) override;
 private:
     void updateScoreDetails(const DCIptVals &input);
 };

@@ -23,7 +23,7 @@ public:
         model.roundIndex = index.roundIndex;
         model.setIndex = index.setIndex;
         model.attemptIndex = index.attemptIndex;
-        model.targetRow = createRowSuggestionByScore(logisticService(),scoreModel.remainingScore);
+        model.targetRow = createRowSuggestionByScore(logisticService(),scoreModel.remScore);
         model.playerName = scoreModel.name;
         return model;
     }

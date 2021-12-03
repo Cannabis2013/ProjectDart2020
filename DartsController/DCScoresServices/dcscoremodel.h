@@ -6,11 +6,11 @@ struct DCScoreModel
     DCScoreModel(QString _name, int _score)
     {
         name = _name;
-        remainingScore = _score;
+        remScore = _score;
     }
     DCScoreModel(){}
     bool operator==(const DCScoreModel& other){return other.name != this->name;}
     QString name;
-    int remainingScore;
+    int remScore;
 };
 #endif // DARTSPLAYERTUPLE_H

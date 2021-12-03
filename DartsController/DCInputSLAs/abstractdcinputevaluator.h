@@ -11,8 +11,8 @@ class AbstractDCInputEvaluator : public QObject
 {
     Q_OBJECT
 public:
-    virtual void evaluate(DCIptVals &input, const int &scoreCand,IDCMetaCtx *metaInfo ,AbstractDartsCtrl *controller,
-                          const IDartsStatusCodes *statusCodes,IDCPlayerCtx *playerController = nullptr) = 0;
+    virtual QByteArray evaluate(DCIptVals &input, const int &scoreCand,IDCMetaCtx *metaInfo ,AbstractDartsCtrl *controller,
+                                const IDartsStatusCodes *statusCodes,IDCPlayerCtx *playerController = nullptr) = 0;
 };
 
 

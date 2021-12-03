@@ -22,9 +22,9 @@ public:
     }
     virtual void reset() override
     {
-        auto defaultScore = metaContext()->get().initialRemainingScore;
+        auto defaultScore = metaContext()->get().initRemScore;
         for (auto &scoreModel : _scoreModels)
-            scoreModel.remainingScore = defaultScore;
+            scoreModel.remScore = defaultScore;
     }
     virtual DartsScoreModels scores() const override
     {

@@ -8,23 +8,27 @@ class DSCInputBuilder : public AbstractDCInputBuilder
 {
 public:
     DSCInputBuilder(IDCMetaCtx *metaCtx, IDCCalcScore *scoreCalc, IndexCtrl *indexCtrl,
-                    ScoresCtx *scoresCtx, PlayersCtx *playersCtx)
-    {
-        setMetaCtx(metaCtx);
-        setInputScoreCtx(scoreCalc);
-        setIndexCtrl(indexCtrl);
-        setScoresCtx(scoresCtx);
-        setPlayersCtx(playersCtx);
-    }
-    virtual DCIptVals create(const QByteArray &json) const override
+                    ScoresCtx *scoresCtx, PlayersCtx *playersCtx):
+        AbstractDCInputBuilder(metaCtx,scoreCalc,indexCtrl,scoresCtx,playersCtx){}
+    DCIptVals create(const QByteArray &json) const override
     {
         auto input = toInput(toJsonObject(json));
         auto setIndex = indexCtrl()->index().setIndex;
         input.playerName = scoresCtx()->scores().at(setIndex).name;
         input.score = inputScoreCtx()->calc(input);
-        input.remainingScore = scoresCtx()->score(input.playerName).remainingScore;
+        input.remainingScore = scoresCtx()->score(input.playerName).remScore;
         input.inGame = playersContext()->status(input.playerName);
         addIndex(input,indexCtrl()->index());
+        return input;
+    }
+    DCIptVals create() const override
+    {
+        DCIptVals input;
+        auto setIndex = indexCtrl()->index().setIndex;
+        input.playerName = scoresCtx()->scores().at(setIndex).name;
+        input.score = 0;
+        input.remainingScore = metaCtx()->get().initRemScore;
+        input.inGame = true;
         return input;
     }
 private:

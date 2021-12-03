@@ -9,25 +9,27 @@ class DPCInputBuilder : public AbstractDCInputBuilder
 {
 public:
     DPCInputBuilder(IDCMetaCtx *metaCtx, IDCCalcScore *scoreCalc, IndexCtrl *indexCtrl,
-                    ScoresCtx *scoresCtx, PlayersCtx *playersCtx)
-    {
-        setMetaCtx(metaCtx);
-        setInputScoreCtx(scoreCalc);
-        setIndexCtrl(indexCtrl);
-        setScoresCtx(scoresCtx);
-        setPlayersCtx(playersCtx);
-    }
+                    ScoresCtx *scoresCtx, PlayersCtx *playersCtx):
+        AbstractDCInputBuilder(metaCtx,scoreCalc,indexCtrl,scoresCtx,playersCtx){}
     DCIptVals create(const QByteArray &json) const override
     {
-        auto jsonObject = toJsonObject(json);
-        auto input = toModel(jsonObject);
+        auto input = toModel(toJsonObject(json));
         auto setIndex = indexCtrl()->index().setIndex;
-        auto meta = metaCtx()->get();
         input.playerName = scoresCtx()->scores().at(setIndex).name;
         input.score = inputScoreCtx()->calc(input);
-        input.remainingScore = scoresCtx()->score(input.playerName).remainingScore;
+        input.remainingScore = scoresCtx()->score(input.playerName).remScore;
         input.inGame = false;
         addIndex(input,indexCtrl()->index());
+        return input;
+    }
+    DCIptVals create() const override
+    {
+        DCIptVals input;
+        auto setIndex = indexCtrl()->index().setIndex;
+        input.playerName = scoresCtx()->scores().at(setIndex).name;
+        input.score = 0;
+        input.remainingScore = metaCtx()->get().initRemScore;
+        input.inGame = true;
         return input;
     }
 private:
@@ -50,7 +52,7 @@ private:
     {
         auto input = new DartsInput;
         input->setPlayerName(scoreModel.name);
-        input->setRemainingScore(scoreModel.remainingScore);
+        input->setRemainingScore(scoreModel.remScore);
         return input;
     }
     QJsonObject toJsonObject(const QByteArray &json) const

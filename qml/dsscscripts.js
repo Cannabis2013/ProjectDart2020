@@ -149,11 +149,13 @@ function winnerFound()
 function undoClicked()
 {
     dsscContent.state = "waitingForInputConfirmation";
-    dsController.undoTurn();
+    var json = dsController.undoTurn();
+    processScore(json);
 }
 
 function redoClicked()
 {
     dsscContent.state = "waitingForInputConfirmation";
-    dsController.redoTurn();
+    var json = dsController.redoTurn();
+    processScore(json);
 }

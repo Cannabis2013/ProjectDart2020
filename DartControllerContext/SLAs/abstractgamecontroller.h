@@ -8,10 +8,10 @@ class AbstractGameController : public QObject
     Q_OBJECT
 public:
     Q_INVOKABLE virtual QString tournamentId() const = 0;
-    Q_INVOKABLE virtual void undoTurn() = 0;
-    Q_INVOKABLE virtual void redoTurn() = 0;
-    Q_INVOKABLE virtual int handleInput(const QByteArray& json) = 0;
-    Q_INVOKABLE virtual void reset() = 0;
+    Q_INVOKABLE virtual QByteArray undoTurn() = 0;
+    Q_INVOKABLE virtual QByteArray redoTurn() = 0;
+    Q_INVOKABLE virtual QByteArray addInput(const QByteArray& json) = 0;
+    Q_INVOKABLE virtual bool reset() = 0;
     Q_INVOKABLE virtual int status() const = 0;
     Q_INVOKABLE virtual QByteArray getWinnerJson() const = 0;
 signals:

@@ -5,9 +5,14 @@
 class DCIptConverter : public IDCIptConverter
 {
 public:
-    DCIptVals convert(AbstractDartsInput *input) const override
+    DCIptVals convert(AbstractDartsInput *input, AbstractDCInputBuilder *iptBuilder) const override
     {
-        return create(input);
+        DCIptVals ipt;
+        if(input != nullptr)
+            ipt =  create(input); // Copy values from input to ipt
+        else
+            ipt = iptBuilder->create(); // Create input model with default values
+        return ipt;
     }
     QVector<DCIptVals> convert(const QVector<AbstractDartsInput *> &inputs) const override
     {
@@ -52,6 +57,5 @@ private:
         cIpt.inGame = ipt->inGame();
         return cIpt;
     }
-
 };
 #endif // DCIPTCONVERTER_H

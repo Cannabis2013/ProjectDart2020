@@ -20,8 +20,7 @@ public:
     Q_INVOKABLE virtual int initialize(const QUuid &tournamentId) = 0;
     Q_INVOKABLE virtual QByteArray getPlayerScores() const = 0;
     Q_INVOKABLE virtual QByteArray getTurnValues() const = 0;
-public slots:
-    virtual void addInputToModelsContext(DCIptVals &input) = 0;
+    virtual QByteArray addInputToModelsContext(DCIptVals &input) = 0;
 signals:
     void initialized();
     void controllerAwaitsInput();

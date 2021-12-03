@@ -53,7 +53,7 @@ public:
         dc->setIndexCtrl(new DPCIdxCtrl);
         dc->setIdxConverter(new DCIdxConverter);
         dc->setIptConverter(new DCIptConverter);
-        dc->setInputBuilder(new DPCInputBuilder(dc->metaContext(),dc->scoreCalc(),dc->idxCtrl(),dc->scoresContext(),dc->playersContext()));
+        dc->setCreateInput(new DPCInputBuilder(dc->metaContext(),dc->scoreCalc(),dc->idxCtrl(),dc->scoresContext(),dc->playersContext()));
         dc->setUpdateScoreRange(new DCUpdateScoreRange(dc->statsContext(),dc->calcMidVal(),dc->idxCtrl(),dc->metaContext()));
         dc->setTurnValuesBuilder(new DPCTurnValuesBuilder(dc->idxCtrl(),dc->scoresContext(),dc->finishBuilder()));
         dc->setReqIndexBuilder(new DPCReqIndexBuilder(dc->idxCtrl()));

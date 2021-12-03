@@ -13,11 +13,11 @@ class PlayersContext : public AbstractPlayersContext,
 public:
     Player *playerModel(const QUuid &id) const override;
     Player *playerModel(const QString &name) const override;
-    QByteArray playerModels() override;
-    void createPlayer(const QByteArray &json) override;
-    void remove(const QVector<int> &indexes) override;
-    Players playerModels(const QVector<int> &indexes) const override;
-    Players playerModels(const QVector<QUuid> &ids) const override;
-    Players playerModels(const QVector<QString> &names) const override;
+    QByteArray players() override;
+    bool createPlayer(const QByteArray &json) override;
+    bool remove(const QVector<int> &indexes) override;
+    Players players(const QVector<int> &indexes) const override;
+    Players players(const QVector<QUuid> &ids) const override;
+    Players players(const QVector<QString> &names) const override;
 };
 #endif // PLAYERSCONTEXT_H

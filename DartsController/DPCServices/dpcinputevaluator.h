@@ -14,29 +14,29 @@ public:
     {
         return new DPCInputEvaluator;
     }
-    void evaluate(DCIptVals &input, const int &scoreCand, IDCMetaCtx *metaInfo, AbstractDartsCtrl *controller,
+    QByteArray evaluate(DCIptVals &input, const int &scoreCand, IDCMetaCtx *metaInfo, AbstractDartsCtrl *controller,
                   const IDartsStatusCodes *statusCodes, IDCPlayerCtx *playerController) override
     {
+        QByteArray byteArray;
         if(!playerController->status(input.playerName))
         {
             if(input.modKeyCode == DoubleModifier)
             {
                 input.remainingScore = scoreCand;
                 input.inGame = true;
-                controller->addInputToModelsContext(input);
-                return;
+                byteArray = controller->addInputToModelsContext(input);
             }
             else
             {
                 input.score = 0;
-                controller->addInputToModelsContext(input);
-                return;
+                byteArray = controller->addInputToModelsContext(input);
             }
+            return byteArray;
         }
         if(scoreCand >= minimumAllowedScore)
         {
             input.remainingScore = scoreCand;
-            controller->addInputToModelsContext(input);
+            byteArray = controller->addInputToModelsContext(input);
         }
         else if(scoreCand == 0 && (input.modKeyCode == DoubleModifier || input.score == _bullsEye))
         {
@@ -44,14 +44,14 @@ public:
             metaInfo->get().winnerId = input.playerId;
             metaInfo->get().winnerName = input.playerName;
             metaInfo->get().status = statusCodes->winnerFound();
-            controller->addInputToModelsContext(input);
+            byteArray = controller->addInputToModelsContext(input);
         }
         else
         {
             input.score = 0;
-            controller->addInputToModelsContext(input);
-            return;
+            byteArray = controller->addInputToModelsContext(input);
         }
+        return byteArray;
     }
 private:
     const int _bullsEye = 50;

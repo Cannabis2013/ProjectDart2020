@@ -21,7 +21,7 @@ private:
     }
     int calcCandidate(const DCScoreModel scoreModel, const int &scoreCandidate) const
     {
-        auto score = scoreModel.remainingScore;
+        auto score = scoreModel.remScore;
         auto totalScoreCandidate = score - scoreCandidate;
         if(totalScoreCandidate < 0)
             return score;

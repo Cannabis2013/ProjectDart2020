@@ -17,7 +17,7 @@ private:
     bool repairTournamentPlayers(ITournament *tournament, AbstractPlayersContext *playersContext) const
     {
         auto names = tournament->playerNames();
-        auto players = playersContext->playerModels(names);
+        auto players = playersContext->players(names);
         if(players.count() != names.count())
             return false;
         QVector<QUuid> pIds;

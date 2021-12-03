@@ -10,7 +10,7 @@ public:
     virtual void setJsonValues(QJsonObject &obj, Model model) const override
     {
         obj["inputPlayerName"] = model.name;
-        obj["remainingScore"] = model.remainingScore;
+        obj["remainingScore"] = model.remScore;
     }
 };
 #endif // DCSCOREJSONBUILDER_H

@@ -80,7 +80,6 @@ private slots:
     }
     void controller_test_run_four()
     {
-        return;
         auto model = _dtsCtx->dartsDbCtx()->model(0);
         auto result = _dsCtrl->initialize(model->id());
         QVERIFY(result == _dsCtrl->statusCodes()->initialized());

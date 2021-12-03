@@ -25,31 +25,25 @@ public:
     };
     void testCreateTournamentOne(DartsContext *_dtsCtx)
     {
-        SigSpyMng spyMng(_dtsCtx,SIGNAL(tournamentCreatedOk()));
-        auto ftr = spyMng.startListening();
         auto byteArray = dartsTournamentOne();
         _dtsCtx->addTournament(byteArray,{0,1});
-        QVERIFY(ftr.result() != SigSpyMng::Args());
         auto tournament = _dtsCtx->dartsDbCtx()->model(0);
         QVERIFY(tournament != nullptr);
     }
     void testCreateTournamentTwo(DartsContext *_dtsCtx)
     {
-        SigSpyMng spyMng(_dtsCtx,SIGNAL(tournamentCreatedOk()));
-        auto ftr = spyMng.startListening();
         auto byteArray = dartsTournamentOne();
-        _dtsCtx->addTournament(byteArray,{0,1});
-        QVERIFY(ftr.result() != SigSpyMng::Args());
+        auto result = _dtsCtx->addTournament(byteArray,{0,1});
+        QVERIFY(result);
+        auto tournament = _dtsCtx->dartsDbCtx()->model(1);
+        QVERIFY(tournament != nullptr);
     }
     void testRemoveTournamentTwo(DartsContext *_dtsCtx)
     {
-        SigSpyMng spyMng(_dtsCtx,SIGNAL(tournamentsDeleted()));
-        auto ftr = spyMng.startListening(1,5000);
-        _dtsCtx->deleteTournaments({1});
-        auto sigs = ftr.result();
-        QVERIFY(sigs != SigSpyMng::Args());
-        auto model = _dtsCtx->dartsDbCtx()->model(1);
-        QVERIFY(model == nullptr);
+        auto result = _dtsCtx->deleteTournaments({1});
+        QVERIFY(result);
+        auto tournament = _dtsCtx->dartsDbCtx()->model(1);
+        QVERIFY(tournament == nullptr);
     }
 private:
     QByteArray dartsTournamentOne()

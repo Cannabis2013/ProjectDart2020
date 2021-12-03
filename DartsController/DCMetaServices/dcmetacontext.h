@@ -9,7 +9,7 @@ public:
     void set(const QUuid &id, const int &initialRemaining) override
     {
         _meta.tournamentId = id;
-        _meta.initialRemainingScore = initialRemaining;
+        _meta.initRemScore = initialRemaining;
     }
     virtual void set(const int &status) override
     {

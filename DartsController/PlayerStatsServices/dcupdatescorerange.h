@@ -23,7 +23,7 @@ public:
         }
         evaulateAndUpdateStats(playerStat,input.score);
         setInputRangeStats(input,playerStat);
-        auto initialRemaining = metaContext()->get().initialRemainingScore;
+        auto initialRemaining = metaContext()->get().initRemScore;
         input.mid = calcMidVal()->middleValue(indexCtrl()->index(),input.remainingScore,initialRemaining);
     }
 private:

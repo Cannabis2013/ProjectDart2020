@@ -55,7 +55,7 @@ public:
         dc->setIndexCtrl(new DSCIndexController);
         dc->setScoresModels(new DCScoresContext(dc->metaContext()));
         dc->setIptConverter(new DCIptConverter);
-        dc->setInputBuilder(new DSCInputBuilder(dc->metaContext(),dc->scoreCalc(),dc->idxCtrl(),dc->scoresContext(),dc->playersContext()));
+        dc->setCreateInput(new DSCInputBuilder(dc->metaContext(),dc->scoreCalc(),dc->idxCtrl(),dc->scoresContext(),dc->playersContext()));
         dc->setUpdateScoreRange(new DCUpdateScoreRange(dc->statsContext(),dc->calcMidVal(),dc->idxCtrl(),dc->metaContext()));
         dc->setReqIndexBuilder(new DSCReqIndexBuilder(dc->idxCtrl()));
         dc->setMetaBuilder(new DCMetaBuilder(dc->metaContext(),dc->idxCtrl(),dc->scoresContext(),dc->statusCodes()));

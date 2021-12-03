@@ -19,11 +19,11 @@ public:
     }
     Q_INVOKABLE virtual QByteArray createDartsMetaData(const QUuid& tournament) = 0;
     virtual AbstractDartsInput *input(const QUuid &tournament, const QString &name, IDartsIndex *index) const = 0;
-    virtual void addInput(QUuid tournamentId, DIptVals input, std::function<void()> func) = 0;
-    virtual void hideInput(QUuid tournament, QString name, IDartsIndex *index, std::function<void()> func) = 0;
-    virtual void revealInput(QUuid tournament, QString name, IDartsIndex *index, std::function<void()> func) = 0;
+    virtual bool addInput(QUuid tournamentId, DIptVals input) = 0;
+    virtual bool hideInput(QUuid tournament, QString name, IDartsIndex *index) = 0;
+    virtual bool revealInput(QUuid tournament, QString name, IDartsIndex *index) = 0;
     virtual QVector<AbstractDartsInput*> inputs(const QUuid &tournamentId) const = 0;
-    virtual void updateTournamentIndex(QUuid tournament, IDartsIndex *index, std::function<void()> func) = 0;
+    virtual bool updateTournamentIndex(QUuid tournament, IDartsIndex *index) = 0;
     virtual AbstractDartsTournament *tournament(const QUuid &id) const override= 0;
 signals:
     void setDartsTournamentWinnerSucces(const QByteArray& json);

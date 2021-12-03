@@ -8,27 +8,29 @@ public:
     {
         return new DSCInputEvaluator();
     }
-    virtual void evaluate(DCIptVals &input, const int &scoreCand, IDCMetaCtx *metaInfo, AbstractDartsCtrl *controller,
-                          const IDartsStatusCodes *statusCodes, IDCPlayerCtx *) override
+    virtual QByteArray evaluate(DCIptVals &input, const int &scoreCand, IDCMetaCtx *metaInfo, AbstractDartsCtrl *controller,
+                                const IDartsStatusCodes *statusCodes, IDCPlayerCtx *) override
     {
+        QByteArray byteArray;
         if(scoreCand >= minimumAllowedScore)
         {
             input.approved = true;
             input.remainingScore = scoreCand;
-            controller->addInputToModelsContext(input);
+            byteArray = controller->addInputToModelsContext(input);
         }
         else if(scoreCand == 0)
         {
             input.approved = true;
             input.remainingScore = 0;
             updateWinnerMeta(input,metaInfo,statusCodes);
-            controller->addInputToModelsContext(input);
+            byteArray = controller->addInputToModelsContext(input);
         }
         else
         {
             input.score = 0;
-            controller->addInputToModelsContext(input);
+            byteArray = controller->addInputToModelsContext(input);
         }
+        return byteArray;
     }
 private:
     void updateWinnerMeta(DCIptVals &input, IDCMetaCtx *metaInfo, const IDartsStatusCodes *statusCodes) const

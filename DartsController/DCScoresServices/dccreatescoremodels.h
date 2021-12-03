@@ -16,7 +16,7 @@ private:
     {
         DCScoreModel scoreModel;
         scoreModel.name = name;
-        scoreModel.remainingScore = initialScore;
+        scoreModel.remScore = initialScore;
         return scoreModel;
     }
 };

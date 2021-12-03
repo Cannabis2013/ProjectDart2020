@@ -14,12 +14,12 @@ public:
     Q_INVOKABLE virtual QByteArray tournament(const QString &id) const = 0;
     Q_INVOKABLE virtual bool isConsistent(const QUuid &tournamentId) const = 0;
     Q_INVOKABLE virtual void tryRepair(const QUuid &tournamentId) = 0;
-    Q_INVOKABLE virtual void deleteTournaments(const QVector<int> &indexes) = 0;
-    Q_INVOKABLE virtual void addTournament(const QByteArray& json, const QVector<int> &playerIndexes) = 0;
-    Q_INVOKABLE virtual void setTournamentWinner(const QByteArray& json) = 0;
+    Q_INVOKABLE virtual bool deleteTournaments(const QVector<int> &indexes) = 0;
+    Q_INVOKABLE virtual bool addTournament(const QByteArray& json, const QVector<int> &playerIndexes) = 0;
+    Q_INVOKABLE virtual bool setTournamentWinner(const QByteArray& json) = 0;
     virtual ITournament *tournament(const QUuid &id) const = 0;
     virtual QVector<IPlayerModel*> players(const QUuid &tournamentId) const = 0;
-    virtual void resetTournament(const QUuid &tournament, std::function<void ()> func) = 0;
+    virtual bool resetTournament(const QUuid &tournamentId) = 0;
 signals:
     void tournamentResetSuccess();
     void tournamentResetFailed();

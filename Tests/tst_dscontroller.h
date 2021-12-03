@@ -66,38 +66,21 @@ public:
         resetController();
     }
 private:
-    QFuture<QVector<QVariant>> setupListener(const char *slot, const int &sigCount, const int &waitTime)
-    {
-        SigSpyMng spyMng(_ctrl,slot);
-        return spyMng.startListening(sigCount,waitTime); // Listen for signal emission in separate thread
-    }
     void addScore(const int &score)
     {
-        SigSpyMng spyMng(_ctrl,SIGNAL(updatePlayerScore(const QByteArray&))); // Listen for signal emission in separate thread
-        auto ftr = spyMng.startListening(1,2000);
-        _ctrl->handleInput(scoreJson(score));
-        ftr.result(); // Blocking call, wait for signal emission
+        _ctrl->addInput(scoreJson(score));
     }
     void undoTurn()
     {
-        SigSpyMng spyMng(_ctrl,SIGNAL(updatePlayerScore(const QByteArray&))); // Listen for signal emission in separate thread
-        auto ftr = spyMng.startListening(1,2000);
         _ctrl->undoTurn();
-        ftr.result();
     }
     void redoTurn()
     {
-        SigSpyMng spyMng(_ctrl,SIGNAL(updatePlayerScore(const QByteArray&))); // Listen for signal emission in separate thread
-        auto ftr = spyMng.startListening(1,2000);
         _ctrl->redoTurn();
-        ftr.result();
     }
     void resetController()
     {
-        SigSpyMng spyMng(_ctrl,SIGNAL(resetSucces())); // Listen for signal emission in separate thread
-        auto ftr = spyMng.startListening(1,2000);
-        _ctrl->reset();
-        QVERIFY(ftr.result() != SigSpyMng::Args()); // Blocking call, wait for, and verify, signal emission
+        QVERIFY(_ctrl->reset());
     }
     QByteArray scoreJson(const int &score)
     {
@@ -107,8 +90,8 @@ private:
     }
     void compareScores(const int &expScOne, const int &expScTwo)
     {
-        auto remScoreOne = _ctrl->scoresContext()->scores().at(0).remainingScore;
-        auto remScoreTwo = _ctrl->scoresContext()->scores().at(1).remainingScore;
+        auto remScoreOne = _ctrl->scoresContext()->scores().at(0).remScore;
+        auto remScoreTwo = _ctrl->scoresContext()->scores().at(1).remScore;
         QCOMPARE(remScoreOne,expScOne);
         QCOMPARE(remScoreTwo,expScTwo);
     }

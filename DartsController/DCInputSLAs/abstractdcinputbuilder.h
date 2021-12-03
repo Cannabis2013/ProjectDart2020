@@ -16,47 +16,27 @@ public:
     typedef AbstractDCScoresCtx ScoresCtx;
     typedef IDCPlayerCtx PlayersCtx;
     virtual DCIptVals create(const QByteArray &json) const = 0;
+    virtual DCIptVals create() const = 0;
 protected:
-    IDCMetaCtx *metaCtx() const
+    AbstractDCInputBuilder(IDCMetaCtx *metaCtx, IDCCalcScore *scoreCalc, IndexCtrl *indexCtrl,
+                           ScoresCtx *scoresCtx, PlayersCtx *playersCtx)
     {
-        return _metaContext;
+        setMetaCtx(metaCtx);
+        setInputScoreCtx(scoreCalc);
+        setIndexCtrl(indexCtrl);
+        setScoresCtx(scoresCtx);
+        setPlayersCtx(playersCtx);
     }
-    void setMetaCtx(IDCMetaCtx *newMetaContext)
-    {
-        _metaContext = newMetaContext;
-    }
-    IDCCalcScore *inputScoreCtx() const
-    {
-        return _inputScoreContext;
-    }
-    void setInputScoreCtx(IDCCalcScore *newInputScoreContext)
-    {
-        _inputScoreContext = newInputScoreContext;
-    }
-    IndexCtrl *indexCtrl() const
-    {
-        return _indexCtrl;
-    }
-    void setIndexCtrl(IndexCtrl *newIndexCtrl)
-    {
-        _indexCtrl = newIndexCtrl;
-    }
-    ScoresCtx *scoresCtx() const
-    {
-        return _scoresContext;
-    }
-    void setScoresCtx(ScoresCtx *newScoresContext)
-    {
-        _scoresContext = newScoresContext;
-    }
-    PlayersCtx *playersContext() const
-    {
-        return _playersContext;
-    }
-    void setPlayersCtx(PlayersCtx *newPlayersContext)
-    {
-        _playersContext = newPlayersContext;
-    }
+    IDCMetaCtx *metaCtx() const {return _metaContext;}
+    void setMetaCtx(IDCMetaCtx *newMetaContext) {_metaContext = newMetaContext;}
+    IDCCalcScore *inputScoreCtx() const {return _inputScoreContext;}
+    void setInputScoreCtx(IDCCalcScore *newInputScoreContext) {_inputScoreContext = newInputScoreContext;}
+    IndexCtrl *indexCtrl() const{ return _indexCtrl;}
+    void setIndexCtrl(IndexCtrl *newIndexCtrl) {_indexCtrl = newIndexCtrl;}
+    ScoresCtx *scoresCtx() const {return _scoresContext;}
+    void setScoresCtx(ScoresCtx *newScoresContext) {_scoresContext = newScoresContext;}
+    PlayersCtx *playersContext() const {return _playersContext;}
+    void setPlayersCtx(PlayersCtx *newPlayersContext) {_playersContext = newPlayersContext;}
 private:
     IDCMetaCtx *_metaContext;
     IDCCalcScore *_inputScoreContext;

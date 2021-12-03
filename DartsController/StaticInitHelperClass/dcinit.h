@@ -18,7 +18,7 @@ public:
                                    IDCIdxConverter *idxBuilder)
     {
         auto meta = &metaInfo->get();
-        meta->initialRemainingScore = tournament->initialRemaining();
+        meta->initRemScore = tournament->initialRemaining();
         meta->tournamentId = tournament->id();
         meta->winnerId = tournament->winnerId();
         meta->winnerName = tournament->winnerName();
@@ -33,7 +33,7 @@ public:
         /*
          * Initialize scoremodels with player details and iniitalscore
          */
-        auto models = scoreBuilder->createScores(playerNames,meta.initialRemainingScore);
+        auto models = scoreBuilder->createScores(playerNames,meta.initRemScore);
         scoreModels->scores().append(models);
         /*
          * Initialize player statistiscs with player details

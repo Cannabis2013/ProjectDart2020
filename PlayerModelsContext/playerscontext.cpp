@@ -10,45 +10,36 @@ AbstractPlayersContext::Player *PlayersContext::playerModel(const QString &name)
     return getPlayers()->player(name, dbContext());
 }
 
-void PlayersContext::createPlayer(const QByteArray &json)
+bool PlayersContext::createPlayer(const QByteArray &json)
 {
-    QtConcurrent::run([=]{
-        auto playerModel = playerBuilder()->createPlayer(json);
-        dbContext()->add(playerModel);
-        auto result = persistDbCtx()->save(dbContext(),jsonBuilder());
-        if(result)
-            emit playerAdded(true);
-    });
+    auto playerModel = playerBuilder()->createPlayer(json);
+    dbContext()->add(playerModel);
+    return persistDbCtx()->save(dbContext(),jsonBuilder());
 }
 
-void PlayersContext::remove(const QVector<int> &indexes)
+bool PlayersContext::remove(const QVector<int> &indexes)
 {
-    QtConcurrent::run([=]{
-        dbContext()->remove(indexes);
-        auto result = persistDbCtx()->save(dbContext(),jsonBuilder());
-        if(result)
-            emit playersDeleted();
-    });
+    dbContext()->remove(indexes);
+    return persistDbCtx()->save(dbContext(),jsonBuilder());
 }
 
-QByteArray PlayersContext::playerModels()
+QByteArray PlayersContext::players()
 {
     auto playerModels = dbContext()->models();
-    auto json = jsonBuilder()->create(playerModels);
-    return json;
+    return jsonBuilder()->create(playerModels);
 }
 
-AbstractPlayersContext::Players PlayersContext::playerModels(const QVector<int> &indexes) const
+AbstractPlayersContext::Players PlayersContext::players(const QVector<int> &indexes) const
 {
     return getPlayers()->players(indexes,dbContext());
 }
 
-AbstractPlayersContext::Players PlayersContext::playerModels(const QVector<QUuid> &ids) const
+AbstractPlayersContext::Players PlayersContext::players(const QVector<QUuid> &ids) const
 {
     return getPlayers()->players(ids,dbContext());
 }
 
-AbstractPlayersContext::Players PlayersContext::playerModels(const QVector<QString> &names) const
+AbstractPlayersContext::Players PlayersContext::players(const QVector<QString> &names) const
 {
     return getPlayers()->players(names,dbContext());
 }

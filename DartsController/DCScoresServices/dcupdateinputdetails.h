@@ -8,8 +8,8 @@ public:
     {
         for (const auto &input : inputs) {
             auto scoreModel = &scoreController->score(input.playerName);
-            if(input.remainingScore < scoreModel->remainingScore)
-                scoreModel->remainingScore = input.remainingScore;
+            if(input.remainingScore < scoreModel->remScore)
+                scoreModel->remScore = input.remainingScore;
         }
     }
 private:

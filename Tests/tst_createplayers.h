@@ -10,21 +10,13 @@ class PlayersTestSuite
 public:
     void testCreatePlayerOne(AbstractPlayersContext *_plaCtx)
     {
-        SigSpyMng spyMng(_plaCtx,SIGNAL(playerAdded(bool)));
-        auto ftr1 = spyMng.startListening();
-        _plaCtx->createPlayer(testPersonOne());
-        QVERIFY(ftr1.result() != SigSpyMng::Args());
-        auto plaMdl = _plaCtx->playerModel(QString("Kent KillerHertz"));
-        QVERIFY(plaMdl != nullptr);
+        auto result = _plaCtx->createPlayer(testPersonOne());
+        QVERIFY(result);
     }
     void testCreatePlayerTwo(AbstractPlayersContext *_plaCtx)
     {
-        SigSpyMng spyMng(_plaCtx,SIGNAL(playerAdded(bool)));
-        auto ftr1 = spyMng.startListening();
-        _plaCtx->createPlayer(testPersonTwo());
-        QVERIFY(ftr1.result() != SigSpyMng::Args());
-        auto plaMdl = _plaCtx->playerModel(QString("Jesper Daa"));
-        QVERIFY(plaMdl != nullptr);
+        auto result = _plaCtx->createPlayer(testPersonTwo());
+        QVERIFY(result);
     }
 private:
     QByteArray testPersonOne()

@@ -8,9 +8,8 @@
 class DCResetContexts
 {
 public:
-    static void reset(AbstractDCIdxCtrl *indexCtrl, AbstractDCScoresCtx *scoresContext,
-                      IDCStatsContext *statsContext, IDCMetaCtx *metaContext,
-                      IDCPlayerCtx *playerController, IDartsStatusCodes *statusCodes)
+    static void reset(AbstractDCIdxCtrl *indexCtrl, AbstractDCScoresCtx *scoresContext, IDCStatsContext *statsContext,
+                      IDCMetaCtx *metaContext, IDCPlayerCtx *playerController, IDartsStatusCodes *statusCodes)
     {
         indexCtrl->init();
         scoresContext->reset();
