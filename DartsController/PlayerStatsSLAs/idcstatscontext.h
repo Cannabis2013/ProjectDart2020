@@ -1,5 +1,6 @@
 #ifndef IDCSTATSCONTEXT_H
 #define IDCSTATSCONTEXT_H
+#include <qstringlist.h>
 #include <qvector.h>
 #include "PlayerModelsContext/DbSLAs/iplayermodel.h"
 #include "DartsController/DCScoresSLAs/abstractdcscoresctx.h"
@@ -8,10 +9,8 @@
 class IDCStatsContext
 {
 public:
-    typedef IPlayerModel Player;
-    typedef QVector<Player*> Players;
-    virtual void setPlayers(const Players &players) = 0;
-    virtual DCPlayerStat &stat(const QUuid &playerId) = 0;
+    virtual void setPlayers(const QStringList &players) = 0;
+    virtual DCPlayerStat &stat(const QString &name) = 0;
     virtual QVector<DCPlayerStat> &stats() = 0;
     virtual void reset() = 0;
 };

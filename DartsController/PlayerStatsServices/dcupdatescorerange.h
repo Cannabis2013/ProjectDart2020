@@ -16,7 +16,7 @@ public:
     {
         DCPlayerStat *playerStat;
         try {
-            playerStat = &statsContext()->stat(input.playerId);
+            playerStat = &statsContext()->stat(input.playerName);
         }  catch (...)
         {
             return;

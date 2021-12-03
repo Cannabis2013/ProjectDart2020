@@ -5,27 +5,19 @@
 class DPCPlayerContext : public IDCPlayerCtx
 {
 public:
-    struct PlayerObject{
-        bool in = false;
-        QUuid playerId;
-    };
-    void set(const Players &models) override
+    void set(const QStringList &names) override
     {
-        for (const auto &model : models) {
-            auto player = dynamic_cast<const IPlayerModel*>(model);
-            PlayerObject obj;
-            obj.playerId = player->id();
-            _playerStructs.append(obj);
-        }
+        for (const auto &name : names)
+            _players << Player{.name = name,.in = false};
     }
-    bool status(const QUuid &playerId) const override
+    bool status(const QString &name) const override
     {
-        return getPlayerStructFromId(playerId).in;
+        return getPlayer(name).in;
     }
-    bool updateStatus(const QUuid &playerId, const bool &status) override
+    bool updateStatus(const QString &name, const bool &status) override
     {
         try {
-            getPlayerStructFromId(playerId).in = status;
+            getPlayer(name).in = status;
         }  catch (...) {
             qDebug() << "Playerstruct not found";
             return false;
@@ -34,30 +26,30 @@ public:
     }
     void reset() override
     {
-        for (auto &playerStruct : _playerStructs)
+        for (auto &playerStruct : _players)
             playerStruct.in = false;
     }
     int count() const override
     {
-        return _playerStructs.count();
+        return _players.count();
     }
 private:
-    PlayerObject &getPlayerStructFromId(const QUuid &id)
+    Player getPlayer(const QString &name) const
     {
-        for (auto &playerStruct : _playerStructs) {
-            if(playerStruct.playerId == id)
-                return playerStruct;
+        for (auto &player : _players) {
+            if(player.name == name)
+                return player;
         }
-        throw "Playerstruct not found";
+        return Player();
     }
-    const PlayerObject getPlayerStructFromId(const QUuid &id) const
+    Player &getPlayer(const QString &name)
     {
-        for (const auto &playerStruct : _playerStructs) {
-            if(playerStruct.playerId == id)
-                return playerStruct;
+        for (auto &player : _players) {
+            if(player.name == name)
+                return player;
         }
-        throw "Playerstruct not found";
+        throw "NOT FOUND";
     }
-    QVector<PlayerObject> _playerStructs;
+    QVector<Player> _players;
 };
 #endif // DCPLAYERENTRANCECONTEXT_H

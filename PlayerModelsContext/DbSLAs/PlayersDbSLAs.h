@@ -3,7 +3,7 @@
 #include "IPlayersDbContext.h"
 #include "igetplayerfromdb.h"
 #include "ModelsContext/DbSLAs/imodelsdbcontext.h"
-#include "ModelsContext/DbSLAs/ipersistmemdb.h"
+#include "ModelsContext/DbSLAs/abstractsavetostorage.h"
 #include <ModelsContext/DbSLAs/abstractloadfromstorage.h>
 class PlayersDbSLAs
 {
@@ -18,13 +18,13 @@ public:
     void setPlayerBuilder(IPlayerBuilder<BaseModel,QByteArray> *service) {_playerBuilder = service;}
     IGetPlayersFromDb *getPlayers() const {return _getPlayerModelsFromDb;}
     void setGetPlayerModelsFromDb(IGetPlayersFromDb *service) {_getPlayerModelsFromDb = service;}
-    IPersistMemDb<IModel<QUuid>, QByteArray> *persistDbCtx() const {return _saveToStorage;}
-    void setPersistDbCtx(IPersistMemDb<IModel<QUuid>, QByteArray> *saveToStorage) {_saveToStorage = saveToStorage;}
+    AbstractSaveToStorage<IModel<QUuid>, QByteArray> *persistDbCtx() const {return _saveToStorage;}
+    void setPersistDbCtx(AbstractSaveToStorage<IModel<QUuid>, QByteArray> *saveToStorage) {_saveToStorage = saveToStorage;}
     AbstractLoadFromStorage<BaseModel, JsonFormat> *loadFromStorage() const {return _loadFromStorage;}
     void setLoadFromStorage(AbstractLoadFromStorage<BaseModel, JsonFormat> *newLoadFromStorage) {_loadFromStorage = newLoadFromStorage;}
 private:
     AbstractLoadFromStorage<BaseModel,JsonFormat> *_loadFromStorage;
-    IPersistMemDb<BaseModel,QByteArray> *_saveToStorage;
+    AbstractSaveToStorage<BaseModel,QByteArray> *_saveToStorage;
     IPlayerJsonBuilder<BaseModel,QByteArray> *_jsonBuilder;
     IPlayerBuilder<BaseModel,QByteArray> *_playerBuilder;
     IPlayersDbContext *_dbContext;

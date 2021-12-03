@@ -1,6 +1,5 @@
 function init()
 {
-    connectInterface();
     let metaJson = getMetaData();
     initMetaData(metaJson);
     updateScoresView();

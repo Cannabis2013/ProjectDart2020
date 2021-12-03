@@ -15,7 +15,6 @@ struct DIptVals
     int remainingScore;
     bool inGame = false;
     bool approved = false;
-    QUuid playerId;
     QString playerName;
 };
 #endif // DIPTVALS_H

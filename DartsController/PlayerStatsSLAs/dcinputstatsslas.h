@@ -8,7 +8,7 @@
 class PlayerStatsSLAs
 {
 public:
-    IDCStatsContext *statsCtx() const
+    IDCStatsContext *statsContext() const
     {
         return _statsBuilder;
     }

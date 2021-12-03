@@ -3,7 +3,6 @@
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 #include <qjsonarray.h>
-#include "DartsModelsContext/InputServices/dartsinput.h"
 #include "DartsController/DCInputSLAs/abstractdcinputbuilder.h"
 class DSCInputBuilder : public AbstractDCInputBuilder
 {
@@ -21,23 +20,14 @@ public:
     {
         auto input = toInput(toJsonObject(json));
         auto setIndex = indexCtrl()->index().setIndex;
-        input.playerId = scoresCtx()->scores().at(setIndex).playerId;
-        input.playerName = scoresCtx()->scores().at(setIndex).playerName;
+        input.playerName = scoresCtx()->scores().at(setIndex).name;
         input.score = inputScoreCtx()->calc(input);
-        input.remainingScore = scoresCtx()->score(input.playerId).remainingScore;
-        input.inGame = playersContext()->status(input.playerId);
+        input.remainingScore = scoresCtx()->score(input.playerName).remainingScore;
+        input.inGame = playersContext()->status(input.playerName);
         addIndex(input,indexCtrl()->index());
         return input;
     }
 private:
-    AbstractDartsInput *toInput(const DCScoreModel &scoreModel) const
-    {
-        auto input = new DartsInput;
-        input->setPlayerId(scoreModel.playerId);
-        input->setPlayerName(scoreModel.playerName);
-        input->setRemainingScore(scoreModel.remainingScore);
-        return input;
-    }
     DCIptVals toInput(const QJsonObject &obj, const int &initialScore = -1) const
     {
         DCIptVals input;

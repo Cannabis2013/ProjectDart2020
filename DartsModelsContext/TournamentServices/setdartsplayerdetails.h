@@ -15,7 +15,7 @@ private:
     {
         QVector<QUuid> playerIds;
         for (const auto &player : players)
-            playerIds << player->name();
+            playerIds << player->id();
         return playerIds;
     }
     QVector<QString> createPlayerNames(const QVector<IPlayerModel*> &players) const

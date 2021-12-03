@@ -9,7 +9,7 @@ class AbstractDCScoresCtx
 public:
     typedef QVector<DCScoreModel> DartsScoreModels;
     virtual void reset() = 0;
-    virtual DCScoreModel &score(const QUuid &playerId) = 0;
+    virtual DCScoreModel &score(const QString &name) = 0;
     virtual DartsScoreModels &scores() = 0;
     virtual DartsScoreModels scores() const = 0;
     IDCMetaCtx *metaContext() const

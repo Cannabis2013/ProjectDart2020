@@ -17,7 +17,7 @@ public:
     void evaluate(DCIptVals &input, const int &scoreCand, IDCMetaCtx *metaInfo, AbstractDartsCtrl *controller,
                   const IDartsStatusCodes *statusCodes, IDCPlayerCtx *playerController) override
     {
-        if(!playerController->status(input.playerId))
+        if(!playerController->status(input.playerName))
         {
             if(input.modKeyCode == DoubleModifier)
             {

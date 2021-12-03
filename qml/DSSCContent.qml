@@ -76,6 +76,9 @@ Content {
             }
         }
     ]
-    Component.onCompleted: DSSCScripts.init()
+    Component.onCompleted: {
+        connectInterface();
+        DSSCScripts.init()
+    }
     Component.onDestruction: DSSCScripts.disconnectInterface()
 }

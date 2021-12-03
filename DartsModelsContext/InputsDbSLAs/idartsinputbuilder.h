@@ -17,8 +17,7 @@ public:
     typedef TBaseModel BaseModel;
     typedef TSuperModel SuperModel;
     typedef TJsonFormat JsonFormat;
-    virtual SuperModel *create(DIptVals &vals, const QUuid &tournamentId, const bool &genId = true,
-                               const int &hint = DisplayHint) const = 0;
+    virtual SuperModel *create(DIptVals vals, const QUuid &tournamentId, const QUuid &playerId, const int &hint = DisplayHint) const = 0;
     virtual QVector<BaseModel *> create(const JsonFormat &json) const override = 0;
 };
 #endif // IDARTSINPUTBUILDER_H

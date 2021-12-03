@@ -19,7 +19,7 @@ public:
     Q_INVOKABLE virtual void setTournamentWinner(const QByteArray& json) = 0;
     virtual ITournament *tournament(const QUuid &id) const = 0;
     virtual QVector<IPlayerModel*> players(const QUuid &tournamentId) const = 0;
-    virtual QFuture<bool> resetTournament(const QUuid &tournament) = 0;
+    virtual void resetTournament(const QUuid &tournament, std::function<void ()> func) = 0;
 signals:
     void tournamentResetSuccess();
     void tournamentResetFailed();

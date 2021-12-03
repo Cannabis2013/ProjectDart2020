@@ -7,7 +7,7 @@ public:
     void update(const QVector<DCIptVals> &inputs, AbstractDCScoresCtx *scoreController) const override
     {
         for (const auto &input : inputs) {
-            auto scoreModel = &scoreController->score(input.playerId);
+            auto scoreModel = &scoreController->score(input.playerName);
             if(input.remainingScore < scoreModel->remainingScore)
                 scoreModel->remainingScore = input.remainingScore;
         }

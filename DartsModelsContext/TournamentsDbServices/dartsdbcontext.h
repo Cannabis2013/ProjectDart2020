@@ -16,6 +16,7 @@ public:
     virtual int indexOf(IModel<QUuid> *model) const override;
     virtual DartsDbContext *replace(const int &index, IModel<QUuid> *model) override;
 private:
+    IModel<QUuid> *modelByIndex(const int &idx) const;
     QVector<IModel<QUuid>*> _models;
 };
 #endif // DARTSTOURNAMENTJSONDB_H

@@ -1,6 +1,6 @@
 #ifndef CREATEDTSCTRL_H
 #define CREATEDTSCTRL_H
-#include "DartsController/Controller/dartsctrl.h"
+#include "DartsController/Controller/dartscontroller.h"
 #include "DartsController/DSCServices/dscinputbuilder.h"
 #include "DartsControllerBuilder/DCBMetaSLAs/icreatedcmetainfo.h"
 #include "DartsController/DSController/createdsc.h"
@@ -8,11 +8,11 @@
 class CreateDtsCtrl
 {
 public:
-    DartsCtrl *pointCtrl()
+    DartsController *pointCtrl()
     {
         return CreateDPC::create();
     }
-    DartsCtrl *scoreCtrl()
+    DartsController *scoreCtrl()
     {
         return CreateDSC::create();
     }

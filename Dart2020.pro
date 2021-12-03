@@ -14,7 +14,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    DartsController/Controller/dartsctrl.cpp \
+    DartsController/Controller/dartscontroller.cpp \
     DartsController/DCFinishesServices/dcfinishbuilder.cpp \
     DartsController/DCJsonServices/dcjsonbuilder.cpp \
     DartsModelsContext/InputServices/dartsinputstojson.cpp \
@@ -53,7 +53,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     AsyncUtils/runlater.h \
-    DartsController/Controller/dartsctrl.h \
+    DartsController/Controller/dartscontroller.h \
     DartsController/ControllerSLA/abstractdartsctrl.h \
     DartsController/ControllerSLA/ctrlslas.h \
     DartsController/DCFinishesSLAs/idcfinishbuilder.h \
@@ -193,9 +193,9 @@ HEADERS += \
     JsonUtils/jsonextractor.h \
     DartsModelsContext/TournamentModelsSLAs/abstractdartstournament.h \
     ModelsContext/DbSLAs/abstractloadfromstorage.h \
+    ModelsContext/DbSLAs/abstractsavetostorage.h \
     ModelsContext/DbSLAs/icreatedatafrom.h \
     ModelsContext/DbSLAs/icreatemodelsfrom.h \
-    ModelsContext/DbSLAs/ipersistmemdb.h \
     ModelsContext/DbServices/loadfromstorage.h \
     ModelsContext/DbServices/persistdbctx.h \
     ModelsContext/ModelsContextSLAs/abstractmdsctx.h \
@@ -212,8 +212,9 @@ HEADERS += \
     QmlContext/qmlpropertiesbuilder.h \
     DartsControllerBuilder/DCBMetaServices/createDCMetaInfo.h \
     Tests/SignalSpyManager.h \
-    Tests/TestJsonDartsBuilder.h \
-    Tests/TestJsonPlayerBuilder.h \
+    Tests/tst_createplayers.h \
+    Tests/tst_dartstournaments.h \
+    Tests/tst_dscontroller.h \
     createqmlvariants.h \
     DartsController/DCFinishesServices/dartsboundaries.h \
     DartsController/DCFinishesSLAs/dartsconstructslas.h \

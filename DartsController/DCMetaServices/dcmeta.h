@@ -5,8 +5,7 @@ struct DCMeta{
     QUuid tournamentId;
     int initialRemainingScore;
     int status;
-    QUuid currentPlayerId;
-    QString currentPlayerName;
+    QString playerName;
     QUuid winnerId;
     QString winnerName;
 };

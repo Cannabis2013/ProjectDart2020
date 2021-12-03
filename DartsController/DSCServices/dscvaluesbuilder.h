@@ -24,7 +24,7 @@ public:
         model.setIndex = index.setIndex;
         model.attemptIndex = index.attemptIndex;
         model.targetRow = createRowSuggestionByScore(logisticService(),scoreModel.remainingScore);
-        model.playerName = scoreModel.playerName;
+        model.playerName = scoreModel.name;
         return model;
     }
 private:

@@ -8,8 +8,7 @@ DartsDbContext *DartsDbContext::add(IModel<QUuid> *model)
 
 IModel<QUuid> *DartsDbContext::model(const int &index) const
 {
-    auto model = _models.at(index);
-    return model;
+    return modelByIndex(index);
 }
 
 IModel<QUuid> *DartsDbContext::model(std::function<bool (IModel<QUuid> *)> predFunct) const
@@ -63,4 +62,12 @@ DartsDbContext *DartsDbContext::replace(const int &index, IModel<QUuid> *model)
 {
     _models.replace(index,model);
     return this;
+}
+
+IModel<QUuid> *DartsDbContext::modelByIndex(const int &idx) const
+{
+    auto lastMdlIdx = _models.count() - 1;
+    if(idx < 0 || idx > lastMdlIdx)
+        return nullptr;
+    return _models.at(idx);
 }

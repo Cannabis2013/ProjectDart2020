@@ -1,5 +1,3 @@
-#include "SignalSpyManager.h"
-#include "TestJsonDartsBuilder.h"
 #include "testconfiguration.h"
 #ifdef LOCAL_TEST_MODE
 #include <QtTest>
@@ -8,21 +6,22 @@
 #include "DartsModelsContext/Services/createdartscontext.h"
 #include "DartsControllerBuilder/Services/createdtsctrl.h"
 #include <iostream>
-#include "TestJsonPlayerBuilder.h"
-using namespace std;
-
-class backendTestSuite : public QObject
+#include "tst_createplayers.h"
+#include "tst_dscontroller.h"
+#include "tst_dartstournaments.h"
+class BackendTestSuite : public QObject
 {
     Q_OBJECT
 public:
-    backendTestSuite()
+    BackendTestSuite()
     {
         _plaCtx = CreatePlayersContext().localJson();
         _dtsCtx = CreateDartsContext().localJson(_plaCtx);
-        _dsController = CreateDtsCtrl().scoreCtrl();
-        _dpController = CreateDtsCtrl().pointCtrl();
+        _dsCtrl = CreateDtsCtrl().scoreCtrl();
+        _dpCtrl = CreateDtsCtrl().pointCtrl();
+        configure();
     }
-    ~backendTestSuite()
+    ~BackendTestSuite()
     {
         if(QFile::remove("Players"))
             printf("Players file removed\n");
@@ -32,47 +31,74 @@ public:
 private slots:
     void create_and_persist_KillerHertz()
     {
-        SigSpyMng spyMng(_plaCtx,SIGNAL(playerAdded(bool)));
-        auto ftr1 = spyMng.startListening();
-        _plaCtx->createPlayer(_plaBld.testPersonOne());
-        QVERIFY(ftr1.result() != SigSpyMng::Args());
-        auto plaMdl = _plaCtx->playerModel(QString("Kent KillerHertz"));
-        QVERIFY(plaMdl != nullptr);
-
+        PlayersTestSuite tstSuite;
+        tstSuite.testCreatePlayerOne(_plaCtx);
     }
     void create_and_persist_Daa()
     {
-        SigSpyMng spyMng(_plaCtx,SIGNAL(playerAdded(bool)));
-        auto ftr = spyMng.startListening();
-        _plaCtx->createPlayer(_plaBld.testPersonTwo());
-        QVERIFY(ftr.result() != SigSpyMng::Args());
-        auto plaMdl = _plaCtx->playerModel(QString("Jesper Daa"));
-        QVERIFY(plaMdl != nullptr);
+        PlayersTestSuite tstSuite;
+        tstSuite.testCreatePlayerTwo(_plaCtx);
     }
-    void create_darts_tournamentOne()
+    void create_darts_tournament_one()
     {
-        SigSpyMng spyMng(_dtsCtx,SIGNAL(tournamentCreatedOk()));
-        auto ftr = spyMng.startListening();
-        auto byteArray = _dtsBld.dartsTournamentOne();
-        _dtsCtx->addTournament(byteArray,{0,1});
-        QVERIFY(ftr.result() != SigSpyMng::Args());
-        auto tournament = _dtsCtx->tournament(0);
-        QVERIFY(tournament != nullptr);
+        DartsTournamentTestSuite tstSuite;
+        tstSuite.testCreateTournamentOne(_dtsCtx);
+    }
+    void create_darts_tournament_two()
+    {
+        DartsTournamentTestSuite tstSuite;
+        tstSuite.testCreateTournamentTwo(_dtsCtx);
+    }
+    void remove_darts_tournament_two()
+    {
+        DartsTournamentTestSuite tstSuite;
+        tstSuite.testRemoveTournamentTwo(_dtsCtx);
+    }
+    void controller_test_run_one()
+    {
+        auto model = _dtsCtx->dartsDbCtx()->model(0);
+        auto result = _dsCtrl->initialize(model->id());
+        QVERIFY(result == _dsCtrl->statusCodes()->initialized());
+        DSControllerTestSuite tstSuite(_dsCtrl);
+        tstSuite.runGameOne();
+    }
+    void controller_test_run_two()
+    {
+        auto model = _dtsCtx->dartsDbCtx()->model(0);
+        auto result = _dsCtrl->initialize(model->id());
+        QVERIFY(result == _dsCtrl->statusCodes()->initialized());
+        DSControllerTestSuite tstSuite(_dsCtrl);
+        tstSuite.runGameTwo();
+    }
+    void controller_test_run_three()
+    {
+        auto model = _dtsCtx->dartsDbCtx()->model(0);
+        auto result = _dsCtrl->initialize(model->id());
+        QVERIFY(result == _dsCtrl->statusCodes()->initialized());
+        DSControllerTestSuite tstSuite(_dsCtrl);
+        tstSuite.runGameThree();
+    }
+    void controller_test_run_four()
+    {
+        return;
+        auto model = _dtsCtx->dartsDbCtx()->model(0);
+        auto result = _dsCtrl->initialize(model->id());
+        QVERIFY(result == _dsCtrl->statusCodes()->initialized());
+        DSControllerTestSuite tstSuite(_dsCtrl);
+        tstSuite.runGameFour();
     }
 private:
     void configure()
     {
         _dtsCtx->setPlayersContext(_plaCtx);
-        _dsController->setModelsContext(_dtsCtx);
-        _dpController->setModelsContext(_dtsCtx);
+        _dsCtrl->setModelsContext(_dtsCtx);
+        _dpCtrl->setModelsContext(_dtsCtx);
     }
-    TestJsonPlayerBuilder _plaBld;
-    TestJsonDartsBuilder _dtsBld;
     PlayersContext *_plaCtx;
-    DartsCtrl *_dsController;
-    DartsCtrl *_dpController;
+    DartsController *_dsCtrl;
+    DartsController *_dpCtrl;
     DartsContext *_dtsCtx;
 };
-QTEST_GUILESS_MAIN(backendTestSuite);
+QTEST_GUILESS_MAIN(BackendTestSuite);
 #include "tst_Dart2020.moc"
 #endif

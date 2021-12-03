@@ -8,8 +8,7 @@ public:
     virtual void setJsonValues(QJsonObject &obj, Model metaInfo) const override
     {
         obj["tournamentId"] = metaInfo.tournamentId.toString(QUuid::WithoutBraces);
-        obj["currentPlayerId"] = metaInfo.currentPlayerId.toString(QUuid::WithoutBraces);
-        obj["currentPlayerName"] = metaInfo.currentPlayerName;
+        obj["currentPlayerName"] = metaInfo.playerName;
         obj["winnerId"] = metaInfo.winnerId.toString(QUuid::WithoutBraces);
         obj["winnerName"] = metaInfo.winnerName;
     }

@@ -23,10 +23,9 @@ public:
         auto input = toModel(jsonObject);
         auto setIndex = indexCtrl()->index().setIndex;
         auto meta = metaCtx()->get();
-        input.playerId = scoresCtx()->scores().at(setIndex).playerId;
-        input.playerName = scoresCtx()->scores().at(setIndex).playerName;
+        input.playerName = scoresCtx()->scores().at(setIndex).name;
         input.score = inputScoreCtx()->calc(input);
-        input.remainingScore = scoresCtx()->score(input.playerId).remainingScore;
+        input.remainingScore = scoresCtx()->score(input.playerName).remainingScore;
         input.inGame = false;
         addIndex(input,indexCtrl()->index());
         return input;
@@ -50,8 +49,7 @@ private:
     AbstractDartsInput *toModel(const DCScoreModel &scoreModel) const
     {
         auto input = new DartsInput;
-        input->setPlayerId( scoreModel.playerId);
-        input->setPlayerName(scoreModel.playerName);
+        input->setPlayerName(scoreModel.name);
         input->setRemainingScore(scoreModel.remainingScore);
         return input;
     }

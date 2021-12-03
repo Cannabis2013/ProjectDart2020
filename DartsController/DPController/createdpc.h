@@ -3,7 +3,7 @@
 #include "DartsController/DCFinishesServices/dcfinishbuilder.h"
 #include "DartsController/DCScoresServices/dcscorescontext.h"
 #include "DartsController/DCScoresServices/dcupdateinputdetails.h"
-#include "DartsController/Controller/dartsctrl.h"
+#include "DartsController/Controller/dartscontroller.h"
 #include "DartsController/DCScoresServices/dccreatescoremodels.h"
 #include "DartsController/DCFinishesServices/dccreatefinishes.h"
 #include "DartsController/DCFinishesServices/dclogisticdb.h"
@@ -34,14 +34,14 @@
 class CreateDPC
 {
 public:
-    static DartsCtrl *create()
+    static DartsController *create()
     {
-        auto dc = new DartsCtrl;
+        auto dc = new DartsController;
         dc->setStatusCodes(new DCStatusCodes);
         dc->setMetaContext(new DCMetaContext);
         dc->setIdxConverter(new DCIdxConverter);
         dc->setScoreBuilder(new DCCreateScoreModels);
-        dc->setScoresModels(new DCScoresContext(dc->metaCtx()));
+        dc->setScoresModels(new DCScoresContext(dc->metaContext()));
         dc->setCreateCandidateScores(new DCUpdateInputDetails);
         dc->setPlayerStatsManager(new DCPlayerStatsManager);
         dc->setUpdateMiddleVal(new DPCCalcMidVal);
@@ -53,11 +53,11 @@ public:
         dc->setIndexCtrl(new DPCIdxCtrl);
         dc->setIdxConverter(new DCIdxConverter);
         dc->setIptConverter(new DCIptConverter);
-        dc->setInputBuilder(new DPCInputBuilder(dc->metaCtx(),dc->scoreCalc(),dc->idxCtrl(),dc->scoresCtx(),dc->playersCtx()));
-        dc->setUpdateScoreRange(new DCUpdateScoreRange(dc->statsCtx(),dc->calcMidVal(),dc->idxCtrl(),dc->metaCtx()));
-        dc->setTurnValuesBuilder(new DPCTurnValuesBuilder(dc->idxCtrl(),dc->scoresCtx(),dc->finishBuilder()));
+        dc->setInputBuilder(new DPCInputBuilder(dc->metaContext(),dc->scoreCalc(),dc->idxCtrl(),dc->scoresContext(),dc->playersContext()));
+        dc->setUpdateScoreRange(new DCUpdateScoreRange(dc->statsContext(),dc->calcMidVal(),dc->idxCtrl(),dc->metaContext()));
+        dc->setTurnValuesBuilder(new DPCTurnValuesBuilder(dc->idxCtrl(),dc->scoresContext(),dc->finishBuilder()));
         dc->setReqIndexBuilder(new DPCReqIndexBuilder(dc->idxCtrl()));
-        dc->setMetaBuilder(new DCMetaBuilder(dc->metaCtx(),dc->idxCtrl(),dc->scoresCtx(),dc->statusCodes()));
+        dc->setMetaBuilder(new DCMetaBuilder(dc->metaContext(),dc->idxCtrl(),dc->scoresContext(),dc->statusCodes()));
         auto builder = new DCJsonBuilder;
         builder->setInputJsonBuilder(new DCInputJsonBuilder);
         builder->setIdxJsonBuilder(new DCIdxJsonBuilder);

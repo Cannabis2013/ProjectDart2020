@@ -9,8 +9,7 @@ class DCScoreJsonBuilder : public IDCModelJsonBuilder<const DCScoreModel&>
 public:
     virtual void setJsonValues(QJsonObject &obj, Model model) const override
     {
-        obj["inputPlayerId"] = model.playerId.toString(QUuid::WithoutBraces);
-        obj["inputPlayerName"] = model.playerName;
+        obj["inputPlayerName"] = model.name;
         obj["remainingScore"] = model.remainingScore;
     }
 };

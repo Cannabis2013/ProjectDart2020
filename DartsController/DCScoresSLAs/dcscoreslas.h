@@ -7,7 +7,7 @@
 class DCScoreSLAs
 {
 public:
-    AbstractDCScoresCtx *scoresCtx() const
+    AbstractDCScoresCtx *scoresContext() const
     {
         return _scoresModels;
     }

@@ -12,10 +12,10 @@ public:
     {
         return _scoreModels;
     }
-    DCScoreModel &score(const QUuid &playerId) override
+    DCScoreModel &score(const QString &name) override
     {
         for (auto &scoreModel : _scoreModels) {
-            if(scoreModel.playerId == playerId)
+            if(scoreModel.name == name)
                 return scoreModel;
         }
         throw "SCOREMODEL NOT FOUND";

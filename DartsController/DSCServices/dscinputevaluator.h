@@ -21,7 +21,7 @@ public:
         {
             input.approved = true;
             input.remainingScore = 0;
-            updateControllerMeta(input,metaInfo,statusCodes);
+            updateWinnerMeta(input,metaInfo,statusCodes);
             controller->addInputToModelsContext(input);
         }
         else
@@ -31,7 +31,7 @@ public:
         }
     }
 private:
-    void updateControllerMeta(DCIptVals &input, IDCMetaCtx *metaInfo, const IDartsStatusCodes *statusCodes) const
+    void updateWinnerMeta(DCIptVals &input, IDCMetaCtx *metaInfo, const IDartsStatusCodes *statusCodes) const
     {
         metaInfo->get().winnerId = input.playerId;
         metaInfo->get().winnerName = input.playerName;

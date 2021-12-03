@@ -4,7 +4,7 @@
 class DCPlayerSLAs
 {
 public:
-    IDCPlayerCtx *playersCtx() const
+    IDCPlayerCtx *playersContext() const
     {
         return _playerController;
     }

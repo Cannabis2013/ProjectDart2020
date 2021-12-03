@@ -22,13 +22,13 @@ public:
     void tryRepair(const QUuid &tournamentId) override;
     void setTournamentWinner(const QByteArray &json) override;
     QVector<AbstractDartsInput*> inputs(const QUuid &tournamentId) const override;
-    AbstractDartsInput *input(const QUuid &tournament, const QUuid &player, IDartsIndex *index) const override;
-    void addInput(const QUuid &tournamentId, DIptVals iptVals, std::function<void()> func) override;
-    void hideInput(const QUuid &tournament, const QUuid &player, IDartsIndex *index, std::function<void()> func) override;
-    void revealInput(const QUuid &tournament, const QUuid &player, IDartsIndex *index, std::function<void()> func) override;
+    AbstractDartsInput *input(const QUuid &tournament, const QString &name, IDartsIndex *index) const override;
+    void addInput(QUuid tournamentId, DIptVals iptVals, std::function<void()> func) override;
+    void hideInput(QUuid tournament, QString name, IDartsIndex *index, std::function<void()> func) override;
+    void revealInput(QUuid tournament, QString name, IDartsIndex *index, std::function<void()> func) override;
     QVector<IPlayerModel *> players(const QUuid &tournamentId) const override;
-    void updateTournamentIndex(const QUuid &tournament, IDartsIndex *index, std::function<void()> func) override;
-    QFuture<bool> resetTournament(const QUuid &tournamentId) override;
+    void updateTournamentIndex(QUuid tournament, IDartsIndex *index, std::function<void()> func) override;
+    void resetTournament(const QUuid &tournamentId, std::function<void ()> func) override;
     QByteArray createDartsMetaData(const QUuid& tournamentId) override;
 };
 #endif // LOCALMODELSSERVICE_H

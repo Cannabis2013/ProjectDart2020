@@ -67,7 +67,6 @@ function repairDone(result,byteArray)
         let json = JSON.parse(byteArray);
         initDarts(json);
     }
-
 }
 
 function initDarts(json)

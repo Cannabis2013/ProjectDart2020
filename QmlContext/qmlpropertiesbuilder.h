@@ -5,7 +5,7 @@
 #include "PlayerModelsContext/createplayerscontext.h"
 #include "DartsModelsContext/Services/createdartscontext.h"
 #include "DartsControllerBuilder/Services/createdtsctrl.h"
-#include "DartsController/Controller/dartsctrl.h"
+#include "DartsController/Controller/dartscontroller.h"
 class QmlPropertiesBuilder
 {
 public:

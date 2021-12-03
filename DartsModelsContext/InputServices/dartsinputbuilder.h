@@ -21,11 +21,12 @@ public:
         }
         return QVector<BaseModel*>();
     }
-    virtual SuperModel *create(DIptVals &vals, const QUuid &tournamentId, const bool &genId, const int &hint) const override
+    virtual SuperModel *create(DIptVals vals, const QUuid &tournamentId, const QUuid &playerId, const int &hint) const override
     {
         auto input = new DartsInput;
         input->setScore(vals.score);
         input->setPoint(vals.point);
+        input->setRemainingScore(vals.remainingScore);
         input->setModKeyCode(vals.modKeyCode);
         input->setRoundIndex(vals.roundIndex);
         input->setSetIndex(vals.setIndex);
@@ -34,11 +35,11 @@ public:
         input->setMiddleValue(vals.mid);
         input->setCurrentMinimum(vals.min);
         input->setCurrentMaximum(vals.max);
-        input->setPlayerId(vals.playerId);
         input->setPlayerName(vals.playerName);
+        input->setPlayerId(playerId);
         input->setTournamentId(tournamentId);
         input->setHint(hint);
-        if(genId) input->setId(QUuid::createUuid());
+        input->setId(QUuid::createUuid());
         return input;
     }
 private:

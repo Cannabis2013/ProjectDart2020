@@ -1,14 +1,15 @@
-#ifndef DARTSCTRL_H
-#define DARTSCTRL_H
+#ifndef DARTSCONTROLLER_H
+#define DARTSCONTROLLER_H
 #include "DartsController/StaticInitHelperClass/dcinit.h"
 #include "AsyncUtils/runlater.h"
 #include <JsonUtils/jsonextractor.h>
 #include "DartsController/ControllerSLA/ctrlslas.h"
 #include "DartsModelsContext/InputModelsSLAs/abstractdartsinput.h"
 #include "DartsController/StaticInitHelperClass/dcresetcontexts.h"
-class DartsCtrl : public AbstractDartsCtrl, public CtrlSLAs
+class DartsController : public AbstractDartsCtrl, public CtrlSLAs
 {
     Q_OBJECT
+public:
     int initialize(const QUuid &tournamentId) override;
     virtual QString tournamentId() const override;
     QByteArray getPlayerScores() const override;

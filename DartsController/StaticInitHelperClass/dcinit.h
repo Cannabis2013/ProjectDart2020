@@ -12,8 +12,6 @@
 class DCInit
 {
 public:
-    typedef IPlayerModel Player;
-    typedef QVector<Player*> Players;
     static void initTournamentMeta(AbstractDartsTournament *tournament,
                                    IDCMetaCtx *metaInfo,
                                    AbstractDCIdxCtrl *indexController,
@@ -28,22 +26,23 @@ public:
         auto pCount = tournament->playerIds().count();
         indexController->setPlayerCount(pCount);
     }
-    static void initPlayerDetails(const Players &players, const DCMeta &meta, AbstractDCScoresCtx *scoreModels,
+    static void initPlayerDetails(const QVector<IPlayerModel*> &playerMds, const DCMeta &meta, AbstractDCScoresCtx *scoreModels,
                                   const IDCScoreBuilder *scoreBuilder, IDCStatsContext *playerStats, IDCPlayerCtx *playerController)
     {
+        auto playerNames = DCInit::convertPlayerMds(playerMds);
         /*
          * Initialize scoremodels with player details and iniitalscore
          */
-        auto models = scoreBuilder->createScores(players,meta.initialRemainingScore);
+        auto models = scoreBuilder->createScores(playerNames,meta.initialRemainingScore);
         scoreModels->scores().append(models);
         /*
          * Initialize player statistiscs with player details
          */
-        playerStats->setPlayers(players);
+        playerStats->setPlayers(playerNames);
         /*
          * Initialize playercontroller with player details
          */
-        playerController->set(players);
+        playerController->set(playerNames);
     }
     static void initScores(const QVector<DCIptVals> &inputs,const IDCUpdatePlayerScores *updatePlayerScores,
                            const IDCUpdatePlayerStat *updatePlayerStats,AbstractDCScoresCtx *scoreModels,
@@ -51,6 +50,14 @@ public:
     {
         updatePlayerScores->update(inputs,scoreModels);
         updatePlayerStats->update(inputs,playerStats);
+    }
+private:
+    static QStringList convertPlayerMds(const QVector<IPlayerModel*> &playerMds)
+    {
+        QStringList names;
+        for (const auto &playerMd : playerMds)
+            names << playerMd->name();
+        return names;
     }
 };
 #endif // DCINITPLAYERSCORES_H

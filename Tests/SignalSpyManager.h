@@ -11,29 +11,21 @@ class SigSpyMng
 {
 public:
     typedef QVector<QVariant> Args;
-    SigSpyMng(QObject *obj, const char *sig)
+    SigSpyMng(QObject *obj, const char *sig) {_spy = new QSignalSpy(obj,sig);}
+    ~SigSpyMng() {delete _spy;}
+    QFuture<QVector<QVariant>> startListening(int sigLimit = 1, int waitTime = DEFAULT_WAIT_TIME)
     {
-        _spy = new QSignalSpy(obj,sig);
-    }
-    ~SigSpyMng()
-    {
-        delete _spy;
-    }
-    QFuture<QVector<QVariant>> startListening(const int &waitTime = DEFAULT_WAIT_TIME)
-    {
-        return QtConcurrent::run([this,waitTime]{
+        return QtConcurrent::run([=]{
             bool timeUp = false;
             QTimer timer;
-            timer.start(waitTime);
-            while (_spy->count() <= 0 && !timeUp) {
+            if(waitTime != -1) timer.start(waitTime);
+            while (_spy->count() < sigLimit && (!timeUp || waitTime == -1)) {
                 if(timer.remainingTime() == 0)
                     timeUp = true;
             }
-            if(timeUp)
-                return Args();
+            if(timeUp) return Args();
             auto sigArgs = _spy->takeFirst().toVector();
-            if(sigArgs.count() > 0)
-                return sigArgs;
+            if(sigArgs.count() > 0) return sigArgs;
             return Args() << true;
         });
     }

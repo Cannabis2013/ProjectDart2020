@@ -6,19 +6,19 @@
 class DCPlayerStatsManager : public IDCStatsContext
 {
 public:
-    virtual void setPlayers(const Players &players) override
+    virtual void setPlayers(const QStringList &names) override
     {
-        for (const auto &player : players) {
+        for (const auto &name : names) {
             DCPlayerStat entity;
-            entity.playerId = player->id();
+            entity.name = name;
             _playerStats << entity;
         }
     }
-    DCPlayerStat &stat(const QUuid &playerId) override
+    DCPlayerStat &stat(const QString &name) override
     {
-        for (auto &playerStat : _playerStats) {
-            if(playerStat.playerId == playerId)
-                return playerStat;
+        for (auto &pStats : _playerStats) {
+            if(pStats.name == name)
+                return pStats;
         }
         throw "PLAYERSTAT NOT FOUND";
     }

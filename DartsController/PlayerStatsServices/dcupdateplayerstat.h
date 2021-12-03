@@ -6,21 +6,21 @@ class DCUpdatePlayerStat : public IDCUpdatePlayerStat
 public:
     virtual void update(const DCIptVals &input, IDCStatsContext *statsContext) const override
     {
-        updatePlayerStat(input,&statsContext->stat(input.playerId));
+        updatePlayerStat(input,&statsContext->stat(input.playerName));
     }
     virtual void update(const QVector<DCIptVals> &models, IDCStatsContext *playerStatsContext) const override
     {
         if(models.isEmpty())
             return;
         auto lastInput = models.last();
-        auto lastPlayerId = lastInput.playerId;
-        updatePlayerStat(lastInput,&playerStatsContext->stat(lastPlayerId));
+        auto lastPlayerName = lastInput.playerName;
+        updatePlayerStat(lastInput,&playerStatsContext->stat(lastPlayerName));
         for (auto i = models.count() - 2; i >= 0; --i) {
             auto input = models.at(i);
-            auto playerId = input.playerId;
-            if(playerId != lastPlayerId)
+            auto playerName = input.playerName;
+            if(playerName != lastPlayerName)
             {
-                updatePlayerStat(input,&playerStatsContext->stat(playerId));
+                updatePlayerStat(input,&playerStatsContext->stat(playerName));
                 return;
             }
         }

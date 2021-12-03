@@ -2,7 +2,7 @@
 #define DCPLAYERSTAT_H
 #include <quuid.h>
 struct DCPlayerStat{
-    QUuid playerId;
+    QString name;
     int min = -1;
     int max = -1;
     double middle = 0;

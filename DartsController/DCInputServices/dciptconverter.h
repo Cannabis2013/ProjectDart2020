@@ -21,10 +21,10 @@ public:
         DIptVals iptVals;
         iptVals.score = input.score;
         iptVals.point = input.point;
+        iptVals.remainingScore = input.remainingScore;
         iptVals.roundIndex = input.roundIndex;
         iptVals.setIndex = input.setIndex;
         iptVals.attempt = input.attempt;
-        iptVals.playerId = input.playerId;
         iptVals.playerName = input.playerName;
         iptVals.min = input.min;
         iptVals.mid = input.mid;
@@ -39,6 +39,7 @@ private:
         DCIptVals cIpt;
         cIpt.score = ipt->score();
         cIpt.point = ipt->point();
+        cIpt.remainingScore = ipt->remainingScore();
         cIpt.roundIndex = ipt->roundIndex();
         cIpt.setIndex = ipt->setIndex();
         cIpt.attempt = ipt->attempt();
