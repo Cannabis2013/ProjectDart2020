@@ -1,8 +1,8 @@
 #ifndef DARTSCONTEXT_H
 #define DARTSCONTEXT_H
-#include "DartsModelsContext/SLAs/abstractdtsctx.h"
+#include "DartsModelsContext/SLAs/abstractdartscontext.h"
 #include "DartsModelsContext/SLAs/DartsModelsSLAs.h"
-class DartsContext : public AbstractDtsCtx,
+class DartsContext : public AbstractDartsContext,
                      public DartsCtxSLAs
 {
 public:
@@ -19,8 +19,8 @@ public:
     QByteArray tournament(const QString &id) const override;
     AbstractDartsTournament * tournament(const QUuid &id) const override;
     bool isConsistent(const QUuid &tournamentId) const override;
-    void tryRepair(const QUuid &tournamentId) override;
-    bool setTournamentWinner(const QByteArray &json) override;
+    bool tryRepair(const QUuid &tournamentId) override;
+    bool setTournamentWinner(const QUuid &tournamentId, const QString &name) override;
     QVector<AbstractDartsInput*> inputs(const QUuid &tournamentId) const override;
     AbstractDartsInput *input(const QUuid &tournament, const QString &name, IDartsIndex *index) const override;
     bool addInput(QUuid tournamentId, DIptVals iptVals) override;

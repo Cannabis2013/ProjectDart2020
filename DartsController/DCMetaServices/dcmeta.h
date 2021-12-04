@@ -6,7 +6,6 @@ struct DCMeta{
     int initRemScore;
     int status;
     QString playerName;
-    QUuid winnerId;
     QString winnerName;
 };
 #endif // DCMETAINFO_H

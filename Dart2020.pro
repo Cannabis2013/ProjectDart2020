@@ -58,7 +58,7 @@ HEADERS += \
     DartsController/ControllerSLA/ctrlslas.h \
     DartsController/DCFinishesSLAs/idcfinishbuilder.h \
     DartsController/DCFinishesServices/dcfinishbuilder.h \
-    DartsController/DCIndexSLAs/abstractdcidxctrl.h \
+    DartsController/DCIndexSLAs/absdcidxctrl.h \
     DartsController/DCIndexSLAs/abstractdcreqidxbuilder.h \
     DartsController/DCIndexSLAs/dcindex.h \
     DartsController/DCIndexServices/dcidxjsonbuilder.h \
@@ -68,34 +68,35 @@ HEADERS += \
     DartsController/DCIndexServices/dscreqindexbuilder.h \
     DartsController/DCInputSLAs/abstractdcinputbuilder.h \
     DartsController/DCInputSLAs/abstractdcinputevaluator.h \
-    DartsController/DCInputSLAs/dciptvals.h \
-    DartsController/DCInputSLAs/idciptconverter.h \
+    DartsController/DCInputSLAs/abstractdciptconverter.h \
+    DartsController/DCInputSLAs/dcinput.h \
     DartsController/DCInputServices/dciptconverter.h \
     DartsController/DCMetaSLAs/abstractdcmetabuilder.h \
-    DartsController/DCMetaSLAs/idcmetactx.h \
+    DartsController/DCMetaSLAs/idcmetacontext.h \
     DartsController/DCMetaServices/dcmeta.h \
     DartsController/DCMetaServices/dcmetabuilder.h \
     DartsController/DCMetaServices/dcmetacontext.h \
-    DartsController/DCPlayerSLAs/IDCPlayerCtx.h \
-    DartsController/DCPlayerServices/dpcplayercontext.h \
-    DartsController/DCPlayerServices/dscplayercontroller.h \
-    DartsController/DCScoresSLAs/abstractdcscoresctx.h \
-    DartsController/DCScoresSLAs/idccalcscore.h \
-    DartsController/DCScoresSLAs/idcupdateplayerscores.h \
-    DartsController/DCScoresServices/dcscorescontext.h \
+    DartsController/DCScoresSLAs/absdccalcscore.h \
+    DartsController/DCScoresSLAs/absdcplayersctx.h \
+    DartsController/DCScoresSLAs/absdcupdscoresdetails.h \
+    DartsController/DCScoresSLAs/dcplayerscoresslas.h \
+    DartsController/DCScoresServices/dcupdplastats.h \
+    DartsController/DCScoresServices/dpcplayerscontext.h \
+    DartsController/DCScoresServices/dscplayerscontext.h \
     DartsController/DCTurnValuesSLAs/abstractdcturnvalues.h \
     DartsController/DPCServices/DPCTurnValuesBuilder.h \
     DartsController/DPController/createdpc.h \
+    DartsController/DSCServices/dsccalcscore.h \
     DartsController/DSController/createdsc.h \
     DartsController/IndexServices/dpcidxctrl.h \
     DartsController/IndexServices/dscindexcontroller.h \
+    DartsController/ModelsComCtxSLAs/abstractdcaddtomdsctx.h \
+    DartsController/ModelsComCtxServices/dcaddtomodelcontext.h \
+    DartsController/PlayerStatsSLAs/absdcsetiptstats.h \
     DartsController/PlayerStatsSLAs/dcinputstatsslas.h \
-    DartsController/PlayerStatsSLAs/dcplayerstat.h \
-    DartsController/PlayerStatsSLAs/idccalcmidval.h \
+    DartsController/PlayerStatsSLAs/dcplayerstats.h \
     DartsController/PlayerStatsSLAs/idcgetplayerstat.h \
-    DartsController/PlayerStatsSLAs/idcsetinputstats.h \
     DartsController/PlayerStatsSLAs/idcstatscontext.h \
-    DartsController/PlayerStatsSLAs/idcupdateplayerstat.h \
     DartsController/DCJsonSLAs/AbstractDCJsonBuilder.h \
     DartsController/DCJsonSLAs/dcjsonbuilderservices.h \
     DartsController/DCJsonSLAs/idcmodeljsonbuilder.h \
@@ -103,19 +104,15 @@ HEADERS += \
     DartsController/DCJsonServices/dcjsonbuilder.h \
     DartsController/DCMetaServices/DCMetaInfoJsonBuilder.h \
     DartsController/DCMetaServices/dcsettournamentid.h \
-    DartsController/DCScoresSLAs/idcscorebuilder.h \
     DartsController/DCScoresServices/dcscorejsonbuilder.h \
-    DartsController/DCScoresServices/dcupdateinputdetails.h \
     DartsController/DCTurnValuesServices/DCTurnValuesJsonBuilder.h \
     DartsController/DPCServices/dpcinputbuilder.h \
     DartsController/DPCServices/dpcinputevaluator.h \
     DartsController/DSCServices/dscinputbuilder.h \
     DartsController/DSCServices/dscinputevaluator.h \
-    DartsController/PlayerStatsServices/dcplayerstatsmanager.h \
-    DartsController/PlayerStatsServices/dcupdateplayerstat.h \
-    DartsController/PlayerStatsServices/dcupdatescorerange.h \
-    DartsController/PlayerStatsServices/dpccalcmidval.h \
-    DartsController/PlayerStatsServices/dsccalcmidval.h \
+    DartsController/PlayerStatsServices/dcstatscontext.h \
+    DartsController/PlayerStatsServices/dpcupdatescorerange.h \
+    DartsController/PlayerStatsServices/dscupdscorerng.h \
     DartsController/StaticInitHelperClass/dcinit.h \
     DartsController/StaticInitHelperClass/dcresetcontexts.h \
     DartsControllerBuilder/DCBMetaServices/dcbmeta.h \
@@ -140,7 +137,7 @@ HEADERS += \
     DartsModelsContext/InputsDbSLAs/igetinputs.h \
     DartsModelsContext/InputsDbSLAs/iremovedartsinputs.h \
     DartsModelsContext/SLAs/DartsModelsSLAs.h \
-    DartsModelsContext/SLAs/abstractdtsctx.h \
+    DartsModelsContext/SLAs/abstractdartscontext.h \
     DartsModelsContext/Services/createdartscontext.h \
     DartsModelsContext/Services/dartscontext.h \
     DartsModelsContext/TournamentModels/dartsmetamodel.h \
@@ -180,11 +177,7 @@ HEADERS += \
     DartsController/DCInputSLAs/dcinputsslas.h \
     DartsController/DCJsonSLAs/dcjsonslas.h \
     DartsController/DCMetaSLAs/dcmetaslas.h \
-    DartsController/DCPlayerSLAs/DCPlayerSLAs.h \
-    DartsController/DCScoresSLAs/dcscoreslas.h \
     DartsController/DCTurnValuesSLAs/dcturnvaluesslas.h \
-    DartsController/DCMetaServices/dartsstatuscodes.h \
-    DartsController/DCMetaSLAs/idartsstatuscodes.h \
     DartsModelsContext/TournamentsSLAs/idmcaddindexestotournament.h \
     DartsTableContext/TableSectionsSLAs/itableinitrowvalues.h \
     DartsTableContext/TableCellsServices/dartsinitrowvalues.h \
@@ -198,7 +191,7 @@ HEADERS += \
     ModelsContext/DbSLAs/icreatemodelsfrom.h \
     ModelsContext/DbServices/loadfromstorage.h \
     ModelsContext/DbServices/persistdbctx.h \
-    ModelsContext/ModelsContextSLAs/abstractmdsctx.h \
+    ModelsContext/ModelsContextSLAs/abstractmodelscontext.h \
     PlayerModelsContext/DbSLAs/IPlayersDbContext.h \
     PlayerModelsContext/DbSLAs/PlayersDbSLAs.h \
     PlayerModelsContext/DbSLAs/iplayerbuilder.h \
@@ -239,7 +232,6 @@ HEADERS += \
     DartsController/DCFinishesServices/dartsterminaldivisor.h \
     DartsController/DCFinishesServices/dartsthreshold.h \
     DartsController/DCFinishesServices/dccreatefinishes.h \
-    DartsController/DCScoresServices/dccreatescoremodels.h \
     DartsController/DCFinishesServices/dclogisticdb.h \
     DartsController/DCScoresServices//dcscoremodel.h \
     DartsController/DCTurnValuesServices/dcturnvalues.h \
@@ -249,7 +241,6 @@ HEADERS += \
     DartsModelsContext/TournamentServices/getdartstournamentfromdb.h \
     PlayerModelsContext/Services/getplayersfromdb.h \
     DartsController/DPCServices/getscorefromdpcinput.h \
-    DartsController/DSCServices/getscorefromdscinput.h \
     DartsTableContext/FontMetrics/greatestheight.h \
     DartsTableContext/FontMetrics/greatestwidth.h \
     DartsModelsContext/InputSLAs/icountinputmodels.h \

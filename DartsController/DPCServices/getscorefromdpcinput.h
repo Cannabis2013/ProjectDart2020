@@ -1,7 +1,7 @@
 #ifndef GETSCOREFROMDPCINPUT_H
 #define GETSCOREFROMDPCINPUT_H
-#include "DartsController/DCScoresSLAs/idccalcscore.h"
-class GetScoreFromDPCInput : public IDCCalcScore
+#include "DartsController/DCScoresSLAs/absdccalcscore.h"
+class GetScoreFromDPCInput : public AbsDCCalcScore
 {
 public:
     enum PointKeyCodes{
@@ -11,14 +11,17 @@ public:
         BullModifier,
         BullsEyeModifier
     };
-    virtual int calc(DCIptVals &input) const override
+    GetScoreFromDPCInput(AbsDCIdxCtrl *indexController, AbsDCPlayersCtx *scoresContext):
+    AbsDCCalcScore(indexController,scoresContext){}
+    virtual int calc(DCInput &input) const override
     {
         auto multiplier = createPointMultiplier(input.modKeyCode);
         return calculateScore(input.point,multiplier);
     }
-    virtual int calc(const DCIndex &idx, const int &scoreCandidate, AbstractDCScoresCtx *scoresService) const override
+    virtual int calc(const int &scoreCandidate) const override
     {
-        auto scoreModel = this->scoreModel(idx.setIndex,scoresService);
+        auto setIndex = idxCtrl()->index().setIndex;
+        auto scoreModel = scoresContext()->players().at(setIndex);
         return calcCandidate(scoreModel,scoreCandidate);
     }
 private:
@@ -33,12 +36,12 @@ private:
     {
         return point*multiplier;
     }
-    DCScoreModel scoreModel(const int &modelIndex, AbstractDCScoresCtx *scoresService) const
+    DCPlayer scoreModel(const int &modelIndex) const
     {
-        auto scoreModels = scoresService->scores();
+        auto scoreModels = scoresContext()->players();
         return scoreModels.at(modelIndex);
     }
-    int calcCandidate(const DCScoreModel scoreModel, const int &scoreCandidate) const
+    int calcCandidate(const DCPlayer scoreModel, const int &scoreCandidate) const
     {
         auto score = scoreModel.remScore;
         auto totalScoreCandidate = score - scoreCandidate;

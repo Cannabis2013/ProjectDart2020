@@ -1,8 +1,9 @@
 function init()
 {
-    let metaJson = getMetaData();
-    initMetaData(metaJson);
-    updateScoresView();
+    initMetaData();
+    initializeScoreBoard();
+    updateScoreBoard();
+    preferedPageTitle = metaValues.title;
     setState("ready");
 }
 function setState(state)
@@ -13,30 +14,18 @@ function setState(state)
     else if(status === 2)
         winnerFound();
 }
-function connectInterface()
+function initMetaData()
 {
-    dsController.updatePlayerScore.connect(processScore);
-    dsController.resetSucces.connect(reinitialize);
-}
-
-function disconnectInterface()
-{
-    dsController.updatePlayerScore.disconnect(processScore);
-    dsController.resetSucces.disconnect(reinitialize);
+    let json = getMetaData();
+    metaValues.title = json["title"];
+    metaValues.winnerName= json["winnerName"];
+    metaValues.initRemScore = json["initRemScore"];
+    metaValues.assignedPlayerNames = getPlayerNames(json["assignedPlayerDetails"]);
 }
 function getMetaData(){
     var id = dsController.tournamentId();
-    var byteArray = dartsContext.tournament(id);
-    return JSON.parse(byteArray);
-}
-function initMetaData(json)
-{
-    metaValues.title = json["title"];
-    metaValues.winnerName= json["winnerName"];
-    metaValues.keyPoint = json["keyPoint"];
-    metaValues.assignedPlayerNames = getPlayerNames(json["assignedPlayerDetails"]);
-    initializeScoreBoard();
-    preferedPageTitle = metaValues.title;
+    var json = dartsContext.tournament(id);
+    return JSON.parse(json);
 }
 function getPlayerNames(playerDetails)
 {
@@ -50,15 +39,14 @@ function getPlayerNames(playerDetails)
     }
     return playerNames;
 }
-
 function initializeScoreBoard()
 {
     var assignedPlayerNames = metaValues.assignedPlayerNames;
-    var keyPoint = metaValues.keyPoint;
-    singleColumnScoreBoard.appendHeaderData(assignedPlayerNames,keyPoint);
+    var initRemScore = metaValues.initRemScore;
+    singleColumnScoreBoard.appendHeaderData(assignedPlayerNames,initRemScore);
 }
 
-function updateScoresView()
+function updateScoreBoard()
 {
     let scores = dsController.getPlayerScores();
     var json = JSON.parse(scores);
@@ -79,12 +67,6 @@ function addToScoreBoard(json)
     let minimum = json["minimumValue"];
     let maximum = json["maximumValue"];
     singleColumnScoreBoard.setData(playerName,playerScore,minimum,middleValue,maximum);
-}
-function processScore(data)
-{
-    addToScoreBoard(JSON.parse(data));
-    updateTurnValues();
-    setState("waitingForInput");
 }
 function startGame()
 {
@@ -108,12 +90,16 @@ function reinitialize()
     singleColumnScoreTurnController.reset();
     keyDataDisplay.clear();
     initializeScoreBoard();
-    dsscContent.state = "ready";
 }
 function resetTournament()
 {
     dsscContent.state = "stopped";
-    dsController.reset();
+    var result = dsController.reset();
+    if(result)
+    {
+        reinitialize();
+        dsscContent.state = "ready";
+    }
 }
 function setTurnControllerValues(json)
 {
@@ -124,14 +110,17 @@ function setTurnControllerValues(json)
 }
 function handleScoreKeyPadInput(value){
     dsscContent.state = "waitingForInputConfirmation";
-    var obj = {score : value};
-    var json = JSON.stringify(obj);
-    if(dsController.handleInput(json) === -1)
-        inputNotAdded();
+    var response = addScore(value);
+    addToScoreBoard(response);
+    updateTurnValues();
+    setState("waitingForInput");
 }
-function inputNotAdded()
+function addScore(score)
 {
-    dsscContent.state = "ready";
+    var obj = {score : score};
+    var json = JSON.stringify(obj);
+    var response = dsController.addInput(json);
+    return JSON.parse(response);
 }
 function backendIsStopped()
 {
@@ -149,13 +138,17 @@ function winnerFound()
 function undoClicked()
 {
     dsscContent.state = "waitingForInputConfirmation";
-    var json = dsController.undoTurn();
-    processScore(json);
+    var response = dsController.undoTurn();
+    addToScoreBoard(JSON.parse(response));
+    updateTurnValues();
+    setState("waitingForInput");
 }
 
 function redoClicked()
 {
     dsscContent.state = "waitingForInputConfirmation";
-    var json = dsController.redoTurn();
-    processScore(json);
+    var response = dsController.redoTurn();
+    addToScoreBoard(JSON.parse(response));
+    updateTurnValues();
+    setState("waitingForInput");
 }

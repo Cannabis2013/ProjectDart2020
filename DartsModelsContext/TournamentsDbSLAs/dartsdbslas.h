@@ -14,9 +14,9 @@ public:
     typedef QByteArray JsonFormat;
     IDartsBuilder<BaseModel,DartsModel> *tournamentBuilder() const {return _tournamentBuilder;}
     void setTournamentBuilder(IDartsBuilder<BaseModel,DartsModel> *service) {_tournamentBuilder = service;}
-    IDartsJsonBuilder<BaseModel,JsonFormat> *dtsJsonBuilder() const {return _tournamentJsonBuilder;}
+    IDartsJsonBuilder<BaseModel,JsonFormat> *tnmJsonBuilder() const {return _tournamentJsonBuilder;}
     void setTournamentJsonBuilder(IDartsJsonBuilder<BaseModel,JsonFormat> *service) {_tournamentJsonBuilder = service;}
-    IDbContext<BaseModel> *dartsDbCtx() const {return _dartsDb;}
+    IDbContext<BaseModel> *tnmDbCtx() const {return _dartsDb;}
     void setDartsDbCtx(IDbContext<BaseModel> *service) {_dartsDb = service;}
     IGetDartsTournament<BaseModel,DartsModel> *getTournament() const {return _getTournament;}
     void setGetTournament(IGetDartsTournament<BaseModel,DartsModel> *service) {_getTournament = service;}

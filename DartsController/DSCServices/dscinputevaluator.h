@@ -4,40 +4,31 @@
 class DSCInputEvaluator : public AbstractDCInputEvaluator
 {
 public:
-    static DSCInputEvaluator *createInstance()
+    DSCInputEvaluator(IDCMetaContext *metaInfo, AbsDCPlayersCtx *plaScoresCtx):
+        AbstractDCInputEvaluator(metaInfo,plaScoresCtx){}
+    virtual void evaluate(DCInput &input, const int &scoreCand) override
     {
-        return new DSCInputEvaluator();
-    }
-    virtual QByteArray evaluate(DCIptVals &input, const int &scoreCand, IDCMetaCtx *metaInfo, AbstractDartsCtrl *controller,
-                                const IDartsStatusCodes *statusCodes, IDCPlayerCtx *) override
-    {
-        QByteArray byteArray;
         if(scoreCand >= minimumAllowedScore)
         {
             input.approved = true;
-            input.remainingScore = scoreCand;
-            byteArray = controller->addInputToModelsContext(input);
+            input.remScore = scoreCand;
         }
         else if(scoreCand == 0)
         {
             input.approved = true;
-            input.remainingScore = 0;
-            updateWinnerMeta(input,metaInfo,statusCodes);
-            byteArray = controller->addInputToModelsContext(input);
+            input.remScore = 0;
+            updateWinnerMeta(input);
         }
         else
         {
             input.score = 0;
-            byteArray = controller->addInputToModelsContext(input);
         }
-        return byteArray;
     }
 private:
-    void updateWinnerMeta(DCIptVals &input, IDCMetaCtx *metaInfo, const IDartsStatusCodes *statusCodes) const
+    void updateWinnerMeta(DCInput &input) const
     {
-        metaInfo->get().winnerId = input.playerId;
-        metaInfo->get().winnerName = input.playerName;
-        metaInfo->get().status = statusCodes->winnerFound();
+        metaInfo()->get().winnerName = input.playerName;
+        metaInfo()->get().status = metaInfo()->WinnerDeclared;
     }
     const int minimumAllowedScore = 2;
 };

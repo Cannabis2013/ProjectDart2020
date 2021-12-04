@@ -18,7 +18,7 @@ private:
     bool verifyPlayers(const QVector<QUuid> &playerIds, const AbstractPlayersContext *playersContext) const
     {
         for (const auto &playerId : playerIds) {
-            auto player = playersContext->playerModel(playerId);
+            auto player = playersContext->player(playerId);
             if(player == nullptr)
                 return false;
         }
@@ -27,7 +27,7 @@ private:
     bool verifyPlayers(const QVector<QString> &playerNames, const AbstractPlayersContext *playersContext) const
     {
         for (const auto &playerName : playerNames) {
-            auto player = playersContext->playerModel(playerName);
+            auto player = playersContext->player(playerName);
             if(player == nullptr)
                 return false;
         }
@@ -37,7 +37,7 @@ private:
     {
         for (const auto &input : inputs) {
             auto playerId = input->playerId();
-            auto player = playersContext->playerModel(playerId);
+            auto player = playersContext->player(playerId);
             if(player == nullptr)
                 return false;
         }

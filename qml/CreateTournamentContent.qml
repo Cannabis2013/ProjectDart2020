@@ -60,6 +60,5 @@ Content {
             onButtonTwoClicked: CreateScripts.acceptAndAdd()
         }
         Component.onCompleted: CreateScripts.init()
-        Component.onDestruction: CreateScripts.disconnect()
     }
 }

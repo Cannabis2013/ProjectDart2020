@@ -1,10 +1,10 @@
-#ifndef ABSTRACTDTSCTX_H
-#define ABSTRACTDTSCTX_H
-#include "ModelsContext/ModelsContextSLAs/abstractmdsctx.h"
+#ifndef ABSTRACTDARTSCONTEXT_H
+#define ABSTRACTDARTSCONTEXT_H
+#include "ModelsContext/ModelsContextSLAs/abstractmodelscontext.h"
 #include "DartsModelsContext/InputModelsSLAs/abstractdartsinput.h"
 #include "DartsModelsContext/IndexesDbSLAs/idartsindex.h"
 #include "DartsModelsContext/InputModels/diptvals.h"
-class AbstractDtsCtx : public AbstractMdsCtx
+class AbstractDartsContext : public AbstractModelsContext
 {
     Q_OBJECT
 public:
@@ -12,11 +12,7 @@ public:
     {
         return _playersContext;
     }
-    AbstractDtsCtx *setPlayersContext(AbstractPlayersContext *newPlayersContext)
-    {
-        _playersContext = newPlayersContext;
-        return this;
-    }
+    void setPlayersContext(AbstractPlayersContext *newPlayersContext) {_playersContext = newPlayersContext;}
     Q_INVOKABLE virtual QByteArray createDartsMetaData(const QUuid& tournament) = 0;
     virtual AbstractDartsInput *input(const QUuid &tournament, const QString &name, IDartsIndex *index) const = 0;
     virtual bool addInput(QUuid tournamentId, DIptVals input) = 0;
@@ -35,8 +31,4 @@ signals:
 private:
     AbstractPlayersContext *_playersContext;
 };
-
-
-
-
 #endif // ABSTRACTDARTSCONTEXT_H

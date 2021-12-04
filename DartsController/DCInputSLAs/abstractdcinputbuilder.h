@@ -1,47 +1,25 @@
 #ifndef IDCINPUTBUILDER_H
 #define IDCINPUTBUILDER_H
 #include <qjsonarray.h>
-#include "DartsController/DCIndexSLAs/abstractdcidxctrl.h"
+#include "DartsController/DCIndexSLAs/absdcidxctrl.h"
 #include "DartsController/DCMetaServices/dcmeta.h"
 #include "DartsModelsContext/InputModelsSLAs/abstractdartsinput.h"
 #include "DartsModelsContext/IndexesDbSLAs/idartsindex.h"
-#include "DartsController/DCScoresSLAs/abstractdcscoresctx.h"
-#include "DartsController/DCScoresSLAs/idccalcscore.h"
-#include "DartsController/DCPlayerSLAs/IDCPlayerCtx.h"
-#include "dciptvals.h"
+#include "DartsController/DCScoresSLAs/absdcplayersctx.h"
+#include "DartsController/DCScoresSLAs/absdccalcscore.h"
+#include "dcinput.h"
 class AbstractDCInputBuilder
 {
 public:
-    typedef AbstractDCIdxCtrl IndexCtrl;
-    typedef AbstractDCScoresCtx ScoresCtx;
-    typedef IDCPlayerCtx PlayersCtx;
-    virtual DCIptVals create(const QByteArray &json) const = 0;
-    virtual DCIptVals create() const = 0;
+    typedef AbsDCIdxCtrl IndexCtrl;
+    typedef AbsDCPlayersCtx PlayersContext;
+    virtual DCInput create(const QByteArray &json, const DCIndex &idx, const DCPlayer &player) const = 0;
+    virtual DCInput create(const int &remScore, const DCPlayer &player) const = 0;
 protected:
-    AbstractDCInputBuilder(IDCMetaCtx *metaCtx, IDCCalcScore *scoreCalc, IndexCtrl *indexCtrl,
-                           ScoresCtx *scoresCtx, PlayersCtx *playersCtx)
-    {
-        setMetaCtx(metaCtx);
-        setInputScoreCtx(scoreCalc);
-        setIndexCtrl(indexCtrl);
-        setScoresCtx(scoresCtx);
-        setPlayersCtx(playersCtx);
-    }
-    IDCMetaCtx *metaCtx() const {return _metaContext;}
-    void setMetaCtx(IDCMetaCtx *newMetaContext) {_metaContext = newMetaContext;}
-    IDCCalcScore *inputScoreCtx() const {return _inputScoreContext;}
-    void setInputScoreCtx(IDCCalcScore *newInputScoreContext) {_inputScoreContext = newInputScoreContext;}
-    IndexCtrl *indexCtrl() const{ return _indexCtrl;}
-    void setIndexCtrl(IndexCtrl *newIndexCtrl) {_indexCtrl = newIndexCtrl;}
-    ScoresCtx *scoresCtx() const {return _scoresContext;}
-    void setScoresCtx(ScoresCtx *newScoresContext) {_scoresContext = newScoresContext;}
-    PlayersCtx *playersContext() const {return _playersContext;}
-    void setPlayersCtx(PlayersCtx *newPlayersContext) {_playersContext = newPlayersContext;}
+    AbstractDCInputBuilder(AbsDCCalcScore *scoreCalc):
+        _inputScoreContext(scoreCalc){}
+    AbsDCCalcScore *inputScoreCtx() const {return _inputScoreContext;}
 private:
-    IDCMetaCtx *_metaContext;
-    IDCCalcScore *_inputScoreContext;
-    IndexCtrl *_indexCtrl;
-    ScoresCtx *_scoresContext;
-    PlayersCtx *_playersContext;
+    AbsDCCalcScore *_inputScoreContext;
 };
 #endif // IDPCMODELCREATOR_H

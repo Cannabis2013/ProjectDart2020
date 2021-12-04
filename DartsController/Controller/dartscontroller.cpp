@@ -1,38 +1,21 @@
 #include "dartscontroller.h"
 QByteArray DartsController::addInput(const QByteArray& json)
 {
-    if(metaContext()->get().status == statusCodes()->winnerFound()) return QByteArray();
-    auto input = createInput()->create(json);
-    auto scoreCand = scoreCalc()->calc(idxCtrl()->index(),input.score,scoresContext());
-    return inputEval()->evaluate(input,scoreCand,metaContext(),this,statusCodes(),playersContext());
-}
-QByteArray DartsController::addInputToModelsContext(DCIptVals &input)
-{
-    setInputStats()->set(input);
-    auto index = idxCtrl()->next();
-    mdsCtx()->addInput(metaContext()->get().tournamentId,iptConverter()->convert(input));
-    mdsCtx()->updateTournamentIndex(metaContext()->get().tournamentId,idxConverter()->convert(index));
-    updateScoreDetails(input);
-    return createJson()->create(input);
-}
-void DartsController::updateScoreDetails(const DCIptVals &input)
-{
-    updatePlayerStats()->update(input,statsContext());
-    playersContext()->updateStatus(input.playerName,input.inGame);
-    scoresContext()->score(input.playerName).remScore = input.remainingScore;
-}
-QByteArray DartsController::getPlayerScores() const
-{
-    return createJson()->create(scoresContext()->scores(),statsContext()->stats());
+    auto player = playersContext()->player(idxCtrl()->index());
+    auto ipt = createInput()->create(json,idxCtrl()->index(),player);
+    auto scoreCand = scoreCalc()->calc(ipt.score);
+    evaluateIpt()->evaluate(ipt,scoreCand);
+    updateInputStats()->set(ipt,idxCtrl()->index(),metaContext()->initRemScore());
+    addToModelsCtx()->add(ipt,mdsCtx());
+    updatePlayerDetails()->update(ipt);
+    if(metaContext()->status() == metaContext()->WinnerDeclared)
+        mdsCtx()->setTournamentWinner(metaContext()->tournamentId(),metaContext()->winnerName());
+    return createJson()->create(ipt);
 }
 bool DartsController::reset()
 {
-    DCResetContexts::reset(idxCtrl(),scoresContext(),statsContext(),metaContext(),playersContext(),statusCodes());
-    return mdsCtx()->resetTournament(metaContext()->get().tournamentId);
-}
-int DartsController::status() const
-{
-    return metaContext()->get().status;
+    DCResetContexts::reset(idxCtrl(),playersContext(),statsContext(),metaContext());
+    return mdsCtx()->resetTournament(metaContext()->tournamentId());
 }
 QByteArray DartsController::undoTurn()
 {
@@ -41,9 +24,10 @@ QByteArray DartsController::undoTurn()
     mdsCtx()->hideInput(meta.tournamentId,meta.playerName,idxConverter()->convert(inputIdx));
     auto reqIndex = reqIndexBuilder()->prevIdx();
     auto cvtIdx = idxConverter()->convert(reqIndex);
-    auto mdIpt = mdsCtx()->input(meta.tournamentId,meta.playerName,cvtIdx);
-    auto ipt = iptConverter()->convert(mdIpt,createInput());
-    updateScoreDetails(ipt);
+    auto mdIpt = mdsCtx()->input(metaContext()->tournamentId(),meta.playerName,cvtIdx);
+    auto player = playersContext()->player(meta.playerName);
+    auto ipt = iptConverter()->convert(mdIpt,meta.initRemScore,player);
+    updatePlayerDetails()->update(ipt);
     return createJson()->create(ipt);
 }
 QByteArray DartsController::redoTurn()
@@ -53,26 +37,16 @@ QByteArray DartsController::redoTurn()
     idxCtrl()->redo();
     mdsCtx()->revealInput(meta.tournamentId,meta.playerName,idx);
     auto mdlInput = mdsCtx()->input(meta.tournamentId,meta.playerName,idx);
-    auto ipt = iptConverter()->convert(mdlInput,createInput());
-    updateScoreDetails(ipt);
+    auto player = playersContext()->player(meta.playerName);
+    auto ipt = iptConverter()->convert(mdlInput,meta.initRemScore,player);
+    updatePlayerDetails()->update(ipt);
     return createJson()->create(ipt);
 }
-int DartsController::initialize(const QUuid &tId)
+int DartsController::initialize(const QUuid &tournamentId)
 {
-    DCInit::initTournamentMeta(mdsCtx()->tournament(tId),metaContext(),idxCtrl(),idxConverter());
-    DCInit::initPlayerDetails(mdsCtx()->players(tId),metaContext()->get(),scoresContext(),scoresBuilder(),statsContext(),playersContext());
-    DCInit::initScores(iptConverter()->convert(mdsCtx()->inputs(tId)),updatePlayerScores(),updatePlayerStats(),scoresContext(),statsContext());
-    return statusCodes()->initialized();
-}
-QString DartsController::tournamentId() const
-{
-    return metaContext()->get().tournamentId.toString(QUuid::WithBraces);
-}
-QByteArray DartsController::getTurnValues() const
-{
-    return createJson()->create(turnValuesBuilder()->turnValues());
-}
-QByteArray DartsController::getWinnerJson() const
-{
-    return createJson()->create(createMeta()->winnerMeta());
+    DCInit::initTournamentMeta(mdsCtx()->tournament(tournamentId),metaContext(),idxCtrl(),idxConverter());
+    DCInit::initPlayerDetails(mdsCtx()->players(tournamentId),metaContext()->get(),playersContext(),statsContext());
+    DCInit::initScores(iptConverter()->convert(mdsCtx()->inputs(tournamentId)),statsContext(),playersContext());
+    DCInit::initStatus(metaContext());
+    return metaContext()->Initialized;
 }

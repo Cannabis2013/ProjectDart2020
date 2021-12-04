@@ -14,7 +14,7 @@ public:
     {
         try {
             auto json = fromByteArray(byteArray);
-            auto arr = json.value("inputModels").toArray();
+            auto arr = json.value("InputModels").toArray();
             return toJsonArray(arr);
         }  catch (const char *msg) {
             qDebug() << msg;

@@ -2,12 +2,12 @@
 #define DPCTURNVALUESBUILDER_H
 #include "DartsController/DCTurnValuesSLAs/abstractdcturnvalues.h"
 #include "DartsController/DCTurnValuesServices/dcturnvalues.h"
-#include "DartsController/DCIndexSLAs/abstractdcidxctrl.h"
+#include "DartsController/DCIndexSLAs/absdcidxctrl.h"
 #include "DartsController/DCFinishesSLAs/idcfinishbuilder.h"
 class DPCTurnValuesBuilder : public AbstractDCTurnValues
 {
 public:
-    DPCTurnValuesBuilder(AbstractDCIdxCtrl *indexController, AbstractDCScoresCtx *scoresModels,
+    DPCTurnValuesBuilder(AbsDCIdxCtrl *indexController, AbsDCPlayersCtx *scoresModels,
                      const IDCFinishBuilder *logisticService = nullptr)
     {
         setIndexController(indexController);
@@ -18,7 +18,7 @@ public:
     {
         DCTurnValues model;
         auto index = indexController()->index();
-        auto scoreModel = scoreModels()->scores().at(index.setIndex);
+        auto scoreModel = scoreModels()->players().at(index.setIndex);
         model.canUndo = index.turnIndex > 0;
         model.canRedo = index.turnIndex < index.totalTurns;
         model.roundIndex = index.roundIndex;

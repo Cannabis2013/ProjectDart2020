@@ -2,8 +2,8 @@
 #define DCINPUTJSONBUILDER_H
 #include "DartsController/DCJsonSLAs/idcmodeljsonbuilder.h"
 #include "DartsModelsContext/InputModelsSLAs/abstractdartsinput.h"
-#include "DartsController/DCInputSLAs/dciptvals.h"
-class DCInputJsonBuilder : public IDCModelJsonBuilder<DCIptVals>
+#include "DartsController/DCInputSLAs/dcinput.h"
+class DCInputJsonBuilder : public IDCModelJsonBuilder<DCInput>
 {
 public:
     virtual void setJsonValues(QJsonObject &obj, Model input) const override
@@ -11,8 +11,7 @@ public:
         obj["point"] = input.point;
         obj["modKeyCode"] = input.modKeyCode;
         obj["score"] = input.score;
-        obj["remainingScore"] = input.remainingScore;
-        obj["inputPlayerId"] = input.playerId.toString(QUuid::WithoutBraces);
+        obj["remainingScore"] = input.remScore;
         obj["inputPlayerName"] = input.playerName;
         obj["middleValue"] = input.mid;
         obj["minimumValue"] = input.min;

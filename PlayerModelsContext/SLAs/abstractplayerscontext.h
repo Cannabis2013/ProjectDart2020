@@ -14,8 +14,8 @@ public:
     Q_INVOKABLE virtual bool remove(const QVector<int> &indexes) = 0;
     typedef IPlayerModel Player;
     typedef QVector<Player*> Players;
-    virtual Player *playerModel(const QUuid &id) const = 0;
-    virtual Player *playerModel(const QString &name) const = 0;
+    virtual Player *player(const QUuid &id) const = 0;
+    virtual Player *player(const QString &name) const = 0;
     virtual Players players(const QVector<int> &indexes) const = 0;
     virtual Players players(const QVector<QUuid> &ids) const = 0;
     virtual Players players(const QVector<QString> &names) const = 0;

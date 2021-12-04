@@ -2,7 +2,7 @@
 QByteArray DartsInputsToJson::create(const QVector<FromData*> &models, QByteArray &byteArray) const
 {
     auto json = fromByteArray(byteArray);
-    json["inputModels"] = toJsonArray(models);
+    json["InputModels"] = toJsonArray(models);
     return toByteArray(json);
 }
 

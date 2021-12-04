@@ -1,21 +1,18 @@
 #ifndef DCRESETCONTEXTS_H
 #define DCRESETCONTEXTS_H
-#include "DartsController/DCIndexSLAs/abstractdcidxctrl.h"
-#include "DartsController/DCScoresSLAs/abstractdcscoresctx.h"
+#include "DartsController/DCIndexSLAs/absdcidxctrl.h"
+#include "DartsController/DCScoresSLAs/absdcplayersctx.h"
 #include "DartsController/PlayerStatsSLAs/idcstatscontext.h"
-#include "DartsController/DCMetaSLAs/idartsstatuscodes.h"
-#include "DartsController/DCPlayerSLAs/IDCPlayerCtx.h"
 class DCResetContexts
 {
 public:
-    static void reset(AbstractDCIdxCtrl *indexCtrl, AbstractDCScoresCtx *scoresContext, IDCStatsContext *statsContext,
-                      IDCMetaCtx *metaContext, IDCPlayerCtx *playerController, IDartsStatusCodes *statusCodes)
+    static void reset(AbsDCIdxCtrl *indexCtrl, AbsDCPlayersCtx *scoresContext, IDCStatsContext *statsContext,
+                      IDCMetaContext *metaContext)
     {
         indexCtrl->init();
-        scoresContext->reset();
+        scoresContext->reset(metaContext->get().initRemScore);
         statsContext->reset();
-        metaContext->set(statusCodes->initialized());
-        playerController->reset();
+        metaContext->set(IDCMetaContext::Initialized);
     }
 };
 

@@ -27,7 +27,7 @@ public:
     {
         auto byteArray = dartsTournamentOne();
         _dtsCtx->addTournament(byteArray,{0,1});
-        auto tournament = _dtsCtx->dartsDbCtx()->model(0);
+        auto tournament = _dtsCtx->tnmDbCtx()->model(0);
         QVERIFY(tournament != nullptr);
     }
     void testCreateTournamentTwo(DartsContext *_dtsCtx)
@@ -35,14 +35,14 @@ public:
         auto byteArray = dartsTournamentOne();
         auto result = _dtsCtx->addTournament(byteArray,{0,1});
         QVERIFY(result);
-        auto tournament = _dtsCtx->dartsDbCtx()->model(1);
+        auto tournament = _dtsCtx->tnmDbCtx()->model(1);
         QVERIFY(tournament != nullptr);
     }
     void testRemoveTournamentTwo(DartsContext *_dtsCtx)
     {
         auto result = _dtsCtx->deleteTournaments({1});
         QVERIFY(result);
-        auto tournament = _dtsCtx->dartsDbCtx()->model(1);
+        auto tournament = _dtsCtx->tnmDbCtx()->model(1);
         QVERIFY(tournament == nullptr);
     }
 private:

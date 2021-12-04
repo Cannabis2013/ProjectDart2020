@@ -1,11 +1,11 @@
 #include "PlayerModelsContext/playerscontext.h"
 
-AbstractPlayersContext::Player *PlayersContext::playerModel(const QUuid &id) const
+AbstractPlayersContext::Player *PlayersContext::player(const QUuid &id) const
 {
     return getPlayers()->player(id,dbContext());
 }
 
-AbstractPlayersContext::Player *PlayersContext::playerModel(const QString &name) const
+AbstractPlayersContext::Player *PlayersContext::player(const QString &name) const
 {
     return getPlayers()->player(name, dbContext());
 }

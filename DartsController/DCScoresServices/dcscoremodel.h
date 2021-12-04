@@ -1,16 +1,18 @@
 #ifndef DCPTUPLE_H
 #define DCPTUPLE_H
 #include <quuid.h>
-struct DCScoreModel
+struct DCPlayer
 {
-    DCScoreModel(QString _name, int _score)
+    DCPlayer(const QString &_name, const int &_score, const bool &_in)
     {
         name = _name;
         remScore = _score;
+        in = _in;
     }
-    DCScoreModel(){}
-    bool operator==(const DCScoreModel& other){return other.name != this->name;}
+    DCPlayer(){}
+    bool operator==(const DCPlayer& other){return other.name != this->name;}
     QString name;
     int remScore;
+    bool in;
 };
 #endif // DARTSPLAYERTUPLE_H

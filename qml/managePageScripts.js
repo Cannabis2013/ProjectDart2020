@@ -1,17 +1,7 @@
 function init()
 {
-    connectInterface();
     updatePlayersView();
     updateTournamentsView();
-}
-
-function connectInterface(){
-    playersContext.playersDeleted.connect(updatePlayersView);
-    dartsContext.tournamentsDeleted.connect(updateTournamentsView);
-}
-function disconnectInterface(){
-    playersContext.playersDeleted.disconnect(updatePlayersView);
-    dartsContext.tournamentsDeleted.disconnect(updateTournamentsView);
 }
 function requestDeletePlayerPopUp()
 {
@@ -48,10 +38,10 @@ function deleteTournamentsCancelled()
     tournamentListView.unSelectAll();
 }
 
-function updatePlayersView(data)
+function updatePlayersView()
 {
     playersListView.clear();
-    var byteArray = playersContext.playerModels();
+    var byteArray = playersContext.players();
     var j = JSON.parse(byteArray);
     for(var i=0;i < j.length;i++)
     {

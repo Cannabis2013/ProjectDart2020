@@ -57,5 +57,4 @@ Content {
         }
     }
     Component.onCompleted: ManageScripts.init();
-    Component.onDestruction: ManageScripts.disconnectInterface();
 }

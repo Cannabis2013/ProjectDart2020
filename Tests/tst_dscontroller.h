@@ -90,8 +90,8 @@ private:
     }
     void compareScores(const int &expScOne, const int &expScTwo)
     {
-        auto remScoreOne = _ctrl->scoresContext()->scores().at(0).remScore;
-        auto remScoreTwo = _ctrl->scoresContext()->scores().at(1).remScore;
+        auto remScoreOne = _ctrl->playersContext()->players().at(0).remScore;
+        auto remScoreTwo = _ctrl->playersContext()->players().at(1).remScore;
         QCOMPARE(remScoreOne,expScOne);
         QCOMPARE(remScoreTwo,expScTwo);
     }

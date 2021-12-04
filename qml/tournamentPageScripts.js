@@ -1,17 +1,3 @@
-function initComponent()
-{
-    connect();
-    init();
-}
-
-function connect()
-{
-    dartsContext.repairCompleted.connect(repairDone);
-}
-function disconnect()
-{
-    dartsContext.repairCompleted.disconnect(repairDone);
-}
 function init()
 {
     var jsonTournaments= JSON.parse(dartsContext.tournaments());
@@ -51,22 +37,15 @@ function processSelection(index)
     let json = JSON.parse(dartsContext.tournament(index));
     let tournamentId = json["tournamentId"];
     let isConsistent = dartsContext.isConsistent(tournamentId);
-    if(!isConsistent)
-    {
-        dartsListView.removeItems([index]);
-        dartsContext.tryRepair(tournamentId);
-    }
-    else
-        initDarts(json);
+    let result = true;
+    if(!isConsistent) result = tryRepairTournament(tournamentId,index);
+    if(result) initDarts(json);
 }
 
-function repairDone(result,byteArray)
+function tryRepairTournament(tournamentId,index)
 {
-    if(result)
-    {
-        let json = JSON.parse(byteArray);
-        initDarts(json);
-    }
+    dartsListView.removeItems([index]);
+    return dartsContext.tryRepair(tournamentId);
 }
 
 function initDarts(json)

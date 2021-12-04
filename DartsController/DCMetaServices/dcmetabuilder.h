@@ -4,27 +4,22 @@
 class DCMetaBuilder : public AbstractDCMetaBuilder
 {
 public:
-    DCMetaBuilder(IDCMetaCtx *metaContext, AbstractDCIdxCtrl *indexController,
-                  AbstractDCScoresCtx *scoresContext, IDartsStatusCodes *statusCodes)
-    {
-        setMetaContext(metaContext);
-        setIndexController(indexController);
-        setScoresContext(scoresContext);
-        setStatusCodes(statusCodes);
-    }
+    DCMetaBuilder(IDCMetaContext *metaContext, AbsDCIdxCtrl *indexController,
+                  AbsDCPlayersCtx *scoresContext)
+        :AbstractDCMetaBuilder(metaContext,indexController,scoresContext){}
     virtual DCMeta create() const override
     {
         auto meta = metaCtx()->get();
         auto setIndex = idxCtrl()->index().setIndex;
-        meta.playerName = scoresContext()->scores().at(setIndex).name;
+        meta.playerName = scoresContext()->players().at(setIndex).name;
         return meta;
     }
     virtual DCMeta winnerMeta() const override
     {
         auto meta = metaCtx()->get();
         auto setIndex = idxCtrl()->index().setIndex;
-        meta.winnerName = scoresContext()->scores().at(setIndex).name;
-        meta.status = statusCodes()->winnerFound();
+        meta.winnerName = scoresContext()->players().at(setIndex).name;
+        meta.status = metaCtx()->WinnerDeclared;
         return meta;
     }
 };

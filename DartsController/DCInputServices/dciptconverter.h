@@ -1,32 +1,34 @@
 #ifndef DCIPTCONVERTER_H
 #define DCIPTCONVERTER_H
-#include "DartsController/DCInputSLAs/idciptconverter.h"
+#include "DartsController/DCInputSLAs/abstractdciptconverter.h"
 #include <qvector.h>
-class DCIptConverter : public IDCIptConverter
+class DCIptConverter : public AbstractDCIptConverter
 {
 public:
-    DCIptVals convert(AbstractDartsInput *input, AbstractDCInputBuilder *iptBuilder) const override
+    DCIptConverter(AbstractDCInputBuilder *builder):
+        AbstractDCIptConverter(builder){}
+    DCInput convert(AbstractDartsInput *input, const int &initRemScore, const DCPlayer &player) const override
     {
-        DCIptVals ipt;
+        DCInput ipt;
         if(input != nullptr)
             ipt =  create(input); // Copy values from input to ipt
         else
-            ipt = iptBuilder->create(); // Create input model with default values
+            ipt = iptBuilder()->create(initRemScore,player); // Create input model with default values
         return ipt;
     }
-    QVector<DCIptVals> convert(const QVector<AbstractDartsInput *> &inputs) const override
+    QVector<DCInput> convert(const QVector<AbstractDartsInput *> &inputs) const override
     {
-        QVector<DCIptVals> list;
+        QVector<DCInput> list;
         for (const auto &input : inputs)
             list << create(input);
         return list;
     }
-    DIptVals convert(DCIptVals &input) const override
+    DIptVals convert(DCInput &input) const override
     {
         DIptVals iptVals;
         iptVals.score = input.score;
         iptVals.point = input.point;
-        iptVals.remainingScore = input.remainingScore;
+        iptVals.remainingScore = input.remScore;
         iptVals.roundIndex = input.roundIndex;
         iptVals.setIndex = input.setIndex;
         iptVals.attempt = input.attempt;
@@ -39,16 +41,15 @@ public:
         return iptVals;
     }
 private:
-    DCIptVals create(AbstractDartsInput *ipt) const
+    DCInput create(AbstractDartsInput *ipt) const
     {
-        DCIptVals cIpt;
+        DCInput cIpt;
         cIpt.score = ipt->score();
         cIpt.point = ipt->point();
-        cIpt.remainingScore = ipt->remainingScore();
+        cIpt.remScore = ipt->remainingScore();
         cIpt.roundIndex = ipt->roundIndex();
         cIpt.setIndex = ipt->setIndex();
         cIpt.attempt = ipt->attempt();
-        cIpt.playerId = ipt->playerId();
         cIpt.playerName = ipt->playerName();
         cIpt.min = ipt->currentMinimum();
         cIpt.mid = ipt->middleValue();

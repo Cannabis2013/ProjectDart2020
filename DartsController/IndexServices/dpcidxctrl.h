@@ -1,7 +1,7 @@
 #ifndef DPCIDXCTRL_H
 #define DPCIDXCTRL_H
-#include "DartsController/DCIndexSLAs/abstractdcidxctrl.h"
-class DPCIdxCtrl : public AbstractDCIdxCtrl
+#include "DartsController/DCIndexSLAs/absdcidxctrl.h"
+class DPCIdxCtrl : public AbsDCIdxCtrl
 {
 public:
     virtual void init(const DCIndex &index) override

@@ -39,6 +39,5 @@ Content{
            }
        }
     }
-    Component.onCompleted: Scripts.initComponent()
-    Component.onDestruction: Scripts.disconnect()
+    Component.onCompleted: Scripts.init()
 }

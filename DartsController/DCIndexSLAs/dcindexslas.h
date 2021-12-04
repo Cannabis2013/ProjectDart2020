@@ -1,16 +1,16 @@
 #ifndef DCINDEXSLAS_H
 #define DCINDEXSLAS_H
-#include "DartsController/DCIndexSLAs/abstractdcidxctrl.h"
+#include "DartsController/DCIndexSLAs/absdcidxctrl.h"
 #include "abstractdcreqidxbuilder.h"
 #include <DartsModelsContext/IndexesSLAs/idcidxconverter.h>
 class DCIndexSLAs
 {
 public:
-    AbstractDCIdxCtrl *idxCtrl() const
+    AbsDCIdxCtrl *idxCtrl() const
     {
         return _indexController;
     }
-    void setIndexCtrl(AbstractDCIdxCtrl *service)
+    void setIndexCtrl(AbsDCIdxCtrl *service)
     {
         _indexController = service;
     }
@@ -32,7 +32,7 @@ public:
     }
 private:
     IDCIdxConverter *_idxConverter;
-    AbstractDCIdxCtrl* _indexController = nullptr;
+    AbsDCIdxCtrl* _indexController = nullptr;
     AbstractDCReqIdxBuilder *_reqIndexBuilder;
 };
 #endif // DCINDEXSLAS_H

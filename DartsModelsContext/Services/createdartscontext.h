@@ -55,7 +55,7 @@ public:
         context->setRemoveInputsFromDb(new RemoveDartsInputs);
         context->setVerifyConsistency(new DartsVerifyConsistency);
         context->setTournamentRepair(new DartsTournamentRepair);
-        context->loadFromStorage()->load(context->dartsDbCtx(),context->tournamentBuilder());
+        context->loadFromStorage()->load(context->tnmDbCtx(),context->tournamentBuilder());
         context->loadFromStorage()->load(context->inputsDb(),context->inputBuilder());
         context->setPlayersContext(playersContext);
         return context;

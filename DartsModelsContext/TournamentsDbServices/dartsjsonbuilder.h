@@ -40,7 +40,7 @@ private:
         obj["tournamentId"] = model->id().toString(QUuid::WithoutBraces);
         obj["title"] = model->title();
         obj["gameMode"] = model->gameMode();
-        obj["keyPoint"] = model->initialRemaining();
+        obj["initRemScore"] = model->initialRemaining();
         obj["inputHint"] = model->inputHint();
         obj["winnerId"] = model->winnerId().toString(QUuid::WithoutBraces);
         obj["winnerName"] = model->winnerName();

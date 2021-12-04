@@ -6,12 +6,12 @@ class DCJsonBuilder : public AbstractDCJsonBuilder
 {
 public:
     virtual QByteArray create(const DCMeta &metaInfo) const override;
-    virtual QByteArray create(const QVector<DCScoreModel> &scoreModels, const QVector<DCPlayerStat> &playerStats) const override;
+    virtual QByteArray create(const QVector<DCPlayer> &scoreModels, const QVector<DCPlayerStats> &playerStats) const override;
     virtual QByteArray create(const DCTurnValues &turnValues, const DCMeta &metaInfo) const override;
-    virtual QByteArray create(const DCIptVals &input, const DCTurnValues &turnValues, const DCMeta &metaInfo) const override;
-    virtual QByteArray create(const DCIptVals &input, const DCTurnValues &turnValues, const DCIndex &indexe, const DCMeta &metaInfo) const override;
-    virtual QByteArray create(const DCIptVals &input, const DCIndex &index, const DCMeta &metaInfo) const override;
-    virtual QByteArray create(const DCIptVals &input, const DCMeta &metaInfo) const override;
+    virtual QByteArray create(const DCInput &input, const DCTurnValues &turnValues, const DCMeta &metaInfo) const override;
+    virtual QByteArray create(const DCInput &input, const DCTurnValues &turnValues, const DCIndex &indexe, const DCMeta &metaInfo) const override;
+    virtual QByteArray create(const DCInput &input, const DCIndex &index, const DCMeta &metaInfo) const override;
+    virtual QByteArray create(const DCInput &input, const DCMeta &metaInfo) const override;
     virtual QByteArray create(const DCIndex &index, const DCMeta &metaInfo) const override;
     virtual QByteArray create(const DCIndex &reqIndex, const DCIndex &index, const DCMeta &metaInfo) const override;
 };

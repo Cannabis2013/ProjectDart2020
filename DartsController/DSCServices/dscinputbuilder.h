@@ -7,67 +7,44 @@
 class DSCInputBuilder : public AbstractDCInputBuilder
 {
 public:
-    DSCInputBuilder(IDCMetaCtx *metaCtx, IDCCalcScore *scoreCalc, IndexCtrl *indexCtrl,
-                    ScoresCtx *scoresCtx, PlayersCtx *playersCtx):
-        AbstractDCInputBuilder(metaCtx,scoreCalc,indexCtrl,scoresCtx,playersCtx){}
-    DCIptVals create(const QByteArray &json) const override
+    DSCInputBuilder(AbsDCCalcScore *scoreCalc):
+        AbstractDCInputBuilder(scoreCalc){}
+    DCInput create(const QByteArray &json, const DCIndex &idx, const DCPlayer &player) const override
     {
-        auto input = toInput(toJsonObject(json));
-        auto setIndex = indexCtrl()->index().setIndex;
-        input.playerName = scoresCtx()->scores().at(setIndex).name;
+        auto document = QJsonDocument::fromJson(json);
+        if(!document.isObject())
+            throw "JSON NOT OBJECT";
+        auto input = toInput(document.object());
+        input.playerName = player.name;
         input.score = inputScoreCtx()->calc(input);
-        input.remainingScore = scoresCtx()->score(input.playerName).remScore;
-        input.inGame = playersContext()->status(input.playerName);
-        addIndex(input,indexCtrl()->index());
+        input.remScore = player.remScore;
+        input.inGame = player.in;
+        input.roundIndex = idx.roundIndex;
+        input.setIndex = idx.setIndex;
+        input.attempt = idx.attemptIndex;
         return input;
     }
-    DCIptVals create() const override
+    DCInput create(const int &remScore, const DCPlayer &player) const override
     {
-        DCIptVals input;
-        auto setIndex = indexCtrl()->index().setIndex;
-        input.playerName = scoresCtx()->scores().at(setIndex).name;
+        DCInput input;
+        input.playerName = player.name;
         input.score = 0;
-        input.remainingScore = metaCtx()->get().initRemScore;
+        input.remScore = remScore;
         input.inGame = true;
         return input;
     }
 private:
-    DCIptVals toInput(const QJsonObject &obj, const int &initialScore = -1) const
+    DCInput toInput(const QJsonObject &obj, const int &initialScore = -1) const
     {
-        DCIptVals input;
-        input.playerId = toId(obj.value("inputPlayerId").toString());
+        DCInput input;
         input.playerName = obj.value("inputPlayerName").toString();
         input.score = obj.value("score").toInt();
         input.mid = obj.value("middleValue").toDouble(0);
         input.min = obj.value("minimumValue").toInt(0);
         input.max = obj.value("maximumValue").toInt(0);
-        input.remainingScore = obj.value("remainingScore").toInt(initialScore);
+        input.remScore = obj.value("remainingScore").toInt(initialScore);
         input.approved = obj.value("approved").toBool(false);
         return input ;
-    }
-    QJsonObject toJsonObject(const QByteArray &json) const
-    {
-        auto document = QJsonDocument::fromJson(json);
-        if(!document.isObject())
-            throw "JSON NOT OBJECT";
-        return document.object();
-    }
-    QJsonArray toJsonArray(const QByteArray &json) const
-    {
-        auto document = QJsonDocument::fromJson(json);
-        if(!document.isArray())
-            throw "JSON NOT ARRAY";
-        return document.array();
-    }
-    QUuid toId(const QString &stringId) const
-    {
-        return QUuid::fromString(stringId);
-    }
-    void addIndex(DCIptVals &input, const DCIndex &index) const
-    {
-        input.roundIndex = index.roundIndex;
-        input.setIndex = index.setIndex;
-        input.attempt = index.attemptIndex;
     }
 };
 #endif // DARTSSCOREBUILDERSERVICE_H

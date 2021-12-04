@@ -11,17 +11,14 @@ class DartsController : public AbstractDartsCtrl, public CtrlSLAs
     Q_OBJECT
 public:
     int initialize(const QUuid &tournamentId) override;
-    virtual QString tournamentId() const override;
-    QByteArray getPlayerScores() const override;
+    QString tournamentId() const override{return metaContext()->tournamentId().toString(QUuid::WithBraces);}
+    QByteArray getPlayerScores() const override {return createJson()->create(playersContext()->players(),statsContext()->stats());}
     QByteArray addInput(const QByteArray &json) override;
     QByteArray undoTurn() override;
     QByteArray redoTurn() override;
-    QByteArray getTurnValues() const override;
-    QByteArray getWinnerJson() const override;
+    QByteArray getTurnValues() const override {return createJson()->create(turnValuesBuilder()->turnValues());}
+    QByteArray getWinnerJson() const override {return createJson()->create(createMeta()->winnerMeta());}
     bool reset() override;
-    virtual int status() const override;
-    QByteArray addInputToModelsContext(DCIptVals &input) override;
-private:
-    void updateScoreDetails(const DCIptVals &input);
+    int status() const override {return metaContext()->status();}
 };
 #endif // FIVEHUNDREDANDONEGAME_H

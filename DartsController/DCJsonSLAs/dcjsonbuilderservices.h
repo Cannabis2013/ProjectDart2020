@@ -4,10 +4,10 @@
 #include "idcmodeljsonbuilder.h"
 #include "DartsController/DCTurnValuesServices/dcturnvalues.h"
 #include "DartsController/DCScoresServices/dcscoremodel.h"
-#include "DartsController/PlayerStatsSLAs/dcplayerstat.h"
+#include "DartsController/PlayerStatsSLAs/dcplayerstats.h"
 #include "DartsModelsContext/InputModelsSLAs/abstractdartsinput.h"
 #include "DartsModelsContext/IndexesDbServices/dartsindex.h"
-#include "DartsController/DCInputSLAs/dciptvals.h"
+#include "DartsController/DCInputSLAs/dcinput.h"
 #include "DartsController/DCIndexSLAs/dcindex.h"
 class DCJsonBuilderServices
 {
@@ -20,11 +20,11 @@ public:
     {
         _metaJsonBuilder = builder;
     }
-    IDCModelJsonBuilder<DCIptVals> *inputJsonBuilder() const
+    IDCModelJsonBuilder<DCInput> *inputJsonBuilder() const
     {
         return _inputJsonBuilder;
     }
-    void setInputJsonBuilder(IDCModelJsonBuilder<DCIptVals> *newInputJsonBuilder)
+    void setInputJsonBuilder(IDCModelJsonBuilder<DCInput> *newInputJsonBuilder)
     {
         _inputJsonBuilder = newInputJsonBuilder;
     }
@@ -52,29 +52,29 @@ public:
     {
         _reqIndexJsonBuilder = newReqIndexJsonBuilder;
     }
-    IDCModelJsonBuilder<const DCScoreModel&> *scoreModelJsonBuilder() const
+    IDCModelJsonBuilder<const DCPlayer&> *scoreModelJsonBuilder() const
     {
         return _scoreModelJsonBuilder;
     }
-    void setScoreModelJsonBuilder(IDCModelJsonBuilder<const DCScoreModel&> *newScoreModelJsonBuilder)
+    void setScoreModelJsonBuilder(IDCModelJsonBuilder<const DCPlayer&> *newScoreModelJsonBuilder)
     {
         _scoreModelJsonBuilder = newScoreModelJsonBuilder;
     }
-    IDCModelJsonBuilder<const DCPlayerStat&> *playerStatsJsonBuilder() const
+    IDCModelJsonBuilder<const DCPlayerStats&> *playerStatsJsonBuilder() const
     {
         return _playerStatsJsonBuilder;
     }
-    void setPlayerStatsJsonBuilder(IDCModelJsonBuilder<const DCPlayerStat&> *newPlayerStatsJsonBuilder)
+    void setPlayerStatsJsonBuilder(IDCModelJsonBuilder<const DCPlayerStats&> *newPlayerStatsJsonBuilder)
     {
         _playerStatsJsonBuilder = newPlayerStatsJsonBuilder;
     }
 private:
     IDCModelJsonBuilder<const DCMeta&> *_metaJsonBuilder;
-    IDCModelJsonBuilder<DCIptVals> *_inputJsonBuilder;
+    IDCModelJsonBuilder<DCInput> *_inputJsonBuilder;
     IDCModelJsonBuilder<DCIndex> *_inputIndexJsonBuilder;
     IDCModelJsonBuilder<DCIndex> *_reqIndexJsonBuilder;
     IDCModelJsonBuilder<const DCTurnValues&> *_turnValuesJsonBuilder;
-    IDCModelJsonBuilder<const DCScoreModel&> *_scoreModelJsonBuilder;
-    IDCModelJsonBuilder<const DCPlayerStat&> *_playerStatsJsonBuilder;
+    IDCModelJsonBuilder<const DCPlayer&> *_scoreModelJsonBuilder;
+    IDCModelJsonBuilder<const DCPlayerStats&> *_playerStatsJsonBuilder;
 };
 #endif // DCJSONBUILDERSERVICES_H

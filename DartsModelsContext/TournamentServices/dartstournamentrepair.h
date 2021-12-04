@@ -36,10 +36,10 @@ private:
         for (auto &input : inputs) {
             auto playerId = input->playerId();
             auto playerName = input->playerName();
-            IPlayerModel *playerModel = dynamic_cast<IPlayerModel*>(playersContext->playerModel(playerId));
+            IPlayerModel *playerModel = dynamic_cast<IPlayerModel*>(playersContext->player(playerId));
             if(playerModel != nullptr)
                 continue;
-            playerModel = dynamic_cast<IPlayerModel*>(playersContext->playerModel(playerName));
+            playerModel = dynamic_cast<IPlayerModel*>(playersContext->player(playerName));
             if(playerModel == nullptr)
                 return false;
             input->setPlayerId(playerModel->id());

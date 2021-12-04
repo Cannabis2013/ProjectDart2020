@@ -4,7 +4,7 @@
 #include "dcscoremodel.h"
 #include "DartsController/DCJsonSLAs/idcmodeljsonbuilder.h"
 
-class DCScoreJsonBuilder : public IDCModelJsonBuilder<const DCScoreModel&>
+class DCScoreJsonBuilder : public IDCModelJsonBuilder<const DCPlayer&>
 {
 public:
     virtual void setJsonValues(QJsonObject &obj, Model model) const override

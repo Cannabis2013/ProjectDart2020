@@ -10,48 +10,36 @@ public:
         DoubleModifier = 0x2B,
         TrippleModifier = 0x2C
     };
-    static DPCInputEvaluator* createInstance()
+    DPCInputEvaluator(IDCMetaContext *metaInfo, AbsDCPlayersCtx *plaScoresCtx):
+        AbstractDCInputEvaluator(metaInfo,plaScoresCtx){}
+    void evaluate(DCInput &input, const int &scoreCand) override
     {
-        return new DPCInputEvaluator;
-    }
-    QByteArray evaluate(DCIptVals &input, const int &scoreCand, IDCMetaCtx *metaInfo, AbstractDartsCtrl *controller,
-                  const IDartsStatusCodes *statusCodes, IDCPlayerCtx *playerController) override
-    {
-        QByteArray byteArray;
-        if(!playerController->status(input.playerName))
+        if(!plaScoresCtx()->status(input.playerName))
         {
             if(input.modKeyCode == DoubleModifier)
             {
-                input.remainingScore = scoreCand;
+                input.remScore = scoreCand;
                 input.inGame = true;
-                byteArray = controller->addInputToModelsContext(input);
             }
             else
             {
                 input.score = 0;
-                byteArray = controller->addInputToModelsContext(input);
             }
-            return byteArray;
         }
-        if(scoreCand >= minimumAllowedScore)
+        else if(scoreCand >= minimumAllowedScore)
         {
-            input.remainingScore = scoreCand;
-            byteArray = controller->addInputToModelsContext(input);
+            input.remScore = scoreCand;
         }
         else if(scoreCand == 0 && (input.modKeyCode == DoubleModifier || input.score == _bullsEye))
         {
-            input.remainingScore = 0;
-            metaInfo->get().winnerId = input.playerId;
-            metaInfo->get().winnerName = input.playerName;
-            metaInfo->get().status = statusCodes->winnerFound();
-            byteArray = controller->addInputToModelsContext(input);
+            input.remScore = 0;
+            metaInfo()->get().winnerName = input.playerName;
+            metaInfo()->get().status = metaInfo()->WinnerDeclared;
         }
         else
         {
             input.score = 0;
-            byteArray = controller->addInputToModelsContext(input);
         }
-        return byteArray;
     }
 private:
     const int _bullsEye = 50;

@@ -5,7 +5,7 @@
 class DSCValuesBuilder : public AbstractDCTurnValues
 {
 public:
-    DSCValuesBuilder(AbstractDCIdxCtrl *indexController, AbstractDCScoresCtx *scoresModels,
+    DSCValuesBuilder(AbsDCIdxCtrl *indexController, AbsDCPlayersCtx *scoresModels,
                      const IDCFinishBuilder *logisticService = nullptr)
     {
         setIndexController(indexController);
@@ -14,10 +14,10 @@ public:
     }
     DCTurnValues turnValues() const override
     {
-        auto scores = scoreModels()->scores();
+        auto scores = scoreModels()->players();
         DCTurnValues model;
         auto index = indexController()->index();
-        auto scoreModel = scoreModels()->scores().at(index.setIndex);
+        auto scoreModel = scoreModels()->players().at(index.setIndex);
         model.canUndo = index.turnIndex > 0;
         model.canRedo = index.turnIndex < index.totalTurns;
         model.roundIndex = index.roundIndex;

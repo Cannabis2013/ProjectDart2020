@@ -1,19 +1,7 @@
 function init()
 {
-    connect();
     CreateScripts.setupSelectors();
     CreateScripts.updatePlayersView();
-}
-function connect()
-{
-    dartsContext.tournamentCreatedOk.connect(createBody.requestQuit);
-    dartsContext.tournamentCreatedFail.connect(tournamentCreatedFailed);
-}
-
-function disconnect()
-{
-    dartsContext.tournamentCreatedOk.disconnect(requestQuit);
-    dartsContext.tournamentCreatedFail.disconnect(tournamentCreatedFailed);
 }
 function stateChanged()
 {
@@ -25,7 +13,7 @@ function stateChanged()
 }
 function updatePlayersView()
 {
-    let bytes = playersContext.playerModels();
+    let bytes = playersContext.players();
     var j = JSON.parse(bytes);
     for(var i=0;i < j.length;i++)
     {
@@ -55,25 +43,39 @@ function acceptAndAdd(){
     var gameModeString = gameModeSelector.currentValue;
     var gameMode = gameModeToHex(gameModeString);
     if(gameMode === 0x1)
-        createDartsTournament();
+        createDarts();
 }
-function createDartsTournament()
+
+function createDarts()
 {
     var indexes = playersListView.currentIndexes;
-    if(indexes.length <= 0)
-        return;
+    var json = createDartsJson(indexes);
+    var result = dartsContext.addTournament(json,indexes);
+    if(result)
+        tournamentCreatedSucces();
+    else
+        tournamentCreatedFailed();
+}
+
+function createDartsJson(indexes)
+{
     buttonsComponent.buttonTwoEnabled = false;
     var gameMode = gameModeToHex(gameModeSelector.currentValue);
     var obj = {
         title : titleEdit.currentValue,
         gameMode : gameMode,
-        keyPoint : selectorComponent().keyPoint,
+        initRemScore : selectorComponent().keyPoint,
         inputHint : selectorComponent().inputMode,
         playerIndexes : indexes
     };
-    var json = JSON.stringify(obj);
-    dartsContext.addTournament(json,indexes);
+    return JSON.stringify(obj);
 }
+
+function tournamentCreatedSucces()
+{
+    createBody.requestQuit();
+}
+
 function tournamentCreatedFailed()
 {
     buttonsComponent.buttonOneEnabled = true;

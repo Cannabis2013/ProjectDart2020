@@ -1,9 +1,9 @@
-#ifndef ABSTRACTDCIDXCTRL_H
-#define ABSTRACTDCIDXCTRL_H
+#ifndef ABSDCIDXCTRL_H
+#define ABSDCIDXCTRL_H
 #include "DartsModelsContext/IndexesDbSLAs/idartsindex.h"
 #include "DartsModelsContext/IndexesSLAs/idcidxconverter.h"
 #include "dcindex.h"
-class AbstractDCIdxCtrl
+class AbsDCIdxCtrl
 {
 public:
     virtual void init(const DCIndex &index = DCIndex()) = 0;

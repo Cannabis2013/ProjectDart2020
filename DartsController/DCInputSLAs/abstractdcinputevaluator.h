@@ -1,19 +1,22 @@
 #ifndef ABSTRACTDCINPUTEVALUATOR_H
 #define ABSTRACTDCINPUTEVALUATOR_H
 #include <qobject.h>
-#include "DartsController/DCMetaSLAs/idartsstatuscodes.h"
-#include "DartsController/DCMetaSLAs/idcmetactx.h"
-#include "DartsController/DCScoresSLAs/abstractdcscoresctx.h"
-#include "DartsController/DCPlayerSLAs/IDCPlayerCtx.h"
+#include "DartsController/ModelsComCtxSLAs/abstractdcaddtomdsctx.h"
+#include "DartsController/DCMetaSLAs/idcmetacontext.h"
+#include "DartsController/DCScoresSLAs/absdcplayersctx.h"
 #include "DartsController/ControllerSLA/abstractdartsctrl.h"
-#include "dciptvals.h"
+#include "dcinput.h"
 class AbstractDCInputEvaluator : public QObject
 {
     Q_OBJECT
 public:
-    virtual QByteArray evaluate(DCIptVals &input, const int &scoreCand,IDCMetaCtx *metaInfo ,AbstractDartsCtrl *controller,
-                                const IDartsStatusCodes *statusCodes,IDCPlayerCtx *playerController = nullptr) = 0;
+    AbstractDCInputEvaluator(IDCMetaContext *metaInfo, AbsDCPlayersCtx *plaScoresCtx):
+        _metaInfo(metaInfo),_plaScoresCtx(plaScoresCtx){}
+    virtual void evaluate(DCInput &input, const int &scoreCand) = 0;
+    IDCMetaContext *metaInfo() const {return _metaInfo;}
+    AbsDCPlayersCtx *plaScoresCtx() const {return _plaScoresCtx;}
+private:
+    IDCMetaContext *_metaInfo;
+    AbsDCPlayersCtx *_plaScoresCtx;
 };
-
-
 #endif // IPOINTVALIDATOR_H

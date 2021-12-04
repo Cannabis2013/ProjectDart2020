@@ -4,7 +4,7 @@
 class DPCReqIndexBuilder : public AbstractDCReqIdxBuilder
 {
 public:
-    DPCReqIndexBuilder(AbstractDCIdxCtrl *indexCtrl)
+    DPCReqIndexBuilder(AbsDCIdxCtrl *indexCtrl)
     {
         setIndexCtrl(indexCtrl);
     }

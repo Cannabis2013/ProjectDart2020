@@ -11,8 +11,8 @@ class PlayersContext : public AbstractPlayersContext,
 {
     Q_OBJECT
 public:
-    Player *playerModel(const QUuid &id) const override;
-    Player *playerModel(const QString &name) const override;
+    Player *player(const QUuid &id) const override;
+    Player *player(const QString &name) const override;
     QByteArray players() override;
     bool createPlayer(const QByteArray &json) override;
     bool remove(const QVector<int> &indexes) override;

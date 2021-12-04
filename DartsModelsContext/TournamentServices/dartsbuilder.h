@@ -20,7 +20,7 @@ public:
         QJsonObject json;
         try {json = fromByteArray(byteArray);}
         catch (...) {return QVector<BaseModel*>();}
-        return toModels(json["tournamentModels"].toArray());
+        return toModels(json["TournamentModels"].toArray());
     }
 private:
     QJsonObject fromByteArray(const QByteArray &json) const
@@ -48,7 +48,7 @@ private:
         tournament->setId(toId(obj,"tournamentId",QUuid::createUuid().toString(QUuid::WithoutBraces)));
         tournament->setTitle(obj.value("title").toString());
         tournament->setGameMode(obj.value("gameMode").toInt());
-        tournament->setKeyPoint(obj.value("keyPoint").toInt());
+        tournament->setKeyPoint(obj.value("initRemScore").toInt());
         tournament->setInputMode(obj.value("inputHint").toInt());
         tournament->setStatus(obj.value("status").toInt());
         tournament->setWinnerId(toId(obj,"winnerId"));

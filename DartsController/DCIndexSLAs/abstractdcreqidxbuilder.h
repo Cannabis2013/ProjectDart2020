@@ -1,21 +1,21 @@
 #ifndef ABSTRACTDCREQIDXBUILDER_H
 #define ABSTRACTDCREQIDXBUILDER_H
 #include "DartsModelsContext/IndexesDbSLAs/idartsindex.h"
-#include "abstractdcidxctrl.h"
+#include "absdcidxctrl.h"
 class AbstractDCReqIdxBuilder
 {
 public:
     virtual DCIndex prevIdx() const = 0;
 protected:
-    AbstractDCIdxCtrl *indexCtrl() const
+    AbsDCIdxCtrl *indexCtrl() const
     {
         return _indexController;
     }
-    void setIndexCtrl(AbstractDCIdxCtrl *newIndexController)
+    void setIndexCtrl(AbsDCIdxCtrl *newIndexController)
     {
         _indexController = newIndexController;
     }
 private:
-    AbstractDCIdxCtrl *_indexController;
+    AbsDCIdxCtrl *_indexController;
 };
 #endif // IDCREQINPUTINDEXBUILDER_H
