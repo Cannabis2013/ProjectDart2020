@@ -54,7 +54,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     AsyncUtils/runlater.h \
     DartsController/Controller/dartscontroller.h \
-    DartsController/ControllerSLA/abstractdartsctrl.h \
+    DartsController/ControllerSLA/absdartsctrl.h \
     DartsController/ControllerSLA/ctrlslas.h \
     DartsController/DCFinishesSLAs/idcfinishbuilder.h \
     DartsController/DCFinishesServices/dcfinishbuilder.h \
@@ -67,9 +67,9 @@ HEADERS += \
     DartsController/DCIndexServices/dpcreqindexbuilder.h \
     DartsController/DCIndexServices/dscreqindexbuilder.h \
     DartsController/DCInputSLAs/abstractdcinputbuilder.h \
-    DartsController/DCInputSLAs/abstractdcinputevaluator.h \
     DartsController/DCInputSLAs/abstractdciptconverter.h \
     DartsController/DCInputSLAs/dcinput.h \
+    DartsController/DCInputSLAs/idcipteval.h \
     DartsController/DCInputServices/dciptconverter.h \
     DartsController/DCMetaSLAs/abstractdcmetabuilder.h \
     DartsController/DCMetaSLAs/idcmetacontext.h \
@@ -114,8 +114,6 @@ HEADERS += \
     DartsController/PlayerStatsServices/dpcupdatescorerange.h \
     DartsController/PlayerStatsServices/dscupdscorerng.h \
     DartsController/StaticInitHelperClass/dcinit.h \
-    DartsController/StaticInitHelperClass/dcresetcontexts.h \
-    DartsControllerBuilder/DCBMetaServices/dcbmeta.h \
     DartsControllerBuilder/Services/createdtsctrl.h \
     DartsModelsContext/DartsPlayersSLAs/itournamentplayers.h \
     DartsModelsContext/DartsPlayersServices/tournamentplayers.h \
@@ -162,7 +160,7 @@ HEADERS += \
     DartsModelsContext/TournamentsDbServices/dartsjsonbuilder.h \
     DartsModelsContext/TournamentsSLAs/dartsslas.h \
     DartsModelsContext/TournamentsSLAs/idartsconsistency.h \
-    DartsModelsContext/TournamentsSLAs/idartsmetamodelbuilder.h \
+    DartsModelsContext/TournamentsSLAs/idartscreatemeta.h \
     DartsModelsContext/TournamentsSLAs/igettournamentids.h \
     DartsModelsContext/TournamentsSLAs/iresetdartstournament.h \
     DartsModelsContext/TournamentsSLAs/isettournamentplayerdetails.h \
@@ -203,7 +201,6 @@ HEADERS += \
     PlayerModelsContext/createplayerscontext.h \
     PlayerModelsContext/playerscontext.h \
     QmlContext/qmlpropertiesbuilder.h \
-    DartsControllerBuilder/DCBMetaServices/createDCMetaInfo.h \
     Tests/SignalSpyManager.h \
     Tests/tst_createplayers.h \
     Tests/tst_dartstournaments.h \
@@ -244,7 +241,6 @@ HEADERS += \
     DartsTableContext/FontMetrics/greatestheight.h \
     DartsTableContext/FontMetrics/greatestwidth.h \
     DartsModelsContext/InputSLAs/icountinputmodels.h \
-    DartsControllerBuilder/DCBMetaSLAs/icreatedcmetainfo.h \
     DartsController/DCFinishesSLAs/idartsattemptsservice.h \
     DartsController/DCFinishesSLAs/idartsboundaries.h \
     DartsController/DCFinishesSLAs/idartscreatefinishes.h \
@@ -288,8 +284,7 @@ HEADERS += \
     registerqmltypes.h \
     setupqmlcontext.h \
     testconfiguration.h \
-    NetworkManagerContext/urlparser.h \
-    testeventloop.h
+    NetworkManagerContext/urlparser.h
 DISTFILES += \
 
 #LIBS += $$PWD/SSL/libssl-1_1-x64.dll

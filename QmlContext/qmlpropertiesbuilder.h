@@ -23,8 +23,8 @@ public:
     {
         Properties _props;
         _props << createProperty<AbstractDartsContext>("dartsContext",_dartsContext);
-        _props << createProperty<AbstractDartsCtrl>("dsController",_dsController);
-        _props << createProperty<AbstractDartsCtrl>("dpController",_dpController);
+        _props << createProperty<AbsDartsCtrl>("dsController",_dsController);
+        _props << createProperty<AbsDartsCtrl>("dpController",_dpController);
         _props << createProperty<AbstractPlayersContext>("playersContext",_playerContext);
         return _props;
     }
@@ -37,8 +37,8 @@ private:
         p.value = QVariant::fromValue<T*>(value);
         return p;
     }
-    AbstractDartsCtrl *_dpController;
-    AbstractDartsCtrl *_dsController;
+    AbsDartsCtrl *_dpController;
+    AbsDartsCtrl *_dsController;
     AbstractPlayersContext *_playerContext;
     AbstractDartsContext *_dartsContext;
 };

@@ -38,12 +38,12 @@ public:
         if(_index.attemptIndex < 0)
         {
             _index.setIndex--;
-            _index.attemptIndex--;
+            _index.attemptIndex = _attempts - 1;
         }
         if(_index.setIndex < 0)
         {
             _index.roundIndex--;
-            _index.setIndex--;
+            _index.setIndex = playersCount() - 1;
         }
         return _index;
     }

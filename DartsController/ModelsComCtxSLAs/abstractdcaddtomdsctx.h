@@ -10,7 +10,7 @@ public:
     AbstractDCAddToMdsCtx(AbsDCIdxCtrl *idxCtrl, AbstractDCIptConverter *iptCvt,
                           IDCMetaContext *metaCtx, IDCIdxConverter *idxCvt):
         _idxCtrl(idxCtrl),_iptCvt(iptCvt), _metaCtx(metaCtx),_idxCvt(idxCvt){}
-    virtual bool add(DCInput &input, AbstractDartsContext *mdsCtx) = 0;
+    virtual bool add(DCInput &input, const DCIndex &idx, AbstractDartsContext *mdsCtx) = 0;
     AbsDCIdxCtrl *idxCtrl() const {return _idxCtrl;}
     AbstractDCIptConverter *iptCvt() const {return _iptCvt;}
     IDCMetaContext *metaCtx() const {return _metaCtx;}

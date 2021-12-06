@@ -8,6 +8,7 @@ class DCStatsContext : public IDCStatsContext
 public:
     virtual void setPlayers(const QStringList &names) override
     {
+        _playerStats.clear();
         for (const auto &name : names) {
             DCPlayerStats entity;
             entity.name = name;

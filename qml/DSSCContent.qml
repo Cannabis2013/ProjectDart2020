@@ -5,9 +5,6 @@ import "dsscstatescripts.js" as StateScripts
 Content {
     id: dsscContent
     preferedPageTitle: "Darts 2021"
-    DartsMetaValues{
-        id: metaValues
-    }
     GridLayout{
         anchors.fill: parent
         flow: GridLayout.TopToBottom

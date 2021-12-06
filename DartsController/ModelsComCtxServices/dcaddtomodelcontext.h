@@ -7,9 +7,8 @@ public:
     DCAddToModelsContext(AbsDCIdxCtrl *idxCtrl, AbstractDCIptConverter *iptCvt,
                          IDCMetaContext *metaCtx, IDCIdxConverter *idxCvt):
         AbstractDCAddToMdsCtx(idxCtrl,iptCvt,metaCtx,idxCvt){}
-    virtual bool add(DCInput &input, AbstractDartsContext *mdsCtx) override
+    virtual bool add(DCInput &input, const DCIndex &idx, AbstractDartsContext *mdsCtx) override
     {
-        auto idx = idxCtrl()->next(); // Increment index position
         auto cvtdIdx = idxCvt()->convert(idx);
         auto cvtdIpt = iptCvt()->convert(input);
         auto r1 = mdsCtx->addInput(metaCtx()->get().tournamentId,cvtdIpt);

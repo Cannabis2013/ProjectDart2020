@@ -42,7 +42,7 @@ public:
         context->setTournamentJsonBuilder(new DartsJsonBuilder);
         context->setTournamentBuilder(new DartsBuilder);
         context->setWinnerInfoBuilder(new DartWinnerModelBuilder);
-        context->setMetaModelBuilder(new DartsMetaModelBuilder);
+        context->setCreateMeta(new DartsMetaModelBuilder);
         context->setGetTournamentIds(new GetDartsIds);
         context->setUpdateIndexes(new UpdateDartsIndexes);
         context->setInputsDb(new DartsIptsDbCtx);

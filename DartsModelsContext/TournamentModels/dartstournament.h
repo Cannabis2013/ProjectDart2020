@@ -26,8 +26,17 @@ public:
         _inputHint = inputMode;
         return this;
     }
+    bool entryRestricted() const override
+    {
+        return _entryRestricted;
+    }
+    void setEntryRestricted(const bool &restricted) override
+    {
+        _entryRestricted = restricted;
+    }
 private:
     int _keyPoint;
     int _inputHint;
+    bool _entryRestricted = false;
 };
 #endif // TOURNAMENT_H

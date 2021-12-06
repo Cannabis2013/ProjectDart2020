@@ -1,55 +1,40 @@
 function init()
 {
-    connectInterface();
-    let metaJson = getMetaData();
-    initMetaData(metaJson);
-    updateScoresView();
+    var metaVals = initMetaData();
+    initSBHeader(metaVals);
+    initSBFields();
     setState("ready");
-}
-
-function connectInterface()
-{
-    dpController.updatePlayerScore.connect(processScore);
-    dpController.resetSucces.connect(reinitialize);
-}
-
-function disconnectInterface()
-{
-    dpController.updatePlayerScore.disconnect(processScore);
-    dpController.resetSucces.disconnect(reinitialize);
 }
 function getMetaData(){
     var id = dpController.tournamentId();
     var byteArray = dartsContext.tournament(id);
     return JSON.parse(byteArray);
 }
-
-function initMetaData(json)
+function initMetaData()
 {
-    metaValues.title = json["title"];
-    metaValues.winnerName= json["winnerName"];
-    metaValues.keyPoint = json["keyPoint"];
-    metaValues.assignedPlayerNames = getPlayerNames(json["assignedPlayerDetails"]);
-    initializeScoreBoard();
-    preferedPageTitle = metaValues.title;
+    let json = getMetaData();
+    var metaVals = {
+        title : json["title"],
+        winnerName : json["winnerName"],
+        initRemScore : json["initRemScore"],
+        assignedPlayerNames : getPlayerNames(json["assignedPlayerDetails"])
+    };
+    return metaVals;
 }
-
-function updateScoresView()
+function initSBFields()
 {
     let scores = dpController.getPlayerScores();
     var json = JSON.parse(scores);
     addDartsScoresToScoreBoard(json);
 }
-
 function setState(state)
 {
     var status = dpController.status();
     if(status === 0)
         dpscContent.state = state;
     else if(status === 2)
-        setWinnerState();
+        winnerFound();
 }
-
 function getPlayerNames(playerDetails)
 {
     let playerNames = [];
@@ -62,39 +47,23 @@ function getPlayerNames(playerDetails)
     }
     return playerNames;
 }
-
-function initializeScoreBoard()
+function initSBHeader(metaVals)
 {
-    var assignedPlayerNames = metaValues.assignedPlayerNames;
-    var keyPoint = metaValues.keyPoint;
-    dpscScoreBoard.appendHeaderData(assignedPlayerNames,keyPoint);
+    var playerNames = metaVals.assignedPlayerNames;
+    var initRemScore = metaVals.initRemScore;
+    dpscScoreBoard.appendHeaderData(playerNames,initRemScore);
 }
-
-function recieveScores(scores)
-{
-    var json = JSON.parse(scores);
-    addDartsScoresToScoreBoard(json);
-}
-
 function controllerReady()
 {
     dpscContent.state = "ready";
 }
-
 function addDartsScoresToScoreBoard(json)
 {
     for(var i = 0;i < json.length;++i)
-        addToScoreBoard(json[i]);
+        updateScoreBoard(json[i]);
 }
 
-function processScore(json)
-{
-    addToScoreBoard(JSON.parse(json));
-    updateTurnValues();
-    setState("waitingForInput");
-}
-
-function addToScoreBoard(json)
+function updateScoreBoard(json)
 {
     let playerName = json["inputPlayerName"];
     let playerPoint = json["point"];
@@ -105,21 +74,22 @@ function addToScoreBoard(json)
     let inGame = json["inGame"];
     dpscScoreBoard.setData(playerName,playerScore,minimum,middleValue,maximum,inGame);
 }
-
 function resetTournament()
 {
     dpscContent.state = "stopped";
-    dpController.reset();
+    var result = dpController.reset();
+    if(result)
+    {
+        clearComponents();
+        init();
+    }
 }
-function reinitialize()
+function clearComponents()
 {
     dpscScoreBoard.clearData();
     pointSingleColumnTurnController.reset();
     keyDataDisplay.clear();
-    initializeScoreBoard();
-    dpscContent.state = "ready";
 }
-
 function setTurnControllerValues(json)
 {
     pointSingleColumnTurnController.leftButtonEnabled = json["canUndo"];
@@ -129,28 +99,31 @@ function setTurnControllerValues(json)
 }
 function handleScoreKeyPadInput(input, keyCode){
     dpscContent.state = "waitingForInputConfirmation";
+    var response = addInput(input,keyCode);
+    updateScoreBoard(response);
+    updateTurnValues();
+    setState("waitingForInput");
+}
+function addInput(input,keyCode)
+{
     var obj = {
         point : input,
         modKeyCode : keyCode
     };
-    var json = JSON.stringify(obj);
-    if(dpController.handleInput(json) === -1)
-        inputNotAdded();
-}
-function inputNotAdded()
-{
-    dsscContent.state = "ready";
+    let response = dpController.addInput(JSON.stringify(obj));
+    return JSON.parse(response);
 }
 function backendIsStopped()
 {
     if(dpscContent.state !== "preRestart")
         dpscContent.state = "stopped";
 }
-
-function setWinnerState(data)
+function winnerFound()
 {
-    var json = JSON.parse(data);
-    metaValues.winnerName = json["winnerName"];
+    var byteArray = dpController.getWinnerJson();
+    var json = JSON.parse(byteArray);
+    keyDataDisplay.setCurrentWinner(json["winnerName"]);
+    keyDataDisplay.setThrowSuggestion("");
     dpscContent.state = "winner";
 }
 function updateTurnValues()
@@ -172,21 +145,22 @@ function startGame()
 function undoClicked()
 {
     dpscContent.state = "waitingForInputConfirmation";
-    dartsUndo();
-    applicationInterface.dartsUndo();
+    var response = dpController.undoTurn();
+    updateScoreBoard(JSON.parse(response));
+    updateTurnValues();
+    setState("waitingForInput");
 }
 
 function redoClicked()
 {
     dpscContent.state = "waitingForInputConfirmation";
+    var response = dpController.redoTurn();
+    updateScoreBoard(JSON.parse(response));
+    updateTurnValues();
+    setState("waitingForInput");
 }
 
 function pauseClicked()
 {
     dpscContent.state = "stopped";
-}
-
-function setWinnerText()
-{
-    keyDataDisplay.setCurrentWinner(metaValues.winnerName);
 }

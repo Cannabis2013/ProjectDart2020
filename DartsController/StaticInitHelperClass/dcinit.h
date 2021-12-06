@@ -17,18 +17,19 @@ public:
         meta->initRemScore = tournament->initialRemaining();
         meta->tournamentId = tournament->id();
         meta->winnerName = tournament->winnerName();
+        meta->entryRestricted = tournament->entryRestricted();
         indexController->init(idxBuilder->convert(tournament));
         auto pCount = tournament->playerIds().count();
         indexController->setPlayerCount(pCount);
     }
     static void initPlayerDetails(const QVector<IPlayerModel*> &playerMds, const DCMeta &meta,
-                                  AbsDCPlayersCtx *scoresContext, IDCStatsContext *playerStats)
+                                  AbsDCPlayersCtx *playersContext, IDCStatsContext *playerStats)
     {
         auto playerNames = DCInit::convertPlayerMds(playerMds);
         /*
          * Initialize scoremodels with player details and iniitalscore
          */
-        scoresContext->set(playerNames,meta.initRemScore);
+        playersContext->set(playerNames,meta.initRemScore);
         /*
          * Initialize player statistiscs with player details
          */

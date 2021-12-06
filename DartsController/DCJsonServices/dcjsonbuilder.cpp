@@ -5,13 +5,13 @@ QByteArray DCJsonBuilder::create(const DCMeta &metaInfo) const
     metaJsonBuilder()->setJsonValues(obj,metaInfo);
     return QJsonDocument(obj).toJson();
 }
-QByteArray DCJsonBuilder::create(const QVector<DCPlayer> &scoreModels, const QVector<DCPlayerStats> &playerStats) const
+QByteArray DCJsonBuilder::create(const QVector<DCPlayer> &players, const QVector<DCPlayerStats> &playerStats) const
 {
     auto arr = QJsonArray();
-    for (auto i = 0;i < scoreModels.count();i++)
+    for (auto i = 0;i < players.count();i++)
     {
         QJsonObject obj;
-        auto scoreModel = scoreModels.at(i);
+        auto scoreModel = players.at(i);
         auto playerStat = playerStats.at(i);
         scoreModelJsonBuilder()->setJsonValues(obj,scoreModel);
         playerStatsJsonBuilder()->setJsonValues(obj,playerStat);

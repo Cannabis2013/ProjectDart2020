@@ -5,7 +5,7 @@
 class DCMetaSLAs
 {
 public:
-    IDCMetaContext *metaContext() const
+    IDCMetaContext *metaCtx() const
     {
         return _metaInfo;
     }

@@ -4,7 +4,7 @@ import "dpscscripts.js" as DPSCScripts
 import "dpscstatescripts.js" as DPSCStateScripts
 Content {
     id: dpscContent
-    readonly property QtObject metaValues: DartsMetaValues{}
+    preferedPageTitle: "Dart 2021"
     GridLayout{
         anchors.fill: parent
         flow: GridLayout.TopToBottom
@@ -15,11 +15,11 @@ Content {
             Layout.maximumHeight: 48
             Layout.alignment: Qt.AlignHCenter
             onStart: DPSCScripts.startGame()
-            onPause: dsscContent.state = "stopped"
-            onResume: dsscContent.state = "waitingForInput"
+            onPause: dpscContent.state = "stopped"
+            onResume: dpscContent.state = "waitingForInput"
             onRestart: DPSCScripts.resetTournament()
-            onUndo: applicationInterface.dartsUndo()
-            onRedo: applicationInterface.dartsRedo()
+            onUndo: DPSCScripts.undoClicked()
+            onRedo: DPSCScripts.redoClicked()
         }
         DPSCBoard{
             id: dpscScoreBoard
@@ -72,5 +72,4 @@ Content {
         }
     ]
     Component.onCompleted: DPSCScripts.init()
-    Component.onDestruction: DPSCScripts.disconnectInterface()
 }

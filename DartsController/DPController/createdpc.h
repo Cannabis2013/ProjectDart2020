@@ -10,7 +10,6 @@
 #include "DartsController/DPCServices/DPCTurnValuesBuilder.h"
 #include "DartsController/DPCServices/dpcinputbuilder.h"
 #include "DartsController/DPCServices/getscorefromdpcinput.h"
-#include "DartsControllerBuilder/DCBMetaServices/dcbmeta.h"
 #include "DartsController/DCJsonServices/dcjsonbuilder.h"
 #include "DartsController/DCMetaServices/dcmetabuilder.h"
 #include "DartsController/DCInputServices/dcinputjsonbuilder.h"
@@ -41,17 +40,17 @@ public:
         dc->setIndexCtrl(new DPCIdxCtrl);
         dc->setIdxConverter(new DCIdxConverter);
         dc->setPlayersContext(new DPCPlayersContext);
-        dc->setUpdateScores(new DCUpdatePlayerStats(dc->statsContext(),dc->playersContext()));
+        dc->setInputEvaluator(new DPCInputEvaluator);
         dc->setGetScoreFromInput(new GetScoreFromDPCInput(dc->idxCtrl(),dc->playersContext()));
+        dc->setCreateInput(new DPCInputBuilder(dc->scoreCalc()));
+        dc->setUpdateScores(new DCUpdatePlayerStats(dc->statsContext(),dc->playersContext()));
         dc->setIptConverter(new DCIptConverter(dc->createInput()));
         dc->setAddToModelsCtx(new DCAddToModelsContext(dc->idxCtrl(),dc->iptConverter(),
-                                                       dc->metaContext(),dc->idxConverter()));
-        dc->setInputEvaluator(new DPCInputEvaluator(dc->metaContext(),dc->playersContext()));
-        dc->setCreateInput(new DPCInputBuilder(dc->scoreCalc()));
+                                                       dc->metaCtx(),dc->idxConverter()));
         dc->setUpdateInputStats(new DPCUpdateScoreRange(dc->statsContext()));
         dc->setTurnValuesBuilder(new DPCTurnValuesBuilder(dc->idxCtrl(),dc->playersContext(),dc->finishBuilder()));
         dc->setReqIndexBuilder(new DPCReqIndexBuilder(dc->idxCtrl()));
-        dc->setMetaBuilder(new DCMetaBuilder(dc->metaContext(),dc->idxCtrl(),dc->playersContext()));
+        dc->setMetaBuilder(new DCMetaBuilder(dc->metaCtx(),dc->idxCtrl(),dc->playersContext()));
         auto builder = new DCJsonBuilder;
         builder->setInputJsonBuilder(new DCInputJsonBuilder);
         builder->setIdxJsonBuilder(new DCIdxJsonBuilder);

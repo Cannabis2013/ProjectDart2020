@@ -1,14 +1,14 @@
 #ifndef DCINPUTSSLAS_H
 #define DCINPUTSSLAS_H
 #include "DartsController/DCFinishesSLAs/idcfinishbuilder.h"
-#include "DartsController/DCInputSLAs/abstractdcinputevaluator.h"
+#include "DartsController/DCInputSLAs/idcipteval.h"
 #include "DartsController/DCInputSLAs/abstractdcinputbuilder.h"
 #include "abstractdciptconverter.h"
 class DCInputsSLAs
 {
 public:
-    AbstractDCInputEvaluator *evaluateIpt() const {return _inputEvaluator;}
-    void setInputEvaluator(AbstractDCInputEvaluator *evaluator) {_inputEvaluator = evaluator;}
+    IDCIptEval *evalIpt() const {return _iptEval;}
+    void setInputEvaluator(IDCIptEval *evaluator) {_iptEval = evaluator;}
     IDCFinishBuilder *finishBuilder() const {return _suggestFinishes;}
     void setFinishBuilder(IDCFinishBuilder *service) {_suggestFinishes = service;}
     AbstractDCInputBuilder *createInput() const {return _inputModelBuilder;}
@@ -19,7 +19,7 @@ public:
     void setAddToModelsCtx(AbstractDCAddToMdsCtx *newAddToModelsCtx) {_addToModelsCtx = newAddToModelsCtx;}
 private:
     IDCFinishBuilder *_suggestFinishes = nullptr;
-    AbstractDCInputEvaluator *_inputEvaluator = nullptr;
+    IDCIptEval *_iptEval = nullptr;
     AbstractDCInputBuilder* _inputModelBuilder;
     AbstractDCIptConverter *_iptConverter;
     AbstractDCAddToMdsCtx *_addToModelsCtx;

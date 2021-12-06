@@ -7,5 +7,6 @@ struct DCMeta{
     int status;
     QString playerName;
     QString winnerName;
+    bool entryRestricted;
 };
 #endif // DCMETAINFO_H

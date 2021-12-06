@@ -1,9 +1,8 @@
 function init()
 {
-    initMetaData();
-    initializeScoreBoard();
-    updateScoreBoard();
-    preferedPageTitle = metaValues.title;
+    var metaVals = initMetaData();
+    initSBHeader(metaVals);
+    initSBFields();
     setState("ready");
 }
 function setState(state)
@@ -17,10 +16,13 @@ function setState(state)
 function initMetaData()
 {
     let json = getMetaData();
-    metaValues.title = json["title"];
-    metaValues.winnerName= json["winnerName"];
-    metaValues.initRemScore = json["initRemScore"];
-    metaValues.assignedPlayerNames = getPlayerNames(json["assignedPlayerDetails"]);
+    var metaVals = {
+        title : json["title"],
+        winnerName : json["winnerName"],
+        initRemScore : json["initRemScore"],
+        assignedPlayerNames : getPlayerNames(json["assignedPlayerDetails"])
+    };
+    return metaVals;
 }
 function getMetaData(){
     var id = dsController.tournamentId();
@@ -39,16 +41,16 @@ function getPlayerNames(playerDetails)
     }
     return playerNames;
 }
-function initializeScoreBoard()
+function initSBHeader(metaVals)
 {
-    var assignedPlayerNames = metaValues.assignedPlayerNames;
-    var initRemScore = metaValues.initRemScore;
+    var assignedPlayerNames = metaVals.assignedPlayerNames;
+    var initRemScore = metaVals.initRemScore;
     singleColumnScoreBoard.appendHeaderData(assignedPlayerNames,initRemScore);
 }
 
-function updateScoreBoard()
+function initSBFields()
 {
-    let scores = dsController.getPlayerScores();
+    var scores = dsController.getPlayerScores();
     var json = JSON.parse(scores);
     addDartsScoresToScoreBoard(json);
 }
@@ -56,10 +58,10 @@ function updateScoreBoard()
 function addDartsScoresToScoreBoard(json)
 {
     for(var i = 0;i < json.length;++i)
-        addToScoreBoard(json[i]);
+        updateScoreBoard(json[i]);
 }
 
-function addToScoreBoard(json)
+function updateScoreBoard(json)
 {
     let playerName = json["inputPlayerName"];
     let playerScore = json["remainingScore"];
@@ -84,22 +86,21 @@ function updateTurnValues()
     setTurnControllerValues(json);
     keyDataDisplay.setThrowSuggestion(json["finishCandidate"]);
 }
-function reinitialize()
-{
-    singleColumnScoreBoard.clearData();
-    singleColumnScoreTurnController.reset();
-    keyDataDisplay.clear();
-    initializeScoreBoard();
-}
 function resetTournament()
 {
     dsscContent.state = "stopped";
     var result = dsController.reset();
     if(result)
     {
-        reinitialize();
-        dsscContent.state = "ready";
+        clearComponents();
+        init();
     }
+}
+function clearComponents()
+{
+    singleColumnScoreBoard.clearData();
+    singleColumnScoreTurnController.reset();
+    keyDataDisplay.clear();
 }
 function setTurnControllerValues(json)
 {
@@ -110,12 +111,12 @@ function setTurnControllerValues(json)
 }
 function handleScoreKeyPadInput(value){
     dsscContent.state = "waitingForInputConfirmation";
-    var response = addScore(value);
-    addToScoreBoard(response);
+    var response = addInput(value);
+    updateScoreBoard(response);
     updateTurnValues();
     setState("waitingForInput");
 }
-function addScore(score)
+function addInput(score)
 {
     var obj = {score : score};
     var json = JSON.stringify(obj);
@@ -139,7 +140,7 @@ function undoClicked()
 {
     dsscContent.state = "waitingForInputConfirmation";
     var response = dsController.undoTurn();
-    addToScoreBoard(JSON.parse(response));
+    updateScoreBoard(JSON.parse(response));
     updateTurnValues();
     setState("waitingForInput");
 }
@@ -148,7 +149,7 @@ function redoClicked()
 {
     dsscContent.state = "waitingForInputConfirmation";
     var response = dsController.redoTurn();
-    addToScoreBoard(JSON.parse(response));
+    updateScoreBoard(JSON.parse(response));
     updateTurnValues();
     setState("waitingForInput");
 }

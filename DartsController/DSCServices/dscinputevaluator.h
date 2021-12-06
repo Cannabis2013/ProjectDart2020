@@ -1,12 +1,11 @@
 #ifndef DSCINPUTEVALUATOR_H
 #define DSCINPUTEVALUATOR_H
 #include "DartsController/DPCServices/dpcinputevaluator.h"
-class DSCInputEvaluator : public AbstractDCInputEvaluator
+class DSCInputEvaluator : public IDCIptEval
 {
 public:
-    DSCInputEvaluator(IDCMetaContext *metaInfo, AbsDCPlayersCtx *plaScoresCtx):
-        AbstractDCInputEvaluator(metaInfo,plaScoresCtx){}
-    virtual void evaluate(DCInput &input, const int &scoreCand) override
+    virtual void eval(DCInput &input, const int &scoreCand, DCMeta &meta,
+                          const DCPlayer &, const int &winnerStatus) override
     {
         if(scoreCand >= minimumAllowedScore)
         {
@@ -17,7 +16,7 @@ public:
         {
             input.approved = true;
             input.remScore = 0;
-            updateWinnerMeta(input);
+            updateWinnerMeta(input,meta,winnerStatus);
         }
         else
         {
@@ -25,10 +24,10 @@ public:
         }
     }
 private:
-    void updateWinnerMeta(DCInput &input) const
+    void updateWinnerMeta(DCInput &input, DCMeta &meta, const int &winnerStatus) const
     {
-        metaInfo()->get().winnerName = input.playerName;
-        metaInfo()->get().status = metaInfo()->WinnerDeclared;
+        meta.winnerName = input.playerName;
+        meta.status = winnerStatus;
     }
     const int minimumAllowedScore = 2;
 };

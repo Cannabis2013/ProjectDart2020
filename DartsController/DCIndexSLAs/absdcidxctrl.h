@@ -11,14 +11,8 @@ public:
     virtual DCIndex next() = 0;
     virtual DCIndex undo() = 0;
     virtual DCIndex redo() = 0;
-    int playersCount() const
-    {
-        return _playerCount;
-    }
-    void setPlayerCount(int newPlayerCount)
-    {
-        _playerCount = newPlayerCount;
-    }
+    int playersCount() const {return _playerCount;}
+    void setPlayerCount(int newPlayerCount) {_playerCount = newPlayerCount;}
 private:
     int _playerCount;
 };

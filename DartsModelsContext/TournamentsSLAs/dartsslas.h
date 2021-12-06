@@ -3,7 +3,7 @@
 #include "DartsModelsContext/TournamentsSLAs/isettournamentplayerdetails.h"
 #include "DartsModelsContext/TournamentsSLAs/iwinnerinfobuilder.h"
 #include "idartsconsistency.h"
-#include "idartsmetamodelbuilder.h"
+#include "idartscreatemeta.h"
 #include "itournamentrepair.h"
 #include "igettournamentids.h"
 #include "iresetdartstournament.h"
@@ -35,13 +35,13 @@ public:
     {
         _getTournamentIds = newGetTournamentIds;
     }
-    IDartsMetaModelBuilder *dartsMetaBuilder() const
+    IDartsCreateMeta *createMeta() const
     {
-        return _metaModelBuilder;
+        return _createMeta;
     }
-    void setMetaModelBuilder(IDartsMetaModelBuilder *newMetaModelBuilder)
+    void setCreateMeta(IDartsCreateMeta *builder)
     {
-        _metaModelBuilder = newMetaModelBuilder;
+        _createMeta = builder;
     }
     IResetDartsTournament<BaseModel> *resetDarts() const
     {
@@ -70,7 +70,7 @@ public:
     }
 private:
     IResetDartsTournament<BaseModel> *_resetTournament;
-    IDartsMetaModelBuilder *_metaModelBuilder;
+    IDartsCreateMeta *_createMeta;
     IGetDartsTournamentIds<BaseModel> *_getTournamentIds;
     ISetTournamentPlayerDetails *_addPlayerDetails;
     IWinnerInfoBuilder *_winnerInfoBuilder;

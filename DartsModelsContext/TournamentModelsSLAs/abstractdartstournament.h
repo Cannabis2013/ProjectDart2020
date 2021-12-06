@@ -10,6 +10,8 @@ public:
     virtual AbstractDartsTournament* setKeyPoint(const int &val) = 0;
     virtual int inputHint() const = 0;
     virtual AbstractDartsTournament* setInputMode(const int &inputMode) = 0;
+    virtual bool entryRestricted() const = 0;
+    virtual void setEntryRestricted(const bool &restricted) = 0;
 };
 
 #endif // FTPTOURNAMENTMODELINTERFACE_H

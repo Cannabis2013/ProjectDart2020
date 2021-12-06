@@ -34,6 +34,7 @@ public:
     DartsScoreModels players() const override {return _players;}
     virtual void set(const QStringList &names, const int &remScore) override
     {
+        _players.clear();
         for (const auto &name : names)
             _players << DCPlayer(name,remScore,false);
     }

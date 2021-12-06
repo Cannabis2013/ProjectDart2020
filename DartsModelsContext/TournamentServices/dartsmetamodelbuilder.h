@@ -4,16 +4,16 @@
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 
-#include "DartsModelsContext/TournamentsSLAs/idartsmetamodelbuilder.h"
+#include "DartsModelsContext/TournamentsSLAs/idartscreatemeta.h"
 
-class DartsMetaModelBuilder : public IDartsMetaModelBuilder
+class DartsMetaModelBuilder : public IDartsCreateMeta
 {
 public:
-    virtual DartsMetaModel buildMeta(const QByteArray &json) const override
+    virtual DartsMetaModel create(const QByteArray &json) const override
     {
         return toModel(toJsonObject(json));
     }
-    virtual DartsMetaModel buildMeta(const QUuid &tournament, const QUuid &player) const override
+    virtual DartsMetaModel create(const QUuid &tournament, const QUuid &player) const override
     {
         return {.playerId = player,.tournamentId = tournament};
     }

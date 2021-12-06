@@ -58,6 +58,7 @@ TurnControllerInterface {
                 target: startButtonComponent
                 startButtonVisible: true
                 startButtonEnabled: true
+                restartButtonEnabled: false
             }
             StateChangeScript{
                 script: {

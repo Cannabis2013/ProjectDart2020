@@ -1,12 +1,12 @@
-#ifndef ABSTRACTDARTSCTRL_H
-#define ABSTRACTDARTSCTRL_H
+#ifndef ABSDARTSCTRL_H
+#define ABSDARTSCTRL_H
 #include "DartControllerContext/SLAs/abstractgamecontroller.h"
 #include "DartsController/DCInputSLAs/dcinput.h"
-class AbstractDartsCtrl : public AbstractGameController
+class AbsDartsCtrl : public AbstractGameController
 {
     Q_OBJECT
 public:
-    AbstractDartsCtrl *setModelsContext(AbstractDartsContext *context)
+    AbsDartsCtrl *setModelsContext(AbstractDartsContext *context)
     {
         _modelsContext = context;
         return this;

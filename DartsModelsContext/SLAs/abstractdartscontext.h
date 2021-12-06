@@ -15,7 +15,7 @@ public:
     void setPlayersContext(AbstractPlayersContext *newPlayersContext) {_playersContext = newPlayersContext;}
     Q_INVOKABLE virtual QByteArray createDartsMetaData(const QUuid& tournament) = 0;
     virtual AbstractDartsInput *input(const QUuid &tournament, const QString &name, IDartsIndex *index) const = 0;
-    virtual bool addInput(QUuid tournamentId, DIptVals input) = 0;
+    virtual bool addInput(const QUuid &tournamentId, const DIptVals &input) = 0;
     virtual bool hideInput(QUuid tournament, QString name, IDartsIndex *index) = 0;
     virtual bool revealInput(QUuid tournament, QString name, IDartsIndex *index) = 0;
     virtual QVector<AbstractDartsInput*> inputs(const QUuid &tournamentId) const = 0;

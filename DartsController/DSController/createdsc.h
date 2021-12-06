@@ -9,7 +9,6 @@
 #include "DartsController/DCFinishesServices/dclogisticdb.h"
 #include "DartsController/DCFinishesServices/dcfinishbuilder.h"
 #include "DartsController/DCMetaServices/dcmetacontext.h"
-#include "DartsControllerBuilder/DCBMetaServices/dcbmeta.h"
 #include "DartsController/DCJsonServices/dcjsonbuilder.h"
 #include "DartsController/DCMetaServices/dcmetabuilder.h"
 #include "DartsController/DCInputServices/dcinputjsonbuilder.h"
@@ -45,13 +44,13 @@ public:
         dc->setIndexCtrl(idxCtrl);
         dc->setIdxConverter(new DCIdxConverter);
         dc->setPlayersContext(plaCtx);
+        dc->setInputEvaluator(new DSCInputEvaluator);
         dc->setGetScoreFromInput(new DSCCalcScore(idxCtrl,plaCtx));
         dc->setCreateInput(new DSCInputBuilder(dc->scoreCalc()));
         dc->setIptConverter(new DCIptConverter(dc->createInput()));
         dc->setUpdateScores(new DCUpdatePlayerStats(dc->statsContext(),plaCtx));
         dc->setAddToModelsCtx(new DCAddToModelsContext(idxCtrl,dc->iptConverter(),
                                                        metaCtx,dc->idxConverter()));
-        dc->setInputEvaluator(new DSCInputEvaluator(metaCtx,plaCtx));
         dc->setUpdateInputStats(new DSCUpdScoreRng(dc->statsContext()));
         dc->setReqIndexBuilder(new DSCReqIndexBuilder(idxCtrl));
         dc->setMetaBuilder(new DCMetaBuilder(metaCtx,idxCtrl,plaCtx));
