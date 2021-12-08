@@ -16,7 +16,6 @@
 #include "DartsController/DCMetaServices/DCMetaInfoJsonBuilder.h"
 #include "DartsController/DCTurnValuesServices/DCTurnValuesJsonBuilder.h"
 #include "DartsController/PlayerStatsServices/dcstatscontext.h"
-#include "DartsController/DCIndexServices/dscreqindexbuilder.h"
 #include "DartsController/DCScoresServices/dcscorejsonbuilder.h"
 #include "DartsController/DCScoresServices/dcscorejsonbuilder.h"
 #include "DartsController/DCIndexServices/dcplayerstatsjsonbuilder.h"
@@ -52,7 +51,6 @@ public:
         dc->setAddToModelsCtx(new DCAddToModelsContext(idxCtrl,dc->iptConverter(),
                                                        metaCtx,dc->idxConverter()));
         dc->setUpdateInputStats(new DSCUpdScoreRng(dc->statsContext()));
-        dc->setReqIndexBuilder(new DSCReqIndexBuilder(idxCtrl));
         dc->setMetaBuilder(new DCMetaBuilder(metaCtx,idxCtrl,plaCtx));
         dc->setTurnValuesBuilder(new DSCValuesBuilder(idxCtrl,plaCtx,dc->finishBuilder()));
         auto builder = new DCJsonBuilder;

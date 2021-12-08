@@ -45,7 +45,10 @@ private:
     bool removeModel(IModel<QUuid> *inputModel, const QUuid &id, IDbContext<Model> *dbService) const
     {
         if(inputModel->id() == id)
-            return dbService->remove(dbService->indexOf(inputModel));
+        {
+            dbService->remove(dbService->indexOf(inputModel));
+            return true;
+        }
         return false;
     }
 };

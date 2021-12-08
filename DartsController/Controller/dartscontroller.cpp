@@ -15,7 +15,7 @@ QByteArray DartsController::addInput(const QByteArray& json)
 }
 bool DartsController::reset()
 {
-    idxCtrl()->init();
+    idxCtrl()->init(playersContext()->count());
     playersContext()->reset(metaCtx()->get().initRemScore);
     statsContext()->reset();
     metaCtx()->set(IDCMetaContext::Initialized);
@@ -24,9 +24,9 @@ bool DartsController::reset()
 QByteArray DartsController::undoTurn()
 {
     auto inputIdx = idxCtrl()->undo();
+    auto reqIndex = idxCtrl()->prevIndex();
     auto meta = createMeta()->create();
     mdsCtx()->hideInput(meta.tournamentId,meta.playerName,idxConverter()->convert(inputIdx));
-    auto reqIndex = reqIndexBuilder()->prevIdx();
     auto cvtReqIdx = idxConverter()->convert(reqIndex);
     auto mdIpt = mdsCtx()->input(metaCtx()->tournamentId(),meta.playerName,cvtReqIdx);
     auto player = playersContext()->player(meta.playerName);

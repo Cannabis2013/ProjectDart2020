@@ -4,7 +4,7 @@
 #include <qvector.h>
 #include "PlayerModelsContext/DbSLAs/iplayermodel.h"
 #include "DartsController/DCScoresSLAs/absdcplayersctx.h"
-#include "DartsController/DCIndexSLAs/absdcidxctrl.h"
+#include "DartsController/DCIndexSLAs/idcidxctrl.h"
 #include "dcplayerstats.h"
 class IDCStatsContext
 {

@@ -113,7 +113,6 @@ TurnControllerInterface {
             name: "restartState"
             PropertyChanges {
                 target: startButtonComponent
-                restartButtonVisible: true
             }
             StateChangeScript{
                 script: {

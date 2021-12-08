@@ -5,18 +5,18 @@
 #include "DartsModelsContext/IndexesDbSLAs/idartsindex.h"
 #include "DartsController/DCIndexSLAs/dcindex.h"
 #include "DartsController/DCInputSLAs/dcinput.h"
-#include "DartsController/DCIndexSLAs/absdcidxctrl.h"
+#include "DartsController/DCIndexSLAs/idcidxctrl.h"
 class AbsDCCalcScore
 {
 public:
-    AbsDCCalcScore(AbsDCIdxCtrl *indexController, AbsDCPlayersCtx *scoresContext):
+    AbsDCCalcScore(IDCIdxCtrl *indexController, AbsDCPlayersCtx *scoresContext):
         _idxCtrl(indexController),_scoresContext(scoresContext){}
     virtual int calc(DCInput &input) const = 0;
     virtual int calc(const int &scoreCandidate) const = 0;
     AbsDCPlayersCtx *scoresContext() const {return _scoresContext;}
-    AbsDCIdxCtrl *idxCtrl() const {return _idxCtrl;}
+    IDCIdxCtrl *idxCtrl() const {return _idxCtrl;}
 private:
-    AbsDCIdxCtrl *_idxCtrl;
+    IDCIdxCtrl *_idxCtrl;
     AbsDCPlayersCtx *_scoresContext;
 };
 #endif // ABSDCCALCSCORE_H

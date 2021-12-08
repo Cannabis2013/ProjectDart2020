@@ -104,15 +104,22 @@ function handleScoreKeyPadInput(input, keyCode){
     updateTurnValues();
     setState("waitingForInput");
 }
-function addInput(input,keyCode)
+function addInput(input,modCode)
 {
-    var obj = {
-        point : input,
-        modKeyCode : keyCode
-    };
+    var json = createInputJson(input,modCode);
     let response = dpController.addInput(JSON.stringify(obj));
     return JSON.parse(response);
 }
+
+function createInputJson(input,modCode)
+{
+    var obj = {
+        point : input,
+        modKeyCode : modCode
+    };
+    return JSON.stringify(obj);
+}
+
 function backendIsStopped()
 {
     if(dpscContent.state !== "preRestart")

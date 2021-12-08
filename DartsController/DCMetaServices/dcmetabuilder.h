@@ -4,7 +4,7 @@
 class DCMetaBuilder : public AbstractDCMetaBuilder
 {
 public:
-    DCMetaBuilder(IDCMetaContext *metaContext, AbsDCIdxCtrl *indexController,
+    DCMetaBuilder(IDCMetaContext *metaContext, IDCIdxCtrl *indexController,
                   AbsDCPlayersCtx *scoresContext)
         :AbstractDCMetaBuilder(metaContext,indexController,scoresContext){}
     virtual DCMeta create() const override

@@ -4,7 +4,7 @@
 class DCAddToModelsContext : public AbstractDCAddToMdsCtx
 {
 public:
-    DCAddToModelsContext(AbsDCIdxCtrl *idxCtrl, AbstractDCIptConverter *iptCvt,
+    DCAddToModelsContext(IDCIdxCtrl *idxCtrl, AbstractDCIptConverter *iptCvt,
                          IDCMetaContext *metaCtx, IDCIdxConverter *idxCvt):
         AbstractDCAddToMdsCtx(idxCtrl,iptCvt,metaCtx,idxCvt){}
     virtual bool add(DCInput &input, const DCIndex &idx, AbstractDartsContext *mdsCtx) override

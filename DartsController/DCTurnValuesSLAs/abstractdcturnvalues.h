@@ -1,6 +1,6 @@
 #ifndef ABSTRACTDCTURNVALUES_H
 #define ABSTRACTDCTURNVALUES_H
-#include "DartsController/DCIndexSLAs/absdcidxctrl.h"
+#include "DartsController/DCIndexSLAs/idcidxctrl.h"
 #include "DartsController/DCScoresSLAs/absdcplayersctx.h"
 #include "DartsController/DCFinishesSLAs/idcfinishbuilder.h"
 #include "DartsController/DCTurnValuesServices/dcturnvalues.h"
@@ -8,11 +8,11 @@ class AbstractDCTurnValues
 {
 public:
     virtual DCTurnValues turnValues() const = 0;
-    const AbsDCIdxCtrl *indexController() const
+    const IDCIdxCtrl *indexController() const
     {
         return _indexController;
     }
-    void setIndexController(AbsDCIdxCtrl *newIndexController)
+    void setIndexController(IDCIdxCtrl *newIndexController)
     {
         _indexController = newIndexController;
     }
@@ -33,7 +33,7 @@ public:
         _logisticService = newLogisticService;
     }
 private:
-    const AbsDCIdxCtrl *_indexController;
+    const IDCIdxCtrl *_indexController;
     const AbsDCPlayersCtx *_scoreModels;
     const IDCFinishBuilder *_logisticService = nullptr;
 };

@@ -31,7 +31,9 @@ public:
         for (auto &scoreModel : _players)
             scoreModel.remScore = initRemScore;
     }
-    DartsScoreModels players() const override {return _players;}
+    DartsScoreModels players() const override {
+        return _players;
+    }
     virtual void set(const QStringList &names, const int &remScore) override
     {
         _players.clear();

@@ -36,6 +36,7 @@ ItemListView{
             spacing: 5
             Layout.fillHeight: true
             Layout.fillWidth: true
+            add: ScaleTransition {}
             model: ListModel {
                 id: listModel
             }

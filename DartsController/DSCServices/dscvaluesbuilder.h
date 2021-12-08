@@ -5,7 +5,7 @@
 class DSCValuesBuilder : public AbstractDCTurnValues
 {
 public:
-    DSCValuesBuilder(AbsDCIdxCtrl *indexController, AbsDCPlayersCtx *scoresModels,
+    DSCValuesBuilder(IDCIdxCtrl *indexController, AbsDCPlayersCtx *scoresModels,
                      const IDCFinishBuilder *logisticService = nullptr)
     {
         setIndexController(indexController);

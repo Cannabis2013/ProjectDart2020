@@ -1,11 +1,21 @@
 #ifndef DSCINDEXCONTROLLER_H
 #define DSCINDEXCONTROLLER_H
-#include "DartsController/DCIndexSLAs/absdcidxctrl.h"
-class DSCIndexController : public AbsDCIdxCtrl
+#include "DartsController/DCIndexSLAs/idcidxctrl.h"
+class DSCIndexController : public IDCIdxCtrl
 {
 public:
-    virtual void init(const DCIndex &idx) override {_idx = idx;}
+    virtual void init(const int &playersCount, const DCIndex &idx) override
+    {
+        _pCount = playersCount,
+        _idx = idx;
+    }
     DCIndex index() const override {return _idx;}
+    virtual DCIndex prevIndex() const override
+    {
+        auto reqIdx = _idx;
+        reqIdx.roundIndex--;
+        return reqIdx;
+    }
     DCIndex next() override
     {
         if(_idx.turnIndex == _idx.totalTurns)
@@ -17,7 +27,7 @@ public:
             _idx.setIndex++;
             _idx.attemptIndex = 0;
         }
-        if(_idx.setIndex >= playersCount()){
+        if(_idx.setIndex >= pCount()){
             _idx.roundIndex++;
             _idx.setIndex = 0;
         }
@@ -37,7 +47,7 @@ public:
         if(_idx.setIndex < 0)
         {
             _idx.roundIndex--;
-            _idx.setIndex = playersCount() - 1;
+            _idx.setIndex = pCount() - 1;
         }
         return _idx;
     }
@@ -52,14 +62,17 @@ public:
             _idx.setIndex++;
             _idx.attemptIndex = 0;
         }
-        if(_idx.setIndex >= playersCount()){
+        if(_idx.setIndex >= pCount()){
             _idx.roundIndex++;
             _idx.setIndex = 0;
         }
         return _idx;
     }
+
 private:
+    int pCount() const {return _pCount;}
     DCIndex _idx;
     const int _attempts = 1;
+    int _pCount;
 };
 #endif // DSCINDEXCONTROLLER_H

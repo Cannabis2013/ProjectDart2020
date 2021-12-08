@@ -52,7 +52,7 @@ private:
         obj["title"] = "DSSC";
         obj["gameMode"] = darts;
         obj["inputHint"] = scoreMode;
-        obj["keyPoint"] = fiveHundredAndOne;
+        obj["initRemScore"] = fiveHundredAndOne;
         auto document = QJsonDocument(obj);
         return document.toJson();
     }
@@ -62,7 +62,7 @@ private:
         obj["title"] = "DPSC";
         obj["gameMode"] = darts;
         obj["inputHint"] = pointMode;
-        obj["keyPoint"] = fiveHundredAndOne;
+        obj["initRemScore"] = fiveHundredAndOne;
         auto document = QJsonDocument(obj);
         return document.toJson();
     }

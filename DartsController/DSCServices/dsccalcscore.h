@@ -4,7 +4,7 @@
 class DSCCalcScore : public AbsDCCalcScore
 {
 public:
-    DSCCalcScore(AbsDCIdxCtrl *indexController, AbsDCPlayersCtx *scoresContext):
+    DSCCalcScore(IDCIdxCtrl *indexController, AbsDCPlayersCtx *scoresContext):
     AbsDCCalcScore(indexController,scoresContext){}
     virtual int calc(DCInput &inputModel) const override
     {

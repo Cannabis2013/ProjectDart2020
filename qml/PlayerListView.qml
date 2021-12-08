@@ -36,6 +36,8 @@ ItemListView{
             spacing: 5
             Layout.fillHeight: true
             Layout.fillWidth: true
+            boundsMovement: ListView.StopAtBounds
+            add: ScaleTransition {}
             model: ListModel {
                 id: listModel
             }

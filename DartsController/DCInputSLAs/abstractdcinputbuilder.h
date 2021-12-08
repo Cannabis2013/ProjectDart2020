@@ -1,7 +1,7 @@
 #ifndef IDCINPUTBUILDER_H
 #define IDCINPUTBUILDER_H
 #include <qjsonarray.h>
-#include "DartsController/DCIndexSLAs/absdcidxctrl.h"
+#include "DartsController/DCIndexSLAs/idcidxctrl.h"
 #include "DartsController/DCMetaServices/dcmeta.h"
 #include "DartsModelsContext/InputModelsSLAs/abstractdartsinput.h"
 #include "DartsModelsContext/IndexesDbSLAs/idartsindex.h"
@@ -11,7 +11,7 @@
 class AbstractDCInputBuilder
 {
 public:
-    typedef AbsDCIdxCtrl IndexCtrl;
+    typedef IDCIdxCtrl IndexCtrl;
     typedef AbsDCPlayersCtx PlayersContext;
     virtual DCInput create(const QByteArray &json, const DCIndex &idx, const DCPlayer &player) const = 0;
     virtual DCInput create(const int &remScore, const DCPlayer &player) const = 0;

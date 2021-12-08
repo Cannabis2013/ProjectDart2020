@@ -15,7 +15,6 @@ public:
     virtual int initRemScore() const = 0;
     virtual int status() const = 0;
     virtual QUuid tournamentId() const = 0;
-    virtual QString playerName() const = 0;
     virtual QString winnerName() const = 0;
     virtual DCMeta &get() = 0;
 };

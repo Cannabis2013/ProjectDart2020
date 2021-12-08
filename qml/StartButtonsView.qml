@@ -99,7 +99,8 @@ StartButtonsInterface {
             buttonRadius: defaultButtonGeometries.defaultRadius
             fontSize: defaultButtonGeometries.defaultFontSize
             width: defaultButtonGeometries.defaultWidth
-            height: defaultButtonGeometries.defaultHeight
+            Layout.fillHeight: true
+            Layout.minimumHeight: defaultButtonGeometries.defaultHeight
             onClicked: PopupBuilder.createConfirmPopUp(applicationWindow,undefined,restartButtonClicked);
         }
         Rectangle{

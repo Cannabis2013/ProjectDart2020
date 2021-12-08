@@ -15,7 +15,6 @@ public:
     int initRemScore() const override {return _meta.initRemScore;}
     int status() const override {return _meta.status;}
     QUuid tournamentId() const override {return _meta.tournamentId;}
-    virtual QString playerName() const override {return _meta.playerName;}
     virtual QString winnerName() const override {return _meta.winnerName;}
 private:
     DCMeta _meta;

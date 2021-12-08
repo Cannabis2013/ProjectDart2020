@@ -10,7 +10,7 @@ class DCInit
 public:
     static void initTournamentMeta(AbstractDartsTournament *tournament,
                                    IDCMetaContext *metaInfo,
-                                   AbsDCIdxCtrl *indexController,
+                                   IDCIdxCtrl *indexController,
                                    IDCIdxConverter *idxBuilder)
     {
         auto meta = &metaInfo->get();
@@ -18,9 +18,8 @@ public:
         meta->tournamentId = tournament->id();
         meta->winnerName = tournament->winnerName();
         meta->entryRestricted = tournament->entryRestricted();
-        indexController->init(idxBuilder->convert(tournament));
         auto pCount = tournament->playerIds().count();
-        indexController->setPlayerCount(pCount);
+        indexController->init(pCount,idxBuilder->convert(tournament));
     }
     static void initPlayerDetails(const QVector<IPlayerModel*> &playerMds, const DCMeta &meta,
                                   AbsDCPlayersCtx *playersContext, IDCStatsContext *playerStats)

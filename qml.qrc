@@ -112,6 +112,7 @@
         <file>qml/ConfirmActionBack.qml</file>
         <file>qml/ConfirmActionButtons.qml</file>
         <file>qml/createPlayerScripts.js</file>
+        <file>qml/ScaleTransition.qml</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/dartpic.jpg</file>

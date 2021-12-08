@@ -11,7 +11,7 @@ public:
         BullModifier,
         BullsEyeModifier
     };
-    GetScoreFromDPCInput(AbsDCIdxCtrl *indexController, AbsDCPlayersCtx *scoresContext):
+    GetScoreFromDPCInput(IDCIdxCtrl *indexController, AbsDCPlayersCtx *scoresContext):
     AbsDCCalcScore(indexController,scoresContext){}
     virtual int calc(DCInput &input) const override
     {

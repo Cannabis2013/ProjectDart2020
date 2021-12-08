@@ -2,12 +2,12 @@
 #define DPCTURNVALUESBUILDER_H
 #include "DartsController/DCTurnValuesSLAs/abstractdcturnvalues.h"
 #include "DartsController/DCTurnValuesServices/dcturnvalues.h"
-#include "DartsController/DCIndexSLAs/absdcidxctrl.h"
+#include "DartsController/DCIndexSLAs/idcidxctrl.h"
 #include "DartsController/DCFinishesSLAs/idcfinishbuilder.h"
 class DPCTurnValuesBuilder : public AbstractDCTurnValues
 {
 public:
-    DPCTurnValuesBuilder(AbsDCIdxCtrl *indexController, AbsDCPlayersCtx *scoresModels,
+    DPCTurnValuesBuilder(IDCIdxCtrl *indexController, AbsDCPlayersCtx *scoresModels,
                      const IDCFinishBuilder *logisticService = nullptr)
     {
         setIndexController(indexController);

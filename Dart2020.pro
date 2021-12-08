@@ -18,11 +18,8 @@ SOURCES += \
     DartsController/DCFinishesServices/dcfinishbuilder.cpp \
     DartsController/DCJsonServices/dcjsonbuilder.cpp \
     DartsModelsContext/InputServices/dartsinputstojson.cpp \
-    DartsModelsContext/InputServices/dartsiptsdbctx.cpp \
     DartsModelsContext/Services/dartscontext.cpp \
     DartsModelsContext/TournamentServices/dartwinnermodelbuilder.cpp \
-    DartsModelsContext/TournamentsDbServices/dartsdbcontext.cpp \
-    PlayerModelsContext/DbServices/playersdbcontext.cpp \
     DartsController/DCFinishesServices/dartscreatefinishes.cpp \
     PlayerModelsContext/Services/playerbuilder.cpp \
     PlayerModelsContext/playerscontext.cpp \
@@ -58,14 +55,11 @@ HEADERS += \
     DartsController/ControllerSLA/ctrlslas.h \
     DartsController/DCFinishesSLAs/idcfinishbuilder.h \
     DartsController/DCFinishesServices/dcfinishbuilder.h \
-    DartsController/DCIndexSLAs/absdcidxctrl.h \
-    DartsController/DCIndexSLAs/abstractdcreqidxbuilder.h \
     DartsController/DCIndexSLAs/dcindex.h \
+    DartsController/DCIndexSLAs/idcidxctrl.h \
     DartsController/DCIndexServices/dcidxjsonbuilder.h \
     DartsController/DCIndexServices/dcplayerstatsjsonbuilder.h \
     DartsController/DCIndexServices/dcreqidxjsonbuilder.h \
-    DartsController/DCIndexServices/dpcreqindexbuilder.h \
-    DartsController/DCIndexServices/dscreqindexbuilder.h \
     DartsController/DCInputSLAs/abstractdcinputbuilder.h \
     DartsController/DCInputSLAs/abstractdciptconverter.h \
     DartsController/DCInputSLAs/dcinput.h \
@@ -195,6 +189,8 @@ HEADERS += \
     PlayerModelsContext/DbSLAs/iplayerbuilder.h \
     PlayerModelsContext/DbSLAs/iplayerjsonbuilder.h \
     PlayerModelsContext/DbServices/playersdbcontext.h \
+    PlayerModelsContext/ModelsSLAs/iduplicatechecker.h \
+    PlayerModelsContext/ModelsServices/duplicatechecker.h \
     PlayerModelsContext/SLAs/abstractplayerscontext.h \
     PlayerModelsContext/Services/playerbuilder.h \
     PlayerModelsContext/Services/playerjsonbuilder.h \
@@ -204,6 +200,7 @@ HEADERS += \
     Tests/SignalSpyManager.h \
     Tests/tst_createplayers.h \
     Tests/tst_dartstournaments.h \
+    Tests/tst_dpcontroller.h \
     Tests/tst_dscontroller.h \
     createqmlvariants.h \
     DartsController/DCFinishesServices/dartsboundaries.h \
