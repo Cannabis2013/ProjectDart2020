@@ -7,25 +7,16 @@
 class DPCTurnValuesBuilder : public AbstractDCTurnValues
 {
 public:
-    DPCTurnValuesBuilder(IDCIdxCtrl *indexController, AbsDCPlayersCtx *scoresModels,
-                     const IDCFinishBuilder *logisticService = nullptr)
-    {
-        setIndexController(indexController);
-        setScoreModels(scoresModels);
-        setLogisticService(logisticService);
-    }
-    DCTurnValues turnValues() const override
+    DCTurnValues create(const DCIndex &index, const DCPlayer &player, const QString &finish) const override
     {
         DCTurnValues model;
-        auto index = indexController()->index();
-        auto scoreModel = scoreModels()->players().at(index.setIndex);
         model.canUndo = index.turnIndex > 0;
         model.canRedo = index.turnIndex < index.totalTurns;
         model.roundIndex = index.roundIndex;
         model.setIndex = index.setIndex;
         model.attemptIndex = index.attemptIndex;
-        model.targetRow = logisticService()->suggestTargetRow(scoreModel.remScore,index.attemptIndex);
-        model.playerName = scoreModel.name;
+        model.targetRow = finish;
+        model.playerName = player.name;
         return model;
     }
 };

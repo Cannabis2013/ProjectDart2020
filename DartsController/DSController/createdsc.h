@@ -44,15 +44,14 @@ public:
         dc->setIdxConverter(new DCIdxConverter);
         dc->setPlayersContext(plaCtx);
         dc->setInputEvaluator(new DSCInputEvaluator);
+        dc->setTurnValuesBuilder(new DSCValuesBuilder);
         dc->setGetScoreFromInput(new DSCCalcScore(idxCtrl,plaCtx));
         dc->setCreateInput(new DSCInputBuilder(dc->scoreCalc()));
         dc->setIptConverter(new DCIptConverter(dc->createInput()));
         dc->setUpdateScores(new DCUpdatePlayerStats(dc->statsContext(),plaCtx));
-        dc->setAddToModelsCtx(new DCAddToModelsContext(idxCtrl,dc->iptConverter(),
-                                                       metaCtx,dc->idxConverter()));
+        dc->setAddToModelsCtx(new DCAddToModelsContext(dc->iptConverter(),dc->idxConverter()));
         dc->setUpdateInputStats(new DSCUpdScoreRng(dc->statsContext()));
         dc->setMetaBuilder(new DCMetaBuilder(metaCtx,idxCtrl,plaCtx));
-        dc->setTurnValuesBuilder(new DSCValuesBuilder(idxCtrl,plaCtx,dc->finishBuilder()));
         auto builder = new DCJsonBuilder;
         builder->setInputJsonBuilder(new DCInputJsonBuilder);
         builder->setScoreModelJsonBuilder(new DCScoreJsonBuilder);

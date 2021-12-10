@@ -15,7 +15,7 @@ public:
     QByteArray addInput(const QByteArray &json) override;
     QByteArray undoTurn() override;
     QByteArray redoTurn() override;
-    QByteArray getTurnValues() const override {return createJson()->create(turnValuesBuilder()->turnValues());}
+    QByteArray getTurnValues() const override;
     QByteArray getWinnerJson() const override {return createJson()->create(createMeta()->winnerMeta());}
     bool reset() override;
     int status() const override {return metaCtx()->status();}

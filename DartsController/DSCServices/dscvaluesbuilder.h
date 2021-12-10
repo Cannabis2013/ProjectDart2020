@@ -5,37 +5,17 @@
 class DSCValuesBuilder : public AbstractDCTurnValues
 {
 public:
-    DSCValuesBuilder(IDCIdxCtrl *indexController, AbsDCPlayersCtx *scoresModels,
-                     const IDCFinishBuilder *logisticService = nullptr)
+    DCTurnValues create(const DCIndex &index, const DCPlayer &player, const QString &finish) const override
     {
-        setIndexController(indexController);
-        setScoreModels(scoresModels);
-        setLogisticService(logisticService);
-    }
-    DCTurnValues turnValues() const override
-    {
-        auto scores = scoreModels()->players();
         DCTurnValues model;
-        auto index = indexController()->index();
-        auto scoreModel = scoreModels()->players().at(index.setIndex);
         model.canUndo = index.turnIndex > 0;
         model.canRedo = index.turnIndex < index.totalTurns;
         model.roundIndex = index.roundIndex;
         model.setIndex = index.setIndex;
         model.attemptIndex = index.attemptIndex;
-        model.targetRow = createRowSuggestionByScore(logisticService(),scoreModel.remScore);
-        model.playerName = scoreModel.name;
+        model.targetRow = finish;
+        model.playerName = player.name;
         return model;
     }
-private:
-    QString createRowSuggestionByScore(const IDCFinishBuilder* logisticService,
-                                       const int& score) const
-    {
-        if(logisticService == nullptr)
-            return "Logistic controller not injected";
-        auto targetRow = logisticService->suggestTargetRow(score,0);
-        return targetRow;
-    }
 };
-
 #endif // ASSEMBLEDARTSSCORETURNVALUES_H

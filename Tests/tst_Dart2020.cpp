@@ -22,42 +22,39 @@ public:
         configure();
         removeData(); // Remove data that failed clean up from previous test
     }
-    ~BackendTestSuite()
-    {
-        removeData();
-    }
+    ~BackendTestSuite() {removeData();}
 private slots:
-    void create_and_persist_KillerHertz()
+    void createAndPersistPlayerOne()
     {
         PlayersTestSuite tstSuite;
         tstSuite.testCreatePlayerOne(_plaCtx);
     }
-    void create_and_persist_Daa()
+    void createAndPersistPlayerTwo()
     {
         PlayersTestSuite tstSuite;
         tstSuite.testCreatePlayerTwo(_plaCtx);
     }
-    void create_darts_tournament_one()
+    void createDartsTournamentOne()
     {
         DartsTournamentTestSuite tstSuite;
         tstSuite.testCreateTournamentOne(_dtsCtx);
     }
-    void create_darts_tournament_two()
+    void createDartsTournamentTwo()
     {
         DartsTournamentTestSuite tstSuite;
         tstSuite.testCreateTournamentTwo(_dtsCtx);
     }
-    void remove_darts_tournament_two()
+    void removeDartsTournamentTwo()
     {
         DartsTournamentTestSuite tstSuite;
         tstSuite.testRemoveTournamentTwo(_dtsCtx);
     }
-    void create_darts_tournament_three()
+    void createDartsTournamentThree()
     {
         DartsTournamentTestSuite tstSuite;
         tstSuite.testCreateTournamentTwo(_dtsCtx);
     }
-    void controller_test_run_one()
+    void controllerTestRunOne()
     {
         auto model = _dtsCtx->tnmDbCtx()->model(0);
         auto result = _dsCtrl->initialize(model->id());
@@ -65,7 +62,7 @@ private slots:
         DSControllerTestSuite tstSuite(_dsCtrl);
         tstSuite.runGameOne();
     }
-    void controller_test_run_two()
+    void controllerTestRunTwo()
     {
         auto model = _dtsCtx->tnmDbCtx()->model(0);
         auto result = _dsCtrl->initialize(model->id());
@@ -73,7 +70,7 @@ private slots:
         DSControllerTestSuite tstSuite(_dsCtrl);
         tstSuite.runGameTwo();
     }
-    void controller_test_run_three()
+    void controllerTestRunThree()
     {
         auto model = _dtsCtx->tnmDbCtx()->model(0);
         auto result = _dsCtrl->initialize(model->id());
@@ -81,7 +78,7 @@ private slots:
         DSControllerTestSuite tstSuite(_dsCtrl);
         tstSuite.runGameThree();
     }
-    void controller_test_run_four()
+    void controllerTestRunFour()
     {
         auto model = _dtsCtx->tnmDbCtx()->model(0);
         auto result = _dsCtrl->initialize(model->id());
@@ -89,7 +86,7 @@ private slots:
         DSControllerTestSuite tstSuite(_dsCtrl);
         tstSuite.runGameFour();
     }
-    void controller_test_run_five()
+    void controllerTestRunFive()
     {
         auto model = _dtsCtx->tnmDbCtx()->model(0);
         auto result = _dsCtrl->initialize(model->id());
@@ -97,7 +94,7 @@ private slots:
         DSControllerTestSuite tstSuite(_dsCtrl);
         tstSuite.runGameFive();
     }
-    void controller_test_run_six()
+    void controllerTestRunSix()
     {
         auto model = _dtsCtx->tnmDbCtx()->model(0);
         auto result = _dsCtrl->initialize(model->id());
@@ -105,7 +102,7 @@ private slots:
         DSControllerTestSuite tstSuite(_dsCtrl);
         tstSuite.runGameSix();
     }
-    void controller_test_run_seven()
+    void controllerTestRunSeven()
     {
         auto model = _dtsCtx->tnmDbCtx()->model(1);
         auto result = _dpCtrl->initialize(model->id());
@@ -113,7 +110,7 @@ private slots:
         DPControllerTestSuite tstSuite(_dpCtrl);
         tstSuite.runGameOne();
     }
-    void controller_test_run_eight()
+    void controllerTestRunEight()
     {
         auto model = _dtsCtx->tnmDbCtx()->model(1);
         auto result = _dpCtrl->initialize(model->id());
@@ -121,7 +118,7 @@ private slots:
         DPControllerTestSuite tstSuite(_dpCtrl);
         tstSuite.runGameTwo();
     }
-    void controller_test_run_nine()
+    void controllerTestRunNine()
     {
         auto model = _dtsCtx->tnmDbCtx()->model(1);
         auto result = _dpCtrl->initialize(model->id());
@@ -129,7 +126,7 @@ private slots:
         DPControllerTestSuite tstSuite(_dpCtrl);
         tstSuite.runGameThree();
     }
-    void controller_test_run_ten()
+    void controllerTestRunTen()
     {
         auto model = _dtsCtx->tnmDbCtx()->model(1);
         auto result = _dpCtrl->initialize(model->id());

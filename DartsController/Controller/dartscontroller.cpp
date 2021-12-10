@@ -6,8 +6,8 @@ QByteArray DartsController::addInput(const QByteArray& json)
     auto scoreCand = scoreCalc()->calc(ipt.score); // Calc score
     evalIpt()->eval(ipt,scoreCand,metaCtx()->get(),player,metaCtx()->WinnerDeclared); // Evaluate input
     updateInputStats()->set(ipt,idxCtrl()->index(),metaCtx()->initRemScore());
-    auto idx = idxCtrl()->next(); // Increment index controller
-    addToModelsCtx()->add(ipt,idx,mdsCtx()); // Persist input to models context
+    auto idx = idxCtrl()->next(); // Increment index
+    addToModelsCtx()->add(ipt,idx,metaCtx()->get(),mdsCtx()); // Persist input to models context
     updatePlayerDetails()->update(ipt);
     if(metaCtx()->status() == metaCtx()->WinnerDeclared)
         mdsCtx()->setTournamentWinner(metaCtx()->tournamentId(),metaCtx()->winnerName());
@@ -45,6 +45,13 @@ QByteArray DartsController::redoTurn()
     auto ipt = iptConverter()->convert(mdlInput,meta.initRemScore,player);
     updatePlayerDetails()->update(ipt);
     return createJson()->create(ipt);
+}
+QByteArray DartsController::getTurnValues() const {
+    auto idx = idxCtrl()->index();
+    auto player = playersContext()->player(idx);
+    auto finish = finishBuilder()->suggestTargetRow(player.remScore,idx.attemptIndex);
+    auto values = turnValuesBuilder()->create(idx,player,finish);
+    return createJson()->create(values);
 }
 int DartsController::initialize(const QUuid &tournamentId)
 {
