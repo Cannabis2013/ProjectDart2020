@@ -6,7 +6,7 @@ class DCAddToModelsContext : public AbstractDCAddToMdsCtx
 public:
     DCAddToModelsContext(AbstractDCIptConverter *iptCvt, IDCIdxConverter *idxCvt):
         AbstractDCAddToMdsCtx(iptCvt,idxCvt){}
-    virtual bool add(DCInput &input, const DCIndex &idx, const DCMeta &meta, AbstractDartsContext *mdsCtx) override
+    virtual bool add(DCInput &input, const DCIndex &idx, const DCMeta &meta, AbsDartsCtx *mdsCtx) override
     {
         auto cvtdIdx = idxCvt()->convert(idx);
         auto cvtdIpt = iptCvt()->convert(input);

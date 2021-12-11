@@ -1,7 +1,8 @@
 #ifndef TST_DPCONTROLLER_H
 #define TST_DPCONTROLLER_H
-#include "DartsController/Controller/dartscontroller.h"
 #include <QtTest>
+#include "DartsController/Controller/dartscontroller.h"
+#include "DartsModelsContext/Services/dartscontext.h"
 /*
  * Test description and notation:
  *
@@ -38,11 +39,15 @@
  *  Pre and post definitions is also equivalent to before and after user input is added.
  */
 
-class DPControllerTestSuite
+class DPCtrlTst
 {
 public:
-    DPControllerTestSuite(DartsController *ctrl) {_ctrl = ctrl;}
-
+    DPCtrlTst(DartsController *ctrl, DartsContext *ctx) {
+        _ctrl = ctrl;
+        _ctx = ctx;
+        auto status = _ctrl->initialize(ctx->tnmDbCtx()->model(1)->id());
+        QVERIFY(status == _ctrl->metaCtx()->Initialized);
+    }
     void runGameOne()
     {
         /*
@@ -186,5 +191,6 @@ private:
         QVERIFY(result);
     }
     DartsController *_ctrl;
+    DartsContext *_ctx;
 };
 #endif // TST_DPCONTROLLER_H

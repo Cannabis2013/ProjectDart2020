@@ -1,10 +1,10 @@
-#ifndef ABSTRACTDARTSCONTEXT_H
-#define ABSTRACTDARTSCONTEXT_H
+#ifndef ABSDARTSCTX_H
+#define ABSDARTSCTX_H
 #include "ModelsContext/ModelsContextSLAs/abstractmodelscontext.h"
 #include "DartsModelsContext/InputModelsSLAs/abstractdartsinput.h"
 #include "DartsModelsContext/IndexesDbSLAs/idartsindex.h"
 #include "DartsModelsContext/InputModels/diptvals.h"
-class AbstractDartsContext : public AbstractModelsContext
+class AbsDartsCtx : public AbstractModelsContext
 {
     Q_OBJECT
 public:
@@ -31,4 +31,4 @@ signals:
 private:
     AbstractPlayersContext *_playersContext;
 };
-#endif // ABSTRACTDARTSCONTEXT_H
+#endif // ABSDARTSCTX_H

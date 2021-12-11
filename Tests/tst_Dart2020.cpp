@@ -1,7 +1,7 @@
 #include "testconfiguration.h"
-#include "tst_dpcontroller.h"
 #ifdef LOCAL_TEST_MODE
 #include <QtTest>
+#include "tst_dpcontroller.h"
 #include "PlayerModelsContext/createplayerscontext.h"
 #include "DartsModelsContext/Services/createdartscontext.h"
 #include "DartsControllerBuilder/Services/createdtsctrl.h"
@@ -22,118 +22,24 @@ public:
         configure();
         removeData(); // Remove data that failed clean up from previous test
     }
-    ~BackendTestSuite() {removeData();}
 private slots:
-    void createAndPersistPlayerOne()
-    {
-        PlayersTestSuite tstSuite;
-        tstSuite.testCreatePlayerOne(_plaCtx);
-    }
-    void createAndPersistPlayerTwo()
-    {
-        PlayersTestSuite tstSuite;
-        tstSuite.testCreatePlayerTwo(_plaCtx);
-    }
-    void createDartsTournamentOne()
-    {
-        DartsTournamentTestSuite tstSuite;
-        tstSuite.testCreateTournamentOne(_dtsCtx);
-    }
-    void createDartsTournamentTwo()
-    {
-        DartsTournamentTestSuite tstSuite;
-        tstSuite.testCreateTournamentTwo(_dtsCtx);
-    }
-    void removeDartsTournamentTwo()
-    {
-        DartsTournamentTestSuite tstSuite;
-        tstSuite.testRemoveTournamentTwo(_dtsCtx);
-    }
-    void createDartsTournamentThree()
-    {
-        DartsTournamentTestSuite tstSuite;
-        tstSuite.testCreateTournamentTwo(_dtsCtx);
-    }
-    void controllerTestRunOne()
-    {
-        auto model = _dtsCtx->tnmDbCtx()->model(0);
-        auto result = _dsCtrl->initialize(model->id());
-        QVERIFY(result == _dsCtrl->metaCtx()->Initialized);
-        DSControllerTestSuite tstSuite(_dsCtrl);
-        tstSuite.runGameOne();
-    }
-    void controllerTestRunTwo()
-    {
-        auto model = _dtsCtx->tnmDbCtx()->model(0);
-        auto result = _dsCtrl->initialize(model->id());
-        QVERIFY(result == _dsCtrl->metaCtx()->Initialized);
-        DSControllerTestSuite tstSuite(_dsCtrl);
-        tstSuite.runGameTwo();
-    }
-    void controllerTestRunThree()
-    {
-        auto model = _dtsCtx->tnmDbCtx()->model(0);
-        auto result = _dsCtrl->initialize(model->id());
-        QVERIFY(result == _dsCtrl->metaCtx()->Initialized);
-        DSControllerTestSuite tstSuite(_dsCtrl);
-        tstSuite.runGameThree();
-    }
-    void controllerTestRunFour()
-    {
-        auto model = _dtsCtx->tnmDbCtx()->model(0);
-        auto result = _dsCtrl->initialize(model->id());
-        QVERIFY(result == _dsCtrl->metaCtx()->Initialized);
-        DSControllerTestSuite tstSuite(_dsCtrl);
-        tstSuite.runGameFour();
-    }
-    void controllerTestRunFive()
-    {
-        auto model = _dtsCtx->tnmDbCtx()->model(0);
-        auto result = _dsCtrl->initialize(model->id());
-        QVERIFY(result == _dsCtrl->metaCtx()->Initialized);
-        DSControllerTestSuite tstSuite(_dsCtrl);
-        tstSuite.runGameFive();
-    }
-    void controllerTestRunSix()
-    {
-        auto model = _dtsCtx->tnmDbCtx()->model(0);
-        auto result = _dsCtrl->initialize(model->id());
-        QVERIFY(result == _dsCtrl->metaCtx()->Initialized);
-        DSControllerTestSuite tstSuite(_dsCtrl);
-        tstSuite.runGameSix();
-    }
-    void controllerTestRunSeven()
-    {
-        auto model = _dtsCtx->tnmDbCtx()->model(1);
-        auto result = _dpCtrl->initialize(model->id());
-        QVERIFY(result == _dpCtrl->metaCtx()->Initialized);
-        DPControllerTestSuite tstSuite(_dpCtrl);
-        tstSuite.runGameOne();
-    }
-    void controllerTestRunEight()
-    {
-        auto model = _dtsCtx->tnmDbCtx()->model(1);
-        auto result = _dpCtrl->initialize(model->id());
-        QVERIFY(result == _dpCtrl->metaCtx()->Initialized);
-        DPControllerTestSuite tstSuite(_dpCtrl);
-        tstSuite.runGameTwo();
-    }
-    void controllerTestRunNine()
-    {
-        auto model = _dtsCtx->tnmDbCtx()->model(1);
-        auto result = _dpCtrl->initialize(model->id());
-        QVERIFY(result == _dpCtrl->metaCtx()->Initialized);
-        DPControllerTestSuite tstSuite(_dpCtrl);
-        tstSuite.runGameThree();
-    }
-    void controllerTestRunTen()
-    {
-        auto model = _dtsCtx->tnmDbCtx()->model(1);
-        auto result = _dpCtrl->initialize(model->id());
-        QVERIFY(result == _dpCtrl->metaCtx()->Initialized);
-        DPControllerTestSuite tstSuite(_dpCtrl);
-        tstSuite.runGameFour();
-    }
+    void cleanupTestCase() {removeData();}
+    void createAndPersistPlayerOne() {PlayersTestSuite().testCreatePlayerOne(_plaCtx);}
+    void createAndPersistPlayerTwo() {PlayersTestSuite().testCreatePlayerTwo(_plaCtx);}
+    void createDartsTournamentOne() {DartsTournamentTestSuite().testCreateTournamentOne(_dtsCtx);}
+    void createDartsTournamentTwo() {DartsTournamentTestSuite().testCreateTournamentTwo(_dtsCtx);}
+    void removeDartsTournamentTwo() {DartsTournamentTestSuite().testRemoveTournamentTwo(_dtsCtx);}
+    void createDartsTournamentThree() {DartsTournamentTestSuite().testCreateTournamentTwo(_dtsCtx);}
+    void ctrlTstRunOne() {DSCtrlTst(_dsCtrl,_dtsCtx).runGameOne();}
+    void ctrlTstRunTwo() {DSCtrlTst(_dsCtrl,_dtsCtx).runGameTwo();}
+    void ctrlTstRunThree() {DSCtrlTst(_dsCtrl,_dtsCtx).runGameThree();}
+    void ctrlTstRunFour() {DSCtrlTst(_dsCtrl,_dtsCtx).runGameFour();}
+    void ctrlTstRunFive() {DSCtrlTst(_dsCtrl,_dtsCtx).runGameFive();}
+    void ctrlTstRunSix() {DSCtrlTst(_dsCtrl,_dtsCtx).runGameSix();}
+    void ctrlTstRunSeven() {DPCtrlTst(_dpCtrl,_dtsCtx).runGameOne();}
+    void ctrlTstRunEight() {DPCtrlTst(_dpCtrl,_dtsCtx).runGameTwo();}
+    void ctrlTstRunNine() {DPCtrlTst(_dpCtrl,_dtsCtx).runGameThree();}
+    void ctrlTstRunTen() {DPCtrlTst(_dpCtrl,_dtsCtx).runGameFour();}
 private:
     void configure()
     {
@@ -143,10 +49,8 @@ private:
     }
     void removeData()
     {
-        if(QFile::remove("Players"))
-            printf("Players file removed\n");
-        if(QFile::remove("DartsData"))
-            printf("DartsData file removed\n");
+        if(QFile::remove("Players")) printf("Players file removed\n");
+        if(QFile::remove("DartsData")) printf("DartsData file removed\n");
     }
     PlayersContext *_plaCtx;
     DartsController *_dsCtrl;

@@ -1,9 +1,8 @@
-#ifndef ABSTRACTGAMECONTROLLER_H
-#define ABSTRACTGAMECONTROLLER_H
+#ifndef ABSGAMECTRL_H
+#define ABSGAMECTRL_H
 #include <QObject>
 #include <quuid.h>
-#include "DartsModelsContext/SLAs/abstractdartscontext.h"
-class AbstractGameController : public QObject
+class AbsGameCtrl : public QObject
 {
     Q_OBJECT
 public:
@@ -24,4 +23,4 @@ signals:
     void controllerIsStopped();
 };
 
-#endif // ABSTRACTGAMECONTROLLER_H
+#endif // ABSGAMECTRL_H

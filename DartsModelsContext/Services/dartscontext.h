@@ -1,8 +1,8 @@
 #ifndef DARTSCONTEXT_H
 #define DARTSCONTEXT_H
-#include "DartsModelsContext/SLAs/abstractdartscontext.h"
+#include "DartsModelsContext/SLAs/absdartsctx.h"
 #include "DartsModelsContext/SLAs/DartsModelsSLAs.h"
-class DartsContext : public AbstractDartsContext,
+class DartsContext : public AbsDartsCtx,
                      public DartsCtxSLAs
 {
 public:

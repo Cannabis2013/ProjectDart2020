@@ -1,17 +1,18 @@
 #ifndef ABSDARTSCTRL_H
 #define ABSDARTSCTRL_H
-#include "DartControllerContext/SLAs/abstractgamecontroller.h"
+#include "DartControllerContext/SLAs/absgamectrl.h"
 #include "DartsController/DCInputSLAs/dcinput.h"
-class AbsDartsCtrl : public AbstractGameController
+class AbsDartsCtx;
+class AbsDartsCtrl : public AbsGameCtrl
 {
     Q_OBJECT
 public:
-    AbsDartsCtrl *setModelsContext(AbstractDartsContext *context)
+    AbsDartsCtrl *setModelsContext(AbsDartsCtx *context)
     {
         _modelsContext = context;
         return this;
     }
-    AbstractDartsContext *mdsCtx()
+    AbsDartsCtx *mdsCtx()
     {
         if(_modelsContext != nullptr)
             return _modelsContext;
@@ -29,6 +30,6 @@ signals:
     void sendDartsScores(const QByteArray& json);
     void sendOrderedInputs(const QByteArray &json);
 private:
-    AbstractDartsContext *_modelsContext = nullptr;
+    AbsDartsCtx *_modelsContext = nullptr;
 };
 #endif

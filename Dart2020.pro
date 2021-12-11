@@ -50,6 +50,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     AsyncUtils/runlater.h \
+    DartControllerContext/SLAs/absgamectrl.h \
     DartsController/Controller/dartscontroller.h \
     DartsController/ControllerSLA/absdartsctrl.h \
     DartsController/ControllerSLA/ctrlslas.h \
@@ -129,7 +130,7 @@ HEADERS += \
     DartsModelsContext/InputsDbSLAs/igetinputs.h \
     DartsModelsContext/InputsDbSLAs/iremovedartsinputs.h \
     DartsModelsContext/SLAs/DartsModelsSLAs.h \
-    DartsModelsContext/SLAs/abstractdartscontext.h \
+    DartsModelsContext/SLAs/absdartsctx.h \
     DartsModelsContext/Services/createdartscontext.h \
     DartsModelsContext/Services/dartscontext.h \
     DartsModelsContext/TournamentModels/dartsmetamodel.h \
@@ -262,7 +263,6 @@ HEADERS += \
     itableindicevalues.h \
     DartsTableContext/TableSectionsSLAs/itablesectioncontext.h \
     DartsTableContext/TableSectionsSLAs/itablesectionmanipulator.h \
-    DartControllerContext/SLAs/abstractgamecontroller.h \
     ModelsContext/ModelsSLAs/imodel.h \
     DartsModelsContext/InputModelsSLAs/iplayerinput.h \
     PlayerModelsContext/DbSLAs/iplayermodel.h \
