@@ -20,7 +20,7 @@ Rectangle{
     onBackOpacityChanged: backgroundRect.opacity = backOpacity
     property int horizontalLabelAlignment: Qt.AlignLeft
     onHorizontalLabelAlignmentChanged: labelTitle.horizontalTextAlignment = horizontalLabelAlignment
-    property int fontSize: 24
+    property int fontSize: 16
     onFontSizeChanged: labelTitle.fontSize = fontSize
     Rectangle{
         id: backgroundRect

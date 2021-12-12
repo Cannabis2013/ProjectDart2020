@@ -14,12 +14,12 @@ int main(int argc, char *argv[])
 {
     // Configure for devices that supports hidp resolutions
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    // Declare types that deals with main event loop and qml context
-    QGuiApplication app(argc, argv);
-    QQmlApplicationEngine engine;
     // Register custom types
     RegisterQMLTypes::registerTypes();
     QmlPropertiesBuilder builder;
+    // Setup main event loop and qml context
+    QGuiApplication app(argc, argv);
+    QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperties(builder.contextProperties());
     // Setup QML UI interface
     SetupQMLContext::setup(engine,app,QStringLiteral("qrc:/qml/main.qml"));

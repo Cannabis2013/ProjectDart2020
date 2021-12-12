@@ -12,7 +12,7 @@ function onPressAndHold()
     if(body.isCheckable && !checked)
     {
         body.state = "checked";
-        checkMarkScaleAni.start();
+        checkMark.startAni();
     }
     else
         body.state = "";
@@ -26,7 +26,7 @@ function onClick()
     if(body.isCheckable && !checked)
     {
         body.state = "checked";
-        checkMarkScaleAni.start();
+        checkMark.startAni();
     }
     else
         body.state = "";

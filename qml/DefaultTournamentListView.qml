@@ -3,6 +3,6 @@ import QtQuick.Layouts 1.3
 
 TournamentListView{
     id: tournamentListView
-    radius: 15
-    componentTitle: "| Tournaments"
+    radius: 10
+    componentTitle: "Tournaments"
 }

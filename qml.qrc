@@ -113,6 +113,7 @@
         <file>qml/ConfirmActionButtons.qml</file>
         <file>qml/createPlayerScripts.js</file>
         <file>qml/ScaleTransition.qml</file>
+        <file>qml/ItemBody.qml</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/dartpic.jpg</file>

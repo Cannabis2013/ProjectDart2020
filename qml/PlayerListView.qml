@@ -2,9 +2,7 @@ import QtQuick 2.15
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.3
-
 import "playerListViewScripts.js" as PLVScripts
-
 ItemListView{
     id: listComponentBody
     onUnSelectAll: PLVScripts.unSelectAll()
@@ -38,9 +36,7 @@ ItemListView{
             Layout.fillWidth: true
             boundsMovement: ListView.StopAtBounds
             add: ScaleTransition {}
-            model: ListModel {
-                id: listModel
-            }
+            model: ListModel {id: listModel}
             delegate: PlayerViewDelegate {
                 id: listItem
                 onClicked: itemClicked(index)
