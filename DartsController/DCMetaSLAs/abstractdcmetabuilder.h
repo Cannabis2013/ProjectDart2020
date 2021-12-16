@@ -1,9 +1,10 @@
 #ifndef ABSTRACTDCMETABUILDER_H
 #define ABSTRACTDCMETABUILDER_H
-#include "idcmetacontext.h"
-#include "DartsController/DCScoresSLAs/absdcplayersctx.h"
-#include "DartsModelsContext/IndexesDbSLAs/idartsindex.h"
-#include "DartsController/DCIndexSLAs/idcidxctrl.h"
+class TnmVals;
+class DCMeta;
+class AbsDCPlayersCtx;
+class IDCIdxCtrl;
+class IDCMetaContext;
 class AbstractDCMetaBuilder
 {
 public:
@@ -11,6 +12,7 @@ public:
                           AbsDCPlayersCtx *scoresContext):
     _metaInfo(metaContext),_indexController(indexController),_scoreModels(scoresContext){}
     virtual DCMeta create() const = 0;
+    virtual DCMeta create(const TnmVals &tnmVals) const = 0;
     virtual DCMeta winnerMeta() const = 0;
     IDCMetaContext *metaCtx() const {return _metaInfo;}
     IDCIdxCtrl *idxCtrl() const {return _indexController;}

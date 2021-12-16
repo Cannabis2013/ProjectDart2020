@@ -5,23 +5,19 @@
 #include "DartsController/DCMetaServices/dcmeta.h"
 #include "DartsController/DCMetaSLAs/idcmetacontext.h"
 #include "DartsModelsContext/TournamentModelsSLAs/abstractdartstournament.h"
+#include "DartsModelsContext//TournamentModels/tnmvalues.h"
+#include <DartsController/DCMetaSLAs/abstractdcmetabuilder.h>
 class DCInit
 {
 public:
-    static void initTournamentMeta(AbstractDartsTournament *tournament,
-                                   IDCMetaContext *metaInfo,
-                                   IDCIdxCtrl *indexController,
-                                   IDCIdxConverter *idxBuilder)
+    static void initTournamentMeta(const DCMeta &meta,
+                                   IDCMetaContext *metaCtx,
+                                   IDCIdxCtrl *indexController)
     {
-        auto meta = &metaInfo->get();
-        meta->initRemScore = tournament->initialRemaining();
-        meta->tournamentId = tournament->id();
-        meta->winnerName = tournament->winnerName();
-        meta->entryRestricted = tournament->entryRestricted();
-        auto pCount = tournament->playerIds().count();
-        indexController->init(pCount,idxBuilder->convert(tournament));
+        metaCtx->set(meta);
+        indexController->init(meta);
     }
-    static void initPlayerDetails(const QVector<IPlayerModel*> &playerMds, const DCMeta &meta,
+    static void initPlayerDetails(const QVector<IPlayer*> &playerMds, const DCMeta &meta,
                                   AbsDCPlayersCtx *playersContext, IDCStatsContext *playerStats)
     {
         auto playerNames = DCInit::convertPlayerMds(playerMds);
@@ -49,7 +45,7 @@ public:
             meta->status = IDCMetaContext::WinnerDeclared;
     }
 private:
-    static QStringList convertPlayerMds(const QVector<IPlayerModel*> &playerMds)
+    static QStringList convertPlayerMds(const QVector<IPlayer*> &playerMds)
     {
         QStringList names;
         for (const auto &playerMd : playerMds)

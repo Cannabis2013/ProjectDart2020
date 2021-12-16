@@ -1,7 +1,8 @@
 #ifndef IGETDARTSTOURNAMENT_H
 #define IGETDARTSTOURNAMENT_H
-#include "ModelsContext/DbSLAs/imodelsdbcontext.h"
-#include "DartsModelsContext/TournamentModelsSLAs/abstractdartstournament.h"
+template<typename T>
+class IDbContext;
+class QUuid;
 template<typename TBaseModel, typename TSuperModel = TBaseModel>
 class IGetDartsTournament
 {

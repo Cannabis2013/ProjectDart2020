@@ -46,8 +46,8 @@ function updatePlayersView()
     for(var i=0;i < j.length;i++)
     {
         var obj = j[i];
-        var playerName = obj["playerName"];
-        var email = obj["playerMail"];
+        var playerName = obj["name"];
+        var email = obj["mail"];
         playersListView.addItem({"type" : "player","username" : playerName, "mail" : email});
     }
 }

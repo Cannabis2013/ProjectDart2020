@@ -2,7 +2,7 @@
 #define IDCSTATSCONTEXT_H
 #include <qstringlist.h>
 #include <qvector.h>
-#include "PlayerModelsContext/DbSLAs/iplayermodel.h"
+#include "PlayerModelsContext/DbSLAs/iplayer.h"
 #include "DartsController/DCScoresSLAs/absdcplayersctx.h"
 #include "DartsController/DCIndexSLAs/idcidxctrl.h"
 #include "dcplayerstats.h"

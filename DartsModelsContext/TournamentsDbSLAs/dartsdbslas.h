@@ -3,33 +3,42 @@
 #include "DartsModelsContext/TournamentsDbSLAs/itournamentjsonbuilder.h"
 #include "DartsModelsContext/TournamentsDbSLAs/idartsbuilder.h"
 #include "igetdartstournament.h"
-#include "ModelsContext/DbSLAs/abstractsavetostorage.h"
-#include "ModelsContext/DbSLAs/icreatemodelsfrom.h"
-#include "ModelsContext/DbSLAs/abstractloadfromstorage.h"
+#include "DartsModelsContext/DbSLAs/abstractsavetostorage.h"
+#include "DartsModelsContext/DbSLAs/iconverttomodels.h"
+#include "DartsModelsContext/DbSLAs/abstractloadmodels.h"
+class TnmVals;
+class AbstractDartsTournament;
 class DartsDbSLAs
 {
 public:
-    typedef IModel<QUuid> BaseModel;
+    typedef IModel<QUuid> Model;
     typedef AbstractDartsTournament DartsModel;
-    typedef QByteArray JsonFormat;
-    IDartsBuilder<BaseModel,DartsModel> *tournamentBuilder() const {return _tournamentBuilder;}
-    void setTournamentBuilder(IDartsBuilder<BaseModel,DartsModel> *service) {_tournamentBuilder = service;}
-    IDartsJsonBuilder<BaseModel,JsonFormat> *tnmJsonBuilder() const {return _tournamentJsonBuilder;}
-    void setTournamentJsonBuilder(IDartsJsonBuilder<BaseModel,JsonFormat> *service) {_tournamentJsonBuilder = service;}
-    IDbContext<BaseModel> *tnmDbCtx() const {return _dartsDb;}
-    void setDartsDbCtx(IDbContext<BaseModel> *service) {_dartsDb = service;}
-    IGetDartsTournament<BaseModel,DartsModel> *getTournament() const {return _getTournament;}
-    void setGetTournament(IGetDartsTournament<BaseModel,DartsModel> *service) {_getTournament = service;}
-    AbstractSaveToStorage<BaseModel, JsonFormat> *saveToStorage() const {return _saveToStorage;}
-    void setSaveToStorage(AbstractSaveToStorage<BaseModel, JsonFormat> *newDtsDbPersist) {_saveToStorage = newDtsDbPersist;}
-    AbstractLoadFromStorage<BaseModel, JsonFormat> *loadFromStorage() const {return _loadFromStorage;}
-    void setLoadFromStorage(AbstractLoadFromStorage<BaseModel, JsonFormat> *load) {_loadFromStorage = load;}
+    typedef QByteArray Json;
+    typedef IDbContext<Model> DbCtx;
+    typedef TnmVals TnmExchanceVals;
+    typedef IDartsBuilder<Model,DartsModel,Json,TnmExchanceVals> ModelBuilder;
+    typedef IDartsJsonBuilder<Model,Json> JsonBuilder;
+    typedef IModelConverter<IModel<QUuid>,Json> ModelConverter;
+    typedef AbstractSaveToStorage<Model,Json,DbCtx,ModelConverter> SaveModels;
+    typedef AbstractLoadModels<Model,Json> LoadModels;
+    ModelBuilder *tournamentBuilder() const {return _tournamentBuilder;}
+    void setTournamentBuilder(ModelBuilder *service) {_tournamentBuilder = service;}
+    JsonBuilder *tnmJsonBuilder() const {return _tournamentJsonBuilder;}
+    void setTournamentJsonBuilder(JsonBuilder *service) {_tournamentJsonBuilder = service;}
+    IDbContext<Model> *tnmDbCtx() const {return _dartsDb;}
+    void setDartsDbCtx(IDbContext<Model> *service) {_dartsDb = service;}
+    IGetDartsTournament<Model,DartsModel> *getTournament() const {return _getTournament;}
+    void setGetTournament(IGetDartsTournament<Model,DartsModel> *service) {_getTournament = service;}
+    SaveModels *saveToStorage() const {return _saveToStorage;}
+    void setSaveToStorage(SaveModels *newDtsDbPersist) {_saveToStorage = newDtsDbPersist;}
+    LoadModels *loadFromStorage() const {return _loadFromStorage;}
+    void setLoadFromStorage(LoadModels *load) {_loadFromStorage = load;}
 private:
-    AbstractLoadFromStorage<BaseModel,JsonFormat> *_loadFromStorage;
-    AbstractSaveToStorage<BaseModel,JsonFormat> *_saveToStorage;
-    IGetDartsTournament<BaseModel,DartsModel> *_getTournament;
-    IDbContext<BaseModel> *_dartsDb;
-    IDartsBuilder<BaseModel,DartsModel> *_tournamentBuilder;
-    IDartsJsonBuilder<BaseModel,JsonFormat> *_tournamentJsonBuilder;
+    LoadModels *_loadFromStorage;
+    SaveModels *_saveToStorage;
+    IGetDartsTournament<Model,DartsModel> *_getTournament;
+    IDbContext<Model> *_dartsDb;
+    ModelBuilder *_tournamentBuilder;
+    JsonBuilder *_tournamentJsonBuilder;
 };
 #endif // MODELSDBJSONSLAS_H

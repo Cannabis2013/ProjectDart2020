@@ -1,6 +1,9 @@
 #ifndef DPCINPUTVALIDATOR_H
 #define DPCINPUTVALIDATOR_H
 #include "DartsController/DCInputSLAs/idcipteval.h"
+#include "DartsController/DCInputSLAs/dcinput.h"
+#include "DartsController/DCMetaServices/dcmeta.h"
+#include "DartsController/DCScoresServices/dcscoremodel.h"
 class DPCInputEvaluator : public IDCIptEval
 {
     Q_OBJECT

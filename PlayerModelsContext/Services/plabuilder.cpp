@@ -1,14 +1,14 @@
-#include "PlayerModelsContext/Services/playerbuilder.h"
-IModel<QUuid> *PlayerBuilder::createPlayer(const QByteArray &json) const
+#include "PlayerModelsContext/Services/plabuilder.h"
+PlaBuilder::BaseModel *PlaBuilder::createPlayer(const QByteArray &json) const
 {
     auto obj = toJsonObject(json);
     return toModel(obj);
 }
 
-QVector<IModel<QUuid>*> PlayerBuilder::createPlayers(const QByteArray &json) const
+QVector<IPlayer*> PlaBuilder::createPlayers(const QByteArray &json) const
 {
     auto arr = toJsonArray(json);
-    QVector<IModel<QUuid>*> playerModels;
+    QVector<IPlayer*> playerModels;
     for (auto i = arr.begin();i != arr.end();i++) {
         auto JSONValue = *i;
         auto obj = JSONValue.toObject();
@@ -17,7 +17,7 @@ QVector<IModel<QUuid>*> PlayerBuilder::createPlayers(const QByteArray &json) con
     return playerModels;
 }
 
-QVector<PlayerBuilder::BaseModel *> PlayerBuilder::create(const Data &json) const
+QVector<PlaBuilder::BaseModel *> PlaBuilder::convert(const DataFormat &json) const
 {
     auto obj = QJsonDocument::fromJson(json).object();
     QVector<BaseModel*> players;
@@ -27,7 +27,7 @@ QVector<PlayerBuilder::BaseModel *> PlayerBuilder::create(const Data &json) cons
     return players;
 }
 
-PlayerModel *PlayerBuilder::toModel(const QJsonObject &obj) const
+PlayerModel *PlaBuilder::toModel(const QJsonObject &obj) const
 {
     auto playerId = toId(obj.value("playerId").toString());
     auto playerName = obj.value("playerName").toString();
@@ -39,19 +39,19 @@ PlayerModel *PlayerBuilder::toModel(const QJsonObject &obj) const
     return model;
 }
 
-QJsonObject PlayerBuilder::toJsonObject(const QByteArray &json) const
+QJsonObject PlaBuilder::toJsonObject(const QByteArray &json) const
 {
     return QJsonDocument::fromJson(json).object();
 }
 
-QJsonArray PlayerBuilder::toJsonArray(const QByteArray &json) const
+QJsonArray PlaBuilder::toJsonArray(const QByteArray &json) const
 {
     auto document = QJsonDocument::fromJson(json);
     auto arr = document.array();
     return arr;
 }
 
-QUuid PlayerBuilder::toId(const QString &stringId) const
+QUuid PlaBuilder::toId(const QString &stringId) const
 {
     auto id = QUuid::fromString(stringId);
     if(id == QUuid())

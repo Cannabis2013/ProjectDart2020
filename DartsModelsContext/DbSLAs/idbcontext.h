@@ -1,6 +1,8 @@
 #ifndef IDBCONTEXT_H
 #define IDBCONTEXT_H
-#include <qvector.h>
+#include <functional>
+template<typename T>
+class QVector;
 template<typename TModel>
 class IDbContext
 {

@@ -1,8 +1,11 @@
 #ifndef ISORTINPUTMODELS_H
 #define ISORTINPUTMODELS_H
-#include <qvector.h>
-#include "DartsModelsContext/InputModelsSLAs/iplayerinput.h"
-#include "ModelsContext/PredicateSLAs/imodelpredicate.h"
+class IModelPredicate;
+template<typename T>
+class QVector;
+template<typename T>
+class IModel;
+class QUuid;
 class ISortInputModels
 {
 public:

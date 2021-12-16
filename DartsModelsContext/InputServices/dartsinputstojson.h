@@ -5,8 +5,8 @@
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 #include <qjsonarray.h>
-#include "ModelsContext/DbSLAs/icreatedatafrom.h"
-class DartsInputsToJson : public ICreateDataFrom<IModel<QUuid>,QByteArray>
+#include "DartsModelsContext/DbSLAs/imodelconverter.h"
+class DartsInputsToJson : public IModelConverter<IModel<QUuid>,QByteArray>
 {
 public:
     QByteArray create(const QVector<FromData*> &models, QByteArray &json) const override;

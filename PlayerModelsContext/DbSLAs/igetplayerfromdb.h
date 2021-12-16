@@ -1,18 +1,18 @@
 #ifndef IGETPLAYERSFROMDB_H
 #define IGETPLAYERSFROMDB_H
-#include "ModelsContext/ModelsSLAs/imodel.h"
-#include "ModelsContext/DbSLAs/imodelsdbcontext.h"
-#include "iplayermodel.h"
+#include <quuid.h>
 #include <qvector.h>
+template<typename TModel, typename TDbContext>
 class IGetPlayersFromDb
 {
 public:
-    typedef IPlayerModel Player;
+    typedef TModel Player;
     typedef QVector<Player*> Players;
-    virtual Player *player(const QUuid &id, const IModelsDbContext *dbContext) const = 0;
-    virtual Player *player(const QString &name, const IModelsDbContext *dbContext) const = 0;
-    virtual Players players(const QVector<int> &indexes, const IModelsDbContext *dbContext) const = 0;
-    virtual Players players(const QVector<QUuid> &ids, const IModelsDbContext *dbContext) const = 0;
-    virtual Players players(const QVector<QString> &names, const IModelsDbContext *dbContext) const = 0;
+    typedef TDbContext DbContext;
+    virtual Player *player(const QUuid &id, const DbContext *dbContext) const = 0;
+    virtual Player *player(const QString &name, const DbContext *dbContext) const = 0;
+    virtual Players players(const QVector<int> &indexes, const DbContext *dbContext) const = 0;
+    virtual Players players(const QVector<QUuid> &ids, const DbContext *dbContext) const = 0;
+    virtual Players players(const QVector<QString> &names, const DbContext *dbContext) const = 0;
 };
 #endif // IGETDARTSPLAYERDATAFROMDB_H

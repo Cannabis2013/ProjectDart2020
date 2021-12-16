@@ -1,15 +1,15 @@
-#include "testconfiguration.h"
+#include "Tests/testconfiguration.h"
 #ifndef TEST_MODE
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include "QmlContext/qmlpropertiesbuilder.h"
 #include <QtQuick/QQuickView>
 #include <qqmlcontext.h>
-#include "registerqmldartstabletypes.h"
-#include "registerqmlsingletons.h"
-#include "registerqmltableutils.h"
-#include "setupqmlcontext.h"
-#include "registerqmltypes.h"
+#include "SetupQmlApp/registerqmldartstabletypes.h"
+#include "SetupQmlApp/registerqmlsingletons.h"
+#include "SetupQmlApp/registerqmltableutils.h"
+#include "SetupQmlApp/setupqmlcontext.h"
+#include "SetupQmlApp/registerqmltypes.h"
 int main(int argc, char *argv[])
 {
     // Configure for devices that supports hidp resolutions

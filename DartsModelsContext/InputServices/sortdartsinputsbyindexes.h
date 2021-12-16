@@ -1,7 +1,7 @@
 #ifndef DARTSPOINTLESSTHANPREDICATE_H
 #define DARTSPOINTLESSTHANPREDICATE_H
 #include "DartsModelsContext/InputServices/dartsinput.h"
-#include "ModelsContext/PredicateSLAs/imodelpredicate.h"
+#include "DartsModelsContext/PredicateSLAs/imodelpredicate.h"
 class SortDartsInputsByIndexes : public IModelPredicate
 {
 public:

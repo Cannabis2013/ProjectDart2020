@@ -1,7 +1,8 @@
 #ifndef IRESETDARTSTOURNAMENT_H
 #define IRESETDARTSTOURNAMENT_H
-#include "ModelsContext/DbSLAs/idbcontext.h"
 #include <quuid.h>
+template<typename T>
+class IDbContext;
 template<typename TBaseModel, typename TUuid = QUuid>
 class IResetDartsTournament
 {

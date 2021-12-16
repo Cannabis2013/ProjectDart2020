@@ -1,8 +1,9 @@
 #ifndef DARTSDBCONTEXT_H
 #define DARTSDBCONTEXT_H
 #include <quuid.h>
-#include "ModelsContext/ModelsSLAs/imodel.h"
-#include "ModelsContext/DbSLAs/idbcontext.h"
+#include <qvector.h>
+#include "DartsModelsContext/ModelSLAs/imodel.h"
+#include "DartsModelsContext/DbSLAs/idbcontext.h"
 class DartsDbContext : public IDbContext<IModel<QUuid>>
 {
 public:

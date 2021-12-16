@@ -1,30 +1,21 @@
 #ifndef DCIDXCONVERTER_H
 #define DCIDXCONVERTER_H
-#include "ModelsContext/ModelsSLAs/imodel.h"
-#include <DartsModelsContext/IndexesSLAs/idcidxconverter.h>
+#include <DartsModelsContext/IndexesSLAs/idcidxbuilder.h>
+#include <DartsController/DCIndexSLAs/dcindex.h>
+#include "DartsModelsContext//TournamentModels/tnmvalues.h"
 #include "DartsModelsContext/IndexesDbServices/dartsindex.h"
-class DCIdxConverter : public IDCIdxConverter
+class DCIdxConverter : public IDCIdxBuilder
 {
 public:
-    virtual IDartsIndex *convert(const DCIndex &idx) const override
+    virtual TnmVals convert(const DCIndex &idx) const override
     {
-        auto mdlIdx = new DartsIndex;
-        mdlIdx->setTotalTurns(idx.totalTurns);
-        mdlIdx->setTurnIndex(idx.turnIndex);
-        mdlIdx->setRoundIndex(idx.roundIndex);
-        mdlIdx->setSetIndex(idx.setIndex);
-        mdlIdx->setAttemptIndex(idx.attemptIndex);
-        return mdlIdx;
-    }
-    virtual DCIndex convert(IDartsIndex *mdlIdx) const override
-    {
-        DCIndex idx;
-        idx.totalTurns = mdlIdx->totalTurns();
-        idx.turnIndex = mdlIdx->turnIndex();
-        idx.roundIndex = mdlIdx->roundIndex();
-        idx.setIndex = mdlIdx->setIndex();
-        idx.attemptIndex = mdlIdx->attemptIndex();
-        return idx;
+        TnmVals cvtdIdx;
+        cvtdIdx.totalTurns = idx.totalTurns;
+        cvtdIdx.turnIndex = idx.turnIndex;
+        cvtdIdx.roundIndex = idx.roundIndex;
+        cvtdIdx.setIndex = idx.setIndex;
+        cvtdIdx.attemptIndex = idx.attemptIndex;
+        return cvtdIdx;
     }
 };
 #endif // DARTSINDEXESBUILDER_H

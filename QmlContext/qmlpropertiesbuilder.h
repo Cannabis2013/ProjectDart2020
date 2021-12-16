@@ -25,7 +25,7 @@ public:
         _props << createProperty<AbsDartsCtx>("dartsContext",_dartsContext);
         _props << createProperty<AbsDartsCtrl>("dsController",_dsController);
         _props << createProperty<AbsDartsCtrl>("dpController",_dpController);
-        _props << createProperty<AbstractPlayersContext>("playersContext",_playerContext);
+        _props << createProperty<AbsPlaCtx>("playersContext",_playerContext);
         return _props;
     }
 private:
@@ -39,7 +39,7 @@ private:
     }
     AbsDartsCtrl *_dpController;
     AbsDartsCtrl *_dsController;
-    AbstractPlayersContext *_playerContext;
+    AbsPlaCtx *_playerContext;
     AbsDartsCtx *_dartsContext;
 };
 #endif // QMLAPPLICATIONPROPERTIES_H

@@ -1,6 +1,8 @@
 #ifndef IDARTSCREATEMETA_H
 #define IDARTSCREATEMETA_H
-#include "DartsModelsContext/TournamentModels/dartsmetamodel.h"
+class QUuid;
+class QByteArray;
+class DartsMetaModel;
 class IDartsCreateMeta
 {
 public:

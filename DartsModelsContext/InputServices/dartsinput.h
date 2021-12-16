@@ -1,7 +1,8 @@
 #ifndef DARTSINPUT_H
 #define DARTSINPUT_H
-#include "DartsModelsContext/InputModelsSLAs/abstractdartsinput.h"
-class DartsInput : public AbstractDartsInput
+#include "DartsModelsContext/InputModels/dartsinputstats.h"
+#include <quuid.h>
+class DartsInput : public DartsInputStats
 {
 public:
     QUuid id() const override

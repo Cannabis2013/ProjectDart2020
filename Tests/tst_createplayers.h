@@ -3,17 +3,17 @@
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 #include <QtTest>
-#include "PlayerModelsContext/SLAs/abstractplayerscontext.h"
+#include "PlayerModelsContext/SLAs/absplactx.h"
 #include "SignalSpyManager.h"
 class PlayersTestSuite
 {
 public:
-    void testCreatePlayerOne(AbstractPlayersContext *_plaCtx)
+    void testCreatePlayerOne(AbsPlaCtx *_plaCtx)
     {
         auto result = _plaCtx->createPlayer(testPersonOne());
         QVERIFY(result);
     }
-    void testCreatePlayerTwo(AbstractPlayersContext *_plaCtx)
+    void testCreatePlayerTwo(AbsPlaCtx *_plaCtx)
     {
         auto result = _plaCtx->createPlayer(testPersonTwo());
         QVERIFY(result);

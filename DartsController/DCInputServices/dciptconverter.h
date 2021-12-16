@@ -2,21 +2,23 @@
 #define DCIPTCONVERTER_H
 #include "DartsController/DCInputSLAs/abstractdciptconverter.h"
 #include <qvector.h>
+#include "DartsModelsContext/InputModels/diptvals.h"
+#include "DartsController/DCInputSLAs/dcinput.h"
 class DCIptConverter : public AbstractDCIptConverter
 {
 public:
     DCIptConverter(AbstractDCInputBuilder *builder):
         AbstractDCIptConverter(builder){}
-    DCInput convert(AbstractDartsInput *input, const int &initRemScore, const DCPlayer &player) const override
+    DCInput convert(const DIptVals &input, const int &initRemScore, const DCPlayer &player) const override
     {
         DCInput ipt;
-        if(input != nullptr)
+        if(input.point && input.score == -1)
             ipt =  create(input); // Copy values from input to ipt
         else
             ipt = iptBuilder()->create(initRemScore,player); // Create input model with default values
         return ipt;
     }
-    QVector<DCInput> convert(const QVector<AbstractDartsInput *> &inputs) const override
+    QVector<DCInput> convert(const QVector<DIptVals> &inputs) const override
     {
         QVector<DCInput> list;
         for (const auto &input : inputs)
@@ -41,21 +43,21 @@ public:
         return iptVals;
     }
 private:
-    DCInput create(AbstractDartsInput *ipt) const
+    DCInput create(const DIptVals ipt) const
     {
         DCInput cIpt;
-        cIpt.score = ipt->score();
-        cIpt.point = ipt->point();
-        cIpt.remScore = ipt->remainingScore();
-        cIpt.roundIndex = ipt->roundIndex();
-        cIpt.setIndex = ipt->setIndex();
-        cIpt.attempt = ipt->attempt();
-        cIpt.playerName = ipt->playerName();
-        cIpt.min = ipt->currentMinimum();
-        cIpt.mid = ipt->middleValue();
-        cIpt.max = ipt->currentMaximum();
-        cIpt.approved = ipt->approved();
-        cIpt.inGame = ipt->inGame();
+        cIpt.score = ipt.score;
+        cIpt.point = ipt.point;
+        cIpt.remScore = ipt.remainingScore;
+        cIpt.roundIndex = ipt.roundIndex;
+        cIpt.setIndex = ipt.setIndex;
+        cIpt.attempt = ipt.attempt;
+        cIpt.playerName = ipt.playerName;
+        cIpt.min = ipt.min;
+        cIpt.mid = ipt.mid;
+        cIpt.max = ipt.max;
+        cIpt.approved = ipt.approved;
+        cIpt.inGame = ipt.inGame;
         return cIpt;
     }
 };

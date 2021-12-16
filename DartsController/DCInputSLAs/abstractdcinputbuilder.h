@@ -1,13 +1,12 @@
 #ifndef IDCINPUTBUILDER_H
 #define IDCINPUTBUILDER_H
-#include <qjsonarray.h>
-#include "DartsController/DCIndexSLAs/idcidxctrl.h"
-#include "DartsController/DCMetaServices/dcmeta.h"
-#include "DartsModelsContext/InputModelsSLAs/abstractdartsinput.h"
-#include "DartsModelsContext/IndexesDbSLAs/idartsindex.h"
-#include "DartsController/DCScoresSLAs/absdcplayersctx.h"
-#include "DartsController/DCScoresSLAs/absdccalcscore.h"
-#include "dcinput.h"
+class AbsDCCalcScore;
+class DCPlayer;
+class DCIndex;
+class QByteArray;
+class DCInput;
+class AbsDCPlayersCtx;
+class IDCIdxCtrl;
 class AbstractDCInputBuilder
 {
 public:

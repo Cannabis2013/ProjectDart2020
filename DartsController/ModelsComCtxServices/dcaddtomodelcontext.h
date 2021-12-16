@@ -1,10 +1,16 @@
 #ifndef DCADDTOMODELCONTEXT_H
 #define DCADDTOMODELCONTEXT_H
 #include "DartsController/ModelsComCtxSLAs/abstractdcaddtomdsctx.h"
+#include "DartsModelsContext//TournamentModels/tnmvalues.h"
+#include "DartsController/DCInputSLAs/abstractdciptconverter.h"
+#include "DartsController/DCInputSLAs/dcinput.h"
+#include "DartsController/DCIndexSLAs/dcindex.h"
+#include "DartsModelsContext/SLAs/absdartsctx.h"
+#include "DartsModelsContext/IndexesSLAs/idcidxbuilder.h"
 class DCAddToModelsContext : public AbstractDCAddToMdsCtx
 {
 public:
-    DCAddToModelsContext(AbstractDCIptConverter *iptCvt, IDCIdxConverter *idxCvt):
+    DCAddToModelsContext(AbstractDCIptConverter *iptCvt, IDCIdxBuilder *idxCvt):
         AbstractDCAddToMdsCtx(iptCvt,idxCvt){}
     virtual bool add(DCInput &input, const DCIndex &idx, const DCMeta &meta, AbsDartsCtx *mdsCtx) override
     {

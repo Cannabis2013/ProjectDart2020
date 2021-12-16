@@ -2,9 +2,9 @@
 #define SORTDARTSINPUTS_H
 #include "DartsModelsContext/InputSLAs/isortinputmodels.h"
 #include "DartsModelsContext/InputModelsSLAs/abstractdartsinput.h"
-#include "ModelsContext/DbSLAs/imodelsdbcontext.h"
 #include <quuid.h>
-#include "ModelsContext/PredicateSLAs/imodelpredicate.h"
+#include <qvector.h>
+#include "DartsModelsContext/PredicateSLAs/imodelpredicate.h"
 class SortDartsInputs : public ISortInputModels
 {
 public:

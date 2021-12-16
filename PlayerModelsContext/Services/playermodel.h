@@ -1,8 +1,8 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 #include <quuid.h>
-#include "PlayerModelsContext/DbSLAs/iplayermodel.h"
-class PlayerModel : public IPlayerModel
+#include "PlayerModelsContext/DbSLAs/iplayer.h"
+class PlayerModel : public IPlayer
 {
 public:
     QUuid id() const override
@@ -13,7 +13,7 @@ public:
     {
         _id = id;
     }
-    QString email() const override
+    QString mail() const override
     {
         return _email;
     }
@@ -32,7 +32,7 @@ public:
         return this;
     }
 
-    bool operator==(IPlayerModel* &other) override
+    bool operator==(IPlayer* &other) override
     {
         if(other->id() == this->id())
             return true;

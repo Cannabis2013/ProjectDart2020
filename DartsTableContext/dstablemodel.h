@@ -11,7 +11,7 @@
 #include "createqmlvariants.h"
 #include "dartsdatacontextitemutility.h"
 #include "dartstablesectionutility.h"
-#include <dartstablesectionmanipulator.h>
+#include "dartstablesectionmanipulator.h"
 class DSTableModel : public DartsTableModel
 {
    public:

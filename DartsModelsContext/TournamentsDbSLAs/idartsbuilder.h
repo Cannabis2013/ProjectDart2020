@@ -1,15 +1,16 @@
 #ifndef IDARTSBUILDER_H
 #define IDARTSBUILDER_H
-#include <qvector.h>
-#include "ModelsContext/DbSLAs/icreatemodelsfrom.h"
-template<typename TBaseModel, typename TSuperModel = TBaseModel, typename TJsonFormat = QByteArray>
-class IDartsBuilder : public ICreateModelsFrom<QByteArray,TBaseModel>
+template<typename T, typename U>
+class IDataConverter;
+template<typename TBaseModel, typename TSuperModel, typename TJsonFormat, typename TTransitionModel>
+class IDartsBuilder
 {
 public:
-    typedef TBaseModel BaseModel;
+    typedef TBaseModel Model;
     typedef TSuperModel SuperModel;
     typedef TJsonFormat JsonFormat;
+    typedef TTransitionModel TransitModel;
     virtual SuperModel *createModel(const JsonFormat &json) const = 0;
-    virtual QVector<BaseModel*> create(const JsonFormat &json) const override = 0;
+    virtual TransitModel convert(TSuperModel *tournament) const = 0;
 };
 #endif // ICREATEDARTSPOINTMODELFROMJSON_H

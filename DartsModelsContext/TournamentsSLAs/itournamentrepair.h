@@ -3,11 +3,12 @@
 #include <quuid.h>
 #include "DartsModelsContext/TournamentModelsSLAs/abstractdartstournament.h"
 #include "DartsModelsContext/InputModelsSLAs/abstractdartsinput.h"
-#include "ModelsContext/ModelsSLAs/imodel.h"
-#include "PlayerModelsContext/SLAs/abstractplayerscontext.h"
+#include "PlayerModelsContext/SLAs/absplactx.h"
 class ITournamentRepair
 {
 public:
-    virtual bool repair(AbstractDartsTournament *tournament, const QVector<AbstractDartsInput*> &inputs, AbstractPlayersContext *playersContext) const = 0;
+    virtual bool repair(AbstractDartsTournament *tournament,
+                        const QVector<AbstractDartsInput*> &inputs,
+                        AbsPlaCtx *playersContext) const = 0;
 };
 #endif // ITOURNAMENTREPAIR_H

@@ -1,33 +1,39 @@
 #ifndef DARTSIPTDBSLAS_H
 #define DARTSIPTDBSLAS_H
 #include <qjsonobject.h>
-#include "ModelsContext/DbSLAs/icreatemodelsfrom.h"
+#include "DartsModelsContext/DbSLAs/iconverttomodels.h"
 #include "idartsinputbuilder.h"
 #include "iremovedartsinputs.h"
 #include "DartsModelsContext/InputsDbSLAs/igetinputs.h"
-#include "ModelsContext/DbSLAs/icreatedatafrom.h"
+#include "DartsModelsContext/DbSLAs/imodelconverter.h"
 class DartsiptDbSLAs
 {
 public:
     typedef QUuid Uuid;
-    typedef IModel<Uuid> BaseModel;
-    typedef AbstractDartsInput DartsInput;
-    typedef QByteArray JsonFormat;
-    IDbContext<BaseModel> *inputsDb() const {return _inputsDb;}
-    void setInputsDb(IDbContext<BaseModel> *context) {_inputsDb = context;}
-    IGetInputs<BaseModel,DartsInput> *getInputsFromDb() const {return _getInputsFromDb;}
-    void setGetInputsFromDb(IGetInputs<BaseModel,DartsInput> *newGetInputsFromDb) {_getInputsFromDb = newGetInputsFromDb;}
-    IDartsInputBuilder<BaseModel,DartsInput,JsonFormat> *inputBuilder() const {return _inputModelBuilder;}
-    void setInputBuilder(IDartsInputBuilder<BaseModel,DartsInput,JsonFormat> *service) {_inputModelBuilder = service;}
-    IRemoveDartsInputs<BaseModel,Uuid> *removeInputs() const {return _removeDartsInputsFromDb;}
-    void setRemoveInputsFromDb(IRemoveDartsInputs<BaseModel,Uuid> *removeContext) {_removeDartsInputsFromDb = removeContext;}
-    ICreateDataFrom<IModel<QUuid>,JsonFormat> *inputsToJson() const {return _inputsToJson;}
-    void setInputsToJson(ICreateDataFrom<IModel<QUuid>,JsonFormat> *newIptConverter) {_inputsToJson = newIptConverter;}
+    typedef IModel<Uuid> Model;
+    typedef AbstractDartsInput Input;
+    typedef QByteArray Json;
+    typedef IDbContext<Model> DbCtx;
+    typedef DIptVals CtrlVals;
+    typedef IDartsInputBuilder<Model,Input,Json,CtrlVals> InputBuilder;
+    typedef IModelConverter<IModel<QUuid>,Json> JsonBuilder;
+    typedef IGetInputs<Model,Input> GetInputs;
+    typedef IRemoveDartsInputs<Model,Uuid,DbCtx> RemoveInputs;
+    DbCtx *inputsDb() const {return _inputsDb;}
+    void setInputsDb(DbCtx *context) {_inputsDb = context;}
+    GetInputs *getInputsFromDb() const {return _getInputsFromDb;}
+    void setGetInputsFromDb(GetInputs *newGetInputsFromDb) {_getInputsFromDb = newGetInputsFromDb;}
+    InputBuilder *inputBuilder() const {return _inputModelBuilder;}
+    void setInputBuilder(InputBuilder *service) {_inputModelBuilder = service;}
+    RemoveInputs *removeInputs() const {return _removeDartsInputsFromDb;}
+    void setRemoveInputsFromDb(RemoveInputs *removeContext) {_removeDartsInputsFromDb = removeContext;}
+    JsonBuilder *inputsToJson() const {return _inputsToJson;}
+    void setInputsToJson(JsonBuilder *newIptConverter) {_inputsToJson = newIptConverter;}
 private:
-    ICreateDataFrom<IModel<QUuid>,JsonFormat> *_inputsToJson;
-    IRemoveDartsInputs<BaseModel,Uuid>* _removeDartsInputsFromDb;
-    IDartsInputBuilder<BaseModel,DartsInput,JsonFormat> *_inputModelBuilder;
-    IGetInputs<BaseModel,DartsInput>* _getInputsFromDb;
-    IDbContext<BaseModel> *_inputsDb;
+    JsonBuilder *_inputsToJson;
+    RemoveInputs* _removeDartsInputsFromDb;
+    InputBuilder *_inputModelBuilder;
+    GetInputs* _getInputsFromDb;
+    DbCtx *_inputsDb;
 };
 #endif // DARTSIPTDBSLAS_H

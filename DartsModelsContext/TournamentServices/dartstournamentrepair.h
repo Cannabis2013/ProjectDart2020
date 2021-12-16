@@ -1,20 +1,20 @@
 #ifndef DARTSTOURNAMENTREPAIR_H
 #define DARTSTOURNAMENTREPAIR_H
 #include "DartTournamentsContext/DTCModelsSLAs/itournament.h"
-#include "PlayerModelsContext/DbSLAs/iplayermodel.h"
+#include "PlayerModelsContext/DbSLAs/iplayer.h"
 #include "DartsModelsContext/TournamentsSLAs/itournamentrepair.h"
 #include "DartsModelsContext/InputModelsSLAs/iplayerinput.h"
 class DartsTournamentRepair : public ITournamentRepair
 {
 public:
-    virtual bool repair(AbstractDartsTournament *tournament, const QVector<AbstractDartsInput*> &inputs, AbstractPlayersContext *playersContext) const override
+    virtual bool repair(AbstractDartsTournament *tournament, const QVector<AbstractDartsInput*> &inputs, AbsPlaCtx *playersContext) const override
     {
         auto r = repairTournamentPlayers(tournament,playersContext);
         r = repairInputs(inputs,playersContext);
         return r;
     }
 private:
-    bool repairTournamentPlayers(ITournament *tournament, AbstractPlayersContext *playersContext) const
+    bool repairTournamentPlayers(ITournament *tournament, AbsPlaCtx *playersContext) const
     {
         auto names = tournament->playerNames();
         auto players = playersContext->players(names);
@@ -23,7 +23,7 @@ private:
         QVector<QUuid> pIds;
         QVector<QString> pNames;
         for (const auto &model : players) {
-            auto player = dynamic_cast<IPlayerModel*>(model);
+            auto player = dynamic_cast<IPlayer*>(model);
             pIds << player->id();
             pNames << player->name();
         }
@@ -31,15 +31,15 @@ private:
         tournament->setPlayerNames(pNames);
         return true;
     }
-    bool repairInputs(const QVector<AbstractDartsInput*> &inputs, AbstractPlayersContext *playersContext) const
+    bool repairInputs(const QVector<AbstractDartsInput*> &inputs, AbsPlaCtx *playersContext) const
     {
         for (auto &input : inputs) {
             auto playerId = input->playerId();
             auto playerName = input->playerName();
-            IPlayerModel *playerModel = dynamic_cast<IPlayerModel*>(playersContext->player(playerId));
+            IPlayer *playerModel = dynamic_cast<IPlayer*>(playersContext->player(playerId));
             if(playerModel != nullptr)
                 continue;
-            playerModel = dynamic_cast<IPlayerModel*>(playersContext->player(playerName));
+            playerModel = dynamic_cast<IPlayer*>(playersContext->player(playerName));
             if(playerModel == nullptr)
                 return false;
             input->setPlayerId(playerModel->id());

@@ -1,10 +1,9 @@
-#ifndef ICREATEDATAFROM_H
-#define ICREATEDATAFROM_H
-#include <quuid.h>
-#include <qvector.h>
-#include "ModelsContext/ModelsSLAs/imodel.h"
+#ifndef IMODELCONVERTER_H
+#define IMODELCONVERTER_H
+template<typename T>
+class QVector;
 template<typename TFrom,typename TData>
-class ICreateDataFrom
+class IModelConverter
 {
 public:
     typedef TFrom FromData;

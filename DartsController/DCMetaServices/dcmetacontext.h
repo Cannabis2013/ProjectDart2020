@@ -11,6 +11,7 @@ public:
         _meta.initRemScore = initialRemaining;
     }
     void set(const int &status) override {_meta.status = status;}
+    void set(const DCMeta &meta) override {_meta = meta;}
     DCMeta &get() override {return _meta;}
     int initRemScore() const override {return _meta.initRemScore;}
     int status() const override {return _meta.status;}

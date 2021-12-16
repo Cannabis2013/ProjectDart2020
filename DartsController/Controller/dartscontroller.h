@@ -2,10 +2,9 @@
 #define DARTSCONTROLLER_H
 #include "DartsController/StaticInitHelperClass/dcinit.h"
 #include "AsyncUtils/runlater.h"
-#include <JsonUtils/jsonextractor.h>
-#include "DartsController/ControllerSLA/ctrlslas.h"
 #include "DartsModelsContext/InputModelsSLAs/abstractdartsinput.h"
-class DartsController : public AbsDartsCtrl, public CtrlSLAs
+#include "DartsController/ControllerSLA/absdartsctrl.h"
+class DartsController : public AbsDartsCtrl
 {
     Q_OBJECT
 public:

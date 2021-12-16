@@ -1,9 +1,8 @@
 #ifndef DARTSCONTEXT_H
 #define DARTSCONTEXT_H
 #include "DartsModelsContext/SLAs/absdartsctx.h"
-#include "DartsModelsContext/SLAs/DartsModelsSLAs.h"
-class DartsContext : public AbsDartsCtx,
-                     public DartsCtxSLAs
+#include "DartsModelsContext//TournamentModels/tnmvalues.h"
+class DartsContext : public AbsDartsCtx
 {
 public:
     enum ModelDisplayHint{
@@ -14,21 +13,21 @@ public:
     typedef QVector<IModel<QUuid>*> Models;
     bool addTournament(const QByteArray &json, const QVector<int> &playerIndexes) override;
     bool deleteTournaments(const QVector<int> &indexes) override;
-    QByteArray tournaments() override;
-    QByteArray tournament(const int &idx) const override;
-    QByteArray tournament(const QString &id) const override;
-    AbstractDartsTournament * tournament(const QUuid &id) const override;
+    QByteArray tournaments() override {return tnmJsonBuilder()->create(tnmDbCtx()->models());}
+    QByteArray tournament(const int &idx) const override {return tnmJsonBuilder()->create(tnmDbCtx()->model(idx));}
+    QByteArray tournament(const QString &id) const override {return tnmJsonBuilder()->create(getTournament()->get(QUuid::fromString(id),tnmDbCtx()));}
+    TnmVals tournament(const QUuid &id) const override {return tournamentBuilder()->convert(getTournament()->get(id,tnmDbCtx()));}
     bool isConsistent(const QUuid &tournamentId) const override;
     bool tryRepair(const QUuid &tournamentId) override;
     bool setTournamentWinner(const QUuid &tournamentId, const QString &name) override;
-    QVector<AbstractDartsInput*> inputs(const QUuid &tournamentId) const override;
-    AbstractDartsInput *input(const QUuid &tournament, const QString &name, IDartsIndex *index) const override;
-    bool addInput(const QUuid &tournamentId, const DIptVals &input) override;
-    bool hideInput(QUuid tournament, QString name, IDartsIndex *index) override;
-    bool revealInput(QUuid tournament, QString name, IDartsIndex *index) override;
-    QVector<IPlayerModel *> players(const QUuid &tournamentId) const override;
-    bool updateTournamentIndex(QUuid tournament, IDartsIndex *index) override;
+    QVector<DIptVals> inputs(const QUuid &tournamentId) const override;
+    DIptVals input(const QUuid &tournament, const QString &name, const TnmVals &index) const override;
+    bool addInput(const QUuid &tournamentId, const DIptVals &ctrlIpt) override;
+    bool hideInput(QUuid tournament, QString name, TnmVals idxVals) override;
+    bool revealInput(QUuid tournament, QString name, const TnmVals &idxVals) override;
+    QVector<IPlayer *> players(const QUuid &tournamentId) const override;
+    bool updateTournamentIndex(QUuid tournament, const TnmVals &idxVal) override;
     bool resetTournament(const QUuid &tournamentId) override;
-    QByteArray createDartsMetaData(const QUuid& tournamentId) override;
+    QByteArray createDartsMetaData(const QUuid& tournamentId) override {return tnmJsonBuilder()->create(getTournament()->get(tournamentId,tnmDbCtx()));}
 };
 #endif // LOCALMODELSSERVICE_H

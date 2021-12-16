@@ -1,4 +1,13 @@
 #include "dartscontroller.h"
+int DartsController::initialize(const QUuid &tournamentId)
+{
+    auto meta = createMeta()->create(mdsCtx()->tournament(tournamentId));
+    DCInit::initTournamentMeta(meta,metaCtx(),idxCtrl());
+    DCInit::initPlayerDetails(mdsCtx()->players(tournamentId),metaCtx()->get(),playersContext(),statsContext());
+    DCInit::initScores(iptConverter()->convert(mdsCtx()->inputs(tournamentId)),statsContext(),playersContext());
+    DCInit::initStatus(metaCtx());
+    return metaCtx()->Initialized;
+}
 QByteArray DartsController::addInput(const QByteArray& json)
 {
     auto player = playersContext()->player(idxCtrl()->index());
@@ -15,7 +24,7 @@ QByteArray DartsController::addInput(const QByteArray& json)
 }
 bool DartsController::reset()
 {
-    idxCtrl()->init(playersContext()->count());
+    idxCtrl()->init(metaCtx()->get());
     playersContext()->reset(metaCtx()->get().initRemScore);
     statsContext()->reset();
     metaCtx()->set(IDCMetaContext::Initialized);
@@ -52,12 +61,4 @@ QByteArray DartsController::getTurnValues() const {
     auto finish = finishBuilder()->suggestTargetRow(player.remScore,idx.attemptIndex);
     auto values = turnValuesBuilder()->create(idx,player,finish);
     return createJson()->create(values);
-}
-int DartsController::initialize(const QUuid &tournamentId)
-{
-    DCInit::initTournamentMeta(mdsCtx()->tournament(tournamentId),metaCtx(),idxCtrl(),idxConverter());
-    DCInit::initPlayerDetails(mdsCtx()->players(tournamentId),metaCtx()->get(),playersContext(),statsContext());
-    DCInit::initScores(iptConverter()->convert(mdsCtx()->inputs(tournamentId)),statsContext(),playersContext());
-    DCInit::initStatus(metaCtx());
-    return metaCtx()->Initialized;
 }

@@ -5,22 +5,10 @@
 class DCMetaSLAs
 {
 public:
-    IDCMetaContext *metaCtx() const
-    {
-        return _metaInfo;
-    }
-    void setMetaContext(IDCMetaContext *service)
-    {
-        _metaInfo = service;
-    }
-    AbstractDCMetaBuilder *createMeta() const
-    {
-        return _metaBuilder;
-    }
-    void setMetaBuilder(AbstractDCMetaBuilder *service)
-    {
-        _metaBuilder = service;
-    }
+    IDCMetaContext *metaCtx() const {return _metaInfo;}
+    void setMetaContext(IDCMetaContext *service) {_metaInfo = service;}
+    AbstractDCMetaBuilder *createMeta() const {return _metaBuilder;}
+    void setMetaBuilder(AbstractDCMetaBuilder *service) {_metaBuilder = service;}
 private:
     AbstractDCMetaBuilder *_metaBuilder;
     IDCMetaContext *_metaInfo;

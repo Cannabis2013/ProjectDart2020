@@ -1,8 +1,9 @@
 #ifndef REMOVEDARTSINPUTS_H
 #define REMOVEDARTSINPUTS_H
+#include <qvector.h>
 #include "DartsModelsContext/InputModelsSLAs/iplayerinput.h"
 #include "DartsModelsContext/InputsDbSLAs/iremovedartsinputs.h"
-class RemoveDartsInputs : public IRemoveDartsInputs<IModel<QUuid>,QUuid>
+class RemoveDartsInputs : public IRemoveDartsInputs<IModel<QUuid>,QUuid,IDbContext<IModel<QUuid>>>
 {
 public:
     IDbContext<Model> *removeInputsById(const QUuid &id, IDbContext<Model>* dbService) const override

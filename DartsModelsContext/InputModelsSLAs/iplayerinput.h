@@ -1,7 +1,8 @@
 #ifndef ISCORE_H
 #define ISCORE_H
-#include "ModelsContext/ModelsSLAs/imodel.h"
-#include <quuid.h>
+#include <DartsModelsContext/ModelSLAs/imodel.h>
+class QString;
+class QUuid;
 class IPlayerInput : public IModel<QUuid>
 {
 public:
@@ -14,6 +15,4 @@ public:
     virtual QUuid tournamentId() const = 0;
     virtual void setTournamentId(const QUuid&) = 0;
 };
-
-
 #endif // ISCORE_H

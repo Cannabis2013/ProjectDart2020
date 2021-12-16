@@ -3,6 +3,10 @@
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 #include <qjsonarray.h>
+#include "DartsController/DCScoresSLAs/absdccalcscore.h"
+#include "DartsController/DCInputSLAs/dcinput.h"
+#include "DartsController/DCScoresServices/dcscoremodel.h"
+#include "DartsController/DCIndexSLAs/dcindex.h"
 #include "DartsController/DCInputSLAs/abstractdcinputbuilder.h"
 class DSCInputBuilder : public AbstractDCInputBuilder
 {

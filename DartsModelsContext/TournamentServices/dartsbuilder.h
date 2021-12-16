@@ -3,9 +3,10 @@
 #include <qjsondocument.h>
 #include <qjsonarray.h>
 #include <qjsonobject.h>
+#include "DartsModelsContext//TournamentModels/tnmvalues.h"
 #include "DartsModelsContext/TournamentModels/dartstournament.h"
 #include "DartsModelsContext/TournamentsDbSLAs/idartsbuilder.h"
-class DartsBuilder : public IDartsBuilder<IModel<QUuid>,AbstractDartsTournament>
+class DartsBuilder : public IDartsBuilder<IModel<QUuid>,AbstractDartsTournament,QByteArray,TnmVals>
 {
 public:
     virtual SuperModel *createModel(const QByteArray &json) const override
@@ -15,12 +16,15 @@ public:
         catch (...) {return nullptr;}
         return toModel(obj);
     }
-    virtual QVector<BaseModel *> create(const Data &byteArray) const override
+    virtual TransitModel convert(SuperModel *tournament) const override
     {
-        QJsonObject json;
-        try {json = fromByteArray(byteArray);}
-        catch (...) {return QVector<BaseModel*>();}
-        return toModels(json["TournamentModels"].toArray());
+        TnmVals vals;
+        vals.tournamentId = tournament->id();
+        vals.entryRestricted = tournament->entryRestricted();
+        vals.winnerName = tournament->winnerName();
+        vals.playerCount = tournament->playerNames().count();
+        vals.initRem = tournament->initialRemaining();
+        return vals;
     }
 private:
     QJsonObject fromByteArray(const QByteArray &json) const

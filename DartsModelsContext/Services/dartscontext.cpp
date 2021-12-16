@@ -7,16 +7,6 @@ bool DartsContext::addTournament(const QByteArray& json, const QVector<int> &pla
     tnmDbCtx()->add(tournament);
     return saveToStorage()->save(tnmDbCtx(),tnmJsonBuilder());
 }
-
-QByteArray DartsContext::tournament(const QString &id) const
-{
-    auto tournament = getTournament()->get(QUuid::fromString(id),tnmDbCtx());
-    return tnmJsonBuilder()->create(tournament);
-}
-AbstractDartsTournament *DartsContext::tournament(const QUuid &id) const
-{
-    return dynamic_cast<AbstractDartsTournament*>(getTournament()->get(id,tnmDbCtx()));
-}
 bool DartsContext::isConsistent(const QUuid &tournamentId) const
 {
     auto tournament = getTournament()->get(tournamentId,tnmDbCtx());
@@ -38,17 +28,15 @@ bool DartsContext::setTournamentWinner(const QUuid &tournamentId, const QString 
     tournament->setWinnerName(player->name());
     return saveToStorage()->save(tnmDbCtx(),tnmJsonBuilder());
 }
-QVector<AbstractDartsInput *> DartsContext::inputs(const QUuid &tournamentId) const
-{
+QVector<DIptVals> DartsContext::inputs(const QUuid &tournamentId) const {
     auto inputs = getInputsFromDb()->get(tournamentId,DisplayHint,inputsDb());
-    return inputs;
+    return createInputValues()->create(inputs);
 }
-QVector<IPlayerModel*> DartsContext::players(const QUuid &tournamentId) const
+QVector<IPlayer*> DartsContext::players(const QUuid &tournamentId) const
 {
     auto tournament = getTournament()->get(tournamentId,tnmDbCtx());
     auto playerIds = dynamic_cast<ITournament*>(tournament)->playerNames();
-    auto players = playersContext()->players(playerIds);
-    return players;
+    return playersContext()->players(playerIds);
 }
 bool DartsContext::deleteTournaments(const QVector<int> &indexes)
 {
@@ -57,19 +45,10 @@ bool DartsContext::deleteTournaments(const QVector<int> &indexes)
     tnmDbCtx()->remove(indexes);
     return saveToStorage()->save({{tnmDbCtx(),tnmJsonBuilder()},{inputsDb(),inputsToJson()}});
 }
-QByteArray DartsContext::tournaments()
+bool DartsContext::addInput(const QUuid &tournamentId, const DIptVals &ctrlIpt)
 {
-    auto tournaments = tnmDbCtx()->models();
-    return tnmJsonBuilder()->create(tournaments);
-}
-QByteArray DartsContext::tournament(const int &idx) const
-{
-    return tnmJsonBuilder()->create(tnmDbCtx()->model(idx));
-}
-bool DartsContext::addInput(const QUuid &tournamentId, const DIptVals &input)
-{
-    auto player = playersContext()->player(input.playerName);
-    inputsDb()->add(inputBuilder()->create(input,tournamentId, player->id()));
+    auto player = playersContext()->player(ctrlIpt.playerName);
+    inputsDb()->add(inputBuilder()->convert(ctrlIpt,tournamentId, player->id()));
     removeInputs()->removeByHint(tournamentId,HiddenHint,inputsDb());
     return saveToStorage()->save(inputsDb(),inputsToJson());
 }
@@ -79,39 +58,36 @@ bool DartsContext::resetTournament(const QUuid &tournamentId)
     resetDarts()->reset(tournamentId,tnmDbCtx());
     return saveToStorage()->save({{tnmDbCtx(),tnmJsonBuilder()},{inputsDb(),inputsToJson()}});
 }
-bool DartsContext::updateTournamentIndex(QUuid tournament, IDartsIndex *index)
+bool DartsContext::updateTournamentIndex(QUuid tournament, const TnmVals &idxVals)
 {
+    auto index = indexBuilder()->create(idxVals);
     updateIndexes()->update(index,tournament,tnmDbCtx());
     return saveToStorage()->save(tnmDbCtx(),tnmJsonBuilder());
 }
-AbstractDartsInput *DartsContext::input(const QUuid &tournament, const QString &name, IDartsIndex *index) const
+DIptVals DartsContext::input(const QUuid &tournament, const QString &name, const TnmVals &idxVals) const
 {
+    auto index = indexBuilder()->create(idxVals);
     auto playerId = playersContext()->player(name)->id();
     auto meta = createMeta()->create(tournament,playerId);
     auto input = getInputsFromDb()->get(meta,index,inputsDb());
-    return input;
+    return createInputValues()->create(input);
 }
-QByteArray DartsContext::createDartsMetaData(const QUuid &tournamentId)
+bool DartsContext::hideInput(QUuid tournament, QString name, TnmVals idxVals)
 {
-    auto model = getTournament()->get(tournamentId,tnmDbCtx());
-    auto json = tnmJsonBuilder()->create(model);
-    return json;
-}
-bool DartsContext::hideInput(QUuid tournament, QString name, IDartsIndex *index)
-{
+    auto idx = indexBuilder()->create(idxVals);
     auto playerId = playersContext()->player(name)->id();
     auto meta = createMeta()->create(tournament,playerId);
-    getInputsFromDb()->get(meta,index,inputsDb())->setHint(HiddenHint);
-    updateIndexes()->update(index,tournament,tnmDbCtx());
+    getInputsFromDb()->get(meta,idx,inputsDb())->setHint(HiddenHint);
+    updateIndexes()->update(idx,tournament,tnmDbCtx());
     saveToStorage()->save(tnmDbCtx(),tnmJsonBuilder());
     return saveToStorage()->save({{tnmDbCtx(),tnmJsonBuilder()},{inputsDb(),inputsToJson()}});
 }
-bool DartsContext::revealInput(QUuid tournament, QString name, IDartsIndex *index)
+bool DartsContext::revealInput(QUuid tournament, QString name, const TnmVals &idxVals)
 {
+    auto index = indexBuilder()->create(idxVals);
     auto playerId = playersContext()->player(name)->id();
     auto meta = createMeta()->create(tournament,playerId);
     updateIndexes()->update(index,tournament,tnmDbCtx());
-    getInputsFromDb()->get(meta, index,inputsDb())->setHint(DisplayHint);
+    getInputsFromDb()->get(meta,index,inputsDb())->setHint(DisplayHint);
     return saveToStorage()->save({{tnmDbCtx(),tnmJsonBuilder()},{inputsDb(),inputsToJson()}});
-
 }

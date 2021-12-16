@@ -1,17 +1,20 @@
 #ifndef IGETINPUTS_H
 #define IGETINPUTS_H
-#include "DartsModelsContext/InputModelsSLAs/abstractdartsinput.h"
-#include "ModelsContext/DbSLAs/imodelsdbcontext.h"
-#include "DartsModelsContext/TournamentModels/dartsmetamodel.h"
-#include "DartsModelsContext/IndexesDbSLAs/idartsindex.h"
+template<typename T>
+class QVector;
+class QUuid;
+template<typename T>
+class IDbContext;
+class IDartsIndex;
+class DartsMetaModel;
 template<typename TBaseModel, typename TSuperModel>
 class IGetInputs
 {
 public:
-    typedef TBaseModel BaseModel;
+    typedef TBaseModel Model;
     typedef TSuperModel SuperModel;
-    virtual SuperModel *get(const DartsMetaModel &meta, const IDartsIndex *index, const IDbContext<BaseModel> *dbContext) const = 0;
-    virtual QVector<SuperModel*> get(const QUuid& tournamentId, const IDbContext<BaseModel> *dbService) const = 0;
-    virtual QVector<SuperModel*> get(const QUuid& tournamentId, const int& hint, const IDbContext<BaseModel> *dbService) const = 0;
+    virtual SuperModel *get(const DartsMetaModel &meta, const IDartsIndex *index, const IDbContext<Model> *dbContext) const = 0;
+    virtual QVector<SuperModel*> get(const QUuid& tournamentId, const IDbContext<Model> *dbService) const = 0;
+    virtual QVector<SuperModel*> get(const QUuid& tournamentId, const int& hint, const IDbContext<Model> *dbService) const = 0;
 };
 #endif // IGETINPUTMODELSSERVICE_H

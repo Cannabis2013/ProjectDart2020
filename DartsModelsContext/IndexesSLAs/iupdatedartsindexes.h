@@ -2,7 +2,7 @@
 #define IUPDATEDARTSINDEXES_H
 #include "DartsModelsContext/TournamentModels/dartsmetamodel.h"
 #include "DartsModelsContext/IndexesDbSLAs/idartsindex.h"
-#include "ModelsContext/DbSLAs/idbcontext.h"
+#include "DartsModelsContext/DbSLAs/idbcontext.h"
 template<typename TBaseModel, typename TUuid = QUuid>
 class IUpdateDartsIndexes
 {

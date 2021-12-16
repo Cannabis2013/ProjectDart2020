@@ -1,8 +1,8 @@
 #ifndef ABSTRACTDARTSINPUT_H
 #define ABSTRACTDARTSINPUT_H
 #include "DartsModelsContext/InputModelsSLAs/iplayerinput.h"
-#include "DartsModelsContext/InputModels/dartsinputstats.h"
-class AbstractDartsInput : public IPlayerInput, public DartsInputStats
+#include "idartsinputstats.h"
+class AbstractDartsInput : public IPlayerInput, public IDartsInputStats
 {
 public:
     virtual int modKeyCode() const = 0;

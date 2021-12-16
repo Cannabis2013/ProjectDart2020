@@ -1,19 +1,20 @@
 #ifndef COUNTDARTSINPUTS_H
 #define COUNTDARTSINPUTS_H
-
 #include "DartsModelsContext/InputSLAs/icountinputmodels.h"
 #include "DartsModelsContext/InputModelsSLAs/iplayerinput.h"
-
-class CountDartsInputs : public ICountInputModels
+#include <qvector.h>
+#include "DartsModelsContext/DbSLAs/idbcontext.h"
+#include <quuid.h>
+class CountDartsInputs : public ICountInputModels<IDbContext<IModel<QUuid>>>
 {
 public:
-    virtual int count(const QUuid &tournamentId, const IModelsDbContext *dbService) const override
+    virtual int count(const QUuid &tournamentId, const DbCtx *dbService) const override
     {
         auto models = getInputModels(tournamentId,dbService);
         return models.count();
     }
 private:
-    QVector<const IModel<QUuid>*> getInputModels(const QUuid &tournamentId, const IModelsDbContext *dbService) const
+    QVector<const IModel<QUuid>*> getInputModels(const QUuid &tournamentId, const DbCtx *dbService) const
     {
         auto models = dbService->models();
         QVector<const IModel<QUuid>*> tournamentInputs;

@@ -3,10 +3,9 @@
 #include <qjsonobject.h>
 #include "DartsModelsContext/InputModels/diptvals.h"
 #include "DartsModelsContext/InputModelsSLAs/abstractdartsinput.h"
-#include "ModelsContext/ModelsSLAs/imodel.h"
-#include "ModelsContext/DbSLAs/icreatemodelsfrom.h"
-template<typename TBaseModel, typename TSuperModel, typename TJsonFormat>
-class IDartsInputBuilder : public ICreateModelsFrom<TJsonFormat,TBaseModel>
+#include "DartsModelsContext/DbSLAs/iconverttomodels.h"
+template<typename TBaseModel, typename TSuperModel, typename TJsonFormat, typename TCtrlVals>
+class IDartsInputBuilder : public IConvertToModels<TJsonFormat,TBaseModel>
 {
 public:
     enum ModelDisplayHint{
@@ -14,10 +13,11 @@ public:
         DisplayHint = 0x2,
         allHints = HiddenHint | DisplayHint
     };
-    typedef TBaseModel BaseModel;
+    typedef TBaseModel Model;
     typedef TSuperModel SuperModel;
-    typedef TJsonFormat JsonFormat;
-    virtual SuperModel *create(DIptVals vals, const QUuid &tournamentId, const QUuid &playerId, const int &hint = DisplayHint) const = 0;
-    virtual QVector<BaseModel *> create(const JsonFormat &json) const override = 0;
+    typedef TJsonFormat Json;
+    typedef TCtrlVals ctrlVals;
+    virtual SuperModel *convert(ctrlVals vals, const QUuid &tournamentId, const QUuid &playerId, const int &hint = DisplayHint) const = 0;
+    virtual QVector<Model *> convert(const Json &json) const override = 0;
 };
 #endif // IDARTSINPUTBUILDER_H

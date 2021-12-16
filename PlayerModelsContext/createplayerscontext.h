@@ -4,26 +4,27 @@
 #include "PlayerModelsContext/Services/getplayersfromdb.h"
 #include "PlayerModelsContext/DbServices/playersdbcontext.h"
 #include "FileOperationsContext/Services/filejsonio.h"
-#include "PlayerModelsContext/Services/playerjsonbuilder.h"
-#include "PlayerModelsContext/Services/playerbuilder.h"
-#include "ModelsContext/DbServices/persistdbctx.h"
-#include "ModelsContext/DbServices/loadfromstorage.h"
+#include "PlayerModelsContext/Services/plabuilder.h"
+#include "DartsModelsContext/DbServices/persistdbctx.h"
 #include "PlayerModelsContext/ModelsServices/duplicatechecker.h"
+#include "PlayerModelsContext/DbServices/saveplayermodels.h"
+#include "PlayerModelsContext/DbServices/loadplayermodels.h"
+#include "PlayerModelsContext/DataServices/plajsonbuilder.h"
 class CreatePlayersContext
 {
 public:
     static PlayersContext *localJson()
     {
         auto ctx = new PlayersContext;
-        auto ioDevice = new FileJsonIO("Players");
-        ctx->setPersistDbCtx(new SaveToStorage(ioDevice));
-        ctx->setLoadFromStorage(new LoadFromStorage(ioDevice));
+        ctx->setIOHandler(new FileJsonIO("Players"));
+        ctx->setPersistDb(new SavePlayerModels);
+        ctx->setFetchDb(new LoadPlayerModels);
         ctx->setDbCtx(new PlayersDbContext);
         ctx->setGetPlayerModelsFromDb(new GetPlayersFromDb);
-        ctx->setJsonBuilder(new PlayerJsonBuilder);
-        ctx->setPlayerBuilder(new PlayerBuilder);
-        ctx->loadFromStorage()->load(ctx->dbCtx(),ctx->playerBuilder());
+        ctx->setJsonBuilder(new PlaJsonBuilder);
+        ctx->setPlayerBuilder(new PlaBuilder);
         ctx->setDupChk(new DuplicateChecker);
+        ctx->fetchDb()->fetch(ctx->dbCtx(),ctx->playerBuilder(),ctx->ioHandler());
         return ctx;
     }
 };

@@ -1,9 +1,0 @@
-#ifndef ABSTRACTMODELSBUILDER_H
-#define ABSTRACTMODELSBUILDER_H
-
-class AbstractModelsBuilder
-{
-    puibli
-};
-
-#endif // ABSTRACTMODELSBUILDER_H

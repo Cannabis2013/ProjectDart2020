@@ -1,13 +1,14 @@
 #ifndef DPCIDXCTRL_H
 #define DPCIDXCTRL_H
 #include "DartsController/DCIndexSLAs/idcidxctrl.h"
+#include <DartsController/DCMetaServices/dcmeta.h>
 class DPCIdxCtrl : public IDCIdxCtrl
 {
 public:
-    virtual void init(const int &playersCount,const DCIndex &index) override
+    virtual void init(const DCMeta &meta) override
     {
-        _pCount = playersCount;
-        _index = index;
+        _pCount = meta.playersCount;
+        _index = meta.index;
     }
     DCIndex index() const override {return _index;}
     virtual DCIndex prevIndex() const override

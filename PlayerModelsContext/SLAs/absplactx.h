@@ -1,18 +1,17 @@
-#ifndef ABSTRACTPLAYERSCONTEXT_H
-#define ABSTRACTPLAYERSCONTEXT_H
+#ifndef ABSPLACTX_H
+#define ABSPLACTX_H
 #include <qobject.h>
-#include "ModelsContext/ModelsSLAs/imodel.h"
 #include <quuid.h>
 #include <qvector.h>
-#include "PlayerModelsContext/DbSLAs/iplayermodel.h"
-class AbstractPlayersContext : public QObject
+#include "PlayerModelsContext/DbSLAs/iplayer.h"
+class AbsPlaCtx : public QObject
 {
     Q_OBJECT
 public:
     Q_INVOKABLE virtual QByteArray players() = 0;
     Q_INVOKABLE virtual bool createPlayer(const QByteArray &json) = 0;
     Q_INVOKABLE virtual bool remove(const QVector<int> &indexes) = 0;
-    typedef IPlayerModel Player;
+    typedef IPlayer Player;
     typedef QVector<Player*> Players;
     virtual Player *player(const QUuid &id) const = 0;
     virtual Player *player(const QString &name) const = 0;
@@ -27,4 +26,4 @@ signals:
     void playerAdded(const bool &status);
     void playerAddedError(const QString &msg);
 };
-#endif // ABSTRACTPLAYERSCONTEXT_H
+#endif // ABSPLACTX_H

@@ -2,8 +2,10 @@
 #define ABSDARTSCTRL_H
 #include "DartControllerContext/SLAs/absgamectrl.h"
 #include "DartsController/DCInputSLAs/dcinput.h"
+#include "ctrlslas.h"
+#include "DartsModelsContext/SLAs/absdartsctx.h"
 class AbsDartsCtx;
-class AbsDartsCtrl : public AbsGameCtrl
+class AbsDartsCtrl : public AbsGameCtrl, public CtrlSLAs
 {
     Q_OBJECT
 public:

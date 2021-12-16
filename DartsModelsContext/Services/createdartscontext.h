@@ -23,12 +23,15 @@
 #include "DartsModelsContext/TournamentServices/GetDartsTournamentIds.h"
 #include "DartsModelsContext/TournamentServices/dartsverifyconsistency.h"
 #include "DartsModelsContext/TournamentServices/dartstournamentrepair.h"
-#include "ModelsContext/DbServices/persistdbctx.h"
-#include "ModelsContext/DbServices/loadfromstorage.h"
+#include "DartsModelsContext/DbServices/persistdbctx.h"
+#include "DartsModelsContext/DbServices/loadfromstorage.h"
+#include "DartsModelsContext/IndexesServices/dartsidxbuilder.h"
+#include "DartsModelsContext/TournamentServices/jsontodartsmodels.h"
+#include "DartsModelsContext/InputServices/createdartsinputvalues.h"
 class CreateDartsContext
 {
 public:
-    DartsContext *localJson(AbstractPlayersContext *playersContext) const
+    DartsContext *localJson(AbsPlaCtx *playersContext) const
     {
         auto context = new DartsContext;
         auto ioDevice = new FileJsonIO("DartsData");
@@ -55,7 +58,10 @@ public:
         context->setRemoveInputsFromDb(new RemoveDartsInputs);
         context->setVerifyConsistency(new DartsVerifyConsistency);
         context->setTournamentRepair(new DartsTournamentRepair);
-        context->loadFromStorage()->load(context->tnmDbCtx(),context->tournamentBuilder());
+        context->setIndexBuilder(new DartsIdxBuilder);
+        context->setToDartsModels(new JsonToDartsModels);
+        context->setCreateInputValues(new CreateDartsInputValues);
+        context->loadFromStorage()->load(context->tnmDbCtx(),context->toDartsModels());
         context->loadFromStorage()->load(context->inputsDb(),context->inputBuilder());
         context->setPlayersContext(playersContext);
         return context;

@@ -1,6 +1,5 @@
 #ifndef IDARTSINPUTSTATS_H
 #define IDARTSINPUTSTATS_H
-
 class IDartsInputStats
 {
 public:

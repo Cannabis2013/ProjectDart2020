@@ -7,10 +7,10 @@
 #include "qjsonobject.h"
 #include "DartsModelsContext/InputServices/dartsinput.h"
 #include "DartsModelsContext/InputsDbSLAs/idartsinputbuilder.h"
-class DartsInputBuilder : public IDartsInputBuilder<IModel<QUuid>,AbstractDartsInput,QByteArray>
+class DartsInputBuilder : public IDartsInputBuilder<IModel<QUuid>,AbstractDartsInput,QByteArray,DIptVals>
 {
 public:
-    virtual QVector<BaseModel *> create(const Data &byteArray) const override
+    virtual QVector<Model *> convert(const Json &byteArray) const override
     {
         try {
             auto json = fromByteArray(byteArray);
@@ -19,9 +19,9 @@ public:
         }  catch (const char *msg) {
             qDebug() << msg;
         }
-        return QVector<BaseModel*>();
+        return QVector<Model*>();
     }
-    virtual SuperModel *create(DIptVals vals, const QUuid &tournamentId, const QUuid &playerId, const int &hint) const override
+    virtual SuperModel *convert(ctrlVals vals, const QUuid &tournamentId, const QUuid &playerId, const int &hint) const override
     {
         auto input = new DartsInput;
         input->setScore(vals.score);
