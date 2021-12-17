@@ -33,9 +33,9 @@ private:
             list << toModel(jsonValue.toObject());
         return list;
     }
-    AbstractDartsTournament* toModel(const QJsonObject& obj) const
+    IDartsTournament* toModel(const QJsonObject& obj) const
     {
-        auto tournament = DartsTournament::createInstance();
+        auto tournament = new DartsTournament;
         tournament->setId(toId(obj,"tournamentId",QUuid::createUuid().toString(QUuid::WithoutBraces)));
         tournament->setTitle(obj.value("title").toString());
         tournament->setGameMode(obj.value("gameMode").toInt());

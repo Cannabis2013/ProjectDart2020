@@ -35,7 +35,7 @@ QVector<DIptVals> DartsContext::inputs(const QUuid &tournamentId) const {
 QVector<IPlayer*> DartsContext::players(const QUuid &tournamentId) const
 {
     auto tournament = getTournament()->get(tournamentId,tnmDbCtx());
-    auto playerIds = dynamic_cast<ITournament*>(tournament)->playerNames();
+    auto playerIds = dynamic_cast<IDartsTournament*>(tournament)->playerNames();
     return playersContext()->players(playerIds);
 }
 bool DartsContext::deleteTournaments(const QVector<int> &indexes)

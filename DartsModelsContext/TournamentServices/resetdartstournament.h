@@ -1,8 +1,9 @@
 #ifndef RESETDARTSTOURNAMENT_H
 #define RESETDARTSTOURNAMENT_H
-#include "DartTournamentsContext/DTCModelsSLAs/itournament.h"
+#include <qvector.h>
 #include "DartsModelsContext/TournamentsSLAs/iresetdartstournament.h"
-#include "DartsModelsContext/TournamentModelsSLAs/abstractdartstournament.h"
+#include "DartsModelsContext/TournamentModelsSLAs/idartstournament.h"
+#include "DartsModelsContext/DbSLAs/idbcontext.h"
 class ResetDartsTournament : public IResetDartsTournament<IModel<QUuid>>
 {
 public:
@@ -15,20 +16,20 @@ public:
         return dbContext;
     }
 private:
-    AbstractDartsTournament* getModelById(const QUuid &id, const QVector<IModel<QUuid>*> &models) const
+    IDartsTournament* getModelById(const QUuid &id, const QVector<IModel<QUuid>*> &models) const
     {
         for (auto &model : models) {
             if(model->id() == id)
-                return dynamic_cast<AbstractDartsTournament*>(model);
+                return dynamic_cast<IDartsTournament*>(model);
         }
         return nullptr;
     }
-    void resetWinnerDetails(ITournament *tournament) const
+    void resetWinnerDetails(IDartsTournament *tournament) const
     {
         tournament->setWinnerId(QUuid());
         tournament->setWinnerName(QString());
     }
-    void resetDartsTournament(AbstractDartsTournament *tournament) const
+    void resetDartsTournament(IDartsTournament *tournament) const
     {
         tournament->setTotalTurns(0);
         tournament->setTurnIndex(0);

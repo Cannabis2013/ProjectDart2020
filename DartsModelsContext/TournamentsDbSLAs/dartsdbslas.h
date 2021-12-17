@@ -7,12 +7,12 @@
 #include "DartsModelsContext/DbSLAs/iconverttomodels.h"
 #include "DartsModelsContext/DbSLAs/abstractloadmodels.h"
 class TnmVals;
-class AbstractDartsTournament;
+class IDartsTournament;
 class DartsDbSLAs
 {
 public:
     typedef IModel<QUuid> Model;
-    typedef AbstractDartsTournament DartsModel;
+    typedef IDartsTournament DartsModel;
     typedef QByteArray Json;
     typedef IDbContext<Model> DbCtx;
     typedef TnmVals TnmExchanceVals;

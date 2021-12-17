@@ -6,17 +6,22 @@
 #include "iremovedartsinputs.h"
 #include "DartsModelsContext/InputsDbSLAs/igetinputs.h"
 #include "DartsModelsContext/DbSLAs/imodelconverter.h"
+template<typename TBaseModel,typename TSuperModel, typename TJson, typename TCtrlVals, typename TUuid>
 class DartsiptDbSLAs
 {
 public:
-    typedef QUuid Uuid;
-    typedef IModel<Uuid> Model;
-    typedef AbstractDartsInput Input;
-    typedef QByteArray Json;
+    /*
+     * Model type definitions
+     * This is the model definitions that services depends on
+     */
+    typedef TUuid Uuid;
+    typedef TBaseModel Model;
+    typedef TSuperModel Input;
+    typedef TJson Json;
+    typedef TCtrlVals CtrlVals;
     typedef IDbContext<Model> DbCtx;
-    typedef DIptVals CtrlVals;
     typedef IDartsInputBuilder<Model,Input,Json,CtrlVals> InputBuilder;
-    typedef IModelConverter<IModel<QUuid>,Json> JsonBuilder;
+    typedef IModelConverter<Model,Json> JsonBuilder;
     typedef IGetInputs<Model,Input> GetInputs;
     typedef IRemoveDartsInputs<Model,Uuid,DbCtx> RemoveInputs;
     DbCtx *inputsDb() const {return _inputsDb;}

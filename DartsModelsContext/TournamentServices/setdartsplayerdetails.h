@@ -1,12 +1,16 @@
 #ifndef SETDARTSPLAYERDETAILS_H
 #define SETDARTSPLAYERDETAILS_H
+#include <qvector.h>
+#include <quuid.h>
 #include "DartsModelsContext/TournamentsSLAs/isettournamentplayerdetails.h"
+#include "DartsModelsContext/TournamentModelsSLAs/idartstournament.h"
+#include "PlayerModelsContext/DbSLAs/iplayer.h"
 class SetDartsPlayerDetails : public ISetTournamentPlayerDetails
 {
 public:
     virtual void setDetails(IModel<QUuid> *model, const QVector<IPlayer*> &playerModels) const override
     {
-        auto tournamentModel = dynamic_cast<ITournament*>(model);
+        auto tournamentModel = dynamic_cast<IDartsTournament*>(model);
         tournamentModel->setPlayerIds(createPlayerIds(playerModels));
         tournamentModel->setPlayerNames(createPlayerNames(playerModels));
     }

@@ -3,14 +3,14 @@
 #include <qjsondocument.h>
 #include <qjsonarray.h>
 #include <qjsonobject.h>
-#include "DartsModelsContext/TournamentModelsSLAs/abstractdartstournament.h"
+#include "DartsModelsContext/TournamentModelsSLAs/idartstournament.h"
 #include "DartsModelsContext/TournamentsDbSLAs/itournamentjsonbuilder.h"
 class DartsJsonBuilder : public IDartsJsonBuilder<IModel<QUuid>,QByteArray>
 {
 public:
     virtual QByteArray create(IModel<QUuid> *model) const override
     {
-        return toByteArray(toJsonObject(dynamic_cast<AbstractDartsTournament*>(model)));
+        return toByteArray(toJsonObject(dynamic_cast<IDartsTournament*>(model)));
     }
     virtual QByteArray create(const QVector<Model*> &models) const override
     {
@@ -31,10 +31,10 @@ private:
     {
         QJsonArray arr;
         for (auto& model : models)
-            arr << toJsonObject(dynamic_cast<AbstractDartsTournament*>(model));
+            arr << toJsonObject(dynamic_cast<IDartsTournament*>(model));
         return arr;
     }
-    QJsonObject toJsonObject(AbstractDartsTournament* model) const
+    QJsonObject toJsonObject(IDartsTournament* model) const
     {
         QJsonObject obj;
         obj["tournamentId"] = model->id().toString(QUuid::WithoutBraces);
@@ -67,7 +67,7 @@ private:
     QJsonArray fromPlayerDetails(IModel<QUuid> *model) const
     {
         QJsonArray arr;
-        auto tournament = dynamic_cast<ITournament*>(model);
+        auto tournament = dynamic_cast<IDartsTournament*>(model);
         for (int i = 0; i <tournament->playerNames().count() ; ++i) {
             auto id = tournament->playerIds().at(i);
             auto name = tournament->playerNames().at(i);

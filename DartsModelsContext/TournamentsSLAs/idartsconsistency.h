@@ -1,6 +1,5 @@
 #ifndef IDARTSCONSISTENCY_H
 #define IDARTSCONSISTENCY_H
-#include "DartTournamentsContext/DTCModelsSLAs/itournament.h"
 #include "PlayerModelsContext/SLAs/absplactx.h"
 #include "DartsModelsContext/InputModelsSLAs/abstractdartsinput.h"
 class IDartsConsistency

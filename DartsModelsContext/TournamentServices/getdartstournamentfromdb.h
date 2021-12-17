@@ -1,8 +1,11 @@
 #ifndef GETDARTSTOURNAMENTFROMDB_H
 #define GETDARTSTOURNAMENTFROMDB_H
 #include "DartsModelsContext/TournamentsDbSLAs/igetdartstournament.h"
-#include "DartTournamentsContext/DTCModelsSLAs/itournament.h"
-class GetDartsTournamentFromDb : public IGetDartsTournament<IModel<QUuid>,AbstractDartsTournament>
+#include "DartsModelsContext/ModelSLAs/imodel.h"
+#include "DartsModelsContext/TournamentModelsSLAs/idartstournament.h"
+#include <quuid.h>
+#include "DartsModelsContext/DbSLAs/idbcontext.h"
+class GetDartsTournamentFromDb : public IGetDartsTournament<IModel<QUuid>,IDartsTournament>
 {
 public:
     virtual SuperModel *get(const QUuid &tournamentId, const IDbContext<BaseModel> *dbService) const override

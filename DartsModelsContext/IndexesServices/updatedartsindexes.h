@@ -1,7 +1,7 @@
 #ifndef UPDATEDARTSINDEXES_H
 #define UPDATEDARTSINDEXES_H
 #include "DartsModelsContext/IndexesSLAs/iupdatedartsindexes.h"
-#include "DartsModelsContext/TournamentModelsSLAs/abstractdartstournament.h"
+#include "DartsModelsContext/TournamentModelsSLAs/idartstournament.h"
 class UpdateDartsIndexes : public IUpdateDartsIndexes<IModel<QUuid>>
 {
 public:
@@ -16,12 +16,12 @@ public:
 private:
     bool matchByTournamentId(IModel<QUuid> *model, const QUuid &tournamentId) const
     {
-        auto tournament = dynamic_cast<AbstractDartsTournament*>(model);
+        auto tournament = dynamic_cast<IDartsTournament*>(model);
         return tournament->id() == tournamentId;
     }
     void updateTournament(IDartsIndex *index, IModel<QUuid> *model) const
     {
-        auto dartsTournament = dynamic_cast<AbstractDartsTournament*>(model);
+        auto dartsTournament = dynamic_cast<IDartsTournament*>(model);
         dartsTournament->setTotalTurns(index->totalTurns());
         dartsTournament->setTurnIndex(index->turnIndex());
         dartsTournament->setRoundIndex(index->roundIndex());

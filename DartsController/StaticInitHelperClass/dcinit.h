@@ -4,7 +4,7 @@
 #include "DartsController/PlayerStatsSLAs/idcstatscontext.h"
 #include "DartsController/DCMetaServices/dcmeta.h"
 #include "DartsController/DCMetaSLAs/idcmetacontext.h"
-#include "DartsModelsContext/TournamentModelsSLAs/abstractdartstournament.h"
+#include "DartsModelsContext/TournamentModelsSLAs/idartstournament.h"
 #include "DartsModelsContext//TournamentModels/tnmvalues.h"
 #include <DartsController/DCMetaSLAs/abstractdcmetabuilder.h>
 class DCInit

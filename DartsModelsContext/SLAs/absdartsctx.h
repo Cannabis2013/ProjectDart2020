@@ -10,12 +10,12 @@ class TnmVals;
 class IDartsIndex;
 class AbstractDartsInput;
 class IPlayer;
-class AbstractDartsTournament;
+class IDartsTournament;
 class AbsPlaCtx;
 class AbsDartsCtx : public QObject,
                     public DartsSLAs,
                     public DartsIptSLAs,
-                    public DartsiptDbSLAs,
+                    public DartsiptDbSLAs<IModel<QUuid>,AbstractDartsInput,QByteArray,DIptVals,QUuid>,
                     public DartsIndexSLAs,
                     public DartsDbSLAs
 {

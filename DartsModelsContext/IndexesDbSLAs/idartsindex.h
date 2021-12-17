@@ -1,7 +1,5 @@
 #ifndef IDARTSINDEX_H
 #define IDARTSINDEX_H
-
-#include <quuid.h>
 class IDartsIndex
 {
 public:

@@ -1,20 +1,19 @@
 #ifndef DARTSTOURNAMENTREPAIR_H
 #define DARTSTOURNAMENTREPAIR_H
-#include "DartTournamentsContext/DTCModelsSLAs/itournament.h"
 #include "PlayerModelsContext/DbSLAs/iplayer.h"
 #include "DartsModelsContext/TournamentsSLAs/itournamentrepair.h"
 #include "DartsModelsContext/InputModelsSLAs/iplayerinput.h"
 class DartsTournamentRepair : public ITournamentRepair
 {
 public:
-    virtual bool repair(AbstractDartsTournament *tournament, const QVector<AbstractDartsInput*> &inputs, AbsPlaCtx *playersContext) const override
+    virtual bool repair(IDartsTournament *tournament, const QVector<AbstractDartsInput*> &inputs, AbsPlaCtx *playersContext) const override
     {
         auto r = repairTournamentPlayers(tournament,playersContext);
-        r = repairInputs(inputs,playersContext);
+        r = repairInputs(inputs,playersContext)? true : r;
         return r;
     }
 private:
-    bool repairTournamentPlayers(ITournament *tournament, AbsPlaCtx *playersContext) const
+    bool repairTournamentPlayers(IDartsTournament *tournament, AbsPlaCtx *playersContext) const
     {
         auto names = tournament->playerNames();
         auto players = playersContext->players(names);

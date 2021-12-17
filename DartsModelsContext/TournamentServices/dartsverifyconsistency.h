@@ -1,13 +1,14 @@
 #ifndef DARTSVERIFYCONSISTENCY_H
 #define DARTSVERIFYCONSISTENCY_H
 #include "DartsModelsContext/TournamentsSLAs/idartsconsistency.h"
+#include "DartsModelsContext/TournamentModelsSLAs/idartstournament.h"
 class DartsVerifyConsistency : public IDartsConsistency
 {
 public:
     bool verify(IModel<QUuid> *tournament, const QVector<AbstractDartsInput*> &inputs, const AbsPlaCtx *playersContext) const override
     {
-        auto playerIds = dynamic_cast<ITournament*>(tournament)->playerIds();
-        auto playerNames = dynamic_cast<ITournament*>(tournament)->playerNames();
+        auto playerIds = dynamic_cast<IDartsTournament*>(tournament)->playerIds();
+        auto playerNames = dynamic_cast<IDartsTournament*>(tournament)->playerNames();
         auto pIdConsistent = verifyPlayers(playerIds,playersContext);
         auto pNmConsistent = verifyPlayers(playerNames,playersContext);
         auto pConsistent = pIdConsistent && pNmConsistent;

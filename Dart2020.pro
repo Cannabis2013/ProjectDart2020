@@ -110,8 +110,6 @@ HEADERS += \
     DartsController/PlayerStatsServices/dscupdscorerng.h \
     DartsController/StaticInitHelperClass/dcinit.h \
     DartsControllerBuilder/Services/createdtsctrl.h \
-    DartsModelsContext/DartsPlayersSLAs/itournamentplayers.h \
-    DartsModelsContext/DartsPlayersServices/tournamentplayers.h \
     DartsModelsContext/DbSLAs/iconverttomodels.h \
     DartsModelsContext/IndexesDbServices/dcidxconverter.h \
     DartsModelsContext/IndexesSLAs/idartsidxbuilder.h \
@@ -138,6 +136,7 @@ HEADERS += \
     DartsModelsContext/Services/createdartscontext.h \
     DartsModelsContext/Services/dartscontext.h \
     DartsModelsContext/TournamentModels/dartsmetamodel.h \
+    DartsModelsContext/TournamentModelsSLAs/idartstournament.h \
     DartsModelsContext/TournamentServices/GetDartsTournamentIds.h \
     DartsModelsContext/TournamentServices/dartsbuilder.h \
     DartsModelsContext/TournamentServices/dartsmetamodelbuilder.h \
@@ -170,7 +169,6 @@ HEADERS += \
     DartsModelsContext/TournamentServices/setdartsplayerdetails.h \
     DartsModelsContext/InputsDbSLAs/idartsinputbuilder.h \
     DartsModelsContext/TournamentsDbSLAs/itournamentjsonbuilder.h \
-    DartTournamentsContext/DTCModelsServices/abstracttournament.h \
     DartsController/DCIndexSLAs/dcindexslas.h \
     DartsController/DCInputSLAs/dcinputsslas.h \
     DartsController/DCJsonSLAs/dcjsonslas.h \
@@ -181,7 +179,6 @@ HEADERS += \
     DartsTableContext/TableCellsServices/dartsinitrowvalues.h \
     FileOperationsContext/SLAs/ifiledataio.h \
     FileOperationsContext/Services/filejsonio.h \
-    DartsModelsContext/TournamentModelsSLAs/abstractdartstournament.h \
     DartsModelsContext/DbSLAs/abstractloadmodels.h \
     DartsModelsContext/DbSLAs/abstractsavetostorage.h \
     DartsModelsContext/DbSLAs/imodelconverter.h \
@@ -271,7 +268,6 @@ HEADERS += \
     DartsTableContext/TableSectionsSLAs/itablesectionmanipulator.h \
     DartsModelsContext/ModelSLAs/imodel.h \
     DartsModelsContext/InputModelsSLAs/iplayerinput.h \
-    DartTournamentsContext/DTCModelsSLAs/itournament.h \
     NetworkManagerContext/iurlparser.h \
     DartsTableContext/LinkedList/linkedlist.h \
     DartsTableContext/QMLTableMetrics/mhtablecolumnwidth.h \
