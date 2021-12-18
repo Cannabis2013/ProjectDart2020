@@ -1,0 +1,91 @@
+QT -= gui
+
+TEMPLATE = lib
+DEFINES += DARTSCONTROLLERLIB
+
+CONFIG += c++11
+
+# You can make your code fail to compile if it uses deprecated APIs.
+# In order to do so, uncomment the following line.
+#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
+
+SOURCES += \
+    dartscontroller.cpp
+
+HEADERS += \
+    ControllerSLA/absdartsctrl.h \
+    ControllerSLA/ctrlslas.h \
+    DCFinishesSLAs/dartsconstructslas.h \
+    DCFinishesSLAs/idartsattemptsservice.h \
+    DCFinishesSLAs/idartsboundaries.h \
+    DCFinishesSLAs/idartscreatefinishes.h \
+    DCFinishesSLAs/idartscreateterminalthreshold.h \
+    DCFinishesSLAs/idartsdivisorvalues.h \
+    DCFinishesSLAs/idartsfieldvalues.h \
+    DCFinishesSLAs/idartsfinishesdb.h \
+    DCFinishesSLAs/idartsmodidentifiers.h \
+    DCFinishesSLAs/idartsterminaldivisor.h \
+    DCFinishesSLAs/idartsthresholdvalues.h \
+    DCFinishesSLAs/idcfinishbuilder.h \
+    DCIndexSLAs/idcidxbuilder.h \
+    Models/dcindex.h \
+    DCIndexSLAs/dcindexslas.h \
+    DCIndexSLAs/idcidxctrl.h \
+    DCInputSLAs/abstractdcinputbuilder.h \
+    DCInputSLAs/abstractdciptconverter.h \
+    DCInputSLAs/dcinputsslas.h \
+    DCInputSLAs/idcipteval.h \
+    DCJsonSLAs/AbstractDCJsonBuilder.h \
+    DCJsonSLAs/dcjsonbuilderservices.h \
+    DCJsonSLAs/dcjsonslas.h \
+    DCJsonSLAs/idcmodeljsonbuilder.h \
+    DCMetaSLAs/abstractdcmetabuilder.h \
+    DCMetaSLAs/dcmetaslas.h \
+    DCMetaSLAs/idcmetacontext.h \
+    DCScoresSLAs/absdccalcscore.h \
+    DCScoresSLAs/absdcplayersctx.h \
+    DCScoresSLAs/absdcupdscoresdetails.h \
+    DCScoresSLAs/dcplayerscoresslas.h \
+    DCTurnValuesSLAs/abstractdcturnvalues.h \
+    DCTurnValuesSLAs/dcturnvaluesslas.h \
+    Models/dcinput.h \
+    Models/dcmeta.h \
+    Models/dcplayer.h \
+    Models/dcturnvalues.h \
+    ModelsComCtxSLAs/abstractdcaddtomdsctx.h \
+    PlayerStatsSLAs/absdcsetiptstats.h \
+    PlayerStatsSLAs/dcinputstatsslas.h \
+    Models/dcplayerstats.h \
+    PlayerStatsSLAs/idcgetplayerstat.h \
+    PlayerStatsSLAs/idcstatscontext.h \
+    StaticInitHelperClass/dcinit.h \
+    dartscontroller.h
+
+# Default rules for deployment.
+unix {
+    target.path = /usr/lib
+}
+!isEmpty(target.path): INSTALLS += target
+
+!android {
+    win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../PlayerModelsContext/release/ -lPlayerModelsContext
+    else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../PlayerModelsContext/debug/ -lPlayerModelsContext
+    else:unix: LIBS += -L$$OUT_PWD/../PlayerModelsContext/ -lPlayerModelsContext
+    win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../release/ -lDartsModelsContext
+    else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../debug/ -lDartsModelsContext
+    else:unix: LIBS += -L$$OUT_PWD/../DartsModelsContext/ -lDartsModelsContext
+}
+
+android {
+    win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../PlayerModelsContext/release/ -lPlayerModelsContext_armeabi-v7a
+    else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../PlayerModelsContext/debug/ -lPlayerModelsContext_armeabi-v7a
+    else:unix: LIBS += -L$$OUT_PWD/../PlayerModelsContext/ -lPlayerModelsContext_armeabi-v7a
+    win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../release/ -lDartsModelsContext_armeabi-v7a
+    else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../debug/ -lDartsModelsContext_armeabi-v7a
+    else:unix: LIBS += -L$$OUT_PWD/../DartsModelsContext/ -lDartsModelsContext_armeabi-v7a
+}
+
+INCLUDEPATH += $$PWD/../PlayerModelsContext
+DEPENDPATH += $$PWD/../PlayerModelsContext
+INCLUDEPATH += $$PWD/../DartsModelsContext
+DEPENDPATH += $$PWD/../DartsModelsContext
