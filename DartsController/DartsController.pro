@@ -14,7 +14,6 @@ SOURCES += \
 
 HEADERS += \
     ControllerSLA/absdartsctrl.h \
-    ControllerSLA/ctrlslas.h \
     DCFinishesSLAs/dartsconstructslas.h \
     DCFinishesSLAs/idartsattemptsservice.h \
     DCFinishesSLAs/idartsboundaries.h \
