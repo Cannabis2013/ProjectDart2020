@@ -1,6 +1,7 @@
 #ifndef ABSDCUPDSCORESDETAILS_H
 #define ABSDCUPDSCORESDETAILS_H
 #include <PlayerStatsSLAs/idcstatscontext.h>
+class AbsDCPlayersCtx;
 class AbsDCUpdScoresDetails
 {
 public:

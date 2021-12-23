@@ -12,17 +12,15 @@ public:
     DCInput convert(const DIptVals &input, const int &initRemScore, const DCPlayer &player) const override
     {
         DCInput ipt;
-        if(input.point && input.score == -1)
-            ipt =  create(input); // Copy values from input to ipt
-        else
-            ipt = iptBuilder()->create(initRemScore,player); // Create input model with default values
-        return ipt;
+        if(input.point == -1 && input.score == -1)
+            return iptBuilder()->create(initRemScore,player); // Create input model with default values
+        return ipt =  copy(input); // Copy values from input to ipt
     }
     QVector<DCInput> convert(const QVector<DIptVals> &inputs) const override
     {
         QVector<DCInput> list;
         for (const auto &input : inputs)
-            list << create(input);
+            list << copy(input);
         return list;
     }
     DIptVals convert(DCInput &input) const override
@@ -43,7 +41,7 @@ public:
         return iptVals;
     }
 private:
-    DCInput create(const DIptVals ipt) const
+    DCInput copy(const DIptVals ipt) const
     {
         DCInput cIpt;
         cIpt.score = ipt.score;

@@ -1,9 +1,9 @@
 #ifndef ABSTRACTDCADDTOMDSCTX_H
 #define ABSTRACTDCADDTOMDSCTX_H
 class AbsDartsCtx;
-class DCMeta;
-class DCInput;
-class DCIndex;
+struct DCMeta;
+struct DCInput;
+struct DCIndex;
 class IDCIdxBuilder;
 class AbstractDCIptConverter;
 class AbstractDCAddToMdsCtx

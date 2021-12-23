@@ -8,7 +8,7 @@ ItemListView{
     property bool enableCheck: true
     property bool instantCheck: true
     property string componentTitle: "Title"
-    readonly property var currentIndexes: TLVScripts.currentIndexes()
+    function selectedIndexes(){return TLVScripts.currentIndexes();}
     onAddItem: TLVScripts.addItemModel(item)
     onRemoveItems: TLVScripts.removeItemModels(indexes)
     onUnSelectAll: TLVScripts.unSelectAll()

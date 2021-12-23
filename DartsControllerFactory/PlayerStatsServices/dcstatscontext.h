@@ -3,6 +3,9 @@
 #include "PlayerStatsSLAs/idcstatscontext.h"
 #include <qregexp.h>
 #include <math.h>
+#include "Models/dcplayerstats.h"
+#include <qstringlist.h>
+#include "Models/dcinput.h"
 class DCStatsContext : public IDCStatsContext
 {
 public:

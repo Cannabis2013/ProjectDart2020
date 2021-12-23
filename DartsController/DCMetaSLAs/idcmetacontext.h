@@ -2,7 +2,7 @@
 #define IDCMETACONTEXT_H
 class QUuid;
 class QString;
-class DCMeta;
+struct DCMeta;
 class IDCMetaContext
 {
 public:

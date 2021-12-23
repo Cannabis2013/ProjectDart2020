@@ -1,6 +1,6 @@
 #ifndef ISORTINPUTMODELS_H
 #define ISORTINPUTMODELS_H
-class IModelPredicate;
+struct IModelPredicate;
 template<typename T>
 class QVector;
 template<typename T>

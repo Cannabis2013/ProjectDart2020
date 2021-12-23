@@ -1,6 +1,7 @@
 #ifndef DCUPDPLASTATS_H
 #define DCUPDPLASTATS_H
 #include "DCScoresSLAs/absdcupdscoresdetails.h"
+#include "DCScoresSLAs/absdcplayersctx.h"
 class DCUpdatePlayerStats : public AbsDCUpdScoresDetails
 {
 public:

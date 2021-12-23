@@ -1,7 +1,7 @@
 #ifndef IDCIDXCTRL_H
 #define IDCIDXCTRL_H
-class DCIndex;
-class DCMeta;
+struct DCIndex;
+struct DCMeta;
 class IDCIdxCtrl
 {
 public:

@@ -1,6 +1,10 @@
 #ifndef DSCCALCSCORE_H
 #define DSCCALCSCORE_H
 #include "DCScoresSLAs/absdccalcscore.h"
+#include "Models/dcinput.h"
+#include "Models/dcindex.h"
+#include "Models/dcplayer.h"
+#include "DCIndexSLAs/idcidxctrl.h"
 class DSCCalcScore : public AbsDCCalcScore
 {
 public:

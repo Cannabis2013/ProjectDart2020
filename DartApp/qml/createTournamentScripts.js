@@ -5,7 +5,7 @@ function init()
 }
 function stateChanged()
 {
-    var selectedIndexes = playersListView.currentIndexes;
+    var selectedIndexes = playersListView.selectedIndexes();
     var selectedIndexesLength = selectedIndexes.length;
     var tournamentTitle = titleEdit.currentValue;
     var tournamentTitleLength = tournamentTitle.length;
@@ -48,7 +48,7 @@ function acceptAndAdd(){
 
 function createDarts()
 {
-    var indexes = playersListView.currentIndexes;
+    var indexes = playersListView.selectedIndexes();
     var json = createDartsJson(indexes);
     var result = dartsContext.addTournament(json,indexes);
     if(result)

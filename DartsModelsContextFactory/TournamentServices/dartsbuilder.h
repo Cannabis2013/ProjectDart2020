@@ -24,6 +24,11 @@ public:
         vals.winnerName = tournament->winnerName();
         vals.playerCount = tournament->playerNames().count();
         vals.initRem = tournament->initialRemaining();
+        vals.totalTurns = tournament->totalTurns();
+        vals.turnIndex = tournament->turnIndex();
+        vals.roundIndex = tournament->roundIndex();
+        vals.setIndex = tournament->setIndex();
+        vals.attemptIndex = tournament->attemptIndex();
         return vals;
     }
 private:

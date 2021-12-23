@@ -2,6 +2,9 @@
 #define DSCPLAYERSCONTEXT_H
 #include "DCScoresSLAs/absdcplayersctx.h"
 #include <qdebug.h>
+#include "Models/dcplayer.h"
+#include "Models/dcindex.h"
+#include "Models/dcinput.h"
 class DSCPlayersContext : public AbsDCPlayersCtx
 {
 public:

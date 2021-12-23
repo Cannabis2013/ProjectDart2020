@@ -1,8 +1,8 @@
 #ifndef IDCIDXBUILDER_H
 #define IDCIDXBUILDER_H
 struct TnmVals;
-class DCMeta;
-class DCIndex;
+struct DCMeta;
+struct DCIndex;
 class IDartsIndex;
 class IDCIdxBuilder
 {

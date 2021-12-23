@@ -2,6 +2,7 @@
 #define DSCINDEXCONTROLLER_H
 #include "DCIndexSLAs/idcidxctrl.h"
 #include "DCMetaServices/dcmeta.h"
+#include "Models/dcindex.h"
 class DSCIndexController : public IDCIdxCtrl
 {
 public:
@@ -69,7 +70,6 @@ public:
         }
         return _idx;
     }
-
 private:
     int pCount() const {return _pCount;}
     DCIndex _idx;

@@ -99,24 +99,24 @@ DISTFILES += \
 }
 
 android {
-    win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../PlayerModelsContext/release/ -lPlayerModelsContext_armeabi-v7a
-    else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../PlayerModelsContext/debug/ -lPlayerModelsContext_armeabi-v7a
-    else:unix: LIBS += -L$$OUT_PWD/../PlayerModelsContext/ -lPlayerModelsContext_armeabi-v7a
-    win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../release/ -lDartsModelsContext_armeabi-v7a
-    else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../debug/ -lDartsModelsContext_armeabi-v7a
-    else:unix: LIBS += -L$$OUT_PWD/../DartsModelsContext/ -lDartsModelsContext_armeabi-v7a
-    win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../DartsController/release/ -lDartsController_armeabi-v7a
-    else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../DartsController/debug/ -lDartsController_armeabi-v7a
-    else:unix: LIBS += -L$$OUT_PWD/../DartsController/ -lDartsController_armeabi-v7a
-    win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../DartsControllerFactory/release/ -lDartsControllerFactory_armeabi-v7a
-    else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../DartsControllerFactory/debug/ -lDartsControllerFactory_armeabi-v7a
-    else:unix: LIBS += -L$$OUT_PWD/../DartsControllerFactory/ -lDartsControllerFactory_armeabi-v7a
-    win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../DartsModelsContextFactory/release/ -lDartsModelsContextFactory_armeabi-v7a
-    else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../DartsModelsContextFactory/debug/ -lDartsModelsContextFactory_armeabi-v7a
-    else:unix: LIBS += -L$$OUT_PWD/../DartsModelsContextFactory/ -lDartsModelsContextFactory_armeabi-v7a
-    win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../PlayersContextFactory/release/ -lPlayersContextFactory_armeabi-v7a
-    else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../PlayersContextFactory/debug/ -lPlayersContextFactory_armeabi-v7a
-    else:unix: LIBS += -L$$OUT_PWD/../PlayersContextFactory/ -lPlayersContextFactory_armeabi-v7a
+    win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../PlayerModelsContext/release/ -lPlayerModelsContext_arm64-v8a
+    else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../PlayerModelsContext/debug/ -lPlayerModelsContext_arm64-v8a
+    else:unix: LIBS += -L$$OUT_PWD/../PlayerModelsContext/ -lPlayerModelsContext_arm64-v8a
+    win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../release/ -lDartsModelsContext_arm64-v8a
+    else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../debug/ -lDartsModelsContext_arm64-v8a
+    else:unix: LIBS += -L$$OUT_PWD/../DartsModelsContext/ -lDartsModelsContext_arm64-v8a
+    win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../DartsController/release/ -lDartsController_arm64-v8a
+    else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../DartsController/debug/ -lDartsController_arm64-v8a
+    else:unix: LIBS += -L$$OUT_PWD/../DartsController/ -lDartsController_arm64-v8a
+    win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../DartsControllerFactory/release/ -lDartsControllerFactory_arm64-v8a
+    else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../DartsControllerFactory/debug/ -lDartsControllerFactory_arm64-v8a
+    else:unix: LIBS += -L$$OUT_PWD/../DartsControllerFactory/ -lDartsControllerFactory_arm64-v8a
+    win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../DartsModelsContextFactory/release/ -lDartsModelsContextFactory_arm64-v8a
+    else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../DartsModelsContextFactory/debug/ -lDartsModelsContextFactory_arm64-v8a
+    else:unix: LIBS += -L$$OUT_PWD/../DartsModelsContextFactory/ -lDartsModelsContextFactory_arm64-v8a
+    win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../PlayersContextFactory/release/ -lPlayersContextFactory_arm64-v8a
+    else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../PlayersContextFactory/debug/ -lPlayersContextFactory_arm64-v8a
+    else:unix: LIBS += -L$$OUT_PWD/../PlayersContextFactory/ -lPlayersContextFactory_arm64-v8a
 }
 
 INCLUDEPATH += $$PWD/../PlayerModelsContext
@@ -131,3 +131,10 @@ INCLUDEPATH += $$PWD/../DartsModelsContextFactory
 DEPENDPATH += $$PWD/../DartsModelsContextFactory
 INCLUDEPATH += $$PWD/../PlayersContextFactory
 DEPENDPATH += $$PWD/../PlayersContextFactory
+
+ANDROID_EXTRA_LIBS += $$OUT_PWD/../PlayerModelsContext/libPlayerModelsContext_arm64-v8a.so
+ANDROID_EXTRA_LIBS += $$OUT_PWD/../PlayersContextFactory/libPlayersContextFactory_arm64-v8a.so
+ANDROID_EXTRA_LIBS += $$OUT_PWD/../DartsModelsContext/libDartsModelsContext_arm64-v8a.so
+ANDROID_EXTRA_LIBS += $$OUT_PWD/../DartsModelsContextFactory/libDartsModelsContextFactory_arm64-v8a.so
+ANDROID_EXTRA_LIBS += $$OUT_PWD/../DartsController/libDartsController_arm64-v8a.so
+ANDROID_EXTRA_LIBS += $$OUT_PWD/../DartsControllerFactory/libDartsControllerFactory_arm64-v8a.so

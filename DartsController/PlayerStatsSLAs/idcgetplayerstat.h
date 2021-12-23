@@ -1,7 +1,7 @@
 #ifndef IDCGETPLAYERSTAT_H
 #define IDCGETPLAYERSTAT_H
 class IDCStatsContext;
-class DCPlayerStats;
+struct DCPlayerStats;
 class QUuid;
 class IDCGetPlayerStat
 {

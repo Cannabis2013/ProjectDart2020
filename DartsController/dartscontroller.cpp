@@ -8,22 +8,16 @@
 #include "Models/dcmeta.h"
 #include "DCIndexSLAs/idcidxctrl.h"
 #include "DCIndexSLAs/idcidxbuilder.h"
-int DartsController::initialize(const QUuid &tournamentId)
-{
+QString DartsController::tournamentId() const {return metaCtx()->tournamentId().toString(QUuid::WithBraces);}
+QByteArray DartsController::getPlayerScores() const {return createJson()->create(playersContext()->players(),statsContext()->stats());}
+int DartsController::status() const {return metaCtx()->status();}
+int DartsController::initialize(const QUuid &tournamentId){
     auto meta = createMeta()->create(mdsCtx()->tournament(tournamentId));
     DCInit::initTournamentMeta(meta,metaCtx(),idxCtrl());
     DCInit::initPlayerDetails(mdsCtx()->players(tournamentId),metaCtx()->get(),playersContext(),statsContext());
     DCInit::initScores(iptConverter()->convert(mdsCtx()->inputs(tournamentId)),statsContext(),playersContext());
     DCInit::initStatus(metaCtx());
     return metaCtx()->Initialized;
-}
-QString DartsController::tournamentId() const
-{
-    return metaCtx()->tournamentId().toString(QUuid::WithBraces);
-}
-QByteArray DartsController::getPlayerScores() const
-{
-    return createJson()->create(playersContext()->players(),statsContext()->stats());
 }
 QByteArray DartsController::addInput(const QByteArray& json)
 {
@@ -47,18 +41,12 @@ bool DartsController::reset()
     metaCtx()->set(IDCMetaContext::Initialized);
     return mdsCtx()->resetTournament(metaCtx()->tournamentId());
 }
-
-int DartsController::status() const
-{
-    return metaCtx()->status();
-}
 QByteArray DartsController::undoTurn()
 {
     auto inputIdx = idxCtrl()->undo();
-    auto reqIndex = idxCtrl()->prevIndex();
     auto meta = createMeta()->create();
     mdsCtx()->hideInput(meta.tournamentId,meta.playerName,idxConverter()->convert(inputIdx));
-    auto cvtReqIdx = idxConverter()->convert(reqIndex);
+    auto cvtReqIdx = idxConverter()->convert(idxCtrl()->prevIndex());
     auto mdIpt = mdsCtx()->input(metaCtx()->tournamentId(),meta.playerName,cvtReqIdx);
     auto player = playersContext()->player(meta.playerName);
     auto ipt = iptConverter()->convert(mdIpt,meta.initRemScore,player);

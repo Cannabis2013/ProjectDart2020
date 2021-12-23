@@ -18,13 +18,11 @@ HEADERS += \
     DCFinishesSLAs/idartsattemptsservice.h \
     DCFinishesSLAs/idartsboundaries.h \
     DCFinishesSLAs/idartscreatefinishes.h \
-    DCFinishesSLAs/idartscreateterminalthreshold.h \
     DCFinishesSLAs/idartsdivisorvalues.h \
     DCFinishesSLAs/idartsfieldvalues.h \
     DCFinishesSLAs/idartsfinishesdb.h \
     DCFinishesSLAs/idartsmodidentifiers.h \
     DCFinishesSLAs/idartsterminaldivisor.h \
-    DCFinishesSLAs/idartsthresholdvalues.h \
     DCFinishesSLAs/idcfinishbuilder.h \
     DCIndexSLAs/idcidxbuilder.h \
     Models/dcindex.h \
@@ -76,12 +74,12 @@ unix {
 }
 
 android {
-    win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../PlayerModelsContext/release/ -lPlayerModelsContext_armeabi-v7a
-    else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../PlayerModelsContext/debug/ -lPlayerModelsContext_armeabi-v7a
-    else:unix: LIBS += -L$$OUT_PWD/../PlayerModelsContext/ -lPlayerModelsContext_armeabi-v7a
-    win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../release/ -lDartsModelsContext_armeabi-v7a
-    else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../debug/ -lDartsModelsContext_armeabi-v7a
-    else:unix: LIBS += -L$$OUT_PWD/../DartsModelsContext/ -lDartsModelsContext_armeabi-v7a
+    win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../PlayerModelsContext/release/ -lPlayerModelsContext_arm64-v8a
+    else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../PlayerModelsContext/debug/ -lPlayerModelsContext_arm64-v8a
+    else:unix: LIBS += -L$$OUT_PWD/../PlayerModelsContext/ -lPlayerModelsContext_arm64-v8a
+    win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../release/ -lDartsModelsContext_arm64-v8a
+    else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../debug/ -lDartsModelsContext_arm64-v8a
+    else:unix: LIBS += -L$$OUT_PWD/../DartsModelsContext/ -lDartsModelsContext_arm64-v8a
 }
 
 INCLUDEPATH += $$PWD/../PlayerModelsContext

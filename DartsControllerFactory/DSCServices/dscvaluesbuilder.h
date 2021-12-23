@@ -2,6 +2,8 @@
 #define DSCVALUESBUILDER_H
 #include "DCTurnValuesSLAs/abstractdcturnvalues.h"
 #include "DCTurnValuesServices/dcturnvalues.h"
+#include "Models/dcindex.h"
+#include "Models/dcplayer.h"
 class DSCValuesBuilder : public AbstractDCTurnValues
 {
 public:

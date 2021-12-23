@@ -10,10 +10,10 @@
 #include "SetupQmlApp/registerqmltypes.h"
 int main(int argc, char *argv[])
 {
-    // Setup main event loop and qml context
-    QGuiApplication app(argc, argv);
     // Configure for devices that supports hidp resolutions
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    // Setup main event loop and qml context
+    QGuiApplication app(argc, argv);
     // Register custom typQStringLiterales
     RegisterQMLTypes::registerTypes();
     // Build and add context properties

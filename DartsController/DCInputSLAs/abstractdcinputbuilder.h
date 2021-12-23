@@ -1,10 +1,10 @@
 #ifndef IDCINPUTBUILDER_H
 #define IDCINPUTBUILDER_H
 class AbsDCCalcScore;
-class DCPlayer;
-class DCIndex;
+struct DCPlayer;
+struct DCIndex;
 class QByteArray;
-class DCInput;
+struct DCInput;
 class AbsDCPlayersCtx;
 class IDCIdxCtrl;
 class AbstractDCInputBuilder
