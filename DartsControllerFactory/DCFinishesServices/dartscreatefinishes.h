@@ -12,7 +12,7 @@ class DartsCreateFinishes:
         protected DartsConstructSLAs
 {
 public:
-    static DartsCreateFinishes *createInstance();
+    static DartsCreateFinishes *createInstance() {return new DartsCreateFinishes;}
     AllTargetRows constructRows() const override;
 private:
     QString constructRow(const int &remainingScore, const int &turnIndex) const;

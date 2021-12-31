@@ -23,6 +23,7 @@ HEADERS += \
     DCFinishesSLAs/idartsfinishesdb.h \
     DCFinishesSLAs/idartsmodidentifiers.h \
     DCFinishesSLAs/idartsterminaldivisor.h \
+    DCFinishesSLAs/idartsthresholds.h \
     DCFinishesSLAs/idcfinishbuilder.h \
     DCIndexSLAs/idcidxbuilder.h \
     Models/dcindex.h \

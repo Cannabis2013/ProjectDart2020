@@ -1,10 +1,5 @@
 #include "dartscreatefinishes.h"
 
-DartsCreateFinishes *DartsCreateFinishes::createInstance()
-{
-    return new DartsCreateFinishes;
-}
-
 IDartsCreateFinishes::AllTargetRows DartsCreateFinishes::constructRows() const
 {
     AllTargetRows allTargetRows;
@@ -25,7 +20,6 @@ IDartsCreateFinishes::AllTargetRows DartsCreateFinishes::constructRows() const
 QString DartsCreateFinishes::constructRow(const int &remainingScore, const int &turnIndex) const
 {
     auto score = new IDartsCreateFinishes::ScoreModel();
-
     score->multiplier = QVector<char>(attemptsService()->attempts(),'\0');
     score->pointValue = QVector<int>(attemptsService()->attempts(),0);
     bool hasADeterminedPath;
@@ -183,8 +177,8 @@ bool DartsCreateFinishes::determineRouteByDiff(const int &remainingScore, const 
 }
 
 bool DartsCreateFinishes::findGreatestPointsWithinThreshold(const int &remainingScore, const int &turnIndex,
-                                                           const int &threshold, const int &divisor,
-                                                           IDartsCreateFinishes::ScoreModel *s) const
+                                                            const int &threshold, const int &divisor,
+                                                            IDartsCreateFinishes::ScoreModel *s) const
 {
     for (int points = threshold; points > 0; points -= divisor) {
         auto endScore = remainingScore - points;

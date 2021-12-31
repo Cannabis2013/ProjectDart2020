@@ -15,6 +15,7 @@ HEADERS += \
     DCFinishesServices/dccreatefinishes.h \
     DCFinishesServices/dcfinishbuilder.h \
     DCFinishesServices/dclogisticdb.h \
+    DCFinishesServices/defaultthresholds.h \
     DCIndexServices/dcidxjsonbuilder.h \
     DCIndexServices/dcplayerstatsjsonbuilder.h \
     DCIndexServices/dcreqidxjsonbuilder.h \
@@ -55,6 +56,7 @@ SOURCES += \
     DCFinishesServices/dartscreatefinishes.cpp \
     DCFinishesServices/dccreatefinishes.cpp \
     DCFinishesServices/dcfinishbuilder.cpp \
+    DCFinishesServices/defaultthresholds.cpp \
     DCJsonServices/dcjsonbuilder.cpp \
     createdartscontroller.cpp
 

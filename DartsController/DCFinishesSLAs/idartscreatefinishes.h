@@ -1,8 +1,10 @@
 #ifndef IDARTSCREATEFINISHES_H
 #define IDARTSCREATEFINISHES_H
-
-#include <qvector.h>
-
+template<typename T, typename U>
+class QMultiHash;
+class QString;
+template<typename T>
+class QVector;
 class IDartsCreateFinishes
 {
 public:

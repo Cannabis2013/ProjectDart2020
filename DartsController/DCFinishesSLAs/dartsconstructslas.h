@@ -6,6 +6,7 @@
 #include "DCFinishesSLAs/idartsterminaldivisor.h"
 #include "DCFinishesSLAs/idartsmodidentifiers.h"
 #include "DCFinishesSLAs/idartsattemptsservice.h"
+#include "idartsthresholds.h"
 class DartsConstructSLAs
 {
 public:
@@ -21,8 +22,11 @@ public:
     void setIdentifiersService(IDartsModIdentifiers *service) {_identifiers = service;}
     IDartsAttemptsService *attemptsService() const {return _attempts;}
     void setAttemptsService(IDartsAttemptsService *service) {_attempts = service;}
+    IDartsThresholds *thresholds() const {return _thresholds;}
+    void setThresholds(IDartsThresholds *newThresholds) {_thresholds = newThresholds;}
 private:
     IDartsBoundaries *_boundaries;
+    IDartsThresholds *_thresholds;
     IDartsFieldValues *_fieldValues;
     IDartsDivisorValues *_divisors;
     IDartsterminalDivisor *_terminalDivisor;
