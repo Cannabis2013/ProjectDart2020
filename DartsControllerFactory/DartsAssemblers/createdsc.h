@@ -34,7 +34,7 @@ public:
     {
         auto dc = new DartsController;
         dc->setFinishBuilder(DCFinishBuilder::createInstance(DCCreateFinishes::createInstance(),
-                                                               DCLogisticDb::createInstance()));
+                                                             DCLogisticDb::createInstance()));
         auto metaCtx = new DCMetaContext;
         auto idxCtrl = new DSCIndexController;
         auto plaCtx = new DSCPlayersContext();

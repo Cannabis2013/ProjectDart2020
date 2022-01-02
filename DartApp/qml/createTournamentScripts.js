@@ -20,9 +20,14 @@ function updatePlayersView()
         var obj = j[i];
         var playerName = obj["name"];
         var email = obj["mail"];
-        playersListView.addItem({"type" : "player","username" : playerName, "mail" : email});
+        playersListView.addItem(createItem(playerName,email));
     }
 }
+function createItem(playerName,mail)
+{
+    return {"type" : "player","username" : playerName, "mail" : mail}
+}
+
 function gameModeToHex(text)
 {
     var gameModes = gameModeSelector.model;
