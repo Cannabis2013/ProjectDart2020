@@ -28,7 +28,7 @@ public:
         }
     }
     DCPlayer &player(const QString &name) override {return getScoreModelByName(name);}
-    DCPlayer &player(const DCIndex &idx) override {return _players[idx.setIndex];}
+    DCPlayer &player(const int &idx) override {return _players[idx];}
     virtual void reset(const int &initRemScore) override
     {
         for (auto &scoreModel : _players)

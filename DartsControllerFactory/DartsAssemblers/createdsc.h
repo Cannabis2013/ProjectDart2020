@@ -3,7 +3,7 @@
 #include "DSCServices/dscinputevaluator.h"
 #include "DSCServices/dscinputbuilder.h"
 #include "DSCServices/dscvaluesbuilder.h"
-#include "DSCServices/dsccalcscore.h"
+#include "DSCServices/dsccreatescore.h"
 #include "DCFinishesServices/dccreatefinishes.h"
 #include "DCFinishesServices/dclogisticdb.h"
 #include "DCFinishesServices/dcfinishbuilder.h"
@@ -45,8 +45,8 @@ public:
         dc->setPlayersContext(plaCtx);
         dc->setInputEvaluator(new DSCInputEvaluator);
         dc->setTurnValuesBuilder(new DSCValuesBuilder);
-        dc->setGetScoreFromInput(new DSCCalcScore(idxCtrl,plaCtx));
-        dc->setCreateInput(new DSCInputBuilder(dc->scoreCalc()));
+        dc->setGetScoreFromInput(new DSCCreateScore);
+        dc->setCreateInput(new DSCInputBuilder);
         dc->setIptConverter(new DCIptConverter(dc->createInput()));
         dc->setUpdateScores(new DCUpdatePlayerStats(dc->statsContext(),plaCtx));
         dc->setAddToModelsCtx(new DCAddToModelsContext(dc->iptConverter(),dc->idxConverter()));

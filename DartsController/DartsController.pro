@@ -26,6 +26,7 @@ HEADERS += \
     DCFinishesSLAs/idartsthresholds.h \
     DCFinishesSLAs/idcfinishbuilder.h \
     DCIndexSLAs/idcidxbuilder.h \
+    DCScoresSLAs/absdccreatescore.h \
     Models/dcindex.h \
     DCIndexSLAs/dcindexslas.h \
     DCIndexSLAs/idcidxctrl.h \
@@ -40,7 +41,6 @@ HEADERS += \
     DCMetaSLAs/abstractdcmetabuilder.h \
     DCMetaSLAs/dcmetaslas.h \
     DCMetaSLAs/idcmetacontext.h \
-    DCScoresSLAs/absdccalcscore.h \
     DCScoresSLAs/absdcplayersctx.h \
     DCScoresSLAs/absdcupdscoresdetails.h \
     DCScoresSLAs/dcplayerscoresslas.h \

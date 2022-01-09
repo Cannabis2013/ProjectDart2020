@@ -35,10 +35,10 @@ HEADERS += \
     DCTurnValuesServices/DCTurnValuesJsonBuilder.h \
     DCTurnValuesServices/dcturnvalues.h \
     DPCServices/DPCTurnValuesBuilder.h \
+    DPCServices/dpccreatescore.h \
     DPCServices/dpcinputbuilder.h \
     DPCServices/dpcinputevaluator.h \
-    DPCServices/getscorefromdpcinput.h \
-    DSCServices/dsccalcscore.h \
+    DSCServices/dsccreatescore.h \
     DSCServices/dscinputbuilder.h \
     DSCServices/dscinputevaluator.h \
     DSCServices/dscvaluesbuilder.h \

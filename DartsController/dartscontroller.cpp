@@ -1,5 +1,4 @@
 #include "dartscontroller.h"
-#include <quuid.h>
 #include "TournamentModels/tnmvalues.h"
 #include "StaticInitHelperClass/dcinit.h"
 #include "SLAs/absdartsctx.h"
@@ -21,11 +20,12 @@ int DartsController::initialize(const QUuid &tournamentId){
 }
 QByteArray DartsController::addInput(const QByteArray& json)
 {
-    auto player = playersContext()->player(idxCtrl()->index());
-    auto ipt = createInput()->create(json,idxCtrl()->index(),player);
-    auto scoreCand = scoreCalc()->calc(ipt.score); // Calc score
+    auto index = idxCtrl()->index();
+    auto player = playersContext()->player(index.setIndex);
+    auto ipt = createInput()->create(json,index,player);
+    auto scoreCand = scoreCalc()->calc(ipt.score,player.remScore); // Calc score
     evalIpt()->eval(ipt,scoreCand,metaCtx()->get(),player,metaCtx()->WinnerDeclared); // Evaluate input
-    updateInputStats()->set(ipt,idxCtrl()->index(),metaCtx()->initRemScore());
+    updateInputStats()->set(ipt,index,metaCtx()->initRemScore());
     auto idx = idxCtrl()->next(); // Increment index
     addToModelsCtx()->add(ipt,idx,metaCtx()->get(),mdsCtx()); // Persist input to models context
     updatePlayerDetails()->update(ipt);
@@ -67,7 +67,7 @@ QByteArray DartsController::redoTurn()
 }
 QByteArray DartsController::getTurnValues() const {
     auto idx = idxCtrl()->index();
-    auto player = playersContext()->player(idx);
+    auto player = playersContext()->player(idx.setIndex);
     auto finish = finishBuilder()->suggestTargetRow(player.remScore,idx.attemptIndex);
     auto values = turnValuesBuilder()->create(idx,player,finish);
     return createJson()->create(values,DCMeta());

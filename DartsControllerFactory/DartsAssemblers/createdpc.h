@@ -8,7 +8,7 @@
 #include "DPCServices/dpcinputevaluator.h"
 #include "DPCServices/DPCTurnValuesBuilder.h"
 #include "DPCServices/dpcinputbuilder.h"
-#include "DPCServices/getscorefromdpcinput.h"
+#include "DPCServices/dpccreatescore.h"
 #include "DCJsonServices/dcjsonbuilder.h"
 #include "DCMetaServices/dcmetabuilder.h"
 #include "DCInputServices/dcinputjsonbuilder.h"
@@ -42,8 +42,8 @@ public:
         dc->setPlayersContext(new DPCPlayersContext);
         dc->setInputEvaluator(new DPCInputEvaluator);
         dc->setTurnValuesBuilder(new DPCTurnValuesBuilder);
-        dc->setGetScoreFromInput(new GetScoreFromDPCInput(dc->idxCtrl(),dc->playersContext()));
-        dc->setCreateInput(new DPCInputBuilder(dc->scoreCalc()));
+        dc->setGetScoreFromInput(new DPCCreateScore);
+        dc->setCreateInput(new DPCInputBuilder);
         dc->setUpdateScores(new DCUpdatePlayerStats(dc->statsContext(),dc->playersContext()));
         dc->setIptConverter(new DCIptConverter(dc->createInput()));
         dc->setAddToModelsCtx(new DCAddToModelsContext(dc->iptConverter(),dc->idxConverter()));
