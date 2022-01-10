@@ -1,6 +1,5 @@
 #ifndef IDARTSTERMINALDIVISOR_H
 #define IDARTSTERMINALDIVISOR_H
-
 class IDartsterminalDivisor
 {
 public:

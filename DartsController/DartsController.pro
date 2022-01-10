@@ -14,20 +14,19 @@ SOURCES += \
 
 HEADERS += \
     ControllerSLA/absdartsctrl.h \
-    ControllerSLA/ctrlslas.h \
     DCFinishesSLAs/dartsconstructslas.h \
     DCFinishesSLAs/idartsattemptsservice.h \
     DCFinishesSLAs/idartsboundaries.h \
     DCFinishesSLAs/idartscreatefinishes.h \
-    DCFinishesSLAs/idartscreateterminalthreshold.h \
     DCFinishesSLAs/idartsdivisorvalues.h \
     DCFinishesSLAs/idartsfieldvalues.h \
     DCFinishesSLAs/idartsfinishesdb.h \
     DCFinishesSLAs/idartsmodidentifiers.h \
     DCFinishesSLAs/idartsterminaldivisor.h \
-    DCFinishesSLAs/idartsthresholdvalues.h \
+    DCFinishesSLAs/idartsthresholds.h \
     DCFinishesSLAs/idcfinishbuilder.h \
     DCIndexSLAs/idcidxbuilder.h \
+    DCScoresSLAs/absdccreatescore.h \
     Models/dcindex.h \
     DCIndexSLAs/dcindexslas.h \
     DCIndexSLAs/idcidxctrl.h \
@@ -42,7 +41,6 @@ HEADERS += \
     DCMetaSLAs/abstractdcmetabuilder.h \
     DCMetaSLAs/dcmetaslas.h \
     DCMetaSLAs/idcmetacontext.h \
-    DCScoresSLAs/absdccalcscore.h \
     DCScoresSLAs/absdcplayersctx.h \
     DCScoresSLAs/absdcupdscoresdetails.h \
     DCScoresSLAs/dcplayerscoresslas.h \
@@ -77,12 +75,12 @@ unix {
 }
 
 android {
-    win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../PlayerModelsContext/release/ -lPlayerModelsContext_armeabi-v7a
-    else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../PlayerModelsContext/debug/ -lPlayerModelsContext_armeabi-v7a
-    else:unix: LIBS += -L$$OUT_PWD/../PlayerModelsContext/ -lPlayerModelsContext_armeabi-v7a
-    win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../release/ -lDartsModelsContext_armeabi-v7a
-    else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../debug/ -lDartsModelsContext_armeabi-v7a
-    else:unix: LIBS += -L$$OUT_PWD/../DartsModelsContext/ -lDartsModelsContext_armeabi-v7a
+    win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../PlayerModelsContext/release/ -lPlayerModelsContext_arm64-v8a
+    else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../PlayerModelsContext/debug/ -lPlayerModelsContext_arm64-v8a
+    else:unix: LIBS += -L$$OUT_PWD/../PlayerModelsContext/ -lPlayerModelsContext_arm64-v8a
+    win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../release/ -lDartsModelsContext_arm64-v8a
+    else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../debug/ -lDartsModelsContext_arm64-v8a
+    else:unix: LIBS += -L$$OUT_PWD/../DartsModelsContext/ -lDartsModelsContext_arm64-v8a
 }
 
 INCLUDEPATH += $$PWD/../PlayerModelsContext

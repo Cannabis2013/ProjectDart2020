@@ -7,16 +7,15 @@ HEADERS += \
     ConverterServices/dcidxconverter.h \
     DCFinishesServices/dartsboundaries.h \
     DCFinishesServices/dartscreatefinishes.h \
-    DCFinishesServices/dartscreateterminalthreshold.h \
     DCFinishesServices/dartsdefaultattempts.h \
     DCFinishesServices/dartsdivisors.h \
     DCFinishesServices/dartsfieldvalues.h \
     DCFinishesServices/dartsmodidentifiers.h \
     DCFinishesServices/dartsterminaldivisor.h \
-    DCFinishesServices/dartsthreshold.h \
     DCFinishesServices/dccreatefinishes.h \
     DCFinishesServices/dcfinishbuilder.h \
     DCFinishesServices/dclogisticdb.h \
+    DCFinishesServices/defaultthresholds.h \
     DCIndexServices/dcidxjsonbuilder.h \
     DCIndexServices/dcplayerstatsjsonbuilder.h \
     DCIndexServices/dcreqidxjsonbuilder.h \
@@ -36,10 +35,10 @@ HEADERS += \
     DCTurnValuesServices/DCTurnValuesJsonBuilder.h \
     DCTurnValuesServices/dcturnvalues.h \
     DPCServices/DPCTurnValuesBuilder.h \
+    DPCServices/dpccreatescore.h \
     DPCServices/dpcinputbuilder.h \
     DPCServices/dpcinputevaluator.h \
-    DPCServices/getscorefromdpcinput.h \
-    DSCServices/dsccalcscore.h \
+    DSCServices/dsccreatescore.h \
     DSCServices/dscinputbuilder.h \
     DSCServices/dscinputevaluator.h \
     DSCServices/dscvaluesbuilder.h \
@@ -55,20 +54,22 @@ HEADERS += \
 
 SOURCES += \
     DCFinishesServices/dartscreatefinishes.cpp \
+    DCFinishesServices/dccreatefinishes.cpp \
     DCFinishesServices/dcfinishbuilder.cpp \
+    DCFinishesServices/defaultthresholds.cpp \
     DCJsonServices/dcjsonbuilder.cpp \
     createdartscontroller.cpp
 
 android {
-    win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../release/ -lDartsController_armeabi-v7a
-    else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../debug/ -lDartsController_armeabi-v7a
-    else:unix: LIBS += -L$$OUT_PWD/../DartsController/ -lDartsController_armeabi-v7a
-    win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../DartsModelsContext/release/ -lDartsModelsContext_armeabi-v7a
-    else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../DartsModelsContext/debug/ -lDartsModelsContext_armeabi-v7a
-    else:unix: LIBS += -L$$OUT_PWD/../DartsModelsContext/ -lDartsModelsContext_armeabi-v7a
-    win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../PlayerModelsContext/release/ -lPlayerModelsContext_armeabi-v7a
-    else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../PlayerModelsContext/debug/ -lPlayerModelsContext_armeabi-v7a
-    else:unix: LIBS += -L$$OUT_PWD/../PlayerModelsContext/ -lPlayerModelsContext_armeabi-v7a
+    win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../release/ -lDartsController_arm64-v8a
+    else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../debug/ -lDartsController_arm64-v8a
+    else:unix: LIBS += -L$$OUT_PWD/../DartsController/ -lDartsController_arm64-v8a
+    win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../DartsModelsContext/release/ -lDartsModelsContext_arm64-v8a
+    else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../DartsModelsContext/debug/ -lDartsModelsContext_arm64-v8a
+    else:unix: LIBS += -L$$OUT_PWD/../DartsModelsContext/ -lDartsModelsContext_arm64-v8a
+    win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../PlayerModelsContext/release/ -lPlayerModelsContext_arm64-v8a
+    else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../PlayerModelsContext/debug/ -lPlayerModelsContext_arm64-v8a
+    else:unix: LIBS += -L$$OUT_PWD/../PlayerModelsContext/ -lPlayerModelsContext_arm64-v8a
 }
 
 !android {

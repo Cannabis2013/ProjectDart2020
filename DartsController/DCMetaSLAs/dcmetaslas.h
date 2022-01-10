@@ -1,7 +1,7 @@
 #ifndef DCMETASLAS_H
 #define DCMETASLAS_H
-#include "DCMetaSLAs/idcmetacontext.h"
 #include "abstractdcmetabuilder.h"
+#include "idcmetacontext.h"
 class DCMetaSLAs
 {
 public:

@@ -1,10 +1,5 @@
 #include "dartscreatefinishes.h"
 
-DartsCreateFinishes *DartsCreateFinishes::createInstance()
-{
-    return new DartsCreateFinishes;
-}
-
 IDartsCreateFinishes::AllTargetRows DartsCreateFinishes::constructRows() const
 {
     AllTargetRows allTargetRows;
@@ -24,8 +19,7 @@ IDartsCreateFinishes::AllTargetRows DartsCreateFinishes::constructRows() const
 
 QString DartsCreateFinishes::constructRow(const int &remainingScore, const int &turnIndex) const
 {
-    auto score = new IDartsCreateFinishes::ScoreModel();
-
+    auto score = new ScoreModel;
     score->multiplier = QVector<char>(attemptsService()->attempts(),'\0');
     score->pointValue = QVector<int>(attemptsService()->attempts(),0);
     bool hasADeterminedPath;
@@ -183,8 +177,8 @@ bool DartsCreateFinishes::determineRouteByDiff(const int &remainingScore, const 
 }
 
 bool DartsCreateFinishes::findGreatestPointsWithinThreshold(const int &remainingScore, const int &turnIndex,
-                                                           const int &threshold, const int &divisor,
-                                                           IDartsCreateFinishes::ScoreModel *s) const
+                                                            const int &threshold, const int &divisor,
+                                                            ScoreModel *s) const
 {
     for (int points = threshold; points > 0; points -= divisor) {
         auto endScore = remainingScore - points;
@@ -198,7 +192,7 @@ bool DartsCreateFinishes::findGreatestPointsWithinThreshold(const int &remaining
 
 bool DartsCreateFinishes::findGreatestPointsWithinTerminalThreshold(const int &remainingScore, const int &turnIndex,
                                                                    const int &threshold,
-                                                                   IDartsCreateFinishes::ScoreModel *s) const
+                                                                   ScoreModel *s) const
 {
     for (int points = threshold; points > 0; points--) {
         auto endScore = remainingScore - points;
@@ -213,8 +207,7 @@ bool DartsCreateFinishes::findGreatestPointsWithinTerminalThreshold(const int &r
     return false;
 }
 
-bool DartsCreateFinishes::findGreatestOddDivisibleByThree(const int &remainingScore, const int &turnIndex,
-                                                         IDartsCreateFinishes::ScoreModel *s) const
+bool DartsCreateFinishes::findGreatestOddDivisibleByThree(const int &remainingScore, const int &turnIndex,ScoreModel *s) const
 {
     for (int points = boundaries()->trippleMaxValue(); points > 0; points -= divisors()->trippleDivisor()) {
         auto endScore = remainingScore - points;
@@ -224,8 +217,7 @@ bool DartsCreateFinishes::findGreatestOddDivisibleByThree(const int &remainingSc
     return false;
 }
 
-void DartsCreateFinishes::updateScoreObject(char stringIdentifier, int value, int index,
-                                           IDartsCreateFinishes::ScoreModel *s) const
+void DartsCreateFinishes::updateScoreObject(char stringIdentifier, int value, int index, ScoreModel *s) const
 {
     if(value < 0)
         throw new std::out_of_range("Value out of bounds");
@@ -234,7 +226,7 @@ void DartsCreateFinishes::updateScoreObject(char stringIdentifier, int value, in
 }
 
 bool DartsCreateFinishes::writeToScoreObject(const int &remainingScore, const int &points, const int &divisor,
-                                            const int &turnIndex, IDartsCreateFinishes::ScoreModel *s) const
+                                            const int &turnIndex, ScoreModel *s) const
 {
     auto newScore = remainingScore - points;
     auto turnScore = points/divisor;
@@ -256,7 +248,7 @@ bool DartsCreateFinishes::isEven(const int &integer) const
     return result;
 }
 
-QString DartsCreateFinishes::toString(IDartsCreateFinishes::ScoreModel *s) const
+QString DartsCreateFinishes::toString(ScoreModel *s) const
 {
     QString result;
     for (int i = 0; i < attemptsService()->attempts(); ++i) {

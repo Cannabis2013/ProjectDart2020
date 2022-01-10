@@ -11,7 +11,7 @@ ItemListView{
     onClear: listModel.clear()
     property string componentTitle: "Title"
     onComponentTitleChanged: labelTitle.text = componentTitle
-    readonly property var currentIndexes: PLVScripts.currentIndexes()
+    function selectedIndexes(){return PLVScripts.currentIndexes();}
     GridLayout
     {
         id: bodyLayout

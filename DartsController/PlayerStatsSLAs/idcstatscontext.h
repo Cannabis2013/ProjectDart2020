@@ -2,8 +2,8 @@
 #define IDCSTATSCONTEXT_H
 template<typename T>
 class QVector;
-class DCInput;
-class DCPlayerStats;
+struct DCInput;
+struct DCPlayerStats;
 class QString;
 class QStringList;
 class IDCStatsContext

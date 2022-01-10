@@ -20,7 +20,7 @@ Rectangle {
         id: stringModels
         property var gameModes: ["FirstToPost"]
         property var keyIdentifiers: ["Single","Double", "Tripple"]
-        property var keyPoints: ["301","501","701","901"]
+        property var keyPoints: ["201","301","501","701","901"]
         property var inputModes: ["PointInput","ScoreInput"]
     }
     readonly property int keyPoint: keyPointSelector.currentValue
@@ -34,7 +34,7 @@ Rectangle {
             id: keyPointSelector
             Layout.fillWidth: true
             model: stringModels.keyPoints
-            labelText: "Keypoint:"
+            labelText: "Initial score:"
         }
         DefaultComboBox {
             id: inputModeSelector

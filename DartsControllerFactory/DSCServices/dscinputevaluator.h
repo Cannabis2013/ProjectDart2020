@@ -1,11 +1,13 @@
 #ifndef DSCINPUTEVALUATOR_H
 #define DSCINPUTEVALUATOR_H
-#include "DPCServices/dpcinputevaluator.h"
+#include "DCInputSLAs/idcipteval.h"
+#include <Models/dcinput.h>
+#include <DCMetaServices/dcmeta.h>
 class DSCInputEvaluator : public IDCIptEval
 {
 public:
     virtual void eval(DCInput &input, const int &scoreCand, DCMeta &meta,
-                          const DCPlayer &, const int &winnerStatus) override
+                      const DCPlayer &, const int &winnerStatus) override
     {
         if(scoreCand >= minimumAllowedScore)
         {

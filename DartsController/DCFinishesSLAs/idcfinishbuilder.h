@@ -1,8 +1,6 @@
 #ifndef IDCFINISHBUILDER_H
 #define IDCFINISHBUILDER_H
-
-#include <qstring.h>
-
+class QString;
 class IDCFinishBuilder
 {
 public:

@@ -1,8 +1,6 @@
 #ifndef DARTSBOUNDARIES_H
 #define DARTSBOUNDARIES_H
-
 #include "DCFinishesSLAs/idartsboundaries.h"
-
 class DartsBoundaries : public IDartsBoundaries
 {
 public:

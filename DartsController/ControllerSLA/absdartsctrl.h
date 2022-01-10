@@ -1,9 +1,22 @@
 #ifndef ABSDARTSCTRL_H
 #define ABSDARTSCTRL_H
-#include "ctrlslas.h"
+#include "DCTurnValuesSLAs/dcturnvaluesslas.h"
+#include "DCIndexSLAs/dcindexslas.h"
+#include "DCScoresSLAs/dcplayerscoresslas.h"
+#include "DCJsonSLAs/dcjsonslas.h"
+#include "DCMetaSLAs/dcmetaslas.h"
+#include "DCInputSLAs/dcinputsslas.h"
+#include "PlayerStatsSLAs/dcinputstatsslas.h"
 #include <qobject.h>
 class AbsDartsCtx;
-class AbsDartsCtrl : public QObject, public CtrlSLAs
+class AbsDartsCtrl : public QObject,
+                     public DCMetaSLAs,
+                     public DCTurnvaluesSLAs,
+                     public DCJsonSLAs,
+                     public DCPlayerScoresSLAs,
+                     public DCInputsSLAs,
+                     public DCIndexSLAs,
+                     public PlayerStatsSLAs
 {
     Q_OBJECT
 public:
@@ -20,20 +33,7 @@ public:
     void setModelsContext(AbsDartsCtx *context) {_modelsContext = context;}
     AbsDartsCtx *mdsCtx() {return _modelsContext;}
 signals:
-    void ready();
-    void resetSucces();
-    void sendCurrentTournamentId(const QUuid &tournament);
-    void winnerDetermined(const QByteArray& json);
-    void controllerIsNotInitialized();
-    void winnerDeclared(const QByteArray& json);
-    void controllerIsStopped();
-    void initialized();
-    void controllerAwaitsInput();
-    void updateTournamentIndex(const QByteArray &json);
-    void requestDartsTournamentDetails(const QUuid& tournamentId);
-    void updatePlayerScore(const QByteArray& json);
-    void sendDartsScores(const QByteArray& json);
-    void sendOrderedInputs(const QByteArray &json);
+    void inputPersistedOk();
 private:
     AbsDartsCtx *_modelsContext = nullptr;
 };

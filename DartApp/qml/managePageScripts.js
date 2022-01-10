@@ -5,9 +5,8 @@ function init()
 }
 function requestDeletePlayerPopUp()
 {
-    let selectedIndex = playersListView.currentIndexes;
-    let count = selectedIndex.length;
-    playersListView.unSelectAll();
+    let selectedIndexes = playersListView.selectedIndexes();
+    let count = selectedIndexes.length;
     if(count > 0)
         PopupBuilder.createConfirmPopUp(applicationWindow,delPlayCancel,delPlayAccept);
 }
@@ -15,29 +14,28 @@ function delPlayCancel()
 {
     playersListView.unSelectAll();
 }
-
 function delPlayAccept(){
-    var indexes = playersListView.currentIndexes;
+    var indexes = playersListView.selectedIndexes();
     playersContext.remove(indexes);
+    updatePlayersView();
 }
 function requestDeleteTournamentPopUp()
 {
-    let selectedIndexes = tournamentListView.currentIndexes;
+    let selectedIndexes = tournamentListView.selectedIndexes();
     let count = selectedIndexes.length;
     if(count > 0)
         PopupBuilder.createConfirmPopUp(applicationWindow,deleteTournamentsCancelled,deleteTournamentsAccepted);
 }
 function deleteTournamentsAccepted()
 {
-    let indexes = tournamentListView.currentIndexes;
+    let indexes = tournamentListView.selectedIndexes();
     dartsContext.deleteTournaments(indexes);
+    updateTournamentsView();
 }
-
 function deleteTournamentsCancelled()
 {
     tournamentListView.unSelectAll();
 }
-
 function updatePlayersView()
 {
     playersListView.clear();
@@ -46,20 +44,17 @@ function updatePlayersView()
     for(var i=0;i < j.length;i++)
     {
         var obj = j[i];
-        var playerName = obj["name"];
-        var email = obj["mail"];
-        playersListView.addItem({"type" : "player","username" : playerName, "mail" : email});
+        playersListView.addItem(jsonToItem(obj));
     }
 }
-function updatePlayerListView()
+function jsonToItem(obj)
 {
-    playersListView.clear();
-    applicationInterface.requestPlayers();
-}
-function updateTournamentListView()
-{
-    tournamentListView.clear();
-    applicationInterface.requestTournaments();
+    var item = {
+        "type" : "player",
+        "username" : obj["name"],
+        "mail" : obj["mail"]
+    }
+    return item;
 }
 function updateTournamentsView()
 {

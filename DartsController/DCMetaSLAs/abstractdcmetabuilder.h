@@ -1,7 +1,7 @@
 #ifndef ABSTRACTDCMETABUILDER_H
 #define ABSTRACTDCMETABUILDER_H
 struct TnmVals;
-class DCMeta;
+struct DCMeta;
 class AbsDCPlayersCtx;
 class IDCIdxCtrl;
 class IDCMetaContext;

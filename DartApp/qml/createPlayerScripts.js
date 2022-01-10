@@ -1,14 +1,11 @@
 function process(){
-    var playerName = userNameEdit.currentValue;
-    if(playerName === "")
+    var name = userNameEdit.currentValue;
+    if(name === "")
         return;
     var mail = mailEdit.currentValue;
     if(mail === "")
         mail = "defaultsucker@gmail.com";
-    var obj = {
-        playerName : playerName,
-        playerMail : mail
-    };
+    var obj = {name,mail};
     var json = JSON.stringify(obj);
     endStateButtons.buttonOneEnabled = false;
     endStateButtons.buttonTwoEnabled = false;

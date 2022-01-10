@@ -2,6 +2,9 @@
 #define DSCPLAYERSCONTEXT_H
 #include "DCScoresSLAs/absdcplayersctx.h"
 #include <qdebug.h>
+#include "Models/dcplayer.h"
+#include "Models/dcindex.h"
+#include "Models/dcinput.h"
 class DSCPlayersContext : public AbsDCPlayersCtx
 {
 public:
@@ -25,7 +28,7 @@ public:
         }
     }
     DCPlayer &player(const QString &name) override {return getScoreModelByName(name);}
-    DCPlayer &player(const DCIndex &idx) override {return _players[idx.setIndex];}
+    DCPlayer &player(const int &idx) override {return _players[idx];}
     void reset(const int &initRemScore) override
     {
         for (auto &scoreModel : _players)

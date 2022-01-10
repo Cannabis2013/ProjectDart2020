@@ -1,7 +1,7 @@
 #ifndef DCMETA_H
 #define DCMETA_H
 #include <quuid.h>
-#include <DCIndexSLAs/dcindex.h>
+#include "Models/dcindex.h"
 struct DCMeta{
     bool entryRestricted;
     int initRemScore;

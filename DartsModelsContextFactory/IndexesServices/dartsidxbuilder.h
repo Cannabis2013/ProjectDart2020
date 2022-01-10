@@ -1,7 +1,7 @@
 #ifndef DARTSIDXBUILDER_H
 #define DARTSIDXBUILDER_H
 #include "IndexesSLAs/idartsidxbuilder.h"
-class TnmVals;
+struct TnmVals;
 class IDartsIndex;
 class DartsIdxBuilder : public IDartsIdxBuilder<IDartsIndex,TnmVals>
 {

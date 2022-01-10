@@ -11,7 +11,9 @@ class CreateDartsInputValues : public ICreateModelValues<AbstractDartsInput,DIpt
 public:
     virtual Container create(Model *model) const override
     {
-        return convert(model);
+        if(model != nullptr)
+            return convert(model);
+        return DIptVals();
     }
     virtual Containers create(const Models &models) const override
     {
