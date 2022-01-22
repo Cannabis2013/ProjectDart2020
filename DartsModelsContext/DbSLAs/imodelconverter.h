@@ -1,13 +1,19 @@
 #ifndef IMODELCONVERTER_H
 #define IMODELCONVERTER_H
+class QJsonObject;
+class QByteArray;
+class IDartsInputBuilder;
 template<typename T>
 class QVector;
-template<typename TFrom,typename TData>
+template<typename TModel>
 class IModelConverter
 {
 public:
-    typedef TFrom FromData;
-    typedef TData DataFormat;
-    virtual DataFormat create(const QVector<FromData*>& from, DataFormat& to) const = 0;
+    typedef TModel Model;
+    typedef QByteArray ByteArray;
+    typedef QJsonObject Json;
+    virtual Json create(Model* model) const = 0;
+    virtual Model *create(const ByteArray &byteArray) const = 0;
+    virtual Model* create(const Json &d) const = 0;
 };
 #endif // IJSONBUILDER_H

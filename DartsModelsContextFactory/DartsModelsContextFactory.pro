@@ -10,33 +10,58 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    IndexesServices/dartsidxbuilder.cpp \
+    DbServices/loadfromstorage.cpp \
+    DbServices/savetostorage.cpp \
+    IndexesServices/dartsindexbuilder.cpp \
+    Injectors/dartsindexinjector.cpp \
+    Injectors/dartsinputinjector.cpp \
+    Injectors/dartstournamentinjector.cpp \
+    Injectors/localpersistenceinjector.cpp \
+    InputServices/dartsdbinputstojson.cpp \
+    InputServices/dartsinputconverter.cpp \
     InputServices/dartsinputstojson.cpp \
+    InputServices/dartssetipthint.cpp \
+    InputServices/getdartsinputs.cpp \
+    InputServices/jsontodartsinputs.cpp \
+    InputServices/removedartsinputs.cpp \
+    TournamentServices/dartsjsonconverter.cpp \
     TournamentServices/dartsmetamodelbuilder.cpp \
+    TournamentServices/dartssetwinner.cpp \
     TournamentServices/dartwinnermodelbuilder.cpp \
+    TournamentServices/jsontodartsmodels.cpp \
     createdartscontext.cpp
 
 HEADERS += \
     ../DartsControllerFactory/ConverterServices/dcidxconverter.h \
+    DbServices/convertdartsmodels.h \
     DbServices/loadfromstorage.h \
-    DbServices/persistdbctx.h \
+    DbServices/savetostorage.h \
     FileIOServices/filejsonio.h \
     IndexesDbServices/dartsindex.h \
-    IndexesServices/dartsidxbuilder.h \
+    IndexesServices/dartsindexbuilder.h \
     IndexesServices/updatedartsindexes.h \
+    Injectors/dartsindexinjector.h \
+    Injectors/dartsinputinjector.h \
+    Injectors/dartstournamentinjector.h \
+    Injectors/localpersistenceinjector.h \
     InputServices/countdartsinputs.h \
-    InputServices/createdartsinputvalues.h \
+    InputServices/dartsdbinputstojson.h \
     InputServices/dartsinput.h \
     InputServices/dartsinputbuilder.h \
+    InputServices/dartsinputconverter.h \
     InputServices/dartsinputstojson.h \
     InputServices/dartsiptsdbctx.h \
+    InputServices/dartssetipthint.h \
     InputServices/getdartsinputs.h \
+    InputServices/jsontodartsinputs.h \
     InputServices/removedartsinputs.h \
     InputServices/sortdartsinputs.h \
     InputServices/sortdartsinputsbyindexes.h \
     TournamentServices/GetDartsTournamentIds.h \
     TournamentServices/dartsbuilder.h \
+    TournamentServices/dartsjsonconverter.h \
     TournamentServices/dartsmetamodelbuilder.h \
+    TournamentServices/dartssetwinner.h \
     TournamentServices/dartstournamentrepair.h \
     TournamentServices/dartsverifyconsistency.h \
     TournamentServices/dartwinnermodelbuilder.h \

@@ -2,10 +2,10 @@
 #define DARTSVERIFYCONSISTENCY_H
 #include "TournamentsSLAs/idartsconsistency.h"
 #include "TournamentModelsSLAs/idartstournament.h"
-class DartsVerifyConsistency : public IDartsConsistency
+class DartsVerifyConsistency : public IDartsConsistency<IModel<QUuid>>
 {
 public:
-    bool verify(IModel<QUuid> *tournament, const QVector<AbstractDartsInput*> &inputs, const AbsPlaCtx *playersContext) const override
+    bool verify(Model *tournament, const Models &inputs, const AbsPlaCtx *playersContext) const override
     {
         auto playerIds = dynamic_cast<IDartsTournament*>(tournament)->playerIds();
         auto playerNames = dynamic_cast<IDartsTournament*>(tournament)->playerNames();
@@ -20,8 +20,7 @@ private:
     {
         for (const auto &playerId : playerIds) {
             auto player = playersContext->player(playerId);
-            if(player == nullptr)
-                return false;
+            if(player == nullptr) return false;
         }
         return true;
     }
@@ -29,18 +28,17 @@ private:
     {
         for (const auto &playerName : playerNames) {
             auto player = playersContext->player(playerName);
-            if(player == nullptr)
-                return false;
+            if(player == nullptr) return false;
         }
         return true;
     }
-    bool verifyInputs(const QVector<AbstractDartsInput*> &inputs, const AbsPlaCtx *playersContext) const
+    bool verifyInputs(const Models &models, const AbsPlaCtx *playersContext) const
     {
-        for (const auto &input : inputs) {
+        for (const auto &model : models) {
+            auto input = dynamic_cast<IDartsInput*>(model);
             auto playerId = input->playerId();
             auto player = playersContext->player(playerId);
-            if(player == nullptr)
-                return false;
+            if(player == nullptr) return false;
         }
         return true;
     }

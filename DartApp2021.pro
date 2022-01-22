@@ -6,6 +6,7 @@ SUBDIRS += \
     DartsControllerFactory\
     DartsModelsContext \
     DartsModelsContextFactory \
+    DartsStatistics \
     PlayerModelsContext \
     PlayersContextFactory
 

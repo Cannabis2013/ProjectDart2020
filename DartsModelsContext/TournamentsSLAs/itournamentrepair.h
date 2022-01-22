@@ -3,13 +3,16 @@
 template<typename T>
 class QVector;
 class AbsPlaCtx;
-class AbstractDartsInput;
+class IDartsInput;
 class IDartsTournament;
+template<typename TModel>
 class ITournamentRepair
 {
 public:
-    virtual bool repair(IDartsTournament *tournament,
-                        const QVector<AbstractDartsInput*> &inputs,
+    typedef TModel Model;
+    typedef QVector<Model*> Models;
+    virtual bool repair(Model *tournament,
+                        const Models &inputs,
                         AbsPlaCtx *playersContext) const = 0;
 };
 #endif // ITOURNAMENTREPAIR_H

@@ -1,15 +1,18 @@
 #ifndef DSCUPDSCORERNG_H
 #define DSCUPDSCORERNG_H
-#include "PlayerStatsSLAs/absdcsetiptstats.h"
-class DSCUpdScoreRng : public AbsDCSetIptStats
+#include "PlayerStatsSLAs/idcsetiptstats.h"
+#include "PlayerStatsSLAs/idcstatistics.h"
+#include "Models/dcindex.h"
+#include "Models/dcinput.h"
+#include <qregexp.h>
+#include "Models/dcplayerstats.h"
+class DSCUpdScoreRng : public IDCSetIptStats
 {
 public:
-    DSCUpdScoreRng(IDCStatsContext *statsContext):
-        AbsDCSetIptStats(statsContext){}
-    virtual void set(DCInput &input, const DCIndex &idx, const int &initRemScore) const override
+    void set(DCInput &input, const DCIndex &idx, const int &initRemScore, IDCStatistics *statsContext) const override
     {
-        auto playerStat = &statsContext()->stat(input.playerName);
-        evaulateAndUpdateStats(playerStat,input.score);
+        auto playerStat = &statsContext->stat(input.playerName);
+        evaluateAndUpdateStats(playerStat,input.score);
         setInputRangeStats(input,playerStat);
         input.mid = middleValue(idx,input.remScore,initRemScore);
     }
@@ -30,7 +33,7 @@ private:
             return stringVal.toDouble();
         return reg.cap(0).toDouble();
     }
-    void evaulateAndUpdateStats(DCPlayerStats *stats, const int &score) const
+    void evaluateAndUpdateStats(DCPlayerStats *stats, const int &score) const
     {
         if(stats->min > score || stats->min == -1)
             stats->min = score;

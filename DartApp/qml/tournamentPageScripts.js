@@ -1,6 +1,6 @@
 function init()
 {
-    var jsonTournaments= JSON.parse(dartsContext.tournaments());
+    var jsonTournaments = JSON.parse(dartsContext.tournaments());
     var jsonLength = jsonTournaments.length;
     for(var i = 0;i < jsonLength;++i)
     {

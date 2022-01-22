@@ -9,8 +9,8 @@ public:
     virtual void setTurnIndex(const int&) = 0;
     virtual int roundIndex() const = 0;
     virtual void setRoundIndex(const int&) = 0;
-    virtual int setIndex() const = 0;
-    virtual void setSetIndex(const int&) = 0;
+    virtual int playerIndex() const = 0;
+    virtual void setPlayerIndex(const int&) = 0;
     virtual int attemptIndex() const = 0;
     virtual void setAttemptIndex(const int&) = 0;
 };

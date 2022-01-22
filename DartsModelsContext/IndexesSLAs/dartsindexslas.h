@@ -3,13 +3,12 @@
 #include "idartsidxbuilder.h"
 #include "iupdatedartsindexes.h"
 #include "ModelSLAs/imodel.h"
-struct TnmVals;
 class DartsIndexSLAs
 {
 public:
     typedef IModel<QUuid> BaseModel;
-    typedef IDartsIdxBuilder<IDartsIndex,TnmVals> IdxBuilder;
-    IUpdateDartsIndexes<BaseModel> *updateIndexes() const {return _updateIndexes;}
+    typedef IDartsIdxBuilder<IDartsIndex,QByteArray> IdxBuilder;
+    IUpdateDartsIndexes<BaseModel> *updateIndex() const {return _updateIndexes;}
     void setUpdateIndexes(IUpdateDartsIndexes<BaseModel> *updateService) {_updateIndexes = updateService;}
     IdxBuilder *indexBuilder() const {return _indexBuilder;}
     void setIndexBuilder(IdxBuilder *newIndexBuilder) {_indexBuilder = newIndexBuilder;}

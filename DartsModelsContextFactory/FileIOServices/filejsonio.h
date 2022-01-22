@@ -1,8 +1,5 @@
 #ifndef FILEJSONIO_H
 #define FILEJSONIO_H
-#include <QtConcurrent/QtConcurrent>
-#include <qmutex.h>
-#include <QMutexLocker>
 #include "FileIOSLAs/ifiledataio.h"
 class FileJsonIO : public IFileDataIO<QByteArray>
 {
@@ -13,7 +10,6 @@ public:
     }
     Data read() override
     {
-        QMutexLocker locker(&_mutex);
         QFile file(_fileName);
         if(!file.exists())
             return QByteArray();
@@ -25,7 +21,6 @@ public:
     }
     bool save(const Data &byteArray) override
     {
-        QMutexLocker locker(&_mutex);
         QFile file(_fileName);
         if(!file.open(QIODevice::WriteOnly))
             return false;
@@ -35,7 +30,6 @@ public:
         return true;
     }
 private:
-    QMutex _mutex;
     QString _fileName;
 };
 #endif // READBYTEARRAY_H

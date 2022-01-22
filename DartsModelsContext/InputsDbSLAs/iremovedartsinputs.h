@@ -1,16 +1,21 @@
 #ifndef IREMOVEDARTSINPUTS_H
 #define IREMOVEDARTSINPUTS_H
-#include "DbSLAs/idbcontext.h"
-template<typename TDbModel, typename TUuid, typename TDbCtx>
+template<typename T>
+class IDbContext;
+template<typename T>
+class QVector;
+class QUuid;
+template<typename TModel>
 class IRemoveDartsInputs
 {
 public:
-    typedef TDbModel Model;
-    typedef TDbCtx DbCtx;
-    typedef TUuid Uuid;
-    virtual IDbContext<Model> *removeInputsById(const Uuid &id, DbCtx *dbService) const = 0;
-    virtual IDbContext<Model> *removeInputsByTournamentId(const Uuid &tournamentId, DbCtx *dbService) const= 0;
-    virtual IDbContext<Model> *removeByTournamentIds(const QVector<Uuid> &tournamentIds, DbCtx *dbService) const = 0;
-    virtual IDbContext<Model> *removeByHint(const Uuid &tournamentId, const int &hint, DbCtx *dbService) const = 0;
+    typedef TModel Model;
+    typedef QVector<Model*> Models;
+    typedef IDbContext<Model> DbContext;
+    virtual void removeInputsById(const QUuid &id, DbContext *dbContext) const = 0;
+    virtual void removeInputsByTournamentId(const QUuid &tournamentId, DbContext *dbContext) const= 0;
+    virtual void removeByTournamentIds(const QVector<QUuid> &tournamentIds, DbContext *dbContext) const = 0;
+    virtual void removeHidden(const QUuid &tournamentId, DbContext *dbContext) const = 0;
+    virtual void removeDisplayed(const QUuid &tournamentId, DbContext *dbContext) const = 0;
 };
 #endif // IREMOVEINPUTSFROMDB_H

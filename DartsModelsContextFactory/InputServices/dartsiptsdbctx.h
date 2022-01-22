@@ -1,6 +1,6 @@
 #ifndef DARTSIPTSDBCTX_H
 #define DARTSIPTSDBCTX_H
-#include "TournamentsDbSLAs/dartsdbslas.h"
+#include "TournamentsDbSLAs/persistenceslas.h"
 #include <QMutexLocker>
 #include <qmutex.h>
 #include <qdebug.h>

@@ -1,7 +1,10 @@
 #ifndef CREATEDARTSCONTEXT_H
 #define CREATEDARTSCONTEXT_H
 #include <qobject.h>
-
+class LocalPersistenceInjector;
+class DartsIndexInjector;
+class DartsTournamentInjector;
+class DartsInputInjector;
 class AbsDartsCtx;
 class AbsPlaCtx;
 #ifdef DartsMdFactLib
@@ -12,6 +15,13 @@ class AbsPlaCtx;
 class DartsFactoryExport CreateDartsContext
 {
 public:
+    CreateDartsContext();
     AbsDartsCtx *localJson(AbsPlaCtx *playersContext) const;
+private:
+    void fetchContext(AbsDartsCtx *context) const;
+    DartsTournamentInjector *tournamentInjector;
+    DartsInputInjector *inputInjector;
+    DartsIndexInjector *indexInjector;
+    LocalPersistenceInjector *persInjector;
 };
 #endif // DARTSMODELSSERVICEWITHJSONDB_H

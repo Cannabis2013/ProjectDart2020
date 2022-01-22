@@ -1,19 +1,17 @@
 #ifndef DPCUPDATESCORERANGE_H
 #define DPCUPDATESCORERANGE_H
-#include "PlayerStatsSLAs/absdcsetiptstats.h"
-#include "PlayerStatsSLAs/idcstatscontext.h"
+#include "PlayerStatsSLAs/idcsetiptstats.h"
+#include "PlayerStatsSLAs/idcstatistics.h"
 #include "Models/dcinput.h"
 #include "Models/dcindex.h"
 #include "Models/dcplayerstats.h"
 #include <QRegExp>
-class DPCUpdateScoreRange : public AbsDCSetIptStats
+class DPCUpdateScoreRange : public IDCSetIptStats
 {
 public:
-    DPCUpdateScoreRange(IDCStatsContext *statsContext):
-        AbsDCSetIptStats(statsContext){}
-    virtual void set(DCInput &input, const DCIndex &idx, const int &initRemScore) const override
+    void set(DCInput &input, const DCIndex &idx, const int &initRemScore, IDCStatistics *statsContext) const override
     {
-        auto playerStat = &statsContext()->stat(input.playerName);
+        auto playerStat = &statsContext->stat(input.playerName);
         evaulateAndUpdateStats(playerStat,input.score);
         setInputRangeStats(input,playerStat);
         input.mid = middleValue(idx,input.remScore,initRemScore);

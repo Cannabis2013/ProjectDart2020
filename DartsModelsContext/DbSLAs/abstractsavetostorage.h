@@ -1,30 +1,33 @@
 #ifndef ABSTRACTSAVETOSTORAGE_H
 #define ABSTRACTSAVETOSTORAGE_H
-#include <functional>
-template<typename T,typename  U>
+#include <qstring.h>
+class QJsonObject;
+template<typename T>
+class IDbJsonBuilder;
+template<typename T>
+class QVector;
+template<typename T>
 class IModelConverter;
 template<typename T>
 class IFileDataIO;
-template<typename TModel, typename TData, typename TDbContext, typename TConverter>
+template<typename TBaseModel>
 class AbstractSaveToStorage
 {
 public:
-    typedef TModel Model;
-    typedef TData Data;
-    typedef IFileDataIO<Data> IODevice;
-    typedef TDbContext DbCtx;
-    typedef TConverter Converter;
+    typedef TBaseModel BaseModel;
+    typedef QByteArray ByteArray;
+    typedef QJsonObject Json;
+    typedef IFileDataIO<ByteArray> IODevice;
+    typedef IDbJsonBuilder<BaseModel> JsonBuilder;
+    typedef IModelConverter<BaseModel> Converter;
     struct ServiceProvider
     {
-        DbCtx *dbContext;
+        QVector<BaseModel*> models;
+        JsonBuilder *builder;
         Converter *converter;
+        IODevice *ioDevice;
     };
-    AbstractSaveToStorage(IODevice *ioDevice) {setIoDevice(ioDevice);}
-    virtual bool save(DbCtx *dbCtx, Converter *converter)  = 0;
+    virtual bool save(const QVector<BaseModel*> &models, JsonBuilder *builder, Converter *converter, IODevice *ioDevice)  = 0;
     virtual bool save(const std::initializer_list<ServiceProvider> &list) = 0;
-    IODevice *ioDevice() const{return _ioDevice;};
-    void setIoDevice(IODevice *newIoDevice) {_ioDevice = newIoDevice;}
-private:
-    IFileDataIO<Data> *_ioDevice;
 };
 #endif // IPERSISTMODELS_H

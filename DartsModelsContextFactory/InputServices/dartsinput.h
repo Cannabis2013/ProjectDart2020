@@ -78,11 +78,11 @@ public:
     {
         _modKeyCode = key;
     }
-    int setIndex() const override
+    int playerIndex() const override
     {
         return _setIndex;
     }
-    void setSetIndex(const int &index) override
+    void setPlayerIndex(const int &index) override
     {
         _setIndex = index;
     }

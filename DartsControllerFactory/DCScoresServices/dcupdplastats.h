@@ -1,16 +1,15 @@
 #ifndef DCUPDPLASTATS_H
 #define DCUPDPLASTATS_H
-#include "DCScoresSLAs/absdcupdscoresdetails.h"
+#include "DCScoresSLAs/idcupdateplayerstats.h"
 #include "DCScoresSLAs/absdcplayersctx.h"
-class DCUpdatePlayerStats : public AbsDCUpdScoresDetails
+#include "PlayerStatsSLAs/idcstatistics.h"
+class DCUpdatePlayerStats : public IDCUpdatePlayerStats
 {
 public:
-    DCUpdatePlayerStats(IDCStatsContext *statsCtx, AbsDCPlayersCtx  *playersCtx):
-    AbsDCUpdScoresDetails(statsCtx,playersCtx){}
-    virtual void update(const DCInput &ipt) override
+    void update(const DCInput &ipt, IDCStatistics *statsCtx, AbsDCPlayersCtx  *playersCtx) override
     {
-        statsCtx()->update(ipt);
-        scoresCtx()->updateScore(ipt);
+        statsCtx->update(ipt);
+        playersCtx->updateScore(ipt);
     }
 };
 

@@ -1,28 +1,32 @@
 #ifndef DCINPUTSSLAS_H
 #define DCINPUTSSLAS_H
-#include "DCFinishesSLAs/idcfinishbuilder.h"
 #include "DCInputSLAs/idcipteval.h"
-#include "DCInputSLAs/abstractdcinputbuilder.h"
-#include "abstractdciptconverter.h"
-#include "ModelsComCtxSLAs/abstractdcaddtomdsctx.h"
+#include "DCInputSLAs/idcinputadder.h"
+#include "idcinputbuilder.h"
+#include "ModelsComCtxSLAs/idcaddtomdsctx.h"
+#include "ModelsConverterSLAs/idcmodelsconverter.h"
 class DCInputsSLAs
 {
 public:
+    typedef DCInput Input;
+    typedef QByteArray ByteArray;
+    typedef QJsonObject Json;
+    typedef IDCInputBuilder<Input,ByteArray,Json> InputBuilder;
     IDCIptEval *evalIpt() const {return _iptEval;}
-    void setInputEvaluator(IDCIptEval *evaluator) {_iptEval = evaluator;}
-    IDCFinishBuilder *finishBuilder() const {return _suggestFinishes;}
-    void setFinishBuilder(IDCFinishBuilder *service) {_suggestFinishes = service;}
-    AbstractDCInputBuilder *createInput() const {return _inputModelBuilder;}
-    void setCreateInput(AbstractDCInputBuilder *service) {_inputModelBuilder = service;}
-    AbstractDCIptConverter *iptConverter() const {return _iptConverter;}
-    void setIptConverter(AbstractDCIptConverter *newIptConverter) {_iptConverter = newIptConverter;}
-    AbstractDCAddToMdsCtx *addToModelsCtx() const {return _addToModelsCtx;}
-    void setAddToModelsCtx(AbstractDCAddToMdsCtx *newAddToModelsCtx) {_addToModelsCtx = newAddToModelsCtx;}
+    void setInputEvaluator(IDCIptEval *service) {_iptEval = service;}
+    IDCInputAdder *AddInputDetails() const {return _inputModelBuilder;}
+    void setCreateInput(IDCInputAdder *service) {_inputModelBuilder = service;}
+    IDCAddToMdsCtx *addToModelsCtx() const {return _addToModelsCtx;}
+    void setAddToModelsCtx(IDCAddToMdsCtx *service) {_addToModelsCtx = service;}
+    InputBuilder *inputBuilder() const {return _inputConverter;}
+    void setInputConverter(InputBuilder *service) {_inputConverter = service;}
+    IDCModelsConverter<DCInput, QJsonObject> *convertInputs() const {return _convertInputs;}
+    void setConvertInputs(IDCModelsConverter<DCInput, QJsonObject> *service) {_convertInputs = service;}
 private:
-    IDCFinishBuilder *_suggestFinishes = nullptr;
     IDCIptEval *_iptEval = nullptr;
-    AbstractDCInputBuilder* _inputModelBuilder;
-    AbstractDCIptConverter *_iptConverter;
-    AbstractDCAddToMdsCtx *_addToModelsCtx;
+    IDCInputAdder* _inputModelBuilder;
+    IDCAddToMdsCtx *_addToModelsCtx;
+    InputBuilder *_inputConverter;
+    IDCModelsConverter<DCInput,QJsonObject> *_convertInputs;
 };
 #endif // DCINPUTSSLAS_H

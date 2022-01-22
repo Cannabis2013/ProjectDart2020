@@ -1,18 +1,5 @@
 #include "dcfinishbuilder.h"
 
-DCFinishBuilder *DCFinishBuilder::createInstance(IDartsCreateFinishes *constructRows, IDartsFinishesDb *dbContext)
-{
-    return new DCFinishBuilder(constructRows,dbContext);
-}
-
-DCFinishBuilder::DCFinishBuilder(IDartsCreateFinishes *constructRows, IDartsFinishesDb *dbContext):
-    _dbContext(dbContext),
-    _constructRow(constructRows)
-{
-    auto allTargetRows = constructTargetRows()->constructRows();
-    this->dbContext()->add(allTargetRows);
-}
-
 QString DCFinishBuilder::suggestTargetRow(const int &remainingScore, const int &turnIndex) const
 {
     if(turnIndex < 0 || turnIndex > 2)
@@ -56,4 +43,10 @@ IDartsCreateFinishes *DCFinishBuilder::constructTargetRows() const
 void DCFinishBuilder::setConstructRow(IDartsCreateFinishes *service)
 {
     _constructRow = service;
+}
+
+void DCFinishBuilder::init()
+{
+    auto allTargetRows = constructTargetRows()->constructRows();
+    dbContext()->add(allTargetRows);
 }

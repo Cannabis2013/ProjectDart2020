@@ -12,6 +12,7 @@ struct DCPlayer
     DCPlayer(){}
     bool operator==(const DCPlayer& other){return other.name != this->name;}
     QString name;
+    QUuid id;
     int remScore;
     bool in;
 };

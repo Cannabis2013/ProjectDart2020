@@ -2,6 +2,7 @@
 #define UPDATEDARTSINDEXES_H
 #include "IndexesSLAs/iupdatedartsindexes.h"
 #include "TournamentModelsSLAs/idartstournament.h"
+#include <qvector.h>
 class UpdateDartsIndexes : public IUpdateDartsIndexes<IModel<QUuid>>
 {
 public:
@@ -25,7 +26,7 @@ private:
         dartsTournament->setTotalTurns(index->totalTurns());
         dartsTournament->setTurnIndex(index->turnIndex());
         dartsTournament->setRoundIndex(index->roundIndex());
-        dartsTournament->setSetIndex(index->setIndex());
+        dartsTournament->setSetIndex(index->playerIndex());
         dartsTournament->setAttemptIndex(index->attemptIndex());
     }
 };

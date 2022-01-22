@@ -1,16 +1,16 @@
 #ifndef DCINDEXSLAS_H
 #define DCINDEXSLAS_H
-#include "DCIndexSLAs/idcidxctrl.h"
-class IDCIdxBuilder;
+#include "DCIndexSLAs/idcindexcontroller.h"
+class IDCIndexConverter;
 class DCIndexSLAs
 {
 public:
-    IDCIdxCtrl *idxCtrl() const {return _indexController;}
-    void setIndexCtrl(IDCIdxCtrl *service) {_indexController = service;}
-    IDCIdxBuilder *idxConverter() const {return _idxConverter;}
-    void setIdxConverter(IDCIdxBuilder *converter) {_idxConverter = converter;}
+    IDCIndexController *idxCtrl() const {return _indexController;}
+    void setIndexCtrl(IDCIndexController *service) {_indexController = service;}
+    IDCIndexConverter *idxConverter() const {return _idxConverter;}
+    void setIndexConverter(IDCIndexConverter *converter) {_idxConverter = converter;}
 private:
-    IDCIdxBuilder *_idxConverter;
-    IDCIdxCtrl* _indexController = nullptr;
+    IDCIndexConverter *_idxConverter;
+    IDCIndexController* _indexController = nullptr;
 };
 #endif // DCINDEXSLAS_H

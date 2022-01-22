@@ -1,19 +1,21 @@
 #ifndef ABSDARTSCTRL_H
 #define ABSDARTSCTRL_H
+#include <qobject.h>
 #include "DCTurnValuesSLAs/dcturnvaluesslas.h"
 #include "DCIndexSLAs/dcindexslas.h"
-#include "DCScoresSLAs/dcplayerscoresslas.h"
+#include "DCScoresSLAs/dcplayersslas.h"
 #include "DCJsonSLAs/dcjsonslas.h"
 #include "DCMetaSLAs/dcmetaslas.h"
 #include "DCInputSLAs/dcinputsslas.h"
 #include "PlayerStatsSLAs/dcinputstatsslas.h"
-#include <qobject.h>
+#include "DCFinishesSLAs/dcfinishesservices.h"
 class AbsDartsCtx;
 class AbsDartsCtrl : public QObject,
                      public DCMetaSLAs,
+                     public DCFinishesSLAs,
                      public DCTurnvaluesSLAs,
                      public DCJsonSLAs,
-                     public DCPlayerScoresSLAs,
+                     public DCPlayersSLAs,
                      public DCInputsSLAs,
                      public DCIndexSLAs,
                      public PlayerStatsSLAs

@@ -1,12 +1,12 @@
 #ifndef DARTSCONTROLLER_H
 #define DARTSCONTROLLER_H
-#include "ControllerSLA/absdartsctrl.h"
 #ifdef DARTSCONTROLLERLIB
-    #define DCExport Q_DECL_EXPORT
+    #define DartsController_Export Q_DECL_EXPORT
 #else
-    #define DCExport Q_DECL_IMPORT
+    #define DartsController_Export Q_DECL_IMPORT
 #endif
-class DCExport DartsController : public AbsDartsCtrl
+#include "ControllerSLA/absdartsctrl.h"
+class DartsController_Export DartsController : public AbsDartsCtrl
 {
     Q_OBJECT
 public:

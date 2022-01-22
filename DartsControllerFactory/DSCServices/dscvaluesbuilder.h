@@ -13,7 +13,7 @@ public:
         model.canUndo = index.turnIndex > 0;
         model.canRedo = index.turnIndex < index.totalTurns;
         model.roundIndex = index.roundIndex;
-        model.setIndex = index.setIndex;
+        model.setIndex = index.playerIndex;
         model.attemptIndex = index.attemptIndex;
         model.targetRow = finish;
         model.playerName = player.name;

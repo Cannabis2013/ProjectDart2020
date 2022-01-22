@@ -4,7 +4,6 @@
 class DCLogisticDb : public IDartsFinishesDb
 {
 public:
-    static DCLogisticDb *createInstance() {return new DCLogisticDb;}
     void add(TargetRows *targetRows) override {_models.append(targetRows);}
     void add(const QVector<TargetRows*> multipleTargetRows) override
     {

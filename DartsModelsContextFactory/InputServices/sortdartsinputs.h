@@ -1,7 +1,7 @@
 #ifndef SORTDARTSINPUTS_H
 #define SORTDARTSINPUTS_H
 #include "InputSLAs/isortinputmodels.h"
-#include "InputModelsSLAs/abstractdartsinput.h"
+#include "InputModelsSLAs/idartsinput.h"
 #include <quuid.h>
 #include <qvector.h>
 #include "PredicateSLAs/imodelpredicate.h"

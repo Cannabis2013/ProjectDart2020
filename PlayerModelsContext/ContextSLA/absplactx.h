@@ -2,9 +2,8 @@
 #define ABSPLACTX_H
 #include <qobject.h>
 #include <quuid.h>
-#include <qvector.h>
-#include "DbSLAs/iplayer.h"
-class AbsPlaCtx : public QObject
+#include "DbSLAs/PlayersDbSLAs.h"
+class AbsPlaCtx : public QObject, public PlayersDbSLAs
 {
     Q_OBJECT
 public:

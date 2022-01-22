@@ -1,39 +1,50 @@
 #ifndef PLAYERSDBSLAS_H
 #define PLAYERSDBSLAS_H
-#include "IPlayersDbContext.h"
-#include "igetplayerfromdb.h"
-#include "iplayerbuilder.h"
-#include "iplayer.h"
-#include "ifetchdb.h"
-#include "ModelsSLAs/iduplicatechecker.h"
-#include "DataSLAs/idatabuilder.h"
-#include "DbSLAs/isaveplayers.h"
-#include "IOSLAs/ifiledataio.h"
+template<typename T, typename U>
+class IDuplicateChecker;
+template<typename T, typename U>
+class IGetPlayersFromDb;
+template<typename T, typename U, typename V>
+class ISavePlayers;
+template<typename T, typename U, typename V>
+class IFetchDb;
+template<typename T>
+class IFileDataIO;
+template<typename T,typename U>
+class IDataBuilder;
+template<typename T, typename U>
+class IPlayerBuilder;
+class QByteArray;
+template<typename T>
+class IPlayersDbContext;
+class IPlayer;
 class PlayersDbSLAs
 {
 public:
     typedef IPlayer Model;
-    typedef IPlayersDbContext<Model> DbCtx;
+    typedef IPlayersDbContext<Model> DbContext;
     typedef QByteArray Json;
     typedef IPlayerBuilder<Model,Json> PlayerBuilder;
     typedef IDataBuilder<Model,QByteArray> JsonBuilder;
     typedef IFileDataIO<QByteArray> IODevice;
-    typedef ISavePlayers<IODevice,DbCtx,JsonBuilder> SavePlayers;
-    typedef IFetchDb<DbCtx,IODevice,PlayerBuilder> FetchDb;
-    DbCtx *dbCtx() const {return _dbCtx;}
-    void setDbCtx(DbCtx *newDbContext) {_dbCtx = newDbContext;}
+    typedef ISavePlayers<IODevice,DbContext,JsonBuilder> SavePlayers;
+    typedef IFetchDb<DbContext,IODevice,PlayerBuilder> FetchDb;
+    typedef IDuplicateChecker<Model,DbContext> DupChecker;
+    typedef IGetPlayersFromDb<Model,DbContext> GetPlayer;
+    DbContext *dbCtx() const {return _dbCtx;}
+    void setDbCtx(DbContext *newDbContext) {_dbCtx = newDbContext;}
     JsonBuilder *jsonBuilder() const {return _jsonBuilder;}
     void setJsonBuilder(JsonBuilder *service) {_jsonBuilder = service;}
-    IPlayerBuilder<Model,QByteArray> *playerBuilder() const {return _playerBuilder;}
-    void setPlayerBuilder(IPlayerBuilder<Model,QByteArray> *service) {_playerBuilder = service;}
-    IGetPlayersFromDb<Model,DbCtx> *getPlayers() const {return _getPlayersFromDb;}
-    void setGetPlayerModelsFromDb(IGetPlayersFromDb<Model,DbCtx> *service) {_getPlayersFromDb = service;}
+    PlayerBuilder *playerBuilder() const {return _playerBuilder;}
+    void setPlayerBuilder(PlayerBuilder *service) {_playerBuilder = service;}
+    GetPlayer *getPlayers() const {return _getPlayersFromDb;}
+    void setGetPlayerModelsFromDb(GetPlayer *service) {_getPlayersFromDb = service;}
     SavePlayers *persistDb() const {return _saveToStorage;}
     void setPersistDb(SavePlayers *savePlayers) {_saveToStorage = savePlayers;}
     FetchDb *fetchDb() const {return _fetchDb;}
     void setFetchDb(FetchDb *newLoadFromStorage) {_fetchDb = newLoadFromStorage;}
-    IDuplicateChecker<Model,DbCtx> *dupChk() const {return _dupChk;}
-    void setDupChk(IDuplicateChecker<Model,DbCtx> *newDupChk) {_dupChk = newDupChk;}
+    DupChecker *dupChk() const {return _dupChk;}
+    void setDupChk(DupChecker *newDupChk) {_dupChk = newDupChk;}
     IODevice *ioHandler() const {return _ioHandler;}
     void setIOHandler(IODevice *newSaveToFile) {_ioHandler = newSaveToFile;}
 private:
@@ -42,8 +53,8 @@ private:
     JsonBuilder *_jsonBuilder;
     PlayerBuilder *_playerBuilder;
     IODevice *_ioHandler;
-    DbCtx *_dbCtx;
-    IGetPlayersFromDb<Model,DbCtx> * _getPlayersFromDb;
-    IDuplicateChecker<Model,DbCtx> *_dupChk;
+    DbContext *_dbCtx;
+    GetPlayer * _getPlayersFromDb;
+    DupChecker *_dupChk;
 };
 #endif // PLAYERSDBSLAS_H

@@ -1,7 +1,7 @@
 #ifndef DARTSINPUTSTATS_H
 #define DARTSINPUTSTATS_H
-#include "InputModelsSLAs/abstractdartsinput.h"
-class DartsInputStats : public AbstractDartsInput
+#include "InputModelsSLAs/idartsinput.h"
+class DartsInputStats : public IDartsInput
 {
 public:
     virtual double middleValue() const override

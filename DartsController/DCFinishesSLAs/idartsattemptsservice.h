@@ -1,6 +1,5 @@
 #ifndef IDARTSATTEMPTSSERVICE_H
 #define IDARTSATTEMPTSSERVICE_H
-
 class IDartsAttemptsService
 {
 public:

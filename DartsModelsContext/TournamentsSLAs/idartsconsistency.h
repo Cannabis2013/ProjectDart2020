@@ -1,10 +1,13 @@
 #ifndef IDARTSCONSISTENCY_H
 #define IDARTSCONSISTENCY_H
-#include "InputModelsSLAs/abstractdartsinput.h"
+#include "InputModelsSLAs/idartsinput.h"
 #include "ContextSLA/absplactx.h"
+template<typename TModel>
 class IDartsConsistency
 {
 public:
-    virtual bool verify(IModel<QUuid> *tournament, const QVector<AbstractDartsInput*> &inputs,const AbsPlaCtx *playersContext) const = 0;
+    typedef TModel Model;
+    typedef QVector<Model*> Models;
+    virtual bool verify(Model *tournament, const Models &inputs,const AbsPlaCtx *playersContext) const = 0;
 };
 #endif // IDARTSCONSISTENCY_H

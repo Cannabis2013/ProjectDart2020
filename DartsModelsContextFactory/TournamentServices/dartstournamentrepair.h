@@ -1,18 +1,19 @@
 #ifndef DARTSTOURNAMENTREPAIR_H
 #define DARTSTOURNAMENTREPAIR_H
 #include <qvector.h>
-#include "InputModelsSLAs/abstractdartsinput.h"
+#include "DbSLAs/iplayer.h"
+#include "InputModelsSLAs/idartsinput.h"
 #include "TournamentsSLAs/itournamentrepair.h"
 #include "InputModelsSLAs/iplayerinput.h"
 #include "TournamentModelsSLAs/idartstournament.h"
 #include "ContextSLA/absplactx.h"
-class DartsTournamentRepair : public ITournamentRepair
+class DartsTournamentRepair : public ITournamentRepair<IModel<QUuid>>
 {
 public:
-    virtual bool repair(IDartsTournament *tournament, const QVector<AbstractDartsInput*> &inputs, AbsPlaCtx *playersContext) const override
+    virtual bool repair(Model *tournament, const Models &models, AbsPlaCtx *playersContext) const override
     {
-        auto r = repairTournamentPlayers(tournament,playersContext);
-        r = repairInputs(inputs,playersContext)? true : r;
+        auto r = repairTournamentPlayers(dynamic_cast<IDartsTournament*>(tournament),playersContext);
+        r = repairInputs(models,playersContext)? true : r;
         return r;
     }
 private:
@@ -24,8 +25,7 @@ private:
             return false;
         QVector<QUuid> pIds;
         QVector<QString> pNames;
-        for (const auto &model : players) {
-            auto player = dynamic_cast<IPlayer*>(model);
+        for (const auto &player : players) {
             pIds << player->id();
             pNames << player->name();
         }
@@ -33,9 +33,10 @@ private:
         tournament->setPlayerNames(pNames);
         return true;
     }
-    bool repairInputs(const QVector<AbstractDartsInput*> &inputs, AbsPlaCtx *playersContext) const
+    bool repairInputs(const Models &models, AbsPlaCtx *playersContext) const
     {
-        for (auto &input : inputs) {
+        for (auto &model : models) {
+            auto input = dynamic_cast<IDartsInput*>(model);
             auto playerId = input->playerId();
             auto playerName = input->playerName();
             IPlayer *playerModel = dynamic_cast<IPlayer*>(playersContext->player(playerId));

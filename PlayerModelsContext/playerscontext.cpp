@@ -1,4 +1,10 @@
 #include "playerscontext.h"
+#include "DbSLAs/IPlayersDbContext.h"
+#include "DbSLAs/igetplayerfromdb.h"
+#include "DbSLAs/iplayerbuilder.h"
+#include "DbSLAs/isaveplayers.h"
+#include "ModelsSLAs/iduplicatechecker.h"
+#include "DataSLAs/idatabuilder.h"
 AbsPlaCtx::Player *PlayersContext::player(const QUuid &id) const
 {
     return getPlayers()->player(id,dbCtx());

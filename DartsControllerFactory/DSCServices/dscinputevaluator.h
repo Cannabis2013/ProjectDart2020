@@ -2,7 +2,7 @@
 #define DSCINPUTEVALUATOR_H
 #include "DCInputSLAs/idcipteval.h"
 #include <Models/dcinput.h>
-#include <DCMetaServices/dcmeta.h>
+#include "Models/dcmeta.h"
 class DSCInputEvaluator : public IDCIptEval
 {
 public:

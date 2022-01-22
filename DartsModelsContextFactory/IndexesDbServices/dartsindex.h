@@ -10,8 +10,8 @@ public:
     void setTurnIndex(const int& val) override {_turnIndex = val;}
     int roundIndex() const override {return _roundIndex;}
     void setRoundIndex(const int& val) override {_roundIndex = val;}
-    int setIndex() const override {return _setIndex;}
-    void setSetIndex(const int& val) override {_setIndex = val;}
+    int playerIndex() const override {return _setIndex;}
+    void setPlayerIndex(const int& val) override {_setIndex = val;}
     int attemptIndex() const override {return _attemptIndex;}
     void setAttemptIndex(const int& val) override {_attemptIndex = val;}
 private:

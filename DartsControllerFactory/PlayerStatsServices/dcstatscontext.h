@@ -1,14 +1,15 @@
 #ifndef DCSTATSCONTEXT_H
 #define DCSTATSCONTEXT_H
-#include "PlayerStatsSLAs/idcstatscontext.h"
+#include "PlayerStatsSLAs/idcstatistics.h"
 #include <qregexp.h>
 #include <math.h>
 #include "Models/dcplayerstats.h"
 #include <qstringlist.h>
 #include "Models/dcinput.h"
-class DCStatsContext : public IDCStatsContext
+class DCStatsContext : public IDCStatistics
 {
 public:
+    typedef QVector<DCInput> Inputs;
     virtual void setPlayers(const QStringList &names) override
     {
         _playerStats.clear();
@@ -26,11 +27,11 @@ public:
         }
         throw "PLAYERSTAT NOT FOUND";
     }
-    virtual QVector<DCPlayerStats> &stats() override
+    QVector<DCPlayerStats> &stats() override
     {
         return _playerStats;
     }
-    virtual void reset() override
+    void reset() override
     {
         for (auto &playerStat : _playerStats) {
             playerStat.max = -1;
@@ -38,32 +39,44 @@ public:
             playerStat.min = -1;
         }
     }
-    virtual void update(const DCInput &input) override
+    void update(const DCInput &input) override
     {
         updatePlayerStat(input,&stat(input.playerName));
     }
-    virtual void update(const QVector<DCInput> &inputs) override
+    void update(const Inputs &inputs) override
     {
         if(inputs.isEmpty()) return;
-        auto lastInput = inputs.last();
-        auto lastPlayerName = lastInput.playerName;
-        updatePlayerStat(lastInput,&stat(lastPlayerName));
-        for (auto i = inputs.count() - 2; i >= 0; --i) {
-            auto input = inputs.at(i);
-            auto playerName = input.playerName;
-            if(playerName != lastPlayerName)
-            {
-                updatePlayerStat(input,&stat(playerName));
-                return;
-            }
-        }
+        updatePlayerStats(getDistinctInputs(inputs));
     }
 private:
+    Inputs getDistinctInputs(const Inputs &inputs)
+    {
+        Inputs result;
+        QString tempName;
+        for (int i = inputs.count() - 1; i >= 0; --i) {
+            auto input = inputs.at(i);
+            auto name = input.playerName;
+            if(name != tempName)
+            {
+                tempName = name;
+                result << input;
+            }
+            auto playerIndex = input.playerIndex;
+            if(playerIndex == 0)
+                return result;
+        }
+        return result;
+    }
     void updatePlayerStat(const DCInput &input, DCPlayerStats *stat) const
     {
         stat->min = input.min;
         stat->middle = input.mid;
         stat->max = input.max;
+    }
+    void updatePlayerStats(const Inputs &inputs)
+    {
+        for (const auto &input : inputs)
+            updatePlayerStat(input,&stat(input.playerName));
     }
     QVector<DCPlayerStats> _playerStats;
 };

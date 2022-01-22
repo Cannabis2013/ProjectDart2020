@@ -3,33 +3,17 @@
 #include <qjsondocument.h>
 #include <qjsonarray.h>
 #include <qjsonobject.h>
-#include "TournamentModels/tnmvalues.h"
 #include "TournamentModels/dartstournament.h"
 #include "TournamentsDbSLAs/idartsbuilder.h"
-class DartsBuilder : public IDartsBuilder<IModel<QUuid>,IDartsTournament,QByteArray,TnmVals>
+class DartsBuilder : public IDartsBuilder<IModel<QUuid>>
 {
 public:
-    virtual SuperModel *createModel(const QByteArray &json) const override
+    virtual Model *createModel(const QByteArray &json) const override
     {
         QJsonObject obj;
         try {obj = fromByteArray(json);}
         catch (...) {return nullptr;}
         return toModel(obj);
-    }
-    virtual TransitModel convert(SuperModel *tournament) const override
-    {
-        TnmVals vals;
-        vals.tournamentId = tournament->id();
-        vals.entryRestricted = tournament->entryRestricted();
-        vals.winnerName = tournament->winnerName();
-        vals.playerCount = tournament->playerNames().count();
-        vals.initRem = tournament->initialRemaining();
-        vals.totalTurns = tournament->totalTurns();
-        vals.turnIndex = tournament->turnIndex();
-        vals.roundIndex = tournament->roundIndex();
-        vals.setIndex = tournament->setIndex();
-        vals.attemptIndex = tournament->attemptIndex();
-        return vals;
     }
 private:
     QJsonObject fromByteArray(const QByteArray &json) const
@@ -51,7 +35,7 @@ private:
             list << toModel(jsonValue.toObject());
         return list;
     }
-    IDartsTournament* toModel(const QJsonObject& obj) const
+    DartsTournament* toModel(const QJsonObject& obj) const
     {
         auto tournament = new DartsTournament;
         tournament->setId(toId(obj,"tournamentId",QUuid::createUuid().toString(QUuid::WithoutBraces)));

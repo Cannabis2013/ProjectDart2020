@@ -1,9 +1,9 @@
 #ifndef DSCINDEXCONTROLLER_H
 #define DSCINDEXCONTROLLER_H
-#include "DCIndexSLAs/idcidxctrl.h"
-#include "DCMetaServices/dcmeta.h"
+#include "DCIndexSLAs/idcindexcontroller.h"
+#include "Models/dcmeta.h"
 #include "Models/dcindex.h"
-class DSCIndexController : public IDCIdxCtrl
+class DSCIndexController : public IDCIndexController
 {
 public:
     virtual void init(const DCMeta &meta) override
@@ -26,12 +26,12 @@ public:
         _idx.attemptIndex++;
         if(_idx.attemptIndex >= _attempts)
         {
-            _idx.setIndex++;
+            _idx.playerIndex++;
             _idx.attemptIndex = 0;
         }
-        if(_idx.setIndex >= pCount()){
+        if(_idx.playerIndex >= pCount()){
             _idx.roundIndex++;
-            _idx.setIndex = 0;
+            _idx.playerIndex = 0;
         }
         return _idx;
     }
@@ -43,13 +43,13 @@ public:
         _idx.attemptIndex--;
         if(_idx.attemptIndex < 0)
         {
-            _idx.setIndex--;
+            _idx.playerIndex--;
             _idx.attemptIndex = _attempts - 1;
         }
-        if(_idx.setIndex < 0)
+        if(_idx.playerIndex < 0)
         {
             _idx.roundIndex--;
-            _idx.setIndex = pCount() - 1;
+            _idx.playerIndex = pCount() - 1;
         }
         return _idx;
     }
@@ -61,12 +61,12 @@ public:
         _idx.attemptIndex++;
         if(_idx.attemptIndex >= _attempts)
         {
-            _idx.setIndex++;
+            _idx.playerIndex++;
             _idx.attemptIndex = 0;
         }
-        if(_idx.setIndex >= pCount()){
+        if(_idx.playerIndex >= pCount()){
             _idx.roundIndex++;
-            _idx.setIndex = 0;
+            _idx.playerIndex = 0;
         }
         return _idx;
     }

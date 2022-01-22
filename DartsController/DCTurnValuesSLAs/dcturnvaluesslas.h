@@ -1,7 +1,7 @@
 #ifndef DCTURNVALUESSLAS_H
 #define DCTURNVALUESSLAS_H
 #include "DCTurnValuesSLAs/abstractdcturnvalues.h"
-#include "DCInputSLAs/abstractdcinputbuilder.h"
+#include "DCInputSLAs/idcinputadder.h"
 class DCTurnvaluesSLAs
 {
 public:

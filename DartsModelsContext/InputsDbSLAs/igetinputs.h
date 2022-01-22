@@ -7,14 +7,17 @@ template<typename T>
 class IDbContext;
 class IDartsIndex;
 struct DartsMetaModel;
-template<typename TBaseModel, typename TSuperModel>
+template<typename TModel, typename TIndex, typename TMeta>
 class IGetInputs
 {
 public:
-    typedef TBaseModel Model;
-    typedef TSuperModel SuperModel;
-    virtual SuperModel *get(const DartsMetaModel &meta, const IDartsIndex *index, const IDbContext<Model> *dbContext) const = 0;
-    virtual QVector<SuperModel*> get(const QUuid& tournamentId, const IDbContext<Model> *dbService) const = 0;
-    virtual QVector<SuperModel*> get(const QUuid& tournamentId, const int& hint, const IDbContext<Model> *dbService) const = 0;
+    typedef TModel Model;
+    typedef QVector<Model*> Models;
+    typedef TIndex Index;
+    typedef TMeta Meta;
+    virtual Model *get(const Meta &meta, const Index *index, const Models &models) const = 0;
+    virtual Models get(const QUuid& tournamentId, const Models &models) const = 0;
+    virtual Models getHidden(const QUuid& tournamentId, const Models &models) const = 0;
+    virtual Models getDisplayed(const QUuid& tournamentId, const Models &models) const = 0;
 };
 #endif // IGETINPUTMODELSSERVICE_H

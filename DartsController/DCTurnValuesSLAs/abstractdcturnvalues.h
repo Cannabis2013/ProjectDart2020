@@ -1,6 +1,6 @@
 #ifndef ABSTRACTDCTURNVALUES_H
 #define ABSTRACTDCTURNVALUES_H
-#include "DCIndexSLAs/idcidxctrl.h"
+#include "DCIndexSLAs/idcindexcontroller.h"
 #include "DCScoresSLAs/absdcplayersctx.h"
 #include "DCFinishesSLAs/idcfinishbuilder.h"
 #include "Models/dcturnvalues.h"

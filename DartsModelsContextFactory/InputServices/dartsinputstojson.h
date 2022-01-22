@@ -1,19 +1,18 @@
 #ifndef DARTSINPUTSTOJSON_H
 #define DARTSINPUTSTOJSON_H
-#include <quuid.h>
-#include "InputServices/dartsinput.h"
-#include <qjsondocument.h>
-#include <qjsonobject.h>
-#include <qjsonarray.h>
-#include "DbSLAs/imodelconverter.h"
-class DartsInputsToJson : public IModelConverter<IModel<QUuid>,QByteArray>
+#include "InputModelsSLAs/idartsinputstojson.h"
+class QUuid;
+template<typename T>
+class IModel;
+class QJsonArray;
+class QJsonObject;
+class QByteArray;
+class IDartsInput;
+class DartsInputsToJson : public IDartsInputsToJson<IModel<QUuid>>
 {
 public:
-    QByteArray create(const QVector<FromData*> &models, QByteArray &json) const override;
+    virtual ByteArray toJson(const Models &models, Converter *cvtr) const override;
 private:
-    QJsonObject fromByteArray(const QByteArray &byteArray) const;
-    QByteArray toByteArray(const QJsonObject &obj) const;
-    QJsonArray toJsonArray(const QVector<IModel<QUuid>*> &models) const;
-    QJsonObject toJsonObject(IModel<QUuid>* model) const;
+    QByteArray toByteArray(const QJsonArray &arr) const;
 };
-#endif // DARTSINPUTJSONASSEMBLER_H
+#endif // DARTSINPUTSTOJSON_H

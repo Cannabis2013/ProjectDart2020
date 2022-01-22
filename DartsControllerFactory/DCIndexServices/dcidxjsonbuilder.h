@@ -10,7 +10,7 @@ public:
         obj["totalTurns"] = index.totalTurns;
         obj["turnIndex"] = index.turnIndex;
         obj["roundIndex"] = index.roundIndex;
-        obj["setIndex"] = index.setIndex;
+        obj["setIndex"] = index.playerIndex;
         obj["attemptIndex"] = index.attemptIndex;
     }
 };

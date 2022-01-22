@@ -10,11 +10,14 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    InitRoutines/dcloadmodels.cpp \
+    StaticInitHelperClass/dcinitialize.cpp \
     dartscontroller.cpp
 
 HEADERS += \
     ControllerSLA/absdartsctrl.h \
     DCFinishesSLAs/dartsconstructslas.h \
+    DCFinishesSLAs/dcfinishesservices.h \
     DCFinishesSLAs/idartsattemptsservice.h \
     DCFinishesSLAs/idartsboundaries.h \
     DCFinishesSLAs/idartscreatefinishes.h \
@@ -25,38 +28,41 @@ HEADERS += \
     DCFinishesSLAs/idartsterminaldivisor.h \
     DCFinishesSLAs/idartsthresholds.h \
     DCFinishesSLAs/idcfinishbuilder.h \
-    DCIndexSLAs/idcidxbuilder.h \
+    DCIndexSLAs/idcindexcontroller.h \
+    DCIndexSLAs/idcindexconverter.h \
+    DCInputSLAs/idcinputadder.h \
+    DCInputSLAs/idcinputbuilder.h \
+    DCMetaSLAs/IDCMetaConverter.h \
+    DCMetaSLAs/idcmetabuilder.h \
     DCScoresSLAs/absdccreatescore.h \
+    DCScoresSLAs/dcplayersslas.h \
+    InitRoutines/dcloadmodels.h \
+    ModelBuilderSLAs/idcmodelbuilder.h \
+    DCScoresSLAs/idcupdateplayerstats.h \
     Models/dcindex.h \
     DCIndexSLAs/dcindexslas.h \
-    DCIndexSLAs/idcidxctrl.h \
-    DCInputSLAs/abstractdcinputbuilder.h \
-    DCInputSLAs/abstractdciptconverter.h \
     DCInputSLAs/dcinputsslas.h \
     DCInputSLAs/idcipteval.h \
     DCJsonSLAs/AbstractDCJsonBuilder.h \
     DCJsonSLAs/dcjsonbuilderservices.h \
     DCJsonSLAs/dcjsonslas.h \
     DCJsonSLAs/idcmodeljsonbuilder.h \
-    DCMetaSLAs/abstractdcmetabuilder.h \
     DCMetaSLAs/dcmetaslas.h \
     DCMetaSLAs/idcmetacontext.h \
     DCScoresSLAs/absdcplayersctx.h \
-    DCScoresSLAs/absdcupdscoresdetails.h \
-    DCScoresSLAs/dcplayerscoresslas.h \
     DCTurnValuesSLAs/abstractdcturnvalues.h \
     DCTurnValuesSLAs/dcturnvaluesslas.h \
     Models/dcinput.h \
     Models/dcmeta.h \
     Models/dcplayer.h \
     Models/dcturnvalues.h \
-    ModelsComCtxSLAs/abstractdcaddtomdsctx.h \
-    PlayerStatsSLAs/absdcsetiptstats.h \
+    ModelsComCtxSLAs/idcaddtomdsctx.h \
+    ModelsConverterSLAs/idcmodelsconverter.h \
     PlayerStatsSLAs/dcinputstatsslas.h \
     Models/dcplayerstats.h \
-    PlayerStatsSLAs/idcgetplayerstat.h \
-    PlayerStatsSLAs/idcstatscontext.h \
-    StaticInitHelperClass/dcinit.h \
+    PlayerStatsSLAs/idcsetiptstats.h \
+    PlayerStatsSLAs/idcstatistics.h \
+    StaticInitHelperClass/dcinitialize.h \
     dartscontroller.h
 
 # Default rules for deployment.

@@ -3,10 +3,12 @@ QT -= gui
 DEFINES += DartsCtxLib
 
 HEADERS += \
+    ByteArrayServices/converttobytearray.h \
     DbSLAs/abstractloadmodels.h \
     DbSLAs/abstractsavetostorage.h \
-    DbSLAs/iconverttomodels.h \
+    DbSLAs/iconvertfromdata.h \
     DbSLAs/idbcontext.h \
+    DbSLAs/idbjsonbuilder.h \
     DbSLAs/imodelconverter.h \
     FileIOSLAs/ifiledataio.h \
     IndexesDbSLAs/idartsindex.h \
@@ -15,15 +17,14 @@ HEADERS += \
     IndexesSLAs/idcidxbuilder.h \
     IndexesSLAs/iupdatedartsindexes.h \
     InputModels/dartsinputstats.h \
-    InputModels/diptvals.h \
-    InputModelsSLAs/abstractdartsinput.h \
+    InputModelsSLAs/idartsinput.h \
     InputModelsSLAs/idartsinputstats.h \
+    InputModelsSLAs/idartsinputstojson.h \
     InputModelsSLAs/iplayerinput.h \
+    InputSLAs/IDartsSetIptHint.h \
     InputSLAs/dartsiptslas.h \
     InputSLAs/icountinputmodels.h \
-    InputSLAs/icreatemodelvalues.h \
     InputSLAs/isortinputmodels.h \
-    InputsDbSLAs/DartsiptDbSLAs.h \
     InputsDbSLAs/idartsinputbuilder.h \
     InputsDbSLAs/igetinputs.h \
     InputsDbSLAs/iremovedartsinputs.h \
@@ -32,12 +33,12 @@ HEADERS += \
     SLAs/absdartsctx.h \
     TournamentModels/dartsmetamodel.h \
     TournamentModels/dartstournament.h \
-    TournamentModels/tnmvalues.h \
     TournamentModelsSLAs/idartstournament.h \
-    TournamentsDbSLAs/dartsdbslas.h \
     TournamentsDbSLAs/idartsbuilder.h \
     TournamentsDbSLAs/igetdartstournament.h \
     TournamentsDbSLAs/itournamentjsonbuilder.h \
+    TournamentsDbSLAs/persistenceslas.h \
+    TournamentsSLAs/IDartsSetWinner.h \
     TournamentsSLAs/dartsslas.h \
     TournamentsSLAs/idartsconsistency.h \
     TournamentsSLAs/idartscreatemeta.h \
@@ -50,6 +51,7 @@ HEADERS += \
     dartscontext.h
 
 SOURCES += \
+    ByteArrayServices/converttobytearray.cpp \
     dartscontext.cpp
 
 

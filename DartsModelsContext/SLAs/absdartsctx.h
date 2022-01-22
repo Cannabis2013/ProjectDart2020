@@ -4,19 +4,14 @@
 #include "TournamentsSLAs/dartsslas.h"
 #include "InputSLAs/dartsiptslas.h"
 #include "IndexesSLAs/dartsindexslas.h"
-#include "InputsDbSLAs/DartsiptDbSLAs.h"
-#include "TournamentsDbSLAs/dartsdbslas.h"
+#include "TournamentsDbSLAs/persistenceslas.h"
 class IDartsIndex;
-class AbstractDartsInput;
+class IDartsInput;
 class IPlayer;
 class IDartsTournament;
 class AbsPlaCtx;
-class AbsDartsCtx : public QObject,
-                    public DartsSLAs,
-                    public DartsIptSLAs,
-                    public DartsiptDbSLAs<IModel<QUuid>,AbstractDartsInput,QByteArray,DIptVals,QUuid>,
-                    public DartsIndexSLAs,
-                    public DartsDbSLAs
+class AbsDartsCtx : public QObject, public DartsSLAs, public DartsIptSLAs,
+                    public DartsIndexSLAs, public PersistenceSLAs
 {
     Q_OBJECT
 public:
@@ -32,26 +27,14 @@ public:
     Q_INVOKABLE virtual bool addTournament(const QByteArray& json, const QVector<int> &playerIndexes) = 0;
     Q_INVOKABLE virtual QByteArray createDartsMetaData(const QUuid& tournament) = 0;
     virtual bool setTournamentWinner(const QUuid &tournamentId, const QString &name) = 0;
-    virtual TnmVals tournament(const QUuid &id) const = 0;
-    virtual QVector<IPlayer*> players(const QUuid &tournamentId) const = 0;
+    virtual QByteArray tournament(const QUuid &id) const = 0;
     virtual bool resetTournament(const QUuid &tournamentId) = 0;
-    virtual DIptVals input(const QUuid &tournament, const QString &name, const TnmVals &index) const = 0;
-    virtual bool addInput(const QUuid &tournamentId, const DIptVals &input) = 0;
-    virtual bool hideInput(QUuid tournament, QString name, TnmVals index) = 0;
-    virtual bool revealInput(QUuid tournament, QString name, const TnmVals &index) = 0;
-    virtual QVector<DIptVals> inputs(const QUuid &tournamentId) const = 0;
-    virtual bool updateTournamentIndex(QUuid tournament, const TnmVals &index) = 0;
-signals:
-    void setDartsTournamentWinnerSucces(const QByteArray& json);
-    void sendDartsDetails(const QByteArray& json);
-    void tournamentModelsStatePersisted();
-    void tournamentCreatedOk();
-    void tournamentCreatedFail();
-    void sendOrderedInputs(const QByteArray& scores);
-    void tournamentResetSuccess();
-    void tournamentResetFailed();
-    void tournamentsDeleted();
-    void repairCompleted(const bool &status, const QByteArray &json);
+    virtual QByteArray input(const QUuid &tournament, const QString &name, const QByteArray &indexByteArray) const = 0;
+    virtual QByteArray inputs(const QUuid &tournamentId) const = 0;
+    virtual bool addInput(const QUuid &tournamentId, const QByteArray &byteArray) = 0;
+    virtual bool hideInput(QUuid tournament, QString name, const QByteArray &indexByteArray) = 0;
+    virtual bool revealInput(QUuid tournament, QString name, const QByteArray &indexByteArray) = 0;
+    virtual bool updateTournamentIndex(QUuid tournament, const QByteArray &indexByteArray) = 0;
 private:
     AbsPlaCtx *_playersContext;
 };
