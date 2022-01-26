@@ -23,12 +23,10 @@ public:
         input.tournamentId = meta.tournamentId;
         return input;
     }
-    DCInput add(DCInput &input, const int &remScore, const DCPlayer &player, const DCMeta &meta) const override
+    DCInput add(DCInput &input, const DCPlayer &player, const DCMeta &meta) const override
     {
         input.playerName = player.name;
         input.playerId = player.id;
-        input.score = 0;
-        input.remScore = remScore;
         input.inGame = true;
         input.tournamentId = meta.tournamentId;
         input.tournamentId = meta.tournamentId;

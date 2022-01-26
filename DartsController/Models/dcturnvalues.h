@@ -1,10 +1,8 @@
 #ifndef DCTURNVALUES_H
 #define DCTURNVALUES_H
-
 #include <qstring.h>
 #include <qjsondocument.h>
 #include <qjsonobject.h>
-
 struct DCTurnValues
 {
    bool canUndo;
@@ -16,5 +14,4 @@ struct DCTurnValues
    QString targetRow;
    QString playerName;
 };
-
 #endif // DARTSPOINTTURNVALUES_H

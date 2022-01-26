@@ -5,8 +5,8 @@
 #else
     #define DartsController_Export Q_DECL_IMPORT
 #endif
-#include "ControllerSLA/absdartsctrl.h"
-class DartsController_Export DartsController : public AbsDartsCtrl
+#include "ControllerSLA/idartsctrl.h"
+class DartsController_Export DartsController : public IDartsCtrl
 {
     Q_OBJECT
 public:

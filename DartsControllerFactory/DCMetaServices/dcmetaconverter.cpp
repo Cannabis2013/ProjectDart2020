@@ -2,10 +2,10 @@
 #include <qjsonobject.h>
 #include <qjsondocument.h>
 #include "Models/dcmeta.h"
-DCMetaConverter::Meta DCMetaConverter::convert(const Json &byteArray, Meta &meta) const
+DCMetaConverter::Meta DCMetaConverter::convert(const ByteArray &byteArray) const
 {
     auto json = toJsonObject(byteArray);
-    initByJson(meta,json);
+    auto meta = toMeta(json);
     return meta;
 }
 
@@ -15,8 +15,9 @@ QJsonObject DCMetaConverter::toJsonObject(const QByteArray &byteArray) const
     return document.object();
 }
 
-void DCMetaConverter::initByJson(Meta &meta, const QJsonObject &json) const
+DCMeta DCMetaConverter::toMeta(const QJsonObject &json) const
 {
+    DCMeta meta;
     meta.entryRestricted = json.value("entryRestricted").toBool();
     meta.initRemScore = json.value("initRemScore").toInt();
     meta.playersCount = json.value("assignedPlayersCount").toInt();
@@ -25,6 +26,7 @@ void DCMetaConverter::initByJson(Meta &meta, const QJsonObject &json) const
     meta.index.roundIndex = json.value("roundIndex").toInt();
     meta.index.playerIndex = json.value("playerIndex").toInt();
     meta.index.attemptIndex = json.value("attemptIndex").toInt();
+    return meta;
 }
 
 QUuid DCMetaConverter::toId(const QString &stringId) const

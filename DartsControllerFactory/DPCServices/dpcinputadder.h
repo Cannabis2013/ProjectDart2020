@@ -23,11 +23,10 @@ public:
         input.tournamentId = meta.tournamentId;
         return input;
     }
-    DCInput add(DCInput &input, const int &remScore, const DCPlayer &player, const DCMeta &meta) const override
+    DCInput add(DCInput &input, const DCPlayer &player, const DCMeta &meta) const override
     {
         input.playerName = player.name;
         input.score = 0;
-        input.remScore = remScore;
         input.inGame = true;
         input.tournamentId = meta.tournamentId;
         return input;
@@ -55,20 +54,6 @@ private:
     int calculateScore(const int &point, const int &multiplier) const
     {
         return point*multiplier;
-    }
-    DCInput toModel(const QJsonObject &obj, const int &initialScore = -1) const
-    {
-        DCInput input;
-        input.playerName = obj.value("inputPlayerName").toString("");
-        input.score = obj.value("score").toInt(0);
-        input.remScore = obj.value("remainingScore").toInt(initialScore);
-        input.point = obj.value("point").toInt(0);
-        input.modKeyCode = obj.value("modKeyCode").toInt(0);
-        input.mid = obj.value("middleValue").toDouble(0);
-        input.min = obj.value("minimumValue").toInt(0);
-        input.max = obj.value("maximumValue").toInt(0);
-        input.inGame = obj.value("inGame").toBool(false);
-        return input;
     }
 };
 #endif // DARTSCONTROLLERPOINTBUILDER_H

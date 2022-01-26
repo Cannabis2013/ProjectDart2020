@@ -1,10 +1,11 @@
 #include "dscstatsinjector.h"
 #include "PlayerStatsSLAs/dcinputstatsslas.h"
 #include "PlayerStatsServices/dcstatscontext.h"
-#include "PlayerStatsServices/dscupdscorerng.h"
+#include "PlayerStatsServices/dcupdatescorerange.h"
+#include "ServicesProvider/dcservices.h"
 
-void DSCStatsInjector::inject(PlayerStatsSLAs *dc) const
+void DSCStatsInjector::inject(DCServices *dc) const
 {
     dc->setStatistics(new DCStatsContext);
-    dc->setUpdateInputStats(new DSCUpdScoreRng);
+    dc->setUpdateInputStats(new DCUpdateScoreRange(dc));
 }

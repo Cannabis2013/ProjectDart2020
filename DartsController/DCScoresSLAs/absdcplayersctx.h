@@ -7,20 +7,23 @@ struct DCPlayer;
 struct DCIndex;
 class QString;
 class QStringList;
+template<typename TPlayer,typename TInput>
 class AbsDCPlayersCtx
 {
 public:
-    typedef QVector<DCPlayer> DartsScoreModels;
+    typedef TPlayer Player;
+    typedef TInput Input;
+    typedef QVector<Player> Players;
     virtual void reset(const int &initRemScore) = 0;
-    virtual DCPlayer &player(const QString &name) = 0;
-    virtual DCPlayer &player(const int &idx) = 0;
-    virtual DartsScoreModels &players() = 0;
-    virtual DartsScoreModels players() const = 0;
-    virtual void updateScore(const DCInput &ipt) = 0;
-    virtual void updateScores(const QVector<DCInput> &inputs) = 0;
-    virtual void set(const QStringList &names, const int &remScore) = 0;
+    virtual Player &player(const QString &name) = 0;
+    virtual Player &player(const int &idx) = 0;
+    virtual Players &players() = 0;
+    virtual Players players() const = 0;
+    virtual void updateScore(const Input &ipt) = 0;
+    virtual void updateScores(const QVector<Input> &inputs) = 0;
+    virtual void addPlayers(const Players &players) = 0;
     virtual bool status(const QString &name) const = 0;
-    virtual void updateStatus(const DCInput &ipt) = 0;
+    virtual void updateStatus(const Input &ipt) = 0;
     virtual int count() const = 0;
 };
 #endif // IDARTSSCORES_H

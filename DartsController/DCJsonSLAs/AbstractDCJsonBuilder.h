@@ -8,7 +8,7 @@ class AbstractDCJsonBuilder : public DCJsonBuilderServices
 {
 public:
     virtual QByteArray create(const DCMeta &metaInfo) const = 0;
-    virtual QByteArray create(const QVector<DCPlayer> &scoreModels, const QVector<DCPlayerStats> &playerStats) const = 0;
+    virtual QByteArray create(const QVector<DCPlayer> &scoreModels, const QVector<DCStatsModel> &playerStats) const = 0;
     virtual QByteArray create(const DCTurnValues &turnValues, const DCMeta &metaInfo) const = 0;
     virtual QByteArray create(const DCInput &input, const DCTurnValues &turnValues, const DCMeta &metaInfo) const = 0;
     virtual QByteArray create(const DCInput &input, const DCTurnValues &turnValues, const DCIndex &index, const DCMeta &metaInfo) const = 0;

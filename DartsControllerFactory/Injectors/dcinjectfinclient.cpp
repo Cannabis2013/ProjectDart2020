@@ -15,6 +15,7 @@ void DCInjectFinClient::inject(DCFinishesSLAs *service) const
 {
     auto finBuilder = new DCFinishBuilder;
     injectBuilderClient(finBuilder);
+    finBuilder->init();
     service->setFinishBuilder(finBuilder);
 }
 

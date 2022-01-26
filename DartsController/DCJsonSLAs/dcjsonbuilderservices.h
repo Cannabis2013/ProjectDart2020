@@ -1,6 +1,6 @@
 #ifndef DCJSONBUILDERSERVICES_H
 #define DCJSONBUILDERSERVICES_H
-struct DCPlayerStats;
+struct DCStatsModel;
 struct DCIndex;
 struct DCInput;
 template<typename T>
@@ -23,8 +23,8 @@ public:
     void setReqIdxJsonBuilder(IDCModelJsonBuilder<DCIndex> *newReqIndexJsonBuilder) {_reqIndexJsonBuilder = newReqIndexJsonBuilder;}
     IDCModelJsonBuilder<const DCPlayer&> *scoreModelJsonBuilder() const {return _scoreModelJsonBuilder;}
     void setScoreModelJsonBuilder(IDCModelJsonBuilder<const DCPlayer&> *newScoreModelJsonBuilder) {_scoreModelJsonBuilder = newScoreModelJsonBuilder;}
-    IDCModelJsonBuilder<const DCPlayerStats&> *playerStatsJsonBuilder() const {return _playerStatsJsonBuilder;}
-    void setPlayerStatsJsonBuilder(IDCModelJsonBuilder<const DCPlayerStats&> *newPlayerStatsJsonBuilder) {_playerStatsJsonBuilder = newPlayerStatsJsonBuilder;}
+    IDCModelJsonBuilder<const DCStatsModel&> *playerStatsJsonBuilder() const {return _playerStatsJsonBuilder;}
+    void setPlayerStatsJsonBuilder(IDCModelJsonBuilder<const DCStatsModel&> *newPlayerStatsJsonBuilder) {_playerStatsJsonBuilder = newPlayerStatsJsonBuilder;}
 private:
     IDCModelJsonBuilder<const DCMeta&> *_metaJsonBuilder;
     IDCModelJsonBuilder<DCInput> *_inputJsonBuilder;
@@ -32,6 +32,6 @@ private:
     IDCModelJsonBuilder<DCIndex> *_reqIndexJsonBuilder;
     IDCModelJsonBuilder<const DCTurnValues&> *_turnValuesJsonBuilder;
     IDCModelJsonBuilder<const DCPlayer&> *_scoreModelJsonBuilder;
-    IDCModelJsonBuilder<const DCPlayerStats&> *_playerStatsJsonBuilder;
+    IDCModelJsonBuilder<const DCStatsModel&> *_playerStatsJsonBuilder;
 };
 #endif // DCJSONBUILDERSERVICES_H

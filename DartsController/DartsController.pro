@@ -10,12 +10,11 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    InitRoutines/dcloadmodels.cpp \
-    StaticInitHelperClass/dcinitialize.cpp \
+    ServicesProvider/dcservices.cpp \
     dartscontroller.cpp
 
 HEADERS += \
-    ControllerSLA/absdartsctrl.h \
+    ControllerSLA/idartsctrl.h \
     DCFinishesSLAs/dartsconstructslas.h \
     DCFinishesSLAs/dcfinishesservices.h \
     DCFinishesSLAs/idartsattemptsservice.h \
@@ -30,15 +29,16 @@ HEADERS += \
     DCFinishesSLAs/idcfinishbuilder.h \
     DCIndexSLAs/idcindexcontroller.h \
     DCIndexSLAs/idcindexconverter.h \
+    DCInputSLAs/idcgetinput.h \
     DCInputSLAs/idcinputadder.h \
     DCInputSLAs/idcinputbuilder.h \
-    DCMetaSLAs/IDCMetaConverter.h \
     DCMetaSLAs/idcmetabuilder.h \
+    DCMetaSLAs/idcmetaconverter.h \
     DCScoresSLAs/absdccreatescore.h \
     DCScoresSLAs/dcplayersslas.h \
-    InitRoutines/dcloadmodels.h \
-    ModelBuilderSLAs/idcmodelbuilder.h \
-    DCScoresSLAs/idcupdateplayerstats.h \
+    InitSLAs/dcinitservices.h \
+    InitSLAs/idcinitialize.h \
+    ModelBuilderSLAs/idcmodelconverter.h \
     Models/dcindex.h \
     DCIndexSLAs/dcindexslas.h \
     DCInputSLAs/dcinputsslas.h \
@@ -55,14 +55,17 @@ HEADERS += \
     Models/dcinput.h \
     Models/dcmeta.h \
     Models/dcplayer.h \
+    Models/dcstatsmodel.h \
     Models/dcturnvalues.h \
-    ModelsComCtxSLAs/idcaddtomdsctx.h \
+    RoutineSLAs/idcaddtomdsctx.h \
     ModelsConverterSLAs/idcmodelsconverter.h \
     PlayerStatsSLAs/dcinputstatsslas.h \
-    Models/dcplayerstats.h \
     PlayerStatsSLAs/idcsetiptstats.h \
     PlayerStatsSLAs/idcstatistics.h \
-    StaticInitHelperClass/dcinitialize.h \
+    DCInputSLAs/idcassembleinput.h \
+    RoutineServices/dcroutines.h \
+    ServiceRoutineSLAs/idcresetservices.h \
+    ServicesProvider/dcservices.h \
     dartscontroller.h
 
 # Default rules for deployment.

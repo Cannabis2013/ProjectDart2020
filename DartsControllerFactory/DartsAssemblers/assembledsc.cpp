@@ -1,4 +1,4 @@
-#include "createdsc.h"
+#include "assembledsc.h"
 #include "Injectors/dscinjectplaservives.h"
 #include "Injectors/dscindexinjector.h"
 #include "Injectors/dscinputinjector.h"
@@ -8,7 +8,8 @@
 #include "Injectors/dcinjectfinclient.h"
 #include "dartscontroller.h"
 #include "DSCServices/dscvaluesbuilder.h"
-CreateDSC::CreateDSC()
+#include "Injectors/dcinjectroutineservices.h"
+AssembleDSC::AssembleDSC()
 {
     finInjector = new DCInjectFinClient;
     metaInjector = new DCInjectMetaClient;
@@ -17,9 +18,10 @@ CreateDSC::CreateDSC()
     inputInjector = new DSCInputInjector;
     jsonInjector = new DSCJsonResponseInjector;
     statsInjector = new DSCStatsInjector;
+    loaderInjector = new DCInjectRoutineServices;
 }
 
-AbsDartsCtrl *CreateDSC::create()
+IDartsCtrl *AssembleDSC::assemble()
 {
     auto dc = new DartsController;
     finInjector->inject(dc);
@@ -29,6 +31,7 @@ AbsDartsCtrl *CreateDSC::create()
     inputInjector->inject(dc);
     jsonInjector->inject(dc);
     statsInjector->inject(dc);
+    loaderInjector->inject(dc);
     dc->setTurnValuesBuilder(new DSCValuesBuilder);
     return dc;
 }

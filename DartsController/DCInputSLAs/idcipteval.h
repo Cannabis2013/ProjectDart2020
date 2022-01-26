@@ -8,6 +8,6 @@ class IDCIptEval : public QObject
 {
     Q_OBJECT
 public:
-    virtual void eval(DCInput &input, const int &scoreCand, DCMeta &meta, const DCPlayer &player, const int &winnerStatus) = 0;
+    virtual void eval(DCInput &input) = 0;
 };
 #endif // IPOINTVALIDATOR_H

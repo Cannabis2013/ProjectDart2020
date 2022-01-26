@@ -28,11 +28,7 @@ QString DartsCreateFinishes::constructRow(const int &remainingScore, const int &
     } catch (std::exception *e) {
         return QString();
     }
-
-    if (hasADeterminedPath) {
-        auto result = toString(score);
-        return result;
-    }
+    if(hasADeterminedPath) return toString(score);
     return QString();
 }
 
@@ -67,8 +63,7 @@ bool DartsCreateFinishes::suggestion(const int &remainingScore, const int &turnI
         return determineRouteByDiff(remainingScore,turnIndex,scoreObject);
 }
 
-bool DartsCreateFinishes::evaluateConstraints(const int &remainingScore, const int &turnIndex,
-                                             const int &totalTurns) const
+bool DartsCreateFinishes::evaluateConstraints(const int &remainingScore, const int &turnIndex, const int &totalTurns) const
 {
     /*
      * Parameter constraints:

@@ -1,9 +1,9 @@
 #ifndef DCPLAYERBUILDER_H
 #define DCPLAYERBUILDER_H
-#include "ModelBuilderSLAs/idcmodelbuilder.h"
+#include "ModelBuilderSLAs/idcmodelconverter.h"
 class QJsonObject;
 class DCPlayer;
-class DCPlayerBuilder : public IDCModelBuilder<DCPlayer,QJsonObject>
+class DCPlayerBuilder : public IDCModelConverter<DCPlayer>
 {
 public:
     virtual Model create(const Json &json) const override;

@@ -1,10 +1,10 @@
 #ifndef DSCINPUTINJECTOR_H
 #define DSCINPUTINJECTOR_H
-class DCInputsSLAs;
+class DCServices;
 class DSCInputInjector
 {
 public:
-    void inject(DCInputsSLAs *dc);
+    void inject(DCServices *dc);
 };
 
 #endif // DSCINPUTINJECTOR_H

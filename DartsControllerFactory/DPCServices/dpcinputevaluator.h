@@ -4,16 +4,29 @@
 #include "Models/dcmeta.h"
 #include "Models/dcplayer.h"
 #include "Models/dcinput.h"
+
+#include "ServicesProvider/dcservices.h"
 class DPCInputEvaluator : public IDCIptEval
 {
     Q_OBJECT
 public:
-    void eval(DCInput &input, const int &scoreCand, DCMeta &meta, const DCPlayer &player, const int &winnerStatus) override
+    enum ControllerState {
+        Initialized,
+        Running,
+        WinnerDeclared,
+        AwaitsInput
+    };
+    DPCInputEvaluator(DCServices *services) : _services(services){}
+    void eval(DCInput &input) override
     {
+        auto meta = _services->metaService()->meta();
+        auto idx = _services->indexService()->index();
+        auto player = _services->plaCtx()->player(idx.playerIndex);
+        auto scoreCand = _services->scoreCalc()->calc(input.score,player.remScore);
         if(!player.in && meta.entryRestricted)
             playerHasNotEntered(input,scoreCand);
         else
-            playerHasEntered(input,meta,scoreCand,winnerStatus);
+            playerHasEntered(input,meta,scoreCand);
     }
 private:
     enum KeyMappings{
@@ -33,22 +46,23 @@ private:
             ipt.score = 0;
         }
     }
-    void playerHasEntered(DCInput &ipt, DCMeta &meta,const int &scoreCand, const int &winnerStatus)
+    void playerHasEntered(DCInput &ipt, DCMeta &meta,const int &scoreCand)
     {
         if(scoreCand >= minimumAllowedScore)
             ipt.remScore = scoreCand;
         else if(scoreCand == 0 && (ipt.modKeyCode == DoubleModifier || ipt.score == _bullsEye))
-            setWinnerValues(ipt,meta,winnerStatus);
+            setWinnerValues(ipt,meta);
         else
             ipt.score = 0;
     }
-    void setWinnerValues(DCInput &ipt, DCMeta &meta, const int &winnerStatus)
+    void setWinnerValues(DCInput &ipt, DCMeta &meta)
     {
         ipt.remScore = 0;
         meta.winnerName = ipt.playerName;
-        meta.status = winnerStatus;
+        meta.status = WinnerDeclared;
     }
     const int _bullsEye = 50;
     const int minimumAllowedScore = 2;
+    DCServices *_services;
 };
 #endif // POINTVALIDATOR_H

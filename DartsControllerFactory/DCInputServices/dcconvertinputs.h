@@ -3,7 +3,7 @@
 #include "ModelsConverterSLAs/idcmodelsconverter.h"
 class QJsonObject;
 class DCInput;
-class DCConvertInputs : public IDCModelsConverter<DCInput,QJsonObject>
+class DCConvertInputs : public IDCModelsConverter<DCInput>
 {
 public:
     Models convert(const QByteArray &byteArray, ModelBuilder *builder) const override;

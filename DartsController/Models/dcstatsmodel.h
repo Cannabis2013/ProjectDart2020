@@ -1,7 +1,7 @@
-#ifndef DCPLAYERSTATS_H
-#define DCPLAYERSTATS_H
+#ifndef DCSTATSMODEL_H
+#define DCSTATSMODEL_H
 #include <quuid.h>
-struct DCPlayerStats{
+struct DCStatsModel{
     QString name;
     int min = -1;
     int max = -1;

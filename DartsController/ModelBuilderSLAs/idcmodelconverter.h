@@ -1,13 +1,14 @@
-#ifndef IDCMODELBUILDER_H
-#define IDCMODELBUILDER_H
+#ifndef IDCMODELCONVERTER_H
+#define IDCMODELCONVERTER_H
+class QJsonObject;
 template<typename T>
 class QVector;
-template<typename TModel, typename TJson>
-class IDCModelBuilder
+template<typename TModel>
+class IDCModelConverter
 {
 public:
     typedef TModel Model;
-    typedef TJson Json;
+    typedef QJsonObject Json;
     virtual Model create(const Json &json) const = 0;
 };
 

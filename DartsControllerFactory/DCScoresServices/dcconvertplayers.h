@@ -3,7 +3,7 @@
 #define DCBYTEARRAYTOMODELS_Hs
 class QJsonObject;
 class DCPlayer;
-class DCConvertPlayers : public IDCModelsConverter<DCPlayer,QJsonObject>
+class DCConvertPlayers : public IDCModelsConverter<DCPlayer>
 {
 public:
     Models convert(const QByteArray &byteArray, ModelBuilder *builder) const override;

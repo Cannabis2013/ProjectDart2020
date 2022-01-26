@@ -1,8 +1,8 @@
 #ifndef DCPLAYERSTATSJSONBUILDER_H
 #define DCPLAYERSTATSJSONBUILDER_H
-#include "Models/dcplayerstats.h"
+#include "Models/dcstatsmodel.h"
 #include "DCJsonSLAs/idcmodeljsonbuilder.h"
-class DCPlayerStatsJsonBuilder : public IDCModelJsonBuilder<const DCPlayerStats&>
+class DCPlayerStatsJsonBuilder : public IDCModelJsonBuilder<const DCStatsModel&>
 {
 public:
     virtual void setJsonValues(QJsonObject &obj, Model playerStat) const override

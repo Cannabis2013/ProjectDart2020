@@ -1,18 +1,18 @@
 #include "createdartscontroller.h"
-#include "DartsAssemblers/createdpc.h"
-#include "DartsAssemblers/createdsc.h"
+#include "DartsAssemblers/assembledpc.h"
+#include "DartsAssemblers/assembledsc.h"
 CreateDartsController::CreateDartsController()
 {
-    assembleDPC = new CreateDPC;
-    assembleDSC = new CreateDSC;
+    assembleDPC = new AssembleDPC;
+    assembleDSC = new AssembleDSC;
 }
 
-AbsDartsCtrl *CreateDartsController::pointCtrl()
+IDartsCtrl *CreateDartsController::pointCtrl()
 {
-    return assembleDPC->create();
+    return assembleDPC->assemble();
 }
 
-AbsDartsCtrl *CreateDartsController::scoreCtrl()
+IDartsCtrl *CreateDartsController::scoreCtrl()
 {
-    return assembleDSC->create();
+    return assembleDSC->assemble();
 }

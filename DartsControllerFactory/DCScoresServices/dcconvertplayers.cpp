@@ -2,7 +2,7 @@
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 #include <qjsonarray.h>
-#include "ModelBuilderSLAs/idcmodelbuilder.h"
+#include "ModelBuilderSLAs/idcmodelconverter.h"
 #include "Models/dcplayer.h"
 
 DCConvertPlayers::Models DCConvertPlayers::convert(const QByteArray &byteArray, ModelBuilder *builder) const

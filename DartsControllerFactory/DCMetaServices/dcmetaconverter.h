@@ -1,19 +1,19 @@
 #ifndef DCMETACONVERTER_H
 #define DCMETACONVERTER_H
-#include <DCMetaSLAs/IDCMetaConverter.h>
+#include <DCMetaSLAs/idcmetaconverter.h>
 class QUuid;
 class QString;
 struct DCMeta;
 class QByteArray;
 class QJsonObject;
-class DCMetaConverter : public IDCMetaConverter<DCMeta, QByteArray>
+class DCMetaConverter : public IDCMetaConverter<DCMeta>
 {
     // IDCMetaConverter interface
 public:
-    virtual Meta convert(const Json &byteArray, Meta &meta) const override;
+    virtual Meta convert(const ByteArray &byteArray) const override;
 private:
     QJsonObject toJsonObject(const QByteArray &byteArray) const;
-    void initByJson(Meta &meta, const QJsonObject &json) const;
+    DCMeta toMeta(const QJsonObject &json) const;
     QUuid toId(const QString &stringId) const;
 };
 #endif // DCMETACONVERTER_H

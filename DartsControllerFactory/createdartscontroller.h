@@ -6,17 +6,17 @@
 #else
     #define DCFactExport Q_DECL_IMPORT
 #endif
-class CreateDSC;
-class CreateDPC;
-class AbsDartsCtrl;
+class AssembleDSC;
+class AssembleDPC;
+class IDartsCtrl;
 class DCFactExport CreateDartsController
 {
 public:
     CreateDartsController();
-    AbsDartsCtrl *pointCtrl();
-    AbsDartsCtrl *scoreCtrl();
+    IDartsCtrl *pointCtrl();
+    IDartsCtrl *scoreCtrl();
 private:
-    CreateDPC *assembleDPC;
-    CreateDSC *assembleDSC;
+    AssembleDPC *assembleDPC;
+    AssembleDSC *assembleDSC;
 };
 #endif // BUILDDARTSSCORECONTROLLER_H

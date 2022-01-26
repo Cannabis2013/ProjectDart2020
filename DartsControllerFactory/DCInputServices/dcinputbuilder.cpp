@@ -33,10 +33,12 @@ QJsonObject DCInputBuilder::toJson(const Model &model) const
     QJsonObject obj;
     obj["point"] = model.point;
     obj["score"] = model.score;
+    obj["tournamentId"] = model.tournamentId.toString(QUuid::WithoutBraces);
     obj["remainingScore"] = model.remScore;
     obj["roundIndex"] = model.roundIndex;
     obj["playerIndex"] = model.playerIndex;
     obj["attemptIndex"] = model.attemptIndex;
+    obj["inputPlayerId"] = model.playerId.toString(QUuid::WithoutBraces);
     obj["inputPlayerName"] = model.playerName;
     obj["modKeyCode"] = model.modKeyCode;
     obj["minimumValue"] = model.min;

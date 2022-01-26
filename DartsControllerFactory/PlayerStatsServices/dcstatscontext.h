@@ -3,23 +3,24 @@
 #include "PlayerStatsSLAs/idcstatistics.h"
 #include <qregexp.h>
 #include <math.h>
-#include "Models/dcplayerstats.h"
+#include "Models/dcstatsmodel.h"
 #include <qstringlist.h>
 #include "Models/dcinput.h"
+#include "Models/dcplayer.h"
 class DCStatsContext : public IDCStatistics
 {
 public:
     typedef QVector<DCInput> Inputs;
-    virtual void setPlayers(const QStringList &names) override
+    virtual void setPlayers(const Players &players) override
     {
         _playerStats.clear();
-        for (const auto &name : names) {
-            DCPlayerStats entity;
-            entity.name = name;
+        for (const auto &player : players) {
+            DCStatsModel entity;
+            entity.name = player.name;
             _playerStats << entity;
         }
     }
-    DCPlayerStats &stat(const QString &name) override
+    DCStatsModel &stat(const QString &name) override
     {
         for (auto &pStats : _playerStats) {
             if(pStats.name == name)
@@ -27,7 +28,7 @@ public:
         }
         throw "PLAYERSTAT NOT FOUND";
     }
-    QVector<DCPlayerStats> &stats() override
+    QVector<DCStatsModel> &stats() override
     {
         return _playerStats;
     }
@@ -67,7 +68,7 @@ private:
         }
         return result;
     }
-    void updatePlayerStat(const DCInput &input, DCPlayerStats *stat) const
+    void updatePlayerStat(const DCInput &input, DCStatsModel *stat) const
     {
         stat->min = input.min;
         stat->middle = input.mid;
@@ -78,6 +79,6 @@ private:
         for (const auto &input : inputs)
             updatePlayerStat(input,&stat(input.playerName));
     }
-    QVector<DCPlayerStats> _playerStats;
+    QVector<DCStatsModel> _playerStats;
 };
 #endif // DCRANGECALC_H

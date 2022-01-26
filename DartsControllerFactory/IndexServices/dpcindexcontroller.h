@@ -1,8 +1,8 @@
-#ifndef DPCIDXCTRL_H
-#define DPCIDXCTRL_H
+#ifndef DPCINDEXCONTROLLER_H
+#define DPCINDEXCONTROLLER_H
 #include "DCIndexSLAs/idcindexcontroller.h"
 #include "Models/dcmeta.h"
-class DPCIdxCtrl : public IDCIndexController
+class DPCIndexController : public IDCIndexController<DCIndex,DCMeta>
 {
 public:
     virtual void init(const DCMeta &meta) override

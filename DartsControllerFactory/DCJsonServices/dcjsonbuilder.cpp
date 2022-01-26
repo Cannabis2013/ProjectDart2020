@@ -5,7 +5,7 @@ QByteArray DCJsonBuilder::create(const DCMeta &metaInfo) const
     metaJsonBuilder()->setJsonValues(obj,metaInfo);
     return QJsonDocument(obj).toJson();
 }
-QByteArray DCJsonBuilder::create(const QVector<DCPlayer> &players, const QVector<DCPlayerStats> &playerStats) const
+QByteArray DCJsonBuilder::create(const QVector<DCPlayer> &players, const QVector<DCStatsModel> &playerStats) const
 {
     auto arr = QJsonArray();
     for (auto i = 0;i < players.count();i++)

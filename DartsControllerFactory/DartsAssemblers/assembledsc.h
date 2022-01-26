@@ -1,18 +1,19 @@
-#ifndef CREATEDSC_H
-#define CREATEDSC_H
+#ifndef ASSEMBLEDSC_H
+#define ASSEMBLEDSC_H
+class DCInjectRoutineServices;
 class DSCStatsInjector;
 class DSCJsonResponseInjector;
 class DSCInputInjector;
 class DSCIndexInjector;
 class DSCInjectPlaServives;
-class AbsDartsCtrl;
+class IDartsCtrl;
 class DCInjectFinClient;
 class DCInjectMetaClient;
-class CreateDSC
+class AssembleDSC
 {
 public:
-    CreateDSC();
-    AbsDartsCtrl *create();
+    AssembleDSC();
+    IDartsCtrl *assemble();
 private:
     DCInjectFinClient *finInjector;
     DCInjectMetaClient *metaInjector;
@@ -21,5 +22,6 @@ private:
     DSCInputInjector *inputInjector;
     DSCJsonResponseInjector *jsonInjector;
     DSCStatsInjector *statsInjector;
+    DCInjectRoutineServices *loaderInjector;
 };
 #endif // DEFAULTDARTSSCORECONTROLLER_H

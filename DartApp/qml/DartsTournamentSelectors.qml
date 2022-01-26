@@ -11,7 +11,7 @@ Rectangle {
         id: defaultStateValues
         readonly property int defaultGameModeIndex: 0
         readonly property int defaultNumberOfThrows: 3
-        readonly property int defaultKeyPointIndex: 1
+        readonly property int defaultKeyPointIndex: 2
         readonly property int defaultWinConditionIndex: 1
         readonly property int defaultTableHintIndex: 0
         readonly property int defaultInputModeIndex: 1

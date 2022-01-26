@@ -3,7 +3,7 @@
 #include "DCIndexSLAs/idcindexcontroller.h"
 #include "Models/dcmeta.h"
 #include "Models/dcindex.h"
-class DSCIndexController : public IDCIndexController
+class DSCIndexController : public IDCIndexController<DCIndex,DCMeta>
 {
 public:
     virtual void init(const DCMeta &meta) override

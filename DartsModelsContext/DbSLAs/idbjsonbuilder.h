@@ -12,7 +12,6 @@ class IDbJsonBuilder
 public:
     typedef TBaseModel BaseModel;
     typedef QVector<BaseModel*> Models;
-    typedef QByteArray ByteArray;
     typedef QJsonObject Json;
     typedef IModelConverter<BaseModel> Converter;
     virtual QJsonObject toJsonObject(const Json &json, const Models &models, Converter *cvtr) = 0;

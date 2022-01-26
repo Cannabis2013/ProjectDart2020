@@ -61,6 +61,7 @@ QByteArray DartsContext::tournament(const QUuid &id) const
 bool DartsContext::addInput(const QUuid &tournamentId, const QByteArray &byteArray)
 {
     auto input = inputConverter()->create(byteArray);
+    setInputHint()->setVisible(input);
     inputsDb()->add(input);
     removeInputs()->removeHidden(tournamentId,inputsDb());
     return saveToStorage()->save(inputsDb()->models(),inputModelsToJson(),inputConverter(),ioDevice());

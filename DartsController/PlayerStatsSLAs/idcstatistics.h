@@ -1,17 +1,19 @@
 #ifndef IDCSTATISTICS_H
 #define IDCSTATISTICS_H
+struct DCPlayer;
+struct DCInput;
 template<typename T>
 class QVector;
-struct DCInput;
-struct DCPlayerStats;
+struct DCStatsModel;
 class QString;
 class QStringList;
 class IDCStatistics
 {
 public:
-    virtual void setPlayers(const QStringList &players) = 0;
-    virtual DCPlayerStats &stat(const QString &name) = 0;
-    virtual QVector<DCPlayerStats> &stats() = 0;
+    typedef QVector<DCPlayer> Players;
+    virtual void setPlayers(const Players &players) = 0;
+    virtual DCStatsModel &stat(const QString &name) = 0;
+    virtual QVector<DCStatsModel> &stats() = 0;
     virtual void reset() = 0;
     virtual void update(const DCInput &input) = 0;
     virtual void update(const QVector<DCInput> &inputs) = 0;

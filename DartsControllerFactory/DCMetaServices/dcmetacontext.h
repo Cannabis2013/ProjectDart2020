@@ -3,7 +3,7 @@
 #include "DCMetaSLAs/idcmetacontext.h"
 #include <quuid.h>
 #include "Models/dcmeta.h"
-class DCMetaContext : public IDCMetaContext
+class DCMetaContext : public IDCMetaContext<DCMeta>
 {
 public:
     void setMeta(const QUuid &id, const int &initialRemaining) override

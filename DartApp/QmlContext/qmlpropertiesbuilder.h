@@ -7,7 +7,7 @@
 #include <qqmlcontext.h>
 #include "ContextSLA/absplactx.h"
 #include "SLAs/absdartsctx.h"
-#include "ControllerSLA/absdartsctrl.h"
+#include "ControllerSLA/idartsctrl.h"
 class QmlPropertiesBuilder
 {
 public:
@@ -27,8 +27,8 @@ public:
     {
         Properties _props;
         _props << createProperty<AbsDartsCtx>("dartsContext",_dartsContext);
-        _props << createProperty<AbsDartsCtrl>("dsController",_dsController);
-        _props << createProperty<AbsDartsCtrl>("dpController",_dpController);
+        _props << createProperty<IDartsCtrl>("dsController",_dsController);
+        _props << createProperty<IDartsCtrl>("dpController",_dpController);
         _props << createProperty<AbsPlaCtx>("playersContext",_playerContext);
         return _props;
     }
@@ -41,8 +41,8 @@ private:
         p.value = QVariant::fromValue<T*>(value);
         return p;
     }
-    AbsDartsCtrl *_dpController;
-    AbsDartsCtrl *_dsController;
+    IDartsCtrl *_dpController;
+    IDartsCtrl *_dsController;
     AbsPlaCtx *_playerContext;
     AbsDartsCtx *_dartsContext;
 };

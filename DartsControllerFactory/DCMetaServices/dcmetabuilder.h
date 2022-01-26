@@ -4,14 +4,13 @@
 class QUuid;
 class QString;
 class QJsonObject;
-class DCMetaBuilder : public IDCMetaBuilder<DCMeta,QByteArray>
+class DCMetaBuilder : public IDCMetaBuilder<DCMeta>
 {
 public:
-    DCMeta create(MetaCtx *metaCtx, IdxCtrl *idxCtrl, PlaCtx *plaCtx) const override;
-    DCMeta create(const QByteArray &json) const override;
-    DCMeta winnerMeta(MetaCtx *metaCtx, IdxCtrl *idxCtrl, PlaCtx *plaCtx) const override;
+    DCMeta create(MetaContext *metaCtx, IdxCtrl *idxCtrl, PlaCtx *plaCtx) const override;
+    DCMeta winnerMeta(MetaContext *metaCtx, IdxCtrl *idxCtrl, PlaCtx *plaCtx) const override;
 private:
-    QJsonObject toJson(const ByteArray &byteArray) const;
+    QJsonObject toJson(const QByteArray &byteArray) const;
     DCMeta toMeta(const QJsonObject &json) const;
     QUuid toId(const QString &stringId) const;
 };

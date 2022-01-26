@@ -5,7 +5,7 @@ class QJsonDocument;
 class QJsonObject;
 class QByteArray;
 class DCInput;
-class DCInputBuilder : public IDCInputBuilder<DCInput,QByteArray,QJsonObject>
+class DCInputBuilder : public IDCInputBuilder<DCInput>
 {
 public:
     typedef QJsonDocument Doc;

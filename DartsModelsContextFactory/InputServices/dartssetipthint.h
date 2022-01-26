@@ -14,7 +14,10 @@ public:
         DisplayHint = 0x2,
         allHints = HiddenHint | DisplayHint
     };
-    virtual void setHidden(Index *index, const Meta &meta, const Models &models, GetInputs *getInputs) const override;
-    virtual void setVisible(Index *index, const Meta &meta, const Models &models, GetInputs *getInputs) const override;
+    virtual void setHidden(Index *index, const Meta &meta, const Inputs &models, GetInputs *getInputs) const override;
+    virtual void setVisible(Index *index, const Meta &meta, const Inputs &models, GetInputs *getInputs) const override;
+    void setVisible(Input *input) const override;
+private:
+    void setHint(Input *model, const ModelDisplayHint &hint) const;
 };
 #endif // DARTSSETIPTHINT_H
