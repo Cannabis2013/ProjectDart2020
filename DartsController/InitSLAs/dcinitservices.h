@@ -4,8 +4,8 @@
 class DCInitServices
 {
 public:
-    IDCInitialize *loader() const {return _loader;}
-    void setLoader(IDCInitialize *service) {_loader = service;}
+    IDCInitialize *initializer() const {return _loader;}
+    void setInitializer(IDCInitialize *service) {_loader = service;}
 private:
     IDCInitialize *_loader;
 };

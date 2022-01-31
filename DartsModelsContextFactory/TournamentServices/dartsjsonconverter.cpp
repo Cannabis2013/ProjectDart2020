@@ -66,7 +66,7 @@ IDartsTournament *DartsJsonConverter::fromJsonObject(const QJsonObject &obj) con
     tournament->setTitle(obj.value("title").toString());
     tournament->setGameMode(obj.value("gameMode").toInt());
     tournament->setKeyPoint(obj.value("initRemScore").toInt());
-    tournament->setInputMode(obj.value("inputHint").toInt());
+    tournament->setInputHint(obj.value("inputHint").toInt());
     tournament->setStatus(obj.value("status").toInt());
     tournament->setWinnerId(toId(obj,"winnerId"));
     tournament->setWinnerName(obj.value("winnerName").toString(""));

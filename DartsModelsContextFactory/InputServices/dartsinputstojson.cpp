@@ -5,11 +5,22 @@
 #include <qjsonobject.h>
 #include "InputModelsSLAs/idartsinput.h"
 #include "DbSLAs/imodelconverter.h"
-DartsInputsToJson::ByteArray DartsInputsToJson::toJson(const Models &models, Converter *cvtr) const
+#include "SLAs/dmcservices.h"
+DartsInputsToJson::DartsInputsToJson(DMCServices *services):_services(services)
+{
+    _iptsDb = services->inputServices()->inputsDb();
+    _cvtr = services->inputServices()->inputConverter();
+}
+
+DartsInputsToJson::ByteArray DartsInputsToJson::fromInputs(const QUuid &tournamentID) const
 {
     QJsonArray arr;
+    auto models = _iptsDb->models([=](Model *model){
+        auto input = dynamic_cast<IDartsInput*>(model);
+        return input->tournamentId() == tournamentID;
+    });
     for (const auto &model : qAsConst(models))
-        arr << cvtr->create(model);
+        arr << _cvtr->create(model);
     return toByteArray(arr);
 }
 

@@ -10,7 +10,7 @@ class DCPlayersSLAs
 {
 public:
     typedef AbsDCPlayersCtx<DCPlayer,DCInput> PlayerContext;
-    PlayerContext *plaCtx() const {return _scoresModels;}
+    PlayerContext *playerService() const {return _scoresModels;}
     void setPlayersContext(PlayerContext *service) {_scoresModels = service;}
     AbsDCCreateScore *scoreCalc() const {return _calculateScore;}
     void setGetScoreFromInput(AbsDCCreateScore *service) {_calculateScore = service;}

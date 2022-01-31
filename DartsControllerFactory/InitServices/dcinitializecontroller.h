@@ -12,6 +12,12 @@ public:
     // Typedefinitions
     typedef QVector<DCPlayer> Players;
     typedef QVector<DCInput> Inputs;
+    enum ControllerState {
+        Initialized,
+        Running,
+        WinnerDeclared,
+        AwaitsInput
+    };
     // Constructor
     DCInitializeController(DCServices *services);
     // Load method
@@ -20,7 +26,7 @@ public:
 private:
     void initMeta(const DCMeta &meta);
     void initPlayerDetails(const QVector<DCPlayer> &players, const DCMeta &meta);
-    void initScores(const QVector<DCInput> &inputs);
+    void initPlayerScores(const QVector<DCInput> &inputs);
     void initStatus();
     QVector<DCPlayer> updatePlayers(const QVector<DCPlayer> &players, const int &remScore);
     DCMeta _meta;

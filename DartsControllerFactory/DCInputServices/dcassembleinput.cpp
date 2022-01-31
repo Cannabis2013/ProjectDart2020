@@ -17,7 +17,7 @@ DCInput DCAssembleInput::assemble(const QByteArray &byteArray) const
     auto meta = _services->metaService()->meta();
     auto index = _services->indexService()->index();
     auto ipt = _services->iptBuilder()->create(byteArray);
-    auto player = _services->plaCtx()->player(index.playerIndex);
+    auto player = _services->playerService()->player(index.playerIndex);
     addDetails(ipt,index,meta,player);
     return ipt;
 }

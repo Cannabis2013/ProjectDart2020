@@ -29,13 +29,15 @@ HEADERS += \
     DCFinishesSLAs/idcfinishbuilder.h \
     DCIndexSLAs/idcindexcontroller.h \
     DCIndexSLAs/idcindexconverter.h \
-    DCInputSLAs/idcgetinput.h \
+    DCInputSLAs/idcexternaliptservice.h \
     DCInputSLAs/idcinputadder.h \
     DCInputSLAs/idcinputbuilder.h \
     DCMetaSLAs/idcmetabuilder.h \
     DCMetaSLAs/idcmetaconverter.h \
+    DCMetaSLAs/idcmetaservice.h \
     DCScoresSLAs/absdccreatescore.h \
     DCScoresSLAs/dcplayersslas.h \
+    DCTurnValuesSLAs/idccreateturnvalues.h \
     InitSLAs/dcinitservices.h \
     InitSLAs/idcinitialize.h \
     ModelBuilderSLAs/idcmodelconverter.h \
@@ -48,9 +50,7 @@ HEADERS += \
     DCJsonSLAs/dcjsonslas.h \
     DCJsonSLAs/idcmodeljsonbuilder.h \
     DCMetaSLAs/dcmetaslas.h \
-    DCMetaSLAs/idcmetacontext.h \
     DCScoresSLAs/absdcplayersctx.h \
-    DCTurnValuesSLAs/abstractdcturnvalues.h \
     DCTurnValuesSLAs/dcturnvaluesslas.h \
     Models/dcinput.h \
     Models/dcmeta.h \

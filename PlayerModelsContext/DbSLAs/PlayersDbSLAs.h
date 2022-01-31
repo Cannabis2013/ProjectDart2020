@@ -10,8 +10,8 @@ template<typename T, typename U, typename V>
 class IFetchDb;
 template<typename T>
 class IFileDataIO;
-template<typename T,typename U>
-class IDataBuilder;
+template<typename T>
+class IJsonBuilder;
 template<typename T, typename U>
 class IPlayerBuilder;
 class QByteArray;
@@ -25,7 +25,7 @@ public:
     typedef IPlayersDbContext<Model> DbContext;
     typedef QByteArray Json;
     typedef IPlayerBuilder<Model,Json> PlayerBuilder;
-    typedef IDataBuilder<Model,QByteArray> JsonBuilder;
+    typedef IJsonBuilder<Model> JsonBuilder;
     typedef IFileDataIO<QByteArray> IODevice;
     typedef ISavePlayers<IODevice,DbContext,JsonBuilder> SavePlayers;
     typedef IFetchDb<DbContext,IODevice,PlayerBuilder> FetchDb;

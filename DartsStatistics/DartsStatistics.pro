@@ -13,10 +13,20 @@ SOURCES += \
     dartsstatistics.cpp
 
 HEADERS += \
-    Models/stats.h \
-    SLAs/IDartsStatistics.h \
+    Db/istatsdb.h \
+    Inputs/ijsontoinput.h \
+    Routines/IJsonToModels.h \
+    Players/ijsontoplayer.h \
+    Models/playerstat.h \
+    Routines/iaddplayerstomem.h \
+    Routines/iresetmodels.h \
+    SLAs/idartsstatistics.h \
+    Inputs/inputservices.h \
+    Players/playerservices.h \
+    SLAs/routineservices.h \
+    SLAs/statisticsservices.h \
     dartsstatistics.h \
-    Models//input.h
+    Inputs/input.h
 
 # Default rules for deployment.
 unix {

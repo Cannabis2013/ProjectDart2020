@@ -1,10 +1,9 @@
 #ifndef DARTSTOURNAMENTINJECTOR_H
 #define DARTSTOURNAMENTINJECTOR_H
-class DartsSLAs;
+class DMCServices;
 class DartsTournamentInjector
 {
 public:
-    void injectServices(DartsSLAs *context);
+    void injectServices(DMCServices *context);
 };
-
 #endif // DARTSTOURNAMENTINJECTOR_H

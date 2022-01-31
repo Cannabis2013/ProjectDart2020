@@ -2,7 +2,7 @@
 #define DCMETASLAS_H
 #include "idcmetaconverter.h"
 #include "idcmetabuilder.h"
-#include "idcmetacontext.h"
+#include "idcmetaservice.h"
 class DCMetaSLAs
 {
 public:
@@ -10,7 +10,7 @@ public:
     typedef QByteArray ByteArray;
     typedef IDCMetaConverter<Meta> MetaConverter;
     typedef IDCMetaBuilder<Meta> MetaBuilder;
-    typedef IDCMetaContext<DCMeta> MetaContext;
+    typedef IDCMetaService<DCMeta> MetaContext;
     MetaContext *metaService() const {return _metaInfo;}
     void setMetaContext(MetaContext *service) {_metaInfo = service;}
     MetaBuilder *createMeta() const {return _metaBuilder;}

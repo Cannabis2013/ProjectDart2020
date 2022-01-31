@@ -1,7 +1,7 @@
 #ifndef DARTSSTATISTICS_H
 #define DARTSSTATISTICS_H
 #include <QtCore/qglobal.h>
-#include "SLAs/IDartsStatistics.h"
+#include "SLAs/idartsstatistics.h"
 #ifdef DARTSSTATISTICS_LIBRARY
 #  define DARTSSTATISTICS_EXPORT Q_DECL_EXPORT
 #else
@@ -10,7 +10,13 @@
 class DARTSSTATISTICS_EXPORT DartsStatistics : public IDartsStatistics
 {
 public:
-    virtual void init(const QVector<Input*> &data) override;
+    void initPlayers(const ByteArray &data) override;
+    void initInputs(const ByteArray &data) override;
+    void reset() override;
+    void clear() override;
+    void update(const QString &name, const int &point, const int &score, const int &modCode) override;
+    QByteArray createReport(const QString &name) const override;
+    virtual void take(const QString &name) override;
 };
 
 #endif // DARTSSTATISTICS_H

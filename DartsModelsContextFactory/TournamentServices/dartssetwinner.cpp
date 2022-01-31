@@ -3,20 +3,38 @@
 #include <qvector.h>
 #include "ModelSLAs/imodel.h"
 #include "TournamentModelsSLAs/idartstournament.h"
+#include "Models/DartsPlayer.h"
+#include "SLAs/dmcservices.h"
+#include "ForeignContextSLAs/DartsPlayerServices.h"
+#include "TournamentsSLAs/dartsservices.h"
 
-void DartsSetWinner::setWinner(const QUuid &tournamentId, const Models &models, const QString &playerName, const QUuid &playerId) const
+DartsSetWinner::DartsSetWinner(DMCServices *services):_services(services)
 {
-    auto model = findModel(tournamentId,models);
-    auto tournament = dynamic_cast<IDartsTournament*>(model);
-    tournament->setWinnerId(playerId);
-    tournament->setWinnerName(playerName);
+    _tnmServices = _services->tournamentServices();
+    _plaServices = _services->playerServices();
 }
 
-DartsSetWinner::Model *DartsSetWinner::findModel(const QUuid &tournamentId, const Models &models) const
+void DartsSetWinner::setWinner(const QUuid &tournamentId, const QString &playerName) const
 {
+    auto tournament = getTournament(tournamentId);
+    auto player = getPlayer(playerName);
+    tournament->setWinnerId(player.id);
+    tournament->setWinnerName(player.name);
+}
+
+IDartsTournament *DartsSetWinner::getTournament(const QUuid &tournamentId) const
+{
+    auto models = _tnmServices->dartsDbCtx()->models();
     for (const auto &model : models) {
         if(model->id() == tournamentId)
-            return model;
+            return dynamic_cast<IDartsTournament*>(model);
     }
     return nullptr;
+}
+
+DartsPlayer DartsSetWinner::getPlayer(const QString &name) const
+{
+    auto plaBa = _services->playersContext()->player(name);
+    if(plaBa == QByteArray()) return DartsPlayer();
+    return _plaServices->playerConverter()->player(plaBa);
 }

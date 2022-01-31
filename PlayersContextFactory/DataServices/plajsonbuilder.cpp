@@ -3,7 +3,7 @@
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 #include <qbytearray.h>
-PlaJsonBuilder::Data PlaJsonBuilder::create(const Models &models, Data &data) const
+PlaJsonBuilder::ByteArray PlaJsonBuilder::create(const Models &models, ByteArray &data) const
 {
     auto obj = toJsonObject(data);
     auto arr = toJsonArray(models);
@@ -12,7 +12,7 @@ PlaJsonBuilder::Data PlaJsonBuilder::create(const Models &models, Data &data) co
     return data;
 }
 
-PlaJsonBuilder::Data PlaJsonBuilder::create(const Models &models) const
+PlaJsonBuilder::ByteArray PlaJsonBuilder::create(const Models &models) const
 {
     auto arr = toJsonArray(models);
     return QJsonDocument(arr).toJson();
@@ -28,6 +28,8 @@ QJsonArray PlaJsonBuilder::toJsonArray(const Models &models) const
 
 QJsonObject PlaJsonBuilder::toJsonObject(Model *model) const
 {
+    if(model == nullptr)
+        throw std::invalid_argument("Model is null");
     QJsonObject obj;
     obj["id"] = model->id().toString(QUuid::WithoutBraces);
     obj["name"] = model->name();
@@ -35,8 +37,19 @@ QJsonObject PlaJsonBuilder::toJsonObject(Model *model) const
     return obj;
 }
 
-QJsonObject PlaJsonBuilder::toJsonObject(Data &data) const
+QJsonObject PlaJsonBuilder::toJsonObject(ByteArray &data) const
 {
     auto document = QJsonDocument::fromJson(data);
     return document.object();
+}
+
+
+PlaJsonBuilder::ByteArray PlaJsonBuilder::create(Model *model) const
+{
+    try {
+        auto json = toJsonObject(model);
+        return QJsonDocument(json).toJson();
+    }  catch (std::invalid_argument e) {
+        return QByteArray();
+    }
 }

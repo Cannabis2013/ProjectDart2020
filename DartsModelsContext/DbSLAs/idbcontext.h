@@ -7,15 +7,16 @@ template<typename TModel>
 class IDbContext
 {
 public:
-    virtual void add(TModel*) = 0;
-    virtual TModel* model(const int&) const = 0;
-    virtual TModel* model(std::function<bool(TModel*)>) const = 0;
+    typedef TModel Model;
+    virtual void add(Model *model) = 0;
+    virtual TModel* model(const int &index) const = 0;
+    virtual TModel* model(std::function<bool(Model*)>) const = 0;
     virtual QVector<TModel*> models() const = 0;
-    virtual QVector<TModel*> models(std::function<bool(TModel*)> predFunc) const = 0;
-    virtual void remove(const int&) = 0;
+    virtual QVector<TModel*> models(std::function<bool(Model*)> predFunc) const = 0;
+    virtual void remove(const int &index) = 0;
     virtual void remove(const QVector<int> &indexes) = 0;
-    virtual int indexOf(TModel*) const = 0;
-    virtual void replace(const int&, TModel*) = 0;
+    virtual int indexOf(Model *model) const = 0;
+    virtual void replace(const int &index, Model *model) = 0;
 };
 
 #endif // IMODELSDBCONTEXT_H

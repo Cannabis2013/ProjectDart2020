@@ -1,8 +1,8 @@
 function init()
 {
     var metaVals = initMetaData();
-    initSBHeader(metaVals);
-    initSBFields();
+    initHeader(metaVals);
+    initScoreBoard();
     setState("ready");
 }
 function setState(state)
@@ -41,14 +41,14 @@ function getPlayerNames(playerDetails)
     }
     return playerNames;
 }
-function initSBHeader(metaVals)
+function initHeader(metaVals)
 {
     var assignedPlayerNames = metaVals.assignedPlayerNames;
     var initRemScore = metaVals.initRemScore;
     singleColumnScoreBoard.appendHeaderData(assignedPlayerNames,initRemScore);
 }
 
-function initSBFields()
+function initScoreBoard()
 {
     var scores = dsController.getPlayerScores();
     var json = JSON.parse(scores);

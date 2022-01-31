@@ -3,7 +3,7 @@ QT -= gui
 DEFINES += PlaCtxLib
 
 HEADERS += \
-    DataSLAs/idatabuilder.h \
+    DataSLAs/ijsonbuilder.h \
     DbSLAs/IPlayersDbContext.h \
     DbSLAs/PlayersDbSLAs.h \
     DbSLAs/ifetchdb.h \
@@ -14,7 +14,7 @@ HEADERS += \
     IOSLAs/ifiledataio.h \
     ModelsSLAs/iduplicatechecker.h \
     ContextSLA/absplactx.h \
-    playerscontext.h
+    playerservice.h
 
 SOURCES += \
-    playerscontext.cpp
+    playerservice.cpp

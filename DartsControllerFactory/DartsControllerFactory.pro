@@ -20,14 +20,14 @@ HEADERS += \
     DCIndexServices/dcreqidxjsonbuilder.h \
     DCInputServices/dcassembleinput.h \
     DCInputServices/dcconvertinputs.h \
-    DCInputServices/dcgetinput.h \
+    DCInputServices/dcexternalinputservice.h \
     DCInputServices/dcinputbuilder.h \
     DCInputServices/dcinputjsonbuilder.h \
     DCJsonServices/dcjsonbuilder.h \
     DCMetaServices/DCMetaInfoJsonBuilder.h \
     DCMetaServices/dcmetabuilder.h \
-    DCMetaServices/dcmetacontext.h \
     DCMetaServices/dcmetaconverter.h \
+    DCMetaServices/dcmetaservice.h \
     DCMetaServices/dcsettournamentid.h \
     DCScoresServices/dcconvertplayers.h \
     DCScoresServices/dcplayerbuilder.h \
@@ -37,14 +37,13 @@ HEADERS += \
     DCServices/dcbuilderservices.h \
     DCTurnValuesServices/DCTurnValuesJsonBuilder.h \
     DCTurnValuesServices/dcturnvalues.h \
-    DPCServices/DPCTurnValuesBuilder.h \
     DPCServices/dpccreatescore.h \
     DPCServices/dpcinputadder.h \
     DPCServices/dpcinputevaluator.h \
+    DCTurnValuesServices/dccreateturnvalues.h \
     DSCServices/dsccreatescore.h \
     DSCServices/dscinputadder.h \
     DSCServices/dscinputevaluator.h \
-    DSCServices/dscvaluesbuilder.h \
     DartsAssemblers/assembledpc.h \
     DartsAssemblers/assembledsc.h \
     IndexServices/dpcindexcontroller.h \
@@ -62,7 +61,9 @@ HEADERS += \
     Injectors/dscinputinjector.h \
     Injectors/dscjsonresponseinjector.h \
     Injectors/dscstatsinjector.h \
-    ModelsComCtxServices/dcaddtomodelscontext.h \
+    Injectors/injectdpcroutines.h \
+    Injectors/injectdscroutines.h \
+    ModelsComCtxServices/dcupdatemodelscontext.h \
     PlayerStatsServices/dcstatscontext.h \
     PlayerStatsServices/dcupdatescorerange.h \
     PlayerStatsServices/dpcupdatescorerange.h \
@@ -75,7 +76,7 @@ SOURCES += \
     DCFinishesServices/defaultthresholds.cpp \
     DCInputServices/dcassembleinput.cpp \
     DCInputServices/dcconvertinputs.cpp \
-    DCInputServices/dcgetinput.cpp \
+    DCInputServices/dcexternalinputservice.cpp \
     DCInputServices/dcinputbuilder.cpp \
     DCJsonServices/dcjsonbuilder.cpp \
     DCMetaServices/dcmetabuilder.cpp \
@@ -84,6 +85,8 @@ SOURCES += \
     DCScoresServices/dcplayerbuilder.cpp \
     DCScoresServices/dpcplayerscontext.cpp \
     DCScoresServices/dscplayerscontext.cpp \
+    DPCServices/dpcinputevaluator.cpp \
+    DSCServices/dscinputevaluator.cpp \
     DartsAssemblers/assembledpc.cpp \
     DartsAssemblers/assembledsc.cpp \
     InitServices/dcinitializecontroller.cpp \
@@ -99,7 +102,9 @@ SOURCES += \
     Injectors/dscinputinjector.cpp \
     Injectors/dscjsonresponseinjector.cpp \
     Injectors/dscstatsinjector.cpp \
-    ModelsComCtxServices/dcaddtomodelscontext.cpp \
+    Injectors/injectdpcroutines.cpp \
+    Injectors/injectdscroutines.cpp \
+    ModelsComCtxServices/dcupdatemodelscontext.cpp \
     PlayerStatsServices/dcupdatescorerange.cpp \
     ServiceRoutineServices/dcresetservices.cpp \
     createdartscontroller.cpp

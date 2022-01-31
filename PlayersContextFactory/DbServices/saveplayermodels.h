@@ -5,14 +5,14 @@ class IPlayer;
 class QByteArray;
 template<typename T>
 class IPlayersDbContext;
-template<typename T, typename U>
-class IDataBuilder;
+template<typename T>
+class IJsonBuilder;
 namespace SvPlaCtx{
     typedef IPlayer Model;
     typedef QByteArray Json;
     typedef IPlayersDbContext<Model> DbCtx;
     typedef IFileDataIO<QByteArray> FileDataIO;
-    typedef IDataBuilder<Model,Json> DataAdder;
+    typedef IJsonBuilder<Model> DataAdder;
 }
 class SavePlayerModels : public ISavePlayers<SvPlaCtx::FileDataIO,
         SvPlaCtx::DbCtx,SvPlaCtx::DataAdder>

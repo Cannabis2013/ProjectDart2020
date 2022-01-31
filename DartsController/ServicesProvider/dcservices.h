@@ -11,24 +11,21 @@
 #include "DCFinishesSLAs/dcfinishesservices.h"
 #include "InitSLAs/dcinitservices.h"
 class DCServices : public DCMetaSLAs,
-                             public DCFinishesSLAs,
-                             public DCTurnvaluesSLAs,
-                             public DCJsonSLAs,
-                             public DCPlayersSLAs,
-                             public DCInputsSLAs,
-                             public DCIndexSLAs,
-                             public PlayerStatsSLAs,
-                             public DCInitServices,
-                             public DCRoutines
+                   public DCFinishesSLAs,
+                   public DCTurnvaluesSLAs,
+                   public DCJsonSLAs,
+                   public DCPlayersSLAs,
+                   public DCInputsSLAs,
+                   public DCIndexSLAs,
+                   public PlayerStatsSLAs,
+                   public DCInitServices,
+                   public DCRoutines
 {
 public:
     void setModelsContext(AbsDartsCtx *context) {_modelsContext = context;}
     AbsDartsCtx *mdsCtx() {return _modelsContext;}
 protected:
-    void hideInput();
-    void revealInput();
     void updateServices(const DCInput &ipt);
-    DCTurnValues createCurrentTurnValues() const;
 private:
     AbsDartsCtx *_modelsContext = nullptr;
 };

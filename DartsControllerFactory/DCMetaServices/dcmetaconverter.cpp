@@ -23,9 +23,11 @@ DCMeta DCMetaConverter::toMeta(const QJsonObject &json) const
     meta.playersCount = json.value("assignedPlayersCount").toInt();
     meta.tournamentId = toId(json.value("tournamentId").toString());
     meta.winnerName = json.value("winnerName").toString();
-    meta.index.roundIndex = json.value("roundIndex").toInt();
-    meta.index.playerIndex = json.value("playerIndex").toInt();
-    meta.index.attemptIndex = json.value("attemptIndex").toInt();
+    auto roundIndex = json.value("roundIndex").toInt(1);
+    if(roundIndex > 0)
+        meta.index.roundIndex = roundIndex;
+    meta.index.playerIndex = json.value("playerIndex").toInt(0);
+    meta.index.attemptIndex = json.value("attemptIndex").toInt(0);
     return meta;
 }
 

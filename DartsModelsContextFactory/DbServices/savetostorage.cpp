@@ -25,15 +25,10 @@ QJsonArray SaveToStorage::toJsonArray(const Models &models, Converter *cvtr)
     return arr;
 }
 
-QByteArray SaveToStorage::toData(const QJsonObject &obj)
-{
-    return QJsonDocument(obj).toJson();
-}
-
 bool SaveToStorage::save(const QVector<BaseModel *> &models, JsonBuilder *builder, Converter *converter, IODevice *ioDevice)
 {
     auto bytearray = ioDevice->read();
     auto fileContentAsJson = toJsonObject(bytearray);
     auto json = builder->toJsonObject(fileContentAsJson,models,converter);
-    return ioDevice->save(toData(json));
+    return ioDevice->save(QJsonDocument(json).toJson());
 }

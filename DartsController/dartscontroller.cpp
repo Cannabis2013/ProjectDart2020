@@ -4,12 +4,12 @@
 #include "Models/dcinput.h"
 #include "Models/dcmeta.h"
 QString DartsController::tournamentId() const {return metaService()->tournamentId().toString(QUuid::WithBraces);}
-QByteArray DartsController::getPlayerScores() const {return createJson()->create(plaCtx()->players(),statisticsService()->stats());}
+QByteArray DartsController::getPlayerScores() const {return createJson()->create(playerService()->players(),statisticsService()->stats());}
 int DartsController::status() const {return metaService()->status();}
 int DartsController::initialize(const QUuid &tournamentId)
 {
-    loader()->init(tournamentId,mdsCtx());
-    return metaService()->Initialized;
+    initializer()->init(tournamentId,mdsCtx());
+    return metaService()->status();
 }
 QByteArray DartsController::addInput(const QByteArray& json)
 {
@@ -26,21 +26,22 @@ bool DartsController::reset()
 }
 QByteArray DartsController::undoTurn()
 {
-    hideInput();
-    auto ipt = getInputFromMdsService()->getPreviousInput();
+    indexService()->undo();
+    externalInputService()->hideInput();
+    auto ipt = externalInputService()->getPreviousInput();
     updateServices(ipt);
     return createJson()->create(ipt,metaService()->meta());
 }
 QByteArray DartsController::redoTurn()
 {
-    revealInput();
-    auto ipt = getInputFromMdsService()->getCurrentInput();
+    externalInputService()->displayInput();
+    auto ipt = externalInputService()->getCurrentInput();
     updateServices(ipt);
     indexService()->redo();
     return createJson()->create(ipt,metaService()->meta());
 }
 QByteArray DartsController::getTurnValues() const {
-    auto values = createCurrentTurnValues();
+    auto values = turnValuesBuilder()->create();
     return createJson()->create(values,metaService()->meta());
 }
-QByteArray DartsController::getWinnerJson() const {return createJson()->create(createMeta()->winnerMeta(metaService(),indexService(),plaCtx()));}
+QByteArray DartsController::getWinnerJson() const {return createJson()->create(createMeta()->winnerMeta(metaService(),indexService(),playerService()));}

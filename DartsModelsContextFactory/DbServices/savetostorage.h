@@ -19,7 +19,6 @@ public:
 private:
     QJsonObject toJsonObject(const QByteArray &byteArray);
     QJsonArray toJsonArray(const Models &models, Converter *cvtr);
-    QByteArray toData(const QJsonObject &obj);
 };
 
 

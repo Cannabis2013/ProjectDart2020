@@ -1,10 +1,10 @@
 #ifndef LOCALPERSISTENCEINJECTOR_H
 #define LOCALPERSISTENCEINJECTOR_H
-class PersistenceSLAs;
+class DMCServices;
 class LocalPersistenceInjector
 {
 public:
-    void inject(PersistenceSLAs *context);
+    void inject(DMCServices *context);
 };
 
 #endif // LOCALPERSISTENCEINJECTOR_H

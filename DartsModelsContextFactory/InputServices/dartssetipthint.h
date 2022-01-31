@@ -1,23 +1,33 @@
 #ifndef DARTSSETIPTHINT_H
 #define DARTSSETIPTHINT_H
 #include "InputSLAs/IDartsSetIptHint.h"
-class DartsMetaModel;
+
 class IDartsIndex;
+template<typename T> class IDartsIdxBuilder;
+template<typename T> class IDbContext;
+class DartsInputServices;
+class DMCServices;
 class QUuid;
-template<typename T>
-class IModel;
-class DartsSetIptHint : public IDartsSetIptHint<IModel<QUuid>,IDartsIndex,DartsMetaModel>
+template<typename T> class IModel;
+class DartsSetIptHint : public IDartsSetIptHint<IModel<QUuid>>
 {
 public:
+    typedef IDartsIdxBuilder<IDartsIndex> IdxBuilder;
+    typedef IDbContext<Model> DbContext;
     enum ModelDisplayHint{
         HiddenHint = 0x1,
         DisplayHint = 0x2,
         allHints = HiddenHint | DisplayHint
     };
-    virtual void setHidden(Index *index, const Meta &meta, const Inputs &models, GetInputs *getInputs) const override;
-    virtual void setVisible(Index *index, const Meta &meta, const Inputs &models, GetInputs *getInputs) const override;
-    void setVisible(Input *input) const override;
+    DartsSetIptHint(DMCServices *services);
+    virtual void setHidden(QUuid tournamentID, QString name, const QByteArray &idxBa) const override;
+    virtual void setVisible(QUuid tournamentID, QString name, const QByteArray &idxBa) const override;
+    void setVisible(Model *input) const override;
 private:
-    void setHint(Input *model, const ModelDisplayHint &hint) const;
+    void setHint(Model *model, const ModelDisplayHint &hint) const;
+    DMCServices *_services;
+    DartsInputServices *_iptServices;
+    DbContext *_iptsDb;
+    IdxBuilder *_idxCvtr;
 };
 #endif // DARTSSETIPTHINT_H

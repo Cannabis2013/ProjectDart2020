@@ -5,6 +5,6 @@
 
 void DCInjectRoutineServices::inject(DCServices *dc) const
 {
-    dc->setLoader(new DCInitializeController(dc));
+    dc->setInitializer(new DCInitializeController(dc));
     dc->setResetServices(new DCResetServices(dc));
 }

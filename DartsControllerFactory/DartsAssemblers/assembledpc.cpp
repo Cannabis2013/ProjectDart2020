@@ -6,7 +6,7 @@
 #include "Injectors/dpcinjectiptservices.h"
 #include "Injectors/dpcinjectidxservices.h"
 #include "Injectors/dpcinjectstatsservices.h"
-#include "DPCServices/DPCTurnValuesBuilder.h"
+#include "Injectors/injectdpcroutines.h"
 
 AssembleDPC::AssembleDPC()
 {
@@ -16,6 +16,7 @@ AssembleDPC::AssembleDPC()
     injectIptServices = new DPCInjectIptServices;
     injectIdxServices = new DPCInjectIdxServices;
     injectStatsServices = new DPCInjectStatsServices;
+    injectRoutines = new InjectDPCRoutines;
 }
 
 IDartsCtrl *AssembleDPC::assemble()
@@ -27,6 +28,6 @@ IDartsCtrl *AssembleDPC::assemble()
     injectIptServices->inject(dc);
     injectIdxServices->inject(dc);
     injectStatsServices->inject(dc);
-    dc->setTurnValuesBuilder(new DPCTurnValuesBuilder);
+    injectRoutines->inject(dc);
     return dc;
 }

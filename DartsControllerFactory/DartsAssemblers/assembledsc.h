@@ -1,5 +1,7 @@
 #ifndef ASSEMBLEDSC_H
 #define ASSEMBLEDSC_H
+
+class InjectDSCRoutines;
 class DCInjectRoutineServices;
 class DSCStatsInjector;
 class DSCJsonResponseInjector;
@@ -23,5 +25,6 @@ private:
     DSCJsonResponseInjector *jsonInjector;
     DSCStatsInjector *statsInjector;
     DCInjectRoutineServices *loaderInjector;
+    InjectDSCRoutines *injectRoutines;
 };
 #endif // DEFAULTDARTSSCORECONTROLLER_H

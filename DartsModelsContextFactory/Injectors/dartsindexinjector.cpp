@@ -1,9 +1,10 @@
 #include "dartsindexinjector.h"
-#include "IndexesSLAs/dartsindexslas.h"
+#include "IndexesSLAs/dartsindexservices.h"
 #include "IndexesServices/dartsindexbuilder.h"
-#include "IndexesServices/updatedartsindexes.h"
-void DartsIndexInjector::injectServices(DartsIndexSLAs *context)
+#include "SLAs/dmcservices.h"
+void DartsIndexInjector::injectServices(DMCServices *context)
 {
-    context->setUpdateIndexes(new UpdateDartsIndexes);
-    context->setIndexBuilder(new DartsIndexBuilder);
+    auto idxServices = new DartsIndexServices;
+    idxServices->setIndexBuilder(new DartsIndexBuilder);
+    context->setIndexServices(idxServices);
 }

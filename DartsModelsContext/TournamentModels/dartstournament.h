@@ -9,7 +9,7 @@ public:
     int initialRemaining() const override {return _keyPoint;}
     void setKeyPoint(const int &val) override {_keyPoint = val;}
     int inputHint() const override {return _inputHint;}
-    void setInputMode(const int &inputMode) override {_inputHint = inputMode;}
+    void setInputHint(const int &inputMode) override {_inputHint = inputMode;}
     bool entryRestricted() const override {return _entryRestricted;}
     void setEntryRestricted(const bool &restricted) override {_entryRestricted = restricted;}
     QVector<QUuid> playerIds() const override {return _ids;}

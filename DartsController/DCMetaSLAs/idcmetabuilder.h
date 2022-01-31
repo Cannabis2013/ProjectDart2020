@@ -11,13 +11,13 @@ class AbsDCPlayersCtx;
 template<typename T, typename U>
 class IDCIndexController;
 template<typename T>
-class IDCMetaContext;
+class IDCMetaService;
 template<typename TModel>
 class IDCMetaBuilder
 {
 public:
     typedef TModel Meta;
-    typedef IDCMetaContext<DCMeta> MetaContext;
+    typedef IDCMetaService<DCMeta> MetaContext;
     typedef IDCIndexController<DCIndex,DCMeta> IdxCtrl;
     typedef AbsDCPlayersCtx<DCPlayer,DCInput> PlaCtx;
     virtual Meta create(MetaContext *metaCtx, IdxCtrl *idxCtrl, PlaCtx *plaCtx) const = 0;

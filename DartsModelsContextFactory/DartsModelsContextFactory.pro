@@ -13,22 +13,36 @@ SOURCES += \
     DbServices/loadfromstorage.cpp \
     DbServices/savetostorage.cpp \
     IndexesServices/dartsindexbuilder.cpp \
+    IndexesServices/updatedartsindexes.cpp \
     Injectors/dartsindexinjector.cpp \
     Injectors/dartsinputinjector.cpp \
+    Injectors/dartsplayerinjector.cpp \
     Injectors/dartstournamentinjector.cpp \
+    Injectors/injectdartsroutines.cpp \
     Injectors/localpersistenceinjector.cpp \
+    InputServices/dartsaddinputtodb.cpp \
     InputServices/dartsdbinputstojson.cpp \
     InputServices/dartsinputconverter.cpp \
     InputServices/dartsinputstojson.cpp \
+    InputServices/dartsinputtojson.cpp \
     InputServices/dartssetipthint.cpp \
     InputServices/getdartsinputs.cpp \
     InputServices/jsontodartsinputs.cpp \
     InputServices/removedartsinputs.cpp \
+    PersistServices/dartspersist.cpp \
+    PlayerServices/dartsconvertplayer.cpp \
+    TournamentServices/dartsbuilder.cpp \
+    TournamentServices/dartscreatetournament.cpp \
     TournamentServices/dartsjsonconverter.cpp \
     TournamentServices/dartsmetamodelbuilder.cpp \
+    TournamentServices/dartsremovetournaments.cpp \
+    TournamentServices/dartsresettournament.cpp \
     TournamentServices/dartssetwinner.cpp \
+    TournamentServices/dartstournamentrepair.cpp \
+    TournamentServices/dartsverifyconsistency.cpp \
     TournamentServices/dartwinnermodelbuilder.cpp \
     TournamentServices/jsontodartsmodels.cpp \
+    TournamentsDbServices/dartsconverttojson.cpp \
     createdartscontext.cpp
 
 HEADERS += \
@@ -42,14 +56,18 @@ HEADERS += \
     IndexesServices/updatedartsindexes.h \
     Injectors/dartsindexinjector.h \
     Injectors/dartsinputinjector.h \
+    Injectors/dartsplayerinjector.h \
     Injectors/dartstournamentinjector.h \
+    Injectors/injectdartsroutines.h \
     Injectors/localpersistenceinjector.h \
     InputServices/countdartsinputs.h \
+    InputServices/dartsaddinputtodb.h \
     InputServices/dartsdbinputstojson.h \
     InputServices/dartsinput.h \
     InputServices/dartsinputbuilder.h \
     InputServices/dartsinputconverter.h \
     InputServices/dartsinputstojson.h \
+    InputServices/dartsinputtojson.h \
     InputServices/dartsiptsdbctx.h \
     InputServices/dartssetipthint.h \
     InputServices/getdartsinputs.h \
@@ -57,20 +75,23 @@ HEADERS += \
     InputServices/removedartsinputs.h \
     InputServices/sortdartsinputs.h \
     InputServices/sortdartsinputsbyindexes.h \
+    PersistServices/dartspersist.h \
+    PlayerServices/dartsconvertplayer.h \
     TournamentServices/GetDartsTournamentIds.h \
     TournamentServices/dartsbuilder.h \
+    TournamentServices/dartscreatetournament.h \
     TournamentServices/dartsjsonconverter.h \
     TournamentServices/dartsmetamodelbuilder.h \
+    TournamentServices/dartsremovetournaments.h \
+    TournamentServices/dartsresettournament.h \
     TournamentServices/dartssetwinner.h \
     TournamentServices/dartstournamentrepair.h \
     TournamentServices/dartsverifyconsistency.h \
     TournamentServices/dartwinnermodelbuilder.h \
     TournamentServices/getdartstournamentfromdb.h \
     TournamentServices/jsontodartsmodels.h \
-    TournamentServices/resetdartstournament.h \
-    TournamentServices/setdartsplayerdetails.h \
+    TournamentsDbServices/dartsconverttojson.h \
     TournamentsDbServices/dartsdbcontext.h \
-    TournamentsDbServices/dartsjsonbuilder.h \
     createdartscontext.h
 
 # Default rules for deployment.

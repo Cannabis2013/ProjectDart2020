@@ -10,7 +10,7 @@ class IDartsSetWinner
 public:
     typedef TModel Model;
     typedef QVector<Model*> Models;
-    virtual void setWinner(const QUuid &tournamentId, const Models &models, const QString &name, const QUuid &iplayerId) const = 0;
+    virtual void setWinner(const QUuid &tournamentId, const QString &name) const = 0;
 };
 
 #endif // IDARTSSETWINNER_H

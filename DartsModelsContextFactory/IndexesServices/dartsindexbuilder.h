@@ -4,7 +4,7 @@
 class QJsonObject;
 class QByteArray;
 class IDartsIndex;
-class DartsIndexBuilder : public IDartsIdxBuilder<IDartsIndex,QByteArray>
+class DartsIndexBuilder : public IDartsIdxBuilder<IDartsIndex>
 {
 public:
     virtual Index *create(const ByteArray &vals) const override;

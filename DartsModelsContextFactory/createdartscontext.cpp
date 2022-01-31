@@ -3,31 +3,48 @@
 #include "Injectors/dartstournamentinjector.h"
 #include "Injectors/dartsindexinjector.h"
 #include "Injectors/localpersistenceinjector.h"
-#include "TournamentsDbSLAs/persistenceslas.h"
+#include "TournamentsDbSLAs/persistenceservices.h"
 #include "dartscontext.h"
+#include "Injectors/dartsplayerinjector.h"
+#include "Injectors/injectdartsroutines.h"
 CreateDartsContext::CreateDartsContext()
 {
-    inputInjector = new DartsInputInjector;
     tournamentInjector = new DartsTournamentInjector;
+    inputInjector = new DartsInputInjector;
     indexInjector = new DartsIndexInjector;
     persInjector = new LocalPersistenceInjector;
+    injectPlaServices = new DartsPlayerInjector;
+    injectRoutineServices = new InjectDartsRoutines();
 }
 
 AbsDartsCtx *CreateDartsContext::localJson(AbsPlaCtx *playersContext) const
 {
-    auto context = new DartsContext(playersContext);
-    tournamentInjector->injectServices(context);
-    inputInjector->injectServices(context);
-    indexInjector->injectServices(context);
-    persInjector->inject(context);
+    auto context = new DartsContext;
+    context->setPlayersContext(playersContext);
+    injectServices(context);
+    injectRoutineServices->inject(context);
     fetchContext(context);
     return context;
 }
 
+void CreateDartsContext::injectServices(DMCServices *context) const
+{
+    tournamentInjector->injectServices(context);
+    inputInjector->injectServices(context);
+    indexInjector->injectServices(context);
+    persInjector->inject(context);
+    injectPlaServices->inject(context);
+}
+
 void CreateDartsContext::fetchContext(AbsDartsCtx *context) const
 {
-    context->loadFromStorage()->load(context->dartsDbCtx(),context->jsonToTournaments(),
-                                     context->dartsConverter(),context->ioDevice());
-    context->loadFromStorage()->load(context->inputsDb(),context->jsonToInputs(),
-                                     context->inputConverter(),context->ioDevice());
+    auto dartsDb = context->tournamentServices()->dartsDbCtx();
+    auto jsonToTnms = context->tournamentServices()->jsonToTournaments();
+    auto jsonToTnm = context->tournamentServices()->dartsConverter();
+    auto ioDevice = context->persistenceServices()->ioDevice();
+    auto iptsDb = context->inputServices()->inputsDb();
+    auto jsonToIpts = context->inputServices()->jsonToInputs();
+    auto jsonToIpt = context->inputServices()->inputConverter();
+    context->persistenceServices()->loadFromStorage()->load(dartsDb,jsonToTnms, jsonToTnm,ioDevice);
+    context->persistenceServices()->loadFromStorage()->load(iptsDb,jsonToIpts, jsonToIpt,ioDevice);
 }

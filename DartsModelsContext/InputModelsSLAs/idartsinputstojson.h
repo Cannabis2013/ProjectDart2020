@@ -1,20 +1,17 @@
 #ifndef IDARTSINPUTSTOJSON_H
 #define IDARTSINPUTSTOJSON_H
+class QUuid;
 class QJsonObject;
 class QByteArray;
 template<typename T>
 class QVector;
-template<typename T>
-class IModelConverter;
-template<typename TBaseModel>
+template<typename TModel>
 class IDartsInputsToJson
 {
 public:
-    typedef TBaseModel BaseModel;
-    typedef QVector<BaseModel*> Models;
+    typedef TModel Model;
+    typedef QVector<Model*> Models;
     typedef QByteArray ByteArray;
-    typedef QJsonObject Json;
-    typedef IModelConverter<BaseModel> Converter;
-    virtual ByteArray toJson(const Models &models, Converter *cvtr) const = 0;
+    virtual ByteArray fromInputs(const QUuid &tournamentID) const = 0;
 };
 #endif // IINPUTSTOJSON_H

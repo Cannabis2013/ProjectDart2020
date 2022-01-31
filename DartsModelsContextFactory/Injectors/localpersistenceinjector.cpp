@@ -1,11 +1,14 @@
 #include "localpersistenceinjector.h"
-#include "TournamentsDbSLAs/persistenceslas.h"
+#include "TournamentsDbSLAs/persistenceservices.h"
 #include "FileIOServices/filejsonio.h"
 #include "DbServices/loadfromstorage.h"
 #include "DbServices/savetostorage.h"
-void LocalPersistenceInjector::inject(PersistenceSLAs *context)
+#include "SLAs/dmcservices.h"
+void LocalPersistenceInjector::inject(DMCServices *context)
 {
-    context->setIoDevice(new FileJsonIO("DartsData"));
-    context->setLoadFromStorage(new LoadFromStorage);
-    context->setSaveToStorage(new SaveToStorage);
+    auto persServices = new PersistenceServices;
+    persServices->setIoDevice(new FileJsonIO("DartsData"));
+    persServices->setLoadFromStorage(new LoadFromStorage);
+    persServices->setSaveToStorage(new SaveToStorage);
+    context->setPersistenceServices(persServices);
 }

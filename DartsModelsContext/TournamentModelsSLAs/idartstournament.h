@@ -8,10 +8,11 @@ class QUuid;
 class IDartsTournament : public IModel<QUuid>
 {
 public:
+    virtual ~IDartsTournament() = default;
     virtual int initialRemaining() const = 0;
     virtual void setKeyPoint(const int &val) = 0;
     virtual int inputHint() const = 0;
-    virtual void setInputMode(const int &inputMode) = 0;
+    virtual void setInputHint(const int &inputMode) = 0;
     virtual bool entryRestricted() const = 0;
     virtual void setEntryRestricted(const bool &restricted) = 0;
     virtual QString title() const = 0;

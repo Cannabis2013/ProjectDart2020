@@ -1,10 +1,10 @@
 #ifndef DARTSINDEXINJECTOR_H
 #define DARTSINDEXINJECTOR_H
-class DartsIndexSLAs;
+class DMCServices;
 class DartsIndexInjector
 {
 public:
-    void injectServices(DartsIndexSLAs *context);
+    void injectServices(DMCServices *context);
 };
 
 #endif // DARTSINDEXINJECTOR_H

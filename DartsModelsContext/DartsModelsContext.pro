@@ -7,12 +7,15 @@ HEADERS += \
     DbSLAs/abstractloadmodels.h \
     DbSLAs/abstractsavetostorage.h \
     DbSLAs/iconvertfromdata.h \
+    DbSLAs/idartspersist.h \
     DbSLAs/idbcontext.h \
     DbSLAs/idbjsonbuilder.h \
     DbSLAs/imodelconverter.h \
     FileIOSLAs/ifiledataio.h \
+    ForeignContextSLAs/DartsPlayerServices.h \
+    ForeignContextSLAs/IDartsConvertPlayer.h \
     IndexesDbSLAs/idartsindex.h \
-    IndexesSLAs/dartsindexslas.h \
+    IndexesSLAs/dartsindexservices.h \
     IndexesSLAs/idartsidxbuilder.h \
     IndexesSLAs/idcidxbuilder.h \
     IndexesSLAs/iupdatedartsindexes.h \
@@ -22,30 +25,35 @@ HEADERS += \
     InputModelsSLAs/idartsinputstojson.h \
     InputModelsSLAs/iplayerinput.h \
     InputSLAs/IDartsSetIptHint.h \
-    InputSLAs/dartsiptslas.h \
+    InputSLAs/dartsinputservices.h \
     InputSLAs/icountinputmodels.h \
+    InputSLAs/idartsaddinputtodb.h \
+    InputSLAs/idartsinputtojson.h \
     InputSLAs/isortinputmodels.h \
     InputsDbSLAs/idartsinputbuilder.h \
     InputsDbSLAs/igetinputs.h \
     InputsDbSLAs/iremovedartsinputs.h \
     ModelSLAs/imodel.h \
+    Models/DartsPlayer.h \
     PredicateSLAs/imodelpredicate.h \
     SLAs/absdartsctx.h \
+    SLAs/dmcservices.h \
     TournamentModels/dartsmetamodel.h \
     TournamentModels/dartstournament.h \
     TournamentModelsSLAs/idartstournament.h \
     TournamentsDbSLAs/idartsbuilder.h \
     TournamentsDbSLAs/igetdartstournament.h \
     TournamentsDbSLAs/itournamentjsonbuilder.h \
-    TournamentsDbSLAs/persistenceslas.h \
+    TournamentsDbSLAs/persistenceservices.h \
+    TournamentsSLAs/IDartsRemoveTournaments.h \
     TournamentsSLAs/IDartsSetWinner.h \
-    TournamentsSLAs/dartsslas.h \
+    TournamentsSLAs/dartsservices.h \
     TournamentsSLAs/idartsconsistency.h \
     TournamentsSLAs/idartscreatemeta.h \
+    TournamentsSLAs/idartscreatetournament.h \
+    TournamentsSLAs/idartsresettournament.h \
     TournamentsSLAs/idmcaddindexestotournament.h \
     TournamentsSLAs/igettournamentids.h \
-    TournamentsSLAs/iresetdartstournament.h \
-    TournamentsSLAs/isettournamentplayerdetails.h \
     TournamentsSLAs/itournamentrepair.h \
     TournamentsSLAs/iwinnerinfobuilder.h \
     dartscontext.h

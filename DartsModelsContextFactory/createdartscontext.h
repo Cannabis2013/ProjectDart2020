@@ -1,6 +1,9 @@
 #ifndef CREATEDARTSCONTEXT_H
 #define CREATEDARTSCONTEXT_H
 #include <qobject.h>
+class InjectDartsRoutines;
+class DartsPlayerInjector;
+class DMCServices;
 class LocalPersistenceInjector;
 class DartsIndexInjector;
 class DartsTournamentInjector;
@@ -18,10 +21,13 @@ public:
     CreateDartsContext();
     AbsDartsCtx *localJson(AbsPlaCtx *playersContext) const;
 private:
+    void injectServices(DMCServices *context) const;
     void fetchContext(AbsDartsCtx *context) const;
     DartsTournamentInjector *tournamentInjector;
     DartsInputInjector *inputInjector;
     DartsIndexInjector *indexInjector;
     LocalPersistenceInjector *persInjector;
+    DartsPlayerInjector *injectPlaServices;
+    InjectDartsRoutines *injectRoutineServices;
 };
 #endif // DARTSMODELSSERVICEWITHJSONDB_H

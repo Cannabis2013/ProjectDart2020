@@ -6,10 +6,7 @@
 #include "qjsonobject.h"
 #include "ServicesProvider/dcservices.h"
 
-DCInitializeController::DCInitializeController(DCServices *services)
-{
-    _services = services;
-}
+DCInitializeController::DCInitializeController(DCServices *services): _services(services){}
 
 void DCInitializeController::init(const QUuid &tournamentId, AbsDartsCtx *ctx)
 {
@@ -21,7 +18,8 @@ void DCInitializeController::init(const QUuid &tournamentId, AbsDartsCtx *ctx)
     auto inputs = _services->convertInputs()->convert(ctx->inputs(tournamentId),convertInput);
     initMeta(meta);
     initPlayerDetails(players,meta);
-    initScores(inputs);
+    initPlayerScores(inputs);
+    _services->metaService()->setStatus(Initialized);
 }
 
 void DCInitializeController::initMeta(const DCMeta &meta)
@@ -32,13 +30,13 @@ void DCInitializeController::initMeta(const DCMeta &meta)
 
 void DCInitializeController::initPlayerDetails(const QVector<DCPlayer> &players, const DCMeta &meta)
 {
-    _services->plaCtx()->addPlayers(updatePlayers(players,meta.initRemScore));
+    _services->playerService()->addPlayers(updatePlayers(players,meta.initRemScore));
     _services->statisticsService()->setPlayers(players);
 }
 
-void DCInitializeController::initScores(const QVector<DCInput> &inputs)
+void DCInitializeController::initPlayerScores(const QVector<DCInput> &inputs)
 {
-    _services->plaCtx()->updateScores(inputs);
+    _services->playerService()->updateScores(inputs);
     _services->statisticsService()->update(inputs);
 }
 
@@ -46,9 +44,9 @@ void DCInitializeController::initStatus()
 {
     auto meta = &_services->metaService()->meta();
     if(meta->winnerName == QString())
-        meta->status = IDCMetaContext<DCMeta>::Initialized;
+        meta->status = IDCMetaService<DCMeta>::Initialized;
     else
-        meta->status = IDCMetaContext<DCMeta>::WinnerDeclared;
+        meta->status = IDCMetaService<DCMeta>::WinnerDeclared;
 }
 
 QVector<DCPlayer> DCInitializeController::updatePlayers(const QVector<DCPlayer> &players, const int &remScore)
