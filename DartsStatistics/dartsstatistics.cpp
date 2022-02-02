@@ -27,17 +27,17 @@ void DartsStatistics::clear()
 
 void DartsStatistics::update(const QString &name, const int &point, const int &score, const int &modCode)
 {
-    /*
-     * Todo:
-     *  - Calculate statistics data
-     *  - Update player model
-     */
+    auto input = inputServices()->createInput()->create(name,point,score,modCode);
+    updatePlayerStatistics()->update(input);
 }
 
 QByteArray DartsStatistics::createReport(const QString &name) const
 {
+    auto player = getPlayer()->get(name);
+    auto report = reportServices()->createReport()->create(player);
+    return report;
 }
 
-void DartsStatistics::take(const QString &name)
+void DartsStatistics::takeInput(const QString &name)
 {
 }

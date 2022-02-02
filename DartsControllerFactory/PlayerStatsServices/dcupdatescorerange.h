@@ -1,8 +1,8 @@
 #ifndef DCUPDATESCORERANGE_H
 #define DCUPDATESCORERANGE_H
-#include "PlayerStatsSLAs/idcsetiptstats.h"
+#include "PlayerStatsSLAs/idcupdatescorerange.h"
 class DCServices;
-class DCUpdateScoreRange : public IDCSetIptStats
+class DCUpdateScoreRange : public IDCUpdateScoreRange
 {
 public:
     DCUpdateScoreRange(DCServices *services);

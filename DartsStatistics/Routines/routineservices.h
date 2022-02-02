@@ -1,11 +1,13 @@
 #ifndef ROUTINESERVICES_H
 #define ROUTINESERVICES_H
 #include "Routines/IJsonToModels.h"
-#include "Models/playerstat.h"
+#include "Players/Models/playerstat.h"
 #include "Routines/iaddplayerstomem.h"
-#include "Inputs/input.h"
+#include "Inputs/Models/input.h"
 #include "Routines/iresetmodels.h"
-class StatsRoutineServices
+#include "IAddStatsToPlayer.h"
+#include "igetplayer.h"
+class RoutineServices
 {
 public:
     typedef PlayerStat Player;
@@ -25,6 +27,10 @@ public:
     void setResetPlayers(IResetModels *service) {_resetPlayers = service;}
     IResetModels *resetInputs() const {return _resetInputs;}
     void setResetInputs(IResetModels *service) {_resetInputs = service;}
+    IAddStatsToPlayer *updatePlayerStatistics() const {return _updateStats;}
+    void setUpdateStats(IAddStatsToPlayer *newUpdateStats) {_updateStats = newUpdateStats;}
+    IGetPlayer *getPlayer() const {return _getPlayer;}
+    void setGetPlayer(IGetPlayer *newGetPlayer) {_getPlayer = newGetPlayer;}
 private:
     JsonToPlayers *_convertToPlayers;
     AddPlayersToMemory *_addPlayersToMemory;
@@ -32,5 +38,7 @@ private:
     AddInputsToMemory *_addInputsToMemory;
     IResetModels *_resetPlayers;
     IResetModels *_resetInputs;
+    IAddStatsToPlayer *_updateStats;
+    IGetPlayer *_getPlayer;
 };
 #endif // ROUTINESERVICES_H

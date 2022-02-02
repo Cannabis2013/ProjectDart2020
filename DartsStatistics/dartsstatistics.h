@@ -16,7 +16,7 @@ public:
     void clear() override;
     void update(const QString &name, const int &point, const int &score, const int &modCode) override;
     QByteArray createReport(const QString &name) const override;
-    virtual void take(const QString &name) override;
+    virtual void takeInput(const QString &name) override;
 };
 
 #endif // DARTSSTATISTICS_H

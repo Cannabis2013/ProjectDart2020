@@ -57,10 +57,10 @@ HEADERS += \
     Models/dcplayer.h \
     Models/dcstatsmodel.h \
     Models/dcturnvalues.h \
+    PlayerStatsSLAs/idcupdatescorerange.h \
     RoutineSLAs/idcaddtomdsctx.h \
     ModelsConverterSLAs/idcmodelsconverter.h \
     PlayerStatsSLAs/dcinputstatsslas.h \
-    PlayerStatsSLAs/idcsetiptstats.h \
     PlayerStatsSLAs/idcstatistics.h \
     DCInputSLAs/idcassembleinput.h \
     RoutineServices/dcroutines.h \

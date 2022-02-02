@@ -1,6 +1,6 @@
 #ifndef DPCUPDATESCORERANGE_H
 #define DPCUPDATESCORERANGE_H
-#include "PlayerStatsSLAs/idcsetiptstats.h"
+#include "PlayerStatsSLAs/idcupdatescorerange.h"
 #include "PlayerStatsSLAs/idcstatistics.h"
 #include "Models/dcinput.h"
 #include "Models/dcindex.h"
@@ -8,7 +8,7 @@
 #include <QRegExp>
 #include "ServicesProvider/dcservices.h"
 #include "Models/dcmeta.h"
-class DPCUpdateScoreRange : public IDCSetIptStats
+class DPCUpdateScoreRange : public IDCUpdateScoreRange
 {
 public:
     DPCUpdateScoreRange(DCServices *services):_services(services){}
