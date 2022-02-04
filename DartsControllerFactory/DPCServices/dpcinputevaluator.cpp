@@ -7,7 +7,7 @@ void DPCInputEvaluator::eval(DCInput &input)
     auto meta = &_services->metaService()->meta();
     auto idx = _services->indexService()->index();
     auto player = _services->playerService()->player(idx.playerIndex);
-    auto scoreCand = _services->scoreCalc()->calc(input.score,player.remScore);
+    auto scoreCand = calcScore(input.score,player.remScore);
     if(!player.in && meta->entryRestricted)
         playerHasNotEntered(input,scoreCand);
     else
@@ -42,4 +42,12 @@ void DPCInputEvaluator::setWinnerValues(DCInput &ipt, DCMeta *meta)
     ipt.remScore = 0;
     meta->winnerName = ipt.playerName;
     meta->status = WinnerDeclared;
+}
+
+int DPCInputEvaluator::calcScore(const int &scoreCand, const int &remScore)
+{
+    auto totalScoreCandidate = remScore - scoreCand;
+    if(totalScoreCandidate < 0)
+        return remScore;
+    return totalScoreCandidate;
 }

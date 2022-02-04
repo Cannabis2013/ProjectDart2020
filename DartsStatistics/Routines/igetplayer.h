@@ -1,6 +1,6 @@
 #ifndef IGETPLAYER_H
 #define IGETPLAYER_H
-class PlayerStat;
+struct PlayerStat;
 class QString;
 class IGetPlayer
 {

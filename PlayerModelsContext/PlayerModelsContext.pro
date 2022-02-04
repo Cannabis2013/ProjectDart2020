@@ -14,7 +14,7 @@ HEADERS += \
     IOSLAs/ifiledataio.h \
     ModelsSLAs/iduplicatechecker.h \
     ContextSLA/absplactx.h \
-    playerservice.h
+    playerscontext.h
 
 SOURCES += \
-    playerservice.cpp
+    playerscontext.cpp

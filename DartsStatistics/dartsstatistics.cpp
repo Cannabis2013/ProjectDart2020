@@ -10,6 +10,7 @@ void DartsStatistics::initPlayers(const ByteArray &ba)
 void DartsStatistics::initInputs(const ByteArray &ba)
 {
     auto inputs = convertToInputs()->convert(ba);
+    updatePlayerStatistics()->update(inputs);
     addInputsToMemory()->add(inputs);
 }
 
@@ -34,10 +35,10 @@ void DartsStatistics::update(const QString &name, const int &point, const int &s
 QByteArray DartsStatistics::createReport(const QString &name) const
 {
     auto player = getPlayer()->get(name);
-    auto report = reportServices()->createReport()->create(player);
-    return report;
+    return reportServices()->createReport()->create(player);
 }
 
-void DartsStatistics::takeInput(const QString &name)
+bool DartsStatistics::takeInput(const QString &name)
 {
+    return removeInputFromDb()->remove(name);
 }

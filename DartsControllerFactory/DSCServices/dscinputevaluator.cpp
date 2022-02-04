@@ -7,8 +7,16 @@ void DSCInputEvaluator::eval(DCInput &input)
     auto meta = &_services->metaService()->meta();
     auto idx = _services->indexService()->index();
     auto player = _services->playerService()->player(idx.playerIndex);
-    auto scoreCand = _services->scoreCalc()->calc(input.score,player.remScore);
-    update(scoreCand,input,meta);
+    auto score = calcScore(input.score,player.remScore);
+    update(score,input,meta);
+}
+
+int DSCInputEvaluator::calcScore(const int &scoreCand, const int &remScore)
+{
+    auto totalScoreCandidate = remScore - scoreCand;
+    if(totalScoreCandidate < 0)
+        return remScore;
+    return totalScoreCandidate;
 }
 
 void DSCInputEvaluator::update(const int &scoreCand, DCInput &input, DCMeta *meta)

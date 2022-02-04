@@ -1,5 +1,5 @@
-#ifndef PLAYERSERVICE_H
-#define PLAYERSERVICE_H
+#ifndef PLAYERSCONTEXT_H
+#define PLAYERSCONTEXT_H
 #include <QtConcurrent/QtConcurrent>
 #include "ContextSLA/absplactx.h"
 #ifdef PlaCtxLib
@@ -7,7 +7,7 @@
 #else
     #define LIB_EXPORT Q_DECL_IMPORT
 #endif
-class LIB_EXPORT PlayerService : public AbsPlaCtx
+class LIB_EXPORT PlayersContext : public AbsPlaCtx
 {
     Q_OBJECT
 public:

@@ -7,6 +7,7 @@
 #include "Routines/iresetmodels.h"
 #include "IAddStatsToPlayer.h"
 #include "igetplayer.h"
+#include "InputRoutines/IRemoveInputFromDb.h"
 class RoutineServices
 {
 public:
@@ -28,9 +29,11 @@ public:
     IResetModels *resetInputs() const {return _resetInputs;}
     void setResetInputs(IResetModels *service) {_resetInputs = service;}
     IAddStatsToPlayer *updatePlayerStatistics() const {return _updateStats;}
-    void setUpdateStats(IAddStatsToPlayer *newUpdateStats) {_updateStats = newUpdateStats;}
+    void setUpdateStats(IAddStatsToPlayer *service) {_updateStats = service;}
     IGetPlayer *getPlayer() const {return _getPlayer;}
-    void setGetPlayer(IGetPlayer *newGetPlayer) {_getPlayer = newGetPlayer;}
+    void setGetPlayer(IGetPlayer *service) {_getPlayer = service;}
+    IRemoveInputFromDb *removeInputFromDb() const {return _removeInputFromDb;}
+    void setRemoveInputFromDb(IRemoveInputFromDb *service) {_removeInputFromDb = service;}
 private:
     JsonToPlayers *_convertToPlayers;
     AddPlayersToMemory *_addPlayersToMemory;
@@ -40,5 +43,6 @@ private:
     IResetModels *_resetInputs;
     IAddStatsToPlayer *_updateStats;
     IGetPlayer *_getPlayer;
+    IRemoveInputFromDb *_removeInputFromDb;
 };
 #endif // ROUTINESERVICES_H

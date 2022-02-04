@@ -1,6 +1,6 @@
 #ifndef ICREATEREPORT_H
 #define ICREATEREPORT_H
-class PlayerStat;
+struct PlayerStat;
 class QByteArray;
 class ICreateReport
 {

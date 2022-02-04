@@ -6,7 +6,6 @@ struct Input
     QString name;
     int point;
     int score;
-    int remScore;
     int keyCode;
 };
 

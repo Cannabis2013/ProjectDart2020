@@ -37,11 +37,9 @@ HEADERS += \
     DCServices/dcbuilderservices.h \
     DCTurnValuesServices/DCTurnValuesJsonBuilder.h \
     DCTurnValuesServices/dcturnvalues.h \
-    DPCServices/dpccreatescore.h \
     DPCServices/dpcinputadder.h \
     DPCServices/dpcinputevaluator.h \
     DCTurnValuesServices/dccreateturnvalues.h \
-    DSCServices/dsccreatescore.h \
     DSCServices/dscinputadder.h \
     DSCServices/dscinputevaluator.h \
     DartsAssemblers/assembledpc.h \

@@ -27,6 +27,7 @@ private:
     void playerHasNotEntered(DCInput &ipt, const int &scoreCand);
     void playerHasEntered(DCInput &ipt, DCMeta *meta,const int &scoreCand);
     void setWinnerValues(DCInput &ipt, DCMeta *meta);
+    int calcScore(const int &scoreCand, const int &remScore);
     const int _bullsEye = 50;
     const int minimumAllowedScore = 2;
     DCServices *_services;

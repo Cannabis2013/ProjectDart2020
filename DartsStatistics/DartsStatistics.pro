@@ -3,7 +3,7 @@ QT -= gui
 TEMPLATE = lib
 DEFINES += DARTSSTATISTICS_LIBRARY
 
-CONFIG += c++11
+CONFIG += c++17
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -13,6 +13,7 @@ SOURCES += \
     dartsstatistics.cpp
 
 HEADERS += \
+    InputRoutines/IRemoveInputFromDb.h \
     Inputs/icreateinput.h \
     Report/icreatereport.h \
     Report/reportservices.h \

@@ -3,14 +3,14 @@
 #include "DbServices/saveplayermodels.h"
 #include "DbServices/loadplayermodels.h"
 #include "DataServices/plajsonbuilder.h"
-#include "playerservice.h"
+#include "playerscontext.h"
 #include "IOServices/filejsonio.h"
 #include "DbServices/playersdbcontext.h"
 #include "Services/getplayersfromdb.h"
 #include "Services/plabuilder.h"
 AbsPlaCtx *CreatePlayersContext::localJson()
 {
-    auto ctx = new PlayerService;
+    auto ctx = new PlayersContext;
     ctx->setIOHandler(new FileJsonIO("Players"));
     ctx->setPersistDb(new SavePlayerModels);
     ctx->setFetchDb(new LoadPlayerModels);

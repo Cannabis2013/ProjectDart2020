@@ -35,7 +35,6 @@ HEADERS += \
     DCMetaSLAs/idcmetabuilder.h \
     DCMetaSLAs/idcmetaconverter.h \
     DCMetaSLAs/idcmetaservice.h \
-    DCScoresSLAs/absdccreatescore.h \
     DCScoresSLAs/dcplayersslas.h \
     DCTurnValuesSLAs/idccreateturnvalues.h \
     InitSLAs/dcinitservices.h \

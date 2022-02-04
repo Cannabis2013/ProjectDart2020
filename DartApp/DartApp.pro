@@ -96,6 +96,12 @@ DISTFILES += \
     win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../PlayersContextFactory/release/ -lPlayersContextFactory
     else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../PlayersContextFactory/debug/ -lPlayersContextFactory
     else:unix: LIBS += -L$$OUT_PWD/../PlayersContextFactory/ -lPlayersContextFactory
+    win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../DartsStatistics/release/ -lDartsStatistics
+    else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../DartsStatistics/debug/ -lDartsStatistics
+    else:unix: LIBS += -L$$OUT_PWD/../DartsStatistics/ -lDartsStatistics
+    win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../DartsStatisticsFactory/release/ -lDartsStatisticsFactory
+    else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../DartsStatisticsFactory/debug/ -lDartsStatisticsFactory
+    else:unix: LIBS += -L$$OUT_PWD/../DartsStatisticsFactory/ -lDartsStatisticsFactory
 }
 
 android {
@@ -117,6 +123,12 @@ android {
     win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../PlayersContextFactory/release/ -lPlayersContextFactory_arm64-v8a
     else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../PlayersContextFactory/debug/ -lPlayersContextFactory_arm64-v8a
     else:unix: LIBS += -L$$OUT_PWD/../PlayersContextFactory/ -lPlayersContextFactory_arm64-v8a
+    win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../DartsStatistics/release/ -lDartsStatistics_arm64-v8a
+    else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../DartsStatistics/debug/ -lDartsStatistics_arm64-v8a
+    else:unix: LIBS += -L$$OUT_PWD/../DartsStatistics/ -lDartsStatistics_arm64-v8a
+    win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../DartsStatisticsFactory/release/ -lDartsStatisticsFactory_arm64-v8a
+    else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../DartsStatisticsFactory/debug/ -lDartsStatisticsFactory_arm64-v8a
+    else:unix: LIBS += -L$$OUT_PWD/../DartsStatisticsFactory/ -lDartsStatisticsFactory_arm64-v8a
 }
 
 INCLUDEPATH += $$PWD/../PlayerModelsContext
@@ -131,8 +143,11 @@ INCLUDEPATH += $$PWD/../DartsModelsContextFactory
 DEPENDPATH += $$PWD/../DartsModelsContextFactory
 INCLUDEPATH += $$PWD/../PlayersContextFactory
 DEPENDPATH += $$PWD/../PlayersContextFactory
+INCLUDEPATH += $$PWD/../DartsStatistics
+DEPENDPATH += $$PWD/../DartsStatistics
+INCLUDEPATH += $$PWD/../DartsStatisticsFactory
+DEPENDPATH += $$PWD/../DartsStatisticsFactory
 
-ANDROID_EXTRA_LIBS += $$OUT_PWD/../PlayerModelsContext/libPlayerModelsContext_arm64-v8a.so
 ANDROID_EXTRA_LIBS += $$OUT_PWD/../PlayersContextFactory/libPlayersContextFactory_arm64-v8a.so
 ANDROID_EXTRA_LIBS += $$OUT_PWD/../DartsModelsContext/libDartsModelsContext_arm64-v8a.so
 ANDROID_EXTRA_LIBS += $$OUT_PWD/../DartsModelsContextFactory/libDartsModelsContextFactory_arm64-v8a.so

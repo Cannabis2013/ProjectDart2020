@@ -7,6 +7,7 @@ namespace Statistics {
 struct PlayerStat
 {
     QString name;
+    int accumulatedScore = 0;
     int n; // The index of player inputs. Ex. : n = 2, if player has made 2 inputs.
     int min; // Minimum score
     int mid; // Middle score

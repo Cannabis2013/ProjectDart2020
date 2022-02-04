@@ -17,6 +17,7 @@ public:
     DSCInputEvaluator(DCServices *services);
     void eval(DCInput &input) override;
 private:
+    int calcScore(const int &scoreCand, const int &remScore);
     void update(const int &scoreCand, DCInput &input, DCMeta *meta);
     const int minimumAllowedScore = 2;
     DCServices *_services;

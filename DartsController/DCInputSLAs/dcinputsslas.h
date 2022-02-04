@@ -22,7 +22,7 @@ public:
     void setInputConverter(InputBuilder *service) {_inputConverter = service;}
     IDCModelsConverter<DCInput> *convertInputs() const {return _convertInputs;}
     void setConvertInputs(IDCModelsConverter<DCInput> *service) {_convertInputs = service;}
-    IDCAssembleInput *assembleInput() const {return _assembleInput;}
+    IDCAssembleInput *createInputModel() const {return _assembleInput;}
     void setAssembleInput(IDCAssembleInput *service) {_assembleInput = service;}
     IDCExternalIptService *externalInputService() const {return _getInputFromMdsService;}
     void setGetInputFromMdsService(IDCExternalIptService *newGetInputFromMdsService) {_getInputFromMdsService = newGetInputFromMdsService;}

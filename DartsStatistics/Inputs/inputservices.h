@@ -9,15 +9,16 @@ class InputServices
 public:
     typedef IJsonToInput<Input> JsonToInput;
     typedef IStatsDb<Input> InputsDb;
+    typedef ICreateInput<Input> CreateInput;
     JsonToInput *jsonToInput() const {return _jsonToInput;}
     void setJsonToInput(JsonToInput *service) {_jsonToInput = service;}
     InputsDb *inputsDb() const {return _inputsDb;}
     void setInputsDb(InputsDb *service) {_inputsDb = service;}
-    ICreateInput *createInput() const {return _createInput;}
-    void setCreateInput(ICreateInput *newCreateInput) {_createInput = newCreateInput;}
+    CreateInput *createInput() const {return _createInput;}
+    void setCreateInput(CreateInput *newCreateInput) {_createInput = newCreateInput;}
 private:
     JsonToInput *_jsonToInput;
     InputsDb *_inputsDb;
-    ICreateInput *_createInput;
+    CreateInput *_createInput;
 };
 #endif // INPUTSERVICES_H

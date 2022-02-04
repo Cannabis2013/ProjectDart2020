@@ -13,7 +13,7 @@ int DartsController::initialize(const QUuid &tournamentId)
 }
 QByteArray DartsController::addInput(const QByteArray& json)
 {
-    auto ipt = assembleInput()->assemble(json);
+    auto ipt = createInputModel()->assemble(json);
     evalIpt()->eval(ipt);
     updateStatistics()->update(ipt);
     addToModelsService()->add(ipt,mdsCtx());
