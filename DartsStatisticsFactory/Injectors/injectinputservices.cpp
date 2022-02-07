@@ -1,10 +1,10 @@
 #include "injectinputservices.h"
-#include "SLAs/servicesprovider.h"
+#include "SLAs/servicescontext.h"
 #include "Inputs/jsontoinput.h"
 #include "Inputs/inputsdb.h"
 #include "Inputs/createinput.h"
 
-void InjectInputServices::inject(ServicesProvider *provider)
+void InjectInputServices::inject(ServicesContext *provider)
 {
     auto services = new InputServices;
     services->setJsonToInput(new JsonToInput);

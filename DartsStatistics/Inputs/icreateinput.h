@@ -6,7 +6,7 @@ class ICreateInput
 {
 public:
     typedef TInput Ipt;
-    virtual Ipt create(const QString &name, const int &point, const int &score, const int &modCode) const = 0;
+    virtual Ipt create(const QString &name, const int &score, const int &modCode) const = 0;
 };
 
 #endif // ICREATEINPUT_H

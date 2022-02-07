@@ -1,48 +1,38 @@
 #ifndef ROUTINESERVICES_H
 #define ROUTINESERVICES_H
 #include "Routines/IJsonToModels.h"
-#include "Players/Models/playerstat.h"
+#include "Players/Models/currentstats.h"
 #include "Routines/iaddplayerstomem.h"
 #include "Inputs/Models/input.h"
 #include "Routines/iresetmodels.h"
 #include "IAddStatsToPlayer.h"
-#include "igetplayer.h"
 #include "InputRoutines/IRemoveInputFromDb.h"
+#include "Report/icreatereport.h"
 class RoutineServices
 {
 public:
-    typedef PlayerStat Player;
-    typedef IJsonToModels<Player> JsonToPlayers;
+    typedef CurrentStats Player;
+    typedef IJsonToModels<Player> JsonToStats;
     typedef IJsonToModels<Input> JsonToInputs;
-    typedef IAddModelsToMemory<Player> AddPlayersToMemory;
-    typedef IAddModelsToMemory<Input> AddInputsToMemory;
-    JsonToPlayers *convertToPlayers() const {return _convertToPlayers;}
-    void setConvertToPlayers(JsonToPlayers *service) {_convertToPlayers = service;}
-    AddPlayersToMemory *addPlayersToMemory() const {return _addPlayersToMemory;}
-    void setAddPlayersToMemory(AddPlayersToMemory *service) {_addPlayersToMemory = service;}
-    AddInputsToMemory *addInputsToMemory() const {return _addInputsToMemory;}
-    void setAddInputsToMemory(AddInputsToMemory *service) {_addInputsToMemory = service;}
+    typedef IAddStatsToPlayer<Input> UpdateCurrentStats;
+    JsonToStats *byteArrayToStats() const {return _convertToPlayers;}
+    void setConvertToPlayers(JsonToStats *service) {_convertToPlayers = service;}
     JsonToInputs *convertToInputs() const {return _convertToInputs;}
     void setConvertToInputs(JsonToInputs *service) {_convertToInputs = service;}
-    IResetModels *resetPlayers() const {return _resetPlayers;}
-    void setResetPlayers(IResetModels *service) {_resetPlayers = service;}
-    IResetModels *resetInputs() const {return _resetInputs;}
-    void setResetInputs(IResetModels *service) {_resetInputs = service;}
-    IAddStatsToPlayer *updatePlayerStatistics() const {return _updateStats;}
-    void setUpdateStats(IAddStatsToPlayer *service) {_updateStats = service;}
-    IGetPlayer *getPlayer() const {return _getPlayer;}
-    void setGetPlayer(IGetPlayer *service) {_getPlayer = service;}
+    IResetModels *resetContext() const {return _resetPlayers;}
+    void setResetContext(IResetModels *service) {_resetPlayers = service;}
+    UpdateCurrentStats *updateCurrentStats() const {return _updateStats;}
+    void setUpdateStats(UpdateCurrentStats *service) {_updateStats = service;}
     IRemoveInputFromDb *removeInputFromDb() const {return _removeInputFromDb;}
     void setRemoveInputFromDb(IRemoveInputFromDb *service) {_removeInputFromDb = service;}
+    ICreateReport *createReport() const {return _createReport;}
+    void setCreateReport(ICreateReport *service) {_createReport = service;}
 private:
-    JsonToPlayers *_convertToPlayers;
-    AddPlayersToMemory *_addPlayersToMemory;
+    JsonToStats *_convertToPlayers;
     JsonToInputs *_convertToInputs;
-    AddInputsToMemory *_addInputsToMemory;
     IResetModels *_resetPlayers;
-    IResetModels *_resetInputs;
-    IAddStatsToPlayer *_updateStats;
-    IGetPlayer *_getPlayer;
+    UpdateCurrentStats *_updateStats;
     IRemoveInputFromDb *_removeInputFromDb;
+    ICreateReport *_createReport;
 };
 #endif // ROUTINESERVICES_H

@@ -2,12 +2,14 @@
 #define IADDSTATSTOPLAYER_H
 template<typename T> class QVector;
 struct Input;
+template<typename TInput>
 class IAddStatsToPlayer
 {
 public:
-    typedef QVector<Input> Inputs;
-    virtual void update(Input &input) = 0;
-    virtual void update(const Inputs &inputs) = 0;
+    typedef TInput Ipt;
+    typedef QVector<Ipt> Ipts;
+    virtual void update(Ipt &input) = 0;
+    virtual void update(Ipts &inputs) = 0;
 };
 
 #endif // IADDSTATSTOPLAYER_H

@@ -1,9 +1,15 @@
 #include "playersdb.h"
-#include "Players/Models/playerstat.h"
+#include "Players/Models/currentstats.h"
 
 void PlayersDb::add(const Model &model)
 {
     _models.append(model);
+}
+
+void PlayersDb::add(const Models &models)
+{
+    for (const auto &model : models)
+        _models.append(model);
 }
 
 PlayersDb::Model &PlayersDb::model(const int &index)
@@ -21,14 +27,14 @@ PlayersDb::Model &PlayersDb::model(Pred prefFunc)
     throw "Model not found";
 }
 
-QVector<PlayersDb::Model> PlayersDb::models() const
+PlayersDb::Models PlayersDb::models() const
 {
     return _models;
 }
 
-QVector<PlayersDb::Model> PlayersDb::models(Pred prefFunc) const
+PlayersDb::Models PlayersDb::models(Pred prefFunc) const
 {
-    QVector<PlayerStat> players;
+    QVector<CurrentStats> players;
 
     for (const auto &player : _models) {
         if(prefFunc(player))

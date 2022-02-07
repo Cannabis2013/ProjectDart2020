@@ -15,23 +15,22 @@ SOURCES += \
 HEADERS += \
     InputRoutines/IRemoveInputFromDb.h \
     Inputs/icreateinput.h \
+    Players/Models/currentstats.h \
+    Players/currentstatsservices.h \
     Report/icreatereport.h \
-    Report/reportservices.h \
     Routines/IAddStatsToPlayer.h \
-    Routines/igetplayer.h \
+    SLAs/servicescontext.h \
     StatsServices/CalcAverage/ICalcAverage.h \
     Db/istatsdb.h \
     Inputs/ijsontoinput.h \
     Routines/IJsonToModels.h \
     Players/ijsontoplayer.h \
-    Players/Models/playerstat.h \
     Routines/iaddplayerstomem.h \
     Routines/iresetmodels.h \
     SLAs/idartsstatistics.h \
     Inputs/inputservices.h \
-    Players/playerservices.h \
     Routines/routineservices.h \
-    SLAs/servicesprovider.h \
+    StatsServices/ScoreRange/iupdatescorerange.h \
     StatsServices/StatsServices.h \
     dartsstatistics.h \
     Inputs/Models/input.h

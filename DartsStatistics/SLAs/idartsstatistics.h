@@ -13,7 +13,7 @@ public:
     virtual void reset() = 0;
     virtual void clear() = 0;
     virtual bool takeInput(const QString &name) = 0;
-    virtual void update(const QString &name, const int &point, const int &score, const int &modCode) = 0;
+    virtual void update(const QString &name, const int &score, const int &modCode) = 0;
     virtual QByteArray createReport(const QString &name) const = 0;
 };
 

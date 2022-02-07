@@ -1,8 +1,8 @@
 #ifndef JSONTOPLAYER_H
 #define JSONTOPLAYER_H
 #include "Players/ijsontoplayer.h"
-struct PlayerStat;
-class JsonToPlayer : public IJsonToPlayer<PlayerStat>
+struct CurrentStats;
+class JsonToPlayer : public IJsonToPlayer<CurrentStats>
 {
 public:
     virtual Player create(const Json &json) const override;

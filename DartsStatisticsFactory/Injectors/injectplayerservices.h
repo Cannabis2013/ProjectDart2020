@@ -1,10 +1,10 @@
 #ifndef INJECTPLAYERSERVICES_H
 #define INJECTPLAYERSERVICES_H
-class ServicesProvider;
+class ServicesContext;
 class InjectPlayerServices
 {
 public:
-    void inject(ServicesProvider *provider);
+    void inject(ServicesContext *provider);
 };
 
 #endif // INJECTPLAYERSERVICES_H

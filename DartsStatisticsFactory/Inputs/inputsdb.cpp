@@ -6,6 +6,12 @@ void InputsDb::add(const Model &model)
     _models.append(model);
 }
 
+void InputsDb::add(const Models &models)
+{
+    for (const auto &model : models)
+        _models.append(model);
+}
+
 InputsDb::Model &InputsDb::model(const int &index)
 {
     return _models[index];
@@ -46,7 +52,6 @@ void InputsDb::remove(const QVector<int> &indexes)
 
     for (int i = indexes.count() - 1; i >= 0; --i)
         _models.remove(indexes.at(i));
-
 }
 
 void InputsDb::clear()

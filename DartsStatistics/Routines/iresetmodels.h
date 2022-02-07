@@ -3,7 +3,7 @@
 class IResetModels
 {
 public:
-    virtual void reset() const = 0;
+    virtual void reset() = 0;
 };
 
 #endif // IRESETMODELS_H

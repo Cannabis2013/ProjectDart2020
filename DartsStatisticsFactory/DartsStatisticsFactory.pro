@@ -11,21 +11,37 @@ DEFINES += DARTSSTATISTICSFACTORY_LIBRARY
 SOURCES += \
     Injectors/injectinputservices.cpp \
     Injectors/injectplayerservices.cpp \
+    Injectors/injectstatsroutines.cpp \
+    Injectors/injectstatsservices.cpp \
     Inputs/createinput.cpp \
     Inputs/inputsdb.cpp \
     Inputs/jsontoinput.cpp \
     Players/jsontoplayer.cpp \
     Players/playersdb.cpp \
+    Routines/bytearraytoinputs.cpp \
+    Routines/createstatsreport.cpp \
+    Routines/removeinputfromcontext.cpp \
+    Routines/resetstatscontext.cpp \
+    Routines/updateplayerstats.cpp \
+    Statistics/calculatemiddlevalue.cpp \
     createdartsstatistics.cpp
 
 HEADERS += \
     Injectors/injectinputservices.h \
     Injectors/injectplayerservices.h \
+    Injectors/injectstatsroutines.h \
+    Injectors/injectstatsservices.h \
     Inputs/createinput.h \
     Inputs/inputsdb.h \
     Inputs/jsontoinput.h \
     Players/jsontoplayer.h \
     Players/playersdb.h \
+    Routines/bytearraytoinputs.h \
+    Routines/createstatsreport.h \
+    Routines/removeinputfromcontext.h \
+    Routines/resetstatscontext.h \
+    Routines/updateplayerstats.h \
+    Statistics/calculatemiddlevalue.h \
     createdartsstatistics.h
 
 # Default rules for deployment.

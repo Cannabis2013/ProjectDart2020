@@ -5,7 +5,7 @@ struct Input;
 class CreateInput : public ICreateInput<Input>
 {
 public:
-    virtual Ipt create(const QString &name, const int &point, const int &score, const int &modCode) const override;
+    virtual Ipt create(const QString &name, const int &score, const int &modCode) const override;
 };
 
 #endif // CREATEINPUT_H

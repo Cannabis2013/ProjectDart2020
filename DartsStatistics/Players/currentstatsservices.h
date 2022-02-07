@@ -1,23 +1,23 @@
 #ifndef STATSSERVICES_H
 #define STATSSERVICES_H
 #include "Players/ijsontoplayer.h"
-#include "Models/playerstat.h"
+#include "Models/currentstats.h"
 #include "Db/istatsdb.h"
 namespace Statistics {
     class PlayerServices;
 }
-class PlayerServices
+class CurrentStatsServices
 {
 public:
-    typedef PlayerStat Player;
-    typedef IJsonToPlayer<Player> JsonToPlayer;
-    typedef IStatsDb<Player> PlayersDb;
+    typedef CurrentStats Stats;
+    typedef IStatsDb<Stats> StatsDb;
+    typedef IJsonToPlayer<Stats> JsonToPlayer;
     JsonToPlayer *createPlayer() const {return _createPlayer;}
     void setCreatePlayer(JsonToPlayer *newCreatePlayer) {_createPlayer = newCreatePlayer;}
-    PlayersDb *playersDb() const {return _playersDb;}
-    void setPlayersDb(PlayersDb *newPlayersDb) {_playersDb = newPlayersDb;}
+    StatsDb *statsDb() const {return _playersDb;}
+    void setPlayersDb(StatsDb *newPlayersDb) {_playersDb = newPlayersDb;}
 private:
     JsonToPlayer *_createPlayer;
-    PlayersDb *_playersDb;
+    StatsDb *_playersDb;
 };
 #endif // STATSSERVICES_H

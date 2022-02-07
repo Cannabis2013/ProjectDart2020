@@ -7,6 +7,7 @@ class InputsDb : public IStatsDb<Input>
 {
 public:
     virtual void add(const Model &model) override;
+    virtual void add(const Models &models) override;
     virtual Model &model(const int &index) override;
     virtual Model &model(Pred predFunc) override;
     virtual QVector<Model> models() const override;

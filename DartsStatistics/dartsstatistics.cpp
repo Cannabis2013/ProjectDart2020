@@ -3,42 +3,40 @@
 
 void DartsStatistics::initPlayers(const ByteArray &ba)
 {
-    auto players = convertToPlayers()->convert(ba);
-    addPlayersToMemory()->add(players);
+    auto players = routines()->byteArrayToStats()->convert(ba);
+    currentStatsServices()->statsDb()->add(players);
 }
 
 void DartsStatistics::initInputs(const ByteArray &ba)
 {
-    auto inputs = convertToInputs()->convert(ba);
-    updatePlayerStatistics()->update(inputs);
-    addInputsToMemory()->add(inputs);
+    auto inputs = routines()->convertToInputs()->convert(ba);
+    routines()->updateCurrentStats()->update(inputs);
+    inputServices()->inputsDb()->add(inputs);
 }
 
 void DartsStatistics::reset()
 {
-    resetPlayers()->reset();
-    resetInputs()->reset();
+    routines()->resetContext()->reset();
 }
 
 void DartsStatistics::clear()
 {
-    playerServices()->playersDb()->clear();
+    currentStatsServices()->statsDb()->clear();
     inputServices()->inputsDb()->clear();
 }
 
-void DartsStatistics::update(const QString &name, const int &point, const int &score, const int &modCode)
+void DartsStatistics::update(const QString &name, const int &score, const int &modCode)
 {
-    auto input = inputServices()->createInput()->create(name,point,score,modCode);
-    updatePlayerStatistics()->update(input);
+    auto input = inputServices()->createInput()->create(name,score,modCode);
+    routines()->updateCurrentStats()->update(input);
 }
 
 QByteArray DartsStatistics::createReport(const QString &name) const
 {
-    auto player = getPlayer()->get(name);
-    return reportServices()->createReport()->create(player);
+    return routines()->createReport()->create(name);
 }
 
 bool DartsStatistics::takeInput(const QString &name)
 {
-    return removeInputFromDb()->remove(name);
+    return routines()->removeInputFromDb()->remove(name);
 }
