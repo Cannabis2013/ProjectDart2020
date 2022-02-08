@@ -3,6 +3,7 @@
 #include "createdartscontext.h"
 #include "createdartscontroller.h"
 #include "createplayerscontext.h"
+#include "createdartsstatistics.h"
 #include <qqmlapplicationengine.h>
 #include <qqmlcontext.h>
 #include "ContextSLA/absplactx.h"
@@ -15,6 +16,7 @@ public:
     typedef QVector<Property> Properties;
     QmlPropertiesBuilder()
     {
+        _statistics = CreateDartsStatistics().create();
         _playerContext = CreatePlayersContext().localJson();
         _dartsContext = CreateDartsContext().localJson(_playerContext);
         CreateDartsController dcBuilder;
@@ -45,5 +47,6 @@ private:
     IDartsCtrl *_dsController;
     AbsPlaCtx *_playerContext;
     AbsDartsCtx *_dartsContext;
+    IDartsStatistics *_statistics;
 };
 #endif // QMLAPPLICATIONPROPERTIES_H

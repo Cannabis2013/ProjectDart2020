@@ -8,7 +8,6 @@ RemoveInputFromContext::RemoveInputFromContext(ServicesContext *provider)
     _iptsDb = provider->inputServices()->inputsDb();
 }
 
-
 bool RemoveInputFromContext::remove(const QString &name)
 {
     CurrentStats stats;

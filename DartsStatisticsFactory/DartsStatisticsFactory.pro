@@ -9,7 +9,7 @@ DEFINES += DARTSSTATISTICSFACTORY_LIBRARY
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    Injectors/injectinputservices.cpp \
+    Injectors/createinputprovider.cpp \
     Injectors/injectplayerservices.cpp \
     Injectors/injectstatsroutines.cpp \
     Injectors/injectstatsservices.cpp \
@@ -27,7 +27,7 @@ SOURCES += \
     createdartsstatistics.cpp
 
 HEADERS += \
-    Injectors/injectinputservices.h \
+    Injectors/createinputprovider.h \
     Injectors/injectplayerservices.h \
     Injectors/injectstatsroutines.h \
     Injectors/injectstatsservices.h \
