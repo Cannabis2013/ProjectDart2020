@@ -1,7 +1,7 @@
 #ifndef IADDSTATSTOPLAYER_H
 #define IADDSTATSTOPLAYER_H
 template<typename T> class QVector;
-struct Input;
+struct SnapShot;
 template<typename TInput>
 class IAddStatsToPlayer
 {

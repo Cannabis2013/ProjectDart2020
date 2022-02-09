@@ -1,10 +1,11 @@
 #ifndef INJECTSTATSROUTINES_H
 #define INJECTSTATSROUTINES_H
+class RoutineServices;
 class ServicesContext;
-class InjectStatsRoutines
+class CreateStatsRoutines
 {
 public:
-    void inject(ServicesContext *services);
+    RoutineServices *create(ServicesContext *context);
 };
 
 #endif // INJECTSTATSROUTINES_H

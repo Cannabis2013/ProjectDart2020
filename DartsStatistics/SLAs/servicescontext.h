@@ -1,23 +1,23 @@
 #ifndef SERVICESCONTEXT_H
 #define SERVICESCONTEXT_H
-#include "Players/currentstatsservices.h"
-#include "Inputs/inputservices.h"
+#include "Players/statisticservices.h"
+#include "Inputs/snapshotsservices.h"
 #include "StatsServices/StatsServices.h"
 #include "Routines/routineservices.h"
 class ServicesContext
 {
 public:
-    CurrentStatsServices *currentStatsServices() const {return _playerServices;}
-    void setPlayerServices(CurrentStatsServices *service) {_playerServices = service;}
-    InputServices *inputServices() const {return _inputServices;}
-    void setInputServices(InputServices *service) {_inputServices = service;}
+    StatisticServices *statisticServices() const {return _statisticServices;}
+    void setStatisticServices(StatisticServices *service) {_statisticServices = service;}
+    SnapShotsServices *snapShotServices() const {return _snapShotsServices;}
+    void setSnapShotsServices(SnapShotsServices *service) {_snapShotsServices = service;}
     StatsServices *statsServices() const {return _statsServices;}
     void setStatsProvider(StatsServices *services) {_statsServices = services;}
     RoutineServices *routines() const {return _routines;}
     void setRoutines(RoutineServices *service) {_routines = service;}
 private:
-    CurrentStatsServices *_playerServices;
-    InputServices *_inputServices;
+    StatisticServices *_statisticServices;
+    SnapShotsServices *_snapShotsServices;
     StatsServices *_statsServices;
     RoutineServices *_routines;
 };

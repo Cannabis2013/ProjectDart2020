@@ -1,19 +1,18 @@
 #ifndef BYTEARRAYTOINPUTS_H
 #define BYTEARRAYTOINPUTS_H
 #include "Routines/IJsonToModels.h"
-template<typename T> class IJsonToInput;
-class Input;
-class JsonToInput;
+template<typename T> class IJsonToSnapShot;
+class SnapShot;
 class ServicesContext;
-class ByteArrayToInputs : public IJsonToModels<Input>
+class ByteArrayToInputs : public IJsonToModels<SnapShot>
 {
 public:
-    typedef IJsonToInput<Input> JsonToInput;
+    typedef IJsonToSnapShot<SnapShot> JsonToSnapShot;
     ByteArrayToInputs(ServicesContext *provider);
     virtual Models convert(const ByteArray &ba) const override;
 private:
     ServicesContext *_provider;
-    JsonToInput *_jsonToInput;
+    JsonToSnapShot *_jsonToSnapShot;
 };
 
 #endif // BYTEARRAYTOINPUTS_H

@@ -1,6 +1,6 @@
 #include "createinput.h"
 
-#include "Inputs/Models/input.h"
+#include "Inputs/Models/snapshot.h"
 
 CreateInput::Ipt CreateInput::create(const QString &name, const int &score, const int &modCode) const
 {

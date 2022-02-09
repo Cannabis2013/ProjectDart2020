@@ -1,15 +1,15 @@
 #ifndef RESETSTATSCONTEXT_H
 #define RESETSTATSCONTEXT_H
 #include "Routines/iresetmodels.h"
+struct CurrentStat;
 template<typename T> class IStatsDb;
-struct Input;
-struct CurrentStats;
+struct SnapShot;
 class ServicesContext;
 class ResetStatsContext : public IResetModels
 {
 public:
-    typedef IStatsDb<CurrentStats> StatsDb;
-    typedef IStatsDb<Input> IptDb;
+    typedef IStatsDb<CurrentStat> StatsDb;
+    typedef IStatsDb<SnapShot> IptDb;
     ResetStatsContext(ServicesContext *provider);
     virtual void reset() override;
 private:

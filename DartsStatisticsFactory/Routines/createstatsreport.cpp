@@ -5,16 +5,16 @@
 
 CreateStatsReport::CreateStatsReport(ServicesContext *provider)
 {
-    _statsDb = provider->currentStatsServices()->statsDb();
+    _statsDb = provider->statisticServices()->statModels();
 }
 
 ICreateReport::ByteArray CreateStatsReport::create(const QString &name) const
 {
-    auto stats = _statsDb->model([=](const CurrentStats &m){return m.name == name;});
+    auto stats = _statsDb->model([=](const CurrentStat&m){return m.name == name;});
     return makeReport(stats);
 }
 
-ICreateReport::ByteArray CreateStatsReport::makeReport(const CurrentStats &stats) const
+ICreateReport::ByteArray CreateStatsReport::makeReport(const CurrentStat&stats) const
 {
     QJsonObject obj;
     obj["minimum"] = stats.min;

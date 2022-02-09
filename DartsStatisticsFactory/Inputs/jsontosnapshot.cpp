@@ -1,10 +1,10 @@
-#include "jsontoinput.h"
-#include "Inputs/Models/input.h"
+#include "jsontosnapshot.h"
+#include "Inputs/Models/snapshot.h"
 #include "qjsonobject.h"
 
-JsonToInput::Input JsonToInput::convert(const Json &json) const
+SnapShot JsonToSnapShot::convert(const Json &json) const
 {
-    Input ipt;
+    SnapShot ipt;
     ipt.name = json.value("inputPlayerName").toString();
     ipt.score = json.value("score").toInt();
     ipt.keyCode = json.value("modKeyCode").toInt();

@@ -2,12 +2,13 @@
 #define DARTSSTATSSERVICES_H
 #include "CalcAverage/ICalcAverage.h"
 #include "StatsServices/ScoreRange/iupdatescorerange.h"
-class CurrentStats;
-class Input;
+struct CurrentStat;
+class IMirrorsDb;
+class SnapShot;
 class StatsServices
 {
 public:
-    typedef IUpdateScoreRange<Input,CurrentStats> UpdateScoreRange;
+    typedef IUpdateScoreRange<SnapShot,CurrentStat> UpdateScoreRange;
     ICalcAverage *calcAverage() const {return _calcAverage;}
     void setCalcAverage(ICalcAverage *newCalcAverage) {_calcAverage = newCalcAverage;}
     UpdateScoreRange *updateScoreRange() const {return _updateScoreRange;}

@@ -1,12 +1,10 @@
 #ifndef IUPDATESCORERANGE_H
 #define IUPDATESCORERANGE_H
-template<typename TInput, typename TStats>
+template<typename TSnapShot, typename TStat>
 class IUpdateScoreRange
 {
 public:
-    typedef TInput Ipt;
-    typedef TStats TempStats;
-    virtual void update(Ipt &input, TempStats *stats) const = 0;
+    virtual void update(TSnapShot &input, TStat *stats) const = 0;
 };
 
 #endif // IUPDATESCORERANGE_H

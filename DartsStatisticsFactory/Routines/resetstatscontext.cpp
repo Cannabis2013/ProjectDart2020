@@ -1,11 +1,11 @@
 #include "resetstatscontext.h"
 #include "SLAs/servicescontext.h"
 #include <qvector.h>
-#include <Players/Models/currentstats.h>
+#include <Players/Models/imirrorsdb.h>
 ResetStatsContext::ResetStatsContext(ServicesContext *provider)
 {
-    _statsDb = provider->currentStatsServices()->statsDb();
-    _iptDb = provider->inputServices()->inputsDb();
+    _statsDb = provider->statisticServices()->statModels();
+    _iptDb = provider->snapShotServices()->snapShots();
 }
 
 void ResetStatsContext::reset()

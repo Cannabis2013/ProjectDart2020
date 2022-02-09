@@ -29,7 +29,7 @@ QJsonArray PlaJsonBuilder::toJsonArray(const Models &models) const
 QJsonObject PlaJsonBuilder::toJsonObject(Model *model) const
 {
     if(model == nullptr)
-        throw std::invalid_argument("Model is null");
+        throw new std::invalid_argument("Model is null");
     QJsonObject obj;
     obj["id"] = model->id().toString(QUuid::WithoutBraces);
     obj["name"] = model->name();
@@ -49,7 +49,8 @@ PlaJsonBuilder::ByteArray PlaJsonBuilder::create(Model *model) const
     try {
         auto json = toJsonObject(model);
         return QJsonDocument(json).toJson();
-    }  catch (std::invalid_argument e) {
+    }  catch (std::invalid_argument *e) {
+        qDebug() << e->what();
         return QByteArray();
     }
 }

@@ -1,18 +1,18 @@
 #include "injectstatsroutines.h"
 #include "SLAs/servicescontext.h"
 #include "Routines/bytearraytoinputs.h"
-#include "Routines/updateplayerstats.h"
+#include "Routines/updatestatsmirror.h"
 #include "Routines/resetstatscontext.h"
 #include "Routines/createstatsreport.h"
 #include "Routines/removeinputfromcontext.h"
 
-void InjectStatsRoutines::inject(ServicesContext *services)
+RoutineServices *CreateStatsRoutines::create(ServicesContext *context)
 {
     auto routineProvider = new RoutineServices();
-    routineProvider->setConvertToInputs(new ByteArrayToInputs(services));
-    routineProvider->setUpdateStats(new UpdatePlayerStats(services));
-    routineProvider->setResetContext(new ResetStatsContext(services));
-    routineProvider->setCreateReport(new CreateStatsReport(services));
-    routineProvider->setRemoveInputFromDb(new RemoveInputFromContext(services));
-    services->setRoutines(routineProvider);
+    routineProvider->setConvertToInputs(new ByteArrayToInputs(context));
+    routineProvider->setUpdateStats(new UpdateStatsMirror(context));
+    routineProvider->setResetContext(new ResetStatsContext(context));
+    routineProvider->setCreateReport(new CreateStatsReport(context));
+    routineProvider->setRemoveInputFromDb(new RemoveInputFromContext(context));
+    return routineProvider;
 }

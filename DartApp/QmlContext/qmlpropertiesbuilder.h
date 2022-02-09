@@ -9,6 +9,8 @@
 #include "ContextSLA/absplactx.h"
 #include "SLAs/absdartsctx.h"
 #include "ControllerSLA/idartsctrl.h"
+#include "SLAs/idartsstatistics.h"
+
 class QmlPropertiesBuilder
 {
 public:
@@ -32,6 +34,7 @@ public:
         _props << createProperty<IDartsCtrl>("dsController",_dsController);
         _props << createProperty<IDartsCtrl>("dpController",_dpController);
         _props << createProperty<AbsPlaCtx>("playersContext",_playerContext);
+        _props << createProperty<IDartsStatistics>("Statistics",_statistics);
         return _props;
     }
 private:

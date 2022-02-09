@@ -2,8 +2,8 @@
 #define INPUTSDB_H
 #include "Db/istatsdb.h"
 #include <qvector.h>
-struct Input;
-class InputsDb : public IStatsDb<Input>
+struct SnapShot;
+class InputsDb : public IStatsDb<SnapShot>
 {
 public:
     virtual void add(const Model &model) override;
@@ -18,7 +18,7 @@ public:
     virtual int indexOf(const Model &model) const override;
     virtual void replace(const int &index, const Model &model) override;
 private:
-    QVector<Input> _models;
+    QVector<SnapShot> _models;
 };
 
 #endif // INPUTSDB_H

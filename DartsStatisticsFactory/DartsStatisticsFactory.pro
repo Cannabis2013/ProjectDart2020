@@ -9,39 +9,42 @@ DEFINES += DARTSSTATISTICSFACTORY_LIBRARY
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    Injectors/createinputprovider.cpp \
-    Injectors/injectplayerservices.cpp \
+    Injectors/createsnapshotsprovider.cpp \
+    Injectors/createstatisticprovider.cpp \
+    Injectors/createstatsservices.cpp \
     Injectors/injectstatsroutines.cpp \
-    Injectors/injectstatsservices.cpp \
     Inputs/createinput.cpp \
     Inputs/inputsdb.cpp \
-    Inputs/jsontoinput.cpp \
-    Players/jsontoplayer.cpp \
-    Players/playersdb.cpp \
+    Inputs/jsontosnapshot.cpp \
+    Players/createstatmodel.cpp \
+    Players/jsontostatsmodel.cpp \
+    Players/statsmemory.cpp \
     Routines/bytearraytoinputs.cpp \
     Routines/createstatsreport.cpp \
     Routines/removeinputfromcontext.cpp \
     Routines/resetstatscontext.cpp \
-    Routines/updateplayerstats.cpp \
+    Routines/updatestatsmirror.cpp \
     Statistics/calculatemiddlevalue.cpp \
+    Statistics/updatescorerange.cpp \
     createdartsstatistics.cpp
-
 HEADERS += \
-    Injectors/createinputprovider.h \
-    Injectors/injectplayerservices.h \
+    Injectors/createsnapshotsprovider.h \
+    Injectors/createstatisticprovider.h \
+    Injectors/createstatsservices.h \
     Injectors/injectstatsroutines.h \
-    Injectors/injectstatsservices.h \
     Inputs/createinput.h \
     Inputs/inputsdb.h \
-    Inputs/jsontoinput.h \
-    Players/jsontoplayer.h \
-    Players/playersdb.h \
+    Inputs/jsontosnapshot.h \
+    Players/createstatmodel.h \
+    Players/jsontostatsmodel.h \
+    Players/statsmemory.h \
     Routines/bytearraytoinputs.h \
     Routines/createstatsreport.h \
     Routines/removeinputfromcontext.h \
     Routines/resetstatscontext.h \
-    Routines/updateplayerstats.h \
+    Routines/updatestatsmirror.h \
     Statistics/calculatemiddlevalue.h \
+    Statistics/updatescorerange.h \
     createdartsstatistics.h
 
 # Default rules for deployment.

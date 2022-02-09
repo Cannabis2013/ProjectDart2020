@@ -1,34 +1,45 @@
 #include "removeinputfromcontext.h"
 #include "SLAs/servicescontext.h"
 #include <qvector.h>
+#include <qdebug.h>
+#include "Players/ICreateStatModel.h"
 
 RemoveInputFromContext::RemoveInputFromContext(ServicesContext *provider)
 {
-    _statsDb = provider->currentStatsServices()->statsDb();
-    _iptsDb = provider->inputServices()->inputsDb();
+    _mirrorsDb = provider->statisticServices()->statModels();
+    _iptsDb = provider->snapShotServices()->snapShots();
+    _createMirror = provider->statisticServices()->createStatistic();
 }
 
 bool RemoveInputFromContext::remove(const QString &name)
 {
-    CurrentStats stats;
-    Input ipt;
+    CurrentStat *mirror;
+    CurrentStat newMirror;
+    SnapShot ipt;
     try {
-        auto stats = _statsDb->model([=](const CurrentStats &m){return m.name == name;});
-        auto ipt = getLastInput(name,stats);
-    }  catch (...) {
+        mirror = &_mirrorsDb->model([=](const CurrentStat &m){return m.name == name;});
+        auto ipt = getInputByN(name,mirror->n);
+    }  catch (std::exception *e) {
+        qDebug() << e->what();
         return false;
     }
-    auto indexOfStats = _statsDb->indexOf(stats);
-    _statsDb->replace(indexOfStats,ipt.stats);
     auto indexOfInput = _iptsDb->indexOf(ipt);
     _iptsDb->remove(indexOfInput);
+    SnapShot newLastIpt;
+    try {
+        newMirror = getInputByN(name,mirror->n - 1).stats;
+    }  catch (std::exception *e) {
+        newMirror = _createMirror->create(name);
+        qDebug() << e->what();
+        return false;
+    }
+    *mirror = newMirror;
     return true;
 }
 
-Input RemoveInputFromContext::getLastInput(const QString &name, const CurrentStats &stats)
+SnapShot RemoveInputFromContext::getInputByN(const QString &name, const int &n)
 {
-    auto n = stats.n;
-    auto input = _iptsDb->model([=](const Input &ipt){
+    auto input = _iptsDb->model([=](const SnapShot &ipt){
         if(ipt.name != name)
             return false;
         auto iptStatsImage = ipt.stats;

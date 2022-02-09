@@ -1,8 +1,8 @@
 #ifndef CREATEINPUT_H
 #define CREATEINPUT_H
 #include "Inputs/icreateinput.h"
-struct Input;
-class CreateInput : public ICreateInput<Input>
+struct SnapShot;
+class CreateInput : public ICreateInput<SnapShot>
 {
 public:
     virtual Ipt create(const QString &name, const int &score, const int &modCode) const override;

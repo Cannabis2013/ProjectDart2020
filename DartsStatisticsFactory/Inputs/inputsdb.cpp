@@ -1,5 +1,5 @@
 #include "inputsdb.h"
-#include "Inputs/Models/input.h"
+#include "Inputs/Models/snapshot.h"
 
 void InputsDb::add(const Model &model)
 {
@@ -24,7 +24,7 @@ InputsDb::Model &InputsDb::model(Pred predFunc)
         if(predFunc(model))
             return _models[i];
     }
-    throw "Input not found";
+    throw new std::out_of_range("Model not in db");
 }
 
 QVector<InputsDb::Model> InputsDb::models() const
@@ -34,7 +34,7 @@ QVector<InputsDb::Model> InputsDb::models() const
 
 QVector<InputsDb::Model> InputsDb::models(Pred predFunc) const
 {
-    QVector<Input> inputs;
+    QVector<SnapShot> inputs;
     for (const auto &model : _models) {
         if(predFunc(model))
             inputs << model;

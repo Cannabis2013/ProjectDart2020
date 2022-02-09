@@ -14,26 +14,27 @@ SOURCES += \
 
 HEADERS += \
     InputRoutines/IRemoveInputFromDb.h \
+    Inputs/Models/snapshot.h \
     Inputs/icreateinput.h \
-    Players/Models/currentstats.h \
-    Players/currentstatsservices.h \
+    Inputs/ijsontosnapshot.h \
+    Inputs/snapshotsservices.h \
+    Players/ICreateStatModel.h \
+    Players/Models/imirrorsdb.h \
+    Players/statisticservices.h \
     Report/icreatereport.h \
     Routines/IAddStatsToPlayer.h \
     SLAs/servicescontext.h \
     StatsServices/CalcAverage/ICalcAverage.h \
     Db/istatsdb.h \
-    Inputs/ijsontoinput.h \
     Routines/IJsonToModels.h \
     Players/ijsontoplayer.h \
     Routines/iaddplayerstomem.h \
     Routines/iresetmodels.h \
     SLAs/idartsstatistics.h \
-    Inputs/inputservices.h \
     Routines/routineservices.h \
     StatsServices/ScoreRange/iupdatescorerange.h \
     StatsServices/StatsServices.h \
-    dartsstatistics.h \
-    Inputs/Models/input.h
+    dartsstatistics.h
 
 # Default rules for deployment.
 unix {
