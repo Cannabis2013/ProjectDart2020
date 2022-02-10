@@ -17,7 +17,7 @@ function initMetaData()
         title : json["title"],
         winnerName : json["winnerName"],
         initRemScore : json["initRemScore"],
-        assignedPlayerNames : getPlayerNames(json["assignedPlayerDetails"])
+        assignedPlayerNames : getPlayerNames(json["players"])
     };
     return metaVals;
 }

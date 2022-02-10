@@ -15,14 +15,18 @@ function setState(state)
 }
 function initMetaData()
 {
-    let json = getMetaData();
-    var metaVals = {
-        title : json["title"],
-        winnerName : json["winnerName"],
-        initRemScore : json["initRemScore"],
-        assignedPlayerNames : getPlayerNames(json["assignedPlayerDetails"])
+    let metaJson = getMetaData();
+    let playerDetails = metaJson["players"];
+    let playerNames = getPlayerNames(playerDetails);
+    let playerInputs = dsController.getPlayerScores();
+    var tnmVals = {
+        title : metaJson["title"],
+        winnerName : metaJson["winnerName"],
+        initRemScore : metaJson["initRemScore"],
+        assignedPlayerNames : playerNames,
+        playerInputs : playerInputs
     };
-    return metaVals;
+    return tnmVals;
 }
 function getMetaData(){
     var id = dsController.tournamentId();
@@ -52,11 +56,6 @@ function initScoreBoard()
 {
     var scores = dsController.getPlayerScores();
     var json = JSON.parse(scores);
-    addDartsScoresToScoreBoard(json);
-}
-
-function addDartsScoresToScoreBoard(json)
-{
     for(var i = 0;i < json.length;++i)
         updateScoreBoard(json[i]);
 }

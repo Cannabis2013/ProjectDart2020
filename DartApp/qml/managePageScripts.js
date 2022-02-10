@@ -67,7 +67,7 @@ function updateTournamentsView()
         let gameMode = jsonTournament["gameMode"];
         let title = jsonTournament["title"];
         let winnerName = jsonTournament["winnerName"];
-        let playerDetails = jsonTournament["assignedPlayerDetails"];
+        let playerDetails = jsonTournament["players"];
         let playersCount = playerDetails.length;
         let item = createTournamentItem(gameMode,title,winnerName,playersCount);
         tournamentListView.addItem(item);

@@ -3,7 +3,7 @@
 #include "Players/Models/imirrorsdb.h"
 #include "Players/Models/imirrorsdb.h"
 
-CurrentStat JsonToStatsModel::create(const Json &json) const
+CurrentStat JsonToStatsModel::convert(const Json &json) const
 {
     CurrentStat stats;
     stats.name = json.value("name").toString();

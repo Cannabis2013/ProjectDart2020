@@ -18,6 +18,7 @@ SOURCES += \
     Inputs/jsontosnapshot.cpp \
     Players/createstatmodel.cpp \
     Players/jsontostatsmodel.cpp \
+    Routines/jsontostatsmodels.cpp \
     Players/statsmemory.cpp \
     Routines/bytearraytoinputs.cpp \
     Routines/createstatsreport.cpp \
@@ -37,6 +38,7 @@ HEADERS += \
     Inputs/jsontosnapshot.h \
     Players/createstatmodel.h \
     Players/jsontostatsmodel.h \
+    Routines/jsontostatsmodels.h \
     Players/statsmemory.h \
     Routines/bytearraytoinputs.h \
     Routines/createstatsreport.h \

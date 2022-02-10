@@ -1,10 +1,10 @@
 #ifndef JSONTOSTATSMODEL_H
 #define JSONTOSTATSMODEL_H
-#include "Players/ijsontoplayer.h"
+#include "Players/ijsontostatsmodel.h"
 struct CurrentStat;
-class JsonToStatsModel : public IJsonToPlayer<CurrentStat>
+class JsonToStatsModel : public IJsonToStatsModel<CurrentStat>
 {
 public:
-    virtual CurrentStat create(const Json &json) const override;
+    virtual CurrentStat convert(const Json &json) const override;
 };
 #endif // JSONTOMIRROR_H

@@ -67,7 +67,7 @@ void DartsBuilder::setTournamentPlayerDetails(DartsTournament *tournament, const
 {
     QVector<QUuid> playerIds;
     QVector<QString> playerNames;
-    auto arr = obj.value("assignedPlayerDetails").toArray();
+    auto arr = obj.value("players").toArray();
     for (const auto &jsonvalue : qAsConst(arr)) {
         auto jsonObject = jsonvalue.toObject();
         playerIds << QUuid::fromString(jsonObject.value("playerId").toString());

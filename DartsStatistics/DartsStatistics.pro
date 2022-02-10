@@ -20,6 +20,7 @@ HEADERS += \
     Inputs/snapshotsservices.h \
     Players/ICreateStatModel.h \
     Players/Models/imirrorsdb.h \
+    Players/ijsontostatsmodel.h \
     Players/statisticservices.h \
     Report/icreatereport.h \
     Routines/IAddStatsToPlayer.h \
@@ -27,7 +28,6 @@ HEADERS += \
     StatsServices/CalcAverage/ICalcAverage.h \
     Db/istatsdb.h \
     Routines/IJsonToModels.h \
-    Players/ijsontoplayer.h \
     Routines/iaddplayerstomem.h \
     Routines/iresetmodels.h \
     SLAs/idartsstatistics.h \

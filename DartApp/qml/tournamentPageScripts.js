@@ -8,7 +8,7 @@ function init()
         var gameMode = jsonTournament["gameMode"];
         var title = jsonTournament["title"];
         var winnerName = jsonTournament["winnerName"];
-        var players = jsonTournament["assignedPlayerDetails"];
+        var players = jsonTournament["players"];
         var playersCount = players.length;
         dartsListView.addItem(createItem(title,gameMode,winnerName,playersCount));
     }
