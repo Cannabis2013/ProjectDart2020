@@ -1,5 +1,5 @@
-#ifndef STATISTICS_H
-#define STATISTICS_H
+#ifndef CURRENTSTAT_H
+#define CURRENTSTAT_H
 #include <qstring.h>
 struct CurrentStat
 {

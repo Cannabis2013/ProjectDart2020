@@ -6,8 +6,7 @@ void DCResetServices::reset()
 {
     auto meta = _services->metaService()->meta();
     auto statusCode = _services->metaService()->Initialized;
-    _services->indexService()->init(meta);
-    _services->playerService()->reset(meta.initRemScore);
-    _services->statisticsService()->reset();
+    _services->indexController()->init(meta);
+    _services->playerManager()->reset(meta.initRemScore);
     _services->metaService()->setMeta(statusCode);
 }

@@ -5,7 +5,6 @@
 #include "Injectors/dpcinjectplaservices.h"
 #include "Injectors/dpcinjectiptservices.h"
 #include "Injectors/dpcinjectidxservices.h"
-#include "Injectors/dpcinjectstatsservices.h"
 #include "Injectors/injectdpcroutines.h"
 
 AssembleDPC::AssembleDPC()
@@ -15,7 +14,6 @@ AssembleDPC::AssembleDPC()
     injectPlaServices = new DPCInjectPlaServices;
     injectIptServices = new DPCInjectIptServices;
     injectIdxServices = new DPCInjectIdxServices;
-    injectStatsServices = new DPCInjectStatsServices;
     injectRoutines = new InjectDPCRoutines;
 }
 
@@ -27,7 +25,6 @@ IDartsCtrl *AssembleDPC::assemble()
     injectPlaServices->inject(dc);
     injectIptServices->inject(dc);
     injectIdxServices->inject(dc);
-    injectStatsServices->inject(dc);
     injectRoutines->inject(dc);
     return dc;
 }

@@ -5,7 +5,7 @@
 #include "DCMetaSLAs/idcmetaconverter.h"
 #include "DCMetaSLAs/idcmetaservice.h"
 #include "DCIndexSLAs/idcindexcontroller.h"
-#include "DCScoresSLAs/absdcplayersctx.h"
+#include "DCScoresSLAs/idcplayermanager.h"
 #include "Models/dcindex.h"
 #include "Models/dcplayer.h"
 #include "Models/dcmeta.h"

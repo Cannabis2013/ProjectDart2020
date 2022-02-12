@@ -11,8 +11,8 @@ public:
     DCCreateTurnValues(DCServices *services):_services(services){};
     DCTurnValues create() const override
     {
-        auto index = _services->indexService()->index();
-        auto player = _services->playerService()->player(index.playerIndex);
+        auto index = _services->indexController()->index();
+        auto player = _services->playerManager()->player(index.playerIndex);
         auto finish = _services->finishBuilder()->suggestTargetRow(player.remScore,index.attemptIndex);
         return turnValues(index,player,finish);
     }

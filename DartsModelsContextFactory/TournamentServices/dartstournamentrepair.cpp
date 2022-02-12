@@ -33,9 +33,8 @@ DartsTournamentRepair::Model *DartsTournamentRepair::getTournament(const QUuid &
 
 DartsTournamentRepair::Models DartsTournamentRepair::getInputs(const QUuid &tournamentID) const
 {
-    auto inputsDb = _iptServices->inputsDb();
-    auto getInputs = _iptServices->getInputsFromDb();
-    return getInputs->get(tournamentID,inputsDb->models());
+    auto models = _iptServices->inputsDb()->models();
+    return _iptServices->getInputsFromDb()->get(tournamentID,models);
 }
 
 bool DartsTournamentRepair::repairTournamentPlayers(IDartsTournament *tournament) const
@@ -47,7 +46,7 @@ bool DartsTournamentRepair::repairTournamentPlayers(IDartsTournament *tournament
         return false;
     QVector<QUuid> pIds;
     QVector<QString> pNames;
-    for (const auto &player : players) {
+    for (const auto &player : qAsConst(players)) {
         pIds << player.id;
         pNames << player.name;
     }

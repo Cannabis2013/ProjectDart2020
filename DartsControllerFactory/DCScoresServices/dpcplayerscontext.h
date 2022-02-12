@@ -1,9 +1,9 @@
 #ifndef DPCPLAYERSCONTEXT_H
 #define DPCPLAYERSCONTEXT_H
-#include "DCScoresSLAs/absdcplayersctx.h"
+#include "DCScoresSLAs/idcplayermanager.h"
 #include <qvector.h>
 #include "Models/dcplayer.h"
-class DPCPlayersContext : public AbsDCPlayersCtx<DCPlayer,DCInput>
+class DPCPlayersContext : public IDCPlayerManager<DCPlayer,DCInput>
 {
 public:
     Players &players() override;

@@ -16,7 +16,6 @@ HEADERS += \
     DCFinishesServices/dclogisticdb.h \
     DCFinishesServices/defaultthresholds.h \
     DCIndexServices/dcidxjsonbuilder.h \
-    DCIndexServices/dcplayerstatsjsonbuilder.h \
     DCIndexServices/dcreqidxjsonbuilder.h \
     DCInputServices/dcassembleinput.h \
     DCInputServices/dcconvertinputs.h \
@@ -53,18 +52,13 @@ HEADERS += \
     Injectors/dpcinjectidxservices.h \
     Injectors/dpcinjectiptservices.h \
     Injectors/dpcinjectplaservices.h \
-    Injectors/dpcinjectstatsservices.h \
     Injectors/dscindexinjector.h \
     Injectors/dscinjectplaservives.h \
     Injectors/dscinputinjector.h \
     Injectors/dscjsonresponseinjector.h \
-    Injectors/dscstatsinjector.h \
     Injectors/injectdpcroutines.h \
     Injectors/injectdscroutines.h \
-    ModelsComCtxServices/dcupdatemodelscontext.h \
-    PlayerStatsServices/dcstatscontext.h \
-    PlayerStatsServices/dcupdatescorerange.h \
-    PlayerStatsServices/dpcupdatescorerange.h \
+    ModelsComCtxServices/dcaddinputtomodelscontext.h \
     ServiceRoutineServices/dcresetservices.h \
     createdartscontroller.h
 
@@ -87,6 +81,7 @@ SOURCES += \
     DSCServices/dscinputevaluator.cpp \
     DartsAssemblers/assembledpc.cpp \
     DartsAssemblers/assembledsc.cpp \
+    IndexServices/dpcindexcontroller.cpp \
     InitServices/dcinitializecontroller.cpp \
     Injectors/dcinjectfinclient.cpp \
     Injectors/dcinjectmetaclient.cpp \
@@ -94,16 +89,13 @@ SOURCES += \
     Injectors/dpcinjectidxservices.cpp \
     Injectors/dpcinjectiptservices.cpp \
     Injectors/dpcinjectplaservices.cpp \
-    Injectors/dpcinjectstatsservices.cpp \
     Injectors/dscindexinjector.cpp \
     Injectors/dscinjectplaservives.cpp \
     Injectors/dscinputinjector.cpp \
     Injectors/dscjsonresponseinjector.cpp \
-    Injectors/dscstatsinjector.cpp \
     Injectors/injectdpcroutines.cpp \
     Injectors/injectdscroutines.cpp \
-    ModelsComCtxServices/dcupdatemodelscontext.cpp \
-    PlayerStatsServices/dcupdatescorerange.cpp \
+    ModelsComCtxServices/dcaddinputtomodelscontext.cpp \
     ServiceRoutineServices/dcresetservices.cpp \
     createdartscontroller.cpp
 

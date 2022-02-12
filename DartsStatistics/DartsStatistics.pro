@@ -15,19 +15,16 @@ SOURCES += \
 HEADERS += \
     InputRoutines/IRemoveInputFromDb.h \
     Inputs/Models/snapshot.h \
-    Inputs/icreateinput.h \
-    Inputs/ijsontosnapshot.h \
+    Inputs/icreatesnapshot.h \
     Inputs/snapshotsservices.h \
     Players/ICreateStatModel.h \
-    Players/Models/imirrorsdb.h \
-    Players/ijsontostatsmodel.h \
+    Players/Models/currentstats.h \
     Players/statisticservices.h \
     Report/icreatereport.h \
-    Routines/IAddStatsToPlayer.h \
+    Routines/IUpdateCurrentStats.h \
     SLAs/servicescontext.h \
     StatsServices/CalcAverage/ICalcAverage.h \
     Db/istatsdb.h \
-    Routines/IJsonToModels.h \
     Routines/iaddplayerstomem.h \
     Routines/iresetmodels.h \
     SLAs/idartsstatistics.h \

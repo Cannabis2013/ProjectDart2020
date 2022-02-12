@@ -7,7 +7,6 @@ public:
     void inject(DCServices *dc);
 private:
     void injectInputRoutines(DCServices *dc);
-    void injectStatsRoutines(DCServices *dc);
     void injectOtherRoutines(DCServices *dc);
 };
 

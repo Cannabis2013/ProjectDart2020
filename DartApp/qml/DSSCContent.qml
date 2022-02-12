@@ -1,7 +1,9 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
+import "dsscinit.js" as DSSCInit
 import "dsscscripts.js" as DSSCScripts
 import "dsscstatescripts.js" as StateScripts
+import ".."
 Content {
     id: dsscContent
     preferedPageTitle: "Darts 2021"
@@ -18,7 +20,7 @@ Content {
             onStart: DSSCScripts.startGame()
             onPause: dsscContent.state = "stopped"
             onResume: dsscContent.state = "waitingForInput"
-            onRestart: DSSCScripts.resetTournament()
+            onRestart: DSSCInit.resetTournament()
             onUndo: DSSCScripts.undoClicked()
             onRedo: DSSCScripts.redoClicked()
         }
@@ -73,5 +75,5 @@ Content {
             }
         }
     ]
-    Component.onCompleted: DSSCScripts.init()
+    Component.onCompleted: DSSCInit.init()
 }

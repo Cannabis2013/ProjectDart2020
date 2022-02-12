@@ -5,6 +5,6 @@
 
 void DSCIndexInjector::inject(DCIndexSLAs *dc) const
 {
-    dc->setIndexConverter(new DCIndexConverter);
-    dc->setIndexCtrl(new DSCIndexController);
+    dc->setIndexToByteArray(new DCIndexConverter);
+    dc->setIndexController(new DSCIndexController);
 }

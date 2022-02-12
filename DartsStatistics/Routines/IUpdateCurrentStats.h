@@ -1,9 +1,9 @@
-#ifndef IADDSTATSTOPLAYER_H
-#define IADDSTATSTOPLAYER_H
+#ifndef IUPDATECURRENTSTATS_H
+#define IUPDATECURRENTSTATS_H
 template<typename T> class QVector;
 struct SnapShot;
 template<typename TInput>
-class IAddStatsToPlayer
+class IUpdateCurrentStats
 {
 public:
     typedef TInput Ipt;

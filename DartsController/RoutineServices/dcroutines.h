@@ -5,7 +5,7 @@
 class DCRoutines
 {
 public:
-    IDCAddToMdsCtx *addToModelsService() const {return _addToModelsCtx;}
+    IDCAddToMdsCtx *addInputToModelsContext() const {return _addToModelsCtx;}
     void setUpdateModelsContext(IDCAddToMdsCtx *service) {_addToModelsCtx = service;}
     IDCResetServices *resetServices() const {return _resetServices;}
     void setResetServices(IDCResetServices *newResetServices) {_resetServices = newResetServices;}

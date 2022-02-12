@@ -7,7 +7,7 @@
 RemoveInputFromContext::RemoveInputFromContext(ServicesContext *provider)
 {
     _mirrorsDb = provider->statisticServices()->statModels();
-    _iptsDb = provider->snapShotServices()->snapShots();
+    _iptsDb = provider->snapShotServices()->snapShotsDb();
     _createMirror = provider->statisticServices()->createStatistic();
 }
 

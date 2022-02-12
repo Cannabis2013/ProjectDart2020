@@ -29,13 +29,16 @@ HEADERS += \
     DCFinishesSLAs/idcfinishbuilder.h \
     DCIndexSLAs/idcindexcontroller.h \
     DCIndexSLAs/idcindexconverter.h \
+    DCInputSLAs/idcbytearraytoinput.h \
     DCInputSLAs/idcexternaliptservice.h \
     DCInputSLAs/idcinputadder.h \
     DCInputSLAs/idcinputbuilder.h \
+    DCInputSLAs/idcinputevaluator.h \
     DCMetaSLAs/idcmetabuilder.h \
     DCMetaSLAs/idcmetaconverter.h \
     DCMetaSLAs/idcmetaservice.h \
     DCScoresSLAs/dcplayersslas.h \
+    DCScoresSLAs/idcplayermanager.h \
     DCTurnValuesSLAs/idccreateturnvalues.h \
     InitSLAs/dcinitservices.h \
     InitSLAs/idcinitialize.h \
@@ -43,25 +46,18 @@ HEADERS += \
     Models/dcindex.h \
     DCIndexSLAs/dcindexslas.h \
     DCInputSLAs/dcinputsslas.h \
-    DCInputSLAs/idcipteval.h \
     DCJsonSLAs/AbstractDCJsonBuilder.h \
     DCJsonSLAs/dcjsonbuilderservices.h \
     DCJsonSLAs/dcjsonslas.h \
     DCJsonSLAs/idcmodeljsonbuilder.h \
     DCMetaSLAs/dcmetaslas.h \
-    DCScoresSLAs/absdcplayersctx.h \
     DCTurnValuesSLAs/dcturnvaluesslas.h \
     Models/dcinput.h \
     Models/dcmeta.h \
     Models/dcplayer.h \
-    Models/dcstatsmodel.h \
     Models/dcturnvalues.h \
-    PlayerStatsSLAs/idcupdatescorerange.h \
     RoutineSLAs/idcaddtomdsctx.h \
     ModelsConverterSLAs/idcmodelsconverter.h \
-    PlayerStatsSLAs/dcinputstatsslas.h \
-    PlayerStatsSLAs/idcstatistics.h \
-    DCInputSLAs/idcassembleinput.h \
     RoutineServices/dcroutines.h \
     ServiceRoutineSLAs/idcresetservices.h \
     ServicesProvider/dcservices.h \

@@ -1,8 +1,8 @@
-#ifndef ICREATEINPUT_H
-#define ICREATEINPUT_H
+#ifndef ICREATESNAPSHOT_H
+#define ICREATESNAPSHOT_H
 class QString;
 template<typename TInput>
-class ICreateInput
+class ICreateSnapShot
 {
 public:
     typedef TInput Ipt;

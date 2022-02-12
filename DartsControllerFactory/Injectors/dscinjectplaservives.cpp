@@ -8,5 +8,5 @@ void DSCInjectPlaServives::inject(DCPlayersSLAs *dc) const
 {
     dc->setPlayerConverter(new DCPlayerBuilder);
     dc->setConvertPlayers(new DCConvertPlayers);
-    dc->setPlayersContext(new DSCPlayersContext);
+    dc->setPlayerManager(new DSCPlayersContext);
 }

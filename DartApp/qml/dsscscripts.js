@@ -1,74 +1,3 @@
-function init()
-{
-    var metaVals = initMetaData();
-    initHeader(metaVals);
-    initScoreBoard();
-    setState("ready");
-}
-function setState(state)
-{
-    var status = dsController.status();
-    if(status === 0)
-        dsscContent.state = state;
-    else if(status === 2)
-        winnerFound();
-}
-function initMetaData()
-{
-    let metaJson = getMetaData();
-    let playerDetails = metaJson["players"];
-    let playerNames = getPlayerNames(playerDetails);
-    let playerInputs = dsController.getPlayerScores();
-    var tnmVals = {
-        title : metaJson["title"],
-        winnerName : metaJson["winnerName"],
-        initRemScore : metaJson["initRemScore"],
-        assignedPlayerNames : playerNames,
-        playerInputs : playerInputs
-    };
-    return tnmVals;
-}
-function getMetaData(){
-    var id = dsController.tournamentId();
-    var json = dartsContext.tournament(id);
-    return JSON.parse(json);
-}
-function getPlayerNames(playerDetails)
-{
-    let playerNames = [];
-    let count = playerDetails.length;
-    for(var i = 0;i < count;i++)
-    {
-        let playerDetail = playerDetails[i];
-        let playerName = playerDetail["playerName"];
-        playerNames.push(playerName);
-    }
-    return playerNames;
-}
-function initHeader(metaVals)
-{
-    var assignedPlayerNames = metaVals.assignedPlayerNames;
-    var initRemScore = metaVals.initRemScore;
-    singleColumnScoreBoard.appendHeaderData(assignedPlayerNames,initRemScore);
-}
-
-function initScoreBoard()
-{
-    var scores = dsController.getPlayerScores();
-    var json = JSON.parse(scores);
-    for(var i = 0;i < json.length;++i)
-        updateScoreBoard(json[i]);
-}
-
-function updateScoreBoard(json)
-{
-    let playerName = json["inputPlayerName"];
-    let playerScore = json["remainingScore"];
-    let middleValue = json["middleValue"];
-    let minimum = json["minimumValue"];
-    let maximum = json["maximumValue"];
-    singleColumnScoreBoard.setData(playerName,playerScore,minimum,middleValue,maximum);
-}
 function startGame()
 {
     let status = dsController.status();
@@ -85,22 +14,7 @@ function updateTurnValues()
     setTurnControllerValues(json);
     keyDataDisplay.setThrowSuggestion(json["finishCandidate"]);
 }
-function resetTournament()
-{
-    dsscContent.state = "stopped";
-    var result = dsController.reset();
-    if(result)
-    {
-        clearComponents();
-        init();
-    }
-}
-function clearComponents()
-{
-    singleColumnScoreBoard.clearData();
-    singleColumnScoreTurnController.reset();
-    keyDataDisplay.clear();
-}
+
 function setTurnControllerValues(json)
 {
     singleColumnScoreTurnController.leftButtonEnabled = json["canUndo"];
@@ -151,4 +65,25 @@ function redoClicked()
     updateScoreBoard(JSON.parse(response));
     updateTurnValues();
     setState("waitingForInput");
+}
+
+function updateScoreBoard(json)
+{
+    let playerName = json["inputPlayerName"];
+    let playerScore = json["remainingScore"];
+    let reportAsByteArray = statistics.createReport(playerName);
+    let report = JSON.parse(reportAsByteArray);
+    let minVal = report["minimum"];
+    let midVal = report["middle"];
+    let maxVal = report["maximum"];
+    singleColumnScoreBoard.setData(playerName,playerScore,minVal,midVal,maxVal);
+}
+
+function setState(state)
+{
+    let status = dsController.status();
+    if(status === 0)
+        dsscContent.state = state;
+    else if(status === 2)
+        winnerFound();
 }

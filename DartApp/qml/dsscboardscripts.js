@@ -84,9 +84,9 @@ function setHeaderData(data,defaultVal)
 {
     for(var i = 0; i < data.length;i++)
     {
-        var assignedPlayerName = data[i];
-        scoreBoardBody.appendHeader(assignedPlayerName,Qt.Vertical);
-        scoreBoardBody.setData(assignedPlayerName,defaultVal,0.0,0,0);
+        var playerName = data[i];
+        scoreBoardBody.appendHeader(playerName,Qt.Vertical);
+        scoreBoardBody.setData(playerName,defaultVal,0.0,0,0);
     }
 }
 

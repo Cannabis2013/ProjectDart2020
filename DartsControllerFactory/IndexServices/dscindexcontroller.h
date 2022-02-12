@@ -18,7 +18,7 @@ public:
         reqIdx.roundIndex--;
         return reqIdx;
     }
-    DCIndex next() override
+    void next() override
     {
         if(_idx.turnIndex == _idx.totalTurns)
             _idx.totalTurns++;
@@ -33,7 +33,6 @@ public:
             _idx.roundIndex++;
             _idx.playerIndex = 0;
         }
-        return _idx;
     }
     virtual DCIndex undo() override
     {

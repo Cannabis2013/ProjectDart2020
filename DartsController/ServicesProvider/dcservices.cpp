@@ -4,10 +4,6 @@
 #include "Models/dcmeta.h"
 #include "SLAs/absdartsctx.h"
 #include "DCIndexSLAs/idcindexconverter.h"
-#include "PlayerStatsSLAs/idcstatistics.h"
 
-void DCServices::updateServices(const DCInput &ipt)
-{
-    statisticsService()->update(ipt);
-    playerService()->updateScore(ipt);
-}
+void DCServices::setModelsContext(AbsDartsCtx *context) {_modelsContext = context;}
+AbsDartsCtx *DCServices::modelsContext() {return _modelsContext;}

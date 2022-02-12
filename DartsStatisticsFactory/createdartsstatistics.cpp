@@ -10,10 +10,10 @@ IDartsStatistics *CreateDartsStatistics::create() const
     auto statisticServices = CreateStatisticProvider().create();
     auto snapShotsServices = CreateSnapShotsProvider().create();
     auto statsServices = CreateStatsServices().create();
-    auto routines = CreateStatsRoutines().create(context);
     context->setStatisticServices(statisticServices);
     context->setSnapShotsServices(snapShotsServices);
     context->setStatsProvider(statsServices);
+    auto routines = CreateStatsRoutines().create(context);
     context->setRoutines(routines);
     return context;
 }

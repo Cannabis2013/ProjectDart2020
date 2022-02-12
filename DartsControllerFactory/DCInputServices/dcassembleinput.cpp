@@ -12,12 +12,12 @@ DCAssembleInput::DCAssembleInput(DCServices *services)
     _services = services;
 }
 
-DCInput DCAssembleInput::assemble(const QByteArray &byteArray) const
+DCInput DCAssembleInput::convert(const QByteArray &byteArray) const
 {
     auto meta = _services->metaService()->meta();
-    auto index = _services->indexService()->index();
+    auto index = _services->indexController()->index();
     auto ipt = _services->iptBuilder()->create(byteArray);
-    auto player = _services->playerService()->player(index.playerIndex);
+    auto player = _services->playerManager()->player(index.playerIndex);
     addDetails(ipt,index,meta,player);
     return ipt;
 }

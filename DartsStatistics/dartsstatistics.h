@@ -13,11 +13,10 @@ class DARTSSTATISTICS_EXPORT DartsStatistics : public IDartsStatistics,
                                                public ServicesContext
 {
 public:
-    void initStatisticModels(const ByteArray &data) override;
-    void initSnapShots(const ByteArray &data) override;
+    void addPlayer(const QString &name) override;
+    void addSnapShot(const QString &name, const int &score, const int &modCode) override;
     void reset() override;
     void clear() override;
-    void update(const QString &name, const int &score, const int &modCode) override;
     QByteArray createReport(const QString &name) const override;
     virtual bool removeSnapShot(const QString &name) override;
 };

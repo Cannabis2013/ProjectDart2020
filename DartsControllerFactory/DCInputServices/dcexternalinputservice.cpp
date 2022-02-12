@@ -10,13 +10,13 @@ DCExternalInputService::DCExternalInputService(DCServices *services): _services(
 
 DCInput DCExternalInputService::getPreviousInput()
 {
-    auto index = _services->indexService()->prevIndex();
+    auto index = _services->indexController()->prevIndex();
     return getInput(index);
 }
 
 DCInput DCExternalInputService::getCurrentInput()
 {
-    auto index = _services->indexService()->index();
+    auto index = _services->indexController()->index();
     return getInput(index);
 }
 
@@ -24,9 +24,9 @@ DCInput DCExternalInputService::getInput(const DCIndex &index)
 {
     auto meta = _services->metaService()->meta();
     auto tournamentId = _services->metaService()->tournamentId();
-    auto player = _services->playerService()->player(index.playerIndex);
-    auto idxBa = _services->idxConverter()->convert(index);
-    auto iptBa = _services->mdsCtx()->input(tournamentId,player.name,idxBa);
+    auto player = _services->playerManager()->player(index.playerIndex);
+    auto idxBa = _services->indexToByteArray()->convert(index);
+    auto iptBa = _services->modelsContext()->input(tournamentId,player.name,idxBa);
     auto ipt = _services->iptBuilder()->create(iptBa,meta.initRemScore);
     _services->AddInputDetails()->add(ipt,player,meta);
     return ipt;
@@ -35,24 +35,24 @@ DCInput DCExternalInputService::getInput(const DCIndex &index)
 
 void DCExternalInputService::hideInput()
 {
-    auto idx = _services->indexService()->index();
+    auto idx = _services->indexController()->index();
     auto metaService = _services->metaService();
-    auto indexService = _services->indexService();
-    auto playerService = _services->playerService();
+    auto indexService = _services->indexController();
+    auto playerService = _services->playerManager();
     auto meta = _services->createMeta()->create(metaService,indexService,playerService);
-    auto idxBa = _services->idxConverter()->convert(idx);
-    auto mdsService = _services->mdsCtx();
+    auto idxBa = _services->indexToByteArray()->convert(idx);
+    auto mdsService = _services->modelsContext();
     mdsService->hideInput(meta.tournamentId,meta.playerName,idxBa);
 }
 
 void DCExternalInputService::displayInput()
 {
-    auto idx = _services->indexService()->index();
+    auto idx = _services->indexController()->index();
     auto metaService = _services->metaService();
-    auto indexService = _services->indexService();
-    auto playerService = _services->playerService();
+    auto indexService = _services->indexController();
+    auto playerService = _services->playerManager();
     auto meta = _services->createMeta()->create(metaService,indexService,playerService);
-    auto idxBa = _services->idxConverter()->convert(idx);
-    auto mdsService = _services->mdsCtx();
+    auto idxBa = _services->indexToByteArray()->convert(idx);
+    auto mdsService = _services->modelsContext();
     mdsService->revealInput(meta.tournamentId,meta.playerName,idxBa);
 }

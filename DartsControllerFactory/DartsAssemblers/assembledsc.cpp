@@ -3,7 +3,6 @@
 #include "Injectors/dscindexinjector.h"
 #include "Injectors/dscinputinjector.h"
 #include "Injectors/dscjsonresponseinjector.h"
-#include "Injectors/dscstatsinjector.h"
 #include "Injectors/dcinjectmetaclient.h"
 #include "Injectors/dcinjectfinclient.h"
 #include "dartscontroller.h"
@@ -17,7 +16,6 @@ AssembleDSC::AssembleDSC()
     indexInjector = new DSCIndexInjector;
     inputInjector = new DSCInputInjector;
     jsonInjector = new DSCJsonResponseInjector;
-    statsInjector = new DSCStatsInjector;
     loaderInjector = new DCInjectRoutineServices;
     injectRoutines = new InjectDSCRoutines;
 }
@@ -31,7 +29,6 @@ IDartsCtrl *AssembleDSC::assemble()
     indexInjector->inject(dc);
     inputInjector->inject(dc);
     jsonInjector->inject(dc);
-    statsInjector->inject(dc);
     injectRoutines->inject(dc);
     loaderInjector->inject(dc);
     return dc;

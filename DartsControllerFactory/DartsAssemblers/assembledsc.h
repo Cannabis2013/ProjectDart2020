@@ -1,9 +1,7 @@
 #ifndef ASSEMBLEDSC_H
 #define ASSEMBLEDSC_H
-
 class InjectDSCRoutines;
 class DCInjectRoutineServices;
-class DSCStatsInjector;
 class DSCJsonResponseInjector;
 class DSCInputInjector;
 class DSCIndexInjector;
@@ -23,7 +21,6 @@ private:
     DSCIndexInjector *indexInjector;
     DSCInputInjector *inputInjector;
     DSCJsonResponseInjector *jsonInjector;
-    DSCStatsInjector *statsInjector;
     DCInjectRoutineServices *loaderInjector;
     InjectDSCRoutines *injectRoutines;
 };

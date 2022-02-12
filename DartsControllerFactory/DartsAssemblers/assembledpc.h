@@ -1,7 +1,6 @@
 #ifndef ASSEMBLEDPC_H
 #define ASSEMBLEDPC_H
 class InjectDPCRoutines;
-class DPCInjectStatsServices;
 class DPCInjectIdxServices;
 class DPCInjectIptServices;
 class DPCInjectPlaServices;
@@ -19,7 +18,6 @@ private:
     DPCInjectPlaServices *injectPlaServices;
     DPCInjectIptServices *injectIptServices;
     DPCInjectIdxServices *injectIdxServices;
-    DPCInjectStatsServices *injectStatsServices;
     InjectDPCRoutines *injectRoutines;
 };
 #endif // DEFAULTDARTSPOINTCONTROLLER_H

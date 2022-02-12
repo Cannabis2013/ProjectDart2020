@@ -16,8 +16,7 @@ DartsInputsToJson::ByteArray DartsInputsToJson::fromInputs(const QUuid &tourname
 {
     QJsonArray arr;
     auto models = _iptsDb->models([=](Model *model){
-        auto input = dynamic_cast<IDartsInput*>(model);
-        return input->tournamentId() == tournamentID;
+        return dynamic_cast<IDartsInput*>(model)->tournamentId() == tournamentID;
     });
     for (const auto &model : qAsConst(models))
         arr << _cvtr->create(model);

@@ -7,7 +7,6 @@
 #include "DCJsonSLAs/dcjsonslas.h"
 #include "DCMetaSLAs/dcmetaslas.h"
 #include "DCInputSLAs/dcinputsslas.h"
-#include "PlayerStatsSLAs/dcinputstatsslas.h"
 #include "DCFinishesSLAs/dcfinishesservices.h"
 #include "InitSLAs/dcinitservices.h"
 class DCServices : public DCMetaSLAs,
@@ -17,15 +16,12 @@ class DCServices : public DCMetaSLAs,
                    public DCPlayersSLAs,
                    public DCInputsSLAs,
                    public DCIndexSLAs,
-                   public PlayerStatsSLAs,
                    public DCInitServices,
                    public DCRoutines
 {
 public:
-    void setModelsContext(AbsDartsCtx *context) {_modelsContext = context;}
-    AbsDartsCtx *mdsCtx() {return _modelsContext;}
-protected:
-    void updateServices(const DCInput &ipt);
+    void setModelsContext(AbsDartsCtx *context);
+    AbsDartsCtx *modelsContext();
 private:
     AbsDartsCtx *_modelsContext = nullptr;
 };

@@ -2,11 +2,11 @@
 
 DSCInputEvaluator::DSCInputEvaluator(DCServices *services) : _services(services){}
 
-void DSCInputEvaluator::eval(DCInput &input)
+void DSCInputEvaluator::evaluate(DCInput &input)
 {
     auto meta = &_services->metaService()->meta();
-    auto idx = _services->indexService()->index();
-    auto player = _services->playerService()->player(idx.playerIndex);
+    auto idx = _services->indexController()->index();
+    auto player = _services->playerManager()->player(idx.playerIndex);
     auto score = calcScore(input.score,player.remScore);
     update(score,input,meta);
 }

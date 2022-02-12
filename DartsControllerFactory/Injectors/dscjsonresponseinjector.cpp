@@ -4,7 +4,6 @@
 #include "DCInputServices/dcinputjsonbuilder.h"
 #include "DCScoresServices/dcscorejsonbuilder.h"
 #include "DCIndexServices/dcidxjsonbuilder.h"
-#include "DCIndexServices/dcplayerstatsjsonbuilder.h"
 #include "DCIndexServices/dcreqidxjsonbuilder.h"
 #include "DCMetaServices/DCMetaInfoJsonBuilder.h"
 #include "DCTurnValuesServices/DCTurnValuesJsonBuilder.h"
@@ -23,6 +22,5 @@ void DSCJsonResponseInjector::injectBuilder(AbstractDCJsonBuilder *builder) cons
     builder->setIdxJsonBuilder(new DCIdxJsonBuilder);
     builder->setReqIdxJsonBuilder(new DCReqIdxJsonBuilder);
     builder->setMetaJsonBuilder(new DCMetaInfoJsonBuilder);
-    builder->setPlayerStatsJsonBuilder(new DCPlayerStatsJsonBuilder);
     builder->setTurnValuesJsonBuilder(new DCTurnValuesJsonBuilder);
 }

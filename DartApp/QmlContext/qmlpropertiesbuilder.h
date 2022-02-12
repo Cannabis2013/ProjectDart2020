@@ -34,7 +34,7 @@ public:
         _props << createProperty<IDartsCtrl>("dsController",_dsController);
         _props << createProperty<IDartsCtrl>("dpController",_dpController);
         _props << createProperty<AbsPlaCtx>("playersContext",_playerContext);
-        _props << createProperty<IDartsStatistics>("Statistics",_statistics);
+        _props << createProperty<IDartsStatistics>("statistics",_statistics);
         return _props;
     }
 private:

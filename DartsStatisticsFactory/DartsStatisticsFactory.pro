@@ -15,16 +15,12 @@ SOURCES += \
     Injectors/injectstatsroutines.cpp \
     Inputs/createinput.cpp \
     Inputs/inputsdb.cpp \
-    Inputs/jsontosnapshot.cpp \
     Players/createstatmodel.cpp \
-    Players/jsontostatsmodel.cpp \
-    Routines/jsontostatsmodels.cpp \
     Players/statsmemory.cpp \
-    Routines/bytearraytoinputs.cpp \
     Routines/createstatsreport.cpp \
     Routines/removeinputfromcontext.cpp \
     Routines/resetstatscontext.cpp \
-    Routines/updatestatsmirror.cpp \
+    Routines/updatecurrentstats.cpp \
     Statistics/calculatemiddlevalue.cpp \
     Statistics/updatescorerange.cpp \
     createdartsstatistics.cpp
@@ -35,16 +31,12 @@ HEADERS += \
     Injectors/injectstatsroutines.h \
     Inputs/createinput.h \
     Inputs/inputsdb.h \
-    Inputs/jsontosnapshot.h \
     Players/createstatmodel.h \
-    Players/jsontostatsmodel.h \
-    Routines/jsontostatsmodels.h \
     Players/statsmemory.h \
-    Routines/bytearraytoinputs.h \
     Routines/createstatsreport.h \
     Routines/removeinputfromcontext.h \
     Routines/resetstatscontext.h \
-    Routines/updatestatsmirror.h \
+    Routines/updatecurrentstats.h \
     Statistics/calculatemiddlevalue.h \
     Statistics/updatescorerange.h \
     createdartsstatistics.h

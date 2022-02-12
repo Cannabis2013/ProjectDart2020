@@ -25,19 +25,17 @@ void DCInitializeController::init(const QUuid &tournamentId, AbsDartsCtx *ctx)
 void DCInitializeController::initMeta(const DCMeta &meta)
 {
     _services->metaService()->setMeta(meta);
-    _services->indexService()->init(meta);
+    _services->indexController()->init(meta);
 }
 
 void DCInitializeController::initPlayerDetails(const QVector<DCPlayer> &players, const DCMeta &meta)
 {
-    _services->playerService()->addPlayers(updatePlayers(players,meta.initRemScore));
-    _services->statisticsService()->setPlayers(players);
+    _services->playerManager()->addPlayers(updatePlayers(players,meta.initRemScore));
 }
 
 void DCInitializeController::initPlayerScores(const QVector<DCInput> &inputs)
 {
-    _services->playerService()->updateScores(inputs);
-    _services->statisticsService()->update(inputs);
+    _services->playerManager()->updateScores(inputs);
 }
 
 void DCInitializeController::initStatus()

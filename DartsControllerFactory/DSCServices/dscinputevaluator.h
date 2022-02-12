@@ -1,11 +1,11 @@
 #ifndef DSCINPUTEVALUATOR_H
 #define DSCINPUTEVALUATOR_H
-#include "DCInputSLAs/idcipteval.h"
+#include "DCInputSLAs/idcinputevaluator.h"
 #include "Models/dcinput.h"
 #include "Models/dcplayer.h"
 #include "Models/dcmeta.h"
 #include "ServicesProvider/dcservices.h"
-class DSCInputEvaluator : public IDCIptEval
+class DSCInputEvaluator : public IDCInputEvaluator
 {
 public:
     enum ControllerState {
@@ -15,7 +15,7 @@ public:
         AwaitsInput
     };
     DSCInputEvaluator(DCServices *services);
-    void eval(DCInput &input) override;
+    void evaluate(DCInput &input) override;
 private:
     int calcScore(const int &scoreCand, const int &remScore);
     void update(const int &scoreCand, DCInput &input, DCMeta *meta);

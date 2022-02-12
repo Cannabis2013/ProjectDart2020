@@ -1,6 +1,6 @@
 #ifndef DCPLAYERSCORESSLAS_H
 #define DCPLAYERSCORESSLAS_H
-#include "DCScoresSLAs/absdcplayersctx.h"
+#include "DCScoresSLAs/idcplayermanager.h"
 #include <qbytearray.h>
 #include <qjsonobject.h>
 #include "ModelBuilderSLAs/idcmodelconverter.h"
@@ -8,9 +8,9 @@
 class DCPlayersSLAs
 {
 public:
-    typedef AbsDCPlayersCtx<DCPlayer,DCInput> PlayerContext;
-    PlayerContext *playerService() const {return _scoresModels;}
-    void setPlayersContext(PlayerContext *service) {_scoresModels = service;}
+    typedef IDCPlayerManager<DCPlayer,DCInput> PlayerManager;
+    PlayerManager *playerManager() const {return _playerManager;}
+    void setPlayerManager(PlayerManager *service) {_playerManager = service;}
     IDCModelConverter<DCPlayer> *playerConverter() const {return _playerConverter;}
     void setPlayerConverter(IDCModelConverter<DCPlayer> *service) {_playerConverter = service;}
     IDCModelsConverter<DCPlayer> *convertPlayers() const {return _convertPlayers;}
@@ -18,6 +18,6 @@ public:
 private:
     IDCModelsConverter<DCPlayer> *_convertPlayers;
     IDCModelConverter<DCPlayer> *_playerConverter;
-    PlayerContext *_scoresModels;
+    PlayerManager *_playerManager;
 };
 #endif // DSCSCORESERVICESPROVIDER_H

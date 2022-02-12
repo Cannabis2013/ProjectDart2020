@@ -52,7 +52,7 @@ public:
     void setInputConverter(InputConverter *service) {_inputConverter = service;}
     DbInputsToJson *inputModelsToJson() const {return _inputModelsToJson;}
     void setInputModelsToJson(DbInputsToJson *service) {_inputModelsToJson = service;}
-    InputsJsonBuilder *createJsonFromInputs() const {return _createJsonFromInputs;}
+    InputsJsonBuilder *inputsToJson() const {return _createJsonFromInputs;}
     void setCreateJsonFromInputs(InputsJsonBuilder *service) {_createJsonFromInputs = service;}
     ConvertFromByteArray *jsonToInputs() const {return _jsonToInputs;}
     void setJsonToInputs(ConvertFromByteArray *service) {_jsonToInputs = service;}

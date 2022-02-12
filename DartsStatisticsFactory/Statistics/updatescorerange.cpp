@@ -1,6 +1,6 @@
 #include "updatescorerange.h"
 #include "Inputs/Models/snapshot.h"
-#include "Players/Models/imirrorsdb.h"
+#include "Players/Models/currentstats.h"
 
 void UpdateScoreRange::update(SnapShot &snapShot, CurrentStat *stats) const
 {

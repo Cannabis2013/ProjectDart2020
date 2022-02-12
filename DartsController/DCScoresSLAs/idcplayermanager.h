@@ -1,5 +1,5 @@
-#ifndef IDSCSCORESSERVICE_H
-#define IDSCSCORESSERVICE_H
+#ifndef IDCPLAYERMANAGER_H
+#define IDCPLAYERMANAGER_H
 template<typename T>
 class QVector;
 struct DCInput;
@@ -8,7 +8,7 @@ struct DCIndex;
 class QString;
 class QStringList;
 template<typename TPlayer,typename TInput>
-class AbsDCPlayersCtx
+class IDCPlayerManager
 {
 public:
     typedef TPlayer Player;

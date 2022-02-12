@@ -25,7 +25,7 @@ void DartsContext::setTournamentWinner(const QUuid &tournamentId, const QString 
 }
 QByteArray DartsContext::inputs(const QUuid &tournamentID) const
 {
-    return inputServices()->createJsonFromInputs()->fromInputs(tournamentID);
+    return inputServices()->inputsToJson()->fromInputs(tournamentID);
 }
 bool DartsContext::deleteTournaments(const QVector<int> &indexes)
 {

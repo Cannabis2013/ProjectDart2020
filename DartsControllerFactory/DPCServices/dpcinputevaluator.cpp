@@ -2,11 +2,11 @@
 
 DPCInputEvaluator::DPCInputEvaluator(DCServices *services) : _services(services){}
 
-void DPCInputEvaluator::eval(DCInput &input)
+void DPCInputEvaluator::evaluate(DCInput &input)
 {
     auto meta = &_services->metaService()->meta();
-    auto idx = _services->indexService()->index();
-    auto player = _services->playerService()->player(idx.playerIndex);
+    auto idx = _services->indexController()->index();
+    auto player = _services->playerManager()->player(idx.playerIndex);
     auto scoreCand = calcScore(input.score,player.remScore);
     if(!player.in && meta->entryRestricted)
         playerHasNotEntered(input,scoreCand);

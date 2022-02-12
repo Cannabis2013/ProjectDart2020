@@ -1,5 +1,5 @@
 #include "statsmemory.h"
-#include "Players/Models/imirrorsdb.h"
+#include "Players/Models/currentstats.h"
 
 void StatsMemory::add(const Model &model)
 {

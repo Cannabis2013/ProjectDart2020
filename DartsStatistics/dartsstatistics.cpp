@@ -1,17 +1,17 @@
 #include "dartsstatistics.h"
 #include <qvector.h>
 
-void DartsStatistics::initStatisticModels(const ByteArray &ba)
+void DartsStatistics::addPlayer(const QString &name)
 {
-    auto players = routines()->byteArrayToStats()->convert(ba);
-    statisticServices()->statModels()->add(players);
+    auto statsModel = statisticServices()->createStatistic()->create(name);
+    statisticServices()->statModels()->add(statsModel);
 }
 
-void DartsStatistics::initSnapShots(const ByteArray &ba)
+void DartsStatistics::addSnapShot(const QString &name, const int &score, const int &modCode)
 {
-    auto inputs = routines()->byteArrayToSnapShots()->convert(ba);
-    routines()->updatePlayerStatistics()->update(inputs);
-    snapShotServices()->snapShots()->add(inputs);
+    auto input = snapShotServices()->createSnapShot()->create(name,score,modCode);
+    routines()->updatePlayerStatistics()->update(input);
+    snapShotServices()->snapShotsDb()->add(input);
 }
 
 void DartsStatistics::reset()
@@ -22,13 +22,7 @@ void DartsStatistics::reset()
 void DartsStatistics::clear()
 {
     statisticServices()->statModels()->clear();
-    snapShotServices()->snapShots()->clear();
-}
-
-void DartsStatistics::update(const QString &name, const int &score, const int &modCode)
-{
-    auto input = snapShotServices()->createSnapShot()->create(name,score,modCode);
-    routines()->updatePlayerStatistics()->update(input);
+    snapShotServices()->snapShotsDb()->clear();
 }
 
 QByteArray DartsStatistics::createReport(const QString &name) const

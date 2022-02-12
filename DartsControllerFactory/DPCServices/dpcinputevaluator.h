@@ -1,12 +1,12 @@
 #ifndef DPCINPUTVALIDATOR_H
 #define DPCINPUTVALIDATOR_H
-#include "DCInputSLAs/idcipteval.h"
+#include "DCInputSLAs/idcinputevaluator.h"
 #include "Models/dcmeta.h"
 #include "Models/dcplayer.h"
 #include "Models/dcinput.h"
 
 #include "ServicesProvider/dcservices.h"
-class DPCInputEvaluator : public IDCIptEval
+class DPCInputEvaluator : public IDCInputEvaluator
 {
     Q_OBJECT
 public:
@@ -17,7 +17,7 @@ public:
         AwaitsInput
     };
     DPCInputEvaluator(DCServices *services);
-    void eval(DCInput &input) override;
+    void evaluate(DCInput &input) override;
 private:
     enum KeyMappings{
         SingleModifer = 0x2A,
