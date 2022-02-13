@@ -1,11 +1,11 @@
 #ifndef DSCJSONRESPONSEINJECTOR_H
 #define DSCJSONRESPONSEINJECTOR_H
 class AbstractDCJsonBuilder;
-class DCJsonSLAs;
+class DCServices;
 class DSCJsonResponseInjector
 {
 public:
-    void inject(DCJsonSLAs *dc);
+    void inject(DCServices *dc);
 private:
     void injectBuilder(AbstractDCJsonBuilder *builder) const;
 };

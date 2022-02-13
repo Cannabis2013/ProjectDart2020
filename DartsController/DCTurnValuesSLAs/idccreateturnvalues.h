@@ -1,9 +1,6 @@
 #ifndef IDCCREATETURNVALUES_H
 #define IDCCREATETURNVALUES_H
-#include "DCIndexSLAs/idcindexcontroller.h"
-#include "DCScoresSLAs/idcplayermanager.h"
-#include "DCFinishesSLAs/idcfinishbuilder.h"
-#include "Models/dcturnvalues.h"
+struct DCTurnValues;
 class IDCCreateTurnValues
 {
 public:

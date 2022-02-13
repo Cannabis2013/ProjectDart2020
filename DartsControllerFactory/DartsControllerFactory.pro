@@ -3,7 +3,6 @@ TEMPLATE = lib
 DEFINES += DCFactLib
 
 HEADERS += \
-    ConverterSLAs/idcindexconverter.h \
     ConverterServices/dcindexconverter.h \
     DCFinishesServices/dartsboundaries.h \
     DCFinishesServices/dartscreatefinishes.h \
@@ -17,11 +16,9 @@ HEADERS += \
     DCFinishesServices/defaultthresholds.h \
     DCIndexServices/dcidxjsonbuilder.h \
     DCIndexServices/dcreqidxjsonbuilder.h \
-    DCInputServices/dcassembleinput.h \
-    DCInputServices/dcconvertinputs.h \
-    DCInputServices/dcexternalinputservice.h \
     DCInputServices/dcinputbuilder.h \
     DCInputServices/dcinputjsonbuilder.h \
+    DCInputServices/dcjsontoinputmodels.h \
     DCJsonServices/dcjsonbuilder.h \
     DCMetaServices/DCMetaInfoJsonBuilder.h \
     DCMetaServices/dcmetabuilder.h \
@@ -45,7 +42,7 @@ HEADERS += \
     DartsAssemblers/assembledsc.h \
     IndexServices/dpcindexcontroller.h \
     IndexServices/dscindexcontroller.h \
-    InitServices/dcinitializecontroller.h \
+    InitServices/dcinitialize.h \
     Injectors/dcinjectfinclient.h \
     Injectors/dcinjectmetaclient.h \
     Injectors/dcinjectroutineservices.h \
@@ -59,17 +56,17 @@ HEADERS += \
     Injectors/injectdpcroutines.h \
     Injectors/injectdscroutines.h \
     ModelsComCtxServices/dcaddinputtomodelscontext.h \
-    ServiceRoutineServices/dcresetservices.h \
+    Routines/dcredoturn.h \
+    Routines/dcresetservices.h \
+    Routines/dcundoturn.h \
     createdartscontroller.h
 
 SOURCES += \
     DCFinishesServices/dartscreatefinishes.cpp \
     DCFinishesServices/dcfinishbuilder.cpp \
     DCFinishesServices/defaultthresholds.cpp \
-    DCInputServices/dcassembleinput.cpp \
-    DCInputServices/dcconvertinputs.cpp \
-    DCInputServices/dcexternalinputservice.cpp \
     DCInputServices/dcinputbuilder.cpp \
+    DCInputServices/dcjsontoinputmodels.cpp \
     DCJsonServices/dcjsonbuilder.cpp \
     DCMetaServices/dcmetabuilder.cpp \
     DCMetaServices/dcmetaconverter.cpp \
@@ -77,12 +74,13 @@ SOURCES += \
     DCScoresServices/dcplayerbuilder.cpp \
     DCScoresServices/dpcplayerscontext.cpp \
     DCScoresServices/dscplayerscontext.cpp \
+    DCTurnValuesServices/dccreateturnvalues.cpp \
     DPCServices/dpcinputevaluator.cpp \
     DSCServices/dscinputevaluator.cpp \
     DartsAssemblers/assembledpc.cpp \
     DartsAssemblers/assembledsc.cpp \
     IndexServices/dpcindexcontroller.cpp \
-    InitServices/dcinitializecontroller.cpp \
+    InitServices/dcinitialize.cpp \
     Injectors/dcinjectfinclient.cpp \
     Injectors/dcinjectmetaclient.cpp \
     Injectors/dcinjectroutineservices.cpp \
@@ -96,7 +94,9 @@ SOURCES += \
     Injectors/injectdpcroutines.cpp \
     Injectors/injectdscroutines.cpp \
     ModelsComCtxServices/dcaddinputtomodelscontext.cpp \
-    ServiceRoutineServices/dcresetservices.cpp \
+    Routines/dcredoturn.cpp \
+    Routines/dcresetservices.cpp \
+    Routines/dcundoturn.cpp \
     createdartscontroller.cpp
 
 android {

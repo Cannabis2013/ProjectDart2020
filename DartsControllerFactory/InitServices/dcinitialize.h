@@ -1,0 +1,41 @@
+#ifndef DCINITIALIZE_H
+#define DCINITIALIZE_H
+#include "Routines/idcinitialize.h"
+class DCIndex;
+template<typename T,typename U> class IDCIndexController;
+template<typename T> class IDCMetaConverter;
+template<typename T> class IDCJsonToModel;
+template<typename T> class IDCJsonToModels;
+template<typename T> class IDCMetaManager;
+template<typename T,typename U> class IDCPlayerManager;
+class DCServices;
+class DCInitialize : public IDCInitialize
+{
+public:
+    typedef IDCMetaManager<DCMeta> MetaManager;
+    typedef IDCMetaConverter<DCMeta> MetaConverter;
+    typedef IDCPlayerManager<DCPlayer,DCInput> PlayerManager;
+    typedef IDCJsonToModel<DCInput> JsonToInput;
+    typedef IDCJsonToModels<DCInput> JsonToInputs;
+    typedef IDCJsonToModels<DCPlayer> JsonToPlayers;
+    typedef IDCJsonToModel<DCPlayer> JsonToPlayer;
+    typedef IDCIndexController<DCIndex,DCMeta> IndexController;
+    DCInitialize(DCServices *services);
+    void init(const QUuid &tournamentId) override;
+private:
+    void initMeta(const QUuid &tournamentID);
+    void initPlayerDetails();
+    void initPlayerScores();
+    void initStatus();
+    QVector<DCPlayer> updatePlayers(QVector<DCPlayer> &players, const int &remScore);
+    JsonToInput *_jsonToInput;
+    JsonToInputs *_jsonToInputs;
+    PlayerManager *_playerManager;
+    MetaManager *_metaManager;
+    MetaConverter *_jsonToMeta;
+    AbsDartsCtx *_modelsContext;
+    JsonToPlayer *_jsonToPlayer;
+    JsonToPlayers *_byteArrayToPlayers;
+    IndexController *_indexController;
+};
+#endif // DCLOADMODELS_H

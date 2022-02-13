@@ -1,11 +1,11 @@
-#include "dcconvertinputs.h"
+#include "dcjsontoinputmodels.h"
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 #include <qjsonarray.h>
-#include "ModelBuilderSLAs/idcmodelconverter.h"
+#include "ModelBuilderSLAs/idcjsontomodel.h"
 #include "Models/dcinput.h"
 
-DCConvertInputs::Models DCConvertInputs::convert(const QByteArray &byteArray, ModelBuilder *builder) const
+DCJsonToInputModels::Models DCJsonToInputModels::convert(const QByteArray &byteArray, ModelBuilder *builder) const
 {
     auto arr = QJsonDocument::fromJson(byteArray).array();
     Models models;

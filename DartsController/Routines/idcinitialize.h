@@ -9,8 +9,6 @@ class AbsDartsCtx;
 class IDCInitialize
 {
 public:
-    typedef QVector<DCPlayer> Players;
-    typedef QVector<DCInput> Inputs;
-    virtual void init(const QUuid &tournamentId, AbsDartsCtx *ctx) = 0;
+    virtual void init(const QUuid &tournamentId) = 0;
 };
 #endif // IDCLOADER_H

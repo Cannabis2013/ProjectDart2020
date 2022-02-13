@@ -1,7 +1,7 @@
-#ifndef DCJSONSLAS_H
-#define DCJSONSLAS_H
+#ifndef DCJSONSERVICES_H
+#define DCJSONSERVICES_H
 #include "AbstractDCJsonBuilder.h"
-class DCJsonSLAs
+class DCJsonServices
 {
 public:
     AbstractDCJsonBuilder *createJson() const

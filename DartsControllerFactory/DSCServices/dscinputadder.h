@@ -20,7 +20,7 @@ public:
         input.roundIndex = idx.roundIndex;
         input.playerIndex = idx.playerIndex;
         input.attemptIndex = idx.attemptIndex;
-        input.tournamentId = meta.tournamentId;
+        input.tournamentId = meta.tournamentID;
         return input;
     }
     DCInput add(DCInput &input, const DCPlayer &player, const DCMeta &meta) const override
@@ -28,8 +28,8 @@ public:
         input.playerName = player.name;
         input.playerId = player.id;
         input.inGame = true;
-        input.tournamentId = meta.tournamentId;
-        input.tournamentId = meta.tournamentId;
+        input.tournamentId = meta.tournamentID;
+        input.tournamentId = meta.tournamentID;
         return input;
     }
 };

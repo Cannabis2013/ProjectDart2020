@@ -2,29 +2,19 @@
 #include "ServicesProvider/dcservices.h"
 #include "DSCServices/dscinputevaluator.h"
 #include "ModelsComCtxServices/dcaddinputtomodelscontext.h"
-#include "DCInputServices/dcassembleinput.h"
-#include "DCInputServices/dcexternalinputservice.h"
 #include "DCTurnValuesServices/dccreateturnvalues.h"
-#include "InitServices/dcinitializecontroller.h"
-#include "ServiceRoutineServices/dcresetservices.h"
+#include "InitServices/dcinitialize.h"
+#include "Routines/dcresetservices.h"
 
 void InjectDSCRoutines::inject(DCServices *dc)
 {
-    injectInputRoutines(dc);
-    injectOtherRoutines(dc);
-    dc->setTurnValuesBuilder(new DCCreateTurnValues(dc));
-}
-
-void InjectDSCRoutines::injectInputRoutines(DCServices *dc)
-{
-    dc->setInputEvaluator(new DSCInputEvaluator(dc));
-    dc->setUpdateModelsContext(new DCAddInputToModelsContext(dc));
-    dc->setAssembleInput(new DCAssembleInput(dc));
-    dc->setGetInputFromMdsService(new DCExternalInputService(dc));
-}
-
-void InjectDSCRoutines::injectOtherRoutines(DCServices *dc)
-{
-    dc->setInitializer(new DCInitializeController(dc));
-    dc->setResetServices(new DCResetServices(dc));
+    auto routines = new DCRoutines;
+    routines->setInitializer(new DCInitialize(dc));
+    routines->setResetServices(new DCResetServices(dc));
+    routines->setInputEvaluator(new DSCInputEvaluator(dc));
+    routines->setUpdateModelsContext(new DCAddInputToModelsContext(dc));
+    auto turnValuesServices = new DCTurnValuesServices;
+    turnValuesServices->setTurnValuesBuilder(new DCCreateTurnValues(dc));
+    dc->setTurnValsServices(turnValuesServices);
+    dc->setRoutines(routines);
 }

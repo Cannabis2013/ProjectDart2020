@@ -3,11 +3,6 @@
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 
-DCInputBuilder::Model DCInputBuilder::create(const ByteArray &byteArray, const int &remainingScore) const
-{
-    return toModel(QJsonDocument::fromJson(byteArray).object(),remainingScore);
-}
-
 DCInputBuilder::Model DCInputBuilder::create(const Json &json, const int &remainingScore) const
 {
     return toModel(json,remainingScore);
@@ -68,4 +63,12 @@ DCInputBuilder::Model DCInputBuilder::toModel(const Json &json, const int &remai
     ipt.max = json.value("currentMaximum").toInt();
     ipt.approved = json.value("approved").toBool();
     return ipt;
+}
+
+DCInputBuilder::Model DCInputBuilder::create(const QString &name, const int &remainingScore) const
+{
+    DCInput input;
+    input.remScore = remainingScore;
+    input.playerName = name;
+    return input;
 }

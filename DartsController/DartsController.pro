@@ -10,7 +10,6 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    ServicesProvider/dcservices.cpp \
     dartscontroller.cpp
 
 HEADERS += \
@@ -27,39 +26,39 @@ HEADERS += \
     DCFinishesSLAs/idartsterminaldivisor.h \
     DCFinishesSLAs/idartsthresholds.h \
     DCFinishesSLAs/idcfinishbuilder.h \
+    DCIndexSLAs/dcindexservices.h \
     DCIndexSLAs/idcindexcontroller.h \
-    DCIndexSLAs/idcindexconverter.h \
-    DCInputSLAs/idcbytearraytoinput.h \
-    DCInputSLAs/idcexternaliptservice.h \
+    DCIndexSLAs/idcindextobytearray.h \
+    DCInputSLAs/dcinputsservices.h \
     DCInputSLAs/idcinputadder.h \
     DCInputSLAs/idcinputbuilder.h \
     DCInputSLAs/idcinputevaluator.h \
+    DCJsonSLAs/dcjsonservices.h \
+    DCMetaSLAs/dcmetaservices.h \
     DCMetaSLAs/idcmetabuilder.h \
     DCMetaSLAs/idcmetaconverter.h \
-    DCMetaSLAs/idcmetaservice.h \
-    DCScoresSLAs/dcplayersslas.h \
+    DCMetaSLAs/idcmetamanager.h \
+    DCScoresSLAs/dcplayersservices.h \
     DCScoresSLAs/idcplayermanager.h \
+    DCTurnValuesSLAs/dcturnvaluesservices.h \
     DCTurnValuesSLAs/idccreateturnvalues.h \
-    InitSLAs/dcinitservices.h \
-    InitSLAs/idcinitialize.h \
-    ModelBuilderSLAs/idcmodelconverter.h \
+    ModelBuilderSLAs/idcjsontomodel.h \
+    ModelBuilderSLAs/idcmodeltojson.h \
+    ModelsConverterSLAs/idcjsontomodels.h \
+    Routines/idcinitialize.h \
     Models/dcindex.h \
-    DCIndexSLAs/dcindexslas.h \
-    DCInputSLAs/dcinputsslas.h \
     DCJsonSLAs/AbstractDCJsonBuilder.h \
     DCJsonSLAs/dcjsonbuilderservices.h \
-    DCJsonSLAs/dcjsonslas.h \
     DCJsonSLAs/idcmodeljsonbuilder.h \
-    DCMetaSLAs/dcmetaslas.h \
-    DCTurnValuesSLAs/dcturnvaluesslas.h \
     Models/dcinput.h \
     Models/dcmeta.h \
     Models/dcplayer.h \
     Models/dcturnvalues.h \
-    RoutineSLAs/idcaddtomdsctx.h \
-    ModelsConverterSLAs/idcmodelsconverter.h \
-    RoutineServices/dcroutines.h \
-    ServiceRoutineSLAs/idcresetservices.h \
+    Routines/idcaddtomdsctx.h \
+    Routines/dcroutines.h \
+    Routines/idcredoturn.h \
+    Routines/idcresetservices.h \
+    Routines/idcundoturn.h \
     ServicesProvider/dcservices.h \
     dartscontroller.h
 

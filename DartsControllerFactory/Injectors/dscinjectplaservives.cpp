@@ -1,12 +1,15 @@
 #include "dscinjectplaservives.h"
-#include "DCScoresSLAs/dcplayersslas.h"
+#include "DCScoresSLAs/dcplayersservices.h"
 #include "DCScoresServices/dscplayerscontext.h"
 #include "DCScoresServices/dcconvertplayers.h"
 #include "DCScoresServices/dcplayerbuilder.h"
+#include "ServicesProvider/dcservices.h"
 
-void DSCInjectPlaServives::inject(DCPlayersSLAs *dc) const
+void DSCInjectPlaServives::inject(DCServices *dc) const
 {
-    dc->setPlayerConverter(new DCPlayerBuilder);
-    dc->setConvertPlayers(new DCConvertPlayers);
-    dc->setPlayerManager(new DSCPlayersContext);
+    auto playerServices = new DCPlayersServices;
+    playerServices->setPlayerConverter(new DCPlayerBuilder);
+    playerServices->setConvertPlayers(new DCConvertPlayers);
+    playerServices->setPlayerManager(new DSCPlayersContext);
+    dc->setPlayerServices(playerServices);
 }

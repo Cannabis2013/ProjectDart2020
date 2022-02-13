@@ -1,10 +1,13 @@
 #include "dpcinjectidxservices.h"
-#include "DCIndexSLAs/dcindexslas.h"
+#include "DCIndexSLAs/dcindexservices.h"
 #include "IndexServices/dpcindexcontroller.h"
 #include "ConverterServices/dcindexconverter.h"
+#include "ServicesProvider/dcservices.h"
 
-void DPCInjectIdxServices::inject(DCIndexSLAs *dc) const
+void DPCInjectIdxServices::inject(DCServices *dc) const
 {
-    dc->setIndexController(new DPCIndexController);
-    dc->setIndexToByteArray(new DCIndexConverter);
+    auto indexServices = new DCIndexServices;
+    indexServices->setIndexController(new DPCIndexController);
+    indexServices->setIndexToByteArray(new DCIndexConverter);
+    dc->setIndexServices(indexServices);
 }

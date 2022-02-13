@@ -11,12 +11,16 @@
 #include "DCFinishesServices/dartscreatefinishes.h"
 #include "DCFinishesServices/dcfinishbuilder.h"
 #include "DCFinishesServices/dclogisticdb.h"
-void DCInjectFinClient::inject(DCFinishesSLAs *service) const
+#include "ServicesProvider/dcservices.h"
+
+void DCInjectFinClient::inject(DCServices *services) const
 {
+    auto finServices = new DCFinishServices;
     auto finBuilder = new DCFinishBuilder;
     injectBuilderClient(finBuilder);
     finBuilder->init();
-    service->setFinishBuilder(finBuilder);
+    finServices->setFinishBuilder(finBuilder);
+    services->setFinServices(finServices);
 }
 
 void DCInjectFinClient::injectBuilderClient(DCFinishBuilder *builder) const

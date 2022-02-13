@@ -9,5 +9,4 @@ public:
     typedef QVector<Model> Models;
     virtual void save(const Models &models) const = 0;
 };
-
 #endif // IADDPLAYERSTOMEM_H

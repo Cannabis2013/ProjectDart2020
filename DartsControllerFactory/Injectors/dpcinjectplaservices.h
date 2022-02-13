@@ -1,10 +1,10 @@
 #ifndef DPCINJECTPLASERVICES_H
 #define DPCINJECTPLASERVICES_H
-class DCPlayersSLAs;
+class DCServices;
 class DPCInjectPlaServices
 {
 public:
-    void inject(DCPlayersSLAs *dc) const;
+    void inject(DCServices *dc) const;
 };
 
 #endif // DPCINJECTPLASERVICES_H

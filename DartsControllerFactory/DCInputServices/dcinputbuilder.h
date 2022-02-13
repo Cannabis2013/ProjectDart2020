@@ -9,16 +9,15 @@ class DCInputBuilder : public IDCInputBuilder<DCInput>
 {
 public:
     typedef QJsonDocument Doc;
-    Model create() const override;
-    Model create(const ByteArray &byteArray, const int &remainingScore) const override;
-    Model create(const Json &json, const int &remainingScore) const override;
-    Json create(const Model &model) const override;
-    Model create(const Json &json) const override;
+    virtual Model create() const override;
+    virtual Model create(const QString &name, const int &remainingScore) const override;
+    virtual Model create(const Json &json, const int &remainingScore) const override;
+    virtual Json create(const Model &model) const override;
+    virtual Model create(const Json &json) const override;
 private:
     QJsonObject toJson(const Model &model) const;
     QJsonObject toJson(const ByteArray &byteArray) const;
     Model toModel(const Json &json, const int &remainingScore = -1) const;
+
 };
-
-
 #endif // DCINPUTCONVERTER_H

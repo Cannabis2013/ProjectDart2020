@@ -1,10 +1,10 @@
-#ifndef IDCINDEXCONVERTER_H
-#define IDCINDEXCONVERTER_H
+#ifndef IDCINDEXTOBYTEARRAY_H
+#define IDCINDEXTOBYTEARRAY_H
 class QByteArray;
 struct DCMeta;
 struct DCIndex;
 class IDartsIndex;
-class IDCIndexConverter
+class IDCIndexToByteArray
 {
 public:
     typedef QByteArray ByteArray;

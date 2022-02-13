@@ -20,7 +20,7 @@ public:
         input.roundIndex = idx.roundIndex;
         input.playerIndex = idx.playerIndex;
         input.attemptIndex = idx.attemptIndex;
-        input.tournamentId = meta.tournamentId;
+        input.tournamentId = meta.tournamentID;
         return input;
     }
     DCInput add(DCInput &input, const DCPlayer &player, const DCMeta &meta) const override
@@ -28,7 +28,7 @@ public:
         input.playerName = player.name;
         input.score = 0;
         input.inGame = true;
-        input.tournamentId = meta.tournamentId;
+        input.tournamentId = meta.tournamentID;
         return input;
     }
 private:

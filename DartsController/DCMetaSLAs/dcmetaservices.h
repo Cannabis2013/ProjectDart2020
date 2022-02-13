@@ -1,18 +1,18 @@
-#ifndef DCMETASLAS_H
-#define DCMETASLAS_H
+#ifndef DCMETASERVICES_H
+#define DCMETASERVICES_H
 #include "idcmetaconverter.h"
 #include "idcmetabuilder.h"
-#include "idcmetaservice.h"
-class DCMetaSLAs
+#include "idcmetamanager.h"
+class DCMetaServices
 {
 public:
     typedef DCMeta Meta;
     typedef QByteArray ByteArray;
     typedef IDCMetaConverter<Meta> MetaConverter;
     typedef IDCMetaBuilder<Meta> MetaBuilder;
-    typedef IDCMetaService<DCMeta> MetaContext;
-    MetaContext *metaService() const {return _metaInfo;}
-    void setMetaContext(MetaContext *service) {_metaInfo = service;}
+    typedef IDCMetaManager<DCMeta> MetaManager;
+    MetaManager *metaManager() const {return _metaInfo;}
+    void setMetaContext(MetaManager *service) {_metaInfo = service;}
     MetaBuilder *createMeta() const {return _metaBuilder;}
     void setMetaBuilder(MetaBuilder *service) {_metaBuilder = service;}
     MetaConverter *metaConverter() const {return _metaConverter;}
@@ -20,6 +20,6 @@ public:
 private:
     MetaConverter *_metaConverter;
     MetaBuilder *_metaBuilder;
-    MetaContext *_metaInfo;
+    MetaManager *_metaInfo;
 };
-#endif // DCMETASLAS_H
+#endif // DCMETASERVICES_H

@@ -21,7 +21,7 @@ DCMeta DCMetaConverter::toMeta(const QJsonObject &json) const
     meta.entryRestricted = json.value("entryRestricted").toBool();
     meta.initRemScore = json.value("initRemScore").toInt();
     meta.playersCount = json.value("assignedPlayersCount").toInt();
-    meta.tournamentId = toId(json.value("tournamentId").toString());
+    meta.tournamentID = toId(json.value("tournamentId").toString());
     meta.winnerName = json.value("winnerName").toString();
     auto roundIndex = json.value("roundIndex").toInt(1);
     if(roundIndex > 0)

@@ -5,9 +5,6 @@ class InjectDPCRoutines
 {
 public:
     void inject(DCServices *dc);
-private:
-    void injectInputRoutines(DCServices *dc);
-    void injectOtherRoutines(DCServices *dc);
 };
 
 #endif // INJECTDPCROUTINES_H

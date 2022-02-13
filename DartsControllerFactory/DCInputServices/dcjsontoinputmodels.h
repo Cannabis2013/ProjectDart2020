@@ -1,12 +1,11 @@
+#ifndef DCJSONTOINPUTMODELS_H
+#define DCJSONTOINPUTMODELS_H
 #include "ModelsConverterSLAs/idcjsontomodels.h"
-#ifndef DCBYTEARRAYTOMODELS_H
-#define DCBYTEARRAYTOMODELS_Hs
 class QJsonObject;
-class DCPlayer;
-class DCConvertPlayers : public IDCJsonToModels<DCPlayer>
+class DCInput;
+class DCJsonToInputModels : public IDCJsonToModels<DCInput>
 {
 public:
     Models convert(const QByteArray &byteArray, ModelBuilder *builder) const override;
 };
-
-#endif // DCBYTEARRAYTOMODELS_H
+#endif // DCJSONTOINPUTMODELS_H

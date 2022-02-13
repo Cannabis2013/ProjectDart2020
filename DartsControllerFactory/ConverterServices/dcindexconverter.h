@@ -1,11 +1,11 @@
 #ifndef DCINDEXCONVERTER_H
 #define DCINDEXCONVERTER_H
-#include "ConverterSLAs/idcindexconverter.h"
 #include "Models/dcindex.h"
 #include <qbytearray.h>
 #include <qjsonobject.h>
 #include <qjsondocument.h>
-class DCIndexConverter : public IDCIndexConverter
+#include "DCIndexSLAs/idcindextobytearray.h"
+class DCIndexConverter : public IDCIndexToByteArray
 {
 public:
     virtual ByteArray convert(const DCIndex &idx) const override

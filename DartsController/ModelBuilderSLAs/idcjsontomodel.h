@@ -1,10 +1,10 @@
-#ifndef IDCMODELCONVERTER_H
-#define IDCMODELCONVERTER_H
+#ifndef IDCJSONTOMODEL_H
+#define IDCJSONTOMODEL_H
 class QJsonObject;
 template<typename T>
 class QVector;
 template<typename TModel>
-class IDCModelConverter
+class IDCJsonToModel
 {
 public:
     typedef TModel Model;

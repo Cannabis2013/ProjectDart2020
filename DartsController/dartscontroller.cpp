@@ -3,64 +3,68 @@
 #include "Models/dcplayer.h"
 #include "Models/dcinput.h"
 #include "Models/dcmeta.h"
+#include "Models/dcturnvalues.h"
 
 QString DartsController::tournamentId() const
 {
-    return metaService()->tournamentId().toString(QUuid::WithBraces);
+    return metaServices()->metaManager()->tournamentID().toString(QUuid::WithBraces);
 }
 
 QByteArray DartsController::getPlayerScores() const
 {
-    return createJson()->create(playerManager()->players());
+    auto playerModels = playerServices()->playerManager()->players();
+    return jsonServices()->createJson()->create(playerModels);
 }
 
 int DartsController::status() const
 {
-    return metaService()->status();
+    return metaServices()->metaManager()->status();
 }
 
 int DartsController::initialize(const QUuid &tournamentId)
 {
-    initializer()->init(tournamentId,modelsContext());
-    return metaService()->status();
+    routines()->initializer()->init(tournamentId);
+    return metaServices()->metaManager()->status();
 }
 
 QByteArray DartsController::addInput(const QByteArray& byteArray)
 {
-    auto input = addInputToModelsContext()->add(byteArray);
-    return createJson()->create(input,metaService()->meta());
+    auto input = routines()->addInputToModelsContext()->add(byteArray);
+    auto meta = metaServices()->metaManager()->meta();
+    return jsonServices()->createJson()->create(input,meta);
 }
 
 bool DartsController::reset()
 {
-    resetServices()->reset();
-    return modelsContext()->resetTournament(metaService()->tournamentId());
+    routines()->resetServices()->reset();
+    auto tournamentID = metaServices()->metaManager()->tournamentID();
+    return modelsContext()->resetTournament(tournamentID);
 }
 
 QByteArray DartsController::undoTurn()
 {
-    indexController()->undo();
-    externalInputService()->hideInput();
-    auto ipt = externalInputService()->getPreviousInput();
-    playerManager()->updateScore(ipt);
-    return createJson()->create(ipt,metaService()->meta());
+    auto inputAsByteArray = routines()->undoTurn()->undo();
+    return inputAsByteArray;
 }
 
 QByteArray DartsController::redoTurn()
 {
-    externalInputService()->displayInput();
-    auto ipt = externalInputService()->getCurrentInput();
-    playerManager()->updateScore(ipt);
-    indexController()->redo();
-    return createJson()->create(ipt,metaService()->meta());
+    auto inputAsByteArray = routines()->redoTurn()->redo();
+    return inputAsByteArray;
 }
 
 QByteArray DartsController::getTurnValues() const {
-    auto values = turnValuesBuilder()->create();
-    return createJson()->create(values,metaService()->meta());
+    auto values = turnValsServices()->turnValuesBuilder()->create();
+    auto meta = metaServices()->metaManager()->meta();
+    return jsonServices()->createJson()->create(values,meta);
 }
 
 QByteArray DartsController::getWinnerJson() const
 {
-    return createJson()->create(createMeta()->winnerMeta(metaService(),indexController(),playerManager()));
+    auto metaService = metaServices()->metaManager();
+    auto indexController = indexServices()->indexController();
+    auto playerManager = playerServices()->playerManager();
+    auto createMeta = metaServices()->createMeta();
+    auto winnerMeta = createMeta->winnerMeta(metaService,indexController,playerManager);
+    return jsonServices()->createJson()->create(winnerMeta);
 }

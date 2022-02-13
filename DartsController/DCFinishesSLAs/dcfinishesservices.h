@@ -1,7 +1,7 @@
 #ifndef DCFINISHESSERVICES_H
 #define DCFINISHESSERVICES_H
 #include "idcfinishbuilder.h"
-class DCFinishesSLAs
+class DCFinishServices
 {
 public:
     IDCFinishBuilder *finishBuilder() const {return _suggestFinishes;}

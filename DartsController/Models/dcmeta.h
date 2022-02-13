@@ -9,7 +9,7 @@ struct DCMeta{
     int playersCount;
     QString playerName;
     QString winnerName;
-    QUuid tournamentId;
+    QUuid tournamentID;
     DCIndex index;
 };
 #endif // DCMETAINFO_H

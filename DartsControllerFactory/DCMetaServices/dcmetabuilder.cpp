@@ -3,7 +3,7 @@
 #include <qjsonobject.h>
 #include <qvector.h>
 #include "DCMetaSLAs/idcmetaconverter.h"
-#include "DCMetaSLAs/idcmetaservice.h"
+#include "DCMetaSLAs/idcmetamanager.h"
 #include "DCIndexSLAs/idcindexcontroller.h"
 #include "DCScoresSLAs/idcplayermanager.h"
 #include "Models/dcindex.h"

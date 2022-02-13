@@ -1,12 +1,13 @@
 #ifndef DCINJECTFINCLIENT_H
 #define DCINJECTFINCLIENT_H
+class DCServices;
 class DCFinishBuilder;
 class DartsConstructSLAs;
-class DCFinishesSLAs;
+class DCFinishServices;
 class DCInjectFinClient
 {
 public:
-    void inject(DCFinishesSLAs *services) const;
+    void inject(DCServices *services) const;
 private:
     void injectBuilderClient(DCFinishBuilder *builder) const;
     void injectConRowClient(DartsConstructSLAs *service) const;

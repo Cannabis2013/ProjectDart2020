@@ -1,12 +1,14 @@
 #include "dpcinjectiptservices.h"
 #include "ServicesProvider/dcservices.h"
-#include "DCInputSLAs/dcinputsslas.h"
-#include "DCInputServices/dcconvertinputs.h"
+#include "DCInputSLAs/dcinputsservices.h"
+#include "DCInputServices/dcjsontoinputmodels.h"
 #include "DCInputServices/dcinputbuilder.h"
 #include "DPCServices/dpcinputadder.h"
 void DPCInjectIptServices::inject(DCServices *dc) const
 {
-    dc->setConvertInputs(new DCConvertInputs);
-    dc->setInputConverter(new DCInputBuilder);
-    dc->setInputAdder(new DPCInputAdder);
+    auto inputServices = new DCInputsServices;
+    inputServices->setJsonToInputModels(new DCJsonToInputModels);
+    inputServices->setInputConverter(new DCInputBuilder);
+    inputServices->setInputAdder(new DPCInputAdder);
+    dc->setInputServices(inputServices);
 }

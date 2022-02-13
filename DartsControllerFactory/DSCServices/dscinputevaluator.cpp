@@ -1,12 +1,22 @@
 #include "dscinputevaluator.h"
+#include "ServicesProvider/dcservices.h"
+#include "Models/dcindex.h"
+#include "Models/dcplayer.h"
+#include "Models/dcinput.h"
+#include "Models/dcmeta.h"
 
-DSCInputEvaluator::DSCInputEvaluator(DCServices *services) : _services(services){}
+DSCInputEvaluator::DSCInputEvaluator(DCServices *services)
+{
+    _metaManager = services->metaServices()->metaManager();
+    _playerManager = services->playerServices()->playerManager();
+    _indexController = services->indexServices()->indexController();
+}
 
 void DSCInputEvaluator::evaluate(DCInput &input)
 {
-    auto meta = &_services->metaService()->meta();
-    auto idx = _services->indexController()->index();
-    auto player = _services->playerManager()->player(idx.playerIndex);
+    auto meta = &_metaManager->meta();
+    auto idx = _indexController->index();
+    auto player = _playerManager->player(idx.playerIndex);
     auto score = calcScore(input.score,player.remScore);
     update(score,input,meta);
 }
@@ -31,7 +41,7 @@ void DSCInputEvaluator::update(const int &scoreCand, DCInput &input, DCMeta *met
         input.approved = true;
         input.remScore = 0;
         meta->winnerName = input.playerName;
-        meta->status = WinnerDeclared;
+        meta->status = _metaManager->WinnerDeclared;
     }
     else
     {

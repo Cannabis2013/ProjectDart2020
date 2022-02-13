@@ -8,22 +8,31 @@
 
 DCAddInputToModelsContext::DCAddInputToModelsContext(DCServices *services)
 {
-    _byteArrayToInput = services->createInputModel();
     _modelsContext = services->modelsContext();
-    _metaService = services->metaService();
-    _inputEvaluator = services->evaluateInput();
-    _inputToJson = services->iptBuilder();
-    _playerManager = services->playerManager();
-    _indexController = services->indexController();
-    _indexToByteArray = services->indexToByteArray();
+    _metaService = services->metaServices()->metaManager();
+    _inputEvaluator = services->routines()->evaluateInput();
+    _inputConverter = services->inputServices()->createInput();
+    _playerManager = services->playerServices()->playerManager();
+    _indexController = services->indexServices()->indexController();
+    _indexToByteArray = services->indexServices()->indexToByteArray();
 }
 
-DCInput DCAddInputToModelsContext::add(const QByteArray &inputByteArray)
+DCInput DCAddInputToModelsContext::add(const QByteArray &byteArray)
 {
-    auto input = _byteArrayToInput->convert(inputByteArray);
+    auto input = toInputModel(byteArray);
     _inputEvaluator->evaluate(input);
     updateModelsContext(input);
     _playerManager->updateScore(input);
+    return input;
+}
+
+DCInput DCAddInputToModelsContext::toInputModel(const QByteArray &byteArray)
+{
+    auto document = QJsonDocument::fromJson(byteArray);
+    if(!document.isObject())
+        return DCInput();
+    auto inputAsJson = document.object();
+    auto input = _inputConverter->create(inputAsJson);
     return input;
 }
 
@@ -32,13 +41,12 @@ void DCAddInputToModelsContext::updateModelsContext(DCInput &input)
     auto meta = _metaService->meta();
     auto status = meta.status;
     auto winnerName = meta.winnerName;
-    auto tournamentID = meta.tournamentId;
+    auto tournamentID = meta.tournamentID;
     auto index = _indexController->index();
     auto indexAsByteArray = _indexToByteArray->convert(index);
-    auto inputAsByteArray = QJsonDocument(_inputToJson->create(input)).toJson();
+    auto inputAsByteArray = QJsonDocument(_inputConverter->create(input)).toJson();
     _modelsContext->addInput(tournamentID,inputAsByteArray);
     _modelsContext->updateTournamentIndex(tournamentID,indexAsByteArray);
     if(status == _metaService->WinnerDeclared)
         _modelsContext->setTournamentWinner(tournamentID,winnerName);
 }
-

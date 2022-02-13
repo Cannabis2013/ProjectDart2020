@@ -1,11 +1,14 @@
 #include "dcinjectmetaclient.h"
-#include "DCMetaSLAs/dcmetaslas.h"
 #include "DCMetaServices/dcmetabuilder.h"
-#include "DCMetaServices/dcmetaservice.h"
 #include "DCMetaServices/dcmetaconverter.h"
-void DCInjectMetaClient::inject(DCMetaSLAs *metaServices) const
+#include "ServicesProvider/dcservices.h"
+
+#include "DCMetaServices/dcmetaservice.h"
+void DCInjectMetaClient::inject(DCServices *services) const
 {
-    metaServices->setMetaContext(new DCMetaService);
-    metaServices->setMetaBuilder(new DCMetaBuilder);
-    metaServices->setMetaConverter(new DCMetaConverter);
+    auto MetaServices = new DCMetaServices;
+    MetaServices->setMetaContext(new DCMetaService);
+    MetaServices->setMetaBuilder(new DCMetaBuilder);
+    MetaServices->setMetaConverter(new DCMetaConverter);
+    services->setMetaServices(MetaServices);
 }

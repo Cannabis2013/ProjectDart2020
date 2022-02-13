@@ -10,12 +10,9 @@ class DPCInputEvaluator : public IDCInputEvaluator
 {
     Q_OBJECT
 public:
-    enum ControllerState {
-        Initialized,
-        Running,
-        WinnerDeclared,
-        AwaitsInput
-    };
+    typedef IDCMetaManager<DCMeta> MetaManager;
+    typedef IDCIndexController<DCIndex,DCMeta> IndexController;
+    typedef IDCPlayerManager<DCPlayer,DCInput> PlayerManager;
     DPCInputEvaluator(DCServices *services);
     void evaluate(DCInput &input) override;
 private:
@@ -30,6 +27,8 @@ private:
     int calcScore(const int &scoreCand, const int &remScore);
     const int _bullsEye = 50;
     const int minimumAllowedScore = 2;
-    DCServices *_services;
+    MetaManager *_metaManager;
+    PlayerManager *_playerManager;
+    IndexController *_indexController;
 };
 #endif // POINTVALIDATOR_H

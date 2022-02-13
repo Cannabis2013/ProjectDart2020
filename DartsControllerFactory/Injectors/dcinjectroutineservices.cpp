@@ -1,10 +1,12 @@
 #include "dcinjectroutineservices.h"
-#include "InitServices/dcinitializecontroller.h"
+#include "InitServices/dcinitialize.h"
 #include "ServicesProvider/dcservices.h"
-#include "ServiceRoutineServices/dcresetservices.h"
+#include "Routines/dcresetservices.h"
 
 void DCInjectRoutineServices::inject(DCServices *dc) const
 {
-    dc->setInitializer(new DCInitializeController(dc));
-    dc->setResetServices(new DCResetServices(dc));
+    auto routineServices = new DCRoutines;
+    routineServices->setInitializer(new DCInitialize(dc));
+    routineServices->setResetServices(new DCResetServices(dc));
+    dc->setRoutines(routineServices);
 }

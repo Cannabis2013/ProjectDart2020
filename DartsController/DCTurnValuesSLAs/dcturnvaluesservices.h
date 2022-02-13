@@ -1,8 +1,8 @@
-#ifndef DCTURNVALUESSLAS_H
-#define DCTURNVALUESSLAS_H
+#ifndef DCTURNVALUESSERVICES_H
+#define DCTURNVALUESSERVICES_H
 #include "DCTurnValuesSLAs/idccreateturnvalues.h"
 #include "DCInputSLAs/idcinputadder.h"
-class DCTurnvaluesSLAs
+class DCTurnValuesServices
 {
 public:
     IDCCreateTurnValues *turnValuesBuilder() const
