@@ -1,9 +1,9 @@
 #include "dcinjectmetaclient.h"
-#include "DCMetaServices/dcmetabuilder.h"
-#include "DCMetaServices/dcmetaconverter.h"
+#include "Meta/dcmetabuilder.h"
+#include "Meta/dcmetaconverter.h"
 #include "ServicesProvider/dcservices.h"
 
-#include "DCMetaServices/dcmetaservice.h"
+#include "Meta/dcmetaservice.h"
 void DCInjectMetaClient::inject(DCServices *services) const
 {
     auto MetaServices = new DCMetaServices;

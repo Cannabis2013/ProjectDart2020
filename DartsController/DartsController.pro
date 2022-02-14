@@ -10,58 +10,54 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    dartscontroller.cpp
+    Controller/dartscontroller.cpp
 
 HEADERS += \
-    ControllerSLA/idartsctrl.h \
-    DCFinishesSLAs/dartsconstructslas.h \
-    DCFinishesSLAs/dcfinishesservices.h \
-    DCFinishesSLAs/idartsattemptsservice.h \
-    DCFinishesSLAs/idartsboundaries.h \
-    DCFinishesSLAs/idartscreatefinishes.h \
-    DCFinishesSLAs/idartsdivisorvalues.h \
-    DCFinishesSLAs/idartsfieldvalues.h \
-    DCFinishesSLAs/idartsfinishesdb.h \
-    DCFinishesSLAs/idartsmodidentifiers.h \
-    DCFinishesSLAs/idartsterminaldivisor.h \
-    DCFinishesSLAs/idartsthresholds.h \
-    DCFinishesSLAs/idcfinishbuilder.h \
-    DCIndexSLAs/dcindexservices.h \
-    DCIndexSLAs/idcindexcontroller.h \
-    DCIndexSLAs/idcindextobytearray.h \
-    DCInputSLAs/dcinputsservices.h \
-    DCInputSLAs/idcinputadder.h \
-    DCInputSLAs/idcinputbuilder.h \
-    DCInputSLAs/idcinputevaluator.h \
-    DCJsonSLAs/dcjsonservices.h \
-    DCMetaSLAs/dcmetaservices.h \
-    DCMetaSLAs/idcmetabuilder.h \
-    DCMetaSLAs/idcmetaconverter.h \
-    DCMetaSLAs/idcmetamanager.h \
-    DCScoresSLAs/dcplayersservices.h \
-    DCScoresSLAs/idcplayermanager.h \
-    DCTurnValuesSLAs/dcturnvaluesservices.h \
-    DCTurnValuesSLAs/idccreateturnvalues.h \
-    ModelBuilderSLAs/idcjsontomodel.h \
-    ModelBuilderSLAs/idcmodeltojson.h \
-    ModelsConverterSLAs/idcjsontomodels.h \
+    Controller/idartsctrl.h \
+    Finishes/dartsconstructslas.h \
+    Finishes/dcfinishesservices.h \
+    Finishes/idartsattemptsservice.h \
+    Finishes/idartsboundaries.h \
+    Finishes/idartscreatefinishes.h \
+    Finishes/idartsdivisorvalues.h \
+    Finishes/idartsfieldvalues.h \
+    Finishes/idartsfinishesdb.h \
+    Finishes/idartsmodidentifiers.h \
+    Finishes/idartsterminaldivisor.h \
+    Finishes/idartsthresholds.h \
+    Finishes/idcfinishbuilder.h \
+    Index/dcindexservices.h \
+    Index/idcindexcontroller.h \
+    Index/idcindextobytearray.h \
+    Inputs/dcinputsservices.h \
+    Inputs/idcinputadder.h \
+    Inputs/idcinputbuilder.h \
+    Inputs/idcinputconverter.h \
+    Inputs/idcinputevaluator.h \
+    Meta/dcmetaservices.h \
+    Meta/idcmetabuilder.h \
+    Meta/idcmetaconverter.h \
+    Meta/idcmetamanager.h \
+    Players/dcplayersservices.h \
+    Players/idcplayermanager.h \
+    Converters/idcjsontomodel.h \
+    Converters/idcmodeltojson.h \
+    Converters/idcjsontomodels.h \
     Routines/idccreatewinnerjson.h \
+    Routines/idcgetscoresasjson.h \
+    Routines/idcgetturnvaluesasjson.h \
     Routines/idcinitialize.h \
     Models/dcindex.h \
-    DCJsonSLAs/AbstractDCJsonBuilder.h \
-    DCJsonSLAs/dcjsonbuilderservices.h \
-    DCJsonSLAs/idcmodeljsonbuilder.h \
     Models/dcinput.h \
     Models/dcmeta.h \
     Models/dcplayer.h \
-    Models/dcturnvalues.h \
     Routines/idcaddtomdsctx.h \
     Routines/dcroutines.h \
     Routines/idcredoturn.h \
     Routines/idcresetservices.h \
     Routines/idcundoturn.h \
     ServicesProvider/dcservices.h \
-    dartscontroller.h
+    Controller/dartscontroller.h
 
 # Default rules for deployment.
 unix {

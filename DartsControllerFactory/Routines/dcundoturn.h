@@ -1,14 +1,15 @@
 #ifndef DCUNDOTURN_H
 #define DCUNDOTURN_H
 #include "Routines/idcundoturn.h"
-class QJsonObject;
-class IDCInputAdder;
+template<typename T> class IDCInputConverter;
 template<typename T> class IDCInputBuilder;
-class IDCIndexToByteArray;
 template<typename T> class IDCMetaManager;
 template<typename T,typename U> class IDCPlayerManager;
-struct DCPlayer;
 template<typename T,typename U> class IDCIndexController;
+class QJsonObject;
+class IDCInputAdder;
+class IDCIndexToByteArray;
+struct DCPlayer;
 struct DCInput;
 struct DCMeta;
 struct DCIndex;
@@ -21,6 +22,7 @@ public:
     typedef IDCPlayerManager<DCPlayer,DCInput> PlayerManager;
     typedef IDCMetaManager<DCMeta> MetaManager;
     typedef IDCInputBuilder<DCInput> CreateInput;
+    typedef IDCInputConverter<DCInput> ConvertInput;
     DCUndoTurn(DCServices *services);
     virtual QByteArray undo() override;
 private:
@@ -34,6 +36,7 @@ private:
     IDCIndexToByteArray *_indexToByteArray;
     CreateInput *_createInput;
     IDCInputAdder *_addInputDetails;
+    ConvertInput *_convertInput;
 };
 
 #endif // DCUNDOTURN_H

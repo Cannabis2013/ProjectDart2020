@@ -3,7 +3,7 @@
 class IDCResetServices
 {
 public:
-    virtual void reset() = 0;
+    virtual bool reset() = 0;
 };
 
 #endif // IDCRESETSERVICES_H

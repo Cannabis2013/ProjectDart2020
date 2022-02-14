@@ -6,5 +6,4 @@ class DSCInjectPlaServives
 public:
     void inject(DCServices *dc) const;
 };
-
 #endif // DSCINJECTPLASERVIVES_H

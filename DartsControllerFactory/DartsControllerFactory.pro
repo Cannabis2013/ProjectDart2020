@@ -3,102 +3,95 @@ TEMPLATE = lib
 DEFINES += DCFactLib
 
 HEADERS += \
-    ConverterServices/dcindexconverter.h \
-    DCFinishesServices/dartsboundaries.h \
-    DCFinishesServices/dartscreatefinishes.h \
-    DCFinishesServices/dartsdefaultattempts.h \
-    DCFinishesServices/dartsdivisors.h \
-    DCFinishesServices/dartsfieldvalues.h \
-    DCFinishesServices/dartsmodidentifiers.h \
-    DCFinishesServices/dartsterminaldivisor.h \
-    DCFinishesServices/dcfinishbuilder.h \
-    DCFinishesServices/dclogisticdb.h \
-    DCFinishesServices/defaultthresholds.h \
-    Index/dcidxjsonbuilder.h \
-    Index/dcreqidxjsonbuilder.h \
-    DCInputServices/dcinputbuilder.h \
-    DCInputServices/dcinputjsonbuilder.h \
-    DCInputServices/dcjsontoinputmodels.h \
-    DCJsonServices/dcjsonbuilder.h \
-    DCMetaServices/DCMetaInfoJsonBuilder.h \
-    DCMetaServices/dcmetabuilder.h \
-    DCMetaServices/dcmetaconverter.h \
-    DCMetaServices/dcmetaservice.h \
-    DCMetaServices/dcsettournamentid.h \
-    DCScoresServices/dcconvertplayers.h \
-    DCScoresServices/dcplayerbuilder.h \
-    DCScoresServices/dcscorejsonbuilder.h \
-    DCScoresServices/dpcplayerscontext.h \
-    DCScoresServices/dscplayerscontext.h \
-    DCServices/dcbuilderservices.h \
-    DCTurnValuesServices/DCTurnValuesJsonBuilder.h \
-    DCTurnValuesServices/dcturnvalues.h \
-    DPCServices/dpcinputadder.h \
-    DPCServices/dpcinputevaluator.h \
-    DCTurnValuesServices/dccreateturnvalues.h \
-    DSCServices/dscinputadder.h \
-    DSCServices/dscinputevaluator.h \
+    Index/dcindexconverter.h \
+    Finishes/dartsboundaries.h \
+    Finishes/dartscreatefinishes.h \
+    Finishes/dartsdefaultattempts.h \
+    Finishes/dartsdivisors.h \
+    Finishes/dartsfieldvalues.h \
+    Finishes/dartsmodidentifiers.h \
+    Finishes/dartsterminaldivisor.h \
+    Finishes/dcfinishbuilder.h \
+    Finishes/dclogisticdb.h \
+    Finishes/defaultthresholds.h \
+    Inputs/dcinputconverter.h \
+    Players/dcplayertojson.h \
+    Inputs/dcinputbuilder.h \
+    Inputs/dcjsontoinputmodels.h \
+    Meta/dcmetabuilder.h \
+    Meta/dcmetaconverter.h \
+    Meta/dcmetaservice.h \
+    Meta/dcsettournamentid.h \
+    Players/dcconvertplayers.h \
+    Players/dcplayerbuilder.h \
+    Players/dpcplayerscontext.h \
+    Players/dscplayerscontext.h \
+    Inputs/dpcinputadder.h \
+    Inputs/dpcinputevaluator.h \
+    Inputs/dscinputadder.h \
+    Inputs/dscinputevaluator.h \
     DartsAssemblers/assembledpc.h \
     DartsAssemblers/assembledsc.h \
-    DPCIndex/dpcindexcontroller.h \
-    DSCIndex/dscindexcontroller.h \
-    InitServices/dcinitialize.h \
+    Index/dpcindexcontroller.h \
+    Index/dscindexcontroller.h \
+    Init/dcinitialize.h \
     Injectors/dcinjectfinclient.h \
     Injectors/dcinjectmetaclient.h \
-    Injectors/dcinjectroutineservices.h \
     Injectors/dpcinjectidxservices.h \
     Injectors/dpcinjectiptservices.h \
     Injectors/dpcinjectplaservices.h \
     Injectors/dscindexinjector.h \
     Injectors/dscinjectplaservives.h \
     Injectors/dscinputinjector.h \
-    Injectors/dscjsonresponseinjector.h \
     Injectors/injectdpcroutines.h \
     Injectors/injectdscroutines.h \
     Routines/dcaddinputtomodelscontext.h \
     Routines/dccreatewinnerreport.h \
+    Routines/dcgetscoresasjson.h \
+    Routines/dcgetturnvaluesasjson.h \
     Routines/dcredoturn.h \
     Routines/dcresetservices.h \
     Routines/dcundoturn.h \
-    createdartscontroller.h
+    ControllerBuilder/createdartscontroller.h
 SOURCES += \
-    DCFinishesServices/dartscreatefinishes.cpp \
-    DCFinishesServices/dcfinishbuilder.cpp \
-    DCFinishesServices/defaultthresholds.cpp \
-    DCInputServices/dcinputbuilder.cpp \
-    DCInputServices/dcjsontoinputmodels.cpp \
-    DCJsonServices/dcjsonbuilder.cpp \
-    DCMetaServices/dcmetabuilder.cpp \
-    DCMetaServices/dcmetaconverter.cpp \
-    DCScoresServices/dcconvertplayers.cpp \
-    DCScoresServices/dcplayerbuilder.cpp \
-    DCScoresServices/dpcplayerscontext.cpp \
-    DCScoresServices/dscplayerscontext.cpp \
-    DCTurnValuesServices/dccreateturnvalues.cpp \
-    DPCServices/dpcinputevaluator.cpp \
-    DSCServices/dscinputevaluator.cpp \
+    Finishes/dartscreatefinishes.cpp \
+    Finishes/dcfinishbuilder.cpp \
+    Finishes/defaultthresholds.cpp \
+    Inputs/dcinputbuilder.cpp \
+    Inputs/dcinputconverter.cpp \
+    Inputs/dcjsontoinputmodels.cpp \
+    Inputs/dpcinputadder.cpp \
+    Meta/dcmetabuilder.cpp \
+    Meta/dcmetaconverter.cpp \
+    Players/dcconvertplayers.cpp \
+    Players/dcplayerbuilder.cpp \
+    Players/dcplayertojson.cpp \
+    Players/dpcplayerscontext.cpp \
+    Players/dscplayerscontext.cpp \
+    Inputs/dpcinputevaluator.cpp \
+    Inputs/dscinputevaluator.cpp \
     DartsAssemblers/assembledpc.cpp \
     DartsAssemblers/assembledsc.cpp \
-    DPCIndex/dpcindexcontroller.cpp \
-    InitServices/dcinitialize.cpp \
+    Index/dpcindexcontroller.cpp \
+    Init/dcinitialize.cpp \
     Injectors/dcinjectfinclient.cpp \
     Injectors/dcinjectmetaclient.cpp \
-    Injectors/dcinjectroutineservices.cpp \
     Injectors/dpcinjectidxservices.cpp \
     Injectors/dpcinjectiptservices.cpp \
     Injectors/dpcinjectplaservices.cpp \
     Injectors/dscindexinjector.cpp \
     Injectors/dscinjectplaservives.cpp \
     Injectors/dscinputinjector.cpp \
-    Injectors/dscjsonresponseinjector.cpp \
     Injectors/injectdpcroutines.cpp \
     Injectors/injectdscroutines.cpp \
     Routines/dcaddinputtomodelscontext.cpp \
     Routines/dccreatewinnerreport.cpp \
+    Routines/dcgetscoresasjson.cpp \
+    Routines/dcgetturnvaluesasjson.cpp \
     Routines/dcredoturn.cpp \
     Routines/dcresetservices.cpp \
     Routines/dcundoturn.cpp \
-    createdartscontroller.cpp
+    ControllerBuilder/createdartscontroller.cpp
 
 android {
     win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../release/ -lDartsController_arm64-v8a

@@ -1,13 +1,11 @@
 #ifndef DCSERVICES_H
 #define DCSERVICES_H
 #include "Routines/dcroutines.h"
-#include "DCTurnValuesSLAs/dcturnvaluesservices.h"
-#include "DCIndexSLAs/dcindexservices.h"
-#include "DCScoresSLAs/dcplayersservices.h"
-#include "DCJsonSLAs/dcjsonservices.h"
-#include "DCMetaSLAs/dcmetaservices.h"
-#include "DCInputSLAs/dcinputsservices.h"
-#include "DCFinishesSLAs/dcfinishesservices.h"
+#include "Index/dcindexservices.h"
+#include "Players/dcplayersservices.h"
+#include "Meta/dcmetaservices.h"
+#include "Inputs/dcinputsservices.h"
+#include "Finishes/dcfinishesservices.h"
 class DCServices
 {
 public:
@@ -17,10 +15,6 @@ public:
     void setMetaServices(DCMetaServices *services) {_metaServices = services;}
     DCFinishServices *finServices() const {return _finServices;}
     void setFinServices(DCFinishServices *services) {_finServices = services;}
-    DCTurnValuesServices *turnValsServices() const {return _turnValsServices;}
-    void setTurnValsServices(DCTurnValuesServices *services) {_turnValsServices = services;}
-    DCJsonServices *jsonServices() const {return _jsonServices;}
-    void setJsonServices(DCJsonServices *services) {_jsonServices = services;}
     DCInputsServices *inputServices() const {return _inputServices;}
     void setInputServices(DCInputsServices *services) {_inputServices = services;}
     DCPlayersServices *playerServices() const {return _playerServices;}
@@ -33,8 +27,6 @@ private:
     AbsDartsCtx *_modelsContext = nullptr;
     DCMetaServices *_metaServices;
     DCFinishServices *_finServices;
-    DCTurnValuesServices *_turnValsServices;
-    DCJsonServices *_jsonServices;
     DCPlayersServices *_playerServices;
     DCInputsServices *_inputServices;
     DCIndexServices *_indexServices;

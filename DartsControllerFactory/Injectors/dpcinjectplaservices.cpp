@@ -1,9 +1,10 @@
 #include "dpcinjectplaservices.h"
-#include "DCScoresSLAs/dcplayersservices.h"
-#include "DCScoresServices/dcconvertplayers.h"
-#include "DCScoresServices/dcplayerbuilder.h"
-#include "DCScoresServices/dpcplayerscontext.h"
+#include "Players/dcplayersservices.h"
+#include "Players/dcconvertplayers.h"
+#include "Players/dcplayerbuilder.h"
+#include "Players/dpcplayerscontext.h"
 #include "ServicesProvider/dcservices.h"
+#include "Players/dcplayertojson.h"
 
 void DPCInjectPlaServices::inject(DCServices *dc) const
 {
@@ -11,5 +12,6 @@ void DPCInjectPlaServices::inject(DCServices *dc) const
     playerServices->setPlayerConverter(new DCPlayerBuilder);
     playerServices->setConvertPlayers(new DCConvertPlayers);
     playerServices->setPlayerManager(new DPCPlayersContext);
+    playerServices->setPlayerToJson(new DCPlayerToJson);
     dc->setPlayerServices(playerServices);
 }

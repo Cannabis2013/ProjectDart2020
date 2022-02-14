@@ -1,14 +1,16 @@
 #ifndef DCREDOTURN_H
 #define DCREDOTURN_H
 #include "Routines/idcredoturn.h"
-class QJsonObject;
-class IDCInputAdder;
+
+template<typename T> class IDCInputConverter;
 template<typename T> class IDCInputBuilder;
-class IDCIndexToByteArray;
 template<typename T> class IDCMetaManager;
 template<typename T,typename U> class IDCPlayerManager;
-struct DCPlayer;
 template<typename T,typename U> class IDCIndexController;
+class IDCIndexToByteArray;
+class QJsonObject;
+class IDCInputAdder;
+struct DCPlayer;
 struct DCInput;
 struct DCMeta;
 struct DCIndex;
@@ -21,6 +23,7 @@ public:
     typedef IDCPlayerManager<DCPlayer,DCInput> PlayerManager;
     typedef IDCMetaManager<DCMeta> MetaManager;
     typedef IDCInputBuilder<DCInput> CreateInput;
+    typedef IDCInputConverter<DCInput> ConvertInput;
     DCRedoTurn(DCServices *services);
     virtual QByteArray redo() override;
 private:
@@ -34,6 +37,7 @@ private:
     IDCIndexToByteArray *_indexToByteArray;
     CreateInput *_createInput;
     IDCInputAdder *_addInputDetails;
+    ConvertInput *_convertInput;
 };
 
 #endif // DCREDOTURN_H

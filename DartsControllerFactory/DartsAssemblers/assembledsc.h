@@ -1,7 +1,8 @@
 #ifndef ASSEMBLEDSC_H
 #define ASSEMBLEDSC_H
+class AbsDartsCtx;
+class DartsController;
 class InjectDSCRoutines;
-class DCInjectRoutineServices;
 class DSCJsonResponseInjector;
 class DSCInputInjector;
 class DSCIndexInjector;
@@ -13,7 +14,7 @@ class AssembleDSC
 {
 public:
     AssembleDSC();
-    IDartsCtrl *assemble();
+    DartsController *assemble(AbsDartsCtx *modelsContext);
 private:
     DCInjectFinClient *finInjector;
     DCInjectMetaClient *metaInjector;
@@ -21,7 +22,6 @@ private:
     DSCIndexInjector *indexInjector;
     DSCInputInjector *inputInjector;
     DSCJsonResponseInjector *jsonInjector;
-    DCInjectRoutineServices *loaderInjector;
     InjectDSCRoutines *injectRoutines;
 };
 #endif // DEFAULTDARTSSCORECONTROLLER_H

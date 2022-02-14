@@ -13,10 +13,11 @@ DCUndoTurn::DCUndoTurn(DCServices *services)
     _modelsContext = services->modelsContext();
     _metaManager = services->metaServices()->metaManager();
     _indexToByteArray = services->indexServices()->indexToByteArray();
-    _createInput = services->inputServices()->createInput();
+    _createInput = services->inputServices()->createInputModel();
     _playerManager = services->playerServices()->playerManager();
     _addInputDetails = services->inputServices()->AddInputDetails();
     _indexController = services->indexServices()->indexController();
+    _convertInput = services->inputServices()->inputConverter();
 }
 
 QByteArray DCUndoTurn::undo()
@@ -46,7 +47,7 @@ QJsonObject DCUndoTurn::toJson(const QByteArray &byteArray)
 
 QByteArray DCUndoTurn::toByteArray(const DCInput &input)
 {
-    auto inputAsJson = _createInput->create(input);
+    auto inputAsJson = _convertInput->convert(input);
     auto document = QJsonDocument(inputAsJson);
     return document.toJson();
 }
@@ -64,7 +65,7 @@ DCInput DCUndoTurn::getInputFromModelsContext(const DCIndex &index)
     }  catch (std::exception *e) {
         return _createInput->create(player.name,meta.initRemScore);
     }
-    auto ipt = _createInput->create(inputAsJson,meta.initRemScore);
+    auto ipt = _convertInput->convert(inputAsJson);
     _addInputDetails->add(ipt,player,meta);
     return ipt;
 }

@@ -21,6 +21,7 @@ SOURCES += \
         DartsTableContext/dartstabledatacontext.cpp \
         DartsTableContext/dartstablemodel.cpp \
         DartsTableContext/dartstableslas.cpp \
+        QmlContext/qmlpropertiesbuilder.cpp \
         main.cpp
 
 HEADERS += \

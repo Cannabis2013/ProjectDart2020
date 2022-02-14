@@ -1,5 +1,5 @@
 #include "assembledpc.h"
-#include "dartscontroller.h"
+#include "Controller/dartscontroller.h"
 #include "Injectors/dcinjectfinclient.h"
 #include "Injectors/dcinjectmetaclient.h"
 #include "Injectors/dpcinjectplaservices.h"
@@ -17,9 +17,10 @@ AssembleDPC::AssembleDPC()
     injectRoutines = new InjectDPCRoutines;
 }
 
-IDartsCtrl *AssembleDPC::assemble()
+DartsController *AssembleDPC::assemble(AbsDartsCtx *modelsContext)
 {
     auto dc = new DartsController;
+    dc->setModelsContext(modelsContext);
     injectFinServices->inject(dc);
     injectMetaServices->inject(dc);
     injectPlaServices->inject(dc);

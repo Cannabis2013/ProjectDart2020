@@ -1,7 +1,7 @@
 #include "dscindexinjector.h"
-#include "DCIndexSLAs/dcindexservices.h"
-#include "ConverterServices/dcindexconverter.h"
-#include "DSCIndex/dscindexcontroller.h"
+#include "Index/dcindexservices.h"
+#include "Index/dcindexconverter.h"
+#include "Index/dscindexcontroller.h"
 #include "ServicesProvider/dcservices.h"
 
 void DSCIndexInjector::inject(DCServices *dc) const

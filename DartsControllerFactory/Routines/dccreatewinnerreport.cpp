@@ -7,7 +7,7 @@
 DCCreateWinnerReport::DCCreateWinnerReport(DCServices *services)
 {
     _metaManager = services->metaServices()->metaManager();
-    _inputToJson = services->inputServices()->createInput();
+    _inputToJson = services->inputServices()->inputConverter();
 }
 
 QByteArray DCCreateWinnerReport::create() const
@@ -15,8 +15,8 @@ QByteArray DCCreateWinnerReport::create() const
     auto meta = _metaManager->meta();
     auto lastInput = meta.lastInput;
     QJsonObject json;
-    json["winnerDetails"] = createWinnerJson(meta);
-    json["lastReportedInput"] = _inputToJson->create(lastInput);
+    json["WinnerDetails"] = createWinnerJson(meta);
+    json["LastReportedInput"] = _inputToJson->convert(lastInput);
     auto byteArray = toByteArray(json);
     return byteArray;
 }

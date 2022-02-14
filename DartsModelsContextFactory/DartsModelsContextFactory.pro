@@ -46,7 +46,7 @@ SOURCES += \
     createdartscontext.cpp
 
 HEADERS += \
-    ../DartsControllerFactory/ConverterServices/dcidxconverter.h \
+    ../DartsControllerFactory/Index/dcidxconverter.h \
     DbServices/convertdartsmodels.h \
     DbServices/loadfromstorage.h \
     DbServices/savetostorage.h \

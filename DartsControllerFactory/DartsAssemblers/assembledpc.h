@@ -1,5 +1,9 @@
 #ifndef ASSEMBLEDPC_H
 #define ASSEMBLEDPC_H
+
+
+class AbsDartsCtx;
+class DartsController;
 class InjectDPCRoutines;
 class DPCInjectIdxServices;
 class DPCInjectIptServices;
@@ -11,7 +15,7 @@ class AssembleDPC
 {
 public:
     AssembleDPC();
-    IDartsCtrl *assemble();
+    DartsController *assemble(AbsDartsCtx *modelsContext);
 private:
     DCInjectFinClient *injectFinServices;
     DCInjectMetaClient *injectMetaServices;

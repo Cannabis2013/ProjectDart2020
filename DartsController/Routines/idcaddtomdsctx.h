@@ -6,6 +6,6 @@ struct DCInput;
 class IDCAddToMdsCtx
 {
 public:
-    virtual DCInput add(const QByteArray &inputByteArray) = 0;
+    virtual QByteArray add(const QByteArray &inputByteArray) = 0;
 };
 #endif // ABSTRACTDCADDTOMDSCTX_H

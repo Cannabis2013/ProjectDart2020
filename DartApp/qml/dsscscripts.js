@@ -45,7 +45,8 @@ function winnerFound()
 {
     var byteArray = dsController.getWinnerJson();
     var json = JSON.parse(byteArray);
-    keyDataDisplay.setCurrentWinner(json["winnerName"]);
+    var winnerDetails = json["WinnerDetails"];
+    keyDataDisplay.setCurrentWinner(winnerDetails["winnerName"]);
     keyDataDisplay.setThrowSuggestion("");
     dsscContent.state = "winner";
 }

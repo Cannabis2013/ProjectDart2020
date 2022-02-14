@@ -2,14 +2,17 @@
 #include "ServicesProvider/dcservices.h"
 #include "Models/dcmeta.h"
 
+#include <SLAs/absdartsctx.h>
+
 DCResetServices::DCResetServices(DCServices *services)
 {
     _metaManager = services->metaServices()->metaManager();
     _indexController = services->indexServices()->indexController();
     _playerManager = services->playerServices()->playerManager();
+    _modelsContext = services->modelsContext();
 }
 
-void DCResetServices::reset()
+bool DCResetServices::reset()
 {
 
     auto meta = _metaManager->meta();
@@ -17,4 +20,6 @@ void DCResetServices::reset()
     _indexController->init(meta);
     _playerManager->reset(meta.initRemScore);
     _metaManager->setStatus(statusCode);
+    auto resetSuccess = _modelsContext->resetTournament(meta.tournamentID);
+    return resetSuccess;
 }
