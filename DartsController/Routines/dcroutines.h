@@ -4,6 +4,7 @@
 #include "idcresetservices.h"
 #include "idcredoturn.h"
 #include "idcundoturn.h"
+#include "idccreatewinnerjson.h"
 #include "Routines/idcinitialize.h"
 #include "DCInputSLAs/idcinputevaluator.h"
 class DCRoutines
@@ -19,15 +20,14 @@ public:
     void setRedoTurn(IDCRedoTurn *newRedoTurn) {_redoTurn = newRedoTurn;}
     IDCInitialize *initializer() const {return _loader;}
     void setInitializer(IDCInitialize *service) {_loader = service;}
-    IDCInputEvaluator *evaluateInput() const {return _iptEval;}
-    void setInputEvaluator(IDCInputEvaluator *service) {_iptEval = service;}
-
+    IDCCreateWinnerJson *createWinnerReport() const {return _createWinnerReport;}
+    void setCreateWinnerReport(IDCCreateWinnerJson *newCreateWinnerReport) {_createWinnerReport = newCreateWinnerReport;}
 private:
     IDCInitialize *_loader;
-    IDCInputEvaluator *_iptEval = nullptr;
     IDCAddToMdsCtx *_addToModelsCtx;
     IDCResetServices *_resetServices;
     IDCUndoTurn *_undoTurn;
     IDCRedoTurn *_redoTurn;
+    IDCCreateWinnerJson *_createWinnerReport;
 };
 #endif // DCROUTINES_H

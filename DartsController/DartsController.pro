@@ -45,6 +45,7 @@ HEADERS += \
     ModelBuilderSLAs/idcjsontomodel.h \
     ModelBuilderSLAs/idcmodeltojson.h \
     ModelsConverterSLAs/idcjsontomodels.h \
+    Routines/idccreatewinnerjson.h \
     Routines/idcinitialize.h \
     Models/dcindex.h \
     DCJsonSLAs/AbstractDCJsonBuilder.h \

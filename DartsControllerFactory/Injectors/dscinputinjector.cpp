@@ -3,6 +3,7 @@
 #include "DCInputServices/dcjsontoinputmodels.h"
 #include "DCInputServices/dcinputbuilder.h"
 #include "DSCServices/dscinputadder.h"
+#include "DSCServices/dscinputevaluator.h"
 
 void DSCInputInjector::inject(DCServices *dc)
 {
@@ -10,6 +11,7 @@ void DSCInputInjector::inject(DCServices *dc)
     inputServices->setJsonToInputModels(new DCJsonToInputModels);
     inputServices->setInputConverter(new DCInputBuilder);
     inputServices->setInputAdder(new DSCInputAdder);
+    inputServices->setInputEvaluator(new DSCInputEvaluator);
     dc->setInputServices(inputServices);
 
 }

@@ -2,6 +2,7 @@
 #define DCINPUTSSERVICES_H
 #include "DCInputSLAs/idcinputadder.h"
 #include "idcinputbuilder.h"
+#include "idcinputevaluator.h"
 #include "ModelsConverterSLAs/idcjsontomodels.h"
 class DCInputsServices
 {
@@ -17,7 +18,10 @@ public:
     void setInputConverter(InputBuilder *service) {_inputConverter = service;}
     ByteArrayToInputs *jsonToInputModels() const {return _jsonToInputModels;}
     void setJsonToInputModels(ByteArrayToInputs *service) {_jsonToInputModels = service;}
+    IDCInputEvaluator *evaluateInput() const {return _iptEval;}
+    void setInputEvaluator(IDCInputEvaluator *service) {_iptEval = service;}
 private:
+    IDCInputEvaluator *_iptEval;
     IDCInputAdder* _inputAdder;
     InputBuilder *_inputConverter;
     ByteArrayToInputs *_jsonToInputModels;

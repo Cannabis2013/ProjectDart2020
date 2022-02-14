@@ -1,6 +1,6 @@
 #include "dpcinjectidxservices.h"
 #include "DCIndexSLAs/dcindexservices.h"
-#include "IndexServices/dpcindexcontroller.h"
+#include "DPCIndex/dpcindexcontroller.h"
 #include "ConverterServices/dcindexconverter.h"
 #include "ServicesProvider/dcservices.h"
 

@@ -5,20 +5,12 @@
 #include "Models/dcinput.h"
 #include "Models/dcmeta.h"
 
-DSCInputEvaluator::DSCInputEvaluator(DCServices *services)
+DCMeta DSCInputEvaluator::evaluate(DCInput &input, const DCMeta &meta, const DCPlayer &player)
 {
-    _metaManager = services->metaServices()->metaManager();
-    _playerManager = services->playerServices()->playerManager();
-    _indexController = services->indexServices()->indexController();
-}
-
-void DSCInputEvaluator::evaluate(DCInput &input)
-{
-    auto meta = &_metaManager->meta();
-    auto idx = _indexController->index();
-    auto player = _playerManager->player(idx.playerIndex);
+    auto m = meta;
     auto score = calcScore(input.score,player.remScore);
-    update(score,input,meta);
+    update(score,input,m);
+    return m;
 }
 
 int DSCInputEvaluator::calcScore(const int &scoreCand, const int &remScore)
@@ -29,22 +21,34 @@ int DSCInputEvaluator::calcScore(const int &scoreCand, const int &remScore)
     return totalScoreCandidate;
 }
 
-void DSCInputEvaluator::update(const int &scoreCand, DCInput &input, DCMeta *meta)
+
+void DSCInputEvaluator::update(const int &scoreCand, DCInput &input, DCMeta &meta)
 {
     if(scoreCand >= minimumAllowedScore)
-    {
-        input.approved = true;
-        input.remScore = scoreCand;
-    }
+        updateInputDetails(scoreCand,input,meta);
     else if(scoreCand == 0)
-    {
-        input.approved = true;
-        input.remScore = 0;
-        meta->winnerName = input.playerName;
-        meta->status = _metaManager->WinnerDeclared;
-    }
+        updateWinnerDetails(input,meta);
     else
-    {
-        input.score = 0;
-    }
+        nullifyInput(input,meta);
+}
+
+void DSCInputEvaluator::updateInputDetails(const int &scoreCand,DCInput &input, DCMeta &meta)
+{
+    input.approved = true;
+    input.remScore = scoreCand;
+    meta.lastInput = input;
+}
+
+void DSCInputEvaluator::nullifyInput(DCInput &input, DCMeta &meta)
+{
+    input.score = 0;
+    meta.lastInput = input;
+}
+
+void DSCInputEvaluator::updateWinnerDetails(DCInput &input, DCMeta &meta)
+{
+    updateInputDetails(0,input,meta);
+    meta.winnerName = input.playerName;
+    meta.status = WinnerDeclared;
+    meta.lastInput = input;
 }

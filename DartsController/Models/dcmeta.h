@@ -1,6 +1,7 @@
 #ifndef DCMETA_H
 #define DCMETA_H
 #include "dcindex.h"
+#include "dcinput.h"
 #include <quuid.h>
 struct DCMeta{
     bool entryRestricted;
@@ -11,5 +12,6 @@ struct DCMeta{
     QString winnerName;
     QUuid tournamentID;
     DCIndex index;
+    DCInput lastInput;
 };
 #endif // DCMETAINFO_H

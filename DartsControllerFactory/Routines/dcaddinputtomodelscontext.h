@@ -25,7 +25,7 @@ private:
     DCInput toInputModel(const QByteArray &byteArray);
     void updateModelsContext(DCInput &input);
     AbsDartsCtx *_modelsContext;
-    MetaService *_metaService;
+    MetaService *_metaManager;
     IDCInputEvaluator *_inputEvaluator;
     PlayerManager *_playerManager;
     IndexController *_indexController;

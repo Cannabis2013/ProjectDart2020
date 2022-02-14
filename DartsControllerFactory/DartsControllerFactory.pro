@@ -14,8 +14,8 @@ HEADERS += \
     DCFinishesServices/dcfinishbuilder.h \
     DCFinishesServices/dclogisticdb.h \
     DCFinishesServices/defaultthresholds.h \
-    DCIndexServices/dcidxjsonbuilder.h \
-    DCIndexServices/dcreqidxjsonbuilder.h \
+    Index/dcidxjsonbuilder.h \
+    Index/dcreqidxjsonbuilder.h \
     DCInputServices/dcinputbuilder.h \
     DCInputServices/dcinputjsonbuilder.h \
     DCInputServices/dcjsontoinputmodels.h \
@@ -40,8 +40,8 @@ HEADERS += \
     DSCServices/dscinputevaluator.h \
     DartsAssemblers/assembledpc.h \
     DartsAssemblers/assembledsc.h \
-    IndexServices/dpcindexcontroller.h \
-    IndexServices/dscindexcontroller.h \
+    DPCIndex/dpcindexcontroller.h \
+    DSCIndex/dscindexcontroller.h \
     InitServices/dcinitialize.h \
     Injectors/dcinjectfinclient.h \
     Injectors/dcinjectmetaclient.h \
@@ -55,12 +55,12 @@ HEADERS += \
     Injectors/dscjsonresponseinjector.h \
     Injectors/injectdpcroutines.h \
     Injectors/injectdscroutines.h \
-    ModelsComCtxServices/dcaddinputtomodelscontext.h \
+    Routines/dcaddinputtomodelscontext.h \
+    Routines/dccreatewinnerreport.h \
     Routines/dcredoturn.h \
     Routines/dcresetservices.h \
     Routines/dcundoturn.h \
     createdartscontroller.h
-
 SOURCES += \
     DCFinishesServices/dartscreatefinishes.cpp \
     DCFinishesServices/dcfinishbuilder.cpp \
@@ -79,7 +79,7 @@ SOURCES += \
     DSCServices/dscinputevaluator.cpp \
     DartsAssemblers/assembledpc.cpp \
     DartsAssemblers/assembledsc.cpp \
-    IndexServices/dpcindexcontroller.cpp \
+    DPCIndex/dpcindexcontroller.cpp \
     InitServices/dcinitialize.cpp \
     Injectors/dcinjectfinclient.cpp \
     Injectors/dcinjectmetaclient.cpp \
@@ -93,7 +93,8 @@ SOURCES += \
     Injectors/dscjsonresponseinjector.cpp \
     Injectors/injectdpcroutines.cpp \
     Injectors/injectdscroutines.cpp \
-    ModelsComCtxServices/dcaddinputtomodelscontext.cpp \
+    Routines/dcaddinputtomodelscontext.cpp \
+    Routines/dccreatewinnerreport.cpp \
     Routines/dcredoturn.cpp \
     Routines/dcresetservices.cpp \
     Routines/dcundoturn.cpp \

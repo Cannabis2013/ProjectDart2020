@@ -8,6 +8,8 @@
 #include "dartscontroller.h"
 #include "Injectors/dcinjectroutineservices.h"
 #include "Injectors/injectdscroutines.h"
+
+#include <DCTurnValuesServices/dccreateturnvalues.h>
 AssembleDSC::AssembleDSC()
 {
     finInjector = new DCInjectFinClient;
@@ -31,5 +33,8 @@ IDartsCtrl *AssembleDSC::assemble()
     jsonInjector->inject(dc);
     injectRoutines->inject(dc);
     loaderInjector->inject(dc);
+    auto turnValuesServices = new DCTurnValuesServices;
+    turnValuesServices->setTurnValuesBuilder(new DCCreateTurnValues(dc));
+    dc->setTurnValsServices(turnValuesServices);
     return dc;
 }
