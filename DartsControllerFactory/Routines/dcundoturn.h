@@ -1,6 +1,7 @@
 #ifndef DCUNDOTURN_H
 #define DCUNDOTURN_H
 #include "Routines/idcundoturn.h"
+template<typename T> class IDCModelToJson;
 template<typename T> class IDCInputConverter;
 template<typename T> class IDCInputBuilder;
 template<typename T> class IDCMetaManager;
@@ -23,17 +24,19 @@ public:
     typedef IDCMetaManager<DCMeta> MetaManager;
     typedef IDCInputBuilder<DCInput> CreateInput;
     typedef IDCInputConverter<DCInput> ConvertInput;
+    typedef IDCModelToJson<DCIndex> ConvertIndex;
     DCUndoTurn(DCServices *services);
     virtual QByteArray undo() override;
 private:
     QJsonObject toJson(const QByteArray &byteArray);
-    QByteArray toByteArray(const DCInput &input);
+    QByteArray inputToFormattedJson(const DCInput &input);
+    QByteArray indexToFormattedJson(const DCIndex &index);
     DCInput getInputFromModelsContext(const DCIndex &index);
     AbsDartsCtx *_modelsContext;
     IndexController *_indexController;
     PlayerManager *_playerManager;
     MetaManager *_metaManager;
-    IDCIndexToByteArray *_indexToByteArray;
+    ConvertIndex *_indexToJson;
     CreateInput *_createInput;
     IDCInputAdder *_addInputDetails;
     ConvertInput *_convertInput;

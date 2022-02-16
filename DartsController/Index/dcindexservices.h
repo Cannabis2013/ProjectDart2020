@@ -1,17 +1,18 @@
 #ifndef DCINDEXSERVICES_H
 #define DCINDEXSERVICES_H
-#include "Index/idcindexcontroller.h"
-#include "idcindextobytearray.h"
+#include "idcindexcontroller.h"
+#include "Converters/idcmodeltojson.h"
 class DCIndexServices
 {
 public:
+    typedef IDCModelToJson<DCIndex> IndexToJson;
     typedef IDCIndexController<DCIndex,DCMeta> IndexController;
     IndexController *indexController() const {return _indexController;}
     void setIndexController(IndexController *service) {_indexController = service;}
-    IDCIndexToByteArray *indexToByteArray() const {return _indexConverter;}
-    void setIndexToByteArray(IDCIndexToByteArray *converter) {_indexConverter = converter;}
+    IndexToJson *indexToJson() const {return _indexConverter;}
+    void setIndexToByteArray(IndexToJson *converter) {_indexConverter = converter;}
 private:
-    IDCIndexToByteArray *_indexConverter;
+    IndexToJson *_indexConverter;
     IndexController *_indexController = nullptr;
 };
 #endif // DCINDEXSERVICES_H

@@ -8,7 +8,7 @@ public:
     virtual void init(const DCMeta &meta) override;
     DCIndex index() const override;
     virtual DCIndex prevIndex() const override;
-    void next() override;
+    DCIndex next() override;
     DCIndex undo() override;
     DCIndex redo() override;
 private:

@@ -27,7 +27,7 @@ int DartsController::initialize(const QUuid &tournamentId)
 
 QByteArray DartsController::addInput(const QByteArray& byteArray)
 {
-    return routines()->addInputToModelsContext()->add(byteArray);
+    return routines()->addInput()->add(byteArray);
 }
 
 bool DartsController::reset()

@@ -1,7 +1,7 @@
 #include "dartsaddinputtodb.h"
-#include "SLAs/dmcservices.h"
+#include "SLAs/dartsmodelsservices.h"
 
-DartsAddInputToDb::DartsAddInputToDb(DMCServices *services):_services(services)
+DartsAddInputToDb::DartsAddInputToDb(DartsModelsServices *services):_services(services)
 {
     _iptServices = _services->inputServices();
     _iptsDb = _iptServices->inputsDb();

@@ -1,8 +1,8 @@
 #include "dartsremovetournaments.h"
 
-#include "SLAs/dmcservices.h"
+#include "SLAs/dartsmodelsservices.h"
 
-DartsRemoveTournaments::DartsRemoveTournaments(DMCServices *services): _services(services)
+DartsRemoveTournaments::DartsRemoveTournaments(DartsModelsServices *services): _services(services)
 {
     _tnmServices = _services->tournamentServices();
     _tnmdb = _tnmServices->dartsDbCtx();

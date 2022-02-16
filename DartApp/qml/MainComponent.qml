@@ -63,7 +63,7 @@ Item {
     {
         id: dartsPointSingleColumn
         Page{
-            pageContent: DPSCContent{}
+            pageContent: DPCContent{}
             Component.onCompleted: body.backPushed.connect(backButtonPressed)
             onBackButtonPressed: pageLoader.sourceComponent = tournamentPageComponent
         }
@@ -72,7 +72,7 @@ Item {
     {
         id: dartsScoreSingleColumn
         Page{
-            pageContent: DSSCContent{}
+            pageContent: DSCContent{}
             Component.onCompleted: body.backPushed.connect(backButtonPressed)
             onBackButtonPressed: pageLoader.sourceComponent = tournamentPageComponent
         }

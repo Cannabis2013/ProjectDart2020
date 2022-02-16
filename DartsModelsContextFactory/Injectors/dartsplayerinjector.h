@@ -1,10 +1,10 @@
 #ifndef DARTSPLAYERINJECTOR_H
 #define DARTSPLAYERINJECTOR_H
-class DMCServices;
+class DartsModelsServices;
 class DartsPlayerInjector
 {
 public:
-    void inject(DMCServices *context) const;
+    void inject(DartsModelsServices *context) const;
 };
 
 #endif // DARTSPLAYERINJECTOR_H

@@ -1,13 +1,13 @@
 #ifndef ABSDARTSCTX_H
 #define ABSDARTSCTX_H
 #include <qobject.h>
-#include "dmcservices.h"
+#include "dartsmodelsservices.h"
 class IDartsIndex;
 class IDartsInput;
 class IPlayer;
 class IDartsTournament;
 class AbsPlaCtx;
-class AbsDartsCtx : public QObject, public DMCServices
+class AbsDartsCtx : public QObject, public DartsModelsServices
 {
     Q_OBJECT
 public:

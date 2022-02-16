@@ -4,18 +4,18 @@
 class DartsServices;
 template<typename T> class IDbContext;
 template<typename T> class IModel;
-class DMCServices;
+class DartsModelsServices;
 class DartsResetTournament : public IDartsResetTournament
 {
 public:
     typedef IModel<QUuid> Model;
     typedef IDbContext<Model> DbContext;
-    DartsResetTournament(DMCServices *services);
+    DartsResetTournament(DartsModelsServices *services);
     void reset(const QUuid &tournamentID) const override;
 private:
     void removeTournamentInputs(const QUuid &tournamentID) const;
     void resetTournament(const QUuid &tournamentID) const;
-    DMCServices *_services;
+    DartsModelsServices *_services;
     DartsServices *_tnmServices;
     DbContext *_dartsDb;
     DbContext *_iptsDb;

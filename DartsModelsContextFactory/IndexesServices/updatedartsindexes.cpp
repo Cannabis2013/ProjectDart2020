@@ -1,8 +1,8 @@
 #include "updatedartsindexes.h"
-#include "SLAs/dmcservices.h"
+#include "SLAs/dartsmodelsservices.h"
 #include "TournamentModelsSLAs/idartstournament.h"
 
-UpdateDartsIndexes::UpdateDartsIndexes(DMCServices *services): _services(services)
+UpdateDartsIndexes::UpdateDartsIndexes(DartsModelsServices *services): _services(services)
 {
     _idxServices = services->indexServices();
     _dartsDb = services->tournamentServices()->dartsDbCtx();

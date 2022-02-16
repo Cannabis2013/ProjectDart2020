@@ -5,7 +5,7 @@ struct DCIndex;
 class DSCInputEvaluator : public IDCInputEvaluator
 {
 public:
-    DCMeta evaluate(DCInput &input, const DCMeta &meta, const DCPlayer &player) override;
+    void evaluate(DCInput &input, DCMeta *meta, const DCPlayer &player) override;
 private:
     enum ControllerState {
         Initialized,
@@ -13,11 +13,11 @@ private:
         WinnerDeclared,
         AwaitsInput
     };
-    void updateInputDetails(const int &scoreCand, DCInput &input, DCMeta &meta);
-    void nullifyInput(DCInput &input, DCMeta &meta);
-    void updateWinnerDetails(DCInput &input, DCMeta &meta);
+    void updateInputDetails(const int &scoreCand, DCInput &input, DCMeta *meta);
+    void nullifyInput(DCInput &input, DCMeta *meta);
+    void updateWinnerDetails(DCInput &input, DCMeta *meta);
     int calcScore(const int &scoreCand, const int &remScore);
-    void update(const int &scoreCand, DCInput &input, DCMeta &meta);
+    void update(const int &scoreCand, DCInput &input, DCMeta *meta);
     const int minimumAllowedScore = 2;
 };
 #endif // SCOREVALIDATOR_H

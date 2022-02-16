@@ -1,11 +1,11 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
-import "dsscinit.js" as DSSCInit
-import "dsscscripts.js" as DSSCScripts
-import "dsscstatescripts.js" as StateScripts
+import "dscinit.js" as DSSCInit
+import "dscctrlscripts.js" as DSSCScripts
+import "dscstatescripts.js" as StateScripts
 import ".."
 Content {
-    id: dsscContent
+    id: dscContent
     preferedPageTitle: "Darts 2021"
     GridLayout{
         anchors.fill: parent
@@ -18,9 +18,9 @@ Content {
             Layout.bottomMargin: 12
             Layout.alignment: Qt.AlignHCenter
             onStart: DSSCScripts.startGame()
-            onPause: dsscContent.state = "stopped"
-            onResume: dsscContent.state = "waitingForInput"
-            onRestart: DSSCInit.resetTournament()
+            onPause: dscContent.state = "stopped"
+            onResume: dscContent.state = "waitingForInput"
+            onRestart: DSSCScripts.resetTournament()
             onUndo: DSSCScripts.undoClicked()
             onRedo: DSSCScripts.redoClicked()
         }
@@ -28,8 +28,8 @@ Content {
             id: singleColumnScoreBoard
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignHCenter
-            Layout.minimumWidth: dsscContent.width*0.8
-            Layout.maximumWidth: dsscContent.width*0.8
+            Layout.minimumWidth: dscContent.width*0.8
+            Layout.maximumWidth: dscContent.width*0.8
         }
         KeyDataDisplay{
             id: keyDataDisplay

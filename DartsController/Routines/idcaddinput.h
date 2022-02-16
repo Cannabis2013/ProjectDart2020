@@ -1,9 +1,9 @@
-#ifndef IDCADDTOMDSCTX_H
-#define IDCADDTOMDSCTX_H
+#ifndef IDCADDINPUT_H
+#define IDCADDINPUT_H
 class QByteArray;
 class AbsDartsCtx;
 struct DCInput;
-class IDCAddToMdsCtx
+class IDCAddInput
 {
 public:
     virtual QByteArray add(const QByteArray &inputByteArray) = 0;

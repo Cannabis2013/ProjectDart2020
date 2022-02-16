@@ -1,8 +1,7 @@
 #ifndef IDARTSINPUT_H
 #define IDARTSINPUT_H
 #include "InputModelsSLAs/iplayerinput.h"
-#include "idartsinputstats.h"
-class IDartsInput : public IPlayerInput, public IDartsInputStats
+class IDartsInput : public IPlayerInput
 {
 public:
     virtual int modKeyCode() const = 0;

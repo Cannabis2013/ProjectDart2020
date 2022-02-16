@@ -3,16 +3,16 @@
 #include "IndexesSLAs/iupdatedartsindexes.h"
 class DartsIndexServices;
 template<typename T> class IModel;
-class DMCServices;
+class DartsModelsServices;
 class UpdateDartsIndexes : public IUpdateDartsIndexes<IModel<QUuid>>
 {
 public:
     typedef IDbContext<Model> DbContext;
-    UpdateDartsIndexes(DMCServices *services);
+    UpdateDartsIndexes(DartsModelsServices *services);
     void update(const QByteArray &byteAray, const Uuid &tournamentID) const override;
 private:
     void updateTournament(IDartsIndex *index, IModel<QUuid> *model) const;
-    DMCServices *_services;
+    DartsModelsServices *_services;
     DartsIndexServices *_idxServices;
     DbContext *_dartsDb;
 };

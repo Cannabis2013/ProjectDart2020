@@ -8,14 +8,14 @@ class DartsInputServices;
 class DartsServices;
 class IDartsTournament;
 template<typename T> class IModel;
-class DMCServices;
+class DartsModelsServices;
 class AbsPlaCtx;
 struct DartsPlayer;
 class DartsTournamentRepair : public ITournamentRepair<IModel<QUuid>>
 {
 public:
     typedef QVector<DartsPlayer> Players;
-    DartsTournamentRepair(DMCServices *services);
+    DartsTournamentRepair(DartsModelsServices *services);
     bool repair(const QUuid &tournamentID) const override;
 private:
     Model *getTournament(const QUuid &tournamentID) const;
@@ -23,7 +23,7 @@ private:
     bool repairTournamentPlayers(IDartsTournament *tournament) const;
     bool repairInputs(const Models &models) const;
     Players toPlayers(const QByteArray &byteArray) const;
-    DMCServices *_services;
+    DartsModelsServices *_services;
     DartsServices *_tnmServices;
     DartsInputServices *_iptServices;
     DartsPlayerServices *_plaServices;

@@ -8,7 +8,7 @@
 DCConvertPlayers::Models DCConvertPlayers::convert(const QByteArray &byteArray, JsonToModel *jsonToPlayer) const
 {
     auto json = QJsonDocument::fromJson(byteArray).object();
-    auto arr = json["players"].toArray();
+    auto arr = json["assignedPlayerDetails"].toArray();
     Models models;
     for (const auto &jsonVal : qAsConst(arr))
         models << jsonToPlayer->convert(jsonVal.toObject());

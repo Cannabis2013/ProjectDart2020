@@ -4,11 +4,11 @@
 #include "ModelSLAs/imodel.h"
 #include "TournamentModelsSLAs/idartstournament.h"
 #include "Models/DartsPlayer.h"
-#include "SLAs/dmcservices.h"
+#include "SLAs/dartsmodelsservices.h"
 #include "ForeignContextSLAs/DartsPlayerServices.h"
 #include "TournamentsSLAs/dartsservices.h"
 
-DartsSetWinner::DartsSetWinner(DMCServices *services):_services(services)
+DartsSetWinner::DartsSetWinner(DartsModelsServices *services):_services(services)
 {
     _tnmServices = _services->tournamentServices();
     _plaServices = _services->playerServices();

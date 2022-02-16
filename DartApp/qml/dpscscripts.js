@@ -31,7 +31,7 @@ function setState(state)
 {
     var status = dpController.status();
     if(status === 0)
-        dpscContent.state = state;
+        dpcContent.state = state;
     else if(status === 2)
         winnerFound();
 }
@@ -55,7 +55,7 @@ function initSBHeader(metaVals)
 }
 function controllerReady()
 {
-    dpscContent.state = "ready";
+    dpcContent.state = "ready";
 }
 function addDartsScoresToScoreBoard(json)
 {
@@ -76,7 +76,7 @@ function updateScoreBoard(json)
 }
 function resetTournament()
 {
-    dpscContent.state = "stopped";
+    dpcContent.state = "stopped";
     var result = dpController.reset();
     if(result)
     {
@@ -98,7 +98,7 @@ function setTurnControllerValues(json)
     pointSingleColumnTurnController.currentPlayer = json["currentPlayerName"];
 }
 function handleScoreKeyPadInput(input, keyCode){
-    dpscContent.state = "waitingForInputConfirmation";
+    dpcContent.state = "waitingForInputConfirmation";
     var response = addInput(input,keyCode);
     updateScoreBoard(response);
     updateTurnValues();
@@ -122,8 +122,8 @@ function createInputJson(input,modCode)
 
 function backendIsStopped()
 {
-    if(dpscContent.state !== "preRestart")
-        dpscContent.state = "stopped";
+    if(dpcContent.state !== "preRestart")
+        dpcContent.state = "stopped";
 }
 function winnerFound()
 {
@@ -131,7 +131,7 @@ function winnerFound()
     var json = JSON.parse(byteArray);
     keyDataDisplay.setCurrentWinner(json["winnerName"]);
     keyDataDisplay.setThrowSuggestion("");
-    dpscContent.state = "winner";
+    dpcContent.state = "winner";
 }
 function updateTurnValues()
 {
@@ -146,12 +146,12 @@ function startGame()
     if(status === 0)
     {
         updateTurnValues();
-        dpscContent.state = "waitingForInput";
+        dpcContent.state = "waitingForInput";
     }
 }
 function undoClicked()
 {
-    dpscContent.state = "waitingForInputConfirmation";
+    dpcContent.state = "waitingForInputConfirmation";
     var response = dpController.undoTurn();
     updateScoreBoard(JSON.parse(response));
     updateTurnValues();
@@ -160,7 +160,7 @@ function undoClicked()
 
 function redoClicked()
 {
-    dpscContent.state = "waitingForInputConfirmation";
+    dpcContent.state = "waitingForInputConfirmation";
     var response = dpController.redoTurn();
     updateScoreBoard(JSON.parse(response));
     updateTurnValues();
@@ -169,5 +169,5 @@ function redoClicked()
 
 function pauseClicked()
 {
-    dpscContent.state = "stopped";
+    dpcContent.state = "stopped";
 }

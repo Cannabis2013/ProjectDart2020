@@ -4,11 +4,11 @@
 #include <qbytearray.h>
 #include <qjsonobject.h>
 #include <qjsondocument.h>
-#include "Index/idcindextobytearray.h"
-class DCIndexConverter : public IDCIndexToByteArray
+#include "Converters/idcmodeltojson.h"
+class DCIndexConverter : public IDCModelToJson<DCIndex>
 {
 public:
-    virtual ByteArray convert(const DCIndex &idx) const override
+    virtual QJsonObject convert(const DCIndex &idx) const override
     {
         QJsonObject json;
         json["totalTurns"] = idx.totalTurns;
@@ -16,7 +16,7 @@ public:
         json["roundIndex"] = idx.roundIndex;
         json["playerIndex"] = idx.playerIndex;
         json["attemptIndex"] = idx.attemptIndex;
-        return QJsonDocument(json).toJson();
+        return json;
     }
 };
 #endif // DARTSINDEXESBUILDER_H

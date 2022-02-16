@@ -1,6 +1,6 @@
 #include "dartspersist.h"
-#include "SLAs/dmcservices.h"
-DartsPersist::DartsPersist(DMCServices *services):_services(services){}
+#include "SLAs/dartsmodelsservices.h"
+DartsPersist::DartsPersist(DartsModelsServices *services):_services(services){}
 
 bool DartsPersist::persistTournamentsChanges()
 {

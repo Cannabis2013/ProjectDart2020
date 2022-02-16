@@ -1,8 +1,8 @@
 #include "dartsresettournament.h"
-#include "SLAs/dmcservices.h"
+#include "SLAs/dartsmodelsservices.h"
 #include "TournamentModelsSLAs/idartstournament.h"
 
-DartsResetTournament::DartsResetTournament(DMCServices *services)
+DartsResetTournament::DartsResetTournament(DartsModelsServices *services)
 {
     _services = services;
     _tnmServices = services->tournamentServices();

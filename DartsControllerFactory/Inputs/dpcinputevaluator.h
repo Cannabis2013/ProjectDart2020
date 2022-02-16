@@ -4,7 +4,7 @@
 class DPCInputEvaluator : public IDCInputEvaluator
 {
 public:
-    DCMeta evaluate(DCInput &input, const DCMeta &meta, const DCPlayer &player) override;
+    void evaluate(DCInput &input, DCMeta *meta, const DCPlayer &player) override;
 private:
     enum ControllerState {
         Initialized,
@@ -17,12 +17,12 @@ private:
         DoubleModifier = 0x2B,
         TrippleModifier = 0x2C
     };
-    void playerHasNotEntered(DCInput &ipt, const int &scoreCand, DCMeta &meta);
-    void playerHasEntered(DCInput &ipt, DCMeta &meta, const int &scoreCand);
-    void updateWinnerDetails(DCInput &ipt, DCMeta &meta);
+    void playerHasNotEntered(DCInput &ipt, const int &scoreCand, DCMeta *meta);
+    void playerHasEntered(DCInput &ipt, DCMeta *meta, const int &scoreCand);
+    void updateWinnerDetails(DCInput &ipt, DCMeta *meta);
     int calcScore(const int &scoreCand, const int &remScore);
-    void updateInputDetails(const int &remaining, const bool &inGame, DCInput &input, DCMeta &meta);
-    void nullifyInput(DCInput &input, DCMeta &meta);
+    void updateInputDetails(const int &remaining, const bool &inGame, DCInput &input, DCMeta *meta);
+    void nullifyInput(DCInput &input, DCMeta *meta);
     const int _bullsEye = 50;
     const int minimumAllowedScore = 2;
 };

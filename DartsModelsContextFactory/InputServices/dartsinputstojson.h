@@ -5,7 +5,7 @@ template<typename T>
 class IModelConverter;
 template<typename T>
 class IDbContext;
-class DMCServices;
+class DartsModelsServices;
 class QUuid;
 template<typename T>
 class IModel;
@@ -18,11 +18,11 @@ class DartsInputsToJson : public IDartsInputsToJson<IModel<QUuid>>
 public:
     typedef IDbContext<Model> DbContext;
     typedef IModelConverter<Model> ModelConverter;
-    DartsInputsToJson(DMCServices *services);
+    DartsInputsToJson(DartsModelsServices *services);
     ByteArray fromInputs(const QUuid &tournamentID) const override;
 private:
     QByteArray toByteArray(const QJsonArray &arr) const;
-    DMCServices *_services;
+    DartsModelsServices *_services;
     DbContext *_iptsDb;
     ModelConverter *_cvtr;
 };

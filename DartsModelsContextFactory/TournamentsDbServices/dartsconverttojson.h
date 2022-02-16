@@ -4,13 +4,13 @@
 template<typename T> class IDbContext;
 template<typename T> class IModelConverter;
 class QJsonArray;
-class DMCServices;
+class DartsModelsServices;
 class DartsConvertToJson : public IDartsJsonBuilder<IModel<QUuid>>
 {
 public:
     typedef IModelConverter<Model> ModelConverter;
     typedef IDbContext<Model> DbContext;
-    DartsConvertToJson(DMCServices *services);
+    DartsConvertToJson(DartsModelsServices *services);
     QByteArray fromTournament(const QUuid &ID) const override;
     QByteArray fromTournament(const QString &ID) const override;
     ByteArray fromTournament(const int &index) const override;
@@ -21,7 +21,7 @@ private:
     QJsonArray toJsonArray(const QVector<IModel<QUuid> *> &models) const;
     QByteArray toByteArray(const QJsonObject &obj) const;
     QByteArray toByteArray(const QJsonArray &arr) const;
-    DMCServices *_services;
+    DartsModelsServices *_services;
     ModelConverter *_cvtr;
     DbContext *_dartsDb;
 };

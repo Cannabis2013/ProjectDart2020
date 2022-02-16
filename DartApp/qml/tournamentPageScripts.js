@@ -8,7 +8,7 @@ function init()
         var gameMode = jsonTournament["gameMode"];
         var title = jsonTournament["title"];
         var winnerName = jsonTournament["winnerName"];
-        var players = jsonTournament["players"];
+        var players = jsonTournament["assignedPlayerDetails"];
         var playersCount = players.length;
         dartsListView.addItem(createItem(title,gameMode,winnerName,playersCount));
     }
@@ -57,12 +57,11 @@ function initDarts(json)
         initializeDartsScoreController(json);
     else
         throw "Bad inputhint!";
-
 }
 function initializeDartsPointController(json)
 {
     let status = dpController.initialize(json["tournamentId"]);
-    if(status === 0)
+    if(status >= 0 ||  status <= 3)
         body.dartsPointSingleColumnInitialized();
     else
         throw "Bad init!";
@@ -71,7 +70,7 @@ function initializeDartsPointController(json)
 function initializeDartsScoreController(json)
 {
     let status = dsController.initialize(json["tournamentId"]);
-    if(status === 0)
+    if(status >= 0 ||  status <= 3)
         body.dartsScoreSingleColumnInitialized();
     else
         throw "Bad init!";

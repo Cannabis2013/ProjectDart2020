@@ -1,5 +1,6 @@
 #ifndef DCINPUT_H
 #define DCINPUT_H
+#include "dcindex.h"
 #include <QUuid>
 struct DCInput
 {
@@ -7,14 +8,9 @@ struct DCInput
     int score = 0;
     int modKeyCode = -1;
     int remScore = -1;
-    int min = 0;
-    int max = 0;
-    double mid = 0;
-    int roundIndex = 1;
-    int playerIndex = 0;
-    int attemptIndex = 0;
     bool inGame = false;
     bool approved = false;
+    DCIndex index;
     QUuid tournamentId;
     QString playerName;
     QUuid playerId;

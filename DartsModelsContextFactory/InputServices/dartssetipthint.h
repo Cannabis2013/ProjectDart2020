@@ -6,7 +6,7 @@ class IDartsIndex;
 template<typename T> class IDartsIdxBuilder;
 template<typename T> class IDbContext;
 class DartsInputServices;
-class DMCServices;
+class DartsModelsServices;
 class QUuid;
 template<typename T> class IModel;
 class DartsSetIptHint : public IDartsSetIptHint<IModel<QUuid>>
@@ -19,13 +19,13 @@ public:
         DisplayHint = 0x2,
         allHints = HiddenHint | DisplayHint
     };
-    DartsSetIptHint(DMCServices *services);
+    DartsSetIptHint(DartsModelsServices *services);
     virtual void setHidden(QUuid tournamentID, QString name, const QByteArray &idxBa) const override;
     virtual void setVisible(QUuid tournamentID, QString name, const QByteArray &idxBa) const override;
     void setVisible(Model *input) const override;
 private:
     void setHint(Model *model, const ModelDisplayHint &hint) const;
-    DMCServices *_services;
+    DartsModelsServices *_services;
     DartsInputServices *_iptServices;
     DbContext *_iptsDb;
     IdxBuilder *_idxCvtr;

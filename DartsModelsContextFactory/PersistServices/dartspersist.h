@@ -6,7 +6,7 @@ template<typename T> class IModelConverter;
 template<typename T> class IDbContext;
 template<typename T> class IModel;
 class QUuid;
-class DMCServices;
+class DartsModelsServices;
 class DartsPersist : public IDartsPersist
 {
 public:
@@ -14,7 +14,7 @@ public:
     typedef IDbContext<Model> DbContext;
     typedef IDbJsonBuilder<Model> ModelsConverter;
     typedef IModelConverter<Model> ModelConverter;
-    DartsPersist(DMCServices *services);
+    DartsPersist(DartsModelsServices *services);
     bool persistTournamentsChanges() override;
     bool persistInputChanges() override;
     bool persistAllChanges() override;
@@ -22,7 +22,7 @@ private:
     bool persistTournaments();
     bool persistInputs();
     bool persist(DbContext *dbContext, ModelsConverter *convertModels, ModelConverter *convertModel);
-    DMCServices *_services;
+    DartsModelsServices *_services;
 };
 
 #endif // DARTSPERSIST_H

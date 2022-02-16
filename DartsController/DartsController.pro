@@ -28,7 +28,6 @@ HEADERS += \
     Finishes/idcfinishbuilder.h \
     Index/dcindexservices.h \
     Index/idcindexcontroller.h \
-    Index/idcindextobytearray.h \
     Inputs/dcinputsservices.h \
     Inputs/idcinputadder.h \
     Inputs/idcinputbuilder.h \
@@ -43,6 +42,7 @@ HEADERS += \
     Converters/idcjsontomodel.h \
     Converters/idcmodeltojson.h \
     Converters/idcjsontomodels.h \
+    Routines/idcaddinput.h \
     Routines/idccreatewinnerjson.h \
     Routines/idcgetscoresasjson.h \
     Routines/idcgetturnvaluesasjson.h \
@@ -51,7 +51,6 @@ HEADERS += \
     Models/dcinput.h \
     Models/dcmeta.h \
     Models/dcplayer.h \
-    Routines/idcaddtomdsctx.h \
     Routines/dcroutines.h \
     Routines/idcredoturn.h \
     Routines/idcresetservices.h \

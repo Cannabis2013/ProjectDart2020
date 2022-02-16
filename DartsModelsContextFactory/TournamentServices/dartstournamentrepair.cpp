@@ -1,5 +1,5 @@
 #include "dartstournamentrepair.h"
-#include "SLAs/dmcservices.h"
+#include "SLAs/dartsmodelsservices.h"
 #include "TournamentModelsSLAs/idartstournament.h"
 #include "ContextSLA/absplactx.h"
 #include "Models/DartsPlayer.h"
@@ -7,7 +7,7 @@
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 
-DartsTournamentRepair::DartsTournamentRepair(DMCServices *services):_services(services)
+DartsTournamentRepair::DartsTournamentRepair(DartsModelsServices *services):_services(services)
 {
     _plaCtx = services->playersContext();
     _tnmServices = services->tournamentServices();

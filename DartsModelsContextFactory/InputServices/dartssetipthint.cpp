@@ -2,9 +2,9 @@
 #include "InputsDbSLAs/igetinputs.h"
 #include "IndexesDbSLAs/idartsindex.h"
 #include "InputModelsSLAs/idartsinput.h"
-#include "SLAs/dmcservices.h"
+#include "SLAs/dartsmodelsservices.h"
 
-DartsSetIptHint::DartsSetIptHint(DMCServices *services):_services(services)
+DartsSetIptHint::DartsSetIptHint(DartsModelsServices *services):_services(services)
 {
     _iptServices = services->inputServices();
     _iptsDb = services->inputServices()->inputsDb();

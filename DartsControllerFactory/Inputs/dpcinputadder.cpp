@@ -1,11 +1,12 @@
 #include "dpcinputadder.h"
 
 
-DCInput DPCInputAdder::add(DCInput &input, const DCPlayer &player, const DCMeta &meta) const
+DCInput DPCInputAdder::add(DCInput &input, const DCPlayer &player, const DCMeta &meta, const DCIndex &index) const
 {
     input.playerName = player.name;
     input.score = 0;
     input.tournamentId = meta.tournamentID;
+    input.index = index;
     return input;
 }
 

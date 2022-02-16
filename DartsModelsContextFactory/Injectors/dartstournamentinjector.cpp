@@ -8,9 +8,9 @@
 #include "TournamentServices/jsontodartsmodels.h"
 #include "TournamentsDbServices/dartsdbcontext.h"
 #include "DbServices/convertdartsmodels.h"
-#include "SLAs/dmcservices.h"
+#include "SLAs/dartsmodelsservices.h"
 
-void DartsTournamentInjector::injectServices(DMCServices *context)
+void DartsTournamentInjector::injectServices(DartsModelsServices *context)
 {
     auto tnmServices = new DartsServices;
     tnmServices->setDartsConverter(new DartsJsonConverter);

@@ -48,7 +48,7 @@ void DartsJsonConverter::fromPlayerDetails(IModel<QUuid> *model, QJsonObject &ob
         arr << toJsonObject(id,name);
     }
     obj["assignedPlayersCount"] = count;
-    obj["players"] = arr;
+    obj["assignedPlayerDetails"] = arr;
 }
 
 QJsonObject DartsJsonConverter::toJsonObject(const QUuid &id, const QString &name) const
@@ -84,7 +84,7 @@ void DartsJsonConverter::setTournamentPlayerDetails(DartsTournament *tournament,
 {
     QVector<QUuid> playerIds;
     QVector<QString> playerNames;
-    auto arr = obj.value("players").toArray();
+    auto arr = obj.value("assignedPlayerDetails").toArray();
     for (const auto &jsonvalue : qAsConst(arr)) {
         auto jsonObject = jsonvalue.toObject();
         playerIds << QUuid::fromString(jsonObject.value("playerId").toString());

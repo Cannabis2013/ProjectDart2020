@@ -1,12 +1,12 @@
-#ifndef DMCSERVICES_H
-#define DMCSERVICES_H
+#ifndef DARTSMODELSSERVICES_H
+#define DARTSMODELSSERVICES_H
 #include "ForeignContextSLAs/DartsPlayerServices.h"
 #include "TournamentsSLAs/dartsservices.h"
 #include "InputSLAs/dartsinputservices.h"
 #include "IndexesSLAs/dartsindexservices.h"
 #include "TournamentsDbSLAs/persistenceservices.h"
 #include "ContextSLA/absplactx.h"
-class DMCServices
+class DartsModelsServices
 {
 public:
     DartsServices *tournamentServices() const {return _tournamentServices;}
@@ -34,4 +34,4 @@ private:
     DartsPlayerServices *_playerServices;
     AbsPlaCtx *_playersContext;
 };
-#endif // DMCSERVICES_H
+#endif // DARTSMODELSSERVICES_H

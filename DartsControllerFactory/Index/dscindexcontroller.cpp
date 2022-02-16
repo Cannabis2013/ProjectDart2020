@@ -1,27 +1,21 @@
-#include "dpcindexcontroller.h"
+#include "dscindexcontroller.h"
 
-void DPCIndexController::init(const DCMeta &meta)
+void DSCIndexController::init(const DCMeta &meta)
 {
-    _pCount = meta.playersCount;
-    _index = meta.index;
+    _pCount = meta.playersCount,
+            _index = meta.index;
 }
 
-DCIndex DPCIndexController::index() const {return _index;}
+DCIndex DSCIndexController::index() const {return _index;}
 
-DCIndex DPCIndexController::prevIndex() const
+DCIndex DSCIndexController::prevIndex() const
 {
     auto reqIdx = _index;
-    if(reqIdx.attemptIndex > 0)
-        reqIdx.attemptIndex--;
-    else
-    {
-        reqIdx.roundIndex--;
-        reqIdx.attemptIndex = _attempts - 1;
-    }
+    reqIdx.roundIndex--;
     return reqIdx;
 }
 
-DCIndex DPCIndexController::next()
+DCIndex DSCIndexController::next()
 {
     if(_index.turnIndex == _index.totalTurns)
         _index.totalTurns++;
@@ -39,7 +33,7 @@ DCIndex DPCIndexController::next()
     return _index;
 }
 
-DCIndex DPCIndexController::undo()
+DCIndex DSCIndexController::undo()
 {
     if(_index.turnIndex <= 0)
         throw "ERROR: CAN'T UNDO!";
@@ -58,7 +52,7 @@ DCIndex DPCIndexController::undo()
     return _index;
 }
 
-DCIndex DPCIndexController::redo()
+DCIndex DSCIndexController::redo()
 {
     if(_index.turnIndex >= _index.totalTurns)
         throw "ERROR: CAN'T REDO!";
@@ -76,7 +70,4 @@ DCIndex DPCIndexController::redo()
     return _index;
 }
 
-int DPCIndexController::pCount() const
-{
-    return _pCount;
-}
+int DSCIndexController::pCount() const {return _pCount;}

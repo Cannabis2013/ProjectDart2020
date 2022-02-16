@@ -3,8 +3,8 @@
 #include "FileIOServices/filejsonio.h"
 #include "DbServices/loadfromstorage.h"
 #include "DbServices/savetostorage.h"
-#include "SLAs/dmcservices.h"
-void LocalPersistenceInjector::inject(DMCServices *context)
+#include "SLAs/dartsmodelsservices.h"
+void LocalPersistenceInjector::inject(DartsModelsServices *context)
 {
     auto persServices = new PersistenceServices;
     persServices->setIoDevice(new FileJsonIO("DartsData"));

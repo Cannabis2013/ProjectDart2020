@@ -19,9 +19,7 @@ HEADERS += \
     IndexesSLAs/idartsidxbuilder.h \
     IndexesSLAs/idcidxbuilder.h \
     IndexesSLAs/iupdatedartsindexes.h \
-    InputModels/dartsinputstats.h \
     InputModelsSLAs/idartsinput.h \
-    InputModelsSLAs/idartsinputstats.h \
     InputModelsSLAs/idartsinputstojson.h \
     InputModelsSLAs/iplayerinput.h \
     InputSLAs/IDartsSetIptHint.h \
@@ -37,7 +35,7 @@ HEADERS += \
     Models/DartsPlayer.h \
     PredicateSLAs/imodelpredicate.h \
     SLAs/absdartsctx.h \
-    SLAs/dmcservices.h \
+    SLAs/dartsmodelsservices.h \
     TournamentModels/dartsmetamodel.h \
     TournamentModels/dartstournament.h \
     TournamentModelsSLAs/idartstournament.h \

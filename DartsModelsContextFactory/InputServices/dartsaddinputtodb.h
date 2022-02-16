@@ -5,7 +5,7 @@ template<typename T> class IDbContext;
 template<typename T> class IModel;
 class QUuid;
 class DartsInputServices;
-class DMCServices;
+class DartsModelsServices;
 class DartsAddInputToDb : public IDartsAddInputToDb
 {
 public:
@@ -15,12 +15,12 @@ public:
         allHints = HiddenHint | DisplayHint
     };
     typedef IModel<QUuid> Model;
-    DartsAddInputToDb(DMCServices *services);
+    DartsAddInputToDb(DartsModelsServices *services);
     void add(const ByteArray &byteArray, const QUuid &tournamentID) override;
 private:
     Model *createInput(const ByteArray &byteArray) const;
     void removeHiddenInputs(const QUuid &tournamentID) const;
-    DMCServices *_services;
+    DartsModelsServices *_services;
     DartsInputServices *_iptServices;
     IDbContext<Model> *_iptsDb;
 };

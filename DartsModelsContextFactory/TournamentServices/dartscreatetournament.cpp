@@ -1,11 +1,11 @@
 #include "dartscreatetournament.h"
-#include "SLAs/dmcservices.h"
+#include "SLAs/dartsmodelsservices.h"
 #include "Models/DartsPlayer.h"
 #include "TournamentModelsSLAs/idartstournament.h"
 #include <qjsonarray.h>
 #include <qjsondocument.h>
 
-DartsCreateTournament::DartsCreateTournament(DMCServices *services):_services(services){}
+DartsCreateTournament::DartsCreateTournament(DartsModelsServices *services):_services(services){}
 
 DartsCreateTournament::Model *DartsCreateTournament::create(const ByteArray &byteArray, const Indexes &playerIndexes) const
 {

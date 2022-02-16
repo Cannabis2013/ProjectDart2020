@@ -11,7 +11,7 @@
 class DPCInputAdder : public IDCInputAdder
 {
 public:
-    DCInput add(DCInput &input, const DCPlayer &player, const DCMeta &meta) const override;
+    DCInput add(DCInput &input, const DCPlayer &player, const DCMeta &meta, const DCIndex &index) const override;
 private:
     enum PointKeyCodes{
         SingleModifer = 0x2A,

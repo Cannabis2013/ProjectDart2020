@@ -3,8 +3,10 @@
 
 DartsInputConverter::Json DartsInputConverter::create(Model *model) const
 {
-    if(model != nullptr) return toJsonObject(model);
-    else return Json();
+    if(model != nullptr)
+        return toJsonObject(model);
+    else
+        return Json();
 }
 
 DartsInputConverter::Model *DartsInputConverter::create(const Json &json) const
@@ -47,9 +49,6 @@ QJsonObject DartsInputConverter::toJsonObject(IModel<QUuid> *model) const
     obj["inputPlayerName"] = inputModel->playerName();
     obj["hint"] = inputModel->hint();
     obj["modKeyCode"] = inputModel->modKeyCode();
-    obj["middleValue"] = inputModel->middleValue();
-    obj["maximumValue"] = inputModel->currentMaximum();
-    obj["minimumValue"] = inputModel->currentMinimum();
     obj["inGame"] = inputModel->inGame();
     obj["approved"] = inputModel->approved();
     return obj;
@@ -66,9 +65,6 @@ DartsInputConverter::Model *DartsInputConverter::toModel(const Json &json) const
     model->setModKeyCode(json.value("modKeyCode").toInt());
     model->setPlayerId(QUuid::fromString(json.value("inputPlayerId").toString()));
     model->setPlayerName(json.value("inputPlayerName").toString());
-    model->setCurrentMinimum(json.value("minimumValue").toInt());
-    model->setMiddleValue(json.value("middleValue").toDouble());
-    model->setCurrentMaximum(json.value("maximumValue").toInt());
     model->setHint(json.value("hint").toInt());
     model->setInGame(json.value("inGame").toBool());
     model->setRoundIndex(json.value("roundIndex").toInt());

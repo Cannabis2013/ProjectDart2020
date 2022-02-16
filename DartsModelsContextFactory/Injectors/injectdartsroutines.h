@@ -1,15 +1,15 @@
 #ifndef INJECTDARTSROUTINES_H
 #define INJECTDARTSROUTINES_H
-class DMCServices;
+class DartsModelsServices;
 class InjectDartsRoutines
 {
 public:
-    void inject(DMCServices *context);
+    void inject(DartsModelsServices *context);
 private:
-    void injectTournamentRoutines(DMCServices *context);
-    void injectInputRoutines(DMCServices *context);
-    void injectIndexRoutines(DMCServices *context);
-    void injectPersistenceRoutines(DMCServices *context);
+    void injectTournamentRoutines(DartsModelsServices *context);
+    void injectInputRoutines(DartsModelsServices *context);
+    void injectIndexRoutines(DartsModelsServices *context);
+    void injectPersistenceRoutines(DartsModelsServices *context);
 };
 
 #endif // INJECTDARTSROUTINES_H

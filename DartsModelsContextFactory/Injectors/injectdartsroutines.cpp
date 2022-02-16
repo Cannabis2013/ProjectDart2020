@@ -1,5 +1,5 @@
 #include "injectdartsroutines.h"
-#include "SLAs/dmcservices.h"
+#include "SLAs/dartsmodelsservices.h"
 #include "InputServices/dartsinputstojson.h"
 #include "InputServices/dartssetipthint.h"
 #include "InputServices/dartsaddinputtodb.h"
@@ -14,7 +14,7 @@
 #include "IndexesServices/updatedartsindexes.h"
 #include "PersistServices/dartspersist.h"
 
-void InjectDartsRoutines::inject(DMCServices *context)
+void InjectDartsRoutines::inject(DartsModelsServices *context)
 {
     injectTournamentRoutines(context);
     injectInputRoutines(context);
@@ -22,7 +22,7 @@ void InjectDartsRoutines::inject(DMCServices *context)
     injectPersistenceRoutines(context);
 }
 
-void InjectDartsRoutines::injectTournamentRoutines(DMCServices *context)
+void InjectDartsRoutines::injectTournamentRoutines(DartsModelsServices *context)
 {
     auto tnmServices = context->tournamentServices();
     tnmServices->setTournamentRepair(new DartsTournamentRepair(context));
@@ -34,7 +34,7 @@ void InjectDartsRoutines::injectTournamentRoutines(DMCServices *context)
     tnmServices->setResetTournament(new DartsResetTournament(context));
 }
 
-void InjectDartsRoutines::injectInputRoutines(DMCServices *context)
+void InjectDartsRoutines::injectInputRoutines(DartsModelsServices *context)
 {
     auto iptServices = context->inputServices();
     iptServices->setCreateJsonFromInputs(new DartsInputsToJson(context));
@@ -43,13 +43,13 @@ void InjectDartsRoutines::injectInputRoutines(DMCServices *context)
     iptServices->setInputToJson(new DartsInputToJson(context));
 }
 
-void InjectDartsRoutines::injectIndexRoutines(DMCServices *context)
+void InjectDartsRoutines::injectIndexRoutines(DartsModelsServices *context)
 {
     auto idxServices = context->indexServices();
     idxServices->setUpdateIndexes(new UpdateDartsIndexes(context));
 }
 
-void InjectDartsRoutines::injectPersistenceRoutines(DMCServices *context)
+void InjectDartsRoutines::injectPersistenceRoutines(DartsModelsServices *context)
 {
     auto persServices = context->persistenceServices();
     persServices->setPersist(new DartsPersist(context));

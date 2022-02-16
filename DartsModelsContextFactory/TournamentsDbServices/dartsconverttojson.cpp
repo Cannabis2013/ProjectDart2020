@@ -3,9 +3,9 @@
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 #include <quuid.h>
-#include "SLAs/dmcservices.h"
+#include "SLAs/dartsmodelsservices.h"
 
-DartsConvertToJson::DartsConvertToJson(DMCServices *services): _services(services)
+DartsConvertToJson::DartsConvertToJson(DartsModelsServices *services): _services(services)
 {
     _cvtr = _services->tournamentServices()->dartsConverter();
     _dartsDb = _services->tournamentServices()->dartsDbCtx();

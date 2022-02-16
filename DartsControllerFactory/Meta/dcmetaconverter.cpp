@@ -28,6 +28,8 @@ DCMeta DCMetaConverter::toMeta(const QJsonObject &json) const
         meta.index.roundIndex = roundIndex;
     meta.index.playerIndex = json.value("playerIndex").toInt(0);
     meta.index.attemptIndex = json.value("attemptIndex").toInt(0);
+    meta.index.totalTurns = json.value("totalTurns").toInt();
+    meta.index.turnIndex = json.value("turnIndex").toInt();
     return meta;
 }
 

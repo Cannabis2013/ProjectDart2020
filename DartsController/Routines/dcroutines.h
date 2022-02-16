@@ -1,6 +1,6 @@
 #ifndef DCROUTINES_H
 #define DCROUTINES_H
-#include "idcaddtomdsctx.h"
+#include "idcaddinput.h"
 #include "idcresetservices.h"
 #include "idcredoturn.h"
 #include "idcundoturn.h"
@@ -12,8 +12,8 @@
 class DCRoutines
 {
 public:
-    IDCAddToMdsCtx *addInputToModelsContext() const {return _addToModelsCtx;}
-    void setUpdateModelsContext(IDCAddToMdsCtx *service) {_addToModelsCtx = service;}
+    IDCAddInput *addInput() const {return _addToModelsCtx;}
+    void setUpdateModelsContext(IDCAddInput *service) {_addToModelsCtx = service;}
     IDCResetServices *resetServices() const {return _resetServices;}
     void setResetServices(IDCResetServices *service) {_resetServices = service;}
     IDCUndoTurn *undoTurn() const {return _undoTurn;}
@@ -30,7 +30,7 @@ public:
     void setGetScoresAsJson(IDCGetScoresAsJson *service) {_getPlayersAsJson = service;}
 private:
     IDCInitialize *_initialize;
-    IDCAddToMdsCtx *_addToModelsCtx;
+    IDCAddInput *_addToModelsCtx;
     IDCResetServices *_resetServices;
     IDCUndoTurn *_undoTurn;
     IDCRedoTurn *_redoTurn;

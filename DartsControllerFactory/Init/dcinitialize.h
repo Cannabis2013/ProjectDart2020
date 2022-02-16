@@ -27,7 +27,7 @@ private:
     void initPlayerDetails();
     void initPlayerScores();
     void initStatus();
-    QVector<DCPlayer> updatePlayers(QVector<DCPlayer> &players, const int &remScore);
+    void updatePlayers(QVector<DCPlayer> &players, const int &remScore);
     JsonToInput *_jsonToInput;
     JsonToInputs *_jsonToInputs;
     PlayerManager *_playerManager;

@@ -3,7 +3,7 @@
 #include <qobject.h>
 class InjectDartsRoutines;
 class DartsPlayerInjector;
-class DMCServices;
+class DartsModelsServices;
 class LocalPersistenceInjector;
 class DartsIndexInjector;
 class DartsTournamentInjector;
@@ -21,7 +21,7 @@ public:
     CreateDartsContext();
     AbsDartsCtx *localJson(AbsPlaCtx *playersContext) const;
 private:
-    void injectServices(DMCServices *context) const;
+    void injectServices(DartsModelsServices *context) const;
     void fetchContext(AbsDartsCtx *context) const;
     DartsTournamentInjector *tournamentInjector;
     DartsInputInjector *inputInjector;

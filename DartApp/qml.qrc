@@ -84,13 +84,13 @@
         <file>qml/HorizontalHeader.qml</file>
         <file>qml/ftpScoreBoardFactory.js</file>
         <file>qml/DSSCTableFonts.qml</file>
-        <file>qml/dsscstatescripts.js</file>
-        <file>qml/dsscscripts.js</file>
+        <file>qml/dscstatescripts.js</file>
+        <file>qml/dscctrlscripts.js</file>
         <file>qml/dsscKeyPadScripts.js</file>
         <file>qml/DSSCKeyPadInterface.qml</file>
         <file>qml/dsscKeyPadFactory.js</file>
         <file>qml/DSSCKeyPad.qml</file>
-        <file>qml/DSSCContent.qml</file>
+        <file>qml/DSCContent.qml</file>
         <file>qml/dsscboardscripts.js</file>
         <file>qml/DSSCBoardFonts.qml</file>
         <file>qml/DSSCBoard.qml</file>
@@ -99,7 +99,7 @@
         <file>qml/dpscKeyPadScripts.js</file>
         <file>qml/dpscKeyPadFactory.js</file>
         <file>qml/DPSCKeyPad.qml</file>
-        <file>qml/DPSCContent.qml</file>
+        <file>qml/DPCContent.qml</file>
         <file>qml/dpscboardscripts.js</file>
         <file>qml/DPSCBoard.qml</file>
         <file>qml/DefaultTournamentListView.qml</file>
@@ -129,6 +129,8 @@
         <file>qml/ButtonsComponent.qml</file>
         <file>qml/BoxedRect.qml</file>
         <file>qml/BoardDelegateContentRect.qml</file>
-        <file>qml/dsscinit.js</file>
+        <file>qml/dscinit.js</file>
+        <file>qml/dsccontrollerinterface.js</file>
+        <file>qml/updatedsccontext.js</file>
     </qresource>
 </RCC>

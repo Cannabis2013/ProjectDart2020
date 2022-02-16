@@ -27,7 +27,7 @@ AbsDartsCtx *CreateDartsContext::localJson(AbsPlaCtx *playersContext) const
     return context;
 }
 
-void CreateDartsContext::injectServices(DMCServices *context) const
+void CreateDartsContext::injectServices(DartsModelsServices *context) const
 {
     tournamentInjector->injectServices(context);
     inputInjector->injectServices(context);

@@ -1,5 +1,5 @@
 #include "dartsinputinjector.h"
-#include "SLAs/dmcservices.h"
+#include "SLAs/dartsmodelsservices.h"
 #include "InputSLAs/dartsinputservices.h"
 #include "InputServices/countdartsinputs.h"
 #include "InputServices/dartsdbinputstojson.h"
@@ -12,7 +12,7 @@
 #include "InputServices/sortdartsinputsbyindexes.h"
 #include "InputServices/jsontodartsinputs.h"
 
-void DartsInputInjector::injectServices(DMCServices *context) const
+void DartsInputInjector::injectServices(DartsModelsServices *context) const
 {
     auto iptServices = new DartsInputServices;
     iptServices->setInputModelsToJson(new DartsDbInputsToJson);

@@ -5,8 +5,8 @@
 #include <qjsonobject.h>
 #include "InputModelsSLAs/idartsinput.h"
 #include "DbSLAs/imodelconverter.h"
-#include "SLAs/dmcservices.h"
-DartsInputsToJson::DartsInputsToJson(DMCServices *services):_services(services)
+#include "SLAs/dartsmodelsservices.h"
+DartsInputsToJson::DartsInputsToJson(DartsModelsServices *services):_services(services)
 {
     _iptsDb = services->inputServices()->inputsDb();
     _cvtr = services->inputServices()->inputConverter();

@@ -11,7 +11,7 @@ DCRedoTurn::DCRedoTurn(DCServices *services)
 {
     _modelsContext = services->modelsContext();
     _metaManager = services->metaServices()->metaManager();
-    _indexToByteArray = services->indexServices()->indexToByteArray();
+    _indexToJson = services->indexServices()->indexToJson();
     _createInput = services->inputServices()->createInputModel();
     _convertInput = services->inputServices()->inputConverter();
     _playerManager = services->playerServices()->playerManager();
@@ -21,13 +21,13 @@ DCRedoTurn::DCRedoTurn(DCServices *services)
 
 QByteArray DCRedoTurn::redo()
 {
+    auto index = _indexController->index();
     auto meta = _metaManager->meta();
     auto tournamentID = meta.tournamentID;
-    auto index = _indexController->index();
     auto player = _playerManager->player(index.playerIndex);
     auto playerName = player.name;
-    auto indexAsByteArray = _indexToByteArray->convert(index);
-    _modelsContext->revealInput(tournamentID,playerName,indexAsByteArray);
+    auto indexAsFormattedJson = indexAsByteArray(index);
+    _modelsContext->revealInput(tournamentID,playerName,indexAsFormattedJson);
     auto input = getInputFromModelsContext(index);
     _playerManager->updateScore(input);
     auto inputAsByteArray = toByteArray(input);
@@ -50,13 +50,20 @@ QByteArray DCRedoTurn::toByteArray(const DCInput &input)
     return document.toJson();
 }
 
+QByteArray DCRedoTurn::indexAsByteArray(const DCIndex &index)
+{
+    auto indexAsJson = _indexToJson->convert(index);
+    auto jsonDoc = QJsonDocument(indexAsJson);
+    return jsonDoc.toJson();
+}
+
 DCInput DCRedoTurn::getInputFromModelsContext(const DCIndex &index)
 {
     auto meta = _metaManager->meta();
     auto tournamentId = meta.tournamentID;
     auto player = _playerManager->player(index.playerIndex);
-    auto idxBa = _indexToByteArray->convert(index);
-    auto inputAsByteArray = _modelsContext->input(tournamentId,player.name,idxBa);
+    auto indexAsFormattedJson = indexAsByteArray(index);
+    auto inputAsByteArray = _modelsContext->input(tournamentId,player.name,indexAsFormattedJson);
     QJsonObject inputAsJson;
     try {
         inputAsJson = toJson(inputAsByteArray);
@@ -64,7 +71,7 @@ DCInput DCRedoTurn::getInputFromModelsContext(const DCIndex &index)
         throw e;
     }
     auto input = _convertInput->convert(inputAsJson);
-    _addInputDetails->add(input,player,meta);
+    _addInputDetails->add(input,player,meta,index);
     return input;
 }
 

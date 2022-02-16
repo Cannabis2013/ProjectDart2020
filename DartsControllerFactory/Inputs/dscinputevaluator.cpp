@@ -5,12 +5,11 @@
 #include "Models/dcinput.h"
 #include "Models/dcmeta.h"
 
-DCMeta DSCInputEvaluator::evaluate(DCInput &input, const DCMeta &meta, const DCPlayer &player)
+void DSCInputEvaluator::evaluate(DCInput &input, DCMeta *meta, const DCPlayer &player)
 {
     auto m = meta;
     auto score = calcScore(input.score,player.remaining);
     update(score,input,m);
-    return m;
 }
 
 int DSCInputEvaluator::calcScore(const int &scoreCand, const int &remScore)
@@ -22,7 +21,7 @@ int DSCInputEvaluator::calcScore(const int &scoreCand, const int &remScore)
 }
 
 
-void DSCInputEvaluator::update(const int &scoreCand, DCInput &input, DCMeta &meta)
+void DSCInputEvaluator::update(const int &scoreCand, DCInput &input, DCMeta *meta)
 {
     if(scoreCand >= minimumAllowedScore)
         updateInputDetails(scoreCand,input,meta);
@@ -32,25 +31,25 @@ void DSCInputEvaluator::update(const int &scoreCand, DCInput &input, DCMeta &met
         nullifyInput(input,meta);
 }
 
-void DSCInputEvaluator::updateInputDetails(const int &scoreCand,DCInput &input, DCMeta &meta)
+void DSCInputEvaluator::updateInputDetails(const int &scoreCand,DCInput &input, DCMeta *meta)
 {
     input.inGame = true;
     input.approved = true;
     input.remScore = scoreCand;
-    meta.lastInput = input;
+    meta->lastInput = input;
 }
 
-void DSCInputEvaluator::nullifyInput(DCInput &input, DCMeta &meta)
+void DSCInputEvaluator::nullifyInput(DCInput &input, DCMeta *meta)
 {
     input.inGame = true;
     input.score = 0;
-    meta.lastInput = input;
+    meta->lastInput = input;
 }
 
-void DSCInputEvaluator::updateWinnerDetails(DCInput &input, DCMeta &meta)
+void DSCInputEvaluator::updateWinnerDetails(DCInput &input, DCMeta *meta)
 {
     updateInputDetails(0,input,meta);
-    meta.winnerName = input.playerName;
-    meta.status = WinnerDeclared;
-    meta.lastInput = input;
+    meta->winnerName = input.playerName;
+    meta->status = WinnerDeclared;
+    meta->lastInput = input;
 }

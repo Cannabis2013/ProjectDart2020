@@ -6,7 +6,7 @@ template<typename T> class IDartsIdxBuilder;
 class IDartsIndex;
 template<typename T> class IDbContext;
 class DartsInputServices;
-class DMCServices;
+class DartsModelsServices;
 template<typename T> class IModel;
 class QUuid;
 class DartsInputToJson : public IDartsInputToJson<IModel<QUuid>>
@@ -15,10 +15,10 @@ public:
     typedef IDbContext<Model> DbContext;
     typedef IDartsIdxBuilder<IDartsIndex> IndexBuilder;
     typedef IModelConverter<Model> ModelConverter;
-    DartsInputToJson(DMCServices *services);
+    DartsInputToJson(DartsModelsServices *services);
     ByteArray toJson(const QUuid &tournamentID, const QString &name, const ByteArray &idxBa) const override;
 private:
-    DMCServices *_services;
+    DartsModelsServices *_services;
     DartsInputServices *_iptServices;
     DbContext *_iptsDb;
     IndexBuilder *_idxBuilder;

@@ -22,7 +22,7 @@ public:
     typedef IModel<QUuid> Model;
     typedef IDbContext<Model> DbCtx;
     typedef IDbJsonBuilder<Model> TournamentsToJson;
-    typedef IModelConverter<Model> TournamentToJson;
+    typedef IModelConverter<Model> TournamentConverter;
     typedef IDartsCreateTournament<Model> CreateTournament;
     typedef IDartsJsonBuilder<Model> JsonBuilder;
     typedef IConvertFromData<Model> ConvertFromByteArray;
@@ -44,8 +44,8 @@ public:
     void setTournamentRepair(RepairTournament *service) {_tournamentRepair = service;}
     ConvertFromByteArray *jsonToTournaments() const {return _jsonToTournaments;}
     void setJsonToTournaments(ConvertFromByteArray *service) {_jsonToTournaments = service;}
-    TournamentToJson *dartsConverter() const {return _tnmToJson;}
-    void setDartsConverter(TournamentToJson *service) {_tnmToJson = service;}
+    TournamentConverter *dartsConverter() const {return _tnmToJson;}
+    void setDartsConverter(TournamentConverter *service) {_tnmToJson = service;}
     TournamentsToJson *tournamentsToJson() const {return _dartsConverter;}
     void setTournamentsToJson(TournamentsToJson *service) {_dartsConverter = service;}
     JsonBuilder *dartsJsonBuilder() const {return _tournamentJsonBuilder;}
@@ -64,7 +64,7 @@ public:
     void setRemoveTournaments(IDartsRemoveTournaments *service) {_removeTournaments = service;}
 private:
     TournamentsToJson *_dartsConverter;
-    TournamentToJson *_tnmToJson;
+    TournamentConverter *_tnmToJson;
     ConvertFromByteArray *_jsonToTournaments;
     IDartsResetTournament *_resetTournament;
     IDartsCreateMeta *_createMeta;

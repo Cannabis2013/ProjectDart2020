@@ -23,7 +23,7 @@ void DCInitialize::init(const QUuid &tournamentID){
     initMeta(tournamentID);
     initPlayerDetails();
     initPlayerScores();
-    _metaManager->setStatus(_metaManager->Initialized);
+    initStatus();
 }
 
 void DCInitialize::initMeta(const QUuid &tournamentID){
@@ -59,10 +59,8 @@ void DCInitialize::initStatus()
         meta->status = IDCMetaManager<DCMeta>::WinnerDeclared;
 }
 
-QVector<DCPlayer> DCInitialize::updatePlayers(QVector<DCPlayer> &players, const int &remScore)
+void DCInitialize::updatePlayers(QVector<DCPlayer> &players, const int &remScore)
 {
-    auto updatedPlayers = players;
-    for (auto &player : updatedPlayers)
+    for (auto &player : players)
         player.remaining =  remScore;
-    return updatedPlayers;
 }

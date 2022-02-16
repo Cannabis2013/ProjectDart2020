@@ -23,19 +23,35 @@ void DSCPlayersContext::updateScores(const QVector<DCInput> &inputs)
     }
 }
 
-
 void DSCPlayersContext::reset(const int &initRemScore)
 {
     for (auto &scoreModel : _players)
         scoreModel.remaining = initRemScore;
 }
 
-DSCPlayersContext::Players &DSCPlayersContext::players() {return _players;}
-DCPlayer &DSCPlayersContext::player(const QString &name) {return getScoreModelByName(name);}
-DCPlayer &DSCPlayersContext::player(const int &idx) {return _players[idx];}
+DSCPlayersContext::Players &DSCPlayersContext::players()
+{
+    return _players;
+}
+
+DCPlayer &DSCPlayersContext::player(const QString &name) {
+    return getScoreModelByName(name);
+}
+
+DCPlayer &DSCPlayersContext::player(const int &idx)
+{
+    return _players[idx];
+}
+
 DSCPlayersContext::Players DSCPlayersContext::players() const {return _players;}
-bool DSCPlayersContext::status(const QString &) const {return true;}
+
+bool DSCPlayersContext::status(const QString &) const
+{
+    return true;
+}
+
 void DSCPlayersContext::updateStatus(const DCInput &) {}
+
 int DSCPlayersContext::count() const {return _players.count();}
 
 void DSCPlayersContext::addPlayers(const Players &players)

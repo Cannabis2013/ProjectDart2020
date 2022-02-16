@@ -1,9 +1,9 @@
 #include "dartsinputtojson.h"
-#include "SLAs/dmcservices.h"
+#include "SLAs/dartsmodelsservices.h"
 
 #include <qjsondocument.h>
 
-DartsInputToJson::DartsInputToJson(DMCServices *services):_services(services)
+DartsInputToJson::DartsInputToJson(DartsModelsServices *services):_services(services)
 {
     _iptServices = services->inputServices();
     _iptsDb = services->inputServices()->inputsDb();

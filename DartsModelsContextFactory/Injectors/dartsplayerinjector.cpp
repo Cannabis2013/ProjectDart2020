@@ -1,8 +1,8 @@
 #include "dartsplayerinjector.h"
-#include "SLAs/dmcservices.h"
+#include "SLAs/dartsmodelsservices.h"
 #include "PlayerServices/dartsconvertplayer.h"
 
-void DartsPlayerInjector::inject(DMCServices *context) const
+void DartsPlayerInjector::inject(DartsModelsServices *context) const
 {
     auto plaServices = new DartsPlayerServices;
     plaServices->setConvertPlayers(new DartsConvertPlayer);

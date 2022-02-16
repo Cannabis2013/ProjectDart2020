@@ -3,7 +3,7 @@ import QtQuick.Layouts 1.3
 import "dpscscripts.js" as DPSCScripts
 import "dpscstatescripts.js" as DPSCStateScripts
 Content {
-    id: dpscContent
+    id: dpcContent
     preferedPageTitle: "Dart 2021"
     GridLayout{
         anchors.fill: parent
@@ -15,16 +15,16 @@ Content {
             Layout.maximumHeight: 48
             Layout.alignment: Qt.AlignHCenter
             onStart: DPSCScripts.startGame()
-            onPause: dpscContent.state = "stopped"
-            onResume: dpscContent.state = "waitingForInput"
+            onPause: dpcContent.state = "stopped"
+            onResume: dpcContent.state = "waitingForInput"
             onRestart: DPSCScripts.resetTournament()
             onUndo: DPSCScripts.undoClicked()
             onRedo: DPSCScripts.redoClicked()
         }
         DPSCBoard{
             id: dpscScoreBoard
-            Layout.minimumWidth: dpscContent.width*0.8
-            Layout.maximumWidth: dpscContent.width*0.8
+            Layout.minimumWidth: dpcContent.width*0.8
+            Layout.maximumWidth: dpcContent.width*0.8
             Layout.alignment: Qt.AlignHCenter
         }
         KeyDataDisplay{

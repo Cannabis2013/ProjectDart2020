@@ -3,18 +3,17 @@
 #include "Models/dcmeta.h"
 #include "Models/dcplayer.h"
 
-DCMeta DPCInputEvaluator::evaluate(DCInput &input, const DCMeta &meta, const DCPlayer &player)
+void DPCInputEvaluator::evaluate(DCInput &input, DCMeta *meta, const DCPlayer &player)
 {
     auto m = meta;
     auto scoreCand = calcScore(input.score,player.remaining);
-    if(!player.in && m.entryRestricted)
+    if(!player.in && m->entryRestricted)
         playerHasNotEntered(input,scoreCand,m);
     else
         playerHasEntered(input,m,scoreCand);
-    return m;
 }
 
-void DPCInputEvaluator::playerHasNotEntered(DCInput &input, const int &scoreCand, DCMeta &meta)
+void DPCInputEvaluator::playerHasNotEntered(DCInput &input, const int &scoreCand, DCMeta *meta)
 {
     if(input.modKeyCode == DoubleModifier)
         updateInputDetails(scoreCand,true,input,meta);
@@ -22,7 +21,7 @@ void DPCInputEvaluator::playerHasNotEntered(DCInput &input, const int &scoreCand
         nullifyInput(input,meta);
 }
 
-void DPCInputEvaluator::playerHasEntered(DCInput &input, DCMeta &meta, const int &scoreCand)
+void DPCInputEvaluator::playerHasEntered(DCInput &input, DCMeta *meta, const int &scoreCand)
 {
     if(scoreCand >= minimumAllowedScore)
         updateInputDetails(scoreCand,true,input,meta);
@@ -32,11 +31,11 @@ void DPCInputEvaluator::playerHasEntered(DCInput &input, DCMeta &meta, const int
         nullifyInput(input,meta);
 }
 
-void DPCInputEvaluator::updateWinnerDetails(DCInput &input, DCMeta &meta)
+void DPCInputEvaluator::updateWinnerDetails(DCInput &input, DCMeta *meta)
 {
     updateInputDetails(0,true,input,meta);
-    meta.winnerName = input.playerName;
-    meta.status = WinnerDeclared;
+    meta->winnerName = input.playerName;
+    meta->status = WinnerDeclared;
 }
 
 int DPCInputEvaluator::calcScore(const int &scoreCand, const int &remScore)
@@ -47,15 +46,15 @@ int DPCInputEvaluator::calcScore(const int &scoreCand, const int &remScore)
     return totalScoreCandidate;
 }
 
-void DPCInputEvaluator::updateInputDetails(const int &remaining, const bool &inGame, DCInput &input, DCMeta &meta)
+void DPCInputEvaluator::updateInputDetails(const int &remaining, const bool &inGame, DCInput &input, DCMeta *meta)
 {
     input.remScore = remaining;
     input.inGame = inGame;
-    meta.lastInput = input;
+    meta->lastInput = input;
 }
 
-void DPCInputEvaluator::nullifyInput(DCInput &input, DCMeta &meta)
+void DPCInputEvaluator::nullifyInput(DCInput &input, DCMeta *meta)
 {
     input.score = 0;
-    meta.lastInput = input;
+    meta->lastInput = input;
 }

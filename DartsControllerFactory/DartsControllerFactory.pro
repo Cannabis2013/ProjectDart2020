@@ -45,7 +45,7 @@ HEADERS += \
     Injectors/dscinputinjector.h \
     Injectors/injectdpcroutines.h \
     Injectors/injectdscroutines.h \
-    Routines/dcaddinputtomodelscontext.h \
+    Routines/dcaddinput.h \
     Routines/dccreatewinnerreport.h \
     Routines/dcgetscoresasjson.h \
     Routines/dcgetturnvaluesasjson.h \
@@ -57,6 +57,7 @@ SOURCES += \
     Finishes/dartscreatefinishes.cpp \
     Finishes/dcfinishbuilder.cpp \
     Finishes/defaultthresholds.cpp \
+    Index/dscindexcontroller.cpp \
     Inputs/dcinputbuilder.cpp \
     Inputs/dcinputconverter.cpp \
     Inputs/dcjsontoinputmodels.cpp \
@@ -84,7 +85,7 @@ SOURCES += \
     Injectors/dscinputinjector.cpp \
     Injectors/injectdpcroutines.cpp \
     Injectors/injectdscroutines.cpp \
-    Routines/dcaddinputtomodelscontext.cpp \
+    Routines/dcaddinput.cpp \
     Routines/dccreatewinnerreport.cpp \
     Routines/dcgetscoresasjson.cpp \
     Routines/dcgetturnvaluesasjson.cpp \

@@ -1,10 +1,10 @@
 #include "dartsverifyconsistency.h"
 #include "InputModelsSLAs/idartsinput.h"
 #include "TournamentModelsSLAs/idartstournament.h"
-#include "SLAs/dmcservices.h"
+#include "SLAs/dartsmodelsservices.h"
 #include "ContextSLA/absplactx.h"
 
-DartsVerifyConsistency::DartsVerifyConsistency(DMCServices *services):_services(services){}
+DartsVerifyConsistency::DartsVerifyConsistency(DartsModelsServices *services):_services(services){}
 
 bool DartsVerifyConsistency::verify(const QUuid &tournamentID) const
 {

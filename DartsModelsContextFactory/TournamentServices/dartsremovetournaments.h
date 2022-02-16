@@ -6,20 +6,20 @@ template<typename T> class IModel;
 class QUuid;
 class DartsInputServices;
 class DartsServices;
-class DMCServices;
+class DartsModelsServices;
 class DartsRemoveTournaments : public IDartsRemoveTournaments
 {
 public:
     typedef IModel<QUuid> Model;
     typedef IDbContext<Model> DbContext;
-    DartsRemoveTournaments(DMCServices *services);
+    DartsRemoveTournaments(DartsModelsServices *services);
     virtual void remove(const Indexes &indexes) override;
 private:
     QVector<QUuid> getTournamentIDs(const Indexes &indexes);
     void removeTournamentInputs(const QUuid &tournamentID);
     Indexes getInputIndexes(const QUuid &tournamentID);
     void removeModels(const Indexes &indexes, DbContext *dbContext);
-    DMCServices *_services;
+    DartsModelsServices *_services;
     DartsServices *_tnmServices;
     DartsInputServices *_iptServices;
     DbContext *_tnmdb;
