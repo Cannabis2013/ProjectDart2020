@@ -1,4 +1,4 @@
-.import "dsccontrollerinterface.js.js" as DSCInterface
+.import "dsccontrollerinterface.js" as DSCInterface
 
 function updateTurnValues()
 {
@@ -13,14 +13,6 @@ function setTurnControllerValues(json)
     singleColumnScoreTurnController.rightButtonEnabled = json["canRedo"];
     singleColumnScoreTurnController.currentRoundIndex = json["currentRoundIndex"];
     singleColumnScoreTurnController.currentPlayer = json["currentPlayerName"];
-}
-
-function addInput(score)
-{
-    var obj = {score : score};
-    var json = JSON.stringify(obj);
-    var response = dsController.addInput(json);
-    return JSON.parse(response);
 }
 
 function updateScoreBoard(json)

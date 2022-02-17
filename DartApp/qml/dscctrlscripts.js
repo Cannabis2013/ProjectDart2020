@@ -1,4 +1,4 @@
-.import "dsccontrollerinterface.js.js" as DSCInterface
+.import "dsccontrollerinterface.js" as DSCInterface
 .import "dscinit.js" as DSInit
 .import "updatedsccontext.js" as UpdateDSC
 
@@ -13,7 +13,7 @@ function startGame()
 
 function handleScoreKeyPadInput(value){
     dscContent.state = "waitingForInputConfirmation";
-    var response = UpdateDSC.addInput(value);
+    var response = DSCInterface.addInput(value);
     UpdateDSC.updateScoreBoard(response);
     UpdateDSC.updateTurnValues();
     setState("waitingForInput");

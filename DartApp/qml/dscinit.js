@@ -1,4 +1,4 @@
-.import "dsccontrollercontext.js" as DSCInterface
+.import "dsccontrollerinterface.js" as DSCInterface
 
 function init()
 {

@@ -95,7 +95,7 @@
         <file>qml/DSSCBoardFonts.qml</file>
         <file>qml/DSSCBoard.qml</file>
         <file>qml/dpscstatescripts.js</file>
-        <file>qml/dpscscripts.js</file>
+        <file>qml/dpcscripts.js</file>
         <file>qml/dpscKeyPadScripts.js</file>
         <file>qml/dpscKeyPadFactory.js</file>
         <file>qml/DPSCKeyPad.qml</file>
