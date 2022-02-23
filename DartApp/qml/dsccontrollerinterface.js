@@ -55,7 +55,10 @@ function getPlayerScores()
     return list;
 }
 
-function getStatus() {return dsController.status();}
+function getStatus()
+{
+    return dsController.status();
+}
 
 function getTurnValues()
 {
@@ -84,4 +87,7 @@ function redoTurn()
     return JSON.parse(response);
 }
 
-function reset() {return dsController.reset();}
+function reset()
+{
+    return dsController.reset();
+}

@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
-import "dpscscripts.js" as DPSCScripts
-import "dpscstatescripts.js" as DPSCStateScripts
+import "dpcscripts.js" as DPCScripts
+import "dpscstatescripts.js" as DPCStateScripts
 Content {
     id: dpcContent
     preferedPageTitle: "Dart 2021"
@@ -14,12 +14,12 @@ Content {
             Layout.minimumHeight: 48
             Layout.maximumHeight: 48
             Layout.alignment: Qt.AlignHCenter
-            onStart: DPSCScripts.startGame()
+            onStart: DPCScripts.startGame()
             onPause: dpcContent.state = "stopped"
             onResume: dpcContent.state = "waitingForInput"
-            onRestart: DPSCScripts.resetTournament()
-            onUndo: DPSCScripts.undoClicked()
-            onRedo: DPSCScripts.redoClicked()
+            onRestart: DPCScripts.resetTournament()
+            onUndo: DPCScripts.undoClicked()
+            onRedo: DPCScripts.redoClicked()
         }
         DPSCBoard{
             id: dpscScoreBoard
@@ -36,20 +36,20 @@ Content {
             Layout.alignment: Qt.AlignBottom
             Layout.fillHeight: true
             Layout.fillWidth: true
-            onSendInput: DPSCScripts.handleScoreKeyPadInput(value,keyCode)
+            onSendInput: DPCScripts.handleScoreKeyPadInput(value,keyCode)
         }
     }
     states: [
         State {
             name: "winner"
             StateChangeScript{
-                script: DPSCStateScripts.declareWinner()
+                script: DPCStateScripts.declareWinner()
             }
         },
         State {
             name: "stopped"
             StateChangeScript{
-                script: DPSCStateScripts.backendIsStopped()
+                script: DPCStateScripts.backendIsStopped()
             }
         },
         State {
@@ -61,15 +61,15 @@ Content {
         State {
             name: "waitingForInputConfirmation"
             StateChangeScript{
-                script: DPSCStateScripts.backendProcessesInput()
+                script: DPCStateScripts.backendProcessesInput()
             }
         },
         State {
             name: "waitingForInput"
             StateChangeScript{
-                script: DPSCStateScripts.backendAwaitsInput()
+                script: DPCStateScripts.backendAwaitsInput()
             }
         }
     ]
-    Component.onCompleted: DPSCScripts.init()
+    Component.onCompleted: DPCScripts.init()
 }

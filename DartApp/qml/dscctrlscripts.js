@@ -1,4 +1,4 @@
-.import "dsccontrollerinterface.js.js" as DSCInterface
+.import "dsccontrollerinterface.js" as DSCInterface
 .import "dscinit.js" as DSInit
 .import "updatedsccontext.js" as UpdateDSC
 
@@ -27,6 +27,7 @@ function undoClicked()
     UpdateDSC.updateTurnValues();
     setState("waitingForInput");
 }
+
 function redoClicked()
 {
     dscContent.state = "waitingForInputConfirmation";
@@ -44,6 +45,7 @@ function setState(state)
     else if(status === 2)
         UpdateDSC.setWinnerDetails();
 }
+
 function resetTournament()
 {
     dscContent.state = "stopped";

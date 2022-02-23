@@ -1,4 +1,4 @@
-.import "dsccontrollerinterface.js.js" as DSCInterface
+.import "dsccontrollerinterface.js" as DSCInterface
 
 function updateTurnValues()
 {
