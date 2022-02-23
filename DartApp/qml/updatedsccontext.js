@@ -15,14 +15,6 @@ function setTurnControllerValues(json)
     singleColumnScoreTurnController.currentPlayer = json["currentPlayerName"];
 }
 
-function addInput(score)
-{
-    var obj = {score : score};
-    var json = JSON.stringify(obj);
-    var response = dsController.addInput(json);
-    return JSON.parse(response);
-}
-
 function updateScoreBoard(json)
 {
     let playerName = json["inputPlayerName"];

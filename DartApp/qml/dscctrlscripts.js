@@ -13,7 +13,7 @@ function startGame()
 
 function handleScoreKeyPadInput(value){
     dscContent.state = "waitingForInputConfirmation";
-    var response = UpdateDSC.addInput(value);
+    var response = DSCInterface.addInput(value);
     UpdateDSC.updateScoreBoard(response);
     UpdateDSC.updateTurnValues();
     setState("waitingForInput");

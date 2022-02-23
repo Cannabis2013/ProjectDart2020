@@ -75,6 +75,14 @@ function getWinnerValues()
     return winnerDetails;
 }
 
+function addInput(score)
+{
+    var obj = {score : score};
+    var json = JSON.stringify(obj);
+    var response = dsController.addInput(json);
+    return JSON.parse(response);
+}
+
 function undoTurn()
 {
     var response = dsController.undoTurn();
