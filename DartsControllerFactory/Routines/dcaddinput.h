@@ -27,7 +27,7 @@ public:
     DCAddInput(DCServices *services);
     QByteArray add(const QByteArray &inputByteArray) override;
 private:
-    DCInput convertToInput(const QByteArray &byteArray);
+    DCInput toInputModel(const QByteArray &byteArray);
     void evaluate(DCInput &input);
     void updateModelsContext(DCInput &input);
     void updateControllerContext(DCInput &input);

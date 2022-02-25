@@ -21,7 +21,7 @@ public:
     typedef IDCJsonToModel<DCPlayer> JsonToPlayer;
     typedef IDCIndexController<DCIndex,DCMeta> IndexController;
     DCInitialize(DCServices *services);
-    void init(const QUuid &tournamentId) override;
+    int init(const QUuid &tournamentId) override;
 private:
     void initMeta(const QUuid &tournamentID);
     void initPlayerDetails();

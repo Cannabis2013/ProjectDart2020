@@ -19,11 +19,12 @@ DCInitialize::DCInitialize(DCServices *services)
     _indexController = services->indexServices()->indexController();
 }
 
-void DCInitialize::init(const QUuid &tournamentID){
+int DCInitialize::init(const QUuid &tournamentID){
     initMeta(tournamentID);
     initPlayerDetails();
     initPlayerScores();
     initStatus();
+    return _metaManager->status();
 }
 
 void DCInitialize::initMeta(const QUuid &tournamentID){

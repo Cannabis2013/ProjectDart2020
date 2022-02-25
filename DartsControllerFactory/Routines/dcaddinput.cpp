@@ -21,7 +21,7 @@ DCAddInput::DCAddInput(DCServices *services)
 
 QByteArray DCAddInput::add(const QByteArray &byteArray)
 {
-    auto input = convertToInput(byteArray);
+    auto input = toInputModel(byteArray);
     evaluate(input);
     _indexController->next();
     updateModelsContext(input);
@@ -29,7 +29,7 @@ QByteArray DCAddInput::add(const QByteArray &byteArray)
     return inputToByteArray(input);
 }
 
-DCInput DCAddInput::convertToInput(const QByteArray &byteArray)
+DCInput DCAddInput::toInputModel(const QByteArray &byteArray)
 {
     auto meta = _metaManager->meta();
     auto index = _indexController->index();

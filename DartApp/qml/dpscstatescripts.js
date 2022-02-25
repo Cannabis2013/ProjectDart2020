@@ -1,23 +1,23 @@
 function declareWinner()
 {
-    pointSingleColumnTurnController.backendHasDeclaredAWinner();
+    dpcTurnController.backendHasDeclaredAWinner();
     pointKeyPad.enableKeyPad(false);
 }
 
 function backendIsStopped()
 {
-    pointSingleColumnTurnController.backendIsStopped();
+    dpcTurnController.backendIsStopped();
     pointKeyPad.enableKeyPad(false);
 }
 
 function backendProcessesInput()
 {
-    pointSingleColumnTurnController.backendProcessesInput();
+    dpcTurnController.backendProcessesInput();
     pointKeyPad.enableKeyPad(false);
 }
 
 function backendAwaitsInput()
 {
-    pointSingleColumnTurnController.backendAwaitsInput();
+    dpcTurnController.backendAwaitsInput();
     pointKeyPad.enableKeyPad(true);
 }

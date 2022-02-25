@@ -4,11 +4,10 @@
 
 function startGame()
 {
-    if(DSCInterface.getStatus() === 0)
-    {
-        UpdateDSC.updateTurnValues();
-        dscContent.state = "waitingForInput";
-    }
+    if(DSCInterface.getStatus() !== 0)
+        return;
+    UpdateDSC.updateTurnValues();
+    dscContent.state = "waitingForInput";
 }
 
 function handleScoreKeyPadInput(value){

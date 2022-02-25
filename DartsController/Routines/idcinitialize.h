@@ -9,6 +9,6 @@ class AbsDartsCtx;
 class IDCInitialize
 {
 public:
-    virtual void init(const QUuid &tournamentId) = 0;
+    virtual int init(const QUuid &tournamentId) = 0;
 };
 #endif // IDCLOADER_H

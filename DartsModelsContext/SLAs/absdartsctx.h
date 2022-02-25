@@ -7,7 +7,7 @@ class IDartsInput;
 class IPlayer;
 class IDartsTournament;
 class AbsPlaCtx;
-class AbsDartsCtx : public QObject, public DartsModelsServices
+class AbsDartsCtx : public QObject
 {
     Q_OBJECT
 public:

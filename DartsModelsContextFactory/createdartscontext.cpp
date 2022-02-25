@@ -36,7 +36,7 @@ void CreateDartsContext::injectServices(DartsModelsServices *context) const
     injectPlaServices->inject(context);
 }
 
-void CreateDartsContext::fetchContext(AbsDartsCtx *context) const
+void CreateDartsContext::fetchContext(DartsModelsServices *context) const
 {
     auto dartsDb = context->tournamentServices()->dartsDbCtx();
     auto jsonToTnms = context->tournamentServices()->jsonToTournaments();

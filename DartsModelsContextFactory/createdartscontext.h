@@ -22,7 +22,7 @@ public:
     AbsDartsCtx *localJson(AbsPlaCtx *playersContext) const;
 private:
     void injectServices(DartsModelsServices *context) const;
-    void fetchContext(AbsDartsCtx *context) const;
+    void fetchContext(DartsModelsServices *context) const;
     DartsTournamentInjector *tournamentInjector;
     DartsInputInjector *inputInjector;
     DartsIndexInjector *indexInjector;

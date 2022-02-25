@@ -26,7 +26,6 @@ DartsScoreBoard {
     PlayerDataModel{
         id: playerDataModel
     }
-
     columnWidthProvider: function(column){
         return tableDisplayWidth;
     }

@@ -1,6 +1,6 @@
 function getTournamentValues()
 {
-    let id = dsController.tournamentId();
+    let id = dpController.tournamentId();
     var tournamentAsByteArray = dartsContext.tournament(id);
     let tournamentAsJson = JSON.parse(tournamentAsByteArray);
     return tournamentAsJson;
@@ -38,7 +38,7 @@ function getPlayerNames(tournamentJson)
 }
 function getPlayerScores()
 {
-    let byteArray = dsController.getPlayerScores();
+    let byteArray = dpController.getPlayerScores();
     let json = JSON.parse(byteArray);
     let list = [];
     for(var i = 0;i < json.length;++i)
@@ -54,39 +54,39 @@ function getPlayerScores()
 }
 function getStatus()
 {
-    return dsController.status();
+    return dpController.status();
 }
 function getTurnValues()
 {
-    var byteArray = dsController.getTurnValues();
+    var byteArray = dpController.getTurnValues();
     var json = JSON.parse(byteArray);
     return json;
 }
 function getWinnerValues()
 {
-    var byteArray = dsController.getWinnerJson();
+    var byteArray = dpController.getWinnerJson();
     var json = JSON.parse(byteArray);
     var winnerDetails = json["WinnerDetails"];
     return winnerDetails;
 }
-function addInput(score)
+function addInput(point, modKeyCode)
 {
-    var obj = {score : score};
+    var obj = {point : point, modKeyCode : modKeyCode};
     var json = JSON.stringify(obj);
-    var response = dsController.addInput(json);
+    var response = dpController.addInput(json);
     return JSON.parse(response);
 }
 function undoTurn()
 {
-    var response = dsController.undoTurn();
+    var response = dpController.undoTurn();
     return JSON.parse(response);
 }
 function redoTurn()
 {
-    var response = dsController.redoTurn();
+    var response = dpController.redoTurn();
     return JSON.parse(response);
 }
 function reset()
 {
-    return dsController.reset()
+    return dpController.reset()
 }

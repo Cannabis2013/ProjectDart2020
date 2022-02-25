@@ -1,43 +1,44 @@
-.import "dsccontrollerinterface.js" as DSCInterface
+.import "dpccontrollerinterface.js" as DPCInterface
 
 function updateTurnValues()
 {
-    var json = DSCInterface.getTurnValues();
+    var json = DPCInterface.getTurnValues();
     setTurnControllerValues(json);
     keyDataDisplay.setThrowSuggestion(json["finishCandidate"]);
 }
 
 function setTurnControllerValues(json)
 {
-    singleColumnScoreTurnController.leftButtonEnabled = json["canUndo"];
-    singleColumnScoreTurnController.rightButtonEnabled = json["canRedo"];
-    singleColumnScoreTurnController.currentRoundIndex = json["currentRoundIndex"];
-    singleColumnScoreTurnController.currentPlayer = json["currentPlayerName"];
+    dpcTurnController.leftButtonEnabled = json["canUndo"];
+    dpcTurnController.rightButtonEnabled = json["canRedo"];
+    dpcTurnController.currentRoundIndex = json["currentRoundIndex"];
+    dpcTurnController.currentPlayer = json["currentPlayerName"];
 }
 
 function updateScoreBoard(json)
 {
     let playerName = json["inputPlayerName"];
     let playerScore = json["remainingScore"];
+    let inGame = json["inGame"];
     let reportAsByteArray = statistics.createReport(playerName);
     let report = JSON.parse(reportAsByteArray);
     let minVal = report["minimum"];
     let midVal = report["middle"];
     let maxVal = report["maximum"];
-    singleColumnScoreBoard.setData(playerName,playerScore,minVal,midVal,maxVal);
+    dpcScoreBoard.setData(playerName,playerScore,minVal,midVal,maxVal,inGame);
 }
 
 function setWinnerDetails()
 {
-    let winnerDetails = DSCInterface.getWinnerValues();
+    let winnerDetails = DPCInterface.getWinnerValues();
     keyDataDisplay.setCurrentWinner(winnerDetails["winnerName"]);
     keyDataDisplay.setThrowSuggestion("");
-    dscContent.state = "winner";
+    dpcContent.state = "winner";
 }
 
 function clearComponents()
 {
-    singleColumnScoreBoard.clearData();
-    singleColumnScoreTurnController.reset();
+    dpcScoreBoard.clearData();
+    dpcTurnController.reset();
     keyDataDisplay.clear();
 }

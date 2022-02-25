@@ -21,8 +21,7 @@ int DartsController::status() const
 
 int DartsController::initialize(const QUuid &tournamentId)
 {
-    routines()->initializer()->init(tournamentId);
-    return metaServices()->metaManager()->status();
+    return routines()->initializer()->init(tournamentId);
 }
 
 QByteArray DartsController::addInput(const QByteArray& byteArray)

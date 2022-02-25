@@ -39,7 +39,7 @@ function calculateTotalHeight()
 
 function setViewPosition(x,y)
 {
-    dpscScoreBoard.updateViewPosition(x,y);
+    dpcScoreBoard.updateViewPosition(x,y);
 }
 
 function appendHeader(header)
@@ -102,8 +102,8 @@ function setHeaderData(data,defaultVal)
     for(var i = 0; i < data.length;i++)
     {
         let assignedPlayerName = data[i];
-        dpscScoreBoard.appendHeader(assignedPlayerName);
-        dpscScoreBoard.setData(assignedPlayerName,defaultVal,0,0,0,false);
+        dpcScoreBoard.appendHeader(assignedPlayerName);
+        dpcScoreBoard.setData(assignedPlayerName,defaultVal,0,0,0,false);
     }
 }
 

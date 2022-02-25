@@ -132,5 +132,8 @@
         <file>qml/UserInputContent.qml</file>
         <file>qml/VerticalHeader.qml</file>
         <file>qml/ViewDelegate.qml</file>
+        <file>qml/dpcinit.js</file>
+        <file>qml/dpccontrollerinterface.js</file>
+        <file>qml/dpcupdatecomponents.js</file>
     </qresource>
 </RCC>

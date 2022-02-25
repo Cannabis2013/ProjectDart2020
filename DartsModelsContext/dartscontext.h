@@ -6,7 +6,7 @@
 #else
     #define LIB_EXPORT Q_DECL_IMPORT
 #endif
-class LIB_EXPORT DartsContext : public AbsDartsCtx
+class LIB_EXPORT DartsContext : public AbsDartsCtx, public DartsModelsServices
 {
 public:
     typedef QVector<IModel<QUuid>*> Models;

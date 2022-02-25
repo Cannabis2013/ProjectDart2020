@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
+import "dpcinit.js" as Initialize
 import "dpcscripts.js" as DPCScripts
 import "dpscstatescripts.js" as DPCStateScripts
 Content {
@@ -9,7 +10,7 @@ Content {
         anchors.fill: parent
         flow: GridLayout.TopToBottom
         TurnController{
-            id: pointSingleColumnTurnController
+            id: dpcTurnController
             Layout.fillWidth: true
             Layout.minimumHeight: 48
             Layout.maximumHeight: 48
@@ -22,7 +23,7 @@ Content {
             onRedo: DPCScripts.redoClicked()
         }
         DPSCBoard{
-            id: dpscScoreBoard
+            id: dpcScoreBoard
             Layout.minimumWidth: dpcContent.width*0.8
             Layout.maximumWidth: dpcContent.width*0.8
             Layout.alignment: Qt.AlignHCenter
@@ -55,7 +56,7 @@ Content {
         State {
             name: "ready"
             StateChangeScript{
-                script: pointSingleColumnTurnController.ready()
+                script: dpcTurnController.ready()
             }
         },
         State {
@@ -71,5 +72,5 @@ Content {
             }
         }
     ]
-    Component.onCompleted: DPCScripts.init()
+    Component.onCompleted: Initialize.init()
 }
