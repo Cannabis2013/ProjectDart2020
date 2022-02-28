@@ -5,12 +5,11 @@
 
 void DPCInputEvaluator::evaluate(DCInput &input, DCMeta *meta, const DCPlayer &player)
 {
-    auto m = meta;
     auto scoreCand = calcScore(input.score,player.remaining);
-    if(!player.in && m->entryRestricted)
-        playerHasNotEntered(input,scoreCand,m);
+    if(!player.in)
+        playerHasNotEntered(input,scoreCand,meta);
     else
-        playerHasEntered(input,m,scoreCand);
+        playerHasEntered(input,meta,scoreCand);
 }
 
 void DPCInputEvaluator::playerHasNotEntered(DCInput &input, const int &scoreCand, DCMeta *meta)

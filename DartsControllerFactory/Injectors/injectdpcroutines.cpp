@@ -1,5 +1,4 @@
 #include "injectdpcroutines.h"
-#include "ServicesProvider/dcservices.h"
 #include "Routines/dcaddinput.h"
 #include "Init/dcinitialize.h"
 #include "Routines/dccreatewinnerreport.h"
@@ -8,17 +7,16 @@
 #include "Routines/dcgetscoresasjson.h"
 #include "Routines/dcundoturn.h"
 #include "Routines/dcredoturn.h"
+#include <Controller/dartscontroller.h>
 
-void InjectDPCRoutines::inject(DCServices *dc)
+void InjectDPCRoutines::inject(DartsController *controller)
 {
-    auto routines = new DCRoutines;
-    routines->setUpdateModelsContext(new DCAddInput(dc));
-    routines->setInitializer(new DCInitialize(dc));
-    routines->setResetServices(new DCResetServices(dc));
-    routines->setCreateWinnerReport(new DCCreateWinnerReport(dc));
-    routines->setGetTurnValuesAsJson(new DCGetTurnValuesAsJson(dc));
-    routines->setGetScoresAsJson(new DCGetScoresAsJson(dc));
-    routines->setUndoTurn(new DCUndoTurn(dc));
-    routines->setRedoTurn(new DCRedoTurn(dc));
-    dc->setRoutines(routines);
+    controller->setUpdateModelsContext(new DCAddInput(controller));
+    controller->setInitializer(new DCInitialize(controller));
+    controller->setResetServices(new DCResetServices(controller));
+    controller->setCreateWinnerReport(new DCCreateWinnerReport(controller));
+    controller->setGetTurnValuesAsJson(new DCGetTurnValuesAsJson(controller));
+    controller->setGetScoresAsJson(new DCGetScoresAsJson(controller));
+    controller->setUndoTurn(new DCUndoTurn(controller));
+    controller->setRedoTurn(new DCRedoTurn(controller));
 }

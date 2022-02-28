@@ -20,7 +20,7 @@ private:
         BullModifier,
         BullsEyeModifier
     };
-    int calc(DCInput &input) const;
+    int calculateScore(DCInput &input) const;
     int createPointMultiplier(const int &code) const;
     int calculateScore(const int &point, const int &multiplier) const;
 };

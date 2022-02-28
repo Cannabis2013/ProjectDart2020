@@ -36,8 +36,8 @@ private:
     AbsDartsCtx *_modelsContext;
     MetaService *_metaManager;
     IDCInputEvaluator *_inputEvaluator;
-    PlayerManager *_playerManager;
-    IndexController *_indexController;
+    PlayerManager *_playerMng;
+    IndexController *_indexCtrl;
     ConvertIndex *_indexToByteArray;
     ConvertInput *_convertInput;
     IDCInputAdder *_addInputDetails;

@@ -6,7 +6,10 @@
     #define DartsController_Export Q_DECL_IMPORT
 #endif
 #include "Controller/idartsctrl.h"
-class DartsController_Export DartsController : public IDartsCtrl, public DCServices
+class DartsController_Export DartsController :
+        public IDartsCtrl,
+        public DartsControllerRoutines,
+        public DCServices
 {
     Q_OBJECT
 public:

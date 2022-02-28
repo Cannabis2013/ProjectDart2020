@@ -42,6 +42,7 @@ HEADERS += \
     Converters/idcjsontomodel.h \
     Converters/idcmodeltojson.h \
     Converters/idcjsontomodels.h \
+    Routines/dartscontrollerroutines.h \
     Routines/idcaddinput.h \
     Routines/idccreatewinnerjson.h \
     Routines/idcgetscoresasjson.h \
@@ -51,7 +52,6 @@ HEADERS += \
     Models/dcinput.h \
     Models/dcmeta.h \
     Models/dcplayer.h \
-    Routines/dcroutines.h \
     Routines/idcredoturn.h \
     Routines/idcresetservices.h \
     Routines/idcundoturn.h \

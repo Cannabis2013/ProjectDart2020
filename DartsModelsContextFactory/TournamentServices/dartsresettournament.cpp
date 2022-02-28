@@ -40,7 +40,6 @@ void DartsResetTournament::resetTournament(const QUuid &tournamentID) const
         newTournament->setPlayerIds(tournament->playerIds());
         newTournament->setPlayerNames(tournament->playerNames());
         newTournament->setKeyPoint(tournament->initialRemaining());
-        newTournament->setEntryRestricted(tournament->entryRestricted());
         newTournament->setInputHint(tournament->inputHint());
         newTournament->setTitle(tournament->title());
     });

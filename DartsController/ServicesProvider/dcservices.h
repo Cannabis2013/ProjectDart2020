@@ -1,6 +1,6 @@
 #ifndef DCSERVICES_H
 #define DCSERVICES_H
-#include "Routines/dcroutines.h"
+#include "Routines/dartscontrollerroutines.h"
 #include "Index/dcindexservices.h"
 #include "Players/dcplayersservices.h"
 #include "Meta/dcmetaservices.h"
@@ -21,8 +21,6 @@ public:
     void setPlayerServices(DCPlayersServices *services) {_playerServices = services;}
     DCIndexServices *indexServices() const {return _indexServices;}
     void setIndexServices(DCIndexServices *services) {_indexServices = services;}
-    DCRoutines *routines() const {return _routines;}
-    void setRoutines(DCRoutines *services) {_routines = services;}
 private:
     AbsDartsCtx *_modelsContext = nullptr;
     DCMetaServices *_metaServices;
@@ -30,6 +28,5 @@ private:
     DCPlayersServices *_playerServices;
     DCInputsServices *_inputServices;
     DCIndexServices *_indexServices;
-    DCRoutines *_routines;
 };
 #endif // DCSERVICES_H

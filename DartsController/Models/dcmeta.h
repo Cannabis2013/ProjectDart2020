@@ -4,7 +4,6 @@
 #include "dcinput.h"
 #include <quuid.h>
 struct DCMeta{
-    bool entryRestricted;
     int initRemScore;
     int status;
     int playersCount;

@@ -18,7 +18,6 @@ QJsonObject DCMetaConverter::toJsonObject(const QByteArray &byteArray) const
 DCMeta DCMetaConverter::toMeta(const QJsonObject &json) const
 {
     DCMeta meta;
-    meta.entryRestricted = json.value("entryRestricted").toBool();
     meta.initRemScore = json.value("initRemScore").toInt();
     meta.playersCount = json.value("assignedPlayersCount").toInt();
     meta.tournamentID = toId(json.value("tournamentId").toString());

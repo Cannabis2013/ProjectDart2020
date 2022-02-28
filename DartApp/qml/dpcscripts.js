@@ -12,7 +12,7 @@ function startGame()
 
 function handleScoreKeyPadInput(value, modKeyCode){
     dpcContent.state = "waitingForInputConfirmation";
-    let response = DPCInterface.addInput(value);
+    let response = DPCInterface.addInput(value,modKeyCode);
     UpdateComponents.updateScoreBoard(response);
     UpdateComponents.updateTurnValues();
     setState("waitingForInput");

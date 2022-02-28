@@ -11,7 +11,7 @@ QString DartsController::tournamentId() const
 
 QByteArray DartsController::getPlayerScores() const
 {
-    return routines()->getScoresAsJson()->get();
+    return getScoresAsJson()->get();
 }
 
 int DartsController::status() const
@@ -21,35 +21,35 @@ int DartsController::status() const
 
 int DartsController::initialize(const QUuid &tournamentId)
 {
-    return routines()->initializer()->init(tournamentId);
+    return initializer()->init(tournamentId);
 }
 
 QByteArray DartsController::addInput(const QByteArray& byteArray)
 {
-    return routines()->addInput()->add(byteArray);
+    return addInputModel()->add(byteArray);
 }
 
 bool DartsController::reset()
 {
-    return routines()->resetServices()->reset();
+    return resetServices()->reset();
 }
 
 QByteArray DartsController::undoTurn()
 {
-    return routines()->undoTurn()->undo();
+    return undoPlayerTurn()->undo();
 }
 
 QByteArray DartsController::redoTurn()
 {
-    return routines()->redoTurn()->redo();
+    return redoPlayerTurn()->redo();
 }
 
 QByteArray DartsController::getTurnValues() const
 {
-    return routines()->turnValuesAsJson()->toJson();
+    return turnValuesAsJson()->toJson();
 }
 
 QByteArray DartsController::getWinnerJson() const
 {
-    return routines()->createWinnerReport()->create();
+    return createWinnerReport()->create();
 }

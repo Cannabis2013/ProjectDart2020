@@ -10,8 +10,6 @@ public:
     void setKeyPoint(const int &val) override {_keyPoint = val;}
     int inputHint() const override {return _inputHint;}
     void setInputHint(const int &inputMode) override {_inputHint = inputMode;}
-    bool entryRestricted() const override {return _entryRestricted;}
-    void setEntryRestricted(const bool &restricted) override {_entryRestricted = restricted;}
     QVector<QUuid> playerIds() const override {return _ids;}
     void setPlayerIds(const QVector<QUuid> &playerIds) override {_ids = playerIds;}
     QVector<QString> playerNames() const override {return _names;}
@@ -41,7 +39,6 @@ public:
 private:
     int _keyPoint;
     int _inputHint;
-    bool _entryRestricted = false;
     QVector<QUuid> _ids;
     QVector<QString> _names;
     QString _title;

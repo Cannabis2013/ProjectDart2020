@@ -4,13 +4,13 @@
 DCInput DPCInputAdder::add(DCInput &input, const DCPlayer &player, const DCMeta &meta, const DCIndex &index) const
 {
     input.playerName = player.name;
-    input.score = 0;
+    input.score = calculateScore(input);
     input.tournamentId = meta.tournamentID;
     input.index = index;
     return input;
 }
 
-int DPCInputAdder::calc(DCInput &input) const
+int DPCInputAdder::calculateScore(DCInput &input) const
 {
     auto multiplier = createPointMultiplier(input.modKeyCode);
     return calculateScore(input.point,multiplier);

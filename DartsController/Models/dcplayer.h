@@ -14,6 +14,6 @@ struct DCPlayer
     QString name;
     QUuid id;
     int remaining;
-    bool in;
+    bool in = false;
 };
 #endif // DARTSPLAYERTUPLE_H

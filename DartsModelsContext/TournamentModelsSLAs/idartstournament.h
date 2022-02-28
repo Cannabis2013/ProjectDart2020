@@ -13,8 +13,6 @@ public:
     virtual void setKeyPoint(const int &val) = 0;
     virtual int inputHint() const = 0;
     virtual void setInputHint(const int &inputMode) = 0;
-    virtual bool entryRestricted() const = 0;
-    virtual void setEntryRestricted(const bool &restricted) = 0;
     virtual QString title() const = 0;
     virtual void setTitle(const QString &string) = 0;
     virtual int gameMode() const = 0;

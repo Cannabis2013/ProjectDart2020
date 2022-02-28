@@ -5,14 +5,16 @@
 #include <qjsonarray.h>
 #include <qjsondocument.h>
 
-DartsCreateTournament::DartsCreateTournament(DartsModelsServices *services):_services(services){}
+DartsCreateTournament::DartsCreateTournament(DartsModelsServices *services){
+    _dartsBuilder = services->tournamentServices()->tournamentBuilder();
+    _playersContext = services->playersContext();
+    _playerConverter = services->playerServices()->playerConverter();
+}
 
 DartsCreateTournament::Model *DartsCreateTournament::create(const ByteArray &byteArray, const Indexes &playerIndexes) const
 {
-    auto tnmBuilder = _services->tournamentServices()->tournamentBuilder();
-    auto playerContext = _services->playersContext();
-    auto tournament = tnmBuilder->createModel(byteArray);
-    auto playersByteArray = playerContext->players(playerIndexes);
+    auto tournament = _dartsBuilder->createModel(byteArray);
+    auto playersByteArray = _playersContext->players(playerIndexes);
     auto players = convertPlayers(playersByteArray);
     addTournamentDetails(tournament,players);
     return tournament;
@@ -20,11 +22,10 @@ DartsCreateTournament::Model *DartsCreateTournament::create(const ByteArray &byt
 
 DartsCreateTournament::Players DartsCreateTournament::convertPlayers(const ByteArray &playersBa) const
 {
-    auto playerConverter = _services->playerServices()->playerConverter();
     Players players;
     QJsonArray arr = QJsonDocument::fromJson(playersBa).array();
     for (const auto &jsonValue : qAsConst(arr)) {
-        auto player = playerConverter->player(jsonValue.toObject());
+        auto player = _playerConverter->player(jsonValue.toObject());
         players << player;
     }
     return players;

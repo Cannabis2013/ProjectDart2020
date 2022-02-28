@@ -3,8 +3,12 @@
 DartsBuilder::Model *DartsBuilder::createModel(const QByteArray &json) const
 {
     QJsonObject obj;
-    try {obj = fromByteArray(json);}
-    catch (...) {return nullptr;}
+    try {
+        obj = fromByteArray(json);
+    }
+    catch (...) {
+        return nullptr;
+    }
     return toModel(obj);
 }
 

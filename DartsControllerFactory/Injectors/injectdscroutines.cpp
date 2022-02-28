@@ -9,16 +9,16 @@
 #include "Routines/dcundoturn.h"
 #include "Routines/dcredoturn.h"
 
-void InjectDSCRoutines::inject(DCServices *dc)
+#include <Controller/dartscontroller.h>
+
+void InjectDSCRoutines::inject(DartsController *controller)
 {
-    auto routines = new DCRoutines;
-    routines->setInitializer(new DCInitialize(dc));
-    routines->setResetServices(new DCResetServices(dc));
-    routines->setUpdateModelsContext(new DCAddInput(dc));
-    routines->setCreateWinnerReport(new DCCreateWinnerReport(dc));
-    routines->setGetTurnValuesAsJson(new DCGetTurnValuesAsJson(dc));
-    routines->setGetScoresAsJson(new DCGetScoresAsJson(dc));
-    routines->setUndoTurn(new DCUndoTurn(dc));
-    routines->setRedoTurn(new DCRedoTurn(dc));
-    dc->setRoutines(routines);
+    controller->setInitializer(new DCInitialize(controller));
+    controller->setResetServices(new DCResetServices(controller));
+    controller->setUpdateModelsContext(new DCAddInput(controller));
+    controller->setCreateWinnerReport(new DCCreateWinnerReport(controller));
+    controller->setGetTurnValuesAsJson(new DCGetTurnValuesAsJson(controller));
+    controller->setGetScoresAsJson(new DCGetScoresAsJson(controller));
+    controller->setUndoTurn(new DCUndoTurn(controller));
+    controller->setRedoTurn(new DCRedoTurn(controller));
 }

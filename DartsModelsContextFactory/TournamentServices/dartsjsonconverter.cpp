@@ -33,7 +33,6 @@ QJsonObject DartsJsonConverter::toJsonObject(IDartsTournament *model) const
     obj["roundIndex"] = model->roundIndex();
     obj["playerIndex"] = model->setIndex();
     obj["attemptIndex"] = model->attemptIndex();
-    obj["entryRestricted"] = model->entryRestricted();
     return obj;
 }
 
@@ -75,7 +74,6 @@ IDartsTournament *DartsJsonConverter::fromJsonObject(const QJsonObject &obj) con
     tournament->setRoundIndex(obj.value("roundIndex").toInt(1));
     tournament->setSetIndex(obj.value("playerIndex").toInt(0));
     tournament->setAttemptIndex(obj.value("attemptIndex").toInt(0));
-    tournament->setEntryRestricted(obj.value("entryRestricted").toBool());
     setTournamentPlayerDetails(tournament,obj);
     return tournament;
 }
