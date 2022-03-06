@@ -11,7 +11,7 @@
 
 void InjectDPCRoutines::inject(DartsController *controller)
 {
-    controller->setUpdateModelsContext(new DCAddInput(controller));
+    controller->setUpdateModelsContext(new DCAddInput);
     controller->setInitializer(new DCInitialize(controller));
     controller->setResetServices(new DCResetServices(controller));
     controller->setCreateWinnerReport(new DCCreateWinnerReport(controller));

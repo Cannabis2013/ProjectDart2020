@@ -15,7 +15,7 @@ void InjectDSCRoutines::inject(DartsController *controller)
 {
     controller->setInitializer(new DCInitialize(controller));
     controller->setResetServices(new DCResetServices(controller));
-    controller->setUpdateModelsContext(new DCAddInput(controller));
+    controller->setUpdateModelsContext(new DCAddInput);
     controller->setCreateWinnerReport(new DCCreateWinnerReport(controller));
     controller->setGetTurnValuesAsJson(new DCGetTurnValuesAsJson(controller));
     controller->setGetScoresAsJson(new DCGetScoresAsJson(controller));
