@@ -14,8 +14,9 @@ bool DartsPersist::persistInputChanges()
 
 bool DartsPersist::persistAllChanges()
 {
-    persistTournaments();
-    return persistInputs();
+    auto tournamentsPersisted = persistTournaments();
+    auto inputsPersisted = persistInputs();
+    return tournamentsPersisted && inputsPersisted;
 }
 
 bool DartsPersist::persistTournaments()
