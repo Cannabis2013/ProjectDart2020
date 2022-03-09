@@ -22,7 +22,7 @@ Content {
             onUndo: DPCScripts.undoClicked()
             onRedo: DPCScripts.redoClicked()
         }
-        DPSCBoard{
+        DPCBoard{
             id: dpcScoreBoard
             Layout.minimumWidth: dpcContent.width*0.8
             Layout.maximumWidth: dpcContent.width*0.8

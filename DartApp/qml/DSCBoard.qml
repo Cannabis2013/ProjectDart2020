@@ -33,7 +33,7 @@ DartsScoreBoard {
     {
         return 64;
     }
-    model: DSSCTableModel{
+    model: DSCTableModel{
         id: dataModel
         onDataChanged: ScoreScripts.updateScoreBoard();
     }

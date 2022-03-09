@@ -48,7 +48,7 @@ DartsScoreBoard {
     rowHeightProvider: function(row){
         return 64;
     }
-    model: DartsPSCTableModel{
+    model: DPCTableModel{
         id: dataModel
         onDataChanged: GeometryScripts.updateContentHeight()
         minimumColumnCount: 1

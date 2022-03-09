@@ -22,7 +22,7 @@ public:
     QByteArray tournament(const QUuid &id) const override;
     bool isConsistent(const QUuid &tournamentId) const override;
     bool tryRepair(const QUuid &tournamentId) override;
-    void setTournamentWinner(const QUuid &tournamentId, const QString &name) override;
+    bool setTournamentWinner(const QUuid &tournamentId, const QString &name) override;
     QByteArray inputs(const QUuid &tournamentId) const override;
     QByteArray input(const QUuid &tournament, const QString &name, const QByteArray &indexByteArray) const override;
     bool addInput(const QUuid &tournamentId, const QByteArray &inputAsByteArray, const QByteArray &indexByteArray) override;

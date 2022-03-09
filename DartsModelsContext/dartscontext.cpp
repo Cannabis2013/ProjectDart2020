@@ -15,9 +15,10 @@ bool DartsContext::tryRepair(const QUuid &tournamentId)
     return tournamentServices()->tournamentRepair()->repair(tournamentId,this);
 }
 
-void DartsContext::setTournamentWinner(const QUuid &tournamentId, const QString &name)
+bool DartsContext::setTournamentWinner(const QUuid &tournamentId, const QString &name)
 {
     tournamentServices()->setTnmWinner()->setWinner(tournamentId,name,this);
+    return tournamentServices()->dbContext()->saveChanges();
 }
 
 QByteArray DartsContext::inputs(const QUuid &tournamentID) const

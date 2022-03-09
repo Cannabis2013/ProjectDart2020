@@ -43,7 +43,7 @@
         <file>qml/DefaultTitleComponent.qml</file>
         <file>qml/DefaultTournamentListView.qml</file>
         <file>qml/DPCContent.qml</file>
-        <file>qml/DPSCBoard.qml</file>
+        <file>qml/DPCBoard.qml</file>
         <file>qml/dpcboardscripts.js</file>
         <file>qml/DPSCKeyPad.qml</file>
         <file>qml/dpscKeyPadFactory.js</file>
@@ -54,7 +54,7 @@
         <file>qml/dscctrlscripts.js</file>
         <file>qml/dscinit.js</file>
         <file>qml/dscstatescripts.js</file>
-        <file>qml/DSSCBoard.qml</file>
+        <file>qml/DSCBoard.qml</file>
         <file>qml/DSSCBoardFonts.qml</file>
         <file>qml/dsscboardscripts.js</file>
         <file>qml/DSSCKeyPad.qml</file>

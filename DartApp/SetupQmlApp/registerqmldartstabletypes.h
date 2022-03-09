@@ -9,8 +9,8 @@ class RegisterQMLDartsTableTypes
 public:
     static void registerTableDataModels()
     {
-        qmlRegisterType<DSTableModel>("CustomItems",1,0,"DSSCTableModel");
-        qmlRegisterType<DPTableModel>("CustomItems",1,0,"DartsPSCTableModel");
+        qmlRegisterType<DSTableModel>("CustomItems",1,0,"DSCTableModel");
+        qmlRegisterType<DPTableModel>("CustomItems",1,0,"DPCTableModel");
     }
     static void registerTableHeaderModels()
     {

@@ -24,7 +24,7 @@ Content {
             onUndo: DSSCScripts.undoClicked()
             onRedo: DSSCScripts.redoClicked()
         }
-        DSSCBoard{
+        DSCBoard{
             id: singleColumnScoreBoard
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignHCenter
