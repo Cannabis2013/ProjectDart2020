@@ -48,7 +48,6 @@
         <file>qml/DPSCKeyPad.qml</file>
         <file>qml/dpscKeyPadFactory.js</file>
         <file>qml/dpscKeyPadScripts.js</file>
-        <file>qml/dpcBoardDataScripts.js</file>
         <file>qml/dpscstatescripts.js</file>
         <file>qml/DSCContent.qml</file>
         <file>qml/dsccontrollerinterface.js</file>
@@ -138,5 +137,6 @@
         <file>qml/dpcboardgeometry.js</file>
         <file>qml/dpcBoardHeaderScripts.js</file>
         <file>qml/dpcBoardDelegateScripts.js</file>
+        <file>qml/dpcscripts.js</file>
     </qresource>
 </RCC>

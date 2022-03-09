@@ -31,13 +31,13 @@ void DartsResetTournament::resetTournament(const QUuid &tournamentID, DartsModel
     auto indexOf = dbContext->indexOf(model);
     auto dartsBuilder = tournamentServices->tournamentBuilder();
     auto initTournament = dartsBuilder->createInitial([=](Model *model){
-        auto tournament = dynamic_cast<IDartsTournament*>(model);
-        tournament->setId(tournamentID);
-        tournament->setPlayerIds(tournament->playerIds());
-        tournament->setPlayerNames(tournament->playerNames());
-        tournament->setKeyPoint(tournament->initialRemaining());
-        tournament->setInputHint(tournament->inputHint());
-        tournament->setTitle(tournament->title());
+        auto initTournament = dynamic_cast<IDartsTournament*>(model);
+        initTournament->setId(tournamentID);
+        initTournament->setPlayerIds(tournament->playerIds());
+        initTournament->setPlayerNames(tournament->playerNames());
+        initTournament->setKeyPoint(tournament->initialRemaining());
+        initTournament->setInputHint(tournament->inputHint());
+        initTournament->setTitle(tournament->title());
     });
     dbContext->replace(indexOf,initTournament);
     delete tournament;

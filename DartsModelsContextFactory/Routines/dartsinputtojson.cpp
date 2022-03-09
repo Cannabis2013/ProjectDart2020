@@ -5,7 +5,7 @@
 
 DartsInputToJson::ByteArray DartsInputToJson::toJson(const QUuid &tournamentID, const QString &name,
                                                      const ByteArray &indexAsByteArray, const DartsModelsServices *services) const
-{
+{   
     auto index = services->indexServices()->indexBuilder()->create(indexAsByteArray);
     auto input = getInputModel(index,tournamentID,name,services);
     return toByteArray(input,services);

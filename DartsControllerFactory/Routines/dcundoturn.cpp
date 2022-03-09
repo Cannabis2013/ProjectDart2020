@@ -23,12 +23,11 @@ QByteArray DCUndoTurn::undo()
 {
     _indexController->undo();
     auto meta = _metaManager->meta();
-    auto tournamentID = meta.tournamentID;
     auto index = _indexController->index();
     auto player = _playerManager->player(index.playerIndex);
     auto playerName = player.name;
     auto indexAsByteArray = indexToFormattedJson(index);
-    _modelsContext->hideInput(tournamentID,playerName,indexAsByteArray);
+    _modelsContext->hideInput(meta.tournamentID,playerName,indexAsByteArray);
     auto prevIndex = _indexController->prevIndex();
     auto input = getInputFromModelsContext(prevIndex);
     _playerManager->updateScore(input);
@@ -64,16 +63,15 @@ QByteArray DCUndoTurn::indexToFormattedJson(const DCIndex &index)
 DCInput DCUndoTurn::getInputFromModelsContext(const DCIndex &index)
 {
     auto meta = _metaManager->meta();
-    auto tournamentId = meta.tournamentID;
     auto player = _playerManager->player(index.playerIndex);
     auto IndexAsFormattedJson = indexToFormattedJson(index);
-    auto inputAsByteArray = _modelsContext->input(tournamentId,player.name,IndexAsFormattedJson);
-    QJsonObject inputAsJson;
+    QByteArray inputAsByteArray;
     try {
-        inputAsJson = toJson(inputAsByteArray);
+        inputAsByteArray = _modelsContext->input(meta.tournamentID,player.name,IndexAsFormattedJson);
     }  catch (std::exception *e) {
         return _createInput->create(player.name,meta.initRemScore);
     }
+    QJsonObject inputAsJson = toJson(inputAsByteArray);
     auto ipt = _convertInput->convert(inputAsJson);
     _addInputDetails->add(ipt,player,meta,index);
     return ipt;

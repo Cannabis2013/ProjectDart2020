@@ -6,7 +6,7 @@
 void DPCInputEvaluator::evaluate(DCInput &input, DCMeta *meta, const DCPlayer &player)
 {
     auto scoreCand = calcScore(input.score,player.remaining);
-    if(!player.in)
+    if(!player.in && meta->entryRestricted)
         playerHasNotEntered(input,scoreCand,meta);
     else
         playerHasEntered(input,meta,scoreCand);

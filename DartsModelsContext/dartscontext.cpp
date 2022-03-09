@@ -1,7 +1,4 @@
 #include "dartscontext.h"
-#include "TournamentModelsSLAs/idartstournament.h"
-#include "ByteArrayServices/converttobytearray.h"
-#include "Models/DartsPlayer.h"
 
 bool DartsContext::addTournament(const QByteArray& json, const QVector<int> &playerIndexes)
 {

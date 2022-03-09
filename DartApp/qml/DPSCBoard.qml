@@ -3,7 +3,7 @@ import CustomItems 1.0
 import DartsTableUtils 1.0
 
 import "dpcboardgeometry.js" as GeometryScripts
-import "dpcBoardDataScripts.js" as DataScripts
+import "dpcboardscripts.js" as DataScripts
 import "dpcBoardHeaderScripts.js" as HeaderScripts
 import "dpcBoardDelegateScripts.js" as DelegateScripts
 

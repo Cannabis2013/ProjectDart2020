@@ -7,6 +7,7 @@ struct DCMeta{
     int initRemScore;
     int status;
     int playersCount;
+    bool entryRestricted = false;
     QString playerName;
     QString winnerName;
     QUuid tournamentID;
