@@ -9,7 +9,10 @@ class IDartsAddInputToDb
 {
 public:
     typedef QByteArray ByteArray;
-    virtual bool add(const ByteArray &byteArray, const QUuid &tournamentID, DartsModelsServices *services) = 0;
+    virtual bool add(const ByteArray &inputAsByteArray,
+                     const ByteArray &indexAsByteArray,
+                     const QUuid &tournamentID,
+                     DartsModelsServices *services) = 0;
 };
 
 #endif // IDARTSCREATEINPUT_H

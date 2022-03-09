@@ -2,7 +2,6 @@ import QtQuick 2.0
 import QtQuick.Layouts 1.3
 import "dpcinit.js" as Initialize
 import "dpcscripts.js" as DPCScripts
-
 import "dpscstatescripts.js" as DPCStateScripts
 Content {
     id: dpcContent

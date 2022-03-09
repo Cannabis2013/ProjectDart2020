@@ -14,7 +14,6 @@ SOURCES += \
     DbServices/savetostorage.cpp \
     FileIOServices/filejsonio.cpp \
     IndexesServices/dartsindexbuilder.cpp \
-    IndexesServices/updatedartsindexes.cpp \
     Injectors/dartsindexinjector.cpp \
     Injectors/dartsinputinjector.cpp \
     Injectors/dartsplayerinjector.cpp \
@@ -50,7 +49,6 @@ HEADERS += \
     FileIOServices/filejsonio.h \
     IndexesDbServices/dartsindex.h \
     IndexesServices/dartsindexbuilder.h \
-    IndexesServices/updatedartsindexes.h \
     Injectors/dartsindexinjector.h \
     Injectors/dartsinputinjector.h \
     Injectors/dartsplayerinjector.h \

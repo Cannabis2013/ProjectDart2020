@@ -12,7 +12,6 @@ public:
 private:
     void injectTournamentRoutines(DartsModelsRoutines *context);
     void injectInputRoutines(DartsModelsRoutines *context);
-    void injectIndexRoutines(DartsModelsServices *context);
 };
 
 #endif // INJECTDARTSROUTINES_H

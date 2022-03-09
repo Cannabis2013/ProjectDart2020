@@ -36,8 +36,7 @@ void DCAddInput::updateModelsContext(DCInput &input, DCServices *services){
     auto meta = services->metaServices()->metaManager()->meta();
     auto indexAsByteArray = indexToByteArray(index,services);
     auto inputAsByteArray = inputToByteArray(input,services);
-    services->modelsContext()->addInput(meta.tournamentID,inputAsByteArray);
-    services->modelsContext()->updateTournamentIndex(meta.tournamentID,indexAsByteArray);
+    services->modelsContext()->addInput(meta.tournamentID,inputAsByteArray,indexAsByteArray);
     if(meta.status == WinnerDeclared)
         services->modelsContext()->setTournamentWinner(meta.tournamentID,meta.winnerName);
 }

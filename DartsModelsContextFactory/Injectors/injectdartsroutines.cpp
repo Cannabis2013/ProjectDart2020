@@ -4,7 +4,6 @@
 #include "Routines/dartshideplayerinput.h"
 #include "Routines/dartsaddinputtodb.h"
 #include "TournamentsDbServices/dartsconverttojson.h"
-#include "IndexesServices/updatedartsindexes.h"
 #include "SLAs/dartsmodelsroutines.h"
 #include "dartscontext.h"
 #include "Routines/addtournamenttodb.h"
@@ -17,7 +16,6 @@ void InjectDartsRoutines::inject(DartsContext *context)
 {
     injectTournamentRoutines(context);
     injectInputRoutines(context);
-    injectIndexRoutines(context);
 }
 
 void InjectDartsRoutines::injectTournamentRoutines(DartsModelsRoutines *context)
@@ -34,10 +32,4 @@ void InjectDartsRoutines::injectInputRoutines(DartsModelsRoutines *context)
     context->setDisplayPlayerInput(new DartsDisplayPlayerInput);
     context->setAddInputToDb(new DartsAddInputToDb);
     context->setInputToJson(new DartsInputToJson);
-}
-
-void InjectDartsRoutines::injectIndexRoutines(DartsModelsServices *context)
-{
-    auto idxServices = context->indexServices();
-    idxServices->setUpdateIndexes(new UpdateDartsIndexes(context));
 }

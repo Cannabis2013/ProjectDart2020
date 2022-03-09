@@ -25,10 +25,9 @@ public:
     void setTournamentWinner(const QUuid &tournamentId, const QString &name) override;
     QByteArray inputs(const QUuid &tournamentId) const override;
     QByteArray input(const QUuid &tournament, const QString &name, const QByteArray &indexByteArray) const override;
-    bool addInput(const QUuid &tournamentId, const QByteArray &byteArray) override;
+    bool addInput(const QUuid &tournamentId, const QByteArray &inputAsByteArray, const QByteArray &indexByteArray) override;
     bool hideInput(QUuid tournament, QString name, const QByteArray &indexByteArray) override;
     bool revealInput(QUuid tournamentID, QString name, const QByteArray &indexByteArray) override;
-    bool updateTournamentIndex(QUuid tournament, const QByteArray &indexByteArray) override;
     bool resetTournament(const QUuid &tournamentId) override;
     QByteArray createDartsMetaData(const QUuid& tournamentID) override;
 };

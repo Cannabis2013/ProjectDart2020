@@ -25,9 +25,8 @@ public:
     virtual QByteArray tournament(const QUuid &id) const = 0;
     virtual bool resetTournament(const QUuid &tournamentId) = 0;
     virtual QByteArray input(const QUuid &tournament, const QString &name, const QByteArray &indexByteArray) const = 0;
-    virtual bool addInput(const QUuid &tournamentId, const QByteArray &byteArray) = 0;
+    virtual bool addInput(const QUuid &tournamentId, const QByteArray &byteArray, const QByteArray &indexByteArray) = 0;
     virtual bool hideInput(QUuid tournament, QString name, const QByteArray &indexByteArray) = 0;
     virtual bool revealInput(QUuid tournament, QString name, const QByteArray &indexByteArray) = 0;
-    virtual bool updateTournamentIndex(QUuid tournament, const QByteArray &indexByteArray) = 0;
 };
 #endif // ABSDARTSCTX_H

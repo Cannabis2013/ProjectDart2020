@@ -1,6 +1,7 @@
 #include "dartsinputtojson.h"
 #include "SLAs/dartsmodelsservices.h"
 #include <qjsondocument.h>
+#include "IndexesDbSLAs/idartsindex.h"
 
 DartsInputToJson::ByteArray DartsInputToJson::toJson(const QUuid &tournamentID, const QString &name,
                                                      const ByteArray &indexAsByteArray, const DartsModelsServices *services) const

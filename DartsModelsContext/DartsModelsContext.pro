@@ -12,7 +12,6 @@ HEADERS += \
     IndexesDbSLAs/idartsindex.h \
     IndexesSLAs/dartsindexservices.h \
     IndexesSLAs/idartsidxbuilder.h \
-    IndexesSLAs/iupdatedartsindexes.h \
     InputModelsSLAs/idartsinput.h \
     Persistence/ipersistence.h \
     Routines/IDartsHideInput.h \
