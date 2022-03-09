@@ -23,9 +23,9 @@ public:
     virtual void setWinnerId(const QUuid &val) = 0;
     virtual QString winnerName() const = 0;
     virtual void setWinnerName(const QString &name) = 0;
-    virtual QVector<QUuid> playerIds() const = 0;
+    virtual QVector<QUuid> &playerIds() = 0;
     virtual void setPlayerIds(const QVector<QUuid> &playerIdentities) = 0;
-    virtual QVector<QString> playerNames() const = 0;
+    virtual QVector<QString> &playerNames() = 0;
     virtual void setPlayerNames(const QVector<QString> &playerIdentities) = 0;
     virtual int totalTurns() const = 0;
     virtual void setTotalTurns(const int&) = 0;

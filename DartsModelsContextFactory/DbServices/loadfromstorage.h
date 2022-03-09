@@ -1,17 +1,27 @@
 #ifndef LOADFROMSTORAGE_H
 #define LOADFROMSTORAGE_H
-#include <qjsondocument.h>
-#include <qjsonobject.h>
-#include <quuid.h>
-#include "DbSLAs/abstractloadmodels.h"
-#include "DbSLAs/iconvertfromdata.h"
-#include "FileIOSLAs/ifiledataio.h"
-#include "ModelSLAs/imodel.h"
-class LoadFromStorage : public AbstractLoadModels<IModel<QUuid>>
+
+#include <qstring.h>
+
+template<typename T> class IModel;
+class QUuid;
+class QJsonObject;
+class QByteArray;
+class IFileDataIO;
+template<typename T> class IModelConverter;
+
+class LoadFromStorage
 {
 public:
-    void load(DbContext *dbContext, ModelBuilder *builder, Converter *converter, IODevice *ioDevice) const override;
+    typedef IModel<QUuid> Model;
+    typedef QVector<Model*> Models;
+    typedef IModelConverter<Model> Converter;
+    LoadFromStorage(const QString &key, IFileDataIO *ioDevice, Converter *converter);
+    Models load();
+private:
+    Models toModels(const QByteArray &byteArray);
+    Converter *_converter;
+    IFileDataIO *_ioDevice;
+    const QString _jsonKey;
 };
-
-
 #endif // FETCHFROMSTORAGE_H

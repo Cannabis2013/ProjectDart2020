@@ -1,56 +1,43 @@
 #include "injectdartsroutines.h"
 #include "SLAs/dartsmodelsservices.h"
-#include "InputServices/dartsinputstojson.h"
-#include "InputServices/dartssetipthint.h"
-#include "InputServices/dartsaddinputtodb.h"
-#include "InputServices/dartsinputtojson.h"
-#include "TournamentServices/dartscreatetournament.h"
-#include "TournamentServices/dartsremovetournaments.h"
-#include "TournamentServices/dartsresettournament.h"
-#include "TournamentServices/dartstournamentrepair.h"
+#include "InputServices/dartsinputstobytearray.h"
+#include "Routines/dartshideplayerinput.h"
+#include "Routines/dartsaddinputtodb.h"
 #include "TournamentsDbServices/dartsconverttojson.h"
-#include "TournamentServices/dartssetwinner.h"
-#include "TournamentServices/dartsverifyconsistency.h"
 #include "IndexesServices/updatedartsindexes.h"
-#include "PersistServices/dartspersist.h"
+#include "SLAs/dartsmodelsroutines.h"
+#include "dartscontext.h"
+#include "Routines/addtournamenttodb.h"
+#include "Routines/removetournamentsfromdb.h"
+#include "Routines/dartsresettournament.h"
+#include "Routines/dartsdisplayplayerinput.h"
+#include "Routines/dartsinputtojson.h"
 
-void InjectDartsRoutines::inject(DartsModelsServices *context)
+void InjectDartsRoutines::inject(DartsContext *context)
 {
     injectTournamentRoutines(context);
     injectInputRoutines(context);
     injectIndexRoutines(context);
-    injectPersistenceRoutines(context);
 }
 
-void InjectDartsRoutines::injectTournamentRoutines(DartsModelsServices *context)
+void InjectDartsRoutines::injectTournamentRoutines(DartsModelsRoutines *context)
 {
-    auto tnmServices = context->tournamentServices();
-    tnmServices->setTournamentRepair(new DartsTournamentRepair(context));
-    tnmServices->setDartsJsonBuilder(new DartsConvertToJson(context));
-    tnmServices->setVerifyConsistency(new DartsVerifyConsistency(context));
-    tnmServices->setSetWinner(new DartsSetWinner(context));
-    tnmServices->setCreateTournament(new DartsCreateTournament(context));
-    tnmServices->setRemoveTournaments(new DartsRemoveTournaments(context));
-    tnmServices->setResetTournament(new DartsResetTournament(context));
+    context->setAddTournamentToDb(new AddTournamentToDb);
+    context->setRemoveTournaments(new RemoveTournamentsFromDb);
+    context->setResetTournament(new DartsResetTournament);
 }
 
-void InjectDartsRoutines::injectInputRoutines(DartsModelsServices *context)
+void InjectDartsRoutines::injectInputRoutines(DartsModelsRoutines *context)
 {
-    auto iptServices = context->inputServices();
-    iptServices->setCreateJsonFromInputs(new DartsInputsToJson(context));
-    iptServices->setSetInputHint(new DartsSetIptHint(context));
-    iptServices->setAddInputToDb(new DartsAddInputToDb(context));
-    iptServices->setInputToJson(new DartsInputToJson(context));
+    context->setCreateJsonFromInputs(new DartsInputsToByteArray);
+    context->setHidePlayerInput(new DartsHidePlayerInput);
+    context->setDisplayPlayerInput(new DartsDisplayPlayerInput);
+    context->setAddInputToDb(new DartsAddInputToDb);
+    context->setInputToJson(new DartsInputToJson);
 }
 
 void InjectDartsRoutines::injectIndexRoutines(DartsModelsServices *context)
 {
     auto idxServices = context->indexServices();
     idxServices->setUpdateIndexes(new UpdateDartsIndexes(context));
-}
-
-void InjectDartsRoutines::injectPersistenceRoutines(DartsModelsServices *context)
-{
-    auto persServices = context->persistenceServices();
-    persServices->setPersist(new DartsPersist(context));
 }

@@ -1,7 +1,5 @@
 #ifndef IFETCHDB_H
 #define IFETCHDB_H
-template<typename T>
-class IFileDataIO;
 template<typename T,typename U>
 class ICreateModelsFrom;
 template<typename TDbCtx, typename TIODevice, typename TModelBuilder>

@@ -5,43 +5,43 @@
 #include <quuid.h>
 #include "SLAs/dartsmodelsservices.h"
 
-DartsConvertToJson::DartsConvertToJson(DartsModelsServices *services): _services(services)
+QByteArray DartsConvertToJson::tournamentToJson(const QUuid &ID, const DartsModelsServices *services) const
 {
-    _cvtr = _services->tournamentServices()->dartsConverter();
-    _dartsDb = _services->tournamentServices()->dartsDbCtx();
-}
-
-QByteArray DartsConvertToJson::fromTournament(const QUuid &ID) const
-{
-    auto tournament = getTournamentByID(ID);
-    auto json = _cvtr->create(tournament);
+    auto cvtr = services->tournamentServices()->dartsConverter();
+    auto tournament = getTournamentByID(ID,services);
+    auto json = cvtr->create(tournament);
     return toByteArray(json);
 }
 
-QByteArray DartsConvertToJson::fromTournament(const QString &ID) const
+QByteArray DartsConvertToJson::tournamentToJson(const QString &ID, const DartsModelsServices *services) const
 {
-    auto tournament = getTournamentByID(QUuid::fromString(ID));
-    auto json = _cvtr->create(tournament);
+    auto cvtr = services->tournamentServices()->dartsConverter();
+    auto tournament = getTournamentByID(QUuid::fromString(ID),services);
+    auto json = cvtr->create(tournament);
     return toByteArray(json);
 }
 
-DartsConvertToJson::ByteArray DartsConvertToJson::fromTournament(const int &index) const
+DartsConvertToJson::ByteArray DartsConvertToJson::tournamentToJson(const int &index, const DartsModelsServices *services) const
 {
-    auto tournament = _dartsDb->model(index);
-    auto json = _cvtr->create(tournament);
+    auto cvtr = services->tournamentServices()->dartsConverter();
+    auto dbContext = services->tournamentServices()->dbContext();
+    auto tournament = dbContext->model(index);
+    auto json = cvtr->create(tournament);
     return toByteArray(json);
 }
 
-QByteArray DartsConvertToJson::fromTournaments() const
+QByteArray DartsConvertToJson::tournamentsToJson(const DartsModelsServices *services) const
 {
-    auto tournaments = _dartsDb->models();
-    auto arr = toJsonArray(tournaments);
+    auto dbContext = services->tournamentServices()->dbContext();
+    auto tournaments = dbContext->models();
+    auto arr = toJsonArray(tournaments,services);
     return toByteArray(arr);
 }
 
-DartsConvertToJson::Model *DartsConvertToJson::getTournamentByID(const QUuid &ID) const
+DartsConvertToJson::Model *DartsConvertToJson::getTournamentByID(const QUuid &ID, const DartsModelsServices *services) const
 {
-    auto models = _dartsDb->models();
+    auto dbContext = services->tournamentServices()->dbContext();
+    auto models = dbContext->models();
     for (const auto &model : qAsConst(models)) {
         if(model->id() == ID)
             return model;
@@ -54,11 +54,12 @@ QJsonObject DartsConvertToJson::fromByteArray(const QByteArray &byteArray) const
     return QJsonDocument::fromJson(byteArray).object();
 }
 
-QJsonArray DartsConvertToJson::toJsonArray(const QVector<IModel<QUuid> *> &models) const
+QJsonArray DartsConvertToJson::toJsonArray(const QVector<IModel<QUuid> *> &models, const DartsModelsServices *services) const
 {
+    auto cvtr = services->tournamentServices()->dartsConverter();
     QJsonArray arr;
     for (auto& model : models)
-        arr << _cvtr->create(model);
+        arr << cvtr->create(model);
     return arr;
 }
 

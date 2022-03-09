@@ -1,5 +1,7 @@
 #ifndef ITOURNAMENTJSONBUILDER_H
 #define ITOURNAMENTJSONBUILDER_H
+
+class DartsModelsServices;
 class QString;
 class QByteArray;
 class QJsonObject;
@@ -15,9 +17,9 @@ public:
     typedef TModel Model;
     typedef QJsonObject JsonObject;
     typedef QByteArray ByteArray;
-    virtual ByteArray fromTournament(const QUuid &tournamentId) const = 0;
-    virtual ByteArray fromTournament(const QString &tournamentId) const = 0;
-    virtual ByteArray fromTournament(const int &index) const = 0;
-    virtual ByteArray fromTournaments() const = 0;
+    virtual ByteArray tournamentToJson(const QUuid &tournamentId, const DartsModelsServices *services) const = 0;
+    virtual ByteArray tournamentToJson(const QString &tournamentId, const DartsModelsServices *services) const = 0;
+    virtual ByteArray tournamentToJson(const int &index, const DartsModelsServices *services) const = 0;
+    virtual ByteArray tournamentsToJson(const DartsModelsServices *services) const = 0;
 };
 #endif // ICREATEJSONFROMDARTSINPUT_H

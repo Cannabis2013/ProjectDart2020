@@ -4,12 +4,7 @@ DEFINES += DartsCtxLib
 
 HEADERS += \
     ByteArrayServices/converttobytearray.h \
-    DbSLAs/abstractloadmodels.h \
-    DbSLAs/abstractsavetostorage.h \
-    DbSLAs/iconvertfromdata.h \
-    DbSLAs/idartspersist.h \
     DbSLAs/idbcontext.h \
-    DbSLAs/idbjsonbuilder.h \
     DbSLAs/imodelconverter.h \
     FileIOSLAs/ifiledataio.h \
     ForeignContextSLAs/DartsPlayerServices.h \
@@ -17,16 +12,16 @@ HEADERS += \
     IndexesDbSLAs/idartsindex.h \
     IndexesSLAs/dartsindexservices.h \
     IndexesSLAs/idartsidxbuilder.h \
-    IndexesSLAs/idcidxbuilder.h \
     IndexesSLAs/iupdatedartsindexes.h \
     InputModelsSLAs/idartsinput.h \
-    InputModelsSLAs/idartsinputstojson.h \
+    Persistence/ipersistence.h \
+    Routines/IDartsHideInput.h \
+    Routines/idartsinputstojson.h \
     InputModelsSLAs/iplayerinput.h \
-    InputSLAs/IDartsSetIptHint.h \
     InputSLAs/dartsinputservices.h \
     InputSLAs/icountinputmodels.h \
-    InputSLAs/idartsaddinputtodb.h \
-    InputSLAs/idartsinputtojson.h \
+    Routines/idartsaddinputtodb.h \
+    Routines/idartsinputtojson.h \
     InputSLAs/isortinputmodels.h \
     InputsDbSLAs/idartsinputbuilder.h \
     InputsDbSLAs/igetinputs.h \
@@ -34,7 +29,10 @@ HEADERS += \
     ModelSLAs/imodel.h \
     Models/DartsPlayer.h \
     PredicateSLAs/imodelpredicate.h \
+    Routines/IDartsAddTournament.h \
+    Routines/idartsrevealinput.h \
     SLAs/absdartsctx.h \
+    SLAs/dartsmodelsroutines.h \
     SLAs/dartsmodelsservices.h \
     TournamentModels/dartsmetamodel.h \
     TournamentModels/dartstournament.h \
@@ -42,18 +40,16 @@ HEADERS += \
     TournamentsDbSLAs/idartsbuilder.h \
     TournamentsDbSLAs/igetdartstournament.h \
     TournamentsDbSLAs/itournamentjsonbuilder.h \
-    TournamentsDbSLAs/persistenceservices.h \
-    TournamentsSLAs/IDartsRemoveTournaments.h \
     TournamentsSLAs/IDartsSetWinner.h \
-    TournamentsSLAs/dartsservices.h \
     TournamentsSLAs/idartsconsistency.h \
     TournamentsSLAs/idartscreatemeta.h \
-    TournamentsSLAs/idartscreatetournament.h \
-    TournamentsSLAs/idartsresettournament.h \
+    Routines/idartsremovetournaments.h \
+    Routines/idartsresettournament.h \
     TournamentsSLAs/idmcaddindexestotournament.h \
     TournamentsSLAs/igettournamentids.h \
     TournamentsSLAs/itournamentrepair.h \
     TournamentsSLAs/iwinnerinfobuilder.h \
+    TournamentsSLAs/tournamentservices.h \
     dartscontext.h
 
 SOURCES += \

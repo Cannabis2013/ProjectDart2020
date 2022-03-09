@@ -6,35 +6,32 @@
 #include "Models/DartsPlayer.h"
 #include "SLAs/dartsmodelsservices.h"
 #include "ForeignContextSLAs/DartsPlayerServices.h"
-#include "TournamentsSLAs/dartsservices.h"
+#include "TournamentsSLAs/tournamentservices.h"
 
-DartsSetWinner::DartsSetWinner(DartsModelsServices *services):_services(services)
+void DartsSetWinner::setWinner(const QUuid &tournamentId, const QString &playerName, DartsModelsServices *services) const
 {
-    _tnmServices = _services->tournamentServices();
-    _plaServices = _services->playerServices();
-}
-
-void DartsSetWinner::setWinner(const QUuid &tournamentId, const QString &playerName) const
-{
-    auto tournament = getTournament(tournamentId);
-    auto player = getPlayer(playerName);
+    auto tournament = getTournament(tournamentId,services);
+    auto player = getPlayer(playerName,services);
     tournament->setWinnerId(player.id);
     tournament->setWinnerName(player.name);
 }
 
-IDartsTournament *DartsSetWinner::getTournament(const QUuid &tournamentId) const
+IDartsTournament *DartsSetWinner::getTournament(const QUuid &tournamentId, DartsModelsServices *services) const
 {
-    auto models = _tnmServices->dartsDbCtx()->models();
-    for (const auto &model : models) {
+    auto dbContext = services->tournamentServices()->dbContext();
+    auto models = dbContext->models();
+    for (const auto &model : qAsConst(models)) {
         if(model->id() == tournamentId)
             return dynamic_cast<IDartsTournament*>(model);
     }
     return nullptr;
 }
 
-DartsPlayer DartsSetWinner::getPlayer(const QString &name) const
+DartsPlayer DartsSetWinner::getPlayer(const QString &name, DartsModelsServices *services) const
 {
-    auto plaBa = _services->playersContext()->player(name);
+    auto playersContext = services->playersContext();
+    auto playerServices = services->playerServices();
+    auto plaBa = playersContext->player(name);
     if(plaBa == QByteArray()) return DartsPlayer();
-    return _plaServices->playerConverter()->player(plaBa);
+    return playerServices->playerConverter()->player(plaBa);
 }

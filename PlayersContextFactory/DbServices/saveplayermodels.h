@@ -3,6 +3,7 @@
 #include "isaveplayers.h"
 class IPlayer;
 class QByteArray;
+class IFileDataIO;
 template<typename T>
 class IPlayersDbContext;
 template<typename T>
@@ -11,7 +12,7 @@ namespace SvPlaCtx{
     typedef IPlayer Model;
     typedef QByteArray Json;
     typedef IPlayersDbContext<Model> DbCtx;
-    typedef IFileDataIO<QByteArray> FileDataIO;
+    typedef IFileDataIO FileDataIO;
     typedef IJsonBuilder<Model> DataAdder;
 }
 class SavePlayerModels : public ISavePlayers<SvPlaCtx::FileDataIO,

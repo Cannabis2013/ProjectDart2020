@@ -1,12 +1,16 @@
 #ifndef DARTSCONTEXT_H
 #define DARTSCONTEXT_H
 #include "SLAs/absdartsctx.h"
+#include "SLAs/dartsmodelsroutines.h"
+
 #ifdef DartsCtxLib
    #define LIB_EXPORT Q_DECL_EXPORT
 #else
     #define LIB_EXPORT Q_DECL_IMPORT
 #endif
-class LIB_EXPORT DartsContext : public AbsDartsCtx, public DartsModelsServices
+class LIB_EXPORT DartsContext : public AbsDartsCtx,
+                                public DartsModelsServices,
+                                public DartsModelsRoutines
 {
 public:
     typedef QVector<IModel<QUuid>*> Models;

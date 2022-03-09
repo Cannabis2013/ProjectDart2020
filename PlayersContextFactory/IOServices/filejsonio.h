@@ -3,7 +3,7 @@
 #include "IOSLAs/ifiledataio.h"
 #include <qstring.h>
 class QByteArray;
-class FileJsonIO : public IFileDataIO<QByteArray>
+class FileJsonIO : public IFileDataIO
 {
 public:
     FileJsonIO(const QString &fileName);

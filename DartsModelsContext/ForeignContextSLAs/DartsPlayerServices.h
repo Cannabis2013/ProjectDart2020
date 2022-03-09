@@ -5,7 +5,7 @@ class DartsPlayerServices
 {
 public:
     IDartsConvertPlayer *playerConverter() const {return _convertPlayers;}
-    void setConvertPlayers(IDartsConvertPlayer *service) {_convertPlayers = service;}
+    void setPlayerConverter(IDartsConvertPlayer *service) {_convertPlayers = service;}
 private:
     IDartsConvertPlayer *_convertPlayers;
 };

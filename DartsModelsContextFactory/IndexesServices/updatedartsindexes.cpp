@@ -5,7 +5,7 @@
 UpdateDartsIndexes::UpdateDartsIndexes(DartsModelsServices *services): _services(services)
 {
     _idxServices = services->indexServices();
-    _dartsDb = services->tournamentServices()->dartsDbCtx();
+    _dartsDb = services->tournamentServices()->dbContext();
 }
 
 void UpdateDartsIndexes::update(const QByteArray &byteAray, const Uuid &tournamentID) const

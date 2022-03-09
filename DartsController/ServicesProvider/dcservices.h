@@ -10,7 +10,7 @@ class DCServices
 {
 public:
     void setModelsContext(AbsDartsCtx *context) {_modelsContext = context;}
-    AbsDartsCtx *modelsContext() {return _modelsContext;}
+    AbsDartsCtx *modelsContext() const {return _modelsContext;}
     DCMetaServices *metaServices() const {return _metaServices;}
     void setMetaServices(DCMetaServices *services) {_metaServices = services;}
     DCFinishServices *finServices() const {return _finServices;}

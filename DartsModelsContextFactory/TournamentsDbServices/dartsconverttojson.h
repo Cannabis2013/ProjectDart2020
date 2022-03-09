@@ -4,25 +4,18 @@
 template<typename T> class IDbContext;
 template<typename T> class IModelConverter;
 class QJsonArray;
-class DartsModelsServices;
 class DartsConvertToJson : public IDartsJsonBuilder<IModel<QUuid>>
 {
 public:
-    typedef IModelConverter<Model> ModelConverter;
-    typedef IDbContext<Model> DbContext;
-    DartsConvertToJson(DartsModelsServices *services);
-    QByteArray fromTournament(const QUuid &ID) const override;
-    QByteArray fromTournament(const QString &ID) const override;
-    ByteArray fromTournament(const int &index) const override;
-    QByteArray fromTournaments() const override;
+    QByteArray tournamentToJson(const QUuid &ID, const DartsModelsServices *services) const override;
+    QByteArray tournamentToJson(const QString &ID, const DartsModelsServices *services) const override;
+    ByteArray tournamentToJson(const int &index, const DartsModelsServices *services) const override;
+    QByteArray tournamentsToJson(const DartsModelsServices *services) const override;
 private:
-    Model *getTournamentByID(const QUuid &ID) const;
+    Model *getTournamentByID(const QUuid &ID, const DartsModelsServices *services) const;
     QJsonObject fromByteArray(const QByteArray &byteArray) const;
-    QJsonArray toJsonArray(const QVector<IModel<QUuid> *> &models) const;
+    QJsonArray toJsonArray(const QVector<IModel<QUuid> *> &models, const DartsModelsServices *services) const;
     QByteArray toByteArray(const QJsonObject &obj) const;
     QByteArray toByteArray(const QJsonArray &arr) const;
-    DartsModelsServices *_services;
-    ModelConverter *_cvtr;
-    DbContext *_dartsDb;
 };
 #endif // ASSEMBLEJSONFROMDARTSTOURNAMENTMODELS_H

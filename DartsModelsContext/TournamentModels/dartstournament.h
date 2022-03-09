@@ -10,9 +10,9 @@ public:
     void setKeyPoint(const int &val) override {_keyPoint = val;}
     int inputHint() const override {return _inputHint;}
     void setInputHint(const int &inputMode) override {_inputHint = inputMode;}
-    QVector<QUuid> playerIds() const override {return _ids;}
+    QVector<QUuid> &playerIds() override {return _ids;}
     void setPlayerIds(const QVector<QUuid> &playerIds) override {_ids = playerIds;}
-    QVector<QString> playerNames() const override {return _names;}
+    QVector<QString> &playerNames() override {return _names;}
     void setPlayerNames(const QVector<QString> &playerNames) override {_names = playerNames;}
     QUuid id() const override {return _id;}
     void setId(const QUuid &val) override {_id = val;}

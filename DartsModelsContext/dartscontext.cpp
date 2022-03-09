@@ -4,82 +4,69 @@
 #include "Models/DartsPlayer.h"
 bool DartsContext::addTournament(const QByteArray& json, const QVector<int> &playerIndexes)
 {
-    auto tournament = tournamentServices()->createTournament()->create(json,playerIndexes);
-    tournamentServices()->dartsDbCtx()->add(tournament);
-    return persistenceServices()->persist()->persistTournamentsChanges();
+    return addTournamentToDb()->add(json,playerIndexes,this);
 }
 bool DartsContext::isConsistent(const QUuid &tournamentId) const
 {
-    return tournamentServices()->verifyConsistency()->verify(tournamentId);
+    return tournamentServices()->verifyConsistency()->verify(tournamentId,this);
 }
 bool DartsContext::tryRepair(const QUuid &tournamentId)
 {
-    auto r1 = tournamentServices()->tournamentRepair()->repair(tournamentId);
-    auto r2 = persistenceServices()->persist()->persistAllChanges();
-    return r1 && r2;
+    return tournamentServices()->tournamentRepair()->repair(tournamentId,this);
 }
 void DartsContext::setTournamentWinner(const QUuid &tournamentId, const QString &name)
 {
-    tournamentServices()->setTnmWinner()->setWinner(tournamentId,name);
-    persistenceServices()->persist()->persistTournamentsChanges();
+    tournamentServices()->setTnmWinner()->setWinner(tournamentId,name,this);
 }
 QByteArray DartsContext::inputs(const QUuid &tournamentID) const
 {
-    return inputServices()->inputsToJson()->fromInputs(tournamentID);
+    return inputsToJson()->fromInputs(tournamentID,this);
 }
 bool DartsContext::deleteTournaments(const QVector<int> &indexes)
 {
-    tournamentServices()->removeTournaments()->remove(indexes);
-    return persistenceServices()->persist()->persistAllChanges();
+    return removeTournaments()->remove(indexes,this);
 }
 QByteArray DartsContext::tournaments()
 {
-    return tournamentServices()->dartsJsonBuilder()->fromTournaments();
+    return tournamentServices()->dartsJsonBuilder()->tournamentsToJson(this);
 }
 QByteArray DartsContext::tournament(const int &index) const
 {
-    return tournamentServices()->dartsJsonBuilder()->fromTournament(index);
+    return tournamentServices()->dartsJsonBuilder()->tournamentToJson(index,this);
 }
 QByteArray DartsContext::tournament(const QString &id) const
 {
-    return tournamentServices()->dartsJsonBuilder()->fromTournament(id);
+    return tournamentServices()->dartsJsonBuilder()->tournamentToJson(id,this);
 }
 QByteArray DartsContext::tournament(const QUuid &id) const
 {
-    return tournamentServices()->dartsJsonBuilder()->fromTournament(id);
+    return tournamentServices()->dartsJsonBuilder()->tournamentToJson(id,this);
 }
 bool DartsContext::addInput(const QUuid &tournamentId, const QByteArray &byteArray)
 {
-    inputServices()->addInputToDb()->add(byteArray,tournamentId);
-    return persistenceServices()->persist()->persistInputChanges();
+    return addInputToDb()->add(byteArray,tournamentId,this);
 }
 bool DartsContext::resetTournament(const QUuid &tournamentId)
 {
-    tournamentServices()->resetDarts()->reset(tournamentId);
-    return persistenceServices()->persist()->persistAllChanges();
+    return resetDarts()->reset(tournamentId,this);
 }
 QByteArray DartsContext::createDartsMetaData(const QUuid &tournamentID)
 {
-    return tournamentServices()->dartsJsonBuilder()->fromTournament(tournamentID);
+    return tournamentServices()->dartsJsonBuilder()->tournamentToJson(tournamentID,this);
 }
 bool DartsContext::updateTournamentIndex(QUuid tournamentID, const QByteArray &indexByteArray)
 {
     indexServices()->updateIndex()->update(indexByteArray,tournamentID);
-    return persistenceServices()->persist()->persistTournamentsChanges();
 }
 QByteArray DartsContext::input(const QUuid &tournamentID, const QString &name, const QByteArray &idxBa) const
 {
-    return inputServices()->inputToJson()->toJson(tournamentID,name,idxBa);
+    return inputToJson()->toJson(tournamentID,name,idxBa,this);
 }
 bool DartsContext::hideInput(QUuid tournamentID, QString name, const QByteArray &indexByteArray)
 {
-    inputServices()->setInputHint()->setHidden(tournamentID,name,indexByteArray);
-    indexServices()->updateIndex()->update(indexByteArray,tournamentID);
-    return persistenceServices()->persist()->persistAllChanges();
+    return hidePlayerInput()->hide(tournamentID,name,indexByteArray,this);
 }
 bool DartsContext::revealInput(QUuid tournamentID, QString name, const QByteArray &indexByteArray)
 {
-    inputServices()->setInputHint()->setVisible(tournamentID,name,indexByteArray);
-    indexServices()->updateIndex()->update(indexByteArray,tournamentID);
-    return persistenceServices()->persist()->persistAllChanges();
+    return displayPlayerInput()->display(tournamentID,name,indexByteArray,this);
 }

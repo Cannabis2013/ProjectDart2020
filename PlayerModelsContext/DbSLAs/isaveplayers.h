@@ -1,7 +1,6 @@
 #ifndef ISAVEPLAYERS_H
 #define ISAVEPLAYERS_H
-template<typename T>
-class IFileDataIO;
+
 template<typename TIODevice, typename TDbContext, typename TDataCtx>
 class ISavePlayers
 {

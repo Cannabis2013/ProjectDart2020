@@ -5,6 +5,6 @@
 void DartsPlayerInjector::inject(DartsModelsServices *context) const
 {
     auto plaServices = new DartsPlayerServices;
-    plaServices->setConvertPlayers(new DartsConvertPlayer);
+    plaServices->setPlayerConverter(new DartsConvertPlayer);
     context->setPlayerServices(plaServices);
 }

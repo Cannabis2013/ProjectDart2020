@@ -12,15 +12,13 @@ class DartsVerifyConsistency : public IDartsConsistency
 public:
     typedef IModel<QUuid> Model;
     typedef QVector<Model*> Models;
-    DartsVerifyConsistency(DartsModelsServices *services);
-    bool verify(const QUuid &tournamentID) const override;
+    bool verify(const QUuid &tournamentID, const DartsModelsServices *services) const override;
 private:
-    Model *getTournament(const QUuid &tournamentID) const;
-    Models getInputs(const QUuid &tournamentID) const;
+    Model *getTournament(const QUuid &tournamentID, const DartsModelsServices *services) const;
+    Models getInputs(const QUuid &tournamentID, const DartsModelsServices *services) const;
     bool verifyTournamentPlayers(Model *tournament, AbsPlaCtx *playerContext) const;
     bool verifyPlayerIDs(const QVector<QUuid> &playerIds, const AbsPlaCtx *playersContext) const;
     bool verifyPlayerNames(const QVector<QString> &playerNames, const AbsPlaCtx *playersContext) const;
     bool verifyInputsPlayers(const Models &models, const AbsPlaCtx *playersContext) const;
-    DartsModelsServices *_services;
 };
 #endif // DARTSVERIFYCONSISTENCY_H

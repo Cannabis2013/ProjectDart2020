@@ -1,10 +1,12 @@
 #ifndef IFILEDATAIO_H
 #define IFILEDATAIO_H
-template<typename TData>
+
+class QByteArray;
+
 class IFileDataIO
 {
 public:
-    typedef TData Data;
+    typedef QByteArray Data;
     virtual Data read() = 0;
     virtual bool save(const Data &data) = 0;
 };

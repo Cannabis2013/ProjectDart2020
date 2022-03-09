@@ -8,7 +8,7 @@ class DartsIndexServices
 public:
     typedef IModel<QUuid> BaseModel;
     typedef IDartsIdxBuilder<IDartsIndex> IdxBuilder;
-    IUpdateDartsIndexes<BaseModel> *updateIndex() const {return _updateIndexes;}
+    IUpdateDartsIndexes<BaseModel> *updateIndex() {return _updateIndexes;}
     void setUpdateIndexes(IUpdateDartsIndexes<BaseModel> *updateService) {_updateIndexes = updateService;}
     IdxBuilder *indexBuilder() const {return _indexBuilder;}
     void setIndexBuilder(IdxBuilder *newIndexBuilder) {_indexBuilder = newIndexBuilder;}

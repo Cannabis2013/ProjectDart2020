@@ -1,23 +1,16 @@
 #ifndef PLAYERSDBSLAS_H
 #define PLAYERSDBSLAS_H
-template<typename T, typename U>
-class IDuplicateChecker;
-template<typename T, typename U>
-class IGetPlayersFromDb;
-template<typename T, typename U, typename V>
-class ISavePlayers;
-template<typename T, typename U, typename V>
-class IFetchDb;
-template<typename T>
+template<typename T, typename U> class IDuplicateChecker;
+template<typename T, typename U> class IGetPlayersFromDb;
+template<typename T, typename U, typename V> class ISavePlayers;
+template<typename T, typename U, typename V> class IFetchDb;
 class IFileDataIO;
-template<typename T>
-class IJsonBuilder;
-template<typename T, typename U>
-class IPlayerBuilder;
+template<typename T> class IJsonBuilder;
+template<typename T, typename U> class IPlayerBuilder;
 class QByteArray;
-template<typename T>
-class IPlayersDbContext;
+template<typename T> class IPlayersDbContext;
 class IPlayer;
+
 class PlayersDbSLAs
 {
 public:
@@ -26,7 +19,7 @@ public:
     typedef QByteArray Json;
     typedef IPlayerBuilder<Model,Json> PlayerBuilder;
     typedef IJsonBuilder<Model> JsonBuilder;
-    typedef IFileDataIO<QByteArray> IODevice;
+    typedef IFileDataIO IODevice;
     typedef ISavePlayers<IODevice,DbContext,JsonBuilder> SavePlayers;
     typedef IFetchDb<DbContext,IODevice,PlayerBuilder> FetchDb;
     typedef IDuplicateChecker<Model,DbContext> DupChecker;

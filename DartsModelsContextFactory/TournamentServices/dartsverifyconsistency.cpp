@@ -4,29 +4,27 @@
 #include "SLAs/dartsmodelsservices.h"
 #include "ContextSLA/absplactx.h"
 
-DartsVerifyConsistency::DartsVerifyConsistency(DartsModelsServices *services):_services(services){}
-
-bool DartsVerifyConsistency::verify(const QUuid &tournamentID) const
+bool DartsVerifyConsistency::verify(const QUuid &tournamentID, const DartsModelsServices *services) const
 {
-    auto playerContext = _services->playersContext();
-    auto tournament = getTournament(tournamentID);
+    auto playerContext = services->playersContext();
+    auto tournament = getTournament(tournamentID,services);
     auto pConsistent = verifyTournamentPlayers(tournament,playerContext);
-    auto inputs = getInputs(tournamentID);
+    auto inputs = getInputs(tournamentID, services);
     auto iConsistent = verifyInputsPlayers(inputs,playerContext);
     return pConsistent && iConsistent;
 }
 
-DartsVerifyConsistency::Model *DartsVerifyConsistency::getTournament(const QUuid &tournamentID) const
+DartsVerifyConsistency::Model *DartsVerifyConsistency::getTournament(const QUuid &tournamentID, const DartsModelsServices *services) const
 {
-    auto tournaments = _services->tournamentServices()->dartsDbCtx()->models();
-    auto tournament = _services->tournamentServices()->getTournament()->get(tournamentID,tournaments);
+    auto tournaments = services->tournamentServices()->dbContext()->models();
+    auto tournament = services->tournamentServices()->getTournament()->get(tournamentID,tournaments);
     return tournament;
 }
 
-DartsVerifyConsistency::Models DartsVerifyConsistency::getInputs(const QUuid &tournamentID) const
+DartsVerifyConsistency::Models DartsVerifyConsistency::getInputs(const QUuid &tournamentID, const DartsModelsServices *services) const
 {
-    auto inputServices = _services->inputServices();
-    auto inputsDbService = inputServices->inputsDb();
+    auto inputServices = services->inputServices();
+    auto inputsDbService = inputServices->dbContext();
     auto inputModels = inputsDbService->models();
     auto inputs = inputServices->getInputsFromDb()->get(tournamentID,inputModels);
     return inputs;

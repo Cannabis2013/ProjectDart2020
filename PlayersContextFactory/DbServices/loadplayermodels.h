@@ -4,7 +4,6 @@
 class QByteArray;
 template<typename T>
 class IPlayersDbContext;
-template<typename T>
 class IFileDataIO;
 class IPlayer;
 template<typename T, typename U>
@@ -14,7 +13,7 @@ class QVector;
 namespace LdPlaMds
 {
     typedef IPlayersDbContext<IPlayer> DbCtx;
-    typedef IFileDataIO<QByteArray> IODevice;
+    typedef IFileDataIO IODevice;
     typedef IPlayerBuilder<IPlayer,QByteArray> MdBuilder;
 }
 class LoadPlayerModels : public IFetchDb<LdPlaMds::DbCtx,LdPlaMds::IODevice,LdPlaMds::MdBuilder>

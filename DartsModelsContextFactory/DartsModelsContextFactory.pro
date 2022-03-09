@@ -12,6 +12,7 @@ CONFIG += c++11
 SOURCES += \
     DbServices/loadfromstorage.cpp \
     DbServices/savetostorage.cpp \
+    FileIOServices/filejsonio.cpp \
     IndexesServices/dartsindexbuilder.cpp \
     IndexesServices/updatedartsindexes.cpp \
     Injectors/dartsindexinjector.cpp \
@@ -19,35 +20,31 @@ SOURCES += \
     Injectors/dartsplayerinjector.cpp \
     Injectors/dartstournamentinjector.cpp \
     Injectors/injectdartsroutines.cpp \
-    Injectors/localpersistenceinjector.cpp \
-    InputServices/dartsaddinputtodb.cpp \
-    InputServices/dartsdbinputstojson.cpp \
+    InputServices/dartsinputdb.cpp \
+    Routines/dartsaddinputtodb.cpp \
+    Routines/dartsdisplayplayerinput.cpp \
+    Routines/dartshideplayerinput.cpp \
     InputServices/dartsinputconverter.cpp \
-    InputServices/dartsinputstojson.cpp \
-    InputServices/dartsinputtojson.cpp \
-    InputServices/dartssetipthint.cpp \
+    InputServices/dartsinputstobytearray.cpp \
+    Routines/dartsinputtojson.cpp \
     InputServices/getdartsinputs.cpp \
-    InputServices/jsontodartsinputs.cpp \
     InputServices/removedartsinputs.cpp \
-    PersistServices/dartspersist.cpp \
     PlayerServices/dartsconvertplayer.cpp \
+    Routines/addtournamenttodb.cpp \
     TournamentServices/dartsbuilder.cpp \
-    TournamentServices/dartscreatetournament.cpp \
     TournamentServices/dartsjsonconverter.cpp \
     TournamentServices/dartsmetamodelbuilder.cpp \
-    TournamentServices/dartsremovetournaments.cpp \
-    TournamentServices/dartsresettournament.cpp \
+    Routines/dartsresettournament.cpp \
     TournamentServices/dartssetwinner.cpp \
     TournamentServices/dartstournamentrepair.cpp \
     TournamentServices/dartsverifyconsistency.cpp \
     TournamentServices/dartwinnermodelbuilder.cpp \
-    TournamentServices/jsontodartsmodels.cpp \
+    Routines/removetournamentsfromdb.cpp \
     TournamentsDbServices/dartsconverttojson.cpp \
+    TournamentsDbServices/dartsdbcontext.cpp \
     createdartscontext.cpp
 
 HEADERS += \
-    ../DartsControllerFactory/Index/dcidxconverter.h \
-    DbServices/convertdartsmodels.h \
     DbServices/loadfromstorage.h \
     DbServices/savetostorage.h \
     FileIOServices/filejsonio.h \
@@ -59,37 +56,33 @@ HEADERS += \
     Injectors/dartsplayerinjector.h \
     Injectors/dartstournamentinjector.h \
     Injectors/injectdartsroutines.h \
-    Injectors/localpersistenceinjector.h \
     InputServices/countdartsinputs.h \
-    InputServices/dartsaddinputtodb.h \
-    InputServices/dartsdbinputstojson.h \
+    InputServices/dartsinputdb.h \
+    Routines/dartsaddinputtodb.h \
+    Routines/dartsdisplayplayerinput.h \
+    Routines/dartshideplayerinput.h \
     InputServices/dartsinput.h \
     InputServices/dartsinputbuilder.h \
     InputServices/dartsinputconverter.h \
-    InputServices/dartsinputstojson.h \
-    InputServices/dartsinputtojson.h \
-    InputServices/dartsiptsdbctx.h \
-    InputServices/dartssetipthint.h \
+    InputServices/dartsinputstobytearray.h \
+    Routines/dartsinputtojson.h \
     InputServices/getdartsinputs.h \
-    InputServices/jsontodartsinputs.h \
     InputServices/removedartsinputs.h \
     InputServices/sortdartsinputs.h \
     InputServices/sortdartsinputsbyindexes.h \
-    PersistServices/dartspersist.h \
     PlayerServices/dartsconvertplayer.h \
+    Routines/addtournamenttodb.h \
     TournamentServices/GetDartsTournamentIds.h \
     TournamentServices/dartsbuilder.h \
-    TournamentServices/dartscreatetournament.h \
     TournamentServices/dartsjsonconverter.h \
     TournamentServices/dartsmetamodelbuilder.h \
-    TournamentServices/dartsremovetournaments.h \
-    TournamentServices/dartsresettournament.h \
+    Routines/dartsresettournament.h \
     TournamentServices/dartssetwinner.h \
     TournamentServices/dartstournamentrepair.h \
     TournamentServices/dartsverifyconsistency.h \
     TournamentServices/dartwinnermodelbuilder.h \
     TournamentServices/getdartstournamentfromdb.h \
-    TournamentServices/jsontodartsmodels.h \
+    Routines/removetournamentsfromdb.h \
     TournamentsDbServices/dartsconverttojson.h \
     TournamentsDbServices/dartsdbcontext.h \
     createdartscontext.h
