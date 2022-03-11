@@ -7,12 +7,8 @@
 #include "TournamentServices/getdartstournamentfromdb.h"
 #include "TournamentsDbServices/dartsdbcontext.h"
 #include "SLAs/dartsmodelsservices.h"
-#include "TournamentServices/dartstournamentrepair.h"
-#include "TournamentsDbServices/dartsconverttojson.h"
 #include "TournamentServices/dartsverifyconsistency.h"
-#include "TournamentServices/dartssetwinner.h"
-
-#include <FileIOServices/filejsonio.h>
+#include "FileIOServices/filejsonio.h"
 
 void DartsTournamentInjector::injectServices(DartsModelsServices *context)
 {
@@ -25,10 +21,7 @@ void DartsTournamentInjector::injectServices(DartsModelsServices *context)
     tnmServices->setGetTournament(new GetDartsTournamentFromDb);
     tnmServices->setTournamentBuilder(new DartsBuilder);
     tnmServices->setGetTournamentIds(new GetDartsIds);
-    tnmServices->setTournamentRepair(new DartsTournamentRepair);
-    tnmServices->setDartsJsonBuilder(new DartsConvertToJson);
     tnmServices->setVerifyConsistency(new DartsVerifyConsistency);
-    tnmServices->setSetWinner(new DartsSetWinner);
     context->setTournamentServices(tnmServices);
 }
 

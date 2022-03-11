@@ -12,13 +12,12 @@ bool DartsContext::isConsistent(const QUuid &tournamentId) const
 
 bool DartsContext::tryRepair(const QUuid &tournamentId)
 {
-    return tournamentServices()->tournamentRepair()->repair(tournamentId,this);
+    return tournamentRepair()->repair(tournamentId,this);
 }
 
 bool DartsContext::setTournamentWinner(const QUuid &tournamentId, const QString &name)
 {
-    tournamentServices()->setTnmWinner()->setWinner(tournamentId,name,this);
-    return tournamentServices()->dbContext()->saveChanges();
+    return setTnmWinner()->setWinner(tournamentId,name,this);
 }
 
 QByteArray DartsContext::inputs(const QUuid &tournamentID) const
@@ -33,22 +32,22 @@ bool DartsContext::deleteTournaments(const QVector<int> &indexes)
 
 QByteArray DartsContext::tournaments()
 {
-    return tournamentServices()->dartsJsonBuilder()->tournamentsToJson(this);
+    return getTournamentsAsJson()->tournamentsToJson(this);
 }
 
 QByteArray DartsContext::tournament(const int &index) const
 {
-    return tournamentServices()->dartsJsonBuilder()->tournamentToJson(index,this);
+    return getTournamentAsJson()->tournamentToJson(index,this);
 }
 
 QByteArray DartsContext::tournament(const QString &id) const
 {
-    return tournamentServices()->dartsJsonBuilder()->tournamentToJson(id,this);
+    return getTournamentAsJson()->tournamentToJson(id,this);
 }
 
 QByteArray DartsContext::tournament(const QUuid &id) const
 {
-    return tournamentServices()->dartsJsonBuilder()->tournamentToJson(id,this);
+    return getTournamentAsJson()->tournamentToJson(id,this);
 }
 
 bool DartsContext::addInput(const QUuid &tournamentID, const QByteArray &inputAsByteArray, const QByteArray &indexByteArray)
@@ -63,7 +62,7 @@ bool DartsContext::resetTournament(const QUuid &tournamentId)
 
 QByteArray DartsContext::createDartsMetaData(const QUuid &tournamentID)
 {
-    return tournamentServices()->dartsJsonBuilder()->tournamentToJson(tournamentID,this);
+    return getTournamentAsJson()->tournamentToJson(tournamentID,this);
 }
 
 QByteArray DartsContext::input(const QUuid &tournamentID, const QString &name, const QByteArray &idxBa) const

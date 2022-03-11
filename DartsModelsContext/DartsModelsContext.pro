@@ -30,6 +30,7 @@ HEADERS += \
     PredicateSLAs/imodelpredicate.h \
     Routines/IDartsAddTournament.h \
     Routines/idartsrevealinput.h \
+    Routines/igettournamentsasjson.h \
     SLAs/absdartsctx.h \
     SLAs/dartsmodelsroutines.h \
     SLAs/dartsmodelsservices.h \
@@ -38,15 +39,15 @@ HEADERS += \
     TournamentModelsSLAs/idartstournament.h \
     TournamentsDbSLAs/idartsbuilder.h \
     TournamentsDbSLAs/igetdartstournament.h \
-    TournamentsDbSLAs/itournamentjsonbuilder.h \
-    TournamentsSLAs/IDartsSetWinner.h \
+    Routines/IDartsSetWinner.h \
+    Routines/igettournamentasjson.h \
     TournamentsSLAs/idartsconsistency.h \
     TournamentsSLAs/idartscreatemeta.h \
     Routines/idartsremovetournaments.h \
     Routines/idartsresettournament.h \
     TournamentsSLAs/idmcaddindexestotournament.h \
     TournamentsSLAs/igettournamentids.h \
-    TournamentsSLAs/itournamentrepair.h \
+    Routines/itournamentrepair.h \
     TournamentsSLAs/iwinnerinfobuilder.h \
     TournamentsSLAs/tournamentservices.h \
     dartscontext.h

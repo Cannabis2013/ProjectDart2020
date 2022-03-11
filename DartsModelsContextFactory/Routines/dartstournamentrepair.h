@@ -1,7 +1,7 @@
 #ifndef DARTSTOURNAMENTREPAIR_H
 #define DARTSTOURNAMENTREPAIR_H
-#include "TournamentsSLAs/itournamentrepair.h"
 
+#include "Routines/itournamentrepair.h"
 #include <qvector.h>
 
 class QString;

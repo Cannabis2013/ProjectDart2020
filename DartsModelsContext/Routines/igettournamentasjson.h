@@ -1,5 +1,5 @@
-#ifndef ITOURNAMENTJSONBUILDER_H
-#define ITOURNAMENTJSONBUILDER_H
+#ifndef IGETTOURNAMENTASJSON_H
+#define IGETTOURNAMENTASJSON_H
 
 class DartsModelsServices;
 class QString;
@@ -11,7 +11,7 @@ class QUuid;
 template<typename T>
 class IModel;
 template<typename TModel>
-class IDartsJsonBuilder
+class IGetTournamentAsJson
 {
 public:
     typedef TModel Model;
@@ -20,6 +20,5 @@ public:
     virtual ByteArray tournamentToJson(const QUuid &tournamentId, const DartsModelsServices *services) const = 0;
     virtual ByteArray tournamentToJson(const QString &tournamentId, const DartsModelsServices *services) const = 0;
     virtual ByteArray tournamentToJson(const int &index, const DartsModelsServices *services) const = 0;
-    virtual ByteArray tournamentsToJson(const DartsModelsServices *services) const = 0;
 };
 #endif // ICREATEJSONFROMDARTSINPUT_H

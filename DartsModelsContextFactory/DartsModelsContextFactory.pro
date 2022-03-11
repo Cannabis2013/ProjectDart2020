@@ -30,17 +30,18 @@ SOURCES += \
     InputServices/removedartsinputs.cpp \
     PlayerServices/dartsconvertplayer.cpp \
     Routines/addtournamenttodb.cpp \
+    Routines/gettournamentsasjson.cpp \
     TournamentServices/dartsbuilder.cpp \
     TournamentServices/dartsjsonconverter.cpp \
     TournamentServices/dartsmetamodelbuilder.cpp \
     Routines/dartsresettournament.cpp \
     TournamentServices/dartssetwinner.cpp \
-    TournamentServices/dartstournamentrepair.cpp \
+    Routines/dartstournamentrepair.cpp \
     TournamentServices/dartsverifyconsistency.cpp \
     TournamentServices/dartwinnermodelbuilder.cpp \
     Routines/removetournamentsfromdb.cpp \
-    TournamentsDbServices/dartsconverttojson.cpp \
     TournamentsDbServices/dartsdbcontext.cpp \
+    Routines/gettournamentasjson.cpp \
     createdartscontext.cpp
 
 HEADERS += \
@@ -70,19 +71,20 @@ HEADERS += \
     InputServices/sortdartsinputsbyindexes.h \
     PlayerServices/dartsconvertplayer.h \
     Routines/addtournamenttodb.h \
+    Routines/gettournamentsasjson.h \
     TournamentServices/GetDartsTournamentIds.h \
     TournamentServices/dartsbuilder.h \
     TournamentServices/dartsjsonconverter.h \
     TournamentServices/dartsmetamodelbuilder.h \
     Routines/dartsresettournament.h \
     TournamentServices/dartssetwinner.h \
-    TournamentServices/dartstournamentrepair.h \
+    Routines/dartstournamentrepair.h \
     TournamentServices/dartsverifyconsistency.h \
     TournamentServices/dartwinnermodelbuilder.h \
     TournamentServices/getdartstournamentfromdb.h \
     Routines/removetournamentsfromdb.h \
-    TournamentsDbServices/dartsconverttojson.h \
     TournamentsDbServices/dartsdbcontext.h \
+    Routines/gettournamentasjson.h \
     createdartscontext.h
 
 # Default rules for deployment.
