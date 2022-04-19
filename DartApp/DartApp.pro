@@ -147,10 +147,11 @@ DEPENDPATH += $$PWD/../PlayersContextFactory
 INCLUDEPATH += $$PWD/../DartsStatistics
 DEPENDPATH += $$PWD/../DartsStatistics
 INCLUDEPATH += $$PWD/../DartsStatisticsFactory
-DEPENDPATH += $$PWD/../DartsStatisticsFactory
 
-ANDROID_EXTRA_LIBS += $$OUT_PWD/../PlayersContextFactory/libPlayersContextFactory_arm64-v8a.so
 ANDROID_EXTRA_LIBS += $$OUT_PWD/../DartsModelsContext/libDartsModelsContext_arm64-v8a.so
 ANDROID_EXTRA_LIBS += $$OUT_PWD/../DartsModelsContextFactory/libDartsModelsContextFactory_arm64-v8a.so
 ANDROID_EXTRA_LIBS += $$OUT_PWD/../DartsController/libDartsController_arm64-v8a.so
 ANDROID_EXTRA_LIBS += $$OUT_PWD/../DartsControllerFactory/libDartsControllerFactory_arm64-v8a.so
+ANDROID_EXTRA_LIBS += $$OUT_PWD/../DartsStatistics/libDartsStatistics_arm64-v8a.so
+ANDROID_EXTRA_LIBS += $$OUT_PWD/../DartsStatisticsFactory/libDartsStatisticsFactory_arm64-v8a.so
+ANDROID_EXTRA_LIBS += $$OUT_PWD/../PlayerModelsContext/libPlayerModelsContext_arm64-v8a.so

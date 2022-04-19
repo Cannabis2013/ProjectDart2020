@@ -48,11 +48,13 @@ DartsScoreBoard {
     rowHeightProvider: function(row){
         return 64;
     }
+
     model: DPCTableModel{
         id: dataModel
         onDataChanged: GeometryScripts.updateContentHeight()
         minimumColumnCount: 1
     }
+
     cellDelegate: BoardDelegateContentRect {
         id: delegate
         playerName: playerDataModel.playerName(row)
