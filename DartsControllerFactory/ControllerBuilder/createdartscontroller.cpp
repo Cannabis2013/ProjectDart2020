@@ -9,13 +9,13 @@ CreateDartsController::CreateDartsController()
     assembleDSC = new AssembleDSC;
 }
 
-IDartsCtrl *CreateDartsController::pointCtrl(AbsDartsCtx *modelsContext)
+IDartsCtrl *CreateDartsController::pointCtrl(AbstractDartsContext *modelsContext)
 {
     auto dpc = assembleDPC->assemble(modelsContext);
     return dpc;
 }
 
-IDartsCtrl *CreateDartsController::scoreCtrl(AbsDartsCtx *modelsContext)
+IDartsCtrl *CreateDartsController::scoreCtrl(AbstractDartsContext *modelsContext)
 {
     auto dsc = assembleDSC->assemble(modelsContext);
     return dsc;

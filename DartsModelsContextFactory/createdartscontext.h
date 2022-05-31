@@ -8,7 +8,7 @@ class LocalPersistenceInjector;
 class DartsIndexInjector;
 class DartsTournamentInjector;
 class DartsInputInjector;
-class AbsDartsCtx;
+class AbstractDartsContext;
 class AbsPlaCtx;
 #ifdef DartsMdFactLib
     #define DartsFactoryExport Q_DECL_EXPORT
@@ -19,7 +19,7 @@ class DartsFactoryExport CreateDartsContext
 {
 public:
     CreateDartsContext();
-    AbsDartsCtx *localJson(AbsPlaCtx *playersContext) const;
+    AbstractDartsContext *localJson(AbsPlaCtx *playersContext) const;
 private:
     void injectServices(DartsModelsServices *context) const;
     void fetchContext(DartsModelsServices *context) const;

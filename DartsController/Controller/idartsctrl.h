@@ -2,7 +2,7 @@
 #define IDARTSCTRL_H
 #include <qobject.h>
 #include "ServicesProvider/dcservices.h"
-class AbsDartsCtx;
+class AbstractDartsContext;
 class IDartsCtrl : public QObject
 {
     Q_OBJECT

@@ -22,7 +22,7 @@ QJsonObject SaveToStorage::toJsonObject(const QJsonObject &json, const Models &m
     auto returnedJson = json;
     QJsonArray arr;
     for (const auto &model : qAsConst(models))
-        arr << _converter->create(model);
+        arr << _converter->convert(model);
     returnedJson[_jsonKey] = arr;
     return returnedJson;
 }

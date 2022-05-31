@@ -28,6 +28,6 @@ QJsonArray DartsInputsToByteArray::toJsonArray(const Models &models, const Darts
     QJsonArray arr;
     auto converter = services->inputServices()->inputConverter();
     for (const auto &model : qAsConst(models))
-        arr << converter->create(model);
+        arr << converter->convert(model);
     return arr;
 }

@@ -2,17 +2,17 @@
 
 #include <qjsondocument.h>
 
-DartsJsonConverter::Json DartsJsonConverter::create(Model *m) const
+DartsJsonConverter::Json DartsJsonConverter::convert(Model *m) const
 {
     return toJsonObject(dynamic_cast<IDartsTournament*>(m));
 }
 
-DartsJsonConverter::Model *DartsJsonConverter::create(const ByteArray &byteArray) const
+DartsJsonConverter::Model *DartsJsonConverter::convert(const ByteArray &byteArray) const
 {
-    return create(QJsonDocument::fromJson(byteArray).object());
+    return convert(QJsonDocument::fromJson(byteArray).object());
 }
 
-DartsJsonConverter::Model *DartsJsonConverter::create(const Json &d) const
+DartsJsonConverter::Model *DartsJsonConverter::convert(const Json &d) const
 {
     return fromJsonObject(d);
 }

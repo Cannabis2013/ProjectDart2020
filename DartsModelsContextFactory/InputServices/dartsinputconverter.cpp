@@ -1,7 +1,7 @@
 #include "dartsinputconverter.h"
 #include "InputsDbSLAs/idartsinputbuilder.h"
 
-DartsInputConverter::Json DartsInputConverter::create(Model *model) const
+DartsInputConverter::Json DartsInputConverter::convert(Model *model) const
 {
     if(model != nullptr)
         return toJsonObject(model);
@@ -9,15 +9,15 @@ DartsInputConverter::Json DartsInputConverter::create(Model *model) const
         return Json();
 }
 
-DartsInputConverter::Model *DartsInputConverter::create(const Json &json) const
+DartsInputConverter::Model *DartsInputConverter::convert(const Json &json) const
 {
     return toModel(json);
 }
 
-DartsInputConverter::Model *DartsInputConverter::create(const ByteArray &byteArray) const
+DartsInputConverter::Model *DartsInputConverter::convert(const ByteArray &byteArray) const
 {
     auto json = fromByteArray(byteArray);
-    return create(json);
+    return convert(json);
 }
 
 QJsonObject DartsInputConverter::fromByteArray(const QByteArray &byteArray) const

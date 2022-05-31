@@ -25,9 +25,9 @@ void DCInjectFinClient::inject(DCServices *services) const
 
 void DCInjectFinClient::injectBuilderClient(DCFinishBuilder *builder) const
 {
-    auto constructRows = new DartsCreateFinishes;
-    injectConRowClient(constructRows);
-    builder->setConstructRow(constructRows);
+    auto createFinishes = new DartsCreateFinishes;
+    injectConRowClient(createFinishes);
+    builder->setConstructRow(createFinishes);
     builder->setDbContext(new DCLogisticDb);
 }
 

@@ -14,7 +14,7 @@ struct DCPlayer;
 struct DCInput;
 struct DCMeta;
 struct DCIndex;
-class AbsDartsCtx;
+class AbstractDartsContext;
 class DCServices;
 class DCRedoTurn : public IDCRedoTurn
 {
@@ -32,7 +32,7 @@ private:
     QByteArray toByteArray(const DCInput &input);
     QByteArray indexAsByteArray(const DCIndex &index);
     DCInput getInputFromModelsContext(const DCIndex &index);
-    AbsDartsCtx *_modelsContext;
+    AbstractDartsContext *_modelsContext;
     IndexController *_indexController;
     PlayerManager *_playerManager;
     MetaManager *_metaManager;

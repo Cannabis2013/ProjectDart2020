@@ -26,6 +26,6 @@ LoadFromStorage::Models LoadFromStorage::toModels(const QByteArray &byteArray)
     auto obj = QJsonDocument::fromJson(byteArray).object();
     auto arr = obj[_jsonKey].toArray();
     for (const auto &jsonVal : qAsConst(arr))
-        models << _converter->create(jsonVal.toObject());
+        models << _converter->convert(jsonVal.toObject());
     return models;
 }

@@ -33,7 +33,7 @@ private:
     PlayerManager *_playerManager;
     MetaManager *_metaManager;
     MetaConverter *_jsonToMeta;
-    AbsDartsCtx *_modelsContext;
+    AbstractDartsContext *_modelsContext;
     JsonToPlayer *_jsonToPlayer;
     JsonToPlayers *_byteArrayToPlayers;
     IndexController *_indexController;

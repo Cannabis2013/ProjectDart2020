@@ -1,6 +1,6 @@
 #ifndef DARTSCONTEXT_H
 #define DARTSCONTEXT_H
-#include "SLAs/absdartsctx.h"
+#include "SLAs/abstractdartscontext.h"
 #include "SLAs/dartsmodelsroutines.h"
 
 #ifdef DartsCtxLib
@@ -8,7 +8,7 @@
 #else
     #define LIB_EXPORT Q_DECL_IMPORT
 #endif
-class LIB_EXPORT DartsContext : public AbsDartsCtx,
+class LIB_EXPORT DartsContext : public AbstractDartsContext,
                                 public DartsModelsServices,
                                 public DartsModelsRoutines
 {

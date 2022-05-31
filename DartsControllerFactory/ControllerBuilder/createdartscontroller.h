@@ -6,7 +6,7 @@
 #else
     #define DCFactExport Q_DECL_IMPORT
 #endif
-class AbsDartsCtx;
+class AbstractDartsContext;
 class AssembleDSC;
 class AssembleDPC;
 class IDartsCtrl;
@@ -14,8 +14,8 @@ class DCFactExport CreateDartsController
 {
 public:
     CreateDartsController();
-    IDartsCtrl *pointCtrl(AbsDartsCtx *modelsContext);
-    IDartsCtrl *scoreCtrl(AbsDartsCtx *modelsContext);
+    IDartsCtrl *pointCtrl(AbstractDartsContext *modelsContext);
+    IDartsCtrl *scoreCtrl(AbstractDartsContext *modelsContext);
 private:
     AssembleDPC *assembleDPC;
     AssembleDSC *assembleDSC;

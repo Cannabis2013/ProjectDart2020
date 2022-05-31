@@ -8,25 +8,25 @@
 class DartsModelsServices
 {
 public:
-    TournamentServices *tournamentServices() const {return _tournamentServices;}
-    void setTournamentServices(TournamentServices *service) {_tournamentServices = service;}
+        TournamentServices *tournamentServices() const {return _tournamentServices;}
+        void setTournamentServices(TournamentServices *service) {_tournamentServices = service;}
 
-    DartsInputServices *inputServices() const {return _inputServices;}
-    void setInputServices(DartsInputServices *service) {_inputServices = service;}
+        DartsInputServices *inputServices() const {return _inputServices;}
+        void setInputServices(DartsInputServices *service) {_inputServices = service;}
 
-    DartsIndexServices *indexServices() const {return _indexServices;}
-    void setIndexServices(DartsIndexServices *service) {_indexServices = service;}
+        DartsIndexServices *indexServices() const {return _indexServices;}
+        void setIndexServices(DartsIndexServices *service) {_indexServices = service;}
 
-    DartsPlayerServices *playerServices() const {return _playerServices;}
-    void setPlayerServices(DartsPlayerServices *service) {_playerServices = service;}
+        DartsPlayerServices *playerServices() const {return _playerServices;}
+        void setPlayerServices(DartsPlayerServices *service) {_playerServices = service;}
 
-    AbsPlaCtx *playersContext() const {return _playersContext;}
-    void setPlayersContext(AbsPlaCtx *newPlayersContext) {_playersContext = newPlayersContext;}
+        AbsPlaCtx *playersContext() const {return _playersContext;}
+        void setPlayersContext(AbsPlaCtx *newPlayersContext) {_playersContext = newPlayersContext;}
 private:
-    TournamentServices *_tournamentServices;
-    DartsInputServices *_inputServices;
-    DartsIndexServices *_indexServices;
-    DartsPlayerServices *_playerServices;
-    AbsPlaCtx *_playersContext;
+        TournamentServices *_tournamentServices;
+        DartsInputServices *_inputServices;
+        DartsIndexServices *_indexServices;
+        DartsPlayerServices *_playerServices;
+        AbsPlaCtx *_playersContext;
 };
 #endif // DARTSMODELSSERVICES_H

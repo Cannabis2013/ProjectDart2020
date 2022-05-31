@@ -1,6 +1,6 @@
 #ifndef ASSEMBLEDSC_H
 #define ASSEMBLEDSC_H
-class AbsDartsCtx;
+class AbstractDartsContext;
 class DartsController;
 class InjectDSCRoutines;
 class DSCJsonResponseInjector;
@@ -14,7 +14,7 @@ class AssembleDSC
 {
 public:
     AssembleDSC();
-    DartsController *assemble(AbsDartsCtx *modelsContext);
+    DartsController *assemble(AbstractDartsContext *modelsContext);
 private:
     DCInjectFinClient *finInjector;
     DCInjectMetaClient *metaInjector;

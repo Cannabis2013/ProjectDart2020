@@ -32,6 +32,6 @@ DartsInputToJson::Model *DartsInputToJson::getInputModel(IDartsIndex *index, con
 QByteArray DartsInputToJson::toByteArray(Model *model, const DartsModelsServices *services) const
 {
     auto cvtr = services->inputServices()->inputConverter();
-    auto json = cvtr->create(model);
+    auto json = cvtr->convert(model);
     return QJsonDocument(json).toJson();
 }

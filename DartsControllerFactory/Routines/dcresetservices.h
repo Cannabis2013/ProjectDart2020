@@ -1,7 +1,7 @@
 #ifndef DCRESETSERVICES_H
 #define DCRESETSERVICES_H
 #include "Routines/idcresetservices.h"
-class AbsDartsCtx;
+class AbstractDartsContext;
 template<typename T,typename U> class IDCPlayerManager;
 class DCInput;
 class DCPlayer;
@@ -22,7 +22,7 @@ private:
     MetaManager *_metaManager;
     IndexController *_indexController;
     PlayerManager *_playerManager;
-    AbsDartsCtx *_modelsContext;
+    AbstractDartsContext *_modelsContext;
 };
 
 #endif // DCRESETSERVICES_H

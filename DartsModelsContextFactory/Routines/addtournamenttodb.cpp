@@ -7,30 +7,30 @@
 
 bool AddTournamentToDb::add(const QByteArray &byteArray, const Indexes &indexes, Services *services)
 {
-    auto tournament = createTournamentModel(byteArray,services);
-    addPlayerDetails(tournament,indexes,services);
-    addModelToMemory(tournament,services);
-    return persistModel(services);
+        auto tournament = createTournamentModel(byteArray,services);
+        addPlayerDetails(tournament,indexes,services);
+        addModelToMemory(tournament,services);
+        return persistModel(services);
 }
 
 IDartsTournament *AddTournamentToDb::createTournamentModel(const QByteArray &byteArray, Services *services)
 {
-    auto json = QJsonDocument::fromJson(byteArray).object();
-    auto cvtr = services->tournamentServices()->dartsConverter();
-    auto model = cvtr->create(json);
-    auto tournament = dynamic_cast<IDartsTournament*>(model);
-    return tournament;
+        auto json = QJsonDocument::fromJson(byteArray).object();
+        auto cvtr = services->tournamentServices()->dartsConverter();
+        auto model = cvtr->convert(json);
+        auto tournament = dynamic_cast<IDartsTournament*>(model);
+        return tournament;
 }
 
 void AddTournamentToDb::addPlayerDetails(IDartsTournament *tournament, const Indexes &indexes, Services *services)
 {
-    auto playersContext = services->playersContext();
-    auto byteArray = playersContext->players(indexes);
-    auto players = toPlayerModels(byteArray,services);
-    for (const auto &player : qAsConst(players)) {
-        tournament->playerIds().append(player.id);
-        tournament->playerNames().append(player.name);
-    }
+         auto playersContext = services->playersContext();
+         auto byteArray = playersContext->players(indexes);
+         auto players = toPlayerModels(byteArray,services);
+         for (const auto &player : qAsConst(players)) {
+                tournament->playerIds().append(player.id);
+                tournament->playerNames().append(player.name);
+         }
 }
 
 AddTournamentToDb::Players AddTournamentToDb::toPlayerModels(const QByteArray &byteArray, Services *services)

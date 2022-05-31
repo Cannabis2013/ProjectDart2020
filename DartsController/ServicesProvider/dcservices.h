@@ -9,8 +9,8 @@
 class DCServices
 {
 public:
-    void setModelsContext(AbsDartsCtx *context) {_modelsContext = context;}
-    AbsDartsCtx *modelsContext() const {return _modelsContext;}
+    void setModelsContext(AbstractDartsContext *context) {_modelsContext = context;}
+    AbstractDartsContext *modelsContext() const {return _modelsContext;}
     DCMetaServices *metaServices() const {return _metaServices;}
     void setMetaServices(DCMetaServices *services) {_metaServices = services;}
     DCFinishServices *finServices() const {return _finServices;}
@@ -22,7 +22,7 @@ public:
     DCIndexServices *indexServices() const {return _indexServices;}
     void setIndexServices(DCIndexServices *services) {_indexServices = services;}
 private:
-    AbsDartsCtx *_modelsContext = nullptr;
+    AbstractDartsContext *_modelsContext = nullptr;
     DCMetaServices *_metaServices;
     DCFinishServices *_finServices;
     DCPlayersServices *_playerServices;

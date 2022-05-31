@@ -3,7 +3,7 @@
 
 class DCServices;
 class QByteArray;
-class AbsDartsCtx;
+class AbstractDartsContext;
 struct DCInput;
 class IDCAddInput
 {

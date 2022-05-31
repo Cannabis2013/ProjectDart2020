@@ -18,7 +18,7 @@ QJsonArray GetTournamentsAsJson::toJsonArray(const QVector<IModel<QUuid> *> &mod
     auto cvtr = services->tournamentServices()->dartsConverter();
     QJsonArray arr;
     for (auto& model : models)
-        arr << cvtr->create(model);
+        arr << cvtr->convert(model);
     return arr;
 }
 

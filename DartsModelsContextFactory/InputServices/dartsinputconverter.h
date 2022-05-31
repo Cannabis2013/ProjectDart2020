@@ -9,9 +9,9 @@
 class DartsInputConverter : public IModelConverter<IModel<QUuid>>
 {
 public:
-    Json create(Model *model) const override;
-    Model *create(const Json &d) const override;
-    Model *create(const ByteArray &byteArray) const override;
+    Json convert(Model *model) const override;
+    Model *convert(const Json &d) const override;
+    Model *convert(const ByteArray &byteArray) const override;
 private:
     QJsonObject fromByteArray(const QByteArray &byteArray) const;
     QByteArray toByteArray(const QJsonObject &obj) const;

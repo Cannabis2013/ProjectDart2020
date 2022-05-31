@@ -12,8 +12,8 @@ public:
     typedef TModel Model;
     typedef QByteArray ByteArray;
     typedef QJsonObject Json;
-    virtual Json create(Model* model) const = 0;
-    virtual Model *create(const ByteArray &byteArray) const = 0;
-    virtual Model* create(const Json &d) const = 0;
+    virtual Json convert(Model* model) const = 0;
+    virtual Model *convert(const ByteArray &byteArray) const = 0;
+    virtual Model* convert(const Json &d) const = 0;
 };
 #endif // IJSONBUILDER_H

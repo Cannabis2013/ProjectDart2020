@@ -7,11 +7,11 @@ class IDartsInput;
 class IPlayer;
 class IDartsTournament;
 class AbsPlaCtx;
-class AbsDartsCtx : public QObject
+class AbstractDartsContext : public QObject
 {
     Q_OBJECT
 public:
-    virtual ~AbsDartsCtx() = default;
+    virtual ~AbstractDartsContext() = default;
     Q_INVOKABLE virtual QByteArray tournaments() = 0;
     Q_INVOKABLE virtual QByteArray tournament(const int &index) const = 0;
     Q_INVOKABLE virtual QByteArray tournament(const QString &id) const = 0;

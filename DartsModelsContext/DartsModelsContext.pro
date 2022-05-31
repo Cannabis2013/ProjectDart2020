@@ -31,7 +31,7 @@ HEADERS += \
     Routines/IDartsAddTournament.h \
     Routines/idartsrevealinput.h \
     Routines/igettournamentsasjson.h \
-    SLAs/absdartsctx.h \
+    SLAs/abstractdartscontext.h \
     SLAs/dartsmodelsroutines.h \
     SLAs/dartsmodelsservices.h \
     TournamentModels/dartsmetamodel.h \

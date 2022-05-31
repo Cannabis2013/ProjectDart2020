@@ -17,7 +17,7 @@ AssembleDPC::AssembleDPC()
     injectRoutines = new InjectDPCRoutines;
 }
 
-DartsController *AssembleDPC::assemble(AbsDartsCtx *modelsContext)
+DartsController *AssembleDPC::assemble(AbstractDartsContext *modelsContext)
 {
     auto dc = new DartsController;
     dc->setModelsContext(modelsContext);

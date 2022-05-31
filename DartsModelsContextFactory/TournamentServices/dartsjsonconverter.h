@@ -10,9 +10,9 @@
 class DartsJsonConverter : public IModelConverter<IModel<QUuid>>
 {
 public:
-    virtual Json create(Model *m) const override;
-    virtual Model *create(const ByteArray &byteArray) const override;
-    virtual Model *create(const Json &d) const override;
+    virtual Json convert(Model *m) const override;
+    virtual Model *convert(const ByteArray &byteArray) const override;
+    virtual Model *convert(const Json &d) const override;
 private:
     QJsonObject toJsonObject(IDartsTournament* model) const;
     void fromPlayerDetails(IModel<QUuid> *model, QJsonObject &obj) const;

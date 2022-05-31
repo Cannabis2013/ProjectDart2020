@@ -2,34 +2,35 @@
 
 IDartsCreateFinishes::AllTargetRows DartsCreateFinishes::constructRows() const
 {
-    AllTargetRows allTargetRows;
-    for (int turnIndex = 1; turnIndex <= attemptsService()->attempts(); ++turnIndex) {
-        auto remainingTurns = attemptsService()->attempts() - turnIndex;
-        auto currentPointLimit = remainingTurns*boundaries()->trippleMaxValue() + fieldValues()->bullsEye();
-        auto suggestions = new TargetRows;
-        for (int i = divisors()->doubleDivisor(); i <= currentPointLimit; ++i) {
-            auto firstSuggestion = constructRow(i,turnIndex);
-            if(firstSuggestion != QString())
-                suggestions->insert(i,firstSuggestion);
-        }
-        allTargetRows << suggestions;
-    }
-    return allTargetRows;
+            AllTargetRows allTargetRows;
+            for (int turnIndex = 1; turnIndex <= attemptsService()->attempts(); ++turnIndex) {
+                    auto remainingTurns = attemptsService()->attempts() - turnIndex;
+                    auto currentPointLimit = remainingTurns*boundaries()->trippleMaxValue() + fieldValues()->bullsEye();
+                    auto suggestions = new TargetRows;
+                    for (int i = divisors()->doubleDivisor(); i <= currentPointLimit; ++i) {
+                            auto firstSuggestion = constructRow(i,turnIndex);
+                            if(firstSuggestion != QString())
+                                    suggestions->insert(i,firstSuggestion);
+                    }
+                    allTargetRows << suggestions;
+            }
+            return allTargetRows;
 }
 
 QString DartsCreateFinishes::constructRow(const int &remainingScore, const int &turnIndex) const
 {
-    auto score = new ScoreModel;
-    score->multiplier = QVector<char>(attemptsService()->attempts(),'\0');
-    score->pointValue = QVector<int>(attemptsService()->attempts(),0);
-    bool hasADeterminedPath;
-    try {
-        hasADeterminedPath = suggestion(remainingScore,turnIndex,score);
-    } catch (std::exception *e) {
-        return QString();
-    }
-    if(hasADeterminedPath) return toString(score);
-    return QString();
+            auto score = new ScoreModel;
+            score->multiplier = QVector<char>(attemptsService()->attempts(),'\0');
+            score->pointValue = QVector<int>(attemptsService()->attempts(),0);
+            bool hasADeterminedPath;
+            try {
+                    hasADeterminedPath = suggestion(remainingScore,turnIndex,score);
+            } catch (std::exception *e) {
+                    return QString();
+            }
+            if(hasADeterminedPath)
+                    return toString(score);
+            return QString();
 }
 
 bool DartsCreateFinishes::suggestion(const int &remainingScore, const int &turnIndex,

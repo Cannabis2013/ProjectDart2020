@@ -57,6 +57,7 @@ SOURCES += \
     Finishes/dartscreatefinishes.cpp \
     Finishes/dcfinishbuilder.cpp \
     Finishes/defaultthresholds.cpp \
+    Index/dcindexconverter.cpp \
     Index/dscindexcontroller.cpp \
     Inputs/dcinputbuilder.cpp \
     Inputs/dcinputconverter.cpp \

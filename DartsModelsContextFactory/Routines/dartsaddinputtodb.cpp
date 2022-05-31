@@ -44,7 +44,7 @@ void DartsAddInputToDb::updateTournament(IDartsTournament *tournament, IDartsInd
 DartsAddInputToDb::Model *DartsAddInputToDb::createInput(const ByteArray &byteArray, DartsModelsServices *services) const
 {
     auto cvtr = services->inputServices()->inputConverter();
-    auto model = cvtr->create(byteArray);
+    auto model = cvtr->convert(byteArray);
     auto input = dynamic_cast<IDartsInput*>(model);
     input->setHint(DisplayHint);
     return input;

@@ -5,16 +5,17 @@
 #include "dartscontext.h"
 #include "Injectors/dartsplayerinjector.h"
 #include "Injectors/injectdartsroutines.h"
+
 CreateDartsContext::CreateDartsContext()
 {
-    tournamentInjector = new DartsTournamentInjector;
-    inputInjector = new DartsInputInjector;
-    indexInjector = new DartsIndexInjector;
-    injectPlaServices = new DartsPlayerInjector;
-    injectRoutineServices = new InjectDartsRoutines();
+        tournamentInjector = new DartsTournamentInjector;
+        inputInjector = new DartsInputInjector;
+        indexInjector = new DartsIndexInjector;
+        injectPlaServices = new DartsPlayerInjector;
+        injectRoutineServices = new InjectDartsRoutines();
 }
 
-AbsDartsCtx *CreateDartsContext::localJson(AbsPlaCtx *playersContext) const
+AbstractDartsContext *CreateDartsContext::localJson(AbsPlaCtx *playersContext) const
 {
     auto context = new DartsContext;
     context->setPlayersContext(playersContext);

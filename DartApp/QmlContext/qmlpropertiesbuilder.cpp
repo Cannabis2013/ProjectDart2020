@@ -6,7 +6,7 @@
 #include <qqmlapplicationengine.h>
 #include <qqmlcontext.h>
 #include "ContextSLA/absplactx.h"
-#include "SLAs/absdartsctx.h"
+#include "SLAs/abstractdartscontext.h"
 #include "Controller/idartsctrl.h"
 #include "SLAs/idartsstatistics.h"
 
@@ -25,7 +25,7 @@ public:
     QmlPropertiesBuilder::Properties createProperties()
     {
         Properties _props;
-        _props << createProperty<AbsDartsCtx>("dartsContext",_dartsContext);
+        _props << createProperty<AbstractDartsContext>("dartsContext",_dartsContext);
         _props << createProperty<IDartsCtrl>("dsController",_dsController);
         _props << createProperty<IDartsCtrl>("dpController",_dpController);
         _props << createProperty<AbsPlaCtx>("playersContext",_playerContext);
@@ -43,7 +43,7 @@ private:
     IDartsCtrl *_dpController;
     IDartsCtrl *_dsController;
     AbsPlaCtx *_playerContext;
-    AbsDartsCtx *_dartsContext;
+    AbstractDartsContext *_dartsContext;
     IDartsStatistics *_statistics;
 };
 

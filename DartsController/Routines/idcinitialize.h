@@ -5,7 +5,7 @@ struct DCInput;
 struct DCPlayer;
 struct DCMeta;
 class QUuid;
-class AbsDartsCtx;
+class AbstractDartsContext;
 class IDCInitialize
 {
 public:

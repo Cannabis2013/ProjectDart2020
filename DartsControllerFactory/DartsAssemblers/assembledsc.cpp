@@ -17,7 +17,7 @@ AssembleDSC::AssembleDSC()
     injectRoutines = new InjectDSCRoutines;
 }
 
-DartsController *AssembleDSC::assemble(AbsDartsCtx *modelsContext)
+DartsController *AssembleDSC::assemble(AbstractDartsContext *modelsContext)
 {
     auto dc = new DartsController;
     dc->setModelsContext(modelsContext);
