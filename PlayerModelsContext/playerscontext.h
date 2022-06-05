@@ -1,13 +1,13 @@
 #ifndef PLAYERSCONTEXT_H
 #define PLAYERSCONTEXT_H
 #include <QtConcurrent/QtConcurrent>
-#include "ContextSLA/absplactx.h"
+#include "ContextSLA/abstractplayercontext.h"
 #ifdef PlaCtxLib
    #define LIB_EXPORT Q_DECL_EXPORT
 #else
     #define LIB_EXPORT Q_DECL_IMPORT
 #endif
-class LIB_EXPORT PlayersContext : public AbsPlaCtx
+class LIB_EXPORT PlayersContext : public AbstractPlayerContext
 {
     Q_OBJECT
 public:

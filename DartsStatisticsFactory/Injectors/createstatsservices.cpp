@@ -1,7 +1,8 @@
 #include "createstatsservices.h"
-#include "SLAs/servicescontext.h"
-#include "Statistics/calculatemiddlevalue.h"
-#include "Statistics/updatescorerange.h"
+
+#include <DartsStatistics/StatsServices/StatsServices.h>
+#include <DartsStatisticsFactory/Statistics/calculatemiddlevalue.h>
+#include <DartsStatisticsFactory/Statistics/updatescorerange.h>
 
 StatsServices *CreateStatsServices::create() const
 {

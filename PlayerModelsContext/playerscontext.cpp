@@ -5,12 +5,12 @@
 #include "DbSLAs/isaveplayers.h"
 #include "ModelsSLAs/iduplicatechecker.h"
 #include "DataSLAs/ijsonbuilder.h"
-AbsPlaCtx::ByteArray PlayersContext::player(const QUuid &id) const
+AbstractPlayerContext::ByteArray PlayersContext::player(const QUuid &id) const
 {
     auto player = getPlayers()->player(id,dbCtx());
     return jsonBuilder()->create(player);
 }
-AbsPlaCtx::ByteArray PlayersContext::player(const QString &name) const
+AbstractPlayerContext::ByteArray PlayersContext::player(const QString &name) const
 {
     auto player = getPlayers()->player(name, dbCtx());
     return jsonBuilder()->create(player);
@@ -32,17 +32,17 @@ QByteArray PlayersContext::players()
     auto mds = dbCtx()->models();
     return jsonBuilder()->create(mds);
 }
-AbsPlaCtx::ByteArray PlayersContext::players(const QVector<int> &indexes) const
+AbstractPlayerContext::ByteArray PlayersContext::players(const QVector<int> &indexes) const
 {
     auto players =  getPlayers()->players(indexes,dbCtx());
     return jsonBuilder()->create(players);
 }
-AbsPlaCtx::ByteArray PlayersContext::players(const QVector<QUuid> &ids) const
+AbstractPlayerContext::ByteArray PlayersContext::players(const QVector<QUuid> &ids) const
 {
     auto players = getPlayers()->players(ids,dbCtx());
     return jsonBuilder()->create(players);
 }
-AbsPlaCtx::ByteArray PlayersContext::players(const QVector<QString> &names) const
+AbstractPlayerContext::ByteArray PlayersContext::players(const QVector<QString> &names) const
 {
     auto players =  getPlayers()->players(names,dbCtx());
     return jsonBuilder()->create(players);

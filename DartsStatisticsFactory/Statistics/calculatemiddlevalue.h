@@ -1,6 +1,8 @@
 #ifndef CALCULATEMIDDLEVALUE_H
 #define CALCULATEMIDDLEVALUE_H
-#include "StatsServices/CalcAverage/ICalcAverage.h"
+
+#include <DartsStatistics/StatsServices/CalcAverage/ICalcAverage.h>
+
 class CalculateMiddleValue : public ICalcAverage
 {
 public:

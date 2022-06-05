@@ -1,10 +1,12 @@
 #ifndef IDCINPUTEVALUATOR_H
 #define IDCINPUTEVALUATOR_H
 #include <qobject.h>
+
 struct DCIndex;
 struct DCPlayer;
 struct DCMeta;
 struct DCInput;
+
 class IDCInputEvaluator
 {
 public:

@@ -1,10 +1,13 @@
 #ifndef DCINPUTSSERVICES_H
 #define DCINPUTSSERVICES_H
-#include "Inputs/idcinputadder.h"
+
 #include "idcinputbuilder.h"
 #include "idcinputconverter.h"
 #include "idcinputevaluator.h"
-#include "Converters/idcjsontomodels.h"
+#include <DartsController/Converters/idcjsontomodels.h>
+
+class IDCInputAdder;
+
 class DCInputsServices
 {
 public:

@@ -1,12 +1,12 @@
 #ifndef DARTSCONTROLLER_H
 #define DARTSCONTROLLER_H
-#ifdef DARTSCONTROLLERLIB
-    #define DartsController_Export Q_DECL_EXPORT
-#else
-    #define DartsController_Export Q_DECL_IMPORT
-#endif
-#include "Controller/idartsctrl.h"
-class DartsController_Export DartsController :
+
+#include "idartsctrl.h"
+#include <DartsController/Routines/dartscontrollerroutines.h>
+#include <DartsController/ServicesProvider/dcservices.h>
+
+
+class  DartsController :
         public IDartsCtrl,
         public DartsControllerRoutines,
         public DCServices

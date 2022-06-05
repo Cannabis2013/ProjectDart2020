@@ -1,8 +1,8 @@
 #include "dartscontroller.h"
-#include "SLAs/abstractdartscontext.h"
-#include "Models/dcplayer.h"
-#include "Models/dcinput.h"
-#include "Models/dcmeta.h"
+
+#include <DartsController/Meta/dcmetaservices.h>
+
+#include <quuid.h>
 
 QString DartsController::tournamentId() const
 {

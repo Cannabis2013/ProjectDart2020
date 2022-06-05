@@ -1,10 +1,13 @@
 #ifndef PLAJSONBUILDER_H
 #define PLAJSONBUILDER_H
-#include "DbSLAs/iplayer.h"
-#include "DataSLAs/ijsonbuilder.h"
+
+#include <PlayerModelsContext/DataSLAs/ijsonbuilder.h>
+
+class IPlayer;
 class QJsonObject;
 class QJsonArray;
 class QByteArray;
+
 class PlaJsonBuilder : public IJsonBuilder<IPlayer>
 {
 public:

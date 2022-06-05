@@ -1,6 +1,8 @@
 #ifndef ICREATESNAPSHOT_H
 #define ICREATESNAPSHOT_H
+
 class QString;
+
 template<typename TInput>
 class ICreateSnapShot
 {

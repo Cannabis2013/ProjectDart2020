@@ -1,9 +1,9 @@
 #include "loadplayermodels.h"
 #include <QVector>
-#include "DbSLAs/IPlayersDbContext.h"
-#include "DbSLAs/iplayer.h"
-#include "DbSLAs/iplayerbuilder.h"
-#include "IOSLAs/ifiledataio.h"
+#include <DartsModelsContext/FileIOSLAs/ifiledataio.h>
+#include <PlayerModelsContext/DbSLAs/IPlayersDbContext.h>
+#include <PlayerModelsContext/DbSLAs/iplayerbuilder.h>
+
 bool LoadPlayerModels::fetch(DbCtx *dbCtx, ModelBuilder *builder, IODevice *ioDevice) const
 {
     auto json = ioDevice->read();
@@ -13,7 +13,7 @@ bool LoadPlayerModels::fetch(DbCtx *dbCtx, ModelBuilder *builder, IODevice *ioDe
 }
 void LoadPlayerModels::fetchDb(const QVector<Model *> &models, DbCtx *dbCtx) const
 {
-    for (const auto &model : models)
-        dbCtx->add(model);
+        for (const auto &model : models)
+                dbCtx->add(model);
 }
 

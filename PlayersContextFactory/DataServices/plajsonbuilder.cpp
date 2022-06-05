@@ -3,6 +3,7 @@
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 #include <qbytearray.h>
+#include <PlayerModelsContext/DbSLAs/iplayer.h>
 PlaJsonBuilder::ByteArray PlaJsonBuilder::create(const Models &models, ByteArray &data) const
 {
     auto obj = toJsonObject(data);
@@ -28,13 +29,13 @@ QJsonArray PlaJsonBuilder::toJsonArray(const Models &models) const
 
 QJsonObject PlaJsonBuilder::toJsonObject(Model *model) const
 {
-    if(model == nullptr)
-        throw new std::invalid_argument("Model is null");
-    QJsonObject obj;
-    obj["id"] = model->id().toString(QUuid::WithoutBraces);
-    obj["name"] = model->name();
-    obj["mail"] = model->mail();
-    return obj;
+        if(model == nullptr)
+                throw new std::invalid_argument("Model is null");
+        QJsonObject obj;
+        obj["id"] = model->id().toString(QUuid::WithoutBraces);
+        obj["name"] = model->name();
+        obj["mail"] = model->mail();
+        return obj;
 }
 
 QJsonObject PlaJsonBuilder::toJsonObject(ByteArray &data) const

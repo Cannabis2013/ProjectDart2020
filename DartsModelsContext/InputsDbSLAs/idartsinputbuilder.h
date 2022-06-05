@@ -1,7 +1,9 @@
 #ifndef IDARTSINPUTBUILDER_H
 #define IDARTSINPUTBUILDER_H
+
 class IDartsInput;
 class QUuid;
+
 class IDartsInputBuilder
 {
 public:

@@ -1,7 +1,6 @@
 #ifndef IDCINDEXCONTROLLER_H
 #define IDCINDEXCONTROLLER_H
-struct DCIndex;
-struct DCMeta;
+
 template<typename TIndex, typename TMeta>
 class IDCIndexController
 {

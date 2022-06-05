@@ -1,14 +1,22 @@
 #ifndef DARTSINPUTSERVICES_H
 #define DARTSINPUTSERVICES_H
 
-#include "InputSLAs/icountinputmodels.h"
-#include "InputSLAs/isortinputmodels.h"
-#include "InputModelsSLAs/idartsinput.h"
+#include "icountinputmodels.h"
+#include "isortinputmodels.h"
+
 #include <qjsonobject.h>
-#include "InputsDbSLAs/idartsinputbuilder.h"
-#include "InputsDbSLAs/igetinputs.h"
-#include "InputsDbSLAs/iremovedartsinputs.h"
-#include "DbSLAs/imodelconverter.h"
+
+#include <DartsModelsContext/DbSLAs/idbcontext.h>
+#include <DartsModelsContext/DbSLAs/imodelconverter.h>
+
+#include <DartsModelsContext/InputsDbSLAs/idartsinputbuilder.h>
+#include <DartsModelsContext/InputsDbSLAs/igetinputs.h>
+#include <DartsModelsContext/InputsDbSLAs/iremovedartsinputs.h>
+
+struct DartsMetaModel;
+class IDartsIndex;
+class IDartsInput;
+template<typename T>class IModel;
 
 class DartsInputServices
 {

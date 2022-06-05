@@ -1,10 +1,13 @@
 #ifndef RESETSTATSCONTEXT_H
 #define RESETSTATSCONTEXT_H
-#include "Routines/iresetmodels.h"
+
+#include <DartsStatistics/Routines/iresetmodels.h>
+
 struct CurrentStat;
 template<typename T> class IStatsDb;
 struct SnapShot;
 class ServicesContext;
+
 class ResetStatsContext : public IResetModels
 {
 public:
@@ -15,7 +18,7 @@ public:
 private:
     void resetCurrentStats();
     StatsDb *_statsDb;
-    IptDb *_iptDb;
+    IptDb *_inputDb;
 };
 
 #endif // RESETSTATSCONTEXT_H

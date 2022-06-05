@@ -1,12 +1,15 @@
 #ifndef ABSDARTSCTX_H
 #define ABSDARTSCTX_H
+
 #include <qobject.h>
 #include "dartsmodelsservices.h"
+
 class IDartsIndex;
 class IDartsInput;
 class IPlayer;
 class IDartsTournament;
-class AbsPlaCtx;
+class AbstractPlayerContext;
+
 class AbstractDartsContext : public QObject
 {
     Q_OBJECT

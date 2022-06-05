@@ -2,8 +2,9 @@
 #include "Injectors/createstatisticprovider.h"
 #include "Injectors/injectstatsroutines.h"
 #include "Injectors/createsnapshotsprovider.h"
-#include "dartsstatistics.h"
 #include "Injectors/createstatsservices.h"
+#include <DartsStatistics/dartsstatistics.h>
+
 IDartsStatistics *CreateDartsStatistics::create() const
 {
     auto context = new DartsStatistics;

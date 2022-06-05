@@ -1,10 +1,13 @@
 #ifndef FTPTOURNAMENTMODELINTERFACE_H
 #define FTPTOURNAMENTMODELINTERFACE_H
-#include "ModelSLAs/imodel.h"
+
+#include <DartsModelsContext/ModelSLAs/imodel.h>
+
 template<typename T>
 class QVector;
 class QString;
 class QUuid;
+
 class IDartsTournament : public IModel<QUuid>
 {
 public:

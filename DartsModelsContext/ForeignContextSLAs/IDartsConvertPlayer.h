@@ -2,7 +2,7 @@
 #define IDARTSCONVERTPLAYER_H
 class QJsonObject;
 template<typename T> class QVector;
-class DartsPlayer;
+struct DartsPlayer;
 class QByteArray;
 class IDartsConvertPlayer
 {

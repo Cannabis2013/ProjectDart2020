@@ -1,6 +1,8 @@
 #ifndef CREATESTATMODEL_H
 #define CREATESTATMODEL_H
-#include "Players/ICreateStatModel.h"
+
+#include <DartsStatistics/Players/ICreateStatModel.h>
+
 struct CurrentStat;
 class CreateStatModel : public ICreateStatModel<CurrentStat>
 {

@@ -1,19 +1,21 @@
 #ifndef DARTSMODELSROUTINES_H
 #define DARTSMODELSROUTINES_H
 
-#include "Routines/IDartsAddTournament.h"
-#include "Routines/idartsremovetournaments.h"
-#include "Routines/idartsresettournament.h"
-#include "ModelSLAs/imodel.h"
-#include "Routines/idartsinputstojson.h"
-#include "Routines/IDartsHideInput.h"
-#include "Routines/idartsrevealinput.h"
-#include "Routines/idartsaddinputtodb.h"
-#include "Routines/idartsinputtojson.h"
-#include "Routines/IDartsSetWinner.h"
-#include "Routines/igettournamentasjson.h"
-#include "Routines/igettournamentsasjson.h"
-#include "Routines/itournamentrepair.h"
+#include <DartsModelsContext/Routines/IDartsAddTournament.h>
+#include <DartsModelsContext/Routines/IDartsHideInput.h>
+#include <DartsModelsContext/Routines/IDartsSetWinner.h>
+#include <DartsModelsContext/Routines/idartsaddinputtodb.h>
+#include <DartsModelsContext/Routines/idartsinputstojson.h>
+#include <DartsModelsContext/Routines/idartsinputtojson.h>
+#include <DartsModelsContext/Routines/idartsremovetournaments.h>
+#include <DartsModelsContext/Routines/idartsresettournament.h>
+#include <DartsModelsContext/Routines/idartsrevealinput.h>
+#include <DartsModelsContext/Routines/igettournamentasjson.h>
+#include <DartsModelsContext/Routines/igettournamentsasjson.h>
+#include <DartsModelsContext/Routines/itournamentrepair.h>
+
+
+template<typename T> class IModel;
 
 class DartsModelsRoutines
 {

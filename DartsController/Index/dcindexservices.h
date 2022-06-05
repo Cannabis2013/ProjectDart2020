@@ -1,7 +1,12 @@
 #ifndef DCINDEXSERVICES_H
 #define DCINDEXSERVICES_H
+
 #include "idcindexcontroller.h"
-#include "Converters/idcmodeltojson.h"
+#include <DartsController/Converters/idcmodeltojson.h>
+
+struct DCMeta;
+struct DCIndex;
+
 class DCIndexServices
 {
 public:

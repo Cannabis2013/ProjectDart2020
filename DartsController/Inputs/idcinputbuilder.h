@@ -1,9 +1,11 @@
 #ifndef IDCINPUTBUILDER_H
 #define IDCINPUTBUILDER_H
-#include "Converters/idcjsontomodel.h"
-#include "Converters/idcmodeltojson.h"
+
+
+class QJsonObject;
 class QString;
 class QByteArray;
+
 template<typename TModel>
 class IDCInputBuilder
 {

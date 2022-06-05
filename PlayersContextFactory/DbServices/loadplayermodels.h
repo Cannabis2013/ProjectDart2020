@@ -1,6 +1,10 @@
 #ifndef LOADPLAYERMODELS_H
 #define LOADPLAYERMODELS_H
-#include "DbSLAs/ifetchdb.h"
+
+#include <PlayerModelsContext/DbSLAs/ifetchdb.h>
+
+
+
 class QByteArray;
 template<typename T>
 class IPlayersDbContext;
@@ -10,12 +14,14 @@ template<typename T, typename U>
 class IPlayerBuilder;
 template<typename T>
 class QVector;
+
 namespace LdPlaMds
 {
     typedef IPlayersDbContext<IPlayer> DbCtx;
     typedef IFileDataIO IODevice;
     typedef IPlayerBuilder<IPlayer,QByteArray> MdBuilder;
 }
+
 class LoadPlayerModels : public IFetchDb<LdPlaMds::DbCtx,LdPlaMds::IODevice,LdPlaMds::MdBuilder>
 {
 public:

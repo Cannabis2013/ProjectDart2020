@@ -1,6 +1,8 @@
 #ifndef IDARTSINPUT_H
 #define IDARTSINPUT_H
-#include "InputModelsSLAs/iplayerinput.h"
+
+#include "iplayerinput.h"
+
 class IDartsInput : public IPlayerInput
 {
 public:

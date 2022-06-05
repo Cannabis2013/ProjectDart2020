@@ -1,8 +1,12 @@
 #ifndef DCMETASERVICES_H
 #define DCMETASERVICES_H
+
 #include "idcmetaconverter.h"
 #include "idcmetabuilder.h"
 #include "idcmetamanager.h"
+
+struct DCMeta;
+
 class DCMetaServices
 {
 public:

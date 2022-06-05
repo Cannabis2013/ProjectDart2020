@@ -1,6 +1,8 @@
 #ifndef IDCMETACONVERTER_H
 #define IDCMETACONVERTER_H
+
 class QByteArray;
+
 template<typename TMetaModel>
 class IDCMetaConverter
 {

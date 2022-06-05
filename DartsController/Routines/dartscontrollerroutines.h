@@ -7,8 +7,8 @@
 #include "idccreatewinnerjson.h"
 #include "idcgetturnvaluesasjson.h"
 #include "idcgetscoresasjson.h"
-#include "Routines/idcinitialize.h"
-#include "Inputs/idcinputevaluator.h"
+#include "idcinitialize.h"
+
 class DartsControllerRoutines
 {
 public:

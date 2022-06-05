@@ -5,6 +5,7 @@ template<typename T>
 class QVector;
 class QUuid;
 template<typename TModel>
+
 class IGetDartsTournament
 {
 public:

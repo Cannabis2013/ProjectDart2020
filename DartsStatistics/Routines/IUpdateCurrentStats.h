@@ -7,9 +7,9 @@ class IUpdateCurrentStats
 {
 public:
     typedef TInput Ipt;
-    typedef QVector<Ipt> Ipts;
+    typedef QVector<Ipt> Inputs;
     virtual void update(Ipt &input) = 0;
-    virtual void update(Ipts &inputs) = 0;
+    virtual void update(Inputs &inputs) = 0;
 };
 
 #endif // IADDSTATSTOPLAYER_H

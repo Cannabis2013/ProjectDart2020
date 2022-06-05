@@ -1,10 +1,14 @@
 #ifndef DARTSSTATSSERVICES_H
 #define DARTSSTATSSERVICES_H
+
 #include "CalcAverage/ICalcAverage.h"
-#include "StatsServices/ScoreRange/iupdatescorerange.h"
+
+#include <DartsStatistics/StatsServices/ScoreRange/iupdatescorerange.h>
+
 struct CurrentStat;
 class IMirrorsDb;
-class SnapShot;
+struct SnapShot;
+
 class StatsServices
 {
 public:

@@ -1,6 +1,8 @@
 #ifndef CURRENTSTAT_H
 #define CURRENTSTAT_H
+
 #include <qstring.h>
+
 struct CurrentStat
 {
     QString name;

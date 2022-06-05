@@ -1,11 +1,16 @@
 #ifndef DCPLAYERSCORESSLAS_H
 #define DCPLAYERSCORESSLAS_H
-#include "Players/idcplayermanager.h"
+
 #include <qbytearray.h>
 #include <qjsonobject.h>
-#include "Converters/idcjsontomodel.h"
-#include "Converters/idcjsontomodels.h"
-#include "Converters/idcmodeltojson.h"
+
+#include <DartsController/Models/dcplayer.h>
+
+struct DCInput;
+template<typename  T, typename U>class IDCPlayerManager;
+template<typename  T> class IDCJsonToModels;
+template<typename  T> class IDCJsonToModel;
+template<typename  T> class IDCModelToJson;
 
 class DCPlayersServices
 {
@@ -20,23 +25,12 @@ public:
     void setPlayerConverter(JsonToPlayer *service) {_playerConverter = service;}
     ByteArrayToPlayers *jsonToPlayers() const {return _convertPlayers;}
     void setConvertPlayers(ByteArrayToPlayers *service) {_convertPlayers = service;}
-    PlayerToJson *playerToJson() const;
-    void setPlayerToJson(PlayerToJson *newPlayerToJson);
-
+    PlayerToJson *playerToJson() const {return _playerToJson;}
+    void setPlayerToJson(PlayerToJson *newPlayerToJson) {_playerToJson = newPlayerToJson;}
 private:
     ByteArrayToPlayers *_convertPlayers;
     JsonToPlayer *_playerConverter;
     PlayerManager *_playerManager;
     PlayerToJson *_playerToJson;
 };
-
-inline DCPlayersServices::PlayerToJson *DCPlayersServices::playerToJson() const
-{
-    return _playerToJson;
-}
-
-inline void DCPlayersServices::setPlayerToJson(DCPlayersServices::PlayerToJson *newPlayerToJson)
-{
-    _playerToJson = newPlayerToJson;
-}
 #endif // DSCSCORESERVICESPROVIDER_H

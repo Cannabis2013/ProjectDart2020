@@ -1,9 +1,12 @@
 #ifndef STATSMEMORY_H
 #define STATSMEMORY_H
-#include "Db/istatsdb.h"
+
 #include <QVector>
+#include <DartsStatistics/Db/istatsdb.h>
+
 struct CurrentStat;
-struct IMirrorsDb;
+class IMirrorsDb;
+
 class StatsMemory : public IStatsDb<CurrentStat>
 {
 public:

@@ -1,9 +1,14 @@
 #ifndef SERVICESCONTEXT_H
 #define SERVICESCONTEXT_H
-#include "Players/statisticservices.h"
-#include "Inputs/snapshotsservices.h"
-#include "StatsServices/StatsServices.h"
-#include "Routines/routineservices.h"
+
+#include <DartsStatistics/Players/statisticservices.h>
+
+#include <DartsStatistics/Inputs/snapshotsservices.h>
+
+#include <DartsStatistics/StatsServices/StatsServices.h>
+
+#include <DartsStatistics/Routines/routineservices.h>
+
 class ServicesContext
 {
 public:

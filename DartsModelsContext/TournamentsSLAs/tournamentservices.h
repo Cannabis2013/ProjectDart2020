@@ -1,16 +1,17 @@
 #ifndef TOURNAMENTSERVICES_H
 #define TOURNAMENTSERVICES_H
 
-#include "TournamentsSLAs/iwinnerinfobuilder.h"
 #include "idartsconsistency.h"
 #include "idartscreatemeta.h"
 #include "igettournamentids.h"
-#include "DbSLAs/imodelconverter.h"
-#include "TournamentsDbSLAs/igetdartstournament.h"
-#include "TournamentsDbSLAs/idartsbuilder.h"
-#include "DbSLAs/idbcontext.h"
-#include "Routines/IDartsSetWinner.h"
-#include "ModelSLAs/imodel.h"
+#include "iwinnerinfobuilder.h"
+#include <DartsModelsContext/DbSLAs/idbcontext.h>
+#include <DartsModelsContext/DbSLAs/imodelconverter.h>
+#include <DartsModelsContext/TournamentsDbSLAs/idartsbuilder.h>
+#include <DartsModelsContext/TournamentsDbSLAs/igetdartstournament.h>
+#include <DartsModelsContext/Routines/IDartsSetWinner.h>
+
+template<typename T> class IModel;
 
 class TournamentServices
 {

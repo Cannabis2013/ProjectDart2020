@@ -1,10 +1,17 @@
 #ifndef DARTSMODELSSERVICES_H
 #define DARTSMODELSSERVICES_H
-#include "ForeignContextSLAs/DartsPlayerServices.h"
-#include "TournamentsSLAs/tournamentservices.h"
-#include "InputSLAs/dartsinputservices.h"
-#include "IndexesSLAs/dartsindexservices.h"
-#include "ContextSLA/absplactx.h"
+
+#include <DartsModelsContext/TournamentsSLAs/tournamentservices.h>
+
+#include <DartsModelsContext/InputSLAs/dartsinputservices.h>
+
+#include <DartsModelsContext/IndexesSLAs/dartsindexservices.h>
+
+#include <DartsModelsContext/ForeignContextSLAs/DartsPlayerServices.h>
+
+#include <PlayerModelsContext/ContextSLA/abstractplayercontext.h>
+
+
 class DartsModelsServices
 {
 public:
@@ -20,13 +27,13 @@ public:
         DartsPlayerServices *playerServices() const {return _playerServices;}
         void setPlayerServices(DartsPlayerServices *service) {_playerServices = service;}
 
-        AbsPlaCtx *playersContext() const {return _playersContext;}
-        void setPlayersContext(AbsPlaCtx *newPlayersContext) {_playersContext = newPlayersContext;}
+        AbstractPlayerContext *playersContext() const {return _playersContext;}
+        void setPlayersContext(AbstractPlayerContext *newPlayersContext) {_playersContext = newPlayersContext;}
 private:
         TournamentServices *_tournamentServices;
         DartsInputServices *_inputServices;
         DartsIndexServices *_indexServices;
         DartsPlayerServices *_playerServices;
-        AbsPlaCtx *_playersContext;
+        AbstractPlayerContext *_playersContext;
 };
 #endif // DARTSMODELSSERVICES_H

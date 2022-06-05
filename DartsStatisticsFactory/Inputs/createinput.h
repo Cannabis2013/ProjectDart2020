@@ -1,7 +1,10 @@
 #ifndef CREATEINPUT_H
 #define CREATEINPUT_H
-#include "Inputs/icreatesnapshot.h"
+
+#include <DartsStatistics/Inputs/icreatesnapshot.h>
+
 struct SnapShot;
+
 class CreateInput : public ICreateSnapShot<SnapShot>
 {
 public:

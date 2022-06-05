@@ -1,11 +1,13 @@
 #ifndef CREATESTATSREPORT_H
 #define CREATESTATSREPORT_H
-#include "Report/icreatereport.h"
+
+#include <DartsStatistics/Report/icreatereport.h>
 
 struct CurrentStat;
 class IMirrorsDb;
 template<typename T> class IStatsDb;
 class ServicesContext;
+
 class CreateStatsReport : public ICreateReport
 {
 public:

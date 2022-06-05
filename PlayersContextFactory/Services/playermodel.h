@@ -1,7 +1,9 @@
 #ifndef PLAYER_H
 #define PLAYER_H
+
 #include <quuid.h>
-#include "DbSLAs/iplayer.h"
+#include <PlayerModelsContext/DbSLAs/iplayer.h>
+
 class PlayerModel : public IPlayer
 {
 public:

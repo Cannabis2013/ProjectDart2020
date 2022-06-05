@@ -1,8 +1,11 @@
 #ifndef PLAYERSDBCONTEXT_H
 #define PLAYERSDBCONTEXT_H
+
 #include <qvector.h>
-#include "DbSLAs/IPlayersDbContext.h"
+#include <PlayerModelsContext/DbSLAs/IPlayersDbContext.h>
+
 class IPlayer;
+
 class PlayersDbContext : public IPlayersDbContext<IPlayer>
 {
 public:

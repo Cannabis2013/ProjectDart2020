@@ -1,8 +1,8 @@
 #ifndef IDARTSCTRL_H
 #define IDARTSCTRL_H
+
 #include <qobject.h>
-#include "ServicesProvider/dcservices.h"
-class AbstractDartsContext;
+
 class IDartsCtrl : public QObject
 {
     Q_OBJECT

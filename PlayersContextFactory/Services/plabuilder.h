@@ -1,9 +1,12 @@
 #ifndef PLABUILDER_H
 #define PLABUILDER_H
-#include "DbSLAs/iplayerbuilder.h"
+
+#include <PlayerModelsContext/DbSLAs/iplayerbuilder.h>
+
 class PlayerModel;
 class IPlayer;
 class QByteArray;
+
 class PlaBuilder : public IPlayerBuilder<IPlayer,QByteArray>
 {
 public:

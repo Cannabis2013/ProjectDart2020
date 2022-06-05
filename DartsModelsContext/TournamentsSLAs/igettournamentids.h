@@ -1,5 +1,6 @@
 #ifndef IGETDARTSTOURNAMENTIDS_H
 #define IGETDARTSTOURNAMENTIDS_H
+
 class QUuid;
 template<typename T>
 class QVector;

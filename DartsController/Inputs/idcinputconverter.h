@@ -1,7 +1,9 @@
 #ifndef IDCINPUTCONVERTER_H
 #define IDCINPUTCONVERTER_H
-#include "Converters/idcjsontomodel.h"
-#include "Converters/idcmodeltojson.h"
+
+#include <DartsController/Converters/idcjsontomodel.h>
+#include <DartsController/Converters/idcmodeltojson.h>
+
 template<typename TModel>
 class IDCInputConverter : public IDCJsonToModel<TModel>, public IDCModelToJson<TModel>
 {

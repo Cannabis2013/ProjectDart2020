@@ -1,8 +1,12 @@
 #ifndef INPUTSDB_H
 #define INPUTSDB_H
-#include "Db/istatsdb.h"
+
 #include <qvector.h>
+
+#include <DartsStatistics/Db/istatsdb.h>
+
 struct SnapShot;
+
 class InputsDb : public IStatsDb<SnapShot>
 {
 public:

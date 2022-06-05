@@ -1,8 +1,9 @@
 #ifndef IDCMETAMANAGER_H
 #define IDCMETAMANAGER_H
+
 class QUuid;
 class QString;
-struct DCMeta;
+
 template<typename TMeta>
 class IDCMetaManager
 {
@@ -15,7 +16,7 @@ public:
         AwaitsInput
     };
     virtual void setMeta(const QUuid &id, const int &initialRemaining) = 0;
-    virtual void setMeta(const DCMeta &meta) = 0;
+    virtual void setMeta(const Meta &meta) = 0;
     virtual int initRemScore() const = 0;
     virtual int status() const = 0;
     virtual void setStatus(const int &status) = 0;

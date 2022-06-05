@@ -1,11 +1,18 @@
 #ifndef DCSERVICES_H
 #define DCSERVICES_H
-#include "Routines/dartscontrollerroutines.h"
-#include "Index/dcindexservices.h"
-#include "Players/dcplayersservices.h"
-#include "Meta/dcmetaservices.h"
-#include "Inputs/dcinputsservices.h"
-#include "Finishes/dcfinishesservices.h"
+
+
+
+
+
+
+class DCIndexServices;
+class DCPlayersServices;
+class DCInputsServices;
+class DCFinishServices;
+class DCMetaServices;
+class AbstractDartsContext;
+
 class DCServices
 {
 public:

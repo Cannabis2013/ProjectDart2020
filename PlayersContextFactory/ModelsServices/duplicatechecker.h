@@ -1,12 +1,15 @@
 #ifndef DUPLICATECHECKER_H
 #define DUPLICATECHECKER_H
-#include "ModelsSLAs/iduplicatechecker.h"
+
+#include <PlayerModelsContext/ModelsSLAs/iduplicatechecker.h>
+
 template<typename T>
 class QVector;
 class QString;
 template<typename T>
 class IPlayersDbContext;
 class IPlayer;
+
 class DuplicateChecker : public IDuplicateChecker<IPlayer,IPlayersDbContext<IPlayer>>
 {
 public:

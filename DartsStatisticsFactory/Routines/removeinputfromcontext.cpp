@@ -1,40 +1,40 @@
 #include "removeinputfromcontext.h"
-#include "SLAs/servicescontext.h"
 #include <qvector.h>
 #include <qdebug.h>
-#include "Players/ICreateStatModel.h"
+#include <DartsStatistics/SLAs/servicescontext.h>
+#include <DartsStatistics/Db/istatsdb.h>
 
 RemoveInputFromContext::RemoveInputFromContext(ServicesContext *provider)
 {
-    _mirrorsDb = provider->statisticServices()->statModels();
-    _iptsDb = provider->snapShotServices()->snapShotsDb();
-    _createMirror = provider->statisticServices()->createStatistic();
+        _mirrorsDb = provider->statisticServices()->statModels();
+        _iptsDb = provider->snapShotServices()->snapShotsDb();
+        _createMirror = provider->statisticServices()->createStatistic();
 }
 
 bool RemoveInputFromContext::remove(const QString &name)
 {
-    CurrentStat *mirror;
-    CurrentStat newMirror;
-    SnapShot ipt;
-    try {
-        mirror = &_mirrorsDb->model([=](const CurrentStat &m){return m.name == name;});
-        auto ipt = getInputByN(name,mirror->n);
-    }  catch (std::exception *e) {
-        qDebug() << e->what();
-        return false;
-    }
-    auto indexOfInput = _iptsDb->indexOf(ipt);
-    _iptsDb->remove(indexOfInput);
-    SnapShot newLastIpt;
-    try {
-        newMirror = getInputByN(name,mirror->n - 1).stats;
-    }  catch (std::exception *e) {
-        newMirror = _createMirror->create(name);
-        qDebug() << e->what();
-        return false;
-    }
-    *mirror = newMirror;
-    return true;
+        CurrentStat *mirror;
+        CurrentStat newMirror;
+        SnapShot ipt;
+        try {
+                mirror = &_mirrorsDb->model([=](const CurrentStat &m){return m.name == name;});
+                auto ipt = getInputByN(name,mirror->n);
+        }  catch (std::exception *e) {
+                qDebug() << e->what();
+                return false;
+        }
+        auto indexOfInput = _iptsDb->indexOf(ipt);
+        _iptsDb->remove(indexOfInput);
+        SnapShot newLastIpt;
+        try {
+                newMirror = getInputByN(name,mirror->n - 1).stats;
+        }  catch (std::exception *e) {
+                newMirror = _createMirror->create(name);
+                qDebug() << e->what();
+                return false;
+        }
+        *mirror = newMirror;
+        return true;
 }
 
 SnapShot RemoveInputFromContext::getInputByN(const QString &name, const int &n)

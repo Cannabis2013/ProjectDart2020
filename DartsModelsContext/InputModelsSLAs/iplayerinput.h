@@ -1,6 +1,8 @@
 #ifndef ISCORE_H
 #define ISCORE_H
-#include <ModelSLAs/imodel.h>
+
+#include <DartsModelsContext/ModelSLAs/imodel.h>
+
 class QString;
 class QUuid;
 class IPlayerInput : public IModel<QUuid>

@@ -1,7 +1,9 @@
 #ifndef IMODEL_H
 #define IMODEL_H
+
 #include <quuid.h>
 #include <qstring.h>
+
 class IPlayer
 {
 public:

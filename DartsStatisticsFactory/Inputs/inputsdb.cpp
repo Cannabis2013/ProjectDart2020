@@ -1,5 +1,5 @@
 #include "inputsdb.h"
-#include "Inputs/Models/snapshot.h"
+#include <DartsStatistics/Inputs/Models/snapshot.h>
 
 void InputsDb::add(const Model &model)
 {
@@ -8,8 +8,8 @@ void InputsDb::add(const Model &model)
 
 void InputsDb::add(const Models &models)
 {
-    for (const auto &model : models)
-        _models.append(model);
+        for (const auto &model : models)
+                _models.append(model);
 }
 
 InputsDb::Model &InputsDb::model(const int &index)

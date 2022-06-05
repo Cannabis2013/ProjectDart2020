@@ -1,8 +1,10 @@
 #ifndef DARTSTOURNAMENT_H
 #define DARTSTOURNAMENT_H
+
 #include <quuid.h>
 #include <qvector.h>
-#include "TournamentModelsSLAs/idartstournament.h"
+#include <DartsModelsContext/TournamentModelsSLAs/idartstournament.h>
+
 class DartsTournament : public IDartsTournament
 {
 public:

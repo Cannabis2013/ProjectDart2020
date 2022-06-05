@@ -1,9 +1,12 @@
 #ifndef GETPLAYERSFROMDB_H
 #define GETPLAYERSFROMDB_H
-#include "DbSLAs/igetplayerfromdb.h"
+
+#include <PlayerModelsContext/DbSLAs/igetplayerfromdb.h>
+
 template<typename T>
 class IPlayersDbContext;
 class IPlayer;
+
 class GetPlayersFromDb : public IGetPlayersFromDb<IPlayer,IPlayersDbContext<IPlayer>>
 {
 public:
