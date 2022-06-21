@@ -3,11 +3,11 @@
 #include "QmlContext/qmlpropertiesbuilder.h"
 #include <QtQuick/QQuickView>
 #include <qqmlcontext.h>
-#include "SetupQmlApp/registerqmldartstabletypes.h"
-#include "SetupQmlApp/registerqmlsingletons.h"
-#include "SetupQmlApp/registerqmltableutils.h"
-#include "SetupQmlApp/setupqmlcontext.h"
-#include "SetupQmlApp/registerqmltypes.h"
+#include "QmlContext/registerqmldartstabletypes.h"
+#include "QmlContext/registerqmlsingletons.h"
+#include "QmlContext/registerqmltableutils.h"
+#include "QmlContext/setupqmlcontext.h"
+#include "QmlContext/registerqmltypes.h"
 int main(int argc, char *argv[])
 {
     // Configure for devices that supports hidp resolutions

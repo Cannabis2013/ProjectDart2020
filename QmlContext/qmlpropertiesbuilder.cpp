@@ -1,12 +1,12 @@
 #include "qmlpropertiesbuilder.h"
-#include <DartsStatisticsFactory/createdartsstatistics.h>
-#include <PlayersContextFactory/createplayerscontext.h>
-#include <LocalDartsModelsContext/localdartsmodelscontext.h>
-#include <LocalDartsController/ControllerBuilder/localdartscontrollers.h>
-#include <PlayerModelsContext/ContextSLA/abstractplayercontext.h>
-#include <DartsModelsContext/SLAs/abstractdartscontext.h>
-#include <DartsController/Controller/idartsctrl.h>
-#include <DartsStatistics/SLAs/idartsstatistics.h>
+#include <PlayerModelsContext/PlayerContextWithJson/CreatePlayerContext/createplayerscontext.h>
+#include <DartsModelsContext/LocalDartsModelsContext/localdartsmodelscontext.h>
+#include <PlayerModelsContext/Contracts/ContextSLA/abstractplayercontext.h>
+#include <DartsModelsContext/Contracts/abstractdartscontext.h>
+#include <DartsStatistics/Contracts/SLAs/idartsstatistics.h>
+#include <DartsController/Contracts/Controller/idartsctrl.h>
+#include <DartsController/LocalDartsController/localdartscontrollers.h>
+#include <DartsStatistics/DartsStatisticsImp/CreateDartsStatistics/createdartsstatistics.h>
 
 class QmlPropertiesBuilder::Imp
 {
