@@ -1,10 +1,9 @@
 #ifndef IDCPLAYERMANAGER_H
 #define IDCPLAYERMANAGER_H
 
-template<typename T> class QVector;
+#include <QVector>
+
 struct DCIndex;
-class QString;
-class QStringList;
 
 template<typename TPlayer,typename TInput>
 class IDCPlayerManager

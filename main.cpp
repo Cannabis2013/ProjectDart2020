@@ -1,17 +1,13 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-#include "QmlContext/qmlpropertiesbuilder.h"
 #include <QtQuick/QQuickView>
-#include <qqmlcontext.h>
-#include "QmlContext/registerqmldartstabletypes.h"
-#include "QmlContext/registerqmlsingletons.h"
-#include "QmlContext/registerqmltableutils.h"
-#include "QmlContext/setupqmlcontext.h"
+#include "QmlContext/qmlpropertiesbuilder.h"
 #include "QmlContext/registerqmltypes.h"
+#include "QmlContext/setupqmlcontext.h"
+#include <qqmlcontext.h>
+
 int main(int argc, char *argv[])
 {
-    // Configure for devices that supports hidp resolutions
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     // Setup main event loop and qml context
     QGuiApplication app(argc, argv);
     // Register custom typQStringLiterales

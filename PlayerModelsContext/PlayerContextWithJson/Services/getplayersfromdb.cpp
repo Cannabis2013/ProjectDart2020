@@ -28,7 +28,7 @@ QVector<IPlayer *> GetPlayersFromDb::players(const QVector<int> &indexes, const 
 
 GetPlayersFromDb::Players GetPlayersFromDb::players(const QVector<QUuid> &ids, const DbContext *dbContext) const
 {
-        auto models = dbContext->models([ids](Player* m){return ids.contains(m->name());});
+        auto models = dbContext->models([ids](Player *m) { return ids.contains(m->id()); });
         return convert(models);
 }
 

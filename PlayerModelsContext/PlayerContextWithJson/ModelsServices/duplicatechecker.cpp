@@ -1,5 +1,4 @@
 #include "duplicatechecker.h"
-#include <qvector.h>
 #include <PlayerModelsContext/Contracts/DbSLAs/IPlayersDbContext.h>
 #include <PlayerModelsContext/Contracts/DbSLAs/iplayer.h>
 

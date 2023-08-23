@@ -1,9 +1,8 @@
 #ifndef IGETDARTSTOURNAMENT_H
 #define IGETDARTSTOURNAMENT_H
 
-template<typename T>
-class QVector;
-class QUuid;
+#include <quuid.h>
+
 template<typename TModel>
 
 class IGetDartsTournament

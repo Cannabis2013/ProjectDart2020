@@ -1,11 +1,11 @@
 #ifndef IDBCONTEXT_H
 #define IDBCONTEXT_H
+
+#include <QVector>
 #include <functional>
 
 #include <DartsModelsContext/Contracts/Db/ipersistence.h>
 
-template<typename T>
-class QVector;
 template<typename TModel>
 
 class IDbContext : public IPersistence

@@ -13,11 +13,11 @@ RemoveInputFromContext::RemoveInputFromContext(ServicesContext *provider)
 
 bool RemoveInputFromContext::remove(const QString &name)
 {
-        CurrentStat *mirror;
-        CurrentStat newMirror;
+        PlayerStats *mirror;
+        PlayerStats newMirror;
         SnapShot ipt;
         try {
-                mirror = &_mirrorsDb->model([=](const CurrentStat &m){return m.name == name;});
+                mirror = &_mirrorsDb->model([=](const PlayerStats &m){return m.name == name;});
                 auto ipt = getInputByN(name,mirror->n);
         }  catch (std::exception *e) {
                 qDebug() << e->what();

@@ -1,7 +1,8 @@
 #ifndef IUPDATECURRENTSTATS_H
 #define IUPDATECURRENTSTATS_H
-template<typename T> class QVector;
-struct SnapShot;
+
+#include <QVector>
+
 template<typename TInput>
 class IUpdateCurrentStats
 {

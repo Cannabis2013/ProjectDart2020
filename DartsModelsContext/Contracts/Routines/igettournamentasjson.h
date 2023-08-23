@@ -1,15 +1,9 @@
 #ifndef IGETTOURNAMENTASJSON_H
 #define IGETTOURNAMENTASJSON_H
 
-class DartsModelsServices;
-class QString;
-class QByteArray;
-class QJsonObject;
-template<typename T>
-class QVector;
-class QUuid;
-template<typename T>
-class IModel;
+#include <DartsModelsContext/Contracts/dartsmodelsservices.h>
+#include <quuid.h>
+
 template<typename TModel>
 class IGetTournamentAsJson
 {

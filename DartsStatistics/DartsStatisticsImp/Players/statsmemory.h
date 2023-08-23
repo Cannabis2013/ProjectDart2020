@@ -4,10 +4,10 @@
 #include <QVector>
 #include <DartsStatistics/Contracts/Db/istatsdb.h>
 
-struct CurrentStat;
+struct PlayerStats;
 class IMirrorsDb;
 
-class StatsMemory : public IStatsDb<CurrentStat>
+class StatsMemory : public IStatsDb<PlayerStats>
 {
 public:
     virtual void add(const Model &model) override;
@@ -22,7 +22,7 @@ public:
     virtual int indexOf(const Model &model) const override;
     virtual void replace(const int &index, const Model &model) override;
 private:
-    QVector<CurrentStat> _mirrors;
+    QVector<PlayerStats> _mirrors;
 };
 
 #endif // MIRRORSDB_H

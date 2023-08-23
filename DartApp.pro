@@ -281,7 +281,7 @@ HEADERS += \
     DartsStatistics/Contracts/Inputs/icreatesnapshot.h \
     DartsStatistics/Contracts/Inputs/snapshotsservices.h \
     DartsStatistics/Contracts/Players/ICreateStatModel.h \
-    DartsStatistics/Contracts/Players/Models/currentstats.h \
+    DartsStatistics/Contracts/Players/Models/playerstats.h \
     DartsStatistics/Contracts/Players/statisticservices.h \
     DartsStatistics/Contracts/Report/icreatereport.h \
     DartsStatistics/Contracts/Routines/IUpdateCurrentStats.h \

@@ -2,14 +2,14 @@
 #define SNAPSHOT_H
 #include <qstring.h>
 
-#include <DartsStatistics/Contracts/Players/Models/currentstats.h>
+#include <DartsStatistics/Contracts/Players/Models/playerstats.h>
 
 struct SnapShot
 {
         QString name;
         int score;
         int keyCode;
-        CurrentStat stats;
+        PlayerStats stats;
 };
 
 #endif // INPUT_H

@@ -11,11 +11,11 @@ CreateStatsReport::CreateStatsReport(ServicesContext *provider)
 
 ICreateReport::ByteArray CreateStatsReport::create(const QString &name) const
 {
-        auto stats = _statsDb->model([=](const CurrentStat&m){return m.name == name;});
+    auto stats = _statsDb->model([=](const PlayerStats&m){return m.name == name;});
         return makeReport(stats);
 }
 
-ICreateReport::ByteArray CreateStatsReport::makeReport(const CurrentStat&stats) const
+ICreateReport::ByteArray CreateStatsReport::makeReport(const PlayerStats&stats) const
 {
         QJsonObject obj;
         obj["minimum"] = stats.min;

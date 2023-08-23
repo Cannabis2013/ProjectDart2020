@@ -1,22 +1,20 @@
 #ifndef GETTOURNAMENTSASJSON_H
 #define GETTOURNAMENTSASJSON_H
 
+#include <DartsModelsContext/Contracts/Model/imodel.h>
 #include <DartsModelsContext/Contracts/Routines/igettournamentsasjson.h>
+#include <qjsonarray.h>
+#include <quuid.h>
 
-template<typename T> class QVector;
-template<typename T> class IModel;
-class QUuid;
-class QJsonArray;
-class QByteArray;
-class DartsModelsServices;
-
-class GetTournamentsAsJson : public IGetTournamentsAsJson
-{
+class GetTournamentsAsJson : public IGetTournamentsAsJson {
 public:
-    QByteArray tournamentsToJson(const DartsModelsServices *services) const override;
+      QByteArray tournamentsToJson(
+          const DartsModelsServices *services) const override;
+
 private:
-    QJsonArray toJsonArray(const QVector<IModel<QUuid> *> &models, const DartsModelsServices *services) const;
-    QByteArray toByteArray(const QJsonArray &arr) const;
+      QJsonArray toJsonArray(const QVector<IModel<QUuid> *> &models,
+                             const DartsModelsServices *services) const;
+      QByteArray toByteArray(const QJsonArray &arr) const;
 };
 
 #endif // GETTOURNAMENTSASJSON_H

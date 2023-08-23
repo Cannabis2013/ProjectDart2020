@@ -3,8 +3,6 @@
 
 #include <qqmlcontext.h>
 
-template<typename T> class QVector;
-
 class QmlPropertiesBuilder
 {
 public:

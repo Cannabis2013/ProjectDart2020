@@ -1,12 +1,8 @@
-#ifndef FTPTOURNAMENTMODELINTERFACE_H
-#define FTPTOURNAMENTMODELINTERFACE_H
+#ifndef IDARTSTOURNAMENT_H
+#define IDARTSTOURNAMENT_H
 
 #include <DartsModelsContext/Contracts/Model/imodel.h>
-
-template<typename T>
-class QVector;
-class QString;
-class QUuid;
+#include <quuid.h>
 
 class IDartsTournament : public IModel<QUuid>
 {
@@ -42,4 +38,4 @@ public:
     virtual void setAttemptIndex(const int&) = 0;
 };
 
-#endif // FTPTOURNAMENTMODELINTERFACE_H
+#endif // IDARTSTOURNAMENT_H

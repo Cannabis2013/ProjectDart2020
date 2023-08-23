@@ -1,9 +1,11 @@
 #ifndef REGISTERQMLDARTSTABLETYPES_H
 #define REGISTERQMLDARTSTABLETYPES_H
+
 #include "DartsTableContext/dstablemodel.h"
 #include "DartsTableContext/dptablemodel.h"
 #include "DartsTableContext/QMLDartsDataModel/dartsplayerdatamodel.h"
 #include <QQmlApplicationEngine>
+
 class RegisterQMLDartsTableTypes
 {
 public:

@@ -1,5 +1,5 @@
 #include "statsmemory.h"
-#include <DartsStatistics/Contracts/Players/Models/currentstats.h>
+#include <DartsStatistics/Contracts/Players/Models/playerstats.h>
 
 void StatsMemory::add(const Model &model)
 {
@@ -34,7 +34,7 @@ StatsMemory::Models StatsMemory::models() const
 
 StatsMemory::Models StatsMemory::models(Pred predFunc) const
 {
-        QVector<CurrentStat> mirrors;
+        QVector<PlayerStats> mirrors;
         for (const auto &mirror : _mirrors) {
             if(predFunc(mirror))
                 mirrors << mirror;

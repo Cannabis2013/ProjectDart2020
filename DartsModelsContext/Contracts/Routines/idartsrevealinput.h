@@ -1,11 +1,8 @@
 #ifndef IDARTSREVEALINPUT_H
 #define IDARTSREVEALINPUT_H
 
-class DartsModelsServices;
-class QByteArray;
-class QString;
-class QUuid;
-template<typename T> class QVector;
+#include <DartsModelsContext/Contracts/dartsmodelsservices.h>
+#include <quuid.h>
 
 template<typename TModel> class IDartsRevealInput
 {

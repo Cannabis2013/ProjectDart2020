@@ -24,14 +24,14 @@ void UpdateCurrentStats::update(Inputs &inputs)
 void UpdateCurrentStats::upd(Ipt &input)
 {
         auto ipt = input;
-        auto stats = &_statsDb->model([=](const CurrentStat& m){return m.name == input.name;});
+        auto stats = &_statsDb->model([=](const PlayerStats& m){return m.name == input.name;});
         updateAccumulatedScore(input,stats);
         stats->mid = _calcAvg->middleValue(stats->accScore,stats->n);
         _updateScoreRange->update(ipt,stats);
         ipt.stats = *stats;
 }
 
-void UpdateCurrentStats::updateAccumulatedScore(const Ipt &input, CurrentStat*stats)
+void UpdateCurrentStats::updateAccumulatedScore(const Ipt &input, PlayerStats*stats)
 {
     stats->accScore += input.score;
     stats->n += 1;

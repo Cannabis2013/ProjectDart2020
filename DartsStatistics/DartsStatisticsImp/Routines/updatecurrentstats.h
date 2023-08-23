@@ -3,7 +3,7 @@
 
 #include <DartsStatistics/Contracts/Routines/IUpdateCurrentStats.h>
 
-struct CurrentStat;
+struct PlayerStats;
 template<typename T, typename U> class IUpdateScoreRange;
 template<typename T> class IStatsDb;
 class ICalcAverage;
@@ -14,15 +14,15 @@ struct SnapShot;
 class UpdateCurrentStats : public IUpdateCurrentStats<SnapShot>
 {
 public:
-        typedef IStatsDb<CurrentStat> StatsDb;
+        typedef IStatsDb<PlayerStats> StatsDb;
         typedef IStatsDb<SnapShot> IptDb;
-        typedef IUpdateScoreRange<SnapShot,CurrentStat> UpdateScoreRange;
+        typedef IUpdateScoreRange<SnapShot,PlayerStats> UpdateScoreRange;
         UpdateCurrentStats(ServicesContext *provider);
         virtual void update(Ipt &input) override;
         virtual void update(Inputs &inputs) override;
 private:
         void upd(Ipt &input);
-        void updateAccumulatedScore(const Ipt &input, CurrentStat *stats);
+    void updateAccumulatedScore(const Ipt &input, PlayerStats *stats);
         StatsDb *_statsDb;
         ICalcAverage *_calcAvg;
         UpdateScoreRange *_updateScoreRange;

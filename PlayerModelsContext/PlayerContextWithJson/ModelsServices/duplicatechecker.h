@@ -3,12 +3,8 @@
 
 #include <PlayerModelsContext/Contracts/ModelsSLAs/iduplicatechecker.h>
 
-template<typename T>
-class QVector;
-class QString;
-template<typename T>
-class IPlayersDbContext;
-class IPlayer;
+#include <PlayerModelsContext/Contracts/DbSLAs/IPlayersDbContext.h>
+#include <PlayerModelsContext/Contracts/DbSLAs/iplayer.h>
 
 class DuplicateChecker : public IDuplicateChecker<IPlayer,IPlayersDbContext<IPlayer>>
 {

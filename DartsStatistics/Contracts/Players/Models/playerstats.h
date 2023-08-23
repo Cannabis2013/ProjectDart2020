@@ -3,7 +3,7 @@
 
 #include <qstring.h>
 
-struct CurrentStat
+struct PlayerStats
 {
     QString name;
     int accScore = 0;

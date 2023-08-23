@@ -3,6 +3,8 @@
 
 #include <DartsController/Contracts/Routines/idcinitialize.h>
 
+#include <QVector>
+
 struct DCIndex;
 class DCServices;
 template<typename T,typename U> class IDCIndexController;

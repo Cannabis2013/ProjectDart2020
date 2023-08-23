@@ -1,8 +1,8 @@
 #ifndef IDATACONTEXT_H
 #define IDATACONTEXT_H
-class QByteArray;
-template<typename T>
-class QVector;
+
+#include <QVector>
+
 template<typename TModel>
 class IJsonBuilder
 {

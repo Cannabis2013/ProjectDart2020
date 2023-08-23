@@ -1,7 +1,7 @@
 #include "createstatmodel.h"
-#include <DartsStatistics/Contracts/Players/Models/currentstats.h>
+#include <DartsStatistics/Contracts/Players/Models/playerstats.h>
 
-CurrentStat CreateStatModel::create(const QString &name) const
+PlayerStats CreateStatModel::create(const QString &name) const
 {
     return {.name  = name};
 }

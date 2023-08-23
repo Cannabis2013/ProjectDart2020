@@ -7,7 +7,7 @@
 SnapShotsServices *CreateSnapShotsProvider::create()
 {
         auto services = new SnapShotsServices;
-        services->setSnapShotsDb(new InputsDb);
+        services->setSnapShotsDb(new InputStatistics);
         services->setCreateSnapShot(new CreateInput);
         return services;
 }

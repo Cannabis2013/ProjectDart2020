@@ -1,8 +1,9 @@
 #ifndef IPLAYERSDBCONTEXT_H
 #define IPLAYERSDBCONTEXT_H
+
+#include <QVector>
 #include <functional>
-template<typename T>
-class QVector;
+
 template<typename TModel>
 class IPlayersDbContext
 {

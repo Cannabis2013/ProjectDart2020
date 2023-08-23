@@ -1,11 +1,9 @@
 #ifndef IDARTSCREATEFINISHES_H
 #define IDARTSCREATEFINISHES_H
 #include "dartsconstructslas.h"
-template<typename T, typename U>
-class QMultiHash;
-class QString;
-template<typename T>
-class QVector;
+
+#include <QVector>
+
 class IDartsCreateFinishes : public DartsConstructSLAs
 {
 public:

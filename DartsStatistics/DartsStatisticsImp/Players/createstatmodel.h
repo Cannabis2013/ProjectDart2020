@@ -3,11 +3,11 @@
 
 #include <DartsStatistics/Contracts/Players/ICreateStatModel.h>
 
-struct CurrentStat;
-class CreateStatModel : public ICreateStatModel<CurrentStat>
+struct PlayerStats;
+class CreateStatModel : public ICreateStatModel<PlayerStats>
 {
 public:
-    virtual CurrentStat create(const QString &name) const override;
+        virtual PlayerStats create(const QString &name) const override;
 };
 
 #endif // CREATESTATMODEL_H

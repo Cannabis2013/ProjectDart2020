@@ -5,7 +5,7 @@
 
 DartsInputConverter::Json DartsInputConverter::convert(Model *model) const
 {
-    if(model != nullptr)
+    if (model != nullptr)
         return toJsonObject(model);
     else
         return Json();
@@ -37,7 +37,7 @@ QJsonArray DartsInputConverter::toJsonArray(const QVector<IModel<QUuid> *> &mode
 
 QJsonObject DartsInputConverter::toJsonObject(IModel<QUuid> *model) const
 {
-    auto inputModel = dynamic_cast<const IDartsInput*>(model);
+    auto inputModel = dynamic_cast<const IDartsInput *>(model);
     QJsonObject obj;
     obj["id"] = inputModel->id().toString(QUuid::WithoutBraces);
     obj["tournamentId"] = inputModel->tournamentId().toString(QUuid::WithoutBraces);
@@ -59,7 +59,8 @@ QJsonObject DartsInputConverter::toJsonObject(IModel<QUuid> *model) const
 DartsInputConverter::Model *DartsInputConverter::toModel(const Json &json) const
 {
     auto model = new DartsInput;
-    model->setId(json.value("id").toString(QUuid::createUuid().toString(QUuid::WithoutBraces)));
+    auto idAsString = json.value("id").toString(QUuid::createUuid().toString(QUuid::WithoutBraces));
+    model->setId(QUuid::fromString(idAsString));
     model->setTournamentId(QUuid::fromString(json.value("tournamentId").toString()));
     model->setPoint(json.value("point").toInt());
     model->setScore(json.value("score").toInt());

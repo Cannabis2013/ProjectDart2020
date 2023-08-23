@@ -1,19 +1,11 @@
 #ifndef LOADPLAYERMODELS_H
 #define LOADPLAYERMODELS_H
 
+#include <DartsModelsContext/Contracts/Db/ifiledataio.h>
+#include <PlayerModelsContext/Contracts/DbSLAs/IPlayersDbContext.h>
 #include <PlayerModelsContext/Contracts/DbSLAs/ifetchdb.h>
-
-
-
-class QByteArray;
-template<typename T>
-class IPlayersDbContext;
-class IFileDataIO;
-class IPlayer;
-template<typename T, typename U>
-class IPlayerBuilder;
-template<typename T>
-class QVector;
+#include <PlayerModelsContext/Contracts/DbSLAs/iplayer.h>
+#include <PlayerModelsContext/Contracts/DbSLAs/iplayerbuilder.h>
 
 namespace LdPlaMds
 {

@@ -1,8 +1,8 @@
 #include "updatescorerange.h"
 #include <DartsStatistics/Contracts/Inputs/Models/snapshot.h>
-#include <DartsStatistics/Contracts/Players/Models/currentstats.h>
+#include <DartsStatistics/Contracts/Players/Models/playerstats.h>
 
-void UpdateScoreRange::update(SnapShot &snapShot, CurrentStat *stats) const
+void UpdateScoreRange::update(SnapShot &snapShot, PlayerStats *stats) const
 {
         auto score = snapShot.score;
         auto currentMin = stats->min;

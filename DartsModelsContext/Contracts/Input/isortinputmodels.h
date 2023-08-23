@@ -1,11 +1,9 @@
 #ifndef ISORTINPUTMODELS_H
 #define ISORTINPUTMODELS_H
-struct IModelPredicate;
-template<typename T>
-class QVector;
-template<typename T>
-class IModel;
-class QUuid;
+
+#include <DartsModelsContext/Contracts/PredicateSLAs/imodelpredicate.h>
+#include <quuid.h>
+
 class ISortInputModels
 {
 public:

@@ -4,6 +4,7 @@
 #include "IUpdateCurrentStats.h"
 #include "iresetmodels.h"
 #include <DartsStatistics/Contracts/InputRoutines/IRemoveInputFromDb.h>
+#include <DartsStatistics/Contracts/Inputs/Models/snapshot.h>
 #include <DartsStatistics/Contracts/Report/icreatereport.h>
 
 class RoutineServices

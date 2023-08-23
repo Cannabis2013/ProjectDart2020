@@ -5,14 +5,14 @@
 
 #include <DartsStatistics/Contracts/StatsServices/ScoreRange/iupdatescorerange.h>
 
-struct CurrentStat;
+struct PlayerStats;
 class IMirrorsDb;
 struct SnapShot;
 
 class StatsServices
 {
 public:
-    typedef IUpdateScoreRange<SnapShot,CurrentStat> UpdateScoreRange;
+        typedef IUpdateScoreRange<SnapShot,PlayerStats> UpdateScoreRange;
     ICalcAverage *calcAverage() const {return _calcAverage;}
     void setCalcAverage(ICalcAverage *newCalcAverage) {_calcAverage = newCalcAverage;}
     UpdateScoreRange *updateScoreRange() const {return _updateScoreRange;}
