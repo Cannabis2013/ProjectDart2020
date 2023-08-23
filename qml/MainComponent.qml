@@ -1,85 +1,84 @@
 import QtQuick 2.12
+
 Item {
-    id: body
-    signal backPushed
-    Component{
-        id: createPlayerComponent
-        Page{
-            onBackButtonPressed: pageLoader.sourceComponent = managePageComponent
-            pageIconUrl: "qrc:/pictures/Ressources/users.png"
-            pageContent: CreatePlayerContent{}
+        id: body
+
+        signal backPushed
+
+        Component {
+                id: createPlayerComponent
+                CreatePlayerContent {
+                        onBackButtonClicked: pageLoader.sourceComponent = managePageComponent
+                }
         }
-    }
-    Component{
-        id: managePageComponent
-        Page{
-            onBackButtonPressed: pageLoader.sourceComponent = startPageComponent
-            pageContent: ManagePageContent{
-                onRequestCreatePlayerPage: pageLoader.sourceComponent = createPlayerComponent
-                onRequestCreateTournamentPage: pageLoader.sourceComponent = createTournamentComponent
-            }
-            Component.onCompleted: body.backPushed.connect(backButtonPressed)
+
+        Component {
+                id: managePageComponent
+                ManagePageContent {
+                        onBackButtonClicked: pageLoader.sourceComponent = startPageComponent
+                        onRequestCreatePlayerPage: pageLoader.sourceComponent
+                                                   = createPlayerComponent
+                        onRequestCreateTournamentPage: pageLoader.sourceComponent
+                                                       = createTournamentComponent
+                        Component.onCompleted: body.backPushed.connect(
+                                                       backButtonClicked)
+                }
         }
-    }
-    Component{
-        id: createTournamentComponent
-        Page {
-            onBackButtonPressed: pageLoader.sourceComponent = managePageComponent
-            pageContent: CreateTournamentContent{}
-            Component.onCompleted: body.backPushed.connect(backButtonPressed)
+
+        Component {
+                id: createTournamentComponent
+                CreateTournamentContent {
+                        onBackButtonClicked: pageLoader.sourceComponent = managePageComponent
+                        Component.onCompleted: body.backPushed.connect(
+                                                       backButtonClicked)
+                }
         }
-    }
-    Component{
-        id: tournamentPageComponent
-        Page{
-            id: tournamentPage
-            pageContent: TournamentPageContent{
-                onCreateTournamentClicked: pageLoader.sourceComponent = createTournamentComponent
-                onManageButtonClicked: pageLoader.sourceComponent = managePageComponent
-                onDartsScoreSingleColumnInitialized: pageLoader.sourceComponent = dartsScoreSingleColumn
-                onDartsPointSingleColumnInitialized: pageLoader.sourceComponent = dartsPointSingleColumn
-            }
-            Component.onCompleted: body.backPushed.connect(backButtonPressed)
-            onBackButtonPressed: pageLoader.sourceComponent = startPageComponent
+
+        Component {
+                id: tournamentPageComponent
+                TournamentPageContent {
+                        onCreateTournamentClicked: pageLoader.sourceComponent
+                                                   = createTournamentComponent
+                        onManageButtonClicked: pageLoader.sourceComponent = managePageComponent
+                        onDartsScoreSingleColumnInitialized: pageLoader.sourceComponent
+                                                             = dartsScoreSingleColumn
+                        onDartsPointSingleColumnInitialized: pageLoader.sourceComponent
+                                                             = dartsPointSingleColumn
+                        onBackButtonClicked: pageLoader.sourceComponent = startPageComponent
+                        Component.onCompleted: body.backPushed.connect(
+                                                       backButtonClicked)
+                }
         }
-    }
-    Component
-    {
-        id: startPageComponent
-        Page{
-            anchors.fill: parent
-            backButtonVisible: false
-            backButtonDisabled : true
-            pageContent: StartPageContent{
-                onSetupGameClicked: pageLoader.sourceComponent = tournamentPageComponent
-                onManageContentClicked: pageLoader.sourceComponent = managePageComponent
-                onLoginButtonClicked: {}
-                onLogoutButtonClicked: {}
-                onQuitButtonClicked: destructor()
-            }
+
+        Component {
+                id: startPageComponent
+                StartPageContent {
+                        onSetupGameClicked: pageLoader.sourceComponent = tournamentPageComponent
+                        onManageContentClicked: pageLoader.sourceComponent = managePageComponent
+                }
         }
-    }
-    Component
-    {
-        id: dartsPointSingleColumn
-        Page{
-            pageContent: DPCContent{}
-            Component.onCompleted: body.backPushed.connect(backButtonPressed)
-            onBackButtonPressed: pageLoader.sourceComponent = tournamentPageComponent
+
+        Component {
+                id: dartsPointSingleColumn
+                DPCContent {
+                        Component.onCompleted: body.backPushed.connect(
+                                                       backButtonPressed)
+                        onBackButtonClicked: pageLoader.sourceComponent = tournamentPageComponent
+                }
         }
-    }
-    Component
-    {
-        id: dartsScoreSingleColumn
-        Page{
-            pageContent: DSCContent{}
-            Component.onCompleted: body.backPushed.connect(backButtonPressed)
-            onBackButtonPressed: pageLoader.sourceComponent = tournamentPageComponent
+
+        Component {
+                id: dartsScoreSingleColumn
+                DSCContent {
+                        Component.onCompleted: body.backPushed.connect(
+                                                       backButtonPressed)
+                        onBackButtonClicked: pageLoader.sourceComponent = tournamentPageComponent
+                }
         }
-    }
-    Loader{
-        id: pageLoader
-        anchors.fill: parent
-    }
-    Component.onCompleted: pageLoader.sourceComponent = startPageComponent
+
+        Loader {
+                id: pageLoader
+                anchors.fill: parent
+                sourceComponent: startPageComponent
+        }
 }

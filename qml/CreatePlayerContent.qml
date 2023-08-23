@@ -1,10 +1,19 @@
 import QtQuick 2.12
+import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
 import "createPlayerScripts.js" as CPScripts
 
-Content {
+Page {
         id: body
-        preferedPageTitle: "Create player"
+
+        signal backButtonClicked
+
+        header: Button {
+                text: qsTr("Back")
+                onClicked: backButtonClicked()
+        }
+
+
         GridLayout {
                 anchors.fill: parent
                 flow: GridLayout.TopToBottom

@@ -1,11 +1,17 @@
 import QtQuick 2.0
+import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
 import "createTournamentScripts.js" as CreateScripts
 
-Content {
+Page {
         id: createBody
-        color: "transparent"
-        preferedPageTitle: "Create tournament"
+        signal backButtonClicked
+
+        header: Button{
+                text: qsTr("Back")
+                onClicked: backButtonClicked()
+        }
+
         signal requestPlayers
         signal sendDartsDetails(string json)
         signal sendCricketDetails

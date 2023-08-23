@@ -22,7 +22,6 @@
         <file>qml/ConfirmActionBack.qml</file>
         <file>qml/ConfirmActionButtons.qml</file>
         <file>qml/ConfirmActionPopUp.qml</file>
-        <file>qml/Content.qml</file>
         <file>qml/ControllerPlayerDisplay.qml</file>
         <file>qml/CreatePlayerContent.qml</file>
         <file>qml/createPlayerScripts.js</file>
@@ -88,9 +87,7 @@
         <file>qml/MyRectangle.qml</file>
         <file>qml/NavigationView.qml</file>
         <file>qml/NotificationItem.qml</file>
-        <file>qml/Page.qml</file>
         <file>qml/PageIconItem.qml</file>
-        <file>qml/PageInterface.qml</file>
         <file>qml/PageLabelItem.qml</file>
         <file>qml/pageScripts.js</file>
         <file>qml/PageTopBar.qml</file>
