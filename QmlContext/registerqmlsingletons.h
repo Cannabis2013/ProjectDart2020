@@ -9,7 +9,6 @@ class RegisterQmlSingleTons
 public:
     static void registerCustomSingletons()
     {
-        qmlRegisterSingletonType(QUrl("qrc:/qml/ThemeContext.qml"),"customDefinitions",1,0,"ThemeContext");
         qmlRegisterSingletonType(QUrl("qrc:/qml/TournamentContext.qml"),"CustomValues",1,0,"TournamentContext");
         qmlRegisterSingletonType(QUrl("qrc:/qml/DataModelContext.qml"),"CustomValues",1,0,"DataModelContext");
     }

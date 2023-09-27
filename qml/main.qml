@@ -1,7 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtQuick.Controls 2.12
-import customDefinitions 1.0
 
 ApplicationWindow {
         id: applicationWindow
@@ -21,9 +20,7 @@ ApplicationWindow {
                 anchors.fill: parent
                 focus: true
                 Keys.onPressed: {
-                        // Only relevant for desktop users
-                        if (event.key === Qt.Key_Q
-                                        && event.modifiers & Qt.ControlModifier) {
+                        if (event.key === Qt.Key_Q && event.modifiers & Qt.ControlModifier) {
                                 destructor()
                                 event.accepted = true
                         } else if (event.key === Qt.Key_Back) {

@@ -17,14 +17,12 @@ public:
                 _playerContext = CreatePlayersContext().localJson();
                 _dartsContext = LocalDartsModelsContext().createInstance(_playerContext);
                 LocalDartsControllers dcBuilder;
-                _dpController =  dcBuilder.singlePoint(_dartsContext);
-                _dsController = dcBuilder.multiPoint(_dartsContext);
+                _dpController = dcBuilder.singlePoint(_dartsContext);
         }
         QmlPropertiesBuilder::Properties createProperties()
         {
                 Properties _props;
-                _props << createProperty<AbstractDartsContext>("dartsContext",_dartsContext);
-                _props << createProperty<IDartsCtrl>("dsController",_dsController);
+                _props << createProperty<AbstractDartsContext>("dartsContext", _dartsContext);
                 _props << createProperty<IDartsCtrl>("dpController",_dpController);
                 _props << createProperty<AbstractPlayerContext>("playersContext",_playerContext);
                 _props << createProperty<IDartsStatistics>("statistics",_statistics);
@@ -39,7 +37,6 @@ private:
                 return p;
         }
         IDartsCtrl *_dpController;
-        IDartsCtrl *_dsController;
         AbstractPlayerContext *_playerContext;
         AbstractDartsContext *_dartsContext;
         IDartsStatistics *_statistics;

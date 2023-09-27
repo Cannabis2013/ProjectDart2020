@@ -8,6 +8,9 @@
 
 int main(int argc, char *argv[])
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+#endif
     // Setup main event loop and qml context
     QGuiApplication app(argc, argv);
     // Register custom typQStringLiterales

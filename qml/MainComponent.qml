@@ -1,4 +1,9 @@
 import QtQuick 2.12
+import "./tournaments/createPage"
+import "./players/createPlayerPage"
+import "./pages/tournamentPage"
+import "./pages/tournamentsPage"
+import "./pages/startPage"
 
 Item {
         id: body
@@ -7,7 +12,7 @@ Item {
 
         Component {
                 id: createPlayerComponent
-                CreatePlayerContent {
+                CreatePlayerPage {
                         onBackButtonClicked: pageLoader.sourceComponent = managePageComponent
                 }
         }
@@ -16,43 +21,35 @@ Item {
                 id: managePageComponent
                 ManagePageContent {
                         onBackButtonClicked: pageLoader.sourceComponent = startPageComponent
-                        onRequestCreatePlayerPage: pageLoader.sourceComponent
-                                                   = createPlayerComponent
-                        onRequestCreateTournamentPage: pageLoader.sourceComponent
-                                                       = createTournamentComponent
-                        Component.onCompleted: body.backPushed.connect(
-                                                       backButtonClicked)
+                        onRequestCreatePlayerPage: pageLoader.sourceComponent = createPlayerComponent
+                        onRequestCreateTournamentPage: pageLoader.sourceComponent = createTournamentComponent
+                        Component.onCompleted: body.backPushed.connect(backButtonClicked)
                 }
         }
 
         Component {
                 id: createTournamentComponent
-                CreateTournamentContent {
+                CreateTournamentPage {
                         onBackButtonClicked: pageLoader.sourceComponent = managePageComponent
-                        Component.onCompleted: body.backPushed.connect(
-                                                       backButtonClicked)
+                        Component.onCompleted: body.backPushed.connect(backButtonClicked)
                 }
         }
 
         Component {
                 id: tournamentPageComponent
-                TournamentPageContent {
-                        onCreateTournamentClicked: pageLoader.sourceComponent
-                                                   = createTournamentComponent
+                TournamentsPage {
+                        onCreateTournamentClicked: pageLoader.sourceComponent = createTournamentComponent
                         onManageButtonClicked: pageLoader.sourceComponent = managePageComponent
-                        onDartsScoreSingleColumnInitialized: pageLoader.sourceComponent
-                                                             = dartsScoreSingleColumn
-                        onDartsPointSingleColumnInitialized: pageLoader.sourceComponent
-                                                             = dartsPointSingleColumn
+                        onDartsScoreSingleColumnInitialized: pageLoader.sourceComponent = dartsScoreSingleColumn
+                        onDartsPointSingleColumnInitialized: pageLoader.sourceComponent = dartsPointSingleColumn
                         onBackButtonClicked: pageLoader.sourceComponent = startPageComponent
-                        Component.onCompleted: body.backPushed.connect(
-                                                       backButtonClicked)
+                        Component.onCompleted: body.backPushed.connect(backButtonClicked)
                 }
         }
 
         Component {
                 id: startPageComponent
-                StartPageContent {
+                StartPage {
                         onSetupGameClicked: pageLoader.sourceComponent = tournamentPageComponent
                         onManageContentClicked: pageLoader.sourceComponent = managePageComponent
                 }
@@ -60,18 +57,8 @@ Item {
 
         Component {
                 id: dartsPointSingleColumn
-                DPCContent {
-                        Component.onCompleted: body.backPushed.connect(
-                                                       backButtonPressed)
-                        onBackButtonClicked: pageLoader.sourceComponent = tournamentPageComponent
-                }
-        }
-
-        Component {
-                id: dartsScoreSingleColumn
-                DSCContent {
-                        Component.onCompleted: body.backPushed.connect(
-                                                       backButtonPressed)
+                TournamentPage {
+                        Component.onCompleted: body.backPushed.connect(backButtonPressed)
                         onBackButtonClicked: pageLoader.sourceComponent = tournamentPageComponent
                 }
         }

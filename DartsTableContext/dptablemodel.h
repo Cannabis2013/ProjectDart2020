@@ -12,6 +12,7 @@
 #include "dartsdatacontextitemutility.h"
 #include "dartstablesectionutility.h"
 #include "dartstablesectionmanipulator.h"
+
 class DPTableModel : public DartsTableModel
 {
 public:

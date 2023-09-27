@@ -1,8 +1,13 @@
 import QtQuick 2.12
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.15
+
+import "./tournaments/listView"
+import "./players/listView"
+
 import "managePageScripts.js" as ManageScripts
 import "jsPopUpBuilder.js" as PopupBuilder
+import "./buttons"
 
 Page {
         id: body
@@ -20,7 +25,7 @@ Page {
                 id: mainLayout
                 anchors.fill: parent
                 flow: GridLayout.TopToBottom
-                DefaultPlayerListView {
+                PlayerListView {
                         id: playersListView
                         Layout.fillWidth: true
                         Layout.fillHeight: true
@@ -41,12 +46,11 @@ Page {
                                 onClicked: ManageScripts.requestDeletePlayerPopUp()
                         }
                 }
-                DefaultTournamentListView {
+                TournamentsView {
                         id: tournamentListView
                         Layout.fillHeight: true
                         Layout.fillWidth: true
-                        onRequestUpdate: ManageScripts.updateTournamentListView(
-                                                 )
+                        onRequestUpdate: ManageScripts.updateTournamentListView()
                 }
                 GridLayout {
                         id: tournamentCRUDButtons

@@ -4,6 +4,7 @@
 #include <qobject.h>
 #include <qqmlapplicationengine.h>
 #include <qguiapplication.h>
+
 class SetupQMLContext
 {
 public:
