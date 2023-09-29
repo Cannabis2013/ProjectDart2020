@@ -4,7 +4,7 @@
 #include <PlayerModelsContext/Contracts/ContextSLA/abstractplayercontext.h>
 #include <DartsModelsContext/Contracts/abstractdartscontext.h>
 #include <DartsStatistics/Contracts/SLAs/idartsstatistics.h>
-#include <DartsController/Contracts/Controller/idartsctrl.h>
+#include <DartsController/Contracts/Controller/idartscontroller.h>
 #include <DartsController/LocalDartsController/localdartscontrollers.h>
 #include <DartsStatistics/DartsStatisticsImp/CreateDartsStatistics/createdartsstatistics.h>
 
@@ -23,7 +23,7 @@ public:
         {
                 Properties _props;
                 _props << createProperty<AbstractDartsContext>("dartsContext", _dartsContext);
-                _props << createProperty<IDartsCtrl>("dpController",_dpController);
+                _props << createProperty<IDartsController>("dpController",_dpController);
                 _props << createProperty<AbstractPlayerContext>("playersContext",_playerContext);
                 _props << createProperty<IDartsStatistics>("statistics",_statistics);
                 return _props;
@@ -36,7 +36,7 @@ private:
                 p.value = QVariant::fromValue<T*>(value);
                 return p;
         }
-        IDartsCtrl *_dpController;
+        IDartsController *_dpController;
         AbstractPlayerContext *_playerContext;
         AbstractDartsContext *_dartsContext;
         IDartsStatistics *_statistics;

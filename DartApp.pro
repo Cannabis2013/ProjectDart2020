@@ -133,7 +133,7 @@ SOURCES += \
         main.cpp
 
 HEADERS += \
-    DartsController/Contracts/Controller/idartsctrl.h \
+    DartsController/Contracts/Controller/idartscontroller.h \
     DartsController/Contracts/Converters/idcjsontomodel.h \
     DartsController/Contracts/Converters/idcjsontomodels.h \
     DartsController/Contracts/Converters/idcmodeltojson.h \

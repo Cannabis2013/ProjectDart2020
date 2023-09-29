@@ -8,7 +8,7 @@ struct DCIndex;
 class DCAddInput : public IDCAddInput
 {
 public:
-    QByteArray add(const QByteArray &inputByteArray, IDartsCtrl *services) override;
+    QByteArray add(const QByteArray &inputByteArray, IDartsController *services) override;
 
 private:
         enum ControllerState {

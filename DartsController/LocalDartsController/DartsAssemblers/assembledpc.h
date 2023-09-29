@@ -9,7 +9,7 @@ class DPCInjectIptServices;
 class DPCInjectPlaServices;
 class DCInjectMetaClient;
 class DCInjectFinClient;
-class IDartsCtrl;
+class IDartsController;
 
 class AssembleDPC
 {

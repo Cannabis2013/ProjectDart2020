@@ -6,7 +6,7 @@ class InjectDSCRoutines;
 class DSCInputInjector;
 class DSCIndexInjector;
 class DSCInjectPlaServives;
-class IDartsCtrl;
+class IDartsController;
 class DCInjectFinClient;
 class DCInjectMetaClient;
 class AssembleDSC

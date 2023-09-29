@@ -24,6 +24,17 @@ int DartsController::initialize(const QUuid &tournamentId)
 
 QByteArray DartsController::addInput(const QByteArray& byteArray)
 {
+    /*
+     * Pseudo:
+     * 
+     * if(validateInput)
+     * {
+     *      persistInput()
+     *      updateIndexes()
+     *      return turnValues()
+     * }
+     * return turnValues()
+     */
     return _inputPersist->add(byteArray, this);
 }
 

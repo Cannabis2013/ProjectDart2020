@@ -13,7 +13,7 @@
 #include <DartsController/Contracts/Inputs/idcinputadder.h>
 #include <DartsModelsContext/Contracts/abstractdartscontext.h>
 
-QByteArray DCAddInput::add(const QByteArray &byteArray, IDartsCtrl* services){
+QByteArray DCAddInput::add(const QByteArray &byteArray, IDartsController* services){
         auto input = toInputModel(byteArray,services);
         evaluateInput(input,services);
         updateModelsContext(input,services);
@@ -21,7 +21,7 @@ QByteArray DCAddInput::add(const QByteArray &byteArray, IDartsCtrl* services){
         return inputToByteArray(input,services);
 }
 
-DCInput DCAddInput::toInputModel(const QByteArray &byteArray, IDartsCtrl *services)
+DCInput DCAddInput::toInputModel(const QByteArray &byteArray, IDartsController *services)
 {
         auto index = services->indexServices()->indexController()->index();
         auto player = services->playerServices()->playerManager()->player(index.playerIndex);

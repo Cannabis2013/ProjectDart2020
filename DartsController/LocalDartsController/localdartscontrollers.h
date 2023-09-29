@@ -2,12 +2,12 @@
 #define CREATEDARTSCONTROLLER_H
 
 class AbstractDartsContext;
-class IDartsCtrl;
+class IDartsController;
 
 class LocalDartsControllers
 {
 public:
-        IDartsCtrl *singlePoint(AbstractDartsContext *modelsContext);
-        IDartsCtrl *multiPoint(AbstractDartsContext *modelsContext);
+    IDartsController *singlePoint(AbstractDartsContext *modelsContext);
+    IDartsController *multiPoint(AbstractDartsContext *modelsContext);
 };
 #endif // BUILDDARTSSCORECONTROLLER_H

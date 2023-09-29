@@ -1,9 +1,9 @@
-#ifndef IDARTSCTRL_H
-#define IDARTSCTRL_H
+#ifndef IDARTSCONTROLLER_H
+#define IDARTSCONTROLLER_H
 
 #include <qobject.h>
 
-class IDartsCtrl : public QObject
+class IDartsController : public QObject
 {
     Q_OBJECT
 public:

@@ -1,11 +1,11 @@
 #ifndef DARTSCONTROLLER_H
 #define DARTSCONTROLLER_H
 
-#include <DartsController/Contracts/Controller/idartsctrl.h>
+#include <DartsController/Contracts/Controller/idartscontroller.h>
 #include <DartsController/Contracts/Routines/dartscontrollerroutines.h>
 #include <DartsController/Contracts/ServicesProvider/dcservices.h>
 
-class DartsController : public IDartsCtrl
+class DartsController : public IDartsController
 {
     Q_OBJECT
 public:

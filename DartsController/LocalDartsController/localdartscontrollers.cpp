@@ -4,14 +4,14 @@
 #include <DartsController/LocalDartsController/DartsAssemblers/assembledsc.h>
 #include <DartsController/LocalDartsController/Controller/dartscontroller.h>
 
-IDartsCtrl *LocalDartsControllers::singlePoint(AbstractDartsContext *modelsContext)
+IDartsController *LocalDartsControllers::singlePoint(AbstractDartsContext *modelsContext)
 {
         auto assembler = new AssembleDPC;
         auto dpc = assembler->assemble(modelsContext);
         return dpc;
 }
 
-IDartsCtrl *LocalDartsControllers::multiPoint(AbstractDartsContext *modelsContext)
+IDartsController *LocalDartsControllers::multiPoint(AbstractDartsContext *modelsContext)
 {
         auto assembler = new AssembleDSC;
         auto dsc = assembler->assemble(modelsContext);
