@@ -1,6 +1,9 @@
 #ifndef DCFINISHBUILDER_H
 #define DCFINISHBUILDER_H
 
+#include "dartscreatefinishes.h"
+#include "dclogisticdb.h"
+
 #include <DartsController/Contracts/Finishes/idcfinishbuilder.h>
 
 class IDartsCreateFinishes;
@@ -9,16 +12,13 @@ class IDartsFinishesDb;
 class DCFinishBuilder : public IDCFinishBuilder
 {
 public:
+    DCFinishBuilder();
     virtual QString suggestTargetRow(const int &remainingScore, const int &turnIndex) const override;
-    IDartsFinishesDb *dbContext() const;
-    void setDbContext(IDartsFinishesDb *service);
-    IDartsCreateFinishes *constructTargetRows() const;
-    void setConstructRow(IDartsCreateFinishes *service);
-    void init();
+
 private:
     QString getTargetRow(const int &turnIndex, const int &remainingScore) const;
-    IDartsFinishesDb *_dbContext;
-    IDartsCreateFinishes *_constructRow;
+    IDartsFinishesDb *_dbContext = new DCLogisticDb();
+    IDartsCreateFinishes *_constructRow = new DartsCreateFinishes();
 };
 #endif // SCORECONTROLLER_H
 

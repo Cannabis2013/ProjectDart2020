@@ -137,7 +137,6 @@ HEADERS += \
     DartsController/Contracts/Converters/idcjsontomodel.h \
     DartsController/Contracts/Converters/idcjsontomodels.h \
     DartsController/Contracts/Converters/idcmodeltojson.h \
-    DartsController/Contracts/Finishes/dartsconstructslas.h \
     DartsController/Contracts/Finishes/dcfinishesservices.h \
     DartsController/Contracts/Finishes/idartsattemptsservice.h \
     DartsController/Contracts/Finishes/idartsboundaries.h \

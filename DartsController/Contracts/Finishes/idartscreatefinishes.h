@@ -1,14 +1,13 @@
 #ifndef IDARTSCREATEFINISHES_H
 #define IDARTSCREATEFINISHES_H
-#include "dartsconstructslas.h"
 
 #include <QVector>
 
-class IDartsCreateFinishes : public DartsConstructSLAs
+class IDartsCreateFinishes
 {
 public:
-                typedef QMultiHash<int,QString> TargetRows;
-                typedef QVector<TargetRows*> AllTargetRows;
-                virtual AllTargetRows constructRows() const = 0;
+    typedef QMultiHash<int, QString> TargetRow;
+    typedef QVector<TargetRow *> TargetRows;
+    virtual TargetRows constructRows() const = 0;
 };
 #endif // IDARTSCONSTRUCTTARGETROW_H

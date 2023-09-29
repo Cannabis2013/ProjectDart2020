@@ -3,6 +3,12 @@
 #include <DartsController/Contracts/Finishes/idartscreatefinishes.h>
 #include <DartsController/Contracts/Finishes/idartsfinishesdb.h>
 
+DCFinishBuilder::DCFinishBuilder()
+{
+    auto allTargetRows = _constructRow->constructRows();
+    _dbContext->add(allTargetRows);
+}
+
 QString DCFinishBuilder::suggestTargetRow(const int &remainingScore, const int &turnIndex) const
 {
     if(turnIndex < 0 || turnIndex > 2)
@@ -12,44 +18,17 @@ QString DCFinishBuilder::suggestTargetRow(const int &remainingScore, const int &
     return getTargetRow(turnIndex,remainingScore);
 }
 
-IDartsFinishesDb *DCFinishBuilder::dbContext() const
-{
-    return _dbContext;
-}
-
-void DCFinishBuilder::setDbContext(IDartsFinishesDb *service)
-{
-    _dbContext = service;
-}
-
 QString DCFinishBuilder::getTargetRow(const int &turnIndex, const int &remainingScore) const
 {
         auto i = turnIndex;
         try {
-                auto list = dbContext()->model(i);
-                auto valuesAtKey = list->values(remainingScore);
-                auto count = valuesAtKey.count();
-                if(count == 0)
-                        return QString();
-                auto S = valuesAtKey.at(0);
-                return S;
+        auto list = _dbContext->model(i);
+        auto valuesAtKey = list->values(remainingScore);
+        auto count = valuesAtKey.count();
+        if (count == 0)
+            return QString();
+        return valuesAtKey.at(0);
         }  catch (...) {
                 return QString();
         }
-}
-
-IDartsCreateFinishes *DCFinishBuilder::constructTargetRows() const
-{
-    return _constructRow;
-}
-
-void DCFinishBuilder::setConstructRow(IDartsCreateFinishes *service)
-{
-    _constructRow = service;
-}
-
-void DCFinishBuilder::init()
-{
-        auto allTargetRows = constructTargetRows()->constructRows();
-        dbContext()->add(allTargetRows);
 }

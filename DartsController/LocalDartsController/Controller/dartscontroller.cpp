@@ -4,50 +4,50 @@
 
 QString DartsController::tournamentId() const
 {
-        return metaServices()->metaManager()->tournamentID().toString(QUuid::WithBraces);
+    return _metaServices->metaManager()->tournamentID().toString(QUuid::WithBraces);
 }
 
 QByteArray DartsController::getPlayerScores() const
 {
-        return getScoresAsJson()->get();
+    return _playerScores->get();
 }
 
 int DartsController::status() const
 {
-        return metaServices()->metaManager()->status();
+    return _metaServices->metaManager()->status();
 }
 
 int DartsController::initialize(const QUuid &tournamentId)
 {
-        return initializer()->init(tournamentId);
+    return _initialize->init(tournamentId);
 }
 
 QByteArray DartsController::addInput(const QByteArray& byteArray)
 {
-        return addInputModel()->add(byteArray,this);
+    return _inputPersist->add(byteArray, this);
 }
 
 bool DartsController::reset()
 {
-        return resetServices()->reset();
+    return _resetServices->reset();
 }
 
 QByteArray DartsController::undoTurn()
 {
-        return undoPlayerTurn()->undo();
+    return _undoTurn->undo();
 }
 
 QByteArray DartsController::redoTurn()
 {
-        return redoPlayerTurn()->redo();
+    return _redoTurn->redo();
 }
 
 QByteArray DartsController::getTurnValues() const
 {
-         return turnValuesAsJson()->toJson();
+    return _getTurnValuesAsJson->toJson();
 }
 
 QByteArray DartsController::getWinnerJson() const
 {
-        return createWinnerReport()->create();
+    return _createWinnerReport->create();
 }

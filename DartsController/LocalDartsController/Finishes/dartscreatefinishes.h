@@ -2,14 +2,21 @@
 #define DARTSCREATEFINISHES_H
 
 #include <QMultiHash>
-#include <qvector.h>
 #include <DartsController/Contracts/Finishes/idartscreatefinishes.h>
+#include <DartsController/LocalDartsController/Finishes/dartsboundaries.h>
+#include <DartsController/LocalDartsController/Finishes/dartsdefaultattempts.h>
+#include <DartsController/LocalDartsController/Finishes/dartsdivisors.h>
+#include <DartsController/LocalDartsController/Finishes/dartsfieldvalues.h>
+#include <DartsController/LocalDartsController/Finishes/dartsmodidentifiers.h>
+#include <DartsController/LocalDartsController/Finishes/dartsterminaldivisor.h>
+#include <DartsController/LocalDartsController/Finishes/defaultthresholds.h>
+#include <qvector.h>
 
 class DartsCreateFinishes: public IDartsCreateFinishes
 {
 public:
     static DartsCreateFinishes *createInstance() {return new DartsCreateFinishes;}
-    AllTargetRows constructRows() const override;
+    TargetRows constructRows() const override;
 private:
     struct ScoreModel
     {
@@ -33,5 +40,13 @@ private:
                             const int &turnIndex, ScoreModel *s) const;
     bool isEven(const int& integer) const;
     QString toString(ScoreModel *s) const;
+
+    IDartsBoundaries *_boundaries = new DartsBoundaries();
+    IDartsThresholds *_thresholds = new DefaultThresholds();
+    IDartsFieldValues *_fieldValues = new DartsFieldValues();
+    IDartsDivisorValues *_divisors = new DartsDivisors();
+    IDartsterminalDivisor *_terminalDivisor = new DartsTerminalDivisor();
+    IDartsModIdentifiers *_identifiers = new DartsModIdentifiers();
+    IDartsAttemptsService *_attempts = new DartsDefaultAttempts();
 };
 #endif // DARTSCONSTRUCTROW_H
