@@ -1,9 +1,8 @@
 import QtQuick 2.12
-import "./tournaments/createPage"
-import "./players/createPlayerPage"
+
 import "./pages/tournamentPage"
-import "./pages/tournamentsPage"
 import "./pages/startPage"
+import "./components/pages"
 
 Item {
         id: body
@@ -11,55 +10,25 @@ Item {
         signal backPushed
 
         Component {
-                id: createPlayerComponent
-                CreatePlayerPage {
-                        onBackButtonClicked: pageLoader.sourceComponent = managePageComponent
-                }
-        }
-
-        Component {
-                id: managePageComponent
-                ManagePageContent {
-                        onBackButtonClicked: pageLoader.sourceComponent = startPageComponent
-                        onRequestCreatePlayerPage: pageLoader.sourceComponent = createPlayerComponent
-                        onRequestCreateTournamentPage: pageLoader.sourceComponent = createTournamentComponent
-                        Component.onCompleted: body.backPushed.connect(backButtonClicked)
-                }
-        }
-
-        Component {
-                id: createTournamentComponent
-                CreateTournamentPage {
-                        onBackButtonClicked: pageLoader.sourceComponent = managePageComponent
-                        Component.onCompleted: body.backPushed.connect(backButtonClicked)
-                }
-        }
-
-        Component {
-                id: tournamentPageComponent
-                TournamentsPage {
-                        onCreateTournamentClicked: pageLoader.sourceComponent = createTournamentComponent
-                        onManageButtonClicked: pageLoader.sourceComponent = managePageComponent
-                        onDartsScoreSingleColumnInitialized: pageLoader.sourceComponent = dartsScoreSingleColumn
-                        onDartsPointSingleColumnInitialized: pageLoader.sourceComponent = dartsPointSingleColumn
-                        onBackButtonClicked: pageLoader.sourceComponent = startPageComponent
-                        Component.onCompleted: body.backPushed.connect(backButtonClicked)
-                }
-        }
-
-        Component {
                 id: startPageComponent
                 StartPage {
-                        onSetupGameClicked: pageLoader.sourceComponent = tournamentPageComponent
+                        onSetupGameClicked: pageLoader.sourceComponent = setupTournamentPage
                         onManageContentClicked: pageLoader.sourceComponent = managePageComponent
                 }
         }
 
         Component {
-                id: dartsPointSingleColumn
+                id: tournamentPage
                 TournamentPage {
-                        Component.onCompleted: body.backPushed.connect(backButtonPressed)
-                        onBackButtonClicked: pageLoader.sourceComponent = tournamentPageComponent
+                        onBackClicked: pageLoader.sourceComponent = startPageComponent
+                }
+        }
+
+        Component {
+                id: setupTournamentPage
+                SetupTournamentPage {
+                        onBackClicked: pageLoader.sourceComponent = startPageComponent
+                        onRequestTournamentPage: pageLoader.sourceComponent = tournamentPage
                 }
         }
 

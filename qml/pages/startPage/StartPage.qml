@@ -4,6 +4,7 @@ import QtQuick.Layouts 1.3
 
 Page {
         id: startPageContentBody
+
         signal setupGameClicked
         signal manageContentClicked
         signal settingsButtonClicked
@@ -65,6 +66,7 @@ Page {
                         height: 192
                         color: "transparent"
                 }
+
                 StartMenuButton {
                         Layout.alignment: Qt.AlignHCenter
                         text: "Select tournament \n and play"

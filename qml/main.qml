@@ -29,6 +29,7 @@ ApplicationWindow {
                         }
                 }
         }
+
         MainComponent {
                 id: mainPage
                 anchors.fill: parent
