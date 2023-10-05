@@ -5,7 +5,7 @@
 #include <qbytearray.h>
 #include <qjsondocument.h>
 
-struct DartIndex
+struct DartsIndex
 {
         int playersCount;
         int playerIndex;
@@ -13,11 +13,11 @@ struct DartIndex
         int turnIndex;
         int totalTurns;
 
-        static DartIndex fromJson(const QByteArray &json){
-                DartIndex index;
+        static DartsIndex fromJson(const QByteArray &json){
+                DartsIndex index;
                 auto jsonDoc = QJsonDocument::fromJson(json);
                 if(!jsonDoc.isObject())
-                        return DartIndex();
+                        return DartsIndex();
                 auto jsonObj = jsonDoc.object();
                 index.playersCount = jsonObj.value("playersCount").toInt();
                 index.playerIndex = jsonObj.value("playerIndex").toInt();

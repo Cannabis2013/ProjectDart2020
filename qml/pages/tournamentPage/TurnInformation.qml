@@ -38,6 +38,7 @@ Rectangle {
                         backgroundColor: "grey"
                         radius: 6
                         enabled: false
+                        onClicked: undoClicked()
                 }
 
                 NewPushButton {
@@ -49,6 +50,7 @@ Rectangle {
                         backgroundColor: "grey"
                         radius: 6
                         enabled: false
+                        onClicked: redoClicked()
                 }
 
                 Rectangle {

@@ -7,13 +7,14 @@ DartsIndexes::DartsIndexes()
 
 void DartsIndexes::init(const int& playerCount)
 {
+        _indexes = DartsIndex();
         _indexes.playersCount = playerCount;
 }
 
 void DartsIndexes::init()
 {
         FileJsonIO jsonIO ("indexes.dat");
-        _indexes = DartIndex::fromJson(jsonIO.read());
+        _indexes = DartsIndex::fromJson(jsonIO.read());
 }
 
 bool DartsIndexes::next()
@@ -71,7 +72,7 @@ bool DartsIndexes::canRedo()
 
 void DartsIndexes::reset()
 {
-        _indexes = DartIndex();
+        _indexes = DartsIndex();
 }
 
 int DartsIndexes::turnIndex()

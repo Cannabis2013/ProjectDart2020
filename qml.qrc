@@ -36,7 +36,7 @@
         <file>qml/main.qml</file>
         <file>qml/MainComponent.qml</file>
         <file>qml/pages/tournamentPage/TurnInformation.qml</file>
-        <file>qml/components/keyPad/KeyPad.qml</file>
+        <file>qml/components/keyPad/KeyPads.qml</file>
         <file>qml/components/keyPad/NumberPad.qml</file>
         <file>qml/components/keyPad/keyPadBuilder.js</file>
         <file>qml/components/keyPad/ModPad.qml</file>

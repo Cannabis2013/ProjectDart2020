@@ -10,7 +10,7 @@ NewPushButton {
         color: "orange"
         radius: 0
 
-        property string padValue: "0"
+        property int padValue: 0
 
         signal padClicked(string value)
 

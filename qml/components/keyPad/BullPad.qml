@@ -11,7 +11,7 @@ NewPushButton {
         fontColor: "white"
         radius: 0
 
-        property string padValue: "25"
+        property int padValue: 25
 
         signal padClicked(string value)
 

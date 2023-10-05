@@ -39,11 +39,13 @@ BlackPage {
                         height: 32
                         width: 262
                         onUndoClicked: {
-                                dartsController.undo()
+                                const response = dartsController.undoTurn()
+                                PageScripts.updatePlayerScore(response)
                                 PageScripts.updateTurnInfo()
                         }
                         onRedoClicked: {
-                                dartsController.redo()
+                                const response = dartsController.redoTurn()
+                                PageScripts.updatePlayerScore(response)
                                 PageScripts.updateTurnInfo()
                         }
                 }
@@ -53,12 +55,16 @@ BlackPage {
                         Layout.fillHeight: true
                 }
 
-                KeyPad {
+                KeyPads {
                         id: keyPad
                         width: 700
                         height: 700
                         Layout.alignment: Qt.AlignHCenter
-                        onReportScore: console.log(`Mod: ${modId} point: ${value}`)
+                        onReportScore: {
+                                const response = PageScripts.sendScore(modId, point)
+                                PageScripts.updatePlayerScore(response)
+                                PageScripts.updateTurnInfo()
+                        }
                 }
         }
 

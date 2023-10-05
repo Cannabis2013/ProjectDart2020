@@ -10,9 +10,9 @@ NewPushButton {
         color: "red"
         radius: 0
 
-        property string padValue: "50"
+        property int padValue: 50
 
-        signal padClicked(string value)
+        signal padClicked(int value)
 
         MouseArea {
                 anchors.fill: parent

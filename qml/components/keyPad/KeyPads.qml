@@ -17,13 +17,19 @@ Rectangle {
                 }
         }
 
-        signal reportScore(string modId, string value)
+        signal reportScore(string modId, int point)
 
-        signal numberClicked(string value)
+        signal numberClicked(int point)
         onNumberClicked: {
                 const modId = modKeys.selectedId()
                 modKeys.unSelectAll()
-                reportScore(modId, value)
+                reportScore(modId, point)
+        }
+
+        signal specialClicked(string value)
+        onSpecialClicked: {
+                modKeys.unSelectAll()
+                reportScore("S", value)
         }
 
         signal modKeyClicked(string modId)
@@ -61,21 +67,14 @@ Rectangle {
         signal buttonClicked
 
         GridLayout {
+                id: middlePadGrid
                 anchors.fill: parent
-                rows: 3
-                columns: 2
-                columnSpacing: 0
-                rowSpacing: 0
+                rows: 4
+                columns: 5
+                columnSpacing: 1
+                rowSpacing: 1
                 flow: GridLayout.LeftToRight
-                GridLayout {
-                        id: middlePadGrid
-                        rows: 4
-                        columns: 5
-                        columnSpacing: 0
-                        rowSpacing: 0
-                        flow: GridLayout.LeftToRight
-                        layoutDirection: Qt.RightToLeft
-                }
+                layoutDirection: Qt.RightToLeft
         }
 
         Component.onCompleted: Builder.buid()

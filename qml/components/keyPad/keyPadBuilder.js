@@ -1,6 +1,8 @@
 function buid() {
-        const padWidth = keyPadRect.width / 5
-        const padHeight = keyPadRect.height / 5
+        const columnSpace = middlePadGrid.columnSpacing
+        const rowSpace = middlePadGrid.rowSpacing
+        const padWidth = keyPadRect.width / 5 - 4 * columnSpace
+        const padHeight = keyPadRect.height / 5 - 4 * rowSpace
         buildNumbers(padWidth, padHeight)
 }
 
@@ -55,7 +57,7 @@ function createBullPad(height, width, parentObj) {
                                                       "height": height,
                                                       "width": width
                                               })
-        object.padClicked.connect(keyPadRect.numberClicked)
+        object.padClicked.connect(keyPadRect.specialClicked)
 }
 
 function createBullsPad(height, width, parentObj) {
@@ -64,7 +66,7 @@ function createBullsPad(height, width, parentObj) {
                                                       "height": height,
                                                       "width": width
                                               })
-        object.padClicked.connect(keyPadRect.numberClicked)
+        object.padClicked.connect(keyPadRect.specialClicked)
 }
 
 function createBustPad(height, width, parentObj) {
@@ -73,5 +75,5 @@ function createBustPad(height, width, parentObj) {
                                                       "height": height,
                                                       "width": width
                                               })
-        object.padClicked.connect(keyPadRect.numberClicked)
+        object.padClicked.connect(keyPadRect.specialClicked)
 }

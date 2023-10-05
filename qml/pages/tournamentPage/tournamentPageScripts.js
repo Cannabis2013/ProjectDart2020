@@ -19,8 +19,22 @@ function updateTurnComp(json) {
 }
 
 function updateScoresView(json) {
-        const score = json["currentPlayerScore"]
         const player = json["currentPlayerName"]
-        scoresView.updateScore(score, player)
         scoresView.highligtScore(player)
+}
+
+function sendScore(modId, point) {
+        const score = {
+                "mod": modId,
+                "point": point
+        }
+        const response = dartsController.addInput(JSON.stringify(score))
+        return response
+}
+
+function updatePlayerScore(response) {
+        const json = JSON.parse(response)
+        const playerName = json["playerName"]
+        const playerScore = json["playerScore"]
+        scoresView.updateScore(playerScore, playerName)
 }

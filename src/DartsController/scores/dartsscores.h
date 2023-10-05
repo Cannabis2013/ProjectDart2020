@@ -16,13 +16,13 @@ public:
         virtual void init(const int& playersCount) override;
         virtual void init() override;
         virtual void reset() override;
-        virtual DartsScore update(DartInput input) override;
+    virtual DartsScore update(DartsInput input) override;
         virtual DartsScore update() override;
         virtual DartsScore score() override;
         virtual QVector<int> scores() override;
 private:
-        int totalScore(const QList<DartInput> &inputs);
-        int inputScore(const DartInput &input) const;
+    int totalScore(const QList<DartsInput> &inputs);
+    int inputScore(const DartsInput &input) const;
         int modMultiplier(QString mod) const;
 
         QVector<int> _scores;

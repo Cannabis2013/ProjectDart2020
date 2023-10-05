@@ -1,12 +1,12 @@
 #ifndef DARTTURNINDEX_H
 #define DARTTURNINDEX_H
 
-#include "dartindex.h"
+#include "dartsindex.h"
 
 class DartTurnIndex
 {
 public:
-        static DartTurnIndex fromIndex(DartIndex index){
+    static DartTurnIndex fromIndex(DartsIndex index){
                 DartTurnIndex turnIndex;
                 turnIndex._playerIndex = index.playerIndex;
                 turnIndex._legIndex = index.legIndex;

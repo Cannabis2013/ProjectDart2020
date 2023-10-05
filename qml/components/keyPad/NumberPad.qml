@@ -6,9 +6,9 @@ NewPushButton {
         id: padRect
 
         radius: 0
-        property string padValue: ""
+        property int padValue: -1
 
-        signal padClicked(string value)
+        signal padClicked(int value)
 
         MouseArea {
                 anchors.fill: parent

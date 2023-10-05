@@ -8,18 +8,12 @@
 class TurnInfo
 {
 public:
-        TurnInfo(const QString& currentPlayer, int currentScore,
+        TurnInfo(const QString& currentPlayer,
                  bool canUndo, bool canRedo) :
                 _currentPlayer(currentPlayer),
-                _currentScore(currentScore),
                 _canUndo(canUndo),
                 _canRedo(canRedo)
         {}
-
-        int currentScore() const
-        {
-                return _currentScore;
-        }
 
         QString currentPlayer() const
         {
@@ -28,8 +22,7 @@ public:
 
         QByteArray toJson(){
                 QJsonObject jsonObj;
-                jsonObj["currentPlayer"] = _currentPlayer;
-                jsonObj["currentPlayerScore"] = _currentScore;
+                jsonObj["currentPlayerName"] = _currentPlayer;
                 jsonObj["type"] = "turnInfo";
                 jsonObj["canUndo"] = _canUndo;
                 jsonObj["canRedo"] = _canRedo;
@@ -39,7 +32,6 @@ public:
 
 private:
         QString _currentPlayer;
-        int _currentScore;
         bool _canUndo;
         bool _canRedo;
 };

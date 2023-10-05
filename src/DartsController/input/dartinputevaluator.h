@@ -10,10 +10,10 @@ class DartInputEvaluator : public IDartInputEvaluator
 {
 public:
     DartInputEvaluator(IDartsScores* scores);
-        virtual bool isValid(const DartInput &input) override;
-        virtual bool isWithinBounds(const DartInput &input) override;
+    virtual bool isValid(const DartsInput &input) override;
+    virtual bool isWithinBounds(const DartsInput &input) override;
 private:
-        int inputScore(const DartInput &input) const;
+    int inputScore(const DartsInput &input) const;
         int modMultiplier(QString mod) const;
 
         // Services

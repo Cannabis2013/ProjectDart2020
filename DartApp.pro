@@ -31,14 +31,15 @@ HEADERS += \
     src/DartsController/idartscontroller.h \
     src/DartsController/indexes/DartTurnIndex.h \
     src/DartsController/indexes/IDartsIndexes.h \
-    src/DartsController/indexes/dartindex.h \
+    src/DartsController/indexes/dartsindex.h \
     src/DartsController/indexes/dartsindexes.h \
     src/DartsController/init/dartInitInfo.h \
+    src/DartsController/input/DartsInput.h \
+    src/DartsController/input/DartsInternalInput.h \
     src/DartsController/input/IDartInputEvalutor.h \
     src/DartsController/input/IDartInputs.h \
-    src/DartsController/input/dartInput.h \
     src/DartsController/input/dartinputevaluator.h \
-    src/DartsController/input/dartinputs.h \
+    src/DartsController/input/dartsinputs.h \
     src/DartsController/input/inputsio.h \
     src/DartsController/players/IDartPlayers.h \
     src/DartsController/players/dartplayers.h \
@@ -63,7 +64,7 @@ SOURCES += \
     src/DartsController/dartscontroller.cpp \
     src/DartsController/indexes/dartsindexes.cpp \
     src/DartsController/input/dartinputevaluator.cpp \
-    src/DartsController/input/dartinputs.cpp \
+    src/DartsController/input/dartsinputs.cpp \
     src/DartsController/input/inputsio.cpp \
     src/DartsController/players/dartplayers.cpp \
     src/DartsController/responses/dartsinforesponse.cpp \

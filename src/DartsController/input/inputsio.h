@@ -1,7 +1,7 @@
 #ifndef INPUTSIO_H
 #define INPUTSIO_H
 
-#include "src/DartsController/input/dartInput.h"
+#include "src/DartsController/input/DartsInternalInput.h"
 #include <qstring.h>
 
 class InputsIO
@@ -9,8 +9,8 @@ class InputsIO
 public:
         InputsIO(const QString &filePath);
 
-        bool toFile(const QList<DartInput> &_inputs);
-        QList<DartInput> fromFile() const;
+        bool toFile(const QList<DartsInternalInput> &_inputs);
+        QList<DartsInternalInput> fromFile() const;
 private:
         const QString _filePath;
 };

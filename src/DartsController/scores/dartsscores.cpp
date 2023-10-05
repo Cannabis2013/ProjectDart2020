@@ -21,7 +21,7 @@ void DartsScores::reset()
         _scores = QVector<int>();
 }
 
-DartsScore DartsScores::update(DartInput input)
+DartsScore DartsScores::update(DartsInput input)
 {
         auto playerIndex = _indexes->index().playerIndex();
         auto playerName = _players->name(playerIndex);
@@ -58,15 +58,15 @@ QVector<int> DartsScores::scores()
         return _scores;
 }
 
-int DartsScores::totalScore(const QList<DartInput>& inputs)
+int DartsScores::totalScore(const QList<DartsInput>& inputs)
 {
-        int sum = 0;
+        int sum = 501;
         for (auto& input : qAsConst(inputs))
-                sum += inputScore(input);
+                sum -= inputScore(input);
         return sum;
 }
 
-int DartsScores::inputScore(const DartInput& input) const
+int DartsScores::inputScore(const DartsInput& input) const
 {
         auto multiplier = modMultiplier(input.mod());
         return  input.point()*multiplier;

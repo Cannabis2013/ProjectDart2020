@@ -19,8 +19,7 @@ TurnInfo DartsInfoResponse::currentTurnInfo()
         auto canUndo = _indexes->canUndo();
         auto canRedo = _indexes->canRedo();
         auto playerName = _players->name(dartIndexes.playerIndex());
-        auto score = _scores->score();
-        return TurnInfo(playerName,score.playerScore(),canUndo,canRedo);
+        return TurnInfo(playerName,canUndo,canRedo);
 }
 
 WinnerInfo DartsInfoResponse::winnerInfo()

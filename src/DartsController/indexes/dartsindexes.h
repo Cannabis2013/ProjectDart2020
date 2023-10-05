@@ -2,7 +2,7 @@
 #define DARTINDEXES_H
 
 #include "IDartsIndexes.h"
-#include "dartindex.h"
+#include "dartsindex.h"
 
 class DartsIndexes : public IDartsIndexes
 {
@@ -22,7 +22,7 @@ public:
 private:
         void saveIndexes();
 
-        DartIndex _indexes;
+        DartsIndex _indexes;
 };
 
 #endif // DARTINDEXES_H
