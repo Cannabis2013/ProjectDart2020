@@ -16,41 +16,32 @@
     </qresource>
     <qresource prefix="/">
         <file>qml/components/animatedItems/checkmarkAnimation.qml</file>
-        <file>qml/components/buttons/ButtonsComponent.qml</file>
-        <file>qml/components/buttons/ConfirmActionButtons.qml</file>
-        <file>qml/components/buttons/CRUDButton.qml</file>
-        <file>qml/components/buttons/InteractiveObject.qml</file>
         <file>qml/components/buttons/NewPushButton.qml</file>
-        <file>qml/components/buttons/PushButton.qml</file>
-        <file>qml/components/buttons/PushButtonInterface.qml</file>
-        <file>qml/components/buttons/pushbuttonScripts.js</file>
-        <file>qml/components/displayItems/LabelComponent.qml</file>
-        <file>qml/components/displayItems/MyLabel.qml</file>
-        <file>qml/components/displayItems/TextRect.qml</file>
-        <file>qml/components/displayItems/TitleItem.qml</file>
         <file>qml/components/geometry/MyRectangle.qml</file>
-        <file>qml/components/itemViews/PlayerNameDelegate.qml</file>
-        <file>qml/components/itemViews/PlayersView.qml</file>
         <file>qml/components/pages/BlackPage.qml</file>
         <file>qml/components/pages/PageHeader.qml</file>
         <file>qml/components/playerIcons/PlayerIcon.qml</file>
         <file>qml/components/playerIcons/PlayerIcons.qml</file>
-        <file>qml/components/userInputs/ComboBoxComponent.qml</file>
-        <file>qml/components/userInputs/DefaultComboBox.qml</file>
-        <file>qml/components/userInputs/DefaultSpinBox.qml</file>
-        <file>qml/components/userInputs/DefaultTextInputBox.qml</file>
-        <file>qml/components/userInputs/SpinBoxInputContent.qml</file>
+        <file>qml/components/playerScores/PlayerScore.qml</file>
+        <file>qml/components/playerScores/PlayerScores.qml</file>
+        <file>qml/components/playersView/PlayerNameDelegate.qml</file>
+        <file>qml/components/playersView/PlayersView.qml</file>
         <file>qml/components/userInputs/TextInputBox.qml</file>
         <file>qml/components/userInputs/TextInputField.qml</file>
-        <file>qml/components/userInputs/UserInputComponent.qml</file>
-        <file>qml/components/userInputs/UserInputContent.qml</file>
         <file>qml/pages/startPage/StartMenuButton.qml</file>
         <file>qml/pages/startPage/StartPage.qml</file>
         <file>qml/pages/tournamentPage/SetupTournamentPage.qml</file>
         <file>qml/pages/tournamentPage/TournamentPage.qml</file>
+        <file>qml/pages/tournamentPage/tournamentPageScripts.js</file>
         <file>qml/main.qml</file>
         <file>qml/MainComponent.qml</file>
-        <file>qml/components/playerScores/PlayerScores.qml</file>
-        <file>qml/components/playerScores/PlayerScore.qml</file>
+        <file>qml/pages/tournamentPage/TurnInformation.qml</file>
+        <file>qml/components/keyPad/KeyPad.qml</file>
+        <file>qml/components/keyPad/NumberPad.qml</file>
+        <file>qml/components/keyPad/keyPadBuilder.js</file>
+        <file>qml/components/keyPad/ModPad.qml</file>
+        <file>qml/components/keyPad/BullsPad.qml</file>
+        <file>qml/components/keyPad/BullPad.qml</file>
+        <file>qml/components/keyPad/BustPad.qml</file>
     </qresource>
 </RCC>

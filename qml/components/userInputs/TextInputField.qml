@@ -21,6 +21,22 @@ Rectangle {
                 }
         }
 
+        Keys.onReturnPressed: {
+                const value = nameInputBox.textValue
+                if (value == "")
+                        return
+                valueChanged(value)
+                nameInputBox.clear()
+        }
+
+        Keys.onEnterPressed: {
+                const value = nameInputBox.textValue
+                if (value == "")
+                        return
+                valueChanged(value)
+                nameInputBox.clear()
+        }
+
         GridLayout {
                 anchors.fill: parent
                 flow: GridLayout.LeftToRight
@@ -38,7 +54,7 @@ Rectangle {
                 }
 
                 TextInputBox {
-                        id: nameinputBox
+                        id: nameInputBox
                         Layout.fillWidth: true
                         height: 32
                 }
@@ -54,11 +70,11 @@ Rectangle {
                         height: 32
                         width: 32
                         onClicked: {
-                                const value = nameinputBox.textValue
+                                const value = nameInputBox.textValue
                                 if (value == "")
                                         return
                                 valueChanged(value)
-                                nameinputBox.clear()
+                                nameInputBox.clear()
                         }
                 }
         }

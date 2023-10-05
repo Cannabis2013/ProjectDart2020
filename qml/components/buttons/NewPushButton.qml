@@ -10,6 +10,8 @@ Rectangle {
 
         signal clicked
 
+        onEnabledChanged: buttonRect.opacity = enabled ? 1 : 0.2
+
         property string text: ""
         onTextChanged: buttonText.text = qsTr(text)
         property color backgroundColor: "grey"
@@ -19,7 +21,7 @@ Rectangle {
 
         MouseArea {
                 anchors.fill: parent
-                onClicked: buttonRect.clicked()
+                onPressed: buttonRect.clicked()
         }
 
         Text {

@@ -13,10 +13,26 @@ Flickable {
                 return names
         }
 
+        QtObject {
+                id: playerNameContainer
+                property var names: []
+        }
+
         signal appendName(string name)
-        onAppendName: playersModel.append({
-                                                  "name": name
-                                          })
+        onAppendName: {
+                const existingNames = playerNameContainer.names
+                for (var i = 0; i < existingNames.length; i++) {
+                        const n = existingNames[i]
+                        if (n === name)
+                                return
+                }
+
+                const obj = {
+                        "name": name
+                }
+                existingNames.push(obj.name)
+                playersModel.append(obj)
+        }
 
         boundsBehavior: Flickable.StopAtBounds
         contentHeight: playersModel.count * 70 - 6

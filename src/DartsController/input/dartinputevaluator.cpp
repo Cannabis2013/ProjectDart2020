@@ -13,7 +13,7 @@ bool DartInputEvaluator::isValid(const DartInput& input)
 bool DartInputEvaluator::isWithinBounds(const DartInput& input)
 {
         auto scoreValue = inputScore(input);
-        auto playerScore = _scores->score();
+        auto playerScore = _scores->score().playerScore();
         auto remainingScore = playerScore - scoreValue;
         return remainingScore >= 0;
 }

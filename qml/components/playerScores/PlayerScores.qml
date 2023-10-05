@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.3
 Flickable {
         id: scoresFlickable
         clip: true
-        contentWidth: 384
+        contentWidth: 0
         contentHeight: 80
 
         QtObject {
@@ -12,15 +12,30 @@ Flickable {
                 property var objects: []
         }
 
-        signal setNames(var names)
-        onSetNames: {
+        signal initialize(var names, var scores)
+        onInitialize: {
                 for (var i = 0; i < names.length; i++) {
                         const component = Qt.createComponent("PlayerScore.qml")
                         const object = component.createObject(scoresGrid, {})
                         object.setName(names[i])
-                        scoresGrid.width += 128
-                        scoresFlickable.contentWidth += 128
+                        object.setScore(scores[i])
+                        const objectWidth = i < names.length - 1 ? 134 : 128
+                        scoresGrid.width += objectWidth
+                        scoresFlickable.contentWidth += objectWidth
                         scoresObjects.objects.push(object)
+                }
+        }
+
+        signal highligtScore(string name)
+        onHighligtScore: {
+                const scores = scoresObjects.objects
+                for (var i = 0; i < scores.length; i++) {
+                        const score = scores[i]
+                        const scoreName = score.name
+                        if (scoreName === name)
+                                score.highlighted = true
+                        else
+                                score.highlighted = false
                 }
         }
 
@@ -36,6 +51,7 @@ Flickable {
 
         GridLayout {
                 id: scoresGrid
+                columnSpacing: 6
                 width: 0
         }
 }

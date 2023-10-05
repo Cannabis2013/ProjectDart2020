@@ -5,9 +5,16 @@ import QtGraphicalEffects 1.15
 import "../../components/playerIcons"
 import "../../components/playerScores"
 import "../../components/pages"
+import "../../components/buttons"
+import "../../components/keyPad"
+import "tournamentPageScripts.js" as PageScripts
 
 BlackPage {
         id: tournamentPage
+
+        buttonText: "Menu"
+        pageTitle: "Tournament"
+
         GridLayout {
                 anchors.fill: parent
                 flow: GridLayout.TopToBottom
@@ -22,21 +29,41 @@ BlackPage {
                 PlayerScores {
                         id: scoresView
                         height: 80
-                        width: 256
+                        width: 262
                         Layout.alignment: Qt.AlignHCenter
                 }
 
-                Rectangle {
+                TurnInformation {
+                        id: turnInfoComp
                         Layout.alignment: Qt.AlignHCenter
+                        height: 32
+                        width: 262
+                        onUndoClicked: {
+                                dartsController.undo()
+                                PageScripts.updateTurnInfo()
+                        }
+                        onRedoClicked: {
+                                dartsController.redo()
+                                PageScripts.updateTurnInfo()
+                        }
+                }
+
+                Rectangle {
+                        height: 128
                         Layout.fillHeight: true
-                        width: 24
-                        color: "white"
+                }
+
+                KeyPad {
+                        id: keyPad
+                        width: 700
+                        height: 700
+                        Layout.alignment: Qt.AlignHCenter
+                        onReportScore: console.log(`Mod: ${modId} point: ${value}`)
                 }
         }
 
         Component.onCompleted: {
-                const names = dartsController.playerNames()
-                playerIcons.setIconLabels(names)
-                scoresView.setNames(names)
+                PageScripts.updateInitialValues()
+                PageScripts.updateTurnInfo()
         }
 }

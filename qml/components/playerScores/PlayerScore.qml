@@ -2,10 +2,17 @@ import QtQuick 2.15
 import QtQuick.Layouts 1.3
 
 Rectangle {
+        id: playersScoreRect
+
         clip: true
         width: 128
         height: 80
-        color: "transparent"
+        color: "green"
+
+        radius: 12
+
+        property bool highlighted: false
+        onHighlightedChanged: highlightRect.visible = highlighted
 
         readonly property string name: playerName.text
         readonly property string score: playerScore.text
@@ -15,6 +22,14 @@ Rectangle {
 
         signal setScore(int score)
         onSetScore: playerScore.text = score.toString()
+
+        Rectangle {
+                id: highlightRect
+                color: "blue"
+                opacity: 0.5
+                anchors.fill: parent
+                visible: false
+        }
 
         GridLayout {
                 anchors.fill: parent
@@ -31,7 +46,7 @@ Rectangle {
                 }
                 Text {
                         id: playerScore
-                        text: "501"
+                        text: "-1"
                         Layout.fillWidth: true
                         Layout.fillHeight: true
                         font.pointSize: 28

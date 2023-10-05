@@ -6,6 +6,13 @@ import "../../components/buttons"
 
 Rectangle {
         signal backButtonClicked
+
+        property string buttonText: headerButton.text
+        onButtonTextChanged: headerButton.text = buttonText
+
+        property string pageTitle: pageTitleComp.text
+        onPageTitleChanged: pageTitleComp.text = pageTitle
+
         height: 64
         color: "black"
         GridLayout {
@@ -15,16 +22,31 @@ Rectangle {
                         width: 24
                 }
 
-                PushButton {
+                NewPushButton {
+                        id: headerButton
                         text: "Back"
-                        width: 64
-                        height: 48
+                        width: 48
+                        height: 32
+                        radius: 12
                         Layout.alignment: Qt.AlignVCenter
                         onClicked: backButtonClicked()
                 }
 
                 Rectangle {
+                        width: 6
+                }
+
+                Text {
+                        id: pageTitleComp
+                        text: "Page title"
+                        font.pointSize: 12
+                        color: "white"
                         Layout.fillWidth: true
+                        height: 32
+                }
+
+                Rectangle {
+                        width: 12
                 }
         }
 }

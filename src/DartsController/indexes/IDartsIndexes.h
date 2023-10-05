@@ -3,16 +3,19 @@
 
 #include "DartTurnIndex.h"
 
-class IDartIndexes
+class IDartsIndexes
 {
 public:
         virtual void init(const int &playerCount) = 0;
-        virtual void initFromExternalContext(const int &playerCount) = 0;
+        virtual void init() = 0;
         virtual bool next() = 0;
-        virtual bool previous() = 0;
+        virtual bool undo() = 0;
+        virtual bool redo() = 0;
+        virtual bool canUndo() = 0;
+        virtual bool canRedo() = 0;
         virtual int turnIndex() = 0;
         virtual void reset() = 0;
-    virtual const DartTurnIndex index() const = 0;
+        virtual const DartTurnIndex index() const = 0;
 };
 
 #endif // IDARTINDEXES_H

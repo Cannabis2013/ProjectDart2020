@@ -1,17 +1,20 @@
 #ifndef DARTINDEXES_H
 #define DARTINDEXES_H
 
-#include "IDartIndexes.h"
+#include "IDartsIndexes.h"
 #include "dartindex.h"
 
-class DartIndexes : public IDartIndexes
+class DartsIndexes : public IDartsIndexes
 {
 public:
-        DartIndexes();
+        DartsIndexes();
         virtual void init(const int& playerCount) override;
-        virtual void initFromExternalContext(const int &playerCount) override;
+        virtual void init() override;
         virtual bool next() override;
-        virtual bool previous() override;
+        virtual bool undo() override;
+        virtual bool redo() override;
+        virtual bool canUndo() override;
+        virtual bool canRedo() override;
         virtual void reset() override;
         virtual int turnIndex() override;
         virtual const DartTurnIndex index() const override;
@@ -20,7 +23,6 @@ private:
         void saveIndexes();
 
         DartIndex _indexes;
-        int playersCount;
 };
 
 #endif // DARTINDEXES_H

@@ -2,24 +2,25 @@
 #define DARTINPUTS_H
 
 #include "IDartInputs.h"
-#include "src/DartsController/indexes/IDartIndexes.h"
+#include "src/DartsController/indexes/IDartsIndexes.h"
+#include "src/DartsController/input/inputsio.h"
 
 class DartInputs : public IDartInputs
 {
 public:
-        DartInputs(IDartIndexes *indexes);
+    DartInputs(IDartsIndexes *indexes);
+        virtual void init() override;
         virtual void clear() override;
         virtual bool save(DartInput input) override;
         virtual QList<DartInput> inputs() override;
         virtual QList<DartInput> inputs(const QString& playerName, const int& turnIndex) override;
 private:
-        bool writeToFile();
-        void initFromFile();
 
         QList<DartInput> _inputs;
 
         // Services
-        IDartIndexes *_indexes;
+        IDartsIndexes *_indexes;
+        InputsIO *_inputsIO;
 };
 
 #endif // DARTINPUTS_H

@@ -5,6 +5,7 @@
 class IDartInputs
 {
 public:
+        virtual void init() = 0;
         virtual void clear() = 0;
         virtual bool save(DartInput input) = 0;
         virtual QList<DartInput> inputs() = 0;

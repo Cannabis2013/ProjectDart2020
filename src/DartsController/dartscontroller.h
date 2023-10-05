@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <src/DartsController/players/IDartPlayers.h>
-#include "src/DartsController/indexes/IDartIndexes.h"
+#include "src/DartsController/indexes/IDartsIndexes.h"
 #include "src/DartsController/input/IDartInputEvalutor.h"
 #include "src/DartsController/input/IDartInputs.h"
 #include "src/DartsController/responses/IDartsInfoResponse.h"
@@ -25,7 +25,7 @@ public:
 private:
         // Services
         IDartInputEvaluator *_evaluator = nullptr;
-        IDartIndexes *_indexes = nullptr;
+        IDartsIndexes *_indexes = nullptr;
         IDartsScores *_scores = nullptr;
         IDartInputs *_inputs = nullptr;
         IDartsInfoResponse *_response = nullptr;

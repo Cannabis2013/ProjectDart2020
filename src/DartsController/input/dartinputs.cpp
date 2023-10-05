@@ -6,15 +6,20 @@
 #include <QJsonObject>
 #include <QJsonValue>
 
-DartInputs::DartInputs(IDartIndexes* indexes):
-        _indexes(indexes)
+DartInputs::DartInputs(IDartsIndexes* indexes):
+        _indexes(indexes){
+        _inputsIO = new InputsIO("dartInputs.dat");
+}
+
+void DartInputs::init()
 {
-        initFromFile();
+        _inputs = _inputsIO->fromFile();
 }
 
 void DartInputs::clear()
 {
         _inputs.clear();
+        _inputsIO->toFile(_inputs);
 }
 
 bool DartInputs::save(DartInput input)
@@ -22,7 +27,7 @@ bool DartInputs::save(DartInput input)
         auto turnIndex = _indexes->turnIndex();
         input.setTurnIndex(turnIndex);
         _inputs.append(input);
-        return writeToFile();
+        return _inputsIO->toFile(_inputs);
 }
 
 QList<DartInput> DartInputs::inputs()
@@ -38,27 +43,4 @@ QList<DartInput> DartInputs::inputs(const QString& playerName, const int& turnIn
                         playerInputs << input;
         }
         return playerInputs;
-}
-
-bool DartInputs::writeToFile()
-{
-        FileJsonIO jsonIO("dartInputs.dat");
-        QJsonArray jsonArr;
-        for (auto input : qAsConst(_inputs))
-                jsonArr.append(input.toJsonObject());
-        auto jsonDoc = new QJsonDocument(jsonArr);
-        return jsonIO.write(jsonDoc->toJson());
-}
-
-void DartInputs::initFromFile()
-{
-        FileJsonIO jsonIO("dartInputs.dat");
-        auto jsonDoc = QJsonDocument::fromJson(jsonIO.read());
-        if(!jsonDoc.isArray())
-                return;
-        auto arr = jsonDoc.array();
-        for (auto ite = arr.begin(); ite != arr.end(); ++ite) {
-                auto jsonObj = ite->toObject();
-                _inputs.append(DartInput::fromJson(jsonObj));
-        }
 }

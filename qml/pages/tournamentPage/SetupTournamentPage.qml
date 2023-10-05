@@ -4,11 +4,14 @@ import QtQuick.Layouts 1.3
 
 import "../../components/buttons"
 import "../../components/pages"
+import "../../components/playersView"
 import "../../components/userInputs"
-import "../../components/itemViews"
 
 BlackPage {
         signal requestTournamentPage
+
+        buttonText: "Menu"
+        pageTitle: "Setup tournament"
 
         GridLayout {
                 width: 768
@@ -61,5 +64,10 @@ BlackPage {
                 Rectangle {
                         height: 8
                 }
+        }
+
+        Component.onCompleted: {
+                dartsController.init(["abc", "def"])
+                requestTournamentPage()
         }
 }

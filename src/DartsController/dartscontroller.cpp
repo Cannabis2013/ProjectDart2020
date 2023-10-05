@@ -1,6 +1,5 @@
 #include "dartscontroller.h"
-
-#include "src/DartsController/indexes/dartindexes.h"
+#include "src/DartsController/indexes/dartsindexes.h"
 #include "src/DartsController/init/dartInitInfo.h"
 #include "src/DartsController/input/dartinputevaluator.h"
 #include "src/DartsController/input/dartinputs.h"
@@ -10,7 +9,7 @@
 #include <src/DartsController/responses/dartsinforesponse.h>
 
 DartsController::DartsController() {
-        _indexes = new DartIndexes();
+    _indexes = new DartsIndexes();
         _players = new DartPlayers();
         _inputs = new DartInputs(_indexes);
         _scores = new DartsScores(_indexes,_players,_inputs);
@@ -34,7 +33,8 @@ QStringList DartsController::playerNames() const
 void DartsController::initFromSaved()
 {
         _players->initPlayers();
-        _indexes->initFromExternalContext(_players->playersCount());
+        _indexes->init();
+        _scores->init();
 }
 
 QByteArray DartsController::initialValues() const
@@ -44,6 +44,8 @@ QByteArray DartsController::initialValues() const
 
 QByteArray DartsController::turnInfo() const
 {
+        if(_scores->score().playerScore() == 0)
+                return _response->winnerInfo().toJson();
         return _response->currentTurnInfo().toJson();
 }
 
@@ -51,18 +53,18 @@ QByteArray DartsController::addInput(const QByteArray &inputAsJson)
 {
         auto input = DartInput::fromJson(inputAsJson);
         if(!_evaluator->isValid(input))
-                return ErrorInfo("Invalid input").toJson(); // Should return some error message
+                return ErrorInfo("Invalid input").toJson();
+        DartsScore score;
         if(_evaluator->isWithinBounds(input)){
                 _inputs->save(input);
-                _scores->update(input);
+               score =  _scores->update(input);
         }
         else{
                 _inputs->save(DartInput::nullified(input));
+                score = _scores->score();
         }
-        if(_scores->score() == 0)
-                return _response->winnerInfo().toJson();
         _indexes->next();
-        return _response->currentTurnInfo().toJson();
+        return score.toJson();
 }
 
 bool DartsController::reset() {
@@ -73,14 +75,14 @@ bool DartsController::reset() {
 }
 
 QByteArray DartsController::undoTurn() {
-        if(!_indexes->previous())
+    if(!_indexes->undo())
                 return ErrorInfo("Undo is not allowed").toJson();
         _scores->update();
         return _response->currentTurnInfo().toJson();
 }
 
 QByteArray DartsController::redoTurn() {
-        if(!_indexes->next())
+        if(!_indexes->redo())
                 return ErrorInfo("Not allowed").toJson();
         _scores->update();
         return _response->currentTurnInfo().toJson();

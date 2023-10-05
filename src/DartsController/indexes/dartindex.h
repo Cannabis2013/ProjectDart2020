@@ -7,6 +7,7 @@
 
 struct DartIndex
 {
+        int playersCount;
         int playerIndex;
         int legIndex;
         int turnIndex;
@@ -18,6 +19,7 @@ struct DartIndex
                 if(!jsonDoc.isObject())
                         return DartIndex();
                 auto jsonObj = jsonDoc.object();
+                index.playersCount = jsonObj.value("playersCount").toInt();
                 index.playerIndex = jsonObj.value("playerIndex").toInt();
                 index.legIndex = jsonObj.value("legIndex").toInt();
                 index.turnIndex = jsonObj.value("turnIndex").toInt();
@@ -27,6 +29,7 @@ struct DartIndex
 
         QByteArray toJson(){
                 QJsonObject jsonObj;
+                jsonObj["playersCount"] = playersCount;
                 jsonObj["playerIndex"] = playerIndex;
                 jsonObj["legIndex"] = legIndex;
                 jsonObj["turnIndex"] = turnIndex;
