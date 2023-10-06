@@ -4,80 +4,42 @@
 DartsScores::DartsScores(IDartsIndexes* indexes, IDartPlayers* players, IDartInputs* inputs):
         _indexes(indexes),_players(players), _inputs(inputs){
         _scoresIO = new ScoresIO("playerScores.dat");
-}
-
-void DartsScores::init(const int& playersCount)
-{
-        _scores = QVector<int>(playersCount,501);
+        _calculator = new DartsScoresCalculator(indexes,players,inputs);
 }
 
 void DartsScores::init()
 {
-        _scores = _scoresIO->fromFile();
+        auto names = _players->names();
+        for (const auto &name : names)
+                _scores << DartsInternalScore(name);
 }
 
 void DartsScores::reset()
 {
-        _scores = QVector<int>();
+        auto names = _players->names();
+        for (const auto &name : names)
+                _scores << DartsInternalScore(name);
 }
 
-DartsScore DartsScores::update(DartsInput input)
+DartsPlayerScore DartsScores::update(DartsInput input)
 {
         auto playerIndex = _indexes->index().playerIndex();
-        auto playerName = _players->name(playerIndex);
-        auto scoreValue = inputScore(input);
-        auto currentScore = _scores.at(playerIndex);
-        auto newScore = currentScore - scoreValue;
-        _scores.replace(playerIndex,newScore);
+        auto internalScore = _calculator->calculatedScore(input,_scores[playerIndex]);
+        _scores.replace(playerIndex,internalScore);
         _scoresIO->toFile(_scores);
-        return DartsScore(playerName,newScore);
+        return DartsPlayerScore(internalScore);
 }
 
-DartsScore DartsScores::update()
+DartsPlayerScores DartsScores::update()
 {
-        auto playerIndex = _indexes->index().playerIndex();
-        auto turnIndex =_indexes->turnIndex();
-        auto playerName = _players->name(playerIndex);
-        auto playerInputs = _inputs->inputs(playerName,turnIndex);
-        auto playerScore = totalScore(playerInputs);
-        _scores.replace(playerIndex,playerScore);
+        _scores =_calculator->calculatedScores();
         _scoresIO->toFile(_scores);
-        return DartsScore(playerName,playerScore);
+        return DartsPlayerScores(_scores);
 }
 
-DartsScore DartsScores::score()
+DartsPlayerScore DartsScores::score()
 {
         auto playerIndex = _indexes->index().playerIndex();
-        auto playerName = _players->name(playerIndex);
-        auto playerScore = _scores.at(playerIndex);
-        return DartsScore(playerName,playerScore);
-}
-
-QVector<int> DartsScores::scores()
-{
-        return _scores;
-}
-
-int DartsScores::totalScore(const QList<DartsInput>& inputs)
-{
-        int sum = 501;
-        for (auto& input : qAsConst(inputs))
-                sum -= inputScore(input);
-        return sum;
-}
-
-int DartsScores::inputScore(const DartsInput& input) const
-{
-        auto multiplier = modMultiplier(input.mod());
-        return  input.point()*multiplier;
-}
-
-int DartsScores::modMultiplier(QString mod) const
-{
-        if(mod == "S")
-                return 1;
-        else if(mod == "D")
-                return 2;
-        else
-                return 3;
+        auto internal = _scores.at(playerIndex);
+        return DartsPlayerScore(internal);
 }

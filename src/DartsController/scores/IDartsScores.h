@@ -2,18 +2,19 @@
 #define IDARTSSCORES_H
 
 #include "src/DartsController/input/DartsInput.h"
-#include "src/DartsController/scores/DartsScore.h"
+#include "src/DartsController/scores/DartsPlayerScores.h"
+#include "src/DartsController/scores/dartsPlayerScore.h"
 
 class IDartsScores
 {
 public:
         virtual void reset() = 0;
-        virtual void init(const int &playersCount) = 0;
         virtual void init() = 0;
-    virtual DartsScore update(DartsInput input) = 0;
-        virtual DartsScore update() = 0;
-        virtual DartsScore score() = 0;
-        virtual QVector<int> scores() = 0;
+        virtual void initFromFile() = 0;
+        virtual DartsPlayerScore update(DartsInput input) = 0;
+        virtual DartsPlayerScores update() = 0;
+        virtual DartsPlayerScore score() = 0;
+        virtual DartsPlayerScores scores() = 0;
 };
 
 #endif // IDARTSSCORES_H

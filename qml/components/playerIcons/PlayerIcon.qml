@@ -5,7 +5,7 @@ Rectangle {
         // Text content
         readonly property string iconText: initialsText.text
         signal setIconInitials(string name)
-        onSetIconInitials: initialsText.text = name[0]
+        onSetIconInitials: initialsText.text = name
 
         // Geometry
         radius: 24

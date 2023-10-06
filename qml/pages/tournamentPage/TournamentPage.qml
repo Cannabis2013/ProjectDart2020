@@ -40,12 +40,12 @@ BlackPage {
                         width: 262
                         onUndoClicked: {
                                 const response = dartsController.undoTurn()
-                                PageScripts.updatePlayerScore(response)
+                                PageScripts.updatePlayerScores(response)
                                 PageScripts.updateTurnInfo()
                         }
                         onRedoClicked: {
                                 const response = dartsController.redoTurn()
-                                PageScripts.updatePlayerScore(response)
+                                PageScripts.updatePlayerScores(response)
                                 PageScripts.updateTurnInfo()
                         }
                 }

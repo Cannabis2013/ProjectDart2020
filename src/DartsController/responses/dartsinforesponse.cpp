@@ -6,13 +6,6 @@ DartsInfoResponse::DartsInfoResponse(IDartsScores* scores, IDartPlayers* players
         _indexes(_indexes)
 {}
 
-InitialValueInfo DartsInfoResponse::initialInfo()
-{
-        auto playerNames = _players->names();
-        auto playerScores = _scores->scores();
-        return InitialValueInfo(playerNames,playerScores);
-}
-
 TurnInfo DartsInfoResponse::currentTurnInfo()
 {
         auto dartIndexes = _indexes->index();

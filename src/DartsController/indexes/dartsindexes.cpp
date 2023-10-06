@@ -50,13 +50,13 @@ bool DartsIndexes::redo()
         if(_indexes.turnIndex >= _indexes.totalTurns)
                 return false;
         _indexes.legIndex++;
-        _indexes.turnIndex++;
         if(_indexes.legIndex > 2){
                 _indexes.legIndex = 0;
                 _indexes.playerIndex++;
                 if(_indexes.playerIndex >= _indexes.playersCount)
                         _indexes.playerIndex = 0;
         }
+        _indexes.turnIndex++;
         return true;
 }
 
@@ -67,7 +67,7 @@ bool DartsIndexes::canUndo()
 
 bool DartsIndexes::canRedo()
 {
-        return _indexes.turnIndex >= _indexes.totalTurns;
+        return _indexes.turnIndex <  _indexes.totalTurns;
 }
 
 void DartsIndexes::reset()

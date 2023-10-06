@@ -21,7 +21,7 @@ Rectangle {
 
         MouseArea {
                 anchors.fill: parent
-                onPressed: buttonRect.clicked()
+                onClicked: buttonRect.clicked()
         }
 
         Text {

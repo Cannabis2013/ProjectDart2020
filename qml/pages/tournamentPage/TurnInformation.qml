@@ -20,7 +20,7 @@ Rectangle {
         onCanUndoChanged: undoButton.enabled = canUndo
 
         property bool canRedo: redoButton.enabled
-        onCanRedoChanged: redoButton.enabled = canUndo
+        onCanRedoChanged: redoButton.enabled = canRedo
 
         GridLayout {
                 anchors.fill: parent

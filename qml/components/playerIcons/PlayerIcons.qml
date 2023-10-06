@@ -5,13 +5,11 @@ Rectangle {
         color: "transparent"
         clip: true
 
-        signal setIconLabels(var names)
-        onSetIconLabels: {
-                for (var i = 0; i < names.length; i++) {
-                        const component = Qt.createComponent("PlayerIcon.qml")
-                        const object = component.createObject(iconGrid, {})
-                        object.setIconInitials(names[i])
-                }
+        signal appendIconLabel(string name)
+        onAppendIconLabel: {
+                const component = Qt.createComponent("PlayerIcon.qml")
+                const object = component.createObject(iconGrid, {})
+                object.setIconInitials(name)
         }
 
         GridLayout {

@@ -1,18 +1,24 @@
-#ifndef DARTSCORE_H
-#define DARTSCORE_H
+#ifndef DARTSPLAYERSCORE_H
+#define DARTSPLAYERSCORE_H
 
-#include <QJsonDocument>
+#include "src/DartsController/scores/DartsInternalScore.h"
+#include <QString>
+#include <qjsondocument.h>
 #include <qjsonobject.h>
-#include <qstring.h>
 
-class DartsScore
-{
+
+class DartsPlayerScore{
 public:
-        DartsScore(const QString& playerName, int score) : _playerName(playerName),
+        DartsPlayerScore(const QString& playerName, int score) : _playerName(playerName),
                 _playerScore(score)
         {}
 
-        DartsScore(){}
+        DartsPlayerScore(DartsInternalScore score){
+                _playerName = score.name();
+                _playerScore = score.score();
+        }
+
+        DartsPlayerScore(){}
 
         int playerScore() const
         {
@@ -37,4 +43,5 @@ private:
         int _playerScore;
 };
 
-#endif // DARTSCORE_H
+
+#endif // DARTSPLAYERSCORE_H

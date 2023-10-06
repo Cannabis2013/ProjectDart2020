@@ -50,9 +50,12 @@ HEADERS += \
     src/DartsController/responses/dartsinforesponse.h \
     src/DartsController/responses/statusInfo.h \
     src/DartsController/responses/winnerInfo.h \
-    src/DartsController/scores/DartsScore.h \
+    src/DartsController/scores/DartsInternalScore.h \
+    src/DartsController/scores/DartsPlayerScores.h \
     src/DartsController/scores/IDartsScores.h \
+    src/DartsController/scores/dartsPlayerScore.h \
     src/DartsController/scores/dartsscores.h \
+    src/DartsController/scores/dartsscorescalculator.h \
     src/DartsController/scores/scoresio.h \
     src/FileIO/filejsonio.h \
     src/QmlContext/setupqmlcontext.h
@@ -69,6 +72,7 @@ SOURCES += \
     src/DartsController/players/dartplayers.cpp \
     src/DartsController/responses/dartsinforesponse.cpp \
     src/DartsController/scores/dartsscores.cpp \
+    src/DartsController/scores/dartsscorescalculator.cpp \
     src/FileIO/filejsonio.cpp \
     src/main.cpp
 

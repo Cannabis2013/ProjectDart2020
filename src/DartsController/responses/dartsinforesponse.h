@@ -11,7 +11,6 @@ class DartsInfoResponse : public IDartsInfoResponse
         // IDartInfoResponse interface
 public:
     DartsInfoResponse(IDartsScores* scores, IDartPlayers* players, IDartsIndexes *_indexes);
-        virtual InitialValueInfo initialInfo() override;
         virtual TurnInfo currentTurnInfo() override;
         virtual WinnerInfo winnerInfo() override;
 private:

@@ -15,7 +15,7 @@ public:
         DartsController();
         Q_INVOKABLE void init(const QStringList& playerNames);
         Q_INVOKABLE void initFromSaved();
-        Q_INVOKABLE QByteArray initialValues() const;
+        Q_INVOKABLE QByteArray playerScores() const;
         Q_INVOKABLE QStringList playerNames() const;
         Q_INVOKABLE QByteArray turnInfo() const;
         Q_INVOKABLE QByteArray addInput(const QByteArray &inputAsJson);

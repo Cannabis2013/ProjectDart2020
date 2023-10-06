@@ -12,18 +12,16 @@ Flickable {
                 property var objects: []
         }
 
-        signal initialize(var names, var scores)
-        onInitialize: {
-                for (var i = 0; i < names.length; i++) {
-                        const component = Qt.createComponent("PlayerScore.qml")
-                        const object = component.createObject(scoresGrid, {})
-                        object.setName(names[i])
-                        object.setScore(scores[i])
-                        const objectWidth = i < names.length - 1 ? 134 : 128
-                        scoresGrid.width += objectWidth
-                        scoresFlickable.contentWidth += objectWidth
-                        scoresObjects.objects.push(object)
-                }
+        signal appendName(var name, var score)
+        onAppendName: {
+                const component = Qt.createComponent("PlayerScore.qml")
+                const object = component.createObject(scoresGrid, {})
+                object.setName(name)
+                object.setScore(score)
+                const objectWidth = 128
+                scoresGrid.width += objectWidth
+                scoresFlickable.contentWidth += objectWidth
+                scoresObjects.objects.push(object)
         }
 
         signal highligtScore(string name)

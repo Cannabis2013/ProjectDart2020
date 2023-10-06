@@ -10,8 +10,8 @@ struct DartsIndex
         int playersCount;
         int playerIndex;
         int legIndex;
-        int turnIndex;
-        int totalTurns;
+        int turnIndex = 0;
+        int totalTurns = 0;
 
         static DartsIndex fromJson(const QByteArray &json){
                 DartsIndex index;
