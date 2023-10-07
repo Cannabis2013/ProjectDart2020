@@ -1,6 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Layouts 1.3
-import "../../components/buttons"
+import "../../../components/buttons"
 
 NewPushButton {
         id: padRect

@@ -22,7 +22,7 @@ void DartsInputs::clear()
         _inputsIO->toFile(_inputs);
 }
 
-bool DartsInputs::save(DartsInternalInput input)
+bool DartsInputs::save(Input input)
 {
         auto turnIndex = _indexes->turnIndex();
         auto playerName = _players->name(_indexes->index().playerIndex());
@@ -32,20 +32,12 @@ bool DartsInputs::save(DartsInternalInput input)
         return _inputsIO->toFile(_inputs);
 }
 
-QList<DartsInput> DartsInputs::inputs()
+QList<Input> DartsInputs::inputs(const QString& playerName, const int& turnIndex)
 {
-        QList<DartsInput> inputs;
-        for (auto const &input : qAsConst(_inputs))
-                inputs << DartsInput::fromInternal(input);
-        return inputs;
-}
-
-QList<DartsInput> DartsInputs::inputs(const QString& playerName, const int& turnIndex)
-{
-        QList<DartsInput> playerInputs;
+    QList<Input> playerInputs;
         for (auto& input : qAsConst(_inputs)) {
                 if(input.playerName() == playerName && input.turnIndex() < turnIndex)
-                        playerInputs << DartsInput::fromInternal(input);
+                        playerInputs << input;
         }
         return playerInputs;
 }

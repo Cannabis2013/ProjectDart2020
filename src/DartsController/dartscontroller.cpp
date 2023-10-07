@@ -1,6 +1,6 @@
 #include "dartscontroller.h"
 #include "src/DartsController/indexes/dartsindexes.h"
-#include "src/DartsController/init/dartInitInfo.h"
+#include "src/DartsController/input/InputRequest.h"
 #include "src/DartsController/input/dartinputevaluator.h"
 #include "src/DartsController/input/dartsinputs.h"
 #include "src/DartsController/players/dartplayers.h"
@@ -14,14 +14,13 @@ DartsController::DartsController() {
         _inputs = new DartsInputs(_indexes,_players);
         _scores = new DartsScores(_indexes,_players,_inputs);
         _evaluator = new DartInputEvaluator(_scores);
-        _response = new DartsInfoResponse(_scores,_players,_indexes);
+        _response = new DartsInfoResponse(_players,_indexes);
 }
 
 void DartsController::init(const QStringList& playerNames)
 {
-        DartInitInfo info(playerNames);
-        _players->initPlayers(info.playerNames());
-        _indexes->init(info.playersCount());
+        _players->initPlayers(playerNames);
+        _indexes->init(playerNames.count());
         _scores->init();
 }
 
@@ -52,27 +51,20 @@ QByteArray DartsController::turnInfo() const
 
 QByteArray DartsController::addInput(const QByteArray &inputAsJson)
 {
-        auto input = DartsInput::fromJson(inputAsJson);
-        if(!_evaluator->isValid(input))
+        InputRequest req(inputAsJson);
+        if(!_evaluator->isValid(req.mod(),req.point()))
                 return ErrorInfo("Invalid input").toJson();
         DartsPlayerScore score;
-        if(_evaluator->isWithinBounds(input)){
-                _inputs->save(input.toInternal());
-               score =  _scores->update(input);
+        if(_evaluator->isWithinBounds(req.mod(),req.point())){
+                _inputs->save(req.toInput());
+               score =  _scores->update(req.toInput());
         }
         else{
-                _inputs->save(DartsInput::nullified(input).toInternal());
+                _inputs->save(req.toNullified());
                 score = _scores->score();
         }
         _indexes->next();
         return score.toJson();
-}
-
-bool DartsController::reset() {
-        _inputs->clear();
-        _scores->reset();
-        _indexes->reset();
-        return true;
 }
 
 QByteArray DartsController::undoTurn() {

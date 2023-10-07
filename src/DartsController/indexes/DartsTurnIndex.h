@@ -3,16 +3,14 @@
 
 #include "dartsindex.h"
 
-class DartTurnIndex
+class DartsTurnIndex
 {
 public:
-    static DartTurnIndex fromIndex(DartsIndex index){
-                DartTurnIndex turnIndex;
-                turnIndex._playerIndex = index.playerIndex;
-                turnIndex._legIndex = index.legIndex;
-                return turnIndex;
+        DartsTurnIndex(const DartsIndex &index){
+                _playerIndex = index.playerIndex;
+                _legIndex = index.legIndex;
+                _turnIndex = index.turnIndex;
         }
-
 
         int playerIndex() const
         {
@@ -24,12 +22,16 @@ public:
                 return _legIndex;
         }
 
+        int turnIndex() const
+        {
+                return _turnIndex;
+        }
+
 private:
         int _playerIndex;
         int _legIndex;
+        int _turnIndex;
 };
-
-
 
 #endif // DARTTURNINDEX_H
 

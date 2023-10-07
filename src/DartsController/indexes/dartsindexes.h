@@ -17,7 +17,7 @@ public:
         virtual bool canRedo() override;
         virtual void reset() override;
         virtual int turnIndex() override;
-        virtual const DartTurnIndex index() const override;
+        virtual const DartsTurnIndex index() const override;
 
 private:
         void saveIndexes();

@@ -80,9 +80,9 @@ int DartsIndexes::turnIndex()
         return _indexes.turnIndex;
 }
 
-const DartTurnIndex DartsIndexes::index() const
+const DartsTurnIndex DartsIndexes::index() const
 {
-        return DartTurnIndex::fromIndex(_indexes);
+        return DartsTurnIndex(_indexes);
 }
 
 void DartsIndexes::saveIndexes()

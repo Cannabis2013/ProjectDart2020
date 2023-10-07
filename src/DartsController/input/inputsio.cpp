@@ -5,7 +5,7 @@
 
 InputsIO::InputsIO(const QString &filePath): _filePath(filePath){}
 
-bool InputsIO::toFile(const QList<DartsInternalInput>& _inputs)
+bool InputsIO::toFile(const QList<Input>& _inputs)
 {
         FileJsonIO jsonIO(_filePath);
         QJsonArray jsonArr;
@@ -15,17 +15,17 @@ bool InputsIO::toFile(const QList<DartsInternalInput>& _inputs)
         return jsonIO.write(jsonDoc->toJson());
 }
 
-QList<DartsInternalInput> InputsIO::fromFile() const
+QList<Input> InputsIO::fromFile() const
 {
         FileJsonIO jsonIO(_filePath);
         auto jsonDoc = QJsonDocument::fromJson(jsonIO.read());
-        QList<DartsInternalInput> inputs;
+        QList<Input> inputs;
         if(!jsonDoc.isArray())
-                return QList<DartsInternalInput>();
+            return QList<Input>();
         auto arr = jsonDoc.array();
         for (auto ite = arr.begin(); ite != arr.end(); ++ite) {
                 auto jsonObj = ite->toObject();
-                inputs.append(DartsInternalInput::fromJson(jsonObj));
+                inputs.append(Input(jsonObj));
         }
         return inputs;
 }

@@ -9,10 +9,11 @@ class TurnInfo
 {
 public:
         TurnInfo(const QString& currentPlayer,
-                 bool canUndo, bool canRedo) :
+                 bool canUndo, bool canRedo, int turnIndex) :
                 _currentPlayer(currentPlayer),
                 _canUndo(canUndo),
-                _canRedo(canRedo)
+                _canRedo(canRedo),
+                _turnIndex(turnIndex)
         {}
 
         QString currentPlayer() const
@@ -26,6 +27,7 @@ public:
                 jsonObj["type"] = "turnInfo";
                 jsonObj["canUndo"] = _canUndo;
                 jsonObj["canRedo"] = _canRedo;
+                jsonObj["turnIndex"] = _turnIndex;
                 auto jsonDoc = new QJsonDocument(jsonObj);
                 return jsonDoc->toJson(QJsonDocument::Compact);
         }
@@ -34,6 +36,7 @@ private:
         QString _currentPlayer;
         bool _canUndo;
         bool _canRedo;
+        int _turnIndex;
 };
 
 #endif // TURNINFO_H

@@ -2,11 +2,11 @@ import QtQuick 2.0
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.15
 
-import "../../components/playerIcons"
-import "../../components/playerScores"
+import "../../components/tournament/turn"
+import "../../components/tournament/players"
+import "../../components/tournament/keyPad"
 import "../../components/pages"
 import "../../components/buttons"
-import "../../components/keyPad"
 import "tournamentPageScripts.js" as PageScripts
 
 BlackPage {
@@ -50,15 +50,26 @@ BlackPage {
                         }
                 }
 
+                Text {
+                        id: targetRow
+                        text: qsTr("T19 T9 D2")
+                        Layout.fillWidth: true
+                        color: "white"
+                        height: 32
+                        font.pointSize: 20
+                        font.weight: Font.Bold
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                }
+
                 Rectangle {
-                        height: 128
-                        Layout.fillHeight: true
+                        height: 64
                 }
 
                 KeyPads {
                         id: keyPad
-                        width: 700
-                        height: 700
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
                         Layout.alignment: Qt.AlignHCenter
                         onReportScore: {
                                 const response = PageScripts.sendScore(modId, point)

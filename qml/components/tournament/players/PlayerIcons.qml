@@ -15,16 +15,8 @@ Rectangle {
         GridLayout {
                 anchors.fill: parent
 
-                Rectangle {
-                        Layout.fillWidth: true
-                }
-
                 GridLayout {
                         id: iconGrid
-                }
-
-                Rectangle {
-                        Layout.fillWidth: true
                 }
         }
 }

@@ -9,11 +9,11 @@ using namespace std;
 class DartInputEvaluator : public IDartInputEvaluator
 {
 public:
-    DartInputEvaluator(IDartsScores* scores);
-    virtual bool isValid(const DartsInput &input) override;
-    virtual bool isWithinBounds(const DartsInput &input) override;
+        DartInputEvaluator(IDartsScores* scores);
+        virtual bool isValid(const QString &mod, const int &point) override;
+        virtual bool isWithinBounds(const QString &mod, const int &point) override;
 private:
-    int inputScore(const DartsInput &input) const;
+        int inputScore(const QString &mod, const int &point) const;
         int modMultiplier(QString mod) const;
 
         // Services

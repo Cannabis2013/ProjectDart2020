@@ -1,13 +1,13 @@
 import QtQuick 2.15
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.15
-import "../../components/buttons"
+
+import "../../../components/geometry"
+import "../../../components/buttons"
 import "keyPadBuilder.js" as Builder
 
-Rectangle {
+TransparentRect {
         id: keyPadRect
-        clip: true
-        color: "transparent"
         layer.enabled: true
         layer.effect: OpacityMask {
                 maskSource: Rectangle {
@@ -71,8 +71,8 @@ Rectangle {
                 anchors.fill: parent
                 rows: 4
                 columns: 5
-                columnSpacing: 1
-                rowSpacing: 1
+                columnSpacing: 0
+                rowSpacing: 0
                 flow: GridLayout.LeftToRight
                 layoutDirection: Qt.RightToLeft
         }

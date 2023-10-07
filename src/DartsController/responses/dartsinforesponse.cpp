@@ -1,7 +1,6 @@
 #include "dartsinforesponse.h"
 
-DartsInfoResponse::DartsInfoResponse(IDartsScores* scores, IDartPlayers* players, IDartsIndexes* _indexes) :
-        _scores(scores),
+DartsInfoResponse::DartsInfoResponse(IDartPlayers* players, IDartsIndexes* _indexes) :
         _players(players),
         _indexes(_indexes)
 {}
@@ -9,10 +8,11 @@ DartsInfoResponse::DartsInfoResponse(IDartsScores* scores, IDartPlayers* players
 TurnInfo DartsInfoResponse::currentTurnInfo()
 {
         auto dartIndexes = _indexes->index();
+        auto turnIndex = _indexes->turnIndex();
         auto canUndo = _indexes->canUndo();
         auto canRedo = _indexes->canRedo();
         auto playerName = _players->name(dartIndexes.playerIndex());
-        return TurnInfo(playerName,canUndo,canRedo);
+        return TurnInfo(playerName,canUndo,canRedo,turnIndex);
 }
 
 WinnerInfo DartsInfoResponse::winnerInfo()

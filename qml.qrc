@@ -15,17 +15,23 @@
         <file>Ressources/users.png</file>
     </qresource>
     <qresource prefix="/">
-        <file>qml/components/animatedItems/checkmarkAnimation.qml</file>
         <file>qml/components/buttons/NewPushButton.qml</file>
-        <file>qml/components/geometry/MyRectangle.qml</file>
         <file>qml/components/pages/BlackPage.qml</file>
         <file>qml/components/pages/PageHeader.qml</file>
-        <file>qml/components/playerIcons/PlayerIcon.qml</file>
-        <file>qml/components/playerIcons/PlayerIcons.qml</file>
-        <file>qml/components/playerScores/PlayerScore.qml</file>
-        <file>qml/components/playerScores/PlayerScores.qml</file>
         <file>qml/components/playersView/PlayerNameDelegate.qml</file>
         <file>qml/components/playersView/PlayersView.qml</file>
+        <file>qml/components/tournament/keyPad/BullPad.qml</file>
+        <file>qml/components/tournament/keyPad/BullsPad.qml</file>
+        <file>qml/components/tournament/keyPad/BustPad.qml</file>
+        <file>qml/components/tournament/keyPad/keyPadBuilder.js</file>
+        <file>qml/components/tournament/keyPad/KeyPads.qml</file>
+        <file>qml/components/tournament/keyPad/ModPad.qml</file>
+        <file>qml/components/tournament/keyPad/NumberPad.qml</file>
+        <file>qml/components/tournament/players/PlayerIcon.qml</file>
+        <file>qml/components/tournament/players/PlayerIcons.qml</file>
+        <file>qml/components/tournament/players/PlayerScore.qml</file>
+        <file>qml/components/tournament/players/PlayerScores.qml</file>
+        <file>qml/components/tournament/turn/TurnInformation.qml</file>
         <file>qml/components/userInputs/TextInputBox.qml</file>
         <file>qml/components/userInputs/TextInputField.qml</file>
         <file>qml/pages/startPage/StartMenuButton.qml</file>
@@ -35,13 +41,6 @@
         <file>qml/pages/tournamentPage/tournamentPageScripts.js</file>
         <file>qml/main.qml</file>
         <file>qml/MainComponent.qml</file>
-        <file>qml/pages/tournamentPage/TurnInformation.qml</file>
-        <file>qml/components/keyPad/KeyPads.qml</file>
-        <file>qml/components/keyPad/NumberPad.qml</file>
-        <file>qml/components/keyPad/keyPadBuilder.js</file>
-        <file>qml/components/keyPad/ModPad.qml</file>
-        <file>qml/components/keyPad/BullsPad.qml</file>
-        <file>qml/components/keyPad/BullPad.qml</file>
-        <file>qml/components/keyPad/BustPad.qml</file>
+        <file>qml/components/geometry/TransparentRect.qml</file>
     </qresource>
 </RCC>

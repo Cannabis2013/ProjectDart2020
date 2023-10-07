@@ -9,8 +9,6 @@ ApplicationWindow {
         color: "black"
         minimumHeight: 640
         minimumWidth: 400
-        width: 480
-        height: 640
         title: qsTr("Dart2020")
         function destructor() {
                 Qt.quit()

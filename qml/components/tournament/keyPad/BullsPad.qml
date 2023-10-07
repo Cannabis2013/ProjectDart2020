@@ -1,18 +1,18 @@
 import QtQuick 2.15
 import QtQuick.Layouts 1.3
-import "../../components/buttons"
+import "../../../components/buttons"
 
 NewPushButton {
         id: padRect
 
-        text: "Bust"
+        text: "50"
 
-        color: "orange"
+        color: "red"
         radius: 0
 
-        property int padValue: 0
+        property int padValue: 50
 
-        signal padClicked(string value)
+        signal padClicked(int value)
 
         MouseArea {
                 anchors.fill: parent

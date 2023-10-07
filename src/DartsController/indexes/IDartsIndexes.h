@@ -1,7 +1,7 @@
 #ifndef IDARTINDEXES_H
 #define IDARTINDEXES_H
 
-#include "DartTurnIndex.h"
+#include "DartsTurnIndex.h"
 
 class IDartsIndexes
 {
@@ -15,7 +15,7 @@ public:
         virtual bool canRedo() = 0;
         virtual int turnIndex() = 0;
         virtual void reset() = 0;
-        virtual const DartTurnIndex index() const = 0;
+    virtual const DartsTurnIndex index() const = 0;
 };
 
 #endif // IDARTINDEXES_H

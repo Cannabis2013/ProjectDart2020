@@ -29,16 +29,16 @@ HEADERS += \
     src/DartsController/Finishes/finishRow.h \
     src/DartsController/dartscontroller.h \
     src/DartsController/idartscontroller.h \
-    src/DartsController/indexes/DartTurnIndex.h \
+    src/DartsController/indexes/DartsTurnIndex.h \
     src/DartsController/indexes/IDartsIndexes.h \
     src/DartsController/indexes/dartsindex.h \
     src/DartsController/indexes/dartsindexes.h \
-    src/DartsController/init/dartInitInfo.h \
-    src/DartsController/input/DartsInput.h \
-    src/DartsController/input/DartsInternalInput.h \
     src/DartsController/input/IDartInputEvalutor.h \
-    src/DartsController/input/IDartInputs.h \
+    src/DartsController/input/IDartsInputs.h \
+    src/DartsController/input/Input.h \
+    src/DartsController/input/InputRequest.h \
     src/DartsController/input/dartinputevaluator.h \
+    src/DartsController/input/dartsInputResponse.h \
     src/DartsController/input/dartsinputs.h \
     src/DartsController/input/inputsio.h \
     src/DartsController/players/IDartPlayers.h \
@@ -55,7 +55,6 @@ HEADERS += \
     src/DartsController/scores/IDartsScores.h \
     src/DartsController/scores/dartsPlayerScore.h \
     src/DartsController/scores/dartsscores.h \
-    src/DartsController/scores/dartsscorescalculator.h \
     src/DartsController/scores/scoresio.h \
     src/FileIO/filejsonio.h \
     src/QmlContext/setupqmlcontext.h
@@ -72,7 +71,6 @@ SOURCES += \
     src/DartsController/players/dartplayers.cpp \
     src/DartsController/responses/dartsinforesponse.cpp \
     src/DartsController/scores/dartsscores.cpp \
-    src/DartsController/scores/dartsscorescalculator.cpp \
     src/FileIO/filejsonio.cpp \
     src/main.cpp
 

@@ -3,25 +3,25 @@
 DartInputEvaluator::DartInputEvaluator(IDartsScores* scores) : _scores(scores)
 {}
 
-bool DartInputEvaluator::isValid(const DartsInput& input)
+bool DartInputEvaluator::isValid(const QString& mod, const int& point)
 {
-        if(input.point() > MaxPoint || input.point() < 1)
+        if(point > MaxPoint || point < 0)
                 return false;
-        return AllowedMods.contains(input.mod());
+        return AllowedMods.contains(mod);
 }
 
-bool DartInputEvaluator::isWithinBounds(const DartsInput& input)
+bool DartInputEvaluator::isWithinBounds(const QString& mod, const int& point)
 {
-        auto scoreValue = inputScore(input);
+        auto scoreValue = inputScore(mod,point);
         auto playerScore = _scores->score().playerScore();
         auto remainingScore = playerScore - scoreValue;
         return remainingScore >= 0;
 }
 
-int DartInputEvaluator::inputScore(const DartsInput& input) const
+int DartInputEvaluator::inputScore(const QString& mod, const int& point) const
 {
-        auto multiplier = modMultiplier(input.mod());
-        return  input.point()*multiplier;
+        auto multiplier = modMultiplier(mod);
+        return  point*multiplier;
 }
 
 int DartInputEvaluator::modMultiplier(QString mod) const

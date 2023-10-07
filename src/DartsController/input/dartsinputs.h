@@ -1,24 +1,22 @@
 #ifndef DARTINPUTS_H
 #define DARTINPUTS_H
 
-#include "IDartInputs.h"
+#include "IDartsInputs.h"
 #include "src/DartsController/indexes/IDartsIndexes.h"
-#include "src/DartsController/input/DartsInternalInput.h"
 #include "src/DartsController/input/inputsio.h"
 #include "src/DartsController/players/IDartPlayers.h"
 
-class DartsInputs : public IDartInputs
+class DartsInputs : public IDartsInputs
 {
 public:
         DartsInputs(IDartsIndexes *indexes, IDartPlayers *players);
         virtual void init() override;
         virtual void clear() override;
-        virtual bool save(DartsInternalInput input) override;
-        virtual QList<DartsInput> inputs() override;
-        virtual QList<DartsInput> inputs(const QString& playerName, const int& turnIndex) override;
+        virtual bool save(Input input) override;
+        virtual QList<Input> inputs(const QString& playerName, const int& turnIndex) override;
 private:
 
-    QList<DartsInternalInput> _inputs;
+        QList<Input> _inputs;
 
         // Services
         IDartsIndexes *_indexes;

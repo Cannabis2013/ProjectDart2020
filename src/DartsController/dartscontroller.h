@@ -5,7 +5,7 @@
 #include <src/DartsController/players/IDartPlayers.h>
 #include "src/DartsController/indexes/IDartsIndexes.h"
 #include "src/DartsController/input/IDartInputEvalutor.h"
-#include "src/DartsController/input/IDartInputs.h"
+#include "src/DartsController/input/IDartsInputs.h"
 #include "src/DartsController/responses/IDartsInfoResponse.h"
 #include "src/DartsController/scores/IDartsScores.h"
 
@@ -21,13 +21,12 @@ public:
         Q_INVOKABLE QByteArray addInput(const QByteArray &inputAsJson);
         Q_INVOKABLE QByteArray undoTurn();
         Q_INVOKABLE QByteArray redoTurn();
-        Q_INVOKABLE bool reset();
 private:
         // Services
         IDartInputEvaluator *_evaluator = nullptr;
         IDartsIndexes *_indexes = nullptr;
         IDartsScores *_scores = nullptr;
-        IDartInputs *_inputs = nullptr;
+        IDartsInputs *_inputs = nullptr;
         IDartsInfoResponse *_response = nullptr;
         IDartPlayers *_players = nullptr;
 };

@@ -18,6 +18,7 @@ function updateTurnInfo() {
 function updateTurnComp(json) {
         turnInfoComp.canUndo = json["canUndo"]
         turnInfoComp.canRedo = json["canRedo"]
+        turnInfoComp.turnIndex = json["turnIndex"]
 }
 
 function updateScoresView(json) {
