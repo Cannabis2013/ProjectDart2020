@@ -23,54 +23,63 @@ HEADERS += \
     src/DartsController/Finishes/dartscreatefinishes.h \
     src/DartsController/Finishes/dartsdivisors.h \
     src/DartsController/Finishes/dartsfieldvalues.h \
+    src/DartsController/Finishes/dartsfinishes.h \
     src/DartsController/Finishes/dartsmodidentifiers.h \
-    src/DartsController/Finishes/dcfinishbuilder.h \
     src/DartsController/Finishes/dclogisticdb.h \
-    src/DartsController/Finishes/finishRow.h \
+    src/DartsController/Finishes/finishestypes.h \
+    src/DartsController/Finishes/idartsfinishes.h \
     src/DartsController/dartscontroller.h \
     src/DartsController/idartscontroller.h \
     src/DartsController/indexes/DartsTurnIndex.h \
     src/DartsController/indexes/IDartsIndexes.h \
     src/DartsController/indexes/dartsindex.h \
     src/DartsController/indexes/dartsindexes.h \
-    src/DartsController/input/IDartInputEvalutor.h \
+    src/DartsController/indexes/indexesio.h \
+    src/DartsController/input/IDartsInputEvalutor.h \
     src/DartsController/input/IDartsInputs.h \
     src/DartsController/input/Input.h \
     src/DartsController/input/InputRequest.h \
-    src/DartsController/input/dartinputevaluator.h \
-    src/DartsController/input/dartsInputResponse.h \
+    src/DartsController/input/dartsinputevaluator.h \
     src/DartsController/input/dartsinputs.h \
     src/DartsController/input/inputsio.h \
-    src/DartsController/players/IDartPlayers.h \
-    src/DartsController/players/dartplayers.h \
+    src/DartsController/players/IDartsPlayers.h \
+    src/DartsController/players/dartsplayers.h \
+    src/DartsController/players/playersio.h \
     src/DartsController/responses/ErrorInfo.h \
     src/DartsController/responses/IDartsInfoResponse.h \
     src/DartsController/responses/InitialValueInfo.h \
     src/DartsController/responses/TurnInfo.h \
-    src/DartsController/responses/dartsinforesponse.h \
+    src/DartsController/responses/dartsturnvalues.h \
     src/DartsController/responses/statusInfo.h \
     src/DartsController/responses/winnerInfo.h \
-    src/DartsController/scores/DartsInternalScore.h \
     src/DartsController/scores/DartsPlayerScores.h \
     src/DartsController/scores/IDartsScores.h \
+    src/DartsController/scores/Score.h \
     src/DartsController/scores/dartsPlayerScore.h \
     src/DartsController/scores/dartsscores.h \
+    src/DartsController/scores/scorescalculator.h \
     src/DartsController/scores/scoresio.h \
+    src/DartsController/statistics/dartsstatistics.h \
+    src/DartsController/statistics/idartsstatistics.h \
     src/FileIO/filejsonio.h \
     src/QmlContext/setupqmlcontext.h
 
 SOURCES += \
     src/DartsController/Finishes/dartsThresholds.cpp \
     src/DartsController/Finishes/dartscreatefinishes.cpp \
-    src/DartsController/Finishes/dcfinishbuilder.cpp \
+    src/DartsController/Finishes/dartsfinishes.cpp \
     src/DartsController/dartscontroller.cpp \
     src/DartsController/indexes/dartsindexes.cpp \
-    src/DartsController/input/dartinputevaluator.cpp \
+    src/DartsController/indexes/indexesio.cpp \
+    src/DartsController/input/dartsinputevaluator.cpp \
     src/DartsController/input/dartsinputs.cpp \
     src/DartsController/input/inputsio.cpp \
-    src/DartsController/players/dartplayers.cpp \
-    src/DartsController/responses/dartsinforesponse.cpp \
+    src/DartsController/players/dartsplayers.cpp \
+    src/DartsController/players/playersio.cpp \
+    src/DartsController/responses/dartsturnvalues.cpp \
     src/DartsController/scores/dartsscores.cpp \
+    src/DartsController/scores/scorescalculator.cpp \
+    src/DartsController/statistics/dartsstatistics.cpp \
     src/FileIO/filejsonio.cpp \
     src/main.cpp
 

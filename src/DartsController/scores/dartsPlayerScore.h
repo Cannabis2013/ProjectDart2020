@@ -1,7 +1,7 @@
 #ifndef DARTSPLAYERSCORE_H
 #define DARTSPLAYERSCORE_H
 
-#include "src/DartsController/scores/DartsInternalScore.h"
+#include "src/DartsController/scores/Score.h"
 #include <QString>
 #include <qjsondocument.h>
 #include <qjsonobject.h>
@@ -13,7 +13,7 @@ public:
                 _playerScore(score)
         {}
 
-        DartsPlayerScore(DartsInternalScore score){
+        DartsPlayerScore(Score score){
                 _playerName = score.name();
                 _playerScore = score.score();
         }

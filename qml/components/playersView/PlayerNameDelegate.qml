@@ -18,7 +18,7 @@ Component {
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Text.AlignHCenter
                         }
-                        NewPushButton {
+                        PushButton {
                                 x: 231
                                 y: 5
                                 width: 20

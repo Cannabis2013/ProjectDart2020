@@ -14,8 +14,10 @@ public:
         virtual bool canUndo() = 0;
         virtual bool canRedo() = 0;
         virtual int turnIndex() = 0;
+        virtual int playerIndex() = 0;
         virtual void reset() = 0;
-    virtual const DartsTurnIndex index() const = 0;
+        virtual bool saveState() = 0;
+        virtual const DartsTurnIndex index() const = 0;
 };
 
 #endif // IDARTINDEXES_H

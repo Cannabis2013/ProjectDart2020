@@ -15,8 +15,7 @@ BlackPage {
 
         GridLayout {
                 width: 768
-                height: parent.height
-                anchors.centerIn: parent
+                anchors.fill: parent
                 rowSpacing: 24
                 flow: GridLayout.TopToBottom
 
@@ -28,7 +27,7 @@ BlackPage {
 
                 TextInputField {
                         height: 32
-                        width: 512
+                        Layout.fillWidth: true
                         Layout.alignment: Qt.AlignHCenter
                         onValueChanged: playerNamesList.appendName(value)
                 }
@@ -46,7 +45,7 @@ BlackPage {
                         color: "white"
                 }
 
-                NewPushButton {
+                PushButton {
                         text: "Begin"
                         radius: 12
                         height: 64
@@ -67,7 +66,8 @@ BlackPage {
         }
 
         Component.onCompleted: {
-                dartsController.init(["abc", "def"])
-                requestTournamentPage()
+
+                //dartsController.init(["abc","def"])
+                //requestTournamentPage()
         }
 }

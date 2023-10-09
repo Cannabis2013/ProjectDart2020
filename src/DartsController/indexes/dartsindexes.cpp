@@ -3,7 +3,9 @@
 #include <src/FileIO/filejsonio.h>
 
 DartsIndexes::DartsIndexes()
-{}
+{
+        _indexesIO = new IndexesIO("indexes.dat");
+}
 
 void DartsIndexes::init(const int& playerCount)
 {
@@ -13,8 +15,7 @@ void DartsIndexes::init(const int& playerCount)
 
 void DartsIndexes::init()
 {
-        FileJsonIO jsonIO ("indexes.dat");
-        _indexes = DartsIndex::fromJson(jsonIO.read());
+        _indexes = _indexesIO->loadIndexes();
 }
 
 bool DartsIndexes::next()
@@ -75,6 +76,16 @@ void DartsIndexes::reset()
         _indexes = DartsIndex();
 }
 
+int DartsIndexes::playerIndex()
+{
+        return _indexes.playerIndex;
+}
+
+bool DartsIndexes::saveState()
+{
+        return _indexesIO->saveIndexes(_indexes);
+}
+
 int DartsIndexes::turnIndex()
 {
         return _indexes.turnIndex;
@@ -83,10 +94,4 @@ int DartsIndexes::turnIndex()
 const DartsTurnIndex DartsIndexes::index() const
 {
         return DartsTurnIndex(_indexes);
-}
-
-void DartsIndexes::saveIndexes()
-{
-        FileJsonIO jsonIO("indexes.dat");
-        jsonIO.write(_indexes.toJson());
 }

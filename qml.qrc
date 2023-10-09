@@ -15,14 +15,11 @@
         <file>Ressources/users.png</file>
     </qresource>
     <qresource prefix="/">
-        <file>qml/components/buttons/NewPushButton.qml</file>
+        <file>qml/components/buttons/PushButton.qml</file>
         <file>qml/components/pages/BlackPage.qml</file>
         <file>qml/components/pages/PageHeader.qml</file>
         <file>qml/components/playersView/PlayerNameDelegate.qml</file>
         <file>qml/components/playersView/PlayersView.qml</file>
-        <file>qml/components/tournament/keyPad/BullPad.qml</file>
-        <file>qml/components/tournament/keyPad/BullsPad.qml</file>
-        <file>qml/components/tournament/keyPad/BustPad.qml</file>
         <file>qml/components/tournament/keyPad/keyPadBuilder.js</file>
         <file>qml/components/tournament/keyPad/KeyPads.qml</file>
         <file>qml/components/tournament/keyPad/ModPad.qml</file>
@@ -40,7 +37,12 @@
         <file>qml/pages/tournamentPage/TournamentPage.qml</file>
         <file>qml/pages/tournamentPage/tournamentPageScripts.js</file>
         <file>qml/main.qml</file>
-        <file>qml/MainComponent.qml</file>
+        <file>qml/PageLoader.qml</file>
         <file>qml/components/geometry/TransparentRect.qml</file>
+        <file>qml/pages/tournamentPage/Confirmation.qml</file>
+        <file>qml/components/tournament/keyPad/Pad.qml</file>
+    </qresource>
+    <qresource prefix="/data">
+        <file>Ressources/finishes.dat</file>
     </qresource>
 </RCC>

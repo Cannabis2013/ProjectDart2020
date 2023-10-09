@@ -5,7 +5,6 @@ Rectangle {
         id: playersScoreRect
 
         clip: true
-        width: 128
         height: 80
         color: "green"
 
@@ -39,7 +38,7 @@ Rectangle {
                         text: "Martin"
                         Layout.fillWidth: true
                         height: 48
-                        font.pointSize: 12
+                        font.pointSize: 40
                         color: "white"
                         verticalAlignment: Qt.AlignVCenter
                         horizontalAlignment: Qt.AlignHCenter
@@ -49,7 +48,8 @@ Rectangle {
                         text: "-1"
                         Layout.fillWidth: true
                         Layout.fillHeight: true
-                        font.pointSize: 28
+                        font.pointSize: 80
+                        font.weight: Font.Bold
                         color: "white"
                         verticalAlignment: Qt.AlignVCenter
                         horizontalAlignment: Qt.AlignHCenter

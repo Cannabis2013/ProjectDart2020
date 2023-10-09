@@ -1,20 +1,23 @@
 #include "dartscontroller.h"
+#include "src/DartsController/Finishes/dartsfinishes.h"
 #include "src/DartsController/indexes/dartsindexes.h"
 #include "src/DartsController/input/InputRequest.h"
-#include "src/DartsController/input/dartinputevaluator.h"
+#include "src/DartsController/input/dartsinputevaluator.h"
 #include "src/DartsController/input/dartsinputs.h"
-#include "src/DartsController/players/dartplayers.h"
-#include "src/DartsController/responses/ErrorInfo.h"
+#include "src/DartsController/players/dartsplayers.h"
 #include "src/DartsController/scores/dartsscores.h"
-#include <src/DartsController/responses/dartsinforesponse.h>
+#include "src/DartsController/statistics/dartsstatistics.h"
+#include <src/DartsController/responses/dartsturnvalues.h>
 
 DartsController::DartsController() {
-    _indexes = new DartsIndexes();
-        _players = new DartPlayers();
-        _inputs = new DartsInputs(_indexes,_players);
+        _indexes = new DartsIndexes();
+        _finishes = new DartsFinishes();
+        _players = new DartsPlayers(_indexes);
+        _evaluator = new DartsInputEvaluator(&_scores);
+        _inputs = new DartsInputs(_indexes,_players, _evaluator);
         _scores = new DartsScores(_indexes,_players,_inputs);
-        _evaluator = new DartInputEvaluator(_scores);
-        _response = new DartsInfoResponse(_players,_indexes);
+        _statistics = new DartsStatistics(_inputs, _players, _scores);
+        _response = new DartsTurnValues(_players, _indexes, _statistics, _finishes, _scores);
 }
 
 void DartsController::init(const QStringList& playerNames)
@@ -34,6 +37,15 @@ void DartsController::initFromSaved()
         _players->initPlayers();
         _indexes->init();
         _scores->init();
+        _scores->initFromFile();
+}
+
+void DartsController::saveState()
+{
+        _indexes->saveState();
+        _scores->saveState();
+        _inputs->saveState();
+        _players->saveState();
 }
 
 QByteArray DartsController::playerScores() const
@@ -44,39 +56,26 @@ QByteArray DartsController::playerScores() const
 
 QByteArray DartsController::turnInfo() const
 {
-        if(_scores->score().playerScore() == 0)
-                return _response->winnerInfo().toJson();
         return _response->currentTurnInfo().toJson();
 }
 
 QByteArray DartsController::addInput(const QByteArray &inputAsJson)
 {
         InputRequest req(inputAsJson);
-        if(!_evaluator->isValid(req.mod(),req.point()))
-                return ErrorInfo("Invalid input").toJson();
-        DartsPlayerScore score;
-        if(_evaluator->isWithinBounds(req.mod(),req.point())){
-                _inputs->save(req.toInput());
-               score =  _scores->update(req.toInput());
-        }
-        else{
-                _inputs->save(req.toNullified());
-                score = _scores->score();
-        }
+        auto input = _inputs->evaluateAndAdd(req);
+        DartsPlayerScore score =  _scores->update(input);
         _indexes->next();
         return score.toJson();
 }
 
 QByteArray DartsController::undoTurn() {
-        if(!_indexes->undo())
-                return ErrorInfo("Undo is not allowed").toJson();
+        _indexes->undo();
         auto scores = _scores->update();
         return scores.toJson();
 }
 
 QByteArray DartsController::redoTurn() {
-        if(!_indexes->redo())
-                return ErrorInfo("Not allowed").toJson();
+        _indexes->redo();
         auto score = _scores->update();
         return score.toJson();
 }

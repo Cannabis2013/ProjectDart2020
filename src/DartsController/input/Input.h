@@ -17,6 +17,8 @@ public:
         Input(const QString &mod, const int &point)
                 : _point(point),_mod(mod){}
 
+        Input(){}
+
         QJsonObject toJsonObject(){
                 QJsonObject jsonObj;
                 jsonObj["point"] = QString::number(_point);
@@ -50,7 +52,7 @@ public:
         void setTurnIndex(int newTurnIndex) { _turnIndex = newTurnIndex; }
 
 private:
-        int _point = -1;
+        int _point = 0;
         QString _mod = "S";
         int _turnIndex;
         QString _playerName;

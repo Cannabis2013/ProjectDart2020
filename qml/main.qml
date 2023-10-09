@@ -28,7 +28,7 @@ ApplicationWindow {
                 }
         }
 
-        MainComponent {
+        PageLoader {
                 id: mainPage
                 anchors.fill: parent
         }

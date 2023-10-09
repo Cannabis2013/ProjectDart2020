@@ -15,21 +15,18 @@ BlackPage {
         buttonText: "Menu"
         pageTitle: "Tournament"
 
+        onBackClicked: {
+                dartsController.saveState()
+        }
+
         GridLayout {
                 anchors.fill: parent
                 flow: GridLayout.TopToBottom
 
-                PlayerIcons {
-                        id: playerIcons
-                        height: 40
-                        width: 256
-                        Layout.alignment: Qt.AlignHCenter
-                }
-
                 PlayerScores {
                         id: scoresView
-                        height: 80
-                        width: 262
+                        height: Layout.fillHeight = true
+                        Layout.fillWidth: true
                         Layout.alignment: Qt.AlignHCenter
                 }
 
@@ -51,12 +48,22 @@ BlackPage {
                 }
 
                 Text {
+                        id: statistics
+                        Layout.fillWidth: true
+                        color: "white"
+                        height: 64
+                        font.pointSize: 20
+                        font.weight: Font.Bold
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                }
+
+                Text {
                         id: targetRow
-                        text: qsTr("T19 T9 D2")
                         Layout.fillWidth: true
                         color: "white"
                         height: 32
-                        font.pointSize: 20
+                        font.pointSize: 32
                         font.weight: Font.Bold
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter

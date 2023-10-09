@@ -63,7 +63,7 @@ Rectangle {
                         width: 1
                 }
 
-                NewPushButton {
+                PushButton {
                         text: "+"
                         radius: 0
                         backgroundColor: "white"

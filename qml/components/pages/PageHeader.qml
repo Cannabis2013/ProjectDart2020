@@ -22,7 +22,7 @@ Rectangle {
                         width: 24
                 }
 
-                NewPushButton {
+                PushButton {
                         id: headerButton
                         text: "Back"
                         width: 48

@@ -27,7 +27,7 @@ struct DartsIndex
                 return index;
         }
 
-        QByteArray toJson(){
+        QByteArray toJson() const{
                 QJsonObject jsonObj;
                 jsonObj["playersCount"] = playersCount;
                 jsonObj["playerIndex"] = playerIndex;

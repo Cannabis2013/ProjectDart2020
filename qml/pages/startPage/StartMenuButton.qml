@@ -3,7 +3,7 @@ import QtQuick.Layouts 1.3
 
 import "../../components/buttons"
 
-NewPushButton {
+PushButton {
         width: 256
         height: 64
         backgroundColor: "grey"

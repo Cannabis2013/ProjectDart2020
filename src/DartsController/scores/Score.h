@@ -4,15 +4,15 @@
 #include <qjsonobject.h>
 #include <qstring.h>
 
-class DartsInternalScore{
+class Score{
 public:
-        DartsInternalScore(QString name, int score):
-        _name(name), _score(score){}
+        Score(QString name, int score)
+            : _name(name)
+            , _score(score)
+        {
+        }
 
-        DartsInternalScore(QString name):
-        _name(name){}
-
-        DartsInternalScore(const QJsonObject &jsonObj){
+        Score(const QJsonObject &jsonObj){
                 _name = jsonObj["playerName"].toString("");
                 _score = jsonObj["playerScore"].toInt(-1);
         }
@@ -36,7 +36,7 @@ public:
 
 private:
         QString _name;
-        int _score = 501;
+        int _score;
 };
 
 

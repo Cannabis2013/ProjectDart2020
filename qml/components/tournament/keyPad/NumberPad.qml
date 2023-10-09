@@ -2,7 +2,7 @@ import QtQuick 2.15
 import QtQuick.Layouts 1.3
 import "../../../components/buttons"
 
-NewPushButton {
+Pad {
         id: padRect
 
         radius: 0

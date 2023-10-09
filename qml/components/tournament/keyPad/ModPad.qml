@@ -2,8 +2,10 @@ import QtQuick 2.15
 import QtQuick.Layouts 1.3
 import "../../../components/buttons"
 
-NewPushButton {
+PushButton {
         id: padRect
+
+        fontSize: 28
 
         radius: 0
         property string modId: ""

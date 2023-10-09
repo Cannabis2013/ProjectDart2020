@@ -5,6 +5,9 @@ import QtQuick.Layouts 1.3
 Page {
         id: startPageContentBody
 
+        signal requestTournamentPage
+
+        signal quickGameClicked
         signal setupGameClicked
         signal manageContentClicked
         signal settingsButtonClicked
@@ -69,13 +72,27 @@ Page {
 
                 StartMenuButton {
                         Layout.alignment: Qt.AlignHCenter
-                        text: "Select tournament \n and play"
-                        onClicked: setupGameClicked()
+                        text: "QUICK: 1v1"
+                        onClicked: {
+                                dartsController.init(["I", "II"])
+                                quickGameClicked()
+                        }
+                }
+
+                StartMenuButton {
+                        Layout.alignment: Qt.AlignHCenter
+                        text: "Start game"
+                        onClicked: {
+                                setupGameClicked()
+                        }
                 }
                 StartMenuButton {
                         Layout.alignment: Qt.AlignHCenter
-                        text: "Manage tournaments \n and players"
-                        onClicked: manageContentClicked()
+                        text: "Resume from last game"
+                        onClicked: {
+                                dartsController.initFromSaved()
+                                requestTournamentPage()
+                        }
                 }
                 StartMenuButton {
                         Layout.alignment: Qt.AlignHCenter

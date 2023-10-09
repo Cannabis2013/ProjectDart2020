@@ -1,10 +1,10 @@
 function updateInitialValues() {
         const jsonArr = JSON.parse(dartsController.playerScores())
+        scoresView.playersCount = jsonArr.length
         for (var i = 0; i < jsonArr.length; i++) {
                 const json = jsonArr[i]
                 const playerName = json["playerName"]
                 const playerScore = json["playerScore"]
-                playerIcons.appendIconLabel(playerName)
                 scoresView.appendName(playerName, playerScore)
         }
 }
@@ -13,6 +13,8 @@ function updateTurnInfo() {
         const json = JSON.parse(dartsController.turnInfo())
         updateTurnComp(json)
         updateScoresView(json)
+        updateStatistics(json)
+        updatefinish(json)
 }
 
 function updateTurnComp(json) {
@@ -50,4 +52,18 @@ function updateScoreView(jsonObj) {
         const playerName = jsonObj["playerName"]
         const playerScore = jsonObj["playerScore"]
         scoresView.updateScore(playerScore, playerName)
+}
+
+function updateStatistics(jsonObj) {
+        const average = jsonObj["average"]
+        const low = jsonObj["low"]
+        const high = jsonObj["high"]
+        const text = `Average: ${average} - Low: ${low} - High: ${high}`
+        statistics.text = text
+}
+
+function updatefinish(jsonObj) {
+        const finish = jsonObj["finish"]
+        print(finish)
+        targetRow.text = finish
 }

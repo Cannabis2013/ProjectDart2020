@@ -8,14 +8,6 @@ import "keyPadBuilder.js" as Builder
 
 TransparentRect {
         id: keyPadRect
-        layer.enabled: true
-        layer.effect: OpacityMask {
-                maskSource: Rectangle {
-                        width: keyPadRect.width
-                        height: keyPadRect.height
-                        radius: 12
-                }
-        }
 
         signal reportScore(string modId, int point)
 

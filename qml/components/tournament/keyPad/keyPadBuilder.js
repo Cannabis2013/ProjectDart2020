@@ -17,9 +17,9 @@ function buildNumbers(width, height) {
                 else if (totalButtons === 2)
                         createBustPad(height, width, middlePadGrid)
                 else if (totalButtons === 3)
-                        createBullsPad(height, width, middlePadGrid)
-                else if (totalButtons === 4)
                         createBullPad(height, width, middlePadGrid)
+                else if (totalButtons === 4)
+                        createBullsPad(height, width, middlePadGrid)
                 else {
                         createNumberPad(buttonIndex, buttonIndex, height, width, middlePadGrid)
                         buttonIndex--
@@ -52,28 +52,37 @@ function createModPad(modId, height, width, parentObj) {
 }
 
 function createBullPad(height, width, parentObj) {
-        const component = Qt.createComponent("BullPad.qml")
+        const component = Qt.createComponent("NumberPad.qml")
         const object = component.createObject(parentObj, {
                                                       "height": height,
-                                                      "width": width
+                                                      "width": width,
+                                                      "text": "25",
+                                                      "padValue": 25,
+                                                      "color": "green"
                                               })
         object.padClicked.connect(keyPadRect.specialClicked)
 }
 
 function createBullsPad(height, width, parentObj) {
-        const component = Qt.createComponent("BullsPad.qml")
+        const component = Qt.createComponent("NumberPad.qml")
         const object = component.createObject(parentObj, {
                                                       "height": height,
-                                                      "width": width
+                                                      "width": width,
+                                                      "text": "50",
+                                                      "padValue": 50,
+                                                      "color": "red"
                                               })
         object.padClicked.connect(keyPadRect.specialClicked)
 }
 
 function createBustPad(height, width, parentObj) {
-        const component = Qt.createComponent("BustPad.qml")
+        const component = Qt.createComponent("NumberPad.qml")
         const object = component.createObject(parentObj, {
                                                       "height": height,
-                                                      "width": width
+                                                      "width": width,
+                                                      "text": "0",
+                                                      "padValue": 0,
+                                                      "color": "orange"
                                               })
         object.padClicked.connect(keyPadRect.specialClicked)
 }

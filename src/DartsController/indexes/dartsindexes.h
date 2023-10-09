@@ -3,26 +3,30 @@
 
 #include "IDartsIndexes.h"
 #include "dartsindex.h"
+#include "src/DartsController/indexes/indexesio.h"
 
 class DartsIndexes : public IDartsIndexes
 {
 public:
         DartsIndexes();
-        virtual void init(const int& playerCount) override;
-        virtual void init() override;
-        virtual bool next() override;
-        virtual bool undo() override;
-        virtual bool redo() override;
-        virtual bool canUndo() override;
-        virtual bool canRedo() override;
-        virtual void reset() override;
-        virtual int turnIndex() override;
-        virtual const DartsTurnIndex index() const override;
 
+        void init(const int& playerCount) override;
+        void init() override;
+        bool next() override;
+        bool undo() override;
+        bool redo() override;
+        bool canUndo() override;
+        bool canRedo() override;
+        void reset() override;
+        virtual int playerIndex() override;
+        virtual bool saveState() override;
+        int turnIndex() override;
+        const DartsTurnIndex index() const override;
 private:
-        void saveIndexes();
-
         DartsIndex _indexes;
+
+        // Helpers
+        IndexesIO *_indexesIO;
 };
 
 #endif // DARTINDEXES_H

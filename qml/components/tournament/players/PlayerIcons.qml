@@ -9,14 +9,22 @@ Rectangle {
         onAppendIconLabel: {
                 const component = Qt.createComponent("PlayerIcon.qml")
                 const object = component.createObject(iconGrid, {})
-                object.setIconInitials(name)
+                object.setIconInitials(name[0])
         }
 
         GridLayout {
                 anchors.fill: parent
 
+                Rectangle {
+                        Layout.fillWidth: true
+                }
+
                 GridLayout {
                         id: iconGrid
+                }
+
+                Rectangle {
+                        Layout.fillWidth: true
                 }
         }
 }

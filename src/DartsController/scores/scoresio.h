@@ -1,7 +1,7 @@
 #ifndef PLAYERSCORESINIT_H
 #define PLAYERSCORESINIT_H
 
-#include "src/DartsController/scores/DartsInternalScore.h"
+#include "src/DartsController/scores/Score.h"
 #include "src/FileIO/filejsonio.h"
 
 #include <QJsonArray>
@@ -13,19 +13,19 @@ public:
         ScoresIO(const QString &filePath):
                 _filePath((filePath)){
         }
-        QList<DartsInternalScore> fromFile(){
+        QList<Score> fromFile(){
                 auto json = jsonFromFile(_filePath);
                 auto jsonArr = toJsonArray(json);
                 return toScores(jsonArr);
         }
 
-        bool toFile(const QList<DartsInternalScore> &scores){
+        bool toFile(const QList<Score> &scores){
                 auto json = toJson(scores);
                 return jsonToFile(json,_filePath);
         }
 
 private:
-        QByteArray toJson(const QList<DartsInternalScore> &scores){
+        QByteArray toJson(const QList<Score> &scores){
                 QJsonArray jsonArr;
                 for (const auto &score : qAsConst(scores))
                         jsonArr << score.toJsonObject();
@@ -50,10 +50,10 @@ private:
                 return jsonDoc.array();
         }
 
-        QList<DartsInternalScore> toScores(const  QJsonArray &jsonArr){
-                QList<DartsInternalScore> scores;
+        QList<Score> toScores(const  QJsonArray &jsonArr){
+            QList<Score> scores;
                 for (const auto &value : jsonArr)
-                        scores << DartsInternalScore(value.toObject());
+                    scores << Score(value.toObject());
                 return scores;
         }
 

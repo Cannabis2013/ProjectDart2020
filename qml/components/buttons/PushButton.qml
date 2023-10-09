@@ -19,6 +19,9 @@ Rectangle {
         property color fontColor: "black"
         onFontColorChanged: buttonText.color = fontColor
 
+        property int fontSize: 12
+        onFontSizeChanged: buttonText.font.pointSize = fontSize
+
         MouseArea {
                 anchors.fill: parent
                 onClicked: buttonRect.clicked()
@@ -31,5 +34,6 @@ Rectangle {
                 color: fontColor
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
+                font.pointSize: buttonRect.fontSize
         }
 }

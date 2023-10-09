@@ -1,7 +1,7 @@
 #ifndef DARTSCORE_H
 #define DARTSCORE_H
 
-#include "src/DartsController/scores/DartsInternalScore.h"
+#include "src/DartsController/scores/Score.h"
 #include <QJsonDocument>
 #include <qjsonobject.h>
 #include <QJsonArray>
@@ -10,7 +10,7 @@
 class DartsPlayerScores
 {
 public:
-        DartsPlayerScores(const QList<DartsInternalScore> &scores) :
+    DartsPlayerScores(const QList<Score> &scores) :
                 _playerScores(scores)
         {}
 
@@ -24,12 +24,12 @@ public:
                 return jsonDoc->toJson(QJsonDocument::Compact);
         }
 
-        const QList<DartsInternalScore> playerScores()
+        const QList<Score> playerScores()
         {
                 return _playerScores;
         }
 private:
-        const QList<DartsInternalScore> _playerScores;
+        const QList<Score> _playerScores;
 };
 
 #endif // DARTSCORE_H

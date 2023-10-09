@@ -6,7 +6,7 @@
 #include "dartsdivisors.h"
 #include "dartsfieldvalues.h"
 #include "dartsmodidentifiers.h"
-#include "src/DartsController/Finishes/finishRow.h"
+#include "src/DartsController/Finishes/finishestypes.h"
 
 #include <QMultiHash>
 #include <qvector.h>
@@ -14,7 +14,7 @@
 class DartsCreateFinishes
 {
 public:
-    typedef DartsFinishes::TargetRow TargetRow;
+    typedef FinishesTypes::TargetRow TargetRow;
     typedef QVector<TargetRow *> TargetRows;
     static DartsCreateFinishes *createInstance() { return new DartsCreateFinishes; }
     TargetRows *constructRows();

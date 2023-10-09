@@ -21,7 +21,7 @@ TransparentRect {
 
         GridLayout {
                 anchors.fill: parent
-                NewPushButton {
+                PushButton {
                         id: undoButton
                         Layout.fillWidth: true
                         Layout.fillHeight: true
@@ -38,14 +38,14 @@ TransparentRect {
                         Layout.minimumWidth: 48
                         Layout.fillHeight: true
                         text: turnRect.turnIndex
-                        font.pointSize: 12
+                        font.pointSize: 20
                         font.weight: Font.Bold
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
                         color: "white"
                 }
 
-                NewPushButton {
+                PushButton {
                         id: redoButton
                         Layout.fillWidth: true
                         Layout.fillHeight: true

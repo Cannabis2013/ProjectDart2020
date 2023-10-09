@@ -3,7 +3,7 @@
 
 #include <qstring.h>
 
-class IDartInputEvaluator
+class IDartsInputEvaluator
 {
 public:
     virtual bool isValid(const QString &mod, const int &point) = 0; // Should check if input values is valid
