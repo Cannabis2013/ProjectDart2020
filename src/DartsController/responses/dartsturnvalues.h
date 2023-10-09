@@ -7,6 +7,7 @@
 #include "src/DartsController/responses/IDartsInfoResponse.h"
 #include "src/DartsController/scores/IDartsScores.h"
 #include "src/DartsController/statistics/idartsstatistics.h"
+#include "src/DartsController/status/IDartsStatus.h"
 
 class DartsTurnValues : public IDartsInfoResponse {
         // IDartInfoResponse interface
@@ -15,7 +16,8 @@ public:
             IDartsIndexes* _indexes,
             IDartsStatistics* statistics,
             IDartsFinishes* finishes,
-            IDartsScores* scores);
+            IDartsScores* scores,
+            IDartsStatus* status);
         virtual TurnInfo currentTurnInfo() override;
 
 private:
@@ -23,6 +25,7 @@ private:
         void updateWithStatistics(TurnInfo& turnInfo);
         void updateWithPlayerName(TurnInfo& turnInfo);
         void updateWithFinish(TurnInfo& turnInfo);
+        void updateWithStatus(TurnInfo& turnInfo);
 
         // Services
         IDartsPlayers* const _players;
@@ -30,6 +33,7 @@ private:
         IDartsStatistics* const _statistics;
         IDartsFinishes* const _finishes;
         IDartsScores* const _scores;
+        IDartsStatus* const _status;
 };
 
 #endif // DARTSTURNVALUES_H

@@ -64,10 +64,4 @@ BlackPage {
                         height: 8
                 }
         }
-
-        Component.onCompleted: {
-
-                //dartsController.init(["abc","def"])
-                //requestTournamentPage()
-        }
 }

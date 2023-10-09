@@ -1,11 +1,10 @@
 #ifndef IDARTSSTATISTICS_H
 #define IDARTSSTATISTICS_H
 
-class IDartsStatistics{
+#include "src/DartsController/statistics/statistics.h"
+class IDartsStatistics {
 public:
-        virtual double average() = 0;
-        virtual int lowest() = 0;
-        virtual int highest() = 0;
+        virtual Statistics statistics() const = 0;
 };
 
 #endif // IDARTSSTATISTICS_H

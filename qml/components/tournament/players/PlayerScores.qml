@@ -16,17 +16,22 @@ Flickable {
 
         signal appendName(var name, var score)
         onAppendName: {
-                const objectWidth = scoresView.width / 2
+                const objectWidth = scoresView.width / playersCount
                 const component = Qt.createComponent("PlayerScore.qml")
                 const object = component.createObject(scoresGrid, {})
-                object.setName(name)
+                object.setName(shortenName(name))
                 object.setScore(score)
                 object.width = objectWidth
                 object.Layout.fillHeight = true
                 object.Layout.alignment = Qt.AlignHCenter
-                scoresGrid.width += objectWidth
                 scoresFlickable.contentWidth += objectWidth
                 scoresObjects.objects.push(object)
+        }
+
+        function shortenName(name) {
+                if (name.length > 4)
+                        return name.substring(0, 8) + ".."
+                return name
         }
 
         signal highligtScore(string name)
@@ -55,7 +60,6 @@ Flickable {
         GridLayout {
                 id: scoresGrid
                 anchors.fill: parent
-                columnSpacing: 6
-                width: 0
+                columnSpacing: 0
         }
 }

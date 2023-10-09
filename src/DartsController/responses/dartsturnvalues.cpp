@@ -1,11 +1,12 @@
 #include "dartsturnvalues.h"
 
-DartsTurnValues::DartsTurnValues(IDartsPlayers* players, IDartsIndexes* _indexes, IDartsStatistics* statistics, IDartsFinishes* finishes, IDartsScores* scores)
+DartsTurnValues::DartsTurnValues(IDartsPlayers* players, IDartsIndexes* _indexes, IDartsStatistics* statistics, IDartsFinishes* finishes, IDartsScores* scores, IDartsStatus* status)
     : _players(players)
     , _indexes(_indexes)
     , _statistics(statistics)
     , _finishes(finishes)
     , _scores(scores)
+    , _status(status)
 {}
 
 TurnInfo DartsTurnValues::currentTurnInfo()
@@ -15,6 +16,7 @@ TurnInfo DartsTurnValues::currentTurnInfo()
         updateWithPlayerName(turnInfo);
         updateWithStatistics(turnInfo);
         updateWithFinish(turnInfo);
+        updateWithStatus(turnInfo);
         return turnInfo;
 }
 
@@ -27,9 +29,10 @@ void DartsTurnValues::updateWithIndexes(TurnInfo& turnInfo)
 
 void DartsTurnValues::updateWithStatistics(TurnInfo& turnInfo)
 {
-        turnInfo.setAverage(_statistics->average());
-        turnInfo.setLow(_statistics->lowest());
-        turnInfo.setHigh(_statistics->highest());
+        auto stats = _statistics->statistics();
+        turnInfo.setAverage(stats.average);
+        turnInfo.setLow(stats.low);
+        turnInfo.setHigh(stats.high);
 }
 
 void DartsTurnValues::updateWithPlayerName(TurnInfo& turnInfo)
@@ -44,4 +47,9 @@ void DartsTurnValues::updateWithFinish(TurnInfo& turnInfo)
         auto legIndex = _indexes->index().legIndex();
         auto finish = _finishes->suggestTargetRow(score, legIndex);
         turnInfo.setFinish(finish);
+}
+
+void DartsTurnValues::updateWithStatus(TurnInfo& turnInfo)
+{
+        turnInfo.setStatus(_status->status());
 }

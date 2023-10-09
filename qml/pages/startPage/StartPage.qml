@@ -75,7 +75,16 @@ Page {
                         text: "QUICK: 1v1"
                         onClicked: {
                                 dartsController.init(["I", "II"])
-                                quickGameClicked()
+                                requestTournamentPage()
+                        }
+                }
+
+                StartMenuButton {
+                        Layout.alignment: Qt.AlignHCenter
+                        text: "QUICK: Practice"
+                        onClicked: {
+                                dartsController.init(["I"])
+                                requestTournamentPage()
                         }
                 }
 

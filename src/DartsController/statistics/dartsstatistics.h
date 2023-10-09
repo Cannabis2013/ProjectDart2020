@@ -10,10 +10,12 @@ class DartsStatistics : public IDartsStatistics {
 public:
         DartsStatistics(IDartsInputs* inputs, IDartsPlayers* players, IDartsScores* scores);
 
-        virtual double average() override;
-        virtual int lowest() override;
-        virtual int highest() override;
+        virtual Statistics statistics() const override;
+
 private:
+        double average(int initialScore, int score, int count) const;
+        int lowest(const QList<Input>& inputs) const;
+        int highest(const QList<Input>& inputs) const;
         int scoreValue(const QString& mod, const int& point) const;
         int modMultiplier(QString mod) const;
 

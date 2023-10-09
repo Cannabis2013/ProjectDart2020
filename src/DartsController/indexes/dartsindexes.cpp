@@ -33,7 +33,7 @@ bool DartsIndexes::next()
 
 bool DartsIndexes::undo()
 {
-        if(_indexes.turnIndex < 1)
+        if (_indexes.turnIndex < 1)
                 return false;
         _indexes.legIndex--;
         if(_indexes.legIndex < 0){

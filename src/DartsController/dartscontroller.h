@@ -8,6 +8,7 @@
 #include "src/DartsController/responses/IDartsInfoResponse.h"
 #include "src/DartsController/scores/IDartsScores.h"
 #include "src/DartsController/statistics/idartsstatistics.h"
+#include "src/DartsController/status/IDartsStatus.h"
 #include <QObject>
 #include <src/DartsController/players/IDartsPlayers.h>
 
@@ -34,5 +35,6 @@ private:
         IDartsPlayers* _players = nullptr;
         IDartsStatistics* _statistics = nullptr;
         IDartsFinishes* _finishes = nullptr;
+        IDartsStatus* _status = nullptr;
 };
 #endif // FIVEHUNDREDANDONEGAME_H

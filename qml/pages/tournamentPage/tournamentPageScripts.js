@@ -11,10 +11,25 @@ function updateInitialValues() {
 
 function updateTurnInfo() {
         const json = JSON.parse(dartsController.turnInfo())
-        updateTurnComp(json)
-        updateScoresView(json)
-        updateStatistics(json)
-        updatefinish(json)
+        if (json["status"] === "running")
+                winnerNotFound(json)
+        else
+                winnerFound(json)
+}
+
+function winnerNotFound(jsonObj) {
+        updateTurnComp(jsonObj)
+        updateScoresView(jsonObj)
+        updateStatistics(jsonObj)
+        updatefinish(jsonObj)
+        keyPad.enabled = true
+}
+
+function winnerFound(jsonObj) {
+        const playerName = jsonObj["currentPlayerName"]
+        updateTurnComp(jsonObj)
+        keyPad.enabled = false
+        targetRow.text = `WINNER: ${playerName}`
 }
 
 function updateTurnComp(json) {
@@ -63,7 +78,5 @@ function updateStatistics(jsonObj) {
 }
 
 function updatefinish(jsonObj) {
-        const finish = jsonObj["finish"]
-        print(finish)
-        targetRow.text = finish
+        targetRow.text = jsonObj["finish"]
 }

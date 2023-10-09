@@ -21,7 +21,7 @@ public:
 
         QJsonObject toJsonObject(){
                 QJsonObject jsonObj;
-                jsonObj["point"] = QString::number(_point);
+                jsonObj["point"] = _point;
                 jsonObj["mod"] = _mod;
                 jsonObj["player"] = _playerName;
                 jsonObj["index"] = _turnIndex;

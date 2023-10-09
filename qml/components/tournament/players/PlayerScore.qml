@@ -8,8 +8,6 @@ Rectangle {
         height: 80
         color: "green"
 
-        radius: 12
-
         property bool highlighted: false
         onHighlightedChanged: highlightRect.visible = highlighted
 
@@ -48,7 +46,7 @@ Rectangle {
                         text: "-1"
                         Layout.fillWidth: true
                         Layout.fillHeight: true
-                        font.pointSize: 80
+                        font.pointSize: 96
                         font.weight: Font.Bold
                         color: "white"
                         verticalAlignment: Qt.AlignVCenter

@@ -29,15 +29,7 @@ Item {
                 id: setupTournamentPage
                 SetupTournamentPage {
                         onBackClicked: pageLoader.sourceComponent = startPageComponent
-                        onRequestTournamentPage: pageLoader.sourceComponent = confirmPage
-                }
-        }
-
-        Component {
-                id: confirmPage
-                Confirmation {
-                        onBackClicked: pageLoader.sourceComponent = startPageComponent
-                        onAcceptClicked: pageLoader.sourceComponent = setupTournamentPage
+                        onRequestTournamentPage: pageLoader.sourceComponent = tournamentPage
                 }
         }
 

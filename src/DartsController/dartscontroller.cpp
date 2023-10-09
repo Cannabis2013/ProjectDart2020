@@ -7,24 +7,28 @@
 #include "src/DartsController/players/dartsplayers.h"
 #include "src/DartsController/scores/dartsscores.h"
 #include "src/DartsController/statistics/dartsstatistics.h"
+#include "src/DartsController/status/DartsStatus.h"
 #include <src/DartsController/responses/dartsturnvalues.h>
 
 DartsController::DartsController() {
+        _status = new DartsStatus();
         _indexes = new DartsIndexes();
         _finishes = new DartsFinishes();
         _players = new DartsPlayers(_indexes);
         _evaluator = new DartsInputEvaluator(&_scores);
         _inputs = new DartsInputs(_indexes,_players, _evaluator);
-        _scores = new DartsScores(_indexes,_players,_inputs);
+        _scores = new DartsScores(_indexes, _players, _inputs, _status);
         _statistics = new DartsStatistics(_inputs, _players, _scores);
-        _response = new DartsTurnValues(_players, _indexes, _statistics, _finishes, _scores);
+        _response = new DartsTurnValues(_players, _indexes, _statistics, _finishes, _scores, _status);
 }
 
 void DartsController::init(const QStringList& playerNames)
 {
         _players->initPlayers(playerNames);
         _indexes->init(playerNames.count());
+        _inputs->init();
         _scores->init();
+        _status->init();
 }
 
 QStringList DartsController::playerNames() const
@@ -36,8 +40,9 @@ void DartsController::initFromSaved()
 {
         _players->initPlayers();
         _indexes->init();
-        _scores->init();
+        _inputs->initFromFile();
         _scores->initFromFile();
+        _status->initFromFile();
 }
 
 void DartsController::saveState()
@@ -46,6 +51,7 @@ void DartsController::saveState()
         _scores->saveState();
         _inputs->saveState();
         _players->saveState();
+        _status->saveState();
 }
 
 QByteArray DartsController::playerScores() const
@@ -61,14 +67,17 @@ QByteArray DartsController::turnInfo() const
 
 QByteArray DartsController::addInput(const QByteArray &inputAsJson)
 {
+        if (_status->status() == IDartsStatus::Winner)
+                return _scores->score().toJson();
         InputRequest req(inputAsJson);
         auto input = _inputs->evaluateAndAdd(req);
-        DartsPlayerScore score =  _scores->update(input);
+        DartsPlayerScore score = _scores->update(input);
         _indexes->next();
         return score.toJson();
 }
 
 QByteArray DartsController::undoTurn() {
+        _status->updateStatus(IDartsStatus::Running);
         _indexes->undo();
         auto scores = _scores->update();
         return scores.toJson();

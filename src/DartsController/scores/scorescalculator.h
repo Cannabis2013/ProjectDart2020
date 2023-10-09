@@ -9,7 +9,7 @@ class ScoresCalculator
 public:
         ScoresCalculator(IDartsInputs *inputs);
 
-        QList<Score> calculatedScores(const int& turnIndex, const QStringList& names);
+        QList<Score> calculatedScores(const QStringList& names, const int& initialScore);
         Score calculatedScore(const Input& input, const Score& score, const QString& name);
 private:
         int inputScore(const QString& mod, const int& point) const;

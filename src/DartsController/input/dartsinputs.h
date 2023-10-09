@@ -12,11 +12,11 @@
 class DartsInputs : public IDartsInputs
 {
 public:
-    DartsInputs(IDartsIndexes *indexes, IDartsPlayers *players, IDartsInputEvaluator *evaluator);
-        void init() override;
+        DartsInputs(IDartsIndexes* indexes, IDartsPlayers* players, IDartsInputEvaluator* evaluator);
+        virtual void init() override;
+        void initFromFile() override;
         Input evaluateAndAdd(const InputRequest& req) override;
         QList<Input> inputs(const QString& playerName) const override;
-        QList<Input> inputs(const QString& playerName, const int& turnIndex) const override;
         bool saveState() override;
         void chop() override;
 
@@ -26,13 +26,10 @@ private:
         QList<Input> _inputs;
 
         // Services
-        IDartsInputEvaluator *_evaluator;
-        IDartsIndexes *_indexes;
-        IDartsPlayers *_players;
-        InputsIO *_inputsIO;
-
-        // IDartsInputs interface
-public:
+        IDartsInputEvaluator* _evaluator;
+        IDartsIndexes* _indexes;
+        IDartsPlayers* _players;
+        InputsIO* _inputsIO;
 };
 
 #endif // DARTINPUTS_H

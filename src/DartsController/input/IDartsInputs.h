@@ -8,9 +8,9 @@ class IDartsInputs
 {
 public:
         virtual void init() = 0;
+        virtual void initFromFile() = 0;
         virtual Input evaluateAndAdd(const InputRequest &req) = 0;
-        virtual QList<Input> inputs(const QString &playerName) const = 0;
-        virtual QList<Input> inputs(const QString &playerName, const int& turnIndex) const = 0;
+        virtual QList<Input> inputs(const QString& playerName) const = 0;
         virtual void chop() = 0;
         virtual bool saveState() = 0;
 };

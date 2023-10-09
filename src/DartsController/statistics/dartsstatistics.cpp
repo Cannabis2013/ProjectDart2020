@@ -6,21 +6,28 @@ DartsStatistics::DartsStatistics(IDartsInputs* inputs, IDartsPlayers* players, I
     , _scores(scores)
 {}
 
-double DartsStatistics::average()
+Statistics DartsStatistics::statistics() const
 {
         auto score = _scores->score();
         auto currentPlayer = score.playerName();
-        auto inputsCount = _inputs->inputs(currentPlayer).count();
-        if (inputsCount <= 0)
-                return 0;
-        auto playerPoints = 501 - score.playerScore();
-        return playerPoints / inputsCount;
+        auto inputs = _inputs->inputs(currentPlayer);
+        Statistics stats;
+        stats.average = average(_scores->initialScore(), score.playerScore(), inputs.count());
+        stats.low = lowest(inputs);
+        stats.high = highest(inputs);
+        return stats;
 }
 
-int DartsStatistics::lowest()
+double DartsStatistics::average(int initialScore, int score, int count) const
 {
-        auto currentPlayer = _players->name();
-        auto inputs = _inputs->inputs(currentPlayer);
+        if (count <= 0)
+                return 0;
+        auto playerPoints = initialScore - score;
+        return playerPoints / count;
+}
+
+int DartsStatistics::lowest(const QList<Input>& inputs) const
+{
         if (inputs.count() <= 0)
                 return 0;
         auto lowest = 60;
@@ -31,10 +38,8 @@ int DartsStatistics::lowest()
         return lowest;
 }
 
-int DartsStatistics::highest()
+int DartsStatistics::highest(const QList<Input>& inputs) const
 {
-        auto currentPlayer = _players->name();
-        auto inputs = _inputs->inputs(currentPlayer);
         auto highest = 0;
         for (const auto &input : inputs) {
                 auto score = scoreValue(input.mod(),input.point());

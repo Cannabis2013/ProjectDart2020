@@ -1,10 +1,11 @@
 #include "dartsscores.h"
 
-#define INITIAL_SCORE 170
+#define INITIAL_SCORE 501
 
-DartsScores::DartsScores(IDartsIndexes* indexes, IDartsPlayers* players, IDartsInputs* inputs)
+DartsScores::DartsScores(IDartsIndexes* indexes, IDartsPlayers* players, IDartsInputs* inputs, IDartsStatus* status)
     : _indexes(indexes)
     , _players(players)
+    , _status(status)
 {
         _scoresIO = new ScoresIO("playerScores.dat");
         _calculator = new ScoresCalculator(inputs);
@@ -18,10 +19,15 @@ void DartsScores::init()
                 _scores << Score(name, INITIAL_SCORE);
 }
 
+void DartsScores::initFromFile()
+{
+        _scores = _scoresIO->fromFile();
+}
+
 void DartsScores::reset()
 {
         auto names = _players->names();
-        for (const auto &name : names)
+        for (const auto& name : qAsConst(names))
                 _scores << Score(name, INITIAL_SCORE);
 }
 
@@ -33,13 +39,23 @@ DartsPlayerScore DartsScores::update(const Input& input)
         auto name = _players->name();
         auto score = _calculator->calculatedScore(input,_scores.at(index),name);
         _scores.replace(index,score);
+        if (score.score() == 0)
+                _status->updateStatus(IDartsStatus::Winner);
         return DartsPlayerScore(score);
+}
+
+int DartsScores::initialScore() const
+{
+        return INITIAL_SCORE;
 }
 
 DartsPlayerScores DartsScores::update()
 {
-        auto turnIndex = _indexes->turnIndex();
-        _scores = _calculator->calculatedScores(turnIndex,_players->names());
+        _scores = _calculator->calculatedScores(_players->names(), INITIAL_SCORE);
+        for (const auto& score : qAsConst(_scores)) {
+                if (score.score() == 0)
+                        _status->updateStatus(IDartsStatus::Winner);
+        }
         return DartsPlayerScores(_scores);
 }
 

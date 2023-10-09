@@ -12,6 +12,7 @@ public:
         virtual void init() = 0;
         virtual void initFromFile() = 0;
         virtual bool saveState() = 0;
+        virtual int initialScore() const = 0;
         virtual DartsPlayerScore update(const Input &input) = 0;
         virtual DartsPlayerScores update() = 0;
         virtual DartsPlayerScore score() = 0;

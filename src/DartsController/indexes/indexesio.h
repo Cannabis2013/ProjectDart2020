@@ -4,8 +4,6 @@
 #include "src/DartsController/indexes/dartsindex.h"
 #include <qstring.h>
 
-
-
 class IndexesIO
 {
 public:

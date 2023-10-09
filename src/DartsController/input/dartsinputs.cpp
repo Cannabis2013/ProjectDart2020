@@ -15,6 +15,11 @@ DartsInputs::DartsInputs(IDartsIndexes* indexes, IDartsPlayers *players, IDartsI
 
 void DartsInputs::init()
 {
+        _inputs = QList<Input>();
+}
+
+void DartsInputs::initFromFile()
+{
         _inputs = _inputsIO->fromFile();
 }
 
@@ -32,7 +37,8 @@ Input DartsInputs::evaluateAndAdd(const InputRequest& req)
 
 QList<Input> DartsInputs::inputs(const QString& playerName) const
 {
-        auto turnIndex = _indexes->turnIndex();
+        auto index = _indexes->index();
+        auto turnIndex = index.turnIndex();
         QList<Input> playerInputs;
         for (auto& input : qAsConst(_inputs)) {
                 if (input.playerName() == playerName && input.turnIndex() < turnIndex)
@@ -49,16 +55,6 @@ Input DartsInputs::save(Input input)
         return input;
 }
 
-QList<Input> DartsInputs::inputs(const QString& playerName, const int& turnIndex) const
-{
-        QList<Input> playerInputs;
-        for (auto& input : qAsConst(_inputs)) {
-                if(input.playerName() == playerName && input.turnIndex() < turnIndex)
-                        playerInputs << input;
-        }
-        return playerInputs;
-}
-
 bool DartsInputs::saveState()
 {
         return _inputsIO->toFile(_inputs);
@@ -68,9 +64,11 @@ void DartsInputs::chop()
 {
         auto turnIndex = _indexes->turnIndex();
         QList<Input> chopped;
-        for (auto& input : qAsConst(_inputs)) {
-                if (input.turnIndex() <= turnIndex)
-                        chopped << input;
+        if (turnIndex > 0) {
+                for (auto& input : qAsConst(_inputs)) {
+                        if (input.turnIndex() < turnIndex)
+                                chopped << input;
+                }
         }
         _inputs = chopped;
 }

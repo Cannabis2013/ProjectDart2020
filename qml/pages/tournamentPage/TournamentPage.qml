@@ -34,7 +34,7 @@ BlackPage {
                         id: turnInfoComp
                         Layout.alignment: Qt.AlignHCenter
                         height: 32
-                        width: 262
+                        Layout.fillWidth: true
                         onUndoClicked: {
                                 const response = dartsController.undoTurn()
                                 PageScripts.updatePlayerScores(response)

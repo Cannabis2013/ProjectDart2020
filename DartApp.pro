@@ -61,6 +61,9 @@ HEADERS += \
     src/DartsController/scores/scoresio.h \
     src/DartsController/statistics/dartsstatistics.h \
     src/DartsController/statistics/idartsstatistics.h \
+    src/DartsController/statistics/statistics.h \
+    src/DartsController/status/DartsStatus.h \
+    src/DartsController/status/IDartsStatus.h \
     src/FileIO/filejsonio.h \
     src/QmlContext/setupqmlcontext.h
 
@@ -76,6 +79,7 @@ SOURCES += \
     src/DartsController/input/inputsio.cpp \
     src/DartsController/players/dartsplayers.cpp \
     src/DartsController/players/playersio.cpp \
+    src/DartsController/responses/TurnInfo.cpp \
     src/DartsController/responses/dartsturnvalues.cpp \
     src/DartsController/scores/dartsscores.cpp \
     src/DartsController/scores/scorescalculator.cpp \

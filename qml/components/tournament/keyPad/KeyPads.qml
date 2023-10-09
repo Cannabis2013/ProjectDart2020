@@ -9,6 +9,8 @@ import "keyPadBuilder.js" as Builder
 TransparentRect {
         id: keyPadRect
 
+        enabled: false
+
         signal reportScore(string modId, int point)
 
         signal numberClicked(int point)

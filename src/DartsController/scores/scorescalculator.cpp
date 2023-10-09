@@ -5,12 +5,12 @@ ScoresCalculator::ScoresCalculator(IDartsInputs* inputs)
         _inputs = inputs;
 }
 
-QList<Score> ScoresCalculator::calculatedScores(const int& turnIndex, const QStringList &names)
+QList<Score> ScoresCalculator::calculatedScores(const QStringList& names, const int& initialScore)
 {
         QList<Score> scores;
         for (const auto &name : qAsConst(names)) {
-                auto inputs = _inputs->inputs(name,turnIndex);
-                int score = 501;
+                auto inputs = _inputs->inputs(name);
+                int score = initialScore;
                 for (auto& input : qAsConst(inputs))
                         score -= inputScore(input.mod(),input.point());
                 scores.append(Score(name,score));
