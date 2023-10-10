@@ -1,7 +1,14 @@
 #ifndef STATISTICS_H
 #define STATISTICS_H
 
-struct Statistics {
+class Statistics {
+public:
+        explicit Statistics(double average, int low, int high)
+            : average(average)
+            , low(low)
+            , high(high)
+        {
+        }
         double average;
         int low;
         int high;

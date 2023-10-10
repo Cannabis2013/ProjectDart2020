@@ -1,15 +1,15 @@
 #include "dartsinputs.h"
 
-#include <src/FileIO/filejsonio.h>
-#include <qjsondocument.h>
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QJsonValue>
+#include <qjsondocument.h>
+#include <src/FileIO/filejsonio.h>
 
-DartsInputs::DartsInputs(IDartsIndexes* indexes, IDartsPlayers *players, IDartsInputEvaluator* evaluator){
+DartsInputs::DartsInputs(IDartsIndexes* indexes, IDartsPlayers* players)
+{
         _indexes = indexes;
         _players = players;
-        _evaluator = evaluator;
         _inputsIO = new InputsIO("dartsInputs.dat");
 }
 
@@ -18,30 +18,26 @@ void DartsInputs::init()
         _inputs = QList<Input>();
 }
 
+void DartsInputs::setInputs(const QList<Input>& inputs)
+{
+        _inputs = inputs;
+}
+
 void DartsInputs::initFromFile()
 {
         _inputs = _inputsIO->fromFile();
 }
 
-Input DartsInputs::evaluateAndAdd(const InputRequest& req)
+const QList<Input>& DartsInputs::inputs() const
 {
-        auto input = req.toInput();
-        if(!_evaluator->isValid(input.mod(),input.point()))
-                return Input();
-        chop(); // Chop inputs at current turn index
-        if(_evaluator->isWithinBounds(input.mod(),input.point()))
-                return save(input);
-        else
-                return save(req.toNullified());
+        return _inputs;
 }
 
-QList<Input> DartsInputs::inputs(const QString& playerName) const
+QList<Input> DartsInputs::inputs(const QString& playerName, const int& throwIndex) const
 {
-        auto index = _indexes->index();
-        auto turnIndex = index.turnIndex();
         QList<Input> playerInputs;
         for (auto& input : qAsConst(_inputs)) {
-                if (input.playerName() == playerName && input.turnIndex() < turnIndex)
+                if (input.playerName() == playerName && input.throwIndex() < throwIndex)
                         playerInputs << input;
         }
         return playerInputs;
@@ -50,7 +46,7 @@ QList<Input> DartsInputs::inputs(const QString& playerName) const
 Input DartsInputs::save(Input input)
 {
         input.setPlayerName(_players->name());
-        input.setTurnIndex(_indexes->turnIndex());
+        input.setThrowIndex(_indexes->index().throwIndex());
         _inputs << input;
         return input;
 }
@@ -58,17 +54,4 @@ Input DartsInputs::save(Input input)
 bool DartsInputs::saveState()
 {
         return _inputsIO->toFile(_inputs);
-}
-
-void DartsInputs::chop()
-{
-        auto turnIndex = _indexes->turnIndex();
-        QList<Input> chopped;
-        if (turnIndex > 0) {
-                for (auto& input : qAsConst(_inputs)) {
-                        if (input.turnIndex() < turnIndex)
-                                chopped << input;
-                }
-        }
-        _inputs = chopped;
 }

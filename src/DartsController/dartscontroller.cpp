@@ -15,11 +15,12 @@ DartsController::DartsController() {
         _indexes = new DartsIndexes();
         _finishes = new DartsFinishes();
         _players = new DartsPlayers(_indexes);
-        _evaluator = new DartsInputEvaluator(&_scores);
-        _inputs = new DartsInputs(_indexes,_players, _evaluator);
+        _inputs = new DartsInputs(_indexes, _players);
         _scores = new DartsScores(_indexes, _players, _inputs, _status);
-        _statistics = new DartsStatistics(_inputs, _players, _scores);
+        _evaluator = new DartsInputEvaluator(_scores);
+        _statistics = new DartsStatistics(_inputs, _players, _scores, _indexes);
         _response = new DartsTurnValues(_players, _indexes, _statistics, _finishes, _scores, _status);
+        _adder = new DartsInputAdder(_inputs, _evaluator, _indexes, _scores);
 }
 
 void DartsController::init(const QStringList& playerNames)
@@ -69,11 +70,8 @@ QByteArray DartsController::addInput(const QByteArray &inputAsJson)
 {
         if (_status->status() == IDartsStatus::Winner)
                 return _scores->score().toJson();
-        InputRequest req(inputAsJson);
-        auto input = _inputs->evaluateAndAdd(req);
-        DartsPlayerScore score = _scores->update(input);
-        _indexes->next();
-        return score.toJson();
+        _adder->add(InputRequest(inputAsJson));
+        return _scores->update().toJson();
 }
 
 QByteArray DartsController::undoTurn() {

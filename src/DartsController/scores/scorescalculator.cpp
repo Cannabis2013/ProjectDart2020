@@ -1,15 +1,15 @@
 #include "scorescalculator.h"
 
 ScoresCalculator::ScoresCalculator(IDartsInputs* inputs)
+    : _inputs(inputs)
 {
-        _inputs = inputs;
 }
 
-QList<Score> ScoresCalculator::calculatedScores(const QStringList& names, const int& initialScore)
+QList<Score> ScoresCalculator::calculatedScores(const QStringList& names, const int& initialScore, const int& throwIndex)
 {
         QList<Score> scores;
         for (const auto &name : qAsConst(names)) {
-                auto inputs = _inputs->inputs(name);
+                auto inputs = _inputs->inputs(name, throwIndex);
                 int score = initialScore;
                 for (auto& input : qAsConst(inputs))
                         score -= inputScore(input.mod(),input.point());

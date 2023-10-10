@@ -5,38 +5,45 @@
 #include <qbytearray.h>
 #include <qjsondocument.h>
 
-struct DartsIndex
-{
-        int playersCount;
-        int playerIndex;
-        int legIndex;
-        int turnIndex = 0;
-        int totalTurns = 0;
-
-        static DartsIndex fromJson(const QByteArray &json){
-                DartsIndex index;
+class DartsIndex {
+public:
+        DartsIndex(const QByteArray& json)
+        {
                 auto jsonDoc = QJsonDocument::fromJson(json);
-                if(!jsonDoc.isObject())
-                        return DartsIndex();
                 auto jsonObj = jsonDoc.object();
-                index.playersCount = jsonObj.value("playersCount").toInt();
-                index.playerIndex = jsonObj.value("playerIndex").toInt();
-                index.legIndex = jsonObj.value("legIndex").toInt();
-                index.turnIndex = jsonObj.value("turnIndex").toInt();
-                index.totalTurns = jsonObj.value("totalTurns").toInt();
-                return index;
+                playersCount = jsonObj.value("playersCount").toInt();
+                playerIndex = jsonObj.value("playerIndex").toInt();
+                turnIndex = jsonObj.value("turnIndex").toInt();
+                throwIndex = jsonObj.value("throwIndex").toInt();
+                totalTurns = jsonObj.value("totalTurns").toInt();
         }
 
-        QByteArray toJson() const{
+        DartsIndex(const int& count)
+        {
+                playersCount = count;
+        }
+
+        DartsIndex()
+        {
+        }
+
+        QByteArray toJson() const
+        {
                 QJsonObject jsonObj;
                 jsonObj["playersCount"] = playersCount;
                 jsonObj["playerIndex"] = playerIndex;
-                jsonObj["legIndex"] = legIndex;
                 jsonObj["turnIndex"] = turnIndex;
+                jsonObj["throwIndex"] = throwIndex;
                 jsonObj["totalTurns"] = totalTurns;
                 auto jsonDoc = new QJsonDocument(jsonObj);
                 return jsonDoc->toJson(QJsonDocument::Compact);
         }
+
+        int playersCount = 0;
+        int playerIndex = 0;
+        int turnIndex = 0;
+        int throwIndex = 0;
+        int totalTurns = 0;
 };
 
 #endif // DARTINDEX_H

@@ -8,8 +8,8 @@ class DartsTurnIndex
 public:
         DartsTurnIndex(const DartsIndex &index){
                 _playerIndex = index.playerIndex;
-                _legIndex = index.legIndex;
                 _turnIndex = index.turnIndex;
+                _throwIndex = index.throwIndex;
         }
 
         int playerIndex() const
@@ -17,20 +17,20 @@ public:
                 return _playerIndex;
         }
 
-        int legIndex() const
-        {
-                return _legIndex;
-        }
-
         int turnIndex() const
         {
                 return _turnIndex;
         }
 
+        int throwIndex() const
+        {
+                return _throwIndex;
+        }
+
 private:
         int _playerIndex;
-        int _legIndex;
         int _turnIndex;
+        int _throwIndex;
 };
 
 #endif // DARTTURNINDEX_H

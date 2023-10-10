@@ -7,16 +7,15 @@
 class ScoresCalculator
 {
 public:
-        ScoresCalculator(IDartsInputs *inputs);
+        ScoresCalculator(IDartsInputs* inputs);
 
-        QList<Score> calculatedScores(const QStringList& names, const int& initialScore);
+        QList<Score> calculatedScores(const QStringList& names, const int& initialScore, const int& throwIndex);
         Score calculatedScore(const Input& input, const Score& score, const QString& name);
 private:
         int inputScore(const QString& mod, const int& point) const;
         int modMultiplier(QString mod) const;
         // Services
-        IDartsInputs *_inputs;
-
+        IDartsInputs* const _inputs;
 };
 
 #endif // SCORESCALCULATOR_H

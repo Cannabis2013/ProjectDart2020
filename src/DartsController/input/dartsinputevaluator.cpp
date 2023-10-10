@@ -1,6 +1,6 @@
 #include "dartsinputevaluator.h"
 
-DartsInputEvaluator::DartsInputEvaluator(IDartsScores** scores) : _scores(scores)
+DartsInputEvaluator::DartsInputEvaluator(IDartsScores* scores) : _scores(scores)
 {}
 
 bool DartsInputEvaluator::isValid(const QString& mod, const int& point)
@@ -13,14 +13,14 @@ bool DartsInputEvaluator::isValid(const QString& mod, const int& point)
 bool DartsInputEvaluator::isWithinBounds(const QString& mod, const int& point)
 {
         auto scoreValue = inputScore(mod,point);
-        auto playerScore = scores()->score().playerScore();
+        auto playerScore = _scores->score().playerScore();
         auto remainingScore = playerScore - scoreValue;
-        return remainingScore >= 0;
-}
-
-IDartsScores* DartsInputEvaluator::scores() const
-{
-        return *_scores;
+        if (remainingScore > 0)
+                return true;
+        else if (remainingScore == 0 && validEndThrow(mod, point))
+                return true;
+        else
+                return false;
 }
 
 int DartsInputEvaluator::inputScore(const QString& mod, const int& point) const
@@ -37,4 +37,9 @@ int DartsInputEvaluator::modMultiplier(QString mod) const
                 return 2;
         else
                 return 3;
+}
+
+bool DartsInputEvaluator::validEndThrow(const QString& mod, const int& point) const
+{
+        return mod == "D" || point == 50;
 }

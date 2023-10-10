@@ -5,6 +5,7 @@
 #include "src/DartsController/indexes/IDartsIndexes.h"
 #include "src/DartsController/input/IDartsInputEvalutor.h"
 #include "src/DartsController/input/IDartsInputs.h"
+#include "src/DartsController/input/dartsinputadder.h"
 #include "src/DartsController/responses/IDartsInfoResponse.h"
 #include "src/DartsController/scores/IDartsScores.h"
 #include "src/DartsController/statistics/idartsstatistics.h"
@@ -36,5 +37,6 @@ private:
         IDartsStatistics* _statistics = nullptr;
         IDartsFinishes* _finishes = nullptr;
         IDartsStatus* _status = nullptr;
+        DartsInputAdder* _adder = nullptr;
 };
 #endif // FIVEHUNDREDANDONEGAME_H

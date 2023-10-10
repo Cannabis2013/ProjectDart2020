@@ -80,7 +80,7 @@ BlackPage {
                         Layout.alignment: Qt.AlignHCenter
                         onReportScore: {
                                 const response = PageScripts.sendScore(modId, point)
-                                PageScripts.updatePlayerScore(response)
+                                PageScripts.updatePlayerScores(response)
                                 PageScripts.updateTurnInfo()
                         }
                 }

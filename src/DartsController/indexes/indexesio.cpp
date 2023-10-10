@@ -15,5 +15,5 @@ bool IndexesIO::saveIndexes(const DartsIndex& indexes)
 DartsIndex IndexesIO::loadIndexes() const
 {
         FileJsonIO jsonIO (_filePath);
-        return DartsIndex::fromJson(jsonIO.read());
+        return DartsIndex(jsonIO.read());
 }

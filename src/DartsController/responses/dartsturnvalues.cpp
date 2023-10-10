@@ -22,7 +22,7 @@ TurnInfo DartsTurnValues::currentTurnInfo()
 
 void DartsTurnValues::updateWithIndexes(TurnInfo& turnInfo)
 {
-        turnInfo.setTurnIndex(_indexes->turnIndex());
+        turnInfo.setTurnIndex(_indexes->index().throwIndex());
         turnInfo.setCanUndo(_indexes->canUndo());
         turnInfo.setCanRedo(_indexes->canRedo());
 }
@@ -44,7 +44,7 @@ void DartsTurnValues::updateWithPlayerName(TurnInfo& turnInfo)
 void DartsTurnValues::updateWithFinish(TurnInfo& turnInfo)
 {
         auto score = _scores->score().playerScore();
-        auto legIndex = _indexes->index().legIndex();
+        auto legIndex = _indexes->index().turnIndex();
         auto finish = _finishes->suggestTargetRow(score, legIndex);
         turnInfo.setFinish(finish);
 }

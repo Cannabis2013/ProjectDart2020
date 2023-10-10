@@ -1,21 +1,27 @@
 #include "dartsstatistics.h"
 
-DartsStatistics::DartsStatistics(IDartsInputs* inputs, IDartsPlayers* players, IDartsScores* scores)
+DartsStatistics::DartsStatistics(IDartsInputs* inputs, IDartsPlayers* players, IDartsScores* scores, IDartsIndexes* indexes)
     : _inputs(inputs)
     , _players(players)
     , _scores(scores)
+    , _indexes(indexes)
 {}
 
 Statistics DartsStatistics::statistics() const
 {
         auto score = _scores->score();
-        auto currentPlayer = score.playerName();
-        auto inputs = _inputs->inputs(currentPlayer);
-        Statistics stats;
-        stats.average = average(_scores->initialScore(), score.playerScore(), inputs.count());
-        stats.low = lowest(inputs);
-        stats.high = highest(inputs);
-        return stats;
+        auto inputs = getInputs();
+        auto avg = average(_scores->initialScore(), score.playerScore(), inputs.count());
+        auto low = lowest(inputs);
+        auto high = highest(inputs);
+        return Statistics(avg, low, high);
+}
+
+QList<Input> DartsStatistics::getInputs() const
+{
+        auto currentPlayer = _players->name();
+        auto throwIndex = _indexes->index().throwIndex();
+        return _inputs->inputs(currentPlayer, throwIndex);
 }
 
 double DartsStatistics::average(int initialScore, int score, int count) const

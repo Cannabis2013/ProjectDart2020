@@ -26,7 +26,7 @@ QString DartsPlayers::name(int index) const
 
 QString DartsPlayers::name() const
 {
-        auto playerIndex = _indexes->playerIndex();
+        auto playerIndex = _indexes->index().playerIndex();
         if(playerIndex >= _names.count())
                 return QString();
         return _names.at(playerIndex);

@@ -14,6 +14,8 @@ Rectangle {
         readonly property string name: playerName.text
         readonly property string score: playerScore.text
 
+        property string id: ""
+
         signal setName(string name)
         onSetName: playerName.text = name
 

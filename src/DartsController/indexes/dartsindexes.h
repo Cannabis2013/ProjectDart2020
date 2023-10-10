@@ -17,16 +17,16 @@ public:
         bool redo() override;
         bool canUndo() override;
         bool canRedo() override;
-        void reset() override;
-        virtual int playerIndex() override;
         virtual bool saveState() override;
-        int turnIndex() override;
         const DartsTurnIndex index() const override;
+        virtual void skipturn() override;
+
 private:
+        void nextTurn();
         DartsIndex _indexes;
 
         // Helpers
-        IndexesIO *_indexesIO;
+        IndexesIO* _indexesIO;
 };
 
 #endif // DARTINDEXES_H

@@ -1,5 +1,4 @@
 #include "dartsindexes.h"
-
 #include <src/FileIO/filejsonio.h>
 
 DartsIndexes::DartsIndexes()
@@ -9,8 +8,7 @@ DartsIndexes::DartsIndexes()
 
 void DartsIndexes::init(const int& playerCount)
 {
-        _indexes = DartsIndex();
-        _indexes.playersCount = playerCount;
+        _indexes = DartsIndex(playerCount);
 }
 
 void DartsIndexes::init()
@@ -20,65 +18,42 @@ void DartsIndexes::init()
 
 bool DartsIndexes::next()
 {
-        _indexes.legIndex++;
-        if(_indexes.legIndex > 2){
-                _indexes.legIndex = 0;
-                _indexes.playerIndex++;
-                if(_indexes.playerIndex >= _indexes.playersCount)
-                        _indexes.playerIndex = 0;
-        }
-        _indexes.totalTurns = ++_indexes.turnIndex;
+        nextTurn();
+        _indexes.totalTurns = ++_indexes.throwIndex;
         return true;
 }
 
 bool DartsIndexes::undo()
 {
-        if (_indexes.turnIndex < 1)
+        if (!canUndo())
                 return false;
-        _indexes.legIndex--;
-        if(_indexes.legIndex < 0){
-                _indexes.legIndex = 2;
-                _indexes.playerIndex--;
-                if(_indexes.playerIndex < 0)
+        if (--_indexes.turnIndex < 0) {
+                _indexes.turnIndex = 2;
+                if (--_indexes.playerIndex < 0) {
                         _indexes.playerIndex = _indexes.playersCount - 1;
+                }
         }
-        _indexes.turnIndex--;
+        _indexes.throwIndex--;
         return true;
 }
 
 bool DartsIndexes::redo()
 {
-        if(_indexes.turnIndex >= _indexes.totalTurns)
+        if (!canRedo())
                 return false;
-        _indexes.legIndex++;
-        if(_indexes.legIndex > 2){
-                _indexes.legIndex = 0;
-                _indexes.playerIndex++;
-                if(_indexes.playerIndex >= _indexes.playersCount)
-                        _indexes.playerIndex = 0;
-        }
-        _indexes.turnIndex++;
+        nextTurn();
+        _indexes.throwIndex++;
         return true;
 }
 
 bool DartsIndexes::canUndo()
 {
-        return _indexes.turnIndex > 0;
+        return _indexes.throwIndex > 0;
 }
 
 bool DartsIndexes::canRedo()
 {
-        return _indexes.turnIndex <  _indexes.totalTurns;
-}
-
-void DartsIndexes::reset()
-{
-        _indexes = DartsIndex();
-}
-
-int DartsIndexes::playerIndex()
-{
-        return _indexes.playerIndex;
+        return _indexes.throwIndex < _indexes.totalTurns;
 }
 
 bool DartsIndexes::saveState()
@@ -86,12 +61,24 @@ bool DartsIndexes::saveState()
         return _indexesIO->saveIndexes(_indexes);
 }
 
-int DartsIndexes::turnIndex()
-{
-        return _indexes.turnIndex;
-}
-
 const DartsTurnIndex DartsIndexes::index() const
 {
         return DartsTurnIndex(_indexes);
+}
+
+void DartsIndexes::skipturn()
+{
+        auto index = 3 - _indexes.turnIndex;
+        while (index-- > 0)
+                next();
+}
+
+void DartsIndexes::nextTurn()
+{
+        if (++_indexes.turnIndex > 2) {
+                _indexes.turnIndex = 0;
+                if (++_indexes.playerIndex >= _indexes.playersCount) {
+                        _indexes.playerIndex = 0;
+                }
+        }
 }

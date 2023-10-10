@@ -24,10 +24,6 @@ public:
                 return internal;
         }
 
-        Input toNullified() const{
-                return Input(_mod,0);
-        }
-
         QJsonObject toJsonObject() const{
                 QJsonObject jsonObj;
                 jsonObj["point"] = QString::number(_point);

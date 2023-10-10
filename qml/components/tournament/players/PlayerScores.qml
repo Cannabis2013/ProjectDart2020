@@ -19,6 +19,7 @@ Flickable {
                 const objectWidth = scoresView.width / playersCount
                 const component = Qt.createComponent("PlayerScore.qml")
                 const object = component.createObject(scoresGrid, {})
+                object.id = name
                 object.setName(shortenName(name))
                 object.setScore(score)
                 object.width = objectWidth
@@ -29,7 +30,7 @@ Flickable {
         }
 
         function shortenName(name) {
-                if (name.length > 4)
+                if (name.length > 8)
                         return name.substring(0, 8) + ".."
                 return name
         }
@@ -39,8 +40,7 @@ Flickable {
                 const scores = scoresObjects.objects
                 for (var i = 0; i < scores.length; i++) {
                         const score = scores[i]
-                        const scoreName = score.name
-                        if (scoreName === name)
+                        if (score.id === name)
                                 score.highlighted = true
                         else
                                 score.highlighted = false
@@ -52,7 +52,7 @@ Flickable {
                 const objects = scoresObjects.objects
                 for (var i = 0; i < objects.length; i++) {
                         const scoreObject = objects[i]
-                        if (scoreObject.name === name)
+                        if (scoreObject.id === name)
                                 scoreObject.setScore(score)
                 }
         }

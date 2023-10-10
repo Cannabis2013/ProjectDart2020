@@ -3,7 +3,6 @@
 
 #include "IDartsInputs.h"
 #include "src/DartsController/indexes/IDartsIndexes.h"
-#include "src/DartsController/input/IDartsInputEvalutor.h"
 #include "src/DartsController/input/inputsio.h"
 #include "src/DartsController/players/IDartsPlayers.h"
 
@@ -12,21 +11,19 @@
 class DartsInputs : public IDartsInputs
 {
 public:
-        DartsInputs(IDartsIndexes* indexes, IDartsPlayers* players, IDartsInputEvaluator* evaluator);
+        DartsInputs(IDartsIndexes* indexes, IDartsPlayers* players);
         virtual void init() override;
+        virtual void setInputs(const QList<Input>& inputs) override;
         void initFromFile() override;
-        Input evaluateAndAdd(const InputRequest& req) override;
-        QList<Input> inputs(const QString& playerName) const override;
+        const QList<Input>& inputs() const override;
+        QList<Input> inputs(const QString& playerName, const int& throwIndex) const override;
         bool saveState() override;
-        void chop() override;
+        Input save(Input input) override;
 
 private:
-        Input save(Input input);
-
         QList<Input> _inputs;
 
         // Services
-        IDartsInputEvaluator* _evaluator;
         IDartsIndexes* _indexes;
         IDartsPlayers* _players;
         InputsIO* _inputsIO;

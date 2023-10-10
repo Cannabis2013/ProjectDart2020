@@ -1,6 +1,6 @@
 #include "dartsscores.h"
 
-#define INITIAL_SCORE 501
+#define INITIAL_SCORE 50
 
 DartsScores::DartsScores(IDartsIndexes* indexes, IDartsPlayers* players, IDartsInputs* inputs, IDartsStatus* status)
     : _indexes(indexes)
@@ -51,7 +51,8 @@ int DartsScores::initialScore() const
 
 DartsPlayerScores DartsScores::update()
 {
-        _scores = _calculator->calculatedScores(_players->names(), INITIAL_SCORE);
+        auto throwIndex = _indexes->index().throwIndex();
+        _scores = _calculator->calculatedScores(_players->names(), INITIAL_SCORE, throwIndex);
         for (const auto& score : qAsConst(_scores)) {
                 if (score.score() == 0)
                         _status->updateStatus(IDartsStatus::Winner);

@@ -11,7 +11,7 @@ public:
                 _point =  jsonObj.value("point").toInt(-1);
                 _mod = jsonObj.value("mod").toString("");
                 _playerName = jsonObj.value("player").toString("");
-                _turnIndex = jsonObj.value("index").toInt();
+                _throwIndex = jsonObj.value("index").toInt();
         }
 
         Input(const QString &mod, const int &point)
@@ -24,13 +24,18 @@ public:
                 jsonObj["point"] = _point;
                 jsonObj["mod"] = _mod;
                 jsonObj["player"] = _playerName;
-                jsonObj["index"] = _turnIndex;
+                jsonObj["index"] = _throwIndex;
                 return jsonObj;
         }
 
         int point() const
         {
                 return _point;
+        }
+
+        void setPoint(int point)
+        {
+                _point = point;
         }
 
         QString mod() const
@@ -47,14 +52,14 @@ public:
                 _playerName = newPlayerName;
         }
 
-        int turnIndex() const { return _turnIndex; }
+        int throwIndex() const { return _throwIndex; }
 
-        void setTurnIndex(int newTurnIndex) { _turnIndex = newTurnIndex; }
+        void setThrowIndex(int newTurnIndex) { _throwIndex = newTurnIndex; }
 
 private:
         int _point = 0;
         QString _mod = "S";
-        int _turnIndex;
+        int _throwIndex;
         QString _playerName;
 };
 
