@@ -15,7 +15,7 @@ bool DartsInputEvaluator::isWithinBounds(const QString& mod, const int& point)
         auto scoreValue = inputScore(mod,point);
         auto playerScore = _scores->score().playerScore();
         auto remainingScore = playerScore - scoreValue;
-        if (remainingScore > 0)
+        if (remainingScore > 1)
                 return true;
         else if (remainingScore == 0 && validEndThrow(mod, point))
                 return true;

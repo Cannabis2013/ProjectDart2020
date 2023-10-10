@@ -11,9 +11,8 @@ DartsInputAdder::DartsInputAdder(IDartsInputs* inputs, IDartsInputEvaluator* eva
 
 void DartsInputAdder::add(const InputRequest& req)
 {
-        auto input = req.toInput();
-        chopInputs();
-        if (addInput(input))
+        trimInputs();
+        if (addInput(req.toInput()))
                 _indexes->next();
         else {
                 nullifyTurn();
@@ -21,18 +20,16 @@ void DartsInputAdder::add(const InputRequest& req)
         }
 }
 
-void DartsInputAdder::chopInputs()
+void DartsInputAdder::trimInputs()
 {
-        auto utility = InputsUtility();
-        auto chopped = utility.chopped(_inputs->inputs(), _indexes->index().throwIndex());
-        _inputs->setInputs(chopped);
+        auto trimmed = InputsUtility().trimmed(_inputs->inputs(), _indexes->index().throwIndex());
+        _inputs->setInputs(trimmed);
 }
 
 void DartsInputAdder::nullifyTurn()
 {
-        auto utility = InputsUtility();
         auto turnIndex = _indexes->index().turnIndex();
-        auto altered = utility.nullifyTurnInputs(_inputs->inputs(), turnIndex);
+        auto altered = InputsUtility().nullifyTurnInputs(_inputs->inputs(), turnIndex);
         _inputs->setInputs(altered);
 }
 

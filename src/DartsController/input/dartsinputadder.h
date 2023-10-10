@@ -14,7 +14,7 @@ public:
         void add(const InputRequest& req);
 
 private:
-        void chopInputs();
+        void trimInputs();
         void nullifyTurn();
 
         bool addInput(const Input& input);

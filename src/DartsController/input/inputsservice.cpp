@@ -1,6 +1,6 @@
 #include "inputsservice.h"
 
-QList<Input> InputsUtility::chopped(const QList<Input>& inputs, const int& turnIndex)
+QList<Input> InputsUtility::trimmed(const QList<Input>& inputs, const int& turnIndex)
 {
         QList<Input> chopped;
         if (turnIndex > 0) {
