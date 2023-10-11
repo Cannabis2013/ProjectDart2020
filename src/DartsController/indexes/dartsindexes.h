@@ -11,7 +11,7 @@ public:
         DartsIndexes();
 
         void init(const int& playerCount) override;
-        void init() override;
+        void initFromFile() override;
         bool next() override;
         bool undo() override;
         bool redo() override;

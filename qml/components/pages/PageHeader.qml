@@ -19,7 +19,7 @@ Rectangle {
                 anchors.fill: parent
                 flow: GridLayout.LeftToRight
                 Rectangle {
-                        width: 24
+                        width: 6
                 }
 
                 PushButton {
@@ -39,14 +39,10 @@ Rectangle {
                 Text {
                         id: pageTitleComp
                         text: "Page title"
-                        font.pointSize: 12
+                        font.pointSize: 20
                         color: "white"
                         Layout.fillWidth: true
                         height: 32
-                }
-
-                Rectangle {
-                        width: 12
                 }
         }
 }

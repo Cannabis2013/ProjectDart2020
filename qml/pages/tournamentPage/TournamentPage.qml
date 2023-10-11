@@ -37,12 +37,10 @@ BlackPage {
                         Layout.fillWidth: true
                         onUndoClicked: {
                                 const response = dartsController.undoTurn()
-                                PageScripts.updatePlayerScores(response)
                                 PageScripts.updateTurnInfo()
                         }
                         onRedoClicked: {
                                 const response = dartsController.redoTurn()
-                                PageScripts.updatePlayerScores(response)
                                 PageScripts.updateTurnInfo()
                         }
                 }
@@ -69,10 +67,6 @@ BlackPage {
                         horizontalAlignment: Text.AlignHCenter
                 }
 
-                Rectangle {
-                        height: 64
-                }
-
                 KeyPads {
                         id: keyPad
                         Layout.fillWidth: true
@@ -80,7 +74,6 @@ BlackPage {
                         Layout.alignment: Qt.AlignHCenter
                         onReportScore: {
                                 const response = PageScripts.sendScore(modId, point)
-                                PageScripts.updatePlayerScores(response)
                                 PageScripts.updateTurnInfo()
                         }
                 }

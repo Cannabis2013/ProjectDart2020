@@ -13,6 +13,8 @@
         <file>Ressources/skull.png</file>
         <file>Ressources/tuborgclassic.png</file>
         <file>Ressources/users.png</file>
+        <file>Ressources/anti1964.webp</file>
+        <file>Ressources/S12.png</file>
     </qresource>
     <qresource prefix="/">
         <file>qml/components/buttons/PushButton.qml</file>
@@ -41,6 +43,7 @@
         <file>qml/components/geometry/TransparentRect.qml</file>
         <file>qml/pages/tournamentPage/Confirmation.qml</file>
         <file>qml/components/tournament/keyPad/Pad.qml</file>
+        <file>qml/pages/startPage/StartPageBackDrop.qml</file>
     </qresource>
     <qresource prefix="/data">
         <file>Ressources/finishes.dat</file>

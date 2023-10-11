@@ -11,7 +11,7 @@ void DartsIndexes::init(const int& playerCount)
         _indexes = DartsIndex(playerCount);
 }
 
-void DartsIndexes::init()
+void DartsIndexes::initFromFile()
 {
         _indexes = _indexesIO->loadIndexes();
 }

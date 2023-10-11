@@ -23,16 +23,17 @@ public:
         Q_INVOKABLE QByteArray playerScores() const;
         Q_INVOKABLE QStringList playerNames() const;
         Q_INVOKABLE QByteArray turnInfo() const;
-        Q_INVOKABLE QByteArray addInput(const QByteArray &inputAsJson);
-        Q_INVOKABLE QByteArray undoTurn();
-        Q_INVOKABLE QByteArray redoTurn();
+        Q_INVOKABLE void addInput(const QByteArray& inputAsJson);
+        Q_INVOKABLE void undoTurn();
+        Q_INVOKABLE void redoTurn();
+
 private:
         // Services
         IDartsInputEvaluator* _evaluator = nullptr;
         IDartsIndexes* _indexes = nullptr;
         IDartsScores* _scores = nullptr;
         IDartsInputs* _inputs = nullptr;
-        IDartsInfoResponse* _response = nullptr;
+        IDartsInfoResponse* _turnValues = nullptr;
         IDartsPlayers* _players = nullptr;
         IDartsStatistics* _statistics = nullptr;
         IDartsFinishes* _finishes = nullptr;

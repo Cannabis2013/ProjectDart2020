@@ -18,15 +18,13 @@ public:
             IDartsFinishes* finishes,
             IDartsScores* scores,
             IDartsStatus* status);
-        virtual TurnInfo currentTurnInfo() override;
+        QByteArray currentTurnInfo() override;
 
 private:
-        void updateWithIndexes(TurnInfo& turnInfo);
-        void updateWithStatistics(TurnInfo& turnInfo);
-        void updateWithPlayerName(TurnInfo& turnInfo);
-        void updateWithFinish(TurnInfo& turnInfo);
-        void updateWithStatus(TurnInfo& turnInfo);
-
+        QJsonArray playerScores();
+        QJsonObject turnIndex();
+        QJsonObject statistics();
+        QJsonObject finish();
         // Services
         IDartsPlayers* const _players;
         IDartsIndexes* const _indexes;

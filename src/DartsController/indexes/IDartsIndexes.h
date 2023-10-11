@@ -7,7 +7,7 @@ class IDartsIndexes
 {
 public:
         virtual void init(const int &playerCount) = 0;
-        virtual void init() = 0;
+        virtual void initFromFile() = 0;
         virtual bool next() = 0;
         virtual void skipturn() = 0;
         virtual bool undo() = 0;

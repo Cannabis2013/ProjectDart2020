@@ -19,7 +19,7 @@ DartsController::DartsController() {
         _scores = new DartsScores(_indexes, _players, _inputs, _status);
         _evaluator = new DartsInputEvaluator(_scores);
         _statistics = new DartsStatistics(_inputs, _players, _scores, _indexes);
-        _response = new DartsTurnValues(_players, _indexes, _statistics, _finishes, _scores, _status);
+        _turnValues = new DartsTurnValues(_players, _indexes, _statistics, _finishes, _scores, _status);
         _adder = new DartsInputAdder(_inputs, _evaluator, _indexes, _scores);
 }
 
@@ -40,7 +40,7 @@ QStringList DartsController::playerNames() const
 void DartsController::initFromSaved()
 {
         _players->initPlayers();
-        _indexes->init();
+        _indexes->initFromFile();
         _inputs->initFromFile();
         _scores->initFromFile();
         _status->initFromFile();
@@ -57,32 +57,31 @@ void DartsController::saveState()
 
 QByteArray DartsController::playerScores() const
 {
-        auto json = _scores->scores().toJson();
-        return json;
+        return _scores->scores().toJson();
 }
 
 QByteArray DartsController::turnInfo() const
 {
-        return _response->currentTurnInfo().toJson();
+        return _turnValues->currentTurnInfo();
 }
 
-QByteArray DartsController::addInput(const QByteArray &inputAsJson)
+void DartsController::addInput(const QByteArray& inputAsJson)
 {
         if (_status->status() == IDartsStatus::Winner)
-                return _scores->score().toJson();
+                return;
         _adder->add(InputRequest(inputAsJson));
-        return _scores->update().toJson();
+        _scores->update();
 }
 
-QByteArray DartsController::undoTurn() {
+void DartsController::undoTurn()
+{
         _status->updateStatus(IDartsStatus::Running);
         _indexes->undo();
-        auto scores = _scores->update();
-        return scores.toJson();
+        _scores->update();
 }
 
-QByteArray DartsController::redoTurn() {
+void DartsController::redoTurn()
+{
         _indexes->redo();
-        auto score = _scores->update();
-        return score.toJson();
+        _scores->update();
 }

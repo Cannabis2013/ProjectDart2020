@@ -9,47 +9,55 @@ DartsTurnValues::DartsTurnValues(IDartsPlayers* players, IDartsIndexes* _indexes
     , _status(status)
 {}
 
-TurnInfo DartsTurnValues::currentTurnInfo()
+QByteArray DartsTurnValues::currentTurnInfo()
 {
-        TurnInfo turnInfo;
-        updateWithIndexes(turnInfo);
-        updateWithPlayerName(turnInfo);
-        updateWithStatistics(turnInfo);
-        updateWithFinish(turnInfo);
-        updateWithStatus(turnInfo);
-        return turnInfo;
+        QJsonObject jsonObj;
+        jsonObj["turnIndexes"] = turnIndex();
+        jsonObj["playerScores"] = playerScores();
+        jsonObj["currentPlayerName"] = _players->name();
+        jsonObj["winnerFound"] = _status->status() ? true : false;
+        jsonObj["suggestions"] = finish();
+        jsonObj["statistics"] = statistics();
+        auto jsonDoc = new QJsonDocument(jsonObj);
+        return jsonDoc->toJson(QJsonDocument::Compact);
 }
 
-void DartsTurnValues::updateWithIndexes(TurnInfo& turnInfo)
+QJsonArray DartsTurnValues::playerScores()
 {
-        turnInfo.setTurnIndex(_indexes->index().throwIndex());
-        turnInfo.setCanUndo(_indexes->canUndo());
-        turnInfo.setCanRedo(_indexes->canRedo());
+        QJsonArray jsonArr;
+        auto scores = _scores->scores();
+        for (const auto& score : scores.playerScores()) {
+                QJsonObject jsonObj;
+                jsonObj["playerName"] = score.name();
+                jsonObj["playerScore"] = score.score();
+                jsonArr << jsonObj;
+        }
+        return jsonArr;
 }
 
-void DartsTurnValues::updateWithStatistics(TurnInfo& turnInfo)
+QJsonObject DartsTurnValues::turnIndex()
 {
+        QJsonObject jsonObj;
+        jsonObj["canUndo"] = _indexes->canUndo();
+        jsonObj["canRedo"] = _indexes->canRedo();
+        jsonObj["throwIndex"] = _indexes->index().throwIndex();
+        return jsonObj;
+}
+
+QJsonObject DartsTurnValues::statistics()
+{
+        QJsonObject jsonObj;
         auto stats = _statistics->statistics();
-        turnInfo.setAverage(stats.average);
-        turnInfo.setLow(stats.low);
-        turnInfo.setHigh(stats.high);
+        jsonObj["average"] = stats.average;
+        jsonObj["low"] = stats.low;
+        jsonObj["high"] = stats.high;
+        return jsonObj;
 }
 
-void DartsTurnValues::updateWithPlayerName(TurnInfo& turnInfo)
+QJsonObject DartsTurnValues::finish()
 {
-        auto playerName = _players->name();
-        turnInfo.setCurrentPlayer(playerName);
-}
-
-void DartsTurnValues::updateWithFinish(TurnInfo& turnInfo)
-{
-        auto score = _scores->score().playerScore();
-        auto legIndex = _indexes->index().turnIndex();
-        auto finish = _finishes->suggestTargetRow(score, legIndex);
-        turnInfo.setFinish(finish);
-}
-
-void DartsTurnValues::updateWithStatus(TurnInfo& turnInfo)
-{
-        turnInfo.setStatus(_status->status());
+        QJsonObject jsonObj;
+        auto remaining = _scores->score().playerScore();
+        jsonObj["finish"] = _finishes->suggestTargetRow(remaining, _indexes->index().turnIndex());
+        return jsonObj;
 }

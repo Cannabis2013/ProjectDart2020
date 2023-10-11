@@ -11,23 +11,25 @@ function updateInitialValues() {
 
 function updateTurnInfo() {
         const json = JSON.parse(dartsController.turnInfo())
-        if (json["status"] === "running")
-                winnerNotFound(json)
-        else
+        if (json["winnerFound"])
                 winnerFound(json)
+        else
+                winnerNotFound(json)
 }
 
 function winnerNotFound(jsonObj) {
-        updateTurnComp(jsonObj)
+        updateTurnComp(jsonObj["turnIndexes"])
         updateScoresView(jsonObj)
-        updateStatistics(jsonObj)
-        updatefinish(jsonObj)
+        updatePlayerScores(jsonObj["playerScores"])
+        updateStatistics(jsonObj["statistics"])
+        updatefinish(jsonObj["suggestions"])
         keyPad.enabled = true
 }
 
 function winnerFound(jsonObj) {
         const playerName = jsonObj["currentPlayerName"]
-        updateTurnComp(jsonObj)
+        updateTurnComp(jsonObj["turnIndexes"])
+        updatePlayerScores(jsonObj["playerScores"])
         keyPad.enabled = false
         targetRow.text = `WINNER: ${playerName}`
 }
@@ -35,11 +37,11 @@ function winnerFound(jsonObj) {
 function updateTurnComp(json) {
         turnInfoComp.canUndo = json["canUndo"]
         turnInfoComp.canRedo = json["canRedo"]
-        turnInfoComp.turnIndex = json["turnIndex"]
+        turnInfoComp.turnIndex = json["throwIndex"]
 }
 
-function updateScoresView(json) {
-        const player = json["currentPlayerName"]
+function updateScoresView(jsonObj) {
+        const player = jsonObj["currentPlayerName"]
         scoresView.highligtScore(player)
 }
 
@@ -52,21 +54,14 @@ function sendScore(modId, point) {
         return response
 }
 
-function updatePlayerScore(response) {
-        const json = JSON.parse(response)
-        updateScoreView(json)
-}
-
-function updatePlayerScores(response) {
-        const json = JSON.parse(response)
-        for (var i = 0; i < json.length; i++)
-                updateScoreView(json[i])
-}
-
-function updateScoreView(jsonObj) {
-        const playerName = jsonObj["playerName"]
-        const playerScore = jsonObj["playerScore"]
-        scoresView.updateScore(playerScore, playerName)
+function updatePlayerScores(jsonArr) {
+        for (var i = 0; i < jsonArr.length; i++) {
+                const jsonObj = jsonArr[i]
+                const playerName = jsonObj["playerName"]
+                const playerScore = jsonObj["playerScore"]
+                print(playerName)
+                scoresView.updateScore(playerScore, playerName)
+        }
 }
 
 function updateStatistics(jsonObj) {
