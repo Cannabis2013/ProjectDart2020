@@ -5,7 +5,7 @@
 #include "src/DartsController/indexes/IDartsIndexes.h"
 #include "src/DartsController/input/IDartsInputEvalutor.h"
 #include "src/DartsController/input/IDartsInputs.h"
-#include "src/DartsController/input/dartsinputadder.h"
+#include "src/DartsController/input/idartsinputadder.h"
 #include "src/DartsController/responses/IDartsInfoResponse.h"
 #include "src/DartsController/scores/IDartsScores.h"
 #include "src/DartsController/statistics/idartsstatistics.h"
@@ -23,7 +23,7 @@ public:
         Q_INVOKABLE QByteArray playerScores() const;
         Q_INVOKABLE QStringList playerNames() const;
         Q_INVOKABLE QByteArray turnInfo() const;
-        Q_INVOKABLE void addInput(const QByteArray& inputAsJson);
+        Q_INVOKABLE void addInput(const QString& mod, const int& point);
         Q_INVOKABLE void undoTurn();
         Q_INVOKABLE void redoTurn();
 
@@ -38,6 +38,6 @@ private:
         IDartsStatistics* _statistics = nullptr;
         IDartsFinishes* _finishes = nullptr;
         IDartsStatus* _status = nullptr;
-        DartsInputAdder* _adder = nullptr;
+        IDartsInputAdder* _adder = nullptr;
 };
 #endif // FIVEHUNDREDANDONEGAME_H

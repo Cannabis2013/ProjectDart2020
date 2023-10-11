@@ -9,10 +9,10 @@ DartsInputAdder::DartsInputAdder(IDartsInputs* inputs, IDartsInputEvaluator* eva
 {
 }
 
-void DartsInputAdder::add(const InputRequest& req)
+void DartsInputAdder::add(const QString& mod, const int& point)
 {
         trimInputs();
-        if (addInput(req.toInput()))
+        if (addInput(Input(mod, point)))
                 _indexes->next();
         else {
                 nullifyTurn();

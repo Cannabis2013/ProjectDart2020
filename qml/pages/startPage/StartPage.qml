@@ -1,8 +1,9 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
+import "../../components/pages"
 
-Page {
+BlackPage {
         id: startPageContentBody
 
         signal requestTournamentPage
@@ -19,7 +20,7 @@ Page {
                 maxPlayerEdit.labelBackgroundColor = labelBackgroundColor
         }
 
-        StartPageBackDrop {
+        Anti1964BackDrop {
                 anchors.fill: parent
         }
 

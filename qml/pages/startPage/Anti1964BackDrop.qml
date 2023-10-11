@@ -3,7 +3,7 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
 
 Rectangle {
-        color: "black"
+        color: "transparent"
 
         Image {
                 source: "qrc:/pictures/Ressources/fck.png"

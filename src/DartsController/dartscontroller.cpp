@@ -1,7 +1,7 @@
 #include "dartscontroller.h"
 #include "src/DartsController/Finishes/dartsfinishes.h"
 #include "src/DartsController/indexes/dartsindexes.h"
-#include "src/DartsController/input/InputRequest.h"
+#include "src/DartsController/input/dartsinputadder.h"
 #include "src/DartsController/input/dartsinputevaluator.h"
 #include "src/DartsController/input/dartsinputs.h"
 #include "src/DartsController/players/dartsplayers.h"
@@ -65,11 +65,11 @@ QByteArray DartsController::turnInfo() const
         return _turnValues->currentTurnInfo();
 }
 
-void DartsController::addInput(const QByteArray& inputAsJson)
+void DartsController::addInput(const QString& mod, const int& point)
 {
         if (_status->status() == IDartsStatus::Winner)
                 return;
-        _adder->add(InputRequest(inputAsJson));
+        _adder->add(mod, point);
         _scores->update();
 }
 

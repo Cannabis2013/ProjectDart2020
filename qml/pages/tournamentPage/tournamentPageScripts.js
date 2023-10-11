@@ -45,15 +45,6 @@ function updateScoresView(jsonObj) {
         scoresView.highligtScore(player)
 }
 
-function sendScore(modId, point) {
-        const score = {
-                "mod": modId,
-                "point": point
-        }
-        const response = dartsController.addInput(JSON.stringify(score))
-        return response
-}
-
 function updatePlayerScores(jsonArr) {
         for (var i = 0; i < jsonArr.length; i++) {
                 const jsonObj = jsonArr[i]

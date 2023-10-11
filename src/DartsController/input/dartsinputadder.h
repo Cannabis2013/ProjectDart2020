@@ -4,14 +4,14 @@
 #include "src/DartsController/indexes/IDartsIndexes.h"
 #include "src/DartsController/input/IDartsInputEvalutor.h"
 #include "src/DartsController/input/IDartsInputs.h"
-#include "src/DartsController/input/InputRequest.h"
+#include "src/DartsController/input/idartsinputadder.h"
 #include "src/DartsController/scores/IDartsScores.h"
 
-class DartsInputAdder {
+class DartsInputAdder : public IDartsInputAdder {
 public:
         DartsInputAdder(IDartsInputs* inputs, IDartsInputEvaluator* evaluator, IDartsIndexes* indexes, IDartsScores* scores);
 
-        void add(const InputRequest& req);
+        void add(const QString& mod, const int& point);
 
 private:
         void trimInputs();

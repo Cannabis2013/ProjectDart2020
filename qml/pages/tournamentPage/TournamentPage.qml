@@ -9,7 +9,7 @@ import "../../components/pages"
 import "../../components/buttons"
 import "tournamentPageScripts.js" as PageScripts
 
-BlackPage {
+BlackPageWithHeader {
         id: tournamentPage
 
         buttonText: "Menu"
@@ -73,7 +73,7 @@ BlackPage {
                         Layout.fillHeight: true
                         Layout.alignment: Qt.AlignHCenter
                         onReportScore: {
-                                const response = PageScripts.sendScore(modId, point)
+                                dartsController.addInput(modId, point)
                                 PageScripts.updateTurnInfo()
                         }
                 }

@@ -7,7 +7,7 @@ import "../../components/pages"
 import "../../components/playersView"
 import "../../components/userInputs"
 
-BlackPage {
+BlackPageWithHeader {
         signal requestTournamentPage
 
         buttonText: "Menu"

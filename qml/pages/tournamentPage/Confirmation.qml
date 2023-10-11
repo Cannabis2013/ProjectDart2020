@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.3
 import "../../components/pages"
 import "../../components/buttons"
 
-BlackPage {
+BlackPageWithHeader {
         id: confirmPage
 
         signal acceptClicked

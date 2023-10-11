@@ -38,7 +38,6 @@ HEADERS += \
     src/DartsController/input/IDartsInputEvalutor.h \
     src/DartsController/input/IDartsInputs.h \
     src/DartsController/input/Input.h \
-    src/DartsController/input/InputRequest.h \
     src/DartsController/input/dartsinputadder.h \
     src/DartsController/input/dartsinputevaluator.h \
     src/DartsController/input/dartsinputs.h \

@@ -1,11 +1,11 @@
 #ifndef IDARTSINPUTADDER_H
 #define IDARTSINPUTADDER_H
 
-#include "src/DartsController/input/InputRequest.h"
+#include <qstring.h>
 
 class IDartsInputAdder {
 public:
-        virtual void add(const InputRequest& req) = 0;
+        virtual void add(const QString& mod, const int& point) = 0;
 };
 
 #endif // IDARTSINPUTADDER_H
