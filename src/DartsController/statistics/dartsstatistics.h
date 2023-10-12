@@ -4,17 +4,16 @@
 #include "idartsstatistics.h"
 #include "src/DartsController/indexes/IDartsIndexes.h"
 #include "src/DartsController/input/IDartsInputs.h"
-#include "src/DartsController/players/IDartsPlayers.h"
 #include "src/DartsController/scores/IDartsScores.h"
 
 class DartsStatistics : public IDartsStatistics {
 public:
-        DartsStatistics(IDartsInputs* inputs, IDartsPlayers* players, IDartsScores* scores, IDartsIndexes* indexes);
+        DartsStatistics(IDartsInputs* inputs, IDartsScores* scores, IDartsIndexes* indexes);
 
-        virtual Statistics statistics() const override;
+        virtual Statistics statistics(const QString& name) const override;
 
 private:
-        QList<Input> getInputs() const;
+        QList<Input> getInputs(const QString& name) const;
         double average(int initialScore, int score, int count) const;
         int lowest(const QList<Input>& inputs) const;
         int highest(const QList<Input>& inputs) const;
@@ -22,8 +21,7 @@ private:
         int modMultiplier(QString mod) const;
 
         // Services
-        IDartsInputs * const _inputs;
-        IDartsPlayers * const _players;
+        IDartsInputs* const _inputs;
         IDartsScores * const _scores;
         IDartsIndexes* const _indexes;
 };

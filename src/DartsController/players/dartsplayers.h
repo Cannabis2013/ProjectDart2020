@@ -16,9 +16,11 @@ public:
         void initPlayers() override;
         QString name(int index) const override;
         QString name() const override;
-        int playersCount() override;
+        int playersCount() const override;
         QStringList  names() const override;
-        virtual bool saveState() override;
+        bool saveState() override;
+        int indexOf(const QString& name) const override;
+
 private:
         QStringList _names;
 

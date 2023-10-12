@@ -18,7 +18,7 @@ DartsController::DartsController() {
         _inputs = new DartsInputs(_indexes, _players);
         _scores = new DartsScores(_indexes, _players, _inputs, _status);
         _evaluator = new DartsInputEvaluator(_scores);
-        _statistics = new DartsStatistics(_inputs, _players, _scores, _indexes);
+        _statistics = new DartsStatistics(_inputs, _scores, _indexes);
         _turnValues = new DartsTurnValues(_players, _indexes, _statistics, _finishes, _scores, _status);
         _adder = new DartsInputAdder(_inputs, _evaluator, _indexes, _scores);
 }

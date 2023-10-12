@@ -16,6 +16,7 @@ public:
         virtual DartsPlayerScore update(const Input &input) = 0;
         virtual DartsPlayerScores update() = 0;
         virtual DartsPlayerScore score() = 0;
+        virtual DartsPlayerScore score(const QString& name) = 0;
         virtual DartsPlayerScores scores() = 0;
 };
 

@@ -18,12 +18,11 @@
     </qresource>
     <qresource prefix="/data">
         <file>Ressources/finishes.dat</file>
+        <file>Ressources/aboutContent.dat</file>
     </qresource>
     <qresource prefix="/">
         <file>qml/components/buttons/PushButton.qml</file>
         <file>qml/components/geometry/TransparentRect.qml</file>
-        <file>qml/components/pages/BlackPageWithHeader.qml</file>
-        <file>qml/components/pages/PageHeader.qml</file>
         <file>qml/components/playersView/PlayerNameDelegate.qml</file>
         <file>qml/components/playersView/PlayersView.qml</file>
         <file>qml/components/tournament/keyPad/keyPadBuilder.js</file>
@@ -31,22 +30,24 @@
         <file>qml/components/tournament/keyPad/ModPad.qml</file>
         <file>qml/components/tournament/keyPad/NumberPad.qml</file>
         <file>qml/components/tournament/keyPad/Pad.qml</file>
-        <file>qml/components/tournament/players/PlayerIcon.qml</file>
-        <file>qml/components/tournament/players/PlayerIcons.qml</file>
         <file>qml/components/tournament/players/PlayerScore.qml</file>
         <file>qml/components/tournament/players/PlayerScores.qml</file>
+        <file>qml/components/tournament/players/scoresScripts.js</file>
         <file>qml/components/tournament/turn/TurnInformation.qml</file>
         <file>qml/components/userInputs/TextInputBox.qml</file>
         <file>qml/components/userInputs/TextInputField.qml</file>
-        <file>qml/pages/startPage/StartMenuButton.qml</file>
-        <file>qml/pages/startPage/StartPage.qml</file>
-        <file>qml/pages/startPage/Anti1964BackDrop.qml</file>
-        <file>qml/pages/tournamentPage/Confirmation.qml</file>
-        <file>qml/pages/tournamentPage/SetupTournamentPage.qml</file>
-        <file>qml/pages/tournamentPage/TournamentPage.qml</file>
-        <file>qml/pages/tournamentPage/tournamentPageScripts.js</file>
+        <file>qml/pages/about/AboutPage.qml</file>
+        <file>qml/pages/start/Anti1964BackDrop.qml</file>
+        <file>qml/pages/start/StartMenuButton.qml</file>
+        <file>qml/pages/start/StartPage.qml</file>
+        <file>qml/pages/tournament/Confirmation.qml</file>
+        <file>qml/pages/tournament/SetupTournamentPage.qml</file>
+        <file>qml/pages/tournament/TournamentPage.qml</file>
+        <file>qml/pages/tournament/tournamentPageScripts.js</file>
         <file>qml/main.qml</file>
         <file>qml/PageLoader.qml</file>
-        <file>qml/components/pages/BlackPage.qml</file>
+        <file>qml/pages/templates/BlackPage.qml</file>
+        <file>qml/pages/templates/BlackPageWithHeader.qml</file>
+        <file>qml/pages/templates/PageHeader.qml</file>
     </qresource>
 </RCC>

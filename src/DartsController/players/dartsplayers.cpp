@@ -32,7 +32,7 @@ QString DartsPlayers::name() const
         return _names.at(playerIndex);
 }
 
-int DartsPlayers::playersCount()
+int DartsPlayers::playersCount() const
 {
         return _names.count();
 }
@@ -45,4 +45,9 @@ QStringList DartsPlayers::names() const
 bool DartsPlayers::saveState()
 {
         return _playersIO->saveToFile(_names);
+}
+
+int DartsPlayers::indexOf(const QString& name) const
+{
+        return _names.indexOf(name);
 }

@@ -40,18 +40,17 @@ QJsonObject DartsTurnValues::turnIndex()
         QJsonObject jsonObj;
         jsonObj["canUndo"] = _indexes->canUndo();
         jsonObj["canRedo"] = _indexes->canRedo();
-        jsonObj["throwIndex"] = _indexes->index().throwIndex();
+        jsonObj["turnIndex"] = _indexes->index().turnIndex();
         return jsonObj;
 }
 
-QJsonObject DartsTurnValues::statistics()
+QJsonArray DartsTurnValues::statistics()
 {
-        QJsonObject jsonObj;
-        auto stats = _statistics->statistics();
-        jsonObj["average"] = stats.average;
-        jsonObj["low"] = stats.low;
-        jsonObj["high"] = stats.high;
-        return jsonObj;
+        QJsonArray jsonArr;
+        const auto playerNames = _players->names();
+        for (const auto& playerName : playerNames)
+                jsonArr << _statistics->statistics(playerName).toJsonobject();
+        return jsonArr;
 }
 
 QJsonObject DartsTurnValues::finish()

@@ -1,8 +1,8 @@
 import QtQuick 2.12
 
-import "./pages/tournamentPage"
-import "./pages/startPage"
-import "./components/pages"
+import "./pages/tournament"
+import "./pages/about"
+import "./pages/start"
 
 Item {
         id: body
@@ -13,8 +13,8 @@ Item {
                 id: startPageComponent
                 StartPage {
                         onSetupGameClicked: pageLoader.sourceComponent = setupTournamentPage
-                        onManageContentClicked: pageLoader.sourceComponent = managePageComponent
                         onRequestTournamentPage: pageLoader.sourceComponent = tournamentPage
+                        onRequestAboutPage: pageLoader.sourceComponent = aboutPage
                 }
         }
 
@@ -30,6 +30,13 @@ Item {
                 SetupTournamentPage {
                         onBackClicked: pageLoader.sourceComponent = startPageComponent
                         onRequestTournamentPage: pageLoader.sourceComponent = tournamentPage
+                }
+        }
+
+        Component {
+                id: aboutPage
+                AboutPage {
+                        onBackClicked: pageLoader.sourceComponent = startPageComponent
                 }
         }
 

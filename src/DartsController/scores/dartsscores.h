@@ -7,7 +7,6 @@
 #include "src/DartsController/players/IDartsPlayers.h"
 #include "src/DartsController/scores/Score.h"
 #include "src/DartsController/scores/dartsPlayerScore.h"
-#include "src/DartsController/scores/scorescalculator.h"
 #include "src/DartsController/scores/scoresio.h"
 #include "src/DartsController/status/IDartsStatus.h"
 #include <QMap>
@@ -24,23 +23,24 @@ public:
         void initFromFile() override;
         void reset() override;
         DartsPlayerScore update(const Input& input) override;
-        virtual int initialScore() const override;
+        int initialScore() const override;
         DartsPlayerScores update() override;
         DartsPlayerScore score() override;
+        DartsPlayerScore score(const QString& name) override;
         DartsPlayerScores scores() override {return DartsPlayerScores(_scores);}
         bool saveState() override;
 
 private:
         QList<Score> _scores;
 
-        // Helpers4
-        ScoresIO *_scoresIO;
-        ScoresCalculator *_calculator;
+        // Helpers
+        ScoresIO* _scoresIO;
 
         // Services
         IDartsIndexes* const _indexes;
         IDartsPlayers* const _players;
         IDartsStatus* const _status;
+        IDartsInputs* const _inputs;
 };
 
 #endif // DARTSCORES_H

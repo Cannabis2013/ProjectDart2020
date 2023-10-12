@@ -19,8 +19,17 @@ Rectangle {
         signal setName(string name)
         onSetName: playerName.text = name
 
-        signal setScore(int score)
-        onSetScore: playerScore.text = score.toString()
+        signal updateScore(int score)
+        onUpdateScore: playerScore.text = score.toString()
+
+        signal updateStatistic(string average, int low, int high)
+        onUpdateStatistic: {
+                averageText.text = "Average: " + average
+                lowText.text = "Worst: " + low
+                highText.text = "Best: " + high
+        }
+
+        property double average: 0.0
 
         Rectangle {
                 id: highlightRect
@@ -35,7 +44,7 @@ Rectangle {
                 flow: GridLayout.TopToBottom
                 Text {
                         id: playerName
-                        text: "Martin"
+                        text: ""
                         Layout.fillWidth: true
                         height: 48
                         font.pointSize: 40
@@ -53,6 +62,46 @@ Rectangle {
                         color: "white"
                         verticalAlignment: Qt.AlignVCenter
                         horizontalAlignment: Qt.AlignHCenter
+                }
+
+                GridLayout {
+                        Layout.fillWidth: true
+                        Layout.minimumHeight: 16
+                        Layout.maximumHeight: 16
+                        Rectangle {
+                                width: 3
+                        }
+
+                        Text {
+                                id: averageText
+                                Layout.fillHeight: true
+                                Layout.fillWidth: true
+                                font.pointSize: 10
+                                color: "white"
+                                text: "Average: 0"
+                        }
+
+                        Text {
+                                id: lowText
+                                Layout.fillHeight: true
+                                Layout.fillWidth: true
+                                font.pointSize: 10
+                                color: "white"
+                                text: "Worst: 0"
+                        }
+
+                        Text {
+                                id: highText
+                                Layout.fillHeight: true
+                                Layout.fillWidth: true
+                                font.pointSize: 10
+                                color: "white"
+                                text: "Best: 0"
+                        }
+
+                        Rectangle {
+                                width: 3
+                        }
                 }
         }
 }

@@ -23,7 +23,7 @@ public:
 private:
         QJsonArray playerScores();
         QJsonObject turnIndex();
-        QJsonObject statistics();
+        QJsonArray statistics();
         QJsonObject finish();
         // Services
         IDartsPlayers* const _players;

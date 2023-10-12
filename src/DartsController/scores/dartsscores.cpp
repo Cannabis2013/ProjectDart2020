@@ -1,14 +1,15 @@
 #include "dartsscores.h"
+#include "src/DartsController/scores/scorescalculator.h"
 
-#define INITIAL_SCORE 50
+#define INITIAL_SCORE 501
 
 DartsScores::DartsScores(IDartsIndexes* indexes, IDartsPlayers* players, IDartsInputs* inputs, IDartsStatus* status)
     : _indexes(indexes)
     , _players(players)
     , _status(status)
+    , _inputs(inputs)
 {
         _scoresIO = new ScoresIO("playerScores.dat");
-        _calculator = new ScoresCalculator(inputs);
 }
 
 void DartsScores::init()
@@ -37,7 +38,7 @@ DartsPlayerScore DartsScores::update(const Input& input)
                 return score();
         auto index = _indexes->index().playerIndex();
         auto name = _players->name();
-        auto score = _calculator->calculatedScore(input,_scores.at(index),name);
+        auto score = ScoresCalculator().calculate(input, _scores.at(index), name);
         _scores.replace(index,score);
         if (score.score() == 0)
                 _status->updateStatus(IDartsStatus::Winner);
@@ -52,10 +53,15 @@ int DartsScores::initialScore() const
 DartsPlayerScores DartsScores::update()
 {
         auto throwIndex = _indexes->index().throwIndex();
-        _scores = _calculator->calculatedScores(_players->names(), INITIAL_SCORE, throwIndex);
-        for (const auto& score : qAsConst(_scores)) {
+        _scores.clear();
+        auto playerNames = _players->names();
+        ScoresCalculator calculator;
+        for (const auto& name : qAsConst(playerNames)) {
+                auto inputs = _inputs->inputs(name, throwIndex);
+                auto score = calculator.calculate(name, inputs, INITIAL_SCORE);
                 if (score.score() == 0)
                         _status->updateStatus(IDartsStatus::Winner);
+                _scores.append(score);
         }
         return DartsPlayerScores(_scores);
 }
@@ -67,8 +73,12 @@ DartsPlayerScore DartsScores::score()
         return DartsPlayerScore(internal);
 }
 
+DartsPlayerScore DartsScores::score(const QString& name)
+{
+        return _scores.at(_players->indexOf(name));
+}
+
 bool DartsScores::saveState()
 {
         return _scoresIO->toFile(_scores);
 }
-
