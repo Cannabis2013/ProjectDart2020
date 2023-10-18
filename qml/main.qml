@@ -4,11 +4,15 @@ import QtQuick.Controls 2.12
 
 ApplicationWindow {
         id: applicationWindow
+
         readonly property int defaultPageContentWidth: 512
+
         visible: true
         color: "black"
+
         minimumHeight: 640
         minimumWidth: 400
+
         title: qsTr("Dart2020")
         function destructor() {
                 Qt.quit()

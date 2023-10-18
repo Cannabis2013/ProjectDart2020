@@ -5,7 +5,7 @@ import QtGraphicalEffects 1.15
 import "../../components/tournament/turn"
 import "../../components/tournament/players"
 import "../../components/tournament/keyPad"
-import "../../components/pages"
+import "../templates"
 import "../../components/buttons"
 import "tournamentPageScripts.js" as PageScripts
 
@@ -43,17 +43,6 @@ BlackPageWithHeader {
                                 const response = dartsController.redoTurn()
                                 PageScripts.updateTurnInfo()
                         }
-                }
-
-                Text {
-                        id: statistics
-                        Layout.fillWidth: true
-                        color: "white"
-                        height: 64
-                        font.pointSize: 20
-                        font.weight: Font.Bold
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignHCenter
                 }
 
                 Text {

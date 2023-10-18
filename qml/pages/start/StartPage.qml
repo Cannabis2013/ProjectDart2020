@@ -1,17 +1,15 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
-import "../../components/pages"
+import "../templates"
 
 BlackPage {
         id: startPageContentBody
 
         signal requestTournamentPage
-
+        signal requestAboutPage
         signal quickGameClicked
         signal setupGameClicked
-        signal manageContentClicked
-        signal settingsButtonClicked
 
         property color labelBackgroundColor: "black"
         onLabelBackgroundColorChanged: {
@@ -26,7 +24,6 @@ BlackPage {
 
         GridLayout {
                 id: gridLayout
-
                 anchors.fill: parent
                 rowSpacing: 5
                 flow: GridLayout.TopToBottom
@@ -36,31 +33,41 @@ BlackPage {
                         color: "transparent"
                 }
 
-                StartMenuButton {
+                GridLayout {
+                        Layout.maximumWidth: 256
+                        Layout.maximumHeight: 64
+                        columnSpacing: 6
                         Layout.alignment: Qt.AlignHCenter
-                        text: "1v1"
-                        onClicked: {
-                                dartsController.init(["I", "II"])
-                                requestTournamentPage()
+                        StartMenuButton {
+                                Layout.fillWidth: true
+                                Layout.fillHeight: true
+                                text: "1v1"
+                                onClicked: {
+                                        dartsController.init(["I", "II"])
+                                        requestTournamentPage()
+                                }
+                        }
+
+                        StartMenuButton {
+                                Layout.fillWidth: true
+                                Layout.fillHeight: true
+                                text: "Practice"
+                                onClicked: {
+                                        dartsController.init(["I"])
+                                        requestTournamentPage()
+                                }
+                        }
+
+                        StartMenuButton {
+                                Layout.fillWidth: true
+                                Layout.fillHeight: true
+                                text: "Start game"
+                                onClicked: {
+                                        setupGameClicked()
+                                }
                         }
                 }
 
-                StartMenuButton {
-                        Layout.alignment: Qt.AlignHCenter
-                        text: "Practice"
-                        onClicked: {
-                                dartsController.init(["I"])
-                                requestTournamentPage()
-                        }
-                }
-
-                StartMenuButton {
-                        Layout.alignment: Qt.AlignHCenter
-                        text: "Start game"
-                        onClicked: {
-                                setupGameClicked()
-                        }
-                }
                 StartMenuButton {
                         Layout.alignment: Qt.AlignHCenter
                         text: "Resume from last game"
@@ -69,11 +76,19 @@ BlackPage {
                                 requestTournamentPage()
                         }
                 }
+
+                StartMenuButton {
+                        Layout.alignment: Qt.AlignHCenter
+                        text: "About"
+                        onClicked: requestAboutPage()
+                }
+
                 StartMenuButton {
                         Layout.alignment: Qt.AlignHCenter
                         text: "Quit"
                         onClicked: Qt.quit()
                 }
+
                 Rectangle {
                         id: emptyRect
                         Layout.fillHeight: true

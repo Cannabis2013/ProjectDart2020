@@ -2,7 +2,6 @@
 
 Score ScoresCalculator::calculate(const QString& name, const QList<Input>& inputs, const int& initialScore)
 {
-        QList<Score> scores;
         int score = initialScore;
         for (auto& input : inputs)
                 score -= inputScore(input.mod(), input.point());

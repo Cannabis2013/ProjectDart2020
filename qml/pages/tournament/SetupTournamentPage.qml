@@ -3,7 +3,7 @@ import QtQml.Models 2.3
 import QtQuick.Layouts 1.3
 
 import "../../components/buttons"
-import "../../components/pages"
+import "../templates"
 import "../../components/playersView"
 import "../../components/userInputs"
 

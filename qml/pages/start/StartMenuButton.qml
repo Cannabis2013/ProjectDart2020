@@ -7,5 +7,5 @@ PushButton {
         width: 256
         height: 64
         backgroundColor: "grey"
-        radius: 10
+        radius: 3
 }

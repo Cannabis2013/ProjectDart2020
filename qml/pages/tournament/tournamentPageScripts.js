@@ -19,9 +19,8 @@ function updateTurnInfo() {
 
 function winnerNotFound(jsonObj) {
         updateTurnComp(jsonObj["turnIndexes"])
-        updateScoresView(jsonObj)
-        updatePlayerScores(jsonObj["playerScores"])
-        updateStatistics(jsonObj["statistics"])
+        highlightScoreBox(jsonObj)
+        updateScoreBoxes(jsonObj["playerScores"], jsonObj["statistics"])
         updatefinish(jsonObj["suggestions"])
         keyPad.enabled = true
 }
@@ -29,7 +28,7 @@ function winnerNotFound(jsonObj) {
 function winnerFound(jsonObj) {
         const playerName = jsonObj["currentPlayerName"]
         updateTurnComp(jsonObj["turnIndexes"])
-        updatePlayerScores(jsonObj["playerScores"])
+        updateScoreBoxes(jsonObj["playerScores"], jsonObj["statistics"])
         keyPad.enabled = false
         targetRow.text = `WINNER: ${playerName}`
 }
@@ -37,30 +36,33 @@ function winnerFound(jsonObj) {
 function updateTurnComp(json) {
         turnInfoComp.canUndo = json["canUndo"]
         turnInfoComp.canRedo = json["canRedo"]
-        turnInfoComp.turnIndex = json["throwIndex"]
+        turnInfoComp.turnIndex = json["turnIndex"] + 1
 }
 
-function updateScoresView(jsonObj) {
+function highlightScoreBox(jsonObj) {
         const player = jsonObj["currentPlayerName"]
         scoresView.highligtScore(player)
 }
 
-function updatePlayerScores(jsonArr) {
-        for (var i = 0; i < jsonArr.length; i++) {
-                const jsonObj = jsonArr[i]
-                const playerName = jsonObj["playerName"]
-                const playerScore = jsonObj["playerScore"]
-                print(playerName)
-                scoresView.updateScore(playerScore, playerName)
+function updateScoreBoxes(scoresArr, statisticsArr) {
+        for (var i = 0; i < scoresArr.length; i++) {
+                updateScore(scoresArr[i])
+                updateStatistic(statisticsArr[i])
         }
 }
 
-function updateStatistics(jsonObj) {
+function updateScore(jsonObj) {
+        const playerName = jsonObj["playerName"]
+        const playerScore = jsonObj["playerScore"]
+        scoresView.updateScore(playerName, playerScore)
+}
+
+function updateStatistic(jsonObj) {
+        const playerName = jsonObj["playerName"]
         const average = jsonObj["average"]
         const low = jsonObj["low"]
         const high = jsonObj["high"]
-        const text = `Average: ${average} - Low: ${low} - High: ${high}`
-        statistics.text = text
+        scoresView.updateStatistics(playerName, average, low, high)
 }
 
 function updatefinish(jsonObj) {

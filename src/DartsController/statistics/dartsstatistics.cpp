@@ -27,7 +27,9 @@ double DartsStatistics::average(int initialScore, int score, int count) const
         if (count <= 0)
                 return 0;
         auto playerPoints = initialScore - score;
-        return playerPoints / count;
+        auto avg = (double)playerPoints / count;
+        int quantizied = avg * 100;
+        return (double)quantizied / 100;
 }
 
 int DartsStatistics::lowest(const QList<Input>& inputs) const
