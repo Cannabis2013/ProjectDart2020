@@ -37,7 +37,7 @@ int DartsPlayers::playersCount() const
         return _names.count();
 }
 
-QStringList DartsPlayers::names() const
+const QStringList& DartsPlayers::names() const
 {
         return _names;
 }

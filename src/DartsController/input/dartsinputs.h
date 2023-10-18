@@ -8,16 +8,15 @@
 
 #include <QList>
 
-class DartsInputs : public IDartsInputs
-{
+class DartsInputs : public IDartsInputs {
 public:
         DartsInputs(IDartsIndexes* indexes, IDartsPlayers* players);
-        virtual void init() override;
-        virtual void setInputs(const QList<Input>& inputs) override;
+        virtual void init() override { _inputs = QList<Input>(); }
+        virtual void setInputs(const QList<Input>& inputs) override { _inputs = inputs; }
         void initFromFile() override;
-        const QList<Input>& inputs() const override;
+        const QList<Input>& inputs() const override { return _inputs; }
         QList<Input> inputs(const QString& playerName, const int& throwIndex) const override;
-        bool saveState() override;
+        bool saveState() override { return _inputsIO->toFile(_inputs); }
         Input save(Input input) override;
 
 private:

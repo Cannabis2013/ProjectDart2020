@@ -38,7 +38,7 @@ Rectangle {
                 scale: 0.7
                 rotation: 12
                 Layout.alignment: Qt.AlignHCenter
-                source: "qrc:/pictures/Ressources/anti1964.webp"
+                source: "qrc:/pictures/Ressources/anti1964.png"
         }
 
         Image {

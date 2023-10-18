@@ -54,9 +54,8 @@ DartsPlayerScores DartsScores::update()
 {
         auto throwIndex = _indexes->index().throwIndex();
         _scores.clear();
-        auto playerNames = _players->names();
         ScoresCalculator calculator;
-        for (const auto& name : qAsConst(playerNames)) {
+        for (const auto& name : _players->names()) {
                 auto inputs = _inputs->inputs(name, throwIndex);
                 auto score = calculator.calculate(name, inputs, INITIAL_SCORE);
                 if (score.score() == 0)

@@ -1,6 +1,5 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
-import QtGraphicalEffects 1.15
 
 import "../../components/buttons"
 
@@ -10,16 +9,6 @@ Rectangle {
         color: "transparent"
 
         signal valueChanged(string value)
-
-        layer.enabled: true
-        layer.effect: OpacityMask {
-                maskSource: Rectangle {
-                        width: textFieldRect.width
-                        height: textFieldRect.height
-                        radius: 12
-                        clip: true
-                }
-        }
 
         Keys.onReturnPressed: {
                 const value = nameInputBox.textValue

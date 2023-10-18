@@ -17,7 +17,7 @@ public:
         QString name(int index) const override;
         QString name() const override;
         int playersCount() const override;
-        QStringList  names() const override;
+        const QStringList& names() const override;
         bool saveState() override;
         int indexOf(const QString& name) const override;
 
