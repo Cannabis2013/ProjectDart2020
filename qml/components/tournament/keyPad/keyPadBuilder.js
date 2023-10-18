@@ -10,16 +10,16 @@ function buildNumbers(width, height) {
         let totalButtons = 24
         let buttonIndex = 20
         while (totalButtons >= 0) {
-                if (totalButtons === 0)
-                        createModPad("D", height, width, middlePadGrid)
-                else if (totalButtons === 1)
-                        createModPad("T", height, width, middlePadGrid)
-                else if (totalButtons === 2)
+                if (totalButtons === 4)
                         createBustPad(height, width, middlePadGrid)
-                else if (totalButtons === 3)
+                else if (totalButtons === 9)
                         createBullPad(height, width, middlePadGrid)
-                else if (totalButtons === 4)
+                else if (totalButtons === 14)
                         createBullsPad(height, width, middlePadGrid)
+                else if (totalButtons === 19)
+                        createModPad("D", height, width, middlePadGrid)
+                else if (totalButtons === 24)
+                        createModPad("T", height, width, middlePadGrid)
                 else {
                         createNumberPad(buttonIndex, buttonIndex, height, width, middlePadGrid)
                         buttonIndex--
