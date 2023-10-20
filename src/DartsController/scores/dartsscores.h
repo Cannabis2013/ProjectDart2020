@@ -8,21 +8,22 @@
 #include "src/DartsController/scores/Score.h"
 #include "src/DartsController/scores/dartsPlayerScore.h"
 #include "src/DartsController/scores/scoresio.h"
-#include "src/DartsController/status/IDartsStatus.h"
-#include <QMap>
-#include <QVector>
 
 class DartsScores : public IDartsScores
 {
 public:
         DartsScores(IDartsIndexes* indexes,
             IDartsPlayers* players,
-            IDartsInputs* inputs,
-            IDartsStatus* status);
+            IDartsInputs* inputs)
+            : _indexes(indexes)
+            , _players(players)
+            , _inputs(inputs)
+        {
+                _scoresIO = new ScoresIO("playerScores.dat");
+        }
         void init() override;
         void initFromFile() override;
         void reset() override;
-        DartsPlayerScore update(const Input& input) override;
         int initialScore() const override;
         DartsPlayerScores update() override;
         DartsPlayerScore score() override;
@@ -39,7 +40,6 @@ private:
         // Services
         IDartsIndexes* const _indexes;
         IDartsPlayers* const _players;
-        IDartsStatus* const _status;
         IDartsInputs* const _inputs;
 };
 

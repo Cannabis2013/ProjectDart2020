@@ -34,7 +34,8 @@ function createNumberPad(padValue, textDisplay, height, width, parentObj) {
                                                       "text": textDisplay,
                                                       "padValue": padValue,
                                                       "height": height,
-                                                      "width": width
+                                                      "width": width,
+                                                      "backgroundColor": "white"
                                               })
         object.padClicked.connect(keyPadRect.numberClicked)
 }
@@ -58,7 +59,7 @@ function createBullPad(height, width, parentObj) {
                                                       "width": width,
                                                       "text": "25",
                                                       "padValue": 25,
-                                                      "color": "green"
+                                                      "backgroundColor": "green"
                                               })
         object.padClicked.connect(keyPadRect.specialClicked)
 }
@@ -70,7 +71,7 @@ function createBullsPad(height, width, parentObj) {
                                                       "width": width,
                                                       "text": "50",
                                                       "padValue": 50,
-                                                      "color": "red"
+                                                      "backgroundColor": "red"
                                               })
         object.padClicked.connect(keyPadRect.specialClicked)
 }
@@ -82,7 +83,7 @@ function createBustPad(height, width, parentObj) {
                                                       "width": width,
                                                       "text": "0",
                                                       "padValue": 0,
-                                                      "color": "orange"
+                                                      "backgroundColor": "orange"
                                               })
         object.padClicked.connect(keyPadRect.specialClicked)
 }

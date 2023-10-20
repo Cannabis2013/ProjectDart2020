@@ -14,9 +14,7 @@ BlackPageWithHeader {
         buttonText: "Menu"
         pageTitle: "Tournament"
 
-        onBackClicked: {
-                dartsController.saveState()
-        }
+        onBackClicked: dartsController.saveState()
 
         GridLayout {
                 anchors.fill: parent
@@ -24,7 +22,7 @@ BlackPageWithHeader {
 
                 PlayerScores {
                         id: scoresView
-                        height: Layout.fillHeight = true
+                        height: 180
                         Layout.fillWidth: true
                         Layout.alignment: Qt.AlignHCenter
                 }
@@ -60,10 +58,10 @@ BlackPageWithHeader {
                         Layout.fillWidth: true
                         Layout.fillHeight: true
                         Layout.alignment: Qt.AlignHCenter
-                        onReportScore: {
-                                dartsController.addInput(modId, point)
-                                PageScripts.updateTurnInfo()
-                        }
+                        onReportScore: (modId, point) => {
+                                               dartsController.addInput(modId, point)
+                                               PageScripts.updateTurnInfo()
+                                       }
                 }
         }
 

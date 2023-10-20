@@ -3,6 +3,7 @@
 
 #include "IDartsPlayers.h"
 #include "src/DartsController/indexes/IDartsIndexes.h"
+#include "src/DartsController/players/DartsPlayer.h"
 #include "src/DartsController/players/playersio.h"
 
 #include <qstringlist.h>
@@ -16,19 +17,21 @@ public:
         void initPlayers() override;
         QString name(int index) const override;
         QString name() const override;
+        virtual QString winnerName() const override;
         int playersCount() const override;
-        const QStringList& names() const override;
+        const QStringList names() const override;
         bool saveState() override;
         int indexOf(const QString& name) const override;
+        void declareAsWinner(const QString& name) override;
 
 private:
-        QStringList _names;
+        QList<DartsPlayer> _players;
 
         // Helpers
-        PlayersIO *_playersIO;
+        PlayersIO* _playersIO;
 
         // Services
-        IDartsIndexes *_indexes;
+        IDartsIndexes* _indexes;
 };
 
 #endif // DARTPLAYERS_H

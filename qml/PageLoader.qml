@@ -3,6 +3,7 @@ import QtQuick 2.12
 import "./pages/tournament"
 import "./pages/about"
 import "./pages/start"
+import "./pages/setup"
 
 Item {
         id: body
@@ -13,6 +14,7 @@ Item {
                 id: startPageComponent
                 StartPage {
                         onSetupGameClicked: pageLoader.sourceComponent = setupTournamentPage
+                        onQuickGameClicked: pageLoader.sourceComponent = quickSetup
                         onRequestTournamentPage: pageLoader.sourceComponent = tournamentPage
                         onRequestAboutPage: pageLoader.sourceComponent = aboutPage
                 }
@@ -36,6 +38,14 @@ Item {
         Component {
                 id: aboutPage
                 AboutPage {
+                        onBackClicked: pageLoader.sourceComponent = startPageComponent
+                }
+        }
+
+        Component {
+                id: quickSetup
+                QuickSetup {
+                        onRequestTournamentPage: pageLoader.sourceComponent = tournamentPage
                         onBackClicked: pageLoader.sourceComponent = startPageComponent
                 }
         }

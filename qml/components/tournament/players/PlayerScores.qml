@@ -17,16 +17,16 @@ Flickable {
         property int playersCount: 0
 
         signal appendName(string name, int score)
-        onAppendName: ScoresScripts.appendName(name, score)
+        onAppendName: (name, score) => ScoresScripts.appendName(name, score)
 
         signal highligtScore(string name)
-        onHighligtScore: ScoresScripts.highlightScore(name)
+        onHighligtScore: name => ScoresScripts.highlightScore(name)
 
         signal updateScore(string name, int score)
-        onUpdateScore: ScoresScripts.updateScore(name, score)
+        onUpdateScore: (name, score) => ScoresScripts.updateScore(name, score)
 
         signal updateStatistics(string name, double average, int low, int high)
-        onUpdateStatistics: ScoresScripts.updateStatistics(name, average, low, high)
+        onUpdateStatistics: (name, average, low, high) => ScoresScripts.updateStatistics(name, average, low, high)
 
         GridLayout {
                 id: scoresGrid

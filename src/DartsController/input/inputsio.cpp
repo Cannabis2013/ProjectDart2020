@@ -9,7 +9,7 @@ bool InputsIO::toFile(const QList<Input>& _inputs)
 {
         FileJsonIO jsonIO(_filePath);
         QJsonArray jsonArr;
-        for (auto input : qAsConst(_inputs))
+        for (auto input : _inputs)
                 jsonArr.append(input.toJsonObject());
         auto jsonDoc = new QJsonDocument(jsonArr);
         return jsonIO.write(jsonDoc->toJson(QJsonDocument::Compact));

@@ -27,7 +27,7 @@ public:
 private:
         QByteArray toJson(const QList<Score> &scores){
                 QJsonArray jsonArr;
-                for (const auto &score : qAsConst(scores))
+                for (const auto& score : scores)
                         jsonArr << score.toJsonObject();
                 auto jsonDoc = new QJsonDocument(jsonArr);
                 return jsonDoc->toJson(QJsonDocument::Compact);

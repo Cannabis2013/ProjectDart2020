@@ -9,25 +9,25 @@ PlayersIO::PlayersIO(const QString& filePath)
         _filePath = filePath;
 }
 
-QStringList PlayersIO::initFromFile()
+QList<DartsPlayer> PlayersIO::initFromFile()
 {
-        QStringList names;
+        QList<DartsPlayer> players;
         FileJsonIO jsonIO(_filePath);
         auto jsonDoc = QJsonDocument::fromJson(jsonIO.read());
         if(!jsonDoc.isArray())
-                return QStringList();
+                return QList<DartsPlayer>();
         const auto localArray =  jsonDoc.array();
-        for (const auto &val : localArray)
-                names.append(val.toString(""));
-        return names;
+        for (const auto& jsonObj : localArray)
+                players << DartsPlayer(jsonObj.toObject());
+        return players;
 }
 
-bool PlayersIO::saveToFile(const QStringList& names)
+bool PlayersIO::saveToFile(const QList<DartsPlayer>& players)
 {
         FileJsonIO jsonIO(_filePath);
         QJsonArray jsonArr;
-        for (auto& name : qAsConst(names))
-                jsonArr.append(name);
+        for (auto& player : players)
+                jsonArr.append(player.toJsonObject());
         auto jsonDoc = new QJsonDocument(jsonArr);
         return jsonIO.write(jsonDoc->toJson());
 }

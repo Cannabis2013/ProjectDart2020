@@ -26,7 +26,7 @@ function winnerNotFound(jsonObj) {
 }
 
 function winnerFound(jsonObj) {
-        const playerName = jsonObj["currentPlayerName"]
+        const playerName = jsonObj["winnerName"]
         updateTurnComp(jsonObj["turnIndexes"])
         updateScoreBoxes(jsonObj["playerScores"], jsonObj["statistics"])
         keyPad.enabled = false

@@ -1,22 +1,25 @@
 #include "dartsinputadder.h"
 #include "src/DartsController/input/inputsservice.h"
 
-DartsInputAdder::DartsInputAdder(IDartsInputs* inputs, IDartsInputEvaluator* evaluator, IDartsIndexes* indexes, IDartsScores* scores)
+DartsInputAdder::DartsInputAdder(IDartsInputs* inputs, IDartsEvaluator** evaluator,
+    IDartsIndexes* indexes, IDartsStatus* status)
     : _inputs(inputs)
     , _evaluator(evaluator)
     , _indexes(indexes)
-    , _scores(scores)
+    , _status(status)
 {
 }
 
 void DartsInputAdder::add(const QString& mod, const int& point)
 {
-        trimInputs();
-        if (addInput(Input(mod, point)))
-                _indexes->next();
-        else {
-                nullifyTurn();
-                _indexes->skipturn();
+        if (!_status->isWinnerFound()) {
+                trimInputs();
+                if (persistInput(Input(mod, point)))
+                        _indexes->next();
+                else {
+                        nullifyTurn();
+                        _indexes->skipturn();
+                }
         }
 }
 
@@ -33,11 +36,9 @@ void DartsInputAdder::nullifyTurn()
         _inputs->setInputs(altered);
 }
 
-bool DartsInputAdder::addInput(const Input& input)
+bool DartsInputAdder::persistInput(const Input& input)
 {
-        if (!_evaluator->isValid(input.mod(), input.point()))
-                _inputs->save(Input());
-        if (_evaluator->isWithinBounds(input.mod(), input.point()))
+        if ((*_evaluator)->evaluatorInput(input.mod(), input.point()))
                 _inputs->save(input);
         else {
                 _inputs->save(Input());

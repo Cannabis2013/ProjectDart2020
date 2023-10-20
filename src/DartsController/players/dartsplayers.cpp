@@ -11,43 +11,70 @@ DartsPlayers::DartsPlayers(IDartsIndexes* indexes)
 
 void DartsPlayers::initPlayers(const QStringList& names)
 {
-        _names = names;
+        _players.clear();
+        for (const auto& name : names)
+                _players << DartsPlayer(name);
 }
 
 void DartsPlayers::initPlayers()
 {
-        _names = _playersIO->initFromFile();
+        _players = _playersIO->initFromFile();
 }
 
 QString DartsPlayers::name(int index) const
 {
-        return _names.at(index);
+        return _players.at(index).name();
 }
 
 QString DartsPlayers::name() const
 {
         auto playerIndex = _indexes->index().playerIndex();
-        if(playerIndex >= _names.count())
+        if (playerIndex >= _players.count())
                 return QString();
-        return _names.at(playerIndex);
+        return _players.at(playerIndex).name();
+}
+
+QString DartsPlayers::winnerName() const
+{
+        for (const auto& player : _players) {
+                if (player.winner())
+                        return player.name();
+        }
+        return QString();
 }
 
 int DartsPlayers::playersCount() const
 {
-        return _names.count();
+        return _players.count();
 }
 
-const QStringList& DartsPlayers::names() const
+const QStringList DartsPlayers::names() const
 {
-        return _names;
+        QStringList names;
+        for (const auto& player : _players)
+                names << player.name();
+        return names;
 }
 
 bool DartsPlayers::saveState()
 {
-        return _playersIO->saveToFile(_names);
+        return _playersIO->saveToFile(_players);
 }
 
 int DartsPlayers::indexOf(const QString& name) const
 {
-        return _names.indexOf(name);
+        for (int index = 0; index < _players.size(); ++index) {
+                auto player = _players.at(index);
+                if (player.name() == name)
+                        return index;
+        }
+        return -1;
+}
+
+void DartsPlayers::declareAsWinner(const QString& name)
+{
+        for (auto& player : _players) {
+                if (player.name() == name)
+                        player.setWinner(true);
+        }
 }

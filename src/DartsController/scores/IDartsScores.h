@@ -1,7 +1,6 @@
 #ifndef IDARTSSCORES_H
 #define IDARTSSCORES_H
 
-#include "src/DartsController/input/Input.h"
 #include "src/DartsController/scores/DartsPlayerScores.h"
 #include "src/DartsController/scores/dartsPlayerScore.h"
 
@@ -13,7 +12,6 @@ public:
         virtual void initFromFile() = 0;
         virtual bool saveState() = 0;
         virtual int initialScore() const = 0;
-        virtual DartsPlayerScore update(const Input &input) = 0;
         virtual DartsPlayerScores update() = 0;
         virtual DartsPlayerScore score() = 0;
         virtual DartsPlayerScore score(const QString& name) = 0;

@@ -15,7 +15,8 @@ QByteArray DartsTurnValues::currentTurnInfo()
         jsonObj["turnIndexes"] = turnIndex();
         jsonObj["playerScores"] = playerScores();
         jsonObj["currentPlayerName"] = _players->name();
-        jsonObj["winnerFound"] = _status->status() ? true : false;
+        jsonObj["winnerFound"] = _status->isWinnerFound();
+        jsonObj["winnerName"] = _players->winnerName();
         jsonObj["suggestions"] = finish();
         jsonObj["statistics"] = statistics();
         auto jsonDoc = new QJsonDocument(jsonObj);

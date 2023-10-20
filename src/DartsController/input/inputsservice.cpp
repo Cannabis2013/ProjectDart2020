@@ -4,7 +4,7 @@ QList<Input> InputsUtility::trimmed(const QList<Input>& inputs, const int& turnI
 {
         QList<Input> chopped;
         if (turnIndex > 0) {
-                for (auto& input : qAsConst(inputs)) {
+                for (auto& input : inputs) {
                         if (input.throwIndex() < turnIndex)
                                 chopped << input;
                 }

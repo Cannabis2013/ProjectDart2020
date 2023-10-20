@@ -1,28 +1,26 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
+import QtQuick.Controls 2.15
 
-import "../../components/pages"
 import "../../components/buttons"
+import "../templates"
 
 BlackPageWithHeader {
         id: confirmPage
 
-        signal acceptClicked
+        anchors.fill: parent
+
+        signal requestTournamentPage
 
         GridLayout {
                 anchors.fill: parent
                 flow: GridLayout.TopToBottom
-                Text {
+
+                EndgameSelector {
+                        id: winnerSelector
                         Layout.alignment: Qt.AlignHCenter
-                        text: qsTr("Are you sure? Any saved progress will be lost.")
-                        font.pointSize: 24
-                        font.weight: Font.Bold
-                        Layout.fillHeight: true
-                        Layout.maximumWidth: confirmPage.width * 0.8
-                        wrapMode: Text.WordWrap
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignHCenter
-                        color: "white"
+                        height: 48
+                        width: 300
                 }
 
                 Rectangle {
@@ -42,8 +40,12 @@ BlackPageWithHeader {
                                 PushButton {
                                         Layout.fillHeight: true
                                         width: 128
-                                        text: "Don't care."
-                                        onClicked: acceptClicked()
+                                        text: "Start"
+                                        onClicked: {
+                                                const mode = winnerSelector.selectedValue
+                                                dartsController.init(["I", "II"], mode)
+                                                requestTournamentPage()
+                                        }
                                 }
                         }
                 }

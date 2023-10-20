@@ -5,7 +5,7 @@ Rectangle {
         id: playersScoreRect
 
         clip: true
-        height: 80
+        height: 64
         color: "green"
 
         property bool highlighted: false
@@ -17,17 +17,17 @@ Rectangle {
         property string id: ""
 
         signal setName(string name)
-        onSetName: playerName.text = name
+        onSetName: name => playerName.text = name
 
         signal updateScore(int score)
-        onUpdateScore: playerScore.text = score.toString()
+        onUpdateScore: score => playerScore.text = score.toString()
 
         signal updateStatistic(string average, int low, int high)
-        onUpdateStatistic: {
-                averageText.text = "Average: " + average
-                lowText.text = "Worst: " + low
-                highText.text = "Best: " + high
-        }
+        onUpdateStatistic: (average, low, high) => {
+                                   averageText.text = "Average: " + average
+                                   lowText.text = "Worst: " + low
+                                   highText.text = "Best: " + high
+                           }
 
         property double average: 0.0
 
@@ -46,7 +46,7 @@ Rectangle {
                         id: playerName
                         text: ""
                         Layout.fillWidth: true
-                        height: 48
+                        Layout.maximumHeight: 32
                         font.pointSize: 40
                         color: "white"
                         verticalAlignment: Qt.AlignVCenter

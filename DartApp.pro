@@ -35,22 +35,21 @@ HEADERS += \
     src/DartsController/indexes/dartsindex.h \
     src/DartsController/indexes/dartsindexes.h \
     src/DartsController/indexes/indexesio.h \
-    src/DartsController/input/IDartsInputEvalutor.h \
     src/DartsController/input/IDartsInputs.h \
     src/DartsController/input/Input.h \
     src/DartsController/input/dartsinputadder.h \
-    src/DartsController/input/dartsinputevaluator.h \
     src/DartsController/input/dartsinputs.h \
     src/DartsController/input/idartsinputadder.h \
     src/DartsController/input/inputsio.h \
     src/DartsController/input/inputsservice.h \
+    src/DartsController/players/DartsPlayer.h \
     src/DartsController/players/IDartsPlayers.h \
     src/DartsController/players/dartsplayers.h \
     src/DartsController/players/playersio.h \
     src/DartsController/responses/ErrorInfo.h \
-    src/DartsController/responses/IDartsInfoResponse.h \
     src/DartsController/responses/InitialValueInfo.h \
     src/DartsController/responses/dartsturnvalues.h \
+    src/DartsController/responses/idartsinforesponse.h \
     src/DartsController/responses/statusInfo.h \
     src/DartsController/responses/winnerInfo.h \
     src/DartsController/scores/DartsPlayerScores.h \
@@ -63,8 +62,12 @@ HEADERS += \
     src/DartsController/statistics/dartsstatistics.h \
     src/DartsController/statistics/idartsstatistics.h \
     src/DartsController/statistics/statistics.h \
-    src/DartsController/status/DartsStatus.h \
     src/DartsController/status/IDartsStatus.h \
+    src/DartsController/status/dartsstatus.h \
+    src/DartsController/validation/DartsEvaluators.h \
+    src/DartsController/validation/dartsofficialvalidator.h \
+    src/DartsController/validation/dartsoverthrowevaluator.h \
+    src/DartsController/validation/idartsevaluator.h \
     src/FileIO/filejsonio.h \
     src/QmlContext/setupqmlcontext.h
 
@@ -76,7 +79,6 @@ SOURCES += \
     src/DartsController/indexes/dartsindexes.cpp \
     src/DartsController/indexes/indexesio.cpp \
     src/DartsController/input/dartsinputadder.cpp \
-    src/DartsController/input/dartsinputevaluator.cpp \
     src/DartsController/input/dartsinputs.cpp \
     src/DartsController/input/inputsio.cpp \
     src/DartsController/input/inputsservice.cpp \
@@ -86,6 +88,9 @@ SOURCES += \
     src/DartsController/scores/dartsscores.cpp \
     src/DartsController/scores/scorescalculator.cpp \
     src/DartsController/statistics/dartsstatistics.cpp \
+    src/DartsController/status/dartsstatus.cpp \
+    src/DartsController/validation/dartsofficialvalidator.cpp \
+    src/DartsController/validation/dartsoverthrowevaluator.cpp \
     src/FileIO/filejsonio.cpp \
     src/main.cpp
 

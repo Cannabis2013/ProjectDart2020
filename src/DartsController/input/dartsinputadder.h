@@ -2,14 +2,15 @@
 #define DARTSINPUTADDER_H
 
 #include "src/DartsController/indexes/IDartsIndexes.h"
-#include "src/DartsController/input/IDartsInputEvalutor.h"
 #include "src/DartsController/input/IDartsInputs.h"
 #include "src/DartsController/input/idartsinputadder.h"
-#include "src/DartsController/scores/IDartsScores.h"
+#include "src/DartsController/status/IDartsStatus.h"
+#include "src/DartsController/validation/idartsevaluator.h"
 
 class DartsInputAdder : public IDartsInputAdder {
 public:
-        DartsInputAdder(IDartsInputs* inputs, IDartsInputEvaluator* evaluator, IDartsIndexes* indexes, IDartsScores* scores);
+        DartsInputAdder(IDartsInputs* inputs, IDartsEvaluator** evaluator,
+            IDartsIndexes* indexes, IDartsStatus* status);
 
         void add(const QString& mod, const int& point);
 
@@ -17,13 +18,13 @@ private:
         void trimInputs();
         void nullifyTurn();
 
-        bool addInput(const Input& input);
+        bool persistInput(const Input& input);
 
         // Services
         IDartsInputs* const _inputs;
-        IDartsInputEvaluator* const _evaluator;
+        IDartsEvaluator** const _evaluator;
         IDartsIndexes* const _indexes;
-        IDartsScores* const _scores;
+        IDartsStatus* const _status;
 };
 
 #endif // DARTSINPUTADDER_H

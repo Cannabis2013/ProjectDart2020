@@ -12,10 +12,10 @@ PushButton {
         property bool selected: false
 
         signal select(bool status)
-        onSelect: {
-                selected = status
-                padRect.scale = selected ? 0.9 : 1
-        }
+        onSelect: status => {
+                          selected = status
+                          padRect.scale = selected ? 0.9 : 1
+                  }
 
         color: "darkgreen"
         fontColor: "white"

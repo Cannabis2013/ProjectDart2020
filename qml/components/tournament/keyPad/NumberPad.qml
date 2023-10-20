@@ -10,12 +10,23 @@ Pad {
 
         signal padClicked(int value)
 
+        ColorAnimation on color {
+                id: pushAnimation
+                from: "red"
+                to: padRect.backgroundColor
+                duration: 750
+                loops: 1
+                running: false
+        }
+
         MouseArea {
                 anchors.fill: parent
-                onPressed: padRect.scale = 0.9
+                onPressed: padRect.color = "red"
+
                 onReleased: {
                         padRect.padClicked(padRect.padValue)
                         padRect.scale = 1
+                        pushAnimation.start()
                 }
         }
 }

@@ -13,27 +13,27 @@ TransparentRect {
         signal reportScore(string modId, int point)
 
         signal numberClicked(int point)
-        onNumberClicked: {
-                const modId = modKeys.selectedId()
-                modKeys.unSelectAll()
-                reportScore(modId, point)
-        }
+        onNumberClicked: point => {
+                                 const modId = modKeys.selectedId()
+                                 modKeys.unSelectAll()
+                                 reportScore(modId, point)
+                         }
 
         signal specialClicked(string value)
-        onSpecialClicked: {
-                modKeys.unSelectAll()
-                reportScore("S", value)
-        }
+        onSpecialClicked: value => {
+                                  modKeys.unSelectAll()
+                                  reportScore("S", value)
+                          }
 
         signal modKeyClicked(string modId)
-        onModKeyClicked: {
-                const mods = modKeys.modObjects
-                for (var i = 0; i < mods.length; i++) {
-                        const mod = mods[i]
-                        if (mod.modId !== modId)
-                                mod.select(false)
-                }
-        }
+        onModKeyClicked: modId => {
+                                 const mods = modKeys.modObjects
+                                 for (var i = 0; i < mods.length; i++) {
+                                         const mod = mods[i]
+                                         if (mod.modId !== modId)
+                                         mod.select(false)
+                                 }
+                         }
 
         QtObject {
                 id: modKeys

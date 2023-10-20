@@ -13,7 +13,9 @@ public:
         virtual int indexOf(const QString& name) const = 0;
         virtual QString name(int index) const = 0;
         virtual QString name() const = 0;
-        virtual const QStringList& names() const = 0;
+        virtual QString winnerName() const = 0;
+        virtual void declareAsWinner(const QString& name) = 0;
+        virtual const QStringList names() const = 0;
 };
 
 #endif // IDARTPLAYERS_H

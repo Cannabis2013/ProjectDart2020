@@ -18,18 +18,18 @@ public:
 
         QByteArray toJson(){
                 QJsonArray jsonArr;
-                for (const auto &score : qAsConst(_playerScores))
+                for (const auto& score : std::as_const(_playerScores))
                         jsonArr << score.toJsonObject();
                 auto jsonDoc = new QJsonDocument(jsonArr);
                 return jsonDoc->toJson(QJsonDocument::Compact);
         }
 
-        const QList<Score> playerScores()
+        const QList<Score>& playerScores()
         {
                 return _playerScores;
         }
 private:
-        const QList<Score> _playerScores;
+        QList<Score> _playerScores;
 };
 
 #endif // DARTSCORE_H

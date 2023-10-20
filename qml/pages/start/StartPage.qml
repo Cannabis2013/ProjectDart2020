@@ -42,10 +42,7 @@ BlackPage {
                                 Layout.fillWidth: true
                                 Layout.fillHeight: true
                                 text: "1v1"
-                                onClicked: {
-                                        dartsController.init(["I", "II"])
-                                        requestTournamentPage()
-                                }
+                                onClicked: quickGameClicked()
                         }
 
                         StartMenuButton {
