@@ -2,7 +2,7 @@
 #define DARTSEVALUATORS_H
 
 #include "src/DartsController/validation/dartsofficialvalidator.h"
-#include "src/DartsController/validation/dartsoverthrowevaluator.h"
+#include "src/DartsController/validation/dartsoverthrowvalidator.h"
 #include "src/DartsController/validation/idartsevaluator.h"
 
 class DartsEvaluators {
@@ -14,12 +14,12 @@ public:
         {
         }
 
-        IDartsEvaluator* fromName(const int& mode)
+        IDartsEvaluator* validator(const int& mode)
         {
                 if (mode == 0)
                         return new DartsOfficialValidator(_scores, _players, _status);
                 else if (mode == 1)
-                        return new DartsOverthrowEvaluator(_scores, _players, _status);
+                        return new DartsOverthrowValidator(_scores, _players, _status);
                 return nullptr;
         }
 

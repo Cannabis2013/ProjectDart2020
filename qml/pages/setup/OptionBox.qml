@@ -7,18 +7,22 @@ import "../templates"
 
 Rectangle {
         id: optionRect
-        color: "transparent"
         property string title: ""
         property string description: ""
         property int value: -1
         property bool selected: false
-        onSelectedChanged: backDrop.color = selected ? "blue" : "grey"
+        onSelectedChanged: backDrop.color = selected ? "blue" : "green"
+
+        radius: 12
+
+        layer.effect: ShaderEffect {}
 
         Rectangle {
                 id: backDrop
+                radius: 12
                 anchors.fill: parent
-                opacity: 0.5
-                color: "grey"
+                opacity: 0.8
+                color: "green"
         }
 
         Rectangle {

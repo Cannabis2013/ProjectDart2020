@@ -51,5 +51,6 @@
         <file>qml/pages/setup/EndgameSelector.qml</file>
         <file>qml/pages/setup/OptionBox.qml</file>
         <file>qml/pages/setup/OptionsDialog.qml</file>
+        <file>qml/pages/setup/qmlDialogs.js</file>
     </qresource>
 </RCC>

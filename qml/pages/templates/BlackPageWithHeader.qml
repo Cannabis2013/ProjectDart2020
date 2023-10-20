@@ -13,6 +13,7 @@ BlackPage {
         header: PageHeader {
                 id: pageHeader
                 onBackButtonClicked: backClicked()
+                color: "#121212"
         }
 
         anchors.fill: parent

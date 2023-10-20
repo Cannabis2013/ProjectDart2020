@@ -14,7 +14,8 @@ Rectangle {
         onPageTitleChanged: pageTitleComp.text = pageTitle
 
         height: 64
-        color: "black"
+        color: "transparent"
+
         GridLayout {
                 anchors.fill: parent
                 flow: GridLayout.LeftToRight

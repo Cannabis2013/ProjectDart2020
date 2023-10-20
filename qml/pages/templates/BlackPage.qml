@@ -5,6 +5,6 @@ Page {
         Rectangle {
                 id: backdrop
                 anchors.fill: parent
-                color: "black"
+                color: "#121212"
         }
 }

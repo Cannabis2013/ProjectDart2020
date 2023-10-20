@@ -4,6 +4,7 @@ import QtQuick.Controls 2.15
 
 import "../../components/buttons"
 import "../templates"
+import "qmlDialogs.js" as Dialogs
 
 BlackPageWithHeader {
         id: confirmPage
@@ -21,25 +22,32 @@ BlackPageWithHeader {
                         Layout.alignment: Qt.AlignHCenter
                         height: 48
                         width: 300
+                        onRequestDialog: Dialogs.winnerModeDialog(confirmPage, winnerSelector.setCurrentValues)
+                }
+
+                Rectangle {
+                        Layout.fillHeight: true
                 }
 
                 Rectangle {
                         color: "transparent"
-                        height: 64
+                        height: 24
                         Layout.alignment: Qt.AlignHCenter
                         width: 300
                         GridLayout {
                                 anchors.fill: parent
                                 PushButton {
+                                        Layout.alignment: Qt.AlignRight
                                         Layout.fillHeight: true
-                                        width: 128
+                                        width: 64
                                         text: "Back"
                                         onClicked: backClicked()
                                 }
 
                                 PushButton {
+                                        Layout.alignment: Qt.AlignLeft
                                         Layout.fillHeight: true
-                                        width: 128
+                                        width: 64
                                         text: "Start"
                                         onClicked: {
                                                 const mode = winnerSelector.selectedValue
@@ -48,10 +56,6 @@ BlackPageWithHeader {
                                         }
                                 }
                         }
-                }
-
-                Rectangle {
-                        height: 16
                 }
         }
 }

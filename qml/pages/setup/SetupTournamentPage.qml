@@ -39,10 +39,11 @@ BlackPageWithHeader {
                         Layout.alignment: Qt.AlignHCenter
                 }
 
-                Rectangle {
-                        height: 1
-                        Layout.fillWidth: true
-                        color: "white"
+                EndgameSelector {
+                        id: winnerSelector
+                        width: 256
+                        height: 48
+                        onRequestDialog: optionDialog.open()
                 }
 
                 PushButton {
@@ -63,5 +64,10 @@ BlackPageWithHeader {
                 Rectangle {
                         height: 8
                 }
+        }
+
+        OptionsDialog {
+                id: optionDialog
+                onOptionClicked: (title, value) => winnerSelector.setCurrentValues(title, value)
         }
 }

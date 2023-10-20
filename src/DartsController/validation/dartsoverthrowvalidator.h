@@ -8,9 +8,9 @@
 #include "src/DartsController/validation/idartsevaluator.h"
 #include <QList>
 
-class DartsOverthrowEvaluator : public IDartsEvaluator {
+class DartsOverthrowValidator : public IDartsEvaluator {
 public:
-        DartsOverthrowEvaluator(IDartsScores* scores, IDartsPlayers* players, IDartsStatus* status)
+        DartsOverthrowValidator(IDartsScores* scores, IDartsPlayers* players, IDartsStatus* status)
             : _scores(scores)
             , _players(players)
             , _status(status)

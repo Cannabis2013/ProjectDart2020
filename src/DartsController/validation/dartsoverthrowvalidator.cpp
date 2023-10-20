@@ -1,11 +1,11 @@
-#include "dartsoverthrowevaluator.h"
+#include "dartsoverthrowvalidator.h"
 
-bool DartsOverthrowEvaluator::evaluatorInput(const QString& mod, const int& point)
+bool DartsOverthrowValidator::evaluatorInput(const QString& mod, const int& point)
 {
         return isValid(mod, point);
 }
 
-void DartsOverthrowEvaluator::evaluateScoreCondition()
+void DartsOverthrowValidator::evaluateScoreCondition()
 {
         for (const auto& score : _scores->scores().playerScores()) {
                 if (score.score() <= 0) {
@@ -15,7 +15,7 @@ void DartsOverthrowEvaluator::evaluateScoreCondition()
         }
 }
 
-bool DartsOverthrowEvaluator::isValid(const QString& mod, const int& point) const
+bool DartsOverthrowValidator::isValid(const QString& mod, const int& point) const
 {
         if (point > MaxPoint || point < 0)
                 return false;

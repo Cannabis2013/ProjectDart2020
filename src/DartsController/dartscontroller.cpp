@@ -8,7 +8,7 @@ void DartsController::init(const QStringList& playerNames, const int& mode)
         _inputs->init();
         _scores->init();
         _status->init();
-        _evaluator = DartsEvaluators(_scores, _players, _status).fromName(mode);
+        _evaluator = DartsEvaluators(_scores, _players, _status).validator(mode);
 }
 
 QStringList DartsController::playerNames() const

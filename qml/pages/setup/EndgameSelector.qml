@@ -10,6 +10,13 @@ Rectangle {
 
         property int selectedValue: 0
 
+        signal requestDialog
+
+        function setCurrentValues(title, value) {
+                selectedText.text = title
+                selectedValue = value
+        }
+
         GridLayout {
                 anchors.fill: parent
                 Text {
@@ -34,16 +41,8 @@ Rectangle {
                         }
                         MouseArea {
                                 anchors.fill: parent
-                                onClicked: optionDialog.open()
+                                onClicked: requestDialog()
                         }
                 }
-        }
-
-        OptionsDialog {
-                id: optionDialog
-                onOptionClicked: (title, value) => {
-                                         selectedText.text = title
-                                         selectedValue = value
-                                 }
         }
 }

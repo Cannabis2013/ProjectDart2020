@@ -66,7 +66,7 @@ HEADERS += \
     src/DartsController/status/dartsstatus.h \
     src/DartsController/validation/DartsEvaluators.h \
     src/DartsController/validation/dartsofficialvalidator.h \
-    src/DartsController/validation/dartsoverthrowevaluator.h \
+    src/DartsController/validation/dartsoverthrowvalidator.h \
     src/DartsController/validation/idartsevaluator.h \
     src/FileIO/filejsonio.h \
     src/QmlContext/setupqmlcontext.h
@@ -90,7 +90,7 @@ SOURCES += \
     src/DartsController/statistics/dartsstatistics.cpp \
     src/DartsController/status/dartsstatus.cpp \
     src/DartsController/validation/dartsofficialvalidator.cpp \
-    src/DartsController/validation/dartsoverthrowevaluator.cpp \
+    src/DartsController/validation/dartsoverthrowvalidator.cpp \
     src/FileIO/filejsonio.cpp \
     src/main.cpp
 
