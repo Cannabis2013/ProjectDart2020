@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
+import QtQuick.Controls
 
-import "../../../components/buttons"
 import "../../../components/geometry"
 
 TransparentRect {
@@ -19,13 +19,11 @@ TransparentRect {
 
         GridLayout {
                 anchors.fill: parent
-                PushButton {
+                Button {
                         id: undoButton
                         Layout.fillWidth: true
                         Layout.fillHeight: true
                         text: "Undo"
-                        backgroundColor: "grey"
-                        radius: 6
                         enabled: false
                         onClicked: undoClicked()
                 }
@@ -43,13 +41,11 @@ TransparentRect {
                         color: "white"
                 }
 
-                PushButton {
+                Button {
                         id: redoButton
                         Layout.fillWidth: true
                         Layout.fillHeight: true
                         text: "Redo"
-                        backgroundColor: "grey"
-                        radius: 6
                         enabled: false
                         onClicked: redoClicked()
                 }

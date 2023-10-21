@@ -1,5 +1,5 @@
 import QtQuick 2.15
-import "../../components/buttons"
+import QtQuick.Controls
 
 Row {
         id: viewDelegate
@@ -17,14 +17,17 @@ Row {
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
                 }
-                PushButton {
+                Button {
                         x: 231
                         y: 5
                         width: 20
                         height: 20
                         text: "X"
-                        radius: 24
-                        backgroundColor: "red"
+                        background: Rectangle {
+                                color: "red"
+                                radius: 24
+                        }
+
                         onClicked: playersModel.remove(index)
                 }
         }

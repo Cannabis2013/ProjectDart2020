@@ -4,7 +4,7 @@
 #include "idartsstatistics.h"
 #include "src/DartsController/indexes/IDartsIndexes.h"
 #include "src/DartsController/input/IDartsInputs.h"
-#include "src/DartsController/scores/IDartsScores.h"
+#include "src/DartsController/scores/idartsscores.h"
 
 class DartsStatistics : public IDartsStatistics {
 public:

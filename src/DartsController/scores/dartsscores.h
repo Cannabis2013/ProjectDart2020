@@ -1,10 +1,10 @@
 #ifndef DARTSCORES_H
 #define DARTSCORES_H
 
-#include "IDartsScores.h"
+#include "idartsscores.h"
 #include "src/DartsController/indexes/IDartsIndexes.h"
 #include "src/DartsController/input/IDartsInputs.h"
-#include "src/DartsController/players/IDartsPlayers.h"
+#include "src/DartsController/players/idartsplayers.h"
 #include "src/DartsController/scores/Score.h"
 #include "src/DartsController/scores/dartsPlayerScore.h"
 #include "src/DartsController/scores/scoresio.h"

@@ -2,14 +2,14 @@ import QtQuick 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.15
 
-import "../../components/buttons"
 import "../templates"
-import "qmlDialogs.js" as Dialogs
 
-BlackPageWithHeader {
-        id: confirmPage
+PageWithHeader {
+        id: quickSetup
 
         anchors.fill: parent
+
+        pageTitle: "Quick setup"
 
         signal requestTournamentPage
 
@@ -17,12 +17,20 @@ BlackPageWithHeader {
                 anchors.fill: parent
                 flow: GridLayout.TopToBottom
 
-                EndgameSelector {
+                Text {
+                        height: 32
+                        Layout.fillWidth: true
+                        font.pointSize: 20
+                        color: "white"
+                        text: "Game style"
+                        horizontalAlignment: Text.AlignHCenter
+                }
+
+                WinnerSelector {
                         id: winnerSelector
                         Layout.alignment: Qt.AlignHCenter
-                        height: 48
+                        height: 128
                         width: 300
-                        onRequestDialog: Dialogs.winnerModeDialog(confirmPage, winnerSelector.setCurrentValues)
                 }
 
                 Rectangle {
@@ -31,12 +39,12 @@ BlackPageWithHeader {
 
                 Rectangle {
                         color: "transparent"
-                        height: 24
+                        height: 32
                         Layout.alignment: Qt.AlignHCenter
                         width: 300
                         GridLayout {
                                 anchors.fill: parent
-                                PushButton {
+                                Button {
                                         Layout.alignment: Qt.AlignRight
                                         Layout.fillHeight: true
                                         width: 64
@@ -44,7 +52,7 @@ BlackPageWithHeader {
                                         onClicked: backClicked()
                                 }
 
-                                PushButton {
+                                Button {
                                         Layout.alignment: Qt.AlignLeft
                                         Layout.fillHeight: true
                                         width: 64

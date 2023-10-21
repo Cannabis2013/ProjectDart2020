@@ -1,7 +1,7 @@
 #ifndef DARTSSTATUS_H
 #define DARTSSTATUS_H
 
-#include "src/DartsController/status/IDartsStatus.h"
+#include "src/DartsController/status/idartsstatus.h"
 #include <QFile>
 #include <QJsonDocument>
 #include <QJsonObject>

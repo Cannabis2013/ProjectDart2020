@@ -2,7 +2,7 @@ import QtQuick 2.15
 import QtQuick.Layouts 1.3
 import "../templates"
 
-BlackPageWithHeader {
+PageWithHeader {
         pageTitle: "About"
         GridLayout {
                 anchors.fill: parent

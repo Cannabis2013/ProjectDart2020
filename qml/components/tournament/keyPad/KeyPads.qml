@@ -2,7 +2,6 @@ import QtQuick 2.15
 import QtQuick.Layouts 1.3
 
 import "../../../components/geometry"
-import "../../../components/buttons"
 import "keyPadBuilder.js" as Builder
 
 TransparentRect {

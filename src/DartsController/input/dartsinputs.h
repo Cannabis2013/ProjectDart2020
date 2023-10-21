@@ -4,7 +4,7 @@
 #include "IDartsInputs.h"
 #include "src/DartsController/indexes/IDartsIndexes.h"
 #include "src/DartsController/input/inputsio.h"
-#include "src/DartsController/players/IDartsPlayers.h"
+#include "src/DartsController/players/idartsplayers.h"
 
 #include <QList>
 

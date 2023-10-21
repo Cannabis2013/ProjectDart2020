@@ -2,9 +2,9 @@
 #define DARTINPUTEVALUATOR_H
 
 #include "idartsevaluator.h"
-#include "src/DartsController/players/IDartsPlayers.h"
-#include "src/DartsController/scores/IDartsScores.h"
-#include "src/DartsController/status/IDartsStatus.h"
+#include "src/DartsController/players/idartsplayers.h"
+#include "src/DartsController/scores/idartsscores.h"
+#include "src/DartsController/status/idartsstatus.h"
 #include <iostream>
 
 using namespace std;

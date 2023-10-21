@@ -4,7 +4,7 @@
 #include "src/DartsController/indexes/IDartsIndexes.h"
 #include "src/DartsController/input/IDartsInputs.h"
 #include "src/DartsController/input/idartsinputadder.h"
-#include "src/DartsController/status/IDartsStatus.h"
+#include "src/DartsController/status/idartsstatus.h"
 #include "src/DartsController/validation/idartsevaluator.h"
 
 class DartsInputAdder : public IDartsInputAdder {

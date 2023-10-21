@@ -3,11 +3,11 @@
 
 #include "src/DartsController/Finishes/idartsfinishes.h"
 #include "src/DartsController/indexes/IDartsIndexes.h"
-#include "src/DartsController/players/IDartsPlayers.h"
+#include "src/DartsController/players/idartsplayers.h"
 #include "src/DartsController/responses/idartsinforesponse.h"
-#include "src/DartsController/scores/IDartsScores.h"
+#include "src/DartsController/scores/idartsscores.h"
 #include "src/DartsController/statistics/idartsstatistics.h"
-#include "src/DartsController/status/IDartsStatus.h"
+#include "src/DartsController/status/idartsstatus.h"
 
 class DartsTurnValues : public IDartsInfoResponse {
         // IDartInfoResponse interface

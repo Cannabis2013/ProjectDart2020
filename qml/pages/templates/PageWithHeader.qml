@@ -1,8 +1,12 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.15
 
-BlackPage {
+Page {
         signal backClicked
+
+        background: Rectangle {
+                color: "transparent"
+        }
 
         property string buttonText: pageHeader.buttonText
         onButtonTextChanged: pageHeader.buttonText = buttonText
@@ -13,7 +17,6 @@ BlackPage {
         header: PageHeader {
                 id: pageHeader
                 onBackButtonClicked: backClicked()
-                color: "#121212"
         }
 
         anchors.fill: parent

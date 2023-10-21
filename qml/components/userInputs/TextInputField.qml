@@ -1,7 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
-
-import "../../components/buttons"
+import QtQuick.Controls
 
 Rectangle {
         id: textFieldRect
@@ -52,10 +51,12 @@ Rectangle {
                         width: 1
                 }
 
-                PushButton {
+                Button {
                         text: "+"
-                        radius: 0
-                        backgroundColor: "white"
+                        background: Rectangle {
+                                color: "white"
+                        }
+
                         height: 32
                         width: 32
                         onClicked: {

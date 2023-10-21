@@ -5,8 +5,7 @@
 #include "dartsindex.h"
 #include "src/DartsController/indexes/indexesio.h"
 
-class DartsIndexes : public IDartsIndexes
-{
+    class DartsIndexes : public IDartsIndexes {
 public:
         DartsIndexes();
 

@@ -20,7 +20,6 @@
         <file>Ressources/aboutContent.dat</file>
     </qresource>
     <qresource prefix="/">
-        <file>qml/components/buttons/PushButton.qml</file>
         <file>qml/components/geometry/TransparentRect.qml</file>
         <file>qml/components/playersView/PlayerNameDelegate.qml</file>
         <file>qml/components/playersView/PlayersView.qml</file>
@@ -39,18 +38,16 @@
         <file>qml/pages/setup/QuickSetup.qml</file>
         <file>qml/pages/setup/SetupTournamentPage.qml</file>
         <file>qml/pages/start/Anti1964BackDrop.qml</file>
-        <file>qml/pages/start/StartMenuButton.qml</file>
         <file>qml/pages/start/StartPage.qml</file>
-        <file>qml/pages/templates/BlackPage.qml</file>
-        <file>qml/pages/templates/BlackPageWithHeader.qml</file>
+        <file>qml/pages/templates/PageWithHeader.qml</file>
         <file>qml/pages/templates/PageHeader.qml</file>
         <file>qml/pages/tournament/TournamentPage.qml</file>
         <file>qml/pages/tournament/tournamentPageScripts.js</file>
         <file>qml/main.qml</file>
         <file>qml/PageLoader.qml</file>
-        <file>qml/pages/setup/EndgameSelector.qml</file>
-        <file>qml/pages/setup/OptionBox.qml</file>
-        <file>qml/pages/setup/OptionsDialog.qml</file>
-        <file>qml/pages/setup/qmlDialogs.js</file>
+        <file>qml/pages/setup/WinnerOption.qml</file>
+        <file>qml/pages/setup/WinnerSelector.qml</file>
+        <file>qml/pages/setup/setupScripts.js</file>
+        <file>qtquickcontrols2.conf</file>
     </qresource>
 </RCC>

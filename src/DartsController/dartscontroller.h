@@ -11,15 +11,16 @@
 #include "src/DartsController/input/idartsinputadder.h"
 #include "src/DartsController/players/dartsplayers.h"
 #include "src/DartsController/responses/idartsinforesponse.h"
-#include "src/DartsController/scores/IDartsScores.h"
 #include "src/DartsController/scores/dartsscores.h"
+#include "src/DartsController/scores/idartsscores.h"
 #include "src/DartsController/statistics/dartsstatistics.h"
 #include "src/DartsController/statistics/idartsstatistics.h"
-#include "src/DartsController/status/IDartsStatus.h"
 #include "src/DartsController/status/dartsstatus.h"
+#include "src/DartsController/status/idartsstatus.h"
+#include "src/DartsController/validation/dartsevaluators.h"
 #include "src/DartsController/validation/idartsevaluator.h"
 #include <QObject>
-#include <src/DartsController/players/IDartsPlayers.h>
+#include <src/DartsController/players/idartsplayers.h>
 #include <src/DartsController/responses/dartsturnvalues.h>
 
 class DartsController : public QObject {
@@ -36,6 +37,7 @@ public:
                 _statistics = new DartsStatistics(_inputs, _scores, _indexes);
                 _turnValues = new DartsTurnValues(_players, _indexes, _statistics, _finishes, _scores, _status);
                 _adder = new DartsInputAdder(_inputs, &_evaluator, _indexes, _status);
+                _evaluators = new DartsEvaluators(_scores, _players, _status);
         }
         Q_INVOKABLE void init(const QStringList& playerNames, const int& mode);
         Q_INVOKABLE void initFromSaved();
@@ -59,5 +61,6 @@ private:
         IDartsFinishes* _finishes = nullptr;
         IDartsStatus* _status = nullptr;
         IDartsInputAdder* _adder = nullptr;
+        DartsEvaluators* _evaluators = nullptr;
 };
 #endif // FIVEHUNDREDANDONEGAME_H

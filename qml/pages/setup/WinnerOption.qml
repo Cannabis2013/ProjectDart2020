@@ -2,7 +2,6 @@ import QtQuick 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.15
 
-import "../../components/buttons"
 import "../templates"
 
 Rectangle {
@@ -11,19 +10,11 @@ Rectangle {
         property string description: ""
         property int value: -1
         property bool selected: false
-        onSelectedChanged: backDrop.color = selected ? "blue" : "green"
+        onSelectedChanged: optionRect.color = selected ? "blue" : "green"
 
         radius: 12
 
-        layer.effect: ShaderEffect {}
-
-        Rectangle {
-                id: backDrop
-                radius: 12
-                anchors.fill: parent
-                opacity: 0.8
-                color: "green"
-        }
+        color: "green"
 
         Rectangle {
                 id: innerRect
@@ -40,6 +31,8 @@ Rectangle {
                                 Layout.fillWidth: true
                                 text: qsTr(title)
                                 color: "white"
+                                font.weight: Font.Bold
+                                font.pointSize: 20
                         }
 
                         Text {
@@ -48,6 +41,7 @@ Rectangle {
                                 Layout.fillWidth: true
                                 text: qsTr(description)
                                 wrapMode: Text.WordWrap
+                                font.pointSize: 12
                                 color: "white"
                         }
                 }
@@ -55,6 +49,6 @@ Rectangle {
 
         MouseArea {
                 anchors.fill: parent
-                onReleased: optionClicked(optionRect.title, optionRect.value)
+                onReleased: optionClicked(optionRect.value)
         }
 }

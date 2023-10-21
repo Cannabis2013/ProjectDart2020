@@ -1,5 +1,5 @@
 #include "dartscontroller.h"
-#include "src/DartsController/validation/DartsEvaluators.h"
+#include "src/DartsController/validation/dartsevaluators.h"
 
 void DartsController::init(const QStringList& playerNames, const int& mode)
 {
@@ -8,7 +8,7 @@ void DartsController::init(const QStringList& playerNames, const int& mode)
         _inputs->init();
         _scores->init();
         _status->init();
-        _evaluator = DartsEvaluators(_scores, _players, _status).validator(mode);
+        _evaluator = _evaluators->validator(mode);
 }
 
 QStringList DartsController::playerNames() const
@@ -23,6 +23,7 @@ void DartsController::initFromSaved()
         _inputs->initFromFile();
         _scores->initFromFile();
         _status->initFromFile();
+        _evaluator = _evaluators->validator();
 }
 
 void DartsController::saveState()
@@ -32,6 +33,7 @@ void DartsController::saveState()
         _inputs->saveState();
         _players->saveState();
         _status->saveState();
+        _evaluators->saveState();
 }
 
 QByteArray DartsController::playerScores() const

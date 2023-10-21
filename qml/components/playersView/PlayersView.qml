@@ -1,5 +1,4 @@
 import QtQuick 2.15
-import "../../components/buttons"
 
 Flickable {
         clip: true

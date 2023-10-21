@@ -5,10 +5,9 @@ import "../../components/tournament/turn"
 import "../../components/tournament/players"
 import "../../components/tournament/keyPad"
 import "../templates"
-import "../../components/buttons"
 import "tournamentPageScripts.js" as PageScripts
 
-BlackPageWithHeader {
+PageWithHeader {
         id: tournamentPage
 
         buttonText: "Menu"

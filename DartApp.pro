@@ -43,8 +43,8 @@ HEADERS += \
     src/DartsController/input/inputsio.h \
     src/DartsController/input/inputsservice.h \
     src/DartsController/players/DartsPlayer.h \
-    src/DartsController/players/IDartsPlayers.h \
     src/DartsController/players/dartsplayers.h \
+    src/DartsController/players/idartsplayers.h \
     src/DartsController/players/playersio.h \
     src/DartsController/responses/ErrorInfo.h \
     src/DartsController/responses/InitialValueInfo.h \
@@ -53,18 +53,18 @@ HEADERS += \
     src/DartsController/responses/statusInfo.h \
     src/DartsController/responses/winnerInfo.h \
     src/DartsController/scores/DartsPlayerScores.h \
-    src/DartsController/scores/IDartsScores.h \
     src/DartsController/scores/Score.h \
     src/DartsController/scores/dartsPlayerScore.h \
     src/DartsController/scores/dartsscores.h \
+    src/DartsController/scores/idartsscores.h \
     src/DartsController/scores/scorescalculator.h \
     src/DartsController/scores/scoresio.h \
     src/DartsController/statistics/dartsstatistics.h \
     src/DartsController/statistics/idartsstatistics.h \
     src/DartsController/statistics/statistics.h \
-    src/DartsController/status/IDartsStatus.h \
     src/DartsController/status/dartsstatus.h \
-    src/DartsController/validation/DartsEvaluators.h \
+    src/DartsController/status/idartsstatus.h \
+    src/DartsController/validation/dartsevaluators.h \
     src/DartsController/validation/dartsofficialvalidator.h \
     src/DartsController/validation/dartsoverthrowvalidator.h \
     src/DartsController/validation/idartsevaluator.h \
@@ -89,6 +89,7 @@ SOURCES += \
     src/DartsController/scores/scorescalculator.cpp \
     src/DartsController/statistics/dartsstatistics.cpp \
     src/DartsController/status/dartsstatus.cpp \
+    src/DartsController/validation/dartsevaluators.cpp \
     src/DartsController/validation/dartsofficialvalidator.cpp \
     src/DartsController/validation/dartsoverthrowvalidator.cpp \
     src/FileIO/filejsonio.cpp \

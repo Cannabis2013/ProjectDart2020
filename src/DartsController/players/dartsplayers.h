@@ -1,7 +1,7 @@
 #ifndef DARTPLAYERS_H
 #define DARTPLAYERS_H
 
-#include "IDartsPlayers.h"
+#include "idartsplayers.h"
 #include "src/DartsController/indexes/IDartsIndexes.h"
 #include "src/DartsController/players/DartsPlayer.h"
 #include "src/DartsController/players/playersio.h"

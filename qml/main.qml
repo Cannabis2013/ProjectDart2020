@@ -7,7 +7,9 @@ ApplicationWindow {
         readonly property int defaultPageContentWidth: 512
 
         visible: true
-        color: "black"
+        background: Rectangle {
+                color: "#121212"
+        }
 
         minimumHeight: 640
         minimumWidth: 400
