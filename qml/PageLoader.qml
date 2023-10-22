@@ -3,7 +3,8 @@ import QtQuick 2.12
 import "./pages/tournament"
 import "./pages/about"
 import "./pages/start"
-import "./pages/setup"
+import "./pages/setup/full"
+import "./pages/setup/quick"
 
 Item {
         id: body

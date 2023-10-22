@@ -2,17 +2,22 @@ import QtQuick 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.15
 
-import "../templates"
-
 Rectangle {
         color: "transparent"
 
+        property string configKey: "winCond"
+
         signal optionClicked(int value)
         onOptionClicked: value => {
-                                 optionOne.selected = optionOne.value === value
-                                 optionTwo.selected = optionTwo.value === value
-                                 selectedValue = value
+                                 setSelectedValue(value)
+                                 dartsConfig.setConfigData(configKey, value.toString())
                          }
+
+        function setSelectedValue(value) {
+                optionOne.selected = optionOne.value === value
+                optionTwo.selected = optionTwo.value === value
+                selectedValue = value
+        }
 
         property int selectedValue: 0
 
@@ -38,5 +43,13 @@ Rectangle {
                         value: 0
                         selected: true
                 }
+        }
+
+        Component.onCompleted: {
+                const value = dartsConfig.readConfigData(configKey)
+                if (value)
+                        setSelectedValue(parseInt(value))
+                else
+                        setSelectedValue(0)
         }
 }

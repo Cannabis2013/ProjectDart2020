@@ -20,34 +20,35 @@
         <file>Ressources/aboutContent.dat</file>
     </qresource>
     <qresource prefix="/">
-        <file>qml/components/geometry/TransparentRect.qml</file>
-        <file>qml/components/playersView/PlayerNameDelegate.qml</file>
-        <file>qml/components/playersView/PlayersView.qml</file>
-        <file>qml/components/tournament/keyPad/keyPadBuilder.js</file>
-        <file>qml/components/tournament/keyPad/KeyPads.qml</file>
-        <file>qml/components/tournament/keyPad/ModPad.qml</file>
-        <file>qml/components/tournament/keyPad/NumberPad.qml</file>
-        <file>qml/components/tournament/keyPad/Pad.qml</file>
-        <file>qml/components/tournament/players/PlayerScore.qml</file>
-        <file>qml/components/tournament/players/PlayerScores.qml</file>
-        <file>qml/components/tournament/players/scoresScripts.js</file>
-        <file>qml/components/tournament/turn/TurnInformation.qml</file>
-        <file>qml/components/userInputs/TextInputBox.qml</file>
-        <file>qml/components/userInputs/TextInputField.qml</file>
         <file>qml/pages/about/AboutPage.qml</file>
-        <file>qml/pages/setup/QuickSetup.qml</file>
-        <file>qml/pages/setup/SetupTournamentPage.qml</file>
+        <file>qml/pages/setup/full/playersView/PlayerNameDelegate.qml</file>
+        <file>qml/pages/setup/full/playersView/PlayersView.qml</file>
+        <file>qml/pages/setup/full/setupScripts.js</file>
+        <file>qml/pages/setup/full/SetupTournamentPage.qml</file>
+        <file>qml/pages/setup/quick/QuickSetup.qml</file>
+        <file>qml/pages/setup/selectors/WinnerOption.qml</file>
+        <file>qml/pages/setup/selectors/WinnerSelector.qml</file>
         <file>qml/pages/start/Anti1964BackDrop.qml</file>
         <file>qml/pages/start/StartPage.qml</file>
-        <file>qml/pages/templates/PageWithHeader.qml</file>
         <file>qml/pages/templates/PageHeader.qml</file>
+        <file>qml/pages/templates/PageWithHeader.qml</file>
+        <file>qml/pages/tournament/keyPad/keyPadBuilder.js</file>
+        <file>qml/pages/tournament/keyPad/KeyPads.qml</file>
+        <file>qml/pages/tournament/keyPad/ModPad.qml</file>
+        <file>qml/pages/tournament/keyPad/NumberPad.qml</file>
+        <file>qml/pages/tournament/keyPad/Pad.qml</file>
+        <file>qml/pages/tournament/players/PlayerScore.qml</file>
+        <file>qml/pages/tournament/players/PlayerScores.qml</file>
+        <file>qml/pages/tournament/players/scoresScripts.js</file>
+        <file>qml/pages/tournament/turn/TurnInformation.qml</file>
         <file>qml/pages/tournament/TournamentPage.qml</file>
         <file>qml/pages/tournament/tournamentPageScripts.js</file>
+        <file>qml/sharedComponents/buttons/ButtonGroup.qml</file>
+        <file>qml/sharedComponents/geometry/TransparentRect.qml</file>
+        <file>qml/sharedComponents/userInputs/TextInputBox.qml</file>
+        <file>qml/sharedComponents/userInputs/TextInputField.qml</file>
         <file>qml/main.qml</file>
         <file>qml/PageLoader.qml</file>
-        <file>qml/pages/setup/WinnerOption.qml</file>
-        <file>qml/pages/setup/WinnerSelector.qml</file>
-        <file>qml/pages/setup/setupScripts.js</file>
         <file>qtquickcontrols2.conf</file>
     </qresource>
 </RCC>

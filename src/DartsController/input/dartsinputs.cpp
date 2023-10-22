@@ -1,5 +1,4 @@
 #include "dartsinputs.h"
-
 #include <src/FileIO/filejsonio.h>
 
 using namespace std;

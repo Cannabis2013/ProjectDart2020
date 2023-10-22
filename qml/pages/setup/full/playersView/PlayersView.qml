@@ -18,20 +18,20 @@ Flickable {
         }
 
         signal appendName(string name)
-        onAppendName: {
-                const existingNames = playerNameContainer.names
-                for (var i = 0; i < existingNames.length; i++) {
-                        const n = existingNames[i]
-                        if (n === name)
-                                return
-                }
+        onAppendName: name => {
+                              const existingNames = playerNameContainer.names
+                              for (var i = 0; i < existingNames.length; i++) {
+                                      const n = existingNames[i]
+                                      if (n === name)
+                                      return
+                              }
 
-                const obj = {
-                        "name": name
-                }
-                existingNames.push(obj.name)
-                playersModel.append(obj)
-        }
+                              const obj = {
+                                      "name": name
+                              }
+                              existingNames.push(obj.name)
+                              playersModel.append(obj)
+                      }
 
         boundsBehavior: Flickable.StopAtBounds
         contentHeight: playersModel.count * 70 - 6

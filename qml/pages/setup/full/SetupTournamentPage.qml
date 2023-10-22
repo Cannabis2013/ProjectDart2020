@@ -2,9 +2,11 @@ import QtQuick 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls
 
-import "../templates"
-import "../../components/playersView"
-import "../../components/userInputs"
+import "../../templates"
+import "./playersView"
+import "../../../sharedComponents/userInputs"
+import "../../../sharedComponents/buttons"
+import "../selectors"
 import "setupScripts.js" as Setup
 
 PageWithHeader {
@@ -47,8 +49,9 @@ PageWithHeader {
                 TextInputField {
                         height: 32
                         width: 256
+                        placeholder: "Add player name"
                         Layout.alignment: Qt.AlignHCenter
-                        onValueChanged: playerNamesList.appendName(value)
+                        onValueChanged: value => playerNamesList.appendName(value)
                 }
 
                 PlayersView {
@@ -58,11 +61,13 @@ PageWithHeader {
                         Layout.alignment: Qt.AlignHCenter
                 }
 
-                Button {
-                        text: "Begin"
-                        height: 32
-                        Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
-                        onClicked: Setup.startGame()
+                ButtonGroup {
+                        height: 48
+                        width: 256
+                        Layout.alignment: Qt.AlignHCenter
+                        acceptButtonTitle: "Play"
+                        onBackClicked: setupPage.backClicked()
+                        onAcceptClicked: Setup.startGame()
                 }
         }
 }

@@ -18,6 +18,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES += qml.qrc \
 
 HEADERS += \
+    src/Config/dartsconfig.h \
     src/DartsController/Finishes/dartsThresholds.h \
     src/DartsController/Finishes/dartsboundaries.h \
     src/DartsController/Finishes/dartscreatefinishes.h \
@@ -72,6 +73,7 @@ HEADERS += \
     src/QmlContext/setupqmlcontext.h
 
 SOURCES += \
+    src/Config/dartsconfig.cpp \
     src/DartsController/Finishes/dartsThresholds.cpp \
     src/DartsController/Finishes/dartscreatefinishes.cpp \
     src/DartsController/Finishes/dartsfinishes.cpp \

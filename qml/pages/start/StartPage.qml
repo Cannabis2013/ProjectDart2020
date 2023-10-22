@@ -29,7 +29,7 @@ Page {
                 Button {
                         Layout.alignment: Qt.AlignHCenter
                         width: 192
-                        Layout.maximumHeight: 32
+                        Layout.maximumHeight: 48
                         text: "1v1"
                         onClicked: quickGameClicked()
                         opacity: 1
@@ -38,7 +38,7 @@ Page {
                 Button {
                         Layout.alignment: Qt.AlignHCenter
                         width: 192
-                        Layout.maximumHeight: 32
+                        Layout.maximumHeight: 48
                         text: "Practice"
                         onClicked: {
                                 dartsController.init(["I"], 0)
@@ -49,7 +49,7 @@ Page {
                 Button {
                         Layout.alignment: Qt.AlignHCenter
                         width: 192
-                        Layout.maximumHeight: 32
+                        Layout.maximumHeight: 48
                         text: "Start game"
                         onClicked: {
                                 setupGameClicked()
@@ -59,7 +59,7 @@ Page {
                 Button {
                         Layout.alignment: Qt.AlignHCenter
                         width: 192
-                        Layout.maximumHeight: 32
+                        Layout.maximumHeight: 48
                         text: "Resume from last game"
                         onClicked: {
                                 dartsController.initFromSaved()
@@ -70,7 +70,7 @@ Page {
                 Button {
                         Layout.alignment: Qt.AlignHCenter
                         width: 192
-                        Layout.maximumHeight: 32
+                        Layout.maximumHeight: 48
                         text: "About"
                         onClicked: requestAboutPage()
                 }
@@ -78,7 +78,7 @@ Page {
                 Button {
                         Layout.alignment: Qt.AlignHCenter
                         width: 192
-                        Layout.maximumHeight: 32
+                        Layout.maximumHeight: 48
                         text: "Quit"
                         onClicked: Qt.quit()
                 }

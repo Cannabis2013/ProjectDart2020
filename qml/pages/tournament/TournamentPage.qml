@@ -1,9 +1,9 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 
-import "../../components/tournament/turn"
-import "../../components/tournament/players"
-import "../../components/tournament/keyPad"
+import "./turn"
+import "./players"
+import "./keyPad"
 import "../templates"
 import "tournamentPageScripts.js" as PageScripts
 

@@ -2,7 +2,7 @@ import QtQuick 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls
 
-import "../../../components/geometry"
+import "../../../sharedComponents/geometry"
 
 TransparentRect {
         id: turnRect

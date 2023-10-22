@@ -9,6 +9,9 @@ Rectangle {
 
         signal valueChanged(string value)
 
+        property string placeholder: "placeholder"
+        onPlaceholderChanged: nameInputBox.placeholder = placeholder
+
         Keys.onReturnPressed: {
                 const value = nameInputBox.textValue
                 if (value == "")
@@ -29,13 +32,6 @@ Rectangle {
                 anchors.fill: parent
                 flow: GridLayout.LeftToRight
                 columnSpacing: 0
-                Text {
-                        height: 32
-                        width: 64
-                        font.pointSize: 12
-                        color: "white"
-                        text: "Enter name"
-                }
 
                 Rectangle {
                         width: 6
@@ -45,6 +41,7 @@ Rectangle {
                         id: nameInputBox
                         Layout.fillWidth: true
                         height: 32
+                        placeholder: textFieldRect.placeholder
                 }
 
                 Rectangle {
@@ -52,13 +49,23 @@ Rectangle {
                 }
 
                 Button {
-                        text: "+"
                         background: Rectangle {
                                 color: "white"
+                                anchors.fill: parent
                         }
 
-                        height: 32
+                        Layout.fillHeight: true
                         width: 32
+
+                        Text {
+                                anchors.fill: parent
+                                horizontalAlignment: Text.AlignHCenter
+                                verticalAlignment: Text.AlignVCenter
+                                text: "+"
+                                font.pointSize: 20
+                                font.weight: Font.Bold
+                        }
+
                         onClicked: {
                                 const value = nameInputBox.textValue
                                 if (value == "")
