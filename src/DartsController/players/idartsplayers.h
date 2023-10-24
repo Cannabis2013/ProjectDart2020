@@ -6,8 +6,9 @@
 class IDartsPlayers
 {
 public:
-        virtual void initPlayers(const QStringList &names) = 0;
-        virtual void initPlayers() = 0;
+        virtual void init(const QStringList &names) = 0;
+        virtual void initFromFile() = 0;
+        virtual void reset() = 0;
         virtual int playersCount() const = 0;
         virtual bool saveState() = 0;
         virtual int indexOf(const QString& name) const = 0;

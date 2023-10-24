@@ -16,7 +16,7 @@ public:
 
 private:
         void trimInputs();
-        void nullifyTurn();
+        void removeTurnInputs();
 
         bool persistInput(const Input& input);
 

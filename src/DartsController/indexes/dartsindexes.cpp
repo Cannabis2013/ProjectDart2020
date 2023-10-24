@@ -1,19 +1,10 @@
 #include "dartsindexes.h"
 #include <src/FileIO/filejsonio.h>
 
-DartsIndexes::DartsIndexes()
+void DartsIndexes::reset()
 {
-        _indexesIO = new IndexesIO("indexes.dat");
-}
-
-void DartsIndexes::init(const int& playerCount)
-{
-        _indexes = DartsIndex(playerCount);
-}
-
-void DartsIndexes::initFromFile()
-{
-        _indexes = _indexesIO->loadIndexes();
+        auto count = _indexes.playersCount;
+        _indexes = DartsIndex(count);
 }
 
 bool DartsIndexes::next()
@@ -29,9 +20,8 @@ bool DartsIndexes::undo()
                 return false;
         if (--_indexes.turnIndex < 0) {
                 _indexes.turnIndex = 2;
-                if (--_indexes.playerIndex < 0) {
+                if (--_indexes.playerIndex < 0)
                         _indexes.playerIndex = _indexes.playersCount - 1;
-                }
         }
         _indexes.throwIndex--;
         return true;
@@ -46,26 +36,6 @@ bool DartsIndexes::redo()
         return true;
 }
 
-bool DartsIndexes::canUndo()
-{
-        return _indexes.throwIndex > 0;
-}
-
-bool DartsIndexes::canRedo()
-{
-        return _indexes.throwIndex < _indexes.totalTurns;
-}
-
-bool DartsIndexes::saveState()
-{
-        return _indexesIO->saveIndexes(_indexes);
-}
-
-const DartsTurnIndex DartsIndexes::index() const
-{
-        return DartsTurnIndex(_indexes);
-}
-
 void DartsIndexes::skipturn()
 {
         auto index = 3 - _indexes.turnIndex;
@@ -77,8 +47,7 @@ void DartsIndexes::nextTurn()
 {
         if (++_indexes.turnIndex > 2) {
                 _indexes.turnIndex = 0;
-                if (++_indexes.playerIndex >= _indexes.playersCount) {
+                if (++_indexes.playerIndex >= _indexes.playersCount)
                         _indexes.playerIndex = 0;
-                }
         }
 }

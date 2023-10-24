@@ -12,6 +12,11 @@ public:
         {
         }
 
+        Score(QString name)
+            : _name(name)
+        {
+        }
+
         Score(const QJsonObject &jsonObj){
                 _name = jsonObj["playerName"].toString("");
                 _score = jsonObj["playerScore"].toInt(-1);
@@ -36,7 +41,7 @@ public:
 
 private:
         QString _name;
-        int _score;
+        int _score = 0;
 };
 
 

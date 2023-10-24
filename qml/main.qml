@@ -22,15 +22,15 @@ ApplicationWindow {
                 id: keyListener
                 anchors.fill: parent
                 focus: true
-                Keys.onPressed: {
-                        if (event.key === Qt.Key_Q && event.modifiers & Qt.ControlModifier) {
-                                destructor()
-                                event.accepted = true
-                        } else if (event.key === Qt.Key_Back) {
-                                mainPage.backPushed()
-                                event.accepted = true
-                        }
-                }
+                Keys.onPressed: event => {
+                                        if (event.key === Qt.Key_Q && event.modifiers & Qt.ControlModifier) {
+                                                destructor()
+                                                event.accepted = true
+                                        } else if (event.key === Qt.Key_Back) {
+                                                mainPage.backPushed()
+                                                event.accepted = true
+                                        }
+                                }
         }
 
         PageLoader {

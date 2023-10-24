@@ -25,6 +25,18 @@ QList<Input> DartsInputs::inputs(const QString& playerName, const int& throwInde
         return playerInputs;
 }
 
+void DartsInputs::remove(const std::function<bool(const Input&)>& predicate)
+{
+        _inputs = [=]() {
+                QList<Input> filtered;
+                for (const auto& input : _inputs) {
+                        if (predicate(input))
+                                filtered << input;
+                }
+                return filtered;
+        }();
+}
+
 Input DartsInputs::save(Input input)
 {
         input.setPlayerName(_players->name());

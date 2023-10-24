@@ -2,18 +2,23 @@
 #define FILEJSONIO_H
 
 #include <qbytearray.h>
-#include <qdatastream.h>
 #include <qfile.h>
 
 class FileJsonIO
 {
 public:
-    FileJsonIO(const QString &fileName);
-    QByteArray read();
-    bool write(const QByteArray &byteArray);
+        FileJsonIO(const QString& fileName);
+        QByteArray read();
+        bool write(const QByteArray& json);
 
 private:
-    const QString _fileName;
+        // Class member methods
+        QFile* openFile(const QString& filename, const QIODeviceBase::OpenMode& mode);
+        QByteArray readJson(QFile* const file);
+        bool writeJson(QFile* const file, const QByteArray& json);
+
+        // Class member variable
+        const QString _fileName;
 };
 
 #endif // READBYTEARRAY_H

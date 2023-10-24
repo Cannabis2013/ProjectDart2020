@@ -7,7 +7,6 @@
 class IDartsScores
 {
 public:
-        virtual void reset() = 0;
         virtual void init() = 0;
         virtual void initFromFile() = 0;
         virtual bool saveState() = 0;

@@ -86,4 +86,5 @@ function createBustPad(height, width, parentObj) {
                                                       "backgroundColor": "orange"
                                               })
         object.padClicked.connect(keyPadRect.specialClicked)
+        object.padLongClicked.connect(keyPadRect.bustTurn)
 }

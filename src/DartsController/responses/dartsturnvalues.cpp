@@ -7,10 +7,10 @@ DartsTurnValues::DartsTurnValues(IDartsPlayers* players, IDartsIndexes* _indexes
     , _finishes(finishes)
     , _scores(scores)
     , _status(status)
-{}
-
-QByteArray DartsTurnValues::currentTurnInfo()
 {
+}
+
+QByteArray DartsTurnValues::currentTurnInfo(){
         QJsonObject jsonObj;
         jsonObj["turnIndexes"] = turnIndex();
         jsonObj["playerScores"] = playerScores();
@@ -19,12 +19,10 @@ QByteArray DartsTurnValues::currentTurnInfo()
         jsonObj["winnerName"] = _players->winnerName();
         jsonObj["suggestions"] = finish();
         jsonObj["statistics"] = statistics();
-        auto jsonDoc = new QJsonDocument(jsonObj);
-        return jsonDoc->toJson(QJsonDocument::Compact);
+        return QJsonDocument(jsonObj).toJson(QJsonDocument::Compact);
 }
 
-QJsonArray DartsTurnValues::playerScores()
-{
+QJsonArray DartsTurnValues::playerScores(){
         QJsonArray jsonArr;
         auto scores = _scores->scores();
         for (const auto& score : scores.playerScores()) {
@@ -36,8 +34,7 @@ QJsonArray DartsTurnValues::playerScores()
         return jsonArr;
 }
 
-QJsonObject DartsTurnValues::turnIndex()
-{
+QJsonObject DartsTurnValues::turnIndex(){
         QJsonObject jsonObj;
         jsonObj["canUndo"] = _indexes->canUndo();
         jsonObj["canRedo"] = _indexes->canRedo();
@@ -45,8 +42,7 @@ QJsonObject DartsTurnValues::turnIndex()
         return jsonObj;
 }
 
-QJsonArray DartsTurnValues::statistics()
-{
+QJsonArray DartsTurnValues::statistics(){
         QJsonArray jsonArr;
         const auto playerNames = _players->names();
         for (const auto& playerName : playerNames)
@@ -54,8 +50,7 @@ QJsonArray DartsTurnValues::statistics()
         return jsonArr;
 }
 
-QJsonObject DartsTurnValues::finish()
-{
+QJsonObject DartsTurnValues::finish(){
         QJsonObject jsonObj;
         auto remaining = _scores->score().playerScore();
         jsonObj["finish"] = _finishes->suggestTargetRow(remaining, _indexes->index().turnIndex());

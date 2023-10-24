@@ -9,16 +9,22 @@ DartsPlayers::DartsPlayers(IDartsIndexes* indexes)
         _playersIO = new PlayersIO("players.dat");
 }
 
-void DartsPlayers::initPlayers(const QStringList& names)
+void DartsPlayers::init(const QStringList& names)
 {
         _players.clear();
         for (const auto& name : names)
                 _players << DartsPlayer(name);
 }
 
-void DartsPlayers::initPlayers()
+void DartsPlayers::initFromFile()
 {
         _players = _playersIO->initFromFile();
+}
+
+void DartsPlayers::reset()
+{
+        for (auto& player : _players)
+                player.setWinner(false);
 }
 
 QString DartsPlayers::name(int index) const

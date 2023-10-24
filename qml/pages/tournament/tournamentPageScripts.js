@@ -30,7 +30,7 @@ function winnerFound(jsonObj) {
         updateTurnComp(jsonObj["turnIndexes"])
         updateScoreBoxes(jsonObj["playerScores"], jsonObj["statistics"])
         keyPad.enabled = false
-        targetRow.text = `WINNER: ${playerName}`
+        winnerModal.show(`WINNER: ${jsonObj["winnerName"]}`)
 }
 
 function updateTurnComp(json) {
@@ -67,4 +67,9 @@ function updateStatistic(jsonObj) {
 
 function updatefinish(jsonObj) {
         targetRow.text = jsonObj["finish"]
+}
+
+function restartGame() {
+        dartsController.reset()
+        updateTurnInfo()
 }

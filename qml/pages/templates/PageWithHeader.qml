@@ -2,7 +2,9 @@ import QtQuick 2.0
 import QtQuick.Controls 2.15
 
 Page {
+        id: pageRect
         signal backClicked
+        signal backLongClicked
 
         background: Rectangle {
                 color: "transparent"
@@ -16,7 +18,8 @@ Page {
 
         header: PageHeader {
                 id: pageHeader
-                onBackButtonClicked: backClicked()
+                onBackButtonClicked: pageRect.backClicked()
+                onBackButtonLongClicked: pageRect.backLongClicked()
         }
 
         anchors.fill: parent

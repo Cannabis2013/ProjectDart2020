@@ -1,9 +1,7 @@
 #include "dartscontroller.h"
-#include "src/DartsController/validation/dartsevaluators.h"
 
-void DartsController::init(const QStringList& playerNames, const int& mode)
-{
-        _players->initPlayers(playerNames);
+void DartsController::init(const QStringList& playerNames, const int& mode){
+        _players->init(playerNames);
         _indexes->init(playerNames.count());
         _inputs->init();
         _scores->init();
@@ -11,14 +9,8 @@ void DartsController::init(const QStringList& playerNames, const int& mode)
         _evaluator = _evaluators->validator(mode);
 }
 
-QStringList DartsController::playerNames() const
-{
-        return _players->names();
-}
-
-void DartsController::initFromSaved()
-{
-        _players->initPlayers();
+void DartsController::initFromSaved(){
+        _players->initFromFile();
         _indexes->initFromFile();
         _inputs->initFromFile();
         _scores->initFromFile();
@@ -26,8 +18,16 @@ void DartsController::initFromSaved()
         _evaluator = _evaluators->validator();
 }
 
-void DartsController::saveState()
+void DartsController::reset()
 {
+        _players->reset();
+        _indexes->reset();
+        _inputs->init();
+        _scores->init();
+        _status->init();
+}
+
+void DartsController::saveState(){
         _indexes->saveState();
         _scores->saveState();
         _inputs->saveState();
@@ -36,33 +36,20 @@ void DartsController::saveState()
         _evaluators->saveState();
 }
 
-QByteArray DartsController::playerScores() const
-{
-        return _scores->scores().toJson();
-}
-
-QByteArray DartsController::turnInfo() const
-{
-        return _turnValues->currentTurnInfo();
-}
-
-void DartsController::addInput(const QString& mod, const int& point)
-{
+void DartsController::addInput(const QString& mod, const int& point){
         _adder->add(mod, point);
         _scores->update();
         _evaluator->evaluateScoreCondition();
 }
 
-void DartsController::undoTurn()
-{
+void DartsController::undoTurn(){
         _status->running();
         _indexes->undo();
         _scores->update();
         _evaluator->evaluateScoreCondition();
 }
 
-void DartsController::redoTurn()
-{
+void DartsController::redoTurn(){
         _indexes->redo();
         _scores->update();
         _evaluator->evaluateScoreCondition();

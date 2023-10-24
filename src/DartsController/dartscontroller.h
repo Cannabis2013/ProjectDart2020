@@ -1,27 +1,17 @@
 #ifndef DARTSCONTROLLER_H
 #define DARTSCONTROLLER_H
 
-#include "src/DartsController/Finishes/dartsfinishes.h"
-#include "src/DartsController/Finishes/idartsfinishes.h"
-#include "src/DartsController/indexes/IDartsIndexes.h"
-#include "src/DartsController/indexes/dartsindexes.h"
-#include "src/DartsController/input/IDartsInputs.h"
-#include "src/DartsController/input/dartsinputadder.h"
-#include "src/DartsController/input/dartsinputs.h"
-#include "src/DartsController/input/idartsinputadder.h"
-#include "src/DartsController/players/dartsplayers.h"
-#include "src/DartsController/responses/idartsinforesponse.h"
-#include "src/DartsController/scores/dartsscores.h"
-#include "src/DartsController/scores/idartsscores.h"
-#include "src/DartsController/statistics/dartsstatistics.h"
-#include "src/DartsController/statistics/idartsstatistics.h"
-#include "src/DartsController/status/dartsstatus.h"
-#include "src/DartsController/status/idartsstatus.h"
-#include "src/DartsController/validation/dartsevaluators.h"
-#include "src/DartsController/validation/idartsevaluator.h"
 #include <QObject>
-#include <src/DartsController/players/idartsplayers.h>
+#include <src/DartsController/Finishes/dartsfinishes.h>
+#include <src/DartsController/indexes/dartsindexes.h>
+#include <src/DartsController/input/dartsinputadder.h>
+#include <src/DartsController/input/dartsinputs.h>
+#include <src/DartsController/players/dartsplayers.h>
 #include <src/DartsController/responses/dartsturnvalues.h>
+#include <src/DartsController/scores/dartsscores.h>
+#include <src/DartsController/statistics/dartsstatistics.h>
+#include <src/DartsController/status/dartsstatus.h>
+#include <src/DartsController/validation/dartsevaluators.h>
 
 class DartsController : public QObject {
         Q_OBJECT
@@ -41,13 +31,15 @@ public:
         }
         Q_INVOKABLE void init(const QStringList& playerNames, const int& mode);
         Q_INVOKABLE void initFromSaved();
+        Q_INVOKABLE void reset();
         Q_INVOKABLE void saveState();
-        Q_INVOKABLE QByteArray playerScores() const;
-        Q_INVOKABLE QStringList playerNames() const;
-        Q_INVOKABLE QByteArray turnInfo() const;
+        Q_INVOKABLE QByteArray playerScores() const { return _scores->scores().toJson(); }
+        Q_INVOKABLE QStringList playerNames() const { return _players->names(); }
+        Q_INVOKABLE QByteArray turnInfo() const { return _turnValues->currentTurnInfo(); }
         Q_INVOKABLE void addInput(const QString& mod, const int& point);
         Q_INVOKABLE void undoTurn();
         Q_INVOKABLE void redoTurn();
+        Q_INVOKABLE void skipTurn() { _indexes->skipturn(); }
 
 private:
         // Services

@@ -10,6 +10,7 @@ TransparentRect {
         enabled: false
 
         signal reportScore(string modId, int point)
+        signal bustTurn
 
         signal numberClicked(int point)
         onNumberClicked: point => {

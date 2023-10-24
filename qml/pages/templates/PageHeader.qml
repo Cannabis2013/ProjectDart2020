@@ -4,6 +4,7 @@ import QtQuick.Layouts 1.3
 
 Rectangle {
         signal backButtonClicked
+        signal backButtonLongClicked
 
         property string buttonText: headerButton.text
         onButtonTextChanged: headerButton.text = buttonText
@@ -28,6 +29,7 @@ Rectangle {
                         height: 32
                         Layout.alignment: Qt.AlignVCenter
                         onClicked: backButtonClicked()
+                        onPressAndHold: backButtonLongClicked()
                 }
 
                 Rectangle {

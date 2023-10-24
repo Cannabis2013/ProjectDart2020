@@ -13,8 +13,9 @@ class DartsPlayers : public IDartsPlayers
 public:
         DartsPlayers(IDartsIndexes *indexes);
 
-        void initPlayers(const QStringList& names) override;
-        void initPlayers() override;
+        void init(const QStringList& names) override;
+        void initFromFile() override;
+        virtual void reset() override;
         QString name(int index) const override;
         QString name() const override;
         virtual QString winnerName() const override;

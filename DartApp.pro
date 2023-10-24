@@ -42,17 +42,12 @@ HEADERS += \
     src/DartsController/input/dartsinputs.h \
     src/DartsController/input/idartsinputadder.h \
     src/DartsController/input/inputsio.h \
-    src/DartsController/input/inputsservice.h \
     src/DartsController/players/DartsPlayer.h \
     src/DartsController/players/dartsplayers.h \
     src/DartsController/players/idartsplayers.h \
     src/DartsController/players/playersio.h \
-    src/DartsController/responses/ErrorInfo.h \
-    src/DartsController/responses/InitialValueInfo.h \
     src/DartsController/responses/dartsturnvalues.h \
     src/DartsController/responses/idartsinforesponse.h \
-    src/DartsController/responses/statusInfo.h \
-    src/DartsController/responses/winnerInfo.h \
     src/DartsController/scores/DartsPlayerScores.h \
     src/DartsController/scores/Score.h \
     src/DartsController/scores/dartsPlayerScore.h \
@@ -83,7 +78,6 @@ SOURCES += \
     src/DartsController/input/dartsinputadder.cpp \
     src/DartsController/input/dartsinputs.cpp \
     src/DartsController/input/inputsio.cpp \
-    src/DartsController/input/inputsservice.cpp \
     src/DartsController/players/dartsplayers.cpp \
     src/DartsController/players/playersio.cpp \
     src/DartsController/responses/dartsturnvalues.cpp \

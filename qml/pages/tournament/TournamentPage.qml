@@ -10,10 +10,11 @@ import "tournamentPageScripts.js" as PageScripts
 PageWithHeader {
         id: tournamentPage
 
-        buttonText: "Menu"
+        buttonText: "Menu/Restart"
         pageTitle: "Tournament"
 
         onBackClicked: dartsController.saveState()
+        onBackLongClicked: PageScripts.restartGame()
 
         GridLayout {
                 anchors.fill: parent
@@ -61,7 +62,17 @@ PageWithHeader {
                                                dartsController.addInput(modId, point)
                                                PageScripts.updateTurnInfo()
                                        }
+                        onBustTurn: value => {
+                                            dartsController.skipTurn()
+                                            PageScripts.updateTurnInfo()
+                                    }
                 }
+        }
+
+        WinnerModal {
+                id: winnerModal
+                visible: false
+                onRestartClicked: PageScripts.restartGame()
         }
 
         Component.onCompleted: {

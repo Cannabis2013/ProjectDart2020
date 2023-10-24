@@ -5,6 +5,9 @@ Rectangle {
         clip: true
 
         signal clicked
+        signal pressed
+        signal released
+        signal pressAndHold()
 
         onEnabledChanged: padRect.opacity = enabled ? 1 : 0.2
 
@@ -21,6 +24,9 @@ Rectangle {
         MouseArea {
                 anchors.fill: parent
                 onClicked: padRect.clicked()
+                onPressed: padRect.pressed()
+                onReleased: padRect.released()
+                onPressAndHold: mouse => padRect.pressAndHold()
         }
 
         Text {
