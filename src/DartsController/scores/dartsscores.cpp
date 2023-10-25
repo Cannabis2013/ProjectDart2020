@@ -1,7 +1,7 @@
 #include "dartsscores.h"
 #include "src/DartsController/scores/scorescalculator.h"
 
-#define INITAL_SCORE 50
+#define INITAL_SCORE 501
 
 DartsScores::DartsScores(IDartsIndexes* indexes, IDartsPlayers* players, IDartsInputs* inputs)
     : _indexes(indexes)
