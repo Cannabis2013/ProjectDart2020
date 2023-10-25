@@ -1,6 +1,5 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
-
 import "./turn"
 import "./players"
 import "./keyPad"
@@ -32,14 +31,8 @@ PageWithHeader {
                         Layout.alignment: Qt.AlignHCenter
                         height: 32
                         Layout.fillWidth: true
-                        onUndoClicked: {
-                                const response = dartsController.undoTurn()
-                                PageScripts.updateTurnInfo()
-                        }
-                        onRedoClicked: {
-                                const response = dartsController.redoTurn()
-                                PageScripts.updateTurnInfo()
-                        }
+                        onUndoClicked: PageScripts.undo()
+                        onRedoClicked: PageScripts.redo()
                 }
 
                 Text {
@@ -73,6 +66,7 @@ PageWithHeader {
                 id: winnerModal
                 visible: false
                 onRestartClicked: PageScripts.restartGame()
+                onUndoClicked: PageScripts.undo()
         }
 
         Component.onCompleted: {

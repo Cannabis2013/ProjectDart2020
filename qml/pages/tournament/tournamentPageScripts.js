@@ -30,7 +30,7 @@ function winnerFound(jsonObj) {
         updateTurnComp(jsonObj["turnIndexes"])
         updateScoreBoxes(jsonObj["playerScores"], jsonObj["statistics"])
         keyPad.enabled = false
-        winnerModal.show(`WINNER: ${jsonObj["winnerName"]}`)
+        winnerModal.show(jsonObj["winnerName"])
 }
 
 function updateTurnComp(json) {
@@ -72,4 +72,14 @@ function updatefinish(jsonObj) {
 function restartGame() {
         dartsController.reset()
         updateTurnInfo()
+}
+
+function undo() {
+        const response = dartsController.undoTurn()
+        PageScripts.updateTurnInfo()
+}
+
+function redo() {
+        const response = dartsController.redoTurn()
+        PageScripts.updateTurnInfo()
 }

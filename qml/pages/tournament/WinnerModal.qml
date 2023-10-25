@@ -5,22 +5,16 @@ import QtQuick.Layouts 1.3
 import "./turn"
 import "./players"
 import "./keyPad"
-import "../templates"
 import "tournamentPageScripts.js" as PageScripts
 
 Rectangle {
         id: winnerModal
-        color: "transparent"
-        radius: 12
         anchors.fill: parent
 
-        signal restartClicked
+        color: "black"
 
-        Rectangle {
-                anchors.fill: parent
-                color: "black"
-                opacity: 0.5
-        }
+        signal restartClicked
+        signal undoClicked
 
         MouseArea {
                 anchors.fill: parent
@@ -31,38 +25,64 @@ Rectangle {
                 winnerText.text = text
         }
 
-        Rectangle {
-                color: "grey"
-                anchors.centerIn: parent
-                width: 256
-                height: 256
-                radius: 12
+        MouseArea {
+                anchors.fill: parent
+        }
 
-                MouseArea {
-                        anchors.fill: parent
+        GridLayout {
+                anchors.fill: parent
+                columns: 2
+
+                Text {
+                        id: titleText
+                        Layout.columnSpan: 2
+                        height: 32
+                        Layout.fillWidth: true
+                        text: "Winner"
+                        font.pointSize: 48
+                        font.weight: Font.Bold
+                        horizontalAlignment: Qt.AlignHCenter
+                        color: "white"
                 }
 
-                GridLayout {
-                        anchors.fill: parent
-                        flow: GridLayout.TopToBottom
-                        Text {
-                                id: winnerText
-                                Layout.fillHeight: true
-                                Layout.fillWidth: true
-                                font.pointSize: 32
-                                font.weight: Font.Bold
-                                verticalAlignment: Qt.AlignVCenter
-                                horizontalAlignment: Qt.AlignHCenter
+                Text {
+                        id: winnerText
+                        Layout.columnSpan: 2
+                        height: 24
+                        Layout.fillWidth: true
+                        font.pointSize: 32
+                        font.weight: Font.Medium
+                        horizontalAlignment: Qt.AlignHCenter
+                        color: "white"
+                }
+
+                AnimatedImage {
+                        Layout.columnSpan: 2
+                        Layout.alignment: Qt.AlignHCenter
+                        Layout.fillHeight: true
+                        Layout.fillWidth: true
+                        source: "qrc:/pictures/Ressources/gag.gif"
+                }
+
+                Button {
+                        Layout.alignment: Qt.AlignHCenter
+                        Layout.maximumWidth: 128
+                        Layout.maximumHeight: 32
+                        text: "Undo"
+                        onClicked: {
+                                winnerModal.visible = false
+                                undoClicked()
                         }
-                        Button {
-                                Layout.alignment: Qt.AlignHCenter
-                                width: 128
-                                height: 32
-                                text: "Restart"
-                                onClicked: {
-                                        winnerModal.visible = false
-                                        restartClicked()
-                                }
+                }
+
+                Button {
+                        Layout.alignment: Qt.AlignHCenter
+                        Layout.maximumWidth: 128
+                        Layout.maximumHeight: 32
+                        text: "Restart"
+                        onClicked: {
+                                winnerModal.visible = false
+                                restartClicked()
                         }
                 }
         }

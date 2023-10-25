@@ -7,7 +7,6 @@
         <file>Ressources/darttournamentmod.png</file>
         <file>Ressources/fck.png</file>
         <file>Ressources/fck_jersey_logo.png</file>
-        <file>Ressources/hitler.png</file>
         <file>Ressources/pngfuel.com.png</file>
         <file>Ressources/s12_1.jpg</file>
         <file>Ressources/skull.png</file>
@@ -15,6 +14,7 @@
         <file>Ressources/users.png</file>
         <file>Ressources/S12.png</file>
         <file>Ressources/anti1964.png</file>
+        <file>Ressources/winner.gif</file>
     </qresource>
     <qresource prefix="/data">
         <file>Ressources/aboutContent.dat</file>
