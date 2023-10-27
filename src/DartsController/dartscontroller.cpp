@@ -24,7 +24,7 @@ void DartsController::reset()
         _players->reset();
         _indexes->reset();
         _inputs->init();
-        _scores->init();
+        _scores->reset();
         _status->init();
 }
 

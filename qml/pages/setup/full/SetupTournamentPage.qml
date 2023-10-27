@@ -7,7 +7,7 @@ import "./playersView"
 import "../../../sharedComponents/userInputs"
 import "../../../sharedComponents/buttons"
 import "../selectors"
-import "setupScripts.js" as Setup
+import "setupScripts.js" as Scripts
 
 PageWithHeader {
         id: setupPage
@@ -31,13 +31,6 @@ PageWithHeader {
                         color: "white"
                 }
 
-                WinnerSelector {
-                        id: winnerSelector
-                        width: 256
-                        height: 128
-                        Layout.alignment: Qt.AlignHCenter
-                }
-
                 Text {
                         font.pointSize: 24
                         Layout.fillWidth: true
@@ -57,17 +50,16 @@ PageWithHeader {
                 PlayersView {
                         id: playerNamesList
                         width: 256
-                        Layout.fillHeight: true
+                        height: 128 + 6
                         Layout.alignment: Qt.AlignHCenter
                 }
 
-                ButtonGroup {
-                        height: 48
+                WinnerSelector {
+                        id: winnerSelector
                         width: 256
+                        Layout.fillHeight: true
                         Layout.alignment: Qt.AlignHCenter
-                        acceptButtonTitle: "Play"
-                        onBackClicked: setupPage.backClicked()
-                        onAcceptClicked: Setup.startGame()
+                        onOptionClicked: (mode, initialScore) => Scripts.startGame(mode, initialScore)
                 }
         }
 }

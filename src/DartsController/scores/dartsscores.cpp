@@ -24,6 +24,13 @@ void DartsScores::initFromFile()
         _initialScore = values.initialScore();
 }
 
+void DartsScores::reset()
+{
+        _scores.clear();
+        for (const auto& name : _players->names())
+                _scores << Score(name, _initialScore);
+}
+
 DartsPlayerScores DartsScores::update()
 {
         auto throwIndex = _indexes->index().throwIndex();

@@ -15,6 +15,7 @@ public:
         void init(const int& initialScore) override;
         void initFromFile() override;
         int initialScore() const override { return _initialScore; }
+        virtual void reset() override;
         DartsPlayerScores update() override;
         DartsPlayerScore score() override;
         DartsPlayerScore score(const QString& name) override;

@@ -34,7 +34,7 @@ PageWithHeader {
                         Layout.fillHeight: true
                         width: 300
                         onOptionClicked: (mode, initialValue) => {
-                                                 dartsController.init(["I", "II"], mode, initialValue)
+                                                 dartsController.init(["Pølse Bo", "Smukke Jens"], mode, initialValue)
                                                  requestTournamentPage()
                                          }
                 }

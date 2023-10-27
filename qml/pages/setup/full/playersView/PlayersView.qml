@@ -22,10 +22,10 @@ Flickable {
                               const existingNames = playerNameContainer.names
                               for (var i = 0; i < existingNames.length; i++) {
                                       const n = existingNames[i]
-                                      if (n === name)
-                                      return
+                                      if (n === name) {
+                                              return
+                                      }
                               }
-
                               const obj = {
                                       "name": name
                               }
