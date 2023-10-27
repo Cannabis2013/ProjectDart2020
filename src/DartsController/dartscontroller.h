@@ -29,7 +29,7 @@ public:
                 _adder = new DartsInputAdder(_inputs, &_evaluator, _indexes, _status);
                 _evaluators = new DartsEvaluators(_scores, _players, _status);
         }
-        Q_INVOKABLE void init(const QStringList& playerNames, const int& mode);
+        Q_INVOKABLE void init(const QStringList& playerNames, const int& mode, const int& initialScore);
         Q_INVOKABLE void initFromSaved();
         Q_INVOKABLE void reset();
         Q_INVOKABLE void saveState();

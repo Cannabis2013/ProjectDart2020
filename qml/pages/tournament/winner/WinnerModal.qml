@@ -2,10 +2,9 @@ import QtQuick 2.0
 import QtQuick.Controls
 import QtQuick.Layouts 1.3
 
-import "./turn"
-import "./players"
-import "./keyPad"
-import "tournamentPageScripts.js" as PageScripts
+import "../turn"
+import "../players"
+import "../keyPad"
 
 Rectangle {
         id: winnerModal
@@ -31,11 +30,11 @@ Rectangle {
 
         GridLayout {
                 anchors.fill: parent
-                columns: 2
+                columns: 3
 
                 Text {
                         id: titleText
-                        Layout.columnSpan: 2
+                        Layout.columnSpan: 3
                         height: 32
                         Layout.fillWidth: true
                         text: "Winner"
@@ -47,7 +46,7 @@ Rectangle {
 
                 Text {
                         id: winnerText
-                        Layout.columnSpan: 2
+                        Layout.columnSpan: 3
                         height: 24
                         Layout.fillWidth: true
                         font.pointSize: 32
@@ -57,11 +56,22 @@ Rectangle {
                 }
 
                 AnimatedImage {
-                        Layout.columnSpan: 2
+                        Layout.columnSpan: 3
                         Layout.alignment: Qt.AlignHCenter
                         Layout.fillHeight: true
                         Layout.fillWidth: true
-                        source: "qrc:/pictures/Ressources/gag.gif"
+                        source: "qrc:/pictures/Ressources/winner.gif"
+                }
+
+                Button {
+                        Layout.alignment: Qt.AlignHCenter
+                        Layout.maximumWidth: 128
+                        Layout.maximumHeight: 32
+                        text: "Menu"
+                        onClicked: {
+                                winnerModal.visible = false
+                                menuRequest()
+                        }
                 }
 
                 Button {

@@ -7,7 +7,7 @@
 class IDartsScores
 {
 public:
-        virtual void init() = 0;
+        virtual void init(const int& initialScore = 501) = 0;
         virtual void initFromFile() = 0;
         virtual bool saveState() = 0;
         virtual int initialScore() const = 0;

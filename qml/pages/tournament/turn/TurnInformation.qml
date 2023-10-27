@@ -3,6 +3,8 @@ import QtQuick.Layouts 1.3
 import QtQuick.Controls
 
 import "../../../sharedComponents/geometry"
+import "../../../sharedComponents/buttons"
+import "scripts.js" as Scripts
 
 TransparentRect {
         id: turnRect
@@ -10,44 +12,43 @@ TransparentRect {
         signal undoClicked
         signal redoClicked
 
-        property string turnIndex: "0"
-        onTurnIndexChanged: indexRect.text = turnIndex
-        property bool canUndo: undoButton.enabled
-        onCanUndoChanged: undoButton.enabled = canUndo
-        property bool canRedo: redoButton.enabled
-        onCanRedoChanged: redoButton.enabled = canRedo
+        function updateValues(turnObj, rowObj) {
+                Scripts.update(turnObj, rowObj)
+        }
 
         GridLayout {
                 anchors.fill: parent
-                Button {
+                PushButton {
                         id: undoButton
-                        Layout.fillWidth: true
+                        Layout.minimumWidth: 64
+                        Layout.maximumWidth: 64
+                        fontSize: 20
                         Layout.fillHeight: true
-                        text: "Undo"
+                        buttonText: "Undo"
                         enabled: false
                         onClicked: undoClicked()
                 }
 
-                Text {
-                        clip: true
-                        id: indexRect
-                        Layout.minimumWidth: 48
-                        Layout.fillHeight: true
-                        text: turnRect.turnIndex
-                        font.pointSize: 20
-                        font.weight: Font.Bold
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignHCenter
-                        color: "white"
-                }
-
-                Button {
+                PushButton {
                         id: redoButton
-                        Layout.fillWidth: true
+                        Layout.minimumWidth: 64
+                        Layout.maximumWidth: 64
                         Layout.fillHeight: true
-                        text: "Redo"
+                        fontSize: 20
+                        buttonText: "Redo"
                         enabled: false
                         onClicked: redoClicked()
+                }
+
+                Text {
+                        clip: true
+                        id: messageRect
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        font.pointSize: 16
+                        font.weight: Font.Bold
+                        verticalAlignment: Text.AlignVCenter
+                        color: "white"
                 }
         }
 }

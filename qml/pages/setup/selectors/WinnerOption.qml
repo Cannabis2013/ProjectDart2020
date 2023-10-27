@@ -4,14 +4,14 @@ import QtQuick.Controls 2.15
 
 Rectangle {
         id: optionRect
+
+        signal clicked
+
+        property string initialScore: ""
         property string title: ""
         property string description: ""
-        property int value: -1
-        property bool selected: false
-        onSelectedChanged: optionRect.color = selected ? "blue" : "green"
 
         radius: 12
-
         color: "green"
 
         Rectangle {
@@ -20,33 +20,45 @@ Rectangle {
                 width: parent.width - 12
                 height: parent.height - 12
                 anchors.centerIn: parent
-                GridLayout {
-                        flow: GridLayout.TopToBottom
-                        anchors.fill: parent
-                        Text {
-                                id: optionTitle
-                                height: 32
-                                Layout.fillWidth: true
-                                text: qsTr(title)
-                                color: "white"
-                                font.weight: Font.Bold
-                                font.pointSize: 20
-                        }
+                Text {
+                        id: optionTitle
+                        anchors.left: parent.left
+                        anchors.top: parent.top
+                        width: 96
+                        height: 32
+                        text: title
+                        color: "white"
+                        font.weight: Font.Bold
+                        font.pointSize: 20
+                }
 
-                        Text {
-                                id: optionDescription
-                                Layout.fillHeight: true
-                                Layout.fillWidth: true
-                                text: qsTr(description)
-                                wrapMode: Text.WordWrap
-                                font.pointSize: 12
-                                color: "white"
-                        }
+                Text {
+                        id: initText
+                        anchors.right: parent.right
+                        anchors.top: parent.top
+                        height: 12
+                        width: 36
+                        text: optionRect.initialScore
+                        color: "white"
+                        font.pointSize: 24
+                        font.weight: Font.Bold
+                }
+
+                Text {
+                        id: optionDescription
+                        anchors.left: parent.left
+                        anchors.bottom: parent.bottom
+                        height: parent.height / 2
+                        width: parent.width
+                        text: qsTr(description)
+                        wrapMode: Text.WordWrap
+                        font.pointSize: 12
+                        color: "white"
                 }
         }
 
         MouseArea {
                 anchors.fill: parent
-                onReleased: optionClicked(optionRect.value)
+                onReleased: optionRect.clicked()
         }
 }

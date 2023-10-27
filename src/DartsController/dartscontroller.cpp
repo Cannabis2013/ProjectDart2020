@@ -1,10 +1,11 @@
 #include "dartscontroller.h"
 
-void DartsController::init(const QStringList& playerNames, const int& mode){
+void DartsController::init(const QStringList& playerNames, const int& mode, const int& initialScore)
+{
         _players->init(playerNames);
         _indexes->init(playerNames.count());
         _inputs->init();
-        _scores->init();
+        _scores->init(initialScore);
         _status->init();
         _evaluator = _evaluators->validator(mode);
 }

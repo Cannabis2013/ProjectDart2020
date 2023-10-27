@@ -18,7 +18,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES += qml.qrc \
 
 HEADERS += \
-    src/Config/dartsconfig.h \
     src/DartsController/Finishes/dartsThresholds.h \
     src/DartsController/Finishes/dartsboundaries.h \
     src/DartsController/Finishes/dartscreatefinishes.h \
@@ -51,6 +50,7 @@ HEADERS += \
     src/DartsController/scores/DartsPlayerScores.h \
     src/DartsController/scores/Score.h \
     src/DartsController/scores/dartsPlayerScore.h \
+    src/DartsController/scores/dartsinitialvalues.h \
     src/DartsController/scores/dartsscores.h \
     src/DartsController/scores/idartsscores.h \
     src/DartsController/scores/scorescalculator.h \
@@ -68,7 +68,6 @@ HEADERS += \
     src/QmlContext/setupqmlcontext.h
 
 SOURCES += \
-    src/Config/dartsconfig.cpp \
     src/DartsController/Finishes/dartsThresholds.cpp \
     src/DartsController/Finishes/dartscreatefinishes.cpp \
     src/DartsController/Finishes/dartsfinishes.cpp \
@@ -83,6 +82,7 @@ SOURCES += \
     src/DartsController/responses/dartsturnvalues.cpp \
     src/DartsController/scores/dartsscores.cpp \
     src/DartsController/scores/scorescalculator.cpp \
+    src/DartsController/scores/scoresio.cpp \
     src/DartsController/statistics/dartsstatistics.cpp \
     src/DartsController/status/dartsstatus.cpp \
     src/DartsController/validation/dartsevaluators.cpp \

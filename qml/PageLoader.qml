@@ -24,7 +24,7 @@ Item {
         Component {
                 id: tournamentPage
                 TournamentPage {
-                        onBackClicked: pageLoader.sourceComponent = startPageComponent
+                        onMenuRequest: pageLoader.sourceComponent = startPageComponent
                 }
         }
 

@@ -12,14 +12,14 @@
 class DartsScores : public IDartsScores{
 public:
         DartsScores(IDartsIndexes* indexes, IDartsPlayers* players, IDartsInputs* inputs);
-        void init() override;
-        void initFromFile() override { _scores = _scoresIO->fromFile(); }
-        int initialScore() const override;
+        void init(const int& initialScore) override;
+        void initFromFile() override;
+        int initialScore() const override { return _initialScore; }
         DartsPlayerScores update() override;
         DartsPlayerScore score() override;
         DartsPlayerScore score(const QString& name) override;
         DartsPlayerScores scores() override {return DartsPlayerScores(_scores);}
-        bool saveState() override { return _scoresIO->toFile(_scores); }
+        bool saveState() override { return _scoresIO->toFile(_scores, _initialScore); }
 
 private:
         QList<Score> _scores;
@@ -31,6 +31,8 @@ private:
         IDartsIndexes* const _indexes;
         IDartsPlayers* const _players;
         IDartsInputs* const _inputs;
+        // Member variables
+        int _initialScore;
 };
 
 #endif // DARTSCORES_H

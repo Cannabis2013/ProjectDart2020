@@ -1,8 +1,6 @@
 #include "dartsscores.h"
 #include "src/DartsController/scores/scorescalculator.h"
 
-#define INITAL_SCORE 501
-
 DartsScores::DartsScores(IDartsIndexes* indexes, IDartsPlayers* players, IDartsInputs* inputs)
     : _indexes(indexes)
     , _players(players)
@@ -11,14 +9,20 @@ DartsScores::DartsScores(IDartsIndexes* indexes, IDartsPlayers* players, IDartsI
         _scoresIO = new ScoresIO("playerScores.dat");
 }
 
-void DartsScores::init()
+void DartsScores::init(const int& initialScore)
 {
+        _initialScore = initialScore;
         _scores.clear();
         for (const auto& name : _players->names())
-                _scores << Score(name, INITAL_SCORE);
+                _scores << Score(name, _initialScore);
 }
 
-int DartsScores::initialScore() const { return INITAL_SCORE; }
+void DartsScores::initFromFile()
+{
+        auto values = _scoresIO->fromFile();
+        _scores = values.scores();
+        _initialScore = values.initialScore();
+}
 
 DartsPlayerScores DartsScores::update()
 {
@@ -27,7 +31,7 @@ DartsPlayerScores DartsScores::update()
         ScoresCalculator calculator;
         for (const auto& name : _players->names()) {
                 auto inputs = _inputs->inputs(name, throwIndex);
-                auto score = calculator.calculate(name, inputs, INITAL_SCORE);
+                auto score = calculator.calculate(name, inputs, _initialScore);
                 _scores.append(score);
         }
         return DartsPlayerScores(_scores);

@@ -42,7 +42,6 @@
         <file>qml/pages/tournament/players/scoresScripts.js</file>
         <file>qml/pages/tournament/turn/TurnInformation.qml</file>
         <file>qml/pages/tournament/TournamentPage.qml</file>
-        <file>qml/pages/tournament/tournamentPageScripts.js</file>
         <file>qml/sharedComponents/buttons/ButtonGroup.qml</file>
         <file>qml/sharedComponents/geometry/TransparentRect.qml</file>
         <file>qml/sharedComponents/userInputs/TextInputBox.qml</file>
@@ -50,6 +49,10 @@
         <file>qml/main.qml</file>
         <file>qml/PageLoader.qml</file>
         <file>qtquickcontrols2.conf</file>
-        <file>qml/pages/tournament/WinnerModal.qml</file>
+        <file>qml/pages/tournament/header/TournamentHeader.qml</file>
+        <file>qml/sharedComponents/buttons/PushButton.qml</file>
+        <file>qml/pages/tournament/winner/WinnerModal.qml</file>
+        <file>qml/pages/tournament/scripts/tournamentPageScripts.js</file>
+        <file>qml/pages/tournament/turn/scripts.js</file>
     </qresource>
 </RCC>

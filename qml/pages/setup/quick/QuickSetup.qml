@@ -31,28 +31,12 @@ PageWithHeader {
                 WinnerSelector {
                         id: winnerSelector
                         Layout.alignment: Qt.AlignHCenter
-                        height: 128
-                        width: 300
-                        configKey: "quickWinCond"
-                }
-
-                Rectangle {
                         Layout.fillHeight: true
-                }
-
-                ButtonGroup {
-                        height: 48
                         width: 300
-                        Layout.alignment: Qt.AlignHCenter
-
-                        acceptButtonTitle: "Play"
-
-                        onBackClicked: quickSetup.backClicked()
-                        onAcceptClicked: {
-                                const mode = winnerSelector.selectedValue
-                                dartsController.init(["I", "II"], mode)
-                                requestTournamentPage()
-                        }
+                        onOptionClicked: (mode, initialValue) => {
+                                                 dartsController.init(["I", "II"], mode, initialValue)
+                                                 requestTournamentPage()
+                                         }
                 }
         }
 }

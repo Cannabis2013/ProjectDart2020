@@ -1,3 +1,8 @@
+function init() {
+        updateInitialValues()
+        updateTurnInfo()
+}
+
 function updateInitialValues() {
         const jsonArr = JSON.parse(dartsController.playerScores())
         scoresView.playersCount = jsonArr.length
@@ -18,10 +23,9 @@ function updateTurnInfo() {
 }
 
 function winnerNotFound(jsonObj) {
-        updateTurnComp(jsonObj["turnIndexes"])
+        updateTurnComp(jsonObj["turnIndexes"], jsonObj["suggestions"])
         highlightScoreBox(jsonObj)
         updateScoreBoxes(jsonObj["playerScores"], jsonObj["statistics"])
-        updatefinish(jsonObj["suggestions"])
         keyPad.enabled = true
 }
 
@@ -33,10 +37,8 @@ function winnerFound(jsonObj) {
         winnerModal.show(jsonObj["winnerName"])
 }
 
-function updateTurnComp(json) {
-        turnInfoComp.canUndo = json["canUndo"]
-        turnInfoComp.canRedo = json["canRedo"]
-        turnInfoComp.turnIndex = json["turnIndex"] + 1
+function updateTurnComp(turnJson, rowJson) {
+        turnInfoComp.updateValues(turnJson, rowJson)
 }
 
 function highlightScoreBox(jsonObj) {
@@ -65,10 +67,6 @@ function updateStatistic(jsonObj) {
         scoresView.updateStatistics(playerName, average, low, high)
 }
 
-function updatefinish(jsonObj) {
-        targetRow.text = jsonObj["finish"]
-}
-
 function restartGame() {
         dartsController.reset()
         updateTurnInfo()
@@ -76,10 +74,20 @@ function restartGame() {
 
 function undo() {
         const response = dartsController.undoTurn()
-        PageScripts.updateTurnInfo()
+        updateTurnInfo()
 }
 
 function redo() {
         const response = dartsController.redoTurn()
-        PageScripts.updateTurnInfo()
+        updateTurnInfo()
+}
+
+function addScore(modId, point) {
+        dartsController.addInput(modId, point)
+        updateTurnInfo()
+}
+
+function bustScore() {
+        dartsController.skipTurn()
+        updateTurnInfo()
 }

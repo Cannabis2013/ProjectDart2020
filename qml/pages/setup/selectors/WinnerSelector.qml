@@ -4,52 +4,71 @@ import QtQuick.Controls 2.15
 
 Rectangle {
         color: "transparent"
+        clip: true
 
-        property string configKey: "winCond"
+        signal optionClicked(int mode, int initialScore)
 
-        signal optionClicked(int value)
-        onOptionClicked: value => {
-                                 setSelectedValue(value)
-                                 dartsConfig.setConfigData(configKey, value.toString())
-                         }
-
-        function setSelectedValue(value) {
-                optionOne.selected = optionOne.value === value
-                optionTwo.selected = optionTwo.value === value
-                selectedValue = value
-        }
-
-        property int selectedValue: 0
-
-        GridLayout {
+        Flickable {
                 anchors.fill: parent
-                rowSpacing: 12
+                contentHeight: 128 * 6 + 6 * 5
+                boundsBehavior: Flickable.StopAtBounds
+                GridLayout {
+                        anchors.fill: parent
+                        flow: GridLayout.TopToBottom
+                        rowSpacing: 6
+                        WinnerOption {
+                                Layout.fillWidth: true
+                                height: 128
+                                title: "Novice"
+                                initialScore: "101"
+                                description: "The first player to reach 0 or below wins the match."
+                                onClicked: optionClicked(1, 101)
+                        }
 
-                WinnerOption {
-                        id: optionTwo
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
-                        title: "Beginner"
-                        description: "The first player to reach 0 or below wins the match."
-                        value: 1
+                        WinnerOption {
+                                Layout.fillWidth: true
+                                height: 128
+                                title: "Beginner"
+                                initialScore: "201"
+                                description: "The first player to reach 0 or below wins the match."
+                                onClicked: optionClicked(1, 201)
+                        }
+
+                        WinnerOption {
+                                Layout.fillWidth: true
+                                height: 128
+                                title: "Beginner"
+                                initialScore: "301"
+                                description: "The first player to reach 0 or below wins the match."
+                                onClicked: optionClicked(1, 301)
+                        }
+
+                        WinnerOption {
+                                Layout.fillWidth: true
+                                height: 128
+                                title: "Beginner"
+                                initialScore: "501"
+                                description: "The first player to reach 0 or below wins the match."
+                                onClicked: optionClicked(1, 501)
+                        }
+
+                        WinnerOption {
+                                Layout.fillWidth: true
+                                height: 128
+                                title: "Professional"
+                                initialScore: "301"
+                                description: "The first player to reach 0 with bulls or double as last throw wins"
+                                onClicked: optionClicked(0, 301)
+                        }
+
+                        WinnerOption {
+                                Layout.fillWidth: true
+                                height: 128
+                                title: "Professional"
+                                initialScore: "501"
+                                description: "The first player to reach 0 with bulls or double as last throw wins"
+                                onClicked: optionClicked(0, 501)
+                        }
                 }
-
-                WinnerOption {
-                        id: optionOne
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
-                        title: "Professional"
-                        description: "The first player to reach 0 with bulls or double as last throw wins"
-                        value: 0
-                        selected: true
-                }
-        }
-
-        Component.onCompleted: {
-                const value = dartsConfig.readConfigData(configKey)
-                if (value)
-                        setSelectedValue(parseInt(value))
-                else
-                        setSelectedValue(0)
         }
 }
