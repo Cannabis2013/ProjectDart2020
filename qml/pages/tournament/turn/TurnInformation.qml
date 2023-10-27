@@ -18,24 +18,26 @@ TransparentRect {
 
         GridLayout {
                 anchors.fill: parent
-                PushButton {
+                Button {
                         id: undoButton
+                        flat: true
+                        font.pointSize: 16
                         Layout.minimumWidth: 64
                         Layout.maximumWidth: 64
-                        fontSize: 20
                         Layout.fillHeight: true
-                        buttonText: "Undo"
+                        text: "Undo"
                         enabled: false
                         onClicked: undoClicked()
                 }
 
-                PushButton {
+                Button {
                         id: redoButton
+                        flat: true
+                        font.pointSize: 16
                         Layout.minimumWidth: 64
                         Layout.maximumWidth: 64
                         Layout.fillHeight: true
-                        fontSize: 20
-                        buttonText: "Redo"
+                        text: "Redo"
                         enabled: false
                         onClicked: redoClicked()
                 }

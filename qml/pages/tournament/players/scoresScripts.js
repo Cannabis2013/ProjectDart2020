@@ -13,8 +13,8 @@ function appendName(name, score) {
 }
 
 function shortenName(name) {
-        if (name.length > 8)
-                return name.substring(0, 8) + ".."
+        if (name.length > 16)
+                return name.substring(0, 16) + ".."
         return name
 }
 

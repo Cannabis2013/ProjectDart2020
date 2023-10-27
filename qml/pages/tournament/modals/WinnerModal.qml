@@ -28,11 +28,6 @@ Rectangle {
                 anchors.fill: parent
         }
 
-        AnimatedImage {
-                anchors.fill: parent
-                source: "qrc:/pictures/Ressources/winner.gif"
-        }
-
         GridLayout {
                 anchors.fill: parent
                 columns: 3
@@ -60,16 +55,19 @@ Rectangle {
                         color: "white"
                 }
 
-                Rectangle {
-                        Layout.fillHeight: true
+                AnimatedImage {
                         Layout.columnSpan: 3
+                        Layout.fillHeight: true
+                        Layout.fillWidth: true
+                        source: "qrc:/pictures/Ressources/winner.gif"
                 }
 
                 Button {
+                        flat: true
+                        font.pointSize: 24
                         Layout.alignment: Qt.AlignHCenter
                         Layout.maximumWidth: 128
                         Layout.minimumHeight: 48
-                        Layout.maximumHeight: 48
                         text: "Menu"
                         onClicked: {
                                 winnerModal.visible = false
@@ -78,10 +76,11 @@ Rectangle {
                 }
 
                 Button {
+                        flat: true
+                        font.pointSize: 24
                         Layout.alignment: Qt.AlignHCenter
                         Layout.maximumWidth: 128
                         Layout.minimumHeight: 48
-                        Layout.maximumHeight: 48
                         text: "Undo"
                         onClicked: {
                                 winnerModal.visible = false
@@ -90,10 +89,11 @@ Rectangle {
                 }
 
                 Button {
+                        flat: true
+                        font.pointSize: 24
                         Layout.alignment: Qt.AlignHCenter
                         Layout.maximumWidth: 128
                         Layout.minimumHeight: 48
-                        Layout.maximumHeight: 48
                         text: "Restart"
                         onClicked: {
                                 winnerModal.visible = false

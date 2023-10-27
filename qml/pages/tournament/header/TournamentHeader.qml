@@ -10,31 +10,25 @@ Rectangle {
                 anchors.fill: parent
 
                 Button {
-                        Layout.alignment: Qt.AlignRight
-                        width: 64
+                        flat: true
+                        font.pointSize: 20
+                        Layout.minimumWidth: 64
                         Layout.maximumHeight: 40
                         onClicked: menuRequest()
-                        Text {
-                                anchors.fill: parent
-                                text: "back"
-                                color: "white"
-                                horizontalAlignment: Text.AlignHCenter
-                                verticalAlignment: Text.AlignVCenter
-                        }
+                        text: "back"
                 }
 
                 Button {
-                        Layout.alignment: Qt.AlignLeft
-                        width: 64
+                        flat: true
+                        font.pointSize: 20
+                        Layout.minimumWidth: 64
                         Layout.maximumHeight: 40
-                        onPressAndHold: restartClicked()
-                        Text {
-                                anchors.fill: parent
-                                text: "Restart"
-                                color: "white"
-                                horizontalAlignment: Text.AlignHCenter
-                                verticalAlignment: Text.AlignVCenter
-                        }
+                        onClicked: restartClicked()
+                        text: "Restart"
+                }
+
+                Rectangle {
+                        Layout.fillWidth: true
                 }
         }
 }

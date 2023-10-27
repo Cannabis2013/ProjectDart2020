@@ -8,7 +8,6 @@ Page {
 
         signal requestTournamentPage
         signal requestAboutPage
-        signal quickGameClicked
         signal setupGameClicked
 
         Anti1964BackDrop {
@@ -27,40 +26,39 @@ Page {
                 }
 
                 Button {
+                        flat: true
+                        font.pointSize: 24
                         Layout.alignment: Qt.AlignHCenter
-                        width: 192
+                        Layout.minimumWidth: 192
+                        Layout.maximumWidth: 192
                         Layout.maximumHeight: 48
-                        text: "1v1"
-                        onClicked: quickGameClicked()
+                        text: "Classic 1v1"
+                        onClicked: setupGameClicked()
                         opacity: 1
                 }
 
                 Button {
+                        flat: true
+                        font.pointSize: 24
                         Layout.alignment: Qt.AlignHCenter
-                        width: 192
+                        Layout.minimumWidth: 192
+                        Layout.maximumWidth: 192
                         Layout.maximumHeight: 48
                         text: "Practice"
                         onClicked: {
-                                dartsController.init(["I"], 0)
+                                dartsController.init(["I"], 0, 501)
                                 requestTournamentPage()
                         }
                 }
 
                 Button {
+                        flat: true
+                        font.pointSize: 24
                         Layout.alignment: Qt.AlignHCenter
-                        width: 192
+                        Layout.minimumWidth: 192
+                        Layout.maximumWidth: 192
                         Layout.maximumHeight: 48
-                        text: "Start game"
-                        onClicked: {
-                                setupGameClicked()
-                        }
-                }
-
-                Button {
-                        Layout.alignment: Qt.AlignHCenter
-                        width: 192
-                        Layout.maximumHeight: 48
-                        text: "Resume from last game"
+                        text: "Resume game"
                         onClicked: {
                                 dartsController.initFromSaved()
                                 requestTournamentPage()
@@ -68,16 +66,22 @@ Page {
                 }
 
                 Button {
+                        flat: true
+                        font.pointSize: 24
                         Layout.alignment: Qt.AlignHCenter
-                        width: 192
+                        Layout.minimumWidth: 192
+                        Layout.maximumWidth: 192
                         Layout.maximumHeight: 48
                         text: "About"
                         onClicked: requestAboutPage()
                 }
 
                 Button {
+                        flat: true
+                        font.pointSize: 24
                         Layout.alignment: Qt.AlignHCenter
-                        width: 192
+                        Layout.minimumWidth: 192
+                        Layout.maximumWidth: 192
                         Layout.maximumHeight: 48
                         text: "Quit"
                         onClicked: Qt.quit()

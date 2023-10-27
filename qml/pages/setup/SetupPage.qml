@@ -2,16 +2,14 @@ import QtQuick 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.15
 
-import "../../templates"
-import "../../../sharedComponents/buttons"
-import "../selectors"
+import "../templates"
+import "../../sharedComponents/buttons"
 
 PageWithHeader {
         id: quickSetup
 
         anchors.fill: parent
-
-        pageTitle: "Quick setup"
+        pageTitle: "Choose gamestyle"
 
         signal requestTournamentPage
 
@@ -28,13 +26,13 @@ PageWithHeader {
                         horizontalAlignment: Text.AlignHCenter
                 }
 
-                WinnerSelector {
+                GameStyles {
                         id: winnerSelector
                         Layout.alignment: Qt.AlignHCenter
                         Layout.fillHeight: true
                         width: 300
                         onOptionClicked: (mode, initialValue) => {
-                                                 dartsController.init(["Pølse Bo", "Smukke Jens"], mode, initialValue)
+                                                 dartsController.init(["Kent KillerHertz", "Hitler Thomas"], mode, initialValue)
                                                  requestTournamentPage()
                                          }
                 }

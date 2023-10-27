@@ -16,7 +16,7 @@ Rectangle {
                         anchors.fill: parent
                         flow: GridLayout.TopToBottom
                         rowSpacing: 6
-                        WinnerOption {
+                        GameStyleRect {
                                 Layout.fillWidth: true
                                 height: 128
                                 title: "Novice"
@@ -25,7 +25,7 @@ Rectangle {
                                 onClicked: optionClicked(1, 101)
                         }
 
-                        WinnerOption {
+                        GameStyleRect {
                                 Layout.fillWidth: true
                                 height: 128
                                 title: "Beginner"
@@ -34,7 +34,7 @@ Rectangle {
                                 onClicked: optionClicked(1, 201)
                         }
 
-                        WinnerOption {
+                        GameStyleRect {
                                 Layout.fillWidth: true
                                 height: 128
                                 title: "Beginner"
@@ -43,7 +43,7 @@ Rectangle {
                                 onClicked: optionClicked(1, 301)
                         }
 
-                        WinnerOption {
+                        GameStyleRect {
                                 Layout.fillWidth: true
                                 height: 128
                                 title: "Beginner"
@@ -52,7 +52,7 @@ Rectangle {
                                 onClicked: optionClicked(1, 501)
                         }
 
-                        WinnerOption {
+                        GameStyleRect {
                                 Layout.fillWidth: true
                                 height: 128
                                 title: "Professional"
@@ -61,7 +61,7 @@ Rectangle {
                                 onClicked: optionClicked(0, 301)
                         }
 
-                        WinnerOption {
+                        GameStyleRect {
                                 Layout.fillWidth: true
                                 height: 128
                                 title: "Professional"

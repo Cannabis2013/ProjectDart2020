@@ -6,13 +6,13 @@ import "./players"
 import "./keyPad"
 import "./scripts/tournamentPageScripts.js" as PageScripts
 import "./header"
-import "./winner"
+import "./modals"
 
 Page {
         signal menuRequest
         onMenuRequest: dartsController.saveState()
         signal restartClicked
-        onRestartClicked: PageScripts.restartGame()
+        onRestartClicked: restartModal.open()
 
         GridLayout {
                 anchors.fill: parent
@@ -52,11 +52,19 @@ Page {
                 }
         }
 
+        MediaPlayer {}
+
         WinnerModal {
                 id: winnerModal
                 visible: false
                 onRestartClicked: PageScripts.restartGame()
                 onUndoClicked: PageScripts.undo()
+        }
+
+        RestartConfirmation {
+                id: restartModal
+                onRejected: restartModal.close()
+                onAccepted: PageScripts.restartGame()
         }
 
         Component.onCompleted: PageScripts.init()

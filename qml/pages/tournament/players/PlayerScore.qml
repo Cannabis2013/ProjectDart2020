@@ -24,9 +24,9 @@ Rectangle {
 
         signal updateStatistic(string average, int low, int high)
         onUpdateStatistic: (average, low, high) => {
-                                   averageText.text = "Average: " + average
-                                   lowText.text = "Worst: " + low
-                                   highText.text = "Best: " + high
+                                   averageText.text = average
+                                   lowText.text = low
+                                   highText.text = high
                            }
 
         property double average: 0.0
@@ -41,22 +41,28 @@ Rectangle {
 
         GridLayout {
                 anchors.fill: parent
-                flow: GridLayout.TopToBottom
+                columns: 3
+                rowSpacing: 0
                 Text {
                         id: playerName
+                        Layout.columnSpan: 3
                         text: ""
+                        Layout.minimumHeight: 48
+                        Layout.maximumHeight: 48
                         Layout.fillWidth: true
-                        Layout.maximumHeight: 32
-                        font.pointSize: 40
+                        font.pointSize: 18
+                        font.weight: Font.Bold
                         color: "white"
                         verticalAlignment: Qt.AlignVCenter
                         horizontalAlignment: Qt.AlignHCenter
                 }
                 Text {
                         id: playerScore
+                        Layout.columnSpan: 3
                         text: "-1"
+                        Layout.minimumHeight: 80
+                        Layout.maximumHeight: 80
                         Layout.fillWidth: true
-                        Layout.fillHeight: true
                         font.pointSize: 96
                         font.weight: Font.Bold
                         color: "white"
@@ -64,44 +70,76 @@ Rectangle {
                         horizontalAlignment: Qt.AlignHCenter
                 }
 
-                GridLayout {
+                Text {
+                        id: averageTitle
+                        Layout.fillHeight: true
                         Layout.fillWidth: true
-                        Layout.minimumHeight: 16
-                        Layout.maximumHeight: 16
-                        Rectangle {
-                                width: 3
-                        }
+                        font.pointSize: 16
+                        font.weight: Font.Bold
+                        color: "white"
+                        text: "Average"
+                        verticalAlignment: Text.AlignBottom
+                        horizontalAlignment: Text.AlignHCenter
+                }
 
-                        Text {
-                                id: averageText
-                                Layout.fillHeight: true
-                                Layout.fillWidth: true
-                                font.pointSize: 10
-                                color: "white"
-                                text: "Average: 0"
-                        }
+                Text {
+                        id: lowTitle
+                        Layout.fillHeight: true
+                        Layout.fillWidth: true
+                        font.pointSize: 16
+                        font.weight: Font.Bold
+                        color: "white"
+                        text: "Worst"
+                        verticalAlignment: Text.AlignBottom
+                        horizontalAlignment: Text.AlignHCenter
+                }
 
-                        Text {
-                                id: lowText
-                                Layout.fillHeight: true
-                                Layout.fillWidth: true
-                                font.pointSize: 10
-                                color: "white"
-                                text: "Worst: 0"
-                        }
+                Text {
+                        id: highTitle
+                        Layout.fillHeight: true
+                        Layout.fillWidth: true
+                        font.pointSize: 16
+                        font.weight: Font.Bold
+                        color: "white"
+                        text: "Best"
+                        verticalAlignment: Text.AlignBottom
+                        horizontalAlignment: Text.AlignHCenter
+                }
 
-                        Text {
-                                id: highText
-                                Layout.fillHeight: true
-                                Layout.fillWidth: true
-                                font.pointSize: 10
-                                color: "white"
-                                text: "Best: 0"
-                        }
+                Text {
+                        id: averageText
+                        Layout.maximumHeight: 12
+                        font.pointSize: 12
+                        Layout.fillWidth: true
+                        font.weight: Font.Bold
+                        color: "white"
+                        horizontalAlignment: Text.AlignHCenter
+                }
 
-                        Rectangle {
-                                width: 3
-                        }
+                Text {
+                        id: lowText
+                        Layout.maximumHeight: 14
+                        font.pointSize: 12
+                        Layout.fillWidth: true
+                        font.weight: Font.Bold
+                        color: "white"
+                        horizontalAlignment: Text.AlignHCenter
+                }
+
+                Text {
+                        id: highText
+                        Layout.maximumHeight: 12
+                        font.pointSize: 12
+                        Layout.fillWidth: true
+                        font.weight: Font.Bold
+                        color: "white"
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignTop
+                }
+
+                Rectangle {
+                        Layout.columnSpan: 3
+                        Layout.fillHeight: true
                 }
         }
 }
