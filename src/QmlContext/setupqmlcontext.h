@@ -2,6 +2,7 @@
 #define SETUPQMLCONTEXT_H
 
 #include "src/DartsController/dartscontroller.h"
+#include "src/Sounds/soundcontroller.h"
 #include <QQmlContext>
 #include <qguiapplication.h>
 #include <qobject.h>
@@ -13,15 +14,19 @@ class SetupQMLContext
 public:
     static void setup(QQmlApplicationEngine &engine, QGuiApplication &app, const QString &path)
     {
-        const QUrl url(path);
-        auto dartsController = new DartsController();
-        engine.rootContext()->setContextProperty("dartsController", dartsController);
-        QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
-                         &app, [url](QObject *obj, const QUrl &objUrl) {
-            if (!obj && url == objUrl)
-                QCoreApplication::exit(-1);
-        }, Qt::QueuedConnection);
-        engine.load(url);
+            const QUrl url(path);
+            auto soundController = new SoundController();
+            auto dartsController = new DartsController();
+            engine.rootContext()->setContextProperty("dartsController", dartsController);
+            engine.rootContext()->setContextProperty("soundController", soundController);
+            QObject::connect(
+                &engine, &QQmlApplicationEngine::objectCreated,
+                &app, [url](QObject* obj, const QUrl& objUrl) {
+                        if (!obj && url == objUrl)
+                                QCoreApplication::exit(-1);
+                },
+                Qt::QueuedConnection);
+            engine.load(url);
     }
 };
 #endif // CREATEANDSETUPQMLCONTEXT_H

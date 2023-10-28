@@ -2,13 +2,11 @@ import QtQuick 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls
 
-import "../../../sharedComponents/geometry"
-import "../../../sharedComponents/buttons"
 import "scripts.js" as Scripts
 
-TransparentRect {
+Rectangle {
         id: turnRect
-
+        color: "transparent"
         signal undoClicked
         signal redoClicked
 

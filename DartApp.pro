@@ -1,4 +1,6 @@
 QT += quick multimedia
+CONFIG += c++20
+
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -65,7 +67,8 @@ HEADERS += \
     src/DartsController/validation/dartsoverthrowvalidator.h \
     src/DartsController/validation/idartsevaluator.h \
     src/FileIO/filejsonio.h \
-    src/QmlContext/setupqmlcontext.h
+    src/QmlContext/setupqmlcontext.h \
+    src/Sounds/soundcontroller.h
 
 SOURCES += \
     src/DartsController/Finishes/dartsThresholds.cpp \
@@ -89,5 +92,6 @@ SOURCES += \
     src/DartsController/validation/dartsofficialvalidator.cpp \
     src/DartsController/validation/dartsoverthrowvalidator.cpp \
     src/FileIO/filejsonio.cpp \
+    src/Sounds/soundcontroller.cpp \
     src/main.cpp
 

@@ -1,26 +1,28 @@
 <RCC>
     <qresource prefix="/pictures">
-        <file>Ressources/arrow.png</file>
-        <file>Ressources/checkmark.png</file>
-        <file>Ressources/dartpic.jpg</file>
-        <file>Ressources/dartpic.png</file>
-        <file>Ressources/darttournamentmod.png</file>
-        <file>Ressources/fck.png</file>
-        <file>Ressources/fck_jersey_logo.png</file>
-        <file>Ressources/pngfuel.com.png</file>
-        <file>Ressources/s12_1.jpg</file>
-        <file>Ressources/skull.png</file>
-        <file>Ressources/tuborgclassic.png</file>
-        <file>Ressources/users.png</file>
-        <file>Ressources/S12.png</file>
-        <file>Ressources/anti1964.png</file>
-        <file>Ressources/winner.gif</file>
+        <file>Ressources/Pictures/anti1964.png</file>
+        <file>Ressources/Pictures/arrow.png</file>
+        <file>Ressources/Pictures/checkmark.png</file>
+        <file>Ressources/Pictures/dartpic.jpg</file>
+        <file>Ressources/Pictures/dartpic.png</file>
+        <file>Ressources/Pictures/darttournamentmod.png</file>
+        <file>Ressources/Pictures/fck_jersey_logo.png</file>
+        <file>Ressources/Pictures/fck.png</file>
+        <file>Ressources/Pictures/pngfuel.com.png</file>
+        <file>Ressources/Pictures/s12_1.jpg</file>
+        <file>Ressources/Pictures/S12.png</file>
+        <file>Ressources/Pictures/skull.png</file>
+        <file>Ressources/Pictures/tuborgclassic.png</file>
+        <file>Ressources/Pictures/users.png</file>
+        <file>Ressources/Pictures/winner.gif</file>
     </qresource>
     <qresource prefix="/data">
-        <file>Ressources/aboutContent.dat</file>
+        <file>Ressources/TextData/aboutContent.dat</file>
     </qresource>
     <qresource prefix="/">
         <file>qml/pages/about/AboutPage.qml</file>
+        <file>qml/pages/setup/GameStyleRect.qml</file>
+        <file>qml/pages/setup/GameStyles.qml</file>
         <file>qml/pages/setup/SetupPage.qml</file>
         <file>qml/pages/start/Anti1964BackDrop.qml</file>
         <file>qml/pages/start/StartPage.qml</file>
@@ -32,6 +34,8 @@
         <file>qml/pages/tournament/keyPad/ModPad.qml</file>
         <file>qml/pages/tournament/keyPad/NumberPad.qml</file>
         <file>qml/pages/tournament/keyPad/Pad.qml</file>
+        <file>qml/pages/tournament/modals/RestartConfirmation.qml</file>
+        <file>qml/pages/tournament/modals/WinnerModal.qml</file>
         <file>qml/pages/tournament/players/PlayerScore.qml</file>
         <file>qml/pages/tournament/players/PlayerScores.qml</file>
         <file>qml/pages/tournament/players/scoresScripts.js</file>
@@ -39,17 +43,11 @@
         <file>qml/pages/tournament/turn/scripts.js</file>
         <file>qml/pages/tournament/turn/TurnInformation.qml</file>
         <file>qml/pages/tournament/TournamentPage.qml</file>
-        <file>qml/sharedComponents/buttons/ButtonGroup.qml</file>
-        <file>qml/sharedComponents/buttons/PushButton.qml</file>
-        <file>qml/sharedComponents/geometry/TransparentRect.qml</file>
-        <file>qml/sharedComponents/userInputs/TextInputBox.qml</file>
-        <file>qml/sharedComponents/userInputs/TextInputField.qml</file>
         <file>qml/main.qml</file>
         <file>qml/PageLoader.qml</file>
         <file>qtquickcontrols2.conf</file>
-        <file>qml/pages/tournament/modals/WinnerModal.qml</file>
-        <file>qml/pages/setup/GameStyleRect.qml</file>
-        <file>qml/pages/setup/GameStyles.qml</file>
-        <file>qml/pages/tournament/modals/RestartConfirmation.qml</file>
+    </qresource>
+    <qresource prefix="/sounds">
+        <file>Ressources/Sounds/imperialMarch.mp3</file>
     </qresource>
 </RCC>

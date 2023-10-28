@@ -59,7 +59,7 @@ Rectangle {
                         Layout.columnSpan: 3
                         Layout.fillHeight: true
                         Layout.fillWidth: true
-                        source: "qrc:/pictures/Ressources/winner.gif"
+                        source: "qrc:/pictures/Ressources/Pictures/winner.gif"
                 }
 
                 Button {

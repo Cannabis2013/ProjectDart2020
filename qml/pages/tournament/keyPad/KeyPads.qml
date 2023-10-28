@@ -1,12 +1,11 @@
 import QtQuick 2.15
 import QtQuick.Layouts 1.3
 
-import "../../../sharedComponents/geometry"
 import "keyPadBuilder.js" as Builder
 
-TransparentRect {
+Rectangle {
         id: keyPadRect
-
+        color: "transparent"
         enabled: false
 
         signal reportScore(string modId, int point)

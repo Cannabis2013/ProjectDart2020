@@ -6,7 +6,7 @@ Rectangle {
         color: "transparent"
 
         Image {
-                source: "qrc:/pictures/Ressources/fck.png"
+                source: "qrc:/pictures/Ressources/Pictures/fck.png"
                 x: parent.width / 2 - width / 2
                 y: 5
                 width: 150
@@ -14,7 +14,7 @@ Rectangle {
         }
 
         Image {
-                source: "qrc:/pictures/Ressources/pngfuel.com.png"
+                source: "qrc:/pictures/Ressources/Pictures/pngfuel.com.png"
                 x: parent.width / 2 - 175
                 y: 5
                 width: 130
@@ -22,7 +22,7 @@ Rectangle {
         }
 
         Image {
-                source: "qrc:/pictures/Ressources/tuborgclassic.png"
+                source: "qrc:/pictures/Ressources/Pictures/tuborgclassic.png"
                 x: parent.width / 2 + 25
                 y: 25
                 width: 130
@@ -38,13 +38,13 @@ Rectangle {
                 scale: 0.7
                 rotation: 12
                 Layout.alignment: Qt.AlignHCenter
-                source: "qrc:/pictures/Ressources/anti1964.png"
+                source: "qrc:/pictures/Ressources/Pictures/anti1964.png"
         }
 
         Image {
                 y: parent.height - height
                 x: parent.width - width * 0.9
                 rotation: -12
-                source: "qrc:/pictures/Ressources/S12.png"
+                source: "qrc:/pictures/Ressources/Pictures/S12.png"
         }
 }

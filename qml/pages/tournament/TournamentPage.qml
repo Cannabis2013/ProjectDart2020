@@ -52,8 +52,6 @@ Page {
                 }
         }
 
-        MediaPlayer {}
-
         WinnerModal {
                 id: winnerModal
                 visible: false

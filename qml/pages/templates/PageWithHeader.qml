@@ -6,10 +6,6 @@ Page {
         signal backClicked
         signal backLongClicked
 
-        background: Rectangle {
-                color: "transparent"
-        }
-
         property string buttonText: pageHeader.buttonText
         onButtonTextChanged: pageHeader.buttonText = buttonText
 

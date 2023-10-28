@@ -24,6 +24,9 @@ Rectangle {
 
                 Button {
                         id: headerButton
+                        flat: true
+                        font.pointSize: 24
+                        font.weight: Font.Bold
                         text: "Back"
                         width: 48
                         height: 32
@@ -38,7 +41,7 @@ Rectangle {
 
                 Text {
                         id: pageTitleComp
-                        text: "Page title"
+                        text: ""
                         font.pointSize: 20
                         color: "white"
                         Layout.fillWidth: true

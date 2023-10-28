@@ -1,15 +1,10 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.15
-
 import "../templates"
-import "../../sharedComponents/buttons"
 
 PageWithHeader {
-        id: quickSetup
-
         anchors.fill: parent
-        pageTitle: "Choose gamestyle"
 
         signal requestTournamentPage
 
@@ -20,9 +15,9 @@ PageWithHeader {
                 Text {
                         height: 32
                         Layout.fillWidth: true
-                        font.pointSize: 20
+                        font.pointSize: 24
                         color: "white"
-                        text: "Game style"
+                        text: "Choose a game style"
                         horizontalAlignment: Text.AlignHCenter
                 }
 
@@ -32,7 +27,7 @@ PageWithHeader {
                         Layout.fillHeight: true
                         width: 300
                         onOptionClicked: (mode, initialValue) => {
-                                                 dartsController.init(["Kent KillerHertz", "Hitler Thomas"], mode, initialValue)
+                                                 dartsController.init(["Druk Bruno", "Bingo Leif"], mode, initialValue)
                                                  requestTournamentPage()
                                          }
                 }
