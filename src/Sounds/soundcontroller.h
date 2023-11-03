@@ -10,8 +10,10 @@ class SoundController : public QObject
 public:
         explicit SoundController(QObject* parent = nullptr);
 
-        Q_INVOKABLE void playIntroSong();
+        Q_INVOKABLE void introSong();
+        Q_INVOKABLE void keyPress();
         Q_INVOKABLE void stop();
+        Q_INVOKABLE bool isPlaying();
 
 private:
         QMediaPlayer* _player;

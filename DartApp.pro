@@ -17,7 +17,8 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-RESOURCES += qml.qrc \
+RESOURCES += \
+    qml.qrc
 
 HEADERS += \
     src/DartsController/Finishes/dartsThresholds.h \
@@ -30,18 +31,21 @@ HEADERS += \
     src/DartsController/Finishes/dclogisticdb.h \
     src/DartsController/Finishes/finishestypes.h \
     src/DartsController/Finishes/idartsfinishes.h \
-    src/DartsController/dartscontroller.h \
-    src/DartsController/idartscontroller.h \
-    src/DartsController/indexes/DartsTurnIndex.h \
-    src/DartsController/indexes/IDartsIndexes.h \
+    src/DartsController/controller/abstractdartscontroller.h \
+    src/DartsController/controller/dartscontroller.h \
+    src/DartsController/controller/dartscontrollerbuilder.h \
     src/DartsController/indexes/dartsindex.h \
     src/DartsController/indexes/dartsindexes.h \
+    src/DartsController/indexes/dartsturnindex.h \
+    src/DartsController/indexes/idartsindexes.h \
     src/DartsController/indexes/indexesio.h \
     src/DartsController/input/IDartsInputs.h \
     src/DartsController/input/Input.h \
     src/DartsController/input/dartsinputadder.h \
     src/DartsController/input/dartsinputs.h \
+    src/DartsController/input/dartsinputstrimmer.h \
     src/DartsController/input/idartsinputadder.h \
+    src/DartsController/input/idartsinputtrimmer.h \
     src/DartsController/input/inputsio.h \
     src/DartsController/players/DartsPlayer.h \
     src/DartsController/players/dartsplayers.h \
@@ -74,11 +78,14 @@ SOURCES += \
     src/DartsController/Finishes/dartsThresholds.cpp \
     src/DartsController/Finishes/dartscreatefinishes.cpp \
     src/DartsController/Finishes/dartsfinishes.cpp \
-    src/DartsController/dartscontroller.cpp \
+    src/DartsController/controller/abstractdartscontroller.cpp \
+    src/DartsController/controller/dartscontroller.cpp \
+    src/DartsController/controller/dartscontrollerbuilder.cpp \
     src/DartsController/indexes/dartsindexes.cpp \
     src/DartsController/indexes/indexesio.cpp \
     src/DartsController/input/dartsinputadder.cpp \
     src/DartsController/input/dartsinputs.cpp \
+    src/DartsController/input/dartsinputstrimmer.cpp \
     src/DartsController/input/inputsio.cpp \
     src/DartsController/players/dartsplayers.cpp \
     src/DartsController/players/playersio.cpp \
@@ -94,4 +101,3 @@ SOURCES += \
     src/FileIO/filejsonio.cpp \
     src/Sounds/soundcontroller.cpp \
     src/main.cpp
-

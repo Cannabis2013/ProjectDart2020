@@ -1,7 +1,7 @@
 #ifndef DARTINDEXES_H
 #define DARTINDEXES_H
 
-#include "IDartsIndexes.h"
+#include "idartsindexes.h"
 #include "dartsindex.h"
 #include "src/DartsController/indexes/indexesio.h"
 

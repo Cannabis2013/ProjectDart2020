@@ -1,45 +1,58 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
-import "./turn"
-import "./players"
-import "./keyPad"
-import "./scripts/tournamentPageScripts.js" as PageScripts
-import "./header"
-import "./modals"
+import "turn"
+import "scores"
+import "keyPad"
+import "tournamentPageScripts.js" as PageScripts
+import "modals"
 
 Page {
         signal menuRequest
         onMenuRequest: dartsController.saveState()
-        signal restartClicked
-        onRestartClicked: restartModal.open()
+
+        focus: true
+        Keys.onPressed: event => {
+                                if (event.key === Qt.Key_Back) {
+                                        event.accepted = true
+                                }
+                        }
 
         GridLayout {
                 anchors.fill: parent
                 flow: GridLayout.TopToBottom
                 rowSpacing: 0
 
-                TournamentHeader {
+                ScoresView {
+                        id: scoresView
+                        Layout.minimumHeight: 180
+                        Layout.maximumHeight: 180
                         Layout.fillWidth: true
+                        Layout.alignment: Qt.AlignHCenter
+                }
+
+                Text {
+                        id: targetRow
+                        font.pointSize: 28
+                        font.weight: Font.Bold
+                        Layout.fillWidth: true
+                        Layout.minimumHeight: 28
+                        Layout.maximumHeight: 28
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        color: "white"
+                }
+
+                TurnControls {
+                        id: turnControls
+                        Layout.alignment: Qt.AlignHCenter
                         Layout.minimumHeight: 40
                         Layout.maximumHeight: 40
-                }
-
-                PlayerScores {
-                        id: scoresView
-                        height: 180
-                        Layout.fillWidth: true
-                        Layout.alignment: Qt.AlignHCenter
-                }
-
-                TurnInformation {
-                        id: turnInfoComp
-                        Layout.alignment: Qt.AlignHCenter
-                        Layout.minimumHeight: 48
-                        Layout.maximumHeight: 48
                         Layout.fillWidth: true
                         onUndoClicked: PageScripts.undo()
                         onRedoClicked: PageScripts.redo()
+                        onRestartClicked: restartModal.open()
+                        onMenuClicked: menuRequest()
                 }
 
                 KeyPads {

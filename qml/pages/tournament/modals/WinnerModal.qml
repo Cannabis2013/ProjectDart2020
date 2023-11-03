@@ -3,7 +3,6 @@ import QtQuick.Controls
 import QtQuick.Layouts 1.3
 
 import "../turn"
-import "../players"
 import "../keyPad"
 
 Rectangle {

@@ -6,6 +6,13 @@ Page {
         signal backClicked
         signal backLongClicked
 
+        focus: true
+        Keys.onPressed: event => {
+                                if (event.key === Qt.Key_Back) {
+                                        event.accepted = true
+                                }
+                        }
+
         property string buttonText: pageHeader.buttonText
         onButtonTextChanged: pageHeader.buttonText = buttonText
 

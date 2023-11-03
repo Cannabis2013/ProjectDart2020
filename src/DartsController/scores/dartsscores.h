@@ -2,7 +2,7 @@
 #define DARTSCORES_H
 
 #include "idartsscores.h"
-#include "src/DartsController/indexes/IDartsIndexes.h"
+#include "src/DartsController/indexes/idartsindexes.h"
 #include "src/DartsController/input/IDartsInputs.h"
 #include "src/DartsController/players/idartsplayers.h"
 #include "src/DartsController/scores/Score.h"

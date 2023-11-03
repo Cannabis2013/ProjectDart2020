@@ -2,7 +2,7 @@
 #define DARTSTURNVALUES_H
 
 #include "src/DartsController/Finishes/idartsfinishes.h"
-#include "src/DartsController/indexes/IDartsIndexes.h"
+#include "src/DartsController/indexes/idartsindexes.h"
 #include "src/DartsController/players/idartsplayers.h"
 #include "src/DartsController/responses/idartsinforesponse.h"
 #include "src/DartsController/scores/idartsscores.h"

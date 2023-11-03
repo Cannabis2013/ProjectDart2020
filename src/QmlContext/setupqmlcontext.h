@@ -1,7 +1,7 @@
 #ifndef SETUPQMLCONTEXT_H
 #define SETUPQMLCONTEXT_H
 
-#include "src/DartsController/dartscontroller.h"
+#include "src/DartsController/controller/dartscontrollerbuilder.h"
 #include "src/Sounds/soundcontroller.h"
 #include <QQmlContext>
 #include <qguiapplication.h>
@@ -16,7 +16,7 @@ public:
     {
             const QUrl url(path);
             auto soundController = new SoundController();
-            auto dartsController = new DartsController();
+            auto dartsController = DartsControllerBuilder().build();
             engine.rootContext()->setContextProperty("dartsController", dartsController);
             engine.rootContext()->setContextProperty("soundController", soundController);
             QObject::connect(

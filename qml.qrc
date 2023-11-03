@@ -15,20 +15,24 @@
         <file>Ressources/Pictures/tuborgclassic.png</file>
         <file>Ressources/Pictures/users.png</file>
         <file>Ressources/Pictures/winner.gif</file>
+        <file>Ressources/Pictures/sound_off.png</file>
+        <file>Ressources/Pictures/sound_on.png</file>
+        <file>Ressources/Pictures/dartarrow.png</file>
     </qresource>
     <qresource prefix="/data">
         <file>Ressources/TextData/aboutContent.dat</file>
     </qresource>
+    <qresource prefix="/sounds"/>
     <qresource prefix="/">
         <file>qml/pages/about/AboutPage.qml</file>
         <file>qml/pages/setup/GameStyleRect.qml</file>
         <file>qml/pages/setup/GameStyles.qml</file>
         <file>qml/pages/setup/SetupPage.qml</file>
-        <file>qml/pages/start/Anti1964BackDrop.qml</file>
+        <file>qml/pages/start/StartMenuButtons.qml</file>
         <file>qml/pages/start/StartPage.qml</file>
+        <file>qml/pages/start/StartPageBackDrop.qml</file>
         <file>qml/pages/templates/PageHeader.qml</file>
         <file>qml/pages/templates/PageWithHeader.qml</file>
-        <file>qml/pages/tournament/header/TournamentHeader.qml</file>
         <file>qml/pages/tournament/keyPad/keyPadBuilder.js</file>
         <file>qml/pages/tournament/keyPad/KeyPads.qml</file>
         <file>qml/pages/tournament/keyPad/ModPad.qml</file>
@@ -36,18 +40,18 @@
         <file>qml/pages/tournament/keyPad/Pad.qml</file>
         <file>qml/pages/tournament/modals/RestartConfirmation.qml</file>
         <file>qml/pages/tournament/modals/WinnerModal.qml</file>
-        <file>qml/pages/tournament/players/PlayerScore.qml</file>
-        <file>qml/pages/tournament/players/PlayerScores.qml</file>
-        <file>qml/pages/tournament/players/scoresScripts.js</file>
-        <file>qml/pages/tournament/scripts/tournamentPageScripts.js</file>
+        <file>qml/pages/tournament/scores/DartsCounter.qml</file>
+        <file>qml/pages/tournament/scores/ScoreRect.qml</file>
+        <file>qml/pages/tournament/scores/scoresScripts.js</file>
+        <file>qml/pages/tournament/scores/ScoresView.qml</file>
+        <file>qml/pages/tournament/scores/StatisticsView.qml</file>
         <file>qml/pages/tournament/turn/scripts.js</file>
-        <file>qml/pages/tournament/turn/TurnInformation.qml</file>
+        <file>qml/pages/tournament/turn/TurnControls.qml</file>
         <file>qml/pages/tournament/TournamentPage.qml</file>
+        <file>qml/pages/tournament/tournamentPageScripts.js</file>
         <file>qml/main.qml</file>
         <file>qml/PageLoader.qml</file>
         <file>qtquickcontrols2.conf</file>
-    </qresource>
-    <qresource prefix="/sounds">
-        <file>Ressources/Sounds/imperialMarch.mp3</file>
+        <file>qml/pages/tournament/scores/ScoreUpperRect.qml</file>
     </qresource>
 </RCC>

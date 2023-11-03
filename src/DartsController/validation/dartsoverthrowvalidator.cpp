@@ -7,7 +7,8 @@ bool DartsOverthrowValidator::evaluatorInput(const QString& mod, const int& poin
 
 void DartsOverthrowValidator::evaluateScoreCondition()
 {
-        for (const auto& score : _scores->scores().playerScores()) {
+        auto scores = _scores->scores().playerScores();
+        for (const auto& score : std::as_const(scores)) {
                 if (score.score() <= 0) {
                         _status->winnerFound();
                         _players->declareAsWinner(score.name());

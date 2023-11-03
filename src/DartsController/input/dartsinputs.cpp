@@ -1,8 +1,6 @@
 #include "dartsinputs.h"
 #include <src/FileIO/filejsonio.h>
 
-using namespace std;
-
 DartsInputs::DartsInputs(IDartsIndexes* indexes, IDartsPlayers* players)
 {
         _indexes = indexes;
@@ -18,7 +16,7 @@ void DartsInputs::initFromFile()
 QList<Input> DartsInputs::inputs(const QString& playerName, const int& throwIndex) const
 {
         QList<Input> playerInputs;
-        for (auto& input : as_const(_inputs)) {
+        for (auto& input : std::as_const(_inputs)) {
                 if (input.playerName() == playerName && input.throwIndex() < throwIndex)
                         playerInputs << input;
         }
@@ -27,7 +25,7 @@ QList<Input> DartsInputs::inputs(const QString& playerName, const int& throwInde
 
 void DartsInputs::remove(const std::function<bool(const Input&)>& predicate)
 {
-        _inputs = [=]() {
+        _inputs = [this, predicate]() {
                 QList<Input> filtered;
                 for (const auto& input : _inputs) {
                         if (predicate(input))

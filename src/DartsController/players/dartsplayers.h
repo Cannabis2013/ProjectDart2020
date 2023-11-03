@@ -2,7 +2,7 @@
 #define DARTPLAYERS_H
 
 #include "idartsplayers.h"
-#include "src/DartsController/indexes/IDartsIndexes.h"
+#include "src/DartsController/indexes/idartsindexes.h"
 #include "src/DartsController/players/DartsPlayer.h"
 #include "src/DartsController/players/playersio.h"
 

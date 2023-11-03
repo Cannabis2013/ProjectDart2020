@@ -1,22 +1,28 @@
 #include "soundcontroller.h"
-
 #include <QAudioOutput>
 
-SoundController::SoundController(QObject *parent)
-    : QObject{parent}
+SoundController::SoundController(QObject* parent)
+    : QObject { parent }
 {
         _player = new QMediaPlayer();
         _player->setAudioOutput(new QAudioOutput());
         _player->audioOutput()->setVolume(50);
 }
 
-void SoundController::playIntroSong()
+void SoundController::introSong()
 {
-        _player->setSource(QUrl("qrc:/sounds/Ressources/Sounds/imperialMarch.mp3"));
-        _player->play();
+}
+
+void SoundController::keyPress()
+{
 }
 
 void SoundController::stop()
 {
         _player->stop();
+}
+
+bool SoundController::isPlaying()
+{
+        return _player->isPlaying();
 }

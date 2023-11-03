@@ -1,45 +1,37 @@
 #include "dartsinputadder.h"
 
-DartsInputAdder::DartsInputAdder(IDartsInputs* inputs, IDartsEvaluator** evaluator,
+DartsInputAdder::DartsInputAdder(IDartsInputs* inputs, IDartsInputTrimmer* trimmer,
     IDartsIndexes* indexes, IDartsStatus* status)
     : _inputs(inputs)
-    , _evaluator(evaluator)
+    , _trimmer(trimmer)
     , _indexes(indexes)
     , _status(status)
 {
 }
 
-void DartsInputAdder::add(const QString& mod, const int& point){
+void DartsInputAdder::add(const QString& mod, const int& point)
+{
         if (!_status->isWinnerFound()) {
-                trimInputs();
+                _trimmer->trimInputs();
                 if (persistInput(Input(mod, point)))
                         _indexes->next();
                 else {
-                        removeTurnInputs();
+                        _trimmer->removeTurnInputs();
                         _indexes->skipturn();
                 }
         }
 }
 
-void DartsInputAdder::trimInputs(){
-        auto throwIndex = _indexes->index().throwIndex();
-        _inputs->remove([throwIndex](const Input& input) {
-                return input.throwIndex() < throwIndex;
-        });
-}
-
-void DartsInputAdder::removeTurnInputs(){
-        auto indexModel = _indexes->index();
-        auto index = indexModel.throwIndex() - indexModel.turnIndex();
-        _inputs->remove([index](const Input& input) {
-                return input.throwIndex() < index;
-        });
+void DartsInputAdder::setEvaluator(IDartsEvaluator** evaluatorRef)
+{
+        _evaluator = evaluatorRef;
 }
 
 bool DartsInputAdder::persistInput(const Input& input){
-        if ((*_evaluator)->evaluatorInput(input.mod(), input.point()))
+        auto evaluator = *_evaluator;
+        if (evaluator->evaluatorInput(input.mod(), input.point())) {
                 _inputs->save(input);
-        else
-                return false;
-        return true;
+                return true;
+        }
+        return false;
 }
