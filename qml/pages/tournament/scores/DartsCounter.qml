@@ -2,9 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
 
-Rectangle {
-        color: "transparent"
-
+Item {
         function setNumberOfDarts(value) {
                 const children = dartsLayout.children
                 for (var i = 0; i < 3; i++) {
@@ -13,38 +11,39 @@ Rectangle {
                 }
         }
 
-        GridLayout {
+        height: 52
+        width: 52
+
+        Row {
                 id: dartsLayout
-                anchors.fill: parent
-                columnSpacing: 4
+                x: 6
+                y: 6
+                width: 38
+                height: 40
+                spacing: 4
 
-                Rectangle {
-                        Layout.fillWidth: true
+                Image {
+                        width: 10
+                        height: 40
+                        Layout.fillHeight: true
+                        source: "qrc:/pictures/Ressources/Pictures/dartarrow.png"
+                        rotation: 12
                 }
 
                 Image {
-                        Layout.minimumWidth: parent.height / 4
-                        Layout.maximumWidth: parent.height / 4
-                        Layout.fillHeight: true
+                        width: 10
+                        height: 40
+                        fillMode: Image.PreserveAspectFit
                         source: "qrc:/pictures/Ressources/Pictures/dartarrow.png"
+                        rotation: 12
                 }
 
                 Image {
-                        Layout.minimumWidth: parent.height / 4
-                        Layout.maximumWidth: parent.height / 4
-                        Layout.fillHeight: true
+                        width: 10
+                        height: 40
+                        fillMode: Image.PreserveAspectFit
                         source: "qrc:/pictures/Ressources/Pictures/dartarrow.png"
-                }
-
-                Image {
-                        Layout.minimumWidth: parent.height / 4
-                        Layout.maximumWidth: parent.height / 4
-                        Layout.fillHeight: true
-                        source: "qrc:/pictures/Ressources/Pictures/dartarrow.png"
-                }
-
-                Rectangle {
-                        Layout.fillWidth: true
+                        rotation: 12
                 }
         }
 }

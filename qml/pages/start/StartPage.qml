@@ -24,7 +24,8 @@ Page {
 
         StartMenuButtons {
                 id: gridLayout
-                anchors.fill: parent
+                y: 192
+                x: parent.width / 2 - width / 2
         }
 
         Component.onCompleted: forceActiveFocus()

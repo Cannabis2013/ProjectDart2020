@@ -18,11 +18,9 @@ Page {
                                 }
                         }
 
-        GridLayout {
+        ColumnLayout {
                 anchors.fill: parent
-                flow: GridLayout.TopToBottom
-                rowSpacing: 0
-
+                spacing: 6
                 ScoresView {
                         id: scoresView
                         Layout.minimumHeight: 180
@@ -72,9 +70,8 @@ Page {
                 onUndoClicked: PageScripts.undo()
         }
 
-        RestartConfirmation {
+        RestartModal {
                 id: restartModal
-                onRejected: restartModal.close()
                 onAccepted: PageScripts.restartGame()
         }
 

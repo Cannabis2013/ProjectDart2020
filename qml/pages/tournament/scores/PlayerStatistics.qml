@@ -1,9 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Layouts 1.3
 
-Rectangle {
-        color: "transparent"
-
+Item {
         function updateValues(average, low, high) {
                 averageText.text = average
                 lowText.text = low
@@ -13,7 +11,6 @@ Rectangle {
         GridLayout {
                 anchors.fill: parent
                 columns: 3
-                rows: 2
                 rowSpacing: 0
                 Text {
                         id: averageTitle

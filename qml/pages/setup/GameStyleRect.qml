@@ -11,35 +11,31 @@ Rectangle {
         property string title: ""
         property string description: ""
 
-        radius: 12
         color: "green"
 
         Text {
-                id: optionTitle
                 x: 5
-                y: 5
+                y: 0
                 width: 96
                 height: 32
                 text: title
                 color: "white"
-                font.weight: Font.Bold
                 font.pointSize: 28
+                font.weight: Font.Bold
         }
 
         Text {
-                id: initText
                 x: parent.width - width - 5
-                y: 5
+                y: 0
                 anchors.top: parent.top
-                height: 12
+                height: 32
                 text: optionRect.initialScore
                 color: "white"
-                font.pointSize: 24
+                font.pointSize: 28
                 font.weight: Font.Bold
         }
 
         Text {
-                id: optionDescription
                 x: 5
                 y: 48
                 height: parent.height - 48 - 5

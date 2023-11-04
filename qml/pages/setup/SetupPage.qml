@@ -5,6 +5,7 @@ import "../templates"
 
 PageWithHeader {
         anchors.fill: parent
+        pageTitle: "Gamestyles"
 
         signal requestTournamentPage
 

@@ -15,12 +15,8 @@ Rectangle {
         height: 64
         color: "transparent"
 
-        GridLayout {
+        RowLayout {
                 anchors.fill: parent
-                flow: GridLayout.LeftToRight
-                Rectangle {
-                        width: 6
-                }
 
                 Button {
                         id: headerButton
@@ -35,17 +31,13 @@ Rectangle {
                         onPressAndHold: backButtonLongClicked()
                 }
 
-                Rectangle {
-                        width: 6
-                }
-
                 Text {
                         id: pageTitleComp
-                        text: ""
                         font.pointSize: 20
                         color: "white"
                         Layout.fillWidth: true
                         height: 32
+                        verticalAlignment: Text.AlignVCenter
                 }
         }
 }

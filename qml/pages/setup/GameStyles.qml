@@ -2,22 +2,19 @@ import QtQuick 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.15
 
-Rectangle {
-        color: "transparent"
-        clip: true
-
+Item {
         signal optionClicked(int mode, int initialScore)
 
         Flickable {
+                clip: true
                 anchors.fill: parent
-                contentHeight: 128 * 6 + 6 * 5
+                contentHeight: 128 * 6 + 5 * 6
                 boundsBehavior: Flickable.StopAtBounds
-                GridLayout {
+                Column {
                         anchors.fill: parent
-                        flow: GridLayout.TopToBottom
-                        rowSpacing: 6
+                        spacing: 6
                         GameStyleRect {
-                                Layout.fillWidth: true
+                                width: parent.width
                                 height: 128
                                 title: "Novice"
                                 initialScore: "101"
@@ -26,7 +23,7 @@ Rectangle {
                         }
 
                         GameStyleRect {
-                                Layout.fillWidth: true
+                                width: parent.width
                                 height: 128
                                 title: "Beginner"
                                 initialScore: "201"
@@ -35,7 +32,7 @@ Rectangle {
                         }
 
                         GameStyleRect {
-                                Layout.fillWidth: true
+                                width: parent.width
                                 height: 128
                                 title: "Beginner"
                                 initialScore: "301"
@@ -44,7 +41,7 @@ Rectangle {
                         }
 
                         GameStyleRect {
-                                Layout.fillWidth: true
+                                width: parent.width
                                 height: 128
                                 title: "Beginner"
                                 initialScore: "501"
@@ -53,7 +50,7 @@ Rectangle {
                         }
 
                         GameStyleRect {
-                                Layout.fillWidth: true
+                                width: parent.width
                                 height: 128
                                 title: "Professional"
                                 initialScore: "301"
@@ -62,7 +59,7 @@ Rectangle {
                         }
 
                         GameStyleRect {
-                                Layout.fillWidth: true
+                                width: parent.width
                                 height: 128
                                 title: "Professional"
                                 initialScore: "501"

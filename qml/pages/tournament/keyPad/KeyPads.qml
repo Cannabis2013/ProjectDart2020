@@ -3,9 +3,8 @@ import QtQuick.Layouts 1.3
 
 import "keyPadBuilder.js" as Builder
 
-Rectangle {
+Item {
         id: keyPadRect
-        color: "transparent"
         enabled: false
 
         signal reportScore(string modId, int point)

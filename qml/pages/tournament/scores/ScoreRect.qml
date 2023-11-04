@@ -9,12 +9,12 @@ Rectangle {
         function highlight(count) {
                 playerInfo.showCounter(true)
                 playerInfo.updateCounter(count)
-                highlightRect.visible = true
+                playersScoreRect.color = "blue"
         }
 
         function unHighlight() {
                 playerInfo.showCounter(false)
-                highlightRect.visible = false
+                playersScoreRect.color = "green"
         }
 
         property string id: ""
@@ -28,16 +28,7 @@ Rectangle {
         }
 
         function updateStatistics(average, low, high) {
-                statistics.updateValues(average, low, high)
-        }
-
-        property double average: 0.0
-
-        Rectangle {
-                id: highlightRect
-                color: "blue"
-                anchors.fill: parent
-                visible: false
+                playerStatistics.updateValues(average, low, high)
         }
 
         GridLayout {
@@ -45,7 +36,7 @@ Rectangle {
                 rowSpacing: 0
                 flow: GridLayout.TopToBottom
 
-                ScoreUpperRect {
+                PlayerInfo {
                         id: playerInfo
                         Layout.fillWidth: true
                         Layout.minimumHeight: 48
@@ -63,8 +54,8 @@ Rectangle {
                         horizontalAlignment: Qt.AlignHCenter
                 }
 
-                StatisticsView {
-                        id: statistics
+                PlayerStatistics {
+                        id: playerStatistics
                         Layout.minimumHeight: 64
                         Layout.maximumHeight: 64
                         Layout.fillWidth: true

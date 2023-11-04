@@ -1,12 +1,10 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls
-
 import "scripts.js" as Scripts
 
-Rectangle {
+Item {
         id: turnRect
-        color: "transparent"
 
         signal undoClicked
         signal redoClicked
@@ -65,7 +63,7 @@ Rectangle {
                         onClicked: redoClicked()
                 }
 
-                Rectangle {
+                Item {
                         Layout.fillWidth: true
                 }
         }
