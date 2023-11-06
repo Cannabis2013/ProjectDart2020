@@ -8,7 +8,7 @@ Rectangle {
 
         function highlight(count) {
                 playerInfo.showCounter(true)
-                playerInfo.updateCounter(count)
+                playerInfo.updateVisibleDarts(count)
                 playersScoreRect.color = "blue"
         }
 

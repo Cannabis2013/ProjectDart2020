@@ -7,7 +7,7 @@ Rectangle {
         signal clicked
         signal pressed
         signal released
-        signal pressAndHold()
+        signal pressAndHold
 
         onEnabledChanged: padRect.opacity = enabled ? 1 : 0.2
 

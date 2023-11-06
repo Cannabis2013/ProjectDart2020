@@ -7,11 +7,18 @@ Item {
         }
 
         function showCounter(status) {
-                turnCounter.visible = status
+                const dartsCounter = dartsContainer.children[0]
+                if (status && !dartsCounter) {
+                        const comp = Qt.createComponent("./counter/DartsCounter.qml")
+                        const obj = comp.createObject(dartsContainer)
+                } else if (!status && dartsCounter) {
+                        dartsCounter.destroy()
+                }
         }
 
-        function updateCounter(count) {
-                turnCounter.setNumberOfDarts(3 - count)
+        function updateVisibleDarts(count) {
+                const turnCounter = dartsContainer.children[0]
+                turnCounter.setVisibleDarts(count)
         }
 
         Text {
@@ -25,8 +32,10 @@ Item {
                 color: "white"
         }
 
-        DartsCounter {
-                id: turnCounter
+        Item {
+                id: dartsContainer
+                height: 52
+                width: 52
                 anchors.right: parent.right
                 anchors.top: parent.top
         }

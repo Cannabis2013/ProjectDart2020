@@ -1,4 +1,4 @@
-function buid() {
+function build() {
         const columnSpace = middlePadGrid.columnSpacing
         const rowSpace = middlePadGrid.rowSpacing
         const padWidth = keyPadRect.width / 5 - 4 * columnSpace

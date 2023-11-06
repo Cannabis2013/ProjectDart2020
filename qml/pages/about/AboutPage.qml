@@ -3,7 +3,7 @@ import QtQuick.Layouts 1.3
 import "../templates"
 
 PageWithHeader {
-        pageTitle: "About"
+        pageTitle: "About DartApp"
         GridLayout {
                 anchors.fill: parent
                 Rectangle {
@@ -14,16 +14,6 @@ PageWithHeader {
                         Layout.fillWidth: true
                         Layout.fillHeight: true
                         flow: GridLayout.TopToBottom
-                        Text {
-                                Layout.fillWidth: true
-                                height: 64
-                                verticalAlignment: Text.AlignVCenter
-                                font.pointSize: 32
-                                font.weight: Font.Bold
-                                text: qsTr("About DartApp")
-                                color: "white"
-                        }
-
                         Text {
                                 id: aboutText
                                 Layout.fillWidth: true
@@ -41,12 +31,7 @@ PageWithHeader {
         }
 
         Component.onCompleted: {
-                const xhr = new XMLHttpRequest
-                xhr.open("GET", "qrc:/data/Ressources/aboutContent.dat")
-                xhr.onreadystatechange = function () {
-                        if (xhr.readyState === XMLHttpRequest.DONE)
-                                aboutText.text = xhr.responseText
-                }
-                xhr.send()
+                const url = ":/data/Ressources/TextData/aboutContent.dat"
+                aboutText.text = fileReader.readAsString(url)
         }
 }

@@ -31,7 +31,6 @@
         <file>qml/pages/start/StartMenuButtons.qml</file>
         <file>qml/pages/start/StartPage.qml</file>
         <file>qml/pages/start/StartPageBackDrop.qml</file>
-        <file>qml/pages/templates/PageHeader.qml</file>
         <file>qml/pages/templates/PageWithHeader.qml</file>
         <file>qml/pages/tournament/keyPad/keyPadBuilder.js</file>
         <file>qml/pages/tournament/keyPad/KeyPads.qml</file>
@@ -40,11 +39,12 @@
         <file>qml/pages/tournament/keyPad/Pad.qml</file>
         <file>qml/pages/tournament/modals/RestartModal.qml</file>
         <file>qml/pages/tournament/modals/WinnerModal.qml</file>
-        <file>qml/pages/tournament/scores/DartsCounter.qml</file>
+        <file>qml/pages/tournament/scores/counter/DartsCounter.qml</file>
+        <file>qml/pages/tournament/scores/PlayerInfo.qml</file>
+        <file>qml/pages/tournament/scores/PlayerStatistics.qml</file>
         <file>qml/pages/tournament/scores/ScoreRect.qml</file>
         <file>qml/pages/tournament/scores/scoresScripts.js</file>
         <file>qml/pages/tournament/scores/ScoresView.qml</file>
-        <file>qml/pages/tournament/scores/PlayerStatistics.qml</file>
         <file>qml/pages/tournament/turn/scripts.js</file>
         <file>qml/pages/tournament/turn/TurnControls.qml</file>
         <file>qml/pages/tournament/TournamentPage.qml</file>
@@ -52,6 +52,6 @@
         <file>qml/main.qml</file>
         <file>qml/PageLoader.qml</file>
         <file>qtquickcontrols2.conf</file>
-        <file>qml/pages/tournament/scores/PlayerInfo.qml</file>
+        <file>qml/pages/tournament/scores/counter/ArrowImage.qml</file>
     </qresource>
 </RCC>

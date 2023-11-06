@@ -60,13 +60,11 @@ Item {
         GridLayout {
                 id: middlePadGrid
                 anchors.fill: parent
-                rows: 4
                 columns: 5
                 columnSpacing: 0
                 rowSpacing: 0
-                flow: GridLayout.LeftToRight
                 layoutDirection: Qt.RightToLeft
         }
 
-        Component.onCompleted: Builder.buid()
+        Component.onCompleted: Builder.build()
 }
