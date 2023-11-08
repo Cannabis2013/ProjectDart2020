@@ -1,23 +1,10 @@
 <RCC>
     <qresource prefix="/pictures">
-        <file>Ressources/Pictures/anti1964.png</file>
-        <file>Ressources/Pictures/arrow.png</file>
-        <file>Ressources/Pictures/checkmark.png</file>
-        <file>Ressources/Pictures/dartpic.jpg</file>
-        <file>Ressources/Pictures/dartpic.png</file>
-        <file>Ressources/Pictures/darttournamentmod.png</file>
-        <file>Ressources/Pictures/fck_jersey_logo.png</file>
-        <file>Ressources/Pictures/fck.png</file>
-        <file>Ressources/Pictures/pngfuel.com.png</file>
-        <file>Ressources/Pictures/s12_1.jpg</file>
-        <file>Ressources/Pictures/S12.png</file>
-        <file>Ressources/Pictures/skull.png</file>
-        <file>Ressources/Pictures/tuborgclassic.png</file>
-        <file>Ressources/Pictures/users.png</file>
+        <file>Ressources/Pictures/dartsplate.png</file>
         <file>Ressources/Pictures/winner.gif</file>
-        <file>Ressources/Pictures/sound_off.png</file>
-        <file>Ressources/Pictures/sound_on.png</file>
         <file>Ressources/Pictures/dartarrow.png</file>
+        <file>Ressources/Pictures/SnakeBite.png</file>
+        <file>Ressources/Pictures/gerwen.png</file>
     </qresource>
     <qresource prefix="/data">
         <file>Ressources/TextData/aboutContent.dat</file>
@@ -37,7 +24,7 @@
         <file>qml/pages/tournament/keyPad/ModPad.qml</file>
         <file>qml/pages/tournament/keyPad/NumberPad.qml</file>
         <file>qml/pages/tournament/keyPad/Pad.qml</file>
-        <file>qml/pages/tournament/modals/RestartModal.qml</file>
+        <file>qml/pages/tournament/modals/TextModal.qml</file>
         <file>qml/pages/tournament/modals/WinnerModal.qml</file>
         <file>qml/pages/tournament/scores/counter/DartsCounter.qml</file>
         <file>qml/pages/tournament/scores/PlayerInfo.qml</file>

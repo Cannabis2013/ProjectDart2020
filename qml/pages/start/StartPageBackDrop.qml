@@ -2,49 +2,47 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
 
-Rectangle {
-        color: "transparent"
+Item {
+        anchors.fill: parent
 
         Image {
-                source: "qrc:/pictures/Ressources/Pictures/fck.png"
-                x: parent.width / 2 - width / 2
-                y: 5
-                width: 150
-                height: 150
+                source: "qrc:/pictures/Ressources/Pictures/gerwen.png"
+                height: width * 1.1
+                width: 128
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.top: parent.top
+                anchors.topMargin: 12
         }
 
         Image {
-                source: "qrc:/pictures/Ressources/Pictures/pngfuel.com.png"
-                x: parent.width / 2 - 175
-                y: 5
-                width: 130
-                height: 130
+                source: "qrc:/pictures/Ressources/Pictures/dartsplate.png"
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.topMargin: 80
+                anchors.leftMargin: 40
+                width: height * 1.4
+                height: 112
+                fillMode: Image.PreserveAspectFit
         }
 
         Image {
-                source: "qrc:/pictures/Ressources/Pictures/tuborgclassic.png"
-                x: parent.width / 2 + 25
-                y: 25
-                width: 130
-                height: 130
-                rotation: 25
+                source: "qrc:/pictures/Ressources/Pictures/SnakeBite.png"
+                anchors.top: parent.top
+                anchors.right: parent.right
+                anchors.topMargin: 64
+                anchors.rightMargin: 12
+                height: width / 1.777777778
+                width: 192
+                fillMode: Image.PreserveAspectFit
         }
 
-        Image {
-                id: anti1964
-                clip: true
-                y: parent.height - height * 0.9
-                x: -56
-                scale: 0.7
-                rotation: 12
-                Layout.alignment: Qt.AlignHCenter
-                source: "qrc:/pictures/Ressources/Pictures/anti1964.png"
-        }
-
-        Image {
-                y: parent.height - height
-                x: parent.width - width * 0.9
-                rotation: -12
-                source: "qrc:/pictures/Ressources/Pictures/S12.png"
+        Text {
+                text: qsTr("Created by: Martin Hansen")
+                anchors.bottom: parent.bottom
+                anchors.right: parent.right
+                anchors.rightMargin: 12
+                anchors.bottomMargin: 12
+                font.pointSize: 12
+                color: "white"
         }
 }

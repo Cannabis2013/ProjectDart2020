@@ -15,6 +15,7 @@ Page {
         Keys.onPressed: event => {
                                 if (event.key === Qt.Key_Back) {
                                         event.accepted = true
+                                        backModal.open()
                                 }
                         }
 
@@ -70,9 +71,16 @@ Page {
                 onUndoClicked: PageScripts.undo()
         }
 
-        RestartModal {
+        TextModal {
                 id: restartModal
+                text: "Sure you want to restart?"
                 onAccepted: PageScripts.restartGame()
+        }
+
+        TextModal {
+                id: backModal
+                text: "Sure?"
+                onAccepted: menuRequest()
         }
 
         Component.onCompleted: PageScripts.init()

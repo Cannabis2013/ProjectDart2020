@@ -7,11 +7,15 @@ Dialog {
         height: 288
         anchors.centerIn: parent
 
+        property string text: ""
+        onTextChanged: modalText.text = text
+
         contentItem: Rectangle {
                 color: "transparent"
                 Text {
+                        id: modalText
                         anchors.fill: parent
-                        text: qsTr("Sure you want to restart?")
+                        text: qsTr(dialogRect.text)
                         wrapMode: Text.WordWrap
                         color: "white"
                         font.pointSize: 24

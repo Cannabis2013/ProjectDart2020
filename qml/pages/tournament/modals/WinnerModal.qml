@@ -1,14 +1,12 @@
 import QtQuick 2.0
 import QtQuick.Controls
 import QtQuick.Layouts 1.3
-
 import "../turn"
 import "../keyPad"
 
 Rectangle {
         id: winnerModal
         anchors.fill: parent
-
         color: "black"
 
         signal restartClicked

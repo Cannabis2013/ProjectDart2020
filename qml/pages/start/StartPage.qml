@@ -18,14 +18,11 @@ Page {
                                 }
                         }
 
-        StartPageBackDrop {
-                anchors.fill: parent
-        }
+        StartPageBackDrop {}
 
         StartMenuButtons {
                 id: gridLayout
-                y: 192
-                x: parent.width / 2 - width / 2
+                anchors.centerIn: parent
         }
 
         Component.onCompleted: forceActiveFocus()
