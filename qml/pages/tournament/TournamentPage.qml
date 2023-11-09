@@ -4,18 +4,19 @@ import QtQuick.Layouts 1.3
 import "turn"
 import "scores"
 import "keyPad"
-import "tournamentPageScripts.js" as PageScripts
+import "scripts/controllerScripts.js" as ControllerScripts
+import "scripts/tournamentModals.js" as Modals
 import "modals"
 
 Page {
+        id: tournamentPage
         signal menuRequest
-        onMenuRequest: dartsController.saveState()
 
         focus: true
         Keys.onPressed: event => {
                                 if (event.key === Qt.Key_Back) {
                                         event.accepted = true
-                                        backModal.open()
+                                        Modals.openBackModal(menuRequest)
                                 }
                         }
 
@@ -48,10 +49,10 @@ Page {
                         Layout.minimumHeight: 40
                         Layout.maximumHeight: 40
                         Layout.fillWidth: true
-                        onUndoClicked: PageScripts.undo()
-                        onRedoClicked: PageScripts.redo()
-                        onRestartClicked: restartModal.open()
-                        onMenuClicked: menuRequest()
+                        onUndoClicked: ControllerScripts.undo()
+                        onRedoClicked: ControllerScripts.redo()
+                        onRestartClicked: Modals.openRestartModal("Restart?", ControllerScripts.restartGame)
+                        onMenuClicked: Modals.openBackModal(menuRequest)
                 }
 
                 KeyPads {
@@ -59,29 +60,11 @@ Page {
                         Layout.fillWidth: true
                         Layout.fillHeight: true
                         Layout.alignment: Qt.AlignHCenter
-                        onReportScore: (modId, point) => PageScripts.addScore(modId, point)
-                        onBustTurn: value => PageScripts.bustScore()
+                        onReportScore: (modId, point) => ControllerScripts.addScore(modId, point)
+                        onBustTurn: value => ControllerScripts.bustScore()
                 }
         }
 
-        WinnerModal {
-                id: winnerModal
-                visible: false
-                onRestartClicked: PageScripts.restartGame()
-                onUndoClicked: PageScripts.undo()
-        }
-
-        TextModal {
-                id: restartModal
-                text: "Sure you want to restart?"
-                onAccepted: PageScripts.restartGame()
-        }
-
-        TextModal {
-                id: backModal
-                text: "Sure?"
-                onAccepted: menuRequest()
-        }
-
-        Component.onCompleted: PageScripts.init()
+        Component.onCompleted: ControllerScripts.init()
+        Component.onDestruction: dartsController.saveState()
 }

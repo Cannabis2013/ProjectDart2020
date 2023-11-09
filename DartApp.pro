@@ -72,6 +72,7 @@ HEADERS += \
     src/DartsController/validation/idartsevaluator.h \
     src/FileIO/filejsonio.h \
     src/FileIO/filereader.h \
+    src/Setup/qmlsetup.h \
     src/Sounds/soundcontroller.h
 
 SOURCES += \
@@ -100,5 +101,6 @@ SOURCES += \
     src/DartsController/validation/dartsoverthrowvalidator.cpp \
     src/FileIO/filejsonio.cpp \
     src/FileIO/filereader.cpp \
+    src/Setup/qmlsetup.cpp \
     src/Sounds/soundcontroller.cpp \
     src/main.cpp

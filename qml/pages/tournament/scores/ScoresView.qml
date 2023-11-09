@@ -9,6 +9,12 @@ Flickable {
         contentWidth: 0
         contentHeight: scoresFlickable.height
 
+        function updateHighlightValues(json) {
+                const name = json.currentPlayerName
+                const turnIndex = json.turnIndexes.turnIndex
+                ScoresScripts.updatePlayerRect(name, turnIndex)
+        }
+
         QtObject {
                 id: scoresObjects
                 property var objects: []
@@ -16,19 +22,21 @@ Flickable {
 
         property int playersCount: 0
 
-        function appendName(name, score) {
+        function appendName(json) {
+                const name = json.playerName
+                const score = json.playerScore
                 ScoresScripts.appendName(name, score)
         }
 
-        function updatePlayerValues(name, turnIndex) {
-                ScoresScripts.updatePlayerRect(name, turnIndex)
+        function updateScore(json) {
+                ScoresScripts.updateScore(json.playerName, json.playerScore)
         }
 
-        function updateScore(name, score) {
-                ScoresScripts.updateScore(name, score)
-        }
-
-        function updateStatistics(name, average, low, high) {
+        function updateStatistics(json) {
+                const name = json.playerName
+                const average = json.average
+                const low = json.low
+                const high = json.high
                 ScoresScripts.updateStatistics(name, average, low, high)
         }
 

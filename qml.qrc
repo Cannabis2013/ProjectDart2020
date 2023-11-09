@@ -5,6 +5,7 @@
         <file>Ressources/Pictures/dartarrow.png</file>
         <file>Ressources/Pictures/SnakeBite.png</file>
         <file>Ressources/Pictures/gerwen.png</file>
+        <file>Ressources/Pictures/GerwinPrice.png</file>
     </qresource>
     <qresource prefix="/data">
         <file>Ressources/TextData/aboutContent.dat</file>
@@ -35,10 +36,12 @@
         <file>qml/pages/tournament/turn/scripts.js</file>
         <file>qml/pages/tournament/turn/TurnControls.qml</file>
         <file>qml/pages/tournament/TournamentPage.qml</file>
-        <file>qml/pages/tournament/tournamentPageScripts.js</file>
         <file>qml/main.qml</file>
         <file>qml/PageLoader.qml</file>
         <file>qtquickcontrols2.conf</file>
         <file>qml/pages/tournament/scores/counter/ArrowImage.qml</file>
+        <file>qml/pages/tournament/scripts/controllerScripts.js</file>
+        <file>qml/pages/tournament/scripts/tournamentPageScripts.js</file>
+        <file>qml/pages/tournament/scripts/tournamentModals.js</file>
     </qresource>
 </RCC>

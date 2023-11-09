@@ -15,13 +15,13 @@ Item {
         }
 
         Image {
-                source: "qrc:/pictures/Ressources/Pictures/dartsplate.png"
+                source: "qrc:/pictures/Ressources/Pictures/GerwinPrice.png"
                 anchors.top: parent.top
                 anchors.left: parent.left
-                anchors.topMargin: 80
-                anchors.leftMargin: 40
-                width: height * 1.4
-                height: 112
+                anchors.topMargin: 64
+                anchors.leftMargin: 64
+                width: 116 / 1.09
+                height: 116
                 fillMode: Image.PreserveAspectFit
         }
 
@@ -31,7 +31,7 @@ Item {
                 anchors.right: parent.right
                 anchors.topMargin: 64
                 anchors.rightMargin: 12
-                height: width / 1.777777778
+                height: width / 1.65
                 width: 192
                 fillMode: Image.PreserveAspectFit
         }
