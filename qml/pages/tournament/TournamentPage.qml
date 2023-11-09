@@ -51,7 +51,7 @@ Page {
                         Layout.fillWidth: true
                         onUndoClicked: ControllerScripts.undo()
                         onRedoClicked: ControllerScripts.redo()
-                        onRestartClicked: Modals.openRestartModal("Restart?", ControllerScripts.restartGame)
+                        onRestartClicked: Modals.openRestartModal(ControllerScripts.restartGame)
                         onMenuClicked: Modals.openBackModal(menuRequest)
                 }
 

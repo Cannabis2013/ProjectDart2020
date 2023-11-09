@@ -18,7 +18,7 @@ Dialog {
                         text: qsTr(dialogRect.text)
                         wrapMode: Text.WordWrap
                         color: "white"
-                        font.pointSize: 24
+                        font.pointSize: 16
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
                 }

@@ -13,7 +13,7 @@ function openRestartModal(acceptSlot) {
 
 function openBackModal(acceptSlot) {
         const modalObj = createDefaultModal(acceptSlot)
-        modalObj.text = "Sure you want to exit? (Your state is saved)"
+        modalObj.text = "Sure you want to exit?\n(Your state is saved)"
         modalObj.open()
 }
 
