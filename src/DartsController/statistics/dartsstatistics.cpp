@@ -27,7 +27,7 @@ double DartsStatistics::average(int initialScore, int score, int count) const
         if (count <= 0)
                 return 0;
         auto playerPoints = initialScore - score;
-        auto avg = (double)playerPoints / count;
+        auto avg = (double)playerPoints * 3 / count;
         int quantizied = avg * 100;
         return (double)quantizied / 100;
 }

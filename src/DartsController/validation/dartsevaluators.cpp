@@ -1,6 +1,6 @@
 #include "dartsevaluators.h"
-#include "src/DartsController/validation/dartsofficialvalidator.h"
-#include "src/DartsController/validation/dartsoverthrowvalidator.h"
+#include "src/DartsController/validation/dartsprofessionalevaluator.h"
+#include "src/DartsController/validation/dartsbeginnervalidator.h"
 #include "src/FileIO/filejsonio.h"
 
 DartsEvaluators::DartsEvaluators(IDartsScores* scores, IDartsPlayers* players, IDartsStatus* status)
@@ -48,8 +48,8 @@ void DartsEvaluators::saveState()
 IDartsEvaluator* DartsEvaluators::fromMode()
 {
         if (_mode == 0)
-                return new DartsOfficialValidator(_scores, _players, _status);
+                return new DartsProfessionalEvaluator(_scores, _players, _status);
         else if (_mode == 1)
-                return new DartsOverthrowValidator(_scores, _players, _status);
+                return new DartsBeginnerValidator(_scores, _players, _status);
         return nullptr;
 }

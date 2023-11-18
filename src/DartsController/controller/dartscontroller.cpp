@@ -8,6 +8,7 @@ void DartsController::init(const QStringList& playerNames, const int& mode, cons
         scores()->init(initialScore);
         status()->init();
         setEvaluator(evaluators()->validator(mode));
+        evaluator()->init();
 }
 
 void DartsController::initFromSaved(){
@@ -26,6 +27,7 @@ void DartsController::reset()
         inputs()->init();
         scores()->reset();
         status()->init();
+        evaluator()->init();
 }
 
 void DartsController::saveState(){

@@ -16,9 +16,8 @@ Rectangle {
                 anchors.fill: parent
         }
 
-        function show(text) {
-                winnerModal.visible = true
-                winnerText.text = text
+        function setName(name) {
+                winnerText.text = name
         }
 
         MouseArea {

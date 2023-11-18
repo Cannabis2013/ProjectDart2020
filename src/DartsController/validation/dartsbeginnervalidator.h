@@ -8,17 +8,18 @@
 #include "src/DartsController/validation/idartsevaluator.h"
 #include <QList>
 
-class DartsOverthrowValidator : public IDartsEvaluator {
+class DartsBeginnerValidator : public IDartsEvaluator {
 public:
-        DartsOverthrowValidator(IDartsScores* scores, IDartsPlayers* players, IDartsStatus* status)
+        DartsBeginnerValidator(IDartsScores* scores, IDartsPlayers* players, IDartsStatus* status)
             : _scores(scores)
             , _players(players)
             , _status(status)
         {
         }
 
-        virtual bool evaluatorInput(const QString& mod, const int& point) override;
-        virtual void evaluateScoreCondition() override;
+        void init() override;
+        bool evaluateInput(const QString& mod, const int& point) override;
+        void evaluateScoreCondition() override;
 
 private:
         bool isValid(const QString& mod, const int& point) const;

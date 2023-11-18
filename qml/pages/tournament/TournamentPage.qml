@@ -52,7 +52,7 @@ Page {
                         onUndoClicked: ControllerScripts.undo()
                         onRedoClicked: ControllerScripts.redo()
                         onRestartClicked: Modals.openRestartModal(ControllerScripts.restartGame)
-                        onMenuClicked: Modals.openBackModal(menuRequest)
+                        onMenuClicked: menuRequest()
                 }
 
                 KeyPads {

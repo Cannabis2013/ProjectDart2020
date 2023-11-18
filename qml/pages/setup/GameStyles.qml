@@ -16,6 +16,7 @@ Item {
                         GameStyleRect {
                                 width: parent.width
                                 height: 128
+                                color: "blue"
                                 title: "Novice"
                                 initialScore: "101"
                                 description: "The first player to reach 0 or below wins the match."
@@ -35,6 +36,7 @@ Item {
                                 width: parent.width
                                 height: 128
                                 title: "Beginner"
+                                color: "orange"
                                 initialScore: "301"
                                 description: "The first player to reach 0 or below wins the match."
                                 onClicked: optionClicked(1, 301)
@@ -44,6 +46,7 @@ Item {
                                 width: parent.width
                                 height: 128
                                 title: "Beginner"
+                                color: "orange"
                                 initialScore: "501"
                                 description: "The first player to reach 0 or below wins the match."
                                 onClicked: optionClicked(1, 501)
@@ -52,6 +55,7 @@ Item {
                         GameStyleRect {
                                 width: parent.width
                                 height: 128
+                                color: "red"
                                 title: "Professional"
                                 initialScore: "301"
                                 description: "The first player to reach 0 with bulls or double as last throw wins"
@@ -61,6 +65,7 @@ Item {
                         GameStyleRect {
                                 width: parent.width
                                 height: 128
+                                color: "red"
                                 title: "Professional"
                                 initialScore: "501"
                                 description: "The first player to reach 0 with bulls or double as last throw wins"

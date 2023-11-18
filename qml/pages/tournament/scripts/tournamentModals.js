@@ -3,6 +3,7 @@ function openWinnerModal(winnerName, restartSlot, undoSlot) {
         const modalObj = modalComp.createObject(tournamentPage)
         modalObj.restartClicked.connect(restartSlot)
         modalObj.undoClicked.connect(undoSlot)
+        modalObj.setName(winnerName)
 }
 
 function openRestartModal(acceptSlot) {

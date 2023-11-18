@@ -29,7 +29,7 @@ void DartsInputAdder::setEvaluator(IDartsEvaluator** evaluatorRef)
 
 bool DartsInputAdder::persistInput(const Input& input){
         auto evaluator = *_evaluator;
-        if (evaluator->evaluatorInput(input.mod(), input.point())) {
+        if (evaluator->evaluateInput(input.mod(), input.point())) {
                 _inputs->save(input);
                 return true;
         }

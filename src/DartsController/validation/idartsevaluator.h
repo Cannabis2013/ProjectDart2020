@@ -5,7 +5,8 @@
 
 class IDartsEvaluator {
 public:
-        virtual bool evaluatorInput(const QString& mod, const int& point) = 0;
+        virtual void init() = 0;
+        virtual bool evaluateInput(const QString& mod, const int& point) = 0;
         virtual void evaluateScoreCondition() = 0;
 };
 
