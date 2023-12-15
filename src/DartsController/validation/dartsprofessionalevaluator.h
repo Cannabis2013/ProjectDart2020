@@ -26,7 +26,6 @@ private:
         bool isAllowed(const QString& mod);
         bool isValid(const QString& mod, const int& point);
         bool isWithinBounds(const int& remainingScore);
-        bool isWinnerShot(const int& remainingScore, const QString& mod, const int& point);
         int remainingScore(const QString& mod, const int& point) const;
         int modMultiplier(QString mod) const;
 

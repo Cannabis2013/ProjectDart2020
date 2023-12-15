@@ -9,11 +9,9 @@ DartsPlayers::DartsPlayers(IDartsIndexes* indexes)
         _playersIO = new PlayersIO("players.dat");
 }
 
-void DartsPlayers::init(const QStringList& names)
+void DartsPlayers::init(const QList<DartsPlayer>& players)
 {
-        _players.clear();
-        for (const auto& name : names)
-                _players << DartsPlayer(name);
+        _players = players;
 }
 
 void DartsPlayers::initFromFile()
@@ -27,26 +25,24 @@ void DartsPlayers::reset()
                 player.setWinner(false);
 }
 
-QString DartsPlayers::name(int index) const
+DartsPlayer& DartsPlayers::player(const int& index)
 {
-        return _players.at(index).name();
+        return _players[index];
 }
 
-QString DartsPlayers::name() const
+DartsPlayer& DartsPlayers::player()
 {
         auto playerIndex = _indexes->index().playerIndex();
-        if (playerIndex >= _players.count())
-                return QString();
-        return _players.at(playerIndex).name();
+        return _players[playerIndex];
 }
 
-QString DartsPlayers::winnerName() const
+DartsPlayer DartsPlayers::winner() const
 {
         for (const auto& player : _players) {
                 if (player.winner())
-                        return player.name();
+                        return player;
         }
-        return QString();
+        return DartsPlayer();
 }
 
 int DartsPlayers::playersCount() const
@@ -65,22 +61,4 @@ const QStringList DartsPlayers::names() const
 bool DartsPlayers::saveState()
 {
         return _playersIO->saveToFile(_players);
-}
-
-int DartsPlayers::indexOf(const QString& name) const
-{
-        for (int index = 0; index < _players.size(); ++index) {
-                auto player = _players.at(index);
-                if (player.name() == name)
-                        return index;
-        }
-        return -1;
-}
-
-void DartsPlayers::declareAsWinner(const QString& name)
-{
-        for (auto& player : _players) {
-                if (player.name() == name)
-                        player.setWinner(true);
-        }
 }

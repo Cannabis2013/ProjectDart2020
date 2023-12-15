@@ -1,7 +1,7 @@
 #ifndef PLAYERSIO_H
 #define PLAYERSIO_H
 
-#include "src/DartsController/players/DartsPlayer.h"
+#include "src/DartsController/players/dartsplayer.h"
 #include <QStringList>
 
 class PlayersIO

@@ -43,5 +43,7 @@
         <file>qml/pages/tournament/scripts/controllerScripts.js</file>
         <file>qml/pages/tournament/scripts/tournamentPageScripts.js</file>
         <file>qml/pages/tournament/scripts/tournamentModals.js</file>
+        <file>qml/pages/setup/setupPage.js</file>
+        <file>qml/pages/tournament/tournamentPage.js</file>
     </qresource>
 </RCC>

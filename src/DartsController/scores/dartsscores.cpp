@@ -51,6 +51,9 @@ DartsPlayerScore DartsScores::score(){
 }
 
 DartsPlayerScore DartsScores::score(const QString& name){
-        auto index = _players->indexOf(name);
-        return _scores.at(index);
+        for (const auto& score : _scores) {
+                if (score.name() == name)
+                        return score;
+        }
+        return DartsPlayerScore();
 }

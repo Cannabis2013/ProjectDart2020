@@ -1,11 +1,12 @@
 #include "soundcontroller.h"
 #include <QAudioOutput>
+#include <QMediaPlayer>
 
 SoundController::SoundController(QObject* parent)
     : QObject { parent }
 {
         _player = new QMediaPlayer();
-        _player->setAudioOutput(new QAudioOutput());
+        _player->setAudioOutput(new QAudioOutput);
         _player->audioOutput()->setVolume(50);
 }
 

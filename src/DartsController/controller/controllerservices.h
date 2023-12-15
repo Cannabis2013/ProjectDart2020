@@ -1,7 +1,8 @@
-#ifndef ABSTRACTDARTSCONTROLLER_H
-#define ABSTRACTDARTSCONTROLLER_H
+#ifndef CONTROLLERSERVICES_H
+#define CONTROLLERSERVICES_H
 
 #include "src/DartsController/Finishes/idartsfinishes.h"
+#include "src/DartsController/controller/controllerinitializer.h"
 #include "src/DartsController/indexes/idartsindexes.h"
 #include "src/DartsController/input/IDartsInputs.h"
 #include "src/DartsController/input/idartsinputadder.h"
@@ -14,7 +15,7 @@
 #include "src/DartsController/validation/dartsevaluators.h"
 #include "src/DartsController/validation/idartsevaluator.h"
 
-class AbstractDartsController {
+class ControllerServices {
 public:
         IDartsEvaluator* evaluator() const;
         void setEvaluator(IDartsEvaluator* newEvaluator);
@@ -40,6 +41,8 @@ public:
         void setEvaluators(DartsEvaluators* newEvaluators);
         IDartsInputTrimmer* trimmer() const;
         void setTrimmer(IDartsInputTrimmer* newTrimmer);
+        ControllerInitializer* initializer() const;
+        void setInitializer(ControllerInitializer* newInitializor);
 
 private:
         // Services
@@ -55,6 +58,7 @@ private:
         IDartsInputAdder* _adder = nullptr;
         DartsEvaluators* _evaluators = nullptr;
         IDartsInputTrimmer* _trimmer = nullptr;
+        ControllerInitializer* _initializer = nullptr;
 };
 
-#endif // ABSTRACTDARTSCONTROLLER_H
+#endif // CONTROLLERSERVICES_H

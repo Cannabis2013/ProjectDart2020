@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.15
 import "../templates"
+import "setupPage.js" as Scripts
 
 PageWithHeader {
         anchors.fill: parent
@@ -27,10 +28,7 @@ PageWithHeader {
                         Layout.alignment: Qt.AlignHCenter
                         Layout.fillHeight: true
                         width: 300
-                        onOptionClicked: (mode, initialValue) => {
-                                                 dartsController.init(["Van Gerwen", "Snake Bite"], mode, initialValue)
-                                                 requestTournamentPage()
-                                         }
+                        onOptionClicked: (mode, initialValue) => Scripts.init(mode, initialValue)
                 }
         }
 }

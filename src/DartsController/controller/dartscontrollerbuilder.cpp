@@ -38,5 +38,6 @@ DartsController* DartsControllerBuilder::build()
         controller->setInputs(inputsService);
         controller->setFinishes(finishService);
         controller->setAdder(adderService);
+        controller->setInitializer(new ControllerInitializer(controller));
         return controller;
 }

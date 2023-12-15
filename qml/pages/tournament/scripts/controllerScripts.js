@@ -36,7 +36,7 @@ function updateTurnValues() {
         const turnInfo = JSON.parse(dartsController.turnInfo())
         if (turnInfo.winnerFound) {
                 Scripts.winnerFound(turnInfo)
-                Modals.openWinnerModal(turnInfo.winnerName, restartGame, undo)
+                Modals.openWinnerModal(turnInfo.winnerName, turnInfo.winnerImage, restartGame, undo)
         } else
                 Scripts.winnerNotFound(turnInfo)
 }

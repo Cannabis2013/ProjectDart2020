@@ -31,7 +31,10 @@ HEADERS += \
     src/DartsController/Finishes/dclogisticdb.h \
     src/DartsController/Finishes/finishestypes.h \
     src/DartsController/Finishes/idartsfinishes.h \
-    src/DartsController/controller/abstractdartscontroller.h \
+    src/DartsController/controller/IDartsController.h \
+    src/DartsController/controller/controllerinitializer.h \
+    src/DartsController/controller/controllerservices.h \
+    src/DartsController/controller/controllervalues.h \
     src/DartsController/controller/dartscontroller.h \
     src/DartsController/controller/dartscontrollerbuilder.h \
     src/DartsController/indexes/dartsindex.h \
@@ -47,7 +50,7 @@ HEADERS += \
     src/DartsController/input/idartsinputadder.h \
     src/DartsController/input/idartsinputtrimmer.h \
     src/DartsController/input/inputsio.h \
-    src/DartsController/players/DartsPlayer.h \
+    src/DartsController/players/dartsplayer.h \
     src/DartsController/players/dartsplayers.h \
     src/DartsController/players/idartsplayers.h \
     src/DartsController/players/playersio.h \
@@ -79,7 +82,9 @@ SOURCES += \
     src/DartsController/Finishes/dartsThresholds.cpp \
     src/DartsController/Finishes/dartscreatefinishes.cpp \
     src/DartsController/Finishes/dartsfinishes.cpp \
-    src/DartsController/controller/abstractdartscontroller.cpp \
+    src/DartsController/controller/controllerinitializer.cpp \
+    src/DartsController/controller/controllerservices.cpp \
+    src/DartsController/controller/controllervalues.cpp \
     src/DartsController/controller/dartscontroller.cpp \
     src/DartsController/controller/dartscontrollerbuilder.cpp \
     src/DartsController/indexes/dartsindexes.cpp \

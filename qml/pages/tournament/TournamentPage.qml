@@ -7,18 +7,14 @@ import "keyPad"
 import "scripts/controllerScripts.js" as ControllerScripts
 import "scripts/tournamentModals.js" as Modals
 import "modals"
+import "tournamentPage.js" as Events
 
 Page {
         id: tournamentPage
         signal menuRequest
 
         focus: true
-        Keys.onPressed: event => {
-                                if (event.key === Qt.Key_Back) {
-                                        event.accepted = true
-                                        Modals.openBackModal(menuRequest)
-                                }
-                        }
+        Keys.onPressed: event => Events.handleCloseEvent(event)
 
         ColumnLayout {
                 anchors.fill: parent

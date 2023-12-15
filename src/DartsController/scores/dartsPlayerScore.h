@@ -11,14 +11,16 @@ class DartsPlayerScore{
 public:
         DartsPlayerScore(const QString& playerName, int score) : _playerName(playerName),
                 _playerScore(score)
-        {}
+        {
+        }
 
-        DartsPlayerScore(Score score){
+        DartsPlayerScore(Score score)
+        {
                 _playerName = score.name();
                 _playerScore = score.score();
         }
 
-        DartsPlayerScore(){}
+        DartsPlayerScore() { }
 
         int playerScore() const
         {

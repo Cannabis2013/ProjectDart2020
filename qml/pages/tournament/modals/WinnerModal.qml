@@ -1,5 +1,5 @@
 import QtQuick 2.0
-import QtQuick.Controls
+import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
 import "../turn"
 import "../keyPad"
@@ -11,6 +11,10 @@ Rectangle {
 
         signal restartClicked
         signal undoClicked
+
+        function setImageUrl(url) {
+                animatedImage.source = url
+        }
 
         MouseArea {
                 anchors.fill: parent
@@ -52,10 +56,10 @@ Rectangle {
                 }
 
                 AnimatedImage {
+                        id: animatedImage
                         Layout.columnSpan: 3
                         Layout.fillHeight: true
                         Layout.fillWidth: true
-                        source: "qrc:/pictures/Ressources/Pictures/winner.gif"
                 }
 
                 Button {

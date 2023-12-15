@@ -8,13 +8,13 @@ Pad {
 
         signal padClicked(int value)
         signal padLongClicked
-        onPressed: numberPadRect.color = "red"
+        onPressed: pushAnimation.start()
 
         ColorAnimation on color {
                 id: pushAnimation
                 from: "red"
                 to: numberPadRect.backgroundColor
-                duration: 750
+                duration: 1500
                 loops: 1
                 running: false
         }

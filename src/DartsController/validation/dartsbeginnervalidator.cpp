@@ -13,7 +13,8 @@ void DartsBeginnerValidator::evaluateScoreCondition()
         for (const auto& score : std::as_const(scores)) {
                 if (score.score() <= 0) {
                         _status->winnerFound();
-                        _players->declareAsWinner(score.name());
+                        auto winner = &_players->player();
+                        winner->setWinner(true);
                 }
         }
 }

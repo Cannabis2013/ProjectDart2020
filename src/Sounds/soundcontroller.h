@@ -1,8 +1,9 @@
 #ifndef SOUNDCONTROLLER_H
 #define SOUNDCONTROLLER_H
 
-#include <QMediaPlayer>
 #include <QObject>
+
+class QMediaPlayer;
 
 class SoundController : public QObject
 {

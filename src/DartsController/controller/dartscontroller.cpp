@@ -1,42 +1,21 @@
 #include "dartscontroller.h"
 
-void DartsController::init(const QStringList& playerNames, const int& mode, const int& initialScore)
+void DartsController::init(const QByteArray& json)
 {
-        players()->init(playerNames);
-        indexes()->init(playerNames.count());
-        inputs()->init();
-        scores()->init(initialScore);
-        status()->init();
-        setEvaluator(evaluators()->validator(mode));
-        evaluator()->init();
+        initializer()->init(json);
 }
 
 void DartsController::initFromSaved(){
-        players()->initFromFile();
-        indexes()->initFromFile();
-        inputs()->initFromFile();
-        scores()->initFromFile();
-        status()->initFromFile();
-        setEvaluator(evaluators()->validator());
+        initializer()->initFromStorage();
 }
 
 void DartsController::reset()
 {
-        players()->reset();
-        indexes()->reset();
-        inputs()->init();
-        scores()->reset();
-        status()->init();
-        evaluator()->init();
+        initializer()->reset();
 }
 
 void DartsController::saveState(){
-        indexes()->saveState();
-        scores()->saveState();
-        inputs()->saveState();
-        players()->saveState();
-        status()->saveState();
-        evaluators()->saveState();
+        initializer()->saveState();
 }
 
 QByteArray DartsController::playerScores() const
@@ -47,6 +26,11 @@ QByteArray DartsController::playerScores() const
 QStringList DartsController::playerNames() const
 {
         return players()->names();
+}
+
+QString DartsController::winnerImage() const
+{
+        return players()->winner().winnerImageUrl();
 }
 
 QByteArray DartsController::turnInfo() const

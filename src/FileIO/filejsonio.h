@@ -13,7 +13,7 @@ public:
 
 private:
         // Class member methods
-        QFile* openFile(const QString& filename, const QIODeviceBase::OpenMode& mode);
+        QFile* openFile(const QString& filename, const QIODevice::OpenMode& mode);
         QByteArray readJson(QFile* const file);
         bool writeJson(QFile* const file, const QByteArray& json);
 

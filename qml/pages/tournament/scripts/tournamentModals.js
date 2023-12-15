@@ -1,9 +1,10 @@
-function openWinnerModal(winnerName, restartSlot, undoSlot) {
+function openWinnerModal(winnerName, imageUrl, restartSlot, undoSlot) {
         const modalComp = Qt.createComponent("../modals/WinnerModal.qml")
         const modalObj = modalComp.createObject(tournamentPage)
         modalObj.restartClicked.connect(restartSlot)
         modalObj.undoClicked.connect(undoSlot)
         modalObj.setName(winnerName)
+        modalObj.setImageUrl(imageUrl)
 }
 
 function openRestartModal(acceptSlot) {
