@@ -2,9 +2,10 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
 import "../templates"
+import "startPage.js" as Scripts
 
 Page {
-        id: startPageContentBody
+        id: startPage
 
         signal requestTournamentPage
         signal requestAboutPage
@@ -18,7 +19,9 @@ Page {
                                 }
                         }
 
-        StartPageBackDrop {}
+        StartPageBackDrop {
+                visible: Scripts.isPortrait()
+        }
 
         StartMenuButtons {
                 id: gridLayout

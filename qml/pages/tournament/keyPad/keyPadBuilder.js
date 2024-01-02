@@ -1,62 +1,54 @@
 function build() {
-        const columnSpace = middlePadGrid.columnSpacing
-        const rowSpace = middlePadGrid.rowSpacing
-        const padWidth = keyPadRect.width / 5 - 4 * columnSpace
-        const padHeight = keyPadRect.height / 5 - 4 * rowSpace
-        buildNumbers(padWidth, padHeight)
-}
-
-function buildNumbers(width, height) {
-        let totalButtons = 24
-        let buttonIndex = 20
-        while (totalButtons >= 0) {
-                if (totalButtons === 4)
-                        createBustPad(height, width, middlePadGrid)
-                else if (totalButtons === 9)
-                        createBullPad(height, width, middlePadGrid)
-                else if (totalButtons === 14)
-                        createBullsPad(height, width, middlePadGrid)
-                else if (totalButtons === 19)
-                        createModPad("D", height, width, middlePadGrid)
-                else if (totalButtons === 24)
-                        createModPad("T", height, width, middlePadGrid)
+        let buttonIndex = 24
+        let numberIndex = 20
+        while (buttonIndex >= 0) {
+                if (buttonIndex === 4)
+                        createBustPad(middlePadGrid)
+                else if (buttonIndex === 9)
+                        createBullPad(middlePadGrid)
+                else if (buttonIndex === 14)
+                        createBullsPad(middlePadGrid)
+                else if (buttonIndex === 19)
+                        createModPad("D", middlePadGrid)
+                else if (buttonIndex === 24)
+                        createModPad("T", middlePadGrid)
                 else {
-                        createNumberPad(buttonIndex, buttonIndex, height, width, middlePadGrid)
-                        buttonIndex--
+                        createNumberPad(numberIndex, numberIndex, middlePadGrid)
+                        numberIndex--
                 }
-                totalButtons--
+                buttonIndex--
         }
 }
 
-function createNumberPad(padValue, textDisplay, height, width, parentObj) {
+function createNumberPad(padValue, textDisplay, parentObj) {
         const component = Qt.createComponent("NumberPad.qml")
         const object = component.createObject(parentObj, {
                                                       "text": textDisplay,
                                                       "padValue": padValue,
-                                                      "height": height,
-                                                      "width": width,
+                                                      "Layout.fillWidth": true,
+                                                      "Layout.fillHeight": true,
                                                       "backgroundColor": "white"
                                               })
         object.padClicked.connect(keyPadRect.numberClicked)
 }
 
-function createModPad(modId, height, width, parentObj) {
+function createModPad(modId, parentObj) {
         const component = Qt.createComponent("ModPad.qml")
         const modKey = component.createObject(parentObj, {
                                                       "text": modId,
                                                       "modId": modId,
-                                                      "height": height,
-                                                      "width": width
+                                                      "Layout.fillWidth": true,
+                                                      "Layout.fillHeight": true
                                               })
         modKeys.modObjects.push(modKey)
         modKey.modClicked.connect(modKeyClicked)
 }
 
-function createBullPad(height, width, parentObj) {
+function createBullPad(parentObj) {
         const component = Qt.createComponent("NumberPad.qml")
         const object = component.createObject(parentObj, {
-                                                      "height": height,
-                                                      "width": width,
+                                                      "Layout.fillWidth": true,
+                                                      "Layout.fillHeight": true,
                                                       "text": "25",
                                                       "padValue": 25,
                                                       "backgroundColor": "green"
@@ -64,11 +56,11 @@ function createBullPad(height, width, parentObj) {
         object.padClicked.connect(keyPadRect.specialClicked)
 }
 
-function createBullsPad(height, width, parentObj) {
+function createBullsPad(parentObj) {
         const component = Qt.createComponent("NumberPad.qml")
         const object = component.createObject(parentObj, {
-                                                      "height": height,
-                                                      "width": width,
+                                                      "Layout.fillWidth": true,
+                                                      "Layout.fillHeight": true,
                                                       "text": "50",
                                                       "padValue": 50,
                                                       "backgroundColor": "red"
@@ -76,11 +68,11 @@ function createBullsPad(height, width, parentObj) {
         object.padClicked.connect(keyPadRect.specialClicked)
 }
 
-function createBustPad(height, width, parentObj) {
+function createBustPad(parentObj) {
         const component = Qt.createComponent("NumberPad.qml")
         const object = component.createObject(parentObj, {
-                                                      "height": height,
-                                                      "width": width,
+                                                      "Layout.fillWidth": true,
+                                                      "Layout.fillHeight": true,
                                                       "text": "0",
                                                       "padValue": 0,
                                                       "backgroundColor": "orange"

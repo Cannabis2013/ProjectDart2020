@@ -6,6 +6,8 @@ ApplicationWindow {
 
         visible: true
 
+        onContentOrientationChanged: print("Orientation changed")
+
         minimumHeight: 640
         minimumWidth: 400
 

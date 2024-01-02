@@ -15,6 +15,8 @@ Item {
 
         Row {
                 id: dartsLayout
+                layoutDirection: Qt.RightToLeft
+
                 move: Transition {
                         NumberAnimation {
                                 properties: "x,y"

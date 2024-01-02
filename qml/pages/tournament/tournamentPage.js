@@ -4,3 +4,7 @@ function handleCloseEvent(event) {
                 Modals.openBackModal(menuRequest)
         }
 }
+
+function isPortrait() {
+        return tournamentPage.height > tournamentPage.width
+}

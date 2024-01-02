@@ -1,24 +1,28 @@
-import QtQuick 2.0
+import QtQuick 2.1
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
 import "turn"
 import "scores"
 import "keyPad"
+import "modals"
 import "scripts/controllerScripts.js" as ControllerScripts
 import "scripts/tournamentModals.js" as Modals
-import "modals"
-import "tournamentPage.js" as Events
+import "tournamentPage.js" as Scripts
 
 Page {
         id: tournamentPage
         signal menuRequest
 
         focus: true
-        Keys.onPressed: event => Events.handleCloseEvent(event)
+        Keys.onPressed: event => Scripts.handleCloseEvent(event)
 
-        ColumnLayout {
+        GridLayout {
                 anchors.fill: parent
-                spacing: 6
+                rowSpacing: 0
+                columnSpacing: 0
+                flow: GridLayout.TopToBottom
+                rows: 4
+
                 ScoresView {
                         id: scoresView
                         Layout.minimumHeight: 180
@@ -27,16 +31,26 @@ Page {
                         Layout.alignment: Qt.AlignHCenter
                 }
 
-                Text {
-                        id: targetRow
-                        font.pointSize: 28
-                        font.weight: Font.Bold
+                Item {
+                        clip: true
                         Layout.fillWidth: true
-                        Layout.minimumHeight: 28
-                        Layout.maximumHeight: 28
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignHCenter
-                        color: "white"
+                        Layout.preferredHeight: 32
+                        Text {
+                                anchors.fill: parent
+                                id: targetRow
+                                font.pointSize: 28
+                                font.weight: Font.Bold
+                                color: "white"
+                                horizontalAlignment: Text.AlignHCenter
+                                verticalAlignment: Text.AlignVCenter
+                        }
+                }
+
+                Item {
+                        id: verticalSpacer
+                        visible: !Scripts.isPortrait()
+                        Layout.fillHeight: true
+                        Layout.maximumWidth: 1
                 }
 
                 TurnControls {
@@ -51,11 +65,11 @@ Page {
                         onMenuClicked: menuRequest()
                 }
 
-                KeyPads {
+                KeyPad {
                         id: keyPad
                         Layout.fillWidth: true
                         Layout.fillHeight: true
-                        Layout.alignment: Qt.AlignHCenter
+                        Layout.rowSpan: Scripts.isPortrait() ? 1 : 4
                         onReportScore: (modId, point) => ControllerScripts.addScore(modId, point)
                         onBustTurn: value => ControllerScripts.bustScore()
                 }

@@ -5,10 +5,9 @@ function appendName(name, score) {
         object.id = name
         object.setName(shortenName(name))
         object.updateScore(score)
-        object.width = objectWidth
+        object.Layout.fillWidth = true
         object.Layout.fillHeight = true
         object.Layout.alignment = Qt.AlignHCenter
-        scoresFlickable.contentWidth += objectWidth
         scoresObjects.objects.push(object)
 }
 
@@ -27,7 +26,9 @@ function updateScore(name, score) {
         }
 }
 
-function updatePlayerRect(name, turnIndex) {
+function updatePlayerRect(json) {
+        const name = json.currentPlayerName
+        const turnIndex = json.turnIndexes.turnIndex
         const scores = scoresObjects.objects
         for (var i = 0; i < scores.length; i++) {
                 const score = scores[i]
@@ -38,11 +39,11 @@ function updatePlayerRect(name, turnIndex) {
         }
 }
 
-function updateStatistics(name, average, low, high) {
+function updateStatistics(json) {
         const objects = scoresObjects.objects
         for (var i = 0; i < objects.length; i++) {
                 const scoreObject = objects[i]
-                if (scoreObject.id === name)
-                        scoreObject.updateStatistics(average, low, high)
+                if (scoreObject.id === json.playerName)
+                        scoreObject.updateStatistics(json.average, json.low, json.high)
         }
 }

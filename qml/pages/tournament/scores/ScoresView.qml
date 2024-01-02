@@ -1,18 +1,13 @@
 import QtQuick 2.15
 import QtQuick.Layouts 1.3
+import "scoresView.js" as Scripts
 
-import "scoresScripts.js" as ScoresScripts
-
-Flickable {
+Item {
         id: scoresFlickable
         clip: true
-        contentWidth: 0
-        contentHeight: scoresFlickable.height
 
         function updateHighlightValues(json) {
-                const name = json.currentPlayerName
-                const turnIndex = json.turnIndexes.turnIndex
-                ScoresScripts.updatePlayerRect(name, turnIndex)
+                Scripts.updatePlayerRect(json)
         }
 
         QtObject {
@@ -23,21 +18,15 @@ Flickable {
         property int playersCount: 0
 
         function appendName(json) {
-                const name = json.playerName
-                const score = json.playerScore
-                ScoresScripts.appendName(name, score)
+                Scripts.appendName(json.playerName, json.playerScore)
         }
 
         function updateScore(json) {
-                ScoresScripts.updateScore(json.playerName, json.playerScore)
+                Scripts.updateScore(json.playerName, json.playerScore)
         }
 
         function updateStatistics(json) {
-                const name = json.playerName
-                const average = json.average
-                const low = json.low
-                const high = json.high
-                ScoresScripts.updateStatistics(name, average, low, high)
+                Scripts.updateStatistics(json)
         }
 
         GridLayout {

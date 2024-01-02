@@ -21,7 +21,7 @@
         <file>qml/pages/start/StartPageBackDrop.qml</file>
         <file>qml/pages/templates/PageWithHeader.qml</file>
         <file>qml/pages/tournament/keyPad/keyPadBuilder.js</file>
-        <file>qml/pages/tournament/keyPad/KeyPads.qml</file>
+        <file>qml/pages/tournament/keyPad/KeyPad.qml</file>
         <file>qml/pages/tournament/keyPad/ModPad.qml</file>
         <file>qml/pages/tournament/keyPad/NumberPad.qml</file>
         <file>qml/pages/tournament/keyPad/Pad.qml</file>
@@ -31,7 +31,7 @@
         <file>qml/pages/tournament/scores/PlayerInfo.qml</file>
         <file>qml/pages/tournament/scores/PlayerStatistics.qml</file>
         <file>qml/pages/tournament/scores/ScoreRect.qml</file>
-        <file>qml/pages/tournament/scores/scoresScripts.js</file>
+        <file>qml/pages/tournament/scores/scoresView.js</file>
         <file>qml/pages/tournament/scores/ScoresView.qml</file>
         <file>qml/pages/tournament/turn/scripts.js</file>
         <file>qml/pages/tournament/turn/TurnControls.qml</file>
@@ -45,5 +45,7 @@
         <file>qml/pages/tournament/scripts/tournamentModals.js</file>
         <file>qml/pages/setup/setupPage.js</file>
         <file>qml/pages/tournament/tournamentPage.js</file>
+        <file>qml/pages/tournament/keyPad/keyPad.js</file>
+        <file>qml/pages/start/startPage.js</file>
     </qresource>
 </RCC>
