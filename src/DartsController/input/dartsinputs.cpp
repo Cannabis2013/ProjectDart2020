@@ -37,8 +37,10 @@ void DartsInputs::remove(const std::function<bool(const Input&)>& predicate)
 
 Input DartsInputs::save(Input input)
 {
-        input.setPlayerName(_players->player().name());
-        input.setThrowIndex(_indexes->index().throwIndex());
+        auto player = _players->player();
+        auto index = _indexes->index();
+        input.setPlayerName(player.name());
+        input.setThrowIndex(index.throwIndex());
         _inputs << input;
         return input;
 }
