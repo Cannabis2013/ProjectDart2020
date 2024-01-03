@@ -30,6 +30,15 @@ DartsPlayer& DartsPlayers::player(const int& index)
         return _players[index];
 }
 
+DartsPlayer& DartsPlayers::player(const QString& name)
+{
+        for (auto& player : _players) {
+                if (player.name() == name)
+                        return player;
+        }
+        throw new std::invalid_argument("NOT FOUND");
+}
+
 DartsPlayer& DartsPlayers::player()
 {
         auto playerIndex = _indexes->index().playerIndex();

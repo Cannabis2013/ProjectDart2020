@@ -21,18 +21,6 @@ Column {
                 font.pointSize: 24
                 width: 192
                 height: 48
-                text: "Practice"
-                onClicked: {
-                        dartsController.init(["I"], 0, 501)
-                        requestTournamentPage()
-                }
-        }
-
-        Button {
-                flat: true
-                font.pointSize: 24
-                width: 192
-                height: 48
                 text: "Resume game"
                 onClicked: {
                         dartsController.initFromSaved()

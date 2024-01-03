@@ -21,6 +21,7 @@ public:
         const QStringList names() const override;
         bool saveState() override;
         DartsPlayer& player(const int& index) override;
+        virtual DartsPlayer& player(const QString& name) override;
         DartsPlayer& player() override;
 
 private:
