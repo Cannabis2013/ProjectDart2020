@@ -12,8 +12,7 @@ class DartsPlayers : public IDartsPlayers
 {
 public:
         DartsPlayers(IDartsIndexes *indexes);
-
-        void init(const QList<DartsPlayer>& players) override;
+        void init(const int& count) override;
         void initFromFile() override;
         virtual void reset() override;
         virtual DartsPlayer winner() const override;

@@ -7,7 +7,7 @@
 class IDartsPlayers
 {
 public:
-        virtual void init(const QList<DartsPlayer>& players) = 0;
+        virtual void init(const int& count) = 0;
         virtual void initFromFile() = 0;
         virtual void reset() = 0;
         virtual int playersCount() const = 0;

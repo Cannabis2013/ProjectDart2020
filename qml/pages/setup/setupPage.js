@@ -7,13 +7,7 @@ function init(mode, initialScore) {
 
 function players(mode, initialScore) {
         const obj = {
-                "players": [{
-                                "name": "Snake Bite",
-                                "winnerImage": "qrc:/pictures/Ressources/Pictures/SnakeBite.png"
-                        }, {
-                                "name": "Van Gerwin",
-                                "winnerImage": "qrc:/pictures/Ressources/Pictures/winner.gif"
-                        }],
+                "playersCount": 2,
                 "gameMode": mode,
                 "initialScore": initialScore
         }

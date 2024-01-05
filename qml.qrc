@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/pictures">
         <file>Ressources/Pictures/dartsplate.png</file>
-        <file>Ressources/Pictures/winner.gif</file>
+        <file>Ressources/Pictures/VanGerwin.gif</file>
         <file>Ressources/Pictures/dartarrow.png</file>
         <file>Ressources/Pictures/SnakeBite.png</file>
         <file>Ressources/Pictures/gerwen.png</file>

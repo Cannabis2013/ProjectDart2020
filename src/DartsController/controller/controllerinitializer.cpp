@@ -10,7 +10,7 @@ ControllerInitializer::ControllerInitializer(ControllerServices* services)
 void ControllerInitializer::init(const QByteArray& json)
 {
         ControllerValues values(json);
-        _services->players()->init(values.players());
+        _services->players()->init(values.playersCount());
         _services->indexes()->init(values.playersCount());
         _services->inputs()->init();
         _services->scores()->init(values.initialScore());

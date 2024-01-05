@@ -1,7 +1,10 @@
 #include "dartsplayers.h"
+#include "src/DartsController/players/heroes/pdcchampions.h"
 #include <QJsonArray>
 #include <QJsonValue>
 #include <qjsondocument.h>
+#include <src/DartsController/players/heroes/snakeBite.h>
+#include <src/DartsController/players/heroes/vanGerwin.h>
 
 DartsPlayers::DartsPlayers(IDartsIndexes* indexes)
 {
@@ -9,9 +12,10 @@ DartsPlayers::DartsPlayers(IDartsIndexes* indexes)
         _playersIO = new PlayersIO("players.dat");
 }
 
-void DartsPlayers::init(const QList<DartsPlayer>& players)
+void DartsPlayers::init(const int& count)
 {
-        _players = players;
+        PdcChampions generator(count);
+        _players = generator.generate();
 }
 
 void DartsPlayers::initFromFile()

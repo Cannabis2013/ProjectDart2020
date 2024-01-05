@@ -51,9 +51,11 @@ public:
                 return _winnerImageUrl;
         }
 
-private:
+protected:
         QString _name = "";
         QString _winnerImageUrl = "";
+
+private:
         bool _winner = false;
 };
 

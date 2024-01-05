@@ -7,24 +7,15 @@
 ControllerValues::ControllerValues(const QByteArray& json)
 {
         auto jsonDoc = QJsonDocument::fromJson(json);
-        auto rootObj = jsonDoc.object();
-        auto playersArr = rootObj["players"].toArray();
-        for (const auto& obj : playersArr) {
-                auto jsonObj = obj.toObject();
-                _players.append(DartsPlayer::fromJson(jsonObj));
-        }
-        _initialScore = rootObj["initialScore"].toInt(501);
-        _mode = rootObj["gameMode"].toInt(1);
+        auto jsonObj = jsonDoc.object();
+        _playersCount = jsonObj["playersCount"].toInt(0);
+        _initialScore = jsonObj["initialScore"].toInt(501);
+        _mode = jsonObj["gameMode"].toInt(1);
 }
 
 int ControllerValues::playersCount() const
 {
-        return _players.size();
-}
-
-QList<DartsPlayer> ControllerValues::players() const
-{
-        return _players;
+        return _playersCount;
 }
 
 int ControllerValues::initialScore() const

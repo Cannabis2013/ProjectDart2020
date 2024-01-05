@@ -8,14 +8,12 @@ public:
         ControllerValues(const QByteArray& json);
         int playersCount() const;
 
-        QList<DartsPlayer> players() const;
-
         int initialScore() const;
 
         int mode() const;
 
 private:
-        QList<DartsPlayer> _players;
+        int _playersCount;
         int _initialScore;
         int _mode;
 };
