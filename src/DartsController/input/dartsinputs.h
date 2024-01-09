@@ -15,6 +15,7 @@ public:
         void setInputs(const QList<Input>& inputs) override { _inputs = inputs; }
         void initFromFile() override;
         const QList<Input>& inputs() const override { return _inputs; }
+        virtual QList<Input> inputs(const QString& playerName) const override;
         QList<Input> inputs(const QString& playerName, const int& throwIndex) const override;
         void remove(const std::function<bool(const Input&)>& predicate) override;
         bool saveState() override { return _inputsIO->toFile(_inputs); }

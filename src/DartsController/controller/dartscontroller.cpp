@@ -41,21 +41,15 @@ QByteArray DartsController::turnInfo() const
 void DartsController::addInput(const QString& mod, const int& point){
         adder()->add(mod, point);
         scores()->update();
-        evaluator()->evaluateScoreCondition();
+        evaluator()->evaluateWinnerCondition();
 }
 
 void DartsController::undoTurn(){
-        status()->running();
-        indexes()->undo();
-        scores()->update();
-        players()->reset();
-        evaluator()->evaluateScoreCondition();
+        turns()->undo();
 }
 
 void DartsController::redoTurn(){
-        indexes()->redo();
-        scores()->update();
-        evaluator()->evaluateScoreCondition();
+        turns()->redo();
 }
 
 void DartsController::skipTurn()

@@ -13,6 +13,16 @@ void DartsInputs::initFromFile()
         _inputs = _inputsIO->fromFile();
 }
 
+QList<Input> DartsInputs::inputs(const QString& playerName) const
+{
+        QList<Input> playerInputs;
+        for (auto& input : std::as_const(_inputs)) {
+                if (input.playerName() == playerName)
+                        playerInputs << input;
+        }
+        return playerInputs;
+}
+
 QList<Input> DartsInputs::inputs(const QString& playerName, const int& throwIndex) const
 {
         QList<Input> playerInputs;

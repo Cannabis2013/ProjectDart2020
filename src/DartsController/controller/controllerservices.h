@@ -3,6 +3,7 @@
 
 #include "src/DartsController/Finishes/idartsfinishes.h"
 #include "src/DartsController/controller/controllerinitializer.h"
+#include "src/DartsController/controller/idartsturns.h"
 #include "src/DartsController/indexes/idartsindexes.h"
 #include "src/DartsController/input/IDartsInputs.h"
 #include "src/DartsController/input/idartsinputadder.h"
@@ -14,6 +15,7 @@
 #include "src/DartsController/status/idartsstatus.h"
 #include "src/DartsController/validation/dartsevaluators.h"
 #include "src/DartsController/validation/idartsevaluator.h"
+#include "src/DartsController/validation/iplayerallowances.h"
 
 class ControllerServices {
 public:
@@ -44,6 +46,12 @@ public:
         ControllerInitializer* initializer() const;
         void setInitializer(ControllerInitializer* newInitializor);
 
+        IPlayerAllowances* allowances() const;
+        void setAllowances(IPlayerAllowances* newAllowances);
+
+        IDartsTurns* turns() const;
+        void setTurns(IDartsTurns* newTurns);
+
 private:
         // Services
         IDartsEvaluator* _evaluator = nullptr;
@@ -59,6 +67,8 @@ private:
         DartsEvaluators* _evaluators = nullptr;
         IDartsInputTrimmer* _trimmer = nullptr;
         ControllerInitializer* _initializer = nullptr;
+        IPlayerAllowances* _allowances = nullptr;
+        IDartsTurns* _turns = nullptr;
 };
 
 #endif // CONTROLLERSERVICES_H

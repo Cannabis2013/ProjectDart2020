@@ -17,7 +17,8 @@ void ControllerInitializer::init(const QByteArray& json)
         _services->status()->init();
         auto evaluator = _services->evaluators()->validator(values.mode());
         _services->setEvaluator(evaluator);
-        _services->evaluator()->init();
+        _services->allowances()->init(_services->players()->names());
+        _services->turns()->init(_services->evaluator());
 }
 
 void ControllerInitializer::initFromStorage()
@@ -38,7 +39,7 @@ void ControllerInitializer::reset()
         _services->inputs()->init();
         _services->scores()->reset();
         _services->status()->init();
-        _services->evaluator()->init();
+        _services->allowances()->init(_services->players()->names());
 }
 
 void ControllerInitializer::saveState()

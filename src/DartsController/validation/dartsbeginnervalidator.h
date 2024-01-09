@@ -17,9 +17,8 @@ public:
         {
         }
 
-        void init() override;
         bool evaluateInput(const QString& mod, const int& point) override;
-        void evaluateScoreCondition() override;
+        void evaluateWinnerCondition() override;
 
 private:
         bool isValid(const QString& mod, const int& point) const;

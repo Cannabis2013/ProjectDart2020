@@ -37,6 +37,8 @@ HEADERS += \
     src/DartsController/controller/controllervalues.h \
     src/DartsController/controller/dartscontroller.h \
     src/DartsController/controller/dartscontrollerbuilder.h \
+    src/DartsController/controller/dartsturns.h \
+    src/DartsController/controller/idartsturns.h \
     src/DartsController/indexes/dartsindex.h \
     src/DartsController/indexes/dartsindexes.h \
     src/DartsController/indexes/dartsturnindex.h \
@@ -62,20 +64,23 @@ HEADERS += \
     src/DartsController/scores/DartsPlayerScores.h \
     src/DartsController/scores/Score.h \
     src/DartsController/scores/dartsPlayerScore.h \
+    src/DartsController/scores/dartscalculator.h \
     src/DartsController/scores/dartsinitialvalues.h \
     src/DartsController/scores/dartsscores.h \
     src/DartsController/scores/idartsscores.h \
-    src/DartsController/scores/scorescalculator.h \
+    src/DartsController/scores/iscorescalculator.h \
     src/DartsController/scores/scoresio.h \
     src/DartsController/statistics/dartsstatistics.h \
     src/DartsController/statistics/idartsstatistics.h \
     src/DartsController/statistics/statistics.h \
     src/DartsController/status/dartsstatus.h \
     src/DartsController/status/idartsstatus.h \
+    src/DartsController/validation/dartsallowances.h \
     src/DartsController/validation/dartsbeginnervalidator.h \
     src/DartsController/validation/dartsevaluators.h \
     src/DartsController/validation/dartsprofessionalevaluator.h \
     src/DartsController/validation/idartsevaluator.h \
+    src/DartsController/validation/iplayerallowances.h \
     src/FileIO/filejsonio.h \
     src/FileIO/filereader.h \
     src/Setup/qmlsetup.h \
@@ -90,6 +95,7 @@ SOURCES += \
     src/DartsController/controller/controllervalues.cpp \
     src/DartsController/controller/dartscontroller.cpp \
     src/DartsController/controller/dartscontrollerbuilder.cpp \
+    src/DartsController/controller/dartsturns.cpp \
     src/DartsController/indexes/dartsindexes.cpp \
     src/DartsController/indexes/indexesio.cpp \
     src/DartsController/input/dartsinputadder.cpp \
@@ -100,11 +106,12 @@ SOURCES += \
     src/DartsController/players/heroes/pdcchampions.cpp \
     src/DartsController/players/playersio.cpp \
     src/DartsController/responses/dartsturnvalues.cpp \
+    src/DartsController/scores/dartscalculator.cpp \
     src/DartsController/scores/dartsscores.cpp \
-    src/DartsController/scores/scorescalculator.cpp \
     src/DartsController/scores/scoresio.cpp \
     src/DartsController/statistics/dartsstatistics.cpp \
     src/DartsController/status/dartsstatus.cpp \
+    src/DartsController/validation/dartsallowances.cpp \
     src/DartsController/validation/dartsbeginnervalidator.cpp \
     src/DartsController/validation/dartsevaluators.cpp \
     src/DartsController/validation/dartsprofessionalevaluator.cpp \

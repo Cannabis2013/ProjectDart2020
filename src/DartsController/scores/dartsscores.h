@@ -7,11 +7,12 @@
 #include "src/DartsController/players/idartsplayers.h"
 #include "src/DartsController/scores/Score.h"
 #include "src/DartsController/scores/dartsPlayerScore.h"
+#include "src/DartsController/scores/iscorescalculator.h"
 #include "src/DartsController/scores/scoresio.h"
 
 class DartsScores : public IDartsScores{
 public:
-        DartsScores(IDartsIndexes* indexes, IDartsPlayers* players, IDartsInputs* inputs);
+        DartsScores(IDartsIndexes* indexes, IDartsPlayers* players, IDartsInputs* inputs, IScoresCalculator* calculator);
         void init(const int& initialScore) override;
         void initFromFile() override;
         int initialScore() const override { return _initialScore; }
@@ -32,6 +33,7 @@ private:
         IDartsIndexes* const _indexes;
         IDartsPlayers* const _players;
         IDartsInputs* const _inputs;
+        IScoresCalculator* const _calculator;
         // Member variables
         int _initialScore;
 };

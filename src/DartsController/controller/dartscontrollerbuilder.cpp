@@ -1,43 +1,52 @@
 #include "dartscontrollerbuilder.h"
 
 #include "src/DartsController/Finishes/dartsfinishes.h"
+#include "src/DartsController/controller/dartsturns.h"
 #include "src/DartsController/indexes/dartsindexes.h"
 #include "src/DartsController/input/dartsinputadder.h"
 #include "src/DartsController/input/dartsinputs.h"
 #include "src/DartsController/input/dartsinputstrimmer.h"
 #include "src/DartsController/players/dartsplayers.h"
 #include "src/DartsController/responses/dartsturnvalues.h"
+#include "src/DartsController/scores/dartscalculator.h"
 #include "src/DartsController/scores/dartsscores.h"
 #include "src/DartsController/statistics/dartsstatistics.h"
 #include "src/DartsController/status/dartsstatus.h"
+#include "src/DartsController/validation/dartsallowances.h"
 
 DartsController* DartsControllerBuilder::build()
 {
         auto controller = new DartsController();
-        auto indexService = new DartsIndexes();
-        auto playerService = new DartsPlayers(indexService);
-        auto statusService = new DartsStatus();
-        auto inputsService = new DartsInputs(indexService, playerService);
-        auto scoresService = new DartsScores(indexService, playerService, inputsService);
-        auto evalService = new DartsEvaluators(scoresService, playerService, statusService);
-        auto statisticService = new DartsStatistics(inputsService, scoresService, indexService);
-        auto finishService = new DartsFinishes();
-        auto turnService = new DartsTurnValues(playerService, indexService, statisticService,
-            finishService, scoresService, statusService);
-        auto inputTrimmerService = new DartsInputsTrimmer(inputsService, indexService);
-        auto adderService = new DartsInputAdder(inputsService, inputTrimmerService,
-            indexService, statusService);
-        controller->setIndexes(indexService);
-        controller->setPlayers(playerService);
-        controller->setScores(scoresService);
-        controller->setEvaluators(evalService);
-        controller->setTurnValues(turnService);
-        controller->setTrimmer(inputTrimmerService);
-        controller->setStatistics(statisticService);
-        controller->setStatus(statusService);
-        controller->setInputs(inputsService);
-        controller->setFinishes(finishService);
+        auto allowances = new DartsAllowances();
+        auto calculator = new DartsCalculator();
+        auto indexes = new DartsIndexes();
+        auto player = new DartsPlayers(indexes);
+        auto status = new DartsStatus();
+        auto inputs = new DartsInputs(indexes, player);
+        auto scores = new DartsScores(indexes, player, inputs, calculator);
+        auto evaluators = new DartsEvaluators(scores, player, status, calculator, allowances);
+        auto statistic = new DartsStatistics(inputs, scores, indexes);
+        auto finishes = new DartsFinishes();
+        auto turns = new DartsTurns(status, indexes, scores, player, allowances, inputs);
+        auto turnValues = new DartsTurnValues(player, indexes, statistic,
+            finishes, scores, status);
+        auto inputTrimmer = new DartsInputsTrimmer(inputs, indexes);
+        auto adderService = new DartsInputAdder(inputs, inputTrimmer,
+            indexes, status);
+        auto initializer = new ControllerInitializer(controller);
+        controller->setIndexes(indexes);
+        controller->setPlayers(player);
+        controller->setTurns(turns);
+        controller->setScores(scores);
+        controller->setEvaluators(evaluators);
+        controller->setTurnValues(turnValues);
+        controller->setTrimmer(inputTrimmer);
+        controller->setStatistics(statistic);
+        controller->setStatus(status);
+        controller->setInputs(inputs);
+        controller->setFinishes(finishes);
         controller->setAdder(adderService);
-        controller->setInitializer(new ControllerInitializer(controller));
+        controller->setAllowances(allowances);
+        controller->setInitializer(initializer);
         return controller;
 }

@@ -130,3 +130,23 @@ void ControllerServices::setInitializer(ControllerInitializer* newInitializor)
 {
         _initializer = newInitializor;
 }
+
+IPlayerAllowances* ControllerServices::allowances() const
+{
+        return _allowances;
+}
+
+void ControllerServices::setAllowances(IPlayerAllowances* newAllowances)
+{
+        _allowances = newAllowances;
+}
+
+IDartsTurns* ControllerServices::turns() const
+{
+        return _turns;
+}
+
+void ControllerServices::setTurns(IDartsTurns* newTurns)
+{
+        _turns = newTurns;
+}

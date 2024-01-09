@@ -3,10 +3,12 @@
 #include "src/DartsController/validation/dartsbeginnervalidator.h"
 #include "src/FileIO/filejsonio.h"
 
-DartsEvaluators::DartsEvaluators(IDartsScores* scores, IDartsPlayers* players, IDartsStatus* status)
+DartsEvaluators::DartsEvaluators(IDartsScores* scores, IDartsPlayers* players, IDartsStatus* status, IScoresCalculator* calculator, IPlayerAllowances* allowances)
     : _scores(scores)
     , _players(players)
     , _status(status)
+    , _calculator(calculator)
+    , _allowances(allowances)
 {
 }
 
@@ -48,7 +50,7 @@ void DartsEvaluators::saveState()
 IDartsEvaluator* DartsEvaluators::fromMode()
 {
         if (_mode == 0)
-                return new DartsProfessionalEvaluator(_scores, _players, _status);
+                return new DartsProfessionalEvaluator(_scores, _players, _status, _calculator, _allowances);
         else if (_mode == 1)
                 return new DartsBeginnerValidator(_scores, _players, _status);
         return nullptr;

@@ -1,26 +1,24 @@
 #include "dartsprofessionalevaluator.h"
 
-void DartsProfessionalEvaluator::init()
+DartsProfessionalEvaluator::DartsProfessionalEvaluator(IDartsScores* scores, IDartsPlayers* players, IDartsStatus* status, IScoresCalculator* calculator, IPlayerAllowances* allowances)
+    : _scores(scores)
+    , _players(players)
+    , _status(status)
+    , _calculator(calculator)
+    , _allowances(allowances)
 {
-        allowances.clear();
-        auto names = _players->names();
-        for (const auto& name : names)
-                allowances.append(QPair<QString, bool>(name, false));
 }
 
 bool DartsProfessionalEvaluator::evaluateInput(const QString& mod, const int& point)
 {
-        if (!isAllowed(mod) || !isValid(mod, point))
+        auto name = _players->player().name();
+        if (!validateInput(name, mod, point))
                 return false;
-        auto remaining = remainingScore(mod, point);
-        if (isWithinBounds(remaining))
-                return true;
-        else if (remaining == 0 && (mod == "D" || point == 50))
-                return true;
-        return false;
+        auto playerScore = _scores->score().playerScore();
+        return validateRemaining(mod, point, playerScore);
 }
 
-void DartsProfessionalEvaluator::evaluateScoreCondition()
+void DartsProfessionalEvaluator::evaluateWinnerCondition()
 {
         auto scores = _scores->scores().playerScores();
         for (const auto& score : scores) {
@@ -32,50 +30,23 @@ void DartsProfessionalEvaluator::evaluateScoreCondition()
         }
 }
 
-bool DartsProfessionalEvaluator::isAllowed(const QString& mod)
+bool DartsProfessionalEvaluator::validateInput(const QString& name, const QString& mod, const int& point)
 {
-        auto player = _players->player();
-        for (auto& allowance : allowances) {
-                if (allowance.first == player.name()) {
-                        if (allowance.second)
-                                return true;
-                        else if (mod == "D") {
-                                allowance.second = true;
-                                return true;
-                        } else
-                                return false;
-                }
-        }
+        if (!_calculator->isValid(point, mod))
+                return false;
+        if (_allowances->isAllowed(name))
+                return true;
+        if (mod == "D")
+                return _allowances->updateAllowance(name, true);
         return false;
 }
 
-bool DartsProfessionalEvaluator::isValid(const QString& mod, const int& point)
+bool DartsProfessionalEvaluator::validateRemaining(const QString& mod, const int& point, const int& current)
 {
-        if(point > MaxPoint || point < 0)
-                return false;
-        return AllowedMods.contains(mod);
-}
-
-bool DartsProfessionalEvaluator::isWithinBounds(const int& remainingScore)
-{
-        if (remainingScore > 1)
+        auto remaining = _calculator->remaining(mod, point, current);
+        if (remaining > 1)
+                return true;
+        else if (remaining == 0 && (mod == "D" || point == 50))
                 return true;
         return false;
-}
-
-int DartsProfessionalEvaluator::remainingScore(const QString& mod, const int& point) const
-{
-        auto scoreValue = point * modMultiplier(mod);
-        auto playerScore = _scores->score().playerScore();
-        return playerScore - scoreValue;
-}
-
-int DartsProfessionalEvaluator::modMultiplier(QString mod) const
-{
-        if(mod == "S")
-                return 1;
-        else if(mod == "D")
-                return 2;
-        else
-                return 3;
 }
