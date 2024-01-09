@@ -33,15 +33,13 @@ QString DartsController::winnerImage() const
         return players()->winner().winnerImageUrl();
 }
 
-QByteArray DartsController::turnInfo() const
+QByteArray DartsController::turnReport() const
 {
-        return turnValues()->currentTurnInfo();
+        return turnInfo()->currentTurnInfo();
 }
 
 void DartsController::addInput(const QString& mod, const int& point){
         adder()->add(mod, point);
-        scores()->update();
-        evaluator()->evaluateWinnerCondition();
 }
 
 void DartsController::undoTurn(){

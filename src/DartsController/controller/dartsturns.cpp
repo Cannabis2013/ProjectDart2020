@@ -1,16 +1,15 @@
 #include "dartsturns.h"
 
-DartsTurns::DartsTurns(IDartsStatus* status, IDartsIndexes* indexes, IDartsScores* scores, IDartsPlayers* players, IPlayerAllowances* allowances, IDartsInputs* inputs)
+DartsTurns::DartsTurns(IDartsStatus* status, IDartsIndexes* indexes, IDartsScores* scores, IDartsPlayers* players, IDartsInputs* inputs)
     : _status(status)
     , _indexes(indexes)
     , _scores(scores)
     , _players(players)
-    , _allowances(allowances)
     , _inputs(inputs)
 {
 }
 
-void DartsTurns::init(IDartsEvaluator* evaluator)
+void DartsTurns::init(AbstractDartsEvaluator* evaluator)
 {
         _evaluator = evaluator ? evaluator : throw "Evaluator not set";
 }
@@ -20,24 +19,17 @@ void DartsTurns::undo()
         auto name = _players->player().name();
         undoTurn();
         auto index = _indexes->index();
-        if (index.turnIndex() == 0 || index.turnIndex() == 3)
-                _allowances->updateAllowance(name, false);
+        if (!_inputs->anyInputs(name, index.throwIndex()))
+                _evaluator->updateAllowance(name, false);
 }
 
 void DartsTurns::redo()
 {
         auto name = _players->player().name();
         redoTurn();
-        updateAllowance(name);
-}
-
-void DartsTurns::updateAllowance(const QString& name)
-{
-        auto inputs = _inputs->inputs(name);
-        if (!inputs.isEmpty()) {
-                auto lastInput = inputs.last();
-                _evaluator->evaluateInput(lastInput.mod(), lastInput.point());
-        }
+        auto index = _indexes->index();
+        if (_inputs->anyInputs(name, index.throwIndex()))
+                _evaluator->updateAllowance(name, true);
 }
 
 void DartsTurns::undoTurn()

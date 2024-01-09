@@ -8,9 +8,9 @@ DartsInputsTrimmer::DartsInputsTrimmer(IDartsInputs* inputs, IDartsIndexes* inde
 
 void DartsInputsTrimmer::trimInputs()
 {
-        auto throwIndex = _indexes->index().throwIndex();
-        _inputs->remove([throwIndex](const Input& input) {
-                return input.throwIndex() < throwIndex;
+        auto index = _indexes->index();
+        _inputs->remove([index](const Input& input) {
+                return input.throwIndex() < index.throwIndex();
         });
 }
 

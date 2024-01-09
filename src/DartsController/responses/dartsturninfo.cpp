@@ -1,6 +1,6 @@
-#include "dartsturnvalues.h"
+#include "dartsturninfo.h"
 
-DartsTurnValues::DartsTurnValues(IDartsPlayers* players, IDartsIndexes* _indexes, IDartsStatistics* statistics, IDartsFinishes* finishes, IDartsScores* scores, IDartsStatus* status)
+DartsTurnInfo::DartsTurnInfo(IDartsPlayers* players, IDartsIndexes* _indexes, IDartsStatistics* statistics, IDartsFinishes* finishes, IDartsScores* scores, IDartsStatus* status)
     : _players(players)
     , _indexes(_indexes)
     , _statistics(statistics)
@@ -10,7 +10,8 @@ DartsTurnValues::DartsTurnValues(IDartsPlayers* players, IDartsIndexes* _indexes
 {
 }
 
-QByteArray DartsTurnValues::currentTurnInfo(){
+QByteArray DartsTurnInfo::currentTurnInfo()
+{
         QJsonObject jsonObj;
         jsonObj["turnIndexes"] = turnIndex();
         jsonObj["playerScores"] = playerScores();
@@ -23,7 +24,8 @@ QByteArray DartsTurnValues::currentTurnInfo(){
         return QJsonDocument(jsonObj).toJson(QJsonDocument::Compact);
 }
 
-QJsonArray DartsTurnValues::playerScores(){
+QJsonArray DartsTurnInfo::playerScores()
+{
         QJsonArray jsonArr;
         auto scores = _scores->scores();
         for (const auto& score : scores.playerScores()) {
@@ -35,7 +37,8 @@ QJsonArray DartsTurnValues::playerScores(){
         return jsonArr;
 }
 
-QJsonObject DartsTurnValues::turnIndex(){
+QJsonObject DartsTurnInfo::turnIndex()
+{
         QJsonObject jsonObj;
         jsonObj["canUndo"] = _indexes->canUndo();
         jsonObj["canRedo"] = _indexes->canRedo();
@@ -43,7 +46,8 @@ QJsonObject DartsTurnValues::turnIndex(){
         return jsonObj;
 }
 
-QJsonArray DartsTurnValues::statistics(){
+QJsonArray DartsTurnInfo::statistics()
+{
         QJsonArray jsonArr;
         const auto playerNames = _players->names();
         for (const auto& playerName : playerNames)
@@ -51,7 +55,8 @@ QJsonArray DartsTurnValues::statistics(){
         return jsonArr;
 }
 
-QJsonObject DartsTurnValues::finish(){
+QJsonObject DartsTurnInfo::finish()
+{
         QJsonObject jsonObj;
         auto remaining = _scores->score().playerScore();
         jsonObj["finish"] = _finishes->suggestTargetRow(remaining, _indexes->index().turnIndex());

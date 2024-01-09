@@ -1,18 +1,18 @@
-#ifndef DARTSTURNVALUES_H
-#define DARTSTURNVALUES_H
+#ifndef DARTSTURNINFO_H
+#define DARTSTURNINFO_H
 
 #include "src/DartsController/Finishes/idartsfinishes.h"
 #include "src/DartsController/indexes/idartsindexes.h"
 #include "src/DartsController/players/idartsplayers.h"
-#include "src/DartsController/responses/idartsinforesponse.h"
+#include "src/DartsController/responses/idartsturninfo.h"
 #include "src/DartsController/scores/idartsscores.h"
 #include "src/DartsController/statistics/idartsstatistics.h"
 #include "src/DartsController/status/idartsstatus.h"
 
-class DartsTurnValues : public IDartsInfoResponse {
+class DartsTurnInfo : public IDartsTurnInfo {
         // IDartInfoResponse interface
 public:
-        DartsTurnValues(IDartsPlayers* players,
+        DartsTurnInfo(IDartsPlayers* players,
             IDartsIndexes* _indexes,
             IDartsStatistics* statistics,
             IDartsFinishes* finishes,
@@ -34,4 +34,4 @@ private:
         IDartsStatus* const _status;
 };
 
-#endif // DARTSTURNVALUES_H
+#endif // DARTSTURNINFO_H

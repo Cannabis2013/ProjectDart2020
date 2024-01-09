@@ -1,11 +1,11 @@
 #include "controllerservices.h"
 
-IDartsEvaluator* ControllerServices::evaluator() const
+AbstractDartsEvaluator* ControllerServices::evaluator() const
 {
         return _evaluator;
 }
 
-void ControllerServices::setEvaluator(IDartsEvaluator* newEvaluator)
+void ControllerServices::setEvaluator(AbstractDartsEvaluator* newEvaluator)
 {
         _evaluator = newEvaluator;
 }
@@ -40,14 +40,14 @@ void ControllerServices::setInputs(IDartsInputs* newInputs)
         _inputs = newInputs;
 }
 
-IDartsInfoResponse* ControllerServices::turnValues() const
+IDartsTurnInfo* ControllerServices::turnInfo() const
 {
-        return _turnValues;
+        return _turnInfo;
 }
 
-void ControllerServices::setTurnValues(IDartsInfoResponse* newTurnValues)
+void ControllerServices::setTurnInfo(IDartsTurnInfo* newTurnValues)
 {
-        _turnValues = newTurnValues;
+        _turnInfo = newTurnValues;
 }
 
 IDartsPlayers* ControllerServices::players() const
@@ -129,16 +129,6 @@ ControllerInitializer* ControllerServices::initializer() const
 void ControllerServices::setInitializer(ControllerInitializer* newInitializor)
 {
         _initializer = newInitializor;
-}
-
-IPlayerAllowances* ControllerServices::allowances() const
-{
-        return _allowances;
-}
-
-void ControllerServices::setAllowances(IPlayerAllowances* newAllowances)
-{
-        _allowances = newAllowances;
 }
 
 IDartsTurns* ControllerServices::turns() const

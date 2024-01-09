@@ -33,7 +33,7 @@ function bustScore() {
 }
 
 function updateTurnValues() {
-        const turnInfo = JSON.parse(dartsController.turnInfo())
+        const turnInfo = JSON.parse(dartsController.turnReport())
         if (turnInfo.winnerFound) {
                 Scripts.winnerFound(turnInfo)
                 Modals.openWinnerModal(turnInfo.winnerName, turnInfo.winnerImage, restartGame, undo)

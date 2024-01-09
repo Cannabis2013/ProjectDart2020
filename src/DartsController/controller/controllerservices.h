@@ -9,26 +9,26 @@
 #include "src/DartsController/input/idartsinputadder.h"
 #include "src/DartsController/input/idartsinputtrimmer.h"
 #include "src/DartsController/players/idartsplayers.h"
-#include "src/DartsController/responses/idartsinforesponse.h"
+#include "src/DartsController/responses/idartsturninfo.h"
 #include "src/DartsController/scores/idartsscores.h"
 #include "src/DartsController/statistics/idartsstatistics.h"
 #include "src/DartsController/status/idartsstatus.h"
 #include "src/DartsController/validation/dartsevaluators.h"
-#include "src/DartsController/validation/idartsevaluator.h"
+#include "src/DartsController/validation/abstractdartsevaluator.h"
 #include "src/DartsController/validation/iplayerallowances.h"
 
 class ControllerServices {
 public:
-        IDartsEvaluator* evaluator() const;
-        void setEvaluator(IDartsEvaluator* newEvaluator);
+        AbstractDartsEvaluator* evaluator() const;
+        void setEvaluator(AbstractDartsEvaluator* newEvaluator);
         IDartsIndexes* indexes() const;
         void setIndexes(IDartsIndexes* newIndexes);
         IDartsScores* scores() const;
         void setScores(IDartsScores* newScores);
         IDartsInputs* inputs() const;
         void setInputs(IDartsInputs* newInputs);
-        IDartsInfoResponse* turnValues() const;
-        void setTurnValues(IDartsInfoResponse* newTurnValues);
+        IDartsTurnInfo* turnInfo() const;
+        void setTurnInfo(IDartsTurnInfo* newTurnValues);
         IDartsPlayers* players() const;
         void setPlayers(IDartsPlayers* newPlayers);
         IDartsStatistics* statistics() const;
@@ -45,20 +45,16 @@ public:
         void setTrimmer(IDartsInputTrimmer* newTrimmer);
         ControllerInitializer* initializer() const;
         void setInitializer(ControllerInitializer* newInitializor);
-
-        IPlayerAllowances* allowances() const;
-        void setAllowances(IPlayerAllowances* newAllowances);
-
         IDartsTurns* turns() const;
         void setTurns(IDartsTurns* newTurns);
 
 private:
         // Services
-        IDartsEvaluator* _evaluator = nullptr;
+        AbstractDartsEvaluator* _evaluator = nullptr;
         IDartsIndexes* _indexes = nullptr;
         IDartsScores* _scores = nullptr;
         IDartsInputs* _inputs = nullptr;
-        IDartsInfoResponse* _turnValues = nullptr;
+        IDartsTurnInfo* _turnInfo = nullptr;
         IDartsPlayers* _players = nullptr;
         IDartsStatistics* _statistics = nullptr;
         IDartsFinishes* _finishes = nullptr;
@@ -67,7 +63,6 @@ private:
         DartsEvaluators* _evaluators = nullptr;
         IDartsInputTrimmer* _trimmer = nullptr;
         ControllerInitializer* _initializer = nullptr;
-        IPlayerAllowances* _allowances = nullptr;
         IDartsTurns* _turns = nullptr;
 };
 

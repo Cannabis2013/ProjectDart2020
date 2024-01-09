@@ -59,8 +59,8 @@ HEADERS += \
     src/DartsController/players/heroes/vanGerwin.h \
     src/DartsController/players/idartsplayers.h \
     src/DartsController/players/playersio.h \
-    src/DartsController/responses/dartsturnvalues.h \
-    src/DartsController/responses/idartsinforesponse.h \
+    src/DartsController/responses/dartsturninfo.h \
+    src/DartsController/responses/idartsturninfo.h \
     src/DartsController/scores/DartsPlayerScores.h \
     src/DartsController/scores/Score.h \
     src/DartsController/scores/dartsPlayerScore.h \
@@ -75,11 +75,11 @@ HEADERS += \
     src/DartsController/statistics/statistics.h \
     src/DartsController/status/dartsstatus.h \
     src/DartsController/status/idartsstatus.h \
+    src/DartsController/validation/abstractdartsevaluator.h \
     src/DartsController/validation/dartsallowances.h \
     src/DartsController/validation/dartsbeginnervalidator.h \
     src/DartsController/validation/dartsevaluators.h \
     src/DartsController/validation/dartsprofessionalevaluator.h \
-    src/DartsController/validation/idartsevaluator.h \
     src/DartsController/validation/iplayerallowances.h \
     src/FileIO/filejsonio.h \
     src/FileIO/filereader.h \
@@ -105,7 +105,7 @@ SOURCES += \
     src/DartsController/players/dartsplayers.cpp \
     src/DartsController/players/heroes/pdcchampions.cpp \
     src/DartsController/players/playersio.cpp \
-    src/DartsController/responses/dartsturnvalues.cpp \
+    src/DartsController/responses/dartsturninfo.cpp \
     src/DartsController/scores/dartscalculator.cpp \
     src/DartsController/scores/dartsscores.cpp \
     src/DartsController/scores/scoresio.cpp \

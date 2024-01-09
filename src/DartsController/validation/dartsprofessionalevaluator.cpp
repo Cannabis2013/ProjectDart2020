@@ -1,12 +1,19 @@
 #include "dartsprofessionalevaluator.h"
+#include "src/DartsController/validation/dartsallowances.h"
 
-DartsProfessionalEvaluator::DartsProfessionalEvaluator(IDartsScores* scores, IDartsPlayers* players, IDartsStatus* status, IScoresCalculator* calculator, IPlayerAllowances* allowances)
+DartsProfessionalEvaluator::DartsProfessionalEvaluator(IDartsScores* scores, IDartsPlayers* players, IDartsStatus* status, IScoresCalculator* calculator)
     : _scores(scores)
     , _players(players)
     , _status(status)
     , _calculator(calculator)
-    , _allowances(allowances)
 {
+        _allowances = new DartsAllowances();
+}
+
+void DartsProfessionalEvaluator::init()
+{
+        auto names = _players->names();
+        _allowances->init(names);
 }
 
 bool DartsProfessionalEvaluator::evaluateInput(const QString& mod, const int& point)
@@ -28,6 +35,11 @@ void DartsProfessionalEvaluator::evaluateWinnerCondition()
                         winner->setWinner(true);
                 }
         }
+}
+
+void DartsProfessionalEvaluator::updateAllowance(const QString& name, const bool& allowance)
+{
+        _allowances->updateAllowance(name, allowance);
 }
 
 bool DartsProfessionalEvaluator::validateInput(const QString& name, const QString& mod, const int& point)

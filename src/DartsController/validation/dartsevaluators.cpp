@@ -3,23 +3,22 @@
 #include "src/DartsController/validation/dartsbeginnervalidator.h"
 #include "src/FileIO/filejsonio.h"
 
-DartsEvaluators::DartsEvaluators(IDartsScores* scores, IDartsPlayers* players, IDartsStatus* status, IScoresCalculator* calculator, IPlayerAllowances* allowances)
+DartsEvaluators::DartsEvaluators(IDartsScores* scores, IDartsPlayers* players, IDartsStatus* status, IScoresCalculator* calculator)
     : _scores(scores)
     , _players(players)
     , _status(status)
     , _calculator(calculator)
-    , _allowances(allowances)
 {
 }
 
-IDartsEvaluator* DartsEvaluators::validator()
+AbstractDartsEvaluator* DartsEvaluators::validator()
 {
         if (!readFromFile())
                 return nullptr;
         return fromMode();
 }
 
-IDartsEvaluator* DartsEvaluators::validator(const int& mode)
+AbstractDartsEvaluator* DartsEvaluators::validator(const int& mode)
 {
         _mode = mode;
         return fromMode();
@@ -47,10 +46,10 @@ void DartsEvaluators::saveState()
         out.write(json);
 }
 
-IDartsEvaluator* DartsEvaluators::fromMode()
+AbstractDartsEvaluator* DartsEvaluators::fromMode()
 {
         if (_mode == 0)
-                return new DartsProfessionalEvaluator(_scores, _players, _status, _calculator, _allowances);
+                return new DartsProfessionalEvaluator(_scores, _players, _status, _calculator);
         else if (_mode == 1)
                 return new DartsBeginnerValidator(_scores, _players, _status);
         return nullptr;
