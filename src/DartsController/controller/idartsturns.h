@@ -8,6 +8,7 @@ public:
         virtual void init(AbstractDartsEvaluator* evaluator) = 0;
         virtual void undo() = 0;
         virtual void redo() = 0;
+        virtual void skip() = 0;
 };
 
 #endif // IDARTSTURNS_H

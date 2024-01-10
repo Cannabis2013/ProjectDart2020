@@ -5,7 +5,7 @@
 
 class IDartsTurnInfo {
 public:
-        virtual QByteArray currentTurnInfo() = 0;
+        virtual QByteArray report() = 0;
 };
 
 #endif // IDARTSTURNINFO_H

@@ -35,7 +35,7 @@ QString DartsController::winnerImage() const
 
 QByteArray DartsController::turnReport() const
 {
-        return turnInfo()->currentTurnInfo();
+        return turnDetails()->report();
 }
 
 void DartsController::addInput(const QString& mod, const int& point){
@@ -52,6 +52,5 @@ void DartsController::redoTurn(){
 
 void DartsController::skipTurn()
 {
-        trimmer()->trimInputs();
-        indexes()->skipturn();
+        turns()->skip();
 }

@@ -1,11 +1,12 @@
 #include "dartsturns.h"
 
-DartsTurns::DartsTurns(IDartsStatus* status, IDartsIndexes* indexes, IDartsScores* scores, IDartsPlayers* players, IDartsInputs* inputs)
+DartsTurns::DartsTurns(IDartsStatus* status, IDartsIndexes* indexes, IDartsScores* scores, IDartsPlayers* players, IDartsInputs* inputs, IDartsInputTrimmer* trimmer)
     : _status(status)
     , _indexes(indexes)
     , _scores(scores)
     , _players(players)
     , _inputs(inputs)
+    , _trimmer(trimmer)
 {
 }
 
@@ -30,6 +31,12 @@ void DartsTurns::redo()
         auto index = _indexes->index();
         if (_inputs->anyInputs(name, index.throwIndex()))
                 _evaluator->updateAllowance(name, true);
+}
+
+void DartsTurns::skip()
+{
+        _trimmer->trimInputs();
+        _indexes->skipturn();
 }
 
 void DartsTurns::undoTurn()

@@ -10,7 +10,7 @@ DartsTurnInfo::DartsTurnInfo(IDartsPlayers* players, IDartsIndexes* _indexes, ID
 {
 }
 
-QByteArray DartsTurnInfo::currentTurnInfo()
+QByteArray DartsTurnInfo::report()
 {
         QJsonObject jsonObj;
         jsonObj["turnIndexes"] = turnIndex();

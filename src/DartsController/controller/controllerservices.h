@@ -7,15 +7,13 @@
 #include "src/DartsController/indexes/idartsindexes.h"
 #include "src/DartsController/input/IDartsInputs.h"
 #include "src/DartsController/input/idartsinputadder.h"
-#include "src/DartsController/input/idartsinputtrimmer.h"
 #include "src/DartsController/players/idartsplayers.h"
 #include "src/DartsController/responses/idartsturninfo.h"
 #include "src/DartsController/scores/idartsscores.h"
 #include "src/DartsController/statistics/idartsstatistics.h"
 #include "src/DartsController/status/idartsstatus.h"
-#include "src/DartsController/validation/dartsevaluators.h"
 #include "src/DartsController/validation/abstractdartsevaluator.h"
-#include "src/DartsController/validation/iplayerallowances.h"
+#include "src/DartsController/validation/dartsevaluators.h"
 
 class ControllerServices {
 public:
@@ -27,7 +25,7 @@ public:
         void setScores(IDartsScores* newScores);
         IDartsInputs* inputs() const;
         void setInputs(IDartsInputs* newInputs);
-        IDartsTurnInfo* turnInfo() const;
+        IDartsTurnInfo* turnDetails() const;
         void setTurnInfo(IDartsTurnInfo* newTurnValues);
         IDartsPlayers* players() const;
         void setPlayers(IDartsPlayers* newPlayers);
@@ -41,8 +39,6 @@ public:
         void setAdder(IDartsInputAdder* newAdder);
         DartsEvaluators* evaluators() const;
         void setEvaluators(DartsEvaluators* newEvaluators);
-        IDartsInputTrimmer* trimmer() const;
-        void setTrimmer(IDartsInputTrimmer* newTrimmer);
         ControllerInitializer* initializer() const;
         void setInitializer(ControllerInitializer* newInitializor);
         IDartsTurns* turns() const;
@@ -61,7 +57,6 @@ private:
         IDartsStatus* _status = nullptr;
         IDartsInputAdder* _adder = nullptr;
         DartsEvaluators* _evaluators = nullptr;
-        IDartsInputTrimmer* _trimmer = nullptr;
         ControllerInitializer* _initializer = nullptr;
         IDartsTurns* _turns = nullptr;
 };

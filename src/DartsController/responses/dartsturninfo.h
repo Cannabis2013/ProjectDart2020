@@ -18,7 +18,7 @@ public:
             IDartsFinishes* finishes,
             IDartsScores* scores,
             IDartsStatus* status);
-        QByteArray currentTurnInfo() override;
+        QByteArray report() override;
 
 private:
         QJsonArray playerScores();

@@ -40,7 +40,7 @@ void ControllerServices::setInputs(IDartsInputs* newInputs)
         _inputs = newInputs;
 }
 
-IDartsTurnInfo* ControllerServices::turnInfo() const
+IDartsTurnInfo* ControllerServices::turnDetails() const
 {
         return _turnInfo;
 }
@@ -109,16 +109,6 @@ DartsEvaluators* ControllerServices::evaluators() const
 void ControllerServices::setEvaluators(DartsEvaluators* newEvaluators)
 {
         _evaluators = newEvaluators;
-}
-
-IDartsInputTrimmer* ControllerServices::trimmer() const
-{
-        return _trimmer;
-}
-
-void ControllerServices::setTrimmer(IDartsInputTrimmer* newTrimmer)
-{
-        _trimmer = newTrimmer;
 }
 
 ControllerInitializer* ControllerServices::initializer() const
