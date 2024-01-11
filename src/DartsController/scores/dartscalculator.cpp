@@ -32,6 +32,12 @@ Score DartsCalculator::calculate(const Input& input, const Score& score, const Q
         return Score(name,newScore);
 }
 
+int DartsCalculator::score(const QString& mod, const int& point) const
+{
+        auto multiplier = modMultiplier(mod);
+        return point * multiplier;
+}
+
 int DartsCalculator::modMultiplier(QString mod) const
 {
         if(mod == "S")

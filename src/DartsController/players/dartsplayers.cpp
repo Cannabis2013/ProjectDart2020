@@ -25,8 +25,8 @@ void DartsPlayers::initFromFile()
 
 void DartsPlayers::reset()
 {
-        for (auto& player : _players)
-                player.setWinner(false);
+        PdcChampions generator(_players.size());
+        _players = generator.generate();
 }
 
 DartsPlayer& DartsPlayers::player(const int& index)

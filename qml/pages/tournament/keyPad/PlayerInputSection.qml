@@ -1,7 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Layouts 1.3
 import "keyPadBuilder.js" as Builder
-import "keyPad.js" as Scripts
+import "playerInputSection.js" as Scripts
 
 Item {
         id: keyPadRect

@@ -23,8 +23,8 @@ Page {
                 flow: GridLayout.TopToBottom
                 rows: 4
 
-                ScoresView {
-                        id: scoresView
+                ScoresSection {
+                        id: scoresSection
                         Layout.minimumHeight: 180
                         Layout.maximumHeight: 180
                         Layout.fillWidth: true
@@ -53,7 +53,7 @@ Page {
                         Layout.maximumWidth: 1
                 }
 
-                TurnControls {
+                TurnControlsSection {
                         id: turnControls
                         Layout.alignment: Qt.AlignHCenter
                         Layout.minimumHeight: 40
@@ -65,8 +65,8 @@ Page {
                         onMenuClicked: menuRequest()
                 }
 
-                KeyPad {
-                        id: keyPad
+                PlayerInputSection {
+                        id: inputSection
                         Layout.fillWidth: true
                         Layout.fillHeight: true
                         Layout.rowSpan: Scripts.isPortrait() ? 1 : 4

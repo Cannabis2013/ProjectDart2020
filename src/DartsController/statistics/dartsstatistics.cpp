@@ -1,10 +1,24 @@
 #include "dartsstatistics.h"
+#include <QJsonArray>
+#include <QJsonDocument>
 
-DartsStatistics::DartsStatistics(IDartsInputs* inputs, IDartsScores* scores, IDartsIndexes* indexes)
+DartsStatistics::DartsStatistics(IDartsInputs* inputs, IDartsScores* scores, IDartsIndexes* indexes, IDartsPlayers* players, IScoresCalculator* calculator)
     : _inputs(inputs)
     , _scores(scores)
     , _indexes(indexes)
-{}
+    , _players(players)
+    , _calculator(calculator)
+{
+}
+
+QByteArray DartsStatistics::report() const
+{
+        QJsonArray arr;
+        auto names = _players->names();
+        for (const auto& name : std::as_const(names))
+                arr << statistics(name).toJsonobject();
+        return QJsonDocument(arr).toJson(QJsonDocument::Compact);
+}
 
 Statistics DartsStatistics::statistics(const QString& name) const
 {
@@ -38,7 +52,7 @@ int DartsStatistics::lowest(const QList<Input>& inputs) const
                 return 0;
         auto lowest = 60;
         for (const auto &input : inputs) {
-                auto score = scoreValue(input.mod(),input.point());
+                auto score = _calculator->score(input.mod(), input.point());
                 lowest = score < lowest ? score : lowest;
         }
         return lowest;
@@ -48,24 +62,8 @@ int DartsStatistics::highest(const QList<Input>& inputs) const
 {
         auto highest = 0;
         for (const auto &input : inputs) {
-                auto score = scoreValue(input.mod(),input.point());
+                auto score = _calculator->score(input.mod(), input.point());
                 highest = score > highest ? score : highest;
         }
         return highest;
-}
-
-int DartsStatistics::scoreValue(const QString& mod, const int& point) const
-{
-        auto multiplier = modMultiplier(mod);
-        return  point*multiplier;
-}
-
-int DartsStatistics::modMultiplier(QString mod) const
-{
-        if(mod == "S")
-                return 1;
-        else if(mod == "D")
-                return 2;
-        else
-                return 3;
 }

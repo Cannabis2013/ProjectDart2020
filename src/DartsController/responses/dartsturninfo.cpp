@@ -1,9 +1,8 @@
 #include "dartsturninfo.h"
 
-DartsTurnInfo::DartsTurnInfo(IDartsPlayers* players, IDartsIndexes* _indexes, IDartsStatistics* statistics, IDartsFinishes* finishes, IDartsScores* scores, IDartsStatus* status)
+DartsTurnInfo::DartsTurnInfo(IDartsPlayers* players, IDartsIndexes* _indexes, IDartsFinishes* finishes, IDartsScores* scores, IDartsStatus* status)
     : _players(players)
     , _indexes(_indexes)
-    , _statistics(statistics)
     , _finishes(finishes)
     , _scores(scores)
     , _status(status)
@@ -20,7 +19,6 @@ QByteArray DartsTurnInfo::report()
         jsonObj["winnerName"] = _players->winner().name();
         jsonObj["winnerImage"] = _players->winner().winnerImageUrl();
         jsonObj["suggestions"] = finish();
-        jsonObj["statistics"] = statistics();
         return QJsonDocument(jsonObj).toJson(QJsonDocument::Compact);
 }
 
@@ -44,15 +42,6 @@ QJsonObject DartsTurnInfo::turnIndex()
         jsonObj["canRedo"] = _indexes->canRedo();
         jsonObj["turnIndex"] = _indexes->index().turnIndex();
         return jsonObj;
-}
-
-QJsonArray DartsTurnInfo::statistics()
-{
-        QJsonArray jsonArr;
-        const auto playerNames = _players->names();
-        for (const auto& playerName : playerNames)
-                jsonArr << _statistics->statistics(playerName).toJsonobject();
-        return jsonArr;
 }
 
 QJsonObject DartsTurnInfo::finish()

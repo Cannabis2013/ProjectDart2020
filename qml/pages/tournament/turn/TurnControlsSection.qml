@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.5
-import "scripts.js" as Scripts
+import "turnControlsSection.js" as Scripts
 
 Item {
         id: turnRect

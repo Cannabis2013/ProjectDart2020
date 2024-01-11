@@ -14,7 +14,7 @@ public:
         Q_INVOKABLE void saveState() override;
         Q_INVOKABLE QByteArray playerScores() const override;
         Q_INVOKABLE QStringList playerNames() const override;
-        QString winnerImage() const override;
+        Q_INVOKABLE QByteArray statisticReport() const override;
         Q_INVOKABLE QByteArray turnReport() const override;
         Q_INVOKABLE void addInput(const QString& mod, const int& point) override;
         Q_INVOKABLE void undoTurn() override;

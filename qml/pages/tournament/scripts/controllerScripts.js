@@ -1,15 +1,14 @@
-.import "tournamentPageScripts.js" as Scripts
 .import "tournamentModals.js" as Modals
 
 function init() {
         const scores = JSON.parse(dartsController.playerScores())
-        Scripts.initPlayerScores(scores)
+        scoresSection.initialize(scores)
         updateTurnValues()
 }
 
 function restartGame() {
         dartsController.reset()
-        updateTurnValues()
+        init()
 }
 
 function undo() {
@@ -33,10 +32,28 @@ function bustScore() {
 }
 
 function updateTurnValues() {
-        const turnInfo = JSON.parse(dartsController.turnReport())
-        if (turnInfo.winnerFound) {
-                Scripts.winnerFound(turnInfo)
-                Modals.openWinnerModal(turnInfo.winnerName, turnInfo.winnerImage, restartGame, undo)
+        const turnValues = JSON.parse(dartsController.turnReport())
+        const statisticValues = JSON.parse(dartsController.statisticReport())
+        if (turnValues.winnerFound) {
+                Modals.openWinnerModal(turnValues.winnerName, turnValues.winnerImage, restartGame, undo)
         } else
-                Scripts.winnerNotFound(turnInfo)
+                updateSections(turnValues, statisticValues)
+}
+
+function updateSections(turnValues, statisticValues) {
+        updateTurnControlsSection(turnValues)
+        updateScoresSection(turnValues, statisticValues)
+        inputSection.enabled = true
+}
+
+function updateTurnControlsSection(jsonObj) {
+        const indexes = jsonObj.turnIndexes
+        turnControls.updateValues(indexes.canUndo, indexes.canRedo)
+        targetRow.text = jsonObj.suggestions.finish
+}
+
+function updateScoresSection(scoresValues, statisticValues) {
+        scoresSection.highlightScoreRect(scoresValues)
+        scoresSection.updateScores(scoresValues.playerScores)
+        scoresSection.updateStatistics(statisticValues)
 }

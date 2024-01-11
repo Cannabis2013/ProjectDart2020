@@ -28,9 +28,9 @@ QStringList DartsController::playerNames() const
         return players()->names();
 }
 
-QString DartsController::winnerImage() const
+QByteArray DartsController::statisticReport() const
 {
-        return players()->winner().winnerImageUrl();
+        return statistics()->report();
 }
 
 QByteArray DartsController::turnReport() const

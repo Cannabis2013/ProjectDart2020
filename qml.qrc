@@ -21,7 +21,7 @@
         <file>qml/pages/start/StartPageBackDrop.qml</file>
         <file>qml/pages/templates/PageWithHeader.qml</file>
         <file>qml/pages/tournament/keyPad/keyPadBuilder.js</file>
-        <file>qml/pages/tournament/keyPad/KeyPad.qml</file>
+        <file>qml/pages/tournament/keyPad/PlayerInputSection.qml</file>
         <file>qml/pages/tournament/keyPad/ModPad.qml</file>
         <file>qml/pages/tournament/keyPad/NumberPad.qml</file>
         <file>qml/pages/tournament/keyPad/Pad.qml</file>
@@ -31,21 +31,20 @@
         <file>qml/pages/tournament/scores/PlayerInfo.qml</file>
         <file>qml/pages/tournament/scores/PlayerStatistics.qml</file>
         <file>qml/pages/tournament/scores/ScoreRect.qml</file>
-        <file>qml/pages/tournament/scores/scoresView.js</file>
-        <file>qml/pages/tournament/scores/ScoresView.qml</file>
-        <file>qml/pages/tournament/turn/scripts.js</file>
-        <file>qml/pages/tournament/turn/TurnControls.qml</file>
+        <file>qml/pages/tournament/scores/scoresSection.js</file>
+        <file>qml/pages/tournament/scores/ScoresSection.qml</file>
+        <file>qml/pages/tournament/turn/turnControlsSection.js</file>
+        <file>qml/pages/tournament/turn/TurnControlsSection.qml</file>
         <file>qml/pages/tournament/TournamentPage.qml</file>
         <file>qml/main.qml</file>
         <file>qml/PageLoader.qml</file>
         <file>qtquickcontrols2.conf</file>
         <file>qml/pages/tournament/scores/counter/ArrowImage.qml</file>
         <file>qml/pages/tournament/scripts/controllerScripts.js</file>
-        <file>qml/pages/tournament/scripts/tournamentPageScripts.js</file>
         <file>qml/pages/tournament/scripts/tournamentModals.js</file>
         <file>qml/pages/setup/setupPage.js</file>
         <file>qml/pages/tournament/tournamentPage.js</file>
-        <file>qml/pages/tournament/keyPad/keyPad.js</file>
+        <file>qml/pages/tournament/keyPad/playerInputSection.js</file>
         <file>qml/pages/start/startPage.js</file>
     </qresource>
 </RCC>

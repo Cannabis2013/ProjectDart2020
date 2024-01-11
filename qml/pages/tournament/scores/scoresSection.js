@@ -1,5 +1,10 @@
+function clearNames() {
+        scoresGrid.children = []
+        scoreRects.objects = []
+}
+
 function appendName(name, score) {
-        const objectWidth = scoresView.width / playersCount
+        const objectWidth = scoresSection.width / playersCount
         const component = Qt.createComponent("ScoreRect.qml")
         const object = component.createObject(scoresGrid, {})
         object.id = name
@@ -8,7 +13,7 @@ function appendName(name, score) {
         object.Layout.fillWidth = true
         object.Layout.fillHeight = true
         object.Layout.alignment = Qt.AlignHCenter
-        scoresObjects.objects.push(object)
+        scoreRects.objects.push(object)
 }
 
 function shortenName(name) {
@@ -18,7 +23,7 @@ function shortenName(name) {
 }
 
 function updateScore(name, score) {
-        const objects = scoresObjects.objects
+        const objects = scoreRects.objects
         for (var i = 0; i < objects.length; i++) {
                 const scoreObject = objects[i]
                 if (scoreObject.id === name)
@@ -29,7 +34,7 @@ function updateScore(name, score) {
 function updatePlayerRect(json) {
         const name = json.currentPlayerName
         const turnIndex = json.turnIndexes.turnIndex
-        const scores = scoresObjects.objects
+        const scores = scoreRects.objects
         for (var i = 0; i < scores.length; i++) {
                 const score = scores[i]
                 if (score.id === name)
@@ -39,11 +44,20 @@ function updatePlayerRect(json) {
         }
 }
 
-function updateStatistics(json) {
-        const objects = scoresObjects.objects
+function updateStatistics(statisticValues) {
+        for (var i = 0; i < statisticValues.length; i++) {
+                const statisticValue = statisticValues[i]
+                const scoreRect = getScoreRect(statisticValue.name)
+                scoreRect.updateStatistics(statisticValue.average, statisticValue.low, statisticValue.high)
+        }
+}
+
+function getScoreRect(name) {
+        const objects = scoreRects.objects
         for (var i = 0; i < objects.length; i++) {
                 const scoreObject = objects[i]
-                if (scoreObject.id === json.playerName)
-                        scoreObject.updateStatistics(json.average, json.low, json.high)
+                if (scoreObject.id === name)
+                        return scoreObject
         }
+        return null
 }

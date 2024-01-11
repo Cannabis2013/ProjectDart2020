@@ -31,6 +31,7 @@ void ControllerInitializer::initFromStorage()
         auto evaluator = _services->evaluators()->validator();
         _services->setEvaluator(evaluator);
         _services->evaluator()->init();
+        _services->turns()->init(_services->evaluator());
 }
 
 void ControllerInitializer::reset()

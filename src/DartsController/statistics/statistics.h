@@ -1,6 +1,7 @@
 #ifndef STATISTICS_H
 #define STATISTICS_H
 
+#include <QJsonDocument>
 #include <QJsonObject>
 
 class Statistics {
@@ -15,7 +16,7 @@ public:
         QJsonObject toJsonobject()
         {
                 QJsonObject jsonObj;
-                jsonObj["playerName"] = _name;
+                jsonObj["name"] = _name;
                 jsonObj["average"] = _average;
                 jsonObj["low"] = _low;
                 jsonObj["high"] = _high;

@@ -12,8 +12,8 @@ public:
         virtual void saveState() = 0;
         virtual QByteArray playerScores() const = 0;
         virtual QStringList playerNames() const = 0;
-        virtual QString winnerImage() const = 0;
         virtual QByteArray turnReport() const = 0;
+        virtual QByteArray statisticReport() const = 0;
         virtual void addInput(const QString& mod, const int& point) = 0;
         virtual void undoTurn() = 0;
         virtual void redoTurn() = 0;
