@@ -12,16 +12,15 @@ Rectangle {
         signal restartClicked
         signal undoClicked
 
-        function setImageUrl(url) {
-                animatedImage.source = url
+        function setPlayerDetails(name, url) {
+                winnerSection.setWinnerUrl(url)
+                winnerSection.setWinnerName(name)
         }
+
+        function setStatisticsDetails(arr) {}
 
         MouseArea {
                 anchors.fill: parent
-        }
-
-        function setName(name) {
-                winnerText.text = name
         }
 
         MouseArea {
@@ -29,76 +28,26 @@ Rectangle {
         }
 
         GridLayout {
-                anchors.fill: parent
-                columns: 3
+                flow: GridLayout.TopToBottom
+                anchors.centerIn: parent
+                width: parent.width - 12
+                height: parent.height - 12
 
-                Text {
-                        id: titleText
-                        Layout.columnSpan: 3
-                        height: 32
-                        Layout.fillWidth: true
-                        text: "Winner"
-                        font.pointSize: 48
-                        font.weight: Font.Bold
-                        horizontalAlignment: Qt.AlignHCenter
-                        color: "white"
-                }
-
-                Text {
-                        id: winnerText
-                        Layout.columnSpan: 3
-                        height: 24
-                        Layout.fillWidth: true
-                        font.pointSize: 32
-                        font.weight: Font.Medium
-                        horizontalAlignment: Qt.AlignHCenter
-                        color: "white"
-                }
-
-                AnimatedImage {
-                        id: animatedImage
-                        Layout.columnSpan: 3
+                SwipeView {
                         Layout.fillHeight: true
                         Layout.fillWidth: true
-                }
+                        WinnerSection {
+                                id: winnerSection
+                        }
 
-                Button {
-                        flat: true
-                        font.pointSize: 24
-                        Layout.alignment: Qt.AlignHCenter
-                        Layout.maximumWidth: 128
-                        Layout.minimumHeight: 48
-                        text: "Menu"
-                        onClicked: {
-                                winnerModal.visible = false
-                                menuRequest()
+                        StatisticsSection {
+                                id: statisticsSection
                         }
                 }
 
-                Button {
-                        flat: true
-                        font.pointSize: 24
-                        Layout.alignment: Qt.AlignHCenter
-                        Layout.maximumWidth: 128
-                        Layout.minimumHeight: 48
-                        text: "Undo"
-                        onClicked: {
-                                winnerModal.visible = false
-                                undoClicked()
-                        }
-                }
-
-                Button {
-                        flat: true
-                        font.pointSize: 24
-                        Layout.alignment: Qt.AlignHCenter
-                        Layout.maximumWidth: 128
-                        Layout.minimumHeight: 48
-                        text: "Restart"
-                        onClicked: {
-                                winnerModal.visible = false
-                                restartClicked()
-                        }
+                WinnerControlSection {
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 48
                 }
         }
 }

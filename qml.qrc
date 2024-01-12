@@ -46,5 +46,8 @@
         <file>qml/pages/tournament/tournamentPage.js</file>
         <file>qml/pages/tournament/keyPad/playerInputSection.js</file>
         <file>qml/pages/start/startPage.js</file>
+        <file>qml/pages/tournament/modals/WinnerSection.qml</file>
+        <file>qml/pages/tournament/modals/StatisticsSection.qml</file>
+        <file>qml/pages/tournament/modals/WinnerControlSection.qml</file>
     </qresource>
 </RCC>

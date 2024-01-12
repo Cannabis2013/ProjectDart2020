@@ -7,7 +7,7 @@ Item {
         clip: true
 
         function highlightScoreRect(json) {
-                Scripts.updatePlayerRect(json)
+                Scripts.highlightScoreRect(json)
         }
 
         QtObject {

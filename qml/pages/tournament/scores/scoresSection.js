@@ -31,7 +31,7 @@ function updateScore(name, score) {
         }
 }
 
-function updatePlayerRect(json) {
+function highlightScoreRect(json) {
         const name = json.currentPlayerName
         const turnIndex = json.turnIndexes.turnIndex
         const scores = scoreRects.objects

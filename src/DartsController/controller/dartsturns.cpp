@@ -44,7 +44,6 @@ void DartsTurns::undoTurn()
         _status->running();
         _indexes->undo();
         _scores->update();
-        _players->reset();
         _evaluator->evaluateWinnerCondition();
 }
 

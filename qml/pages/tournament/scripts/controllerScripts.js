@@ -12,12 +12,12 @@ function restartGame() {
 }
 
 function undo() {
-        const response = dartsController.undoTurn()
+        dartsController.undoTurn()
         updateTurnValues()
 }
 
 function redo() {
-        const response = dartsController.redoTurn()
+        dartsController.redoTurn()
         updateTurnValues()
 }
 
@@ -35,7 +35,7 @@ function updateTurnValues() {
         const turnValues = JSON.parse(dartsController.turnReport())
         const statisticValues = JSON.parse(dartsController.statisticReport())
         if (turnValues.winnerFound) {
-                Modals.openWinnerModal(turnValues.winnerName, turnValues.winnerImage, restartGame, undo)
+                Modals.openWinnerModal(turnValues, statisticValues, restartGame, undo)
         } else
                 updateSections(turnValues, statisticValues)
 }
