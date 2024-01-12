@@ -25,7 +25,8 @@ void DartsPlayers::initFromFile()
 
 void DartsPlayers::reset()
 {
-        PdcChampions generator(_players.size());
+        auto count = _players.size();
+        PdcChampions generator(count);
         _players = generator.generate();
 }
 
