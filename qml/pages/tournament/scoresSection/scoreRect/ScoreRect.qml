@@ -1,5 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Layouts 1.3
+import "scoreRect.js" as Scripts
 
 Rectangle {
         id: playersScoreRect
@@ -7,14 +8,11 @@ Rectangle {
         color: "green"
 
         function highlight(count) {
-                playerInfo.showCounter(true)
-                playerInfo.updateVisibleDarts(count)
-                playersScoreRect.color = "blue"
+                Scripts.highlight(true, count)
         }
 
         function unHighlight() {
-                playerInfo.showCounter(false)
-                playersScoreRect.color = "green"
+                Scripts.highlight(false, 0)
         }
 
         property string id: ""

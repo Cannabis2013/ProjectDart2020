@@ -1,11 +1,10 @@
 import QtQuick 2.15
 import QtQuick.Layouts 1.3
+import "playerStatistics.js" as Scripts
 
 Item {
         function updateValues(average, low, high) {
-                averageText.text = average
-                lowText.text = low
-                highText.text = high
+                Scripts.updateValues(average, low, high)
         }
 
         GridLayout {

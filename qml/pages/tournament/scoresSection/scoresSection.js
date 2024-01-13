@@ -5,7 +5,7 @@ function clearNames() {
 
 function appendName(name, score) {
         const objectWidth = scoresSection.width / playersCount
-        const component = Qt.createComponent("ScoreRect.qml")
+        const component = Qt.createComponent("scoreRect/ScoreRect.qml")
         const object = component.createObject(scoresGrid, {})
         object.id = name
         object.setName(shortenName(name))

@@ -1,16 +1,18 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
+import "dartsCounter.js" as Scripts
 
 Item {
         anchors.fill: parent
 
         function setVisibleDarts(number) {
-                const children = dartsLayout.children
-                for (var i = children.length - 1; i >= 0; i--) {
-                        const child = children[i]
-                        child.visible = i >= number
-                }
+                Scripts.updateVisibleDarts(number)
+        }
+
+        QtObject {
+                id: counterRessources
+                readonly property url imageUrl: "qrc:/pictures/Ressources/Pictures/dartarrow.png"
         }
 
         Row {
@@ -43,8 +45,25 @@ Item {
                         duration: 175
                 }
 
-                ArrowImage {}
-                ArrowImage {}
-                ArrowImage {}
+                Image {
+                        width: 10
+                        height: 40
+                        source: counterRessources.imageUrl
+                        rotation: 12
+                }
+
+                Image {
+                        width: 10
+                        height: 40
+                        source: counterRessources.imageUrl
+                        rotation: 12
+                }
+
+                Image {
+                        width: 10
+                        height: 40
+                        source: counterRessources.imageUrl
+                        rotation: 12
+                }
         }
 }

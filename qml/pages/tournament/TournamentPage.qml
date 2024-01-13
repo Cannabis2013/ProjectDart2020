@@ -2,7 +2,7 @@ import QtQuick 2.1
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
 import "turn"
-import "scores"
+import "scoresSection"
 import "keyPad"
 import "modals"
 import "scripts/controllerScripts.js" as ControllerScripts

@@ -1,5 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Layouts 1.3
+import "playerInfo.js" as Scripts
 
 Item {
         function setName(name) {
@@ -7,18 +8,11 @@ Item {
         }
 
         function showCounter(status) {
-                const dartsCounter = dartsContainer.children[0]
-                if (status && !dartsCounter) {
-                        const comp = Qt.createComponent("./counter/DartsCounter.qml")
-                        const obj = comp.createObject(dartsContainer)
-                } else if (!status && dartsCounter) {
-                        dartsCounter.destroy()
-                }
+                Scripts.showCounter(status)
         }
 
         function updateVisibleDarts(count) {
-                const turnCounter = dartsContainer.children[0]
-                turnCounter.setVisibleDarts(count)
+                Scripts.updateDartArrows(count)
         }
 
         Text {
