@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.3
 import "../turn"
 import "../keyPad"
 
-Item {
+Page {
         function setWinnerName(name) {
                 winnerText.text = name
         }
@@ -37,10 +37,19 @@ Item {
                         color: "white"
                 }
 
+                Item {
+                        Layout.preferredHeight: 80
+                }
+
                 AnimatedImage {
                         id: animatedImage
+                        Layout.preferredHeight: 192
+                        Layout.preferredWidth: 256
+                        Layout.alignment: Qt.AlignHCenter
+                }
+
+                Item {
                         Layout.fillHeight: true
-                        Layout.fillWidth: true
                 }
         }
 }

@@ -37,7 +37,7 @@ Rectangle {
                 flow: GridLayout.TopToBottom
                 anchors.centerIn: parent
                 width: parent.width - 12
-                height: parent.height - 12
+                height: parent.height
 
                 SwipeView {
                         Layout.fillHeight: true

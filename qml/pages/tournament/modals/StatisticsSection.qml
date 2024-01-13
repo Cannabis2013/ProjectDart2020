@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.3
 import "../turn"
 import "../keyPad"
 
-Item {
+Page {
         function setPlayerName(index, name) {
                 if (index === 0)
                         playerOne.text = name
