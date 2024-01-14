@@ -19,7 +19,7 @@ public:
 
 private:
         // Private member methods
-        void evaluateAndPersist(const QString& mod, const int& point);
+        void evaluateAndPersist(const Input& input);
 
         // Services
         IDartsInputs* const _inputs;

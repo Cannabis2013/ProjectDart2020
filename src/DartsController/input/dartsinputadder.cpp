@@ -15,7 +15,7 @@ void DartsInputAdder::add(const QString& mod, const int& point)
         if (_status->isWinnerFound())
                 return;
         _trimmer->trimInputs();
-        evaluateAndPersist(mod, point);
+        evaluateAndPersist(Input(mod, point));
         _scores->update();
         (*_evaluator)->evaluateWinnerCondition();
 }
@@ -25,10 +25,10 @@ void DartsInputAdder::setEvaluator(AbstractDartsEvaluator** evaluatorPtr)
         _evaluator = evaluatorPtr;
 }
 
-void DartsInputAdder::evaluateAndPersist(const QString& mod, const int& point)
+void DartsInputAdder::evaluateAndPersist(const Input& input)
 {
-        if ((*_evaluator)->evaluateInput(mod, point)) {
-                _inputs->save(Input(mod, point));
+        if ((*_evaluator)->evaluateInput(input.mod(), input.point())) {
+                _inputs->save(input);
                 _indexes->next();
         } else {
                 _trimmer->removeTurnInputs();

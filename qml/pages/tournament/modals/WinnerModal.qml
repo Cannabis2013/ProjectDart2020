@@ -21,7 +21,7 @@ Rectangle {
                 for (var index = 0; index < arr.length; index++) {
                         const stats = arr[index]
                         statisticsSection.setPlayerName(index, stats.name)
-                        statisticsSection.setPlayerStatistic(index, stats.average, stats.low, stats.high)
+                        statisticsSection.setPlayerStatistic(index, stats)
                 }
         }
 

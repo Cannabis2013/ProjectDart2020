@@ -3,21 +3,15 @@ import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
 import "../turn"
 import "../keyPad"
+import "statisticsSection.js" as Scripts
 
 Page {
         function setPlayerName(index, name) {
-                if (index === 0)
-                        playerOne.text = name
-                else
-                        playerTwo.text = name
+                Scripts.setPlayer(index, name)
         }
 
-        function setPlayerStatistic(index, average, low, high) {
-                const text = `Average: ${average}\nLow: ${low}\nHigh: ${high}`
-                if (index === 0)
-                        playerOneStats.text = text
-                else
-                        playerTwoStats.text = text
+        function setPlayerStatistic(index, statistics) {
+                Scripts.setStatistics(index, statistics)
         }
 
         Column {

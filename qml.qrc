@@ -33,14 +33,14 @@
         <file>qml/pages/tournament/modals/WinnerControlSection.qml</file>
         <file>qml/pages/tournament/modals/WinnerModal.qml</file>
         <file>qml/pages/tournament/modals/WinnerSection.qml</file>
-        <file>qml/pages/tournament/scoresSection/scoreRect/dartsCounter.js</file>
-        <file>qml/pages/tournament/scoresSection/scoreRect/DartsCounter.qml</file>
-        <file>qml/pages/tournament/scoresSection/scoreRect/playerInfo.js</file>
-        <file>qml/pages/tournament/scoresSection/scoreRect/PlayerInfo.qml</file>
-        <file>qml/pages/tournament/scoresSection/scoreRect/playerStatistics.js</file>
-        <file>qml/pages/tournament/scoresSection/scoreRect/PlayerStatistics.qml</file>
-        <file>qml/pages/tournament/scoresSection/scoreRect/scoreRect.js</file>
-        <file>qml/pages/tournament/scoresSection/scoreRect/ScoreRect.qml</file>
+        <file>qml/pages/tournament/scoresSection/dartsCounter.js</file>
+        <file>qml/pages/tournament/scoresSection/DartsCounter.qml</file>
+        <file>qml/pages/tournament/scoresSection/playerInfo.js</file>
+        <file>qml/pages/tournament/scoresSection/PlayerInfo.qml</file>
+        <file>qml/pages/tournament/scoresSection/playerStatistics.js</file>
+        <file>qml/pages/tournament/scoresSection/PlayerStatistics.qml</file>
+        <file>qml/pages/tournament/scoresSection/scoreRect.js</file>
+        <file>qml/pages/tournament/scoresSection/ScoreRect.qml</file>
         <file>qml/pages/tournament/scoresSection/scoresSection.js</file>
         <file>qml/pages/tournament/scoresSection/ScoresSection.qml</file>
         <file>qml/pages/tournament/scripts/controllerScripts.js</file>
@@ -52,5 +52,6 @@
         <file>qml/main.qml</file>
         <file>qml/PageLoader.qml</file>
         <file>qtquickcontrols2.conf</file>
+        <file>qml/pages/tournament/modals/statisticsSection.js</file>
     </qresource>
 </RCC>

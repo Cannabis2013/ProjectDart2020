@@ -3,34 +3,23 @@ import QtQuick.Layouts 1.3
 import "scoresSection.js" as Scripts
 
 Item {
-        id: scoresFlickable
-        clip: true
-
-        function highlightScoreRect(json) {
-                Scripts.highlightScoreRect(json)
-        }
-
         QtObject {
                 id: scoreRects
                 property var objects: []
         }
 
+        function highlightScoreRect(json) {
+                Scripts.highlightScoreRect(json.currentPlayerName, json.turnIndexes.turnIndex)
+        }
+
         property int playersCount: 0
 
         function initialize(players) {
-                Scripts.clearNames()
-                playersCount = players.length
-                for (var i = 0; i < players.length; i++) {
-                        const player = players[i]
-                        Scripts.appendName(player.playerName, player.playerScore)
-                }
+                Scripts.initialize(players)
         }
 
         function updateScores(scores) {
-                for (var i = 0; i < scores.length; i++) {
-                        const score = scores[i]
-                        Scripts.updateScore(score.playerName, score.playerScore)
-                }
+                Scripts.updateScore(scores)
         }
 
         function updateStatistics(statisticValues) {

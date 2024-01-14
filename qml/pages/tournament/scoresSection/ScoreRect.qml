@@ -18,15 +18,15 @@ Rectangle {
         property string id: ""
 
         function setName(name) {
-                playerInfo.setName(name)
+                playerInfo.name = name
         }
 
         function updateScore(score) {
                 playerScore.text = score.toString()
         }
 
-        function updateStatistics(average, low, high) {
-                playerStatistics.updateValues(average, low, high)
+        function updateStatistics(statisticValues) {
+                Scripts.updateStatistics(statisticValues)
         }
 
         GridLayout {

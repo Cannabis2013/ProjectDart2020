@@ -73,10 +73,9 @@ function createBustPad(parentObj) {
         const object = component.createObject(parentObj, {
                                                       "Layout.fillWidth": true,
                                                       "Layout.fillHeight": true,
-                                                      "text": "0",
+                                                      "text": "Bust",
                                                       "padValue": 0,
                                                       "backgroundColor": "orange"
                                               })
-        object.padClicked.connect(keyPadRect.specialClicked)
-        object.padLongClicked.connect(keyPadRect.bustTurn)
+        object.padClicked.connect(keyPadRect.bustTurn)
 }

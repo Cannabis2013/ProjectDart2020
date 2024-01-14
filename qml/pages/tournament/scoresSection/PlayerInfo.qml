@@ -3,17 +3,15 @@ import QtQuick.Layouts 1.3
 import "playerInfo.js" as Scripts
 
 Item {
-        function setName(name) {
-                playerName.text = name
-        }
 
-        function showCounter(status) {
-                Scripts.showCounter(status)
-        }
+        property string name: ""
+        onNameChanged: () => playerName.text = name
 
-        function updateVisibleDarts(count) {
-                Scripts.updateDartArrows(count)
-        }
+        property bool counterVisible: false
+        onCounterVisibleChanged: () => Scripts.showCounter(counterVisible)
+
+        property int dartsCount: 0
+        onDartsCountChanged: () => Scripts.updateDartArrows(dartsCount)
 
         Text {
                 id: playerName

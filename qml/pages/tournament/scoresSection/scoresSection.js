@@ -1,3 +1,16 @@
+function initialize(players) {
+        clearNames()
+        setPlayers(players)
+}
+
+function setPlayers(players) {
+        playersCount = players.length
+        for (var i = 0; i < players.length; i++) {
+                const player = players[i]
+                appendName(player.playerName, player.playerScore)
+        }
+}
+
 function clearNames() {
         scoresGrid.children = []
         scoreRects.objects = []
@@ -5,7 +18,7 @@ function clearNames() {
 
 function appendName(name, score) {
         const objectWidth = scoresSection.width / playersCount
-        const component = Qt.createComponent("scoreRect/ScoreRect.qml")
+        const component = Qt.createComponent("ScoreRect.qml")
         const object = component.createObject(scoresGrid, {})
         object.id = name
         object.setName(shortenName(name))
@@ -22,20 +35,17 @@ function shortenName(name) {
         return name
 }
 
-function updateScore(name, score) {
-        const objects = scoreRects.objects
-        for (var i = 0; i < objects.length; i++) {
-                const scoreObject = objects[i]
-                if (scoreObject.id === name)
-                        scoreObject.updateScore(score)
+function updateScore(scores) {
+        for (var i = 0; i < scores.length; i++) {
+                const score = scores[i]
+                const scoreRect = getScoreRect(score.playerName)
+                scoreRect.updateScore(score.playerScore)
         }
 }
 
-function highlightScoreRect(json) {
-        const name = json.currentPlayerName
-        const turnIndex = json.turnIndexes.turnIndex
+function highlightScoreRect(name, turnIndex) {
         const scores = scoreRects.objects
-        for (var i = 0; i < scores.length; i++) {
+        for (var i = 0; i < scoreRects.objects.length; i++) {
                 const score = scores[i]
                 if (score.id === name)
                         score.highlight(turnIndex)
@@ -48,7 +58,7 @@ function updateStatistics(statisticValues) {
         for (var i = 0; i < statisticValues.length; i++) {
                 const statisticValue = statisticValues[i]
                 const scoreRect = getScoreRect(statisticValue.name)
-                scoreRect.updateStatistics(statisticValue.average, statisticValue.low, statisticValue.high)
+                scoreRect.updateStatistics(statisticValue)
         }
 }
 

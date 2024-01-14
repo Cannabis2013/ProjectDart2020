@@ -27,7 +27,8 @@ Statistics DartsStatistics::statistics(const QString& name) const
         auto avg = average(_scores->initialScore(), score.playerScore(), inputs.count());
         auto low = lowest(inputs);
         auto high = highest(inputs);
-        return Statistics(name, avg, low, high);
+        auto count = inputs.size();
+        return Statistics(name, avg, low, high, count);
 }
 
 QList<Input> DartsStatistics::getInputs(const QString& name) const
