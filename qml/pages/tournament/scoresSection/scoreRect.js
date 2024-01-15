@@ -9,9 +9,6 @@ function highlight(status, count) {
         }
 }
 
-function updateStatistics(statisticValues) {
-        playerStatistics.low = statisticValues.low
-        playerStatistics.high = statisticValues.high
-        playerStatistics.average = statisticValues.average
-        playerStatistics.throwCount = statisticValues.throwCount
+function updateStatistics(statistics) {
+        playerStatistics.updateStatistics(statistics)
 }

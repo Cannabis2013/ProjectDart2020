@@ -4,8 +4,6 @@ import QtQuick.Layouts 1.3
 import "dartsCounter.js" as Scripts
 
 Item {
-        anchors.fill: parent
-
         function setVisibleDarts(number) {
                 Scripts.updateVisibleDarts(number)
         }

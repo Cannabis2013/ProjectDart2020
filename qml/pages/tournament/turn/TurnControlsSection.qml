@@ -9,32 +9,21 @@ Item {
         signal undoClicked
         signal redoClicked
         signal restartClicked
-        signal menuClicked
 
         function updateValues(canUndo, canRedo) {
                 undoButton.enabled = canUndo
                 redoButton.enabled = canRedo
         }
 
-        GridLayout {
+        Row {
                 anchors.fill: parent
-
-                Button {
-                        id: menuButton
-                        flat: true
-                        font.pointSize: 18
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
-                        text: "Menu"
-                        onClicked: menuClicked()
-                }
 
                 Button {
                         id: restartButton
                         flat: true
                         font.pointSize: 18
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
+                        width: 90
+                        height: parent.height
                         text: "Restart"
                         onClicked: restartClicked()
                 }
@@ -43,9 +32,8 @@ Item {
                         id: undoButton
                         flat: true
                         font.pointSize: 18
-                        Layout.minimumWidth: 74
-                        Layout.maximumWidth: 74
-                        Layout.fillHeight: true
+                        width: 74
+                        height: parent.height
                         text: "Undo"
                         enabled: false
                         onClicked: undoClicked()
@@ -55,16 +43,11 @@ Item {
                         id: redoButton
                         flat: true
                         font.pointSize: 18
-                        Layout.minimumWidth: 74
-                        Layout.maximumWidth: 74
-                        Layout.fillHeight: true
+                        width: 74
+                        height: parent.height
                         text: "Redo"
                         enabled: false
                         onClicked: redoClicked()
-                }
-
-                Item {
-                        Layout.fillWidth: true
                 }
         }
 }

@@ -13,6 +13,18 @@ Page {
         id: tournamentPage
         signal menuRequest
 
+        header: Item {
+                height: 32
+                width: parent.width
+                Button {
+                        text: "Menu"
+                        height: 32
+                        width: 90
+                        flat: true
+                        onClicked: menuRequest()
+                }
+        }
+
         focus: true
         Keys.onPressed: event => Scripts.handleCloseEvent(event)
 
@@ -62,7 +74,6 @@ Page {
                         onUndoClicked: ControllerScripts.undo()
                         onRedoClicked: ControllerScripts.redo()
                         onRestartClicked: Modals.openRestartModal(ControllerScripts.restartGame)
-                        onMenuClicked: menuRequest()
                 }
 
                 PlayerInputSection {

@@ -35,7 +35,6 @@
         <file>qml/pages/tournament/modals/WinnerSection.qml</file>
         <file>qml/pages/tournament/scoresSection/dartsCounter.js</file>
         <file>qml/pages/tournament/scoresSection/DartsCounter.qml</file>
-        <file>qml/pages/tournament/scoresSection/playerInfo.js</file>
         <file>qml/pages/tournament/scoresSection/PlayerInfo.qml</file>
         <file>qml/pages/tournament/scoresSection/playerStatistics.js</file>
         <file>qml/pages/tournament/scoresSection/PlayerStatistics.qml</file>

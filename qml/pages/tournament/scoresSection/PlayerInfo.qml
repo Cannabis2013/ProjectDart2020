@@ -1,34 +1,32 @@
 import QtQuick 2.15
 import QtQuick.Layouts 1.3
-import "playerInfo.js" as Scripts
 
 Item {
-
         property string name: ""
         onNameChanged: () => playerName.text = name
 
         property bool counterVisible: false
-        onCounterVisibleChanged: () => Scripts.showCounter(counterVisible)
+        onCounterVisibleChanged: () => dartsCounter.visible = counterVisible
 
         property int dartsCount: 0
-        onDartsCountChanged: () => Scripts.updateDartArrows(dartsCount)
+        onDartsCountChanged: () => dartsCounter.setVisibleDarts(dartsCount)
 
-        Text {
-                id: playerName
-                height: 24
-                width: parent.width * 0.75
-                x: 6
-                y: 6
-                font.pointSize: 20
-                font.weight: Font.Bold
-                color: "white"
-        }
+        GridLayout {
+                anchors.fill: parent
+                Text {
+                        id: playerName
+                        Layout.fillHeight: true
+                        Layout.fillWidth: true
+                        font.pointSize: 20
+                        font.weight: Font.Bold
+                        verticalAlignment: Text.AlignVCenter
+                        color: "white"
+                }
 
-        Item {
-                id: dartsContainer
-                height: 52
-                width: 52
-                anchors.right: parent.right
-                anchors.top: parent.top
+                DartsCounter {
+                        id: dartsCounter
+                        height: 52
+                        Layout.preferredWidth: 52
+                }
         }
 }

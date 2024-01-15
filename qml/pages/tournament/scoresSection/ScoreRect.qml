@@ -30,22 +30,23 @@ Rectangle {
         }
 
         GridLayout {
-                anchors.fill: parent
+                anchors.centerIn: parent
+                width: parent.width - 12
+                height: parent.height
                 rowSpacing: 0
                 flow: GridLayout.TopToBottom
 
                 PlayerInfo {
                         id: playerInfo
                         Layout.fillWidth: true
-                        Layout.minimumHeight: 48
-                        Layout.maximumHeight: 48
+                        Layout.preferredHeight: 52
                 }
 
                 Text {
                         id: playerScore
                         Layout.fillHeight: true
                         Layout.fillWidth: true
-                        font.pointSize: 96
+                        font.pointSize: 100
                         font.weight: Font.Bold
                         color: "white"
                         verticalAlignment: Qt.AlignVCenter
@@ -54,8 +55,7 @@ Rectangle {
 
                 PlayerStatistics {
                         id: playerStatistics
-                        Layout.minimumHeight: 64
-                        Layout.maximumHeight: 64
+                        Layout.preferredHeight: 48
                         Layout.fillWidth: true
                 }
         }
