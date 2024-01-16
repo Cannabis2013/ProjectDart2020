@@ -1,8 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
-import "../turn"
-import "../keyPad"
 
 Page {
         function setWinnerName(name) {
@@ -38,18 +36,14 @@ Page {
                 }
 
                 Item {
-                        Layout.preferredHeight: 80
+                        Layout.preferredHeight: 10
                 }
 
                 AnimatedImage {
                         id: animatedImage
-                        Layout.preferredHeight: 192
-                        Layout.preferredWidth: 256
-                        Layout.alignment: Qt.AlignHCenter
-                }
-
-                Item {
                         Layout.fillHeight: true
+                        Layout.fillWidth: true
+                        Layout.alignment: Qt.AlignHCenter
                 }
         }
 }

@@ -1,28 +1,21 @@
 import QtQuick 2.1
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
-import "turn"
+import "turnControlsSection"
 import "scoresSection"
-import "keyPad"
-import "modals"
-import "scripts/controllerScripts.js" as ControllerScripts
-import "scripts/tournamentModals.js" as Modals
+import "inputSection"
+import "messageSection"
 import "tournamentPage.js" as Scripts
+import "textModal/textModal.js" as Modals
+import "headerSection"
 
 Page {
         id: tournamentPage
         signal menuRequest
 
-        header: Item {
+        header: TournamentHeader {
                 height: 32
                 width: parent.width
-                Button {
-                        text: "Menu"
-                        height: 32
-                        width: 90
-                        flat: true
-                        onClicked: menuRequest()
-                }
         }
 
         focus: true
@@ -43,37 +36,20 @@ Page {
                         Layout.alignment: Qt.AlignHCenter
                 }
 
-                Item {
-                        clip: true
+                MessageSection {
+                        id: messageSection
                         Layout.fillWidth: true
-                        Layout.preferredHeight: 32
-                        Text {
-                                anchors.fill: parent
-                                id: targetRow
-                                font.pointSize: 28
-                                font.weight: Font.Bold
-                                color: "white"
-                                horizontalAlignment: Text.AlignHCenter
-                                verticalAlignment: Text.AlignVCenter
-                        }
-                }
-
-                Item {
-                        id: verticalSpacer
-                        visible: !Scripts.isPortrait()
-                        Layout.fillHeight: true
-                        Layout.maximumWidth: 1
+                        Layout.preferredHeight: 40
                 }
 
                 TurnControlsSection {
                         id: turnControls
                         Layout.alignment: Qt.AlignHCenter
-                        Layout.minimumHeight: 40
-                        Layout.maximumHeight: 40
+                        Layout.preferredHeight: 32
                         Layout.fillWidth: true
-                        onUndoClicked: ControllerScripts.undo()
-                        onRedoClicked: ControllerScripts.redo()
-                        onRestartClicked: Modals.openRestartModal(ControllerScripts.restartGame)
+                        onUndoClicked: Scripts.undo()
+                        onRedoClicked: Scripts.redo()
+                        onRestartClicked: Modals.openRestartModal(Scripts.restartGame)
                 }
 
                 PlayerInputSection {
@@ -81,11 +57,11 @@ Page {
                         Layout.fillWidth: true
                         Layout.fillHeight: true
                         Layout.rowSpan: Scripts.isPortrait() ? 1 : 4
-                        onReportScore: (modId, point) => ControllerScripts.addScore(modId, point)
-                        onBustTurn: value => ControllerScripts.bustScore()
+                        onReportScore: (modId, point) => Scripts.addScore(modId, point)
+                        onBustTurn: value => Scripts.bustScore()
                 }
         }
 
-        Component.onCompleted: ControllerScripts.init()
+        Component.onCompleted: Scripts.init()
         Component.onDestruction: dartsController.saveState()
 }

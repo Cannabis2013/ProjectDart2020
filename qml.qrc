@@ -22,17 +22,14 @@
         <file>qml/pages/start/StartPage.qml</file>
         <file>qml/pages/start/StartPageBackDrop.qml</file>
         <file>qml/pages/templates/PageWithHeader.qml</file>
-        <file>qml/pages/tournament/keyPad/keyPadBuilder.js</file>
-        <file>qml/pages/tournament/keyPad/ModPad.qml</file>
-        <file>qml/pages/tournament/keyPad/NumberPad.qml</file>
-        <file>qml/pages/tournament/keyPad/Pad.qml</file>
-        <file>qml/pages/tournament/keyPad/playerInputSection.js</file>
-        <file>qml/pages/tournament/keyPad/PlayerInputSection.qml</file>
-        <file>qml/pages/tournament/modals/StatisticsSection.qml</file>
-        <file>qml/pages/tournament/modals/TextModal.qml</file>
-        <file>qml/pages/tournament/modals/WinnerControlSection.qml</file>
-        <file>qml/pages/tournament/modals/WinnerModal.qml</file>
-        <file>qml/pages/tournament/modals/WinnerSection.qml</file>
+        <file>qml/pages/tournament/headerSection/TournamentHeader.qml</file>
+        <file>qml/pages/tournament/inputSection/keyPadBuilder.js</file>
+        <file>qml/pages/tournament/inputSection/ModPad.qml</file>
+        <file>qml/pages/tournament/inputSection/NumberPad.qml</file>
+        <file>qml/pages/tournament/inputSection/Pad.qml</file>
+        <file>qml/pages/tournament/inputSection/playerInputSection.js</file>
+        <file>qml/pages/tournament/inputSection/PlayerInputSection.qml</file>
+        <file>qml/pages/tournament/messageSection/MessageSection.qml</file>
         <file>qml/pages/tournament/scoresSection/dartsCounter.js</file>
         <file>qml/pages/tournament/scoresSection/DartsCounter.qml</file>
         <file>qml/pages/tournament/scoresSection/PlayerInfo.qml</file>
@@ -42,15 +39,21 @@
         <file>qml/pages/tournament/scoresSection/ScoreRect.qml</file>
         <file>qml/pages/tournament/scoresSection/scoresSection.js</file>
         <file>qml/pages/tournament/scoresSection/ScoresSection.qml</file>
-        <file>qml/pages/tournament/scripts/controllerScripts.js</file>
-        <file>qml/pages/tournament/scripts/tournamentModals.js</file>
-        <file>qml/pages/tournament/turn/turnControlsSection.js</file>
-        <file>qml/pages/tournament/turn/TurnControlsSection.qml</file>
+        <file>qml/pages/tournament/textModal/textModal.js</file>
+        <file>qml/pages/tournament/textModal/TextModal.qml</file>
+        <file>qml/pages/tournament/turnControlsSection/turnControlsSection.js</file>
+        <file>qml/pages/tournament/turnControlsSection/TurnControlsSection.qml</file>
+        <file>qml/pages/tournament/winnerModal/statisticsSection.js</file>
+        <file>qml/pages/tournament/winnerModal/StatisticsSection.qml</file>
+        <file>qml/pages/tournament/winnerModal/WinnerControlSection.qml</file>
+        <file>qml/pages/tournament/winnerModal/winnerModal.js</file>
+        <file>qml/pages/tournament/winnerModal/WinnerModal.qml</file>
+        <file>qml/pages/tournament/winnerModal/WinnerSection.qml</file>
         <file>qml/pages/tournament/tournamentPage.js</file>
         <file>qml/pages/tournament/TournamentPage.qml</file>
         <file>qml/main.qml</file>
         <file>qml/PageLoader.qml</file>
         <file>qtquickcontrols2.conf</file>
-        <file>qml/pages/tournament/modals/statisticsSection.js</file>
+        <file>qml/pages/tournament/messageSection/messageSection.js</file>
     </qresource>
 </RCC>

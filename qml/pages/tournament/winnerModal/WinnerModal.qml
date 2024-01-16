@@ -1,8 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
-import "../turn"
-import "../keyPad"
+import "winnerModal.js" as Scripts
 
 Rectangle {
         id: winnerModal
@@ -13,16 +12,11 @@ Rectangle {
         signal undoClicked
 
         function setPlayerDetails(name, url) {
-                winnerSection.setWinnerUrl(url)
-                winnerSection.setWinnerName(name)
+                Scripts.setPlayerDetails(name, url)
         }
 
-        function setStatisticsDetails(arr) {
-                for (var index = 0; index < arr.length; index++) {
-                        const stats = arr[index]
-                        statisticsSection.setPlayerName(index, stats.name)
-                        statisticsSection.setPlayerStatistic(index, stats)
-                }
+        function setStatisticsDetails(statistics) {
+                Scripts.setStatistics(statistics)
         }
 
         MouseArea {
