@@ -1,5 +1,4 @@
 function initialize(players) {
-        clearNames()
         setPlayers(players)
 }
 
@@ -7,26 +6,17 @@ function setPlayers(players) {
         playersCount = players.length
         for (var i = 0; i < players.length; i++) {
                 const player = players[i]
-                appendName(player.playerName, player.playerScore)
+                const scoreRect = i == 0 ? scoreRectOne : scoreRectTwo
+                initializeScoreRect(scoreRect, player.playerName, player.playerScore)
         }
 }
 
-function clearNames() {
-        scoresGrid.children = []
-        scoreRects.objects = []
-}
-
-function appendName(name, score) {
-        const objectWidth = scoresSection.width / playersCount
-        const component = Qt.createComponent("ScoreRect.qml")
-        const object = component.createObject(scoresGrid, {})
-        object.id = name
-        object.setName(shortenName(name))
-        object.updateScore(score)
-        object.Layout.fillWidth = true
-        object.Layout.fillHeight = true
-        object.Layout.alignment = Qt.AlignHCenter
-        scoreRects.objects.push(object)
+function initializeScoreRect(scoreRect, name, score) {
+        scoreRect.setName(shortenName(name))
+        scoreRect.updateScore(score)
+        scoreRect.Layout.fillWidth = true
+        scoreRect.Layout.fillHeight = true
+        scoreRect.Layout.alignment = Qt.AlignHCenter
 }
 
 function shortenName(name) {
@@ -44,13 +34,12 @@ function updateScore(scores) {
 }
 
 function highlightScoreRect(name, turnIndex) {
-        const scores = scoreRects.objects
-        for (var i = 0; i < scoreRects.objects.length; i++) {
-                const score = scores[i]
-                if (score.id === name)
-                        score.highlight(turnIndex)
-                else
-                        score.unHighlight()
+        if (scoreRectOne.name === name) {
+                scoreRectOne.highlight(turnIndex)
+                scoreRectTwo.unHighlight()
+        } else if (scoreRectTwo.name === name) {
+                scoreRectTwo.highlight(turnIndex)
+                scoreRectOne.unHighlight()
         }
 }
 
@@ -63,11 +52,10 @@ function updateStatistics(statisticValues) {
 }
 
 function getScoreRect(name) {
-        const objects = scoreRects.objects
-        for (var i = 0; i < objects.length; i++) {
-                const scoreObject = objects[i]
-                if (scoreObject.id === name)
-                        return scoreObject
-        }
-        return null
+        if (scoreRectOne.name === name)
+                return scoreRectOne
+        else if (scoreRectTwo.name === name)
+                return scoreRectTwo
+        else
+                throw "Critical error. ScoreRect with provided name not available!"
 }

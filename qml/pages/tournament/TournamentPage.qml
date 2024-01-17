@@ -7,16 +7,10 @@ import "inputSection"
 import "messageSection"
 import "tournamentPage.js" as Scripts
 import "textModal/textModal.js" as Modals
-import "headerSection"
 
 Page {
         id: tournamentPage
         signal menuRequest
-
-        header: TournamentHeader {
-                height: 32
-                width: parent.width
-        }
 
         focus: true
         Keys.onPressed: event => Scripts.handleCloseEvent(event)

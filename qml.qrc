@@ -22,7 +22,6 @@
         <file>qml/pages/start/StartPage.qml</file>
         <file>qml/pages/start/StartPageBackDrop.qml</file>
         <file>qml/pages/templates/PageWithHeader.qml</file>
-        <file>qml/pages/tournament/headerSection/TournamentHeader.qml</file>
         <file>qml/pages/tournament/inputSection/keyPadBuilder.js</file>
         <file>qml/pages/tournament/inputSection/ModPad.qml</file>
         <file>qml/pages/tournament/inputSection/NumberPad.qml</file>

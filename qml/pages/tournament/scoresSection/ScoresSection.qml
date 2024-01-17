@@ -3,11 +3,6 @@ import QtQuick.Layouts 1.3
 import "scoresSection.js" as Scripts
 
 Item {
-        QtObject {
-                id: scoreRects
-                property var objects: []
-        }
-
         function highlightScoreRect(json) {
                 Scripts.highlightScoreRect(json.currentPlayerName, json.turnIndexes.turnIndex)
         }
@@ -30,5 +25,17 @@ Item {
                 id: scoresGrid
                 anchors.fill: parent
                 columnSpacing: 0
+
+                ScoreRect {
+                        id: scoreRectOne
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                }
+
+                ScoreRect {
+                        id: scoreRectTwo
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                }
         }
 }

@@ -15,7 +15,7 @@ Rectangle {
                 Scripts.highlight(false, 0)
         }
 
-        property string id: ""
+        readonly property string name: playerInfo.name
 
         function setName(name) {
                 playerInfo.name = name
