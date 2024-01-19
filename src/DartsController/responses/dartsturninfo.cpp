@@ -48,6 +48,6 @@ QJsonObject DartsTurnInfo::finish()
 {
         QJsonObject jsonObj;
         auto remaining = _scores->score().playerScore();
-        jsonObj["finish"] = _finishes->suggestTargetRow(remaining, _indexes->index().turnIndex());
+        jsonObj["targetRow"] = _finishes->suggestTargetRow(remaining, _indexes->index().turnIndex());
         return jsonObj;
 }

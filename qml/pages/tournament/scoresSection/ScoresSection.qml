@@ -7,10 +7,8 @@ Item {
                 Scripts.highlightScoreRect(json.currentPlayerName, json.turnIndexes.turnIndex)
         }
 
-        property int playersCount: 0
-
-        function initialize(players) {
-                Scripts.initialize(players)
+        function setPlayers(players) {
+                Scripts.setPlayers(players)
         }
 
         function updateScores(scores) {

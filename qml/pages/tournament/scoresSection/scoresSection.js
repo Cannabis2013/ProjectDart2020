@@ -1,9 +1,4 @@
-function initialize(players) {
-        setPlayers(players)
-}
-
 function setPlayers(players) {
-        playersCount = players.length
         for (var i = 0; i < players.length; i++) {
                 const player = players[i]
                 const scoreRect = i == 0 ? scoreRectOne : scoreRectTwo

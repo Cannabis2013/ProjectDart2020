@@ -13,9 +13,13 @@ function isPortrait() {
 }
 
 function init() {
-        const scores = JSON.parse(dartsController.playerScores())
-        scoresSection.initialize(scores)
+        initScoreSection()
         updateTurnValues()
+}
+
+function initScoreSection() {
+        const players = JSON.parse(dartsController.playerScores())
+        scoresSection.setPlayers(players)
 }
 
 function restartGame() {
@@ -61,7 +65,7 @@ function updateSections(turnValues, statisticValues) {
 function updateTurnControlsSection(jsonObj) {
         const indexes = jsonObj.turnIndexes
         turnControls.updateValues(indexes.canUndo, indexes.canRedo)
-        messageSection.targetRow = jsonObj.suggestions.finish
+        messageSection.targetRow = jsonObj.suggestions.targetRow
 }
 
 function updateScoresSection(scoresValues, statisticValues) {
