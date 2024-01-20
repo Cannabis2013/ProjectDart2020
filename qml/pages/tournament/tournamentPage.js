@@ -13,13 +13,17 @@ function isPortrait() {
 }
 
 function init() {
+        initPlayerSection()
         initScoreSection()
         updateTurnValues()
 }
 
-function initScoreSection() {
+function initPlayerSection() {
         const names = dartsController.playerNames()
         playersSection.setPlayerNames(names)
+}
+
+function initScoreSection() {
         const scores = JSON.parse(dartsController.playerScores())
         scoresSection.initializeScores(scores)
 }

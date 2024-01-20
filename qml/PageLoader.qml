@@ -45,7 +45,5 @@ Item {
                 id: pageLoader
                 anchors.fill: parent
                 sourceComponent: startPageComponent
-                asynchronous: true
-                visible: status == Loader.Ready
         }
 }
