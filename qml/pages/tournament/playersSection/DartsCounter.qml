@@ -15,6 +15,9 @@ Item {
 
         Row {
                 id: dartsLayout
+                anchors.centerIn: parent
+                width: 24
+                height: parent.height
                 layoutDirection: Qt.RightToLeft
 
                 move: Transition {
@@ -31,37 +34,20 @@ Item {
                         }
                 }
 
-                x: 6
-                y: 6
-                width: 38
-                height: 40
-                spacing: 4
-
                 NumberAnimation on scale {
                         from: 0.0
                         to: 1
                         duration: 175
                 }
 
-                Image {
-                        width: 10
-                        height: 40
-                        source: counterRessources.imageUrl
-                        rotation: 12
-                }
-
-                Image {
-                        width: 10
-                        height: 40
-                        source: counterRessources.imageUrl
-                        rotation: 12
-                }
-
-                Image {
-                        width: 10
-                        height: 40
-                        source: counterRessources.imageUrl
-                        rotation: 12
+                Repeater {
+                        model: 3
+                        Image {
+                                width: 8
+                                height: 32
+                                source: counterRessources.imageUrl
+                                rotation: 12
+                        }
                 }
         }
 }

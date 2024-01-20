@@ -18,8 +18,10 @@ function init() {
 }
 
 function initScoreSection() {
-        const players = JSON.parse(dartsController.playerScores())
-        scoresSection.setPlayers(players)
+        const names = dartsController.playerNames()
+        playersSection.setPlayerNames(names)
+        const scores = JSON.parse(dartsController.playerScores())
+        scoresSection.initializeScores(scores)
 }
 
 function restartGame() {
@@ -49,27 +51,30 @@ function bustScore() {
 
 function updateTurnValues() {
         const turnValues = JSON.parse(dartsController.turnReport())
-        const statisticValues = JSON.parse(dartsController.statisticReport())
-        if (turnValues.winnerFound) {
-                WinnerModal.openWinnerModal(turnValues, statisticValues, restartGame, undo)
-        } else
-                updateSections(turnValues, statisticValues)
+        const statistics = JSON.parse(dartsController.statisticReport())
+        if (turnValues.winnerFound)
+                WinnerModal.openWinnerModal(turnValues, statistics, restartGame, undo)
+        else
+                updateSections(turnValues, statistics)
 }
 
-function updateSections(turnValues, statisticValues) {
+function updateSections(turnValues, statistics) {
         updateTurnControlsSection(turnValues)
-        updateScoresSection(turnValues, statisticValues)
+        updatePlayerSection(turnValues)
+        scoresSection.updateScores(turnValues.playerScores)
+        playerStatistics.setStatistics(statistics)
         inputSection.enabled = true
 }
 
-function updateTurnControlsSection(jsonObj) {
-        const indexes = jsonObj.turnIndexes
-        turnControls.updateValues(indexes.canUndo, indexes.canRedo)
-        messageSection.targetRow = jsonObj.suggestions.targetRow
+function updatePlayerSection(turnValues) {
+        const name = turnValues.currentPlayerName
+        const turnIndex = turnValues.turnIndexes.turnIndex
+        playersSection.highlightPlayer(name, turnIndex)
 }
 
-function updateScoresSection(scoresValues, statisticValues) {
-        scoresSection.highlightScoreRect(scoresValues)
-        scoresSection.updateScores(scoresValues.playerScores)
-        scoresSection.updateStatistics(statisticValues)
+function updateTurnControlsSection(turnValues) {
+        const indexes = turnValues.turnIndexes
+        const suggestions = turnValues.suggestions
+        turnControls.updateValues(indexes.canUndo, indexes.canRedo)
+        messageSection.targetRow = suggestions.targetRow
 }

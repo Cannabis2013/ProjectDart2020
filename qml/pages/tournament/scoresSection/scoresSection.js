@@ -1,17 +1,14 @@
-function setPlayers(players) {
-        for (var i = 0; i < players.length; i++) {
-                const player = players[i]
-                const scoreRect = i == 0 ? scoreRectOne : scoreRectTwo
-                initializeScoreRect(scoreRect, player.playerName, player.playerScore)
+function initializeScores(scores) {
+        for (var i = 0; i < scores.length; i++) {
+                const score = scores[i]
+                const scoreObj = i == 0 ? playerOneScore : playerTwoScore
+                initializeScoreObject(scoreObj, score)
         }
 }
 
-function initializeScoreRect(scoreRect, name, score) {
-        scoreRect.setName(shortenName(name))
-        scoreRect.updateScore(score)
-        scoreRect.Layout.fillWidth = true
-        scoreRect.Layout.fillHeight = true
-        scoreRect.Layout.alignment = Qt.AlignHCenter
+function initializeScoreObject(scoreObj, score) {
+        scoreObj.text = score.value
+        scoreObj.name = score.name
 }
 
 function shortenName(name) {
@@ -23,34 +20,15 @@ function shortenName(name) {
 function updateScore(scores) {
         for (var i = 0; i < scores.length; i++) {
                 const score = scores[i]
-                const scoreRect = getScoreRect(score.playerName)
-                scoreRect.updateScore(score.playerScore)
+                const scoreObj = getScoreObject(score.name)
+                scoreObj.text = score.value
         }
 }
-
-function highlightScoreRect(name, turnIndex) {
-        if (scoreRectOne.name === name) {
-                scoreRectOne.highlight(turnIndex)
-                scoreRectTwo.unHighlight()
-        } else if (scoreRectTwo.name === name) {
-                scoreRectTwo.highlight(turnIndex)
-                scoreRectOne.unHighlight()
-        }
-}
-
-function updateStatistics(statisticValues) {
-        for (var i = 0; i < statisticValues.length; i++) {
-                const statisticValue = statisticValues[i]
-                const scoreRect = getScoreRect(statisticValue.name)
-                scoreRect.updateStatistics(statisticValue)
-        }
-}
-
-function getScoreRect(name) {
-        if (scoreRectOne.name === name)
-                return scoreRectOne
-        else if (scoreRectTwo.name === name)
-                return scoreRectTwo
+function getScoreObject(name) {
+        if (playerOneScore.name === name)
+                return playerOneScore
+        else if (playerTwoScore.name === name)
+                return playerTwoScore
         else
                 throw "Critical error. ScoreRect with provided name not available!"
 }

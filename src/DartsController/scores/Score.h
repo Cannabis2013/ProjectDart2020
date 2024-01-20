@@ -18,14 +18,14 @@ public:
         }
 
         Score(const QJsonObject &jsonObj){
-                _name = jsonObj["playerName"].toString("");
-                _score = jsonObj["playerScore"].toInt(-1);
+                _name = jsonObj["name"].toString("");
+                _score = jsonObj["value"].toInt(-1);
         }
 
         QJsonObject toJsonObject() const{
                 QJsonObject jsonObj;
-                jsonObj["playerName"] = _name;
-                jsonObj["playerScore"] =  _score;
+                jsonObj["name"] = _name;
+                jsonObj["value"] = _score;
                 return jsonObj;
         }
 

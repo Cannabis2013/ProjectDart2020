@@ -28,16 +28,17 @@
         <file>qml/pages/tournament/inputSection/Pad.qml</file>
         <file>qml/pages/tournament/inputSection/playerInputSection.js</file>
         <file>qml/pages/tournament/inputSection/PlayerInputSection.qml</file>
+        <file>qml/pages/tournament/messageSection/messageSection.js</file>
         <file>qml/pages/tournament/messageSection/MessageSection.qml</file>
-        <file>qml/pages/tournament/scoresSection/dartsCounter.js</file>
-        <file>qml/pages/tournament/scoresSection/DartsCounter.qml</file>
-        <file>qml/pages/tournament/scoresSection/PlayerInfo.qml</file>
-        <file>qml/pages/tournament/scoresSection/playerStatistics.js</file>
-        <file>qml/pages/tournament/scoresSection/PlayerStatistics.qml</file>
-        <file>qml/pages/tournament/scoresSection/scoreRect.js</file>
-        <file>qml/pages/tournament/scoresSection/ScoreRect.qml</file>
+        <file>qml/pages/tournament/playersSection/dartsCounter.js</file>
+        <file>qml/pages/tournament/playersSection/DartsCounter.qml</file>
+        <file>qml/pages/tournament/playersSection/PlayerInfo.qml</file>
         <file>qml/pages/tournament/scoresSection/scoresSection.js</file>
         <file>qml/pages/tournament/scoresSection/ScoresSection.qml</file>
+        <file>qml/pages/tournament/statisticsSection/StatisticsRect.js</file>
+        <file>qml/pages/tournament/statisticsSection/StatisticsRect.qml</file>
+        <file>qml/pages/tournament/statisticsSection/statisticsSection.js</file>
+        <file>qml/pages/tournament/statisticsSection/StatisticsSection.qml</file>
         <file>qml/pages/tournament/textModal/textModal.js</file>
         <file>qml/pages/tournament/textModal/TextModal.qml</file>
         <file>qml/pages/tournament/turnControlsSection/turnControlsSection.js</file>
@@ -53,6 +54,8 @@
         <file>qml/main.qml</file>
         <file>qml/PageLoader.qml</file>
         <file>qtquickcontrols2.conf</file>
-        <file>qml/pages/tournament/messageSection/messageSection.js</file>
+        <file>qml/pages/tournament/playersSection/PlayersSection.qml</file>
+        <file>qml/pages/tournament/playersSection/playersSection.js</file>
+        <file>qml/pages/tournament/playersSection/playerInfo.js</file>
     </qresource>
 </RCC>

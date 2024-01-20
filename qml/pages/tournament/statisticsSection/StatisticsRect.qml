@@ -1,6 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Layouts 1.3
-import "playerStatistics.js" as Scripts
+import "StatisticsRect.js" as Scripts
 
 Item {
         function updateStatistics(statistics) {
@@ -19,7 +19,7 @@ Item {
                         font.weight: Font.Bold
                         color: "white"
                         horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignBottom
+                        verticalAlignment: Text.AlignVCenter
                         text: "Average"
                 }
 
@@ -31,7 +31,7 @@ Item {
                         font.weight: Font.Bold
                         color: "white"
                         horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignBottom
+                        verticalAlignment: Text.AlignVCenter
                         text: "Low"
                 }
 
@@ -43,7 +43,7 @@ Item {
                         font.weight: Font.Bold
                         color: "white"
                         horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignBottom
+                        verticalAlignment: Text.AlignVCenter
                         text: "high"
                 }
 
@@ -55,7 +55,7 @@ Item {
                         font.weight: Font.Bold
                         color: "white"
                         horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignBottom
+                        verticalAlignment: Text.AlignVCenter
                         text: "Total"
                 }
         }

@@ -2,13 +2,11 @@ import QtQuick 2.15
 import QtQuick.Layouts 1.3
 import "scoresSection.js" as Scripts
 
-Item {
-        function highlightScoreRect(json) {
-                Scripts.highlightScoreRect(json.currentPlayerName, json.turnIndexes.turnIndex)
-        }
+Rectangle {
+        color: "green"
 
-        function setPlayers(players) {
-                Scripts.setPlayers(players)
+        function initializeScores(scores) {
+                Scripts.initializeScores(scores)
         }
 
         function updateScores(scores) {
@@ -24,16 +22,34 @@ Item {
                 anchors.fill: parent
                 columnSpacing: 0
 
-                ScoreRect {
-                        id: scoreRectOne
-                        Layout.fillWidth: true
+                Item {
                         Layout.fillHeight: true
+                        Layout.fillWidth: true
+                        Text {
+                                id: playerOneScore
+                                anchors.fill: parent
+                                property string name: ""
+                                font.pointSize: 100
+                                font.weight: Font.Bold
+                                color: "white"
+                                verticalAlignment: Qt.AlignVCenter
+                                horizontalAlignment: Qt.AlignHCenter
+                        }
                 }
 
-                ScoreRect {
-                        id: scoreRectTwo
-                        Layout.fillWidth: true
+                Item {
                         Layout.fillHeight: true
+                        Layout.fillWidth: true
+                        Text {
+                                id: playerTwoScore
+                                anchors.fill: parent
+                                property string name: ""
+                                font.pointSize: 100
+                                font.weight: Font.Bold
+                                color: "white"
+                                verticalAlignment: Qt.AlignVCenter
+                                horizontalAlignment: Qt.AlignHCenter
+                        }
                 }
         }
 }

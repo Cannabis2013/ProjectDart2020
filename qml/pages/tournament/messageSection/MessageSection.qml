@@ -15,7 +15,7 @@ Item {
                 font.pointSize: 18
                 font.weight: Font.Bold
                 color: "white"
-                verticalAlignment: Text.AlignVCenter
+                verticalAlignment: Text.AlignBottom
                 horizontalAlignment: Text.AlignLeft
                 text: "Target:"
         }

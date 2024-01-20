@@ -28,8 +28,8 @@ QJsonArray DartsTurnInfo::playerScores()
         auto scores = _scores->scores();
         for (const auto& score : scores.playerScores()) {
                 QJsonObject jsonObj;
-                jsonObj["playerName"] = score.name();
-                jsonObj["playerScore"] = score.score();
+                jsonObj["name"] = score.name();
+                jsonObj["value"] = score.score();
                 jsonArr << jsonObj;
         }
         return jsonArr;
