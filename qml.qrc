@@ -6,6 +6,8 @@
         <file>Ressources/Pictures/SnakeBite.png</file>
         <file>Ressources/Pictures/gerwen.png</file>
         <file>Ressources/Pictures/GerwinPrice.png</file>
+        <file>Ressources/Pictures/lukeLittler.gif</file>
+        <file>Ressources/Pictures/gerwinPrice.gif</file>
     </qresource>
     <qresource prefix="/data">
         <file>Ressources/TextData/aboutContent.dat</file>

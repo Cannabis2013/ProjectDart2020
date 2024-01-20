@@ -1,19 +1,19 @@
 #include "pdcchampions.h"
+#include "src/DartsController/players/heroes/gerwinPrice.h"
+#include "src/DartsController/players/heroes/lukeLittler.h"
 #include "src/DartsController/players/heroes/snakeBite.h"
 #include "src/DartsController/players/heroes/vanGerwin.h"
 #include <QList>
 #include <qrandom.h>
 
-PdcChampions::PdcChampions(const int& count)
+PdcChampions::PdcChampions()
 {
         _available = std::initializer_list<DartsPlayer> {
                 VanGerwin(),
-                SnakeBite()
+                SnakeBite(),
+                LukeLittler(),
+                GerwinPrice()
         };
-        if (count < 0 || count >= _available.size())
-                _count = 2;
-        else
-                _count = count;
 }
 
 QList<DartsPlayer> PdcChampions::generate()
@@ -25,7 +25,7 @@ QList<DartsPlayer> PdcChampions::takeRandoms(QList<DartsPlayer>& available, cons
 {
         QList<DartsPlayer> list;
         QRandomGenerator rand(QTime::currentTime().msec());
-        while (!available.isEmpty())
+        for (int i = 0; i < count; ++i)
                 list << takeRandom(available, rand);
         return list;
 }

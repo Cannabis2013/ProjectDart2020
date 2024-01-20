@@ -7,14 +7,14 @@ class QRandomGenerator;
 
 class PdcChampions {
 public:
-        PdcChampions(const int& count);
+        PdcChampions();
         QList<DartsPlayer> generate();
 
 private:
         QList<DartsPlayer> takeRandoms(QList<DartsPlayer>& available, const int& count);
         DartsPlayer takeRandom(QList<DartsPlayer>& available, QRandomGenerator& rand);
 
-        int _count;
+        int _count = 2;
         QList<DartsPlayer> _available;
 };
 

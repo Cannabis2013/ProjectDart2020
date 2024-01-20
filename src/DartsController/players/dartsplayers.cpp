@@ -12,9 +12,9 @@ DartsPlayers::DartsPlayers(IDartsIndexes* indexes)
         _playersIO = new PlayersIO("players.dat");
 }
 
-void DartsPlayers::init(const int& count)
+void DartsPlayers::init()
 {
-        PdcChampions generator(count);
+        PdcChampions generator;
         _players = generator.generate();
 }
 
@@ -25,8 +25,7 @@ void DartsPlayers::initFromFile()
 
 void DartsPlayers::reset()
 {
-        auto count = _players.size();
-        PdcChampions generator(count);
+        PdcChampions generator;
         _players = generator.generate();
 }
 
