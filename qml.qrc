@@ -8,6 +8,7 @@
         <file>Ressources/Pictures/GerwinPrice.png</file>
         <file>Ressources/Pictures/lukeLittler.gif</file>
         <file>Ressources/Pictures/gerwinPrice.gif</file>
+        <file>Ressources/Pictures/up_arrow.png</file>
     </qresource>
     <qresource prefix="/data">
         <file>Ressources/TextData/aboutContent.dat</file>

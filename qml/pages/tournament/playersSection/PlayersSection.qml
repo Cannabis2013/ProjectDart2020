@@ -2,7 +2,9 @@ import QtQuick 2.0
 import QtQuick.Layouts 1.3
 import "playersSection.js" as Scripts
 
-Item {
+Rectangle {
+        color: "green"
+
         function setPlayerNames(names) {
                 Scripts.setPlayers(names)
         }
@@ -11,20 +13,34 @@ Item {
                 Scripts.highlightRect(name, turnIndex)
         }
 
-        RowLayout {
-                id: playerRects
-                anchors.fill: parent
-                spacing: 0
-                PlayerInfo {
-                        id: playerOne
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
-                }
+        PlayerInfo {
+                id: playerOne
+                height: 32
+                width: parent.width / 2
+                anchors.left: parent.left
+        }
 
-                PlayerInfo {
-                        id: playerTwo
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
+        PlayerInfo {
+                id: playerTwo
+                height: 32
+                anchors.left: playerOne.right
+                anchors.right: parent.right
+        }
+
+        Image {
+                id: turnRect
+
+                Behavior on x {
+                        NumberAnimation {
+                                duration: 200
+                        }
                 }
+                source: "qrc:/pictures/Ressources/Pictures/up_arrow.png"
+
+                height: 32
+                width: 32
+                anchors.top: playerOne.bottom
+                anchors.topMargin: 2
+                x: playerOne.x + playerOne.width / 2 - 16
         }
 }

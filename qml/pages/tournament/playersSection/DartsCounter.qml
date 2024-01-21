@@ -4,8 +4,8 @@ import QtQuick.Layouts 1.3
 import "dartsCounter.js" as Scripts
 
 Item {
-        function setVisibleDarts(number) {
-                Scripts.updateVisibleDarts(number)
+        function hideDarts(number) {
+                Scripts.setHiddenDarts(number)
         }
 
         QtObject {

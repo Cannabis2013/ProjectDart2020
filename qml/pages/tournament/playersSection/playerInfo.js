@@ -10,5 +10,5 @@ function shortenName(name) {
 
 function highlight(status, count) {
         infoRect.color = status ? "blue" : "green"
-        dartsCounter.setVisibleDarts(status ? count : 3)
+        dartsCounter.hideDarts(status ? count : 3)
 }

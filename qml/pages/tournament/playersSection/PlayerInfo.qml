@@ -7,6 +7,12 @@ Rectangle {
 
         color: "green"
 
+        Behavior on color {
+                ColorAnimation {
+                        duration: 300
+                }
+        }
+
         readonly property string name: playerName.text
 
         function setPlayerName(name) {
