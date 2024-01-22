@@ -1,18 +1,15 @@
 #include "pdcchampions.h"
-#include "src/DartsController/players/heroes/gerwinPrice.h"
-#include "src/DartsController/players/heroes/lukeLittler.h"
-#include "src/DartsController/players/heroes/snakeBite.h"
-#include "src/DartsController/players/heroes/vanGerwin.h"
 #include <QList>
 #include <qrandom.h>
 
 PdcChampions::PdcChampions()
 {
         _available = std::initializer_list<DartsPlayer> {
-                VanGerwin(),
-                SnakeBite(),
-                LukeLittler(),
-                GerwinPrice()
+                { "Van Gerwin", "qrc:/pictures/Ressources/Pictures/VanGerwin.gif" },
+                { "Peter Wright", "qrc:/pictures/Ressources/Pictures/SnakeBite.png" },
+                { "Luke Littler", "qrc:/pictures/Ressources/Pictures/lukeLittler.gif" },
+                { "Gerwin Price", "qrc:/pictures/Ressources/Pictures/gerwinPrice.gif" },
+                { "Snot Leif" }
         };
 }
 

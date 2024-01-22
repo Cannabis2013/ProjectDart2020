@@ -54,11 +54,7 @@ HEADERS += \
     src/DartsController/input/inputsio.h \
     src/DartsController/players/dartsplayer.h \
     src/DartsController/players/dartsplayers.h \
-    src/DartsController/players/heroes/gerwinPrice.h \
-    src/DartsController/players/heroes/lukeLittler.h \
     src/DartsController/players/heroes/pdcchampions.h \
-    src/DartsController/players/heroes/snakeBite.h \
-    src/DartsController/players/heroes/vanGerwin.h \
     src/DartsController/players/idartsplayers.h \
     src/DartsController/players/playersio.h \
     src/DartsController/responses/dartsturninfo.h \

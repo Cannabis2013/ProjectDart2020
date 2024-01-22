@@ -3,8 +3,6 @@
 #include <QJsonArray>
 #include <QJsonValue>
 #include <qjsondocument.h>
-#include <src/DartsController/players/heroes/snakeBite.h>
-#include <src/DartsController/players/heroes/vanGerwin.h>
 
 DartsPlayers::DartsPlayers(IDartsIndexes* indexes)
 {

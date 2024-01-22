@@ -31,7 +31,7 @@ Rectangle {
                         id: playerName
                         Layout.fillHeight: true
                         Layout.fillWidth: true
-                        font.pointSize: 24
+                        font.pointSize: 20
                         font.weight: Font.Bold
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter

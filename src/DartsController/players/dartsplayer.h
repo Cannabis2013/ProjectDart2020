@@ -8,6 +8,17 @@ class DartsPlayer {
 public:
         DartsPlayer() { }
 
+        DartsPlayer(const QString& name)
+            : _name(name)
+        {
+        }
+
+        DartsPlayer(const QString& name, const QString& url)
+            : _name(name)
+            , _winnerImageUrl(url)
+        {
+        }
+
         DartsPlayer(const QJsonObject& jsonObj)
         {
                 _name = jsonObj.value("name").toString("");
@@ -17,10 +28,10 @@ public:
 
         static DartsPlayer fromJson(QJsonObject& jsonObj)
         {
-                DartsPlayer player;
-                player._name = jsonObj["name"].toString("");
-                player._winnerImageUrl = jsonObj["winnerImage"].toString("");
-                return player;
+                return {
+                        jsonObj["name"].toString(""),
+                        jsonObj["winnerImage"].toString("")
+                };
         }
 
         QJsonObject toJsonObject() const
@@ -51,11 +62,9 @@ public:
                 return _winnerImageUrl;
         }
 
-protected:
-        QString _name = "";
-        QString _winnerImageUrl = "";
-
 private:
+        QString _name = "";
+        QString _winnerImageUrl = "qrc:/pictures/Ressources/Pictures/dartsplate.png";
         bool _winner = false;
 };
 
