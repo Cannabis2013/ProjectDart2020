@@ -12,30 +12,29 @@ function isPortrait() {
         return tournamentPage.height > tournamentPage.width
 }
 
-function init() {
-        initPlayerSection()
-        initScoreSection()
+function initializeUI() {
+        init()
         updateTurnValues()
 }
 
-function initPlayerSection() {
+function init() {
         const names = dartsController.playerNames()
-        playersSection.setPlayerNames(names)
-}
-
-function initScoreSection() {
         const scores = JSON.parse(dartsController.playerScores())
+        playersSection.setPlayerNames(names)
         scoresSection.initializeScores(scores)
 }
 
 function restartGame() {
         dartsController.reset()
         init()
+        updateTurnValues()
+        tournamentPage.forceActiveFocus()
 }
 
 function undo() {
         dartsController.undoTurn()
         updateTurnValues()
+        tournamentPage.forceActiveFocus()
 }
 
 function redo() {

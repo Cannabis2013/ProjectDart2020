@@ -29,9 +29,9 @@ Rectangle {
 
                 Text {
                         id: playerName
-                        Layout.preferredHeight: 32
+                        Layout.fillHeight: true
                         Layout.fillWidth: true
-                        font.pointSize: 16
+                        font.pointSize: 24
                         font.weight: Font.Bold
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
@@ -42,6 +42,7 @@ Rectangle {
                         id: dartsCounter
                         Layout.preferredHeight: 32
                         Layout.preferredWidth: 44
+                        Layout.alignment: Qt.AlignVCenter
                 }
         }
 }

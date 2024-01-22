@@ -15,14 +15,14 @@ Rectangle {
 
         PlayerInfo {
                 id: playerOne
-                height: 32
+                height: 64
                 width: parent.width / 2
                 anchors.left: parent.left
         }
 
         PlayerInfo {
                 id: playerTwo
-                height: 32
+                height: 64
                 anchors.left: playerOne.right
                 anchors.right: parent.right
         }

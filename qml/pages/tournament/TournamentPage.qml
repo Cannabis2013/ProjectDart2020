@@ -26,7 +26,7 @@ Page {
 
                 PlayersSection {
                         id: playersSection
-                        Layout.preferredHeight: 66
+                        Layout.preferredHeight: 96
                         Layout.fillWidth: true
                 }
 
@@ -70,6 +70,6 @@ Page {
                 }
         }
 
-        Component.onCompleted: Scripts.init()
+        Component.onCompleted: Scripts.initializeUI()
         Component.onDestruction: dartsController.saveState()
 }
