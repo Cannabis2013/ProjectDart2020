@@ -19,9 +19,10 @@ public:
         int playersCount() const override;
         const QStringList names() const override;
         bool saveState() override;
-        DartsPlayer& player(const int& index) override;
-        DartsPlayer& player(const QString& name) override;
-        DartsPlayer& player() override;
+        DartsPlayer& one(const int& index) override;
+        DartsPlayer& one(const QString& name) override;
+        DartsPlayer& one() override;
+        QByteArray all() const override;
 
 private:
         QList<DartsPlayer> _players;

@@ -1,8 +1,8 @@
-function setPlayers(names) {
-        for (var i = 0; i < names.length; i++) {
-                const name = names[i]
+function setPlayers(players) {
+        for (var i = 0; i < players.length; i++) {
+                const player = players[i]
                 const playerRect = getPlayerRect(i)
-                playerRect.setPlayerName(name)
+                playerRect.setPlayer(player)
         }
 }
 

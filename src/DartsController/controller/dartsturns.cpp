@@ -17,7 +17,7 @@ void DartsTurns::init(AbstractDartsEvaluator* evaluator)
 
 void DartsTurns::undo()
 {
-        auto name = _players->player().name();
+        auto name = _players->one().name();
         undoTurn();
         auto index = _indexes->index();
         if (!_inputs->anyInputs(name, index.throwIndex()))
@@ -26,7 +26,7 @@ void DartsTurns::undo()
 
 void DartsTurns::redo()
 {
-        auto name = _players->player().name();
+        auto name = _players->one().name();
         redoTurn();
         auto index = _indexes->index();
         if (_inputs->anyInputs(name, index.throwIndex()))

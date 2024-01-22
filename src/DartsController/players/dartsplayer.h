@@ -13,9 +13,10 @@ public:
         {
         }
 
-        DartsPlayer(const QString& name, const QString& url)
+        DartsPlayer(const QString& name, const QString& url, const QString& nationality)
             : _name(name)
             , _winnerImageUrl(url)
+            , _nationality(nationality)
         {
         }
 
@@ -26,20 +27,13 @@ public:
                 _winnerImageUrl = jsonObj.value("winnerImage").toString("");
         }
 
-        static DartsPlayer fromJson(QJsonObject& jsonObj)
-        {
-                return {
-                        jsonObj["name"].toString(""),
-                        jsonObj["winnerImage"].toString("")
-                };
-        }
-
         QJsonObject toJsonObject() const
         {
                 QJsonObject jsonObj;
                 jsonObj["name"] = _name;
                 jsonObj["winner"] = _winner;
                 jsonObj["winnerImage"] = _winnerImageUrl;
+                jsonObj["nationality"] = _nationality;
                 return jsonObj;
         }
 
@@ -65,6 +59,7 @@ public:
 private:
         QString _name = "";
         QString _winnerImageUrl = "qrc:/pictures/Ressources/Pictures/dartsplate.png";
+        QString _nationality = "";
         bool _winner = false;
 };
 

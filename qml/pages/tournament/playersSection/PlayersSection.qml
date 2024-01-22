@@ -5,8 +5,8 @@ import "playersSection.js" as Scripts
 Rectangle {
         color: "green"
 
-        function setPlayerNames(names) {
-                Scripts.setPlayers(names)
+        function setPlayers(players) {
+                Scripts.setPlayers(players)
         }
 
         function highlightPlayer(name, turnIndex) {

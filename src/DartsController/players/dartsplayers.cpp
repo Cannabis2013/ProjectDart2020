@@ -27,12 +27,12 @@ void DartsPlayers::reset()
         _players = generator.generate();
 }
 
-DartsPlayer& DartsPlayers::player(const int& index)
+DartsPlayer& DartsPlayers::one(const int& index)
 {
         return _players[index];
 }
 
-DartsPlayer& DartsPlayers::player(const QString& name)
+DartsPlayer& DartsPlayers::one(const QString& name)
 {
         for (auto& player : _players) {
                 if (player.name() == name)
@@ -41,10 +41,18 @@ DartsPlayer& DartsPlayers::player(const QString& name)
         throw new std::invalid_argument("NOT FOUND");
 }
 
-DartsPlayer& DartsPlayers::player()
+DartsPlayer& DartsPlayers::one()
 {
         auto playerIndex = _indexes->index().playerIndex();
         return _players[playerIndex];
+}
+
+QByteArray DartsPlayers::all() const
+{
+        QJsonArray arr;
+        for (const auto& player : _players)
+                arr << player.toJsonObject();
+        return QJsonDocument(arr).toJson(QJsonDocument::Compact);
 }
 
 DartsPlayer DartsPlayers::winner() const

@@ -15,8 +15,8 @@ Rectangle {
 
         readonly property string name: playerName.text
 
-        function setPlayerName(name) {
-                playerName.text = name
+        function setPlayer(name, nationality) {
+                Scripts.setPlayer(name, nationality)
         }
 
         function highlight(status, count) {
@@ -24,17 +24,30 @@ Rectangle {
         }
 
         GridLayout {
-                anchors.fill: parent
+                anchors.centerIn: parent
+                width: parent.width - 12
+                height: parent.height
                 columnSpacing: 0
+                columns: 2
 
                 Text {
                         id: playerName
+                        Layout.columnSpan: 2
                         Layout.fillHeight: true
                         Layout.fillWidth: true
-                        font.pointSize: 20
+                        font.pointSize: 22
                         font.weight: Font.Bold
                         verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignHCenter
+                        color: "white"
+                }
+
+                Text {
+                        id: playerNationality
+                        Layout.fillHeight: true
+                        Layout.fillWidth: true
+                        font.pointSize: 16
+                        font.weight: Font.Bold
+                        verticalAlignment: Text.AlignVCenter
                         color: "white"
                 }
 
@@ -42,7 +55,7 @@ Rectangle {
                         id: dartsCounter
                         Layout.preferredHeight: 32
                         Layout.preferredWidth: 44
-                        Layout.alignment: Qt.AlignVCenter
+                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                 }
         }
 }

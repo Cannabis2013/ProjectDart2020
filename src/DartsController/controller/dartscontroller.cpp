@@ -23,9 +23,9 @@ QByteArray DartsController::playerScores() const
         return scores()->scores().toJson();
 }
 
-QStringList DartsController::playerNames() const
+QByteArray DartsController::allPlayers() const
 {
-        return players()->names();
+        return players()->all();
 }
 
 QByteArray DartsController::statisticReport() const

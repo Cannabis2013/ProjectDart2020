@@ -18,7 +18,7 @@ void DartsProfessionalEvaluator::init()
 
 bool DartsProfessionalEvaluator::evaluateInput(const QString& mod, const int& point)
 {
-        auto name = _players->player().name();
+        auto name = _players->one().name();
         if (!validateInput(name, mod, point))
                 return false;
         auto playerScore = _scores->score().playerScore();
@@ -31,7 +31,7 @@ void DartsProfessionalEvaluator::evaluateWinnerCondition()
         for (const auto& score : scores) {
                 if (score.score() == 0) {
                         _status->winnerFound();
-                        auto winner = &_players->player(score.name());
+                        auto winner = &_players->one(score.name());
                         winner->setWinner(true);
                 }
         }

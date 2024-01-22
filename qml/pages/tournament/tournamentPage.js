@@ -18,9 +18,9 @@ function initializeUI() {
 }
 
 function init() {
-        const names = dartsController.playerNames()
+        const players = JSON.parse(dartsController.allPlayers())
         const scores = JSON.parse(dartsController.playerScores())
-        playersSection.setPlayerNames(names)
+        playersSection.setPlayers(players)
         scoresSection.initializeScores(scores)
 }
 

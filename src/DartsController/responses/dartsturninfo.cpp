@@ -14,7 +14,7 @@ QByteArray DartsTurnInfo::report()
         QJsonObject jsonObj;
         jsonObj["turnIndexes"] = turnIndex();
         jsonObj["playerScores"] = playerScores();
-        jsonObj["currentPlayerName"] = _players->player().name();
+        jsonObj["currentPlayerName"] = _players->one().name();
         jsonObj["winnerFound"] = _status->isWinnerFound();
         jsonObj["winnerName"] = _players->winner().name();
         jsonObj["winnerImage"] = _players->winner().winnerImageUrl();
