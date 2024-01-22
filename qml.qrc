@@ -60,5 +60,6 @@
         <file>qml/pages/tournament/playersSection/PlayersSection.qml</file>
         <file>qml/pages/tournament/playersSection/playersSection.js</file>
         <file>qml/pages/tournament/playersSection/playerInfo.js</file>
+        <file>qml/pages/tournament/playersSection/TurnPointer.qml</file>
     </qresource>
 </RCC>

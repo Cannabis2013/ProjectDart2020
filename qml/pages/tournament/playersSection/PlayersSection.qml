@@ -27,20 +27,10 @@ Rectangle {
                 anchors.right: parent.right
         }
 
-        Image {
-                id: turnRect
-
-                Behavior on x {
-                        NumberAnimation {
-                                duration: 200
-                        }
-                }
-                source: "qrc:/pictures/Ressources/Pictures/up_arrow.png"
-
-                height: 32
-                width: 32
+        TurnPointer {
+                id: turnPointer
                 anchors.top: playerOne.bottom
                 anchors.topMargin: 2
-                x: playerOne.x + playerOne.width / 2 - 16
+                x: Scripts.centerXOf(playerOne)
         }
 }

@@ -14,13 +14,13 @@ public:
         DartsPlayers(IDartsIndexes *indexes);
         void init() override;
         void initFromFile() override;
-        virtual void reset() override;
-        virtual DartsPlayer winner() const override;
+        void reset() override;
+        DartsPlayer winner() const override;
         int playersCount() const override;
         const QStringList names() const override;
         bool saveState() override;
         DartsPlayer& player(const int& index) override;
-        virtual DartsPlayer& player(const QString& name) override;
+        DartsPlayer& player(const QString& name) override;
         DartsPlayer& player() override;
 
 private:
