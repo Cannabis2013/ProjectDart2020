@@ -9,10 +9,18 @@
 PdcChampions::PdcChampions()
 {
         _available = std::initializer_list<DartsPlayer> {
+<<<<<<< Updated upstream
                 VanGerwin(),
                 SnakeBite(),
                 LukeLittler(),
                 GerwinPrice()
+=======
+                { "Van Gerwin", "qrc:/pictures/Ressources/Pictures/VanGerwin.gif", "NL" },
+                //{ "Peter Wright", "qrc:/pictures/Ressources/Pictures/SnakeBite.png" ,"EN"},
+                //{ "Luke Littler", "qrc:/pictures/Ressources/Pictures/lukeLittler.gif"  ,"EN"},
+                //{ "Gerwin Price", "qrc:/pictures/Ressources/Pictures/gerwinPrice.gif" ,"EN" },
+                { "Luke Humphries", "qrc:/pictures/Ressources/Pictures/lukeHumphries.gif", "EN" }
+>>>>>>> Stashed changes
         };
 }
 

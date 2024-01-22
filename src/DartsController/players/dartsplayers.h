@@ -19,9 +19,16 @@ public:
         int playersCount() const override;
         const QStringList names() const override;
         bool saveState() override;
+<<<<<<< Updated upstream
         DartsPlayer& player(const int& index) override;
         virtual DartsPlayer& player(const QString& name) override;
         DartsPlayer& player() override;
+=======
+        DartsPlayer& one(const int& index) override;
+        DartsPlayer& one(const QString& name) override;
+        DartsPlayer& one() override;
+        QByteArray all() const override;
+>>>>>>> Stashed changes
 
 private:
         QList<DartsPlayer> _players;

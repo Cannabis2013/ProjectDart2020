@@ -11,12 +11,6 @@ function initializeScoreObject(scoreObj, score) {
         scoreObj.name = score.name
 }
 
-function shortenName(name) {
-        if (name.length > 16)
-                return name.substring(0, 16) + ".."
-        return name
-}
-
 function updateScore(scores) {
         for (var i = 0; i < scores.length; i++) {
                 const score = scores[i]

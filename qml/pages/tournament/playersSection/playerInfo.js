@@ -1,5 +1,6 @@
 function setPlayer(player) {
-        playerName.text = shortenName(player.playerName)
+        playerName.text = shortenName(player.name)
+        playerNationality.text = `Nationality: ${player.nationality}`
 }
 
 function shortenName(name) {

@@ -9,6 +9,7 @@
         <file>Ressources/Pictures/lukeLittler.gif</file>
         <file>Ressources/Pictures/gerwinPrice.gif</file>
         <file>Ressources/Pictures/up_arrow.png</file>
+        <file>Ressources/Pictures/lukeHumphries.gif</file>
     </qresource>
     <qresource prefix="/data">
         <file>Ressources/TextData/aboutContent.dat</file>

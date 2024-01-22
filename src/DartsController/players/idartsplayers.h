@@ -12,9 +12,10 @@ public:
         virtual void reset() = 0;
         virtual int playersCount() const = 0;
         virtual bool saveState() = 0;
-        virtual DartsPlayer& player(const int& index) = 0;
-        virtual DartsPlayer& player() = 0;
-        virtual DartsPlayer& player(const QString& name) = 0;
+        virtual QByteArray all() const = 0;
+        virtual DartsPlayer& one(const int& index) = 0;
+        virtual DartsPlayer& one() = 0;
+        virtual DartsPlayer& one(const QString& name) = 0;
         virtual DartsPlayer winner() const = 0;
         virtual const QStringList names() const = 0;
 };
