@@ -1,3 +1,4 @@
-function formattedTargetRow(row) {
-        return row.length <= 0 ? "Target:" : `Target: ${targetRow}`
+function setTargetRow(targetRow) {
+        row.text = targetRow
+        opacity = targetRow !== "" ? 1 : 0
 }

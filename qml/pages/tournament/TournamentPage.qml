@@ -47,7 +47,7 @@ Page {
                         id: messageSection
                         Layout.fillWidth: true
                         Layout.fillHeight: !Scripts.isPortrait()
-                        Layout.preferredHeight: 40
+                        Layout.preferredHeight: 64
                 }
 
                 TurnControlsSection {
