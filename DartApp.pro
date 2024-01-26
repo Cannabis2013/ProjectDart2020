@@ -54,7 +54,7 @@ HEADERS += \
     src/DartsController/input/inputsio.h \
     src/DartsController/players/dartsplayer.h \
     src/DartsController/players/dartsplayers.h \
-    src/DartsController/players/heroes/pdcchampions.h \
+    src/DartsController/players/pdcchampions.h \
     src/DartsController/players/idartsplayers.h \
     src/DartsController/players/playersio.h \
     src/DartsController/responses/dartsturninfo.h \
@@ -101,7 +101,7 @@ SOURCES += \
     src/DartsController/input/dartsinputstrimmer.cpp \
     src/DartsController/input/inputsio.cpp \
     src/DartsController/players/dartsplayers.cpp \
-    src/DartsController/players/heroes/pdcchampions.cpp \
+    src/DartsController/players/pdcchampions.cpp \
     src/DartsController/players/playersio.cpp \
     src/DartsController/responses/dartsturninfo.cpp \
     src/DartsController/scores/dartscalculator.cpp \

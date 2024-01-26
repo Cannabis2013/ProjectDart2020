@@ -1,5 +1,5 @@
 function openWinnerModal(playerDetails, statisticDetails, restartSlot, undoSlot) {
-        const modalComp = Qt.createComponent("WinnerModal.qml")
+        const modalComp = Qt.createComponent("ModalWinner.qml")
         const modalObj = modalComp.createObject(applicationWindow)
         modalObj.restartClicked.connect(restartSlot)
         modalObj.undoClicked.connect(undoSlot)

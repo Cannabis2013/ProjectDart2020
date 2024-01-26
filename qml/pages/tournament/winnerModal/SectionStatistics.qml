@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
-import "statisticsSection.js" as Scripts
+import "sectionStatistics.js" as Scripts
 
 Page {
         function setPlayerName(index, name) {

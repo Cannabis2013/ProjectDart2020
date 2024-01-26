@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
-import "winnerModal.js" as Scripts
+import "modalWinner.js" as Scripts
 
 Rectangle {
         id: winnerModal
@@ -36,16 +36,16 @@ Rectangle {
                 SwipeView {
                         Layout.fillHeight: true
                         Layout.fillWidth: true
-                        WinnerSection {
+                        SectionWinner {
                                 id: winnerSection
                         }
 
-                        StatisticsSection {
+                        SectionStatistics {
                                 id: statisticsSection
                         }
                 }
 
-                WinnerControlSection {
+                SectionButtons {
                         Layout.fillWidth: true
                         Layout.preferredHeight: 48
                 }

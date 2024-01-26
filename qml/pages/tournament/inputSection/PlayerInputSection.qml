@@ -8,7 +8,7 @@ Item {
         enabled: false
 
         signal reportScore(string modId, int point)
-        signal bustTurn
+        signal bustTurn(int value)
 
         signal numberClicked(int point)
         onNumberClicked: point => Scripts.handleNumberPadClicked(point)

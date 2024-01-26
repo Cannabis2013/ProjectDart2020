@@ -15,10 +15,7 @@ Item {
 
         Row {
                 id: dartsLayout
-                anchors.centerIn: parent
-                width: 24
-                height: parent.height
-                layoutDirection: Qt.RightToLeft
+                anchors.fill: parent
 
                 move: Transition {
                         NumberAnimation {

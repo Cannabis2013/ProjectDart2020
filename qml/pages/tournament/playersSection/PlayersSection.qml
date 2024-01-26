@@ -2,9 +2,7 @@ import QtQuick 2.0
 import QtQuick.Layouts 1.3
 import "playersSection.js" as Scripts
 
-Rectangle {
-        color: "green"
-
+Item {
         function setPlayers(players) {
                 Scripts.setPlayers(players)
         }
@@ -15,22 +13,24 @@ Rectangle {
 
         PlayerInfo {
                 id: playerOne
-                height: 64
+                height: 56
                 width: parent.width / 2
                 anchors.left: parent.left
         }
 
         PlayerInfo {
                 id: playerTwo
-                height: 64
+                height: 56
                 anchors.left: playerOne.right
                 anchors.right: parent.right
         }
 
-        TurnPointer {
+        TurnSlider {
                 id: turnPointer
                 anchors.top: playerOne.bottom
-                anchors.topMargin: 2
-                x: Scripts.centerXOf(playerOne)
+                x: 0
+                width: parent.width
+                height: 40
+                Component.onCompleted: turnPointer.move(Scripts.centerXOf(playerOne))
         }
 }

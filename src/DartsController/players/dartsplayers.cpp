@@ -1,5 +1,5 @@
 #include "dartsplayers.h"
-#include "src/DartsController/players/heroes/pdcchampions.h"
+#include "src/DartsController/players/pdcchampions.h"
 #include <QJsonArray>
 #include <QJsonValue>
 #include <qjsondocument.h>

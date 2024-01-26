@@ -26,7 +26,7 @@ Page {
 
                 PlayersSection {
                         id: playersSection
-                        Layout.preferredHeight: 96
+                        Layout.preferredHeight: 88
                         Layout.fillWidth: true
                 }
 

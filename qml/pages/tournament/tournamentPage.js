@@ -1,4 +1,4 @@
-.import "winnerModal/winnerModal.js" as WinnerModal
+.import "winnerModal/modalWinner.js" as WinnerModal
 .import "textModal/textModal.js" as TextModal
 
 function handleCloseEvent(event) {

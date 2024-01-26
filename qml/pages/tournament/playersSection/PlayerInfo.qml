@@ -13,7 +13,13 @@ Rectangle {
                 }
         }
 
-        readonly property string name: playerName.text
+        readonly property string name: playerInfo.id
+
+
+        QtObject{
+                id: playerInfo
+                property string id: ""
+        }
 
         function setPlayer(name, nationality) {
                 Scripts.setPlayer(name, nationality)
@@ -23,39 +29,37 @@ Rectangle {
                 Scripts.highlight(status, count)
         }
 
-        GridLayout {
-                anchors.centerIn: parent
-                width: parent.width - 12
-                height: parent.height
-                columnSpacing: 0
-                columns: 2
+        Text {
+                id: playerName
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.leftMargin: 6
+                width: parent.width - 6
+                height: 24
+                font.pointSize: 22
+                font.weight: Font.Bold
+                color: "white"
+        }
 
-                Text {
-                        id: playerName
-                        Layout.columnSpan: 2
-                        Layout.fillHeight: true
-                        Layout.fillWidth: true
-                        font.pointSize: 22
-                        font.weight: Font.Bold
-                        verticalAlignment: Text.AlignVCenter
-                        color: "white"
-                }
+        Text {
+                id: playerNationality
+                anchors.left: parent.left
+                anchors.leftMargin: 6
+                anchors.bottom: parent.bottom
+                height: 24
+                width: 128
+                font.pointSize: 12
+                font.weight: Font.Bold
+                verticalAlignment: Text.AlignBottom
+                color: "white"
+        }
 
-                Text {
-                        id: playerNationality
-                        Layout.fillHeight: true
-                        Layout.fillWidth: true
-                        font.pointSize: 16
-                        font.weight: Font.Bold
-                        verticalAlignment: Text.AlignVCenter
-                        color: "white"
-                }
-
-                DartsCounter {
-                        id: dartsCounter
-                        Layout.preferredHeight: 32
-                        Layout.preferredWidth: 44
-                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                }
+        DartsCounter {
+                id: dartsCounter
+                anchors.right: parent.right
+                anchors.rightMargin: 6
+                anchors.bottom: parent.bottom
+                height: 32
+                width: 24
         }
 }

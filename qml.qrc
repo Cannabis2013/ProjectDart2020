@@ -47,12 +47,12 @@
         <file>qml/pages/tournament/textModal/TextModal.qml</file>
         <file>qml/pages/tournament/turnControlsSection/turnControlsSection.js</file>
         <file>qml/pages/tournament/turnControlsSection/TurnControlsSection.qml</file>
-        <file>qml/pages/tournament/winnerModal/statisticsSection.js</file>
-        <file>qml/pages/tournament/winnerModal/StatisticsSection.qml</file>
-        <file>qml/pages/tournament/winnerModal/WinnerControlSection.qml</file>
-        <file>qml/pages/tournament/winnerModal/winnerModal.js</file>
-        <file>qml/pages/tournament/winnerModal/WinnerModal.qml</file>
-        <file>qml/pages/tournament/winnerModal/WinnerSection.qml</file>
+        <file>qml/pages/tournament/winnerModal/sectionStatistics.js</file>
+        <file>qml/pages/tournament/winnerModal/SectionStatistics.qml</file>
+        <file>qml/pages/tournament/winnerModal/SectionButtons.qml</file>
+        <file>qml/pages/tournament/winnerModal/modalWinner.js</file>
+        <file>qml/pages/tournament/winnerModal/ModalWinner.qml</file>
+        <file>qml/pages/tournament/winnerModal/SectionWinner.qml</file>
         <file>qml/pages/tournament/tournamentPage.js</file>
         <file>qml/pages/tournament/TournamentPage.qml</file>
         <file>qml/main.qml</file>
@@ -61,6 +61,6 @@
         <file>qml/pages/tournament/playersSection/PlayersSection.qml</file>
         <file>qml/pages/tournament/playersSection/playersSection.js</file>
         <file>qml/pages/tournament/playersSection/playerInfo.js</file>
-        <file>qml/pages/tournament/playersSection/TurnPointer.qml</file>
+        <file>qml/pages/tournament/playersSection/TurnSlider.qml</file>
     </qresource>
 </RCC>
