@@ -1,7 +1,9 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
-import "modalWinner.js" as Scripts
+import "dialogWinner.js" as Scripts
+import "winnerPage"
+import "statisticsPage"
 
 Rectangle {
         id: winnerModal
@@ -11,12 +13,12 @@ Rectangle {
         signal restartClicked
         signal undoClicked
 
-        function setPlayerDetails(name, url) {
-                Scripts.setPlayerDetails(name, url)
+        function setPlayerDetails(playerDetails) {
+                pageWinner.setPlayerDetails(playerDetails)
         }
 
         function setStatisticsDetails(statistics) {
-                Scripts.setStatistics(statistics)
+                pageStatistics.setPlayerStatistics(statistics)
         }
 
         MouseArea {
@@ -36,16 +38,16 @@ Rectangle {
                 SwipeView {
                         Layout.fillHeight: true
                         Layout.fillWidth: true
-                        SectionWinner {
-                                id: winnerSection
+                        PageWinner {
+                                id: pageWinner
                         }
 
-                        SectionStatistics {
-                                id: statisticsSection
+                        PageStatistics {
+                                id: pageStatistics
                         }
                 }
 
-                SectionButtons {
+                DialogButtons {
                         Layout.fillWidth: true
                         Layout.preferredHeight: 48
                 }

@@ -1,15 +1,11 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
-import "sectionStatistics.js" as Scripts
+import "pageStatistics.js" as Scripts
 
 Page {
-        function setPlayerName(index, name) {
-                Scripts.setPlayer(index, name)
-        }
-
-        function setPlayerStatistic(index, statistics) {
-                Scripts.setStatistics(index, statistics)
+        function setPlayerStatistics(statistics) {
+                Scripts.setStatistics(statistics)
         }
 
         Column {

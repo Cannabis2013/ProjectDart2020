@@ -1,10 +1,9 @@
-.import "winnerModal/modalWinner.js" as WinnerModal
-.import "textModal/textModal.js" as TextModal
+.import "dialogs/dialogs.js" as Dialogs
 
 function handleCloseEvent(event) {
         if (event.key === Qt.Key_Back) {
                 event.accepted = true
-                TextModal.openBackModal(menuRequest)
+                Dialogs.openQuitDialog(menuRequest)
         }
 }
 
@@ -56,7 +55,7 @@ function updateTurnValues() {
         const turnValues = JSON.parse(dartsController.turnReport())
         const statistics = JSON.parse(dartsController.statisticReport())
         if (turnValues.winnerFound)
-                WinnerModal.openWinnerModal(turnValues, statistics, restartGame, undo)
+                Dialogs.openWinnerDialog(turnValues, statistics, restartGame, undo)
         else
                 updateSections(turnValues, statistics)
 }

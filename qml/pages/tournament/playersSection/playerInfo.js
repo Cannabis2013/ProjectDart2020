@@ -1,21 +1,28 @@
 function setPlayer(player) {
         playerInfo.id = player.name
-        playerName.text = shortenName(player.name)
-        playerNationality.text = `Nationality: ${player.nationality}`
+        playerName.text = shortenName(player.name, 9)
+        playerNationality.text = player.nationality
 }
 
-function shortenName(name) {
-        if (name.length < 12)
+function shortenName(name, limit) {
+        if (name.length < limit)
                 return name
-        const formatted = formatName(name)
-        if (formatted.length > 16)
-                return formatted.substring(0, 14) + ".."
+        const found = assertName(name)
+        const formatted = formatName(name, found, limit)
+        if (formatted.length > limit)
+                return shortenName(formatted)
         return formatted
 }
 
-function formatName(name) {
-        const found = assertName(name)
-        if (found.length === 1)
+function assertName(name) {
+        const reg = /\s[A-z]*/g
+        return name.match(reg)
+}
+
+function formatName(name, found, limit) {
+        if (found.lenth <= 0)
+                return reduceFirstName(name, limit) // Ex.: Johnny Walke..
+        else if (found.length === 1)
                 return reduceLastName(name) // Has only  a lastname
         else if (found.length > 1)
                 return reduceMiddleNames(name) // Has middlename(s)
@@ -23,9 +30,8 @@ function formatName(name) {
                 return name
 }
 
-function assertName(name) {
-        const reg = /\s[A-z]*/g
-        return name.match(reg)
+function reduceFirstName(name, limit) {
+        return name.substring(0, limit) + ".."
 }
 
 function reduceLastName(name) {

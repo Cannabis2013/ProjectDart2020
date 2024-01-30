@@ -8,11 +8,6 @@ Item {
                 Scripts.setHiddenDarts(number)
         }
 
-        QtObject {
-                id: counterRessources
-                readonly property url imageUrl: "qrc:/pictures/Ressources/Pictures/dartarrow.png"
-        }
-
         Row {
                 id: dartsLayout
                 anchors.fill: parent
@@ -40,9 +35,9 @@ Item {
                 Repeater {
                         model: 3
                         Image {
-                                width: 8
-                                height: 32
-                                source: counterRessources.imageUrl
+                                width: 18
+                                height: 72
+                                source: "qrc:/pictures/Ressources/Pictures/dartarrow.png"
                                 rotation: 12
                         }
                 }

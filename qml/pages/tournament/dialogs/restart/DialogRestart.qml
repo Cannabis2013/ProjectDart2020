@@ -15,12 +15,12 @@ Dialog {
                 Text {
                         id: modalText
                         anchors.fill: parent
-                        text: qsTr(dialogRect.text)
                         wrapMode: Text.WordWrap
                         color: "white"
                         font.pointSize: 16
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
+                        text: qsTr("Sure you want to restart?")
                 }
         }
 

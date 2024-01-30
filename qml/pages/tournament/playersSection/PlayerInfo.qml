@@ -15,8 +15,7 @@ Rectangle {
 
         readonly property string name: playerInfo.id
 
-
-        QtObject{
+        QtObject {
                 id: playerInfo
                 property string id: ""
         }
@@ -35,8 +34,8 @@ Rectangle {
                 anchors.left: parent.left
                 anchors.leftMargin: 6
                 width: parent.width - 6
-                height: 24
-                font.pointSize: 22
+                height: 64
+                font.pointSize: 42
                 font.weight: Font.Bold
                 color: "white"
         }
@@ -46,20 +45,19 @@ Rectangle {
                 anchors.left: parent.left
                 anchors.leftMargin: 6
                 anchors.bottom: parent.bottom
-                height: 24
-                width: 128
-                font.pointSize: 12
-                font.weight: Font.Bold
+                height: 40
+                width: 64
+                font.pointSize: 40
                 verticalAlignment: Text.AlignBottom
                 color: "white"
         }
 
         DartsCounter {
                 id: dartsCounter
+                height: 72
+                width: 54
                 anchors.right: parent.right
-                anchors.rightMargin: 6
+                anchors.rightMargin: 12
                 anchors.bottom: parent.bottom
-                height: 32
-                width: 24
         }
 }

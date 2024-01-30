@@ -8,7 +8,7 @@ import "playersSection"
 import "messageSection"
 import "statisticsSection"
 import "tournamentPage.js" as Scripts
-import "textModal/textModal.js" as Modals
+import "dialogs/dialogs.js" as Dialogs
 
 Page {
         id: tournamentPage
@@ -26,7 +26,7 @@ Page {
 
                 PlayersSection {
                         id: playersSection
-                        Layout.preferredHeight: 88
+                        Layout.preferredHeight: 128
                         Layout.fillWidth: true
                 }
 
@@ -57,7 +57,7 @@ Page {
                         Layout.fillWidth: true
                         onUndoClicked: Scripts.undo()
                         onRedoClicked: Scripts.redo()
-                        onRestartClicked: Modals.openRestartModal(Scripts.restartGame)
+                        onRestartClicked: Dialogs.openRestartDialog(Scripts.restartGame)
                 }
 
                 PlayerInputSection {

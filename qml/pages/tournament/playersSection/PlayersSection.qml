@@ -13,24 +13,17 @@ Item {
 
         PlayerInfo {
                 id: playerOne
-                height: 56
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
                 width: parent.width / 2
                 anchors.left: parent.left
         }
 
         PlayerInfo {
                 id: playerTwo
-                height: 56
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
                 anchors.left: playerOne.right
                 anchors.right: parent.right
-        }
-
-        TurnSlider {
-                id: turnPointer
-                anchors.top: playerOne.bottom
-                x: 0
-                width: parent.width
-                height: 40
-                Component.onCompleted: turnPointer.move(Scripts.centerXOf(playerOne))
         }
 }

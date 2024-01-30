@@ -23,17 +23,9 @@ function highlightRect(name, turnIndex) {
 function highlightPlayerOne(turnIndex) {
         playerOne.highlight(true, turnIndex)
         playerTwo.highlight(false)
-        turnPointer.move(centerXOf(playerOne))
 }
 
 function highlightPlayerTwo(turnIndex) {
         playerTwo.highlight(true, turnIndex)
         playerOne.highlight(false)
-        turnPointer.move(centerXOf(playerTwo))
-}
-
-function centerXOf(object) {
-        const circleCenterX = turnPointer.handleWidth / 2
-        const objectCenterX = object.x + object.width / 2
-        return objectCenterX - circleCenterX
 }
