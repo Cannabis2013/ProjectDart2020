@@ -11,6 +11,7 @@ Item {
         Row {
                 id: dartsLayout
                 anchors.fill: parent
+                layoutDirection: Qt.RightToLeft
 
                 move: Transition {
                         NumberAnimation {
@@ -35,8 +36,8 @@ Item {
                 Repeater {
                         model: 3
                         Image {
-                                width: 18
-                                height: 72
+                                width: 19
+                                height: 76
                                 source: "qrc:/pictures/Ressources/Pictures/dartarrow.png"
                                 rotation: 12
                         }

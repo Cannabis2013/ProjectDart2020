@@ -12,7 +12,7 @@ Item {
 
         Component {
                 id: startPageComponent
-                StartPage {
+                PageStart {
                         onSetupGameClicked: pageLoader.sourceComponent = setupTournament
                         onRequestTournamentPage: pageLoader.sourceComponent = tournamentPage
                         onRequestAboutPage: pageLoader.sourceComponent = aboutPage
@@ -21,7 +21,7 @@ Item {
 
         Component {
                 id: tournamentPage
-                TournamentPage {
+                PageTournament {
                         onMenuRequest: pageLoader.sourceComponent = startPageComponent
                 }
         }

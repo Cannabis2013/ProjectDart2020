@@ -2,7 +2,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
 import "../templates"
-import "startPage.js" as Scripts
+import "pageStart.js" as Scripts
 
 Page {
         id: startPage
@@ -19,11 +19,11 @@ Page {
                                 }
                         }
 
-        StartPageBackDrop {
+        BackDrop {
                 visible: Scripts.isPortrait()
         }
 
-        StartMenuButtons {
+        MenuButtons {
                 id: gridLayout
                 anchors.centerIn: parent
         }

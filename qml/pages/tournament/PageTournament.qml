@@ -7,7 +7,7 @@ import "inputSection"
 import "playersSection"
 import "messageSection"
 import "statisticsSection"
-import "tournamentPage.js" as Scripts
+import "pageTournament.js" as Scripts
 import "dialogs/dialogs.js" as Dialogs
 
 Page {

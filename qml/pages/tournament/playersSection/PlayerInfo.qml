@@ -34,8 +34,8 @@ Rectangle {
                 anchors.left: parent.left
                 anchors.leftMargin: 6
                 width: parent.width - 6
-                height: 64
-                font.pointSize: 42
+                height: 48
+                font.pointSize: 36
                 font.weight: Font.Bold
                 color: "white"
         }
@@ -47,15 +47,15 @@ Rectangle {
                 anchors.bottom: parent.bottom
                 height: 40
                 width: 64
-                font.pointSize: 40
+                font.pointSize: 32
                 verticalAlignment: Text.AlignBottom
                 color: "white"
         }
 
         DartsCounter {
                 id: dartsCounter
-                height: 72
-                width: 54
+                height: 76
+                width: 57
                 anchors.right: parent.right
                 anchors.rightMargin: 12
                 anchors.bottom: parent.bottom
