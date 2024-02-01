@@ -82,7 +82,9 @@ HEADERS += \
     src/FileIO/filejsonio.h \
     src/FileIO/filereader.h \
     src/Setup/qmlsetup.h \
-    src/Sounds/soundcontroller.h
+    src/Sounds/soundcontroller.h \
+    src/Utils/Fonts/fontmetrics.h \
+    src/Utils/Fonts/ifontmetrics.h
 
 SOURCES += \
     src/DartsController/Finishes/dartsThresholds.cpp \
@@ -117,4 +119,5 @@ SOURCES += \
     src/FileIO/filereader.cpp \
     src/Setup/qmlsetup.cpp \
     src/Sounds/soundcontroller.cpp \
+    src/Utils/Fonts/fontmetrics.cpp \
     src/main.cpp

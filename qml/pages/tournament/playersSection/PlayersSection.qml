@@ -15,15 +15,15 @@ Item {
                 id: playerOne
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                width: parent.width / 2
                 anchors.left: parent.left
+                width: parent.width / 2
         }
 
         PlayerInfo {
                 id: playerTwo
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                anchors.left: playerOne.right
                 anchors.right: parent.right
+                width: parent.width / 2
         }
 }

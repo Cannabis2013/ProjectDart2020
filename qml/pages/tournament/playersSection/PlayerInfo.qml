@@ -13,11 +13,20 @@ Rectangle {
                 }
         }
 
+        NumberAnimation on width {
+                id: widthAni
+                duration: 500
+                running: false
+                onFinished: Scripts.restoreZValue()
+        }
+
         readonly property string name: playerInfo.id
 
         QtObject {
                 id: playerInfo
                 property string id: ""
+                property bool enlarged: false
+                property int initialZValue: -1
         }
 
         function setPlayer(name, nationality) {
@@ -32,8 +41,9 @@ Rectangle {
                 id: playerName
                 anchors.top: parent.top
                 anchors.left: parent.left
+                anchors.right: parent.right
                 anchors.leftMargin: 6
-                width: parent.width - 6
+                anchors.rightMargin: 6
                 height: 48
                 font.pointSize: 36
                 font.weight: Font.Bold
@@ -60,4 +70,11 @@ Rectangle {
                 anchors.rightMargin: 12
                 anchors.bottom: parent.bottom
         }
+
+        MouseArea {
+                anchors.fill: parent
+                onClicked: Scripts.handleSizeChangeRequest()
+        }
+
+        Component.onCompleted: Scripts.init()
 }
