@@ -3,10 +3,6 @@ import QtQuick.Layouts 1.3
 import "compScoreDisplay.js" as Scripts
 
 Item {
-        id: scoreDisplay
-
-        height: 116
-
         function initScore(score) {
                 Scripts.initScoreDisplay(score)
         }

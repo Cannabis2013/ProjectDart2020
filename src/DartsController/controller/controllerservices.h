@@ -8,7 +8,7 @@
 #include "src/DartsController/input/IDartsInputs.h"
 #include "src/DartsController/input/idartsinputadder.h"
 #include "src/DartsController/players/idartsplayers.h"
-#include "src/DartsController/responses/idartsturninfo.h"
+#include "src/DartsController/responses/idartsjsonreport.h"
 #include "src/DartsController/scores/idartsscores.h"
 #include "src/DartsController/statistics/idartsstatistics.h"
 #include "src/DartsController/status/idartsstatus.h"
@@ -25,8 +25,8 @@ public:
         void setScores(IDartsScores* newScores);
         IDartsInputs* inputs() const;
         void setInputs(IDartsInputs* newInputs);
-        IDartsTurnInfo* turnDetails() const;
-        void setTurnInfo(IDartsTurnInfo* newTurnValues);
+        IDartsJsonReport* turnDetails() const;
+        void setTurnInfo(IDartsJsonReport* newTurnValues);
         IDartsPlayers* players() const;
         void setPlayers(IDartsPlayers* newPlayers);
         IDartsStatistics* statistics() const;
@@ -50,7 +50,7 @@ private:
         IDartsIndexes* _indexes = nullptr;
         IDartsScores* _scores = nullptr;
         IDartsInputs* _inputs = nullptr;
-        IDartsTurnInfo* _turnInfo = nullptr;
+        IDartsJsonReport* _turnInfo = nullptr;
         IDartsPlayers* _players = nullptr;
         IDartsStatistics* _statistics = nullptr;
         IDartsFinishes* _finishes = nullptr;

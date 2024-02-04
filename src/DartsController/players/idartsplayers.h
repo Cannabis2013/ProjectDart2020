@@ -1,11 +1,12 @@
 #ifndef IDARTPLAYERS_H
 #define IDARTPLAYERS_H
 
-#include "src/DartsController/players/dartsplayer.h"
-#include <qstring.h>
+#include <QStringList>
 
-class IDartsPlayers
-{
+class DartsPlayer;
+class QByteArray;
+
+class IDartsPlayers {
 public:
         virtual void init() = 0;
         virtual void initFromFile() = 0;

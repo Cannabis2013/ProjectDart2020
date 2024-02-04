@@ -7,7 +7,7 @@
 #include "src/DartsController/input/dartsinputs.h"
 #include "src/DartsController/input/dartsinputstrimmer.h"
 #include "src/DartsController/players/dartsplayers.h"
-#include "src/DartsController/responses/dartsturninfo.h"
+#include "src/DartsController/responses/dartsjsonreport.h"
 #include "src/DartsController/scores/dartscalculator.h"
 #include "src/DartsController/scores/dartsscores.h"
 #include "src/DartsController/statistics/dartsstatistics.h"
@@ -27,7 +27,7 @@ DartsController* DartsControllerBuilder::build()
         auto finishes = new DartsFinishes();
         auto trimmer = new DartsInputsTrimmer(inputs, indexes);
         auto turns = new DartsTurns(status, indexes, scores, players, inputs, trimmer);
-        auto turnInfo = new DartsTurnInfo(players, indexes, finishes, scores, status, statistic);
+        auto turnInfo = new DartsJsonReport(players, indexes, finishes, scores, status, statistic);
         auto adderService = new DartsInputAdder(inputs, trimmer,indexes, status, scores);
         auto initializer = new ControllerInitializer(controller);
         controller->setIndexes(indexes);

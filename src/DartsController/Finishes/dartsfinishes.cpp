@@ -16,14 +16,10 @@ QString DartsFinishes::suggestTargetRow(const int &remainingScore, const int &tu
 
 QString DartsFinishes::getTargetRow(const int &turnIndex, const int &remainingScore) const
 {
-    try {
         auto row = _finishes->at(turnIndex);
         auto valuesAtKey = row->values(remainingScore);
         auto count = valuesAtKey.count();
         if (count == 0)
                 return QString();
         return valuesAtKey.at(0);
-    } catch (...) {
-        return QString();
-    }
 }

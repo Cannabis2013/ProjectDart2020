@@ -40,12 +40,12 @@ void ControllerServices::setInputs(IDartsInputs* newInputs)
         _inputs = newInputs;
 }
 
-IDartsTurnInfo* ControllerServices::turnDetails() const
+IDartsJsonReport* ControllerServices::turnDetails() const
 {
         return _turnInfo;
 }
 
-void ControllerServices::setTurnInfo(IDartsTurnInfo* newTurnValues)
+void ControllerServices::setTurnInfo(IDartsJsonReport* newTurnValues)
 {
         _turnInfo = newTurnValues;
 }

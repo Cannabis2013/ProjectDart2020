@@ -1,9 +1,4 @@
-function init() {
-        playerInfo.initialZValue = infoRect.z
-}
-
 function setPlayer(player) {
-        playerInfo.id = player.name
         playerName.text = shortenName(player.name, 9)
         playerNationality.text = player.nationality
 }
@@ -40,4 +35,12 @@ function reduceMiddleNames(name) {
         const firstName = name.substring(0, firstIndex)
         const lastName = name.substring(lastIndex, name.length)
         return firstName + lastName
+}
+
+function setHiddenDarts(count) {
+        const children = dartsLayout.children
+        for (var i = children.length - 1; i >= 0; i--) {
+                const child = children[i]
+                child.visible = i >= count
+        }
 }

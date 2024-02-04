@@ -4,8 +4,8 @@ import QtQuick.Layouts 1.3
 import "pageStatistics.js" as Scripts
 
 Page {
-        function setPlayerStatistics(statistics) {
-                Scripts.setStatistics(statistics)
+        function setValues(statsInfo) {
+                Scripts.setValues(statsInfo)
         }
 
         Column {

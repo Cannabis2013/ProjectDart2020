@@ -2,13 +2,13 @@
 #define DARTSTURNS_H
 
 #include "src/DartsController/controller/idartsturns.h"
-#include "src/DartsController/indexes/idartsindexes.h"
-#include "src/DartsController/input/IDartsInputs.h"
-#include "src/DartsController/input/idartsinputtrimmer.h"
-#include "src/DartsController/players/idartsplayers.h"
-#include "src/DartsController/status/idartsstatus.h"
-#include "src/DartsController/validation/abstractdartsevaluator.h"
-#include <src/DartsController/scores/idartsscores.h>
+
+class IDartsStatus;
+class IDartsInputTrimmer;
+class IDartsInputs;
+class IDartsPlayers;
+class IDartsScores;
+class IDartsIndexes;
 
 class DartsTurns : public IDartsTurns {
 public:

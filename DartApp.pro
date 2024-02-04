@@ -57,8 +57,10 @@ HEADERS += \
     src/DartsController/players/pdcchampions.h \
     src/DartsController/players/idartsplayers.h \
     src/DartsController/players/playersio.h \
+    src/DartsController/responses/MessageTargetRow.h \
+    src/DartsController/responses/dartsjsonreport.h \
     src/DartsController/responses/dartsturninfo.h \
-    src/DartsController/responses/idartsturninfo.h \
+    src/DartsController/responses/idartsjsonreport.h \
     src/DartsController/scores/DartsPlayerScores.h \
     src/DartsController/scores/Score.h \
     src/DartsController/scores/dartsPlayerScore.h \
@@ -104,6 +106,7 @@ SOURCES += \
     src/DartsController/players/dartsplayers.cpp \
     src/DartsController/players/pdcchampions.cpp \
     src/DartsController/players/playersio.cpp \
+    src/DartsController/responses/dartsjsonreport.cpp \
     src/DartsController/responses/dartsturninfo.cpp \
     src/DartsController/scores/dartscalculator.cpp \
     src/DartsController/scores/dartsscores.cpp \

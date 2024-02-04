@@ -1,8 +1,5 @@
 import QtQuick 2.15
-
-import "compPlayerInfo"
-import "compScoreDisplay"
-import "compStatsDisplay"
+import QtQuick.Layouts 1.3
 import "compPlayerInfos.js" as Scripts
 
 Item {
@@ -21,19 +18,22 @@ Item {
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
                 width: parent.width / 2
-                Column {
+                ColumnLayout {
                         anchors.fill: parent
                         CompPlayerInfo {
                                 id: playerOneInfo
-                                width: parent.width
+                                Layout.preferredHeight: 76
+                                Layout.fillWidth: true
                         }
                         CompScoreDisplay {
                                 id: playerOneScore
-                                width: parent.width
+                                Layout.fillHeight: true
+                                Layout.fillWidth: true
                         }
                         CompStatsDisplay {
                                 id: playerOneStats
-                                width: parent.width
+                                Layout.preferredHeight: 32
+                                Layout.fillWidth: true
                         }
                 }
         }
@@ -45,19 +45,22 @@ Item {
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
                 width: parent.width / 2
-                Column {
+                ColumnLayout {
                         anchors.fill: parent
                         CompPlayerInfo {
                                 id: playerTwoInfo
-                                width: parent.width
+                                Layout.preferredHeight: 76
+                                Layout.fillWidth: true
                         }
                         CompScoreDisplay {
                                 id: playerTwoScore
-                                width: parent.width
+                                Layout.fillWidth: true
+                                Layout.fillHeight: true
                         }
                         CompStatsDisplay {
                                 id: playerTwoStats
-                                width: parent.width
+                                Layout.preferredHeight: 32
+                                Layout.fillWidth: true
                         }
                 }
         }

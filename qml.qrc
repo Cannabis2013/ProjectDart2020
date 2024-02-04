@@ -8,7 +8,6 @@
         <file>Ressources/Pictures/GerwinPrice.png</file>
         <file>Ressources/Pictures/lukeLittler.gif</file>
         <file>Ressources/Pictures/gerwinPrice.gif</file>
-        <file>Ressources/Pictures/up_arrow.png</file>
         <file>Ressources/Pictures/lukeHumphries.gif</file>
     </qresource>
     <qresource prefix="/data">
@@ -26,15 +25,11 @@
         <file>qml/pages/start/pageStart.js</file>
         <file>qml/pages/start/PageStart.qml</file>
         <file>qml/pages/templates/PageWithHeader.qml</file>
-        <file>qml/pages/tournament/compPlayerInfos/compPlayerInfo/compPlayerInfo.js</file>
-        <file>qml/pages/tournament/compPlayerInfos/compPlayerInfo/CompPlayerInfo.qml</file>
-        <file>qml/pages/tournament/compPlayerInfos/compPlayerInfo/dartsCounter.js</file>
-        <file>qml/pages/tournament/compPlayerInfos/compPlayerInfo/DartsCounter.qml</file>
-        <file>qml/pages/tournament/compPlayerInfos/compScoreDisplay/compScoreDisplay.js</file>
-        <file>qml/pages/tournament/compPlayerInfos/compScoreDisplay/CompScoreDisplay.qml</file>
-        <file>qml/pages/tournament/compPlayerInfos/compStatsDisplay/compStatsDisplay.js</file>
-        <file>qml/pages/tournament/compPlayerInfos/compStatsDisplay/CompStatsDisplay.qml</file>
+        <file>qml/pages/tournament/compMessages/CompMessages.qml</file>
+        <file>qml/pages/tournament/compPlayerInfos/compPlayerInfos.js</file>
         <file>qml/pages/tournament/compPlayerInfos/CompPlayerInfos.qml</file>
+        <file>qml/pages/tournament/compTurnControls/compTurnControls.js</file>
+        <file>qml/pages/tournament/compTurnControls/CompTurnControls.qml</file>
         <file>qml/pages/tournament/dialogs/quit/DialogQuit.qml</file>
         <file>qml/pages/tournament/dialogs/restart/DialogRestart.qml</file>
         <file>qml/pages/tournament/dialogs/winner/statisticsPage/pageStatistics.js</file>
@@ -43,21 +38,25 @@
         <file>qml/pages/tournament/dialogs/winner/DialogButtons.qml</file>
         <file>qml/pages/tournament/dialogs/winner/DialogWinner.qml</file>
         <file>qml/pages/tournament/dialogs/dialogs.js</file>
-        <file>qml/pages/tournament/inputSection/keyPadBuilder.js</file>
-        <file>qml/pages/tournament/inputSection/ModPad.qml</file>
-        <file>qml/pages/tournament/inputSection/NumberPad.qml</file>
-        <file>qml/pages/tournament/inputSection/Pad.qml</file>
-        <file>qml/pages/tournament/inputSection/playerInputSection.js</file>
-        <file>qml/pages/tournament/inputSection/PlayerInputSection.qml</file>
-        <file>qml/pages/tournament/messageSection/messageSection.js</file>
-        <file>qml/pages/tournament/messageSection/MessageSection.qml</file>
-        <file>qml/pages/tournament/turnControlsSection/turnControlsSection.js</file>
-        <file>qml/pages/tournament/turnControlsSection/TurnControlsSection.qml</file>
         <file>qml/pages/tournament/pageTournament.js</file>
         <file>qml/pages/tournament/PageTournament.qml</file>
         <file>qml/main.qml</file>
         <file>qml/PageLoader.qml</file>
         <file>qtquickcontrols2.conf</file>
-        <file>qml/pages/tournament/compPlayerInfos/compPlayerInfos.js</file>
+        <file>qml/pages/tournament/compInputs/compInputs.js</file>
+        <file>qml/pages/tournament/compInputs/CompInputs.qml</file>
+        <file>qml/pages/tournament/compInputs/keyPadBuilder.js</file>
+        <file>qml/pages/tournament/compInputs/ModPad.qml</file>
+        <file>qml/pages/tournament/compInputs/NumberPad.qml</file>
+        <file>qml/pages/tournament/compInputs/Pad.qml</file>
+        <file>qml/pages/tournament/dialogs/winner/dialogWinner.js</file>
+        <file>qml/pages/tournament/compPlayerInfos/compPlayerInfo.js</file>
+        <file>qml/pages/tournament/compPlayerInfos/CompPlayerInfo.qml</file>
+        <file>qml/pages/tournament/compPlayerInfos/compScoreDisplay.js</file>
+        <file>qml/pages/tournament/compPlayerInfos/CompScoreDisplay.qml</file>
+        <file>qml/pages/tournament/compPlayerInfos/compStatsDisplay.js</file>
+        <file>qml/pages/tournament/compPlayerInfos/CompStatsDisplay.qml</file>
+        <file>qml/pages/tournament/compMessages/CompMessage.qml</file>
+        <file>qml/pages/tournament/compMessages/compMessages.js</file>
     </qresource>
 </RCC>

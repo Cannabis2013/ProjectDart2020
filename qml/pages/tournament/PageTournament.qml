@@ -1,9 +1,9 @@
 import QtQuick 2.1
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
-import "turnControlsSection"
-import "inputSection"
-import "messageSection"
+import "compTurnControls"
+import "compInputs"
+import "compMessages"
 import "compPlayerInfos"
 import "pageTournament.js" as Scripts
 import "dialogs/dialogs.js" as Dialogs
@@ -24,18 +24,18 @@ Page {
 
                 CompPlayerInfos {
                         id: playerInfos
-                        Layout.preferredHeight: 242
+                        Layout.preferredHeight: 200
                         Layout.fillWidth: true
                 }
 
-                MessageSection {
+                CompMessages {
                         id: messageSection
                         Layout.fillWidth: true
                         Layout.fillHeight: !Scripts.isPortrait()
                         Layout.preferredHeight: 64
                 }
 
-                TurnControlsSection {
+                CompTurnControls {
                         id: turnControls
                         Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
                         Layout.preferredHeight: 32
@@ -45,7 +45,7 @@ Page {
                         onRestartClicked: Dialogs.openRestartDialog(Scripts.restartGame)
                 }
 
-                PlayerInputSection {
+                CompInputs {
                         id: inputSection
                         Layout.fillWidth: true
                         Layout.fillHeight: true

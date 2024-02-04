@@ -13,12 +13,8 @@ Rectangle {
         signal restartClicked
         signal undoClicked
 
-        function setPlayerDetails(playerDetails) {
-                pageWinner.setPlayerDetails(playerDetails)
-        }
-
-        function setStatisticsDetails(statistics) {
-                pageStatistics.setPlayerStatistics(statistics)
+        function setValues(jsonReport) {
+                Scripts.setValues(jsonReport)
         }
 
         MouseArea {

@@ -1,6 +1,20 @@
 #include "dartsturns.h"
 
-DartsTurns::DartsTurns(IDartsStatus* status, IDartsIndexes* indexes, IDartsScores* scores, IDartsPlayers* players, IDartsInputs* inputs, IDartsInputTrimmer* trimmer)
+#include "src/DartsController/indexes/idartsindexes.h"
+#include "src/DartsController/input/IDartsInputs.h"
+#include "src/DartsController/input/idartsinputtrimmer.h"
+#include "src/DartsController/players/dartsplayer.h"
+#include "src/DartsController/players/idartsplayers.h"
+#include "src/DartsController/scores/idartsscores.h"
+#include "src/DartsController/status/idartsstatus.h"
+#include "src/DartsController/validation/abstractdartsevaluator.h"
+
+DartsTurns::DartsTurns(IDartsStatus* status,
+    IDartsIndexes* indexes,
+    IDartsScores* scores,
+    IDartsPlayers* players,
+    IDartsInputs* inputs,
+    IDartsInputTrimmer* trimmer)
     : _status(status)
     , _indexes(indexes)
     , _scores(scores)

@@ -1,8 +1,8 @@
-function setStatistics(statistics) {
-        if (statistics.length !== 2)
+function setValues(statsInfo) {
+        if (statsInfo.length !== 2)
                 return
-        setPlayerOneStats(statistics[0])
-        setPlayerTwoStats(statistics[1])
+        setPlayerOneStats(statsInfo[0])
+        setPlayerTwoStats(statsInfo[1])
 }
 
 function setPlayerOneStats(statistics) {

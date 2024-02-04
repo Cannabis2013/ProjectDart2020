@@ -45,8 +45,8 @@ function bustScore() {
 
 function updateTurnValues() {
         const jsonReport = JSON.parse(dartsController.turnReport())
-        const turnInfo = jsonReport.turnInfo
-        if (turnInfo.winnerFound)
+        const winnerInfo = jsonReport.winnerInfo
+        if (winnerInfo.winnerFound)
                 Dialogs.openWinnerDialog(jsonReport, restartGame, undo)
         else
                 updateSections(jsonReport)
@@ -55,5 +55,5 @@ function updateTurnValues() {
 function updateSections(jsonReport) {
         playerInfos.setValues(jsonReport)
         turnControls.updateValues(jsonReport)
-        messageSection.targetRow = jsonReport.suggestions.targetRow
+        messageSection.setMessages(jsonReport.messages)
 }

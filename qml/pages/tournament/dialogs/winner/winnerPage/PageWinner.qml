@@ -3,9 +3,9 @@ import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
 
 Page {
-        function setPlayerDetails(details) {
-                winnerText.text = details.winnerName
-                animatedImage.source = details.winnerImage
+        function setValues(winnerInfo) {
+                winnerText.text = winnerInfo.winnerName
+                animatedImage.source = winnerInfo.winnerImage
         }
 
         Text {

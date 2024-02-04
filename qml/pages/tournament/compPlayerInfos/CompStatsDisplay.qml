@@ -3,10 +3,8 @@ import QtQuick.Layouts 1.3
 import "compStatsDisplay.js" as Scripts
 
 Item {
-        height: 32
-
-        function setValues(statistics) {
-                Scripts.setValues(statistics)
+        function setValues(statsInfo) {
+                Scripts.setValues(statsInfo)
         }
 
         GridLayout {

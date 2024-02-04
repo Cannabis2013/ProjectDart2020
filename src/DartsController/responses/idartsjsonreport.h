@@ -3,7 +3,7 @@
 
 #include <qbytearray.h>
 
-class IDartsTurnInfo {
+class IDartsJsonReport {
 public:
         virtual QByteArray report() = 0;
 };
