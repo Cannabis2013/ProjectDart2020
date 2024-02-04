@@ -25,12 +25,7 @@ QByteArray DartsController::playerScores() const
 
 QByteArray DartsController::allPlayers() const
 {
-        return players()->all();
-}
-
-QByteArray DartsController::statisticReport() const
-{
-        return statistics()->report();
+        return players()->allAsJson();
 }
 
 QByteArray DartsController::turnReport() const

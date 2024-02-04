@@ -2,33 +2,25 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 
-DartsStatistics::DartsStatistics(IDartsInputs* inputs, IDartsScores* scores, IDartsIndexes* indexes, IDartsPlayers* players, IScoresCalculator* calculator)
+DartsStatistics::DartsStatistics(IDartsInputs* inputs, IDartsScores* scores, IDartsIndexes* indexes, IScoresCalculator* calculator)
     : _inputs(inputs)
     , _scores(scores)
     , _indexes(indexes)
-    , _players(players)
     , _calculator(calculator)
 {
 }
 
-QByteArray DartsStatistics::report() const
+QJsonObject DartsStatistics::report(const QString& name) const
 {
-        QJsonArray arr;
-        auto names = _players->names();
-        for (const auto& name : std::as_const(names))
-                arr << statistics(name).toJsonobject();
-        return QJsonDocument(arr).toJson(QJsonDocument::Compact);
-}
-
-Statistics DartsStatistics::statistics(const QString& name) const
-{
+        QJsonObject jsonObj;
         auto score = _scores->score(name);
         auto inputs = getInputs(name);
-        auto avg = average(_scores->initialScore(), score.playerScore(), inputs.count());
-        auto low = lowest(inputs);
-        auto high = highest(inputs);
-        auto count = inputs.size();
-        return Statistics(name, avg, low, high, count);
+        jsonObj["average"] = average(_scores->initialScore(), score.playerScore(), inputs.count());
+        jsonObj["low"] = lowest(inputs);
+        jsonObj["high"] = highest(inputs);
+        jsonObj["throwCount"] = inputs.size();
+        jsonObj["name"] = name;
+        return jsonObj;
 }
 
 QList<Input> DartsStatistics::getInputs(const QString& name) const

@@ -10,9 +10,10 @@ Item {
         signal redoClicked
         signal restartClicked
 
-        function updateValues(canUndo, canRedo) {
-                undoButton.enabled = canUndo
-                redoButton.enabled = canRedo
+        function updateValues(jsonReport) {
+                const turnInfo = jsonReport.turnInfo
+                undoButton.enabled = turnInfo.canUndo
+                redoButton.enabled = turnInfo.canRedo
         }
 
         GridLayout {

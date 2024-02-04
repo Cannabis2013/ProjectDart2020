@@ -21,18 +21,27 @@
         <file>qml/pages/setup/GameStyles.qml</file>
         <file>qml/pages/setup/setupPage.js</file>
         <file>qml/pages/setup/SetupPage.qml</file>
+        <file>qml/pages/start/BackDrop.qml</file>
         <file>qml/pages/start/MenuButtons.qml</file>
         <file>qml/pages/start/pageStart.js</file>
         <file>qml/pages/start/PageStart.qml</file>
-        <file>qml/pages/start/BackDrop.qml</file>
         <file>qml/pages/templates/PageWithHeader.qml</file>
+        <file>qml/pages/tournament/compPlayerInfos/compPlayerInfo/compPlayerInfo.js</file>
+        <file>qml/pages/tournament/compPlayerInfos/compPlayerInfo/CompPlayerInfo.qml</file>
+        <file>qml/pages/tournament/compPlayerInfos/compPlayerInfo/dartsCounter.js</file>
+        <file>qml/pages/tournament/compPlayerInfos/compPlayerInfo/DartsCounter.qml</file>
+        <file>qml/pages/tournament/compPlayerInfos/compScoreDisplay/compScoreDisplay.js</file>
+        <file>qml/pages/tournament/compPlayerInfos/compScoreDisplay/CompScoreDisplay.qml</file>
+        <file>qml/pages/tournament/compPlayerInfos/compStatsDisplay/compStatsDisplay.js</file>
+        <file>qml/pages/tournament/compPlayerInfos/compStatsDisplay/CompStatsDisplay.qml</file>
+        <file>qml/pages/tournament/compPlayerInfos/CompPlayerInfos.qml</file>
         <file>qml/pages/tournament/dialogs/quit/DialogQuit.qml</file>
         <file>qml/pages/tournament/dialogs/restart/DialogRestart.qml</file>
         <file>qml/pages/tournament/dialogs/winner/statisticsPage/pageStatistics.js</file>
         <file>qml/pages/tournament/dialogs/winner/statisticsPage/PageStatistics.qml</file>
         <file>qml/pages/tournament/dialogs/winner/winnerPage/PageWinner.qml</file>
-        <file>qml/pages/tournament/dialogs/winner/DialogWinner.qml</file>
         <file>qml/pages/tournament/dialogs/winner/DialogButtons.qml</file>
+        <file>qml/pages/tournament/dialogs/winner/DialogWinner.qml</file>
         <file>qml/pages/tournament/dialogs/dialogs.js</file>
         <file>qml/pages/tournament/inputSection/keyPadBuilder.js</file>
         <file>qml/pages/tournament/inputSection/ModPad.qml</file>
@@ -42,19 +51,6 @@
         <file>qml/pages/tournament/inputSection/PlayerInputSection.qml</file>
         <file>qml/pages/tournament/messageSection/messageSection.js</file>
         <file>qml/pages/tournament/messageSection/MessageSection.qml</file>
-        <file>qml/pages/tournament/playersSection/dartsCounter.js</file>
-        <file>qml/pages/tournament/playersSection/DartsCounter.qml</file>
-        <file>qml/pages/tournament/playersSection/playerInfo.js</file>
-        <file>qml/pages/tournament/playersSection/PlayerInfo.qml</file>
-        <file>qml/pages/tournament/playersSection/playersSection.js</file>
-        <file>qml/pages/tournament/playersSection/PlayersSection.qml</file>
-        <file>qml/pages/tournament/playersSection/TurnSlider.qml</file>
-        <file>qml/pages/tournament/scoresSection/scoresSection.js</file>
-        <file>qml/pages/tournament/scoresSection/ScoresSection.qml</file>
-        <file>qml/pages/tournament/statisticsSection/StatisticsRect.js</file>
-        <file>qml/pages/tournament/statisticsSection/StatisticsRect.qml</file>
-        <file>qml/pages/tournament/statisticsSection/statisticsSection.js</file>
-        <file>qml/pages/tournament/statisticsSection/StatisticsSection.qml</file>
         <file>qml/pages/tournament/turnControlsSection/turnControlsSection.js</file>
         <file>qml/pages/tournament/turnControlsSection/TurnControlsSection.qml</file>
         <file>qml/pages/tournament/pageTournament.js</file>
@@ -62,5 +58,6 @@
         <file>qml/main.qml</file>
         <file>qml/PageLoader.qml</file>
         <file>qtquickcontrols2.conf</file>
+        <file>qml/pages/tournament/compPlayerInfos/compPlayerInfos.js</file>
     </qresource>
 </RCC>

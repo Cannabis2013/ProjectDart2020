@@ -15,14 +15,14 @@ public:
         void init() override;
         void initFromFile() override;
         void reset() override;
-        DartsPlayer winner() const override;
         int playersCount() const override;
         const QStringList names() const override;
         bool saveState() override;
+        DartsPlayer winner() const override;
         DartsPlayer& one(const int& index) override;
         DartsPlayer& one(const QString& name) override;
         DartsPlayer& one() override;
-        QByteArray all() const override;
+        QByteArray allAsJson() const override;
 
 private:
         QList<DartsPlayer> _players;

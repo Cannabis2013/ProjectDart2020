@@ -13,7 +13,6 @@ public:
         virtual QByteArray playerScores() const = 0;
         virtual QByteArray allPlayers() const = 0;
         virtual QByteArray turnReport() const = 0;
-        virtual QByteArray statisticReport() const = 0;
         virtual void addInput(const QString& mod, const int& point) = 0;
         virtual void undoTurn() = 0;
         virtual void redoTurn() = 0;

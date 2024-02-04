@@ -1,10 +1,12 @@
 #ifndef IDARTSSTATISTICS_H
 #define IDARTSSTATISTICS_H
 
-#include <QString>
+class QString;
+class QJsonObject;
+
 class IDartsStatistics {
 public:
-        virtual QByteArray report() const = 0;
+        virtual QJsonObject report(const QString& name) const = 0;
 };
 
 #endif // IDARTSSTATISTICS_H

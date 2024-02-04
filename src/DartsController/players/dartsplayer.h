@@ -27,7 +27,7 @@ public:
                 _winnerImageUrl = jsonObj.value("winnerImage").toString("");
         }
 
-        QJsonObject toJsonObject() const
+        QJsonObject jsonObject() const
         {
                 QJsonObject jsonObj;
                 jsonObj["name"] = _name;

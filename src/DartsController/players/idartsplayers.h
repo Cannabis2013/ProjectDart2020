@@ -12,7 +12,7 @@ public:
         virtual void reset() = 0;
         virtual int playersCount() const = 0;
         virtual bool saveState() = 0;
-        virtual QByteArray all() const = 0;
+        virtual QByteArray allAsJson() const = 0;
         virtual DartsPlayer& one(const int& index) = 0;
         virtual DartsPlayer& one() = 0;
         virtual DartsPlayer& one(const QString& name) = 0;

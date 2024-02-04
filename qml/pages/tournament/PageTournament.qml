@@ -2,11 +2,9 @@ import QtQuick 2.1
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
 import "turnControlsSection"
-import "scoresSection"
 import "inputSection"
-import "playersSection"
 import "messageSection"
-import "statisticsSection"
+import "compPlayerInfos"
 import "pageTournament.js" as Scripts
 import "dialogs/dialogs.js" as Dialogs
 
@@ -22,24 +20,11 @@ Page {
                 rowSpacing: 0
                 columnSpacing: 0
                 flow: GridLayout.TopToBottom
-                rows: Scripts.isPortrait() ? 6 : 5
+                rows: Scripts.isPortrait() ? 4 : 3
 
-                PlayersSection {
-                        id: playersSection
-                        Layout.preferredHeight: 128
-                        Layout.fillWidth: true
-                }
-
-                ScoresSection {
-                        id: scoresSection
-                        Layout.preferredHeight: 100
-                        Layout.fillWidth: true
-                        Layout.alignment: Qt.AlignHCenter
-                }
-
-                StatisticsSection {
-                        id: playerStatistics
-                        Layout.preferredHeight: 32
+                CompPlayerInfos {
+                        id: playerInfos
+                        Layout.preferredHeight: 242
                         Layout.fillWidth: true
                 }
 
@@ -64,7 +49,7 @@ Page {
                         id: inputSection
                         Layout.fillWidth: true
                         Layout.fillHeight: true
-                        Layout.rowSpan: Scripts.isPortrait() ? 1 : 5
+                        Layout.rowSpan: Scripts.isPortrait() ? 1 : 3
                         onReportScore: (modId, point) => Scripts.addScore(modId, point)
                         onBustTurn: value => Scripts.bustScore()
                 }

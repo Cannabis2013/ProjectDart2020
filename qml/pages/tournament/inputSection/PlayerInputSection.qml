@@ -5,7 +5,6 @@ import "playerInputSection.js" as Scripts
 
 Item {
         id: keyPadRect
-        enabled: false
 
         signal reportScore(string modId, int point)
         signal bustTurn(int value)

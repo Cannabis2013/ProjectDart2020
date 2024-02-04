@@ -23,11 +23,11 @@ DartsController* DartsControllerBuilder::build()
         auto inputs = new DartsInputs(indexes, players);
         auto scores = new DartsScores(indexes, players, inputs, calculator);
         auto evaluators = new DartsEvaluators(scores, players, status, calculator);
-        auto statistic = new DartsStatistics(inputs, scores, indexes, players, calculator);
+        auto statistic = new DartsStatistics(inputs, scores, indexes, calculator);
         auto finishes = new DartsFinishes();
         auto trimmer = new DartsInputsTrimmer(inputs, indexes);
         auto turns = new DartsTurns(status, indexes, scores, players, inputs, trimmer);
-        auto turnInfo = new DartsTurnInfo(players, indexes, finishes, scores, status);
+        auto turnInfo = new DartsTurnInfo(players, indexes, finishes, scores, status, statistic);
         auto adderService = new DartsInputAdder(inputs, trimmer,indexes, status, scores);
         auto initializer = new ControllerInitializer(controller);
         controller->setIndexes(indexes);

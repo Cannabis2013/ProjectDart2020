@@ -70,7 +70,6 @@ HEADERS += \
     src/DartsController/scores/scoresio.h \
     src/DartsController/statistics/dartsstatistics.h \
     src/DartsController/statistics/idartsstatistics.h \
-    src/DartsController/statistics/statistics.h \
     src/DartsController/status/dartsstatus.h \
     src/DartsController/status/idartsstatus.h \
     src/DartsController/validation/abstractdartsevaluator.h \

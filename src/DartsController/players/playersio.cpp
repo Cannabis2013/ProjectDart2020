@@ -27,7 +27,7 @@ bool PlayersIO::saveToFile(const QList<DartsPlayer>& players)
         FileJsonIO jsonIO(_filePath);
         QJsonArray jsonArr;
         for (auto& player : players)
-                jsonArr.append(player.toJsonObject());
+                jsonArr.append(player.jsonObject());
         auto jsonDoc = new QJsonDocument(jsonArr);
         return jsonIO.write(jsonDoc->toJson());
 }

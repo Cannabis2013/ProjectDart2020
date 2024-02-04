@@ -47,11 +47,11 @@ DartsPlayer& DartsPlayers::one()
         return _players[playerIndex];
 }
 
-QByteArray DartsPlayers::all() const
+QByteArray DartsPlayers::allAsJson() const
 {
         QJsonArray arr;
         for (const auto& player : _players)
-                arr << player.toJsonObject();
+                arr << player.jsonObject();
         return QJsonDocument(arr).toJson(QJsonDocument::Compact);
 }
 

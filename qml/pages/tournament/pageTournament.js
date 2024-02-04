@@ -12,21 +12,13 @@ function isPortrait() {
 }
 
 function initializeUI() {
-        init()
+        playerInfos.initialize()
         updateTurnValues()
-}
-
-function init() {
-        const players = JSON.parse(dartsController.allPlayers())
-        const scores = JSON.parse(dartsController.playerScores())
-        playersSection.setPlayers(players)
-        scoresSection.initializeScores(scores)
 }
 
 function restartGame() {
         dartsController.reset()
-        init()
-        updateTurnValues()
+        initializeUI()
         tournamentPage.forceActiveFocus()
 }
 
@@ -52,31 +44,16 @@ function bustScore() {
 }
 
 function updateTurnValues() {
-        const turnValues = JSON.parse(dartsController.turnReport())
-        const statistics = JSON.parse(dartsController.statisticReport())
-        if (turnValues.winnerFound)
-                Dialogs.openWinnerDialog(turnValues, statistics, restartGame, undo)
+        const jsonReport = JSON.parse(dartsController.turnReport())
+        const turnInfo = jsonReport.turnInfo
+        if (turnInfo.winnerFound)
+                Dialogs.openWinnerDialog(jsonReport, restartGame, undo)
         else
-                updateSections(turnValues, statistics)
+                updateSections(jsonReport)
 }
 
-function updateSections(turnValues, statistics) {
-        updateTurnControlsSection(turnValues)
-        updatePlayerSection(turnValues)
-        scoresSection.updateScores(turnValues.playerScores)
-        playerStatistics.setStatistics(statistics)
-        inputSection.enabled = true
-}
-
-function updatePlayerSection(turnValues) {
-        const name = turnValues.currentPlayerName
-        const turnIndex = turnValues.turnIndexes.turnIndex
-        playersSection.highlightPlayer(name, turnIndex)
-}
-
-function updateTurnControlsSection(turnValues) {
-        const indexes = turnValues.turnIndexes
-        const suggestions = turnValues.suggestions
-        turnControls.updateValues(indexes.canUndo, indexes.canRedo)
-        messageSection.targetRow = suggestions.targetRow
+function updateSections(jsonReport) {
+        playerInfos.setValues(jsonReport)
+        turnControls.updateValues(jsonReport)
+        messageSection.targetRow = jsonReport.suggestions.targetRow
 }

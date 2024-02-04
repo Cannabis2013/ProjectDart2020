@@ -1,10 +1,12 @@
 import QtQuick 2.15
 import QtQuick.Layouts 1.3
-import "StatisticsRect.js" as Scripts
+import "compStatsDisplay.js" as Scripts
 
 Item {
-        function updateStatistics(statistics) {
-                Scripts.updateValues(statistics)
+        height: 32
+
+        function setValues(statistics) {
+                Scripts.setValues(statistics)
         }
 
         GridLayout {
