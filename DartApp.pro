@@ -44,12 +44,12 @@ HEADERS += \
     src/DartsController/indexes/dartsturnindex.h \
     src/DartsController/indexes/idartsindexes.h \
     src/DartsController/indexes/indexesio.h \
-    src/DartsController/input/IDartsInputs.h \
     src/DartsController/input/Input.h \
     src/DartsController/input/dartsinputadder.h \
     src/DartsController/input/dartsinputs.h \
     src/DartsController/input/dartsinputstrimmer.h \
     src/DartsController/input/idartsinputadder.h \
+    src/DartsController/input/idartsinputs.h \
     src/DartsController/input/idartsinputtrimmer.h \
     src/DartsController/input/inputsio.h \
     src/DartsController/players/dartsplayer.h \

@@ -1,6 +1,10 @@
 #include "dartsinputstrimmer.h"
 
-DartsInputsTrimmer::DartsInputsTrimmer(IDartsInputs* inputs, IDartsIndexes* indexes)
+#include "idartsinputs.h"
+#include <src/DartsController/indexes/idartsindexes.h>
+
+DartsInputsTrimmer::DartsInputsTrimmer(IDartsInputs* inputs,
+    IDartsIndexes* indexes)
     : _inputs(inputs)
     , _indexes(indexes)
 {

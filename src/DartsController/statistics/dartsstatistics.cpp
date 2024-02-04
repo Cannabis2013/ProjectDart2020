@@ -1,8 +1,16 @@
 #include "dartsstatistics.h"
+
+#include "src/DartsController/indexes/idartsindexes.h"
+#include "src/DartsController/input/idartsinputs.h"
+#include "src/DartsController/scores/dartsPlayerScore.h"
+#include "src/DartsController/scores/idartsscores.h"
+#include "src/DartsController/scores/iscorescalculator.h"
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <QList>
 
-DartsStatistics::DartsStatistics(IDartsInputs* inputs, IDartsScores* scores, IDartsIndexes* indexes, IScoresCalculator* calculator)
+DartsStatistics::DartsStatistics(IDartsInputs* inputs,
+    IDartsScores* scores, IDartsIndexes* indexes, IScoresCalculator* calculator)
     : _inputs(inputs)
     , _scores(scores)
     , _indexes(indexes)

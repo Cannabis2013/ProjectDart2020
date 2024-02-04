@@ -6,9 +6,14 @@
 #include "src/DartsController/players/dartsplayer.h"
 #include "src/DartsController/players/idartsplayers.h"
 #include "src/DartsController/responses/MessageTargetRow.h"
+#include "src/DartsController/scores/DartsPlayerScores.h"
+#include "src/DartsController/scores/dartsPlayerScore.h"
 #include "src/DartsController/scores/idartsscores.h"
 #include "src/DartsController/statistics/idartsstatistics.h"
 #include "src/DartsController/status/idartsstatus.h"
+
+#include <QJsonArray>
+#include <QJsonObject>
 
 DartsJsonReport::DartsJsonReport(IDartsPlayers* players,
     IDartsIndexes* _indexes,

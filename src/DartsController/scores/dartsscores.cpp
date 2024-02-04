@@ -1,5 +1,13 @@
 #include "dartsscores.h"
 
+#include "src/DartsController/indexes/idartsindexes.h"
+#include "src/DartsController/input/idartsinputs.h"
+#include "src/DartsController/players/idartsplayers.h"
+#include "src/DartsController/scores/DartsPlayerScores.h"
+#include "src/DartsController/scores/dartsPlayerScore.h"
+#include "src/DartsController/scores/iscorescalculator.h"
+#include "src/DartsController/scores/scoresio.h"
+
 DartsScores::DartsScores(IDartsIndexes* indexes, IDartsPlayers* players, IDartsInputs* inputs, IScoresCalculator* calculator)
     : _indexes(indexes)
     , _players(players)
@@ -31,7 +39,7 @@ void DartsScores::reset()
                 _scores << Score(name, _initialScore);
 }
 
-DartsPlayerScores DartsScores::update()
+void DartsScores::update()
 {
         auto throwIndex = _indexes->index().throwIndex();
         _scores.clear();
@@ -40,7 +48,6 @@ DartsPlayerScores DartsScores::update()
                 auto score = _calculator->calculate(name, inputs, _initialScore);
                 _scores.append(score);
         }
-        return DartsPlayerScores(_scores);
 }
 
 DartsPlayerScore DartsScores::score(){
@@ -55,4 +62,14 @@ DartsPlayerScore DartsScores::score(const QString& name){
                         return score;
         }
         return DartsPlayerScore();
+}
+
+DartsPlayerScores DartsScores::scores()
+{
+        return DartsPlayerScores(_scores);
+}
+
+bool DartsScores::saveState()
+{
+        return _scoresIO->toFile(_scores, _initialScore);
 }

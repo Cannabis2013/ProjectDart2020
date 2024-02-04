@@ -2,13 +2,15 @@
 #define DARTSCORES_H
 
 #include "idartsscores.h"
-#include "src/DartsController/indexes/idartsindexes.h"
-#include "src/DartsController/input/IDartsInputs.h"
-#include "src/DartsController/players/idartsplayers.h"
-#include "src/DartsController/scores/Score.h"
-#include "src/DartsController/scores/dartsPlayerScore.h"
-#include "src/DartsController/scores/iscorescalculator.h"
-#include "src/DartsController/scores/scoresio.h"
+
+#include <QList>
+
+class Score;
+class ScoresIO;
+class IScoresCalculator;
+class IDartsInputs;
+class IDartsPlayers;
+class IDartsIndexes;
 
 class DartsScores : public IDartsScores{
 public:
@@ -17,11 +19,11 @@ public:
         void initFromFile() override;
         int initialScore() const override { return _initialScore; }
         virtual void reset() override;
-        DartsPlayerScores update() override;
+        void update() override;
         DartsPlayerScore score() override;
         DartsPlayerScore score(const QString& name) override;
-        DartsPlayerScores scores() override {return DartsPlayerScores(_scores);}
-        bool saveState() override { return _scoresIO->toFile(_scores, _initialScore); }
+        DartsPlayerScores scores() override;
+        bool saveState() override;
 
 private:
         QList<Score> _scores;

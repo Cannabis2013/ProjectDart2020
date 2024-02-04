@@ -1,9 +1,8 @@
 #ifndef SCORESCALCULATOR_H
 #define SCORESCALCULATOR_H
 
-#include "src/DartsController/input/Input.h"
-#include "src/DartsController/scores/Score.h"
 #include "src/DartsController/scores/iscorescalculator.h"
+#include <QStringList>
 
 class DartsCalculator : public IScoresCalculator {
 public:

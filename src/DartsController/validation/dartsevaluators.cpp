@@ -3,6 +3,9 @@
 #include "src/DartsController/validation/dartsbeginnervalidator.h"
 #include "src/FileIO/filejsonio.h"
 
+#include <QJsonDocument>
+#include <QJsonObject>
+
 DartsEvaluators::DartsEvaluators(IDartsScores* scores, IDartsPlayers* players, IDartsStatus* status, IScoresCalculator* calculator)
     : _scores(scores)
     , _players(players)

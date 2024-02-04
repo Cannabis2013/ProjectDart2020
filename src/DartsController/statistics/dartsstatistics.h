@@ -2,10 +2,14 @@
 #define DARTSSTATISTICS_H
 
 #include "idartsstatistics.h"
-#include "src/DartsController/indexes/idartsindexes.h"
-#include "src/DartsController/input/IDartsInputs.h"
-#include "src/DartsController/scores/idartsscores.h"
-#include "src/DartsController/scores/iscorescalculator.h"
+
+template <typename T>
+class QList;
+class Input;
+class IScoresCalculator;
+class IDartsIndexes;
+class IDartsScores;
+class IDartsInputs;
 
 class DartsStatistics : public IDartsStatistics {
 public:

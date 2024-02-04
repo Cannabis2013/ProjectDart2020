@@ -1,12 +1,13 @@
 #ifndef DARTINPUTS_H
 #define DARTINPUTS_H
 
-#include "IDartsInputs.h"
-#include "src/DartsController/indexes/idartsindexes.h"
-#include "src/DartsController/input/inputsio.h"
-#include "src/DartsController/players/idartsplayers.h"
+#include "idartsinputs.h"
 
 #include <QList>
+
+class InputsIO;
+class IDartsPlayers;
+class IDartsIndexes;
 
 class DartsInputs : public IDartsInputs {
 public:
@@ -19,7 +20,7 @@ public:
         virtual QList<Input> inputs(const QString& name) const override;
         QList<Input> inputs(const QString& name, const int& throwIndex) const override;
         void remove(const std::function<bool(const Input&)>& predicate) override;
-        bool saveState() override { return _inputsIO->toFile(_inputs); }
+        bool saveState() override;
         Input save(Input input) override;
 
 private:

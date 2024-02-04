@@ -2,15 +2,12 @@
 #define DARTINPUTEVALUATOR_H
 
 #include "abstractdartsevaluator.h"
-#include "src/DartsController/input/IDartsInputs.h"
-#include "src/DartsController/players/idartsplayers.h"
-#include "src/DartsController/scores/idartsscores.h"
-#include "src/DartsController/scores/iscorescalculator.h"
-#include "src/DartsController/status/idartsstatus.h"
-#include "src/DartsController/validation/iplayerallowances.h"
-#include <QPair>
 
-using namespace std;
+class IPlayerAllowances;
+class IScoresCalculator;
+class IDartsStatus;
+class IDartsPlayers;
+class IDartsScores;
 
 class DartsProfessionalEvaluator : public AbstractDartsEvaluator {
 public:

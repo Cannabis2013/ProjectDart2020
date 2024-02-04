@@ -2,8 +2,9 @@
 #define DARTSINPUTSTRIMMER_H
 
 #include "idartsinputtrimmer.h"
-#include "src/DartsController/indexes/idartsindexes.h"
-#include "src/DartsController/input/IDartsInputs.h"
+
+class IDartsIndexes;
+class IDartsInputs;
 
 class DartsInputsTrimmer : public IDartsInputTrimmer
 {

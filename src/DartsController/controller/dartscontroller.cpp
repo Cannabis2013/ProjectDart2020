@@ -1,4 +1,5 @@
 #include "dartscontroller.h"
+#include "src/DartsController/scores/DartsPlayerScores.h"
 
 void DartsController::init(const QByteArray& json)
 {

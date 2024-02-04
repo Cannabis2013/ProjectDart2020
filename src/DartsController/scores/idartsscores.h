@@ -1,18 +1,18 @@
 #ifndef IDARTSSCORES_H
 #define IDARTSSCORES_H
 
-#include "src/DartsController/scores/DartsPlayerScores.h"
-#include "src/DartsController/scores/dartsPlayerScore.h"
+class QString;
+class DartsPlayerScore;
+class DartsPlayerScores;
 
-class IDartsScores
-{
+class IDartsScores {
 public:
         virtual void init(const int& initialScore = 501) = 0;
         virtual void initFromFile() = 0;
         virtual void reset() = 0;
         virtual bool saveState() = 0;
         virtual int initialScore() const = 0;
-        virtual DartsPlayerScores update() = 0;
+        virtual void update() = 0;
         virtual DartsPlayerScore score() = 0;
         virtual DartsPlayerScore score(const QString& name) = 0;
         virtual DartsPlayerScores scores() = 0;

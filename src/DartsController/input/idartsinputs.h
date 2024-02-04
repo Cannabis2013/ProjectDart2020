@@ -1,10 +1,14 @@
 #ifndef IDARTINPUTS_H
 #define IDARTINPUTS_H
 
-#include "src/DartsController/input/Input.h"
+#include "Input.h"
 
-class IDartsInputs
-{
+#include <QList>
+#include <functional>
+
+class QString;
+
+class IDartsInputs {
 public:
         virtual void init() = 0;
         virtual void initFromFile() = 0;

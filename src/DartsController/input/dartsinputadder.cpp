@@ -1,5 +1,11 @@
 #include "dartsinputadder.h"
 
+#include "src/DartsController/indexes/idartsindexes.h"
+#include "src/DartsController/input/idartsinputs.h"
+#include "src/DartsController/input/idartsinputtrimmer.h"
+#include "src/DartsController/scores/idartsscores.h"
+#include "src/DartsController/status/idartsstatus.h"
+
 DartsInputAdder::DartsInputAdder(IDartsInputs* inputs, IDartsInputTrimmer* trimmer,
     IDartsIndexes* indexes, IDartsStatus* status, IDartsScores* scores)
     : _inputs(inputs)

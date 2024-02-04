@@ -1,4 +1,6 @@
 #include "dartscalculator.h" //
+#include "src/DartsController/input/Input.h"
+#include "src/DartsController/scores/Score.h"
 
 bool DartsCalculator::isValid(const int& point, const QString& mod) const
 {

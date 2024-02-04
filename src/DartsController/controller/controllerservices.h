@@ -5,7 +5,7 @@
 #include "src/DartsController/controller/controllerinitializer.h"
 #include "src/DartsController/controller/idartsturns.h"
 #include "src/DartsController/indexes/idartsindexes.h"
-#include "src/DartsController/input/IDartsInputs.h"
+#include "src/DartsController/input/idartsinputs.h"
 #include "src/DartsController/input/idartsinputadder.h"
 #include "src/DartsController/players/idartsplayers.h"
 #include "src/DartsController/responses/idartsjsonreport.h"

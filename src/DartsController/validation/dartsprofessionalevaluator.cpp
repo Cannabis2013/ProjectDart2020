@@ -1,4 +1,11 @@
 #include "dartsprofessionalevaluator.h"
+#include "src/DartsController/players/dartsplayer.h"
+#include "src/DartsController/players/idartsplayers.h"
+#include "src/DartsController/scores/DartsPlayerScores.h"
+#include "src/DartsController/scores/dartsPlayerScore.h"
+#include "src/DartsController/scores/idartsscores.h"
+#include "src/DartsController/scores/iscorescalculator.h"
+#include "src/DartsController/status/idartsstatus.h"
 #include "src/DartsController/validation/dartsallowances.h"
 
 DartsProfessionalEvaluator::DartsProfessionalEvaluator(IDartsScores* scores, IDartsPlayers* players, IDartsStatus* status, IScoresCalculator* calculator)

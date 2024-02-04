@@ -1,5 +1,9 @@
 #include "dartsinputs.h"
-#include <src/FileIO/filejsonio.h>
+
+#include "src/DartsController/indexes/idartsindexes.h"
+#include "src/DartsController/input/inputsio.h"
+#include "src/DartsController/players/dartsplayer.h"
+#include "src/DartsController/players/idartsplayers.h"
 
 DartsInputs::DartsInputs(IDartsIndexes* indexes, IDartsPlayers* players)
 {
@@ -52,6 +56,11 @@ void DartsInputs::remove(const std::function<bool(const Input&)>& predicate)
                 }
                 return filtered;
         }();
+}
+
+bool DartsInputs::saveState()
+{
+        return _inputsIO->toFile(_inputs);
 }
 
 Input DartsInputs::save(Input input)
