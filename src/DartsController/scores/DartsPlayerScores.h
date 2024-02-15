@@ -16,12 +16,19 @@ public:
 
         DartsPlayerScores(){}
 
-        QByteArray toJson(){
-                QJsonArray jsonArr;
-                for (const auto& score : std::as_const(_playerScores))
-                        jsonArr << score.toJsonObject();
+        QByteArray json()
+        {
+                auto jsonArr = jsonArray();
                 auto jsonDoc = new QJsonDocument(jsonArr);
                 return jsonDoc->toJson(QJsonDocument::Compact);
+        }
+
+        QJsonArray jsonArray()
+        {
+                QJsonArray jsonArr;
+                for (const auto& score : std::as_const(_playerScores))
+                        jsonArr << score.jsonObject();
+                return jsonArr;
         }
 
         const QList<Score>& playerScores()

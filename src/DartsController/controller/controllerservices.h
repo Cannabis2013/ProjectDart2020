@@ -5,12 +5,11 @@
 #include "src/DartsController/controller/controllerinitializer.h"
 #include "src/DartsController/controller/idartsturns.h"
 #include "src/DartsController/indexes/idartsindexes.h"
-#include "src/DartsController/input/idartsinputs.h"
 #include "src/DartsController/input/idartsinputadder.h"
+#include "src/DartsController/input/idartsinputs.h"
+#include "src/DartsController/jsonReport/idartsjsonreport.h"
 #include "src/DartsController/players/idartsplayers.h"
-#include "src/DartsController/responses/idartsjsonreport.h"
 #include "src/DartsController/scores/idartsscores.h"
-#include "src/DartsController/statistics/idartsstatistics.h"
 #include "src/DartsController/status/idartsstatus.h"
 #include "src/DartsController/validation/abstractdartsevaluator.h"
 #include "src/DartsController/validation/dartsevaluators.h"
@@ -29,8 +28,6 @@ public:
         void setTurnInfo(IDartsJsonReport* newTurnValues);
         IDartsPlayers* players() const;
         void setPlayers(IDartsPlayers* newPlayers);
-        IDartsStatistics* statistics() const;
-        void setStatistics(IDartsStatistics* newStatistics);
         IDartsFinishes* finishes() const;
         void setFinishes(IDartsFinishes* newFinishes);
         IDartsStatus* status() const;
@@ -52,7 +49,6 @@ private:
         IDartsInputs* _inputs = nullptr;
         IDartsJsonReport* _turnInfo = nullptr;
         IDartsPlayers* _players = nullptr;
-        IDartsStatistics* _statistics = nullptr;
         IDartsFinishes* _finishes = nullptr;
         IDartsStatus* _status = nullptr;
         IDartsInputAdder* _adder = nullptr;

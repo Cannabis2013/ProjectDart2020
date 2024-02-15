@@ -49,7 +49,7 @@ QJsonArray ScoresIO::toArray(const QList<Score>& scores)
 {
         QJsonArray jsonArr;
         for (const auto& score : scores)
-                jsonArr << score.toJsonObject();
+                jsonArr << score.jsonObject();
         return jsonArr;
 }
 

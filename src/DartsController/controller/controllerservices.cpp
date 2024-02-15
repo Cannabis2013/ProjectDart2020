@@ -60,16 +60,6 @@ void ControllerServices::setPlayers(IDartsPlayers* newPlayers)
         _players = newPlayers;
 }
 
-IDartsStatistics* ControllerServices::statistics() const
-{
-        return _statistics;
-}
-
-void ControllerServices::setStatistics(IDartsStatistics* newStatistics)
-{
-        _statistics = newStatistics;
-}
-
 IDartsFinishes* ControllerServices::finishes() const
 {
         return _finishes;

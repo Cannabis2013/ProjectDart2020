@@ -58,5 +58,7 @@
         <file>qml/pages/tournament/compPlayerInfos/CompStatsDisplay.qml</file>
         <file>qml/pages/tournament/compMessages/CompMessage.qml</file>
         <file>qml/pages/tournament/compMessages/compMessages.js</file>
+        <file>qml/pages/tournament/dialogs/winner/statisticsPage/CompStatistics.qml</file>
+        <file>qml/pages/tournament/dialogs/winner/statisticsPage/compStatistics.js</file>
     </qresource>
 </RCC>

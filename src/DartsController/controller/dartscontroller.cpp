@@ -21,7 +21,7 @@ void DartsController::saveState(){
 
 QByteArray DartsController::playerScores() const
 {
-        return scores()->scores().toJson();
+        return scores()->scores().json();
 }
 
 QByteArray DartsController::allPlayers() const

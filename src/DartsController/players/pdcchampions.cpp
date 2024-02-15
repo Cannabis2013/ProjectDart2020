@@ -9,7 +9,7 @@ PdcChampions::PdcChampions()
                 { "Peter Wright", "qrc:/pictures/Ressources/Pictures/SnakeBite.png", "EN" },
                 { "Luke Littler", "qrc:/pictures/Ressources/Pictures/lukeLittler.gif", "EN" },
                 { "Gerwin Price", "qrc:/pictures/Ressources/Pictures/gerwinPrice.gif", "EN" },
-                { "Luke William Egone Humphries", "qrc:/pictures/Ressources/Pictures/lukeHumphries.gif", "EN" }
+                { "Luke Humphries", "qrc:/pictures/Ressources/Pictures/lukeHumphries.gif", "EN" }
         };
 }
 

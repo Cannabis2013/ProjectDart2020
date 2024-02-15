@@ -1,7 +1,5 @@
-#ifndef DARTSSTATISTICS_H
-#define DARTSSTATISTICS_H
-
-#include "idartsstatistics.h"
+#ifndef DARTSSTATSREPORT_H
+#define DARTSSTATSREPORT_H
 
 template <typename T>
 class QList;
@@ -10,17 +8,22 @@ class IScoresCalculator;
 class IDartsIndexes;
 class IDartsScores;
 class IDartsInputs;
+class IDartsPlayers;
+class QJsonArray;
+class QJsonObject;
+class QString;
 
-class DartsStatistics : public IDartsStatistics {
+class DartsStatsReport {
 public:
-        DartsStatistics(IDartsInputs* inputs,
+        DartsStatsReport(IDartsInputs* inputs,
             IDartsScores* scores,
             IDartsIndexes* indexes,
-            IScoresCalculator* calculator);
-        QJsonObject report(const QString& name) const override;
+            IScoresCalculator* calculator, IDartsPlayers* players);
+        QJsonArray report() const;
 
 private:
         // Private member methods
+        QJsonObject playerReport(const QString& name) const;
         QList<Input> getInputs(const QString& name) const;
         double average(int initialScore, int score, int count) const;
         int lowest(const QList<Input>& inputs) const;
@@ -31,6 +34,7 @@ private:
         IDartsScores * const _scores;
         IDartsIndexes* const _indexes;
         IScoresCalculator* const _calculator;
+        IDartsPlayers* const _players;
 };
 
-#endif // DARTSSTATISTICS_H
+#endif // DARTSSTATSREPORT_H

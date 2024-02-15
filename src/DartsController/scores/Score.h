@@ -22,7 +22,8 @@ public:
                 _score = jsonObj["value"].toInt(-1);
         }
 
-        QJsonObject toJsonObject() const{
+        QJsonObject jsonObject() const
+        {
                 QJsonObject jsonObj;
                 jsonObj["name"] = _name;
                 jsonObj["value"] = _score;

@@ -1,7 +1,8 @@
-#include "dartsstatistics.h"
+#include "dartsstatsreport.h"
 
 #include "src/DartsController/indexes/idartsindexes.h"
 #include "src/DartsController/input/idartsinputs.h"
+#include "src/DartsController/players/idartsplayers.h"
 #include "src/DartsController/scores/dartsPlayerScore.h"
 #include "src/DartsController/scores/idartsscores.h"
 #include "src/DartsController/scores/iscorescalculator.h"
@@ -9,16 +10,26 @@
 #include <QJsonDocument>
 #include <QList>
 
-DartsStatistics::DartsStatistics(IDartsInputs* inputs,
-    IDartsScores* scores, IDartsIndexes* indexes, IScoresCalculator* calculator)
+DartsStatsReport::DartsStatsReport(IDartsInputs* inputs,
+    IDartsScores* scores, IDartsIndexes* indexes, IScoresCalculator* calculator, IDartsPlayers* players)
     : _inputs(inputs)
     , _scores(scores)
     , _indexes(indexes)
     , _calculator(calculator)
+    , _players(players)
 {
 }
 
-QJsonObject DartsStatistics::report(const QString& name) const
+QJsonArray DartsStatsReport::report() const
+{
+        QJsonArray arr;
+        auto names = _players->names();
+        for (const auto& name : names)
+                arr << playerReport(name);
+        return arr;
+}
+
+QJsonObject DartsStatsReport::playerReport(const QString& name) const
 {
         QJsonObject jsonObj;
         auto score = _scores->score(name);
@@ -31,13 +42,13 @@ QJsonObject DartsStatistics::report(const QString& name) const
         return jsonObj;
 }
 
-QList<Input> DartsStatistics::getInputs(const QString& name) const
+QList<Input> DartsStatsReport::getInputs(const QString& name) const
 {
         auto throwIndex = _indexes->index().throwIndex();
         return _inputs->inputs(name, throwIndex);
 }
 
-double DartsStatistics::average(int initialScore, int score, int count) const
+double DartsStatsReport::average(int initialScore, int score, int count) const
 {
         if (count <= 0)
                 return 0;
@@ -47,7 +58,7 @@ double DartsStatistics::average(int initialScore, int score, int count) const
         return (double)quantizied / 100;
 }
 
-int DartsStatistics::lowest(const QList<Input>& inputs) const
+int DartsStatsReport::lowest(const QList<Input>& inputs) const
 {
         if (inputs.count() <= 0)
                 return 0;
@@ -59,7 +70,7 @@ int DartsStatistics::lowest(const QList<Input>& inputs) const
         return lowest;
 }
 
-int DartsStatistics::highest(const QList<Input>& inputs) const
+int DartsStatsReport::highest(const QList<Input>& inputs) const
 {
         auto highest = 0;
         for (const auto &input : inputs) {

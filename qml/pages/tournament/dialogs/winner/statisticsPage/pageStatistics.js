@@ -1,24 +1,20 @@
-function setValues(statsInfo) {
+function setValues(jsonReport) {
+        setScores(jsonReport)
+        setStatistics(jsonReport)
+}
+
+function setScores(jsonReport) {
+        const scores = jsonReport.scores
+        if (scores.length !== 2)
+                return
+        playerOneItem.setScore(scores[0])
+        playerTwoItem.setScore(scores[1])
+}
+
+function setStatistics(jsonReport) {
+        const statsInfo = jsonReport.statsInfo
         if (statsInfo.length !== 2)
                 return
-        setPlayerOneStats(statsInfo[0])
-        setPlayerTwoStats(statsInfo[1])
-}
-
-function setPlayerOneStats(statistics) {
-        playerOne.text = statistics.name
-        playerOneStats.text = toString(statistics)
-}
-
-function setPlayerTwoStats(statistics) {
-        playerTwo.text = statistics.name
-        playerTwoStats.text = toString(statistics)
-}
-
-function toString(statistics) {
-        const average = statistics.average
-        const low = statistics.low
-        const high = statistics.high
-        const throwCount = statistics.throwCount
-        return `Average: ${average}\nLow: ${low}\nHigh: ${high}\nHits: ${throwCount}`
+        playerOneItem.setStatistics(statsInfo[0])
+        playerTwoItem.setStatistics(statsInfo[1])
 }

@@ -9,21 +9,9 @@ Page {
         }
 
         Text {
-                id: titleText
-                anchors.top: parent.top
-                height: 48
-                width: parent.width
-                text: "Winner"
-                font.pointSize: 48
-                font.weight: Font.Bold
-                horizontalAlignment: Qt.AlignHCenter
-                color: "white"
-        }
-
-        Text {
                 id: winnerText
                 width: parent.width
-                anchors.top: titleText.bottom
+                anchors.top: parent.top
                 anchors.topMargin: 12
                 font.pointSize: 32
                 font.weight: Font.Medium

@@ -52,15 +52,17 @@ HEADERS += \
     src/DartsController/input/idartsinputs.h \
     src/DartsController/input/idartsinputtrimmer.h \
     src/DartsController/input/inputsio.h \
+    src/DartsController/jsonReport/MessageTargetRow.h \
+    src/DartsController/jsonReport/dartsjsonreport.h \
+    src/DartsController/jsonReport/dartsmessagesreport.h \
+    src/DartsController/jsonReport/dartsstatsreport.h \
+    src/DartsController/jsonReport/dartsturnreport.h \
+    src/DartsController/jsonReport/idartsjsonreport.h \
     src/DartsController/players/dartsplayer.h \
     src/DartsController/players/dartsplayers.h \
-    src/DartsController/players/pdcchampions.h \
     src/DartsController/players/idartsplayers.h \
+    src/DartsController/players/pdcchampions.h \
     src/DartsController/players/playersio.h \
-    src/DartsController/responses/MessageTargetRow.h \
-    src/DartsController/responses/dartsjsonreport.h \
-    src/DartsController/responses/dartsturninfo.h \
-    src/DartsController/responses/idartsjsonreport.h \
     src/DartsController/scores/DartsPlayerScores.h \
     src/DartsController/scores/Score.h \
     src/DartsController/scores/dartsPlayerScore.h \
@@ -70,8 +72,6 @@ HEADERS += \
     src/DartsController/scores/idartsscores.h \
     src/DartsController/scores/iscorescalculator.h \
     src/DartsController/scores/scoresio.h \
-    src/DartsController/statistics/dartsstatistics.h \
-    src/DartsController/statistics/idartsstatistics.h \
     src/DartsController/status/dartsstatus.h \
     src/DartsController/status/idartsstatus.h \
     src/DartsController/validation/abstractdartsevaluator.h \
@@ -103,15 +103,16 @@ SOURCES += \
     src/DartsController/input/dartsinputs.cpp \
     src/DartsController/input/dartsinputstrimmer.cpp \
     src/DartsController/input/inputsio.cpp \
+    src/DartsController/jsonReport/dartsjsonreport.cpp \
+    src/DartsController/jsonReport/dartsmessagesreport.cpp \
+    src/DartsController/jsonReport/dartsstatsreport.cpp \
+    src/DartsController/jsonReport/dartsturnreport.cpp \
     src/DartsController/players/dartsplayers.cpp \
     src/DartsController/players/pdcchampions.cpp \
     src/DartsController/players/playersio.cpp \
-    src/DartsController/responses/dartsjsonreport.cpp \
-    src/DartsController/responses/dartsturninfo.cpp \
     src/DartsController/scores/dartscalculator.cpp \
     src/DartsController/scores/dartsscores.cpp \
     src/DartsController/scores/scoresio.cpp \
-    src/DartsController/statistics/dartsstatistics.cpp \
     src/DartsController/status/dartsstatus.cpp \
     src/DartsController/validation/dartsallowances.cpp \
     src/DartsController/validation/dartsbeginnervalidator.cpp \
