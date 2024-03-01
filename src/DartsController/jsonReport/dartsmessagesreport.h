@@ -1,15 +1,14 @@
 #ifndef DARTSMESSAGESREPORT_H
 #define DARTSMESSAGESREPORT_H
 
-// QTC_TEMP
+#include "imessagesreport.h"
 
 class IDartsIndexes;
 class IDartsScores;
 class IDartsFinishes;
 class MessageTargetRow;
-class QJsonArray;
 
-class DartsMessagesReport {
+class DartsMessagesReport : public IMessagesReport {
 public:
         DartsMessagesReport(IDartsFinishes* finishes,
             IDartsScores* scores, IDartsIndexes* indexes);

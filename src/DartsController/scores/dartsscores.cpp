@@ -32,6 +32,11 @@ void DartsScores::initFromFile()
         _initialScore = values.initialScore();
 }
 
+int DartsScores::initialScore() const
+{
+        return _initialScore;
+}
+
 void DartsScores::reset()
 {
         _scores.clear();

@@ -30,8 +30,5 @@ PageWithHeader {
                 }
         }
 
-        Component.onCompleted: {
-                const url = ":/data/Ressources/TextData/aboutContent.dat"
-                aboutText.text = fileReader.readAsString(url)
-        }
+        Component.onCompleted: aboutText.text = pageContents.aboutPage()
 }

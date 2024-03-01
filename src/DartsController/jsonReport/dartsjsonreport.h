@@ -3,13 +3,16 @@
 
 #include "src/DartsController/jsonReport/idartsjsonreport.h"
 
+class IMessagesReport;
+class IStatusReport;
+class IScoresReport;
+class IStatsReport;
 class DartsMessagesReport;
-class DartsTurnReport;
+class DartsStatusReport;
 class IScoresCalculator;
 class IDartsIndexes;
 class IDartsFinishes;
 class IDartsPlayers;
-class DartsStatsReport;
 class IDartsStatus;
 class IDartsScores;
 class QJsonArray;
@@ -19,24 +22,19 @@ class MessageTargetRow;
 
 class DartsJsonReport : public IDartsJsonReport {
 public:
-        DartsJsonReport(IDartsPlayers* players,
-            IDartsIndexes* _indexes,
-            IDartsFinishes* finishes,
-            IDartsScores* scores,
-            IDartsStatus* status,
-            IDartsInputs* inputs,
-            IScoresCalculator* calculator);
+        DartsJsonReport(IStatsReport* statsReport,
+            IScoresReport* scoresReport,
+            IStatusReport* statusReport,
+            IMessagesReport* messagesReport);
+
         QByteArray report() override;
 
 private:
-        QJsonObject winnerInfo();
         // Services
-        IDartsPlayers* const _players;
-        IDartsScores* const _scores;
-        IDartsStatus* const _status;
-        DartsStatsReport* _statsReport;
-        DartsTurnReport* _turnReport;
-        DartsMessagesReport* _messageReport;
+        IStatsReport* const _statsReport;
+        IScoresReport* const _scoresReport;
+        IStatusReport* const _statusReport;
+        IMessagesReport* const _messagesReport;
 };
 
 #endif // DARTSJSONREPORT_H

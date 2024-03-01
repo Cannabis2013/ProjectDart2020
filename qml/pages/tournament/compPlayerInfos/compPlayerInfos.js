@@ -21,7 +21,7 @@ function initScores(scores) {
 
 function setValues(turnReport) {
         setScores(turnReport.scores)
-        setStatistics(turnReport.statsInfo)
+        setStatistics(turnReportstatsReport)
         highlightPlayer(turnReport.turnInfo)
 }
 

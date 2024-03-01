@@ -12,7 +12,7 @@ function setScores(jsonReport) {
 }
 
 function setStatistics(jsonReport) {
-        const statsInfo = jsonReport.statsInfo
+        const statsInfo = jsonReportstatsReport
         if (statsInfo.length !== 2)
                 return
         playerOneItem.setStatistics(statsInfo[0])

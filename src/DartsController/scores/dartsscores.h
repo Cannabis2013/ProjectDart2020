@@ -17,7 +17,7 @@ public:
         DartsScores(IDartsIndexes* indexes, IDartsPlayers* players, IDartsInputs* inputs, IScoresCalculator* calculator);
         void init(const int& initialScore) override;
         void initFromFile() override;
-        int initialScore() const override { return _initialScore; }
+        int initialScore() const override;
         virtual void reset() override;
         void update() override;
         DartsPlayerScore score() override;

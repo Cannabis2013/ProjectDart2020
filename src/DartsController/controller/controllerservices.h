@@ -28,8 +28,6 @@ public:
         void setTurnInfo(IDartsJsonReport* newTurnValues);
         IDartsPlayers* players() const;
         void setPlayers(IDartsPlayers* newPlayers);
-        IDartsFinishes* finishes() const;
-        void setFinishes(IDartsFinishes* newFinishes);
         IDartsStatus* status() const;
         void setStatus(IDartsStatus* newStatus);
         IDartsInputAdder* adder() const;
@@ -49,7 +47,6 @@ private:
         IDartsInputs* _inputs = nullptr;
         IDartsJsonReport* _turnInfo = nullptr;
         IDartsPlayers* _players = nullptr;
-        IDartsFinishes* _finishes = nullptr;
         IDartsStatus* _status = nullptr;
         IDartsInputAdder* _adder = nullptr;
         DartsEvaluators* _evaluators = nullptr;

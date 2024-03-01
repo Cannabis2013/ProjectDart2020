@@ -55,9 +55,10 @@ HEADERS += \
     src/DartsController/jsonReport/MessageTargetRow.h \
     src/DartsController/jsonReport/dartsjsonreport.h \
     src/DartsController/jsonReport/dartsmessagesreport.h \
-    src/DartsController/jsonReport/dartsstatsreport.h \
-    src/DartsController/jsonReport/dartsturnreport.h \
+    src/DartsController/jsonReport/dartsstatusreport.h \
     src/DartsController/jsonReport/idartsjsonreport.h \
+    src/DartsController/jsonReport/imessagesreport.h \
+    src/DartsController/jsonReport/istatusreport.h \
     src/DartsController/players/dartsplayer.h \
     src/DartsController/players/dartsplayers.h \
     src/DartsController/players/idartsplayers.h \
@@ -69,9 +70,13 @@ HEADERS += \
     src/DartsController/scores/dartscalculator.h \
     src/DartsController/scores/dartsinitialvalues.h \
     src/DartsController/scores/dartsscores.h \
+    src/DartsController/scores/dartsscoresreport.h \
     src/DartsController/scores/idartsscores.h \
     src/DartsController/scores/iscorescalculator.h \
+    src/DartsController/scores/iscoresreport.h \
     src/DartsController/scores/scoresio.h \
+    src/DartsController/stats/dartsstatsreport.h \
+    src/DartsController/stats/istatsreport.h \
     src/DartsController/status/dartsstatus.h \
     src/DartsController/status/idartsstatus.h \
     src/DartsController/validation/abstractdartsevaluator.h \
@@ -81,7 +86,7 @@ HEADERS += \
     src/DartsController/validation/dartsprofessionalevaluator.h \
     src/DartsController/validation/iplayerallowances.h \
     src/FileIO/filejsonio.h \
-    src/FileIO/filereader.h \
+    src/FileIO/pagetexts.h \
     src/Setup/qmlsetup.h \
     src/Sounds/soundcontroller.h \
     src/Utils/Fonts/fontmetrics.h \
@@ -105,22 +110,24 @@ SOURCES += \
     src/DartsController/input/inputsio.cpp \
     src/DartsController/jsonReport/dartsjsonreport.cpp \
     src/DartsController/jsonReport/dartsmessagesreport.cpp \
-    src/DartsController/jsonReport/dartsstatsreport.cpp \
-    src/DartsController/jsonReport/dartsturnreport.cpp \
+    src/DartsController/jsonReport/dartsstatusreport.cpp \
     src/DartsController/players/dartsplayers.cpp \
     src/DartsController/players/pdcchampions.cpp \
     src/DartsController/players/playersio.cpp \
     src/DartsController/scores/dartscalculator.cpp \
     src/DartsController/scores/dartsscores.cpp \
+    src/DartsController/scores/dartsscoresreport.cpp \
     src/DartsController/scores/scoresio.cpp \
+    src/DartsController/stats/dartsstatsreport.cpp \
     src/DartsController/status/dartsstatus.cpp \
     src/DartsController/validation/dartsallowances.cpp \
     src/DartsController/validation/dartsbeginnervalidator.cpp \
     src/DartsController/validation/dartsevaluators.cpp \
     src/DartsController/validation/dartsprofessionalevaluator.cpp \
     src/FileIO/filejsonio.cpp \
-    src/FileIO/filereader.cpp \
+    src/FileIO/pagetexts.cpp \
     src/Setup/qmlsetup.cpp \
     src/Sounds/soundcontroller.cpp \
     src/Utils/Fonts/fontmetrics.cpp \
     src/main.cpp
+

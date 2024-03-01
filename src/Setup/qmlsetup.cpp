@@ -1,6 +1,6 @@
 #include "qmlsetup.h"
 #include "src/DartsController/controller/dartscontrollerbuilder.h"
-#include "src/FileIO/filereader.h"
+#include "src/FileIO/pagetexts.h"
 #include "src/Sounds/soundcontroller.h"
 #include "src/Utils/Fonts/fontmetrics.h"
 #include <QGuiApplication>
@@ -37,10 +37,10 @@ void QmlSetup::registerServices()
 {
         auto soundController = new SoundController();
         auto dartsController = DartsControllerBuilder().build();
-        auto fileReader = new FileReader();
+        auto pageTexts = new PageTexts();
         auto fontMetrics = new FontMetrics("MS Sans Family");
         _engine->rootContext()->setContextProperty("fontMetrics", fontMetrics);
         _engine->rootContext()->setContextProperty("dartsController", dartsController);
         _engine->rootContext()->setContextProperty("soundController", soundController);
-        _engine->rootContext()->setContextProperty("fileReader", fileReader);
+        _engine->rootContext()->setContextProperty("pageContents", pageTexts);
 }

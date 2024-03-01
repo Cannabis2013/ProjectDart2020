@@ -1,11 +1,13 @@
-#include "filereader.h"
+#include "pagetexts.h"
 
 #include <QFile>
 #include <QTextStream>
 
-QString FileReader::readAsString(const QString& filepath)
+#define AboutText ":/data/Ressources/TextData/aboutContent.dat"
+
+QString PageTexts::aboutPage()
 {
-        QFile file(filepath);
+        QFile file(AboutText);
         if (!file.open(QIODevice::ReadOnly))
                 return QString();
         QTextStream in(&file);

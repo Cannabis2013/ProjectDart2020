@@ -1,6 +1,8 @@
 #ifndef DARTSSTATSREPORT_H
 #define DARTSSTATSREPORT_H
 
+#include "istatsreport.h"
+
 template <typename T>
 class QList;
 class Input;
@@ -13,12 +15,13 @@ class QJsonArray;
 class QJsonObject;
 class QString;
 
-class DartsStatsReport {
+class DartsStatsReport : public IStatsReport {
 public:
         DartsStatsReport(IDartsInputs* inputs,
             IDartsScores* scores,
             IDartsIndexes* indexes,
-            IScoresCalculator* calculator, IDartsPlayers* players);
+            IScoresCalculator* calculator,
+            IDartsPlayers* players);
         QJsonArray report() const;
 
 private:

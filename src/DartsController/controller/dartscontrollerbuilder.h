@@ -3,6 +3,8 @@
 
 #include "src/DartsController/controller/dartscontroller.h"
 
+class DartsJsonReport;
+
 class DartsControllerBuilder {
 public:
         DartsController* build();

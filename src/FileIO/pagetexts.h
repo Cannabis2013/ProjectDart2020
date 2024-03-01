@@ -3,11 +3,10 @@
 
 #include <QObject>
 
-class FileReader : public QObject
-{
+class PageTexts : public QObject {
         Q_OBJECT
 public:
-        Q_INVOKABLE QString readAsString(const QString& filepath);
+        Q_INVOKABLE QString aboutPage();
 };
 
 #endif // FILEREADER_H
