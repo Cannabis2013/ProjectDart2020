@@ -23,7 +23,7 @@ DartsJsonReport::DartsJsonReport(IStatsReport* statsReport,
 QByteArray DartsJsonReport::report()
 {
         QJsonObject jsonObj;
-        jsonObj["turnInfo"] = _statusReport->report();
+        jsonObj["turnReport"] = _statusReport->report();
         jsonObj["statsReport"] = _statsReport->report();
         jsonObj["scoresReport"] = _scoresReport->report();
         jsonObj["messages"] = _messagesReport->report();

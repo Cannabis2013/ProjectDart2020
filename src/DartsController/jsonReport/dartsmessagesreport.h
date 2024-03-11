@@ -6,7 +6,7 @@
 class IDartsIndexes;
 class IDartsScores;
 class IDartsFinishes;
-class MessageTargetRow;
+class Message;
 
 class DartsMessagesReport : public IMessagesReport {
 public:
@@ -16,7 +16,8 @@ public:
         QJsonArray report() const;
 
 private:
-        MessageTargetRow messageTargetRow() const;
+        Message messageTargetRow() const;
+        Message scoreDiff() const;
 
         // Services
         IDartsFinishes* const _finishes;

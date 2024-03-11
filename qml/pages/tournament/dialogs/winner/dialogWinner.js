@@ -1,4 +1,4 @@
 function setValues(jsonReport) {
-        pageWinner.setValues(jsonReport.winnerInfo)
+        pageWinner.setValues(jsonReport.turnReport)
         pageStatistics.setValues(jsonReport)
 }

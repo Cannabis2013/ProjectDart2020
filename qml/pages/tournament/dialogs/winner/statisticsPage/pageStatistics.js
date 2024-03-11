@@ -1,6 +1,6 @@
 function setValues(jsonReport) {
-        setScores(jsonReport)
-        setStatistics(jsonReport)
+        setScores(jsonReport.scoresReport)
+        setStatistics(jsonReport.statsReport)
 }
 
 function setScores(jsonReport) {
@@ -11,10 +11,9 @@ function setScores(jsonReport) {
         playerTwoItem.setScore(scores[1])
 }
 
-function setStatistics(jsonReport) {
-        const statsInfo = jsonReportstatsReport
-        if (statsInfo.length !== 2)
+function setStatistics(statsReport) {
+        if (statsReport.length !== 2)
                 return
-        playerOneItem.setStatistics(statsInfo[0])
-        playerTwoItem.setStatistics(statsInfo[1])
+        playerOneItem.setStatistics(statsReport[0])
+        playerTwoItem.setStatistics(statsReport[1])
 }

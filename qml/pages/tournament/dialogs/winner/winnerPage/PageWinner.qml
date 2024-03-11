@@ -3,9 +3,9 @@ import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
 
 Page {
-        function setValues(winnerInfo) {
-                winnerText.text = winnerInfo.winnerName
-                animatedImage.source = winnerInfo.winnerImage
+        function setValues(turnReport) {
+                winnerText.text = turnReport.winnerName
+                animatedImage.source = turnReport.winnerImage
         }
 
         Text {

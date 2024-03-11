@@ -20,9 +20,9 @@ function initScores(scores) {
 }
 
 function setValues(turnReport) {
-        setScores(turnReport.scores)
-        setStatistics(turnReportstatsReport)
-        highlightPlayer(turnReport.turnInfo)
+        setScores(turnReport.scoresReport.scores)
+        setStatistics(turnReport.statsReport)
+        highlightPlayer(turnReport.turnReport)
 }
 
 function setScores(scores) {

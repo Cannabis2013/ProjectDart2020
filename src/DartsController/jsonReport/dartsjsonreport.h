@@ -18,7 +18,7 @@ class IDartsScores;
 class QJsonArray;
 class QJsonObject;
 class IDartsInputs;
-class MessageTargetRow;
+class Message;
 
 class DartsJsonReport : public IDartsJsonReport {
 public:

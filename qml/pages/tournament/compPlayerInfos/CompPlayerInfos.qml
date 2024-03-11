@@ -7,8 +7,8 @@ Item {
                 Scripts.init()
         }
 
-        function setValues(turnReport) {
-                Scripts.setValues(turnReport)
+        function setValues(jsonReport) {
+                Scripts.setValues(jsonReport)
         }
 
         Rectangle {

@@ -52,7 +52,7 @@ HEADERS += \
     src/DartsController/input/idartsinputs.h \
     src/DartsController/input/idartsinputtrimmer.h \
     src/DartsController/input/inputsio.h \
-    src/DartsController/jsonReport/MessageTargetRow.h \
+    src/DartsController/jsonReport/Message.h \
     src/DartsController/jsonReport/dartsjsonreport.h \
     src/DartsController/jsonReport/dartsmessagesreport.h \
     src/DartsController/jsonReport/dartsstatusreport.h \
