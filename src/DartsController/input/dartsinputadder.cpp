@@ -1,43 +1,33 @@
 #include "dartsinputadder.h"
-
 #include "src/DartsController/indexes/idartsindexes.h"
 #include "src/DartsController/input/idartsinputs.h"
 #include "src/DartsController/input/idartsinputtrimmer.h"
-#include "src/DartsController/scores/idartsscores.h"
+#include "src/DartsController/scores/persistence/idartsscores.h"
+#include "src/DartsController/servicecollection.h"
 #include "src/DartsController/status/idartsstatus.h"
 
-DartsInputAdder::DartsInputAdder(IDartsInputs* inputs, IDartsInputTrimmer* trimmer,
-    IDartsIndexes* indexes, IDartsStatus* status, IDartsScores* scores)
-    : _inputs(inputs)
-    , _trimmer(trimmer)
-    , _indexes(indexes)
-    , _status(status)
-    , _scores(scores)
+DartsInputAdder::DartsInputAdder(ServiceCollection* services)
+    : _services(services)
 {
 }
 
 void DartsInputAdder::add(const QString& mod, const int& point)
 {
-        if (_status->isWinnerFound())
+        if (_services->status->isWinnerFound())
                 return;
-        _trimmer->trimInputs();
+        _services->trimmer->trimInputs();
         evaluateAndPersist(Input(mod, point));
-        _scores->update();
-        (*_evaluator)->evaluateWinnerCondition();
-}
-
-void DartsInputAdder::setEvaluator(AbstractDartsEvaluator** evaluatorPtr)
-{
-        _evaluator = evaluatorPtr;
+        _services->scores->update();
+        _services->evaluator->evaluateWinnerCondition();
 }
 
 void DartsInputAdder::evaluateAndPersist(const Input& input)
 {
-        if ((*_evaluator)->evaluateInput(input.mod(), input.point())) {
-                _inputs->save(input);
-                _indexes->next();
+        if (_services->evaluator->evaluateInput(input.mod(), input.point())) {
+                _services->inputs->save(input);
+                _services->indexes->next();
         } else {
-                _trimmer->removeTurnInputs();
-                _indexes->skipturn();
+                _services->trimmer->removeTurnInputs();
+                _services->indexes->skipturn();
         }
 }

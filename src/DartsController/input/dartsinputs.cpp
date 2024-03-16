@@ -4,11 +4,11 @@
 #include "src/DartsController/input/inputsio.h"
 #include "src/DartsController/players/dartsplayer.h"
 #include "src/DartsController/players/idartsplayers.h"
+#include "src/DartsController/servicecollection.h"
 
-DartsInputs::DartsInputs(IDartsIndexes* indexes, IDartsPlayers* players)
+DartsInputs::DartsInputs(ServiceCollection* services)
+    : _services(services)
 {
-        _indexes = indexes;
-        _players = players;
         _inputsIO = new InputsIO("dartsInputs.dat");
 }
 
@@ -65,8 +65,8 @@ bool DartsInputs::saveState()
 
 Input DartsInputs::save(Input input)
 {
-        auto player = _players->one();
-        auto index = _indexes->index();
+        auto player = _services->players->one();
+        auto index = _services->indexes->index();
         input.setPlayerName(player.name());
         input.setThrowIndex(index.throwIndex());
         _inputs << input;

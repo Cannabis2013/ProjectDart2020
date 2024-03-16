@@ -2,7 +2,9 @@
 #define DARTINPUTEVALUATOR_H
 
 #include "abstractdartsevaluator.h"
+#include <QStringList>
 
+class ServiceCollection;
 class IPlayerAllowances;
 class IScoresCalculator;
 class IDartsStatus;
@@ -11,10 +13,7 @@ class IDartsScores;
 
 class DartsProfessionalEvaluator : public AbstractDartsEvaluator {
 public:
-        DartsProfessionalEvaluator(IDartsScores* scores,
-            IDartsPlayers* players,
-            IDartsStatus* status,
-            IScoresCalculator* calculator);
+        DartsProfessionalEvaluator(ServiceCollection* services);
         void init() override;
         bool evaluateInput(const QString& mod, const int& point) override;
         void evaluateWinnerCondition() override;
@@ -24,13 +23,13 @@ private:
         // Private member methods
         bool validateInput(const QString& name, const QString& mod, const int& point);
         bool validateRemaining(const QString& mod, const int& point, const int& current);
+        bool isValid(const int& point, const QString& mod) const;
+
+        const QStringList AllowedMods = std::initializer_list<QString>({ "S", "D", "T" });
+        const int MaxPoint = 60;
 
         // Services
-        IDartsScores* const _scores;
-        IDartsPlayers* const _players;
-        IDartsStatus* const _status;
-        IScoresCalculator* const _calculator;
-
+        ServiceCollection* const _services;
         // Data storage
         IPlayerAllowances* _allowances;
 };

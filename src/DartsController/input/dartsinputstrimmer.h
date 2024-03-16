@@ -3,13 +3,14 @@
 
 #include "idartsinputtrimmer.h"
 
+class ServiceCollection;
 class IDartsIndexes;
 class IDartsInputs;
 
 class DartsInputsTrimmer : public IDartsInputTrimmer
 {
 public:
-        DartsInputsTrimmer(IDartsInputs* inputs, IDartsIndexes* indexes);
+        DartsInputsTrimmer(ServiceCollection* services);
 
         void trimInputs() override;
         void removeTurnInputs() override;

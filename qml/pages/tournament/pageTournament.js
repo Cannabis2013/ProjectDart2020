@@ -17,43 +17,41 @@ function initializeUI() {
 }
 
 function restartGame() {
-        dartsController.reset()
+        dartsInitializer.reset()
         initializeUI()
         tournamentPage.forceActiveFocus()
 }
 
 function undo() {
-        dartsController.undoTurn()
+        dartsTurns.undo()
         updateTurnValues()
         tournamentPage.forceActiveFocus()
 }
 
 function redo() {
-        dartsController.redoTurn()
+        dartsTurns.redo()
         updateTurnValues()
 }
 
 function addScore(modId, point) {
-        dartsController.addInput(modId, point)
+        dartsInputs.add(modId, point)
         updateTurnValues()
 }
 
 function bustScore() {
-        dartsController.skipTurn()
+        dartsTurns.skip()
         updateTurnValues()
 }
 
 function updateTurnValues() {
-        const jsonReport = JSON.parse(dartsController.turnReport())
-        const turnReport = jsonReport.turnReport
-        if (turnReport.winnerFound)
-                Dialogs.openWinnerDialog(jsonReport, restartGame, undo)
+        if (dartsStatus.isWinnerFound())
+                Dialogs.openWinnerDialog(restartGame, undo)
         else
-                updateSections(jsonReport)
+                updateSections()
 }
 
-function updateSections(jsonReport) {
-        playerInfos.setValues(jsonReport)
-        turnControls.updateValues(jsonReport)
-        messageSection.setMessages(jsonReport.messages)
+function updateSections() {
+        playerInfos.update()
+        turnControls.update()
+        messageSection.update()
 }

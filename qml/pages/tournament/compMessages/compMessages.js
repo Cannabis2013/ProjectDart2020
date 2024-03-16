@@ -1,16 +1,17 @@
-function setMessages(messages) {
+var finishUrl = "qrc:/pictures/Ressources/Pictures/dartsplate.png"
+var deltaUrl = "qrc:/pictures/Ressources/Pictures/delta.png"
+
+function updateMessages() {
         messageContainer.children = []
-        for (var i = 0; i < messages.length; i++) {
-                const message = messages[i]
-                if (message !== "")
-                        addMessage(message)
-        }
+        const finishRow = dartsScores.finishRow()
+        const delta = dartsScores.delta()
+        if (finishRow.length > 0)
+                addMessage(finishRow, finishUrl)
+        addMessage(delta, deltaUrl)
 }
 
-function addMessage(message) {
+function addMessage(message, url) {
         const comp = Qt.createComponent("CompMessage.qml")
-        comp.createObject(messageContainer, {
-                                  "icon": message.iconUrl,
-                                  "message": message.content
-                          })
+        const obj = comp.createObject(messageContainer)
+        obj.setValues(message, url)
 }

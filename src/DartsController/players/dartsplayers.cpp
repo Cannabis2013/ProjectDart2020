@@ -1,12 +1,15 @@
 #include "dartsplayers.h"
+#include "src/DartsController/indexes/idartsindexes.h"
 #include "src/DartsController/players/pdcchampions.h"
+#include "src/DartsController/players/playersio.h"
+#include "src/DartsController/servicecollection.h"
 #include <QJsonArray>
 #include <QJsonValue>
 #include <qjsondocument.h>
 
-DartsPlayers::DartsPlayers(IDartsIndexes* indexes)
+DartsPlayers::DartsPlayers(ServiceCollection* services)
+    : _services(services)
 {
-        _indexes = indexes;
         _playersIO = new PlayersIO("players.dat");
 }
 
@@ -43,16 +46,8 @@ DartsPlayer& DartsPlayers::one(const QString& name)
 
 DartsPlayer& DartsPlayers::one()
 {
-        auto playerIndex = _indexes->index().playerIndex();
+        auto playerIndex = _services->indexes->index().playerIndex();
         return _players[playerIndex];
-}
-
-QByteArray DartsPlayers::allAsJson() const
-{
-        QJsonArray arr;
-        for (const auto& player : _players)
-                arr << player.jsonObject();
-        return QJsonDocument(arr).toJson(QJsonDocument::Compact);
 }
 
 DartsPlayer DartsPlayers::winner() const
@@ -69,12 +64,9 @@ int DartsPlayers::playersCount() const
         return _players.count();
 }
 
-const QStringList DartsPlayers::names() const
+QList<DartsPlayer> DartsPlayers::all() const
 {
-        QStringList names;
-        for (const auto& player : _players)
-                names << player.name();
-        return names;
+        return _players;
 }
 
 bool DartsPlayers::saveState()

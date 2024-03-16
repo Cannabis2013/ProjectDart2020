@@ -3,11 +3,6 @@ import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
 
 Page {
-        function setValues(turnReport) {
-                winnerText.text = turnReport.winnerName
-                animatedImage.source = turnReport.winnerImage
-        }
-
         Text {
                 id: winnerText
                 width: parent.width
@@ -26,5 +21,11 @@ Page {
                 anchors.top: winnerText.bottom
                 anchors.topMargin: 12
                 anchors.bottom: parent.bottom
+        }
+
+        Component.onCompleted: {
+                const turnReport = JSON.parse(dartsStatus.report())
+                winnerText.text = turnReport.winnerName
+                animatedImage.source = turnReport.winnerImage
         }
 }

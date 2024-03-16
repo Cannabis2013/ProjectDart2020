@@ -10,11 +10,10 @@ function openQuitDialog(acceptSlot) {
         modalObj.open()
 }
 
-function openWinnerDialog(jsonReport, restartSlot, undoSlot) {
+function openWinnerDialog(restartSlot, undoSlot) {
         const modalObj = createDialog("winner/DialogWinner.qml", applicationWindow)
         modalObj.restartClicked.connect(restartSlot)
         modalObj.undoClicked.connect(undoSlot)
-        modalObj.setValues(jsonReport)
 }
 
 function createDialog(dialogUrl, parentObj) {

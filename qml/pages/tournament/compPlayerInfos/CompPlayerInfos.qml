@@ -7,8 +7,8 @@ Item {
                 Scripts.init()
         }
 
-        function setValues(jsonReport) {
-                Scripts.setValues(jsonReport)
+        function update() {
+                Scripts.updateValues()
         }
 
         Rectangle {

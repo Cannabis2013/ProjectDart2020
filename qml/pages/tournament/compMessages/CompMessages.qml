@@ -4,8 +4,8 @@ import QtQuick.Layouts 1.3
 import "compMessages.js" as Scripts
 
 Item {
-        function setMessages(messages) {
-                Scripts.setMessages(messages)
+        function update() {
+                Scripts.updateMessages()
         }
 
         Row {

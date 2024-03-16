@@ -1,6 +1,11 @@
 #include "dartsindexes.h"
 #include <src/FileIO/filejsonio.h>
 
+DartsIndexes::DartsIndexes()
+{
+        _indexesIO = new IndexesIO("indexes.dat");
+}
+
 void DartsIndexes::reset()
 {
         auto count = _indexes.playersCount;

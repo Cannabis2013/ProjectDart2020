@@ -1,7 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.5
-import "compTurnControls.js" as Scripts
 
 Item {
         id: turnRect
@@ -10,10 +9,9 @@ Item {
         signal redoClicked
         signal restartClicked
 
-        function updateValues(jsonReport) {
-                const turnReport = jsonReport.turnReport
-                undoButton.enabled = turnReport.canUndo
-                redoButton.enabled = turnReport.canRedo
+        function update() {
+                undoButton.enabled = dartsTurns.canUndo()
+                redoButton.enabled = dartsTurns.canRedo()
         }
 
         GridLayout {

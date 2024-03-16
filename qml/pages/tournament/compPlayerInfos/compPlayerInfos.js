@@ -1,50 +1,49 @@
 function init() {
-        const players = JSON.parse(dartsController.allPlayers())
-        const scores = JSON.parse(dartsController.playerScores())
-        initPlayers(players)
-        initScores(scores)
+        initPlayers()
+        initScores()
 }
 
-function initPlayers(players) {
-        if (players.length !== 2)
-                return
-        playerOneInfo.setPlayer(players[0])
-        playerTwoInfo.setPlayer(players[1])
+function initPlayers() {
+        const playerOne = JSON.parse(dartsPlayers.playerOne())
+        const playerTwo = JSON.parse(dartsPlayers.playerTwo())
+        playerOneInfo.setPlayer(playerOne)
+        playerTwoInfo.setPlayer(playerTwo)
 }
 
-function initScores(scores) {
-        if (scores.length !== 2)
-                return
-        playerOneScore.initScore(scores[0])
-        playerTwoScore.initScore(scores[1])
+function initScores() {
+        const oneScore = dartsScores.playerOne()
+        const twoScore = dartsScores.playerTwo()
+        playerOneScore.initScore(oneScore)
+        playerTwoScore.initScore(twoScore)
 }
 
-function setValues(turnReport) {
-        setScores(turnReport.scoresReport.scores)
-        setStatistics(turnReport.statsReport)
-        highlightPlayer(turnReport.turnReport)
+function updateValues() {
+        updateScores()
+        updateStatistics()
+        highlightPlayer()
 }
 
-function setScores(scores) {
-        if (scores.length !== 2)
-                return
-        playerOneScore.updateScore(scores[0])
-        playerTwoScore.updateScore(scores[1])
+function updateScores() {
+        const oneScore = dartsScores.playerOne()
+        const twoScore = dartsScores.playerTwo()
+        playerOneScore.updateScore(oneScore)
+        playerTwoScore.updateScore(twoScore)
 }
 
-function setStatistics(stats) {
-        if (stats.length !== 2)
-                return
-        playerOneStats.setValues(stats[0])
-        playerTwoStats.setValues(stats[1])
+function updateStatistics() {
+        const oneStats = JSON.parse(dartsStats.playerOne())
+        const twoStats = JSON.parse(dartsStats.playerTwo())
+        playerOneStats.setValues(oneStats)
+        playerTwoStats.setValues(twoStats)
 }
 
-function highlightPlayer(turnInfo) {
-        const playerNumber = turnInfo.currentPlayerNumber
+function highlightPlayer() {
+        const playerTurn = dartsTurns.playerTurn()
+        const playerNumber = dartsTurns.playerNumber()
         if (playerNumber === 0)
-                highlight(playerOne, playerTwo, playerOneInfo, playerTwoInfo, turnInfo.playerTurn)
+                highlight(playerOne, playerTwo, playerOneInfo, playerTwoInfo, playerTurn)
         else if (playerNumber === 1)
-                highlight(playerTwo, playerOne, playerTwoInfo, playerOneInfo, turnInfo.playerTurn)
+                highlight(playerTwo, playerOne, playerTwoInfo, playerOneInfo, playerTurn)
         else
                 throw "INVALID PLAYER NUMBER!"
 }

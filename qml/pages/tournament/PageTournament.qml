@@ -56,5 +56,5 @@ Page {
         }
 
         Component.onCompleted: Scripts.initializeUI()
-        Component.onDestruction: dartsController.saveState()
+        Component.onDestruction: dartsInitializer.saveState()
 }

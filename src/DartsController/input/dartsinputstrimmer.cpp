@@ -1,12 +1,12 @@
 #include "dartsinputstrimmer.h"
 
 #include "idartsinputs.h"
-#include <src/DartsController/indexes/idartsindexes.h>
+#include "src/DartsController/servicecollection.h"
+#include "src/DartsController/indexes/idartsindexes.h"
 
-DartsInputsTrimmer::DartsInputsTrimmer(IDartsInputs* inputs,
-    IDartsIndexes* indexes)
-    : _inputs(inputs)
-    , _indexes(indexes)
+DartsInputsTrimmer::DartsInputsTrimmer(ServiceCollection* services)
+    : _inputs(services->inputs)
+    , _indexes(services->indexes)
 {
 }
 

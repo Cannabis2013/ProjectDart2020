@@ -6,55 +6,18 @@
 
 class DartsPlayer {
 public:
-        DartsPlayer() { }
+        DartsPlayer();
 
-        DartsPlayer(const QString& name)
-            : _name(name)
-        {
-        }
+        DartsPlayer(const QString& name);
 
-        DartsPlayer(const QString& name, const QString& url, const QString& nationality)
-            : _name(name)
-            , _winnerImageUrl(url)
-            , _nationality(nationality)
-        {
-        }
+        DartsPlayer(const QString& name, const QString& url, const QString& nationality);
 
-        DartsPlayer(const QJsonObject& jsonObj)
-        {
-                _name = jsonObj.value("name").toString("");
-                _winner = jsonObj.value("winner").toBool();
-                _winnerImageUrl = jsonObj.value("winnerImage").toString("");
-        }
-
-        QJsonObject jsonObject() const
-        {
-                QJsonObject jsonObj;
-                jsonObj["name"] = _name;
-                jsonObj["winner"] = _winner;
-                jsonObj["winnerImage"] = _winnerImageUrl;
-                jsonObj["nationality"] = _nationality;
-                return jsonObj;
-        }
-
-        QString name() const
-        {
-                return _name;
-        }
-        bool winner() const
-        {
-                return _winner;
-        }
-
-        void setWinner(bool status)
-        {
-                _winner = status;
-        }
-
-        QString winnerImageUrl() const
-        {
-                return _winnerImageUrl;
-        }
+        DartsPlayer(const QJsonObject& jsonObj);
+        QJsonObject jsonObject() const;
+        QString name() const;
+        bool winner() const;
+        void setWinner(bool status);
+        QString winnerImageUrl() const;
 
 private:
         QString _name = "";

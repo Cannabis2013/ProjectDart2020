@@ -7,8 +7,7 @@
 
 class DartsIndexes : public IDartsIndexes {
 public:
-        DartsIndexes() { _indexesIO = new IndexesIO("indexes.dat"); }
-
+        DartsIndexes();
         void init(const int& playerCount) override { _indexes = DartsIndex(playerCount); }
         void initFromFile() override { _indexes = _indexesIO->loadIndexes(); }
         virtual void reset() override;
@@ -17,9 +16,9 @@ public:
         bool redo() override;
         bool canUndo() override { return _indexes.throwIndex > 0; }
         bool canRedo() override { return _indexes.throwIndex < _indexes.totalTurns; }
-        virtual bool saveState() override { return _indexesIO->saveIndexes(_indexes); }
+        bool saveState() override { return _indexesIO->saveIndexes(_indexes); }
         const DartsTurnIndex index() const override { return DartsTurnIndex(_indexes); }
-        virtual void skipturn() override;
+        void skipturn() override;
 
 private:
         void nextTurn();

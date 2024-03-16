@@ -3,32 +3,24 @@
 
 #include "idartsinputadder.h"
 
+#include <QObject>
+
+class ServiceCollection;
 class Input;
-class IDartsScores;
-class IDartsStatus;
-class IDartsIndexes;
-class IDartsInputTrimmer;
-class IDartsInputs;
 
-class DartsInputAdder : public IDartsInputAdder {
+class DartsInputAdder : public QObject, public IDartsInputAdder {
+        Q_OBJECT
 public:
-        DartsInputAdder(IDartsInputs* inputs, IDartsInputTrimmer* trimmer,
-            IDartsIndexes* indexes, IDartsStatus* status, IDartsScores* scores);
+        DartsInputAdder(ServiceCollection* services);
 
-        void add(const QString& mod, const int& point) override;
-        void setEvaluator(AbstractDartsEvaluator** evaluatorRef) override;
+        Q_INVOKABLE void add(const QString& mod, const int& point) override;
 
 private:
         // Private member methods
         void evaluateAndPersist(const Input& input);
 
         // Services
-        IDartsInputs* const _inputs;
-        IDartsInputTrimmer* const _trimmer;
-        IDartsIndexes* const _indexes;
-        AbstractDartsEvaluator** _evaluator;
-        IDartsStatus* const _status;
-        IDartsScores* const _scores;
+        ServiceCollection* const _services;
 };
 
 #endif // DARTSINPUTADDER_H

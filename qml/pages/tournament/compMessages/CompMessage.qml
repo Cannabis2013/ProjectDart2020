@@ -9,10 +9,10 @@ Item {
         width: 100
         opacity: 0
 
-        property string message: ""
-        onMessageChanged: textContent.text = message
-        property url icon: ""
-        onIconChanged: messageIcon.source = icon
+        function setValues(message, iconUrl) {
+                textContent.text = message
+                messageIcon.source = iconUrl
+        }
 
         NumberAnimation on opacity {
                 from: 0
@@ -22,7 +22,6 @@ Item {
 
         Image {
                 id: messageIcon
-                source: messageItem.icon
                 anchors.verticalCenter: parent.verticalCenter
                 width: 42
                 height: 34

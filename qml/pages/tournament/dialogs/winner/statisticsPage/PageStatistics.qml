@@ -4,10 +4,6 @@ import QtQuick.Layouts 1.3
 import "pageStatistics.js" as Scripts
 
 Page {
-        function setValues(jsonReport) {
-                Scripts.setValues(jsonReport)
-        }
-
         Text {
                 id: pageTitle
                 height: 64
@@ -29,4 +25,6 @@ Page {
                 anchors.top: playerOneItem.bottom
                 width: parent.width
         }
+
+        Component.onCompleted: Scripts.init()
 }

@@ -1,16 +1,13 @@
 #include "dartsevaluators.h"
-#include "src/DartsController/validation/dartsprofessionalevaluator.h"
+#include "src/DartsController/servicecollection.h"
 #include "src/DartsController/validation/dartsbeginnervalidator.h"
+#include "src/DartsController/validation/dartsprofessionalevaluator.h"
 #include "src/FileIO/filejsonio.h"
-
 #include <QJsonDocument>
 #include <QJsonObject>
 
-DartsEvaluators::DartsEvaluators(IDartsScores* scores, IDartsPlayers* players, IDartsStatus* status, IScoresCalculator* calculator)
-    : _scores(scores)
-    , _players(players)
-    , _status(status)
-    , _calculator(calculator)
+DartsEvaluators::DartsEvaluators(ServiceCollection* services)
+    : _services(services)
 {
 }
 
@@ -52,8 +49,8 @@ void DartsEvaluators::saveState()
 AbstractDartsEvaluator* DartsEvaluators::fromMode()
 {
         if (_mode == 0)
-                return new DartsProfessionalEvaluator(_scores, _players, _status, _calculator);
+                return new DartsProfessionalEvaluator(_services);
         else if (_mode == 1)
-                return new DartsBeginnerValidator(_scores, _players, _status);
+                return new DartsBeginnerValidator(_services);
         return nullptr;
 }

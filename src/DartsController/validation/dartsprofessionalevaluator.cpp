@@ -1,44 +1,44 @@
 #include "dartsprofessionalevaluator.h"
 #include "src/DartsController/players/dartsplayer.h"
 #include "src/DartsController/players/idartsplayers.h"
-#include "src/DartsController/scores/DartsPlayerScores.h"
-#include "src/DartsController/scores/dartsPlayerScore.h"
-#include "src/DartsController/scores/idartsscores.h"
-#include "src/DartsController/scores/iscorescalculator.h"
+#include "src/DartsController/scores/models/Score.h"
+#include "src/DartsController/scores/persistence/idartsscores.h"
+#include "src/DartsController/scores/services/iscorescalculator.h"
+#include "src/DartsController/servicecollection.h"
 #include "src/DartsController/status/idartsstatus.h"
 #include "src/DartsController/validation/dartsallowances.h"
 
-DartsProfessionalEvaluator::DartsProfessionalEvaluator(IDartsScores* scores, IDartsPlayers* players, IDartsStatus* status, IScoresCalculator* calculator)
-    : _scores(scores)
-    , _players(players)
-    , _status(status)
-    , _calculator(calculator)
+DartsProfessionalEvaluator::DartsProfessionalEvaluator(ServiceCollection* services)
+    : _services(services)
 {
         _allowances = new DartsAllowances();
 }
 
 void DartsProfessionalEvaluator::init()
 {
-        auto names = _players->names();
+        QVector<QString> names;
+        auto players = _services->players->all();
+        for (const auto& player : players)
+                names << player.name();
         _allowances->init(names);
 }
 
 bool DartsProfessionalEvaluator::evaluateInput(const QString& mod, const int& point)
 {
-        auto name = _players->one().name();
+        auto name = _services->players->one().name();
         if (!validateInput(name, mod, point))
                 return false;
-        auto playerScore = _scores->score().playerScore();
+        auto playerScore = _services->scores->score().score();
         return validateRemaining(mod, point, playerScore);
 }
 
 void DartsProfessionalEvaluator::evaluateWinnerCondition()
 {
-        auto scores = _scores->scores().playerScores();
+        auto scores = _services->scores->scores();
         for (const auto& score : scores) {
                 if (score.score() == 0) {
-                        _status->winnerFound();
-                        auto winner = &_players->one(score.name());
+                        _services->status->winnerFound();
+                        auto winner = &_services->players->one(score.name());
                         winner->setWinner(true);
                 }
         }
@@ -51,7 +51,7 @@ void DartsProfessionalEvaluator::updateAllowance(const QString& name, const bool
 
 bool DartsProfessionalEvaluator::validateInput(const QString& name, const QString& mod, const int& point)
 {
-        if (!_calculator->isValid(point, mod))
+        if (!isValid(point, mod))
                 return false;
         if (_allowances->isAllowed(name))
                 return true;
@@ -62,10 +62,17 @@ bool DartsProfessionalEvaluator::validateInput(const QString& name, const QStrin
 
 bool DartsProfessionalEvaluator::validateRemaining(const QString& mod, const int& point, const int& current)
 {
-        auto remaining = _calculator->remaining(mod, point, current);
+        auto remaining = _services->calculator->remaining(mod, point, current);
         if (remaining > 1)
                 return true;
         else if (remaining == 0 && (mod == "D" || point == 50))
                 return true;
         return false;
+}
+
+bool DartsProfessionalEvaluator::isValid(const int& point, const QString& mod) const
+{
+        if (point > MaxPoint || point < 0)
+                return false;
+        return AllowedMods.contains(mod);
 }

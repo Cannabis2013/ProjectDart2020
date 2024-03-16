@@ -9,6 +9,8 @@
         <file>Ressources/Pictures/lukeLittler.gif</file>
         <file>Ressources/Pictures/gerwinPrice.gif</file>
         <file>Ressources/Pictures/lukeHumphries.gif</file>
+        <file>Ressources/Pictures/delta.jpg</file>
+        <file>Ressources/Pictures/delta.png</file>
     </qresource>
     <qresource prefix="/data">
         <file>Ressources/TextData/aboutContent.dat</file>
@@ -28,7 +30,6 @@
         <file>qml/pages/tournament/compMessages/CompMessages.qml</file>
         <file>qml/pages/tournament/compPlayerInfos/compPlayerInfos.js</file>
         <file>qml/pages/tournament/compPlayerInfos/CompPlayerInfos.qml</file>
-        <file>qml/pages/tournament/compTurnControls/compTurnControls.js</file>
         <file>qml/pages/tournament/compTurnControls/CompTurnControls.qml</file>
         <file>qml/pages/tournament/dialogs/quit/DialogQuit.qml</file>
         <file>qml/pages/tournament/dialogs/restart/DialogRestart.qml</file>
@@ -49,7 +50,6 @@
         <file>qml/pages/tournament/compInputs/ModPad.qml</file>
         <file>qml/pages/tournament/compInputs/NumberPad.qml</file>
         <file>qml/pages/tournament/compInputs/Pad.qml</file>
-        <file>qml/pages/tournament/dialogs/winner/dialogWinner.js</file>
         <file>qml/pages/tournament/compPlayerInfos/compPlayerInfo.js</file>
         <file>qml/pages/tournament/compPlayerInfos/CompPlayerInfo.qml</file>
         <file>qml/pages/tournament/compPlayerInfos/compScoreDisplay.js</file>

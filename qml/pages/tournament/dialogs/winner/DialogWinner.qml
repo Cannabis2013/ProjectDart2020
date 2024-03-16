@@ -13,10 +13,6 @@ Rectangle {
         signal restartClicked
         signal undoClicked
 
-        function setValues(jsonReport) {
-                Scripts.setValues(jsonReport)
-        }
-
         MouseArea {
                 anchors.fill: parent
         }

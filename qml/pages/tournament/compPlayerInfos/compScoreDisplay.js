@@ -1,7 +1,7 @@
 function initScoreDisplay(score) {
-        scoreDisplayText.text = score.value
+        scoreDisplayText.text = score
 }
 
 function updateScoreDisplay(score) {
-        scoreDisplayText.text = score.value
+        scoreDisplayText.text = score
 }

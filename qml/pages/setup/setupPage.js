@@ -1,7 +1,7 @@
 function init(mode, initialScore) {
         const obj = players(mode, initialScore)
         const json = JSON.stringify(obj)
-        dartsController.init(json)
+        dartsInitializer.init(json)
         requestTournamentPage()
 }
 

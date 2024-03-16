@@ -4,14 +4,14 @@
 #include "abstractdartsevaluator.h"
 #include <QStringList>
 
+class ServiceCollection;
 class IDartsStatus;
 class IDartsPlayers;
 class IDartsScores;
 
 class DartsBeginnerValidator : public AbstractDartsEvaluator {
 public:
-        DartsBeginnerValidator(IDartsScores* scores,
-            IDartsPlayers* players, IDartsStatus* status);
+        DartsBeginnerValidator(ServiceCollection* services);
 
         bool evaluateInput(const QString& mod, const int& point) override;
         void evaluateWinnerCondition() override;
@@ -19,9 +19,7 @@ private:
         bool isValid(const QString& mod, const int& point) const;
 
         // Services
-        IDartsScores* const _scores;
-        IDartsPlayers* const _players;
-        IDartsStatus* const _status;
+        ServiceCollection* _services;
 
         // Member variables
         const QStringList AllowedMods = std::initializer_list<QString>({ "S", "D", "T" });

@@ -1,6 +1,8 @@
-function setValues(jsonReport) {
-        setScores(jsonReport.scoresReport)
-        setStatistics(jsonReport.statsReport)
+function init() {
+        const scoresReport = JSON.parse(dartsScores.report())
+        const statsReport = JSON.parse(dartsStats.report())
+        setScores(scoresReport)
+        setStatistics(statsReport)
 }
 
 function setScores(jsonReport) {
