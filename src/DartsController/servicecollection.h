@@ -1,15 +1,19 @@
 #ifndef SERVICECOLLECTION_H
 #define SERVICECOLLECTION_H
 
+class IDartsInputsFilter;
+class IDartsInputUpdate;
+class IDartsScoresFetch;
+class IScoresUpdate;
 class IServiceInitializer;
 class IScoresReport;
 class IMessagesReport;
-class IStatusReport;
+class IPlayerReport;
 class IStatsReport;
 class IDartsFinishes;
 class ITurnController;
 class ServiceInitializer;
-class IDartsInputAdder;
+class IDartsInputController;
 class IDartsStatus;
 class IDartsPlayers;
 class IDartsJsonReport;
@@ -19,7 +23,6 @@ class IDartsIndexes;
 class IScoresCalculator;
 class AbstractDartsEvaluator;
 class DartsEvaluators;
-class IDartsInputTrimmer;
 
 class ServiceCollection {
 public:
@@ -33,14 +36,17 @@ public:
         IDartsJsonReport* turnReport;
         IDartsPlayers* players;
         IDartsStatus* status;
-        IDartsInputAdder* adder;
-        IDartsInputTrimmer* trimmer;
+        IDartsInputController* adder;
         IDartsFinishes* finishes;
         ITurnController* turnController;
         IStatsReport* statsReport;
-        IStatusReport* statusReport;
+        IPlayerReport* statusReport;
         IMessagesReport* messagesReport;
         IScoresReport* scoresReport;
+        IScoresUpdate* scoresUpdate;
+        IDartsScoresFetch* scoresFetch;
+        IDartsInputUpdate* inputsUpdate;
+        IDartsInputsFilter* inputsFilter;
 };
 
 #endif // SERVICECOLLECTION_H

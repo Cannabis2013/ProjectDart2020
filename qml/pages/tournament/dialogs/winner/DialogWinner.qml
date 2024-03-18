@@ -1,7 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
-import "dialogWinner.js" as Scripts
 import "winnerPage"
 import "statisticsPage"
 

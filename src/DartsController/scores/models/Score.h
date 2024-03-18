@@ -37,7 +37,7 @@ public:
                 return _name;
         }
 
-        int score() const
+        int value() const
         {
                 return _score;
         }

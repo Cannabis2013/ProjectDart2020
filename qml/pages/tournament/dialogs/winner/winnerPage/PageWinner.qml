@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
+import "pageWinner.js" as Scripts
 
 Page {
         Text {
@@ -23,9 +24,5 @@ Page {
                 anchors.bottom: parent.bottom
         }
 
-        Component.onCompleted: {
-                const turnReport = JSON.parse(dartsStatus.report())
-                winnerText.text = turnReport.winnerName
-                animatedImage.source = turnReport.winnerImage
-        }
+        Component.onCompleted: Scripts.initValues()
 }

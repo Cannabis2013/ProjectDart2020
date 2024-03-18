@@ -1,14 +1,13 @@
 import QtQuick 2.15
 import QtQuick.Layouts 1.3
-import "compScoreDisplay.js" as Scripts
 
 Item {
         function initScore(score) {
-                Scripts.initScoreDisplay(score)
+                scoreDisplayText.text = score
         }
 
         function updateScore(score) {
-                Scripts.updateScoreDisplay(score)
+                scoreDisplayText.text = score
         }
 
         Text {

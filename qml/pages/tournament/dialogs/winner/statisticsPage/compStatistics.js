@@ -1,5 +1,5 @@
 function setScore(score) {
-        playerScore.text = score.value
+        playerScore.text = score
 }
 
 function setStatistics(statistics) {

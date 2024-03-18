@@ -3,11 +3,8 @@
 
 #include "idartsscores.h"
 
-#include <QList>
-
 class ServiceCollection;
 class Score;
-class ScoresIO;
 class IScoresCalculator;
 class IDartsInputs;
 class IDartsPlayers;
@@ -15,25 +12,16 @@ class IDartsIndexes;
 
 class DartsScores : public IDartsScores{
 public:
-        DartsScores(ServiceCollection* services);
-        void init(const int& initialScore) override;
-        void initFromFile() override;
+        void initFromStorage() override;
         int initialScore() const override;
-        virtual void reset() override;
-        void update() override;
-        Score score() override;
-        Score score(const QString& name) override;
+        void setInitialScore(const int& initialScore) override;
+        void setScores(const QList<Score>& scores) override;
         QList<Score> scores() override;
         bool saveState() override;
 
 private:
         QList<Score> _scores;
 
-        // Helpers
-        ScoresIO* _scoresIO;
-
-        // Services
-        ServiceCollection* _services;
         // Member variables
         int _initialScore;
 };

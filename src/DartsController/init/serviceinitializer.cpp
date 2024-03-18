@@ -1,12 +1,12 @@
 #include "serviceinitializer.h"
-#include "src/DartsController/servicecollection.h"
-#include "src/DartsController/indexes/idartsindexes.h"
 #include "src/DartsController/init/controllervalues.h"
-#include "src/DartsController/input/idartsinputs.h"
-#include "src/DartsController/players/idartsplayers.h"
-#include "src/DartsController/scores/idartsscores.h"
+#include "src/DartsController/input/persistence/idartsinputs.h"
+#include "src/DartsController/players/persistences/idartsplayers.h"
+#include "src/DartsController/scores/persistence/idartsscores.h"
+#include "src/DartsController/scores/services/iscoresupdate.h"
+#include "src/DartsController/servicecollection.h"
 #include "src/DartsController/status/idartsstatus.h"
-#include "src/DartsController/turns/iturncontroller.h"
+#include "src/DartsController/turns/persistences/idartsindexes.h"
 #include "src/DartsController/validation/dartsevaluators.h"
 
 ServiceInitializer::ServiceInitializer(ServiceCollection* services)
@@ -20,7 +20,7 @@ void ServiceInitializer::init(const QByteArray& json)
         _services->players->init();
         _services->indexes->init(values.playersCount());
         _services->inputs->init();
-        _services->scores->init(values.initialScore());
+        _services->scoresUpdate->initPlayerScores(values.initialScore());
         _services->status->init();
         auto evaluator = _services->evaluators->validator(values.mode());
         _services->evaluator = evaluator;
@@ -32,8 +32,8 @@ void ServiceInitializer::initFromStorage()
         _services->players->initFromFile();
         _services->indexes->initFromFile();
         _services->inputs->initFromFile();
-        _services->scores->initFromFile();
-        _services->status->initFromFile();
+        _services->scores->initFromStorage();
+        _services->status->initFromStorage();
         auto evaluator = _services->evaluators->validator();
         _services->evaluator = evaluator;
         _services->evaluator->init();
@@ -44,7 +44,7 @@ void ServiceInitializer::reset()
         _services->players->reset();
         _services->indexes->reset();
         _services->inputs->init();
-        _services->scores->reset();
+        _services->scoresUpdate->resetPlayerScores();
         _services->status->init();
         _services->evaluator->init();
 }

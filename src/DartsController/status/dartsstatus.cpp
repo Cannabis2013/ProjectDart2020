@@ -6,7 +6,7 @@ void DartsStatus::init()
         _status = Running;
 }
 
-void DartsStatus::initFromFile()
+void DartsStatus::initFromStorage()
 {
         FileJsonIO in(_FILE);
         auto json = in.read();

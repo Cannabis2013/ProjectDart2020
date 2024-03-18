@@ -10,7 +10,6 @@ class Score;
 
 class ScoresIO{
 public:
-        ScoresIO(const QString& filePath);
         DartsInitialValues fromFile();
 
         bool toFile(const QList<Score>& scores, const int& initialValue);
@@ -25,7 +24,7 @@ private:
         QByteArray jsonFromFile(const QString& filePath);
         QList<Score> toScores(const QJsonArray& jsonArr);
 
-        const QString _filePath;
+        const QString _filePath = "playerScores.dat";
 };
 
 #endif // PLAYERSCORESINIT_H

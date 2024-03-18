@@ -11,8 +11,7 @@
 class DartsStatus : public IDartsStatus {
 public:
         void init() override;
-
-        void initFromFile() override;
+        void initFromStorage() override;
         bool saveState() override;
         void winnerFound() override;
         void running() override;

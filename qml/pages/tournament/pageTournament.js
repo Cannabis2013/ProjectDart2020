@@ -44,7 +44,7 @@ function bustScore() {
 }
 
 function updateTurnValues() {
-        if (dartsStatus.isWinnerFound())
+        if (dartsPlayers.isWinnerFound())
                 Dialogs.openWinnerDialog(restartGame, undo)
         else
                 updateSections()

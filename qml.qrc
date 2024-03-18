@@ -11,6 +11,7 @@
         <file>Ressources/Pictures/lukeHumphries.gif</file>
         <file>Ressources/Pictures/delta.jpg</file>
         <file>Ressources/Pictures/delta.png</file>
+        <file>Ressources/Pictures/benjamin.jpeg</file>
     </qresource>
     <qresource prefix="/data">
         <file>Ressources/TextData/aboutContent.dat</file>
@@ -52,7 +53,6 @@
         <file>qml/pages/tournament/compInputs/Pad.qml</file>
         <file>qml/pages/tournament/compPlayerInfos/compPlayerInfo.js</file>
         <file>qml/pages/tournament/compPlayerInfos/CompPlayerInfo.qml</file>
-        <file>qml/pages/tournament/compPlayerInfos/compScoreDisplay.js</file>
         <file>qml/pages/tournament/compPlayerInfos/CompScoreDisplay.qml</file>
         <file>qml/pages/tournament/compPlayerInfos/compStatsDisplay.js</file>
         <file>qml/pages/tournament/compPlayerInfos/CompStatsDisplay.qml</file>
@@ -60,5 +60,6 @@
         <file>qml/pages/tournament/compMessages/compMessages.js</file>
         <file>qml/pages/tournament/dialogs/winner/statisticsPage/CompStatistics.qml</file>
         <file>qml/pages/tournament/dialogs/winner/statisticsPage/compStatistics.js</file>
+        <file>qml/pages/tournament/dialogs/winner/winnerPage/pageWinner.js</file>
     </qresource>
 </RCC>

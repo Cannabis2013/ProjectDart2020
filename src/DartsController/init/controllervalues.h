@@ -1,7 +1,7 @@
 #ifndef CONTROLLERVALUES_H
 #define CONTROLLERVALUES_H
 
-#include "src/DartsController/players/dartsplayer.h"
+class QByteArray;
 
 class ControllerValues {
 public:

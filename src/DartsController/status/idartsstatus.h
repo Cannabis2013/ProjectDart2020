@@ -4,7 +4,7 @@
 class IDartsStatus {
 public:
         virtual void init() = 0;
-        virtual void initFromFile() = 0;
+        virtual void initFromStorage() = 0;
         virtual bool saveState() = 0;
 
         virtual void running() = 0;

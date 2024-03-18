@@ -2,11 +2,6 @@
 #include "src/DartsController/scores/models/dartsinitialvalues.h"
 #include "src/FileIO/filejsonio.h"
 
-ScoresIO::ScoresIO(const QString& filePath)
-    : _filePath((filePath))
-{
-}
-
 DartsInitialValues ScoresIO::fromFile()
 {
         auto json = jsonFromFile(_filePath);

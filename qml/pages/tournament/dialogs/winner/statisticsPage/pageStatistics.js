@@ -1,21 +1,18 @@
 function init() {
-        const scoresReport = JSON.parse(dartsScores.report())
-        const statsReport = JSON.parse(dartsStats.report())
-        setScores(scoresReport)
-        setStatistics(statsReport)
+        updateScores()
+        updateStatistics()
 }
 
-function setScores(jsonReport) {
-        const scores = jsonReport.scores
-        if (scores.length !== 2)
-                return
-        playerOneItem.setScore(scores[0])
-        playerTwoItem.setScore(scores[1])
+function updateScores() {
+        const playerOneScore = dartsScores.playerOne()
+        const playerTwoScore = dartsScores.playerTwo()
+        playerOneItem.setScore(playerOneScore)
+        playerTwoItem.setScore(playerTwoScore)
 }
 
-function setStatistics(statsReport) {
-        if (statsReport.length !== 2)
-                return
-        playerOneItem.setStatistics(statsReport[0])
-        playerTwoItem.setStatistics(statsReport[1])
+function updateStatistics() {
+        const playerOneReport = JSON.parse(dartsStats.playerOne())
+        const playerTwoReport = JSON.parse(dartsStats.playerTwo())
+        playerOneItem.setStatistics(playerOneReport)
+        playerTwoItem.setStatistics(playerTwoReport)
 }

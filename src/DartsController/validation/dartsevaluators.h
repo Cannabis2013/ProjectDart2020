@@ -1,10 +1,6 @@
 #ifndef DARTSEVALUATORS_H
 #define DARTSEVALUATORS_H
 
-#include "src/DartsController/players/idartsplayers.h"
-#include "src/DartsController/scores/idartsscores.h"
-#include "src/DartsController/scores/iscorescalculator.h"
-#include "src/DartsController/status/idartsstatus.h"
 #include "src/DartsController/validation/abstractdartsevaluator.h"
 
 class ServiceCollection;

@@ -1,8 +1,9 @@
 #include "dartsprofessionalevaluator.h"
-#include "src/DartsController/players/dartsplayer.h"
-#include "src/DartsController/players/idartsplayers.h"
+#include "src/DartsController/players/models/dartsplayer.h"
+#include "src/DartsController/players/persistences/idartsplayers.h"
 #include "src/DartsController/scores/models/Score.h"
 #include "src/DartsController/scores/persistence/idartsscores.h"
+#include "src/DartsController/scores/services/idartsscoresfetch.h"
 #include "src/DartsController/scores/services/iscorescalculator.h"
 #include "src/DartsController/servicecollection.h"
 #include "src/DartsController/status/idartsstatus.h"
@@ -16,7 +17,7 @@ DartsProfessionalEvaluator::DartsProfessionalEvaluator(ServiceCollection* servic
 
 void DartsProfessionalEvaluator::init()
 {
-        QVector<QString> names;
+        QStringList names;
         auto players = _services->players->all();
         for (const auto& player : players)
                 names << player.name();
@@ -28,7 +29,7 @@ bool DartsProfessionalEvaluator::evaluateInput(const QString& mod, const int& po
         auto name = _services->players->one().name();
         if (!validateInput(name, mod, point))
                 return false;
-        auto playerScore = _services->scores->score().score();
+        auto playerScore = _services->scoresFetch->score().value();
         return validateRemaining(mod, point, playerScore);
 }
 
@@ -36,7 +37,7 @@ void DartsProfessionalEvaluator::evaluateWinnerCondition()
 {
         auto scores = _services->scores->scores();
         for (const auto& score : scores) {
-                if (score.score() == 0) {
+                if (score.value() == 0) {
                         _services->status->winnerFound();
                         auto winner = &_services->players->one(score.name());
                         winner->setWinner(true);
