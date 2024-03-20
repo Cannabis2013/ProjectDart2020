@@ -12,5 +12,12 @@ Item {
                 id: messageContainer
                 anchors.left: parent.left
                 anchors.leftMargin: 6
+                spacing: 6
+                move: Transition {
+                        NumberAnimation {
+                                properties: "x,y"
+                                duration: 250
+                        }
+                }
         }
 }

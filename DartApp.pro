@@ -40,7 +40,6 @@ HEADERS += \
     src/DartsController/input/models/Input.h \
     src/DartsController/input/persistence/dartsinputs.h \
     src/DartsController/input/persistence/idartsinputs.h \
-    src/DartsController/input/persistence/inputsio.h \
     src/DartsController/input/services/dartsinputsfilter.h \
     src/DartsController/input/services/dartsinputsupdate.h \
     src/DartsController/input/services/idartsinputsfilter.h \
@@ -50,18 +49,17 @@ HEADERS += \
     src/DartsController/players/models/dartsplayer.h \
     src/DartsController/players/persistences/dartsplayers.h \
     src/DartsController/players/persistences/idartsplayers.h \
-    src/DartsController/players/persistences/playersio.h \
+    src/DartsController/players/services/iplayerfetcher.h \
     src/DartsController/players/services/iplayergenerator.h \
     src/DartsController/players/services/pdcchampions.h \
+    src/DartsController/players/services/playerfetcher.h \
     src/DartsController/scores/controller/dartsscorescontroller.h \
     src/DartsController/scores/controller/iscorescontroller.h \
     src/DartsController/scores/dtos/DartsPlayerScores.h \
     src/DartsController/scores/dtos/dartsPlayerScore.h \
     src/DartsController/scores/models/Score.h \
-    src/DartsController/scores/models/dartsinitialvalues.h \
     src/DartsController/scores/persistence/dartsscores.h \
     src/DartsController/scores/persistence/idartsscores.h \
-    src/DartsController/scores/persistence/scoresio.h \
     src/DartsController/scores/services/dartscalculator.h \
     src/DartsController/scores/services/dartsscoresfetch.h \
     src/DartsController/scores/services/dartsscoresupdate.h \
@@ -71,6 +69,8 @@ HEADERS += \
     src/DartsController/servicecollection.h \
     src/DartsController/statistics/controllers/dartsstatistics.h \
     src/DartsController/statistics/controllers/istatsreport.h \
+    src/DartsController/statistics/services/dartsinputstatistics.h \
+    src/DartsController/statistics/services/iinputstatistics.h \
     src/DartsController/status/dartsstatus.h \
     src/DartsController/status/idartsstatus.h \
     src/DartsController/turns/controller/dartsturncontroller.h \
@@ -102,21 +102,20 @@ SOURCES += \
     src/DartsController/init/serviceinitializer.cpp \
     src/DartsController/input/controllers/dartsinputcontroller.cpp \
     src/DartsController/input/persistence/dartsinputs.cpp \
-    src/DartsController/input/persistence/inputsio.cpp \
     src/DartsController/input/services/dartsinputsfilter.cpp \
     src/DartsController/input/services/dartsinputsupdate.cpp \
     src/DartsController/players/controller/playerreport.cpp \
     src/DartsController/players/models/dartsplayer.cpp \
     src/DartsController/players/persistences/dartsplayers.cpp \
-    src/DartsController/players/persistences/playersio.cpp \
     src/DartsController/players/services/pdcchampions.cpp \
+    src/DartsController/players/services/playerfetcher.cpp \
     src/DartsController/scores/controller/dartsscorescontroller.cpp \
     src/DartsController/scores/persistence/dartsscores.cpp \
-    src/DartsController/scores/persistence/scoresio.cpp \
     src/DartsController/scores/services/dartscalculator.cpp \
     src/DartsController/scores/services/dartsscoresfetch.cpp \
     src/DartsController/scores/services/dartsscoresupdate.cpp \
     src/DartsController/statistics/controllers/dartsstatistics.cpp \
+    src/DartsController/statistics/services/dartsinputstatistics.cpp \
     src/DartsController/status/dartsstatus.cpp \
     src/DartsController/turns/controller/dartsturncontroller.cpp \
     src/DartsController/turns/persistences/dartsindexes.cpp \

@@ -23,7 +23,7 @@ Column {
                 height: 48
                 text: "Resume game"
                 onClicked: {
-                        dartsController.initFromSaved()
+                        dartsInitializer.initFromStorage()
                         requestTournamentPage()
                 }
         }

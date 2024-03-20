@@ -1,6 +1,8 @@
 #ifndef SERVICECOLLECTION_H
 #define SERVICECOLLECTION_H
 
+class IPlayerFetcher;
+class IInputStatistics;
 class IDartsInputsFilter;
 class IDartsInputUpdate;
 class IDartsScoresFetch;
@@ -44,9 +46,11 @@ public:
         IMessagesReport* messagesReport;
         IScoresReport* scoresReport;
         IScoresUpdate* scoresUpdate;
-        IDartsScoresFetch* scoresFetch;
+        IDartsScoresFetch* scoresFetcher;
         IDartsInputUpdate* inputsUpdate;
         IDartsInputsFilter* inputsFilter;
+        IInputStatistics* inputStatistics;
+        IPlayerFetcher* playerFetcher;
 };
 
 #endif // SERVICECOLLECTION_H

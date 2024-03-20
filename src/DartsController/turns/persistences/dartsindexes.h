@@ -8,8 +8,8 @@
 class DartsIndexes : public IDartsIndexes {
 public:
         DartsIndexes();
-        void init(const int& playerCount) override { _indexes = DartsIndex(playerCount); }
-        void initFromFile() override { _indexes = _indexesIO->loadIndexes(); }
+        void init(const int& playerCount) override;
+        void initFromFile() override;
         virtual void reset() override;
         void next() override;
         void undo() override;

@@ -1,28 +1,30 @@
 #include "dartsplayers.h"
-#include "src/DartsController/players/persistences/playersio.h"
 #include "src/DartsController/players/services/pdcchampions.h"
-#include "src/DartsController/servicecollection.h"
-#include "src/DartsController/turns/models/dartsturnindex.h"
-#include "src/DartsController/turns/persistences/idartsindexes.h"
+#include "src/FileIO/filejsonio.h"
 #include <QJsonArray>
 #include <QJsonValue>
 #include <qjsondocument.h>
 
-DartsPlayers::DartsPlayers(ServiceCollection* services)
-    : _services(services)
+DartsPlayers::DartsPlayers(const QString& filepath)
+    : _storagePath(filepath)
 {
-        _playersIO = new PlayersIO();
-        _generator = new PdcChampions();
 }
 
 void DartsPlayers::init()
 {
-        _players = _generator->generate();
+        _players = PdcChampions().generate();
 }
 
 void DartsPlayers::initFromFile()
 {
-        _players = _playersIO->initFromFile();
+        QList<DartsPlayer> players;
+        auto jsonDoc = FileJsonIO(_storagePath).readAsJson();
+        if (!jsonDoc.isArray())
+                return;
+        const auto localArray = jsonDoc.array();
+        for (const auto& jsonObj : localArray)
+                players << DartsPlayer(jsonObj.toObject());
+        _players = players;
 }
 
 void DartsPlayers::reset()
@@ -31,46 +33,15 @@ void DartsPlayers::reset()
         _players = generator.generate();
 }
 
-DartsPlayer& DartsPlayers::one(const int& index)
-{
-        return _players[index];
-}
-
-DartsPlayer& DartsPlayers::one(const QString& name)
-{
-        for (auto& player : _players) {
-                if (player.name() == name)
-                        return player;
-        }
-        throw new std::invalid_argument("NOT FOUND");
-}
-
-DartsPlayer& DartsPlayers::one()
-{
-        auto playerIndex = _services->indexes->index().currentTurnIndex();
-        return _players[playerIndex];
-}
-
-DartsPlayer DartsPlayers::winner() const
-{
-        for (const auto& player : _players) {
-                if (player.winner())
-                        return player;
-        }
-        return DartsPlayer();
-}
-
-int DartsPlayers::playersCount() const
-{
-        return _players.count();
-}
-
-QList<DartsPlayer> DartsPlayers::all() const
+QList<DartsPlayer>& DartsPlayers::all()
 {
         return _players;
 }
 
 bool DartsPlayers::saveState()
 {
-        return _playersIO->saveToFile(_players);
+        QJsonArray jsonArr;
+        for (auto& player : _players)
+                jsonArr.append(player.jsonObject());
+        return FileJsonIO(_storagePath).writeAsJson(jsonArr);
 }

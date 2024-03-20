@@ -1,25 +1,23 @@
 #include "dartsinputs.h"
-
+#include "qjsonarray.h"
 #include "src/DartsController/input/models/Input.h"
-#include "src/DartsController/input/persistence/inputsio.h"
+#include "src/FileIO/filejsonio.h"
 
 DartsInputs::DartsInputs()
 {
-        _inputsIO = new InputsIO();
 }
 
 void DartsInputs::initFromFile()
 {
-        _inputs = _inputsIO->fromFile();
-}
-
-bool DartsInputs::anyInputs(const QString& name, const int& throwIndex) const
-{
-        for (auto& input : _inputs) {
-                if (input.playerName() == name && input.throwId() < throwIndex)
-                        return true;
+        FileJsonIO jsonIO("dartsInputs.dat");
+        auto jsonDoc = QJsonDocument::fromJson(jsonIO.read());
+        if (!jsonDoc.isArray())
+                return;
+        auto arr = jsonDoc.array();
+        for (auto ite = arr.begin(); ite != arr.end(); ++ite) {
+                auto jsonObj = ite->toObject();
+                _inputs.append(Input(jsonObj));
         }
-        return false;
 }
 
 QList<Input> DartsInputs::all() const
@@ -27,27 +25,12 @@ QList<Input> DartsInputs::all() const
         return _inputs;
 }
 
-QList<Input> DartsInputs::inputs(const QString& name) const
-{
-        QList<Input> playerInputs;
-        for (auto& input : _inputs) {
-                if (input.playerName() == name)
-                        playerInputs << input;
-        }
-        return playerInputs;
-}
-
-QList<Input> DartsInputs::inputs(const QString& name, const int& throwIndex) const
-{
-        QList<Input> playerInputs;
-        for (auto& input : _inputs) {
-                if (input.playerName() == name && input.throwId() < throwIndex)
-                        playerInputs << input;
-        }
-        return playerInputs;
-}
-
 bool DartsInputs::saveState()
 {
-        return _inputsIO->toFile(_inputs);
+        FileJsonIO jsonIO("dartsInputs.dat");
+        QJsonArray jsonArr;
+        for (auto input : _inputs)
+                jsonArr.append(input.toJsonObject());
+        auto jsonDoc = new QJsonDocument(jsonArr);
+        return jsonIO.write(jsonDoc->toJson(QJsonDocument::Compact));
 }

@@ -7,6 +7,16 @@ DartsIndexes::DartsIndexes()
         _indexesIO = new IndexesIO();
 }
 
+void DartsIndexes::init(const int& playerCount)
+{
+        _indexes = DartsIndex(playerCount);
+}
+
+void DartsIndexes::initFromFile()
+{
+        _indexes = _indexesIO->loadIndexes();
+}
+
 void DartsIndexes::reset()
 {
         auto count = _indexes.playersCount;

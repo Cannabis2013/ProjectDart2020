@@ -11,7 +11,6 @@ public:
 
         Score score() override;
         Score score(const QString& name) override;
-        QList<Score> scores(const QString& name) const override;
 
 private:
         ServiceCollection* _services;

@@ -12,7 +12,6 @@ class DartsScoresUpdate : public IScoresUpdate {
 public:
         DartsScoresUpdate(ServiceCollection* services);
         void initPlayerScores(const int& initialScore) override;
-        void initPlayerScoresFromStorage() override;
         void resetPlayerScores() override;
         void updatePlayerScores() override;
 
@@ -21,7 +20,6 @@ private:
 
         QList<Score> updatedScores(const int& initialScore) const;
         ServiceCollection* const _services;
-        ScoresIO* _storage;
 };
 
 #endif // DARTSSCORESUPDATE_H

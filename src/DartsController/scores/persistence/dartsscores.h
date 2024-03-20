@@ -21,6 +21,8 @@ public:
 
 private:
         QList<Score> _scores;
+        QList<Score> readScoresFromStorage();
+        int readInitialScoreFromStorage();
 
         // Member variables
         int _initialScore;

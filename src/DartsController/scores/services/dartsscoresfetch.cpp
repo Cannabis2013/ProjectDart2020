@@ -26,14 +26,3 @@ Score DartsScoresFetch::score(const QString& name)
         }
         return Score();
 }
-
-QList<Score> DartsScoresFetch::scores(const QString& name) const
-{
-        QList<Score> result;
-        auto scores = _services->scores->scores();
-        for (const auto& score : scores) {
-                if (score.name() == name)
-                        result << score;
-        }
-        return result;
-}

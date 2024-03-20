@@ -1,6 +1,7 @@
 #include "filejsonio.h"
 
 #include <QDataStream>
+#include <QJsonDocument>
 
 FileJsonIO::FileJsonIO(const QString &fileName):
         _fileName(fileName){}
@@ -13,9 +14,32 @@ QByteArray FileJsonIO::read()
         return readJson(file);
 }
 
+QJsonDocument FileJsonIO::readAsJson()
+{
+        auto file = openFile(_fileName, QIODevice::ReadOnly);
+        if (!file)
+                return QJsonDocument();
+        auto byteArray = readJson(file);
+        return QJsonDocument::fromJson(byteArray);
+}
+
 bool FileJsonIO::write(const QByteArray& json)
 {
         auto file = openFile(_fileName, QIODevice::WriteOnly);
+        return writeJson(file, json);
+}
+
+bool FileJsonIO::writeAsJson(const QJsonArray& arr)
+{
+        auto file = openFile(_fileName, QIODevice::WriteOnly);
+        auto json = QJsonDocument(arr).toJson(QJsonDocument::Compact);
+        return writeJson(file, json);
+}
+
+bool FileJsonIO::writeAsJson(const QJsonObject& obj)
+{
+        auto file = openFile(_fileName, QIODevice::WriteOnly);
+        auto json = QJsonDocument(obj).toJson(QJsonDocument::Compact);
         return writeJson(file, json);
 }
 

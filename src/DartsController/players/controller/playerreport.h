@@ -21,8 +21,7 @@ public:
 
 private:
         // Services
-        IDartsPlayers* _players;
-        IDartsStatus* const _status;
+        ServiceCollection* const _services;
 };
 
 #endif // PLAYERREPORT_H

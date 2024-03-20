@@ -1,8 +1,9 @@
 #include "dartsturncontroller.h"
-#include "src/DartsController/input/persistence/idartsinputs.h"
+#include "src/DartsController/input/services/idartsinputsfilter.h"
 #include "src/DartsController/input/services/idartsinputupdate.h"
 #include "src/DartsController/players/models/dartsplayer.h"
 #include "src/DartsController/players/persistences/idartsplayers.h"
+#include "src/DartsController/players/services/iplayerfetcher.h"
 #include "src/DartsController/scores/services/iscoresupdate.h"
 #include "src/DartsController/servicecollection.h"
 #include "src/DartsController/status/idartsstatus.h"
@@ -17,19 +18,19 @@ DartsTurnController::DartsTurnController(ServiceCollection* services)
 
 void DartsTurnController::undo()
 {
-        auto name = _services->players->one().name();
+        auto name = _services->playerFetcher->one().name();
         undoTurn();
         auto index = _services->indexes->index();
-        if (!_services->inputs->anyInputs(name, index.throwId()))
+        if (!_services->inputsFilter->anyInputs(name, index.throwId()))
                 _services->evaluator->updateAllowance(name, false);
 }
 
 void DartsTurnController::redo()
 {
-        auto name = _services->players->one().name();
+        auto name = _services->playerFetcher->one().name();
         redoTurn();
         auto throwIndex = _services->indexes->index().throwId();
-        if (_services->inputs->anyInputs(name, throwIndex))
+        if (_services->inputsFilter->anyInputs(name, throwIndex))
                 _services->evaluator->updateAllowance(name, true);
 }
 

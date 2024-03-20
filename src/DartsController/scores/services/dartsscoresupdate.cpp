@@ -1,20 +1,15 @@
 #include "dartsscoresupdate.h"
-#include "src/DartsController/input/persistence/idartsinputs.h"
+#include "src/DartsController/input/services/idartsinputsfilter.h"
 #include "src/DartsController/players/models/dartsplayer.h"
 #include "src/DartsController/players/persistences/idartsplayers.h"
 #include "src/DartsController/scores/models/Score.h"
-#include "src/DartsController/scores/models/dartsinitialvalues.h"
 #include "src/DartsController/scores/persistence/idartsscores.h"
-#include "src/DartsController/scores/persistence/scoresio.h"
 #include "src/DartsController/scores/services/iscorescalculator.h"
 #include "src/DartsController/servicecollection.h"
-#include "src/DartsController/turns/models/dartsturnindex.h"
-#include "src/DartsController/turns/persistences/idartsindexes.h"
 
 DartsScoresUpdate::DartsScoresUpdate(ServiceCollection* services)
     : _services(services)
 {
-        _storage = new ScoresIO();
 }
 
 void DartsScoresUpdate::resetPlayerScores()
@@ -42,10 +37,9 @@ QList<Score> DartsScoresUpdate::freshScores(const int& initialScore) const
 
 QList<Score> DartsScoresUpdate::updatedScores(const int& initialScore) const
 {
-        auto throwIndex = _services->indexes->index().throwId();
         QList<Score> updated;
         for (const auto& player : _services->players->all()) {
-                auto inputs = _services->inputs->inputs(player.name(), throwIndex);
+                auto inputs = _services->inputsFilter->validFromName(player.name());
                 auto score = _services->calculator->calculate(player.name(), inputs, initialScore);
                 updated.append(score);
         }
@@ -57,11 +51,4 @@ void DartsScoresUpdate::initPlayerScores(const int& initialScore)
         auto scores = freshScores(initialScore);
         _services->scores->setScores(scores);
         _services->scores->setInitialScore(initialScore);
-}
-
-void DartsScoresUpdate::initPlayerScoresFromStorage()
-{
-        auto values = _storage->fromFile();
-        _services->scores->setScores(values.scores());
-        _services->scores->setInitialScore(values.initialScore());
 }

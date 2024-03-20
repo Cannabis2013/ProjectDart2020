@@ -6,7 +6,7 @@ Item {
         id: messageItem
 
         height: 74
-        width: 100
+        width: 128
         opacity: 0
 
         function setValues(message, iconUrl) {
@@ -23,14 +23,14 @@ Item {
         Image {
                 id: messageIcon
                 anchors.verticalCenter: parent.verticalCenter
-                width: 42
+                width: 34
                 height: 34
         }
 
         Rectangle {
                 id: textRect
                 color: "blue"
-                x: 32
+                x: 24
                 y: 40
                 height: 22
                 radius: 6

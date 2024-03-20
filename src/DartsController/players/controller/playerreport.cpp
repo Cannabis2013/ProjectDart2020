@@ -2,6 +2,7 @@
 #include "src/DartsController/players/models/dartsplayer.h"
 
 #include "src/DartsController/players/persistences/idartsplayers.h"
+#include "src/DartsController/players/services/iplayerfetcher.h"
 #include "src/DartsController/servicecollection.h"
 #include "src/DartsController/status/idartsstatus.h"
 #include <QByteArray>
@@ -9,15 +10,14 @@
 #include <QJsonDocument>
 
 PlayerReport::PlayerReport(ServiceCollection* services)
-    : _players(services->players)
-    , _status(services->status)
+    : _services(services)
 {
 }
 
 QByteArray PlayerReport::report() const
 {
         QJsonArray arr;
-        auto players = _players->all();
+        auto players = _services->players->all();
         for (const auto& player : players)
                 arr << player.jsonObject();
         return QJsonDocument(arr).toJson(QJsonDocument::Compact);
@@ -25,34 +25,35 @@ QByteArray PlayerReport::report() const
 
 QByteArray PlayerReport::playerOne() const
 {
-        auto players = _players->all();
-        auto jsonObj = players.at(0).jsonObject();
+        auto players = _services->players->all();
+        auto jsonObj = players.first().jsonObject();
         return QJsonDocument(jsonObj).toJson(QJsonDocument::Compact);
 }
 
 QByteArray PlayerReport::playerTwo() const
 {
-        auto players = _players->all();
-        auto jsonObj = players.at(1).jsonObject();
+        auto players = _services->players->all();
+        auto jsonObj = players.last().jsonObject();
         return QJsonDocument(jsonObj).toJson(QJsonDocument::Compact);
 }
 
 QString PlayerReport::currentPlayer() const
 {
         QJsonObject jsonObj;
-        jsonObj["currentPlayerName"] = _players->one().name();
+        jsonObj["currentPlayerName"] = _services->playerFetcher->one().name();
         return QJsonDocument(jsonObj).toJson(QJsonDocument::Compact);
 }
 
 bool PlayerReport::isWinnerFound() const
 {
-        return _status->isWinnerFound();
+        return _services->status->isWinnerFound();
 }
 
 QByteArray PlayerReport::winnerInfo() const
 {
         QJsonObject jsonObj;
-        jsonObj["winnerName"] = _players->winner().name();
-        jsonObj["winnerImage"] = _players->winner().winnerImageUrl();
+        auto winner = _services->playerFetcher->winner();
+        jsonObj["winnerName"] = winner.name();
+        jsonObj["winnerImage"] = winner.winnerImageUrl();
         return QJsonDocument(jsonObj).toJson(QJsonDocument::Compact);
 }

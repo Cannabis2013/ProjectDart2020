@@ -25,9 +25,6 @@ public:
 private:
         // Private member methods
         QJsonObject playerReport(const QString& name) const;
-        double average(int initialScore, int score, int count) const;
-        int lowest(const QList<Input>& inputs) const;
-        int highest(const QList<Input>& inputs) const;
 
         // Services
         ServiceCollection* const _services;

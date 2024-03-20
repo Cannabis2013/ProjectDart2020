@@ -30,3 +30,16 @@ QList<Input> DartsInputsfilter::validFromName(const QString& name) const
         }
         return filtered;
 }
+
+
+int DartsInputsfilter::validCount(const QString& name) const
+{
+        int count = 0;
+        auto throwId = _services->indexes->index().throwId();
+        auto inputs = _services->inputs->all();
+        for (const auto& input : inputs) {
+                if (input.playerName() == name && input.throwId() < throwId)
+                        count++;
+        }
+        return count;
+}

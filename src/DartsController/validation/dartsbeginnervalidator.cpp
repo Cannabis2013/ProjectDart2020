@@ -2,6 +2,7 @@
 
 #include "src/DartsController/players/models/dartsplayer.h"
 #include "src/DartsController/players/persistences/idartsplayers.h"
+#include "src/DartsController/players/services/iplayerfetcher.h"
 #include "src/DartsController/scores/models/Score.h"
 #include "src/DartsController/scores/persistence/idartsscores.h"
 #include "src/DartsController/servicecollection.h"
@@ -23,7 +24,7 @@ void DartsBeginnerValidator::evaluateWinnerCondition()
         for (const auto& score : scores) {
                 if (score.value() <= 0) {
                         _services->status->winnerFound();
-                        auto winner = &_services->players->one(score.name());
+                        auto winner = &_services->playerFetcher->one(score.name());
                         winner->setWinner(true);
                 }
         }

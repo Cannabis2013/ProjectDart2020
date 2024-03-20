@@ -1,6 +1,7 @@
 #include "dartsprofessionalevaluator.h"
 #include "src/DartsController/players/models/dartsplayer.h"
 #include "src/DartsController/players/persistences/idartsplayers.h"
+#include "src/DartsController/players/services/iplayerfetcher.h"
 #include "src/DartsController/scores/models/Score.h"
 #include "src/DartsController/scores/persistence/idartsscores.h"
 #include "src/DartsController/scores/services/idartsscoresfetch.h"
@@ -26,10 +27,10 @@ void DartsProfessionalEvaluator::init()
 
 bool DartsProfessionalEvaluator::evaluateInput(const QString& mod, const int& point)
 {
-        auto name = _services->players->one().name();
+        auto name = _services->playerFetcher->one().name();
         if (!validateInput(name, mod, point))
                 return false;
-        auto playerScore = _services->scoresFetch->score().value();
+        auto playerScore = _services->scoresFetcher->score().value();
         return validateRemaining(mod, point, playerScore);
 }
 
@@ -39,8 +40,8 @@ void DartsProfessionalEvaluator::evaluateWinnerCondition()
         for (const auto& score : scores) {
                 if (score.value() == 0) {
                         _services->status->winnerFound();
-                        auto winner = &_services->players->one(score.name());
-                        winner->setWinner(true);
+                        auto winner = _services->playerFetcher->one(score.name());
+                        winner.setWinner(true);
                 }
         }
 }

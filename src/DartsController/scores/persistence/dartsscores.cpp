@@ -1,16 +1,13 @@
 #include "dartsscores.h"
-#include "src/DartsController/scores/models/dartsinitialvalues.h"
-#include "src/DartsController/scores/persistence/scoresio.h"
-#include "src/DartsController/scores/services/iscorescalculator.h"
-#include <src/DartsController/scores/models/Score.h>
-#include <src/DartsController/servicecollection.h>
+#include "qjsonarray.h"
+#include "qjsondocument.h"
+#include "src/DartsController/scores/models/Score.h"
+#include "src/FileIO/filejsonio.h"
 
 void DartsScores::initFromStorage()
 {
-        ScoresIO storage;
-        auto values = storage.fromFile();
-        _scores = values.scores();
-        _initialScore = values.initialScore();
+        _scores = readScoresFromStorage();
+        _initialScore = readInitialScoreFromStorage();
 }
 
 int DartsScores::initialScore() const
@@ -30,8 +27,33 @@ QList<Score> DartsScores::scores()
 
 bool DartsScores::saveState()
 {
-        ScoresIO storage;
-        return storage.toFile(_scores, _initialScore);
+        QJsonArray arr;
+        for (const auto& score : _scores)
+                arr << score.jsonObject();
+        FileJsonIO("scores.dat").writeAsJson(arr);
+        QJsonObject obj;
+        obj["initialScore"] = _initialScore;
+        return FileJsonIO("initialScore.dat").writeAsJson(obj);
+}
+
+QList<Score> DartsScores::readScoresFromStorage()
+{
+        auto jsonDoc = FileJsonIO("scores.dat").readAsJson();
+        QList<Score> scores;
+        if (!jsonDoc.isArray())
+                return scores;
+        auto arr = jsonDoc.array();
+        for (const auto& jsonVal : arr)
+                scores << jsonVal.toObject();
+        return scores;
+}
+
+int DartsScores::readInitialScoreFromStorage()
+{
+        auto jsonDoc = FileJsonIO("initialScore.dat").readAsJson();
+        if (!jsonDoc.isObject())
+                return 0;
+        return jsonDoc.object().value("initialScore").toInt(0);
 }
 
 void DartsScores::setScores(const QList<Score>& scores)

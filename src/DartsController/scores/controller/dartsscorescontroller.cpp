@@ -30,7 +30,7 @@ int DartsScoresController::playerTwo() const
 QString DartsScoresController::finishRow() const
 {
         auto turnIndex = _services->indexes->index().throwIndex();
-        auto remaining = _services->scoresFetch->score().value();
+        auto remaining = _services->scoresFetcher->score().value();
         return _services->finishes->suggestTargetRow(remaining, turnIndex);
 }
 

@@ -9,7 +9,10 @@ class FileJsonIO
 public:
         FileJsonIO(const QString& fileName);
         QByteArray read();
+        QJsonDocument readAsJson();
         bool write(const QByteArray& json);
+        bool writeAsJson(const QJsonArray& arr);
+        bool writeAsJson(const QJsonObject& obj);
 
 private:
         // Class member methods
