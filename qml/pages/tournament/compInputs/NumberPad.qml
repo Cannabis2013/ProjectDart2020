@@ -7,33 +7,26 @@ Pad {
         property int padValue: -1
 
         signal padClicked(int value)
-        signal padLongClicked
-        onPressed: pushAnimation.start()
+        onPressed: scaleDownAnimation.start()
 
-        ColorAnimation on color {
-                id: pushAnimation
-                from: "red"
-                to: numberPadRect.backgroundColor
-                duration: 1500
-                loops: 1
+        ScaleAnimator on scale {
+                id: scaleDownAnimation
+                from: 1
+                to: 0.9
+                duration: 50
+                running: false
+        }
+
+        ScaleAnimator on scale {
+                id: scaleUpAnimation
+                from: 0.9
+                to: 1
+                duration: 25
                 running: false
         }
 
         onReleased: {
-                if (pressInfo.isLongPress) {
-                        pressInfo.isLongPress = false
-                        return
-                }
                 numberPadRect.padClicked(numberPadRect.padValue)
-                pushAnimation.start()
-        }
-        onPressAndHold: {
-                pressInfo.isLongPress = true
-                numberPadRect.padLongClicked()
-        }
-
-        QtObject {
-                id: pressInfo
-                property bool isLongPress: false
+                scaleUpAnimation.start()
         }
 }
