@@ -5,21 +5,10 @@
 #include "src/DartsController/scores/services/idartsscoresfetch.h"
 #include "src/DartsController/scores/services/iscorescalculator.h"
 #include "src/DartsController/servicecollection.h"
-#include "src/DartsController/turns/models/dartsturnindex.h"
-#include "src/DartsController/turns/persistences/idartsindexes.h"
 
 StatsCalculator::StatsCalculator(ServiceCollection* services)
     : _services(services)
 {
-}
-
-double StatsCalculator::middle(const QString& name) const
-{
-        auto playerScore = _services->scoresFetcher->score(name).value();
-        auto completedTurns = _services->indexes->index().roundIndex() + 1;
-        auto initialScore = _services->scores->initialScore();
-        auto score = initialScore - playerScore;
-        return score / completedTurns;
 }
 
 int StatsCalculator::lowest(const QString& name) const

@@ -1,7 +1,7 @@
 #ifndef IDARTSINPUTSFILTER_H
 #define IDARTSINPUTSFILTER_H
 
-#include "src/DartsController/input/models/Input.h"
+#include "src/DartsController/input/models/input.h"
 class IDartsInputsFilter {
 public:
         virtual QList<Input> valids(const QString& name) const = 0;

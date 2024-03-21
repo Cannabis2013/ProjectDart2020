@@ -1,7 +1,7 @@
 #ifndef IDARTINPUTS_H
 #define IDARTINPUTS_H
 
-#include "src/DartsController/input/models/Input.h"
+#include "src/DartsController/input/models/input.h"
 #include <QList>
 
 class IDartsInputs {

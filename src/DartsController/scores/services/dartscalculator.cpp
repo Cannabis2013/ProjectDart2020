@@ -1,5 +1,5 @@
 #include "dartscalculator.h"
-#include "src/DartsController/input/models/Input.h"
+#include "src/DartsController/input/models/input.h"
 #include "src/DartsController/scores/models/Score.h"
 
 int DartsCalculator::remaining(const QString& mod, const int& point, const int& current)

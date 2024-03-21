@@ -23,7 +23,7 @@ Item {
                 CompMessage {
                         id: finishRow
                         height: parent.height
-                        width: 128
+                        width: 192
                         imageUrl: "qrc:/pictures/Ressources/Pictures/dartsplate.png"
                         imageWidth: 40
                         imageHeight: 34
@@ -33,7 +33,7 @@ Item {
                         id: scoreSpan
                         imageUrl: "qrc:/pictures/Ressources/Pictures/span.png"
                         height: parent.height
-                        width: 96
+                        width: 112
                         imageWidth: 40
                         imageHeight: 34
                 }

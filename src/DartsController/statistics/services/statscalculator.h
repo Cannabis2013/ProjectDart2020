@@ -2,9 +2,11 @@
 #define STATSCALCULATOR_H
 
 #include "istatscalculator.h"
-#include "src/DartsController/input/models/Input.h"
+#include "src/DartsController/input/models/input.h"
 
 class ServiceCollection;
+
+#define USE_POOR_AVERAGE
 
 class StatsCalculator : public IStatsCalculator {
 public:
