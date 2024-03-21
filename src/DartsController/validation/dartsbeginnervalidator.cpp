@@ -20,7 +20,7 @@ bool DartsBeginnerValidator::evaluateInput(const QString& mod, const int& point)
 
 void DartsBeginnerValidator::evaluateWinnerCondition()
 {
-        auto scores = _services->scores->scores();
+        auto scores = _services->scores->all();
         for (const auto& score : scores) {
                 if (score.value() <= 0) {
                         _services->status->winnerFound();

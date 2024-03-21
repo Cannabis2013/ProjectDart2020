@@ -1,6 +1,6 @@
 #include "dartsindexes.h"
 #include "src/DartsController/turns/models/dartsturnindex.h"
-#include <src/FileIO/filejsonio.h>
+#include "src/DartsController/turns/persistences/indexesio.h"
 
 DartsIndexes::DartsIndexes()
 {
@@ -19,46 +19,45 @@ void DartsIndexes::initFromFile()
 
 void DartsIndexes::reset()
 {
-        auto count = _indexes.playersCount;
+        auto count = _indexes.turnsLimit;
         _indexes = DartsIndex(count);
 }
 
 void DartsIndexes::next()
 {
-        nextTurn();
-        _indexes.totalThrows = ++_indexes.currentThrows;
+        nextThrow();
+        _indexes.availableThrows = _indexes.throwCount;
 }
 
 void DartsIndexes::undo()
 {
         if (!canUndo())
                 return;
-        if (--_indexes.currentThrowIndex < 0) {
-                _indexes.currentThrowIndex = 2;
-                if (--_indexes.currentTurnIndex < 0) {
-                        _indexes.currentTurnIndex = _indexes.playersCount - 1;
-                        _indexes.currentThrowId--;
+        if (--_indexes.throwIndex < 0) {
+                _indexes.throwIndex = 2;
+                if (--_indexes.turnIndex < 0) {
+                        _indexes.turnIndex = _indexes.turnsLimit - 1;
+                        _indexes.roundIndex--;
                 }
         }
-        _indexes.currentThrows--;
+        _indexes.throwCount--;
 }
 
 void DartsIndexes::redo()
 {
         if (!canRedo())
                 return;
-        nextTurn();
-        _indexes.currentThrows++;
+        nextThrow();
 }
 
 bool DartsIndexes::canUndo()
 {
-        return _indexes.currentThrows > 0;
+        return _indexes.throwCount > 0;
 }
 
 bool DartsIndexes::canRedo()
 {
-        return _indexes.currentThrows < _indexes.totalThrows;
+        return _indexes.throwCount < _indexes.availableThrows;
 }
 
 bool DartsIndexes::saveState()
@@ -73,18 +72,20 @@ const DartsTurnIndex DartsIndexes::index() const
 
 void DartsIndexes::skipturn()
 {
-        auto index = 3 - _indexes.currentThrowIndex;
+        auto index = 3 - _indexes.throwIndex;
         while (index-- > 0)
                 next();
 }
 
-void DartsIndexes::nextTurn()
+void DartsIndexes::nextThrow()
 {
-        if (++_indexes.currentThrowIndex > 2) {
-                _indexes.currentThrowIndex = 0;
-                if (++_indexes.currentTurnIndex >= _indexes.playersCount) {
-                        _indexes.currentTurnIndex = 0;
-                        _indexes.currentThrowId++;
+        _indexes.throwCount++;
+        if (++_indexes.throwIndex > 2) {
+                _indexes.turnId++;
+                _indexes.throwIndex = 0;
+                if (++_indexes.turnIndex >= _indexes.turnsLimit) {
+                        _indexes.turnIndex = 0;
+                        _indexes.roundIndex++;
                 }
         }
 }

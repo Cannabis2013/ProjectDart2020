@@ -69,8 +69,8 @@ HEADERS += \
     src/DartsController/servicecollection.h \
     src/DartsController/statistics/controllers/dartsstatistics.h \
     src/DartsController/statistics/controllers/istatsreport.h \
-    src/DartsController/statistics/services/dartsinputstatistics.h \
-    src/DartsController/statistics/services/iinputstatistics.h \
+    src/DartsController/statistics/services/istatscalculator.h \
+    src/DartsController/statistics/services/statscalculator.h \
     src/DartsController/status/dartsstatus.h \
     src/DartsController/status/idartsstatus.h \
     src/DartsController/turns/controller/dartsturncontroller.h \
@@ -115,7 +115,7 @@ SOURCES += \
     src/DartsController/scores/services/dartsscoresfetch.cpp \
     src/DartsController/scores/services/dartsscoresupdate.cpp \
     src/DartsController/statistics/controllers/dartsstatistics.cpp \
-    src/DartsController/statistics/services/dartsinputstatistics.cpp \
+    src/DartsController/statistics/services/statscalculator.cpp \
     src/DartsController/status/dartsstatus.cpp \
     src/DartsController/turns/controller/dartsturncontroller.cpp \
     src/DartsController/turns/persistences/dartsindexes.cpp \

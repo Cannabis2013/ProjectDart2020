@@ -12,7 +12,7 @@ PlayerFetcher::PlayerFetcher(ServiceCollection* services)
 
 DartsPlayer& PlayerFetcher::one()
 {
-        auto currentTurnIndex = _services->indexes->index().currentTurnIndex();
+        auto currentTurnIndex = _services->indexes->index().turnIndex();
         auto players = &_services->players->all();
         if (currentTurnIndex < 0 || currentTurnIndex > players->length())
                 throw new std::out_of_range("No player found for current turn index");

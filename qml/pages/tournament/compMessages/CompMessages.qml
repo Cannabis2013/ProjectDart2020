@@ -10,14 +10,32 @@ Item {
 
         Row {
                 id: messageContainer
-                anchors.left: parent.left
+                anchors.fill: parent
                 anchors.leftMargin: 6
-                spacing: 6
+                spacing: 24
                 move: Transition {
                         NumberAnimation {
-                                properties: "x,y"
+                                properties: "x"
                                 duration: 250
                         }
+                }
+
+                CompMessage {
+                        id: finishRow
+                        height: parent.height
+                        width: 128
+                        imageUrl: "qrc:/pictures/Ressources/Pictures/dartsplate.png"
+                        imageWidth: 40
+                        imageHeight: 34
+                }
+
+                CompMessage {
+                        id: scoreSpan
+                        imageUrl: "qrc:/pictures/Ressources/Pictures/span.png"
+                        height: parent.height
+                        width: 96
+                        imageWidth: 40
+                        imageHeight: 34
                 }
         }
 }

@@ -2,7 +2,7 @@
 #define SERVICECOLLECTION_H
 
 class IPlayerFetcher;
-class IInputStatistics;
+class IStatsCalculator;
 class IDartsInputsFilter;
 class IDartsInputUpdate;
 class IDartsScoresFetch;
@@ -49,7 +49,7 @@ public:
         IDartsScoresFetch* scoresFetcher;
         IDartsInputUpdate* inputsUpdate;
         IDartsInputsFilter* inputsFilter;
-        IInputStatistics* inputStatistics;
+        IStatsCalculator* inputStatistics;
         IPlayerFetcher* playerFetcher;
 };
 

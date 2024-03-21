@@ -13,7 +13,7 @@ public:
         virtual void initFromStorage() = 0;
         virtual int initialScore() const = 0;
         virtual void setInitialScore(const int& initialScore) = 0;
-        virtual QList<Score> scores() = 0;
+        virtual QList<Score> all() = 0;
         virtual void setScores(const QList<Score>& scores) = 0;
 };
 

@@ -2,9 +2,9 @@
 #define DARTINDEXES_H
 
 #include "idartsindexes.h"
-#include "indexesio.h"
 #include "src/DartsController/turns/models/dartsindex.h"
 
+class IndexesIO;
 class DartsIndexes : public IDartsIndexes {
 public:
         DartsIndexes();
@@ -21,7 +21,7 @@ public:
         void skipturn() override;
 
 private:
-        void nextTurn();
+        void nextThrow();
         DartsIndex _indexes;
 
         // Helpers

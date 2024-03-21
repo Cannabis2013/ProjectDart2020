@@ -19,7 +19,7 @@ bool DartsInputsfilter::anyInputs(const QString& name, const int& throwId) const
         return false;
 }
 
-QList<Input> DartsInputsfilter::validFromName(const QString& name) const
+QList<Input> DartsInputsfilter::valids(const QString& name) const
 {
         QList<Input> filtered;
         auto throwId = _services->indexes->index().throwId();

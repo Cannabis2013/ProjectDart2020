@@ -5,7 +5,7 @@
 #include "src/DartsController/scores/persistence/idartsscores.h"
 #include "src/DartsController/scores/services/iscorescalculator.h"
 #include "src/DartsController/servicecollection.h"
-#include "src/DartsController/statistics/services/iinputstatistics.h"
+#include "src/DartsController/statistics/services/istatscalculator.h"
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QList>

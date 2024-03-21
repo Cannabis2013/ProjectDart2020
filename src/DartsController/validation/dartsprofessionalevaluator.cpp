@@ -36,7 +36,7 @@ bool DartsProfessionalEvaluator::evaluateInput(const QString& mod, const int& po
 
 void DartsProfessionalEvaluator::evaluateWinnerCondition()
 {
-        auto scores = _services->scores->scores();
+        auto scores = _services->scores->all();
         for (const auto& score : scores) {
                 if (score.value() == 0) {
                         _services->status->winnerFound();

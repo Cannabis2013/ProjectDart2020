@@ -20,7 +20,7 @@ void DartsScores::setInitialScore(const int& initialScore)
         _initialScore = initialScore;
 }
 
-QList<Score> DartsScores::scores()
+QList<Score> DartsScores::all()
 {
         return _scores;
 }

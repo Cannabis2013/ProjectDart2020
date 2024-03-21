@@ -15,10 +15,12 @@ public:
                 _throwId = jsonObj.value("throwId").toInt();
         }
 
-        Input(const QString& mod, const int& point, const QString& name, const int& throwIndex)
+        Input(const QString& mod, const int& point, const QString& name,
+            const int& turnId, const int& throwIndex)
             : _point(point)
             , _mod(mod)
             , _playerName(name)
+            , _turnId(turnId)
             , _throwId(throwIndex)
         {
         }

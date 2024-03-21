@@ -5,45 +5,53 @@ import QtQuick.Layouts 1.3
 Item {
         id: messageItem
 
-        height: 74
-        width: 128
-        opacity: 0
+        property url imageUrl: ""
+        onImageUrlChanged: messageIcon.source = imageUrl
+
+        property string message: ""
+        onMessageChanged: textContent.text = message
+
+        property int imageHeight: 34
+        onImageHeightChanged: messageIcon.Layout.preferredHeight = imageHeight
+        property int imageWidth: 40
+        onImageWidthChanged: messageIcon.Layout.preferredWidth = imageWidth
 
         function setValues(message, iconUrl) {
                 textContent.text = message
                 messageIcon.source = iconUrl
         }
 
+        onVisibleChanged: {
+                if (visible)
+                        opacityEffect.start()
+        }
+
         NumberAnimation on opacity {
+                id: opacityEffect
                 from: 0
                 to: 1
-                duration: 500
+                duration: 350
         }
 
-        Image {
-                id: messageIcon
-                anchors.verticalCenter: parent.verticalCenter
-                width: 34
-                height: 34
-        }
-
-        Rectangle {
-                id: textRect
-                color: "blue"
-                x: 24
-                y: 40
-                height: 22
-                radius: 6
+        RowLayout {
+                id: layout
+                anchors.fill: parent
+                spacing: 6
+                Image {
+                        id: messageIcon
+                        Layout.preferredHeight: messageItem.imageHeight
+                        Layout.preferredWidth: messageItem.imageWidth
+                }
 
                 Text {
                         id: textContent
-                        anchors.centerIn: parent
-                        onWidthChanged: textRect.width = width + 12
                         font.pointSize: 16
                         font.weight: Font.Bold
                         color: "white"
-                        horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
+                        Layout.fillHeight: true
+                        Layout.fillWidth: true
+                        text: messageItem.message
                 }
         }
 }

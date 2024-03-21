@@ -11,18 +11,18 @@ public:
         {
                 auto jsonDoc = QJsonDocument::fromJson(json);
                 auto jsonObj = jsonDoc.object();
-                playersCount = jsonObj.value("playersCount").toInt();
-                currentTurnIndex = jsonObj.value("currentTurnIndex").toInt();
-                currentThrowId = jsonObj.value("currentThrowId").toInt();
-                totalTurns = jsonObj.value("totalTurns").toInt();
-                currentThrowIndex = jsonObj.value("currentThowIndex").toInt();
-                currentThrows = jsonObj.value("currentThrows").toInt();
-                totalThrows = jsonObj.value("totalThrows").toInt();
+                turnsLimit = jsonObj.value("playersCount").toInt();
+                turnIndex = jsonObj.value("turnIndex").toInt();
+                turnId = jsonObj.value("totalTurns").toInt();
+                roundIndex = jsonObj.value("roundIndex").toInt();
+                throwIndex = jsonObj.value("throwIndex").toInt();
+                throwCount = jsonObj.value("currentThrows").toInt();
+                availableThrows = jsonObj.value("totalThrows").toInt();
         }
 
         DartsIndex(const int& count)
         {
-                playersCount = count;
+                turnsLimit = count;
         }
 
         DartsIndex()
@@ -32,24 +32,24 @@ public:
         QByteArray toJson() const
         {
                 QJsonObject jsonObj;
-                jsonObj["playersCount"] = playersCount;
-                jsonObj["currentTurnIndex"] = currentTurnIndex;
-                jsonObj["totalTurns"] = totalTurns;
-                jsonObj["currentThowIndex"] = currentThrowIndex;
-                jsonObj["currentThrowId"] = currentThrowId;
-                jsonObj["currentThrows"] = currentThrows;
-                jsonObj["totalThrows"] = totalThrows;
+                jsonObj["playersCount"] = turnsLimit;
+                jsonObj["turnIndex"] = turnIndex;
+                jsonObj["throwIndex"] = throwIndex;
+                jsonObj["totalTurns"] = turnId;
+                jsonObj["roundIndex"] = roundIndex;
+                jsonObj["currentThrows"] = throwCount;
+                jsonObj["totalThrows"] = availableThrows;
                 auto jsonDoc = new QJsonDocument(jsonObj);
                 return jsonDoc->toJson(QJsonDocument::Compact);
         }
 
-        int playersCount = 0;
-        int currentTurnIndex = 0;
-        int currentThrowId = 0;
-        int totalTurns = 0;
-        int currentThrowIndex = 0;
-        int currentThrows = 0;
-        int totalThrows = 0;
+        int turnsLimit = 0;
+        int turnIndex = 0;
+        int turnId = 0;
+        int roundIndex = 0;
+        int throwIndex = 0;
+        int throwCount = 0;
+        int availableThrows = 0;
 };
 
 #endif // DARTINDEX_H

@@ -1,13 +1,13 @@
-#ifndef IINPUTSTATISTICS_H
-#define IINPUTSTATISTICS_H
+#ifndef ISTATSCALCULATOR_H
+#define ISTATSCALCULATOR_H
 
 class QString;
 
-class IInputStatistics {
+class IStatsCalculator {
 public:
         virtual double middle(const QString& name) const = 0;
         virtual int lowest(const QString& name) const = 0;
         virtual int highest(const QString& name) const = 0;
 };
 
-#endif // IINPUTSTATISTICS_H
+#endif // ISTATSCALCULATOR_H

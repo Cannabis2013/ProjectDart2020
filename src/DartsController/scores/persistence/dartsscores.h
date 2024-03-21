@@ -16,7 +16,7 @@ public:
         int initialScore() const override;
         void setInitialScore(const int& initialScore) override;
         void setScores(const QList<Score>& scores) override;
-        QList<Score> scores() override;
+        QList<Score> all() override;
         bool saveState() override;
 
 private:

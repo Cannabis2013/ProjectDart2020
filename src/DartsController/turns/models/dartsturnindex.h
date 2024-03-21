@@ -7,41 +7,43 @@ class DartsTurnIndex
 {
 public:
         DartsTurnIndex(const DartsIndex &index){
-                _currentTurnIndex = index.currentTurnIndex;
-                _currentThrowIndex = index.currentThrowIndex;
-                _throwId = index.currentThrows;
-                _turnId = index.totalTurns;
+                _turnIndex = index.turnIndex;
+                _throwId = index.throwCount;
+                _throwIndex = index.throwIndex;
+                _roundIndex = index.roundIndex;
+                _totalTurns = index.turnId;
         }
 
-        int currentTurnIndex() const
+        int turnIndex() const
         {
-                return _currentTurnIndex;
+                return _turnIndex;
         }
 
         int throwIndex() const
         {
-                return _currentThrowIndex;
+                return _throwIndex;
         }
 
-        int throwId() const
+        int roundIndex() const
         {
-                return _throwId;
+                return _roundIndex;
         }
         
         int turnId() const
         {
-                return _turnId;
+                return _totalTurns;
+        }
+        
+        int throwId() const
+        {
+                return _throwId;
         }
 
 private:
-        int _turnId;
-        int _currentTurnIndex;
-        int _currentThrowIndex;
+        int _turnIndex;
+        int _totalTurns;
         int _throwId;
+        int _throwIndex;
+        int _roundIndex;
 };
-
 #endif // DARTTURNINDEX_H
-
-
-
-

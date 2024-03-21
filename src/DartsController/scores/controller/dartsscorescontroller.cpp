@@ -15,14 +15,14 @@ DartsScoresController::DartsScoresController(ServiceCollection* services)
 
 int DartsScoresController::playerOne() const
 {
-        auto scores = _services->scores->scores();
+        auto scores = _services->scores->all();
         auto score = scores.first();
         return score.value();
 }
 
 int DartsScoresController::playerTwo() const
 {
-        auto scores = _services->scores->scores();
+        auto scores = _services->scores->all();
         auto score = scores.last();
         return score.value();
 }
@@ -36,7 +36,7 @@ QString DartsScoresController::finishRow() const
 
 QString DartsScoresController::delta() const
 {
-        auto scores = _services->scores->scores();
+        auto scores = _services->scores->all();
         if (scores.length() != 2)
                 return QString();
         auto scoreOne = scores.at(0).value();

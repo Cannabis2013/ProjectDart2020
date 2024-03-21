@@ -10,7 +10,7 @@
 #include "src/DartsController/scores/services/dartscalculator.h"
 #include "src/DartsController/scores/services/dartsscoresfetch.h"
 #include "src/DartsController/scores/services/dartsscoresupdate.h"
-#include "src/DartsController/statistics/services/dartsinputstatistics.h"
+#include "src/DartsController/statistics/services/statscalculator.h"
 #include "src/DartsController/status/dartsstatus.h"
 #include "src/DartsController/turns/persistences/dartsindexes.h"
 #include "src/DartsController/validation/dartsevaluators.h"
@@ -41,6 +41,6 @@ void DartsServices::injectServices(ServiceCollection* services)
         services->scoresFetcher = new DartsScoresFetch(services);
         services->inputsUpdate = new DartsInputsUpdate(services);
         services->inputsFilter = new DartsInputsfilter(services);
-        services->inputStatistics = new DartsInputStatistics(services);
+        services->inputStatistics = new StatsCalculator(services);
         services->playerFetcher = new PlayerFetcher(services);
 }

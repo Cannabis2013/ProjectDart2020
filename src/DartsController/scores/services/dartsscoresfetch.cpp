@@ -12,14 +12,14 @@ DartsScoresFetch::DartsScoresFetch(ServiceCollection* services)
 
 Score DartsScoresFetch::score()
 {
-        auto index = _services->indexes->index().currentTurnIndex();
-        auto scores = _services->scores->scores();
+        auto index = _services->indexes->index().turnIndex();
+        auto scores = _services->scores->all();
         return scores.at(index);
 }
 
 Score DartsScoresFetch::score(const QString& name)
 {
-        auto scores = _services->scores->scores();
+        auto scores = _services->scores->all();
         for (const auto& score : scores) {
                 if (score.name() == name)
                         return score;

@@ -15,7 +15,8 @@ void DartsInputsUpdate::save(const QString& mod, const int& point)
 {
         auto name = _services->playerFetcher->one().name();
         auto throwId = _services->indexes->index().throwId();
-        Input input(mod, point, name, throwId);
+        auto turnId = _services->indexes->index().turnId();
+        Input input(mod, point, name, turnId, throwId);
         auto inputs = _services->inputs->all() << input;
         _services->inputs->setInputs(inputs);
 }

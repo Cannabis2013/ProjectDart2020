@@ -21,7 +21,7 @@ void DartsTurnController::undo()
         auto name = _services->playerFetcher->one().name();
         undoTurn();
         auto index = _services->indexes->index();
-        if (!_services->inputsFilter->anyInputs(name, index.throwId()))
+        if (!_services->inputsFilter->anyInputs(name, index.roundIndex()))
                 _services->evaluator->updateAllowance(name, false);
 }
 
@@ -29,7 +29,7 @@ void DartsTurnController::redo()
 {
         auto name = _services->playerFetcher->one().name();
         redoTurn();
-        auto throwIndex = _services->indexes->index().throwId();
+        auto throwIndex = _services->indexes->index().roundIndex();
         if (_services->inputsFilter->anyInputs(name, throwIndex))
                 _services->evaluator->updateAllowance(name, true);
 }
@@ -67,7 +67,7 @@ void DartsTurnController::redoTurn()
 
 int DartsTurnController::playerNumber() const
 {
-        return _services->indexes->index().currentTurnIndex();
+        return _services->indexes->index().turnIndex();
 }
 
 int DartsTurnController::playerTurn() const
