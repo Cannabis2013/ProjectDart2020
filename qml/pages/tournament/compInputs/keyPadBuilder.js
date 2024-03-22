@@ -3,38 +3,38 @@ function build() {
         let numberIndex = 20
         while (buttonIndex >= 0) {
                 if (buttonIndex === 4)
-                        createBustPad(middlePadGrid)
+                        createBustPad()
                 else if (buttonIndex === 9)
-                        createBullPad(middlePadGrid)
+                        createNumberPad(25, 25, "green")
                 else if (buttonIndex === 14)
-                        createBullsPad(middlePadGrid)
+                        createNumberPad(50, 50, "red")
                 else if (buttonIndex === 19)
-                        createModPad("D", middlePadGrid)
+                        createModPad("D")
                 else if (buttonIndex === 24)
-                        createModPad("T", middlePadGrid)
+                        createModPad("T")
                 else {
-                        createNumberPad(numberIndex, numberIndex, middlePadGrid)
+                        createNumberPad(numberIndex, numberIndex)
                         numberIndex--
                 }
                 buttonIndex--
         }
 }
 
-function createNumberPad(padValue, textDisplay, parentObj) {
+function createNumberPad(padValue, textDisplay, color = "white") {
         const component = Qt.createComponent("NumberPad.qml")
-        const object = component.createObject(parentObj, {
+        const object = component.createObject(middlePadGrid, {
                                                       "text": textDisplay,
                                                       "padValue": padValue,
                                                       "Layout.fillWidth": true,
                                                       "Layout.fillHeight": true,
-                                                      "backgroundColor": "white"
+                                                      "color": color
                                               })
         object.padClicked.connect(keyPadRect.numberClicked)
 }
 
-function createModPad(modId, parentObj) {
+function createModPad(modId) {
         const component = Qt.createComponent("ModPad.qml")
-        const modKey = component.createObject(parentObj, {
+        const modKey = component.createObject(middlePadGrid, {
                                                       "text": modId,
                                                       "modId": modId,
                                                       "Layout.fillWidth": true,
@@ -44,38 +44,14 @@ function createModPad(modId, parentObj) {
         modKey.modClicked.connect(modKeyClicked)
 }
 
-function createBullPad(parentObj) {
+function createBustPad() {
         const component = Qt.createComponent("NumberPad.qml")
-        const object = component.createObject(parentObj, {
-                                                      "Layout.fillWidth": true,
-                                                      "Layout.fillHeight": true,
-                                                      "text": "25",
-                                                      "padValue": 25,
-                                                      "backgroundColor": "green"
-                                              })
-        object.padClicked.connect(keyPadRect.specialClicked)
-}
-
-function createBullsPad(parentObj) {
-        const component = Qt.createComponent("NumberPad.qml")
-        const object = component.createObject(parentObj, {
-                                                      "Layout.fillWidth": true,
-                                                      "Layout.fillHeight": true,
-                                                      "text": "50",
-                                                      "padValue": 50,
-                                                      "backgroundColor": "red"
-                                              })
-        object.padClicked.connect(keyPadRect.specialClicked)
-}
-
-function createBustPad(parentObj) {
-        const component = Qt.createComponent("NumberPad.qml")
-        const object = component.createObject(parentObj, {
+        const object = component.createObject(middlePadGrid, {
                                                       "Layout.fillWidth": true,
                                                       "Layout.fillHeight": true,
                                                       "text": "Bust",
                                                       "padValue": 0,
-                                                      "backgroundColor": "orange"
+                                                      "color": "orange"
                                               })
         object.padClicked.connect(keyPadRect.bustTurn)
 }

@@ -38,7 +38,7 @@ function updateStatistics() {
 }
 
 function highlightPlayer() {
-        const playerTurn = dartsTurns.playerTurn()
+        const playerTurn = dartsTurns.turnNumber()
         const playerNumber = dartsTurns.playerNumber()
         if (playerNumber === 0)
                 highlight(playerOne, playerTwo, playerOneInfo, playerTwoInfo, playerTurn)

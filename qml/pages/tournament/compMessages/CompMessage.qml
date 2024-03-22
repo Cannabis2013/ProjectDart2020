@@ -11,6 +11,9 @@ Item {
         property string message: ""
         onMessageChanged: textContent.text = message
 
+        property real imageRotation: 0
+        onImageRotationChanged: messageIcon.rotation = imageRotation
+
         property int imageHeight: 34
         onImageHeightChanged: messageIcon.Layout.preferredHeight = imageHeight
         property int imageWidth: 40
@@ -41,6 +44,7 @@ Item {
                         id: messageIcon
                         Layout.preferredHeight: messageItem.imageHeight
                         Layout.preferredWidth: messageItem.imageWidth
+                        rotation: messageItem.imageRotation
                 }
 
                 Text {

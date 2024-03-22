@@ -8,34 +8,23 @@ Item {
                 Scripts.updateMessages()
         }
 
-        Row {
-                id: messageContainer
-                anchors.fill: parent
-                anchors.leftMargin: 6
-                spacing: 24
-                move: Transition {
-                        NumberAnimation {
-                                properties: "x"
-                                duration: 250
-                        }
-                }
+        CompMessage {
+                id: finishRow
+                anchors.left: parent.left
+                height: parent.height
+                width: 192
+                imageUrl: "qrc:/pictures/Ressources/Pictures/dartsplate.png"
+                imageWidth: 27
+                imageHeight: 20
+        }
 
-                CompMessage {
-                        id: finishRow
-                        height: parent.height
-                        width: 192
-                        imageUrl: "qrc:/pictures/Ressources/Pictures/dartsplate.png"
-                        imageWidth: 40
-                        imageHeight: 34
-                }
-
-                CompMessage {
-                        id: scoreSpan
-                        imageUrl: "qrc:/pictures/Ressources/Pictures/span.png"
-                        height: parent.height
-                        width: 112
-                        imageWidth: 40
-                        imageHeight: 34
-                }
+        CompMessage {
+                id: scoreSpan
+                anchors.right: parent.right
+                imageUrl: "qrc:/pictures/Ressources/Pictures/span.png"
+                height: parent.height
+                width: 100
+                imageWidth: 42
+                imageHeight: 20
         }
 }

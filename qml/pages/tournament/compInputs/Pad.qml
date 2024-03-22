@@ -4,21 +4,22 @@ Rectangle {
         id: padRect
         clip: true
 
+        color: "grey"
+
         signal clicked
         signal pressed
         signal released
+
+        Behavior on scale {
+                NumberAnimation {
+                        duration: 125
+                }
+        }
 
         onEnabledChanged: padRect.opacity = enabled ? 1 : 0.2
 
         property string text: ""
         onTextChanged: buttonText.text = qsTr(text)
-        property color backgroundColor: "grey"
-        onBackgroundColorChanged: padRect.color = backgroundColor
-        property color fontColor: "black"
-        onFontColorChanged: buttonText.color = fontColor
-
-        property int fontSize: 28
-        onFontSizeChanged: buttonText.font.pointSize = fontSize
 
         MouseArea {
                 anchors.fill: parent
@@ -30,10 +31,10 @@ Rectangle {
         Text {
                 id: buttonText
                 anchors.fill: parent
+                font.pointSize: 28
                 text: qsTr(padRect.text)
-                color: fontColor
+                color: "black"
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
-                font.pointSize: padRect.fontSize
         }
 }
