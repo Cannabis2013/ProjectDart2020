@@ -8,7 +8,7 @@ Rectangle {
         color: "green"
 
         property bool expanded: false
-        onExpandedChanged: playerNameDisplay.showFullName(expanded)
+        onExpandedChanged: Scripts.showFullName(expanded)
 
         function setPlayer(player) {
                 Scripts.setPlayer(player)
