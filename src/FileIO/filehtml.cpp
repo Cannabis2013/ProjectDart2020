@@ -1,13 +1,11 @@
-#include "pagetexts.h"
+#include "filehtml.h"
 
 #include <QFile>
 #include <QTextStream>
 
-#define AboutText ":/data/Ressources/TextData/aboutContent.dat"
-
-QString PageTexts::aboutPage()
+QString FileHtml::aboutHtml()
 {
-        QFile file(AboutText);
+        QFile file(":/data/Ressources/TextData/aboutContent.dat");
         if (!file.open(QIODevice::ReadOnly))
                 return QString();
         QTextStream in(&file);

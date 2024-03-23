@@ -11,7 +11,7 @@ function isPortrait() {
         return tournamentPage.height > tournamentPage.width
 }
 
-function initializeUI() {
+function initializeUI(){
         playerInfos.initialize()
         updateTurnValues()
 }

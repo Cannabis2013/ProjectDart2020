@@ -21,8 +21,8 @@ RESOURCES += \
     qml.qrc
 
 HEADERS += \
+    src/FileIO/filehtml.h \
     src/FileIO/filejsonio.h \
-    src/FileIO/pagetexts.h \
     src/Finishes/dartsThresholds.h \
     src/Finishes/dartsboundaries.h \
     src/Finishes/dartscreatefinishes.h \
@@ -92,8 +92,8 @@ HEADERS += \
     src/validation/iplayerallowances.h
 
 SOURCES += \
+    src/FileIO/filehtml.cpp \
     src/FileIO/filejsonio.cpp \
-    src/FileIO/pagetexts.cpp \
     src/Finishes/dartsThresholds.cpp \
     src/Finishes/dartscreatefinishes.cpp \
     src/Finishes/dartsfinishes.cpp \

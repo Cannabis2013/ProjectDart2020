@@ -27,14 +27,31 @@
         <file>qml/pages/start/pageStart.js</file>
         <file>qml/pages/start/PageStart.qml</file>
         <file>qml/pages/templates/PageWithHeader.qml</file>
+        <file>qml/pages/tournament/compInputs/compInputs.js</file>
+        <file>qml/pages/tournament/compInputs/CompInputs.qml</file>
+        <file>qml/pages/tournament/compInputs/keyPadBuilder.js</file>
+        <file>qml/pages/tournament/compInputs/ModPad.qml</file>
+        <file>qml/pages/tournament/compInputs/NumberPad.qml</file>
+        <file>qml/pages/tournament/compInputs/Pad.qml</file>
+        <file>qml/pages/tournament/compMessages/CompMessage.qml</file>
+        <file>qml/pages/tournament/compMessages/compMessages.js</file>
         <file>qml/pages/tournament/compMessages/CompMessages.qml</file>
+        <file>qml/pages/tournament/compPlayerInfos/playerInfoRect/compStatsDisplay.js</file>
+        <file>qml/pages/tournament/compPlayerInfos/playerInfoRect/CompStatsDisplay.qml</file>
+        <file>qml/pages/tournament/compPlayerInfos/playerInfoRect/playerInfoRect.js</file>
+        <file>qml/pages/tournament/compPlayerInfos/playerInfoRect/PlayerInfoRect.qml</file>
+        <file>qml/pages/tournament/compPlayerInfos/turnCounter/turnCounter.js</file>
+        <file>qml/pages/tournament/compPlayerInfos/turnCounter/TurnCounter.qml</file>
         <file>qml/pages/tournament/compPlayerInfos/compPlayerInfos.js</file>
         <file>qml/pages/tournament/compPlayerInfos/CompPlayerInfos.qml</file>
         <file>qml/pages/tournament/compTurnControls/CompTurnControls.qml</file>
         <file>qml/pages/tournament/dialogs/quit/DialogQuit.qml</file>
         <file>qml/pages/tournament/dialogs/restart/DialogRestart.qml</file>
+        <file>qml/pages/tournament/dialogs/winner/statisticsPage/compStatistics.js</file>
+        <file>qml/pages/tournament/dialogs/winner/statisticsPage/CompStatistics.qml</file>
         <file>qml/pages/tournament/dialogs/winner/statisticsPage/pageStatistics.js</file>
         <file>qml/pages/tournament/dialogs/winner/statisticsPage/PageStatistics.qml</file>
+        <file>qml/pages/tournament/dialogs/winner/winnerPage/pageWinner.js</file>
         <file>qml/pages/tournament/dialogs/winner/winnerPage/PageWinner.qml</file>
         <file>qml/pages/tournament/dialogs/winner/DialogButtons.qml</file>
         <file>qml/pages/tournament/dialogs/winner/DialogWinner.qml</file>
@@ -44,21 +61,5 @@
         <file>qml/main.qml</file>
         <file>qml/PageLoader.qml</file>
         <file>qtquickcontrols2.conf</file>
-        <file>qml/pages/tournament/compInputs/compInputs.js</file>
-        <file>qml/pages/tournament/compInputs/CompInputs.qml</file>
-        <file>qml/pages/tournament/compInputs/keyPadBuilder.js</file>
-        <file>qml/pages/tournament/compInputs/ModPad.qml</file>
-        <file>qml/pages/tournament/compInputs/NumberPad.qml</file>
-        <file>qml/pages/tournament/compInputs/Pad.qml</file>
-        <file>qml/pages/tournament/compPlayerInfos/compPlayerInfo.js</file>
-        <file>qml/pages/tournament/compPlayerInfos/CompPlayerInfo.qml</file>
-        <file>qml/pages/tournament/compPlayerInfos/CompScoreDisplay.qml</file>
-        <file>qml/pages/tournament/compPlayerInfos/compStatsDisplay.js</file>
-        <file>qml/pages/tournament/compPlayerInfos/CompStatsDisplay.qml</file>
-        <file>qml/pages/tournament/compMessages/CompMessage.qml</file>
-        <file>qml/pages/tournament/compMessages/compMessages.js</file>
-        <file>qml/pages/tournament/dialogs/winner/statisticsPage/CompStatistics.qml</file>
-        <file>qml/pages/tournament/dialogs/winner/statisticsPage/compStatistics.js</file>
-        <file>qml/pages/tournament/dialogs/winner/winnerPage/pageWinner.js</file>
     </qresource>
 </RCC>

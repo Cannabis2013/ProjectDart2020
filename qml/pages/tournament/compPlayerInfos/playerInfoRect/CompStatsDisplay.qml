@@ -8,13 +8,17 @@ Item {
         }
 
         GridLayout {
-                anchors.fill: parent
+                anchors.bottom: parent.bottom
+                width: parent.width
+                height: 24
                 rowSpacing: 0
 
                 Text {
                         id: averageText
                         font.pointSize: 12
                         Layout.fillHeight: true
+                        lineHeight: 12
+                        lineHeightMode: Text.FixedHeight
                         Layout.fillWidth: true
                         font.weight: Font.Bold
                         color: "white"
@@ -27,6 +31,8 @@ Item {
                         id: lowText
                         font.pointSize: 12
                         Layout.fillHeight: true
+                        lineHeight: 12
+                        lineHeightMode: Text.FixedHeight
                         Layout.fillWidth: true
                         font.weight: Font.Bold
                         color: "white"
@@ -39,6 +45,8 @@ Item {
                         id: highText
                         font.pointSize: 12
                         Layout.fillHeight: true
+                        lineHeight: 12
+                        lineHeightMode: Text.FixedHeight
                         Layout.fillWidth: true
                         font.weight: Font.Bold
                         color: "white"
@@ -51,6 +59,8 @@ Item {
                         id: totalText
                         font.pointSize: 12
                         Layout.fillHeight: true
+                        lineHeightMode: Text.FixedHeight
+                        lineHeight: 12
                         Layout.fillWidth: true
                         font.weight: Font.Bold
                         color: "white"

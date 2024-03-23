@@ -1,6 +1,21 @@
+function setValues(score, stats) {
+        scoreDisplayText.text = score
+        if (stats)
+                statsDisplay.setValues(stats)
+}
+
+function highlight(dartsCount) {
+        playerInfoRect.color = "blue"
+}
+
+function unHighlight() {
+        playerInfoRect.color = "green"
+}
+
 function setPlayer(player) {
-        playerName.text = shortenName(player.name, 9)
-        playerNationality.text = player.nationality
+        playerInfo.fullName = player.name
+        playerInfo.formattedName = shortenName(player.name, 9)
+        playerName.text = playerInfo.formattedName
 }
 
 function shortenName(name, limit) {
@@ -37,10 +52,9 @@ function reduceMiddleNames(name) {
         return firstName + lastName
 }
 
-function setHiddenDarts(count) {
-        const children = dartsLayout.children
-        for (var i = children.length - 1; i >= 0; i--) {
-                const child = children[i]
-                child.visible = i >= count
-        }
+function showFullName(show) {
+        if (show)
+                playerName.text = playerInfo.fullName
+        else
+                playerName.text = playerInfo.formattedName
 }

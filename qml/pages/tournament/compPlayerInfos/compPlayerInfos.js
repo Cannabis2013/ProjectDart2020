@@ -1,56 +1,69 @@
 function init() {
-        initPlayers()
-        initScores()
-}
-
-function initPlayers() {
-        const playerOne = JSON.parse(dartsPlayers.playerOne())
-        const playerTwo = JSON.parse(dartsPlayers.playerTwo())
-        playerOneInfo.setPlayer(playerOne)
-        playerTwoInfo.setPlayer(playerTwo)
-}
-
-function initScores() {
+        const firstPlayer = JSON.parse(dartsPlayers.playerOne())
+        const secondPlayer = JSON.parse(dartsPlayers.playerTwo())
         const oneScore = dartsScores.playerOne()
         const twoScore = dartsScores.playerTwo()
-        playerOneScore.initScore(oneScore)
-        playerTwoScore.initScore(twoScore)
+        playerOne.setPlayer(firstPlayer)
+        playerTwo.setPlayer(secondPlayer)
+        playerOne.setValues(oneScore)
+        playerTwo.setValues(twoScore)
 }
 
 function updateValues() {
-        updateScores()
-        updateStatistics()
+        updateComponents()
         highlightPlayer()
+        shrinkPlayerRects()
 }
 
-function updateScores() {
+function updateComponents() {
         const oneScore = dartsScores.playerOne()
         const twoScore = dartsScores.playerTwo()
-        playerOneScore.updateScore(oneScore)
-        playerTwoScore.updateScore(twoScore)
-}
-
-function updateStatistics() {
         const oneStats = JSON.parse(dartsStats.playerOne())
         const twoStats = JSON.parse(dartsStats.playerTwo())
-        playerOneStats.setValues(oneStats)
-        playerTwoStats.setValues(twoStats)
+        playerOne.setValues(oneScore, oneStats)
+        playerTwo.setValues(twoScore, twoStats)
 }
 
 function highlightPlayer() {
         const playerTurn = dartsTurns.turnNumber()
         const playerNumber = dartsTurns.playerNumber()
-        if (playerNumber === 0)
-                highlight(playerOne, playerTwo, playerOneInfo, playerTwoInfo, playerTurn)
-        else if (playerNumber === 1)
-                highlight(playerTwo, playerOne, playerTwoInfo, playerOneInfo, playerTurn)
-        else
+        turnCounter.setHiddenDarts(playerTurn)
+        if (playerNumber === 0) {
+                playerOne.color = "blue"
+                playerTwo.color = "green"
+        } else if (playerNumber === 1) {
+                playerOne.color = "green"
+                playerTwo.color = "blue"
+        } else
                 throw "INVALID PLAYER NUMBER!"
 }
 
-function highlight(p1, p2, p3, p4, playerTurn) {
-        p1.color = "blue"
-        p2.color = "green"
-        p3.hideDarts(playerTurn)
-        p4.hideDarts(3)
+function expandPlayerOne() {
+        if (playerOne.expanded) {
+                shrinkPlayerRects()
+        } else {
+                playerOne.width = playerInfoItem.width
+                playerOne.expanded = true
+                playerTwo.width = 0
+                turnCounter.visible = false
+        }
+}
+
+function expandPlayerTwo() {
+        if (playerTwo.expanded) {
+                shrinkPlayerRects()
+        } else {
+                playerOne.width = 0
+                playerTwo.expanded = true
+                playerTwo.width = playerInfoItem.width
+                turnCounter.visible = false
+        }
+}
+
+function shrinkPlayerRects() {
+        playerOne.width = playerInfoItem.width / 2
+        playerTwo.width = playerInfoItem.width / 2
+        playerOne.expanded = false
+        playerTwo.expanded = false
+        turnCounter.visible = true
 }

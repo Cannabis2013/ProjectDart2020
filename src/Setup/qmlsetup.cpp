@@ -1,4 +1,5 @@
 #include "qmlsetup.h"
+#include "src/FileIO/filehtml.h"
 #include "src/Sounds/soundcontroller.h"
 #include "src/dartsservices.h"
 #include "src/init/serviceinitializer.h"
@@ -47,6 +48,8 @@ void QmlSetup::registerServices()
         auto scoresReport = new DartsScoresController(services);
         auto turnController = new DartsTurnController(services);
         auto playersReport = new PlayerReport(services);
+        auto pageText = new FileHtml();
+        _engine->rootContext()->setContextProperty("fileHtml", pageText);
         _engine->rootContext()->setContextProperty("dartsInitializer", initializer);
         _engine->rootContext()->setContextProperty("dartsInputs", inputController);
         _engine->rootContext()->setContextProperty("dartsStats", statsReport);

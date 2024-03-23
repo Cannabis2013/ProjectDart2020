@@ -3,10 +3,10 @@
 
 #include <QObject>
 
-class PageTexts : public QObject {
+class FileHtml : public QObject {
         Q_OBJECT
 public:
-        Q_INVOKABLE QString aboutPage();
+        Q_INVOKABLE QString aboutHtml();
 };
 
 #endif // FILEREADER_H

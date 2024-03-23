@@ -1,8 +1,11 @@
 import QtQuick 2.15
 import QtQuick.Layouts 1.3
 import "compPlayerInfos.js" as Scripts
+import "./playerInfoRect"
+import "./turnCounter"
 
 Item {
+        id: playerInfoItem
         function initialize() {
                 Scripts.init()
         }
@@ -11,57 +14,36 @@ Item {
                 Scripts.updateValues()
         }
 
-        Rectangle {
+        PlayerInfoRect {
                 id: playerOne
-                color: "green"
+                anchors.bottom: parent.bottom
                 anchors.left: parent.left
                 anchors.top: parent.top
-                anchors.bottom: parent.bottom
                 width: parent.width / 2
-                ColumnLayout {
+                MouseArea {
                         anchors.fill: parent
-                        CompPlayerInfo {
-                                id: playerOneInfo
-                                Layout.preferredHeight: 76
-                                Layout.fillWidth: true
-                        }
-                        CompScoreDisplay {
-                                id: playerOneScore
-                                Layout.fillHeight: true
-                                Layout.fillWidth: true
-                        }
-                        CompStatsDisplay {
-                                id: playerOneStats
-                                Layout.preferredHeight: 32
-                                Layout.fillWidth: true
-                        }
+                        onClicked: Scripts.expandPlayerOne()
                 }
         }
 
-        Rectangle {
+        PlayerInfoRect {
                 id: playerTwo
-                color: "green"
                 anchors.right: parent.right
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
                 width: parent.width / 2
-                ColumnLayout {
+                MouseArea {
                         anchors.fill: parent
-                        CompPlayerInfo {
-                                id: playerTwoInfo
-                                Layout.preferredHeight: 76
-                                Layout.fillWidth: true
-                        }
-                        CompScoreDisplay {
-                                id: playerTwoScore
-                                Layout.fillWidth: true
-                                Layout.fillHeight: true
-                        }
-                        CompStatsDisplay {
-                                id: playerTwoStats
-                                Layout.preferredHeight: 32
-                                Layout.fillWidth: true
-                        }
+                        onClicked: Scripts.expandPlayerTwo()
                 }
+        }
+
+        TurnCounter {
+                id: turnCounter
+                anchors.top: parent.top
+                anchors.topMargin: 40
+                anchors.horizontalCenter: parent.horizontalCenter
+                height: 48
+                width: 48
         }
 }

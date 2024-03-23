@@ -30,5 +30,5 @@ PageWithHeader {
                 }
         }
 
-        Component.onCompleted: aboutText.text = pageContents.aboutPage()
+        Component.onCompleted: aboutText.text = fileHtml.aboutHtml()
 }
