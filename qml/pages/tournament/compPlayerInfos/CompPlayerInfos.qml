@@ -2,7 +2,6 @@ import QtQuick 2.15
 import QtQuick.Layouts 1.3
 import "compPlayerInfos.js" as Scripts
 import "./playerInfoRect"
-import "./turnCounter"
 
 Item {
         id: playerInfoItem

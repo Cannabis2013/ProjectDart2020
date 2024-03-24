@@ -40,8 +40,6 @@
         <file>qml/pages/tournament/compPlayerInfos/playerInfoRect/CompStatsDisplay.qml</file>
         <file>qml/pages/tournament/compPlayerInfos/playerInfoRect/playerInfoRect.js</file>
         <file>qml/pages/tournament/compPlayerInfos/playerInfoRect/PlayerInfoRect.qml</file>
-        <file>qml/pages/tournament/compPlayerInfos/turnCounter/turnCounter.js</file>
-        <file>qml/pages/tournament/compPlayerInfos/turnCounter/TurnCounter.qml</file>
         <file>qml/pages/tournament/compPlayerInfos/compPlayerInfos.js</file>
         <file>qml/pages/tournament/compPlayerInfos/CompPlayerInfos.qml</file>
         <file>qml/pages/tournament/compTurnControls/CompTurnControls.qml</file>
