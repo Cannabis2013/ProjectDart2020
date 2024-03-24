@@ -25,9 +25,7 @@ function updateComponents() {
 }
 
 function highlightPlayer() {
-        const playerTurn = dartsTurns.turnNumber()
         const playerNumber = dartsTurns.playerNumber()
-        turnCounter.setHiddenDarts(playerTurn)
         if (playerNumber === 0) {
                 playerOne.color = "blue"
                 playerTwo.color = "green"
@@ -45,7 +43,6 @@ function expandPlayerOne() {
                 playerOne.width = playerInfoItem.width
                 playerOne.expanded = true
                 playerTwo.width = 0
-                turnCounter.visible = false
         }
 }
 
@@ -56,7 +53,6 @@ function expandPlayerTwo() {
                 playerOne.width = 0
                 playerTwo.expanded = true
                 playerTwo.width = playerInfoItem.width
-                turnCounter.visible = false
         }
 }
 
@@ -65,5 +61,4 @@ function shrinkPlayerRects() {
         playerTwo.width = playerInfoItem.width / 2
         playerOne.expanded = false
         playerTwo.expanded = false
-        turnCounter.visible = true
 }

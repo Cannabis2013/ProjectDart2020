@@ -1,10 +1,10 @@
 #ifndef SERVICECOLLECTION_H
 #define SERVICECOLLECTION_H
 
+class IDartsInputsUpdater;
 class IPlayerFetcher;
 class IStatsCalculator;
 class IDartsInputsFilter;
-class IDartsInputUpdate;
 class IDartsScoresFetch;
 class IScoresUpdate;
 class IServiceInitializer;
@@ -47,10 +47,10 @@ public:
         IScoresReport* scoresReport;
         IScoresUpdate* scoresUpdate;
         IDartsScoresFetch* scoresFetcher;
-        IDartsInputUpdate* inputsUpdate;
         IDartsInputsFilter* inputsFilter;
         IStatsCalculator* inputStatistics;
         IPlayerFetcher* playerFetcher;
+        IDartsInputsUpdater* inputsUpdater;
 };
 
 #endif // SERVICECOLLECTION_H

@@ -32,14 +32,12 @@ void DartsIndexes::undo()
 {
         if (!canUndo())
                 return;
-        if (--_indexes.throwIndex < 0) {
-                _indexes.throwIndex = 2;
-                if (--_indexes.turnIndex < 0) {
-                        _indexes.turnIndex = _indexes.turnsLimit - 1;
-                        _indexes.roundIndex--;
-                }
+        if (--_indexes.turnIndex < 0) {
+                _indexes.turnIndex = _indexes.turnsLimit - 1;
+                _indexes.roundIndex--;
         }
-        _indexes.throwCount--;
+        _indexes.turnCount--;
+        _indexes.throwCount -= 3;
 }
 
 void DartsIndexes::redo()
@@ -51,7 +49,7 @@ void DartsIndexes::redo()
 
 bool DartsIndexes::canUndo()
 {
-        return _indexes.throwCount > 0;
+        return _indexes.throwCount >= 3;
 }
 
 bool DartsIndexes::canRedo()
@@ -69,22 +67,12 @@ const DartsTurnIndex DartsIndexes::index() const
         return DartsTurnIndex(_indexes);
 }
 
-void DartsIndexes::skipturn()
-{
-        auto index = 3 - _indexes.throwIndex;
-        while (index-- > 0)
-                next();
-}
-
 void DartsIndexes::nextThrow()
 {
-        _indexes.throwCount++;
-        if (++_indexes.throwIndex > 2) {
-                _indexes.turnId++;
-                _indexes.throwIndex = 0;
-                if (++_indexes.turnIndex >= _indexes.turnsLimit) {
-                        _indexes.turnIndex = 0;
-                        _indexes.roundIndex++;
-                }
+        _indexes.throwCount += 3;
+        _indexes.turnCount++;
+        if (++_indexes.turnIndex >= _indexes.turnsLimit) {
+                _indexes.turnIndex = 0;
+                _indexes.roundIndex++;
         }
 }

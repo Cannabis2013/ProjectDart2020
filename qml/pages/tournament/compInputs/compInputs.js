@@ -1,12 +1,18 @@
 function handleNumberPadClicked(point) {
         const modId = getSelectedId()
         unSelectAll()
-        reportScore(modId, point)
+        inputsDisplay.addInput(modId, point)
+}
+
+function report() {
+        const inputs = inputsDisplay.readInputs()
+        reportScores(inputs)
+        inputsDisplay.flushInputs()
 }
 
 function handleSpecialPadClicked(value) {
         unSelectAll()
-        reportScore("S", value)
+        inputsDisplay.addInput("S", value)
 }
 
 function handleModPadClicked(modId) {

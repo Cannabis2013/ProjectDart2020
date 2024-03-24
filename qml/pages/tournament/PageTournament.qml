@@ -24,7 +24,7 @@ Page {
 
                 CompPlayerInfos {
                         id: playerInfos
-                        Layout.preferredHeight: 200
+                        Layout.preferredHeight: 146
                         Layout.fillWidth: true
                 }
 
@@ -49,9 +49,8 @@ Page {
                         id: inputSection
                         Layout.fillWidth: true
                         Layout.fillHeight: true
+                        onReportScores: scores => Scripts.addScore(scores)
                         Layout.rowSpan: Scripts.isPortrait() ? 1 : 3
-                        onReportScore: (modId, point) => Scripts.addScore(modId, point)
-                        onBustTurn: value => Scripts.bustScore()
                 }
         }
 

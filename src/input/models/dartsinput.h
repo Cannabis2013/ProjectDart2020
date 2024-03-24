@@ -5,35 +5,32 @@
 #include <qjsonobject.h>
 #include <QJsonDocument>
 
-class Input{
+class DartsInput {
 public:
-        Input(const QJsonObject &jsonObj){
+        DartsInput(const QJsonObject& jsonObj)
+        {
                 _point =  jsonObj.value("point").toInt(-1);
                 _mod = jsonObj.value("mod").toString("");
                 _playerName = jsonObj.value("player").toString("");
+                _roundIndex = jsonObj.value("roundIndex").toInt();
                 _turnId = jsonObj.value("turnId").toInt();
-                _throwId = jsonObj.value("throwId").toInt();
         }
 
-        Input(const QString& mod, const int& point, const QString& name,
-            const int& turnId, const int& throwIndex)
+        DartsInput(const QString& mod, const int& point)
             : _point(point)
             , _mod(mod)
-            , _playerName(name)
-            , _turnId(turnId)
-            , _throwId(throwIndex)
         {
         }
 
-        Input(){}
+        DartsInput() { }
 
         QJsonObject toJsonObject(){
                 QJsonObject jsonObj;
                 jsonObj["point"] = _point;
                 jsonObj["mod"] = _mod;
                 jsonObj["player"] = _playerName;
+                jsonObj["roundIndex"] = _roundIndex;
                 jsonObj["turnId"] = _turnId;
-                jsonObj["throwId"] = _throwId;
                 return jsonObj;
         }
 
@@ -56,10 +53,10 @@ public:
         {
                 return _playerName;
         }
-        
-        int throwId() const
+
+        int roundIndex() const
         {
-                return _throwId;
+                return _roundIndex;
         }
 
         int turnId() const
@@ -67,12 +64,26 @@ public:
                 return _turnId;
         }
 
+        void setTurnId(int newTurnId)
+        {
+                _turnId = newTurnId;
+        }
+
+        void setRoundIndex(int newRoundIndex)
+        {
+                _roundIndex = newRoundIndex;
+        }
+
+        void setPlayerName(const QString& newPlayerName)
+        {
+                _playerName = newPlayerName;
+        }
+
 private:
         int _point = 0;
         QString _mod = "S";
         QString _playerName;
         int _turnId;
-        int _throwId;
+        int _roundIndex;
 };
-
 #endif // DARTSINTERNALINPUT_H

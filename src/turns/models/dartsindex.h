@@ -12,9 +12,8 @@ public:
                 auto jsonDoc = QJsonDocument::fromJson(json);
                 auto jsonObj = jsonDoc.object();
                 turnIndex = jsonObj.value("turnIndex").toInt();
-                turnId = jsonObj.value("totalTurns").toInt();
+                turnCount = jsonObj.value("totalTurns").toInt();
                 roundIndex = jsonObj.value("roundIndex").toInt();
-                throwIndex = jsonObj.value("throwIndex").toInt();
                 throwCount = jsonObj.value("currentThrows").toInt();
                 availableThrows = jsonObj.value("totalThrows").toInt();
         }
@@ -28,8 +27,7 @@ public:
                 QJsonObject jsonObj;
                 jsonObj["playersCount"] = turnsLimit;
                 jsonObj["turnIndex"] = turnIndex;
-                jsonObj["throwIndex"] = throwIndex;
-                jsonObj["totalTurns"] = turnId;
+                jsonObj["totalTurns"] = turnCount;
                 jsonObj["roundIndex"] = roundIndex;
                 jsonObj["currentThrows"] = throwCount;
                 jsonObj["totalThrows"] = availableThrows;
@@ -39,9 +37,8 @@ public:
 
         int turnsLimit = 2;
         int turnIndex = 0;
-        int turnId = 0;
+        int turnCount = 0;
         int roundIndex = 0;
-        int throwIndex = 0;
         int throwCount = 0;
         int availableThrows = 0;
 };

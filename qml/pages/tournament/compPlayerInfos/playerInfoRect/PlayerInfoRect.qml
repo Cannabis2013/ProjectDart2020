@@ -52,7 +52,7 @@ Rectangle {
                 anchors.bottom: statsDisplay.top
                 width: parent.width
                 height: 64
-                font.pointSize: 100
+                font.pixelSize: 80
                 font.weight: Font.Bold
                 color: "white"
                 verticalAlignment: Qt.AlignVCenter

@@ -7,7 +7,6 @@
 
 class ServiceCollection;
 class IDartsStatus;
-class IDartsInputTrimmer;
 class IDartsInputs;
 class IDartsPlayers;
 class IDartsScores;
@@ -20,11 +19,9 @@ public:
 
         Q_INVOKABLE void undo() override;
         Q_INVOKABLE void redo() override;
-        Q_INVOKABLE void skip() override;
         Q_INVOKABLE bool canUndo() const override;
         Q_INVOKABLE bool canRedo() const override;
         Q_INVOKABLE int playerNumber() const override;
-        Q_INVOKABLE int turnNumber() const override;
 
 private:
         void undoTurn();

@@ -11,7 +11,7 @@ function isPortrait() {
         return tournamentPage.height > tournamentPage.width
 }
 
-function initializeUI(){
+function initializeUI() {
         playerInfos.initialize()
         updateTurnValues()
 }
@@ -33,8 +33,9 @@ function redo() {
         updateTurnValues()
 }
 
-function addScore(modId, point) {
-        dartsInputs.add(modId, point)
+function addScore(scores) {
+        const json = JSON.stringify(scores)
+        dartsInputs.add(json)
         updateTurnValues()
 }
 

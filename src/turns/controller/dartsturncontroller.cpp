@@ -1,6 +1,5 @@
 #include "dartsturncontroller.h"
 #include "src/input/services/idartsinputsfilter.h"
-#include "src/input/services/idartsinputupdate.h"
 #include "src/players/models/dartsplayer.h"
 #include "src/players/persistences/idartsplayers.h"
 #include "src/players/services/iplayerfetcher.h"
@@ -21,7 +20,7 @@ void DartsTurnController::undo()
         auto name = _services->playerFetcher->one().name();
         undoTurn();
         auto index = _services->indexes->index();
-        if (!_services->inputsFilter->anyInputs(name, index.roundIndex()))
+        if (!_services->inputsFilter->anyInputs(name, index.turnId()))
                 _services->evaluator->updateAllowance(name, false);
 }
 
@@ -29,15 +28,9 @@ void DartsTurnController::redo()
 {
         auto name = _services->playerFetcher->one().name();
         redoTurn();
-        auto throwIndex = _services->indexes->index().roundIndex();
-        if (_services->inputsFilter->anyInputs(name, throwIndex))
+        auto index = _services->indexes->index();
+        if (_services->inputsFilter->anyInputs(name, index.turnId()))
                 _services->evaluator->updateAllowance(name, true);
-}
-
-void DartsTurnController::skip()
-{
-        _services->inputsUpdate->removeExcessInputs();
-        _services->indexes->skipturn();
 }
 
 bool DartsTurnController::canUndo() const
@@ -68,9 +61,4 @@ void DartsTurnController::redoTurn()
 int DartsTurnController::playerNumber() const
 {
         return _services->indexes->index().turnIndex();
-}
-
-int DartsTurnController::turnNumber() const
-{
-        return _services->indexes->index().throwIndex();
 }

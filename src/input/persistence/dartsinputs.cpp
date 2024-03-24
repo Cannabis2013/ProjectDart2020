@@ -1,11 +1,21 @@
 #include "dartsinputs.h"
 #include "qjsonarray.h"
-#include "src/input/models/input.h"
+#include "src/input/models/dartsinput.h"
 #include "src/FileIO/filejsonio.h"
 
 DartsInputs::DartsInputs(const QString& filename)
     : _filename(filename)
 {
+}
+
+void DartsInputs::init()
+{
+        _inputs = QList<DartsInput>();
+}
+
+void DartsInputs::setInputs(const QList<DartsInput>& inputs)
+{
+        _inputs = inputs;
 }
 
 void DartsInputs::initFromFile()
@@ -17,11 +27,11 @@ void DartsInputs::initFromFile()
         auto arr = jsonDoc.array();
         for (auto ite = arr.begin(); ite != arr.end(); ++ite) {
                 auto jsonObj = ite->toObject();
-                _inputs.append(Input(jsonObj));
+                _inputs.append(DartsInput(jsonObj));
         }
 }
 
-QList<Input> DartsInputs::all() const
+QList<DartsInput> DartsInputs::all() const
 {
         return _inputs;
 }

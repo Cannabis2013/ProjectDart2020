@@ -9,7 +9,6 @@ public:
         virtual void initFromFile() = 0;
         virtual void reset() = 0;
         virtual void next() = 0;
-        virtual void skipturn() = 0;
         virtual void undo() = 0;
         virtual void redo() = 0;
         virtual bool canUndo() = 0;

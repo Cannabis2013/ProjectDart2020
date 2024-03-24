@@ -18,7 +18,6 @@ public:
         bool canRedo() override;
         bool saveState() override;
         const DartsTurnIndex index() const override;
-        void skipturn() override;
 
 private:
         void nextThrow();

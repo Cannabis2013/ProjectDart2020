@@ -9,23 +9,23 @@ DartsInputsfilter::DartsInputsfilter(ServiceCollection* services)
 {
 }
 
-bool DartsInputsfilter::anyInputs(const QString& name, const int& throwId) const
+bool DartsInputsfilter::anyInputs(const QString& name, const int& turnId) const
 {
         auto inputs = _services->inputs->all();
         for (auto& input : inputs) {
-                if (input.playerName() == name && input.throwId() < throwId)
+                if (input.playerName() == name && input.roundIndex() < turnId)
                         return true;
         }
         return false;
 }
 
-QList<Input> DartsInputsfilter::valids(const QString& name) const
+QList<DartsInput> DartsInputsfilter::valids(const QString& name) const
 {
-        QList<Input> filtered;
-        auto throwId = _services->indexes->index().throwId();
+        Inputs filtered;
+        auto turnId = _services->indexes->index().turnId();
         auto inputs = _services->inputs->all();
         for (const auto& input : inputs) {
-                if (input.playerName() == name && input.throwId() < throwId)
+                if (input.playerName() == name && input.turnId() < turnId)
                         filtered << input;
         }
         return filtered;
@@ -35,10 +35,10 @@ QList<Input> DartsInputsfilter::valids(const QString& name) const
 int DartsInputsfilter::validCount(const QString& name) const
 {
         int count = 0;
-        auto throwId = _services->indexes->index().throwId();
+        auto roundIndex = _services->indexes->index().roundIndex();
         auto inputs = _services->inputs->all();
         for (const auto& input : inputs) {
-                if (input.playerName() == name && input.throwId() < throwId)
+                if (input.playerName() == name && input.roundIndex() < roundIndex)
                         count++;
         }
         return count;

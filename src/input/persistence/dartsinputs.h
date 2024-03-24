@@ -11,14 +11,14 @@ class IDartsIndexes;
 class DartsInputs : public IDartsInputs {
 public:
         DartsInputs(const QString& filename);
-        void init() override { _inputs = QList<Input>(); }
-        void setInputs(const QList<Input>& inputs) override { _inputs = inputs; }
+        void init() override;
+        void setInputs(const QList<DartsInput>& inputs) override;
         void initFromFile() override;
-        QList<Input> all() const override;
+        QList<DartsInput> all() const override;
         bool saveState() override;
 
 private:
-        QList<Input> _inputs;
+        QList<DartsInput> _inputs;
         QString _filename;
 };
 

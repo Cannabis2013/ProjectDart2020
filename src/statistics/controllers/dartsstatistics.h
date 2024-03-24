@@ -5,7 +5,7 @@
 #include <QObject>
 
 class ServiceCollection;
-class Input;
+class DartsInput;
 class IScoresCalculator;
 class IDartsIndexes;
 class IDartsScores;

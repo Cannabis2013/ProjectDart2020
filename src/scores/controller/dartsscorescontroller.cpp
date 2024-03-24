@@ -4,8 +4,6 @@
 #include "src/scores/persistence/idartsscores.h"
 #include "src/scores/services/idartsscoresfetch.h"
 #include "src/servicecollection.h"
-#include "src/turns/models/dartsturnindex.h"
-#include "src/turns/persistences/idartsindexes.h"
 #include <QJsonObject>
 
 DartsScoresController::DartsScoresController(ServiceCollection* services)
@@ -29,9 +27,8 @@ int DartsScoresController::playerTwo() const
 
 QString DartsScoresController::finishRow() const
 {
-        auto turnIndex = _services->indexes->index().throwIndex();
         auto remaining = _services->scoresFetcher->score().value();
-        return _services->finishes->suggestTargetRow(remaining, turnIndex);
+        return _services->finishes->suggestTargetRow(remaining, 0);
 }
 
 QString DartsScoresController::delta() const

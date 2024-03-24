@@ -41,13 +41,14 @@ HEADERS += \
     src/init/serviceinitializer.h \
     src/input/controllers/dartsinputcontroller.h \
     src/input/controllers/idartsinputcontroller.h \
-    src/input/models/input.h \
+    src/input/models/dartsinput.h \
+    src/input/models/inputCandidate.h \
     src/input/persistence/dartsinputs.h \
     src/input/persistence/idartsinputs.h \
     src/input/services/dartsinputsfilter.h \
-    src/input/services/dartsinputsupdate.h \
+    src/input/services/dartsinputsupdater.h \
     src/input/services/idartsinputsfilter.h \
-    src/input/services/idartsinputupdate.h \
+    src/input/services/idartsinputsupdater.h \
     src/players/controller/iplayerreport.h \
     src/players/controller/playerreport.h \
     src/players/models/dartsplayer.h \
@@ -105,7 +106,7 @@ SOURCES += \
     src/input/controllers/dartsinputcontroller.cpp \
     src/input/persistence/dartsinputs.cpp \
     src/input/services/dartsinputsfilter.cpp \
-    src/input/services/dartsinputsupdate.cpp \
+    src/input/services/dartsinputsupdater.cpp \
     src/main.cpp \
     src/players/controller/playerreport.cpp \
     src/players/models/dartsplayer.cpp \

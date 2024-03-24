@@ -38,7 +38,8 @@ QList<Score> DartsScoresUpdate::freshScores(const int& initialScore) const
 QList<Score> DartsScoresUpdate::updatedScores(const int& initialScore) const
 {
         QList<Score> updated;
-        for (const auto& player : _services->players->all()) {
+        auto players = _services->players->all();
+        for (const auto& player : players) {
                 auto inputs = _services->inputsFilter->valids(player.name());
                 auto score = _services->calculator->calculate(player.name(), inputs, initialScore);
                 updated.append(score);

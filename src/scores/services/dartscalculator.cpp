@@ -1,5 +1,5 @@
 #include "dartscalculator.h"
-#include "src/input/models/input.h"
+#include "src/input/models/dartsinput.h"
 #include "src/scores/models/Score.h"
 
 int DartsCalculator::remaining(const QString& mod, const int& point, const int& current)
@@ -8,7 +8,7 @@ int DartsCalculator::remaining(const QString& mod, const int& point, const int& 
         return current - scoreValue;
 }
 
-Score DartsCalculator::calculate(const QString& name, const QList<Input>& inputs, const int& initial)
+Score DartsCalculator::calculate(const QString& name, const QList<DartsInput>& inputs, const int& initial)
 {
         int score = initial;
         for (auto& input : inputs)

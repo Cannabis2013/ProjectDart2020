@@ -3,7 +3,7 @@ function build() {
         let numberIndex = 20
         while (buttonIndex >= 0) {
                 if (buttonIndex === 4)
-                        createBustPad()
+                        createReportPad()
                 else if (buttonIndex === 9)
                         createNumberPad(25, 25, "green")
                 else if (buttonIndex === 14)
@@ -44,14 +44,13 @@ function createModPad(modId) {
         modKey.modClicked.connect(modKeyClicked)
 }
 
-function createBustPad() {
-        const component = Qt.createComponent("NumberPad.qml")
+function createReportPad() {
+        const component = Qt.createComponent("Pad.qml")
         const object = component.createObject(middlePadGrid, {
                                                       "Layout.fillWidth": true,
                                                       "Layout.fillHeight": true,
-                                                      "text": "Bust",
-                                                      "padValue": 0,
+                                                      "text": "=>",
                                                       "color": "orange"
                                               })
-        object.padClicked.connect(keyPadRect.bustTurn)
+        object.clicked.connect(keyPadRect.reportScore)
 }

@@ -16,9 +16,8 @@ Item {
 
         PlayerInfoRect {
                 id: playerOne
-                anchors.bottom: parent.bottom
                 anchors.left: parent.left
-                anchors.top: parent.top
+                height: parent.height
                 width: parent.width / 2
                 MouseArea {
                         anchors.fill: parent
@@ -29,21 +28,11 @@ Item {
         PlayerInfoRect {
                 id: playerTwo
                 anchors.right: parent.right
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
+                height: parent.height
                 width: parent.width / 2
                 MouseArea {
                         anchors.fill: parent
                         onClicked: Scripts.expandPlayerTwo()
                 }
-        }
-
-        TurnCounter {
-                id: turnCounter
-                anchors.top: parent.top
-                anchors.topMargin: 40
-                anchors.horizontalCenter: parent.horizontalCenter
-                height: 48
-                width: 48
         }
 }

@@ -3,7 +3,7 @@
 #include "src/Finishes/dartsfinishes.h"
 #include "src/input/persistence/dartsinputs.h"
 #include "src/input/services/dartsinputsfilter.h"
-#include "src/input/services/dartsinputsupdate.h"
+#include "src/input/services/dartsinputsupdater.h"
 #include "src/players/persistences/dartsplayers.h"
 #include "src/players/services/playerfetcher.h"
 #include "src/scores/persistence/dartsscores.h"
@@ -39,8 +39,8 @@ void DartsServices::injectServices(ServiceCollection* services)
         services->evaluators = new DartsEvaluators(services);
         services->finishes = new DartsFinishes();
         services->scoresFetcher = new DartsScoresFetch(services);
-        services->inputsUpdate = new DartsInputsUpdate(services);
         services->inputsFilter = new DartsInputsfilter(services);
         services->inputStatistics = new StatsCalculator(services);
         services->playerFetcher = new PlayerFetcher(services);
+        services->inputsUpdater = new DartsInputsUpdater(services);
 }

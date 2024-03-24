@@ -61,5 +61,7 @@
         <file>qml/main.qml</file>
         <file>qml/PageLoader.qml</file>
         <file>qtquickcontrols2.conf</file>
+        <file>qml/pages/tournament/compInputs/InputDisplay.qml</file>
+        <file>qml/pages/tournament/compInputs/inputDisplay.js</file>
     </qresource>
 </RCC>

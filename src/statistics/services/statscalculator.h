@@ -2,7 +2,7 @@
 #define STATSCALCULATOR_H
 
 #include "istatscalculator.h"
-#include "src/input/models/input.h"
+#include "src/input/models/dartsinput.h"
 
 class ServiceCollection;
 
