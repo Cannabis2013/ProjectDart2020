@@ -16,7 +16,7 @@ public:
         Q_INVOKABLE int playerOne() const override;
         Q_INVOKABLE int playerTwo() const override;
         Q_INVOKABLE QString finishRow() const override;
-        Q_INVOKABLE QString delta() const override;
+        Q_INVOKABLE int delta() const override;
 
 private:
         ServiceCollection* _services;

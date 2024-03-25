@@ -3,6 +3,7 @@
 #include "src/scores/models/Score.h"
 #include "src/scores/persistence/idartsscores.h"
 #include "src/scores/services/idartsscoresfetch.h"
+#include "src/scores/services/iscoresdelta.h"
 #include "src/servicecollection.h"
 #include <QJsonObject>
 
@@ -31,13 +32,7 @@ QString DartsScoresController::finishRow() const
         return _services->finishes->suggestTargetRow(remaining, 0);
 }
 
-QString DartsScoresController::delta() const
+int DartsScoresController::delta() const
 {
-        auto scores = _services->scores->all();
-        if (scores.length() != 2)
-                return QString();
-        auto scoreOne = scores.at(0).value();
-        auto scoreTwo = scores.at(1).value();
-        auto diff = scoreTwo - scoreOne;
-        return QString::number(diff >= 0 ? diff : diff * (-1));
+        return _services->scoresDelta->delta();
 }

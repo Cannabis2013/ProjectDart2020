@@ -26,5 +26,13 @@ Page {
                 width: parent.width
         }
 
+        Text {
+                id: roundsText
+                anchors.top: playerTwoItem.bottom
+                width: parent.width
+                color: "white"
+                font.pixelSize: 40
+        }
+
         Component.onCompleted: Scripts.init()
 }

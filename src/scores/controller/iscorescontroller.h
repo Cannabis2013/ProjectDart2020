@@ -7,7 +7,7 @@ public:
         virtual int playerOne() const = 0;
         virtual int playerTwo() const = 0;
         virtual QString finishRow() const = 0;
-        virtual QString delta() const = 0;
+        virtual int delta() const = 0;
 };
 
 #endif // ISCORESCONTROLLER_H

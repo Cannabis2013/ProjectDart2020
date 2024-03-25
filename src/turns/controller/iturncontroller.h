@@ -1,10 +1,11 @@
 #ifndef ITURNCONTROLLER_H
 #define ITURNCONTROLLER_H
 
-class AbstractDartsEvaluator;
+class QByteArray;
 
 class ITurnController {
 public:
+        virtual QByteArray report() const = 0;
         virtual bool canUndo() const = 0;
         virtual bool canRedo() const = 0;
         virtual void undo() = 0;

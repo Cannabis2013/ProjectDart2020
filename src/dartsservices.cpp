@@ -8,11 +8,13 @@
 #include "src/players/services/playerfetcher.h"
 #include "src/scores/persistence/dartsscores.h"
 #include "src/scores/services/dartscalculator.h"
+#include "src/scores/services/dartsscoresdelta.h"
 #include "src/scores/services/dartsscoresfetch.h"
 #include "src/scores/services/dartsscoresupdate.h"
 #include "src/statistics/services/statscalculator.h"
 #include "src/status/dartsstatus.h"
 #include "src/turns/persistences/dartsindexes.h"
+#include "src/turns/services/dartsindexreport.h"
 #include "src/validation/dartsevaluators.h"
 
 ServiceCollection* DartsServices::build()
@@ -43,4 +45,6 @@ void DartsServices::injectServices(ServiceCollection* services)
         services->inputStatistics = new StatsCalculator(services);
         services->playerFetcher = new PlayerFetcher(services);
         services->inputsUpdater = new DartsInputsUpdater(services);
+        services->indexReport = new DartsIndexReport(services);
+        services->scoresDelta = new DartsScoresDelta(services);
 }

@@ -1,12 +1,14 @@
-
 function updateMessages() {
+        updateTargetMessage()
+        updateDiffMessage()
+}
+
+function updateTargetMessage() {
         const row = dartsScores.finishRow()
-        const delta = dartsScores.delta()
         if (row.length > 0)
                 showTargetMessage(row)
         else
                 hideTargetMessage()
-        scoreSpan.message = delta
 }
 
 function showTargetMessage(row) {
@@ -17,4 +19,15 @@ function showTargetMessage(row) {
 function hideTargetMessage() {
         finishRow.visible = false
         finishRow.message = ""
+}
+
+function updateDiffMessage() {
+        const delta = dartsScores.delta()
+        if (delta >= 0) {
+                scoreSpan.imageUrl = "qrc:/pictures/Ressources/Pictures/upArrow.png"
+                scoreSpan.message = delta
+        } else {
+                scoreSpan.imageUrl = "qrc:/pictures/Ressources/Pictures/downArrow.png"
+                scoreSpan.message = Math.abs(delta)
+        }
 }

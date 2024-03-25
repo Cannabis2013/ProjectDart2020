@@ -66,10 +66,12 @@ HEADERS += \
     src/scores/persistence/dartsscores.h \
     src/scores/persistence/idartsscores.h \
     src/scores/services/dartscalculator.h \
+    src/scores/services/dartsscoresdelta.h \
     src/scores/services/dartsscoresfetch.h \
     src/scores/services/dartsscoresupdate.h \
     src/scores/services/idartsscoresfetch.h \
     src/scores/services/iscorescalculator.h \
+    src/scores/services/iscoresdelta.h \
     src/scores/services/iscoresupdate.h \
     src/servicecollection.h \
     src/statistics/controllers/dartsstatistics.h \
@@ -85,6 +87,8 @@ HEADERS += \
     src/turns/persistences/dartsindexes.h \
     src/turns/persistences/idartsindexes.h \
     src/turns/persistences/indexesio.h \
+    src/turns/services/dartsindexreport.h \
+    src/turns/services/iindexreport.h \
     src/validation/abstractdartsevaluator.h \
     src/validation/dartsallowances.h \
     src/validation/dartsbeginnervalidator.h \
@@ -116,6 +120,7 @@ SOURCES += \
     src/scores/controller/dartsscorescontroller.cpp \
     src/scores/persistence/dartsscores.cpp \
     src/scores/services/dartscalculator.cpp \
+    src/scores/services/dartsscoresdelta.cpp \
     src/scores/services/dartsscoresfetch.cpp \
     src/scores/services/dartsscoresupdate.cpp \
     src/statistics/controllers/dartsstatistics.cpp \
@@ -125,6 +130,7 @@ SOURCES += \
     src/turns/controller/dartsturncontroller.cpp \
     src/turns/persistences/dartsindexes.cpp \
     src/turns/persistences/indexesio.cpp \
+    src/turns/services/dartsindexreport.cpp \
     src/validation/dartsallowances.cpp \
     src/validation/dartsbeginnervalidator.cpp \
     src/validation/dartsevaluators.cpp \

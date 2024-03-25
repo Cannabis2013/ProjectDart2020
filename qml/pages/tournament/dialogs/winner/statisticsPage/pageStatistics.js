@@ -1,6 +1,7 @@
 function init() {
         updateScores()
         updateStatistics()
+        updateTurnInfo()
 }
 
 function updateScores() {
@@ -15,4 +16,11 @@ function updateStatistics() {
         const playerTwoReport = JSON.parse(dartsStats.playerTwo())
         playerOneItem.setStatistics(playerOneReport)
         playerTwoItem.setStatistics(playerTwoReport)
+}
+
+function updateTurnInfo() {
+        const report = JSON.parse(dartsTurns.report())
+        const round = report.roundIndex + 1
+        const text = `Rounds: ${round}`
+        roundsText.text = text
 }

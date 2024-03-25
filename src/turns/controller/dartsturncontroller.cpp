@@ -8,6 +8,7 @@
 #include "src/status/idartsstatus.h"
 #include "src/turns/models/dartsturnindex.h"
 #include "src/turns/persistences/idartsindexes.h"
+#include "src/turns/services/iindexreport.h"
 #include "src/validation/abstractdartsevaluator.h"
 
 DartsTurnController::DartsTurnController(ServiceCollection* services)
@@ -61,4 +62,9 @@ void DartsTurnController::redoTurn()
 int DartsTurnController::playerNumber() const
 {
         return _services->indexes->index().turnIndex();
+}
+
+QByteArray DartsTurnController::report() const
+{
+        return _services->indexReport->report();
 }

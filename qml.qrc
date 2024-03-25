@@ -11,6 +11,8 @@
         <file>Ressources/Pictures/lukeHumphries.gif</file>
         <file>Ressources/Pictures/benjamin.jpeg</file>
         <file>Ressources/Pictures/span.png</file>
+        <file>Ressources/Pictures/downArrow.png</file>
+        <file>Ressources/Pictures/upArrow.png</file>
     </qresource>
     <qresource prefix="/data">
         <file>Ressources/TextData/aboutContent.dat</file>

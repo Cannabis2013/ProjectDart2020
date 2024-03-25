@@ -21,10 +21,9 @@ Item {
         CompMessage {
                 id: scoreSpan
                 anchors.right: parent.right
-                imageUrl: "qrc:/pictures/Ressources/Pictures/span.png"
                 height: parent.height
                 width: 100
-                imageWidth: 42
-                imageHeight: 20
+                imageWidth: 31
+                imageHeight: 42
         }
 }

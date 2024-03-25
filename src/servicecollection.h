@@ -1,6 +1,8 @@
 #ifndef SERVICECOLLECTION_H
 #define SERVICECOLLECTION_H
 
+class IScoresDelta;
+class IIndexReport;
 class IDartsInputsUpdater;
 class IPlayerFetcher;
 class IStatsCalculator;
@@ -51,6 +53,8 @@ public:
         IStatsCalculator* inputStatistics;
         IPlayerFetcher* playerFetcher;
         IDartsInputsUpdater* inputsUpdater;
+        IIndexReport* indexReport;
+        IScoresDelta* scoresDelta;
 };
 
 #endif // SERVICECOLLECTION_H
