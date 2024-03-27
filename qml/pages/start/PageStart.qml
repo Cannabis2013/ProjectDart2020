@@ -9,7 +9,8 @@ Page {
 
         signal requestTournamentPage
         signal requestAboutPage
-        signal setupGameClicked
+        signal requestSetupPage
+        signal customizeMode
 
         focus: true
 

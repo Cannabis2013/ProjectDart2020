@@ -2,7 +2,6 @@
     <qresource prefix="/pictures">
         <file>Ressources/Pictures/dartsplate.png</file>
         <file>Ressources/Pictures/VanGerwin.gif</file>
-        <file>Ressources/Pictures/dartarrow.png</file>
         <file>Ressources/Pictures/SnakeBite.png</file>
         <file>Ressources/Pictures/gerwen.png</file>
         <file>Ressources/Pictures/GerwinPrice.png</file>
@@ -10,7 +9,6 @@
         <file>Ressources/Pictures/gerwinPrice.gif</file>
         <file>Ressources/Pictures/lukeHumphries.gif</file>
         <file>Ressources/Pictures/benjamin.jpeg</file>
-        <file>Ressources/Pictures/span.png</file>
         <file>Ressources/Pictures/downArrow.png</file>
         <file>Ressources/Pictures/upArrow.png</file>
     </qresource>
@@ -63,5 +61,7 @@
         <file>qtquickcontrols2.conf</file>
         <file>qml/pages/tournament/compInputs/InputDisplay.qml</file>
         <file>qml/pages/tournament/compInputs/inputDisplay.js</file>
+        <file>qml/pages/setup/SetupPage2.qml</file>
+        <file>qml/pages/setup/setupPage2.js</file>
     </qresource>
 </RCC>

@@ -23,7 +23,7 @@ void DartsBeginnerValidator::evaluateWinnerCondition()
         auto scores = _services->scores->all();
         for (const auto& score : scores) {
                 if (score.value() <= 0) {
-                        _services->status->winnerFound();
+                        _services->status->setWinner(score.name());
                         auto winner = &_services->playerFetcher->one(score.name());
                         winner->setWinner(true);
                 }

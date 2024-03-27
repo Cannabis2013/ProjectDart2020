@@ -1,28 +1,49 @@
+var inputsMem = []
+
+function hasInputs() {
+        return inputsMem.length > 0
+}
+
+function readInputs() {
+        return inputsMem
+}
+
 function addInput(modId, point) {
-        if (inputMemory.inputs.length >= 3)
+        if (inputsMem.length >= 3)
                 return
         const input = {
                 "modId": modId,
                 "point": point
         }
-        inputMemory.inputs.push(input)
+        inputsMem.push(input)
         updateDisplay()
+        updateScore(input)
 }
 
 function updateDisplay() {
-        const inputs = inputMemory.inputs
         inputsText.text = ""
-        let txt = ""
-        for (var i = 0; i < inputs.length; i++) {
-                const input = inputs[i]
-                txt += `${input.modId}${input.point}`
-                if (i < inputs.length - 1)
-                        txt += " "
-        }
-        inputsText.text = txt
+        inputsMem.forEach(input => inputsText.text += `${input.modId}${input.point} `)
 }
 
 function clearInputs() {
         inputsText.text = ""
-        inputMemory.inputs = []
+        inputsMem = []
+        scoreText.text = ""
+}
+
+function updateScore(input) {
+        const m = multiplier(input.modId)
+        const score = m * input.point
+        const currentScore = scoreText.text === "" ? 0 : Number.parseInt(scoreText.text)
+        scoreText.text = currentScore + score
+}
+
+function multiplier(modId) {
+        if (modId === "S")
+                return 1
+        if (modId === "D")
+                return 2
+        if (modId === "T")
+                return 3
+        return -1
 }

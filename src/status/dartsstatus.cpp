@@ -13,21 +13,24 @@ void DartsStatus::initFromStorage()
         auto jsonDoc = QJsonDocument::fromJson(json);
         auto jsonObj = jsonDoc.object();
         _status = static_cast<Status>(jsonObj["status"].toInt());
+        _winnerName = jsonObj.value("winnerName").toString();
 }
 
 bool DartsStatus::saveState()
 {
         QJsonObject jsonObj;
         jsonObj["status"] = _status;
+        jsonObj["winnerName"] = _winnerName;
         auto jsonDoc = new QJsonDocument(jsonObj);
         auto json = jsonDoc->toJson(QJsonDocument::Compact);
         FileJsonIO out(_filename);
         return out.write(json);
 }
 
-void DartsStatus::winnerFound()
+void DartsStatus::setWinner(const QString& name)
 {
         _status = DartsStatus::Winner;
+        _winnerName = name;
 }
 
 void DartsStatus::running()

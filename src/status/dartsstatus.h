@@ -13,7 +13,7 @@ public:
         void init() override;
         void initFromStorage() override;
         bool saveState() override;
-        void winnerFound() override;
+        void setWinner(const QString& name) override;
         void running() override;
         bool isWinnerFound() const override;
 
@@ -25,6 +25,7 @@ private:
 
         Status _status = Running;
         QString _filename;
+        QString _winnerName;
 };
 
 #endif // DARTSSTATUS_H

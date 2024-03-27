@@ -27,7 +27,7 @@ void DartsInputs::initFromFile()
         auto arr = jsonDoc.array();
         for (auto ite = arr.begin(); ite != arr.end(); ++ite) {
                 auto jsonObj = ite->toObject();
-                _inputs.append(DartsInput(jsonObj));
+                _inputs.append(jsonObj);
         }
 }
 

@@ -4,17 +4,12 @@ import QtQuick.Layouts 1.3
 import "inputDisplay.js" as Scripts
 
 Item {
-        QtObject {
-                id: inputMemory
-                property var inputs: []
-        }
-
         function hasInputs() {
-                return inputMemory.inputs.length > 0
+                return Scripts.hasInputs()
         }
 
         function readInputs() {
-                return inputMemory.inputs
+                return Scripts.readInputs()
         }
 
         function addInput(modId, point) {
@@ -27,22 +22,46 @@ Item {
 
         Item {
                 anchors.left: parent.left
+                anchors.leftMargin: 12
                 anchors.right: clearButton.left
+                anchors.rightMargin: 12
                 height: parent.height
                 Rectangle {
+                        clip: true
                         color: "#4f4f4f"
                         radius: 12
-                        width: 200
-                        height: 54
+                        width: parent.width
+                        height: 32
                         anchors.centerIn: parent
                         Text {
                                 id: inputsText
                                 color: "white"
-                                font.pointSize: 32
+                                font.pixelSize: 24
+                                font.weight: Font.Bold
                                 width: 182
                                 height: parent.height
-                                anchors.centerIn: parent
+                                anchors.left: parent.left
+                                anchors.leftMargin: 12
                                 verticalAlignment: Text.AlignVCenter
+                        }
+
+                        Rectangle {
+                                color: "white"
+                                width: 1
+                                height: parent.height
+                                anchors.right: scoreText.left
+                        }
+
+                        Text {
+                                id: scoreText
+                                anchors.right: parent.right
+                                anchors.rightMargin: 12
+                                width: 48
+                                height: parent.height
+                                font.pixelSize: 24
+                                color: "white"
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Text.AlignRight
                         }
                 }
         }

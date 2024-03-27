@@ -12,8 +12,8 @@ Column {
                 font.pointSize: 24
                 width: 192
                 height: 48
-                text: "Classic 1v1"
-                onClicked: setupGameClicked()
+                text: "Play"
+                onClicked: requestSetupPage()
         }
 
         Button {

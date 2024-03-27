@@ -13,7 +13,7 @@ Item {
         Component {
                 id: startPageComponent
                 PageStart {
-                        onSetupGameClicked: pageLoader.sourceComponent = setupTournament
+                        onRequestSetupPage: pageLoader.sourceComponent = setupTournament
                         onRequestTournamentPage: pageLoader.sourceComponent = tournamentPage
                         onRequestAboutPage: pageLoader.sourceComponent = aboutPage
                 }
