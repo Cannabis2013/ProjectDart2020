@@ -17,7 +17,7 @@ Item {
 
         InputDisplay {
                 id: inputsDisplay
-                height: 64
+                height: 48
                 width: parent.width
         }
 
