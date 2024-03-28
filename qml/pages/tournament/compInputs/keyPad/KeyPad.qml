@@ -4,10 +4,6 @@ import QtQuick.Layouts 1.3
 import "keyPad.js" as Scripts
 
 Item {
-        function getModId() {
-                return Scripts.getModId()
-        }
-
         GridLayout {
                 id: numberPads
                 width: parent.width * 0.8
@@ -25,6 +21,7 @@ Item {
                         }
                 }
         }
+
         ColumnLayout {
                 id: specialPads
                 spacing: 0

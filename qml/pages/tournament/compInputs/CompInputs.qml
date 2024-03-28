@@ -1,7 +1,8 @@
 import QtQuick 2.15
 import QtQuick.Controls
 import QtQuick.Layouts 1.3
-import "keyPadBuilder.js" as Builder
+import "keyPad"
+import "inputsDisplay"
 import "compInputs.js" as Scripts
 
 Item {

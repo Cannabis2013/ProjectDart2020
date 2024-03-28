@@ -21,21 +21,22 @@ function addInput(modId, point) {
 }
 
 function updateDisplay() {
-        inputsText.text = ""
-        inputsMem.forEach(input => inputsText.text += `${input.modId}${input.point} `)
+        textDisplay.clear()
+        let text = ""
+        inputsMem.forEach(input => text += `${input.modId}${input.point} `)
+        textDisplay.inputsText = text
 }
 
 function clearInputs() {
-        inputsText.text = ""
+        textDisplay.clear()
         inputsMem = []
-        scoreText.text = ""
 }
 
 function updateScore(input) {
         const m = multiplier(input.modId)
         const score = m * input.point
-        const currentScore = scoreText.text === "" ? 0 : Number.parseInt(scoreText.text)
-        scoreText.text = currentScore + score
+        const currentScore = textDisplay.scoreText === "" ? 0 : Number.parseInt(textDisplay.scoreText)
+        textDisplay.scoreText = currentScore + score
 }
 
 function multiplier(modId) {

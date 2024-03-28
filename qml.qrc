@@ -22,17 +22,22 @@
         <file>qml/pages/setup/GameStyles.qml</file>
         <file>qml/pages/setup/setupPage.js</file>
         <file>qml/pages/setup/SetupPage.qml</file>
+        <file>qml/pages/setup/setupPage2.js</file>
+        <file>qml/pages/setup/SetupPage2.qml</file>
         <file>qml/pages/start/BackDrop.qml</file>
         <file>qml/pages/start/MenuButtons.qml</file>
         <file>qml/pages/start/pageStart.js</file>
         <file>qml/pages/start/PageStart.qml</file>
         <file>qml/pages/templates/PageWithHeader.qml</file>
+        <file>qml/pages/tournament/compInputs/inputsDisplay/inputDisplay.js</file>
+        <file>qml/pages/tournament/compInputs/inputsDisplay/InputDisplay.qml</file>
+        <file>qml/pages/tournament/compInputs/keyPad/keyPad.js</file>
+        <file>qml/pages/tournament/compInputs/keyPad/KeyPad.qml</file>
+        <file>qml/pages/tournament/compInputs/keyPad/ModPad.qml</file>
+        <file>qml/pages/tournament/compInputs/keyPad/NumberPad.qml</file>
+        <file>qml/pages/tournament/compInputs/keyPad/Pad.qml</file>
         <file>qml/pages/tournament/compInputs/compInputs.js</file>
         <file>qml/pages/tournament/compInputs/CompInputs.qml</file>
-        <file>qml/pages/tournament/compInputs/keyPadBuilder.js</file>
-        <file>qml/pages/tournament/compInputs/ModPad.qml</file>
-        <file>qml/pages/tournament/compInputs/NumberPad.qml</file>
-        <file>qml/pages/tournament/compInputs/Pad.qml</file>
         <file>qml/pages/tournament/compMessages/CompMessage.qml</file>
         <file>qml/pages/tournament/compMessages/compMessages.js</file>
         <file>qml/pages/tournament/compMessages/CompMessages.qml</file>
@@ -59,11 +64,6 @@
         <file>qml/main.qml</file>
         <file>qml/PageLoader.qml</file>
         <file>qtquickcontrols2.conf</file>
-        <file>qml/pages/tournament/compInputs/InputDisplay.qml</file>
-        <file>qml/pages/tournament/compInputs/inputDisplay.js</file>
-        <file>qml/pages/setup/SetupPage2.qml</file>
-        <file>qml/pages/setup/setupPage2.js</file>
-        <file>qml/pages/tournament/compInputs/KeyPad.qml</file>
-        <file>qml/pages/tournament/compInputs/keyPad.js</file>
+        <file>qml/pages/tournament/compInputs/inputsDisplay/ScoreDisplay.qml</file>
     </qresource>
 </RCC>
