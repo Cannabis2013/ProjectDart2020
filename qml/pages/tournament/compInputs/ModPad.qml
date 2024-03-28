@@ -4,12 +4,7 @@ import QtQuick.Layouts 1.3
 Pad {
         property string modId: ""
         property bool selected: false
-
-        signal select(bool status)
-        onSelect: status => {
-                          selected = status
-                          scale = selected ? 0.9 : 1
-                  }
+        onSelectedChanged: scale = selected ? 0.9 : 1
 
         color: "lightgreen"
 

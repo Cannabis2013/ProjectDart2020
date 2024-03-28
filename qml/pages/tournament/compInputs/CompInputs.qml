@@ -11,21 +11,8 @@ Item {
         signal reportScore
         onReportScore: Scripts.report()
 
-        QtObject {
-                id: modKeys
-                property var modObjects: []
-        }
-
-        signal numberClicked(int point)
-        onNumberClicked: point => Scripts.handleNumberPadClicked(point)
-
-        signal specialClicked(string value)
-        onSpecialClicked: value => Scripts.handleSpecialPadClicked(value)
-
-        signal modKeyClicked(string modId)
-        onModKeyClicked: modId => Scripts.handleModPadClicked(modId)
-
-        signal buttonClicked
+        signal numberClicked(string modId, int point)
+        onNumberClicked: (modId, point) => inputsDisplay.addInput(modId, point)
 
         InputDisplay {
                 id: inputsDisplay
@@ -33,16 +20,10 @@ Item {
                 width: parent.width
         }
 
-        GridLayout {
-                id: middlePadGrid
+        KeyPad {
+                id: keyPad
                 anchors.top: inputsDisplay.bottom
                 anchors.bottom: parent.bottom
                 width: parent.width
-                layoutDirection: Qt.RightToLeft
-                columns: 5
-                columnSpacing: 0
-                rowSpacing: 0
         }
-
-        Component.onCompleted: Builder.build()
 }

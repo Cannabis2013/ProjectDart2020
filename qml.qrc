@@ -63,5 +63,7 @@
         <file>qml/pages/tournament/compInputs/inputDisplay.js</file>
         <file>qml/pages/setup/SetupPage2.qml</file>
         <file>qml/pages/setup/setupPage2.js</file>
+        <file>qml/pages/tournament/compInputs/KeyPad.qml</file>
+        <file>qml/pages/tournament/compInputs/keyPad.js</file>
     </qresource>
 </RCC>
