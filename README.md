@@ -11,8 +11,8 @@
 
 ## Target platform
 - Crossplatform since made using Qt
-- Interface optimized for handheld devices such as smartphones and tables
-- Tested on Android
+- Interface optimized for handheld devices such as smartphones and tablets
+- Tested on Android 13/14
 
 ## Platform Requirements
 - Android 13 or later
