@@ -20,9 +20,9 @@ Item {
                 Text {
                         id: textInputs
                         color: "white"
-                        font.pixelSize: 24
+                        font.pixelSize: 18
                         font.weight: Font.Bold
-                        width: 182
+                        width: 160
                         height: parent.height
                         anchors.left: parent.left
                         anchors.leftMargin: 12
@@ -40,9 +40,9 @@ Item {
                         id: textScore
                         anchors.right: parent.right
                         anchors.rightMargin: 12
-                        width: 48
+                        width: 36
                         height: parent.height
-                        font.pixelSize: 24
+                        font.pixelSize: 18
                         color: "white"
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignRight

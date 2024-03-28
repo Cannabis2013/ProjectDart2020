@@ -30,6 +30,18 @@ function updateDisplay() {
         textDisplay.inputsText = text
 }
 
+function removeOne() {
+        if (inputsMem.length <= 0)
+                return
+        const input = inputsMem.pop()
+        const score = calcScore(input.modId, input.point)
+        const current = Number.parseInt(textDisplay.scoreText)
+        if (current <= 0)
+                return
+        textDisplay.scoreText = current - score
+        updateDisplay()
+}
+
 function clearInputs() {
         textDisplay.inputsText = ""
         textDisplay.scoreText = ""
@@ -37,11 +49,15 @@ function clearInputs() {
 }
 
 function updateScore(input) {
-        const m = multiplier(input.modId)
-        const score = m * input.point
+        const score = calcScore(input.modId, input.point)
         const text = textDisplay.scoreText
         const currentScore = text === "" ? 0 : Number.parseInt(text)
         textDisplay.scoreText = currentScore + score
+}
+
+function calcScore(modId, point) {
+        const m = multiplier(modId)
+        return m * point
 }
 
 function multiplier(modId) {
