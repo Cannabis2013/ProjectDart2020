@@ -11,31 +11,36 @@ function readInputs() {
 function addInput(modId, point) {
         if (inputsMem.length >= 3)
                 return
-        const input = {
-                "modId": modId,
-                "point": point
-        }
+        const input = createInput(modId, point)
         inputsMem.push(input)
         updateDisplay()
         updateScore(input)
 }
 
+function createInput(modId, point) {
+        return {
+                "modId": modId,
+                "point": point
+        }
+}
+
 function updateDisplay() {
-        textDisplay.clear()
         let text = ""
         inputsMem.forEach(input => text += `${input.modId}${input.point} `)
         textDisplay.inputsText = text
 }
 
 function clearInputs() {
-        textDisplay.clear()
+        textDisplay.inputsText = ""
+        textDisplay.scoreText = ""
         inputsMem = []
 }
 
 function updateScore(input) {
         const m = multiplier(input.modId)
         const score = m * input.point
-        const currentScore = textDisplay.scoreText === "" ? 0 : Number.parseInt(textDisplay.scoreText)
+        const text = textDisplay.scoreText
+        const currentScore = text === "" ? 0 : Number.parseInt(text)
         textDisplay.scoreText = currentScore + score
 }
 

@@ -4,11 +4,6 @@ import QtQuick.Layouts 1.3
 import "inputDisplay.js" as Scripts
 
 Item {
-        function clear() {
-                inputsText = ""
-                scoreText = ""
-        }
-
         property string inputsText: ""
         onInputsTextChanged: textInputs.text = inputsText
 
