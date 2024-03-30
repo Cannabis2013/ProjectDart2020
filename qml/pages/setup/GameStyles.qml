@@ -20,7 +20,7 @@ ListModel {
         }
 
         ListElement {
-                modeColor: "orange"
+                modeColor: "green"
                 modeTitle: "Novice"
                 score: "301"
                 modeDescription: "The first player to reach 0 or below wins the match."
@@ -28,7 +28,7 @@ ListModel {
         }
 
         ListElement {
-                modeColor: "orange"
+                modeColor: "green"
                 modeTitle: "Novice"
                 score: "501"
                 modeDescription: "The first player to reach 0 or below wins the match."

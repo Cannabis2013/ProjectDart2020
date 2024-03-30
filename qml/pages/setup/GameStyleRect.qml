@@ -14,8 +14,9 @@ Rectangle {
         color: "green"
 
         Text {
-                x: 5
-                y: 0
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.leftMargin: 6
                 width: 96
                 height: 32
                 text: title
@@ -25,8 +26,8 @@ Rectangle {
         }
 
         Text {
-                x: parent.width - width - 5
-                y: 0
+                anchors.right: parent.right
+                anchors.rightMargin: 6
                 anchors.top: parent.top
                 height: 32
                 text: optionRect.initialScore
@@ -36,10 +37,11 @@ Rectangle {
         }
 
         Text {
-                x: 5
-                y: 48
-                height: parent.height - 48 - 5
-                width: parent.width - 5
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.leftMargin: 6
+                anchors.rightMargin: 6
+                anchors.top: parent.verticalCenter
                 text: qsTr(description)
                 wrapMode: Text.WordWrap
                 font.pointSize: 18

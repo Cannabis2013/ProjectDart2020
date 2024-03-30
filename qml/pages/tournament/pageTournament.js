@@ -39,11 +39,6 @@ function addScore(scores) {
         updateTurnValues()
 }
 
-function bustScore() {
-        dartsTurns.skip()
-        updateTurnValues()
-}
-
 function updateTurnValues() {
         if (dartsPlayers.isWinnerFound())
                 Dialogs.openWinnerDialog(restartGame, undo)

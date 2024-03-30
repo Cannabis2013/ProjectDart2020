@@ -23,16 +23,9 @@ PageWithHeader {
                         horizontalAlignment: Text.AlignHCenter
                 }
 
-                ListView {
-                        clip: true
-                        Layout.alignment: Qt.AlignHCenter
-                        Layout.fillHeight: true
-                        width: 300
-                        boundsBehavior: Flickable.StopAtBounds
-                        spacing: 6
-                        model: GameStyles {}
-
-                        delegate: GameStyleRect {
+                Component {
+                        id: gameStyleDelegate
+                        GameStyleRect {
                                 width: parent.width
                                 height: 128
                                 title: modeTitle
@@ -41,6 +34,17 @@ PageWithHeader {
                                 description: modeDescription
                                 onClicked: () => Scripts.init(mode, Number.parseInt(score))
                         }
+                }
+
+                ListView {
+                        id: listView
+                        clip: true
+                        Layout.alignment: Qt.AlignHCenter
+                        Layout.fillHeight: true
+                        width: 300
+                        spacing: 6
+                        model: GameStyles {}
+                        delegate: gameStyleDelegate
                 }
         }
 }
