@@ -23,28 +23,21 @@ PageWithHeader {
                         horizontalAlignment: Text.AlignHCenter
                 }
 
-                Component {
-                        id: gameStyleDelegate
-                        GameStyleRect {
-                                width: parent.width
-                                height: 128
-                                title: modeTitle
-                                color: modeColor
-                                initialScore: score
-                                description: modeDescription
-                                onClicked: () => Scripts.init(mode, Number.parseInt(score))
-                        }
-                }
-
-                ListView {
-                        id: listView
+                Flickable {
+                        id: flickable
                         clip: true
                         Layout.alignment: Qt.AlignHCenter
                         Layout.fillHeight: true
+                        maximumFlickVelocity: 1000
                         width: 300
-                        spacing: 6
-                        model: GameStyles {}
-                        delegate: gameStyleDelegate
+                        contentWidth: 300
+                        Column {
+                                id: flickableContent
+                                width: parent.width
+                                spacing: 6
+                        }
+
+                        Component.onCompleted: Scripts.initFlickable()
                 }
         }
 }
