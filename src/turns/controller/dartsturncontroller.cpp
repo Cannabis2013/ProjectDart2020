@@ -8,7 +8,6 @@
 #include "src/status/idartsstatus.h"
 #include "src/turns/models/dartsturnindex.h"
 #include "src/turns/persistences/idartsindexes.h"
-#include "src/turns/services/iindexreport.h"
 #include "src/validation/abstractdartsevaluator.h"
 
 DartsTurnController::DartsTurnController(ServiceCollection* services)
@@ -66,5 +65,7 @@ int DartsTurnController::playerNumber() const
 
 QByteArray DartsTurnController::report() const
 {
-        return _services->indexReport->report();
+        auto jsonObj = _services->indexes->index().object();
+        auto jsonDoc = QJsonDocument(jsonObj);
+        return jsonDoc.toJson(QJsonDocument::Compact);
 }

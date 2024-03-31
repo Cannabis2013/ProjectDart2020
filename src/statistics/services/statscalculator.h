@@ -6,7 +6,7 @@
 
 class ServiceCollection;
 
-#define USE_POOR_AVERAGE
+#define USE_IMP_2
 
 class StatsCalculator : public IStatsCalculator {
 public:
@@ -17,6 +17,8 @@ public:
         int highest(const QString& name) const override;
 
 private:
+        int finishedRounds() const;
+        int playerScore(const QString& name) const;
         ServiceCollection* _services;
 };
 

@@ -87,8 +87,6 @@ HEADERS += \
     src/turns/persistences/dartsindexes.h \
     src/turns/persistences/idartsindexes.h \
     src/turns/persistences/indexesio.h \
-    src/turns/services/dartsindexreport.h \
-    src/turns/services/iindexreport.h \
     src/validation/abstractdartsevaluator.h \
     src/validation/dartsallowances.h \
     src/validation/dartsbeginnervalidator.h \
@@ -124,13 +122,12 @@ SOURCES += \
     src/scores/services/dartsscoresfetch.cpp \
     src/scores/services/dartsscoresupdate.cpp \
     src/statistics/controllers/dartsstatistics.cpp \
-    src/statistics/services/dartsAveragePoorImp.cpp \
+    src/statistics/services/dartsaverage_imp_2.cpp \
     src/statistics/services/statscalculator.cpp \
     src/status/dartsstatus.cpp \
     src/turns/controller/dartsturncontroller.cpp \
     src/turns/persistences/dartsindexes.cpp \
     src/turns/persistences/indexesio.cpp \
-    src/turns/services/dartsindexreport.cpp \
     src/validation/dartsallowances.cpp \
     src/validation/dartsbeginnervalidator.cpp \
     src/validation/dartsevaluators.cpp \

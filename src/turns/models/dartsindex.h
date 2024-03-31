@@ -38,7 +38,7 @@ public:
         int turnsLimit = 2;
         int turnIndex = 0;
         int turnCount = 0;
-        int roundIndex = 0;
+        int roundIndex = 1;
         int throwCount = 0;
         int availableThrows = 0;
 };

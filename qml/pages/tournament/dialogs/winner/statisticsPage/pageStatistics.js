@@ -19,8 +19,15 @@ function updateStatistics() {
 }
 
 function updateTurnInfo() {
+        let rounds = finishedRounds()
+        roundsText.text = `Rounds: ${rounds}`
+}
+
+function finishedRounds() {
         const report = JSON.parse(dartsTurns.report())
-        const round = report.roundIndex + 1
-        const text = `Rounds: ${round}`
-        roundsText.text = text
+        let round = report.roundIndex
+        const turnId = report.turnId
+        if (round > 1 && turnId % 2 == 0)
+                round--
+        return round
 }

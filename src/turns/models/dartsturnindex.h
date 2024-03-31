@@ -12,6 +12,15 @@ public:
                 _turnId = index.turnCount;
         }
 
+        QJsonObject object() const
+        {
+                QJsonObject jsonObj;
+                jsonObj["roundIndex"] = _roundIndex;
+                jsonObj["turnIndex"] = _turnIndex;
+                jsonObj["turnId"] = _turnId;
+                return jsonObj;
+        }
+
         int turnIndex() const
         {
                 return _turnIndex;
