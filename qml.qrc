@@ -11,6 +11,9 @@
         <file>Ressources/Pictures/benjamin.jpeg</file>
         <file>Ressources/Pictures/downArrow.png</file>
         <file>Ressources/Pictures/upArrow.png</file>
+        <file>Ressources/Pictures/redo.png</file>
+        <file>Ressources/Pictures/undo.png</file>
+        <file>Ressources/Pictures/restart.png</file>
     </qresource>
     <qresource prefix="/data">
         <file>Ressources/TextData/aboutContent.dat</file>
@@ -63,5 +66,6 @@
         <file>qtquickcontrols2.conf</file>
         <file>qml/pages/tournament/compInputs/inputsDisplay/ScoreDisplay.qml</file>
         <file>qml/pages/setup/gameModes.js</file>
+        <file>qml/pages/tournament/compTurnControls/ButtonControl.qml</file>
     </qresource>
 </RCC>

@@ -4,14 +4,15 @@ import QtQuick.Controls 2.5
 
 Item {
         id: turnRect
+        clip: true
 
         signal undoClicked
         signal redoClicked
         signal restartClicked
 
         function update() {
-                undoButton.enabled = dartsTurns.canUndo()
-                redoButton.enabled = dartsTurns.canRedo()
+                undoButton.active = dartsTurns.canUndo()
+                redoButton.active = dartsTurns.canRedo()
         }
 
         GridLayout {
@@ -21,9 +22,8 @@ Item {
                         text: "Menu"
                         height: parent.height
                         Layout.fillHeight: true
-                        Layout.preferredWidth: 90
-                        flat: true
-                        font.pointSize: 18
+                        Layout.preferredWidth: 80
+                        font.pointSize: 12
                         onClicked: menuRequest()
                 }
 
@@ -33,31 +33,28 @@ Item {
 
                 Button {
                         id: restartButton
-                        flat: true
-                        font.pointSize: 18
-                        Layout.fillHeight: true
                         text: "Restart"
+                        Layout.preferredWidth: 96
+                        Layout.fillHeight: true
                         onClicked: restartClicked()
                 }
 
-                Button {
+                ButtonControl {
                         id: undoButton
-                        flat: true
-                        font.pointSize: 18
+                        active: false
+                        Layout.preferredWidth: 38
                         Layout.fillHeight: true
-                        text: "Undo"
-                        enabled: false
-                        onClicked: undoClicked()
+                        iconSource: "qrc:/pictures/Ressources/Pictures/undo.png"
+                        onButtonClicked: undoClicked()
                 }
 
-                Button {
+                ButtonControl {
                         id: redoButton
-                        flat: true
-                        font.pointSize: 18
+                        active: false
                         Layout.fillHeight: true
-                        text: "Redo"
-                        enabled: false
-                        onClicked: redoClicked()
+                        Layout.preferredWidth: 38
+                        iconSource: "qrc:/pictures/Ressources/Pictures/redo.png"
+                        onButtonClicked: redoClicked()
                 }
         }
 }

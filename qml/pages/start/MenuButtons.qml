@@ -5,11 +5,10 @@ Column {
         spacing: 5
 
         width: 192
-        height: 48 * 5 + 20
+        height: 48 * 4 + 20
 
         Button {
-                flat: true
-                font.pointSize: 24
+                font.pointSize: 16
                 width: 192
                 height: 48
                 text: "Play"
@@ -17,8 +16,7 @@ Column {
         }
 
         Button {
-                flat: true
-                font.pointSize: 24
+                font.pointSize: 16
                 width: 192
                 height: 48
                 text: "Resume game"
@@ -29,8 +27,7 @@ Column {
         }
 
         Button {
-                flat: true
-                font.pointSize: 24
+                font.pointSize: 16
                 width: 192
                 height: 48
                 text: "About"
@@ -38,8 +35,7 @@ Column {
         }
 
         Button {
-                flat: true
-                font.pointSize: 24
+                font.pointSize: 16
                 width: 192
                 height: 48
                 text: "Quit"

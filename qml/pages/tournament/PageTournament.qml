@@ -40,6 +40,8 @@ Page {
                         Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
                         Layout.preferredHeight: 32
                         Layout.fillWidth: true
+                        Layout.leftMargin: 6
+                        Layout.rightMargin: 6
                         onUndoClicked: Scripts.undo()
                         onRedoClicked: Scripts.redo()
                         onRestartClicked: Dialogs.openRestartDialog(Scripts.restartGame)
