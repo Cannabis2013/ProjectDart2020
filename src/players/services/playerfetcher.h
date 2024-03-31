@@ -11,6 +11,7 @@ public:
         DartsPlayer& one() override;
         DartsPlayer& one(const QString& name) override;
         DartsPlayer winner() const override;
+        int indexOf(const QString& name) const override;
 
 private:
         ServiceCollection* _services;

@@ -1,3 +1,4 @@
+#include "src/players/services/iplayerfetcher.h"
 #include "statscalculator.h"
 
 #ifdef USE_IMP_2
@@ -10,17 +11,18 @@
 
 double StatsCalculator::middle(const QString& name) const
 {
-        auto rounds = finishedRounds();
+        auto playerIndex = _services->playerFetcher->indexOf(name);
+        auto rounds = finishedRounds(playerIndex);
         auto score = playerScore(name);
         return score / rounds;
 }
 
-int StatsCalculator::finishedRounds() const
+int StatsCalculator::finishedRounds(const int& playerIndex) const
 {
         auto index = _services->indexes->index();
-        auto turnId = index.turnId();
+        auto turnIndex = index.turnIndex();
         auto rounds = index.roundIndex();
-        if (rounds > 1 && turnId % 2 == 0)
+        if (rounds > 1 && playerIndex >= turnIndex)
                 rounds--;
         return rounds;
 }

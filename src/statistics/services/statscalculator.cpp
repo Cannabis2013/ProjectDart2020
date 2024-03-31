@@ -1,8 +1,6 @@
 #include "statscalculator.h"
 #include "src/input/services/idartsinputsfilter.h"
-#include "src/scores/models/Score.h"
 #include "src/scores/persistence/idartsscores.h"
-#include "src/scores/services/idartsscoresfetch.h"
 #include "src/scores/services/iscorescalculator.h"
 #include "src/servicecollection.h"
 

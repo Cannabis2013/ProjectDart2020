@@ -6,6 +6,7 @@ class DartsPlayer;
 
 class IPlayerFetcher {
 public:
+        virtual int indexOf(const QString& name) const = 0;
         virtual DartsPlayer& one() = 0;
         virtual DartsPlayer& one(const QString& name) = 0;
         virtual DartsPlayer winner() const = 0;

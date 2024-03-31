@@ -17,7 +17,7 @@ public:
         int highest(const QString& name) const override;
 
 private:
-        int finishedRounds() const;
+        int finishedRounds(const int& playerIndex) const;
         int playerScore(const QString& name) const;
         ServiceCollection* _services;
 };
