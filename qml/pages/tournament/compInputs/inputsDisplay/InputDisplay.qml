@@ -21,7 +21,7 @@ Item {
         }
 
         ScoreDisplay {
-                id: textDisplay
+                id: scoreDisplay
                 anchors.left: parent.left
                 anchors.leftMargin: 12
                 anchors.right: removeButton.left

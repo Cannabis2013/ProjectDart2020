@@ -9,7 +9,6 @@
 #include "src/scores/persistence/dartsscores.h"
 #include "src/scores/services/dartscalculator.h"
 #include "src/scores/services/dartsscoresdelta.h"
-#include "src/scores/services/dartsscoresfetch.h"
 #include "src/scores/services/dartsscoresupdate.h"
 #include "src/statistics/services/statscalculator.h"
 #include "src/status/dartsstatus.h"
@@ -39,7 +38,6 @@ void DartsServices::injectServices(ServiceCollection* services)
         services->scoresUpdate = new DartsScoresUpdate(services);
         services->evaluators = new DartsEvaluators(services);
         services->finishes = new DartsFinishes();
-        services->scoresFetcher = new DartsScoresFetch(services);
         services->inputsFilter = new DartsInputsfilter(services);
         services->inputStatistics = new StatsCalculator(services);
         services->playerFetcher = new PlayerFetcher(services);

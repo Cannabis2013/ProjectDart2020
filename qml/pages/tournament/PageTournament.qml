@@ -5,6 +5,7 @@ import "compTurnControls"
 import "compInputs"
 import "compMessages"
 import "compPlayerInfos"
+import "scorePreview"
 import "pageTournament.js" as Scripts
 import "dialogs/dialogs.js" as Dialogs
 
@@ -51,9 +52,18 @@ Page {
                         id: inputSection
                         Layout.fillWidth: true
                         Layout.fillHeight: true
-                        onReportScores: scores => Scripts.addScore(scores)
                         Layout.rowSpan: Scripts.isPortrait() ? 1 : 3
+                        onReportScores: scores => Scripts.addScore(scores)
+                        onUpdatePreview: score => scorePreview.updateScore(score)
                 }
+        }
+
+        ScorePreviev {
+                id: scorePreview
+                anchors.horizontalCenter: parent.horizontalCenter
+                y: 100
+                width: 128
+                height: 64
         }
 
         Component.onCompleted: Scripts.initializeUI()

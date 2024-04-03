@@ -12,8 +12,13 @@ Item {
         signal reportScore
         onReportScore: Scripts.report()
 
+        signal updatePreview(int score)
+
+        signal clearDisplay
+        onClearDisplay: inputsDisplay.flushInputs()
+
         signal numberClicked(string modId, int point)
-        onNumberClicked: (modId, point) => inputsDisplay.addInput(modId, point)
+        onNumberClicked: (modId, point) => Scripts.handleInput(modId, point)
 
         InputDisplay {
                 id: inputsDisplay

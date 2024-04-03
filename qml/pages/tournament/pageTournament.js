@@ -18,6 +18,7 @@ function initializeUI() {
 
 function restartGame() {
         dartsInitializer.reset()
+        inputSection.clearDisplay()
         initializeUI()
         tournamentPage.forceActiveFocus()
 }

@@ -67,5 +67,8 @@
         <file>qml/pages/tournament/compInputs/inputsDisplay/ScoreDisplay.qml</file>
         <file>qml/pages/setup/gameModes.js</file>
         <file>qml/pages/tournament/compTurnControls/ButtonControl.qml</file>
+        <file>qml/pages/tournament/scorePreview/ScorePreviev.qml</file>
+        <file>qml/pages/tournament/scorePreview/scorePreview.js</file>
+        <file>qml/pages/tournament/compInputs/inputsDisplay/scoreDisplay.js</file>
     </qresource>
 </RCC>

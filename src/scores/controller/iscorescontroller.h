@@ -4,6 +4,7 @@
 class QString;
 class IScoresController {
 public:
+        virtual int currentRemaining() const = 0;
         virtual int playerOne() const = 0;
         virtual int playerTwo() const = 0;
         virtual QString finishRow() const = 0;

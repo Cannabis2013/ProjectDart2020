@@ -67,9 +67,7 @@ HEADERS += \
     src/scores/persistence/idartsscores.h \
     src/scores/services/dartscalculator.h \
     src/scores/services/dartsscoresdelta.h \
-    src/scores/services/dartsscoresfetch.h \
     src/scores/services/dartsscoresupdate.h \
-    src/scores/services/idartsscoresfetch.h \
     src/scores/services/iscorescalculator.h \
     src/scores/services/iscoresdelta.h \
     src/scores/services/iscoresupdate.h \
@@ -119,7 +117,6 @@ SOURCES += \
     src/scores/persistence/dartsscores.cpp \
     src/scores/services/dartscalculator.cpp \
     src/scores/services/dartsscoresdelta.cpp \
-    src/scores/services/dartsscoresfetch.cpp \
     src/scores/services/dartsscoresupdate.cpp \
     src/statistics/controllers/dartsstatistics.cpp \
     src/statistics/services/dartsaverage_imp_2.cpp \

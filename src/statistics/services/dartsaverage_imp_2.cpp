@@ -2,9 +2,7 @@
 #include "statscalculator.h"
 
 #ifdef USE_IMP_2
-#include "src/scores/models/Score.h"
 #include "src/scores/persistence/idartsscores.h"
-#include "src/scores/services/idartsscoresfetch.h"
 #include "src/servicecollection.h"
 #include "src/turns/models/dartsturnindex.h"
 #include "src/turns/persistences/idartsindexes.h"
@@ -29,7 +27,9 @@ int StatsCalculator::finishedRounds(const int& playerIndex) const
 
 int StatsCalculator::playerScore(const QString& name) const
 {
-        auto remaining = _services->scoresFetcher->score(name).value();
+        auto playerIndex = _services->playerFetcher->indexOf(name);
+        auto scoreObject = _services->scores->all().at(playerIndex);
+        auto remaining = scoreObject.value();
         auto initialScore = _services->scores->initialScore();
         auto score = initialScore - remaining;
         return score;

@@ -1,9 +1,21 @@
 import QtQuick 2.15
 import QtQuick.Controls
 import QtQuick.Layouts 1.3
-import "inputDisplay.js" as Scripts
+import "scoreDisplay.js" as Scripts
 
 Item {
+        function addScore(modId, point) {
+                return Scripts.addInput(modId, point)
+        }
+
+        function pop(modId, point) {
+                return Scripts.popInput(modId, point)
+        }
+
+        function clear() {
+                Scripts.clear()
+        }
+
         property string inputsText: ""
         onInputsTextChanged: textInputs.text = inputsText
 

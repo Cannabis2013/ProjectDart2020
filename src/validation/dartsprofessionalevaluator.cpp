@@ -4,10 +4,11 @@
 #include "src/players/services/iplayerfetcher.h"
 #include "src/scores/models/Score.h"
 #include "src/scores/persistence/idartsscores.h"
-#include "src/scores/services/idartsscoresfetch.h"
 #include "src/scores/services/iscorescalculator.h"
 #include "src/servicecollection.h"
 #include "src/status/idartsstatus.h"
+#include "src/turns/models/dartsturnindex.h"
+#include "src/turns/persistences/idartsindexes.h"
 #include "src/validation/dartsallowances.h"
 
 DartsProfessionalEvaluator::DartsProfessionalEvaluator(ServiceCollection* services)
@@ -30,8 +31,10 @@ bool DartsProfessionalEvaluator::evaluateInput(const QString& mod, const int& po
         auto name = _services->playerFetcher->one().name();
         if (!validateInput(name, mod, point))
                 return false;
-        auto playerScore = _services->scoresFetcher->score().value();
-        return validateRemaining(mod, point, playerScore);
+        auto turnIndex = _services->indexes->index().turnIndex();
+        auto scoreObject = _services->scores->all().at(turnIndex);
+        auto remaining = scoreObject.value();
+        return validateRemaining(mod, point, remaining);
 }
 
 void DartsProfessionalEvaluator::evaluateWinnerCondition()

@@ -47,7 +47,6 @@ public:
         IMessagesReport* messagesReport;
         IScoresReport* scoresReport;
         IScoresUpdate* scoresUpdate;
-        IDartsScoresFetch* scoresFetcher;
         IDartsInputsFilter* inputsFilter;
         IStatsCalculator* inputStatistics;
         IPlayerFetcher* playerFetcher;
