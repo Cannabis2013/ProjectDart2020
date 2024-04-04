@@ -1,5 +1,9 @@
 function handleInput(modId, point) {
-        inputsDisplay.addInput(modId, point)
+        const score = inputsDisplay.addInput(modId, point)
+}
+
+function reset() {
+        inputsDisplay.flushInputs()
 }
 
 function report() {

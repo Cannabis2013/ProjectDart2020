@@ -5,7 +5,6 @@ import "compTurnControls"
 import "compInputs"
 import "compMessages"
 import "compPlayerInfos"
-import "scorePreview"
 import "pageTournament.js" as Scripts
 import "dialogs/dialogs.js" as Dialogs
 
@@ -39,7 +38,7 @@ Page {
                 CompTurnControls {
                         id: turnControls
                         Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
-                        Layout.preferredHeight: 32
+                        Layout.preferredHeight: 36
                         Layout.fillWidth: true
                         Layout.leftMargin: 6
                         Layout.rightMargin: 6
@@ -54,16 +53,7 @@ Page {
                         Layout.fillHeight: true
                         Layout.rowSpan: Scripts.isPortrait() ? 1 : 3
                         onReportScores: scores => Scripts.addScore(scores)
-                        onUpdatePreview: score => scorePreview.updateScore(score)
                 }
-        }
-
-        ScorePreviev {
-                id: scorePreview
-                anchors.horizontalCenter: parent.horizontalCenter
-                y: 100
-                width: 128
-                height: 64
         }
 
         Component.onCompleted: Scripts.initializeUI()

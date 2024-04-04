@@ -10,12 +10,11 @@ function readInputs() {
 
 function addInput(modId, point) {
         if (inputsMem.length >= 3)
-                return
+                return undefined
         const input = createInput(modId, point)
         inputsMem.push(input)
         updateDisplay()
-        const newScore = scoreDisplay.addScore(modId, point)
-        updatePreview(newScore)
+        return input
 }
 
 function createInput(modId, point) {
@@ -28,20 +27,18 @@ function createInput(modId, point) {
 function updateDisplay() {
         let text = ""
         inputsMem.forEach(input => text += `${input.modId}${input.point} `)
-        scoreDisplay.inputsText = text
+        textInputs.text = text
 }
 
-function removeOne() {
+function popInput() {
         if (inputsMem.length <= 0)
-                return
+                return undefined
         const input = inputsMem.pop()
         updateDisplay()
-        const newScore = scoreDisplay.pop(input.modId, input.point)
-        updatePreview(newScore)
+        return input
 }
 
-function clearInputs() {
-        scoreDisplay.clear()
+function clear() {
         inputsMem = []
-        updatePreview(0)
+        textInputs.text = ""
 }

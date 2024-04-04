@@ -2,7 +2,7 @@ import QtQuick 2.15
 import QtQuick.Controls
 import QtQuick.Layouts 1.3
 import "keyPad"
-import "inputsDisplay"
+import "keyPadDisplays"
 import "compInputs.js" as Scripts
 
 Item {
@@ -12,23 +12,29 @@ Item {
         signal reportScore
         onReportScore: Scripts.report()
 
-        signal updatePreview(int score)
-
         signal clearDisplay
-        onClearDisplay: inputsDisplay.flushInputs()
+        onClearDisplay: Scripts.reset()
 
         signal numberClicked(string modId, int point)
         onNumberClicked: (modId, point) => Scripts.handleInput(modId, point)
 
-        InputDisplay {
+        KeyPadDisplays {
                 id: inputsDisplay
-                height: 48
-                width: parent.width
+                height: 64
+                anchors.top: parent.top
+                anchors.topMargin: 6
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.rightMargin: 12
+                anchors.leftMargin: 12
+                onDisplayCleared: scorePreview.clear()
+                onDisplayPopped: score => scorePreview.updateScore(score)
         }
 
         KeyPad {
                 id: keyPad
                 anchors.top: inputsDisplay.bottom
+                anchors.topMargin: 6
                 anchors.bottom: parent.bottom
                 width: parent.width
         }

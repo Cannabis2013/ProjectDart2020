@@ -22,8 +22,8 @@ Item {
                         text: "Menu"
                         height: parent.height
                         Layout.fillHeight: true
-                        Layout.preferredWidth: 80
-                        font.pointSize: 12
+                        Layout.preferredWidth: 120
+                        font.pointSize: 16
                         onClicked: menuRequest()
                 }
 
@@ -34,7 +34,8 @@ Item {
                 Button {
                         id: restartButton
                         text: "Restart"
-                        Layout.preferredWidth: 96
+                        Layout.preferredWidth: 140
+                        font.pointSize: 16
                         Layout.fillHeight: true
                         onClicked: restartClicked()
                 }

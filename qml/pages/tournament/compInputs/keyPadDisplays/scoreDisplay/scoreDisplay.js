@@ -1,4 +1,4 @@
-function addInput(modId, point) {
+function add(modId, point) {
         const score = calcScore(modId, point)
         const scoreText = textScore.text
         const currentScore = scoreText == "" ? 0 : Number.parseInt(scoreText)
@@ -7,7 +7,7 @@ function addInput(modId, point) {
         return newScore
 }
 
-function popInput(modId, point) {
+function subtract(modId, point) {
         const score = calcScore(modId, point)
         const newScore = subtractedScore(score)
         textScore.text = newScore
@@ -35,6 +35,5 @@ function modMultiplier(modId) {
 }
 
 function clear() {
-        textInputs.text = ""
         textScore.text = ""
 }

@@ -1,0 +1,68 @@
+import QtQuick 2.15
+import QtQuick.Controls
+import QtQuick.Layouts 1.3
+import "controls"
+import "scorePreview"
+import "scoreDisplay"
+import "inputDisplay"
+import "keyPadDisplays.js" as Scripts
+
+Item {
+        signal displayCleared
+        signal displayPopped(int score)
+
+        function hasInputs() {
+                return inputsDisplay.hasInputs()
+        }
+
+        function readInputs() {
+                return inputsDisplay.inputs()
+        }
+
+        function addInput(modId, point) {
+                Scripts.add(modId, point)
+        }
+
+        function flushInputs() {
+                Scripts.clearInputs()
+        }
+
+        InputsDisplay {
+                id: inputsDisplay
+                anchors.left: parent.left
+                width: 186
+                anchors.top: parent.top
+                anchors.bottom: parent.verticalCenter
+                anchors.bottomMargin: 6
+        }
+
+        ScoreDisplay {
+                id: scoreDisplay
+                anchors.top: parent.top
+                anchors.left: inputsDisplay.right
+                anchors.leftMargin: 6
+                width: 120
+                anchors.bottom: parent.verticalCenter
+                anchors.bottomMargin: 6
+        }
+
+        DisplayControls {
+                id: displayControls
+                anchors.left: scoreDisplay.right
+                anchors.right: parent.right
+                anchors.rightMargin: 6
+                anchors.top: parent.verticalCenter
+                anchors.bottom: parent.bottom
+                onRemoveClicked: Scripts.removeOne()
+                onClearClicked: Scripts.clearInputs()
+        }
+
+        ScorePreview {
+                id: scorePreview
+                anchors.left: parent.left
+                width: 120
+                anchors.bottom: parent.bottom
+                anchors.top: parent.verticalCenter
+                anchors.topMargin: 6
+        }
+}
