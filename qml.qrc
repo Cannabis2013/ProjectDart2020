@@ -38,8 +38,8 @@
         <file>qml/pages/tournament/compInputs/keyPadDisplays/controls/DisplayControls.qml</file>
         <file>qml/pages/tournament/compInputs/keyPadDisplays/scoreDisplay/scoreDisplay.js</file>
         <file>qml/pages/tournament/compInputs/keyPadDisplays/scoreDisplay/ScoreDisplay.qml</file>
-        <file>qml/pages/tournament/compInputs/keyPadDisplays/scorePreview/scorePreview.js</file>
-        <file>qml/pages/tournament/compInputs/keyPadDisplays/scorePreview/ScorePreview.qml</file>
+        <file>qml/pages/tournament/compInputs/keyPadDisplays/scorePreview/previewDisplay.js</file>
+        <file>qml/pages/tournament/compInputs/keyPadDisplays/scorePreview/PreviewDisplay.qml</file>
         <file>qml/pages/tournament/compInputs/keyPadDisplays/keyPadDisplays.js</file>
         <file>qml/pages/tournament/compInputs/keyPadDisplays/KeyPadDisplays.qml</file>
         <file>qml/pages/tournament/compInputs/compInputs.js</file>

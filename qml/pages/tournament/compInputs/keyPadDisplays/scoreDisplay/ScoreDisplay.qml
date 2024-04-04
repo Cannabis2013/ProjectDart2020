@@ -22,26 +22,18 @@ Item {
                 radius: 6
                 anchors.fill: parent
 
-                Rectangle {
+                Text {
                         id: textLabel
-                        color: "blue"
                         anchors.left: parent.left
                         anchors.leftMargin: 6
                         anchors.top: parent.top
-                        anchors.topMargin: 3
                         anchors.bottom: parent.bottom
-                        anchors.bottomMargin: 3
-                        width: 64
-                        radius: 6
-                        Text {
-                                anchors.fill: parent
-                                text: "Score"
-                                font.pixelSize: 16
-                                font.weight: Font.Bold
-                                color: "white"
-                                horizontalAlignment: Text.AlignHCenter
-                                verticalAlignment: Text.AlignVCenter
-                        }
+                        width: 40
+                        text: "Score"
+                        font.pixelSize: 16
+                        font.weight: Font.ExtraLight
+                        color: "lightgray"
+                        verticalAlignment: Text.AlignVCenter
                 }
 
                 Text {

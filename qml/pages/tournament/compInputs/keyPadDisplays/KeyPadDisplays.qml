@@ -30,7 +30,7 @@ Item {
         InputsDisplay {
                 id: inputsDisplay
                 anchors.left: parent.left
-                width: 186
+                width: 170
                 anchors.top: parent.top
                 anchors.bottom: parent.verticalCenter
                 anchors.bottomMargin: 6
@@ -41,9 +41,18 @@ Item {
                 anchors.top: parent.top
                 anchors.left: inputsDisplay.right
                 anchors.leftMargin: 6
-                width: 120
+                width: 90
                 anchors.bottom: parent.verticalCenter
                 anchors.bottomMargin: 6
+        }
+
+        PreviewDisplay {
+                id: scorePreview
+                anchors.left: parent.left
+                width: 110
+                anchors.bottom: parent.bottom
+                anchors.top: parent.verticalCenter
+                anchors.topMargin: 6
         }
 
         DisplayControls {
@@ -55,14 +64,5 @@ Item {
                 anchors.bottom: parent.bottom
                 onRemoveClicked: Scripts.removeOne()
                 onClearClicked: Scripts.clearInputs()
-        }
-
-        ScorePreview {
-                id: scorePreview
-                anchors.left: parent.left
-                width: 120
-                anchors.bottom: parent.bottom
-                anchors.top: parent.verticalCenter
-                anchors.topMargin: 6
         }
 }

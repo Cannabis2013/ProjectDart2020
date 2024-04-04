@@ -1,7 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Controls
 import QtQuick.Layouts 1.3
-import "scorePreview.js" as Scripts
+import "previewDisplay.js" as Scripts
 
 Item {
         function updateScore(score) {
@@ -18,26 +18,17 @@ Item {
                 radius: 6
                 anchors.fill: parent
 
-                Rectangle {
+                Text {
                         id: textLabel
-                        color: "blue"
                         anchors.left: parent.left
                         anchors.leftMargin: 6
-                        anchors.top: parent.top
-                        anchors.topMargin: 3
-                        anchors.bottom: parent.bottom
-                        anchors.bottomMargin: 3
-                        width: 64
-                        radius: 6
-                        Text {
-                                anchors.fill: parent
-                                text: "Preview"
-                                font.pixelSize: 16
-                                font.weight: Font.Bold
-                                color: "white"
-                                horizontalAlignment: Text.AlignHCenter
-                                verticalAlignment: Text.AlignVCenter
-                        }
+                        height: parent.height
+                        width: 48
+                        text: "Preview"
+                        font.pixelSize: 16
+                        font.weight: Font.ExtraLight
+                        color: "lightgray"
+                        verticalAlignment: Text.AlignVCenter
                 }
 
                 Text {

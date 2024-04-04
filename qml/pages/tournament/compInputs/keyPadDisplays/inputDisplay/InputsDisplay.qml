@@ -26,32 +26,27 @@ Item {
                 color: "#4f4f4f"
                 radius: 6
                 anchors.fill: parent
-                Rectangle {
+
+                Text {
                         id: textLabel
-                        color: "blue"
                         anchors.left: parent.left
                         anchors.leftMargin: 6
                         anchors.top: parent.top
                         anchors.topMargin: 3
                         anchors.bottom: parent.bottom
                         anchors.bottomMargin: 3
-                        width: 64
-                        radius: 6
-                        Text {
-                                anchors.fill: parent
-                                text: "Inputs"
-                                font.pixelSize: 16
-                                font.weight: Font.Bold
-                                color: "white"
-                                horizontalAlignment: Text.AlignHCenter
-                                verticalAlignment: Text.AlignVCenter
-                        }
+                        width: 40
+                        text: "Inputs"
+                        font.pixelSize: 16
+                        font.weight: Font.ExtraLight
+                        color: "lightgray"
+                        verticalAlignment: Text.AlignVCenter
                 }
 
                 Text {
                         id: textInputs
                         anchors.left: textLabel.right
-                        anchors.leftMargin: 6
+                        anchors.leftMargin: 12
                         anchors.right: parent.right
                         height: parent.height
                         font.pixelSize: 18
