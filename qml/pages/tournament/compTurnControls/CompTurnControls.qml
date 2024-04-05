@@ -4,7 +4,6 @@ import QtQuick.Controls 2.5
 
 Item {
         id: turnRect
-        clip: true
 
         signal undoClicked
         signal redoClicked
@@ -22,7 +21,6 @@ Item {
                         text: "Menu"
                         height: parent.height
                         Layout.fillHeight: true
-                        Layout.preferredWidth: 120
                         font.pointSize: 16
                         onClicked: menuRequest()
                 }
@@ -34,7 +32,6 @@ Item {
                 Button {
                         id: restartButton
                         text: "Restart"
-                        Layout.preferredWidth: 140
                         font.pointSize: 16
                         Layout.fillHeight: true
                         onClicked: restartClicked()
