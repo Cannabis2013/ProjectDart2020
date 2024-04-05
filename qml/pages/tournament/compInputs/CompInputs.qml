@@ -18,24 +18,22 @@ Item {
         signal numberClicked(string modId, int point)
         onNumberClicked: (modId, point) => Scripts.handleInput(modId, point)
 
-        KeyPadDisplays {
-                id: inputsDisplay
-                height: 64
-                anchors.top: parent.top
-                anchors.topMargin: 6
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.rightMargin: 12
-                anchors.leftMargin: 12
-                onDisplayCleared: scorePreview.clear()
-                onDisplayPopped: score => scorePreview.updateScore(score)
-        }
+        ColumnLayout {
+                anchors.fill: parent
+                KeyPadDisplays {
+                        id: inputsDisplay
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 64
+                        Layout.leftMargin: 6
+                        Layout.rightMargin: 6
+                        onDisplayCleared: scorePreview.clear()
+                        onDisplayPopped: score => scorePreview.updateScore(score)
+                }
 
-        KeyPad {
-                id: keyPad
-                anchors.top: inputsDisplay.bottom
-                anchors.topMargin: 6
-                anchors.bottom: parent.bottom
-                width: parent.width
+                KeyPad {
+                        id: keyPad
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                }
         }
 }
