@@ -23,10 +23,9 @@ Item {
                         anchors.left: parent.left
                         anchors.leftMargin: 6
                         height: parent.height
-                        width: 48
-                        text: "Preview"
-                        font.pixelSize: 16
-                        font.weight: Font.ExtraLight
+                        width: 44
+                        text: "PREVIEW"
+                        font.pixelSize: 12
                         color: "lightgray"
                         verticalAlignment: Text.AlignVCenter
                 }

@@ -26,7 +26,7 @@ Item {
                 id: specialPads
                 spacing: 0
                 anchors.left: numberPads.right
-                anchors.right: parent.right
+                width: parent.width * 0.2
                 height: parent.height
                 ModPad {
                         id: modTripple

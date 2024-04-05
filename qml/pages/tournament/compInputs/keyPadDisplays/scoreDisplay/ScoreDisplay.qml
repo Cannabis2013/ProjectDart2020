@@ -28,10 +28,9 @@ Item {
                         anchors.leftMargin: 6
                         anchors.top: parent.top
                         anchors.bottom: parent.bottom
-                        width: 40
-                        text: "Score"
-                        font.pixelSize: 16
-                        font.weight: Font.ExtraLight
+                        width: 32
+                        text: "SCORE"
+                        font.pixelSize: 12
                         color: "lightgray"
                         verticalAlignment: Text.AlignVCenter
                 }

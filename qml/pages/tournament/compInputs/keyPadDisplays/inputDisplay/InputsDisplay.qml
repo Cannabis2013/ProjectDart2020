@@ -35,10 +35,9 @@ Item {
                         anchors.topMargin: 3
                         anchors.bottom: parent.bottom
                         anchors.bottomMargin: 3
-                        width: 40
-                        text: "Inputs"
-                        font.pixelSize: 16
-                        font.weight: Font.ExtraLight
+                        width: 36
+                        text: "INPUTS"
+                        font.pixelSize: 12
                         color: "lightgray"
                         verticalAlignment: Text.AlignVCenter
                 }

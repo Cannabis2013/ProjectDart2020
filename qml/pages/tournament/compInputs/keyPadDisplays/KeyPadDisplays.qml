@@ -41,7 +41,7 @@ Item {
                 anchors.top: parent.top
                 anchors.left: inputsDisplay.right
                 anchors.leftMargin: 6
-                width: 90
+                width: 80
                 anchors.bottom: parent.verticalCenter
                 anchors.bottomMargin: 6
         }

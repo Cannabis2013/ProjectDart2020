@@ -11,7 +11,8 @@ Item {
         CompMessage {
                 id: finishRow
                 anchors.left: parent.left
-                height: parent.height
+                anchors.top: parent.top
+                height: 40
                 width: 192
                 imageUrl: "qrc:/pictures/Ressources/Pictures/dartsplate.png"
                 imageWidth: 27
@@ -20,8 +21,9 @@ Item {
 
         CompMessage {
                 id: scoreSpan
+                anchors.top: parent.top
                 anchors.right: parent.right
-                height: parent.height
+                height: 40
                 width: 100
                 imageWidth: 31
                 imageHeight: 42

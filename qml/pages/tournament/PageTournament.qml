@@ -30,9 +30,11 @@ Page {
 
                 CompMessages {
                         id: messageSection
+                        Layout.topMargin: 6
                         Layout.fillWidth: true
                         Layout.fillHeight: !Scripts.isPortrait()
-                        Layout.preferredHeight: 64
+                        Layout.minimumHeight: 48
+                        Layout.alignment: Qt.AlignTop
                 }
 
                 CompTurnControls {
@@ -51,6 +53,7 @@ Page {
                         id: inputSection
                         Layout.fillWidth: true
                         Layout.fillHeight: true
+                        Layout.minimumWidth: 12
                         Layout.rowSpan: Scripts.isPortrait() ? 1 : 3
                         onReportScores: scores => Scripts.addScore(scores)
                 }
