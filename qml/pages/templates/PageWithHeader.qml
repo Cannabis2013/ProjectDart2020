@@ -33,12 +33,10 @@ Page {
 
                         Button {
                                 id: pageButton
-                                flat: true
-                                font.pointSize: 24
+                                font.pointSize: 20
                                 font.weight: Font.Bold
                                 text: pageRect.buttonText
-                                width: 48
-                                height: 32
+                                Layout.preferredHeight: 48
                                 Layout.alignment: Qt.AlignVCenter
                                 onClicked: pageRect.backClicked()
                                 onPressAndHold: pageRect.backLongClicked()

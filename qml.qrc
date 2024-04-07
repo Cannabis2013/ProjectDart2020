@@ -21,7 +21,6 @@
     <qresource prefix="/sounds"/>
     <qresource prefix="/">
         <file>qml/pages/about/AboutPage.qml</file>
-        <file>qml/pages/setup/gameModes.js</file>
         <file>qml/pages/setup/GameStyleRect.qml</file>
         <file>qml/pages/setup/setupPage.js</file>
         <file>qml/pages/setup/SetupPage.qml</file>
@@ -73,5 +72,6 @@
         <file>qtquickcontrols2.conf</file>
         <file>qml/pages/tournament/compInputs/keyPadDisplays/inputDisplay/InputsDisplay.qml</file>
         <file>qml/pages/tournament/compInputs/keyPadDisplays/inputDisplay/inputsDisplay.js</file>
+        <file>qml/pages/setup/ModesModel.qml</file>
     </qresource>
 </RCC>

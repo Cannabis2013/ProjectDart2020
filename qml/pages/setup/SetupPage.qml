@@ -10,12 +10,23 @@ PageWithHeader {
 
         signal requestTournamentPage
 
+        ModesModel {
+                id: dataModel
+        }
+
+        Component {
+                id: delegate
+                GameStyleRect {
+                        onClicked: index => Scripts.initFromIndex(index)
+                }
+        }
+
         GridLayout {
                 anchors.fill: parent
                 flow: GridLayout.TopToBottom
 
                 Text {
-                        height: 32
+                        Layout.preferredHeight: 32
                         Layout.fillWidth: true
                         font.pointSize: 24
                         color: "white"
@@ -23,21 +34,15 @@ PageWithHeader {
                         horizontalAlignment: Text.AlignHCenter
                 }
 
-                Flickable {
-                        id: flickable
+                ListView {
                         clip: true
-                        Layout.alignment: Qt.AlignHCenter
+                        cacheBuffer: 6
+                        spacing: 6
+                        maximumFlickVelocity: 300
                         Layout.fillHeight: true
-                        maximumFlickVelocity: 1000
-                        width: 300
-                        contentWidth: 300
-                        Column {
-                                id: flickableContent
-                                width: parent.width
-                                spacing: 6
-                        }
-
-                        Component.onCompleted: Scripts.initFlickable()
+                        Layout.fillWidth: true
+                        model: dataModel
+                        delegate: delegate
                 }
         }
 }
