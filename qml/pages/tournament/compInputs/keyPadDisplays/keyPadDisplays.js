@@ -1,21 +1,38 @@
 function add(modId, point) {
         const input = inputsDisplay.addInput(modId, point)
         if (input) {
-                const score = scoreDisplay.addScore(input.modId, input.point)
-                scorePreview.updateScore(score)
+                const score = calcScore(modId, point)
+                const updatedScore = scoreDisplay.addScore(score)
+                scorePreview.updateScore(updatedScore)
         }
 }
 
 function removeOne() {
+        if (!inputsDisplay.hasInputs())
+                return
         const input = inputsDisplay.popInput()
-        if (input) {
-                const updatedScore = scoreDisplay.subtrackScore(input.modId, input.point)
-                scorePreview.updateScore(updatedScore)
-        }
+        const score = calcScore(input.modId, input.point)
+        const updatedScore = scoreDisplay.subtrackScore(score)
+        scorePreview.updateScore(updatedScore)
 }
 
 function clearInputs() {
         scoreDisplay.clear()
         inputsDisplay.clear()
         scorePreview.clear()
+}
+
+function calcScore(modId, point) {
+        const multiplier = modMultiplier(modId)
+        return multiplier * point
+}
+
+function modMultiplier(modId) {
+        if (modId === "S")
+                return 1
+        if (modId === "D")
+                return 2
+        if (modId === "T")
+                return 3
+        return -1
 }

@@ -4,12 +4,12 @@ import QtQuick.Layouts 1.3
 import "scoreDisplay.js" as Scripts
 
 Item {
-        function addScore(modId, point) {
-                return Scripts.add(modId, point)
+        function addScore(score) {
+                return Scripts.add(score)
         }
 
-        function subtrackScore(modId, point) {
-                return Scripts.subtract(modId, point)
+        function subtrackScore(score) {
+                return Scripts.subtract(score)
         }
 
         function clear() {
