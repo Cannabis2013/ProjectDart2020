@@ -34,7 +34,6 @@ HEADERS += \
     src/Finishes/finishestypes.h \
     src/Finishes/idartsfinishes.h \
     src/Setup/qmlsetup.h \
-    src/Sounds/soundcontroller.h \
     src/dartsservices.h \
     src/init/controllervalues.h \
     src/init/iserviceinitializer.h \
@@ -99,7 +98,6 @@ SOURCES += \
     src/Finishes/dartscreatefinishes.cpp \
     src/Finishes/dartsfinishes.cpp \
     src/Setup/qmlsetup.cpp \
-    src/Sounds/soundcontroller.cpp \
     src/dartsservices.cpp \
     src/init/controllervalues.cpp \
     src/init/serviceinitializer.cpp \

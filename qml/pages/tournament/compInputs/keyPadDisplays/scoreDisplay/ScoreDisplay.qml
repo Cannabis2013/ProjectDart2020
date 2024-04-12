@@ -13,7 +13,7 @@ Item {
         }
 
         function clear() {
-                Scripts.clear()
+                textScore.text = ""
         }
 
         Rectangle {

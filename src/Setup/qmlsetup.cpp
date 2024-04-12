@@ -1,6 +1,5 @@
 #include "qmlsetup.h"
 #include "src/FileIO/filehtml.h"
-#include "src/Sounds/soundcontroller.h"
 #include "src/dartsservices.h"
 #include "src/init/serviceinitializer.h"
 #include "src/input/controllers/dartsinputcontroller.h"
@@ -40,7 +39,6 @@ void QmlSetup::createEngine()
 
 void QmlSetup::registerServices()
 {
-        auto soundController = new SoundController();
         auto services = DartsServices().build();
         auto initializer = new ServiceInitializer(services);
         auto inputController = new DartsInputController(services);
@@ -56,5 +54,4 @@ void QmlSetup::registerServices()
         _engine->rootContext()->setContextProperty("dartsScores", scoresReport);
         _engine->rootContext()->setContextProperty("dartsPlayers", playersReport);
         _engine->rootContext()->setContextProperty("dartsTurns", turnController);
-        _engine->rootContext()->setContextProperty("soundController", soundController);
 }

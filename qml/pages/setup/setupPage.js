@@ -13,10 +13,9 @@ function init(gameMode, gameScore) {
 }
 
 function toObject(mode, gameScore) {
-        const obj = {
+        return {
                 "playersCount": 2,
                 "gameMode": mode,
                 "initialScore": Number.parseInt(gameScore)
         }
-        return obj
 }

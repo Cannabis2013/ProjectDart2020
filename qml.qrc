@@ -18,7 +18,9 @@
     <qresource prefix="/data">
         <file>Ressources/TextData/aboutContent.dat</file>
     </qresource>
-    <qresource prefix="/sounds"/>
+    <qresource prefix="/sounds">
+        <file>Ressources/Sounds/reportScore.wav</file>
+    </qresource>
     <qresource prefix="/">
         <file>qml/pages/about/AboutPage.qml</file>
         <file>qml/pages/setup/GameStyleRect.qml</file>

@@ -1,4 +1,4 @@
-import QtQuick 2.9
+import QtQuick 6.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.15
 import "../templates"
@@ -12,13 +12,6 @@ PageWithHeader {
 
         ModesModel {
                 id: dataModel
-        }
-
-        Component {
-                id: delegate
-                GameStyleRect {
-                        onClicked: index => Scripts.initFromIndex(index)
-                }
         }
 
         GridLayout {
@@ -36,13 +29,15 @@ PageWithHeader {
 
                 ListView {
                         clip: true
-                        cacheBuffer: 6
+                        reuseItems: true
                         spacing: 6
                         maximumFlickVelocity: 300
                         Layout.fillHeight: true
                         Layout.fillWidth: true
                         model: dataModel
-                        delegate: delegate
+                        delegate: GameStyleRect {
+                                onClicked: index => Scripts.initFromIndex(index)
+                        }
                 }
         }
 }
