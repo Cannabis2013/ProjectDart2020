@@ -11,13 +11,13 @@ function readInputs() {
 function addInput(modId, point) {
         if (inputsMem.length >= 3)
                 return undefined
-        const input = createInput(modId, point)
+        const input = toInput(modId, point)
         inputsMem.push(input)
         updateDisplay()
         return input
 }
 
-function createInput(modId, point) {
+function toInput(modId, point) {
         return {
                 "modId": modId,
                 "point": point

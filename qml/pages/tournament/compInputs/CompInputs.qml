@@ -26,8 +26,6 @@ Item {
                         Layout.preferredHeight: 64
                         Layout.leftMargin: 6
                         Layout.rightMargin: 6
-                        onDisplayCleared: scorePreview.clear()
-                        onDisplayPopped: score => scorePreview.updateScore(score)
                 }
 
                 KeyPad {

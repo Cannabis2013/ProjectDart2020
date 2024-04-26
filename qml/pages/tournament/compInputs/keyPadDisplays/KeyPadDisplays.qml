@@ -8,9 +8,6 @@ import "inputDisplay"
 import "keyPadDisplays.js" as Scripts
 
 Item {
-        signal displayCleared
-        signal displayPopped(int score)
-
         function hasInputs() {
                 return inputsDisplay.hasInputs()
         }
