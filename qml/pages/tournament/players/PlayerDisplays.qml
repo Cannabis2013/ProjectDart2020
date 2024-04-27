@@ -1,6 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Layouts 1.3
-import "compPlayerInfos.js" as Scripts
+import "playerDisplays.js" as Scripts
 import "./playerInfoRect"
 
 Item {
@@ -13,7 +13,7 @@ Item {
                 Scripts.updateValues()
         }
 
-        PlayerInfoRect {
+        PlayerDisplay {
                 id: playerOne
                 anchors.left: parent.left
                 height: parent.height
@@ -24,7 +24,7 @@ Item {
                 }
         }
 
-        PlayerInfoRect {
+        PlayerDisplay {
                 id: playerTwo
                 anchors.right: parent.right
                 height: parent.height

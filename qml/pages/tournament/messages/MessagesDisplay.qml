@@ -1,14 +1,14 @@
 import QtQuick 2.1
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
-import "compMessages.js" as Scripts
+import "messagesDisplay.js" as Scripts
 
 Item {
         function update() {
                 Scripts.updateMessages()
         }
 
-        CompMessage {
+        MessageDisplay {
                 id: finishRow
                 anchors.left: parent.left
                 anchors.top: parent.top
@@ -19,7 +19,7 @@ Item {
                 imageHeight: 20
         }
 
-        CompMessage {
+        MessageDisplay {
                 id: scoreSpan
                 anchors.top: parent.top
                 anchors.right: parent.right

@@ -41,13 +41,6 @@ Item {
                 }
 
                 NumberPad {
-                        color: "green"
-                        text: "25"
-                        padValue: 25
-                        onPadClicked: value => Scripts.handleSpecialPadClick(padValue)
-                }
-
-                NumberPad {
                         color: "red"
                         padValue: 50
                         text: "50"
@@ -55,9 +48,15 @@ Item {
                 }
 
                 NumberPad {
-                        color: "orange"
-                        text: ">>"
-                        onPadClicked: value => reportScore()
+                        color: "green"
+                        text: "25"
+                        padValue: 25
+                        onPadClicked: value => Scripts.handleSpecialPadClick(padValue)
+                }
+
+                ReportPad {
+                        color: "lightgray"
+                        onReleased: () => reportScore()
                 }
         }
 }

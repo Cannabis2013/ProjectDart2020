@@ -24,19 +24,10 @@ Item {
                 Scripts.clearInputs()
         }
 
-        InputsDisplay {
-                id: inputsDisplay
-                anchors.left: parent.left
-                width: 170
-                anchors.top: parent.top
-                anchors.bottom: parent.verticalCenter
-                anchors.bottomMargin: 6
-        }
-
         ScoreDisplay {
                 id: scoreDisplay
                 anchors.top: parent.top
-                anchors.left: inputsDisplay.right
+                anchors.left: scorePreview.right
                 anchors.leftMargin: 6
                 width: 80
                 anchors.bottom: parent.verticalCenter
@@ -47,14 +38,23 @@ Item {
                 id: scorePreview
                 anchors.left: parent.left
                 width: 110
-                anchors.bottom: parent.bottom
+                anchors.top: parent.top
+                anchors.bottom: parent.verticalCenter
+                anchors.bottomMargin: 6
+        }
+
+        InputsDisplay {
+                id: inputsDisplay
+                anchors.left: parent.left
+                width: 170
                 anchors.top: parent.verticalCenter
+                anchors.bottom: parent.bottom
                 anchors.topMargin: 6
         }
 
         DisplayControls {
                 id: displayControls
-                anchors.left: scoreDisplay.right
+                anchors.left: inputsDisplay.right
                 anchors.right: parent.right
                 anchors.rightMargin: 6
                 anchors.top: parent.verticalCenter

@@ -16,7 +16,7 @@ Rectangle {
 
         Behavior on scale {
                 NumberAnimation {
-                        duration: 125
+                        duration: 50
                 }
         }
 

@@ -1,10 +1,10 @@
 import QtQuick 2.1
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
-import "compTurnControls"
-import "compInputs"
-import "compMessages"
-import "compPlayerInfos"
+import "turnControls"
+import "inputs"
+import "messages"
+import "players"
 import "pageTournament.js" as Scripts
 import "dialogs/dialogs.js" as Dialogs
 
@@ -22,13 +22,13 @@ Page {
                 flow: GridLayout.TopToBottom
                 rows: Scripts.isPortrait() ? 4 : 3
 
-                CompPlayerInfos {
+                PlayerDisplays {
                         id: playerInfos
                         Layout.preferredHeight: 146
                         Layout.fillWidth: true
                 }
 
-                CompMessages {
+                MessagesDisplay {
                         id: messageSection
                         Layout.topMargin: 6
                         Layout.fillWidth: true
@@ -37,7 +37,7 @@ Page {
                         Layout.alignment: Qt.AlignTop
                 }
 
-                CompTurnControls {
+                TurnControls {
                         id: turnControls
                         Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
                         Layout.preferredHeight: 36

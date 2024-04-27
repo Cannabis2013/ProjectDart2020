@@ -1,6 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Layouts 1.3
-import "playerInfoRect.js" as Scripts
+import "playerDisplay.js" as Scripts
 
 Rectangle {
         id: playerInfoRect
