@@ -1,4 +1,4 @@
-import QtQuick 2.15
+import QtQuick 6.0
 import QtQuick.Layouts 1.3
 import "playerDisplay.js" as Scripts
 

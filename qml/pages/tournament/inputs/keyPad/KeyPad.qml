@@ -1,4 +1,4 @@
-import QtQuick 2.15
+import QtQuick 6.0
 import QtQuick.Controls
 import QtQuick.Layouts 1.3
 import "keyPad.js" as Scripts
@@ -12,6 +12,7 @@ Item {
                 columnSpacing: 0
                 rowSpacing: 0
                 layoutDirection: Qt.RightToLeft
+
                 Repeater {
                         model: 20
                         NumberPad {
@@ -48,14 +49,13 @@ Item {
                 }
 
                 NumberPad {
-                        color: "green"
                         text: "25"
+                        color: "green"
                         padValue: 25
                         onPadClicked: value => Scripts.handleSpecialPadClick(padValue)
                 }
 
                 ReportPad {
-                        color: "lightgray"
                         onReleased: () => reportScore()
                 }
         }

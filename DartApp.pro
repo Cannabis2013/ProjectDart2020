@@ -1,4 +1,4 @@
-QT += quick multimedia
+QT += quick quickcontrols2 multimedia
 CONFIG += c++20
 
 

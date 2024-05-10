@@ -1,4 +1,4 @@
-import QtQuick 2.15
+import QtQuick 6.0
 import QtQuick.Controls
 import QtQuick.Layouts 1.3
 import "controls"
@@ -59,7 +59,5 @@ Item {
                 anchors.rightMargin: 6
                 anchors.top: parent.verticalCenter
                 anchors.bottom: parent.bottom
-                onRemoveClicked: Scripts.removeOne()
-                onClearClicked: Scripts.clearInputs()
         }
 }

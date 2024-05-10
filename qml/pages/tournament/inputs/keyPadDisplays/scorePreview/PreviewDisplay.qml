@@ -1,4 +1,4 @@
-import QtQuick 2.15
+import QtQuick 6.0
 import QtQuick.Controls
 import QtQuick.Layouts 1.3
 import "previewDisplay.js" as Scripts
