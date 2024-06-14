@@ -46,7 +46,7 @@ Page {
                         Layout.rightMargin: 6
                         onUndoClicked: Scripts.undo()
                         onRedoClicked: Scripts.redo()
-                        onRestartClicked: Dialogs.openRestartDialog(Scripts.restartGame)
+                        onRestartClicked: Dialogs.openRestartDialog("Sure you want to restart?",Scripts.restartGame)
                 }
 
                 CompInputs {

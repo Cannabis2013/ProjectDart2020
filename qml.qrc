@@ -77,5 +77,6 @@
         <file>qml/PageLoader.qml</file>
         <file>qtquickcontrols2.conf</file>
         <file>qml/pages/tournament/inputs/keyPadDisplays/controls/displayControls.js</file>
+        <file>qml/pages/tournament/dialogs/confirmation/dialogConfirm.qml</file>
     </qresource>
 </RCC>

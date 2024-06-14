@@ -1,7 +1,12 @@
+function openConfirmDialog(text,acceptSlot){
+    const modalObj = createDialog("restart/DialogRestart.qml", tournamentPage)
+    modalObj.accepted.connect(acceptSlot)
+    modalObj.text = text
+    modalObj.open()
+}
+
 function openRestartDialog(acceptSlot) {
-        const modalObj = createDialog("restart/DialogRestart.qml", tournamentPage)
-        modalObj.accepted.connect(acceptSlot)
-        modalObj.open()
+
 }
 
 function openQuitDialog(acceptSlot) {

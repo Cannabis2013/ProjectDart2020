@@ -7,7 +7,7 @@ Dialog {
         height: 288
         anchors.centerIn: parent
 
-        property string text: ""
+        property string text: "Sure?"
         onTextChanged: modalText.text = text
 
         contentItem: Rectangle {
@@ -20,7 +20,7 @@ Dialog {
                         font.pointSize: 16
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
-                        text: qsTr("Sure you want to restart?")
+                        text: qsTr(dialogRect.text)
                 }
         }
 
