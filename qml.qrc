@@ -32,8 +32,7 @@
         <file>qml/pages/start/pageStart.js</file>
         <file>qml/pages/start/PageStart.qml</file>
         <file>qml/pages/templates/PageWithHeader.qml</file>
-        <file>qml/pages/tournament/dialogs/quit/DialogQuit.qml</file>
-        <file>qml/pages/tournament/dialogs/restart/DialogRestart.qml</file>
+        <file>qml/pages/tournament/dialogs/confirmation/DialogConfirm.qml</file>
         <file>qml/pages/tournament/dialogs/winner/statisticsPage/compStatistics.js</file>
         <file>qml/pages/tournament/dialogs/winner/statisticsPage/CompStatistics.qml</file>
         <file>qml/pages/tournament/dialogs/winner/statisticsPage/pageStatistics.js</file>
@@ -49,6 +48,7 @@
         <file>qml/pages/tournament/inputs/keyPad/NumberPad.qml</file>
         <file>qml/pages/tournament/inputs/keyPad/Pad.qml</file>
         <file>qml/pages/tournament/inputs/keyPad/ReportPad.qml</file>
+        <file>qml/pages/tournament/inputs/keyPadDisplays/controls/displayControls.js</file>
         <file>qml/pages/tournament/inputs/keyPadDisplays/controls/DisplayControls.qml</file>
         <file>qml/pages/tournament/inputs/keyPadDisplays/inputDisplay/inputsDisplay.js</file>
         <file>qml/pages/tournament/inputs/keyPadDisplays/inputDisplay/InputsDisplay.qml</file>
@@ -76,7 +76,5 @@
         <file>qml/main.qml</file>
         <file>qml/PageLoader.qml</file>
         <file>qtquickcontrols2.conf</file>
-        <file>qml/pages/tournament/inputs/keyPadDisplays/controls/displayControls.js</file>
-        <file>qml/pages/tournament/dialogs/confirmation/dialogConfirm.qml</file>
     </qresource>
 </RCC>

@@ -42,9 +42,9 @@ function addScore(scores) {
 
 function updateTurnValues() {
         if (dartsPlayers.isWinnerFound())
-                Dialogs.openWinnerDialog(restartGame, undo)
+            Dialogs.openWinnerDialog(restartGame, undo)
         else
-                updateSections()
+            updateSections()
 }
 
 function updateSections() {
