@@ -6,45 +6,45 @@ import "./pages/start"
 import "./pages/setup"
 
 Item {
-        id: body
+    id: body
 
-        signal backPushed
+    signal backPushed
 
-        Component {
-                id: startPageComponent
-                PageStart {
-                        onRequestSetupPage: pageLoader.sourceComponent = setupTournament
-                        onRequestTournamentPage: pageLoader.sourceComponent = tournamentPage
-                        onRequestAboutPage: pageLoader.sourceComponent = aboutPage
-                }
+    Component {
+        id: startPageComponent
+        PageStart {
+            onRequestSetupPage: pageLoader.sourceComponent = setupTournament
+            onRequestTournamentPage: pageLoader.sourceComponent = tournamentPage
+            onRequestAboutPage: pageLoader.sourceComponent = aboutPage
         }
+    }
 
-        Component {
-                id: tournamentPage
-                PageTournament {
-                        onMenuRequest: pageLoader.sourceComponent = startPageComponent
-                }
+    Component {
+        id: tournamentPage
+        PageTournament {
+            onMenuRequest: pageLoader.sourceComponent = startPageComponent
         }
+    }
 
-        Component {
-                id: aboutPage
-                AboutPage {
-                        onBackClicked: pageLoader.sourceComponent = startPageComponent
-                }
+    Component {
+        id: aboutPage
+        AboutPage {
+            onBackClicked: pageLoader.sourceComponent = startPageComponent
         }
+    }
 
-        Component {
-                id: setupTournament
-                SetupPage {
-                        onRequestTournamentPage: pageLoader.sourceComponent = tournamentPage
-                        onBackClicked: pageLoader.sourceComponent = startPageComponent
-                }
+    Component {
+        id: setupTournament
+        SetupPage {
+            onRequestTournamentPage: pageLoader.sourceComponent = tournamentPage
+            onBackClicked: pageLoader.sourceComponent = startPageComponent
         }
+    }
 
-        Loader {
-                id: pageLoader
-                anchors.fill: parent
-                sourceComponent: startPageComponent
-                asynchronous: true
-        }
+    Loader {
+        id: pageLoader
+        anchors.fill: parent
+        sourceComponent: startPageComponent
+        asynchronous: true
+    }
 }
