@@ -14,62 +14,52 @@
 DartsProfessionalEvaluator::DartsProfessionalEvaluator(ServiceCollection* services)
     : _services(services)
 {
-        _allowances = new DartsAllowances();
+    _allowances = new DartsAllowances();
 }
 
 void DartsProfessionalEvaluator::init()
 {
-        QStringList names;
-        auto players = _services->players->all();
-        for (const auto& player : players)
-                names << player.name();
-        _allowances->init(names);
+    QStringList names;
+    auto players = _services->players->all();
+    for (const auto& player : players)
+            names << player.name();
+    _allowances->init(names);
 }
 
-bool DartsProfessionalEvaluator::evaluateInput(const QString& mod, const int& point)
+const QList<InputCandidate> DartsProfessionalEvaluator::acceptedInputs(
+    const QList<InputCandidate> &candidates)
 {
-        auto name = _services->playerFetcher->one().name();
-        if (!validateInput(name, mod, point))
-            return false;
-        auto turnIndex = _services->indexes->index().turnIndex();
-        auto scoreObject = _services->scores->all().at(turnIndex);
-        auto remaining = scoreObject.value();
-        return validateRemaining(mod, point, remaining);
+    auto turnIndex = _services->indexes->index().turnIndex();
+    auto player = _services->players->all().at(turnIndex);
+    auto allowed = validInputs(candidates,player.name());
+    return accepted(allowed);
 }
 
-void DartsProfessionalEvaluator::evaluateWinnerCondition()
-{
-        auto scores = _services->scores->all();
-        for (const auto& score : scores) {
-            if (score.value() == 0)
-                _services->status->setWinner(score.name());
+void DartsProfessionalEvaluator::evaluateWinnerCondition() {
+    auto scores = _services->scores->all();
+    for (const auto& score : scores) {
+        if (score.value() <= 0) {
+            _services->status->setWinner(score.name());
+            auto winner = &_services->playerFetcher->one(score.name());
+            winner->setWinner(true);
         }
+    }
 }
 
-void DartsProfessionalEvaluator::updateAllowance(const QString& name, const bool& allowance)
+AbstractDartsEvaluator::Candidates DartsProfessionalEvaluator::validInputs(const Candidates &candidates, const QString& name)
 {
-        _allowances->updateAllowance(name, allowance);
-}
+    if(_allowances->isAllowed(name))
+        return candidates;
+    auto allowed = false;
+    Candidates allowedCandidates;
+    for (const auto &candidate : candidates) {
+        if(!allowed && candidate.point() == 20 && candidate.mod() == "D")
+            allowed = true;
+        if(allowed && isValid(candidate.point(),candidate.mod()))
+            allowedCandidates << candidate;
+    }
+    return allowedCandidates;
 
-bool DartsProfessionalEvaluator::validateInput(const QString& name, const QString& mod, const int& point)
-{
-        if (!isValid(point, mod))
-                return false;
-        if (_allowances->isAllowed(name))
-                return true;
-        if (mod == "D")
-                return _allowances->updateAllowance(name, true);
-        return false;
-}
-
-bool DartsProfessionalEvaluator::validateRemaining(const QString& mod, const int& point, const int& current)
-{
-        auto remaining = _services->calculator->remaining(mod, point, current);
-        if (remaining > 1)
-                return true;
-        else if (remaining == 0 && (mod == "D" || point == 50))
-                return true;
-        return false;
 }
 
 bool DartsProfessionalEvaluator::isValid(const int& point, const QString& mod) const
@@ -77,4 +67,27 @@ bool DartsProfessionalEvaluator::isValid(const int& point, const QString& mod) c
         if (point > MaxPoint || point < 0)
                 return false;
         return AllowedMods.contains(mod);
+}
+
+AbstractDartsEvaluator::Candidates DartsProfessionalEvaluator::accepted(const Candidates &candidates)
+{
+    Candidates accepted;
+    auto remaining = currentRemaining();
+    for (const auto &candidate : candidates) {
+        auto score = _services->calculator->score(candidate.mod(), candidate.point());
+        remaining -= score;
+        if (remaining == 0 && (candidate.mod() == "D" || candidate.point() == 50)) {
+            accepted << candidate;
+            return accepted;
+        } else if (remaining < 0)
+            return Candidates();
+        accepted << candidate;
+    }
+    return accepted;
+}
+
+int DartsProfessionalEvaluator::currentRemaining() const {
+    auto turnIndex = _services->indexes->index().turnIndex();
+    auto scoreObject = _services->scores->all().at(turnIndex);
+    return scoreObject.value();
 }

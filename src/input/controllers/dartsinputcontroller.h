@@ -17,7 +17,6 @@ public:
 
 private:
         typedef QList<InputCandidate> Candidates;
-        Candidates filteredInputs(const Candidates& candidates) const;
         Candidates fromJson(const QByteArray& json) const;
         // Services
         ServiceCollection* const _services;

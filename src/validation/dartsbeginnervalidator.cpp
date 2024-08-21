@@ -13,26 +13,32 @@ DartsBeginnerValidator::DartsBeginnerValidator(ServiceCollection* services)
 {
 }
 
-bool DartsBeginnerValidator::evaluateInput(const QString& mod, const int& point)
+const QList<InputCandidate> DartsBeginnerValidator::acceptedInputs(
+    const QList<InputCandidate> &candidates)
 {
-        return isValid(mod, point);
+    Candidates accepted;
+    for (const auto &candidate : candidates) {
+        if (isValid(candidate.mod(), candidate.point()))
+            accepted << candidate;
+    }
+    return accepted;
 }
 
 void DartsBeginnerValidator::evaluateWinnerCondition()
 {
-        auto scores = _services->scores->all();
-        for (const auto& score : scores) {
-            if (score.value() <= 0) {
-                _services->status->setWinner(score.name());
-                auto winner = &_services->playerFetcher->one(score.name());
-                winner->setWinner(true);
-            }
+    auto scores = _services->scores->all();
+    for (const auto& score : scores) {
+        if (score.value() <= 0) {
+            _services->status->setWinner(score.name());
+            auto winner = &_services->playerFetcher->one(score.name());
+            winner->setWinner(true);
         }
+    }
 }
 
 bool DartsBeginnerValidator::isValid(const QString& mod, const int& point) const
 {
-        if (point > MaxPoint || point < 0)
-                return false;
-        return AllowedMods.contains(mod);
+    if (point > MaxPoint || point < 0)
+        return false;
+    return AllowedMods.contains(mod);
 }

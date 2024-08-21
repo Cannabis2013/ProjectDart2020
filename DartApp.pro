@@ -88,6 +88,7 @@ HEADERS += \
     src/validation/dartsallowances.h \
     src/validation/dartsbeginnervalidator.h \
     src/validation/dartsevaluators.h \
+    src/validation/dartsmediumvalidator.h \
     src/validation/dartsprofessionalevaluator.h \
     src/validation/iplayerallowances.h
 
@@ -126,4 +127,5 @@ SOURCES += \
     src/validation/dartsallowances.cpp \
     src/validation/dartsbeginnervalidator.cpp \
     src/validation/dartsevaluators.cpp \
+    src/validation/dartsmediumvalidator.cpp \
     src/validation/dartsprofessionalevaluator.cpp

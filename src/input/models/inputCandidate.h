@@ -10,33 +10,24 @@ class InputCandidate {
 public:
         static QList<InputCandidate> fromJsonArray(const QJsonArray& jsonArr)
         {
-                QList<InputCandidate> candidates;
-                for (const auto& jsonVal : jsonArr) {
-                        auto jsonObj = jsonVal.toObject();
-                        candidates << jsonObj;
-                }
-                return candidates;
+            QList<InputCandidate> candidates;
+            for (const auto &jsonVal : jsonArr) {
+                auto jsonObj = jsonVal.toObject();
+                candidates << jsonObj;
+            }
+            return candidates;
         }
 
-        QString mod() const
-        {
-                return _mod;
-        }
-        int point() const
-        {
-                return _point;
-        }
+        QString mod() const { return _mod; }
+        int point() const { return _point; }
 
-        DartsInput input() const
-        {
-                return { _mod, _point };
-        }
+        DartsInput input() const { return {_mod, _point}; }
 
-private:
+    private:
         InputCandidate(const QJsonObject& jsonObj)
         {
-                _mod = jsonObj.value("modId").toString("S");
-                _point = jsonObj.value("point").toInt(-1);
+            _mod = jsonObj.value("modId").toString("S");
+            _point = jsonObj.value("point").toInt(-1);
         }
 
         QString _mod;
