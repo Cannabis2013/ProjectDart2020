@@ -64,9 +64,9 @@ AbstractDartsEvaluator::Candidates DartsProfessionalEvaluator::validInputs(const
 
 bool DartsProfessionalEvaluator::isValid(const int& point, const QString& mod) const
 {
-        if (point > MaxPoint || point < 0)
-                return false;
-        return AllowedMods.contains(mod);
+    if (point > MaxPoint || point < 0)
+        return false;
+    return AllowedMods.contains(mod);
 }
 
 AbstractDartsEvaluator::Candidates DartsProfessionalEvaluator::accepted(const Candidates &candidates)
@@ -76,12 +76,11 @@ AbstractDartsEvaluator::Candidates DartsProfessionalEvaluator::accepted(const Ca
     for (const auto &candidate : candidates) {
         auto score = _services->calculator->score(candidate.mod(), candidate.point());
         remaining -= score;
-        if (remaining == 0 && (candidate.mod() == "D" || candidate.point() == 50)) {
-            accepted << candidate;
-            return accepted;
-        } else if (remaining < 0)
-            return Candidates();
         accepted << candidate;
+        if (remaining == 0 && (candidate.mod() == "D" || candidate.point() == 50))
+            return accepted;
+        else if (remaining < 0)
+            return Candidates();
     }
     return accepted;
 }

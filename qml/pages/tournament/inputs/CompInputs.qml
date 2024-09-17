@@ -6,32 +6,32 @@ import "keyPadDisplays"
 import "compInputs.js" as Scripts
 
 Item {
-        id: keyPadRect
+    id: keyPadRect
 
-        signal reportScores(var scores)
-        signal reportScore
-        onReportScore: Scripts.report()
+    signal reportScores(var scores)
+    signal reportScore
+    onReportScore: Scripts.report()
 
-        signal clearDisplay
-        onClearDisplay: Scripts.reset()
+    signal clearDisplay
+    onClearDisplay: Scripts.reset()
 
-        signal numberClicked(string modId, int point)
-        onNumberClicked: (modId, point) => Scripts.handleInput(modId, point)
+    signal numberClicked(string modId, int point)
+    onNumberClicked: (modId, point) => Scripts.handleInput(modId, point)
 
-        ColumnLayout {
-                anchors.fill: parent
-                KeyPadDisplays {
-                        id: inputsDisplay
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 64
-                        Layout.leftMargin: 6
-                        Layout.rightMargin: 6
-                }
-
-                KeyPad {
-                        id: keyPad
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
-                }
+    ColumnLayout {
+        anchors.fill: parent
+        KeyPadDisplays {
+            id: inputsDisplay
+            Layout.fillWidth: true
+            Layout.preferredHeight: 64
+            Layout.leftMargin: 6
+            Layout.rightMargin: 6
         }
+
+        KeyPad {
+            id: keyPad
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+        }
+    }
 }

@@ -1,5 +1,5 @@
 function removeOne() {
-    if (inputsDisplay.hasInputs())
+    if (!inputsDisplay.hasInputs())
         return
     const input = inputsDisplay.popInput()
     const updatedScore = updateScoreDisplay(input)

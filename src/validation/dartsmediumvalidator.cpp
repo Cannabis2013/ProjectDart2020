@@ -37,8 +37,8 @@ AbstractDartsEvaluator::Candidates DartsMediumValidator::validInputs(
     const Candidates &candidates) const
 {
     Candidates valid;
-    for (const auto &candidate : candidates) {
-        if (candidate.point() <= MaxPoint || candidate.point() > 0)
+    for(const auto &candidate : candidates) {
+        if(candidate.point() <= MaxPoint || candidate.point() > 0)
             valid << candidate;
     }
     return valid;
@@ -49,15 +49,14 @@ AbstractDartsEvaluator::Candidates DartsMediumValidator::accepted(const Candidat
     Candidates accepted;
     auto preRemaining = currentRemaining();
     auto postRemaining = preRemaining;
-    for (const auto &candidate : candidates) {
+    for(const auto &candidate : candidates) {
         auto score = _services->calculator->score(candidate.mod(), candidate.point());
         postRemaining -= score;
-        if (postRemaining == 0 && preRemaining == candidate.point()) {
-            accepted << candidate;
-            return accepted;
-        } else if (postRemaining < 0)
-            return Candidates();
         accepted << candidate;
+        if (postRemaining == 0 && preRemaining == candidate.point())
+            return accepted;
+        else if (postRemaining < 0)
+            return Candidates();
         preRemaining = postRemaining;
     }
     return accepted;
