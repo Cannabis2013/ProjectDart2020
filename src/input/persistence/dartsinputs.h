@@ -16,7 +16,6 @@ public:
         void initFromFile() override;
         QList<DartsInput> all() const override;
         bool saveState() override;
-
 private:
         QList<DartsInput> _inputs;
         QString _filename;

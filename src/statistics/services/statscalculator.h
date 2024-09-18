@@ -1,25 +1,23 @@
-#ifndef STATSCALCULATOR_H
+    #ifndef STATSCALCULATOR_H
 #define STATSCALCULATOR_H
 
 #include "istatscalculator.h"
-#include "src/input/models/dartsinput.h"
+
+#define USE_IMP_1
 
 class ServiceCollection;
 
-#define USE_IMP_2
-
 class StatsCalculator : public IStatsCalculator {
 public:
-        StatsCalculator(ServiceCollection* services);
-
-        double middle(const QString& name) const override;
-        int lowest(const QString& name) const override;
-        int highest(const QString& name) const override;
+    StatsCalculator(ServiceCollection* services);
+    double middle(const QString& name) const override;
+    int lowest(const QString& name) const override;
+    int highest(const QString& name) const override;
 
 private:
-        int finishedRounds(const int& playerIndex) const;
-        int playerScore(const QString& name) const;
-        ServiceCollection* _services;
+    int finishedRounds(const int& playerIndex) const;
+    int playerScore(const QString& name) const;
+    ServiceCollection* _services;
 };
 
 #endif // STATSCALCULATOR_H

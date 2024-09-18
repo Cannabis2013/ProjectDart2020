@@ -1,68 +1,86 @@
 import QtQuick 6.0
 import QtQuick.Layouts 1.3
+import QtQuick.Controls 6.0
 import "playerDisplay.js" as Scripts
 
 Rectangle {
-        id: playerInfoRect
-        clip: true
-        color: "green"
+    id: playerInfoRect
+    clip: true
+    color: "green"
 
-        property bool expanded: false
-        onExpandedChanged: Scripts.showFullName(expanded)
+    function setPlayer(player) {
+        Scripts.setPlayer(player)
+    }
 
-        function setPlayer(player) {
-                Scripts.setPlayer(player)
+    function setValues(score, stats) {
+        Scripts.setValues(score, stats)
+    }
+
+    function highlight(dartsCount) {
+        Scripts.highlight(dartsCount)
+    }
+
+    function unHighlight() {
+        Scripts.unHighlight()
+    }
+
+    QtObject {
+        id: playerInfo
+        property string fullName: ""
+        property string formattedName: ""
+    }
+
+    Behavior on width {
+        NumberAnimation {
+            duration: 125
         }
+    }
 
-        function setValues(score, stats) {
-                Scripts.setValues(score, stats)
-        }
+    Text {
+        id: playerName
+        anchors.left: parent.left
+        anchors.leftMargin: 8
+        anchors.right: parent.right
+        anchors.rightMargin: 8
+        anchors.top: parent.top
+        anchors.topMargin: 8
+        height: 36
+        font.pointSize: 20
+        color: "white"
+        horizontalAlignment: Text.AlignHCenter
+    }
 
-        function highlight(dartsCount) {
-                Scripts.highlight(dartsCount)
-        }
+    Text {
+        id: scoreDisplayText
+        anchors.bottom: statsDisplay.top
+        anchors.top: playerName.bottom
+        anchors.left: parent.left
+        anchors.leftMargin: 8
+        anchors.right: parent.right
+        anchors.rightMargin: 8
+        font.pixelSize: 52
+        font.weight: Font.Bold
+        color: "white"
+        verticalAlignment: Qt.AlignVCenter
+        horizontalAlignment: Qt.AlignHCenter
+    }
 
-        function unHighlight() {
-                Scripts.unHighlight()
-        }
+    InfoButton {
+        id: infoButton
+        anchors.verticalCenter: scoreDisplayText.verticalCenter
+        anchors.right: parent.right
+        anchors.rightMargin: 8
+        onClicked: Scripts.openInputsDialog()
+    }
 
-        QtObject {
-                id: playerInfo
-                property string fullName: ""
-                property string formattedName: ""
-        }
-
-        Behavior on width {
-                NumberAnimation {
-                        duration: 125
-                }
-        }
-
-        Text {
-                id: playerName
-                width: parent.width
-                height: 36
-                font.pointSize: 30
-                font.weight: Font.Bold
-                color: "white"
-        }
-
-        Text {
-                id: scoreDisplayText
-                anchors.bottom: statsDisplay.top
-                width: parent.width
-                height: 64
-                font.pixelSize: 80
-                font.weight: Font.Bold
-                color: "white"
-                verticalAlignment: Qt.AlignVCenter
-                horizontalAlignment: Qt.AlignHCenter
-        }
-
-        CompStatsDisplay {
-                id: statsDisplay
-                width: parent.width
-                height: 40
-                anchors.bottom: parent.bottom
-        }
+    CompStatsDisplay {
+        id: statsDisplay
+        anchors.left: parent.left
+        anchors.leftMargin: 8
+        anchors.right: parent.right
+        anchors.rightMargin: 8
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 8
+        height: 28
+    }
 }

@@ -1,17 +1,17 @@
-function openConfirmDialog(text,acceptSlot){
-    const modalObj = createDialog("confirmation/DialogConfirm.qml", tournamentPage)
-    modalObj.accepted.connect(acceptSlot)
-    modalObj.text = text
-    modalObj.open()
+function openConfirmDialog(text, acceptSlot) {
+    const dialog = createDialog("confirmation/DialogConfirm.qml")
+    dialog.accepted.connect(acceptSlot)
+    dialog.text = text
+    dialog.open()
 }
 
 function openWinnerDialog(restartSlot, undoSlot) {
-        const modalObj = createDialog("winner/DialogWinner.qml", applicationWindow)
-        modalObj.restartClicked.connect(restartSlot)
-        modalObj.undoClicked.connect(undoSlot)
+    const dialog = createDialog("winner/DialogWinner.qml")
+    dialog.restartClicked.connect(restartSlot)
+    dialog.undoClicked.connect(undoSlot)
 }
 
-function createDialog(dialogUrl, parentObj) {
-        const modalComp = Qt.createComponent(dialogUrl)
-        return modalComp.createObject(parentObj)
+function createDialog(dialogUrl) {
+    const modalComp = Qt.createComponent(dialogUrl)
+    return modalComp.createObject(applicationWindow)
 }

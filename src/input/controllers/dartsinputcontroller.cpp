@@ -1,4 +1,5 @@
 #include "dartsinputcontroller.h"
+#include "src/input/services/idartsinputsfilter.h"
 #include "src/input/services/idartsinputsupdater.h"
 #include "src/scores/services/iscoresupdate.h"
 #include "src/servicecollection.h"
@@ -24,6 +25,14 @@ void DartsInputController::add(const QByteArray& inputs)
     _services->indexes->next();
     _services->scoresUpdate->updatePlayerScores();
     _services->evaluator->evaluateWinnerCondition();
+}
+
+QByteArray DartsInputController::inputs(const QString &name) {
+    auto inputs = _services->inputsFilter->valids(name);
+    QJsonArray arr;
+    for (const auto &input : inputs)
+        arr << input.toJsonObject();
+    return QJsonDocument(arr).toJson();
 }
 
 DartsInputController::Candidates DartsInputController::fromJson(const QByteArray& json) const

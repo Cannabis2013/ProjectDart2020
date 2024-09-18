@@ -14,7 +14,7 @@ public:
         DartsInputController(ServiceCollection* services);
 
         Q_INVOKABLE void add(const QByteArray& inputs) override;
-
+        Q_INVOKABLE QByteArray inputs(const QString &name) override;
 private:
         typedef QList<InputCandidate> Candidates;
         Candidates fromJson(const QByteArray& json) const;

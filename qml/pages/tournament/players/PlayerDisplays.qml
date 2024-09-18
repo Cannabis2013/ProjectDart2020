@@ -4,34 +4,26 @@ import "playerDisplays.js" as Scripts
 import "./playerInfoRect"
 
 Item {
-        id: playerInfoItem
-        function initialize() {
-                Scripts.init()
-        }
+    id: playerInfoItem
+    function initialize() {
+        Scripts.init()
+    }
 
-        function update() {
-                Scripts.updateValues()
-        }
+    function update() {
+        Scripts.updateValues()
+    }
 
-        PlayerDisplay {
-                id: playerOne
-                anchors.left: parent.left
-                height: parent.height
-                width: parent.width / 2
-                MouseArea {
-                        anchors.fill: parent
-                        onClicked: Scripts.expandPlayerOne()
-                }
-        }
+    PlayerDisplay {
+        id: playerOne
+        anchors.left: parent.left
+        height: parent.height
+        width: parent.width / 2
+    }
 
-        PlayerDisplay {
-                id: playerTwo
-                anchors.right: parent.right
-                height: parent.height
-                width: parent.width / 2
-                MouseArea {
-                        anchors.fill: parent
-                        onClicked: Scripts.expandPlayerTwo()
-                }
-        }
+    PlayerDisplay {
+        id: playerTwo
+        anchors.right: parent.right
+        height: parent.height
+        width: parent.width / 2
+    }
 }

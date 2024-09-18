@@ -118,6 +118,7 @@ SOURCES += \
     src/scores/services/dartsscoresdelta.cpp \
     src/scores/services/dartsscoresupdate.cpp \
     src/statistics/controllers/dartsstatistics.cpp \
+    src/statistics/services/dartsaverage_imp_1.cpp \
     src/statistics/services/dartsaverage_imp_2.cpp \
     src/statistics/services/statscalculator.cpp \
     src/status/dartsstatus.cpp \

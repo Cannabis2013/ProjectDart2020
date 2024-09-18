@@ -16,18 +16,17 @@ class QJsonObject;
 class QString;
 
 class DartsStatistics : public QObject, public IStatsReport {
-        Q_OBJECT
+    Q_OBJECT
 public:
-        DartsStatistics(ServiceCollection* services);
-        Q_INVOKABLE QByteArray playerOne() const override;
-        Q_INVOKABLE QByteArray playerTwo() const override;
+    DartsStatistics(ServiceCollection* services);
+    Q_INVOKABLE QByteArray playerOne() const override;
+    Q_INVOKABLE QByteArray playerTwo() const override;
 
 private:
-        // Private member methods
-        QJsonObject playerReport(const QString& name) const;
-
-        // Services
-        ServiceCollection* const _services;
+    // Private member methods
+    QJsonObject playerReport(const QString& name) const;
+    // Services
+    ServiceCollection* const _services;
 };
 
 #endif // DARTSSTATISTICS_H

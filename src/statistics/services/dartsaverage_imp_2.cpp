@@ -1,7 +1,7 @@
-#include "src/players/services/iplayerfetcher.h"
 #include "statscalculator.h"
 
 #ifdef USE_IMP_2
+#include "src/players/services/iplayerfetcher.h"
 #include "src/scores/persistence/idartsscores.h"
 #include "src/servicecollection.h"
 #include "src/turns/models/dartsturnindex.h"

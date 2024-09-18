@@ -65,6 +65,7 @@
         <file>qml/pages/tournament/messages/MessagesDisplay.qml</file>
         <file>qml/pages/tournament/players/playerInfoRect/compStatsDisplay.js</file>
         <file>qml/pages/tournament/players/playerInfoRect/CompStatsDisplay.qml</file>
+        <file>qml/pages/tournament/players/playerInfoRect/InfoButton.qml</file>
         <file>qml/pages/tournament/players/playerInfoRect/playerDisplay.js</file>
         <file>qml/pages/tournament/players/playerInfoRect/PlayerDisplay.qml</file>
         <file>qml/pages/tournament/players/playerDisplays.js</file>
@@ -76,5 +77,8 @@
         <file>qml/main.qml</file>
         <file>qml/PageLoader.qml</file>
         <file>qtquickcontrols2.conf</file>
+        <file>qml/pages/tournament/players/playerInfoRect/infoDialog/InputDelegate.qml</file>
+        <file>qml/pages/tournament/players/playerInfoRect/infoDialog/infoDialog.js</file>
+        <file>qml/pages/tournament/players/playerInfoRect/infoDialog/InfoDialog.qml</file>
     </qresource>
 </RCC>

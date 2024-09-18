@@ -24,7 +24,7 @@ public:
 
         DartsInput() { }
 
-        QJsonObject toJsonObject(){
+        QJsonObject toJsonObject() const{
                 QJsonObject jsonObj;
                 jsonObj["point"] = _point;
                 jsonObj["mod"] = _mod;

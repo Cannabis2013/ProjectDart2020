@@ -5,7 +5,8 @@
 
 class IDartsInputController {
 public:
-        virtual void add(const QByteArray& inputs) = 0;
+    virtual void add(const QByteArray& inputs) = 0;
+    virtual QByteArray inputs(const QString& name) = 0;
 };
 
 #endif // IDARTSINPUTCONTROLLER_H
