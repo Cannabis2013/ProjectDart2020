@@ -1,7 +1,10 @@
-#include "dartsinputs.h"
+﻿#include "dartsinputs.h"
 #include "qjsonarray.h"
 #include "src/input/models/dartsinput.h"
 #include "src/FileIO/filejsonio.h"
+
+#include <QJsonDocument>
+#include <QJsonObject>
 
 DartsInputs::DartsInputs(const QString& filename)
     : _filename(filename)

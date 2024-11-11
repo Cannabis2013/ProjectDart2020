@@ -1,4 +1,4 @@
-#include "dartsinputcontroller.h"
+﻿#include "dartsinputcontroller.h"
 #include "src/input/services/idartsinputsfilter.h"
 #include "src/input/services/idartsinputsupdater.h"
 #include "src/scores/services/iscoresupdate.h"
@@ -6,6 +6,8 @@
 #include "src/status/idartsstatus.h"
 #include "src/turns/persistences/idartsindexes.h"
 #include "src/validation/abstractdartsevaluator.h"
+
+#include <QJsonDocument>
 
 typedef QList<DartsInput> Inputs;
 

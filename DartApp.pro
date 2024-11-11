@@ -103,6 +103,7 @@ SOURCES += \
     src/init/controllervalues.cpp \
     src/init/serviceinitializer.cpp \
     src/input/controllers/dartsinputcontroller.cpp \
+    src/input/models/dartsinput.cpp \
     src/input/persistence/dartsinputs.cpp \
     src/input/services/dartsinputsfilter.cpp \
     src/input/services/dartsinputsupdater.cpp \

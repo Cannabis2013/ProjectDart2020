@@ -1,4 +1,4 @@
-import QtQuick 2.1
+﻿import QtQuick 2.1
 import QtQuick.Controls 6.0
 import QtQuick.Layouts 1.3
 import "turnControls"
