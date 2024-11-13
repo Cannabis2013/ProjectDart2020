@@ -1,4 +1,4 @@
-import QtQuick 6.0
+﻿import QtQuick 6.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 6.0
 import "playerDisplay.js" as Scripts
@@ -65,14 +65,6 @@ Rectangle {
         horizontalAlignment: Qt.AlignHCenter
     }
 
-    InfoButton {
-        id: infoButton
-        anchors.verticalCenter: scoreDisplayText.verticalCenter
-        anchors.right: parent.right
-        anchors.rightMargin: 8
-        onClicked: Scripts.openInputsDialog()
-    }
-
     CompStatsDisplay {
         id: statsDisplay
         anchors.left: parent.left
@@ -82,5 +74,10 @@ Rectangle {
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 8
         height: 28
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        onPressed: Scripts.openInputsDialog()
     }
 }
