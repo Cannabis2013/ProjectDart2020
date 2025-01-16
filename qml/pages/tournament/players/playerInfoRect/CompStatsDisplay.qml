@@ -1,4 +1,4 @@
-import QtQuick 6.0
+﻿import QtQuick 6.0
 import QtQuick.Layouts 1.3
 import "compStatsDisplay.js" as Scripts
 
@@ -12,23 +12,10 @@ Item {
         width: parent.width
         height: 28
         rowSpacing: 0
-        Text {
-            id: averageText
-            font.pointSize: 10
-            Layout.fillHeight: true
-            lineHeight: 14
-            lineHeightMode: Text.FixedHeight
-            Layout.fillWidth: true
-            font.weight: Font.Bold
-            color: "white"
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-            text: "Average"
-        }
 
         Text {
             id: lowText
-            font.pointSize: 10
+            font.pointSize: 12
             Layout.fillHeight: true
             lineHeight: 14
             lineHeightMode: Text.FixedHeight
@@ -41,8 +28,22 @@ Item {
         }
 
         Text {
+            id: averageText
+            font.pointSize: 12
+            Layout.fillHeight: true
+            lineHeight: 14
+            lineHeightMode: Text.FixedHeight
+            Layout.fillWidth: true
+            font.weight: Font.Bold
+            color: "white"
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            text: "Average"
+        }
+
+        Text {
             id: highText
-            font.pointSize: 10
+            font.pointSize: 12
             Layout.fillHeight: true
             lineHeight: 14
             lineHeightMode: Text.FixedHeight
@@ -56,7 +57,7 @@ Item {
 
         Text {
             id: totalText
-            font.pointSize: 10
+            font.pointSize: 12
             Layout.fillHeight: true
             lineHeightMode: Text.FixedHeight
             lineHeight: 14

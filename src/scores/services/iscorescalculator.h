@@ -1,4 +1,4 @@
-#ifndef ISCORESCALCULATOR_H
+﻿#ifndef ISCORESCALCULATOR_H
 #define ISCORESCALCULATOR_H
 
 // QTC_TEMP
@@ -10,9 +10,11 @@ class Score;
 
 class IScoresCalculator {
 public:
-        virtual int score(const QString& mod, const int& point) const = 0;
-        virtual int remaining(const QString& mod, const int& point, const int& current) = 0;
-        virtual Score calculate(const QString& name, const QList<DartsInput>& inputs, const int& initial) = 0;
+    virtual int score(const QList<DartsInput> &inputs) const = 0;
+    virtual int score(const DartsInput &input) const = 0;
+    virtual int remaining(const DartsInput &input, const int &current) = 0;
+    virtual Score calculate(const QString &name, const QList<DartsInput> &inputs, const int &initial)
+        = 0;
 };
 
 #endif // ISCORESCALCULATOR_H

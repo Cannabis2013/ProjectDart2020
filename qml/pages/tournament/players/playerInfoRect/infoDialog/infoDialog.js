@@ -1,4 +1,4 @@
-function open(playerName) {
+﻿function open(playerName) {
     const comp = Qt.createComponent("InfoDialog.qml")
     const dialog = comp.createObject(applicationWindow, {
                                          "playerName": playerName
@@ -16,9 +16,8 @@ function init() {
 }
 
 function createElement(input) {
-    const value = `${input.mod} ${input.point}`
     return {
         "round": input.roundIndex,
-        "value": value
+        "value": `${input.mod} ${input.point}`
     }
 }

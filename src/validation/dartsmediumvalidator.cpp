@@ -1,4 +1,4 @@
-#include "dartsmediumvalidator.h"
+﻿#include "dartsmediumvalidator.h"
 #include "src/players/models/dartsplayer.h"
 #include "src/players/persistences/idartsplayers.h"
 #include "src/players/services/iplayerfetcher.h"
@@ -50,7 +50,7 @@ AbstractDartsEvaluator::Candidates DartsMediumValidator::accepted(const Candidat
     auto preRemaining = currentRemaining();
     auto postRemaining = preRemaining;
     for(const auto &candidate : candidates) {
-        auto score = _services->calculator->score(candidate.mod(), candidate.point());
+        auto score = _services->calculator->score(candidate.input());
         postRemaining -= score;
         accepted << candidate;
         if (postRemaining == 0 && preRemaining == candidate.point())

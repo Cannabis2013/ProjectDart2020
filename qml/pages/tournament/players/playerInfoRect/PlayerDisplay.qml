@@ -39,11 +39,11 @@ Rectangle {
     Text {
         id: playerName
         anchors.left: parent.left
-        anchors.leftMargin: 8
+        anchors.leftMargin: 4
         anchors.right: parent.right
-        anchors.rightMargin: 8
+        anchors.rightMargin: 4
         anchors.top: parent.top
-        anchors.topMargin: 8
+        anchors.topMargin: 4
         height: 36
         font.pointSize: 20
         color: "white"
@@ -68,11 +68,11 @@ Rectangle {
     CompStatsDisplay {
         id: statsDisplay
         anchors.left: parent.left
-        anchors.leftMargin: 8
+        anchors.leftMargin: 4
         anchors.right: parent.right
-        anchors.rightMargin: 8
+        anchors.rightMargin: 4
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: 8
+        anchors.bottomMargin: 4
         height: 28
     }
 

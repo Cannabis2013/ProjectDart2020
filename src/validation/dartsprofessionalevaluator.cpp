@@ -1,4 +1,4 @@
-#include "dartsprofessionalevaluator.h"
+﻿#include "dartsprofessionalevaluator.h"
 #include "src/players/models/dartsplayer.h"
 #include "src/players/persistences/idartsplayers.h"
 #include "src/players/services/iplayerfetcher.h"
@@ -74,7 +74,7 @@ AbstractDartsEvaluator::Candidates DartsProfessionalEvaluator::accepted(const Ca
     Candidates accepted;
     auto remaining = currentRemaining();
     for (const auto &candidate : candidates) {
-        auto score = _services->calculator->score(candidate.mod(), candidate.point());
+        auto score = _services->calculator->score(candidate.input());
         remaining -= score;
         accepted << candidate;
         if (remaining == 0 && (candidate.mod() == "D" || candidate.point() == 50))

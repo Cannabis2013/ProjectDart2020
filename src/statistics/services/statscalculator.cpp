@@ -1,8 +1,10 @@
-#include "statscalculator.h"
+﻿#include "statscalculator.h"
 #include "src/input/services/idartsinputsfilter.h"
 #include "src/scores/persistence/idartsscores.h"
 #include "src/scores/services/iscorescalculator.h"
 #include "src/servicecollection.h"
+#include "src/turns/models/dartsturnindex.h"
+#include "src/turns/persistences/idartsindexes.h"
 
 StatsCalculator::StatsCalculator(ServiceCollection* services)
     : _services(services)
@@ -11,32 +13,24 @@ StatsCalculator::StatsCalculator(ServiceCollection* services)
 
 int StatsCalculator::lowest(const QString& name) const
 {
-    auto inputs = _services->inputsFilter->valids(name);
-    auto sum = 0;
-    auto result = -1;
-    for (int index = 0; index < inputs.length(); ++index) {
-        auto input = inputs.at(index);
-        sum += _services->calculator->score(input.mod(), input.point());
-        if ((index + 1) % 3 == 0) {
-            result = sum < result || result == -1 ? sum : result;
-            sum = 0;
-        }
+    auto roundIndex = _services->indexes->index().roundIndex();
+    auto result = roundIndex > 1 ? 180 : 0;
+    for (int i = 1; i <= roundIndex; ++i) {
+        auto inputs = _services->inputsFilter->valids(name, i);
+        auto sum = _services->calculator->score(inputs);
+        result = sum < 0 ? result : sum < result ? sum : result;
     }
-    return result > -1 ? result : sum;
+    return result;
 }
 
 int StatsCalculator::highest(const QString& name) const
 {
-    auto inputs = _services->inputsFilter->valids(name);
-    auto sum = 0;
+    auto rounds = _services->indexes->index().roundIndex();
     auto result = 0;
-    for (int index = 0; index < inputs.length(); ++index) {
-        auto input = inputs.at(index);
-        sum += _services->calculator->score(input.mod(), input.point());
-        if ((index + 1) % 3 == 0) {
-            result = sum > result ? sum : result;
-            sum = 0;
-        }
+    for (int roundIndex = 1; roundIndex <= rounds; ++roundIndex) {
+        auto roundInputs = _services->inputsFilter->valids(name, roundIndex);
+        auto sum = _services->calculator->score(roundInputs);
+        result = sum > result ? sum : result;
     }
     return result;
 }

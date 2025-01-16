@@ -1,10 +1,10 @@
-#include "dartscalculator.h"
+﻿#include "dartscalculator.h"
 #include "src/input/models/dartsinput.h"
 #include "src/scores/models/Score.h"
 
-int DartsCalculator::remaining(const QString& mod, const int& point, const int& current)
+int DartsCalculator::remaining(const DartsInput &input, const int &current)
 {
-    auto scoreValue = point * modMultiplier(mod);
+    auto scoreValue = input.point() * modMultiplier(input.mod());
     return current - scoreValue;
 }
 
@@ -18,9 +18,17 @@ Score DartsCalculator::calculate(const QString& name, const QList<DartsInput>& i
     return Score(name, score);
 }
 
-int DartsCalculator::score(const QString& mod, const int& point) const
+int DartsCalculator::score(const DartsInput &input) const
 {
-    return point * modMultiplier(mod);
+    return input.point() * modMultiplier(input.mod());
+}
+
+int DartsCalculator::score(const QList<DartsInput> &inputs) const
+{
+    auto sum = 0;
+    for (const auto &input : inputs)
+        sum += score(input);
+    return !inputs.isEmpty() ? sum : -1;
 }
 
 int DartsCalculator::modMultiplier(QString mod) const

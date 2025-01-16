@@ -1,8 +1,10 @@
-#include "dartsinputsfilter.h"
+﻿#include "dartsinputsfilter.h"
 #include "src/input/persistence/idartsinputs.h"
 #include "src/servicecollection.h"
 #include "src/turns/models/dartsturnindex.h"
 #include "src/turns/persistences/idartsindexes.h"
+
+typedef QList<DartsInput> Inputs;
 
 DartsInputsfilter::DartsInputsfilter(ServiceCollection* services)
     : _services(services)
@@ -31,6 +33,16 @@ QList<DartsInput> DartsInputsfilter::valids(const QString& name) const
         return filtered;
 }
 
+QList<DartsInput> DartsInputsfilter::valids(const QString &name, const int &roundIndex) const
+{
+    Inputs filtered;
+    auto inputs = _services->inputs->all();
+    for (const auto &input : inputs) {
+        if (input.playerName() == name && input.roundIndex() == roundIndex)
+            filtered << input;
+    }
+    return filtered;
+}
 
 int DartsInputsfilter::validCount(const QString& name) const
 {

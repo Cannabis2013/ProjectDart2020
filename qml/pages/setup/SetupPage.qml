@@ -1,4 +1,4 @@
-import QtQuick 2.15
+﻿import QtQuick 2.15
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 6.0
 import "../templates"
@@ -29,11 +29,14 @@ PageWithHeader {
 
         ListView {
             clip: true
-            reuseItems: true
+            reuseItems: false
+            cacheBuffer: 1340
+            boundsBehavior: Flickable.StopAtBounds
             spacing: 6
-            maximumFlickVelocity: 300
+            maximumFlickVelocity: 0
             Layout.fillHeight: true
             Layout.fillWidth: true
+            highlightFollowsCurrentItem: false
             model: dataModel
             delegate: GameStyleRect {
                 onClicked: index => Scripts.initFromIndex(index)

@@ -1,4 +1,4 @@
-    #ifndef STATSCALCULATOR_H
+﻿#ifndef STATSCALCULATOR_H
 #define STATSCALCULATOR_H
 
 #include "istatscalculator.h"

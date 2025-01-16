@@ -1,8 +1,8 @@
-function setValues(statsInfo) {
-    averageText.text = formatted("Average", statsInfo.average)
-    lowText.text = formatted("Low", statsInfo.low)
-    highText.text = formatted("High", statsInfo.high)
-    totalText.text = formatted("Hits", statsInfo.throwCount)
+﻿function setValues(statsInfo) {
+    averageText.text = formatted("MID", statsInfo.average)
+    lowText.text = formatted("MIN", statsInfo.low)
+    highText.text = formatted("MAX", statsInfo.high)
+    totalText.text = formatted("HIT", statsInfo.throwCount)
 }
 
 function formatted(title, value) {

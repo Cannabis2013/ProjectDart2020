@@ -1,4 +1,5 @@
-function initFromIndex(index) {
+﻿function initFromIndex(index) {
+    print("Init")
     const data = dataModel.get(index)
     const gameMode = data.mode
     const gameScore = data.score

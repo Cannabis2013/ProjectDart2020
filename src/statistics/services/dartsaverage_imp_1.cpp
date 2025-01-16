@@ -1,7 +1,7 @@
-#include "src/input/services/idartsinputsfilter.h"
-#include "statscalculator.h"
+﻿#include "statscalculator.h"
 
 #ifdef USE_IMP_1
+#include "src/input/services/idartsinputsfilter.h"
 #include "src/players/services/iplayerfetcher.h"
 #include "src/scores/persistence/idartsscores.h"
 #include "src/servicecollection.h"
