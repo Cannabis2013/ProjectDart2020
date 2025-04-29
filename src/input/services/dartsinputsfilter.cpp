@@ -37,9 +37,12 @@ QList<DartsInput> DartsInputsfilter::valids(const QString &name, const int &roun
 {
     Inputs filtered;
     auto inputs = _services->inputs->all();
+    auto turnId = _services->indexes->index().turnId();
     for (const auto &input : inputs) {
-        if (input.playerName() == name && input.roundIndex() == roundIndex)
+        if (input.playerName() == name && input.roundIndex() == roundIndex
+            && input.turnId() < turnId) {
             filtered << input;
+        }
     }
     return filtered;
 }
@@ -47,11 +50,11 @@ QList<DartsInput> DartsInputsfilter::valids(const QString &name, const int &roun
 int DartsInputsfilter::validCount(const QString& name) const
 {
         int count = 0;
-        auto roundIndex = _services->indexes->index().roundIndex();
+        auto index = _services->indexes->index();
         auto inputs = _services->inputs->all();
-        for (const auto& input : inputs) {
-                if (input.playerName() == name && input.roundIndex() < roundIndex)
-                        count++;
+        for (const auto &input : std::as_const(inputs)) {
+            if (input.playerName() == name && input.turnId() < index.turnId())
+                count++;
         }
         return count;
 }
