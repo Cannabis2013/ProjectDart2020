@@ -1,18 +1,16 @@
-import QtQuick 6.0
+﻿import QtQuick 6.0
 import QtQuick.Layouts 1.3
 
 Pad {
-        id: numberPadRect
+  id: numberPadRect
 
-        property int padValue: -1
+  property int padValue: -1
 
-        color: "white"
+  color: "white"
 
-        signal padClicked(int value)
-        onPressed: scale = 0.8
+  signal padClicked(int value)
 
-        onReleased: {
-                numberPadRect.padClicked(numberPadRect.padValue)
-                scale = 1
-        }
+  onReleased: {
+    numberPadRect.padClicked(numberPadRect.padValue)
+  }
 }

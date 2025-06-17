@@ -1,22 +1,42 @@
-.import "../dialogs/dialogs.js" as Dialogs
+﻿.import "../dialogs/dialogs.js" as Dialogs
 
-function handleInput(modId, point) {
-    const score = inputsDisplay.addInput(modId, point)
+var inputsMem = []
+
+function readInputs() {
+  return inputsMem
 }
 
-function reset() {
-    inputsDisplay.flushInputs()
+function updateDisplay(modId, point) {
+  if (inputsMem.length >= 3)
+    return
+  const input = {
+    "modId": modId,
+    "point": point
+  }
+  inputsMem.push(input)
+  inputsDisplay.update(inputsMem)
+  reportPreview(inputsMem)
 }
 
 function report() {
-    const inputs = inputsDisplay.readInputs()
-    if (inputs.length <= 0)
-        Dialogs.openConfirmDialog("Sure?", performReport)
-    else
-        performReport(inputs)
+  if (inputsMem.length <= 0)
+    Dialogs.openConfirmDialog("Sure?", performReport)
+  else {
+    reportInputs(inputsMem)
+    flushInputs()
+  }
 }
 
-function performReport(inputs = []) {
-    reportScores(inputs)
-    inputsDisplay.flushInputs()
+function popInput() {
+  if (inputsMem.length <= 0)
+    return undefined
+  const input = inputsMem.pop()
+  inputsDisplay.update(inputsMem)
+  reportPreview(inputsMem)
+}
+
+function flushInputs() {
+  inputsMem = []
+  inputsDisplay.update()
+  reportPreview(inputsMem)
 }

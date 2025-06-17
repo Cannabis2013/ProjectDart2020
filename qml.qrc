@@ -23,6 +23,9 @@
     </qresource>
     <qresource prefix="/">
         <file>qml/pages/about/AboutPage.qml</file>
+        <file>qml/pages/setup/InitializeGamePage.qml</file>
+        <file>qml/pages/setup/initScripts.js</file>
+        <file>qml/pages/setup/ValueSelector.qml</file>
         <file>qml/pages/start/BackDrop.qml</file>
         <file>qml/pages/start/MenuButtons.qml</file>
         <file>qml/pages/start/pageStart.js</file>
@@ -37,41 +40,24 @@
         <file>qml/pages/tournament/inputs/keyPad/ModPad.qml</file>
         <file>qml/pages/tournament/inputs/keyPad/NumberPad.qml</file>
         <file>qml/pages/tournament/inputs/keyPad/Pad.qml</file>
-        <file>qml/pages/tournament/inputs/keyPad/ReportPad.qml</file>
-        <file>qml/pages/tournament/inputs/keyPadDisplays/controls/displayControls.js</file>
-        <file>qml/pages/tournament/inputs/keyPadDisplays/controls/DisplayControls.qml</file>
-        <file>qml/pages/tournament/inputs/keyPadDisplays/inputDisplay/inputsDisplay.js</file>
-        <file>qml/pages/tournament/inputs/keyPadDisplays/inputDisplay/InputsDisplay.qml</file>
-        <file>qml/pages/tournament/inputs/keyPadDisplays/scoreDisplay/scoreDisplay.js</file>
-        <file>qml/pages/tournament/inputs/keyPadDisplays/scoreDisplay/ScoreDisplay.qml</file>
-        <file>qml/pages/tournament/inputs/keyPadDisplays/scorePreview/previewDisplay.js</file>
-        <file>qml/pages/tournament/inputs/keyPadDisplays/scorePreview/PreviewDisplay.qml</file>
-        <file>qml/pages/tournament/inputs/keyPadDisplays/keyPadDisplays.js</file>
         <file>qml/pages/tournament/inputs/keyPadDisplays/KeyPadDisplays.qml</file>
         <file>qml/pages/tournament/inputs/compInputs.js</file>
         <file>qml/pages/tournament/inputs/CompInputs.qml</file>
         <file>qml/pages/tournament/messages/MessageDisplay.qml</file>
         <file>qml/pages/tournament/messages/messagesDisplay.js</file>
         <file>qml/pages/tournament/messages/MessagesDisplay.qml</file>
-        <file>qml/pages/tournament/players/compStatsDisplay.js</file>
-        <file>qml/pages/tournament/players/CompStatsDisplay.qml</file>
-        <file>qml/pages/tournament/players/infoDialog.js</file>
-        <file>qml/pages/tournament/players/InfoDialog.qml</file>
-        <file>qml/pages/tournament/players/InputDelegate.qml</file>
-        <file>qml/pages/tournament/players/playerDisplay.js</file>
-        <file>qml/pages/tournament/players/PlayerDisplay.qml</file>
         <file>qml/pages/tournament/turnControls/ButtonControl.qml</file>
         <file>qml/pages/tournament/turnControls/TurnControls.qml</file>
         <file>qml/pages/tournament/pageTournament.js</file>
         <file>qml/pages/tournament/PageTournament.qml</file>
         <file>qml/main.qml</file>
         <file>qtquickcontrols2.conf</file>
-        <file>qml/pages/setup/old/GameStyleRect.qml</file>
-        <file>qml/pages/setup/old/ModesModel.qml</file>
-        <file>qml/pages/setup/old/setupPage.js</file>
-        <file>qml/pages/setup/old/SetupPage.qml</file>
-        <file>qml/pages/setup/InitializeGamePage.qml</file>
-        <file>qml/pages/setup/ValueSelector.qml</file>
-        <file>qml/pages/setup/initScripts.js</file>
+        <file>qml/pages/tournament/scoreDisplay/infoDialog.js</file>
+        <file>qml/pages/tournament/scoreDisplay/InfoDialog.qml</file>
+        <file>qml/pages/tournament/scoreDisplay/InputDelegate.qml</file>
+        <file>qml/pages/tournament/scoreDisplay/scoreScripts.js</file>
+        <file>qml/pages/tournament/scoreDisplay/ScoreDisplay.qml</file>
+        <file>qml/pages/tournament/scoreDisplay/statScripts.js</file>
+        <file>qml/pages/tournament/scoreDisplay/StatsRowDisplay.qml</file>
     </qresource>
 </RCC>

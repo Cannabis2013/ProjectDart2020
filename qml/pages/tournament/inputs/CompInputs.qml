@@ -1,4 +1,4 @@
-import QtQuick 6.0
+﻿import QtQuick 6.0
 import QtQuick.Controls
 import QtQuick.Layouts 1.3
 import "keyPad"
@@ -6,32 +6,33 @@ import "keyPadDisplays"
 import "compInputs.js" as Scripts
 
 Item {
-    id: keyPadRect
+  id: keyPadRect
 
-    signal reportScores(var scores)
-    signal reportScore
-    onReportScore: Scripts.report()
+  signal reportInputs(var inputs)
+  signal reportPreview(var inputs)
 
-    signal clearDisplay
-    onClearDisplay: Scripts.reset()
+  signal clearDisplay
+  onClearDisplay: Scripts.flushInputs()
 
-    signal numberClicked(string modId, int point)
-    onNumberClicked: (modId, point) => Scripts.handleInput(modId, point)
+  KeyPadDisplays {
+    id: inputsDisplay
+    width: parent.width
+    height: 32
+    anchors.top: parent.top
+    anchors.leftMargin: 6
+    anchors.rightMargin: 6
+    onClearClicked: Scripts.flushInputs()
+    onPopClicled: Scripts.popInput()
+  }
 
-    ColumnLayout {
-        anchors.fill: parent
-        KeyPadDisplays {
-            id: inputsDisplay
-            Layout.fillWidth: true
-            Layout.preferredHeight: 64
-            Layout.leftMargin: 6
-            Layout.rightMargin: 6
-        }
-
-        KeyPad {
-            id: keyPad
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-        }
+  KeyPad {
+    id: keyPad
+    width: parent.width
+    anchors.top: inputsDisplay.bottom
+    anchors.bottom: parent.bottom
+    onReportInputs: Scripts.report()
+    onNumberClicked: function (modId, point) {
+      Scripts.updateDisplay(modId, point)
     }
+  }
 }

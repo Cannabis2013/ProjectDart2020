@@ -1,62 +1,67 @@
-import QtQuick 6.0
+﻿import QtQuick 6.0
 import QtQuick.Controls
 import QtQuick.Layouts 1.3
 import "keyPad.js" as Scripts
 
 Item {
-        GridLayout {
-                id: numberPads
-                width: parent.width * 0.8
-                height: parent.height
-                columns: 4
-                columnSpacing: 0
-                rowSpacing: 0
-                layoutDirection: Qt.RightToLeft
+  signal reportInputs
+  signal numberClicked(string modId, int point)
 
-                Repeater {
-                        model: 20
-                        NumberPad {
-                                padValue: 20 - index
-                                text: `${20 - index}`
-                                onPadClicked: padValue => Scripts.handleNumberPadClick(padValue)
-                        }
-                }
-        }
+  GridLayout {
+    id: numberPads
+    width: parent.width * 0.8
+    height: parent.height
+    columns: 4
+    columnSpacing: 0
+    rowSpacing: 0
+    layoutDirection: Qt.RightToLeft
 
-        ColumnLayout {
-                id: specialPads
-                spacing: 0
-                anchors.left: numberPads.right
-                width: parent.width * 0.2
-                height: parent.height
-                ModPad {
-                        id: modTripple
-                        text: "T"
-                        onModClicked: modId => Scripts.selectTrippeMod(modId)
-                }
+    Repeater {
+      model: 20
+      NumberPad {
+        padValue: 20 - index
+        text: `${20 - index}`
+        onPadClicked: padValue => Scripts.handleNumberPadClick(padValue)
+      }
+    }
+  }
 
-                ModPad {
-                        id: modDouble
-                        text: "D"
-                        onModClicked: modId => Scripts.selectDoubleMod(modId)
-                }
+  ColumnLayout {
+    id: specialPads
+    spacing: 0
+    anchors.left: numberPads.right
+    width: parent.width * 0.2
+    height: parent.height
+    ModPad {
+      id: modTripple
+      text: "T"
+      onModClicked: modId => Scripts.selectTrippeMod(modId)
+    }
 
-                NumberPad {
-                        color: "red"
-                        padValue: 50
-                        text: "50"
-                        onPadClicked: value => Scripts.handleSpecialPadClick(padValue)
-                }
+    ModPad {
+      id: modDouble
+      text: "D"
+      onModClicked: modId => Scripts.selectDoubleMod(modId)
+    }
 
-                NumberPad {
-                        text: "25"
-                        color: "green"
-                        padValue: 25
-                        onPadClicked: value => Scripts.handleSpecialPadClick(padValue)
-                }
+    NumberPad {
+      color: "red"
+      padValue: 50
+      text: "50"
+      onPadClicked: value => Scripts.handleSpecialPadClick(padValue)
+    }
 
-                ReportPad {
-                        onReleased: () => reportScore()
-                }
-        }
+    NumberPad {
+      text: "25"
+      color: "green"
+      padValue: 25
+      onPadClicked: value => Scripts.handleSpecialPadClick(padValue)
+    }
+
+    Pad {
+      color: "orange"
+      onReleased: reportInputs()
+      image: "qrc:/pictures/Ressources/Pictures/upArrow.png"
+    }
+  }
 }
