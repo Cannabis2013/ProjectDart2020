@@ -58,5 +58,5 @@ void DartsCloseningFilter::saveState() {
     FileJsonIO writer("closure.dat");
     QJsonObject jsonObj;
     jsonObj.insert("enabled",_enabled);
-    writer.writeFromObject(jsonObj);
+    writer.write(jsonObj);
 }

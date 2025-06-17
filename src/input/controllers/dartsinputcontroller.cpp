@@ -36,6 +36,10 @@ QByteArray DartsInputController::inputs(const QString &name) {
     return QJsonDocument(arr).toJson();
 }
 
+bool DartsInputController::isValid(const int &point, const QString& mod) const {
+    return _services->openingFilter->isValid(point,mod);
+}
+
 DartsInputController::Candidates DartsInputController::fromJson(const QByteArray& json) const
 {
     auto jsonDoc = QJsonDocument::fromJson(json);

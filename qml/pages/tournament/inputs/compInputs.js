@@ -1,6 +1,7 @@
 ﻿.import "../dialogs/dialogs.js" as Dialogs
 
-var inputsMem = []
+let inputsMem = []
+let accepted = false
 
 function readInputs() {
   return inputsMem
@@ -9,9 +10,11 @@ function readInputs() {
 function updateDisplay(modId, point) {
   if (inputsMem.length >= 3)
     return
-  const input = {
+  if (dartsInputs.isValid(point, modId))
+    accepted = true
+  let input = {
     "modId": modId,
-    "point": point
+    "point": accepted ? point : 0
   }
   inputsMem.push(input)
   inputsDisplay.update(inputsMem)
@@ -28,6 +31,7 @@ function report() {
 function performReport() {
   reportInputs(inputsMem)
   flushInputs()
+  accepted = false
 }
 
 function popInput() {

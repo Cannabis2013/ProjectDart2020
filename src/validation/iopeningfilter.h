@@ -13,6 +13,7 @@ public:
     virtual void initFromFile() = 0;
     virtual void update(const QString& name, bool allowed) = 0;
     virtual QList<InputCandidate> filter(const QList<InputCandidate>& inputs) = 0;
+    virtual bool isValid(const int& point, const QString& mod) const = 0;
 };
 
 #endif // IOPENINGFILTER_H

@@ -43,7 +43,7 @@ bool DartsPlayers::saveState()
         QJsonArray jsonArr;
         for (auto& player : _players)
                 jsonArr.append(player.jsonObject());
-        return FileJsonIO(_storagePath).writeFromObject(jsonArr);
+        return FileJsonIO(_storagePath).write(jsonArr);
 }
 
 QList<QString> DartsPlayers::names()

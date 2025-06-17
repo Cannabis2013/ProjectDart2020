@@ -36,10 +36,10 @@ bool DartsScores::saveState()
         QJsonArray arr;
         for (const auto& score : std::as_const(_scores))
                 arr << score.jsonObject();
-        FileJsonIO("scores.dat").writeFromObject(arr);
+        FileJsonIO("scores.dat").write(arr);
         QJsonObject obj;
         obj["initialScore"] = _initialScore;
-        return FileJsonIO("initialScore.dat").writeFromObject(obj);
+        return FileJsonIO("initialScore.dat").write(obj);
 }
 
 QList<Score> DartsScores::readScoresFromStorage()

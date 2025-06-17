@@ -1,13 +1,15 @@
 ﻿#include "dartsopeningfilter.h"
-#include "src/FileIO/filejsonio.h"
 #include "src/players/models/dartsplayer.h"
 #include "src/players/persistences/idartsplayers.h"
 #include "src/servicecollection.h"
 #include "src/turns/models/dartsturnindex.h"
 #include "src/turns/persistences/idartsindexes.h"
+#include "src/validation/inputsvalidationpersistence.h"
 
 DartsOpeningFilter::DartsOpeningFilter(ServiceCollection *services):
-    _services(services){}
+    _services(services){
+    _persistence = new InputsValidationPersistence("allowances.dat");
+}
 
 void DartsOpeningFilter::init(const QList<QString> &names, bool withOpening, const QString &openingMod)
 {
@@ -36,35 +38,25 @@ QList<InputCandidate> DartsOpeningFilter::filter(const QList<InputCandidate> &in
 }
 
 void DartsOpeningFilter::initFromFile() {
-    FileJsonIO reader("allowances.dat");
-    auto jsonObject = reader.readAsJson().object();
-    _openingModifier = jsonObject.value("openingModifier").toString("D");
-    auto arr = jsonObject.value("allowances").toArray();
-    QJsonObject obj;
-    for (const auto& value : std::as_const(arr)) {
-        obj = value.toObject();
-        _allowances.insert(obj.value("key").toString(),obj.value("val").toBool());
-    }
+    _allowances = _persistence->readAllowances();
+    _openingModifier = _persistence->readModifier();
 }
 
 void DartsOpeningFilter::saveState() {
-    FileJsonIO writer("allowances.dat");
-    QJsonObject jsonObj;
-    jsonObj.insert("openingModifier",_openingModifier);
-    QJsonObject obj;
-    QJsonArray arr;
-    auto keys = _allowances.keys();
-    for (const auto& key : std::as_const(keys)) {
-        obj.insert("key",key);
-        obj.insert("value",_allowances.value(key));
-        arr << obj;
-    }
-    jsonObj.insert("allowances",arr);
-    writer.writeFromObject(jsonObj);
+    _persistence->save(_allowances,_openingModifier);
 }
 
 void DartsOpeningFilter::reset() {
     auto names = _allowances.keys();
     for (const auto& name : std::as_const(names))
         _allowances.insert(name,false);
+}
+
+bool DartsOpeningFilter::isValid(const int &point, const QString &mod) const
+{
+    auto playerIndex = _services->indexes->index().playerIndex();
+    auto name = _services->players->all().at(playerIndex).name();
+    if(_allowances.value(name))
+        return true;
+    return point == 20 && mod == _openingModifier;
 }

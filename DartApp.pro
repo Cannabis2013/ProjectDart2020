@@ -84,6 +84,7 @@ HEADERS += \
     src/validation/dartscloseningfilter.h \
     src/validation/dartsopeningfilter.h \
     src/validation/iclosurefilter.h \
+    src/validation/inputsvalidationpersistence.h \
     src/validation/iopeningfilter.h
 
 SOURCES += \
@@ -119,4 +120,5 @@ SOURCES += \
     src/turns/persistences/dartsindexes.cpp \
     src/turns/persistences/indexesio.cpp \
     src/validation/dartscloseningfilter.cpp \
-    src/validation/dartsopeningfilter.cpp
+    src/validation/dartsopeningfilter.cpp \
+    src/validation/inputsvalidationpersistence.cpp

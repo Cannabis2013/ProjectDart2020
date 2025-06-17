@@ -11,8 +11,8 @@ public:
         QByteArray read();
         QJsonDocument readAsJson();
         bool write(const QByteArray& json);
-        bool writeFromObject(const QJsonArray& arr);
-        bool writeFromObject(const QJsonObject& obj);
+        bool write(const QJsonArray& arr);
+        bool write(const QJsonObject& obj);
 
 private:
         // Class member methods
