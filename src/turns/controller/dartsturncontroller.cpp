@@ -17,9 +17,9 @@ DartsTurnController::DartsTurnController(ServiceCollection* services)
 
 void DartsTurnController::undo()
 {
+    undoTurn();
     auto playerIndex = _services->indexes->index().playerIndex();
     auto name = _services->playerFetcher->get(playerIndex).name();
-    undoTurn();
     auto index = _services->indexes->index();
     if (!_services->inputsFilter->anyInputs(name, index.turnId()))
         _services->openingFilter->update(name, false);

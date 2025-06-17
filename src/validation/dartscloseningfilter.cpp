@@ -9,7 +9,6 @@
 #include "src/servicecollection.h"
 #include "src/turns/models/dartsturnindex.h"
 #include "src/turns/persistences/idartsindexes.h"
-#include "src/validation/iopeningfilter.h"
 
 typedef QList<InputCandidate> Candidates;
 
@@ -19,8 +18,6 @@ DartsCloseningFilter::DartsCloseningFilter(ServiceCollection* services)
 void DartsCloseningFilter::init(bool enabled)
 {
     _enabled = enabled;
-    auto names = _services->players->names();
-    _services->openingFilter->init(names,false);
 }
 
 const Candidates DartsCloseningFilter::filter(const Candidates &inputs)

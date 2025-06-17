@@ -3,7 +3,7 @@
 
 #include "idartsinputcontroller.h"
 #include <QObject>
-#include <src/input/models/inputCandidate.h>
+#include "src/input/models/inputCandidate.h"
 
 class ServiceCollection;
 class DartsInput;

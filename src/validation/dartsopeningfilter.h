@@ -13,13 +13,11 @@ public:
 
     void saveState() override;
     void initFromFile() override;
-    void init(const QList<QString> &names, bool allowed, const QString& openingMod) override;
+    void init(const QList<QString> &names, bool withOpening, const QString& openingMod) override;
     void reset() override;
     QList<InputCandidate> filter(const QList<InputCandidate> &inputs) override;
     void update(const QString &name, bool allowed) override;
-    bool allowed(const QString &name) const override;
 private:
-    bool _enabled;
     QHash<QString, bool> _allowances;
     ServiceCollection* _services;
     QString _openingModifier = "D";

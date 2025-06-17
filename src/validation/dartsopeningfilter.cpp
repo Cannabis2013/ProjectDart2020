@@ -9,37 +9,27 @@
 DartsOpeningFilter::DartsOpeningFilter(ServiceCollection *services):
     _services(services){}
 
-void DartsOpeningFilter::init(const QList<QString> &names, bool allowed, const QString &openingMod)
+void DartsOpeningFilter::init(const QList<QString> &names, bool withOpening, const QString &openingMod)
 {
     _openingModifier = openingMod;
     for (const auto& name : names)
-        _allowances.insert(name,allowed);
+        _allowances.insert(name,!withOpening);
 }
 
 void DartsOpeningFilter::update(const QString &name, bool allowed) {
     _allowances.insert(name,allowed);
 }
 
-bool DartsOpeningFilter::allowed(const QString &name) const {
-    if(!_enabled)
-        return true;
-    return _allowances.value(name);
-}
-
 QList<InputCandidate> DartsOpeningFilter::filter(const QList<InputCandidate> &inputs) {
     auto playerIndex = _services->indexes->index().playerIndex();
     auto name = _services->players->all().at(playerIndex).name();
-    if(_services->openingFilter->allowed(name))
+    if(_allowances.value(name))
         return inputs;
-    auto allowed = false;
     QList<InputCandidate> allowedCandidates;
     for (const auto &input : inputs) {
-        if(!allowed && input.point() == 20 && input.mod() == _openingModifier)
-        {
+        if(input.point() == 20 && input.mod() == _openingModifier)
             _allowances.insert(name,true);
-            allowed = true;
-        }
-        if(allowed)
+        if(_allowances.value(name))
             allowedCandidates << input;
     }
     return allowedCandidates;
@@ -75,6 +65,6 @@ void DartsOpeningFilter::saveState() {
 
 void DartsOpeningFilter::reset() {
     auto names = _allowances.keys();
-    for (const auto& name : names)
+    for (const auto& name : std::as_const(names))
         _allowances.insert(name,false);
 }

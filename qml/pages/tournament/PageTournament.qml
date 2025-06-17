@@ -20,7 +20,7 @@ Page {
     rowSpacing: 0
     columnSpacing: 0
     flow: GridLayout.TopToBottom
-    rows: Scripts.isPortrait() ? 4 : 3
+    rows: 4
 
     ScoreDisplay {
       id: playerInfo
@@ -32,7 +32,6 @@ Page {
       id: messageSection
       Layout.topMargin: 6
       Layout.fillWidth: true
-      Layout.fillHeight: !Scripts.isPortrait()
       Layout.minimumHeight: 48
       Layout.alignment: Qt.AlignTop
     }
@@ -49,12 +48,18 @@ Page {
                                                   Scripts.restartGame)
     }
 
+    Item {
+      visible: !Scripts.isPortrait()
+      Layout.fillHeight: true
+    }
+
     CompInputs {
       id: inputSection
-      Layout.fillWidth: true
+      Layout.fillWidth: Scripts.isPortrait() || tournamentPage.width < 1024
+      Layout.preferredWidth: tournamentPage.width < 1024 ? 0 : 512
       Layout.fillHeight: true
       Layout.minimumWidth: 12
-      Layout.rowSpan: Scripts.isPortrait() ? 1 : 3
+      Layout.rowSpan: Scripts.isPortrait() ? 1 : 4
       onReportInputs: inputs => Scripts.addScore(inputs)
       onReportPreview: inputs => playerInfo.updateScorePreview(inputs)
     }

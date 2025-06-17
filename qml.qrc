@@ -52,12 +52,13 @@
         <file>qml/pages/tournament/PageTournament.qml</file>
         <file>qml/main.qml</file>
         <file>qtquickcontrols2.conf</file>
-        <file>qml/pages/tournament/scoreDisplay/infoDialog.js</file>
-        <file>qml/pages/tournament/scoreDisplay/InfoDialog.qml</file>
+        <file>qml/pages/tournament/scoreDisplay/inputsScripts.js</file>
+        <file>qml/pages/tournament/scoreDisplay/InputsOverview.qml</file>
         <file>qml/pages/tournament/scoreDisplay/InputDelegate.qml</file>
         <file>qml/pages/tournament/scoreDisplay/scoreScripts.js</file>
         <file>qml/pages/tournament/scoreDisplay/ScoreDisplay.qml</file>
-        <file>qml/pages/tournament/scoreDisplay/statScripts.js</file>
+        <file>qml/pages/tournament/scoreDisplay/statsScripts.js</file>
         <file>qml/pages/tournament/scoreDisplay/StatsRowDisplay.qml</file>
+        <file>qml/pages/tournament/scoreDisplay/nameUtils.js</file>
     </qresource>
 </RCC>

@@ -13,35 +13,34 @@
 #include "src/statistics/services/statscalculator.h"
 #include "src/turns/persistences/dartsindexes.h"
 #include "src/validation/dartsopeningfilter.h"
-
-#include <src/validation/dartscloseningfilter.h>
+#include "src/validation/dartscloseningfilter.h"
 
 ServiceCollection* DartsServices::build()
 {
-        auto services = new ServiceCollection();
-        injectPersistences(services);
-        injectServices(services);
-        return services;
+    auto services = new ServiceCollection();
+    injectPersistences(services);
+    injectServices(services);
+    return services;
 }
 
 void DartsServices::injectPersistences(ServiceCollection* services)
 {
-        services->players = new DartsPlayers("players.dat");
-        services->indexes = new DartsIndexes();
-        services->inputs = new DartsInputs("dartsInputs.dat");
-        services->scores = new DartsScores("initialScore.dat", "initialScore");
+    services->players = new DartsPlayers("players.dat");
+    services->indexes = new DartsIndexes();
+    services->inputs = new DartsInputs("dartsInputs.dat");
+    services->scores = new DartsScores("initialScore.dat", "initialScore");
 }
 
 void DartsServices::injectServices(ServiceCollection* services)
 {
-        services->calculator = new DartsCalculator();
-        services->scoresUpdate = new DartsScoresUpdate(services);
-        services->finishes = new DartsFinishes();
-        services->inputsFilter = new DartsInputsfilter(services);
-        services->inputStatistics = new StatsCalculator(services);
-        services->playerFetcher = new PlayerFetcher(services);
-        services->inputsUpdater = new DartsInputsUpdater(services);
-        services->scoresDelta = new DartsScoresDelta(services);
-        services->openingFilter = new DartsOpeningFilter(services);
-        services->closeningFilter = new DartsCloseningFilter(services);
+    services->calculator = new DartsCalculator();
+    services->scoresUpdate = new DartsScoresUpdate(services);
+    services->finishes = new DartsFinishes();
+    services->inputsFilter = new DartsInputsfilter(services);
+    services->inputStatistics = new StatsCalculator(services);
+    services->playerFetcher = new PlayerFetcher(services);
+    services->inputsUpdater = new DartsInputsUpdater(services);
+    services->scoresDelta = new DartsScoresDelta(services);
+    services->openingFilter = new DartsOpeningFilter(services);
+    services->closeningFilter = new DartsCloseningFilter(services);
 }

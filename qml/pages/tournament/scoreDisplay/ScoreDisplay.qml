@@ -2,11 +2,12 @@
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 6.0
 import "scoreScripts.js" as Scripts
+import "inputsScripts.js" as InputsModal
 
 Rectangle {
   id: playerInfoRect
   clip: true
-  color: "green"
+  color: Qt.rgba(63, 63, 63, 0.1)
 
   function update() {
     Scripts.updateValues()
@@ -16,16 +17,11 @@ Rectangle {
     Scripts.updatePreview(inputs)
   }
 
-  QtObject {
-    id: playerInfo
-    property string fullName: ""
-    property string formattedName: ""
-  }
-
   Text {
     id: playerName
     anchors.top: parent.top
-    width: parent.width
+    anchors.left: parent.left
+    anchors.right: inputsButton.left
     height: 36
     font.pointSize: 20
     color: "white"
@@ -35,8 +31,9 @@ Rectangle {
   Text {
     id: playerScore
     anchors.top: playerName.bottom
-    width: parent.width
-    font.pixelSize: 52
+    anchors.left: parent.left
+    anchors.right: inputsButton.left
+    font.pixelSize: 58
     font.weight: Font.Bold
     color: "white"
     verticalAlignment: Qt.AlignVCenter
@@ -45,17 +42,21 @@ Rectangle {
 
   StatsRowDisplay {
     id: statsDisplay
-    anchors.left: parent.left
-    anchors.leftMargin: 4
-    anchors.right: parent.right
-    anchors.rightMargin: 4
     anchors.bottom: parent.bottom
-    anchors.bottomMargin: 4
+    anchors.horizontalCenter: playerScore.horizontalCenter
     height: 28
+    width: 160
   }
 
-  MouseArea {
-    anchors.fill: parent
-    onPressed: Scripts.openInputsDialog()
+  Button {
+    id: inputsButton
+    onClicked: InputsModal.open()
+    height: 40
+    width: 90
+    anchors.right: parent.right
+    anchors.rightMargin: 8
+    anchors.top: parent.top
+    anchors.topMargin: 8
+    text: "Inputs"
   }
 }

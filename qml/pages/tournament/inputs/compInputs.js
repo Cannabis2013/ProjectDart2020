@@ -21,10 +21,13 @@ function updateDisplay(modId, point) {
 function report() {
   if (inputsMem.length <= 0)
     Dialogs.openConfirmDialog("Sure?", performReport)
-  else {
-    reportInputs(inputsMem)
-    flushInputs()
-  }
+  else
+    performReport()
+}
+
+function performReport() {
+  reportInputs(inputsMem)
+  flushInputs()
 }
 
 function popInput() {

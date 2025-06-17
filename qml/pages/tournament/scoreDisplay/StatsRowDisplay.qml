@@ -1,17 +1,18 @@
 ﻿import QtQuick 6.0
 import QtQuick.Layouts 1.3
-import "statScripts.js" as Scripts
+import "statsScripts.js" as Scripts
 
 Item {
   function setValues(statsInfo) {
     Scripts.setValues(statsInfo)
   }
 
-  GridLayout {
+  RowLayout {
     anchors.bottom: parent.bottom
+    anchors.horizontalCenter: parent.horizontalCenter
     width: parent.width
-    height: 28
-    rowSpacing: 0
+    height: parent.height
+    spacing: 0
 
     Text {
       id: lowText
