@@ -1,13 +1,13 @@
 ﻿#include "playerreport.h"
-#include "src/players/models/dartsplayer.h"
-
-#include "src/players/persistences/idartsplayers.h"
-#include "src/players/services/iplayerfetcher.h"
-#include "src/servicecollection.h"
-#include "src/status/idartsstatus.h"
 #include <QByteArray>
 #include <QJsonArray>
 #include <QJsonDocument>
+#include "src/players/models/dartsplayer.h"
+#include "src/players/persistences/idartsplayers.h"
+#include "src/players/services/iplayerfetcher.h"
+#include "src/servicecollection.h"
+#include "src/turns/models/dartsturnindex.h"
+#include "src/turns/persistences/idartsindexes.h"
 
 PlayerReport::PlayerReport(ServiceCollection* services)
     : _services(services)
@@ -23,30 +23,21 @@ QByteArray PlayerReport::report() const
     return QJsonDocument(arr).toJson(QJsonDocument::Compact);
 }
 
-QByteArray PlayerReport::playerOne() const
-{
-    auto players = _services->players->all();
-    auto jsonObj = players.first().jsonObject();
-    return QJsonDocument(jsonObj).toJson(QJsonDocument::Compact);
-}
-
-QByteArray PlayerReport::playerTwo() const
-{
-    auto players = _services->players->all();
-    auto jsonObj = players.last().jsonObject();
-    return QJsonDocument(jsonObj).toJson(QJsonDocument::Compact);
-}
-
 QString PlayerReport::currentPlayer() const
 {
-    QJsonObject jsonObj;
-    jsonObj["currentPlayerName"] = _services->playerFetcher->one().name();
+    auto playerIndex = _services->indexes->index().playerIndex();
+    QJsonObject jsonObj = _services->playerFetcher->get(playerIndex).jsonObject();
     return QJsonDocument(jsonObj).toJson(QJsonDocument::Compact);
 }
 
 bool PlayerReport::isWinnerFound() const
 {
-    return _services->status->isWinnerFound();
+    auto players = _services->players->all();
+    for (const auto& player : players) {
+        if(player.winner())
+            return true;
+    }
+    return false;
 }
 
 QByteArray PlayerReport::winnerInfo() const

@@ -35,8 +35,8 @@ HEADERS += \
     src/Setup/qmlsetup.h \
     src/dartsservices.h \
     src/init/controllervalues.h \
+    src/init/dartsinitializer.h \
     src/init/iserviceinitializer.h \
-    src/init/serviceinitializer.h \
     src/input/controllers/dartsinputcontroller.h \
     src/input/controllers/idartsinputcontroller.h \
     src/input/models/dartsinput.h \
@@ -74,8 +74,6 @@ HEADERS += \
     src/statistics/controllers/istatsreport.h \
     src/statistics/services/istatscalculator.h \
     src/statistics/services/statscalculator.h \
-    src/status/dartsstatus.h \
-    src/status/idartsstatus.h \
     src/turns/controller/dartsturncontroller.h \
     src/turns/controller/iturncontroller.h \
     src/turns/models/dartsindex.h \
@@ -83,13 +81,10 @@ HEADERS += \
     src/turns/persistences/dartsindexes.h \
     src/turns/persistences/idartsindexes.h \
     src/turns/persistences/indexesio.h \
-    src/validation/abstractdartsevaluator.h \
-    src/validation/dartsallowances.h \
-    src/validation/dartsbeginnervalidator.h \
-    src/validation/dartsevaluators.h \
-    src/validation/dartsmediumvalidator.h \
-    src/validation/dartsprofessionalevaluator.h \
-    src/validation/iplayerallowances.h
+    src/validation/dartscloseningfilter.h \
+    src/validation/dartsopeningfilter.h \
+    src/validation/iclosurefilter.h \
+    src/validation/iopeningfilter.h
 
 SOURCES += \
     src/FileIO/filehtml.cpp \
@@ -99,8 +94,7 @@ SOURCES += \
     src/Finishes/dartsfinishes.cpp \
     src/Setup/qmlsetup.cpp \
     src/dartsservices.cpp \
-    src/init/controllervalues.cpp \
-    src/init/serviceinitializer.cpp \
+    src/init/dartsinitializer.cpp \
     src/input/controllers/dartsinputcontroller.cpp \
     src/input/models/dartsinput.cpp \
     src/input/persistence/dartsinputs.cpp \
@@ -121,12 +115,8 @@ SOURCES += \
     src/statistics/services/dartsaverage_imp_1.cpp \
     src/statistics/services/dartsaverage_imp_2.cpp \
     src/statistics/services/statscalculator.cpp \
-    src/status/dartsstatus.cpp \
     src/turns/controller/dartsturncontroller.cpp \
     src/turns/persistences/dartsindexes.cpp \
     src/turns/persistences/indexesio.cpp \
-    src/validation/dartsallowances.cpp \
-    src/validation/dartsbeginnervalidator.cpp \
-    src/validation/dartsevaluators.cpp \
-    src/validation/dartsmediumvalidator.cpp \
-    src/validation/dartsprofessionalevaluator.cpp
+    src/validation/dartscloseningfilter.cpp \
+    src/validation/dartsopeningfilter.cpp

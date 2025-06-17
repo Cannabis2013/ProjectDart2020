@@ -1,4 +1,4 @@
-#ifndef FILEJSONIO_H
+﻿#ifndef FILEJSONIO_H
 #define FILEJSONIO_H
 
 #include <qbytearray.h>
@@ -11,8 +11,8 @@ public:
         QByteArray read();
         QJsonDocument readAsJson();
         bool write(const QByteArray& json);
-        bool writeAsJson(const QJsonArray& arr);
-        bool writeAsJson(const QJsonObject& obj);
+        bool writeFromObject(const QJsonArray& arr);
+        bool writeFromObject(const QJsonObject& obj);
 
 private:
         // Class member methods

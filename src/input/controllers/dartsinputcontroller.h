@@ -1,4 +1,4 @@
-#ifndef DARTSINPUTCONTROLLER_H
+﻿#ifndef DARTSINPUTCONTROLLER_H
 #define DARTSINPUTCONTROLLER_H
 
 #include "idartsinputcontroller.h"
@@ -13,7 +13,7 @@ class DartsInputController : public QObject, public IDartsInputController {
 public:
         DartsInputController(ServiceCollection* services);
 
-        Q_INVOKABLE void add(const QByteArray& inputs) override;
+        Q_INVOKABLE void add(const QByteArray& inputsAsJson) override;
         Q_INVOKABLE QByteArray inputs(const QString &name) override;
 private:
         typedef QList<InputCandidate> Candidates;

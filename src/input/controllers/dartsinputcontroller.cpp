@@ -3,9 +3,9 @@
 #include "src/input/services/idartsinputsupdater.h"
 #include "src/scores/services/iscoresupdate.h"
 #include "src/servicecollection.h"
-#include "src/status/idartsstatus.h"
 #include "src/turns/persistences/idartsindexes.h"
-#include "src/validation/abstractdartsevaluator.h"
+#include "src/validation/iclosurefilter.h"
+#include "src/validation/iopeningfilter.h"
 
 #include <QJsonDocument>
 
@@ -16,23 +16,22 @@ DartsInputController::DartsInputController(ServiceCollection* services)
 {
 }
 
-void DartsInputController::add(const QByteArray& inputs)
+void DartsInputController::add(const QByteArray& inputsAsJson)
 {
-    if (_services->status->isWinnerFound())
-        return;
-    auto candidates = fromJson(inputs);
-    auto accepted = _services->evaluator->acceptedInputs(candidates);
+    auto inputs = fromJson(inputsAsJson);
+    auto allowed = _services->openingFilter->filter(inputs);
+    auto accepted = _services->closeningFilter->filter(allowed);
     _services->inputsUpdater->removeExcessInputs();
     _services->inputsUpdater->save(accepted);
     _services->indexes->next();
     _services->scoresUpdate->updatePlayerScores();
-    _services->evaluator->evaluateWinnerCondition();
+    _services->closeningFilter->evaluateWinnerCondition();
 }
 
 QByteArray DartsInputController::inputs(const QString &name) {
     auto inputs = _services->inputsFilter->valids(name);
     QJsonArray arr;
-    for (const auto &input : inputs)
+    for (const auto &input : std::as_const(inputs))
         arr << input.toJsonObject();
     return QJsonDocument(arr).toJson();
 }

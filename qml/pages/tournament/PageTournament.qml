@@ -22,8 +22,8 @@ Page {
         flow: GridLayout.TopToBottom
         rows: Scripts.isPortrait() ? 4 : 3
 
-        PlayerDisplays {
-            id: playerInfos
+        PlayerDisplay {
+            id: playerInfo
             Layout.preferredHeight: 146
             Layout.fillWidth: true
         }

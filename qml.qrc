@@ -23,22 +23,12 @@
     </qresource>
     <qresource prefix="/">
         <file>qml/pages/about/AboutPage.qml</file>
-        <file>qml/pages/setup/GameStyleRect.qml</file>
-        <file>qml/pages/setup/ModesModel.qml</file>
-        <file>qml/pages/setup/setupPage.js</file>
-        <file>qml/pages/setup/SetupPage.qml</file>
         <file>qml/pages/start/BackDrop.qml</file>
         <file>qml/pages/start/MenuButtons.qml</file>
         <file>qml/pages/start/pageStart.js</file>
         <file>qml/pages/start/PageStart.qml</file>
         <file>qml/pages/templates/PageWithHeader.qml</file>
         <file>qml/pages/tournament/dialogs/confirmation/DialogConfirm.qml</file>
-        <file>qml/pages/tournament/dialogs/winner/statisticsPage/compStatistics.js</file>
-        <file>qml/pages/tournament/dialogs/winner/statisticsPage/CompStatistics.qml</file>
-        <file>qml/pages/tournament/dialogs/winner/statisticsPage/pageStatistics.js</file>
-        <file>qml/pages/tournament/dialogs/winner/statisticsPage/PageStatistics.qml</file>
-        <file>qml/pages/tournament/dialogs/winner/winnerPage/pageWinner.js</file>
-        <file>qml/pages/tournament/dialogs/winner/winnerPage/PageWinner.qml</file>
         <file>qml/pages/tournament/dialogs/winner/DialogButtons.qml</file>
         <file>qml/pages/tournament/dialogs/winner/DialogWinner.qml</file>
         <file>qml/pages/tournament/dialogs/dialogs.js</file>
@@ -63,21 +53,25 @@
         <file>qml/pages/tournament/messages/MessageDisplay.qml</file>
         <file>qml/pages/tournament/messages/messagesDisplay.js</file>
         <file>qml/pages/tournament/messages/MessagesDisplay.qml</file>
-        <file>qml/pages/tournament/players/playerInfoRect/compStatsDisplay.js</file>
-        <file>qml/pages/tournament/players/playerInfoRect/CompStatsDisplay.qml</file>
-        <file>qml/pages/tournament/players/playerInfoRect/playerDisplay.js</file>
-        <file>qml/pages/tournament/players/playerInfoRect/PlayerDisplay.qml</file>
-        <file>qml/pages/tournament/players/playerDisplays.js</file>
-        <file>qml/pages/tournament/players/PlayerDisplays.qml</file>
+        <file>qml/pages/tournament/players/compStatsDisplay.js</file>
+        <file>qml/pages/tournament/players/CompStatsDisplay.qml</file>
+        <file>qml/pages/tournament/players/infoDialog.js</file>
+        <file>qml/pages/tournament/players/InfoDialog.qml</file>
+        <file>qml/pages/tournament/players/InputDelegate.qml</file>
+        <file>qml/pages/tournament/players/playerDisplay.js</file>
+        <file>qml/pages/tournament/players/PlayerDisplay.qml</file>
         <file>qml/pages/tournament/turnControls/ButtonControl.qml</file>
         <file>qml/pages/tournament/turnControls/TurnControls.qml</file>
         <file>qml/pages/tournament/pageTournament.js</file>
         <file>qml/pages/tournament/PageTournament.qml</file>
         <file>qml/main.qml</file>
-        <file>qml/PageLoader.qml</file>
         <file>qtquickcontrols2.conf</file>
-        <file>qml/pages/tournament/players/playerInfoRect/infoDialog/InputDelegate.qml</file>
-        <file>qml/pages/tournament/players/playerInfoRect/infoDialog/infoDialog.js</file>
-        <file>qml/pages/tournament/players/playerInfoRect/infoDialog/InfoDialog.qml</file>
+        <file>qml/pages/setup/old/GameStyleRect.qml</file>
+        <file>qml/pages/setup/old/ModesModel.qml</file>
+        <file>qml/pages/setup/old/setupPage.js</file>
+        <file>qml/pages/setup/old/SetupPage.qml</file>
+        <file>qml/pages/setup/InitializeGamePage.qml</file>
+        <file>qml/pages/setup/ValueSelector.qml</file>
+        <file>qml/pages/setup/initScripts.js</file>
     </qresource>
 </RCC>

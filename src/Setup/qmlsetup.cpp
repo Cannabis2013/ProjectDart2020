@@ -1,7 +1,7 @@
 #include "qmlsetup.h"
 #include "src/FileIO/filehtml.h"
 #include "src/dartsservices.h"
-#include "src/init/serviceinitializer.h"
+#include "src/init/dartsinitializer.h"
 #include "src/input/controllers/dartsinputcontroller.h"
 #include "src/players/controller/playerreport.h"
 #include "src/scores/controller/dartsscorescontroller.h"
@@ -40,7 +40,7 @@ void QmlSetup::createEngine()
 void QmlSetup::registerServices()
 {
         auto services = DartsServices().build();
-        auto initializer = new ServiceInitializer(services);
+        auto initializer = new DartsInitializer(services);
         auto inputController = new DartsInputController(services);
         auto statsReport = new DartsStatistics(services);
         auto scoresReport = new DartsScoresController(services);

@@ -44,7 +44,7 @@ double StatsCalculator::middle(const QString& name) const
 int StatsCalculator::finishedRounds(const int& playerIndex) const
 {
     auto index = _services->indexes->index();
-    auto turnIndex = index.turnIndex();
+    auto turnIndex = index.playerIndex();
     auto rounds = index.roundIndex();
     if (rounds > 1 && playerIndex >= turnIndex)
         rounds--;

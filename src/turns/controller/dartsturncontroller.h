@@ -1,4 +1,4 @@
-#ifndef DARTSTURNCONTROLLER_H
+﻿#ifndef DARTSTURNCONTROLLER_H
 #define DARTSTURNCONTROLLER_H
 
 #include "iturncontroller.h"
@@ -13,23 +13,23 @@ class IDartsScores;
 class IDartsIndexes;
 
 class DartsTurnController : public QObject, public ITurnController {
-        Q_OBJECT
+    Q_OBJECT
 public:
-        DartsTurnController(ServiceCollection* services);
+    DartsTurnController(ServiceCollection* services);
 
-        Q_INVOKABLE void undo() override;
-        Q_INVOKABLE void redo() override;
-        Q_INVOKABLE bool canUndo() const override;
-        Q_INVOKABLE bool canRedo() const override;
-        Q_INVOKABLE int playerNumber() const override;
-        Q_INVOKABLE QByteArray report() const override;
+    Q_INVOKABLE void undo() override;
+    Q_INVOKABLE void redo() override;
+    Q_INVOKABLE bool canUndo() const override;
+    Q_INVOKABLE bool canRedo() const override;
+    Q_INVOKABLE int playerNumber() const override;
+    Q_INVOKABLE QByteArray report() const override;
 
 private:
-        void undoTurn();
-        void redoTurn();
+    void undoTurn();
+    void redoTurn();
 
-        // Services
-        ServiceCollection* const _services;
+    // Services
+    ServiceCollection* const _services;
 };
 
 #endif // DARTSTURNCONTROLLER_H

@@ -1,4 +1,4 @@
-#ifndef DARTSCORES_H
+﻿#ifndef DARTSCORES_H
 #define DARTSCORES_H
 
 #include "idartsscores.h"
@@ -13,7 +13,6 @@ class IDartsIndexes;
 class DartsScores : public IDartsScores{
 public:
         DartsScores(const QString& scoresFilename, const QString& initialScoreFilename);
-
         void initFromStorage() override;
         int initialScore() const override;
         void setInitialScore(const int& initialScore) override;

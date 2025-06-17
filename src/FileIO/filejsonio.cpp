@@ -1,4 +1,4 @@
-#include "filejsonio.h"
+﻿#include "filejsonio.h"
 
 #include <QDataStream>
 #include <QJsonDocument>
@@ -29,14 +29,14 @@ bool FileJsonIO::write(const QByteArray& json)
         return writeJson(file, json);
 }
 
-bool FileJsonIO::writeAsJson(const QJsonArray& arr)
+bool FileJsonIO::writeFromObject(const QJsonArray& arr)
 {
         auto file = openFile(_fileName, QIODevice::WriteOnly);
         auto json = QJsonDocument(arr).toJson(QJsonDocument::Compact);
         return writeJson(file, json);
 }
 
-bool FileJsonIO::writeAsJson(const QJsonObject& obj)
+bool FileJsonIO::writeFromObject(const QJsonObject& obj)
 {
         auto file = openFile(_fileName, QIODevice::WriteOnly);
         auto json = QJsonDocument(obj).toJson(QJsonDocument::Compact);

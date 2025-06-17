@@ -1,4 +1,4 @@
-#ifndef DARTINDEXES_H
+﻿#ifndef DARTINDEXES_H
 #define DARTINDEXES_H
 
 #include "idartsindexes.h"
@@ -8,7 +8,7 @@ class IndexesIO;
 class DartsIndexes : public IDartsIndexes {
 public:
         DartsIndexes();
-        void init() override;
+        void init(const int& playersCount) override;
         void initFromFile() override;
         virtual void reset() override;
         void next() override;
@@ -22,6 +22,7 @@ public:
 private:
         void nextThrow();
         DartsIndex _indexes;
+        int _playersCount;
 
         // Helpers
         IndexesIO* _indexesIO;

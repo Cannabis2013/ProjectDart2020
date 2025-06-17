@@ -1,11 +1,11 @@
-#ifndef IDARTINDEXES_H
+﻿#ifndef IDARTINDEXES_H
 #define IDARTINDEXES_H
 
 class DartsTurnIndex;
 
 class IDartsIndexes {
 public:
-        virtual void init() = 0;
+        virtual void init(const int& playersCount) = 0;
         virtual void initFromFile() = 0;
         virtual void reset() = 0;
         virtual void next() = 0;

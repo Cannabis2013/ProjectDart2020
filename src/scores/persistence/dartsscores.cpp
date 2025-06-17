@@ -1,4 +1,4 @@
-#include "dartsscores.h"
+﻿#include "dartsscores.h"
 #include "qjsonarray.h"
 #include "qjsondocument.h"
 #include "src/scores/models/Score.h"
@@ -34,12 +34,12 @@ QList<Score> DartsScores::all()
 bool DartsScores::saveState()
 {
         QJsonArray arr;
-        for (const auto& score : _scores)
+        for (const auto& score : std::as_const(_scores))
                 arr << score.jsonObject();
-        FileJsonIO("scores.dat").writeAsJson(arr);
+        FileJsonIO("scores.dat").writeFromObject(arr);
         QJsonObject obj;
         obj["initialScore"] = _initialScore;
-        return FileJsonIO("initialScore.dat").writeAsJson(obj);
+        return FileJsonIO("initialScore.dat").writeFromObject(obj);
 }
 
 QList<Score> DartsScores::readScoresFromStorage()
@@ -49,7 +49,7 @@ QList<Score> DartsScores::readScoresFromStorage()
         if (!jsonDoc.isArray())
                 return scores;
         auto arr = jsonDoc.array();
-        for (const auto& jsonVal : arr)
+        for (const auto& jsonVal : std::as_const(arr))
                 scores << jsonVal.toObject();
         return scores;
 }

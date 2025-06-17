@@ -1,6 +1,7 @@
-#ifndef SERVICECOLLECTION_H
+﻿#ifndef SERVICECOLLECTION_H
 #define SERVICECOLLECTION_H
 
+class IOpeningFilter;
 class IScoresDelta;
 class IDartsInputsUpdater;
 class IPlayerFetcher;
@@ -15,7 +16,7 @@ class IPlayerReport;
 class IStatsReport;
 class IDartsFinishes;
 class ITurnController;
-class ServiceInitializer;
+class DartsInitializer;
 class IDartsInputController;
 class IDartsStatus;
 class IDartsPlayers;
@@ -24,14 +25,13 @@ class IDartsInputs;
 class IDartsScores;
 class IDartsIndexes;
 class IScoresCalculator;
-class AbstractDartsEvaluator;
-class DartsEvaluators;
+class IClosureFilter;
 
 class ServiceCollection {
 public:
-        DartsEvaluators* evaluators;
         IServiceInitializer* initializer;
-        AbstractDartsEvaluator* evaluator;
+        IClosureFilter* closeningFilter;
+        IOpeningFilter* openingFilter;
         IScoresCalculator* calculator;
         IDartsIndexes* indexes;
         IDartsScores* scores;

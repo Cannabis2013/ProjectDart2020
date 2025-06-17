@@ -1,4 +1,4 @@
-#ifndef IPLAYERFETCHER_H
+﻿#ifndef IPLAYERFETCHER_H
 #define IPLAYERFETCHER_H
 
 class QString;
@@ -7,8 +7,8 @@ class DartsPlayer;
 class IPlayerFetcher {
 public:
         virtual int indexOf(const QString& name) const = 0;
-        virtual DartsPlayer& one() = 0;
-        virtual DartsPlayer& one(const QString& name) = 0;
+        virtual DartsPlayer &get(const int &index) = 0;
+        virtual DartsPlayer& get(const QString& name) = 0;
         virtual DartsPlayer winner() const = 0;
 };
 

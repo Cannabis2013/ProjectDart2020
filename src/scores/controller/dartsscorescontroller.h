@@ -1,4 +1,4 @@
-#ifndef DARTSSCORESREPORT_H
+﻿#ifndef DARTSSCORESREPORT_H
 #define DARTSSCORESREPORT_H
 
 #include "iscorescontroller.h"
@@ -12,12 +12,12 @@ class IDartsScores;
 class DartsScoresController : public QObject, public IScoresController {
         Q_OBJECT
 public:
-        DartsScoresController(ServiceCollection* services);
-        Q_INVOKABLE int playerOne() const override;
-        Q_INVOKABLE int playerTwo() const override;
-        Q_INVOKABLE QString finishRow() const override;
-        Q_INVOKABLE int delta() const override;
-        Q_INVOKABLE int currentRemaining() const override;
+    DartsScoresController(ServiceCollection* services);
+    Q_INVOKABLE int current() const override;
+    QByteArray all() const override;
+    Q_INVOKABLE QString finishRow() const override;
+    Q_INVOKABLE int delta() const override;
+    Q_INVOKABLE int currentRemaining() const override;
 
 private:
         ServiceCollection* _services;

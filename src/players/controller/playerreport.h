@@ -16,8 +16,6 @@ public:
     Q_INVOKABLE bool isWinnerFound() const override;
     Q_INVOKABLE QByteArray winnerInfo() const override;
     Q_INVOKABLE QByteArray report() const override;
-    Q_INVOKABLE QByteArray playerOne() const override;
-    Q_INVOKABLE QByteArray playerTwo() const override;
 
 private:
     // Services

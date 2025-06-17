@@ -1,4 +1,4 @@
-#include "dartsplayers.h"
+﻿#include "dartsplayers.h"
 #include "src/players/services/pdcchampions.h"
 #include "src/FileIO/filejsonio.h"
 #include <QJsonArray>
@@ -10,9 +10,9 @@ DartsPlayers::DartsPlayers(const QString& filepath)
 {
 }
 
-void DartsPlayers::init()
+void DartsPlayers::init(const int &playersCount)
 {
-        _players = PdcChampions().generate();
+        _players = PdcChampions().generate(playersCount);
 }
 
 void DartsPlayers::initFromFile()
@@ -43,5 +43,13 @@ bool DartsPlayers::saveState()
         QJsonArray jsonArr;
         for (auto& player : _players)
                 jsonArr.append(player.jsonObject());
-        return FileJsonIO(_storagePath).writeAsJson(jsonArr);
+        return FileJsonIO(_storagePath).writeFromObject(jsonArr);
+}
+
+QList<QString> DartsPlayers::names()
+{
+    QStringList names;
+    for (const auto& player : _players)
+        names << player.name();
+    return names;
 }

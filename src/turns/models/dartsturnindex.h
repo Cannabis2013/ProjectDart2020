@@ -1,4 +1,4 @@
-#ifndef DARTTURNINDEX_H
+﻿#ifndef DARTTURNINDEX_H
 #define DARTTURNINDEX_H
 
 #include "dartsindex.h"
@@ -7,7 +7,7 @@ class DartsTurnIndex
 {
 public:
         DartsTurnIndex(const DartsIndex &index){
-                _turnIndex = index.turnIndex;
+                _playerIndex = index.playerIndex;
                 _roundIndex = index.roundIndex;
                 _turnId = index.turnCount;
         }
@@ -16,14 +16,14 @@ public:
         {
                 QJsonObject jsonObj;
                 jsonObj["roundIndex"] = _roundIndex;
-                jsonObj["turnIndex"] = _turnIndex;
+                jsonObj["turnIndex"] = _playerIndex;
                 jsonObj["turnId"] = _turnId;
                 return jsonObj;
         }
 
-        int turnIndex() const
+        int playerIndex() const
         {
-                return _turnIndex;
+                return _playerIndex;
         }
 
         int roundIndex() const
@@ -37,7 +37,7 @@ public:
         }
 
 private:
-        int _turnIndex;
+        int _playerIndex;
         int _turnId;
         int _roundIndex;
 };

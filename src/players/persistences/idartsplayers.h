@@ -1,4 +1,4 @@
-#ifndef IDARTPLAYERS_H
+﻿#ifndef IDARTPLAYERS_H
 #define IDARTPLAYERS_H
 
 #include <QStringList>
@@ -8,11 +8,12 @@ class QByteArray;
 
 class IDartsPlayers {
 public:
-        virtual void init() = 0;
+        virtual void init(const int& playersCount) = 0;
         virtual void initFromFile() = 0;
         virtual void reset() = 0;
         virtual bool saveState() = 0;
         virtual QList<DartsPlayer>& all() = 0;
+        virtual QList<QString> names() = 0;
 };
 
 #endif // IDARTPLAYERS_H

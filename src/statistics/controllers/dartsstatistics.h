@@ -1,4 +1,4 @@
-#ifndef DARTSSTATISTICS_H
+﻿#ifndef DARTSSTATISTICS_H
 #define DARTSSTATISTICS_H
 
 #include "istatsreport.h"
@@ -19,8 +19,7 @@ class DartsStatistics : public QObject, public IStatsReport {
     Q_OBJECT
 public:
     DartsStatistics(ServiceCollection* services);
-    Q_INVOKABLE QByteArray playerOne() const override;
-    Q_INVOKABLE QByteArray playerTwo() const override;
+    Q_INVOKABLE QByteArray report() const;
 
 private:
     // Private member methods

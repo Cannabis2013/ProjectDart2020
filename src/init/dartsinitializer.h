@@ -1,14 +1,14 @@
-#ifndef CONTROLLERINITIALIZER_H
+﻿#ifndef CONTROLLERINITIALIZER_H
 #define CONTROLLERINITIALIZER_H
 
 #include "src/init/iserviceinitializer.h"
 #include <QObject>
 #include <QString>
 
-class ServiceInitializer : public QObject, public IServiceInitializer {
+class DartsInitializer : public QObject, public IServiceInitializer {
         Q_OBJECT
 public:
-        ServiceInitializer(ServiceCollection* services);
+        DartsInitializer(ServiceCollection* services);
 
         Q_INVOKABLE void init(const QByteArray& json) override;
         Q_INVOKABLE void initFromStorage() override;

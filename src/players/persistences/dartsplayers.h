@@ -1,4 +1,4 @@
-#ifndef DARTPLAYERS_H
+﻿#ifndef DARTPLAYERS_H
 #define DARTPLAYERS_H
 
 #include "idartsplayers.h"
@@ -9,11 +9,12 @@ class DartsPlayers : public IDartsPlayers
 {
 public:
         DartsPlayers(const QString& filepath);
-        void init() override;
+        void init(const int& playersCount) override;
         void initFromFile() override;
         void reset() override;
         QList<DartsPlayer>& all() override;
         bool saveState() override;
+        QList<QString> names() override;
 
 private:
         QList<DartsPlayer> _players;

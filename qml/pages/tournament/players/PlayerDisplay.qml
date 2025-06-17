@@ -8,20 +8,8 @@ Rectangle {
     clip: true
     color: "green"
 
-    function setPlayer(player) {
-        Scripts.setPlayer(player)
-    }
-
-    function setValues(score, stats) {
-        Scripts.setValues(score, stats)
-    }
-
-    function highlight(dartsCount) {
-        Scripts.highlight(dartsCount)
-    }
-
-    function unHighlight() {
-        Scripts.unHighlight()
+    function update() {
+        Scripts.updateValues()
     }
 
     QtObject {

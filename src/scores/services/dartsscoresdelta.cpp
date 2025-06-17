@@ -15,7 +15,7 @@ int DartsScoresDelta::delta() const
         if (scores.length() != 2)
                 return -1;
         auto index = _services->indexes->index();
-        auto playerIndex = index.turnIndex();
+        auto playerIndex = index.playerIndex();
         auto firstRemaining = scores.takeAt(playerIndex).value();
         auto secondRemaining = scores.first().value();
         auto initialScore = _services->scores->initialScore();

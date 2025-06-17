@@ -1,7 +1,7 @@
 ﻿import QtQuick 2.15
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 6.0
-import "../templates"
+import "../../templates"
 import "setupPage.js" as Scripts
 
 PageWithHeader {

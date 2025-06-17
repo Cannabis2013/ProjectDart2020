@@ -1,17 +1,17 @@
-.import "infoDialog/infoDialog.js" as InputDialog
+﻿.import "infoDialog.js" as InputDialog
+
+function updateValues() {
+    const player = JSON.parse(dartsPlayers.currentPlayer())
+    const score = dartsScores.current()
+    const stats = JSON.parse(dartsStats.report())
+    setPlayer(player)
+    setValues(score, stats)
+}
 
 function setValues(score, stats) {
     scoreDisplayText.text = score
     if (stats)
         statsDisplay.setValues(stats)
-}
-
-function highlight(dartsCount) {
-    playerInfoRect.color = "blue"
-}
-
-function unHighlight() {
-    playerInfoRect.color = "green"
 }
 
 function setPlayer(player) {
