@@ -27,6 +27,11 @@ QString InputsValidationPersistence::readModifier() {
     return jsonObject.value("openingModifier").toString("D");
 }
 
+bool InputsValidationPersistence::readEnabled() {
+    auto jsonObject = _ioDevice->readAsJson().object();
+    return jsonObject.value("enabled").toBool(false);
+}
+
 void InputsValidationPersistence::save(const QHash<QString, bool> &allowances,
                                        const QString &openModifier)
 {

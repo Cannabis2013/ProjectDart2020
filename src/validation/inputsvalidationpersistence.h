@@ -11,6 +11,7 @@ public:
 
     QHash<QString, bool> readAllowances();
     QString readModifier();
+    bool readEnabled();
     void save(const QHash<QString,bool>& allowances, const QString& openModifier);
 
 private:
