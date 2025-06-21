@@ -12,12 +12,10 @@ public:
     DartsPlayer& get(const QString& name) override;
     DartsPlayer winner() const override;
     int indexOf(const QString& name) const override;
+    QStringList names() const override;
 
 private:
         ServiceCollection* _services;
-
-        // IPlayerFetcher interface
-    public:
 };
 
 #endif // PLAYERFETCHER_H

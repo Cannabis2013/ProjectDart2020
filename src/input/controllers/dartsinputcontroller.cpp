@@ -4,8 +4,8 @@
 #include "src/scores/services/iscoresupdate.h"
 #include "src/servicecollection.h"
 #include "src/turns/persistences/idartsindexes.h"
-#include "src/validation/iclosurefilter.h"
-#include "src/validation/iopeningfilter.h"
+#include "src/validation/services/iclosurefilter.h"
+#include "src/validation/services/iopenvalidator.h"
 
 #include <QJsonDocument>
 

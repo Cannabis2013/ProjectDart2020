@@ -1,13 +1,7 @@
-﻿.import "nameUtils.js" as Names
-
-function open() {
-  const comp = Qt.createComponent("InputsOverview.qml")
-  const dialog = comp.createObject(applicationWindow)
-  dialog.open()
-}
+﻿.import "../../../../utils/nameUtils.js" as Names
 
 function init() {
-  const player = JSON.parse(dartsPlayers.currentPlayer())
+  const player = JSON.parse(dartsPlayers.current())
   playerName.text = Names.shortenName(player.name)
   const inputs = dartsInputs.inputs(player.name)
   const json = JSON.parse(inputs)

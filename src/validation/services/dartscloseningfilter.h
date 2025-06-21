@@ -5,7 +5,7 @@
 #include <QStringList>
 
 class ServiceCollection;
-class IOpeningFilter;
+class IOpenValidator;
 class IScoresCalculator;
 class IDartsStatus;
 class IDartsPlayers;

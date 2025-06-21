@@ -48,3 +48,11 @@ int PlayerFetcher::indexOf(const QString& name) const
         }
         return -1;
 }
+
+QStringList PlayerFetcher::names() const {
+    QStringList names;
+    auto players = _services->players->all();
+    for (const auto& player : std::as_const(players))
+        names << player.name();
+    return names;
+}

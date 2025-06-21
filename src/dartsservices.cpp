@@ -12,8 +12,9 @@
 #include "src/scores/services/dartsscoresupdate.h"
 #include "src/statistics/services/statscalculator.h"
 #include "src/turns/persistences/dartsindexes.h"
-#include "src/validation/dartsopeningfilter.h"
-#include "src/validation/dartscloseningfilter.h"
+#include "src/validation/persistence/jsonopenpersistence.h"
+#include "src/validation/services/dartscloseningfilter.h"
+#include "src/validation/services/openvalidator.h"
 
 ServiceCollection* DartsServices::build()
 {
@@ -41,6 +42,7 @@ void DartsServices::injectServices(ServiceCollection* services)
     services->playerFetcher = new PlayerFetcher(services);
     services->inputsUpdater = new DartsInputsUpdater(services);
     services->scoresDelta = new DartsScoresDelta(services);
-    services->openingFilter = new DartsOpeningFilter(services);
+    services->openingFilter = new OpenValidator(services);
     services->closeningFilter = new DartsCloseningFilter(services);
+    services->openPersistence = new JsonOpenPersistence();
 }

@@ -1,4 +1,4 @@
-﻿.import "nameUtils.js" as Names
+﻿.import "../../../utils/nameUtils.js" as Names
 
 function updatePreview(inputs) {
   const current = dartsScores.current()
@@ -19,7 +19,7 @@ function toScore(input) {
 }
 
 function updateValues() {
-  const player = JSON.parse(dartsPlayers.currentPlayer())
+  const player = JSON.parse(dartsPlayers.current())
   const score = dartsScores.current()
   const stats = JSON.parse(dartsStats.report())
   playerName.text = Names.shortenName(player.name, 9)

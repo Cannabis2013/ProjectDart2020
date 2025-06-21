@@ -14,7 +14,6 @@ public:
         void reset() override;
         QList<DartsPlayer>& all() override;
         bool saveState() override;
-        QList<QString> names() override;
 
 private:
         QList<DartsPlayer> _players;

@@ -2,7 +2,7 @@
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 6.0
 import "scoreScripts.js" as Scripts
-import "inputsScripts.js" as InputsModal
+import "../dialogs/dialogs.js" as Dialogs
 
 Rectangle {
   id: playerInfoRect
@@ -50,7 +50,7 @@ Rectangle {
 
   Button {
     id: inputsButton
-    onClicked: InputsModal.open()
+    onClicked: Dialogs.openInputsDialog()
     height: 40
     width: 90
     anchors.right: parent.right
@@ -58,5 +58,16 @@ Rectangle {
     anchors.top: parent.top
     anchors.topMargin: 8
     text: "Inputs"
+  }
+
+  Button {
+    id: playersButton
+    height: 40
+    width: 90
+    anchors.right: parent.right
+    anchors.rightMargin: 8
+    anchors.top: inputsButton.bottom
+    anchors.topMargin: 8
+    text: "Players"
   }
 }

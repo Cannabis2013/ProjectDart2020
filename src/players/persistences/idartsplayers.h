@@ -13,7 +13,6 @@ public:
         virtual void reset() = 0;
         virtual bool saveState() = 0;
         virtual QList<DartsPlayer>& all() = 0;
-        virtual QList<QString> names() = 0;
 };
 
 #endif // IDARTPLAYERS_H

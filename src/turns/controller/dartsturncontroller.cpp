@@ -7,8 +7,8 @@
 #include "src/servicecollection.h"
 #include "src/turns/models/dartsturnindex.h"
 #include "src/turns/persistences/idartsindexes.h"
-#include "src/validation/iclosurefilter.h"
-#include "src/validation/iopeningfilter.h"
+#include "src/validation/services/iclosurefilter.h"
+#include "src/validation/services/iopenvalidator.h"
 
 DartsTurnController::DartsTurnController(ServiceCollection* services)
     : _services(services)

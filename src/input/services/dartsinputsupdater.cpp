@@ -13,22 +13,22 @@ DartsInputsUpdater::DartsInputsUpdater(ServiceCollection* services)
 
 void DartsInputsUpdater::removeExcessInputs()
 {
-        auto index = _services->indexes->index();
-        auto inputs = _services->inputs->all();
-        Inputs filtered;
-        for (const auto& input : inputs) {
-                if (input.turnId() < index.turnId())
-                        filtered << input;
-        }
-        _services->inputs->setInputs(filtered);
+    auto index = _services->indexes->index();
+    auto inputs = _services->inputs->all();
+    Inputs filtered;
+    for (const auto& input : std::as_const(inputs)) {
+        if (input.turnId() < index.turnId())
+            filtered << input;
+    }
+    _services->inputs->setInputs(filtered);
 }
 
 DartsInputsUpdater::Inputs DartsInputsUpdater::toInputs(const Candidates& candidates)
 {
-        Inputs inputs;
-        for (const auto& candidate : candidates)
-                inputs << candidate.input();
-        return inputs;
+    Inputs inputs;
+    for (const auto& candidate : candidates)
+        inputs << candidate.input();
+    return inputs;
 }
 
 void DartsInputsUpdater::save(const QList<InputCandidate>& candidates)

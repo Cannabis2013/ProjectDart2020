@@ -12,57 +12,57 @@ DartsScores::DartsScores(const QString& scoresFilename, const QString& initialSc
 
 void DartsScores::initFromStorage()
 {
-        _scores = readScoresFromStorage();
-        _initialScore = readInitialScoreFromStorage();
+    _scores = readScoresFromStorage();
+    _initialScore = readInitialScoreFromStorage();
 }
 
 int DartsScores::initialScore() const
 {
-        return _initialScore;
+    return _initialScore;
 }
 
 void DartsScores::setInitialScore(const int& initialScore)
 {
-        _initialScore = initialScore;
+    _initialScore = initialScore;
 }
 
 QList<Score> DartsScores::all()
 {
-        return _scores;
+    return _scores;
 }
 
 bool DartsScores::saveState()
 {
-        QJsonArray arr;
-        for (const auto& score : std::as_const(_scores))
-                arr << score.jsonObject();
-        FileJsonIO("scores.dat").write(arr);
-        QJsonObject obj;
-        obj["initialScore"] = _initialScore;
-        return FileJsonIO("initialScore.dat").write(obj);
+    QJsonArray arr;
+    for (const auto& score : std::as_const(_scores))
+        arr << score.jsonObject();
+    FileJsonIO("scores.dat").write(arr);
+    QJsonObject obj;
+    obj["initialScore"] = _initialScore;
+    return FileJsonIO("initialScore.dat").write(obj);
 }
 
 QList<Score> DartsScores::readScoresFromStorage()
 {
-        auto jsonDoc = FileJsonIO("scores.dat").readAsJson();
-        QList<Score> scores;
-        if (!jsonDoc.isArray())
-                return scores;
-        auto arr = jsonDoc.array();
-        for (const auto& jsonVal : std::as_const(arr))
-                scores << jsonVal.toObject();
+    auto jsonDoc = FileJsonIO("scores.dat").readAsJson();
+    QList<Score> scores;
+    if (!jsonDoc.isArray())
         return scores;
+    auto arr = jsonDoc.array();
+    for (const auto& jsonVal : std::as_const(arr))
+        scores << jsonVal.toObject();
+    return scores;
 }
 
 int DartsScores::readInitialScoreFromStorage()
 {
-        auto jsonDoc = FileJsonIO("initialScore.dat").readAsJson();
-        if (!jsonDoc.isObject())
-                return 0;
-        return jsonDoc.object().value("initialScore").toInt(0);
+    auto jsonDoc = FileJsonIO("initialScore.dat").readAsJson();
+    if (!jsonDoc.isObject())
+        return 0;
+    return jsonDoc.object().value("initialScore").toInt(0);
 }
 
 void DartsScores::setScores(const QList<Score>& scores)
 {
-        _scores = scores;
+    _scores = scores;
 }

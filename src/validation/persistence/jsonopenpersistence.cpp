@@ -1,15 +1,10 @@
-﻿#include "inputsvalidationpersistence.h"
+﻿#include "jsonopenpersistence.h"
 #include "qjsonarray.h"
 #include "qjsondocument.h"
 #include "qjsonobject.h"
 #include "src/FileIO/filejsonio.h"
 
-InputsValidationPersistence::InputsValidationPersistence(const QString &fileName)
-{
-    _ioDevice = new FileJsonIO(fileName);
-}
-
-QHash<QString, bool> InputsValidationPersistence::readAllowances()
+QHash<QString, bool> JsonOpenPersistence::readAllowances() const
 {
     QHash<QString, bool> allowances;
     auto jsonObject = _ioDevice->readAsJson().object();
@@ -22,17 +17,19 @@ QHash<QString, bool> InputsValidationPersistence::readAllowances()
     return allowances;
 }
 
-QString InputsValidationPersistence::readModifier() {
+QString JsonOpenPersistence::readModifier() const
+{
     auto jsonObject = _ioDevice->readAsJson().object();
     return jsonObject.value("openingModifier").toString("D");
 }
 
-bool InputsValidationPersistence::readEnabled() {
+bool JsonOpenPersistence::readEnabled() const
+{
     auto jsonObject = _ioDevice->readAsJson().object();
     return jsonObject.value("enabled").toBool(false);
 }
 
-void InputsValidationPersistence::save(const QHash<QString, bool> &allowances,
+void JsonOpenPersistence::save(const QHash<QString, bool> &allowances,
                                        const QString &openModifier)
 {
     QJsonObject jsonObj;

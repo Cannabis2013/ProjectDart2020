@@ -6,7 +6,8 @@ class QByteArray;
 
 class IPlayerReport {
 public:
-    virtual QString currentPlayer() const = 0;
+    virtual QByteArray all() const = 0;
+    virtual QString current() const = 0;
     virtual bool isWinnerFound() const = 0;
     virtual QByteArray winnerInfo() const = 0;
     virtual QByteArray report() const = 0;

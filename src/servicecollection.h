@@ -1,7 +1,8 @@
 ﻿#ifndef SERVICECOLLECTION_H
 #define SERVICECOLLECTION_H
 
-class IOpeningFilter;
+class IValidationOpenPersistence;
+class IOpenValidator;
 class IScoresDelta;
 class IDartsInputsUpdater;
 class IPlayerFetcher;
@@ -31,7 +32,7 @@ class ServiceCollection {
 public:
         IServiceInitializer* initializer;
         IClosureFilter* closeningFilter;
-        IOpeningFilter* openingFilter;
+        IOpenValidator* openingFilter;
         IScoresCalculator* calculator;
         IDartsIndexes* indexes;
         IDartsScores* scores;
@@ -52,6 +53,7 @@ public:
         IPlayerFetcher* playerFetcher;
         IDartsInputsUpdater* inputsUpdater;
         IScoresDelta* scoresDelta;
+        IValidationOpenPersistence* openPersistence;
 };
 
 #endif // SERVICECOLLECTION_H

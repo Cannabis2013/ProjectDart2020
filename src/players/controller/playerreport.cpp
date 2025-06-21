@@ -23,7 +23,7 @@ QByteArray PlayerReport::report() const
     return QJsonDocument(arr).toJson(QJsonDocument::Compact);
 }
 
-QString PlayerReport::currentPlayer() const
+QString PlayerReport::current() const
 {
     auto playerIndex = _services->indexes->index().playerIndex();
     QJsonObject jsonObj = _services->playerFetcher->get(playerIndex).jsonObject();
@@ -47,4 +47,13 @@ QByteArray PlayerReport::winnerInfo() const
     jsonObj["winnerName"] = winner.name();
     jsonObj["winnerImage"] = winner.winnerImageUrl();
     return QJsonDocument(jsonObj).toJson(QJsonDocument::Compact);
+}
+
+QByteArray PlayerReport::all() const
+{
+    QJsonArray arr;
+    auto players = _services->players->all();
+    for (const auto& player : std::as_const(players))
+        arr << player.jsonObject();
+    return QJsonDocument(arr).toJson(QJsonDocument::Compact);
 }

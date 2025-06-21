@@ -1,28 +1,30 @@
-﻿#include "dartsopeningfilter.h"
+﻿#include "openvalidator.h"
 #include "src/players/models/dartsplayer.h"
 #include "src/players/persistences/idartsplayers.h"
+#include "src/players/services/iplayerfetcher.h"
 #include "src/servicecollection.h"
 #include "src/turns/models/dartsturnindex.h"
 #include "src/turns/persistences/idartsindexes.h"
-#include "src/validation/inputsvalidationpersistence.h"
+#include "src/validation/persistence/ivalidationopenpersistence.h"
 
-DartsOpeningFilter::DartsOpeningFilter(ServiceCollection *services):
+OpenValidator::OpenValidator(ServiceCollection *services):
     _services(services){
-    _persistence = new InputsValidationPersistence("allowances.dat");
 }
 
-void DartsOpeningFilter::init(const QList<QString> &names, bool withOpening, const QString &openingMod)
+void OpenValidator::init(bool withOpening, const QString &openingMod)
 {
+    _withOpen = withOpening;
+    auto names = _services->playerFetcher->names();
     _openingModifier = openingMod;
-    for (const auto& name : names)
-        _allowances.insert(name,!withOpening);
+    for (const auto& name : std::as_const(names))
+        _allowances.insert(name,!_withOpen);
 }
 
-void DartsOpeningFilter::update(const QString &name, bool allowed) {
+void OpenValidator::update(const QString &name, bool allowed) {
     _allowances.insert(name,allowed);
 }
 
-QList<InputCandidate> DartsOpeningFilter::filter(const QList<InputCandidate> &inputs) {
+QList<InputCandidate> OpenValidator::filter(const QList<InputCandidate> &inputs) {
     auto playerIndex = _services->indexes->index().playerIndex();
     auto name = _services->players->all().at(playerIndex).name();
     if(_allowances.value(name))
@@ -37,22 +39,23 @@ QList<InputCandidate> DartsOpeningFilter::filter(const QList<InputCandidate> &in
     return allowedCandidates;
 }
 
-void DartsOpeningFilter::initFromFile() {
-    _allowances = _persistence->readAllowances();
-    _openingModifier = _persistence->readModifier();
+void OpenValidator::initFromFile() {
+    _allowances = _services->openPersistence->readAllowances();
+    _openingModifier = _services->openPersistence->readModifier();
 }
 
-void DartsOpeningFilter::saveState() {
-    _persistence->save(_allowances,_openingModifier);
+void OpenValidator::saveState() {
+    _services->openPersistence->save(_allowances,_openingModifier);
 }
 
-void DartsOpeningFilter::reset() {
-    auto names = _allowances.keys();
+void OpenValidator::reset() {
+    _allowances.clear();
+    auto names = _services->playerFetcher->names();
     for (const auto& name : std::as_const(names))
-        _allowances.insert(name,false);
+        _allowances.insert(name,!_withOpen);
 }
 
-bool DartsOpeningFilter::isValid(const int &point, const QString &mod) const
+bool OpenValidator::isValid(const int &point, const QString &mod) const
 {
     auto playerIndex = _services->indexes->index().playerIndex();
     auto name = _services->players->all().at(playerIndex).name();

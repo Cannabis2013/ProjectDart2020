@@ -81,11 +81,12 @@ HEADERS += \
     src/turns/persistences/dartsindexes.h \
     src/turns/persistences/idartsindexes.h \
     src/turns/persistences/indexesio.h \
-    src/validation/dartscloseningfilter.h \
-    src/validation/dartsopeningfilter.h \
-    src/validation/iclosurefilter.h \
-    src/validation/inputsvalidationpersistence.h \
-    src/validation/iopeningfilter.h
+    src/validation/persistence/ivalidationopenpersistence.h \
+    src/validation/persistence/jsonopenpersistence.h \
+    src/validation/services/dartscloseningfilter.h \
+    src/validation/services/iclosurefilter.h \
+    src/validation/services/iopenvalidator.h \
+    src/validation/services/openvalidator.h
 
 SOURCES += \
     src/FileIO/filehtml.cpp \
@@ -119,6 +120,6 @@ SOURCES += \
     src/turns/controller/dartsturncontroller.cpp \
     src/turns/persistences/dartsindexes.cpp \
     src/turns/persistences/indexesio.cpp \
-    src/validation/dartscloseningfilter.cpp \
-    src/validation/dartsopeningfilter.cpp \
-    src/validation/inputsvalidationpersistence.cpp
+    src/validation/persistence/jsonopenpersistence.cpp \
+    src/validation/services/dartscloseningfilter.cpp \
+    src/validation/services/openvalidator.cpp

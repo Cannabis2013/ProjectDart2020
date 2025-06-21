@@ -6,8 +6,8 @@
 #include "src/scores/services/iscoresupdate.h"
 #include "src/servicecollection.h"
 #include "src/turns/persistences/idartsindexes.h"
-#include "src/validation/iclosurefilter.h"
-#include "src/validation/iopeningfilter.h"
+#include "src/validation/services/iclosurefilter.h"
+#include "src/validation/services/iopenvalidator.h"
 
 DartsInitializer::DartsInitializer(ServiceCollection* services)
     : _services(services)
@@ -21,8 +21,7 @@ void DartsInitializer::init(const QByteArray& json)
         _services->indexes->init(values.playersCount);
         _services->inputs->init();
         _services->scoresUpdate->initPlayerScores(values.initialScore);
-        auto names = _services->players->names();
-        _services->openingFilter->init(names,values.withOpenCondition,values.openingModifier);
+        _services->openingFilter->init(values.withOpenCondition,values.openingModifier);
         _services->closeningFilter->init(values.withCloseCondition);
 }
 
