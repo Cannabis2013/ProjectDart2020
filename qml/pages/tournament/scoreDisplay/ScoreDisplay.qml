@@ -13,10 +13,6 @@ Rectangle {
     Scripts.updateValues()
   }
 
-  function updateScorePreview(inputs) {
-    Scripts.updatePreview(inputs)
-  }
-
   Text {
     id: playerName
     anchors.top: parent.top

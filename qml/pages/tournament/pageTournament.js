@@ -11,15 +11,9 @@ function isPortrait() {
   return tournamentPage.height > tournamentPage.width
 }
 
-function initializeUI() {
-  playerInfo.update()
-  updateTurnValues()
-}
-
 function restartGame() {
   dartsInitializer.reset()
-  inputSection.clearDisplay()
-  initializeUI()
+  updateTurnValues()
   tournamentPage.forceActiveFocus()
 }
 
@@ -34,21 +28,39 @@ function redo() {
   updateTurnValues()
 }
 
-function addScore(scores) {
-  const json = JSON.stringify(scores)
+function reportInputs() {
+  if (inputDisplay.inputs().length === 0)
+    Dialogs.openConfirmDialog("Sikker?", performReport)
+  else
+    performReport()
+}
+
+function performReport() {
+  const json = JSON.stringify(inputDisplay.inputs())
   dartsInputs.add(json)
   updateTurnValues()
 }
 
 function updateTurnValues() {
-  if (dartsPlayers.isWinnerFound())
+  if (dartsPlayers.isWinnerFound()) {
     Dialogs.openWinnerDialog(restartGame, undo)
-  else
-    updateSections()
-}
+    return
+  }
 
-function updateSections() {
   playerInfo.update()
   turnControls.update()
   messageSection.update()
+  inputDisplay.reset()
+}
+
+function updateSections() {}
+
+function handleInput(modId, point) {
+  if (inputMem.inputs.length >= 3)
+    return
+  inputMem.inputs.push({
+                         "modId": modId,
+                         "point": point
+                       })
+  inputDisplay.update(inputMem.inputs)
 }

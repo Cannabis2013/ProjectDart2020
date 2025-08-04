@@ -1,11 +1,11 @@
 ﻿function handleNumberPadClick(point) {
   const modId = getModId()
-  numberClicked(modId, point)
+  enter(modId, point)
   unSelectMods()
 }
 
 function handleSpecialPadClick(point) {
-  numberClicked("S", point)
+  enter("S", point)
   unSelectMods()
 }
 

@@ -2,7 +2,8 @@
 import QtQuick.Controls 6.0
 import QtQuick.Layouts 1.3
 import "turnControls"
-import "inputs"
+import "keyPad"
+import "inputDisplay"
 import "messages"
 import "scoreDisplay"
 import "pageTournament.js" as Scripts
@@ -20,7 +21,7 @@ Page {
     rowSpacing: 0
     columnSpacing: 0
     flow: GridLayout.TopToBottom
-    rows: 4
+    rows: Scripts.isPortrait() ? 6 : 4
 
     ScoreDisplay {
       id: playerInfo
@@ -49,22 +50,29 @@ Page {
     }
 
     Item {
-      visible: !Scripts.isPortrait()
-      Layout.fillHeight: true
+      Layout.fillHeight: !Scripts.isPortrait()
     }
 
-    CompInputs {
+    InputDisplay {
+      id: inputDisplay
+      Layout.fillWidth: Scripts.isPortrait() || tournamentPage.width < 1024
+      Layout.preferredWidth: tournamentPage.width < 1024 ? 0 : 512
+      Layout.preferredHeight: 72
+      Layout.alignment: Qt.AlignBottom
+    }
+
+    KeyPad {
       id: inputSection
       Layout.fillWidth: Scripts.isPortrait() || tournamentPage.width < 1024
       Layout.preferredWidth: tournamentPage.width < 1024 ? 0 : 512
       Layout.fillHeight: true
       Layout.minimumWidth: 12
-      Layout.rowSpan: Scripts.isPortrait() ? 1 : 4
-      onReportInputs: inputs => Scripts.addScore(inputs)
-      onReportPreview: inputs => playerInfo.updateScorePreview(inputs)
+      Layout.rowSpan: Scripts.isPortrait() ? 1 : 3
+      onEnter: (modId, point) => inputDisplay.add(modId, point)
+      onReport: Scripts.reportInputs()
     }
   }
 
-  Component.onCompleted: Scripts.initializeUI()
+  Component.onCompleted: Scripts.updateTurnValues()
   Component.onDestruction: dartsInitializer.saveState()
 }

@@ -4,8 +4,8 @@ import QtQuick.Layouts 1.3
 import "keyPad.js" as Scripts
 
 Item {
-  signal reportInputs
-  signal numberClicked(string modId, int point)
+  signal report
+  signal enter(string modId, int point)
 
   GridLayout {
     id: numberPads
@@ -60,7 +60,7 @@ Item {
 
     Pad {
       color: "orange"
-      onReleased: reportInputs()
+      onReleased: report()
       image: "qrc:/pictures/Ressources/Pictures/upArrow.png"
     }
   }

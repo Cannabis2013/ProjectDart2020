@@ -35,14 +35,6 @@
         <file>qml/pages/tournament/dialogs/winner/DialogButtons.qml</file>
         <file>qml/pages/tournament/dialogs/winner/DialogWinner.qml</file>
         <file>qml/pages/tournament/dialogs/dialogs.js</file>
-        <file>qml/pages/tournament/inputs/keyPad/keyPad.js</file>
-        <file>qml/pages/tournament/inputs/keyPad/KeyPad.qml</file>
-        <file>qml/pages/tournament/inputs/keyPad/ModPad.qml</file>
-        <file>qml/pages/tournament/inputs/keyPad/NumberPad.qml</file>
-        <file>qml/pages/tournament/inputs/keyPad/Pad.qml</file>
-        <file>qml/pages/tournament/inputs/keyPadDisplays/KeyPadDisplays.qml</file>
-        <file>qml/pages/tournament/inputs/compInputs.js</file>
-        <file>qml/pages/tournament/inputs/CompInputs.qml</file>
         <file>qml/pages/tournament/messages/MessageDisplay.qml</file>
         <file>qml/pages/tournament/messages/messagesDisplay.js</file>
         <file>qml/pages/tournament/messages/MessagesDisplay.qml</file>
@@ -60,5 +52,13 @@
         <file>qml/pages/tournament/dialogs/inputs/InputsOverview.qml</file>
         <file>qml/pages/tournament/dialogs/inputs/inputsScripts.js</file>
         <file>qml/utils/nameUtils.js</file>
+        <file>qml/pages/tournament/keyPad/keyPad.js</file>
+        <file>qml/pages/tournament/keyPad/KeyPad.qml</file>
+        <file>qml/pages/tournament/keyPad/ModPad.qml</file>
+        <file>qml/pages/tournament/keyPad/NumberPad.qml</file>
+        <file>qml/pages/tournament/keyPad/Pad.qml</file>
+        <file>qml/pages/tournament/inputDisplay/InputDisplay.qml</file>
+        <file>qml/pages/tournament/inputDisplay/TextBox.qml</file>
+        <file>qml/pages/tournament/inputDisplay/inputDisplay.js</file>
     </qresource>
 </RCC>

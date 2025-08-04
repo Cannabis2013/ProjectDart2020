@@ -1,23 +1,5 @@
 ﻿.import "../../../utils/nameUtils.js" as Names
 
-function updatePreview(inputs) {
-  const current = dartsScores.current()
-  let sum = 0
-  let input = {}
-  for (var i = 0; i < inputs.length; i++) {
-    input = inputs[i]
-    sum += toScore(input)
-  }
-  playerScore.text = sum < current ? current - sum : 0
-}
-
-function toScore(input) {
-  const mod = input.modId
-  const point = input.point
-  const mult = mod === "T" ? 3 : mod === "D" ? 2 : 1
-  return point * mult
-}
-
 function updateValues() {
   const player = JSON.parse(dartsPlayers.current())
   const score = dartsScores.current()
