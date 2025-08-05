@@ -13,64 +13,60 @@ Page {
   id: tournamentPage
   signal menuRequest
 
+  QtObject {
+    id: pageDimensions
+    property real width: Scripts.isPortrait() ? parent.width : parent.width / 2
+  }
+
   focus: true
   Keys.onPressed: event => Scripts.handleCloseEvent(event)
 
-  GridLayout {
-    anchors.fill: parent
-    rowSpacing: 0
-    columnSpacing: 0
-    flow: GridLayout.TopToBottom
-    rows: Scripts.isPortrait() ? 6 : 4
+  ScoreDisplay {
+    id: scoreDisplay
+    anchors.top: parent.top
+    anchors.left: parent.left
+    height: 146
+    width: pageDimensions.width
+  }
 
-    ScoreDisplay {
-      id: playerInfo
-      Layout.preferredHeight: 146
-      Layout.fillWidth: true
-    }
+  MessagesDisplay {
+    id: messageSection
+    anchors.top: scoreDisplay.bottom
+    anchors.left: parent.left
+    width: pageDimensions.width
+    height: 48
+  }
 
-    MessagesDisplay {
-      id: messageSection
-      Layout.topMargin: 6
-      Layout.fillWidth: true
-      Layout.minimumHeight: 48
-      Layout.alignment: Qt.AlignTop
-    }
-    TurnControls {
-      id: turnControls
-      Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
-      Layout.preferredHeight: 36
-      Layout.fillWidth: true
-      Layout.leftMargin: 6
-      Layout.rightMargin: 6
-      onUndoClicked: Scripts.undo()
-      onRedoClicked: Scripts.redo()
-      onRestartClicked: Dialogs.openConfirmDialog("Sure you want to restart?",
-                                                  Scripts.restartGame)
-    }
+  TurnControls {
+    id: turnControls
+    anchors.top: messageSection.bottom
+    anchors.left: parent.left
+    width: pageDimensions.width
+    height: 48
+    onUndoClicked: Scripts.undo()
+    onRedoClicked: Scripts.redo()
+    onRestartClicked: Dialogs.openConfirmDialog("Sure you want to restart?",
+                                                Scripts.restartGame)
+  }
 
-    Item {
-      Layout.fillHeight: !Scripts.isPortrait()
-    }
+  InputDisplay {
+    id: inputDisplay
+    anchors.top: Scripts.isPortrait() ? turnControls.bottom : parent.top
+    anchors.right: parent.right
+    width: Scripts.isPortrait() ? parent.width : parent.width / 2
+    onPop: Scripts.pop()
+    onFlush: Scripts.flush()
+    height: 96
+  }
 
-    InputDisplay {
-      id: inputDisplay
-      Layout.fillWidth: Scripts.isPortrait() || tournamentPage.width < 1024
-      Layout.preferredWidth: tournamentPage.width < 1024 ? 0 : 512
-      Layout.preferredHeight: 72
-      Layout.alignment: Qt.AlignBottom
-    }
-
-    KeyPad {
-      id: inputSection
-      Layout.fillWidth: Scripts.isPortrait() || tournamentPage.width < 1024
-      Layout.preferredWidth: tournamentPage.width < 1024 ? 0 : 512
-      Layout.fillHeight: true
-      Layout.minimumWidth: 12
-      Layout.rowSpan: Scripts.isPortrait() ? 1 : 3
-      onEnter: (modId, point) => inputDisplay.add(modId, point)
-      onReport: Scripts.reportInputs()
-    }
+  KeyPad {
+    id: inputSection
+    width: Scripts.isPortrait() ? parent.width : parent.width / 2
+    anchors.top: inputDisplay.bottom
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    onEnter: (modId, point) => Scripts.addInput(modId, point)
+    onReport: Scripts.reportInputs()
   }
 
   Component.onCompleted: Scripts.updateTurnValues()

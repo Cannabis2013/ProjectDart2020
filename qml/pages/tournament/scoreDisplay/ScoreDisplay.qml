@@ -13,6 +13,15 @@ Rectangle {
     Scripts.updateValues()
   }
 
+  function subtract(value) {
+    Scripts.subtractValue(value)
+  }
+
+  QtObject {
+    id: scoreInfo
+    property int currentScore: 0
+  }
+
   Text {
     id: playerName
     anchors.top: parent.top

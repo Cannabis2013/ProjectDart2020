@@ -4,16 +4,11 @@ import QtQuick.Layouts 1.3
 import "inputDisplay.js" as Scripts
 
 Item {
-  function add(modId, point) {
-    Scripts.addInput(modId, point)
-  }
+  signal pop
+  signal flush
 
-  function inputs() {
-    return inputMem.inputs
-  }
-
-  function reset() {
-    Scripts.reset()
+  function update(inputs, inputsScore) {
+    Scripts.updateDisplays(inputs, inputsScore)
   }
 
   QtObject {
@@ -23,56 +18,48 @@ Item {
   }
 
   TextBox {
-    id: inputsBox
-    label: "INPUTS"
-    anchors.margins: 6
-    anchors.top: parent.top
-    anchors.left: parent.left
-    width: 128
-    height: 24
-  }
-
-  TextBox {
     id: scoreBox
     label: "SCORE"
-    anchors.margins: 6
     anchors.top: parent.top
-    anchors.left: inputsBox.right
-    width: 80
-    height: 24
+    anchors.left: parent.left
+    anchors.bottom: parent.verticalCenter
+    anchors.margins: 6
+    width: 96
+    fontSize: 14
   }
 
   TextBox {
-    id: scorePreview
-    label: "PREVIEW"
-    anchors.margins: 6
+    id: inputsBox
+    label: "INPUTS"
     anchors.top: parent.top
     anchors.left: scoreBox.right
-    width: 96
-    height: 24
+    anchors.bottom: parent.verticalCenter
+    anchors.margins: 6
+    width: 128
+    fontSize: 14
   }
 
   Button {
-    id: clearButton
+    id: flushButton
     text: "Flush"
-    width: 80
-    height: 32
-    font.pixelSize: 12
-    anchors.margins: 6
-    anchors.left: parent.left
+    width: 96
+    height: 40
+    font.pixelSize: 14
+    anchors.right: popButton.left
     anchors.bottom: parent.bottom
-    onClicked: Scripts.reset()
+    anchors.margins: 6
+    onClicked: flush()
   }
 
   Button {
-    id: removeButton
+    id: popButton
     text: "Pop"
-    width: 70
-    height: 32
-    font.pixelSize: 12
-    anchors.margins: 6
-    anchors.left: clearButton.right
+    width: 80
+    height: 40
+    font.pixelSize: 14
+    anchors.right: parent.right
     anchors.bottom: parent.bottom
-    onClicked: Scripts.pop()
+    anchors.margins: 6
+    onClicked: pop()
   }
 }

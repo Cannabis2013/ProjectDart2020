@@ -1,5 +1,4 @@
 ﻿import QtQuick 6.0
-import QtQuick.Layouts 1.3
 import QtQuick.Controls 6.0
 
 Item {
@@ -14,45 +13,49 @@ Item {
     redoButton.active = dartsTurns.canRedo()
   }
 
-  GridLayout {
-    anchors.fill: parent
+  Button {
+    text: "Menu"
+    height: parent.height
+    anchors.left: parent.left
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    anchors.margins: 6
+    font.pointSize: 12
+    onClicked: menuRequest()
+  }
 
-    Button {
-      text: "Menu"
-      height: parent.height
-      Layout.fillHeight: true
-      font.pointSize: 16
-      onClicked: menuRequest()
-    }
+  Button {
+    id: restartButton
+    text: "Restart"
+    font.pointSize: 12
+    anchors.right: undoButton.left
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    anchors.margins: 6
+    onClicked: restartClicked()
+  }
 
-    Item {
-      Layout.fillWidth: true
-    }
+  ButtonControl {
+    id: undoButton
+    active: false
+    width: 38
+    anchors.right: redoButton.left
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    anchors.margins: 6
+    iconSource: "qrc:/pictures/Ressources/Pictures/undo.png"
+    onButtonClicked: undoClicked()
+  }
 
-    Button {
-      id: restartButton
-      text: "Restart"
-      font.pointSize: 16
-      Layout.fillHeight: true
-      onClicked: restartClicked()
-    }
-
-    ButtonControl {
-      id: undoButton
-      active: false
-      Layout.preferredWidth: 38
-      Layout.fillHeight: true
-      iconSource: "qrc:/pictures/Ressources/Pictures/undo.png"
-      onButtonClicked: undoClicked()
-    }
-
-    ButtonControl {
-      id: redoButton
-      active: false
-      Layout.fillHeight: true
-      Layout.preferredWidth: 38
-      iconSource: "qrc:/pictures/Ressources/Pictures/redo.png"
-      onButtonClicked: redoClicked()
-    }
+  ButtonControl {
+    id: redoButton
+    anchors.right: parent.right
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    anchors.margins: 6
+    active: false
+    width: 38
+    iconSource: "qrc:/pictures/Ressources/Pictures/redo.png"
+    onButtonClicked: redoClicked()
   }
 }

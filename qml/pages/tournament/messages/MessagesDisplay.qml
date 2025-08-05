@@ -11,21 +11,21 @@ Item {
   MessageDisplay {
     id: finishRow
     anchors.left: parent.left
-    anchors.top: parent.top
-    height: 40
+    anchors.verticalCenter: parent.verticalCenter
+    height: 32
     width: 192
     imageUrl: "qrc:/pictures/Ressources/Pictures/dartsplate.png"
-    imageWidth: 27
-    imageHeight: 20
+    imageWidth: 25
+    imageHeight: 18
   }
 
   MessageDisplay {
     id: scoreSpan
-    anchors.top: parent.top
+    anchors.verticalCenter: parent.verticalCenter
     anchors.right: parent.right
-    height: 40
+    height: 32
     width: 100
-    imageWidth: 31
-    imageHeight: 42
+    imageWidth: 18
+    imageHeight: 24
   }
 }

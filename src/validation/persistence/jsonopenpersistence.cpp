@@ -4,10 +4,12 @@
 #include "qjsonobject.h"
 #include "src/FileIO/filejsonio.h"
 
+
 QHash<QString, bool> JsonOpenPersistence::readAllowances() const
 {
+    auto ioDevice = FileJsonIO(_file);
     QHash<QString, bool> allowances;
-    auto jsonObject = _ioDevice->readAsJson().object();
+    auto jsonObject = ioDevice.readAsJson().object();
     auto arr = jsonObject.value("allowances").toArray();
     QJsonObject obj;
     for (const auto& value : std::as_const(arr)) {
@@ -19,13 +21,15 @@ QHash<QString, bool> JsonOpenPersistence::readAllowances() const
 
 QString JsonOpenPersistence::readModifier() const
 {
-    auto jsonObject = _ioDevice->readAsJson().object();
+    auto ioDevice = FileJsonIO(_file);
+    auto jsonObject = ioDevice.readAsJson().object();
     return jsonObject.value("openingModifier").toString("D");
 }
 
 bool JsonOpenPersistence::readEnabled() const
 {
-    auto jsonObject = _ioDevice->readAsJson().object();
+    auto ioDevice = FileJsonIO(_file);
+    auto jsonObject = ioDevice.readAsJson().object();
     return jsonObject.value("enabled").toBool(false);
 }
 
@@ -33,6 +37,7 @@ void JsonOpenPersistence::save(const QHash<QString, bool> &allowances,
                                        const QString &openModifier)
 {
     QJsonObject jsonObj;
+    auto ioDevice = FileJsonIO(_file);
     jsonObj.insert("openingModifier",openModifier);
     QJsonObject obj;
     QJsonArray arr;
@@ -43,5 +48,5 @@ void JsonOpenPersistence::save(const QHash<QString, bool> &allowances,
         arr << obj;
     }
     jsonObj.insert("allowances",arr);
-    _ioDevice->write(jsonObj);
+    ioDevice.write(jsonObj);
 }

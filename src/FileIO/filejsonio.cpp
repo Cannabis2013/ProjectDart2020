@@ -6,7 +6,7 @@
 FileJsonIO::FileJsonIO(const QString &fileName):
     _fileName(fileName){}
 
-QByteArray FileJsonIO::read()
+QByteArray FileJsonIO::read() const
 {
     auto file = openFile(_fileName, QIODevice::ReadOnly);
     if (!file)
@@ -14,7 +14,7 @@ QByteArray FileJsonIO::read()
     return readJson(file);
 }
 
-QJsonDocument FileJsonIO::readAsJson()
+QJsonDocument FileJsonIO::readAsJson() const
 {
     auto file = openFile(_fileName, QIODevice::ReadOnly);
     if (!file)
@@ -43,14 +43,14 @@ bool FileJsonIO::write(const QJsonObject& obj)
     return writeJson(file, json);
 }
 
-QFile* FileJsonIO::openFile(const QString& filename, const QIODevice::OpenMode& mode)
+QFile *FileJsonIO::openFile(const QString &filename, const QIODevice::OpenMode &mode) const
 {
     QFile* file = new QFile(filename);
     file->open(mode);
     return file;
 }
 
-QByteArray FileJsonIO::readJson(QFile* const file)
+QByteArray FileJsonIO::readJson(QFile *const file) const
 {
     QDataStream in(file);
     QByteArray byteArray;

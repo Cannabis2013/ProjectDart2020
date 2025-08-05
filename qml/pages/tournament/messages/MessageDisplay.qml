@@ -49,7 +49,7 @@ Item {
 
     Text {
       id: textContent
-      font.pointSize: 28
+      font.pointSize: 20
       font.weight: Font.Bold
       color: "white"
       verticalAlignment: Text.AlignVCenter

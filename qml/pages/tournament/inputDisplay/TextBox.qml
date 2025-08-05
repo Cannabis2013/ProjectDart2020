@@ -2,37 +2,41 @@
 import QtQuick.Controls
 import QtQuick.Layouts 1.3
 
-Rectangle {
-  color: "#4f4f4f"
-
+Item {
   property string label: ""
   onLabelChanged: textLabel.text = label
 
   property string value: ""
   onValueChanged: textValue.text = value
 
-  radius: 6
-  clip: true
+  property real fontSize: 12
+  onFontSizeChanged: {
+    textLabel.font.pixelSize = fontSize
+    textValue.font.pixelSize = fontSize
+  }
 
   Text {
     id: textLabel
-    anchors.left: parent.left
-    anchors.leftMargin: 6
-    height: parent.height
-    font.pixelSize: 12
+    anchors.top: parent.top
+    anchors.bottom: parent.verticalCenter
+    anchors.margins: 3
+    width: parent.width
+    font.pixelSize: fontSize
     color: "lightgray"
+    horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter
   }
 
   Text {
     id: textValue
-    anchors.left: textLabel.right
-    anchors.leftMargin: 6
-    anchors.right: parent.right
-    height: parent.height
-    font.pixelSize: 12
+    anchors.top: parent.verticalCenter
+    anchors.bottom: parent.bottom
+    anchors.margins: 3
+    width: parent.width
+    font.pixelSize: fontSize
     font.weight: Font.Bold
     color: "white"
+    horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter
   }
 }

@@ -1,41 +1,41 @@
-import QtQuick 6.0
+﻿import QtQuick 6.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 6.0
 
 Button {
-        id: buttonControl
+  id: buttonControl
 
-        signal buttonClicked
+  signal buttonClicked
 
-        property url iconSource: ""
-        onIconSourceChanged: buttonIcon.source = iconSource
+  property url iconSource: ""
+  onIconSourceChanged: buttonIcon.source = iconSource
 
-        property int iconWidth: 19
-        onIconWidthChanged: buttonIcon.width = iconWidth
-        property int iconHeight: 8
-        onIconHeightChanged: buttonIcon.height = iconHeight
+  property int iconWidth: 19
+  onIconWidthChanged: buttonIcon.width = iconWidth
+  property int iconHeight: 8
+  onIconHeightChanged: buttonIcon.height = iconHeight
 
-        opacity: 1
+  opacity: 1
 
-        property bool active: true
-        onActiveChanged: {
-                opacity = active ? 1 : 0.4
-                mouseArea.enabled = active
-        }
+  property bool active: true
+  onActiveChanged: {
+    opacity = active ? 1 : 0.4
+    mouseArea.enabled = active
+  }
 
-        Image {
-                id: buttonIcon
-                anchors.centerIn: parent
-                width: buttonControl.iconWidth
-                height: buttonControl.iconHeight
-                source: buttonControl.iconSource
-                fillMode: Image.PreserveAspectFit
-        }
+  Image {
+    id: buttonIcon
+    anchors.centerIn: parent
+    width: buttonControl.iconWidth
+    height: buttonControl.iconHeight
+    source: buttonControl.iconSource
+    fillMode: Image.PreserveAspectFit
+  }
 
-        MouseArea {
-                id: mouseArea
-                anchors.fill: parent
-                enabled: buttonControl.active
-                onClicked: buttonClicked()
-        }
+  MouseArea {
+    id: mouseArea
+    anchors.fill: parent
+    enabled: buttonControl.active
+    onClicked: buttonClicked()
+  }
 }

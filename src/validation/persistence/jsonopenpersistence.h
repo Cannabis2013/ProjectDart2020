@@ -2,7 +2,6 @@
 #define JSONOPENPERSISTENCE_H
 
 #include <QHash>
-#include "src/FileIO/filejsonio.h"
 #include "src/validation/persistence/ivalidationopenpersistence.h"
 
 class JsonOpenPersistence : public IValidationOpenPersistence
@@ -14,7 +13,6 @@ public:
     void save(const QHash<QString,bool>& allowances, const QString& openModifier) override;
 
 private:
-    FileJsonIO *_ioDevice;
     const QString _file = "openValidation.dat";
 };
 
