@@ -9,6 +9,14 @@ function updateValues() {
   statsDisplay.setValues(stats)
 }
 
+function updateScores(inputs, inputsScore) {
+  let text = ""
+  inputs.forEach(input => text += `${input.modId}${input.point} `)
+  inputsBox.value = text
+
+  scoreBox.value = inputsScore
+}
+
 function subtractValue(value) {
   let score = parseInt(playerScore.text)
   let result = scoreInfo.currentScore - value

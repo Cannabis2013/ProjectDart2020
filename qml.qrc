@@ -57,8 +57,7 @@
         <file>qml/pages/tournament/keyPad/ModPad.qml</file>
         <file>qml/pages/tournament/keyPad/NumberPad.qml</file>
         <file>qml/pages/tournament/keyPad/Pad.qml</file>
-        <file>qml/pages/tournament/inputDisplay/InputDisplay.qml</file>
-        <file>qml/pages/tournament/inputDisplay/TextBox.qml</file>
-        <file>qml/pages/tournament/inputDisplay/inputDisplay.js</file>
+        <file>qml/pages/tournament/scoreDisplay/TextBox.qml</file>
+        <file>qml/pages/tournament/inputControls/InputControls.qml</file>
     </qresource>
 </RCC>

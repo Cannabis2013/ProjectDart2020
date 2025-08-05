@@ -3,7 +3,7 @@ import QtQuick.Controls 6.0
 import QtQuick.Layouts 1.3
 import "turnControls"
 import "keyPad"
-import "inputDisplay"
+import "inputControls"
 import "messages"
 import "scoreDisplay"
 import "pageTournament.js" as Scripts
@@ -49,20 +49,20 @@ Page {
                                                 Scripts.restartGame)
   }
 
-  InputDisplay {
-    id: inputDisplay
+  InputControls {
+    id: inputControls
     anchors.top: Scripts.isPortrait() ? turnControls.bottom : parent.top
     anchors.right: parent.right
     width: Scripts.isPortrait() ? parent.width : parent.width / 2
     onPop: Scripts.pop()
-    onFlush: Scripts.flush()
-    height: 96
+    onFlush: Scripts.updateScoreDisplays()
+    height: 52
   }
 
   KeyPad {
     id: inputSection
     width: Scripts.isPortrait() ? parent.width : parent.width / 2
-    anchors.top: inputDisplay.bottom
+    anchors.top: inputControls.bottom
     anchors.bottom: parent.bottom
     anchors.right: parent.right
     onEnter: (modId, point) => Scripts.addInput(modId, point)

@@ -49,10 +49,9 @@ function updateTurnValues() {
     return
   }
 
-  scoreDisplay.update()
   turnControls.update()
   messageSection.update()
-  flush()
+  resetScoreDisplay()
 }
 
 function addInput(modId, point) {
@@ -65,7 +64,7 @@ function addInput(modId, point) {
               })
 
   const sum = inputsScore(inputs)
-  inputDisplay.update(inputs, sum)
+  scoreDisplay.updateScores(inputs, sum)
   scoreDisplay.subtract(sum)
 }
 
@@ -92,11 +91,12 @@ function pop() {
   inputs.pop()
   const sum = inputsScore(inputs)
   scoreDisplay.subtract(sum)
-  inputDisplay.update(inputs, sum)
+  scoreDisplay.updateScores(inputs, sum)
 }
 
-function flush() {
+function resetScoreDisplay() {
   inputs = []
-  inputDisplay.update(inputs, 0)
   scoreDisplay.subtract(0)
+  scoreDisplay.update()
+  scoreDisplay.updateScores(inputs, 0)
 }

@@ -18,7 +18,7 @@ Item {
   Text {
     id: textLabel
     anchors.top: parent.top
-    anchors.bottom: parent.verticalCenter
+    height: 32
     anchors.margins: 3
     width: parent.width
     font.pixelSize: fontSize
@@ -29,7 +29,7 @@ Item {
 
   Text {
     id: textValue
-    anchors.top: parent.verticalCenter
+    anchors.top: textLabel.bottom
     anchors.bottom: parent.bottom
     anchors.margins: 3
     width: parent.width

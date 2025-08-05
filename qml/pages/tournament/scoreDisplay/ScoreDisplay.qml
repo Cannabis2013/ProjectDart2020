@@ -2,7 +2,6 @@
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 6.0
 import "scoreScripts.js" as Scripts
-import "../dialogs/dialogs.js" as Dialogs
 
 Rectangle {
   id: playerInfoRect
@@ -11,6 +10,10 @@ Rectangle {
 
   function update() {
     Scripts.updateValues()
+  }
+
+  function updateScores(inputs, inputsScore) {
+    Scripts.updateScores(inputs, inputsScore)
   }
 
   function subtract(value) {
@@ -26,7 +29,8 @@ Rectangle {
     id: playerName
     anchors.top: parent.top
     anchors.left: parent.left
-    anchors.right: inputsButton.left
+    anchors.right: scoreBox.left
+    anchors.margins: 6
     height: 36
     font.pointSize: 20
     color: "white"
@@ -37,8 +41,10 @@ Rectangle {
     id: playerScore
     anchors.top: playerName.bottom
     anchors.left: parent.left
-    anchors.right: inputsButton.left
-    font.pixelSize: 58
+    anchors.right: scoreBox.left
+    anchors.bottom: statsDisplay.top
+    anchors.margins: 6
+    font.pixelSize: 48
     font.weight: Font.Bold
     color: "white"
     verticalAlignment: Qt.AlignVCenter
@@ -53,26 +59,25 @@ Rectangle {
     width: 160
   }
 
-  Button {
-    id: inputsButton
-    onClicked: Dialogs.openInputsDialog()
-    height: 40
-    width: 90
-    anchors.right: parent.right
-    anchors.rightMargin: 8
+  TextBox {
+    id: scoreBox
+    label: "SCORE"
     anchors.top: parent.top
-    anchors.topMargin: 8
-    text: "Inputs"
+    anchors.right: parent.right
+    anchors.bottom: parent.verticalCenter
+    anchors.margins: 6
+    width: 160
+    fontSize: 20
   }
 
-  Button {
-    id: playersButton
-    height: 40
-    width: 90
+  TextBox {
+    id: inputsBox
+    label: "INPUTS"
     anchors.right: parent.right
-    anchors.rightMargin: 8
-    anchors.top: inputsButton.bottom
-    anchors.topMargin: 8
-    text: "Players"
+    anchors.top: parent.verticalCenter
+    anchors.bottom: parent.bottom
+    anchors.margins: 6
+    width: 160
+    fontSize: 20
   }
 }
