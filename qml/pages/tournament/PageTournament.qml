@@ -55,7 +55,7 @@ Page {
     anchors.right: parent.right
     width: Scripts.isPortrait() ? parent.width : parent.width / 2
     onPop: Scripts.pop()
-    onFlush: Scripts.updateScoreDisplays()
+    onFlush: Scripts.resetScoreDisplay()
     height: 52
   }
 
